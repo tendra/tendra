@@ -1,0 +1,7 @@
+/* ENVIRONMENT FOR -Xs ON svr4_i386 
+ * $TenDRA$
+*/
+
++STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xs"
++STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xs"
++CRT1			"<LIB_VALUES_XC>"

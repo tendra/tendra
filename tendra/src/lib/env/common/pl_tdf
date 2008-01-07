@@ -1,0 +1,5 @@
+/* tcc environment for PL_TDF compiler 
+ * $TenDRA$
+*/
+
++FLAG			"-special pl_tdf"

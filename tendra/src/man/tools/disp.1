@@ -1,0 +1,126 @@
+.\" Copyright (c) 2002-2004 The TenDRA Project <http://www.ten15.org/> 
+.\" All rights reserved. 
+.\"  
+.\" Redistribution and use in source and binary forms, with or without 
+.\" modification, are permitted provided that the following conditions 
+.\" are met: 
+.\" 1. Redistributions of source code must retain the above copyright 
+.\"    notice, this list of conditions and the following disclaimer. 
+.\" 2. Redistributions in binary form must reproduce the above copyright 
+.\"    notice, this list of conditions and the following disclaimer in the 
+.\"    documentation and/or other materials provided with the distribution. 
+.\"  
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND 
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE 
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS 
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+.\" SUCH DAMAGE. 
+.\" 
+.\" $TenDRA$ 
+.\" 
+.TH "disp" "1" "Tue 18 Oct 2005, 07:24" "disp @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.SH "NAME" 
+.PP 
+\fBdisp\fP - TDF pretty printer
+.SH "SYNOPSIS"
+.PP
+\fBdisp\fP [\fIoptions\fP] \fIinput-file\fP  [\fIoutput-file\fP] 
+.SH "DESCRIPTION"
+.PP
+\fBdisp\fP translates the input TDF capsule, \fIinput-file\fP into a human-readable form, the layout of
+which reflects the structure of the underlying TDF tree\&. If the \fIoutput-file\fP argument is present, this is used for
+output; otherwise the standard output is used\&.
+.PP
+Whenever possible the output of \fBdisp\fP matches the
+TDF specification\&. The most important exception is the use of asterisks
+after a token name to indicate an application of that token\&. Also a dash
+is used to indicate the absense of an optional argument and an ellipsis
+(\&.\&.\&.) is used to indicate that a token\&'s arguments have been skipped
+rather than decoded (since the token was undeclared)\&.
+.PP
+It is recommended that \fBdisp\fP is invoked via
+\fBtcc\fP\fB(1)\fP using the \fB-disp\fP or the
+\fB-disp_t\fP option\&. The \fI-\fP\fIopt\fP flag can be passed to
+\fBdisp\fP by passing the flag
+\fB-Wd,-\fP\fIopt\fP to
+\fItcc\fP\&.
+.SH "OPTIONS"
+.IP "\fB-A\fP" 5
+Makes \fBdisp\fP decode all the units it
+recognises (including diagnostic and linking units) within the TDF
+capsule\&.
+.IP "\fB-D\fP" 5
+Makes \fBdisp\fP print a simple binary dump of
+the input file\&. This is intended for debugging purposes\&.
+.IP "\fB-E\fP" 5
+Makes \fBdisp\fP report such information as the
+number of external tags and tokens which it usually omits\&.
+.IP "\fB-S\fP" 5
+Because tokens may be defined in terms of other tokens and do
+not need to be declared before they are defined,
+\fBdisp\fP makes two passes of all the token
+definition units\&. In the first pass it extracts only the
+declaration information, stepping over the main body of the
+definition\&. On the second pass all the information is read\&. The
+\fB-S\fP option makes \fBdisp\fP skip the
+first pass\&.
+.IP "\fB-T\fP" 5
+The skip pass described under the \fB-S\fP option
+is usual done silently, without printing any information\&. This is
+changed by the \fB-T\fP option\&.
+.IP "\fB-V\fP" 5
+Makes \fBdisp\fP print its version number and
+the version of the TDF specification it supports\&.
+.IP "\fB-W\fP" 5
+Makes \fBdisp\fP issue a warning about every
+token which is used before it is declared\&.
+.IP "\fB-a\fP" 5
+Do not print indentation dots\&.
+.IP "\fB-g\fP" 5
+Makes \fBdisp\fP print any diagnostic
+information units within the TDF capsule\&.
+.IP "\fB-h\fP" 5
+Prints a summary of all options\&.
+.IP "\fB-i\fP" 5
+Does nothing, included for compatibility\&.
+.IP "\fB-l\fP" 5
+Makes \fBdisp\fP print the usage information
+associated with the external tokens and tags and also any
+linkage information units within the capsule\&.
+.IP "\fB-n\fP\fIcolumns\fP" 5
+Makes \fBdisp\fP try to format its output to fit
+into a page width of \fIcolumns\fP\&. The
+default page width is 80\&.
+.IP "\fB-q\fP" 5
+Makes \fBdisp\fP ignore the specified page width
+and print its output with the minimum possible indentation\&. This
+makes it run faster, but does not make the best use of the
+available page width\&.
+.IP "\fB-r\fP" 5
+By default \fBdisp\fP attempts to rationalise
+the TDF it reads\&. In particular it uses the external token and tag
+names whenever possible, following the token and tag bindings to
+find these, and makes up names for those tokens and tags which
+do not have external names\&. The \fB-V\fP option
+makes it not attempt any such rationalisation, but instead to output
+exactly what it reads\&.
+.IP "\fB-v\fP" 5
+Report number of columns in the output\&.
+.IP "\fB-x\fP" 5
+Do not decode version properties\&.
+.SH "DIAGNOSTICS"
+.PP
+The error reports if the input file is not a legal TDF capsule are
+intended to aid developers writing programs which produce TDF\&. Thus they
+try to give all the information that may be required, including the
+position within the input file that the error occurred\&.
+.SH "SEE ALSO"
+.PP
+\fBtcc\fP\fB(1)\fP\&.
+...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:24

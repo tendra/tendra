@@ -1,0 +1,9 @@
+/* tcc environment for the TDF Spec 4.0 extensions 
+ * $TenDRA$
+*/
+
+<SYS_LINK		"-L<TENDRA_LIBDIR>/sys"
+<LIB			"-ltarget_tok"
+<SYS_LIB        	"-ltdf"
++FLAG_INSTALL		"-Ytdf_ext"
+>INFO			"XANDF@Preliminary@Specification@(DRA-005@proposal)"

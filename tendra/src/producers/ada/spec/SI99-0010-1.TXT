@@ -1,0 +1,263 @@
+!standard 3.9.4                                    07-08-03  SI99-0010-1/04
+!standard 3.9.20
+!standard 15.9
+!standard 15.10
+!standard 18.21
+!class binding interpretation 06-04-20
+!status ARG Approved  10-0-1  06-06-10
+!status work item 06-04-20
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Add Extended_Return to the list of Statement_Kinds
+
+!summary
+
+An_Extended_Return_Statement needs to be added as a new kind of statement.
+
+!question
+
+The Amendment (Ada 2005) defines the extended return statement, should it be
+accessible as a valid Statement_Kinds? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+* Extend existing element classification:
+
+ 
+ - In 3.9.20, add a new value to Statement_Kinds after A_Return_Statement:
+
+      An_Extended_Return_Statement  -- 6.5
+
+   Also in Statement_Kinds, replace A_Return_Statement with A_Simple_Return_Statement.
+
+   Add a renames after the type:
+      A_Return_Statement : Statement_Kinds renames A_Simple_Return_Statement;
+         -- For compatibility with a prior version of this Standard
+
+ - In 3.9.4, add a new value to Asis.Declaration_Kinds after A_Component_Declaration:
+
+      A_Return_Object_Specification  -- 6.5(2)
+
+
+* Add A_Return_Object_Specification to the end of the list list of Appropriate kinds values for
+
+  Asis.Declarations.Object_Declaration_View    -- ASIS 15.9
+
+  Asis.Declarations.Initialization_Expression  -- ASIS 15.10
+
+
+* Add three new clauses after 18.21 (Asis.Statements):
+
+18.xx function Return_Object_Specification
+
+    function Return_Object_Specification
+     (Statement : Asis.Statement)
+     return Asis.Declaration;
+
+   Statement specifies the extended return statement to query.
+
+   Returns the specification of the return object.
+
+   Appropriate Statement_Kinds:
+      An_Extended_Return_Statement
+
+   Returns Declaration_Kinds:
+      A_Return_Object_Specification
+
+18.xx function Extended_Return_Statements
+
+
+   function Extended_Return_Statements
+     (Statement       : Asis.Statement;
+      Include_Pragmas : Boolean := False)
+      return Asis.Statement_List;
+
+   Statement specifies the extended return statement to query.
+   Include_Pragmas specifies whether pragmas are to be returned.
+
+   Returns a list of the statements and pragmas from the extended return
+   statement, in their order of appearance.
+
+   Returns a Nil_Element_List if the argument extended return statement does
+   not include handled_sequence_of_statements.
+
+   Appropriate Statement_Kinds:
+      An_Extended_Return_Statement
+
+   Returns Element_Kinds:
+      A_Statement
+      A_Pragma
+
+18.xx function Extended_Return_Exception_Handlers
+
+   function Extended_Return_Exception_Handlers
+     (Statement       : Asis.Statement;
+      Include_Pragmas : Boolean := False)
+      return Asis.Exception_Handler_List;
+
+   Statement specifies the extended return statement to query.
+   Include_Pragmas specifies whether pragmas are to be returned.
+ 
+   Returns a list of the exception_handler elements of the extended return
+   statement, in their order of appearance.
+ 
+   The only pragmas returned are those following the reserved word "exception"
+   and preceding the reserved word "when" of first exception handler.
+
+   Returns a Nil_Element_List if there are no exception_handler elements.
+
+   Appropriate Statement_Kinds:
+      An_Extended_Return_Statement
+
+   Returns Element_Kinds:
+      An_Exception_Handler
+      A_Pragma
+
+!discussion
+
+Recommended by Sergey I. Rybin on 06-02-13, see "!appendix" section.
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+.....
+
+---------------------------------------------
+--AI-318 Expanded form of return statement --
+---------------------------------------------
+
+RM06-6.5
+
+* Extend existing element classification:
+ - Add a new value to Statement_Kinds:
+      An_Extended_Return_Statement
+
+ - Add a new value to Asis.Declaration_Kinds:
+      A_Return_Object_Declaration
+
+* Add A_Return_Object_Declaration to the list of Appropriate kinds values of
+  Asis.Declarations.Object_Declaration_View and
+  Asis.Declarations.Initialization_Expression;
+
+* Add three new  queries to Asis.Statements:
+
+-  18.#??? function Return_Object_Declaration
+------------------------------------------------------------------------------
+
+    function Return_Object_Declaration
+     (Statement : Asis.Statement)
+      return      Asis.Declaration;
+
+------------------------------------------------------------------------------
+--  Statement   - Specifies the extended return statement to query
+--
+--  Returns the declaration of the return object.
+--
+--  Appropriate Statement_Kinds:
+--       An_Extended_Return_Statement
+--
+--  Returns Declaration_Kinds:
+--       A_Return_Object_Declaration
+--
+
+------------------------------------------------------------------------------
+--  18.#??? function Extended_Return_Statements
+------------------------------------------------------------------------------
+
+   function Extended_Return_Statements
+     (Statement       : Asis.Statement;
+      Include_Pragmas : Boolean := False)
+      return            Asis.Statement_List;
+
+------------------------------------------------------------------------------
+--  Statement        - Specifies the extended return statement to query
+--  Include_Pragmas - Specifies whether pragmas are to be returned
+--
+--  Returns a list of the statements and pragmas from the extended return
+--  statement, in their order of appearance.
+--
+--  Returns a Nil_Element_List if the argument extended return statement does
+--  not include handled_sequence_of_statements.
+--
+--  Appropriate Statement_Kinds:
+--       An_Extended_Return_Statement
+--
+--  Returns Element_Kinds:
+--       A_Statement
+--       A_Pragma
+--
+------------------------------------------------------------------------------
+--  18.#??? function Extended_Return_Exception_Handlers
+------------------------------------------------------------------------------
+
+   function Extended_Return_Exception_Handlers
+     (Statement       : Asis.Statement;
+      Include_Pragmas : Boolean := False)
+      return            Asis.Exception_Handler_List;
+
+------------------------------------------------------------------------------
+--  Statement        - Specifies the extended return statement to query
+--  Include_Pragmas - Specifies whether pragmas are to be returned
+--
+--  Returns a list of the exception_handler elements of the extended return
+--  statement, in their order of appearance.
+--
+--  The only pragmas returned are those following the reserved word "exception"
+--  and preceding the reserved word "when" of first exception handler.
+--
+--  Returns a Nil_Element_List if there are no exception_handler elements.
+--
+--  Appropriate Statement_Kinds:
+--       An_Extended_Return_Statement
+--
+--  Returns Element_Kinds:
+--       An_Exception_Handler
+--       A_Pragma
+
+****************************************************************

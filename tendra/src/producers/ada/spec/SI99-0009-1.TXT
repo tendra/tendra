@@ -1,0 +1,137 @@
+!standard 3.9.17                                      07-06-15  SI99-0009-1/04
+!standard 17.1
+!standard 17.20
+!class binding interpretation 06-04-20
+!status ARG Approved  11-0-0  07-06-02
+!status work item 06-04-20
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Handle new aggregate features
+
+!summary
+
+Update the semantics of Asis.Expressions.Component_Expression 
+to handle this new association.
+
+!question
+
+The Amendment (Ada 2005) defines a new record and array component association with a box;
+should ASIS be updated to correctly return these and associated expressions? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+Add A_Box_Expression after Not_An_Expression to type Expression_Kinds -- ASIS 3.9.17
+
+    A_Box_Expression, -- 4.3.1(4), 4.3.3(3,6)
+
+Add the following to the end bulleted list in ASIS section 17.1 (also, correct the penultimate
+bullet to end with a period rather than a semicolon):
+
+    * A_Box_Expression returned by Component_Expression applied to an unnormalized
+      record association.
+
+    AASIS Note: This is necessary as the <> of an unnnormalized record association
+    may represent several components of different types. If the record association
+    is normalized, it has a single component and the type of A_Box_Expression is
+    that of the component. Similarly, the type of A_Box_Expression for an array
+    association is that of the component type.
+
+Add the following to ASIS section 17.20 (Component_Expression), just before
+"Appropriate Association Kinds"
+
+
+    For An_Array_Component_Association and non-normalized
+    A_Record_Component_Association where the association contains a
+    box expression, Asis.Expressions.Component_Expression
+    returns A_Box_Expression. 
+
+    For a normalized A_Record_Component_Association, where the association
+    contains a a box expression, if the corresponding record type that
+    contains this component contains a default expression,
+    Asis.Expressions.Component_Expression returns this default
+    expression, otherwise Asis.Expressions.Component_Expression
+    returns A_Box_Expression.
+
+
+!discussion
+
+The appendix has the original proposal from Sergey Rybin on this topic.
+At the Porto meeting it was decided that adding a A_Box_Expression to the
+Expression_Kinds would better address this language feature, and would
+avoid the problem of a Nil_Element being returned unnecessarily.
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+
+.....
+
+--------------------------------
+-- AI-287 Boxes in aggregates --
+--------------------------------
+RM-06 4.3.1, 4.3.3
+
+* Define the semantics of An_Array_Component_Association and
+  A_Record_Component_Association for the case if the argument association
+  contains a box:
+
+  - for An_Array_Component_Association and non-normalized
+    A_Record_Component_Association Asis.Expressions.Component_Expression
+    returns Nil_Element;
+
+  - for Is_Normalized A_Record_Component_Association, in case if the
+    corresponding record type contains for this component the default
+    expression, Asis.Expressions.Component_Expression returns this default
+    expression, and Asis.Expressions.Is_Defaulted_Association returns True for
+    this A_Record_Component_Association, otherwise
+    Asis.Expressions.Component_Expression returns Nil_Element
+
+****************************************************************
+
+

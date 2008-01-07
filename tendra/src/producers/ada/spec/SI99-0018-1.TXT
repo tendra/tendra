@@ -1,0 +1,169 @@
+!standard 3.9.19                                    06-12-12  SI99-0018-1/02
+!class binding interpretation 06-07-19
+!status ARG Approved  12-0-0  06-11-17
+!status work item 06-07-19
+!status received 06-07-19
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Add new Attributes to Attribute_Kinds
+
+!summary
+
+Define the new attributes in ASIS.
+
+!question
+
+The Amendment (Ada 2005) added 7 new attributes, should these be
+accessible as valid Attribute_Kinds? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+
+Insert the new attributes alphabetically into type Attribute_Kinds, ASIS 3.9.19 as:
+
+
+A_Machine_Rounding_Attribute,	--  A.5.3 (41.1/2), K(135.1/2)
+A_Mod_Attribute,		--  3.5.4 (16.3/2), K(150.1/2)
+A_Priority_Attribute,		--  D.2.6 (27/2), K(184.1/2)
+A_Stream_Size_Attribute,	-- 13.13.2 (1.2/2), K(237.1/2)
+A_Wide_Wide_Image_Attribute,	--  3.5 (27.1/2), K(277.1/2)
+A_Wide_Wide_Value_Attribute,	--  3.5 (39.1/2), K(277.5/2)
+A_Wide_Wide_Width_Attribute,	--  3.5 (37.1/2), K(277.9/2)
+
+
+
+!discussion
+
+Adding the attributes alphabetically may break any existing ASIS tool
+that uses a range of the existing enumeration values. But the attributes
+are currently listed alphabetically, and any other order seemed ugly.
+In addition, since they are listed alphabetically, related attributes
+rarely appear together, so that uses of ranges are unlikely.
+
+
+!appendix
+
+From SI99-0001/01 discussion:
+
+Someone points out that these should be organized similarly to the attributes. 
+Humm, we don't seem to have a SI on new attributes. There needs to be such an SI; 
+this will be an action item for Bill and Greg.
+
+****************************************************************
+
+From: Greg Gicca
+Date: Wednesday, July 19, 2006  9:36 AM
+
+I just wrote up the draft SI for new attributes.  I suggested that they 
+be inserted into Attribute_Kinds alphabetically, which puts them in a 
+reasonable order with like kinds as well.  However in looking at this it 
+occurred to me that for this or any other SIs where we inserted new 
+enumeration values into the existing enumeration type (versus putting 
+them at the end) may have created an insidious problem for ASIS tool 
+writers.  We did discuss this in regards to referencing the values in 
+case statements and such and thought this was ok since the writer could 
+just add a "when => others".  Ok, but what happens if the ASIS tool uses 
+a range?  This could be within a conditional statement like a "case" 
+statement or it could be to cycle through values in say a loop 
+statement.  In any of these cases where a range is used new values will 
+show up that may cause unexpected behavior at run-time.
+
+Do we think this is rare or that problems are unlikely to arise?
+
+****************************************************************
+
+From: Gary Dismukes
+Date: Wednesday, July 19, 2006  12:15 PM
+
+I think that in the case of type Attribute_Kinds this won't be a realistic
+concern.  Since the type is defined as an alphabetic ordering there aren't
+logical groupings of literals, and users aren't likely to use subranges
+of this type, so it seems perfectly reasonable to add new members in
+alphabetical order.  For other enumeration types, in cases where there are
+logical groupings, there could be an issue, but I think it would still make
+sense to follow those logical groupings where appropriate.  In any event,
+it's probably worth considering this question on a case-by-case basis as
+types are extended.
+
+****************************************************************
+
+From: Tucker Taft
+Date: Wednesday, July 19, 2006  12:24 PM
+
+I have certainly used ranges with enumeration types,
+but that only works if the enumeration type is
+ordered in a way that corresponds to a depth-first
+walk of some kind of hierarchical structure.  My
+sense of the ASIS enumeration types are that they
+are not ordered in this way.  Presuming that is
+true, then using ranges seems very unlikely, other than
+for the whole range.  And if people *do* use ranges,
+and the existing type is alphabetical, it would be
+downright unfriendly not to retain alphabetical
+order in the Ada 2005 type.  Otherwise, understanding
+what the ranges means in general becomes nearly impossible.
+
+For example, you might use ranges to break something
+up into columns, like the way that the reserved word
+list is printed in the Ada reference manual.  You wouldn't
+care so much that each column contains exactly the same items
+when you move to Ada 2005, but you would like a combination
+like "Enum'First .. Gordian, Enum'Succ(Gordian) .. Knot,
+Enum'Succ(Knot) .. Solution, Enum'Succ(Solution).. Enum'Last" to
+still represent an alphabetical breakdown of the enumeration type.
+
+****************************************************************
+
+From: Randy Brukardt
+Date: Wednesday, July 19, 2006  12:51 PM
+
+The only problem with that idea is that you still might miss new items (if
+the ranges were written in the more likely way of giving both endpoints as
+literals). Still, I can't get too worried about this problem, given that the
+literals are usually given alphabetically rather than in a logical order.
+It's possible that some existing programs will need changes, but it's likely
+that the changes could be written so that the result still works on the
+existing ASIS, so portability would still be maintained.
+
+****************************************************************
+
+From: Greg Gicca
+Date: Wednesday, July 19, 2006  1:03 PM
+
+It seems that this works out to only be a hypothetical problem. For the
+two enumeration types we updated, Pragmas and Attributes, both were already
+alphabetical so using a different system wouldn't make sense. It could be a
+problem in areas like Declaration_Kinds where they're logically grouped. But
+then again in this case we would add the new value where it logically belongs
+and not alphabetically. I guess in all cases the ASIS user would have to look
+at the updates and see if they effect them, range or other reference doesn't
+matter.
+
+****************************************************************
+
+From: Jean-Pierre Rosen
+Date: Monday, July 24, 2006  7:02 AM
+
+> I think that in the case of type Attribute_Kinds this won't be a realistic
+> concern.  Since the type is defined as an alphabetic ordering there aren't
+> logical groupings of literals, and users aren't likely to use subranges
+> of this type, so it seems perfectly reasonable to add new members in
+> alphabetical order.  For other enumeration types, in cases where there are
+> logical groupings, there could be an issue, but I think it would still make
+> sense to follow those logical groupings where appropriate.  In any event,
+> it's probably worth considering this question on a case-by-case basis as
+> types are extended.
+ 
+I fully agree with this.
+Note that when the order of enumerated values matters, there are 
+generally subtypes defined after the type that reflect the logical 
+groupings. This is obviously not the case here.
+
+****************************************************************
+
+

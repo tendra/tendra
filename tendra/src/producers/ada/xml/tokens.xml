@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<tokens>
+  <token name="comment" type="ignore"/>
+  <token name="identifier_start" type="util"/>
+  <token name="identifier_extend" type="util"/>
+  <token name="decimal_literal" type="util"/>
+  <token name="numeral" type="util"/>
+  <token name="exponent" type="util"/>
+  <token name="digit" type="util"/>
+  <token name="based_literal" type="util"/>
+  <token name="base" type="util"/>
+  <token name="based_numeral" type="util"/>
+  <token name="extended_digit" type="util"/>
+  <token name="string_element" type="util"/>
+  <token name="numeric_literal" type="util"/>
+  <token name="identifier" type="yes"/>
+  <token name="integer_literal" type="yes"/>
+  <token name="real_literal" type="yes"/>
+  <token name="character_literal" type="yes"/>
+  <token name="string_literal" type="yes"/>
+  <delimiter text="**"           name="double_star"/>
+  <delimiter text="&gt;&gt;"     name="right_label"/>
+  <delimiter text="&gt;="        name="greater_or_equal"/>
+  <delimiter text="&lt;&gt;"     name="box"/>
+  <delimiter text="&lt;&lt;"     name="left_label"/>
+  <delimiter text="&lt;="        name="less_or_equal"/>
+  <delimiter text="/="           name="inequality"/>
+  <delimiter text=":="           name="assignment"/>
+  <delimiter text="=&gt;"        name="arrow"/>
+  <delimiter text=".."           name="double_dot"/>
+  <delimiter text="&amp;"        name="ampersand"/>
+  <delimiter text="&gt;"         name="greater"/>
+  <delimiter text="&lt;"         name="less"/>
+  <delimiter text="'"            name="apostrophe"/>
+  <delimiter text="("            name="left_parenthesis"/>
+  <delimiter text=")"            name="right_parenthesis"/>
+  <delimiter text="*"            name="star"/>
+  <delimiter text="+"            name="plus"/>
+  <delimiter text=","            name="comma"/>
+  <delimiter text="-"            name="hyphen"/>
+  <delimiter text="."            name="dot"/>
+  <delimiter text="/"            name="slash"/>
+  <delimiter text=":"            name="colon"/>
+  <delimiter text=";"            name="semicolon"/>
+  <delimiter text="="            name="equal"/>
+  <delimiter text="|"            name="vertical_line"/>
+  <keyword name="abort"/>
+  <keyword name="abs"/>
+  <keyword name="abstract"/>
+  <keyword name="accept"/>
+  <keyword name="access"/>
+  <keyword name="aliased"/>
+  <keyword name="all"/>
+  <keyword name="and"/>
+  <keyword name="array"/>
+  <keyword name="at"/>
+  <keyword name="begin"/>
+  <keyword name="body"/>
+  <keyword name="case"/>
+  <keyword name="constant"/>
+  <keyword name="declare"/>
+  <keyword name="delay"/>
+  <keyword name="delta"/>
+  <keyword name="digits"/>
+  <keyword name="do"/>
+  <keyword name="else"/>
+  <keyword name="elsif"/>
+  <keyword name="end"/>
+  <keyword name="entry"/>
+  <keyword name="exception"/>
+  <keyword name="exit"/>
+  <keyword name="for"/>
+  <keyword name="function"/>
+  <keyword name="generic"/>
+  <keyword name="goto"/>
+  <keyword name="if"/>
+  <keyword name="in"/>
+  <keyword name="interface"/>
+  <keyword name="is"/>
+  <keyword name="limited"/>
+  <keyword name="loop"/>
+  <keyword name="mod"/>
+  <keyword name="new"/>
+  <keyword name="not"/>
+  <keyword name="null"/>
+  <keyword name="of"/>
+  <keyword name="or"/>
+  <keyword name="others"/>
+  <keyword name="out"/>
+  <keyword name="overriding"/>
+  <keyword name="package"/>
+  <keyword name="pragma"/>
+  <keyword name="private"/>
+  <keyword name="procedure"/>
+  <keyword name="protected"/>
+  <keyword name="raise"/>
+  <keyword name="range"/>
+  <keyword name="record"/>
+  <keyword name="rem"/>
+  <keyword name="renames"/>
+  <keyword name="requeue"/>
+  <keyword name="return"/>
+  <keyword name="reverse"/>
+  <keyword name="select"/>
+  <keyword name="separate"/>
+  <keyword name="subtype"/>
+  <keyword name="synchronized"/>
+  <keyword name="tagged"/>
+  <keyword name="task"/>
+  <keyword name="terminate"/>
+  <keyword name="then"/>
+  <keyword name="type"/>
+  <keyword name="until"/>
+  <keyword name="use"/>
+  <keyword name="when"/>
+  <keyword name="while"/>
+  <keyword name="with"/>
+  <keyword name="xor"/>
+</tokens>

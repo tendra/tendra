@@ -1,0 +1,5 @@
+/* tcc environment for profiling on unknown machine 
+ * $TenDRA$
+*/
++FLAG_TRANS	"-P"
++LINE_START	"#pragma@preserve@*"

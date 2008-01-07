@@ -1,0 +1,11 @@
+/* TCC ENVIRONMENT : PROFILING FOR Solaris I386 
+ * $TenDRA$
+*/
+
+/*	Not supported at present	*/
+
+/*	+CRT0		"<TENDRA_LIBDIR>/sys/mcrt1.o <TENDRA_LIBDIR>/sys/crti.o"	*/
+/*	+CRTN		"<TENDRA_LIBDIR>/sys/crtn.o"	*/
+/*	<SYS_LINK	"-Y P,/usr/ccs/lib/libp:/usr/lib/libp:/usr/ccs/lib:/usr/lib -Qy"	*/
+/*	+FLAG_TRANS	"-P"	*/
+/*	+LINE_START	"#pragma@preserve@*"	*/

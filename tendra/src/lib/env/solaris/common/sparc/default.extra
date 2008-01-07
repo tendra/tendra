@@ -1,0 +1,25 @@
+/* 
+ * $TenDRA$
+*/
+/* Binaries */
+
++BIN_AS		"-BIN_AS-"
++BIN_LD		"-BIN_LD-"
+
+
+/* Libraries */
+
++LIB_VALUES_XA	"-LIB_VALUES_XA-"
++LIB_VALUES_XC	"-LIB_VALUES_XC-"
++LIB_VALUES_XT	"-LIB_VALUES_XT-"
++LIB_CRT1	"-LIB_CRT1-"
++LIB_CRTI	"-LIB_CRTI-"
++LIB_CRTN	"-LIB_CRTN-"
+
+
++MACHINE		"solaris-*-sparc"
++AS			"<BIN_AS>"
++LD			"<BIN_LD>"
++CRT0			"<TENDRA_LIBDIR>/sys/crt1.o <TENDRA_LIBDIR>/sys/crti.o"
++CRT1			"<LIB_VALUES_XC>"
++CRTN			"<LIB_CRTN>"

@@ -1,0 +1,53 @@
+@use all
+@special version_props
+--
+--  AUTOMATICALLY GENERATED FROM TDF %VA.%VB
+--  BY %ZX (VERSION %ZV), DO NOT EDIT
+--
+
+package TenDRA.Types is
+
+   Version_Major : constant := %VA;
+   Version_Minor : constant := %VB;
+
+   type Construct is (
+@loop sort
+@if sort.simple
+@loop sort.cons
+      c_%CN,
+@end
+@endif
+@end
+      Dummy);
+
+   type Sort_Kind is (
+@loop sort
+@if sort.builtin
+      %ST_SORT,
+@endif
+@if sort.simple
+@if sort.special
+      %ST_SORT);
+@else
+      %ST_SORT,
+@endif
+@endif
+@end
+
+   type Argument_Mode is (Singular, Optional, List_Element, SList_Element);
+   
+   type Argument is record
+      Sort  : Sort_Kind;
+      Mode  : Argument_Mode;
+      Align : Boolean;
+   end record;
+   
+   type Argument_List is array (Natural range <>) of Argument;
+
+   function Result    (Item : Construct) return Sort_Kind;
+   function Arguments (Item : Construct) return Argument_List;
+   function Code      (Item : Construct) return Word;
+   function Bits      (Item : Sort_Kind) return Bit_Count;
+   function Extended  (Item : Sort_Kind) return Boolean;
+   
+end TenDRA.Types;

@@ -1,0 +1,8 @@
+/* TCC ENVIRONMENT : PROFILING FOR Linux I386 
+ * $TenDRA$
+*/
+
++CRT0		"-dynamic-linker <LIB_LD_LINUX> <LIB_GCRT1>"
+<SYS_LINK	"-lgmon"
++FLAG_TRANS	"-P"
++LINE_START	"#pragma@preserve@*"

@@ -1,0 +1,301 @@
+/*
+ * Copyright (c) 2004, The Tendra Project <http://www.ten15.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $TenDRA$
+ */
+ 
+
+ENTRIES:
+
+al_tag_defined_twice(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Al_tag "string" defined twice"
+}
+
+bad_sn_value(unsigned: enc)
+{
+	USAGE: FATAL
+	KEY(STD) "Bad %SN value, "enc""
+}
+
+cant_open_include(ccp: file)
+{
+	USAGE: FATAL
+	KEY(STD) "Can't open include file '"file"'"
+}
+
+default_jump()
+{
+	USAGE: FATAL
+	KEY(STD) "This conditional uses a default jump"
+}
+
+dont_know_shape(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Don't know shape of "string""
+}
+
+dont_know_unit_type()
+{
+	USAGE: FATAL
+	KEY(STD) "Don't know unit type"
+}
+
+dont_understand_test()
+{
+	USAGE: FATAL
+	KEY(STD) "Don't understand test"
+}
+
+field_name_unique(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Field name "string" must be unique"
+}
+
+ident_already_declared(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Ident "string" already declared"
+}
+
+ident_not_declared(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Ident "string" not declared"
+}
+
+label_not_declared(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Label "string" not declared"
+}
+
+label_set_twice(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Label "string" set twice"
+}
+
+memory_alloc_error()
+{
+	USAGE: FATAL
+	KEY(STD) "Memory allocation error"
+}
+
+no_declaration_shape(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "No declaration shape for "string""
+}
+
+not_a_comparison(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) ""string" is not a comparison"
+}
+
+not_a_logop(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) ""string" not a logop"
+}
+
+not_a_tag(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) ""string" is not a tag"
+}
+
+not_an_addrop(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) ""string" not an addrop"
+}
+
+not_an_arithop(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) ""string" not an arithop"
+}
+
+not_first_class_sort()
+{
+	USAGE: FATAL
+	KEY(STD) "Not a 1st class SORT"
+}
+
+not_legal_sort()
+{
+	USAGE: FATAL
+	KEY(STD) "Not a legal sort"
+}
+
+not_sort_internal_error()
+{
+	USAGE: FATAL
+	KEY(STD) "Not a sort - internal error"
+}
+
+only_plus_or_minus()
+{
+	USAGE: FATAL
+	KEY(STD) "Only + or - on NATs"
+}
+
+shouldnt_happen()
+{
+	USAGE: FATAL
+	KEY(STD) "This shouldn't happen"
+}
+
+sort_error(unsigned: req, unsigned: curr)
+{
+	USAGE: FATAL
+	KEY(STD) "Sort error: req = "req", curr= "curr""
+}
+
+sort_list_error(unsigned: req, unsigned: curr)
+{
+	USAGE: FATAL
+	KEY(STD) "Sort/list error: req = "req", curr= "curr""
+}
+
+struct_unique(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Struct name "string" must be unique"
+}
+
+syntax_error_noparam()
+{
+	USAGE: FATAL
+	KEY(STD) "Syntax error"
+}
+
+syntax_error(ccp: char)
+{
+	USAGE: FATAL
+	KEY(STD) "Syntax error "char""
+}
+
+tag_declared_as_variable(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Tag "string" declared as variable"
+}
+
+tag_declared_non_variable(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Tag "string" declared as non-variable"
+}
+
+tag_declared_twice(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Tag "string" declared twice"
+}
+
+tag_defined_twice(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Tag "string" defined twice"
+}
+
+token_declared_twice(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Token "string" declared twice"
+}
+
+token_defined_twice(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Token "string" defined twice"
+}
+
+token_parameter_name_unique(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Token parameter name "string" must be unique"
+}
+
+token_pars_require_parameter()
+{
+	USAGE: FATAL
+	KEY(STD) "Only token pars require result and parameter sorts"
+}
+
+token_pars_req()
+{
+	USAGE: FATAL
+	KEY(STD) "Token pars require result and parameter sorts"
+}
+
+two_declaration_shapes(ccp: string)
+{
+	USAGE: FATAL
+	KEY(STD) "Two declaration shapes for "string""
+}
+
+unmatched_quote()
+{
+	USAGE: FATAL
+	KEY(STD) "Unmatched quote"
+}
+
+assertion_failed(ccp: assertion)
+{
+	USAGE: FATAL
+	KEY(STD) "Assertion "assertion" failed"
+}
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: pl [options] input output
+			 \nwhere options are:"
+}
+
+description_of_diag()
+{
+	USAGE: NONE
+	KEY(STD) "Add debug information in the output TDF capsule."
+}
+
+description_of_pp()
+{
+	USAGE: NONE
+	KEY(STD) "Pretty prints the TDF capsule to the standard out."
+}
+
+description_of_include()
+{
+	USAGE: NONE
+	KEY(STD) "DIRECTORY Add DIRECTORY to the includes search path."
+}

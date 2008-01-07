@@ -1,0 +1,24 @@
+# $TenDRA$
+
+CFLAGS+= -I${.CURDIR} -I${SRC_DIR}/src/include -I.
+.PATH : ${.CURDIR} ${.CURDIR}/templ .
+
+PROG = pl
+
+SRCS=	analyse_sort.c consfile.c decodings.c errors.c \
+	find_id.c fnsfile.c includes.c lex.c main.c \
+	readstreams.c standardsh.c streams.c syntax.c \
+	units.c
+
+USE_LIBTEN=	yes
+
+DEPEND_SRC=	syntax.c consfile.c consfile.h decodings.c \
+		decodings.h encodings.h enc_nos.h fnsfile.c
+
+syntax.c: syntax.sid syntax.act
+	${SID} ${SID_OPTS} ${.CURDIR}/syntax.sid ${.CURDIR}/syntax.act \
+	${OBJ_DIR}/syntax.c ${OBJ_DIR}/syntax.h
+
+CLEANFILES+=	syntax.c syntax.h consfile.c consfile.h decodings.c decodings.h encodings.h enc_nos.h fnsfile.c
+
+.include "${.CURDIR}/../../../mk/base/tendra.prog.mk"

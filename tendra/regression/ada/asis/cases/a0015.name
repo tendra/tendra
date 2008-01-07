@@ -1,0 +1,30 @@
+Expression_Kind:AN_IDENTIFIER Integer at a0015.adb [13:11..13:17]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0015.adb [16:26..16:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER My_Rec at a0015.adb [21:26..21:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Rec at a0015.adb [12:9..12:14]
+
+Expression_Kind:AN_IDENTIFIER X at a0015.adb [23:15..23:15]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER X at a0015.adb [13:7..13:7]
+
+Expression_Kind:AN_IDENTIFIER My_Rec at a0015.adb [26:25..26:30]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Rec at a0015.adb [12:9..12:14]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0015.adb [27:16..27:22]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER My_Rec at a0015.adb [30:27..30:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Rec at a0015.adb [12:9..12:14]
+
+Expression_Kind:AN_IDENTIFIER Value at a0015.adb [30:37..30:41]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Value at a0015.adb [21:13..21:17]
+
+Expression_Kind:AN_IDENTIFIER Result at a0015.adb [32:9..32:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Result at a0015.adb [30:10..30:15]
+
+Expression_Kind:AN_IDENTIFIER X at a0015.adb [32:16..32:16]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER X at a0015.adb [13:7..13:7]
+

@@ -1,0 +1,18 @@
+Expression_Kind:AN_IDENTIFIER A0011A at a0011.ads [10:14..10:19]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER A0011A implicit of [Not_An_Element]
+
+Expression_Kind:AN_IDENTIFIER A0011A at a0011.ads [13:15..13:20]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER A0011A implicit of [Not_An_Element]
+
+Expression_Kind:AN_IDENTIFIER Item at a0011.ads [13:22..13:25]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Item implicit of [Not_An_Element]
+
+Expression_Kind:AN_IDENTIFIER A0011A at a0011.ads [15:35..15:40]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER A0011A implicit of [Not_An_Element]
+
+Expression_Kind:AN_IDENTIFIER Nested at a0011.ads [15:42..15:47]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Nested implicit of [Not_An_Element]
+
+Expression_Kind:AN_IDENTIFIER Some_Record at a0011.ads [15:49..15:59]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Some_Record implicit of [Not_An_Element]
+

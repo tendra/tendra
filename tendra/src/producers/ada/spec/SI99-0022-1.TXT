@@ -1,0 +1,360 @@
+!standard 13.43                                    07-11-07  SI99-0022-1/04
+!standard 13.44
+!standard 13.45
+!class Binding Interpretation 06-11-17
+!status work item 06-10-10
+!status received 06-10-10
+!priority High
+!difficulty Medium
+!qualifier Omission
+!subject Add boolean queries to ease use of trait_kinds
+
+!summary
+
+Add a collection of Boolean queries to provide an alternative to the Trait_Kinds and
+associated Trait_Kind query. Make Trait_Kinds and Trait_Kind obsolescent.
+
+!question
+
+Trait_Kinds require defining all possible combinations of traits. This
+complicates both the definition and use of traits, because answering a simple
+question like "Does this element include the keyword limited?" can require
+checking for a number of traits. This is made worse with Ada 2005. Should there
+be an alternative method of determining the presence/absence of syntax
+constructs? (Yes.)
+
+Also, the Amendment (Ada 2005) defines new types of With clauses; it needs to
+be possible to determine what type of with clause is present by extending
+traits or its replacement.
+
+!recommendation
+
+The presence/absence of certain syntactic constructs in a declaration
+or definition in ASIS 95 could be determined by examining trait_kinds.
+Several trait_kinds may map to a single syntactic entity (for example,
+the trait kinds An_Abstract_Trait, An_Abstract_Limited_Trait,
+An_Abstract_Private_Trait, and An_Abstract_Limited_Private_Trait all
+indicate the presence of "abstract" in the declaration.)
+
+With the changes from Ada 2005, trait_kinds are difficult to extend to
+consistently accommodate the new syntactic constructs. As such, they
+are replaced by Boolean queries to allow for determination of the
+presence/absence of the syntactic constructs in a declaration or
+definition that are accessible via traits.
+Trait_kinds and the associated trait_kind query become obsolescent.
+
+The following queries are added:
+
+function Has_Limited ( Element : in Asis.Element ) return Boolean;
+function Has_Private ( Element : in Asis.Element ) return Boolean;
+function Has_Abstract ( Element : in Asis.Element ) return Boolean;
+function Has_Reverse (Element : in Asis.Element ) return Boolean;
+function Has_Aliased (Element : in Asis.Element ) return Boolean;
+function Has_Synchronized (Element : in Asis.Element ) return Boolean;
+
+function Has_Task (Element : in Asis.Element ) return Boolean;
+function Has_Protected (Element : in Asis.Element ) return Boolean;
+
+The two functions Has_Task and Has_Protected are included for
+consistency. They are not necessary to replace Trait_Kinds.
+
+!wording
+
+Need to update 3.9.4 to remove the references to further classication
+via trait_kinds
+
+Add the following new clauses to section 13:
+
+13.xx function Has_Limited
+
+
+function Has_Limited ( Element : in Asis.Element ) return Boolean;
+
+Element specifies the Element to query.
+
+Returns True if the reserved word Limited appears in the Element.
+
+Returns True for declarations explicitly defined as limited, limited
+private,
+abstract limited, or abstract limited private.
+
+Returns True for context clauses qualified as limited.
+
+Expected Element_Kinds:
+  A_Declaration
+  A_Definition
+  A_Clause
+
+Expected Declaration_Kinds:
+  A_Type_Declaration
+  A_Private_Type_Declaration
+  A_Private_Extension_Declaration
+
+Expected Definition_Kinds:
+  A_Type_Definition
+  A_Private_Type_Definition
+  A_Tagged_Private_Type_Definition
+  A_Private_Extension_Definition
+  An_Interface_Type_Definition
+
+Expected Formal_Type_Kinds:
+  A_Formal_Private_Type_Definition
+  A_Formal_Tagged_Private_Type_Definition
+  A_Formal_Derived_Type_Definition
+
+Expected Clause_Kinds:
+  A_With_Clause
+
+Returns False for any other element, including a Nil_Element.
+
+
+13.xx function Has_Private
+
+function Has_Private ( Element : in Asis.Element ) return Boolean;
+
+Element specifies the element to query.
+
+Returns True if the reserved word Private appears in the Element.
+
+Returns True for declarations explicitly defined as private, limited
+private, abstract private,
+and abstract limited private.
+
+Returns True for a context clause qualified as private.
+
+Returns False for any unexpected Element_Kind, including a Nil_Element.
+
+Expected Declaration_Kinds:
+  A_Type_Declaration
+  A_Private_Type_Declaration
+
+Expected Definition_Kinds:
+  A_Type_Definition
+  A_Private_Type_Definition
+  A_Tagged_Private_Type_Definition
+  A_Private_Extension_Definition
+
+Expected Formal_Type_Kinds:
+  A_Formal_Private_Type_Definition
+  A_Formal_Tagged_Private_Type_Definition
+
+Expected Clause_Kinds:
+  A_With_Clause
+
+Returns False for any other Element including a Nil_Element.
+
+
+13.xx function Has_Abstract
+
+function Has_Abstract ( Element : in Asis.Element ) return Boolean;
+
+Element specifies the element to query.
+
+Returns True if the reserved word Abstract appears in the Element.
+
+
+Expected Declaration_Kinds:
+  A_Type_Declaration
+  A_Private_Type_Declaration
+  A_Private_Extension_Declaration
+  A_Procedure_Declaration
+  A_Function_Declaration
+
+Expected Definition_Kinds:
+  A_Type_Definition
+  A_Private_Type_Definition
+  A_Tagged_Private_Type_Definition
+  A_Private_Extension_Definition
+  An_Interface_Type_Definition
+
+Expected Formal_Type_Kinds:
+  A_Formal_Private_Type_Definition
+  A_Formal_Tagged_Private_Type_Definition
+  A_Formal_Derived_Type_Definition
+
+
+Returns False for any other element, including a Nil_Element.
+
+
+13.xx function Has_Reverse
+
+function Has_Reverse ( Element : in Asis.Element ) return Boolean;
+
+Element specifies the Element to query.
+
+Returns True if the reserved word Reverse appears in the Element.
+
+Expected Declaration_Kinds:
+  A_Loop_Parameter_Specification
+
+Returns False for any other Element including a Nil_Element.
+
+
+13.xx function Has_Aliased
+
+function Has_Aliased ( Element : in Asis.Element ) return Boolean;
+
+Element specifies the Element to query.
+
+Returns True if the reserved word Aliased appears in the element.
+
+Expected Declaration_Kinds:
+  A_Variable_Declaration
+  A_Constant_Declaration
+  A_Deferred_Constant_Declaration
+  A_Return_Object_Specification 
+
+Expected Definition_Kinds:
+  A_Component_Definition
+
+Returns False for any other Element, including a Nil_Element.
+
+
+13.xx function Has_Synchronized
+
+function Has_Synchronized ( Element : in Asis.Element ) return Boolean;
+
+Element specifies the Element to query.
+
+Returns true if the reserved word Synchronized appears in the
+element. 
+
+Expected Definition_Kinds:
+  A_Private_Extension_Definition
+  An_Interface_Type_Definition
+
+
+Returns False for any other Element including a Nil_Element.
+
+
+-------------------------------------------------------------------
+
+13.xx function Has_Protected
+
+function Has_Protected( Element : in Asis.Element ) return Boolean;
+
+Element specifies the Element to query.
+
+Returns true if the reserved word Protected appears in the element.
+
+
+Expected Definition_Kinds:
+  An_Interface_Type_Definition
+  A_Protected_Definition
+
+Expected Declaration_Kinds
+  A_Protected_Type_Declaration
+  A_Single_Protected_Declaration
+  A_Protected_Body_Declaration        
+
+
+Returns False for any other Element including a Nil_Element.
+
+
+
+
+13.xx function Has_Task
+
+function Has_Protected( Element : in Asis.Element ) return Boolean;
+
+Element specifies the Element to query.
+
+Returns true if the reserved word Protected appears in the element.
+
+
+Expected Definition_Kinds:
+  An_Interface_Type_Definition
+  A_Task_Definition
+
+
+Expected Declaration_Kinds
+  A_Task_Type_Declaration
+  A_Single_task_Declaration
+  A_Task_Body_Declaration        
+
+Returns False for any other Element including a Nil_Element.
+
+!discussion
+
+Some existing traits are obsolete (specifically, the "access" trait); it would be
+too messy to handle all of the possible forms and locations of anonymous access
+types with traits. (It especially doesn't make sense for anonymous access-to-subprogram
+types.) It doesn't make sense to make individual enumeration literals obsolete.
+
+Testing for a single entity is difficult and error prone. For instance, checking for
+the presence of limited for a type definition requires checking if any of the traits
+A_Limited_Trait, A_Limited_Private_Trait, An_Abstract_Limited_Trait, or
+An_Abstract_Limited_Private_Trait are present. If any of these are omitted, the program
+will get incorrrect answers.
+
+Ada 2005 would require addiing traits for Synchronized and null exclusions, which would
+add a number of new combinations. It's clear that the trait mechanism does not scale well.
+
+Therefore, we're making the trait mechanism obsolescent, and will not add any
+Ada 2005 features to its support.
+
+Another advantage of the query functions is that the list of expected elements can be
+tailored for the item in question. That allows additional checking by preventing
+nonsense queries like asking if A_Deferred_Constant has the "Abstract" trait.
+
+The queries need to support determining if "limited" and "private" are present on
+with_clauses, as the Amendment adds limited_with_clauses and private_with_clauses.
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+
+.....
+
+---------------------------------
+-- AI-217 Limited with clauses --
+-- AI-262 Private with clauses --
+---------------------------------
+RM-06 10.1.2
+
+* Add A_With_Clause to the list of expected kinds of Asis.Elements.Trait_Kind
+
+****************************************************************
+
+
+

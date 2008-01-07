@@ -1,0 +1,116 @@
+<sort_cond> :
+	builtin				# built-in sorts
+	simple				# simple sort
+	basic				# simple sort with encoding bits
+	dummy				# simple sort with zero encoding bits
+	list				# list sort
+	slist				# simple list sort
+	option				# optional sort
+	extends				# sort has extended encoding
+	special				# sort is marked as special
+	edge				# sort has edge construct
+	link				# sort is linkage entity
+	unit				# sort is a unit sort
+	name.<construct_cond>		# refers to sortname
+	sub.<sort_cond>			# refers to sub-sort
+	eq.<sort_name>			# sort has given name
+
+<construct_cond> :
+	sort.<sort_cond>		# refers to result sort
+	simple				# simple construct
+	token				# apply_token construct
+	cond				# conditional construct
+	edge				# edge construct
+	foreign				# foreign sortname
+	special				# construct is marked as special
+	extends				# construct uses extended encoding
+	params				# construct has parameters
+	eq.<construct_name>		# construct has given name
+
+<param_cond> :
+	sort.<sort_cond>		# refers to parameter sort
+	align				# parameter is aligned
+	break				# parameter has break
+	intro				# parameter is introduced tag etc.
+	first				# first parameter for construct
+	last				# last parameter for construct
+	eq.<param_name>			# parameter has given name
+
+<condition> :
+	true
+	false
+	uniq
+	!<condition>
+	sort.<sort_cond>
+	cons.<construct_cond>
+	param.<param_cond>
+
+<control> :
+	sort
+	sort.cons
+	cons.param
+	param.prev
+
+<sort_escape> :
+	N
+	T
+	L
+	U
+	B
+	E
+	M
+	C<construct_escape>
+	S<sort_escape>
+	X
+
+<construct_escape> :
+	N
+	E
+	S<sort_escape>
+	X
+
+<param_escape> :
+	N
+	S<sort_escape>
+	E
+
+<digit> : one of
+	0 1 2 3 4 5 6 7 8 9
+
+<escape> :
+	<digit><escape>
+	C<construct_escape>
+	P<param_escape>
+	VA
+	VB
+	ZV
+	ZX
+	b
+	t
+	u
+	%
+	@
+	_
+	<newline>
+
+<use_argument> :
+	all
+	!<use_argument>
+	<sort_name>
+	<sort_name> <construct_name>
+
+<special_argument> :
+	!<special_argument>
+	<sort_name>
+	<sort_name> <construct_name>
+
+<command> :
+	@if <condition>
+	@else
+	@endif
+	@loop <control>
+	@end
+	@use <use_argument>
+	@special <special_argument>
+	@comment ....
+	....

@@ -1,0 +1,9 @@
+/* tcc environment for bsd_extn 
+ * $TenDRA$
+*/
+
+<INCL			"-Nbsd_extn:<TENDRA_INCLDIR>/bsd_extn.api"
+<LIB			"-lbsd_extn"
++FLAG_INSTALL		"-Ybsd_extn"
+<API_NAME		"-Absd_extn"
+<INFO			"BSD@extension@API"

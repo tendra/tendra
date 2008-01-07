@@ -1,0 +1,136 @@
+/*
+ * Copyright (c) 2002, The Tendra Project <http://www.ten15.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
+
+
+/******************************************************************
+ *		regable.c
+
+******************************************************************/
+
+
+#include "config.h"
+#include "common_types.h"
+#include "shapemacs.h"
+#include "tags.h"
+#include "regable.h"
+
+/***************************************************************
+ *	fixregable
+ *
+ *determines whether the exp e can fit in a single fixed point register. Uses
+ *macros isvis, isglob, iscaonly from expmacs.h which examine the props
+ *field. The iscaonly bit is set by proc independent if the tag is only used
+ *by the contents operator or as the left hand side of an assignment. The
+ *procedure also uses the macro is_floating from shapemacs.h which checks
+ *the shape number is in the range for floating point shapes.
+ ****************************************************************/
+
+
+bool
+valregable(shape s)
+{
+	int n = name(s);
+	if (is_floating (n)) {	/* check shape to see if floating point */
+		return 0;
+	}
+	else {
+		ash a;
+		a = ashof (s);		/* get ash corresponding to shape of e */
+		
+/* ALTERATION #1 */
+		return (a.ashsize <=32  && n!=SH_COMPOUND && n!= SH_NOF && n!=SH_TOP);
+		
+	}
+}
+
+bool
+fixregable(exp e)
+{
+	if (!isvis (e) && !isoutpar(e) && !isglob (e)
+		&& name(son(e)) != caller_name_tag) {
+		shape s = sh (son (e));	/* son of ident exp is def */
+		return valregable (s);
+	}
+	else {
+		return 0;
+	}
+}
+
+/***************************************************************
+ *	floatregable
+ *
+ *determines whether the exp e can fit in a floating point register, single
+ *or double.
+ ***************************************************************/
+
+bool
+floatregable(exp e)
+{
+	if (!isvis (e) && !isoutpar(e) && !isglob (e)
+		&& name(son(e)) != caller_name_tag) {
+		shape s = sh (son (e));
+		if is_floating
+			(name (s)) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+	else {
+		return 0;
+	}
+}

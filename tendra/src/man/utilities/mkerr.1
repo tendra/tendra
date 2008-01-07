@@ -1,0 +1,57 @@
+.\" Copyright (c) 2002-2004 The TenDRA Project <http://www.ten15.org/> 
+.\" All rights reserved. 
+.\"  
+.\" Redistribution and use in source and binary forms, with or without 
+.\" modification, are permitted provided that the following conditions 
+.\" are met: 
+.\" 1. Redistributions of source code must retain the above copyright 
+.\"    notice, this list of conditions and the following disclaimer. 
+.\" 2. Redistributions in binary form must reproduce the above copyright 
+.\"    notice, this list of conditions and the following disclaimer in the 
+.\"    documentation and/or other materials provided with the distribution. 
+.\"  
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND 
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE 
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS 
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+.\" SUCH DAMAGE. 
+.\" 
+.\" $TenDRA$ 
+.\" 
+.TH "mkerr" "1" "Sun 23 Oct 2005, 12:36" "mkerr @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.SH "NAME" 
+.PP 
+\fBmkerr\fP - Message catalog compiler\&.
+.SH "SYNOPSIS"
+.PP
+\fBmkerr\fP [-d \fIdefnfile\fP]  [-l \fIdeclfile\fP]  [-n \fInumfile\fP]  [-u \fIusagefile\fP]  [-c \fIcompfile\fP]  [-h]  [-v] \fIsrcfile\fP 
+.SH "DESCRIPTION"
+.PP
+Message catalogs are used to describe various messages produced
+by TenDRA programs\&. This utility generates the necessary code to
+print those messages\&.
+.SH "OPTIONS"
+.IP "\fB-c\fP \fIcompfile\fP" 5
+Specifies the compound \&.c file\&.
+.IP "\fB-d\fP \fIdefnfile\fP" 5
+Specifies the error definition file name\&.
+.IP "\fB-h\fP" 5
+Show help\&.
+.IP "\fB-l\fP \fIdeclfile\fP" 5
+Specifies the error declaration file name\&.
+.IP "\fB-n\fP \fInumfile\fP" 5
+Specifies the error number file name\&.
+.IP "\fB-u\fP \fIusagefile\fP" 5
+Specifies the error usage file name\&.
+.IP "\fB-v\fP" 5
+Increase debug level\&.
+.SH "SEE ALSO"
+.PP
+\fBtcc\fP\fB(1)\fP\&.
+...\" created by instant / docbook-to-man, Sun 23 Oct 2005, 12:36

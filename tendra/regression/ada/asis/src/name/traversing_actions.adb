@@ -1,0 +1,102 @@
+with Print_Element;
+with ASIS.Elements;
+with Asis.Expressions;
+with Ada.Wide_Text_IO;
+
+package body Traversing_Actions is
+
+   function Indent (X : Integer) return Wide_String;
+
+   ------------
+   -- Indent --
+   ------------
+
+   function Indent (X : Integer) return Wide_String is
+      Spaces : constant Wide_String :=
+        "                                                ";
+   begin
+      if X > Spaces'Length then
+         return Spaces & Indent (X - Spaces'Length);
+      else
+         return Spaces (1 .. X);
+      end if;
+   end Indent;
+
+   -----------------
+   -- Post_Action --
+   -----------------
+
+   procedure Post_Action
+     (Element :        Asis.Element;
+      Control : in out Asis.Traverse_Control;
+      State   : in out Traversal_State)
+   is
+   begin
+      null;
+   end Post_Action;
+
+   ----------------
+   -- Pre_Action --
+   ----------------
+
+   procedure Pre_Action
+     (Element :        Asis.Element;
+      Control : in out Asis.Traverse_Control;
+      State   : in out Traversal_State)
+   is
+      use Asis;
+      Kind : constant Asis.Expression_Kinds :=
+        ASIS.Elements.Expression_Kind (Element);
+   begin
+      if Kind = An_Identifier
+        or Kind = An_Operator_Symbol
+        or Kind = A_Character_Literal
+        or Kind = An_Enumeration_Literal
+      then
+         declare
+            List : Asis.Defining_Name_List :=
+               Asis.Expressions.Corresponding_Name_Definition_List (Element);
+         begin
+            Print_Element (Element);
+            Ada.Wide_Text_IO.New_Line;
+
+            for J in List'Range loop
+               Ada.Wide_Text_IO.Put (Indent (3));
+               Print_Element (List (J));
+               Ada.Wide_Text_IO.New_Line;
+            end loop;
+
+            Ada.Wide_Text_IO.New_Line;
+          end;
+      end if;
+   end Pre_Action;
+
+end Traversing_Actions;
+
+
+
+------------------------------------------------------------------------------
+--  Copyright (c) 2006, Maxim Reznik
+--  All rights reserved.
+--
+--  Redistribution and use in source and binary forms, with or without
+--  modification, are permitted provided that the following conditions are met:
+--
+--     * Redistributions of source code must retain the above copyright notice,
+--     * this list of conditions and the following disclaimer.
+--     * Redistributions in binary form must reproduce the above copyright
+--     * notice, this list of conditions and the following disclaimer in the
+--     * documentation and/or other materials provided with the distribution.
+--
+--  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+--  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+--  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+--  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+--  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+--  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+--  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+--  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+--  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+--  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+--  POSSIBILITY OF SUCH DAMAGE.
+------------------------------------------------------------------------------

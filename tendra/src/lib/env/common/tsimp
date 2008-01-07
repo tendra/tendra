@@ -1,0 +1,5 @@
+/* tcc environment for tsimp tool 
+ * $TenDRA$
+*/
++TLD		"<TENDRA_BINDIR>/tsimp"
++FLAG		"-no_startup_options"

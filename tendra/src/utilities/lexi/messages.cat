@@ -1,0 +1,157 @@
+/*
+ * Copyright (c) 2004, The Tendra Project <http://www.ten15.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $TenDRA$
+ */
+
+ENTRIES:
+
+had_errors()
+{
+	USAGE: FATAL
+	KEY(STD) "Terminating due to previous errors"
+}
+
+string_already_defined(ccp: data, ccp: defn)
+{
+	USAGE: FATAL
+	KEY(STD) iline"String for '"data"' has already been defined to give '"defn"'"
+}
+
+group_already_defined(ccp: grp)
+{
+	USAGE: FATAL
+	KEY(STD) iline"Group '"grp"' already defined"
+}
+
+too_many_groups(unsigned: count)
+{
+	USAGE: FATAL
+	KEY(STD) iline"Too many groups defined ("count")"
+}
+
+unknown_esc_seq(char: ch)
+{
+	USAGE: FATAL
+	KEY(STD) iline"Unknown escape sequence, '\\"ch"'"
+}
+
+unterminated_grp_name(ccp: grp)
+{
+	USAGE: FATAL
+	KEY(STD) iline"Unterminated character group name, '"grp"'"
+}
+
+unknown_char_group(ccp: grp)
+{
+	USAGE: FATAL
+	KEY(STD) iline"Unknown character group, '"grp"'"
+}
+
+keyword_already_defined(ccp: kw)
+{
+	USAGE: FATAL
+	KEY(STD) iline"Keyword '"kw"' already defined"
+}
+
+id_too_long()
+{
+	USAGE: FATAL
+	KEY(STD) iline"Identifier too long"
+}
+
+ws_grp_already_defined()
+{
+	USAGE: FATAL
+	KEY(STD) iline"White space group already defined"
+}
+
+syntax_error()
+{
+	USAGE: FATAL
+	KEY(STD) iline"Syntax error"
+}
+
+buffer_overflow()
+{
+	USAGE: FATAL
+	KEY(STD) iline"Buffer overflow"
+}
+
+unexpected_eos()
+{
+	USAGE: FATAL
+	KEY(STD) iline"Unexpected end of string"
+}
+
+eof_in_comment()
+{
+	USAGE: FATAL
+	KEY(STD) iline"End of file in comment"
+}
+
+bad_mapping_string(ccp: str)
+{
+	USAGE: FATAL
+	KEY(STD) iline"Bad mapping string, '"str"'"
+}
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: lexi [options] input [output]
+			 \nwhere options are:"
+}
+
+description_of_functions()
+{
+	USAGE: NONE
+	KEY(STD) "Generate code for functions."
+}
+
+description_of_keywords()
+{
+	USAGE: NONE
+	KEY(STD) "Generate code for keywords."
+}
+
+description_of_macros()
+{
+	USAGE: NONE
+	KEY(STD) "Generate code for macros."
+}
+
+description_of_prefix()
+{
+	USAGE: NONE
+	KEY(STD) "STRING Use STRING as prefix for tokens."
+}
+
+description_of_table()
+{
+	USAGE: NONE
+	KEY(STD) "Generate lookup table."
+}
+

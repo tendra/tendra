@@ -1,0 +1,277 @@
+!standard 3.9.5                                          06-12-11  SI99-0003-1/03
+!standard 15.49
+!class binding interpretation 06-04-20
+!status ARG Approved  11-0-0  07-06-01
+!status work item 07-01-05
+!status ARG Approved  10-0-0  06-11-17
+!status work item 06-04-20
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Support overriding indicators
+
+!summary
+
+Support queries of new overriding indicators for subprograms.
+
+!question
+
+The Amendment (Ada 2005) defines overriding indicators for subprograms; should these be added
+to Asis.Declaration to allow access to this designation? (yes)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+
+Add a new clause after 3.9.4 (type Declaration_Kinds):
+
+3.9.x type Overriding_Indicator_Kinds
+
+Type Overriding_Indicator_Kinds classifies declarations and specifications having
+an overrriding indicator.
+
+type Overriding_Indicator_Kinds is (
+  Not_An_Overriding_Indicator,
+
+  No_Overriding_Indicator,          -- 8.3.1 (2)
+  An_Indicator_of_Overriding,       -- 8.3.1 (2)
+  An_Indicator_of_Not_Overriding);  -- 8.3.1 (2)
+
+
+The comments list a reference to the definition in ISO/IEC 8652:2007 Ed. 3 for each kind
+of declaration.
+
+
+Add a new clause to the end of section 15:
+
+15.xx function Overriding_Indicator_Kind
+
+   function Overriding_Indicator_Kind 		-- 8.3.1 (2)
+     (Declaration : Asis.Declaration)
+      return Overriding_Indicator_Kinds;
+
+  Declaration specifies the subprogram declaration to query.
+
+  Returns the kind of Overriding_Indicator for the subprogram declaration.
+
+  Returns Not_An_Overriding_Indicator for any unexpected Element.
+
+  Expected Declaration_Kinds:
+     A_Procedure_Declaration
+     A_Function_Declaration
+     A_Procedure_Body_Declaration
+     A_Function_Body_Declaration
+     A_Null_Procedure_Declaration
+     A_Procedure_Renaming_Declaration
+     A_Function_Renaming_Declaration
+     An_Entry_Declaration
+     A_Procedure_Body_Stub
+     A_Function_Body_Stub
+     A_Procedure_Instantiation
+     A_Function_Instantiation
+
+
+
+!discussion
+
+
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+
+.....
+
+---------------------------------
+-- AI-218 Overriding indicator --
+---------------------------------
+
+RM-06  8.3.1
+
+* Add two boolean queries to Asis.Declaration:
+
+--  15.#??? function Is_Overriding_Declaration
+------------------------------------------------------------------------------
+
+   function Is_Overriding_Declaration
+     (Declaration : Asis.Declaration)
+      return        Boolean;
+
+------------------------------------------------------------------------------
+--  Declaration - Specifies the subprogram declaration to query
+--
+--  Returns True if the declaration contains the overriding indicator of the
+--  form "overriding"
+--
+--  Returns False for any unexpected Element.
+--
+--  Expected Declaration_Kinds:
+--       A_Procedure_Declaration
+--       A_Function_Declaration
+--       A_Procedure_Body_Declaration
+--       A_Function_Body_Declaration
+--       A_Null_Procedure_Declaration
+--       A_Procedure_Renaming_Declaration
+--       A_Function_Renaming_Declaration
+--       An_Entry_Declaration
+--       A_Procedure_Body_Stub
+--       A_Function_Body_Stub
+--       A_Procedure_Instantiation
+--       A_Function_Instantiation
+--
+--
+
+------------------------------------------------------------------------------
+--  15.#??? function Is_Not_Overriding_Declaration
+------------------------------------------------------------------------------
+
+   function Is_Not_Overriding_Declaration
+     (Declaration : Asis.Declaration)
+      return        Boolean;
+
+------------------------------------------------------------------------------
+--  Declaration - Specifies the subprogram declaration to query
+--
+--  Returns True if the declaration contains the overriding indicator of the
+--  form "not overriding"
+--
+--  Returns False for any unexpected Element.
+--
+--  Expected Declaration_Kinds:
+--       A_Procedure_Declaration
+--       A_Function_Declaration
+--       A_Procedure_Body_Declaration
+--       A_Function_Body_Declaration
+--       A_Null_Procedure_Declaration
+--       A_Procedure_Renaming_Declaration
+--       A_Function_Renaming_Declaration
+--       An_Entry_Declaration
+--       A_Procedure_Body_Stub
+--       A_Function_Body_Stub
+--       A_Procedure_Instantiation
+--       A_Function_Instantiation
+
+****************************************************************
+
+Subject: Re: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Jean-Pierre Rosen
+Date: Sun, 19 Mar 2006 08:15:35 +0100
+
+Sergey I. Rybin a écrit :
+
+> Jean-Pierre Rosen wrote:
+>
+>> I have reviewed Sergey's proposal, there is just one point where
+>> I'd suggest a different solution.
+>>
+>> Instead of having Is_[Not_]Overriding_Declaration, shouldn't the
+>> "[not] overriding" be considered a trait (and adding to Trait_Kind accordingly)?
+>
+> Actually you would need not two, but at least four values:
+>
+>    An_Abstract_Overriding_Trait
+>    An_Abstract_Not_Overriding_Trait
+>    An_Overriding_Trait
+>    A_Not_Overriding_Trait
+>
+> I personally do not like the approach based on Trait_Kinds, so I
+> have suggested boolean queries. For me, it looks much more clear.
+>
+> (I'm not insisting, I'm only proposing :)
+
+I understand your point, and I am unsure...
+
+1) It is true that traits are not very palatable. There should have been sets
+of traits, instead of addressing combinations by providing more litterals.
+But it's way too late.
+
+2) I don't like adding more functions, especially boolean functions just to
+check the presence of something. The "trait" approach has some merit, if you
+consider the number of boolean queries that it replaces.
+
+3) Maybe, there could be an orthogonal enumeration "overriding_trait_kind"
+   and a single query:
+   type Overriding_Trait_Kind is
+      (no_overriding_trait,
+       an_overriding_trait,
+       a_not_overriding_trait);
+
+Not the best of both worlds. Rather a mitigation of both drawbacks.
+
+I'd like to hear the opinion of others. Anybody listening here?
+
+****************************************************************
+
+From: Randy Brukardt
+Date: Friday, January 05, 2007   1:35 PM
+
+The ARG meeting agreed on:
+
+type Overriding_Indicator_Kinds is (Not_An_Overriding_Indicator,
+   An_Indicator_Of_Overriding, An_Indicator_Of_Not_Overriding);
+
+The intended semantics was that Not_An_Overriding_Indicator is returned
+(1) if there is no overriding_indicator or (2) if the query is malformed.
+
+However, this is different than every other ASIS query, where there are
+separate literals for (1) and (2). While I'd rather raise an exception
+for malformed queries, it's years too late for that. But mixing the
+error case and a perfectly normal case is nasty.
+
+I think the type should be:
+
+type Overriding_Indicator_Kinds is (Not_An_Overriding_Indicator,
+  No_Overriding_Indicator,          -- 8.3.1 (2)
+  An_Indicator_of_Overriding,       -- 8.3.1 (2)
+  An_Indicator_of_Not_Overriding);  -- 8.3.1 (2)
+
+Pascal agreed that this is better, and we mutually agreed to return
+this issue to the ARG for further consideration.
+
+****************************************************************
+
+

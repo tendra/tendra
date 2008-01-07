@@ -1,0 +1,350 @@
+/*
+ * Copyright (c) 2004, The Tendra Project <http://www.ten15.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $TenDRA$
+ */
+
+TYPES:
+	tdfoffset
+
+GLOBALS:
+	tdfoffset: tdfoff
+
+ENTRIES:
+
+numeric_overflow()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Numeric overflow"
+}
+
+unknown_foreign_sort()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Unknown foreign sort"
+}
+
+illegal_LIST_value()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Illegal LIST value"
+}
+
+illegal_binding_sort()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Illegal binding sort"
+}
+
+object_number_too_big(long: n, ccp: var_type)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Object number "n" ("var_type") too big"
+}
+
+object_already_bound(ccp: object_name, ccp: var_types)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Object "object_name" ("var_types") already bound"
+}
+
+number_of_local_variables_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Number of local variables wrong"
+}
+
+number_of_linkage_units_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Number of linkage units wrong"
+}
+
+unit_length_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Unit length wrong"
+}
+
+number_of_variables_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Number of variables wrong"
+}
+
+number_of_equations_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Number of equations wrong"
+}
+
+reading_error()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Reading error"
+}
+
+internal_file_seek_error()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Internal file seek error"
+}
+
+TDF_version(int: major, int: minor)
+{
+	USAGE: NONE
+	KEY(STD) "TDF version "major"."minor
+}
+
+token_used_before_it_is_declared(ccp: object_name)
+{
+	USAGE: WARNING
+	KEY(STD) tdfoff"token "object_name" used before it is declared"
+}
+
+implicit_sort_error(ccp: object_name, ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Implicit sort error,
+		 token "object_name", "name" expected"
+}
+
+sort_error(ccp: object_name, ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Sort error, token "object_name", "name" expected"
+}
+
+token_arguments_missing_token(ccp: object_name)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Token arguments missing, token "object_name
+}
+
+token_arguments_missing()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Token arguments missing"
+}
+
+token_arguments_length_wrong_token(ccp: object_name)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Token arguments length wrong, token "object_name
+}
+
+token_arguments_length_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Token arguments length wrong"
+}
+
+label_number_out_of_range(long: lab_no)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Label number "lab_no" out of range"
+}
+
+illegal_construct(ccp: nm)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Illegal "nm" construct"
+}
+
+token_inconsistent_with_previous_use(ccp: object_name)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Token "object_name" inconsistent with previous use"
+}
+
+token_declared_inconsistently(ccp: object_name)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Token "object_name" declared inconsistently"
+}
+
+token_definition_size_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Token definition size wrong"
+}
+
+tag_declared_inconsistently(ccp: object_name)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Tag "object_name" declared inconsistently"
+}
+
+tag_defined_but_not_declared(ccp: object_name)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Tag "object_name" defined but not declared"
+}
+
+usage_information_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Usage information wrong"
+}
+
+illegal_tld_version_number(long: n)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Illegal TLD version number "n
+}
+
+illegal_version_number(long: v1, long: v2, int: version_major, int: version_minor)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Illegal version number, "v1"."v2
+		 " (supported version is "version_major"."version_minor")"
+}
+
+bad_magic_number(ccp: mn)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Bad magic number, "mn" expected"
+}
+
+illegal_st_value(ccp: st, long: n)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Illegal "st" value, "n
+}
+
+illegal_decoding_string()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Illegal decoding string"
+}
+
+bitstream_length_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Bitstream length wrong"
+}
+
+illegal_decode_letter(char: c)
+{
+	USAGE: FATAL
+	KEY(STD) tdfoff"Illegal decode letter, "c
+}
+
+illegal_sort_value(int: n)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal sort value, "n
+}
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: disp [options] input [output]
+			 \nwhere options are:"
+}
+
+description_of_compat()
+{
+	USAGE: NONE
+	KEY(STD) "Does nothing, included for compatibility."
+}
+
+description_of_decode_all()
+{
+	USAGE: NONE
+	KEY(STD) "Decode all units in the capsule."
+}
+
+description_of_diagunits()
+{
+	USAGE: NONE
+	KEY(STD) "Decode diagnostic information units."
+}
+
+description_of_bin_dump()
+{
+	USAGE: NONE
+	KEY(STD) "Output binary dump of the input file."
+}
+
+description_of_dumb_mode()
+{
+	USAGE: NONE
+	KEY(STD) "Ignore some of errors in the input file."
+}
+
+description_of_num_ext_toks()
+{
+	USAGE: NONE
+	KEY(STD) "Report number of external tags and tokens."
+}
+
+description_of_no_dots()
+{
+	USAGE: NONE
+	KEY(STD) "Do not print indentation dots."
+}
+
+description_of_noversions()
+{
+	USAGE: NONE
+	KEY(STD) "Do not decode version properties."
+}
+
+description_of_pagewidth()
+{
+	USAGE: NONE
+	KEY(STD) "WIDTH Set page WIDTH. Default are 80."
+}
+
+description_of_progress()
+{
+	USAGE: NONE
+	KEY(STD) "Report number of columns in the output."
+}
+
+description_of_quick()
+{
+	USAGE: NONE
+	KEY(STD) "Use minimal possible indentation, ignore page width."
+}
+
+description_of_show_skip()
+{
+	USAGE: NONE
+	KEY(STD) "Continue to print in the skip pass mode."
+}
+
+description_of_show_usage()
+{
+	USAGE: NONE
+	KEY(STD) "Decode linkinfo, tld and tld2 units."
+}
+
+description_of_warn_undecl()
+{
+	USAGE: NONE
+	KEY(STD) "Issue a warning if token used before it is declared."
+}

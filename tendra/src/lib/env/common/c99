@@ -1,0 +1,17 @@
+/* 
+ * tcc environment for ISO/IEC 9899:1999
+ * $TenDRA$
+ */
+
++INCL			"-Niso99:<TENDRA_INCLDIR>/iso99.api"
++LIB			"-liso99 -lansi"
++COMP_OPTION		"longlong=allow"
++FLAG_INSTALL		"-Yc99"
++FLAG_TDFC		"-mv1999"
++MODES_DIR		"<TENDRA_STARTUPDIR>/Modes.c99"
+<STARTUP_DIR		"-I<MODES_DIR>"
++STARTUP		"-f<MODES_DIR>/Xc"
+<SYS_LINK		"-L<TENDRA_LIBDIR>/sys"
+<SYS_LIB		"-ltdf"
++API_NAME		"-Aiso99"
++INFO			"ISO/IEC@9899:1999"

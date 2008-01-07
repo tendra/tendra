@@ -1,0 +1,116 @@
+!standard 15.45                                     06-06-21  SI99-0014-1/02
+!standard 17.21
+!class binding interpretation 06-04-20
+!status ARG Approved  9-0-2  06-06-10
+!status work item 06-04-20
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Generalize A_Formal_Package_Declaration_With_Box
+
+!summary
+
+Add comments or notes to ASIS users regarding A_Formal_Package_Declaration_With_Box.
+
+!question
+
+The Amendment (Ada 2005) generalizes the actual part of a generic formal package;
+should ASIS comments be updated to specify the results of passing this declaration to 
+applicable subprograms? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+[Note: This wording depends on A_Box_Expression kind, added in SI99-0009.]
+
+ASIS notes/comments for ASIS 17.21
+* Asis.Expressions.Formal_Parameter may return An_Others_Choice for a
+  non-normalized A_Generic_Association argument; 
+
+* If a formal_package_association contains a box, then the corresponding
+  non-normalized A_Generic_Association element contains an Expression_Element
+  with expression kind A_Box_Expression as its
+  Actual_Parameter part. The normalized A_Generic_Association contains either
+  a default parameter or an Expression_Element with expression kind
+  A_Box_Expression;
+
+
+!discussion
+
+Recommended by Sergey I. Rybin on 06-02-13, see "!appendix" section.
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+.....
+
+------------------------------------------
+-- AI-317 Parameters of formal packages --
+------------------------------------------
+RM-06 12.7
+
+* A_Formal_Package_Declaration_With_Box is added to the list of appropriate
+  kinds for Asis.Declarations.Generic_Actual_Part - in Ada 05 it has
+  parameters!
+
+* Asis.Expressions.Formal_Parameter may return An_Others_Choice for a
+  non-normalized A_Generic_Association argument;
+
+* If a formal_package_association contains a box, then the corresponding
+  non-normalized A_Generic_Association element contains Nil_Element as its
+  Actual_Parameter part. The normalized A_Generic_Association contains either
+  a default parameter or Nil_Element;
+
+* We need a note in the ASIS Standard saying that in ASIS 2005
+  A_Formal_Package_Declaration_With_Box is just a particular case of
+  A_Formal_Package_Declaration, so all these two values should do together and
+  be treated in the same way in most of the cases;
+
+* We should consider the possibility of adding a new value to the ASIS Element
+  classification for representing formal_package_association
+
+****************************************************************

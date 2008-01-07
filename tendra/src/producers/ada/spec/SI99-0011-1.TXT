@@ -1,0 +1,116 @@
+!standard 3.9.4                                     06-01-04  SI99-0011-1/04
+!standard 15.8
+!class binding interpretation 06-04-20
+!status ARG Approved  9-0-2  06-11-17
+!status work item 06-04-20
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Add support for tagged incomplete types
+
+!summary
+
+Add support for the new tagged incomplete view.
+
+!question
+
+The Amendment (Ada 2005) defines a tagged incomplete view to incomplete type declarations.
+Should these be accessible as a valid Definition_Kinds? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+In clause 3.9.9, add new values to Definition_Kinds before A_Private_Type_Definition:
+
+    An_Incomplete_Type_Definition,       -- 3.10.1(1)
+    A_Tagged_Incomplete_Type_Definition, -- 3.10.1(2)
+
+
+In clause 15.8 (Type_Definition_View):
+
+Add a new paragraph after the paragraph for private_type_declarations:
+
+For an incomplete_type_declaration, returns the definition element
+representing the incomplete declaration view.
+
+Add at the end of allowable Definition_Kinds:
+    An_Incomplete_Type_Declaration
+
+Add as allowable return items before A_Private_Type_Definition:
+    An_Incomplete_Type_Definition
+    A_Tagged_Incomplete_Type_Definition
+
+
+!discussion
+
+We chose to follow the lead of tagged private types, which are handled in the
+definition part. (This is inconsistent with other traits.) Note that there isn't
+a definition in a formal sense for either private types nor incomplete types; but
+ASIS defines definition elements for private types so it seems OK to do that for
+incomplete types, too.
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+.....
+
+------------------------------------
+-- AI-326 Tagged incomplete types --
+------------------------------------
+RM-06 3.10.1
+
+* Extend existing element classification:
+  -  Add a new value to Declaration_Kinds:
+        A_Tagged_Incomplete_Type_Declaration
+
+* Add A_Tagged_Incomplete_Type_Declaration to the lists of Appropriate kinds
+  of Asis.Declarations.Corresponding_Type_Declaration and
+  Asis.Declarations.Discriminant_Part
+
+****************************************************************
+
+

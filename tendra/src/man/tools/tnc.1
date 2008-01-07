@@ -1,0 +1,144 @@
+.\" Copyright (c) 2002-2004 The TenDRA Project <http://www.ten15.org/> 
+.\" All rights reserved. 
+.\"  
+.\" Redistribution and use in source and binary forms, with or without 
+.\" modification, are permitted provided that the following conditions 
+.\" are met: 
+.\" 1. Redistributions of source code must retain the above copyright 
+.\"    notice, this list of conditions and the following disclaimer. 
+.\" 2. Redistributions in binary form must reproduce the above copyright 
+.\"    notice, this list of conditions and the following disclaimer in the 
+.\"    documentation and/or other materials provided with the distribution. 
+.\"  
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND 
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE 
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS 
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+.\" SUCH DAMAGE. 
+.\" 
+.\" $TenDRA$ 
+.\" 
+.TH "tnc" "1" "Wed 19 Oct 2005, 02:22" "tnc @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.SH "NAME" 
+.PP 
+\fBtnc\fP - TDF notation compiler
+.SH "SYNOPSIS"
+.PP
+\fBtnc\fP [\fIoptions\fP] \fIinput-file\fP  [\fIoutput-file\fP] 
+.SH "DESCRIPTION"
+.PP
+\fBtnc\fP translates TDF capsules to and from text\&. It
+has two input modes, \fIread\fP and
+\fIdecode\fP\&. In the first, which is default,
+\fIinput-file\fP is a file containing TDF text\&. In the
+second \fIinput-file\fP is a TDF capsule\&. There are also
+two output mode, \fIencode\fP and
+\fIwrite\fP\&. In the first, which is default, a TDF capsule
+is written to \fIoutput-file\fP In the second, TDF text is
+written to \fIoutput-file\fP\&. If the
+\fIoutput-file\fP argument is absent, the standard output
+is used instead\&.
+.PP
+Combination of these modes give four actions: text to TDF (which is
+default), TDF to text, text to text, and TDF to TDF\&. The last two actions
+are not precise identities, but they do give equivalent files\&. The TDF
+pretty-printer, \fBdisp\fP\fB(1)\fP, provides a more sophisticated TDF to
+text translator, although its output cannot be used as the input to
+\fBtnc\fP\&.
+.PP
+The form of the TDF text format and more information about
+\fBtnc\fP can be found in the document \fIThe TDF
+Notation Compiler\fP\&.
+.SH "OPTIONS"
+.IP "\fB-I\fP\fIdir\fP" 5
+Adds the directory \fIdir\fP to the search
+path used by \fBtnc\fP to find included files in
+\fIread\fP mode\&.
+.IP "\fB-L\fP\fIprefix\fP" 5
+Causes \fBtnc\fP to treat any external
+identifiers starting with \fIprefix\fP to be treated
+as if they were declare \fIlocal\fP\&.
+.IP "\fB-S \fP\fIsubject\fP" 5
+Makes \fBtnc\fP print its help message on the
+given subject\&. The subject \fIall\fP prints all help
+messages\&.
+.IP "\fB-V\fP or \fB--version\fP" 5
+Makes \fBtnc\fP print its version number and the
+version of the TDF specification it supports\&.
+.IP "\fB-c\fP or \fB--cv\fP or \fB--check\fP" 5
+Specifies that \fBtnc\fP should apply extra
+checks to \fIinput-file\fP\&. For example, simple
+shape checking is applied\&. These checks are more efficient in
+\fIread\fP mode than in \fIdecode\fP mode\&. If the \fB--cv\fP option is used in
+\fIwrite\fP mode, all the information gleaned from
+the shape checking appears in
+\fIoutput-file\fP\&.
+.IP "\fB-d\fP or \fB--decode\fP" 5
+Specifies that \fBtnc\fP should be in
+\fIdecode\fP mode\&. That is, that
+\fIinput-file\fP is a TDF capsule\&.
+.IP "\fB-e\fP or \fB--encode\fP" 5
+Specifies that \fBtnc\fP should be in
+\fIencode\fP mode\&. That is, that
+\fIoutput-file\fP is a TDF capsule\&.
+.IP "\fB--eval\fP" 5
+Specifies that \fBtnc\fP should simplify its
+input by evaluating constant expressions as far as possible\&.
+.IP "\fB--expand\fP" 5
+Specifies that \fBtnc\fP should expand its input
+by replacing all applications of defined tokens by the token
+definition\&.
+.IP "\fB-f\fP or \fB--func\fP" 5
+Causes \fBtnc\fP to use its alternative,
+functional, form for both input and output\&. The options
+\fB--funcin\fP and \fB--funcout\fP may be
+used to change the input and the output independently\&.
+.IP "\fB-h\fP or \fB--help\fP" 5
+Prints a summary of all options\&.
+.IP "\fB-l\fP or \fB--lib\fP" 5
+In \fIdecode\fP mode, specifies that
+\fIinput-file\fP is not a TDF capsule, but a TDF
+library\&. All the capsules comprising the library are
+decoded\&.
+.IP "\fB-o\fP \fIoutput-file\fP" 5
+Gives an alternative method of specifying the output
+file\&.
+.IP "\fB-p\fP or \fB--print\fP" 5
+Specifies that \fBtnc\fP should be in
+\fIdecode\fP and \fIwrite\fP modes\&.
+That is, that \fIinput-file\fP is a TDF capsule and
+\fIoutput-file\fP should consist of TDF text\&. This
+option makes \fBtnc\fP into a TDF
+pretty-printer\&.
+.IP "\fB-q\fP" 5
+Causes \fBtnc\fP not to check the consistency of
+multiple tag or token definitions\&.
+.IP "\fB-r\fP or \fB--read\fP" 5
+Specifies that \fBtnc\fP should be in
+\fIread\fP mode\&. That is, that
+\fIinput-file\fP should consist of TDF text\&.
+.IP "\fB-t\fP or \fB--tsimp\fP" 5
+Specifies that \fBtnc\fP should expand its input
+by replacing all applications of defined tokens by the token
+definition and by evaluating constant expressions as far as
+possible\&. This is equivalent to \fB--expand
+--eval\fP\&.
+.IP "\fB-u\fP" 5
+To be documented\&.
+.IP "\fB-v\fP" 5
+In \fIwrite\fP mode, specifies that the output
+should be in the "verbose" form, with no shorthand forms\&.
+.IP "\fB-w\fP or \fB--write\fP" 5
+Specifies that \fBtnc\fP should be in
+\fIwrite\fP mode\&. That is, that
+\fIoutput-file\fP should consist of TDF text\&.
+.SH "SEE ALSO"
+.PP
+\fBdisp\fP\fB(1)\fP, \fBtcc\fP\fB(1)\fP\&.
+...\" created by instant / docbook-to-man, Wed 19 Oct 2005, 02:22

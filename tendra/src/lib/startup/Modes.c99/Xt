@@ -1,0 +1,10 @@
+/*
+ * STARTUP FILE FOR COMPILATION MODE XT
+ *
+ * Xt represents traditional C.  It is quite useless for portability
+ * checking and is old provided for compiling old code.
+ *
+ * $TenDRA$
+ */
+
+#error -Yc99 and -Xt not a sensible combination

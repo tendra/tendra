@@ -1,0 +1,123 @@
+Expression_Kind:AN_IDENTIFIER Integer at a0009.adb [11:34..11:40]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Int_Access at a0009.adb [13:13..13:22]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Int_Access at a0009.adb [11:9..11:18]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0009.adb [14:20..14:26]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Proc_Access at a0009.adb [15:13..15:23]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Proc_Access at a0009.adb [12:9..12:19]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0009.adb [17:13..17:19]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [19:4..19:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [19:16..19:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Int_Access at a0009.adb [11:4..11:41]
+
+Expression_Kind:AN_IDENTIFIER A at a0009.adb [19:14..19:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER A at a0009.adb [13:4..13:4]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [20:4..20:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [20:16..20:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Int_Access at a0009.adb [11:4..11:41]
+
+Expression_Kind:AN_IDENTIFIER A at a0009.adb [20:14..20:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER A at a0009.adb [13:4..13:4]
+
+Expression_Kind:AN_IDENTIFIER B at a0009.adb [20:18..20:18]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER B at a0009.adb [13:7..13:7]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [21:4..21:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [21:16..21:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..290:13]
+
+Expression_Kind:AN_IDENTIFIER X at a0009.adb [21:14..21:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER X at a0009.adb [14:4..14:4]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [22:4..22:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [22:16..22:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..290:13]
+
+Expression_Kind:AN_IDENTIFIER X at a0009.adb [22:14..22:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER X at a0009.adb [14:4..14:4]
+
+Expression_Kind:AN_IDENTIFIER Y at a0009.adb [22:18..22:18]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Y at a0009.adb [14:7..14:7]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [23:4..23:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [23:16..23:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..290:13]
+
+Expression_Kind:AN_IDENTIFIER A at a0009.adb [23:14..23:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER A at a0009.adb [13:4..13:4]
+
+Expression_Kind:AN_IDENTIFIER Y at a0009.adb [23:18..23:18]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Y at a0009.adb [14:7..14:7]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [24:4..24:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [24:16..24:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Proc_Access at a0009.adb [12:4..12:40]
+
+Expression_Kind:AN_IDENTIFIER P at a0009.adb [24:14..24:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER P at a0009.adb [15:4..15:4]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [25:4..25:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [25:16..25:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Proc_Access at a0009.adb [12:4..12:40]
+
+Expression_Kind:AN_IDENTIFIER P at a0009.adb [25:14..25:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER P at a0009.adb [15:4..15:4]
+
+Expression_Kind:AN_IDENTIFIER Q at a0009.adb [25:18..25:18]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Q at a0009.adb [15:7..15:7]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [26:4..26:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [26:16..26:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..290:13]
+
+Expression_Kind:AN_IDENTIFIER S at a0009.adb [26:14..26:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER S at a0009.adb [16:4..16:4]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [27:4..27:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [27:16..27:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..290:13]
+
+Expression_Kind:AN_IDENTIFIER S at a0009.adb [27:14..27:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER S at a0009.adb [16:4..16:4]
+
+Expression_Kind:AN_IDENTIFIER T at a0009.adb [27:18..27:18]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER T at a0009.adb [16:7..16:7]
+
+Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [28:4..28:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [28:16..28:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..290:13]
+
+Expression_Kind:AN_IDENTIFIER P at a0009.adb [28:14..28:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER P at a0009.adb [15:4..15:4]
+
+Expression_Kind:AN_IDENTIFIER T at a0009.adb [28:18..28:18]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER T at a0009.adb [16:7..16:7]
+

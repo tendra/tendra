@@ -1,0 +1,9 @@
+/* tcc environment implementing keep list for var_toks.j */
++FLAG		"-Yansi"
++FLAG_TLD	"-H token"
++FLAG_TLD	"-k token ~va_list"
++FLAG_TLD	"-k token ~__va_start"
++FLAG_TLD	"-k token ~va_arg"
++FLAG_TLD	"-k token ~va_end"
++FLAG_TLD	"-k token ~next_caller_offset"
++FLAG_TLD	"-k token ~next_callee_offset"

@@ -1,0 +1,500 @@
+!standard 3.9.5                                     07-06-13  SI99-0004-1/04
+!standard 3.9.9
+!standard 3.9.12
+!standard 13.10
+!standard 13.17
+!standard 16.19
+!standard 16.20
+!class binding interpretation 06-04-20
+!status work item 06-04-20
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Changes to Asis for changes to access types
+
+!summary
+
+Add An_Access_Definition to Asis.Definition_Kinds and define a new type for 
+the new types of access definition kinds.
+
+The new null exclusion trait of an access type needs to be added to type
+Trait_Kinds and its existance made visible.
+
+Change the functionality of Object_Declaration_View to also return the values
+returned by Asis.Declarations.Declaration_Subtype_Mark. Change name to
+Object_Declaration_Subtype.
+
+
+!question
+
+The Amendment (Ada 2005) defines new access defition kinds; should these
+be added as a new value in Asis.Definition_Kinds and should the new
+Access_Definitions kinds be available in a new enumeration type
+in package Asis? (Yes.)
+
+The Amendment (Ada 2005) defines a null exclusion construct, should these be
+accessible as a valid Trait_Kind? (Yes.)
+
+An_Access_Definition was added to Asis.Definition_Kinds to support these new 
+access kinds in Ada05; should Asis.Declarations.Object_Declaration_View
+be replaced with a routine that supports these new kinds? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+* Extend existing Element classification: -- ASIS 3.9.9
+  - add An_Access_Definition to Asis.Definition_Kinds after
+    An_Enumeration_Literal_Specification
+
+	An_Access_Definition,	-- 3.3.1(2), 3.6(7), 3.10(6), 6.1(13),
+                                -- 6.5(2), 8.5.1(2), 12.4(2)
+
+  - add to the package Asis the new Access_Definition_Kinds type to classify
+    access definitions: after ASIS section 3.9.12
+
+   type Access_Definition_Kinds is ( -- 3.3.1(2) / 3.10(6)
+
+      Not_An_Access_Definition,       -- An unexpected element
+
+      An_Anonymous_Access_To_Variable,  	  -- 3.3.1(2) [...] access subtype_mark
+      An_Anonymous_Access_To_Constant,  	  -- 3.3.1(2) / 3.10(6) 
+                                              --       [...] access constant subtype_mark
+      An_Anonymous_Access_To_Procedure,           -- 3.10(6) access procedure
+      An_Anonymous_Access_To_Protected_Procedure, -- 3.10(6) access protected procedure
+      An_Anonymous_Access_To_Function,            -- 3.10(6) access function
+      An_Anonymous_Access_To_Protected_Function); -- 3.10(6) access protected function
+
+   subtype An_Anonymous_Access_to_Object_Definition is Access_Definition_Kinds
+      range An_Anonymous_Access_To_Variable .. An_Anonymous_Access_To_Constant;
+   subtype An_Anonymous_Access_to_Subprogram_Definition is Access_Definition_Kinds
+      range An_Anonymous_Access_To_Procedure .. An_Anonymous_Access_To_Protected_Function;
+
+  - add new corresponding classification query to Asis.Elements after ASIS section 13.17
+
+   function Access_Definition_Kind	-- 3.3.1(2) / 3.10(6)
+     (Definition : Asis.Definition)
+      return       Asis.Access_Definition_Kinds;
+
+      Definition specifies the Definition to query.
+
+      Returns the Access_Definition_Kinds value of the Definition.
+
+      Returns Not_An_Access_Definition for any unexpected element such as a
+      Nil_Element, A_Statement, or A_Declaration.
+
+      Expected Definition_Kinds:
+         An_Access_Definition
+
+* To decompose Elements corresponding to access_definition:
+
+  -  Add (ASIS section 16.19)
+     Expected Access_Definition_Kinds
+        An_Anonymous_Access_To_Procedure
+        An_Anonymous_Access_To_Protected_Procedure
+        An_Anonymous_Access_To_Function
+        An_Anonymous_Access_To_Protected_Function
+
+     after the list of appropriate kinds of
+     Asis.Definitions.Access_To_Subprogram_Parameter_Profile comments.
+
+  -  Add the following query to Asis.Definitions after ASIS section 16.18
+
+     function Anonymous_Access_To_Object_Subtype_Mark
+     (Definition : Asis.Definition)
+      return       Asis.Name;
+
+        Definition specifies the anonymous access definition to query.
+
+        Returns the subtype_mark following the reserved word(s) "access" or
+        "access constant".
+
+        Appropriate Definition_Kinds:
+           An_Access_Definition.
+
+        Appropriate Access_Definition_Kinds:
+           An_Anonymous_Access_To_Variable
+           An_Anonymous_Access_To_Constant
+
+        Returns Expression_Kinds:
+           An_Identifier
+           A_Selected_Component
+           An_Attribute_Reference
+
+* Add the following queries to Asis.Elements after ASIS section 13.17
+
+   function Has_Null_Exclusion  -- 3.2.2(3/2), 3.7(5/2), 3.10 (2/2,6/2),
+                                -- 6.1(13/2,15/2), 8.5.1(2/2), 12.4(2/2)
+     (Element : Asis.Element)
+      return    Boolean;
+
+      Element specifies the element to check.
+
+      Checks if the argument element has a null_exclusion specifier.
+
+      Returns False for any unexpected element such as a Nil_Element,
+      A_Statement or A_Clause.
+
+      Expected Definition_Kinds:
+         A_Type_Definition
+         An_Access_Definition
+         A_Subtype_Indication
+ 
+      Expected Type_Kinds:
+         An_Access_Type_Definition
+
+      Expected Declaration_Kinds:
+         A_Discriminant_Specification
+         A_Parameter_Specification
+         A_Formal_Object_Declaration
+         An_Object_Renaming_Declaration
+
+
+Add a new routine, Asis.Declarations.Object_Declaration_Subtype
+to replace Object_Declaration_View and Declaration_Subtype_Mark,
+both of which become obsolescent:
+
+ 
+  15.9 function Object_Declaration_Subtype 
+
+    function Object_Declaration_Subtype (Declaration : in Asis.Declaration) 
+                  return Asis.Definition; 
+ 
+        Declaration specifies the declaration element to query.
+ 
+        Returns a definition that corresponds to the subtype
+        of the object, as specified by a subtype_indication, subtype_mark,
+        access_definition, or full type definition.   
+ 
+        For a single_task_declaration or single_protected_declaration, returns 
+        the task_definition or protected_definition following the reserved word "is";
+        use Is_Task_Definition_Present to determine if the entire definition is omitted.
+
+        For a Component_Declaration, returns the Component_Definition following 
+        the colon. 
+ 
+        For all other object_declaration variables or constants, parameter or
+        discriminant specifications, object renamings, or formal object, returns the 
+        subtype_indication, subtype_mark, access_definition, or array_type_definition
+        following the colon. 
+ 
+        Appropriate Declaration_Kinds: 
+           A_Variable_Declaration 
+           A_Constant_Declaration 
+           A_Deferred_Constant_Declaration 
+           A_Single_Protected_Declaration 
+           A_Single_Task_Declaration 
+           A_Component_Declaration 
+           A_Discriminant_Specification 
+           A_Parameter_Specification 
+           A_Formal_Object_Declaration 
+           An_Object_Renaming_Declaration
+ 
+        Returns Definition_Kinds: 
+           Not_A_Definition 
+           A_Type_Definition 
+           Returns Type_Kinds: 
+              A_Constrained_Array_Definition 
+           A_Subtype_Indication 
+           A_Task_Definition 
+           A_Protected_Definition 
+           A_Component_Definition
+           An_Access_Definition
+
+  NOTE:  Asis.Declarations.Object_Declaration_View, 
+  Asis.Declarations.Declaration_Subtype_Mark and the value
+  An_Access_Definition_Trait of Trait_Kinds type are obsolete in ASIS 2005
+  and should not be used in new applications that are supposed to analyze Ada
+  2005 code.
+
+Add the following query to ASIS.Definitions:
+
+  16.xx function Is_Task_Definition_Present 
+
+    function Is_Task_Definition_Present (Definition : in Asis.Definition) 
+                  return Boolean; 
+ 
+        Defintion specifies the definition element to query.
+
+        Returns True if the element has a task definition.
+
+        Returns False for any other Element including a Nil_Element.
+
+        Note: Is_Task_Definition_Present is used to determine whether the
+        original text was "Task T;" (for which it returns False) or
+        "Task T is end T;" (for which it returns True).
+
+        Expected Definition_Kinds:
+           A_Task_Definition
+ 
+
+Make function Result_Profile obsolescent, and replace it with:
+
+ 
+ 15.20 function Result_Subtype 
+ 
+    function Result_Subtype (Declaration : in Asis.Declaration) 
+                         return Asis.Definition; 
+ 
+       Declaration specifies the function declaration to query. 
+ 
+       Returns the subtype mark expression for the return type for any
+       function declaration. 
+ 
+       Returns a definition that corresponds to the result subtype
+       of the function, as specified by a subtype_indication (with
+       no specified constraint) or an access_definition. 
+ 
+       Appropriate Declaration_Kinds: 
+          A_Function_Declaration 
+          A_Function_Body_Declaration 
+          A_Function_Body_Stub 
+          A_Function_Renaming_Declaration 
+          A_Generic_Function_Declaration 
+          A_Formal_Function_Declaration 
+ 
+       Returns Definition_Kinds: 
+          A_Subtype_Indication 
+          An_Access_Definition 
+
+
+Make Access_To_Function_Result_Profile obsolescent, and
+replace it with:
+
+
+ 16.20 function Access_To_Function_Result_Subtype 
+ 
+    function Access_To_Function_Result_Subtype 
+                   (Definition : in Asis.Definition) 
+                         return Asis.Definition; 
+ 
+       Definition specifies the Access_Type_Definition or 
+       Access_Definition to query. 
+ 
+       Returns a definition that corresponds to the result subtype of the
+       access-to-function type, as specified by a subtype_indication (with
+       no specified constraint) or an access_definition.
+ 
+       Appropriate Definition_Kinds:
+          A_Type_Definition
+          An_Access_Definition
+
+       Appropriate Type_Kinds: 
+          An_Access_Type_Definition 
+          A_Formal_Access_Type_Definition 
+ 
+       Appropriate Access_Type_Kinds: 
+          An_Access_To_Function 
+          An_Access_To_Protected_Function
+  
+       Appropriate Access_Definition_Kinds:
+          An_Anonymous_Access_To_Function
+          An_Anonymous_Access_To_Protected_Function
+ 
+       Returns Definition_Kinds: 
+          A_Subtype_Indication 
+          An_Access_Definition 
+
+
+!discussion
+
+Many of these were recommended by Sergey I. Rybin on 06-02-13;
+see "!appendix" section.
+
+We decided to unify things a bit by replacing various queries
+that returned subtype marks or other bits and pieces of information
+with queries that return a "subtype" as specified by a
+subtype_indication or an access_definition.  These can then
+be passed to Has_Null_Exclusion to determine whether a null
+exclusion applies to a parameter, a function result, or
+myriad other sorts of objects.
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+.....
+
+------------------------------------------------------
+-- AI-230 Generalized use of anonymous access types --
+------------------------------------------------------
+
+RM-06 3.10, 3.3.1, 3.6, 3.7, 6.1, 6.5, 8.5.1, 12.4
+
+* Extend existing Element classification:
+  - add An_Access_Definition to Asis.Definition_Kinds;
+
+  - add to the package Asis the new Access_Definition_Kinds type to classify
+    access definitions:
+
+   type Access_Definition_Kinds is ( -- 3.10
+
+      Not_An_Access_Definition,       -- An unexpected element
+
+      An_Anonymous_Access_To_Variable,  -- [...] access subtype_mark
+      An_Anonymous_Access_To_Constant,  -- [...] access constant subtype_mark
+      An_Anonymous_Access_To_Procedure,           -- access procedure
+      An_Anonymous_Access_To_Protected_Procedure, -- access protected procedure
+      An_Anonymous_Access_To_Function,            -- access function
+      An_Anonymous_Access_To_Protected_Function); -- access protected function
+
+  - add new corresponding classification query to Asis.Elements:
+
+   function Access_Definition_Kind
+     (Definition : Asis.Definition)
+      return       Asis.Access_Definition_Kinds;
+------------------------------------------------------------------------------
+--  Definition   - Specifies the Definition to query
+--
+--  Returns the Access_Definition_Kinds value of the Definition.
+--
+--  Returns Not_An_Access_Definition for any unexpected element such as a
+--  Nil_Element, A_Statement, or A_Declaration.
+--
+--  Expected Definition_Kinds:
+--       An_Access_Definition
+
+* To decompose Elements corresponding to access_definition:
+
+  -  Add
+        An_Anonymous_Access_To_Procedure
+        An_Anonymous_Access_To_Protected_Procedure
+        An_Anonymous_Access_To_Function
+        An_Anonymous_Access_To_Protected_Function
+     to the list of appropriate kinds of
+     Asis.Definitions.Access_To_Subprogram_Parameter_Profile
+
+  -  Add
+        An_Anonymous_Access_To_Function
+        An_Anonymous_Access_To_Protected_Function
+     to the list of appropriate kinds of
+     Asis.Definitions.Access_To_Function_Result_Profile;
+
+  -- Add An_Access_Definition to the list of and returned kinds of
+     Asis.Definitions.Access_To_Function_Result_Profile;
+
+  -  Add the following query to Asis.Definitions:
+
+     function Anonymous_Access_To_Object_Subtype_Mark
+     (Definition : Asis.Definition)
+      return       Asis.Expression;
+
+------------------------------------------------------------------------------
+--  Definition - Specifies the anonymous access definition to query
+--
+--  Returns the subtype_mark following the reserved word(s) "access" or
+--  "access constant".
+--
+--  Appropriate Definition_Kinds:
+--       An_Access_Definition.
+--
+--  Appropriate Access_Definition_Kinds:
+--       An_Anonymous_Access_To_Variable
+--       An_Anonymous_Access_To_Constant
+--
+--  Returns Expression_Kinds:
+--       An_Identifier
+--       A_Selected_Component
+--       An_Attribute_Reference
+
+* Generalize Asis.Declarations.Object_Declaration_View to allow to get all
+  forms of object definitions from all forms of object declarations, that is,
+  add to this query the functionality of
+  Asis.Declarations.Declaration_Subtype_Mark and add An_Access_Definition
+  to the list of its returned kind:
+
+* Add a note that Asis.Declarations.Declaration_Subtype_Mark and the value
+  An_Access_Definition_Trait of Trait_Kinds type are obsolescent in ASIS 2005
+  and should not be used in new applications that are supposed to analyze Ada
+  05 code;
+
+---------------------------
+-- AI-254 Null exclusion --
+---------------------------
+RM-06 3.10
+
+
+* Add new value to Asis.Trait_Kinds: A_Null_Exclusion_Trait
+
+* Extend a list of expected kinds for Asis.Elements.Trait_Kind - add the
+  values that may have A_Null_Exclusion_Trait:
+
+  --  Expected Definition_Kinds:
+  --     An_Access_Definition (new ASIS 2005 value!)
+  --     A_Subtype_Indication
+
+* Add the following query to Asis.Elements:
+
+   function Is_Not_Null_Return
+     (Element : Asis.Element)
+      return    Boolean;
+
+------------------------------------------------------------------------------
+--  Element - Specifies the element to check
+--
+--  Checks if the argument element contains a parameter_and_result_profile
+--  component and if this component has null_exclusion specifier
+--
+--  Returns False for any unexpected element as a Nil_Element, A_Statement or
+--  A_Clause.
+--
+--  Expected Declaration_Kinds:
+--       A_Function_Declaration
+--       A_Function_Body_Declaration
+--       A_Function_Renaming_Declaration
+--       A_Function_Body_Stub
+--       A_Generic_Function_Declaration
+--       A_Formal_Function_Declaration
+--
+--  Expected Access_Type_Kinds:  (not implemented in the compiler yet?)
+--       An_Access_To_Function
+--       An_Access_To_Protected_Function
+--
+--  Expected Access_Definition_Kinds:  (not implemented in the compiler yet?)
+--       An_Anonymous_Access_To_Function
+--       An_Anonymous_Access_To_Protected_Function
+
+****************************************************************
+

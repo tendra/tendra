@@ -1,0 +1,12 @@
+Expression_Kind:AN_IDENTIFIER String at a0013.adb [12:25..12:30]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER String at standard.ads [250:9..250:14]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0013.adb [17:25..17:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Constraint_Error at a0013.adb [23:10..23:25]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Constraint_Error at standard.ads [285:4..285:19]
+
+Expression_Kind:AN_IDENTIFIER Data at a0013.adb [23:32..23:35]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Data at a0013.adb [12:13..12:16]
+

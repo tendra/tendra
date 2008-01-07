@@ -1,0 +1,139 @@
+.\" Copyright (c) 2002-2004 The TenDRA Project <http://www.ten15.org/> 
+.\" All rights reserved. 
+.\"  
+.\" Redistribution and use in source and binary forms, with or without 
+.\" modification, are permitted provided that the following conditions 
+.\" are met: 
+.\" 1. Redistributions of source code must retain the above copyright 
+.\"    notice, this list of conditions and the following disclaimer. 
+.\" 2. Redistributions in binary form must reproduce the above copyright 
+.\"    notice, this list of conditions and the following disclaimer in the 
+.\"    documentation and/or other materials provided with the distribution. 
+.\"  
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND 
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE 
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS 
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+.\" SUCH DAMAGE. 
+.\" 
+.\" $TenDRA$ 
+.\" 
+.TH "mipstrans" "1" "Sun 08 Aug 2004, 19:59" "mipstrans @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.SH "NAME" 
+.PP 
+\fBmipstrans\fP - MIPS TDF Translator on Ultrix
+.SH "SYNOPSIS"
+.PP
+\fBmipstrans\fP [\fIoptions\fP] \fIinfop\&.Gop\&.H\fP  [\fIop\&.s\fP] 
+.SH "DESCRIPTION"
+.PP
+The code production portion of the TDF compiler is under the control of
+a TDF translator, which translates a TDF capsule,\fIinf\fP,
+into assembly files\&. There are separate TDF translators for each target
+architecture\&. This manual page describes the translators which produce MIPS
+code\&. There are two versions, one for IRIX, and one for ULTRIX\&. Both produce
+\&.G and \&.H files required by as1, but may also optionally give \&.s assembly
+files using \fB-S\fP\&. Note that full run-time diagnostic
+information cannot be transmitted through the MIPS assembler, as(1)\&.
+.PP
+It is recommended that \fBmipstrans\fP is not invoked
+directly, but via the user interface \fBtcc\fP\fB(1)\fP\&. The option
+\fI-\fP\fIopt\fP can be passed to
+\fBmipstrans\fP by passing the option
+\fB-Wt,-\fP\fIopt\fP to
+\fItcc(1)\fP\&.
+.SH "OPTIONS"
+.IP "\fB-A\fP\fIswitch\fP" 5
+This option determines whether \fBmipstrans\fP should
+inline calls to \fIalloca\fP\&. This is done by
+default\&.
+.IP "\fB-B\fP\fIswitch\fP" 5
+This option determines whether \fBmipstrans\fP should
+report floating point constants which exceed their range\&. This is
+always done by default\&. If this option is switched off such constants
+are replaced by infinity\&.
+.IP "\fB-C\fP\fIswitch\fP" 5
+This option determines whether \fBmipstrans\fP should
+apply the "constants out of loops" optimisation\&. This optimisation is
+performed by default\&.
+.IP "\fB-D\fP\fIswitch\fP" 5
+This option determines whether \fBmipstrans\fP should produce Position Independent Code (PIC)\&. This is done by default
+in the IRIX version and not at all in the ULTRIX version\&.
+.IP "\fB-E\fP" 5
+This option disables \fBmipstrans\fP&39;s constant
+overflow checks\&.
+.IP "\fB-F\fP\fIswitch\fP" 5
+This option determines whether \fBmipstrans\fP should apply the "for all" optimisation\&. This is done by
+default\&.
+.IP "\fB-H\fP" 5
+This option causes \fBmipstrans\fP to output
+debugging information in its output file\&. This will only work if the
+input TDF capsule contains debugging information\&. The diagnostic format
+used is as used by the native compilers\&.
+.IP "\fB-I\fP\fIswitch\fP" 5
+This option determines whether \fBmipstrans\fP should
+apply the "inlining" optimisation\&. This optimisation is performed by
+default\&.
+.IP "\fB-K\fP\fIstr\fP" 5
+Causes \fBmipstrans\fP to optimise its code
+for a particular processor model, determined by
+\fIstr\fP\&. At present there are no valid values
+for \fIstr\fP\&.
+.IP "\fB-M\fP\fIswitch\fP" 5
+If this option is on, \fBmipstrans\fP preserves
+division by a floating point number rather than replacing it by
+multiplication by the reciprocal of the number\&. While the latter
+produces faster code, it may lead to rounding errors\&. By default,
+division by constants is preserved\&.
+.IP "\fB-P\fP" 5
+This option causes \fBmipstrans\fP to output
+profiling information suitable for use with \fBprof\fP\fB(1)\fP or a
+similar tool (see individual manual pages for details)\&. This option is
+untested at present, and should not be used\&.
+.IP "\fB-Q\fP" 5
+This option causes \fBmipstrans\fP to quit before
+processing its input files\&. This is particularly useful in conjunction
+with \fB-V\fP\&.
+.IP "\fB-R\fP\fIswitch\fP" 5
+This option determines whether \fBmipstrans\fP should
+immediately round every floating point operation to its appropriate
+range\&. This produces slower code, but is necessary for strict IEEE
+conformance\&. The default is not to round after every operation\&.
+.IP "\fB-S\fP" 5
+This option will produce assembly code in the optional \&.s
+file\&.
+.IP "\fB-U\fP\fIswitch\fP" 5
+This option determines whether \fBmipstrans\fP should
+apply the "loop unrolling" optimisation\&. This optimisation is performed
+by default\&.
+.IP "\fB-V\fP" 5
+This option causes \fBmipstrans\fP to print its
+version number and the version of the TDF specification it
+supports\&.
+.IP "\fB-W\fP\fIswitch\fP" 5
+This option determines whether \fBmipstrans\fP should
+make string literals writable\&. At present the C producer does not make
+use of this facility, so strings are writable\&.
+.IP "\fB-X\fP" 5
+This option disables all optimisations\&. All
+\fBmipstrans\fP&39;s optimisations are believed to be valid,
+so that any error in optimisation is a genuine bug\&.
+.IP "\fB-Z\fP" 5
+This option causes \fBmipstrans\fP to print the
+version number of all the TDF capsules it decodes\&.
+.IP "\fB-d\fP" 5
+To be documented\&.
+.IP "\fB-e\fP" 5
+To be documented\&.
+.IP "\fB-l\fP" 5
+To be documented\&.
+.SH "SEE ALSO"
+.PP
+\fBas\fP\fB(1)\fP, \fBprof\fP\fB(1)\fP, \fBtcc\fP\fB(1)\fP\&.
+...\" created by instant / docbook-to-man, Sun 08 Aug 2004, 19:59

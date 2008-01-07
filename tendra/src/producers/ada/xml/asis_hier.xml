@@ -1,0 +1,938 @@
+<?xml version="1.0"?>
+<node name="Element_Node" abstract="y">
+  <node name="Base_Element_Node" abstract="y" helper="y">
+    <attr name="Enclosing_Element" type="Asis.Element"/>
+    <attr name="Next_Element" type="Asis.Element"/>
+    <attr name="Is_Part_Of_Implicit" type="Boolean"/>
+    <attr name="Is_Part_Of_Inherited" type="Boolean"/>
+    <attr name="Is_Part_Of_Instance" type="Boolean"/>
+    <attr name="Start_Position" type="Asis.Text_Position"/>
+    <attr name="End_Position" type="Asis.Text_Position"/>
+    <attr name="Enclosing_Compilation_Unit" type="Asis.Compilation_Unit"/>
+    <attr name="Hash" type="Asis.ASIS_Integer" default="Next_Hash"/>
+    <node name="Pragma_Node">
+      <attr name="Pragma_Kind" type="Asis.Pragma_Kinds"/>
+      <attr name="Pragma_Name_Image" type="Unbounded_Wide_String"/>
+      <attr name="Pragma_Argument_Associations" type="Primary_Association_Lists.List" child="1"/>
+    </node>
+    <node name="Defining_Name_Node" abstract="y">
+      <attr name="Defining_Name_Image" type="Unbounded_Wide_String"/>
+      <attr name="Corresponding_Constant_Declaration" type="Asis.Element"/>
+      <attr name="References" type="Secondary_Reference_Lists.List_Node"/>
+      <attr name="Corresponding_Generic_Element" type="Asis.Defining_Name"/>
+      <attr name="Override" type="Asis.Defining_Name" defer="y"/>
+      <attr name="Place" type="Visibility.Region_Item_Access" defer="y"/>
+      <node name="Defining_Identifier_Node"/>
+      <node name="Defining_Enumeration_Literal_Node">
+        <attr name="Position_Number_Image" type="Unbounded_Wide_String"/>
+        <attr name="Representation_Value_Image" type="Unbounded_Wide_String"/>
+        <node name="Defining_Character_Literal_Node"/>
+      </node>
+      <node name="Defining_Operator_Symbol_Node">
+        <attr name="Operator_Kind" type="Asis.Operator_Kinds"/>
+      </node>
+      <node name="Defining_Expanded_Name_Node">
+        <attr name="Defining_Prefix" type="Asis.Name" child="1"/>
+        <attr name="Defining_Selector" type="Asis.Defining_Name" child="2"/>
+      </node>
+    </node>
+    <node name="Declaration_Node" abstract="y">
+      <attr name="Declaration_Origin" type="Asis.Declaration_Origins"
+        default="An_Explicit_Declaration"/>
+      <attr name="Name" type="Asis.Element" defer="y"/>
+      <attr name="Names" type="Primary_Defining_Name_Lists.List" child="2"/>
+      <attr name="Corresponding_Representation_Clauses" type="Secondary_Clause_Lists.List_Node"/>
+      <attr name="Corresponding_Pragmas" type="Secondary_Pragma_Lists.List_Node"/>
+      <attr name="Place" type="Visibility.Region_Item_Access" defer="y"/>
+      <node name="Base_Type_Declaration_Node" abstract="y" helper="y">
+        <attr name="Discriminant_Part" type="Asis.Definition" child="3"/>
+        <attr name="Type_Declaration_View" type="Asis.Definition" child="5"/>
+        <node name="Ordinary_Type_Declaration_Node">
+          <attr name="Corresponding_Type_Declaration" type="Asis.Declaration"/>
+          <node name="Protected_Type_Declaration_Node">
+            <attr name="Is_Name_Repeated" type="Boolean"/>
+            <attr name="Corresponding_Body" type="Asis.Declaration"/>
+            <attr name="Progenitor_List"
+                  type="Primary_Expression_Lists.List" child="4"/>
+            <node name="Task_Type_Declaration_Node"/>
+          </node>
+          <node name="Private_Type_Declaration_Node">
+            <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+            <node name="Private_Extension_Declaration_Node">
+              <attr name="Progenitor_List"
+                    type="Primary_Expression_Lists.List" child="4"/>
+            </node>
+          </node>
+        </node>
+        <node name="Formal_Type_Declaration_Node"/>
+      </node>
+      <node name="Base_Callable_Declaration_Node" abstract="y" helper="y">
+        <attr name="Parameter_Profile" type="Primary_Parameter_Lists.List" child="4"/>
+        <attr name="Corresponding_Body" type="Asis.Declaration"/>
+        <attr name="Specification" type="Asis.Element" defer="y"/>
+        <node name="Procedure_Declaration_Node">
+          <attr name="Corresponding_Subprogram_Derivation" type="Asis.Declaration"/>
+          <attr name="Corresponding_Type" type="Asis.Type_Definition"/>
+          <attr name="Is_Dispatching_Operation" type="Boolean"/>
+          <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+          <attr name="Overriding_Indicator" type="Asis.Element" defer="y"/>
+          <attr name="Overriding_Indicator_Kind"
+                type="Asis.Overriding_Indicator_Kinds"/>
+          <attr name="Has_Abstract" type="Boolean"/>
+          <attr name="Is_Null_Procedure" type="Boolean"/>
+          <node name="Function_Declaration_Node">
+            <attr name="Result_Subtype" type="Asis.Definition" child="5"/>
+            <attr name="Corresponding_Equality_Operator"
+                  type="Asis.Declaration"/>
+          </node>
+        </node>
+        <node name="Procedure_Renaming_Declaration_Node">
+          <attr name="Is_Dispatching_Operation" type="Boolean"/>
+          <attr name="Renamed_Entity" type="Asis.Expression" child="6"/>
+          <attr name="Corresponding_Base_Entity" type="Asis.Expression"/>
+          <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
+          <attr name="Overriding_Indicator" type="Asis.Element" defer="y"/>
+          <attr name="Overriding_Indicator_Kind"
+                type="Asis.Overriding_Indicator_Kinds"/>
+          <node name="Function_Renaming_Declaration_Node">
+            <attr name="Result_Subtype" type="Asis.Definition" child="5"/>
+          </node>
+        </node>
+        <node name="Entry_Declaration_Node">
+          <attr name="Entry_Family_Definition"
+                type="Asis.Discrete_Subtype_Definition" child="3"/>
+          <attr name="Overriding_Indicator" type="Asis.Element" defer="y"/>
+          <attr name="Overriding_Indicator_Kind"
+                type="Asis.Overriding_Indicator_Kinds"/>
+        </node>
+        <node name="Procedure_Body_Stub_Node">
+          <attr name="Corresponding_Subunit" type="Asis.Declaration"/>
+          <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
+          <attr name="Overriding_Indicator" type="Asis.Element" defer="y"/>
+          <attr name="Overriding_Indicator_Kind"
+                type="Asis.Overriding_Indicator_Kinds"/>
+          <node name="Function_Body_Stub_Node">
+            <attr name="Result_Subtype" type="Asis.Definition" child="5"/>
+          </node>
+        </node>
+        <node name="Generic_Procedure_Declaration_Node">
+          <attr name="Generic_Formal_Part" type="Primary_Declaration_Lists.List" child="1"/>
+          <node name="Generic_Function_Declaration_Node">
+            <attr name="Result_Subtype" type="Asis.Definition" child="5"/>
+          </node>
+        </node>
+      </node>
+      <node name="Base_Body_Declaration_Node" abstract="y" helper="y">
+        <attr name="Body_Declarative_Items" type="Primary_Declaration_Lists.List" child="6"/>
+        <attr name="Body_Statements" type="Primary_Statement_Lists.List" child="7"/>
+        <attr name="Body_Exception_Handlers" type="Primary_Handler_Lists.List" child="8"/>
+        <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
+        <attr name="Corresponding_Body_Stub" type="Asis.Declaration"/>
+        <attr name="Is_Name_Repeated" type="Boolean"/>
+        <attr name="Handled_Statements" type="Asis.Element" defer="y"/>
+        <attr name="Compound_Name" type="Asis.Element" defer="y"/>
+        <node name="Procedure_Body_Declaration_Node">
+          <attr name="Parameter_Profile" type="Primary_Parameter_Lists.List"
+                child="3"/>
+          <attr name="Specification" type="Asis.Element" defer="y"/>
+          <attr name="Overriding_Indicator" type="Asis.Element" defer="y"/>
+          <attr name="Overriding_Indicator_Kind"
+                type="Asis.Overriding_Indicator_Kinds"/>
+          <node name="Function_Body_Declaration_Node">
+            <attr name="Result_Subtype" type="Asis.Definition" child="4"/>
+          </node>
+        </node>
+        <node name="Package_Body_Declaration_Node">
+          <node name="Task_Body_Declaration_Node"/>
+        </node>
+        <node name="Entry_Body_Declaration_Node">
+          <attr name="Parameter_Profile" type="Primary_Parameter_Lists.List" child="4"/>
+          <attr name="Entry_Index_Specification" type="Asis.Declaration" child="3"/>
+          <attr name="Entry_Barrier" type="Asis.Expression" child="5"/>
+          <attr name="Specification" type="Asis.Element" defer="y"/>
+        </node>
+      </node>
+      <node name="Base_Renaming_Declaration_Node" abstract="y" helper="y">
+        <attr name="Renamed_Entity" type="Asis.Expression" child="4"/>
+        <attr name="Corresponding_Base_Entity" type="Asis.Expression"/>
+        <node name="Object_Renaming_Declaration_Node">
+          <attr name="Object_Declaration_Subtype"
+                type="Asis.Definition" child="3"/>
+          <attr name="Has_Null_Exclusion" type="Boolean"/>
+        </node>
+        <node name="Exception_Renaming_Declaration_Node"/>
+        <node name="Package_Renaming_Declaration_Node">
+          <node name="Generic_Package_Renaming_Declaration_Node">
+            <attr name="Empty_Generic_Part" type="Primary_Declaration_Lists.List" defer="y"/>
+            <node name="Generic_Procedure_Renaming_Declaration_Node">
+              <attr name="Specification" type="Asis.Element" defer="y"/>
+              <node name="Generic_Function_Renaming_Declaration_Node"/>
+            </node>
+          </node>
+        </node>
+      </node>
+      <node name="Incomplete_Type_Declaration_Node">
+        <attr name="Discriminant_Part" type="Asis.Definition" child="3"/>
+        <attr name="Corresponding_Type_Declaration" type="Asis.Definition"/>
+        <attr name="Type_Declaration_View" type="Asis.Definition" child="4"/>
+      </node>
+      <node name="Subtype_Declaration_Node">
+        <attr name="Type_Declaration_View" type="Asis.Definition" child="3"/>
+        <attr name="Corresponding_First_Subtype" type="Asis.Declaration"/>
+        <attr name="Corresponding_Last_Constraint" type="Asis.Declaration"/>
+        <attr name="Corresponding_Last_Subtype" type="Asis.Declaration"/>
+      </node>
+      <node name="Component_Declaration_Node">
+        <attr name="Object_Declaration_Subtype"
+              type="Asis.Definition" child="3"/>
+        <attr name="Initialization_Expression"
+              type="Asis.Expression" child="4"/>
+        <node name="Variable_Declaration_Node">
+          <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+          <node name="Constant_Declaration_Node"/>
+          <node name="Return_Object_Specification_Node"/>
+        </node>
+      </node>
+      <node name="Deferred_Constant_Declaration_Node">
+        <attr name="Object_Declaration_Subtype"
+              type="Asis.Definition" child="3"/>
+        <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+      </node>
+      <node name="Single_Protected_Declaration_Node">
+        <attr name="Progenitor_List"
+              type="Primary_Expression_Lists.List" child="3"/>
+        <attr name="Object_Declaration_Subtype"
+              type="Asis.Definition" child="4"/>
+        <attr name="Is_Name_Repeated" type="Boolean"/>
+        <attr name="Corresponding_Body" type="Asis.Declaration"/>
+        <node name="Single_Task_Declaration_Node"/>
+      </node>
+      <node name="Integer_Number_Declaration_Node">
+        <attr name="Initialization_Expression" type="Asis.Expression" child="3"/>
+        <attr name="Declaration_Kind" type="Asis.Declaration_Kinds"
+              default="An_Integer_Number_Declaration" defer="y"/>
+        <!--node name="Real_Number_Declaration_Node"/-->
+      </node>
+      <node name="Enumeration_Literal_Specification_Node"/>
+      <node name="Discriminant_Specification_Node">
+        <attr name="Object_Declaration_Subtype"
+              type="Asis.Definition" child="3"/>
+        <attr name="Initialization_Expression"
+              type="Asis.Expression" child="4"/>
+        <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+        <attr name="Has_Null_Exclusion" type="Boolean"/>
+      </node>
+      <node name="Entry_Index_Specification_Node">
+        <attr name="Specification_Subtype_Definition" type="Asis.Discrete_Subtype_Definition" child="3"/>
+        <node name="Loop_Parameter_Specification_Node">
+          <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+        </node>
+      </node>
+      <node name="Formal_Object_Declaration_Node">
+        <attr name="Mode_Kind" type="Asis.Mode_Kinds"/>
+        <attr name="Mode_Element" type="Asis.Element" defer="y"/>
+        <attr name="Object_Declaration_Subtype"
+              type="Asis.Definition" child="3"/>
+        <attr name="Initialization_Expression"
+              type="Asis.Expression" child="4"/>
+        <attr name="Has_Null_Exclusion" type="Boolean"/>
+        <node name="Parameter_Specification_Node">
+          <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+        </node>
+      </node>
+      <node name="Package_Declaration_Node">
+        <attr name="Is_Name_Repeated" type="Boolean"/>
+        <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
+        <attr name="Corresponding_Body" type="Asis.Declaration"/>
+        <attr name="Is_Private_Present" type="Boolean"/>
+        <attr name="Visible_Part_Declarative_Items" type="Primary_Declaration_Lists.List" child="3"/>
+        <attr name="Private_Part_Declarative_Items" type="Primary_Declaration_Lists.List" child="4"/>
+        <attr name="Package_Specification" type="Asis.Element" defer="y"/>
+      </node>
+      <node name="Protected_Body_Declaration_Node">
+        <attr name="Is_Name_Repeated" type="Boolean"/>
+        <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
+        <attr name="Protected_Operation_Items" type="Primary_Declaration_Lists.List" child="3"/>
+        <attr name="Corresponding_Body_Stub" type="Asis.Declaration"/>
+        <attr name="Identifier" type="Asis.Element" defer="y"/>
+      </node>
+      <node name="Package_Body_Stub_Node">
+        <attr name="Corresponding_Subunit" type="Asis.Declaration"/>
+        <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
+        <node name="Task_Body_Stub_Node"/>
+        <node name="Protected_Body_Stub_Node"/>
+      </node>
+      <node name="Exception_Declaration_Node"/>
+      <node name="Choice_Parameter_Specification_Node"/>
+      <node name="Generic_Package_Declaration_Node">
+        <attr name="Is_Name_Repeated" type="Boolean"/>
+        <attr name="Corresponding_Body" type="Asis.Declaration"/>
+        <attr name="Is_Private_Present" type="Boolean"/>
+        <attr name="Visible_Part_Declarative_Items" type="Primary_Declaration_Lists.List" child="3"/>
+        <attr name="Private_Part_Declarative_Items" type="Primary_Declaration_Lists.List" child="4"/>
+        <attr name="Generic_Formal_Part" type="Primary_Declaration_Lists.List" child="1"/>
+        <attr name="Specification" type="Asis.Element" defer="y"/>
+      </node>
+      <node name="Package_Instantiation_Node">
+        <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
+        <attr name="Corresponding_Body" type="Asis.Declaration"/>
+        <attr name="Generic_Unit_Name" type="Asis.Expression" child="3"/>
+        <attr name="Generic_Actual_Part" type="Primary_Association_Lists.List" child="4"/>
+        <attr name="Normalized_Generic_Actual_Part" type="Secondary_Association_Lists.List_Node"/>
+        <attr name="Parameter_Views" type="Primary_Declaration_Lists.List" defer="y"/>
+        <node name="Procedure_Instantiation_Node">
+          <attr name="Specification" type="Asis.Element" defer="y"/>
+          <attr name="Overriding_Indicator" type="Asis.Element" defer="y"/>
+          <attr name="Overriding_Indicator_Kind"
+                type="Asis.Overriding_Indicator_Kinds"/>
+          <node name="Function_Instantiation_Node"/>
+        </node>
+        <node name="Formal_Package_Declaration_Node"/>
+      </node>
+      <node name="Formal_Procedure_Declaration_Node">
+        <attr name="Parameter_Profile" type="Primary_Parameter_Lists.List" child="3"/>
+        <attr name="Default_Kind" type="Asis.Subprogram_Default_Kinds"/>
+        <attr name="Formal_Subprogram_Default" type="Asis.Expression" child="5"/>
+        <attr name="Specification" type="Asis.Element" defer="y"/>
+        <attr name="Has_Abstract" type="Boolean"/>
+        <node name="Formal_Function_Declaration_Node">
+          <attr name="Result_Subtype" type="Asis.Definition" child="5"/>
+        </node>
+      </node>
+      <node name="Formal_Package_Declaration_With_Box_Node">
+        <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
+        <attr name="Corresponding_Body" type="Asis.Declaration"/>
+        <attr name="Generic_Unit_Name" type="Asis.Expression" child="3"/>
+      </node>
+    </node>
+    <node name="Definition_Node" abstract="y">
+      <node name="Type_Definition_Node" abstract="y">
+        <attr name="Corresponding_Type_Operators" type="Secondary_Declaration_Lists.List_Node"/>
+        <node name="Derived_Type_Node">
+          <attr name="Corresponding_Parent_Subtype" type="Asis.Declaration"/>
+          <attr name="Corresponding_Root_Type" type="Asis.Declaration"/>
+          <attr name="Implicit_Inherited_Declarations" type="Secondary_Declaration_Lists.List_Node"/>
+          <attr name="Implicit_Inherited_Subprograms" type="Secondary_Declaration_Lists.List_Node"/>
+          <attr name="Corresponding_Type_Structure" type="Asis.Declaration"/>
+          <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+          <attr name="Parent_Subtype_Indication" type="Asis.Subtype_Indication" child="1"/>
+          <attr name="Has_Limited" type="Boolean"/>
+          <attr name="Has_Abstract" type="Boolean"/>
+          <node name="Derived_Record_Extension_Node">
+            <attr name="Progenitor_List"
+                  type="Primary_Expression_Lists.List" child="2"/>
+            <attr name="Record_Definition" type="Asis.Definition" child="3"/>
+          </node>
+        </node>
+        <node name="Enumeration_Type_Node">
+          <attr name="Enumeration_Literal_Declarations" type="Primary_Declaration_Lists.List" child="1"/>
+        </node>
+        <node name="Signed_Integer_Type_Node">
+          <attr name="Integer_Constraint" type="Asis.Range_Constraint" child="1"/>
+        </node>
+        <node name="Modular_Type_Node">
+          <attr name="Mod_Static_Expression" type="Asis.Expression" child="1"/>
+        </node>
+        <node name="Root_Type_Node">
+          <attr name="Root_Type_Kind" type="Asis.Root_Type_Kinds"/>
+        </node>
+        <node name="Floating_Point_Node">
+          <attr name="Digits_Expression" type="Asis.Expression" child="1"/>
+          <attr name="Real_Range_Constraint" type="Asis.Range_Constraint" child="2"/>
+        </node>
+        <node name="Ordinary_Fixed_Point_Node">
+          <attr name="Delta_Expression" type="Asis.Expression" child="1"/>
+          <attr name="Real_Range_Constraint" type="Asis.Range_Constraint" child="3"/>
+          <node name="Decimal_Fixed_Point_Node">
+            <attr name="Digits_Expression" type="Asis.Expression" child="2"/>
+          </node>
+        </node>
+        <node name="Unconstrained_Array_Node">
+          <attr name="Index_Subtype_Definitions" type="Primary_Identifier_Lists.List" child="1"/>
+          <attr name="Array_Component_Definition" type="Asis.Component_Definition" child="2"/>
+        </node>
+        <node name="Constrained_Array_Node">
+          <attr name="Discrete_Subtype_Definitions" type="Primary_Definition_Lists.List" child="1"/>
+          <attr name="Array_Component_Definition" type="Asis.Component_Definition" child="2"/>
+        </node>
+        <node name="Record_Type_Node">
+          <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+          <attr name="Record_Definition" type="Asis.Definition" child="1"/>
+          <attr name="Has_Limited" type="Boolean"/>
+          <node name="Tagged_Record_Type_Node">
+            <attr name="Has_Abstract" type="Boolean"/>
+          </node>
+        </node>
+        <node name="Interface_Type_Node">
+          <attr name="Interface_Kind" type="Asis.Interface_Kinds"/>
+          <attr name="Has_Limited" type="Boolean"/>
+          <attr name="Has_Synchronized" type="Boolean"/>
+          <attr name="Has_Protected" type="Boolean"/>
+          <attr name="Has_Task" type="Boolean"/>
+          <attr name="Progenitor_List"
+                type="Primary_Expression_Lists.List" child="1"/>
+          <attr name="Implicit_Inherited_Subprograms"
+                type="Secondary_Declaration_Lists.List_Node"/>
+        </node>
+        <node name="Access_Type_Node">
+          <attr name="Access_Type_Kind" type="Asis.Access_Type_Kinds"/>
+          <attr name="Access_To_Object_Definition"
+                type="Asis.Subtype_Indication" child="1"/>
+          <attr name="Access_To_Subprogram_Parameter_Profile"
+                type="Primary_Parameter_Lists.List" child="2"/>
+          <attr name="Access_To_Function_Result_Subtype"
+                type="Asis.Definition" child="3"/>
+          <attr name="General_Access_Modifier" type="Asis.Element" defer="y"/>
+          <attr name="Has_Null_Exclusion" type="Boolean"/>
+        </node>
+      </node>
+      <node name="Subtype_Indication_Node">
+        <attr name="Subtype_Mark" type="Asis.Expression" child="1"/>
+        <attr name="Subtype_Constraint" type="Asis.Constraint" child="2"/>
+        <attr name="Has_Null_Exclusion" type="Boolean"/>
+      </node>
+      <node name="Constraint_Node" abstract="y">
+        <node name="Range_Attribute_Reference_Node">
+          <attr name="Range_Attribute" type="Asis.Expression" child="1"/>
+        </node>
+        <node name="Simple_Expression_Range_Node">
+          <attr name="Lower_Bound" type="Asis.Expression" child="1"/>
+          <attr name="Upper_Bound" type="Asis.Expression" child="2"/>
+        </node>
+        <node name="Digits_Constraint_Node">
+          <attr name="Digits_Expression" type="Asis.Expression" child="1"/>
+          <attr name="Real_Range_Constraint" type="Asis.Range_Constraint" child="2"/>
+        </node>
+        <node name="Delta_Constraint_Node">
+          <attr name="Delta_Expression" type="Asis.Expression" child="1"/>
+          <attr name="Real_Range_Constraint" type="Asis.Range_Constraint" child="2"/>
+        </node>
+        <node name="Index_Constraint_Node">
+          <attr name="Discrete_Ranges" type="Primary_Definition_Lists.List" child="1"/>
+        </node>
+        <node name="Discriminant_Constraint_Node">
+          <attr name="Discriminant_Associations" type="Primary_Association_Lists.List" child="1"/>
+          <attr name="Normalized_Discriminant_Associations" type="Secondary_Association_Lists.List_Node"/>
+        </node>
+      </node>
+      <node name="Component_Definition_Node">
+        <attr name="Component_Subtype_Indication" type="Asis.Subtype_Indication" child="1"/>
+        <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+      </node>
+
+      <node name="Discrete_Subtype_Definition_Node" abstract="y">
+        <node name="S_Discrete_Subtype_Indication_Node">
+          <attr name="Subtype_Mark" type="Asis.Expression" child="1"/>
+          <attr name="Subtype_Constraint" type="Asis.Constraint" child="2"/>
+        </node>
+        <node name="S_Discrete_Range_Attribute_Reference_Node">
+          <attr name="Range_Attribute" type="Asis.Expression" child="1"/>
+        </node>
+        <node name="S_Discrete_Simple_Expression_Range_Node">
+          <attr name="Lower_Bound" type="Asis.Expression" child="1"/>
+          <attr name="Upper_Bound" type="Asis.Expression" child="2"/>
+        </node>
+      </node>
+
+      <node name="Discrete_Range_Node" abstract="y">
+        <node name="Discrete_Subtype_Indication_Node">
+          <attr name="Subtype_Mark" type="Asis.Expression" child="1"/>
+          <attr name="Subtype_Constraint" type="Asis.Constraint" child="2"/>
+        </node>
+        <node name="Discrete_Range_Attribute_Reference_Node">
+          <attr name="Range_Attribute" type="Asis.Expression" child="1"/>
+        </node>
+        <node name="Discrete_Simple_Expression_Range_Node">
+          <attr name="Lower_Bound" type="Asis.Expression" child="1"/>
+          <attr name="Upper_Bound" type="Asis.Expression" child="2"/>
+        </node>
+      </node>
+
+      <node name="Unknown_Discriminant_Part_Node"/>
+      <node name="Known_Discriminant_Part_Node">
+        <attr name="Discriminants" type="Primary_Declaration_Lists.List" child="1"/>
+      </node>
+      <node name="Record_Definition_Node">
+        <attr name="Record_Components" type="Primary_Declaration_Lists.List" child="1"/>
+        <attr name="Implicit_Components" type="Secondary_Declaration_Lists.List_Node"/>
+      </node>
+      <node name="Null_Record_Definition_Node"/>
+      <node name="Null_Component_Node">
+        <attr name="Pragmas" type="Primary_Pragma_Lists.List"/>
+      </node>
+      <node name="Variant_Part_Node">
+        <attr name="Discriminant_Direct_Name" type="Asis.Name" child="1"/>
+        <attr name="Variants" type="Primary_Variant_Lists.List" child="3"/>
+        <attr name="Pragmas" type="Primary_Pragma_Lists.List" child="2"/>
+        <attr name="End_Pragmas" type="Primary_Pragma_Lists.List" defer="y"/>
+      </node>
+      <node name="Variant_Node">
+        <attr name="Record_Components" type="Primary_Declaration_Lists.List" child="2"/>
+        <attr name="Implicit_Components" type="Secondary_Declaration_Lists.List_Node"/>
+        <attr name="Variant_Choices" type="Primary_Choise_Lists.List" child="1"/>
+      </node>
+      <node name="Others_Choice_Node"/>
+
+      <node name="Access_Definition_Node" abstract="y">
+        <attr name="Has_Null_Exclusion" type="Boolean"/>
+        <node name="Anonymous_Access_To_Variable_Node">
+          <attr name="Anonymous_Access_To_Object_Subtype_Mark"
+                type="Asis.Name" child="1"/>
+          <node name="Anonymous_Access_To_Constant_Node"/>
+        </node>
+        <node name="Anonymous_Access_To_Procedure_Node">
+          <attr name="Access_To_Subprogram_Parameter_Profile"
+                type="Primary_Parameter_Lists.List" child="1"/>
+          <node name="Anonymous_Access_To_Protected_Procedure_Node"/>
+          <node name="Anonymous_Access_To_Function_Node">
+            <attr name="Access_To_Function_Result_Subtype"
+                  type="Asis.Definition" child="2"/>
+            <node name="Anonymous_Access_To_Protected_Function_Node"/>
+          </node>
+        </node>
+      </node>
+
+      <node name="Incomplete_Type_Definition_Node">
+        <node name="Tagged_Incomplete_Type_Definition_Node"/>
+      </node>
+
+      <node name="Private_Type_Definition_Node">
+        <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+        <attr name="Corresponding_Type_Operators"
+              type="Secondary_Declaration_Lists.List_Node" my="y"/>
+        <attr name="Has_Limited" type="Boolean"/>
+        <attr name="Has_Private" type="Boolean"/>
+        <node name="Tagged_Private_Type_Definition_Node">
+          <attr name="Has_Abstract" type="Boolean"/>
+        </node>
+        <node name="Private_Extension_Definition_Node">
+          <attr name="Ancestor_Subtype_Indication"
+                type="Asis.Subtype_Indication" child="1"/>
+          <attr name="Implicit_Inherited_Declarations"
+                type="Secondary_Declaration_Lists.List_Node"/>
+          <attr name="Implicit_Inherited_Subprograms"
+                type="Secondary_Declaration_Lists.List_Node"/>
+          <attr name="Has_Synchronized" type="Boolean"/>
+          <attr name="Has_Abstract" type="Boolean"/>
+        </node>
+      </node>
+      <node name="Protected_Definition_Node">
+        <attr name="Is_Private_Present" type="Boolean"/>
+        <attr name="Visible_Part_Items" type="Primary_Declaration_Lists.List" child="1"/>
+        <attr name="Private_Part_Items" type="Primary_Declaration_Lists.List" child="2"/>
+        <attr name="Identifier" type="Asis.Element" defer="y"/>
+        <attr name="Corresponding_Type_Operators"
+              type="Secondary_Declaration_Lists.List_Node" my="y"/>
+        <node name="Task_Definition_Node">
+          <attr name="Is_Task_Definition_Present" type="Boolean"/>
+        </node>
+      </node>
+      <node name="Formal_Type_Definition_Node" abstract="y">
+        <attr name="Corresponding_Type_Operators" type="Secondary_Declaration_Lists.List_Node"/>
+        <node name="Formal_Private_Type_Node">
+          <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+          <attr name="Has_Limited" type="Boolean"/>
+          <attr name="Has_Private" type="Boolean"/>
+          <node name="Formal_Tagged_Private_Type_Node">
+            <attr name="Has_Abstract" type="Boolean"/>
+          </node>
+        </node>
+        <node name="Formal_Derived_Type_Node">
+          <attr name="Implicit_Inherited_Declarations" type="Secondary_Declaration_Lists.List_Node"/>
+          <attr name="Implicit_Inherited_Subprograms" type="Secondary_Declaration_Lists.List_Node"/>
+          <attr name="Subtype_Mark" type="Asis.Expression" child="1"/>
+          <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
+          <attr name="Progenitor_List"
+                type="Primary_Expression_Lists.List" child="2"/>
+          <attr name="Has_Abstract" type="Boolean"/>
+          <attr name="Has_Private" type="Boolean"/>
+          <attr name="Has_Limited" type="Boolean"/>
+          <attr name="Has_Synchronized" type="Boolean"/>
+        </node>
+        <node name="Formal_Discrete_Type_Node"/>
+        <node name="Formal_Signed_Integer_Type_Node"/>
+        <node name="Formal_Modular_Type_Node"/>
+        <node name="Formal_Floating_Point_Node"/>
+        <node name="Formal_Ordinary_Fixed_Point_Node"/>
+        <node name="Formal_Decimal_Fixed_Point_Node"/>
+        <node name="Formal_Unconstrained_Array_Node">
+          <attr name="Index_Subtype_Definitions" type="Primary_Identifier_Lists.List" child="1"/>
+          <attr name="Array_Component_Definition" type="Asis.Component_Definition" child="2"/>
+          <attr name="Array_Definition" type="Asis.Element" defer="y"/>
+        </node>
+        <node name="Formal_Constrained_Array_Node">
+          <attr name="Discrete_Subtype_Definitions" type="Primary_Definition_Lists.List" child="1"/>
+          <attr name="Array_Component_Definition" type="Asis.Component_Definition" child="2"/>
+          <attr name="Array_Definition" type="Asis.Element" defer="y"/>
+        </node>
+        <node name="Formal_Access_Type_Node">
+          <attr name="Access_Type_Kind" type="Asis.Access_Type_Kinds"/>
+          <attr name="Access_To_Object_Definition"
+                type="Asis.Subtype_Indication" child="1"/>
+          <attr name="Access_To_Subprogram_Parameter_Profile"
+                type="Primary_Parameter_Lists.List" child="2"/>
+          <attr name="Access_To_Function_Result_Subtype"
+                type="Asis.Definition" child="3"/>
+          <attr name="Access_Definition" type="Asis.Element" defer="y"/>
+        </node>
+        <node name="Formal_Interface_Type_Node">
+          <attr name="Interface_Kind" type="Asis.Interface_Kinds"/>
+          <attr name="Progenitor_List"
+                type="Primary_Expression_Lists.List" child="1"/>
+          <attr name="Implicit_Inherited_Subprograms"
+                type="Secondary_Declaration_Lists.List_Node"/>
+        </node>
+      </node>
+    </node>
+    <node name="Expression_Node" abstract="y">
+      <attr name="Corresponding_Expression_Type" type="Asis.Element"/>
+      <attr name="Is_Static_Expression" type="Asis.Gela.Fuzzy_Boolean" 
+            defer="y" default="Unknown"/>
+      <node name="Box_Expression_Node"/>
+      <node name="Base_Literal_Node" abstract="y" helper="y">
+        <attr name="Value_Image" type="Unbounded_Wide_String"/>
+        <node name="Integer_Literal_Node"/>
+        <node name="Real_Literal_Node"/>
+        <node name="String_Literal_Node"/>
+      </node>
+      <node name="Base_Identifier_Node" abstract="y" helper="y">
+        <attr name="Name_Image" type="Unbounded_Wide_String"/>
+        <attr name="Corresponding_Name_Declaration" type="Asis.Declaration"/>
+        <attr name="Corresponding_Name_Definition_List" type="Secondary_Definition_Lists.List_Node"/>
+        <attr name="Corresponding_Generic_Element" type="Asis.Defining_Name"/>
+        <node name="Identifier_Node"/>
+        <node name="Operator_Symbol_Node">
+          <attr name="Operator_Kind" type="Asis.Operator_Kinds"/>
+        </node>
+        <node name="Character_Literal_Node"/>
+        <node name="Enumeration_Literal_Node"/>
+      </node>
+      <node name="Explicit_Dereference_Node">
+        <attr name="Prefix" type="Asis.Expression" child="1"/>
+      </node>
+      <node name="Function_Call_Node">
+        <attr name="Prefix" type="Asis.Expression" child="1"/>
+        <attr name="Is_Prefix_Call" type="Boolean" default="True"/>
+        <attr name="Is_Dispatching_Call" type="Boolean"/>
+        <attr name="Corresponding_Called_Function" type="Asis.Declaration"/>
+        <attr name="Function_Call_Parameters" type="Primary_Association_Lists.List" child="2"/>
+        <attr name="Normalized_Function_Call_Parameters" type="Secondary_Association_Lists.List_Node"/>
+        <attr name="Is_Call_On_Dispatching_Operation" type="Boolean"/>
+        <attr name="Record_Aggregate" type="Asis.Element" defer="y"/>
+      </node>
+      <node name="Indexed_Component_Node">
+        <attr name="Prefix" type="Asis.Expression" child="1"/>
+        <attr name="Index_Expressions" type="Primary_Expression_Lists.List" child="2"/>
+      </node>
+      <node name="Slice_Node">
+        <attr name="Prefix" type="Asis.Expression" child="1"/>
+        <attr name="Slice_Range" type="Asis.Discrete_Range" child="2"/>
+      </node>
+      <node name="Selected_Component_Node">
+        <attr name="Prefix" type="Asis.Expression" child="1"/>
+        <attr name="Selector" type="Asis.Expression" child="2"/>
+      </node>
+      <node name="Attribute_Reference_Node">
+        <attr name="Prefix" type="Asis.Expression" child="1"/>
+        <attr name="Attribute_Kind" type="Asis.Attribute_Kinds"/>
+        <attr name="Attribute_Designator_Identifier" type="Asis.Expression" child="2"/>
+        <attr name="Attribute_Designator_Expressions" type="Primary_Expression_Lists.List" child="3"/>
+      </node>
+      <node name="Base_Record_Aggregate_Node" abstract="y" helper="y">
+        <attr name="Record_Component_Associations" type="Primary_Association_Lists.List" child="2"/>
+        <attr name="Normalized_Record_Component_Associations" type="Secondary_Association_Lists.List_Node"/>
+        <node name="Record_Aggregate_Node"/>
+        <node name="Extension_Aggregate_Node">
+          <attr name="Extension_Aggregate_Expression" type="Asis.Expression" child="1"/>
+        </node>
+      </node>
+      <node name="Base_Array_Aggregate_Node" abstract="y" helper="y">
+        <attr name="Array_Component_Associations" type="Primary_Association_Lists.List" child="1"/>
+        <node name="Positional_Array_Aggregate_Node"/>
+        <node name="Named_Array_Aggregate_Node"/>
+      </node>
+      <node name="Base_Short_Circuit_Node" abstract="y" helper="y">
+        <attr name="Short_Circuit_Operation_Left_Expression" type="Asis.Expression" child="1"/>
+        <attr name="Short_Circuit_Operation_Right_Expression" type="Asis.Expression" child="2"/>
+        <node name="And_Then_Short_Circuit_Node"/>
+        <node name="Or_Else_Short_Circuit_Node"/>
+      </node>
+      <node name="In_Range_Membership_Test_Node">
+        <attr name="Membership_Test_Expression" type="Asis.Expression" child="1"/>
+        <attr name="Membership_Test_Range" type="Asis.Range_Constraint" child="2"/>
+        <node name="Not_In_Range_Membership_Test_Node"/>
+      </node>
+      <node name="In_Type_Membership_Test_Node">
+        <attr name="Membership_Test_Expression" type="Asis.Expression" child="1"/>
+        <attr name="Membership_Test_Subtype_Mark" type="Asis.Expression" child="2"/>
+        <node name="Not_In_Type_Membership_Test_Node"/>
+      </node>
+      <node name="Null_Literal_Node"/>
+      <node name="Parenthesized_Expression_Node">
+        <attr name="Expression_Parenthesized" type="Asis.Expression" child="1"/>
+      </node>
+      <node name="Base_Conversion_Node" abstract="y" helper="y">
+        <attr name="Converted_Or_Qualified_Subtype_Mark" type="Asis.Expression" child="1"/>
+        <attr name="Converted_Or_Qualified_Expression" type="Asis.Expression" child="2"/>
+        <node name="Type_Conversion_Node"/>
+        <node name="Qualified_Expression_Node"/>
+      </node>
+      <node name="Allocation_From_Subtype_Node">
+        <attr name="Allocator_Subtype_Indication" type="Asis.Subtype_Indication" child="1"/>
+      </node>
+      <node name="Allocation_From_Qualified_Expression_Node">
+        <attr name="Allocator_Qualified_Expression" type="Asis.Expression" child="1"/>
+      </node>
+    </node>
+    <node name="Association_Node" abstract="y">
+      <node name="Pragma_Argument_Association_Node">
+        <attr name="Formal_Parameter" type="Asis.Identifier" child="1"/>
+        <attr name="Actual_Parameter" type="Asis.Expression" child="2"/>
+        <node name="Parameter_Association_Node">
+          <attr name="Is_Normalized" type="Boolean"/>
+          <attr name="Is_Defaulted_Association" type="Boolean"/>
+          <node name="Generic_Association_Node"/>
+        </node>
+      </node>
+      <node name="Discriminant_Association_Node">
+        <attr name="Is_Normalized" type="Boolean"/>
+        <attr name="Discriminant_Expression" type="Asis.Expression" child="2"/>
+        <attr name="Discriminant_Selector_Name" type="Asis.Expression" n_child="1"/>
+        <attr name="Discriminant_Selector_Names" type="Primary_Choise_Lists.List" child="1"/>
+      </node>
+      <node name="Record_Component_Association_Node">
+        <attr name="Is_Normalized" type="Boolean"/>
+        <attr name="Component_Expression" type="Asis.Expression" child="2"/>
+        <attr name="Record_Component_Choice" type="Asis.Defining_Name" n_child="1"/>
+        <attr name="Record_Component_Choices" type="Primary_Choise_Lists.List" child="1"/>
+      </node>
+      <node name="Array_Component_Association_Node">
+        <attr name="Array_Component_Choices" type="Primary_Choise_Lists.List" child="1"/>
+        <attr name="Component_Expression" type="Asis.Expression" child="2"/>
+      </node>
+    </node>
+    <node name="Statement_Node" abstract="y">
+      <attr name="Label_Names" type="Primary_Defining_Name_Lists.List" child="1"/>
+      <attr name="Corresponding_Pragmas" type="Secondary_Pragma_Lists.List_Node"/>
+      <attr name="Place" type="Visibility.Region_Item_Access" defer="y"/>
+      <node name="Base_Path_Statement_Node" abstract="y" helper="y">
+        <attr name="Statement_Paths" type="Primary_Path_Lists.List" child="3"/>
+        <node name="If_Statement_Node"/>
+        <node name="Case_Statement_Node">
+          <attr name="Case_Expression" type="Asis.Expression" child="2"/>
+        </node>
+        <node name="Selective_Accept_Statement_Node"/>
+        <node name="Timed_Entry_Call_Statement_Node"/>
+        <node name="Conditional_Entry_Call_Statement_Node"/>
+        <node name="Asynchronous_Select_Statement_Node"/>
+      </node>
+      <node name="Null_Statement_Node"/>
+      <node name="Assignment_Statement_Node">
+        <attr name="Assignment_Variable_Name" type="Asis.Expression" child="2"/>
+        <attr name="Assignment_Expression" type="Asis.Expression" child="3"/>
+      </node>
+      <node name="Loop_Statement_Node">
+        <attr name="Statement_Identifier" type="Asis.Defining_Name" child="2"/>
+        <attr name="Back_Identifier" type="Asis.Identifier" defer="y"/>
+        <attr name="Is_Name_Repeated" type="Boolean"/>
+        <attr name="Loop_Statements" type="Primary_Statement_Lists.List" child="4"/>
+        <node name="While_Loop_Statement_Node">
+          <attr name="While_Condition" type="Asis.Expression" child="3"/>
+        </node>
+        <node name="For_Loop_Statement_Node">
+          <attr name="Loop_Parameter_Specification" type="Asis.Declaration" child="3"/>
+        </node>
+      </node>
+      <node name="Block_Statement_Node">
+        <attr name="Is_Name_Repeated" type="Boolean"/>
+        <attr name="Is_Declare_Block" type="Boolean"/>
+        <attr name="Block_Declarative_Items" type="Primary_Declaration_Lists.List" child="3"/>
+        <attr name="Block_Statements" type="Primary_Statement_Lists.List" child="4"/>
+        <attr name="Block_Exception_Handlers" type="Primary_Handler_Lists.List" child="5"/>
+        <attr name="Statement_Identifier" type="Asis.Defining_Name" child="2"/>
+        <attr name="Back_Identifier" type="Asis.Identifier" defer="y"/>
+        <attr name="Handled_Statements" type="Asis.Element" defer="y"/>
+      </node>
+      <node name="Exit_Statement_Node">
+        <attr name="Exit_Loop_Name" type="Asis.Expression" child="2"/>
+        <attr name="Corresponding_Loop_Exited" type="Asis.Statement"/>
+        <attr name="Exit_Condition" type="Asis.Expression" child="3"/>
+      </node>
+      <node name="Goto_Statement_Node">
+        <attr name="Goto_Label" type="Asis.Expression" child="2"/>
+        <attr name="Corresponding_Destination_Statement" type="Asis.Statement"/>
+      </node>
+      <node name="Base_Call_Statement_Node" abstract="y" helper="y">
+        <attr name="Called_Name" type="Asis.Expression" child="2"/>
+        <attr name="Corresponding_Called_Entity" type="Asis.Declaration"/>
+        <attr name="Call_Statement_Parameters" type="Primary_Association_Lists.List" child="3"/>
+        <attr name="Normalized_Call_Statement_Parameters" type="Secondary_Association_Lists.List_Node"/>
+        <node name="Procedure_Call_Statement_Node">
+          <attr name="Is_Call_On_Dispatching_Operation" type="Boolean"/>
+          <attr name="Is_Dispatching_Call" type="Boolean"/>
+        </node>
+        <node name="Entry_Call_Statement_Node"/>
+      </node>
+      <node name="Simple_Return_Statement_Node">
+        <attr name="Return_Expression" type="Asis.Expression" child="2"/>
+      </node>
+      <node name="Extended_Return_Statement_Node">
+        <attr name="Return_Object_Specification"
+              type="Asis.Declaration" child="3"/>
+        <attr name="Extended_Return_Statements"
+              type="Primary_Statement_Lists.List" child="4"/>
+        <attr name="Extended_Return_Exception_Handlers"
+              type="Primary_Handler_Lists.List" child="5"/>
+        <attr name="Handled_Statements" type="Asis.Element" defer="y"/>
+      </node>
+      <node name="Accept_Statement_Node">
+        <attr name="Accept_Entry_Index" type="Asis.Expression" child="3"/>
+        <attr name="Accept_Entry_Direct_Name" type="Asis.Name" child="2"/>
+        <attr name="Accept_Parameters" type="Primary_Parameter_Lists.List" child="4"/>
+        <attr name="Accept_Body_Statements" type="Primary_Statement_Lists.List" child="5"/>
+        <attr name="Accept_Body_Exception_Handlers" type="Primary_Handler_Lists.List" child="6"/>
+        <attr name="Corresponding_Entry" type="Asis.Declaration"/>
+        <attr name="Is_Name_Repeated" type="Boolean"/>
+        <attr name="Handled_Statements" type="Asis.Element" defer="y"/>
+      </node>
+      <node name="Requeue_Statement_Node">
+        <attr name="Requeue_Entry_Name" type="Asis.Name" child="2"/>
+        <node name="Requeue_Statement_With_Abort_Node"/>
+      </node>
+      <node name="Delay_Until_Statement_Node">
+        <attr name="Delay_Expression" type="Asis.Expression" child="2"/>
+        <node name="Delay_Relative_Statement_Node"/>
+      </node>
+      <node name="Terminate_Alternative_Statement_Node"/>
+      <node name="Abort_Statement_Node">
+        <attr name="Aborted_Tasks" type="Primary_Expression_Lists.List" child="2"/>
+      </node>
+      <node name="Raise_Statement_Node">
+        <attr name="Raised_Exception" type="Asis.Expression" child="2"/>
+        <attr name="Raise_Statement_Message" type="Asis.Expression" child="3"/>
+      </node>
+      <node name="Code_Statement_Node">
+        <attr name="Qualified_Expression" type="Asis.Expression" child="2"/>
+      </node>
+    </node>
+    <node name="Path_Node" abstract="y">
+      <attr name="Sequence_Of_Statements" type="Primary_Statement_Lists.List" child="3"/>
+      <node name="If_Path_Node">
+        <attr name="Condition_Expression" type="Asis.Expression" child="1"/>
+        <node name="Elsif_Path_Node"/>
+      </node>
+      <node name="Else_Path_Node"/>
+      <node name="Case_Path_Node">
+        <attr name="Case_Statement_Alternative_Choices" type="Primary_Choise_Lists.List" child="1"/>
+        <attr name="Pragmas" type="Primary_Pragma_Lists.List" child="2"/>
+      </node>
+      <node name="Select_Path_Node">
+        <attr name="Guard" type="Asis.Expression" child="1"/>
+        <attr name="Pragmas" type="Primary_Pragma_Lists.List" child="2"/>
+        <node name="Or_Path_Node"/>
+      </node>
+      <node name="Then_Abort_Path_Node"/>
+    </node>
+    <node name="Clause_Node" abstract="y">
+      <attr name="Place" type="Visibility.Region_Item_Access" defer="y"/>
+      <node name="Named_Clause_Node" abstract="y" helper="y">
+        <attr name="Clause_Names" type="Primary_Expression_Lists.List" child="1"/>
+        <node name="Use_Package_Clause_Node"/>
+        <node name="Use_Type_Clause_Node"/>
+        <node name="With_Clause_Node">
+          <attr name="Has_Limited" type="Boolean"/>
+          <attr name="Has_Private" type="Boolean"/>
+        </node>
+      </node>
+      <node name="Representation_Clause_Node" abstract="y">
+        <attr name="Representation_Clause_Name" type="Asis.Name" child="1"/>
+        <node name="Record_Representation_Clause_Node">
+          <attr name="Mod_Clause_Expression" type="Asis.Expression" child="2"/>
+          <attr name="Component_Clauses" type="Primary_Clause_Lists.List" child="3"/>
+        </node>
+        <node name="At_Clause_Node">
+          <attr name="Representation_Clause_Expression" type="Asis.Expression" child="2"/>
+          <node name="Attribute_Definition_Clause_Node"/>
+          <node name="Enumeration_Representation_Clause_Node"/>
+        </node>
+      </node>
+      <node name="Component_Clause_Node">
+        <attr name="Component_Clause_Position" type="Asis.Expression" child="2"/>
+        <attr name="Component_Clause_Range" type="Asis.Discrete_Range" child="3"/>
+        <attr name="Representation_Clause_Name" type="Asis.Name" child="1"/>
+      </node>
+    </node>
+    <node name="Exception_Handler_Node">
+      <attr name="Choice_Parameter_Specification" type="Asis.Element" child="2"/>
+      <attr name="Exception_Choices" type="Primary_Choise_Lists.List" child="3"/>
+      <attr name="Handler_Statements" type="Primary_Statement_Lists.List" child="4"/>
+      <attr name="Pragmas" type="Primary_Pragma_Lists.List" child="1"/>
+      <attr name="Place" type="Visibility.Region_Item_Access" defer="y"/>
+    </node>
+  </node>
+  <node name="Fake_Element_Node" abstract="y" helper="y">
+    <attr name="Next_Element" type="Asis.Element"/>
+    <attr name="Start_Position" type="Asis.Text_Position"/>
+    <node name="Token_Node" helper="y">
+      <attr name="Token" type="Natural" defer="y"/>
+      <attr name="Length" type="Positive" defer="y"/>
+      <attr name="End_Position" type="Asis.Text_Position"/>
+      <attr name="Value_Image" type="Unbounded_Wide_String"/>
+    </node>
+    <node name="Handled_Statements_Node" helper="y">
+      <attr name="Statements" type="Primary_Statement_Lists.List" defer="y"/>
+      <attr name="Exception_Handlers" type="Primary_Handler_Lists.List"/>
+      <attr name="Identifier" type="Asis.Element" defer="y"/>
+      <attr name="End_Position" type="Asis.Text_Position"/>
+    </node>
+    <node name="Function_Profile_Node" helper="y">
+      <attr name="Parameter_Profile" type="Primary_Parameter_Lists.List"/>
+      <attr name="Result_Profile" type="Asis.Expression" defer="y"/>
+      <attr name="End_Position" type="Asis.Text_Position"/>
+    </node>
+    <node name="Procedure_Specification_Node" helper="y">
+      <attr name="Names" type="Asis.Element"/>
+      <attr name="Profile" type="Asis.Element"/>
+      <attr name="End_Position" type="Asis.Text_Position"/>
+      <node name="Function_Specification_Node" helper="y"/>
+    </node>
+    <node name="Package_Specification_Node" helper="y">
+      <attr name="Names" type="Asis.Element"/>
+      <attr name="Visible_Part_Declarative_Items" type="Primary_Declaration_Lists.List"/>
+      <attr name="Private_Part_Declarative_Items" type="Primary_Declaration_Lists.List"/>
+      <attr name="Compound_Name" type="Asis.Element" defer="y"/>
+      <attr name="End_Position" type="Asis.Text_Position"/>
+    </node>
+  </node>
+  <node name="Any_Compilation_Unit_Node">
+    <attr name="Unit_Kind" type="Asis.Unit_Kinds"/>
+    <attr name="Unit_Class" type="Asis.Unit_Classes"/>
+    <attr name="Unit_Origin" type="Asis.Unit_Origins"/>
+    <attr name="Enclosing_Context" type="Asis.Context"/>
+    <attr name="Next_Element" type="Asis.Element"/>
+    <attr name="Corresponding_Parent_Declaration" type="Asis.Compilation_Unit"/>
+    <attr name="Corresponding_Children" type="Secondary_Unit_Lists.List_Node"/>
+    <attr name="Corresponding_Declaration" type="Asis.Compilation_Unit"/>
+    <attr name="Corresponding_Body" type="Asis.Compilation_Unit"/>
+    <attr name="Unit_Full_Name" type="Unbounded_Wide_String"/>
+    <attr name="Unique_Name" type="Unbounded_Wide_String"/>
+    <attr name="Can_Be_Main_Program" type="Boolean"/>
+    <attr name="Is_Body_Required" type="Boolean"/>
+    <attr name="Text_Name" type="Unbounded_Wide_String"/>
+    <attr name="Text_Form" type="Unbounded_Wide_String"/>
+    <attr name="Object_Name" type="Unbounded_Wide_String"/>
+    <attr name="Object_Form" type="Unbounded_Wide_String"/>
+    <attr name="Compilation_Command_Line_Options" type="Unbounded_Wide_String"/>
+    <attr name="Corresponding_Subunit_Parent_Body" type="Asis.Compilation_Unit"/>
+    <attr name="Subunits" type="Secondary_Unit_Lists.List_Node"/>
+    <attr name="Unit_Declaration" type="Asis.Element"/>
+    <attr name="Context_Clause_Elements" type="Primary_Clause_Lists.List"/>
+    <attr name="Compilation_Pragmas" type="Secondary_Pragma_Lists.List_Node"/>
+    <attr name="Start_Position" type="Asis.Text_Position"/>
+    <attr name="End_Position" type="Asis.Text_Position"/>
+    <attr name="Separate_Name" type="Asis.Element" defer="y"/>
+    <attr name="Separate_Name_Image" type="Unbounded_Wide_String"/>
+    <attr name="Hash" type="Asis.ASIS_Integer" default="Next_Hash"/>
+    <attr name="Compilation" type="Compilations.Compilation" defer="y"/>
+  </node>
+</node>

@@ -1,0 +1,5 @@
+/* environment for powerpc specific code 
+ * $TenDRA$
+*/
++FLAG_AS		"-m ppc"
++FLAG_TRANS		"-KP"

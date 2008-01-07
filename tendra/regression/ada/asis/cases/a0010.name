@@ -1,0 +1,133 @@
+Expression_Kind:AN_IDENTIFIER T at a0010.adb [14:28..14:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER T at a0010.adb [13:12..13:12]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0010.adb [14:35..14:41]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER T at a0010.adb [15:28..15:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER T at a0010.adb [13:12..13:12]
+
+Expression_Kind:AN_IDENTIFIER Class at a0010.adb [15:30..15:34]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0010.adb [15:41..15:47]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER T at a0010.adb [17:22..17:22]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER T at a0010.adb [13:12..13:12]
+
+Expression_Kind:AN_IDENTIFIER TT at a0010.adb [19:27..19:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER TT at a0010.adb [17:12..17:13]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0010.adb [19:35..19:41]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0010.adb [19:51..19:57]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER TT at a0010.adb [20:27..20:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER TT at a0010.adb [17:12..17:13]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0010.adb [20:38..20:44]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER TT at a0010.adb [21:28..21:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER TT at a0010.adb [17:12..17:13]
+
+Expression_Kind:AN_IDENTIFIER T at a0010.adb [25:28..25:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER T at a0010.adb [13:12..13:12]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0010.adb [25:35..25:41]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER T at a0010.adb [26:28..26:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER T at a0010.adb [13:12..13:12]
+
+Expression_Kind:AN_IDENTIFIER Class at a0010.adb [26:30..26:34]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0010.adb [26:41..26:47]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER TT at a0010.adb [27:28..27:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER TT at a0010.adb [17:12..17:13]
+
+Expression_Kind:AN_IDENTIFIER TT at a0010.adb [29:27..29:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER TT at a0010.adb [17:12..17:13]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0010.adb [29:35..29:41]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0010.adb [29:51..29:57]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER TT at a0010.adb [34:27..34:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER TT at a0010.adb [17:12..17:13]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0010.adb [34:38..34:44]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Inside at a0010.adb [40:8..40:13]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Inside at a0010.adb [24:17..24:22]
+
+Expression_Kind:AN_IDENTIFIER T at a0010.adb [42:10..42:10]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER T at a0010.adb [13:12..13:12]
+
+Expression_Kind:AN_IDENTIFIER TT at a0010.adb [43:10..43:11]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER TT at a0010.adb [17:12..17:13]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0010.adb [44:10..44:16]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0010.adb [46:22..46:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER OT at a0010.adb [46:39..46:40]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER OT at a0010.adb [42:4..42:5]
+
+Expression_Kind:AN_IDENTIFIER P2 at a0010.adb [46:42..46:43]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER P2 at a0010.adb [26:17..26:18]
+
+Expression_Kind:AN_IDENTIFIER OT at a0010.adb [49:4..49:5]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER OT at a0010.adb [42:4..42:5]
+
+Expression_Kind:AN_IDENTIFIER P1 at a0010.adb [49:7..49:8]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER P1 at a0010.adb [25:17..25:18]
+
+Expression_Kind:AN_IDENTIFIER OTT at a0010.adb [50:4..50:6]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER OTT at a0010.adb [43:4..43:6]
+
+Expression_Kind:AN_IDENTIFIER P1 at a0010.adb [50:8..50:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER P1 inherited in Type_Kind:A_DERIVED_RECORD_EXTENSION_DEFINITION  at a0010.adb [17:18..17:39]
+
+Expression_Kind:AN_IDENTIFIER OTT at a0010.adb [51:4..51:6]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER OTT at a0010.adb [43:4..43:6]
+
+Expression_Kind:AN_IDENTIFIER P2 at a0010.adb [51:8..51:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER P2 at a0010.adb [26:17..26:18]
+
+Expression_Kind:AN_ENUMERATION_LITERAL True at a0010.adb [51:12..51:15]
+   Defining_Name_Kind:A_DEFINING_ENUMERATION_LITERAL True at standard.ads [14:28..14:31]
+
+Expression_Kind:AN_IDENTIFIER OTT at a0010.adb [52:4..52:6]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER OTT at a0010.adb [43:4..43:6]
+
+Expression_Kind:AN_IDENTIFIER P3 at a0010.adb [52:8..52:9]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER P3 at a0010.adb [27:17..27:18]
+
+Expression_Kind:AN_IDENTIFIER Int at a0010.adb [53:4..53:6]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Int at a0010.adb [44:4..44:6]
+
+Expression_Kind:AN_IDENTIFIER OTT at a0010.adb [53:11..53:13]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER OTT at a0010.adb [43:4..43:6]
+
+Expression_Kind:AN_IDENTIFIER F1 at a0010.adb [53:15..53:16]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER F1 at a0010.adb [29:16..29:17]
+
+Expression_Kind:AN_IDENTIFIER Int at a0010.adb [54:4..54:6]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Int at a0010.adb [44:4..44:6]
+
+Expression_Kind:AN_IDENTIFIER OTT at a0010.adb [54:11..54:13]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER OTT at a0010.adb [43:4..43:6]
+
+Expression_Kind:AN_IDENTIFIER F2 at a0010.adb [54:15..54:16]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER F2 at a0010.adb [34:16..34:17]
+

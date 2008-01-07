@@ -1,0 +1,276 @@
+!standard 3.9.10                                  06-12-14  SI99-0006-1/03
+!standard 3.9.11
+!standard 3.9.15
+!standard 15.51
+!standard 16.19
+!class binding interpretation 06-04-10
+!status ARG Approved  8-0-1  06-06-09
+!status work item 06-04-10
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Add new An_Interface_Type_Definition to Type_Kinds.
+
+!summary
+
+Interface Types, their various kinds and access to their kinds needs to
+be added to ASIS.
+
+!question
+
+The Amendment (Ada 2005) defines new Interface types, should these be
+Asis.Type_Kinds? (Yes)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+In clause 3.9.10, add An_Interface_Type_Definition after A_Tagged_Record_Type_Definition
+in Type_Kinds:
+
+  An_Interface_Type_Definition,  -- 3.9.4 (2)
+
+In clause 3.9.11, add A_Formal_Interface_Type_Definition to the end of Formal_Type_Kinds:
+
+  A_Formal_Interface_Type_Definition, -- 12.5.5 (2)
+
+    Correct the section references for A_Formal_Access_Type_Definition to 12.5.4(2);
+    A_Formal_Unconstrained_Array_Definition to 12.5.3(2), 3.6(3); and
+    A_Formal_Constrained_Array_Definition to 12.5.3(2), 3.6(5).
+
+Add a new clause after 3.9.15:
+
+3.9.xx type Interface_Types
+
+   type Interface_Kinds is (  -- 3.9.4 (2)
+
+      Not_An_Interface,                 -- An unexpected element
+      An_Ordinary_Interface,            -- 3.9.4(2) interface ...
+      A_Limited_Interface,              -- 3.9.4(2) limited interface ...
+      A_Task_Interface,                 -- 3.9.4(2) task interface ...
+      A_Protected_Interface,            -- 3.9.4(2) protected interface ...
+      A_Synchronized_Interface);        -- 3.9.4(2) synchronized interface ...
+
+Add a new clause after 13.17 (in ASIS.Elements):
+
+13.xx function Interface_Kind
+
+   function Interface_Kind
+     (Definition : Asis.Definition)
+      return Asis.Interface_Kinds;
+
+   Definition specifies the Definition to query.
+
+   Returns the Interface_Kinds value of the Definition.
+
+   Returns Not_An_Interface for any unexpected element such as a
+   Nil_Element, A_Statement, or A_Declaration.
+
+   Expected Definition_Kinds:
+      A_Type_Definition
+      A_Formal_Type_Definition
+
+   Expected Type_Kinds:
+      An_Interface_Type_Definition
+
+   Expected Formal_Type_Kinds:
+      A_Formal_Interface_Type_Definition
+
+Add new clause at the end of section 15 (Asis.Declarations):
+
+15.xx function Progenitor_List (Declaration)
+
+     function Progenitor_List
+     (Declaration : Asis.Definition)
+      return Asis.Name_List;
+
+   Declaration specifies the declaration to query.
+
+   Returns a list of subtype marks making up the interface_list in the
+   argument declaration, in their order of appearance.
+
+   Appropriate Declaration_Kinds:
+      A_Private_Extension_Declaration
+      A_Private_Type_Declaration
+      A_Task_Type_Declaration
+      A_Protected_Type_Declaration
+      A_Single_Task_Declaration
+      A_Single_Protected_Declaration
+
+   Returns Expression_Kinds:
+      An_Identifier
+      A_Selected_Component
+
+Add new clause at the end of section 16 (Asis.Definitions):
+
+16.xx function Progenitor_List (Definition)
+
+    function Progenitor_List
+      (Type_Definition : Asis.Definition)
+       return Asis.Name_List;
+
+   Type_Definition specifies the definition to query.
+
+   Returns a list of subtype marks making up the interface_list in the
+   argument definition, in their order of appearance.
+
+   Appropriate Type_Kinds:
+      A_Derived_Record_Extension_Definition
+      An_Interface_Type_Definition
+
+   Appropriate Formal_Type_Kinds:
+      A_Formal_Derived_Type_Definition
+      A_Formal_Interface_Type_Definition
+
+   Returns Expression_Kinds:
+      An_Identifier
+      A_Selected_Component
+
+!discussion
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+.....
+
+----------------------------
+-- AI-251 Interface Types --
+----------------------------
+RM-06 3.9.4
+
+* Extend existing element classification:
+  - add An_Interface_Type_Definition to Type_Kinds;
+
+  - add A_Formal_Interface_Type_Definition to Formal_Type_Kinds;
+
+  - add to the package Asis the new Interface_Kinds type to classify interface
+    definitions:
+
+   type Interface_Kinds is (  -- 3.9.4
+
+      Not_An_Interface,                 -- An unexpected element
+      An_Ordinary_Interface,            -- interface ...
+      A_Limited_Interface,              -- limited interface ...
+      A_Task_Interface,                 -- task interface ...
+      A_Protected_Interface,            -- protected interface ...
+      A_Synchronized_Interface);        -- synchronized interface ...
+
+  - add new corresponding classification query to Asis.Elements:
+
+   function Interface_Kind
+     (Definition : Asis.Definition)
+      return       Asis.Interface_Kinds;
+------------------------------------------------------------------------------
+--  Definition   - Specifies the Definition to query
+--
+--  Returns the Interface_Kinds value of the Definition.
+--
+--  Returns Not_An_Interface for any unexpected element such as a
+--  Nil_Element, A_Statement, or A_Declaration.
+--
+--  Expected Definition_Kinds:
+--       A_Type_Definition
+--       A_Formal_Type_Definition
+--
+--  Expected Type_Kinds:
+--       An_Interface_Type_Definition
+--
+--  Expected Formal_Type_Kinds:
+--       A_Formal_Interface_Type_Definition
+
+* Add two new structural queries - one to Asis.Declarations and another to
+  Asis.Definitions for obtaining interface_list
+
+  - Query to be added to Asis.Declarations:
+
+     function Declaration_Interface_List
+     (Declaration : Asis.Definition)
+      return        Asis.Expression_List;
+
+------------------------------------------------------------------------------
+--  Declaration - Specifies the declaration to query
+--
+--  Returns a list of subtype mark names making up the interface_list in the
+--  argument declaration, in their order of appearance.
+--
+--  Appropriate Declaration_Kinds:
+--       A_Private_Extension_Declaration
+--       A_Private_Type_Declaration
+--       A_Task_Type_Declaration
+--       A_Protected_Type_Declaration
+--       A_Single_Task_Declaration
+--       A_Single_Protected_Declaration
+--
+--  Returns Expression_Kinds:
+--       An_Identifier
+--       A_Selected_Component
+
+ - Query to be added to Asis.Definitions:
+
+    function Definition_Interface_List
+      (Type_Definition : Asis.Definition)
+       return            Asis.Expression_List;
+
+------------------------------------------------------------------------------
+--  Type_Definition - Specifies the definition to query
+--
+--  Returns a list of subtype mark names making up the interface_list in the
+--  argument definition, in their order of appearance.
+--
+--  Appropriate Type_Kinds:
+--       A_Derived_Record_Extension_Definition
+--       An_Interface_Type_Definition
+--
+--  Appropriate Formal_Type_Kinds:
+--       A_Formal_Derived_Type_Definition
+--       A_Formal_Interface_Type_Definition
+--
+--  Returns Expression_Kinds:
+--       An_Identifier
+--       A_Selected_Component
+
+****************************************************************
+

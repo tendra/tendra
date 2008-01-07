@@ -1,0 +1,18 @@
+Expression_Kind:AN_IDENTIFIER Integer at a0007.adb [12:20..12:26]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0007.adb [12:58..12:64]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0007.adb [17:20..17:26]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Float at a0007.adb [17:58..17:62]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Float at standard.ads [75:9..75:13]
+
+Expression_Kind:AN_IDENTIFIER X at a0007.adb [23:4..23:4]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER X at a0007.adb [12:13..12:13]
+
+Expression_Kind:AN_ENUMERATION_LITERAL True at a0007.adb [23:11..23:14]
+   Defining_Name_Kind:A_DEFINING_ENUMERATION_LITERAL True at standard.ads [14:28..14:31]
+

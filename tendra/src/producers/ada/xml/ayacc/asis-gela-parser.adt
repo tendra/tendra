@@ -1,0 +1,83 @@
+pragma_r :
+    error semicolon
+{
+   declare
+      New_Node : constant Pragma_Ptr := new Pragma_Node;
+   begin
+      $$ := YYSTYPE (New_Node);
+      Set_Start_Position
+        (New_Node.all, (Get_Current_Line, Get_Current_Column - 1));
+      Set_Pragma_Name_Image (New_Node.all, "Syntax_Error");
+      Set_Pragma_Kind (New_Node.all, Asis.An_Implementation_Defined_Pragma);
+      Set_End_Position
+        (New_Node.all, (Get_Current_Line, Get_Current_Column - 1));
+   end;
+}
+;
+
+%%
+##
+   function Run (The_Context : Asis.Context) return Asis.Element;
+##
+
+with Lexer;
+
+with Ada.Text_IO;
+with Ada.Characters.Handling;
+
+with Asis.Gela.Elements;               use Asis.Gela.Elements;
+with Asis.Gela.Elements.Assoc;         use Asis.Gela.Elements.Assoc;
+with Asis.Gela.Elements.Clause;        use Asis.Gela.Elements.Clause;
+with Asis.Gela.Elements.Clause.Rep;    use Asis.Gela.Elements.Clause.Rep;
+with Asis.Gela.Elements.Decl;          use Asis.Gela.Elements.Decl;
+with Asis.Gela.Elements.Defs;          use Asis.Gela.Elements.Defs;
+with Asis.Gela.Elements.Defs.Accs;     use Asis.Gela.Elements.Defs.Accs;
+with Asis.Gela.Elements.Defs.Const;    use Asis.Gela.Elements.Defs.Const;
+with Asis.Gela.Elements.Defs.Formal;   use Asis.Gela.Elements.Defs.Formal;
+with Asis.Gela.Elements.Defs.Types;    use Asis.Gela.Elements.Defs.Types;
+with Asis.Gela.Elements.Defs.Rng;      use Asis.Gela.Elements.Defs.Rng;
+with Asis.Gela.Elements.Defs.Sub;      use Asis.Gela.Elements.Defs.Sub;
+with Asis.Gela.Elements.Expr;          use Asis.Gela.Elements.Expr;
+with Asis.Gela.Elements.Def_Names;     use Asis.Gela.Elements.Def_Names;
+with Asis.Gela.Elements.Pathes;        use Asis.Gela.Elements.Pathes;
+with Asis.Gela.Elements.Stmt;          use Asis.Gela.Elements.Stmt;
+with Asis.Gela.Elements.Helpers;       use Asis.Gela.Elements.Helpers;
+with Asis.Gela.Units;                  use Asis.Gela.Units;
+with Asis.Gela.Base_Lists;             use Asis.Gela.Base_Lists;
+with Asis.Gela.Lists;                  use Asis.Gela.Lists;
+with Asis.Gela.Library;
+
+with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
+
+##
+
+   package text_io renames Ada.Text_IO;
+
+   use Lexer;
+   function yylex return Tokens.Token renames Lexer.Get_Token;
+
+   function Run (The_Context : Asis.Context) return Asis.Element is
+      use Ada.Characters.Handling;
+
+      Last_Compilation : Asis.Element;
+
+      procedure YYError (Text : String) is
+         Where : constant Text_Position :=
+           (Get_Current_Line, Get_Current_Column - 1);
+      begin
+         Report_Error
+           (The_Context.all, Asis.Nil_Compilation_Unit,
+            Where, "Syntax Error", Error);
+      end YYError;
+
+##
+
+      File_Name : String :=
+        To_String (Library.Find_File (Current_File (The_Context.all)));
+   begin
+      Lexer.Set_Input (File_Name);
+      YYParse;
+      Lexer.Close;
+      return Last_Compilation;
+   end Run;
+

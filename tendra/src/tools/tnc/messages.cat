@@ -1,0 +1,873 @@
+/*
+ * Copyright (c) 2004, The Tendra Project <http://www.ten15.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
+
+
+TYPES:
+	srcwhere
+
+GLOBALS:
+	srcwhere: where
+
+ENTRIES:
+
+TDF_version(int: major, int: minor)
+{
+	USAGE: NONE
+	KEY(STD) "TDF version "major"."minor
+}
+
+cant_have_alignment_of_bottom_in(ccp: checking)
+{
+	USAGE: ERROR
+	KEY(STD) "Can't have alignment of bottom in "checking where
+}
+
+end_of_file_in_comment()
+{
+	USAGE: ERROR
+	KEY(STD) "End of file in comment"where
+}
+
+new_line_in_string()
+{
+	USAGE: ERROR
+	KEY(STD) "New line in string"where
+}
+
+invalid_escape_sequence()
+{
+	USAGE: ERROR
+	KEY(STD) "Invalid escape sequence"where
+}
+
+end_of_file_in_string()
+{
+	USAGE: ERROR
+	KEY(STD) "End of file in string"where
+}
+
+terminator_character_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "Terminator character expected"where
+}
+
+illegal_character(char: chr)
+{
+	USAGE: ERROR
+	KEY(STD) "Illegal character, "chr where
+}
+
+illegal_digit(char: chr)
+{
+	USAGE: ERROR
+	KEY(STD) "Illegal digit, "chr where
+}
+
+unexpected_end_of_file()
+{
+	USAGE: FATAL
+	KEY(STD) "Unexpected end of file"where
+}
+
+illegal_seek_command()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal seek command"
+}
+
+tag_used_but_not_declared(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Tag "name" used but not declared"
+}
+
+cant_deduce_shape_from_definition(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Can't deduce shape of "name" from definition"where
+}
+
+FATAL_illegal_binding_sort()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal binding sort"where
+}
+
+FATAL_var_already_defined(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) name " has already been defined"where
+}
+
+FATAL_object_number_too_big(long: n, ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Object number "n" ("name") too big"where
+}
+
+FATAL_object_already_bound(long: n, ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Object "n" ("name") already bound"where
+}
+
+FATAL_only_8bit_strings_allowed()
+{
+	USAGE: FATAL
+	KEY(STD) "Only 8-bit strings allowed"where
+}
+
+FATAL_number_of_local_variables_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) "Number of local variables wrong"where
+}
+
+FATAL_number_of_linkage_units_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) "Number of linkage units wrong"where
+}
+
+FATAL_unit_length_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) "Unit length wrong"where
+}
+
+FATAL_number_of_variable_sorts_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) "Number of variable sorts wrong"where
+}
+
+FATAL_illegal_EXTERN_value(long: val)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal EXTERN value, "val where
+}
+
+FATAL_number_of_equations_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) "Number of equations wrong"where
+}
+
+FATAL_capsule_length_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) "Capsule length wrong"where
+}
+
+FATAL_label_already_defined(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Label "name" already defined"where
+}
+
+FATAL_label_number_too_big(long: n)
+{
+	USAGE: FATAL
+	KEY(STD) "Label number "n" too big"where
+}
+
+alignment_tag_defined_inconsistently(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Alignment tag "name" defined inconsistently"where
+}
+
+tag_declared_inconsistently(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Tag "name" declared inconsistently"where
+}
+
+FATAL_tag_defined_but_not_declared(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Tag "name" defined but not declared"where
+}
+
+tag_defined_inconsistently(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Tag "name" defined inconsistently"where
+}
+
+FATAL_token_has_high_level_result_sort(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Token "name" has high-level result sort"where
+}
+
+token_defined_inconsistently(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Token "name" defined inconsistently"where
+}
+
+FATAL_token_definition_length_wrong(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Token "name" definition length wrong"where
+}
+
+FATAL_illegal_version_number(long: major, long: minor)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal version number, "major"."minor where
+}
+
+FATAL_bad_magic_number()
+{
+	USAGE: FATAL
+	KEY(STD) "Bad magic number"where
+}
+
+foreign_sorts_not_supported()
+{
+	USAGE: WARNING
+	KEY(STD) "Foreign sorts not supported"
+}
+
+token_undeclared(ccp: name)
+{
+	USAGE: WARNING
+	KEY(STD) "Token "name" undeclared"
+}
+
+FATAL_token_arguments_length_wrong(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Token "name", arguments length wrong"where
+}
+
+FATAL_sort_error_in_token(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Sort error in token "name where
+}
+
+FATAL_conditional_length_wrong()
+{
+	USAGE: FATAL
+	KEY(STD) "Conditional length wrong"where
+}
+
+FATAL_cant_encode_unknown_bitstream()
+{
+	USAGE: FATAL
+	KEY(STD) "Can't encode unknown bitstream"
+}
+
+FATAL_premature_end_of_file()
+{
+	USAGE: FATAL
+	KEY(STD) "Premature end of file"where
+}
+
+unknown_construct(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Unknown construct, "name where
+}
+
+sort_already_defined(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Sort "name" already defined"where
+}
+
+illegal_sort_name(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Illegal sort name, "name where
+}
+
+token_declared_inconsistently(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Token "name" declared inconsistently"where
+}
+
+FATAL_illegal_decoding_string()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal decoding string"
+}
+
+FATAL_token_identifier_expected()
+{
+	USAGE: FATAL
+	KEY(STD) "Token identifier expected"where
+}
+
+FATAL_token_already_declared(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Token "name" already declared"where
+}
+
+FATAL_token_not_declared(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Token "name" not declared"where
+}
+
+FATAL_token_returns_wrong_sort(ccp: name, ccp: sn1, ccp: sn2)
+{
+	USAGE: FATAL
+	KEY(STD) "Token "name" returns "sn1", not "sn2 where
+}
+
+FATAL_illegal_LIST_value()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal LIST value"where
+}
+
+end_of_token_construct_expected(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "End of token "name" construct expected"where
+}
+
+token_construct_should_be_in_brackets(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Token "name" construct should be in brackets"where
+}
+
+FATAL_token_has_incorrect_sort(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Token "name" has incorrect sort"where
+}
+
+FATAL_object_already_in_scope(ccp: sortname, ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) sortname" "name " already in scope"where
+}
+
+object_not_in_scope(ccp: sortname, ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) sortname" "name" not in scope"where
+}
+
+FATAL_sort_identifier_expected(ccp: sortname)
+{
+	USAGE: FATAL
+	KEY(STD) sortname " identifier expected"where
+}
+
+FATAL_identifier_expected()
+{
+	USAGE: FATAL
+	KEY(STD) "identifier expected"where
+}
+
+exp_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "exp expected"where
+}
+
+FATAL_multibyte_strings_not_allowed_here()
+{
+	USAGE: FATAL
+	KEY(STD) "Multibyte strings not allowed here"where
+}
+
+FATAL_end_of_multibyte_string_expected()
+{
+	USAGE: FATAL
+	KEY(STD) "End of multibyte string expected"where
+}
+
+FATAL_string_expected()
+{
+	USAGE: FATAL
+	KEY(STD) "String expected"where
+}
+
+negative_nat()
+{
+	USAGE: ERROR
+	KEY(STD) "Negative nat"where
+}
+
+FATAL_name_expected(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) name" expected"where
+}
+
+FATAL_number_expected()
+{
+	USAGE: FATAL
+	KEY(STD) "Number expected"where
+}
+
+end_of_multibyte_string_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "End of multibyte string expected"where
+}
+
+FATAL_illegal_sort(ccp: sortname, ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal "sortname","name where
+}
+
+bad_sort_name(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Bad sort name, "name where
+}
+
+end_of_construct_expected(ccp: consname)
+{
+	USAGE: ERROR
+	KEY(STD) "End of "consname" construct expected"where
+}
+
+construct_should_be_in_brackets(ccp: consname)
+{
+	USAGE: ERROR
+	KEY(STD) consname" construct should be in brackets"where
+}
+
+badly_placed_comma()
+{
+	USAGE: ERROR
+	KEY(STD) "Badly placed comma"where
+}
+
+comma_or_close_bracket_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "Comma or close bracket expected"where
+}
+
+FATAL_lists_of_lists_not_implemented()
+{
+	USAGE: FATAL
+	KEY(STD) "Sorry, lists of lists not implemented"where
+}
+
+FATAL_lists_of_options_not_implemented()
+{
+	USAGE: FATAL
+	KEY(STD) "Sorry, lists of options not implemented"where
+}
+
+FATAL_optional_lists_not_implemented()
+{
+	USAGE: FATAL
+	KEY(STD) "Sorry, optional lists not implemented"where
+}
+
+FATAL_optional_options_not_implemented()
+{
+	USAGE: FATAL
+	KEY(STD) "Sorry, optional options not implemented"where
+}
+
+FATAL_external_expected()
+{
+	USAGE: FATAL
+	KEY(STD) "External expected"where
+}
+
+FATAL_illegal_external(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal external, "name where
+}
+
+cant_have_external_name_with_local()
+{
+	USAGE: ERROR
+	KEY(STD) "Can't have external name with local"where
+}
+
+end_of_external_construct_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "End of external construct expected"where
+}
+
+comma_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "Comma expected"where
+}
+
+object_previously_declared_global(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Object "name" previously declared global"where
+}
+
+external_name_of_object_given_twice(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "External name of object "name" given twice"where
+}
+
+object_previously_declared_local(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Object "name" previously declared local"where
+}
+
+tag_defined_but_not_declared(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Tag "name" defined but not declared"where
+}
+
+sort_name_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "Sort name expected"where
+}
+
+arrow_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "Arrow (->) expected"where
+}
+
+FATAL_tokens_cant_return_high_level_sorts()
+{
+	USAGE: FATAL
+	KEY(STD) "Tokens cannot return high-level sorts"where
+}
+
+cant_have_local_here()
+{
+	USAGE: ERROR
+	KEY(STD) "Can't have local here"where
+}
+
+file_name_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "File name expected"where
+}
+
+FATAL_construct_name_expected()
+{
+	USAGE: FATAL
+	KEY(STD) "Construct name expected"where
+}
+
+open_bracket_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "Open bracket expected"where
+}
+
+FATAL_illegal_construct_name(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal construct name, "name where
+}
+
+start_of_construct_expected()
+{
+	USAGE: ERROR
+	KEY(STD) "Start of construct expected"where
+}
+
+shouldnt_be_checking_shape(ccp: sortname)
+{
+	USAGE: ERROR
+	KEY(STD) "Shouldn't be checking "sortname"'s"where
+}
+
+shape_doesnt_match_declaration(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Shape of tag "name" does not match declaration"where
+}
+
+shape_incompatibility_in(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Shape incompatibility in "name where
+}
+
+argument_should_be_of_shape(ccp: nm, ccp: checking, ccp: cname)
+{
+	USAGE: ERROR
+	KEY(STD) nm" argument to "checking" should be of "cname" shape"where
+}
+
+repeated_statement_cant_be_empty(ccp: name)
+{
+	USAGE: ERROR
+	KEY(STD) "Repeated statement in "name" cannot be empty"where
+}
+
+nested_expansion_of_token(ccp: tokname)
+{
+	USAGE: ERROR
+	KEY(STD) "Nested expansion of token "tokname where
+}
+
+FATAL_construct_already_defined(ccp: name)
+{
+	USAGE: FATAL
+	KEY(STD) "Construct "name" already defined"
+}
+
+FATAL_invalid_decode_function()
+{
+	USAGE: FATAL
+	KEY(STD) "Invalid decode function"
+}
+
+FATAL_invalid_read_function()
+{
+	USAGE: FATAL
+	KEY(STD) "Invalid read function"
+}
+
+FATAL_labels_dont_match_exps()
+{
+	USAGE: FATAL
+	KEY(STD) "Labels don't match exps in labelled"where
+}
+
+FATAL_illegal_decode_letter(char: c)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal decode letter, "c
+}
+
+FATAL_illegal_SN_value(ccp: sn, long: value)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal "sn" value, "value where
+}
+
+multiple_output_files_given(ccp: fname)
+{
+	USAGE: WARNING
+	KEY(STD) "Multiple output files given, using "fname
+}
+
+switching_input_form()
+{
+	USAGE: WARNING
+	KEY(STD) "Switching input form"
+}
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: tnc [options] input [output]
+			 \nwhere options are:"
+}
+
+description_of_check()
+{
+	USAGE: NONE
+	KEY(STD) "Apply extra checks for input data."
+}
+
+description_of_cv()
+{
+	USAGE: NONE
+	KEY(STD) "Apply extra checks for input data and write possible messages
+			  to output stream."
+}
+
+description_of_decode()
+{
+	USAGE: NONE
+	KEY(STD) "Set decode mode.  Treat input file as TDF capsule."
+}
+
+description_of_dont_check()
+{
+	USAGE: NONE
+	KEY(STD) "Do not check consistency of multiple tag or token definitions."
+}
+
+description_of_encode()
+{
+	USAGE: NONE
+	KEY(STD) "Set encode mode.  Output a TDF capsule."
+}
+
+description_of_eval()
+{
+	USAGE: NONE
+	KEY(STD) "Simplify input by evaluating constant expressions."
+}
+
+description_of_expand()
+{
+	USAGE: NONE
+	KEY(STD) "Expand input by replacing all applications of defined tokens
+			  by the token definition."
+}
+
+description_of_func()
+{
+	USAGE: NONE
+	KEY(STD) "Shortcut for --funcin --funcout."
+}
+
+description_of_funcin()
+{
+	USAGE: NONE
+	KEY(STD) "Assume input file are in the functional form."
+}
+
+description_of_funcout()
+{
+	USAGE: NONE
+	KEY(STD) "Output data in the functional form."
+}
+
+description_of_include()
+{
+	USAGE: NONE
+	KEY(STD) "DIRECTORY Add DIRECTORY to the search path for included files."
+}
+
+description_of_lib()
+{
+	USAGE: NONE
+	KEY(STD) "Treat input capsule as TDF library."
+}
+
+description_of_lprefix()
+{
+	USAGE: NONE
+	KEY(STD) "PREFIX Treat external identifiers started with PREFIX as local."
+}
+
+description_of_no()
+{
+	USAGE: NONE
+	KEY(STD) "NAME Remove constructs NAME from output.  NAME are one of
+			 tokdecs, tokdefs, aldecs, aldefs, tagdecs or tagdefs."
+}
+
+description_of_only()
+{
+	USAGE: NONE
+	KEY(STD) "NAME Output only constructs NAME from output.  See --no for
+			  definition of NAME."
+}
+
+description_of_outfile()
+{
+	USAGE: NONE
+	KEY(STD) "FILE Output to FILE."
+}
+
+description_of_print()
+{
+	USAGE: NONE
+	KEY(STD) "Set decode and write modes."
+}
+
+description_of_read()
+{
+	USAGE: NONE
+	KEY(STD) "Set read mode.  Treat input file as TDF text."
+}
+
+description_of_subject()
+{
+	USAGE: NONE
+	KEY(STD) "SUBJECT Display notation of TDF SUBJECT."
+}
+
+description_of_tsimp()
+{
+	USAGE: NONE
+	KEY(STD) "Shortcut for --expand --eval."
+}
+
+description_of_unsorted()
+{
+	USAGE: NONE
+	KEY(STD) "Do not sort user defined tags or tokens."
+}
+
+description_of_verbose()
+{
+	USAGE: NONE
+	KEY(STD) "Output full forms in the write mode."
+}
+
+description_of_write()
+{
+	USAGE: NONE
+	KEY(STD) "Set write mode.  Output TDF text."
+}

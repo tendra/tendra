@@ -1,0 +1,7 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR FreeBSD 
+ * $TenDRA$
+*/
+
++CRT0		"<LIB_CRT0>"
+<LINK		"-L<TENDRA_LIBDIR>/diag"
+>SYS_LIB	"-lg"

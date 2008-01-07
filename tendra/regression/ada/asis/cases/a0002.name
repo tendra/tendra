@@ -1,0 +1,689 @@
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [12:27..12:33]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [14:45..14:51]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [19:25..19:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [19:44..19:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "and" at a0002.adb [19:63..19:67]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "and" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Boolean at a0002.adb [12:4..12:34]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [20:25..20:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [20:44..20:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "or" at a0002.adb [20:63..20:66]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "or" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Boolean at a0002.adb [12:4..12:34]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [21:25..21:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [21:44..21:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "xor" at a0002.adb [21:63..21:67]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "xor" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Boolean at a0002.adb [12:4..12:34]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [23:25..23:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [23:44..23:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "and" at a0002.adb [23:63..23:67]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "and" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [24:25..24:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [24:44..24:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "or" at a0002.adb [24:63..24:66]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "or" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [25:25..25:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [25:44..25:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "xor" at a0002.adb [25:63..25:67]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "xor" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [27:25..27:37]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [27:47..27:59]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "and" at a0002.adb [27:69..27:73]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "and" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [28:25..28:37]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [28:47..28:59]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "or" at a0002.adb [28:69..28:72]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "or" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [29:25..29:37]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [29:47..29:59]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "xor" at a0002.adb [29:69..29:73]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "xor" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [31:25..31:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [31:44..31:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0002.adb [31:60..31:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Boolean at a0002.adb [12:4..12:34]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [32:25..32:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [32:44..32:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/=" at a0002.adb [32:60..32:63]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Boolean at a0002.adb [12:4..12:34]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [33:25..33:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [33:44..33:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "<" at a0002.adb [33:60..33:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "<" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Boolean at a0002.adb [12:4..12:34]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [35:25..35:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [35:44..35:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0002.adb [35:60..35:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [36:25..36:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [36:44..36:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/=" at a0002.adb [36:60..36:63]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [37:25..37:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [37:44..37:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "<" at a0002.adb [37:60..37:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "<" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [39:25..39:37]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [39:47..39:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0002.adb [39:63..39:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [40:25..40:37]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [40:47..40:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/=" at a0002.adb [40:63..40:66]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [41:25..41:37]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [41:47..41:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "<" at a0002.adb [41:63..41:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "<" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [43:25..43:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [43:44..43:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0002.adb [43:60..43:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [44:25..44:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [44:44..44:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/=" at a0002.adb [44:60..44:63]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [45:25..45:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [45:44..45:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "<" at a0002.adb [45:60..45:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "<" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [47:25..47:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [47:42..47:48]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0002.adb [47:58..47:60]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [48:25..48:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [48:42..48:48]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/=" at a0002.adb [48:58..48:61]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [49:25..49:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [49:42..49:48]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "<" at a0002.adb [49:58..49:60]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "<" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [51:25..51:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [51:42..51:48]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0002.adb [51:58..51:60]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [52:25..52:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [52:42..52:48]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/=" at a0002.adb [52:58..52:61]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/=" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [53:25..53:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [53:42..53:48]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "<" at a0002.adb [53:58..53:60]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "<" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [55:25..55:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [55:44..55:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "+" at a0002.adb [55:63..55:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "+" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [56:25..56:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [56:44..56:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "-" at a0002.adb [56:63..56:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "-" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [57:22..57:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [57:41..57:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "+" at a0002.adb [57:60..57:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "+" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [58:22..58:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [58:41..58:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "-" at a0002.adb [58:60..58:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "-" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [60:25..60:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [60:44..60:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "+" at a0002.adb [60:63..60:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "+" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [61:25..61:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [61:44..61:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "-" at a0002.adb [61:63..61:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "-" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [62:22..62:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [62:41..62:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "+" at a0002.adb [62:60..62:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "+" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [63:22..63:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [63:41..63:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "-" at a0002.adb [63:60..63:62]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "-" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [65:25..65:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [65:42..65:49]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "+" at a0002.adb [65:59..65:61]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "+" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [66:25..66:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [66:42..66:49]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "-" at a0002.adb [66:59..66:61]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "-" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [67:22..67:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [67:39..67:46]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "+" at a0002.adb [67:56..67:58]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "+" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [68:22..68:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [68:39..68:46]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "-" at a0002.adb [68:56..68:58]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "-" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [70:25..70:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [70:42..70:49]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "+" at a0002.adb [70:59..70:61]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "+" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [71:25..71:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [71:42..71:49]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "-" at a0002.adb [71:59..71:61]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "-" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [72:22..72:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [72:39..72:46]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "+" at a0002.adb [72:56..72:58]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "+" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [73:22..73:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [73:39..73:46]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "-" at a0002.adb [73:56..73:58]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "-" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [75:25..75:37]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [75:47..75:59]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "&" at a0002.adb [75:69..75:71]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "&" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [76:22..76:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [76:41..76:47]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [76:57..76:69]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "&" at a0002.adb [77:14..77:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "&" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [78:22..78:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [78:35..78:47]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [78:57..78:69]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "&" at a0002.adb [79:14..79:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "&" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [80:22..80:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [80:35..80:41]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [80:51..80:63]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "&" at a0002.adb [81:14..81:16]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "&" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [83:25..83:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [83:44..83:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "*" at a0002.adb [83:63..83:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "*" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [84:25..84:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [84:44..84:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/" at a0002.adb [84:63..84:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [85:25..85:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [85:44..85:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "mod" at a0002.adb [85:63..85:67]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "mod" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [86:25..86:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [86:44..86:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "rem" at a0002.adb [86:63..86:67]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "rem" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [88:25..88:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [88:44..88:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "*" at a0002.adb [88:63..88:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "*" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [89:25..89:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [89:44..89:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/" at a0002.adb [89:63..89:65]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [90:25..90:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [90:44..90:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "mod" at a0002.adb [90:63..90:67]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "mod" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [91:25..91:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [91:44..91:53]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "rem" at a0002.adb [91:63..91:67]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "rem" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [93:25..93:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [93:42..93:49]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "*" at a0002.adb [93:59..93:61]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "*" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [94:25..94:32]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [94:42..94:49]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/" at a0002.adb [94:59..94:61]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [96:22..96:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0002.adb [96:36..96:42]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [96:52..96:59]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "*" at a0002.adb [96:69..96:71]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "*" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0002.adb [97:22..97:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [97:35..97:42]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [97:52..97:59]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "*" at a0002.adb [97:69..97:71]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "*" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [98:22..98:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0002.adb [98:36..98:42]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [98:52..98:59]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/" at a0002.adb [98:69..98:71]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [100:22..100:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [100:41..100:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "abs" at a0002.adb [100:60..100:64]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "abs" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [101:22..101:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [101:41..101:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "abs" at a0002.adb [101:60..101:64]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "abs" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [102:22..102:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [102:39..102:46]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "abs" at a0002.adb [102:56..102:60]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "abs" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [103:22..103:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_IDENTIFIER My_Fixed at a0002.adb [103:39..103:46]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Fixed at a0002.adb [17:9..17:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "abs" at a0002.adb [103:56..103:60]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "abs" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Fixed at a0002.adb [17:4..17:51]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [105:22..105:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_IDENTIFIER My_Boolean at a0002.adb [105:41..105:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Boolean at a0002.adb [12:9..12:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "not" at a0002.adb [105:60..105:64]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "not" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Boolean at a0002.adb [12:4..12:34]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [106:22..106:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [106:41..106:50]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "not" at a0002.adb [106:60..106:64]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "not" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [107:22..107:34]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_IDENTIFIER Boolean_Array at a0002.adb [107:44..107:56]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean_Array at a0002.adb [14:9..14:21]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "not" at a0002.adb [107:66..107:70]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "not" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION Boolean_Array at a0002.adb [14:4..14:52]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [109:22..109:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_IDENTIFIER Natural at a0002.adb [109:38..109:44]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Natural at standard.ads [39:12..39:18]
+
+Expression_Kind:AN_IDENTIFIER My_Modular at a0002.adb [109:54..109:63]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Modular at a0002.adb [13:9..13:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "**" at a0002.adb [109:73..109:76]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "**" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Modular at a0002.adb [13:4..13:30]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [110:22..110:31]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_IDENTIFIER Natural at a0002.adb [110:38..110:44]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Natural at standard.ads [39:12..39:18]
+
+Expression_Kind:AN_IDENTIFIER My_Integer at a0002.adb [110:54..110:63]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Integer at a0002.adb [15:9..15:18]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "**" at a0002.adb [110:73..110:76]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "**" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Integer at a0002.adb [15:4..15:36]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [111:22..111:29]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0002.adb [111:36..111:42]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Base at a0002.adb [111:44..111:47]
+
+Expression_Kind:AN_IDENTIFIER My_Float at a0002.adb [111:57..111:64]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Float at a0002.adb [16:9..16:16]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "**" at a0002.adb [111:74..111:77]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "**" implicit of Declaration_Kind:AN_ORDINARY_TYPE_DECLARATION My_Float at a0002.adb [16:4..16:29]
+
+Expression_Kind:AN_IDENTIFIER My_Enumeration at a0002.adb [115:25..115:38]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Enumeration at a0002.adb [113:9..113:22]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [115:48..115:54]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_IDENTIFIER My_Enumeration at a0002.adb [116:25..116:38]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Enumeration at a0002.adb [113:9..113:22]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [116:48..116:54]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_OPERATOR_SYMBOL "/=" at a0002.adb [116:64..116:67]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "/=" implicit of Declaration_Kind:A_FUNCTION_DECLARATION "=" at a0002.adb [115:4..115:55]
+
+Expression_Kind:AN_IDENTIFIER My_Enumeration at a0002.adb [118:25..118:38]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER My_Enumeration at a0002.adb [113:9..113:22]
+
+Expression_Kind:AN_IDENTIFIER Boolean at a0002.adb [118:48..118:54]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
+
+Expression_Kind:AN_ENUMERATION_LITERAL False at a0002.adb [120:14..120:18]
+   Defining_Name_Kind:A_DEFINING_ENUMERATION_LITERAL False at standard.ads [14:21..14:25]
+

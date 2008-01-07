@@ -1,0 +1,186 @@
+/*
+    COPYRIGHT NOTICE
+
+    This program is the proprietary property of IXI Ltd, a subsidiary
+    of the Santa Cruz Operation (SCO). Use, reproduction, production
+    of amended versions and/or transfer of this program is permitted
+    PROVIDED THAT:
+
+    (a)  This legend be preserved on any such reproduction and amended
+         version.
+
+    (b)  Any recipient of such reproduction or amended version accept
+         the conditions set out in this legend.
+
+    IXI accepts no liability whatsoever in relation to any use to
+    which this program may be put and gives no warranty as to the
+    program's suitability for any purpose.
+
+    All rights reserved.
+
+    Copyright (c) 1995, 1996
+
+*/
+
+/*
+    Copyright (c) 1996 Open Software Foundation, Inc.
+
+    All Rights Reserved
+
+    Permission to use, copy, modify, and distribute this software and its
+    documentation for any purpose and without fee is hereby granted, provided
+    that the above copyright notice appears in all copies and that both the
+    copyright notice and this permission notice appear in supporting
+    documentation.
+
+    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE
+    INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+    FOR A PARTICULAR PURPOSE.
+
+    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
+    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
+    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+    CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+
+
+#Master file for Motif API
+# rev. os_ri July 31st, 1996 [added uil/UilDef.h]
+$UNIQUE = 1 ;
+$VERSION = "2.6" ;
++IMPLEMENT "motif/1_2", "Xm/ArrowBGP.h";
++IMPLEMENT "motif/1_2", "Xm/ArrowB.h";
++IMPLEMENT "motif/1_2", "Xm/ArrowBG.h";
++IMPLEMENT "motif/1_2", "Xm/ArrowBP.h";
++IMPLEMENT "motif/1_2", "Xm/AtomMgr.h";
++IMPLEMENT "motif/1_2", "Xm/BulletinB.h";
++IMPLEMENT "motif/1_2", "Xm/BulletinBP.h";
++IMPLEMENT "motif/1_2", "Xm/CascadeB.h";
++IMPLEMENT "motif/1_2", "Xm/CascadeBG.h";
++IMPLEMENT "motif/1_2", "Xm/Command.h";
++IMPLEMENT "motif/1_2", "Xm/CutPaste.h";
++IMPLEMENT "motif/1_2", "Xm/DialogS.h";
++IMPLEMENT "motif/1_2", "Xm/Display.h";
++IMPLEMENT "motif/1_2", "Xm/DragC.h";
++IMPLEMENT "motif/1_2", "Xm/DragDrop.h";
++IMPLEMENT "motif/1_2", "Xm/DragIcon.h";
++IMPLEMENT "motif/1_2", "Xm/DrawingA.h";
++IMPLEMENT "motif/1_2", "Xm/DrawnB.h";
+#+IMPLEMENT "motif/1_2", "Xm/ExtObject.h";
++IMPLEMENT "motif/1_2", "Xm/ExtObjectP.h";
++IMPLEMENT "motif/1_2", "Xm/FileSB.h";
++IMPLEMENT "motif/1_2", "Xm/Form.h";
++IMPLEMENT "motif/1_2", "Xm/FormP.h";
++IMPLEMENT "motif/1_2", "Xm/Frame.h";
++IMPLEMENT "motif/1_2", "Xm/FrameP.h";
++IMPLEMENT "motif/1_2", "Xm/GadgetP.h";
++IMPLEMENT "motif/1_2", "Xm/Label.h";
++IMPLEMENT "motif/1_2", "Xm/LabelG.h";
++IMPLEMENT "motif/1_2", "Xm/LabelGP.h";
++IMPLEMENT "motif/1_2", "Xm/LabelP.h";
++IMPLEMENT "motif/1_2", "Xm/List.h";
++IMPLEMENT "motif/1_2", "Xm/ListP.h";
++IMPLEMENT "motif/1_2", "Xm/MainW.h";
++IMPLEMENT "motif/1_2", "Xm/ManagerP.h";
++IMPLEMENT "motif/1_2", "Xm/MenuShell.h";
++IMPLEMENT "motif/1_2", "Xm/MessageB.h";
++IMPLEMENT "motif/1_2", "Xm/MwmUtil.h";
++IMPLEMENT "motif/1_2", "Xm/PanedW.h";
++IMPLEMENT "motif/1_2", "Xm/PrimitiveP.h";
++IMPLEMENT "motif/1_2", "Xm/Protocols.h";
++IMPLEMENT "motif/1_2", "Xm/ProtocolsP.h";
++IMPLEMENT "motif/1_2", "Xm/PushB.h";
++IMPLEMENT "motif/1_2", "Xm/PushBG.h";
++IMPLEMENT "motif/1_2", "Xm/PushBP.h";
++IMPLEMENT "motif/1_2", "Xm/RepType.h";
++IMPLEMENT "motif/1_2", "Xm/SashP.h";
++IMPLEMENT "motif/1_2", "Xm/RowColumn.h";
++IMPLEMENT "motif/1_2", "Xm/Scale.h";
++IMPLEMENT "motif/1_2", "Xm/Screen.h";
++IMPLEMENT "motif/1_2", "Xm/ScrollBar.h";
++IMPLEMENT "motif/1_2", "Xm/ScrollBarP.h";
++IMPLEMENT "motif/1_2", "Xm/ScrolledW.h";
++IMPLEMENT "motif/1_2", "Xm/ScrolledWP.h";
++IMPLEMENT "motif/1_2", "Xm/SelectioB.h";
++IMPLEMENT "motif/1_2", "Xm/SeparatoG.h";
++IMPLEMENT "motif/1_2", "Xm/Separator.h";
++IMPLEMENT "motif/1_2", "Xm/SeparatorP.h";
++IMPLEMENT "motif/1_2", "Xm/Text.h";
++IMPLEMENT "motif/1_2", "Xm/TextF.h";
++IMPLEMENT "motif/1_2", "Xm/ToggleB.h";
++IMPLEMENT "motif/1_2", "Xm/ToggleBG.h";
+#+IMPLEMENT "motif/1_2", "Xm/Traversal.h";
+#+IMPLEMENT "motif/1_2", "Xm/VaSimple.h";
+#+IMPLEMENT "motif/1_2", "Xm/VendorE.h";
++IMPLEMENT "motif/1_2", "Xm/VirtKeys.h";
++IMPLEMENT "motif/1_2", "Xm/Xm.h";
++IMPLEMENT "motif/1_2", "Xm/XmP.h";
++IMPLEMENT "motif/1_2", "Xm/BaseClassP.h";
++IMPLEMENT "motif/1_2", "Xm/CacheP.h";
++IMPLEMENT "motif/1_2", "Xm/CascadeBGP.h";
++IMPLEMENT "motif/1_2", "Xm/CascadeBP.h";
+#+IMPLEMENT "motif/1_2", "Xm/ColorObj.h";
+#+IMPLEMENT "motif/1_2", "Xm/ColorObjP.h";
++IMPLEMENT "motif/1_2", "Xm/CommandP.h";
++IMPLEMENT "motif/1_2", "Xm/CutPasteP.h";
++IMPLEMENT "motif/1_2", "Xm/DesktopP.h";
++IMPLEMENT "motif/1_2", "Xm/DialogSEP.h";
++IMPLEMENT "motif/1_2", "Xm/DialogSP.h";
++IMPLEMENT "motif/1_2", "Xm/DisplayP.h";
++IMPLEMENT "motif/1_2", "Xm/DragCP.h";
++IMPLEMENT "motif/1_2", "Xm/DragOverSP.h";
++IMPLEMENT "motif/1_2", "Xm/DragIconP.h";
++IMPLEMENT "motif/1_2", "Xm/DragOverS.h";
++IMPLEMENT "motif/1_2", "Xm/DrawingAP.h";
++IMPLEMENT "motif/1_2", "Xm/DrawP.h";
++IMPLEMENT "motif/1_2", "Xm/DropTransP.h";
++IMPLEMENT "motif/1_2", "Xm/DrawnBP.h";
++IMPLEMENT "motif/1_2", "Xm/DropSMgr.h";
++IMPLEMENT "motif/1_2", "Xm/DropSMgrP.h";
++IMPLEMENT "motif/1_2", "Xm/DropTrans.h";
++IMPLEMENT "motif/1_2", "Xm/FileSBP.h";
+#+IMPLEMENT "motif/1_2", "Xm/IconFile.h";
+#+IMPLEMENT "motif/1_2", "Xm/IconFileP.h";
++IMPLEMENT "motif/1_2", "Xm/MainWP.h";
++IMPLEMENT "motif/1_2", "Xm/MenuShellP.h";
++IMPLEMENT "motif/1_2", "Xm/MenuUtilP.h";
++IMPLEMENT "motif/1_2", "Xm/MessageBP.h";
++IMPLEMENT "motif/1_2", "Xm/PanedWP.h";
++IMPLEMENT "motif/1_2", "Xm/PushBGP.h";
++IMPLEMENT "motif/1_2", "Xm/RCUtilsP.h";
++IMPLEMENT "motif/1_2", "Xm/RowColumnP.h";
++IMPLEMENT "motif/1_2", "Xm/ScaleP.h";
++IMPLEMENT "motif/1_2", "Xm/ScreenP.h";
++IMPLEMENT "motif/1_2", "Xm/SelectioBP.h";
++IMPLEMENT "motif/1_2", "Xm/SeparatoGP.h";
++IMPLEMENT "motif/1_2", "Xm/ShellEP.h";
++IMPLEMENT "motif/1_2", "Xm/StringSrcP.h";
++IMPLEMENT "motif/1_2", "Xm/TearOffBP.h";
++IMPLEMENT "motif/1_2", "Xm/TearOffP.h";
++IMPLEMENT "motif/1_2", "Xm/TextFP.h";
++IMPLEMENT "motif/1_2", "Xm/TextP.h";
++IMPLEMENT "motif/1_2", "Xm/TextFSelP.h";
++IMPLEMENT "motif/1_2", "Xm/TextInP.h";
++IMPLEMENT "motif/1_2", "Xm/TextOutP.h";
++IMPLEMENT "motif/1_2", "Xm/TextSelP.h";
++IMPLEMENT "motif/1_2", "Xm/TextStrSoP.h";
++IMPLEMENT "motif/1_2", "Xm/ToggleBGP.h";
++IMPLEMENT "motif/1_2", "Xm/TransltnsP.h";
++IMPLEMENT "motif/1_2", "Xm/ToggleBP.h";
++IMPLEMENT "motif/1_2", "Xm/VaSimpleP.h";
+#+IMPLEMENT "motif/1_2", "Xm/VendorEP.h";
++IMPLEMENT "motif/1_2", "Xm/VendorS.h";
++IMPLEMENT "motif/1_2", "Xm/VendorSEP.h";
++IMPLEMENT "motif/1_2", "Xm/VendorSP.h";
++IMPLEMENT "motif/1_2", "Xm/VirtKeysP.h";
++IMPLEMENT "motif/1_2", "Xm/WorldP.h";
++IMPLEMENT "motif/1_2", "Xm/XmAll.h";
++IMPLEMENT "motif/1_2", "Xm/XmStrDefs.h";
++IMPLEMENT "motif/1_2", "Xm/XmosP.h";
++IMPLEMENT "motif/1_2", "Mrm/MrmAppl.h";
++IMPLEMENT "motif/1_2", "Mrm/MrmDecls.h";
++IMPLEMENT "motif/1_2", "Mrm/MrmPublic.h";
++IMPLEMENT "motif/1_2", "Mrm/MrmWidget.h";
++IMPLEMENT "motif/1_2", "Mrm/Uil.h";
++IMPLEMENT "motif/1_2", "uil/UilDef.h";

@@ -1,0 +1,316 @@
+/*
+ * Copyright (c) 2004, The Tendra Project <http://www.ten15.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * $TenDRA$
+ */
+
+ENTRIES:
+
+fatal_bad_operation(ccp: where)
+{
+	USAGE: FATAL
+	KEY(STD) where ": bad operation"
+}
+
+fatal_bad_test_number(int: number)
+{
+	USAGE: FATAL
+	KEY(STD) "Bad test number: "number
+}
+
+fatal_cant_return_struct()
+{
+	USAGE: FATAL
+	KEY(STD) "Can't apply return to struct"
+}
+
+fatal_cant_get_struct_from_proc()
+{
+	USAGE: FATAL
+	KEY(STD) "Can't get struct result from procedure"
+}
+
+fatal_fp_stack_level_not_set()
+{
+	USAGE: FATAL
+	KEY(STD) "Floating point stack level not set"
+}
+
+fatal_fp_stack_too_large(int: size)
+{
+	USAGE: FATAL
+	KEY(STD) "Floating point stack too large: "size
+}
+
+fatal_illegal_bit_operand()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal bit operand"
+}
+
+fatal_illegal_eval_tag(int: tag)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal tag for evaluate: "tag
+}
+
+fatal_illegal_fp_operation(int: opname)
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal floating point operation: "opname
+}
+
+fatal_illegal_operand()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal operand"
+}
+
+fatal_illegal_postlude()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal postlude"
+}
+
+fatal_illegal_register()
+{
+	USAGE: FATAL
+	KEY(STD) "Illegal register"
+}
+
+fatal_invalid_reg_size(int: size)
+{
+	USAGE: FATAL
+	KEY(STD) "Invalid register size '"size"'"
+}
+
+getopt_invalid_argument(ccp: opt, ccp: arg)
+{
+	USAGE: FATAL
+	KEY(STD) "Invalid argument '"arg"' in the option '-"opt"'."
+}
+
+usage()
+{
+	USAGE: NONE
+	KEY(STD) "Usage: trans [options] input output
+			 \nwhere options are:"
+}
+
+description_of_do_alloca()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Inline calls to alloca.  Default: 1."
+}
+
+description_of_flptc_range()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Report out of range floating point constants.  Default: 1."
+}
+
+description_of_do_loopconsts()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Take out constant expressions out of the loops.  Default: 1."
+}
+
+description_of_PIC_code()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Produce PIC code.  Default: 0."
+}
+
+description_of_no_constchk()
+{
+	USAGE: NONE
+	KEY(STD) "Disable constant out of range checks."
+}
+
+description_of_do_foralls()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Perform strength reduction optimisation.  Default: 1."
+}
+
+description_of_gcc_compat()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Return function value in the GCC compatible way.  "
+			 "Default: platform dependent."
+}
+
+description_of_diag()
+{
+	USAGE: NONE
+	KEY(STD) "Output debug symbols."
+}
+
+description_of_diag_o()
+{
+	USAGE: NONE
+	KEY(STD) "O Output debug symbols but do not alter optimisations."
+}
+
+description_of_do_inlining()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Perform function inlining optimisation.  Default: 1."
+}
+
+description_of_dwarf2()
+{
+	USAGE: NONE
+	KEY(STD) "Output debug symbols in the DWARF2 format."
+}
+
+description_of_dwarf2abbrev()
+{
+	USAGE: NONE
+	KEY(STD) "Output debug symbols in the DWARF2 format with abbreviations table."
+}
+
+description_of_proctype()
+{
+	USAGE: NONE
+	KEY(STD) "{3|4|5} Use processor specific (386|486|Pentium) instructions.  "
+			 "Default: 4."
+}
+
+description_of_strict_fl_div()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Do not use floating point multiplication instead of division
+			  where possible.  Default: 1."
+}
+
+description_of_do_prom()
+{
+	USAGE: NONE
+	KEY(STD) "Put data into BSS segment."
+}
+
+description_of_do_profile()
+{
+	USAGE: NONE
+	KEY(STD) "Output profiling information."
+}
+
+description_of_quit()
+{
+	USAGE: NONE
+	KEY(STD) "Terminate command line processing and exit."
+}
+
+description_of_round_flop()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Adjust floating point values to their ranges after each
+			  floating point operation.  Default: 0."
+}
+
+description_of_do_unroll()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Perform loop unrolling optimization.  Default: 1."
+}
+
+description_of_versions()
+{
+	USAGE: NONE
+	KEY(STD) "Report program and subcomponents versions."
+}
+
+description_of_writable_strs()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Make string literals writable.  Default: 0."
+}
+
+description_of_disableopts()
+{
+	USAGE: NONE
+	KEY(STD) "Disable all optimisations."
+}
+
+description_of_reportcapver()
+{
+	USAGE: NONE
+	KEY(STD) "Report versions of decoded capsules."
+}
+
+description_of_useframe()
+{
+	USAGE: NONE
+	KEY(STD) "Always use frame pointer."
+}
+
+description_of_visvars()
+{
+	USAGE: NONE
+	KEY(STD) "Always allocate memory for variables storage."
+}
+
+description_of_todoc()
+{
+	USAGE: NONE
+	KEY(STD) "To be documented."
+}
+
+description_of_retbyref()
+{
+	USAGE: NONE
+	KEY(STD) "Always return structures by reference."
+}
+
+description_of_nullptr()
+{
+	USAGE: NONE
+	KEY(STD) "Use value of 0x55555555 for NULL pointers."
+}
+
+description_of_print_inlines()
+{
+	USAGE: NONE
+	KEY(STD) "Print information about function inlining process."
+}
+
+description_of_no_bss()
+{
+	USAGE: NONE
+	KEY(STD) "Avoid use of BSS segment."
+}
+
+description_of_outformat()
+{
+	USAGE: NONE
+	KEY(STD) "{0|1} Set output file format.  Default: platform dependent."
+}
+
+description_of_sco_gas()
+{
+	USAGE: NONE
+	KEY(STD) "Produce assembler code in the SCO GAS format."
+}

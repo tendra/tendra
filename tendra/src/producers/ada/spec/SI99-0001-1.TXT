@@ -1,0 +1,117 @@
+!standard 3.9.2                                     06-06-20  SI99-0001-1/02
+!class binding interpretation 06-04-20
+!status ARG Approved  8-0-5  06-06-09
+!status work item 06-04-20
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Add new predefined pragmas to Pragma_Kinds
+
+!summary
+
+The new Ada 2005 predefined pragmas need to be added to Pragma_Kinds.
+
+!question
+
+The Amendment (Ada 2005) defines new pragmas for Ada; should these be added
+to Pragma_Kinds? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+  - Add the new pragma values into type Pragma_Kinds (alphabetically): -- ASIS 3.9.2
+
+       An_Assert_Pragma,			-- 11.4.2 (3)
+       An_Assertion_Policy_Pragma,		-- 11.4.2 (6)
+       A_Detect_Blocking_Pragma,		-- D.13 (4)
+       A_No_Return_Pragma,			-- 6.5.1 (3)
+       A_Partition_Elaboration_Policy_Pragma,	-- H.6 (3)
+       A_Preelaborable_Initialization_Pragma,	-- 7.6 (5)
+       A_Priority_Specific_Dispatching_Pragma,	-- D.2.2 (2.2)
+       A_Profile_Pragma,			-- D.13 (2)
+       A_Relative_Deadline_Pragma,		-- D.2.6 (2.2)
+       An_Unchecked_Union_Pragma,		-- B.3.3 (3)
+       An_Unsuppress_Pragma,			-- 11.5 (4.1)
+
+"Alphabetically" means that the final list will be ordered alphabetically
+(ignoring "An" or "A"). For instance, the first two items will be inserted
+after An_All_Calls_Remote_Pragma; the last item will be inserted after
+A_Task_Dispatching_Policy_Pragma.
+
+!discussion
+
+Recommended by Sergey I. Rybin on 06-02-13, see "!appendix" section.
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+
+.....
+
+
+----------------------------
+-- New predefined pragmas --
+----------------------------
+RM-06 Annex L
+
+* Extend existing element classification:
+  - Add new values to Pragma_Kinds:
+       An_Assert_Pragma,
+       An_Assertion_Policy_Pragma,
+       A_Detect_Blocking_Pragma,
+       A_No_Return_Pragma,
+       A_Partition_Elaboration_Policy_Pragma,
+       A_Preelaborable_Initialization_Pragma,
+       A_Priority_Specific_Dispatching_Pragma,
+       A_Profile_Pragma,
+       A_Relative_Deadline_Pragma,
+       An_Unchecked_Union_Pragma,
+       An_Unsuppress_Pragma,
+
+****************************************************************
+
+

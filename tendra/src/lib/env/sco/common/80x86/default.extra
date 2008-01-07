@@ -1,0 +1,22 @@
+/* 
+ * $TenDRA$
+*/
+
+
+/* Binaries */
+
++BIN_LD		"-BIN_LD-"
+
+
+/* Libraries */
+
++LIB_CRT1	"-LIB_CRT1-"
++LIB_CRTN	"-LIB_CRTN-"
++LIB_MCRT1	"-LIB_MCRT1-"
+
+
++MACHINE		"sco-*-80x86"
++LD			"<BIN_LD> -x"
++CRT0			"<LIB_CRT1>"
++CRTN			"<LIB_CRTN>"
++SYS_LIBC		"-lintl -lc"

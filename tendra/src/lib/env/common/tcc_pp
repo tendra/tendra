@@ -1,0 +1,4 @@
+/* tcc environment implementing the -E option 
+ * $TenDRA$
+*/
++LINE_START	"#pragma@no@extra@directive"

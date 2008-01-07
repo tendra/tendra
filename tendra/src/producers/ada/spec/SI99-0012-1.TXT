@@ -1,0 +1,161 @@
+!standard 3.9.5                                    07-06-13  SI99-0012-1/05
+!standard 15.27
+!class binding interpretation 06-04-20
+!status work item 06-04-20
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Add support for null procedure declarations
+
+!summary
+
+Add support for null procedure declarations in ASIS via boolean queries.
+
+!question
+
+The Amendment (Ada 2005) added a null procedure declaration, should these be
+accessible via ASIS? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+Add two new functions to clause 13:
+
+13.xx function Is_Null_Procedure
+
+
+  function Is_Null_Procedure (Element : in Asis.Element) return Boolean;
+
+    Element specifies the element to query.
+
+    Returns True for a declaration of a procedure or formal procedure that is declared
+    as null. 
+
+    Returns False for any other Element including a Nil_Element.
+
+    Expected Element_Kinds:
+       A_Declaration
+       with expected Declaration_Kinds:
+          A_Procedure_Declaration
+          A_Formal_Procedure_Declaration
+
+    AASIS Note: A generic procedure cannot be null, while generic formal procedures can
+    be null.
+
+13.xx function Is_Abstract_Subprogram
+
+
+  function Is_Abstract_Subprogram (Element : in Asis.Element) return Boolean;
+
+    Element specifies the element to query.
+
+    Returns True for a declaration of a subprogram or formal subprogram that
+    is declared as abstract. 
+
+    Returns False for any other Element including a Nil_Element.
+
+    Expected Element_Kinds:
+       A_Declaration
+       with expected Declaration_Kinds:
+          A_Procedure_Declaration
+          A_Function_Declaration
+          A_Formal_Procedure_Declaration
+          A_Formal_Function_Declaration
+
+    AASIS Note: A generic subprogram cannot be abstract, while generic formal
+    subrprograms can be abstract.
+
+
+Add the following paragraph just before the "Returns A_Pragma ..."
+paragraph in 15.27 (Corresponding_Body):
+
+Returns A_Nil_Element for a null procedure or an abstract procedure.
+
+
+!discussion
+
+For the original suggestion from Sergey Rybin see the appendix.
+Another idea suggested extending the declarations_kinds to include 
+A_Null_Procedure_Declaration. Discussion at the Porto and Albuquerque 
+meetings suggested that a null proceduree should be handled in a manner 
+similar to abstract subprograms. As it was decided not to
+update the trait_kinds to accomodate abstract subprograms, the abstract
+characteristic of an element is determined by a has_abstract query
+that would return true for declarations that include the abstract keyword.
+
+The original SI suggested adding this capability via an extension to Trait kinds. 
+As trait_kinds were decided to be made obsolescent (See SI-0022-1), the trait kind
+extension approach is not appropriate.
+
+We have added a Is_Abstract_Subprogram so that null procedures and abstract subprograms
+are treated consistently. Has_Abstract could have been used, but that will give
+a different answer for abstract types than Is_Abstract_Subprogram does.
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+.....
+
+----------------------------
+-- AI-348 Null procedures --
+----------------------------
+RM-06 6.7
+
+* Extend existing element classification:
+  - Add new value to Asis.Declaration_Kinds:
+      A_Null_Procedure_Declaration
+
+***> Note that for Asis.Declarations.Names, it was determined to already 
+be A_Definition and thus did not need to be added.
+
+* Add A_Null_Procedure_Declaration to the list of appropriate kinds for the
+  query Asis.Declarations.Names and Asis.Declarations.Parameter_Profile;
+
+****************************************************************
+
+************
+

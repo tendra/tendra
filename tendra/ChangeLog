@@ -1,0 +1,531 @@
+$TenDRA$
+
+
+TenDRA Change Log.
+
+Only significant changes are listed in this document, they're broken down into 
+the following categories:
+
+ * API         - Changes related to APIs, such as C99 and SUSv3.
+ * Arch        - Changes related to support of new architectures.
+ * Behaviour   - Changes in the behaviour of a program or system. (eg. output), 
+ * Bugfix      - Changes that fix known bugs.
+ * Build       - Changes to the build infrastructure, (eg. nwe platforms)
+ * Codebase    - General changes to the codebase, (major source changs)
+ * Enhancement - New features.
+ * OS support  - Changes in the operating systems supported (add/remove)
+
+----
+
+2005-11-07   API
+ * Semantics of C99's inline specifier fixed.
+
+
+2005-11-05   API
+ * Initial version of C99's <inttypes.h> header, the PRI and SCN macros are 
+   still missing.
+
+
+2005-11-01   API
+ * The xpg3 API is now built by default.
+
+
+2005-10-30   API
+ * The -Yc99 flag can now be combined with -Xmode.
+
+
+2005-10-27   Bugfix
+ * Fixed C producer bugs for tentative definitions.
+
+
+2005-10-26   Bugfix
+ * Maximum line number in #line directives made
+adjustable.
+
+
+2005-10-26   Bugfix
+ * Tcc's -KPIC option now works on FreeBSD/80x86.
+
+
+2005-10-24   Bugfix
+ * Make the C++ producer allow 'return voidexp;'.
+
+
+2005-10-22   Bugfix
+ * Fixed a bunch of bugs in tcc (-P, -Ystatus, -info, -show_env).
+
+
+2005-10-20   Bugfix
+ * Fixed a bug in the producers if both -n and -e werespecified.
+
+
+2005-10-19   Codebase
+ * Removed non-working environments: aes, motif_1_1 andmse.
+
+
+2005-10-18   Behaviour
+ * Allow --version in tld and tnc.
+
+
+2005-10-17   Bugfix
+ * Fixed the tchk script.
+
+
+2005-10-17   Bugfix
+ * Fixed spec file reading in the producers (-s file).
+
+
+2005-10-17   Enhancement
+ * Tcc taught about .S files (assembler files with preprocessor directives).
+
+
+2005-10-16   API
+ * Implemented C99's _Pragma preprocessing operator.
+
+
+2005-10-10   API
+ * Implemented C99's hexadecimal floating pointliterals.
+
+
+2005-07-22   API
+ * Allow post- and prefix increments and decrements on_Bool.
+
+
+2004-10-17   API
+ * Implemented C99's flexible array members.
+
+
+2004-09-04   Codebase
+ * Imported generic, low-level TDF manipulation library as part of libten. 
+   Converted tools, producers andinstallers to use library functions for TDF 
+   manipulations.
+
+
+2004-10-17   API
+ * Implemented C99's flexible array members.
+	  
+2004-08-15   Codebase
+ * Converted producers to the libten platform.
+	  
+2004-06-19   Codebase
+ * All tools and utilities (except tcc) now use the new command line option 
+   parser provided by libten. Long options using a single dash now require a 
+   double dash.
+
+
+2004-06-08   Codebase
+ * Converted tnc to the libten platform.
+
+
+2004-06-02   API
+ * Implemented placemarkers as described in ISO/IEC 9899:1999.
+
+
+2004-06-02   Bugfix
+ * Concatenation of empty macro arguments fixed to conform to C99.
+
+
+2004-06-02   Enhancement
+ * The producers can now print dependency information usable for make(1) by 
+   using the new option -i. Passing -iM causes all headers to be printed, while 
+   passing -iMM causes only the headers between double quotes to be printed. At 
+   the moment this requires -Wp,-iM -E (-Wg,-iM -E for C++ files) to be passed 
+   to tcc.
+
+
+2004-05-25   Codebase
+ * Retired the CONST macro; we require C90 compilers for TenDRA.
+
+
+2004-05-28   API
+ * Initial support for the C99 function specifier inline.
+
+
+2004-05-25   Behaviour
+ * The sid option -? has been moved to -h (help), and the -v option has been 
+   moved to -V (version).
+	  
+2004-05-25   Behaviour
+ * The make_tdf option -v has been moved to -V (version).
+
+
+2004-05-25   Behaviour
+ * The lexi option -v has been moved to -V (version).
+
+
+2004-05-25   Behaviour
+ * The calculus option -v has been moved to -V (version), and the -q option has 
+   been moved to -v (verbose).
+
+
+2004-05-25   Behaviour
+ * The tspec option -C (copyright) has been removed.
+
+
+2004-05-25   Behaviour
+ * The tnc options -v and -V have been swapped. The -v option now enables 
+   verbose mode, while the -V option reports version.
+
+
+2004-05-25   Behaviour
+ * The pl option -v has been moved to -p (PrettyPrint).
+
+
+2004-05-25   Behaviour
+ * The disp option -h has been moved to -a (alignment spacing). The option -V 
+   has been moved to -r (don't rationalise output). The option -U has been moved 
+   to -l (print usage/linkage information). The option -v has been moved to -V 
+   (version). The option -p has been moved to -v (verbose).
+
+
+2004-05-25   Behaviour
+ * The producer options -v and -V have been swapped. The -v option now enables 
+   verbose mode, while the -V option reports version. The option -? has been 
+   deleted as it is identical to -h (help).
+
+
+2004-05-25   Behaviour
+ * The 80x86 trans option -h has been moved to -j (do not use .bss segment).
+
+
+2004-05-25   Behaviour
+ * The alpha trans options -v and -i have been removed, as they are identical 
+   to -V (version).
+
+
+2004-05-25   Behaviour
+ * The hppa trans option -h has been moved to -g (similar to GCC's -g). The 
+   option -? has been removed.
+
+
+2004-05-25   Behaviour
+ * The mips trans option -B on ULTRIX has been removed, as it is identical to 
+   -F. The option -Q now exits indicating success rather than failure for both 
+   IRIX and ULTRIX.
+
+
+2004-05-25   Behaviour
+ * The aix trans option -D has been added as a placeholder.
+
+
+2004-05-23   Behaviour
+ * Eliminate the need to pass -Ytdf_ext in addition to -Yc99 for some 
+   expressions with long long operands.
+
+
+2004-05-14   Codebase
+ * Converted tspec to the libten platform.
+
+
+2004-05-12   API
+ * Initial support for the C99 _Bool type.
+
+
+2004-05-01   Codebase
+ * Added startup files for the ISO99 API.
+
+
+2004-04-21   Codebase
+ * Converted tcc to the libten platform.
+
+
+2004-04-10   API
+ * Reimplemented C99's <stddef.h>, <signal.h>;, <stdio.h>, and <wctype.h>. 
+   Implemented <stdint.h> and <wchar.h>.
+
+
+2004-04-07   Codebase
+ * Converted disp to the libten platform.
+
+
+2004-04-05   API
+ * Implemented C99's <fenv.h>, <time.h>, and <stdarg.h>.
+
+
+2004-04-05   Codebase
+ * Converted tld to the libten platform.
+
+
+2004-04-01   API
+ * Implemented C99's <errno.h>, <stddef.h>, and <wctype.h>.
+
+
+2004-03-31   Codebase
+ * Converted sid to the libten platform.
+
+
+2004-03-31   Codebase
+ * Converted pl to the libten platform.
+
+
+2004-03-30   Bugfix
+ * Report constraint violations in the C producer for incomplete arrays inside 
+   functions and incomplete arrays with internal linkage.
+
+
+2004-03-28   Build
+ * Add IRIX support.
+
+
+2004-03-28   Build
+ * Instead of installing into 
+   ${INSTALL_DIR}/${VER_TENDRA}/${MACH_OS}/${MACH_VERS}/${MACH_CPU}, TenDRA now 
+   installs into ${INSTALL_DIR} (defaults to ${PREFIX}/lib/TenDRA) for the 
+   toolchain files/programs. A new option in config.mk, USE_PATH_DEV, can be set 
+   to return to the previous behaviour.
+
+
+2004-03-28   Build
+ * Added a new version of tendra.version.mk which holds all version information 
+   for TenDRA.
+
+
+2004-03-27   OS Support
+ * Split support for FreeBSD into 4.x and 5.x.
+
+
+2004-03-23   API
+ * Implemented C99's <float.h> and finish <signal.h>, <stdio.h>, and 
+   <stdlib.h>.
+
+
+2004-03-23   Build
+ * Introduce the SRC_MACHINES variable, which similarly to SRC_ENV holds the 
+   path to files in src/lib/machines. This will allow for adding additional 
+   subdirectories for different OS versions.
+
+
+2004-03-22   API
+ * Implemented C99's <iso646.h> and <setjmp.h>.
+
+
+2004-03-22   Bugfix
+ * Fixed conversion from floating constant to bool inthe producers.
+
+
+2004-03-19   Codebase
+ * Removed the now obsolete make_err utility.
+
+
+2004-03-19   Build
+ * Our bmake now has noBuiltin set to true, so that it doesn't look for a 
+   sys.mk on the system. A new -R switch restores the previous behaviour.
+
+
+2004-03-14   Codebase
+ * Converted make_tdf to the libten platform.
+
+
+2004-03-14   Build
+ * Switched to the mkerr utility, obsoleting make_err.
+
+
+2004-03-11   Codebase
+ * Converted calculus to the libten platform.
+
+
+2004-03-08   Behaviour
+ * Dropped support for OSSG prototypes in code generatedby lexi.
+
+
+2004-03-08   Codebase
+ * Converted lexi to the libten platform.
+
+
+2004-03-07   Codebase
+ * Added AWK-based mkerr utility. This is fully compatible with the existing 
+   make_err, but adds a few extensions.
+
+
+2004-03-07   Codebase
+ * Added new libten library. It will be used for common functions and data 
+   across a number of TenDRA programs and utilities.
+
+
+2004-03-02   API
+ * Completed C99's <string.h> and added<assert.h>.
+
+
+2004-03-02   Enhancement
+ * The tspec tool now understands the C99 restrict qualifier.
+
+
+2004-03-02 Behaviour
+ * The tspec tool now strips spaces before semicolons in generated files.
+
+
+2004-03-02   Codebase
+ * Removed support for pre-ANSI compilers, as well as OSSG remnants.
+
+
+2004-02-11   API
+ * Support for the C99 type qualifier restrict added.
+
+
+2004-02-11   API
+ * The C producers for statements are now C99 compliant, allowing the first 
+   triplet of for(;;) to be a declaration.
+
+
+2004-01-25   API
+ * Implemented C99's variadic macros (ISO/IEC 9899:1999 calls them "macros with 
+   a variable number of arguments").
+
+
+2004-01-25   API
+ * Implemented C99 constraint 6.10.3#3, which enforces whitespace between a 
+   macro identifier and the replacement list.
+
+
+2004-01-24
+ * Bugfix Parse llint_max correctly, which is used in Literal/{ansi,c99}.pf.
+
+
+2004-01-23   Bugfix
+  * Fixed null pointer constants in C by properly recognising (void *)0 as one.
+
+
+2004-01-07   Build
+ * The SunOS/Solaris target bas been split into two separate targets.
+
+
+2004-01-01   API
+ * Implemented C99's __func__.
+
+
+2003-08-29   API
+ * Preliminary C99 environment available (-Yc99).
+
+
+2003-08-20   Behaviour
+ * Invoking tcc without any -Y env arguments now results in a warning.
+
+
+2003-08-03   Build
+ * Added QNX support to bmake.
+
+
+2003-07-31   Build
+ * Added IRIX support to bmake.
+
+
+2003-07-26   Bugfix
+ * tcc now ignores conditional non-ISO compliant preprocessor instructions. The 
+   old behaviour is re-attainable by grep'ing for 'gcc_dependency' in the tree 
+   and uncommenting all affected files.
+
+
+2003-06-10   Arch
+ * Added FreeBSD/Alpha support.
+
+
+2003-05-13   src/utilities/lexi
+ * The lexi read_comment() function now has a dynamic sizingbuffer.
+
+
+2003-05-06   Codebase
+lexi has been updated to version 1.2.
+
+
+2003-04-14   Build
+ * Added AIX support to bmake.
+
+
+2003-04-14   OS support
+ * Added SunOS/Solaris support.
+
+
+2003-03-01   Bugfix
+ * Fixed minor bug that prevented bmake from working on HP-UX and Tru64.
+
+
+2003-02-13   Build
+ * Added partly functional HP-UX support to bmake.
+
+
+2003-02-10   OS support
+ * Added NetBSD support.
+
+
+2003-02-10   OS support
+ * Added OpenBSD support.
+
+
+2002-12-29   contrib/make
+ * Added an initial regression testing framework.
+
+
+2002-12-27   OS support
+ * Added OSF1 support.
+
+
+2002-12-27   Build
+ * Added Cygwin support to bmake.
+
+
+2002-12-27   Build
+ * Added OSF1 / Digital UNIX / Tru64 support to bmake.
+
+
+2002-12-21   Bugfix
+tspec now sends informational output to stdout instead ofstderr.
+
+
+2002-12-17   Enhancement
+ * Added ELF support for FreeBSD. ELF is now the default FreeBSD output format.
+
+
+2002-12-16   API
+ * Added framework files for ISO99.
+
+
+2002-12-14   Enhancement
+ * tcc now has a -vt flag to dump verbose information about each step in the 
+   toolchain, including the argv given to each stage. Additionally, tcc now has 
+   a -ve flag to dump very verbose information about the environment used in 
+   each step of the toolchain.
+
+
+2002-12-11   Bugfix
+ * tspec and calculus now print non-error verbose output to stdout instead of 
+   stderr.
+
+
+2002-12-05   Behaviour
+ * sid now outputs ansi-c instead of ossg-c.
+
+
+2002-12-01   Behaviour
+ * Added -y option to tcc used to modify the relative location of the 
+   environment files specified by -Y arguments. Added -no_shuffle options to tcc 
+   to turn off command line argument reordering. Added support for variable 
+   substitution within environment files.
+
+
+2002-11-30   API
+ * Added initial math.h.
+
+
+2002-11-21   Codebase
+ * Removed OSSG prototypes.
+
+
+2002-11-18   API
+ * Added beginnings of OpenMP support.
+
+
+2002-11-17   OS support
+ * Added Darwin support.
+
+
+2002-10-25   Codebase
+ * Added bmake to the repository.
+
+
+2002-10-20   OS
+ * Added Cygwin support.
+
+
+2002-10-12   Build
+ * Added completely revamped build system. This obsoletes the tuname and 
+   make_mf utilities.

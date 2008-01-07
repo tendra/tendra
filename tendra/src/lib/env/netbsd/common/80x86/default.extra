@@ -1,0 +1,23 @@
+/* 
+ * $TenDRA$
+ */
+
+
+/* Binaries */
+
++BIN_AS		"-BIN_AS-"
++BIN_LD		"-BIN_LD-"
++BIN_CC		"-BIN_CC-"
+
+
+/* Libraries */
+
++LIB_CRT0	"-LIB_CRT0-"
++LIB_GCRT0	"-LIB_GCRT0-"
+
+
++MACHINE	"netbsd-*-80x86"
++AS		"<BIN_AS>"
++LD		"<BIN_LD> -e start -dc -dp"
++CC		"<BIN_CC>"
++CRT0		"<LIB_CRT0>"

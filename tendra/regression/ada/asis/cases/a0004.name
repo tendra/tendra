@@ -1,0 +1,39 @@
+Expression_Kind:AN_IDENTIFIER Ada at a0004.adb [13:6..13:8]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ada at ada.ads [10:9..10:11]
+
+Expression_Kind:AN_IDENTIFIER Numerics at a0004.adb [13:10..13:17]
+   Defining_Name_Kind:A_DEFINING_EXPANDED_NAME Ada.Numerics at ada-numerics.ads [10:9..10:20]
+
+Expression_Kind:AN_IDENTIFIER Discrete_Random at a0004.adb [13:19..13:33]
+   Defining_Name_Kind:A_DEFINING_EXPANDED_NAME Ada.Numerics.Discrete_Random at ada-numerics-discrete_random.ads [12:9..12:36]
+
+Expression_Kind:AN_IDENTIFIER Ada at a0004.adb [17:26..17:28]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Ada at ada.ads [10:9..10:11]
+
+Expression_Kind:AN_IDENTIFIER Numerics at a0004.adb [17:30..17:37]
+   Defining_Name_Kind:A_DEFINING_EXPANDED_NAME Ada.Numerics at ada-numerics.ads [10:9..10:20]
+
+Expression_Kind:AN_IDENTIFIER Discrete_Random at a0004.adb [17:39..17:53]
+   Defining_Name_Kind:A_DEFINING_EXPANDED_NAME Ada.Numerics.Discrete_Random at ada-numerics-discrete_random.ads [12:9..12:36]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0004.adb [17:56..17:62]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Random at a0004.adb [19:8..19:13]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Random at a0004.adb [17:12..17:17]
+
+Expression_Kind:AN_IDENTIFIER Generator at a0004.adb [19:15..19:23]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Generator instance of Defining_Name_Kind:A_DEFINING_IDENTIFIER Generator at ada-numerics-discrete_random.ads [16:9..16:17] in Declaration_Kind:A_PACKAGE_INSTANTIATION Random at a0004.adb [17:4..17:64]
+
+Expression_Kind:AN_IDENTIFIER Integer at a0004.adb [20:17..20:23]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
+
+Expression_Kind:AN_IDENTIFIER Random at a0004.adb [20:28..20:33]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Random at a0004.adb [17:12..17:17]
+
+Expression_Kind:AN_IDENTIFIER Random at a0004.adb [20:35..20:40]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Random instance of Defining_Name_Kind:A_DEFINING_IDENTIFIER Random at ada-numerics-discrete_random.ads [18:13..18:18] in Declaration_Kind:A_PACKAGE_INSTANTIATION Random at a0004.adb [17:4..17:64]
+
+Expression_Kind:AN_IDENTIFIER X at a0004.adb [20:43..20:43]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER X at a0004.adb [19:4..19:4]
+

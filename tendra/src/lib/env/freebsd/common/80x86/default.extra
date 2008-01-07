@@ -1,0 +1,29 @@
+/* 
+ * $TenDRA$
+*/
+
+
+/* Binaries */
+
++BIN_AS		"-BIN_AS-"
++BIN_LD		"-BIN_LD-"
++BIN_CC		"-BIN_CC-"
+
+
+/* Libraries */
+
++LIB_CRT0	"-LIB_CRT0-"
++LIB_CRT1	"-LIB_CRT1-"
++LIB_GCRT0	"-LIB_GCRT0-"
++LIB_CRTI	"-LIB_CRTI-"
++LIB_CRTN	"-LIB_CRTN-"
+
+
++MACHINE	"freebsd-*-80x86"
++AS		"<BIN_AS>"
++LD		"<BIN_LD> -e _start -dc -dp"
++CC		"<BIN_CC>"
++CRT0		"<LIB_CRT0>"
++CRT1		"<LIB_CRT1>"
++CRTI		"<LIB_CRTI>"
++CRTN		"<LIB_CRTN>"

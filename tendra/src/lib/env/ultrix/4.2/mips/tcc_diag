@@ -1,0 +1,7 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR MIPS 2.10 
+ * $TenDRA$
+*/
+
++AS		"<BIN_AS>"
++AS1		"<BIN_AS1> -O1 -g2"
+<LINK		"-L<TENDRA_LIBDIR>/diag"

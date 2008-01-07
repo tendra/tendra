@@ -1,0 +1,58 @@
+.\" Copyright (c) 2002-2004 The TenDRA Project <http://www.ten15.org/> 
+.\" All rights reserved. 
+.\"  
+.\" Redistribution and use in source and binary forms, with or without 
+.\" modification, are permitted provided that the following conditions 
+.\" are met: 
+.\" 1. Redistributions of source code must retain the above copyright 
+.\"    notice, this list of conditions and the following disclaimer. 
+.\" 2. Redistributions in binary form must reproduce the above copyright 
+.\"    notice, this list of conditions and the following disclaimer in the 
+.\"    documentation and/or other materials provided with the distribution. 
+.\"  
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND 
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE 
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS 
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+.\" SUCH DAMAGE. 
+.\" 
+.\" $TenDRA$ 
+.\" 
+.TH "pl" "1" "Tue 18 Oct 2005, 07:50" "pl @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.SH "NAME" 
+.PP 
+\fBpl\fP - PL_TDF compiler producing TDF
+.SH "SYNOPSIS"
+.PP
+\fBpl\fP [-v]  [-I \fIpath\fP]  [-V] \fIinfile\&.pl\fP \fIoutfile\&.j\fP 
+.SH "DESCRIPTION"
+.PP
+The action of \fBpl\fP is to compile a PL_TDF text in
+\fIinfile\&.pl\fP to a TDF capsule in
+\fIoutfile\&.j\fP\&. (See \fIPL_TDF Definition\fP)\&.
+The resulting \&.j file is suitable for linking and translation by
+\fBtcc\fP\fB(1)\fP
+.SH "OPTIONS"
+.IP "\fB-I\fP \fIpath\fP" 5
+Gives the search path for any #include files in the PL_TDF
+text\&.
+.IP "\fB-V\fP" 5
+This option causes \fBpl\fP to print its version
+number and the version of the TDF specification it supports\&.
+.IP "\fB-g\fP" 5
+To be documented\&.
+.IP "\fB-h\fP, \fB--help\fP" 5
+Prints a summary of all options\&.
+.IP "\fB-p\fP" 5
+This option produces a "pretty print" of the TDF capsule on the
+standard output\&.
+.SH "SEE ALSO"
+.PP
+\fBtcc\fP\fB(1)\fP\&.
+...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:50

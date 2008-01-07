@@ -1,0 +1,31 @@
+# $TenDRA$
+
+INSTALL_MACHINE=	freebsd/80x86
+
+.PATH : ${.CURDIR} ${.CURDIR}/tokens ${OBJ_DIR} . ${.CURDIR}/../../../common/tokens
+
+# include
+DATA_INCLUDE=	include/ctype.h include/limits.h include/stdarg.h \
+		include/unistd.h include/xti.h 
+# No longer needed
+#		include/gcc_dependency.h
+
+# include/sys
+DATA_INCLUDE+=	include/sys/param.h include/sys/shm.h
+
+# startup
+DATA_STARTUP+=	startup/system.h
+
+MAKEDIR=	include include/sys startup tokens
+
+DEPEND_SRC=	${DATA_INCLUDE} ${DATA_STARTUP}
+
+${DATA_INCLUDE} ${DATA_STARTUP}:
+	@echo ${.CURDIR}/${.TARGET} -> ${OBJ_DIR}/${.TARGET}
+	@${BIN_SED} 's/%%__FreeBSD__%%/${MACH_VERS:R}/' \
+		${.CURDIR}/${.TARGET} > ${OBJ_DIR}/${.TARGET}
+
+CLEANOPT=	-r
+CLEANFILES=     ${MAKEDIR}
+
+.include "${.CURDIR}/../../../../../../mk/base/tendra.prog.mk"

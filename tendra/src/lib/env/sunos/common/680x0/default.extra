@@ -1,0 +1,23 @@
+/* 
+ * $TenDRA$
+*/
+
+
+/* Binaries */
+
++BIN_GAS	"-BIN_AS-"
++BIN_LD	"-BIN_LD-"
+
+
+/* Libraries */
+
++LIB_CRT0	"-LIB_CRT0-"
++LIB_FCRT1	"-LIB_FCRT1-"
+
+
++MACHINE		"sunos-*-680x0"
++AS			"<BIN_GAS> -mc68020"
++LD			"<BIN_LD> -dc -dp -X -L/usr/lib/f68881"
++CRT0			"<LIB_CRT0>"
++CRT1			"<LIB_FCRT1>"
++LINK_ENTRY		"-e start"

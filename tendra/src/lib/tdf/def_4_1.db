@@ -1,0 +1,4608 @@
+#
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+
+[
+ [sorts,
+  [
+   [
+    [sortid, diag_descriptor],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, diag_desc_id],
+       [encoding, 1],
+       [result_sort, diag_descriptor],
+       [parameter_sorts,
+        [
+         [src_name, tdfstring],
+         [whence, sourcemark],
+         [found_at, exp],
+         [type, diag_type]]]],
+      [
+       [construct_name, diag_desc_struct],
+       [encoding, 2],
+       [result_sort, diag_descriptor],
+       [parameter_sorts,
+        [
+         [src_name, tdfstring],
+         [whence, sourcemark],
+         [new_type, diag_type]]]],
+      [
+       [construct_name, diag_desc_typedef],
+       [encoding, 3],
+       [result_sort, diag_descriptor],
+       [parameter_sorts,
+        [
+         [src_name, tdfstring],
+         [whence, sourcemark],
+         [new_type, diag_type]]]]]]],
+   [
+    [sortid, diag_unit],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, build_diag_unit],
+       [encoding, 0],
+       [result_sort, diag_unit],
+       [parameter_sorts,
+        [
+         [no_labels, tdfint],
+         [descriptors, diag_descriptor_list]]]]]]],
+   [
+    [sortid, diag_tag],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_diag_tag],
+       [encoding, 1],
+       [result_sort, diag_tag],
+       [parameter_sorts,
+        [
+         [num, tdfint]]]]]]],
+   [
+    [sortid, diag_tagdef],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_diag_tagdef],
+       [encoding, 1],
+       [result_sort, diag_tagdef],
+       [parameter_sorts,
+        [
+         [tno, tdfint],
+         [dtype, diag_type]]]]]]],
+   [
+    [sortid, diag_type_unit],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, build_diagtype_unit],
+       [encoding, 0],
+       [result_sort, diag_type_unit],
+       [parameter_sorts,
+        [
+         [no_labels, tdfint],
+         [tagdefs, diag_tagdef_list]]]]]]],
+   [
+    [sortid, diag_type],
+    [encoding_bits, 4],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, diag_type_apply_token],
+       [encoding, 1],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, diag_array],
+       [encoding, 2],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [element_type, diag_type],
+         [stride, exp],
+         [lower_bound, exp],
+         [upper_bound, exp],
+         [index_type, diag_type]]]],
+      [
+       [construct_name, diag_bitfield],
+       [encoding, 3],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [type, diag_type],
+         [number_of_bits, nat]]]],
+      [
+       [construct_name, diag_enum],
+       [encoding, 4],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [base_type, diag_type],
+         [enum_name, tdfstring],
+         [values, enum_values_list]]]],
+      [
+       [construct_name, diag_floating_variety],
+       [encoding, 5],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [var, floating_variety]]]],
+      [
+       [construct_name, diag_loc],
+       [encoding, 6],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [object, diag_type],
+         [qualifier, diag_tq]]]],
+      [
+       [construct_name, diag_proc],
+       [encoding, 7],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [params, diag_type_list],
+         [optional_args, bool],
+         [result_type, diag_type]]]],
+      [
+       [construct_name, diag_ptr],
+       [encoding, 8],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [object, diag_type],
+         [qualifier, diag_tq]]]],
+      [
+       [construct_name, diag_struct],
+       [encoding, 9],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [tdf_shape, shape],
+         [src_name, tdfstring],
+         [fields, diag_field_list]]]],
+      [
+       [construct_name, diag_type_null],
+       [encoding, 10],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, diag_union],
+       [encoding, 11],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [tdf_shape, shape],
+         [src_name, tdfstring],
+         [fields, diag_field_list]]]],
+      [
+       [construct_name, diag_variety],
+       [encoding, 12],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [var, variety]]]],
+      [
+       [construct_name, use_diag_tag],
+       [encoding, 13],
+       [result_sort, diag_type],
+       [parameter_sorts,
+        [
+         [dtag, diag_tag]]]]]]],
+   [
+    [sortid, enum_values],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_enum_values],
+       [encoding, 0],
+       [result_sort, enum_values],
+       [parameter_sorts,
+        [
+         [value, exp],
+         [src_name, tdfstring]]]]]]],
+   [
+    [sortid, diag_field],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_diag_field],
+       [encoding, 0],
+       [result_sort, diag_field],
+       [parameter_sorts,
+        [
+         [field_name, tdfstring],
+         [found_at, exp],
+         [field_type, diag_type]]]]]]],
+   [
+    [sortid, diag_tq],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, add_diag_const],
+       [encoding, 1],
+       [result_sort, diag_tq],
+       [parameter_sorts,
+        [
+         [qual, diag_tq]]]],
+      [
+       [construct_name, add_diag_volatile],
+       [encoding, 2],
+       [result_sort, diag_tq],
+       [parameter_sorts,
+        [
+         [qual, diag_tq]]]],
+      [
+       [construct_name, diag_tq_null],
+       [encoding, 3],
+       [result_sort, diag_tq],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, filename],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, filename_apply_token],
+       [encoding, 1],
+       [result_sort, filename],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, make_filename],
+       [encoding, 2],
+       [result_sort, filename],
+       [parameter_sorts,
+        [
+         [date, nat],
+         [machine, tdfstring],
+         [file, tdfstring]]]]]]],
+   [
+    [sortid, sourcemark],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_sourcemark],
+       [encoding, 1],
+       [result_sort, sourcemark],
+       [parameter_sorts,
+        [
+         [file, filename],
+         [line_no, nat],
+         [char_offset, nat]]]]]]],
+   [
+    [sortid, linkinfo_props],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_linkinfos],
+       [encoding, 0],
+       [result_sort, linkinfo_props],
+       [parameter_sorts,
+        [
+         [no_labels, tdfint],
+         [tds, linkinfo_list]]]]]]],
+   [
+    [sortid, linkinfo],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, static_name_def],
+       [encoding, 1],
+       [result_sort, linkinfo],
+       [parameter_sorts,
+        [
+         [assexp, exp],
+         [id, tdfstring]]]],
+      [
+       [construct_name, make_comment],
+       [encoding, 2],
+       [result_sort, linkinfo],
+       [parameter_sorts,
+        [
+         [n, tdfstring]]]],
+      [
+       [construct_name, make_weak_defn],
+       [encoding, 3],
+       [result_sort, linkinfo],
+       [parameter_sorts,
+        [
+         [namer, exp],
+         [val, exp]]]],
+      [
+       [construct_name, make_weak_symbol],
+       [encoding, 4],
+       [result_sort, linkinfo],
+       [parameter_sorts,
+        [
+         [id, tdfstring],
+         [val, exp]]]]]]],
+   [
+    [sortid, access],
+    [encoding_bits, 4],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, access_apply_token],
+       [encoding, 1],
+       [result_sort, access],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, access_cond],
+       [encoding, 2],
+       [result_sort, access],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, add_accesses],
+       [encoding, 3],
+       [result_sort, access],
+       [parameter_sorts,
+        [
+         [a1, access],
+         [a, access]]]],
+      [
+       [construct_name, constant],
+       [encoding, 4],
+       [result_sort, access],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, long_jump_access],
+       [encoding, 5],
+       [result_sort, access],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, no_other_read],
+       [encoding, 6],
+       [result_sort, access],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, no_other_write],
+       [encoding, 7],
+       [result_sort, access],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, out_par],
+       [encoding, 8],
+       [result_sort, access],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, preserve],
+       [encoding, 9],
+       [result_sort, access],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, register],
+       [encoding, 10],
+       [result_sort, access],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, standard_access],
+       [encoding, 11],
+       [result_sort, access],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, used_as_volatile],
+       [encoding, 12],
+       [result_sort, access],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, visible],
+       [encoding, 13],
+       [result_sort, access],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, al_tag],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, al_tag_apply_token],
+       [encoding, 2],
+       [result_sort, al_tag],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, make_al_tag],
+       [encoding, 1],
+       [result_sort, al_tag],
+       [parameter_sorts,
+        [
+         [al_tagno, tdfint]]]]]]],
+   [
+    [sortid, al_tagdef],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_al_tagdef],
+       [encoding, 1],
+       [result_sort, al_tagdef],
+       [parameter_sorts,
+        [
+         [t, tdfint],
+         [a, alignment]]]]]]],
+   [
+    [sortid, al_tagdef_props],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_al_tagdefs],
+       [encoding, 0],
+       [result_sort, al_tagdef_props],
+       [parameter_sorts,
+        [
+         [no_labels, tdfint],
+         [tds, al_tagdef_list]]]]]]],
+   [
+    [sortid, alignment],
+    [encoding_bits, 4],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, alignment_apply_token],
+       [encoding, 1],
+       [result_sort, alignment],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, alignment_cond],
+       [encoding, 2],
+       [result_sort, alignment],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, alignment],
+       [encoding, 3],
+       [result_sort, alignment],
+       [parameter_sorts,
+        [
+         [sha, shape]]]],
+      [
+       [construct_name, alloca_alignment],
+       [encoding, 4],
+       [result_sort, alignment],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, callees_alignment],
+       [encoding, 5],
+       [result_sort, alignment],
+       [parameter_sorts,
+        [
+         [var, bool]]]],
+      [
+       [construct_name, callers_alignment],
+       [encoding, 6],
+       [result_sort, alignment],
+       [parameter_sorts,
+        [
+         [var, bool]]]],
+      [
+       [construct_name, code_alignment],
+       [encoding, 7],
+       [result_sort, alignment],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, locals_alignment],
+       [encoding, 8],
+       [result_sort, alignment],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, obtain_al_tag],
+       [encoding, 9],
+       [result_sort, alignment],
+       [parameter_sorts,
+        [
+         [at, al_tag]]]],
+      [
+       [construct_name, parameter_alignment],
+       [encoding, 10],
+       [result_sort, alignment],
+       [parameter_sorts,
+        [
+         [sha, shape]]]],
+      [
+       [construct_name, unite_alignments],
+       [encoding, 11],
+       [result_sort, alignment],
+       [parameter_sorts,
+        [
+         [a1, alignment],
+         [a2, alignment]]]],
+      [
+       [construct_name, var_param_alignment],
+       [encoding, 12],
+       [result_sort, alignment],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, bitfield_variety],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, bfvar_apply_token],
+       [encoding, 1],
+       [result_sort, bitfield_variety],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, bfvar_cond],
+       [encoding, 2],
+       [result_sort, bitfield_variety],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, bfvar_bits],
+       [encoding, 3],
+       [result_sort, bitfield_variety],
+       [parameter_sorts,
+        [
+         [issigned, bool],
+         [bits, nat]]]]]]],
+   [
+    [sortid, bool],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, bool_apply_token],
+       [encoding, 1],
+       [result_sort, bool],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, bool_cond],
+       [encoding, 2],
+       [result_sort, bool],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, false],
+       [encoding, 3],
+       [result_sort, bool],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, true],
+       [encoding, 4],
+       [result_sort, bool],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, callees],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_callee_list],
+       [encoding, 1],
+       [result_sort, callees],
+       [parameter_sorts,
+        [
+         [args, exp_list]]]],
+      [
+       [construct_name, make_dynamic_callees],
+       [encoding, 2],
+       [result_sort, callees],
+       [parameter_sorts,
+        [
+         [ptr, exp],
+         [sze, exp]]]],
+      [
+       [construct_name, same_callees],
+       [encoding, 3],
+       [result_sort, callees],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, capsule],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_capsule],
+       [encoding, 0],
+       [result_sort, capsule],
+       [parameter_sorts,
+        [
+         [prop_names, tdfident_list],
+         [capsule_linking, capsule_link_list],
+         [external_linkage, extern_link_list],
+         [groups, group_list]]],
+       [break, 2]]]]],
+   [
+    [sortid, capsule_link],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_capsule_link],
+       [encoding, 0],
+       [result_sort, capsule_link],
+       [parameter_sorts,
+        [
+         [sn, tdfident],
+         [n, tdfint]]]]]]],
+   [
+    [sortid, caselim],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_caselim],
+       [encoding, 0],
+       [result_sort, caselim],
+       [parameter_sorts,
+        [
+         [branch, label],
+         [lower, signed_nat],
+         [upper, signed_nat]]]]]]],
+   [
+    [sortid, error_code],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, nil_access],
+       [encoding, 1],
+       [result_sort, error_code],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, overflow],
+       [encoding, 2],
+       [result_sort, error_code],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, stack_overflow],
+       [encoding, 3],
+       [result_sort, error_code],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, error_treatment],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, errt_apply_token],
+       [encoding, 1],
+       [result_sort, error_treatment],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, errt_cond],
+       [encoding, 2],
+       [result_sort, error_treatment],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, continue],
+       [encoding, 3],
+       [result_sort, error_treatment],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, error_jump],
+       [encoding, 4],
+       [result_sort, error_treatment],
+       [parameter_sorts,
+        [
+         [lab, label]]]],
+      [
+       [construct_name, trap],
+       [encoding, 5],
+       [result_sort, error_treatment],
+       [parameter_sorts,
+        [
+         [trap_list, error_code_list]]]],
+      [
+       [construct_name, wrap],
+       [encoding, 6],
+       [result_sort, error_treatment],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, impossible],
+       [encoding, 7],
+       [result_sort, error_treatment],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, exp],
+    [encoding_bits, 7],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, exp_apply_token],
+       [encoding, 1],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, exp_cond],
+       [encoding, 2],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, abs],
+       [encoding, 3],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [ov_err, error_treatment],
+         [arg1, exp]]]],
+      [
+       [construct_name, add_to_ptr],
+       [encoding, 4],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, and],
+       [encoding, 5],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, apply_proc],
+       [encoding, 6],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [result_shape, shape],
+         [p, exp],
+         [params, exp_list],
+         [var_param, exp_option]]]],
+      [
+       [construct_name, apply_general_proc],
+       [encoding, 7],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [result_shape, shape],
+         [prcprops, procprops_option],
+         [p, exp],
+         [caller_params_intro, otagexp_list],
+         [callee_params, callees],
+         [postlude, exp]]],
+       [break, 5]],
+      [
+       [construct_name, assign],
+       [encoding, 8],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, assign_with_mode],
+       [encoding, 9],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [md, transfer_mode],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, bitfield_assign],
+       [encoding, 10],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp],
+         [arg3, exp]]]],
+      [
+       [construct_name, bitfield_assign_with_mode],
+       [encoding, 11],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [md, transfer_mode],
+         [arg1, exp],
+         [arg2, exp],
+         [arg3, exp]]]],
+      [
+       [construct_name, bitfield_contents],
+       [encoding, 12],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [v, bitfield_variety],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, bitfield_contents_with_mode],
+       [encoding, 13],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [md, transfer_mode],
+         [v, bitfield_variety],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, case],
+       [encoding, 14],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [exhaustive, bool],
+         [control, exp],
+         [branches, caselim_list]]]],
+      [
+       [construct_name, change_bitfield_to_int],
+       [encoding, 15],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [v, variety],
+         [arg1, exp]]]],
+      [
+       [construct_name, change_floating_variety],
+       [encoding, 16],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [r, floating_variety],
+         [arg1, exp]]]],
+      [
+       [construct_name, change_variety],
+       [encoding, 17],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [ov_err, error_treatment],
+         [r, variety],
+         [arg1, exp]]]],
+      [
+       [construct_name, change_int_to_bitfield],
+       [encoding, 18],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [bv, bitfield_variety],
+         [arg1, exp]]]],
+      [
+       [construct_name, complex_conjugate],
+       [encoding, 19],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [c, exp]]]],
+      [
+       [construct_name, component],
+       [encoding, 20],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [sha, shape],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, concat_nof],
+       [encoding, 21],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, conditional],
+       [encoding, 22],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [alt_label_intro, label],
+         [first, exp],
+         [alt, exp]]],
+       [break, 1]],
+      [
+       [construct_name, contents],
+       [encoding, 23],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [s, shape],
+         [arg1, exp]]]],
+      [
+       [construct_name, contents_with_mode],
+       [encoding, 24],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [md, transfer_mode],
+         [s, shape],
+         [arg1, exp]]]],
+      [
+       [construct_name, current_env],
+       [encoding, 25],
+       [result_sort, exp],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, div0],
+       [encoding, 26],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [div_by_zero_err, error_treatment],
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, div1],
+       [encoding, 27],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [div_by_zero_err, error_treatment],
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, div2],
+       [encoding, 28],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [div_by_zero_err, error_treatment],
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, env_offset],
+       [encoding, 29],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [fa, alignment],
+         [y, alignment],
+         [t, tag]]]],
+      [
+       [construct_name, env_size],
+       [encoding, 30],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [proctag, tag]]]],
+      [
+       [construct_name, fail_installer],
+       [encoding, 31],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [message, string]]]],
+      [
+       [construct_name, float_int],
+       [encoding, 32],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [f, floating_variety],
+         [arg1, exp]]]],
+      [
+       [construct_name, floating_abs],
+       [encoding, 33],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [arg1, exp]]]],
+      [
+       [construct_name, floating_div],
+       [encoding, 34],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, floating_minus],
+       [encoding, 35],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, floating_maximum],
+       [encoding, 36],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, floating_minimum],
+       [encoding, 37],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, floating_mult],
+       [encoding, 38],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [arg1, exp_list]]]],
+      [
+       [construct_name, floating_negate],
+       [encoding, 39],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [arg1, exp]]]],
+      [
+       [construct_name, floating_plus],
+       [encoding, 40],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [arg1, exp_list]]]],
+      [
+       [construct_name, floating_power],
+       [encoding, 41],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, floating_test],
+       [encoding, 42],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [prob, nat_option],
+         [flpt_err, error_treatment],
+         [nt, ntest],
+         [dest, label],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, goto],
+       [encoding, 43],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [dest, label]]]],
+      [
+       [construct_name, goto_local_lv],
+       [encoding, 44],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, identify],
+       [encoding, 45],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [opt_access, access_option],
+         [name_intro, tag],
+         [definition, exp],
+         [body, exp]]],
+       [break, 3]],
+      [
+       [construct_name, ignorable],
+       [encoding, 46],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, imaginary_part],
+       [encoding, 47],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, initial_value],
+       [encoding, 48],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [init, exp]]],
+       [break, 0]],
+      [
+       [construct_name, integer_test],
+       [encoding, 49],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [prob, nat_option],
+         [nt, ntest],
+         [dest, label],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, labelled],
+       [encoding, 50],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [placelabs_intro, label_list],
+         [starter, exp],
+         [places, exp_list]]],
+       [break, 1]],
+      [
+       [construct_name, last_local],
+       [encoding, 51],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [x, exp]]]],
+      [
+       [construct_name, local_alloc],
+       [encoding, 52],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, local_alloc_check],
+       [encoding, 53],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, local_free],
+       [encoding, 54],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [a, exp],
+         [p, exp]]]],
+      [
+       [construct_name, local_free_all],
+       [encoding, 55],
+       [result_sort, exp],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, long_jump],
+       [encoding, 56],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, make_complex],
+       [encoding, 57],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [c, floating_variety],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, make_compound],
+       [encoding, 58],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp_list]]]],
+      [
+       [construct_name, make_floating],
+       [encoding, 59],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [f, floating_variety],
+         [rm, rounding_mode],
+         [negative, bool],
+         [mantissa, string],
+         [base, nat],
+         [exponent, signed_nat]]]],
+      [
+       [construct_name, make_general_proc],
+       [encoding, 60],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [result_shape, shape],
+         [prcprops, procprops_option],
+         [caller_intro, tagshacc_list],
+         [callee_intro, tagshacc_list],
+         [body, exp]]],
+       [break, 4]],
+      [
+       [construct_name, make_int],
+       [encoding, 61],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [v, variety],
+         [value, signed_nat]]]],
+      [
+       [construct_name, make_local_lv],
+       [encoding, 62],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [lab, label]]]],
+      [
+       [construct_name, make_nof],
+       [encoding, 63],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp_list]]]],
+      [
+       [construct_name, make_nof_int],
+       [encoding, 64],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [v, variety],
+         [str, string]]]],
+      [
+       [construct_name, make_null_local_lv],
+       [encoding, 65],
+       [result_sort, exp],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, make_null_proc],
+       [encoding, 66],
+       [result_sort, exp],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, make_null_ptr],
+       [encoding, 67],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [a, alignment]]]],
+      [
+       [construct_name, make_proc],
+       [encoding, 68],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [result_shape, shape],
+         [params_intro, tagshacc_list],
+         [var_intro, tagacc_option],
+         [body, exp]]],
+       [break, 3]],
+      [
+       [construct_name, make_stack_limit],
+       [encoding, 116],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [stack_base, exp],
+         [frame_size, exp],
+         [alloc_size, exp]]]],
+      [
+       [construct_name, make_top],
+       [encoding, 69],
+       [result_sort, exp],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, make_value],
+       [encoding, 70],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [s, shape]]]],
+      [
+       [construct_name, maximum],
+       [encoding, 71],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, minimum],
+       [encoding, 72],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, minus],
+       [encoding, 73],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, move_some],
+       [encoding, 74],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [md, transfer_mode],
+         [arg1, exp],
+         [arg2, exp],
+         [arg3, exp]]]],
+      [
+       [construct_name, mult],
+       [encoding, 75],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, n_copies],
+       [encoding, 76],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [n, nat],
+         [arg1, exp]]]],
+      [
+       [construct_name, negate],
+       [encoding, 77],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [ov_err, error_treatment],
+         [arg1, exp]]]],
+      [
+       [construct_name, not],
+       [encoding, 78],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, obtain_tag],
+       [encoding, 79],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [t, tag]]]],
+      [
+       [construct_name, offset_add],
+       [encoding, 80],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, offset_div],
+       [encoding, 81],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [v, variety],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, offset_div_by_int],
+       [encoding, 82],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, offset_max],
+       [encoding, 83],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, offset_mult],
+       [encoding, 84],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, offset_negate],
+       [encoding, 85],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, offset_pad],
+       [encoding, 86],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [a, alignment],
+         [arg1, exp]]]],
+      [
+       [construct_name, offset_subtract],
+       [encoding, 87],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, offset_test],
+       [encoding, 88],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [prob, nat_option],
+         [nt, ntest],
+         [dest, label],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, offset_zero],
+       [encoding, 89],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [a, alignment]]]],
+      [
+       [construct_name, or],
+       [encoding, 90],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, plus],
+       [encoding, 91],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, pointer_test],
+       [encoding, 92],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [prob, nat_option],
+         [nt, ntest],
+         [dest, label],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, power],
+       [encoding, 93],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, proc_test],
+       [encoding, 94],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [prob, nat_option],
+         [nt, ntest],
+         [dest, label],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, profile],
+       [encoding, 95],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [uses, nat]]]],
+      [
+       [construct_name, real_part],
+       [encoding, 96],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, rem0],
+       [encoding, 97],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [div_by_zero_err, error_treatment],
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, rem1],
+       [encoding, 98],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [div_by_zero_err, error_treatment],
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, rem2],
+       [encoding, 99],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [div_by_zero_err, error_treatment],
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, repeat],
+       [encoding, 100],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [repeat_label_intro, label],
+         [start, exp],
+         [body, exp]]],
+       [break, 1]],
+      [
+       [construct_name, return],
+       [encoding, 101],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, return_to_label],
+       [encoding, 102],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [lab_val, exp]]]],
+      [
+       [construct_name, round_with_mode],
+       [encoding, 103],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [flpt_err, error_treatment],
+         [mode, rounding_mode],
+         [r, variety],
+         [arg1, exp]]]],
+      [
+       [construct_name, rotate_left],
+       [encoding, 104],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, rotate_right],
+       [encoding, 105],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, sequence],
+       [encoding, 106],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [statements, exp_list],
+         [result, exp]]]],
+      [
+       [construct_name, set_stack_limit],
+       [encoding, 107],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [lim, exp]]]],
+      [
+       [construct_name, shape_offset],
+       [encoding, 108],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [s, shape]]]],
+      [
+       [construct_name, shift_left],
+       [encoding, 109],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [ov_err, error_treatment],
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, shift_right],
+       [encoding, 110],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, subtract_ptrs],
+       [encoding, 111],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]],
+      [
+       [construct_name, tail_call],
+       [encoding, 112],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [prcprops, procprops_option],
+         [p, exp],
+         [callee_params, callees]]]],
+      [
+       [construct_name, untidy_return],
+       [encoding, 113],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp]]]],
+      [
+       [construct_name, variable],
+       [encoding, 114],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [opt_access, access_option],
+         [name_intro, tag],
+         [init, exp],
+         [body, exp]]],
+       [break, 3]],
+      [
+       [construct_name, xor],
+       [encoding, 115],
+       [result_sort, exp],
+       [parameter_sorts,
+        [
+         [arg1, exp],
+         [arg2, exp]]]]]]],
+   [
+    [sortid, external],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, string_extern],
+       [encoding, 1],
+       [result_sort, external],
+       [parameter_sorts,
+        [
+         [s, tdfident]]],
+       [boundaries,
+        [0]]],
+      [
+       [construct_name, unique_extern],
+       [encoding, 2],
+       [result_sort, external],
+       [parameter_sorts,
+        [
+         [u, unique]]],
+       [boundaries,
+        [0]]],
+      [
+       [construct_name, chain_extern],
+       [encoding, 3],
+       [result_sort, external],
+       [parameter_sorts,
+        [
+         [s, tdfident],
+         [prev, tdfint]]],
+       [boundaries,
+        [0]]]]]],
+   [
+    [sortid, extern_link],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_extern_link],
+       [encoding, 0],
+       [result_sort, extern_link],
+       [parameter_sorts,
+        [
+         [el, linkextern_list]]]]]]],
+   [
+    [sortid, floating_variety],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, flvar_apply_token],
+       [encoding, 1],
+       [result_sort, floating_variety],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, flvar_cond],
+       [encoding, 2],
+       [result_sort, floating_variety],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, flvar_parms],
+       [encoding, 3],
+       [result_sort, floating_variety],
+       [parameter_sorts,
+        [
+         [base, nat],
+         [mantissa_digits, nat],
+         [minimum_exponent, nat],
+         [maximum_exponent, nat]]]],
+      [
+       [construct_name, complex_parms],
+       [encoding, 4],
+       [result_sort, floating_variety],
+       [parameter_sorts,
+        [
+         [base, nat],
+         [mantissa_digits, nat],
+         [minimum_exponent, nat],
+         [maximum_exponent, nat]]]],
+      [
+       [construct_name, float_of_complex],
+       [encoding, 5],
+       [result_sort, floating_variety],
+       [parameter_sorts,
+        [
+         [csh, shape]]]],
+      [
+       [construct_name, complex_of_float],
+       [encoding, 6],
+       [result_sort, floating_variety],
+       [parameter_sorts,
+        [
+         [fsh, shape]]]]]]],
+   [
+    [sortid, group],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_group],
+       [encoding, 0],
+       [result_sort, group],
+       [parameter_sorts,
+        [
+         [us, unit_list]]]]]]],
+   [
+    [sortid, label],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, label_apply_token],
+       [encoding, 2],
+       [result_sort, label],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, make_label],
+       [encoding, 1],
+       [result_sort, label],
+       [parameter_sorts,
+        [
+         [labelno, tdfint]]]]]]],
+   [
+    [sortid, link],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_link],
+       [encoding, 0],
+       [result_sort, link],
+       [parameter_sorts,
+        [
+         [unit_name, tdfint],
+         [capsule_name, tdfint]]]]]]],
+   [
+    [sortid, linkextern],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_linkextern],
+       [encoding, 0],
+       [result_sort, linkextern],
+       [parameter_sorts,
+        [
+         [internal, tdfint],
+         [ext, external]]]]]]],
+   [
+    [sortid, links],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_links],
+       [encoding, 0],
+       [result_sort, links],
+       [parameter_sorts,
+        [
+         [ls, link_list]]]]]]],
+   [
+    [sortid, nat],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, nat_apply_token],
+       [encoding, 1],
+       [result_sort, nat],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, nat_cond],
+       [encoding, 2],
+       [result_sort, nat],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, computed_nat],
+       [encoding, 3],
+       [result_sort, nat],
+       [parameter_sorts,
+        [
+         [arg, exp]]]],
+      [
+       [construct_name, error_val],
+       [encoding, 4],
+       [result_sort, nat],
+       [parameter_sorts,
+        [
+         [err, error_code]]]],
+      [
+       [construct_name, make_nat],
+       [encoding, 5],
+       [result_sort, nat],
+       [parameter_sorts,
+        [
+         [n, tdfint]]]]]]],
+   [
+    [sortid, ntest],
+    [encoding_bits, 4],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, ntest_apply_token],
+       [encoding, 1],
+       [result_sort, ntest],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, ntest_cond],
+       [encoding, 2],
+       [result_sort, ntest],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, equal],
+       [encoding, 3],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, greater_than],
+       [encoding, 4],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, greater_than_or_equal],
+       [encoding, 5],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, less_than],
+       [encoding, 6],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, less_than_or_equal],
+       [encoding, 7],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, not_equal],
+       [encoding, 8],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, not_greater_than],
+       [encoding, 9],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, not_greater_than_or_equal],
+       [encoding, 10],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, not_less_than],
+       [encoding, 11],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, not_less_than_or_equal],
+       [encoding, 12],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, less_than_or_greater_than],
+       [encoding, 13],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, not_less_than_and_not_greater_than],
+       [encoding, 14],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, comparable],
+       [encoding, 15],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, not_comparable],
+       [encoding, 16],
+       [result_sort, ntest],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, otagexp],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_otagexp],
+       [encoding, 0],
+       [result_sort, otagexp],
+       [parameter_sorts,
+        [
+         [tgopt, tag_option],
+         [e, exp]]]]]]],
+   [
+    [sortid, procprops],
+    [encoding_bits, 4],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, procprops_apply_token],
+       [encoding, 1],
+       [result_sort, procprops],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, procprops_cond],
+       [encoding, 2],
+       [result_sort, procprops],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, add_procprops],
+       [encoding, 3],
+       [result_sort, procprops],
+       [parameter_sorts,
+        [
+         [arg1, procprops],
+         [arg2, procprops]]]],
+      [
+       [construct_name, check_stack],
+       [encoding, 4],
+       [result_sort, procprops],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, inline],
+       [encoding, 5],
+       [result_sort, procprops],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, no_long_jump_dest],
+       [encoding, 6],
+       [result_sort, procprops],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, untidy],
+       [encoding, 7],
+       [result_sort, procprops],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, var_callees],
+       [encoding, 8],
+       [result_sort, procprops],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, var_callers],
+       [encoding, 9],
+       [result_sort, procprops],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, rounding_mode],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, rounding_mode_apply_token],
+       [encoding, 1],
+       [result_sort, rounding_mode],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, rounding_mode_cond],
+       [encoding, 2],
+       [result_sort, rounding_mode],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, round_as_state],
+       [encoding, 3],
+       [result_sort, rounding_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, to_nearest],
+       [encoding, 4],
+       [result_sort, rounding_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, toward_larger],
+       [encoding, 5],
+       [result_sort, rounding_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, toward_smaller],
+       [encoding, 6],
+       [result_sort, rounding_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, toward_zero],
+       [encoding, 7],
+       [result_sort, rounding_mode],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, shape],
+    [encoding_bits, 4],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, shape_apply_token],
+       [encoding, 1],
+       [result_sort, shape],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, shape_cond],
+       [encoding, 2],
+       [result_sort, shape],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, bitfield],
+       [encoding, 3],
+       [result_sort, shape],
+       [parameter_sorts,
+        [
+         [bf_var, bitfield_variety]]]],
+      [
+       [construct_name, bottom],
+       [encoding, 4],
+       [result_sort, shape],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, compound],
+       [encoding, 5],
+       [result_sort, shape],
+       [parameter_sorts,
+        [
+         [sz, exp]]]],
+      [
+       [construct_name, floating],
+       [encoding, 6],
+       [result_sort, shape],
+       [parameter_sorts,
+        [
+         [fv, floating_variety]]]],
+      [
+       [construct_name, integer],
+       [encoding, 7],
+       [result_sort, shape],
+       [parameter_sorts,
+        [
+         [var, variety]]]],
+      [
+       [construct_name, nof],
+       [encoding, 8],
+       [result_sort, shape],
+       [parameter_sorts,
+        [
+         [n, nat],
+         [s, shape]]]],
+      [
+       [construct_name, offset],
+       [encoding, 9],
+       [result_sort, shape],
+       [parameter_sorts,
+        [
+         [arg1, alignment],
+         [arg2, alignment]]]],
+      [
+       [construct_name, pointer],
+       [encoding, 10],
+       [result_sort, shape],
+       [parameter_sorts,
+        [
+         [arg, alignment]]]],
+      [
+       [construct_name, proc],
+       [encoding, 11],
+       [result_sort, shape],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, top],
+       [encoding, 12],
+       [result_sort, shape],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, signed_nat],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, signed_nat_apply_token],
+       [encoding, 1],
+       [result_sort, signed_nat],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, signed_nat_cond],
+       [encoding, 2],
+       [result_sort, signed_nat],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, computed_signed_nat],
+       [encoding, 3],
+       [result_sort, signed_nat],
+       [parameter_sorts,
+        [
+         [arg, exp]]]],
+      [
+       [construct_name, make_signed_nat],
+       [encoding, 4],
+       [result_sort, signed_nat],
+       [parameter_sorts,
+        [
+         [neg, tdfbool],
+         [n, tdfint]]]],
+      [
+       [construct_name, snat_from_nat],
+       [encoding, 5],
+       [result_sort, signed_nat],
+       [parameter_sorts,
+        [
+         [neg, bool],
+         [n, nat]]]]]]],
+   [
+    [sortid, sortname],
+    [encoding_bits, 5],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, access],
+       [encoding, 1],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, al_tag],
+       [encoding, 2],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, alignment_sort],
+       [encoding, 3],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, bitfield_variety],
+       [encoding, 4],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, bool],
+       [encoding, 5],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, error_treatment],
+       [encoding, 6],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, exp],
+       [encoding, 7],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, floating_variety],
+       [encoding, 8],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, foreign_sort],
+       [encoding, 9],
+       [result_sort, sortname],
+       [parameter_sorts,
+        [
+         [foreign_name, string]]]],
+      [
+       [construct_name, label],
+       [encoding, 10],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, nat],
+       [encoding, 11],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, ntest],
+       [encoding, 12],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, procprops],
+       [encoding, 13],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, rounding_mode],
+       [encoding, 14],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, shape],
+       [encoding, 15],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, signed_nat],
+       [encoding, 16],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, string],
+       [encoding, 17],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, tag],
+       [encoding, 18],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, transfer_mode],
+       [encoding, 19],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, token],
+       [encoding, 20],
+       [result_sort, sortname],
+       [parameter_sorts,
+        [
+         [result, sortname],
+         [params, sortname_list]]]],
+      [
+       [construct_name, variety],
+       [encoding, 21],
+       [result_sort, sortname],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, string],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, string_apply_token],
+       [encoding, 1],
+       [result_sort, string],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, string_cond],
+       [encoding, 2],
+       [result_sort, string],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, concat_string],
+       [encoding, 3],
+       [result_sort, string],
+       [parameter_sorts,
+        [
+         [arg1, string],
+         [arg2, string]]]],
+      [
+       [construct_name, make_string],
+       [encoding, 4],
+       [result_sort, string],
+       [parameter_sorts,
+        [
+         [arg, tdfstring]]]]]]],
+   [
+    [sortid, tag],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, tag_apply_token],
+       [encoding, 2],
+       [result_sort, tag],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, make_tag],
+       [encoding, 1],
+       [result_sort, tag],
+       [parameter_sorts,
+        [
+         [tagno, tdfint]]]]]]],
+   [
+    [sortid, tagacc],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_tagacc],
+       [encoding, 0],
+       [result_sort, tagacc],
+       [parameter_sorts,
+        [
+         [tg, tag],
+         [acc, access_option]]]]]]],
+   [
+    [sortid, tagdec],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_id_tagdec],
+       [encoding, 1],
+       [result_sort, tagdec],
+       [parameter_sorts,
+        [
+         [t_intro, tdfint],
+         [acc, access_option],
+         [signature, string_option],
+         [x, shape]]]],
+      [
+       [construct_name, make_var_tagdec],
+       [encoding, 2],
+       [result_sort, tagdec],
+       [parameter_sorts,
+        [
+         [t_intro, tdfint],
+         [acc, access_option],
+         [signature, string_option],
+         [x, shape]]]],
+      [
+       [construct_name, common_tagdec],
+       [encoding, 3],
+       [result_sort, tagdec],
+       [parameter_sorts,
+        [
+         [t_intro, tdfint],
+         [acc, access_option],
+         [signature, string_option],
+         [x, shape]]]]]]],
+   [
+    [sortid, tagdec_props],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_tagdecs],
+       [encoding, 0],
+       [result_sort, tagdec_props],
+       [parameter_sorts,
+        [
+         [no_labels, tdfint],
+         [tds, tagdec_list]]]]]]],
+   [
+    [sortid, tagdef],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_id_tagdef],
+       [encoding, 1],
+       [result_sort, tagdef],
+       [parameter_sorts,
+        [
+         [t, tdfint],
+         [signature, string_option],
+         [e, exp]]],
+       [break, 1]],
+      [
+       [construct_name, make_var_tagdef],
+       [encoding, 2],
+       [result_sort, tagdef],
+       [parameter_sorts,
+        [
+         [t, tdfint],
+         [opt_access, access_option],
+         [signature, string_option],
+         [e, exp]]],
+       [break, 1]],
+      [
+       [construct_name, common_tagdef],
+       [encoding, 3],
+       [result_sort, tagdef],
+       [parameter_sorts,
+        [
+         [t, tdfint],
+         [opt_access, access_option],
+         [signature, string_option],
+         [e, exp]]],
+       [break, 1]]]]],
+   [
+    [sortid, tagdef_props],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_tagdefs],
+       [encoding, 0],
+       [result_sort, tagdef_props],
+       [parameter_sorts,
+        [
+         [no_labels, tdfint],
+         [tds, tagdef_list]]]]]]],
+   [
+    [sortid, tagshacc],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_tagshacc],
+       [encoding, 0],
+       [result_sort, tagshacc],
+       [parameter_sorts,
+        [
+         [sha, shape],
+         [opt_access, access_option],
+         [tg_intro, tag]]]]]]],
+   [
+    [sortid, tokdec],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_tokdec],
+       [encoding, 1],
+       [result_sort, tokdec],
+       [parameter_sorts,
+        [
+         [tok, tdfint],
+         [signature, string_option],
+         [s, sortname]]]]]]],
+   [
+    [sortid, tokdec_props],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_tokdecs],
+       [encoding, 0],
+       [result_sort, tokdec_props],
+       [parameter_sorts,
+        [
+         [tds, tokdec_list]]]]]]],
+   [
+    [sortid, tokdef],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_tokdef],
+       [encoding, 1],
+       [result_sort, tokdef],
+       [parameter_sorts,
+        [
+         [tok, tdfint],
+         [signature, string_option],
+         [def, bitstream]]]]]]],
+   [
+    [sortid, tokdef_props],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_tokdefs],
+       [encoding, 0],
+       [result_sort, tokdef_props],
+       [parameter_sorts,
+        [
+         [no_labels, tdfint],
+         [tds, tokdef_list]]]]]]],
+   [
+    [sortid, token],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, token_apply_token],
+       [encoding, 1],
+       [result_sort, token],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, make_tok],
+       [encoding, 2],
+       [result_sort, token],
+       [parameter_sorts,
+        [
+         [tokno, tdfint]]]],
+      [
+       [construct_name, use_tokdef],
+       [encoding, 3],
+       [result_sort, token],
+       [parameter_sorts,
+        [
+         [tdef, bitstream]]]]]]],
+   [
+    [sortid, token_defn],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, token_definition],
+       [encoding, 1],
+       [result_sort, token_defn],
+       [parameter_sorts,
+        [
+         [result_sort, sortname],
+         [tok_params, tokformals_list]]]]]]],
+   [
+    [sortid, tokformals],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_tokformals],
+       [encoding, 0],
+       [result_sort, tokformals],
+       [parameter_sorts,
+        [
+         [sn, sortname],
+         [tk, tdfint]]]]]]],
+   [
+    [sortid, transfer_mode],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, transfer_mode_apply_token],
+       [encoding, 1],
+       [result_sort, transfer_mode],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, transfer_mode_cond],
+       [encoding, 2],
+       [result_sort, transfer_mode],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, add_modes],
+       [encoding, 3],
+       [result_sort, transfer_mode],
+       [parameter_sorts,
+        [
+         [md1, transfer_mode],
+         [md2, transfer_mode]]]],
+      [
+       [construct_name, overlap],
+       [encoding, 4],
+       [result_sort, transfer_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, standard_transfer_mode],
+       [encoding, 5],
+       [result_sort, transfer_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, trap_on_nil],
+       [encoding, 6],
+       [result_sort, transfer_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, volatile],
+       [encoding, 7],
+       [result_sort, transfer_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, complete],
+       [encoding, 8],
+       [result_sort, transfer_mode],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, unique],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_unique],
+       [encoding, 0],
+       [result_sort, unique],
+       [parameter_sorts,
+        [
+         [text, tdfident_list]]]]]]],
+   [
+    [sortid, unit],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_unit],
+       [encoding, 0],
+       [result_sort, unit],
+       [parameter_sorts,
+        [
+         [local_vars, tdfint_list],
+         [lks, links_list],
+         [properties, bytestream]]],
+       [break, 1]]]]],
+   [
+    [sortid, variety],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, var_apply_token],
+       [encoding, 1],
+       [result_sort, variety],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, var_cond],
+       [encoding, 2],
+       [result_sort, variety],
+       [parameter_sorts,
+        [
+         [control, exp],
+         [e1, bitstream],
+         [e2, bitstream]]]],
+      [
+       [construct_name, var_limits],
+       [encoding, 3],
+       [result_sort, variety],
+       [parameter_sorts,
+        [
+         [lower_bound, signed_nat],
+         [upper_bound, signed_nat]]]],
+      [
+       [construct_name, var_width],
+       [encoding, 4],
+       [result_sort, variety],
+       [parameter_sorts,
+        [
+         [signed_width, bool],
+         [width, nat]]]]]]],
+   [
+    [sortid, version_props],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_versions],
+       [encoding, 0],
+       [result_sort, version_props],
+       [parameter_sorts,
+        [
+         [version_info, version_list]]]]]]],
+   [
+    [sortid, version],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_version],
+       [encoding, 1],
+       [result_sort, version],
+       [parameter_sorts,
+        [
+         [major_version, tdfint],
+         [minor_version, tdfint]]]],
+      [
+       [construct_name, user_info],
+       [encoding, 2],
+       [result_sort, version],
+       [parameter_sorts,
+        [
+         [information, string]]]]]]],
+   [
+    [sortid, dg],
+    [encoding_bits, 6],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_apply_token],
+       [encoding, 1],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, make_tag_dg],
+       [encoding, 2],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [tg, dg_tag],
+         [diag, dg]]]],
+      [
+       [construct_name, abortable_part_dg],
+       [encoding, 3],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [no_code, bool]]]],
+      [
+       [construct_name, accept_dg],
+       [encoding, 4],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [entry, dg_tag],
+         [params, dg_name_list],
+         [no_code, bool],
+         [alt, dg_tag_option]]]],
+      [
+       [construct_name, barrier_dg],
+       [encoding, 5],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [entry, dg_tag]]]],
+      [
+       [construct_name, branch_dg],
+       [encoding, 6],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [stmt_src_pos, dg_sourcepos]]]],
+      [
+       [construct_name, call_dg],
+       [encoding, 7],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [idname, dg_idname_option],
+         [src_pos, dg_sourcepos],
+         [call_kind, nat_option],
+         [module, dg_tag_option],
+         [basetype, dg_tag_option]]]],
+      [
+       [construct_name, compilation_dg],
+       [encoding, 8],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [comp_unit, dg_tag]]]],
+      [
+       [construct_name, destructor_dg],
+       [encoding, 9],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [whence, dg_sourcepos],
+         [obtain_value, exp_option]]]],
+      [
+       [construct_name, exception_handler_dg],
+       [encoding, 10],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [ex, dg_name_option]]]],
+      [
+       [construct_name, exception_scope_dg],
+       [encoding, 11],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [handlers, dg_tag_list]]]],
+      [
+       [construct_name, inline_call_dg],
+       [encoding, 12],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [proc, dg_tag],
+         [act_params, dg_name_list],
+         [call_kind, nat_option]]]],
+      [
+       [construct_name, inline_result_dg],
+       [encoding, 13],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [inline_id, dg_tag]]]],
+      [
+       [construct_name, inlined_dg],
+       [encoding, 14],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [d, dg],
+         [origin, dg_tag]]]],
+      [
+       [construct_name, jump_dg],
+       [encoding, 15],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [stmt_src_pos, dg_sourcepos]]]],
+      [
+       [construct_name, label_dg],
+       [encoding, 16],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [src_pos, dg_sourcepos]]]],
+      [
+       [construct_name, lexical_block_dg],
+       [encoding, 17],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [idname, dg_idname_option],
+         [src_pos, dg_sourcepos]]]],
+      [
+       [construct_name, list_dg],
+       [encoding, 18],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [args, dg_list]]]],
+      [
+       [construct_name, long_jump_dg],
+       [encoding, 19],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [stmt_src_pos, dg_sourcepos]]]],
+      [
+       [construct_name, name_decl_dg],
+       [encoding, 20],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [name, dg_name]]]],
+      [
+       [construct_name, params_dg],
+       [encoding, 21],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [params, dg_name_list],
+         [outer_env, exp_option]]]],
+      [
+       [construct_name, raise_dg],
+       [encoding, 22],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [stmt_src_pos, dg_sourcepos],
+         [ex, dg_type_option],
+         [value, exp_option]]]],
+      [
+       [construct_name, requeue_dg],
+       [encoding, 23],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [stmt_src_pos, dg_sourcepos],
+         [entry, dg_tag],
+         [with_abort, bool]]]],
+      [
+       [construct_name, rts_call_dg],
+       [encoding, 24],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [call_kind, nat],
+         [entry, dg_tag_option],
+         [alt, dg_tag_option]]]],
+      [
+       [construct_name, select_dg],
+       [encoding, 25],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [async, bool]]]],
+      [
+       [construct_name, select_alternative_dg],
+       [encoding, 26],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [alt_kind, nat],
+         [no_code, bool],
+         [alt_value, exp]]]],
+      [
+       [construct_name, select_guard_dg],
+       [encoding, 27],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [alt, dg_tag]]]],
+      [
+       [construct_name, singlestep_dg],
+       [encoding, 28],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos]]]],
+      [
+       [construct_name, source_language_dg],
+       [encoding, 29],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [language, nat]]]],
+      [
+       [construct_name, sourcepos_dg],
+       [encoding, 30],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [span, dg_sourcepos]]]],
+      [
+       [construct_name, statement_part_dg],
+       [encoding, 31],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [lb, dg_tag]]]],
+      [
+       [construct_name, test_dg],
+       [encoding, 32],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [inverted, bool]]]],
+      [
+       [construct_name, triggering_alternative_dg],
+       [encoding, 33],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [alt_kind, nat],
+         [no_code, bool]]]],
+      [
+       [construct_name, with_dg],
+       [encoding, 34],
+       [result_sort, dg],
+       [parameter_sorts,
+        [
+         [type, dg_type],
+         [obtain_value, exp]]]]]]],
+   [
+    [sortid, dg_accessibility],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_local_accessibility],
+       [encoding, 1],
+       [result_sort, dg_accessibility],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_private_accessibility],
+       [encoding, 2],
+       [result_sort, dg_accessibility],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_protected_accessibility],
+       [encoding, 3],
+       [result_sort, dg_accessibility],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_public_accessibility],
+       [encoding, 4],
+       [result_sort, dg_accessibility],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, dg_append],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_name_append],
+       [encoding, 1],
+       [result_sort, dg_append],
+       [parameter_sorts,
+        [
+         [tg, dg_tag],
+         [name, dg_name]]]]]]],
+   [
+    [sortid, dg_bound],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_dynamic_bound],
+       [encoding, 1],
+       [result_sort, dg_bound],
+       [parameter_sorts,
+        [
+         [bound, dg_tag],
+         [sh, shape]]]],
+      [
+       [construct_name, dg_static_bound],
+       [encoding, 2],
+       [result_sort, dg_bound],
+       [parameter_sorts,
+        [
+         [bound, exp]]]],
+      [
+       [construct_name, dg_unknown_bound],
+       [encoding, 3],
+       [result_sort, dg_bound],
+       [parameter_sorts,
+        [
+         [sh, shape]]]]]]],
+   [
+    [sortid, dg_class_base],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_dg_class_base],
+       [encoding, 1],
+       [result_sort, dg_class_base],
+       [parameter_sorts,
+        [
+         [base, dg_tag],
+         [whence, dg_sourcepos_option],
+         [location, token_option],
+         [accessibility, dg_accessibility_option],
+         [virtuality, dg_virtuality_option]]]]]]],
+   [
+    [sortid, dg_classmem],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_tag_classmem],
+       [encoding, 1],
+       [result_sort, dg_classmem],
+       [parameter_sorts,
+        [
+         [tg, dg_tag],
+         [mem, dg_classmem]]]],
+      [
+       [construct_name, dg_field_classmem],
+       [encoding, 2],
+       [result_sort, dg_classmem],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [src_pos, dg_sourcepos],
+         [offset, exp],
+         [field_type, dg_type],
+         [accessibility, dg_accessibility_option],
+         [discr, bool_option],
+         [deflt, dg_default_option]]]],
+      [
+       [construct_name, dg_function_classmem],
+       [encoding, 3],
+       [result_sort, dg_classmem],
+       [parameter_sorts,
+        [
+         [fn, dg_name],
+         [vtable_slot, exp_option]]]],
+      [
+       [construct_name, dg_indirect_classmem],
+       [encoding, 4],
+       [result_sort, dg_classmem],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [src_pos, dg_sourcepos],
+         [location, token],
+         [cmem_type, dg_type]]]],
+      [
+       [construct_name, dg_name_classmem],
+       [encoding, 5],
+       [result_sort, dg_classmem],
+       [parameter_sorts,
+        [
+         [name, dg_name]]]]]]],
+   [
+    [sortid, dg_comp_props],
+    [encoding_bits, 0],
+    [has_extension, 0],
+    [constructs,
+     [
+      [
+       [construct_name, make_dg_compunit],
+       [encoding, 0],
+       [result_sort, dg_comp_props],
+       [parameter_sorts,
+        [
+         [no_labels, tdfint],
+         [comp_unit, dg_compilation],
+         [l, dg_append_list]]]]]]],
+   [
+    [sortid, dg_compilation],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_tag_compilation],
+       [encoding, 1],
+       [result_sort, dg_compilation],
+       [parameter_sorts,
+        [
+         [tg, dg_tag],
+         [comp, dg_compilation]]]],
+      [
+       [construct_name, make_dg_compilation],
+       [encoding, 2],
+       [result_sort, dg_compilation],
+       [parameter_sorts,
+        [
+         [primary_file, dg_filename],
+         [comp_unit_deps, string_list],
+         [macros, dg_macro_list],
+         [comp_dir, dg_filename],
+         [date, nat],
+         [language, nat],
+         [id_case, nat],
+         [producer, string],
+         [options, string_list],
+         [dnames, dg_namelist]]]]]]],
+   [
+    [sortid, dg_constraint],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_type_constraint],
+       [encoding, 1],
+       [result_sort, dg_constraint],
+       [parameter_sorts,
+        [
+         [ref_member, dg_tag_option],
+         [type, dg_type]]]],
+      [
+       [construct_name, dg_value_constraint],
+       [encoding, 2],
+       [result_sort, dg_constraint],
+       [parameter_sorts,
+        [
+         [ref_member, dg_tag_option],
+         [value, exp]]]]]]],
+   [
+    [sortid, dg_default],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_dg_default],
+       [encoding, 1],
+       [result_sort, dg_default],
+       [parameter_sorts,
+        [
+         [value, exp_option],
+         [src_span, dg_sourcepos_option]]]]]]],
+   [
+    [sortid, dg_dim],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_dim_apply_token],
+       [encoding, 1],
+       [result_sort, dg_dim],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, dg_tag_dim],
+       [encoding, 2],
+       [result_sort, dg_dim],
+       [parameter_sorts,
+        [
+         [tg, dg_tag],
+         [d, dg_dim]]]],
+      [
+       [construct_name, dg_bounds_dim],
+       [encoding, 3],
+       [result_sort, dg_dim],
+       [parameter_sorts,
+        [
+         [low, dg_bound],
+         [high, dg_bound],
+         [index_type, dg_type]]]],
+      [
+       [construct_name, dg_count_dim],
+       [encoding, 4],
+       [result_sort, dg_dim],
+       [parameter_sorts,
+        [
+         [low, dg_bound],
+         [count, dg_bound],
+         [index_type, dg_type]]]],
+      [
+       [construct_name, dg_type_dim],
+       [encoding, 5],
+       [result_sort, dg_dim],
+       [parameter_sorts,
+        [
+         [type, dg_type],
+         [n, nat_option]]]],
+      [
+       [construct_name, dg_unspecified_dim],
+       [encoding, 6],
+       [result_sort, dg_dim],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, dg_discrim],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_dg_discrim],
+       [encoding, 1],
+       [result_sort, dg_discrim],
+       [parameter_sorts,
+        [
+         [lower, exp],
+         [upper, exp]]]]]]],
+   [
+    [sortid, dg_enum],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_tag_enum],
+       [encoding, 1],
+       [result_sort, dg_enum],
+       [parameter_sorts,
+        [
+         [tg, dg_tag],
+         [e, dg_enum]]]],
+      [
+       [construct_name, make_dg_enum],
+       [encoding, 2],
+       [result_sort, dg_enum],
+       [parameter_sorts,
+        [
+         [value, exp],
+         [idname, dg_idname],
+         [src_pos, dg_sourcepos]]]],
+      [
+       [construct_name, dg_char_enum],
+       [encoding, 3],
+       [result_sort, dg_enum],
+       [parameter_sorts,
+        [
+         [value, exp],
+         [idchar, nat],
+         [src_pos, dg_sourcepos]]]]]]],
+   [
+    [sortid, dg_filename],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_filename_apply_token],
+       [encoding, 1],
+       [result_sort, dg_filename],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, make_dg_filename],
+       [encoding, 2],
+       [result_sort, dg_filename],
+       [parameter_sorts,
+        [
+         [date, nat],
+         [machine, string],
+         [path, string],
+         [file, string]]]]]]],
+   [
+    [sortid, dg_idname],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_idname_apply_token],
+       [encoding, 1],
+       [result_sort, dg_idname],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, dg_anonymous_idname],
+       [encoding, 2],
+       [result_sort, dg_idname],
+       [parameter_sorts,
+        [
+         [descr, string_option]]]],
+      [
+       [construct_name, dg_artificial_idname],
+       [encoding, 3],
+       [result_sort, dg_idname],
+       [parameter_sorts,
+        [
+         [aname, string_option]]]],
+      [
+       [construct_name, dg_external_idname],
+       [encoding, 4],
+       [result_sort, dg_idname],
+       [parameter_sorts,
+        [
+         [src_name, string]]]],
+      [
+       [construct_name, dg_instance_idname],
+       [encoding, 5],
+       [result_sort, dg_idname],
+       [parameter_sorts,
+        [
+         [idname, dg_idname_option],
+         [spec, dg_idname],
+         [whence, dg_sourcepos],
+         [aparams, dg_name_list]]]],
+      [
+       [construct_name, dg_sourcestring_idname],
+       [encoding, 6],
+       [result_sort, dg_idname],
+       [parameter_sorts,
+        [
+         [src_name, string]]]]]]],
+   [
+    [sortid, dg_macro],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_function_macro],
+       [encoding, 1],
+       [result_sort, dg_macro],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [idname, dg_idname],
+         [param, dg_idname_list],
+         [def, string]]]],
+      [
+       [construct_name, dg_include_macro],
+       [encoding, 2],
+       [result_sort, dg_macro],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [file, dg_filename],
+         [macros, dg_macro_list]]]],
+      [
+       [construct_name, dg_object_macro],
+       [encoding, 3],
+       [result_sort, dg_macro],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [idname, dg_idname],
+         [def, string]]]],
+      [
+       [construct_name, dg_undef_macro],
+       [encoding, 4],
+       [result_sort, dg_macro],
+       [parameter_sorts,
+        [
+         [src_pos, dg_sourcepos],
+         [idname, dg_idname]]]]]]],
+   [
+    [sortid, dg_name],
+    [encoding_bits, 5],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_name_apply_token],
+       [encoding, 1],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, dg_tag_name],
+       [encoding, 2],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [tg, dg_tag],
+         [name, dg_name]]]],
+      [
+       [construct_name, dg_constant_name],
+       [encoding, 3],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [name, dg_name]]]],
+      [
+       [construct_name, dg_entry_family_name],
+       [encoding, 4],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [proc, dg_name],
+         [family, dg_dim]]]],
+      [
+       [construct_name, dg_entry_name],
+       [encoding, 5],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [whence, dg_sourcepos],
+         [type, dg_type],
+         [accessibility, dg_accessibility_option],
+         [family, dg_dim_option]]]],
+      [
+       [construct_name, dg_inlined_name],
+       [encoding, 6],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [name, dg_name],
+         [origin, dg_tag]]]],
+      [
+       [construct_name, dg_is_spec_name],
+       [encoding, 7],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [name, dg_name],
+         [is_separate, bool_option]]]],
+      [
+       [construct_name, dg_module_name],
+       [encoding, 8],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [whence, dg_sourcepos],
+         [memlist, dg_namelist],
+         [init, exp_option],
+         [elaboration, dg_tag_option]]]],
+      [
+       [construct_name, dg_namespace_name],
+       [encoding, 9],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [whence, dg_sourcepos],
+         [members, dg_namelist]]]],
+      [
+       [construct_name, dg_object_name],
+       [encoding, 10],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [whence, dg_sourcepos],
+         [type, dg_type],
+         [obtain_value, exp_option],
+         [accessibility, dg_accessibility_option]]]],
+      [
+       [construct_name, dg_proc_name],
+       [encoding, 11],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [whence, dg_sourcepos],
+         [type, dg_type],
+         [obtain_value, exp_option],
+         [accessibility, dg_accessibility_option],
+         [virtuality, dg_virtuality_option],
+         [inl, bool],
+         [exceptions, dg_type_list_option],
+         [elaboration, dg_tag_option]]]],
+      [
+       [construct_name, dg_program_name],
+       [encoding, 12],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [whence, dg_sourcepos],
+         [obtain_value, exp]]]],
+      [
+       [construct_name, dg_rep_clause_name],
+       [encoding, 13],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [item, dg_name],
+         [location, exp]]]],
+      [
+       [construct_name, dg_spec_ref_name],
+       [encoding, 14],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [specification, dg_tag],
+         [name, dg_name]]]],
+      [
+       [construct_name, dg_subunit_name],
+       [encoding, 15],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [parent, dg_tag],
+         [name, dg_name],
+         [subunit_kind, nat],
+         [accessibility, dg_accessibility_option]]]],
+      [
+       [construct_name, dg_type_name],
+       [encoding, 16],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [idname, dg_idname_option],
+         [whence, dg_sourcepos],
+         [accessibility, dg_accessibility_option],
+         [type, dg_type_option],
+         [new_type, bool],
+         [ada_derived, bool_option],
+         [constraints, dg_constraint_list_option]]]],
+      [
+       [construct_name, dg_visibility_name],
+       [encoding, 17],
+       [result_sort, dg_name],
+       [parameter_sorts,
+        [
+         [dname, dg_tag],
+         [import_kind, nat],
+         [idname, dg_idname_option],
+         [src_pos, dg_sourcepos_option],
+         [accessibility, dg_accessibility_option],
+         [type, dg_type_option]]]]]]],
+   [
+    [sortid, dg_namelist],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_tag_namelist],
+       [encoding, 1],
+       [result_sort, dg_namelist],
+       [parameter_sorts,
+        [
+         [tg, dg_tag],
+         [nl, dg_namelist]]]],
+      [
+       [construct_name, make_dg_namelist],
+       [encoding, 2],
+       [result_sort, dg_namelist],
+       [parameter_sorts,
+        [
+         [items, dg_name_list]]]]]]],
+   [
+    [sortid, dg_param],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_object_param],
+       [encoding, 1],
+       [result_sort, dg_param],
+       [parameter_sorts,
+        [
+         [idname, dg_idname_option],
+         [src_pos, dg_sourcepos_option],
+         [mode, dg_param_mode_option],
+         [param_type, dg_type],
+         [deflt, dg_default_option]]]],
+      [
+       [construct_name, dg_type_param],
+       [encoding, 2],
+       [result_sort, dg_param],
+       [parameter_sorts,
+        [
+         [idname, dg_idname_option],
+         [src_pos, dg_sourcepos_option],
+         [fparams, dg_param_list]]]]]]],
+   [
+    [sortid, dg_param_mode],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_in_mode],
+       [encoding, 1],
+       [result_sort, dg_param_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_inout_mode],
+       [encoding, 2],
+       [result_sort, dg_param_mode],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_out_mode],
+       [encoding, 3],
+       [result_sort, dg_param_mode],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, dg_qualifier],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_aliased_qualifier],
+       [encoding, 1],
+       [result_sort, dg_qualifier],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_class_wide_qualifier],
+       [encoding, 2],
+       [result_sort, dg_qualifier],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_const_qualifier],
+       [encoding, 3],
+       [result_sort, dg_qualifier],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_limited_qualifier],
+       [encoding, 4],
+       [result_sort, dg_qualifier],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_volatile_qualifier],
+       [encoding, 5],
+       [result_sort, dg_qualifier],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, dg_sourcepos],
+    [encoding_bits, 3],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_file_sourcepos],
+       [encoding, 1],
+       [result_sort, dg_sourcepos],
+       [parameter_sorts,
+        [
+         [file, dg_filename]]]],
+      [
+       [construct_name, dg_global_sourcepos],
+       [encoding, 2],
+       [result_sort, dg_sourcepos],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_mark_sourcepos],
+       [encoding, 3],
+       [result_sort, dg_sourcepos],
+       [parameter_sorts,
+        [
+         [file, dg_filename],
+         [line, nat],
+         [column, nat]]]],
+      [
+       [construct_name, dg_null_sourcepos],
+       [encoding, 4],
+       [result_sort, dg_sourcepos],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_span_sourcepos],
+       [encoding, 5],
+       [result_sort, dg_sourcepos],
+       [parameter_sorts,
+        [
+         [from_file, dg_filename],
+         [from_line, nat],
+         [from_column, nat],
+         [to_file, dg_filename_option],
+         [to_line, nat],
+         [to_column, nat]]]]]]],
+   [
+    [sortid, dg_tag],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_dg_tag],
+       [encoding, 1],
+       [result_sort, dg_tag],
+       [parameter_sorts,
+        [
+         [num, tdfint]]]]]]],
+   [
+    [sortid, dg_type],
+    [encoding_bits, 6],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_type_apply_token],
+       [encoding, 1],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [token_value, token],
+         [token_args, bitstream]]]],
+      [
+       [construct_name, dg_tag_type],
+       [encoding, 2],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [tg, dg_tag],
+         [type, dg_type]]]],
+      [
+       [construct_name, dg_address_type],
+       [encoding, 3],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [sh, shape]]]],
+      [
+       [construct_name, dg_array_type],
+       [encoding, 4],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [element_type, dg_type],
+         [stride, exp],
+         [row_major, bool_option],
+         [dimensions, dg_dim_list]]]],
+      [
+       [construct_name, dg_bitfield_type],
+       [encoding, 5],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [type, dg_type],
+         [bv, bitfield_variety],
+         [sh, shape]]]],
+      [
+       [construct_name, dg_boolean_type],
+       [encoding, 6],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [var, variety]]]],
+      [
+       [construct_name, dg_char_type],
+       [encoding, 7],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [var, variety]]]],
+      [
+       [construct_name, dg_class_type],
+       [encoding, 8],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [inheritance, dg_class_base_list],
+         [members, dg_classmem_list],
+         [varpart, dg_varpart_option],
+         [friends, dg_tag_list],
+         [sh, shape_option],
+         [vtable_static, dg_tag_option],
+         [vtable_dynamic, dg_tag_option],
+         [tagname, dg_idname_option],
+         [src_pos, dg_sourcepos_option],
+         [is_union, bool],
+         [rtti_static, dg_tag_option],
+         [rtti_dynamic, dg_tag_option],
+         [new_type, bool],
+         [ada_derived, bool_option]]]],
+      [
+       [construct_name, dg_complex_float_type],
+       [encoding, 9],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [var, floating_variety]]]],
+      [
+       [construct_name, dg_enum_type],
+       [encoding, 10],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [values, dg_enum_list],
+         [tagname, dg_idname_option],
+         [src_pos, dg_sourcepos_option],
+         [sh, shape],
+         [new_type, bool]]]],
+      [
+       [construct_name, dg_file_type],
+       [encoding, 11],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [elem_type, dg_type],
+         [sh, shape]]]],
+      [
+       [construct_name, dg_fixed_point_type],
+       [encoding, 12],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [rep_type, dg_type],
+         [small, exp],
+         [delta, exp_option],
+         [digits, exp_option]]]],
+      [
+       [construct_name, dg_float_type],
+       [encoding, 13],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [var, floating_variety]]]],
+      [
+       [construct_name, dg_floating_digits_type],
+       [encoding, 14],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [rep_type, dg_type],
+         [digits, exp]]]],
+      [
+       [construct_name, dg_inlined_type],
+       [encoding, 15],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [type, dg_type],
+         [origin, dg_tag]]]],
+      [
+       [construct_name, dg_integer_type],
+       [encoding, 16],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [var, variety]]]],
+      [
+       [construct_name, dg_is_spec_type],
+       [encoding, 17],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [type, dg_type]]]],
+      [
+       [construct_name, dg_modular_type],
+       [encoding, 18],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [rep_type, dg_type],
+         [size, exp]]]],
+      [
+       [construct_name, dg_named_type],
+       [encoding, 19],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [dname, dg_tag]]]],
+      [
+       [construct_name, dg_packed_type],
+       [encoding, 20],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [type, dg_type],
+         [sh, shape]]]],
+      [
+       [construct_name, dg_pointer_type],
+       [encoding, 21],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [type, dg_type],
+         [heap_only, bool_option]]]],
+      [
+       [construct_name, dg_proc_type],
+       [encoding, 22],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [params, dg_param_list],
+         [result_type, dg_type],
+         [prototype, bool_option],
+         [call_convention, nat_option],
+         [language, nat_option],
+         [prcprops, procprops_option]]]],
+      [
+       [construct_name, dg_ptr_memdata_type],
+       [encoding, 23],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [cls, dg_tag],
+         [memtype, dg_type],
+         [sh, shape],
+         [pdm_type, dg_tag_option]]]],
+      [
+       [construct_name, dg_ptr_memfn_type],
+       [encoding, 24],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [cls, dg_tag],
+         [memtype, dg_type],
+         [sh, shape],
+         [pfn_type, dg_tag_option]]]],
+      [
+       [construct_name, dg_qualified_type],
+       [encoding, 25],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [qualifier, dg_qualifier],
+         [type, dg_type]]]],
+      [
+       [construct_name, dg_reference_type],
+       [encoding, 26],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [type, dg_type]]]],
+      [
+       [construct_name, dg_set_type],
+       [encoding, 27],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [element_type, dg_type],
+         [sh, shape]]]],
+      [
+       [construct_name, dg_spec_ref_type],
+       [encoding, 28],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [specification, dg_tag],
+         [type, dg_type]]]],
+      [
+       [construct_name, dg_string_type],
+       [encoding, 29],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [character_type, dg_tag],
+         [lower_bound, exp],
+         [length, exp]]]],
+      [
+       [construct_name, dg_struct_type],
+       [encoding, 30],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [fields, dg_classmem_list],
+         [sh, shape_option],
+         [tagname, dg_idname_option],
+         [src_pos, dg_sourcepos_option],
+         [varpart, dg_varpart_option],
+         [is_union, bool],
+         [new_type, bool]]]],
+      [
+       [construct_name, dg_subrange_type],
+       [encoding, 31],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [rep_type, dg_type],
+         [low, dg_bound],
+         [high, dg_bound]]]],
+      [
+       [construct_name, dg_synchronous_type],
+       [encoding, 32],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [whence, dg_sourcepos],
+         [entries, dg_name_list],
+         [socb, dg_tag],
+         [members, dg_classmem_list],
+         [varpart, dg_varpart_option],
+         [sh, shape_option],
+         [new_type, bool],
+         [elaboration, dg_tag_option]]]],
+      [
+       [construct_name, dg_task_type],
+       [encoding, 33],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [idname, dg_idname],
+         [whence, dg_sourcepos],
+         [entries, dg_name_list],
+         [task_id, dg_tag],
+         [tcb, dg_tag],
+         [members, dg_classmem_list],
+         [varpart, dg_varpart_option],
+         [sh, shape_option],
+         [new_type, bool],
+         [elaboration, dg_tag_option]]]],
+      [
+       [construct_name, dg_unknown_type],
+       [encoding, 34],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        [
+         [sh, shape]]]],
+      [
+       [construct_name, dg_void_type],
+       [encoding, 35],
+       [result_sort, dg_type],
+       [parameter_sorts,
+        []]]]]],
+   [
+    [sortid, dg_variant],
+    [encoding_bits, 1],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, make_dg_variant],
+       [encoding, 1],
+       [result_sort, dg_variant],
+       [parameter_sorts,
+        [
+         [discr, dg_discrim_list],
+         [fields, dg_classmem_list]]]]]]],
+   [
+    [sortid, dg_varpart],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_discrim_varpart],
+       [encoding, 1],
+       [result_sort, dg_varpart],
+       [parameter_sorts,
+        [
+         [discrim, dg_classmem],
+         [variants, dg_variant_list]]]],
+      [
+       [construct_name, dg_sibl_discrim_varpart],
+       [encoding, 2],
+       [result_sort, dg_varpart],
+       [parameter_sorts,
+        [
+         [discrim, dg_tag],
+         [variants, dg_variant_list]]]],
+      [
+       [construct_name, dg_undiscrim_varpart],
+       [encoding, 3],
+       [result_sort, dg_varpart],
+       [parameter_sorts,
+        [
+         [tag_type, dg_type],
+         [variants, dg_variant_list]]]]]]],
+   [
+    [sortid, dg_virtuality],
+    [encoding_bits, 2],
+    [has_extension, 1],
+    [constructs,
+     [
+      [
+       [construct_name, dg_abstract_virtuality],
+       [encoding, 1],
+       [result_sort, dg_virtuality],
+       [parameter_sorts,
+        []]],
+      [
+       [construct_name, dg_virtual_virtuality],
+       [encoding, 2],
+       [result_sort, dg_virtuality],
+       [parameter_sorts,
+        []]]]]]]],
+ [lists,
+  [enum_values_list,
+   diag_type_list,
+   diag_field_list,
+   exp_list,
+   error_code_list,
+   otagexp_list,
+   caselim_list,
+   label_list,
+   tagshacc_list,
+   sortname_list,
+   tokformals_list,
+   dg_name_list,
+   dg_tag_list,
+   dg_list,
+   string_list,
+   dg_macro_list,
+   dg_idname_list,
+   dg_type_list,
+   dg_constraint_list,
+   dg_param_list,
+   dg_dim_list,
+   dg_class_base_list,
+   dg_classmem_list,
+   dg_enum_list,
+   dg_discrim_list,
+   dg_variant_list]],
+ [slists,
+  [diag_descriptor_list,
+   diag_tagdef_list,
+   linkinfo_list,
+   al_tagdef_list,
+   tdfident_list,
+   capsule_link_list,
+   extern_link_list,
+   group_list,
+   linkextern_list,
+   unit_list,
+   link_list,
+   tagdec_list,
+   tagdef_list,
+   tokdec_list,
+   tokdef_list,
+   tdfint_list,
+   links_list,
+   version_list,
+   dg_append_list]],
+ [options,
+  [exp_option,
+   procprops_option,
+   nat_option,
+   access_option,
+   tagacc_option,
+   tag_option,
+   string_option,
+   dg_tag_option,
+   dg_idname_option,
+   dg_name_option,
+   dg_type_option,
+   dg_sourcepos_option,
+   token_option,
+   dg_accessibility_option,
+   dg_virtuality_option,
+   bool_option,
+   dg_default_option,
+   dg_dim_option,
+   dg_type_list_option,
+   dg_constraint_list_option,
+   dg_param_mode_option,
+   dg_filename_option,
+   dg_varpart_option,
+   shape_option]],
+ [linkable_entities,
+  [
+   [
+    [entity_sort, diag_tag],
+    [entity_identifier, diagtag]],
+   [
+    [entity_sort, al_tag],
+    [entity_identifier, alignment]],
+   [
+    [entity_sort, tag],
+    [entity_identifier, tag]],
+   [
+    [entity_sort, token],
+    [entity_identifier, token]],
+   [
+    [entity_sort, dg_tag],
+    [entity_identifier, dgtag]]]],
+ [kinds_of_unit,
+  [
+   [
+    [unit_elements, diag_unit],
+    [unit_identifier, diagdef]],
+   [
+    [unit_elements, diag_type_unit],
+    [unit_identifier, diagtype]],
+   [
+    [unit_elements, linkinfo_props],
+    [unit_identifier, linkinfo]],
+   [
+    [unit_elements, al_tagdef_props],
+    [unit_identifier, aldef]],
+   [
+    [unit_elements, tagdec_props],
+    [unit_identifier, tagdec]],
+   [
+    [unit_elements, tagdef_props],
+    [unit_identifier, tagdef]],
+   [
+    [unit_elements, tokdec_props],
+    [unit_identifier, tokdec]],
+   [
+    [unit_elements, tokdef_props],
+    [unit_identifier, tokdef]],
+   [
+    [unit_elements, version_props],
+    [unit_identifier, versions]],
+   [
+    [unit_elements, dg_comp_props],
+    [unit_identifier, dgcompunit]]]],
+ [graph_edges,
+  [
+   [
+    [edge_sort, al_tag],
+    [edge_constructor, make_al_tag]],
+   [
+    [edge_sort, label],
+    [edge_constructor, make_label]],
+   [
+    [edge_sort, tag],
+    [edge_constructor, make_tag]],
+   [
+    [edge_sort, token],
+    [edge_constructor, make_tok]],
+   [
+    [edge_sort, diag_tag],
+    [edge_constructor, make_diag_tag]],
+   [
+    [edge_sort, dg_tag],
+    [edge_constructor, make_dg_tag]]]],
+ [major_version, 4],
+ [minor_version, 1]]

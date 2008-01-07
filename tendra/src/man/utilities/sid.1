@@ -1,0 +1,245 @@
+.\" Copyright (c) 2002-2004 The TenDRA Project <http://www.ten15.org/> 
+.\" All rights reserved. 
+.\"  
+.\" Redistribution and use in source and binary forms, with or without 
+.\" modification, are permitted provided that the following conditions 
+.\" are met: 
+.\" 1. Redistributions of source code must retain the above copyright 
+.\"    notice, this list of conditions and the following disclaimer. 
+.\" 2. Redistributions in binary form must reproduce the above copyright 
+.\"    notice, this list of conditions and the following disclaimer in the 
+.\"    documentation and/or other materials provided with the distribution. 
+.\"  
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND 
+.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE 
+.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS 
+.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
+.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+.\" SUCH DAMAGE. 
+.\" 
+.\" $TenDRA$ 
+.\" 
+.TH "sid" "1" "Tue 18 Oct 2005, 07:24" "sid @PROGRAM_VERSION@" "TenDRA @TENDRA_VERSION@" 
+.SH "NAME" 
+.PP 
+\fBsid\fP - Syntax Improving Device; parser generator\&.
+.SH "SYNOPSIS"
+.PP
+\fBsid\fP [\fIoptions\fP] \fIfile\fP 
+.SH "DESCRIPTION"
+.PP
+The \fIsid\fP command is used to turn descriptions
+of a language into a program for recognising that language\&. This manual
+page details the command line syntax; for more information, consult the
+\fIsid\fP user documentation\&. The number of files
+specified on the command line varies depending upon the output language\&.
+The description of the \fB--language\fP option specifies the
+number of files for each language\&.
+.SH "SWITCHES"
+.PP
+The new version of \fIsid\fP accepts both short form
+and long form command line switches\&.
+.PP
+Short form switches are single characters, and begin with a \&'-\&' or
+\&'+\&' character\&. They can be concatentated into a single command line word,
+e\&.g\&.:
+.PP
+\fB-Vd\fP \fIdump-file\fP
+.PP
+which contains two different switches (\fB-V\fP, which
+takes no arguments; and \fB-d\fP, which takes one argument:
+\fIdump-file\fP)\&.
+.PP
+Long form switches are strings, and begin with \&'--\&' or \&'++\&'\&. With
+long form switches, only the shortest unique prefix need be entered\&. The
+long form of the above example would be:
+.PP
+\fB--version\fP \fB--dump-file \fP\fIdump-file\fP
+.PP
+In most cases the arguments to the switch should follow the switch
+as a separate word\&. In the case of short form switches, the arguments to
+the short form switches in a single word should follow the word in the
+order of the switches (as in the first example)\&. For some options, the
+argument may be part of the same word as the switch (such options are
+shown without a space between the switch and the argument in the switch
+summaries below)\&. In the case of short form switches, such a switch would
+terminate any concatentation of switches (either a character would follow
+it, which would be treated as its argument, or it would be the end of the
+word, and its argument would follow as normal)\&.
+.PP
+For binary switches, the \&'-\&' or \&'--\&' switch prefixes set (enable)
+the switch, and the \&'+\&' or \&'++\&' switch prefixes reset (disable) the
+switch\&. This is probably back to front, but is in keeping with other
+programs\&. The switches \&'--\&' or \&'++\&' by themselves terminate option
+parsing\&.
+.SH "ERROR FILE SYNTAX"
+.PP
+It is possible to change the error messages that
+\fIsid\fP uses\&. In order to do this, make the environment
+variable \fISID_ERROR_FILE\fP contain the name of a file
+with the new error messages in\&.
+.PP
+The error file consists of zero or more sections\&. Each section
+begins with a section marker (one of \fI%prefix%\fP,
+\fI%errors%\fP or \fI%strings%\fP)\&. The
+prefix section takes a single string (this is to be the prefix for all
+error messages)\&. The other sections take zero or more pairs of names and
+strings\&. A name is a sequence of characters surrounded by single quotes\&.
+A string is a sequence of characters surrounded by double quotes\&. In the
+case of the prefix and error sections, the strings may contain variables
+of the form \fI${\fP\fIvariable
+name\fP\fI}\fP\&. These variables will be replaced
+by suitable information when the error occurs\&. The backslash character
+can be used to escape characters\&. The following C style escape sequences
+are recognized: \fB\&'\\n\&'\fP, \fB\&'\\r\&'\fP,
+\fB\&'\\t\&'\fP, \fB\&'\\0\&'\fP\&. Also, the
+sequence \fB\&'\\xNN\&'\fP represents the
+character with code \fINN\fP in hex\&. The hash character
+acts as a comment to end of line character\&.
+.PP
+The \fB--show-errors\fP option may be used to get a copy
+of the current error messages\&.
+.SH "OPTIONS"
+.PP
+\fBsid\fP accepts the following command line options:
+.IP "\fB--dump-file\fP \fIFILE\fP, \fB-d\fP \fIFILE\fP" 5
+This option causes intermediate dumps of the grammar to be
+written to the file \fIFILE\fP\&.
+.IP "\fB--factor-limit\fP \fILIMIT\fP, \fB-f\fP \fILIMIT\fP" 5
+This option limits the number of rules that can be created during
+the factorisation process\&. It is probably best not to change
+this\&.
+.IP "\fB--help\fP, \fB-h\fP" 5
+Write an option summary to the standard error\&.
+.IP "\fB--inline\fP \fIINLINES\fP, \fB-i\fP \fIINLINES\fP" 5
+This option controls what inlining will be done in the output
+parser\&. The inlines argument should be a comma separated list of
+the following words:
+.RS
+.IP "SINGLES" 5
+This causes single alternative rules to be inlined\&. This
+inlining is no longer performed as a modification to the
+grammar (it was in version 1\&.0)\&.
+.IP "BASICS" 5
+This causes rules that contain only basics (and no
+exception handlers or empty alternatives) to be inlined\&. The
+restriction on exception handlers and empty alternatives is
+rather arbitrary, and may be changed later\&.
+.IP "TAIL" 5
+This causes tail recursive calls to be inlined\&. Without
+this, tail recursion elimination will not be
+performed\&.
+.IP "OTHER" 5
+This causes other calls to be inlined wherever possible\&.
+Unless the "MULTI" inlining is also specified, this will be
+done only for productions that are called once\&.
+.IP "MULTI" 5
+This causes calls to be inlined, even if the rule being
+called is called more than once\&. Turning this inlining on
+implies "OTHER"\&. Similarly turning off "OTHER" inlining will
+turn off "MULTI" inlining\&. For grammars of any size, this is
+probably best avoided; if used the generated parser may be
+huge (e\&.g\&. a C grammar has produced a file that was several
+hundred MB in size)\&.
+.IP "ALL" 5
+This turns on all inlining\&.
+.RE
+.IP "" 5
+In addition, prefixing a word with "NO" turns off that
+inlining phase\&. The words may be given in any case\&. They are
+evaluated in the order given, so:
+.IP "" 5
+--inline noall,singles
+.IP "" 5
+would turn on single alternative rule inlining only,
+whilst:
+.IP "" 5
+--inline singles,noall
+.IP "" 5
+would turn off all inlining\&. The default is as if SID were
+invoked with the option:
+.IP "" 5
+--inline noall,basics,tail
+.IP "\fB--language\fP \fILANGUAGE\fP, \fB-l\fP \fILANGUAGE\fP" 5
+This option specifies the output language\&. Currently this
+should be either "ansi-c", "pre-ansi-c", "ossg-c", or "test"\&. The
+default is "ansi-c"\&.
+.IP "" 5
+The "ansi-c" and "pre-ansi-c" languages are basically the
+same\&. The only difference is that "ansi-c" initially uses function
+prototypes, and "pre-ansi-c" doesn\&'t\&. The "ossg-c" language uses
+macros to declare and define functions which may be defined to
+give either prototypes or non-prototypes\&. Each language takes two
+input files, a grammar file and an actions file, and produces two
+output files, a C source file containing the generated parser and
+a C header file containing the external declarations for the
+parser\&. The C language specific options are:
+
+.RS
+.IP "prototypes proto ossg-prototypes ossg-proto no-prototypes no-proto" 5
+These enable or disable the use of function prototypes
+or the OSSG prototype macros\&.
+.IP "split split=\fINUMBER\fP no-split" 5
+These enable or disable the output file split option\&.
+The generated files can be very large even without inlining\&.
+This option splits the main output file into a number of
+components containing about \fINUMBER\fP lines each (the default being 50000)\&. These components are
+distinguished by successively substituting 1, 2, 3, \&.\&.\&.  for
+the character \&'@\&' in the output file name\&.
+.IP "numeric-ids numeric no-numeric-ids no-numeric" 5
+These enable or disable the use of numeric identifiers\&.
+Numeric identifiers replace the identifier name with a
+number, which is mainly of use in stopping identifier names
+getting too long\&. The disadvantage is that the code becomes
+less readable, and more difficult to debug\&. Numeric
+identifiers are not used by default and are never used for
+terminal numbers\&.
+.IP "casts cast no-casts no-cast" 5
+These enable or disable casting of action and assignment
+operator immutable parameters\&. If enabled, a parameter is
+cast to its own type when it is substituted into the action\&.
+This will cause some compilers to complain about attempts to
+modify the parameter (which can help pick out attempts at
+mutating parameters that should not be mutated)\&. The
+disadvantage is that not all compilers will reject attempts
+at mutation, and that ANSI doesn\&'t allow casting to
+structure and union types, which means that some code may be
+illegal\&. Parameter casting is disabled by default\&.
+.IP "unreachable-macros unreachable-macro unreachable-comments unreachable-comment" 5
+These choose whether unreachable code is marked by a
+macro or a comment\&.  The default is to mark unreachable code
+with a comment "/*UNREACHED*/", however a macro "UNREACHED;"
+may be used instead, if desired\&.
+.IP "lines line no-lines no-line" 5
+These determine whether "#line" directives should be
+output to relate the output file to the actions file\&. These
+are generated by default\&.
+.RE
+.IP "" 5
+The "test" language only takes one input file, and produces no
+output file\&. It may be used to check that a grammar is valid\&. In
+conjunction with the dump file, it may be used to check the
+transformations that would be applied to the grammar\&. There are no
+language specific options for the "test" language\&.
+.IP "\fB--show-errors\fP, \fB-e\fP" 5
+Write the current error message list to the standard
+output\&.
+.IP "\fB--switch\fP \fIOPTION\fP, \fB-s\fP \fIOPTION\fP" 5
+Pass through \fIOPTION\fP as a language specific
+option\&.
+.IP "\fB--tab-width\fP \fINUMBER\fP, \fB-t\fP \fINUMBER\fP" 5
+This option specifies the number of spaces that a tab
+occupies\&. It defaults to 8\&. It is only used when indenting
+output\&.
+.IP "\fB--version\fP, \fB-V\fP" 5
+This option causes the version number and supported languages
+to be written to the standard error stream\&.
+.SH "SEE ALSO"
+.PP
+SID users\&' guide\&.
+...\" created by instant / docbook-to-man, Tue 18 Oct 2005, 07:24

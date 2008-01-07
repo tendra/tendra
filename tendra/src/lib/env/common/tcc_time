@@ -1,0 +1,22 @@
+/* tcc environment implementing the -time option 
+ * $TenDRA$
+*/
+
+<TDFC			"<BIN_TIME>"
+<TDFCPP			"<BIN_TIME>"
+<TCPPLUS		"<BIN_TIME>"
+<TCPPLUSPP		"<BIN_TIME>"
+<TLD			"<BIN_TIME>"
+<TRANS			"<BIN_TIME>"
+<AS			"<BIN_TIME>"
+<LD			"<BIN_TIME>"
+<DISP			"<BIN_TIME>"
+<TNC			"<BIN_TIME>"
+<PL_TDF			"<BIN_TIME>"
+<AS1			"<BIN_TIME>"
+<CC			"<BIN_TIME>"
+<SPEC_LINK		"<BIN_TIME>"
+<CPP_SPEC_LINK		"<BIN_TIME>"
+<DUMP_ANAL		"<BIN_TIME>"
+<DUMP_LINK            	"<BIN_TIME>"
+<DYN_LINK            	"<BIN_TIME>"

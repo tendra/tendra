@@ -1,0 +1,126 @@
+!standard 18.40                                       06-12-14  SI99-0013-1/03
+!class binding interpretation 06-04-20
+!status ARG Approved  11-0-0  06-06-10
+!status work item 06-04-20
+!status received 06-02-13
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Add support for exceptions with string expressions
+
+!summary
+
+Adds support for retrieving the string expression optionally associated with an
+exception.
+
+!question
+
+The Amendment (Ada 2005) adds the capability to associate a
+string expression with an exception; should these be accessible from ASIS? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+* Add a new clause after 18.40 (Asis.Statements.Raised_Exception):
+
+18.xx function Raise_Statement_Message
+
+   function Raise_Statement_Message  -- 13.3(2)
+      (Statement : Asis.Statement)
+      return Asis.Expression;
+
+   Statement specifies the raise statement to query.
+
+   Returns the string expression that is associated with the raised
+   exception and follows the WITH keyword in the raise statement.
+
+   Returns a Nil_Element if there is no string expression.
+
+   Appropriate Statement_Kinds:
+      A_Raise_Statement
+
+   Returns Element_Kinds:
+      Not_An_Element
+      An_Expression
+
+!discussion
+
+Recommended by Sergey I. Rybin on 06-02-13, see "!appendix" section.
+
+!appendix
+
+Subject: Summary of the proposals for updating the ASIS Standard for Ada 2005
+From: Sergey I. Rybin
+Date: Mon, 13 Feb 2006 13:55:06 +0300
+
+Formally the ASIS revision process is supposed to be started only after
+finishing all the technical work with the new revision of the Ada Standard,
+but I think we can start some preliminary technical work with new ASIS
+definition already now (all the changes in Ada definition are stable
+enough to start the ASIS revision).
+
+At AdaCore we have developed a draft version of the new ASIS specification
+and most of the proposed changes are already implemented in the latest
+version of GNAT/ASIS technology. The attached file contains the summary
+of the changes in the ASIS Standard we have made to adopt the new Ada
+features. The interesting thing I've realized when working on
+our draft of the new ASIS specification is that if we would like
+to keep the upward compatibility as much as possible and if we
+would like to keep changes as small as possible,
+the new Ada definition gives us very limited freedom in making changes
+in the ASIS spec. It does not mean that we think that our proposals
+are the only possible solution for ASIS 2005, but it gives us some
+hope that we can do ASIS revision for Ada 2005 fast enough.
+
+There is quite a natural mapping of the proposed changes in the ASIS
+specification onto the existing set of Ada Issues used for Ada revision,
+and the attached file is structured and ordered by AIs. The only
+exception is the new values in the ASIS Element Classification needed
+to represent the new Ada 2005 predefined attributes and pragmas (of course,
+this could be also mapped onto AIs, but I do not think that it would make
+sense, because this is the easiest and completely straightforward part
+of the ASIS revision).
+
+My main goal of sending this ASIS 2005 Draft summary is to start
+the ASIS 2005 discussion. The document itself would hardly be a convenient
+background for this discussion - we will have at least split it on
+changes related to different language issues, we will also have to
+find a way for documenting the revision discussion, probably we
+may need a separate mailing list for it. But let's get started!
+
+Sergey Rybin
+
+.....
+
+---------------------------------------------------
+-- AI-361 Raise statement with string expression --
+---------------------------------------------------
+RM-06 11.3
+
+* Add a new query to Asis.Statements:
+
+   function Associated_Message
+      (Statement : Asis.Statement)
+       return      Asis.Expression;
+
+------------------------------------------------------------------------------
+--  Statement - Specifies the raise statement to query
+--
+--  Returns the string expression that is associated with the raised
+--  exception and follows the WITH keyword in the raise statement
+--
+--  Returns a Nil_Element if there is no string expression.
+--
+--  Appropriate Statement_Kinds:
+--       A_Raise_Statement
+--
+--  Returns Element_Kinds:
+--       Not_An_Element
+--       An_Expression
+
+****************************************************************
+
+

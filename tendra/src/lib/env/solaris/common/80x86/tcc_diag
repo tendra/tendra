@@ -1,0 +1,7 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR sol_i386 
+ * $TenDRA$
+*/
+
+<LINK		"-L<TENDRA_LIBDIR>/diag"
+<CRTN		"<TENDRA_LIBDIR>/sys/dwarf.o"
++FLAG_AS	"-s"

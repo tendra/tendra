@@ -1,0 +1,389 @@
+/*
+ * Common messages catalogue.
+ *
+ * It could be extended by defining additional types, usages and entries.
+ *
+ * $TenDRA$
+ */
+
+/*
+ * Messages database name
+ */
+DATABASE_NAME:
+	messages
+
+PREFIX:
+	compiler_output -> MSG_		/* Message macros prefix */
+	from_compiler   -> MSG_SEV_	/* Usage prefix */
+	from_database   -> MID_		/* Prefix for message numbers */
+
+/*
+ * This section lists all the error parameter types recognised within the
+ * database.
+ */
+
+TYPES:
+	int, unsigned, long, size_t,	/* These printed as decimal integer */
+	char,				/* eq. to %c */
+	ccp,				/* Character string */
+	hex2_t,				/* unsigned integer, format: 0x%02X */
+	hex4_t,				/* unsigned long, format: 0x%04X */
+	hex8_t,				/* unsigned long, format: 0x%08X */
+	pointer_t,			/* pointer, format 0x%08p */
+	esc_char,			/* escaped character */
+	tdf_stream			/* location in the TDF stream */
+
+
+/*
+ * Default message behaviour can be altered via properties mechanism.
+ * Here listed standard properties.
+ */
+
+PROPERTIES:
+	/*
+	 * By default only message with usage "FATAL" cause program to terminate.
+	 * Property "fatal" could be added to achieve the same result
+	 * for other types of messages
+	 */
+	FATAL
+
+
+/*
+ * Global "variables" can be referenced from inside of entries just like
+ * any other parameter.  These variables doesn't correspond to C variables
+ * neither have crossed namespaces.
+ */
+GLOBALS:
+	ccp: strerror,
+	ccp: iline	/* input position for lexi generated parsers */
+
+
+/*
+ * MESSAGE KEYS
+ *
+ * This section lists the various key properties associated with each
+ * error message.  Any error should have at least one key.
+ */
+KEYS:
+	STD
+
+
+/*
+ * This section lists groups of the various messages.
+ * If treated as severity level, then order of declaration is important.
+ */
+USAGE:
+	NONE,		/* no prefixes printed */
+	INFO,		/* informational and comment messages */
+	ASSERT,		/* assertions */
+	DEBUG,		/* debug messages, doesn't printed by default */
+	WARNING,	/* warning messages */
+	ERROR,		/* non-fatal errors */
+	FATAL,		/* fatal errors, cause program to terminate */
+	INTERNAL	/* fatal internal errors */
+
+
+/*
+ * Message catalogue by itself
+ */
+
+ENTRIES:
+
+/*
+ * Error type prefixes.
+ * These entries aren't complete messages, used by message catalog internally.
+ */
+_prefix_info()		{ KEY(STD) "Info"		}
+_prefix_debug()		{ KEY(STD) "Debug"		}
+_prefix_warning()	{ KEY(STD) "Warning"		}
+_prefix_error()		{ KEY(STD) "Error"		}
+_prefix_fatal()		{ KEY(STD) "Fatal error"	}
+_prefix_internal()	{ KEY(STD) "Internal error"	}
+_prefix_assert()	{ KEY(STD) "Assertion failed"	}
+
+/*
+ * FMM catalogue
+ */
+fmm_malloc_failed(size_t: size)
+{
+	USAGE: FATAL
+	KEY(STD) "Memory allocation of "size" byte(s) failed."
+}
+
+fmm_frt_still_allocated(size_t: size, ccp: memtype)
+{
+	USAGE: DEBUG
+	KEY(STD) "fmm_remove_type: "size" bytes of '"memtype"' still allocated"
+}
+
+fmm_data_modified(pointer_t: ptr, ccp: memtype, long: offset, long: size,
+	hex8_t: actual, hex8_t: expected)
+{
+	USAGE: DEBUG
+	KEY(STD) "fmm_malloc: Data modified on freelist: "
+	"object "ptr"("memtype")["offset"] size "size" ("actual" != "expected")"
+}
+
+fmm_wrong_bucket()
+{
+	USAGE: FATAL
+	KEY(STD) "fmm_malloc: wrong bucket"
+}
+
+fmm_lost_data()
+{
+	USAGE: FATAL
+	KEY(STD) "fmm_malloc: lost data"
+}
+
+fmm_free_modified(pointer_t: item)
+{
+	USAGE: FATAL
+	KEY(STD) "fmm_free: free item "item" modified"
+}
+
+fmm_multiple_free(pointer_t: addr)
+{
+	USAGE: FATAL
+	KEY(STD) "fmm_free: multiple freed item "addr
+}
+
+caught_signal(int: signal, ccp: cmd)
+{
+	USAGE: NONE
+	KEY(STD) "\nCaught signal "signal" in '"cmd"'"
+}
+
+removed_core()
+{
+	USAGE: WARNING
+	KEY(STD) "Removed core"
+}
+
+tenapp_version(ccp: progdesc, ccp: progvers, ccp: relvers)
+{
+	USAGE: NONE
+	KEY(STD) progdesc", Version: "progvers" (Release: "relvers")"
+}
+
+/*
+ * Standard copyright message
+ */
+crown_copyright()
+{
+	USAGE: INFO
+	KEY(STD)
+	"\t\tCrown Copyright (c) 1997, 1998\n\n"
+	"    This TenDRA(r) Computer Program is subject to Copyright\n"
+	"    owned by the United Kingdom Secretary of State for Defence\n"
+	"    acting through the Defence Evaluation and Research Agency\n"
+	"    (DERA).  It is made available to Recipients with a\n"
+	"    royalty-free licence for its use, reproduction, transfer\n"
+	"    to other parties and amendment for any purpose not excluding\n"
+	"    product development provided that any such use et cetera\n"
+	"    shall be deemed to be acceptance of the following conditions:\n"
+	"\n"
+	"\t(1) Its Recipients shall ensure that this Notice is\n"
+	"\treproduced upon any copies or amended versions of it;\n"
+	"\n"
+	"\t(2) Any amended version of it shall be clearly marked to\n"
+	"\tshow both the nature of and the organisation responsible\n"
+	"\tfor the relevant amendment or amendments;\n"
+	"\n"
+	"\t(3) Its onward transfer from a recipient to another\n"
+	"\tparty shall be deemed to be that party's acceptance of\n"
+	"\tthese conditions;\n"
+	"\n"
+	"\t(4) DERA gives no warranty or assurance as to its\n"
+	"\tquality or suitability for any purpose and DERA accepts\n"
+	"\tno liability whatsoever in relation to any use to which\n"
+	"\tit may be put.\n"
+	"\n"
+}
+
+cant_open_input_file(ccp: s)
+{
+	USAGE: ERROR
+	PROPERTIES: FATAL
+	KEY(STD) "Can't open input file, '"s"': "strerror
+}
+
+cant_open_output_file(ccp: s)
+{
+	USAGE:	FATAL
+	KEY(STD) "Can't open output file, '"s"': "strerror
+}
+
+file_read_error(ccp: s)
+{
+	USAGE:	FATAL
+	KEY(STD) "error reading from file '"s"': "strerror
+}
+
+file_write_error(ccp: s)
+{
+	USAGE:	FATAL
+	KEY(STD) "error writing to file '"s"': "strerror
+}
+
+ostream_write_error(ccp: s)
+{
+	USAGE:	FATAL
+	KEY(STD) "error writing to output stream '"s"': "strerror
+}
+
+getopt_unknown_option(ccp: opt)
+{
+	USAGE: FATAL
+	KEY(STD) "Unknown option, '"opt"'"
+}
+
+getopt_not_enough_arguments()
+{
+	USAGE: FATAL
+	KEY(STD) "Not enough arguments"
+}
+
+getopt_too_many_arguments()
+{
+	USAGE: FATAL
+	KEY(STD) "Too many arguments"
+}
+
+arg_parse_missing_argument(ccp: option)
+{
+	USAGE: FATAL
+	KEY(STD) "missing argument for option '"option"'"
+}
+
+arg_parse_unknown_option(ccp: option)
+{
+	USAGE: FATAL
+	KEY(STD) "unknown option '"option"'"
+}
+
+arg_parse_missing_short_arg(ccp: option, ccp: option_location)
+{
+	USAGE: FATAL
+	KEY(STD) "missing argument for option '"option"' at
+		  '"option_location"'"
+}
+
+arg_parse_ambiguous_option(ccp: option)
+{
+	USAGE: FATAL
+	KEY(STD) "ambiguous option '"option"'"
+}
+
+arg_parse_unknown_short_opt(ccp: option, ccp: option_location)
+{
+	USAGE: FATAL
+	KEY(STD) "unknown short option '"option"' at '"option_location"'"
+}
+
+description_of_help()
+{
+	USAGE: NONE
+	KEY(STD) "Print this message"
+}
+
+description_of_version()
+{
+	USAGE: NONE
+	KEY(STD) "Report program version"
+}
+
+
+/*
+ * TDF error messages.  When this section grows enough it should be
+ * moved to separate catalog.
+ */
+
+fatal_tdf_stream_read_error(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"System error '"strerror"' while reading TDF file"
+}
+
+fatal_tdf_stream_seek_error(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Seek error"
+}
+
+fatal_tdf_cant_encode_0_as_extended_value(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Can't encode 0 as an extended value"
+}
+
+fatal_tdf_integer_too_big(tdf_stream: sp, long: value)
+{
+	USAGE: FATAL
+	KEY(STD) sp"TDFINT value too big ("value")"
+}
+
+tdf_integer_too_long(tdf_stream: sp, long: length)
+{
+	USAGE: FATAL
+	KEY(STD) sp"TDFINT value too long ("length")"
+}
+
+fatal_tdf_string_element_too_big(tdf_stream: sp, int: esize)
+{
+	USAGE: FATAL
+	KEY(STD) sp"TDFSTRING element too big ("esize")"
+}
+
+fatal_tdf_expect_eof(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"End of file expected, but data found"
+}
+
+fatal_tdf_unexpected_eof(tdf_stream: sp)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Unexpected end of file"
+}
+
+fatal_tdf_bad_magic(tdf_stream: sp, ccp: got, ccp: expect)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Unknown TDF file header. Expected '"expect"', but got '"got"'"
+}
+
+fatal_tdf_bad_version(tdf_stream: sp, unsigned: major)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Illegal major version number '"major"'"
+}
+
+fatal_tdf_version_mismatch(tdf_stream: sp, unsigned: major, unsigned: required)
+{
+	USAGE: FATAL
+	KEY(STD) sp"Major version number mismatch:
+		 ("major" should be "required")"
+}
+
+int_tdf_extend_unaligned(tdf_stream: sp, long: where)
+{
+	USAGE: INTERNAL
+	KEY(STD) sp"Extending unaligned stream at "where
+}
+
+int_tdf_unaligned_access(tdf_stream: sp, ccp: fn)
+{
+	USAGE: INTERNAL
+	KEY(STD) sp"Function "fn" requires byte aligned TDF stream"
+}
+
+
+/*
+ * TDF functions debug output
+ */
+debug_tdf_version(tdf_stream: sp, unsigned: major, unsigned: minor)
+{
+	USAGE: DEBUG
+	KEY(STD) sp"TDF version: "major"."minor
+}

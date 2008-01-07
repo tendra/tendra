@@ -1,0 +1,9 @@
+/* TCC ENVIRONMENT : PROFILING FOR SPARC 
+ * $TenDRA$
+*/
+
++LD			"<BIN_LD> -dc -dp -X"
++SYS_LIBC		"-lc_p"
++FLAG_TRANS		"-P"
++CRT0			"<LIB_MCRT0>"
++LINE_START		"#pragma@preserve@*"

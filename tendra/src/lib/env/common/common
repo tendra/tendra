@@ -1,0 +1,7 @@
+/* tcc environment for 32-bit portability checking 
+ * $TenDRA$
+*/
+
++PORTABILITY		"<TENDRA_STARTUPDIR>/Bounds.32/default.pf"
+<STARTUP_DIR		"-I<TENDRA_STARTUPDIR>/Bounds.32"
+<STARTUP_CPP_DIR	"-I<TENDRA_STARTUPDIR>/Bounds.32"

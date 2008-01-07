@@ -1,0 +1,6 @@
+/* 
+ * $TenDRA$
+*/
+
++FLAG_TRANS	"-K3"
++LD		"<BIN_LD>"

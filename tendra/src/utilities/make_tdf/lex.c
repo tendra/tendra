@@ -1,0 +1,483 @@
+/*
+ * Copyright (c) 2002-2004, The Tendra Project <http://www.tendra.org/>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice unmodified, this list of conditions, and the following
+ *    disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *
+ *    		 Crown Copyright (c) 1997
+ *
+ *    This TenDRA(r) Computer Program is subject to Copyright
+ *    owned by the United Kingdom Secretary of State for Defence
+ *    acting through the Defence Evaluation and Research Agency
+ *    (DERA).  It is made available to Recipients with a
+ *    royalty-free licence for its use, reproduction, transfer
+ *    to other parties and amendment for any purpose not excluding
+ *    product development provided that any such use et cetera
+ *    shall be deemed to be acceptance of the following conditions:-
+ *
+ *        (1) Its Recipients shall ensure that this Notice is
+ *        reproduced upon any copies or amended versions of it;
+ *
+ *        (2) Any amended version of it shall be clearly marked to
+ *        show both the nature of and the organisation responsible
+ *        for the relevant amendment or amendments;
+ *
+ *        (3) Its onward transfer from a recipient to another
+ *        party shall be deemed to be that party's acceptance of
+ *        these conditions;
+ *
+ *        (4) DERA gives no warranty or assurance as to its
+ *        quality or suitability for any purpose and DERA accepts
+ *        no liability whatsoever in relation to any use to which
+ *        it may be put.
+ *
+ * $TenDRA$
+ */
+
+
+#include "config.h"
+#include "tdf.h"
+#include "cmd_ops.h"
+#include "cstring.h"
+#include "spec_ops.h"
+#include "input.h"
+#include "lex.h"
+#include "msgcat.h"
+#include "syntax.h"
+
+
+/*
+ *    INPUT FILE
+ *
+ *    This is the file from which the lexical routine read their input.
+ */
+
+static FILE *lex_input;
+
+
+/*
+ *    PENDING BUFFER
+ *
+ *    Pending characters are dealt with by means of this buffer.  pending
+ *    is set to the start of the buffer to indicate that there are no
+ *    characters pending, otherwise the pending characters are stored in
+ *    the buffer.  The buffer may need increasing in size if the look-ahead
+ *    required by the lexical analyser increases.
+ */
+
+static int pending_buff[12] = { '?' };
+static int *pending = pending_buff;
+
+
+/*
+ *    MAPPINGS AND DECLARATIONS FOR AUTOMATICALLY GENERATED SECTION
+ *
+ *    These macros give the mappings between the actions used in the
+ *    automatically generated lexical analyser and the routines defined
+ *    in this file.
+ */
+
+static int read_char (void);
+static int read_comment (void);
+static int read_identifier (int);
+static int read_number (int);
+
+#define get_comment(A)	read_comment ()
+#define get_identifier(A)	read_identifier ((A))
+#define get_number(A)		read_number ((A))
+#define unknown_token(A)	lex_unknown
+#define unread_char(A)	*(++pending) = (A)
+
+
+/*
+ *    AUTOMATICALLY GENERATED SECTION
+ *
+ *    The main body of the lexical analyser is automatically generated.
+ */
+
+#include "lexer.h"
+
+
+/*
+ *    GET THE NEXT CHARACTER
+ *
+ *    This routine reads the next character, either from the pending buffer
+ *    or from the input file.
+ */
+
+static int
+_read_char(void)
+{
+	int c;
+
+	if (pending != pending_buff) {
+		c = *(pending--);
+	} else {
+		c = fgetc (lex_input);
+		if (c == '\n') crt_line_no++;
+		if (c == EOF) return (LEX_EOF);
+		c &= 0xff;
+	}
+	return (c);
+}
+
+static int
+read_char(void)
+{
+	int c;
+	
+	do {
+		c = _read_char();       /* Ignore any \r */
+	} while (c == '\r');
+	return (c);
+}
+
+
+/*
+ *    TOKEN BUFFER
+ *
+ *    This buffer is used by read_token to hold the values of identifiers.
+ *    Similarly token_value is used to hold the values of numbers.
+ */
+
+char token_buff[4000];
+static char *token_end = token_buff + sizeof (token_buff);
+char *first_comment = NULL;
+unsigned token_value = 0;
+
+
+/*
+ *    READ AN IDENTIFIER
+ *
+ *    This routine reads an identifier beginning with a, returning the
+ *    corresponding lexical token.  Keywords are dealt with locally.
+ */
+
+static int
+read_identifier(int a)
+{
+	int c = a, cl;
+	char *t = token_buff;
+
+	do {
+		*(t++) = (char) c;
+		if (t == token_end) MSG_buffer_overflow ();
+		c = read_char ();
+		cl = lookup_char (c);
+	} while (is_alphanum (cl));
+	*t = 0;
+	unread_char (c);
+	
+	/* Deal with keywords */
+	t = token_buff;
+#define MAKE_KEYWORD(A, B)\
+	if (streq (t, (A))) return (B);
+#include "keyword.h"
+	return (lex_name);
+}
+
+
+/*
+ *    READ A NUMBER
+ *
+ *    This routine reads a number.  It is entered after the initial digit,
+ *    a, has been read.  The number's value is stored in token_value.
+ */
+
+static int
+read_number(int a)
+{
+	int c = a, cl;
+	unsigned n = 0;
+
+	do {
+		unsigned m = 10 * n + (unsigned) (c - '0');
+		if (m < n) MSG_number_overflow ();
+		n = m;
+		c = read_char ();
+		cl = lookup_char (c);
+	} while (is_digit (cl));
+	unread_char (c);
+	token_value = n;
+	return (lex_number);
+}
+
+
+/*
+ *    READ A COMMENT
+ *
+ *    This routine reads a shell style comment.  It is entered after the
+ *    initial hash character has been read.
+ */
+
+static int
+read_comment(void)
+{
+	int c;
+	char *t = token_buff;
+
+	do {
+		*(t++) = ' ';
+		if (t == token_end) t = token_buff;
+		*(t++) = '*';
+		if (t == token_end) t = token_buff;
+		do {
+			c = read_char ();
+			if (c == LEX_EOF) {
+				MSG_eof_in_comment ();
+				return (lex_eof);
+			}
+			*(t++) = (char) c;
+			if (t == token_end) t = token_buff;
+		} while (c != '\n');
+		c = read_char ();
+	} while (c == '#');
+	unread_char (c);
+	*t = 0;
+	if (first_comment == 0) first_comment = string_copy (token_buff);
+	return (read_token ());
+}
+
+
+/*
+ *    GET A COMMAND FROM A STRING
+ *
+ *    This routine returns the address of the first non-white space character
+ *    from the string ps.  It returns the null pointer if the end of the line
+ *    is reached.
+ */
+
+static char *
+get_command(char **ps)
+{
+	char *t = *ps;
+	char *s = t;
+
+	if (s) {
+		char c;
+		while (c = *s, (c == ' ' || c == '\t' || c == '\r')) {
+			*s = 0;
+			s++;
+		}
+		if (c == '#' || c == '\n' || c == 0) {
+			*s = 0;
+			*ps = NULL;
+			return (NULL);
+		}
+		t = s;
+		while (c = *s, !(c == ' ' || c == '\t' || c == '\r' ||
+						 c == '\n' || c == 0)) {
+			s++;
+		}
+		*ps = s;
+	}
+	return (t);
+}
+
+
+/*
+ *    READ A TEMPLATE FILE
+ *
+ *    This routine reads a template file from the current input file.
+ */
+
+COMMAND
+read_template(COMMAND p)
+{
+	int go = 1;
+	char buff[1000];
+	FILE *f = lex_input;
+	int ln1 = crt_line_no;
+	LIST (COMMAND) q = NULL_list (COMMAND);
+
+	do {
+		COMMAND r = NULL_cmd;
+		int ln2 = crt_line_no;
+		char *s = fgets (buff, 1000, f);
+		if (s == NULL) {
+			/* End of file */
+			if (IS_cmd_cond (p)) {
+				MSG_end_of_if_expected ();
+			} else if (IS_cmd_loop (p)) {
+				MSG_end_of_loop_expected ();
+			}
+			break;
+		}
+		s = string_copy (s);
+		if (s[0] == '@') {
+			/* Complex command */
+			int complex = 1;
+			char *s1, *s2, *s3;
+			s++;
+			s1 = get_command (&s);
+			if (s1 == NULL) s1 = "<empty>";
+			s2 = get_command (&s);
+			s3 = get_command (&s);
+			if (streq (s1, "if")) {
+				if (s2 == NULL) {
+					MSG_incomplete_at_command (s1);
+					s2 = "true";
+				}
+				MAKE_cmd_cond (ln2, s2, NULL_cmd, NULL_cmd, r);
+			} else if (streq (s1, "else")) {
+				if (IS_cmd_cond (p)) {
+					COMMAND v = DEREF_cmd (cmd_cond_true_code (p));
+					if (!IS_NULL_cmd (v)) {
+						MSG_duplicate_at_command (s1);
+					}
+					q = REVERSE_list (q);
+					MAKE_cmd_compound (ln1, q, v);
+					COPY_cmd (cmd_cond_true_code (p), v);
+					q = NULL_list (COMMAND);
+					ln1 = ln2;
+				} else {
+					MSG_misplaced_at_command (s1);
+				}
+				s3 = s2;
+			} else if (streq (s1, "endif")) {
+				if (IS_cmd_cond (p)) {
+					go = 0;
+				} else {
+					MSG_misplaced_at_command (s1);
+				}
+				s3 = s2;
+			} else if (streq (s1, "loop")) {
+				if (s2 == NULL) {
+					MSG_incomplete_at_command (s1);
+					s2 = "false";
+				}
+				MAKE_cmd_loop (ln2, s2, NULL_cmd, r);
+			} else if (streq (s1, "end")) {
+				if (IS_cmd_loop (p)) {
+					go = 0;
+				} else {
+					MSG_misplaced_at_command (s1);
+				}
+				s3 = s2;
+			} else if (streq (s1, "use")) {
+				if (s2 == NULL) {
+					MSG_incomplete_at_command (s1);
+					s2 = "all";
+				}
+				MAKE_cmd_use (ln2, s2, s3, r);
+				if (s3) s3 = get_command (&s);
+				complex = 0;
+			} else if (streq (s1, "special")) {
+				if (s2 == NULL) {
+					MSG_incomplete_at_command (s1);
+					s2 = "<none>";
+				}
+				MAKE_cmd_special (ln2, s2, s3, r);
+				if (s3) s3 = get_command (&s);
+				complex = 0;
+			} else if (streq (s1, "comment")) {
+				s3 = NULL;
+			} else {
+				MSG_unknown_at_command (s1);
+				s3 = NULL;
+			}
+			if (s3) {
+				MSG_end_of_at_expected (s1);
+			}
+			crt_line_no = ln2 + 1;
+			if (!IS_NULL_cmd (r)) {
+				/* Read body of command */
+				if (complex) {
+					COMMAND u = read_template (r);
+					if (IS_cmd_cond (r)) {
+						COMMAND v = DEREF_cmd (cmd_cond_true_code (r));
+						if (IS_NULL_cmd (v)) {
+							COPY_cmd (cmd_cond_true_code (r), u);
+						} else {
+							COPY_cmd (cmd_cond_false_code (r), u);
+						}
+					} else if (IS_cmd_loop (r)) {
+						COPY_cmd (cmd_loop_body (r), u);
+					}
+				}
+				CONS_cmd (r, q, q);
+			}
+		} else {
+			/* Simple command */
+			MAKE_cmd_simple (ln2, s, r);
+			CONS_cmd (r, q, q);
+			crt_line_no = ln2 + 1;
+		}
+	} while (go);
+	q = REVERSE_list (q);
+	MAKE_cmd_compound (ln1, q, p);
+	return (p);
+}
+
+
+/*
+ *    CURRENT TOKEN
+ *
+ *    These variables are used by the parser to hold the current and former
+ *    lexical tokens.
+ */
+
+int crt_lex_token;
+int saved_lex_token;
+
+
+/*
+ *    OPEN AN INPUT FILE
+ *
+ *    This routine opens the input file nm.  It returns true if the file is
+ *    opened successfully.
+ */
+
+int
+open_file(char *nm)
+{
+	crt_line_no = 1;
+	if (nm == NULL || streq (nm, "-")) {
+		crt_file_name = "stdin";
+		lex_input = stdin;
+	} else {
+		crt_file_name = nm;
+		lex_input = fopen (nm, "r");
+		if (lex_input == NULL) {
+			MSG_cant_open_input_file (nm);
+			return (0);
+		}
+	}
+	return (1);
+}
+
+
+/*
+ *    CLOSE THE INPUT FILE
+ *
+ *    This routine closes the current input file.
+ */
+
+void
+close_file(void)
+{
+	FILE *f = lex_input;
+
+	if (f != stdin) (void)fclose (f);
+	return;
+}
