@@ -58,8 +58,8 @@
 */
 
 
-#ifndef OUTPUT_INCLUDED
-#define OUTPUT_INCLUDED
+#ifndef C_OUTPUT_INCLUDED
+#define C_OUTPUT_INCLUDED
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -69,6 +69,6 @@
     DECLARATIONS FOR OUTPUT ROUTINES
 */
 
-extern void output_all(cmd_line_options*, lexer_parse_tree *);
+extern void c_output_all(cmd_line_options*, lexer_parse_tree *);
 
 #endif

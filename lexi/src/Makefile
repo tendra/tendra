@@ -6,8 +6,8 @@ REMOVE=rm -f
 MOVE=mv
 SID=sid
 
-CFLAGS+=-Ishared/error -Ishared/xalloc
-LDFLAGS+=-Lshared/error -Lshared/xalloc
+CFLAGS+=-Ishared/error -Ishared/xalloc -I.
+LDFLAGS+=-Lshared/error -Lshared/xalloc -I.
 
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
@@ -49,7 +49,7 @@ syntax.o: lexer.h
 
 main.o char.o syntax.o: char.h
 lex.o main.o syntax.o : syntax.h
-main.o : output.h
+main.o : output-c/c-output.h
 main.o options.o : options.h
 
 lexer.c lexer.h: lexer.lxi COPYING

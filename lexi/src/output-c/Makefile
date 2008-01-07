@@ -17,5 +17,5 @@ output-c.a: ${TARGETS}
 	${AR} r $@ ${TARGETS}
 	${RANLIB} $@
 
-c-output.o: ../output.h
+c-output.o: c-output.h
 
