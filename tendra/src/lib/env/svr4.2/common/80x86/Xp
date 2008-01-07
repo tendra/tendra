@@ -1,7 +1,0 @@
-/* ENVIRONMENT FOR -Xp ON svr4_i386 
- * $TenDRA$
-*/
-
-+STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xp"
-+STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xp"
-+CRT1			"<LIB_VALUES_XC>"

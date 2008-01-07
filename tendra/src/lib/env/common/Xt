@@ -1,6 +1,0 @@
-/* ENVIRONMENT FOR -Xt ON common 
- * $TenDRA$
-*/
-
-+STARTUP		"-f<MODES_DIR>/Xt"
-+STARTUP_CPP		"-f<MODES_CPP_DIR>/Xt"

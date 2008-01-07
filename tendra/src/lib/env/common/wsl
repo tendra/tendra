@@ -1,5 +1,0 @@
-/* Make string literals writable 
- * $TenDRA$
-*/
-
-+FLAG_TRANS		"-W1"

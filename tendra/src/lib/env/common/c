@@ -1,5 +1,0 @@
-/* tcc environment for c 
- * $TenDRA$
-*/
-
-+FLAG			"-Yansi"

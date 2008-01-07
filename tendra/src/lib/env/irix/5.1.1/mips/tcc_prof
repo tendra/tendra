@@ -1,7 +1,0 @@
-/* TCC ENVIRONMENT : PROFILING FOR MIPS 
- * $TenDRA$
-*/
-
-+CRT0		"<LIB_MCRT1>"
-+LIBC		"-lprof"
-+LINE_START	"#pragma@preserve@*"

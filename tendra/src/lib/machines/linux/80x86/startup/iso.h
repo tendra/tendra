@@ -1,3 +1,0 @@
-/* $TenDRA$ */
-
-#include "ansi.h"

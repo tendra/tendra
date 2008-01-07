@@ -1,7 +1,0 @@
-/* 
- * $TenDRA$
-*/
-
-+CRT0		"<TENDRA_LIBDIR>/sys/crti.o"
-+SYS_LIBC	""
-+FLAG_LD	"-G"

@@ -1,6 +1,0 @@
-/* tcc environment for library construction 
- * $TenDRA$
-*/
->TLD		"-mc"
-+FLAG		"-M"
-+FLAG		"-Fj"

@@ -1,1 +1,0 @@
-TESTS=  open walk name

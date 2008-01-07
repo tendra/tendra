@@ -1,9 +1,0 @@
-/* tcc environment for strict svid3 
- * $TenDRA$
-*/
-
-+FLAG		"-Ysvid3"
-+FLAG		"-D__STRICT_SYSV"
-+FLAG		"-D__STRICT_XPG3"
-+FLAG		"-D__STRICT_POSIX"
-+INFO		"Strict@System@V@Interface@Definition@(3rd@edition)"

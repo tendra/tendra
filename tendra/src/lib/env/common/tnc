@@ -1,6 +1,0 @@
-/* tcc environment for TDF notation compiler 
- * $TenDRA$
-*/
-+TNC		"<TENDRA_BINDIR>/tnc"
-+DISP		"<TENDRA_BINDIR>/tnc -p"
-+FLAG		"-special tnc"

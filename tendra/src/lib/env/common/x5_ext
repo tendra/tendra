@@ -1,9 +1,0 @@
-/* tcc environment for x5_ext 
- * $TenDRA$
-*/
-
-<INCL			"-Nx5_ext:<TENDRA_INCLDIR>/x5/ext.api"
-+FLAG_INSTALL		"-Yx5_ext"
-<LIB			"-lx5_ext"
-<API_NAME		"-Ax5_ext"
-<INFO			"X11@Release@5@Extensions"

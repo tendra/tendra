@@ -1,3 +1,0 @@
-/* This isn't really satisfactory */
-#include "Xc"
-#pragma TenDRA use environment __ALL__ reset allow

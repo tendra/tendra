@@ -1,7 +1,0 @@
-/* ENVIRONMENT FOR -Xw ON sol_sparc 
- * $TenDRA$
-*/
-
-+STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xw"
-+STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xw"
-+CRT1			"<LIB_VALUES_XC>"

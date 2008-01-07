@@ -1,7 +1,0 @@
-/* ENVIRONMENT FOR -Xt ON sol_i386 
- * $TenDRA$
-*/
-
-+STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xt"
-+STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xt"
-+CRT1			"<LIB_VALUES_XT>"

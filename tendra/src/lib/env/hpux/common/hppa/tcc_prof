@@ -1,9 +1,0 @@
-/* TCC ENVIRONMENT : PROFILING FOR HPPA 
- * $TenDRA$
-*/
-
-+LD			"<BIN_LD>"
-+CRT0			"<LIB_MCRT0>"
-<SYS_LINK		"-L /lib/libp"
-+FLAG_TRANS		"-P"
-+LINE_START		"#pragma@preserve@*"

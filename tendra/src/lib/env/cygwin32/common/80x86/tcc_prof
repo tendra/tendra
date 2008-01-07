@@ -1,6 +1,0 @@
-/* TCC ENVIRONMENT : PROFILING FOR Linux I386 
- * $TenDRA$
-*/
-
-+FLAG_TRANS	"-P"
-+LINE_START	"#pragma@preserve@*"
