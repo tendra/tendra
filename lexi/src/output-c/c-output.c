@@ -67,7 +67,7 @@
 
 #include "char.h"
 #include "lex.h"
-#include "output.h"
+#include "c-output.h"
 #include "options.h"
 
 static void
@@ -741,7 +741,7 @@ output_buffer(cmd_line_options* opt)
 */
 
 void
-output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
+c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 {
 	int c, n;
 	int in_pre_pass; /*boolean*/

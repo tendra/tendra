@@ -16,13 +16,16 @@ TARGETS=char.o syntax.o lex.o main.o options.o
 
 all: lexi
 
-lexi: depend ${TARGETS} output-c/output-c.a
+lexi: depend ${TARGETS} output-c/output-c.a output-dot/output-dot.a
 	${CC} ${LDFLAGS} -o $@ ${TARGETS} \
-		-lerror -lxalloc output-c/output-c.a
+		-lerror -lxalloc output-c/output-c.a output-dot/output-dot.a
 
 # TODO should this be under depend: instead?
 output-c/output-c.a:
 	cd output-c && ${MAKE} all
+
+output-dot/output-dot.a:
+	cd output-dot && ${MAKE} all
 
 depend:
 	cd shared && ${MAKE} -f makefile.standalone
@@ -32,6 +35,7 @@ clean:
 	${REMOVE} ${TARGETS} lexi
 	cd shared && ${MAKE} -f makefile.standalone clean
 	cd output-c && ${MAKE} clean
+	cd output-dot && ${MAKE} clean
 
 # Remove everything not in the distribution
 distclean:
@@ -49,7 +53,7 @@ syntax.o: lexer.h
 
 main.o char.o syntax.o: char.h
 lex.o main.o syntax.o : syntax.h
-main.o : output-c/c-output.h
+main.o : output-c/c-output.h output-dot/dot-output.h
 main.o options.o : options.h
 
 lexer.c lexer.h: lexer.lxi COPYING

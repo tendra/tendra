@@ -1,6 +1,6 @@
 # $Id$
 
-TARGETS = c-output.o
+TARGETS = dot-output.o
 
 REMOVE = rm -f
 AR = ar
@@ -8,14 +8,14 @@ RANLIB = ranlib
 
 CFLAGS += -I ../shared/error -I ../shared/xalloc -I ..
 
-all: output-c.a
+all: output-dot.a
 
 clean:
-	${REMOVE} ${TARGETS} output-c.a
+	${REMOVE} ${TARGETS} output-dot.a
 
-output-c.a: ${TARGETS}
+output-dot.a: ${TARGETS}
 	${AR} r $@ ${TARGETS}
 	${RANLIB} $@
 
-c-output.o: c-output.h
+dot-output.o: dot-output.h
 

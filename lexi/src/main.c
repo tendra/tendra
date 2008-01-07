@@ -67,6 +67,7 @@
 #include "char.h"
 #include "lex.h"
 #include "output-c/c-output.h"
+#include "output-dot/dot-output.h"
 #include "syntax.h"
 #include "options.h"
 
@@ -75,7 +76,9 @@
  */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-vha] [-t token-prefix] [-p lexi-prefix] [-l output-language] [-C copyright-notice-file] input-file output-file header-output-file\n", stdout);
+	fputs("usage: lexi [-vha] [-t token-prefix] [-p lexi-prefix] "
+		"[-l output-language] [-C copyright-notice-file] "
+		"input-file [output-file ...]\n", stdout);
 }
 
 
@@ -93,6 +96,19 @@ main(int argc, char **argv)
 	cmd_line_options options;
  	cmd_line_options_init(&options);
 
+	struct outputs {
+		const char *name;
+		const signed int outputfiles;
+		void (*output_all)(cmd_line_options *, lexer_parse_tree *);
+	} outputs[] = {
+		{ "C90", 2, c_output_all	},
+		{ "Dot", 1, dot_output_all	},
+	};
+
+	/* Default to C90 output */
+	struct outputs *output = &outputs[0];
+
+
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
 	while ((optc = getopt(argc, argv, "C:t:l:p:vha")) != -1) {
@@ -106,12 +122,25 @@ main(int argc, char **argv)
 			token_prefix = optarg;
 			break;
 
-		case 'l':
-			if(strcasecmp(optarg, "C90")) {
-				error(ERROR_FATAL, "Unrecognised language '%s'. The supported language is: C90 (default)",
+		case 'l': {
+			int i;
+
+			for(i = sizeof outputs / sizeof *outputs - 1; i >= 0; i--) {
+
+				if(!strcasecmp(optarg, outputs[i].name)) {
+					output = &outputs[i];
+					break;
+				}
+			}
+
+			if(i < 0) {
+				/* TODO I suppose we could automate writing this list of languages, too */
+				error(ERROR_FATAL, "Unrecognised language '%s'. The supported languages are: C90 (default), Dot",
 					optarg);
 			}
+
 			break;
+		}
 
 		case 'C':
 			options.copyright_filename_cmd_line = optarg;
@@ -139,15 +168,15 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-	/* Check arguments */
-	if (argc < 3) {
+	/* Check arguments (+1 for input file) */
+	if (argc < output->outputfiles + 1) {
 		report_usage();
 		error(ERROR_FATAL, "Not enough arguments");
 		/* TODO resolve - here, and pass FILE * to process_file();
 		 * we can permit argc < 1 for stdin */
 	}
 
-	if (argc > 3) {
+	if (argc > output->outputfiles + 1) {
 		report_usage();
 		error(ERROR_FATAL, "Too many arguments");
 	}
@@ -161,13 +190,16 @@ main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	/* Open output header */
-	options.lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
-	options.lex_output_h_filename = !strcmp(argv[2], "-") ? "" : argv[2];
-	if (options.lex_output_h == NULL) {
-		error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
-		/* TODO perror for cases like this */
-		return EXIT_FAILURE;
+	/* XXX This is a placeholder until arbitary output files are implemented */
+	if(output->outputfiles == 2) {
+		/* Open output header */
+		options.lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
+		options.lex_output_h_filename = !strcmp(argv[2], "-") ? "" : argv[2];
+		if (options.lex_output_h == NULL) {
+			error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
+			/* TODO perror for cases like this */
+			return EXIT_FAILURE;
+		}
 	}
 
 	/* Process input file */
@@ -185,7 +217,7 @@ main(int argc, char **argv)
 							  make_string(" \t\n",top_level.global_zone));
 
 	/* TODO pass output fd here; remove globals */
-	output_all(&options, &top_level);
+	output->output_all(&options, &top_level);
 
 	fclose(options.lex_output);
 	fclose(options.lex_output_h);
