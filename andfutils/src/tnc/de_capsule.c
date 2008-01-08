@@ -434,14 +434,14 @@ de_equation(equation_func f)
 	if (f == NULL)
 		input_skip(n);
 	else {
-		long end_posn = input_posn() + n;
+		long end_posn = tell_posn() + n;
 		decode_status = 2;
 
 		(*f)();
 		byte_align();
 		decode_status = 1;
 
-		if (input_posn() != end_posn)
+		if (tell_posn() != end_posn)
 			input_error("Unit length wrong");
 	}
 
@@ -682,7 +682,7 @@ de_capsule(void)
 
 			/* Skip pass */
 			if (skip_pass) {
-				long old_posn = input_posn();
+				long old_posn = tell_posn();
 
 				in_skip_pass = 1;
 
@@ -690,7 +690,7 @@ de_capsule(void)
 					de_equation(f);
 
 				in_skip_pass = 0;
-				input_goto(old_posn);
+				seek_posn(old_posn);
 			}
 
 			/* Main pass */
@@ -719,7 +719,7 @@ de_library(void)
 	de_magic(MAGIC_LINK_NUMBER);
 	(void) tdf_int();
 	no_cap = tdf_int();
-	old_posn = input_posn();
+	old_posn = tell_posn();
 
 	/* First pass - extract all token declaration */
 	extract_tokdecs = 1;
@@ -744,11 +744,11 @@ de_library(void)
 
 		n = CHAR_BIT * tdf_int();
 		byte_align();
-		end_posn = input_posn() + n;
+		end_posn = tell_posn() + n;
 		de_capsule();
 		byte_align();
 
-		if (input_posn() != end_posn) {
+		if (tell_posn() != end_posn) {
 			input_error("Capsule length wrong");
 		}
 
@@ -760,7 +760,7 @@ de_library(void)
 	if (extract_tokdecs)
 		return;
 
-	input_goto(old_posn);
+	seek_posn(old_posn);
 
 	for (i = 0; i < no_cap; i++) {
 		long end_posn;
@@ -782,11 +782,11 @@ de_library(void)
 		capname[n] = '\0';
 		n = CHAR_BIT * tdf_int();
 		byte_align();
-		end_posn = input_posn() + n;
+		end_posn = tell_posn() + n;
 		de_capsule();
 		byte_align();
 
-		if (input_posn() != end_posn) {
+		if (tell_posn() != end_posn) {
 			input_error("Capsule length wrong");
 		}
 

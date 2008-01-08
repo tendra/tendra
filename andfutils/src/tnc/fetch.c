@@ -152,7 +152,7 @@ rewind_posn(void)
 */
 
 long
-input_posn(void)
+tell_posn(void)
 {
 	return (CHAR_BIT * bytes_read - (long)bits_in_buff);
 }
@@ -165,11 +165,11 @@ input_posn(void)
 */
 
 void
-input_goto(long n)
+seek_posn(long n)
 {
 	int b = (int)(n % CHAR_BIT);
 
-	bytes_read = (n / CHAR_BIT);
+	bytes_read = n / CHAR_BIT;
 	bits_in_buff = 0;
 
 	if (fseek(input, bytes_read, SEEK_SET)) {
@@ -194,8 +194,6 @@ input_skip(long n)
 {
 	if (n <= 4 * CHAR_BIT)
 		(void) fetch((int)n);
-	else {
-		long m = input_posn() + n;
-		input_goto(m);
-	}
+	else
+		seek_posn(tell_posn() + n);
 }

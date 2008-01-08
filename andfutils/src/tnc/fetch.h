@@ -69,8 +69,8 @@
 void byte_align(void);
 long fetch(int);
 void rewind_posn(void);
-long input_posn(void);
-void input_goto(long);
+long tell_posn(void);
+void seek_posn(long);
 void input_skip(long);
 
 
