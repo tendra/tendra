@@ -110,17 +110,17 @@ main(int argc, char **argv)
 	int i;
 
 	struct outputs {
-		const char *name;
+		const char *language;
 		const signed int outputfiles;
 		void (*output_all)(cmd_line_options *, lexer_parse_tree *);
 	} outputs[] = {
 		{ "C90", 2, c_output_all	},
+		{ "C99", 2, c_output_all	},
 		{ "Dot", 1, dot_output_all	},
 	};
 
 	/* Default to C90 output */
 	struct outputs *output = &outputs[0];
-
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
@@ -140,7 +140,7 @@ main(int argc, char **argv)
 
 			for(i = sizeof outputs / sizeof *outputs - 1; i >= 0; i--) {
 
-				if(!strcasecmp(optarg, outputs[i].name)) {
+				if(!strcasecmp(optarg, outputs[i].language)) {
 					output = &outputs[i];
 					break;
 				}
@@ -148,7 +148,7 @@ main(int argc, char **argv)
 
 			if(i < 0) {
 				/* TODO I suppose we could automate writing this list of languages, too */
-				error(ERROR_FATAL, "Unrecognised language '%s'. The supported languages are: C90 (default), Dot",
+				error(ERROR_FATAL, "Unrecognised language '%s'. The supported languages are: C90 (default), C99 and Dot",
 					optarg);
 			}
 
@@ -179,6 +179,12 @@ main(int argc, char **argv)
 	}
 	argc -= optind;
 	argv += optind;
+
+	/*
+	 * This is carried through for output routines shared between multiple
+	 * languages to inspect, should they need to.
+	 */
+	options.language = output->language;
 
 	/* Check arguments (+1 for input file) */
 	if (argc < output->outputfiles + 1) {

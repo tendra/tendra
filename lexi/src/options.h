@@ -49,6 +49,12 @@ typedef struct cmd_line_options_tag {
 	FILE* copyright_file;
 
 	/*
+	 * The selected output language. See main.c for the various
+	 * possibilities here.
+	 */
+	const char *language;
+
+	/*
 	 * TODO These are language-specific options; they should be elsewhere
 	 */
 	bool generate_asserts;

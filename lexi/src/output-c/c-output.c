@@ -61,6 +61,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "error.h"
 #include "xalloc.h"
@@ -734,12 +735,6 @@ output_buffer(cmd_line_options* opt)
 	fputs("}\n", lex_output);
 }
 
-/*
-	MAIN OUTPUT ROUTINE
-
-	This routine is the entry point for the main output routine.
-*/
-
 void
 c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 {
@@ -748,6 +743,8 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	size_t groupwidth;
 	const char *grouptype;
 	const char *grouphex;
+
+	assert(!strcmp(opt->language, "C90") || !strcmp(opt->language, "C99"));
 
 	lex_output = opt->outputfile[0].file;
 	lex_output_h = opt->outputfile[1].file;
