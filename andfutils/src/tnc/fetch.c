@@ -74,9 +74,8 @@
     records the position in the input file.
 */
 
-unsigned bits_in_buff = 0;
-long bytes_read = 0;
-
+static long bytes_read = 0;
+static unsigned int bits_in_buff = 0;
 static unsigned long input_buff = 0;
 
 
@@ -90,7 +89,6 @@ void
 byte_align(void)
 {
 	bits_in_buff = 0;
-	return;
 }
 
 
@@ -133,6 +131,17 @@ fetch(int n)
 		input_buff = (s & 0xff);
 	}
 	return ((long)r);
+}
+
+
+/*
+ * Rewind the internal state of fetch() to the beginning of a file
+ */
+void
+rewind_posn(void)
+{
+	bits_in_buff = 0;
+	bytes_read = 0;
 }
 
 

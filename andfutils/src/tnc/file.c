@@ -58,20 +58,123 @@
 */
 
 
-#ifndef FETCH_H
-#define FETCH_H
+#include "config.h"
+#include "types.h"
+#include "fetch.h"
+#include "file.h"
+#include "read_types.h"
+#include "analyser.h"
+#include "utility.h"
 
 
 /*
-    LOW-LEVEL DECODING ROUTINES
+    LIST OF DIRECTORIES
+
+    This is the list of all directories to be searched for included files.
 */
 
-void byte_align(void);
-long fetch(int);
-void rewind_posn(void);
-long input_posn(void);
-void input_goto(long);
-void input_skip(long);
+static directory *search_path = NULL;
 
 
-#endif /* FETCH_H */
+/*
+    INPUT FILE
+
+    The current input file, together with its name.
+*/
+
+FILE *input;
+char *input_file = NULL;
+
+
+/*
+    OUTPUT FILE
+
+    The current output file.
+*/
+
+FILE *output /* = stdout */ ;
+
+
+/*
+    OPEN INPUT FILE
+
+    This routine opens the file nm.  If search is true it will search
+    for it along search_path.
+*/
+
+void
+open_input(char *nm, int search)
+{
+	input = fopen(nm,(text_input ? "r" : "rb"));
+
+	if (search && input == NULL) {
+		directory *d = search_path;
+
+		while (input == NULL && d) {
+			/* XXX: unsafe sprintf */
+			char buff[1000];
+			(void) sprintf(buff, "%s/%s", d->dirname, nm);
+			input = fopen(buff, "r");
+			d = d->next;
+		}
+	}
+
+	if (input == NULL)
+		fatal_error("Can't open input file, %s", nm);
+
+	input_file = nm;
+	rewind_posn();
+	crt_line_no = 1;
+	line_no = 1;
+	looked_ahead = 0;
+}
+
+
+/*
+    ADD A DIRECTORY TO THE SEARCH PATH
+
+    The directory nm is added to search_path.
+*/
+
+void
+add_directory(char *nm)
+{
+	directory *d = alloc_nof(directory, 1);
+	d->dirname = nm;
+	d->next = NULL;
+
+	if (search_path == NULL)
+		search_path = d;
+	else {
+		directory *p = search_path;
+
+		while (p->next)
+			p = p->next;
+
+		p->next = d;
+	}
+}
+
+
+/*
+    OPEN OUTPUT FILE
+
+    The output file nm is opened.
+*/
+
+void
+open_output(char *nm)
+{
+	static char *opened = NULL;
+
+	if (opened) {
+		warning("Multiple output files given, using %s", opened);
+		return;
+	}
+
+	output = fopen(nm, "w");
+	if (output == NULL)
+		fatal_error("Can't open output file, %s", nm);
+
+	opened = nm;
+}
