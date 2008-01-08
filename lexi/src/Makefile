@@ -59,7 +59,7 @@ main.o options.o : options.h
 lexer.c lexer.h: lexer.lxi COPYING
 	-${MOVE} lexer.c sav.lexer.c 
 	-${MOVE} lexer.h sav.lexer.h
-	${LEXI} lexer.lxi lexer.c lexer.h \
+	${LEXI} -a lexer.lxi lexer.c lexer.h \
 		|| ( ${MOVE} sav.lexer.c lexer.c ; ${MOVE} sav.lexer.h lexer.h ; exit 1 )
 
 

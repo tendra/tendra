@@ -126,9 +126,8 @@ main(int argc, char **argv)
 	set_progname(argv [0], "2.0");
 	while ((optc = getopt(argc, argv, "C:t:l:p:vha")) != -1) {
 		switch(optc) {
-		/* TODO document flag to disable including <assert.h> for C89-only systems */
 		case 'a':
-			options.generate_asserts = false;
+			options.generate_asserts = true;
 			break;
 
 		case 't':
