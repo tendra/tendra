@@ -432,7 +432,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			output_actions(z,ret,n,d);
 			if (cond) {
 			  d--;
-			  fprintf(lex_output, "}", cond);
+			  fprintf(lex_output, "}");
 			}
        		}
 	}
@@ -479,7 +479,6 @@ output_zone_pass(zone *p)
     zone *z;
     int in_pre_pass=0;
     int is_p_global_zone=(p==p->top_level->global_zone);
-    int has_zones=(p->top_level->global_zone->next!=NULL);
     for(z=p->next;z!=NULL;z=z->opt) {
         output_zone_pass(z);
     }
@@ -508,7 +507,7 @@ output_zone_pass(zone *p)
         }
         output_actions(p,p->default_actions,1,dd);
         if(p->default_cond) 
-	    fprintf(lex_output,"}\n",p->default_cond);
+	    fprintf(lex_output,"}\n");
     } 
     else 
         fprintf(lex_output, "\t\treturn %sunknown_token;\n",
@@ -599,21 +598,19 @@ static void
 output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *grouptype, 
 		    const char *grouphex,size_t groupwidth) 
 {
-	int n;
 	char_group* grp;
 
 	fprintf(lex_output_h, "enum %sgroups {\n", opt->lexi_prefix);
 
 	/* Group interface */
 	for( grp=top_level->groups_list.head; grp!=NULL; grp=grp->next_in_groups_list) {
-		char *gnm;
 		unsigned long m = (unsigned long)(1 << grp->group_code);
 		if(grp->z==grp->z->top_level->global_zone) {
 			fprintf(lex_output_h, "\t%sgroup_%s = ",
-				opt->lexi_prefix, grp->name, opt->lexi_prefix);
+				opt->lexi_prefix, grp->name);
 		} else {
 			fprintf(lex_output_h, "\t%sgroup_%s_%s = ",
-				opt->lexi_prefix, grp->z->zone_name, grp->name, opt->lexi_prefix);
+				opt->lexi_prefix, grp->z->zone_name, grp->name);
 		}
 		fprintf(lex_output_h, grouphex, m);
 
@@ -738,7 +735,6 @@ output_buffer(cmd_line_options* opt)
 void
 c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 {
-	int c, n;
 	int in_pre_pass; /*boolean*/
 	size_t groupwidth;
 	const char *grouptype;
@@ -839,8 +835,6 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 
 	in_pre_pass = 0;
 
-	bool has_zones=(top_level->global_zone->next!=NULL);
-
 	fputs("\n/* Identify a token */\n", lex_output_h);
 	fprintf(lex_output_h, "extern int %s(struct %sstate *state);\n\n",
 		read_token_name, lexi_prefix);
@@ -915,6 +909,9 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 		case return_token:
 			fprintf(output, "%s", p->instr->u.name);
 			break;
+
+		default:
+			assert(!"unrecognised instruction type for keyword");
 		}
 
 		fprintf(output, ";\n");
