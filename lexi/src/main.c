@@ -81,6 +81,13 @@ report_usage(void) {
 		"input-file [output-file ...]\n", stdout);
 }
 
+/*
+ * Open a file for writing, defaulting to stdout if the name given is "-".
+ */
+static FILE *
+open_filestream(const char *name) {
+	return !strcmp(name, "-") ? stdout : fopen(name, "w");
+}
 
 /*
  * Main routine
@@ -143,6 +150,7 @@ main(int argc, char **argv)
 		}
 
 		case 'C':
+			/* TODO do we really need to store the filename for this? */
 			options.copyright_filename_cmd_line = optarg;
 			options.copyright_file_cmd_line=fopen(options.copyright_filename_cmd_line,"r");
 			if ( options.copyright_file_cmd_line == NULL) 
@@ -182,8 +190,7 @@ main(int argc, char **argv)
 	}
 
 	/* Open output file */
-	options.lex_output = !strcmp(argv[1], "-") ? stdout : fopen(argv[1], "w");
-	options.lex_output_filename = !strcmp(argv[1], "-") ? "" : argv[1];
+	options.lex_output = open_filestream(argv[1]);
 	if (options.lex_output == NULL) {
 		error(ERROR_FATAL, "Can't open output file, %s", argv[1]);
 		/* TODO perror for cases like this */
@@ -193,8 +200,7 @@ main(int argc, char **argv)
 	/* XXX This is a placeholder until arbitary output files are implemented */
 	if(output->outputfiles == 2) {
 		/* Open output header */
-		options.lex_output_h = !strcmp(argv[2], "-") ? stdout : fopen(argv[2], "w");
-		options.lex_output_h_filename = !strcmp(argv[2], "-") ? "" : argv[2];
+		options.lex_output_h = open_filestream(argv[2]);
 		if (options.lex_output_h == NULL) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
 			/* TODO perror for cases like this */
