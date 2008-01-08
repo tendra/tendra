@@ -66,6 +66,7 @@
 #include "lexer.h"
 
 #include <assert.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 /* LOOKUP TABLE */
@@ -131,7 +132,7 @@ int lexi_readchar(struct lexi_state *state) {
 	return lexi_getchar();
 }
 
-int lexi_group(enum lexi_groups group, int c) {
+bool lexi_group(enum lexi_groups group, int c) {
 	return lookup_tab[c] & group;
 }
 

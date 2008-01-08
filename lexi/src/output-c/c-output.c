@@ -71,6 +71,12 @@
 #include "c-output.h"
 #include "options.h"
 
+/*
+ * This is populated by the selected output language, set from opt->language.
+ * It may be inspected for language-specific regions of the generated code.
+ */
+enum { C90, C99 } language;
+
 static void
 output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h);
 
@@ -625,8 +631,8 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 
 	fputs("\n/* true if the given character is present in the given group */\n",
 		lex_output_h);
-	fprintf(lex_output_h, "extern int %sgroup(enum %sgroups group, int c);\n",
-		opt->lexi_prefix, opt->lexi_prefix);
+	fprintf(lex_output_h, "extern %s %sgroup(enum %sgroups group, int c);\n",
+		language == C90 ? "int" : "bool", opt->lexi_prefix, opt->lexi_prefix);
 
 	/*
 	 * I'm presenting an int here for multibyte character literals, although
@@ -634,8 +640,8 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 	 * my mind at ease for lexers generated on machines with different signedness
 	 * for char than the machine upon which the generated lexer is compiled.
 	 */
-	fprintf(lex_output, "int %sgroup(enum %sgroups group, int c) {\n",
-		opt->lexi_prefix, opt->lexi_prefix);
+	fprintf(lex_output, "%s %sgroup(enum %sgroups group, int c) {\n",
+		language == C90 ? "int" : "bool", opt->lexi_prefix, opt->lexi_prefix);
 	fputs("\treturn lookup_tab[c] & group;\n", lex_output);
 	fputs("}\n", lex_output);
 }
@@ -741,6 +747,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	const char *grouphex;
 
 	assert(!strcmp(opt->language, "C90") || !strcmp(opt->language, "C99"));
+	language = !strcmp(opt->language, "C90") ? C90 : C99;
 
 	lex_output = opt->outputfile[0].file;
 	lex_output_h = opt->outputfile[1].file;
@@ -782,7 +789,12 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	if(opt->generate_asserts) {
 		fputs("#include <assert.h>\n", lex_output);
 	}
+	if(language == C99) {
+		fputs("#include <stdbool.h>\n", lex_output);
+		fputs("#include <stdbool.h>\n\n", lex_output_h);
+	}
 	fputs("#include <stdint.h>\n\n", lex_output);
+
 	fputs("/*\n"
 		" * This struct holds state for the lexer; its representation is\n"
 		" * private, but present here for ease of allocation.\n"

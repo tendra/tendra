@@ -54,7 +54,7 @@
  *         no liability whatsoever in relation to any use to which
  *         it may be put.
  * 
- * $Id: COPYING 1799 2008-01-06 14:15:34Z kate $
+ * $Id: COPYING 1834 2008-01-08 21:28:46Z kate $
  * 
  */
 
@@ -64,6 +64,8 @@
 
 #ifndef LEXI_GENERATED_HEADER_lexi__INCLUDED
 #define LEXI_GENERATED_HEADER_lexi__INCLUDED
+
+#include <stdbool.h>
 
 /*
  * This struct holds state for the lexer; its representation is
@@ -106,7 +108,7 @@ enum lexi_groups {
 };
 
 /* true if the given character is present in the given group */
-extern int lexi_group(enum lexi_groups group, int c);
+extern bool lexi_group(enum lexi_groups group, int c);
 
 /* Identify a keyword */
 extern int lexi_keyword(const char *identifier, int notfound);
