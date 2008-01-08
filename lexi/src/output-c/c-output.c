@@ -550,27 +550,23 @@ comment_file(FILE* output, FILE* input, const char *start, const char *middle, c
 /*
 	OUTPUT COPYRIGHT
 
-	This routine outputs the copyright statement
+	This routine outputs the copyright statement and closes opt->copyright_file.
 */
 static void
 output_copyright(lexer_parse_tree* top_level, cmd_line_options* opt)
 {
-	if(opt->copyright_file_cmd_line || top_level->copyright_file) {
-		FILE* copyright_file= opt->copyright_file_cmd_line ? opt->copyright_file_cmd_line : top_level->copyright_file;
-
-		if(!comment_file(opt->lex_output, copyright_file, "/*", " *", "*/")) {
+	if(opt->copyright_file) {
+		if(!comment_file(opt->lex_output, opt->copyright_file, "/*", " *", "*/")) {
 			error(ERROR_SERIOUS,"Copyright file contains comment characters");
 		}
 
-		rewind(copyright_file);
-		if(!comment_file(opt->lex_output_h, copyright_file, "/*", " *", "*/")) {
+		rewind(opt->copyright_file);
+		if(!comment_file(opt->lex_output_h, opt->copyright_file, "/*", " *", "*/")) {
 			error(ERROR_SERIOUS,"Copyright file contains comment characters");
 		}
 	}
-	if(opt->copyright_file_cmd_line)
-		fclose(opt->copyright_file_cmd_line);
-	if(top_level->copyright_file)
-		fclose(top_level->copyright_file);
+	if(opt->copyright_file)
+		fclose(opt->copyright_file);
 	return;
 }
 
@@ -780,7 +776,9 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(opt->lex_output_h,"#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fprintf(opt->lex_output_h,"#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fputs("\n",opt->lex_output_h);
-	fprintf(opt->lex_output,"#include \"%s\"\n\n",opt->lex_output_h_filename);
+	if(opt->lex_output_h_filename) {
+		fprintf(opt->lex_output,"#include \"%s\"\n\n",opt->lex_output_h_filename);
+	}
 
 	if(opt->generate_asserts) {
 		fputs("#include <assert.h>\n", lex_output);

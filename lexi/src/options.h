@@ -26,17 +26,29 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: options.c 1628 2007-10-10 10:15:34Z flaviusaetius $
+ * $Id: options.h 1628 2007-10-10 10:15:34Z flaviusaetius $
  */
 
-#include "options.h"
-void cmd_line_options_init(cmd_line_options* opt) 
-{
-	opt->copyright_file = NULL;
-	opt->generate_asserts = true;
-	opt->lex_output = stdout;
-	opt->lex_output_h = NULL;
-	opt->lexi_prefix = "lexi_";
-	/*	opt->lex_input_filename = NULL;
-		opt->lex_input = NULL;*/
-}
+#ifndef OPTIONS_INCLUDED
+#define OPTIONS_INCLUDED
+
+#include <stdbool.h>
+#include <stdio.h>
+
+typedef struct cmd_line_options_tag {
+	FILE* copyright_file;
+	bool generate_asserts;
+
+	/* TODO these are language-specific options; they should be elsewhere */
+	FILE* lex_output;
+	FILE* lex_output_h;
+	const char* lex_output_h_filename;
+	const char* lexi_prefix;
+
+  /*	const char* lex_input_filename;
+	FILE* lex_input;*/
+} cmd_line_options ;
+
+extern void cmd_line_options_init(cmd_line_options*);
+
+#endif

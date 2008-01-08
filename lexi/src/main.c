@@ -72,6 +72,12 @@
 #include "options.h"
 
 /*
+ * XXX This is made global specifically for <make-copyright> in syntax.act.
+ * It shouldn't be global.
+ */
+cmd_line_options options;
+
+/*
  * Usage
  */
 static void
@@ -100,7 +106,6 @@ main(int argc, char **argv)
 {
 	int optc;
 	lexer_parse_tree top_level;
-	cmd_line_options options;
  	cmd_line_options_init(&options);
 
 	struct outputs {
@@ -150,11 +155,9 @@ main(int argc, char **argv)
 		}
 
 		case 'C':
-			/* TODO do we really need to store the filename for this? */
-			options.copyright_filename_cmd_line = optarg;
-			options.copyright_file_cmd_line=fopen(options.copyright_filename_cmd_line,"r");
-			if ( options.copyright_file_cmd_line == NULL) 
-				error(ERROR_FATAL, "Can't open copyright file, %s", options.copyright_filename_cmd_line);
+			options.copyright_file=fopen(optarg, "r");
+			if ( options.copyright_file == NULL) 
+				error(ERROR_FATAL, "Can't open copyright file, %s", optarg);
 			break;
 
 		case 'v':
@@ -199,7 +202,8 @@ main(int argc, char **argv)
 
 	/* XXX This is a placeholder until arbitary output files are implemented */
 	if(output->outputfiles == 2) {
-		/* Open output header */
+		/* Open output header. The filename is used for #include'ing from the generated C file */
+		options.lex_output_h_filename = argv[2];
 		options.lex_output_h = open_filestream(argv[2]);
 		if (options.lex_output_h == NULL) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
