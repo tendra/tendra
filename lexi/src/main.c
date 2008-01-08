@@ -107,6 +107,7 @@ main(int argc, char **argv)
 	int optc;
 	lexer_parse_tree top_level;
  	cmd_line_options_init(&options);
+	int i;
 
 	struct outputs {
 		const char *name;
@@ -192,21 +193,16 @@ main(int argc, char **argv)
 		error(ERROR_FATAL, "Too many arguments");
 	}
 
-	/* Open output file */
-	options.lex_output = open_filestream(argv[1]);
-	if (options.lex_output == NULL) {
-		error(ERROR_FATAL, "Can't open output file, %s", argv[1]);
-		/* TODO perror for cases like this */
-		return EXIT_FAILURE;
-	}
+	/*
+	 * Open each relevant file for output. Note that argv[0]
+	 * contains the input file.
+	 */
+	for(i = 0; i < output->outputfiles; i++) {
+		options.outputfile[i].name = argv[i + 1];
+		options.outputfile[i].file = open_filestream(argv[i + 1]);
 
-	/* XXX This is a placeholder until arbitary output files are implemented */
-	if(output->outputfiles == 2) {
-		/* Open output header. The filename is used for #include'ing from the generated C file */
-		options.lex_output_h_filename = argv[2];
-		options.lex_output_h = open_filestream(argv[2]);
-		if (options.lex_output_h == NULL) {
-			error(ERROR_FATAL, "Can't open output file, %s", argv[2]);
+		if(!options.outputfile[i].file) {
+			error(ERROR_FATAL, "Can't open output file, %s", argv[i + 1]);
 			/* TODO perror for cases like this */
 			return EXIT_FAILURE;
 		}
@@ -229,8 +225,11 @@ main(int argc, char **argv)
 	/* TODO pass output fd here; remove globals */
 	output->output_all(&options, &top_level);
 
-	fclose(options.lex_output);
-	fclose(options.lex_output_h);
+	for(i = 0; i < output->outputfiles; i++) {
+		if(options.outputfile[i].file) {
+			fclose(options.outputfile[i].file);
+		}
+	}
 
 	return exit_status;
 }

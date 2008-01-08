@@ -30,13 +30,17 @@
  */
 
 #include "options.h"
-void cmd_line_options_init(cmd_line_options* opt) 
+
+/*
+ * Populate command line options with default values.
+ */
+void
+cmd_line_options_init(cmd_line_options* opt) 
 {
 	opt->copyright_file = NULL;
-	opt->generate_asserts = true;
-	opt->lex_output = stdout;
-	opt->lex_output_h = NULL;
+
+	/* TODO These are language-specific; see options.h */
+	opt->generate_asserts = false;
 	opt->lexi_prefix = "lexi_";
-	/*	opt->lex_input_filename = NULL;
-		opt->lex_input = NULL;*/
 }
+

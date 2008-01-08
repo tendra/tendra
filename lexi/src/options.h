@@ -35,20 +35,42 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+
+/*
+ * A file to which output is written. The exact purpose of each file
+ * is specific to the output language (passed by -l) being employed.
+ */
+typedef struct options_outputfile {
+	const char *name;
+	FILE *file;
+} options_outputfile;
+
 typedef struct cmd_line_options_tag {
 	FILE* copyright_file;
-	bool generate_asserts;
 
-	/* TODO these are language-specific options; they should be elsewhere */
-	FILE* lex_output;
-	FILE* lex_output_h;
-	const char* lex_output_h_filename;
+	/*
+	 * TODO These are language-specific options; they should be elsewhere
+	 */
+	bool generate_asserts;
 	const char* lexi_prefix;
 
-  /*	const char* lex_input_filename;
-	FILE* lex_input;*/
+	/*
+	 * An array of files to which output is written. The number (and
+	 * purposes) of files is specific to each output language. This
+	 * array must be large enough to hold the maximum number of files
+	 * specified by outputs[] in main().
+	 *
+	 * Elements beyond that of the selected output language's number
+	 * are undefined. The order of files is defined by each output language.
+	 *
+	 * Since this is known at compile-time and is relatively small,
+	 * a linked list was considered cumbersome.
+	 *
+	 */
+	options_outputfile outputfile[2];
 } cmd_line_options ;
 
 extern void cmd_line_options_init(cmd_line_options*);
 
 #endif
+
