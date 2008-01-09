@@ -37,7 +37,19 @@
 #include "options.h"
 #include "dot-output.h"
 
-void dot_output_all(cmd_line_options *, lexer_parse_tree *);
+/*
+ * Render the generated lexical analyser in Graphviz Dot format.
+ * This is a visualisation showing the structure and types of nodes
+ * in the trie formed by tokens.
+ *
+ * The trie is an associative array consisting of hetereogenous nodes
+ * keyed by the token definitions mapping to the lexemes yielded per
+ * token. For example, a node may be a single letter, or a reference
+ * to a group; the intention of this visualisation is to make these
+ * distinctions clear.
+ */
+void
+dot_output_all(cmd_line_options *, lexer_parse_tree *);
 
 #endif
 
