@@ -74,6 +74,12 @@ ARGS_LIST -> args_listP;
 #include "syntax.h"
 #include "options.h"
 
+
+#define ADVANCE_LEXER ADVANCE_LXI_LEXER
+#define CURRENT_TERMINAL CURRENT_LXI_TERMINAL 
+#define SAVE_LEXER SAVE_LXI_LEXER
+#define RESTORE_LEXER RESTORE_LXI_LEXER
+
 /* TODO see main.c; this is a work-around for the copyright file */
 extern cmd_line_options options;
 

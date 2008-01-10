@@ -253,7 +253,7 @@ process_file(char *nm,lexer_parse_tree* top_level)
 	}
     }
 	lexi_init(&lexer_state);
-    ADVANCE_LEXER;
+    ADVANCE_LXI_LEXER;
     read_lex(top_level->global_zone);
     if (nm)fclose(lex_input);
     return;
