@@ -227,13 +227,15 @@ main(int argc, char **argv)
 		top_level.global_zone->white_space = make_group(top_level.global_zone,"white",
 							  make_string(" \t\n",top_level.global_zone));
 
-	/* TODO pass output fd here; remove globals */
 	output->output_all(&options, &top_level);
 
 	for(i = 0; i < output->outputfiles; i++) {
 		if(options.outputfile[i].file) {
 			fclose(options.outputfile[i].file);
 		}
+	}
+	if(options.copyright_file) {
+		fclose(options.copyright_file);
 	}
 
 	return exit_status;

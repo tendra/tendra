@@ -70,6 +70,7 @@
 #include "lex.h"
 #include "c-output.h"
 #include "options.h"
+#include "output.h"
 
 /*
  * This is populated by the selected output language, set from opt->language.
@@ -92,20 +93,6 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h);
 
 FILE *lex_output;
 FILE *lex_output_h;
-
-
-/*
-	OUTPUT INDENTATION
-
-	This routine outputs an indentation of d.
-*/
-
-static void
-output_indent(int d)
-{
-	while(d --> 0)
-		fputc('\t', lex_output);
-}
 
 
 /*
@@ -159,11 +146,11 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
     switch(instr->type) {
     case return_token :
       /* assert(!instr->next);*/
-      output_indent(d);
+      output_indent(lex_output, d);
       fprintf(lex_output, "return %s;\n", instr->u.name);
       break;
     case apply_function:
-      output_indent(d);
+      output_indent(lex_output, d);
       if(!(instr->next))
 	fprintf(lex_output, "return ");
       fprintf(lex_output, "%s(", instr->u.fun->name);
@@ -203,18 +190,18 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       fputs(");\n", lex_output);
       break;
     case push_zone:
-      output_indent(d);
+      output_indent(lex_output, d);
       fprintf(lex_output, "state->zone_function = %s_%s;\n",
 	      read_token_name, instr->u.z->zone_name);
       if(instr->u.z->entering_instructions->head) 
 	output_actions(NULL,instr->u.z->entering_instructions,n,d);
       else {
-	output_indent(d);
+	output_indent(lex_output, d);
 	fprintf(lex_output,"return %s(state);\n",read_token_name);
       }
       break;
     case pop_zone:
-      output_indent(d);
+      output_indent(lex_output, d);
       if(instr->u.z==instr->u.z->top_level->global_zone)
 	fprintf(lex_output, "state->zone_function = %s;\n",read_token_name);
       else
@@ -223,7 +210,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       if(z->leaving_instructions->head) 
 	output_actions(NULL,z->leaving_instructions,n,d);
       else {
-	output_indent(d);
+	output_indent(lex_output, d);
 	fprintf(lex_output,"return %s(state);\n",read_token_name);
       }
       break;
@@ -232,7 +219,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 	error(ERROR_SERIOUS, "$$ should only appear at the end of an instruction list");
 /*Should be caught during parsing*/
   /* assert(!instr->next);*/
-      output_indent(d);
+      output_indent(lex_output, d);
       if(z) /* if z==NULL, we are in a push or pop zone action and can't go to start*/
 	fputs("goto start;\n",lex_output);	  	
       else /*We're outputting entering and leaving actions.*/
@@ -283,7 +270,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 	if (cases || classes) {
 		int w1 = (n == 0 && !in_pre_pass);
 		int w2 = (n == 0 && in_pre_pass);
-		output_indent(d);
+		output_indent(lex_output, d);
 		if(!in_pre_pass && z->zone_pre_pass->next)
 		  fprintf(lex_output, "int c%d = %s_aux_%s()", 
 			  n, read_token_name, z->zone_name);
@@ -291,7 +278,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		    fprintf(lex_output, "int c%d = lexi_readchar(state)", n);
 		fputs(";\n", lex_output);
 		if (w1) {
-			output_indent(d);
+			output_indent(lex_output, d);
 			for(scope=z; scope != NULL; scope=scope->up) {
 				if(scope->white_space) {
 					if(scope==scope->top_level->global_zone)
@@ -305,30 +292,30 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			}
 		}
 		if (w2) {
-			output_indent(d);
+			output_indent(lex_output, d);
 			fputs("restart: {\n", lex_output);
 			d++;
 		}
 
 		if (cases > 4) {
 			/* Small number of cases */
-			output_indent(d);
+			output_indent(lex_output, d);
 			fprintf(lex_output, "switch (c%d) {\n", n);
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
 				ctrans=letters_table_get_translation(c,top_level->letters_table);
 				if (ctrans->type == char_letter||ctrans->type==eof_letter) {
-					output_indent(d + 1);
+					output_indent(lex_output, d + 1);
 					fprintf(lex_output, "case %s: {\n", char_lit(ctrans));
 					if (output_pass(z, q, in_pre_pass, n + 1, d + 2) == 0) {
-						output_indent(d + 2);
+						output_indent(lex_output, d + 2);
 						fputs("break;\n", lex_output);
 					}
-					output_indent(d + 1);
+					output_indent(lex_output, d + 1);
 					fputs("}\n", lex_output);
 				}
 			}
-			output_indent(d);
+			output_indent(lex_output, d);
 			fputs("}\n", lex_output);
 		} else {
 			/* Large number of cases */
@@ -337,7 +324,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				letter c = q->ch;
 				ctrans=letters_table_get_translation(c,top_level->letters_table);
 				if (ctrans->type==char_letter||ctrans->type==eof_letter) {
-					output_indent(d);
+					output_indent(lex_output, d);
 					if (started)
 						fputs("} else ", lex_output);
 					fprintf(lex_output, "if (c%d == %s) {\n",
@@ -347,7 +334,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				}
 			}
 			if (started) {
-				output_indent(d);
+				output_indent(lex_output, d);
 				fputs("}\n", lex_output);
 			}
 		}
@@ -361,7 +348,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				if (ctrans->type==group_letter||ctrans->type==notin_group_letter) {
 					char* reverse_match=(ctrans->type==notin_group_letter) ? "!": "";
 					char_group *grp=ctrans->u.grp;
-					output_indent(d);
+					output_indent(lex_output, d);
 					if (started)
 						fputs("} else ", lex_output);
 					if(grp->z==grp->z->top_level->global_zone)
@@ -374,16 +361,16 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 					started = 1;
 				}
 			}
-			output_indent(d);
+			output_indent(lex_output, d);
 			fputs("}\n", lex_output);
 		}
 		if (w2) {
 			d--;
-			output_indent(d);
+			output_indent(lex_output, d);
 			fputs("}\n", lex_output);
 		}
 		if (n) {
-			output_indent(d);
+			output_indent(lex_output, d);
 			fprintf(lex_output, "%spush(state, c%d);\n", lexi_prefix,n);
 		}
 	}
@@ -409,29 +396,29 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 					error(ERROR_SERIOUS, "Bad mapping string, '%s'", map);
 				}
 				if (cond) {
-					output_indent(d);
+					output_indent(lex_output, d);
 					fprintf(lex_output, "if (%s) {\n", cond);
-					output_indent(d + 1);
+					output_indent(lex_output, d + 1);
 					fprintf(lex_output, "c0 = %s;\n", str);
-					output_indent(d + 1);
+					output_indent(lex_output, d + 1);
 					fputs("goto restart;\n", lex_output);
-					output_indent(d);
+					output_indent(lex_output, d);
 					fputs("}\n", lex_output);
 				} else {
-					output_indent(d);
+					output_indent(lex_output, d);
 					fprintf(lex_output, "c0 = %s;\n", str);
-					output_indent(d);
+					output_indent(lex_output, d);
 					fputs("goto restart;\n", lex_output);
 				}
 			} else {
-				output_indent(d);
+				output_indent(lex_output, d);
 				if (cond)
 					fprintf(lex_output, "if (%s) ", cond);
 				fputs("goto start;\n", lex_output);
 			}
 		} else {
 			if (cond) {
-			output_indent(d);
+			output_indent(lex_output, d);
 				fprintf(lex_output, "if (%s) {", cond);
 				d++;
 			}
@@ -523,40 +510,6 @@ output_zone_pass(zone *p)
     return;
 }
 
-/* 
-   COMMENT FILE
-
-   cat input into output, commenting as appropiate.
-   Returns false if the input file was found to have
-   contained an illegal comment.
-*/
-static int
-comment_file(FILE* output, FILE* input, const char *start, const char *middle, const char *end) {
-    char buf[BUFSIZ];
-
-    fprintf(output, "%s \n%s ", start, middle);
-    while(1) {
-        buf[BUFSIZ - 1] = 'x';
-
-        if(!fgets(buf, sizeof buf, input)) {
-            break;
-        }
-
-        if(strstr(buf, end)) {
-            return 0;
-        }
-
-        fputs(buf, output);
-
-        if(!(buf[BUFSIZ - 1] == '\0' && buf[BUFSIZ - 2] != '\n')) {
-            fprintf(output, "%s ", middle);
-        }
-    }
-    fprintf(output, "\n %s\n", end);
-
-    return 1;
-}
-
 /*
 	OUTPUT COPYRIGHT
 
@@ -565,35 +518,20 @@ comment_file(FILE* output, FILE* input, const char *start, const char *middle, c
 static void
 output_copyright(lexer_parse_tree* top_level, cmd_line_options* opt)
 {
-	if(opt->copyright_file) {
-		if(!comment_file(lex_output, opt->copyright_file, "/*", " *", "*/")) {
-			error(ERROR_SERIOUS,"Copyright file contains comment characters");
-		}
-
-		rewind(opt->copyright_file);
-		if(!comment_file(lex_output_h, opt->copyright_file, "/*", " *", "*/")) {
-			error(ERROR_SERIOUS,"Copyright file contains comment characters");
-		}
+	if(!opt->copyright_file) {
+		return;
 	}
-	if(opt->copyright_file)
-		fclose(opt->copyright_file);
+
+	if(!output_comment_file(OUTPUT_COMMENT_C90, lex_output, opt->copyright_file)) {
+		error(ERROR_SERIOUS,"Copyright file contains comment characters");
+	}
+
+	rewind(opt->copyright_file);
+	if(!output_comment_file(OUTPUT_COMMENT_C90, lex_output_h, opt->copyright_file)) {
+		error(ERROR_SERIOUS,"Copyright file contains comment characters");
+	}
+
 	return;
-}
-
-/* 
-   OUTPUT GENERATED BY LEXI Version
-
-   This routine outputs a statement stating that the file is automatically
-   generated.
-
-*/
-
-static void 
-output_generated_by_lexi(FILE* out) 
-{
-	fputs("\n/*\n *  AUTOMATICALLY GENERATED", out);
-	fprintf(out, " BY %s VERSION %s", progname, progvers);
-	fputs("\n */\n", out);
 }
 
 /*
@@ -772,13 +710,10 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 
 
 	output_copyright(top_level,opt);
-	fputs("\n", lex_output);
 
-	output_generated_by_lexi(lex_output);
-	fputs("\n", lex_output);
+	output_generated_by_lexi(OUTPUT_COMMENT_C90, lex_output);
 
-	output_generated_by_lexi(lex_output_h);
-	fputs("\n", lex_output_h);
+	output_generated_by_lexi(OUTPUT_COMMENT_C90, lex_output_h);
 	fprintf(lex_output_h, "#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fprintf(lex_output_h, "#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fputs("\n", lex_output_h);

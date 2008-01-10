@@ -37,6 +37,7 @@
 #include "error.h"
 #include "options.h"
 #include "dot-output.h"
+#include "output.h"
 
 /* This is a convenience for brevity */
 #define dotout opt->outputfile[0].file
@@ -191,6 +192,12 @@ pass(character *p, lexer_parse_tree *top_level, cmd_line_options *opt) {
 }
 
 void dot_output_all(cmd_line_options *opt, lexer_parse_tree *top_level) {
+	if(opt->copyright_file) {
+		output_comment_file(OUTPUT_COMMENT_C90, dotout, opt->copyright_file);
+	}
+
+	output_generated_by_lexi(OUTPUT_COMMENT_C90, dotout);
+
 	fprintf(dotout, "digraph G {\n");
 	fprintf(dotout, "\tnode [ shape=circle, fontname=verdana ];\n");
 	fprintf(dotout, "\trankdir = LR;\n");
