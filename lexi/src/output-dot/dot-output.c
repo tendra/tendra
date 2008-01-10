@@ -38,6 +38,9 @@
 #include "options.h"
 #include "dot-output.h"
 
+/* This is a convenience for brevity */
+#define dotout opt->outputfile[0].file
+
 /*
  * Yield a string representing a quoted character. Characters are quoted
  * according to Dot's requirements for strings.
@@ -88,13 +91,13 @@ output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
 	letter_translation *ctrans;
 
 	ctrans = letters_table_get_translation(p->ch, top_level->letters_table);
-	printf("\tc%p [ ", p);
+	fprintf(dotout, "\tc%p [ ", p);
 
 	switch(ctrans->type) {
 	case last_letter: {
 		instruction* instr;
 
-		printf("shape=plaintext, label=\"");
+		fprintf(dotout, "shape=plaintext, label=\"");
 
 		if(p->u.definition) {
 			for(instr = p->u.definition->head; instr; instr = instr->next) {
@@ -102,56 +105,62 @@ output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
 				case return_token:
 					/* TODO rename to just prefix */
 					/* TODO map back _H */
-					printf("$%s", instr->u.name + strlen(opt->lexi_prefix) - 1);
+					fprintf(dotout, "$%s",
+						instr->u.name + strlen(opt->lexi_prefix) - 1);
 					break;
 
 				case apply_function:
-					printf("%s()", instr->u.fun->name);
+					fprintf(dotout, "%s()",
+						instr->u.fun->name);
 					break;
 
 				case pop_zone:
-					printf("<pop> %s", instr->u.z->zone_name);
+					fprintf(dotout, "<pop> %s",
+						instr->u.z->zone_name);
 					break;
 
 				case push_zone:
-					printf("<push> %s", instr->u.z->zone_name);
+					fprintf(dotout, "<push> %s",
+						instr->u.z->zone_name);
 					break;
 
 				case do_nothing:
-					printf("$$");
+					fprintf(dotout, "$$");
 					break;
 
 				default:
-					printf("TODO");	/* TODO unimplemented */
+					fprintf(dotout, "TODO");	/* TODO unimplemented */
 					break;
 				}
 			}
 		} else {
 			/* Must be the root node, which, confusingly, is of type last_letter */
-			printf("/");
+			fprintf(dotout, "/");
 		}
 
-		printf("\"");
+		fprintf(dotout, "\"");
 		break;
 	}
 
 	case eof_letter:
 	case char_letter:
-		printf("label=\"%s\"", quote_char(ctrans));
+		fprintf(dotout, "label=\"%s\"",
+			quote_char(ctrans));
 		break;
 
 	case group_letter:
 	case notin_group_letter:
 		/* TODO handle inverted groups */
-		printf("shape=box, label=\"[%s]\"", ctrans->u.grp->name);
+		fprintf(dotout, "shape=box, label=\"[%s]\"",
+			ctrans->u.grp->name);
 		break;
 
 	default:
-		printf("shape=plaintext, label=\"TODO\"");
+		fprintf(dotout, "shape=plaintext, label=\"TODO\"");
 		break;
 	}
 
-	printf(" ];\n");
+	fprintf(dotout, " ];\n");
 }
 
 /*
@@ -173,7 +182,8 @@ pass(character *p, lexer_parse_tree *top_level, cmd_line_options *opt) {
 
 		ctrans = letters_table_get_translation(q->ch, top_level->letters_table);
 
-		printf("\tc%p -> c%p [ dir=%s ];\n", p, q, ctrans->type == last_letter ? "forward" : "none");
+		fprintf(dotout, "\tc%p -> c%p [ dir=%s ];\n",
+			p, q, ctrans->type == last_letter ? "forward" : "none");
 
 		pass(q, top_level, opt);
 	}
@@ -181,9 +191,9 @@ pass(character *p, lexer_parse_tree *top_level, cmd_line_options *opt) {
 }
 
 void dot_output_all(cmd_line_options *opt, lexer_parse_tree *top_level) {
-	printf("digraph G {\n");
-	printf("\tnode [ shape=circle, fontname=verdana ];\n");
-	printf("\trankdir = LR;\n");
+	fprintf(dotout, "digraph G {\n");
+	fprintf(dotout, "\tnode [ shape=circle, fontname=verdana ];\n");
+	fprintf(dotout, "\trankdir = LR;\n");
 
 	/* TODO output each zone */
 	/* TODO output pre-pass mappings (render as -> "xyz") */
@@ -191,7 +201,7 @@ void dot_output_all(cmd_line_options *opt, lexer_parse_tree *top_level) {
 
 	pass(top_level->global_zone->zone_main_pass, top_level, opt);
 
-	printf("};\n");
+	fprintf(dotout, "};\n");
 
   	return;
 }
