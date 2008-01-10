@@ -64,14 +64,6 @@
 #include <stddef.h>
 
 
-/*
-    TYPE REPRESENTING A CHARACTER
-
-    A character consists of a single letter (which may have associated
-    data) plus pointers to the next character and to a list of alternative
-    characters.
-*/
-
 typedef unsigned int letter;
 
 struct zone_tag;
@@ -90,6 +82,7 @@ typedef struct arg_tag {
   } u ;
 } arg;
 
+/* ordered */
 typedef struct args_list_tag {
   arg*  head ;
   arg** tail ;
@@ -112,12 +105,20 @@ typedef struct instruction_tag {
   } u;
 } instruction ;
 
+/* ordered */
 typedef struct instructions_list_tag {
   instruction* head;
   instruction** tail;
 } instructions_list;
 
 
+/*
+    TYPE REPRESENTING A CHARACTER
+
+    A character consists of a single letter (which may have associated
+    data) plus pointers to the next character and to a list of alternative
+    characters.
+*/
 typedef struct character_tag {
     letter ch;
     char* cond;
@@ -145,7 +146,6 @@ typedef struct char_group_tag {
     struct char_group_tag* next; /* Next in hash table */  
     struct char_group_tag* next_in_groups_list; 
 } char_group;
-
 
 typedef struct char_group_list_tag {
     char_group*  head;
