@@ -12,7 +12,7 @@ LDFLAGS+=-Lshared/error -Lshared/xalloc -I.
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
 
-TARGETS=char.o syntax.o lex.o main.o options.o output.o
+TARGETS=char.o syntax.o lex.o main.o options.o output.o lctlex.o lctsyntax.o 
 
 all: lexi
 
@@ -42,7 +42,7 @@ distclean:
 
 # Remove generated files that are in the distribution
 maintainer-clean:
-	${REMOVE} lexer.c lexer.h syntax.h syntax.c
+	${REMOVE} lexer.c lexer.h syntax.h syntax.c lctsyntax.c lctsyntax.h lctlexer.c lctlexer.h
 
 install: lexi
 	${INSTALL} -m 755 -d ${BINDIR}
@@ -53,14 +53,22 @@ syntax.o: lexer.h
 
 main.o char.o syntax.o: char.h
 lex.o main.o syntax.o : syntax.h
-main.o : output-c/c-output.h output-dot/dot-output.h
+main.o : output-c/c-output.h output-dot/dot-output.h lctlex.h
 main.o options.o : options.h
+lctlex.o : lctsyntax.h lctlexer.c lctlexer.h
 
 lexer.c lexer.h: lexer.lxi COPYING
 	-${MOVE} lexer.c sav.lexer.c 
 	-${MOVE} lexer.h sav.lexer.h
 	${LEXI} -lC99 -a lexer.lxi lexer.c lexer.h \
 		|| ( ${MOVE} sav.lexer.c lexer.c ; ${MOVE} sav.lexer.h lexer.h ; exit 1 )
+
+lctlexer.c lctlexer.h: lctlexer.lxi COPYING
+	-${MOVE} lctlexer.c sav.lctlexer.c
+	-${MOVE} lctlexer.h sav.lctlexer.h
+	${LEXI} -lC90 -a -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.c lctlexer.h \
+		|| ( ${MOVE} sav.lctlexer.c lctlexer.c ; ${MOVE} sav.lctlexer.h lctlexer.h ; exit 1 )
+
 
 
 syntax.h: syntax.c

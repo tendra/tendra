@@ -66,9 +66,10 @@
 
 #include "char.h"
 #include "lex.h"
+#include "lctlex.h"
+#include "syntax.h"
 #include "output-c/c-output.h"
 #include "output-dot/dot-output.h"
-#include "syntax.h"
 #include "options.h"
 
 /*
@@ -111,12 +112,13 @@ main(int argc, char **argv)
 
 	struct outputs {
 		const char *language;
+		const signed int inputfiles;
 		const signed int outputfiles;
 		void (*output_all)(cmd_line_options *, lexer_parse_tree *);
 	} outputs[] = {
-		{ "C90", 2, c_output_all	},
-		{ "C99", 2, c_output_all	},
-		{ "Dot", 1, dot_output_all	},
+		{ "C90", 1, 2, c_output_all	},
+		{ "C99", 1, 2, c_output_all	},
+		{ "Dot", 1, 1, dot_output_all	},
 	};
 
 	/* Default to C90 output */
@@ -186,14 +188,14 @@ main(int argc, char **argv)
 	options.language = output->language;
 
 	/* Check arguments (+1 for input file) */
-	if (argc < output->outputfiles + 1) {
+	if (argc < output->outputfiles + output->inputfiles) {
 		report_usage();
 		error(ERROR_FATAL, "Not enough arguments");
 		/* TODO resolve - here, and pass FILE * to process_file();
 		 * we can permit argc < 1 for stdin */
 	}
 
-	if (argc > output->outputfiles + 1) {
+	if (argc > output->outputfiles + output->inputfiles) {
 		report_usage();
 		error(ERROR_FATAL, "Too many arguments");
 	}
@@ -203,8 +205,8 @@ main(int argc, char **argv)
 	 * contains the input file.
 	 */
 	for(i = 0; i < output->outputfiles; i++) {
-		options.outputfile[i].name = argv[i + 1];
-		options.outputfile[i].file = open_filestream(argv[i + 1]);
+		options.outputfile[i].name = argv[i + output->inputfiles];
+		options.outputfile[i].file = open_filestream(argv[i + output->inputfiles]);
 
 		if(!options.outputfile[i].file) {
 			error(ERROR_FATAL, "Can't open output file, %s", argv[i + 1]);
@@ -219,6 +221,15 @@ main(int argc, char **argv)
 
 	if (exit_status != EXIT_SUCCESS) {
 		error(ERROR_FATAL, "Terminating due to previous errors");
+		return exit_status;
+	}
+
+	if(output->inputfiles>1) {
+		process_lctfile(argv[1]);
+	}
+
+	if (exit_status != EXIT_SUCCESS) {
+		error(ERROR_FATAL, "Terminating due to previous errors in lct file");
 		return exit_status;
 	}
 

@@ -47,7 +47,7 @@ lexi_lct_getchar()
 	if(c == '\n') 
 		crt_lct_line_no++;
 	if(c ==EOF) 
-		return LEX_EOF;
+		return LEXI_EOF;
 }
 
 #include "lctlexer.c"
