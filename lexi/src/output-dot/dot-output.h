@@ -35,7 +35,6 @@
 
 #include "char.h"
 #include "options.h"
-#include "dot-output.h"
 
 /*
  * Render the generated lexical analyser in Graphviz Dot format.
