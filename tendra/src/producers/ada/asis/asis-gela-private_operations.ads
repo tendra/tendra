@@ -7,41 +7,82 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Create and declare implicit declaration
+--  Private operations implementation.
 
 with Asis.Gela.Classes;
 with Asis.Gela.Visibility;
 
-package Asis.Gela.Implicit is
+with Gela; use Gela;
+with Gela.Containers.Lists;
+with Gela.Embeded_Links.Lists;
 
-   procedure Process_Unit (Unit : Asis.Compilation_Unit);
-   --  Recognize predefined units and mark implementation defined
-   --  expressions as implicit, collect some type declarations.
+package Asis.Gela.Private_Operations is
 
-   procedure Make_Operations
-     (Decl  : in     Asis.Declaration;
-      Point : in out Visibility.Point);
-   --  Create implicit operations for type declaration and declare them
-   --  in declaration region pointed by Point.
+   type Package_Data is private;
+   type Package_Data_Stack is limited private;
 
-   procedure Make_Operations
-     (Tipe  : in     Classes.Type_Info;
-      Was   : in     Classes.Type_Info;
-      Point : in out Visibility.Point);
-   --  Create implicit operations when type change it's properties and
-   --  declare them in declaration region pointed by Point.
+   function Create (Element : in Asis.Declaration) return Package_Data;
 
-   procedure Make_Not_Equal_Operator
-     (Equal : Asis.Declaration;
-      Point : in out Visibility.Point);
-   --  Create implicit "/=" operation for given "=" and declare it
-   --  in declaration region pointed by Point.
+   procedure Check_Type
+     (Element : in     Asis.Declaration;
+      Data    : in     Package_Data;
+      Point   : in out Visibility.Point);
 
-end Asis.Gela.Implicit;
+   procedure On_Private_Part
+     (Element : in     Asis.Declaration;
+      Point   : in out Visibility.Point);
 
+   procedure Push
+     (Stack : in out Package_Data_Stack;
+      Item  : in     Package_Data);
+
+   procedure Pop
+     (Stack : in out Package_Data_Stack;
+      Item  :    out Package_Data);
+
+   function Top (Stack : Package_Data_Stack) return Package_Data;
+
+private
+
+   package Type_Info_Lists is
+      new Containers.Lists (Classes.Type_Info, Classes.Is_Equal);
+
+   type Type_Data;
+
+   type Type_Data_Access is access all Type_Data;
+
+   type Type_Data is record
+      Info      : Classes.Type_Info;
+      Dependent : Type_Info_Lists.List;
+      Next      : Type_Data_Access;
+   end record;
+
+   function  Get_Next (Item : Type_Data_Access) return Type_Data_Access;
+   procedure Set_Next (Item, Next : Type_Data_Access);
+
+   package Type_Data_List is
+      new Embeded_Links.Lists (Type_Data, Type_Data_Access);
+
+   type Package_Data_Node is record
+      Element : Asis.Element;
+      Types   : Type_Data_List.List;
+      Next    : Package_Data;
+   end record;
+
+   type Package_Data is access all Package_Data_Node;
+
+   function  Get_Next (Item : Package_Data) return Package_Data;
+   procedure Set_Next (Item, Next : Package_Data);
+
+   package Package_Data_List is
+      new Embeded_Links.Lists (Package_Data_Node, Package_Data);
+
+   type Package_Data_Stack is new Package_Data_List.List;
+
+end Asis.Gela.Private_Operations;
 
 ------------------------------------------------------------------------------
---  Copyright (c) 2006, Maxim Reznik
+--  Copyright (c) 2008, Maxim Reznik
 --  All rights reserved.
 --
 --  Redistribution and use in source and binary forms, with or without

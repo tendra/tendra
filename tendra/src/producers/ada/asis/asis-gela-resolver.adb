@@ -1,13 +1,16 @@
+with Asis.Elements;
 with Asis.Gela.Iterator;
 with Asis.Gela.Overloads;
 with Asis.Gela.Visibility;
 with Asis.Gela.Implicit.Decl;
 with Asis.Gela.Resolver.Polish;
+with Asis.Gela.Private_Operations;
 
 package body Asis.Gela.Resolver is
 
    type State_Information is record
-      Point       : Visibility.Point;
+      Point : Visibility.Point;
+      Stack : Private_Operations.Package_Data_Stack;
    end record;
 
    procedure Pre_Operation
@@ -56,12 +59,23 @@ package body Asis.Gela.Resolver is
       Control : in out Traverse_Control;
       State   : in out State_Information)
    is
+      use Asis.Elements;
    begin
       Visibility.Leave_Construction (Element, State.Point);
 
       if not Is_Part_Of_Instance (Element.all) then
          Implicit.Decl.Process (Element, State.Point);
          Overloads.Resolve (Element);
+      end if;
+
+      if Declaration_Kind (Element) in A_Type_Declaration
+        and then Declaration_Kind (Enclosing_Element (Element)) =
+        Asis.A_Package_Declaration
+      then
+         Private_Operations.Check_Type
+           (Element => Element,
+            Data    => Private_Operations.Top (State.Stack),
+            Point   => State.Point);
       end if;
    end Post_Operation;
 
@@ -86,17 +100,25 @@ package body Asis.Gela.Resolver is
       Control : in out Traverse_Control;
       State   : in out State_Information)
    is
-      Expr : constant Expression_Kinds := Expression_Kind (Element.all);
+      use Asis.Elements;
+      use Asis.Gela.Private_Operations;
+
+      Expr : constant Expression_Kinds := Expression_Kind (Element);
    begin
       Visibility.Enter_Construction (Element, State.Point);
 
       if (Expr = An_Identifier or
           Expr = An_Operator_Symbol or
           Expr = A_Character_Literal)
-        and not Is_Part_Of_Implicit (Element.all)
-        and not Is_Part_Of_Instance (Element.all)
+        and not Is_Part_Of_Implicit (Element)
+        and not Is_Part_Of_Instance (Element)
       then
          Visibility.Try_To_Resolve (Element, State.Point);
+      end if;
+
+      if Declaration_Kind (Element) = A_Package_Declaration then
+         Private_Operations.Push
+           (State.Stack, Private_Operations.Create (Element));
       end if;
    end Pre_Operation;
 

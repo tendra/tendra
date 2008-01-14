@@ -909,9 +909,36 @@ package body Asis.Gela.Visibility.Utils is
    is
       use Asis.Gela.Elements;
       Name_Node  : Defining_Name_Ptr  := Defining_Name_Ptr (Name);
+      Name_Place : Region_Item_Access := Place (Name_Node.all);
       Item       : Region_Item_Access := Get_Place (Point);
    begin
-      return Visible_From (Place (Name_Node.all), Item);
+      if Name_Place = null then
+         --  Name have not been processed yet
+         return False;
+      else
+         return Visible_From (Name_Place, Item);
+      end if;
+   end Visible_From;
+
+   ------------------
+   -- Visible_From --
+   ------------------
+
+   function Visible_From
+     (Name  : in Asis.Defining_Name;
+      Point : in Visibility.Point) return Boolean
+   is
+      use Asis.Gela.Elements;
+      Name_Node  : Defining_Name_Ptr  := Defining_Name_Ptr (Name);
+      Name_Place : Region_Item_Access := Place (Name_Node.all);
+      Item       : Region_Item_Access := Point.Item;
+   begin
+      if Name_Place = null then
+         --  Name have not been processed yet
+         return False;
+      else
+         return Visible_From (Name_Place, Item);
+      end if;
    end Visible_From;
 
 begin

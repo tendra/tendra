@@ -37,8 +37,8 @@ package body Asis.Gela.Implicit is
       Left     : Asis.Declaration := Asis.Nil_Element;
       Dispatch : Boolean := False);
 
-   function Need_Logical  (Tipe : Classes.Type_Info) return S.Boolean;
-   function Need_Ordering (Tipe : Classes.Type_Info) return S.Boolean;
+   function Need_Logical  (Tipe, Was : Classes.Type_Info) return S.Boolean;
+   function Need_Ordering (Tipe, Was : Classes.Type_Info) return S.Boolean;
 
    procedure Hide_Implementation_Defined
      (Decl   : in     Asis.Declaration);
@@ -46,6 +46,12 @@ package body Asis.Gela.Implicit is
    procedure Hide_Implementation_Defined
      (Unit   : in     Asis.Compilation_Unit;
       Name   : in     Program_Text);
+
+   procedure Make_Operations
+     (Tipe  : in     Classes.Type_Info;
+      Decl  : in     Asis.Declaration;
+      Point : in out Visibility.Point;
+      Was   : in     Classes.Type_Info);
 
    The_System_Address          : Asis.Declaration;
    The_System_Bit_Order        : Asis.Declaration;
@@ -493,13 +499,42 @@ package body Asis.Gela.Implicit is
    ---------------------
 
    procedure Make_Operations
-     (Decl  : Asis.Declaration;
+     (Decl  : in     Asis.Declaration;
       Point : in out Visibility.Point)
+   is
+      Tipe : constant Classes.Type_Info :=
+        Classes.Type_From_Declaration (Decl, Decl);
+   begin
+      Make_Operations (Tipe, Decl, Point, Classes.Not_A_Type);
+   end Make_Operations;
+
+   ---------------------
+   -- Make_Operations --
+   ---------------------
+
+   procedure Make_Operations
+     (Tipe  : in     Classes.Type_Info;
+      Was   : in     Classes.Type_Info;
+      Point : in out Visibility.Point)
+   is
+      Decl  : Asis.Declaration := Classes.Get_Declaration (Tipe);
+   begin
+      Make_Operations (Tipe, Decl, Point, Was);
+   end Make_Operations;
+
+   ---------------------
+   -- Make_Operations --
+   ---------------------
+
+   procedure Make_Operations
+     (Tipe  : in     Classes.Type_Info;
+      Decl  : in     Asis.Declaration;
+      Point : in out Visibility.Point;
+      Was   : in     Classes.Type_Info)
    is
       use Asis.Gela.Classes;
 
       Comp : Asis.Declaration;
-      Tipe : constant Type_Info := Type_From_Declaration (Decl, Decl);
    begin
       if Is_Universal (Tipe) then
          if Is_Fixed_Point (Tipe) then
@@ -512,47 +547,53 @@ package body Asis.Gela.Implicit is
          return;
       end if;
 
-      if Need_Logical (Tipe) then
+      if Need_Logical (Tipe, Was) then
          Make_Operation (Point, Decl, """and""");
          Make_Operation (Point, Decl, """or""");
          Make_Operation (Point, Decl, """xor""");
          Make_Operation (Point, Decl, """not""", 1);
       end if;
-      if not Is_Limited (Tipe) then
+
+      if not Is_Limited (Tipe) and Is_Limited (Was) then
          Make_Operation (Point, Decl, """=""", Result => The_Boolean,
                          Dispatch => Is_Tagged (Tipe));
          Make_Operation (Point, Decl, """/=""", Result => The_Boolean,
                          Dispatch => Is_Tagged (Tipe));
       end if;
-      if Need_Ordering (Tipe) then
+
+      if Need_Ordering (Tipe, Was) then
          Make_Operation (Point, Decl, """<""", Result => The_Boolean);
          Make_Operation (Point, Decl, """<=""", Result => The_Boolean);
          Make_Operation (Point, Decl, """>""", Result => The_Boolean);
          Make_Operation (Point, Decl, """>=""", Result => The_Boolean);
       end if;
-      if Is_Numeric (Tipe) then
+
+      if Is_Numeric (Tipe) and not Is_Numeric (Was) then
          Make_Operation (Point, Decl, """+""");
          Make_Operation (Point, Decl, """-""");
          Make_Operation (Point, Decl, """+""", 1);
          Make_Operation (Point, Decl, """-""", 1);
          Make_Operation (Point, Decl, """abs""", 1);
       end if;
+
       if Is_Array (Tipe, 1) then
          Comp := Get_Declaration (Get_Array_Element_Type (Tipe));
-         if not Is_Limited (Tipe) then
+
+         if not Is_Limited (Tipe) and Is_Limited (Was) then
             Make_Operation (Point, Decl, """&""");
             Make_Operation (Point, Decl, """&""", Right => Comp);
             Make_Operation (Point, Decl, """&""", Left => Comp);
             Make_Operation (Point, Decl, """&""", Right => Comp, Left => Comp);
          end if;
       end if;
-      if Is_Integer (Tipe) then
+
+      if Is_Integer (Tipe) and not Is_Integer (Was) then
          Make_Operation (Point, Decl, """*""");
          Make_Operation (Point, Decl, """/""");
          Make_Operation (Point, Decl, """mod""");
          Make_Operation (Point, Decl, """rem""");
          Make_Operation (Point, Decl, """**""", Right => The_Natural);
-      elsif Is_Float_Point (Tipe) then
+      elsif Is_Float_Point (Tipe) and not Is_Float_Point (Was) then
          Make_Operation (Point, Decl, """*""");
          Make_Operation (Point, Decl, """/""");
          Make_Operation (Point, Decl, """**""", Right => The_Integer);
@@ -561,7 +602,7 @@ package body Asis.Gela.Implicit is
             Make_Operation (Point, Decl, """*""", Left => The_Root_Integer);
             Make_Operation (Point, Decl, """/""", Right => The_Root_Integer);
          end if;
-      elsif Is_Fixed_Point (Tipe) then
+      elsif Is_Fixed_Point (Tipe) and not Is_Fixed_Point (Was) then
          Make_Operation (Point, Decl, """*""", Right => The_Integer);
          Make_Operation (Point, Decl, """*""", Left => The_Integer);
          Make_Operation (Point, Decl, """/""", Right => The_Integer);
@@ -572,14 +613,14 @@ package body Asis.Gela.Implicit is
    -- Need_Logical --
    ------------------
 
-   function Need_Logical (Tipe : Classes.Type_Info) return S.Boolean is
+   function Need_Logical (Tipe, Was : Classes.Type_Info) return S.Boolean is
       use Asis.Gela.Classes;
    begin
-      if Is_Boolean (Tipe) then
+      if Is_Boolean (Tipe) and not Is_Boolean (Was) then
          return True;
-      elsif Is_Modular_Integer (Tipe) then
+      elsif Is_Modular_Integer (Tipe) and not Is_Modular_Integer (Was) then
          return True;
-      elsif Is_Boolean_Array (Tipe) then
+      elsif Is_Boolean_Array (Tipe) and not Is_Boolean_Array (Was) then
          return True;
       end if;
       return False;
@@ -589,12 +630,12 @@ package body Asis.Gela.Implicit is
    -- Need_Ordering --
    -------------------
 
-   function Need_Ordering (Tipe : Classes.Type_Info) return S.Boolean is
+   function Need_Ordering (Tipe, Was : Classes.Type_Info) return S.Boolean is
       use Asis.Gela.Classes;
    begin
-      if Is_Scalar (Tipe) then
+      if Is_Scalar (Tipe) and not Is_Scalar (Was) then
          return True;
-      elsif Is_Discrete_Array (Tipe) then
+      elsif Is_Discrete_Array (Tipe) and not Is_Discrete_Array (Was) then
          return True;
       end if;
       return False;

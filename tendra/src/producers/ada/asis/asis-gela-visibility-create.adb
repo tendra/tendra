@@ -9,6 +9,7 @@ with Asis.Gela.Classes;
 with Asis.Gela.Errors;
 with Asis.Gela.Element_Utils;
 with Asis.Gela.Visibility.Utils;
+with Asis.Gela.Private_Operations;
 
 with XASIS.Types;
 with XASIS.Utils;
@@ -51,8 +52,9 @@ package body Asis.Gela.Visibility.Create is
       Visible : in Boolean;
       Element : in Asis.Element)
    is
+      use Asis.Elements;
+
       function Is_Declaration (Part : Part_Access) return Boolean is
-         use Asis.Elements;
          use Asis.Compilation_Units;
 
          Unit : constant Compilation_Unit :=
@@ -69,7 +71,20 @@ package body Asis.Gela.Visibility.Create is
          end if;
       end Is_Declaration;
 
-      Part : Part_Access;
+      function Is_Private_Part_Of_Package return Boolean is
+         Parent : Asis.Element := Enclosing_Element (Element);
+      begin
+         if not Visible and
+           Declaration_Kind (Parent) = A_Package_Declaration
+         then
+            return True;
+         else
+            return False;
+         end if;
+      end Is_Private_Part_Of_Package;
+
+      Part  : Part_Access;
+      Start : Point;
    begin
       if Item.Part.Visible /= Visible then
          Part := new Part_Node;
@@ -86,6 +101,17 @@ package body Asis.Gela.Visibility.Create is
          if Is_Declaration (Part) then
             Part.Region.Decl_Part := Part;
          end if;
+
+         if Is_Private_Part_Of_Package then
+            Start := (Item => Part.Last_Item);
+
+            Utils.Set_Place (Element, Start);
+            --  set place to private part to enable visibility check
+
+            Private_Operations.On_Private_Part
+              (Enclosing_Element (Element), Start);
+         end if;
+
       else
          Part := Item.Part;
       end if;
@@ -427,7 +453,8 @@ package body Asis.Gela.Visibility.Create is
       Item.Part          := Point.Item.Part;
 
       if Assigned (Tipe) then
-         Visible := Utils.Is_Visible_Decl (Tipe);
+         --Visible := Utils.Is_Visible_Decl (Tipe);
+         Visible := Point.Item.Part.Visible;
       elsif Item.Kind = Definition and then Item.Library_Unit then
          Visible := Is_Public_Unit (Decl);
       else

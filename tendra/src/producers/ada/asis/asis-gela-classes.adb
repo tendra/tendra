@@ -75,7 +75,8 @@ package body Asis.Gela.Classes is
       Img : constant Wide_String :=
         "class => " & Class_Kinds'Wide_Image (Info.Class_Kind)
         & " wide => " & Boolean'Wide_Image (Info.Is_Class_Wide)
-        & " access => " & Boolean'Wide_Image (Info.Is_Access);
+        & " access => " & Boolean'Wide_Image (Info.Is_Access)
+        & " limited => " & Boolean'Wide_Image (Info.Is_Limited);
    begin
       case Info.Kind is
          when Declaration_Info =>
@@ -432,7 +433,7 @@ package body Asis.Gela.Classes is
         (Item     : in     Asis.Declaration;
          Continue :    out Boolean)
       is
-         Comp : constant Type_Info := Type_From_Declaration (Item, Info.Place);
+         Comp : constant Type_Info := Type_Of_Declaration (Item, Info.Place);
       begin
          if Is_Limited (Comp) then
             Result := True;
@@ -511,6 +512,7 @@ package body Asis.Gela.Classes is
      (Decl  : Asis.Declaration;
       Place : Asis.Element) return Asis.Declaration
    is
+      use Asis.Elements;
       Temp   : Asis.Declaration;
       Result : Asis.Declaration := Decl;
       Kind   : Asis.Declaration_Kinds;
@@ -520,7 +522,16 @@ package body Asis.Gela.Classes is
          Temp := XASIS.Utils.Completion_For_Declaration (Result);
          exit when not Assigned (Temp);
          Name := Asis.Declarations.Names (Temp) (1);
-         exit when not Visibility.Visible_From (Name, Place);
+
+         if Assigned (Place) then
+            exit when not Visibility.Visible_From (Name, Place);
+         else
+            exit when not Is_Part_Of_Implicit (Result)
+              and then
+              not Is_Equal (Enclosing_Element (Result),
+                            Enclosing_Element (Temp));
+         end if;
+
          Kind := Asis.Elements.Declaration_Kind (Temp);
          exit when Kind = A_Task_Body_Declaration or
            Kind = A_Protected_Body_Declaration;
@@ -563,6 +574,23 @@ package body Asis.Gela.Classes is
       end loop;
       return False;
    end Has_Character_Literal;
+
+   ----------
+   -- Hash --
+   ----------
+
+   function Hash (Info : Type_Info) return Asis.ASIS_Integer is
+      use Asis.Elements;
+   begin
+      case Info.Kind is
+         when Declaration_Info =>
+            return Hash (Info.Base_Type);
+         when Defining_Name_Info =>
+            return Hash (Info.Object_Name);
+         when Return_Info =>
+            return Hash (Info.Access_Definition);
+      end case;
+   end Hash;
 
    ---------------
    -- Is_Access --
@@ -842,6 +870,16 @@ package body Asis.Gela.Classes is
       end if;
    end Is_Equal;
 
+   --------------------
+   -- Is_Equal_Class --
+   --------------------
+
+   function Is_Equal_Class (Left, Right : Type_Info) return Boolean is
+   begin
+      return Left.Class_Kind = Right.Class_Kind
+        and Left.Is_Access = Right.Is_Access;
+   end Is_Equal_Class;
+
    ----------------------
    -- Is_Expected_Type --
    ----------------------
@@ -964,7 +1002,7 @@ package body Asis.Gela.Classes is
 
    function Is_Limited (Info : Type_Info) return Boolean is
    begin
-      return not Info.Is_Access and then Info.Is_Limited;
+      return Is_Not_Type (Info) or (not Info.Is_Access and Info.Is_Limited);
    end Is_Limited;
 
    ------------------------

@@ -20,6 +20,8 @@ package Asis.Gela.Classes is
    --  Place element is used to provide "point of view", because
    --  type could be private from one point, but concrete from
    --  another.
+   --  If Place is null, return last completion in the same enclosing
+   --  declaration
 
    function Type_From_Subtype_Mark
      (Mark  : Asis.Expression;
@@ -114,6 +116,9 @@ package Asis.Gela.Classes is
 
    --  Misc functions
    function Is_Equal (Left, Right : Type_Info) return Boolean;
+   function Is_Equal_Class (Left, Right : Type_Info) return Boolean;
+
+   function Hash (Info : Type_Info) return Asis.ASIS_Integer;
 
    function Is_Covered
      (Specific   : Type_Info;

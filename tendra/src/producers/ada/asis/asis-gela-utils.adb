@@ -476,6 +476,15 @@ package body Asis.Gela.Utils is
    function Is_Limited_Type (Tipe : Asis.Definition) return Boolean is
       use Asis.Elements;
    begin
+      case Definition_Kind (Tipe) is
+         when A_Private_Type_Definition |
+           A_Tagged_Private_Type_Definition
+           =>
+            return Has_Limited (Tipe);
+         when others =>
+            null;
+      end case;
+
       case Type_Kind (Tipe) is
          when A_Derived_Type_Definition |
               A_Derived_Record_Extension_Definition |

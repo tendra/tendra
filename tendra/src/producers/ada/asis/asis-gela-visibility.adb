@@ -1046,6 +1046,11 @@ package body Asis.Gela.Visibility is
       Point : in Asis.Identifier) return Boolean
      renames Utils.Visible_From;
 
+   function Visible_From
+     (Name  : in Asis.Defining_Name;
+      Point : in Visibility.Point) return Boolean
+     renames Utils.Visible_From;
+
    -----------------
    -- Unique_Name --
    -----------------

@@ -21,6 +21,8 @@ package Asis.Gela.Visibility is
    --  Represent point in source. Used to lookup names and to point to
    --  place in declarative region.
 
+   Null_Point : constant Point;
+
    function Enter_Unit (Unit : Asis.Compilation_Unit) return Point;
    --  For given unit find corresponding declarative region.
    --  Result used as initial value to traverse AST and construct
@@ -95,6 +97,11 @@ package Asis.Gela.Visibility is
       Point : in Asis.Element) return Boolean;
    --  Check if name is visible from given point
 
+   function Visible_From
+     (Name  : in Asis.Defining_Name;
+      Point : in Visibility.Point) return Boolean;
+   --  Check if name is visible from given point
+
    type Region_Item_Access is private;
 
    function Unique_Name (Name  : in Asis.Defining_Name) return Wide_String;
@@ -163,6 +170,8 @@ private
    type Point is record
       Item : Region_Item_Access;
    end record;
+
+   Null_Point : constant Point := (Item => null);
 
 end Asis.Gela.Visibility;
 
