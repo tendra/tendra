@@ -4,7 +4,19 @@ terminal = lct_lex_ ;
 
 %maps%
 
+/*
+	ENTRY POINT
+*/
+
 lct-unit -> read_lct_unit ;
+
+/* 
+	TYPE MAPPINGS
+*/
+
+BOOL   -> int ;
+LETTER -> char ;
+STRING -> StringP;
 
 %header% @{
 /*
@@ -47,6 +59,12 @@ lct-unit -> read_lct_unit ;
 #define SAVE_LEXER SAVE_LCT_LEXER
 #define RESTORE_LEXER RESTORE_LCT_LEXER
 
+/*
+This will be changed to use nstring eds library as soon as it is extracted from
+tld and sid 
+*/
+typedef mytmpstring* StringP ; 
+
 @}, @{
 /*
  * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
@@ -84,10 +102,69 @@ lct-unit -> read_lct_unit ;
 
 %terminals%
 
+letter : () ->( l:LETTER ) = @{
+	@l = saved_lct_letter ;
+@} ;
+
 %actions%
+<true> : () -> ( b:BOOL ) = @{
+	@b = 1 ;
+@};
+
+<logical-or> : ( a:BOOL, b:BOOL) -> ( c:BOOL) = @{
+	@c =( @a || @b ) ;
+@};
+
+<hfile-trailerstring> : () -> (s:STRING) = @{
+	@s=&(global_lct_parse_tree.hfiletrailer) ;
+@} ;
+
+<cfile-trailerstring> : () -> (s:STRING)  = @{
+	@s=&(global_lct_parse_tree.cfiletrailer) ;
+@} ;
+
+<hfile-headerstring> : () -> (s:STRING)  = @{
+	@s=&(global_lct_parse_tree.hfileheader) ;
+@} ;
+
+<cfile-headerstring> : () -> (s:STRING)  = @{
+	@s=&(global_lct_parse_tree.cfileheader) ;
+@} ;
+
+<append-letter> : ( s:STRING , c:LETTER ) -> (b:BOOL)= @{
+	@b = append_to_string(@s, @c) ;
+@};
+
+<error-if-truncated> : ( b:BOOL ) -> () = @{
+	if(!@b)
+		error(ERROR_SERIOUS, "Header or trailer too long truncated" );
+@} ;
+
 <E-syntax-error> = @{
 	    error ( ERROR_SERIOUS, "Syntax error" ) ;
+@} ;
+
+<E_expected_code_end> = @{
+	    error( ERROR_SERIOUS, "Syntax error: expected  '@@}'") ;
 @};
+
+<E_expected_code_start> = @{
+	    error( ERROR_SERIOUS, "Syntax error: expected  '@@{'") ;
+@} ;
+
+<E_expected_comma> = @{
+	    error( ERROR_SERIOUS, "Syntax error: expected ','") ;
+@} ;
+
+<E_expected_define> = @{
+	    error( ERROR_SERIOUS, "Syntax error: expected '='") ;
+
+@} ;
+
+<E_expected_semicolon> = @{
+	    error( ERROR_SERIOUS, "Syntax error: expected ';'") ;
+@} ;
+
 
 <E_unexpected_eof> = @{
 	    error( ERROR_SERIOUS, "Unexpected End of File inside @@{ @@} block") ;

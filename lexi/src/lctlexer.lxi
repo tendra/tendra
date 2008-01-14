@@ -29,24 +29,37 @@
  * $Id$
  */
 
-GROUP alpha = "{A-Z}{a-z}";
+GROUP alpha = {A-Z} + {a-z};
+GROUP alphanum = {A-Z} + {a-z} + {0-9};
 
-TOKEN "%HEADERS%" -> $header-kw ; /* Will be removed */
 TOKEN "=" -> $define ;
 TOKEN ";" -> $semicolon ;
 TOKEN "," -> $comma ;
 TOKEN "\e" -> $eof ;
-/*TOKEN "[alpha]" -> get_lct_identifier () ;*/
+TOKEN "[alpha]" -> get_lct_identifier (#0) ;
 
 TOKEN DEFAULT -> $unknown ;
+
+
+ZONE Comment : "/*" ... "*/" {
+     GROUP white = "" ;
+     TOKEN DEFAULT -> $$ ;
+}
+
+ZONE LineComment : "//" ... "\n" {
+     GROUP white = "" ;
+     TOKEN DEFAULT -> $$ ;
+}
 
 
 ZONE  code_area : "@{" -> $code-start
      	       	      ...
 		 "@}" -> $code-end 
 {
-	TOKEN DEFAULT -> $letter ;
-	TOKEN "," -> $comma ;
+	GROUP white = "" ;
+	TOKEN DEFAULT -> assign_lct_letter(#0), $letter ;
+	TOKEN "@@"    -> assign_lct_letter("'@'"), $letter ;
 }
 
-KEYWORD "HEADER" -> $header-kw ; 
+KEYWORD "HEADERS" -> $header-kw ; 
+KEYWORD "TRAILERS" -> $trailer-kw ; 

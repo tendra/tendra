@@ -85,7 +85,7 @@ static void
 report_usage(void) {
 	fputs("usage: lexi [-vha] [-t token-prefix] [-p lexi-prefix] "
 		"[-l output-language] [-C copyright-notice-file] "
-		"input-file [output-file ...]\n", stdout);
+		"input-file [lct-input-file] [output-file ...]\n", stdout);
 }
 
 /*
@@ -116,8 +116,8 @@ main(int argc, char **argv)
 		const signed int outputfiles;
 		void (*output_all)(cmd_line_options *, lexer_parse_tree *);
 	} outputs[] = {
-		{ "C90", 1, 2, c_output_all	},
-		{ "C99", 1, 2, c_output_all	},
+		{ "C90", 2, 2, c_output_all	},
+		{ "C99", 2, 2, c_output_all	},
 		{ "Dot", 1, 1, dot_output_all	},
 	};
 

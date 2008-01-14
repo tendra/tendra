@@ -57,16 +57,16 @@ main.o : output-c/c-output.h output-dot/dot-output.h lctlex.h
 main.o options.o : options.h
 lctlex.o : lctsyntax.h lctlexer.c lctlexer.h
 
-lexer.c lexer.h: lexer.lxi COPYING
+lexer.c lexer.h: lexer.lxi lexer.lct COPYING
 	-${MOVE} lexer.c sav.lexer.c 
 	-${MOVE} lexer.h sav.lexer.h
-	${LEXI} -lC99 -a lexer.lxi lexer.c lexer.h \
+	${LEXI} -lC99 -a lexer.lxi lexer.lct lexer.c lexer.h \
 		|| ( ${MOVE} sav.lexer.c lexer.c ; ${MOVE} sav.lexer.h lexer.h ; exit 1 )
 
 lctlexer.c lctlexer.h: lctlexer.lxi COPYING
 	-${MOVE} lctlexer.c sav.lctlexer.c
 	-${MOVE} lctlexer.h sav.lctlexer.h
-	${LEXI} -lC90 -a -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.c lctlexer.h \
+	${LEXI} -lC90 -a -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.lct lctlexer.c lctlexer.h \
 		|| ( ${MOVE} sav.lctlexer.c lctlexer.c ; ${MOVE} sav.lctlexer.h lctlexer.h ; exit 1 )
 
 
@@ -80,3 +80,6 @@ syntax.c: syntax.sid syntax.act
 	${MOVE} tmp.syntax.c syntax.c
 	${MOVE} tmp.syntax.h syntax.h
 
+
+lctsyntax.c lctsyntax.h : lctsyntax.sid lctsyntax.act
+	sid -l ansi-c lctsyntax.sid lctsyntax.act lctsyntax.c lctsyntax.h

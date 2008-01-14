@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 9 "lctsyntax.act"
+#line 21 "lctsyntax.act"
 
 /*
  * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
@@ -51,13 +51,25 @@
 #define SAVE_LEXER SAVE_LCT_LEXER
 #define RESTORE_LEXER RESTORE_LCT_LEXER
 
-#line 55 "lctsyntax.c"
+/*
+This will be changed to use nstring eds library as soon as it is extracted from
+tld and sid 
+*/
+typedef mytmpstring* StringP ; 
+
+#line 61 "lctsyntax.c"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZRgrp_Hof_Hletters(void);
-static void ZRletters(void);
+static void ZRgrp_Hof_Hletters(StringP);
+static void ZRletters(StringP, int *);
+static void ZR49(void);
+static void ZR52(void);
+static void ZR53(void);
+static void ZR54(void);
 extern void read_lct_unit(void);
+static void ZR55(void);
+static void ZR65(StringP, int, StringP *, int *);
 static void ZRheader_Hstmnt(void);
 static void ZRtrailer_Hstmnt(void);
 
@@ -67,14 +79,29 @@ static void ZRtrailer_Hstmnt(void);
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZRgrp_Hof_Hletters(void)
+ZRgrp_Hof_Hletters(StringP ZIs)
 {
-    if ((CURRENT_TERMINAL) == 10) {
+    if ((CURRENT_TERMINAL) == 11) {
 	return;
     }
     {
-	ZRletters ();
-	/* BEGINNING OF INLINE: 15 */
+	int ZIb;
+
+	ZRletters (ZIs, &ZIb);
+	if ((CURRENT_TERMINAL) == 11) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+	/* BEGINNING OF ACTION: error-if-truncated */
+	{
+#line 138 "lctsyntax.act"
+
+	if(!(ZIb))
+		error(ERROR_SERIOUS, "Header or trailer too long truncated" );
+#line 102 "lctsyntax.c"
+	}
+	/* END OF ACTION: error-if-truncated */
+	/* BEGINNING OF INLINE: 37 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 8:
@@ -82,63 +109,191 @@ ZRgrp_Hof_Hletters(void)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: E_unexpected_eof */
 		    {
-#line 92 "lctsyntax.act"
+#line 169 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Unexpected End of File inside @{ @} block") ;
-#line 89 "lctsyntax.c"
+#line 116 "lctsyntax.c"
 		    }
 		    /* END OF ACTION: E_unexpected_eof */
 		}
 		break;
-	      case 10:
-		RESTORE_LEXER;
-		goto ZL1;
 	      default:
 		break;
 	    }
 	}
-	/* END OF INLINE: 15 */
+	/* END OF INLINE: 37 */
     }
     return;
   ZL1:;
-    SAVE_LEXER (10);
+    SAVE_LEXER (11);
     return;
 }
 
 static void
-ZRletters(void)
+ZRletters(StringP ZI61, int *ZO64)
 {
-  ZL2_letters:;
-    switch (CURRENT_TERMINAL) {
-      case 2:
-	{
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF INLINE: letters */
-	    goto ZL2_letters;
-	    /* END OF INLINE: letters */
-	}
-	/*UNREACHED*/
-      case 10:
+    int ZI64;
+
+    if ((CURRENT_TERMINAL) == 11) {
 	return;
-      default:
-	break;
+    }
+    {
+	int ZIb;
+	StringP ZI63;
+
+	/* BEGINNING OF ACTION: true */
+	{
+#line 110 "lctsyntax.act"
+
+	(ZIb) = 1 ;
+#line 150 "lctsyntax.c"
+	}
+	/* END OF ACTION: true */
+	ZR65 (ZI61, ZIb, &ZI63, &ZI64);
+	if ((CURRENT_TERMINAL) == 11) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER (11);
+    return;
+  ZL0:;
+    *ZO64 = ZI64;
+}
+
+static void
+ZR49(void)
+{
+    if ((CURRENT_TERMINAL) == 11) {
+	return;
+    }
+    {
+	switch (CURRENT_TERMINAL) {
+	  case 3:
+	    break;
+	  default:
+	    goto ZL1;
+	}
+	ADVANCE_LEXER;
+    }
+    return;
+  ZL1:;
+    {
+	/* BEGINNING OF ACTION: E_expected_define */
+	{
+#line 159 "lctsyntax.act"
+
+	    error( ERROR_SERIOUS, "Syntax error: expected '='") ;
+
+#line 191 "lctsyntax.c"
+	}
+	/* END OF ACTION: E_expected_define */
+    }
+}
+
+static void
+ZR52(void)
+{
+    if ((CURRENT_TERMINAL) == 11) {
+	return;
+    }
+    {
+	switch (CURRENT_TERMINAL) {
+	  case 5:
+	    break;
+	  default:
+	    goto ZL1;
+	}
+	ADVANCE_LEXER;
+    }
+    return;
+  ZL1:;
+    {
+	/* BEGINNING OF ACTION: E_expected_comma */
+	{
+#line 155 "lctsyntax.act"
+
+	    error( ERROR_SERIOUS, "Syntax error: expected ','") ;
+#line 220 "lctsyntax.c"
+	}
+	/* END OF ACTION: E_expected_comma */
+    }
+}
+
+static void
+ZR53(void)
+{
+    if ((CURRENT_TERMINAL) == 11) {
+	return;
+    }
+    {
+	switch (CURRENT_TERMINAL) {
+	  case 6:
+	    break;
+	  default:
+	    goto ZL1;
+	}
+	ADVANCE_LEXER;
+    }
+    return;
+  ZL1:;
+    {
+	/* BEGINNING OF ACTION: E_expected_code_start */
+	{
+#line 151 "lctsyntax.act"
+
+	    error( ERROR_SERIOUS, "Syntax error: expected  '@{'") ;
+#line 249 "lctsyntax.c"
+	}
+	/* END OF ACTION: E_expected_code_start */
+    }
+}
+
+static void
+ZR54(void)
+{
+    if ((CURRENT_TERMINAL) == 11) {
+	return;
+    }
+    {
+	switch (CURRENT_TERMINAL) {
+	  case 7:
+	    break;
+	  default:
+	    goto ZL1;
+	}
+	ADVANCE_LEXER;
+    }
+    return;
+  ZL1:;
+    {
+	/* BEGINNING OF ACTION: E_expected_code_end */
+	{
+#line 147 "lctsyntax.act"
+
+	    error( ERROR_SERIOUS, "Syntax error: expected  '@}'") ;
+#line 278 "lctsyntax.c"
+	}
+	/* END OF ACTION: E_expected_code_end */
     }
 }
 
 void
 read_lct_unit(void)
 {
-    if ((CURRENT_TERMINAL) == 10) {
+    if ((CURRENT_TERMINAL) == 11) {
 	return;
     }
     {
-	/* BEGINNING OF INLINE: 19 */
+	/* BEGINNING OF INLINE: 57 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 0:
 		{
 		    ZRheader_Hstmnt ();
-		    if ((CURRENT_TERMINAL) == 10) {
+		    if ((CURRENT_TERMINAL) == 11) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -148,14 +303,14 @@ read_lct_unit(void)
 		break;
 	    }
 	}
-	/* END OF INLINE: 19 */
-	/* BEGINNING OF INLINE: 20 */
+	/* END OF INLINE: 57 */
+	/* BEGINNING OF INLINE: 58 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 1:
 		{
 		    ZRtrailer_Hstmnt ();
-		    if ((CURRENT_TERMINAL) == 10) {
+		    if ((CURRENT_TERMINAL) == 11) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -165,7 +320,7 @@ read_lct_unit(void)
 		break;
 	    }
 	}
-	/* END OF INLINE: 20 */
+	/* END OF INLINE: 58 */
 	switch (CURRENT_TERMINAL) {
 	  case 8:
 	    break;
@@ -179,22 +334,112 @@ read_lct_unit(void)
     {
 	/* BEGINNING OF ACTION: E-syntax-error */
 	{
-#line 88 "lctsyntax.act"
+#line 143 "lctsyntax.act"
 
 	    error ( ERROR_SERIOUS, "Syntax error" ) ;
-#line 186 "lctsyntax.c"
+#line 341 "lctsyntax.c"
 	}
 	/* END OF ACTION: E-syntax-error */
     }
 }
 
 static void
-ZRheader_Hstmnt(void)
+ZR55(void)
 {
-    if ((CURRENT_TERMINAL) == 10) {
+    if ((CURRENT_TERMINAL) == 11) {
 	return;
     }
     {
+	switch (CURRENT_TERMINAL) {
+	  case 4:
+	    break;
+	  default:
+	    goto ZL1;
+	}
+	ADVANCE_LEXER;
+    }
+    return;
+  ZL1:;
+    {
+	/* BEGINNING OF ACTION: E_expected_semicolon */
+	{
+#line 164 "lctsyntax.act"
+
+	    error( ERROR_SERIOUS, "Syntax error: expected ';'") ;
+#line 370 "lctsyntax.c"
+	}
+	/* END OF ACTION: E_expected_semicolon */
+    }
+}
+
+static void
+ZR65(StringP ZI61, int ZI62, StringP *ZO63, int *ZO64)
+{
+    StringP ZI63;
+    int ZI64;
+
+  ZL2_65:;
+    switch (CURRENT_TERMINAL) {
+      case 2:
+	{
+	    char ZIc;
+	    int ZIb3;
+	    int ZIb;
+
+	    /* BEGINNING OF EXTRACT: letter */
+	    {
+#line 105 "lctsyntax.act"
+
+	ZIc = saved_lct_letter ;
+#line 395 "lctsyntax.c"
+	    }
+	    /* END OF EXTRACT: letter */
+	    ADVANCE_LEXER;
+	    /* BEGINNING OF ACTION: append-letter */
+	    {
+#line 134 "lctsyntax.act"
+
+	(ZIb3) = append_to_string((ZI61), (ZIc)) ;
+#line 404 "lctsyntax.c"
+	    }
+	    /* END OF ACTION: append-letter */
+	    /* BEGINNING OF ACTION: logical-or */
+	    {
+#line 114 "lctsyntax.act"
+
+	(ZIb) =( (ZI62) || (ZIb3) ) ;
+#line 412 "lctsyntax.c"
+	    }
+	    /* END OF ACTION: logical-or */
+	    /* BEGINNING OF INLINE: 65 */
+	    ZI62 = ZIb;
+	    goto ZL2_65;
+	    /* END OF INLINE: 65 */
+	}
+	/*UNREACHED*/
+      default:
+	{
+	    ZI63 = ZI61;
+	    ZI64 = ZI62;
+	}
+	break;
+      case 11:
+	return;
+    }
+    *ZO63 = ZI63;
+    *ZO64 = ZI64;
+}
+
+static void
+ZRheader_Hstmnt(void)
+{
+    if ((CURRENT_TERMINAL) == 11) {
+	return;
+    }
+    {
+	StringP ZIsc;
+	StringP ZIsh;
+
 	switch (CURRENT_TERMINAL) {
 	  case 0:
 	    break;
@@ -202,77 +447,60 @@ ZRheader_Hstmnt(void)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 3:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 6:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	ZRgrp_Hof_Hletters ();
-	switch (CURRENT_TERMINAL) {
-	  case 7:
-	    break;
-	  case 10:
+	ZR49 ();
+	ZR53 ();
+	if ((CURRENT_TERMINAL) == 11) {
 	    RESTORE_LEXER;
 	    goto ZL1;
-	  default:
-	    goto ZL1;
 	}
-	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 5:
-	    break;
-	  default:
-	    goto ZL1;
+	/* BEGINNING OF ACTION: cfile-headerstring */
+	{
+#line 130 "lctsyntax.act"
+
+	(ZIsc)=&(global_lct_parse_tree.cfileheader) ;
+#line 462 "lctsyntax.c"
 	}
-	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 6:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	ZRletters ();
-	switch (CURRENT_TERMINAL) {
-	  case 7:
-	    break;
-	  case 10:
+	/* END OF ACTION: cfile-headerstring */
+	ZRgrp_Hof_Hletters (ZIsc);
+	ZR54 ();
+	ZR52 ();
+	ZR53 ();
+	if ((CURRENT_TERMINAL) == 11) {
 	    RESTORE_LEXER;
 	    goto ZL1;
-	  default:
+	}
+	/* BEGINNING OF ACTION: hfile-headerstring */
+	{
+#line 126 "lctsyntax.act"
+
+	(ZIsh)=&(global_lct_parse_tree.hfileheader) ;
+#line 478 "lctsyntax.c"
+	}
+	/* END OF ACTION: hfile-headerstring */
+	ZRgrp_Hof_Hletters (ZIsh);
+	ZR54 ();
+	ZR55 ();
+	if ((CURRENT_TERMINAL) == 11) {
+	    RESTORE_LEXER;
 	    goto ZL1;
 	}
-	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 4:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
     }
     return;
   ZL1:;
-    SAVE_LEXER (10);
+    SAVE_LEXER (11);
     return;
 }
 
 static void
 ZRtrailer_Hstmnt(void)
 {
-    if ((CURRENT_TERMINAL) == 10) {
+    if ((CURRENT_TERMINAL) == 11) {
 	return;
     }
     {
+	StringP ZIsc;
+	StringP ZIsh;
+
 	switch (CURRENT_TERMINAL) {
 	  case 1:
 	    break;
@@ -280,75 +508,55 @@ ZRtrailer_Hstmnt(void)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 3:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 6:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	ZRgrp_Hof_Hletters ();
-	switch (CURRENT_TERMINAL) {
-	  case 7:
-	    break;
-	  case 10:
+	ZR49 ();
+	ZR53 ();
+	if ((CURRENT_TERMINAL) == 11) {
 	    RESTORE_LEXER;
 	    goto ZL1;
-	  default:
-	    goto ZL1;
 	}
-	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 5:
-	    break;
-	  default:
-	    goto ZL1;
+	/* BEGINNING OF ACTION: cfile-trailerstring */
+	{
+#line 122 "lctsyntax.act"
+
+	(ZIsc)=&(global_lct_parse_tree.cfiletrailer) ;
+#line 523 "lctsyntax.c"
 	}
-	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 6:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	ZRletters ();
-	switch (CURRENT_TERMINAL) {
-	  case 7:
-	    break;
-	  case 10:
+	/* END OF ACTION: cfile-trailerstring */
+	ZRgrp_Hof_Hletters (ZIsc);
+	ZR54 ();
+	ZR52 ();
+	ZR53 ();
+	if ((CURRENT_TERMINAL) == 11) {
 	    RESTORE_LEXER;
 	    goto ZL1;
-	  default:
+	}
+	/* BEGINNING OF ACTION: hfile-trailerstring */
+	{
+#line 118 "lctsyntax.act"
+
+	(ZIsh)=&(global_lct_parse_tree.hfiletrailer) ;
+#line 539 "lctsyntax.c"
+	}
+	/* END OF ACTION: hfile-trailerstring */
+	ZRgrp_Hof_Hletters (ZIsh);
+	ZR54 ();
+	ZR55 ();
+	if ((CURRENT_TERMINAL) == 11) {
+	    RESTORE_LEXER;
 	    goto ZL1;
 	}
-	ADVANCE_LEXER;
-	switch (CURRENT_TERMINAL) {
-	  case 4:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
     }
     return;
   ZL1:;
-    SAVE_LEXER (10);
+    SAVE_LEXER (11);
     return;
 }
 
 /* BEGINNING OF TRAILER */
 
-#line 95 "lctsyntax.act"
+#line 172 "lctsyntax.act"
 
 
-#line 353 "lctsyntax.c"
+#line 561 "lctsyntax.c"
 
 /* END OF FILE */

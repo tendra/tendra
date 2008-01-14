@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 50 "lctsyntax.act"
+#line 68 "lctsyntax.act"
 
 /*
  * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
@@ -55,7 +55,8 @@ extern void read_lct_unit(void);
 #define lct_lex_trailer_Hkw (1)
 #define lct_lex_comma (5)
 #define lct_lex_letter (2)
-#define lct_lex_unknown (9)
+#define lct_lex_unknown (10)
+#define lct_lex_identifier (9)
 #define lct_lex_eof (8)
 #define lct_lex_semicolon (4)
 #define lct_lex_define (3)
@@ -64,9 +65,9 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 97 "lctsyntax.act"
+#line 174 "lctsyntax.act"
 
 #endif
-#line 71 "lctsyntax.h"
+#line 72 "lctsyntax.h"
 
 /* END OF FILE */

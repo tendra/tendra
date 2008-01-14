@@ -30,65 +30,146 @@
  */
 
 %types%
-
+BOOL ;
+LETTER ;
+STRING ;
 
 %terminals%
 
 header-kw ;
 trailer-kw ;
-letter ;
+letter : () -> (:LETTER) ;
 define ;  	//=
 semicolon ;	//;
 comma ;   	//,
 code-start;	//@{
 code-end;	//@}
 eof;
+!identifier;
 !unknown ;
 
 %productions%
 
+<logical-or> : ( :BOOL, :BOOL ) -> ( :BOOL ) ;
+<error-if-truncated> : ( :BOOL ) -> () ;
+<true> : () -> (:BOOL) ;
+
+
+<hfile-trailerstring> : () -> ( :STRING ) ;
+<cfile-trailerstring> : () -> ( :STRING ) ;
+<hfile-headerstring>  : () -> ( :STRING ) ;
+<cfile-headerstring>  : () -> ( :STRING ) ;
+
+<append-letter> : ( :STRING , :LETTER ) -> (:BOOL);
+
 <E-syntax-error> ;
+<E_expected_code_end> ;
+<E_expected_code_start> ;
+<E_expected_comma> ;
+<E_expected_define> ;
+<E_expected_semicolon> ;
 <E_unexpected_eof> ;
 
-letters : () -> () = {
-	$ ;
+letters : ( s:STRING ) -> ( b:BOOL ) = {
+	b = <true> ;
     ||
-	letter ; letters ; 
+	b2=letters(s) ; c = letter ; b3=<append-letter>(s,c);
+	b=<logical-or>(b2,b3);
 } ;
 
-grp-of-letters : () ->() = {
-	letters ; 
+grp-of-letters : ( s:STRING ) -> () = {
+	b=letters(s) ; <error-if-truncated>(b);
     	{
 		$ ;
 	    ||
-		eof; <E_unexpected_eof> ;
+		eof ; <E_unexpected_eof> ;
 	} ;
 };
 
 header-stmnt : () -> () = {
 	header-kw ;
-	define ;
-	code-start ;
-	grp-of-letters ;
-	code-end ;	
-	comma ;
-	code-start ;
-	letters ;
-	code-end ;	
-	semicolon ;
+	{
+		define ;
+	    ##
+		<E_expected_define> ;
+	} ;
+	{
+		code-start ;
+	    ##
+		<E_expected_code_start> ;
+	} ;
+	sc=<cfile-headerstring> ;
+	grp-of-letters(sc) ;
+	{
+		code-end ;
+	    ##
+		<E_expected_code_end> ;
+	} ;
+	{
+		comma ;
+	    ##
+		<E_expected_comma> ;
+	};
+	{
+		code-start ;
+	    ##
+		<E_expected_code_start> ;
+	} ;
+	sh=<hfile-headerstring> ;
+	grp-of-letters(sh) ;
+	{
+		code-end ;
+	    ##
+		<E_expected_code_end> ;
+	} ;
+	{
+		semicolon ;
+	    ##
+		<E_expected_semicolon> ;
+	} ;
 };
 
 trailer-stmnt : () -> () = {
 	trailer-kw ;
-	define ;
-	code-start ;
-	grp-of-letters ;
-	code-end ;	
-	comma ;
-	code-start ;
-	letters ;
-	code-end ;	
-	semicolon ;
+	{
+		define ;
+	    ##
+		<E_expected_define> ;
+	} ;
+	{
+		code-start ;
+	    ##
+		<E_expected_code_start> ;
+	} ;
+	sc=<cfile-trailerstring> ;
+	grp-of-letters(sc) ;
+	{
+		code-end ;
+	    ##
+		<E_expected_code_end> ;
+	} ;
+	{
+		comma ;
+	    ##
+		<E_expected_comma> ;
+	};
+	{
+		code-start ;
+	    ##
+		<E_expected_code_start> ;
+	} ;
+	sh=<hfile-trailerstring> ;
+	grp-of-letters(sh) ;
+	{
+		code-end ;
+	    ##
+		<E_expected_code_end> ;
+	} ;
+	{
+		semicolon ;
+	    ##
+		<E_expected_semicolon> ;
+	} ;
 };
 
 

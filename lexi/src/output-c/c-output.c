@@ -68,6 +68,7 @@
 
 #include "char.h"
 #include "lex.h"
+#include "lctlex.h"
 #include "c-output.h"
 #include "options.h"
 #include "output.h"
@@ -275,7 +276,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		  fprintf(lex_output, "int c%d = %s_aux_%s()", 
 			  n, read_token_name, z->zone_name);
 		else
-		    fprintf(lex_output, "int c%d = lexi_readchar(state)", n);
+		  fprintf(lex_output, "int c%d = %sreadchar(state)", n, lexi_prefix);
 		fputs(";\n", lex_output);
 		if (w1) {
 			output_indent(lex_output, d);
@@ -676,6 +677,26 @@ output_buffer(cmd_line_options* opt)
 	fputs("}\n", lex_output);
 }
 
+void 
+output_headers()
+{
+	int i ;
+	for( i=0 ; i < global_lct_parse_tree.hfileheader.length ; i++) 
+		fputc(global_lct_parse_tree.hfileheader.str[i], lex_output_h);
+	for( i=0 ; i < global_lct_parse_tree.cfileheader.length ; i++) 
+		fputc(global_lct_parse_tree.cfileheader.str[i], lex_output);
+}
+
+void 
+output_trailers()
+{
+	int i ;
+	for( i=0 ; i < global_lct_parse_tree.hfiletrailer.length ; i++) 
+		fputc(global_lct_parse_tree.hfiletrailer.str[i], lex_output_h);
+	for( i=0 ; i < global_lct_parse_tree.cfiletrailer.length ; i++) 
+		fputc(global_lct_parse_tree.cfiletrailer.str[i], lex_output);
+}
+
 void
 c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 {
@@ -717,6 +738,9 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(lex_output_h, "#ifndef LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fprintf(lex_output_h, "#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fputs("\n", lex_output_h);
+
+	output_headers() ;
+
 	if(opt->outputfile[1].name) {
 		fprintf(lex_output, "#include \"%s\"\n\n", opt->outputfile[1].name);
 	}
@@ -805,8 +829,10 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
   	output_zone_pass(top_level->global_zone);
 
-	fputs("#endif\n\n", lex_output_h);
+	fputs("#endif\n", lex_output_h);
+	output_trailers() ;
 	fputs("\n", lex_output);
+	fputs("\n", lex_output_h);
 
   	return;
 }

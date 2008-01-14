@@ -33,11 +33,35 @@
 
 extern void process_lctfile(char*);
 
-extern int crt_lct_lin_no;
-
 extern int crt_lct_token ;
 extern int saved_lct_token ;
 extern struct lexi_lct_state lct_lexer_state;
+
+extern char saved_lct_letter ;
+
+/* 
+   This custom string will be replaced
+   with nstring from eds library as as soon
+   as it is extracted from 
+*/
+
+typedef struct mytmpstring_tag {
+	char str[2500] ;
+	unsigned int length;
+  
+} mytmpstring;
+
+typedef struct lct_parse_tree_tag {
+	mytmpstring hfileheader;
+	mytmpstring cfileheader;
+	mytmpstring hfiletrailer;
+	mytmpstring cfiletrailer;
+} lct_parse_tree;
+
+extern lct_parse_tree global_lct_parse_tree ;
+
+extern void init_mytmpstring (mytmpstring*) ;
+extern int append_to_mytmpstring (mytmpstring*, char) ;
 
 /*
      PARSER MACROS

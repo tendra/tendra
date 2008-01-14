@@ -34,36 +34,99 @@
 #include <stdio.h>
 #include "error.h"
 
-int crt_lct_line_no;
 int crt_lct_token ;
 int saved_lct_token ;
+
+char saved_lct_letter ;
+
+lct_parse_tree global_lct_parse_tree ;
+
+static char lct_token_buff [2000];
+static char *lct_token_end = lct_token_buff + sizeof(lct_token_buff);
+
 static FILE* lct_file;
 struct lexi_lct_state lct_lexer_state;
+
+static void
+assign_lct_letter(int c)
+{
+	saved_lct_letter = c ;
+}
+
 
 static int 
 lexi_lct_getchar() 
 {
-	int c=fgetc(lct_file);
+	int c =fgetc(lct_file);
 	if(c == '\n') 
-		crt_lct_line_no++;
-	if(c ==EOF) 
+		crt_line_no++;
+	if(c == EOF) 
 		return LEXI_EOF;
+	return c;
 }
+
+
+static int
+get_lct_identifier(int a)
+{
+ 	int c = a;
+	char *t = lct_token_buff;
+	do {
+		*(t++) = (char)c;
+		if (t == lct_token_end)
+			error(ERROR_FATAL, "Buffer overflow");
+		c = lexi_lct_readchar(&lct_lexer_state);
+        } while(lexi_lct_group(lexi_lct_group_alphanum, c)) ;
+	*t = 0;
+	lexi_lct_push(&lct_lexer_state, c);
+
+    /* Deal with keywords */
+	return lexi_lct_keyword(lct_token_buff, lct_lex_identifier);
+}
+
 
 #include "lctlexer.c"
 
 void 
+init_lct_parse_tree (lct_parse_tree* a) 
+{
+	init_mytmpstring(&(a->hfileheader)) ;
+	init_mytmpstring(&(a->cfileheader)) ;
+	init_mytmpstring(&(a->hfiletrailer)) ;
+	init_mytmpstring(&(a->cfiletrailer)) ;
+}
+
+void 
 process_lctfile (char* fn) 
 {
-	crt_lct_line_no = 1 ;
+
+	crt_line_no = 1 ;
 	if (!(lct_file=fopen(fn,"r"))) {
 		error(ERROR_SERIOUS, "Can't open input file, '%s'", fn);
 		return; /*error message*/
 	}
+	crt_file_name = fn;
+	init_lct_parse_tree(&global_lct_parse_tree) ;
 	lexi_lct_init(&lct_lexer_state) ;
 	ADVANCE_LCT_LEXER ;
 
 	read_lct_unit();
 	fclose(lct_file);
+}
+
+void 
+init_mytmpstring (mytmpstring* s) {
+	s->length=0;
+}
+
+int
+append_to_string (mytmpstring* s, char c) 
+{
+	if(s->length<2000) {
+		(s->str)[(s->length)++]=c;
+		return 0;
+	}
+	else 
+		return 1;
 }
 
