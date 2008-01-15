@@ -26,6 +26,7 @@ package body Asis.Gela.Compilations is
          List.Nodes (Item.Index).Version   := Version;
          List.Nodes (Item.Index).File_Name := U.Null_Unbounded_Wide_String;
          Pools.Deallocate_All (List.Nodes (Item.Index).Pool);
+         Text_Utils.Free (List.Nodes (Item.Index).Buffer);
       end if;
    end Drop_Compilation;
 
@@ -146,8 +147,26 @@ package body Asis.Gela.Compilations is
       List.Nodes (Index).File_Name := U.To_Unbounded_Wide_String (File);
       List.Nodes (Index).Version   := Version;
       List.Nodes (Index).Pool      := Pools.State (Lists.Pool);
+      List.Nodes (Index).Buffer    := Text_Utils.New_Buffer (File);
+
       Item                         := (Index, Version);
    end New_Compilation;
+
+   -------------------
+   -- Source_Buffer --
+   -------------------
+
+   function Source_Buffer
+     (List : Compilation_List;
+      Item : Compilation) return Text_Utils.Source_Buffer_Access
+   is
+   begin
+      if Valid_Version (List, Item) then
+         return List.Nodes (Item.Index).Buffer;
+      else
+         return null;
+      end if;
+   end Source_Buffer;
 
    -------------------
    -- Valid_Version --

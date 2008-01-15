@@ -589,6 +589,20 @@ package body Asis.Gela.Contexts.Utils is
       end loop;
    end Split_Compilation;
 
+   ----------------------
+   -- Compilation_List --
+   ----------------------
+
+   function Compilation_List
+     (The_Context : in Asis.Context)
+     return Gela.Compilations.Compilation_List
+   is
+      Node : Concrete_Context_Node renames
+        Concrete_Context_Node (The_Context.all);
+   begin
+      return Node.Compilation_List;
+   end Compilation_List;
+
 end Asis.Gela.Contexts.Utils;
 
 

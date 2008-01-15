@@ -7,31 +7,27 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Actual work of building AST starts here.
+--  Helper functions to work with text and source buffers
 
-package Asis.Gela.Contexts.Utils is
+with Gela.Source_Buffers;             use Gela;
 
-   procedure Read_File_And_Supporters
-     (The_Context  : in out Concrete_Context_Node;
-      Limited_View : in     Boolean := False);
-   --  Main recursive subprogram to process sources.
-   --  Name of file to parse is stored in Current_File (The_Context).
-   --  Procedure reads a unit, its declaration, parent and withed units,
-   --  then runs normalization, name resolution and others passes and adds
-   --  resulting Compilation_Unit to Library_Unit_Declarations or to
-   --  Compilation_Unit_Bodies
+package Asis.Gela.Text_Utils is
 
-   procedure Parse_Parameters (The_Context : in out Concrete_Context_Node);
-   --  Read The_Context.Parameters and configure ASIS
+   type Source_Buffer_Access is
+     access all Source_Buffers.Abstract_Source_Buffer'Class;
 
-   function Compilation_List (The_Context : in Asis.Context)
-     return Gela.Compilations.Compilation_List;
+   function New_Buffer (File : in Wide_String) return Source_Buffer_Access;
 
-end Asis.Gela.Contexts.Utils;
+   procedure Free (Buffer : in out Source_Buffer_Access);
+
+   function Source_Buffer
+     (Unit : Asis.Compilation_Unit) return Source_Buffer_Access;
+
+end Asis.Gela.Text_Utils;
 
 
 ------------------------------------------------------------------------------
---  Copyright (c) 2006, Maxim Reznik
+--  Copyright (c) 2008, Maxim Reznik
 --  All rights reserved.
 --
 --  Redistribution and use in source and binary forms, with or without

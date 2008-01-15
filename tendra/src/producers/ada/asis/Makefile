@@ -65,6 +65,17 @@ ${PARSER_SRC}: ${XML}/fixed.xsl      ${XML}/syntax.xml                   \
 	$(BIN_RM) ${PARSER_TMP}
 	$(BIN_GNATCHOP) -w parser.all
 
+#  Source Buffer part
+
+BUFFER_SRC = gela-source_buffers-current.ads
+
+gela-source_buffers-current.ads:
+	$(BIN_ECHO) with Gela.Source_Buffers.$(ADA_INPUT_BUFFER)\; \
+		> gela-source_buffers-current.ads
+	$(BIN_ECHO) package Gela.Source_Buffers.Current renames \
+		Gela.Source_Buffers.$(ADA_INPUT_BUFFER)\; \
+		>> gela-source_buffers-current.ads
+
 #  Asis part
 
 ASIS_SRC = asis.adb asis.ads
@@ -95,7 +106,7 @@ gela-asis-install: libasis.a *.ali
 	$(BIN_CP) ${ADA_DIR}/libgela/* ${INSTALL_PREFIX}/${ADA_INCLUDE_DIR}
 	$(BIN_CP) ${ADA_DIR}/xasis/*   ${INSTALL_PREFIX}/${ADA_INCLUDE_DIR}
 
-DEPEND_SRC = ${LEXER_SRC} ${PARSER_SRC} *.ads *.adb ${ASIS_SRC}
+DEPEND_SRC = ${LEXER_SRC} ${PARSER_SRC} *.ads *.adb ${ASIS_SRC} ${BUFFER_SRC}
 
 CLEANFILES=*
 

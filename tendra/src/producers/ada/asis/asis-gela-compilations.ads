@@ -12,6 +12,7 @@
 --  source is changed and recompiled frequntly.
 
 with Asis.Gela.Pools;
+with Asis.Gela.Text_Utils;
 with Ada.Strings.Wide_Unbounded;
 
 package Asis.Gela.Compilations is
@@ -43,6 +44,10 @@ package Asis.Gela.Compilations is
       Item : Compilation) return Boolean;
    pragma Inline (Valid_Version);
 
+   function Source_Buffer
+     (List : Compilation_List;
+      Item : Compilation) return Text_Utils.Source_Buffer_Access;
+
 private
    package U renames Ada.Strings.Wide_Unbounded;
 
@@ -52,6 +57,7 @@ private
       File_Name : U.Unbounded_Wide_String;
       Version   : Version_Count;
       Pool      : Pools.Pool_State;
+      Buffer    : Text_Utils.Source_Buffer_Access;
    end record;
 
    type Compilation_Count is range 0 .. 2 ** 15 - 1;

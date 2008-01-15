@@ -7,31 +7,32 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Actual work of building AST starts here.
+--  Portable source buffer implementation. It uses Ada.Streams.Stream_IO
+--  to read a buffer allocated in memory.
 
-package Asis.Gela.Contexts.Utils is
+with Ada.Streams;
 
-   procedure Read_File_And_Supporters
-     (The_Context  : in out Concrete_Context_Node;
-      Limited_View : in     Boolean := False);
-   --  Main recursive subprogram to process sources.
-   --  Name of file to parse is stored in Current_File (The_Context).
-   --  Procedure reads a unit, its declaration, parent and withed units,
-   --  then runs normalization, name resolution and others passes and adds
-   --  resulting Compilation_Unit to Library_Unit_Declarations or to
-   --  Compilation_Unit_Bodies
+package Gela.Source_Buffers.Portable is
 
-   procedure Parse_Parameters (The_Context : in out Concrete_Context_Node);
-   --  Read The_Context.Parameters and configure ASIS
+   type Source_Buffer is new Abstract_Source_Buffer with private;
 
-   function Compilation_List (The_Context : in Asis.Context)
-     return Gela.Compilations.Compilation_List;
+   procedure Open
+     (This : in out Source_Buffer;
+      Name : in     String);
 
-end Asis.Gela.Contexts.Utils;
+   procedure Close (This : in out Source_Buffer);
 
+private
+   type Array_Access is access all Ada.Streams.Stream_Element_Array;
+
+   type Source_Buffer is new Abstract_Source_Buffer with record
+      Internal_Array : Array_Access;
+   end record;
+
+end Gela.Source_Buffers.Portable;
 
 ------------------------------------------------------------------------------
---  Copyright (c) 2006, Maxim Reznik
+--  Copyright (c) 2008, Maxim Reznik
 --  All rights reserved.
 --
 --  Redistribution and use in source and binary forms, with or without
@@ -54,4 +55,9 @@ end Asis.Gela.Contexts.Utils;
 --  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
+--
+--  Authors:
+--    Andry Ogorodnik
+--    Maxim Reznik
+--    Vadim Godunko
 ------------------------------------------------------------------------------
