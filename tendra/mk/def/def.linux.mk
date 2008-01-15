@@ -98,3 +98,7 @@ BIN_XSLTPROC?=  /usr/bin/xsltproc
 # Where to place *.ali files and Gela ASIS library for gnat
 # This is directory under lib/TenDRA/lib
 LIB_GNAT?= 	gnat
+
+# Which of Gela.Source_Buffers.* Ada will use: 
+# ADA_INPUT_BUFFER?= Unix
+ADA_INPUT_BUFFER?= Portable
