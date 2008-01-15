@@ -100,5 +100,5 @@ BIN_XSLTPROC?=  /usr/bin/xsltproc
 LIB_GNAT?= 	gnat
 
 # Which of Gela.Source_Buffers.* Ada will use: 
-# ADA_INPUT_BUFFER?= Unix
-ADA_INPUT_BUFFER?= Portable
+# ADA_INPUT_BUFFER?= Portable
+ADA_INPUT_BUFFER?= Unix

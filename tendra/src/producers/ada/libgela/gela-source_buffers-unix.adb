@@ -4,62 +4,47 @@ package body Gela.Source_Buffers.Unix is
    use Interfaces;
 
    function open
-      (path  : C.char_array;
-       flags : C.int)
-      return HANDLE;
+     (path  : C.char_array;
+      flags : C.int)
+     return HANDLE;
    pragma Import (C, open, "open");
 
    function close
-      (fd : HANDLE)
-      return C.int;
+     (fd : HANDLE)
+     return C.int;
    pragma Import (C, close, "close");
 
    O_RDONLY    : constant := 0;
    OPEN_FAILED : constant := -1;
+   SEEK_END    : constant := 2;
 
-   type Stat_Struct is record
-      st_dev     : C.unsigned_long;
-      st_ino     : C.unsigned_long;
-      st_mode    : C.unsigned;
-      st_nlink   : C.unsigned;
-      st_uid     : C.unsigned;
-      st_gid     : C.unsigned;
-      st_rdev    : C.unsigned_long;
-      st_size    : C.long;
-      st_blksize : C.unsigned_long;
-      st_blocks  : C.unsigned_long;
-      st_atime   : C.long;
-      st_mtime   : C.long;
-      st_ctime   : C.long;
-   end record;
-   pragma Convention (C, Stat_Struct);
+   --type off_t is range -2 ** 63 .. 2 ** 63 - 1;
+   type off_t is range -2 ** 31 .. 2 ** 31 - 1;
 
-   type Stat_Struct_Access is access all Stat_Struct;
-   pragma Convention (C, Stat_Struct_Access);
-
-   function fstat
-      (filedes : HANDLE;
-       buf     : Stat_Struct_Access)
-      return C.int;
-   pragma Import (C, fstat, "fstat");
+   function lseek
+     (filedes : HANDLE;
+      Offset  : off_t;
+      whence  : C.int)
+     return off_t;
+   pragma Import (C, lseek, "lseek");
 
    function mmap
-      (start  : System.Address;
-       length : C.size_t;
-       prot   : C.int;
-       flags  : C.int;
-       fd     : HANDLE;
-       offset : C.ptrdiff_t)
-      return System.Address;
+     (start  : System.Address;
+      length : C.size_t;
+      prot   : C.int;
+      flags  : C.int;
+      fd     : HANDLE;
+      offset : C.ptrdiff_t)
+     return System.Address;
    pragma Import (C, mmap, "mmap");
 
    PROT_READ   : constant := 1;
    MAP_PRIVATE : constant := 2;
 
    function munmap
-      (start  : System.Address;
-       length : C.size_t)
-      return C.int;
+     (start  : System.Address;
+      length : C.size_t)
+     return C.int;
    pragma Import (C, munmap, "munmap");
 
    ----------
@@ -78,8 +63,7 @@ package body Gela.Source_Buffers.Unix is
       MAP_FAILED  : constant System.Address :=
         Storage_Elements.To_Address (-1);
 
-      Stat : aliased Stat_Struct;
-      Size : unsigned_long := 0;
+      Size : off_t;
    begin
       This.Internal_File := open (To_C (Name), O_RDONLY);
 
@@ -87,14 +71,9 @@ package body Gela.Source_Buffers.Unix is
          raise Use_Error;
       end if;
 
-      if fstat (This.Internal_File, Stat'Unchecked_Access) /= 0 then
-         Close (This);
-         raise Use_Error;
-      end if;
+      Size := lseek (This.Internal_File, 0, SEEK_END);
 
-      Size := unsigned_long (Stat.st_size);
-
-      if Size > unsigned_long (Offset'Last) then
+      if Size = -1 or Size > off_t (Offset'Last) then
          Close (This);
          raise Use_Error;
       else
