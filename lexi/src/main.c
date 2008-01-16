@@ -83,7 +83,7 @@ cmd_line_options options;
  */
 static void
 report_usage(void) {
-	fputs("usage: lexi [-vha] [-t token-prefix] [-p lexi-prefix] "
+	fputs("usage: lexi [-vh] [-a] [-t token-prefix] [-p lexi-prefix] "
 		"[-l output-language] [-C copyright-notice-file] "
 		"input-file [lct-input-file] [output-file ...]\n", stdout);
 }
@@ -110,15 +110,17 @@ main(int argc, char **argv)
  	cmd_line_options_init(&options);
 	int i;
 
+#define COMMON_OPTIONS "C:t:l:p:vh"
 	struct outputs {
 		const char *language;
 		const signed int inputfiles;
 		const signed int outputfiles;
 		void (*output_all)(cmd_line_options *, lexer_parse_tree *);
+		const char *options;
 	} outputs[] = {
-		{ "C90", 2, 2, c_output_all	},
-		{ "C99", 2, 2, c_output_all	},
-		{ "Dot", 1, 1, dot_output_all	},
+		{ "C90", 2, 2, c_output_all, COMMON_OPTIONS	},
+		{ "C99", 2, 2, c_output_all, COMMON_OPTIONS "a"	},
+		{ "Dot", 1, 1, dot_output_all, COMMON_OPTIONS	},
 	};
 
 	/* Default to C90 output */
@@ -126,7 +128,7 @@ main(int argc, char **argv)
 
 	/* Process arguments */
 	set_progname(argv [0], "2.0");
-	while ((optc = getopt(argc, argv, "C:t:l:p:vha")) != -1) {
+	while ((optc = getopt(argc, argv, output->options)) != -1) {
 		switch(optc) {
 		case 'a':
 			options.generate_asserts = true;
