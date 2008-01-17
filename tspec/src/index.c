@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <ctype.h>
 
 #include "config.h"
 #include "object.h"
@@ -964,7 +965,7 @@ print_index_with(object *input, index_func fn)
 		    /* Check for integers */
 		    int n = 0;
 		    while (*c == '-')c++;
-		    while (*c >= '0' && *c <= '9') {
+		    while (isdigit((int)*c)) {
 			n = 10 * n + (*c - '0');
 			c++;
 		    }
