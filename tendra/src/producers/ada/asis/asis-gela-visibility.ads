@@ -97,10 +97,12 @@ package Asis.Gela.Visibility is
       Point : in Asis.Element) return Boolean;
    --  Check if name is visible from given point
 
-   function Visible_From
-     (Name  : in Asis.Defining_Name;
-      Point : in Visibility.Point) return Boolean;
-   --  Check if name is visible from given point
+   function End_Of_Package
+     (The_Package : Asis.Declaration)
+     return Asis.Element;
+   --  Return special element used to mark end of package declaration
+   --  view point in call to Visible_From function.
+   --  For now defining_name of the package is chosen as such element.
 
    type Region_Item_Access is private;
 

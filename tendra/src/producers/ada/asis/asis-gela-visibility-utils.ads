@@ -57,10 +57,6 @@ package Asis.Gela.Visibility.Utils is
 
    function Visible_From
      (Name  : in Asis.Defining_Name;
-      Point : in Visibility.Point) return Boolean;
-
-   function Visible_From
-     (Name  : in Asis.Defining_Name;
       Point : in Asis.Element) return Boolean;
 
    procedure Set_Place

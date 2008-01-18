@@ -52,70 +52,15 @@ package body Asis.Gela.Visibility.Create is
       Visible : in Boolean;
       Element : in Asis.Element)
    is
-      use Asis.Elements;
-
-      function Is_Declaration (Part : Part_Access) return Boolean is
-         use Asis.Compilation_Units;
-
-         Unit : constant Compilation_Unit :=
-           Enclosing_Compilation_Unit (Part.Region.Decl_Part.Element);
-         Last : constant Compilation_Unit :=
-           Enclosing_Compilation_Unit (Part.Region.Last_Part.Element);
-      begin
-         if Is_Equal (Unit, Last) then
-            return True;
-         elsif Utils.Is_Top_Declaration (Element) then
-            return True;
-         else
-            return False;
-         end if;
-      end Is_Declaration;
-
-      function Is_Private_Part_Of_Package return Boolean is
-         Parent : Asis.Element := Enclosing_Element (Element);
-      begin
-         if not Visible and
-           Declaration_Kind (Parent) = A_Package_Declaration
-         then
-            return True;
-         else
-            return False;
-         end if;
-      end Is_Private_Part_Of_Package;
-
       Part  : Part_Access;
-      Start : Point;
+      Next  : Region_Item_Access := Item;
    begin
       if Item.Part.Visible /= Visible then
-         Part := new Part_Node;
-         Part.Dummy_Item.Part  := Part;
-         Part.Region           := Item.Part.Region;
-         Part.Next             := Item.Part.Region.Last_Part;
-         Part.Visible          := Visible;
-         Part.Parent_Item      := Item.Part.Parent_Item;
-         Part.Last_Item        := Part.Dummy_Item'Access;
-         Part.Element          := Element;
-         Part.Region.Last_Part := Part;
-         Item.Part             := Part;
-
-         if Is_Declaration (Part) then
-            Part.Region.Decl_Part := Part;
-         end if;
-
-         if Is_Private_Part_Of_Package then
-            Start := (Item => Part.Last_Item);
-
-            Utils.Set_Place (Element, Start);
-            --  set place to private part to enable visibility check
-
-            Private_Operations.On_Private_Part
-              (Enclosing_Element (Element), Start);
-         end if;
-
-      else
-         Part := Item.Part;
+         New_Part (Next, Visible, Element);
+         Item.Part := Next.Part;
       end if;
 
+      Part           := Item.Part;
       Item.Next      := Part.Last_Item;
       Part.Last_Item := Item;
    end Check_Part;
@@ -348,6 +293,79 @@ package body Asis.Gela.Visibility.Create is
 
       return True;
    end Is_Public_Unit;
+
+   --------------
+   -- New_Part --
+   --------------
+
+   procedure New_Part
+     (Item    : in out Region_Item_Access;
+      Visible : in     Boolean;
+      Element : in     Asis.Element)
+   is
+      use Asis.Elements;
+
+      function Is_Declaration (Part : Part_Access) return Boolean is
+         use Asis.Compilation_Units;
+
+         Unit : constant Compilation_Unit :=
+           Enclosing_Compilation_Unit (Part.Region.Decl_Part.Element);
+         Last : constant Compilation_Unit :=
+           Enclosing_Compilation_Unit (Part.Region.Last_Part.Element);
+      begin
+         if Is_Equal (Unit, Last) then
+            return True;
+         elsif Utils.Is_Top_Declaration (Element) then
+            return True;
+         else
+            return False;
+         end if;
+      end Is_Declaration;
+
+      function Is_Private_Part_Of_Package return Boolean is
+         Parent : Asis.Element := Enclosing_Element (Element);
+      begin
+         if not Visible and
+           Declaration_Kind (Parent) = A_Package_Declaration
+         then
+            return True;
+         else
+            return False;
+         end if;
+      end Is_Private_Part_Of_Package;
+
+      Part  : Part_Access;
+      Start : Point;
+   begin
+      Part := new Part_Node;
+      Part.Dummy_Item.Part  := Part;
+      Part.Region           := Item.Part.Region;
+      Part.Next             := Item.Part.Region.Last_Part;
+      Part.Visible          := Visible;
+      Part.Parent_Item      := Item.Part.Parent_Item;
+      Part.Last_Item        := Part.Dummy_Item'Access;
+      Part.Element          := Element;
+      Part.Region.Last_Part := Part;
+
+      if Is_Declaration (Part) then
+         Part.Region.Decl_Part := Part;
+      end if;
+
+      if Is_Private_Part_Of_Package then
+         Start := (Item => Part.Last_Item);
+
+         --  if not empty private part:
+         if Element_Kind (Element) /= A_Defining_Name then
+            Utils.Set_Place (Element, Start);
+            --  set place to private part to enable visibility check
+         end if;
+
+         Private_Operations.On_Private_Part
+           (Enclosing_Element (Element), Start);
+      end if;
+
+      Item := Part.Last_Item;
+   end New_Part;
 
    ------------
    -- Region --

@@ -44,6 +44,10 @@ package body Asis.Gela.Visibility.Utils is
       Is_Wide_Char :    out Boolean;
       Is_Char      :    out Boolean);
 
+   function Child_Region_By_Element
+     (Point    : Region_Item_Access;
+      Element  : Asis.Element) return Region_Access;
+
    ----------------------
    -- Check_Completion --
    ----------------------
@@ -65,6 +69,36 @@ package body Asis.Gela.Visibility.Utils is
          end loop;
       end;
    end Check_Completion;
+
+   -----------------------------
+   -- Child_Region_By_Element --
+   -----------------------------
+
+   function Child_Region_By_Element
+     (Point    : Region_Item_Access;
+      Element  : Asis.Element) return Region_Access
+   is
+      Result : Region_Access := Point.Part.Region.First_Child;
+      Part   : Part_Access;
+   begin
+      loop
+         Part := Result.Last_Part;
+
+         while Part /= null loop
+            if Is_Equal (Part.Element, Element) then
+               return Result;
+            end if;
+
+            Part := Part.Next;
+         end loop;
+
+         Result := Result.Next;
+
+         exit when Result = null;
+      end loop;
+
+      return null;
+   end Child_Region_By_Element;
 
    --------------
    -- Find_All --
@@ -907,32 +941,21 @@ package body Asis.Gela.Visibility.Utils is
       Point : in Asis.Element)
       return Boolean
    is
+      use Asis.Elements;
       use Asis.Gela.Elements;
       Name_Node  : Defining_Name_Ptr  := Defining_Name_Ptr (Name);
       Name_Place : Region_Item_Access := Place (Name_Node.all);
       Item       : Region_Item_Access := Get_Place (Point);
+      Reg        : Region_Access;
    begin
-      if Name_Place = null then
-         --  Name have not been processed yet
-         return False;
-      else
-         return Visible_From (Name_Place, Item);
+      if Element_Kind (Point) = A_Defining_Name and then
+        Declaration_Kind (Enclosing_Element (Point)) = A_Package_Declaration
+      then
+         --  This is a special element to point to end of package
+         Reg  := Child_Region_By_Element (Item, Enclosing_Element (Point));
+         Item := Reg.Last_Part.Last_Item;
       end if;
-   end Visible_From;
 
-   ------------------
-   -- Visible_From --
-   ------------------
-
-   function Visible_From
-     (Name  : in Asis.Defining_Name;
-      Point : in Visibility.Point) return Boolean
-   is
-      use Asis.Gela.Elements;
-      Name_Node  : Defining_Name_Ptr  := Defining_Name_Ptr (Name);
-      Name_Place : Region_Item_Access := Place (Name_Node.all);
-      Item       : Region_Item_Access := Point.Item;
-   begin
       if Name_Place = null then
          --  Name have not been processed yet
          return False;

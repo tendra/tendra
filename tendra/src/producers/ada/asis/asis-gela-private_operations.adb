@@ -228,7 +228,8 @@ package body Asis.Gela.Private_Operations is
          From := Type_From_Declaration (List (J), List (List'Last));
 
          if Priv'Length = 0 then
-            To := Type_From_Declaration (List (J), Asis.Nil_Element);
+            To := Type_From_Declaration
+              (List (J), Visibility.End_Of_Package (Element));
          else
             To := Type_From_Declaration (List (J), Priv (Priv'First));
          end if;

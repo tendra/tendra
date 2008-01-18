@@ -68,6 +68,23 @@ package body Asis.Gela.Visibility is
       Prefix : Wide_String := "";
       Mark   : Visibility.Point);
 
+   --------------------
+   -- End_Of_Package --
+   --------------------
+
+   function End_Of_Package
+     (The_Package : Asis.Declaration)
+     return Asis.Element
+   is
+      use Asis.Elements;
+   begin
+      if Declaration_Kind (The_Package) = A_Package_Declaration then
+         return Declarations.Names (The_Package) (1);
+      else
+         raise Internal_Error;
+      end if;
+   end End_Of_Package;
+
    ------------------------
    -- Enter_Construction --
    ------------------------
@@ -250,6 +267,15 @@ package body Asis.Gela.Visibility is
          when Asis.A_Declaration  =>
             Utils.Unhide_Declaration (Element, Point);
 
+            case Declaration_Kind (Element) is
+               when A_Package_Declaration =>
+                  if Point.Item.Part.Visible and not Is_Part_Of_Implicit (Element) then
+                     Create.New_Part
+                       (Point.Item, False, Declarations.Names (Element)(1));
+                  end if;
+               when others =>
+                  null;
+            end case;
          when Asis.A_Clause =>
             Create.Use_Clause (Element, Point);
 
@@ -1044,11 +1070,6 @@ package body Asis.Gela.Visibility is
    function Visible_From
      (Name  : in Asis.Defining_Name;
       Point : in Asis.Identifier) return Boolean
-     renames Utils.Visible_From;
-
-   function Visible_From
-     (Name  : in Asis.Defining_Name;
-      Point : in Visibility.Point) return Boolean
      renames Utils.Visible_From;
 
    -----------------

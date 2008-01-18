@@ -32,6 +32,11 @@ package Asis.Gela.Visibility.Create is
      (Element : in     Asis.Element;
       Point   : in out Visibility.Point);
 
+   procedure New_Part
+     (Item    : in out Region_Item_Access;
+      Visible : in     Boolean;
+      Element : in     Asis.Element);
+
 end Asis.Gela.Visibility.Create;
 
 
