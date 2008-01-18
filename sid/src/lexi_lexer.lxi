@@ -1,0 +1,43 @@
+/*
+ * The lexical analyser for Sid's grammar parser.
+ * $Id$
+ */
+
+TOKEN "::" -> LEXER_TOK_SCOPEMARK;
+TOKEN "||" -> LEXER_TOK_ALT_SEP;
+TOKEN "##" -> LEXER_TOK_HANDLER_SEP;
+
+TOKEN ":" -> LEXER_TOK_TYPEMARK;
+TOKEN "$" -> LEXER_TOK_EMPTY;
+TOKEN "," -> LEXER_TOK_SEPARATOR;
+TOKEN "=" -> LEXER_TOK_DEFINE;
+TOKEN "?" -> LEXER_TOK_PRED_RESULT;
+TOKEN "!" -> LEXER_TOK_IGNORE;
+TOKEN "&" -> LEXER_TOK_REFERENCE;
+TOKEN ";" -> LEXER_TOK_TERMINATOR;
+
+TOKEN "<" -> LEXER_TOK_BEGIN_ACTION;
+TOKEN ">" -> LEXER_TOK_END_ACTION;
+
+TOKEN "{" -> LEXER_TOK_BEGIN_RULE;
+TOKEN "}" -> LEXER_TOK_END_RULE;
+
+TOKEN "\[" -> LEXER_TOK_BEGIN_SCOPE;
+TOKEN "]" -> LEXER_TOK_END_SCOPE;
+
+TOKEN "(" -> LEXER_TOK_OPEN_TUPLE;
+TOKEN ")" -> LEXER_TOK_CLOSE_TUPLE;
+
+TOKEN "->" -> LEXER_TOK_ARROW;
+
+GROUP identstart = {a-z} + {A-Z} + "_";
+GROUP identbody = "[identstart]" + {0-9} + "-";
+TOKEN "[identstart]" -> read_identifier();
+
+TOKEN "/*" -> skip_bracketed_comment();
+TOKEN "//" -> skip_singleline_comment();
+
+GROUP builtin = {a-z} + {A-Z};
+TOKEN "%" -> read_builtin();
+
+TOKEN DEFAULT -> lexi_unknown_token ();
