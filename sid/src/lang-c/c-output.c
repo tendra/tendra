@@ -482,9 +482,6 @@ c_output_basic_extract(COutputInfoT * info, CCodeT * code, ItemT * item, KeyT * 
 			  indent);
     c_output_open(info, indent);
     c_output_location(info, c_code_file(code), c_code_line(code));
-    /* This newline is probably not necessary but I put it so it
-       is easier to diff between old and new output
-    write_newline(ostream);*/
     c_output_c_code_basic(info, code, item_result(item), state);
     c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     c_output_close(info, indent);
@@ -1067,9 +1064,6 @@ c_output_definition_1(COutputInfoT * info, RuleT * rule, EntryT * predicate_id,
 	    write_newline(ostream);
 	    c_output_location(info, c_code_file(header),
 			      c_code_line(header));
-	    /* This newline is probably not necessary but I put it so it
-	       is easier to diff between old and new output
-	    write_newline(ostream);*/
 	    c_output_c_code(info, header);
 	    c_output_location(info, ostream_name(ostream),
 			      ostream_line(ostream) + 1);
@@ -1123,9 +1117,6 @@ c_output_parser(COutputInfoT * info, GrammarT * grammar)
 	write_newline(ostream);
     }
     c_output_location(info, c_code_file(header), c_code_line(header));
-    /* This newline is probably not necessary but I put it so it
-       is easier to diff between old and new output
-    write_newline(ostream);*/
     c_output_c_code(info, header);
     c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     write_newline(ostream);
@@ -1145,9 +1136,6 @@ c_output_parser(COutputInfoT * info, GrammarT * grammar)
     write_newline(ostream);
     write_newline(ostream);
     c_output_location(info, c_code_file(trailer), c_code_line(trailer));
-    /* This newline is probably not necessary but I put it so it
-       is easier to diff between old and new output
-    write_newline(ostream);*/
     c_output_c_code(info, trailer);
     c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     write_newline(ostream);
@@ -1168,9 +1156,6 @@ c_output_header(COutputInfoT * info, GrammarT * grammar)
     write_newline(ostream);
     write_newline(ostream);
     c_output_location(info, c_code_file(header), c_code_line(header));
-    /* This newline is probably not necessary but I put it so it
-       is easier to diff between old and new output
-    write_newline(ostream);*/
     c_output_c_code(info, header);
     c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
     write_newline(ostream);
