@@ -613,6 +613,18 @@ package body Asis.Gela.Visibility.Utils is
    end Is_Char_Literal;
 
    -----------------
+   -- Is_Declared --
+   -----------------
+
+   function Is_Declared (Name : in Asis.Defining_Name) return Boolean is
+      use Asis.Gela.Elements;
+      Name_Node  : Defining_Name_Ptr  := Defining_Name_Ptr (Name);
+      Name_Place : Region_Item_Access := Place (Name_Node.all);
+   begin
+      return Name_Place /= null;
+   end Is_Declared;
+
+   -----------------
    -- Is_Template --
    -----------------
 

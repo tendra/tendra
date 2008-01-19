@@ -76,6 +76,8 @@ package Asis.Gela.Visibility.Utils is
 
    function Get_Place (Point : in Asis.Element) return Region_Item_Access;
 
+   function Is_Declared (Name : in Asis.Defining_Name) return Boolean;
+
    Top_Region : aliased Region_Node;
 
 end Asis.Gela.Visibility.Utils;

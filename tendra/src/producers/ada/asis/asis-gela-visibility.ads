@@ -104,6 +104,12 @@ package Asis.Gela.Visibility is
    --  view point in call to Visible_From function.
    --  For now defining_name of the package is chosen as such element.
 
+   function Is_Declared (Name : in Asis.Defining_Name) return Boolean;
+   --  Check if name was declared
+
+   procedure Set_Not_Declared (Name : in Asis.Defining_Name);
+   --  Mark name as not declared
+
    type Region_Item_Access is private;
 
    function Unique_Name (Name  : in Asis.Defining_Name) return Wide_String;

@@ -24,6 +24,14 @@ package Asis.Gela.Inheritance is
       Point : in out Visibility.Point);
    --  Make and declare subprograms inherited by type declaration
 
+   procedure Check_Inherited_Subprograms
+     (Decl  : in     Asis.Declaration;
+      From  : in     Asis.Element;
+      Point : in out Visibility.Point);
+   --  Check if some of not declared inherited subprograms became visible
+   --  *from* element's point of view, then declare them in Point of
+   --  declaration region
+
 end Asis.Gela.Inheritance;
 
 

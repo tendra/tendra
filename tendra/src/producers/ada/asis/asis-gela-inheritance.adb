@@ -24,10 +24,11 @@ package body Asis.Gela.Inheritance is
       Tipe : Classes.Type_Info) return Boolean;
 
    procedure Make_Inherited_Subprogram
-     (Oper   : Asis.Declaration;
-      Point  : in out Visibility.Point;
-      Tipe   : Classes.Type_Info;
-      Parent : Classes.Type_Info);
+     (Oper    : Asis.Declaration;
+      Point   : in out Visibility.Point;
+      Tipe    : Classes.Type_Info;
+      Parent  : Classes.Type_Info;
+      Visible : Boolean);
 
    function Get_Parents (Decl  : Asis.Declaration) return Asis.Name_List
      renames XASIS.Utils.Get_Ancestors;
@@ -43,6 +44,40 @@ package body Asis.Gela.Inheritance is
      (Object : Cloner;
       Item   : Element;
       Parent : Element) return Element;
+
+   function Get_Inherited (Def : Asis.Definition)
+                          return Asis.Declaration_List;
+
+   ---------------------------------
+   -- Check_Inherited_Subprograms --
+   ---------------------------------
+
+   procedure Check_Inherited_Subprograms
+     (Decl  : in     Asis.Declaration;
+      From  : in     Asis.Element;
+      Point : in out Visibility.Point)
+   is
+      View : constant Asis.Definition :=
+        Asis.Declarations.Type_Declaration_View (Decl);
+      List : constant Asis.Declaration_List := Get_Inherited (View);
+      Name        : Asis.Defining_Name;
+      Parent      : Asis.Declaration;
+      Parent_Name : Asis.Defining_Name;
+      Overriden : Boolean;
+   begin
+      for J in List'Range loop
+         Name := XASIS.Utils.Declaration_Name (List (J));
+         Parent := Declarations.Corresponding_Subprogram_Derivation (List (J));
+         Parent_Name := XASIS.Utils.Declaration_Name (Parent);
+
+         if not Visibility.Is_Declared (Name) and
+           Visibility.Visible_From (Parent_Name, From)
+         then
+            Visibility.New_Implicit_Declaration
+              (List (J), Point, Decl, Overriden);
+         end if;
+      end loop;
+   end Check_Inherited_Subprograms;
 
    -----------
    -- Clone --
@@ -182,6 +217,46 @@ package body Asis.Gela.Inheritance is
       return Nil_Element_List;
    end Get_Declarative_Items;
 
+   -------------------
+   -- Get_Inherited --
+   -------------------
+
+   function Get_Inherited (Def : Asis.Definition)
+                          return Asis.Declaration_List
+   is
+      use Asis.Elements;
+      Def_Kind : constant Asis.Definition_Kinds := Definition_Kind (Def);
+   begin
+      if Def_Kind = A_Private_Extension_Definition
+        or else
+        (Def_Kind = A_Type_Definition and then
+         (Type_Kind (Def) in A_Derived_Type_Definition ..
+          A_Derived_Record_Extension_Definition
+          or Type_Kind (Def) = An_Interface_Type_Definition))
+        or else
+        (Def_Kind = A_Formal_Type_Definition and then
+         (Formal_Type_Kind (Def) = A_Formal_Derived_Type_Definition or
+          Formal_Type_Kind (Def) = A_Formal_Interface_Type_Definition))
+      then
+         declare
+            Index : Asis.ASIS_Natural := 0;
+            List  : Asis.Declaration_List :=
+              Asis.Definitions.Implicit_Inherited_Subprograms (Def);
+         begin
+            for I in List'Range loop
+               if XASIS.Utils.Overloadable_Declaration (List (I)) then
+                  Index := Index + 1;
+                  List (Index) := List (I);
+               end if;
+            end loop;
+
+            return List (1 .. Index);
+         end;
+      else
+         return Nil_Element_List;
+      end if;
+   end Get_Inherited;
+
    ---------------------------
    -- Is_Ext_Equal_Operator --
    ---------------------------
@@ -239,10 +314,11 @@ package body Asis.Gela.Inheritance is
    -------------------------------
 
    procedure Make_Inherited_Subprogram
-     (Oper   : Asis.Declaration;
-      Point  : in out Visibility.Point;
-      Tipe   : Classes.Type_Info;
-      Parent : Classes.Type_Info)
+     (Oper    : Asis.Declaration;
+      Point   : in out Visibility.Point;
+      Tipe    : Classes.Type_Info;
+      Parent  : Classes.Type_Info;
+      Visible : Boolean)
    is
       use Asis.Elements;
 
@@ -262,11 +338,15 @@ package body Asis.Gela.Inheritance is
          Utils.Set_Result_Profile (Result, Tipe);
       end if;
 
-      Visibility.New_Implicit_Declaration (Result, Point, Decl, Overriden);
-
-      if not Overriden then
-         Element_Utils.Add_Inherited_Subprogram (Def, Result);
+      if Visible then
+         Visibility.New_Implicit_Declaration (Result, Point, Decl, Overriden);
+      else
+         Visibility.Set_Not_Declared (XASIS.Utils.Declaration_Name (Result));
       end if;
+
+      --  if not Overriden then
+      Element_Utils.Add_Inherited_Subprogram (Def, Result);
+      --  end if;
    end Make_Inherited_Subprogram;
 
    --------------------------------
@@ -286,10 +366,14 @@ package body Asis.Gela.Inheritance is
               Classes.Type_From_Subtype_Mark (List (J), Decl);
             Proc   : Asis.Declaration_List :=
               User_Primitive_Subprograms (Parent);
+            Name   : Asis.Defining_Name;
          begin
             for I in Proc'Range loop
+               Name := XASIS.Utils.Declaration_Name (Proc (I));
                if not Is_Ext_Equal_Operator (Proc (I), Tipe) then
-                  Make_Inherited_Subprogram (Proc (I), Point, Tipe, Parent);
+                  Make_Inherited_Subprogram
+                    (Proc (I), Point, Tipe, Parent,
+                     Visible => Visibility.Visible_From (Name, Decl));
                end if;
             end loop;
          end;
@@ -375,9 +459,6 @@ package body Asis.Gela.Inheritance is
      (Info : Classes.Type_Info)
       return Asis.Declaration_List
    is
-      function Get_Inherited (Def : Asis.Definition)
-        return Asis.Declaration_List;
-
       function Get_Enum_Literals (Def : Asis.Definition)
         return Asis.Declaration_List;
 
@@ -386,46 +467,6 @@ package body Asis.Gela.Inheritance is
 
       function Get_Other_Operations (Info : Classes.Type_Info)
         return Asis.Declaration_List;
-
-      -------------------
-      -- Get_Inherited --
-      -------------------
-
-      function Get_Inherited (Def : Asis.Definition)
-        return Asis.Declaration_List
-      is
-         use Asis.Elements;
-         Def_Kind : constant Asis.Definition_Kinds := Definition_Kind (Def);
-      begin
-         if Def_Kind = A_Private_Extension_Definition
-           or else
-           (Def_Kind = A_Type_Definition and then
-            (Type_Kind (Def) in A_Derived_Type_Definition ..
-                                A_Derived_Record_Extension_Definition
-             or Type_Kind (Def) = An_Interface_Type_Definition))
-           or else
-           (Def_Kind = A_Formal_Type_Definition and then
-            (Formal_Type_Kind (Def) = A_Formal_Derived_Type_Definition or
-             Formal_Type_Kind (Def) = A_Formal_Interface_Type_Definition))
-         then
-            declare
-               Index : Asis.ASIS_Natural := 0;
-               List  : Asis.Declaration_List :=
-                 Asis.Definitions.Implicit_Inherited_Subprograms (Def);
-            begin
-               for I in List'Range loop
-                  if XASIS.Utils.Overloadable_Declaration (List (I)) then
-                     Index := Index + 1;
-                     List (Index) := List (I);
-                  end if;
-               end loop;
-
-               return List (1 .. Index);
-            end;
-         else
-            return Nil_Element_List;
-         end if;
-      end Get_Inherited;
 
       -----------------------
       -- Get_Enum_Literals --

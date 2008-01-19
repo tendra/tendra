@@ -252,6 +252,13 @@ package body Asis.Gela.Visibility is
       end if;
    end Get_Name;
 
+   -----------------
+   -- Is_Declared --
+   -----------------
+
+   function Is_Declared (Name : in Asis.Defining_Name) return Boolean
+     renames Utils.Is_Declared;
+
    ------------------------
    -- Leave_Construction --
    ------------------------
@@ -271,7 +278,9 @@ package body Asis.Gela.Visibility is
 
             case Declaration_Kind (Element) is
                when A_Package_Declaration =>
-                  if Point.Item.Part.Visible and not Is_Part_Of_Implicit (Element) then
+                  if Point.Item.Part.Visible and not
+                    Is_Part_Of_Implicit (Element)
+                  then
                      Create.New_Part
                        (Point.Item, False, Declarations.Names (Element)(1));
                   end if;
@@ -844,6 +853,15 @@ package body Asis.Gela.Visibility is
    begin
       Resolve_Names (Name, Control, Point);
    end Resolve_RR_Name;
+
+   ----------------------
+   -- Set_Not_Declared --
+   ----------------------
+
+   procedure Set_Not_Declared (Name : in Asis.Defining_Name) is
+   begin
+      Utils.Set_Name_Place (Name, (Item => null));
+   end Set_Not_Declared;
 
    --------------------
    -- Try_To_Resolve --

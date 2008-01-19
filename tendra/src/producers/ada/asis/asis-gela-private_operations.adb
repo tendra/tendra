@@ -2,6 +2,7 @@ with Asis.Elements;
 with Asis.Declarations;
 with Asis.Gela.Utils;
 with Asis.Gela.Implicit;
+with Asis.Gela.Inheritance;
 
 with Ada.Wide_Text_IO;
 package body Asis.Gela.Private_Operations is
@@ -25,6 +26,40 @@ package body Asis.Gela.Private_Operations is
    function Find
      (Data    : in     Package_Data;
       Info    : in     Classes.Type_Info) return Type_Data_Access;
+
+   ------------------------
+   -- Check_Derived_Type --
+   ------------------------
+
+   procedure Check_Derived_Type
+     (Tipe_Decl : in     Asis.Declaration;
+      From      : in     Asis.Element;
+      Point     : in out Visibility.Point)
+   is
+      use Asis.Elements;
+
+      Def : Asis.Definition;
+   begin
+      case Declaration_Kind (Tipe_Decl) is
+         when An_Ordinary_Type_Declaration
+           | A_Private_Type_Declaration
+           | A_Formal_Type_Declaration
+           =>
+            Def := Asis.Declarations.Type_Declaration_View (Tipe_Decl);
+
+            case Type_Kind (Def) is
+               when A_Derived_Type_Definition |
+                 A_Derived_Record_Extension_Definition =>
+
+                  Inheritance.Check_Inherited_Subprograms
+                    (Tipe_Decl, From, Point);
+               when others =>
+                  null;
+            end case;
+         when others =>
+            null;
+      end case;
+   end Check_Derived_Type;
 
    ---------------------
    -- Check_Dependent --
@@ -251,6 +286,8 @@ package body Asis.Gela.Private_Operations is
                Was   => From,
                Point => Point);
          end if;
+
+         Check_Derived_Type (List (J), Body_View, Point);
       end loop;
    end On_Package_Body;
 
@@ -290,6 +327,8 @@ package body Asis.Gela.Private_Operations is
                Was   => From,
                Point => Point);
          end if;
+
+         Check_Derived_Type (List (J), Spec_View, Point);
       end loop;
    end On_Private_Part;
 
