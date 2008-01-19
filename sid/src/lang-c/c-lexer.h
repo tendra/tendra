@@ -74,7 +74,7 @@
 #include "c-lexi_lexer.h"
 
 
-extern struct c_lexer_state c_lexer_current_state ;
+extern struct c_lexi_state c_lexer_current_state ;
 
 /*
  * Note:

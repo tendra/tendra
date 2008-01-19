@@ -38,7 +38,7 @@ c-lexer.c: c-lexi_lexer.c
 c-lexi_lexer.h c-lexi_lexer.c: c-lexi_lexer.lxi c-lexi_lexer.lct
 	-${MOVE} c-lexi_lexer.c sav.c-lexi_lexer.c 
 	-${MOVE} c-lexi_lexer.h sav.c-lexi_lexer.h
-	${LEXI} -t C_TOK_ -p c_lexer_ -lC99 -a c-lexi_lexer.lxi c-lexi_lexer.lct c-lexi_lexer.c c-lexi_lexer.h \
+	${LEXI} -t C_TOK_ -p c_lexi_ -lC99 -a c-lexi_lexer.lxi c-lexi_lexer.lct c-lexi_lexer.c c-lexi_lexer.h \
 		|| ( ${MOVE} sav.c-lexi_lexer.c c-lexi_lexer.c ; ${MOVE} sav.c-lexi_lexer.h c-lexi_lexer.h ; exit 1 )
 
 

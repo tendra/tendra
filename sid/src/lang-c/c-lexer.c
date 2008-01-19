@@ -70,7 +70,7 @@
 #include <ctype.h>
 
 #include "c-lexi_lexer.h"
-struct c_lexer_state c_lexer_current_state ;
+struct c_lexi_state c_lexer_current_state ;
 
 #include "../gen-errors.h"
 
@@ -84,11 +84,11 @@ static int c_lexer_unknown_token(int c);
  * Lexi interface identifier wrappers.
  * TODO These will be removed once Lexi provides identifier support.
  */
-#define c_lexer_read_identifier(c)				c_lexer_support_read_id(c, C_TOK_C_IDENTIFIER, c_lexer_group_identbody)
-#define c_lexer_act_read_label(c0, c1, c2)		c_lexer_support_read_id(c2, C_TOK_ACT_LABEL, c_lexer_group_act_identbody)
-#define c_lexer_act_read_reference(c0, c1, c2)	c_lexer_support_read_id(c2, C_TOK_ACT_REFERENCE, c_lexer_group_act_identbody)
-#define c_lexer_act_read_modifiable(c0, c1, c2)	c_lexer_support_read_id(c2, C_TOK_ACT_MODIFIABLE, c_lexer_group_act_identbody)
-#define c_lexer_act_read_identifier(c0, c1)		c_lexer_support_read_id(c1, C_TOK_ACT_IDENTIFIER, c_lexer_group_act_identbody)
+#define c_lexer_read_identifier(c)				c_lexer_support_read_id(c, C_TOK_C_IDENTIFIER, c_lexi_group_identbody)
+#define c_lexer_act_read_label(c0, c1, c2)		c_lexer_support_read_id(c2, C_TOK_ACT_LABEL, c_lexi_group_act_identbody)
+#define c_lexer_act_read_reference(c0, c1, c2)	c_lexer_support_read_id(c2, C_TOK_ACT_REFERENCE, c_lexi_group_act_identbody)
+#define c_lexer_act_read_modifiable(c0, c1, c2)	c_lexer_support_read_id(c2, C_TOK_ACT_MODIFIABLE, c_lexi_group_act_identbody)
+#define c_lexer_act_read_identifier(c0, c1)		c_lexer_support_read_id(c1, C_TOK_ACT_IDENTIFIER, c_lexi_group_act_identbody)
 
 
 
@@ -130,7 +130,7 @@ c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup)
 
 		c = t;
 
-		if(!c_lexer_group(bodygroup,c)) {
+		if(!c_lexi_group(bodygroup,c)) {
 			break;
 		}
 
@@ -353,19 +353,19 @@ c_lexer_read_builtin(int c0, int c1)
 	dstring_init(&dstring);
 	c = c1;	/* [builtinstart] */
 	do {
-		if(!c_lexer_group(c_lexer_group_builtinbody,c)) {
+		if(!c_lexi_group(c_lexi_group_builtinbody,c)) {
 			E_c_illegal_character_in_identifier(istream, c);
 			return LEXER_TOK_EOF;	/* XXX EOF? */
 		}
 
 		dstring_append_char(&dstring, c);
 
-		c = c_lexer_getchar();
+		c = c_lexi_getchar();
 		if(c == LEXI_EOF) {
 			E_eof_in_identifier(istream);
 			return LEXER_TOK_EOF;
 		}
-	} while(!c_lexer_group(c_lexer_group_builtindlmt,c));
+	} while(!c_lexi_group(c_lexi_group_builtindlmt,c));
 
 	/* XXX This would be replaced by keywords pending lexi's reworked keyword API */
 	cstring = dstring_destroy_to_cstring(&dstring);
