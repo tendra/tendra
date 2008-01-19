@@ -8,6 +8,8 @@
 
 
 /* Hfile lct header */
+#include <stdbool.h>
+
 /*
  * This struct holds state for the lexer; its representation is
  * private, but present here for ease of allocation.
@@ -49,7 +51,7 @@ enum lexi_lct_groups {
 };
 
 /* true if the given character is present in the given group */
-extern int lexi_lct_group(enum lexi_lct_groups group, int c);
+extern bool lexi_lct_group(enum lexi_lct_groups group, int c);
 
 /* Identify a keyword */
 extern int lexi_lct_keyword(const char *identifier, int notfound);

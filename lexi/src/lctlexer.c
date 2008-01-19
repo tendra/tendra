@@ -8,6 +8,7 @@
 #include "lctlexer.h"
 
 #include <assert.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 /* LOOKUP TABLE */
@@ -73,7 +74,7 @@ int lexi_lct_readchar(struct lexi_lct_state *state) {
 	return lexi_lct_getchar();
 }
 
-int lexi_lct_group(enum lexi_lct_groups group, int c) {
+bool lexi_lct_group(enum lexi_lct_groups group, int c) {
 	return lookup_tab[c] & group;
 }
 
