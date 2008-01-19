@@ -30,6 +30,32 @@
  */
 
 HEADERS = @{
+
+#include "c-lexer.h"
+
+/*
+ * Lexi interface identifier wrappers.
+ *
+ * These are defined here just to keep them out of the way; nothing but the
+ * lxi file references them.
+ *
+ * TODO These will be removed once Lexi provides identifier support.
+ */
+#define c_lexer_read_identifier(c) \
+	c_lexer_support_read_id(c, C_TOK_C_IDENTIFIER, c_lexi_group_identbody)
+
+#define c_lexer_act_read_label(c0, c1, c2) \
+	c_lexer_support_read_id(c2, C_TOK_ACT_LABEL, c_lexi_group_act_identbody)
+
+#define c_lexer_act_read_reference(c0, c1, c2) \
+	c_lexer_support_read_id(c2, C_TOK_ACT_REFERENCE, c_lexi_group_act_identbody)
+
+#define c_lexer_act_read_modifiable(c0, c1, c2) \
+	c_lexer_support_read_id(c2, C_TOK_ACT_MODIFIABLE, c_lexi_group_act_identbody)
+
+#define c_lexer_act_read_identifier(c0, c1) \
+	c_lexer_support_read_id(c1, C_TOK_ACT_IDENTIFIER, c_lexi_group_act_identbody)
+
 @} , @{
 @};
 

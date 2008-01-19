@@ -66,6 +66,11 @@
  * "lexer.c".
  */
 
+/*
+ * XXX Possibly the various calls to c_lexer_readchar() should really call
+ * c_lexi_getchar() instead.
+ */
+
 #include <assert.h>
 #include <ctype.h>
 
@@ -73,23 +78,6 @@
 struct c_lexi_state c_lexer_current_state ;
 
 #include "../gen-errors.h"
-
-static int c_lexer_getchar(void);
-static int c_lexer_read_builtin(int c0, int c1);
-static int c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup);
-static int c_lexer_act_read_string(int c);
-static int c_lexer_unknown_token(int c);
-
-/*
- * Lexi interface identifier wrappers.
- * TODO These will be removed once Lexi provides identifier support.
- */
-#define c_lexer_read_identifier(c)				c_lexer_support_read_id(c, C_TOK_C_IDENTIFIER, c_lexi_group_identbody)
-#define c_lexer_act_read_label(c0, c1, c2)		c_lexer_support_read_id(c2, C_TOK_ACT_LABEL, c_lexi_group_act_identbody)
-#define c_lexer_act_read_reference(c0, c1, c2)	c_lexer_support_read_id(c2, C_TOK_ACT_REFERENCE, c_lexi_group_act_identbody)
-#define c_lexer_act_read_modifiable(c0, c1, c2)	c_lexer_support_read_id(c2, C_TOK_ACT_MODIFIABLE, c_lexi_group_act_identbody)
-#define c_lexer_act_read_identifier(c0, c1)		c_lexer_support_read_id(c1, C_TOK_ACT_IDENTIFIER, c_lexi_group_act_identbody)
-
 
 
 /*
@@ -100,8 +88,6 @@ CLexerStreamT *c_lexer_stream;
 CLexT *c_lexer_token;
 CCodeT *code;
 
-#include "c-lexi_lexer.c"
-
 /*
  * Generic identifier-reading support; this takes the type of token
  * to return once the identifier is read.
@@ -109,7 +95,7 @@ CCodeT *code;
  * This (and everything using it) will be removed once Lexi supports reading
  * identifiers by itself.
  */
-static int
+int
 c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup)
 {
 	IStreamT * istream;
@@ -134,7 +120,7 @@ c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup)
 			break;
 		}
 
-		c_lexer_getchar();
+		c_lexi_getchar();
 	}
 
 	c_lexer_token->t = rettok;
@@ -166,7 +152,7 @@ c_lexer_init(CLexerStreamT * stream, IStreamT * istream)
 	istream_assign(&(stream->istream), istream);
 	c_lexer_stream = stream;
 	c_lexer_token = &stream->token;
-	c_lexer_init_state(&c_lexer_current_state);
+	c_lexi_init(&c_lexer_current_state);
 	c_lexer_next_token(stream);
 }
 
@@ -202,7 +188,7 @@ c_lexer_next_token(CLexerStreamT * stream)
 
 	istream = &(c_lexer_stream->istream);
 
-	t = c_lexer_read_token(&c_lexer_current_state);
+	t = c_lexi_read_token(&c_lexer_current_state);
 
 	/*
 	 * XXX hacky: all tokens really should be expressed in the grammar.
@@ -324,8 +310,8 @@ c_lexer_restore_terminal(CLexerStreamT * stream)
  * Lexi interface wrappers.
  */
 
-static int
-c_lexer_getchar(void)
+int
+c_lexi_getchar(void)
 {
 	IStreamT * istream;
 	char c;
@@ -340,7 +326,7 @@ c_lexer_getchar(void)
 	return c;
 }
 
-static int
+int
 c_lexer_read_builtin(int c0, int c1)
 {
 	IStreamT * istream;
@@ -410,7 +396,7 @@ c_lexer_read_builtin(int c0, int c1)
  * Read a code string until an @ is found (since all non-codestring tokens begin
  * with an @).
  */
-static int
+int
 c_lexer_act_read_string(int c)
 {
 	IStreamT * istream;
@@ -435,7 +421,7 @@ c_lexer_act_read_string(int c)
 			break;
 		}
 
-		c_lexer_getchar();
+		c_lexi_getchar();
 	}
 
 	c_lexer_token->t = C_TOK_ACT_CODESTRING;
@@ -445,7 +431,7 @@ c_lexer_act_read_string(int c)
 	return c_lexer_token->t;
 }
 
-static int
+int
 c_lexer_unknown_token(int c)
 {
     IStreamT * istream;
@@ -462,6 +448,6 @@ c_lexer_unknown_token(int c)
      * We try to continue regardless as convenience to the user so that
      * any further errors might possibly be identified.
      */
-    return c_lexer_read_token(&c_lexer_current_state);
+    return c_lexi_read_token(&c_lexer_current_state);
 }
 
