@@ -139,8 +139,9 @@ extern void	lexer_restore_terminal(LexerStreamT *);
 int lexi_getchar(void);
 int read_identifier(int c);
 int read_builtin(int c);
-int skip_bracketed_comment(int c0, int c1);
-int skip_singleline_comment(int c0, int c1);
 int lexi_unknown_token(int c0);
+
+/* XXX remove once lexi provides opaque pointers */
+extern LexerStreamT *lexer_stream;
 
 #endif /* !defined (H_LEXER) */

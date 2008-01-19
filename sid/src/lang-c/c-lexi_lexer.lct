@@ -32,6 +32,7 @@
 HEADERS = @{
 
 #include "c-lexer.h"
+#include "../gen-errors.h"
 
 /*
  * Lexi interface identifier wrappers.

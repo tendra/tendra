@@ -96,8 +96,8 @@ lexer_init(LexerStreamT * stream, IStreamT * istream)
 	istream_assign(&(stream->istream), istream);
 	lexer_stream = stream;
 	lexer_token = &stream->token;
-	lexer_next_token(stream);
 	lexi_init(&lexi_current_state);
+	lexer_next_token(stream);
 }
 
 void
@@ -127,11 +127,8 @@ lexer_get_terminal(LexerStreamT * stream)
 void
 lexer_next_token(LexerStreamT * stream)
 {
-	int t;
-	lexer_token->t = 97;
-	t = lexi_read_token(&lexi_current_state);
+	lexer_token->t = lexi_read_token(&lexi_current_state);
 	stream->token = *lexer_token;
-	lexer_token->t = t;
 }
 
 NStringT *
@@ -265,71 +262,6 @@ read_builtin(int c)
 	}
 	DEALLOCATE(cstring);
 	return lexer_token->t;
-}
-
-int
-skip_bracketed_comment(int c0, int c1)
-{
-	IStreamT * istream;
-	int c2;
-
-	istream = &(lexer_stream->istream);
-
-	c1 = lexi_readchar(&lexi_current_state);
-	for (;;) {
-		c2 = lexi_readchar(&lexi_current_state);
-
-		if(c1 == LEXI_EOF || c2 == LEXI_EOF) {
-			E_eof_in_comment(istream);
-
-			return LEXER_TOK_EOF;
-		}
-
-		/*
-		 * Here we provide for nested comments (!)
-		 *
-		 * TODO if we permit this here, also do so for lexi.
-		 * I think we should remove nestable comments; they seem gimicky.
-		 */
-		if (c1 == '/' && c2 == '*') {
-			if(skip_bracketed_comment(c1, c2) == LEXER_TOK_EOF) {
-				return LEXER_TOK_EOF;
-			}
-		}
-
-		if (c1 == '*' && c2 == '/') {
-			break;
-		}
-
-		c1 = c2;
-	}
-
-	/*
-	 * After discarding comments, continue to the next token.
-	 */
-	return lexi_read_token(&lexi_current_state);
-}
-
-int
-skip_singleline_comment(int c0, int c1)
-{
-	IStreamT * istream;
-	int c;
-
-	istream = &(lexer_stream->istream);
-
-	for (c = lexi_readchar(&lexi_current_state); c != '\n'; c = lexi_readchar(&lexi_current_state)) {
-		if(c == LEXI_EOF) {
-			E_eof_in_comment(istream);
-
-			return LEXER_TOK_EOF;
-		}
-	}
-
-	/*
-	 * After discarding comments, continue to the next token.
-	 */
-	return lexi_read_token(&lexi_current_state);
 }
 
 int

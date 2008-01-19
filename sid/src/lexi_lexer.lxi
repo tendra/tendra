@@ -34,8 +34,19 @@ GROUP identstart = {a-z} + {A-Z} + "_";
 GROUP identbody = "[identstart]" + {0-9} + "-";
 TOKEN "[identstart]" -> read_identifier();
 
-TOKEN "/*" -> skip_bracketed_comment();
-TOKEN "//" -> skip_singleline_comment();
+ZONE singleline_comment: "//" ... "\n" {
+	GROUP white = "";
+	TOKEN DEFAULT -> $$;
+
+	TOKEN "\e" -> E_eof_in_comment("&(lexer_stream->istream)"), $$;
+}
+
+ZONE bracketed_comment: "/*" ... "*/" {
+	GROUP white = "";
+	TOKEN DEFAULT -> $$;
+
+	TOKEN "\e" -> E_eof_in_comment("&(lexer_stream->istream)"), $$;
+}
 
 GROUP builtin = {a-z} + {A-Z};
 TOKEN "%" -> read_builtin();

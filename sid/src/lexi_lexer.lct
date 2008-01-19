@@ -32,6 +32,7 @@
 HEADERS = @{
 
 #include "lexer.h"
+#include "gen-errors.h"
 
 @} , @{
 @};
