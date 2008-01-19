@@ -66,7 +66,7 @@ lexer.c lexer.h: lexer.lxi lexer.lct COPYING
 lctlexer.c lctlexer.h: lctlexer.lxi COPYING
 	-${MOVE} lctlexer.c sav.lctlexer.c
 	-${MOVE} lctlexer.h sav.lctlexer.h
-	${LEXI} -lC90 -a -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.lct lctlexer.c lctlexer.h \
+	${LEXI} -lC99 -a -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.lct lctlexer.c lctlexer.h \
 		|| ( ${MOVE} sav.lctlexer.c lctlexer.c ; ${MOVE} sav.lctlexer.h lctlexer.h ; exit 1 )
 
 
