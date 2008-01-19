@@ -64,6 +64,7 @@
  */
 
 
+/* Cfile lct header */
 #include "lexer.h"
 
 #include <assert.h>
@@ -353,4 +354,5 @@ lexi_read_token(struct lexi_state *state)
 	}
 }
 
+/* Cfile lct trailer */
 

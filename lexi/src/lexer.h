@@ -67,6 +67,7 @@
 #define LEXI_GENERATED_HEADER_lexi__INCLUDED
 
 
+/* Hfile lct header */
 #include <stdbool.h>
 
 /*
@@ -123,4 +124,5 @@ void lexi_init(struct lexi_state *state);
 
 #endif
 
+/* Hfile lct trailer */
 
