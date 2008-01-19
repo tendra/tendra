@@ -1,7 +1,8 @@
 # $Id$
 
 TARGETS=c-check.o c-code.o c-lexer.o c-out-info.o c-out-key.o \
-	c-out-nl.o c-out-types.o c-output.o c-parser.o c-lexi_lexer.o
+	c-out-nl.o c-out-types.o c-output.o c-parser.o c-lexi_lexer.o \
+	persistent.o
 
 MOVE=mv
 REMOVE=rm -f

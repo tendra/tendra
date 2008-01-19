@@ -105,8 +105,7 @@ lexi_read_token_bracketed_comment(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
-		/* white: white */
-if (lexi_group(lexi_group_bracketed_comment_white,  c0)) goto start;
+		if (lexi_group(lexi_group_bracketed_comment_white, c0)) goto start;
 		if (c0 == '*') {
 			int c1 = lexi_readchar(state);
 			if (c1 == '/') {
@@ -128,8 +127,7 @@ lexi_read_token_singleline_comment(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
-		/* white: white */
-if (lexi_group(lexi_group_singleline_comment_white,  c0)) goto start;
+		if (lexi_group(lexi_group_singleline_comment_white, c0)) goto start;
 		if (c0 == '\n') {
 			state->zone_function = lexi_read_token;
 			return lexi_read_token(state);
@@ -149,8 +147,7 @@ lexi_read_token(struct lexi_state *state)
 		return (*state->zone_function)(state);
 	start: {
 		int c0 = lexi_readchar(state);
-		/* white: white */
-if (lexi_group(lexi_group_white,c0)) goto start;
+		if (lexi_group(lexi_group_white, c0)) goto start;
 		switch (c0) {
 			case '!': {
 				return LEXER_TOK_IGNORE;

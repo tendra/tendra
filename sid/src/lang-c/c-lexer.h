@@ -85,6 +85,7 @@ extern struct c_lexi_state c_lexer_current_state ;
 typedef enum {
     C_TOK_BLT_PREFIXES,
     C_TOK_BLT_MAPS,
+    C_TOK_BLT_PERSISTENTS,
     C_TOK_BLT_ASSIGNMENTS,
     C_TOK_BLT_TERMINALS,
     C_TOK_BLT_HEADER,
@@ -138,8 +139,8 @@ typedef struct CLexerStreamT {
 } CLexerStreamT;
 
 /* XXX Remove once lexi provides identifier support */
-extern int c_lexer_support_read_id(int c, int rettok, enum c_lexi_groups bodygroup);
-extern int c_lexer_read_builtin(int c0, int c1);
+extern int c_lexi_support_read_id(int c, int rettok, enum c_lexi_groups bodygroup);
+extern int c_lexi_read_builtin(int c0, int c1);
 extern int c_lexer_act_read_string(int c);
 extern int c_lexer_unknown_token(int c);
 

@@ -368,6 +368,8 @@ c_lexer_read_builtin(int c0, int c1)
 	cstring = dstring_destroy_to_cstring(&dstring);
 	if (cstring_ci_equal(cstring, "prefixes")) {
 		c_lexer_token->t = C_TOK_BLT_PREFIXES;
+	} else if (cstring_ci_equal(cstring, "persistents")) {
+		c_lexer_token->t = C_TOK_BLT_PERSISTENTS;
 	} else if (cstring_ci_equal(cstring, "maps")) {
 		c_lexer_token->t = C_TOK_BLT_MAPS;
 	} else if (cstring_ci_equal(cstring, "assignments")) {

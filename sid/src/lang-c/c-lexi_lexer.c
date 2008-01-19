@@ -161,8 +161,7 @@ c_lexi_read_token_act(struct c_lexi_state *state)
 {
 	start: {
 		int c0 = c_lexi_readchar(state);
-		/* white: white */
-if (c_lexi_group(c_lexi_group_act_white,  c0)) goto start;
+		if (c_lexi_group(c_lexi_group_act_white, c0)) goto start;
 		if (c0 == '@') {
 			int c1 = c_lexi_readchar(state);
 			switch (c1) {
@@ -224,8 +223,7 @@ c_lexi_read_token_singleline_comment(struct c_lexi_state *state)
 {
 	start: {
 		int c0 = c_lexi_readchar(state);
-		/* white: white */
-if (c_lexi_group(c_lexi_group_singleline_comment_white,  c0)) goto start;
+		if (c_lexi_group(c_lexi_group_singleline_comment_white, c0)) goto start;
 		if (c0 == '\n') {
 			state->zone_function = c_lexi_read_token;
 			return c_lexi_read_token(state);
@@ -243,8 +241,7 @@ c_lexi_read_token_bracketed_comment(struct c_lexi_state *state)
 {
 	start: {
 		int c0 = c_lexi_readchar(state);
-		/* white: white */
-if (c_lexi_group(c_lexi_group_bracketed_comment_white,  c0)) goto start;
+		if (c_lexi_group(c_lexi_group_bracketed_comment_white, c0)) goto start;
 		if (c0 == '*') {
 			int c1 = c_lexi_readchar(state);
 			if (c1 == '/') {
@@ -268,8 +265,7 @@ c_lexi_read_token(struct c_lexi_state *state)
 		return (*state->zone_function)(state);
 	start: {
 		int c0 = c_lexi_readchar(state);
-		/* white: white */
-if (c_lexi_group(c_lexi_group_white,c0)) goto start;
+		if (c_lexi_group(c_lexi_group_white, c0)) goto start;
 		switch (c0) {
 			case '&': {
 				return C_TOK_REFERENCE;
