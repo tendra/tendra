@@ -68,15 +68,21 @@ package body Asis.Gela.Resolver is
          Overloads.Resolve (Element);
       end if;
 
-      if Declaration_Kind (Element) in A_Type_Declaration
-        and then Declaration_Kind (Enclosing_Element (Element)) =
-        Asis.A_Package_Declaration
-      then
-         Private_Operations.Check_Type
-           (Element => Element,
-            Data    => Private_Operations.Top (State.Stack),
-            Point   => State.Point);
-      end if;
+      case Declaration_Kind (Element) is
+         when A_Type_Declaration =>
+            if Declaration_Kind (Enclosing_Element (Element)) =
+              Asis.A_Package_Declaration
+            then
+               Private_Operations.Check_Type
+                 (Element => Element,
+                  Data    => Private_Operations.Top (State.Stack),
+                  Point   => State.Point);
+            end if;
+         when A_Package_Declaration =>
+            Private_Operations.Pop (State.Stack);
+         when others =>
+            null;
+      end case;
    end Post_Operation;
 
    --------------------
@@ -116,10 +122,16 @@ package body Asis.Gela.Resolver is
          Visibility.Try_To_Resolve (Element, State.Point);
       end if;
 
-      if Declaration_Kind (Element) = A_Package_Declaration then
-         Private_Operations.Push
-           (State.Stack, Private_Operations.Create (Element));
-      end if;
+      case Declaration_Kind (Element) is
+         when A_Package_Declaration =>
+            Private_Operations.Push
+              (State.Stack, Private_Operations.Create (Element));
+         when A_Package_Body_Declaration =>
+            Private_Operations.On_Package_Body
+              (Element, State.Point);
+         when others =>
+            null;
+      end case;
    end Pre_Operation;
 
    -------------------

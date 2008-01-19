@@ -32,13 +32,15 @@ package Asis.Gela.Private_Operations is
      (Element : in     Asis.Declaration;
       Point   : in out Visibility.Point);
 
+   procedure On_Package_Body
+     (Element : in     Asis.Declaration;
+      Point   : in out Visibility.Point);
+
    procedure Push
      (Stack : in out Package_Data_Stack;
       Item  : in     Package_Data);
 
-   procedure Pop
-     (Stack : in out Package_Data_Stack;
-      Item  :    out Package_Data);
+   procedure Pop (Stack : in out Package_Data_Stack);
 
    function Top (Stack : Package_Data_Stack) return Package_Data;
 

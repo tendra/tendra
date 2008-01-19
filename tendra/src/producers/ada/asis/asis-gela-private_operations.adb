@@ -209,6 +209,52 @@ package body Asis.Gela.Private_Operations is
    end Find;
 
    ---------------------
+   -- On_Package_Body --
+   ---------------------
+
+   procedure On_Package_Body
+     (Element : in     Asis.Declaration;
+      Point   : in out Visibility.Point)
+   is
+      use Asis.Gela.Classes;
+
+      Spec : Asis.Declaration :=
+        Asis.Declarations.Corresponding_Declaration (Element);
+      List : constant Asis.Declarative_Item_List :=
+        Asis.Declarations.Visible_Part_Declarative_Items (Spec);
+      Priv : constant Asis.Declarative_Item_List :=
+        Asis.Declarations.Private_Part_Declarative_Items (Spec);
+      From : Type_Info;
+      To   : Type_Info;
+
+      Body_View : constant Asis.Element :=
+        Visibility.End_Of_Package (Element);
+      Spec_View : Asis.Element;
+   begin
+      if Priv'Length = 0 then
+         Spec_View := Visibility.End_Of_Package (Spec);
+      else
+         Spec_View := Priv (Priv'Last);
+      end if;
+
+      for J in List'Range loop
+         From := Type_From_Declaration (List (J), Spec_View);
+         To := Type_From_Declaration (List (J), Body_View);
+
+         if not Is_Equal_Class (From, To) or
+           Is_Limited (From) /= Is_Limited (To)
+         then
+            --  Ada.Wide_Text_IO.Put_Line ("Old:" & Debug_Image (From));
+            --  Ada.Wide_Text_IO.Put_Line ("New:" & Debug_Image (To));
+            Implicit.Make_Operations
+              (Tipe  => To,
+               Was   => From,
+               Point => Point);
+         end if;
+      end loop;
+   end On_Package_Body;
+
+   ---------------------
    -- On_Private_Part --
    ---------------------
 
@@ -223,22 +269,22 @@ package body Asis.Gela.Private_Operations is
         Asis.Declarations.Private_Part_Declarative_Items (Element);
       From : Type_Info;
       To   : Type_Info;
+
+      Spec_View : Asis.Element;
    begin
+      if Priv'Length = 0 then
+         Spec_View := Visibility.End_Of_Package (Element);
+      else
+         Spec_View := Priv (Priv'Last);
+      end if;
+
       for J in List'Range loop
          From := Type_From_Declaration (List (J), List (List'Last));
-
-         if Priv'Length = 0 then
-            To := Type_From_Declaration
-              (List (J), Visibility.End_Of_Package (Element));
-         else
-            To := Type_From_Declaration (List (J), Priv (Priv'First));
-         end if;
+         To   := Type_From_Declaration (List (J), Spec_View);
 
          if not Is_Equal_Class (From, To) or
            Is_Limited (From) /= Is_Limited (To)
          then
---Ada.Wide_Text_IO.Put_Line ("Old:" & Debug_Image (From));
---Ada.Wide_Text_IO.Put_Line ("New:" & Debug_Image (To));
             Implicit.Make_Operations
               (Tipe  => To,
                Was   => From,
@@ -259,10 +305,8 @@ package body Asis.Gela.Private_Operations is
       Prepend (Stack, Item);
    end Push;
 
-   procedure Pop
-     (Stack : in out Package_Data_Stack;
-      Item  :    out Package_Data)
-   is
+   procedure Pop (Stack : in out Package_Data_Stack) is
+      Item  : Package_Data;
    begin
       Delete_First (Stack, Item);
    end Pop;

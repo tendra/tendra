@@ -17,6 +17,12 @@ package A0020 is
 
    procedure Use_Body;
 
+   package Nested is
+      type T7 is array (Positive range <>) of T1;
+
+      procedure Use_Body;
+   end Nested;
+
 private
    type T1 is mod 256;
    function F1 (Left, Right : T2) return Boolean renames "=";

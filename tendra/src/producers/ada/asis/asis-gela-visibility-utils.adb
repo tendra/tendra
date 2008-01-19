@@ -947,13 +947,21 @@ package body Asis.Gela.Visibility.Utils is
       Name_Place : Region_Item_Access := Place (Name_Node.all);
       Item       : Region_Item_Access := Get_Place (Point);
       Reg        : Region_Access;
+      Decl_Kind  : constant Asis.Declaration_Kinds :=
+        Declaration_Kind (Enclosing_Element (Point));
    begin
       if Element_Kind (Point) = A_Defining_Name and then
-        Declaration_Kind (Enclosing_Element (Point)) = A_Package_Declaration
+        (Decl_Kind = A_Package_Declaration or
+         Decl_Kind = A_Package_Body_Declaration)
       then
          --  This is a special element to point to end of package
          Reg  := Child_Region_By_Element (Item, Enclosing_Element (Point));
-         Item := Reg.Last_Part.Last_Item;
+
+         if Decl_Kind = A_Package_Declaration then
+            Item := Reg.Decl_Part.Last_Item;
+         else
+            Item := Reg.Last_Part.Last_Item;
+         end if;
       end if;
 
       if Name_Place = null then

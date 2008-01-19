@@ -78,11 +78,13 @@ package body Asis.Gela.Visibility is
    is
       use Asis.Elements;
    begin
-      if Declaration_Kind (The_Package) = A_Package_Declaration then
-         return Declarations.Names (The_Package) (1);
-      else
-         raise Internal_Error;
-      end if;
+      case Declaration_Kind (The_Package) is
+         when A_Package_Declaration |
+           A_Package_Body_Declaration =>
+            return Declarations.Names (The_Package) (1);
+         when others =>
+            raise Internal_Error;
+      end case;
    end End_Of_Package;
 
    ------------------------
