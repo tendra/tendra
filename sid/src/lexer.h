@@ -132,4 +132,15 @@ extern NStringT	*lexer_string_value(LexerStreamT *);
 extern void	lexer_save_terminal(LexerStreamT *, LexerTokenT);
 extern void	lexer_restore_terminal(LexerStreamT *);
 
+
+/*
+ * Interfaces for the generated lexer.
+ */
+int lexi_getchar(void);
+int read_identifier(int c);
+int read_builtin(int c);
+int skip_bracketed_comment(int c0, int c1);
+int skip_singleline_comment(int c0, int c1);
+int lexi_unknown_token(int c0);
+
 #endif /* !defined (H_LEXER) */

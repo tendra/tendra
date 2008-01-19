@@ -7,7 +7,7 @@ PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
 
 TARGETS=gen-errors.o arg-parse.o grammar.o lexer.o \
-	main.o output.o parser.o
+	main.o output.o parser.o lexi_lexer.o
 
 ERR_OUT=gen-errors.c gen-errors.h
 

@@ -30,6 +30,9 @@
  */
 
 HEADERS = @{
+
+#include "lexer.h"
+
 @} , @{
 @};
 

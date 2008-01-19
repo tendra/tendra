@@ -4,6 +4,9 @@
  */
 
 
+
+#include "lexer.h"
+
 #include "lexi_lexer.h"
 
 #include <assert.h>
@@ -84,7 +87,7 @@ int lexi_keyword(const char *identifier, int notfound) {
 }
 /* PRE-PASS ANALYSERS */
 
-void lexi_init_state(struct lexi_state *state) {
+void lexi_init(struct lexi_state *state) {
 	state->zone_function = lexi_read_token;
 	state->buffer_index = 0;
 }

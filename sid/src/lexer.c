@@ -79,15 +79,6 @@
 
 struct lexi_state lexi_current_state ;
 
-static int lexi_getchar(void);
-static int read_identifier(int c);
-static int read_builtin(int c);
-static int skip_bracketed_comment(int c0, int c1);
-static int skip_singleline_comment(int c0, int c1);
-static int lexi_unknown_token(int c0);
-
-#include "lexi_lexer.c"
-
 /*
  * These are global until lexi supports passing opaque pointers, which is
  * planned during its forthcoming API change.
@@ -106,7 +97,7 @@ lexer_init(LexerStreamT * stream, IStreamT * istream)
 	lexer_stream = stream;
 	lexer_token = &stream->token;
 	lexer_next_token(stream);
-	lexi_init_state(&lexi_current_state);
+	lexi_init(&lexi_current_state);
 }
 
 void
@@ -169,7 +160,7 @@ lexer_restore_terminal(LexerStreamT * stream)
  * Lexi interface wrappers.
  */
 
-static int
+int
 lexi_getchar(void)
 {
 	char c;
@@ -197,7 +188,7 @@ unread_char(int c)
 }
 */
 
-static int
+int
 read_identifier(int c)
 {
 	IStreamT * istream;
@@ -228,7 +219,7 @@ read_identifier(int c)
 	return lexer_token->t;
 }
 
-static int
+int
 read_builtin(int c)
 {
 	IStreamT * istream;
@@ -276,7 +267,7 @@ read_builtin(int c)
 	return lexer_token->t;
 }
 
-static int
+int
 skip_bracketed_comment(int c0, int c1)
 {
 	IStreamT * istream;
@@ -319,7 +310,7 @@ skip_bracketed_comment(int c0, int c1)
 	return lexi_read_token(&lexi_current_state);
 }
 
-static int
+int
 skip_singleline_comment(int c0, int c1)
 {
 	IStreamT * istream;
@@ -341,7 +332,7 @@ skip_singleline_comment(int c0, int c1)
 	return lexi_read_token(&lexi_current_state);
 }
 
-static int
+int
 lexi_unknown_token(int c)
 {
 	IStreamT * istream;
