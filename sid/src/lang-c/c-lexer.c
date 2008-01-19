@@ -211,35 +211,43 @@ c_lexer_next_token(CLexerStreamT * stream)
 			c_code_append_string(code, &ns);	/* TODO really append_label()? */
 			nstring_destroy(&ns);
 		}
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	case C_TOK_ACT_EXCEPTION:
 		c_code_append_exception(code);
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	case C_TOK_ACT_TERMINAL:
 		c_code_append_terminal(code);
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	case C_TOK_ACT_ADVANCE:
 		c_code_append_advance(code);
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	case C_TOK_ACT_LABEL:
 		c_code_append_label(code, &c_lexer_token->u.string);
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	case C_TOK_ACT_MODIFIABLE:
 		c_code_append_modifiable(code, &c_lexer_token->u.string);
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	case C_TOK_ACT_REFERENCE:
 		c_code_append_reference(code, &c_lexer_token->u.string);
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	case C_TOK_ACT_IDENTIFIER:
 		c_code_append_identifier(code, &c_lexer_token->u.string);
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	case C_TOK_ACT_CODESTRING:
 		/* c_lexer_act_read_string() should have prevented this by definition */
@@ -251,18 +259,21 @@ c_lexer_next_token(CLexerStreamT * stream)
 		}*/
 
 		c_code_append_string(code, &c_lexer_token->u.string);
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	/* EOF inside a code block is invalid; again, this should be in the grammar */
 	case C_TOK_ACT_EOF:
 		E_c_eof_in_code(istream);
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	/* entering the code zone */
 	case C_TOK_ACT_CODESTART:
 		code = c_code_create(istream_name(istream),
 			istream_line(istream));
-		return c_lexer_next_token(stream);
+		c_lexer_next_token(stream);
+		return;
 
 	/* exiting the code zone */
 	case C_TOK_ACT_CODEEND:
