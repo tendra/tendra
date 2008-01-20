@@ -66,11 +66,11 @@
 
 #include <assert.h>
 
-#include "../adt/rule.h"
-#include "../adt/action.h"
-#include "../adt/basic.h"
-#include "../adt/name.h"
-#include "../adt/type.h"
+#include "rule.h"
+#include "action.h"
+#include "basic.h"
+#include "name.h"
+#include "type.h"
 
 ItemT *
 item_create(EntryT * entry)

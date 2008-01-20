@@ -1,7 +1,7 @@
 # $Id$
 
 TARGETS=action.o basic.o cstring-list.o entry-list.o entry.o key.o alt.o \
-	name.o non-local.o rstack.o scope.o table.o type.o types.o rule.o
+	name.o non-local.o rstack.o scope.o table.o type.o types.o rule.o item.o
 
 REMOVE=rm -f
 
