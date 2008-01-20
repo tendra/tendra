@@ -4,6 +4,7 @@ with Asis.Statements;
 with Asis.Declarations;
 with Asis.Compilation_Units;
 
+with Asis.Gela.Debug;
 with Asis.Gela.Utils;
 with Asis.Gela.Classes;
 with Asis.Gela.Errors;
@@ -376,6 +377,24 @@ package body Asis.Gela.Visibility.Create is
       Point   : in out Visibility.Point)
    is
       use Asis.Elements;
+
+      function Debug_Image return Wide_String is
+         Spaces : constant Wide_String (1 .. 20) := (others => ' ');
+         Depth : Natural := 0;
+      begin
+         if Point.Item.Part.Region /= null then
+            Depth := Point.Item.Part.Region.Depth;
+         end if;
+
+         return Spaces (1 .. 2 * Depth) &
+           Debug_Image (Element) &
+           " ==> " &
+           Debug_Image (Point.Item.Part.Region.First_Part.Element);
+      end Debug_Image;
+
+      pragma Assert (Debug.Run (Element, Debug.Create_Region)
+                     or else Debug.Dump (Debug_Image));
+
       Child : Region_Access := new Region_Node;
    begin
       Child.Last_Part    := Child.First_Part'Access;
@@ -556,6 +575,7 @@ package body Asis.Gela.Visibility.Create is
       end case;
 
       declare
+         use XASIS.Utils;
          use Asis.Gela.Utils;
          use Asis.Gela.Errors;
          Declaration : Asis.Declaration;
@@ -568,7 +588,7 @@ package body Asis.Gela.Visibility.Create is
       begin
          for I in Name_List'Range loop
             Declaration      :=
-              XASIS.Utils.Selected_Name_Declaration (Name_List (I), True);
+              Unwind_Renamed (Selected_Name_Declaration (Name_List (I), True));
             Item             := new Visibility.Region_Item (Kind);
             Item.Declaration := Declaration;
             Item.Part        := Point.Item.Part;

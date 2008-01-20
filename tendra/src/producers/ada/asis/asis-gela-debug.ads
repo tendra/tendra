@@ -13,7 +13,8 @@ package Asis.Gela.Debug is
 
    type Execution_Point is
      (Pre_Normalize, Post_Normalize,
-      Set_Resolved, Overload_Up, Overload_Down, Overload, Lookup);
+      Set_Resolved, Overload_Up, Overload_Down, Overload, Lookup,
+      Create_Region);
 
    function Set (Assertion : Wide_String) return Boolean;
 

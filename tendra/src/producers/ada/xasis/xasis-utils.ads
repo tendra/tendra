@@ -160,6 +160,9 @@ package XASIS.Utils is
    function Unique (List : Asis.Element_List) return Asis.Element_List;
    --  Remove dublicated elements from the List
 
+   function Unwind_Renamed (Item : Asis.Declaration) return Asis.Defining_Name;
+   --  If Item rename declaration get renamed declaration
+
 end XASIS.Utils;
 
 

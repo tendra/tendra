@@ -1552,6 +1552,27 @@ package body XASIS.Utils is
       return Result (1 .. Index);
    end Unique;
 
+   --------------------
+   -- Unwind_Renamed --
+   --------------------
+
+   function Unwind_Renamed (Item : Asis.Declaration)
+                           return Asis.Defining_Name
+   is
+      use Asis.Declarations;
+      Next : Asis.Declaration;
+      Kind : constant Asis.Declaration_Kinds :=
+        Asis.Elements.Declaration_Kind (Item);
+   begin
+      case Kind is
+         when A_Renaming_Declaration =>
+            Next := Selected_Name_Declaration (Renamed_Entity (Item), False);
+            return Unwind_Renamed (Next);
+         when others =>
+            return Item;
+      end case;
+   end Unwind_Renamed;
+
 end XASIS.Utils;
 
 
