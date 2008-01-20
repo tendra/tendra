@@ -77,7 +77,7 @@
 #include "../output.h"
 #include "../adt/name.h"
 #include "../adt/rstack.h"
-#include "../rules/rule.h"
+#include "../adt/rule.h"
 #include "../adt/type.h"
 
 typedef struct COutClosureT {
