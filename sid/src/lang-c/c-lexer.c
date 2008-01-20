@@ -183,12 +183,8 @@ c_lexer_get_terminal(CLexerStreamT * stream)
 void
 c_lexer_next_token(CLexerStreamT * stream)
 {
-	int t;
-
-	t = c_lexi_read_token(&c_lexer_current_state);
-
 	stream->token = *c_lexer_token;
-	c_lexer_token->t = t;
+	c_lexer_token->t = c_lexi_read_token(&c_lexer_current_state);
 }
 
 NStringT *
