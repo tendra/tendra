@@ -741,7 +741,7 @@ package body Asis.Gela.Overloads.Walk.Down is
            or else
            (Down.Kind = An_Expression and then
            Item.Kind /= A_Subprogram_Reference and then
-           Is_Expected_Type (Item.Result_Type, Down.Expression_Type))
+           Is_Expected_Type (Down.Expression_Type, Item.Result_Type))
          then
 
             if Found then
@@ -945,12 +945,12 @@ package body Asis.Gela.Overloads.Walk.Down is
                      end if;
 
                      if Name.Real_Types = null
-                       or else Is_Not_Type (Name.Real_Types (Index))
+                       or else Is_Not_Type (Name.Real_Types (Formal))
                      then
                         Tipe := Get_Parameter_Type
                           (Name.Down, Profile, Formal, Element);
                      else
-                        Tipe := Name.Real_Types (Index);
+                        Tipe := Name.Real_Types (Formal);
                      end if;
 
                      Down := (An_Expression, Tipe);
