@@ -1216,9 +1216,12 @@ package body Asis.Gela.Overloads.Walk.Up is
            Is_Part_Of_Implicit (Op)
          then
             Tipe := Asis.Declarations.Corresponding_Type (Op);
-            Decl := Enclosing_Element (Tipe);
 
-            return Is_Equal (Decl, XASIS.Types.Universal_Access);
+            if Assigned (Tipe) then
+               Decl := Enclosing_Element (Tipe);
+
+               return Is_Equal (Decl, XASIS.Types.Universal_Access);
+            end if;
          end if;
 
          return False;

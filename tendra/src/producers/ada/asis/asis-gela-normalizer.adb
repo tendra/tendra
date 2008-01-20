@@ -1,4 +1,6 @@
 with Asis.Elements;
+with Asis.Declarations;
+
 with Asis.Gela.Lists;
 with Asis.Gela.Debug;
 with Asis.Gela.Errors;
@@ -652,13 +654,14 @@ package body Asis.Gela.Normalizer is
 
          when A_Task_Type_Declaration | A_Protected_Type_Declaration =>
             declare
+               Def : constant Asis.Element :=
+                 Asis.Declarations.Type_Declaration_View (Element);
+
                function Protected_Compound_Name
                  (Element : Protected_Type_Declaration_Node)
                  return Asis.Element
                is
                   use Asis.Gela.Elements.Defs;
-                  Def : constant Asis.Element :=
-                    Type_Declaration_View (Element);
                   Tsk : Protected_Definition_Node renames
                     Protected_Definition_Node (Def.all);
                begin
@@ -669,7 +672,9 @@ package body Asis.Gela.Normalizer is
                   new Utils.Check_Back_Identifier
                  (Protected_Type_Declaration_Node, Protected_Compound_Name);
             begin
-               Check_Back_Identifier (Element);
+               if Assigned (Def) then
+                  Check_Back_Identifier (Element);
+               end if;
             end;
 
          when A_Constant_Declaration =>

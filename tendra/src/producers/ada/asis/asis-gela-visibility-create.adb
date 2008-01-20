@@ -136,10 +136,17 @@ package body Asis.Gela.Visibility.Create is
       use Asis.Gela.Utils;
       Name : constant Asis.Program_Text :=
         XASIS.Utils.Direct_Name (Defining_Name);
+      Decl : constant Asis.Element :=
+        Asis.Elements.Enclosing_Element (Defining_Name);
    begin
       Prev := Utils.Find_Name (Name, Point, No_Parent_Region => True);
 
-      if Prev = null or else Prev.Count = 0 then
+      if Prev = null or else Prev.Count = 0 or else
+        Asis.Elements.Declaration_Kind (Decl) in
+        A_Procedure_Instantiation .. A_Function_Instantiation
+      then
+         --  Instantiation hasn't expanded at this moment yet, so we can't
+         --  check it's profile and find homographs
          Homograph := Asis.Nil_Element;
          return;
       end if;
@@ -150,8 +157,6 @@ package body Asis.Gela.Visibility.Create is
          Unit  : constant Asis.Compilation_Unit :=
            Asis.Elements.Enclosing_Compilation_Unit (Defining_Name);
          List  : Asis.Defining_Name_List (1 .. Prev.Count + 1);
-         Place : constant Asis.Element :=
-           Asis.Elements.Enclosing_Element (Defining_Name);
       begin
          Item.Part          := Point.Item.Part;
          Item.Next          := Point.Item.Part.Last_Item;
@@ -167,7 +172,7 @@ package body Asis.Gela.Visibility.Create is
 
          for I in 1 .. Index loop
             if not Asis.Elements.Is_Equal (Defining_Name, List (I))
-              and then Are_Homographs (Defining_Name, List (I), Place)
+              and then Are_Homographs (Defining_Name, List (I), Decl)
             then
                Homograph := List (I);
                return;
