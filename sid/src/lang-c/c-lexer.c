@@ -184,104 +184,8 @@ void
 c_lexer_next_token(CLexerStreamT * stream)
 {
 	int t;
-	IStreamT * istream;
-
-	istream = &(c_lexer_stream->istream);
 
 	t = c_lexi_read_token(&c_lexer_current_state);
-
-	/*
-	 * XXX hacky: all tokens really should be expressed in the grammar.
-	 * However, i'm dealing with $TOK_ACT_* here so that we can return code
-	 * blocks as a single token, because that's what the origional hand-crafted
-	 * lexer did. In the future, this logic should more properly be moved over
-	 * to the grammar instead.
-	 *
-	 * For the moment, these deal with the innards of code, and recurr until
-	 * there is no more code left. I am not factoring this into the grammar
-	 * right now, as that would be tangental to the current goal of trialing
-	 * zones.
-	 */
-	switch(t) {
-	case C_TOK_ACT_AT:	{
-			/* TODO append '@' to code buffer? */
-			NStringT ns;
-
-			nstring_copy_cstring(&ns, "@");
-			c_code_append_string(code, &ns);	/* TODO really append_label()? */
-			nstring_destroy(&ns);
-		}
-		c_lexer_next_token(stream);
-		return;
-
-	case C_TOK_ACT_EXCEPTION:
-		c_code_append_exception(code);
-		c_lexer_next_token(stream);
-		return;
-
-	case C_TOK_ACT_TERMINAL:
-		c_code_append_terminal(code);
-		c_lexer_next_token(stream);
-		return;
-
-	case C_TOK_ACT_ADVANCE:
-		c_code_append_advance(code);
-		c_lexer_next_token(stream);
-		return;
-
-	case C_TOK_ACT_LABEL:
-		c_code_append_label(code, &c_lexer_token->u.string);
-		c_lexer_next_token(stream);
-		return;
-
-	case C_TOK_ACT_MODIFIABLE:
-		c_code_append_modifiable(code, &c_lexer_token->u.string);
-		c_lexer_next_token(stream);
-		return;
-
-	case C_TOK_ACT_REFERENCE:
-		c_code_append_reference(code, &c_lexer_token->u.string);
-		c_lexer_next_token(stream);
-		return;
-
-	case C_TOK_ACT_IDENTIFIER:
-		c_code_append_identifier(code, &c_lexer_token->u.string);
-		c_lexer_next_token(stream);
-		return;
-
-	case C_TOK_ACT_CODESTRING:
-		/* c_lexer_act_read_string() should have prevented this by definition */
-		assert(!nstring_contains(&c_lexer_token->u.string, '@'));
-
-/* I don't know why but after testing, it seems this code is not needed:
-		if(nstring_contains(&c_lexer_token->u.string, '\n')) {
-			istream_inc_line(istream);
-		}*/
-
-		c_code_append_string(code, &c_lexer_token->u.string);
-		c_lexer_next_token(stream);
-		return;
-
-	/* EOF inside a code block is invalid; again, this should be in the grammar */
-	case C_TOK_ACT_EOF:
-		E_c_eof_in_code(istream);
-		c_lexer_next_token(stream);
-		return;
-
-	/* entering the code zone */
-	case C_TOK_ACT_CODESTART:
-		code = c_code_create(istream_name(istream),
-			istream_line(istream));
-		c_lexer_next_token(stream);
-		return;
-
-	/* exiting the code zone */
-	case C_TOK_ACT_CODEEND:
-		/* TODO possibly this can be folded into C_TOK_CODE */
-		c_lexer_token->t = C_TOK_CODE;
-		c_lexer_token->u.code = code;
-		return;
-	}
 
 	stream->token = *c_lexer_token;
 	c_lexer_token->t = t;
@@ -291,7 +195,12 @@ NStringT *
 c_lexer_string_value(CLexerStreamT * stream)
 {
 	assert((stream->token.t == C_TOK_C_IDENTIFIER) ||
-	   (stream->token.t == C_TOK_SID_IDENTIFIER));
+	   (stream->token.t == C_TOK_SID_IDENTIFIER)  ||
+	   (stream->token.t == C_TOK_ACT_LABEL)  ||
+	   (stream->token.t == C_TOK_ACT_MODIFIABLE)  ||
+	   (stream->token.t == C_TOK_ACT_IDENTIFIER)  ||
+	   (stream->token.t == C_TOK_ACT_REFERENCE)  ||
+	   (stream->token.t == C_TOK_ACT_CODESTRING));
 	return(&(stream->token.u.string));
 }
 

@@ -107,7 +107,6 @@ typedef enum {
     C_TOK_BLT_PARAM_ASSIGN,
     C_TOK_REFERENCE,
     C_TOK_EOF,
-    C_TOK_ERROR,
 
 	/* Action code block tokens */
 	C_TOK_ACT_AT,
@@ -121,7 +120,9 @@ typedef enum {
 	C_TOK_ACT_CODESTRING,
 	C_TOK_ACT_EOF,
 	C_TOK_ACT_CODESTART,
-	C_TOK_ACT_CODEEND
+	C_TOK_ACT_CODEEND,
+
+	C_TOK_ERROR
 } CTokenT;
 
 typedef struct CLexT {

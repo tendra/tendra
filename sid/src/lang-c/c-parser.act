@@ -162,6 +162,27 @@ code: () -> (c) = @{
     @c = c_lexer_code_value (c_current_stream);
 @};
 
+act-label      : () -> (i:StringT) = @{
+	nstring_assign(&@i, c_lexer_string_value (c_current_stream));
+@};
+
+act-reference  : () -> (i:StringT) = @{
+	nstring_assign(&@i, c_lexer_string_value (c_current_stream));
+@};
+
+act-identifier : () -> (i:StringT) = @{
+	nstring_assign(&@i, c_lexer_string_value (c_current_stream));
+@};
+
+act-modifiable : () -> (i:StringT) = @{
+	nstring_assign(&@i, c_lexer_string_value (c_current_stream));
+@};
+
+act-codestring : () -> (s:StringT) = @{
+	nstring_assign(&@s, c_lexer_string_value (c_current_stream));
+@};
+
+
 %actions%
 
 // Prefix section actions:
@@ -623,6 +644,54 @@ code: () -> (c) = @{
     c_code_check (@code, FALSE, FALSE, NULL, NULL,
 		  c_current_table);
     c_out_info_set_trailer2 (c_current_out_info, @code);
+@};
+
+//code elements into code block
+<ccode-init> : () -> ( code : CCodeP) = @{
+	@code = c_code_create(istream_name(&(c_lexer_stream->istream)), 
+	      		      istream_line(&(c_lexer_stream->istream)));
+@};
+
+<append-ccode-at> : ( code : CCodeP) -> () = @{
+	NStringT ns;
+	nstring_copy_cstring(&ns, "@@");		/* TODO append '@@' to code buffer? */
+	c_code_append_string(@code, &ns);	/* TODO really append_label()? */
+@};
+
+<append-ccode-exception> : ( code : CCodeP) -> () = @{
+	c_code_append_exception(@code);
+@};
+
+<append-ccode-terminal> : ( code : CCodeP) -> () = @{
+	c_code_append_terminal(@code);
+@};
+<append-ccode-advance> : ( code : CCodeP) -> () = @{
+	c_code_append_advance(@code);
+@};
+
+<append-ccode-label> : ( code : CCodeP, i : StringT &) -> () = @{
+	c_code_append_label(@code, &@=i);
+@};
+
+<append-ccode-reference> : ( code : CCodeP, i : StringT &) -> () = @{
+	c_code_append_reference(@code, &@=i);
+@};
+
+<append-ccode-identifier> : ( code : CCodeP, i : StringT &) -> () = @{
+	c_code_append_identifier(@code, &@=i);
+@};
+
+<append-ccode-modifiable> : ( code : CCodeP, i : StringT &) -> () = @{
+	c_code_append_modifiable(@code, &@=i);
+@};
+
+<append-ccode-codestring> : ( code : CCodeP, s : StringT &) -> () = @{
+	assert(!nstring_contains(&@=s, '@@'));
+	c_code_append_string(@code, &@=s);
+@};
+
+<E-eof-in-code-block> : () -> () = @{
+	E_c_eof_in_code(&(c_lexer_stream->istream));
 @};
 
 // Error recovery stuff:

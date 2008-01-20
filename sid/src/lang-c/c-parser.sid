@@ -53,13 +53,26 @@ terminator;		// ;
 begin-action;		// <
 define;			// =
 end-action;		// >
-code: () -> (: CCodeP);	// @{ ... @}
+!code: () -> (: CCodeP);	// @{ ... @}
 arrow;			// ->
 open-tuple;		// (
 close-tuple;		// )
 blt-param-assign;	// %parameter-assignments%
 reference;		// &
 eof;
+
+act-at;			// @@ 
+act-exception;		// @!
+act-terminal;		// @.
+act-advance;		// @>
+act-label      : () -> (:StringT);	// @:[a-zA-Z][a-zA-Z0-9]*
+act-reference  : () -> (:StringT);	// @&[a-zA-Z][a-zA-Z0-9]*
+act-identifier : () -> (:StringT);	// @[a-zA-Z][a-zA-Z0-9]*
+act-modifiable : () -> (:StringT);	// @=[a-zA-Z][a-zA-Z0-9]*
+act-codestring : () -> (:StringT);	// [^@]*
+act-eof;       	       	// 
+act-codestart;		// @{
+act-codeend;		// @}
 
 %productions%
 
@@ -89,6 +102,18 @@ eof;
 <set-header2>: (: CCodeP) -> ();
 <set-trailer1>: (: CCodeP) -> ();
 <set-trailer2>: (: CCodeP) -> ();
+
+<ccode-init> : () -> (: CCodeP) ;
+<append-ccode-at> : (: CCodeP) -> () ;
+<append-ccode-exception> : (: CCodeP) -> () ;
+<append-ccode-terminal> : (: CCodeP) -> () ;
+<append-ccode-advance> : (: CCodeP) -> () ;
+<append-ccode-label> : (: CCodeP, : StringT &) -> () ;
+<append-ccode-reference> : (: CCodeP, : StringT &) -> () ;
+<append-ccode-identifier> : (: CCodeP, : StringT &) -> () ;
+<append-ccode-modifiable> : (: CCodeP, : StringT &) -> () ;
+<append-ccode-codestring> : (: CCodeP, : StringT &) -> () ;
+<E-eof-in-code-block>;
 
 <unhandled-syntax-error>;
 
@@ -128,6 +153,50 @@ c-parse-grammar [
 		id = sid-identifier;
 	    ||
 		id = c-identifier;
+	};
+
+	code-block: () -> (c:CCodeP) [
+		code-body-single : (c:CCodeP) -> () = {
+			act-at ;
+			<append-ccode-at>(c) ;
+		    ||
+			act-exception;
+			<append-ccode-exception>(c) ;
+		    ||
+			act-terminal;
+			<append-ccode-terminal>(c) ;
+		    ||
+			act-advance;
+			<append-ccode-advance>(c) ;
+		    ||
+			i=act-label;
+			<append-ccode-label>(c,&i) ;
+		    ||
+			i=act-reference;
+			<append-ccode-reference>(c,&i) ;
+		    ||
+			i=act-identifier;
+			<append-ccode-identifier>(c,&i) ;
+		    ||
+			i=act-modifiable;
+			<append-ccode-modifiable>(c,&i) ;
+		    ||
+			s=act-codestring;
+			<append-ccode-codestring>(c,&s) ;
+		    ||
+			act-eof;
+			<E-eof-in-code-block>;
+		};
+		code-body : (c:CCodeP) -> () = {
+			$ ;
+		    ||
+			code-body-single(c) ; code-body(c) ; 
+		};
+	] = {
+		act-codestart ;
+		c = <ccode-init> ;
+		code-body(c);
+		act-codeend ;
 	};
 
 	// PREFIX DEFINITIONS:
@@ -308,7 +377,7 @@ c-parse-grammar [
 				<expected-define>;
 			};
 			{
-				body = code;
+				body = code-block;
 				<x-assign> (body);
 				{
 					terminator;
@@ -339,7 +408,7 @@ c-parse-grammar [
 				<expected-define>;
 			};
 			{
-				body = code;
+				body = code-block;
 				<x-passign> (body);
 				{
 					terminator;
@@ -370,7 +439,7 @@ c-parse-grammar [
 				<expected-define>;
 			};
 			{
-				body = code;
+				body = code-block;
 				<x-rassign> (body);
 				{
 					terminator;
@@ -402,7 +471,7 @@ c-parse-grammar [
 				<expected-define>;
 			};
 			{
-				body = code;
+				body = code-block;
 				<x-set-terminal> (body);
 				{
 					terminator;
@@ -441,7 +510,7 @@ c-parse-grammar [
 					<expected-define>;
 				};
 				{
-					body = code;
+					body = code-block;
 					<x-set-action> (body);
 					{
 						terminator;
@@ -490,7 +559,7 @@ c-parse-grammar [
 		<expected-blt-header>;
 	};
 	{
-		h1 = code;
+		h1 = code-block;
 		<set-header1> (h1);
 	    ##
 		<expected-code>;
@@ -501,7 +570,7 @@ c-parse-grammar [
 		<expected-separator>;
 	};
 	{
-		h2 = code;
+		h2 = code-block;
 		<set-header2> (h2);
 	    ##
 		<expected-code>;
@@ -547,7 +616,7 @@ c-parse-grammar [
 		<expected-blt-trailer>;
 	};
 	{
-		t1 = code;
+		t1 = code-block;
 		<set-trailer1> (t1);
 	    ##
 		<expected-code>;
@@ -558,7 +627,7 @@ c-parse-grammar [
 		<expected-separator>;
 	};
 	{
-		t2 = code;
+		t2 = code-block;
 		<set-trailer2> (t2);
 	    ##
 		<expected-code>;
