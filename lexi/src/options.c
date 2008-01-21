@@ -26,7 +26,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: options.c 1628 2007-10-10 10:15:34Z flaviusaetius $
+ * $Id$
  */
 
 #include "options.h"
