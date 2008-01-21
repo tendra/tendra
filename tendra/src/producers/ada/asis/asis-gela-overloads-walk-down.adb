@@ -736,12 +736,13 @@ package body Asis.Gela.Overloads.Walk.Down is
          Get (Set, I, Item);
 
          if (Down.Kind = A_Subprogram_Reference and then
-           Item.Kind = A_Subprogram_Reference and then
-           Is_Equal (Item.Result_Type, Down.Access_Type))
+               Item.Kind = A_Subprogram_Reference and then
+               Is_Equal (Item.Result_Type, Down.Access_Type))
            or else
            (Down.Kind = An_Expression and then
-           Item.Kind /= A_Subprogram_Reference and then
-           Is_Expected_Type (Down.Expression_Type, Item.Result_Type))
+              Item.Kind /= A_Subprogram_Reference and then
+              (Is_Expected_Type (Down.Expression_Type, Item.Result_Type) or
+               Is_Expected_Type (Item.Result_Type, Down.Expression_Type)))
          then
 
             if Found then

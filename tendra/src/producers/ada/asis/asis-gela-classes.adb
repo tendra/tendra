@@ -163,29 +163,30 @@ package body Asis.Gela.Classes is
       use Asis.Definitions;
       use Asis.Declarations;
 
+      Top    : constant Type_Info := Top_Parent_Type (Tipe);
       Result : Type_Info;
       Def    : Asis.Definition;
    begin
-      if Tipe.Is_Access then
-         Result := Tipe;
+      if Top.Is_Access then
+         Result := Top;
          Result.Is_Access := False;
-      elsif not Is_Object_Access (Tipe) then
+      elsif not Is_Object_Access (Top) then
          return Not_A_Type;
       end if;
 
-      case Tipe.Kind is
+      case Top.Kind is
          when Declaration_Info =>
-            Def    := Type_Declaration_View (Tipe.Type_View);
+            Def    := Type_Declaration_View (Top.Type_View);
             Def    := Asis.Definitions.Access_To_Object_Definition (Def);
             Result := Type_From_Indication (Def, Tipe.Place);
          when Defining_Name_Info =>
             Def    := Object_Declaration_Subtype
-              (Elements.Enclosing_Element (Tipe.Object_Name));
+              (Elements.Enclosing_Element (Top.Object_Name));
             Def    := Anonymous_Access_To_Object_Subtype_Mark (Def);
             Result := Type_From_Subtype_Mark (Def, Tipe.Place);
          when Return_Info =>
             Def    := Anonymous_Access_To_Object_Subtype_Mark
-              (Tipe.Access_Definition);
+              (Top.Access_Definition);
             Result := Type_From_Subtype_Mark (Def, Tipe.Place);
       end case;
 
@@ -426,7 +427,7 @@ package body Asis.Gela.Classes is
    function Get_Declaration (Info : Type_Info) return Asis.Declaration is
    begin
       if Info.Kind = Declaration_Info then
-         return Info.Type_View;
+         return Info.Base_Type;
       else
          return Asis.Nil_Element;
       end if;
@@ -1721,6 +1722,10 @@ package body Asis.Gela.Classes is
          when A_Loop_Parameter_Specification =>
             Element := Specification_Subtype_Definition (Decl);
             Result := Type_From_Discrete_Def (Element, Place);
+
+         when A_Choice_Parameter_Specification =>
+            Result := Type_From_Declaration
+              (XASIS.Types.Exception_Occurrence, Place);
 
          when others =>
             Result := Not_A_Type;

@@ -191,6 +191,8 @@ package Standard is
       RS    : constant Character := Character'Val(30);
       US    : constant Character := Character'Val(31);
 
+      DEL   : constant Character := Character'Val(127);
+
       -- Other characters:
 
       Exclam     : constant Character:= '!';

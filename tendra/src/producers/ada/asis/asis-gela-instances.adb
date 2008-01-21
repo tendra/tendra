@@ -498,8 +498,10 @@ package body Asis.Gela.Instances is
       use Asis.Declarations;
 
       Found       : Boolean;
-      Actual_Decl : Asis.Declaration :=
-        XASIS.Utils.Selected_Name_Declaration (Actual, True);
+      Actual_Info : constant Classes.Type_Info :=
+        Classes.Type_From_Subtype_Mark (Actual, Actual);
+      Actual_Decl : constant Asis.Declaration :=
+        Classes.Get_Declaration (Actual_Info);
       Actual_Type : Asis.Declaration :=
         Corresponding_First_Subtype (Actual_Decl);
       Actual_Def  : Asis.Definition := Type_Declaration_View (Actual_Type);

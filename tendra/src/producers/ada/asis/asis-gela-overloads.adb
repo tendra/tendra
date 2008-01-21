@@ -871,8 +871,13 @@ package body Asis.Gela.Overloads is
          when A_Case_Statement =>
             Resolve_To (Element, Any_Discrete_Type);
 
-         when A_While_Loop_Statement | An_Exit_Statement =>
-            Resolve_To (Element, Any_Boolean_Type);
+         when A_While_Loop_Statement =>
+               Resolve_To (Element, Any_Boolean_Type);
+
+         when An_Exit_Statement =>
+            if Is_Equal (Element, Exit_Condition (Parent)) then
+               Resolve_To (Element, Any_Boolean_Type);
+            end if;
 
          when A_Return_Statement =>
             declare

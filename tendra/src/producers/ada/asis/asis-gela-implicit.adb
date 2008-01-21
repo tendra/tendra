@@ -57,6 +57,7 @@ package body Asis.Gela.Implicit is
    The_System_Bit_Order        : Asis.Declaration;
    The_Task_Id                 : Asis.Declaration;
    The_Exception_Id            : Asis.Declaration;
+   The_Exception_Occurrence    : Asis.Declaration;
    The_Root_Storage_Pool       : Asis.Declaration;
    The_Tag                     : Asis.Declaration;
    The_Root_Stream_Type        : Asis.Declaration;
@@ -816,7 +817,10 @@ package body Asis.Gela.Implicit is
          XASIS.Types.Initialize_Root_Stream (The_Root_Stream_Type);
       elsif Are_Equal_Identifiers (Name, "Ada.Exceptions") then
          Find_Declaration (Unit, The_Exception_Id, "Exception_Id");
-         XASIS.Types.Initialize_Exception_Id (The_Exception_Id);
+         Find_Declaration
+           (Unit, The_Exception_Occurrence, "Exception_Occurrence");
+         XASIS.Types.Initialize_Exception
+           (The_Exception_Id, The_Exception_Occurrence);
       elsif Are_Equal_Identifiers (Name, "Ada.Task_Identification") then
          Find_Declaration (Unit, The_Task_Id, "Task_Id");
          XASIS.Types.Initialize_Task_Id (The_Task_Id);

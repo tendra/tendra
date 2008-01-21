@@ -14,13 +14,13 @@ Expression_Kind:AN_IDENTIFIER Integer at a0006.adb [32:42..32:48]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]
 
 Expression_Kind:AN_IDENTIFIER String at a0006.adb [32:58..32:63]
-   Defining_Name_Kind:A_DEFINING_IDENTIFIER String at standard.ads [250:9..250:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER String at standard.ads [252:9..252:14]
 
 Expression_Kind:AN_IDENTIFIER Boolean at a0006.adb [37:52..37:58]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Boolean at standard.ads [14:9..14:15]
 
 Expression_Kind:AN_IDENTIFIER String at a0006.adb [37:68..37:73]
-   Defining_Name_Kind:A_DEFINING_IDENTIFIER String at standard.ads [250:9..250:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER String at standard.ads [252:9..252:14]
 
 Expression_Kind:AN_IDENTIFIER Integer at a0006.adb [42:22..42:28]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]

@@ -14,29 +14,30 @@ with Asis;
 
 package XASIS.Types is
 
-   function Universal_Integer   return Asis.Declaration;
-   function Universal_Real      return Asis.Declaration;
-   function Universal_Fixed     return Asis.Declaration;
-   function Universal_Access    return Asis.Declaration;
-   function Root_Integer        return Asis.Declaration;
-   function Root_Real           return Asis.Declaration;
-   function System_Address      return Asis.Declaration;
-   function System_Bit_Order    return Asis.Declaration;
-   function Integer             return Asis.Declaration;
-   function String              return Asis.Declaration;
-   function Wide_String         return Asis.Declaration;
-   function Wide_Wide_String    return Asis.Declaration;
-   function Boolean             return Asis.Declaration;
-   function Exception_Id        return Asis.Declaration;
-   function Task_Id             return Asis.Declaration;
-   function Root_Storage_Pool   return Asis.Declaration;
-   function Tag                 return Asis.Declaration;
-   function Natural             return Asis.Declaration;
-   function Duration            return Asis.Declaration;
-   function Character           return Asis.Declaration;
-   function Wide_Character      return Asis.Declaration;
-   function Wide_Wide_Character return Asis.Declaration;
-   function Root_Stream_Type    return Asis.Declaration;
+   function Universal_Integer    return Asis.Declaration;
+   function Universal_Real       return Asis.Declaration;
+   function Universal_Fixed      return Asis.Declaration;
+   function Universal_Access     return Asis.Declaration;
+   function Root_Integer         return Asis.Declaration;
+   function Root_Real            return Asis.Declaration;
+   function System_Address       return Asis.Declaration;
+   function System_Bit_Order     return Asis.Declaration;
+   function Integer              return Asis.Declaration;
+   function String               return Asis.Declaration;
+   function Wide_String          return Asis.Declaration;
+   function Wide_Wide_String     return Asis.Declaration;
+   function Boolean              return Asis.Declaration;
+   function Exception_Id         return Asis.Declaration;
+   function Exception_Occurrence return Asis.Declaration;
+   function Task_Id              return Asis.Declaration;
+   function Root_Storage_Pool    return Asis.Declaration;
+   function Tag                  return Asis.Declaration;
+   function Natural              return Asis.Declaration;
+   function Duration             return Asis.Declaration;
+   function Character            return Asis.Declaration;
+   function Wide_Character       return Asis.Declaration;
+   function Wide_Wide_Character  return Asis.Declaration;
+   function Root_Stream_Type     return Asis.Declaration;
 
    procedure Initialize
      (Universal_Integer   : Asis.Declaration;
@@ -63,7 +64,11 @@ package XASIS.Types is
 
    procedure Initialize (Root_Storage_Pool : Asis.Declaration);
    procedure Initialize_Task_Id (Task_Id : Asis.Declaration);
-   procedure Initialize_Exception_Id (Exception_Id : Asis.Declaration);
+
+   procedure Initialize_Exception
+     (Exception_Id         : Asis.Declaration;
+      Exception_Occurrence : Asis.Declaration);
+
    procedure Initialize_Tag (Tag : Asis.Declaration);
    procedure Initialize_Root_Stream (Root : Asis.Declaration);
 

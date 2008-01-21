@@ -107,7 +107,7 @@ package body Asis.Gela.Utils is
          return False;
       elsif not Is_Not_Type (Left_Result)
         and then not Is_Not_Type (Right_Result)
-        and then Left_Result /= Right_Result
+        and then not Is_Equal (Left_Result, Right_Result)
         and then not Equal_Designated_Types (Left_Result, Right_Result)
       then
          return False;
@@ -169,7 +169,7 @@ package body Asis.Gela.Utils is
                return False;
             end if;
 
-            if Left_Type /= Right_Type and then
+            if not Is_Equal (Left_Type, Right_Type) and then
               not Equal_Designated_Types (Left_Type, Right_Type)
             then
                return False;

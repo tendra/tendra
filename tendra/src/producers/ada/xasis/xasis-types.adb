@@ -16,6 +16,7 @@ package body XASIS.Types is
    The_Duration                : Asis.Declaration;
    The_Task_Id                 : Asis.Declaration;
    The_Exception_Id            : Asis.Declaration;
+   The_Exception_Occurrence    : Asis.Declaration;
    The_Root_Storage_Pool       : Asis.Declaration;
    The_Tag                     : Asis.Declaration;
    The_Integer                 : Asis.Declaration;
@@ -60,6 +61,15 @@ package body XASIS.Types is
    begin
       return The_Exception_Id;
    end Exception_Id;
+
+   --------------------------
+   -- Exception_Occurrence --
+   --------------------------
+
+   function Exception_Occurrence return Asis.Declaration is
+   begin
+      return The_Exception_Occurrence;
+   end Exception_Occurrence;
 
    ----------------
    -- Initialize --
@@ -116,10 +126,13 @@ package body XASIS.Types is
       The_Task_Id   := Task_Id;
    end Initialize_Task_Id;
 
-   procedure Initialize_Exception_Id (Exception_Id : Asis.Declaration) is
+   procedure Initialize_Exception
+     (Exception_Id         : Asis.Declaration;
+      Exception_Occurrence : Asis.Declaration) is
    begin
       The_Exception_Id := Exception_Id;
-   end Initialize_Exception_Id;
+      The_Exception_Occurrence := Exception_Occurrence;
+   end Initialize_Exception;
 
    procedure Initialize (Root_Storage_Pool : Asis.Declaration) is
    begin

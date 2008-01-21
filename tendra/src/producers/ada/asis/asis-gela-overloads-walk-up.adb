@@ -795,14 +795,23 @@ package body Asis.Gela.Overloads.Walk.Up is
       for I in 1 .. Length (Set) loop
          Get (Set, I, Item);
 
-         if Item.Kind = An_Expression and then
-           Is_Array (Item.Expression_Type)
+         if Item.Kind = A_Declaration then
+            Tipe := Type_From_Declaration (Item.Declaration, Element);
+         end if;
+
+         if (Item.Kind = An_Expression and then
+               Is_Array (Item.Expression_Type)) or
+           (Item.Kind = A_Declaration and then Is_Array (Tipe))
          then
             if List'Length = 1 then
                null; --  FIXME N := Calculate (List (1));
             end if;
 
-            Tipe := Get_Array_Index_Type (Item.Expression_Type, N);
+            if Item.Kind = An_Expression then
+               Tipe := Get_Array_Index_Type (Item.Expression_Type, N);
+            else
+               Tipe := Get_Array_Index_Type (Tipe, N);
+            end if;
 
             if Is_Range then
                Add (Result, (A_Range, Tipe));
@@ -812,22 +821,18 @@ package body Asis.Gela.Overloads.Walk.Up is
 
             Stored.Down := Item;
 
-         elsif Item.Kind = A_Declaration then
-            Tipe := Type_From_Declaration (Item.Declaration, Element);
-
-            if Is_Scalar (Tipe) then
-               if List'Length /= 0 then
-                  Report (Element, Error_Syntax_Index_Exists);
-               end if;
-
-               if Is_Range then
-                  Add (Result, (A_Range, Tipe));
-               else
-                  Add (Result, Up_Expression (Tipe));
-               end if;
-
-               Stored.Down := Item;
+         elsif Item.Kind = A_Declaration and then Is_Scalar (Tipe) then
+            if List'Length /= 0 then
+               Report (Element, Error_Syntax_Index_Exists);
             end if;
+
+            if Is_Range then
+               Add (Result, (A_Range, Tipe));
+            else
+               Add (Result, Up_Expression (Tipe));
+            end if;
+
+            Stored.Down := Item;
          end if;
       end loop;
 
