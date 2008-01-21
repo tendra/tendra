@@ -9,7 +9,9 @@ with XASIS.Types;
 
 package body Asis.Gela.Classes is
 
-   function Get_Base_Type (Decl  : Asis.Declaration) return Asis.Declaration;
+   function Get_Base_Type
+     (Decl  : Asis.Declaration;
+      Place : Asis.Element) return Asis.Declaration;
 
    function Get_Type_View
      (Decl  : Asis.Declaration;
@@ -385,18 +387,34 @@ package body Asis.Gela.Classes is
    -- Get_Base_Type --
    -------------------
 
-   function Get_Base_Type (Decl : Asis.Declaration) return Asis.Declaration is
+   function Get_Base_Type
+     (Decl  : Asis.Declaration;
+      Place : Asis.Element) return Asis.Declaration
+   is
+      use Asis.Elements;
       use Asis.Declarations;
       Result : Asis.Declaration := Decl;
       Temp   : Asis.Declaration;
+      Name   : Asis.Defining_Name;
    begin
       while XASIS.Utils.Is_Completion (Result)
       loop
          Temp := XASIS.Utils.Declaration_For_Completion (Result);
-         exit when Elements.Declaration_Kind (Temp) =
-           An_Incomplete_Type_Declaration;
+         exit when Declaration_Kind (Temp) = An_Incomplete_Type_Declaration;
          Result := Temp;
       end loop;
+
+      if Declaration_Kind (Result) = An_Incomplete_Type_Declaration then
+         Temp := XASIS.Utils.Completion_For_Declaration (Result);
+
+         if Assigned (Temp) then
+            Name := XASIS.Utils.Declaration_Name (Temp);
+
+            if Visibility.Visible_From (Name, Place) then
+               Result := Temp;
+            end if;
+         end if;
+      end if;
 
       return Result;
    end Get_Base_Type;
@@ -523,14 +541,7 @@ package body Asis.Gela.Classes is
          exit when not Assigned (Temp);
          Name := Asis.Declarations.Names (Temp) (1);
 
-         if Assigned (Place) then
-            exit when not Visibility.Visible_From (Name, Place);
-         else
-            exit when not Is_Part_Of_Implicit (Result)
-              and then
-              not Is_Equal (Enclosing_Element (Result),
-                            Enclosing_Element (Temp));
-         end if;
+         exit when not Visibility.Visible_From (Name, Place);
 
          Kind := Asis.Elements.Declaration_Kind (Temp);
          exit when Kind = A_Task_Body_Declaration or
@@ -1470,7 +1481,7 @@ package body Asis.Gela.Classes is
            A_Private_Extension_Declaration |
            A_Formal_Type_Declaration =>
 
-            Result.Base_Type      := Get_Base_Type (Tipe);
+            Result.Base_Type      := Get_Base_Type (Tipe, Place);
             Result.Type_View      := Get_Type_View (Result.Base_Type, Place);
             Result.Class_Kind     :=
               Declaration_Class (Result.Type_View, Place);

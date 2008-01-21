@@ -592,8 +592,7 @@ package body Asis.Gela.Utils is
                      Continue);
                when A_Type_Definition =>
                   case Type_Kind (Item) is
-                     when A_Derived_Record_Extension_Definition
-                       | A_Derived_Type_Definition =>
+                     when A_Derived_Record_Extension_Definition =>
 
                         Walk_Components
                           (Asis.Definitions.Parent_Subtype_Indication (Item),
@@ -605,6 +604,12 @@ package body Asis.Gela.Utils is
 
                         Walk_Components
                           (Asis.Definitions.Record_Definition (Item),
+                           Continue);
+
+                     when A_Derived_Type_Definition =>
+
+                        Walk_Components
+                          (Asis.Definitions.Parent_Subtype_Indication (Item),
                            Continue);
 
                      when A_Record_Type_Definition |
