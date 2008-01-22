@@ -272,7 +272,8 @@ complete_binding(binding *b)
 					/* Make up an internal name */
 					long n = p->encoding;
 					char *nm = alloc_nof(char, 32);
-					IGNORE sprintf(nm, "~~%s_%ld", vars[v].name, n);
+
+					(void) sprintf(nm, "~~%s_%ld", vars[v].name, n);
 					p->name = nm;
 
 					if (add_to_var_hash(p, s))
@@ -605,7 +606,7 @@ de_capsule(void)
 				else {
 					/* Make up internal name */
 					p->name = alloc_nof(char, 32);
-					IGNORE sprintf(p->name, "~~extern_%d", un++);
+					(void) sprintf(p->name, "~~extern_%d", un++);
 					p->ename = new_node();
 					p->ename->cons = &true_cons;
 					p->ename->son = nc;
