@@ -730,10 +730,33 @@ add_keyword(zone* z, char *nm, char* cond ,instruction* instr)
 /*
 	COUNT MAXIMUM TOKEN LENGTH
 
+	Find the maximum token length necessary for a given zone
+*/
+size_t
+zone_maxlength(zone* z, int in_prepass)
+{
+	zone *p;
+	size_t maxopt;
+
+	if(in_prepass)
+		maxopt = char_maxlength(z->zone_pre_pass,  z->top_level->last_letter_code) ;
+	else
+		maxopt = char_maxlength(z->zone_main_pass,  z->top_level->last_letter_code) ;
+	for (p = z->next ; p; p = p->opt) {
+		size_t k = zone_maxlength(p, in_prepass);
+		maxopt = k > maxopt ? k : maxopt ; 
+	}
+	return maxopt;
+}
+
+
+/*
+	COUNT MAXIMUM TOKEN LENGTH
+
 	Find the maximum token length within the given lexical pass.
 */
 size_t
-char_maxlength(zone* z, character *c)
+char_maxlength(character *c, letter lastlettercode)
 {
 	character *p;
 	size_t maxopt;
@@ -742,14 +765,11 @@ char_maxlength(zone* z, character *c)
 	for(p = c->next; p; p = p->opt) {
 		size_t l;
 
-		if(p->ch == z->top_level->last_letter_code) {
-		  /* TODO compute the maxlength by descending into zone
-		     if first instruction is PUSH ZONE
-		   */
+		if(p->ch == lastlettercode) {
 			continue;
 		}
 
-		l = char_maxlength(z,p) + 1;
+		l = char_maxlength(p, lastlettercode) + 1;
 
 		if(l > maxopt) {
 			maxopt = l;

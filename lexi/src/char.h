@@ -273,7 +273,8 @@ extern int in_group(char_group *, letter);
 extern letter *make_string(char *, zone*);
 extern letter find_escape(int,letter);
 extern void add_keyword(zone*, char *, char*, instruction*);
-extern size_t char_maxlength(zone*, character *);
+extern size_t char_maxlength(character *, letter);
+extern size_t zone_maxlength(zone *, int);
 extern zone * find_zone (zone*, char*); 
 
 extern user_function* add_user_function (char *name) ;

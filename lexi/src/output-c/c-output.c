@@ -770,11 +770,11 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fputs("\t */\n", lex_output_h);
 	if(top_level->global_zone->zone_pre_pass->next) {
 		fprintf(lex_output_h, "\tint buffer[%u - 1 + %u - 1];\n",
-			char_maxlength(top_level->global_zone,top_level->global_zone->zone_pre_pass), 
-			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
+			zone_maxlength(top_level->global_zone, 1), 
+			zone_maxlength(top_level->global_zone, 0));
 	} else {
 		fprintf(lex_output_h, "\tint buffer[%u - 1];\n",
-			char_maxlength(top_level->global_zone,top_level->global_zone->zone_main_pass));
+			zone_maxlength(top_level->global_zone, 0));
 	}
 	fputs("\tint buffer_index;\n", lex_output_h);
 	fputs("};\n\n", lex_output_h);
