@@ -457,7 +457,7 @@ de_token_defn(construct *p, node *sig)
 	end_posn += tell_posn();
 
 	/* Find the definition type */
-	IGNORE de_token_defn_bits();
+	(void) de_token_defn_bits();
 
 	/* Decode the token sort */
 	rs = de_sortname(1);
