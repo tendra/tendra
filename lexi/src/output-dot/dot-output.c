@@ -117,12 +117,12 @@ output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
 
 				case pop_zone:
 					fprintf(dotout, "<pop> %s",
-						instr->u.z->zone_name);
+						instr->u.s.z->zone_name);
 					break;
 
 				case push_zone:
 					fprintf(dotout, "<push> %s",
-						instr->u.z->zone_name);
+						instr->u.s.z->zone_name);
 					break;
 
 				case do_nothing:

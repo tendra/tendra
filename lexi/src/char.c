@@ -330,7 +330,8 @@ instruction *
 add_instruction_pushzone (zone* z) 
 {
     instruction* p=new_instruction(push_zone);
-    p->u.z=z;
+    p->u.s.z=z;
+    p->u.s.is_beginendmarker_in_zone=1;
     return p;
 }
 
@@ -341,10 +342,11 @@ add_instruction_pushzone (zone* z)
 */
 
 instruction*
-add_instruction_popzone (zone* z) 
+add_instruction_popzone (zone* z, int is_endmarker_in_zone) 
 {
     instruction* p=new_instruction(pop_zone);
-    p->u.z=z;
+    p->u.s.z=z;
+    p->u.s.is_beginendmarker_in_zone=is_endmarker_in_zone;
     return p;
 }
 
@@ -454,7 +456,7 @@ find_zone (zone* z, char* zid)
     This routine adds a new zone named zid under the current zone z
 */
 zone* 
-add_zone(zone* current_zone, char* zid,letter* e)
+add_zone(zone* current_zone, char* zid, letter* e, int endmarkerclosed)
 {
   zone* q;
   instruction* inst; 
@@ -471,7 +473,7 @@ add_zone(zone* current_zone, char* zid,letter* e)
   current_zone->next=q;
   q->up=current_zone;
 
-  inst = add_instruction_popzone(current_zone);
+  inst = add_instruction_popzone(current_zone, endmarkerclosed);
   inst_list=add_instructions_list();
   *(inst_list->tail)=inst;
   inst_list->tail=&(inst->next);

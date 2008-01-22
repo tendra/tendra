@@ -156,46 +156,46 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 	fprintf(lex_output, "return ");
       fprintf(lex_output, "%s(", instr->u.fun->name);
       {
-      arg* fun_args;
-      for(fun_args=instr->u.fun->args->head;fun_args;fun_args=fun_args->next) {
-	int i;
-	if(fun_args!=instr->u.fun->args->head) 
-	  fputs(", ", lex_output);
-	switch(fun_args->type) {
-	case arg_chars_list:
-	  fputs("c0", lex_output);
-	  for (i = 1; i < n ; i++)
-	    fprintf(lex_output, ", c%d", i);
+	arg* fun_args;
+	for(fun_args=instr->u.fun->args->head;fun_args;fun_args=fun_args->next) {
+	  int i;
+	  if(fun_args!=instr->u.fun->args->head) 
+	    fputs(", ", lex_output);
+	  switch(fun_args->type) {
+	  case arg_chars_list:
+	    fputs("c0", lex_output);
+	    for (i = 1; i < n ; i++)
+	      fprintf(lex_output, ", c%d", i);
+	    break;
+	    
+	  case arg_charP:
+	    error(ERROR_SERIOUS, "#* Not implemented yet in output.c");
+	    break;
+	    
+	  case arg_litteral:
+	    fprintf(lex_output, "%s", fun_args->u.litteral);
 	  break;
 	  
-	case arg_charP:
-	  error(ERROR_SERIOUS, "#* Not implemented yet in output.c");
-	  break;
-
-	case arg_litteral:
-	  fprintf(lex_output, "%s", fun_args->u.litteral);
-	  break;
-
-	case arg_char_nb:
-	  if(fun_args->u.digit <n)
-	    fprintf(lex_output, "c%d", fun_args->u.digit);
-	  else
-	    error(ERROR_SERIOUS, "In #[0-9]* arg, the digit must be smaller than the number of chars in a token");
-	  /*Should be caught during parsing*/
-	  break;
-	case arg_nb_of_chars:
+	  case arg_char_nb:
+	    if(fun_args->u.digit <n)
+	      fprintf(lex_output, "c%d", fun_args->u.digit);
+	    else
+	      error(ERROR_SERIOUS, "In #[0-9]* arg, the digit must be smaller than the number of chars in a token");
+	    /*Should be caught during parsing*/
+	    break;
+	  case arg_nb_of_chars:
 	    fprintf(lex_output, "%d", n);	  
+	  }
 	}
-      }
       }
       fputs(");\n", lex_output);
       break;
     case push_zone:
       output_indent(lex_output, d);
       fprintf(lex_output, "state->zone_function = %s_%s;\n",
-	      read_token_name, instr->u.z->zone_name);
-      if(instr->u.z->entering_instructions->head) 
-	output_actions(NULL,instr->u.z->entering_instructions,n,d);
+	      read_token_name, instr->u.s.z->zone_name);
+      if(instr->u.s.z->entering_instructions->head) 
+	output_actions(NULL,instr->u.s.z->entering_instructions,n,d);
       else {
 	output_indent(lex_output, d);
 	fprintf(lex_output,"return %s(state);\n",read_token_name);
@@ -203,11 +203,18 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       break;
     case pop_zone:
       output_indent(lex_output, d);
-      if(instr->u.z==instr->u.z->top_level->global_zone)
+      if(instr->u.s.z==instr->u.s.z->top_level->global_zone)
 	fprintf(lex_output, "state->zone_function = %s;\n",read_token_name);
       else
 	fprintf(lex_output, "state->zone_function = %s_%s;\n",read_token_name,
-		instr->u.z->zone_name);
+		instr->u.s.z->zone_name);
+      if(!instr->u.s.is_beginendmarker_in_zone) {
+	int i;
+	for (i = n-1;i>=0;--i) {
+	  output_indent(lex_output, d);
+	  fprintf(lex_output, "%spush(state, c%d)", lexi_prefix, i);
+	}
+      }
       if(z->leaving_instructions->head) 
 	output_actions(NULL,z->leaving_instructions,n,d);
       else {

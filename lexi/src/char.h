@@ -100,7 +100,10 @@ typedef struct instruction_tag {
   struct instruction_tag* next;
   union {
     char* name;  /* token   */
-    struct zone_tag* z;
+    struct {
+      struct zone_tag* z;
+      int is_beginendmarker_in_zone ;
+    } s;
     user_function* fun; 
   } u;
 } instruction ;
@@ -267,7 +270,7 @@ typedef struct lexer_parse_tree_tag {
 
 extern void init_lexer_parse_tree(lexer_parse_tree*);
 extern void add_char(zone*, character*, letter*, char *, instructions_list*, char* );
-extern zone* add_zone(zone*, char*,letter*);
+extern zone* add_zone(zone*, char*,letter*, int);
 extern char_group* make_group(zone*, char *, letter *);
 extern int in_group(char_group *, letter);
 extern letter *make_string(char *, zone*);
@@ -286,6 +289,7 @@ extern args_list* add_args_list (void) ;
 extern arg* add_arg (arg_type, unsigned int) ;
 extern arg* add_litteral_arg ( char* ) ;
 extern instruction* add_instruction_pushzone (zone* z) ;
+extern instruction* add_instruction_popzone (zone* z, int is_endmarker_in_zone) ;
 extern instructions_list* add_instructions_list (void) ;
 extern letter_translation* add_group_letter_translation(char_group*, int);
 extern void letters_table_add_translation(letter_translation*, letter_translation_list []);

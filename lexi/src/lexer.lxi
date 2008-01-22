@@ -83,6 +83,8 @@ TOKEN ";" -> $semicolon ;
 TOKEN "=" -> $equal ;
 TOKEN "+" -> $plus ;
 TOKEN "..." -> $range ;
+TOKEN "\[...]" -> $range-closed-closed ;
+TOKEN "\[...)" -> $range-closed-open ;
 TOKEN "$$" -> $nothing-marker ;
 TOKEN ","  -> $comma ;
 TOKEN "\e" -> $eof ;

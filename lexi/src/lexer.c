@@ -292,6 +292,28 @@ lexi_read_token(struct lexi_state *state)
 			case '=': {
 				return lex_equal;
 			}
+			case '[': {
+				int c1 = lexi_readchar(state);
+				if (c1 == '.') {
+					int c2 = lexi_readchar(state);
+					if (c2 == '.') {
+						int c3 = lexi_readchar(state);
+						if (c3 == '.') {
+							int c4 = lexi_readchar(state);
+							if (c4 == ')') {
+								return lex_range_Hclosed_Hopen;
+							} else if (c4 == ']') {
+								return lex_range_Hclosed_Hclosed;
+							}
+							lexi_push(state, c4);
+						}
+						lexi_push(state, c3);
+					}
+					lexi_push(state, c2);
+				}
+				lexi_push(state, c1);
+				break;
+			}
 			case '{': {
 				int c1 = lexi_readchar(state);
 				if (c1 == '0') {

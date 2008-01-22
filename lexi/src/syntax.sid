@@ -1,0 +1,465 @@
+/*
+    		 Crown Copyright (c) 1997
+    
+    This TenDRA(r) Computer Program is subject to Copyright
+    owned by the United Kingdom Secretary of State for Defence
+    acting through the Defence Evaluation and Research Agency
+    (DERA).  It is made available to Recipients with a
+    royalty-free licence for its use, reproduction, transfer
+    to other parties and amendment for any purpose not excluding
+    product development provided that any such use et cetera
+    shall be deemed to be acceptance of the following conditions:-
+    
+        (1) Its Recipients shall ensure that this Notice is
+        reproduced upon any copies or amended versions of it;
+    
+        (2) Any amended version of it shall be clearly marked to
+        show both the nature of and the organisation responsible
+        for the relevant amendment or amendments;
+    
+        (3) Its onward transfer from a recipient to another
+        party shall be deemed to be that party's acceptance of
+        these conditions;
+    
+        (4) DERA gives no warranty or assurance as to its
+        quality or suitability for any purpose and DERA accepts
+        no liability whatsoever in relation to any use to which
+        it may be put.
+*/
+
+
+%types%
+
+/*
+    TYPES
+
+    There are four types, representing booleans, identifiers, input strings
+    and strings of character codes.
+*/
+
+BOOL ;
+CHARACTERS ;
+IDENTIFIER ;
+ZONE;
+STRING ;
+
+INSTRUCTION ;
+INSTRUCTIONS_LIST ;
+
+ARG ;
+ARGS_LIST ;
+
+%terminals%
+
+/*
+    TERMINALS
+
+    These terminals give the various terminals identified by the lexical
+    analysis routines.
+*/
+
+identifier : () -> ( :IDENTIFIER ) ;
+sid-identifier : () -> ( :IDENTIFIER ) ;
+string : () -> ( :STRING ) ;
+
+upper : () -> ( :STRING ) ;
+lower : () -> ( :STRING ) ;
+digit : () -> ( :STRING ) ;
+
+copyright;
+
+group ;
+keyword ;
+mapping ;
+token ;
+white ;
+default ;
+zone ;
+
+if ;
+else ;
+
+open ;
+close ;
+open-brace ;
+close-brace ;
+
+arrow ;
+eof ;
+equal ;
+plus ;
+semicolon ;
+colon ;
+range ;
+range-closed-closed ;
+range-closed-open ;
+comma;
+nothing-marker;
+!unknown ;
+
+arg-char-list : () -> (:ARG);
+arg-char-string : () -> (:ARG);
+arg-char-nb : () -> (:ARG);
+arg-nb-of-chars : () -> (:ARG);
+arg-char-void; //temporary
+
+%productions%
+
+
+/*
+    ACTION DECLARATIONS
+
+    The actions are described in more detail in the action definition
+    file.
+*/
+
+<string-concat> : ( :STRING, :STRING ) -> ( :STRING ) ;
+<make-chars> : ( :ZONE, :STRING ) -> ( :CHARACTERS ) ;
+<make-white> : ( :ZONE, :CHARACTERS ) -> () ;
+<make-group> : ( :ZONE, :IDENTIFIER, :CHARACTERS ) -> () ;
+<make-trigraph> : ( :ZONE, :CHARACTERS, :STRING ) -> () ;
+<make-inst>  :  ( :IDENTIFIER, :ARGS_LIST) -> (:INSTRUCTION) ;
+<make-donothing-inst> : () -> (:INSTRUCTION) ;
+<make-token> : ( :ZONE, :CHARACTERS, :INSTRUCTIONS_LIST ) -> () ;
+<make-default> : ( :ZONE, :INSTRUCTIONS_LIST ) -> () ;
+<make-keyword> : ( :ZONE, :STRING, :INSTRUCTION ) -> () ;
+<add-condition> : ( :IDENTIFIER ) -> () ;
+<compl-condition> : () -> () ;
+<get-condition> : () -> ( :IDENTIFIER ) ;
+<set-condition> : ( :IDENTIFIER ) -> () ;
+<true> : () -> ( :BOOL ) ;
+<false> : () -> ( :BOOL ) ;
+
+//<null-identifier> : () -> ( :IDENTIFIER );
+
+//<global-zone> : () -> ( :ZONE );
+<is-global-zone> : ( :ZONE ) -> ( :BOOL );
+
+<null-args-list> : () -> ( :ARGS_LIST) ;
+<empty-args-list> : () -> ( :ARGS_LIST) ;
+<args-list-push-front> : ( :ARG , :ARGS_LIST) -> () ;
+<arg-char-list-tmp> :    () -> ( :ARG);
+<make_arg_from_string> : (:STRING) -> (:ARG);
+
+
+<empty-inst-list> : () -> ( : INSTRUCTIONS_LIST);
+<add-inst-to-list> : ( : INSTRUCTION, : INSTRUCTIONS_LIST ) -> ();
+
+<E_expected_identifier> : () -> (:IDENTIFIER);
+<E_expected_range> : () -> ();
+<E_expected_chars> : () -> (:CHARACTERS);
+
+<E_nonglobalzonekeyword> : () -> ();
+<E_nonglobalzonecopyright> : () -> ();
+<E_expected_colon>	 : () -> ();
+<is-non-empty> : ( : CHARACTERS , :ZONE) -> ( : BOOL );
+<E_empty_character_string> : () -> ();
+
+<syntax-error> : () -> () ;
+
+<make-zone> : ( :ZONE, :IDENTIFIER, :CHARACTERS, :INSTRUCTIONS_LIST, 
+	      	:CHARACTERS, :INSTRUCTIONS_LIST, : BOOL ) -> ( :ZONE );
+
+<make-copyright> : ( :ZONE, :STRING ) -> () ;
+
+
+/*
+    STRINGS
+
+    This action gives the full definition of a string, including special
+    strings and string concatenation.
+*/
+
+string-plus : () -> ( s : STRING ) = {
+	{
+		a = string ;
+	    ||	a = upper ;
+	    ||	a = lower ;
+	    ||	a = digit ;
+	} ; 
+	{
+		s = a ;
+	    ||	plus ; b = string-plus ; s = <string-concat> ( a, b ) ;
+	} ;
+} ;
+
+
+/*
+    CHARACTER STRING
+
+    This action transforms an input string into the internal representation
+    of arrays of character codes.
+*/
+
+chars : (z:ZONE) -> ( c : CHARACTERS ) = {
+	s = string-plus ;
+	c = <make-chars> ( z, s ) ;
+} ;
+
+non-empty-chars : (z:ZONE) -> (c: CHARACTERS) ={
+	c=chars(z);
+	{
+		?=<is-non-empty>(c,z);
+	    ##
+		<E_empty_character_string>;
+	};
+};
+
+
+
+copyright-stmt : ( z:ZONE ) -> () = {
+	copyright; equal; s = string ;
+	?=<is-global-zone> (z) ; 
+	<make-copyright> (z, s) ;
+    ##
+	<E_nonglobalzonecopyright>;
+}; 
+
+
+/*
+    WHITE SPACE DEFINITION
+
+    This action defines the set of white space characters.
+*/
+
+white-defn : ( z:ZONE ) -> () = {
+	group ; white ; equal ; s = chars(z) ; <make-white> ( z, s ) ;
+} ;
+
+
+/*
+    CHARACTER GROUP DEFINITION
+
+    This action assigns a name to a group of characters.
+*/
+
+group-defn : ( z:ZONE ) -> () = {
+        group ; i = identifier ; equal ; s = chars(z) ; <make-group> ( z, i, s ) ;
+} ;
+
+
+/*
+    RETURN ARGUMENTS
+
+    This action deals with the optional arguments which may be used in
+    a token definition.
+*/
+
+single-arg : () -> ( a : ARG ) = {
+	a=arg-char-list ;
+    ||  a=arg-char-string ;
+    ||  a=arg-char-nb ;
+    ||  a=arg-nb-of-chars ;
+    ||  b=string ; a=<make_arg_from_string>(b);
+} ;
+
+non-empty-tuple-args : () -> (l: ARGS_LIST) = {
+	a=single-arg ; l=<empty-args-list> ; <args-list-push-front>(a,l); 
+    ||
+	a=single-arg ; comma ; l=non-empty-tuple-args ;
+	<args-list-push-front>(a,l);
+} ;
+
+tuple-args : () -> (l : ARGS_LIST) = {
+	l=<empty-args-list> ;
+	tmp=<arg-char-list-tmp>;
+	<args-list-push-front>(tmp,l); 
+    ||
+	arg-char-void; //temporary
+	l=<empty-args-list> ;
+    ||
+	l=non-empty-tuple-args ;  
+};
+
+args : () -> ( l : ARGS_LIST ) = {
+	l = <null-args-list> ;
+    ||	open ; l=tuple-args ; close ;
+} ;
+
+
+/*
+    TRIGRAPH DEFINITION
+
+    This action defines a lexical pre-pass mapping (for example, trigraphs
+    in ANSI C).
+*/
+
+trigraph-defn : ( z:ZONE) -> () = {
+	mapping ; s = chars(z) ; arrow ; t = string-plus ; 
+    	<make-trigraph> ( z, s, t ) ;
+} ;
+
+
+/*
+  INSTRUCTION LISTS
+*/
+
+instruction : () -> (inst:INSTRUCTION) = {
+	{
+		i = identifier ; a = args ;
+	    ||	
+	    	i = sid-identifier ; a = <null-args-list> ;
+	} ;
+	inst = <make-inst>( i, a);
+    ||	
+    	{
+		nothing-marker; 
+		inst = <make-donothing-inst>;
+	} ;
+} ;
+
+instructions-list : () -> (instl:INSTRUCTIONS_LIST) = {
+		  inst=instruction ; 
+		  instl=<empty-inst-list>;
+		  <add-inst-to-list>( inst, instl);
+	||
+		  inst=instruction ;
+   		  comma; 
+		  instl=instructions-list ; 
+		  <add-inst-to-list>( inst, instl);
+} ;
+
+/*
+    TOKEN DEFINITION
+
+    This action defines a lexical main-pass mapping (for example, operators
+    and keywords).
+*/
+
+token-defn : ( z:ZONE ) -> () = {
+	token ; s = non-empty-chars(z) ; arrow ;
+	inst-list=instructions-list;
+	<make-token> ( z, s, inst-list) ;
+} ;
+
+default-defn : ( z:ZONE ) -> () = {
+        token ; default ; arrow ;
+	inst-list=instructions-list;
+        <make-default> ( z, inst-list) ; 
+} ;
+
+
+
+/*
+    KEYWORD DEFINITION
+
+    This action defines a keyword.
+*/
+
+keyword-defn : ( z:ZONE ) -> () = {
+	keyword ; s = string ; arrow ;
+	inst=instruction ; 
+	{
+		?=<is-global-zone> (z); 
+	    	<make-keyword> ( z, s, inst) ;
+	    ##
+		<E_nonglobalzonekeyword>;
+	};
+} ;
+
+
+/*
+    COMMANDS
+
+    These actions define the composite commands derived from the basic
+    commands above.
+*/
+
+command : (:ZONE) -> () ;
+
+command-list : (z:ZONE) -> () = {
+	$ ;
+    ||	command(z) ; command-list(z) ;
+    ##	<syntax-error> ;
+} ;
+
+if-command : (z:ZONE) -> () = {
+	if ; open ; i = identifier ; close ;
+	j = <get-condition> ;
+	<add-condition> ( i ) ;
+	command ( z ) ;
+	{
+		else ; <compl-condition> ; command ( z ) ; <set-condition> ( j ) ;
+	    ##	<set-condition> ( j ) ;
+	} ;
+} ;
+
+zone-defn : (z:ZONE) -> ()  = {
+	zone; 
+	{
+		zid = identifier; 
+	    ##  
+	    	zid=<E_expected_identifier>;
+	};
+	{
+		colon;
+	    ##
+		<E_expected_colon>;
+	};
+	{
+		b=non-empty-chars(z); 
+	    ##  
+	    	b=<E_expected_chars>;
+	};
+	{
+		arrow; 
+		entry-instl=instructions-list;
+	    ||  
+		entry-instl=<empty-inst-list>;
+	};
+	{
+		range ; lendclosed =<true> ;
+	    ||  
+		range-closed-closed ; lendclosed =<true> ;
+	    ||  
+		range-closed-open ; lendclosed =<false> ;
+	    ##
+		<E_expected_range>; lendclosed=<false> ;
+	};
+	{
+		e=non-empty-chars(z); 
+	    ##  
+	    	e=<E_expected_chars>;
+	};
+	{
+		arrow; 
+		leaving-instl=instructions-list;
+	    ||  
+		leaving-instl=<empty-inst-list>;
+	};
+	new-zone=<make-zone>(z,zid,b,entry-instl,e,leaving-instl,lendclosed);
+
+	open-brace ; command-list(new-zone) ; close-brace ;
+} ;
+
+command : (z:ZONE) -> () = {
+	semicolon ;
+    ||	white-defn ( z ) ; semicolon ;
+    ||	group-defn ( z ) ; semicolon ;
+    ||	trigraph-defn ( z ) ; semicolon ;
+    ||	token-defn ( z ) ; semicolon ;
+    ||	keyword-defn ( z ) ; semicolon ;
+    ||  default-defn ( z ); semicolon ;
+    ||  zone-defn ( z ) ;
+    ||	open-brace ; command-list( z ) ; close-brace ;
+    ||	if-command ( z ) ;
+    ||  copyright-stmt ( z ) ; semicolon ;
+} ;
+
+
+/*
+    COMPLETE UNIT
+
+    This action gives the main entry point for the syntax.  A complete
+    unit just consists of a list of commands.
+*/
+
+unit : (z:ZONE) -> () = {
+	command-list ( z ) ;
+	{
+		eof ;
+	    ##	<syntax-error> ;
+	} ;
+}  ;
+
+%entry% unit ;

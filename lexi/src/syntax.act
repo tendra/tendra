@@ -519,10 +519,9 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 
     These actions give the booleans true and false.
 */
-/*
+
 <true> : () -> ( b : BOOL ) =	@{ @b = 1 ; @} ;
 <false> : () -> ( b : BOOL ) =	@{ @b = 0 ; @} ;
-*/
 
 /* 
    ZONES 
@@ -545,11 +544,12 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 */
 <make-zone> : ( z : ZONE , i : IDENTIFIER, b : CHARACTERS, 
 	      	binst : INSTRUCTIONS_LIST, e : CHARACTERS, 
-		einst : INSTRUCTIONS_LIST) -> ( nz : ZONE) = 
+		einst : INSTRUCTIONS_LIST, endmarkerclosed : BOOL ) 
+		      		-> ( nz : ZONE) = 
 @{
     instruction* inst;
     instructions_list* inst_list;
-    @nz=add_zone(@z,@i,@e);
+    @nz=add_zone(@z,@i,@e, @endmarkerclosed );
     @nz->entering_instructions=@binst;
     @nz->leaving_instructions=@einst;
     inst=add_instruction_pushzone(@nz);
