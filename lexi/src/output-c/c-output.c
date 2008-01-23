@@ -212,7 +212,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 	int i;
 	for (i = n-1;i>=0;--i) {
 	  output_indent(lex_output, d);
-	  fprintf(lex_output, "%spush(state, c%d)", lexi_prefix, i);
+	  fprintf(lex_output, "%spush(state, c%d);\n", lexi_prefix, i);
 	}
       }
       if(z->leaving_instructions->head) 
