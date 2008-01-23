@@ -1480,15 +1480,24 @@
   </rule>
 
   <rule name="context_item_or_pragma" label="0.0:" added="yes">
-      <seq>
-        <ref name='context_item'/>
-      </seq>
-      <seq>
-        <ref name='pragma'/>
-      </seq>
-      <seq>
-        <keyword text="private"/>
-      </seq>
+    <seq>
+      <ref name='context_item'/>
+    </seq>
+    <seq>
+      <ref name='pragma'/>
+    </seq>
+  </rule>
+
+  <rule name="context_item" label="10.1.2:">
+    <seq>
+      <ref name="with_clause"/>
+    </seq>
+    <seq>
+      <ref name="use_clause"/>
+    </seq>
+    <seq status="updated">
+      <keyword text="private"/>
+    </seq>
   </rule>
 
   <rule name="signed_integer_type_definition" label="3.5.4:">

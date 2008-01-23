@@ -198,7 +198,7 @@ package body Asis.Gela.Unit_Utils is
         new Any_Compilation_Unit_Node;
    begin
       Set_Unit_Kind (Result.all, An_Unknown_Unit);
-      Set_Unit_Class (Result.all, A_Public_Declaration);
+      Set_Unit_Class (Result.all, Unit_Class (Declaration.all));
       Set_Unit_Origin (Result.all, An_Implementation_Unit);
       Set_Enclosing_Context (Result.all, The_Context);
       Set_Corresponding_Declaration (Result.all, Declaration);
