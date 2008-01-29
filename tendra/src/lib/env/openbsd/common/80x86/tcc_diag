@@ -1,0 +1,3 @@
+/* TCC ENVIRONMENT : DIAGNOSTICS FOR OpenBSD */
+
++CRT0		"--dynamic-linker /usr/libexec/ld.so /usr/lib/crt0.o"
