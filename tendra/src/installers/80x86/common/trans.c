@@ -176,26 +176,13 @@ main(int argc, char **argv)
 	lv_null = 0;		/* null value for label_value*/
 
 	/*
-	 * When using NEWDIAGS, -H takes an undocumented argument.
-	 */
-#ifdef NEWDIAGS
-#define DEBUG_OPTSTRING "H:"
-#else
-#define DEBUG_OPTSTRING "H"
-#endif
-
-	/*
 	 * XXX: Some arguments are undocumented in trans.1, check
 	 */
 #ifdef NEWDWARF
-	optstring = "A:B:C:D:EF:G:" DEBUG_OPTSTRING "I:" "J" "K:M:NPQR:" "T" \
-	    "U:VW:XZabcdefghik:s";
+	optstring = "A:B:C:D:EF:G:H:I:" "J" "K:M:NPQR:" "T" "U:VW:XZabcdefghik:s";
 #else
-	optstring = "A:B:C:D:EF:G:" DEBUG_OPTSTRING "I:"     "K:M:NPQR:" \
-	    "U:VW:XZabcdefghik:s";
+	optstring = "A:B:C:D:EF:G:H:I:"     "K:M:NPQR:"     "U:VW:XZabcdefghik:s";
 #endif
-
-#undef DEBUG_OPTSTRING
 
 	while ((ch = getopt(argc, argv, optstring)) != -1) {
 		switch (ch) {
@@ -221,22 +208,31 @@ main(int argc, char **argv)
 			gcc_compatible = (*optarg == '1');
 			break;
 		case 'H':
-			/* XXX: takes an undocumented optarg */
+			/* Add debug symbols to assembly */
+
+			if (*optarg != 'O' && *optarg != 'N') {
+				fprintf(stderr,
+				    "trans: invalid argument for -H\n");
+				exit(EXIT_FAILURE);
+			}
+
 			diagnose = 1;
+
 #ifdef NEWDIAGS
-			if (*optarg != 'O') {
-				/*
-				 * XXX: why Oh and not zero?
-				 * kate suggested that O stands for optimised
-				 */
+			/*
+			 * O: produce optimised assembly
+			 * N: disable assembly optimisation
+			 */
+			if (*optarg == 'N') {
 				diag_visible = 1;
+
 				always_use_frame = 1;
 				do_inlining = 0;
 				do_loopconsts = 0;
 				do_foralls = 0;
 				all_variables_visible = 1;
 			}
-#else
+#else /* At the moment every operating system but solaris */
 			always_use_frame = 1;
 			do_inlining = 0;
 			do_loopconsts = 0;
