@@ -66,7 +66,7 @@ package body Asis.Compilation_Units.Relations is
          Unit : in Compilation_Unit)
          return Tree_Node_Access;
 
-      procedure Add_Tread
+      procedure Add_Thread
         (This      : in     Tree_Node_Access;
          To_Node   : in     Tree_Node_Access;
          From_Tree : in out Tree_Node_Access);
@@ -352,8 +352,6 @@ package body Asis.Compilation_Units.Relations is
 
             Result := Utils.Generate_Relationship (Tree, Utils.From_Parent);
 
-            raise Asis.Exceptions.ASIS_Failed;
-
          when Supporters =>
             Asis.Implementation.Set_Status
               (Not_Implemented_Error,
@@ -427,7 +425,7 @@ package body Asis.Compilation_Units.Relations is
          end if;
 
          if Node /= null then
-            Add_Tread (Result, Node, Tmp_Tree);
+            Add_Thread (Result, Node, Tmp_Tree);
             Tmp_Tree := new Tree_Node;
             return True;
          else
@@ -727,11 +725,11 @@ package body Asis.Compilation_Units.Relations is
          return Node;
       end Append_Parent;
 
-      ---------------
-      -- Add_Tread --
-      ---------------
+      ----------------
+      -- Add_Thread --
+      ----------------
 
-      procedure Add_Tread
+      procedure Add_Thread
         (This      : in     Tree_Node_Access;
          To_Node   : in     Tree_Node_Access;
          From_Tree : in out Tree_Node_Access)
@@ -773,7 +771,7 @@ package body Asis.Compilation_Units.Relations is
 
          Deallocate (From_Tree.Units);
          From_Tree := null;
-      end Add_Tread;
+      end Add_Thread;
 
       ---------------
       -- Add_Child --
@@ -891,16 +889,6 @@ package body Asis.Compilation_Units.Relations is
             end loop;
          end Genegate_Circular;
 
-         -- Genegate_Missing --
-         procedure Genegate_Missing
-           (List : Compilation_Unit_List_Access)
-         is
-         begin
-            for Index in List.all'Range loop
-               Missing_List := Append (Missing_List, List.all (Index));
-            end loop;
-         end Genegate_Missing;
-
          -- Process_Asc --
          procedure Process_Asc
            (Node : in Tree_Node_Access)
@@ -923,7 +911,7 @@ package body Asis.Compilation_Units.Relations is
                   if Internal_Node.Missing /= null
                     and then not Internal_Node.Missing_Added
                   then
-                     Genegate_Missing (Internal_Node.Missing);
+                     Missing_List := Append (Missing_List, Internal_Node.Missing.all);
                      Internal_Node.Missing_Added := True;
                   end if;
 
@@ -961,7 +949,7 @@ package body Asis.Compilation_Units.Relations is
             if Target.Missing /= null
               and then not Target.Missing_Added
             then
-               Genegate_Missing (Target.Missing);
+               Missing_List := Append (Missing_List, Target.Missing.all);
                Target.Missing_Added := True;
             end if;
 
@@ -981,9 +969,7 @@ package body Asis.Compilation_Units.Relations is
 
       begin
          if Order = From_Child then
-            if Is_Empty (This.all)
-              and then This.Next = null
-            then
+            if Is_Empty (This.all) then
                return Nil_Relationship;
             end if;
 
@@ -1119,12 +1105,12 @@ package body Asis.Compilation_Units.Relations is
             Array_Access := new Tree_Node_Array (1 .. 1);
          else
             declare
-               tmp_Array : Tree_Node_Array_Access :=
+               Tmp_Array : Tree_Node_Array_Access :=
                  new Tree_Node_Array (1 .. Array_Access.all'Last + 1);
             begin
-               tmp_Array (1 .. Array_Access.all'Last) := Array_Access.all;
+               Tmp_Array (1 .. Array_Access.all'Last) := Array_Access.all;
                Deallocate (Array_Access);
-               Array_Access := tmp_Array;
+               Array_Access := Tmp_Array;
             end;
          end if;
 
@@ -1160,17 +1146,17 @@ package body Asis.Compilation_Units.Relations is
                end if;
 
                declare
-                  tmp_Array : Unit_Node_Array_Access :=
+                  Tmp_Array : Unit_Node_Array_Access :=
                     new Unit_Node_Array (1 .. Array_Access.all'Last + 1);
                begin
-                  tmp_Array (1 .. Index - 1) := Array_Access.all (1 .. Index - 1);
-                  tmp_Array (Index) := (Unit, Node);
+                  Tmp_Array (1 .. Index - 1) := Array_Access.all (1 .. Index - 1);
+                  Tmp_Array (Index) := (Unit, Node);
 
-                  tmp_Array (Index + 1 .. tmp_Array.all'Last) :=
+                  Tmp_Array (Index + 1 .. Tmp_Array.all'Last) :=
                     Array_Access.all (Index .. Array_Access.all'Last);
 
                   Deallocate (Array_Access);
-                  Array_Access := tmp_Array;
+                  Array_Access := Tmp_Array;
                end;
             end if;
          end Process;
@@ -1301,12 +1287,12 @@ package body Asis.Compilation_Units.Relations is
             Result := new Compilation_Unit_List (1 .. 1);
          else
             declare
-               tmp_Array : Compilation_Unit_List_Access :=
+               Tmp_Array : Compilation_Unit_List_Access :=
                  new Compilation_Unit_List (1 .. Result.all'Last + 1);
             begin
-               tmp_Array (1 .. Result.all'Last) := Result.all;
+               Tmp_Array (1 .. Result.all'Last) := Result.all;
                Deallocate (Result);
-               Result := tmp_Array;
+               Result := Tmp_Array;
             end;
          end if;
 
@@ -1327,14 +1313,14 @@ package body Asis.Compilation_Units.Relations is
             Result.all := Units;
          else
             declare
-               tmp_Array : Compilation_Unit_List_Access :=
+               Tmp_Array : Compilation_Unit_List_Access :=
                  new Compilation_Unit_List
                    (1 .. Result.all'Last + Units'Length);
             begin
-               tmp_Array (1 .. Result.all'Last) := Result.all;
-               tmp_Array (Result.all'Last + 1 .. tmp_Array.all'Last) := Units;
+               Tmp_Array (1 .. Result.all'Last) := Result.all;
+               Tmp_Array (Result.all'Last + 1 .. Tmp_Array.all'Last) := Units;
                Deallocate (Result);
-               Result := tmp_Array;
+               Result := Tmp_Array;
             end;
          end if;
 
