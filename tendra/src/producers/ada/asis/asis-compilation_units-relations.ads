@@ -338,7 +338,6 @@ package Asis.Compilation_Units.Relations is
 
 end Asis.Compilation_Units.Relations;
 
-
 ------------------------------------------------------------------------------
 --  Copyright (c) 2006, Maxim Reznik
 --  All rights reserved.
