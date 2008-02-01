@@ -1,0 +1,48 @@
+# TenDRA make compiler infrastructure
+#
+# $Id$
+
+.if !defined(_TENDRA_COMPILER_MK_)
+_TENDRA_COMPILER_MK_=1
+
+.if defined(BOOTSTRAP)
+CC?= cc
+
+. if defined(APIOBJS) || "${LIB}" == "cpp"
+# Two special cases where having CFLAGS in CCOPTS is not desirable:
+#
+# a) Building APIOBJS is always done using TCC
+# b) libcpp is the C++ library, always compiled with TCC
+#
+. else
+CCOPTS+= ${CFLAGS}
+.endif
+
+LDOPTS+= ${LDFLAGS}
+
+TCC= ${BOBJ_DIR}/src/tools/tcc/tcc \
+     -Y${OBJ_DIR}/src/lib/env/build \
+     -yTENDRA_BASEDIR=${OBJ_DIR}/src
+
+.else
+
+. if exists(${BOBJ_DIR}/src/tools/tcc/tcc)
+TCC= ${BOBJ_DIR}/src/tools/tcc/tcc \
+     -Y${BOBJ_DIR}/src/lib/env/build \
+     -yTENDRA_BASEDIR=${BOBJ_DIR}/src
+. else
+TCC?= tcc
+. endif
+
+CC= ${TCC} ${TCCOPTS}
+.endif
+
+CCOPTS+=	-D_${OSVER}
+
+.if exists(${BOBJ_DIR}/src/tools/tspec/tspec)
+TSPEC?=	${BOBJ_DIR}/src/tools/tspec/tspec
+.else
+TSPEC?=	tspec
+.endif
+
+.endif	# !defined(_TENDRA_COMPILER_MK_)
