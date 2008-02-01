@@ -62,6 +62,58 @@
  * c-out-types.c - Output type objects.
  *
  * This file implements the type output routines for C.
+ *
+ *    ``c_output_param_assign''
+ *
+ *    ``c_output_non_ansi_params''
+ *  This functions output the old K&R style arguments list
+ *  for functions. It only outputs the arguments' name list 
+ *  that is enclosed in between parenthesis.
+ *
+ *    ``c_output_non_ansi_type_defn''
+ *  This function outputs the entire arguments list and type specification
+ *  of the parameters for a function definition in old K&R style. 
+ *  It delegates the output of the argument' name list enclosed in 
+ *  parenthesis to ``c_output_non_ansi_params'', then outputs the 
+ *  type specification of the arguments.
+ *
+ *    ``c_output_ansi_type_defn''
+ *  This function outputs the arguments list of a function definition 
+ *  in an  ANSI C style. The opening ``{'' is also outputted. Arguments 
+ *  whose types have been given a parameter assignment code in the act 
+ *  file are passed. If there are such special arguments, the function
+ *  ``c_output_ansi_type_defn'' also outputs the parameter assignment
+ *   code after the "{".
+ *
+ *    ``types_get_entry''
+ *
+ *    ``types_get_key''
+ *
+ *    ``c_output_assign''
+ *
+ *    ``c_output_type_decl''
+ *  This function ouputs the argument list of an ANSI C style function 
+ *  prototype excluding the trailing ``;''
+ *
+ *    ``c_output_type_defn''
+ *  This function calls either ``c_output_ansi_type_defn'' or
+ *  ``c_output_non_ansi_type_defn'' 
+ *
+ *    ``c_output_result_assign''
+ *
+ *    ``c_output_alt_names''
+ *
+ *    ``c_output_rule_params''
+ *  This function outputs the argument list in a function (rule) call.
+ *
+ *    ``c_output_rename'' 
+ *
+ *    ``c_output_tail_decls''
+ *
+ *    ``c_output_required_copies''
+ *
+ *
+ *
  */
 
 #include <assert.h>
