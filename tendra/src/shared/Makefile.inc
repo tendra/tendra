@@ -1,3 +1,3 @@
 # $Id$
 
-.include "../tendra/src/Makefile.inc"
+.include "../Makefile.inc"
