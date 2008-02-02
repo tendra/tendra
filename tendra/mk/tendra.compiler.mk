@@ -7,17 +7,6 @@ _TENDRA_COMPILER_MK_=1
 
 .if defined(BOOTSTRAP)
 CC?= cc
-
-. if defined(APIOBJS) || "${LIB}" == "cpp"
-# Two special cases where having CFLAGS in CCOPTS is not desirable:
-#
-# a) Building APIOBJS is always done using TCC
-# b) libcpp is the C++ library, always compiled with TCC
-#
-. else
-CCOPTS+= ${CFLAGS}
-.endif
-
 LDOPTS+= ${LDFLAGS}
 
 TCC= ${BOBJ_DIR}/src/tools/tcc/tcc \
@@ -35,6 +24,7 @@ TCC?= tcc
 . endif
 
 CC= ${TCC} ${TCCOPTS}
+CFLAGS=
 .endif
 
 CCOPTS+=	-D_${OSVER}
