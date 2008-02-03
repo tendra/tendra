@@ -1,0 +1,23 @@
+#ifndef PATH_SUBS_H
+#define PATH_SUBS_H
+
+/*
+ * SUBSTITUTION VARIABLES
+ *
+ * This is Table 5.
+ */
+
+static char *PATH_SUBS[] = {
+	"TENDRA_MACHDIR",
+	"TENDRA_BINDIR",
+	"TENDRA_ENVDIR",
+	"TENDRA_LIBDIR",
+	"TENDRA_INCLDIR",
+	"TENDRA_STARTUPDIR",
+	"TENDRA_TMPDIR",
+	"TENDRA_BASEDIR",
+	"TENDRA_SRCDIR",
+	NULL
+};
+
+#endif /* PATH_SUBS_H */

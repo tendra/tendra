@@ -163,7 +163,7 @@ uniq_filename(char *nm, int t, int s, filename *input)
 				uniq_tempfile = make_filename(no_filename, t,
 							      TEMP_FILE);
 			} else {
-				char *m;
+				char *m = NULL;
 				static char plus[] = { EXTRA_KEY, 0 };
 				q->name = string_concat(q->name, plus);
 				switch (t)EXHAUSTIVE {
@@ -269,7 +269,7 @@ filename *
 do_produce(filename *input)
 {
 	boolean spec_produced;
-	filename *output, *spec;
+	filename *output, *spec = NULL;
 	if (input == null) {
 		return (input);
 	}
@@ -357,7 +357,7 @@ do_preproc(filename *input)
 filename *
 do_cpp_produce(filename *input)
 {
-	filename *spec;
+	filename *spec = NULL;
 	filename *output, *producer_output;
 	if (input == null) {
 		return (input);
