@@ -1,1 +1,1 @@
-TESTS=  open walk name
+TESTS=  open walk name urel
