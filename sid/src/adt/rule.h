@@ -94,33 +94,128 @@ typedef enum {
     CT_MUTATE
 } CycleTypeT;
 
+/*
+ * An ItemT is therefore a rule, an action call, a terminal or TODO
+ * (rename, name) already declared in a TableT.
+ *
+ * Items are held as a list within an AltT.
+ */
 typedef struct ItemT {
+	/*
+	 * The next item in the list held by an alternate.
+	 */
     struct ItemT	       *next;
+
+	/*
+	 * Tuples of types containing the list of input parameters (.param)
+	 * and output parameters (.result).
+	 */
     TypeTupleT			param;
     TypeTupleT			result;
+
+	/*
+	 * The type and definition of the item.
+	 *
+	 * This may be a terminal, rule, action or identity already declared
+	 * and stored in the hash map TableT.
+	 *
+	 * If the item is just an identity, then EntryT.type is ET_RENAME and
+	 * .entry contains no other useful information.
+	 * TODO this is not guarenteed, but was deduced from reading the code.
+	 */
     EntryTypeT			type;
     EntryT *			entry;
+
+	/* TODO */
     BoolT			inlinable;
     BoolT			tail_call;
 } ItemT;
 
+/*
+ * One alternative within a rule.
+ * For example, the rule:
+ *
+ *  basic-arithmetic = {
+ *      number; plus; number;
+ *  ||  number; minus; number;
+ *  };
+ *
+ * contains two alternatives, each with three items.
+ */
 typedef struct AltT {
+	/*
+	 * The rule type RuleT contains a list of alternatives; this field
+	 * gives the next alternate in the list held by a RuleT.
+	 */
     struct AltT		       *next;
+
+	/*
+	 * A list of all local variables which appear as a left hand side in in
+	 * all items of the alternate.
+	 *
+	 * TODO probably including non-locals if they appear on the left hand side
+	 * of an identify?
+	 */
     TypeTupleT			names;
+
     BitVecT			first_set;
+
+	/*
+	 * A list of items within an alternate.
+	 * For the first alternative in the example above, the list of items
+	 * would be: number; plus; number;
+	 *
+	 * An ItemT is therefore a rule, an action call, a terminal or TODO
+	 * (rename, name) already declared in a TableT.
+	 */
     ItemT *			item_head;
     ItemT *		       *item_tail;
 } AltT;
 
 typedef struct RuleT {
+	/*
+	 * The EntryT in the hash table that holds this rule.
+	 * XXX I don't know why entry is necessary
+	 */
     EntryT *			entry;
+
+	/*
+	 * The type specification of the input and output parameters of a rule
+	 * respectively.
+	 */
     TypeTupleT			param;
     TypeTupleT			result;
+
+	/*
+	 * A type tuple  of all the non-locals declared in the rule. It does not
+	 * include the non-locals declared in an enclosing rules.
+	 * TODO This should be checked once again.
+	 */
     NonLocalListT		non_locals;
+
     NStringT			maximum_scope;
+
+	/*
+	 * True if the rule has been defined, false if it hasn't been defined yet.
+	 * This is necessary to verify that all declared rules have been defined.
+	 * TODO what is a definition? During output?
+	 */
     BoolT			defined;
+
+	/*
+	 * Set to true if the rule has an empty alternate.
+	 * See .alt_head below.
+	 */
     BoolT			has_empty_alt;
+
+	/*
+	 * True for all rules in the %entry% section of the .sid file. It is used
+	 * only by rule-simp.c.
+	 * XXX Surprisingly, this is not used to check that all rules are
+	 * accessible: should we do that?
+	 */
     BoolT			required;
+
     EntryListT			reverse_list;
     DFSStateT			dfs_state;
     struct RuleT	       *next_in_root_list;
@@ -128,9 +223,28 @@ typedef struct RuleT {
     struct RuleT	       *next_in_reverse_dfs;
     BoolT			no_cycles;
     unsigned			cycle_index;
+
+	/*
+	 * Indicates if the first set has already been computed.
+	 */
     BoolT			computed_first_set;
+
+	/*
+	 * Indicates that we are currently computing the first set.
+	 * It is currently not set back to false once the computation has
+	 * terminated.
+	 */
     BoolT			computing_first_set;
+
+	/*
+	 * This is a bitfield designed to contain what terminals are part of the
+	 * first set of the rule. For a description of what the first set is, you
+	 * may want to read a book on LL(1) parsing. Please note that after
+	 * parsing, the first set has not been computed yet. In the program, the
+	 * computation is done at the top level by grammar_compute_first_set().
+	 */
     BitVecT			first_set;
+
     EntryListT			predicate_first;
     BoolT			see_through;
     unsigned			priority;
@@ -156,7 +270,18 @@ typedef struct RuleT {
     unsigned			next_label;
     unsigned			handler_label;
     BoolT			used_handler_label;
+
+
+	/*
+	 * The exception handler alternate. There can only be one for each rule.
+	 * This is specified after ## in the .sid file.
+	 */
     AltT *			handler;
+
+	/*
+	 * The list of the alternatives except the empty alternate (epsilon rule)
+	 * marked as $; in the .sid file. For that, see .has_empty_alt instead.
+	 */
     AltT *			alt_head;
     AltT *		       *alt_tail;
 } RuleT;
