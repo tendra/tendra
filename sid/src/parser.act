@@ -1,5 +1,8 @@
 %prefixes%
 
+%persistents%
+sid_current_grammar:GrammarP ;
+
 %maps%
 
 AltP			-> AltP;
@@ -101,10 +104,7 @@ typedef ItemT * ItemP;
 typedef RuleT *RuleP;
 
 LexerStreamT *		sid_current_stream;
-GrammarT *		sid_current_grammar;
 
-static TableT *		sid_current_table;
-static EntryListT *	sid_current_entry_list;
 static ScopeStackT	sid_scope_stack;
 static ScopeStackT	sid_global_scope;
 static ScopeStackT *sid_current_scope;
@@ -192,8 +192,6 @@ identifier: () -> (i) = @{
 %actions%
 
 <init> = @{
-sid_current_table      = grammar_table (sid_current_grammar);
-sid_current_entry_list = grammar_entry_list (sid_current_grammar);
 scope_stack_init (&sid_scope_stack);
 scope_stack_init (&sid_global_scope);
 @};
@@ -201,7 +199,7 @@ scope_stack_init (&sid_global_scope);
 // Type section actions:
 
 <add-type>: (string) -> () = @{
-    if (table_add_type (sid_current_table, &@=string) == NULL) {
+    if (table_add_type (grammar_table(sid_current_grammar), &@=string) == NULL) {
 	E_duplicate_type (@&string);
 	nstring_destroy (&@=string);
     }
@@ -210,7 +208,7 @@ scope_stack_init (&sid_global_scope);
 // Terminals section actions:
 
 <terminal>: (string) -> () = @{
-    sid_current_entry = table_add_basic (sid_current_table, &@=string,
+    sid_current_entry = table_add_basic (grammar_table(sid_current_grammar), &@=string,
 					 sid_current_grammar, FALSE);
     if (sid_current_entry == NULL) {
 	E_duplicate_basic (@&string);
@@ -221,7 +219,7 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <i-terminal>: (string) -> () = @{
-    sid_current_entry = table_add_basic (sid_current_table, &@=string,
+    sid_current_entry = table_add_basic (grammar_table(sid_current_grammar), &@=string,
 					 sid_current_grammar, TRUE);
     if (sid_current_entry == NULL) {
 	E_duplicate_basic (@&string);
@@ -281,7 +279,7 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <tuple-name>: (name, type) -> () = @{
-    if (!types_add_typed_name (&sid_current_type, sid_current_table, &@=name,
+    if (!types_add_typed_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name,
 			       @&type, FALSE)) {
 	E_unknown_type (@&type);
     }
@@ -289,7 +287,7 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <tuple-ref-name>: (name, type) -> () = @{
-    if (!types_add_typed_name (&sid_current_type, sid_current_table, &@=name,
+    if (!types_add_typed_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name,
 			       @&type, TRUE)) {
 	E_unknown_type (@&type);
     }
@@ -297,7 +295,7 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <tuple-type>: (type) -> () = @{
-    if (!types_add_type (&sid_current_type, sid_current_table, @&type,
+    if (!types_add_type (&sid_current_type, grammar_table(sid_current_grammar), @&type,
 			 FALSE)) {
 	E_unknown_type (@&type);
     }
@@ -305,7 +303,7 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <tuple-ref-type>: (type) -> () = @{
-    if (!types_add_type (&sid_current_type, sid_current_table, @&type, TRUE)) {
+    if (!types_add_type (&sid_current_type, grammar_table(sid_current_grammar), @&type, TRUE)) {
 	E_unknown_type (@&type);
     }
     nstring_destroy (&@=type);
@@ -314,9 +312,9 @@ scope_stack_init (&sid_global_scope);
 <add-name>: (name) -> () = @{
     NStringT scope;
     EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  sid_current_table,
+							  grammar_table(sid_current_grammar),
 							  @&name, &scope);
-    EntryT *   name_entry      = table_get_entry (sid_current_table, @&name);
+    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), @&name);
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -347,16 +345,16 @@ scope_stack_init (&sid_global_scope);
 	}
 	nstring_destroy (&@=name);
     } else {
-	types_add_name (&sid_current_type, sid_current_table, &@=name, FALSE);
+	types_add_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name, FALSE);
     }
 @};
 
 <add-ref-name>: (name) -> () = @{
     NStringT scope;
     EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  sid_current_table,
+							  grammar_table(sid_current_grammar),
 							  @&name, &scope);
-    EntryT *   name_entry      = table_get_entry (sid_current_table, @&name);
+    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), @&name);
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -387,16 +385,16 @@ scope_stack_init (&sid_global_scope);
 	}
 	nstring_destroy (&@=name);
     } else {
-	types_add_name (&sid_current_type, sid_current_table, &@=name, TRUE);
+	types_add_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name, TRUE);
     }
 @};
 
 <add-var>: (name) -> () = @{
     NStringT scope;
     EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  sid_current_table,
+							  grammar_table(sid_current_grammar),
 							  @&name, &scope);
-    EntryT *   name_entry      = table_get_entry (sid_current_table, @&name);
+    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), @&name);
 
     if (name_entry) {
 	if ((sid_current_entry) && (sid_current_alt)) {
@@ -428,7 +426,7 @@ scope_stack_init (&sid_global_scope);
 	nstring_destroy (&@=name);
     } else {
 	E_undefined_assignment (@&name);
-	types_add_name (&sid_current_type, sid_current_table, &@=name, FALSE);
+	types_add_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name, FALSE);
     }
 @};
 
@@ -443,7 +441,7 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <add-void> = @{
-    EntryT * entry = table_add_generated_name (sid_current_table);
+    EntryT * entry = table_add_generated_name (grammar_table(sid_current_grammar));
 
     types_add_name_entry (&sid_current_type, entry);
 @};
@@ -460,7 +458,7 @@ scope_stack_init (&sid_global_scope);
 
 <action>: (string) -> () = @{
     sid_current_entry = scope_stack_add_action (sid_current_scope,
-						sid_current_table, &@=string,
+						grammar_table(sid_current_grammar), &@=string,
 						sid_enclosing_rule,
 						&sid_redefining_entry);
     if (sid_current_entry) {
@@ -522,14 +520,14 @@ scope_stack_init (&sid_global_scope);
 	E_global_scope_non_local (@&id);
 	nstring_destroy (&@=id);
     } else {
-	EntryT * type = table_get_type (sid_current_table, @&type_id);
+	EntryT * type = table_get_type (grammar_table(sid_current_grammar), @&type_id);
 
 	if (type == NULL) {
 	    E_unknown_type (@&type_id);
 	    nstring_destroy (&@=id);
 	} else {
 	    EntryT * name = scope_stack_add_non_local (sid_current_scope,
-						     sid_current_table,
+						     grammar_table(sid_current_grammar),
 						     &@=id, type,
 						     sid_enclosing_rule);
 
@@ -546,7 +544,7 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <non-local-init>: (action_id) -> () = @{
-    EntryT * entry = scope_stack_get_action (&sid_scope_stack, sid_current_table,
+    EntryT * entry = scope_stack_get_action (&sid_scope_stack, grammar_table(sid_current_grammar),
 					   @&action_id);
 
     if (entry == NULL) {
@@ -581,7 +579,7 @@ scope_stack_init (&sid_global_scope);
 
 <rule>: (string) -> () = @{
     sid_current_entry = scope_stack_add_rule (sid_current_scope,
-					      sid_current_table, &@=string,
+					      grammar_table(sid_current_grammar), &@=string,
 					      sid_enclosing_rule,
 					      &sid_redefining_entry);
     if (sid_current_entry) {
@@ -833,7 +831,7 @@ scope_stack_init (&sid_global_scope);
     @item             = NULL;
     sid_internal_rule = TRUE;
     if ((sid_current_entry) && (sid_current_alt)) {
-	sid_current_entry = table_add_generated_rule (sid_current_table,
+	sid_current_entry = table_add_generated_rule (grammar_table(sid_current_grammar),
 						      FALSE);
 	sid_current.rule  = entry_get_rule (sid_current_entry);
 	@item             = item_create (sid_current_entry);
@@ -867,7 +865,7 @@ scope_stack_init (&sid_global_scope);
 <prod-action>: (string) -> () = @{
     if ((sid_current_entry) && (sid_current_alt)) {
 	EntryT * entry = scope_stack_get_action (&sid_scope_stack,
-					       sid_current_table, @&string);
+					       grammar_table(sid_current_grammar), @&string);
 
 	if (entry) {
 	    sid_current_item = item_create (entry);
@@ -967,7 +965,7 @@ scope_stack_init (&sid_global_scope);
 
 <x-identity> = @{
     if ((sid_current_entry) && (sid_current_alt)) {
-	EntryT * entry = table_add_rename (sid_current_table);
+	EntryT * entry = table_add_rename (grammar_table(sid_current_grammar));
 
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
@@ -1045,7 +1043,7 @@ scope_stack_init (&sid_global_scope);
     BasicT *     basic;
 
     if ((sid_current_entry) && (sid_current_alt)) {
-	entry = scope_stack_get_rule (&sid_scope_stack, sid_current_table,
+	entry = scope_stack_get_rule (&sid_scope_stack, grammar_table(sid_current_grammar),
 				      @&string);
 	if (entry) {
 	    sid_current_item = item_create (entry);
@@ -1053,7 +1051,7 @@ scope_stack_init (&sid_global_scope);
 	    param            = rule_param (rule);
 	    result           = rule_result (rule);
 	} else {
-	    entry = table_get_basic (sid_current_table, @&string);
+	    entry = table_get_basic (grammar_table(sid_current_grammar), @&string);
 	    if (entry) {
 		sid_current_item = item_create (entry);
 		basic            = entry_get_basic (entry);
@@ -1154,7 +1152,7 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <x-prod-rule-or-identity>: (string) -> () = @{
-    EntryT *     name_entry = table_get_entry (sid_current_table, @&string);
+    EntryT *     name_entry = table_get_entry (grammar_table(sid_current_grammar), @&string);
     EntryT *     entry      = NULL;
     TypeTupleT * param      = NULL;
     TypeTupleT * result     = NULL;
@@ -1167,7 +1165,7 @@ scope_stack_init (&sid_global_scope);
 	    (!types_contains (rule_param (sid_current.rule), name_entry))) {
 	    name_entry = NULL;
 	}
-	entry = scope_stack_get_rule (&sid_scope_stack, sid_current_table,
+	entry = scope_stack_get_rule (&sid_scope_stack, grammar_table(sid_current_grammar),
 				      @&string);
 	if (entry) {
 	    sid_current_item = item_create (entry);
@@ -1175,7 +1173,7 @@ scope_stack_init (&sid_global_scope);
 	    param            = rule_param (rule);
 	    result           = rule_result (rule);
 	} else {
-	    entry = table_get_basic (sid_current_table, @&string);
+	    entry = table_get_basic (grammar_table(sid_current_grammar), @&string);
 	    if (entry) {
 		sid_current_item = item_create (entry);
 		basic            = entry_get_basic (entry);
@@ -1191,7 +1189,7 @@ scope_stack_init (&sid_global_scope);
 	    NStringT scope;
 
 	    name_entry = scope_stack_get_non_local (&sid_scope_stack,
-						    sid_current_table,
+						    grammar_table(sid_current_grammar),
 						    @&string, &scope);
 	    if (name_entry) {
 		if (nstring_length (&scope) >
@@ -1287,7 +1285,7 @@ scope_stack_init (&sid_global_scope);
 	}
     } else if (name_entry) {
 	types_add_name_entry (&sid_current_type, name_entry);
-	entry = table_add_rename (sid_current_table);
+	entry = table_add_rename (grammar_table(sid_current_grammar));
 	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
 			   entry_key (sid_external_rule), sid_alternative)) {
@@ -1361,13 +1359,13 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <add-entry>: (string) -> () = @{
-    EntryT * entry = table_get_rule (sid_current_table, @&string);
+    EntryT * entry = table_get_rule (grammar_table(sid_current_grammar), @&string);
 
     if (entry) {
-	if (entry_list_contains (sid_current_entry_list, entry)) {
+	if (entry_list_contains (grammar_entry_list(sid_current_grammar), entry)) {
 	    E_mult_entry (entry_key (entry));
 	} else {
-	    entry_list_add (sid_current_entry_list, entry);
+	    entry_list_add (grammar_entry_list(sid_current_grammar), entry);
 	    rule_required (entry_get_rule (entry));
 	}
     } else {

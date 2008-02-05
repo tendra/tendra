@@ -1138,7 +1138,6 @@ ZR111(CCodeP ZI108)
 
 	NStringT ns;
 	nstring_copy_cstring(&ns, "@");		/* TODO append '@' to code buffer? */
-
 	c_code_append_string((ZI108), &ns);	/* TODO really append_label()? */
 	    }
 	}

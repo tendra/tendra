@@ -58,98 +58,22 @@
 */
 
 /*
- * grammar.h - Grammar transforms frontend.
+ * parser.h - SID parser.
  *
- * See the file "grammar.c" for more information.
- *
+ * This file specifies the interface to the SID file parser that is produced
+ * from the file "parser.sid".
  */
 
-#ifndef H_GRAMMAR
-#define H_GRAMMAR
+#ifndef H_PARSER
+#define H_PARSER
 
 #include "os-interface.h"
-#include "adt/entry.h"
 #include "adt/entry-list.h"
-#include "eds/ostream.h"
+#include "grammar.h"
+#include "lexer.h"
 #include "adt/table.h"
-#include "adt/types.h"
 
-typedef struct GrammarT {
-	/*
-	 * The table acts as storage for:
-	 *
-	 *  - Types in the %types% section of the .sid file
-	 *
-	 *  - Terminals existing in the %terminals% section of the .sid file
-	 *
-	 *  - Rules defined in the %productions% section of the .sid file
-	 *
-	 *  - Actions declared in the %production% section of the .sid file,
-	 *    and defined in the .act file.
-	 *
-	 *  - Local variables in a rule. This contains scope information.
-	 *
-	 *  - Non-local variables. TODO: clarify
-	 */
-    TableT			table;
+extern LexerStreamT *	sid_current_stream;
+extern void		sid_parse_grammar(GrammarP);
 
-	/*
-	 * The starting points (yes, it's plural) of the grammar.
-	 */
-    EntryListT			entry_list;
-
-	/*
-	 * The number of terminals.
-	 *
-	 * Terminals are numbered from 0 to .terminal - 1. The value of
-	 * .terminal is primarily [TODO only?] used while parsing the * .sid file
-	 * to tell each newly constructed terminal which number it should hold.
-	 * See the BasicT type.
-	 */
-    unsigned			terminal;
-
-	/*
-	 * A pointer to an EntryT preexisting in .table. This EntryT indicates the
-	 * boolean type. There can only be one boolean type. It is set when SID
-	 * first encounters a predicate function.
-	 */
-    EntryT *			predicate_type;
-
-	/*
-	 * Points to an automatically generated entry in .table.
-	 *
-	 * This internallyrepresents the predicate indicator '?' in a left hand
-	 * side name tuple in the .sid grammar file. For eample, in a .sid file:
-	 *
-	 *  a = <non-predicate>
-	 *  ? = <predicate-function>
-	 *
-	 * There must be a representation of 'a' and '?'. 'a' is a local or
-	 * non-local name represented by an EntryT in .table, and '?' must also
-	 * have an EntryT in .table. This EntryT in .table is pointed to by
-	 * .predicate_id.
-	 */
-    EntryT *			predicate_id;
-} GrammarT, *GrammarP;
-
-extern void		grammar_init(GrammarT *);
-extern TableT *		grammar_table(GrammarT *);
-extern EntryListT *	grammar_entry_list(GrammarT *);
-extern unsigned		grammar_max_terminal(GrammarT *);
-extern unsigned		grammar_next_terminal(GrammarT *);
-extern EntryT *		grammar_get_predicate_type(GrammarT *);
-extern void		grammar_set_predicate_type(GrammarT *, EntryT *);
-extern EntryT *		grammar_get_predicate_id(GrammarT *);
-extern void		grammar_check_complete(GrammarT *);
-extern void		grammar_remove_left_recursion(GrammarT *);
-extern void		grammar_compute_first_sets(GrammarT *);
-extern void		grammar_factor(GrammarT *);
-extern void		grammar_simplify(GrammarT *);
-extern void		grammar_compute_inlining(GrammarT *);
-extern void		grammar_check_collisions(GrammarT *);
-extern void		grammar_recompute_alt_names(GrammarT *);
-extern void		grammar_compute_mutations(GrammarT *);
-
-extern void		write_grammar(OStreamT *, GrammarT *);
-
-#endif /* !defined (H_GRAMMAR) */
+#endif /* !defined (H_PARSER) */

@@ -627,8 +627,7 @@ main_1(OutputInfoT * out_info, OStreamT * dstream)
     grammar_init(&grammar);
     lexer_init(&lstream, out_info_get_istream(out_info, (unsigned)0));
     sid_current_stream  = &lstream;
-    sid_current_grammar = &grammar;
-    sid_parse_grammar();
+    sid_parse_grammar(&grammar);
     lexer_close(&lstream);
     main_abort_if_errored();
     grammar_check_complete(&grammar);
