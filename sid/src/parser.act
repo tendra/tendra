@@ -118,8 +118,6 @@ static union {
 } sid_current;
 static BoolT		sid_redefining_entry;
 static NStringT		sid_maximum_scope;
-static TypeTupleT	sid_saved_type;
-static TypeTupleT	sid_current_type;
 static EntryT *		sid_saved_pred_id;
 static EntryT *		sid_current_pred_id;
 static EntryT *		sid_unique_pred_id = NULL;
@@ -269,7 +267,7 @@ scope_stack_init (&sid_global_scope);
 	if (types_contains_references (@&results)) {
 	    E_basic_result_has_refs (key, @&results);
 	}
-	if (!types_equal_zero_tuple (&sid_saved_type)) {
+	if (!types_equal_zero_tuple (@&params)) {
 	    E_basic_param_mismatch (key, @&params);
 	}
 	types_assign (basic_result (sid_current.basic), @&results);
@@ -288,26 +286,16 @@ scope_stack_init (&sid_global_scope);
 
 // Tuple manipulation actions:
 
-<save-tuple> = @{
-    types_assign (&sid_saved_type, &sid_current_type);
-    sid_saved_pred_id = sid_current_pred_id;
-@};
-
-/*<null-type> = @{
-    types_init (&sid_saved_type);
-    types_init (&sid_current_type);
-    sid_saved_pred_id   = NULL;
-    sid_current_pred_id = NULL;
-@};*/
-
 <init-tuple> : () -> (tuple : TypeTupleT) = @{
     types_init (&@tuple);
-    sid_current_pred_id = NULL;
 @};
 
 <current-tuple> : () -> () = @{
-    types_init (&sid_current_type);
     sid_current_pred_id = NULL;
+@};
+
+<save-tuple> = @{
+    sid_saved_pred_id = sid_current_pred_id;
 @};
 
 <tuple-name>: (tuple:TypeTupleT&, name:StringT&, type:StringT&) -> () = @{
@@ -341,7 +329,7 @@ scope_stack_init (&sid_global_scope);
     nstring_destroy (&@=type);
 @};
 
-<add-name>: (name) -> () = @{
+<add-name>: (tuple:TypeTupleT&, name:StringT&) -> () = @{
     NStringT scope;
     EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  grammar_table(sid_current_grammar),
@@ -360,14 +348,14 @@ scope_stack_init (&sid_global_scope);
 	}
     }
     if (name_entry) {
-	types_add_name_and_type (&sid_current_type, name_entry, NULL,
+	types_add_name_and_type (@&tuple, name_entry, NULL,
 				 FALSE);
 	if (non_local_entry) {
 	    nstring_destroy (&scope);
 	}
 	nstring_destroy (&@=name);
     } else if (non_local_entry) {
-	types_add_name_and_type (&sid_current_type, non_local_entry,
+	types_add_name_and_type (@&tuple, non_local_entry,
 				 NULL, FALSE);
 	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
 	    nstring_destroy (&sid_maximum_scope);
@@ -377,11 +365,11 @@ scope_stack_init (&sid_global_scope);
 	}
 	nstring_destroy (&@=name);
     } else {
-	types_add_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name, FALSE);
+	types_add_name (@&tuple, grammar_table(sid_current_grammar), &@=name, FALSE);
     }
 @};
 
-<add-ref-name>: (name) -> () = @{
+<add-ref-name>: (tuple:TypeTupleT& ,name:StringT&) -> () = @{
     NStringT scope;
     EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  grammar_table(sid_current_grammar),
@@ -400,14 +388,14 @@ scope_stack_init (&sid_global_scope);
 	}
     }
     if (name_entry) {
-	types_add_name_and_type (&sid_current_type, name_entry, NULL,
+	types_add_name_and_type (@&tuple, name_entry, NULL,
 				 TRUE);
 	if (non_local_entry) {
 	    nstring_destroy (&scope);
 	}
 	nstring_destroy (&@=name);
     } else if (non_local_entry) {
-	types_add_name_and_type (&sid_current_type, non_local_entry,
+	types_add_name_and_type (@&tuple, non_local_entry,
 				 NULL, TRUE);
 	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
 	    nstring_destroy (&sid_maximum_scope);
@@ -417,11 +405,11 @@ scope_stack_init (&sid_global_scope);
 	}
 	nstring_destroy (&@=name);
     } else {
-	types_add_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name, TRUE);
+	types_add_name (@&tuple, grammar_table(sid_current_grammar), &@=name, TRUE);
     }
 @};
 
-<add-var>: (name) -> () = @{
+<add-var>: (tuple:TypeTupleT&, name:StringT&) -> () = @{
     NStringT scope;
     EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
 							  grammar_table(sid_current_grammar),
@@ -440,14 +428,14 @@ scope_stack_init (&sid_global_scope);
 	}
     }
     if (name_entry) {
-	types_add_name_and_type_var (&sid_current_type, name_entry,
+	types_add_name_and_type_var (@&tuple, name_entry,
 				     NULL);
 	if (non_local_entry) {
 	    nstring_destroy (&scope);
 	}
 	nstring_destroy (&@=name);
     } else if (non_local_entry) {
-	types_add_name_and_type_var (&sid_current_type, non_local_entry,
+	types_add_name_and_type_var (@&tuple, non_local_entry,
 				     NULL);
 	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
 	    nstring_destroy (&sid_maximum_scope);
@@ -458,24 +446,24 @@ scope_stack_init (&sid_global_scope);
 	nstring_destroy (&@=name);
     } else {
 	E_undefined_assignment (@&name);
-	types_add_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name, FALSE);
+	types_add_name (@&tuple, grammar_table(sid_current_grammar), &@=name, FALSE);
     }
 @};
 
-<add-pred> = @{
+<add-pred> : (tuple:TypeTupleT&) -> () = @{
     if (sid_current_pred_id) {
 	E_multi_predicate_return ();
     } else if (sid_unique_pred_id == NULL) {
 	sid_unique_pred_id = grammar_get_predicate_id (sid_current_grammar);
     }
     sid_current_pred_id = sid_unique_pred_id;
-    types_add_name_entry (&sid_current_type, sid_current_pred_id);
+    types_add_name_entry (@&tuple, sid_current_pred_id);
 @};
 
-<add-void> = @{
+<add-void> : (tuple :TypeTupleT&) -> () = @{
     EntryT * entry = table_add_generated_name (grammar_table(sid_current_grammar));
 
-    types_add_name_entry (&sid_current_type, entry);
+    types_add_name_entry (@&tuple, entry);
 @};
 
 // Productions section actions:
@@ -518,16 +506,16 @@ scope_stack_init (&sid_global_scope);
 		errored = TRUE;
 	    }
 	}
-	if (types_contains_names (&sid_current_type)) {
+	if (types_contains_names (@&n_results)) {
 	    E_action_result_has_names (key, @&n_results);
 	    errored = TRUE;
 	}
-	if (types_contains_references (&sid_current_type)) {
+	if (types_contains_references (@&n_results)) {
 	    E_action_result_has_refs (key, @&n_results);
 	    errored = TRUE;
 	}
 	if (sid_redefining_entry) {
-	    if (!types_equal (result, &sid_current_type)) {
+	    if (!types_equal (result, @&n_results)) {
 		E_action_result_mismatch (key, result, @&n_results);
 		errored = TRUE;
 	    }
@@ -913,42 +901,42 @@ scope_stack_init (&sid_global_scope);
     nstring_destroy (&@=string);
 @};
 
-<x-prod-action> = @{
+<x-prod-action> : (lhs:TypeTupleT&,rhs:TypeTupleT&) -> () = @{
     if (sid_current_item) {
 	BoolT   errored = FALSE;
 	EntryT * entry   = item_entry (sid_current_item);
 	ActionT *action  = entry_get_action (entry);
 
-	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
+	if (types_resolve (@&rhs, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
 			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_equal (&sid_current_type, action_param (action))) {
-		item_add_param (sid_current_item, &sid_current_type);
+	    if (types_equal (@&rhs, action_param (action))) {
+		item_add_param (sid_current_item, @&rhs);
 	    } else {
 		E_action_param_call_mismatch (entry_key (entry),
 					      action_param (action),
-					      &sid_current_type);
-		types_destroy (&sid_current_type);
+					      @&rhs);
+		types_destroy (@&rhs);
 		errored = TRUE;
 	    }
 	} else {
-	    types_destroy (&sid_current_type);
+	    types_destroy (@&rhs);
 	    errored = TRUE;
 	}
-	if (types_disjoint_names (&sid_saved_type)) {
-	    if (types_check_undefined (&sid_saved_type,
+	if (types_disjoint_names (@&lhs)) {
+	    if (types_check_undefined (@&lhs,
 				       rule_param (sid_current.rule),
 				       alt_names (sid_current_alt),
 				       E_redefined_name,
 				       entry_key (sid_external_rule),
 				       sid_alternative)) {
-		if (types_fillin_types (&sid_saved_type,
+		if (types_fillin_types (@&lhs,
 					action_result (action))) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 &sid_saved_type, sid_unique_pred_id);
+					 @&lhs, sid_unique_pred_id);
 		    if (sid_saved_pred_id) {
 			BoolT  reference;
-			EntryT * type = types_find_name_type (&sid_saved_type,
+			EntryT * type = types_find_name_type (@&lhs,
 							    sid_saved_pred_id,
 							    &reference);
 
@@ -964,21 +952,21 @@ scope_stack_init (&sid_global_scope);
 			}
 			item_to_predicate (sid_current_item);
 		    }
-		    item_add_result (sid_current_item, &sid_saved_type);
+		    item_add_result (sid_current_item, @&lhs);
 		} else {
 		    E_action_result_call_mismatch (entry_key (entry),
 						   action_result (action),
-						   &sid_saved_type);
-		    types_destroy (&sid_saved_type);
+						   @&lhs);
+		    types_destroy (@&lhs);
 		    errored = TRUE;
 		}
 	    } else {
-		types_destroy (&sid_saved_type);
+		types_destroy (@&lhs);
 		errored = TRUE;
 	    }
 	} else {
-	    E_action_result_call_clash (entry_key (entry), &sid_saved_type);
-	    types_destroy (&sid_saved_type);
+	    E_action_result_call_clash (entry_key (entry), @&lhs);
+	    types_destroy (@&lhs);
 	    errored = TRUE;
 	}
 	if (errored) {
@@ -990,68 +978,68 @@ scope_stack_init (&sid_global_scope);
 	    alt_add_item (sid_current_alt, sid_current_item);
 	}
     } else {
-	types_destroy (&sid_saved_type);
-	types_destroy (&sid_current_type);
+	types_destroy (@&lhs);
+	types_destroy (@&rhs);
     }
 @};
 
-<x-identity> = @{
+<x-identity> : (lhs:TypeTupleT&, rhs:TypeTupleT&) -> () = @{
     if ((sid_current_entry) && (sid_current_alt)) {
 	EntryT * entry = table_add_rename (grammar_table(sid_current_grammar));
 
-	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
+	if (types_resolve (@&rhs, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
 			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_contains_references (&sid_current_type)) {
-		E_identity_param_has_refs (&sid_current_type,
+	    if (types_contains_references (@&rhs)) {
+		E_identity_param_has_refs (@&rhs,
 					   entry_key (sid_external_rule),
 					   sid_alternative);
-		types_destroy (&sid_current_type);
+		types_destroy (@&rhs);
 		sid_current_item = NULL;
 	    } else {
 		sid_current_item = item_create (entry);
-		item_add_param (sid_current_item, &sid_current_type);
+		item_add_param (sid_current_item, @&rhs);
 	    }
 	} else {
-	    types_destroy (&sid_current_type);
+	    types_destroy (@&rhs);
 	    sid_current_item = NULL;
 	}
-	if (types_disjoint_names (&sid_saved_type)) {
-	    if (types_check_undefined (&sid_saved_type,
+	if (types_disjoint_names (@&lhs)) {
+	    if (types_check_undefined (@&lhs,
 				       rule_param (sid_current.rule),
 				       alt_names (sid_current_alt),
 				       E_redefined_name,
 				       entry_key (sid_external_rule),
 				       sid_alternative)) {
 		if (sid_current_item) {
-		    if (types_fillin_types (&sid_saved_type,
+		    if (types_fillin_types (@&lhs,
 					    item_param (sid_current_item))) {
 			types_add_new_names (alt_names (sid_current_alt),
-					     &sid_saved_type,
+					     @&lhs,
 					     sid_unique_pred_id);
 			if (sid_saved_pred_id) {
 			    E_predicate ();
 			}
-			item_add_result (sid_current_item, &sid_saved_type);
+			item_add_result (sid_current_item, @&lhs);
 			alt_add_item (sid_current_alt, sid_current_item);
 		    } else {
 			E_identity_mismatch (item_param (sid_current_item),
-					     &sid_saved_type);
-			types_destroy (&sid_saved_type);
+					     @&lhs);
+			types_destroy (@&lhs);
 			(void) item_deallocate (sid_current_item);
 			sid_current_item = NULL;
 		    }
 		}
 	    } else {
-		types_destroy (&sid_saved_type);
+		types_destroy (@&lhs);
 		if (sid_current_item) {
 		    (void) item_deallocate (sid_current_item);
 		    sid_current_item = NULL;
 		}
 	    }
 	} else {
-	    E_identity_result_clash (&sid_saved_type);
-	    types_destroy (&sid_saved_type);
+	    E_identity_result_clash (@&lhs);
+	    types_destroy (@&lhs);
 	    if (sid_current_item) {
 		(void) item_deallocate (sid_current_item);
 		sid_current_item = NULL;
@@ -1062,12 +1050,12 @@ scope_stack_init (&sid_global_scope);
 	    sid_current_alt = NULL;
 	}
     } else {
-	types_destroy (&sid_saved_type);
-	types_destroy (&sid_current_type);
+	types_destroy (@&lhs);
+	types_destroy (@&rhs);
     }
 @};
 
-<x-prod-rule>: (string) -> () = @{
+<x-prod-rule>: (lhs:TypeTupleT&, rhs:TypeTupleT&, string:StringT&) -> () = @{
     TypeTupleT * param  = NULL;
     TypeTupleT * result = NULL;
     EntryT *     entry  = NULL;
@@ -1105,64 +1093,64 @@ scope_stack_init (&sid_global_scope);
 	BoolT errored = FALSE;
 	KeyT *  key     = entry_key (entry);
 
-	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
+	if (types_resolve (@&rhs, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
 			   entry_key (sid_external_rule), sid_alternative)) {
 	    if (param) {
-		if (types_equal (&sid_current_type, param)) {
-		    item_add_param (sid_current_item, &sid_current_type);
+		if (types_equal (@&rhs, param)) {
+		    item_add_param (sid_current_item, @&rhs);
 		} else {
-		    E_rule_param_call_mismatch (key, param, &sid_current_type);
-		    types_destroy (&sid_current_type);
+		    E_rule_param_call_mismatch (key, param, @&rhs);
+		    types_destroy (@&rhs);
 		    errored = TRUE;
 		}
 	    } else {
-		if (!types_equal_zero_tuple (&sid_current_type)) {
-		    E_basic_param_call_mismatch (key, &sid_current_type);
-		    types_destroy (&sid_current_type);
+		if (!types_equal_zero_tuple (@&rhs)) {
+		    E_basic_param_call_mismatch (key, @&rhs);
+		    types_destroy (@&rhs);
 		    errored = TRUE;
 		}
 	    }
 	} else {
-	    types_destroy (&sid_current_type);
+	    types_destroy (@&rhs);
 	    errored = TRUE;
 	}
-	if (types_disjoint_names (&sid_saved_type)) {
-	    if (types_check_undefined (&sid_saved_type,
+	if (types_disjoint_names (@&lhs)) {
+	    if (types_check_undefined (@&lhs,
 				       rule_param (sid_current.rule),
 				       alt_names (sid_current_alt),
 				       E_redefined_name,
 				       entry_key (sid_external_rule),
 				       sid_alternative)) {
-		if (types_fillin_types (&sid_saved_type, result)) {
+		if (types_fillin_types (@&lhs, result)) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 &sid_saved_type, sid_unique_pred_id);
+					 @&lhs, sid_unique_pred_id);
 		    if (sid_saved_pred_id) {
 			E_predicate ();
 		    }
-		    item_add_result (sid_current_item, &sid_saved_type);
+		    item_add_result (sid_current_item, @&lhs);
 		} else {
 		    if (param) {
 			E_rule_result_call_mismatch (key, result,
-						     &sid_saved_type);
+						     @&lhs);
 		    } else {
 			E_basic_result_call_mismatch (key, result,
-						      &sid_saved_type);
+						      @&lhs);
 		    }
-		    types_destroy (&sid_saved_type);
+		    types_destroy (@&lhs);
 		    errored = TRUE;
 		}
 	    } else {
-		types_destroy (&sid_saved_type);
+		types_destroy (@&lhs);
 		errored = TRUE;
 	    }
 	} else {
 	    if (param) {
-		E_rule_result_call_clash (key, &sid_saved_type);
+		E_rule_result_call_clash (key, @&lhs);
 	    } else {
-		E_basic_result_call_clash (key, &sid_saved_type);
+		E_basic_result_call_clash (key, @&lhs);
 	    }
-	    types_destroy (&sid_saved_type);
+	    types_destroy (@&lhs);
 	    errored = TRUE;
 	}
 	if (errored) {
@@ -1178,18 +1166,21 @@ scope_stack_init (&sid_global_scope);
 	    (void) alt_deallocate (sid_current_alt);
 	    sid_current_alt = NULL;
 	}
-	types_destroy (&sid_saved_type);
-	types_destroy (&sid_current_type);
+	types_destroy (@&lhs);
+	types_destroy (@&rhs);
     }
 @};
 
-<x-prod-rule-or-identity>: (string) -> () = @{
+<x-prod-rule-or-identity>: (lhs:TypeTupleT&, string:StringT&) -> () = @{
     EntryT *     name_entry = table_get_entry (grammar_table(sid_current_grammar), @&string);
     EntryT *     entry      = NULL;
     TypeTupleT * param      = NULL;
     TypeTupleT * result     = NULL;
     RuleT *      rule;
     BasicT *     basic;
+    TypeTupleT   rhs ;
+
+    types_init(&rhs);
 
     if ((sid_current_entry) && (sid_current_alt)) {
 	if ((name_entry != NULL) &&
@@ -1247,64 +1238,64 @@ scope_stack_init (&sid_global_scope);
 	BoolT errored = FALSE;
 	KeyT *  key     = entry_key (entry);
 
-	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
+	if (types_resolve (&rhs, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
 			   entry_key (sid_external_rule), sid_alternative)) {
 	    if (param) {
-		if (types_equal (&sid_current_type, param)) {
-		    item_add_param (sid_current_item, &sid_current_type);
+		if (types_equal (&rhs, param)) {
+		    item_add_param (sid_current_item, &rhs);
 		} else {
-		    E_rule_param_call_mismatch (key, param, &sid_current_type);
-		    types_destroy (&sid_current_type);
+		    E_rule_param_call_mismatch (key, param, &rhs);
+		    types_destroy (&rhs);
 		    errored = TRUE;
 		}
 	    } else {
-		if (!types_equal_zero_tuple (&sid_current_type)) {
-		    E_basic_param_call_mismatch (key, &sid_current_type);
-		    types_destroy (&sid_current_type);
+		if (!types_equal_zero_tuple (&rhs)) {
+		    E_basic_param_call_mismatch (key, &rhs);
+		    types_destroy (&rhs);
 		    errored = TRUE;
 		}
 	    }
 	} else {
-	    types_destroy (&sid_current_type);
+	    types_destroy (&rhs);
 	    errored = TRUE;
 	}
-	if (types_disjoint_names (&sid_saved_type)) {
-	    if (types_check_undefined (&sid_saved_type,
+	if (types_disjoint_names (@&lhs)) {
+	    if (types_check_undefined (@&lhs,
 				       rule_param (sid_current.rule),
 				       alt_names (sid_current_alt),
 				       E_redefined_name,
 				       entry_key (sid_external_rule),
 				       sid_alternative)) {
-		if (types_fillin_types (&sid_saved_type, result)) {
+		if (types_fillin_types (@&lhs, result)) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 &sid_saved_type, sid_unique_pred_id);
+					 @&lhs, sid_unique_pred_id);
 		    if (sid_saved_pred_id) {
 			E_predicate ();
 		    }
-		    item_add_result (sid_current_item, &sid_saved_type);
+		    item_add_result (sid_current_item, @&lhs);
 		} else {
 		    if (param) {
 			E_rule_result_call_mismatch (key, result,
-						     &sid_saved_type);
+						     @&lhs);
 		    } else {
 			E_basic_result_call_mismatch (key, result,
-						      &sid_saved_type);
+						      @&lhs);
 		    }
-		    types_destroy (&sid_saved_type);
+		    types_destroy (@&lhs);
 		    errored = TRUE;
 		}
 	    } else {
-		types_destroy (&sid_saved_type);
+		types_destroy (@&lhs);
 		errored = TRUE;
 	    }
 	} else {
 	    if (param) {
-		E_rule_result_call_clash (key, &sid_saved_type);
+		E_rule_result_call_clash (key, @&lhs);
 	    } else {
-		E_basic_result_call_clash (key, &sid_saved_type);
+		E_basic_result_call_clash (key, @&lhs);
 	    }
-	    types_destroy (&sid_saved_type);
+	    types_destroy (@&lhs);
 	    errored = TRUE;
 	}
 	if (errored) {
@@ -1316,61 +1307,61 @@ scope_stack_init (&sid_global_scope);
 	    alt_add_item (sid_current_alt, sid_current_item);
 	}
     } else if (name_entry) {
-	types_add_name_entry (&sid_current_type, name_entry);
+	types_add_name_entry (&rhs, name_entry);
 	entry = table_add_rename (grammar_table(sid_current_grammar));
-	if (types_resolve (&sid_current_type, rule_param (sid_current.rule),
+	if (types_resolve (&rhs, rule_param (sid_current.rule),
 			   alt_names (sid_current_alt), E_undefined_name,
 			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_contains_references (&sid_current_type)) {
-		E_identity_param_has_refs (&sid_current_type,
+	    if (types_contains_references (&rhs)) {
+		E_identity_param_has_refs (&rhs,
 					   entry_key (sid_external_rule),
 					   sid_alternative);
-		types_destroy (&sid_current_type);
+		types_destroy (&rhs);
 		sid_current_item = NULL;
 	    } else {
 		sid_current_item = item_create (entry);
-		item_add_param (sid_current_item, &sid_current_type);
+		item_add_param (sid_current_item, &rhs);
 	    }
 	} else {
-	    types_destroy (&sid_current_type);
+	    types_destroy (&rhs);
 	    sid_current_item = NULL;
 	}
-	if (types_disjoint_names (&sid_saved_type)) {
-	    if (types_check_undefined (&sid_saved_type,
+	if (types_disjoint_names (@&lhs)) {
+	    if (types_check_undefined (@&lhs,
 				       rule_param (sid_current.rule),
 				       alt_names (sid_current_alt),
 				       E_redefined_name,
 				       entry_key (sid_external_rule),
 				       sid_alternative)) {
 		if (sid_current_item) {
-		    if (types_fillin_types (&sid_saved_type,
+		    if (types_fillin_types (@&lhs,
 					    item_param (sid_current_item))) {
 			types_add_new_names (alt_names (sid_current_alt),
-					     &sid_saved_type,
+					     @&lhs,
 					     sid_unique_pred_id);
 			if (sid_saved_pred_id) {
 			    E_predicate ();
 			}
-			item_add_result (sid_current_item, &sid_saved_type);
+			item_add_result (sid_current_item, @&lhs);
 			alt_add_item (sid_current_alt, sid_current_item);
 		    } else {
 			E_identity_mismatch (item_param (sid_current_item),
-					     &sid_saved_type);
-			types_destroy (&sid_saved_type);
+					     @&lhs);
+			types_destroy (@&lhs);
 			(void) item_deallocate (sid_current_item);
 			sid_current_item = NULL;
 		    }
 		}
 	    } else {
-		types_destroy (&sid_saved_type);
+		types_destroy (@&lhs);
 		if (sid_current_item) {
 		    (void) item_deallocate (sid_current_item);
 		    sid_current_item = NULL;
 		}
 	    }
 	} else {
-	    E_identity_result_clash (&sid_saved_type);
-	    types_destroy (&sid_saved_type);
+	    E_identity_result_clash (@&lhs);
+	    types_destroy (@&lhs);
 	    if (sid_current_item) {
 		(void) item_deallocate (sid_current_item);
 		sid_current_item = NULL;
@@ -1385,8 +1376,8 @@ scope_stack_init (&sid_global_scope);
 	    (void) alt_deallocate (sid_current_alt);
 	    sid_current_alt = NULL;
 	}
-	types_destroy (&sid_saved_type);
-	types_destroy (&sid_current_type);
+	types_destroy (@&lhs);
+	types_destroy (&rhs);
     }
 @};
 

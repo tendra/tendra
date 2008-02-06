@@ -80,11 +80,11 @@ eof;
 <terminal>: (: StringT &) -> ();
 <i-terminal>: (: StringT &) -> ();
 <x-terminal>  : (:TypeTupleT&,:TypeTupleT&) -> ();
-<add-name>: (: StringT &) -> ();
-<add-ref-name>: (: StringT &) -> ();
-<add-var>: (: StringT &) -> ();
-<add-pred>;
-<add-void>;
+<add-name>: (:TypeTupleT&,: StringT &) -> ();
+<add-ref-name>: (:TypeTupleT&, : StringT &) -> ();
+<add-var>: (:TypeTupleT&, : StringT &) -> ();
+<add-pred>: (:TypeTupleT&) -> ();
+<add-void>: (:TypeTupleT&) -> ();
 <action>: (: StringT &) -> ();
 <x-action>: (: TypeTupleT&, : TypeTupleT&) -> () ;
 <non-local>: (: StringT &, : StringT &) -> ();
@@ -92,10 +92,10 @@ eof;
 <save-scope>: () -> (: EntryP, : RuleP);
 <restore-scope>: (: EntryP, : RuleP) -> ();
 <prod-action>: (: StringT &) -> ();
-<x-prod-action>;
-<x-identity>;
-<x-prod-rule>: (: StringT &) -> ();
-<x-prod-rule-or-identity>: (: StringT &) -> ();
+<x-prod-action> : (:TypeTupleT&, :TypeTupleT&) -> ();
+<x-identity> : (:TypeTupleT&, :TypeTupleT&) -> () ;
+<x-prod-rule>: (:TypeTupleT&, :TypeTupleT&, : StringT &) -> ();
+<x-prod-rule-or-identity>: (:TypeTupleT&, : StringT &) -> ();
 <save>: () -> (: EntryP, : RuleP, : AltP, : BoolT, : ItemP);
 <restore>: (: EntryP, : RuleP, : AltP, :BoolT, : ItemP) -> ();
 <handler>;
@@ -328,46 +328,46 @@ sid-parse-grammar [
     // PRODUCTION DEFINITIONS:
     production-defn-list [
 	// LHS TUPLES:
-	lhs-name-tuple [
-	    lhs-name = {
+	lhs-name-tuple : () -> (tuple:TypeTupleT) [
+	    lhs-name : (tuple:TypeTupleT&) -> () = {
 		id = identifier;
-		<add-name> (&id);
+		<add-name> (&tuple, &id);
 	      ||
 		reference;
 		{
 		    id = identifier;
-		    <add-var> (&id);
+		    <add-var> (&tuple,&id);
 		  ##
 		    <expected-identifier>;
 		};
 	      ||
 		pred-result;
-		<add-pred>;
+		<add-pred>(&tuple);
 	      ||
 		ignore;
-		<add-void>;
+		<add-void>(&tuple);
 	      ##
 		<expected-lhs-name>;
 		<skip-to-end-of-lhs-name>;
 	    };
 
-	    lhs-name-list-1 = {
-		lhs-name;
+	    lhs-name-list-1  : (tuple:TypeTupleT&) -> () = {
+		lhs-name(&tuple);
 		{
 		    ? = <is-close-tuple-or-skipped-or-eof>;
 		  ||
 		    separator;
-		    lhs-name-list-1;
+		    lhs-name-list-1(&tuple);
 		  ##
 		    <expected-separator>;
-		    lhs-name-list-1;
+		    lhs-name-list-1(&tuple);
 		};
 	    };
 
-	    lhs-name-list = {
+	    lhs-name-list  : (tuple:TypeTupleT&) -> () = {
 		$;
 	      ||
-		lhs-name-list-1;
+		lhs-name-list-1(&tuple);
 	    };
 	] = {
 	    <current-tuple>;
@@ -376,7 +376,8 @@ sid-parse-grammar [
 	      ##
 		<expected-open-tuple>;
 	    };
-	    lhs-name-list;
+	    tuple=<init-tuple>;
+	    lhs-name-list(&tuple);
 	    <skip-recover>;
 	    {
 		close-tuple;
@@ -386,15 +387,15 @@ sid-parse-grammar [
 	};
 
 	// RHS TUPLES:
-	rhs-name-tuple [
-	    rhs-name = {
+	rhs-name-tuple : () -> (tuple : TypeTupleT) [
+	    rhs-name : (tuple:TypeTupleT&) -> () = {
 		id = identifier;
-		<add-name> (&id);
+		<add-name> (&tuple,&id);
 	      ||
 		reference;
 		{
 		    id = identifier;
-		    <add-ref-name> (&id);
+		    <add-ref-name> (&tuple, &id);
 		  ##
 		    <expected-identifier>;
 		    <skip-to-end-of-rhs-name>;
@@ -404,23 +405,23 @@ sid-parse-grammar [
 		<skip-to-end-of-rhs-name>;
 	    };
 
-	    rhs-name-list-1 = {
-		rhs-name;
+	    rhs-name-list-1 : (tuple:TypeTupleT&) -> () = {
+		rhs-name(&tuple);
 		{
 		    ? = <is-close-tuple-or-skipped-or-eof>;
 		  ||
 		    separator;
-		    rhs-name-list-1;
+		    rhs-name-list-1(&tuple);
 		  ##
 		    <expected-separator>;
-		    rhs-name-list-1;
+		    rhs-name-list-1(&tuple);
 		};
 	    };
 
-	    rhs-name-list = {
+	    rhs-name-list : (tuple:TypeTupleT&) -> () = {
 		$;
 	      ||
-		rhs-name-list-1;
+		rhs-name-list-1(&tuple);
 	    };
 	] = {
 	    <current-tuple>;
@@ -429,7 +430,8 @@ sid-parse-grammar [
 	      ##
 		<expected-open-tuple>;
 	    };
-	    rhs-name-list;
+	    tuple=<init-tuple>;
+	    rhs-name-list(&tuple);
 	    <skip-recover>;
 	    {
 		close-tuple;
@@ -477,9 +479,9 @@ sid-parse-grammar [
 	    };
 	};
 
-	production-defn-define-4 = {
-	    rhs-name-tuple;
-	    <x-prod-action>;
+	production-defn-define-4 : (lhs-tuple:TypeTupleT&) -> () = {
+	    rhs-tuple=rhs-name-tuple;
+	    <x-prod-action>(&lhs-tuple,&rhs-tuple);
 	    {
 		terminator;
 	      ##
@@ -487,14 +489,15 @@ sid-parse-grammar [
 	    };
 	  ||
 	    <current-tuple>;
-	    <x-prod-action>;
+	    rhs-tuple=<init-tuple>;
+	    <x-prod-action>(&lhs-tuple,&rhs-tuple);
 	    terminator;
 	  ##
 	    <expected-tuple-or-terminator>;
 	    <skip-to-end-of-item>;
 	};
 
-	production-defn-define-1 = {
+	production-defn-define-1 : (lhs-tuple:TypeTupleT&) -> () = {
 	    begin-action;
 	    {
 		id = identifier;
@@ -504,7 +507,7 @@ sid-parse-grammar [
 		  ##
 		    <expected-end-action>;
 		};
-		production-defn-define-4;
+		production-defn-define-4(&lhs-tuple);
 	      ##
 		<expected-identifier>;
 		<skip-to-end-of-item>;
@@ -513,11 +516,11 @@ sid-parse-grammar [
 	    id = identifier;
 	    {
 		<current-tuple>;
-		<x-prod-rule-or-identity> (&id);
+		<x-prod-rule-or-identity> (&lhs-tuple, &id);
 		terminator;
 	      ||
-		rhs-name-tuple;
-		<x-prod-rule> (&id);
+		rhs-tuple=rhs-name-tuple;
+		<x-prod-rule> ( &lhs-tuple, &rhs-tuple, &id);
 		{
 		    terminator;
 		  ##
@@ -531,10 +534,11 @@ sid-parse-grammar [
 	  ||
 	    <current-tuple>;
 	    reference;
+	    rhs-tuple=<init-tuple>;
 	    {
 		id = identifier;
-		<add-ref-name> (&id);
-		<x-identity>;
+		<add-ref-name> (&rhs-tuple, &id);
+		<x-identity>(&lhs-tuple, &rhs-tuple);
 		{
 			terminator;
 		  ##
@@ -545,8 +549,8 @@ sid-parse-grammar [
 		<skip-to-end-of-item>;
 	    };
 	  ||
-	    rhs-name-tuple;
-	    <x-identity>;
+	    rhs-tuple=rhs-name-tuple;
+	    <x-identity>(&lhs-tuple,&rhs-tuple);
 	    {
 		terminator;
 	      ##
@@ -558,49 +562,52 @@ sid-parse-grammar [
 	};
 
 	production-defn-define = {
-	    lhs-name-tuple;
+	    lhs-tuple=lhs-name-tuple;
 	    <save-tuple>;
 	    {
 		define;
 	      ##
 		<expected-define>;
 	    };
-	    production-defn-define-1;
+	    production-defn-define-1(&lhs-tuple);
 	  ||
 	    <current-tuple>;
-	    <add-pred>;
 	    pred-result;
+	    lhs-tuple=<init-tuple>;
+	    <add-pred>(&lhs-tuple);
 	    <save-tuple>;
 	    {
 		define;
 	      ##
 		<expected-define>;
 	    };
-	    production-defn-define-1;
+	    production-defn-define-1(&lhs-tuple);
 	  ||
 	    <current-tuple>;
-	    <add-void>;
 	    ignore;
+	    lhs-tuple=<init-tuple>;
+	    <add-void>(&lhs-tuple);
 	    <save-tuple>;
 	    {
 		define;
 	      ##
 		<expected-define>;
 	    };
-	    production-defn-define-1;
+	    production-defn-define-1(&lhs-tuple);
 	  ||
 	    reference;
 	    {
 		id = identifier;
 		<current-tuple>;
-		<add-var> (&id);
+		lhs-tuple=<init-tuple>;
+		<add-var> (&lhs-tuple,&id);
 		<save-tuple>;
 		{
 		    define;
 		  ##
 		    <expected-define>;
 		};
-		production-defn-define-1;
+		production-defn-define-1(&lhs-tuple);
 	      ##
 		<expected-identifier>;
 	    };
@@ -609,8 +616,9 @@ sid-parse-grammar [
 	    {
 		<current-tuple>;
 		<save-tuple>;
-		rhs-name-tuple;
-		<x-prod-rule> (&id);
+		lhs-tuple=<init-tuple>;
+		rhs-tuple=rhs-name-tuple;
+		<x-prod-rule> (&lhs-tuple, &rhs-tuple, &id);
 		{
 		    terminator;
 		  ##
@@ -618,15 +626,18 @@ sid-parse-grammar [
 		};
 	      ||
 		<current-tuple>;
-		<add-name> (&id);
+		lhs-tuple=<init-tuple>;
+		<add-name> (&lhs-tuple,&id);
 		<save-tuple>;
 		define;
-		production-defn-define-1;
+		production-defn-define-1(&lhs-tuple);
 	      ||
 		<current-tuple>;
 		<save-tuple>;
 		<current-tuple>;
-		<x-prod-rule> (&id);
+		lhs-tuple=<init-tuple>;
+		rhs-tuple=<init-tuple>;
+		<x-prod-rule> (&lhs-tuple, &rhs-tuple, &id);
 		terminator;
 	      ##
 		<expected-tuple-or-define-or-terminator>;
@@ -636,6 +647,7 @@ sid-parse-grammar [
 	  ||
 	    <current-tuple>;
 	    <save-tuple>;
+	    lhs-tuple=<init-tuple>;
 	    begin-action;
 	    {
 		id = identifier;
@@ -645,7 +657,7 @@ sid-parse-grammar [
 		  ##
 		    <expected-end-action>;
 		};
-		production-defn-define-4;
+		production-defn-define-4(&lhs-tuple);
 	      ##
 		<expected-identifier>;
 		<skip-to-end-of-item>;
