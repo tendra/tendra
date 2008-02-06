@@ -10,6 +10,7 @@ BoolT			-> BoolT;
 EntryP			-> EntryP;
 ItemP			-> ItemP;
 RuleP			-> RuleP;
+TypeTupleT		-> TypeTupleT;
 StringT			-> NStringT;
 sid-parse-grammar	-> sid_parse_grammar;
 
@@ -171,16 +172,42 @@ StringT: (a) -> (b) = @{
     nstring_assign (&@b, @&a);
 @};
 
+/*
+We should probably do a list copy for assignments
+This has no importance since we do not rename in the sid code anyway.
+*/
+TypeTupleT : (a) -> (b) = @{
+	if((@b.head=@a.head)==NULL) 
+		@b.tail = &(@b.head);
+	else 
+		@b.tail= @a.tail ;
+@};
+
 %parameter-assignments%
 
 StringT: (a) -> (b) = @{
     nstring_assign (&@b, @a);
 @};
 
+TypeTupleT : (a) -> (b) = @{
+	if((@b.head=@a->head)==NULL) 
+		@b.tail = &(@b.head);
+	else 
+		@b.tail= @a->tail ;
+@};
+
+
 %result-assignments%
 
 StringT: (a) -> (b) = @{
     nstring_assign (@b, @&a);
+@};
+
+TypeTupleT : (a) -> (b) = @{
+	if((@b->head=@a.head)==NULL) 
+		@b->tail = &(@b->head);
+	else 
+		@b->tail= @a.tail ;
 @};
 
 %terminals%
@@ -229,27 +256,27 @@ scope_stack_init (&sid_global_scope);
     }
 @};
 
-<x-terminal> = @{
+<x-terminal> : (params:TypeTupleT&, results:TypeTupleT&) -> () = @{
     if (sid_current_entry) {
 	KeyT * key = entry_key (sid_current_entry);
 
-	if (types_contains_names (&sid_saved_type)) {
-	    E_basic_param_has_names (key, &sid_saved_type);
+	if (types_contains_names (@&params)) {
+	    E_basic_param_has_names (key, @&params);
 	}
-	if (types_contains_names (&sid_current_type)) {
-	    E_basic_result_has_names (key, &sid_current_type);
+	if (types_contains_names (@&results)) {
+	    E_basic_result_has_names (key, @&results);
 	}
-	if (types_contains_references (&sid_current_type)) {
-	    E_basic_result_has_refs (key, &sid_current_type);
+	if (types_contains_references (@&results)) {
+	    E_basic_result_has_refs (key, @&results);
 	}
 	if (!types_equal_zero_tuple (&sid_saved_type)) {
-	    E_basic_param_mismatch (key, &sid_saved_type);
+	    E_basic_param_mismatch (key, @&params);
 	}
-	types_assign (basic_result (sid_current.basic), &sid_current_type);
+	types_assign (basic_result (sid_current.basic), @&results);
     } else {
-	types_destroy (&sid_current_type);
+	types_destroy (@&results);
     }
-    types_destroy (&sid_saved_type);
+    types_destroy (@&params);
 @};
 
 <x-terminals> = @{
@@ -266,44 +293,49 @@ scope_stack_init (&sid_global_scope);
     sid_saved_pred_id = sid_current_pred_id;
 @};
 
-<null-type> = @{
+/*<null-type> = @{
     types_init (&sid_saved_type);
     types_init (&sid_current_type);
     sid_saved_pred_id   = NULL;
     sid_current_pred_id = NULL;
+@};*/
+
+<init-tuple> : () -> (tuple : TypeTupleT) = @{
+    types_init (&@tuple);
+    sid_current_pred_id = NULL;
 @};
 
-<init-tuple> = @{
+<current-tuple> : () -> () = @{
     types_init (&sid_current_type);
     sid_current_pred_id = NULL;
 @};
 
-<tuple-name>: (name, type) -> () = @{
-    if (!types_add_typed_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name,
+<tuple-name>: (tuple:TypeTupleT&, name:StringT&, type:StringT&) -> () = @{
+    if (!types_add_typed_name (@&tuple, grammar_table(sid_current_grammar), &@=name,
 			       @&type, FALSE)) {
 	E_unknown_type (@&type);
     }
     nstring_destroy (&@=type);
 @};
 
-<tuple-ref-name>: (name, type) -> () = @{
-    if (!types_add_typed_name (&sid_current_type, grammar_table(sid_current_grammar), &@=name,
+<tuple-ref-name>: (tuple:TypeTupleT&, name:StringT&, type:StringT&) -> () = @{
+    if (!types_add_typed_name (@&tuple, grammar_table(sid_current_grammar), &@=name,
 			       @&type, TRUE)) {
 	E_unknown_type (@&type);
     }
     nstring_destroy (&@=type);
 @};
 
-<tuple-type>: (type) -> () = @{
-    if (!types_add_type (&sid_current_type, grammar_table(sid_current_grammar), @&type,
+<tuple-type>: (tuple:TypeTupleT&, type:StringT&) -> () = @{
+    if (!types_add_type (@&tuple, grammar_table(sid_current_grammar), @&type,
 			 FALSE)) {
 	E_unknown_type (@&type);
     }
     nstring_destroy (&@=type);
 @};
 
-<tuple-ref-type>: (type) -> () = @{
-    if (!types_add_type (&sid_current_type, grammar_table(sid_current_grammar), @&type, TRUE)) {
+<tuple-ref-type>:  (tuple:TypeTupleT&, type:StringT&) -> () = @{
+    if (!types_add_type (@&tuple, grammar_table(sid_current_grammar), @&type, TRUE)) {
 	E_unknown_type (@&type);
     }
     nstring_destroy (&@=type);
@@ -469,47 +501,47 @@ scope_stack_init (&sid_global_scope);
     }
 @};
 
-<x-action> = @{
+<x-action> : (n_params:TypeTupleT&, n_results:TypeTupleT&) -> () = @{
     if (sid_current_entry) {
 	KeyT *       key     = entry_key (sid_current_entry);
 	TypeTupleT * param   = action_param (sid_current.action);
 	TypeTupleT * result  = action_result (sid_current.action);
 	BoolT      errored = FALSE;
 
-	if (types_contains_names (&sid_saved_type)) {
-	    E_action_param_has_names (key, &sid_saved_type);
+	if (types_contains_names (@&n_params)) {
+	    E_action_param_has_names (key, @&n_params);
 	    errored = TRUE;
 	}
 	if (sid_redefining_entry) {
-	    if (!types_equal (param, &sid_saved_type)) {
-		E_action_param_mismatch (key, param, &sid_saved_type);
+	    if (!types_equal (param, @&n_params)) {
+		E_action_param_mismatch (key, param, @&n_params);
 		errored = TRUE;
 	    }
 	}
 	if (types_contains_names (&sid_current_type)) {
-	    E_action_result_has_names (key, &sid_current_type);
+	    E_action_result_has_names (key, @&n_results);
 	    errored = TRUE;
 	}
 	if (types_contains_references (&sid_current_type)) {
-	    E_action_result_has_refs (key, &sid_current_type);
+	    E_action_result_has_refs (key, @&n_results);
 	    errored = TRUE;
 	}
 	if (sid_redefining_entry) {
 	    if (!types_equal (result, &sid_current_type)) {
-		E_action_result_mismatch (key, result, &sid_current_type);
+		E_action_result_mismatch (key, result, @&n_results);
 		errored = TRUE;
 	    }
 	}
 	if (errored || sid_redefining_entry) {
-	    types_destroy (&sid_saved_type);
-	    types_destroy (&sid_current_type);
+	    types_destroy (@&n_params);
+	    types_destroy (@&n_results);
 	} else {
-	    types_assign (param, &sid_saved_type);
-	    types_assign (result, &sid_current_type);
+	    types_assign (param, @&n_params);
+	    types_assign (result, @&n_results);
 	}
     } else {
-	types_destroy (&sid_saved_type);
-	types_destroy (&sid_current_type);
+	types_destroy (@&n_params);
+	types_destroy (@&n_results);
     }
 @};
 
@@ -590,102 +622,102 @@ scope_stack_init (&sid_global_scope);
     }
 @};
 
-<x-rule> = @{
+<x-rule> : (n_params:TypeTupleT&,n_results:TypeTupleT&) -> () = @{
     if (sid_current_entry) {
 	KeyT *       key     = entry_key (sid_current_entry);
 	TypeTupleT * param   = rule_param (sid_current.rule);
 	TypeTupleT * result  = rule_result (sid_current.rule);
 	BoolT      errored = FALSE;
 
-	if (types_contains_names (&sid_saved_type)) {
-	    E_rule_param_has_names (key, &sid_saved_type);
+	if (types_contains_names (@&n_params)) {
+	    E_rule_param_has_names (key, @&n_params);
 	    errored = TRUE;
 	}
 	if (sid_redefining_entry) {
-	    if (!types_equal (param, &sid_saved_type)) {
-		E_rule_param_mismatch (key, param, &sid_saved_type);
+	    if (!types_equal (param, @&n_params)) {
+		E_rule_param_mismatch (key, param, @&n_params);
 		errored = TRUE;
 	    }
 	}
-	if (types_contains_names (&sid_current_type)) {
-	    E_rule_result_has_names (key, &sid_current_type);
+	if (types_contains_names (@&n_results)) {
+	    E_rule_result_has_names (key, @&n_results);
 	    errored = TRUE;
 	}
-	if (types_contains_references (&sid_current_type)) {
-	    E_rule_result_has_refs (key, &sid_current_type);
+	if (types_contains_references (@&n_results)) {
+	    E_rule_result_has_refs (key, @&n_results);
 	    errored = TRUE;
 	}
 	if (sid_redefining_entry) {
-	    if (!types_equal (result, &sid_current_type)) {
-		E_rule_result_mismatch (key, result, &sid_current_type);
+	    if (!types_equal (result, @&n_results)) {
+		E_rule_result_mismatch (key, result, @&n_results);
 		errored = TRUE;
 	    }
 	}
 	if (errored || sid_redefining_entry) {
-	    types_destroy (&sid_saved_type);
-	    types_destroy (&sid_current_type);
+	    types_destroy (@&n_params);
+	    types_destroy (@&n_results);
 	} else {
-	    types_assign (param, &sid_saved_type);
-	    types_assign (result, &sid_current_type);
+	    types_assign (param, @&n_params);
+	    types_assign (result, @&n_results);
 	}
     } else {
-	types_destroy (&sid_saved_type);
-	types_destroy (&sid_current_type);
+	types_destroy (@&n_params);
+	types_destroy (@&n_results);
     }
 @};
 
-<prod> = @{
+<prod> : (n_params:TypeTupleT&,n_results:TypeTupleT&) -> () = @{
     if (sid_current_entry) {
 	KeyT * key = entry_key (sid_current_entry);
 
 	if (rule_is_defined (sid_current.rule)) {
 	    E_rule_already_defined (key);
 	    sid_current_entry = NULL;
-	    types_destroy (&sid_saved_type);
-	    types_destroy (&sid_current_type);
+	    types_destroy (@&n_params);
+	    types_destroy (@&n_results);
 	} else {
 	    TypeTupleT * param   = rule_param (sid_current.rule);
 	    TypeTupleT * result  = rule_result (sid_current.rule);
 	    BoolT      errored = FALSE;
 
 	    rule_defined (sid_current.rule);
-	    if (!types_disjoint_names (&sid_saved_type)) {
-		E_rule_param_clash (key, &sid_saved_type);
+	    if (!types_disjoint_names (@&n_params)) {
+		E_rule_param_clash (key, @&n_params);
 		errored = TRUE;
 	    }
-	    if (types_check_shadowing (&sid_saved_type, &sid_scope_stack,
+	    if (types_check_shadowing (@&n_params, &sid_scope_stack,
 				       sid_current.rule)) {
 		errored = TRUE;
 	    }
 	    if (sid_redefining_entry) {
-		if (!types_fillin_names (param, &sid_saved_type)) {
-		    E_rule_param_mismatch (key, param, &sid_saved_type);
+		if (!types_fillin_names (param, @&n_params)) {
+		    E_rule_param_mismatch (key, param, @&n_params);
 		    errored = TRUE;
 		}
-		types_destroy (&sid_saved_type);
+		types_destroy (@&n_params);
 	    } else {
-		types_assign (param, &sid_saved_type);
+		types_assign (param, @&n_params);
 	    }
-	    if (!types_disjoint_names (&sid_current_type)) {
-		E_rule_result_clash (key, &sid_current_type);
+	    if (!types_disjoint_names (@&n_results)) {
+		E_rule_result_clash (key, @&n_results);
 		errored = TRUE;
 	    }
-	    if (types_check_shadowing (&sid_current_type, &sid_scope_stack,
+	    if (types_check_shadowing (@&n_results, &sid_scope_stack,
 				       sid_current.rule)) {
 		errored = TRUE;
 	    }
-	    if (types_contains_references (&sid_current_type)) {
-		E_rule_result_has_refs (key, &sid_current_type);
+	    if (types_contains_references (@&n_results)) {
+		E_rule_result_has_refs (key, @&n_results);
 		errored = TRUE;
 	    }
 	    if (sid_redefining_entry) {
-		if (!types_fillin_names (result, &sid_current_type)) {
-		    E_rule_result_mismatch (key, result, &sid_current_type);
+		if (!types_fillin_names (result, @&n_results)) {
+		    E_rule_result_mismatch (key, result, @&n_results);
 		    errored = TRUE;
 		}
-		types_destroy (&sid_current_type);
+		types_destroy (@&n_results);
 	    } else {
-		types_assign (result, &sid_current_type);
+		types_assign (result, @&n_results);
 	    }
 	    if (errored) {
 		sid_current_entry = NULL;
@@ -697,8 +729,8 @@ scope_stack_init (&sid_global_scope);
 	    }
 	}
     } else {
-	types_destroy (&sid_saved_type);
-	types_destroy (&sid_current_type);
+	types_destroy (@&n_params);
+	types_destroy (@&n_results);
     }
     sid_alternative   = 0;
     sid_internal_rule = FALSE;
