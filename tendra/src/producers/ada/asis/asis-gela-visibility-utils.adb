@@ -44,10 +44,6 @@ package body Asis.Gela.Visibility.Utils is
       Is_Wide_Char :    out Boolean;
       Is_Char      :    out Boolean);
 
-   function Child_Region_By_Element
-     (Point    : Region_Item_Access;
-      Element  : Asis.Element) return Region_Access;
-
    ----------------------
    -- Check_Completion --
    ----------------------
@@ -69,36 +65,6 @@ package body Asis.Gela.Visibility.Utils is
          end loop;
       end;
    end Check_Completion;
-
-   -----------------------------
-   -- Child_Region_By_Element --
-   -----------------------------
-
-   function Child_Region_By_Element
-     (Point    : Region_Item_Access;
-      Element  : Asis.Element) return Region_Access
-   is
-      Result : Region_Access := Point.Part.Region.First_Child;
-      Part   : Part_Access;
-   begin
-      loop
-         Part := Result.Last_Part;
-
-         while Part /= null loop
-            if Is_Equal (Part.Element, Element) then
-               return Result;
-            end if;
-
-            Part := Part.Next;
-         end loop;
-
-         Result := Result.Next;
-
-         exit when Result = null;
-      end loop;
-
-      return null;
-   end Child_Region_By_Element;
 
    --------------
    -- Find_All --
@@ -293,10 +259,8 @@ package body Asis.Gela.Visibility.Utils is
       for I in Possible'Range loop
          Decl := Enclosing_Element (Possible (I));
 
-         if (not Asis.Elements.Is_Part_Of_Implicit (Possible (I)) or else
-             Declaration_Kind (Decl) = A_Package_Declaration)
-           and then
-           (not Overloadable (Possible (I)) or else
+         if not Overloadable (Possible (I)) or else
+           (not Asis.Elements.Is_Part_Of_Implicit (Possible (I)) and then
             Are_Type_Conformant (Possible (I), Completion, Completion))
          then
             Index := I;
@@ -485,7 +449,7 @@ package body Asis.Gela.Visibility.Utils is
          if Item /= null then
             Part   := Item.Part;
 
-            if Region.Library_Unit and Part.Region.Decl_Part = Part then
+            if Region.Library_Unit and Part.Kind in A_Children_Part then
                Item := Part.Last_Item;
             end if;
 
@@ -527,13 +491,7 @@ package body Asis.Gela.Visibility.Utils is
             Point := (Item => Top_Region.First_Part.Last_Item);
          else
             Decl  := Unit_Declaration (Parent);
-            Item  := Get_Place (Decl);
-
-            if Is_Part_Of_Implicit (Decl) then
-               Point := (Item => Item.Part.Last_Item);
-            else
-               Point := (Item => Item.Part.Region.Decl_Part.Last_Item);
-            end if;
+            Point := Find_Region (Decl);
          end if;
       end if;
    end Find_Parent_Region;
@@ -668,7 +626,7 @@ package body Asis.Gela.Visibility.Utils is
          return True;
       else
          Item := Get_Place (List (1));
-         return Item.Part.Visible;
+         return Is_Visible (Item.Part.Kind);
       end if;
    end Is_Visible_Decl;
 
@@ -862,7 +820,7 @@ package body Asis.Gela.Visibility.Utils is
       begin
          while Place_Item /= null loop
             if Place_Item = Name then
-               if With_Private or Name.Part.Visible then
+               if With_Private or Is_Visible (Name.Part.Kind) then
                   return True;
                else
                   return False;
@@ -886,11 +844,11 @@ package body Asis.Gela.Visibility.Utils is
       Name_Item    : Region_Item_Access := Name;
       Place_Item   : Region_Item_Access := Place;
       With_Private : Boolean := True;
-      From_Visible : Boolean := Place.Part.Visible;
+      From_Visible : Boolean := Is_Visible (Place.Part.Kind);
       Pl_Reg       : Region_Access  := Place_Item.Part.Region;
    begin
       while Pl_Reg.Depth < Name_Item.Part.Region.Depth loop
-         if not Name_Item.Part.Visible then
+         if not Is_Visible (Name_Item.Part.Kind) then
             return False;
          end if;
 
@@ -906,13 +864,12 @@ package body Asis.Gela.Visibility.Utils is
 
          Place_Item   := Place_Item.Part.Parent_Item;
 
-         if Pl_Reg.Library_Unit
-           and Place_Item.Part.Region.Decl_Part = Place_Item.Part
+         if Pl_Reg.Library_Unit and Place_Item.Part.Kind in A_Children_Part
          then
             Place_Item := Place_Item.Part.Last_Item;
          end if;
 
-         From_Visible := Place_Item.Part.Visible;
+         From_Visible := Is_Visible (Place_Item.Part.Kind);
          Pl_Reg       := Place_Item.Part.Region;
       end loop;
 
@@ -921,7 +878,7 @@ package body Asis.Gela.Visibility.Utils is
             return Find_In_Region (Name_Item, Place_Item, With_Private);
          end if;
 
-         if not Name_Item.Part.Visible then
+         if not Is_Visible (Name_Item.Part.Kind) then
             return False;
          end if;
 
@@ -939,7 +896,7 @@ package body Asis.Gela.Visibility.Utils is
             Pl_Reg       := Place_Item.Part.Region;
          end if;
 
-         From_Visible := Place_Item.Part.Visible;
+         From_Visible := Is_Visible (Place_Item.Part.Kind);
          Name_Item    := Name_Item.Part.Parent_Item;
       end loop;
    end Visible_From;
@@ -955,24 +912,84 @@ package body Asis.Gela.Visibility.Utils is
    is
       use Asis.Elements;
       use Asis.Gela.Elements;
+
+      function Child_Declaration_Part
+        (Point    : Region_Item_Access;
+         Element  : Asis.Element;
+         Kind     : Part_Kinds) return Part_Access;
+
+      --  Find child region marked by Element abd return
+      --  Visible specification part.
+
+      ----------------------------
+      -- Child_Declaration_Part --
+      ----------------------------
+
+      function Child_Declaration_Part
+        (Point    : Region_Item_Access;
+         Element  : Asis.Element;
+         Kind     : Part_Kinds) return Part_Access
+      is
+         Result : Region_Access := Point.Part.Region.First_Child;
+         Part   : Part_Access;
+      begin
+         Search_Child_Region:
+            while Result /= null loop
+               Part := Result.Last_Part;
+
+               while Part /= null loop
+                  if Is_Equal (Part.Element, Element) then
+                     exit Search_Child_Region;
+                  end if;
+
+                  Part := Part.Next;
+               end loop;
+
+               Result := Result.Next;
+
+            end loop Search_Child_Region;
+
+         if Result = null then
+            return null;
+         end if;
+
+         Part := Result.Last_Part;
+
+         while Part /= null loop
+            if Part.Kind = Kind then
+               return Part;
+            end if;
+
+            Part := Part.Next;
+         end loop;
+
+         return null;
+      end Child_Declaration_Part;
+
+
       Name_Node  : Defining_Name_Ptr  := Defining_Name_Ptr (Name);
       Name_Place : Region_Item_Access := Place (Name_Node.all);
       Item       : Region_Item_Access := Get_Place (Point);
-      Reg        : Region_Access;
+      Part       : Part_Access;
       Decl_Kind  : constant Asis.Declaration_Kinds :=
         Declaration_Kind (Enclosing_Element (Point));
    begin
-      if Element_Kind (Point) = A_Defining_Name and then
-        (Decl_Kind = A_Package_Declaration or
-         Decl_Kind = A_Package_Body_Declaration)
-      then
-         --  This is a special element to point to end of package
-         Reg  := Child_Region_By_Element (Item, Enclosing_Element (Point));
-
+      if Element_Kind (Point) = A_Defining_Name then
          if Decl_Kind = A_Package_Declaration then
-            Item := Reg.Decl_Part.Last_Item;
-         else
-            Item := Reg.Last_Part.Last_Item;
+            --  This is a special element to point to end of package
+            Part := Child_Declaration_Part
+              (Point   => Item,
+               Element => Enclosing_Element (Point),
+               Kind    => A_Private_Part);
+
+            Item := Part.Last_Item;
+         elsif Decl_Kind = A_Package_Body_Declaration then
+            Part := Child_Declaration_Part
+              (Point   => Item,
+               Element => Enclosing_Element (Point),
+               Kind    => A_Body_Part);
+
+            Item := Part.Last_Item;
          end if;
       end if;
 
@@ -986,9 +1003,8 @@ package body Asis.Gela.Visibility.Utils is
 
 begin
    Top_Region.Last_Part := Top_Region.First_Part'Access;
-   Top_Region.Decl_Part := Top_Region.Last_Part;
    Top_Region.First_Part.Region    := Top_Region'Access;
-   Top_Region.First_Part.Visible   := True;
+   Top_Region.First_Part.Kind      := A_Public_Children_Part;
    Top_Region.First_Part.Last_Item := Top_Region.First_Part.Dummy_Item'Access;
    Top_Region.First_Part.Dummy_Item.Part := Top_Region.First_Part'Access;
 end Asis.Gela.Visibility.Utils;

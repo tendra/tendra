@@ -44,27 +44,154 @@ package body Asis.Gela.Visibility.Create is
    function Is_Library_Unit_Decl
      (Element : Asis.Element) return Boolean;
 
-   ----------------
-   -- Check_Part --
-   ----------------
+   --------------
+   -- New_Part --
+   --------------
 
-   procedure Check_Part
-     (Item    : in Region_Item_Access;
-      Visible : in Boolean;
-      Element : in Asis.Element)
+   procedure New_Part
+     (Region        : in  Region_Access;
+      Kind          : in  Part_Kinds;
+      Parent_Item   : in  Region_Item_Access;
+      Element       : in  Asis.Element;
+      Check_Private : in  Boolean;
+      Result        : out Part_Access)
    is
+      use Asis.Elements;
+
+      --------------------------------
+      -- Is_Private_Part_Of_Package --
+      --------------------------------
+
+      function Is_Private_Part_Of_Package return Boolean is
+         Parent : Asis.Element := Enclosing_Element (Element);
+      begin
+         if Kind = A_Private_Part and
+           Declaration_Kind (Parent) = A_Package_Declaration
+         then
+            return True;
+         else
+            return False;
+         end if;
+      end Is_Private_Part_Of_Package;
+
       Part  : Part_Access;
-      Next  : Region_Item_Access := Item;
+      Next  : Part_Access := Region.Last_Part;
+      Prev  : Part_Access;
+      Start : Point;
    begin
-      if Item.Part.Visible /= Visible then
-         New_Part (Next, Visible, Element);
-         Item.Part := Next.Part;
+      --  Iterate over region parts
+      --  Invariant: (Prev = null and Next = Region.Last_Part)
+      --          or (Prev != null and Prev.Next = Next)
+      while Next /= null loop
+         if Next.Kind = Kind then
+            Result := Next;
+            return;
+         end if;
+
+         exit when Next.Kind < Kind;
+
+         Prev := Next;
+         Next := Prev.Next;
+      end loop;
+
+      if Region.First_Part.Region = null then
+         Part := Region.First_Part'Access;
+      else
+         Part := new Part_Node;
       end if;
 
-      Part           := Item.Part;
-      Item.Next      := Part.Last_Item;
-      Part.Last_Item := Item;
-   end Check_Part;
+      Part.Dummy_Item.Part  := Part;
+      Part.Region           := Region;
+      Part.Next             := Next;
+      Part.Kind             := Kind;
+      Part.Parent_Item      := Parent_Item;
+      Part.Last_Item        := Part.Dummy_Item'Access;
+      Part.Element          := Element;
+
+      if Prev = null then
+         Region.Last_Part := Part;
+      else
+         Prev.Next := Part;
+      end if;
+
+      if Check_Private and then Is_Private_Part_Of_Package then
+         Start := (Item => Part.Last_Item);
+
+         --  if not empty private part:
+         if Element_Kind (Element) /= A_Defining_Name then
+            Utils.Set_Place (Element, Start);
+            --  set place to private part to enable visibility check when
+            --  we call Type_From_Declaration (List (J), Spec_View);
+            --  where Spec_View is this Element (first in private part).
+         end if;
+
+         Private_Operations.On_Private_Part
+           (Enclosing_Element (Element), Start);
+      end if;
+
+      Result := Part;
+   end New_Part;
+
+   ------------
+   -- Region --
+   ------------
+
+   procedure Region
+     (Element : in     Asis.Element;
+      Point   : in out Visibility.Point)
+   is
+      use Asis.Elements;
+
+      function Debug_Image return Wide_String is
+         Spaces : constant Wide_String (1 .. 20) := (others => ' ');
+         Depth : Natural := 0;
+      begin
+         if Point.Item.Part.Region /= null then
+            Depth := Point.Item.Part.Region.Depth;
+         end if;
+
+         return Spaces (1 .. 2 * Depth) &
+           Debug_Image (Element) &
+           " ==> " &
+           Debug_Image (Point.Item.Part.Region.First_Part.Element);
+      end Debug_Image;
+
+      pragma Assert (Debug.Run (Element, Debug.Create_Region)
+                     or else Debug.Dump (Debug_Image));
+
+      Child        : Region_Access := new Region_Node;
+      Part         : Part_Access;
+      Kind         : Part_Kinds;
+   begin
+      Child.Next         := Point.Item.Part.Region.First_Child;
+      Child.Depth        := Point.Item.Part.Region.Depth + 1;
+
+      if Is_Part_Of_Implicit (Element) then
+         Kind := A_Public_Limited_View_Part;
+      else
+         Kind := A_Visible_Part;
+      end if;
+
+      if Is_Nil (Enclosing_Element (Element)) then
+         Child.Library_Unit := True;
+         Child.Public_Child := Is_Public_Unit (Element);
+      else
+         Child.Library_Unit := False;
+         Child.Public_Child := True;
+      end if;
+
+      New_Part
+        (Region        => Child,
+         Kind          => Kind,
+         Parent_Item   => Point.Item,
+         Element       => Element,
+         Check_Private => False,
+         Result        => Part);
+
+      Point.Item.Part.Region.First_Child := Child;
+
+      Point  := (Item => Part.Last_Item);
+   end Region;
 
    -----------------------
    -- Completion_Region --
@@ -77,10 +204,11 @@ package body Asis.Gela.Visibility.Create is
       RR_Clause   : in     Boolean)
    is
       use Asis.Declarations;
-      Name      : Asis.Expression;
-      Decl      : Asis.Declaration;
-      Prev      : Visibility.Point;
-      Next      : Part_Access := new Part_Node;
+      Name          : Asis.Expression;
+      Decl          : Asis.Declaration;
+      Prev          : Visibility.Point;
+      Next          : Part_Access;
+      Kind          : Part_Kinds;
    begin
       if RR_Clause then
          Name := Representation_Clause_Name (Element.all);
@@ -97,31 +225,56 @@ package body Asis.Gela.Visibility.Create is
          Decl := XASIS.Utils.Declaration_For_Completion (Element);
       end if;
 
+      if Asis.Elements.Declaration_Kind (Element) = A_Package_Declaration then
+         Kind := A_Visible_Part;
+      else
+         Kind := A_Body_Part;
+      end if;
+
       Prev := Utils.Find_Region (Decl);
 
-      Next.Region           := Prev.Item.Part.Region;
-      Next.Next             := Next.Region.Last_Part;
-      Next.Parent_Item      := Point.Item;
-      Next.Last_Item        := Next.Dummy_Item'Access;
-      Next.Element          := Element;
-      Next.Dummy_Item.Part  := Next;
-      Next.Visible          := True;
-      Next.Region.Last_Part := Next;
-
-      if Point.Item.Part.Region.Library_Unit then
-         Next.Visible := Gela.Utils.In_Visible_Part (Element);
-      end if;
-
-      if Next.Region.Library_Unit and then
-        Asis.Elements.Is_Part_Of_Implicit (Decl)
-      then
-         --  Completion of Limited_View
-         Next.Region.Decl_Part := Next;
-         Next.Visible := True;
-      end if;
+      New_Part
+        (Region        => Prev.Item.Part.Region,
+         Kind          => Kind,
+         Parent_Item   => Point.Item,
+         Element       => Element,
+         Check_Private => False,
+         Result        => Next);
 
       Point.Item := Next.Last_Item;
    end Completion_Region;
+
+----------------------
+
+   ----------------
+   -- Check_Part --
+   ----------------
+
+   procedure Check_Part
+     (Item    : in Region_Item_Access;
+      Kind    : in Part_Kinds;
+      Element : in Asis.Element)
+   is
+      Part  : Part_Access;
+      Next  : Region_Item_Access := Item;
+   begin
+      if Item.Part.Kind /= Kind then
+         New_Part
+           (Region        => Item.Part.Region,
+            Kind          => Kind,
+            Parent_Item   => Item.Part.Parent_Item,
+            Element       => Element,
+            Result        => Part,
+            Check_Private => True);
+
+         Item.Part := Part;
+      else
+         Part      := Item.Part;
+      end if;
+
+      Item.Next      := Part.Last_Item;
+      Part.Last_Item := Item;
+   end Check_Part;
 
    --------------------
    -- Find_Homograph --
@@ -300,136 +453,6 @@ package body Asis.Gela.Visibility.Create is
       return True;
    end Is_Public_Unit;
 
-   --------------
-   -- New_Part --
-   --------------
-
-   procedure New_Part
-     (Item    : in out Region_Item_Access;
-      Visible : in     Boolean;
-      Element : in     Asis.Element)
-   is
-      use Asis.Elements;
-
-      function Is_Declaration (Part : Part_Access) return Boolean is
-         use Asis.Compilation_Units;
-
-         Unit : constant Compilation_Unit :=
-           Enclosing_Compilation_Unit (Part.Region.Decl_Part.Element);
-         Last : constant Compilation_Unit :=
-           Enclosing_Compilation_Unit (Part.Region.Last_Part.Element);
-      begin
-         if Is_Equal (Unit, Last) then
-            return True;
-         elsif Utils.Is_Top_Declaration (Element) then
-            return True;
-         else
-            return False;
-         end if;
-      end Is_Declaration;
-
-      function Is_Private_Part_Of_Package return Boolean is
-         Parent : Asis.Element := Enclosing_Element (Element);
-      begin
-         if not Visible and
-           Declaration_Kind (Parent) = A_Package_Declaration
-         then
-            return True;
-         else
-            return False;
-         end if;
-      end Is_Private_Part_Of_Package;
-
-      Part  : Part_Access;
-      Start : Point;
-   begin
-      Part := new Part_Node;
-      Part.Dummy_Item.Part  := Part;
-      Part.Region           := Item.Part.Region;
-      Part.Next             := Item.Part.Region.Last_Part;
-      Part.Visible          := Visible;
-      Part.Parent_Item      := Item.Part.Parent_Item;
-      Part.Last_Item        := Part.Dummy_Item'Access;
-      Part.Element          := Element;
-      Part.Region.Last_Part := Part;
-
-      if Is_Declaration (Part) then
-         Part.Region.Decl_Part := Part;
-      end if;
-
-      if Is_Private_Part_Of_Package then
-         Start := (Item => Part.Last_Item);
-
-         --  if not empty private part:
-         if Element_Kind (Element) /= A_Defining_Name then
-            Utils.Set_Place (Element, Start);
-            --  set place to private part to enable visibility check
-         end if;
-
-         Private_Operations.On_Private_Part
-           (Enclosing_Element (Element), Start);
-      end if;
-
-      Item := Part.Last_Item;
-   end New_Part;
-
-   ------------
-   -- Region --
-   ------------
-
-   procedure Region
-     (Element : in     Asis.Element;
-      Point   : in out Visibility.Point)
-   is
-      use Asis.Elements;
-
-      function Debug_Image return Wide_String is
-         Spaces : constant Wide_String (1 .. 20) := (others => ' ');
-         Depth : Natural := 0;
-      begin
-         if Point.Item.Part.Region /= null then
-            Depth := Point.Item.Part.Region.Depth;
-         end if;
-
-         return Spaces (1 .. 2 * Depth) &
-           Debug_Image (Element) &
-           " ==> " &
-           Debug_Image (Point.Item.Part.Region.First_Part.Element);
-      end Debug_Image;
-
-      pragma Assert (Debug.Run (Element, Debug.Create_Region)
-                     or else Debug.Dump (Debug_Image));
-
-      Child : Region_Access := new Region_Node;
-   begin
-      Child.Last_Part    := Child.First_Part'Access;
-      Child.Decl_Part    := Child.Last_Part;
-      Child.Next         := Point.Item.Part.Region.First_Child;
-      Child.Depth        := Point.Item.Part.Region.Depth + 1;
-      Child.Library_Unit := False;
-      Child.Public_Child := True;
-
-      Child.First_Part.Region      := Child;
-      Child.First_Part.Parent_Item := Point.Item;
-      Child.First_Part.Last_Item   := Child.First_Part.Dummy_Item'Access;
-      Child.First_Part.Element     := Element;
-      Child.First_Part.Visible     := True;
-
-      Child.First_Part.Dummy_Item.Part := Child.Last_Part;
-
-
-      if Is_Nil (Enclosing_Element (Element)) then
-         Child.Library_Unit := True;
-         Child.Public_Child := Is_Public_Unit (Element);
-      elsif Point.Item.Part.Region.Library_Unit then
-         Child.First_Part.Visible := Gela.Utils.In_Visible_Part (Element);
-      end if;
-
-      Point.Item.Part.Region.First_Child := Child;
-
-      Point  := (Item => Child.First_Part.Dummy_Item'Access);
-   end Region;
-
    -----------------
    -- Region_Item --
    -----------------
@@ -448,7 +471,8 @@ package body Asis.Gela.Visibility.Create is
       Homograph    : Asis.Defining_Name;
       Is_Wide_Char : Boolean;
       Is_Char      : Boolean;
-      Visible      : Boolean;
+      Library_Unit : Boolean := False;
+      Part_Kind    : Part_Kinds;
       Decl         : constant Asis.Element :=
         Enclosing_Element (Defining_Name);
    begin
@@ -483,6 +507,7 @@ package body Asis.Gela.Visibility.Create is
          Item.Still_Hidden  := Element_Kind (Decl) /= A_Statement;
          Item.Library_Unit  := Is_Library_Unit_Decl (Decl);
          Item.Prev          := Prev;
+         Library_Unit       := Item.Library_Unit;
 
          if Prev /= null then
             Item.Count := Prev.Count + 1;
@@ -494,16 +519,30 @@ package body Asis.Gela.Visibility.Create is
       Item.Defining_Name := Defining_Name;
       Item.Part          := Point.Item.Part;
 
-      if Assigned (Tipe) then
-         --Visible := Utils.Is_Visible_Decl (Tipe);
-         Visible := Point.Item.Part.Visible;
-      elsif Item.Kind = Definition and then Item.Library_Unit then
-         Visible := Is_Public_Unit (Decl);
-      else
-         Visible := Gela.Utils.In_Visible_Part (Decl);
+      Part_Kind := Point.Item.Part.Kind;
+
+      if Library_Unit then
+         if Is_Part_Of_Implicit (Decl) then
+            if Is_Public_Unit (Decl) then
+               Part_Kind := A_Public_Limited_View_Part;
+            else
+               Part_Kind := A_Private_Limited_View_Part;
+            end if;
+         else
+            if Is_Public_Unit (Decl) then
+               Part_Kind := A_Public_Children_Part;
+            else
+               Part_Kind := A_Private_Children_Part;
+            end if;
+         end if;
+      elsif not Assigned (Tipe) and then
+        Part_Kind = A_Visible_Part and then
+        not Gela.Utils.In_Visible_Part (Decl)
+      then
+         Part_Kind := A_Private_Part;
       end if;
 
-      Check_Part (Item, Visible, Decl);
+      Check_Part (Item, Part_Kind, Decl);
 
       Point.Item     := Item;
 
@@ -598,7 +637,13 @@ package body Asis.Gela.Visibility.Create is
             Item.Declaration := Declaration;
             Item.Part        := Point.Item.Part;
             Point.Item       := Item;
-            Check_Part (Item, Visible, Element);
+
+            if not Visible and Item.Part.Kind = A_Visible_Part then
+               Check_Part (Item, A_Private_Part, Element);
+            else
+               Item.Next := Item.Part.Last_Item;
+               Item.Part.Last_Item := Item;
+            end if;
 
             if not Assigned (Declaration) then
                Report (Name_List (I), Error_Unknown_Name);

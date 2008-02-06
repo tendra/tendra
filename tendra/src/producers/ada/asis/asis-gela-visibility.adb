@@ -267,10 +267,12 @@ package body Asis.Gela.Visibility is
      (Element : in     Asis.Element;
       Point   : in out Visibility.Point)
    is
+      use XASIS.Utils;
       use Asis.Elements;
 
       Kind      : constant Asis.Element_Kinds := Element_Kind (Element);
       Item      : Stack_Item;
+      Part      : Part_Access;
    begin
       case Kind is
          when Asis.A_Declaration  =>
@@ -278,11 +280,16 @@ package body Asis.Gela.Visibility is
 
             case Declaration_Kind (Element) is
                when A_Package_Declaration =>
-                  if Point.Item.Part.Visible and not
+                  if Point.Item.Part.Kind = A_Visible_Part and not
                     Is_Part_Of_Implicit (Element)
                   then
                      Create.New_Part
-                       (Point.Item, False, Declarations.Names (Element)(1));
+                       (Region        => Point.Item.Part.Region,
+                        Kind          => A_Private_Part,
+                        Parent_Item   => Point.Item.Part.Parent_Item,
+                        Element       => Declaration_Name (Element),
+                        Check_Private => True,
+                        Result        => Part);
                   end if;
                when others =>
                   null;
@@ -509,13 +516,13 @@ package body Asis.Gela.Visibility is
       --  loop over regions (Region)
       while Region /= null loop
          Stored_Item  := Next;
-         From_Visible := Next.Part.Visible;
+         From_Visible := Is_Visible (Next.Part.Kind);
 
          --  loop over region items (Item)
          while Next /= null loop
             if not With_Private
               and Region.Library_Unit
-              and not Next.Part.Visible
+              and not Is_Visible (Next.Part.Kind)
             then
                null;
             elsif Next.Kind = Use_Package then
@@ -660,9 +667,8 @@ package body Asis.Gela.Visibility is
       Lib_Unit : Wide_Character := ' ';
       Public   : Wide_Character := ' ';
       Current  : Wide_Character := ' ';
-      Decl     : Wide_Character := ' ';
+      Visible  : Wide_Character := ' ';
       Depth    : constant Wide_String := Integer'Wide_Image (Region.Depth);
-      Visible  : Wide_Character;
    begin
       if Point.Item = null then
          return;
@@ -679,20 +685,9 @@ package body Asis.Gela.Visibility is
                 "' pub='" & Public & "' depth='" & Depth & "'>");
 
       while Part_I /= null loop
-         if Part_I.Visible then
-            Visible := 'V';
-         else
-            Visible := 'P';
-         end if;
+         Put_Line (Prefix & "<part kind='" &
+                   Part_Kinds'Wide_Image (Part_I.Kind) & "'>");
 
-         if Part_I.Region.Decl_Part = Part_I then
-            Decl := 'Y';
-         else
-            Decl := ' ';
-         end if;
-
-         Put_Line (Prefix & "<part vis='" & Visible &
-                   "' decl='" & Decl & "'>");
          Put_Line (Prefix & " <element img='" &
                    Debug_Image (Part_I.Element) & "'/>");
 

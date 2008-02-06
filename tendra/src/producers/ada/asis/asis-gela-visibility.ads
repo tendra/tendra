@@ -152,20 +152,40 @@ private
       end case;
    end record;
 
+   type Part_Kinds is
+     (A_Public_Limited_View_Part,
+      A_Private_Limited_View_Part,  --  where names of private children go
+      A_Visible_Part,
+      A_Private_Part,
+      A_Public_Children_Part,
+      A_Private_Children_Part,
+      A_Body_Part);
+
+   subtype A_Children_Part is Part_Kinds range
+     A_Public_Children_Part .. A_Private_Children_Part;
+
+   subtype A_Limited_View_Part is Part_Kinds range
+     A_Public_Limited_View_Part .. A_Private_Limited_View_Part;
+
+   Is_Visible : constant array (Part_Kinds) of Boolean :=
+     (A_Public_Limited_View_Part |
+      A_Visible_Part |
+      A_Public_Children_Part => True,
+      others => False);
+
    type Part_Node is record
-      Dummy_Item  : aliased Region_Item (Dummy);
-      Region      : Region_Access;
-      Next        : Part_Access;
-      Visible     : Boolean;
-      Parent_Item : Region_Item_Access;
-      Last_Item   : Region_Item_Access;
-      Element     : Asis.Element;
+      Dummy_Item    : aliased Region_Item (Dummy);
+      Kind          : Part_Kinds;
+      Region        : Region_Access;
+      Next          : Part_Access;
+      Parent_Item   : Region_Item_Access;
+      Last_Item     : Region_Item_Access;
+      Element       : Asis.Element;
    end record;
 
    type Region_Node is record
       First_Part      : aliased Part_Node;
       Last_Part       : Part_Access;
-      Decl_Part       : Part_Access;
       Next            : Region_Access;
       First_Child     : Region_Access;
       Library_Unit    : Boolean := False;
