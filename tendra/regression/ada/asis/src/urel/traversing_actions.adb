@@ -173,6 +173,7 @@ package body Traversing_Actions is
       use Asis.Compilation_Units;
    begin
       Print_Element (Element);
+      Ada.Wide_Text_IO.New_Line;
       Ada.Wide_Text_IO.Put_Line ("Consistent:");
 
       for J in 1 .. Result.Consistent_Length loop

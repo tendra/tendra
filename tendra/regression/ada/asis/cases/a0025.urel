@@ -1,0 +1,26 @@
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [44:4..47:17]
+Consistent:
+  A0025.A/A_PACKAGE
+  A0025/A_PACKAGE
+  Standard/A_PACKAGE
+End of Consistent.
+Inconsistent:
+End of Inconsistent.
+Missing:
+End of Missing.
+Circular:
+End of Circular.
+
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [50:4..55:19]
+Consistent:
+  A0025/A_PACKAGE
+  A0025/A_PACKAGE_BODY
+  A0025.A/A_PACKAGE
+End of Consistent.
+Inconsistent:
+End of Inconsistent.
+Missing:
+End of Missing.
+Circular:
+End of Circular.
+
