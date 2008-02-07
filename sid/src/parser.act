@@ -116,9 +116,8 @@ static RuleT *		sid_enclosing_rule;
 static RuleT *		sid_current_rule;
 static BoolT		sid_redefining_entry;
 static NStringT		sid_maximum_scope;
-static EntryT *		sid_saved_pred_id;
-static EntryT *		sid_current_pred_id;
-static EntryT *		sid_unique_pred_id = NULL;
+static BoolT		sid_saved_pred_id;
+static BoolT		sid_current_pred_id;
 static EntryT *		sid_predicate_type = NULL;
 static AltT *		sid_current_alt;
 static ItemT *		sid_current_item;
@@ -284,7 +283,7 @@ scope_stack_init (&sid_global_scope);
 @};
 
 <current-tuple> : () -> () = @{
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 @};
 
 <save-tuple> = @{
@@ -446,11 +445,9 @@ scope_stack_init (&sid_global_scope);
 <add-pred> : (tuple:TypeTupleT&) -> () = @{
     if (sid_current_pred_id) {
 	E_multi_predicate_return ();
-    } else if (sid_unique_pred_id == NULL) {
-	sid_unique_pred_id = grammar_get_predicate_id (sid_current_grammar);
     }
-    sid_current_pred_id = sid_unique_pred_id;
-    types_add_name_entry (@&tuple, sid_current_pred_id);
+    sid_current_pred_id = TRUE;
+    types_add_name_entry (@&tuple, grammar_get_predicate_id(sid_current_grammar));
 @};
 
 <add-void> : (tuple :TypeTupleT&) -> () = @{
@@ -866,7 +863,7 @@ scope_stack_init (&sid_global_scope);
 	rule_compute_result_intersect (sid_current_rule);
 	types_copy (item_result (@item), rule_result (sid_current_rule));
 	types_add_new_names (alt_names (@saved_alt), item_result (@item),
-			     sid_unique_pred_id);
+			     grammar_get_predicate_id(sid_current_grammar));
     }
     sid_internal_rule = @saved_internal;
     sid_current_alt   = @saved_alt;
@@ -925,11 +922,11 @@ scope_stack_init (&sid_global_scope);
 		if (types_fillin_types (@&lhs,
 					action_result (action))) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 @&lhs, sid_unique_pred_id);
+					 @&lhs, grammar_get_predicate_id(sid_current_grammar));
 		    if (sid_saved_pred_id) {
 			BoolT  reference;
 			EntryT * type = types_find_name_type (@&lhs,
-							    sid_saved_pred_id,
+							    grammar_get_predicate_id(sid_current_grammar),
 							    &reference);
 
 			assert((type != NULL) && (!reference));
@@ -1008,7 +1005,7 @@ scope_stack_init (&sid_global_scope);
 					    item_param (sid_current_item))) {
 			types_add_new_names (alt_names (sid_current_alt),
 					     @&lhs,
-					     sid_unique_pred_id);
+					     grammar_get_predicate_id(sid_current_grammar));
 			if (sid_saved_pred_id) {
 			    E_predicate ();
 			}
@@ -1116,7 +1113,7 @@ scope_stack_init (&sid_global_scope);
 				       sid_alternative)) {
 		if (types_fillin_types (@&lhs, result)) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 @&lhs, sid_unique_pred_id);
+					 @&lhs, grammar_get_predicate_id(sid_current_grammar));
 		    if (sid_saved_pred_id) {
 			E_predicate ();
 		    }
@@ -1261,7 +1258,7 @@ scope_stack_init (&sid_global_scope);
 				       sid_alternative)) {
 		if (types_fillin_types (@&lhs, result)) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 @&lhs, sid_unique_pred_id);
+					 @&lhs, grammar_get_predicate_id(sid_current_grammar));
 		    if (sid_saved_pred_id) {
 			E_predicate ();
 		    }
@@ -1330,7 +1327,7 @@ scope_stack_init (&sid_global_scope);
 					    item_param (sid_current_item))) {
 			types_add_new_names (alt_names (sid_current_alt),
 					     @&lhs,
-					     sid_unique_pred_id);
+					     grammar_get_predicate_id(sid_current_grammar));
 			if (sid_saved_pred_id) {
 			    E_predicate ();
 			}

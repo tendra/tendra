@@ -110,9 +110,8 @@ static RuleT *		sid_enclosing_rule;
 static RuleT *		sid_current_rule;
 static BoolT		sid_redefining_entry;
 static NStringT		sid_maximum_scope;
-static EntryT *		sid_saved_pred_id;
-static EntryT *		sid_current_pred_id;
-static EntryT *		sid_unique_pred_id = NULL;
+static BoolT		sid_saved_pred_id;
+static BoolT		sid_current_pred_id;
 static EntryT *		sid_predicate_type = NULL;
 static AltT *		sid_current_alt;
 static ItemT *		sid_current_item;
@@ -780,7 +779,7 @@ ZR169(GrammarP sid_current_grammar, TypeTupleT *ZO132)
     {
 	{
 
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 	}
 	ZR191 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -885,7 +884,7 @@ ZR181(GrammarP sid_current_grammar, TypeTupleT *ZO132)
     {
 	{
 
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 	}
 	ZR191 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -974,7 +973,7 @@ ZR228(GrammarP sid_current_grammar)
 	rule_compute_result_intersect (sid_current_rule);
 	types_copy (item_result ((ZI232)), rule_result (sid_current_rule));
 	types_add_new_names (alt_names ((ZI230)), item_result ((ZI232)),
-			     sid_unique_pred_id);
+			     grammar_get_predicate_id(sid_current_grammar));
     }
     sid_internal_rule = (ZI231);
     sid_current_alt   = (ZI230);
@@ -1217,11 +1216,9 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 
     if (sid_current_pred_id) {
 	E_multi_predicate_return ();
-    } else if (sid_unique_pred_id == NULL) {
-	sid_unique_pred_id = grammar_get_predicate_id (sid_current_grammar);
     }
-    sid_current_pred_id = sid_unique_pred_id;
-    types_add_name_entry ((ZI132), sid_current_pred_id);
+    sid_current_pred_id = TRUE;
+    types_add_name_entry ((ZI132), grammar_get_predicate_id(sid_current_grammar));
 	    }
 	}
 	break;
@@ -1738,11 +1735,9 @@ ZR295(GrammarP sid_current_grammar)
 
     if (sid_current_pred_id) {
 	E_multi_predicate_return ();
-    } else if (sid_unique_pred_id == NULL) {
-	sid_unique_pred_id = grammar_get_predicate_id (sid_current_grammar);
     }
-    sid_current_pred_id = sid_unique_pred_id;
-    types_add_name_entry ((&ZI201), sid_current_pred_id);
+    sid_current_pred_id = TRUE;
+    types_add_name_entry ((&ZI201), grammar_get_predicate_id(sid_current_grammar));
 	    }
 	    {
 
@@ -2071,7 +2066,7 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI156)
 
 	    {
 
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 	    }
 	    {
 
@@ -2151,7 +2146,7 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI156)
 				       sid_alternative)) {
 		if (types_fillin_types ((&ZI201), result)) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 (&ZI201), sid_unique_pred_id);
+					 (&ZI201), grammar_get_predicate_id(sid_current_grammar));
 		    if (sid_saved_pred_id) {
 			E_predicate ();
 		    }
@@ -2284,7 +2279,7 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI156)
 				       sid_alternative)) {
 		if (types_fillin_types ((&ZI201), result)) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 (&ZI201), sid_unique_pred_id);
+					 (&ZI201), grammar_get_predicate_id(sid_current_grammar));
 		    if (sid_saved_pred_id) {
 			E_predicate ();
 		    }
@@ -2678,7 +2673,7 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 				       sid_alternative)) {
 		if (types_fillin_types ((ZI201), result)) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 (ZI201), sid_unique_pred_id);
+					 (ZI201), grammar_get_predicate_id(sid_current_grammar));
 		    if (sid_saved_pred_id) {
 			E_predicate ();
 		    }
@@ -2735,7 +2730,7 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 		    {
 			{
 
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 			}
 			{
 
@@ -2836,7 +2831,7 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 				       sid_alternative)) {
 		if (types_fillin_types ((ZI201), result)) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 (ZI201), sid_unique_pred_id);
+					 (ZI201), grammar_get_predicate_id(sid_current_grammar));
 		    if (sid_saved_pred_id) {
 			E_predicate ();
 		    }
@@ -2905,7 +2900,7 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 					    item_param (sid_current_item))) {
 			types_add_new_names (alt_names (sid_current_alt),
 					     (ZI201),
-					     sid_unique_pred_id);
+					     grammar_get_predicate_id(sid_current_grammar));
 			if (sid_saved_pred_id) {
 			    E_predicate ();
 			}
@@ -3038,7 +3033,7 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 					    item_param (sid_current_item))) {
 			types_add_new_names (alt_names (sid_current_alt),
 					     (ZI201),
-					     sid_unique_pred_id);
+					     grammar_get_predicate_id(sid_current_grammar));
 			if (sid_saved_pred_id) {
 			    E_predicate ();
 			}
@@ -3089,7 +3084,7 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 
 	    {
 
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 	    }
 	    ADVANCE_LEXER;
 	    {
@@ -3185,7 +3180,7 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 					    item_param (sid_current_item))) {
 			types_add_new_names (alt_names (sid_current_alt),
 					     (ZI201),
-					     sid_unique_pred_id);
+					     grammar_get_predicate_id(sid_current_grammar));
 			if (sid_saved_pred_id) {
 			    E_predicate ();
 			}
@@ -3423,11 +3418,11 @@ ZR202(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 		if (types_fillin_types ((ZI201),
 					action_result (action))) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 (ZI201), sid_unique_pred_id);
+					 (ZI201), grammar_get_predicate_id(sid_current_grammar));
 		    if (sid_saved_pred_id) {
 			BoolT  reference;
 			EntryT * type = types_find_name_type ((ZI201),
-							    sid_saved_pred_id,
+							    grammar_get_predicate_id(sid_current_grammar),
 							    &reference);
 
 			assert((type != NULL) && (!reference));
@@ -3485,7 +3480,7 @@ ZR202(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 
 	    {
 
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 	    }
 	    {
 
@@ -3524,11 +3519,11 @@ ZR202(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 		if (types_fillin_types ((ZI201),
 					action_result (action))) {
 		    types_add_new_names (alt_names (sid_current_alt),
-					 (ZI201), sid_unique_pred_id);
+					 (ZI201), grammar_get_predicate_id(sid_current_grammar));
 		    if (sid_saved_pred_id) {
 			BoolT  reference;
 			EntryT * type = types_find_name_type ((ZI201),
-							    sid_saved_pred_id,
+							    grammar_get_predicate_id(sid_current_grammar),
 							    &reference);
 
 			assert((type != NULL) && (!reference));
@@ -4208,7 +4203,7 @@ ZR215(GrammarP sid_current_grammar)
 		{
 		    {
 
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 		    }
 		    ZR296 (sid_current_grammar, &ZI156);
 		    if ((CURRENT_TERMINAL) == 26) {
@@ -4279,7 +4274,7 @@ ZR215(GrammarP sid_current_grammar)
 		    ADVANCE_LEXER;
 		    {
 
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 		    }
 		    {
 
@@ -4376,7 +4371,7 @@ ZR215(GrammarP sid_current_grammar)
 	{
 	    {
 
-    sid_current_pred_id = NULL;
+    sid_current_pred_id = FALSE;
 	    }
 	    ZR295 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
