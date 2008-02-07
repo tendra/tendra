@@ -35,6 +35,7 @@ BoolT;
 EntryP;
 ItemP;
 RuleP;
+NonLocalEntryP;
 StringT;
 TypeTupleT;
 
@@ -77,18 +78,18 @@ eof;
 <tuple-ref-type>: (:TypeTupleT&, : StringT &) -> ();
 <save-tuple>;
 <add-type>: (: StringT &) -> ();
-<terminal>: (: StringT &) -> ();
-<i-terminal>: (: StringT &) -> ();
-<x-terminal>  : (:TypeTupleT&,:TypeTupleT&) -> ();
+<terminal>: (: StringT &) -> (:EntryP);
+<i-terminal>: (: StringT &) -> (:EntryP);
+<x-terminal>  : (:EntryP, :TypeTupleT&,:TypeTupleT&) -> ();
 <add-name>: (:TypeTupleT&,: StringT &) -> ();
 <add-ref-name>: (:TypeTupleT&, : StringT &) -> ();
 <add-var>: (:TypeTupleT&, : StringT &) -> ();
 <add-pred>: (:TypeTupleT&) -> ();
 <add-void>: (:TypeTupleT&) -> ();
-<action>: (: StringT &) -> ();
-<x-action>: (: TypeTupleT&, : TypeTupleT&) -> () ;
-<non-local>: (: StringT &, : StringT &) -> ();
-<non-local-init>: (: StringT &) -> ();
+<action>: (: StringT &) -> (:EntryP);
+<x-action>: (:EntryP,: TypeTupleT&, : TypeTupleT&) -> () ;
+<non-local>: (: StringT &, : StringT &) -> (:NonLocalEntryP);
+<non-local-init>: (:NonLocalEntryP, : StringT &) -> ();
 <save-scope>: () -> (: EntryP, : RuleP);
 <restore-scope>: (: EntryP, : RuleP) -> ();
 <prod-action>: (: StringT &) -> ();
@@ -169,8 +170,10 @@ eof;
 
 /*
 -------------------------------------------------------------------------------
-| Before calling the "sid-parse-grammar" function, the following variables
-| should have been initialized: "sid_current_stream" and "sid_current_grammar".
+| Before calling the "sid-parse-grammar" function, the following variable
+| should have been initialized: "sid_current_stream".
+| The address of an initialized GrammarT
+| should be passed as the first argument. 
 -------------------------------------------------------------------------------
 */
 
@@ -287,9 +290,9 @@ sid-parse-grammar [
     terminal-decn-list [
 	terminal-decn = {
 	    id = identifier;
-	    <terminal> (&id);
+	    entry = <terminal> (&id);
 	    (params,results) = function-type-defn;
-	    <x-terminal>(&params,&results);
+	    <x-terminal>(entry,&params,&results);
 	    {
 		terminator;
 	      ##
@@ -299,9 +302,9 @@ sid-parse-grammar [
 	    ignore;
 	    {
 		id = identifier;
-		<i-terminal> (&id);
+		entry = <i-terminal> (&id);
 		(params,results)=function-type-defn;
-		<x-terminal>(&params,&results);
+		<x-terminal>(entry,&params,&results);
 		{
 		    terminator;
 		  ##
@@ -445,14 +448,14 @@ sid-parse-grammar [
 	    begin-action;
 	    {
 		id = identifier;
-		<action> (&id);
+		entry=<action> (&id);
 		{
 		    end-action;
 		  ##
 		    <expected-end-action>;
 		};
 		(params, results)=function-type-defn;
-		<x-action>(&params,&results);
+		<x-action>(entry,&params,&results);
 		{
 		    terminator;
 		  ##
@@ -747,7 +750,7 @@ sid-parse-grammar [
 		typemark;
 		{
 		    type = identifier;
-		    <non-local> (&id, &type);
+		    nonlocalentry=<non-local> (&id, &type);
 		    {
 			terminator;
 		      ||
@@ -759,7 +762,7 @@ sid-parse-grammar [
 			};
 			{
 			    action = identifier;
-			    <non-local-init> (&action);
+			    <non-local-init> (nonlocalentry, &action);
 			    {
 				end-action;
 			      ##
