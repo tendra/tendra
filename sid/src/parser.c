@@ -112,7 +112,6 @@ static BoolT		sid_redefining_entry;
 static NStringT		sid_maximum_scope;
 static BoolT		sid_saved_pred_id;
 static BoolT		sid_current_pred_id;
-static EntryT *		sid_predicate_type = NULL;
 static AltT *		sid_current_alt;
 static ItemT *		sid_current_item;
 static unsigned		sid_alternative;
@@ -3426,14 +3425,13 @@ ZR202(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 							    &reference);
 
 			assert((type != NULL) && (!reference));
-			if (sid_predicate_type) {
-			    if (type != sid_predicate_type) {
-				E_predicate_type (sid_predicate_type, type);
+			if(grammar_get_predicate_type (sid_current_grammar)) {
+			    if (type != grammar_get_predicate_type (sid_current_grammar)) {
+				E_predicate_type (grammar_get_predicate_type (sid_current_grammar), type);
 			    }
 			} else {
 			    grammar_set_predicate_type (sid_current_grammar,
 							type);
-			    sid_predicate_type = type;
 			}
 			item_to_predicate (sid_current_item);
 		    }
@@ -3527,14 +3525,13 @@ ZR202(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 							    &reference);
 
 			assert((type != NULL) && (!reference));
-			if (sid_predicate_type) {
-			    if (type != sid_predicate_type) {
-				E_predicate_type (sid_predicate_type, type);
+			if(grammar_get_predicate_type (sid_current_grammar)) {
+			    if (type != grammar_get_predicate_type (sid_current_grammar)) {
+				E_predicate_type (grammar_get_predicate_type (sid_current_grammar), type);
 			    }
 			} else {
 			    grammar_set_predicate_type (sid_current_grammar,
 							type);
-			    sid_predicate_type = type;
 			}
 			item_to_predicate (sid_current_item);
 		    }
