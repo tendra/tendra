@@ -1536,11 +1536,11 @@ package body Asis.Gela.Classes is
                if Is_Object_Access (Result) then
                   Result := Destination_Type (Result);
                end if;
+            end if;
 
-               if not Is_Not_Type (Result) then
-                  Index  := 1;  --  FIXME Index := Calculate (N);
-                  Result := Get_Array_Index_Type (Result, Index);
-               end if;
+            if Is_Array (Result) then
+               Index  := 1;  --  FIXME Index := Calculate (N);
+               Result := Get_Array_Index_Type (Result, Index);
             end if;
          when A_Discrete_Simple_Expression_Range =>
             Result := Type_Of_Range (Lower_Bound (Def), Upper_Bound (Def));

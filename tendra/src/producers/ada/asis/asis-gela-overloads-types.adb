@@ -1358,12 +1358,19 @@ package body Asis.Gela.Overloads.Types is
       Decl  : Asis.Declaration;
       Index : L.Cursor := L.First (Set.Items.all);
       Item  : Up_Interpretation;
+      Tipe  : Type_Info;
    begin
       while L.Has_Element (Index) loop
          Item := L.Element (Index);
 
-         if Item.Kind = An_Expression then
-            Decl := Get_Declaration (Item.Expression_Type);
+         if Item.Kind = An_Expression or Item.Kind = A_Range then
+            if Item.Kind = An_Expression then
+               Tipe := Item.Expression_Type;
+            else
+               Tipe := Item.Range_Type;
+            end if;
+
+            Decl := Get_Declaration (Tipe);
 
             if Is_Equal (Decl, XASIS.Types.Root_Integer) then
                Has_Root_Int := True;
@@ -1384,16 +1391,23 @@ package body Asis.Gela.Overloads.Types is
       while L.Has_Element (Index) loop
          Item := L.Element (Index);
 
-         if Item.Kind = An_Expression then
-            Decl := Get_Declaration (Item.Expression_Type);
+         if Item.Kind = An_Expression or Item.Kind = A_Range then
+            if Item.Kind = An_Expression then
+               Tipe := Item.Expression_Type;
+            else
+               Tipe := Item.Range_Type;
+            end if;
+
+            Decl := Get_Declaration (Tipe);
+
             if Is_Equal (Decl, XASIS.Types.Root_Integer) then
                Index := L.Next (Index);
-            elsif Has_Root_Int and then Is_Integer (Item.Expression_Type) then
+            elsif Has_Root_Int and then Is_Integer (Tipe) then
                L.Delete (Set.Items.all, Index);
                Set.Length := Set.Length - 1;
             elsif Is_Equal (Decl, XASIS.Types.Root_Real) then
                Index := L.Next (Index);
-            elsif Has_Root_Real and then Is_Real (Item.Expression_Type) then
+            elsif Has_Root_Real and then Is_Real (Tipe) then
                L.Delete (Set.Items.all, Index);
                Set.Length := Set.Length - 1;
             else
