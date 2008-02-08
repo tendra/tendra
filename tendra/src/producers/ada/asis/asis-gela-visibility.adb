@@ -482,7 +482,7 @@ package body Asis.Gela.Visibility is
          end loop;
 
          for I in 1 .. Length (List) loop
-            if Is_Equal (Get (List, I), Item) then
+            if Are_Homographs (Get (List, I), Item, Lookup_Use.Item) then
                Fail := False;
                return;
             end if;
@@ -541,9 +541,10 @@ package body Asis.Gela.Visibility is
             elsif Next.Kind = Use_Type then
                declare
                   Names : constant Asis.Defining_Name_List :=
-                    Lookup_Operators (Item, Next.Declaration);
+                    Lookup_Operators (Item,
+                                      Classes.Get_Declaration (Next.Tipe));
                begin
-                  for I in Names'Range loop
+                  for I in reverse Names'Range loop
                      Check_And_Add (Direct, List, Names (I), Fail);
 
                      if Fail then
@@ -732,8 +733,8 @@ package body Asis.Gela.Visibility is
                             & Debug_Image (Item.Declaration) & "'/>");
                when Use_Type =>
                   Put_Line (Prefix & "<use_type cur='"  & Current
-                            & "' decl='"
-                            & Debug_Image (Item.Declaration) & "'/>");
+                            & "' tipe='"
+                            & Classes.Debug_Image (Item.Tipe) & "'/>");
                when Dummy =>
                   Put_Line (Prefix & "<dummy cur='" & Current & "'/>");
             end case;

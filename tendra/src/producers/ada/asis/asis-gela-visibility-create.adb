@@ -634,9 +634,15 @@ package body Asis.Gela.Visibility.Create is
             Declaration      :=
               Unwind_Renamed (Selected_Name_Declaration (Name_List (I), True));
             Item             := new Visibility.Region_Item (Kind);
-            Item.Declaration := Declaration;
             Item.Part        := Point.Item.Part;
             Point.Item       := Item;
+
+            if Kind = Use_Package then
+               Item.Declaration := Declaration;
+            else
+               Item.Tipe := Classes.Type_From_Declaration
+                 (Declaration, Element);
+            end if;
 
             if not Visible and Item.Part.Kind = A_Visible_Part then
                Check_Part (Item, A_Private_Part, Element);

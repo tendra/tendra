@@ -14,6 +14,7 @@
 --  of context.
 
 with Asis;
+with Asis.Gela.Classes;
 
 package Asis.Gela.Visibility is
 
@@ -145,8 +146,10 @@ private
                when others =>
                   null;
             end case;
-         when Use_Package | Use_Type =>
-            Declaration : Asis.Declaration;
+         when Use_Package =>
+           Declaration : Asis.Declaration;
+         when Use_Type =>
+            Tipe : Asis.Gela.Classes.Type_Info;
          when Dummy =>
             null;
       end case;
