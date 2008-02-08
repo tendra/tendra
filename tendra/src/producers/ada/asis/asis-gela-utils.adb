@@ -587,9 +587,15 @@ package body Asis.Gela.Utils is
          when A_Definition =>
             case Definition_Kind (Item) is
                when A_Subtype_Indication =>
-                  Walk_Components
-                    (Get_Declaration (Type_From_Indication (Item, Place)),
-                     Continue);
+                  declare
+                     --  Get type view and walk it's declaration
+                     Def  : constant Asis.Definition :=
+                       Get_Type_Def (Type_From_Indication (Item, Place));
+                  begin
+                     Walk_Components
+                       (Enclosing_Element (Def),
+                        Continue);
+                  end;
                when A_Type_Definition =>
                   case Type_Kind (Item) is
                      when A_Derived_Record_Extension_Definition =>

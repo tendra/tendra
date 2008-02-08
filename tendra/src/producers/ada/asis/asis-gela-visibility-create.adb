@@ -114,7 +114,9 @@ package body Asis.Gela.Visibility.Create is
          Prev.Next := Part;
       end if;
 
-      if Check_Private and then Is_Private_Part_Of_Package then
+      if Check_Private and then Is_Private_Part_Of_Package
+        and then not Is_Part_Of_Instance (Element)
+      then
          Start := (Item => Part.Last_Item);
 
          --  if not empty private part:

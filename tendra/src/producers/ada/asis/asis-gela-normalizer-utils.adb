@@ -67,6 +67,17 @@ package body Asis.Gela.Normalizer.Utils is
       use Asis.Gela.Elements.Expr;
       use Asis.Gela.Elements.Def_Names;
 
+      procedure Check_Name (Start, Back : Wide_String) is
+      begin
+         if not XASIS.Utils.Are_Equal_Identifiers (Start, Back) then
+            Errors.Report
+              (Item => Element, -- Back_Identifier_Element,
+               What => Errors.Error_Syntax_Bad_Back_Identifier,
+               Argument1 => Start,
+               Argument2 => Back);
+         end if;
+      end Check_Name;
+
       Node             : Node_Type renames Node_Type (Element.all);
       Back_Identifier  : constant Asis.Element      := Compound_Name (Node);
       Name             : constant Asis.Element_List := Names (Element);
@@ -83,20 +94,17 @@ package body Asis.Gela.Normalizer.Utils is
          if Assigned (Back_Identifier) then
             Set_Is_Name_Repeated (Node, True);
 
-            if not XASIS.Utils.Are_Equal_Identifiers
-              (Defining_Name_Image (Start_Identifier.all), Img)
-            then
-               Errors.Report
-                 (Item => Element, -- Back_Identifier_Element,
-                  What => Errors.Error_Syntax_Bad_Back_Identifier,
-                  Argument1 => Defining_Name_Image (Start_Identifier.all),
-                  Argument2 => Img);
+            if Element_Kind (Start_Identifier.all) = An_Expression then
+               Check_Name (Name_Image (Start_Identifier.all), Img);
+            else
+               Check_Name (Defining_Name_Image (Start_Identifier.all), Img);
             end if;
          else
             Set_Is_Name_Repeated (Node, False);
          end if;
       else
          Set_Is_Name_Repeated (Node, False);
+
          if Assigned (Back_Identifier) then
             Errors.Report (Item => Element, -- Back_Identifier_Element,
                            What => Errors.Error_Syntax_Back_Identifier_Exists,

@@ -752,6 +752,9 @@ package body Asis.Gela.Overloads.Walk.Down is
                Next := To_Down_Interpretation (Item.Down);
             end if;
 
+            if Down.Kind = An_Expression then
+               Set_Expression_Type (Element, Down.Expression_Type);
+            end if;
          elsif Down.Kind /= An_Expression and
            Down.Kind /= A_Subprogram_Reference
          then
@@ -841,6 +844,7 @@ package body Asis.Gela.Overloads.Walk.Down is
 
       if Down.Kind = An_Expression then
          Result := Down.Expression_Type;
+         Set_Expression_Type (Element, Down.Expression_Type);
       end if;
 
       if Down.Kind = A_Procedure_Call then
@@ -1096,6 +1100,11 @@ package body Asis.Gela.Overloads.Walk.Down is
       Stored  : Stored_Interpretation;
    begin
       D.Pop (Resolver.Stack, Down);
+
+      if Down.Kind = An_Expression then
+         Set_Expression_Type (Element, Down.Expression_Type);
+      end if;
+
       Get (Resolver.Store, Element, Store);
 
       if Length (Store) /= 1 then
@@ -1157,6 +1166,7 @@ package body Asis.Gela.Overloads.Walk.Down is
                      Next := To_Down_Interpretation (Stored.Down);
                      D.Push (Resolver.Stack, Next);
                      Found := True;
+                     Set_Expression_Type (Element, Down.Expression_Type);
                   end if;
 
                end if;

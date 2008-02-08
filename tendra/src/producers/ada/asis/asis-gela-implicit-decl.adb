@@ -55,6 +55,7 @@ package body Asis.Gela.Implicit.Decl is
       end if;
 
       return Declaration_Kind (Parent) = A_Package_Declaration
+        or else Declaration_Kind (Parent) = A_Generic_Package_Declaration
         or else not Is_Nil (Element_Utils.Override (Oper));
    end Is_Primitive;
 

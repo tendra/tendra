@@ -118,11 +118,13 @@ package body Asis.Gela.Instances is
          use Asis.Definitions;
          use Asis.Gela.Element_Utils;
          Oper : Asis.Element_List :=
-           Corresponding_Type_Operators (Item);
+           Corresponding_Type_Operators (Item.all);
       begin
          for I in Oper'Range loop
-            Add_Type_Operator
-              (Result, Copy (Object, Oper (I), Result));
+            if Is_Part_Of_Implicit (Oper (I)) then
+               Add_Type_Operator
+                 (Result, Copy (Object, Oper (I), Result));
+            end if;
          end loop;
       end Clone_Operators;
 
@@ -214,6 +216,10 @@ package body Asis.Gela.Instances is
 
                when A_Private_Extension_Definition =>
                   Clone_Inherited;
+
+               when A_Private_Type_Definition |
+                 A_Tagged_Private_Type_Definition =>
+                  Clone_Operators;
 
                when others =>
                   null;

@@ -80,7 +80,8 @@ package body Asis.Gela.Visibility is
    begin
       case Declaration_Kind (The_Package) is
          when A_Package_Declaration |
-           A_Package_Body_Declaration =>
+           A_Package_Body_Declaration |
+           A_Generic_Package_Declaration =>
             return Declarations.Names (The_Package) (1);
          when others =>
             raise Internal_Error;

@@ -650,7 +650,9 @@ package body Asis.Gela.Overloads.Walk.Up is
 
    function Check_Type_Conversion (Name : Up_Interpretation) return Boolean is
    begin
-      if Name.Kind /= A_Declaration or else
+      if Name.Kind = A_Type then
+         return True;
+      elsif Name.Kind /= A_Declaration or else
         not Is_Type_Declaration (Name.Declaration)
       then
          return False;
@@ -1343,13 +1345,21 @@ package body Asis.Gela.Overloads.Walk.Up is
                         Stored.Down := Item;
                      end if;
                   end loop;
+
                   if Found /= 0 then
                      if Found > 1 then
                         Report (Element, Error_Ambiguous_Interprentation);
                      end if;
+
                      Stored.Kind := A_Type_Conversion;
-                     Stored.Result_Type :=
-                       Type_From_Declaration (Name.Declaration, Element);
+
+                     if Name.Kind = A_Declaration then
+                        Stored.Result_Type :=
+                          Type_From_Declaration (Name.Declaration, Element);
+                     else
+                        Stored.Result_Type := Name.Type_Info;
+                     end if;
+
                      Add (Result, Up_Expression (Stored.Result_Type));
                      Add (Store, Stored);
                   end if;

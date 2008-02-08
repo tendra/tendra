@@ -451,7 +451,13 @@ package body Asis.Gela.Overloads.Walk is
                   Down.Set_Expression_Type (Element, Universal_Access);
 
                when A_Parenthesized_Expression =>
-                  null;
+                  D.Pop (Resolver.Stack, Next);
+
+                  if Next.Kind = An_Expression then
+                     Down.Set_Expression_Type (Element, Next.Expression_Type);
+                  end if;
+
+                  D.Push (Resolver.Stack, Next);
 
                when A_Type_Conversion =>
                   raise Internal_Error;  --  go to function call
