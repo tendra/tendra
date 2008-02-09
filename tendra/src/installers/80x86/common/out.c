@@ -136,13 +136,12 @@ void
 out_comment(void)
 {
 #ifdef as_comment_symbol
-	char *comment = as_comment_symbol " ";
+	outc(as_comment_symbol);
 #else
 	/* Add a whitespace in front, otherwise gas might interpret this as
 	 * a special instruction */
-	char *comment = " # ";
+	outs(" #");
 #endif
-	outs(comment);
 }
 
 void
