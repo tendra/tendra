@@ -3,7 +3,7 @@
 PREFIX ?= /usr/local
 SHAREDIR ?= $(PREFIX)/share
 
-TSPEC_FLAGS = -Otspec/include -Stspec/TenDRA -Iapis -a
+TSPEC_FLAGS = -Otspec/TenDRA/include -Stspec/TenDRA/src -Iapis -a
 
 MKDIR = mkdir
 REMOVE = rm -f
