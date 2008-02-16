@@ -27,4 +27,3 @@
 #
 +IMPLEMENT "ansi", "stdio.h.tspec" ;
 
-# vim:ft=tspec:

@@ -39,4 +39,3 @@
 +DEFINE xor	%% ^ %% ;
 +DEFINE xor_eq	%% ^= %% ;
 
-# vim:ft=tspec:

@@ -133,4 +133,3 @@
 +FUNC size_t mbsrtowcs ( wchar_t *, const char **, size_t, mbstate_t * ) ;
 +FUNC size_t wcsrtombs ( char *, const wchar_t **, size_t, mbstate_t * ) ;
 
-# vim:ft=tspec:

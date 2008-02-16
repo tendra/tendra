@@ -59,4 +59,3 @@
     +CONST int EDOM, ERANGE ;
 } ;
 
-# vim:set filetype=tspec:

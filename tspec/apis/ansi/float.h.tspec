@@ -84,4 +84,3 @@
 +EXP long double LDBL_MIN ;
 +EXP int LDBL_MIN_10_EXP, LDBL_MIN_EXP ;
 
-# vim:set filetype=tspec:

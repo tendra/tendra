@@ -78,4 +78,3 @@ $VERSION = "2.6" ;
 +IMPLEMENT "ansi", "string.h.tspec" ;
 +IMPLEMENT "ansi", "time.h.tspec" ;
 
-# vim:set filetype=tspec:

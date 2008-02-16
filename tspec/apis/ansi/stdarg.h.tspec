@@ -95,4 +95,3 @@ typedef va_list __va_t ;
 
 +ENDIF
 
-# vim:set filetype=tspec:

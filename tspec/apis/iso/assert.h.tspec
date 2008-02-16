@@ -28,4 +28,3 @@
 $PROTECT = "" ;
 +IMPLEMENT "ansi", "assert.h.tspec" ;
 
-# vim:ft=tspec:

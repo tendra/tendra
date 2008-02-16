@@ -79,4 +79,3 @@
 +FUNC double tan ( double ) ;
 +FUNC double tanh ( double ) ;
 
-# vim:set filetype=tspec:

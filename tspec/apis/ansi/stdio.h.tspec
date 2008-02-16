@@ -124,4 +124,3 @@
 +FUNC int vsprintf ( char *, const char *, ~va_list ) ;
 +ENDIF
 
-# vim:set filetype=tspec:

@@ -27,4 +27,3 @@
 #
 +IMPLEMENT "ansi", "setjmp.h.tspec" ;
 
-# vim:ft=tspec:

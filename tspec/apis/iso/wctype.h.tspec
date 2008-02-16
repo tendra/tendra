@@ -60,4 +60,3 @@
 +FUNC wctrans_t wctrans ( const char * ) ;
 +FUNC wint_t towctrans ( wint_t, wctrans_t ) ;
 
-# vim:ft=tspec:

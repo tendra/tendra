@@ -75,4 +75,3 @@ $PROTECT = "" ;
 +DEFINE assert.2( e ) %% ((e)?(void)0:__assert_aux(#e,__FILE__,__LINE__)) %% ;
 +ENDIF
 
-# vim:set filetype=tspec:

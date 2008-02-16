@@ -30,4 +30,3 @@
 # 7.1.4
 +CONST int EILSEQ ;
 
-# vim:ft=tspec:

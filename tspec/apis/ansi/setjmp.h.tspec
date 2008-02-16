@@ -63,4 +63,3 @@
 +FUNC ~bottom longjmp ( jmp_buf, int ) ;
 +FUNC int setjmp ( jmp_buf ) ;
 
-# vim:set filetype=tspec:

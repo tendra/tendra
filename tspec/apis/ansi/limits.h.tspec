@@ -66,4 +66,3 @@
 +CONST long LONG_MAX, LONG_MIN ;
 +CONST unsigned long ULONG_MAX ;
 
-# vim:set filetype=tspec:

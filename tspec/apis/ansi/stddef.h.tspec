@@ -76,4 +76,3 @@
 %% PROC { STRUCT s, TYPE t, MEMBER t : s : m |\
    TYPE s, MEMBER s : m } EXP const : size_t : %% ;
 
-# vim:set filetype=tspec:

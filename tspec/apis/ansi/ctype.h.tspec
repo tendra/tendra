@@ -69,4 +69,3 @@
 +FUNC int tolower ( int ) ;
 +FUNC int toupper ( int ) ;
 
-# vim:set filetype=tspec:

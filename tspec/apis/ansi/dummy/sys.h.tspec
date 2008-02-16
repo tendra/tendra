@@ -62,4 +62,3 @@ $METHOD = "TDP" ;
 /* TDP method does not use this file, but the makefile requires it */
 %%%
 
-# vim:set filetype=tspec:
