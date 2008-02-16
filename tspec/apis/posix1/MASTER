@@ -1,0 +1,64 @@
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+#
+# This specification represents the IEEE Std 1003.1-1990, Core
+# Services standard update (POSIX.1), and ISO/IEC 9945-1:1990
+#
+
+$UNIQUE = 1 ;
+$VERSION = "2.6" ;
++BASE_API ;
+
++IMPLEMENT "ansi", "dummy/sys.h.tspec" ;
++IMPLEMENT "posix1", "assert.h.tspec" ;
++IMPLEMENT "posix1", "ctype.h.tspec" ;
++IMPLEMENT "posix1", "dirent.h.tspec" ;
++IMPLEMENT "posix1", "errno.h.tspec" ;
++IMPLEMENT "posix1", "fcntl.h.tspec" ;
++IMPLEMENT "posix1", "float.h.tspec" ;
++IMPLEMENT "posix1", "grp.h.tspec" ;
++IMPLEMENT "posix1", "limits.h.tspec" ;
++IMPLEMENT "posix1", "locale.h.tspec" ;
++IMPLEMENT "posix1", "math.h.tspec" ;
++IMPLEMENT "posix1", "pwd.h.tspec" ;
++IMPLEMENT "posix1", "setjmp.h.tspec" ;
++IMPLEMENT "posix1", "signal.h.tspec" ;
++IMPLEMENT "posix1", "stdarg.h.tspec" ;
++IMPLEMENT "posix1", "stddef.h.tspec" ;
++IMPLEMENT "posix1", "stdio.h.tspec" ;
++IMPLEMENT "posix1", "stdlib.h.tspec" ;
++IMPLEMENT "posix1", "string.h.tspec" ;
++IMPLEMENT "posix1", "sys/stat.h.tspec" ;
++IMPLEMENT "posix1", "sys/times.h.tspec" ;
++IMPLEMENT "posix1", "sys/types.h.tspec" ;
++IMPLEMENT "posix1", "sys/utsname.h.tspec" ;
++IMPLEMENT "posix1", "sys/wait.h.tspec" ;
++IMPLEMENT "posix1", "termios.h.tspec" ;
++IMPLEMENT "posix1", "time.h.tspec" ;
++IMPLEMENT "posix1", "unistd.h.tspec" ;
++IMPLEMENT "posix1", "utime.h.tspec" ;

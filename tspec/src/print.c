@@ -1048,7 +1048,7 @@ print_object(FILE *output, object *input, int pass)
 			if (nm [2] == 'G') {
 			    OUT(output, "#ifndef %s\n", b);
 			    dir = "#pragma extend interface [%s]\n";
-			    OUT(output, dir, i->file);
+			    OUT(output, dir, strip_extension(i->file));
 			    OUT ( output, "#else /* %s */\n", b ) ;
 			    m = "";
 			}
@@ -1066,7 +1066,7 @@ print_object(FILE *output, object *input, int pass)
 			    OUT ( output, "#endif /* %s */\n", b ) ;
 			}
 		    } else {
-			print_include(output, i->file, 1);
+			print_include(output, strip_extension(i->file), 1);
 		    }
 		}
 		break;
@@ -1370,11 +1370,11 @@ print_set(object *input, int pass)
 		OUT ( output, "%s %s */\n", progname, progvers ) ;
 		OUT(output, "#ifndef %s\n", w1);
 		OUT(output, "#ifndef %s\n", w2);
-		OUT(output, "#if #include ( %s )\n", i->file);
+		OUT(output, "#if #include ( %s )\n", strip_extension(i->file));
 		OUT(output, "#define %s\n", m);
-		print_include(output, i->file, 0);
+		print_include(output, strip_extension(i->file), 0);
 		print_object(output, i->elements, 1);
-		OUT(output, "#include <%s>\n", i->file);
+		OUT(output, "#include <%s>\n", strip_extension(i->file));
 		OUT(output, "#endif\n");
 		OUT(output, "#endif\n\n");
 		OUT(output, "#ifndef %s\n", m);

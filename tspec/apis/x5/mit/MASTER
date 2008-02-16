@@ -1,0 +1,97 @@
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+$UNIQUE = 1 ;
+$VERSION = "2.6" ;
+
+# Standard MIT headers
++IMPLEMENT "x5/mit", "X11/Xfuncs.h.tspec" ;
++IMPLEMENT "x5/mit", "X11/Xos.h.tspec" ;
++IMPLEMENT "x5/mit", "X11/copyright.h.tspec" ;
+
+# Standard bitmaps
++IMPLEMENT "x5/mit", "X11/bitmaps/1x1.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/2x2.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/black.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/boxes.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/calculator.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/cntr_ptr.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/cntr_ptrmsk.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/cross_weave.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dimple1.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dimple3.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dot.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dropbar7.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/dropbar8.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/flagdown.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/flagup.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/flipped_gray.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/gray.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/gray1.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/gray3.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/hlines2.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/hlines3.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/icon.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/keyboard16.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/left_ptr.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/left_ptrmsk.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/letters.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/menu10.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/light_gray.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/mailempty.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/mailemptymsk.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/mailfull.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/mailfullmsk.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/menu12.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/menu16.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/menu8.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/noletters.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/opendot.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/opendotMask.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/plaid.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/right_ptr.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/right_ptrmsk.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/root_weave.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/scales.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/sipb.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/star.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/starMask.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/stipple.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/stripe4.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/target.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/terminal.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/tie_fighter.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/vlines2.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/vlines3.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/weird_size.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/wide_weave.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/wingdogs.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xfd_icon.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xlogo11.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xlogo16.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xlogo32.tspec" ;
++IMPLEMENT "x5/mit", "X11/bitmaps/xlogo64.tspec" ;

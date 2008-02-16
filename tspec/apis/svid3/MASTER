@@ -1,0 +1,143 @@
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+#
+# This specification represents the System V Interface Definition (Third
+# Edition, 1989).
+#
+
+$UNIQUE = 1 ;
+$VERSION = "2.6" ;
++BASE_API ;
+
++IMPLEMENT "ansi", "dummy/sys.h.tspec" ;
++IMPLEMENT "svid3", "acl.h.tspec" ;
++IMPLEMENT "svid3", "assert.h.tspec" ;
++IMPLEMENT "svid3", "cpio.h.tspec" ;
++IMPLEMENT "svid3", "cs.h.tspec" ;
++IMPLEMENT "svid3", "ctype.h.tspec" ;
++IMPLEMENT "svid3", "curses.h.tspec" ;
++IMPLEMENT "svid3", "dirent.h.tspec" ;
++IMPLEMENT "svid3", "errno.h.tspec" ;
++IMPLEMENT "svid3", "eti.h.tspec" ;
++IMPLEMENT "svid3", "fcntl.h.tspec" ;
++IMPLEMENT "svid3", "float.h.tspec" ;
++IMPLEMENT "svid3", "fmtmsg.h.tspec" ;
++IMPLEMENT "svid3", "form.h.tspec" ;
++IMPLEMENT "svid3", "ftw.h.tspec" ;
++IMPLEMENT "svid3", "grp.h.tspec" ;
++IMPLEMENT "svid3", "langinfo.h.tspec" ;
++IMPLEMENT "svid3", "limits.h.tspec" ;
++IMPLEMENT "svid3", "locale.h.tspec" ;
++IMPLEMENT "svid3", "mac.h.tspec" ;
++IMPLEMENT "svid3", "malloc.h.tspec" ;
++IMPLEMENT "svid3", "math.h.tspec" ;
++IMPLEMENT "svid3", "menu.h.tspec" ;
++IMPLEMENT "svid3", "mon.h.tspec" ;
++IMPLEMENT "svid3", "netconfig.h.tspec" ;
++IMPLEMENT "svid3", "netdir.h.tspec" ;
++IMPLEMENT "svid3", "nl_types.h.tspec" ;
++IMPLEMENT "svid3", "nlist.h.tspec" ;
++IMPLEMENT "svid3", "panel.h.tspec" ;
++IMPLEMENT "svid3", "pfmt.h.tspec" ;
++IMPLEMENT "svid3", "pkginfo.h.tspec" ;
++IMPLEMENT "svid3", "poll.h.tspec" ;
++IMPLEMENT "svid3", "priv.h.tspec" ;
++IMPLEMENT "svid3", "prof.h.tspec" ;
++IMPLEMENT "svid3", "pwd.h.tspec" ;
++IMPLEMENT "svid3", "regexp.h.tspec" ;
++IMPLEMENT "svid3", "remop.h.tspec" ;
++IMPLEMENT "svid3", "rpc/key_prot.h.tspec" ;
++IMPLEMENT "svid3", "rpc/rpc.h.tspec" ;
++IMPLEMENT "svid3", "rpc/types.h.tspec" ;
++IMPLEMENT "svid3", "rpc/xdr.h.tspec" ;
++IMPLEMENT "svid3", "search.h.tspec" ;
++IMPLEMENT "svid3", "setjmp.h.tspec" ;
++IMPLEMENT "svid3", "siginfo.h.tspec" ;
++IMPLEMENT "svid3", "signal.h.tspec" ;
++IMPLEMENT "svid3", "stdarg.h.tspec" ;
++IMPLEMENT "svid3", "stddef.h.tspec" ;
++IMPLEMENT "svid3", "stdio.h.tspec" ;
++IMPLEMENT "svid3", "stdlib.h.tspec" ;
++IMPLEMENT "svid3", "string.h.tspec" ;
++IMPLEMENT "svid3", "stropts.h.tspec" ;
++IMPLEMENT "svid3", "sys/acct.h.tspec" ;
++IMPLEMENT "svid3", "sys/audit.h.tspec" ;
++IMPLEMENT "svid3", "sys/ipc.h.tspec" ;
++IMPLEMENT "svid3", "sys/lock.h.tspec" ;
++IMPLEMENT "svid3", "sys/mman.h.tspec" ;
++IMPLEMENT "svid3", "sys/mount.h.tspec" ;
++IMPLEMENT "svid3", "sys/msg.h.tspec" ;
++IMPLEMENT "svid3", "sys/priocntl.h.tspec" ;
++IMPLEMENT "svid3", "sys/procset.h.tspec" ;
++IMPLEMENT "svid3", "sys/resource.h.tspec" ;
++IMPLEMENT "svid3", "sys/rtpriocntl.h.tspec" ;
++IMPLEMENT "svid3", "sys/sem.h.tspec" ;
++IMPLEMENT "svid3", "sys/shm.h.tspec" ;
++IMPLEMENT "svid3", "sys/stat.h.tspec" ;
++IMPLEMENT "svid3", "sys/statvfs.h.tspec" ;
++IMPLEMENT "svid3", "sys/swap.h.tspec" ;
++IMPLEMENT "svid3", "sys/termio.h.tspec" ;
++IMPLEMENT "svid3", "sys/termios.h.tspec" ;
++IMPLEMENT "svid3", "sys/termiox.h.tspec" ;
++IMPLEMENT "svid3", "sys/time.h.tspec" ;
++IMPLEMENT "svid3", "sys/times.h.tspec" ;
++IMPLEMENT "svid3", "sys/tspriocntl.h.tspec" ;
++IMPLEMENT "svid3", "sys/types.h.tspec" ;
++IMPLEMENT "svid3", "sys/uio.h.tspec" ;
++IMPLEMENT "svid3", "sys/utsname.h.tspec" ;
++IMPLEMENT "svid3", "sys/wait.h.tspec" ;
++IMPLEMENT "svid3", "tar.h.tspec" ;
++IMPLEMENT "svid3", "term.h.tspec" ;
++IMPLEMENT "svid3", "termio.h.tspec" ;
++IMPLEMENT "svid3", "termios.h.tspec" ;
++IMPLEMENT "svid3", "time.h.tspec" ;
++IMPLEMENT "svid3", "tiuser.h.tspec" ;
++IMPLEMENT "svid3", "ucontext.h.tspec" ;
++IMPLEMENT "svid3", "ulimit.h.tspec" ;
++IMPLEMENT "svid3", "unctrl.h.tspec" ;
++IMPLEMENT "svid3", "unistd.h.tspec" ;
++IMPLEMENT "svid3", "ustat.h.tspec" ;
++IMPLEMENT "svid3", "utime.h.tspec" ;
++IMPLEMENT "svid3", "utmp.h.tspec" ;
++IMPLEMENT "svid3", "varargs.h.tspec" ;
++IMPLEMENT "svid3", "wait.h.tspec" ;
+
++SUBSET "config" := {
+    /* System V configuration */
+    +DEFINE __SYSV_KERNEL_EXTENSION 1 ;
+    +DEFINE __SYSV_ADMINISTERED_SYSTEMS 1 ;
+    +DEFINE __SYSV_SOFTWARE_DEVELOPMENT 1 ;
+    +DEFINE __SYSV_TERMINAL_INTERFACE 1 ;
+    +DEFINE __SYSV_REAL_TIME 1 ;
+    +DEFINE __SYSV_REMOTE_SERVICES 1 ;
+    +DEFINE __SYSV_WINDOW_SYSTEMS 0 ;
+    +DEFINE __SYSV_UPDATE 1 ;
+    +DEFINE __SYSV_ENHANCED_SECURITY 1 ;
+    +DEFINE __SYSV_AUDITING_EXTENSION 1 ;
+    +DEFINE __SYSV_REMOTE_ADMINISTRATION 1 ;
+} ;

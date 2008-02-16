@@ -1,0 +1,119 @@
+#   		 Crown Copyright (c) 1997
+#   
+#   This TenDRA(r) Computer Program is subject to Copyright
+#   owned by the United Kingdom Secretary of State for Defence
+#   acting through the Defence Evaluation and Research Agency
+#   (DERA).  It is made available to Recipients with a
+#   royalty-free licence for its use, reproduction, transfer
+#   to other parties and amendment for any purpose not excluding
+#   product development provided that any such use et cetera
+#   shall be deemed to be acceptance of the following conditions:-
+#   
+#       (1) Its Recipients shall ensure that this Notice is
+#       reproduced upon any copies or amended versions of it;
+#   
+#       (2) Any amended version of it shall be clearly marked to
+#       show both the nature of and the organisation responsible
+#       for the relevant amendment or amendments;
+#   
+#       (3) Its onward transfer from a recipient to another
+#       party shall be deemed to be that party's acceptance of
+#       these conditions;
+#   
+#       (4) DERA gives no warranty or assurance as to its
+#       quality or suitability for any purpose and DERA accepts
+#       no liability whatsoever in relation to any use to which
+#       it may be put.
+#
+# This specification represents the ISO/IEC 1488:2003 C++ standard.
+#
+
+
+$UNIQUE = 1 ;
+$VERSION = "1.1" ;
+
+# C++ ABI tokens
++IMPLEMENT "cpp", "dummy/basic.h.tspec" ;
++IMPLEMENT "cpp", "dummy/ptr_func.h.tspec" ;
++IMPLEMENT "cpp", "dummy/ptr_mem.h.tspec" ;
++IMPLEMENT "cpp", "dummy/throw.h.tspec" ;
++IMPLEMENT "cpp", "dummy/vtable.h.tspec" ;
+
+# Standard C headers
++IMPLEMENT "cpp", "cassert.tspec" ;
++IMPLEMENT "cpp", "cctype.tspec" ;
++IMPLEMENT "cpp", "cerrno.tspec" ;
++IMPLEMENT "cpp", "cfloat.tspec" ;
++IMPLEMENT "cpp", "climits.tspec" ;
++IMPLEMENT "cpp", "clocale.tspec" ;
++IMPLEMENT "cpp", "cmath.tspec" ;
++IMPLEMENT "cpp", "csetjmp.tspec" ;
++IMPLEMENT "cpp", "csignal.tspec" ;
++IMPLEMENT "cpp", "cstdarg.tspec" ;
++IMPLEMENT "cpp", "cstddef.tspec" ;
++IMPLEMENT "cpp", "cstdio.tspec" ;
++IMPLEMENT "cpp", "cstdlib.tspec" ;
++IMPLEMENT "cpp", "cstring.tspec" ;
++IMPLEMENT "cpp", "ctime.tspec" ;
++IMPLEMENT "cpp", "cwchar.tspec" ;
++IMPLEMENT "cpp", "cwctype.tspec" ;
+
+# Standard C++ headers
++IMPLEMENT "cpp", "algorithm.tspec" ;
++IMPLEMENT "cpp", "bitset.tspec" ;
++IMPLEMENT "cpp", "complex.tspec" ;
++IMPLEMENT "cpp", "deque.tspec" ;
++IMPLEMENT "cpp", "exception.tspec" ;
++IMPLEMENT "cpp", "fstream.tspec" ;
++IMPLEMENT "cpp", "functional.tspec" ;
++IMPLEMENT "cpp", "iomanip.tspec" ;
++IMPLEMENT "cpp", "ios.tspec" ;
++IMPLEMENT "cpp", "iosfwd.tspec" ;
++IMPLEMENT "cpp", "iostream.tspec" ;
++IMPLEMENT "cpp", "istream.tspec" ;
++IMPLEMENT "cpp", "iterator.tspec" ;
++IMPLEMENT "cpp", "limits.tspec" ;
++IMPLEMENT "cpp", "list.tspec" ;
++IMPLEMENT "cpp", "locale.tspec" ;
++IMPLEMENT "cpp", "map.tspec" ;
++IMPLEMENT "cpp", "memory.tspec" ;
++IMPLEMENT "cpp", "new.tspec" ;
++IMPLEMENT "cpp", "numeric.tspec" ;
++IMPLEMENT "cpp", "ostream.tspec" ;
++IMPLEMENT "cpp", "queue.tspec" ;
++IMPLEMENT "cpp", "set.tspec" ;
++IMPLEMENT "cpp", "sstream.tspec" ;
++IMPLEMENT "cpp", "stack.tspec" ;
++IMPLEMENT "cpp", "stdexcept.tspec" ;
++IMPLEMENT "cpp", "streambuf.tspec" ;
++IMPLEMENT "cpp", "string.tspec" ;
++IMPLEMENT "cpp", "typeinfo.tspec" ;
++IMPLEMENT "cpp", "utility.tspec" ;
++IMPLEMENT "cpp", "valarray.tspec" ;
++IMPLEMENT "cpp", "vector.tspec" ;
+
+# C compatibility headers
++IMPLEMENT "cpp", "assert.h.tspec" ;
++IMPLEMENT "cpp", "ctype.h.tspec" ;
++IMPLEMENT "cpp", "errno.h.tspec" ;
++IMPLEMENT "cpp", "float.h.tspec" ;
++IMPLEMENT "cpp", "iso646.h.tspec" ;
++IMPLEMENT "cpp", "limits.h.tspec" ;
++IMPLEMENT "cpp", "locale.h.tspec" ;
++IMPLEMENT "cpp", "math.h.tspec" ;
++IMPLEMENT "cpp", "setjmp.h.tspec" ;
++IMPLEMENT "cpp", "signal.h.tspec" ;
++IMPLEMENT "cpp", "stdarg.h.tspec" ;
++IMPLEMENT "cpp", "stddef.h.tspec" ;
++IMPLEMENT "cpp", "stdio.h.tspec" ;
++IMPLEMENT "cpp", "stdlib.h.tspec" ;
++IMPLEMENT "cpp", "string.h.tspec" ;
++IMPLEMENT "cpp", "time.h.tspec" ;
++IMPLEMENT "cpp", "wchar.h.tspec" ;
++IMPLEMENT "cpp", "wctype.h.tspec" ;
+
+# C++ compatibility headers
++IMPLEMENT "cpp", "iomanip.h.tspec" ;
++IMPLEMENT "cpp", "iostream.h.tspec" ;
++IMPLEMENT "cpp", "new.h.tspec" ;
++IMPLEMENT "cpp", "strstream.h.tspec" ;
