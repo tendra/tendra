@@ -1,6 +1,6 @@
 # $Id$
 
-SUBDIR = diagnostic guide register specification
+SUBDIR = tld tpl
 
 DOCTOOLS_BASE ?= ../../build
 
