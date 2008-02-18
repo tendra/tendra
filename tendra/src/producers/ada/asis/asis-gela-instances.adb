@@ -114,6 +114,25 @@ package body Asis.Gela.Instances is
       Target : Asis.Element;
       Name   : Asis.Defining_Name;
 
+      function Is_NE (Oper : Asis.Declaration) return Boolean;
+      --  Check if Oper is implicit "/=" declaration of explicit "="
+
+      function Is_NE (Oper : Asis.Declaration) return Boolean is
+         Name : constant Asis.Defining_Name :=
+           XASIS.Utils.Declaration_Name (Oper);
+         Kind : constant Asis.Operator_Kinds := Operator_Kind (Name);
+         Eq   : Asis.Declaration;
+      begin
+         if Kind = A_Not_Equal_Operator and then Is_Part_Of_Implicit (Oper)
+         then
+            Eq := Asis.Declarations.Corresponding_Equality_Operator (Oper);
+
+            return not Is_Part_Of_Implicit (Eq);
+         end if;
+
+         return False;
+      end Is_NE;
+
       procedure Clone_Operators is
          use Asis.Definitions;
          use Asis.Gela.Element_Utils;
@@ -121,7 +140,10 @@ package body Asis.Gela.Instances is
            Corresponding_Type_Operators (Item.all);
       begin
          for I in Oper'Range loop
-            if Is_Part_Of_Implicit (Oper (I)) then
+            --  Dont copy explicit operators (and "/=" for explicit "=")
+            --  because them will be created latter when explicit declarations
+            --  processed.
+            if Is_Part_Of_Implicit (Oper (I)) and not Is_NE (Oper (I)) then
                Add_Type_Operator
                  (Result, Copy (Object, Oper (I), Result));
             end if;
@@ -239,6 +261,33 @@ package body Asis.Gela.Instances is
                      Utils.Set_Corresponding_Declaration (Copy, Result);
                   end;
 
+               when A_Function_Declaration |
+                 A_Function_Renaming_Declaration
+                 =>
+                  declare
+                     use Asis.Declarations;
+                     Name : constant Asis.Defining_Name :=
+                       XASIS.Utils.Declaration_Name (Item);
+                     Kind : constant Asis.Operator_Kinds :=
+                       Operator_Kind (Name);
+                     NE   : Asis.Declaration;
+                     Inst : Asis.Declaration;
+                  begin
+                     if Kind = An_Equal_Operator and then
+                       not Is_Part_Of_Implicit (Item)
+                     then
+                        NE := Corresponding_Equality_Operator (Item.all);
+
+                        if Assigned (NE) then
+                           Inst := Copy (Object, NE, Result);
+                           Utils.Set_Instance (Inst, NE);
+--                           Set_Corresponding_Equality_Operator
+--                             (Function_Declaration_Node (Inst), Result);
+--                           Set_Corresponding_Equality_Operator
+--                           (Function_Declaration_Node (Result), Inst);
+                        end if;
+                     end if;
+                  end;
                when others =>
                   null;
             end case;
@@ -282,6 +331,12 @@ package body Asis.Gela.Instances is
       Actual_Kind  : Asis.Operator_Kinds;
    begin
       if not Is_Part_Of_Implicit (Actual) then
+         return False;
+      end if;
+
+      if Is_Part_Of_Instance (Actual) then
+         --  ARM 12.3(17):
+         -- "The copied ones can be called only from within the instance"
          return False;
       end if;
 
@@ -569,7 +624,7 @@ package body Asis.Gela.Instances is
 
    function Get_Template (Name : in Asis.Expression) return Asis.Declaration is
       Template    : Asis.Declaration :=
-        XASIS.Utils.Selected_Name_Declaration (Name, False);
+        XASIS.Utils.Selected_Name_Declaration (Name, False, True);
       Declaration : Asis.Declaration :=
         XASIS.Utils.Declaration_For_Completion (Template);
    begin

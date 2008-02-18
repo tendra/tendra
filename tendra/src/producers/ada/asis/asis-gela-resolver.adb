@@ -62,9 +62,9 @@ package body Asis.Gela.Resolver is
       use Asis.Elements;
    begin
       Visibility.Leave_Construction (Element, State.Point);
+      Implicit.Decl.Process (Element, State.Point);
 
       if not Is_Part_Of_Instance (Element.all) then
-         Implicit.Decl.Process (Element, State.Point);
          Overloads.Resolve (Element);
       end if;
 

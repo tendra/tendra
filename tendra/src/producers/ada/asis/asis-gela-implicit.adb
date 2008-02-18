@@ -360,8 +360,16 @@ package body Asis.Gela.Implicit is
             Set_Corresponding_Equality_Operator
               (Function_Declaration_Node (Decl.all), Asis.Element (Func));
 
-         when A_Function_Renaming_Declaration | A_Formal_Function_Declaration
-           =>
+         when A_Function_Renaming_Declaration =>
+            Set_Corresponding_Equality_Operator (Func.all, Decl);
+
+            Set_Corresponding_Equality_Operator
+              (Function_Renaming_Declaration_Node (Decl.all),
+               Asis.Element (Func));
+
+            Decl_Is_Type := False;
+
+         when A_Formal_Function_Declaration =>
             Decl_Is_Type := False;
 
          when others =>

@@ -389,7 +389,7 @@ end </xsl:text>
 
         <xsl:when test="contains (@type,'.List')">
           <xsl:text>
-      </xsl:text>
+      null</xsl:text><!--
           <xsl:value-of select="substring-before(@type,'.List')"/>
           <xsl:text>.Set
        (Result.</xsl:text>
@@ -400,7 +400,7 @@ end </xsl:text>
           <xsl:text>.To_Element_List
          (Element.</xsl:text>
           <xsl:value-of select="@name"/>
-          <xsl:text>))</xsl:text>
+          <xsl:text>))</xsl:text>-->
         </xsl:when>
 
         <xsl:otherwise>

@@ -137,8 +137,13 @@ private
       case Kind is
          when Definition | Char | Wide_Char =>
             Defining_Name : Asis.Defining_Name;
-            Count         : Asis.ASIS_Natural;
+            --  List of equal names in the same region:
             Prev          : Region_Item_Access;
+            --  List of equal names in the upper regions:
+            Up            : Region_Item_Access;
+            --  Count of equal names in this and upper regions (plus one):
+            Count         : Asis.ASIS_Natural;
+
             case Kind is
                when Definition =>
                   Still_Hidden  : Boolean;

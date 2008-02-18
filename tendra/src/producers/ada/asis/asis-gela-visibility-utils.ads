@@ -27,8 +27,6 @@ package Asis.Gela.Visibility.Utils is
    function Find_Name
      (Name             : Asis.Program_Text;
       Point            : Visibility.Point;
-      With_Private     : Boolean := True;
-      From_Visible     : Boolean := False;
       No_Parent_Region : Boolean := False)
       return Region_Item_Access;
 

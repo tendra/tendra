@@ -28,9 +28,6 @@ package body Asis.Gela.Visibility.Utils is
 
    function Find_Name_Internal
      (Name             : Asis.Program_Text;
-      Point            : Visibility.Point;
-      With_Private     : Boolean := True;
-      From_Visible     : Boolean := False;
       Until_Item       : Region_Item_Access;
       No_Parent_Region : Boolean := False)
       return Region_Item_Access;
@@ -197,17 +194,15 @@ package body Asis.Gela.Visibility.Utils is
          Result (Index) := Item.Defining_Name;
       end if;
 
-      if Item.Prev = null then
-         return;
-      end if;
-
-      if No_Parent_Region
-        and then Item.Prev.Part.Region /= Item.Part.Region
-      then
+      if No_Parent_Region and then Item.Prev = null then
         return;
       end if;
 
-      Find_All (Item.Prev, Index, Result, Unit, Point, No_Parent_Region);
+      if Item.Prev /= null then
+         Find_All (Item.Prev, Index, Result, Unit, Point, No_Parent_Region);
+      elsif Item.Up /= null then
+         Find_All (Item.Up, Index, Result, Unit, Point, No_Parent_Region);
+      end if;
    end Find_All;
 
    --------------------
@@ -352,8 +347,6 @@ package body Asis.Gela.Visibility.Utils is
    function Find_Name
      (Name             : Asis.Program_Text;
       Point            : Visibility.Point;
-      With_Private     : Boolean := True;
-      From_Visible     : Boolean := False;
       No_Parent_Region : Boolean := False)
       return Region_Item_Access
    is
@@ -362,8 +355,7 @@ package body Asis.Gela.Visibility.Utils is
          return null;
       end if;
 
-      return Find_Name_Internal (Name, Point, With_Private, From_Visible,
-        Point.Item, No_Parent_Region);
+      return Find_Name_Internal (Name, Point.Item, No_Parent_Region);
    end Find_Name;
 
    ------------------------
@@ -372,9 +364,6 @@ package body Asis.Gela.Visibility.Utils is
 
    function Find_Name_Internal
      (Name             : Asis.Program_Text;
-      Point            : Visibility.Point;
-      With_Private     : Boolean := True;
-      From_Visible     : Boolean := False;
       Until_Item       : Region_Item_Access;
       No_Parent_Region : Boolean := False)
      return Region_Item_Access
@@ -388,17 +377,37 @@ package body Asis.Gela.Visibility.Utils is
 
       procedure Fix_Item_Prev is
       begin
-         Item.Prev := Find_Name_Internal (Name,
-                                          (Item => Item),
-                                          False,
-                                          False,
-                                          Until_Item => Item.Next);
+         --  Find the same name in the same region
+         Item.Prev := Find_Name_Internal
+           (Name             => Name,
+            Until_Item       => Item.Next,
+            No_Parent_Region => True);
 
-         if Item.Prev = null then
-            Item.Count := 1;
-         else
-            Item.Count := Item.Prev.Count + 1;
+         --  Find the same name in upper regions
+         if Stored_Item.Part.Parent_Item /= null then
+            Item.Up := Find_Name_Internal
+              (Name       => Name,
+               Until_Item => Stored_Item.Part.Parent_Item);
          end if;
+
+         --  Count names in the same region
+         if Item.Prev = null then
+            Item.Count := 0;
+         else
+            Item.Count := Item.Prev.Count;
+
+            if Item.Prev.Up /= null then
+               Item.Count := Item.Count - Item.Prev.Up.Count;
+            end if;
+         end if;
+
+         --  Increment count by names in upper regions
+         if Item.Up /= null then
+            Item.Count := Item.Count + Item.Up.Count;
+         end if;
+
+         --  Count this name too
+         Item.Count := Item.Count + 1;
       end Fix_Item_Prev;
    begin
       Is_Char_Literal (Name, Is_Wide_Char, Is_Char);

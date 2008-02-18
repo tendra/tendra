@@ -124,7 +124,8 @@ package XASIS.Utils is
 
    function Selected_Name_Declaration
      (Expr      : Asis.Expression;
-      Skip_Attr : Boolean) return Asis.Declaration;
+      Skip_Attr : Boolean;
+      Unwind    : Boolean := False) return Asis.Declaration;
 
    function Is_Child_Of (Child, Parent : Asis.Element) return Boolean;
 
@@ -160,7 +161,7 @@ package XASIS.Utils is
    function Unique (List : Asis.Element_List) return Asis.Element_List;
    --  Remove dublicated elements from the List
 
-   function Unwind_Renamed (Item : Asis.Declaration) return Asis.Defining_Name;
+   function Unwind_Renamed (Item : Asis.Declaration) return Asis.Declaration;
    --  If Item rename declaration get renamed declaration
 
 end XASIS.Utils;

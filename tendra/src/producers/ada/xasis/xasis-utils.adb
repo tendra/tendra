@@ -1475,7 +1475,8 @@ package body XASIS.Utils is
 
    function Selected_Name_Declaration
      (Expr      : Asis.Expression;
-      Skip_Attr : Boolean) return Asis.Declaration
+      Skip_Attr : Boolean;
+      Unwind    : Boolean := False) return Asis.Declaration
    is
       use Asis.Elements;
       use Asis.Expressions;
@@ -1489,7 +1490,11 @@ package body XASIS.Utils is
            | An_Operator_Symbol
            | A_Character_Literal
            | An_Enumeration_Literal =>
-            return Corresponding_Name_Declaration (Mark);
+            if Unwind then
+               return Unwind_Renamed (Corresponding_Name_Declaration (Mark));
+            else
+               return Corresponding_Name_Declaration (Mark);
+            end if;
          when others =>
             return Asis.Nil_Element;
       end case;
@@ -1557,7 +1562,7 @@ package body XASIS.Utils is
    --------------------
 
    function Unwind_Renamed (Item : Asis.Declaration)
-                           return Asis.Defining_Name
+                           return Asis.Declaration
    is
       use Asis.Declarations;
       Next : Asis.Declaration;
@@ -1566,8 +1571,9 @@ package body XASIS.Utils is
    begin
       case Kind is
          when A_Renaming_Declaration =>
-            Next := Selected_Name_Declaration (Renamed_Entity (Item), False);
-            return Unwind_Renamed (Next);
+            Next := Selected_Name_Declaration
+              (Renamed_Entity (Item), False, Unwind => True);
+            return Next;
          when others =>
             return Item;
       end case;

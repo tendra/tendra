@@ -564,14 +564,6 @@ package body Asis.Gela.Implicit.Decl is
    begin
       Set_Is_Dispatching (Decl);
 
-      if Kind = An_Equal_Operator then
-         Info := Type_From_Indication (Result_Subtype (Decl), Decl);
-
-         if Is_Equal (Get_Declaration (Info), XASIS.Types.Boolean) then
-            Make_Not_Equal_Operator (Decl, Point);
-         end if;
-      end if;
-
       if Kind /= Not_An_Operator then
          declare
             Profile : Asis.Parameter_Specification_List :=
@@ -580,6 +572,12 @@ package body Asis.Gela.Implicit.Decl is
             Second  : Type_Info;
          begin
             Info := Type_From_Indication (Result_Subtype (Decl), Decl);
+
+            if Kind = An_Equal_Operator then
+               if Is_Equal (Get_Declaration (Info), XASIS.Types.Boolean) then
+                  Make_Not_Equal_Operator (Decl, Point);
+               end if;
+            end if;
 
             if Is_Primitive (Name, Info) then
                Add_Operator (Decl, Info);

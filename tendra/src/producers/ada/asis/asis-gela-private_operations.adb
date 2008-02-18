@@ -253,8 +253,20 @@ package body Asis.Gela.Private_Operations is
    is
       use Asis.Gela.Classes;
 
-      Spec : Asis.Declaration :=
-        Asis.Declarations.Corresponding_Declaration (Element);
+      function Specification (Element : Asis.Declaration)
+                             return Asis.Declaration
+      is
+         use Asis.Declarations;
+         Item : Asis.Declaration := Element;
+      begin
+         if Is_Subunit(Item) then
+            Item := Corresponding_Body_Stub (Item);
+         end if;
+
+         return Corresponding_Declaration (Item);
+      end Specification;
+
+      Spec : constant Asis.Declaration := Specification (Element);
       List : constant Asis.Declarative_Item_List :=
         Asis.Declarations.Visible_Part_Declarative_Items (Spec);
       Priv : constant Asis.Declarative_Item_List :=

@@ -633,8 +633,8 @@ package body Asis.Gela.Visibility.Create is
            In_Context_Clause (Element);
       begin
          for I in Name_List'Range loop
-            Declaration      :=
-              Unwind_Renamed (Selected_Name_Declaration (Name_List (I), True));
+            Declaration      := Selected_Name_Declaration
+              (Name_List (I), True, True);
             Item             := new Visibility.Region_Item (Kind);
             Item.Part        := Point.Item.Part;
             Point.Item       := Item;

@@ -553,6 +553,19 @@ package body Asis.Gela.Classes is
       return Result;
    end Get_Type_View;
 
+   -------------------
+   -- Get_Type_View --
+   -------------------
+
+   function Get_Type_View (Info : Type_Info) return Asis.Declaration is
+   begin
+      if Info.Kind = Declaration_Info then
+         return Info.Type_View;
+      else
+         return Asis.Nil_Element;
+      end if;
+   end Get_Type_View;
+
    -----------------
    -- Get_Subtype --
    -----------------

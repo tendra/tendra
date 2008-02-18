@@ -96,6 +96,8 @@
                 type="Asis.Overriding_Indicator_Kinds"/>
           <node name="Function_Renaming_Declaration_Node">
             <attr name="Result_Subtype" type="Asis.Definition" child="5"/>
+            <attr name="Corresponding_Equality_Operator"
+                  type="Asis.Declaration"/>
           </node>
         </node>
         <node name="Entry_Declaration_Node">

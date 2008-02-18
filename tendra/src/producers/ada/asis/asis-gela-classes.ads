@@ -161,6 +161,7 @@ package Asis.Gela.Classes is
       Name : Asis.Program_Text) return Asis.Declaration;
 
    function Get_Declaration (Info : Type_Info) return Asis.Declaration;
+   function Get_Type_View   (Info : Type_Info) return Asis.Declaration;
    function Get_Place       (Info : Type_Info) return Asis.Element;
    function Get_Type_Def    (Tipe : Type_Info) return Asis.Definition;
    function Is_Child_Of     (Child, Parent : Type_Info) return Boolean;
