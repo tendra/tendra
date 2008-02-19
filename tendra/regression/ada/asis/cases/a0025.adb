@@ -1,4 +1,5 @@
 with A0025.A;
+with A0025.B;
 
 package body A0025 is
 
@@ -53,5 +54,28 @@ begin
       + Library_Unit_Declaration ("A0025.A")
       + Compilation_Unit_Body ("A0025"),
       Descendants);
+
+   Semantic_Dependence_Order
+     (Library_Unit_Declaration ("A0025")
+      + Library_Unit_Declaration ("A0025.A"),
+      Nil_Compilation_Unit_List,
+      Descendants);
+
+   --  Test Supporters relation:
+   Semantic_Dependence_Order
+     (Library_Unit_Declaration ("A0025.A"),
+      Nil_Compilation_Unit_List,
+      Supporters);
+
+   Semantic_Dependence_Order
+     (Library_Unit_Declaration ("A0025.B"),
+      Nil_Compilation_Unit_List,
+      Supporters);
+
+   --  Test Dependents relation:
+   Semantic_Dependence_Order
+     (Library_Unit_Declaration ("A0025"),
+      Nil_Compilation_Unit_List,
+      Dependents);
 
 end A0025;
