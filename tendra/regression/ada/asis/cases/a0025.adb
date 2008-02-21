@@ -1,5 +1,7 @@
 with A0025.A;
 with A0025.B;
+with A0025c;
+with A0025d;
 
 package body A0025 is
 
@@ -77,5 +79,17 @@ begin
      (Library_Unit_Declaration ("A0025"),
       Nil_Compilation_Unit_List,
       Dependents);
+
+   --  Test Family relation:
+   Semantic_Dependence_Order
+     (Compilation_Unit_Body ("A0025"),
+      Nil_Compilation_Unit_List,
+      Family);
+
+   --  Test Needed_Units relation:
+   Semantic_Dependence_Order
+     (Library_Unit_Declaration ("A0025d"),
+      Nil_Compilation_Unit_List,
+      Needed_Units);
 
 end A0025;
