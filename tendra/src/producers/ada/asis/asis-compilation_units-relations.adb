@@ -61,7 +61,12 @@ package body Asis.Compilation_Units.Relations is
          Units : in Compilation_Unit_List)
          return Compilation_Unit_List_Access;
 
-      --  Tree_Node  --
+      -- Tree --
+      type Root_Tree is
+        new Ada.Finalization.Limited_Controlled with private;
+
+      type Root_Tree_Access is access all Root_Tree;
+
       type Tree_Node is
         new Ada.Finalization.Limited_Controlled with private;
 
@@ -86,70 +91,84 @@ package body Asis.Compilation_Units.Relations is
          Node : in Tree_Node_Access)
          return Boolean;
 
-      --  Tree_Node  --
-
+      -- Root_Tree --
       type Orders is (Ascending, Descending);
 
       procedure Dependence_Order
-        (This  : in Tree_Node_Access;
+        (This  : in Root_Tree_Access;
          Order : in Orders);
 
       function Add_Child
-        (This      : in Tree_Node_Access;
+        (This      : in Root_Tree_Access;
          Node      : in Tree_Node_Access;
          Spec_Unit : in Compilation_Unit)
          return Tree_Node_Access;
 
       function Add_Child
-        (This      : in Tree_Node_Access;
+        (This      : in Root_Tree_Access;
          Node      : in Tree_Node_Access;
          Spec_Unit : in Compilation_Unit;
          Body_Unit : in Compilation_Unit;
          Skip_Spec : in Boolean := False)
          return Tree_Node_Access;
 
+      procedure Append
+        (This : in Root_Tree_Access;
+         Unit : in Compilation_Unit);
+
       procedure Glue_Nodes
-        (This    : in Tree_Node_Access;
+        (This    : in Root_Tree_Access;
          Node    : in Tree_Node_Access;
          To_Node : in Tree_Node_Access);
 
       procedure Glue_Nodes_Checked
-        (This    : in Tree_Node_Access;
+        (This    : in Root_Tree_Access;
          Node    : in Tree_Node_Access;
          To_Node : in Tree_Node_Access);
 
-      procedure Add_Body_Dependents
-        (This    : in Tree_Node_Access;
-         To_Node : in Tree_Node_Access);
-
-      function Is_Child
-        (This : in Tree_Node_Access;
-         Node : in Tree_Node_Access)
-        return Boolean;
-
       procedure Set_Parent
-        (This   : in Tree_Node_Access;
+        (This   : in Root_Tree_Access;
          Node   : in Tree_Node_Access;
          Parent : in Tree_Node_Access);
 
       procedure Clear
-        (This : in out Tree_Node);
+        (This : in out Root_Tree);
+
+      procedure Add_Body_Dependents
+        (This    : in Root_Tree_Access;
+         Node    : in Tree_Node_Access;
+         To_Node : in Tree_Node_Access);
 
       function Find
-        (This : in Tree_Node;
+        (This : in Root_Tree_Access;
          Unit : in Compilation_Unit)
          return Tree_Node_Access;
 
       procedure Check
-        (This        : in Tree_Node_Access;
+        (This        : in Root_Tree_Access;
          The_Context : in Asis.Context);
 
       function Generate_Relationship
-        (This       : in Tree_Node_Access;
+        (This       : in Root_Tree_Access;
          Limit_List : in Utils.Compilation_Unit_List_Access;
          List_Last  : in ASIS_Integer)
          return Relationship;
 
+      function Create_Elaboration_Tree
+        (This        : in Root_Tree_Access;
+         The_Context : in Asis.Context)
+         return Root_Tree_Access;
+
+      function Is_Child
+        (This : in Root_Tree_Access;
+         Node : in Tree_Node_Access)
+        return Boolean;
+
+      function Is_Have_Circular_Dependences
+        (This : in Root_Tree_Access)
+         return Boolean;
+
+      -- Tree_Node --
       function Is_Skip_Spec
         (This : in Tree_Node_Access)
          return Boolean;
@@ -162,7 +181,7 @@ package body Asis.Compilation_Units.Relations is
         (This : in Tree_Node_Access)
          return Tree_Node_Array_Access;
 
-      function Spec
+      function Get_Spec
         (This : in Tree_Node_Access)
          return Compilation_Unit;
 
@@ -174,23 +193,18 @@ package body Asis.Compilation_Units.Relations is
 
    private
 
-      type Unit_Node is record
-         Unit : Compilation_Unit;
-         Node : Tree_Node_Access;
-      end record;
-
-      type Unit_Node_Array is array (Positive range <>) of Unit_Node;
-      type Unit_Node_Array_Access is access all Unit_Node_Array;
+      -- Tree_Node --
+      type Extended_Boolean is (Unknown, Extended_True, Extended_False);
 
       type Tree_Node is
         new Ada.Finalization.Limited_Controlled with record
          Self : Tree_Node_Access := Tree_Node'Unchecked_Access;
 
-         Order : Orders := Descending;
-
-         --  ссылка на предыдущий елемент
-         Prev  : Tree_Node_Access := null;
+         --  ссылка на предыдущие елементы
          Prevs : Tree_Node_Array_Access := null;
+
+         --  последующие елементы
+         Next : Tree_Node_Array_Access := null;
 
          --  модуль_компиляции
          Unit      : Compilation_Unit := Nil_Compilation_Unit;
@@ -202,18 +216,8 @@ package body Asis.Compilation_Units.Relations is
          Consistent      : Boolean := True;
          Body_Consistent : Boolean := True;
 
-         --  последующие елементы
-         Next : Tree_Node_Array_Access := null;
-
          -- зависимости тела (with)
          Body_Dependences : Tree_Node_Array_Access := null;
-
-         --  сортированный список всех
-         --  елементов для быстрого
-         --  определения наличия елемента
-         --  в списке
-         --  заполняет только корневой елемент
-         Units : Unit_Node_Array_Access := null;
 
          --  список циклических зависимостей
          Circular       : Compilation_Unit_List_Access := null;
@@ -226,10 +230,53 @@ package body Asis.Compilation_Units.Relations is
          --  список несоглассованных юнитов
          Inconsistent       : Compilation_Unit_List_Access := null;
          Inconsistent_Added : Boolean := False;
+
+         Elaborated      : Boolean := False;
+         Body_Elaborated : Boolean := False;
+
+         Internal_Pure : Extended_Boolean := Unknown;
       end record;
 
       procedure Finalize
         (This : in out Tree_Node);
+
+      function Is_Pure
+        (This : in Tree_Node_Access)
+         return Boolean;
+
+      -- Root_Tree --
+
+      type Unit_Node is record
+         Unit : Compilation_Unit;
+         Node : Tree_Node_Access;
+      end record;
+
+      type Unit_Node_Array is array (Positive range <>) of Unit_Node;
+      type Unit_Node_Array_Access is access all Unit_Node_Array;
+
+      type Root_Tree is
+        new Ada.Finalization.Limited_Controlled with record
+         Self  : Root_Tree_Access := Root_Tree'Unchecked_Access;
+
+         Order : Orders := Descending;
+         Next  : Tree_Node_Array_Access := null;
+
+         --  сортированный список всех
+         --  елементов для быстрого
+         --  определения наличия елемента
+         --  в списке
+         Units : Unit_Node_Array_Access := null;
+
+         Last_Node : Tree_Node_Access := null;
+      end record;
+
+      procedure Finalize
+        (This : in out Root_Tree);
+
+      -- Additional --
+      procedure Deallocate is
+        new Ada.Unchecked_Deallocation
+          (Tree_Node, Tree_Node_Access);
 
       procedure Deallocate is
         new Ada.Unchecked_Deallocation
@@ -281,40 +328,50 @@ package body Asis.Compilation_Units.Relations is
 
    procedure Deallocate is
      new Ada.Unchecked_Deallocation
-       (Utils.Tree_Node, Utils.Tree_Node_Access);
+       (Utils.Root_Tree, Utils.Root_Tree_Access);
+
+   procedure Check_Compilation_Unit
+     (Unit        : in Compilation_Unit;
+      The_Context : in Asis.Context;
+      Message     : in Wide_String);
+
+   procedure Normalize
+     (List   : in     Asis.Compilation_Unit_List;
+      Result : in     Utils.Compilation_Unit_List_Access;
+      Last   :    out ASIS_Integer);
 
    function Get_Ancestors
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access;
+      return Utils.Root_Tree_Access;
 
    function Get_Descendants
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access;
+      return Utils.Root_Tree_Access;
 
    function Get_Supporters
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access;
+      return Utils.Root_Tree_Access;
 
    function Get_Dependents
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access;
+      return Utils.Root_Tree_Access;
 
    function Get_Family
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access;
+      return Utils.Root_Tree_Access;
 
    function Get_Needed_Units
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access;
+      return Utils.Root_Tree_Access;
 
    procedure Get_Subunits
-     (Tree        : in Utils.Tree_Node_Access;
+     (Tree        : in Utils.Root_Tree_Access;
       Unit        : in Compilation_Unit;
       Node        : in Utils.Tree_Node_Access;
       The_Context : in Asis.Context);
@@ -342,6 +399,68 @@ package body Asis.Compilation_Units.Relations is
       The_Context : in Asis.Context)
       return Check_10_1_1_26c_26b_Information;
 
+   ----------------------------
+   -- Check_Compilation_Unit --
+   ----------------------------
+
+   procedure Check_Compilation_Unit
+     (Unit        : in Compilation_Unit;
+      The_Context : in Asis.Context;
+      Message     : in Wide_String)
+   is
+      Kind : Asis.Unit_Kinds;
+   begin
+      Kind := Unit_Kind (Unit);
+
+      if Kind = Not_A_Unit
+         or else Kind = A_Nonexistent_Declaration
+         or else Kind = A_Nonexistent_Body
+         or else Kind = A_Configuration_Compilation
+      then
+         Asis.Implementation.Set_Status
+           (Data_Error, Message & " invalid unit " & Unit_Full_Name (Unit));
+
+         raise Asis.Exceptions.ASIS_Inappropriate_Compilation_Unit;
+      end if;
+
+      if not Asis.Ada_Environments.Is_Equal
+        (Enclosing_Context (Unit), The_Context)
+      then
+         Asis.Implementation.Set_Status
+           (Data_Error, Message & " invalid unit's context "
+            & Unit_Full_Name (Unit));
+
+         raise Asis.Exceptions.ASIS_Inappropriate_Compilation_Unit;
+      end if;
+   end Check_Compilation_Unit;
+
+   ---------------
+   -- Normalize --
+   ---------------
+
+   procedure Normalize
+     (List   : in     Asis.Compilation_Unit_List;
+      Result : in     Utils.Compilation_Unit_List_Access;
+      Last   :    out ASIS_Integer)
+   is
+      Unit : Compilation_Unit;
+   begin
+      Last := 0;
+
+      for Index in List'Range loop
+         Unit := List (Index);
+
+         if not Is_Nil (Unit)
+            and then Unit_Kind (Unit) /= An_Unknown_Unit
+         then
+            if not Utils.In_List (Result, Last, Unit) then
+               Last := Last + 1;
+               Result (Last) := List (Index);
+            end if;
+         end if;
+      end loop;
+   end Normalize;
+
    -------------------------
    --  Elaboration_Order  -- *
    -------------------------
@@ -351,12 +470,74 @@ package body Asis.Compilation_Units.Relations is
       The_Context       : in Asis.Context)
       return Relationship
    is
-   begin
-      Asis.Implementation.Set_Status
-        (Not_Implemented_Error, "Elaboration_Order not implemented");
-      raise Asis.Exceptions.ASIS_Failed;
+      procedure Clear;
 
-      return Nil_Relationship;
+      Tree           : Utils.Root_Tree_Access := null;
+      Elaborate_Tree : Utils.Root_Tree_Access := null;
+
+      Compilation_Units_Last : ASIS_Integer := 0;
+
+      Normalized_Compilation_Units :
+         Utils.Compilation_Unit_List_Access := null;
+
+      -- Clear --
+      procedure Clear is
+      begin
+         Deallocate (Tree);
+         Deallocate (Elaborate_Tree);
+         Utils.Deallocate (Normalized_Compilation_Units);
+      end Clear;
+   begin
+      if Compilation_Units = Nil_Compilation_Unit_List then
+         return Nil_Relationship;
+      end if;
+
+      for Index in Compilation_Units'Range loop
+         Check_Compilation_Unit
+           (Compilation_Units (Index), The_Context,
+            "Elaboration_Order:Compilation_Unit");
+      end loop;
+
+      Normalized_Compilation_Units := new
+        Asis.Compilation_Unit_List (1 .. Compilation_Units'Length);
+
+      Normalized_Compilation_Units.all := (others => Nil_Compilation_Unit);
+
+      Normalize (Compilation_Units,
+                 Normalized_Compilation_Units,
+                 Compilation_Units_Last);
+
+      Tree := Get_Needed_Units
+         (Normalized_Compilation_Units (1 .. Compilation_Units_Last),
+          The_Context);
+
+      Utils.Check (Tree, The_Context);
+
+      if Utils.Is_Have_Circular_Dependences (Tree) then
+         Clear;
+
+         Asis.Implementation.Set_Status
+           (Data_Error, "Elaboration_Order - "
+            & "Circular semantic dependence detected, can not create "
+            & "elaboration order");
+
+         raise Asis.Exceptions.ASIS_Failed;
+      end if;
+
+      Elaborate_Tree := Utils.Create_Elaboration_Tree (Tree, The_Context);
+
+      declare
+         Relation : Relationship := Utils.Generate_Relationship
+            (Elaborate_Tree, null, 0);
+      begin
+         Clear;
+         return Relation;
+      end;
+
+   exception
+      when others =>
+         Clear;
+         raise;
    end Elaboration_Order;
 
    ---------------------------------
@@ -370,49 +551,7 @@ package body Asis.Compilation_Units.Relations is
       Relation          : in Asis.Relation_Kinds)
       return Relationship
    is
-      Current_Unit_Kind : Asis.Unit_Kinds;
-
-      procedure Check_Compilation_Unit
-         (Unit    : in Compilation_Unit;
-          Message : in Wide_String);
-
-      procedure Normalize
-         (List   : in     Asis.Compilation_Unit_List;
-          Result : in     Utils.Compilation_Unit_List_Access;
-          Last   :    out ASIS_Integer);
-
       procedure Clear;
-
-      -- Check_Compilation_Unit --
-      procedure Check_Compilation_Unit
-         (Unit    : in Compilation_Unit;
-          Message : in Wide_String)
-      is
-      begin
-         Current_Unit_Kind := Unit_Kind (Unit);
-
-         if Current_Unit_Kind = Not_A_Unit
-            or else Current_Unit_Kind = A_Nonexistent_Declaration
-            or else Current_Unit_Kind = A_Nonexistent_Body
-            or else Current_Unit_Kind = A_Configuration_Compilation
-         then
-            Asis.Implementation.Set_Status
-              (Data_Error, "Semantic_Dependence_Order "
-               & Message & " invalid unit " & Unit_Full_Name (Unit));
-
-            raise Asis.Exceptions.ASIS_Inappropriate_Compilation_Unit;
-         end if;
-
-         if not Asis.Ada_Environments.Is_Equal
-           (Enclosing_Context (Unit), The_Context)
-         then
-            Asis.Implementation.Set_Status
-              (Data_Error, "Semantic_Dependence_Order "
-               & Message & " invalid unit's context " & Unit_Full_Name (Unit));
-
-            raise Asis.Exceptions.ASIS_Inappropriate_Compilation_Unit;
-         end if;
-      end Check_Compilation_Unit;
 
       Compilation_Units_Last : ASIS_Integer := 0;
 
@@ -424,31 +563,7 @@ package body Asis.Compilation_Units.Relations is
       Normalized_Dependent_Units :
          Utils.Compilation_Unit_List_Access := null;
 
-      -- Normalize --
-      procedure Normalize
-         (List   : in     Asis.Compilation_Unit_List;
-          Result : in     Utils.Compilation_Unit_List_Access;
-          Last   :    out ASIS_Integer)
-      is
-         Unit : Compilation_Unit;
-      begin
-         Last := 0;
-
-         for Index in List'Range loop
-            Unit := List (Index);
-
-            if Assigned (Unit)
-               and then Unit_Kind (Unit) /= An_Unknown_Unit
-            then
-               if not Utils.In_List (Result, Last, Unit) then
-                  Last := Last + 1;
-                  Result (Last) := List (Index);
-               end if;
-            end if;
-         end loop;
-      end Normalize;
-
-      Tree : Utils.Tree_Node_Access := null;
+      Tree : Utils.Root_Tree_Access := null;
 
       procedure Clear is begin
          Deallocate (Tree);
@@ -463,7 +578,8 @@ package body Asis.Compilation_Units.Relations is
 
       for Index in Compilation_Units'Range loop
          Check_Compilation_Unit
-           (Compilation_Units (Index), "Compilation_Unit");
+           (Compilation_Units (Index), The_Context,
+            "Semantic_Dependence_Order:Compilation_Unit");
       end loop;
 
       Normalized_Compilation_Units := new
@@ -481,7 +597,9 @@ package body Asis.Compilation_Units.Relations is
          and then Dependent_Units /= Nil_Compilation_Unit_List
       then
          for Index in Dependent_Units'Range loop
-            Check_Compilation_Unit (Dependent_Units (Index), "Dependent_Unit");
+            Check_Compilation_Unit
+               (Dependent_Units (Index), The_Context,
+                "Semantic_Dependence_Order:Dependent_Unit");
          end loop;
 
          Normalized_Dependent_Units := new
@@ -548,14 +666,14 @@ package body Asis.Compilation_Units.Relations is
    function Get_Ancestors
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access
+      return Utils.Root_Tree_Access
    is
       use Utils;
 
       Unit  : Compilation_Unit;
       Kinds : Unit_Kinds;
 
-      Result : Tree_Node_Access := new Tree_Node;
+      Result : Root_Tree_Access := new Root_Tree;
 
       procedure Append_Node
         (Unit : in     Compilation_Unit;
@@ -572,7 +690,7 @@ package body Asis.Compilation_Units.Relations is
       is
          Exist_Node : Tree_Node_Access;
       begin
-         Exist_Node := Find (Result.all, Unit);
+         Exist_Node := Find (Result, Unit);
 
          if Exist_Node /= null then
             Glue_Nodes (Result, Node, Exist_Node);
@@ -620,7 +738,7 @@ package body Asis.Compilation_Units.Relations is
       for Index in List'Range loop
          Unit := List (Index);
 
-         if Find (Result.all, Unit) = null
+         if Find (Result, Unit) = null
          then
             Kinds := Unit_Kind (Unit);
 
@@ -653,11 +771,11 @@ package body Asis.Compilation_Units.Relations is
    function Get_Descendants
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access
+      return Utils.Root_Tree_Access
    is
       use Utils;
 
-      Result      : Tree_Node_Access := new Tree_Node;
+      Result      : Root_Tree_Access := new Root_Tree;
       Unit        : Compilation_Unit;
       Second_Unit : Compilation_Unit;
       Kinds       : Unit_Kinds;
@@ -683,7 +801,7 @@ package body Asis.Compilation_Units.Relations is
          is
          begin
             Kinds       := Unit_Kind (Unit);
-            Exist_Node  := Find (Result.all, Unit);
+            Exist_Node  := Find (Result, Unit);
             Second_Unit := Nil_Compilation_Unit;
 
             if Exist_Node /= null then
@@ -801,7 +919,7 @@ package body Asis.Compilation_Units.Relations is
       for Index in 1 .. Declarations_Last loop
          Unit := Declarations_List (Index);
 
-         if Find (Result.all, Unit) = null then
+         if Find (Result, Unit) = null then
             Second_Unit := Corresponding_Body (Unit, The_Context);
 
             if not Is_Nil (Second_Unit) 
@@ -831,14 +949,14 @@ package body Asis.Compilation_Units.Relations is
    function Get_Supporters
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access
+      return Utils.Root_Tree_Access
    is
       use Utils;
 
       Unit  : Compilation_Unit;
       Kinds : Unit_Kinds;
 
-      Result : Tree_Node_Access := new Tree_Node;
+      Result : Root_Tree_Access := new Root_Tree;
       Node   : Tree_Node_Access := null;
 
       Std : Compilation_Unit := Library_Unit_Declaration ("Standard", The_Context);
@@ -883,7 +1001,7 @@ package body Asis.Compilation_Units.Relations is
       is
          Exist_Node : Tree_Node_Access;
       begin
-         Exist_Node := Find (Result.all, Unit);
+         Exist_Node := Find (Result, Unit);
 
          if Exist_Node = null then
             Node := Add_Child (Result, Node, Unit);
@@ -1044,19 +1162,19 @@ package body Asis.Compilation_Units.Relations is
                   if not For_Body then
                      Retrive (Internal_Unit, Node);
                   else
-                     Exist_Node := Find (Result.all, Internal_Unit);
+                     Exist_Node := Find (Result, Internal_Unit);
 
                      if Exist_Node = null then
                         Exist_Node := Add_Child (Result, null, Internal_Unit);
 
                         if Node /= null then
-                          Add_Body_Dependents (Exist_Node, Node);
+                          Add_Body_Dependents (Result, Exist_Node, Node);
                         end if;
 
                         Retrive (Internal_Unit, Exist_Node, True);
                      else
                         if Node /= null then
-                          Add_Body_Dependents (Exist_Node, Node);
+                          Add_Body_Dependents (Result, Exist_Node, Node);
                         end if;
                      end if;
                   end if;
@@ -1085,19 +1203,19 @@ package body Asis.Compilation_Units.Relations is
          is
             Exist_Node : Tree_Node_Access;
          begin
-            Exist_Node := Find (Result.all, Unit);
+            Exist_Node := Find (Result, Unit);
 
             if Exist_Node = null then
                Exist_Node := Add_Child (Result, null, Unit);
 
                if Node /= null then
-                  Add_Body_Dependents (Exist_Node, Node);
+                  Add_Body_Dependents (Result, Exist_Node, Node);
                end if;
 
                Retrive (Unit, Exist_Node, True);
             else
                if Node /= null then
-                  Add_Body_Dependents (Exist_Node, Node);
+                  Add_Body_Dependents (Result, Exist_Node, Node);
                end if;
             end if;
          end Retrive_For_Body;
@@ -1128,7 +1246,7 @@ package body Asis.Compilation_Units.Relations is
       for Index in List'Range loop
          Unit := List (Index);
 
-         if Find (Result.all, Unit) = null then
+         if Find (Result, Unit) = null then
             Retrive (Unit, null, True);
          end if;
       end loop;
@@ -1147,11 +1265,11 @@ package body Asis.Compilation_Units.Relations is
    function Get_Dependents
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access
+      return Utils.Root_Tree_Access
    is
       use Utils;
 
-      Result : Tree_Node_Access := new Tree_Node;
+      Result : Root_Tree_Access := new Root_Tree;
 
       Unit, Body_Unit : Compilation_Unit;
 
@@ -1171,7 +1289,7 @@ package body Asis.Compilation_Units.Relations is
          Exist_Node  : Tree_Node_Access := null;
          Second_Unit : Compilation_Unit;
       begin
-         Exist_Node := Find (Result.all, Unit);
+         Exist_Node := Find (Result, Unit);
          Kinds      := Unit_Kind (Unit);
 
          if Kinds in A_Procedure .. A_Generic_Package then
@@ -1194,34 +1312,34 @@ package body Asis.Compilation_Units.Relations is
 
          elsif Kinds in A_Library_Unit_Body then
             if Exist_Node /= null then
-               Add_Body_Dependents (Exist_Node, Node);
+               Add_Body_Dependents (Result, Exist_Node, Node);
             else
                Second_Unit := Corresponding_Declaration (Unit, The_Context);
 
                if not Is_Nil (Second_Unit)
                   and then not Is_Identical (Second_Unit, Unit)
                then
-                  Exist_Node := Find (Result.all, Second_Unit);
+                  Exist_Node := Find (Result, Second_Unit);
 
                   if Exist_Node /= null then
-                     Add_Body_Dependents (Exist_Node, Node);
+                     Add_Body_Dependents (Result, Exist_Node, Node);
                   else
                      Exist_Node := Add_Child
                         (Result, null, Second_Unit, Unit, True);
-                     Add_Body_Dependents (Exist_Node, Node);
+                     Add_Body_Dependents (Result, Exist_Node, Node);
                   end if;
                else
                   Exist_Node := Add_Child (Result, null, Unit);
-                  Add_Body_Dependents (Exist_Node, Node);
+                  Add_Body_Dependents (Result, Exist_Node, Node);
                end if;
             end if;
 
          elsif Kinds in A_Subunit then
             if Exist_Node /= null then
-               Add_Body_Dependents (Exist_Node, Node);
+               Add_Body_Dependents (Result, Exist_Node, Node);
             else
                Exist_Node := Add_Child (Result, null, Unit);
-               Add_Body_Dependents (Exist_Node, Node);
+               Add_Body_Dependents (Result, Exist_Node, Node);
             end if;
 
          else
@@ -1347,7 +1465,7 @@ package body Asis.Compilation_Units.Relations is
                   Second_Unit := Nil_Compilation_Unit;
 
                   Kinds      := Unit_Kind (Children);
-                  Exist_Node := Find (Result.all, Children);
+                  Exist_Node := Find (Result, Children);
 
                   if Exist_Node /= null then
                      if Is_Child (Result, Exist_Node) then
@@ -1495,7 +1613,7 @@ package body Asis.Compilation_Units.Relations is
                     or else not Utils.In_List
                       (Glued, Glued.all'Last, Next_Node)
                   then
-                     Next_Unit := Spec (Next_Node);
+                     Next_Unit := Get_Spec (Next_Node);
                      Kinds     := Unit_Kind (Next_Unit);
                      if Kinds in
                        A_Procedure .. A_Generic_Package_Renaming
@@ -1526,7 +1644,7 @@ package body Asis.Compilation_Units.Relations is
       for Index in List'Range loop
          Unit := List (Index);
 
-         if Find (Result.all, Unit) = null then
+         if Find (Result, Unit) = null then
             Kinds := Unit_Kind (Unit);
 
             if Kinds in A_Procedure .. A_Generic_Package_Renaming then
@@ -1559,11 +1677,11 @@ package body Asis.Compilation_Units.Relations is
    function Get_Family
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access
+      return Utils.Root_Tree_Access
    is
       use Utils;
 
-      Result : Tree_Node_Access := new Tree_Node;
+      Result : Root_Tree_Access := new Root_Tree;
 
       Unit, Body_Unit : Compilation_Unit;
 
@@ -1601,7 +1719,7 @@ package body Asis.Compilation_Units.Relations is
                   Second_Unit := Nil_Compilation_Unit;
 
                   Kinds      := Unit_Kind (Children);
-                  Exist_Node := Find (Result.all, Children);
+                  Exist_Node := Find (Result, Children);
 
                   if Exist_Node /= null then
                      Glue_Nodes_Checked (Result, Node, Exist_Node);
@@ -1677,7 +1795,7 @@ package body Asis.Compilation_Units.Relations is
                for Index in Next'Range loop
                   Next_Node := Next (Index);
 
-                  Next_Unit := Spec (Next_Node);
+                  Next_Unit := Get_Spec (Next_Node);
                   Kinds     := Unit_Kind (Next_Unit);
 
                   if Kinds in
@@ -1701,7 +1819,7 @@ package body Asis.Compilation_Units.Relations is
       for Index in List'Range loop
          Unit := List (Index);
 
-         if Find (Result.all, Unit) = null then
+         if Find (Result, Unit) = null then
             Kinds := Unit_Kind (Unit);
 
             if Kinds in A_Procedure .. A_Generic_Package_Renaming then
@@ -1734,11 +1852,11 @@ package body Asis.Compilation_Units.Relations is
    function Get_Needed_Units
      (List        : in Asis.Compilation_Unit_List;
       The_Context : in Asis.Context)
-      return Utils.Tree_Node_Access
+      return Utils.Root_Tree_Access
    is
       use Utils;
 
-      Result : Tree_Node_Access := new Tree_Node;
+      Result : Root_Tree_Access := new Root_Tree;
 
       Unit, Body_Unit : Compilation_Unit;
 
@@ -1788,7 +1906,7 @@ package body Asis.Compilation_Units.Relations is
       is
          Exist_Node : Tree_Node_Access;
       begin
-         Exist_Node := Find (Result.all, Unit);
+         Exist_Node := Find (Result, Unit);
 
          if Exist_Node = null then
             if Is_Identical (Unit, Std) then
@@ -1817,7 +1935,6 @@ package body Asis.Compilation_Units.Relations is
             return;
          end if;
 
-         Ada.Wide_Text_IO.Put_Line ("Retrive :" & Unit_Full_Name (Unit));
          Kinds := Unit_Kind (Unit);
 
          if Kinds in A_Nonexistent_Declaration .. An_Unknown_Unit then
@@ -1880,7 +1997,6 @@ package body Asis.Compilation_Units.Relations is
          end if;
 
          Parent := Corresponding_Parent_Declaration (Unit, The_Context);
-         Ada.Wide_Text_IO.Put_Line ("Parent:" & Unit_Full_Name (Parent));
 
          while Unit_Kind (Parent) in
            A_Procedure .. A_Generic_Package_Renaming
@@ -1950,7 +2066,7 @@ package body Asis.Compilation_Units.Relations is
             Sub_Unit := Sub (Index);
 
             if not Is_Nil (Sub_Unit) then
-               Exist_Node := Find (Result.all, Sub_Unit);
+               Exist_Node := Find (Result, Sub_Unit);
                if Exist_Node = null then
                   Exist_Node := Add_Child (Result, Node, Sub_Unit);
                   Check_10_1_1_26c_26b (Unit, Exist_Node, True);
@@ -1983,11 +2099,10 @@ package body Asis.Compilation_Units.Relations is
                   (Unit, With_List (Index), Index, The_Context);
 
                if not Is_Nil (Internal_Unit) then
-                  Ada.Wide_Text_IO.Put_Line ("With :" & Unit_Full_Name (Internal_Unit));
                   if not For_Body then
                      Retrive (Internal_Unit, Node);
                   else
-                     Exist_Node := Find (Result.all, Internal_Unit);
+                     Exist_Node := Find (Result, Internal_Unit);
 
                      if Exist_Node = null then
                         Body_Unit := Corresponding_Body (Internal_Unit, The_Context);
@@ -1999,13 +2114,13 @@ package body Asis.Compilation_Units.Relations is
                         end if;
 
                         if Node /= null then
-                          Add_Body_Dependents (Exist_Node, Node);
+                          Add_Body_Dependents (Result, Exist_Node, Node);
                         end if;
 
                         Retrive (Internal_Unit, Exist_Node, False);
                      else
                         if Node /= null then
-                          Add_Body_Dependents (Exist_Node, Node);
+                          Add_Body_Dependents (Result, Exist_Node, Node);
                         end if;
                      end if;
                   end if;
@@ -2034,7 +2149,7 @@ package body Asis.Compilation_Units.Relations is
          is
             Exist_Node : Tree_Node_Access;
          begin
-            Exist_Node := Find (Result.all, Unit);
+            Exist_Node := Find (Result, Unit);
 
             if Exist_Node = null then
                Body_Unit := Corresponding_Body (Unit, The_Context);
@@ -2046,13 +2161,13 @@ package body Asis.Compilation_Units.Relations is
                end if;
 
                if Node /= null then
-                  Add_Body_Dependents (Exist_Node, Node);
+                  Add_Body_Dependents (Result, Exist_Node, Node);
                end if;
 
                Retrive (Unit, Exist_Node, False);
             else
                if Node /= null then
-                  Add_Body_Dependents (Exist_Node, Node);
+                  Add_Body_Dependents (Result, Exist_Node, Node);
                end if;
             end if;
          end Retrive_For_Body;
@@ -2083,8 +2198,7 @@ package body Asis.Compilation_Units.Relations is
       for Index in List'Range loop
          Unit := List (Index);
 
-         if Find (Result.all, Unit) = null then
-            Ada.Wide_Text_IO.Put_Line ("Needed for :" & Unit_Full_Name (Unit));
+         if Find (Result, Unit) = null then
             Retrive (Unit, null);
          end if;
       end loop;
@@ -2102,7 +2216,7 @@ package body Asis.Compilation_Units.Relations is
    --------------------
 
    procedure Get_Subunits
-     (Tree        : in Utils.Tree_Node_Access;
+     (Tree        : in Utils.root_Tree_Access;
       Unit        : in Compilation_Unit;
       Node        : in Utils.Tree_Node_Access;
       The_Context : in Asis.Context)
@@ -2117,7 +2231,7 @@ package body Asis.Compilation_Units.Relations is
          Sub_Unit := Sub (Index);
 
          if not Is_Nil (Sub_Unit) then
-            Exist_Node := Find (Tree.all, Sub_Unit);
+            Exist_Node := Find (Tree, Sub_Unit);
             if Exist_Node = null then
                Exist_Node := Add_Child (Tree, Node, Sub_Unit);
                Get_Subunits (Tree, Sub_Unit, Exist_Node, The_Context);
@@ -2331,7 +2445,7 @@ package body Asis.Compilation_Units.Relations is
       ----------------------
 
       procedure Dependence_Order
-        (This  : in Tree_Node_Access;
+        (This  : in Root_Tree_Access;
          Order : in Orders)
       is
       begin
@@ -2343,89 +2457,87 @@ package body Asis.Compilation_Units.Relations is
       ---------------
 
       function Add_Child
-        (This      : in Tree_Node_Access;
+        (This      : in Root_Tree_Access;
          Node      : in Tree_Node_Access;
          Spec_Unit : in Compilation_Unit)
          return Tree_Node_Access
       is
+         New_Node : Tree_Node_Access := new Tree_Node;
       begin
-         if This.Prev /= null then
-            --  not root
-            raise Use_Error;
+         New_Node.Unit := Spec_Unit;
+
+         if Node = null then
+            This.Next := Add_Node (This.Next, New_Node.Self);
+         else
+            Node.Next      := Add_Node (Node.Next, New_Node.Self);
+            New_Node.Prevs := Add_Node (New_Node.Prevs, Node.Self);
          end if;
 
-         declare
-            New_Node : Tree_Node_Access := new Tree_Node;
-         begin
-            New_Node.Unit := Spec_Unit;
-
-            if Node = null then
-               This.Next     := Add_Node (This.Next, New_Node.Self);
-               New_Node.Prev := This.Self;
-            else
-               Node.Next     := Add_Node (Node.Next, New_Node.Self);
-               New_Node.Prev := Node.Self;
-            end if;
-
-            This.Units := Add_Node_Ordered (This.Units, New_Node.Self);
-            return New_Node;
-         end;
+         This.Units := Add_Node_Ordered (This.Units, New_Node.Self);
+         return New_Node;
       end Add_Child;
 
       -- Add_Child --
       function Add_Child
-        (This      : in Tree_Node_Access;
+        (This      : in Root_Tree_Access;
          Node      : in Tree_Node_Access;
          Spec_Unit : in Compilation_Unit;
          Body_Unit : in Compilation_Unit;
          Skip_Spec : in Boolean := False)
          return Tree_Node_Access
       is
+         New_Node : Tree_Node_Access := new Tree_Node;
       begin
-         if This.Prev /= null then
-            --  not root
-            raise Use_Error;
+         New_Node.Unit      := Spec_Unit;
+         New_Node.Unit_Body := Body_Unit;
+         New_Node.Skip_Spec := Skip_Spec;
+
+         if Node = null then
+            This.Next := Add_Node (This.Next, New_Node.Self);
+         else
+            Node.Next      := Add_Node (Node.Next, New_Node.Self);
+            New_Node.Prevs := Add_Node (New_Node.Prevs, Node.Self);
          end if;
 
-         declare
-            New_Node : Tree_Node_Access := new Tree_Node;
-         begin
-            New_Node.Unit      := Spec_Unit;
-            New_Node.Unit_Body := Body_Unit;
-            New_Node.Skip_Spec := Skip_Spec;
-
-            if Node = null then
-               This.Next     := Add_Node (This.Next, New_Node.Self);
-               New_Node.Prev := This.Self;
-            else
-               Node.Next     := Add_Node (Node.Next, New_Node.Self);
-               New_Node.Prev := Node.Self;
-            end if;
-
-            This.Units := Add_Node_Ordered (This.Units, New_Node.Self);
-            return New_Node;
-         end;
+         This.Units := Add_Node_Ordered (This.Units, New_Node.Self);
+         return New_Node;
       end Add_Child;
+
+      ------------
+      -- Append --
+      ------------
+
+      procedure Append
+        (This : in Root_Tree_Access;
+         Unit : in Compilation_Unit)
+      is
+         New_Node : Tree_Node_Access := new Tree_Node;
+      begin
+         New_Node.Unit := Unit;
+
+         if This.Last_Node = null then
+            This.Next := Add_Node (This.Next, New_Node.Self);
+         else
+            This.Last_Node.Next := Add_Node
+               (This.Last_Node.Next, New_Node.Self);
+
+            New_Node.Prevs := Add_Node
+               (New_Node.Prevs, This.Last_Node.Self);
+         end if;
+
+         This.Last_Node := New_Node;
+      end Append;
 
       ----------------
       -- Glue_Nodes --
       ----------------
 
       procedure Glue_Nodes
-        (This    : in Tree_Node_Access;
+        (This    : in Root_Tree_Access;
          Node    : in Tree_Node_Access;
          To_Node : in Tree_Node_Access)
       is
       begin
-         if This.Prev /= null then
-            --  not root
-            raise Use_Error;
-         end if;
-
-         if To_Node.Prev = Node then
-            return;
-         end if;
-
          if To_Node.Prevs /= null
             and then In_List (To_Node.Prevs, To_Node.Prevs'Last, Node)
          then
@@ -2441,29 +2553,20 @@ package body Asis.Compilation_Units.Relations is
       ------------------------
 
       procedure Glue_Nodes_Checked
-        (This    : in Tree_Node_Access;
+        (This    : in Root_Tree_Access;
          Node    : in Tree_Node_Access;
          To_Node : in Tree_Node_Access)
       is
          Circular  : Compilation_Unit_List_Access := null;
-         Prev_Node : Tree_Node_Access;
+         Prev_Node : Tree_Node_Access := null;
       begin
-         if This.Prev /= null then
-            --  not root
-            raise Use_Error;
-         end if;
+         if To_Node.Prevs /= null then
+            Prev_Node := To_Node.Prevs (To_Node.Prevs.all'First);
 
-         if To_Node.Prev = Node then
-            return;
+            if In_List (To_Node.Prevs, To_Node.Prevs'Last, Node) then
+               return;
+            end if;
          end if;
-
-         if To_Node.Prevs /= null
-            and then In_List (To_Node.Prevs, To_Node.Prevs'Last, Node)
-         then
-            return;
-         end if;
-
-         Prev_Node := Node.Prev;
 
          while Prev_Node /= null loop
             if Prev_Node = To_Node then
@@ -2485,7 +2588,12 @@ package body Asis.Compilation_Units.Relations is
             end if;
 
             Circular := Append (Circular, Prev_Node.Unit);
-            Prev_Node := Prev_Node.Prev;
+
+            if Prev_Node.Prevs /= null then
+               Prev_Node := Prev_Node.Prevs (Prev_Node.Prevs.all'First);
+            else
+               Prev_Node := null;
+            end if;
          end loop;
 
          if Circular /= null then
@@ -2501,11 +2609,12 @@ package body Asis.Compilation_Units.Relations is
       -------------------------
 
       procedure Add_Body_Dependents
-        (This    : in Tree_Node_Access;
+        (This    : in Root_Tree_Access;
+         Node    : in Tree_Node_Access;
          To_Node : in Tree_Node_Access)
       is
       begin
-         This.Body_Dependences := Add_Node (This.Body_Dependences, To_Node);
+         Node.Body_Dependences := Add_Node (Node.Body_Dependences, To_Node);
       end Add_Body_Dependents;
 
       --------------
@@ -2513,7 +2622,7 @@ package body Asis.Compilation_Units.Relations is
       --------------
 
       function Is_Child
-        (This : in Tree_Node_Access;
+        (This : in Root_Tree_Access;
          Node : in Tree_Node_Access)
         return Boolean
       is
@@ -2530,54 +2639,24 @@ package body Asis.Compilation_Units.Relations is
       ----------------
 
       procedure Set_Parent
-        (This   : in Tree_Node_Access;
+        (This   : in Root_Tree_Access;
          Node   : in Tree_Node_Access;
          Parent : in Tree_Node_Access)
       is
       begin
          Parent.Next := Add_Node (Parent.Next, Node.Self);
-         Node.Prev   := Parent.Self;
-         This.Next   := Remove (This.Next, Node.Self);
+         Node.Prevs  := Add_Node (Node.Prevs, Parent.Self);
       end Set_Parent;
 
       -----------
       -- Clear --
       -----------
 
-      procedure Deallocate is
-        new Ada.Unchecked_Deallocation
-          (Tree_Node, Tree_Node_Access);
-
       procedure Clear
-        (This : in out Tree_Node)
+        (This : in out Root_Tree)
       is
-         Node : Tree_Node_Access;
       begin
-         if This.Next /= null then
-            for Index in This.Next.all'Range loop
-               Node := This.Next.all (Index);
-               if Node /= null then
-                  Clear (Node.all);
-                  Deallocate (Node);
-               end if;
-            end loop;
-
-            Deallocate (This.Next);
-         end if;
-
-         if This.Prevs /= null then
-            for Index in This.Prevs.all'Range loop
-               Remove (This.Prevs (Index).Next, This.Self);
-            end loop;
-
-            Deallocate (This.Prevs);
-         end if;
-
-         Deallocate (This.Units);
-         Deallocate (This.Circular);
-         Deallocate (This.Missing);
-         Deallocate (This.Inconsistent);
-         Deallocate (This.Body_Dependences);
+         Finalize (This);
       end Clear;
 
       -----------
@@ -2585,7 +2664,7 @@ package body Asis.Compilation_Units.Relations is
       -----------
 
       procedure Check
-        (This        : in Tree_Node_Access;
+        (This        : in Root_Tree_Access;
          The_Context : in Asis.Context)
       is
          Kinds, Parent_Kinds : Unit_Kinds;
@@ -2628,10 +2707,16 @@ package body Asis.Compilation_Units.Relations is
                Node.Inconsistent := Append
                  (Node.Inconsistent, (Nil_Compilation_Unit, Node.Unit));
             else
+               Prev_Node := null;
+
                if Order = Ascending then
-                  Prev_Node := Node.Prev;
+                  if Node.Prevs /= null then
+                     Prev_Node := Node.Prevs (Node.Prevs.all'First);
+                  end if;
                else
-                  Prev_Node := Node.Next (Node.Next.all'First);
+                  if Node.Next /= null then
+                     Prev_Node := Node.Next (Node.Next.all'First);
+                  end if;
                end if;
 
                if Prev_Node /= null
@@ -2653,11 +2738,6 @@ package body Asis.Compilation_Units.Relations is
                   end loop;
                end if;
             else
-               if Node.Prev /= null then
-                  Node.Inconsistent := Set_Inconsistent
-                    (Node.Prev, Node, Node.Inconsistent);
-               end if;
-
                if Node.Prevs /= null then
                   for Index in Node.Prevs.all'Range loop
                      Node.Inconsistent := Set_Inconsistent
@@ -2714,11 +2794,6 @@ package body Asis.Compilation_Units.Relations is
                   end loop;
                end if;
             else
-               if Node.Prev /= null then
-                  Result := Set_Inconsistent
-                    (Node.Prev, Node, Result);
-               end if;
-
                if Node.Prevs /= null then
                   for Index in Node.Prevs.all'Range loop
                      Result := Set_Inconsistent
@@ -2855,9 +2930,6 @@ package body Asis.Compilation_Units.Relations is
                      end loop;
                   end if;
                else
-                  if Node.Prev /= null then
-                     Check_Spec (Node.Prev);
-                  end if;
                   if Node.Prevs /= null then
                      for Index in Node.Prevs.all'Range loop
                         Check_Spec (Node.Prevs (Index));
@@ -2873,9 +2945,6 @@ package body Asis.Compilation_Units.Relations is
                      end loop;
                   end if;
                else
-                  if Node.Prev /= null then
-                     Check_Body (Node.Prev);
-                  end if;
                   if Node.Prevs /= null then
                      for Index in Node.Prevs.all'Range loop
                         Check_Body (Node.Prevs (Index));
@@ -2934,8 +3003,6 @@ package body Asis.Compilation_Units.Relations is
                   end loop;
                end if;
             else
-               Check_Missing (Node, Node.Prev);
-
                if Node.Prevs /= null then
                   for Index in Node.Prevs.all'Range loop
                      Check_Missing (Node, Node.Prevs (Index));
@@ -2981,10 +3048,6 @@ package body Asis.Compilation_Units.Relations is
                Check_Body_Consistent (Node);
             end if;
 
-            if Node.Prev /= null then
-               Asc (Node.Prev);
-            end if;
-
             if Node.Prevs /= null then
                for Index in Node.Prevs.all'Range loop
                   Asc (Node.Prevs.all (Index));
@@ -3023,10 +3086,14 @@ package body Asis.Compilation_Units.Relations is
          Order := This.Order;
 
          if This.Order = Ascending then
-            Asc (Find (This.all, Library_Unit_Declaration
+            Asc (Find (This, Library_Unit_Declaration
                   ("Standard", The_Context)));
          else
-            Desc (This);
+            if This.Next /= null then
+               for Index in This.Next.all'Range loop
+                  Desc (This.Next (Index));
+               end loop;
+            end if;
          end if;
       end Check;
 
@@ -3035,7 +3102,7 @@ package body Asis.Compilation_Units.Relations is
       ---------------------------
 
       function Generate_Relationship
-        (This       : in Tree_Node_Access;
+        (This       : in Root_Tree_Access;
          Limit_List : in Utils.Compilation_Unit_List_Access;
          List_Last  : in ASIS_Integer)
          return Relationship
@@ -3179,17 +3246,13 @@ package body Asis.Compilation_Units.Relations is
          end Process;
 
       begin
-         if not Is_Nil (This.Unit) then
-            Process (This);
-         else
-            if This.Next = null then
-               return Nil_Relationship;
-            end if;
-
-            for Index in This.Next.all'Range loop
-               Process (This.Next.all (Index));
-            end loop;
+         if This.Next = null then
+            return Nil_Relationship;
          end if;
+
+         for Index in This.Next.all'Range loop
+            Process (This.Next.all (Index));
+         end loop;
 
          if Consistent_List /= null then
             Consistent_Length := Consistent_List.all'Length;
@@ -3245,6 +3308,155 @@ package body Asis.Compilation_Units.Relations is
             raise;
       end Generate_Relationship;
 
+      ----------------------------------
+      -- Is_Have_Circular_Dependences --
+      ----------------------------------
+
+      function Is_Have_Circular_Dependences
+        (This : in Root_Tree_Access)
+         return Boolean
+      is
+         Result : Boolean := False;
+
+         -- Process --
+         function Process
+           (Node : in Tree_Node_Access)
+            return Boolean
+         is
+            Result : Boolean := False;
+         begin
+            if Node.Circular /= null then
+               return True;
+            else
+               if Node.Next /= null then
+                  for Index in Node.Next.all'Range loop
+                     Result := Process (Node.Next.all (Index));
+                     exit when Result;
+                  end loop;
+               end if;
+            end if;
+            return Result;
+         end Process;
+
+      begin
+         if This.Next /= null then
+            for Index in This.Next.all'Range loop
+               Result := Process (This.Next.all (Index));
+               exit when Result;
+            end loop;
+         end if;
+
+         return Result;
+      end Is_Have_Circular_Dependences;
+
+      -----------------------------
+      -- Create_Elaboration_Tree --
+      -----------------------------
+
+--      An_Elaborate_Pragma,              --  10.2.1(20)
+--      An_Elaborate_All_Pragma,          --  10.2.1(21)
+--      An_Elaborate_Body_Pragma,         --  10.2.1(22)
+--      A_Partition_Elaboration_Policy_Pragma,   --  H.6 (3)
+--      A_Preelaborable_Initialization_Pragma,   --  7.6 (5)
+--      A_Preelaborate_Pragma,            --  10.2.1(3)
+--      A_Pure_Pragma,                    --  10.2.1(14)
+
+      function Create_Elaboration_Tree
+        (This        : in Root_Tree_Access;
+         The_Context : in Asis.Context)
+         return Root_Tree_Access
+      is
+         procedure Process_Pure
+            (Node : in Tree_Node_Access);
+
+         Result : Root_Tree_Access := new Root_Tree;
+
+         Root_Node : Tree_Node_Access;
+
+         Std : Compilation_Unit :=
+            Library_Unit_Declaration ("Standard", The_Context);
+
+         -- Process_Pure --
+         procedure Process_Pure
+            (Node : in Tree_Node_Access)
+         is
+            -- A_Pure_Pragma
+         begin
+            if not Node.Elaborated
+              and then not Is_Nil (Node.Unit)
+            then
+               if Is_Pure (Node) then
+                  Append (Result, Node.Unit);
+                  Node.Elaborated := True;
+               end if;
+            end if;
+
+            if Node.Prevs /= null then
+               for Index in Node.Prevs.all'Range loop
+                  Process_Pure (Node.Prevs (Index));
+               end loop;
+            end if;
+         end Process_Pure;
+
+      begin
+         Root_Node := Find (This, Std);
+         Root_Node.Elaborated := True;
+
+         Append (Result, Std);
+
+         if Root_Node.Prevs /= null then
+            for Index in Root_Node.Prevs.all'Range loop
+               Process_Pure (Root_Node.Prevs (Index));
+            end loop;
+         end if;
+
+         return Result;
+      exception
+         when others =>
+            Deallocate (Result);
+            raise;
+      end Create_Elaboration_Tree;
+
+      -------------
+      -- Is_Pure --
+      -------------
+
+      function Is_Pure
+        (This : in Tree_Node_Access)
+         return Boolean
+      is
+      begin
+         if This.Internal_Pure = Unknown then
+            if not Is_Nil (This.Unit) then
+               declare
+                  Pragma_List : constant Asis.Pragma_Element_List :=
+                     Corresponding_Pragmas (This.Unit.all);
+               begin
+                  for Index in Pragma_List'Range loop
+                     if Pragma_Kind (Pragma_List (Index).all) = A_Pure_Pragma
+                     then
+                        This.Internal_Pure := Extended_True;
+                        exit;
+                     else
+                        Ada.Wide_Text_IO.Put_Line
+                           (Pragma_Kinds'Wide_Image (Pragma_Kind (Pragma_List (Index).all)));
+                     end if;
+                  end loop;
+               end;
+            end if;
+
+            if This.Internal_Pure = Unknown then
+               This.Internal_Pure := Extended_False;
+            end if;
+         end if;
+
+         if This.Internal_Pure = Extended_True then
+            return True;
+         else
+            return False;
+         end if;
+      end Is_Pure;
+
       ------------------
       -- Is_Skip_Spec --
       ------------------
@@ -3269,17 +3481,17 @@ package body Asis.Compilation_Units.Relations is
          This.Skip_Spec := Value;
       end Skip_Spec;
 
-      ----------
-      -- Spec --
-      ----------
+      --------------
+      -- Get_Spec --
+      --------------
 
-      function Spec
+      function Get_Spec
         (This : in Tree_Node_Access)
          return Compilation_Unit
       is
       begin
          return This.Unit;
-      end Spec;
+      end Get_Spec;
 
       --------------
       -- Get_Body --
@@ -3310,10 +3522,53 @@ package body Asis.Compilation_Units.Relations is
       --------------
 
       procedure Finalize
+        (This : in out Root_Tree)
+      is
+         Node : Tree_Node_Access;
+      begin
+         if This.Next /= null then
+            for Index in This.Next.all'Range loop
+               Node := This.Next.all (Index);
+               if Node /= null then
+                  Deallocate (Node);
+               end if;
+            end loop;
+
+            Deallocate (This.Next);
+         end if;
+
+         Deallocate (This.Units);
+      end Finalize;
+
+      -- Finalize --
+      procedure Finalize
         (This : in out Tree_Node)
       is
+         Node : Tree_Node_Access;
       begin
-         Clear (This);
+         if This.Next /= null then
+            for Index in This.Next.all'Range loop
+               Node := This.Next.all (Index);
+               if Node /= null then
+                  Deallocate (Node);
+               end if;
+            end loop;
+
+            Deallocate (This.Next);
+         end if;
+
+         if This.Prevs /= null then
+            for Index in This.Prevs.all'Range loop
+               Remove (This.Prevs (Index).Next, This.Self);
+            end loop;
+
+            Deallocate (This.Prevs);
+         end if;
+
+         Deallocate (This.Circular);
+         Deallocate (This.Missing);
+         Deallocate (This.Inconsistent);
+         Deallocate (This.Body_Dependences);
       end Finalize;
 
       ----------
@@ -3321,7 +3576,7 @@ package body Asis.Compilation_Units.Relations is
       ----------
 
       function Find
-        (This : in Tree_Node;
+        (This : in Root_Tree_Access;
          Unit : in Compilation_Unit)
          return Tree_Node_Access
       is
