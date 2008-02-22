@@ -138,14 +138,16 @@ package body Asis.Gela.Instances is
          use Asis.Gela.Element_Utils;
          Oper : Asis.Element_List :=
            Corresponding_Type_Operators (Item.all);
+         Copy : Asis.Declaration;
       begin
          for I in Oper'Range loop
             --  Dont copy explicit operators (and "/=" for explicit "=")
             --  because them will be created latter when explicit declarations
             --  processed.
             if Is_Part_Of_Implicit (Oper (I)) and not Is_NE (Oper (I)) then
-               Add_Type_Operator
-                 (Result, Copy (Object, Oper (I), Result));
+               Copy := Asis.Copy (Object, Oper (I), Result);
+               Add_Type_Operator (Result, Copy);
+               Set_Corresponding_Type (Copy, Result);
             end if;
          end loop;
       end Clone_Operators;
@@ -577,24 +579,26 @@ package body Asis.Gela.Instances is
       for F in F_Oper'Range loop
          Found := False;
 
-         for A in A_Oper'Range loop
-            if Correspond_Oper (F_Oper (F), A_Oper (A), Place) then
-               F_Oper_Def := Names (F_Oper (F)) (1);
-               A_Oper_Def := Names (A_Oper (A)) (1);
-               Pair_Lists.Append
-                 (Map.all, (Source => F_Oper_Def, Target => A_Oper_Def));
+         if Asis.Elements.Is_Part_Of_Implicit (F_Oper (F)) then
+            for A in A_Oper'Range loop
+               if Correspond_Oper (F_Oper (F), A_Oper (A), Place) then
+                  F_Oper_Def := Names (F_Oper (F)) (1);
+                  A_Oper_Def := Names (A_Oper (A)) (1);
+                  Pair_Lists.Append
+                    (Map.all, (Source => F_Oper_Def, Target => A_Oper_Def));
 
-               if Found then
-                  raise Internal_Error;
+                  if Found then
+                     raise Internal_Error;
+                  end if;
+
+                  Found := True;
                end if;
+            end loop;
 
-               Found := True;
+            if not Found then
+               --  Report actual type doesn't correspond to formal TODO
+               raise Internal_Error;
             end if;
-         end loop;
-
-         if not Found then
-            --  Report actual type doesn't correspond to formal TODO
-            raise Internal_Error;
          end if;
       end loop;
    end Find_Formal_Implicit_Operators;

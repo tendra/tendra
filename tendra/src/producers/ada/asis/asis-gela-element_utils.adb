@@ -734,6 +734,21 @@ package body Asis.Gela.Element_Utils is
       end if;
    end Set_Corresponding_Statement;
 
+   ----------------------------
+   -- Set_Corresponding_Type --
+   ----------------------------
+
+   procedure Set_Corresponding_Type
+     (Funct : Asis.Declaration;
+      Tipe  : Asis.Type_Definition)
+   is
+      use Asis.Gela.Elements.Decl;
+      Node : Procedure_Declaration_Node'Class renames
+        Procedure_Declaration_Node'Class (Funct.all);
+   begin
+      Set_Corresponding_Type (Node, Tipe);
+   end Set_Corresponding_Type;
+
    --------------------------
    -- Set_Name_Declaration --
    --------------------------

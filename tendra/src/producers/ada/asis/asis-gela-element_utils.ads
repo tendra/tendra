@@ -103,6 +103,10 @@ package Asis.Gela.Element_Utils is
      (Enum   : Asis.Declaration;
       Value  : Wide_String);
 
+   procedure Set_Corresponding_Type
+     (Funct : Asis.Declaration;
+      Tipe  : Asis.Type_Definition);
+
 end Asis.Gela.Element_Utils;
 
 
