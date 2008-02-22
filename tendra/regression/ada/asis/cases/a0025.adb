@@ -2,6 +2,7 @@ with A0025.A;
 with A0025.B;
 with A0025c;
 with A0025d;
+with A0025e;
 
 package body A0025 is
 
@@ -91,5 +92,9 @@ begin
      (Library_Unit_Declaration ("A0025d"),
       Nil_Compilation_Unit_List,
       Needed_Units);
+
+   --  Test Elaboration_Order:
+--    Elaboration_Order
+--      (Library_Unit_Declaration ("A0025e"));
 
 end A0025;

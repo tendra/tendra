@@ -1,4 +1,4 @@
-Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [47:4..50:17]
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [48:4..51:17]
 Consistent:
   A0025.A/A_PACKAGE
   A0025/A_PACKAGE
@@ -11,7 +11,7 @@ End of Missing.
 Circular:
 End of Circular.
 
-Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [53:4..58:19]
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [54:4..59:19]
 Consistent:
   A0025/A_PACKAGE
   A0025/A_PACKAGE_BODY
@@ -24,7 +24,7 @@ End of Missing.
 Circular:
 End of Circular.
 
-Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [60:4..64:19]
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [61:4..65:19]
 Consistent:
   A0025/A_PACKAGE
   A0025/A_PACKAGE_BODY
@@ -38,7 +38,7 @@ End of Missing.
 Circular:
 End of Circular.
 
-Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [67:4..70:18]
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [68:4..71:18]
 Consistent:
   Ada.Text_IO/A_PACKAGE
   Ada.IO_Exceptions/A_PACKAGE
@@ -53,7 +53,7 @@ End of Missing.
 Circular:
 End of Circular.
 
-Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [72:4..75:18]
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [73:4..76:18]
 Consistent:
   Ada.Calendar/A_PACKAGE
   Ada/A_PACKAGE
@@ -67,7 +67,7 @@ End of Missing.
 Circular:
 End of Circular.
 
-Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [78:4..81:18]
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [79:4..82:18]
 Consistent:
   A0025/A_PACKAGE_BODY
   A0025.B/A_PACKAGE
@@ -82,7 +82,7 @@ End of Missing.
 Circular:
 End of Circular.
 
-Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [84:4..87:14]
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [85:4..88:14]
 Consistent:
   A0025/A_PACKAGE
   A0025/A_PACKAGE_BODY
@@ -96,36 +96,7 @@ End of Missing.
 Circular:
 End of Circular.
 
-Needed for :A0025d
-Retrive :A0025d
-With :A0025.B
-Retrive :A0025.B
-With :Ada.Calendar
-Retrive :Ada.Calendar
-Parent:Ada
-Parent:A0025
-With :A0025.A
-Retrive :A0025.A
-With :Ada.Text_IO
-Retrive :Ada.Text_IO
-With :Ada.IO_Exceptions
-Retrive :Ada.IO_Exceptions
-Parent:Ada
-Parent:Ada
-Parent:A0025
-With :A0025.B
-With :A0025c
-Retrive :A0025c
-With :A0025
-Retrive :A0025
-With :A0025.A
-With :A0025.B
-With :A0025c
-With :A0025d
-Parent:Standard
-With :A0025d
-Parent:Standard
-Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [90:4..93:20]
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [91:4..94:20]
 Consistent:
   A0025d/A_PACKAGE
   A0025.B/A_PACKAGE
@@ -137,6 +108,7 @@ Consistent:
   Ada.Text_IO/A_PACKAGE
   Ada.IO_Exceptions/A_PACKAGE
   A0025c/A_PACKAGE
+  A0025e/A_PACKAGE
 End of Consistent.
 Inconsistent:
 End of Inconsistent.
