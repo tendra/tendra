@@ -93,7 +93,6 @@
 #include "adt/cstring-list.h"
 #include "eds/dstring.h"
 #include "eds/error.h"
-#include "eds/error-file.h"
 #include "eds/exception.h"
 #include "gen-errors.h"
 #include "grammar.h"
@@ -408,17 +407,6 @@ main_handle_language(char * option, ArgUsageT * usage, void * gclosure,
 }
 
 static void
-main_handle_show_errors(char * option, ArgUsageT * usage, void * gclosure)
-{
-    UNUSED(option);
-    UNUSED(usage);
-    UNUSED(gclosure);
-    main_did_one_off = TRUE;
-    write_error_file(ostream_output);
-    ostream_flush(ostream_output);
-}
-
-static void
 main_handle_switch(char * option, ArgUsageT * usage, void * gclosure,
 		   char * opt)
 {
@@ -478,9 +466,6 @@ static EStringDataT main_description_strings[] = {
 	"description of language",
 	" LANGUAGE\n\tSet the language for the output parser."
     } }, { {
-	"description of show-errors",
-	"\n\tDisplay the current error table on the standard output."
-    } }, { {
 	"description of switch",
 	" OPTION\n\tPass OPTION to language specific option parser."
     } }, { {
@@ -520,10 +505,6 @@ static ArgListT main_arglist[] = {
 	(ArgProcP)main_handle_language,	NULL,
 	{ "description of language" }
     }, {
-	"show-errors", 'e',			AT_EMPTY,
-	(ArgProcP)main_handle_show_errors,	NULL,
-	{ "description of show-errors" }
-    }, {
 	"switch", 's',				AT_FOLLOWING,
 	(ArgProcP)main_handle_switch,		NULL,
 	{ "description of switch" }
@@ -547,7 +528,6 @@ main_init(int argc, char **argv, OutputInfoT * out_info)
 {
     EStringT *  usage_estring = error_define_string("sid usage message", USAGE);
     ArgUsageT closure;
-    char *  error_file;
     int       skip;
     unsigned  i;
     unsigned  num_infiles;
@@ -555,9 +535,6 @@ main_init(int argc, char **argv, OutputInfoT * out_info)
 
     error_init(argv[0], gen_errors_init_errors);
     error_intern_strings(main_description_strings);
-    if ((error_file = getenv("SID_ERROR_FILE")) != NULL) {
-	error_file_parse(error_file, FALSE);
-    }
     closure.usage     = error_string_contents(usage_estring);
     closure.arg_list  = main_arglist;
     main_info_closure = out_info;
