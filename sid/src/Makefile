@@ -27,7 +27,7 @@ SIDOPTS=-l ansi-c -s numeric -s no-lines
 #C_OUT=${SRC}/c-parser.c ${SRC}/c-junk.h
 
 EFILES=${ESRC}/arg-parse.e ${ESRC}/c-check.e ${ESRC}/c-code.e \
-	${ESRC}/c-lexer.e ${ESRC}/c-parser.e ${ESRC}/error-file.e \
+	${ESRC}/c-lexer.e ${ESRC}/c-parser.e \
 	${ESRC}/for-osif.e ${ESRC}/grammar.e ${ESRC}/lexer.e ${ESRC}/main.e \
 	${ESRC}/parser.e ${ESRC}/rule-check.e ${ESRC}/rule-factor.e \
 	${ESRC}/rule-firsts.e ${ESRC}/rule-lre.e ${ESRC}/scope.e \
