@@ -29,12 +29,13 @@ ExceptionT * x_c = EXCEPTION("exception c");
 /*
  * Top-level handler, as required by exception.h. This should not return.
  */
-void E_exception_unhandled(ExceptionT *e, char *name, unsigned i) {
-	printf("E_exception_unhandled: %s (%d)\n", name, i);
+static void unhandled(ExceptionT *e, const char *file, unsigned line) {
+	printf("unhandled: %s (%d)\n", file, line);
 	exit(EXIT_FAILURE);
 }
 
 int main(void) {
+	exception_unhandled(unhandled);
 
 	/*
 	 * Throwing an exception and catching it.

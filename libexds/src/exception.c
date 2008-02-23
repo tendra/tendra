@@ -71,12 +71,23 @@
 #include "exception.h"
 #include "internals.h"
 
-extern void			E_exception_unhandled(ExceptionT *, char *,
-						      unsigned);
-extern void			E_exception_corrupt_handler(char *, unsigned);
+void (*unhandled)(ExceptionT *e, const char *file, unsigned line);
+void (*corrupt_handler)(const char *file, unsigned line);
 
 HandlerT *			X__exception_handler_stack = NULL;
 ThrowDataT			X__exception_throw_data;
+
+void
+exception_unhandled(void (*handler)(ExceptionT *e, const char *file, unsigned line))
+{
+	unhandled = handler;
+}
+
+void
+exception_corrupt_handler(void (*handler)(const char *file, unsigned line))
+{
+	corrupt_handler = handler;
+}
 
 NoReturnT
 X__exception_throw(void)
@@ -89,9 +100,11 @@ X__exception_throw(void)
 	UNREACHED;
     } else if (stack == NULL) {
 	failing = TRUE;
-	E_exception_unhandled(X__exception_throw_data.exception,
-			      X__exception_throw_data.file,
-			      X__exception_throw_data.line);
+	if (unhandled) {
+	    unhandled(X__exception_throw_data.exception,
+		      X__exception_throw_data.file,
+		      X__exception_throw_data.line);
+	}
 	abort();
 	UNREACHED;
     }
@@ -106,7 +119,9 @@ X__exception_throw(void)
 #endif /* PO_EXCEPTION_STACK_DIRECTION < 0 */
 	(stack->next == stack)) {
 	failing = TRUE;
-	E_exception_corrupt_handler(stack->file, stack->line);
+	if (corrupt_handler) {
+	    corrupt_handler(stack->file, stack->line);
+	}
 	abort();
 	UNREACHED;
     }

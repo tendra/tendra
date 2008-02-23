@@ -70,12 +70,13 @@
  *  <exds/common.h>
  *
  *
- * This file requires that two external functions are provided:
+ * This file requires that two functions are provided:
  *
- *	extern void			E_exception_unhandled
- *			(ExceptionT *, char *, unsigned);
- *	extern void			E_exception_corrupt_handler
- *			(char *, unsigned);
+ *	void unhandled(ExceptionT *, char *, unsigned);
+ *	void corrupt_handler(char *, unsigned);
+ *
+ * These are set by exception_unhandled() and exception_corrupt_handler()
+ * respectively.
  *
  * The first of these functions will be called if there is an unhandled
  * exception.  The exception will be given as an argument, along with the name
@@ -138,6 +139,24 @@ struct HandlerT {
     unsigned			magic_end;
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
 };
+
+/*
+ * Set the default behaviour for unhandled exceptions.
+ *
+ * This must be called before any exception is thrown.
+ */
+extern void exception_unhandled(
+	void (*handler)(ExceptionT *e, const char *file, unsigned line));
+
+
+/*
+ * Set the default behaviour for corrupted exception handlers.
+ *
+ * This must be called before any exception is thrown.
+ */
+extern void exception_corrupt_handler(
+	void (*handler)(const char *file, unsigned line));
+
 
 /*
  * This function returns the name of the specified exception.  The return
