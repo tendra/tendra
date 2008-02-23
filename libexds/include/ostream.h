@@ -90,6 +90,8 @@ typedef struct OStreamT OStreamT;
 struct OStreamT {
     FILE		       *file;
     char *			name;
+    char *			gen_name;
+    int			no;
     unsigned			line;
 };
 

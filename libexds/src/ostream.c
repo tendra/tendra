@@ -75,6 +75,7 @@
 
 #include "common.h"
 #include "exception.h"
+#include "dalloc.h"
 #include "ostream.h"
 #include "cstring.h"
 #include "syntax.h"
@@ -84,11 +85,15 @@ ExceptionT * XX_ostream_write_error = EXCEPTION("error writing to stream");
 static OStreamT ostream_output_1 = {
     NULL,
     "<stdout>",
+    "<stdout>",
+    0,
     1
 };
 static OStreamT ostream_error_1 = {
     NULL,
     "<stderr>",
+    "<stderr>",
+    0,
     1
 };
 
@@ -117,10 +122,18 @@ ostream_init(OStreamT * ostream)
 BoolT
 ostream_open(OStreamT * ostream, char * name)
 {
-    if ((ostream->file = fopen(name, "w")) == NULL) {
+    char * oname = name;
+    char * pname = strrchr(name, '@');
+    if (pname != NULL) {
+	oname = ALLOCATE_VECTOR(char, strlen(name) + 10);
+	(void)sprintf(oname, "%.*s%d%s", (int)(pname - name), name,
+	    ++ostream->no, pname + 1);
+    }
+    if ((ostream->file = fopen(oname, "w")) == NULL) {
 	return(FALSE);
     }
-    ostream->name = name;
+    ostream->name = oname;
+    ostream->gen_name = name;
     ostream->line = 1;
     (void)setvbuf(ostream->file, NULL, _IOFBF, (size_t)BUFSIZ);
     return(TRUE);
@@ -169,6 +182,12 @@ char *
 ostream_name(OStreamT * ostream)
 {
     return(ostream->name);
+}
+
+char *
+ostream_gen_name(OStreamT * ostream)
+{
+    return(ostream->gen_name);
 }
 
 unsigned
