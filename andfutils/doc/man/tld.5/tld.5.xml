@@ -475,30 +475,6 @@ this_linkable_entity_names:	{
 			set name.</para>
 	</refsection>
 
-	<refsection id='error_file_syntax'>
-		<title>Error File Syntax</title>
-
-		<para>It is possible to change the error messages that the linker uses.  In order
-			to do this, make the environment variable <emphasis>TLD_ERROR_FILE</emphasis>
-			contain the name of a file with the new error messages in.</para>
-
-		<para>The error file consists of zero or more sections.  Each section begins with
-			a section marker (one of <emphasis>%prefix%</emphasis>, <emphasis>%errors%</emphasis>
-			or <emphasis>%strings%</emphasis>).
-			The prefix section takes a single string (this is to be the prefix for all
-			error messages).  The other sections take zero or more pairs of names and
-			strings.  A name is a sequence of characters surrounded by single quotes.  A
-			string is a sequence of characters surrounded by double quotes.  In the case
-			of the prefix and error sections, the strings may contain variables of the
-			form <emphasis>${</emphasis><emphasis>variable name</emphasis><emphasis>}</emphasis>.
-			These variables will be replaced by suitable information when the error occurs.
-			The normal backslash escape sequences are supported.  The hash character acts
-			as a comment to end of line character.</para>
-
-		<para>The <option>--show-errors</option> option may be used to get a copy of the current
-			error messages.</para>
-	</refsection>
-
 	<refsection id='see_also'>
 		<title>See Also</title>
 

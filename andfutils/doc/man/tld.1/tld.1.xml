@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+
+<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
+
+<!-- $Id$ -->
+
+<refentry id='tld1xml'>
+<!--
+        Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+        All rights reserved.
+
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+
+        1. Redistributions of source code must retain the above copyright notice,
+           this list of conditions and the following disclaimer.
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        3. Neither the name of The TenDRA Project nor the names of its contributors
+           may be used to endorse or promote products derived from this software
+           without specific, prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+        IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+        CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+        EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+        OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+        WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+        OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!--
+			 Crown Copyright (c) 1997
+
+	This TenDRA(r) Manual Page is subject to Copyright
+	owned by the United Kingdom Secretary of State for Defence
+	acting through the Defence Evaluation and Research Agency
+	(DERA).	It is made available to Recipients with a
+	royalty\-free licence for its use, reproduction, transfer
+	to other parties and amendment for any purpose not excluding
+	product development provided that any such use et cetera
+	shall be deemed to be acceptance of the following conditions:\-
+
+			(1) Its Recipients shall ensure that this Notice is
+			reproduced upon any copies or amended versions of it;
+
+			(2) Any amended version of it shall be clearly marked to
+			show both the nature of and the organisation responsible
+			for the relevant amendment or amendments;
+
+			(3) Its onward transfer from a recipient to another
+			party shall be deemed to be that party's acceptance of
+			these conditions;
+
+			(4) DERA gives no warranty or assurance as to its
+			quality or suitability for any purpose and DERA accepts
+			no liability whatsoever in relation to any use to which
+			it may be put.
+-->
+
+	<refmeta>
+		<refentrytitle>tld</refentrytitle>
+		<manvolnum>1</manvolnum>
+	</refmeta>
+
+	<refnamediv id='name'>
+		<refname>tld</refname>
+		<refpurpose>TDF linking and library manipulation utility</refpurpose>
+	</refnamediv>
+
+	<refsection id='syntax'>
+		<title>Syntax</title>
+
+		<para><command>tld</command>
+			[<emphasis>mode</emphasis>] [<emphasis>option</emphasis>]...
+			<emphasis>file</emphasis>...</para>
+	</refsection>
+
+	<refsection id='description'>
+		<title>Description</title>
+
+		<para>The <command>tld</command>
+			command is used to create and manipulate TDF libraries, and to link together
+			TDF capsules.  It has four modes, selected by one of the <option>-ml</option> (link TDF
+			capsules), <option>-mc</option> (create TDF library), <option>-mt</option> (list TDF library
+			contents) or <option>-mx</option> (extract capsules from TDF library) switches.  If
+			provided, the switch must be the first on the command line.  If one is not
+			provided, the <option>-ml</option> switch is assumed.</para>
+
+		<para>The different modes are described below.  In the description, external name
+			definitions are referred to as unique and multiple.  A unique definition is
+			a definition where the defined attribute is set; a multiple definition is
+			one where the multiple attribute is set (i.e. more than one definition is
+			allowed).  A definition may be both multiple and unique (if both bits are
+			set - this means that there is more than definition, but one of them is
+			unique).  It is an error for there to be more than one unique definition of
+			any given name.  It is an error for token external names to have the
+			multiple attribute set.</para>
+	</refsection>
+
+	<refsection id='switches'>
+		<title>Switches</title>
+
+		<para>This version of <command>tld</command>
+			accepts both short form and long form command line switches.</para>
+
+		<para>Short form switches are single characters, and begin with a '-' or '+'
+			character.  They can be concatenated into a single command line word, e.g.:</para>
+
+		<para><option>-vor</option> <replaceable>output-file</replaceable>
+			<emphasis>rename-shape</emphasis> <emphasis>rename-from</emphasis>
+			<emphasis>rename-to</emphasis></para>
+
+		<para>which contains three different switches (<option>-v</option>, which takes no
+			arguments; <option>-o</option>, which takes one argument: <emphasis>output-file</emphasis>; and
+			<option>-r</option>, which takes three arguments: <emphasis>rename-shape</emphasis>,
+			<emphasis>rename-from</emphasis>, and <emphasis>rename-to</emphasis>).</para>
+
+		<para>Long form switches are strings, and begin with '--' or '++'.  With long
+			form switches, only the shortest unique prefix need be entered.  The long
+			form of the above example would be:</para>
+
+		<para><option>--version</option> <option>--output-file</option>
+			<replaceable>output-file</replaceable> <option>--rename</option>
+			<replaceable>rename-shape</replaceable> <emphasis>rename-from</emphasis>
+			<emphasis>rename-to</emphasis></para>
+
+		<para>In most cases the arguments to the switch should follow the switch as a
+			separate word.  In the case of short form switches, the arguments to the
+			short form switches in a single word should follow the word in the order of
+			the switches (as in the first example).  For some options, the argument may
+			be part of the same word as the switch (such options are shown without a
+			space between the switch and the argument in the switch summaries below).
+			In the case of short form switches, such a switch would terminate any
+			concatenation of switches (either a character would follow it, which would
+			be treated as its argument, or it would be the end of the word, and its
+			argument would follow as normal).</para>
+
+		<para>For binary switches, the '-' or '--' switch prefixes set (enable) the
+			switch, and the '+' or '++' switch prefixes reset (disable) the switch.
+			This is probably back to front, but is in keeping with other programs. The
+			switches '--' or '++' by themselves terminate option parsing.</para>
+	</refsection>
+
+	<refsection id='external_names'>
+		<title>External Names</title>
+
+		<para>An external name may be either a string or a unique.  A unique is written as</para>
+
+		<para><emphasis>[</emphasis><emphasis>component1</emphasis><literal>.</literal><emphasis>component2</emphasis><literal>.</literal>...<literal>.</literal><emphasis>componentN</emphasis><emphasis>]</emphasis></para>
+
+		<para>Each component of a unique is a string.  A string consists of any sequence
+			of characters, although some special characters must be preceded by a
+			backslash character to stop them being treated specially.  These characters
+			are '<emphasis>\\fR', '[</emphasis>', '<emphasis>]</emphasis>' and '<literal>.</literal>'.  In addition,
+			the following character sequences are treated the same as they would be in
+			C: '<emphasis>\n</emphasis>', '<emphasis>\r</emphasis>', '<emphasis>\t</emphasis>', '<emphasis>\&numsp;</emphasis>'.  Finally, the
+			sequence '<emphasis>\x</emphasis><emphasis>NN</emphasis>' represents the character with code <emphasis>NN</emphasis> in
+			hex.</para>
+	</refsection>
+
+	<refsection id='linking'><title>LINKING</title>
+		<para>In the default mode, <command>tld</command>
+			tries to link together the TDF capsules specified on the command line.  This
+			consists of the following stages:</para>
+
+		<orderedlist>
+			  <listitem>
+				<para>All of the external names specified for renaming on the command line are
+					added to the name tables as indirections to their new names.</para>
+			  </listitem>
+
+			  <listitem>
+				<para>All of the capsules specified on the command line are loaded, and their
+					identifiers are mapped into a per shape namespace.  In these namespaces, all
+					external names of the same shape and with the same name will be mapped to
+					the same identifier.  <command>tld</command>
+					will report errors about any attempt to link together more than one capsule
+					providing a unique definition for any external name.</para>
+			  </listitem>
+
+			  <listitem>
+				<para>If any libraries were specified on the command line, then the libraries are
+					loaded to see what definitions they provide.  After loading the libraries,
+					the external names specified for link suppression on the command line are
+					removed from the library index (so that the linker will not attempt to
+					define those names).  Link suppression does not prevent a name from being
+					defined, it just stops the linker trying to define it; a definition for it
+					may still be found from a capsule that is loaded to define another name.</para>
+
+				<para>Any capsules that provide necessary definitions are loaded.  There must only
+					be one definition for each external name in all of the libraries (in the
+					case of all non-token shapes, this may be either one non-unique definition,
+					or one unique definition with zero or more non-unique definitions; if a
+					unique definition exists, then the non-unique definitions are ignored).</para>
+			  </listitem>
+
+			  <listitem>
+				<para>If any external names require hiding or keeping (specified by command line
+					switches), then they are hidden at this point.  Hiding means removing the
+					external name from the external name list.  It is illegal to hide undefined
+					external names.  Keeping means keeping an external name in the external name
+					tables.  Keeping a name overrides any attempt to hide that name.</para>
+			  </listitem>
+
+			  <listitem>
+				<para>A new TDF capsule is created, consisting of all of the input capsules and
+					the necessary library capsules.  Unless specified with the
+					<option>--output-file</option> switch, the output file will be called
+					<emphasis>capsule.j</emphasis>.</para>
+			  </listitem>
+		</orderedlist>
+	</refsection>
+
+	<refsection id='switches2'><title>Switches</title>
+		<para><command>tld</command>
+			accepts the following switches in link mode:</para>
+
+		<para><option>--all-hide-defined</option>
+			<!-- .br -->
+			<option>-a</option></para>
+
+		<para>Hide all external names (of any shape) that are defined.</para>
+
+		<para><option>--debug-file</option> <replaceable>FILE</replaceable>
+			<!-- .br -->
+			<option>-d</option> <replaceable>FILE</replaceable></para>
+
+		<para>Produce a diagnostic trace of the linking process in
+			<emphasis>FILE</emphasis>.</para>
+
+		<para><option>--help</option>
+			<!-- .br -->
+			<option>-?</option></para>
+
+		<para>Write an option summary to the standard error.</para>
+
+		<para><option>--hide</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis>
+			<!-- .br -->
+			<option>-h</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></para>
+
+		<para>Cause the external <emphasis>SHAPE</emphasis> name
+			<emphasis>NAME</emphasis> to be hidden.  An error is
+		reported if the name is not defined.</para>
+
+		<para><option>--hide-defined</option> <replaceable>SHAPE</replaceable>
+		<!-- .br -->
+		<option>-H</option> <replaceable>SHAPE</replaceable></para>
+
+		<para>Cause the all external <emphasis>SHAPE</emphasis> names that are defined to be hidden.</para>
+
+		<para><option>--keep</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis>
+		<!-- .br -->
+		<option>-k</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></para>
+
+		<para>Cause the external <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis> to be kept.</para>
+
+		<para><option>--keep-all</option> <replaceable>SHAPE</replaceable>
+		<!-- .br -->
+		<option>-K</option> <replaceable>SHAPE</replaceable></para>
+
+		<para>Cause the all external <emphasis>SHAPE</emphasis> names to be kept.</para>
+
+		<para><option>--library</option> <replaceable>FILE</replaceable>
+		<!-- .br -->
+		<option>-l</option><replaceable>FILE</replaceable></para>
+
+		<para>Use the file <filename>FILE</filename> as a TDF library.  If the file name contains a '/',
+		then it is used as specified; if not, the library search path is searched
+		for a file named '<emphasis>FILE</emphasis>.tl'.  Duplicate entries for the same library
+		are ignored.</para>
+
+		<para><option>--output-file</option> <replaceable>FILE</replaceable>
+		<!-- .br -->
+		<option>-o</option> <replaceable>FILE</replaceable></para>
+
+		<para>Write the output capsule to the file <filename>FILE</filename>.  If this switch is not
+		specified, then the output is written to the file 'capsule.j' instead.</para>
+
+		<para><option>--path</option> <replaceable>DIRECTORY</replaceable>
+		<!-- .br -->
+		<option>-L</option><replaceable>DIRECTORY</replaceable></para>
+
+		<para>Append the directory <emphasis>DIRECTORY</emphasis> to the library search path.</para>
+
+		<para><option>--rename</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis>
+		<!-- .br -->
+		<option>-r</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></para>
+
+		<para>Rename the external <emphasis>SHAPE</emphasis> name <emphasis>FROM</emphasis> to <emphasis>TO</emphasis>.</para>
+
+		<para><option>--rename-file</option> <replaceable>FILE</replaceable>
+		<!-- .br -->
+		<option>-R</option> <replaceable>FILE</replaceable></para>
+
+		<para>Read the contents of the file <filename>FILE</filename> as a series of renaming
+		specifications.  The format of the file is described above.</para>
+
+		<para><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis>
+		<!-- .br -->
+		<option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></para>
+
+		<para>Do not try to find a definition for the external <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
+
+		<para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>
+			<!-- .br -->
+			<option>-S</option> <replaceable>SHAPE</replaceable></para>
+
+		<para>Do not try to find a definition for any external <emphasis>SHAPE</emphasis> name.</para>
+
+		<para><option>--suppress-mult</option>
+			<!-- .br -->
+			<option>-M</option></para>
+
+		<para>Do not use non-unique definitions in libraries as definitions for external
+			names.</para>
+
+		<para><option>--unit-file</option> <replaceable>FILE</replaceable>
+			<!-- .br -->
+			<option>-u</option> <replaceable>FILE</replaceable></para>
+
+		<para>Parse <emphasis>FILE</emphasis> to get a new unit set name list.  By default, all of the
+			standard (as specified in the version 4.0 TDF specification) unit set names
+			are known.</para>
+
+		<para><option>--version</option>
+			<!-- .br -->
+			<option>-v</option></para>
+
+		<para>Write the version number of the program to the standard error stream.</para>
+
+		<para><option>--warnings</option>
+			<!-- .br -->
+			<option>-w</option></para>
+
+		<para>Enable/disable the printing of warning messages.  Warnings are generated for
+			things like obsolete linker information units, and undefined external names.</para>
+	</refsection>
+
+	<refsection id='library_construction'>
+		<title>Library Construction</title>
+
+		<para>A TDF library is a sequence of named capsules, with an index.  The index
+			indicates which external names are defined by the capsules in the library,
+			and which capsules provide the definitions.  When invoked with the
+			<option>-mc</option> switch, <command>tld</command>
+			produces a library consisting of the TDF capsules specified on the command
+			line.  The library is written to the file <filename>library.tl</filename>, unless the
+			<option>--output-file</option> switch is used.</para>
+	</refsection>
+
+	<refsection id='switches3'>
+		<title>Switches</title>
+
+		<para><command>tld</command>
+			accepts the following switches in library construction mode:</para>
+
+		<para><option>--debug-file</option> <replaceable>FILE</replaceable>
+			<!-- .br -->
+			<option>-d</option> <replaceable>FILE</replaceable></para>
+
+		<para>Produce a diagnostic trace of the library construction process in <emphasis>FILE</emphasis>.</para>
+
+		<para><option>--help</option>
+			<!-- .br -->
+			<option>-?</option></para>
+
+		<para>Write an option summary to the standard error.</para>
+
+		<para><option>--include-library</option> <replaceable>FILE</replaceable>
+			<!-- .br -->
+			<option>-i</option> <replaceable>FILE</replaceable></para>
+
+		<para>Include all of the capsules in the TDF library <emphasis>FILE</emphasis> in the library
+			being constructed.  The library name should be a proper file name, not a
+			library abbreviation like the <option>--library</option> switch used by the linking
+			mode.</para>
+
+		<para><option>--output-file</option> <replaceable>FILE</replaceable>
+			<!-- .br -->
+			<option>-o</option> <replaceable>FILE</replaceable></para>
+
+		<para>Write the output library to the file <filename>FILE</filename>.  If this switch is not
+			specified, then the output is written to the file 'library.tl' instead.</para>
+
+		<para><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis>
+			<!-- .br -->
+			<option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></para>
+
+		<para>Do not try to find a definition for the external
+			<emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
+
+		<para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>
+			<!-- .br -->
+			<option>-S</option> <replaceable>SHAPE</replaceable></para>
+
+		<para>Do not try to find a definition for any external <emphasis>SHAPE</emphasis> name.</para>
+
+		<para><option>--suppress-mult</option>
+			<!-- .br -->
+			<option>-M</option></para>
+
+		<para>Do not use non-unique definitions in libraries as definitions for external
+			names.</para>
+
+		<para><option>--unit-file</option> <replaceable>FILE</replaceable>
+			<!-- .br -->
+			<option>-u</option> <replaceable>FILE</replaceable></para>
+
+		<para>Parse <emphasis>FILE</emphasis> to get a new unit set name list.  By default, all of the
+			standard (as specified in the version 4.0 TDF specification) unit set names
+			are known.</para>
+
+		<para><option>--version</option>
+			<!-- .br -->
+			<option>-v</option></para>
+
+		<para>Write the version number of the program to the standard error stream.</para>
+	</refsection>
+
+	<refsection id='library_contents'>
+		<title>Library Contents</title>
+
+		<para>When invoked with the <option>-mt</option> switch,
+			<command>tld</command>
+			produces a listing of the contents of the TDF library specified on the
+			command line.</para>
+	</refsection>
+
+	<refsection id='switches4'>
+		<title>Switches</title>
+
+		<para><command>tld</command>
+			accepts the following switches in library contents mode:</para>
+
+		<para><option>--debug-file</option> <replaceable>FILE</replaceable>
+			<!-- .br -->
+			<option>-d</option> <replaceable>FILE</replaceable></para>
+
+		<para>Produce a diagnostic trace of the library contents process in <emphasis>FILE</emphasis>.</para>
+
+		<para><option>--help</option>
+			<!-- .br -->
+			<option>-?</option></para>
+
+		<para>Write an option summary to the standard error.</para>
+
+		<para><option>--index</option>
+			<!-- .br -->
+			<option>-i</option></para>
+
+		<para>Enable/disable the printing of the index of the library.  If printing of the
+			index is enabled, the index of the library will be printed.  The order of
+			the shapes and external names in the printed index is not necessarily the
+			same as the order of the index in the library itself.  If the order is
+			important, use the --debug-file option and look at the output that is
+			produced.</para>
+
+		<para><option>--size</option>
+			<!-- .br -->
+			<option>-s</option></para>
+
+		<para>Enable/disable the printing of the size of each capsule in the library.  If
+			enabled, the size of each capsule in bytes is printed after its name.</para>
+
+		<para><option>--version</option>
+			<!-- .br -->
+			<option>-v</option></para>
+
+		<para>Write the version number of the program to the standard error stream.</para>
+	</refsection>
+
+	<refsection id='library_extraction'>
+		<title>Library Extraction</title>
+
+		<para>When invoked with the <option>-mx</option> switch, <command>tld</command>
+			extracts capsules from the TDF library specified as the first file on the
+			command line.  The names of the capsules to extract should follow the
+			library name.  If capsule names are specified, they must match exactly the
+			names of the capsules in the library (use the <option>-mt</option> mode switch to find
+			out what the exact names are).  The capsules are normally extracted relative
+			to the current directory, using the name of the capsule as the output file
+			name.  The linker will try to create any directories on the extracted
+			capsule's path name (in some implementations of the linker this may not be
+			supported, in which case the directories will need to be created manually
+			before extraction).  The extracted capsules will overwrite existing files of
+			the same name.</para>
+	</refsection>
+
+	<refsection id='switches5'>
+		<title>Switches</title>
+
+		<para><command>tld</command>
+			accepts the following switches in library extraction mode:</para>
+
+		<para><option>--all</option>
+			<!-- .br -->
+			<option>-a</option></para>
+
+		<para>Enable/disable the extraction of all capsules.  If all capsules are to be
+			extracted, no capsule names should be specified on the command line.</para>
+
+		<para><option>--basename</option>
+			<!-- .br -->
+			<option>-b</option></para>
+
+		<para>Enable/disable the use of the basename of each capsule when extracting.  If
+			this is enabled, then extracted capsules are extracted into the current
+			directory, using just their basename.  This may cause some of the capsules
+			to be written on top of each other.</para>
+
+		<para><option>--debug-file</option> <replaceable>FILE</replaceable>
+		<!-- .br -->
+		<option>-d</option> <replaceable>FILE</replaceable></para>
+
+		<para>Produce a diagnostic trace of the library extraction process in
+			<emphasis>FILE</emphasis>.</para>
+
+		<para><option>--help</option>
+			<!-- .br -->
+			<option>-?</option></para>
+
+		<para>Write an option summary to the standard error.</para>
+
+		<para><option>--info</option>
+			<!-- .br -->
+			<option>-i</option></para>
+
+		<para>Enable/disable informational messages.  These say which capsules are being
+			extracted.</para>
+
+		<para><option>--match-basename</option>
+			<!-- .br -->
+			<option>-m</option></para>
+
+		<para>Enable/disable matching of capsule names by basename.  If enabled, then the
+			basename of each library capsule is also matched against the file names
+			specified.  This may result in more than one capsule being extracted for one
+			file name.</para>
+
+		<para><option>--version</option>
+			<!-- .br -->
+			<option>-v</option></para>
+
+		<para>Write the version number of the program to the standard error stream.</para>
+	</refsection>
+
+	<refsection id='see_also'>
+		<title>See Also</title>
+
+		<para><citerefentry>
+				<refentrytitle>tcc</refentrytitle>
+				<manvolnum>1</manvolnum>
+			</citerefentry>, <citerefentry>
+				<refentrytitle>tld</refentrytitle>
+				<manvolnum>5</manvolnum>
+			</citerefentry>.</para>
+	</refsection>
+</refentry>
+
