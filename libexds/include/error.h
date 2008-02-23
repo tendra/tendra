@@ -409,14 +409,6 @@ extern EStringT *		error_lookup_string(char *);
 extern char *		error_string_contents(EStringT *);
 
 /*
- * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
- *
- * This function writes out an error file (in the same format as parsed by the
- * functions in "error-file.[ch]") to the specified ostream.
- */
-extern void		write_error_file(OStreamT *);
-
-/*
  * This macro should form the last entry in a vector of ``ETagDataT'' objects.
  */
 #define ERROR_END_TAG_LIST { NULL }
