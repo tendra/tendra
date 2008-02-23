@@ -67,8 +67,10 @@
 #define H_LEXER
 
 #include "os-interface.h"
-#include "eds/dstring.h"
-#include "eds/istream.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dstring.h>
+#include <exds/istream.h>
 #include  "lexi_lexer.h"
 
 extern struct lexi_state lexi_current_state ;

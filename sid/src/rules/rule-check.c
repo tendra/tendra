@@ -80,7 +80,7 @@
 
 #include "../adt/rule.h"
 #include "../adt/basic.h"
-#include "../eds/bitvec.h"
+#include <exds/bitvec.h>
 #include "../gen-errors.h"
 
 static void

@@ -57,77 +57,54 @@
         it may be put.
 */
 
-
 /*
- * basic.h --- Basic ADT.
+ * entry-list.h - Identifier table entry list ADT.
  *
- * See the file "basic.c" for more information.
+ * See the file "entry-list.h" for more information.
  */
 
-#ifndef H_BASIC
-#define H_BASIC
+#ifndef H_ENTRY_LIST
+#define H_ENTRY_LIST
 
 #include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
-#include <exds/bitvec.h>
 #include <exds/dalloc.h>
-#include <exds/dstring.h>
 #include "entry.h"
-#include "../grammar.h"
 #include <exds/ostream.h>
-#include "types.h"
 
-/*
- * A terminal is represented by a BasicT. The term basic used to refer to
- * terminals in previous versions of SID.
- */
-typedef struct BasicT {
-	/*
-	 * This is used to generate the token definition when outputting the
-	 * parser.
-	 */
-    unsigned			terminal;
+typedef struct EntryListEntryT {
+    struct EntryListEntryT     *next;
+    EntryT *			entry;
+} EntryListEntryT;
 
-	/*
-	 * The tuple of types e.g. for a terminal declared by:
-	 *
-	 * 	identifier : () -> (:StringT);
-	 *
-	 * .result contains a tuple of one element that indicates the only
-	 * result is a StringT.
-	 */
-    TypeTupleT			result;
+typedef struct EntryListT {
+    EntryListEntryT *		head;
+    EntryListEntryT *	       *tail;
+} EntryListT;
 
-	/*
-	 * The code given in the %terminals% extraction section of the action
-	 * information file (the .act file). This is stored as a void * because
-	 * the true type will depend on the output language used.
-	 */
-    void *			result_code;
+typedef struct SaveListT {
+    struct EntryListEntryT    **last_ref;
+} SaveListT;
 
-	/*
-	 * Indicates if the terminal is ignored or not, i.e. declared with a
-	 * preceding ! in the .sid file.
-	 */
-    BoolT			ignored;
-} BasicT;
+extern void	entry_list_init(EntryListT *);
+extern void	entry_list_copy(EntryListT *, EntryListT *);
+extern void	entry_list_add(EntryListT *, EntryT *);
+extern void	entry_list_add_if_missing(EntryListT *, EntryT *);
+extern BoolT	entry_list_contains(EntryListT *, EntryT *);
+extern BoolT	entry_list_includes(EntryListT *, EntryListT *);
+extern void	entry_list_intersection(EntryListT *, EntryListT *, EntryListT *);
+extern void	entry_list_unlink_used(EntryListT *, EntryListT *);
+extern void	entry_list_append(EntryListT *, EntryListT *);
+extern BoolT	entry_list_is_empty(EntryListT *);
+extern void	entry_list_save_state(EntryListT *, SaveListT *);
+extern void	entry_list_restore_state(EntryListT *, SaveListT *);
+extern void	entry_list_iter(EntryListT *, void(*)(EntryT *, void *),
+				void *);
+extern void	entry_list_iter_table(EntryListT *, BoolT,
+				      void(*)(EntryT *, void *), void *);
+extern void	entry_list_destroy(EntryListT *);
 
-typedef struct BasicClosureT {
-    BitVecT *			bitvec;
-    GrammarT *			grammar;
-} BasicClosureT;
+extern void	write_entry_list(OStreamT *, EntryListT *);
 
-extern BasicT *		basic_create(GrammarT *, BoolT);
-extern unsigned		basic_terminal(BasicT *);
-extern TypeTupleT *	basic_result(BasicT *);
-extern void *		basic_get_result_code(BasicT *);
-extern void		basic_set_result_code(BasicT *, void *);
-extern BoolT		basic_get_ignored(BasicT *);
-extern void		basic_iter_for_table(BasicT *, BoolT,
-					     void(*)(EntryT *, void *),
-					     void *);
-
-extern void		write_basics(OStreamT *, BasicClosureT *);
-
-#endif /* !defined (H_BASIC) */
+#endif /* !defined (H_ENTRY_LIST) */

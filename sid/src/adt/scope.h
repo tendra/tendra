@@ -57,77 +57,56 @@
         it may be put.
 */
 
-
 /*
- * basic.h --- Basic ADT.
+ * scope.h - Scope stack ADT.
  *
- * See the file "basic.c" for more information.
+ * See the file "scope.c" for more information.
  */
 
-#ifndef H_BASIC
-#define H_BASIC
+#ifndef H_SCOPE
+#define H_SCOPE
 
 #include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
-#include <exds/bitvec.h>
-#include <exds/dalloc.h>
 #include <exds/dstring.h>
 #include "entry.h"
-#include "../grammar.h"
-#include <exds/ostream.h>
-#include "types.h"
+#include "table.h"
 
-/*
- * A terminal is represented by a BasicT. The term basic used to refer to
- * terminals in previous versions of SID.
- */
-typedef struct BasicT {
-	/*
-	 * This is used to generate the token definition when outputting the
-	 * parser.
-	 */
-    unsigned			terminal;
+/* To avoid circularity: */
+struct RuleT;
 
-	/*
-	 * The tuple of types e.g. for a terminal declared by:
-	 *
-	 * 	identifier : () -> (:StringT);
-	 *
-	 * .result contains a tuple of one element that indicates the only
-	 * result is a StringT.
-	 */
-    TypeTupleT			result;
+typedef struct ScopeMapEntryT {
+    struct ScopeMapEntryT      *next;
+    EntryT *			from;
+    EntryT *			to;
+} ScopeMapEntryT;
 
-	/*
-	 * The code given in the %terminals% extraction section of the action
-	 * information file (the .act file). This is stored as a void * because
-	 * the true type will depend on the output language used.
-	 */
-    void *			result_code;
+typedef struct ScopeStackFrameT {
+    struct ScopeStackFrameT    *next;
+    NStringT			scope;
+    ScopeMapEntryT *		head;
+    ScopeMapEntryT *	       *tail;
+} ScopeStackFrameT;
 
-	/*
-	 * Indicates if the terminal is ignored or not, i.e. declared with a
-	 * preceding ! in the .sid file.
-	 */
-    BoolT			ignored;
-} BasicT;
+typedef struct ScopeStackT {
+    ScopeStackFrameT *		head;
+} ScopeStackT;
 
-typedef struct BasicClosureT {
-    BitVecT *			bitvec;
-    GrammarT *			grammar;
-} BasicClosureT;
+extern void	scope_stack_init(ScopeStackT *);
+extern void	scope_stack_push(ScopeStackT *, NStringT *);
+extern void	scope_stack_pop(ScopeStackT *);
+extern EntryT *	scope_stack_add_rule(ScopeStackT *, TableT *, NStringT *,
+				     struct RuleT *, BoolT *);
+extern EntryT *	scope_stack_add_action(ScopeStackT *, TableT *, NStringT *,
+				       struct RuleT *, BoolT *);
+extern EntryT *	scope_stack_add_non_local(ScopeStackT *, TableT *, NStringT *,
+					  EntryT *, struct RuleT *);
+extern EntryT *	scope_stack_get_rule(ScopeStackT *, TableT *, NStringT *);
+extern EntryT *	scope_stack_get_action(ScopeStackT *, TableT *, NStringT *);
+extern EntryT *	scope_stack_get_non_local(ScopeStackT *, TableT *, NStringT *,
+					  NStringT *);
+extern BoolT	scope_stack_check_shadowing(ScopeStackT *, EntryT *,
+					    struct RuleT *);
 
-extern BasicT *		basic_create(GrammarT *, BoolT);
-extern unsigned		basic_terminal(BasicT *);
-extern TypeTupleT *	basic_result(BasicT *);
-extern void *		basic_get_result_code(BasicT *);
-extern void		basic_set_result_code(BasicT *, void *);
-extern BoolT		basic_get_ignored(BasicT *);
-extern void		basic_iter_for_table(BasicT *, BoolT,
-					     void(*)(EntryT *, void *),
-					     void *);
-
-extern void		write_basics(OStreamT *, BasicClosureT *);
-
-#endif /* !defined (H_BASIC) */
+#endif /* !defined (H_SCOPE) */

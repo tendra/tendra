@@ -6,6 +6,11 @@ BUILD_ERRORS=${ESRC}/BUILD_ERRORS
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
 
+EXDS_LIBS?=-L${PREFIX}/lib/exds
+EXDS_CFLAGS?=-I${PREFIX}/include/exds
+
+CFLAGS?=${EXDS_CFLAGS}
+
 TARGETS=gen-errors.o arg-parse.o grammar.o lexer.o \
 	main.o output.o parser.o lexi_lexer.o
 
@@ -45,25 +50,21 @@ clean:
 	cd rules && ${MAKE} clean
 	cd lang-c && ${MAKE} clean
 	cd adt && ${MAKE} clean
-	cd eds && ${MAKE} clean
 
 # Remove generated files that are in the distribution
 maintainer-clean:
 	${REMOVE} lexi_lexer.c
 	cd lang-c && ${MAKE} maintainer-clean
 
-sid: ${TARGETS} rules/rules.a lang-c/lang-c.a adt/adt.a eds/eds.a
+sid: ${TARGETS} rules/rules.a lang-c/lang-c.a adt/adt.a
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ${TARGETS} \
-		rules/rules.a lang-c/lang-c.a adt/adt.a eds/eds.a
+		rules/rules.a lang-c/lang-c.a adt/adt.a -lexds ${LIBS_EXDS}
 
 rules/rules.a:
 	cd rules && ${MAKE} all
 
 adt/adt.a:
 	cd adt && ${MAKE} all
-
-eds/eds.a:
-	cd eds && ${MAKE} all
 
 lang-c/lang-c.a:
 	cd lang-c && ${MAKE} all

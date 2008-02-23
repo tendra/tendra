@@ -68,8 +68,10 @@
 #define H_ACTION
 
 #include "../os-interface.h"
-#include "../eds/dalloc.h"
-#include "../eds/dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
 #include "entry.h"
 #include "types.h"
 

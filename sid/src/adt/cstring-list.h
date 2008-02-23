@@ -57,77 +57,67 @@
         it may be put.
 */
 
-
 /*
- * basic.h --- Basic ADT.
+ * cstring-list.h - String list ADT.
  *
- * See the file "basic.c" for more information.
+ * This file specifies the interface to a string list facility.  This
+ * particular facility allows lists of cstrings (defined in the files
+ * "cstring.[ch]") to be created.
  */
 
-#ifndef H_BASIC
-#define H_BASIC
+#ifndef H_CSTRING_LIST
+#define H_CSTRING_LIST
 
 #include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
-#include <exds/bitvec.h>
+#include <exds/cstring.h>
 #include <exds/dalloc.h>
-#include <exds/dstring.h>
-#include "entry.h"
-#include "../grammar.h"
-#include <exds/ostream.h>
-#include "types.h"
 
 /*
- * A terminal is represented by a BasicT. The term basic used to refer to
- * terminals in previous versions of SID.
+ * This is the cstring list entry type.
  */
-typedef struct BasicT {
-	/*
-	 * This is used to generate the token definition when outputting the
-	 * parser.
-	 */
-    unsigned			terminal;
+typedef struct CStringListEntryT {
+    struct CStringListEntryT   *next;
+    char *			string;
+} CStringListEntryT;
 
-	/*
-	 * The tuple of types e.g. for a terminal declared by:
-	 *
-	 * 	identifier : () -> (:StringT);
-	 *
-	 * .result contains a tuple of one element that indicates the only
-	 * result is a StringT.
-	 */
-    TypeTupleT			result;
+/*
+ * This is the cstring list type.
+ */
+typedef struct CStringListT {
+    CStringListEntryT *		head;
+    CStringListEntryT *	       *tail;
+} CStringListT;
 
-	/*
-	 * The code given in the %terminals% extraction section of the action
-	 * information file (the .act file). This is stored as a void * because
-	 * the true type will depend on the output language used.
-	 */
-    void *			result_code;
+/*
+ * This function initialises the specified cstring list to be an empty list.
+ */
+extern void			cstring_list_init(CStringListT *);
 
-	/*
-	 * Indicates if the terminal is ignored or not, i.e. declared with a
-	 * preceding ! in the .sid file.
-	 */
-    BoolT			ignored;
-} BasicT;
+/*
+ * This function appends the specified cstring onto the specified list.
+ */
+extern void			cstring_list_append(CStringListT *, char *);
 
-typedef struct BasicClosureT {
-    BitVecT *			bitvec;
-    GrammarT *			grammar;
-} BasicClosureT;
+/*
+ * This function returns a pointer to the first entry in the specified list.
+ */
+extern CStringListEntryT *	cstring_list_head(CStringListT *);
 
-extern BasicT *		basic_create(GrammarT *, BoolT);
-extern unsigned		basic_terminal(BasicT *);
-extern TypeTupleT *	basic_result(BasicT *);
-extern void *		basic_get_result_code(BasicT *);
-extern void		basic_set_result_code(BasicT *, void *);
-extern BoolT		basic_get_ignored(BasicT *);
-extern void		basic_iter_for_table(BasicT *, BoolT,
-					     void(*)(EntryT *, void *),
-					     void *);
+/*
+ * This function returns a pointer to the cstring stored in the specified
+ * list entry.
+ */
+extern char *			cstring_list_entry_string(CStringListEntryT *);
 
-extern void		write_basics(OStreamT *, BasicClosureT *);
+/*
+ * This function deallocates the specified list entry (without deallocating
+ * the string - this must be done by the calling function) and returns a
+ * pointer to the next entry in the list.  Once this function has been called,
+ * the state of the list that the entry is a member of is undefined.  It is
+ * only useful for deallocating the entire list in a loop.
+ */
+extern CStringListEntryT *	cstring_list_entry_deallocate(CStringListEntryT *);
 
-#endif /* !defined (H_BASIC) */
+#endif /* !defined (H_CSTRING_LIST) */

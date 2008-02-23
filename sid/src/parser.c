@@ -75,9 +75,11 @@
 #include "parser.h"
 #include "adt/action.h"
 #include "adt/basic.h"
-#include "eds/bitvec.h"
-#include "eds/dalloc.h"
-#include "eds/dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/bitvec.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
 #include "gen-errors.h"
 #include "grammar.h"
 #include "lexer.h"

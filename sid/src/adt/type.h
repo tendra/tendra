@@ -67,8 +67,10 @@
 #define H_TYPE
 
 #include "../os-interface.h"
-#include "../eds/dalloc.h"
-#include "../eds/dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
 
 /*
  * Types are stored in an EntryT whose union holds a TypeT.

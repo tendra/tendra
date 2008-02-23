@@ -69,8 +69,8 @@
 
 #include "../os-interface.h"
 #include "c-code.h"
-#include "../eds/dstring.h"
-#include "../eds/istream.h"
+#include <exds/dstring.h>
+#include <exds/istream.h>
 #include "c-lexi_lexer.h"
 
 

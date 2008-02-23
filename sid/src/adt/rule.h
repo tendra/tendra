@@ -70,12 +70,14 @@
 #define H_RULE
 
 #include "../os-interface.h"
-#include "../eds/bitvec.h"
-#include "../eds/dalloc.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/bitvec.h>
+#include <exds/dalloc.h>
 #include "../adt/entry.h"
 #include "../adt/entry-list.h"
 #include "../adt/non-local.h"
-#include "../eds/ostream.h"
+#include <exds/ostream.h>
 #include "../adt/rstack.h"
 #include "../adt/table.h"
 #include "../adt/types.h"

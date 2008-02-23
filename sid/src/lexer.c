@@ -75,7 +75,6 @@
 
 #include "lexer.h"
 #include "gen-errors.h"
-#include "eds/syntax.h"
 
 struct lexi_state lexi_current_state ;
 

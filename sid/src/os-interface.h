@@ -30,7 +30,7 @@
  */
 /*
     		 Crown Copyright (c) 1997
-
+    
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -39,95 +39,102 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-
+    
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-
+    
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-
+    
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-
+    
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
 */
 
-
 /*
- * basic.h --- Basic ADT.
+ * os-interface.h - Primitive definitions.
  *
- * See the file "basic.c" for more information.
+ * This file specifies an interface to the host system's C library, compiler
+ * and operating system.  It provides definitions of basic types, constants
+ * and macros, and declarations of functions, that can be used by other
+ * components of the program.
+ *
+ * This file used to provide portability abstractions; now all that remains
+ * are definitions for semantic purposes, such as CmpT.
  */
 
-#ifndef H_BASIC
-#define H_BASIC
+#ifndef H_OS_INTERFACE
+#define H_OS_INTERFACE
 
-#include "../os-interface.h"
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/bitvec.h>
-#include <exds/dalloc.h>
-#include <exds/dstring.h>
-#include "entry.h"
-#include "../grammar.h"
-#include <exds/ostream.h>
-#include "types.h"
+# ifdef __TenDRA__
+#  pragma TenDRA keyword UNUSED for discard variable
+#  pragma TenDRA keyword KW_WEAK_PROTOTYPE for weak
+# else
 
 /*
- * A terminal is represented by a BasicT. The term basic used to refer to
- * terminals in previous versions of SID.
+ * This macro documents the fact that the specified variable will no longer be
+ * used.  One use is to indicate function parameters that are not used.  On
+ * most compilers it will do nothing, but on compilers that support it it will
+ * tell the compiler that the variable is not expected to be used.
  */
-typedef struct BasicT {
-	/*
-	 * This is used to generate the token definition when outputting the
-	 * parser.
-	 */
-    unsigned			terminal;
+#  define UNUSED(v)
+#  define KW_WEAK_PROTOTYPE
+# endif /* defined (__TenDRA__) */
 
-	/*
-	 * The tuple of types e.g. for a terminal declared by:
-	 *
-	 * 	identifier : () -> (:StringT);
-	 *
-	 * .result contains a tuple of one element that indicates the only
-	 * result is a StringT.
-	 */
-    TypeTupleT			result;
+/*
+ * This is the byte type.  It is possible that this could be larger than an
+ * octet in some implementations.
+ */
+typedef unsigned char ByteT;
 
-	/*
-	 * The code given in the %terminals% extraction section of the action
-	 * information file (the .act file). This is stored as a void * because
-	 * the true type will depend on the output language used.
-	 */
-    void *			result_code;
+/*
+ * These expand to values suitable for the boolean constants true and false.
+ * Eventually these will be replaced with C99's stdbool.h along with the
+ * BoolT type.
+ */
+# define FALSE (0)
+# define TRUE (1)
 
-	/*
-	 * Indicates if the terminal is ignored or not, i.e. declared with a
-	 * preceding ! in the .sid file.
-	 */
-    BoolT			ignored;
-} BasicT;
+# ifdef __TenDRA__
+#  pragma TenDRA keyword EXHAUSTIVE for exhaustive
+#  pragma TenDRA keyword FALL_THROUGH for fall into case
+#  pragma TenDRA keyword UNREACHED for set unreachable
+# else
+#  include <stdlib.h>
+#  include <assert.h>
 
-typedef struct BasicClosureT {
-    BitVecT *			bitvec;
-    GrammarT *			grammar;
-} BasicClosureT;
+/*
+ * This macro documents the fact that the switch statement in which it appears
+ * is meant to be exhaustive.  It is used as follows:
+ *
+ *	switch (expression) EXHAUSTIVE { ... }
+ */
+#  define EXHAUSTIVE
 
-extern BasicT *		basic_create(GrammarT *, BoolT);
-extern unsigned		basic_terminal(BasicT *);
-extern TypeTupleT *	basic_result(BasicT *);
-extern void *		basic_get_result_code(BasicT *);
-extern void		basic_set_result_code(BasicT *, void *);
-extern BoolT		basic_get_ignored(BasicT *);
-extern void		basic_iter_for_table(BasicT *, BoolT,
-					     void(*)(EntryT *, void *),
-					     void *);
+/*
+ * This macro documents the fact that the current case of a switch statement
+ * should follow through into the next (immediately following) case.  It is
+ * used as follows:
+ *
+ *	case 1:
+ *	  ...
+ *	  FALL_THROUGH;
+ *	case 2:
+ *	  ...
+ */
+#  define FALL_THROUGH
 
-extern void		write_basics(OStreamT *, BasicClosureT *);
+/*
+ * This macro documents the fact that the location that it occurs in should be
+ * unreachable.
+ */
+#  define UNREACHED assert(!"UNREACHED"); abort();
+# endif /* defined (__TenDRA__) */
 
-#endif /* !defined (H_BASIC) */
+#endif /* !defined (H_OS_INTERFACE) */

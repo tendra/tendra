@@ -67,8 +67,10 @@
 #define H_C_OUT_INFO
 
 #include "../os-interface.h"
-#include "../eds/dstring.h"
-#include "../eds/ostream.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dstring.h>
+#include <exds/ostream.h>
 #include "../output.h"
 #include "persistent.h"
 

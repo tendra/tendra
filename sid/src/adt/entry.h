@@ -67,9 +67,11 @@
 #define H_ENTRY
 
 #include "../os-interface.h"
-#include "../eds/dalloc.h"
-#include "../eds/dstring.h"
-#include "../eds/ostream.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
+#include <exds/ostream.h>
 #include "key.h"
 
 /* To avoid circularity: */

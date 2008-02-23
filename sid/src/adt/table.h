@@ -57,77 +57,50 @@
         it may be put.
 */
 
-
 /*
- * basic.h --- Basic ADT.
+ * table.h - Identifier table ADT.
  *
- * See the file "basic.c" for more information.
+ * See the file "table.c" for more information.
  */
 
-#ifndef H_BASIC
-#define H_BASIC
+#ifndef H_TABLE
+#define H_TABLE
 
 #include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
-#include <exds/bitvec.h>
-#include <exds/dalloc.h>
 #include <exds/dstring.h>
 #include "entry.h"
-#include "../grammar.h"
 #include <exds/ostream.h>
-#include "types.h"
+#include "key.h"
 
-/*
- * A terminal is represented by a BasicT. The term basic used to refer to
- * terminals in previous versions of SID.
- */
-typedef struct BasicT {
-	/*
-	 * This is used to generate the token definition when outputting the
-	 * parser.
-	 */
-    unsigned			terminal;
+/* To avoid cicularity: */
+struct GrammarT;
 
-	/*
-	 * The tuple of types e.g. for a terminal declared by:
-	 *
-	 * 	identifier : () -> (:StringT);
-	 *
-	 * .result contains a tuple of one element that indicates the only
-	 * result is a StringT.
-	 */
-    TypeTupleT			result;
+#define TABLE_SIZE	(127)
 
-	/*
-	 * The code given in the %terminals% extraction section of the action
-	 * information file (the .act file). This is stored as a void * because
-	 * the true type will depend on the output language used.
-	 */
-    void *			result_code;
+typedef struct TableT {
+    EntryT *			contents[TABLE_SIZE];
+} TableT;
 
-	/*
-	 * Indicates if the terminal is ignored or not, i.e. declared with a
-	 * preceding ! in the .sid file.
-	 */
-    BoolT			ignored;
-} BasicT;
+extern void	table_init(TableT *);
+extern EntryT *	table_add_type(TableT *, NStringT *);
+extern EntryT *	table_add_basic(TableT *, NStringT *, struct GrammarT *, BoolT);
+extern EntryT *	table_add_action(TableT *, NStringT *);
+extern EntryT *	table_add_rule(TableT *, NStringT *);
+extern EntryT *	table_add_generated_rule(TableT *, BoolT);
+extern EntryT *	table_add_name(TableT *, NStringT *);
+extern EntryT *	table_add_generated_name(TableT *);
+extern EntryT *	table_add_rename(TableT *);
+extern EntryT *	table_add_non_local(TableT *, NStringT *, EntryT *);
+extern EntryT *	table_get_entry(TableT *, NStringT *);
+extern EntryT *	table_get_type(TableT *, NStringT *);
+extern EntryT *	table_get_basic(TableT *, NStringT *);
+extern EntryT *	table_get_basic_by_number(TableT *, unsigned);
+extern EntryT *	table_get_action(TableT *, NStringT *);
+extern EntryT *	table_get_rule(TableT *, NStringT *);
+extern void	table_iter(TableT *, void(*)(EntryT *, void *), void *);
+extern void	table_untrace(TableT *);
+extern void	table_unlink_untraced_rules(TableT *);
 
-typedef struct BasicClosureT {
-    BitVecT *			bitvec;
-    GrammarT *			grammar;
-} BasicClosureT;
-
-extern BasicT *		basic_create(GrammarT *, BoolT);
-extern unsigned		basic_terminal(BasicT *);
-extern TypeTupleT *	basic_result(BasicT *);
-extern void *		basic_get_result_code(BasicT *);
-extern void		basic_set_result_code(BasicT *, void *);
-extern BoolT		basic_get_ignored(BasicT *);
-extern void		basic_iter_for_table(BasicT *, BoolT,
-					     void(*)(EntryT *, void *),
-					     void *);
-
-extern void		write_basics(OStreamT *, BasicClosureT *);
-
-#endif /* !defined (H_BASIC) */
+#endif /* !defined (H_TABLE) */

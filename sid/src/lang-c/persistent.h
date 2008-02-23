@@ -38,7 +38,7 @@
 #define H_PERSISTENT
 
 #include "../adt/entry.h" 
-#include "../eds/dstring.h"
+#include <exds/dstring.h>
 
 typedef struct PersistentT_tag {
 	NStringT ctype ;

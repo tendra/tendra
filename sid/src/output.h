@@ -57,77 +57,46 @@
         it may be put.
 */
 
-
 /*
- * basic.h --- Basic ADT.
+ * output.h - Target independent output routines.
  *
- * See the file "basic.c" for more information.
+ * See the file "output.c" for more information.
  */
 
-#ifndef H_BASIC
-#define H_BASIC
+#ifndef H_OUTPUT
+#define H_OUTPUT
 
-#include "../os-interface.h"
+#include "os-interface.h"
 #include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/bitvec.h>
-#include <exds/dalloc.h>
-#include <exds/dstring.h>
-#include "entry.h"
-#include "../grammar.h"
+#include <exds/cstring.h>
+#include <exds/istream.h>
 #include <exds/ostream.h>
-#include "types.h"
 
-/*
- * A terminal is represented by a BasicT. The term basic used to refer to
- * terminals in previous versions of SID.
- */
-typedef struct BasicT {
-	/*
-	 * This is used to generate the token definition when outputting the
-	 * parser.
-	 */
-    unsigned			terminal;
+typedef struct OutputInfoT {
+    char *			prog_name;
+    OStreamT *			current_ostream;
+    IStreamT *			istreams;
+    OStreamT *			ostreams;
+    char *		       *input_names;
+    char *		       *output_names;
+    unsigned			tab_width;
+} OutputInfoT;
 
-	/*
-	 * The tuple of types e.g. for a terminal declared by:
-	 *
-	 * 	identifier : () -> (:StringT);
-	 *
-	 * .result contains a tuple of one element that indicates the only
-	 * result is a StringT.
-	 */
-    TypeTupleT			result;
+extern void		out_info_init(OutputInfoT *, char *);
+extern char *		out_info_get_prog_name(OutputInfoT *);
+extern void		out_info_set_current_ostream(OutputInfoT *, unsigned);
+extern OStreamT *		out_info_get_current_ostream(OutputInfoT *);
+extern void		out_info_set_num_input_files(OutputInfoT *, unsigned);
+extern void		out_info_set_num_output_files(OutputInfoT *, unsigned);
+extern IStreamT *		out_info_get_istream(OutputInfoT *, unsigned);
+extern OStreamT *		out_info_get_ostream(OutputInfoT *, unsigned);
+extern void		out_info_set_infile_name(OutputInfoT *, unsigned,
+						 char *);
+extern char *		out_info_get_infile_name(OutputInfoT *, unsigned);
+extern void		out_info_set_outfile_name(OutputInfoT *, unsigned,
+						  char *);
+extern char *		out_info_get_outfile_name(OutputInfoT *, unsigned);
+extern void		out_info_set_tab_width(OutputInfoT *, unsigned);
+extern void		output_indent(OutputInfoT *, unsigned);
 
-	/*
-	 * The code given in the %terminals% extraction section of the action
-	 * information file (the .act file). This is stored as a void * because
-	 * the true type will depend on the output language used.
-	 */
-    void *			result_code;
-
-	/*
-	 * Indicates if the terminal is ignored or not, i.e. declared with a
-	 * preceding ! in the .sid file.
-	 */
-    BoolT			ignored;
-} BasicT;
-
-typedef struct BasicClosureT {
-    BitVecT *			bitvec;
-    GrammarT *			grammar;
-} BasicClosureT;
-
-extern BasicT *		basic_create(GrammarT *, BoolT);
-extern unsigned		basic_terminal(BasicT *);
-extern TypeTupleT *	basic_result(BasicT *);
-extern void *		basic_get_result_code(BasicT *);
-extern void		basic_set_result_code(BasicT *, void *);
-extern BoolT		basic_get_ignored(BasicT *);
-extern void		basic_iter_for_table(BasicT *, BoolT,
-					     void(*)(EntryT *, void *),
-					     void *);
-
-extern void		write_basics(OStreamT *, BasicClosureT *);
-
-#endif /* !defined (H_BASIC) */
+#endif /* !defined (H_OUTPUT) */

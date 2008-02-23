@@ -72,7 +72,8 @@
 #include "c-out-key.h"
 #include "c-out-nl.h"
 #include "c-out-types.h"
-#include "../eds/dstring.h"
+#include <exds/dstring.h>
+#include <exds/ostream.h>
 #include "../gen-errors.h"
 #include "../output.h"
 #include "../adt/name.h"

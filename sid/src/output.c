@@ -57,77 +57,118 @@
         it may be put.
 */
 
-
 /*
- * basic.h --- Basic ADT.
+ * output.c - Target independent output routines.
  *
- * See the file "basic.c" for more information.
+ * This file implements some generic output routines.
  */
 
-#ifndef H_BASIC
-#define H_BASIC
+#include <stddef.h>
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
-#include <exds/bitvec.h>
 #include <exds/dalloc.h>
-#include <exds/dstring.h>
-#include "entry.h"
-#include "../grammar.h"
-#include <exds/ostream.h>
-#include "types.h"
+#include <exds/istream.h>
+#include "output.h"
 
-/*
- * A terminal is represented by a BasicT. The term basic used to refer to
- * terminals in previous versions of SID.
- */
-typedef struct BasicT {
-	/*
-	 * This is used to generate the token definition when outputting the
-	 * parser.
-	 */
-    unsigned			terminal;
+void
+out_info_init(OutputInfoT * info, char * prog)
+{
+    info->prog_name       = prog;
+    info->current_ostream = NULL;
+    info->istreams        = NULL;
+    info->ostreams        = NULL;
+    info->input_names     = NULL;
+    info->output_names    = NULL;
+    info->tab_width       = 8;
+}
 
-	/*
-	 * The tuple of types e.g. for a terminal declared by:
-	 *
-	 * 	identifier : () -> (:StringT);
-	 *
-	 * .result contains a tuple of one element that indicates the only
-	 * result is a StringT.
-	 */
-    TypeTupleT			result;
+char *
+out_info_get_prog_name(OutputInfoT * info)
+{
+    return(info->prog_name);
+}
 
-	/*
-	 * The code given in the %terminals% extraction section of the action
-	 * information file (the .act file). This is stored as a void * because
-	 * the true type will depend on the output language used.
-	 */
-    void *			result_code;
+void
+out_info_set_current_ostream(OutputInfoT * info, unsigned i)
+{
+    info->current_ostream = &(info->ostreams[i]);
+}
 
-	/*
-	 * Indicates if the terminal is ignored or not, i.e. declared with a
-	 * preceding ! in the .sid file.
-	 */
-    BoolT			ignored;
-} BasicT;
+OStreamT *
+out_info_get_current_ostream(OutputInfoT * info)
+{
+    return(info->current_ostream);
+}
 
-typedef struct BasicClosureT {
-    BitVecT *			bitvec;
-    GrammarT *			grammar;
-} BasicClosureT;
+void
+out_info_set_num_input_files(OutputInfoT * info, unsigned size)
+{
+    info->istreams    = ALLOCATE_VECTOR(IStreamT, size);
+    info->input_names = ALLOCATE_VECTOR(char *, size);
+}
 
-extern BasicT *		basic_create(GrammarT *, BoolT);
-extern unsigned		basic_terminal(BasicT *);
-extern TypeTupleT *	basic_result(BasicT *);
-extern void *		basic_get_result_code(BasicT *);
-extern void		basic_set_result_code(BasicT *, void *);
-extern BoolT		basic_get_ignored(BasicT *);
-extern void		basic_iter_for_table(BasicT *, BoolT,
-					     void(*)(EntryT *, void *),
-					     void *);
+void
+out_info_set_num_output_files(OutputInfoT * info, unsigned size)
+{
+    info->ostreams     = ALLOCATE_VECTOR(OStreamT, size);
+    info->output_names = ALLOCATE_VECTOR(char *, size);
+}
 
-extern void		write_basics(OStreamT *, BasicClosureT *);
+IStreamT *
+out_info_get_istream(OutputInfoT * info, unsigned i)
+{
+    return(&(info->istreams[i]));
+}
 
-#endif /* !defined (H_BASIC) */
+OStreamT *
+out_info_get_ostream(OutputInfoT * info, unsigned i)
+{
+    return(&(info->ostreams[i]));
+}
+
+void
+out_info_set_infile_name(OutputInfoT * info, unsigned i, char * name)
+{
+    info->input_names[i] = name;
+}
+
+char *
+out_info_get_infile_name(OutputInfoT * info, unsigned i)
+{
+    return(info->input_names[i]);
+}
+
+void
+out_info_set_outfile_name(OutputInfoT * info, unsigned i, char * name)
+{
+    info->output_names[i] = name;
+}
+
+char *
+out_info_get_outfile_name(OutputInfoT * info, unsigned i)
+{
+    return(info->output_names[i]);
+}
+
+void
+out_info_set_tab_width(OutputInfoT * info, unsigned width)
+{
+    info->tab_width = width;
+}
+
+void
+output_indent(OutputInfoT * info, unsigned indent)
+{
+    OStreamT * ostream    = out_info_get_current_ostream(info);
+    unsigned tab_width  = info->tab_width;
+    unsigned num_tabs   = (indent / tab_width);
+    unsigned num_spaces = (indent % tab_width);
+
+    while (num_tabs --) {
+	write_tab(ostream);
+    }
+    while (num_spaces --) {
+	write_char(ostream, ' ');
+    }
+}
