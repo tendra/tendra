@@ -49,15 +49,6 @@
  * macro is defined in <limits.h>. If the standard library is not ANSI
  * compliant and no value is provided, then ``8'' will be used.
  *
- *	PO_SEEK_SET
- *	PO_SEEK_CUR
- *	PO_SEEK_END
- *
- * These should be defined to be the values for ``SEEK_SET'', ``SEEK_CUR'' and
- * ``SEEK_END''.  In an ANSI C compliant standard library, they are defined in
- * <stdio.h>.  If the standard library is not ANSI compliant and no value is
- * provided, then ``0'', ``1'' and ``2'' will be used.
- *
  ***=== FROM ANSI ============================================================
  *
  * The following ANSI C functions are declared:
@@ -307,29 +298,5 @@ typedef int BoolT;
 #    define CHAR_BIT 8
 #   endif /* defined (PO_CHAR_BIT) */
 #  endif /* !defined (CHAR_BIT) */
-
-#  ifndef SEEK_SET
-#   ifdef PO_SEEK_SET
-#    define SEEK_SET PO_SEEK_SET
-#   else
-#    define SEEK_SET (0)
-#   endif /* defined (PO_SEEK_SET) */
-#  endif /* !defined (SEEK_SET) */
-
-#  ifndef SEEK_CUR
-#   ifdef PO_SEEK_CUR
-#    define SEEK_CUR PO_SEEK_CUR
-#   else
-#    define SEEK_CUR (1)
-#   endif /* defined (PO_SEEK_CUR) */
-#  endif /* !defined (SEEK_CUR) */
-
-#  ifndef SEEK_END
-#   ifdef PO_SEEK_END
-#    define SEEK_END PO_SEEK_END
-#   else
-#    define SEEK_END (2)
-#   endif /* defined (PO_SEEK_END) */
-#  endif /* !defined (SEEK_END) */
 
 #endif /* !defined (H_OS_INTERFACE) */
