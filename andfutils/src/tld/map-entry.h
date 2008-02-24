@@ -94,37 +94,37 @@
 typedef struct MapLinkT {
     unsigned			internal;
     unsigned			external;
-} MapLinkT, *MapLinkP;
+} MapLinkT;
 
 typedef struct MapEntryT {
     struct MapEntryT	       *next;
     NStringT			key;
     unsigned			count;
     unsigned			num_links;
-    MapLinkP			links;
-} MapEntryT, *MapEntryP;
+    MapLinkT *		links;
+} MapEntryT;
 
 /*--------------------------------------------------------------------------*/
 
-extern MapEntryP		map_entry_create
-(NStringP, MapEntryP, unsigned);
-extern MapEntryP		map_entry_next
-(MapEntryP);
-extern NStringP			map_entry_key
-(MapEntryP);
+extern MapEntryT *	map_entry_create
+(NStringT *, MapEntryT *, unsigned);
+extern MapEntryT *	map_entry_next
+(MapEntryT *);
+extern NStringT *		map_entry_key
+(MapEntryT *);
 extern void			map_entry_set_num_links
-(MapEntryP, unsigned);
+(MapEntryT *, unsigned);
 extern void			map_entry_set_link
-(MapEntryP, unsigned, unsigned, unsigned);
+(MapEntryT *, unsigned, unsigned, unsigned);
 extern unsigned			map_entry_get_count
-(MapEntryP);
+(MapEntryT *);
 extern unsigned			map_entry_get_num_links
-(MapEntryP);
+(MapEntryT *);
 extern void			map_entry_get_link
-(MapEntryP, unsigned, unsigned *, unsigned *);
+(MapEntryT *, unsigned, unsigned *, unsigned *);
 
 extern void			map_entry_check_non_empty
-(MapEntryP, void *);
+(MapEntryT *, void *);
 
 #endif /* !defined (H_MAP_ENTRY) */
 

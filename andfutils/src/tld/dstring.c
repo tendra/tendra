@@ -96,28 +96,28 @@
 **/
 
 void
-nstring_init(NStringP nstring)
+nstring_init(NStringT *nstring)
 {
     nstring->length   = 0;
     nstring->contents = NIL(char *);
 }
 
 void
-nstring_init_length(NStringP nstring,			     unsigned length)
+nstring_init_length(NStringT *nstring,			     unsigned length)
 {
     nstring->length   = length;
     nstring->contents = ALLOCATE_VECTOR(char, length);
 }
 
 void
-nstring_assign(NStringP to,			NStringP from)
+nstring_assign(NStringT *to,			NStringT *from)
 {
     to->length     = nstring_length(from);
     to->contents   = (from->contents);
 }
 
 void
-nstring_copy_cstring(NStringP nstring,			      char * cstring)
+nstring_copy_cstring(NStringT *nstring,			      char * cstring)
 {
     unsigned length = cstring_length(cstring);
 
@@ -133,7 +133,7 @@ nstring_copy_cstring(NStringP nstring,			      char * cstring)
 }
 
 void
-nstring_insert_cstring(NStringP nstring,				char * cstring)
+nstring_insert_cstring(NStringT *nstring,				char * cstring)
 {
     unsigned length = nstring_length(nstring);
 
@@ -144,7 +144,7 @@ nstring_insert_cstring(NStringP nstring,				char * cstring)
 }
 
 void
-nstring_copy(NStringP to,		      NStringP from)
+nstring_copy(NStringT *to,		      NStringT *from)
 {
     unsigned length = nstring_length(from);
 
@@ -160,7 +160,7 @@ nstring_copy(NStringP to,		      NStringP from)
 }
 
 char *
-nstring_to_cstring(NStringP nstring)
+nstring_to_cstring(NStringT *nstring)
 {
     unsigned length = nstring_length(nstring);
     char * tmp    = ALLOCATE_VECTOR(char, length + 1);
@@ -174,7 +174,7 @@ nstring_to_cstring(NStringP nstring)
 }
 
 unsigned
-nstring_hash_value(NStringP nstring)
+nstring_hash_value(NStringT *nstring)
 {
     unsigned value        = 0;
     char * tmp_contents = (nstring->contents);
@@ -190,7 +190,7 @@ nstring_hash_value(NStringP nstring)
 #undef nstring_length
 #endif /* defined (FS_FAST) */
 unsigned
-nstring_length(NStringP nstring)
+nstring_length(NStringT *nstring)
 {
     return(nstring->length);
 }
@@ -202,7 +202,7 @@ nstring_length(NStringP nstring)
 #undef nstring_contents
 #endif /* defined (FS_FAST) */
 char *
-nstring_contents(NStringP nstring)
+nstring_contents(NStringT *nstring)
 {
     return(nstring->contents);
 }
@@ -211,7 +211,7 @@ nstring_contents(NStringP nstring)
 #endif /* defined (FS_FAST) */
 
 CmpT
-nstring_compare(NStringP nstring1,			 NStringP nstring2)
+nstring_compare(NStringT *nstring1,			 NStringT *nstring2)
 {
     unsigned length = nstring_length(nstring1);
     int      status;
@@ -235,7 +235,7 @@ nstring_compare(NStringP nstring1,			 NStringP nstring2)
 }
 
 BoolT
-nstring_equal(NStringP nstring1,		       NStringP nstring2)
+nstring_equal(NStringT *nstring1,		       NStringT *nstring2)
 {
     unsigned length = nstring_length(nstring1);
 
@@ -245,7 +245,7 @@ nstring_equal(NStringP nstring1,		       NStringP nstring2)
 }
 
 BoolT
-nstring_ci_equal(NStringP nstring1,			  NStringP nstring2)
+nstring_ci_equal(NStringT *nstring1,			  NStringT *nstring2)
 {
     unsigned length = nstring_length(nstring1);
 
@@ -267,7 +267,7 @@ nstring_ci_equal(NStringP nstring1,			  NStringP nstring2)
 }
 
 BoolT
-nstring_contains(NStringP nstring,			  char     c)
+nstring_contains(NStringT *nstring,			  char     c)
 {
     char * contents = nstring_contents(nstring);
     unsigned length   = nstring_length(nstring);
@@ -276,7 +276,7 @@ nstring_contains(NStringP nstring,			  char     c)
 }
 
 BoolT
-nstring_is_prefix(NStringP nstring1,			   NStringP nstring2)
+nstring_is_prefix(NStringT *nstring1,			   NStringT *nstring2)
 {
     char * contents1 = nstring_contents(nstring1);
     char * contents2 = nstring_contents(nstring2);
@@ -288,13 +288,13 @@ nstring_is_prefix(NStringP nstring1,			   NStringP nstring2)
 }
 
 void
-nstring_destroy(NStringP nstring)
+nstring_destroy(NStringT *nstring)
 {
     DEALLOCATE(nstring->contents);
 }
 
 void
-write_nstring(OStreamP ostream,		       NStringP nstring)
+write_nstring(OStreamT *ostream,		       NStringT *nstring)
 {
     unsigned length = nstring_length(nstring);
 
@@ -307,7 +307,7 @@ write_nstring(OStreamP ostream,		       NStringP nstring)
 **/
 
 void
-dstring_init(DStringP dstring)
+dstring_init(DStringT *dstring)
 {
     dstring->length     = 0;
     dstring->max_length = DSTRING_CHUNK_SIZE;
@@ -318,7 +318,7 @@ dstring_init(DStringP dstring)
 #undef dstring_length
 #endif /* defined (FS_FAST) */
 unsigned
-dstring_length(DStringP dstring)
+dstring_length(DStringT *dstring)
 {
     return(dstring->length);
 }
@@ -327,7 +327,7 @@ dstring_length(DStringP dstring)
 #endif /* defined (FS_FAST) */
 
 void
-dstring_append_char(DStringP dstring,			     char     c)
+dstring_append_char(DStringT *dstring,			     char     c)
 {
     if ((dstring->length) >= (dstring->max_length)) {
 	char * tmp;
@@ -343,7 +343,7 @@ dstring_append_char(DStringP dstring,			     char     c)
 }
 
 void
-dstring_append_cstring(DStringP dstring,				char * cstring)
+dstring_append_cstring(DStringT *dstring,				char * cstring)
 {
     unsigned clength = cstring_length(cstring);
     unsigned length  = (clength + (dstring->length));
@@ -366,7 +366,7 @@ dstring_append_cstring(DStringP dstring,				char * cstring)
 }
 
 void
-dstring_append_nstring(DStringP dstring,				NStringP nstring)
+dstring_append_nstring(DStringT *dstring,				NStringT *nstring)
 {
     unsigned nlength = nstring_length(nstring);
     unsigned length  = (nlength + (dstring->length));
@@ -389,14 +389,14 @@ dstring_append_nstring(DStringP dstring,				NStringP nstring)
 }
 
 BoolT
-dstring_last_char_equal(DStringP dstring,				 char     c)
+dstring_last_char_equal(DStringT *dstring,				 char     c)
 {
     return((dstring->length) &&
 	   ((dstring->contents[dstring->length - 1]) == c));
 }
 
 void
-dstring_to_nstring(DStringP dstring,			    NStringP nstring)
+dstring_to_nstring(DStringT *dstring,			    NStringT *nstring)
 {
     if (dstring->length > 0) {
 	nstring->length   = (dstring->length);
@@ -411,7 +411,7 @@ dstring_to_nstring(DStringP dstring,			    NStringP nstring)
 }
 
 char *
-dstring_to_cstring(DStringP dstring)
+dstring_to_cstring(DStringT *dstring)
 {
     char * tmp = ALLOCATE_VECTOR(char, dstring->length + 1);
 
@@ -424,7 +424,7 @@ dstring_to_cstring(DStringP dstring)
 }
 
 char *
-dstring_destroy_to_cstring(DStringP dstring)
+dstring_destroy_to_cstring(DStringT *dstring)
 {
     char * tmp;
 
@@ -444,7 +444,7 @@ dstring_destroy_to_cstring(DStringP dstring)
 }
 
 void
-dstring_destroy(DStringP dstring)
+dstring_destroy(DStringT *dstring)
 {
     DEALLOCATE(dstring->contents);
 }

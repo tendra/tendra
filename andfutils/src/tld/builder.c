@@ -99,21 +99,21 @@
 
 /*--------------------------------------------------------------------------*/
 
-static LibraryP *
-builder_read_libraries(ArgDataP  arg_data,				unsigned *num_libs_ref ,
+static LibraryT **
+builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,
 				unsigned *num_capsules_ref)
 {
     unsigned  num_lib_files   = arg_data_num_library_files(arg_data);
     char * *lib_files       = arg_data_library_files(arg_data);
-    LibraryP *libraries       = ALLOCATE_VECTOR(LibraryP, num_lib_files);
+    LibraryT **libraries       = ALLOCATE_VECTOR(LibraryT *, num_lib_files);
     unsigned  num_capsules    = 0;
     unsigned  i;
 
     for (i = 0; i < num_lib_files; i++) {
-	LibraryP library = library_create_stream_input(lib_files[i]);
+	LibraryT *library = library_create_stream_input(lib_files[i]);
 
-	if (library != NIL(LibraryP)) {
-	    ShapeTableP lib_shapes = shape_table_create();
+	if (library != NIL(LibraryT *)) {
+	    ShapeTableT *lib_shapes = shape_table_create();
 
 	    library_read(library, lib_shapes);
 	    library_close(library);
@@ -121,7 +121,7 @@ builder_read_libraries(ArgDataP  arg_data,				unsigned *num_libs_ref ,
 	    num_capsules += library_num_capsules(library);
 	    shape_table_deallocate(lib_shapes);
 	} else {
-	    libraries[i] = NIL(LibraryP);
+	    libraries[i] = NIL(LibraryT *);
 	    E_cannot_open_input_file(lib_files[i]);
 	}
     }
@@ -131,9 +131,9 @@ builder_read_libraries(ArgDataP  arg_data,				unsigned *num_libs_ref ,
 }
 
 static void
-builder_read_capsule(CapsuleP capsule, CapsuleP *capsules,
-		     unsigned capsule_index, UnitTableP units,
-		     ShapeTableP shapes)
+builder_read_capsule(CapsuleT *capsule, CapsuleT **capsules,
+		     unsigned capsule_index, UnitTableT *units,
+		     ShapeTableT *shapes)
 {
     char * name = capsule_name(capsule);
     unsigned i;
@@ -150,36 +150,36 @@ builder_read_capsule(CapsuleP capsule, CapsuleP *capsules,
     capsules[capsule_index] = capsule;
 }
 
-static CapsuleP *
-builder_read_capsules(ArgDataP    arg_data,			       UnitTableP  units ,
-			       ShapeTableP shapes ,
+static CapsuleT **
+builder_read_capsules(ArgDataT *   arg_data,			       UnitTableT * units ,
+			       ShapeTableT *shapes ,
 			       unsigned   *num_capsules_ref)
 {
     unsigned  num_input_files = arg_data_get_num_files(arg_data);
     char * *input_files     = arg_data_get_files(arg_data);
     unsigned  capsule_index   = 0;
     unsigned  num_libraries;
-    LibraryP *libraries;
+    LibraryT **libraries;
     unsigned  num_capsules;
-    CapsuleP *capsules;
+    CapsuleT **capsules;
     unsigned  i;
 
     libraries     = builder_read_libraries(arg_data, &num_libraries,
 					    &num_capsules);
     num_capsules += num_input_files;
-    capsules      = ALLOCATE_VECTOR(CapsuleP, num_capsules);
+    capsules      = ALLOCATE_VECTOR(CapsuleT *, num_capsules);
     for (i = 0; i < num_libraries; i++) {
-	LibraryP library = libraries[i];
+	LibraryT *library = libraries[i];
 
-	if (library != NIL(LibraryP)) {
+	if (library != NIL(LibraryT *)) {
 	    unsigned num_lib_capsules = library_num_capsules(library);
 	    unsigned j;
 
 	    for (j = 0; j < num_lib_capsules; j++) {
-		LibCapsuleP lib_capsule = library_get_capsule(library, j);
+		LibCapsuleT *lib_capsule = library_get_capsule(library, j);
 		char *    name        = lib_capsule_name(lib_capsule);
-		NStringP    contents    = lib_capsule_contents(lib_capsule);
-		CapsuleP    capsule;
+		NStringT *   contents    = lib_capsule_contents(lib_capsule);
+		CapsuleT *   capsule;
 
 		capsule = capsule_create_string_input(name, contents);
 		builder_read_capsule(capsule, capsules, capsule_index,
@@ -190,10 +190,10 @@ builder_read_capsules(ArgDataP    arg_data,			       UnitTableP  units ,
     }
     DEALLOCATE(libraries);
     for (i = 0; i < num_input_files; i++) {
-	CapsuleP capsule;
+	CapsuleT *capsule;
 
 	if ((capsule = capsule_create_stream_input(input_files[i])) !=
-	    NIL(CapsuleP)) {
+	    NIL(CapsuleT *)) {
 	    builder_read_capsule(capsule, capsules, capsule_index, units,
 				  shapes);
 	    capsule_index++;
@@ -210,7 +210,7 @@ builder_read_capsules(ArgDataP    arg_data,			       UnitTableP  units ,
 }
 
 static void
-builder_check_multi_defs(ShapeTableP shapes)
+builder_check_multi_defs(ShapeTableT *shapes)
 {
     shape_table_iter(shapes, shape_entry_check_multi_defs, NIL(void *));
     if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
@@ -220,35 +220,35 @@ builder_check_multi_defs(ShapeTableP shapes)
 }
 
 static void
-builder_suppress_1(NStringP     shape,			    BoolT        all ,
-			    NameKeyListP names ,
+builder_suppress_1(NStringT *    shape,			    BoolT        all ,
+			    NameKeyListT *names ,
 			    void *     gclosure)
 {
-    ShapeTableP lib_shapes = (ShapeTableP)gclosure;
-    ShapeEntryP entry      = shape_table_get(lib_shapes, shape);
+    ShapeTableT *lib_shapes = (ShapeTableT *)gclosure;
+    ShapeEntryT *entry      = shape_table_get(lib_shapes, shape);
 
     if (entry) {
-	NameTableP        table = shape_entry_name_table(entry);
-	NameKeyListEntryP name  = name_key_list_head(names);
+	NameTableT *       table = shape_entry_name_table(entry);
+	NameKeyListEntryT *name  = name_key_list_head(names);
 
 	if (all) {
 	    name_table_iter(table, name_entry_builder_suppress,
 			    (void *)shape);
 	}
 	for (; name; name = name_key_list_entry_next(name)) {
-	    NameKeyP   key        = name_key_list_entry_key(name);
-	    NameEntryP name_entry = name_table_get(table, key);
+	    NameKeyT *  key        = name_key_list_entry_key(name);
+	    NameEntryT *name_entry = name_table_get(table, key);
 
 	    if (name_entry) {
 		debug_info_l_suppress(shape, key);
-		name_entry_set_definition(name_entry, NIL(CapsuleP));
+		name_entry_set_definition(name_entry, NIL(CapsuleT *));
 	    }
 	}
     }
 }
 
 static void
-builder_suppress(ArgDataP    arg_data,			  ShapeTableP lib_shapes)
+builder_suppress(ArgDataT *   arg_data,			  ShapeTableT *lib_shapes)
 {
     if (arg_data_get_suppress_mult(arg_data)) {
 	shape_table_iter(lib_shapes, shape_entry_suppress_mult,
@@ -263,15 +263,15 @@ builder_suppress(ArgDataP    arg_data,			  ShapeTableP lib_shapes)
 }
 
 static void
-builder_write_library(ArgDataP    arg_data,			       ShapeTableP shapes ,
+builder_write_library(ArgDataT *   arg_data,			       ShapeTableT *shapes ,
 			       unsigned    num_capsules ,
-			       CapsuleP   *capsules)
+			       CapsuleT *  *capsules)
 {
     char * output_file = arg_data_get_output_file(arg_data);
-    LibraryP library;
+    LibraryT *library;
 
     if ((library = library_create_stream_output(output_file)) !=
-	NIL(LibraryP)) {
+	NIL(LibraryT *)) {
 	library_write(library, shapes, num_capsules, capsules);
 	library_close(library);
     } else {
@@ -287,12 +287,12 @@ builder_write_library(ArgDataP    arg_data,			       ShapeTableP shapes ,
 /*--------------------------------------------------------------------------*/
 
 void
-builder_main(ArgDataP arg_data)
+builder_main(ArgDataT *arg_data)
 {
-    UnitTableP  units  = unit_table_create();
-    ShapeTableP shapes = shape_table_create();
+    UnitTableT * units  = unit_table_create();
+    ShapeTableT *shapes = shape_table_create();
     unsigned    num_capsules;
-    CapsuleP   *capsules;
+    CapsuleT *  *capsules;
 
     capsules = builder_read_capsules(arg_data, units, shapes, &num_capsules);
     builder_check_multi_defs(shapes);

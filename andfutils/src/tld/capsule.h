@@ -101,14 +101,14 @@ struct LibCapsuleT;
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
-typedef int CapsuleTypeT, *CapsuleTypeP;
+typedef int CapsuleTypeT, *CapsuleTypeT *
 #define CT_INPUT		(0)
 #define CT_OUTPUT		(1)
 #else
 typedef enum {
     CT_INPUT,
     CT_OUTPUT
-} CapsuleTypeT, *CapsuleTypeP;
+} CapsuleTypeT;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct CapsuleT {
@@ -121,36 +121,36 @@ typedef struct CapsuleT {
     unsigned			capsule_index;
     char *			name;
     BoolT			complete;
-} CapsuleT, *CapsuleP;
+} CapsuleT;
 
 /*--------------------------------------------------------------------------*/
 
 extern void			capsule_read_unit_set_file
 (char *);
-extern CapsuleP			capsule_create_stream_input
+extern CapsuleT *		capsule_create_stream_input
 (char *);
-extern CapsuleP			capsule_create_string_input
-(char *, NStringP);
-extern CapsuleP			capsule_create_stream_output
+extern CapsuleT *		capsule_create_string_input
+(char *, NStringT *);
+extern CapsuleT *		capsule_create_stream_output
 (char *);
 extern char *			capsule_name
-(CapsuleP);
+(CapsuleT *);
 extern unsigned			capsule_byte
-(CapsuleP);
+(CapsuleT *);
 extern void			capsule_read
-(CapsuleP, UnitTableP, ShapeTableP);
+(CapsuleT *, UnitTableT *, ShapeTableT *);
 extern void			capsule_store_contents
-(CapsuleP);
-extern NStringP			capsule_contents
-(CapsuleP);
+(CapsuleT *);
+extern NStringT *		capsule_contents
+(CapsuleT *);
 extern void			capsule_set_index
-(CapsuleP, unsigned);
+(CapsuleT *, unsigned);
 extern unsigned			capsule_get_index
-(CapsuleP);
+(CapsuleT *);
 extern void			capsule_write
-(CapsuleP, UnitTableP, ShapeTableP);
+(CapsuleT *, UnitTableT *, ShapeTableT *);
 extern void			capsule_close
-(CapsuleP);
+(CapsuleT *);
 extern unsigned			capsule_get_major_version
 (void);
 extern void			capsule_set_major_version

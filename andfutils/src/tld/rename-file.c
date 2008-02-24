@@ -107,7 +107,7 @@
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
-typedef int RenameTagT, *RenameTagP;
+typedef int RenameTagT, *RenameTagT *
 #define RTOK_SHAPE		(0)
 #define RTOK_NAME		(1)
 #define RTOK_SEMI		(2)
@@ -118,7 +118,7 @@ typedef enum {
     RTOK_NAME,
     RTOK_SEMI,
     RTOK_EOF
-} RenameTagT, *RenameTagP;
+} RenameTagT;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct RenameTokenT {
@@ -127,12 +127,12 @@ typedef struct RenameTokenT {
 	NStringT		shape;
 	NameKeyT		name;
     } u;
-} RenameTokenT, *RenameTokenP;
+} RenameTokenT;
 
 /*--------------------------------------------------------------------------*/
 
 static BoolT
-rename_file_skip_white_space(IStreamP istream,				      char    *c_ref)
+rename_file_skip_white_space(IStreamT *istream,				      char    *c_ref)
 {
     BoolT comment = FALSE;
 
@@ -164,14 +164,14 @@ rename_file_skip_white_space(IStreamP istream,				      char    *c_ref)
 }
 
 static void
-rename_file_read_unique(IStreamP     istream,				 RenameTokenP token)
+rename_file_read_unique(IStreamT *    istream,				 RenameTokenT *token)
 {
-    NameKeyP          name   = & (token->u.name);
+    NameKeyT *         name   = & (token->u.name);
     unsigned          length = 1;
     DStringT          dstring;
     NStringT          nstring;
     NStringListT      list;
-    NStringListEntryP entry;
+    NStringListEntryT *entry;
     unsigned          i;
 
     dstring_init(&dstring);
@@ -196,7 +196,7 @@ rename_file_read_unique(IStreamP     istream,				 RenameTokenP token)
 	    name_key_init_unique(name, length);
  	    for (i = 0, entry = nstring_list_head(&list); entry;
 		 i++, entry = nstring_list_entry_deallocate(entry)) {
-		NStringP component = nstring_list_entry_string(entry);
+		NStringT *component = nstring_list_entry_string(entry);
 
 		name_key_set_component(name, i, component);
 	    }
@@ -241,7 +241,7 @@ rename_file_read_unique(IStreamP     istream,				 RenameTokenP token)
 }
 
 static void
-rename_file_read_shape(IStreamP     istream,				RenameTokenP token)
+rename_file_read_shape(IStreamT *    istream,				RenameTokenT *token)
 {
     DStringT dstring;
 
@@ -289,7 +289,7 @@ rename_file_read_shape(IStreamP     istream,				RenameTokenP token)
 }
 
 static void
-rename_file_read_string(IStreamP     istream,				 RenameTokenP token)
+rename_file_read_string(IStreamT *    istream,				 RenameTokenT *token)
 {
     DStringT dstring;
     NStringT nstring;
@@ -342,7 +342,7 @@ rename_file_read_string(IStreamP     istream,				 RenameTokenP token)
 }
 
 static void
-rename_file_next_token(IStreamP     istream,				RenameTokenP token)
+rename_file_next_token(IStreamT *    istream,				RenameTokenT *token)
 {
     char c;
 
@@ -371,9 +371,9 @@ rename_file_next_token(IStreamP     istream,				RenameTokenP token)
 }
 
 static void
-rename_file_parse_names(IStreamP     istream,				 NStringP     shape ,
-				 ArgDataP     arg_data ,
-				 RenameTokenP token)
+rename_file_parse_names(IStreamT *    istream,				 NStringT *    shape ,
+				 ArgDataT *    arg_data ,
+				 RenameTokenT *token)
 {
     rename_file_next_token(istream, token);
     while (token->tag == RTOK_NAME) {
@@ -404,7 +404,7 @@ rename_file_parse_names(IStreamP     istream,				 NStringP     shape ,
 }
 
 static void
-rename_file_parse_1(IStreamP istream,			     ArgDataP arg_data)
+rename_file_parse_1(IStreamT *istream,			     ArgDataT *arg_data)
 {
     BoolT        need_error = TRUE;
     RenameTokenT token;
@@ -436,7 +436,7 @@ rename_file_parse_1(IStreamP istream,			     ArgDataP arg_data)
 /*--------------------------------------------------------------------------*/
 
 void
-rename_file_parse(char * name,			   ArgDataP arg_data)
+rename_file_parse(char * name,			   ArgDataT *arg_data)
 {
     IStreamT istream;
 

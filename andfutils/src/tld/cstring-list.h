@@ -73,42 +73,42 @@
  ***=== TYPES ================================================================
  *
  ** Type:	CStringListEntryT
- ** Type:	CStringListEntryP
+ ** Type:	CStringListEntryT *
  ** Repr:	<private>
  *
  * This is the cstring list entry type.
  *
  ** Type:	CStringListT
- ** Type:	CStringListP
+ ** Type:	CStringListT *
  ** Repr:	<private>
  *
  * This is the cstring list type.
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	void cstring_list_init(CStringListP list)
+ ** Function:	void cstring_list_init(CStringListT *list)
  ** Exceptions:
  *
  * This function initialises the specified cstring list to be an empty list.
  *
- ** Function:	void cstring_list_append(CStringListP list, char * cstring)
+ ** Function:	void cstring_list_append(CStringListT *list, char * cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function appends the specified cstring onto the specified list.
  *
- ** Function:	CStringListEntryP cstring_list_head(CStringListP list)
+ ** Function:	CStringListEntryT *cstring_list_head(CStringListT *list)
  ** Exceptions:
  *
  * This function returns a pointer to the first entry in the specified list.
  *
- ** Function:	char * cstring_list_entry_string(CStringListEntryP entry)
+ ** Function:	char * cstring_list_entry_string(CStringListEntryT *entry)
  ** Exceptions:
  *
  * This function returns a pointer to the cstring stored in the specified
  * list entry.
  *
- ** Function:	CStringListEntryP
- * 		    cstring_list_entry_deallocate(CStringListEntryP entry)
+ ** Function:	CStringListEntryT *
+ * 		    cstring_list_entry_deallocate(CStringListEntryT *entry)
  ** Exceptions:
  *
  * This function deallocates the specified list entry (without deallocating
@@ -145,27 +145,27 @@
 typedef struct CStringListEntryT {
     struct CStringListEntryT   *next;
     char *			string;
-} CStringListEntryT, *CStringListEntryP;
+} CStringListEntryT;
 
 typedef struct CStringListT {
-    CStringListEntryP		head;
-    CStringListEntryP	       *tail;
-} CStringListT, *CStringListP;
+    CStringListEntryT *	head;
+    CStringListEntryT *       *tail;
+} CStringListT;
 
 /*--------------------------------------------------------------------------*/
 
 extern void			cstring_list_init
-(CStringListP);
+(CStringListT *);
 extern void			cstring_list_append
-(CStringListP, char *);
+(CStringListT *, char *);
 extern BoolT			cstring_list_contains
-(CStringListP, char *);
-extern CStringListEntryP	cstring_list_head
-(CStringListP);
+(CStringListT *, char *);
+extern CStringListEntryT *cstring_list_head
+(CStringListT *);
 extern char *			cstring_list_entry_string
-(CStringListEntryP);
-extern CStringListEntryP	cstring_list_entry_deallocate
-(CStringListEntryP);
+(CStringListEntryT *);
+extern CStringListEntryT *cstring_list_entry_deallocate
+(CStringListEntryT *);
 
 #endif /* !defined (H_CSTRING_LIST) */
 

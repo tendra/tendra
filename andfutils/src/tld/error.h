@@ -90,7 +90,7 @@
  * ``ERROR_SEVERITY_INTERNAL'' which is used for internal program errors.
  *
  ** Type:	ETagT
- ** Type:	ETagP
+ ** Type:	ETagT *
  ** Repr:	<private>
  *
  * This is the error tag type.  A tag is used to represent a variable inside
@@ -99,25 +99,25 @@
  * tag of the same name.
  *
  ** Type:	ErrorListT
- ** Type:	ErrorListP
+ ** Type:	ErrorListT *
  ** Repr:	<private>
  *
  * This is used by the error type.
  *
  ** Type:	ErrorT
- ** Type:	ErrorP
+ ** Type:	ErrorT *
  ** Repr:	<private>
  *
  * This is the error type.
  *
  ** Type:	EStringT
- ** Type:	EStringP
+ ** Type:	EStringT *
  ** Repr:	<private>
  *
  * This is the named string type.
  *
  ** Type:	ErrorProcP
- ** Repr:	void(*)(OStreamP, ETagP, void *)
+ ** Repr:	void(*)(OStreamT *, ETagT *, void *)
  *
  * This is the type of a procedure that is used to display the contents of a
  * tag when reporting an error.
@@ -129,8 +129,8 @@
  * error messages for the current program.
  *
  ** Type:	ETagDataT
- ** Type:	ETagDataP
- ** Repr:	union {char * name; ETagP tag;}
+ ** Type:	ETagDataT *
+ ** Repr:	union {char * name; ETagT *tag;}
  *
  * This is the type of an element in a vector of error tags to be passed to
  * the ``error_intern_tags'' function.  The vector should be initialised with
@@ -147,10 +147,10 @@
  * should be used to access the tag object.
  *
  ** Type:	ErrorDataT
- ** Type:	ErrorDataP
+ ** Type:	ErrorDataT *
  ** Repr:	union {struct {char * name; EseverityP severity;
  *			       char * message; void * data;} s;
- *		       ErrorP error;}
+ *		       ErrorT *error;}
  *
  * This is the type of an element in a vector of errors to be passed to the
  * ``error_intern_errors'' function.  The vector should be initialised with
@@ -171,9 +171,9 @@
  *
  *
  ** Type:	EStringDataT
- ** Type:	EStringDataP
+ ** Type:	EStringDataT *
  ** Repr:	union {struct {char * name; char * contents;} s;
- *		       EStringP estring;}
+ *		       EStringT *estring;}
  *
  * This is the type of an element in a vector of named strings to be passed to
  * the ``error_intern_strings'' function.  The vector should be initialised
@@ -190,7 +190,7 @@
  * field should be used to access the error string object.
  *
  ** Type:	ErrorStatusT
- ** Type:	ErrorStatusP
+ ** Type:	ErrorStatusT *
  ** Repr:	enum {ERROR_STATUS_BAD_MESSAGE, ERROR_STATUS_SUCCESS,
  *		      ERROR_STATUS_BAD_ERROR}
  *
@@ -220,14 +220,14 @@
  * it should be called before the error value that will be passed to that
  * function is accessed).
  *
- ** Function:	ETagP error_define_tag(char * name)
+ ** Function:	ETagT *error_define_tag(char * name)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function defines a tag with the specified name, and returns it.  The
  * name should not be modified or deallocated.  It is possible to define the
  * same tag more than once (but the same value will be returned each time).
  *
- ** Function:	ErrorP error_define_error(char * name, ESeverityT severity,
+ ** Function:	ErrorT *error_define_error(char * name, ESeverityT severity,
  *					  char * message, void * data)
  ** Exceptions:	XX_dalloc_no_memory
  *
@@ -240,14 +240,14 @@
  * the value of the tag when the error is reported).  The data is for use by
  * the program.
  *
- ** Function:	void error_intern_tags(ETagDataP vector)
+ ** Function:	void error_intern_tags(ETagDataT *vector)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function changes the name entries in the specified vector into error
  * tags.  The vector should be terminated by the macro ``ERROR_END_TAG_LIST''.
  * This function should only be called once on any vector.
  *
- ** Function:	void error_intern_errors(ErrorDataP vector)
+ ** Function:	void error_intern_errors(ErrorDataT *vector)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function changes the name entries in the specified vector into errors.
@@ -266,7 +266,7 @@
  * ``ERROR_STATUS_BAD_MESSAGE''.  If the function succeeds, it will return
  * ``ERROR_STATUS_SUCCESS''.
  *
- ** Function:	ErrorP error_lookup_error(char * name)
+ ** Function:	ErrorT *error_lookup_error(char * name)
  ** Exceptions:
  *
  * This function returns the error with the specified name.  If the error does
@@ -274,12 +274,12 @@
  * initialisation procedure will be called to initialise the error messages
  * before they are looked up.
  *
- ** Function:	void * error_data(ErrorP error)
+ ** Function:	void * error_data(ErrorT *error)
  ** Exceptions:
  *
  * This function returns the data associated with the specified error.
  *
- ** Function:	void error_report(ErrorP error, ErrorProcP proc,
+ ** Function:	void error_report(ErrorT *error, ErrorProcP proc,
  *				  void * closure)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
@@ -326,14 +326,14 @@
  * All other tags will be ignored.  The function returns true if the message
  * was valid, and false if there was an unterminated tag in the message.
  *
- ** Function:	EStringP error_define_string(char * name, char * contents)
+ ** Function:	EStringT *error_define_string(char * name, char * contents)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function defines a named string with the specified name, and assigns
  * it the specified contents.  Neither the name nor the contents should be
  * modified or deallocated.  No tag splitting is performed on the contents.
  *
- ** Function:	void error_intern_strings(EStringDataP vector)
+ ** Function:	void error_intern_strings(EStringDataT *vector)
  ** Exceptions:	XX_dalloc_no_memory
  *
  * This function changes the name and contents entries in the specified vector
@@ -348,19 +348,19 @@
  * name.  If the name does not exist, the function returns false, otherwise it
  * returns true.
  *
- ** Function:	EStringP error_lookup_string(char * name)
+ ** Function:	EStringT *error_lookup_string(char * name)
  ** Exceptions:
  *
  * This function returns the named string with the specified name.  If the
  * named string does not exist, the function returns the null pointer.
  *
- ** Function:	char * error_string_contents(EStringP estring)
+ ** Function:	char * error_string_contents(EStringT *estring)
  ** Exceptions:
  *
  * This function returns the contents of the specified named string.  The
  * returned string should not be modified or deallocated.
  *
- ** Function:	void write_error_file(OStreamP ostream)
+ ** Function:	void write_error_file(OStreamT *ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes out an error file (in the same format as parsed by the
@@ -412,7 +412,7 @@
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
-typedef int ESeverityT, *ESeverityP;
+typedef int ESeverityT, *ESeverityT *
 #define ERROR_SEVERITY_INFORMATION	(0)
 #define ERROR_SEVERITY_WARNING		(1)
 #define ERROR_SEVERITY_ERROR		(2)
@@ -425,13 +425,13 @@ typedef enum {
     ERROR_SEVERITY_ERROR,
     ERROR_SEVERITY_FATAL,
     ERROR_SEVERITY_INTERNAL
-} ESeverityT, *ESeverityP;
+} ESeverityT;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct ETagT {
     struct ETagT	       *next;
     char *			name;
-} ETagT, *ETagP;
+} ETagT;
 
 typedef struct ErrorListT {
     struct ErrorListT	       *next;
@@ -447,30 +447,30 @@ typedef struct ErrorListT {
 #endif /* defined (FS_NO_ENUM) */
     union {
 	NStringT		string;
-	ETagP			tag;
+	ETagT *		tag;
     } u;
-} ErrorListT, *ErrorListP;
+} ErrorListT;
 
 typedef struct ErrorT {
     struct ErrorT	       *next;
     char * 			name;
     ESeverityT			severity;
-    ErrorListP			error_list;
+    ErrorListT *		error_list;
     void *			data;
-} ErrorT, *ErrorP;
+} ErrorT;
 
 typedef struct EStringT {
     struct EStringT	       *next;
     char *			name;
     char *			contents;
-} EStringT, *EStringP;
+} EStringT;
 
-typedef void(*ErrorProcP)(OStreamP, ETagP, void *);
+typedef void(*ErrorProcP)(OStreamT *, ETagT *, void *);
 typedef void(*ErrorInitProcP)(void);
 typedef UNION ETagDataT {
     char *			name;
-    ETagP			tag;
-} ETagDataT, *ETagDataP;
+    ETagT *		tag;
+} ETagDataT;
 typedef UNION ErrorDataT {
     struct {
 	char *		name;
@@ -478,18 +478,18 @@ typedef UNION ErrorDataT {
 	char *		message;
 	void *		data;
     } s;
-    ErrorP			error;
-} ErrorDataT, *ErrorDataP;
+    ErrorT *		error;
+} ErrorDataT;
 typedef UNION EStringDataT {
     struct {
 	char *		name;
 	char *		contents;
     } s;
-    EStringP			estring;
-} EStringDataT, *EStringDataP;
+    EStringT *		estring;
+} EStringDataT;
 
 #ifdef FS_NO_ENUM
-typedef int ErrorStatusT, *ErrorStatusP;
+typedef int ErrorStatusT, *ErrorStatusT *
 #define ERROR_STATUS_BAD_MESSAGE	(0)
 #define ERROR_STATUS_SUCCESS		(1)
 #define ERROR_STATUS_BAD_ERROR		(2)
@@ -498,7 +498,7 @@ typedef enum {
     ERROR_STATUS_BAD_MESSAGE,
     ERROR_STATUS_SUCCESS,
     ERROR_STATUS_BAD_ERROR
-} ErrorStatusT, *ErrorStatusP;
+} ErrorStatusT;
 #endif /* defined (FS_NO_ENUM) */
 
 /*--------------------------------------------------------------------------*/
@@ -507,22 +507,22 @@ extern void			error_init
 (char *, ErrorInitProcP);
 extern void			error_call_init_proc
 (void);
-extern ETagP			error_define_tag
+extern ETagT *		error_define_tag
 (char *);
-extern ErrorP			error_define_error
+extern ErrorT *		error_define_error
 (char *, ESeverityT, char *, void *);
 extern void			error_intern_tags
-(ETagDataP);
+(ETagDataT *);
 extern void			error_intern_errors
-(ErrorDataP);
+(ErrorDataT *);
 extern ErrorStatusT		error_redefine_error
 (char *, char *);
-extern ErrorP			error_lookup_error
+extern ErrorT *		error_lookup_error
 (char *);
 extern void *			error_data
-(ErrorP);
+(ErrorT *);
 extern void			error_report
-(ErrorP, ErrorProcP, void *);
+(ErrorT *, ErrorProcP, void *);
 extern void			error_set_min_report_severity
 (ESeverityT);
 extern ESeverityT		error_get_min_report_severity
@@ -533,19 +533,19 @@ extern void			error_set_severity_message
 (ESeverityT, char *);
 extern BoolT			error_set_prefix_message
 (char *);
-extern EStringP			error_define_string
+extern EStringT *		error_define_string
 (char *, char *);
 extern void			error_intern_strings
-(EStringDataP);
+(EStringDataT *);
 extern BoolT			error_redefine_string
 (char *, char *);
-extern EStringP			error_lookup_string
+extern EStringT *		error_lookup_string
 (char *);
 extern char *			error_string_contents
-(EStringP);
+(EStringT *);
 
 extern void			write_error_file
-(OStreamP);
+(OStreamT *);
 
 /*--------------------------------------------------------------------------*/
 

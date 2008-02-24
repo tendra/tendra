@@ -101,81 +101,81 @@ struct UnitTableT;
 typedef struct ShapeEntryT {
     struct ShapeEntryT	       *next;
     NStringT			key;
-    NameTableP			names;
+    NameTableT *		names;
     unsigned			id_count;
     BoolT			non_empty;
     unsigned			num_lib_names;
-    NameEntryP			head;
-    NameEntryP		       *tail;
-} ShapeEntryT, *ShapeEntryP;
+    NameEntryT *		head;
+    NameEntryT *	       *tail;
+} ShapeEntryT;
 
 typedef struct ShapeClosureT {
-    MapTableP			table;
-    TDFWriterP			writer;
-} ShapeClosureT, *ShapeClosureP;
+    MapTableT *		table;
+    TDFWriterT *		writer;
+} ShapeClosureT;
 
 typedef struct ShapeLibClosureT {
     BoolT			did_define;
     struct ShapeTableT	       *lib_shapes;
     struct UnitTableT	       *units;
     struct ShapeTableT	       *shapes;
-} ShapeLibClosureT, *ShapeLibClosureP;
+} ShapeLibClosureT;
 
 /*--------------------------------------------------------------------------*/
 
-extern ShapeEntryP		shape_entry_create
-(NStringP);
-extern ShapeEntryP		shape_entry_next
-(ShapeEntryP);
-extern ShapeEntryP	       *shape_entry_next_ref
-(ShapeEntryP);
-extern NStringP			shape_entry_key
-(ShapeEntryP);
-extern NameTableP		shape_entry_name_table
-(ShapeEntryP);
+extern ShapeEntryT *	shape_entry_create
+(NStringT *);
+extern ShapeEntryT *	shape_entry_next
+(ShapeEntryT *);
+extern ShapeEntryT *       *shape_entry_next_ref
+(ShapeEntryT *);
+extern NStringT *		shape_entry_key
+(ShapeEntryT *);
+extern NameTableT *	shape_entry_name_table
+(ShapeEntryT *);
 extern unsigned			shape_entry_next_id
-(ShapeEntryP);
+(ShapeEntryT *);
 extern void			shape_entry_set_non_empty
-(ShapeEntryP);
+(ShapeEntryT *);
 extern BoolT			shape_entry_get_non_empty
-(ShapeEntryP);
+(ShapeEntryT *);
 extern void			shape_entry_add_to_list
-(ShapeEntryP, NameEntryP);
-extern NameEntryP		shape_entry_get_from_list
-(ShapeEntryP);
-extern ShapeEntryP		shape_entry_deallocate
-(ShapeEntryP);
+(ShapeEntryT *, NameEntryT *);
+extern NameEntryT *	shape_entry_get_from_list
+(ShapeEntryT *);
+extern ShapeEntryT *	shape_entry_deallocate
+(ShapeEntryT *);
 
 extern void			shape_entry_do_count
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_write_shape
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_write_externs
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_compute_tld_size
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_write_tld
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_write_count
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_write_links
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_check_multi_defs
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_do_lib_count
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_do_lib_write
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_resolve_undefined
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_hide_all_defd
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_suppress_mult
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_lib_suppress_mult
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 extern void			shape_entry_show_content
-(ShapeEntryP, void *);
+(ShapeEntryT *, void *);
 
 #endif /* !defined (H_SHAPE_ENTRY) */
 

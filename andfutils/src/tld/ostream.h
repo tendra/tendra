@@ -71,7 +71,7 @@
  ***=== TYPES ================================================================
  *
  ** Type:	OStreamT
- ** Type:	OStreamP
+ ** Type:	OStreamT *
  ** Repr:	<private>
  *
  * This is the output stream type.
@@ -98,12 +98,12 @@
  * This function initialises the output stream facility.  It should be called
  * before any other ostream manipulation function.
  *
- ** Function:	void ostream_init(OStreamP ostream)
+ ** Function:	void ostream_init(OStreamT *ostream)
  ** Exceptions:
  *
  * This function initialises the specified ostream not to write to any file.
  *
- ** Function:	BoolT ostream_open(OStreamP ostream, char * name)
+ ** Function:	BoolT ostream_open(OStreamT *ostream, char * name)
  ** Exceptions:
  *
  * This function initialises the specified ostream to write to the file with
@@ -112,103 +112,103 @@
  * name should not be modified or deallocated until the ostream has been
  * closed.  The initial buffering state of the ostream is fully buffered.
  *
- ** Function:	BoolT ostream_is_open(OStreamP ostream)
+ ** Function:	BoolT ostream_is_open(OStreamT *ostream)
  ** Exceptions:
  *
  * This function returns true if the specified ostream is writing to a file,
  * and false otherwise.
  *
- ** Function:	void ostream_buffer(OStreamP ostream)
+ ** Function:	void ostream_buffer(OStreamT *ostream)
  ** Exceptions:
  *
  * This function sets the buffering state of the specified ostream to fully
  * buffered.
  *
- ** Function:	void ostream_unbuffer(OStreamP ostream)
+ ** Function:	void ostream_unbuffer(OStreamT *ostream)
  *
  * This function sets the buffering state of the specified ostream to
  * unbuffered.
  *
- ** Function:	void ostream_close(OStreamP ostream)
+ ** Function:	void ostream_close(OStreamT *ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function closes the specified ostream.
  *
- ** Function:	void ostream_flush(OStreamP ostream)
+ ** Function:	void ostream_flush(OStreamT *ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function flushes the ostream's output buffer.
  *
- ** Function:	char * ostream_name(OStreamP ostream)
+ ** Function:	char * ostream_name(OStreamT *ostream)
  ** Exceptions:
  *
  * This function returns the name of the file that the specified ostream is
  * writing to.  The return value should not be modified or deallocated.
  *
- ** Function:	unsigned ostream_line(OStreamP ostream)
+ ** Function:	unsigned ostream_line(OStreamT *ostream)
  ** Exceptions:
  *
  * This function returns one more than the number of newlines that have been
  * written to the specified ostream.  The result is undefined if the stream
  * is not open.
  *
- ** Function:	void write_newline(OStreamP ostream)
+ ** Function:	void write_newline(OStreamT *ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes a newline to the specified ostream.
  *
- ** Function:	void write_tab(OStreamP ostream)
+ ** Function:	void write_tab(OStreamT *ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes a tab to the specified ostream.
  *
- ** Function:	void write_byte(OStreamP ostream, ByteT c)
+ ** Function:	void write_byte(OStreamT *ostream, ByteT c)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified byte to the specified ostream.
  *
- ** Function:	void write_char(OStreamP ostream, char c)
+ ** Function:	void write_char(OStreamT *ostream, char c)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified character to the specified ostream.
  *
- ** Function:	void write_escaped_char(OStreamP ostream, char c)
+ ** Function:	void write_escaped_char(OStreamT *ostream, char c)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified character to the specified ostream.
  * This differs from the ``write_char'' function, in that it will
  * `pretty-print' non-printing characters.
  *
- ** Function:	void write_int(OStreamP ostream, int i)
+ ** Function:	void write_int(OStreamT *ostream, int i)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified integer to the specified ostream.
  *
- ** Function:	void write_unsigned(OStreamP ostream, unsigned i)
+ ** Function:	void write_unsigned(OStreamT *ostream, unsigned i)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified unsigned integer to the specified
  * ostream.
  *
- ** Function:	void write_cstring(OStreamP ostream, char * cstring)
+ ** Function:	void write_cstring(OStreamT *ostream, char * cstring)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified C string to the specified ostream.
  *
- ** Function:	void write_bytes(OStreamP ostream, ByteP bytes,unsigned length)
+ ** Function:	void write_bytes(OStreamT *ostream, ByteT *bytes,unsigned length)
  ** Exceptions: XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified sequence of bytes (of the specified
  * length) to the specified ostream.
  *
- ** Function:	void write_chars(OStreamP ostream, char * chars,
+ ** Function:	void write_chars(OStreamT *ostream, char * chars,
  *				 unsigned length)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified sequence of characters (of the specified
  * length) to the specified ostream.
  *
- ** Function:	void write_escaped_chars(OStreamP ostream, char * chars,
+ ** Function:	void write_escaped_chars(OStreamT *ostream, char * chars,
  *					 unsigned length)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
@@ -216,14 +216,14 @@
  * length) to the specified ostream.  This differs from the ``write_chars''
  * function, in that it will `pretty-print' non-printing characters.
  *
- ** Function:	void write_system_error(OStreamP ostream)
+ ** Function:	void write_system_error(OStreamT *ostream)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes a string containing a description of the current
  * system error (as defined by the ``errno'' global variable) to the specified
  * ostream.
  *
- ** Function:	void write_pointer(OStreamP ostream, void * pointer)
+ ** Function:	void write_pointer(OStreamT *ostream, void * pointer)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes a string containing the address of the object pointed
@@ -267,11 +267,11 @@ typedef struct OStreamT {
     FILE		       *file;
     char *			name;
     unsigned			line;
-} OStreamT, *OStreamP;
+} OStreamT;
 
 /*--------------------------------------------------------------------------*/
 
-extern ExceptionP		XX_ostream_write_error;
+extern ExceptionT *	XX_ostream_write_error;
 extern OStreamT		 *const ostream_output;
 extern OStreamT		 *const ostream_error;
 
@@ -280,50 +280,50 @@ extern OStreamT		 *const ostream_error;
 extern void			ostream_setup
 (void);
 extern void			ostream_init
-(OStreamP);
+(OStreamT *);
 extern BoolT			ostream_open
-(OStreamP, char *);
+(OStreamT *, char *);
 extern BoolT			ostream_is_open
-(OStreamP);
+(OStreamT *);
 extern void			ostream_buffer
-(OStreamP);
+(OStreamT *);
 extern void			ostream_unbuffer
-(OStreamP);
+(OStreamT *);
 extern void			ostream_close
-(OStreamP);
+(OStreamT *);
 extern void			ostream_flush
-(OStreamP);
+(OStreamT *);
 extern char *			ostream_name
-(OStreamP);
+(OStreamT *);
 extern unsigned			ostream_line
-(OStreamP);
+(OStreamT *);
 
 extern void			write_newline
-(OStreamP);
+(OStreamT *);
 extern void			write_tab
-(OStreamP);
+(OStreamT *);
 extern void			write_byte
-(OStreamP, ByteT);
+(OStreamT *, ByteT);
 extern void			write_char
-(OStreamP, char);
+(OStreamT *, char);
 extern void			write_escaped_char
-(OStreamP, char);
+(OStreamT *, char);
 extern void			write_int
-(OStreamP, int);
+(OStreamT *, int);
 extern void			write_unsigned
-(OStreamP, unsigned);
+(OStreamT *, unsigned);
 extern void			write_cstring
-(OStreamP, char *);
+(OStreamT *, char *);
 extern void			write_bytes
-(OStreamP, ByteP, unsigned);
+(OStreamT *, ByteT *, unsigned);
 extern void			write_chars
-(OStreamP, char *, unsigned);
+(OStreamT *, char *, unsigned);
 extern void			write_escaped_chars
-(OStreamP, char *, unsigned);
+(OStreamT *, char *, unsigned);
 extern void			write_system_error
-(OStreamP);
+(OStreamT *);
 extern void			write_pointer
-(OStreamP, void *);
+(OStreamT *, void *);
 
 /*--------------------------------------------------------------------------*/
 

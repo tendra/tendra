@@ -86,7 +86,7 @@
  ***=== TYPES ================================================================
  *
  ** Type:	ArgTypeT
- ** Type:	ArgTypeP
+ ** Type:	ArgTypeT *
  ** Repr:	enum {AT_SWITCH, AT_NEG_SWITCH, AT_PROC_SWITCH, AT_IMMEDIATE,
  *		      AT_EITHER, AT_FOLLOWING, AT_EMPTY, AT_FOLLOWING2}
  *
@@ -166,14 +166,14 @@
  * or '+' it should be a long option; otherwise it should be a short option.
  *
  ** Type:	ArgProcP
- ** Repr:	void (*) (char *, ArgUsageP, void *, ...)
+ ** Repr:	void (*) (char *, ArgUsageT *, void *, ...)
  *
  * This is the type of a procedure to be called to parse a complex option.
  * Because of union initialisation problems, the latter arguments of this
  * function are untyped.
  *
  ** Type:	ArgListT
- ** Type:	ArgListP
+ ** Type:	ArgListT *
  ** Repr:	<private>
  *
  * This is the type of an entry in an option list.  A vector of such entries
@@ -204,15 +204,15 @@
  * illegal for an option to have neither a long form or a short form.
  *
  ** Type:	ArgUsageT
- ** Type:	ArgUsageP
- ** Repr:	struct {char * usage; ArgListP arg_list;}
+ ** Type:	ArgUsageT *
+ ** Repr:	struct {char * usage; ArgListT *arg_list;}
  *
  * This is the type of argument to be passed to ``write_arg_usage''.
  *
  ***=== FUNCTIONS ============================================================
  *
  ** Function:	void			arg_parse_intern_descriptions
- *			(ArgListP arg_list)
+ *			(ArgListT *arg_list)
  ** Exceptions:	XX_dalloc_no_memory, XX_error_redefined_string
  *
  * This function should be called on all option lists that the program uses,
@@ -221,7 +221,7 @@
  * called once on each list.  The named strings used should be interned before
  * this function is called.
  *
- ** Function:	int arg_parse_arguments(ArgListP arg_list, EStringP usage,
+ ** Function:	int arg_parse_arguments(ArgListT *arg_list, EStringT *usage,
  *					int argc, char **argv)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
@@ -234,7 +234,7 @@
  * this function.  The function returns the number of elements of the list
  * that it parsed.
  *
- ** Function:	void write_arg_usage(OStreamP ostream, ArgUsageP closure)
+ ** Function:	void write_arg_usage(OStreamT *ostream, ArgUsageT *closure)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function can be used to write out a usage message based upon the usage
@@ -274,7 +274,7 @@
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
-typedef int ArgTypeT, *ArgTypeP;
+typedef int ArgTypeT, *ArgTypeT *
 #define AT_SWITCH	(0)
 #define AT_NEG_SWITCH	(1)
 #define AT_PROC_SWITCH	(2)
@@ -295,16 +295,16 @@ typedef enum {
     AT_EMPTY,
     AT_FOLLOWING2,
     AT_FOLLOWING3
-} ArgTypeT, *ArgTypeP;
+} ArgTypeT;
 #endif /* defined (FS_NO_ENUM) */
 
 struct ArgListT;
 typedef struct ArgUsageT {
     char *			usage;
     struct ArgListT	       *arg_list;
-} ArgUsageT, *ArgUsageP;
+} ArgUsageT;
 
-typedef void(*ArgProcP)(char *, ArgUsageP, void *, ...);
+typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
 
 typedef struct ArgListT {
     char *			name;
@@ -314,19 +314,19 @@ typedef struct ArgListT {
     void *			closure;
     UNION {
 	char *		name;
-	EStringP		message;
+	EStringT *	message;
     } u;
-} ArgListT, *ArgListP;
+} ArgListT;
 
 /*--------------------------------------------------------------------------*/
 
 extern void			arg_parse_intern_descriptions
-(ArgListP);
+(ArgListT *);
 extern int			arg_parse_arguments
-(ArgListP, EStringP, int, char **);
+(ArgListT *, EStringT *, int, char **);
 
 extern void			write_arg_usage
-(OStreamP, ArgUsageP);
+(OStreamT *, ArgUsageT *);
 
 /*--------------------------------------------------------------------------*/
 

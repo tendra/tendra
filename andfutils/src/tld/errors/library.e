@@ -35,7 +35,7 @@ header(c) $[
 #include "solve-cycles.h"
 ]$;
 
-error "library bad magic" ("library" : "LibraryP") {
+error "library bad magic" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: bad magic number '${magic name}' should be '${proper magic name}'",
     {
 	"file name" : "char *" $[
@@ -50,17 +50,17 @@ error "library bad magic" ("library" : "LibraryP") {
 	    closure.byte_number = library_byte (library);
 	]$
     }, {
-	"magic name" : "NStringP" $[
+	"magic name" : "NStringT *" $[
 	    write_nstring (ostream, closure->magic_name);
 	]$
     }, {
-	"proper magic name" : "NStringP" $[
+	"proper magic name" : "NStringT *" $[
 	    write_nstring (ostream, closure->proper_magic_name);
 	]$
     }
 };
 
-error "library bad version" ("library" : "LibraryP") {
+error "library bad version" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: illegal major version number ${major version}",
     {
 	"file name" : "char *" $[
@@ -81,7 +81,7 @@ error "library bad version" ("library" : "LibraryP") {
     }
 };
 
-error "library version mismatch" ("library" : "LibraryP") {
+error "library version mismatch" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: major version number mismatch (${major version} should be ${proper major version})",
     {
 	"file name" : "char *" $[
@@ -106,7 +106,7 @@ error "library version mismatch" ("library" : "LibraryP") {
     }
 };
 
-error "null in file name" ("library" : "LibraryP") {
+error "null in file name" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: capsule name '${cap name}' contains null character",
     {
 	"file name" : "char *" $[
@@ -121,7 +121,7 @@ error "null in file name" ("library" : "LibraryP") {
 	    closure.byte_number = library_byte (library);
 	]$
     }, {
-	"cap name" : "NStringP" $[
+	"cap name" : "NStringT *" $[
 	    write_nstring (ostream, closure->cap_name);
 	]$
     }
@@ -153,7 +153,7 @@ info "extracting capsule" {
     }
 };
 
-error "lib unknown type" ("library" : "LibraryP") {
+error "lib unknown type" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: library version number ${version number} is not supported in this implementation",
     {
 	"file name" : "char *" $[
@@ -174,7 +174,7 @@ error "lib unknown type" ("library" : "LibraryP") {
     }
 };
 
-error "lib defined but not declared" ("library" : "LibraryP") {
+error "lib defined but not declared" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' is defined but not declared",
     {
 	"file name" : "char *" $[
@@ -189,17 +189,17 @@ error "lib defined but not declared" ("library" : "LibraryP") {
 	    closure.byte_number = library_byte (library);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }
 };
 
-error "lib illegally mult defined" ("library" : "LibraryP") {
+error "lib illegally mult defined" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has the multiply defined bit set illegally",
     {
 	"file name" : "char *" $[
@@ -214,17 +214,17 @@ error "lib illegally mult defined" ("library" : "LibraryP") {
 	    closure.byte_number = library_byte (library);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }
 };
 
-error "lib bad usage" ("library" : "LibraryP") {
+error "lib bad usage" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has usage ${usage} which has no meaning in this implementation",
     {
 	"file name" : "char *" $[
@@ -239,11 +239,11 @@ error "lib bad usage" ("library" : "LibraryP") {
 	    closure.byte_number = library_byte (library);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }, {
@@ -253,7 +253,7 @@ error "lib bad usage" ("library" : "LibraryP") {
     }
 };
 
-error "lib multiply defined" ("library" : "LibraryP") {
+error "lib multiply defined" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' is defined more than once in libraries (previous definition in '${previous file name}')",
     {
 	"file name" : "char *" $[
@@ -268,21 +268,21 @@ error "lib multiply defined" ("library" : "LibraryP") {
 	    closure.byte_number = library_byte (library);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }, {
-	"previous file name" : "LibCapsuleP" $[
+	"previous file name" : "LibCapsuleT *" $[
 	    write_lib_capsule_full_name (ostream, closure->previous_file_name);
 	]$
     }
 };
 
-error "capsule index too big" ("library" : "LibraryP") {
+error "capsule index too big" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has capsule index ${capsule index} (should be less than ${num capsules})",
     {
 	"file name" : "char *" $[
@@ -297,11 +297,11 @@ error "capsule index too big" ("library" : "LibraryP") {
 	    closure.byte_number = library_byte (library);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }, {

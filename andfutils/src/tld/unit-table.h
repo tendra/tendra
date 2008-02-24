@@ -97,19 +97,19 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct UnitTableT {
-    UnitEntryP			contents[UNIT_TABLE_SIZE];
-} UnitTableT, *UnitTableP;
+    UnitEntryT *		contents[UNIT_TABLE_SIZE];
+} UnitTableT;
 
 /*--------------------------------------------------------------------------*/
 
-extern UnitTableP		unit_table_create
+extern UnitTableT *	unit_table_create
 (void);
-extern UnitEntryP		unit_table_add
-(UnitTableP, NStringP, unsigned);
-extern UnitEntryP		unit_table_get
-(UnitTableP, NStringP);
+extern UnitEntryT *	unit_table_add
+(UnitTableT *, NStringT *, unsigned);
+extern UnitEntryT *	unit_table_get
+(UnitTableT *, NStringT *);
 extern void			unit_table_iter
-(UnitTableP, void(*)(UnitEntryP, void *), void *);
+(UnitTableT *, void(*)(UnitEntryT *, void *), void *);
 
 #endif /* !defined (H_UNIT_TABLE) */
 

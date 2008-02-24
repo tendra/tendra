@@ -36,34 +36,52 @@ header(c) $[
 #include "solve-cycles.h"
 ]$;
 
-fatal "tld multiple debug files" {
-    "more than one debug file specified"
-};
-
-fatal "tld cannot open debug file" {
-    "cannot open debug file '${file name}': ${system error}",
+error "cannot hide shape" {
+    "there are no external ${shape name} names to hide",
     {
-	"file name" : "char *" $[
-	    write_cstring (ostream, closure->file_name);
-	]$
-    }, {
-	"system error" : "int" $[
-	    write_system_error (ostream);
-	]$ $[
+	"shape name" : "NStringT *" $[
+	    write_nstring (ostream, closure->shape_name);
 	]$
     }
 };
 
-fatal "tld multiple output files" {
-    "more than one output file specified"
+error "cannot hide" {
+    "there is no external ${shape name} named '${name}' to hide",
+    {
+	"shape name" : "NStringT *" $[
+	    write_nstring (ostream, closure->shape_name);
+	]$
+    }, {
+	"name" : "NameKeyT *" $[
+	    write_name_key (ostream, closure->name);
+	]$
+    }
 };
 
-fatal "tld multiple unit files" {
-    "more than one unit set file specified"
+error "cannot hide undefined" {
+    "cannot hide undefined external ${shape name} named '${name}'",
+    {
+	"shape name" : "NStringT *" $[
+	    write_nstring (ostream, closure->shape_name);
+	]$
+    }, {
+	"name" : "NameKeyT *" $[
+	    write_name_key (ostream, closure->name);
+	]$
+    }
 };
 
-error "multiply renamed name" {
-    "${shape name} '${name}' is renamed multiple times",
+error "cannot keep shape" {
+    "there are no external ${shape name} names to keep",
+    {
+	"shape name" : "NStringT *" $[
+	    write_nstring (ostream, closure->shape_name);
+	]$
+    }
+};
+
+error "cannot keep" {
+    "there is no external ${shape name} named '${name}' to keep",
     {
 	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);

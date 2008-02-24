@@ -95,35 +95,35 @@
 
 /*--------------------------------------------------------------------------*/
 
-MapTableP
+MapTableT *
 map_table_create(void)
 {
-    MapTableP table = ALLOCATE(MapTableT);
+    MapTableT *table = ALLOCATE(MapTableT);
     unsigned  i;
 
     for (i = 0; i < MAP_TABLE_SIZE; i++) {
-	table->contents[i] = NIL(MapEntryP);
+	table->contents[i] = NIL(MapEntryT *);
     }
     return(table);
 }
 
-MapEntryP
-map_table_add(MapTableP table,		       NStringP  key, 
+MapEntryT *
+map_table_add(MapTableT *table,		       NStringT * key, 
 		       unsigned  count)
 {
     unsigned  hash_value = (nstring_hash_value(key)% MAP_TABLE_SIZE);
-    MapEntryP next       = (table->contents[hash_value]);
-    MapEntryP entry      = map_entry_create(key, next, count);
+    MapEntryT *next       = (table->contents[hash_value]);
+    MapEntryT *entry      = map_entry_create(key, next, count);
 
     table->contents[hash_value] = entry;
     return(entry);
 }
 
-MapEntryP
-map_table_get(MapTableP table,		       NStringP  key)
+MapEntryT *
+map_table_get(MapTableT *table,		       NStringT * key)
 {
     unsigned  hash_value = (nstring_hash_value(key)% MAP_TABLE_SIZE);
-    MapEntryP entry      = (table->contents[hash_value]);
+    MapEntryT *entry      = (table->contents[hash_value]);
 
     while (entry) {
 	if (nstring_equal(key, map_entry_key(entry))) {
@@ -131,17 +131,17 @@ map_table_get(MapTableP table,		       NStringP  key)
 	}
 	entry = map_entry_next(entry);
     }
-    return(NIL(MapEntryP));
+    return(NIL(MapEntryT *));
 }
 
 void
-map_table_iter(MapTableP table,			void   (*proc)(MapEntryP, void *),
+map_table_iter(MapTableT *table,			void   (*proc)(MapEntryT *, void *),
 			void *  closure)
 {
     unsigned i;
 
     for (i = 0; i < MAP_TABLE_SIZE; i++) {
-	MapEntryP entry = (table->contents[i]);
+	MapEntryT *entry = (table->contents[i]);
 
 	while (entry) {
 	   (*proc)(entry, closure);

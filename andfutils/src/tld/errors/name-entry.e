@@ -36,34 +36,34 @@ header(c) $[
 #include "solve-cycles.h"
 ]$;
 
-fatal "tld multiple debug files" {
-    "more than one debug file specified"
-};
-
-fatal "tld cannot open debug file" {
-    "cannot open debug file '${file name}': ${system error}",
+fatal "no single definition" {
+    "no single definition for ${shape name} '${name}'",
     {
-	"file name" : "char *" $[
-	    write_cstring (ostream, closure->file_name);
+	"shape name" : "NStringT *" $[
+	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"system error" : "int" $[
-	    write_system_error (ostream);
-	]$ $[
+	"name" : "NameKeyT *" $[
+	    write_name_key (ostream, closure->name);
 	]$
     }
 };
 
-fatal "tld multiple output files" {
-    "more than one output file specified"
+error "rename cycle" {
+    "cycle in ${shape name} renaming including name '${name}'",
+    {
+	"shape name" : "NStringT *" $[
+	    write_nstring (ostream, closure->shape_name);
+	]$
+    }, {
+	"name" : "NameKeyT *" $[
+	    write_name_key (ostream, closure->name);
+	]$
+    }
 };
 
-fatal "tld multiple unit files" {
-    "more than one unit set file specified"
-};
-
-error "multiply renamed name" {
-    "${shape name} '${name}' is renamed multiple times",
+warning "no definition found" {
+    "no definition found for ${shape name} '${name}'",
     {
 	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);

@@ -414,7 +414,7 @@ sub build_tag_proc {
     } else {
 	$name   = sprintf ("ET_%05d", $error_tproc_num ++);
 	$header = ("static void\n" . $name .
-		   "(OStreamP ostream, ETagP tag, void *gclosure)\n");
+		   "(OStreamT *ostream, ETagT *tag, void *gclosure)\n");
 	$error_tproc_match{$def}  = $name;
 	$error_tproc_name{$error} = $name;
 	push (@error_tag_procs, ($header . $def));

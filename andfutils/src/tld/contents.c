@@ -92,27 +92,28 @@
 #include "contents.h"
 #include "gen-errors.h"
 #include "library.h"
+#include "error.h"
 
 #include "solve-cycles.h"
 
 /*--------------------------------------------------------------------------*/
 
 void
-contents_main(ArgDataP arg_data)
+contents_main(ArgDataT *arg_data)
 {
     BoolT     content_index   = arg_data_get_content_index(arg_data);
     BoolT     content_size    = arg_data_get_content_size(arg_data);
     BoolT     content_version = arg_data_get_content_version(arg_data);
     unsigned  num_files       = arg_data_get_num_files(arg_data);
     char * *files           = arg_data_get_files(arg_data);
-    LibraryP  library;
+    LibraryT * library;
 
     if (num_files != 1) {
 	E_too_many_library_files();
 	UNREACHED;
     }
     if ((library = library_create_stream_input(files[0])) !=
-	NIL(LibraryP)) {
+	NIL(LibraryT *)) {
 	library_content(library, content_index, content_size,
 			 content_version);
 	library_close(library);

@@ -106,67 +106,67 @@
 
 /*--------------------------------------------------------------------------*/
 
-NameEntryP
-name_entry_create_direct(NameKeyP    key,				  ShapeEntryP shape_entry)
+NameEntryT *
+name_entry_create_direct(NameKeyT *   key,				  ShapeEntryT *shape_entry)
 {
-    NameEntryP entry = ALLOCATE(NameEntryT);
+    NameEntryT *entry = ALLOCATE(NameEntryT);
 
-    entry->next                    = NIL(NameEntryP);
+    entry->next                    = NIL(NameEntryT *);
     name_key_copy(& (entry->key), key);
     entry->type                    = NT_DIRECT;
     entry->u.direct.id             = shape_entry_next_id(shape_entry);
     entry->u.direct.use            = 0;
-    entry->u.direct.definition     = NIL(CapsuleP);
-    entry->u.direct.lib_definition = NIL(LibCapsuleP);
+    entry->u.direct.definition     = NIL(CapsuleT *);
+    entry->u.direct.lib_definition = NIL(LibCapsuleT *);
     shape_entry_add_to_list(shape_entry, entry);
     return(entry);
 }
 
-NameEntryP
-name_entry_create_indirect(NameKeyP   key,				    NameEntryP indirect)
+NameEntryT *
+name_entry_create_indirect(NameKeyT *  key,				    NameEntryT *indirect)
 {
-    NameEntryP entry = ALLOCATE(NameEntryT);
+    NameEntryT *entry = ALLOCATE(NameEntryT);
 
-    entry->next       = NIL(NameEntryP);
+    entry->next       = NIL(NameEntryT *);
     name_key_copy(& (entry->key), key);
     entry->type       = NT_INDIRECT;
     entry->u.indirect = indirect;
     return(entry);
 }
 
-NameEntryP
-name_entry_create_place(NameKeyP key)
+NameEntryT *
+name_entry_create_place(NameKeyT *key)
 {
-    NameEntryP entry = ALLOCATE(NameEntryT);
+    NameEntryT *entry = ALLOCATE(NameEntryT);
 
-    entry->next       = NIL(NameEntryP);
+    entry->next       = NIL(NameEntryT *);
     name_key_copy(& (entry->key), key);
     entry->type       = NT_PLACEHOLDER;
     return(entry);
 }
 
 void
-name_entry_make_direct(NameEntryP  entry,				ShapeEntryP shape_entry)
+name_entry_make_direct(NameEntryT * entry,				ShapeEntryT *shape_entry)
 {
     ASSERT(name_entry_is_place(entry));
     entry->type                    = NT_DIRECT;
     entry->u.direct.id             = shape_entry_next_id(shape_entry);
     entry->u.direct.use            = 0;
-    entry->u.direct.definition     = NIL(CapsuleP);
-    entry->u.direct.lib_definition = NIL(LibCapsuleP);
+    entry->u.direct.definition     = NIL(CapsuleT *);
+    entry->u.direct.lib_definition = NIL(LibCapsuleT *);
     shape_entry_add_to_list(shape_entry, entry);
 }
 
 void
-name_entry_make_indirect(NameEntryP entry,				  NameEntryP indirect)
+name_entry_make_indirect(NameEntryT *entry,				  NameEntryT *indirect)
 {
     ASSERT(name_entry_is_place(entry));
     entry->type       = NT_INDIRECT;
     entry->u.indirect = indirect;
 }
 
-NameEntryP
-name_entry_resolve_renames(NameEntryP entry,				    NStringP   shape, 
+NameEntryT *
+name_entry_resolve_renames(NameEntryT *entry,				    NStringT *  shape, 
 				    BoolT      report)
 {
     switch (entry->type)EXHAUSTIVE {
@@ -179,7 +179,7 @@ name_entry_resolve_renames(NameEntryP entry,				    NStringP   shape,
 	if (report) {
 	    E_rename_cycle(shape, name_entry_key(entry));
 	}
-	return(NIL(NameEntryP));
+	return(NIL(NameEntryT *));
       case NT_INDIRECT:
 	entry->type = NT_INDIRECT_CYCLING;
 	entry->u.indirect = name_entry_resolve_renames(entry->u.indirect,
@@ -190,32 +190,32 @@ name_entry_resolve_renames(NameEntryP entry,				    NStringP   shape,
     UNREACHED;
 }
 
-NameKeyP
-name_entry_key(NameEntryP entry)
+NameKeyT *
+name_entry_key(NameEntryT *entry)
 {
     return(& (entry->key));
 }
 
-NameEntryP
-name_entry_next(NameEntryP entry)
+NameEntryT *
+name_entry_next(NameEntryT *entry)
 {
     return(entry->next);
 }
 
-NameEntryP *
-name_entry_next_ref(NameEntryP entry)
+NameEntryT **
+name_entry_next_ref(NameEntryT *entry)
 {
     return(& (entry->next));
 }
 
 BoolT
-name_entry_is_direct(NameEntryP entry)
+name_entry_is_direct(NameEntryT *entry)
 {
     return(entry->type == NT_DIRECT);
 }
 
 BoolT
-name_entry_is_indirect(NameEntryP entry)
+name_entry_is_indirect(NameEntryT *entry)
 {
     return((entry->type == NT_INDIRECT) ||
 	   (entry->type == NT_INDIRECT_CYCLING) ||
@@ -223,106 +223,106 @@ name_entry_is_indirect(NameEntryP entry)
 }
 
 BoolT
-name_entry_is_place(NameEntryP entry)
+name_entry_is_place(NameEntryT *entry)
 {
     return(entry->type == NT_PLACEHOLDER);
 }
 
 unsigned
-name_entry_id(NameEntryP entry)
+name_entry_id(NameEntryT *entry)
 {
     ASSERT(name_entry_is_direct(entry));
     return(entry->u.direct.id);
 }
 
 void
-name_entry_merge_use(NameEntryP entry,			      unsigned   use)
+name_entry_merge_use(NameEntryT *entry,			      unsigned   use)
 {
     ASSERT(name_entry_is_direct(entry));
     entry->u.direct.use |= use;
 }
 
 unsigned
-name_entry_get_use(NameEntryP entry)
+name_entry_get_use(NameEntryT *entry)
 {
     ASSERT(name_entry_is_direct(entry));
     return(entry->u.direct.use & (U_DEFD | U_DECD | U_MULT | U_USED));
 }
 
 void
-name_entry_hide(NameEntryP entry)
+name_entry_hide(NameEntryT *entry)
 {
     ASSERT(name_entry_is_direct(entry));
     entry->u.direct.use |= U_HIDE;
 }
 
 void
-name_entry_unhide(NameEntryP entry)
+name_entry_unhide(NameEntryT *entry)
 {
     ASSERT(name_entry_is_direct(entry));
     entry->u.direct.use &= ~U_HIDE;
 }
 
 BoolT
-name_entry_is_hidden(NameEntryP entry)
+name_entry_is_hidden(NameEntryT *entry)
 {
     ASSERT(name_entry_is_direct(entry));
     return((entry->u.direct.use & U_HIDE) == U_HIDE);
 }
 
 void
-name_entry_set_definition(NameEntryP entry,				   CapsuleP   capsule)
+name_entry_set_definition(NameEntryT *entry,				   CapsuleT *  capsule)
 {
     ASSERT(name_entry_is_direct(entry));
     entry->u.direct.definition = capsule;
 }
 
-CapsuleP
-name_entry_get_definition(NameEntryP entry)
+CapsuleT *
+name_entry_get_definition(NameEntryT *entry)
 {
     ASSERT(name_entry_is_direct(entry));
     return(entry->u.direct.definition);
 }
 
 void
-name_entry_set_lib_definition(NameEntryP  entry,				       LibCapsuleP capsule)
+name_entry_set_lib_definition(NameEntryT * entry,				       LibCapsuleT *capsule)
 {
     ASSERT(name_entry_is_direct(entry));
     entry->u.direct.lib_definition = capsule;
 }
 
-LibCapsuleP
-name_entry_get_lib_definition(NameEntryP entry)
+LibCapsuleT *
+name_entry_get_lib_definition(NameEntryT *entry)
 {
     ASSERT(name_entry_is_direct(entry));
     return(entry->u.direct.lib_definition);
 }
 
-NameEntryP
-name_entry_list_next(NameEntryP entry)
+NameEntryT *
+name_entry_list_next(NameEntryT *entry)
 {
     ASSERT(name_entry_is_direct(entry));
     return(entry->u.direct.list_next);
 }
 
-NameEntryP *
-name_entry_list_next_ref(NameEntryP entry)
+NameEntryT **
+name_entry_list_next_ref(NameEntryT *entry)
 {
     ASSERT(name_entry_is_direct(entry));
     return(& (entry->u.direct.list_next));
 }
 
-NameEntryP
-name_entry_get_indirect(NameEntryP entry)
+NameEntryT *
+name_entry_get_indirect(NameEntryT *entry)
 {
     ASSERT(name_entry_is_indirect(entry));
     return(entry->u.indirect);
 }
 
-NameEntryP
-name_entry_deallocate(NameEntryP entry)
+NameEntryT *
+name_entry_deallocate(NameEntryT *entry)
 {
-    NameEntryP next = name_entry_next(entry);
+    NameEntryT *next = name_entry_next(entry);
 
     name_key_destroy(name_entry_key(entry));
     DEALLOCATE(entry);
@@ -332,7 +332,7 @@ name_entry_deallocate(NameEntryP entry)
 /*--------------------------------------------------------------------------*/
 
 void
-name_entry_do_count(NameEntryP entry,			     void *   gclosure)
+name_entry_do_count(NameEntryT *entry,			     void *   gclosure)
 {
     unsigned *count_ref = (unsigned *)gclosure;
 
@@ -342,11 +342,11 @@ name_entry_do_count(NameEntryP entry,			     void *   gclosure)
 }
 
 void
-name_entry_write_name(NameEntryP entry,			       void *   gclosure)
+name_entry_write_name(NameEntryT *entry,			       void *   gclosure)
 {
     if (!(name_entry_is_hidden(entry))) {
-	TDFWriterP writer = (TDFWriterP)gclosure;
-	NameKeyP   key    = name_entry_key(entry);
+	TDFWriterT *writer = (TDFWriterT *)gclosure;
+	NameKeyT *  key    = name_entry_key(entry);
 	unsigned   id     = name_entry_id(entry);
 
 	debug_info_w_name(key, id);
@@ -356,7 +356,7 @@ name_entry_write_name(NameEntryP entry,			       void *   gclosure)
 }
 
 void
-name_entry_compute_tld_size(NameEntryP entry,				     void *   gclosure)
+name_entry_compute_tld_size(NameEntryT *entry,				     void *   gclosure)
 {
     unsigned *size_ref = (unsigned *)gclosure;
 
@@ -368,9 +368,9 @@ name_entry_compute_tld_size(NameEntryP entry,				     void *   gclosure)
 }
 
 void
-name_entry_write_tld(NameEntryP entry,			      void *   gclosure)
+name_entry_write_tld(NameEntryT *entry,			      void *   gclosure)
 {
-    TDFWriterP writer = (TDFWriterP)gclosure;
+    TDFWriterT *writer = (TDFWriterT *)gclosure;
 
     if (!(name_entry_is_hidden(entry))) {
 	unsigned use = name_entry_get_use(entry);
@@ -381,18 +381,18 @@ name_entry_write_tld(NameEntryP entry,			      void *   gclosure)
 }
 
 void
-name_entry_check_multi_defs(NameEntryP entry,				     void *   gclosure)
+name_entry_check_multi_defs(NameEntryT *entry,				     void *   gclosure)
 {
-    NStringP shape_name = (NStringP)gclosure;
+    NStringT *shape_name = (NStringT *)gclosure;
 
     if ((name_entry_get_use(entry) & U_MULT) &&
-	(name_entry_get_definition(entry) == NIL(CapsuleP))) {
+	(name_entry_get_definition(entry) == NIL(CapsuleT *))) {
 	E_no_single_definition(shape_name, name_entry_key(entry));
     }
 }
 
 void
-name_entry_do_lib_count(NameEntryP entry,				 void *   gclosure)
+name_entry_do_lib_count(NameEntryT *entry,				 void *   gclosure)
 {
     if (name_entry_get_definition(entry)) {
 	unsigned *num_names_ref = (unsigned *)gclosure;
@@ -402,13 +402,13 @@ name_entry_do_lib_count(NameEntryP entry,				 void *   gclosure)
 }
 
 void
-name_entry_do_lib_write(NameEntryP entry,				 void *   gclosure)
+name_entry_do_lib_write(NameEntryT *entry,				 void *   gclosure)
 {
-    CapsuleP definition = name_entry_get_definition(entry);
+    CapsuleT *definition = name_entry_get_definition(entry);
 
     if (definition) {
-	TDFWriterP writer        = (TDFWriterP)gclosure;
-	NameKeyP   key           = name_entry_key(entry);
+	TDFWriterT *writer        = (TDFWriterT *)gclosure;
+	NameKeyT *  key           = name_entry_key(entry);
 	unsigned   use           = name_entry_get_use(entry);
 	unsigned   capsule_index = capsule_get_index(definition);
 
@@ -421,47 +421,47 @@ name_entry_do_lib_write(NameEntryP entry,				 void *   gclosure)
 }
 
 void
-name_entry_suppress(NameEntryP entry,			     void *   gclosure)
+name_entry_suppress(NameEntryT *entry,			     void *   gclosure)
 {
-    NStringP shape = (NStringP)gclosure;
+    NStringT *shape = (NStringT *)gclosure;
 
     debug_info_l_suppress(shape, name_entry_key(entry));
-    name_entry_set_lib_definition(entry, NIL(LibCapsuleP));
+    name_entry_set_lib_definition(entry, NIL(LibCapsuleT *));
 }
 
 void
-name_entry_builder_suppress(NameEntryP entry,				     void *   gclosure)
+name_entry_builder_suppress(NameEntryT *entry,				     void *   gclosure)
 {
-    NStringP shape = (NStringP)gclosure;
+    NStringT *shape = (NStringT *)gclosure;
 
     debug_info_l_suppress(shape, name_entry_key(entry));
-    name_entry_set_definition(entry, NIL(CapsuleP));
+    name_entry_set_definition(entry, NIL(CapsuleT *));
 }
 
 BoolT
-name_entry_resolve_undefined(NameEntryP  entry,				      NameTableP  table, 
-				      UnitTableP  units, 
-				      ShapeTableP shapes, 
-				      NStringP    shape_key)
+name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table, 
+				      UnitTableT * units, 
+				      ShapeTableT *shapes, 
+				      NStringT *   shape_key)
 {
     unsigned use = name_entry_get_use(entry);
-    NameKeyP key = name_entry_key(entry);
+    NameKeyT *key = name_entry_key(entry);
 
     if ((use & U_DEFD) || (!(use & U_USED))) {
 	debug_info_l_not_needed(key, shape_key, use);
 	return(FALSE);
     } else if (table) {
-	NameEntryP lib_entry = name_table_get(table, key);
+	NameEntryT *lib_entry = name_table_get(table, key);
 
 	if (lib_entry) {
-	    LibCapsuleP lib_def = name_entry_get_lib_definition(lib_entry);
+	    LibCapsuleT *lib_def = name_entry_get_lib_definition(lib_entry);
 	    unsigned    lib_use = name_entry_get_use(lib_entry);
 
 	    if (lib_def && (!lib_capsule_is_loaded(lib_def)) &&
 		((!(use & U_MULT)) || (lib_use & U_DEFD))) {
 		char * name     = lib_capsule_full_name(lib_def);
-		NStringP contents = lib_capsule_contents(lib_def);
-		CapsuleP capsule;
+		NStringT *contents = lib_capsule_contents(lib_def);
+		CapsuleT *capsule;
 
 		debug_info_l_found(key, shape_key, use, name);
 		capsule = capsule_create_string_input(name, contents);
@@ -478,10 +478,10 @@ name_entry_resolve_undefined(NameEntryP  entry,				      NameTableP  table,
 }
 
 void
-name_entry_hide_defd(NameEntryP entry,			      void *   gclosure)
+name_entry_hide_defd(NameEntryT *entry,			      void *   gclosure)
 {
     if (name_entry_get_use(entry) & U_DEFD) {
-	NStringP shape = (NStringP)gclosure;
+	NStringT *shape = (NStringT *)gclosure;
 
 	debug_info_l_hide(shape, name_entry_key(entry));
 	name_entry_hide(entry);
@@ -489,40 +489,40 @@ name_entry_hide_defd(NameEntryP entry,			      void *   gclosure)
 }
 
 void
-name_entry_keep(NameEntryP entry,			 void *   gclosure)
+name_entry_keep(NameEntryT *entry,			 void *   gclosure)
 {
-    NStringP shape = (NStringP)gclosure;
+    NStringT *shape = (NStringT *)gclosure;
 
     debug_info_l_keep(shape, name_entry_key(entry));
     name_entry_unhide(entry);
 }
 
 void
-name_entry_suppress_mult(NameEntryP entry,				  void *   gclosure)
+name_entry_suppress_mult(NameEntryT *entry,				  void *   gclosure)
 {
     if ((name_entry_get_use(entry) & (U_DEFD | U_MULT)) == U_MULT) {
-	NStringP shape = (NStringP)gclosure;
+	NStringT *shape = (NStringT *)gclosure;
 
 	debug_info_l_suppress(shape, name_entry_key(entry));
-	name_entry_set_definition(entry, NIL(CapsuleP));
+	name_entry_set_definition(entry, NIL(CapsuleT *));
     }
 }
 
 void
-name_entry_lib_suppress_mult(NameEntryP entry,				      void *   gclosure)
+name_entry_lib_suppress_mult(NameEntryT *entry,				      void *   gclosure)
 {
     if ((name_entry_get_use(entry) & (U_DEFD | U_MULT)) == U_MULT) {
-	NStringP shape = (NStringP)gclosure;
+	NStringT *shape = (NStringT *)gclosure;
 
 	debug_info_l_suppress(shape, name_entry_key(entry));
-	name_entry_set_lib_definition(entry, NIL(LibCapsuleP));
+	name_entry_set_lib_definition(entry, NIL(LibCapsuleT *));
     }
 }
 
 void
-name_entry_show_content(NameEntryP entry,				 void *   gclosure)
+name_entry_show_content(NameEntryT *entry,				 void *   gclosure)
 {
-    LibCapsuleP capsule = name_entry_get_lib_definition(entry);
+    LibCapsuleT *capsule = name_entry_get_lib_definition(entry);
 
     UNUSED(gclosure);
     write_cstring(ostream_output, "  ");

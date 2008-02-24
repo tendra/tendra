@@ -107,7 +107,7 @@ tdf_int_size(unsigned value)
 }
 
 void
-write_usage(OStreamP ostream,		     unsigned use)
+write_usage(OStreamT *ostream,		     unsigned use)
 {
     char * sep = "";
 

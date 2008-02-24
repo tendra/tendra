@@ -91,7 +91,7 @@
 
 /*--------------------------------------------------------------------------*/
 
-ExceptionP XX_ostream_write_error = EXCEPTION("error writing to stream");
+ExceptionT *XX_ostream_write_error = EXCEPTION("error writing to stream");
 
 static OStreamT			ostream_output_1 = {
     NIL(FILE *),
@@ -128,7 +128,7 @@ ostream_setup(void)
 #undef ostream_init
 #endif /* defined (FS_FAST) */
 void
-ostream_init(OStreamP ostream)
+ostream_init(OStreamT *ostream)
 {
     ostream->name = NIL(char *);
 }
@@ -137,7 +137,7 @@ ostream_init(OStreamP ostream)
 #endif /* defined (FS_FAST) */
 
 BoolT
-ostream_open(OStreamP ostream,		      char * name)
+ostream_open(OStreamT *ostream,		      char * name)
 {
     if ((ostream->file = fopen(name, "w")) == NIL(FILE *)) {
 	return(FALSE);
@@ -152,7 +152,7 @@ ostream_open(OStreamP ostream,		      char * name)
 #undef ostream_is_open
 #endif /* defined (FS_FAST) */
 BoolT
-ostream_is_open(OStreamP ostream)
+ostream_is_open(OStreamT *ostream)
 {
     return(ostream->name != NIL(char *));
 }
@@ -161,19 +161,19 @@ ostream_is_open(OStreamP ostream)
 #endif /* defined (FS_FAST) */
 
 void
-ostream_buffer(OStreamP ostream)
+ostream_buffer(OStreamT *ostream)
 {
    (void)setvbuf(ostream->file, NIL(char *), _IOFBF,(SizeT)BUFSIZ);
 }
 
 void
-ostream_unbuffer(OStreamP ostream)
+ostream_unbuffer(OStreamT *ostream)
 {
    (void)setvbuf(ostream->file, NIL(char *), _IONBF,(SizeT)0);
 }
 
 void
-ostream_close(OStreamP ostream)
+ostream_close(OStreamT *ostream)
 {
     if (fclose(ostream->file)) {
 	char * name = cstring_duplicate(ostream_name(ostream));
@@ -184,7 +184,7 @@ ostream_close(OStreamP ostream)
 }
 
 void
-ostream_flush(OStreamP ostream)
+ostream_flush(OStreamT *ostream)
 {
     if (fflush(ostream->file)) {
 	char * name = cstring_duplicate(ostream_name(ostream));
@@ -197,7 +197,7 @@ ostream_flush(OStreamP ostream)
 #undef ostream_name
 #endif /* defined (FS_FAST) */
 char *
-ostream_name(OStreamP ostream)
+ostream_name(OStreamT *ostream)
 {
     return(ostream->name);
 }
@@ -209,7 +209,7 @@ ostream_name(OStreamP ostream)
 #undef ostream_line
 #endif /* defined (FS_FAST) */
 unsigned
-ostream_line(OStreamP ostream)
+ostream_line(OStreamT *ostream)
 {
     return(ostream->line);
 }
@@ -218,7 +218,7 @@ ostream_line(OStreamP ostream)
 #endif /* defined (FS_FAST) */
 
 void
-write_newline(OStreamP ostream)
+write_newline(OStreamT *ostream)
 {
     ostream->line++;
    (void)putc('\n', ostream->file);
@@ -226,14 +226,14 @@ write_newline(OStreamP ostream)
 }
 
 void
-write_tab(OStreamP ostream)
+write_tab(OStreamT *ostream)
 {
    (void)putc('\t', ostream->file);
     OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_byte(OStreamP ostream,		    ByteT    c)
+write_byte(OStreamT *ostream,		    ByteT    c)
 {
     if (c == '\n') {
 	ostream->line++;
@@ -243,7 +243,7 @@ write_byte(OStreamP ostream,		    ByteT    c)
 }
 
 void
-write_char(OStreamP ostream,		    char     c)
+write_char(OStreamT *ostream,		    char     c)
 {
     if (c == '\n') {
 	ostream->line++;
@@ -253,7 +253,7 @@ write_char(OStreamP ostream,		    char     c)
 }
 
 void
-write_escaped_char(OStreamP ostream,			    char     c)
+write_escaped_char(OStreamT *ostream,			    char     c)
 {
     switch (c) {
       case '\0':
@@ -287,21 +287,21 @@ write_escaped_char(OStreamP ostream,			    char     c)
 }
 
 void
-write_int(OStreamP ostream,		   int      i)
+write_int(OStreamT *ostream,		   int      i)
 {
    (void)fprintf(ostream->file, "%d", i);
     OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_unsigned(OStreamP ostream,			unsigned i)
+write_unsigned(OStreamT *ostream,			unsigned i)
 {
    (void)fprintf(ostream->file, "%u", i);
     OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_cstring(OStreamP ostream,		       char * cstring)
+write_cstring(OStreamT *ostream,		       char * cstring)
 {
     char * tmp = cstring;
 
@@ -315,11 +315,11 @@ write_cstring(OStreamP ostream,		       char * cstring)
 }
 
 void
-write_bytes(OStreamP ostream,		     ByteP    bytes ,
+write_bytes(OStreamT *ostream,		     ByteT *   bytes ,
 		     unsigned length)
 {
     unsigned tmp_length = length;
-    ByteP    tmp_bytes  = bytes;
+    ByteT *   tmp_bytes  = bytes;
 
     while (tmp_length--) {
 	if (*tmp_bytes++ == '\n') {
@@ -332,7 +332,7 @@ write_bytes(OStreamP ostream,		     ByteP    bytes ,
 }
 
 void
-write_chars(OStreamP ostream,		     char * chars ,
+write_chars(OStreamT *ostream,		     char * chars ,
 		     unsigned length)
 {
     while (length--) {
@@ -341,7 +341,7 @@ write_chars(OStreamP ostream,		     char * chars ,
 }
 
 void
-write_escaped_chars(OStreamP ostream,			     char * chars ,
+write_escaped_chars(OStreamT *ostream,			     char * chars ,
 			     unsigned length)
 {
     while (length--) {
@@ -350,7 +350,7 @@ write_escaped_chars(OStreamP ostream,			     char * chars ,
 }
 
 void
-write_system_error(OStreamP ostream)
+write_system_error(OStreamT *ostream)
 {
 #if (defined(FS_STRERROR) || defined(FS_SYS_ERRLIST))
 # ifdef FS_STRERROR
@@ -372,7 +372,7 @@ write_system_error(OStreamP ostream)
 }
 
 void
-write_pointer(OStreamP ostream,		       void * pointer)
+write_pointer(OStreamT *ostream,		       void * pointer)
 {
    (void)fprintf(ostream->file, "%p", pointer);
     OSTREAM_WRITE_ERROR_CHECK(ostream);

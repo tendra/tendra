@@ -71,19 +71,19 @@
  ***=== TYPES ================================================================
  *
  ** Type:	BIStreamT
- ** Type:	BIStreamP
+ ** Type:	BIStreamT *
  ** Repr:	<private>
  *
  * This is the input stream type.
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	void bistream_init(BIStreamP bistream)
+ ** Function:	void bistream_init(BIStreamT *bistream)
  ** Exceptions:
  *
  * This function initialises the specified bistream not to read from any file.
  *
- ** Function:	BoolT bistream_open(BIStreamP bistream, char * name)
+ ** Function:	BoolT bistream_open(BIStreamT *bistream, char * name)
  ** Exceptions:
  *
  * This function initialises the specified bistream to read from the file with
@@ -92,18 +92,18 @@
  * returns false. If the file is opened successfully, the function returns
  * true.
  *
- ** Function:	void bistream_assign(BIStreamP to, BIStreamP from)
+ ** Function:	void bistream_assign(BIStreamT *to, BIStreamT *from)
  ** Exceptions:
  *
  * This function assigns the from bistream to the to bistream.  The from
  * bistream should not be used again.
  *
- ** Function:	BoolT bistream_is_open(BIStreamP bistream)
+ ** Function:	BoolT bistream_is_open(BIStreamT *bistream)
  *
  * This function returns true if the specified bistream is reading from a file,
  * and false otherwise.
  *
- ** Function:	unsigned bistream_read_chars(BIStreamP bistream,
+ ** Function:	unsigned bistream_read_chars(BIStreamT *bistream,
  *					     unsigned length, char * chars)
  ** Exceptions:	XX_bistream_read_error
  *
@@ -112,8 +112,8 @@
  * enough to hold at least length characters.  The function returns the number
  * of characters actually read.
  *
- ** Function:	unsigned bistream_read_bytes(BIStreamP bistream,
- *					     unsigned length, ByteP bytes)
+ ** Function:	unsigned bistream_read_bytes(BIStreamT *bistream,
+ *					     unsigned length, ByteT *bytes)
  ** Exceptions:	XX_bistream_read_error
  *
  * This function reads the next length bytes from the specified bistream.  The
@@ -121,7 +121,7 @@
  * hold at least length bytes.  The function returns the number of bytes
  * actually read.
  *
- ** Function:	BoolT bistream_read_byte(BIStreamP bistream, ByteT *byte_ref)
+ ** Function:	BoolT bistream_read_byte(BIStreamT *bistream, ByteT *byte_ref)
  ** Exceptions:	XX_bistream_read_error
  *
  * This function reads the next character from the specified bistream.  If a
@@ -129,25 +129,25 @@
  * function returns true.  If the end of file is reached, the function returns
  * false.
  *
- ** Function:	unsigned bistream_byte(BIStreamP bistream)
+ ** Function:	unsigned bistream_byte(BIStreamT *bistream)
  ** Exceptions:
  *
  * This function returns the number of bytes that have been read from the
  * specified bistream.
  *
- ** Function:	char * bistream_name(BIStreamP bistream)
+ ** Function:	char * bistream_name(BIStreamT *bistream)
  ** Exceptions:
  *
  * This function returns the name of the file from which the specified
  * bistream is reading. The return value should not be modified or
  * deallocated.
  *
- ** Function:	void bistream_rewind(BIStreamP bistream)
+ ** Function:	void bistream_rewind(BIStreamT *bistream)
  ** Exceptions:
  *
  * This function rewinds the specified bistream.
  *
- ** Function:	void bistream_close(BIStreamP bistream)
+ ** Function:	void bistream_close(BIStreamT *bistream)
  ** Exceptions:
  *
  * This function closes the specified bistream.
@@ -188,35 +188,35 @@ typedef struct BIStreamT {
     FILE		       *file;
     unsigned			bytes;
     char *			name;
-} BIStreamT, *BIStreamP;
+} BIStreamT;
 
 /*--------------------------------------------------------------------------*/
 
-extern ExceptionP		XX_bistream_read_error;
+extern ExceptionT *	XX_bistream_read_error;
 
 /*--------------------------------------------------------------------------*/
 
 extern void			bistream_init
-(BIStreamP);
+(BIStreamT *);
 extern BoolT			bistream_open
-(BIStreamP, char *);
+(BIStreamT *, char *);
 extern void			bistream_assign
-(BIStreamP, BIStreamP);
+(BIStreamT *, BIStreamT *);
 extern BoolT			bistream_is_open
-(BIStreamP);
+(BIStreamT *);
 extern unsigned			bistream_read_chars
-(BIStreamP, unsigned, char *);
+(BIStreamT *, unsigned, char *);
 extern unsigned			bistream_read_bytes
-(BIStreamP, unsigned, ByteP);
+(BIStreamT *, unsigned, ByteT *);
 extern BoolT			bistream_read_byte
-(BIStreamP, ByteT *);
+(BIStreamT *, ByteT *);
 extern unsigned			bistream_byte
-(BIStreamP);
+(BIStreamT *);
 extern char *			bistream_name
-(BIStreamP);
+(BIStreamT *);
 extern void			bistream_rewind
-(BIStreamP);
+(BIStreamT *);
 extern void			bistream_close
-(BIStreamP);
+(BIStreamT *);
 
 #endif /* !defined (H_BISTREAM) */

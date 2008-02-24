@@ -99,47 +99,47 @@
 
 /*--------------------------------------------------------------------------*/
 
-ShapeEntryP
-shape_entry_create(NStringP key)
+ShapeEntryT *
+shape_entry_create(NStringT *key)
 {
-    ShapeEntryP entry = ALLOCATE(ShapeEntryT);
+    ShapeEntryT *entry = ALLOCATE(ShapeEntryT);
 
-    entry->next      = NIL(ShapeEntryP);
+    entry->next      = NIL(ShapeEntryT *);
     nstring_copy(shape_entry_key(entry), key);
     entry->names     = name_table_create();
     entry->id_count  = 0;
     entry->non_empty = FALSE;
-    entry->head      = NIL(NameEntryP);
+    entry->head      = NIL(NameEntryT *);
     entry->tail      = & (entry->head);
     return(entry);
 }
 
-ShapeEntryP
-shape_entry_next(ShapeEntryP entry)
+ShapeEntryT *
+shape_entry_next(ShapeEntryT *entry)
 {
     return(entry->next);
 }
 
-ShapeEntryP *
-shape_entry_next_ref(ShapeEntryP entry)
+ShapeEntryT **
+shape_entry_next_ref(ShapeEntryT *entry)
 {
     return(& (entry->next));
 }
 
-NStringP
-shape_entry_key(ShapeEntryP entry)
+NStringT *
+shape_entry_key(ShapeEntryT *entry)
 {
     return(& (entry->key));
 }
 
-NameTableP
-shape_entry_name_table(ShapeEntryP entry)
+NameTableT *
+shape_entry_name_table(ShapeEntryT *entry)
 {
     return(entry->names);
 }
 
 unsigned
-shape_entry_next_id(ShapeEntryP entry)
+shape_entry_next_id(ShapeEntryT *entry)
 {
     if (entry->id_count == UINT_MAX) {
 	E_too_many_ids();
@@ -148,42 +148,42 @@ shape_entry_next_id(ShapeEntryP entry)
 }
 
 void
-shape_entry_set_non_empty(ShapeEntryP entry)
+shape_entry_set_non_empty(ShapeEntryT *entry)
 {
     entry->non_empty = TRUE;
 }
 
 BoolT
-shape_entry_get_non_empty(ShapeEntryP entry)
+shape_entry_get_non_empty(ShapeEntryT *entry)
 {
     return(entry->non_empty);
 }
 
 void
-shape_entry_add_to_list(ShapeEntryP entry,				 NameEntryP  name_entry)
+shape_entry_add_to_list(ShapeEntryT *entry,				 NameEntryT * name_entry)
 {
     *(entry->tail) = name_entry;
     entry->tail    = name_entry_list_next_ref(name_entry);
 }
 
-NameEntryP
-shape_entry_get_from_list(ShapeEntryP entry)
+NameEntryT *
+shape_entry_get_from_list(ShapeEntryT *entry)
 {
-    NameEntryP name_entry;
+    NameEntryT *name_entry;
 
-    if ((name_entry = entry->head) != NIL(NameEntryP)) {
+    if ((name_entry = entry->head) != NIL(NameEntryT *)) {
 	entry->head = name_entry_list_next(name_entry);
-	if (entry->head == NIL(NameEntryP)) {
+	if (entry->head == NIL(NameEntryT *)) {
 	    entry->tail = (&entry->head);
 	}
     }
     return(name_entry);
 }
 
-ShapeEntryP
-shape_entry_deallocate(ShapeEntryP entry)
+ShapeEntryT *
+shape_entry_deallocate(ShapeEntryT *entry)
 {
-    ShapeEntryP next = shape_entry_next(entry);
+    ShapeEntryT *next = shape_entry_next(entry);
 
     nstring_destroy(shape_entry_key(entry));
     name_table_deallocate(shape_entry_name_table(entry));
@@ -194,7 +194,7 @@ shape_entry_deallocate(ShapeEntryP entry)
 /*--------------------------------------------------------------------------*/
 
 void
-shape_entry_do_count(ShapeEntryP entry,			      void *    gclosure)
+shape_entry_do_count(ShapeEntryT *entry,			      void *    gclosure)
 {
     unsigned *count_ref = (unsigned *)gclosure;
 
@@ -205,11 +205,11 @@ shape_entry_do_count(ShapeEntryP entry,			      void *    gclosure)
 }
 
 void
-shape_entry_write_shape(ShapeEntryP entry,				 void *    gclosure)
+shape_entry_write_shape(ShapeEntryT *entry,				 void *    gclosure)
 {
     if (shape_entry_get_non_empty(entry)) {
-	TDFWriterP writer  = (TDFWriterP)gclosure;
-	NStringP   key     = shape_entry_key(entry);
+	TDFWriterT *writer  = (TDFWriterT *)gclosure;
+	NStringT *  key     = shape_entry_key(entry);
 	unsigned   num_ids = entry->id_count;
 
 	debug_info_w_shape(key, num_ids);
@@ -219,13 +219,13 @@ shape_entry_write_shape(ShapeEntryP entry,				 void *    gclosure)
 }
 
 void
-shape_entry_write_externs(ShapeEntryP entry,				   void *    gclosure)
+shape_entry_write_externs(ShapeEntryT *entry,				   void *    gclosure)
 {
     if (shape_entry_get_non_empty(entry)) {
-	TDFWriterP writer      = (TDFWriterP)gclosure;
+	TDFWriterT *writer      = (TDFWriterT *)gclosure;
 	unsigned   num_externs = 0;
-	NameTableP table       = entry->names;
-	NStringP   key         = shape_entry_key(entry);
+	NameTableT *table       = entry->names;
+	NStringT *  key         = shape_entry_key(entry);
 
 	name_table_iter(table, name_entry_do_count,(void *) &num_externs);
 	debug_info_w_start_shape_names(key, num_externs);
@@ -235,7 +235,7 @@ shape_entry_write_externs(ShapeEntryP entry,				   void *    gclosure)
 }
 
 void
-shape_entry_compute_tld_size(ShapeEntryP entry,				      void *    gclosure)
+shape_entry_compute_tld_size(ShapeEntryT *entry,				      void *    gclosure)
 {
     if (shape_entry_get_non_empty(entry)) {
 	name_table_iter(entry->names, name_entry_compute_tld_size, gclosure);
@@ -243,7 +243,7 @@ shape_entry_compute_tld_size(ShapeEntryP entry,				      void *    gclosure)
 }
 
 void
-shape_entry_write_tld(ShapeEntryP entry,			       void *    gclosure)
+shape_entry_write_tld(ShapeEntryT *entry,			       void *    gclosure)
 {
     if (shape_entry_get_non_empty(entry)) {
 	debug_info_w_start_usages(shape_entry_key(entry));
@@ -252,17 +252,17 @@ shape_entry_write_tld(ShapeEntryP entry,			       void *    gclosure)
 }
 
 void
-shape_entry_write_count(ShapeEntryP entry,				 void *    gclosure)
+shape_entry_write_count(ShapeEntryT *entry,				 void *    gclosure)
 {
-    ShapeClosureP closure = (ShapeClosureP)gclosure;
+    ShapeClosureT *closure = (ShapeClosureT *)gclosure;
 
     if (shape_entry_get_non_empty(entry)) {
-	MapTableP  table     = closure->table;
-	TDFWriterP writer    = closure->writer;
-	MapEntryP  map_entry = map_table_get(table, shape_entry_key(entry));
+	MapTableT * table     = closure->table;
+	TDFWriterT *writer    = closure->writer;
+	MapEntryT * map_entry = map_table_get(table, shape_entry_key(entry));
 	unsigned   count     = (map_entry ? map_entry_get_count(map_entry):
 				0);
-	NStringP   key       = shape_entry_key(entry);
+	NStringT *  key       = shape_entry_key(entry);
 
 	debug_info_w_count(count, key);
 	tdf_write_int(writer, count);
@@ -270,15 +270,15 @@ shape_entry_write_count(ShapeEntryP entry,				 void *    gclosure)
 }
 
 void
-shape_entry_write_links(ShapeEntryP entry,				 void *    gclosure)
+shape_entry_write_links(ShapeEntryT *entry,				 void *    gclosure)
 {
-    ShapeClosureP closure = (ShapeClosureP)gclosure;
+    ShapeClosureT *closure = (ShapeClosureT *)gclosure;
 
     if (shape_entry_get_non_empty(entry)) {
-	MapTableP  table     = closure->table;
-	TDFWriterP writer    = closure->writer;
-	MapEntryP  map_entry = map_table_get(table, shape_entry_key(entry));
-	NStringP   key       = shape_entry_key(entry);
+	MapTableT * table     = closure->table;
+	TDFWriterT *writer    = closure->writer;
+	MapEntryT * map_entry = map_table_get(table, shape_entry_key(entry));
+	NStringT *  key       = shape_entry_key(entry);
 
 	if (map_entry) {
 	    unsigned num_links = map_entry_get_num_links(map_entry);
@@ -303,19 +303,19 @@ shape_entry_write_links(ShapeEntryP entry,				 void *    gclosure)
 }
 
 void
-shape_entry_check_multi_defs(ShapeEntryP entry,				      void *    gclosure)
+shape_entry_check_multi_defs(ShapeEntryT *entry,				      void *    gclosure)
 {
-    NameTableP table = shape_entry_name_table(entry);
-    NStringP   key   = shape_entry_key(entry);
+    NameTableT *table = shape_entry_name_table(entry);
+    NStringT *  key   = shape_entry_key(entry);
 
     UNUSED(gclosure);
     name_table_iter(table, name_entry_check_multi_defs,(void *)key);
 }
 
 void
-shape_entry_do_lib_count(ShapeEntryP entry,				  void *    gclosure)
+shape_entry_do_lib_count(ShapeEntryT *entry,				  void *    gclosure)
 {
-    NameTableP table     = shape_entry_name_table(entry);
+    NameTableT *table     = shape_entry_name_table(entry);
     unsigned   num_names = 0;
 
     name_table_iter(table, name_entry_do_lib_count,(void *) &num_names);
@@ -328,14 +328,14 @@ shape_entry_do_lib_count(ShapeEntryP entry,				  void *    gclosure)
 }
 
 void
-shape_entry_do_lib_write(ShapeEntryP entry,				  void *    gclosure)
+shape_entry_do_lib_write(ShapeEntryT *entry,				  void *    gclosure)
 {
     unsigned num_names = entry->num_lib_names;
 
     if (num_names > 0) {
-	TDFWriterP writer = (TDFWriterP)gclosure;
-	NameTableP table  = shape_entry_name_table(entry);
-	NStringP   key    = shape_entry_key(entry);
+	TDFWriterT *writer = (TDFWriterT *)gclosure;
+	NameTableT *table  = shape_entry_name_table(entry);
+	NStringT *  key    = shape_entry_key(entry);
 
 	debug_info_w_start_shape_index(key, num_names);
 	tdf_write_string(writer, shape_entry_key(entry));
@@ -345,18 +345,18 @@ shape_entry_do_lib_write(ShapeEntryP entry,				  void *    gclosure)
 }
 
 void
-shape_entry_resolve_undefined(ShapeEntryP entry,				       void *    gclosure)
+shape_entry_resolve_undefined(ShapeEntryT *entry,				       void *    gclosure)
 {
-    ShapeLibClosureP closure   = (ShapeLibClosureP)gclosure;
-    NStringP         key       = shape_entry_key(entry);
-    ShapeEntryP      lib_entry = shape_table_get(closure->lib_shapes, key);
-    NameTableP       table     = ((lib_entry != NIL(ShapeEntryP))?
+    ShapeLibClosureT *closure   = (ShapeLibClosureT *)gclosure;
+    NStringT *        key       = shape_entry_key(entry);
+    ShapeEntryT *     lib_entry = shape_table_get(closure->lib_shapes, key);
+    NameTableT *      table     = ((lib_entry != NIL(ShapeEntryT *))?
 				  shape_entry_name_table(lib_entry):
-				  NIL(NameTableP));
-    NameEntryP       name_entry;
+				  NIL(NameTableT *));
+    NameEntryT *      name_entry;
 
     while ((name_entry = shape_entry_get_from_list(entry)) !=
-	   NIL(NameEntryP)) {
+	   NIL(NameEntryT *)) {
 	if (name_entry_resolve_undefined(name_entry, table, closure->units,
 					  closure->shapes, key)) {
 	    closure->did_define = TRUE;
@@ -365,37 +365,37 @@ shape_entry_resolve_undefined(ShapeEntryP entry,				       void *    gclosure)
 }
 
 void
-shape_entry_hide_all_defd(ShapeEntryP entry,				   void *    gclosure)
+shape_entry_hide_all_defd(ShapeEntryT *entry,				   void *    gclosure)
 {
-    NameTableP table = shape_entry_name_table(entry);
-    NStringP   shape = shape_entry_key(entry);
+    NameTableT *table = shape_entry_name_table(entry);
+    NStringT *  shape = shape_entry_key(entry);
 
     UNUSED(gclosure);
     name_table_iter(table, name_entry_hide_defd,(void *)shape);
 }
 
 void
-shape_entry_suppress_mult(ShapeEntryP entry,				   void *    gclosure)
+shape_entry_suppress_mult(ShapeEntryT *entry,				   void *    gclosure)
 {
-    NameTableP table = shape_entry_name_table(entry);
-    NStringP   shape = shape_entry_key(entry);
+    NameTableT *table = shape_entry_name_table(entry);
+    NStringT *  shape = shape_entry_key(entry);
 
     UNUSED(gclosure);
     name_table_iter(table, name_entry_suppress_mult,(void *)shape);
 }
 
 void
-shape_entry_lib_suppress_mult(ShapeEntryP entry,				       void *    gclosure)
+shape_entry_lib_suppress_mult(ShapeEntryT *entry,				       void *    gclosure)
 {
-    NameTableP table = shape_entry_name_table(entry);
-    NStringP   shape = shape_entry_key(entry);
+    NameTableT *table = shape_entry_name_table(entry);
+    NStringT *  shape = shape_entry_key(entry);
 
     UNUSED(gclosure);
     name_table_iter(table, name_entry_lib_suppress_mult,(void *)shape);
 }
 
 void
-shape_entry_show_content(ShapeEntryP entry,				  void *    gclosure)
+shape_entry_show_content(ShapeEntryT *entry,				  void *    gclosure)
 {
     UNUSED(gclosure);
     write_nstring(ostream_output, shape_entry_key(entry));

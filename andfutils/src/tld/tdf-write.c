@@ -98,7 +98,7 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-tdf_write_nibble(TDFWriterP writer,			  unsigned   nibble)
+tdf_write_nibble(TDFWriterT *writer,			  unsigned   nibble)
 {
     if (writer->new_byte) {
 	writer->new_byte = FALSE;
@@ -113,7 +113,7 @@ tdf_write_nibble(TDFWriterP writer,			  unsigned   nibble)
 /*--------------------------------------------------------------------------*/
 
 BoolT
-tdf_writer_open(TDFWriterP writer,			 char *   name)
+tdf_writer_open(TDFWriterT *writer,			 char *   name)
 {
     writer->new_byte = TRUE;
     if (!bostream_open(& (writer->bostream), name)) {
@@ -123,13 +123,13 @@ tdf_writer_open(TDFWriterP writer,			 char *   name)
 }
 
 char *
-tdf_writer_name(TDFWriterP writer)
+tdf_writer_name(TDFWriterT *writer)
 {
     return(bostream_name(& (writer->bostream)));
 }
 
 void
-tdf_write_int(TDFWriterP writer,		       unsigned   value)
+tdf_write_int(TDFWriterT *writer,		       unsigned   value)
 {
     unsigned shift = 0;
     unsigned tmp   = value;
@@ -149,7 +149,7 @@ tdf_write_int(TDFWriterP writer,		       unsigned   value)
 }
 
 void
-tdf_write_align(TDFWriterP writer)
+tdf_write_align(TDFWriterT *writer)
 {
     if (!(writer->new_byte)) {
 	bostream_write_byte(& (writer->bostream), writer->byte);
@@ -158,7 +158,7 @@ tdf_write_align(TDFWriterP writer)
 }
 
 void
-tdf_write_bytes(TDFWriterP writer,			 NStringP   nstring)
+tdf_write_bytes(TDFWriterT *writer,			 NStringT *  nstring)
 {
     unsigned length   = nstring_length(nstring);
     char * contents = nstring_contents(nstring);
@@ -168,7 +168,7 @@ tdf_write_bytes(TDFWriterP writer,			 NStringP   nstring)
 }
 
 void
-tdf_write_string(TDFWriterP writer,			  NStringP   nstring)
+tdf_write_string(TDFWriterT *writer,			  NStringT *  nstring)
 {
     unsigned length = nstring_length(nstring);
 
@@ -178,12 +178,12 @@ tdf_write_string(TDFWriterP writer,			  NStringP   nstring)
 }
 
 void
-tdf_write_name(TDFWriterP writer,			NameKeyP   name)
+tdf_write_name(TDFWriterT *writer,			NameKeyT *  name)
 {
     unsigned  type;
     unsigned  components;
     unsigned  i;
-    NStringP  nstring;
+    NStringT * nstring;
 
     switch (name_key_type(name))EXHAUSTIVE {
       case KT_STRING:
@@ -207,7 +207,7 @@ tdf_write_name(TDFWriterP writer,			NameKeyP   name)
 }
 
 void
-tdf_writer_close(TDFWriterP writer)
+tdf_writer_close(TDFWriterT *writer)
 {
     tdf_write_align(writer);
     bostream_close(& (writer->bostream));

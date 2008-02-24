@@ -100,25 +100,25 @@ struct ShapeEntryT;
 /*--------------------------------------------------------------------------*/
 
 typedef struct NameTableT {
-    NameEntryP			contents[NAME_TABLE_SIZE];
-} NameTableT, *NameTableP;
+    NameEntryT *		contents[NAME_TABLE_SIZE];
+} NameTableT;
 
 /*--------------------------------------------------------------------------*/
 
-extern NameTableP		name_table_create
+extern NameTableT *	name_table_create
 (void);
 extern void			name_table_add_rename
-(NameTableP, NameKeyP, NameKeyP);
+(NameTableT *, NameKeyT *, NameKeyT *);
 extern void			name_table_resolve_renames
-(NameTableP, NStringP, BoolT);
-extern NameEntryP		name_table_add
-(NameTableP, NameKeyP, struct ShapeEntryT *);
-extern NameEntryP		name_table_get
-(NameTableP, NameKeyP);
+(NameTableT *, NStringT *, BoolT);
+extern NameEntryT *	name_table_add
+(NameTableT *, NameKeyT *, struct ShapeEntryT *);
+extern NameEntryT *	name_table_get
+(NameTableT *, NameKeyT *);
 extern void			name_table_iter
-(NameTableP, void(*)(NameEntryP, void *), void *);
+(NameTableT *, void(*)(NameEntryT *, void *), void *);
 extern void			name_table_deallocate
-(NameTableP);
+(NameTableT *);
 
 #endif /* !defined (H_NAME_TABLE) */
 

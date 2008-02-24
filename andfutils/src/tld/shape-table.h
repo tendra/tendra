@@ -97,27 +97,27 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct ShapeTableT {
-    ShapeEntryP			token_entry;
-    ShapeEntryP			tag_entry;
-    ShapeEntryP			contents[SHAPE_TABLE_SIZE];
-} ShapeTableT, *ShapeTableP;
+    ShapeEntryT *		token_entry;
+    ShapeEntryT *		tag_entry;
+    ShapeEntryT *		contents[SHAPE_TABLE_SIZE];
+} ShapeTableT;
 
 /*--------------------------------------------------------------------------*/
 
-extern ShapeTableP		shape_table_create
+extern ShapeTableT *	shape_table_create
 (void);
-extern ShapeEntryP		shape_table_add
-(ShapeTableP, NStringP);
-extern ShapeEntryP		shape_table_get
-(ShapeTableP, NStringP);
-extern ShapeEntryP		shape_table_get_token_entry
-(ShapeTableP);
-extern ShapeEntryP		shape_table_get_tag_entry
-(ShapeTableP);
+extern ShapeEntryT *	shape_table_add
+(ShapeTableT *, NStringT *);
+extern ShapeEntryT *	shape_table_get
+(ShapeTableT *, NStringT *);
+extern ShapeEntryT *	shape_table_get_token_entry
+(ShapeTableT *);
+extern ShapeEntryT *	shape_table_get_tag_entry
+(ShapeTableT *);
 extern void			shape_table_iter
-(ShapeTableP, void(*)(ShapeEntryP, void *), void *);
+(ShapeTableT *, void(*)(ShapeEntryT *, void *), void *);
 extern void			shape_table_deallocate
-(ShapeTableP);
+(ShapeTableT *);
 
 #endif /* !defined (H_SHAPE_TABLE) */
 

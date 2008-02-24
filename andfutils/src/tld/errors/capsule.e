@@ -51,7 +51,7 @@ fatal "cannot open unit set file" {
     }
 };
 
-fatal "unit set expected quote" ("istream" : "IStreamP") {
+fatal "unit set expected quote" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected double quote to begin unit set name",
     {
 	"file name" : "char *" $[
@@ -68,7 +68,7 @@ fatal "unit set expected quote" ("istream" : "IStreamP") {
     }
 };
 
-fatal "unit set illegal escape" ("istream" : "IStreamP") {
+fatal "unit set illegal escape" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal escape sequence in unit set name",
     {
 	"file name" : "char *" $[
@@ -85,7 +85,7 @@ fatal "unit set illegal escape" ("istream" : "IStreamP") {
     }
 };
 
-fatal "unit set eof in name" ("istream" : "IStreamP") {
+fatal "unit set eof in name" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in unit set name",
     {
 	"file name" : "char *" $[
@@ -109,7 +109,7 @@ fatal "unit set duplicate name" {
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
-	"unit set name" : "NStringP" $[
+	"unit set name" : "NStringT *" $[
 	    write_nstring (ostream, closure->unit_set_name);
 	]$
     }
@@ -124,7 +124,7 @@ fatal "unit set no tld name" {
     }
 };
 
-error "capsule bad magic" ("capsule" : "CapsuleP") {
+error "capsule bad magic" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: bad magic number '${magic name}' should be '${proper magic name}'",
     {
 	"file name" : "char *" $[
@@ -139,17 +139,17 @@ error "capsule bad magic" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"magic name" : "NStringP" $[
+	"magic name" : "NStringT *" $[
 	    write_nstring (ostream, closure->magic_name);
 	]$
     }, {
-	"proper magic name" : "NStringP" $[
+	"proper magic name" : "NStringT *" $[
 	    write_nstring (ostream, closure->proper_magic_name);
 	]$
     }
 };
 
-error "capsule bad version" ("capsule" : "CapsuleP") {
+error "capsule bad version" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: illegal major version number ${major version}",
     {
 	"file name" : "char *" $[
@@ -170,7 +170,7 @@ error "capsule bad version" ("capsule" : "CapsuleP") {
     }
 };
 
-error "capsule version mismatch" ("capsule" : "CapsuleP") {
+error "capsule version mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: major version number mismatch (${major version} should be ${proper major version})",
     {
 	"file name" : "char *" $[
@@ -195,7 +195,7 @@ error "capsule version mismatch" ("capsule" : "CapsuleP") {
     }
 };
 
-error "duplicate unit set name" ("capsule" : "CapsuleP") {
+error "duplicate unit set name" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: unit set '${unit set name}' occurs more than once",
     {
 	"file name" : "char *" $[
@@ -210,13 +210,13 @@ error "duplicate unit set name" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"unit set name" : "NStringP" $[
+	"unit set name" : "NStringT *" $[
 	    write_nstring (ostream, closure->unit_set_name);
 	]$
     }
 };
 
-error "out of order unit set name" ("capsule" : "CapsuleP") {
+error "out of order unit set name" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: unit set '${unit set name}' occurs in wrong order",
     {
 	"file name" : "char *" $[
@@ -231,13 +231,13 @@ error "out of order unit set name" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"unit set name" : "NStringP" $[
+	"unit set name" : "NStringT *" $[
 	    write_nstring (ostream, closure->unit_set_name);
 	]$
     }
 };
 
-error "unknown unit set name" ("capsule" : "CapsuleP") {
+error "unknown unit set name" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: unit set '${unit set name}' is unknown",
     {
 	"file name" : "char *" $[
@@ -252,13 +252,13 @@ error "unknown unit set name" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"unit set name" : "NStringP" $[
+	"unit set name" : "NStringT *" $[
 	    write_nstring (ostream, closure->unit_set_name);
 	]$
     }
 };
 
-error "duplicate shape name" ("capsule" : "CapsuleP") {
+error "duplicate shape name" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: shape '${shape name}' occurs more than once",
     {
 	"file name" : "char *" $[
@@ -273,13 +273,13 @@ error "duplicate shape name" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }
 };
 
-error "shape and name count mismatch" ("capsule" : "CapsuleP") {
+error "shape and name count mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external name count ${name count} does not equal shape count ${shape count}",
     {
 	"file name" : "char *" $[
@@ -304,7 +304,7 @@ error "shape and name count mismatch" ("capsule" : "CapsuleP") {
     }
 };
 
-error "name id out of range" ("capsule" : "CapsuleP") {
+error "name id out of range" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} name '${name}' has out of range identifier ${identifier} (greater than ${identifier limit})",
     {
 	"file name" : "char *" $[
@@ -319,11 +319,11 @@ error "name id out of range" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }, {
@@ -337,7 +337,7 @@ error "name id out of range" ("capsule" : "CapsuleP") {
     }
 };
 
-error "name id used multiple times" ("capsule" : "CapsuleP") {
+error "name id used multiple times" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} name '${name}' is bound to previously used identifier ${identifier}",
     {
 	"file name" : "char *" $[
@@ -352,11 +352,11 @@ error "name id used multiple times" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }, {
@@ -366,7 +366,7 @@ error "name id used multiple times" ("capsule" : "CapsuleP") {
     }
 };
 
-error "too many tld units" ("capsule" : "CapsuleP") {
+error "too many tld units" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains wrong number of units in linker information unit set (should be one)",
     {
 	"file name" : "char *" $[
@@ -383,7 +383,7 @@ error "too many tld units" ("capsule" : "CapsuleP") {
     }
 };
 
-warning "tld2 unit set type obsolete" ("capsule" : "CapsuleP") {
+warning "tld2 unit set type obsolete" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains 'tld2' unit set type which is no longer supported",
     {
 	"file name" : "char *" $[
@@ -400,7 +400,7 @@ warning "tld2 unit set type obsolete" ("capsule" : "CapsuleP") {
     }
 };
 
-error "too many tld unit counts" ("capsule" : "CapsuleP") {
+error "too many tld unit counts" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains wrong number of counts in linker information unit (should be zero)",
     {
 	"file name" : "char *" $[
@@ -417,7 +417,7 @@ error "too many tld unit counts" ("capsule" : "CapsuleP") {
     }
 };
 
-error "too many tld unit mappings" ("capsule" : "CapsuleP") {
+error "too many tld unit mappings" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains wrong number of mappings in linker information unit (should be zero)",
     {
 	"file name" : "char *" $[
@@ -434,7 +434,7 @@ error "too many tld unit mappings" ("capsule" : "CapsuleP") {
     }
 };
 
-error "tld unit wrong size" ("capsule" : "CapsuleP") {
+error "tld unit wrong size" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: linker information unit contents is the wrong size (final offset is ${offset} but should be ${correct offset})",
     {
 	"file name" : "char *" $[
@@ -459,7 +459,7 @@ error "tld unit wrong size" ("capsule" : "CapsuleP") {
     }
 };
 
-error "unknown tld unit type" ("capsule" : "CapsuleP") {
+error "unknown tld unit type" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: linker information unit version number ${version number} is not supported in this implementation",
     {
 	"file name" : "char *" $[
@@ -480,7 +480,7 @@ error "unknown tld unit type" ("capsule" : "CapsuleP") {
     }
 };
 
-error "unit set count mismatch" ("capsule" : "CapsuleP") {
+error "unit set count mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: unit count ${unit count} does not equal unit set count ${unit set count}",
     {
 	"file name" : "char *" $[
@@ -514,7 +514,7 @@ warning "missing tld unit set" {
     }
 };
 
-error "extra tld unit set" ("capsule" : "CapsuleP") {
+error "extra tld unit set" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains both a 'tld' and a 'tld2' unit set",
     {
 	"file name" : "char *" $[
@@ -531,7 +531,7 @@ error "extra tld unit set" ("capsule" : "CapsuleP") {
     }
 };
 
-error "defined but not declared" ("capsule" : "CapsuleP") {
+error "defined but not declared" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' is defined but not declared",
     {
 	"file name" : "char *" $[
@@ -546,17 +546,17 @@ error "defined but not declared" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }
 };
 
-error "illegally multiply defined" ("capsule" : "CapsuleP") {
+error "illegally multiply defined" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has the multiply defined bit set illegally",
     {
 	"file name" : "char *" $[
@@ -571,17 +571,17 @@ error "illegally multiply defined" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }
 };
 
-error "bad usage" ("capsule" : "CapsuleP") {
+error "bad usage" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has usage ${usage} which has no meaning in this implementation",
     {
 	"file name" : "char *" $[
@@ -596,11 +596,11 @@ error "bad usage" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }, {
@@ -610,7 +610,7 @@ error "bad usage" ("capsule" : "CapsuleP") {
     }
 };
 
-error "multiply defined" ("capsule" : "CapsuleP") {
+error "multiply defined" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' is defined more than once (previous definition in '${previous file name}')",
     {
 	"file name" : "char *" $[
@@ -625,11 +625,11 @@ error "multiply defined" ("capsule" : "CapsuleP") {
 	    closure.byte_number = capsule_byte (capsule);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
-	"name" : "NameKeyP" $[
+	"name" : "NameKeyT *" $[
 	    write_name_key (ostream, closure->name);
 	]$
     }, {
@@ -639,7 +639,7 @@ error "multiply defined" ("capsule" : "CapsuleP") {
     }
 };
 
-error "unit count num mismatch" ("capsule" : "CapsuleP") {
+error "unit count num mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: illegal count number ${count number} in ${unit set name} unit ${unit number} (should be 0 or ${shape number})",
     {
 	"file name" : "char *" $[
@@ -666,13 +666,13 @@ error "unit count num mismatch" ("capsule" : "CapsuleP") {
 	    write_unsigned (ostream, closure->unit_number);
 	]$
     }, {
-	"unit set name" : "NStringP" $[
+	"unit set name" : "NStringT *" $[
 	    write_nstring (ostream, closure->unit_set_name);
 	]$
     }
 };
 
-error "unit mapping num mismatch" ("capsule" : "CapsuleP") {
+error "unit mapping num mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: illegal mapping number ${mapping number} in ${unit set name} unit ${unit number} (should be ${count number})",
     {
 	"file name" : "char *" $[
@@ -699,13 +699,13 @@ error "unit mapping num mismatch" ("capsule" : "CapsuleP") {
 	    write_unsigned (ostream, closure->unit_number);
 	]$
     }, {
-	"unit set name" : "NStringP" $[
+	"unit set name" : "NStringT *" $[
 	    write_nstring (ostream, closure->unit_set_name);
 	]$
     }
 };
 
-error "id out of range" ("capsule" : "CapsuleP") {
+error "id out of range" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: ${shape name} identifier ${identifier} is out of range in mapping table of ${unit set name} unit ${unit number} (should be less than ${identifier limit})",
     {
 	"file name" : "char *" $[
@@ -728,7 +728,7 @@ error "id out of range" ("capsule" : "CapsuleP") {
 	    write_unsigned (ostream, closure->identifier_limit);
 	]$
     }, {
-	"shape name" : "NStringP" $[
+	"shape name" : "NStringT *" $[
 	    write_nstring (ostream, closure->shape_name);
 	]$
     }, {
@@ -736,7 +736,7 @@ error "id out of range" ("capsule" : "CapsuleP") {
 	    write_unsigned (ostream, closure->unit_number);
 	]$
     }, {
-	"unit set name" : "NStringP" $[
+	"unit set name" : "NStringT *" $[
 	    write_nstring (ostream, closure->unit_set_name);
 	]$
     }

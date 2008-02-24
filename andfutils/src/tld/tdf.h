@@ -58,60 +58,52 @@
 */
 
 
-/*** map-table.h --- Mapping table ADT.
+/*** tdf.h --- Miscellaneous TDF routines.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * See the file "map-table.c" for more information.
+ * See the file "tdf.c" for more information.
  *
  *** Change Log:
- * $Log: map-table.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
+ * $Log: tdf.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:20  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:46:33  smf
+ * Revision 1.2  1994/12/12  11:47:04  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:34  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:40  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#ifndef H_MAP_TABLE
-#define H_MAP_TABLE
+#ifndef H_TDF
+#define H_TDF
 
 #include "os-interface.h"
-#include "dalloc.h"
-#include "dstring.h"
-#include "map-entry.h"
+#include "ostream.h"
 
 /*--------------------------------------------------------------------------*/
 
-#define MAP_TABLE_SIZE	(11)
+#define U_USED			((unsigned)(0x01))
+#define U_DECD			((unsigned)(0x02))
+#define U_DEFD			((unsigned)(0x04))
+#define U_MULT			((unsigned)(0x08))
+#define U_HIDE			((unsigned)(0x10))
 
 /*--------------------------------------------------------------------------*/
 
-typedef struct MapTableT {
-    MapEntryT *		contents[MAP_TABLE_SIZE];
-} MapTableT;
+extern unsigned			tdf_int_size
+(unsigned);
+extern void			write_usage
+(OStreamT *, unsigned);
 
-/*--------------------------------------------------------------------------*/
-
-extern MapTableT *	map_table_create
-(void);
-extern MapEntryT *	map_table_add
-(MapTableT *, NStringT *, unsigned);
-extern MapEntryT *	map_table_get
-(MapTableT *, NStringT *);
-extern void			map_table_iter
-(MapTableT *, void(*)(MapEntryT *, void *), void *);
-
-#endif /* !defined (H_MAP_TABLE) */
+#endif /* !defined (H_TDF) */
 
 /*
  * Local variables(smf):

@@ -88,13 +88,13 @@
 #include "exception.h"
 
 extern void			E_exception_unhandled
-(ExceptionP, char *, unsigned);
+(ExceptionT *, char *, unsigned);
 extern void			E_exception_corrupt_handler
 (char *, unsigned);
 
 /*--------------------------------------------------------------------------*/
 
-HandlerP			X__exception_handler_stack = NIL(HandlerP);
+HandlerT *		X__exception_handler_stack = NIL(HandlerT *);
 ThrowDataT			X__exception_throw_data;
 
 /*--------------------------------------------------------------------------*/
@@ -103,12 +103,12 @@ NoReturnT
 X__exception_throw(void)
 {
     static BoolT failing = FALSE;
-    HandlerP     stack   = X__exception_handler_stack;
+    HandlerT *    stack   = X__exception_handler_stack;
 
     if (failing) {
 	abort();
 	UNREACHED;
-    } else if (stack == NIL(HandlerP)) {
+    } else if (stack == NIL(HandlerT *)) {
 	failing = TRUE;
 	E_exception_unhandled(X__exception_throw_data.exception,
 			       X__exception_throw_data.file,
@@ -137,7 +137,7 @@ X__exception_throw(void)
 }
 
 char *
-exception_name(ExceptionP exc)
+exception_name(ExceptionT *exc)
 {
     return(exc);
 }

@@ -71,13 +71,13 @@
  ***=== TYPES ================================================================
  *
  ** Type:	IStreamT
- ** Type:	IStreamP
+ ** Type:	IStreamT *
  ** Repr:	<private>
  *
  * This is the input stream type.
  *
  ** Type:	IStreamStatusT
- ** Type:	IStreamStatusP
+ ** Type:	IStreamStatusT *
  ** Repr:	enum {ISTREAM_STAT_READ_CHAR, ISTREAM_STAT_NO_CHAR,
  *		      ISTREAM_STAT_SYNTAX_ERROR}
  *
@@ -101,12 +101,12 @@
  * This function initialises the input stream facility.  It should be called
  * before any other istream manipulation function.
  *
- ** Function:	void istream_init(IStreamP istream)
+ ** Function:	void istream_init(IStreamT *istream)
  ** Exceptions:
  *
  * This function initialises the specified istream not to read from any file.
  *
- ** Function:	BoolT istream_open(IStreamP istream, char * name)
+ ** Function:	BoolT istream_open(IStreamT *istream, char * name)
  ** Exceptions: XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function initialises the specified istream to read from the file with
@@ -115,18 +115,18 @@
  * returns false. If the file is opened successfully, the function returns
  * true.
  *
- ** Function:	void istream_assign(IStreamP to, IStreamP from)
+ ** Function:	void istream_assign(IStreamT *to, IStreamT *from)
  ** Exceptions:
  *
  * This function assigns the from istream to the to istream.  The from istream
  * should not be used again.
  *
- ** Function:	BoolT istream_is_open(IStreamP istream)
+ ** Function:	BoolT istream_is_open(IStreamT *istream)
  *
  * This function returns true if the specified istream is reading from a file,
  * and false otherwise.
  *
- ** Function:	BoolT istream_read_char(IStreamP istream, char *c_ref)
+ ** Function:	BoolT istream_read_char(IStreamT *istream, char *c_ref)
  ** Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function reads the next character from the specified istream (and
@@ -135,7 +135,7 @@
  * the end of file is reached, the function returns false.  If the character
  * read is a newline, then the istream's line count is incremented.
  *
- ** Function:	BoolT istream_peek_char(IStreamP istream, char *c_ref)
+ ** Function:	BoolT istream_peek_char(IStreamT *istream, char *c_ref)
  ** Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
  *
  * This function reads the next character from the specified istream (but does
@@ -143,7 +143,7 @@
  * character is assigned to the reference argument, and the function returns
  * true.  If the end of file is reached, the function returns false.
  *
- ** Function:	IStreamStatusT istream_read_escaped_char(IStreamP istream,
+ ** Function:	IStreamStatusT istream_read_escaped_char(IStreamT *istream,
  *							 char *c_ref)
  ** Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
  *
@@ -157,26 +157,26 @@
  * are newline characters, then the istream's line counter will be incremented
  * for each newline.
  *
- ** Function:	void istream_inc_line(IStreamP istream)
+ ** Function:	void istream_inc_line(IStreamT *istream)
  ** Exceptions:
  *
  * This function increments the specified istream's line counter.  It should
  * only really be called as specified in the documentation for the
  * ``ISTREAM_READ_CHAR'' macro.
  *
- ** Function:	unsigned istream_line(IStreamP istream)
+ ** Function:	unsigned istream_line(IStreamT *istream)
  ** Exceptions:
  *
  * This function returns the line number of the specified istream (one more
  * than the number of newlines that have been read).
  *
- ** Function:	char * istream_name(IStreamP istream)
+ ** Function:	char * istream_name(IStreamT *istream)
  ** Exceptions:
  *
  * This function returns the name of the file from which the specified istream
  * is reading. The return value should not be modified or deallocated.
  *
- ** Function:	void istream_close(IStreamP istream)
+ ** Function:	void istream_close(IStreamT *istream)
  ** Exceptions:
  *
  * This function closes the specified istream.
@@ -260,10 +260,10 @@ typedef struct IStreamT {
     unsigned			line;
     char *			name;
     BoolT			read_last;
-} IStreamT, *IStreamP;
+} IStreamT;
 
 #ifdef FS_NO_ENUM
-typedef int IStreamStatusT, *IStreamStatusP;
+typedef int IStreamStatusT, *IStreamStatusT *
 #define ISTREAM_STAT_READ_CHAR		(0)
 #define ISTREAM_STAT_NO_CHAR		(1)
 #define ISTREAM_STAT_SYNTAX_ERROR	(2)
@@ -272,12 +272,12 @@ typedef enum {
     ISTREAM_STAT_READ_CHAR,
     ISTREAM_STAT_NO_CHAR,
     ISTREAM_STAT_SYNTAX_ERROR
-} IStreamStatusT, *IStreamStatusP;
+} IStreamStatusT;
 #endif /* defined (FS_NO_ENUM) */
 
 /*--------------------------------------------------------------------------*/
 
-extern ExceptionP		XX_istream_read_error;
+extern ExceptionT *	XX_istream_read_error;
 extern IStreamT		 *const istream_input;
 
 /*--------------------------------------------------------------------------*/
@@ -285,32 +285,32 @@ extern IStreamT		 *const istream_input;
 extern void			istream_setup
 (void);
 extern void			istream_init
-(IStreamP);
+(IStreamT *);
 extern BoolT			istream_open
-(IStreamP, char *);
+(IStreamT *, char *);
 extern void			istream_assign
-(IStreamP, IStreamP);
+(IStreamT *, IStreamT *);
 extern BoolT			istream_is_open
-(IStreamP);
+(IStreamT *);
 extern BoolT			istream_read_char
-(IStreamP, char *);
+(IStreamT *, char *);
 extern BoolT			istream_peek_char
-(IStreamP, char *);
+(IStreamT *, char *);
 extern IStreamStatusT		istream_read_escaped_char
-(IStreamP, char *);
+(IStreamT *, char *);
 extern void			istream_inc_line
-(IStreamP);
+(IStreamT *);
 extern unsigned			istream_line
-(IStreamP);
+(IStreamT *);
 extern char *			istream_name
-(IStreamP);
+(IStreamT *);
 extern void			istream_close
-(IStreamP);
+(IStreamT *);
 
 /*--------------------------------------------------------------------------*/
 
 extern void			X__istream_fill_buffer
-(IStreamP);
+(IStreamT *);
 
 /*--------------------------------------------------------------------------*/
 
@@ -322,7 +322,7 @@ extern void			X__istream_fill_buffer
 
 #define ISTREAM_HANDLE_NULL(istream,redo,eof)\
 { \
-    IStreamP X___is = (istream); \
+    IStreamT *X___is = (istream); \
     if (X___is->read_last) { \
 	if (X___is->current == X___is->end) { \
 	    if (X___is->end == X___is->limit) { \

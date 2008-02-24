@@ -96,49 +96,49 @@
 
 typedef struct UnitT {
     struct UnitT	       *next;
-    MapTableP			map_table;
+    MapTableT *		map_table;
     NStringT			contents;
-} UnitT, *UnitP;
+} UnitT;
 
 typedef struct UnitEntryT {
     struct UnitEntryT	       *next;
     NStringT			key;
     unsigned			order;
-    UnitP			head;
-    UnitP		       *tail;
-} UnitEntryT, *UnitEntryP;
+    UnitT *		head;
+    UnitT *	       *tail;
+} UnitEntryT;
 
 typedef struct UnitSetClosureT {
     unsigned			num_unit_sets;
-    ShapeTableP			shapes;
-} UnitSetClosureT, *UnitSetClosureP;
+    ShapeTableT *		shapes;
+} UnitSetClosureT;
 
 /*--------------------------------------------------------------------------*/
 
 extern void			unit_set_contents
-(UnitP, NStringP);
-extern MapTableP		unit_map_table
-(UnitP);
+(UnitT *, NStringT *);
+extern MapTableT *	unit_map_table
+(UnitT *);
 
-extern UnitEntryP		unit_entry_create
-(NStringP, UnitEntryP, unsigned);
-extern UnitEntryP		unit_entry_next
-(UnitEntryP);
-extern NStringP			unit_entry_key
-(UnitEntryP);
+extern UnitEntryT *	unit_entry_create
+(NStringT *, UnitEntryT *, unsigned);
+extern UnitEntryT *	unit_entry_next
+(UnitEntryT *);
+extern NStringT *		unit_entry_key
+(UnitEntryT *);
 extern unsigned			unit_entry_order
-(UnitEntryP);
-extern UnitP			unit_entry_add_unit
-(UnitEntryP, unsigned);
+(UnitEntryT *);
+extern UnitT *		unit_entry_add_unit
+(UnitEntryT *, unsigned);
 
 extern void			unit_entry_do_count
-(UnitEntryP, void *);
+(UnitEntryT *, void *);
 extern void			unit_entry_write_unit_set
-(UnitEntryP, UnitEntryP, TDFWriterP);
+(UnitEntryT *, UnitEntryT *, TDFWriterT *);
 extern void			unit_entry_write_tld_unit
-(UnitEntryP, ShapeTableP, TDFWriterP);
+(UnitEntryT *, ShapeTableT *, TDFWriterT *);
 extern void			unit_entry_write_units
-(UnitEntryP, ShapeTableP, unsigned, TDFWriterP);
+(UnitEntryT *, ShapeTableT *, unsigned, TDFWriterT *);
 
 #endif /* !defined (H_UNIT_ENTRY) */
 

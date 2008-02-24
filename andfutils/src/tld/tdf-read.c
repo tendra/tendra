@@ -97,12 +97,12 @@
 
 /*--------------------------------------------------------------------------*/
 
-ExceptionP XX_tdf_read_error = EXCEPTION("error reading TDF capsule");
+ExceptionT *XX_tdf_read_error = EXCEPTION("error reading TDF capsule");
 
 /*--------------------------------------------------------------------------*/
 
 static unsigned
-tdf_read_nibble(TDFReaderP reader)
+tdf_read_nibble(TDFReaderT *reader)
 {
     if (reader->new_byte) {
 	switch (reader->type)EXHAUSTIVE {
@@ -133,7 +133,7 @@ tdf_read_nibble(TDFReaderP reader)
 /*--------------------------------------------------------------------------*/
 
 BoolT
-tdf_reader_open(TDFReaderP reader,			 char *   name)
+tdf_reader_open(TDFReaderT *reader,			 char *   name)
 {
     reader->type     = RT_STREAM;
     reader->new_byte = TRUE;
@@ -144,8 +144,8 @@ tdf_reader_open(TDFReaderP reader,			 char *   name)
 }
 
 void
-tdf_reader_open_string(TDFReaderP reader,				char *   name, 
-				NStringP   bytes)
+tdf_reader_open_string(TDFReaderT *reader,				char *   name, 
+				NStringT *  bytes)
 {
     char * contents = nstring_contents(bytes);
     unsigned length   = nstring_length(bytes);
@@ -160,7 +160,7 @@ tdf_reader_open_string(TDFReaderP reader,				char *   name,
 }
 
 char *
-tdf_reader_name(TDFReaderP reader)
+tdf_reader_name(TDFReaderT *reader)
 {
     switch (reader->type)EXHAUSTIVE {
       case RT_STREAM:
@@ -172,7 +172,7 @@ tdf_reader_name(TDFReaderP reader)
 }
 
 unsigned
-tdf_reader_byte(TDFReaderP reader)
+tdf_reader_byte(TDFReaderT *reader)
 {
     switch (reader->type)EXHAUSTIVE {
       case RT_STREAM:
@@ -184,7 +184,7 @@ tdf_reader_byte(TDFReaderP reader)
 }
 
 unsigned
-tdf_read_int(TDFReaderP reader)
+tdf_read_int(TDFReaderT *reader)
 {
     unsigned value = 0;
     unsigned limit = (UINT_MAX >> 3);
@@ -206,13 +206,13 @@ tdf_read_int(TDFReaderP reader)
 }
 
 void
-tdf_read_align(TDFReaderP reader)
+tdf_read_align(TDFReaderT *reader)
 {
     reader->new_byte = TRUE;
 }
 
 void
-tdf_read_bytes(TDFReaderP reader,			NStringP   nstring)
+tdf_read_bytes(TDFReaderT *reader,			NStringT *  nstring)
 {
     unsigned length   = nstring_length(nstring);
     char * contents = nstring_contents(nstring);
@@ -241,7 +241,7 @@ tdf_read_bytes(TDFReaderP reader,			NStringP   nstring)
 }
 
 void
-tdf_read_string(TDFReaderP reader,			 NStringP   nstring)
+tdf_read_string(TDFReaderT *reader,			 NStringT *  nstring)
 {
     unsigned size = tdf_read_int(reader);
     unsigned length;
@@ -257,7 +257,7 @@ tdf_read_string(TDFReaderP reader,			 NStringP   nstring)
 }
 
 void
-tdf_read_name(TDFReaderP reader,		       NameKeyP   name)
+tdf_read_name(TDFReaderT *reader,		       NameKeyT *  name)
 {
     unsigned type = ((tdf_read_nibble(reader) >> 2) & 0x3);
     NStringT nstring;
@@ -286,7 +286,7 @@ tdf_read_name(TDFReaderP reader,		       NameKeyP   name)
 }
 
 void
-tdf_read_eof(TDFReaderP reader)
+tdf_read_eof(TDFReaderT *reader)
 {
     ByteT byte;
 
@@ -309,7 +309,7 @@ tdf_read_eof(TDFReaderP reader)
 }
 
 void
-tdf_reader_rewind(TDFReaderP reader)
+tdf_reader_rewind(TDFReaderT *reader)
 {
     switch (reader->type)EXHAUSTIVE {
       case RT_STREAM:
@@ -322,7 +322,7 @@ tdf_reader_rewind(TDFReaderP reader)
 }
 
 void
-tdf_reader_close(TDFReaderP reader)
+tdf_reader_close(TDFReaderT *reader)
 {
     switch (reader->type)EXHAUSTIVE {
       case RT_STREAM:

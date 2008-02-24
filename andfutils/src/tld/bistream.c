@@ -90,18 +90,18 @@
 
 /*--------------------------------------------------------------------------*/
 
-ExceptionP XX_bistream_read_error = EXCEPTION("error reading from binary stream");
+ExceptionT *XX_bistream_read_error = EXCEPTION("error reading from binary stream");
 
 /*--------------------------------------------------------------------------*/
 
 void
-bistream_init(BIStreamP bistream)
+bistream_init(BIStreamT *bistream)
 {
     bistream->name = NIL(char *);
 }
 
 BoolT
-bistream_open(BIStreamP bistream,		       char *  name)
+bistream_open(BIStreamT *bistream,		       char *  name)
 {
 #ifdef FS_BINARY_STDIO
     if ((bistream->file = fopen(name, "rb")) == NIL(FILE *)) {
@@ -118,7 +118,7 @@ bistream_open(BIStreamP bistream,		       char *  name)
 }
 
 void
-bistream_assign(BIStreamP to,			 BIStreamP from)
+bistream_assign(BIStreamT *to,			 BIStreamT *from)
 {
     to->file  = from->file;
     to->bytes = from->bytes;
@@ -126,13 +126,13 @@ bistream_assign(BIStreamP to,			 BIStreamP from)
 }
 
 BoolT
-bistream_is_open(BIStreamP bistream)
+bistream_is_open(BIStreamT *bistream)
 {
     return(bistream->name != NIL(char *));
 }
 
 unsigned
-bistream_read_chars(BIStreamP bistream,			     unsigned  length ,
+bistream_read_chars(BIStreamT *bistream,			     unsigned  length ,
 			     char *  chars)
 {
     unsigned bytes_read = (unsigned)fread((void *)chars, sizeof(char),
@@ -149,8 +149,8 @@ bistream_read_chars(BIStreamP bistream,			     unsigned  length ,
 }
 
 unsigned
-bistream_read_bytes(BIStreamP bistream,			     unsigned  length ,
-			     ByteP     bytes)
+bistream_read_bytes(BIStreamT *bistream,			     unsigned  length ,
+			     ByteT *    bytes)
 {
     unsigned bytes_read = (unsigned)fread((void *)bytes, sizeof(ByteT),
 					   (SizeT)length, bistream->file);
@@ -166,7 +166,7 @@ bistream_read_bytes(BIStreamP bistream,			     unsigned  length ,
 }
 
 BoolT
-bistream_read_byte(BIStreamP bistream,			    ByteT    *byte_ref)
+bistream_read_byte(BIStreamT *bistream,			    ByteT    *byte_ref)
 {
     int byte = fgetc(bistream->file);
 
@@ -186,19 +186,19 @@ bistream_read_byte(BIStreamP bistream,			    ByteT    *byte_ref)
 }
 
 unsigned
-bistream_byte(BIStreamP bistream)
+bistream_byte(BIStreamT *bistream)
 {
     return(bistream->bytes);
 }
 
 char *
-bistream_name(BIStreamP bistream)
+bistream_name(BIStreamT *bistream)
 {
     return(bistream->name);
 }
 
 void
-bistream_rewind(BIStreamP bistream)
+bistream_rewind(BIStreamT *bistream)
 {
 #ifdef FS_ANSI_ENVIRON
     rewind(bistream->file);
@@ -208,7 +208,7 @@ bistream_rewind(BIStreamP bistream)
 }
 
 void
-bistream_close(BIStreamP bistream)
+bistream_close(BIStreamT *bistream)
 {
    (void)fclose(bistream->file);
     bistream_init(bistream);

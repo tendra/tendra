@@ -100,14 +100,14 @@
 /*--------------------------------------------------------------------------*/
 
 static void
-unit_write(UnitP       unit,		    ShapeTableP shapes ,
+unit_write(UnitT *      unit,		    ShapeTableT *shapes ,
 		    unsigned    num_shapes ,
-		    TDFWriterP  writer)
+		    TDFWriterT * writer)
 {
     unsigned  length = nstring_length(& (unit->contents));
-    MapTableP table;
+    MapTableT *table;
 
-    if ((table = unit->map_table) != NIL(MapTableP)) {
+    if ((table = unit->map_table) != NIL(MapTableT *)) {
 	ShapeClosureT shape_closure;
 
 	shape_closure.table  = table;
@@ -134,57 +134,57 @@ unit_write(UnitP       unit,		    ShapeTableP shapes ,
 /*--------------------------------------------------------------------------*/
 
 void
-unit_set_contents(UnitP    unit,			   NStringP nstring)
+unit_set_contents(UnitT *   unit,			   NStringT *nstring)
 {
     nstring_assign(& (unit->contents), nstring);
 }
 
-MapTableP
-unit_map_table(UnitP unit)
+MapTableT *
+unit_map_table(UnitT *unit)
 {
     return(unit->map_table);
 }
 
-UnitEntryP
-unit_entry_create(NStringP   key,			   UnitEntryP next ,
+UnitEntryT *
+unit_entry_create(NStringT *  key,			   UnitEntryT *next ,
 			   unsigned   order)
 {
-    UnitEntryP entry = ALLOCATE(UnitEntryT);
+    UnitEntryT *entry = ALLOCATE(UnitEntryT);
 
     entry->next  = next;
     entry->order = order;
     nstring_copy(& (entry->key), key);
-    entry->head  = NIL(UnitP);
+    entry->head  = NIL(UnitT *);
     entry->tail  = & (entry->head);
     return(entry);
 }
 
-UnitEntryP
-unit_entry_next(UnitEntryP entry)
+UnitEntryT *
+unit_entry_next(UnitEntryT *entry)
 {
     return(entry->next);
 }
 
-NStringP
-unit_entry_key(UnitEntryP entry)
+NStringT *
+unit_entry_key(UnitEntryT *entry)
 {
     return(& (entry->key));
 }
 
 unsigned
-unit_entry_order(UnitEntryP entry)
+unit_entry_order(UnitEntryT *entry)
 {
     return(entry->order);
 }
 
-UnitP
-unit_entry_add_unit(UnitEntryP entry,			     unsigned   num_counts)
+UnitT *
+unit_entry_add_unit(UnitEntryT *entry,			     unsigned   num_counts)
 {
-    UnitP unit = ALLOCATE(UnitT);
+    UnitT *unit = ALLOCATE(UnitT);
 
-    unit->next      = NIL(UnitP);
+    unit->next      = NIL(UnitT *);
     unit->map_table = ((num_counts != 0)?
-		       map_table_create(): NIL(MapTableP));
+		       map_table_create(): NIL(MapTableT *));
     *(entry->tail) = unit;
     entry->tail     = & (unit->next);
     return(unit);
@@ -193,16 +193,16 @@ unit_entry_add_unit(UnitEntryP entry,			     unsigned   num_counts)
 /*--------------------------------------------------------------------------*/
 
 void
-unit_entry_do_count(UnitEntryP entry,			     void *   gclosure)
+unit_entry_do_count(UnitEntryT *entry,			     void *   gclosure)
 {
-    UnitSetClosureP closure = (UnitSetClosureP)gclosure;
-    UnitP           unit;
+    UnitSetClosureT *closure = (UnitSetClosureT *)gclosure;
+    UnitT *          unit;
 
-    if ((unit = entry->head) != NIL(UnitP)) {
+    if ((unit = entry->head) != NIL(UnitT *)) {
 	while (unit) {
-	    MapTableP table;
+	    MapTableT *table;
 
-	    if ((table = unit->map_table) != NIL(MapTableP)) {
+	    if ((table = unit->map_table) != NIL(MapTableT *)) {
 		map_table_iter(table, map_entry_check_non_empty,
 				(void *)closure->shapes);
 	    }
@@ -213,11 +213,11 @@ unit_entry_do_count(UnitEntryP entry,			     void *   gclosure)
 }
 
 void
-unit_entry_write_unit_set(UnitEntryP entry,				   UnitEntryP tld_entry ,
-				   TDFWriterP writer)
+unit_entry_write_unit_set(UnitEntryT *entry,				   UnitEntryT *tld_entry ,
+				   TDFWriterT *writer)
 {
     if ((entry->head) || (entry == tld_entry)) {
-	NStringP key = unit_entry_key(entry);
+	NStringT *key = unit_entry_key(entry);
 
 	debug_info_w_unit_dec(key);
 	tdf_write_string(writer, key);
@@ -225,11 +225,11 @@ unit_entry_write_unit_set(UnitEntryP entry,				   UnitEntryP tld_entry ,
 }
 
 void
-unit_entry_write_tld_unit(UnitEntryP  entry,				   ShapeTableP shapes ,
-				   TDFWriterP  writer)
+unit_entry_write_tld_unit(UnitEntryT * entry,				   ShapeTableT *shapes ,
+				   TDFWriterT * writer)
 {
     unsigned size = (tdf_int_size((unsigned)1) + 1);
-    NStringP key  = unit_entry_key(entry);
+    NStringT *key  = unit_entry_key(entry);
 
     debug_info_w_start_units(key,(unsigned)1);
     tdf_write_int(writer,(unsigned)1);
@@ -250,13 +250,13 @@ unit_entry_write_tld_unit(UnitEntryP  entry,				   ShapeTableP shapes ,
 }
 
 void
-unit_entry_write_units(UnitEntryP  entry,				ShapeTableP shapes ,
+unit_entry_write_units(UnitEntryT * entry,				ShapeTableT *shapes ,
 				unsigned    num_shapes ,
-				TDFWriterP  writer)
+				TDFWriterT * writer)
 {
     unsigned num_units = 0;
-    NStringP key       = unit_entry_key(entry);
-    UnitP    unit;
+    NStringT *key       = unit_entry_key(entry);
+    UnitT *   unit;
 
     for (unit = entry->head; unit; unit = unit->next) {
 	num_units++;

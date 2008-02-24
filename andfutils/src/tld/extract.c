@@ -96,14 +96,14 @@
 /*--------------------------------------------------------------------------*/
 
 void
-extract_main(ArgDataP arg_data)
+extract_main(ArgDataT *arg_data)
 {
     BoolT     extract_all  = arg_data_get_extract_all(arg_data);
     BoolT     extract_base = arg_data_get_extract_basename(arg_data);
     BoolT     match_base   = arg_data_get_extract_match_base(arg_data);
     unsigned  num_files    = arg_data_get_num_files(arg_data);
     char * *files        = arg_data_get_files(arg_data);
-    LibraryP  library;
+    LibraryT * library;
 
     if (extract_all && (num_files > 1)) {
 	E_all_specified_with_capsules();
@@ -113,7 +113,7 @@ extract_main(ArgDataP arg_data)
 	UNREACHED;
     }
     if ((library = library_create_stream_input(files[0])) !=
-	NIL(LibraryP)) {
+	NIL(LibraryT *)) {
 	if (extract_all) {
 	    library_extract_all(library, extract_base);
 	} else {

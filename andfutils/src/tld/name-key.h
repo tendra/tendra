@@ -93,20 +93,20 @@
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
-typedef int NameKeyTypeT, *NameKeyTypeP;
+typedef int NameKeyTypeT, *NameKeyTypeT *
 #define KT_STRING	(0)
 #define KT_UNIQUE	(1)
 #else
 typedef enum {
     KT_STRING,
     KT_UNIQUE
-} NameKeyTypeT, *NameKeyTypeP;
+} NameKeyTypeT;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct NameUniqueT {
     unsigned			length;
-    NStringP			components;
-} NameUniqueT, *NameUniqueP;
+    NStringT *		components;
+} NameUniqueT;
 
 typedef struct NameKeyT {
     NameKeyTypeT		type;
@@ -114,82 +114,82 @@ typedef struct NameKeyT {
 	NStringT		string;
 	NameUniqueT		unique;
     } u;
-} NameKeyT, *NameKeyP;
+} NameKeyT;
 
 typedef struct NameKeyListEntryT {
     struct NameKeyListEntryT   *next;
     NameKeyT			key;
-} NameKeyListEntryT, *NameKeyListEntryP;
+} NameKeyListEntryT;
 
 typedef struct NameKeyListT {
-    NameKeyListEntryP		head;
-} NameKeyListT, *NameKeyListP;
+    NameKeyListEntryT *	head;
+} NameKeyListT;
 
 typedef struct NameKeyPairListEntryT {
     struct NameKeyPairListEntryT *next;
     NameKeyT			  from;
     NameKeyT			  to;
-} NameKeyPairListEntryT, *NameKeyPairListEntryP;
+} NameKeyPairListEntryT;
 
 typedef struct NameKeyPairListT {
-    NameKeyPairListEntryP		head;
-} NameKeyPairListT, *NameKeyPairListP;
+    NameKeyPairListEntryT *	head;
+} NameKeyPairListT;
 
 /*--------------------------------------------------------------------------*/
 
 extern void			name_key_init_string
-(NameKeyP, NStringP);
+(NameKeyT *, NStringT *);
 extern void			name_key_init_unique
-(NameKeyP, unsigned);
+(NameKeyT *, unsigned);
 extern BoolT			name_key_parse_cstring
-(NameKeyP, char *);
+(NameKeyT *, char *);
 extern void			name_key_set_component
-(NameKeyP, unsigned, NStringP);
+(NameKeyT *, unsigned, NStringT *);
 extern NameKeyTypeT		name_key_type
-(NameKeyP);
-extern NStringP			name_key_string
-(NameKeyP);
+(NameKeyT *);
+extern NStringT *		name_key_string
+(NameKeyT *);
 extern unsigned			name_key_components
-(NameKeyP);
-extern NStringP			name_key_get_component
-(NameKeyP, unsigned);
+(NameKeyT *);
+extern NStringT *		name_key_get_component
+(NameKeyT *, unsigned);
 extern unsigned			name_key_hash_value
-(NameKeyP);
+(NameKeyT *);
 extern BoolT			name_key_equal
-(NameKeyP, NameKeyP);
+(NameKeyT *, NameKeyT *);
 extern void			name_key_assign
-(NameKeyP, NameKeyP);
+(NameKeyT *, NameKeyT *);
 extern void			name_key_copy
-(NameKeyP, NameKeyP);
+(NameKeyT *, NameKeyT *);
 extern void			name_key_destroy
-(NameKeyP);
+(NameKeyT *);
 
 extern void			write_name_key
-(OStreamP, NameKeyP);
+(OStreamT *, NameKeyT *);
 
 extern void			name_key_list_init
-(NameKeyListP);
+(NameKeyListT *);
 extern void			name_key_list_add
-(NameKeyListP, NameKeyP);
-extern NameKeyListEntryP	name_key_list_head
-(NameKeyListP);
-extern NameKeyP			name_key_list_entry_key
-(NameKeyListEntryP);
-extern NameKeyListEntryP	name_key_list_entry_next
-(NameKeyListEntryP);
+(NameKeyListT *, NameKeyT *);
+extern NameKeyListEntryT *name_key_list_head
+(NameKeyListT *);
+extern NameKeyT *		name_key_list_entry_key
+(NameKeyListEntryT *);
+extern NameKeyListEntryT *name_key_list_entry_next
+(NameKeyListEntryT *);
 
 extern void			name_key_pair_list_init
-(NameKeyPairListP);
+(NameKeyPairListT *);
 extern BoolT			name_key_pair_list_add
-(NameKeyPairListP, NameKeyP, NameKeyP);
-extern NameKeyPairListEntryP	name_key_pair_list_head
-(NameKeyPairListP);
-extern NameKeyP			name_key_pair_list_entry_from
-(NameKeyPairListEntryP);
-extern NameKeyP			name_key_pair_list_entry_to
-(NameKeyPairListEntryP);
-extern NameKeyPairListEntryP	name_key_pair_list_entry_next
-(NameKeyPairListEntryP);
+(NameKeyPairListT *, NameKeyT *, NameKeyT *);
+extern NameKeyPairListEntryT *name_key_pair_list_head
+(NameKeyPairListT *);
+extern NameKeyT *		name_key_pair_list_entry_from
+(NameKeyPairListEntryT *);
+extern NameKeyT *		name_key_pair_list_entry_to
+(NameKeyPairListEntryT *);
+extern NameKeyPairListEntryT *name_key_pair_list_entry_next
+(NameKeyPairListEntryT *);
 
 #endif /* !defined (H_NAME_KEY) */
 

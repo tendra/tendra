@@ -99,7 +99,7 @@ struct UnitTableT;
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
-typedef int NameEntryTypeT, *NameEntryTypeP;
+typedef int NameEntryTypeT, *NameEntryTypeT *
 #define NT_INDIRECT		(0)
 #define NT_INDIRECT_CYCLING	(1)
 #define NT_INDIRECT_DONE	(2)
@@ -112,7 +112,7 @@ typedef enum {
     NT_INDIRECT_DONE,
     NT_DIRECT,
     NT_PLACEHOLDER
-} NameEntryTypeT, *NameEntryTypeP;
+} NameEntryTypeT;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct NameEntryT {
@@ -129,94 +129,94 @@ typedef struct NameEntryT {
 	} direct;
 	struct NameEntryT      *indirect;
     } u;
-} NameEntryT, *NameEntryP;
+} NameEntryT;
 
 /*--------------------------------------------------------------------------*/
 
-extern NameEntryP		name_entry_create_direct
-(NameKeyP, struct ShapeEntryT *);
-extern NameEntryP		name_entry_create_indirect
-(NameKeyP, NameEntryP);
-extern NameEntryP		name_entry_create_place
-(NameKeyP);
+extern NameEntryT *	name_entry_create_direct
+(NameKeyT *, struct ShapeEntryT *);
+extern NameEntryT *	name_entry_create_indirect
+(NameKeyT *, NameEntryT *);
+extern NameEntryT *	name_entry_create_place
+(NameKeyT *);
 extern void			name_entry_make_direct
-(NameEntryP, struct ShapeEntryT *);
+(NameEntryT *, struct ShapeEntryT *);
 extern void			name_entry_make_indirect
-(NameEntryP, NameEntryP);
-extern NameEntryP		name_entry_resolve_renames
-(NameEntryP, NStringP, BoolT);
-extern NameKeyP			name_entry_key
-(NameEntryP);
-extern NameEntryP		name_entry_next
-(NameEntryP);
-extern NameEntryP	       *name_entry_next_ref
-(NameEntryP);
+(NameEntryT *, NameEntryT *);
+extern NameEntryT *	name_entry_resolve_renames
+(NameEntryT *, NStringT *, BoolT);
+extern NameKeyT *		name_entry_key
+(NameEntryT *);
+extern NameEntryT *	name_entry_next
+(NameEntryT *);
+extern NameEntryT *       *name_entry_next_ref
+(NameEntryT *);
 extern BoolT			name_entry_is_direct
-(NameEntryP);
+(NameEntryT *);
 extern BoolT			name_entry_is_indirect
-(NameEntryP);
+(NameEntryT *);
 extern BoolT			name_entry_is_place
-(NameEntryP);
+(NameEntryT *);
 extern unsigned			name_entry_id
-(NameEntryP);
+(NameEntryT *);
 extern void			name_entry_merge_use
-(NameEntryP, unsigned);
+(NameEntryT *, unsigned);
 extern unsigned			name_entry_get_use
-(NameEntryP);
+(NameEntryT *);
 extern void			name_entry_hide
-(NameEntryP);
+(NameEntryT *);
 extern void			name_entry_unhide
-(NameEntryP);
+(NameEntryT *);
 extern BoolT			name_entry_is_hidden
-(NameEntryP);
+(NameEntryT *);
 extern void			name_entry_set_definition
-(NameEntryP, struct CapsuleT *);
+(NameEntryT *, struct CapsuleT *);
 extern struct CapsuleT	       *name_entry_get_definition
-(NameEntryP);
+(NameEntryT *);
 extern void			name_entry_set_lib_definition
-(NameEntryP, struct LibCapsuleT *);
+(NameEntryT *, struct LibCapsuleT *);
 extern struct LibCapsuleT      *name_entry_get_lib_definition
-(NameEntryP);
-extern NameEntryP		name_entry_list_next
-(NameEntryP);
-extern NameEntryP	       *name_entry_list_next_ref
-(NameEntryP);
-extern NameEntryP		name_entry_get_indirect
-(NameEntryP);
-extern NameEntryP		name_entry_deallocate
-(NameEntryP);
+(NameEntryT *);
+extern NameEntryT *	name_entry_list_next
+(NameEntryT *);
+extern NameEntryT *       *name_entry_list_next_ref
+(NameEntryT *);
+extern NameEntryT *	name_entry_get_indirect
+(NameEntryT *);
+extern NameEntryT *	name_entry_deallocate
+(NameEntryT *);
 
 extern void			name_entry_do_count
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_write_name
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_compute_tld_size
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_write_tld
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_check_multi_defs
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_do_lib_count
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_do_lib_write
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_suppress
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_builder_suppress
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern BoolT			name_entry_resolve_undefined
-	(NameEntryP, struct NameTableT *, struct UnitTableT *,
-	       struct ShapeTableT *, NStringP);
+	(NameEntryT *, struct NameTableT *, struct UnitTableT *,
+	       struct ShapeTableT *, NStringT *);
 extern void			name_entry_hide_defd
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_keep
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_suppress_mult
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_lib_suppress_mult
-(NameEntryP, void *);
+(NameEntryT *, void *);
 extern void			name_entry_show_content
-(NameEntryP, void *);
+(NameEntryT *, void *);
 
 #endif /* !defined (H_NAME_ENTRY) */
 

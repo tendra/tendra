@@ -35,7 +35,7 @@ header(c) $[
 #include "solve-cycles.h"
 ]$;
 
-error "unexpected eof in tdf" ("reader" : "TDFReaderP") {
+error "unexpected eof in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: unexpected end of file",
     {
 	"file name" : "char *" $[
@@ -52,7 +52,7 @@ error "unexpected eof in tdf" ("reader" : "TDFReaderP") {
     }
 };
 
-error "tdf integer too big in tdf" ("reader" : "TDFReaderP") {
+error "tdf integer too big in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: TDF integer is too large for this machine",
     {
 	"file name" : "char *" $[
@@ -69,7 +69,7 @@ error "tdf integer too big in tdf" ("reader" : "TDFReaderP") {
     }
 };
 
-error "unsupported char size in tdf" ("reader" : "TDFReaderP") {
+error "unsupported char size in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: string character size ${character size} is not supported on this machine",
     {
 	"file name" : "char *" $[
@@ -90,7 +90,7 @@ error "unsupported char size in tdf" ("reader" : "TDFReaderP") {
     }
 };
 
-error "bad name type in tdf" ("reader" : "TDFReaderP") {
+error "bad name type in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: name type ${name type} is unknown",
     {
 	"file name" : "char *" $[
@@ -111,7 +111,7 @@ error "bad name type in tdf" ("reader" : "TDFReaderP") {
     }
 };
 
-error "expected eof in tdf" ("reader" : "TDFReaderP") {
+error "expected eof in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: expected end of file",
     {
 	"file name" : "char *" $[

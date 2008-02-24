@@ -95,35 +95,35 @@
 
 /*--------------------------------------------------------------------------*/
 
-UnitTableP
+UnitTableT *
 unit_table_create(void)
 {
-    UnitTableP table = ALLOCATE(UnitTableT);
+    UnitTableT *table = ALLOCATE(UnitTableT);
     unsigned   i;
 
     for (i = 0; i < UNIT_TABLE_SIZE; i++) {
-	table->contents[i] = NIL(UnitEntryP);
+	table->contents[i] = NIL(UnitEntryT *);
     }
     return(table);
 }
 
-UnitEntryP
-unit_table_add(UnitTableP table,			NStringP   key ,
+UnitEntryT *
+unit_table_add(UnitTableT *table,			NStringT *  key ,
 			unsigned   order)
 {
     unsigned   hash_value = (nstring_hash_value(key)% UNIT_TABLE_SIZE);
-    UnitEntryP next       = (table->contents[hash_value]);
-    UnitEntryP entry      = unit_entry_create(key, next, order);
+    UnitEntryT *next       = (table->contents[hash_value]);
+    UnitEntryT *entry      = unit_entry_create(key, next, order);
 
     table->contents[hash_value] = entry;
     return(entry);
 }
 
-UnitEntryP
-unit_table_get(UnitTableP table,			NStringP   key)
+UnitEntryT *
+unit_table_get(UnitTableT *table,			NStringT *  key)
 {
     unsigned   hash_value = (nstring_hash_value(key)% UNIT_TABLE_SIZE);
-    UnitEntryP entry      = (table->contents[hash_value]);
+    UnitEntryT *entry      = (table->contents[hash_value]);
 
     while (entry && (!nstring_equal(key, unit_entry_key(entry)))) {
 	entry = unit_entry_next(entry);
@@ -132,13 +132,13 @@ unit_table_get(UnitTableP table,			NStringP   key)
 }
 
 void
-unit_table_iter(UnitTableP table, void(*proc)(UnitEntryP, void *),
+unit_table_iter(UnitTableT *table, void(*proc)(UnitEntryT *, void *),
 		void * closure)
 {
     unsigned i;
 
     for (i = 0; i < UNIT_TABLE_SIZE; i++) {
-	UnitEntryP entry = (table->contents[i]);
+	UnitEntryT *entry = (table->contents[i]);
 
 	while (entry) {
 	   (*proc)(entry, closure);

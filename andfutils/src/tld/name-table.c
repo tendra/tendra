@@ -96,30 +96,30 @@
 
 /*--------------------------------------------------------------------------*/
 
-NameTableP
+NameTableT *
 name_table_create(void)
 {
-    NameTableP table = ALLOCATE(NameTableT);
+    NameTableT *table = ALLOCATE(NameTableT);
     unsigned   i;
 
     for (i = 0; i < NAME_TABLE_SIZE; i++) {
-	table->contents[i] = NIL(NameEntryP);
+	table->contents[i] = NIL(NameEntryT *);
     }
     return(table);
 }
 
 void
-name_table_add_rename(NameTableP table,			       NameKeyP   from, 
-			       NameKeyP   to)
+name_table_add_rename(NameTableT *table,			       NameKeyT *  from, 
+			       NameKeyT *  to)
 {
     unsigned    to_hash_value = (name_key_hash_value(to)% NAME_TABLE_SIZE);
-    NameEntryP *to_entryp     = & (table->contents[to_hash_value]);
+    NameEntryT **to_entryp     = & (table->contents[to_hash_value]);
     unsigned    hash_value    = (name_key_hash_value(from)% NAME_TABLE_SIZE);
-    NameEntryP *from_entryp   = & (table->contents[hash_value]);
-    NameEntryP  to_entry;
-    NameEntryP  from_entry;
+    NameEntryT **from_entryp   = & (table->contents[hash_value]);
+    NameEntryT * to_entry;
+    NameEntryT * from_entry;
 
-    while ((to_entry = *to_entryp) != NIL(NameEntryP)) {
+    while ((to_entry = *to_entryp) != NIL(NameEntryT *)) {
 	if (name_key_equal(to, name_entry_key(to_entry))) {
 	    goto found;
 	}
@@ -128,7 +128,7 @@ name_table_add_rename(NameTableP table,			       NameKeyP   from,
     to_entry   = name_entry_create_place(to);
     *to_entryp = to_entry;
   found:
-    while ((from_entry = *from_entryp) != NIL(NameEntryP)) {
+    while ((from_entry = *from_entryp) != NIL(NameEntryT *)) {
 	if (name_key_equal(from, name_entry_key(from_entry))) {
 	    name_entry_make_indirect(from_entry, to_entry);
 	    return;
@@ -140,13 +140,13 @@ name_table_add_rename(NameTableP table,			       NameKeyP   from,
 }
 
 void
-name_table_resolve_renames(NameTableP table,				    NStringP   shape, 
+name_table_resolve_renames(NameTableT *table,				    NStringT *  shape, 
 				    BoolT      report)
 {
     unsigned i;
 
     for (i = 0; i < NAME_TABLE_SIZE; i++) {
-	NameEntryP entry = (table->contents[i]);
+	NameEntryT *entry = (table->contents[i]);
 
 	while (entry) {
 	   (void)name_entry_resolve_renames(entry, shape, report);
@@ -155,15 +155,15 @@ name_table_resolve_renames(NameTableP table,				    NStringP   shape,
     }
 }
 
-NameEntryP
-name_table_add(NameTableP  table,			NameKeyP    key, 
-			ShapeEntryP shape_entry)
+NameEntryT *
+name_table_add(NameTableT * table,			NameKeyT *   key, 
+			ShapeEntryT *shape_entry)
 {
     unsigned    hash_value = (name_key_hash_value(key)% NAME_TABLE_SIZE);
-    NameEntryP *entryp     = & (table->contents[hash_value]);
-    NameEntryP  entry;
+    NameEntryT **entryp     = & (table->contents[hash_value]);
+    NameEntryT * entry;
 
-    while ((entry = *entryp) != NIL(NameEntryP)) {
+    while ((entry = *entryp) != NIL(NameEntryT *)) {
 	if (name_key_equal(key, name_entry_key(entry))) {
 	    if (name_entry_is_indirect(entry)) {
 		entry = name_entry_get_indirect(entry);
@@ -180,11 +180,11 @@ name_table_add(NameTableP  table,			NameKeyP    key,
     return(entry);
 }
 
-NameEntryP
-name_table_get(NameTableP table,			NameKeyP   key)
+NameEntryT *
+name_table_get(NameTableT *table,			NameKeyT *  key)
 {
     unsigned   hash_value = (name_key_hash_value(key)% NAME_TABLE_SIZE);
-    NameEntryP entry      = table->contents[hash_value];
+    NameEntryT *entry      = table->contents[hash_value];
 
     while (entry) {
 	if (name_key_equal(key, name_entry_key(entry))) {
@@ -192,23 +192,23 @@ name_table_get(NameTableP table,			NameKeyP   key)
 		entry = name_entry_get_indirect(entry);
 	    }
 	    if (name_entry_is_place(entry)) {
-		return(NIL(NameEntryP));
+		return(NIL(NameEntryT *));
 	    }
 	    return(entry);
 	}
 	entry = name_entry_next(entry);
     }
-    return(NIL(NameEntryP));
+    return(NIL(NameEntryT *));
 }
 
 void
-name_table_iter(NameTableP table, void(*proc)(NameEntryP, void *),
+name_table_iter(NameTableT *table, void(*proc)(NameEntryT *, void *),
 		void * closure)
 {
     unsigned i;
 
     for (i = 0; i < NAME_TABLE_SIZE; i++) {
-	NameEntryP entry = (table->contents[i]);
+	NameEntryT *entry = (table->contents[i]);
 
 	while (entry) {
 	    if (name_entry_is_direct(entry)) {
@@ -220,12 +220,12 @@ name_table_iter(NameTableP table, void(*proc)(NameEntryP, void *),
 }
 
 void
-name_table_deallocate(NameTableP table)
+name_table_deallocate(NameTableT *table)
 {
     unsigned i;
 
     for (i = 0; i < NAME_TABLE_SIZE; i++) {
-	NameEntryP entry = (table->contents[i]);
+	NameEntryT *entry = (table->contents[i]);
 
 	while (entry) {
 	    entry = name_entry_deallocate(entry);

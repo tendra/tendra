@@ -73,7 +73,7 @@
  *
  * This file requires that two external functions are provided:
  *
- *	extern void E_exception_unhandled(ExceptionP, char *, unsigned)
+ *	extern void E_exception_unhandled(ExceptionT *, char *, unsigned)
  *	extern void E_exception_corrupt_handler(char *, unsigned)
  *
  * The first of these functions will be called if there is an unhandled
@@ -95,7 +95,7 @@
  *
  ***=== TYPES ================================================================
  *
- ** Type:	ExceptionP
+ ** Type:	ExceptionT *
  ** Repr:	<private>
  *
  * This is the type of an exception.  Exceptions are initialised using the
@@ -103,14 +103,14 @@
  * not be changed.
  *
  ** Type:	ThrowDataT
- ** Type:	ThrowDataP
+ ** Type:	ThrowDataT *
  ** Repr:	<private>
  *
  * This type is used internally to store data about the exception being
  * thrown.
  *
  ** Type:	HandlerT
- ** Type:	HandlerP
+ ** Type:	HandlerT *
  ** Repr:	<private>
  *
  * This type is used internally to store data about the exception handler
@@ -118,7 +118,7 @@
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	char * exception_name(ExceptionP exception)
+ ** Function:	char * exception_name(ExceptionT *exception)
  *
  * This function returns the name of the specified exception.  The return
  * value should not be modified or deallocated.
@@ -129,7 +129,7 @@
  *
  * This macro is used to initialise an exception, e.g.:
  *
- *	ExceptionP XX_exception = EXCEPTION ("an exception");
+ *	ExceptionT *XX_exception = EXCEPTION ("an exception");
  *
  * This creates an exception object called ``XX_exception''.  The string used
  * as an argument to the ``EXCEPTION'' macro is a description of the
@@ -253,14 +253,14 @@
 
 /*--------------------------------------------------------------------------*/
 
-typedef char *		ExceptionP;
+typedef char 		ExceptionT;
 
 typedef struct {
     char *			exception;
     void *			data;
     unsigned			line;
     char *			file;
-} ThrowDataT, *ThrowDataP;
+} ThrowDataT;
 
 typedef struct HandlerT {
 #ifdef PO_EXCEPTION_STACK_DIRECTION
@@ -273,16 +273,16 @@ typedef struct HandlerT {
 #ifdef PO_EXCEPTION_STACK_DIRECTION
     unsigned			magic_end;
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
-} HandlerT, *HandlerP;
+} HandlerT;
 
 /*--------------------------------------------------------------------------*/
 
 extern	char *		exception_name
-(ExceptionP);
+(ExceptionT *);
 
 /*--------------------------------------------------------------------------*/
 
-extern HandlerP			X__exception_handler_stack;
+extern HandlerT *		X__exception_handler_stack;
 extern ThrowDataT		X__exception_throw_data;
 extern NoReturnT		X__exception_throw
 (void);

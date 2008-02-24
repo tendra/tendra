@@ -162,7 +162,7 @@
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
-typedef int ModeT, *ModeP;
+typedef int ModeT, *ModeT *
 #define MODE_BUILDER		(0)
 #define MODE_CONTENTS		(1)
 #define MODE_EXTRACT		(2)
@@ -173,7 +173,7 @@ typedef enum {
     MODE_CONTENTS,
     MODE_EXTRACT,
     MODE_LINKER
-} ModeT, *ModeP;
+} ModeT;
 #endif /* defined (FS_NO_ENUM) */
 
 /*--------------------------------------------------------------------------*/
@@ -197,7 +197,7 @@ main_print_version(void)
 }
 
 static void
-main_handle_all(char *  option,			 ArgUsageP usage, 
+main_handle_all(char *  option,			 ArgUsageT *usage, 
 			 void *  gclosure, 
 			 BoolT     enable)
 {
@@ -209,7 +209,7 @@ main_handle_all(char *  option,			 ArgUsageP usage,
 }
 
 static void
-main_handle_all_hide_defd(char *  option,				   ArgUsageP usage, 
+main_handle_all_hide_defd(char *  option,				   ArgUsageT *usage, 
 				   void *  gclosure, 
 				   BoolT     enable)
 {
@@ -221,7 +221,7 @@ main_handle_all_hide_defd(char *  option,				   ArgUsageP usage,
 }
 
 static void
-main_handle_basename(char *  option,			      ArgUsageP usage, 
+main_handle_basename(char *  option,			      ArgUsageT *usage, 
 			      void *  gclosure, 
 			      BoolT     enable)
 {
@@ -233,7 +233,7 @@ main_handle_basename(char *  option,			      ArgUsageP usage,
 }
 
 static void
-main_handle_debug_file(char *  option,				ArgUsageP usage, 
+main_handle_debug_file(char *  option,				ArgUsageT *usage, 
 				void *  gclosure, 
 				char *  debug_file)
 {
@@ -245,7 +245,7 @@ main_handle_debug_file(char *  option,				ArgUsageP usage,
 }
 
 static void
-main_handle_help(char *  option,			  ArgUsageP usage, 
+main_handle_help(char *  option,			  ArgUsageT *usage, 
 			  void *  gclosure)
 {
     UNUSED(option);
@@ -257,7 +257,7 @@ main_handle_help(char *  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_hide(char *  option,			  ArgUsageP usage, 
+main_handle_hide(char *  option,			  ArgUsageT *usage, 
 			  void *  gclosure, 
 			  char *  shape, 
 			  char *  name)
@@ -270,7 +270,7 @@ main_handle_hide(char *  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_hide_defined(char *  option,				  ArgUsageP usage, 
+main_handle_hide_defined(char *  option,				  ArgUsageT *usage, 
 				  void *  gclosure, 
 				  char *  shape)
 {
@@ -282,7 +282,7 @@ main_handle_hide_defined(char *  option,				  ArgUsageP usage,
 }
 
 static void
-main_handle_index(char *  option,			   ArgUsageP usage, 
+main_handle_index(char *  option,			   ArgUsageT *usage, 
 			   void *  gclosure, 
 			   BoolT     enable)
 {
@@ -294,7 +294,7 @@ main_handle_index(char *  option,			   ArgUsageP usage,
 }
 
 static void
-main_handle_info(char *  option,			  ArgUsageP usage, 
+main_handle_info(char *  option,			  ArgUsageT *usage, 
 			  void *  gclosure, 
 			  BoolT     enable)
 {
@@ -310,7 +310,7 @@ main_handle_info(char *  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_keep(char *  option,			  ArgUsageP usage, 
+main_handle_keep(char *  option,			  ArgUsageT *usage, 
 			  void *  gclosure, 
 			  char *  shape, 
 			  char *  name)
@@ -323,7 +323,7 @@ main_handle_keep(char *  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_keep_all(char *  option,			      ArgUsageP usage, 
+main_handle_keep_all(char *  option,			      ArgUsageT *usage, 
 			      void *  gclosure, 
 			      char *  shape)
 {
@@ -335,7 +335,7 @@ main_handle_keep_all(char *  option,			      ArgUsageP usage,
 }
 
 static void
-main_handle_library_file(char *  option,				  ArgUsageP usage, 
+main_handle_library_file(char *  option,				  ArgUsageT *usage, 
 				  void *  gclosure, 
 				  char *  library_file)
 {
@@ -347,7 +347,7 @@ main_handle_library_file(char *  option,				  ArgUsageP usage,
 }
 
 static void
-main_handle_match_base(char *  option,				ArgUsageP usage, 
+main_handle_match_base(char *  option,				ArgUsageT *usage, 
 				void *  gclosure, 
 				BoolT     enable)
 {
@@ -359,7 +359,7 @@ main_handle_match_base(char *  option,				ArgUsageP usage,
 }
 
 static void
-main_handle_output_file(char *  option,				 ArgUsageP usage, 
+main_handle_output_file(char *  option,				 ArgUsageT *usage, 
 				 void *  gclosure, 
 				 char *  output_file)
 {
@@ -371,7 +371,7 @@ main_handle_output_file(char *  option,				 ArgUsageP usage,
 }
 
 static void
-main_handle_library_path(char *  option,				  ArgUsageP usage, 
+main_handle_library_path(char *  option,				  ArgUsageT *usage, 
 				  void *  gclosure, 
 				  char *  directory)
 {
@@ -383,7 +383,7 @@ main_handle_library_path(char *  option,				  ArgUsageP usage,
 }
 
 static void
-main_handle_rename(char *  option,			    ArgUsageP usage, 
+main_handle_rename(char *  option,			    ArgUsageT *usage, 
 			    void *  gclosure, 
 			    char *  shape, 
 			    char *  from, 
@@ -397,7 +397,7 @@ main_handle_rename(char *  option,			    ArgUsageP usage,
 }
 
 static void
-main_handle_rename_file(char *  option,				 ArgUsageP usage, 
+main_handle_rename_file(char *  option,				 ArgUsageT *usage, 
 				 void *  gclosure, 
 				 char *  name)
 {
@@ -409,7 +409,7 @@ main_handle_rename_file(char *  option,				 ArgUsageP usage,
 }
 
 static void
-main_handle_size(char *  option,			  ArgUsageP usage, 
+main_handle_size(char *  option,			  ArgUsageT *usage, 
 			  void *  gclosure, 
 			  BoolT     enable)
 {
@@ -421,7 +421,7 @@ main_handle_size(char *  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_suppress(char *  option,			      ArgUsageP usage, 
+main_handle_suppress(char *  option,			      ArgUsageT *usage, 
 			      void *  gclosure, 
 			      char *  shape, 
 			      char *  name)
@@ -434,7 +434,7 @@ main_handle_suppress(char *  option,			      ArgUsageP usage,
 }
 
 static void
-main_handle_suppress_all(char *  option,				  ArgUsageP usage, 
+main_handle_suppress_all(char *  option,				  ArgUsageT *usage, 
 				  void *  gclosure, 
 				  char *  shape)
 {
@@ -446,7 +446,7 @@ main_handle_suppress_all(char *  option,				  ArgUsageP usage,
 }
 
 static void
-main_handle_suppress_mult(char *  option,				   ArgUsageP usage, 
+main_handle_suppress_mult(char *  option,				   ArgUsageT *usage, 
 				   void *  gclosure, 
 				   BoolT     enable)
 {
@@ -458,7 +458,7 @@ main_handle_suppress_mult(char *  option,				   ArgUsageP usage,
 }
 
 static void
-main_handle_tdf_version(char *  option,				 ArgUsageP usage, 
+main_handle_tdf_version(char *  option,				 ArgUsageT *usage, 
 				 void *  gclosure, 
 				 BoolT     enable)
 {
@@ -470,7 +470,7 @@ main_handle_tdf_version(char *  option,				 ArgUsageP usage,
 }
 
 static void
-main_handle_unit_file(char *  option,			       ArgUsageP usage, 
+main_handle_unit_file(char *  option,			       ArgUsageT *usage, 
 			       void *  gclosure, 
 			       char *  unit_file)
 {
@@ -482,7 +482,7 @@ main_handle_unit_file(char *  option,			       ArgUsageP usage,
 }
 
 static void
-main_handle_version(char *  option,			     ArgUsageP usage, 
+main_handle_version(char *  option,			     ArgUsageT *usage, 
 			     void *  gclosure)
 {
     UNUSED(option);
@@ -493,7 +493,7 @@ main_handle_version(char *  option,			     ArgUsageP usage,
 }
 
 static void
-main_handle_warning(char *  option,			     ArgUsageP usage, 
+main_handle_warning(char *  option,			     ArgUsageT *usage, 
 			     void *  gclosure, 
 			     BoolT     enable)
 {
@@ -797,9 +797,9 @@ static ArgListT main_linker_arg_list[] = {
 static ModeT
 main_init(int    argc,		   char **argv)
 {
-    EStringP  usage_estring = error_define_string("tld usage message", USAGE);
+    EStringT * usage_estring = error_define_string("tld usage message", USAGE);
     ModeT     mode          = MODE_LINKER;
-    ArgListP  arg_list      = main_linker_arg_list;
+    ArgListT * arg_list      = main_linker_arg_list;
     int       skip;
 
     error_init(argv[0], gen_errors_init_errors);
@@ -883,7 +883,7 @@ main(int    argc,	      char **argv)
 	    break;
 	}
     } WITH {
-	ExceptionP exception = EXCEPTION_EXCEPTION();
+	ExceptionT *exception = EXCEPTION_EXCEPTION();
 
 	if (exception == XX_dalloc_no_memory) {
 	    E_no_memory();

@@ -97,11 +97,11 @@
 
 /*--------------------------------------------------------------------------*/
 
-MapEntryP
-map_entry_create(NStringP  key,			  MapEntryP next, 
+MapEntryT *
+map_entry_create(NStringT * key,			  MapEntryT *next, 
 			  unsigned  count)
 {
-    MapEntryP entry = ALLOCATE(MapEntryT);
+    MapEntryT *entry = ALLOCATE(MapEntryT);
 
     entry->next  = next;
     nstring_copy(& (entry->key), key);
@@ -109,27 +109,27 @@ map_entry_create(NStringP  key,			  MapEntryP next,
     return(entry);
 }
 
-MapEntryP
-map_entry_next(MapEntryP entry)
+MapEntryT *
+map_entry_next(MapEntryT *entry)
 {
     return(entry->next);
 }
 
-NStringP
-map_entry_key(MapEntryP entry)
+NStringT *
+map_entry_key(MapEntryT *entry)
 {
     return(& (entry->key));
 }
 
 void
-map_entry_set_num_links(MapEntryP entry,				 unsigned  num_links)
+map_entry_set_num_links(MapEntryT *entry,				 unsigned  num_links)
 {
     entry->num_links = num_links;
     entry->links     = ALLOCATE_VECTOR(MapLinkT, num_links);
 }
 
 void
-map_entry_set_link(MapEntryP entry,			    unsigned  link, 
+map_entry_set_link(MapEntryT *entry,			    unsigned  link, 
 			    unsigned  internal, 
 			    unsigned  external)
 {
@@ -139,19 +139,19 @@ map_entry_set_link(MapEntryP entry,			    unsigned  link,
 }
 
 unsigned
-map_entry_get_count(MapEntryP entry)
+map_entry_get_count(MapEntryT *entry)
 {
     return(entry->count);
 }
 
 unsigned
-map_entry_get_num_links(MapEntryP entry)
+map_entry_get_num_links(MapEntryT *entry)
 {
     return(entry->num_links);
 }
 
 void
-map_entry_get_link(MapEntryP entry,			    unsigned  link, 
+map_entry_get_link(MapEntryT *entry,			    unsigned  link, 
 			    unsigned *internal_ref, 
 			    unsigned *external_ref)
 {
@@ -163,13 +163,13 @@ map_entry_get_link(MapEntryP entry,			    unsigned  link,
 /*--------------------------------------------------------------------------*/
 
 void
-map_entry_check_non_empty(MapEntryP entry,				   void *  gclosure)
+map_entry_check_non_empty(MapEntryT *entry,				   void *  gclosure)
 {
-    ShapeTableP table = (ShapeTableP)gclosure;
+    ShapeTableT *table = (ShapeTableT *)gclosure;
 
     if (entry->count > 0) {
-	NStringP    key         = map_entry_key(entry);
-	ShapeEntryP shape_entry = shape_table_get(table, key);
+	NStringT *   key         = map_entry_key(entry);
+	ShapeEntryT *shape_entry = shape_table_get(table, key);
 
 	shape_entry_set_non_empty(shape_entry);
     }

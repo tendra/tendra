@@ -71,19 +71,19 @@
  ***=== TYPES ================================================================
  *
  ** Type:	BOStreamT
- ** Type:	BOStreamP
+ ** Type:	BOStreamT *
  ** Repr:	<private>
  *
  * This is the output stream type.
  *
  ***=== FUNCTIONS ============================================================
  *
- ** Function:	void bostream_init(BOStreamP bostream)
+ ** Function:	void bostream_init(BOStreamT *bostream)
  ** Exceptions:
  *
  * This function initialises the specified bostream not to write to any file.
  *
- ** Function:	BoolT bostream_open(BOStreamP bostream, char * name)
+ ** Function:	BoolT bostream_open(BOStreamT *bostream, char * name)
  ** Exceptions:
  *
  * This function initialises the specified bostream to write to the file with
@@ -92,44 +92,44 @@
  * returns false. If the file is opened successfully, the function returns
  * true.
  *
- ** Function:	void bostream_assign(BOStreamP to, BOStreamP from)
+ ** Function:	void bostream_assign(BOStreamT *to, BOStreamT *from)
  ** Exceptions:
  *
  * This function assigns the from bostream to the to bostream.  The from
  * bostream should not be used again.
  *
- ** Function:	BoolT bostream_is_open(BOStreamP bostream)
+ ** Function:	BoolT bostream_is_open(BOStreamT *bostream)
  *
  * This function returns true if the specified bostream is writing to a file,
  * and false otherwise.
  *
- ** Function:	void bostream_write_chars(BOStreamP bostream, unsigned length,
+ ** Function:	void bostream_write_chars(BOStreamT *bostream, unsigned length,
  *					  char * chars)
  ** Exceptions:	XX_bostream_write_error
  *
  * This function writes the length characters in the chars vector to the
  * specified bostream.
  *
- ** Function:	void bostream_write_bytes(BOStreamP bostream, unsigned length,
- *					  ByteP bytes)
+ ** Function:	void bostream_write_bytes(BOStreamT *bostream, unsigned length,
+ *					  ByteT *bytes)
  ** Exceptions:	XX_bostream_write_error
  *
  * This function writes the length bytes in the bytes vector to the specified
  * bostream.
  *
- ** Function:	void bostream_write_byte(BOStreamP bostream, ByteT byte)
+ ** Function:	void bostream_write_byte(BOStreamT *bostream, ByteT byte)
  ** Exceptions:	XX_bostream_write_error
  *
  * This function writes the byte to the specified bostream.
  *
- ** Function:	char * bostream_name(BOStreamP bostream)
+ ** Function:	char * bostream_name(BOStreamT *bostream)
  ** Exceptions:
  *
  * This function returns the name of the file to which the specified
  * bostream is writing. The return value should not be modified or
  * deallocated.
  *
- ** Function:	void bostream_close(BOStreamP bostream)
+ ** Function:	void bostream_close(BOStreamT *bostream)
  ** Exceptions:
  *
  * This function closes the specified bostream.
@@ -169,31 +169,31 @@
 typedef struct BOStreamT {
     FILE		       *file;
     char *			name;
-} BOStreamT, *BOStreamP;
+} BOStreamT;
 
 /*--------------------------------------------------------------------------*/
 
-extern ExceptionP		XX_bostream_write_error;
+extern ExceptionT *	XX_bostream_write_error;
 
 /*--------------------------------------------------------------------------*/
 
 extern void			bostream_init
-(BOStreamP);
+(BOStreamT *);
 extern BoolT			bostream_open
-(BOStreamP, char *);
+(BOStreamT *, char *);
 extern void			bostream_assign
-(BOStreamP, BOStreamP);
+(BOStreamT *, BOStreamT *);
 extern BoolT			bostream_is_open
-(BOStreamP);
+(BOStreamT *);
 extern void			bostream_write_chars
-(BOStreamP, unsigned, char *);
+(BOStreamT *, unsigned, char *);
 extern void			bostream_write_bytes
-(BOStreamP, unsigned, ByteP);
+(BOStreamT *, unsigned, ByteT *);
 extern void			bostream_write_byte
-(BOStreamP, ByteT);
+(BOStreamT *, ByteT);
 extern char *			bostream_name
-(BOStreamP);
+(BOStreamT *);
 extern void			bostream_close
-(BOStreamP);
+(BOStreamT *);
 
 #endif /* !defined (H_BOSTREAM) */

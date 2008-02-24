@@ -94,18 +94,18 @@
 
 /*--------------------------------------------------------------------------*/
 
-static ETagP		tag_table[TAG_TABLE_SIZE];
-static ErrorP		error_table[ERROR_TABLE_SIZE];
-static EStringP		string_table[STRING_TABLE_SIZE];
+static ETagT *	tag_table[TAG_TABLE_SIZE];
+static ErrorT *	error_table[ERROR_TABLE_SIZE];
+static EStringT *	string_table[STRING_TABLE_SIZE];
 static char *		program_name         = NIL(char *);
 static ErrorInitProcP	init_proc	     = NIL(ErrorInitProcP);
-static ETagP		etag_program	     = NIL(ETagP);
-static ETagP		etag_severity	     = NIL(ETagP);
-static ETagP		etag_error_name      = NIL(ETagP);
-static ETagP		etag_dollar	     = NIL(ETagP);
-static ETagP		etag_ocb	     = NIL(ETagP);
-static ETagP		etag_ccb	     = NIL(ETagP);
-static ErrorListP	error_prefix	     = NIL(ErrorListP);
+static ETagT *	etag_program	     = NIL(ETagT *);
+static ETagT *	etag_severity	     = NIL(ETagT *);
+static ETagT *	etag_error_name      = NIL(ETagT *);
+static ETagT *	etag_dollar	     = NIL(ETagT *);
+static ETagT *	etag_ocb	     = NIL(ETagT *);
+static ETagT *	etag_ccb	     = NIL(ETagT *);
+static ErrorListT *error_prefix	     = NIL(ErrorListT *);
 static ESeverityT	min_severity	     = ERROR_SEVERITY_ERROR;
 static ESeverityT	max_reported	     = ERROR_SEVERITY_INFORMATION;
 static EStringDataT	severity_data[]    = {
@@ -120,10 +120,10 @@ static EStringDataT	severity_data[]    = {
 /*--------------------------------------------------------------------------*/
 
 static void
-error_deallocate_error_list(ErrorListP error_list)
+error_deallocate_error_list(ErrorListT *error_list)
 {
     while (error_list) {
-	ErrorListP tmp = error_list;
+	ErrorListT *tmp = error_list;
 
 	if (error_list->tag == ERROR_TAG_STRING) {
 	    nstring_destroy(& (error_list->u.string));
@@ -133,18 +133,18 @@ error_deallocate_error_list(ErrorListP error_list)
     }
 }
 
-static ErrorListP
+static ErrorListT *
 error_parse_message(char * message)
 {
-    ErrorListP  error_list;
-    ErrorListP *error_list_next = &error_list;
+    ErrorListT * error_list;
+    ErrorListT **error_list_next = &error_list;
     char *    message_copy    = cstring_duplicate(message);
     char *    scan            = message = message_copy;
 
     while (*scan) {
 	if ((*scan++ == '$') && (*scan == '{')) {
 	    if (scan > (message + 1)) {
-		ErrorListP tmp = ALLOCATE(ErrorListT);
+		ErrorListT *tmp = ALLOCATE(ErrorListT);
 
 		tmp->tag  = ERROR_TAG_STRING;
 		scan[-1] = '\0';
@@ -157,14 +157,14 @@ error_parse_message(char * message)
 	    while (*scan != '}') {
 		if ((*scan == '\0') || (*scan == '$') || (*scan == '{') ||
 		   ((!syntax_is_printable(*scan)) && (*scan != ' '))) {
-		    *error_list_next = NIL(ErrorListP);
+		    *error_list_next = NIL(ErrorListT *);
 		    error_deallocate_error_list(error_list);
-		    return(NIL(ErrorListP));
+		    return(NIL(ErrorListT *));
 		}
 		scan++;
 	    }
 	    if (scan++ > message) {
-		ErrorListP tmp = ALLOCATE(ErrorListT);
+		ErrorListT *tmp = ALLOCATE(ErrorListT);
 		char *   tag;
 
 		tmp->tag   = ERROR_TAG_TAG;
@@ -181,21 +181,21 @@ error_parse_message(char * message)
 	}
     }
     if (scan > message) {
-	ErrorListP tmp = ALLOCATE(ErrorListT);
+	ErrorListT *tmp = ALLOCATE(ErrorListT);
 
 	tmp->tag = ERROR_TAG_STRING;
 	nstring_copy_cstring(& (tmp->u.string), message);
 	*error_list_next = tmp;
 	error_list_next  = & (tmp->next);
     }
-    *error_list_next = NIL(ErrorListP);
+    *error_list_next = NIL(ErrorListT *);
     DEALLOCATE(message_copy);
     return(error_list);
 }
 
 static void
-write_error_list(OStreamP   ostream,			  ErrorListP error_list, 
-			  ErrorP     error, 
+write_error_list(OStreamT *  ostream,			  ErrorListT *error_list, 
+			  ErrorT *    error, 
 			  ErrorProcP proc, 
 			  void *   closure)
 {
@@ -208,7 +208,7 @@ write_error_list(OStreamP   ostream,			  ErrorListP error_list,
 	    if (error_list->u.tag == etag_program) {
 		write_cstring(ostream, program_name);
 	    } else if (error_list->u.tag == etag_severity) {
-		EStringP estring =
+		EStringT *estring =
 		    severity_data[(error->severity)].estring;
 
 		write_cstring(ostream, error_string_contents(estring));
@@ -263,43 +263,43 @@ error_call_init_proc(void)
     }
 }
 
-ETagP
+ETagT *
 error_define_tag(char * name)
 {
     unsigned hash   = (cstring_hash_value(name)% TAG_TABLE_SIZE);
-    ETagP   *entryp = & (tag_table[hash]);
-    ETagP    entry;
+    ETagT *  *entryp = & (tag_table[hash]);
+    ETagT *   entry;
 
-    while ((entry = *entryp) != NIL(ETagP)) {
+    while ((entry = *entryp) != NIL(ETagT *)) {
 	if (cstring_equal(entry->name, name)) {
 	    return(entry);
 	}
 	entryp = & (entry->next);
     }
     entry       = ALLOCATE(ETagT);
-    entry->next = NIL(ETagP);
+    entry->next = NIL(ETagT *);
     entry->name = name;
     *entryp     = entry;
     return(entry);
 }
 
-ErrorP
+ErrorT *
 error_define_error(char *   name,			    ESeverityT severity, 
 			    char *   message, 
 			    void *   data)
 {
-    ErrorListP error_list = error_parse_message(message);
+    ErrorListT *error_list = error_parse_message(message);
     unsigned   hash       = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
-    ErrorP    *entryp     = & (error_table[hash]);
-    ErrorP     entry;
+    ErrorT *   *entryp     = & (error_table[hash]);
+    ErrorT *    entry;
 
-    while ((entry = *entryp) != NIL(ErrorP)) {
+    while ((entry = *entryp) != NIL(ErrorT *)) {
 	ASSERT(!cstring_equal(entry->name, name));
 	entryp = & (entry->next);
     }
     ASSERT(error_list);
     entry             = ALLOCATE(ErrorT);
-    entry->next       = NIL(ErrorP);
+    entry->next       = NIL(ErrorT *);
     entry->name       = name;
     entry->severity   = severity;
     entry->error_list = error_list;
@@ -309,10 +309,10 @@ error_define_error(char *   name,			    ESeverityT severity,
 }
 
 void
-error_intern_tags(ETagDataP vector)
+error_intern_tags(ETagDataT *vector)
 {
     while (vector->name) {
-	ETagP tag = error_define_tag(vector->name);
+	ETagT *tag = error_define_tag(vector->name);
 
 	vector->tag = tag;
 	vector++;
@@ -320,10 +320,10 @@ error_intern_tags(ETagDataP vector)
 }
 
 void
-error_intern_errors(ErrorDataP vector)
+error_intern_errors(ErrorDataT *vector)
 {
     while (vector->s.name) {
-	ErrorP error = error_define_error(vector->s.name, vector->s.severity,
+	ErrorT *error = error_define_error(vector->s.name, vector->s.severity,
 					   vector->s.message, vector->s.data);
 
 	vector->error = error;
@@ -337,13 +337,13 @@ error_redefine_error(char * name,			      char * message)
     error_call_init_proc();
     {
 	unsigned hash  = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
-	ErrorP   entry = (error_table[hash]);
+	ErrorT *  entry = (error_table[hash]);
 
 	while (entry) {
 	    if (cstring_equal(entry->name, name)) {
-		ErrorListP error_list = error_parse_message(message);
+		ErrorListT *error_list = error_parse_message(message);
 
-		if (error_list == NIL(ErrorListP)) {
+		if (error_list == NIL(ErrorListT *)) {
 		    return(ERROR_STATUS_BAD_MESSAGE);
 		}
 		error_deallocate_error_list(entry->error_list);
@@ -356,13 +356,13 @@ error_redefine_error(char * name,			      char * message)
     }
 }
 
-ErrorP
+ErrorT *
 error_lookup_error(char * name)
 {
     error_call_init_proc();
     {
 	unsigned hash  = (cstring_hash_value(name)% ERROR_TABLE_SIZE);
-	ErrorP   entry = (error_table[hash]);
+	ErrorT *  entry = (error_table[hash]);
 
 	while (entry) {
 	    if (cstring_equal(entry->name, name)) {
@@ -370,18 +370,18 @@ error_lookup_error(char * name)
 	    }
 	    entry = entry->next;
 	}
-	return(NIL(ErrorP));
+	return(NIL(ErrorT *));
     }
 }
 
 void *
-error_data(ErrorP error)
+error_data(ErrorT *error)
 {
     return(error->data);
 }
 
 void
-error_report(ErrorP     error,		      ErrorProcP proc, 
+error_report(ErrorT *    error,		      ErrorProcP proc, 
 		      void *   closure)
 {
     if ((error->severity) >= min_severity) {
@@ -432,9 +432,9 @@ error_set_severity_message(ESeverityT severity,				    char *   message)
 BoolT
 error_set_prefix_message(char * message)
 {
-    ErrorListP error_list = error_parse_message(message);
+    ErrorListT *error_list = error_parse_message(message);
 
-    if (error_list == NIL(ErrorListP)) {
+    if (error_list == NIL(ErrorListT *)) {
 	return(FALSE);
     }
     error_deallocate_error_list(error_prefix);
@@ -442,19 +442,19 @@ error_set_prefix_message(char * message)
     return(TRUE);
 }
 
-EStringP
+EStringT *
 error_define_string(char * name,			     char * contents)
 {
     unsigned  hash   = (cstring_hash_value(name)% STRING_TABLE_SIZE);
-    EStringP *entryp = & (string_table[hash]);
-    EStringP  entry;
+    EStringT **entryp = & (string_table[hash]);
+    EStringT * entry;
 
-    while ((entry = *entryp) != NIL(EStringP)) {
+    while ((entry = *entryp) != NIL(EStringT *)) {
 	ASSERT(!cstring_equal(entry->name, name));
 	entryp = & (entry->next);
     }
     entry           = ALLOCATE(EStringT);
-    entry->next     = NIL(EStringP);
+    entry->next     = NIL(EStringT *);
     entry->name     = name;
     entry->contents = contents;
     *entryp         = entry;
@@ -462,10 +462,10 @@ error_define_string(char * name,			     char * contents)
 }
 
 void
-error_intern_strings(EStringDataP vector)
+error_intern_strings(EStringDataT *vector)
 {
     while (vector->s.name) {
-	EStringP estring = error_define_string(vector->s.name,
+	EStringT *estring = error_define_string(vector->s.name,
 						vector->s.contents);
 
 	vector->estring = estring;
@@ -477,7 +477,7 @@ BoolT
 error_redefine_string(char * name,			       char * contents)
 {
     unsigned hash  = (cstring_hash_value(name)% STRING_TABLE_SIZE);
-    EStringP entry = (string_table[hash]);
+    EStringT *entry = (string_table[hash]);
 
     while (entry) {
 	if (cstring_equal(entry->name, name)) {
@@ -489,11 +489,11 @@ error_redefine_string(char * name,			       char * contents)
     return(FALSE);
 }
 
-EStringP
+EStringT *
 error_lookup_string(char * name)
 {
     unsigned hash  = (cstring_hash_value(name)% STRING_TABLE_SIZE);
-    EStringP entry = (string_table[hash]);
+    EStringT *entry = (string_table[hash]);
 
     while (entry) {
 	if (cstring_equal(entry->name, name)) {
@@ -501,11 +501,11 @@ error_lookup_string(char * name)
 	}
 	entry = entry->next;
     }
-    return(NIL(EStringP));
+    return(NIL(EStringT *));
 }
 
 char *
-error_string_contents(EStringP estring)
+error_string_contents(EStringT *estring)
 {
     return(estring->contents);
 }

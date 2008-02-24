@@ -58,64 +58,117 @@
 */
 
 
-/*** map-table.h --- Mapping table ADT.
+/**** nstring-list.h --- String list ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
- *** Commentary:
+ **** Commentary:
  *
- * See the file "map-table.c" for more information.
+ ***=== INTRODUCTION =========================================================
  *
- *** Change Log:
- * $Log: map-table.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
+ * This file specifies the interface to a string list facility.  This
+ * particular facility allows lists of nstrings (defined in the files
+ * "dstring.[ch]") to be created.
+ *
+ ***=== TYPES ================================================================
+ *
+ ** Type:	NStringListEntryT
+ ** Type:	NStringListEntryT *
+ ** Repr:	<private>
+ *
+ * This is the nstring list entry type.
+ *
+ ** Type:	NStringListT
+ ** Type:	NStringListT *
+ ** Repr:	<private>
+ *
+ * This is the nstring list type.
+ *
+ ***=== FUNCTIONS ============================================================
+ *
+ ** Function:	void nstring_list_init(NStringListT *list)
+ ** Exceptions:
+ *
+ * This function initialises the specified nstring list to be an empty list.
+ *
+ ** Function:	void nstring_list_append(NStringListT *list, NStringT *nstring)
+ ** Exceptions:	XX_dalloc_no_memory
+ *
+ * This function appends the specified nstring onto the specified list.
+ *
+ ** Function:	NStringListEntryT *nstring_list_head(NStringListT *list)
+ ** Exceptions:
+ *
+ * This function returns a pointer to the first entry in the specified list.
+ *
+ ** Function:	NStringT *nstring_list_entry_string(NStringListEntryT *entry)
+ ** Exceptions:
+ *
+ * This function returns a pointer to the nstring stored in the specified
+ * list entry.
+ *
+ ** Function:	NStringListEntryT *
+ *		    nstring_list_entry_deallocate(NStringListEntryT *entry)
+ ** Exceptions:
+ *
+ * This function deallocates the specified list entry (without deallocating
+ * the string - this must be done by the calling function) and returns a
+ * pointer to the next entry in the list.  Once this function has been called,
+ * the state of the list that the entry is a member of is undefined.  It is
+ * only useful for deallocating the entire list in a loop.
+ *
+ **** Change log:
+ * $Log: nstring-list.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:17  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:46:33  smf
+ * Revision 1.2  1994/12/12  11:44:49  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:34  smf
- * Initial import of TDF linker 3.5 non shared files.
+ * Revision 1.1.1.1  1994/07/25  16:05:53  smf
+ * Initial import of library shared files.
  *
 **/
 
 /****************************************************************************/
 
-#ifndef H_MAP_TABLE
-#define H_MAP_TABLE
+#ifndef H_NSTRING_LIST
+#define H_NSTRING_LIST
 
 #include "os-interface.h"
 #include "dalloc.h"
 #include "dstring.h"
-#include "map-entry.h"
 
 /*--------------------------------------------------------------------------*/
 
-#define MAP_TABLE_SIZE	(11)
+typedef struct NStringListEntryT {
+    struct NStringListEntryT   *next;
+    NStringT			string;
+} NStringListEntryT;
+
+typedef struct NStringListT {
+    NStringListEntryT *	head;
+    NStringListEntryT *       *tail;
+} NStringListT;
 
 /*--------------------------------------------------------------------------*/
 
-typedef struct MapTableT {
-    MapEntryT *		contents[MAP_TABLE_SIZE];
-} MapTableT;
+extern void			nstring_list_init
+(NStringListT *);
+extern void			nstring_list_append
+(NStringListT *, NStringT *);
+extern NStringListEntryT *nstring_list_head
+(NStringListT *);
+extern NStringT *		nstring_list_entry_string
+(NStringListEntryT *);
+extern NStringListEntryT *nstring_list_entry_deallocate
+(NStringListEntryT *);
 
-/*--------------------------------------------------------------------------*/
-
-extern MapTableT *	map_table_create
-(void);
-extern MapEntryT *	map_table_add
-(MapTableT *, NStringT *, unsigned);
-extern MapEntryT *	map_table_get
-(MapTableT *, NStringT *);
-extern void			map_table_iter
-(MapTableT *, void(*)(MapEntryT *, void *), void *);
-
-#endif /* !defined (H_MAP_TABLE) */
+#endif /* !defined (H_NSTRING_LIST) */
 
 /*
  * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
+ * eval: (include::add-path-entry "../os-interface" "../generated")
  * end:
 **/

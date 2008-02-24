@@ -58,64 +58,76 @@
 */
 
 
-/*** map-table.h --- Mapping table ADT.
+/**** nstring-list.c --- String list ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
- *** Commentary:
+ **** Commentary:
  *
- * See the file "map-table.c" for more information.
+ * This file implements the string list facility specified in the file
+ * "nstring-list.h".  See that file for more details.
  *
- *** Change Log:
- * $Log: map-table.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
+ **** Change Log:
+ * $Log: nstring-list.c,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:17  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:46:33  smf
+ * Revision 1.2  1994/12/12  11:44:47  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:34  smf
- * Initial import of TDF linker 3.5 non shared files.
+ * Revision 1.1.1.1  1994/07/25  16:05:52  smf
+ * Initial import of library shared files.
  *
 **/
 
 /****************************************************************************/
 
-#ifndef H_MAP_TABLE
-#define H_MAP_TABLE
-
-#include "os-interface.h"
-#include "dalloc.h"
-#include "dstring.h"
-#include "map-entry.h"
+#include "nstring-list.h"
 
 /*--------------------------------------------------------------------------*/
 
-#define MAP_TABLE_SIZE	(11)
+void
+nstring_list_init(NStringListT *list)
+{
+    list->head = NIL(NStringListEntryT *);
+    list->tail = & (list->head);
+}
 
-/*--------------------------------------------------------------------------*/
+void
+nstring_list_append(NStringListT *list,			     NStringT *    string)
+{
+    NStringListEntryT *entry = ALLOCATE(NStringListEntryT);
 
-typedef struct MapTableT {
-    MapEntryT *		contents[MAP_TABLE_SIZE];
-} MapTableT;
+    entry->next   = NIL(NStringListEntryT *);
+    nstring_assign(& (entry->string), string);
+    *(list->tail) = entry;
+    list->tail    = & (entry->next);
+}
 
-/*--------------------------------------------------------------------------*/
+NStringListEntryT *
+nstring_list_head(NStringListT *list)
+{
+    return(list->head);
+}
 
-extern MapTableT *	map_table_create
-(void);
-extern MapEntryT *	map_table_add
-(MapTableT *, NStringT *, unsigned);
-extern MapEntryT *	map_table_get
-(MapTableT *, NStringT *);
-extern void			map_table_iter
-(MapTableT *, void(*)(MapEntryT *, void *), void *);
+NStringT *
+nstring_list_entry_string(NStringListEntryT *entry)
+{
+    return(& (entry->string));
+}
 
-#endif /* !defined (H_MAP_TABLE) */
+NStringListEntryT *
+nstring_list_entry_deallocate(NStringListEntryT *entry)
+{
+    NStringListEntryT *next = entry->next;
+
+    DEALLOCATE(entry);
+    return(next);
+}
 
 /*
  * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
+ * eval: (include::add-path-entry "../os-interface" "../generated")
  * end:
 **/

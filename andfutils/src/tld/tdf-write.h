@@ -96,26 +96,26 @@ typedef struct TDFWriterT {
     BOStreamT			bostream;
     ByteT			byte;
     BoolT			new_byte;
-} TDFWriterT, *TDFWriterP;
+} TDFWriterT;
 
 /*--------------------------------------------------------------------------*/
 
 extern BoolT			tdf_writer_open
-(TDFWriterP, char *);
+(TDFWriterT *, char *);
 extern char *			tdf_writer_name
-(TDFWriterP);
+(TDFWriterT *);
 extern void			tdf_write_int
-(TDFWriterP, unsigned);
+(TDFWriterT *, unsigned);
 extern void			tdf_write_align
-(TDFWriterP);
+(TDFWriterT *);
 extern void			tdf_write_bytes
-(TDFWriterP, NStringP);
+(TDFWriterT *, NStringT *);
 extern void			tdf_write_string
-(TDFWriterP, NStringP);
+(TDFWriterT *, NStringT *);
 extern void			tdf_write_name
-(TDFWriterP, NameKeyP);
+(TDFWriterT *, NameKeyT *);
 extern void			tdf_writer_close
-(TDFWriterP);
+(TDFWriterT *);
 
 #endif /* !defined (H_TDF_WRITE) */
 

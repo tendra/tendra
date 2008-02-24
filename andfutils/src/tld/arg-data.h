@@ -103,21 +103,21 @@ typedef struct ShapeControlEntryT {
     NStringT			shape;
     BoolT			all;
     NameKeyListT		names;
-} ShapeControlEntryT, *ShapeControlEntryP;
+} ShapeControlEntryT;
 
 typedef struct ShapeControlT {
-    ShapeControlEntryP		head;
-} ShapeControlT, *ShapeControlP;
+    ShapeControlEntryT *	head;
+} ShapeControlT;
 
 typedef struct RenameControlEntryT {
     struct RenameControlEntryT *next;
     NStringT			shape;
     NameKeyPairListT		names;
-} RenameControlEntryT, *RenameControlEntryP;
+} RenameControlEntryT;
 
 typedef struct RenameControlT {
-    RenameControlEntryP		head;
-} RenameControlT, *RenameControlP;
+    RenameControlEntryT *	head;
+} RenameControlT;
 
 typedef struct ArgDataT {
     BoolT			all_hide_defined;
@@ -150,105 +150,105 @@ typedef struct ArgDataT {
     char *			unit_file;
     unsigned			num_files;
     char *		       *files;
-} ArgDataT, *ArgDataP;
+} ArgDataT;
 
 /*--------------------------------------------------------------------------*/
 
 extern void			shape_control_iter
-	(ShapeControlP, void(*)(NStringP, BoolT, NameKeyListP,
+	(ShapeControlT *, void(*)(NStringT *, BoolT, NameKeyListT *,
 					   void *), void *);
 extern void			rename_control_iter
-	(RenameControlP, void(*)(NStringP, NameKeyPairListP,
+	(RenameControlT *, void(*)(NStringT *, NameKeyPairListT *,
 					    void *), void *);
 
 extern void			arg_data_init
-(ArgDataP, char *);
+(ArgDataT *, char *);
 extern void			arg_data_set_all_hide_defd
-(ArgDataP, BoolT);
+(ArgDataT *, BoolT);
 extern BoolT			arg_data_get_all_hide_defd
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_set_suppress_mult
-(ArgDataP, BoolT);
+(ArgDataT *, BoolT);
 extern BoolT			arg_data_get_suppress_mult
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_add_hide
-(ArgDataP, char *, char *);
+(ArgDataT *, char *, char *);
 extern void			arg_data_add_hide_defined
-(ArgDataP, char *);
-extern ShapeControlP		arg_data_get_hides
-(ArgDataP);
+(ArgDataT *, char *);
+extern ShapeControlT *	arg_data_get_hides
+(ArgDataT *);
 extern void			arg_data_add_keep
-(ArgDataP, char *, char *);
+(ArgDataT *, char *, char *);
 extern void			arg_data_add_keep_all
-(ArgDataP, char *);
-extern ShapeControlP		arg_data_get_keeps
-(ArgDataP);
+(ArgDataT *, char *);
+extern ShapeControlT *	arg_data_get_keeps
+(ArgDataT *);
 extern void			arg_data_add_suppress
-(ArgDataP, char *, char *);
+(ArgDataT *, char *, char *);
 extern void			arg_data_add_suppress_all
-(ArgDataP, char *);
-extern ShapeControlP		arg_data_get_suppresses
-(ArgDataP);
+(ArgDataT *, char *);
+extern ShapeControlT *	arg_data_get_suppresses
+(ArgDataT *);
 extern void			arg_data_add_rename
-(ArgDataP, NStringP, NameKeyP, NameKeyP);
+(ArgDataT *, NStringT *, NameKeyT *, NameKeyT *);
 extern void			arg_data_parse_rename
-(ArgDataP, char *, char *, char *);
-extern RenameControlP		arg_data_get_renames
-(ArgDataP);
+(ArgDataT *, char *, char *, char *);
+extern RenameControlT *	arg_data_get_renames
+(ArgDataT *);
 extern void			arg_data_set_extract_all
-(ArgDataP, BoolT);
+(ArgDataT *, BoolT);
 extern BoolT			arg_data_get_extract_all
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_set_extract_basename
-(ArgDataP, BoolT);
+(ArgDataT *, BoolT);
 extern BoolT			arg_data_get_extract_basename
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_set_extract_match_base
-(ArgDataP, BoolT);
+(ArgDataT *, BoolT);
 extern BoolT			arg_data_get_extract_match_base
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_set_content_index
-(ArgDataP, BoolT);
+(ArgDataT *, BoolT);
 extern BoolT			arg_data_get_content_index
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_set_content_size
-(ArgDataP, BoolT);
+(ArgDataT *, BoolT);
 extern BoolT			arg_data_get_content_size
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_set_content_version
-(ArgDataP, BoolT);
+(ArgDataT *, BoolT);
 extern BoolT			arg_data_get_content_version
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_set_debug_file
-(ArgDataP, char *);
-extern OStreamP			arg_data_get_debug_file
-(ArgDataP);
+(ArgDataT *, char *);
+extern OStreamT *		arg_data_get_debug_file
+(ArgDataT *);
 extern void			arg_data_set_output_file
-(ArgDataP, char *);
+(ArgDataT *, char *);
 extern char *			arg_data_get_output_file
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_add_library_file
-(ArgDataP, char *);
+(ArgDataT *, char *);
 extern void			arg_data_add_library_path
-(ArgDataP, char *);
+(ArgDataT *, char *);
 extern void			arg_data_vector_libraries
-(ArgDataP);
+(ArgDataT *);
 extern unsigned			arg_data_num_library_files
-(ArgDataP);
+(ArgDataT *);
 extern unsigned			arg_data_num_library_paths
-(ArgDataP);
+(ArgDataT *);
 extern char *		       *arg_data_library_files
-(ArgDataP);
+(ArgDataT *);
 extern char *		       *arg_data_library_paths
-(ArgDataP);
+(ArgDataT *);
 extern void			arg_data_set_unit_file
-(ArgDataP, char *);
+(ArgDataT *, char *);
 extern void			arg_data_set_files
-(ArgDataP, int, char * *);
+(ArgDataT *, int, char * *);
 extern unsigned			arg_data_get_num_files
-(ArgDataP);
+(ArgDataT *);
 extern char *		       *arg_data_get_files
-(ArgDataP);
+(ArgDataT *);
 
 #endif /* !defined (H_ARG_DATA) */
 

@@ -92,7 +92,7 @@
 /*--------------------------------------------------------------------------*/
 
 extern void			rename_file_parse
-(char *, ArgDataP);
+(char *, ArgDataT *);
 
 #endif /* !defined (H_RENAME_FILE) */
 

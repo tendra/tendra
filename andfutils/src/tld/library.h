@@ -105,14 +105,14 @@
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
-typedef int LibraryTypeT, *LibraryTypeP;
+typedef int LibraryTypeT, *LibraryTypeT *
 #define LT_INPUT		(0)
 #define LT_OUTPUT		(1)
 #else
 typedef enum {
     LT_INPUT,
     LT_OUTPUT
-} LibraryTypeT, *LibraryTypeP;
+} LibraryTypeT;
 #endif /* defined (FS_NO_ENUM) */
 
 struct LibraryT;
@@ -122,7 +122,7 @@ typedef struct LibCapsuleT {
     char *			name;
     NStringT			contents;
     BoolT			loaded;
-} LibCapsuleT, *LibCapsuleP;
+} LibCapsuleT;
 
 typedef struct LibraryT {
     LibraryTypeT		type;
@@ -132,52 +132,52 @@ typedef struct LibraryT {
     } u;
     char *			name;
     unsigned			num_capsules;
-    LibCapsuleP			capsules;
+    LibCapsuleT *		capsules;
     unsigned			major;
     unsigned			minor;
     BoolT			complete;
-} LibraryT, *LibraryP;
+} LibraryT;
 
 /*--------------------------------------------------------------------------*/
 
 extern char *			lib_capsule_name
-(LibCapsuleP);
+(LibCapsuleT *);
 extern char *			lib_capsule_full_name
-(LibCapsuleP);
-extern NStringP			lib_capsule_contents
-(LibCapsuleP);
+(LibCapsuleT *);
+extern NStringT *		lib_capsule_contents
+(LibCapsuleT *);
 extern BoolT			lib_capsule_is_loaded
-(LibCapsuleP);
+(LibCapsuleT *);
 extern void			lib_capsule_loaded
-(LibCapsuleP);
+(LibCapsuleT *);
 
 extern void			write_lib_capsule_full_name
-(OStreamP, LibCapsuleP);
+(OStreamT *, LibCapsuleT *);
 
-extern LibraryP			library_create_stream_input
+extern LibraryT *		library_create_stream_input
 (char *);
-extern LibraryP			library_create_stream_output
+extern LibraryT *		library_create_stream_output
 (char *);
 extern char *			library_name
-(LibraryP);
+(LibraryT *);
 extern unsigned			library_num_capsules
-(LibraryP);
-extern LibCapsuleP		library_get_capsule
-(LibraryP, unsigned);
+(LibraryT *);
+extern LibCapsuleT *	library_get_capsule
+(LibraryT *, unsigned);
 extern unsigned			library_byte
-(LibraryP);
+(LibraryT *);
 extern void			library_content
-(LibraryP, BoolT, BoolT, BoolT);
+(LibraryT *, BoolT, BoolT, BoolT);
 extern void			library_extract_all
-(LibraryP, BoolT);
+(LibraryT *, BoolT);
 extern void			library_extract
-(LibraryP, BoolT, BoolT, unsigned, char * *);
+(LibraryT *, BoolT, BoolT, unsigned, char * *);
 extern void			library_read
-(LibraryP, ShapeTableP);
+(LibraryT *, ShapeTableT *);
 extern void			library_write
-(LibraryP, ShapeTableP, unsigned, CapsuleP *);
+(LibraryT *, ShapeTableT *, unsigned, CapsuleT **);
 extern void			library_close
-(LibraryP);
+(LibraryT *);
 
 #endif /* !defined (H_LIBRARY) */
 

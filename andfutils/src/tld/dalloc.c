@@ -87,7 +87,7 @@
 
 /*--------------------------------------------------------------------------*/
 
-ExceptionP XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
+ExceptionT *XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
 
 /*--------------------------------------------------------------------------*/
 
@@ -104,7 +104,7 @@ typedef struct DallocDataT {
     unsigned			line;
     SizeT			size;
     int				magic;
-} DallocDataT, *DallocDataP;
+} DallocDataT;
 
 /*--------------------------------------------------------------------------*/
 
@@ -133,16 +133,16 @@ X__dalloc_allocate(SizeT    size,			    SizeT    length,
     } else {
 	SizeT        real_size = (((size)* length) + dalloc_data_size);
 	vm_address_t address;
-	DallocDataP  data;
-	ByteP        base;
+	DallocDataT * data;
+	ByteT *       base;
 
 	if (vm_allocate(task_self(), &address,(vm_size_t)real_size,
 			 TRUE) != KERN_SUCCESS) {
 	    THROW(XX_dalloc_no_memory);
 	    UNREACHED;
 	}
-	data        = (DallocDataP)address;
-	base        = (ByteP)address;
+	data        = (DallocDataT *)address;
+	base        = (ByteT *)address;
 	tmp         = (base + dalloc_data_size);
 	data->file  = file;
 	data->line  = line;
@@ -157,8 +157,8 @@ X__dalloc_deallocate(void * ptr,			      char * file,
 			      unsigned line)
 {
     if (ptr) {
-	ByteP         pointer = (ByteP)ptr;
-	DallocDataP   data    = (DallocDataP)(pointer - dalloc_data_size);
+	ByteT *        pointer = (ByteT *)ptr;
+	DallocDataT *  data    = (DallocDataT *)(pointer - dalloc_data_size);
 	vm_address_t  address = (vm_address_t)data;
 	vm_size_t     size    = data->size;
 	kern_return_t result;
@@ -191,8 +191,8 @@ X__dalloc_allocate(SizeT    size,			    SizeT    length,
 	tmp = NIL(void *);
     } else {
 	SizeT       real_size = ((size * length) + dalloc_data_size);
-	ByteP       base;
-	DallocDataP data;
+	ByteT *      base;
+	DallocDataT *data;
 
 	if ((tmp = malloc(real_size)) == NIL(void *)) {
 	    THROW(XX_dalloc_no_memory);
@@ -214,8 +214,8 @@ X__dalloc_deallocate(void * ptr,			      char * file,
 			      unsigned line)
 {
     if (ptr) {
-	ByteP       pointer = (ByteP)ptr;
-	DallocDataP data    = (DallocDataP)(pointer - dalloc_data_size);
+	ByteT *      pointer = (ByteT *)ptr;
+	DallocDataT *data    = (DallocDataT *)(pointer - dalloc_data_size);
 
 	if (data->magic == 0) {
 	    E_dalloc_multi_deallocate(ptr, file, line, data->file,

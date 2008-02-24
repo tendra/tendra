@@ -94,14 +94,14 @@
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
-typedef int ReaderTypeT, *ReaderTypeP;
+typedef int ReaderTypeT, *ReaderTypeT *
 #define RT_STREAM	(0)
 #define RT_STRING	(1)
 #else
 typedef enum {
     RT_STREAM,
     RT_STRING
-} ReaderTypeT, *ReaderTypeP;
+} ReaderTypeT;
 #endif /* defined (FS_NO_ENUM) */
 
 typedef struct TDFReaderT {
@@ -118,38 +118,38 @@ typedef struct TDFReaderT {
     } u;
     ByteT			byte;
     BoolT			new_byte;
-} TDFReaderT, *TDFReaderP;
+} TDFReaderT;
 
 /*--------------------------------------------------------------------------*/
 
-extern ExceptionP		XX_tdf_read_error;
+extern ExceptionT *	XX_tdf_read_error;
 
 /*--------------------------------------------------------------------------*/
 
 extern BoolT			tdf_reader_open
-(TDFReaderP, char *);
+(TDFReaderT *, char *);
 extern void			tdf_reader_open_string
-(TDFReaderP, char *, NStringP);
+(TDFReaderT *, char *, NStringT *);
 extern char *			tdf_reader_name
-(TDFReaderP);
+(TDFReaderT *);
 extern unsigned			tdf_reader_byte
-(TDFReaderP);
+(TDFReaderT *);
 extern unsigned			tdf_read_int
-(TDFReaderP);
+(TDFReaderT *);
 extern void			tdf_read_align
-(TDFReaderP);
+(TDFReaderT *);
 extern void			tdf_read_bytes
-(TDFReaderP, NStringP);
+(TDFReaderT *, NStringT *);
 extern void			tdf_read_string
-(TDFReaderP, NStringP);
+(TDFReaderT *, NStringT *);
 extern void			tdf_read_name
-(TDFReaderP, NameKeyP);
+(TDFReaderT *, NameKeyT *);
 extern void			tdf_read_eof
-(TDFReaderP);
+(TDFReaderT *);
 extern void			tdf_reader_rewind
-(TDFReaderP);
+(TDFReaderT *);
 extern void			tdf_reader_close
-(TDFReaderP);
+(TDFReaderT *);
 
 #endif /* !defined (H_TDF_READ) */
 

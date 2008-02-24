@@ -99,24 +99,24 @@
 
 /*--------------------------------------------------------------------------*/
 
-static OStreamP	debug_file   = NIL(OStreamP);
+static OStreamT *debug_file   = NIL(OStreamT *);
 
 /*--------------------------------------------------------------------------*/
 
 void
-debug_set_file(OStreamP file)
+debug_set_file(OStreamT *file)
 {
     if (ostream_is_open(file)) {
 	debug_file = file;
     } else {
-	debug_file = NIL(OStreamP);
+	debug_file = NIL(OStreamT *);
     }
 }
 
 /*--------------------------------------------------------------------------*/
 
 void
-debug_info_u_name(NStringP name)
+debug_info_u_name(NStringT *name)
 {
     if (debug_file) {
 	write_cstring(debug_file, "Using unit set name '");
@@ -163,7 +163,7 @@ debug_info_r_start_unit_decs(unsigned num_unit_sets)
 }
 
 void
-debug_info_r_unit_dec(NStringP name)
+debug_info_r_unit_dec(NStringT *name)
 {
     if (debug_file) {
 	write_cstring(debug_file, "    ");
@@ -184,7 +184,7 @@ debug_info_r_start_shapes(unsigned num_shapes)
 }
 
 void
-debug_info_r_shape(NStringP name,			    unsigned num_ids)
+debug_info_r_shape(NStringT *name,			    unsigned num_ids)
 {
     if (debug_file) {
 	write_cstring(debug_file, "    ");
@@ -207,7 +207,7 @@ debug_info_r_start_names(unsigned num_names)
 }
 
 void
-debug_info_r_start_shape_names(NStringP shape,					unsigned num_names)
+debug_info_r_start_shape_names(NStringT *shape,					unsigned num_names)
 {
     if (debug_file) {
 	write_cstring(debug_file, "    Reading ");
@@ -220,9 +220,9 @@ debug_info_r_start_shape_names(NStringP shape,					unsigned num_names)
 }
 
 void
-debug_info_r_name(NameKeyP name,			   unsigned old_id, 
+debug_info_r_name(NameKeyT *name,			   unsigned old_id, 
 			   unsigned new_id, 
-			   NameKeyP key)
+			   NameKeyT *key)
 {
     if (debug_file) {
 	write_cstring(debug_file, "      ");
@@ -250,7 +250,7 @@ debug_info_r_start_unit_sets(unsigned num_unit_sets)
 }
 
 void
-debug_info_r_start_units(NStringP unit_set,				  unsigned num_units)
+debug_info_r_start_units(NStringT *unit_set,				  unsigned num_units)
 {
     if (debug_file) {
 	write_cstring(debug_file, "    Reading ");
@@ -263,7 +263,7 @@ debug_info_r_start_units(NStringP unit_set,				  unsigned num_units)
 }
 
 void
-debug_info_r_start_unit(NStringP unit_set,				 unsigned unit, 
+debug_info_r_start_unit(NStringT *unit_set,				 unsigned unit, 
 				 unsigned num_units)
 {
     if (debug_file) {
@@ -290,7 +290,7 @@ debug_info_r_start_counts(unsigned num_counts)
 }
 
 void
-debug_info_r_count(unsigned count,			    NStringP shape)
+debug_info_r_count(unsigned count,			    NStringT *shape)
 {
     if (debug_file) {
 	write_cstring(debug_file, "          ");
@@ -314,7 +314,7 @@ debug_info_r_start_maps(unsigned num_maps)
 }
 
 void
-debug_info_r_start_shape_maps(NStringP shape,				       unsigned num_maps)
+debug_info_r_start_shape_maps(NStringT *shape,				       unsigned num_maps)
 {
     if (debug_file) {
 	write_cstring(debug_file, "          Reading ");
@@ -364,7 +364,7 @@ debug_info_r_tld_version(unsigned version)
 }
 
 void
-debug_info_r_start_usages(NStringP shape,				   unsigned num_names)
+debug_info_r_start_usages(NStringT *shape,				   unsigned num_names)
 {
     if (debug_file) {
 	write_cstring(debug_file, "            Reading ");
@@ -378,7 +378,7 @@ debug_info_r_start_usages(NStringP shape,				   unsigned num_names)
 
 void
 debug_info_r_usage(unsigned use,			    unsigned name_use, 
-			    NameKeyP key)
+			    NameKeyT *key)
 {
     if (debug_file) {
 	write_cstring(debug_file, "              ");
@@ -447,7 +447,7 @@ debug_info_w_start_unit_decs(unsigned num_unit_sets)
 }
 
 void
-debug_info_w_unit_dec(NStringP name)
+debug_info_w_unit_dec(NStringT *name)
 {
     if (debug_file) {
 	write_cstring(debug_file, "    ");
@@ -468,7 +468,7 @@ debug_info_w_start_shapes(unsigned num_shapes)
 }
 
 void
-debug_info_w_shape(NStringP name,			    unsigned num_ids)
+debug_info_w_shape(NStringT *name,			    unsigned num_ids)
 {
     if (debug_file) {
 	write_cstring(debug_file, "    ");
@@ -491,7 +491,7 @@ debug_info_w_start_names(unsigned num_names)
 }
 
 void
-debug_info_w_start_shape_names(NStringP shape,					unsigned num_names)
+debug_info_w_start_shape_names(NStringT *shape,					unsigned num_names)
 {
     if (debug_file) {
 	write_cstring(debug_file, "    Writing ");
@@ -504,7 +504,7 @@ debug_info_w_start_shape_names(NStringP shape,					unsigned num_names)
 }
 
 void
-debug_info_w_name(NameKeyP name,			   unsigned id)
+debug_info_w_name(NameKeyT *name,			   unsigned id)
 {
     if (debug_file) {
 	write_cstring(debug_file, "      ");
@@ -527,7 +527,7 @@ debug_info_w_start_unit_sets(unsigned num_unit_sets)
 }
 
 void
-debug_info_w_start_units(NStringP unit_set,				  unsigned num_units)
+debug_info_w_start_units(NStringT *unit_set,				  unsigned num_units)
 {
     if (debug_file) {
 	write_cstring(debug_file, "    Writing ");
@@ -540,7 +540,7 @@ debug_info_w_start_units(NStringP unit_set,				  unsigned num_units)
 }
 
 void
-debug_info_w_start_unit(NStringP unit_set,				 unsigned unit, 
+debug_info_w_start_unit(NStringT *unit_set,				 unsigned unit, 
 				 unsigned num_units)
 {
     if (debug_file) {
@@ -567,7 +567,7 @@ debug_info_w_start_counts(unsigned num_counts)
 }
 
 void
-debug_info_w_count(unsigned count,			    NStringP shape)
+debug_info_w_count(unsigned count,			    NStringT *shape)
 {
     if (debug_file) {
 	write_cstring(debug_file, "          ");
@@ -591,7 +591,7 @@ debug_info_w_start_maps(unsigned num_maps)
 }
 
 void
-debug_info_w_start_shape_maps(NStringP shape,				       unsigned num_maps)
+debug_info_w_start_shape_maps(NStringT *shape,				       unsigned num_maps)
 {
     if (debug_file) {
 	write_cstring(debug_file, "          Writing ");
@@ -638,7 +638,7 @@ debug_info_w_tld_version(unsigned version)
 }
 
 void
-debug_info_w_start_usages(NStringP shape)
+debug_info_w_start_usages(NStringT *shape)
 {
     if (debug_file) {
 	write_cstring(debug_file, "            Writing external ");
@@ -649,7 +649,7 @@ debug_info_w_start_usages(NStringP shape)
 }
 
 void
-debug_info_w_usage(unsigned use,			    NameKeyP key)
+debug_info_w_usage(unsigned use,			    NameKeyT *key)
 {
     if (debug_file) {
 	write_cstring(debug_file, "              ");
@@ -718,7 +718,7 @@ debug_info_r_start_capsules(unsigned num_capsules)
 }
 
 void
-debug_info_r_capsule(NStringP name,			      unsigned length)
+debug_info_r_capsule(NStringT *name,			      unsigned length)
 {
     if (debug_file) {
 	write_cstring(debug_file, "      Loaded '");
@@ -742,7 +742,7 @@ debug_info_r_start_index(unsigned num_shapes)
 }
 
 void
-debug_info_r_start_shape_index(NStringP shape,					unsigned num_names)
+debug_info_r_start_shape_index(NStringT *shape,					unsigned num_names)
 {
     if (debug_file) {
 	write_cstring(debug_file, "      Reading ");
@@ -755,9 +755,9 @@ debug_info_r_start_shape_index(NStringP shape,					unsigned num_names)
 }
 
 void
-debug_info_r_index_entry(NameKeyP name,				  unsigned use, 
+debug_info_r_index_entry(NameKeyT *name,				  unsigned use, 
 				  unsigned name_use, 
-				  NameKeyP key, 
+				  NameKeyT *key, 
 				  char * cap_name)
 {
     if (debug_file) {
@@ -866,7 +866,7 @@ debug_info_w_start_index(unsigned num_shapes)
 }
 
 void
-debug_info_w_start_shape_index(NStringP shape,					unsigned num_names)
+debug_info_w_start_shape_index(NStringT *shape,					unsigned num_names)
 {
     if (debug_file) {
 	write_cstring(debug_file, "      Writing ");
@@ -879,7 +879,7 @@ debug_info_w_start_shape_index(NStringP shape,					unsigned num_names)
 }
 
 void
-debug_info_w_index_entry(NameKeyP key,				  unsigned use, 
+debug_info_w_index_entry(NameKeyT *key,				  unsigned use, 
 				  char * cap_name, 
 				  unsigned cap_index)
 {
@@ -909,7 +909,7 @@ debug_info_w_end_library(void)
 /*--------------------------------------------------------------------------*/
 
 void
-debug_info_l_not_needed(NameKeyP key,				 NStringP shape_key, 
+debug_info_l_not_needed(NameKeyT *key,				 NStringT *shape_key, 
 				 unsigned use)
 {
     if (debug_file) {
@@ -925,7 +925,7 @@ debug_info_l_not_needed(NameKeyP key,				 NStringP shape_key,
 }
 
 void
-debug_info_l_not_found(NameKeyP key,				NStringP shape_key, 
+debug_info_l_not_found(NameKeyT *key,				NStringT *shape_key, 
 				unsigned use)
 {
     if (debug_file) {
@@ -941,7 +941,7 @@ debug_info_l_not_found(NameKeyP key,				NStringP shape_key,
 }
 
 void
-debug_info_l_found(NameKeyP key,			    NStringP shape_key, 
+debug_info_l_found(NameKeyT *key,			    NStringT *shape_key, 
 			    unsigned use, 
 			    char * name)
 {
@@ -960,7 +960,7 @@ debug_info_l_found(NameKeyP key,			    NStringP shape_key,
 }
 
 void
-debug_info_l_hide(NStringP shape,			   NameKeyP key)
+debug_info_l_hide(NStringT *shape,			   NameKeyT *key)
 {
     if (debug_file) {
 	write_cstring(debug_file, "Hid external ");
@@ -973,7 +973,7 @@ debug_info_l_hide(NStringP shape,			   NameKeyP key)
 }
 
 void
-debug_info_l_keep(NStringP shape,			   NameKeyP key)
+debug_info_l_keep(NStringT *shape,			   NameKeyT *key)
 {
     if (debug_file) {
 	write_cstring(debug_file, "Kept external ");
@@ -986,7 +986,7 @@ debug_info_l_keep(NStringP shape,			   NameKeyP key)
 }
 
 void
-debug_info_l_suppress(NStringP shape,			       NameKeyP key)
+debug_info_l_suppress(NStringT *shape,			       NameKeyT *key)
 {
     if (debug_file) {
 	write_cstring(debug_file, "Suppressed external ");
@@ -999,8 +999,8 @@ debug_info_l_suppress(NStringP shape,			       NameKeyP key)
 }
 
 void
-debug_info_l_rename(NStringP shape,			     NameKeyP from, 
-			     NameKeyP to)
+debug_info_l_rename(NStringT *shape,			     NameKeyT *from, 
+			     NameKeyT *to)
 {
     if (debug_file) {
 	write_cstring(debug_file, "Renamed external ");

@@ -282,26 +282,26 @@
  * TenDRA compiler can be told that a function doesn't return as well.
  *
  ** Type:	SizeT
- ** Type:	SizeP
+ ** Type:	SizeT *
  ** Repr:	size_t
  *
  * This is the type of the return value of the "sizeof" operator.
  *
  ** Type:	ByteT
- ** Type:	ByteP
+ ** Type:	ByteT *
  ** Repr:	unsigned char
  *
  * This is the byte type.  It is possible that this could be larger than a
  * byte in some implementations.
  *
  ** Type:	BoolT
- ** Type:	BoolP
+ ** Type:	BoolT *
  ** Repr:	int
  *
  * This is the boolean type.
  *
  ** Type:	CmpT
- ** Type:	CmpP
+ ** Type:	CmpT *
  ** Repr:	enum {CMP_LT, CMP_EQ, CMP_GT}
  *
  * This is the type returned by comparison functions.  The values represent
@@ -592,10 +592,10 @@ typedef void NoReturnT;
 #  define UNUSED(v)
 # endif /* defined (__TenDRA__) */
 
-typedef unsigned char ByteT, *ByteP;
-typedef int BoolT, *BoolP;
+typedef unsigned char ByteT;
+typedef int BoolT;
 # ifdef FS_NO_ENUM
-typedef int CmpT, *CmpP;
+typedef int CmpT;
 # define CMP_LT	(0)
 # define CMP_EQ	(1)
 # define CMP_GT	(2)
@@ -604,7 +604,7 @@ typedef enum {
     CMP_LT,
     CMP_EQ,
     CMP_GT
-} CmpT, *CmpP;
+} CmpT;
 # endif /* defined (FS_NO_ENUM) */
 
 # define NIL(type) ((type) (0))
@@ -661,13 +661,13 @@ if (!(a)) { \
 #  include <stdio.h>
 #  include <stdlib.h>
 #  include <string.h>
-typedef size_t SizeT, *SizeP;
+typedef size_t SizeT;
 # else
 
 #  ifdef PO_SIZE_T_TYPE
-typedef PO_SIZE_T_TYPE SizeT, *SizeP;
+typedef PO_SIZE_T_TYPE SizeT;
 #  else
-typedef unsigned SizeT, *SizeP;
+typedef unsigned SizeT;
 #  endif /* defined (PO_SIZE_T_TYPE) */
 
 extern NoReturnT abort(void);

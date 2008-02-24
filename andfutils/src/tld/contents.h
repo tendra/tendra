@@ -58,64 +58,46 @@
 */
 
 
-/*** map-table.h --- Mapping table ADT.
+/**** contents.h --- Front end to library contents mode of TDF linker.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
- *** Commentary:
+ **** Commentary:
  *
- * See the file "map-table.c" for more information.
+ * See the file "contents.c" for more information.
  *
- *** Change Log:
- * $Log: map-table.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
+ **** Change Log:
+ * $Log: contents.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:16  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:46:33  smf
+ * Revision 1.2  1994/12/12  11:44:01  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:34  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:24  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#ifndef H_MAP_TABLE
-#define H_MAP_TABLE
+#ifndef H_CONTENTS
+#define H_CONTENTS
 
 #include "os-interface.h"
-#include "dalloc.h"
-#include "dstring.h"
-#include "map-entry.h"
+#include "arg-data.h"
 
 /*--------------------------------------------------------------------------*/
 
-#define MAP_TABLE_SIZE	(11)
+extern void			contents_main
+(ArgDataT *);
 
-/*--------------------------------------------------------------------------*/
-
-typedef struct MapTableT {
-    MapEntryT *		contents[MAP_TABLE_SIZE];
-} MapTableT;
-
-/*--------------------------------------------------------------------------*/
-
-extern MapTableT *	map_table_create
-(void);
-extern MapEntryT *	map_table_add
-(MapTableT *, NStringT *, unsigned);
-extern MapEntryT *	map_table_get
-(MapTableT *, NStringT *);
-extern void			map_table_iter
-(MapTableT *, void(*)(MapEntryT *, void *), void *);
-
-#endif /* !defined (H_MAP_TABLE) */
+#endif /* !defined (H_CONTENTS) */
 
 /*
  * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
+ * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
  * eval: (include::add-path-entry "../generated")
- * end:
+ * End:
 **/

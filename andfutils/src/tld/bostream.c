@@ -88,18 +88,18 @@
 
 /*--------------------------------------------------------------------------*/
 
-ExceptionP XX_bostream_write_error = EXCEPTION("error writing to binary stream");
+ExceptionT *XX_bostream_write_error = EXCEPTION("error writing to binary stream");
 
 /*--------------------------------------------------------------------------*/
 
 void
-bostream_init(BOStreamP bostream)
+bostream_init(BOStreamT *bostream)
 {
     bostream->name = NIL(char *);
 }
 
 BoolT
-bostream_open(BOStreamP bostream,		       char *  name)
+bostream_open(BOStreamT *bostream,		       char *  name)
 {
 #ifdef FS_BINARY_STDIO
     if ((bostream->file = fopen(name, "wb")) == NIL(FILE *)) {
@@ -115,20 +115,20 @@ bostream_open(BOStreamP bostream,		       char *  name)
 }
 
 void
-bostream_assign(BOStreamP to,			 BOStreamP from)
+bostream_assign(BOStreamT *to,			 BOStreamT *from)
 {
     to->file  = from->file;
     to->name  = from->name;
 }
 
 BoolT
-bostream_is_open(BOStreamP bostream)
+bostream_is_open(BOStreamT *bostream)
 {
     return(bostream->name != NIL(char *));
 }
 
 void
-bostream_write_chars(BOStreamP bostream,			      unsigned  length ,
+bostream_write_chars(BOStreamT *bostream,			      unsigned  length ,
 			      char *  chars)
 {
     unsigned bytes_read = (unsigned)fwrite((void *)chars, sizeof(char),
@@ -143,8 +143,8 @@ bostream_write_chars(BOStreamP bostream,			      unsigned  length ,
 }
 
 void
-bostream_write_bytes(BOStreamP bostream,			      unsigned  length ,
-			      ByteP     bytes)
+bostream_write_bytes(BOStreamT *bostream,			      unsigned  length ,
+			      ByteT *    bytes)
 {
     unsigned bytes_read = (unsigned)fwrite((void *)bytes, sizeof(ByteT),
 					    (SizeT)length, bostream->file);
@@ -158,7 +158,7 @@ bostream_write_bytes(BOStreamP bostream,			      unsigned  length ,
 }
 
 void
-bostream_write_byte(BOStreamP bostream,			     ByteT     byte)
+bostream_write_byte(BOStreamT *bostream,			     ByteT     byte)
 {
     if ((fputc((int)byte, bostream->file) == EOF) &&
 	(ferror(bostream->file))) {
@@ -170,13 +170,13 @@ bostream_write_byte(BOStreamP bostream,			     ByteT     byte)
 }
 
 char *
-bostream_name(BOStreamP bostream)
+bostream_name(BOStreamT *bostream)
 {
     return(bostream->name);
 }
 
 void
-bostream_close(BOStreamP bostream)
+bostream_close(BOStreamT *bostream)
 {
     if (fclose(bostream->file)) {
 	char * name = cstring_duplicate(bostream->name);

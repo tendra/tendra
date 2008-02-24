@@ -47,7 +47,7 @@ error "cannot open rename file" {
     }
 };
 
-error "rename expected shape" ("istream" : "IStreamP") {
+error "rename expected shape" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected shape name",
     {
 	"file name" : "char *" $[
@@ -64,7 +64,7 @@ error "rename expected shape" ("istream" : "IStreamP") {
     }
 };
 
-error "rename expected name" ("istream" : "IStreamP") {
+error "rename expected name" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected external name",
     {
 	"file name" : "char *" $[
@@ -81,7 +81,7 @@ error "rename expected name" ("istream" : "IStreamP") {
     }
 };
 
-error "rename expected semi" ("istream" : "IStreamP") {
+error "rename expected semi" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected semi colon",
     {
 	"file name" : "char *" $[
@@ -98,7 +98,7 @@ error "rename expected semi" ("istream" : "IStreamP") {
     }
 };
 
-error "rename unexpected eof" ("istream" : "IStreamP") {
+error "rename unexpected eof" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: unexpected end of file",
     {
 	"file name" : "char *" $[
@@ -115,7 +115,7 @@ error "rename unexpected eof" ("istream" : "IStreamP") {
     }
 };
 
-error "rename unexpected newline" ("istream" : "IStreamP") {
+error "rename unexpected newline" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: unexpected newline",
     {
 	"file name" : "char *" $[
@@ -132,7 +132,7 @@ error "rename unexpected newline" ("istream" : "IStreamP") {
     }
 };
 
-error "rename illegal escape" ("istream" : "IStreamP") {
+error "rename illegal escape" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal escape sequence",
     {
 	"file name" : "char *" $[
@@ -149,7 +149,7 @@ error "rename illegal escape" ("istream" : "IStreamP") {
     }
 };
 
-error "rename illegal char" ("istream" : "IStreamP") {
+error "rename illegal char" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character '${character}'",
     {
 	"file name" : "char *" $[
