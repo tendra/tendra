@@ -58,29 +58,11 @@
 */
 
 
-/*** name-entry.h --- Name table entry ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * name-entry.h - Name table entry ADT.
  *
  * See the file "name-entry.c" for more information.
- *
- *** Change Log:
- * $Log: name-entry.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:46:37  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:35  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_NAME_ENTRY
 #define H_NAME_ENTRY
@@ -97,8 +79,6 @@ struct CapsuleT;
 struct LibCapsuleT;
 struct NameTableT;
 struct UnitTableT;
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
 typedef int NameEntryTypeT, *NameEntryTypeT *
@@ -132,8 +112,6 @@ typedef struct NameEntryT {
 	struct NameEntryT      *indirect;
     } u;
 } NameEntryT;
-
-/*--------------------------------------------------------------------------*/
 
 extern NameEntryT *	name_entry_create_direct
 (NameKeyT *, struct ShapeEntryT *);
@@ -221,10 +199,4 @@ extern void			name_entry_show_content
 (NameEntryT *, void *);
 
 #endif /* !defined (H_NAME_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

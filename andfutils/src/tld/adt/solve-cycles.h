@@ -28,28 +28,12 @@
 */
 
 
-/*** solve-cycles.h --- Include all header files in the TDF directory.
- *
- ** Author: Steve Folkes <smf@rivers.dra.hmg.gb>
- *
- *** Commentary:
+/*
+ * solve-cycles.h - Include all header files in the TDF directory.
  *
  * This file is an attempt to get around the structure mismatch errors that
  * "tcc" gives out when linking files together.
- *
- *** Change Log:
- * $Log: solve-cycles.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.1  1995/09/22  08:39:35  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
-**/
+ */
 
 #include "capsule.h"
 #include "../debug.h"

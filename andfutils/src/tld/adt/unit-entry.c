@@ -58,37 +58,12 @@
 */
 
 
-/*** unit-entry.c --- Unit set table entry ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * unit-entry.c - Unit set table entry ADT.
  *
  * This file implements the unit set table entry routines used by the TDF
  * linker.
- *
- *** Change Log:
- * $Log: unit-entry.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:39:43  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:05  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "unit-entry.h"
 #include "../debug.h"
@@ -96,8 +71,6 @@
 #include "../tdf.h"
 
 #include "solve-cycles.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void
 unit_write(UnitT *      unit,		    ShapeTableT *shapes ,
@@ -130,8 +103,6 @@ unit_write(UnitT *      unit,		    ShapeTableT *shapes ,
     tdf_write_int(writer, length);
     tdf_write_bytes(writer, & (unit->contents));
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 unit_set_contents(UnitT *   unit,			   NStringT *nstring)
@@ -189,8 +160,6 @@ unit_entry_add_unit(UnitEntryT *entry,			     unsigned   num_counts)
     entry->tail     = & (unit->next);
     return(unit);
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 unit_entry_do_count(UnitEntryT *entry,			     void *   gclosure)
@@ -272,10 +241,4 @@ unit_entry_write_units(UnitEntryT * entry,				ShapeTableT *shapes ,
 	}
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

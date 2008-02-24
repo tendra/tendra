@@ -58,29 +58,11 @@
 */
 
 
-/*** unit-entry.h --- Unit set table entry ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * unit-entry.h - Unit set table entry ADT.
  *
  * See the file "unit-entry.c" for more information.
- *
- *** Change Log:
- * $Log: unit-entry.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:47:07  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_UNIT_ENTRY
 #define H_UNIT_ENTRY
@@ -93,8 +75,6 @@
 #include "map-table.h"
 #include "shape-table.h"
 #include "tdf-write.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct UnitT {
     struct UnitT	       *next;
@@ -114,8 +94,6 @@ typedef struct UnitSetClosureT {
     unsigned			num_unit_sets;
     ShapeTableT *		shapes;
 } UnitSetClosureT;
-
-/*--------------------------------------------------------------------------*/
 
 extern void			unit_set_contents
 (UnitT *, NStringT *);
@@ -143,10 +121,4 @@ extern void			unit_entry_write_units
 (UnitEntryT *, ShapeTableT *, unsigned, TDFWriterT *);
 
 #endif /* !defined (H_UNIT_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

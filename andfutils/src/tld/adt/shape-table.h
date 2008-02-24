@@ -58,29 +58,11 @@
 */
 
 
-/*** shape-table.h --- Shape table ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * shape-table.h - Shape table ADT.
  *
  * See the file "shape-table.c" for more information.
- *
- *** Change Log:
- * $Log: shape-table.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:46:52  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:38  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_SHAPE_TABLE
 #define H_SHAPE_TABLE
@@ -92,19 +74,13 @@
 #include <exds/dstring.h>
 #include "shape-entry.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define SHAPE_TABLE_SIZE	(11)
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct ShapeTableT {
     ShapeEntryT *		token_entry;
     ShapeEntryT *		tag_entry;
     ShapeEntryT *		contents[SHAPE_TABLE_SIZE];
 } ShapeTableT;
-
-/*--------------------------------------------------------------------------*/
 
 extern ShapeTableT *	shape_table_create
 (void);
@@ -122,10 +98,4 @@ extern void			shape_table_deallocate
 (ShapeTableT *);
 
 #endif /* !defined (H_SHAPE_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

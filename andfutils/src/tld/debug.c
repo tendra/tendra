@@ -58,50 +58,18 @@
 */
 
 
-/**** debug.c --- Debugging routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * debug.c - Debugging routines.
  *
  * This file implements the tracing routines for use with the TDF linker.
- *
- **** Change Log:
- * $Log: debug.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/09/22  08:39:15  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.3  1995/07/07  15:32:22  smf
- * Updated to support TDF specification 4.0.
- *
- * Revision 1.2  1994/12/12  11:46:18  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:31  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "debug.h"
 #include "tdf.h"
 
 #include "adt/solve-cycles.h"
 
-/*--------------------------------------------------------------------------*/
-
 static OStreamT *debug_file   = NIL(OStreamT *);
-
-/*--------------------------------------------------------------------------*/
 
 void
 debug_set_file(OStreamT *file)
@@ -113,8 +81,6 @@ debug_set_file(OStreamT *file)
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 debug_info_u_name(NStringT *name)
 {
@@ -125,8 +91,6 @@ debug_info_u_name(NStringT *name)
 	write_newline(debug_file);
     }
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 debug_info_r_start_capsule(char * name)
@@ -410,8 +374,6 @@ debug_info_r_abort_capsule(void)
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 debug_info_w_start_capsule(char * name)
 {
@@ -670,8 +632,6 @@ debug_info_w_end_capsule(void)
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 debug_info_r_start_library(char * name)
 {
@@ -794,8 +754,6 @@ debug_info_r_abort_library(void)
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 debug_info_w_start_library(char * name)
 {
@@ -906,8 +864,6 @@ debug_info_w_end_library(void)
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 debug_info_l_not_needed(NameKeyT *key,				 NStringT *shape_key, 
 				 unsigned use)
@@ -1013,9 +969,4 @@ debug_info_l_rename(NStringT *shape,			     NameKeyT *from,
 	write_newline(debug_file);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "os-interface" "library" "generated")
- * End:
-**/
+

@@ -58,32 +58,11 @@
 */
 
 
-/*** capsule.h --- TDF capsule ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * capsule.h - TDF capsule ADT.
  *
  * See the file "capsule.c" for more information.
- *
- *** Change Log:
- * $Log: capsule.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/07/07  15:32:20  smf
- * Updated to support TDF specification 4.0.
- *
- * Revision 1.2  1994/12/12  11:46:15  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:30  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_CAPSULE
 #define H_CAPSULE
@@ -99,8 +78,6 @@
 #include "unit-table.h"
 
 struct LibCapsuleT;
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
 typedef int CapsuleTypeT, *CapsuleTypeT *
@@ -124,8 +101,6 @@ typedef struct CapsuleT {
     char *			name;
     BoolT			complete;
 } CapsuleT;
-
-/*--------------------------------------------------------------------------*/
 
 extern void			capsule_read_unit_set_file
 (char *);
@@ -161,10 +136,4 @@ extern unsigned			capsule_get_minor_version
 (void);
 
 #endif /* !defined (H_CAPSULE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

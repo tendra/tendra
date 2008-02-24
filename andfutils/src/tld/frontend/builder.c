@@ -58,33 +58,12 @@
 */
 
 
-/**** builder.c --- Front end to library construction mode of TDF linker.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * builder.c - Front end to library construction mode of TDF linker.
  *
  * This file provides the front end to the library construction mode of the
  * TDF linker.
- *
- **** Change Log:
- * $Log: builder.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:16  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:37:01  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- *
- * Revision 1.2  1994/12/12  11:43:56  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:23  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <string.h>
 
@@ -99,8 +78,6 @@
 #include "../adt/unit-table.h"
 
 #include "../adt/solve-cycles.h"
-
-/*--------------------------------------------------------------------------*/
 
 static LibraryT **
 builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,
@@ -287,8 +264,6 @@ builder_write_library(ArgDataT *   arg_data,			       ShapeTableT *shapes ,
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 builder_main(ArgDataT *arg_data)
 {
@@ -302,10 +277,4 @@ builder_main(ArgDataT *arg_data)
     builder_suppress(arg_data, shapes);
     builder_write_library(arg_data, shapes, num_capsules, capsules);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
-**/
+

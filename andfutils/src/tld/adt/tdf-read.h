@@ -58,29 +58,11 @@
 */
 
 
-/*** tdf-read.h --- TDF reader ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * tdf-read.h - TDF reader ADT.
  *
  * See the file "tdf-read.c" for more information.
- *
- *** Change Log:
- * $Log: tdf-read.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:46:57  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:39  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_TDF_READ
 #define H_TDF_READ
@@ -91,8 +73,6 @@
 #include <exds/bistream.h>
 #include <exds/dstring.h>
 #include "name-key.h"
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
 typedef int ReaderTypeT, *ReaderTypeT *
@@ -121,11 +101,7 @@ typedef struct TDFReaderT {
     BoolT			new_byte;
 } TDFReaderT;
 
-/*--------------------------------------------------------------------------*/
-
 extern ExceptionT *	XX_tdf_read_error;
-
-/*--------------------------------------------------------------------------*/
 
 extern BoolT			tdf_reader_open
 (TDFReaderT *, char *);
@@ -153,10 +129,4 @@ extern void			tdf_reader_close
 (TDFReaderT *);
 
 #endif /* !defined (H_TDF_READ) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

@@ -58,29 +58,11 @@
 */
 
 
-/*** tdf-write.h --- TDF writer ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * tdf-write.h - TDF writer ADT.
  *
  * See the file "tdf-write.c" for more information.
- *
- *** Change Log:
- * $Log: tdf-write.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:47:00  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:39  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_TDF_WRITE
 #define H_TDF_WRITE
@@ -92,15 +74,11 @@
 #include <exds/dstring.h>
 #include "name-key.h"
 
-/*--------------------------------------------------------------------------*/
-
 typedef struct TDFWriterT {
     BOStreamT			bostream;
     ByteT			byte;
     BoolT			new_byte;
 } TDFWriterT;
-
-/*--------------------------------------------------------------------------*/
 
 extern BoolT			tdf_writer_open
 (TDFWriterT *, char *);
@@ -120,10 +98,4 @@ extern void			tdf_writer_close
 (TDFWriterT *);
 
 #endif /* !defined (H_TDF_WRITE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

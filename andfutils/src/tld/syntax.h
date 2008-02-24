@@ -59,95 +59,77 @@
 
 
 /*
- * library.h - TDF library ADT.
+ * syntax.h - Character classification.
  *
- * See the file "library.c" for more information.
+ * This file specifies the interface to a number of syntax table manipulation
+ * functions.  I ought to be able to use <ctype.h> for this, but I can't
+ * because it doesn't have routines to get the numeric value for alphabetic
+ * characters (amongst other omissions).  As I need to do this here, I might
+ * as well put in support for everything.
+ *
+ * It is assumed elsewhere (in association with the input stream facility
+ * specified in the file "istream.h") that the null and newline characters are
+ * white space, and have no digit value.
  */
 
-#ifndef H_LIBRARY
-#define H_LIBRARY
+#ifndef H_SYNTAX
+#define H_SYNTAX
 
-#include "../os-interface.h"
-#include "capsule.h"
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/dalloc.h>
-#include "shape-table.h"
-#include "tdf-read.h"
-#include "tdf-write.h"
+#include "os-interface.h"
 
-#ifdef FS_NO_ENUM
-typedef int LibraryTypeT, *LibraryTypeT *
-#define LT_INPUT		(0)
-#define LT_OUTPUT		(1)
-#else
-typedef enum {
-    LT_INPUT,
-    LT_OUTPUT
-} LibraryTypeT;
-#endif /* defined (FS_NO_ENUM) */
+/*
+ * This value is returned by the ``syntax_value'' function for characters that
+ * do not have a digit value.
+ */
+#define SYNTAX_NO_VALUE	(-1)
 
-struct LibraryT;
+/*
+ * This function returns the positive integer digit value that the specified
+ * character should have, or ``SYNTAX_NO_VALUE'' if it has no value.
+ */
+extern int			syntax_value
+(char);
 
-typedef struct LibCapsuleT {
-    struct LibraryT	       *library;
-    char *			name;
-    NStringT			contents;
-    BoolT			loaded;
-} LibCapsuleT;
+/*
+ * This function returns the upper case version of the specified character if
+ * it has one, otherwise it just returns the character.
+ */
+extern char			syntax_upcase
+(char);
 
-typedef struct LibraryT {
-    LibraryTypeT		type;
-    union {
-	TDFReaderT		reader;
-	TDFWriterT		writer;
-    } u;
-    char *			name;
-    unsigned			num_capsules;
-    LibCapsuleT *		capsules;
-    unsigned			major;
-    unsigned			minor;
-    BoolT			complete;
-} LibraryT;
+/*
+ * This function returns the lower case version of the specified character if
+ * it has one, otherwise it just returns the character.
+ */
+extern char			syntax_downcase
+(char);
 
-extern char *			lib_capsule_name
-(LibCapsuleT *);
-extern char *			lib_capsule_full_name
-(LibCapsuleT *);
-extern NStringT *		lib_capsule_contents
-(LibCapsuleT *);
-extern BoolT			lib_capsule_is_loaded
-(LibCapsuleT *);
-extern void			lib_capsule_loaded
-(LibCapsuleT *);
+/*
+ * This function returns true if the specified character is a white space
+ * character, and false otherwise.
+ */
+extern BoolT			syntax_is_white_space
+(char);
 
-extern void			write_lib_capsule_full_name
-(OStreamT *, LibCapsuleT *);
+/*
+ * This function returns true if the specified character can be printed, and
+ * false otherwise.
+ */
+extern BoolT			syntax_is_printable
+(char);
 
-extern LibraryT *		library_create_stream_input
-(char *);
-extern LibraryT *		library_create_stream_output
-(char *);
-extern char *			library_name
-(LibraryT *);
-extern unsigned			library_num_capsules
-(LibraryT *);
-extern LibCapsuleT *	library_get_capsule
-(LibraryT *, unsigned);
-extern unsigned			library_byte
-(LibraryT *);
-extern void			library_content
-(LibraryT *, BoolT, BoolT, BoolT);
-extern void			library_extract_all
-(LibraryT *, BoolT);
-extern void			library_extract
-(LibraryT *, BoolT, BoolT, unsigned, char * *);
-extern void			library_read
-(LibraryT *, ShapeTableT *);
-extern void			library_write
-(LibraryT *, ShapeTableT *, unsigned, CapsuleT **);
-extern void			library_close
-(LibraryT *);
+/*
+ * This function returns true if the specified character is a letter, and
+ * false otherwise.
+ */
+extern BoolT			syntax_is_letter
+(char);
 
-#endif /* !defined (H_LIBRARY) */
+/*
+ * This function returns true if the specified character is a decimal digit,
+ * and false otherwise.
+ */
+extern BoolT			syntax_is_digit
+(char);
 
+#endif /* !defined (H_SYNTAX) */

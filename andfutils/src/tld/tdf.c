@@ -58,42 +58,15 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * tdf.c - Miscellaneous TDF routines.
  *
  * This file implements various TDF routines used by the TDF linker.
- *
- *** Change Log:
- * $Log: tdf.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:02  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "tdf.h"
 
 #include "adt/solve-cycles.h"
-
-/*--------------------------------------------------------------------------*/
 
 unsigned
 tdf_int_size(unsigned value)
@@ -132,10 +105,4 @@ write_usage(OStreamT *ostream,		     unsigned use)
     }
     write_char(ostream, '}');
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

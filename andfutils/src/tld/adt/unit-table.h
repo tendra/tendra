@@ -58,29 +58,11 @@
 */
 
 
-/*** unit-table.h --- Unit set table ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * unit-table.h - Unit set table ADT.
  *
  * See the file "unit-table.c" for more information.
- *
- *** Change Log:
- * $Log: unit-table.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:47:11  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:41  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_UNIT_TABLE
 #define H_UNIT_TABLE
@@ -92,17 +74,11 @@
 #include <exds/dstring.h>
 #include "unit-entry.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define UNIT_TABLE_SIZE	(11)
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct UnitTableT {
     UnitEntryT *		contents[UNIT_TABLE_SIZE];
 } UnitTableT;
-
-/*--------------------------------------------------------------------------*/
 
 extern UnitTableT *	unit_table_create
 (void);
@@ -114,10 +90,4 @@ extern void			unit_table_iter
 (UnitTableT *, void(*)(UnitEntryT *, void *), void *);
 
 #endif /* !defined (H_UNIT_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

@@ -59,95 +59,68 @@
 
 
 /*
- * library.h - TDF library ADT.
+ * syntax.c - Character classification.
  *
- * See the file "library.c" for more information.
+ * This file implements the syntax table facility specified in the file
+ * "syntax.h". See that file for more details.
+ *
+ * This particular implementation assumes that the ASCII character set is
+ * being used. It will need changing for other character sets.
  */
 
-#ifndef H_LIBRARY
-#define H_LIBRARY
+#include "syntax.h"
 
-#include "../os-interface.h"
-#include "capsule.h"
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/dalloc.h>
-#include "shape-table.h"
-#include "tdf-read.h"
-#include "tdf-write.h"
+int
+syntax_value(char c)
+{
+    if ((c >= '0') && (c <= '9')) {
+	return(c - '0');
+    } else if ((c >= 'A') && (c <= 'Z')) {
+	return(c - 'A' + 10);
+    } else if ((c >= 'a') && (c <= 'z')) {
+	return(c - 'a' + 10);
+    }
+    return(SYNTAX_NO_VALUE);
+}
 
-#ifdef FS_NO_ENUM
-typedef int LibraryTypeT, *LibraryTypeT *
-#define LT_INPUT		(0)
-#define LT_OUTPUT		(1)
-#else
-typedef enum {
-    LT_INPUT,
-    LT_OUTPUT
-} LibraryTypeT;
-#endif /* defined (FS_NO_ENUM) */
+char
+syntax_upcase(char c)
+{
+    if ((c >= 'a') && (c <= 'z')) {
+	return((char)(c - 'a' + 'A'));
+    }
+    return(c);
+}
 
-struct LibraryT;
+char
+syntax_downcase(char c)
+{
+    if ((c >= 'A') && (c <= 'Z')) {
+	return((char)(c - 'A' + 'a'));
+    }
+    return(c);
+}
 
-typedef struct LibCapsuleT {
-    struct LibraryT	       *library;
-    char *			name;
-    NStringT			contents;
-    BoolT			loaded;
-} LibCapsuleT;
+BoolT
+syntax_is_white_space(char c)
+{
+    return((c < 33) || (c > 126));
+}
 
-typedef struct LibraryT {
-    LibraryTypeT		type;
-    union {
-	TDFReaderT		reader;
-	TDFWriterT		writer;
-    } u;
-    char *			name;
-    unsigned			num_capsules;
-    LibCapsuleT *		capsules;
-    unsigned			major;
-    unsigned			minor;
-    BoolT			complete;
-} LibraryT;
+BoolT
+syntax_is_printable(char c)
+{
+    return((c > 31) && (c < 127));
+}
 
-extern char *			lib_capsule_name
-(LibCapsuleT *);
-extern char *			lib_capsule_full_name
-(LibCapsuleT *);
-extern NStringT *		lib_capsule_contents
-(LibCapsuleT *);
-extern BoolT			lib_capsule_is_loaded
-(LibCapsuleT *);
-extern void			lib_capsule_loaded
-(LibCapsuleT *);
+BoolT
+syntax_is_letter(char c)
+{
+    return(((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')));
+}
 
-extern void			write_lib_capsule_full_name
-(OStreamT *, LibCapsuleT *);
-
-extern LibraryT *		library_create_stream_input
-(char *);
-extern LibraryT *		library_create_stream_output
-(char *);
-extern char *			library_name
-(LibraryT *);
-extern unsigned			library_num_capsules
-(LibraryT *);
-extern LibCapsuleT *	library_get_capsule
-(LibraryT *, unsigned);
-extern unsigned			library_byte
-(LibraryT *);
-extern void			library_content
-(LibraryT *, BoolT, BoolT, BoolT);
-extern void			library_extract_all
-(LibraryT *, BoolT);
-extern void			library_extract
-(LibraryT *, BoolT, BoolT, unsigned, char * *);
-extern void			library_read
-(LibraryT *, ShapeTableT *);
-extern void			library_write
-(LibraryT *, ShapeTableT *, unsigned, CapsuleT **);
-extern void			library_close
-(LibraryT *);
-
-#endif /* !defined (H_LIBRARY) */
-
+BoolT
+syntax_is_digit(char c)
+{
+    return((c >= '0') && (c <= '9'));
+}

@@ -58,11 +58,8 @@
 */
 
 
-/**** rename-file.c --- Routines for parsing rename file.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * rename-file.c - Routines for parsing rename file.
  *
  * This file provides the routines that parse the rename file.  The rename
  * file has the following format.
@@ -75,25 +72,7 @@
  * in double quotes, and uniques are written using the normal unique syntax.
  * A single shape name may be followed by any number of name pairs, each of
  * which is terminated by a semi-colon.
- *
- **** Change Log:
- * $Log: rename-file.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:16  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:37:15  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- *
- * Revision 1.2  1994/12/12  11:44:10  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:28  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "rename-file.h"
 #include <exds/common.h>
@@ -105,8 +84,6 @@
 #include "syntax.h"
 
 #include "adt/solve-cycles.h"
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
 typedef int RenameTagT, *RenameTagT *
@@ -130,8 +107,6 @@ typedef struct RenameTokenT {
 	NameKeyT		name;
     } u;
 } RenameTokenT;
-
-/*--------------------------------------------------------------------------*/
 
 static BoolT
 rename_file_skip_white_space(IStreamT *istream,				      char    *c_ref)
@@ -435,8 +410,6 @@ rename_file_parse_1(IStreamT *istream,			     ArgDataT *arg_data)
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 rename_file_parse(char * name,			   ArgDataT *arg_data)
 {
@@ -453,10 +426,4 @@ rename_file_parse(char * name,			   ArgDataT *arg_data)
 	UNREACHED;
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
-**/
+

@@ -58,29 +58,11 @@
 */
 
 
-/**** rename-file.h --- Routines for parsing rename file.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * rename-file.h - Routines for parsing rename file.
  *
  * See the file "rename-file.c" for more information.
- *
- **** Change Log:
- * $Log: rename-file.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:16  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:12  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:29  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_RENAME_FILE
 #define H_RENAME_FILE
@@ -90,16 +72,8 @@
 #include <exds/common.h>
 #include <exds/cstring.h>
 
-/*--------------------------------------------------------------------------*/
-
 extern void			rename_file_parse
 (char *, ArgDataT *);
 
 #endif /* !defined (H_RENAME_FILE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
-**/
+

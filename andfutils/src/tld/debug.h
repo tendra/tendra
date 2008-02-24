@@ -58,32 +58,11 @@
 */
 
 
-/**** debug.h --- Debugging routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * debug.h - Debugging routines.
  *
  * See the file "debug.c" for more information.
- *
- **** Change Log:
- * $Log: debug.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/07/07  15:32:23  smf
- * Updated to support TDF specification 4.0.
- *
- * Revision 1.2  1994/12/12  11:46:21  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:31  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_DEBUG
 #define H_DEBUG
@@ -95,8 +74,6 @@
 #include <exds/dstring.h>
 #include "adt/name-key.h"
 #include <exds/ostream.h>
-
-/*--------------------------------------------------------------------------*/
 
 extern void			debug_set_file
 (OStreamT *);
@@ -252,9 +229,4 @@ extern void			debug_info_l_rename
 (NStringT *, NameKeyT *, NameKeyT *);
 
 #endif /* !defined (H_DEBUG) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "os-interface" "library" "generated")
- * End:
-**/
+

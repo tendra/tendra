@@ -58,29 +58,11 @@
 */
 
 
-/*** name-table.h --- Name table ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * name-table.h - Name table ADT.
  *
  * See the file "name-table.c" for more information.
- *
- *** Change Log:
- * $Log: name-table.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:46:44  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:36  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_NAME_TABLE
 #define H_NAME_TABLE
@@ -95,17 +77,11 @@
 
 struct ShapeEntryT;
 
-/*--------------------------------------------------------------------------*/
-
 #define NAME_TABLE_SIZE	(31)
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct NameTableT {
     NameEntryT *		contents[NAME_TABLE_SIZE];
 } NameTableT;
-
-/*--------------------------------------------------------------------------*/
 
 extern NameTableT *	name_table_create
 (void);
@@ -123,10 +99,4 @@ extern void			name_table_deallocate
 (NameTableT *);
 
 #endif /* !defined (H_NAME_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

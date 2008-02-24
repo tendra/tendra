@@ -58,29 +58,11 @@
 */
 
 
-/*** name-key.h --- External name key ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * name-key.h - External name key ADT.
  *
  * See the file "name-key.c" for more information.
- *
- *** Change Log:
- * $Log: name-key.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:46:40  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:36  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_NAME_KEY
 #define H_NAME_KEY
@@ -91,8 +73,6 @@
 #include <exds/cstring.h>
 #include <exds/dstring.h>
 #include <exds/ostream.h>
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
 typedef int NameKeyTypeT, *NameKeyTypeT *
@@ -136,8 +116,6 @@ typedef struct NameKeyPairListEntryT {
 typedef struct NameKeyPairListT {
     NameKeyPairListEntryT *	head;
 } NameKeyPairListT;
-
-/*--------------------------------------------------------------------------*/
 
 extern void			name_key_init_string
 (NameKeyT *, NStringT *);
@@ -194,10 +172,4 @@ extern NameKeyPairListEntryT *name_key_pair_list_entry_next
 (NameKeyPairListEntryT *);
 
 #endif /* !defined (H_NAME_KEY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

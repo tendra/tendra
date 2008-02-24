@@ -58,32 +58,11 @@
 */
 
 
-/**** linker.c --- Front end to linking mode of TDF linker.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * linker.c - Front end to linking mode of TDF linker.
  *
  * This file provides the front end to the linking mode of the TDF linker.
- *
- **** Change Log:
- * $Log: linker.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:16  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:37:11  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- *
- * Revision 1.2  1994/12/12  11:44:06  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:26  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "linker.h"
 #include "../adt/capsule.h"
@@ -99,14 +78,10 @@
 
 #include "../adt/solve-cycles.h"
 
-/*--------------------------------------------------------------------------*/
-
 typedef struct RenameClosureT {
     ShapeTableT *		shapes;
     ShapeTableT *		lib_shapes;
 } RenameClosureT;
-
-/*--------------------------------------------------------------------------*/
 
 static void
 linker_rename_1(NStringT *        shape,			 NameKeyPairListT *names, 
@@ -381,8 +356,6 @@ linker_write_capsule(ArgDataT *   arg_data,			      UnitTableT * units,
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 linker_main(ArgDataT *arg_data)
 {
@@ -398,10 +371,4 @@ linker_main(ArgDataT *arg_data)
     linker_hide_and_keep(arg_data, shapes);
     linker_write_capsule(arg_data, units, shapes);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
-**/
+

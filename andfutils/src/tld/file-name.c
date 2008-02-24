@@ -58,41 +58,18 @@
 */
 
 
-/**** file-name.c --- File name manipulation routines.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * file-name.c - File name manipulation routines.
  *
  * This file implements the file name manipulation facility specified in the
  * file "file-name.h".  See that file for more details.
- *
- **** Change Log:
- * $Log: file-name.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/07/05  11:58:40  smf
- * Marked possible unused function as such.  Reduced strength of checks.
- *
- * Revision 1.2  1994/12/12  11:45:37  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:06:14  smf
- * Initial import of os-interface shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <string.h>
 
 #include "file-name.h"
 #include <exds/common.h>
 #include <exds/cstring.h>
-
-/*--------------------------------------------------------------------------*/
 
 char *
 file_name_basename(char * path)

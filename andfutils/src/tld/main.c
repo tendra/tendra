@@ -58,74 +58,14 @@
 */
 
 
-/*** main.c --- tld program main routine.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * main.c - tld program main routine.
  *
  * This file contains the main routine for the TDF linker.  It performs
  * argument parsing, and then calls one of "builder_main", "contents_main",
  * "extract_main" or "linker_main" to do the actual work.  See the files in
  * the "frontends" directory for more details.
- *
- *** Change Log:
- * $Log: main.c,v $
- * Revision 1.2  1998/02/06  17:05:29  release
- * Last minute pre-release polishing.
- *
- * Revision 1.1.1.1  1998/01/17  15:57:16  release
- * First version to be checked into rolling release.
- *
- * Revision 1.12  1997/11/05  14:39:35  smf
- * main.c:
- * 	- Updated "VERSION" number.
- *
- * Revision 1.11  1996/05/23  16:03:15  smf
- * main.c:
- * 	- updated version number.
- *
- * Revision 1.10  1996/03/27  10:42:35  smf
- * main.c:
- * 	- updated version number.
- *
- * Revision 1.9  1996/03/04  17:01:16  smf
- * main.c:
- * 	- updated version number.
- *
- * Revision 1.8  1995/12/04  11:51:32  smf
- * Updated version.
- *
- * Fixed version message to include architecture name banner.
- *
- * Revision 1.7  1995/09/22  08:35:00  smf
- * Updated version number.
- * Fixed problems with incomplete structure definitions (to shut "tcc" up).
- *
- * Revision 1.6  1995/09/08  16:10:50  smf
- * Updated version number.
- *
- * Revision 1.5  1995/07/07  15:31:46  smf
- * Updated to support TDF specification 4.0.
- *
- * Revision 1.4  1995/07/05  11:56:59  smf
- * Incremented version number.  Added release identification to version string.
- * Removed "build_tld" from CVS control.
- *
- * Revision 1.3  1994/12/12  11:41:40  smf
- * Upgrade VERSION to 3.6#2.
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.2  1994/08/23  09:38:19  smf
- * Fixed bug DR114:ids-too-long.  Updated linker build process.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:21  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "os-interface.h"
 #include "adt/arg-data.h"
@@ -143,8 +83,6 @@
 
 #include "adt/solve-cycles.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define USAGE "\
 \tusage:[mode][option ...]file ...\n\
 \twhere mode is one of: '-mc'(create library), '-ml'(link capsules),\n\
@@ -159,8 +97,6 @@
 #ifndef BANNER
 #define BANNER ""
 #endif /* !defined (BANNER) */
-
-/*--------------------------------------------------------------------------*/
 
 #ifdef FS_NO_ENUM
 typedef int ModeT, *ModeT *
@@ -177,13 +113,9 @@ typedef enum {
 } ModeT;
 #endif /* defined (FS_NO_ENUM) */
 
-/*--------------------------------------------------------------------------*/
-
 static BoolT    main_used_one_off = FALSE;
 static BoolT    main_used_other   = FALSE;
 static ArgDataT main_arg_data;
-
-/*--------------------------------------------------------------------------*/
 
 static void
 main_print_version(void)
@@ -509,8 +441,6 @@ main_handle_warning(char *  option,			     ArgUsageT *usage,
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 static EStringDataT main_description_strings[] = {
     UB {
 	"description of all",
@@ -793,8 +723,6 @@ static ArgListT main_linker_arg_list[] = {
 #pragma TenDRA end
 #endif
 
-/*--------------------------------------------------------------------------*/
-
 static ModeT
 main_init(int    argc,		   char **argv)
 {
@@ -861,8 +789,6 @@ main_init(int    argc,		   char **argv)
     return(mode);
 }
 
-/*--------------------------------------------------------------------------*/
-
 int
 main(int    argc,	      char **argv)
 {
@@ -909,11 +835,4 @@ main(int    argc,	      char **argv)
     exit(EXIT_SUCCESS);
     UNREACHED;
 }
-
-/*
- * Local variables(smf):
- * compile-command: "build_tld next-cc"
- * eval: (include::add-path-entry "os-interface" "library" "tdf")
- * eval: (include::add-path-entry "frontends" "generated")
- * End:
-**/
+

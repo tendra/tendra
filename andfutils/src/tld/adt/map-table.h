@@ -58,29 +58,11 @@
 */
 
 
-/*** map-table.h --- Mapping table ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * map-table.h - Mapping table ADT.
  *
  * See the file "map-table.c" for more information.
- *
- *** Change Log:
- * $Log: map-table.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:46:33  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:34  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_MAP_TABLE
 #define H_MAP_TABLE
@@ -92,17 +74,11 @@
 #include <exds/dstring.h>
 #include "map-entry.h"
 
-/*--------------------------------------------------------------------------*/
-
 #define MAP_TABLE_SIZE	(11)
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct MapTableT {
     MapEntryT *		contents[MAP_TABLE_SIZE];
 } MapTableT;
-
-/*--------------------------------------------------------------------------*/
 
 extern MapTableT *	map_table_create
 (void);
@@ -114,10 +90,4 @@ extern void			map_table_iter
 (MapTableT *, void(*)(MapEntryT *, void *), void *);
 
 #endif /* !defined (H_MAP_TABLE) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

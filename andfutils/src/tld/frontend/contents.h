@@ -58,29 +58,11 @@
 */
 
 
-/**** contents.h --- Front end to library contents mode of TDF linker.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * contents.h - Front end to library contents mode of TDF linker.
  *
  * See the file "contents.c" for more information.
- *
- **** Change Log:
- * $Log: contents.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:16  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:44:01  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:24  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_CONTENTS
 #define H_CONTENTS
@@ -88,16 +70,8 @@
 #include "../os-interface.h"
 #include "../adt/arg-data.h"
 
-/*--------------------------------------------------------------------------*/
-
 extern void			contents_main
 (ArgDataT *);
 
 #endif /* !defined (H_CONTENTS) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
-**/
+

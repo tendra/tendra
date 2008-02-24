@@ -58,36 +58,11 @@
 */
 
 
-/*** tdf-read.c --- TDF reader ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * tdf-read.c - TDF reader ADT.
  *
  * This file implements the TDF reader routines used by the TDF linker.
- *
- *** Change Log:
- * $Log: tdf-read.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:39:37  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:46:55  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:38  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "tdf-read.h"
 #include "../gen-errors.h"
@@ -97,11 +72,7 @@
 
 #include "solve-cycles.h"
 
-/*--------------------------------------------------------------------------*/
-
 ExceptionT *XX_tdf_read_error = EXCEPTION("error reading TDF capsule");
-
-/*--------------------------------------------------------------------------*/
 
 static unsigned
 tdf_read_nibble(TDFReaderT *reader)
@@ -131,8 +102,6 @@ tdf_read_nibble(TDFReaderT *reader)
     reader->new_byte = TRUE;
     return(reader->byte & 0xF);
 }
-
-/*--------------------------------------------------------------------------*/
 
 BoolT
 tdf_reader_open(TDFReaderT *reader,			 char *   name)
@@ -334,10 +303,4 @@ tdf_reader_close(TDFReaderT *reader)
 	break;
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

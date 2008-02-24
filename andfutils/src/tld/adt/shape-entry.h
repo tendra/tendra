@@ -58,29 +58,11 @@
 */
 
 
-/*** shape-entry.h --- Shape table entry ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * shape-entry.h - Shape table entry ADT.
  *
  * See the file "shape-entry.c" for more information.
- *
- *** Change Log:
- * $Log: shape-entry.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:46:48  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:38  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_SHAPE_ENTRY
 #define H_SHAPE_ENTRY
@@ -97,8 +79,6 @@
 
 struct ShapeTableT;
 struct UnitTableT;
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct ShapeEntryT {
     struct ShapeEntryT	       *next;
@@ -122,8 +102,6 @@ typedef struct ShapeLibClosureT {
     struct UnitTableT	       *units;
     struct ShapeTableT	       *shapes;
 } ShapeLibClosureT;
-
-/*--------------------------------------------------------------------------*/
 
 extern ShapeEntryT *	shape_entry_create
 (NStringT *);
@@ -180,10 +158,4 @@ extern void			shape_entry_show_content
 (ShapeEntryT *, void *);
 
 #endif /* !defined (H_SHAPE_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

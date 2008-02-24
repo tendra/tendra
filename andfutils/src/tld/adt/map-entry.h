@@ -58,29 +58,11 @@
 */
 
 
-/*** map-entry.h --- Mapping table entry ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * map-entry.h - Mapping table entry ADT.
  *
  * See the file "map-entry.c" for more information.
- *
- *** Change Log:
- * $Log: map-entry.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
- * First version to be checked into rolling release.
- *
- * Revision 1.2  1994/12/12  11:46:29  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:33  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_MAP_ENTRY
 #define H_MAP_ENTRY
@@ -90,8 +72,6 @@
 #include <exds/exception.h>
 #include <exds/dalloc.h>
 #include <exds/dstring.h>
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct MapLinkT {
     unsigned			internal;
@@ -105,8 +85,6 @@ typedef struct MapEntryT {
     unsigned			num_links;
     MapLinkT *		links;
 } MapEntryT;
-
-/*--------------------------------------------------------------------------*/
 
 extern MapEntryT *	map_entry_create
 (NStringT *, MapEntryT *, unsigned);
@@ -129,10 +107,4 @@ extern void			map_entry_check_non_empty
 (MapEntryT *, void *);
 
 #endif /* !defined (H_MAP_ENTRY) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

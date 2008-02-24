@@ -58,42 +58,15 @@
 */
 
 
-/*** shape-table.c --- Shape table ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * shape-table.c - Shape table ADT.
  *
  * This file implements the shape table routines used by the TDF linker.
- *
- *** Change Log:
- * $Log: shape-table.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:39:34  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:46:50  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:38  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "shape-table.h"
 
 #include "solve-cycles.h"
-
-/*--------------------------------------------------------------------------*/
 
 ShapeTableT *
 shape_table_create(void)
@@ -197,10 +170,4 @@ shape_table_deallocate(ShapeTableT *table)
 	}
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

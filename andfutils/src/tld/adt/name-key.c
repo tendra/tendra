@@ -58,43 +58,16 @@
 */
 
 
-/*** name-key.c --- External name key ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * name-key.c - External name key ADT.
  *
  * This file implements the external name key routines used by the TDF linker.
- *
- *** Change Log:
- * $Log: name-key.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:19  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:39:28  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:46:38  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:35  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "name-key.h"
 #include "../syntax.h"
 
 #include "solve-cycles.h"
-
-/*--------------------------------------------------------------------------*/
 
 static BoolT
 name_key_parse_hex_char(char * name,				 char    *c_ref)
@@ -259,8 +232,6 @@ write_name_key_1(OStreamT *ostream,			  NStringT *nstring)
 	bytes++;
     }
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 name_key_init_string(NameKeyT *key,			      NStringT *string)
@@ -455,8 +426,6 @@ write_name_key(OStreamT *ostream,			NameKeyT *key)
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 name_key_list_init(NameKeyListT *list)
 {
@@ -498,8 +467,6 @@ name_key_list_entry_next(NameKeyListEntryT *entry)
 {
     return(entry->next);
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 name_key_pair_list_init(NameKeyPairListT *list)
@@ -550,10 +517,4 @@ name_key_pair_list_entry_next(NameKeyPairListEntryT *entry)
 {
     return(entry->next);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

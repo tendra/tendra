@@ -58,32 +58,11 @@
 */
 
 
-/**** arg-data.h --- Command line argument data ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * arg-data.h - Command line argument data ADT.
  *
  * See the file "arg-data.c" for more information.
- *
- **** Change Log:
- * $Log: arg-data.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:16  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/07/07  15:31:55  smf
- * Updated to support TDF specification 4.0.
- *
- * Revision 1.2  1994/12/12  11:43:54  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:22  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #ifndef H_ARG_DATA
 #define H_ARG_DATA
@@ -97,8 +76,6 @@
 #include <exds/dstring.h>
 #include "name-key.h"
 #include <exds/ostream.h>
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct ShapeControlEntryT {
     struct ShapeControlEntryT  *next;
@@ -153,8 +130,6 @@ typedef struct ArgDataT {
     unsigned			num_files;
     char *		       *files;
 } ArgDataT;
-
-/*--------------------------------------------------------------------------*/
 
 extern void			shape_control_iter
 	(ShapeControlT *, void(*)(NStringT *, BoolT, NameKeyListT *,
@@ -253,10 +228,4 @@ extern char *		       *arg_data_get_files
 (ArgDataT *);
 
 #endif /* !defined (H_ARG_DATA) */
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
-**/
+
