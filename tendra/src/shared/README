@@ -13,7 +13,8 @@ in locally when taring up single projects for release.
 
 Each set of support functions is grouped into a statically-linked archive.
 These archives take the role of miniature libraries, save that their APIs are
-not particularly tidy, and are subject to change.
+not particularly tidy, and are subject to change. check.h is a slightly
+exception, since it provides only a header.
 
 Building shared
 ---------------
