@@ -65,6 +65,7 @@
  */
 
 #include <limits.h>
+#include <stdint.h>
 
 #include "tdf-read.h"
 #include "../gen-errors.h"
@@ -91,7 +92,7 @@ tdf_read_nibble(TDFReaderT *reader)
 	    UNREACHED;
 	  case RT_STRING:
 	    if (reader->u.string.current < reader->u.string.limit) {
-		reader->byte     = (ByteT)(*(reader->u.string.current++));
+		reader->byte     = (uint8_t)(*(reader->u.string.current++));
 		reader->new_byte = FALSE;
 		reader->u.string.byte++;
 		return(((unsigned)reader->byte >> 4) & 0xF);
@@ -261,7 +262,7 @@ tdf_read_name(TDFReaderT *reader,		       NameKeyT *  name)
 void
 tdf_read_eof(TDFReaderT *reader)
 {
-    ByteT byte;
+    uint8_t byte;
 
     switch (reader->type)EXHAUSTIVE {
       case RT_STREAM:

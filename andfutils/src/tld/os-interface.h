@@ -133,13 +133,6 @@
  *
  * This is the type of the return value of the "sizeof" operator.
  *
- ** Type:	ByteT
- ** Type:	ByteT *
- ** Repr:	unsigned char
- *
- * This is the byte type.  It is possible that this could be larger than a
- * byte in some implementations.
- *
  ***=== CONSTANTS ============================================================
  *
  ** Constant:	TRUE
@@ -224,8 +217,6 @@
 # else
 #  define UNUSED(v)
 # endif /* defined (__TenDRA__) */
-
-typedef unsigned char ByteT;
 
 # ifdef __TenDRA__
 #  pragma TenDRA keyword EXHAUSTIVE for exhaustive

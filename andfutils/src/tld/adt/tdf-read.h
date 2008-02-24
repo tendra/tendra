@@ -67,6 +67,8 @@
 #ifndef H_TDF_READ
 #define H_TDF_READ
 
+#include <stdint.h>
+
 #include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
@@ -91,7 +93,7 @@ typedef struct TDFReaderT {
 	    unsigned		byte;
 	} string;
     } u;
-    ByteT			byte;
+    uint8_t			byte;
     BoolT			new_byte;
 } TDFReaderT;
 

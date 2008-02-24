@@ -64,6 +64,8 @@
  * This file implements the TDF writer routines used by the TDF linker.
  */
 
+#include <stdint.h>
+
 #include "tdf-write.h"
 #include "../gen-errors.h"
 #include <exds/common.h>
@@ -77,10 +79,10 @@ tdf_write_nibble(TDFWriterT *writer,			  unsigned   nibble)
 {
     if (writer->new_byte) {
 	writer->new_byte = FALSE;
-	writer->byte     = (ByteT)((nibble & 0x0F) << 4);
+	writer->byte     = (uint8_t)((nibble & 0x0F) << 4);
     } else {
 	writer->new_byte = TRUE;
-	writer->byte    |= (ByteT)(nibble & 0x0F);
+	writer->byte    |= (uint8_t)(nibble & 0x0F);
 	bostream_write_byte(& (writer->bostream), writer->byte);
     }
 }
