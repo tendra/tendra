@@ -92,13 +92,6 @@
  * This should be defined if this system supports the ANSI C ``const''
  * keyword.  It is automatically defined if the ``__STDC__'' macro is defined.
  *
- *	FS_ENUM
- *
- * This should be defined if this system supports enumerated types.  It is
- * automatically defined if ``__STDC__'' is defined.  This macro needs to be
- * tested wherever an enumeration type is declared, and if enumeration types
- * are not supported, then an integer must be used instead.
- *
  *	FS_ANSI_ENVIRON
  *
  * This should be defined if the system has an ANSI C compliant standard
@@ -325,16 +318,6 @@
  * This macro is defined if the ANSI C hash operators (``#'' and ``##'') are
  * available.
  *
- ** Macro:	FS_ENUM
- ** Macro:	FS_NO_ENUM
- ** Exceptions:
- *
- * The first of these macros is defined if the compiler supports enumeration
- * types.  The second is defined when the first is undefined (and vice-versa).
- * Either can (and should) be tested when enumeration types are being defined,
- * with integer types and macros being used if enumeration types are not
- * supported.
- *
  ** Macro:	FS_BINARY_STDIO
  ** Exceptions:
  *
@@ -447,7 +430,6 @@
 #   define FS_PROTOTYPES
 #   define FS_VOLATILE
 #   define FS_CONST
-#   define FS_ENUM
 #   if __STDC__ == 1
 #    define FS_ANSI_ENVIRON
 #   endif /* __STDC__ == 1 */
@@ -476,15 +458,6 @@
 # ifndef FS_CONST
 #  define const
 # endif /* !defined (FS_CONST) */
-
-# ifdef FS_NO_ENUM
-#  undef FS_ENUM
-# endif /* defined (FS_NO_ENUM) */
-# ifndef FS_ENUM
-#  ifndef FS_NO_ENUM
-#   define FS_NO_ENUM
-#  endif /* !defined (FS_NO_ENUM) */
-# endif /* !defined (FS_ENUM) */
 
 # ifdef FS_NO_ANSI_ENVIRON
 #  undef FS_ANSI_ENVIRON

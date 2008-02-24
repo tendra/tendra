@@ -79,16 +79,10 @@
 
 struct LibCapsuleT;
 
-#ifdef FS_NO_ENUM
-typedef int CapsuleTypeT, *CapsuleTypeT *
-#define CT_INPUT		(0)
-#define CT_OUTPUT		(1)
-#else
 typedef enum {
     CT_INPUT,
     CT_OUTPUT
 } CapsuleTypeT;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct CapsuleT {
     CapsuleTypeT		type;

@@ -74,16 +74,10 @@
 #include <exds/dstring.h>
 #include "name-key.h"
 
-#ifdef FS_NO_ENUM
-typedef int ReaderTypeT, *ReaderTypeT *
-#define RT_STREAM	(0)
-#define RT_STRING	(1)
-#else
 typedef enum {
     RT_STREAM,
     RT_STRING
 } ReaderTypeT;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct TDFReaderT {
     ReaderTypeT			type;

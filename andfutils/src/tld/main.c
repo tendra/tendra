@@ -98,20 +98,12 @@
 #define BANNER ""
 #endif /* !defined (BANNER) */
 
-#ifdef FS_NO_ENUM
-typedef int ModeT, *ModeT *
-#define MODE_BUILDER		(0)
-#define MODE_CONTENTS		(1)
-#define MODE_EXTRACT		(2)
-#define MODE_LINKER		(3)
-#else
 typedef enum {
     MODE_BUILDER,
     MODE_CONTENTS,
     MODE_EXTRACT,
     MODE_LINKER
 } ModeT;
-#endif /* defined (FS_NO_ENUM) */
 
 static BoolT    main_used_one_off = FALSE;
 static BoolT    main_used_other   = FALSE;

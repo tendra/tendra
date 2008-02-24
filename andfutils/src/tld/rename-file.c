@@ -85,20 +85,12 @@
 
 #include "adt/solve-cycles.h"
 
-#ifdef FS_NO_ENUM
-typedef int RenameTagT, *RenameTagT *
-#define RTOK_SHAPE		(0)
-#define RTOK_NAME		(1)
-#define RTOK_SEMI		(2)
-#define RTOK_EOF		(3)
-#else
 typedef enum {
     RTOK_SHAPE,
     RTOK_NAME,
     RTOK_SEMI,
     RTOK_EOF
 } RenameTagT;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct RenameTokenT {
     RenameTagT			tag;

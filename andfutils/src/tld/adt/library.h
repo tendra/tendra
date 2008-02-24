@@ -76,16 +76,10 @@
 #include "tdf-read.h"
 #include "tdf-write.h"
 
-#ifdef FS_NO_ENUM
-typedef int LibraryTypeT, *LibraryTypeT *
-#define LT_INPUT		(0)
-#define LT_OUTPUT		(1)
-#else
 typedef enum {
     LT_INPUT,
     LT_OUTPUT
 } LibraryTypeT;
-#endif /* defined (FS_NO_ENUM) */
 
 struct LibraryT;
 

@@ -74,16 +74,10 @@
 #include <exds/dstring.h>
 #include <exds/ostream.h>
 
-#ifdef FS_NO_ENUM
-typedef int NameKeyTypeT, *NameKeyTypeT *
-#define KT_STRING	(0)
-#define KT_UNIQUE	(1)
-#else
 typedef enum {
     KT_STRING,
     KT_UNIQUE
 } NameKeyTypeT;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct NameUniqueT {
     unsigned			length;

@@ -80,14 +80,6 @@ struct LibCapsuleT;
 struct NameTableT;
 struct UnitTableT;
 
-#ifdef FS_NO_ENUM
-typedef int NameEntryTypeT, *NameEntryTypeT *
-#define NT_INDIRECT		(0)
-#define NT_INDIRECT_CYCLING	(1)
-#define NT_INDIRECT_DONE	(2)
-#define NT_DIRECT		(3)
-#define NT_PLACEHOLDER		(4)
-#else
 typedef enum {
     NT_INDIRECT,
     NT_INDIRECT_CYCLING,
@@ -95,7 +87,6 @@ typedef enum {
     NT_DIRECT,
     NT_PLACEHOLDER
 } NameEntryTypeT;
-#endif /* defined (FS_NO_ENUM) */
 
 typedef struct NameEntryT {
     struct NameEntryT	       *next;
