@@ -67,7 +67,6 @@
 #ifndef H_DEBUG
 #define H_DEBUG
 
-#include "os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/cstring.h>

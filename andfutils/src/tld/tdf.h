@@ -67,7 +67,6 @@
 #ifndef H_TDF
 #define H_TDF
 
-#include "os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>

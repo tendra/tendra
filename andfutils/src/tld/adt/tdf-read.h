@@ -69,7 +69,6 @@
 
 #include <stdint.h>
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/bistream.h>

@@ -67,7 +67,6 @@
 #ifndef H_MAP_TABLE
 #define H_MAP_TABLE
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>

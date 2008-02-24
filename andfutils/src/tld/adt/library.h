@@ -67,7 +67,6 @@
 #ifndef H_LIBRARY
 #define H_LIBRARY
 
-#include "../os-interface.h"
 #include "capsule.h"
 #include <exds/common.h>
 #include <exds/exception.h>

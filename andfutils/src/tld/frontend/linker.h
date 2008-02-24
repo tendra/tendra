@@ -67,7 +67,6 @@
 #ifndef H_LINKER
 #define H_LINKER
 
-#include "../os-interface.h"
 #include "../adt/arg-data.h"
 
 extern void			linker_main

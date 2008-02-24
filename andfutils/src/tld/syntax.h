@@ -77,7 +77,6 @@
 
 #include <exds/common.h>
 
-#include "os-interface.h"
 
 /*
  * This value is returned by the ``syntax_value'' function for characters that

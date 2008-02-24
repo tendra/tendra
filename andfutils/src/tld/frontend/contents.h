@@ -67,7 +67,6 @@
 #ifndef H_CONTENTS
 #define H_CONTENTS
 
-#include "../os-interface.h"
 #include "../adt/arg-data.h"
 
 extern void			contents_main

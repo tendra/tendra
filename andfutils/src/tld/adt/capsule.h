@@ -67,7 +67,6 @@
 #ifndef H_CAPSULE
 #define H_CAPSULE
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>

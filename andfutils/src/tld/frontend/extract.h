@@ -67,7 +67,6 @@
 #ifndef H_EXTRACT
 #define H_EXTRACT
 
-#include "../os-interface.h"
 #include "../adt/arg-data.h"
 
 extern void			extract_main

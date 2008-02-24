@@ -67,7 +67,6 @@
 #ifndef H_BUILDER
 #define H_BUILDER
 
-#include "../os-interface.h"
 #include "../adt/arg-data.h"
 
 extern void			builder_main

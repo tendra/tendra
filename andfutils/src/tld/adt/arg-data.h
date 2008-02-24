@@ -67,7 +67,6 @@
 #ifndef H_ARG_DATA
 #define H_ARG_DATA
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/cstring.h>

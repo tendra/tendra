@@ -67,7 +67,6 @@
 #ifndef H_NAME_KEY
 #define H_NAME_KEY
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/cstring.h>
