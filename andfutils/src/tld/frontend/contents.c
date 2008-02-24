@@ -65,6 +65,8 @@
  * linker.
  */
 
+#include <stdlib.h>
+
 #include "contents.h"
 #include "../gen-errors.h"
 #include "../adt/library.h"

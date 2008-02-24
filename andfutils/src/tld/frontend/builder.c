@@ -66,6 +66,7 @@
  */
 
 #include <string.h>
+#include <stdlib.h>
 
 #include "builder.h"
 #include "../adt/capsule.h"

@@ -67,6 +67,8 @@
  * the "frontends" directory for more details.
  */
 
+#include <stdlib.h>
+
 #include "os-interface.h"
 #include "adt/arg-data.h"
 #include "arg-parse.h"

@@ -65,6 +65,8 @@
  * linker.
  */
 
+#include <stdlib.h>
+
 #include "extract.h"
 #include <exds/common.h>
 #include <exds/error.h>

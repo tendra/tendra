@@ -40,11 +40,7 @@
  * turn on certain features.  These macros are listed below.  In each case
  * there is a macro that begins with ``FS_NO_'' instead of ``FS_'' that turns
  * the feature off; if both are defined, the ``FS_NO_'' macro takes
- * precedence, and the feature is turned off.  In addition, the ``FS_NO_STDC''
- * macro may be used to turn off the ``__STDC__'' macro (in the cases where
- * the system isn't really ANSI compliant), and the ``FS_NO_FILE_INFO'' macro
- * should be defined if the ``__FILE__'' or ``__LINE__'' macros are
- * unsupported.
+ * precedence, and the feature is turned off.
  *
  *	FS_FAST
  *
@@ -70,75 +66,12 @@
  * some of the "inlined" functions may have lost their assertions in the
  * macro version.
  *
- *	FS_STDC_HASH
- *
- * This should be defined if the system supports ANSI C style macro hash
- * syntax (``#'' and ``##'').  It is automatically defined if the ``__STDC__''
- * macro is defined.
- *
- *	FS_PROTOTYPES
- *
- * This should be defined if the system supports ANSI C style function
- * prototypes.  It is automatically defined if the ``__STDC__'' macro is
- * defined.
- *
- *	FS_VOLATILE
- *
- * This should be defined if this system supports the ANSI C ``volatile''
- * keyword.  It is automatically defined if the ``__STDC__'' macro is defined.
- *
- *	FS_ANSI_ENVIRON
- *
- * This should be defined if the system has an ANSI C compliant standard
- * library.  If this is not the case, then an attempt is made to approximate
- * that library.  It is automatically defined if the ``__STDC__'' macro is
- * defined to be ``1''.
- *
- *	FS_BINARY_STDIO
- *
- * This should be defined if the system supports the "b" modifier to the
- * standard library ``fopen'' function.  It is automatically defined if
- * ``FS_ANSI_ENVIRON'' is defined.
- *
- *	FS_STRERROR
- *
- * This should be defined if this system supports the ANSI ``strerror''
- * function for getting a textual description of a system error message.  It
- * is automatically defined if ``FS_ANSI_ENVIRON'' is defined.
- *
- *	FS_SYS_ERRLIST
- *
- * This should be defined if this system supports ``sys_nerr'' and
- * ``sys_errlist'' for getting a textual description of the current system
- * error.  If the ``FS_STRERROR'' macro is defined, then the ANSI ``strerror''
- * function will be used instead (overiding this macro).  If neither macro is
- * defined, then the error number will be used as the message.
- *
- *	FS_MKDIR
- *
- * This should be defined if this system supports the POSIX ``mkdir''
- * function.
- *
- * As well as the feature switch macros, there are some portability option
- * macros as well.  These provide values for types and constants when the type
- * cannot be otherwise deduced.  These macros are ignored when the correct
- * value can be obtained automatically (this generally means on an ANSI
- * compliant system).
- *
  *	PO_CHAR_BIT
  *
  * This should be defined to be the number of bits in a ``char'' object, used
  * to define ``CHAR_BIT''.  In an ANSI C compliant standard library, this
  * macro is defined in <limits.h>. If the standard library is not ANSI
  * compliant and no value is provided, then ``8'' will be used.
- *
- *	PO_EXIT_SUCCESS
- *	PO_EXIT_FAILURE
- *
- * These two macros should be defined to be the values for ``EXIT_SUCCESS''
- * and ``EXIT_FAILUE''.  In an ANSI C compliant standard library, they are
- * defined in <stdlib.h>.  If the standard library is not ANSI compliant and
- * no value is provided, then ``0'' and ``1'' will be used.
  *
  *	PO_UINT_MAX
  *
@@ -275,12 +208,6 @@
  *
  * These expand to values suitable for the boolean constants true and false.
  *
- ** Constant:	EXIT_SUCCESS
- ** Constant:	EXIT_FAILURE
- *
- * These values should be used as arguments to the ``exit'' function to
- * indicate success or failure of the program.
- *
  ** Constant:	UINT_MAX
  *
  * This is the maximum unsigned integer value.
@@ -297,12 +224,6 @@
  * This macro is defined if ``__FILE__'' or ``__LINE__'' are unsupported.
  * They will be defined as macros with some default value in this case, but
  * the programmer may wish to do something different.
- *
- ** Macro:	FS_STDC_HASH
- ** Exceptions:
- *
- * This macro is defined if the ANSI C hash operators (``#'' and ``##'') are
- * available.
  *
  ** Macro:	FS_BINARY_STDIO
  ** Exceptions:
@@ -410,54 +331,6 @@
 #  undef FS_ASSERT
 # endif /* defined (FS_NO_ASSERT) */
 
-# ifndef FS_NO_STDC
-#  ifdef __STDC__
-#   define FS_STDC_HASH
-#   define FS_PROTOTYPES
-#   define FS_VOLATILE
-#   if __STDC__ == 1
-#    define FS_ANSI_ENVIRON
-#   endif /* __STDC__ == 1 */
-#  endif /* defined (__STDC__) */
-# endif /* !defined (FS_NO_STDC) */
-
-# ifdef FS_NO_FILE_INFO
-#  define __FILE__ "unknown"
-#  define __LINE__ 0
-# endif /* defined (FS_NO_FILE_INFO) */
-
-# ifdef FS_NO_STDC_HASH
-#  undef FS_STDC_HASH
-# endif /* defined (FS_NO_STDC_HASH) */
-
-# ifdef FS_NO_VOLATILE
-#  undef FS_VOLATILE
-# endif /* defined (FS_NO_VOLATILE) */
-# ifndef FS_VOLATILE
-#  define volatile
-# endif /* !defined (FS_VOLATILE) */
-
-# ifdef FS_NO_ANSI_ENVIRON
-#  undef FS_ANSI_ENVIRON
-# endif /* defined (FS_NO_ANSI_ENVIRON) */
-
-# ifdef FS_ANSI_ENVIRON
-#  define FS_BINARY_STDIO
-#  define FS_STRERROR
-# endif /* defined (FS_ANSI_ENVIRON) */
-# ifdef FS_NO_BINARY_STDIO
-#  undef FS_BINARY_STDIO
-# endif /* defined (FS_NO_BINARY_STDIO) */
-# ifdef FS_NO_STRERROR
-#  undef FS_STRERROR
-# endif /* defined (FS_NO_STRERROR) */
-# ifdef FS_NO_SYS_ERRLIST
-#  undef FS_SYS_ERRLIST
-# endif /* defined (FS_NO_SYS_ERRLIST) */
-# ifdef FS_NO_MKDIR
-#  undef FS_MKDIR
-# endif /* defined (FS_NO_MKDIR) */
-
 # ifdef __GNUC__
 typedef void NoReturnT;
 # else
@@ -488,27 +361,14 @@ typedef int BoolT;
 #  define INLINE
 # endif /* defined (__GNUC__) */
 
-# ifdef FS_MKDIR
-extern int			mkdir
-	(char *, int);
-# endif /* defined (FS_MKDIR) */
-
 # ifdef FS_ASSERT
 extern void			E_assertion_failed
 	(char *, char *, unsigned);
-#  ifdef FS_STDC_HASH
 #   define ASSERT(a) \
 if (!(a)) { \
     E_assertion_failed (#a, __FILE__, (unsigned) __LINE__); \
     abort (); \
 }
-#  else
-#   define ASSERT(a) \
-if (!(a)) { \
-    E_assertion_failed ("<unavailable>", __FILE__, (unsigned) __LINE__); \
-    abort (); \
-}
-#  endif /* defined (FS_STDC_HASH) */
 # else
 #  define ASSERT(a)
 # endif /* defined (FS_ASSERT) */
@@ -523,52 +383,6 @@ if (!(a)) { \
 #  define UNREACHED ASSERT (FALSE)
 # endif /* defined (__TenDRA__) */
 
-# ifdef FS_ANSI_ENVIRON
-#  include <errno.h>
-#  include <limits.h>
-#  include <setjmp.h>
-#  include <stddef.h>
-#  include <stdio.h>
-#  include <stdlib.h>
-#  include <string.h>
-typedef size_t SizeT;
-# else
-
-extern NoReturnT abort(void);
-extern void * calloc(SizeT, SizeT);
-extern void *	malloc(SizeT);
-extern NoReturnT exit(int);
-extern void free(void *);
-extern char *	getenv(char *);
-#  ifndef __GNUC__
-extern int memcmp(void *, void *, SizeT);
-#  endif /* defined (__GNUC__) */
-#  ifndef __GNUC__
-extern void *	memcpy(void *, void *, SizeT);
-#  endif /* defined (__GNUC__) */
-extern void *	memset(void *, int, SizeT);
-extern void * memchr(void *, int, SizeT);
-#  ifndef __GNUC__
-extern SizeT strlen(char *);
-#  endif /* defined (__GNUC__) */
-#  ifndef __GNUC__
-extern int strcmp(char *, char *);
-#  endif /* defined (__GNUC__) */
-#  ifndef __GNUC__
-extern char * strcpy(char *, char *);
-#  endif /* defined (__GNUC__) */
-extern char * strchr(char *, int);
-extern char *	strrchr(char *, int);
-extern int errno;
-#  ifdef FS_STRERROR
-extern char * strerror(int);
-#  endif /* defined (FS_STRERROR) */
-
-#  include <setjmp.h>
-#  include <stdio.h>
-
-# endif /* !defined (FS_ANSI_ENVIRON) */
-
 #  ifndef CHAR_BIT
 #   ifdef PO_CHAR_BIT
 #    define CHAR_BIT PO_CHAR_BIT
@@ -576,22 +390,6 @@ extern char * strerror(int);
 #    define CHAR_BIT 8
 #   endif /* defined (PO_CHAR_BIT) */
 #  endif /* !defined (CHAR_BIT) */
-
-#  ifndef EXIT_SUCCESS
-#   ifdef PO_EXIT_SUCCESS
-#    define EXIT_SUCCESS PO_EXIT_SUCCESS
-#   else
-#    define EXIT_SUCCESS (0)
-#   endif /* defined (PO_EXIT_SUCCESS) */
-#  endif /* !defined (EXIT_SUCCESS) */
-
-#  ifndef EXIT_FAILURE
-#   ifdef PO_EXIT_FAILURE
-#    define EXIT_FAILURE PO_EXIT_FAILURE
-#   else
-#    define EXIT_FAILURE (1)
-#   endif /* defined (PO_EXIT_FAILURE) */
-#  endif /* !defined (EXIT_FAILURE) */
 
 #  ifndef UINT_MAX
 #   ifdef PO_UINT_MAX
@@ -624,10 +422,5 @@ extern char * strerror(int);
 #    define SEEK_END (2)
 #   endif /* defined (PO_SEEK_END) */
 #  endif /* !defined (SEEK_END) */
-
-# ifdef FS_SYS_ERRLIST
-extern int			sys_nerr;
-extern char *			sys_errlist [];
-# endif /* defined (FS_SYS_ERRLIST) */
 
 #endif /* !defined (H_OS_INTERFACE) */

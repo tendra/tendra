@@ -64,6 +64,8 @@
  * This file provides the front end to the linking mode of the TDF linker.
  */
 
+#include <stdlib.h>
+
 #include "linker.h"
 #include "../adt/capsule.h"
 #include "../debug.h"

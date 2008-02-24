@@ -65,6 +65,8 @@
  * file "file-name.h".  See that file for more details.
  */
 
+#include <sys/stat.h>
+#include <stddef.h>
 #include <string.h>
 
 #include "file-name.h"
@@ -117,19 +119,19 @@ file_name_expand(char * dir,			  char * name,
     path   = ALLOCATE_VECTOR(char, length);
     tmp    = path;
     if (dir_length > 0) {
-	(void)memcpy((void *)tmp,(void *)dir,(SizeT)dir_length);
+	(void)memcpy((void *)tmp,(void *)dir,(size_t)dir_length);
 	tmp += dir_length;
 	if (dir[dir_length - 1]!= '/') {
 	    tmp[0] = '/';
 	    tmp++;
 	}
     }
-   (void)memcpy((void *)tmp,(void *)name,(SizeT)name_length);
+   (void)memcpy((void *)tmp,(void *)name,(size_t)name_length);
     tmp += name_length;
     if (suffix) {
 	tmp[0] = '.';
 	tmp++;
-	(void)memcpy((void *)tmp,(void *)suffix,(SizeT)suf_length);
+	(void)memcpy((void *)tmp,(void *)suffix,(size_t)suf_length);
 	tmp += suf_length;
     }
     tmp[0] = '\0';
@@ -151,19 +153,15 @@ file_name_is_absolute(char * path)
 void
 file_name_populate(char * path)
 {
-#ifdef FS_MKDIR
     char * new_path = cstring_duplicate(path);
-    char * tmp      = cstring_find(new_path, '/');
+    char * tmp      = strchr(new_path, '/');
 
     if (tmp) {
 	do {
 	    *tmp = '\0';
 	   (void)mkdir(new_path, 0755);
 	    *tmp = '/';
-	} while ((tmp = cstring_find(tmp + 1, '/')) != NIL(char *));
+	} while ((tmp = strchr(tmp + 1, '/')) != NIL(char *));
     }
     DEALLOCATE(new_path);
-#else
-    UNUSED(path);
-#endif /* defined (FS_MKDIR) */
 }
