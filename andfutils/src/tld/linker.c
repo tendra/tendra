@@ -88,7 +88,8 @@
 #include "linker.h"
 #include "capsule.h"
 #include "debug.h"
-#include "error.h"
+#include <exds/common.h>
+#include <exds/error.h>
 #include "file-name.h"
 #include "gen-errors.h"
 #include "library.h"

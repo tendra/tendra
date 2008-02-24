@@ -86,8 +86,10 @@
 #define H_SHAPE_TABLE
 
 #include "os-interface.h"
-#include "dalloc.h"
-#include "dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
 #include "shape-entry.h"
 
 /*--------------------------------------------------------------------------*/

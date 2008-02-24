@@ -300,14 +300,6 @@
  *
  * This is the boolean type.
  *
- ** Type:	CmpT
- ** Type:	CmpT *
- ** Repr:	enum {CMP_LT, CMP_EQ, CMP_GT}
- *
- * This is the type returned by comparison functions.  The values represent
- * the fact that the first argument is less than, equal to, or greater than
- * the second argument respectively.
- *
  ***=== CONSTANTS ============================================================
  *
  ** Constant:	TRUE
@@ -476,6 +468,14 @@
 #ifndef H_OS_INTERFACE
 #define H_OS_INTERFACE
 
+/*
+ * These are defined tempoarily while I'm porting tld to use libexds. They will
+ * be removed in a second pass. I'm defining them now to minimise the amount of
+ * change per-commit.
+ */
+typedef struct NString * NstringP;
+
+
 # ifdef FS_NO_SHORTNAMES
 #  undef FS_SHORTNAMES
 # endif /* defined (FS_NO_SHORTNAMES) */
@@ -594,18 +594,6 @@ typedef void NoReturnT;
 
 typedef unsigned char ByteT;
 typedef int BoolT;
-# ifdef FS_NO_ENUM
-typedef int CmpT;
-# define CMP_LT	(0)
-# define CMP_EQ	(1)
-# define CMP_GT	(2)
-# else
-typedef enum {
-    CMP_LT,
-    CMP_EQ,
-    CMP_GT
-} CmpT;
-# endif /* defined (FS_NO_ENUM) */
 
 # define NIL(type) ((type) (0))
 

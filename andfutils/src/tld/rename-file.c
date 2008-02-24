@@ -96,10 +96,12 @@
 /****************************************************************************/
 
 #include "rename-file.h"
-#include "dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dstring.h>
 #include "gen-errors.h"
-#include "istream.h"
-#include "nstring-list.h"
+#include <exds/istream.h>
+#include <exds/nstring-list.h>
 #include "syntax.h"
 
 #include "solve-cycles.h"

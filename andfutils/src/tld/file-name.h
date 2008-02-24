@@ -132,7 +132,9 @@
 #define H_FILE_NAME
 
 #include "os-interface.h"
-#include "dalloc.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
 
 /*--------------------------------------------------------------------------*/
 

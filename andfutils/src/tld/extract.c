@@ -87,7 +87,8 @@
 /****************************************************************************/
 
 #include "extract.h"
-#include "error.h"
+#include <exds/common.h>
+#include <exds/error.h>
 #include "gen-errors.h"
 #include "library.h"
 

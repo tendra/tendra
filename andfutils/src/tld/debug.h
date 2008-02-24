@@ -89,10 +89,12 @@
 #define H_DEBUG
 
 #include "os-interface.h"
-#include "cstring.h"
-#include "dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/cstring.h>
+#include <exds/dstring.h>
 #include "name-key.h"
-#include "ostream.h"
+#include <exds/ostream.h>
 
 /*--------------------------------------------------------------------------*/
 

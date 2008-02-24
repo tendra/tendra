@@ -86,7 +86,9 @@
 #define H_NAME_ENTRY
 
 #include "os-interface.h"
-#include "dalloc.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
 #include "name-key.h"
 
 struct ShapeTableT;

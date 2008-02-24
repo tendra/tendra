@@ -86,9 +86,10 @@
 #define H_TDF_READ
 
 #include "os-interface.h"
-#include "bistream.h"
-#include "dstring.h"
-#include "exception.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/bistream.h>
+#include <exds/dstring.h>
 #include "name-key.h"
 
 /*--------------------------------------------------------------------------*/

@@ -95,10 +95,12 @@
 
 /****************************************************************************/
 
+#include <string.h>
+
 #include "library.h"
 #include "capsule.h"
 #include "debug.h"
-#include "exception.h"
+#include <exds/exception.h>
 #include "file-name.h"
 #include "gen-errors.h"
 #include "tdf.h"
@@ -375,9 +377,9 @@ char *
 lib_capsule_full_name(LibCapsuleT *capsule)
 {
     char * lib_name   = library_name(capsule->library);
-    unsigned lib_length = cstring_length(lib_name);
+    unsigned lib_length = strlen(lib_name);
     char * name       = lib_capsule_name(capsule);
-    unsigned length     = cstring_length(name);
+    unsigned length     = strlen(name);
     char * full_name  = ALLOCATE_VECTOR(char, lib_length + length + 3);
     char * tmp        = full_name;
 
@@ -558,8 +560,8 @@ library_extract(LibraryT *library, BoolT use_basename, BoolT match_basename,
 		if (match_basename) {
 		    base_name = file_name_basename(lib_name);
 		}
-		if ((cstring_equal(file_name, lib_name)) ||
-		   (match_basename && cstring_equal(file_name, base_name))) {
+		if ((!strcmp(file_name, lib_name)) ||
+		   (match_basename && !strcmp(file_name, base_name))) {
 		    library_extract_1(capsule, use_basename);
 		    matched = TRUE;
 		}

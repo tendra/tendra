@@ -98,10 +98,11 @@
 
 #include "capsule.h"
 #include "debug.h"
-#include "dstring.h"
-#include "exception.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dstring.h>
 #include "gen-errors.h"
-#include "istream.h"
+#include <exds/istream.h>
 #include "name-key.h"
 #include "library.h"
 #include "syntax.h"

@@ -133,8 +133,9 @@
 #include "builder.h"
 #include "contents.h"
 #include "debug.h"
-#include "error.h"
-#include "exception.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/error.h>
 #include "extract.h"
 #include "gen-errors.h"
 #include "linker.h"

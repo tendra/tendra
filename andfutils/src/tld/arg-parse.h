@@ -267,9 +267,11 @@
 #define H_ARG_PARSE
 
 #include "os-interface.h"
-#include "cstring.h"
-#include "error.h"
-#include "ostream.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/cstring.h>
+#include <exds/error.h>
+#include <exds/ostream.h>
 
 /*--------------------------------------------------------------------------*/
 

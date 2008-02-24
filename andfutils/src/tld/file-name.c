@@ -86,15 +86,18 @@
 
 /****************************************************************************/
 
+#include <string.h>
+
 #include "file-name.h"
-#include "cstring.h"
+#include <exds/common.h>
+#include <exds/cstring.h>
 
 /*--------------------------------------------------------------------------*/
 
 char *
 file_name_basename(char * path)
 {
-    char * last = cstring_find_reverse(path, '/');
+    char * last = strrchr(path, '/');
 
     if (last) {
 	return(cstring_duplicate(last + 1));
@@ -106,7 +109,7 @@ file_name_basename(char * path)
 char *
 file_name_dirname(char * path)
 {
-    char * last = cstring_find_reverse(path, '/');
+    char * last = strrchr(path, '/');
 
     if (last) {
 	return(cstring_duplicate_prefix(path,(unsigned)(last - path)));
@@ -119,9 +122,9 @@ char *
 file_name_expand(char * dir,			  char * name, 
 			  char * suffix)
 {
-    unsigned dir_length  = cstring_length(dir);
-    unsigned name_length = cstring_length(name);
-    unsigned suf_length  = (suffix ?(cstring_length(suffix)): 0);
+    unsigned dir_length  = strlen(dir);
+    unsigned name_length = strlen(name);
+    unsigned suf_length  = (suffix ?(strlen(suffix)): 0);
     unsigned suf_extra   = (unsigned)(suffix ? 1 : 0);
     unsigned extra;
     unsigned length;
@@ -159,7 +162,7 @@ file_name_expand(char * dir,			  char * name,
 BoolT
 file_name_is_basename(char * path)
 {
-    return(!cstring_contains(path, '/'));
+    return(!!strchr(path, '/'));
 }
 
 BoolT

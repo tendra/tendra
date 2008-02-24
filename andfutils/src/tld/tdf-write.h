@@ -86,8 +86,10 @@
 #define H_TDF_WRITE
 
 #include "os-interface.h"
-#include "bostream.h"
-#include "dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/bostream.h>
+#include <exds/dstring.h>
 #include "name-key.h"
 
 /*--------------------------------------------------------------------------*/

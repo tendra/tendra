@@ -97,7 +97,9 @@
 
 #include "os-interface.h"
 #include "capsule.h"
-#include "dalloc.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
 #include "shape-table.h"
 #include "tdf-read.h"
 #include "tdf-write.h"

@@ -86,8 +86,10 @@
 #define H_SHAPE_ENTRY
 
 #include "os-interface.h"
-#include "dalloc.h"
-#include "dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
 #include "map-table.h"
 #include "name-entry.h"
 #include "name-table.h"

@@ -91,7 +91,9 @@
 
 #include "tdf-write.h"
 #include "gen-errors.h"
-#include "ostream.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/ostream.h>
 
 #include "solve-cycles.h"
 

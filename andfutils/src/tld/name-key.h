@@ -86,9 +86,11 @@
 #define H_NAME_KEY
 
 #include "os-interface.h"
-#include "cstring.h"
-#include "dstring.h"
-#include "ostream.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/cstring.h>
+#include <exds/dstring.h>
+#include <exds/ostream.h>
 
 /*--------------------------------------------------------------------------*/
 

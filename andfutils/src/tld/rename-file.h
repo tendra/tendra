@@ -87,7 +87,8 @@
 
 #include "os-interface.h"
 #include "arg-data.h"
-#include "cstring.h"
+#include <exds/common.h>
+#include <exds/cstring.h>
 
 /*--------------------------------------------------------------------------*/
 

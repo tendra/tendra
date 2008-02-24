@@ -12,12 +12,11 @@ LIBS=
 PROG=		${.CURDIR:T}
 
 OBJS=		gen-errors.o\
-		arg-data.o arg-parse.o bistream.o bostream.o builder.o\
-		capsule.o contents.o cstring-list.o cstring.o dalloc.o debug.o\
-		dstring.o error.o exception.o extract.o\
-		file-name.o istream.o library.o linker.o main.o\
+		arg-data.o arg-parse.o builder.o\
+		capsule.o contents.o debug.o extract.o\
+		file-name.o library.o linker.o main.o\
 		map-entry.o map-table.o name-entry.o name-key.o name-table.o\
-		nstring-list.o ostream.o rename-file.o shape-entry.o\
+		rename-file.o shape-entry.o\
 		shape-table.o syntax.o tdf-read.o tdf-write.o tdf.o\
 		unit-entry.o unit-table.o
 
@@ -30,7 +29,7 @@ EFILES=${SRC1}/arg-data.e ${SRC1}/arg-parse.e ${SRC1}/builder.e\
  ${SRC1}/shape-entry.e ${SRC1}/tdf-read.e
 
 tld: ${OBJS}
-	${CC} -o tld ${OBJS}
+	${CC} -o tld ${OBJS} -lexds
 
 gen-errors.c : ${BUILD_ERRORS} ${EFILES}
 	${REMOVE} ${ERR_OUT};\

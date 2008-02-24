@@ -86,10 +86,13 @@
 
 /****************************************************************************/
 
+#include <string.h>
+
 #include "builder.h"
 #include "capsule.h"
 #include "debug.h"
-#include "error.h"
+#include <exds/common.h>
+#include <exds/error.h>
 #include "gen-errors.h"
 #include "library.h"
 #include "shape-table.h"
@@ -139,7 +142,7 @@ builder_read_capsule(CapsuleT *capsule, CapsuleT **capsules,
     unsigned i;
 
     for (i = 0; i < capsule_index; i++) {
-	if (cstring_equal(name, capsule_name(capsules[i]))) {
+	if (!strcmp(name, capsule_name(capsules[i]))) {
 	    E_duplicate_capsule_name(name);
 	}
     }

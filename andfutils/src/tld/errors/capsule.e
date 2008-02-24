@@ -29,7 +29,9 @@
 
 header $[
 #include "capsule.h"
-#include "istream.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/istream.h>
 #include "name-key.h"
 ]$;
 

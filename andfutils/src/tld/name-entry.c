@@ -96,7 +96,9 @@
 #include "gen-errors.h"
 #include "library.h"
 #include "name-table.h"
-#include "ostream.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/ostream.h>
 #include "shape-entry.h"
 #include "shape-table.h"
 #include "tdf.h"
