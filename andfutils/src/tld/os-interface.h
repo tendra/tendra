@@ -130,15 +130,6 @@
  * value can be obtained automatically (this generally means on an ANSI
  * compliant system).
  *
- *	PO_SIZE_T_TYPE
- *
- * The ``sizeof'' operator returns a value of type ``size_t''.  In an ANSI C
- * compliant standard library, this type should be defined in <stddef.h>.  If
- * the machine doesn't have an ANSI C compliant standard library, then this
- * macro should specify the type of ``size_t''.  If no definition is provided,
- * and the environment is not ANSI C compliant, then ``unsigned'' will be
- * used.
- *
  *	PO_CHAR_BIT
  *
  * This should be defined to be the number of bits in a ``char'' object, used
@@ -555,12 +546,6 @@ if (!(a)) { \
 #  include <string.h>
 typedef size_t SizeT;
 # else
-
-#  ifdef PO_SIZE_T_TYPE
-typedef PO_SIZE_T_TYPE SizeT;
-#  else
-typedef unsigned SizeT;
-#  endif /* defined (PO_SIZE_T_TYPE) */
 
 extern NoReturnT abort(void);
 extern void * calloc(SizeT, SizeT);
