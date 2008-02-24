@@ -643,7 +643,7 @@ sub output_c_file {
     print OUTFILE ("static ETagDataT ET[] = {\n");
     for ($i = 1; $i <= $#error_tag_order; $i ++) {
 	$tag = $error_tag_order [$i];
-	print OUTFILE ("    UB \"", $tag, "\" UE,\n");
+	print OUTFILE ("    { \"", $tag, "\" },\n");
     }
     print OUTFILE ("    ERROR_END_TAG_LIST\n");
     print OUTFILE ("};\n\n");
@@ -651,10 +651,10 @@ sub output_c_file {
     print OUTFILE ("static ErrorDataT EE[] = {\n");
     for ($i = 1; $i <= $#error_order; $i ++) {
 	$error = $error_order [$i];
-	print OUTFILE ("    UB {\n\t\"", $error, "\",\n\t",
+	print OUTFILE ("    { {\n\t\"", $error, "\",\n\t",
 		       $error_severities{$error}, ",\n\t\"",
 		       $error_messages{$error}, "\",\n\t",
-		       $error_client_data{$error}, "\n    } UE,\n");
+		       $error_client_data{$error}, "\n    } },\n");
     }
     print OUTFILE ("    ERROR_END_ERROR_LIST\n");
     print OUTFILE ("};\n\n");

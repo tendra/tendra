@@ -442,91 +442,91 @@ main_handle_warning(char *  option,			     ArgUsageT *usage,
 }
 
 static EStringDataT main_description_strings[] = {
-    UB {
+    { {
 	"description of all",
 	"\n\tEnable/disable extraction of all capsules."
-    } UE, UB {
+    } }, { {
 	"description of all-hide-defined",
 	"\n\tEnable/disable hiding of all external names of any shape that have a definition."
-    } UE, UB {
+    } }, { {
 	"description of basename",
 	"\n\tEnable/disable extraction of capsules to their basename."
-    } UE, UB {
+    } }, { {
 	"description of debug-file",
 	" FILE\n\tWrite debugging output to FILE."
-    } UE, UB {
+    } }, { {
 	"description of help",
 	"\n\tDisplay an option summary for the current mode."
-    } UE, UB {
+    } }, { {
 	"description of hide",
 	" SHAPE NAME\n\tHide the external SHAPE NAME."
-    } UE, UB {
+    } }, { {
 	"description of hide-defined",
 	" SHAPE\n\tHide all external SHAPE names that have a definition."
-    } UE, UB {
+    } }, { {
 	"description of include-library",
 	" LIBRARY\n\tInclude the contents of LIBRARY in the output library."
-    } UE, UB {
+    } }, { {
 	"description of index",
 	"\n\tEnable/disable the display of the library index as well as the capsule names."
-    } UE, UB {
+    } }, { {
 	"description of info",
 	"\n\tEnable/disable informational messages."
-    } UE, UB {
+    } }, { {
 	"description of keep",
 	" SHAPE NAME\n\tEnsure that external SHAPE NAME is not hidden."
-    } UE, UB {
+    } }, { {
 	"description of keep-all",
 	" SHAPE\n\tEnsure that no external SHAPE is hidden."
-    } UE, UB {
+    } }, { {
 	"description of library-file",
 	" FILE\n\tUse FILE as a TDF library."
-    } UE, UB {
+    } }, { {
 	"description of l",
 	"FILE\n\tUse FILE as a TDF library."
-    } UE, UB {
+    } }, { {
 	"description of match-basename",
 	"\n\tEnable/disable matching capsules by their basename"
-    } UE, UB {
+    } }, { {
 	"description of output-file",
 	" FILE\n\tWrite output to FILE(default 'library.tl')."
-    } UE, UB {
+    } }, { {
 	"description of path",
 	" DIRECTORY\n\tAppend DIRECTORY to library search path."
-    } UE, UB {
+    } }, { {
 	"description of L",
 	"DIRECTORY\n\tAppend DIRECTORY to library search path."
-    } UE, UB {
+    } }, { {
 	"description of rename",
 	" SHAPE FROM TO\n\tRename SHAPE FROM to TO."
-    } UE, UB {
+    } }, { {
 	"description of rename-file",
 	" FILE\n\tParse FILE as a rename file."
-    } UE, UB {
+    } }, { {
 	"description of size",
 	"\n\tEnable/disable the display of the size of library capsules as well as their names."
-    } UE, UB {
+    } }, { {
 	"description of suppress",
 	" SHAPE NAME\n\tDo not try to find a definition for SHAPE NAME."
-    } UE, UB {
+    } }, { {
 	"description of suppress-all",
 	" SHAPE\n\tDo not try to find a definition for any SHAPE."
-    } UE, UB {
+    } }, { {
 	"description of suppress-mult",
 	"\n\tEnable/disable the suppression of multiple definitions as library definitions."
-    } UE, UB {
+    } }, { {
 	"description of tdf-version",
 	"\n\tEnable/disable the display of the version of a TDF library."
-    } UE, UB {
+    } }, { {
 	"description of unit-file",
 	" FILE\n\tRead unit set names from FILE."
-    } UE, UB {
+    } }, { {
 	"description of version",
 	"\n\tDisplay the version number on the standard error."
-    } UE, UB {
+    } }, { {
 	"description of warning",
 	"\n\tEnable/disable warning messages."
-    } UE, ERROR_END_STRING_LIST
+    } }, ERROR_END_STRING_LIST
 };
 
 #ifdef __TenDRA__
@@ -539,39 +539,39 @@ static ArgListT main_builder_arg_list[] = {
     {
 	"debug-file", 'd',			AT_FOLLOWING,
 	(ArgProcP)main_handle_debug_file,	NIL(void *),
-	UB "description of debug-file" UE
+	{ "description of debug-file" }
     }, {
 	"help", '?',				AT_EMPTY,
 	(ArgProcP)main_handle_help,		NIL(void *),
-	UB "description of help" UE
+	{ "description of help" }
     }, {
 	"include-library", 'i',			AT_FOLLOWING,
 	(ArgProcP)main_handle_library_file,	NIL(void *),
-	UB "description of include-library" UE
+	{ "description of include-library" }
     }, {
 	"output-file", 'o',			AT_FOLLOWING,
 	(ArgProcP)main_handle_output_file,	NIL(void *),
-	UB "description of output-file" UE
+	{ "description of output-file" }
     }, {
 	"suppress", 's',			AT_FOLLOWING2,
 	(ArgProcP)main_handle_suppress,	NIL(void *),
-	UB "description of suppress" UE
+	{ "description of suppress" }
     }, {
 	"suppress-all", 'S',			AT_FOLLOWING,
 	(ArgProcP)main_handle_suppress_all,	NIL(void *),
-	UB "description of suppress-all" UE
+	{ "description of suppress-all" }
     }, {
 	"suppress-mult", 'M',			AT_PROC_SWITCH,
 	(ArgProcP)main_handle_suppress_mult,	NIL(void *),
-	UB "description of suppress-mult" UE
+	{ "description of suppress-mult" }
     }, {
 	"unit-file", 'u',			AT_FOLLOWING,
 	(ArgProcP)main_handle_unit_file,	NIL(void *),
-	UB "description of unit-file" UE
+	{ "description of unit-file" }
     }, {
 	"version", 'v',				AT_EMPTY,
 	(ArgProcP)main_handle_version,		NIL(void *),
-	UB "description of version" UE
+	{ "description of version" }
     }, ARG_PARSE_END_LIST
 };
 
@@ -579,27 +579,27 @@ static ArgListT main_contents_arg_list[] = {
     {
 	"debug-file", 'd',			AT_FOLLOWING,
 	(ArgProcP)main_handle_debug_file,	NIL(void *),
-	UB "description of debug-file" UE
+	{ "description of debug-file" }
     }, {
 	"help", '?',				AT_EMPTY,
 	(ArgProcP)main_handle_help,		NIL(void *),
-	UB "description of help" UE
+	{ "description of help" }
     }, {
 	"index", 'i',				AT_PROC_SWITCH,
 	(ArgProcP)main_handle_index,		NIL(void *),
-	UB "description of index" UE
+	{ "description of index" }
     }, {
 	"size", 's',				AT_PROC_SWITCH,
 	(ArgProcP)main_handle_size,		NIL(void *),
-	UB "description of size" UE
+	{ "description of size" }
     }, {
 	"tdf-version", 't',			AT_PROC_SWITCH,
 	(ArgProcP)main_handle_tdf_version,	NIL(void *),
-	UB "description of tdf-version" UE
+	{ "description of tdf-version" }
     }, {
 	"version", 'v',				AT_EMPTY,
 	(ArgProcP)main_handle_version,		NIL(void *),
-	UB "description of version" UE
+	{ "description of version" }
     }, ARG_PARSE_END_LIST
 };
 
@@ -607,31 +607,31 @@ static ArgListT main_extract_arg_list[] = {
     {
 	"all", 'a',				AT_PROC_SWITCH,
 	(ArgProcP)main_handle_all,		NIL(void *),
-	UB "description of all" UE
+	{ "description of all" }
     }, {
 	"basename", 'b',			AT_PROC_SWITCH,
 	(ArgProcP)main_handle_basename,	NIL(void *),
-	UB "description of basename" UE
+	{ "description of basename" }
     }, {
 	"debug-file", 'd',			AT_FOLLOWING,
 	(ArgProcP)main_handle_debug_file,	NIL(void *),
-	UB "description of debug-file" UE
+	{ "description of debug-file" }
     }, {
 	"help", '?',				AT_EMPTY,
 	(ArgProcP)main_handle_help,		NIL(void *),
-	UB "description of help" UE
+	{ "description of help" }
     }, {
 	"info", 'i',				AT_PROC_SWITCH,
 	(ArgProcP)main_handle_info,		NIL(void *),
-	UB "description of info" UE
+	{ "description of info" }
     }, {
 	"match-basename", 'm',			AT_PROC_SWITCH,
 	(ArgProcP)main_handle_match_base,	NIL(void *),
-	UB "description of match-basename" UE
+	{ "description of match-basename" }
     }, {
 	"version", 'v',				AT_EMPTY,
 	(ArgProcP)main_handle_version,		NIL(void *),
-	UB "description of version" UE
+	{ "description of version" }
     }, ARG_PARSE_END_LIST
 };
 
@@ -639,83 +639,83 @@ static ArgListT main_linker_arg_list[] = {
     {
 	"all-hide-defined", 'a',		AT_PROC_SWITCH,
 	(ArgProcP)main_handle_all_hide_defd,	NIL(void *),
-	UB "description of all-hide-defined" UE
+	{ "description of all-hide-defined" }
     }, {
 	"debug-file", 'd',			AT_FOLLOWING,
 	(ArgProcP)main_handle_debug_file,	NIL(void *),
-	UB "description of debug-file" UE
+	{ "description of debug-file" }
     }, {
 	"help", '?',				AT_EMPTY,
 	(ArgProcP)main_handle_help,		NIL(void *),
-	UB "description of help" UE
+	{ "description of help" }
     }, {
 	"hide", 'h',				AT_FOLLOWING2,
 	(ArgProcP)main_handle_hide,		NIL(void *),
-	UB "description of hide" UE
+	{ "description of hide" }
     }, {
 	"hide-defined", 'H',			AT_FOLLOWING,
 	(ArgProcP)main_handle_hide_defined,	NIL(void *),
-	UB "description of hide-defined" UE
+	{ "description of hide-defined" }
     }, {
 	"keep", 'k',				AT_FOLLOWING2,
 	(ArgProcP)main_handle_keep,		NIL(void *),
-	UB "description of keep" UE
+	{ "description of keep" }
     }, {
 	"keep-all", 'K',			AT_FOLLOWING,
 	(ArgProcP)main_handle_keep_all,	NIL(void *),
-	UB "description of keep-all" UE
+	{ "description of keep-all" }
     }, {
 	"library", '\0',			AT_FOLLOWING,
 	(ArgProcP)main_handle_library_file,	NIL(void *),
-	UB "description of library-file" UE
+	{ "description of library-file" }
     }, {
 	NIL(char *), 'l',			AT_EITHER,
 	(ArgProcP)main_handle_library_file,	NIL(void *),
-	UB "description of l" UE
+	{ "description of l" }
     }, {
 	"output-file", 'o',			AT_FOLLOWING,
 	(ArgProcP)main_handle_output_file,	NIL(void *),
-	UB "description of output-file" UE
+	{ "description of output-file" }
     }, {
 	"path", '\0',				AT_FOLLOWING,
 	(ArgProcP)main_handle_library_path,	NIL(void *),
-	UB "description of path" UE
+	{ "description of path" }
     }, {
 	NIL(char *), 'L',			AT_EITHER,
 	(ArgProcP)main_handle_library_path,	NIL(void *),
-	UB "description of L" UE
+	{ "description of L" }
     }, {
 	"rename", 'r',				AT_FOLLOWING3,
 	(ArgProcP)main_handle_rename,		NIL(void *),
-	UB "description of rename" UE
+	{ "description of rename" }
     }, {
 	"rename-file", 'R',			AT_FOLLOWING,
 	(ArgProcP)main_handle_rename_file,	NIL(void *),
-	UB "description of rename-file" UE
+	{ "description of rename-file" }
     }, {
 	"suppress", 's',			AT_FOLLOWING2,
 	(ArgProcP)main_handle_suppress,	NIL(void *),
-	UB "description of suppress" UE
+	{ "description of suppress" }
     }, {
 	"suppress-all", 'S',			AT_FOLLOWING,
 	(ArgProcP)main_handle_suppress_all,	NIL(void *),
-	UB "description of suppress-all" UE
+	{ "description of suppress-all" }
     }, {
 	"suppress-mult", 'M',			AT_PROC_SWITCH,
 	(ArgProcP)main_handle_suppress_mult,	NIL(void *),
-	UB "description of suppress-mult" UE
+	{ "description of suppress-mult" }
     }, {
 	"unit-file", 'u',			AT_FOLLOWING,
 	(ArgProcP)main_handle_unit_file,	NIL(void *),
-	UB "description of unit-file" UE
+	{ "description of unit-file" }
     }, {
 	"version", 'v',				AT_EMPTY,
 	(ArgProcP)main_handle_version,		NIL(void *),
-	UB "description of version" UE
+	{ "description of version" }
     }, {
 	"warnings", 'w',			AT_PROC_SWITCH,
 	(ArgProcP)main_handle_warning,		NIL(void *),
-	UB "description of warning" UE
+	{ "description of warning" }
     }, ARG_PARSE_END_LIST
 };
 
