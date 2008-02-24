@@ -169,6 +169,8 @@ extern void		ostream_flush(OStreamT *);
  */
 extern char *		ostream_name(OStreamT *);
 
+extern char * ostream_gen_name(OStreamT * ostream);
+
 /*
  * This function returns one more than the number of newlines that have been
  * written to the specified ostream.  The result is undefined if the stream
