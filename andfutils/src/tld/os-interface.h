@@ -49,13 +49,6 @@
  * macro is defined in <limits.h>. If the standard library is not ANSI
  * compliant and no value is provided, then ``8'' will be used.
  *
- *	PO_UINT_MAX
- *
- * This should be defined to be the maximum unsinged integer, and is used to
- * define ``UINT_MAX''.  In an ANSI C compliant standard library, this macro
- * is defined in <limits.h>. If the standard library is not ANSI compliant and
- * no value is provided, then ``(~(unsigned) 0)'' will be used.
- *
  *	PO_SEEK_SET
  *	PO_SEEK_CUR
  *	PO_SEEK_END
@@ -175,10 +168,6 @@
  ** Constant:	FALSE
  *
  * These expand to values suitable for the boolean constants true and false.
- *
- ** Constant:	UINT_MAX
- *
- * This is the maximum unsigned integer value.
  *
  ** Constant:	CHAR_BIT
  *
@@ -318,14 +307,6 @@ typedef int BoolT;
 #    define CHAR_BIT 8
 #   endif /* defined (PO_CHAR_BIT) */
 #  endif /* !defined (CHAR_BIT) */
-
-#  ifndef UINT_MAX
-#   ifdef PO_UINT_MAX
-#    define UINT_MAX PO_UINT_MAX
-#   else
-#    define UINT_MAX (~(unsigned) 0)
-#   endif /* defined (PO_UINT_MAX) */
-#  endif /* !defined (UINT_MAX) */
 
 #  ifndef SEEK_SET
 #   ifdef PO_SEEK_SET

@@ -97,6 +97,7 @@
 /****************************************************************************/
 
 #include <assert.h>
+#include <limits.h>
 
 #include "capsule.h"
 #include "../debug.h"

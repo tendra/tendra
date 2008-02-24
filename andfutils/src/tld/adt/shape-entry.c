@@ -65,6 +65,8 @@
  * linker.
  */
 
+#include <limits.h>
+
 #include "shape-entry.h"
 #include "../debug.h"
 #include "../gen-errors.h"

@@ -64,6 +64,8 @@
  * This file implements the TDF reader routines used by the TDF linker.
  */
 
+#include <limits.h>
+
 #include "tdf-read.h"
 #include "../gen-errors.h"
 #include <exds/common.h>
