@@ -66,6 +66,10 @@
 
 #include <assert.h>
 
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+
 #include "name-key.h"
 #include "../syntax.h"
 
