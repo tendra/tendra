@@ -95,11 +95,11 @@ ExceptionP XX_bostream_write_error = EXCEPTION("error writing to binary stream")
 void
 bostream_init(BOStreamP bostream)
 {
-    bostream->name = NIL(CStringP);
+    bostream->name = NIL(char *);
 }
 
 BoolT
-bostream_open(BOStreamP bostream,		       CStringP  name)
+bostream_open(BOStreamP bostream,		       char *  name)
 {
 #ifdef FS_BINARY_STDIO
     if ((bostream->file = fopen(name, "wb")) == NIL(FILE *)) {
@@ -124,18 +124,18 @@ bostream_assign(BOStreamP to,			 BOStreamP from)
 BoolT
 bostream_is_open(BOStreamP bostream)
 {
-    return(bostream->name != NIL(CStringP));
+    return(bostream->name != NIL(char *));
 }
 
 void
 bostream_write_chars(BOStreamP bostream,			      unsigned  length ,
-			      CStringP  chars)
+			      char *  chars)
 {
     unsigned bytes_read = (unsigned)fwrite((void *)chars, sizeof(char),
 					    (SizeT)length, bostream->file);
 
     if ((bytes_read != length) && (ferror(bostream->file))) {
-	CStringP name = cstring_duplicate(bostream->name);
+	char * name = cstring_duplicate(bostream->name);
 
 	THROW_VALUE(XX_bostream_write_error, name);
 	UNREACHED;
@@ -150,7 +150,7 @@ bostream_write_bytes(BOStreamP bostream,			      unsigned  length ,
 					    (SizeT)length, bostream->file);
 
     if ((bytes_read != length) && (ferror(bostream->file))) {
-	CStringP name = cstring_duplicate(bostream->name);
+	char * name = cstring_duplicate(bostream->name);
 
 	THROW_VALUE(XX_bostream_write_error, name);
 	UNREACHED;
@@ -162,14 +162,14 @@ bostream_write_byte(BOStreamP bostream,			     ByteT     byte)
 {
     if ((fputc((int)byte, bostream->file) == EOF) &&
 	(ferror(bostream->file))) {
-	CStringP name = cstring_duplicate(bostream->name);
+	char * name = cstring_duplicate(bostream->name);
 
 	THROW_VALUE(XX_bostream_write_error, name);
 	UNREACHED;
     }
 }
 
-CStringP
+char *
 bostream_name(BOStreamP bostream)
 {
     return(bostream->name);
@@ -179,7 +179,7 @@ void
 bostream_close(BOStreamP bostream)
 {
     if (fclose(bostream->file)) {
-	CStringP name = cstring_duplicate(bostream->name);
+	char * name = cstring_duplicate(bostream->name);
 
 	THROW_VALUE(XX_bostream_write_error, name);
 	UNREACHED;

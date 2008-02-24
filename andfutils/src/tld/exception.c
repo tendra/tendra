@@ -88,9 +88,9 @@
 #include "exception.h"
 
 extern void			E_exception_unhandled
-(ExceptionP, CStringP, unsigned);
+(ExceptionP, char *, unsigned);
 extern void			E_exception_corrupt_handler
-(CStringP, unsigned);
+(char *, unsigned);
 
 /*--------------------------------------------------------------------------*/
 
@@ -136,7 +136,7 @@ X__exception_throw(void)
     UNREACHED;
 }
 
-CStringP
+char *
 exception_name(ExceptionP exc)
 {
     return(exc);

@@ -459,7 +459,7 @@ name_entry_resolve_undefined(NameEntryP  entry,				      NameTableP  table,
 
 	    if (lib_def && (!lib_capsule_is_loaded(lib_def)) &&
 		((!(use & U_MULT)) || (lib_use & U_DEFD))) {
-		CStringP name     = lib_capsule_full_name(lib_def);
+		char * name     = lib_capsule_full_name(lib_def);
 		NStringP contents = lib_capsule_contents(lib_def);
 		CapsuleP capsule;
 

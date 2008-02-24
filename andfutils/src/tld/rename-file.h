@@ -58,169 +58,47 @@
 */
 
 
-/**** cstring.c --- C string manipulation.
+/**** rename-file.h --- Routines for parsing rename file.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  **** Commentary:
  *
- * This file implements the C string manipulation facility specified in the
- * file "cstring.h".  See that file for more details.
+ * See the file "rename-file.c" for more information.
  *
  **** Change Log:
- * $Log: cstring.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
+ * $Log: rename-file.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:16  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:45:24  smf
+ * Revision 1.2  1994/12/12  11:44:12  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:06:09  smf
- * Initial import of os-interface shared files.
+ * Revision 1.1.1.1  1994/07/25  16:03:29  smf
+ * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include <string.h>
+#ifndef H_RENAME_FILE
+#define H_RENAME_FILE
 
+#include "os-interface.h"
+#include "arg-data.h"
 #include "cstring.h"
-#include "syntax.h"
 
 /*--------------------------------------------------------------------------*/
 
-char *
-cstring_duplicate(char * cstring)
-{
-    unsigned length = cstring_length(cstring);
-    char * tmp    = ALLOCATE_VECTOR(char, length + 1);
+extern void			rename_file_parse
+(char *, ArgDataP);
 
-   (void)strcpy(tmp, cstring);
-    return(tmp);
-}
-
-char *
-cstring_duplicate_prefix(char * cstring,				  unsigned prefix)
-{
-    unsigned length = cstring_length(cstring);
-
-    if (length <= prefix) {
-	char * tmp = ALLOCATE_VECTOR(char, length + 1);
-
-	(void)strcpy(tmp, cstring);
-	return(tmp);
-    } else {
-	char * tmp = ALLOCATE_VECTOR(char, prefix + 1);
-
-	(void)memcpy((void *)tmp,(void *)cstring,(SizeT)prefix);
-	tmp[prefix] = '\0';
-	return(tmp);
-    }
-}
-
-unsigned
-cstring_hash_value(char * cstring)
-{
-    unsigned value = 0;
-
-    while (*cstring) {
-	value += ((unsigned)(*cstring++));
-    }
-    return(value);
-}
-
-#ifdef FS_FAST
-#undef cstring_length
-#endif /* defined (FS_FAST) */
-unsigned
-cstring_length(char * cstring)
-{
-    return((unsigned)strlen(cstring));
-}
-#ifdef FS_FAST
-#define cstring_length(s)	((unsigned)strlen(s))
-#endif /* defined (FS_FAST) */
-
-#ifdef FS_FAST
-#undef cstring_equal
-#endif /* defined (FS_FAST) */
-BoolT
-cstring_equal(char * cstring1,		       char * cstring2)
-{
-    return(strcmp(cstring1, cstring2) == 0);
-}
-#ifdef FS_FAST
-#define cstring_equal(s1, s2)	(strcmp((s1), (s2)) == 0)
-#endif /* defined (FS_FAST) */
-
-BoolT
-cstring_ci_equal(char * cstring1,			  char * cstring2)
-{
-    char c1;
-    char c2;
-
-    do {
-	c1 = syntax_upcase(*cstring1++);
-	c2 = syntax_upcase(*cstring2++);
-    } while ((c1) && (c2) && (c1 == c2));
-    return(c1 == c2);
-}
-
-BoolT
-cstring_to_unsigned(char *  cstring,			     unsigned *num_ref)
-{
-    unsigned number = 0;
-
-    if (*cstring == '\0') {
-	return(FALSE);
-    }
-    do {
-	int value = syntax_value(*cstring);
-
-	if ((value == SYNTAX_NO_VALUE) || (value >= 10) ||
-	   (((UINT_MAX - (unsigned)value) / (unsigned)10) < number)) {
-	    return(FALSE);
-	}
-	number *= (unsigned)10;
-	number += (unsigned)value;
-    } while (*++cstring);
-    *num_ref = number;
-    return(TRUE);
-}
-
-#ifdef FS_FAST
-#undef cstring_contains
-#endif /* defined (FS_FAST) */
-BoolT
-cstring_contains(char * cstring,			  char     c)
-{
-    return(strchr(cstring, c) != NIL(char *));
-}
-#ifdef FS_FAST
-#define cstring_contains(s, c)	(strchr((s), (c)) != NIL(char *))
-#endif /* defined (FS_FAST) */
-
-#ifdef FS_FAST
-#undef cstring_find
-#endif /* defined (FS_FAST) */
-char *
-cstring_find(char * cstring,		      char     c)
-{
-    return(strchr(cstring, c));
-}
-#ifdef FS_FAST
-#define cstring_find(s, c)	(strchr((s), (c)))
-#endif /* defined (FS_FAST) */
-
-#ifdef FS_FAST
-#undef cstring_find_reverse
-#endif /* defined (FS_FAST) */
-char *
-cstring_find_reverse(char * cstring,			      char     c)
-{
-    return(strrchr(cstring, c));
-}
-#ifdef FS_FAST
-#define cstring_find_reverse(s, c)	(strrchr((s), (c)))
-#endif /* defined (FS_FAST) */
+#endif /* !defined (H_RENAME_FILE) */
+
+/*
+ * Local variables(smf):
+ * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
+ * eval: (include::add-path-entry "../generated")
+ * End:
+**/

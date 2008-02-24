@@ -58,158 +58,111 @@
 */
 
 
-/**** bistream.c --- Binary input stream handling.
+/*** capsule.h --- TDF capsule ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
- **** Commentary:
+ *** Commentary:
  *
- * This file implements the binary input stream facility specified in the file
- * "bistream.h".  See that file for more details.
+ * See the file "capsule.c" for more information.
  *
- **** Change Log:
- * $Log: bistream.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
+ *** Change Log:
+ * $Log: capsule.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:18  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:45:16  smf
+ * Revision 1.3  1995/07/07  15:32:20  smf
+ * Updated to support TDF specification 4.0.
+ *
+ * Revision 1.2  1994/12/12  11:46:15  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:06:12  smf
- * Initial import of os-interface shared files.
+ * Revision 1.1.1.1  1994/07/25  16:03:30  smf
+ * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include <stdio.h>
+#ifndef H_CAPSULE
+#define H_CAPSULE
 
-#include "bistream.h"
-#include "cstring.h"
+#include "os-interface.h"
+#include "dalloc.h"
+#include "dstring.h"
+#include "shape-table.h"
+#include "tdf-read.h"
+#include "tdf-write.h"
+#include "unit-table.h"
+
+struct LibCapsuleT;
 
 /*--------------------------------------------------------------------------*/
 
-ExceptionP XX_bistream_read_error = EXCEPTION("error reading from binary stream");
+#ifdef FS_NO_ENUM
+typedef int CapsuleTypeT, *CapsuleTypeP;
+#define CT_INPUT		(0)
+#define CT_OUTPUT		(1)
+#else
+typedef enum {
+    CT_INPUT,
+    CT_OUTPUT
+} CapsuleTypeT, *CapsuleTypeP;
+#endif /* defined (FS_NO_ENUM) */
+
+typedef struct CapsuleT {
+    CapsuleTypeT		type;
+    union {
+	TDFReaderT		reader;
+	TDFWriterT		writer;
+    } u;
+    NStringT			contents;
+    unsigned			capsule_index;
+    char *			name;
+    BoolT			complete;
+} CapsuleT, *CapsuleP;
 
 /*--------------------------------------------------------------------------*/
 
-void
-bistream_init(BIStreamP bistream)
-{
-    bistream->name = NIL(char *);
-}
+extern void			capsule_read_unit_set_file
+(char *);
+extern CapsuleP			capsule_create_stream_input
+(char *);
+extern CapsuleP			capsule_create_string_input
+(char *, NStringP);
+extern CapsuleP			capsule_create_stream_output
+(char *);
+extern char *			capsule_name
+(CapsuleP);
+extern unsigned			capsule_byte
+(CapsuleP);
+extern void			capsule_read
+(CapsuleP, UnitTableP, ShapeTableP);
+extern void			capsule_store_contents
+(CapsuleP);
+extern NStringP			capsule_contents
+(CapsuleP);
+extern void			capsule_set_index
+(CapsuleP, unsigned);
+extern unsigned			capsule_get_index
+(CapsuleP);
+extern void			capsule_write
+(CapsuleP, UnitTableP, ShapeTableP);
+extern void			capsule_close
+(CapsuleP);
+extern unsigned			capsule_get_major_version
+(void);
+extern void			capsule_set_major_version
+(unsigned);
+extern unsigned			capsule_get_minor_version
+(void);
 
-BoolT
-bistream_open(BIStreamP bistream,		       char *  name)
-{
-#ifdef FS_BINARY_STDIO
-    if ((bistream->file = fopen(name, "rb")) == NIL(FILE *)) {
-	return(FALSE);
-    }
-#else
-    if ((bistream->file = fopen(name, "r")) == NIL(FILE *)) {
-	return(FALSE);
-    }
-#endif /* defined (FS_BINARY_STDIO) */
-    bistream->bytes = 0;
-    bistream->name  = name;
-    return(TRUE);
-}
-
-void
-bistream_assign(BIStreamP to,			 BIStreamP from)
-{
-    to->file  = from->file;
-    to->bytes = from->bytes;
-    to->name  = from->name;
-}
-
-BoolT
-bistream_is_open(BIStreamP bistream)
-{
-    return(bistream->name != NIL(char *));
-}
-
-unsigned
-bistream_read_chars(BIStreamP bistream,			     unsigned  length ,
-			     char *  chars)
-{
-    unsigned bytes_read = (unsigned)fread((void *)chars, sizeof(char),
-					   (SizeT)length, bistream->file);
-
-    if ((bytes_read == 0) && (ferror(bistream->file))) {
-	char * name = cstring_duplicate(bistream->name);
-
-	THROW_VALUE(XX_bistream_read_error, name);
-	UNREACHED;
-    }
-    bistream->bytes += bytes_read;
-    return(bytes_read);
-}
-
-unsigned
-bistream_read_bytes(BIStreamP bistream,			     unsigned  length ,
-			     ByteP     bytes)
-{
-    unsigned bytes_read = (unsigned)fread((void *)bytes, sizeof(ByteT),
-					   (SizeT)length, bistream->file);
-
-    if ((bytes_read == 0) && (ferror(bistream->file))) {
-	char * name = cstring_duplicate(bistream->name);
-
-	THROW_VALUE(XX_bistream_read_error, name);
-	UNREACHED;
-    }
-    bistream->bytes += bytes_read;
-    return(bytes_read);
-}
-
-BoolT
-bistream_read_byte(BIStreamP bistream,			    ByteT    *byte_ref)
-{
-    int byte = fgetc(bistream->file);
-
-    if (byte == EOF) {
-	if (ferror(bistream->file)) {
-	    char * name = cstring_duplicate(bistream->name);
-
-	    THROW_VALUE(XX_bistream_read_error, name);
-	    UNREACHED;
-	} else if (feof(bistream->file)) {
-	    return(FALSE);
-	}
-    }
-    bistream->bytes++;
-    *byte_ref = (ByteT)byte;
-    return(TRUE);
-}
-
-unsigned
-bistream_byte(BIStreamP bistream)
-{
-    return(bistream->bytes);
-}
-
-char *
-bistream_name(BIStreamP bistream)
-{
-    return(bistream->name);
-}
-
-void
-bistream_rewind(BIStreamP bistream)
-{
-#ifdef FS_ANSI_ENVIRON
-    rewind(bistream->file);
-#else
-   (void)fseek(bistream->file,(long)0, SEEK_SET);
-#endif /* defined (FS_REWIND) */
-}
-
-void
-bistream_close(BIStreamP bistream)
-{
-   (void)fclose(bistream->file);
-    bistream_init(bistream);
-}
+#endif /* !defined (H_CAPSULE) */
+
+/*
+ * Local variables(smf):
+ * eval: (include::add-path-entry "../os-interface" "../library")
+ * eval: (include::add-path-entry "../generated")
+ * end:
+**/

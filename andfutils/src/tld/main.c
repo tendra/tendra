@@ -197,7 +197,7 @@ main_print_version(void)
 }
 
 static void
-main_handle_all(CStringP  option,			 ArgUsageP usage, 
+main_handle_all(char *  option,			 ArgUsageP usage, 
 			 void *  gclosure, 
 			 BoolT     enable)
 {
@@ -209,7 +209,7 @@ main_handle_all(CStringP  option,			 ArgUsageP usage,
 }
 
 static void
-main_handle_all_hide_defd(CStringP  option,				   ArgUsageP usage, 
+main_handle_all_hide_defd(char *  option,				   ArgUsageP usage, 
 				   void *  gclosure, 
 				   BoolT     enable)
 {
@@ -221,7 +221,7 @@ main_handle_all_hide_defd(CStringP  option,				   ArgUsageP usage,
 }
 
 static void
-main_handle_basename(CStringP  option,			      ArgUsageP usage, 
+main_handle_basename(char *  option,			      ArgUsageP usage, 
 			      void *  gclosure, 
 			      BoolT     enable)
 {
@@ -233,9 +233,9 @@ main_handle_basename(CStringP  option,			      ArgUsageP usage,
 }
 
 static void
-main_handle_debug_file(CStringP  option,				ArgUsageP usage, 
+main_handle_debug_file(char *  option,				ArgUsageP usage, 
 				void *  gclosure, 
-				CStringP  debug_file)
+				char *  debug_file)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -245,7 +245,7 @@ main_handle_debug_file(CStringP  option,				ArgUsageP usage,
 }
 
 static void
-main_handle_help(CStringP  option,			  ArgUsageP usage, 
+main_handle_help(char *  option,			  ArgUsageP usage, 
 			  void *  gclosure)
 {
     UNUSED(option);
@@ -257,10 +257,10 @@ main_handle_help(CStringP  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_hide(CStringP  option,			  ArgUsageP usage, 
+main_handle_hide(char *  option,			  ArgUsageP usage, 
 			  void *  gclosure, 
-			  CStringP  shape, 
-			  CStringP  name)
+			  char *  shape, 
+			  char *  name)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -270,9 +270,9 @@ main_handle_hide(CStringP  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_hide_defined(CStringP  option,				  ArgUsageP usage, 
+main_handle_hide_defined(char *  option,				  ArgUsageP usage, 
 				  void *  gclosure, 
-				  CStringP  shape)
+				  char *  shape)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -282,7 +282,7 @@ main_handle_hide_defined(CStringP  option,				  ArgUsageP usage,
 }
 
 static void
-main_handle_index(CStringP  option,			   ArgUsageP usage, 
+main_handle_index(char *  option,			   ArgUsageP usage, 
 			   void *  gclosure, 
 			   BoolT     enable)
 {
@@ -294,7 +294,7 @@ main_handle_index(CStringP  option,			   ArgUsageP usage,
 }
 
 static void
-main_handle_info(CStringP  option,			  ArgUsageP usage, 
+main_handle_info(char *  option,			  ArgUsageP usage, 
 			  void *  gclosure, 
 			  BoolT     enable)
 {
@@ -310,10 +310,10 @@ main_handle_info(CStringP  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_keep(CStringP  option,			  ArgUsageP usage, 
+main_handle_keep(char *  option,			  ArgUsageP usage, 
 			  void *  gclosure, 
-			  CStringP  shape, 
-			  CStringP  name)
+			  char *  shape, 
+			  char *  name)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -323,9 +323,9 @@ main_handle_keep(CStringP  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_keep_all(CStringP  option,			      ArgUsageP usage, 
+main_handle_keep_all(char *  option,			      ArgUsageP usage, 
 			      void *  gclosure, 
-			      CStringP  shape)
+			      char *  shape)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -335,9 +335,9 @@ main_handle_keep_all(CStringP  option,			      ArgUsageP usage,
 }
 
 static void
-main_handle_library_file(CStringP  option,				  ArgUsageP usage, 
+main_handle_library_file(char *  option,				  ArgUsageP usage, 
 				  void *  gclosure, 
-				  CStringP  library_file)
+				  char *  library_file)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -347,7 +347,7 @@ main_handle_library_file(CStringP  option,				  ArgUsageP usage,
 }
 
 static void
-main_handle_match_base(CStringP  option,				ArgUsageP usage, 
+main_handle_match_base(char *  option,				ArgUsageP usage, 
 				void *  gclosure, 
 				BoolT     enable)
 {
@@ -359,9 +359,9 @@ main_handle_match_base(CStringP  option,				ArgUsageP usage,
 }
 
 static void
-main_handle_output_file(CStringP  option,				 ArgUsageP usage, 
+main_handle_output_file(char *  option,				 ArgUsageP usage, 
 				 void *  gclosure, 
-				 CStringP  output_file)
+				 char *  output_file)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -371,9 +371,9 @@ main_handle_output_file(CStringP  option,				 ArgUsageP usage,
 }
 
 static void
-main_handle_library_path(CStringP  option,				  ArgUsageP usage, 
+main_handle_library_path(char *  option,				  ArgUsageP usage, 
 				  void *  gclosure, 
-				  CStringP  directory)
+				  char *  directory)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -383,11 +383,11 @@ main_handle_library_path(CStringP  option,				  ArgUsageP usage,
 }
 
 static void
-main_handle_rename(CStringP  option,			    ArgUsageP usage, 
+main_handle_rename(char *  option,			    ArgUsageP usage, 
 			    void *  gclosure, 
-			    CStringP  shape, 
-			    CStringP  from, 
-			    CStringP  to)
+			    char *  shape, 
+			    char *  from, 
+			    char *  to)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -397,9 +397,9 @@ main_handle_rename(CStringP  option,			    ArgUsageP usage,
 }
 
 static void
-main_handle_rename_file(CStringP  option,				 ArgUsageP usage, 
+main_handle_rename_file(char *  option,				 ArgUsageP usage, 
 				 void *  gclosure, 
-				 CStringP  name)
+				 char *  name)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -409,7 +409,7 @@ main_handle_rename_file(CStringP  option,				 ArgUsageP usage,
 }
 
 static void
-main_handle_size(CStringP  option,			  ArgUsageP usage, 
+main_handle_size(char *  option,			  ArgUsageP usage, 
 			  void *  gclosure, 
 			  BoolT     enable)
 {
@@ -421,10 +421,10 @@ main_handle_size(CStringP  option,			  ArgUsageP usage,
 }
 
 static void
-main_handle_suppress(CStringP  option,			      ArgUsageP usage, 
+main_handle_suppress(char *  option,			      ArgUsageP usage, 
 			      void *  gclosure, 
-			      CStringP  shape, 
-			      CStringP  name)
+			      char *  shape, 
+			      char *  name)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -434,9 +434,9 @@ main_handle_suppress(CStringP  option,			      ArgUsageP usage,
 }
 
 static void
-main_handle_suppress_all(CStringP  option,				  ArgUsageP usage, 
+main_handle_suppress_all(char *  option,				  ArgUsageP usage, 
 				  void *  gclosure, 
-				  CStringP  shape)
+				  char *  shape)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -446,7 +446,7 @@ main_handle_suppress_all(CStringP  option,				  ArgUsageP usage,
 }
 
 static void
-main_handle_suppress_mult(CStringP  option,				   ArgUsageP usage, 
+main_handle_suppress_mult(char *  option,				   ArgUsageP usage, 
 				   void *  gclosure, 
 				   BoolT     enable)
 {
@@ -458,7 +458,7 @@ main_handle_suppress_mult(CStringP  option,				   ArgUsageP usage,
 }
 
 static void
-main_handle_tdf_version(CStringP  option,				 ArgUsageP usage, 
+main_handle_tdf_version(char *  option,				 ArgUsageP usage, 
 				 void *  gclosure, 
 				 BoolT     enable)
 {
@@ -470,9 +470,9 @@ main_handle_tdf_version(CStringP  option,				 ArgUsageP usage,
 }
 
 static void
-main_handle_unit_file(CStringP  option,			       ArgUsageP usage, 
+main_handle_unit_file(char *  option,			       ArgUsageP usage, 
 			       void *  gclosure, 
-			       CStringP  unit_file)
+			       char *  unit_file)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -482,7 +482,7 @@ main_handle_unit_file(CStringP  option,			       ArgUsageP usage,
 }
 
 static void
-main_handle_version(CStringP  option,			     ArgUsageP usage, 
+main_handle_version(char *  option,			     ArgUsageP usage, 
 			     void *  gclosure)
 {
     UNUSED(option);
@@ -493,7 +493,7 @@ main_handle_version(CStringP  option,			     ArgUsageP usage,
 }
 
 static void
-main_handle_warning(CStringP  option,			     ArgUsageP usage, 
+main_handle_warning(char *  option,			     ArgUsageP usage, 
 			     void *  gclosure, 
 			     BoolT     enable)
 {
@@ -738,7 +738,7 @@ static ArgListT main_linker_arg_list[] = {
 	(ArgProcP)main_handle_library_file,	NIL(void *),
 	UB "description of library-file" UE
     }, {
-	NIL(CStringP), 'l',			AT_EITHER,
+	NIL(char *), 'l',			AT_EITHER,
 	(ArgProcP)main_handle_library_file,	NIL(void *),
 	UB "description of l" UE
     }, {
@@ -750,7 +750,7 @@ static ArgListT main_linker_arg_list[] = {
 	(ArgProcP)main_handle_library_path,	NIL(void *),
 	UB "description of path" UE
     }, {
-	NIL(CStringP), 'L',			AT_EITHER,
+	NIL(char *), 'L',			AT_EITHER,
 	(ArgProcP)main_handle_library_path,	NIL(void *),
 	UB "description of L" UE
     }, {
@@ -821,12 +821,12 @@ main_init(int    argc,		   char **argv)
 	  case 't':
 	    mode     = MODE_CONTENTS;
 	    arg_list = main_contents_arg_list;
-	    arg_data_init(&main_arg_data, NIL(CStringP));
+	    arg_data_init(&main_arg_data, NIL(char *));
 	    break;
 	  case 'x':
 	    mode     = MODE_EXTRACT;
 	    arg_list = main_extract_arg_list;
-	    arg_data_init(&main_arg_data, NIL(CStringP));
+	    arg_data_init(&main_arg_data, NIL(char *));
 	    break;
 	  case 'l':
 	    goto linker_case;
@@ -890,13 +890,13 @@ main(int    argc,	      char **argv)
 	    UNREACHED;
 	} else if ((exception == XX_istream_read_error) ||
 		  (exception == XX_bistream_read_error)) {
-	    CStringP file = (CStringP)EXCEPTION_VALUE();
+	    char * file = (char *)EXCEPTION_VALUE();
 
 	    E_read_error(file);
 	    UNREACHED;
 	} else if ((exception == XX_ostream_write_error) ||
 		  (exception == XX_bostream_write_error)) {
-	    CStringP file = (CStringP)EXCEPTION_VALUE();
+	    char * file = (char *)EXCEPTION_VALUE();
 
 	    E_write_error(file);
 	    UNREACHED;

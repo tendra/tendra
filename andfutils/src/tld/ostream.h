@@ -103,7 +103,7 @@
  *
  * This function initialises the specified ostream not to write to any file.
  *
- ** Function:	BoolT ostream_open(OStreamP ostream, CStringP name)
+ ** Function:	BoolT ostream_open(OStreamP ostream, char * name)
  ** Exceptions:
  *
  * This function initialises the specified ostream to write to the file with
@@ -139,7 +139,7 @@
  *
  * This function flushes the ostream's output buffer.
  *
- ** Function:	CStringP ostream_name(OStreamP ostream)
+ ** Function:	char * ostream_name(OStreamP ostream)
  ** Exceptions:
  *
  * This function returns the name of the file that the specified ostream is
@@ -190,7 +190,7 @@
  * This function writes the specified unsigned integer to the specified
  * ostream.
  *
- ** Function:	void write_cstring(OStreamP ostream, CStringP cstring)
+ ** Function:	void write_cstring(OStreamP ostream, char * cstring)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified C string to the specified ostream.
@@ -201,14 +201,14 @@
  * This function writes the specified sequence of bytes (of the specified
  * length) to the specified ostream.
  *
- ** Function:	void write_chars(OStreamP ostream, CStringP chars,
+ ** Function:	void write_chars(OStreamP ostream, char * chars,
  *				 unsigned length)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
  * This function writes the specified sequence of characters (of the specified
  * length) to the specified ostream.
  *
- ** Function:	void write_escaped_chars(OStreamP ostream, CStringP chars,
+ ** Function:	void write_escaped_chars(OStreamP ostream, char * chars,
  *					 unsigned length)
  ** Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
@@ -231,7 +231,7 @@
  *
  ***=== EXCEPTIONS ===========================================================
  *
- ** Exception:	XX_ostream_write_error (CStringP name)
+ ** Exception:	XX_ostream_write_error (char * name)
  *
  * This exception is raised if a write attempt fails.  The data thrown is a
  * copy of the name of the file on which the error occured.  The copy should
@@ -265,7 +265,7 @@
 
 typedef struct OStreamT {
     FILE		       *file;
-    CStringP			name;
+    char *			name;
     unsigned			line;
 } OStreamT, *OStreamP;
 
@@ -282,7 +282,7 @@ extern void			ostream_setup
 extern void			ostream_init
 (OStreamP);
 extern BoolT			ostream_open
-(OStreamP, CStringP);
+(OStreamP, char *);
 extern BoolT			ostream_is_open
 (OStreamP);
 extern void			ostream_buffer
@@ -293,7 +293,7 @@ extern void			ostream_close
 (OStreamP);
 extern void			ostream_flush
 (OStreamP);
-extern CStringP			ostream_name
+extern char *			ostream_name
 (OStreamP);
 extern unsigned			ostream_line
 (OStreamP);
@@ -313,13 +313,13 @@ extern void			write_int
 extern void			write_unsigned
 (OStreamP, unsigned);
 extern void			write_cstring
-(OStreamP, CStringP);
+(OStreamP, char *);
 extern void			write_bytes
 (OStreamP, ByteP, unsigned);
 extern void			write_chars
-(OStreamP, CStringP, unsigned);
+(OStreamP, char *, unsigned);
 extern void			write_escaped_chars
-(OStreamP, CStringP, unsigned);
+(OStreamP, char *, unsigned);
 extern void			write_system_error
 (OStreamP);
 extern void			write_pointer
@@ -328,8 +328,8 @@ extern void			write_pointer
 /*--------------------------------------------------------------------------*/
 
 #ifdef FS_FAST
-#define ostream_init(os)	((os)->name = NIL(CStringP))
-#define ostream_is_open(os)	((os)->name != NIL(CStringP))
+#define ostream_init(os)	((os)->name = NIL(char *))
+#define ostream_is_open(os)	((os)->name != NIL(char *))
 #define ostream_name(os)	((os)->name)
 #define ostream_line(os)	((os)->line)
 #endif /* defined (FS_FAST) */

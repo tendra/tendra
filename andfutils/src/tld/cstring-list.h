@@ -58,169 +58,119 @@
 */
 
 
-/**** cstring.c --- C string manipulation.
+/**** cstring-list.h --- String list ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  **** Commentary:
  *
- * This file implements the C string manipulation facility specified in the
- * file "cstring.h".  See that file for more details.
+ ***=== INTRODUCTION =========================================================
  *
- **** Change Log:
- * $Log: cstring.c,v $
+ * This file specifies the interface to a string list facility.  This
+ * particular facility allows lists of cstrings (defined in the files
+ * "cstring.[ch]") to be created.
+ *
+ ***=== TYPES ================================================================
+ *
+ ** Type:	CStringListEntryT
+ ** Type:	CStringListEntryP
+ ** Repr:	<private>
+ *
+ * This is the cstring list entry type.
+ *
+ ** Type:	CStringListT
+ ** Type:	CStringListP
+ ** Repr:	<private>
+ *
+ * This is the cstring list type.
+ *
+ ***=== FUNCTIONS ============================================================
+ *
+ ** Function:	void cstring_list_init(CStringListP list)
+ ** Exceptions:
+ *
+ * This function initialises the specified cstring list to be an empty list.
+ *
+ ** Function:	void cstring_list_append(CStringListP list, char * cstring)
+ ** Exceptions:	XX_dalloc_no_memory
+ *
+ * This function appends the specified cstring onto the specified list.
+ *
+ ** Function:	CStringListEntryP cstring_list_head(CStringListP list)
+ ** Exceptions:
+ *
+ * This function returns a pointer to the first entry in the specified list.
+ *
+ ** Function:	char * cstring_list_entry_string(CStringListEntryP entry)
+ ** Exceptions:
+ *
+ * This function returns a pointer to the cstring stored in the specified
+ * list entry.
+ *
+ ** Function:	CStringListEntryP
+ * 		    cstring_list_entry_deallocate(CStringListEntryP entry)
+ ** Exceptions:
+ *
+ * This function deallocates the specified list entry (without deallocating
+ * the string - this must be done by the calling function) and returns a
+ * pointer to the next entry in the list.  Once this function has been called,
+ * the state of the list that the entry is a member of is undefined.  It is
+ * only useful for deallocating the entire list in a loop.
+ *
+ **** Change log:
+ * $Log: cstring-list.h,v $
  * Revision 1.1.1.1  1998/01/17  15:57:17  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:45:24  smf
+ * Revision 1.2  1994/12/12  11:44:32  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:06:09  smf
- * Initial import of os-interface shared files.
+ * Revision 1.1.1.1  1994/07/25  16:05:48  smf
+ * Initial import of library shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include <string.h>
+#ifndef H_CSTRING_LIST
+#define H_CSTRING_LIST
 
+#include "os-interface.h"
 #include "cstring.h"
-#include "syntax.h"
+#include "dalloc.h"
 
 /*--------------------------------------------------------------------------*/
 
-char *
-cstring_duplicate(char * cstring)
-{
-    unsigned length = cstring_length(cstring);
-    char * tmp    = ALLOCATE_VECTOR(char, length + 1);
+typedef struct CStringListEntryT {
+    struct CStringListEntryT   *next;
+    char *			string;
+} CStringListEntryT, *CStringListEntryP;
 
-   (void)strcpy(tmp, cstring);
-    return(tmp);
-}
+typedef struct CStringListT {
+    CStringListEntryP		head;
+    CStringListEntryP	       *tail;
+} CStringListT, *CStringListP;
 
-char *
-cstring_duplicate_prefix(char * cstring,				  unsigned prefix)
-{
-    unsigned length = cstring_length(cstring);
+/*--------------------------------------------------------------------------*/
 
-    if (length <= prefix) {
-	char * tmp = ALLOCATE_VECTOR(char, length + 1);
+extern void			cstring_list_init
+(CStringListP);
+extern void			cstring_list_append
+(CStringListP, char *);
+extern BoolT			cstring_list_contains
+(CStringListP, char *);
+extern CStringListEntryP	cstring_list_head
+(CStringListP);
+extern char *			cstring_list_entry_string
+(CStringListEntryP);
+extern CStringListEntryP	cstring_list_entry_deallocate
+(CStringListEntryP);
 
-	(void)strcpy(tmp, cstring);
-	return(tmp);
-    } else {
-	char * tmp = ALLOCATE_VECTOR(char, prefix + 1);
-
-	(void)memcpy((void *)tmp,(void *)cstring,(SizeT)prefix);
-	tmp[prefix] = '\0';
-	return(tmp);
-    }
-}
-
-unsigned
-cstring_hash_value(char * cstring)
-{
-    unsigned value = 0;
-
-    while (*cstring) {
-	value += ((unsigned)(*cstring++));
-    }
-    return(value);
-}
-
-#ifdef FS_FAST
-#undef cstring_length
-#endif /* defined (FS_FAST) */
-unsigned
-cstring_length(char * cstring)
-{
-    return((unsigned)strlen(cstring));
-}
-#ifdef FS_FAST
-#define cstring_length(s)	((unsigned)strlen(s))
-#endif /* defined (FS_FAST) */
-
-#ifdef FS_FAST
-#undef cstring_equal
-#endif /* defined (FS_FAST) */
-BoolT
-cstring_equal(char * cstring1,		       char * cstring2)
-{
-    return(strcmp(cstring1, cstring2) == 0);
-}
-#ifdef FS_FAST
-#define cstring_equal(s1, s2)	(strcmp((s1), (s2)) == 0)
-#endif /* defined (FS_FAST) */
-
-BoolT
-cstring_ci_equal(char * cstring1,			  char * cstring2)
-{
-    char c1;
-    char c2;
-
-    do {
-	c1 = syntax_upcase(*cstring1++);
-	c2 = syntax_upcase(*cstring2++);
-    } while ((c1) && (c2) && (c1 == c2));
-    return(c1 == c2);
-}
-
-BoolT
-cstring_to_unsigned(char *  cstring,			     unsigned *num_ref)
-{
-    unsigned number = 0;
-
-    if (*cstring == '\0') {
-	return(FALSE);
-    }
-    do {
-	int value = syntax_value(*cstring);
-
-	if ((value == SYNTAX_NO_VALUE) || (value >= 10) ||
-	   (((UINT_MAX - (unsigned)value) / (unsigned)10) < number)) {
-	    return(FALSE);
-	}
-	number *= (unsigned)10;
-	number += (unsigned)value;
-    } while (*++cstring);
-    *num_ref = number;
-    return(TRUE);
-}
-
-#ifdef FS_FAST
-#undef cstring_contains
-#endif /* defined (FS_FAST) */
-BoolT
-cstring_contains(char * cstring,			  char     c)
-{
-    return(strchr(cstring, c) != NIL(char *));
-}
-#ifdef FS_FAST
-#define cstring_contains(s, c)	(strchr((s), (c)) != NIL(char *))
-#endif /* defined (FS_FAST) */
-
-#ifdef FS_FAST
-#undef cstring_find
-#endif /* defined (FS_FAST) */
-char *
-cstring_find(char * cstring,		      char     c)
-{
-    return(strchr(cstring, c));
-}
-#ifdef FS_FAST
-#define cstring_find(s, c)	(strchr((s), (c)))
-#endif /* defined (FS_FAST) */
-
-#ifdef FS_FAST
-#undef cstring_find_reverse
-#endif /* defined (FS_FAST) */
-char *
-cstring_find_reverse(char * cstring,			      char     c)
-{
-    return(strrchr(cstring, c));
-}
-#ifdef FS_FAST
-#define cstring_find_reverse(s, c)	(strrchr((s), (c)))
-#endif /* defined (FS_FAST) */
+#endif /* !defined (H_CSTRING_LIST) */
+
+/*
+ * Local variables(smf):
+ * eval: (include::add-path-entry "../os-interface" "../generated")
+ * end:
+**/

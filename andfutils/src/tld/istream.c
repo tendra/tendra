@@ -170,14 +170,14 @@ istream_setup(void)
 void
 istream_init(IStreamP istream)
 {
-    istream->name = NIL(CStringP);
+    istream->name = NIL(char *);
 }
 #ifdef FS_FAST
-#define istream_init(is)	((is)->name = NIL(CStringP))
+#define istream_init(is)	((is)->name = NIL(char *))
 #endif /* defined (FS_FAST) */
 
 BoolT
-istream_open(IStreamP istream,		      CStringP name)
+istream_open(IStreamP istream,		      char * name)
 {
     if ((istream->file = fopen(name, "r")) == NIL(FILE *)) {
 	return(FALSE);
@@ -209,10 +209,10 @@ istream_assign(IStreamP to,			IStreamP from)
 BoolT
 istream_is_open(IStreamP istream)
 {
-    return(istream->name != NIL(CStringP));
+    return(istream->name != NIL(char *));
 }
 #ifdef FS_FAST
-#define istream_is_open(is)	((is)->name != NIL(CStringP))
+#define istream_is_open(is)	((is)->name != NIL(char *))
 #endif /* defined (FS_FAST) */
 
 BoolT
@@ -322,7 +322,7 @@ istream_line(IStreamP istream)
 #ifdef FS_FAST
 #undef istream_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 istream_name(IStreamP istream)
 {
     return(istream->name);
@@ -350,7 +350,7 @@ X__istream_fill_buffer(IStreamP istream)
 			(SizeT)(ISTREAM_BUFSIZE - 1), istream->file);
 
     if ((bytes == (SizeT)0) && (ferror(istream->file))) {
-	CStringP name = cstring_duplicate(istream->name);
+	char * name = cstring_duplicate(istream->name);
 
 	THROW_VALUE(XX_istream_read_error, name);
 	UNREACHED;

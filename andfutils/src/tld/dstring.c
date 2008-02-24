@@ -99,7 +99,7 @@ void
 nstring_init(NStringP nstring)
 {
     nstring->length   = 0;
-    nstring->contents = NIL(CStringP);
+    nstring->contents = NIL(char *);
 }
 
 void
@@ -117,7 +117,7 @@ nstring_assign(NStringP to,			NStringP from)
 }
 
 void
-nstring_copy_cstring(NStringP nstring,			      CStringP cstring)
+nstring_copy_cstring(NStringP nstring,			      char * cstring)
 {
     unsigned length = cstring_length(cstring);
 
@@ -128,12 +128,12 @@ nstring_copy_cstring(NStringP nstring,			      CStringP cstring)
 		      (SizeT)length);
     } else {
 	nstring->length   = 0;
-	nstring->contents = NIL(CStringP);
+	nstring->contents = NIL(char *);
     }
 }
 
 void
-nstring_insert_cstring(NStringP nstring,				CStringP cstring)
+nstring_insert_cstring(NStringP nstring,				char * cstring)
 {
     unsigned length = nstring_length(nstring);
 
@@ -155,15 +155,15 @@ nstring_copy(NStringP to,		      NStringP from)
 		      (void *)(from->contents), (SizeT)length);
     } else {
 	to->length   = 0;
-	to->contents = NIL(CStringP);
+	to->contents = NIL(char *);
     }
 }
 
-CStringP
+char *
 nstring_to_cstring(NStringP nstring)
 {
     unsigned length = nstring_length(nstring);
-    CStringP tmp    = ALLOCATE_VECTOR(char, length + 1);
+    char * tmp    = ALLOCATE_VECTOR(char, length + 1);
 
     if (length > 0) {
 	(void)memcpy((void *)tmp,(void *)(nstring->contents),
@@ -177,7 +177,7 @@ unsigned
 nstring_hash_value(NStringP nstring)
 {
     unsigned value        = 0;
-    CStringP tmp_contents = (nstring->contents);
+    char * tmp_contents = (nstring->contents);
     unsigned tmp_length   = nstring_length(nstring);
 
     while (tmp_length--) {
@@ -201,7 +201,7 @@ nstring_length(NStringP nstring)
 #ifdef FS_FAST
 #undef nstring_contents
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 nstring_contents(NStringP nstring)
 {
     return(nstring->contents);
@@ -250,8 +250,8 @@ nstring_ci_equal(NStringP nstring1,			  NStringP nstring2)
     unsigned length = nstring_length(nstring1);
 
     if (length == nstring_length(nstring2)) {
-	CStringP tmp1 = (nstring1->contents);
-	CStringP tmp2 = (nstring2->contents);
+	char * tmp1 = (nstring1->contents);
+	char * tmp2 = (nstring2->contents);
 	char c1;
 	char c2;
 
@@ -269,7 +269,7 @@ nstring_ci_equal(NStringP nstring1,			  NStringP nstring2)
 BoolT
 nstring_contains(NStringP nstring,			  char     c)
 {
-    CStringP contents = nstring_contents(nstring);
+    char * contents = nstring_contents(nstring);
     unsigned length   = nstring_length(nstring);
 
     return(memchr((void *)contents, c,(SizeT)length) != NIL(void *));
@@ -278,8 +278,8 @@ nstring_contains(NStringP nstring,			  char     c)
 BoolT
 nstring_is_prefix(NStringP nstring1,			   NStringP nstring2)
 {
-    CStringP contents1 = nstring_contents(nstring1);
-    CStringP contents2 = nstring_contents(nstring2);
+    char * contents1 = nstring_contents(nstring1);
+    char * contents2 = nstring_contents(nstring2);
     unsigned length    = nstring_length(nstring2);
 
     return((length < nstring_length(nstring1)) &&
@@ -330,7 +330,7 @@ void
 dstring_append_char(DStringP dstring,			     char     c)
 {
     if ((dstring->length) >= (dstring->max_length)) {
-	CStringP tmp;
+	char * tmp;
 
 	dstring->max_length += DSTRING_CHUNK_SIZE;
 	tmp                  = ALLOCATE_VECTOR(char, dstring->max_length);
@@ -343,13 +343,13 @@ dstring_append_char(DStringP dstring,			     char     c)
 }
 
 void
-dstring_append_cstring(DStringP dstring,				CStringP cstring)
+dstring_append_cstring(DStringP dstring,				char * cstring)
 {
     unsigned clength = cstring_length(cstring);
     unsigned length  = (clength + (dstring->length));
 
     if (length > (dstring->max_length)) {
-	CStringP tmp;
+	char * tmp;
 
 	while ((dstring->max_length) < length) {
 	    dstring->max_length += DSTRING_CHUNK_SIZE;
@@ -372,7 +372,7 @@ dstring_append_nstring(DStringP dstring,				NStringP nstring)
     unsigned length  = (nlength + (dstring->length));
 
     if (length > (dstring->max_length)) {
-	CStringP tmp;
+	char * tmp;
 
 	while ((dstring->max_length) < length) {
 	    dstring->max_length += DSTRING_CHUNK_SIZE;
@@ -406,14 +406,14 @@ dstring_to_nstring(DStringP dstring,			    NStringP nstring)
 		      (SizeT)(dstring->length));
     } else {
 	nstring->length   = 0;
-	nstring->contents = NIL(CStringP);
+	nstring->contents = NIL(char *);
     }
 }
 
-CStringP
+char *
 dstring_to_cstring(DStringP dstring)
 {
-    CStringP tmp = ALLOCATE_VECTOR(char, dstring->length + 1);
+    char * tmp = ALLOCATE_VECTOR(char, dstring->length + 1);
 
     if (dstring->length > 0) {
 	(void)memcpy((void *)tmp,(void *)(dstring->contents),
@@ -423,10 +423,10 @@ dstring_to_cstring(DStringP dstring)
     return(tmp);
 }
 
-CStringP
+char *
 dstring_destroy_to_cstring(DStringP dstring)
 {
-    CStringP tmp;
+    char * tmp;
 
     if ((dstring->length) >= (dstring->max_length)) {
 	tmp = ALLOCATE_VECTOR(char,(dstring->length) + 1);
@@ -439,7 +439,7 @@ dstring_destroy_to_cstring(DStringP dstring)
     tmp[dstring->length] = '\0';
     dstring->length       = 0;
     dstring->max_length   = 0;
-    dstring->contents     = NIL(CStringP);
+    dstring->contents     = NIL(char *);
     return(tmp);
 }
 

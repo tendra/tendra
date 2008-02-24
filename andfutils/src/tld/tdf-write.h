@@ -58,158 +58,70 @@
 */
 
 
-/**** bistream.c --- Binary input stream handling.
+/*** tdf-write.h --- TDF writer ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
- **** Commentary:
+ *** Commentary:
  *
- * This file implements the binary input stream facility specified in the file
- * "bistream.h".  See that file for more details.
+ * See the file "tdf-write.c" for more information.
  *
- **** Change Log:
- * $Log: bistream.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
+ *** Change Log:
+ * $Log: tdf-write.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:20  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:45:16  smf
+ * Revision 1.2  1994/12/12  11:47:00  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:06:12  smf
- * Initial import of os-interface shared files.
+ * Revision 1.1.1.1  1994/07/25  16:03:39  smf
+ * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include <stdio.h>
+#ifndef H_TDF_WRITE
+#define H_TDF_WRITE
 
-#include "bistream.h"
-#include "cstring.h"
+#include "os-interface.h"
+#include "bostream.h"
+#include "dstring.h"
+#include "name-key.h"
 
 /*--------------------------------------------------------------------------*/
 
-ExceptionP XX_bistream_read_error = EXCEPTION("error reading from binary stream");
+typedef struct TDFWriterT {
+    BOStreamT			bostream;
+    ByteT			byte;
+    BoolT			new_byte;
+} TDFWriterT, *TDFWriterP;
 
 /*--------------------------------------------------------------------------*/
 
-void
-bistream_init(BIStreamP bistream)
-{
-    bistream->name = NIL(char *);
-}
+extern BoolT			tdf_writer_open
+(TDFWriterP, char *);
+extern char *			tdf_writer_name
+(TDFWriterP);
+extern void			tdf_write_int
+(TDFWriterP, unsigned);
+extern void			tdf_write_align
+(TDFWriterP);
+extern void			tdf_write_bytes
+(TDFWriterP, NStringP);
+extern void			tdf_write_string
+(TDFWriterP, NStringP);
+extern void			tdf_write_name
+(TDFWriterP, NameKeyP);
+extern void			tdf_writer_close
+(TDFWriterP);
 
-BoolT
-bistream_open(BIStreamP bistream,		       char *  name)
-{
-#ifdef FS_BINARY_STDIO
-    if ((bistream->file = fopen(name, "rb")) == NIL(FILE *)) {
-	return(FALSE);
-    }
-#else
-    if ((bistream->file = fopen(name, "r")) == NIL(FILE *)) {
-	return(FALSE);
-    }
-#endif /* defined (FS_BINARY_STDIO) */
-    bistream->bytes = 0;
-    bistream->name  = name;
-    return(TRUE);
-}
-
-void
-bistream_assign(BIStreamP to,			 BIStreamP from)
-{
-    to->file  = from->file;
-    to->bytes = from->bytes;
-    to->name  = from->name;
-}
-
-BoolT
-bistream_is_open(BIStreamP bistream)
-{
-    return(bistream->name != NIL(char *));
-}
-
-unsigned
-bistream_read_chars(BIStreamP bistream,			     unsigned  length ,
-			     char *  chars)
-{
-    unsigned bytes_read = (unsigned)fread((void *)chars, sizeof(char),
-					   (SizeT)length, bistream->file);
-
-    if ((bytes_read == 0) && (ferror(bistream->file))) {
-	char * name = cstring_duplicate(bistream->name);
-
-	THROW_VALUE(XX_bistream_read_error, name);
-	UNREACHED;
-    }
-    bistream->bytes += bytes_read;
-    return(bytes_read);
-}
-
-unsigned
-bistream_read_bytes(BIStreamP bistream,			     unsigned  length ,
-			     ByteP     bytes)
-{
-    unsigned bytes_read = (unsigned)fread((void *)bytes, sizeof(ByteT),
-					   (SizeT)length, bistream->file);
-
-    if ((bytes_read == 0) && (ferror(bistream->file))) {
-	char * name = cstring_duplicate(bistream->name);
-
-	THROW_VALUE(XX_bistream_read_error, name);
-	UNREACHED;
-    }
-    bistream->bytes += bytes_read;
-    return(bytes_read);
-}
-
-BoolT
-bistream_read_byte(BIStreamP bistream,			    ByteT    *byte_ref)
-{
-    int byte = fgetc(bistream->file);
-
-    if (byte == EOF) {
-	if (ferror(bistream->file)) {
-	    char * name = cstring_duplicate(bistream->name);
-
-	    THROW_VALUE(XX_bistream_read_error, name);
-	    UNREACHED;
-	} else if (feof(bistream->file)) {
-	    return(FALSE);
-	}
-    }
-    bistream->bytes++;
-    *byte_ref = (ByteT)byte;
-    return(TRUE);
-}
-
-unsigned
-bistream_byte(BIStreamP bistream)
-{
-    return(bistream->bytes);
-}
-
-char *
-bistream_name(BIStreamP bistream)
-{
-    return(bistream->name);
-}
-
-void
-bistream_rewind(BIStreamP bistream)
-{
-#ifdef FS_ANSI_ENVIRON
-    rewind(bistream->file);
-#else
-   (void)fseek(bistream->file,(long)0, SEEK_SET);
-#endif /* defined (FS_REWIND) */
-}
-
-void
-bistream_close(BIStreamP bistream)
-{
-   (void)fclose(bistream->file);
-    bistream_init(bistream);
-}
+#endif /* !defined (H_TDF_WRITE) */
+
+/*
+ * Local variables(smf):
+ * eval: (include::add-path-entry "../os-interface" "../library")
+ * eval: (include::add-path-entry "../generated")
+ * end:
+**/

@@ -58,7 +58,7 @@
 */
 
 
-/**** dalloc.h --- Memory allocation and deallocation.
+/**** cstring.h --- C string manipulation.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
@@ -66,63 +66,82 @@
  *
  ***=== INTRODUCTION =========================================================
  *
- * This file specifies the interface to a dynamic memory allocation facility.
- * All dynamically allocated objects are initialised with zeroes, but
- * non-integer typed fields will still need to be initialised explicitly.
+ * This file defines the C string type and specifies some functions that can
+ * be used to manipulate C strings.
  *
- * If the macro ``PO_DALLOC_DEBUG_ALIGN'' is defined, then extra debugging
- * information is added into the space allocated to help detect errors in
- * memory management.  If this macro is defined, it requires two functions to
- * be provided:
+ ***=== FUNCTIONS ============================================================
  *
- *	void E_dalloc_multi_deallocate(void *, char *, unsigned, char *,
- *				       unsigned);
- *	void E_dalloc_corrupt_block(void *, char *, unsigned);
- *
- * The first function will be called if a block is deallocated more than once.
- * It takes the block's address, and the file and line number of the
- * deallocation and allocation of the block as arguments.  The second function
- * is called if a block is corrupt when deallocated.  It takes the address of
- * the block and the file and line number of the deallocation of the block as
- * arguments.  Neither of these functions should return.
- *
- * This debugging mode should not be used on software that is shipped.  It has
- * machine specific implementations, and may be quite inefficient.
- *
- ***=== MACROS ===============================================================
- *
- ** Macro:	ALLOCATE (type)
+ ** Function:	char * cstring_duplicate(char * cstring)
  ** Exceptions:	XX_dalloc_no_memory
  *
- * This macro allocates an object of the specified type.  A pointer to the
- * object is returned.
+ * This function returns a dynamically allocated copy of the specified
+ * cstring.
  *
- ** Macro:	ALLOCATE_VECTOR (type, length)
+ ** Function:	char * cstring_duplicate_prefix(char * cstring,
+ *						  unsigned prefix)
  ** Exceptions:	XX_dalloc_no_memory
  *
- * This macro allocates a vector of the specified length containing objects of
- * the specified type.  A pointer to the first element in the vector is
- * returned.
+ * This function returns a dynamically allocated copy of the specified prefix
+ * of the specified cstring.  If the cstring is shorter than the prefix
+ * length, then only the cstring is used.
  *
- ** Macro:	DEALLOCATE (pointer)
+ ** Function:	unsigned cstring_hash_value(char * cstring)
  ** Exceptions:
  *
- * This macro deallocates the specified pointer.  If the pointer is a null
- * pointer (``NIL (SomeTypeP)''), this does nothing.
+ * This function returns the hash value associated with the specified
+ * cstring.  This value is guaranteed to be identical for all cstrings
+ * with the same content.
  *
- ***=== EXCEPTIONS ===========================================================
+ ** Function:	unsigned cstring_length(char * cstring)
+ ** Exceptions:
  *
- ** Exception:	XX_dalloc_no_memory
+ * This function returns the length of the specified cstring.
  *
- * This exception is raised if there is not enough memory to allocate an
- * object (or a vector of objects).
+ ** Function:	BoolT cstring_equal(char * cstring1, char * cstring2)
+ ** Exceptions:
+ *
+ * This function returns true if the specified cstrings have the same
+ * content, and false otherwise.
+ *
+ ** Function:	BoolT cstring_ci_equal(char * cstring1, char * cstring2)
+ ** Exceptions:
+ *
+ * This function returns true if the specified cstrings have the same
+ * content (ignoring differences in case), and false otherwise.
+ *
+ ** Function:	BoolT cstring_to_unsigned(char * cstring, unsigned *num_ref)
+ ** Exceptions:
+ *
+ * This function parses an unsigned number in cstring.  If there is a valid
+ * number in the string, it is assigned to the number pointed to by num_ref,
+ * and the function returns true; otherwise the function returns false.  The
+ * function checks for overflow; it will return false if the number is too
+ * big.
+ *
+ ** Function:	BoolT cstring_contains(char * cstring, char c)
+ ** Exceptions:
+ *
+ * This function returns true if the specified cstring contains the character
+ * c, and false if it doesn't.
+ *
+ ** Function:	char * cstring_find(char * cstring, char c)
+ ** Exceptions:
+ *
+ * This function returns a pointer to the first occurrence of the specified
+ * character in the specified cstring, or nil if there is no occurrence.
+ *
+ ** Function:	char * cstring_find_reverse(char * cstring, char c)
+ ** Exceptions:
+ *
+ * This function returns a pointer to the last occurrence of the specified
+ * character in the specified cstring, or nil if there is no occurrence.
  *
  **** Change Log:
- * $Log: dalloc.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
+ * $Log: cstring.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:17  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:45:30  smf
+ * Revision 1.2  1994/12/12  11:45:26  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
@@ -133,64 +152,43 @@
 
 /****************************************************************************/
 
-#ifndef H_DALLOC
-#define H_DALLOC
-
-#include <stdlib.h>
+#ifndef H_CSTRING
+#define H_CSTRING
 
 #include "os-interface.h"
-#include "exception.h"
+#include "dalloc.h"
 
 /*--------------------------------------------------------------------------*/
 
-extern ExceptionP		XX_dalloc_no_memory;
+extern char *			cstring_duplicate
+(char *);
+extern char *			cstring_duplicate_prefix
+(char *, unsigned);
+extern unsigned			cstring_hash_value
+(char *);
+extern unsigned			cstring_length
+(char *);
+extern BoolT			cstring_equal
+(char *, char *);
+extern BoolT			cstring_ci_equal
+(char *, char *);
+extern BoolT			cstring_to_unsigned
+(char *, unsigned *);
+extern BoolT			cstring_contains
+(char *, char);
+extern char *			cstring_find
+(char *, char);
+extern char *			cstring_find_reverse
+(char *, char);
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef PO_DALLOC_DEBUG_ALIGN
+#ifdef FS_FAST
+#define cstring_length(s)		((unsigned)strlen(s))
+#define cstring_equal(s1, s2)		(strcmp((s1), (s2)) == 0)
+#define cstring_contains(s, c)		(strchr((s), (c)) != NIL(char *))
+#define cstring_find(s, c)		(strchr((s), (c)))
+#define cstring_find_reverse(s, c)	(strrchr((s), (c)))
+#endif /* defined (FS_FAST) */
 
-extern void			E_dalloc_multi_deallocate
-(void *, char *, unsigned, char *, unsigned);
-extern void			E_dalloc_corrupt_block
-(void *, char *, unsigned);
-extern void *			X__dalloc_allocate
-(SizeT, SizeT, char *, unsigned);
-extern void			X__dalloc_deallocate
-(void *, char *, unsigned);
-
-#else
-
-extern void *			X__dalloc_allocate
-(SizeT, SizeT);
-
-#endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
-
-/*--------------------------------------------------------------------------*/
-
-#ifdef PO_DALLOC_DEBUG_ALIGN
-
-#define ALLOCATE(type)\
-    ((type *)X__dalloc_allocate(sizeof(type), (SizeT)1, __FILE__, \
-				(unsigned)__LINE__))
-
-#define ALLOCATE_VECTOR(type,length)\
-    ((type *)X__dalloc_allocate(sizeof(type), (SizeT)(length), __FILE__, \
-				(unsigned)__LINE__))
-
-#define DEALLOCATE(pointer)\
-    X__dalloc_deallocate((void *)(pointer), __FILE__,(unsigned)__LINE__)
-
-#else
-
-#define ALLOCATE(type)\
-    ((type *)X__dalloc_allocate(sizeof(type), (SizeT)1))
-
-#define ALLOCATE_VECTOR(type,length)\
-    ((type *)X__dalloc_allocate(sizeof(type), (SizeT)(length)))
-
-#define DEALLOCATE(pointer)\
-    if (pointer) {free((void *)(pointer));}
-
-#endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
-
-#endif /* !defined (H_DALLOC) */
+#endif /* !defined (H_CSTRING) */

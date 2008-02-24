@@ -91,10 +91,10 @@
 
 /*--------------------------------------------------------------------------*/
 
-CStringP
-file_name_basename(CStringP path)
+char *
+file_name_basename(char * path)
 {
-    CStringP last = cstring_find_reverse(path, '/');
+    char * last = cstring_find_reverse(path, '/');
 
     if (last) {
 	return(cstring_duplicate(last + 1));
@@ -103,10 +103,10 @@ file_name_basename(CStringP path)
     }
 }
 
-CStringP
-file_name_dirname(CStringP path)
+char *
+file_name_dirname(char * path)
 {
-    CStringP last = cstring_find_reverse(path, '/');
+    char * last = cstring_find_reverse(path, '/');
 
     if (last) {
 	return(cstring_duplicate_prefix(path,(unsigned)(last - path)));
@@ -115,9 +115,9 @@ file_name_dirname(CStringP path)
     }
 }
 
-CStringP
-file_name_expand(CStringP dir,			  CStringP name, 
-			  CStringP suffix)
+char *
+file_name_expand(char * dir,			  char * name, 
+			  char * suffix)
 {
     unsigned dir_length  = cstring_length(dir);
     unsigned name_length = cstring_length(name);
@@ -125,8 +125,8 @@ file_name_expand(CStringP dir,			  CStringP name,
     unsigned suf_extra   = (unsigned)(suffix ? 1 : 0);
     unsigned extra;
     unsigned length;
-    CStringP path;
-    CStringP tmp;
+    char * path;
+    char * tmp;
 
     if ((dir_length > 0) && (dir[dir_length - 1]!= '/')) {
 	extra = 1;
@@ -157,30 +157,30 @@ file_name_expand(CStringP dir,			  CStringP name,
 }
 
 BoolT
-file_name_is_basename(CStringP path)
+file_name_is_basename(char * path)
 {
     return(!cstring_contains(path, '/'));
 }
 
 BoolT
-file_name_is_absolute(CStringP path)
+file_name_is_absolute(char * path)
 {
     return(path[0] == '/');
 }
 
 void
-file_name_populate(CStringP path)
+file_name_populate(char * path)
 {
 #ifdef FS_MKDIR
-    CStringP new_path = cstring_duplicate(path);
-    CStringP tmp      = cstring_find(new_path, '/');
+    char * new_path = cstring_duplicate(path);
+    char * tmp      = cstring_find(new_path, '/');
 
     if (tmp) {
 	do {
 	    *tmp = '\0';
 	   (void)mkdir(new_path, 0755);
 	    *tmp = '/';
-	} while ((tmp = cstring_find(tmp + 1, '/')) != NIL(CStringP));
+	} while ((tmp = cstring_find(tmp + 1, '/')) != NIL(char *));
     }
     DEALLOCATE(new_path);
 #else

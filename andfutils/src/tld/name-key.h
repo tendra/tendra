@@ -58,158 +58,144 @@
 */
 
 
-/**** bistream.c --- Binary input stream handling.
+/*** name-key.h --- External name key ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
- **** Commentary:
+ *** Commentary:
  *
- * This file implements the binary input stream facility specified in the file
- * "bistream.h".  See that file for more details.
+ * See the file "name-key.c" for more information.
  *
- **** Change Log:
- * $Log: bistream.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:17  release
+ *** Change Log:
+ * $Log: name-key.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:19  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:45:16  smf
+ * Revision 1.2  1994/12/12  11:46:40  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:06:12  smf
- * Initial import of os-interface shared files.
+ * Revision 1.1.1.1  1994/07/25  16:03:36  smf
+ * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include <stdio.h>
+#ifndef H_NAME_KEY
+#define H_NAME_KEY
 
-#include "bistream.h"
+#include "os-interface.h"
 #include "cstring.h"
+#include "dstring.h"
+#include "ostream.h"
 
 /*--------------------------------------------------------------------------*/
 
-ExceptionP XX_bistream_read_error = EXCEPTION("error reading from binary stream");
+#ifdef FS_NO_ENUM
+typedef int NameKeyTypeT, *NameKeyTypeP;
+#define KT_STRING	(0)
+#define KT_UNIQUE	(1)
+#else
+typedef enum {
+    KT_STRING,
+    KT_UNIQUE
+} NameKeyTypeT, *NameKeyTypeP;
+#endif /* defined (FS_NO_ENUM) */
+
+typedef struct NameUniqueT {
+    unsigned			length;
+    NStringP			components;
+} NameUniqueT, *NameUniqueP;
+
+typedef struct NameKeyT {
+    NameKeyTypeT		type;
+    union {
+	NStringT		string;
+	NameUniqueT		unique;
+    } u;
+} NameKeyT, *NameKeyP;
+
+typedef struct NameKeyListEntryT {
+    struct NameKeyListEntryT   *next;
+    NameKeyT			key;
+} NameKeyListEntryT, *NameKeyListEntryP;
+
+typedef struct NameKeyListT {
+    NameKeyListEntryP		head;
+} NameKeyListT, *NameKeyListP;
+
+typedef struct NameKeyPairListEntryT {
+    struct NameKeyPairListEntryT *next;
+    NameKeyT			  from;
+    NameKeyT			  to;
+} NameKeyPairListEntryT, *NameKeyPairListEntryP;
+
+typedef struct NameKeyPairListT {
+    NameKeyPairListEntryP		head;
+} NameKeyPairListT, *NameKeyPairListP;
 
 /*--------------------------------------------------------------------------*/
 
-void
-bistream_init(BIStreamP bistream)
-{
-    bistream->name = NIL(char *);
-}
+extern void			name_key_init_string
+(NameKeyP, NStringP);
+extern void			name_key_init_unique
+(NameKeyP, unsigned);
+extern BoolT			name_key_parse_cstring
+(NameKeyP, char *);
+extern void			name_key_set_component
+(NameKeyP, unsigned, NStringP);
+extern NameKeyTypeT		name_key_type
+(NameKeyP);
+extern NStringP			name_key_string
+(NameKeyP);
+extern unsigned			name_key_components
+(NameKeyP);
+extern NStringP			name_key_get_component
+(NameKeyP, unsigned);
+extern unsigned			name_key_hash_value
+(NameKeyP);
+extern BoolT			name_key_equal
+(NameKeyP, NameKeyP);
+extern void			name_key_assign
+(NameKeyP, NameKeyP);
+extern void			name_key_copy
+(NameKeyP, NameKeyP);
+extern void			name_key_destroy
+(NameKeyP);
 
-BoolT
-bistream_open(BIStreamP bistream,		       char *  name)
-{
-#ifdef FS_BINARY_STDIO
-    if ((bistream->file = fopen(name, "rb")) == NIL(FILE *)) {
-	return(FALSE);
-    }
-#else
-    if ((bistream->file = fopen(name, "r")) == NIL(FILE *)) {
-	return(FALSE);
-    }
-#endif /* defined (FS_BINARY_STDIO) */
-    bistream->bytes = 0;
-    bistream->name  = name;
-    return(TRUE);
-}
+extern void			write_name_key
+(OStreamP, NameKeyP);
 
-void
-bistream_assign(BIStreamP to,			 BIStreamP from)
-{
-    to->file  = from->file;
-    to->bytes = from->bytes;
-    to->name  = from->name;
-}
+extern void			name_key_list_init
+(NameKeyListP);
+extern void			name_key_list_add
+(NameKeyListP, NameKeyP);
+extern NameKeyListEntryP	name_key_list_head
+(NameKeyListP);
+extern NameKeyP			name_key_list_entry_key
+(NameKeyListEntryP);
+extern NameKeyListEntryP	name_key_list_entry_next
+(NameKeyListEntryP);
 
-BoolT
-bistream_is_open(BIStreamP bistream)
-{
-    return(bistream->name != NIL(char *));
-}
+extern void			name_key_pair_list_init
+(NameKeyPairListP);
+extern BoolT			name_key_pair_list_add
+(NameKeyPairListP, NameKeyP, NameKeyP);
+extern NameKeyPairListEntryP	name_key_pair_list_head
+(NameKeyPairListP);
+extern NameKeyP			name_key_pair_list_entry_from
+(NameKeyPairListEntryP);
+extern NameKeyP			name_key_pair_list_entry_to
+(NameKeyPairListEntryP);
+extern NameKeyPairListEntryP	name_key_pair_list_entry_next
+(NameKeyPairListEntryP);
 
-unsigned
-bistream_read_chars(BIStreamP bistream,			     unsigned  length ,
-			     char *  chars)
-{
-    unsigned bytes_read = (unsigned)fread((void *)chars, sizeof(char),
-					   (SizeT)length, bistream->file);
-
-    if ((bytes_read == 0) && (ferror(bistream->file))) {
-	char * name = cstring_duplicate(bistream->name);
-
-	THROW_VALUE(XX_bistream_read_error, name);
-	UNREACHED;
-    }
-    bistream->bytes += bytes_read;
-    return(bytes_read);
-}
-
-unsigned
-bistream_read_bytes(BIStreamP bistream,			     unsigned  length ,
-			     ByteP     bytes)
-{
-    unsigned bytes_read = (unsigned)fread((void *)bytes, sizeof(ByteT),
-					   (SizeT)length, bistream->file);
-
-    if ((bytes_read == 0) && (ferror(bistream->file))) {
-	char * name = cstring_duplicate(bistream->name);
-
-	THROW_VALUE(XX_bistream_read_error, name);
-	UNREACHED;
-    }
-    bistream->bytes += bytes_read;
-    return(bytes_read);
-}
-
-BoolT
-bistream_read_byte(BIStreamP bistream,			    ByteT    *byte_ref)
-{
-    int byte = fgetc(bistream->file);
-
-    if (byte == EOF) {
-	if (ferror(bistream->file)) {
-	    char * name = cstring_duplicate(bistream->name);
-
-	    THROW_VALUE(XX_bistream_read_error, name);
-	    UNREACHED;
-	} else if (feof(bistream->file)) {
-	    return(FALSE);
-	}
-    }
-    bistream->bytes++;
-    *byte_ref = (ByteT)byte;
-    return(TRUE);
-}
-
-unsigned
-bistream_byte(BIStreamP bistream)
-{
-    return(bistream->bytes);
-}
-
-char *
-bistream_name(BIStreamP bistream)
-{
-    return(bistream->name);
-}
-
-void
-bistream_rewind(BIStreamP bistream)
-{
-#ifdef FS_ANSI_ENVIRON
-    rewind(bistream->file);
-#else
-   (void)fseek(bistream->file,(long)0, SEEK_SET);
-#endif /* defined (FS_REWIND) */
-}
-
-void
-bistream_close(BIStreamP bistream)
-{
-   (void)fclose(bistream->file);
-    bistream_init(bistream);
-}
+#endif /* !defined (H_NAME_KEY) */
+
+/*
+ * Local variables(smf):
+ * eval: (include::add-path-entry "../os-interface" "../library")
+ * eval: (include::add-path-entry "../generated")
+ * end:
+**/

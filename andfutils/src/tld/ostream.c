@@ -111,7 +111,7 @@ OStreamT		 *const ostream_error  = &ostream_error_1;
 
 #define OSTREAM_WRITE_ERROR_CHECK(ostream)\
     if (ferror((ostream)->file)) { \
-	    CStringP X___name = cstring_duplicate(ostream_name(ostream)); \
+	    char * X___name = cstring_duplicate(ostream_name(ostream)); \
 	    THROW_VALUE(XX_ostream_write_error, X___name); \
 }
 
@@ -130,21 +130,21 @@ ostream_setup(void)
 void
 ostream_init(OStreamP ostream)
 {
-    ostream->name = NIL(CStringP);
+    ostream->name = NIL(char *);
 }
 #ifdef FS_FAST
-#define ostream_init(os)	((os)->name = NIL(CStringP))
+#define ostream_init(os)	((os)->name = NIL(char *))
 #endif /* defined (FS_FAST) */
 
 BoolT
-ostream_open(OStreamP ostream,		      CStringP name)
+ostream_open(OStreamP ostream,		      char * name)
 {
     if ((ostream->file = fopen(name, "w")) == NIL(FILE *)) {
 	return(FALSE);
     }
     ostream->name = name;
     ostream->line = 1;
-   (void)setvbuf(ostream->file, NIL(CStringP), _IOFBF,(SizeT)BUFSIZ);
+   (void)setvbuf(ostream->file, NIL(char *), _IOFBF,(SizeT)BUFSIZ);
     return(TRUE);
 }
 
@@ -154,29 +154,29 @@ ostream_open(OStreamP ostream,		      CStringP name)
 BoolT
 ostream_is_open(OStreamP ostream)
 {
-    return(ostream->name != NIL(CStringP));
+    return(ostream->name != NIL(char *));
 }
 #ifdef FS_FAST
-#define ostream_is_open(os)	((os)->name != NIL(CStringP))
+#define ostream_is_open(os)	((os)->name != NIL(char *))
 #endif /* defined (FS_FAST) */
 
 void
 ostream_buffer(OStreamP ostream)
 {
-   (void)setvbuf(ostream->file, NIL(CStringP), _IOFBF,(SizeT)BUFSIZ);
+   (void)setvbuf(ostream->file, NIL(char *), _IOFBF,(SizeT)BUFSIZ);
 }
 
 void
 ostream_unbuffer(OStreamP ostream)
 {
-   (void)setvbuf(ostream->file, NIL(CStringP), _IONBF,(SizeT)0);
+   (void)setvbuf(ostream->file, NIL(char *), _IONBF,(SizeT)0);
 }
 
 void
 ostream_close(OStreamP ostream)
 {
     if (fclose(ostream->file)) {
-	CStringP name = cstring_duplicate(ostream_name(ostream));
+	char * name = cstring_duplicate(ostream_name(ostream));
 
 	THROW_VALUE(XX_ostream_write_error, name);
     }
@@ -187,7 +187,7 @@ void
 ostream_flush(OStreamP ostream)
 {
     if (fflush(ostream->file)) {
-	CStringP name = cstring_duplicate(ostream_name(ostream));
+	char * name = cstring_duplicate(ostream_name(ostream));
 
 	THROW_VALUE(XX_ostream_write_error, name);
     }
@@ -196,7 +196,7 @@ ostream_flush(OStreamP ostream)
 #ifdef FS_FAST
 #undef ostream_name
 #endif /* defined (FS_FAST) */
-CStringP
+char *
 ostream_name(OStreamP ostream)
 {
     return(ostream->name);
@@ -301,9 +301,9 @@ write_unsigned(OStreamP ostream,			unsigned i)
 }
 
 void
-write_cstring(OStreamP ostream,		       CStringP cstring)
+write_cstring(OStreamP ostream,		       char * cstring)
 {
-    CStringP tmp = cstring;
+    char * tmp = cstring;
 
     while (*tmp) {
 	if (*tmp++ == '\n') {
@@ -332,7 +332,7 @@ write_bytes(OStreamP ostream,		     ByteP    bytes ,
 }
 
 void
-write_chars(OStreamP ostream,		     CStringP chars ,
+write_chars(OStreamP ostream,		     char * chars ,
 		     unsigned length)
 {
     while (length--) {
@@ -341,7 +341,7 @@ write_chars(OStreamP ostream,		     CStringP chars ,
 }
 
 void
-write_escaped_chars(OStreamP ostream,			     CStringP chars ,
+write_escaped_chars(OStreamP ostream,			     char * chars ,
 			     unsigned length)
 {
     while (length--) {
@@ -354,9 +354,9 @@ write_system_error(OStreamP ostream)
 {
 #if (defined(FS_STRERROR) || defined(FS_SYS_ERRLIST))
 # ifdef FS_STRERROR
-    CStringP message = strerror(errno);
+    char * message = strerror(errno);
 # else
-    CStringP message;
+    char * message;
 
     if ((errno >= 0) && (errno < sys_nerr)) {
 	message = sys_errlist[errno];

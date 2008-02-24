@@ -58,7 +58,7 @@
 */
 
 
-/**** dalloc.h --- Memory allocation and deallocation.
+/**** bostream.h --- Binary output stream handling.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
@@ -66,131 +66,134 @@
  *
  ***=== INTRODUCTION =========================================================
  *
- * This file specifies the interface to a dynamic memory allocation facility.
- * All dynamically allocated objects are initialised with zeroes, but
- * non-integer typed fields will still need to be initialised explicitly.
+ * This file specifies the interface to the binary output stream facility.
  *
- * If the macro ``PO_DALLOC_DEBUG_ALIGN'' is defined, then extra debugging
- * information is added into the space allocated to help detect errors in
- * memory management.  If this macro is defined, it requires two functions to
- * be provided:
+ ***=== TYPES ================================================================
  *
- *	void E_dalloc_multi_deallocate(void *, char *, unsigned, char *,
- *				       unsigned);
- *	void E_dalloc_corrupt_block(void *, char *, unsigned);
+ ** Type:	BOStreamT
+ ** Type:	BOStreamP
+ ** Repr:	<private>
  *
- * The first function will be called if a block is deallocated more than once.
- * It takes the block's address, and the file and line number of the
- * deallocation and allocation of the block as arguments.  The second function
- * is called if a block is corrupt when deallocated.  It takes the address of
- * the block and the file and line number of the deallocation of the block as
- * arguments.  Neither of these functions should return.
+ * This is the output stream type.
  *
- * This debugging mode should not be used on software that is shipped.  It has
- * machine specific implementations, and may be quite inefficient.
+ ***=== FUNCTIONS ============================================================
  *
- ***=== MACROS ===============================================================
- *
- ** Macro:	ALLOCATE (type)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This macro allocates an object of the specified type.  A pointer to the
- * object is returned.
- *
- ** Macro:	ALLOCATE_VECTOR (type, length)
- ** Exceptions:	XX_dalloc_no_memory
- *
- * This macro allocates a vector of the specified length containing objects of
- * the specified type.  A pointer to the first element in the vector is
- * returned.
- *
- ** Macro:	DEALLOCATE (pointer)
+ ** Function:	void bostream_init(BOStreamP bostream)
  ** Exceptions:
  *
- * This macro deallocates the specified pointer.  If the pointer is a null
- * pointer (``NIL (SomeTypeP)''), this does nothing.
+ * This function initialises the specified bostream not to write to any file.
+ *
+ ** Function:	BoolT bostream_open(BOStreamP bostream, char * name)
+ ** Exceptions:
+ *
+ * This function initialises the specified bostream to write to the file with
+ * the specified name.  The name should not be modified or deallocated until
+ * the bostream has been closed.  If the file cannot be opened, the function
+ * returns false. If the file is opened successfully, the function returns
+ * true.
+ *
+ ** Function:	void bostream_assign(BOStreamP to, BOStreamP from)
+ ** Exceptions:
+ *
+ * This function assigns the from bostream to the to bostream.  The from
+ * bostream should not be used again.
+ *
+ ** Function:	BoolT bostream_is_open(BOStreamP bostream)
+ *
+ * This function returns true if the specified bostream is writing to a file,
+ * and false otherwise.
+ *
+ ** Function:	void bostream_write_chars(BOStreamP bostream, unsigned length,
+ *					  char * chars)
+ ** Exceptions:	XX_bostream_write_error
+ *
+ * This function writes the length characters in the chars vector to the
+ * specified bostream.
+ *
+ ** Function:	void bostream_write_bytes(BOStreamP bostream, unsigned length,
+ *					  ByteP bytes)
+ ** Exceptions:	XX_bostream_write_error
+ *
+ * This function writes the length bytes in the bytes vector to the specified
+ * bostream.
+ *
+ ** Function:	void bostream_write_byte(BOStreamP bostream, ByteT byte)
+ ** Exceptions:	XX_bostream_write_error
+ *
+ * This function writes the byte to the specified bostream.
+ *
+ ** Function:	char * bostream_name(BOStreamP bostream)
+ ** Exceptions:
+ *
+ * This function returns the name of the file to which the specified
+ * bostream is writing. The return value should not be modified or
+ * deallocated.
+ *
+ ** Function:	void bostream_close(BOStreamP bostream)
+ ** Exceptions:
+ *
+ * This function closes the specified bostream.
  *
  ***=== EXCEPTIONS ===========================================================
  *
- ** Exception:	XX_dalloc_no_memory
+ ** Exception:	XX_bostream_write_error (char * name)
  *
- * This exception is raised if there is not enough memory to allocate an
- * object (or a vector of objects).
+ * This exception is raised if a write attempt fails.  The data thrown is a
+ * copy of the name of the file that the write error occured on.  The copy
+ * should be deallocated when finished with.
  *
  **** Change Log:
- * $Log: dalloc.h,v $
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
+ * $Log: bostream.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:17  release
  * First version to be checked into rolling release.
  *
- * Revision 1.2  1994/12/12  11:45:30  smf
+ * Revision 1.2  1994/12/12  11:45:23  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:06:09  smf
+ * Revision 1.1.1.1  1994/07/25  16:06:14  smf
  * Initial import of os-interface shared files.
  *
 **/
 
 /****************************************************************************/
 
-#ifndef H_DALLOC
-#define H_DALLOC
-
-#include <stdlib.h>
+#ifndef H_BOSTREAM
+#define H_BOSTREAM
 
 #include "os-interface.h"
 #include "exception.h"
 
 /*--------------------------------------------------------------------------*/
 
-extern ExceptionP		XX_dalloc_no_memory;
+typedef struct BOStreamT {
+    FILE		       *file;
+    char *			name;
+} BOStreamT, *BOStreamP;
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef PO_DALLOC_DEBUG_ALIGN
-
-extern void			E_dalloc_multi_deallocate
-(void *, char *, unsigned, char *, unsigned);
-extern void			E_dalloc_corrupt_block
-(void *, char *, unsigned);
-extern void *			X__dalloc_allocate
-(SizeT, SizeT, char *, unsigned);
-extern void			X__dalloc_deallocate
-(void *, char *, unsigned);
-
-#else
-
-extern void *			X__dalloc_allocate
-(SizeT, SizeT);
-
-#endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
+extern ExceptionP		XX_bostream_write_error;
 
 /*--------------------------------------------------------------------------*/
 
-#ifdef PO_DALLOC_DEBUG_ALIGN
+extern void			bostream_init
+(BOStreamP);
+extern BoolT			bostream_open
+(BOStreamP, char *);
+extern void			bostream_assign
+(BOStreamP, BOStreamP);
+extern BoolT			bostream_is_open
+(BOStreamP);
+extern void			bostream_write_chars
+(BOStreamP, unsigned, char *);
+extern void			bostream_write_bytes
+(BOStreamP, unsigned, ByteP);
+extern void			bostream_write_byte
+(BOStreamP, ByteT);
+extern char *			bostream_name
+(BOStreamP);
+extern void			bostream_close
+(BOStreamP);
 
-#define ALLOCATE(type)\
-    ((type *)X__dalloc_allocate(sizeof(type), (SizeT)1, __FILE__, \
-				(unsigned)__LINE__))
-
-#define ALLOCATE_VECTOR(type,length)\
-    ((type *)X__dalloc_allocate(sizeof(type), (SizeT)(length), __FILE__, \
-				(unsigned)__LINE__))
-
-#define DEALLOCATE(pointer)\
-    X__dalloc_deallocate((void *)(pointer), __FILE__,(unsigned)__LINE__)
-
-#else
-
-#define ALLOCATE(type)\
-    ((type *)X__dalloc_allocate(sizeof(type), (SizeT)1))
-
-#define ALLOCATE_VECTOR(type,length)\
-    ((type *)X__dalloc_allocate(sizeof(type), (SizeT)(length)))
-
-#define DEALLOCATE(pointer)\
-    if (pointer) {free((void *)(pointer));}
-
-#endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
-
-#endif /* !defined (H_DALLOC) */
+#endif /* !defined (H_BOSTREAM) */

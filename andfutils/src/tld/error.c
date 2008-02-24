@@ -97,7 +97,7 @@
 static ETagP		tag_table[TAG_TABLE_SIZE];
 static ErrorP		error_table[ERROR_TABLE_SIZE];
 static EStringP		string_table[STRING_TABLE_SIZE];
-static CStringP		program_name         = NIL(CStringP);
+static char *		program_name         = NIL(char *);
 static ErrorInitProcP	init_proc	     = NIL(ErrorInitProcP);
 static ETagP		etag_program	     = NIL(ETagP);
 static ETagP		etag_severity	     = NIL(ETagP);
@@ -134,12 +134,12 @@ error_deallocate_error_list(ErrorListP error_list)
 }
 
 static ErrorListP
-error_parse_message(CStringP message)
+error_parse_message(char * message)
 {
     ErrorListP  error_list;
     ErrorListP *error_list_next = &error_list;
-    CStringP    message_copy    = cstring_duplicate(message);
-    CStringP    scan            = message = message_copy;
+    char *    message_copy    = cstring_duplicate(message);
+    char *    scan            = message = message_copy;
 
     while (*scan) {
 	if ((*scan++ == '$') && (*scan == '{')) {
@@ -165,7 +165,7 @@ error_parse_message(CStringP message)
 	    }
 	    if (scan++ > message) {
 		ErrorListP tmp = ALLOCATE(ErrorListT);
-		CStringP   tag;
+		char *   tag;
 
 		tmp->tag   = ERROR_TAG_TAG;
 		scan[-1] = '\0';
@@ -232,9 +232,9 @@ write_error_list(OStreamP   ostream,			  ErrorListP error_list,
 /*--------------------------------------------------------------------------*/
 
 void
-error_init(CStringP       name,		    ErrorInitProcP proc)
+error_init(char *       name,		    ErrorInitProcP proc)
 {
-    static CStringP prefix = "${program name}: ${severity}: ";
+    static char * prefix = "${program name}: ${severity}: ";
 
     program_name = name;
     while (*name) {
@@ -264,7 +264,7 @@ error_call_init_proc(void)
 }
 
 ETagP
-error_define_tag(CStringP name)
+error_define_tag(char * name)
 {
     unsigned hash   = (cstring_hash_value(name)% TAG_TABLE_SIZE);
     ETagP   *entryp = & (tag_table[hash]);
@@ -284,8 +284,8 @@ error_define_tag(CStringP name)
 }
 
 ErrorP
-error_define_error(CStringP   name,			    ESeverityT severity, 
-			    CStringP   message, 
+error_define_error(char *   name,			    ESeverityT severity, 
+			    char *   message, 
 			    void *   data)
 {
     ErrorListP error_list = error_parse_message(message);
@@ -332,7 +332,7 @@ error_intern_errors(ErrorDataP vector)
 }
 
 ErrorStatusT
-error_redefine_error(CStringP name,			      CStringP message)
+error_redefine_error(char * name,			      char * message)
 {
     error_call_init_proc();
     {
@@ -357,7 +357,7 @@ error_redefine_error(CStringP name,			      CStringP message)
 }
 
 ErrorP
-error_lookup_error(CStringP name)
+error_lookup_error(char * name)
 {
     error_call_init_proc();
     {
@@ -424,13 +424,13 @@ error_max_reported_severity(void)
 }
 
 void
-error_set_severity_message(ESeverityT severity,				    CStringP   message)
+error_set_severity_message(ESeverityT severity,				    char *   message)
 {
     severity_data[severity].estring->contents = message;
 }
 
 BoolT
-error_set_prefix_message(CStringP message)
+error_set_prefix_message(char * message)
 {
     ErrorListP error_list = error_parse_message(message);
 
@@ -443,7 +443,7 @@ error_set_prefix_message(CStringP message)
 }
 
 EStringP
-error_define_string(CStringP name,			     CStringP contents)
+error_define_string(char * name,			     char * contents)
 {
     unsigned  hash   = (cstring_hash_value(name)% STRING_TABLE_SIZE);
     EStringP *entryp = & (string_table[hash]);
@@ -474,7 +474,7 @@ error_intern_strings(EStringDataP vector)
 }
 
 BoolT
-error_redefine_string(CStringP name,			       CStringP contents)
+error_redefine_string(char * name,			       char * contents)
 {
     unsigned hash  = (cstring_hash_value(name)% STRING_TABLE_SIZE);
     EStringP entry = (string_table[hash]);
@@ -490,7 +490,7 @@ error_redefine_string(CStringP name,			       CStringP contents)
 }
 
 EStringP
-error_lookup_string(CStringP name)
+error_lookup_string(char * name)
 {
     unsigned hash  = (cstring_hash_value(name)% STRING_TABLE_SIZE);
     EStringP entry = (string_table[hash]);
@@ -504,7 +504,7 @@ error_lookup_string(CStringP name)
     return(NIL(EStringP));
 }
 
-CStringP
+char *
 error_string_contents(EStringP estring)
 {
     return(estring->contents);

@@ -100,7 +100,7 @@ ExceptionP XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
 /*--------------------------------------------------------------------------*/
 
 typedef struct DallocDataT {
-    CStringP			file;
+    char *			file;
     unsigned			line;
     SizeT			size;
     int				magic;
@@ -122,7 +122,7 @@ static SizeT dalloc_data_size = ALIGN(sizeof(DallocDataT));
 
 void *
 X__dalloc_allocate(SizeT    size,			    SizeT    length, 
-			    CStringP file, 
+			    char * file, 
 			    unsigned line)
 {
     void * tmp;
@@ -153,7 +153,7 @@ X__dalloc_allocate(SizeT    size,			    SizeT    length,
 }
 
 void
-X__dalloc_deallocate(void * ptr,			      CStringP file, 
+X__dalloc_deallocate(void * ptr,			      char * file, 
 			      unsigned line)
 {
     if (ptr) {
@@ -181,7 +181,7 @@ X__dalloc_deallocate(void * ptr,			      CStringP file,
 
 void *
 X__dalloc_allocate(SizeT    size,			    SizeT    length, 
-			    CStringP file, 
+			    char * file, 
 			    unsigned line)
 {
     void * tmp;
@@ -210,7 +210,7 @@ X__dalloc_allocate(SizeT    size,			    SizeT    length,
 }
 
 void
-X__dalloc_deallocate(void * ptr,			      CStringP file, 
+X__dalloc_deallocate(void * ptr,			      char * file, 
 			      unsigned line)
 {
     if (ptr) {
