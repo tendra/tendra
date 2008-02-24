@@ -46,16 +46,8 @@
  *
  * This should be defined if you want the program to use macros in place of
  * some function calls.  This will generally speed up the program (although
- * this is not guaranteed).  It is incompatible with ``FS_SHORTNAMES''.  It
- * also turns off the assertion checking (unless ``FS_ASSERT'' is also
- * defined).
- *
- *	FS_SHORTNAMES
- *
- * This is a hack for systems that cannot cope with long external identifier
- * names.  It includes the file "shortnames.h" which should macro define all
- * external identifiers to be a suitable short name.  It is incompatible with
- * ``FS_FAST''.
+ * this is not guaranteed).  It also turns off the assertion checking
+ * (unless ``FS_ASSERT'' is also defined).
  *
  *	FS_ASSERT
  *
@@ -311,19 +303,9 @@
 #ifndef H_OS_INTERFACE
 #define H_OS_INTERFACE
 
-# ifdef FS_NO_SHORTNAMES
-#  undef FS_SHORTNAMES
-# endif /* defined (FS_NO_SHORTNAMES) */
 # ifdef FS_NO_FAST
 #  undef FS_FAST
 # endif /* defined (FS_NO_FAST) */
-# ifdef FS_SHORTNAMES
-#  include "shortnames.h"
-#  ifdef FS_FAST
-#   include "fast-short.h"
-#   undef FS_FAST
-#  endif /* defined (FS_FAST) */
-# endif /* defined (FS_SHORTNAMES) */
 # ifndef FS_FAST
 #  define FS_ASSERT
 # endif /* !defined (FS_FAST) */
