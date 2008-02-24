@@ -42,19 +42,10 @@
  * the feature off; if both are defined, the ``FS_NO_'' macro takes
  * precedence, and the feature is turned off.
  *
- *	FS_FAST
- *
- * This should be defined if you want the program to use macros in place of
- * some function calls.  This will generally speed up the program (although
- * this is not guaranteed).  It also turns off the assertion checking
- * (unless ``FS_ASSERT'' is also defined).
- *
  *	FS_ASSERT
  *
  * This should be defined if you want assertion checking enabled.  This is on
- * by default, unless ``FS_FAST'' is defined, so it is only really useful to
- * define this if you have also defined ``FS_FAST'', but still want assertions
- * to be checked.  It is possible that less assertions will be checked, as
+ * by default.  It is possible that less assertions will be checked, as
  * some of the "inlined" functions may have lost their assertions in the
  * macro version.
  *
@@ -258,10 +249,9 @@
  ** Exceptions:
  *
  * This macro causes the program to abort if the assertion provided does not
- * hold.  Assertion checking is disabled if the ``FS_FAST'' macro is defined
- * or if the ``FS_NO_ASSERT'' macro is defined.  The assertion "ASSERT
- * (FALSE);" is used to indicate that the program should never reach the
- * current line.
+ * hold.  Assertion checking is disabled if the ``FS_NO_ASSERT'' macro is
+ * defined.  The assertion "ASSERT (FALSE);" is used to indicate that the
+ * program should never reach the current line.
  *
  ** Macro:	UNUSED (variable)
  ** Exceptions:
@@ -302,16 +292,6 @@
 
 #ifndef H_OS_INTERFACE
 #define H_OS_INTERFACE
-
-# ifdef FS_NO_FAST
-#  undef FS_FAST
-# endif /* defined (FS_NO_FAST) */
-# ifndef FS_FAST
-#  define FS_ASSERT
-# endif /* !defined (FS_FAST) */
-# ifdef FS_NO_ASSERT
-#  undef FS_ASSERT
-# endif /* defined (FS_NO_ASSERT) */
 
 # ifdef __GNUC__
 typedef void NoReturnT;
