@@ -69,7 +69,6 @@
 
 #include "common.h"
 #include "exception.h"
-#include "internals.h"
 
 void (*unhandled)(ExceptionT *e, const char *file, unsigned line);
 void (*corrupt_handler)(const char *file, unsigned line);

@@ -73,7 +73,6 @@
 #include "istream.h"
 #include "cstring.h"
 #include "syntax.h"
-#include "internals.h"
 
 #define ISTREAM_BUFSIZE 8193
 

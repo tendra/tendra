@@ -77,7 +77,6 @@
 #include "dstring.h"
 #include "error.h"
 #include "syntax.h"
-#include "internals.h"
 
 /*
  * This is used by the error type.

@@ -72,7 +72,6 @@
 #include "exception.h"
 #include "bostream.h"
 #include "cstring.h"
-#include "internals.h"
 
 ExceptionT * XX_bostream_write_error = EXCEPTION("error writing to binary stream");
 
