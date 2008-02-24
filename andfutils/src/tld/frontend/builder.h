@@ -58,84 +58,46 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/**** builder.h --- Front end to library construction mode of TDF linker.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
- *** Commentary:
+ **** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "builder.c" for more information.
  *
- *** Change Log:
- * $Log: tdf.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
+ **** Change Log:
+ * $Log: builder.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:16  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:43:58  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:24  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_BUILDER
+#define H_BUILDER
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include "../adt/arg-data.h"
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+extern void			builder_main
+(ArgDataT *);
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
-
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
-
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+#endif /* !defined (H_BUILDER) */
 
 /*
  * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
+ * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
  * eval: (include::add-path-entry "../generated")
- * end:
+ * End:
 **/

@@ -28,15 +28,15 @@
 
 
 header $[
-#include "capsule.h"
+#include "adt/capsule.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/istream.h>
-#include "name-key.h"
+#include "adt/name-key.h"
 ]$;
 
 header(c) $[
-#include "solve-cycles.h"
+#include "adt/solve-cycles.h"
 ]$;
 
 fatal "cannot open unit set file" {

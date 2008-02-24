@@ -58,84 +58,84 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/**** extract.c --- Front end to library extraction mode of TDF linker.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
- *** Commentary:
+ **** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * This file provides the front end to the library extraction mode of the TDF
+ * linker.
  *
- *** Change Log:
- * $Log: tdf.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
+ **** Change Log:
+ * $Log: extract.c,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:16  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
+ * Revision 1.3  1995/09/22  08:37:08  smf
  * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
  *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:44:02  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:24  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#include "extract.h"
+#include <exds/common.h>
+#include <exds/error.h>
+#include "../gen-errors.h"
+#include "../adt/library.h"
 
-#include "adt/solve-cycles.h"
+#include "../adt/solve-cycles.h"
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
-
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
-
 void
-write_usage(OStreamT *ostream,		     unsigned use)
+extract_main(ArgDataT *arg_data)
 {
-    char * sep = "";
+    BoolT     extract_all  = arg_data_get_extract_all(arg_data);
+    BoolT     extract_base = arg_data_get_extract_basename(arg_data);
+    BoolT     match_base   = arg_data_get_extract_match_base(arg_data);
+    unsigned  num_files    = arg_data_get_num_files(arg_data);
+    char * *files        = arg_data_get_files(arg_data);
+    LibraryT * library;
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
+    if (extract_all && (num_files > 1)) {
+	E_all_specified_with_capsules();
+	UNREACHED;
+    } else if ((!extract_all) && (num_files == 1)) {
+	E_no_capsules_specified();
+	UNREACHED;
     }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
+    if ((library = library_create_stream_input(files[0])) !=
+	NIL(LibraryT *)) {
+	if (extract_all) {
+	    library_extract_all(library, extract_base);
+	} else {
+	    num_files--;
+	    files++;
+	    library_extract(library, extract_base, match_base, num_files,
+			     files);
+	}
+	library_close(library);
+    } else {
+	E_cannot_open_input_file(files[0]);
     }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
+    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
+	exit(EXIT_FAILURE);
+	UNREACHED;
     }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
 }
 
 /*
  * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
+ * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
  * eval: (include::add-path-entry "../generated")
- * end:
+ * End:
 **/

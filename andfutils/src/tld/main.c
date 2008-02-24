@@ -128,20 +128,20 @@
 /****************************************************************************/
 
 #include "os-interface.h"
-#include "arg-data.h"
+#include "adt/arg-data.h"
 #include "arg-parse.h"
-#include "builder.h"
-#include "contents.h"
+#include "frontend/builder.h"
+#include "frontend/contents.h"
 #include "debug.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/error.h>
-#include "extract.h"
+#include "frontend/extract.h"
 #include "gen-errors.h"
-#include "linker.h"
+#include "frontend/linker.h"
 #include "rename-file.h"
 
-#include "solve-cycles.h"
+#include "adt/solve-cycles.h"
 
 /*--------------------------------------------------------------------------*/
 

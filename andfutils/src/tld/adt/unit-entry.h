@@ -58,27 +58,20 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** unit-entry.h --- Unit set table entry ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "unit-entry.c" for more information.
  *
  *** Change Log:
- * $Log: tdf.c,v $
+ * $Log: unit-entry.h,v $
  * Revision 1.1.1.1  1998/01/17  15:57:20  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:47:07  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
@@ -89,49 +82,67 @@
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_UNIT_ENTRY
+#define H_UNIT_ENTRY
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
+#include "map-table.h"
+#include "shape-table.h"
+#include "tdf-write.h"
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+typedef struct UnitT {
+    struct UnitT	       *next;
+    MapTableT *		map_table;
+    NStringT			contents;
+} UnitT;
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
+typedef struct UnitEntryT {
+    struct UnitEntryT	       *next;
+    NStringT			key;
+    unsigned			order;
+    UnitT *		head;
+    UnitT *	       *tail;
+} UnitEntryT;
 
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
+typedef struct UnitSetClosureT {
+    unsigned			num_unit_sets;
+    ShapeTableT *		shapes;
+} UnitSetClosureT;
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+/*--------------------------------------------------------------------------*/
+
+extern void			unit_set_contents
+(UnitT *, NStringT *);
+extern MapTableT *	unit_map_table
+(UnitT *);
+
+extern UnitEntryT *	unit_entry_create
+(NStringT *, UnitEntryT *, unsigned);
+extern UnitEntryT *	unit_entry_next
+(UnitEntryT *);
+extern NStringT *		unit_entry_key
+(UnitEntryT *);
+extern unsigned			unit_entry_order
+(UnitEntryT *);
+extern UnitT *		unit_entry_add_unit
+(UnitEntryT *, unsigned);
+
+extern void			unit_entry_do_count
+(UnitEntryT *, void *);
+extern void			unit_entry_write_unit_set
+(UnitEntryT *, UnitEntryT *, TDFWriterT *);
+extern void			unit_entry_write_tld_unit
+(UnitEntryT *, ShapeTableT *, TDFWriterT *);
+extern void			unit_entry_write_units
+(UnitEntryT *, ShapeTableT *, unsigned, TDFWriterT *);
+
+#endif /* !defined (H_UNIT_ENTRY) */
 
 /*
  * Local variables(smf):

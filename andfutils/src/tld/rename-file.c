@@ -104,7 +104,7 @@
 #include <exds/nstring-list.h>
 #include "syntax.h"
 
-#include "solve-cycles.h"
+#include "adt/solve-cycles.h"
 
 /*--------------------------------------------------------------------------*/
 

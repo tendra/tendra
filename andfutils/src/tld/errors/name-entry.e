@@ -31,11 +31,11 @@ header $[
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>
-#include "name-key.h"
+#include "adt/name-key.h"
 ]$;
 
 header(c) $[
-#include "solve-cycles.h"
+#include "adt/solve-cycles.h"
 ]$;
 
 fatal "no single definition" {

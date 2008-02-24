@@ -95,7 +95,7 @@
 #include "debug.h"
 #include "tdf.h"
 
-#include "solve-cycles.h"
+#include "adt/solve-cycles.h"
 
 /*--------------------------------------------------------------------------*/
 

@@ -58,80 +58,130 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** library.h --- TDF library ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "library.c" for more information.
  *
  *** Change Log:
- * $Log: tdf.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
+ * $Log: library.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:18  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
+ * Revision 1.4  1995/09/22  08:39:20  smf
  * Fixed problems with incomplete structures (to shut "tcc" up).
  * Fixed some problems in "name-key.c" (no real problems, but rewritten to
  * reduce the warnings that were output by "tcc" and "gcc").
  * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
  * more than once).
  *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.3  1995/07/07  15:32:28  smf
+ * Updated to support TDF specification 4.0.
+ *
+ * Revision 1.2  1994/12/12  11:46:25  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:32  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_LIBRARY
+#define H_LIBRARY
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include "capsule.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include "shape-table.h"
+#include "tdf-read.h"
+#include "tdf-write.h"
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+#ifdef FS_NO_ENUM
+typedef int LibraryTypeT, *LibraryTypeT *
+#define LT_INPUT		(0)
+#define LT_OUTPUT		(1)
+#else
+typedef enum {
+    LT_INPUT,
+    LT_OUTPUT
+} LibraryTypeT;
+#endif /* defined (FS_NO_ENUM) */
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
+struct LibraryT;
 
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
+typedef struct LibCapsuleT {
+    struct LibraryT	       *library;
+    char *			name;
+    NStringT			contents;
+    BoolT			loaded;
+} LibCapsuleT;
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+typedef struct LibraryT {
+    LibraryTypeT		type;
+    union {
+	TDFReaderT		reader;
+	TDFWriterT		writer;
+    } u;
+    char *			name;
+    unsigned			num_capsules;
+    LibCapsuleT *		capsules;
+    unsigned			major;
+    unsigned			minor;
+    BoolT			complete;
+} LibraryT;
+
+/*--------------------------------------------------------------------------*/
+
+extern char *			lib_capsule_name
+(LibCapsuleT *);
+extern char *			lib_capsule_full_name
+(LibCapsuleT *);
+extern NStringT *		lib_capsule_contents
+(LibCapsuleT *);
+extern BoolT			lib_capsule_is_loaded
+(LibCapsuleT *);
+extern void			lib_capsule_loaded
+(LibCapsuleT *);
+
+extern void			write_lib_capsule_full_name
+(OStreamT *, LibCapsuleT *);
+
+extern LibraryT *		library_create_stream_input
+(char *);
+extern LibraryT *		library_create_stream_output
+(char *);
+extern char *			library_name
+(LibraryT *);
+extern unsigned			library_num_capsules
+(LibraryT *);
+extern LibCapsuleT *	library_get_capsule
+(LibraryT *, unsigned);
+extern unsigned			library_byte
+(LibraryT *);
+extern void			library_content
+(LibraryT *, BoolT, BoolT, BoolT);
+extern void			library_extract_all
+(LibraryT *, BoolT);
+extern void			library_extract
+(LibraryT *, BoolT, BoolT, unsigned, char * *);
+extern void			library_read
+(LibraryT *, ShapeTableT *);
+extern void			library_write
+(LibraryT *, ShapeTableT *, unsigned, CapsuleT **);
+extern void			library_close
+(LibraryT *);
+
+#endif /* !defined (H_LIBRARY) */
 
 /*
  * Local variables(smf):

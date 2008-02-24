@@ -93,7 +93,7 @@
 #include <exds/exception.h>
 #include <exds/cstring.h>
 #include <exds/dstring.h>
-#include "name-key.h"
+#include "adt/name-key.h"
 #include <exds/ostream.h>
 
 /*--------------------------------------------------------------------------*/

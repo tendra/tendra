@@ -28,11 +28,11 @@
 
 
 header $[
-#include "library.h"
+#include "adt/library.h"
 ]$;
 
 header(c) $[
-#include "solve-cycles.h"
+#include "adt/solve-cycles.h"
 ]$;
 
 error "library bad magic" ("library" : "LibraryT *") {

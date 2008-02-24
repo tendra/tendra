@@ -58,80 +58,142 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** name-key.h --- External name key ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "name-key.c" for more information.
  *
  *** Change Log:
- * $Log: tdf.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
+ * $Log: name-key.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:19  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:46:40  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:36  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_NAME_KEY
+#define H_NAME_KEY
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/cstring.h>
+#include <exds/dstring.h>
+#include <exds/ostream.h>
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+#ifdef FS_NO_ENUM
+typedef int NameKeyTypeT, *NameKeyTypeT *
+#define KT_STRING	(0)
+#define KT_UNIQUE	(1)
+#else
+typedef enum {
+    KT_STRING,
+    KT_UNIQUE
+} NameKeyTypeT;
+#endif /* defined (FS_NO_ENUM) */
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
+typedef struct NameUniqueT {
+    unsigned			length;
+    NStringT *		components;
+} NameUniqueT;
 
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
+typedef struct NameKeyT {
+    NameKeyTypeT		type;
+    union {
+	NStringT		string;
+	NameUniqueT		unique;
+    } u;
+} NameKeyT;
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+typedef struct NameKeyListEntryT {
+    struct NameKeyListEntryT   *next;
+    NameKeyT			key;
+} NameKeyListEntryT;
+
+typedef struct NameKeyListT {
+    NameKeyListEntryT *	head;
+} NameKeyListT;
+
+typedef struct NameKeyPairListEntryT {
+    struct NameKeyPairListEntryT *next;
+    NameKeyT			  from;
+    NameKeyT			  to;
+} NameKeyPairListEntryT;
+
+typedef struct NameKeyPairListT {
+    NameKeyPairListEntryT *	head;
+} NameKeyPairListT;
+
+/*--------------------------------------------------------------------------*/
+
+extern void			name_key_init_string
+(NameKeyT *, NStringT *);
+extern void			name_key_init_unique
+(NameKeyT *, unsigned);
+extern BoolT			name_key_parse_cstring
+(NameKeyT *, char *);
+extern void			name_key_set_component
+(NameKeyT *, unsigned, NStringT *);
+extern NameKeyTypeT		name_key_type
+(NameKeyT *);
+extern NStringT *		name_key_string
+(NameKeyT *);
+extern unsigned			name_key_components
+(NameKeyT *);
+extern NStringT *		name_key_get_component
+(NameKeyT *, unsigned);
+extern unsigned			name_key_hash_value
+(NameKeyT *);
+extern BoolT			name_key_equal
+(NameKeyT *, NameKeyT *);
+extern void			name_key_assign
+(NameKeyT *, NameKeyT *);
+extern void			name_key_copy
+(NameKeyT *, NameKeyT *);
+extern void			name_key_destroy
+(NameKeyT *);
+
+extern void			write_name_key
+(OStreamT *, NameKeyT *);
+
+extern void			name_key_list_init
+(NameKeyListT *);
+extern void			name_key_list_add
+(NameKeyListT *, NameKeyT *);
+extern NameKeyListEntryT *name_key_list_head
+(NameKeyListT *);
+extern NameKeyT *		name_key_list_entry_key
+(NameKeyListEntryT *);
+extern NameKeyListEntryT *name_key_list_entry_next
+(NameKeyListEntryT *);
+
+extern void			name_key_pair_list_init
+(NameKeyPairListT *);
+extern BoolT			name_key_pair_list_add
+(NameKeyPairListT *, NameKeyT *, NameKeyT *);
+extern NameKeyPairListEntryT *name_key_pair_list_head
+(NameKeyPairListT *);
+extern NameKeyT *		name_key_pair_list_entry_from
+(NameKeyPairListEntryT *);
+extern NameKeyT *		name_key_pair_list_entry_to
+(NameKeyPairListEntryT *);
+extern NameKeyPairListEntryT *name_key_pair_list_entry_next
+(NameKeyPairListEntryT *);
+
+#endif /* !defined (H_NAME_KEY) */
 
 /*
  * Local variables(smf):

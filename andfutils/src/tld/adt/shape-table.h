@@ -58,80 +58,70 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** shape-table.h --- Shape table ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "shape-table.c" for more information.
  *
  *** Change Log:
- * $Log: tdf.c,v $
+ * $Log: shape-table.h,v $
  * Revision 1.1.1.1  1998/01/17  15:57:20  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:46:52  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:38  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_SHAPE_TABLE
+#define H_SHAPE_TABLE
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
+#include "shape-entry.h"
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+#define SHAPE_TABLE_SIZE	(11)
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
+/*--------------------------------------------------------------------------*/
 
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
+typedef struct ShapeTableT {
+    ShapeEntryT *		token_entry;
+    ShapeEntryT *		tag_entry;
+    ShapeEntryT *		contents[SHAPE_TABLE_SIZE];
+} ShapeTableT;
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+/*--------------------------------------------------------------------------*/
+
+extern ShapeTableT *	shape_table_create
+(void);
+extern ShapeEntryT *	shape_table_add
+(ShapeTableT *, NStringT *);
+extern ShapeEntryT *	shape_table_get
+(ShapeTableT *, NStringT *);
+extern ShapeEntryT *	shape_table_get_token_entry
+(ShapeTableT *);
+extern ShapeEntryT *	shape_table_get_tag_entry
+(ShapeTableT *);
+extern void			shape_table_iter
+(ShapeTableT *, void(*)(ShapeEntryT *, void *), void *);
+extern void			shape_table_deallocate
+(ShapeTableT *);
+
+#endif /* !defined (H_SHAPE_TABLE) */
 
 /*
  * Local variables(smf):

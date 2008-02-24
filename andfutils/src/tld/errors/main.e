@@ -32,7 +32,7 @@ header $[
 ]$;
 
 header(c) $[
-#include "solve-cycles.h"
+#include "adt/solve-cycles.h"
 ]$;
 
 fatal "bad mode" {

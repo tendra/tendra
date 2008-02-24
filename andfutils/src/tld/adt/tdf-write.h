@@ -58,80 +58,68 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** tdf-write.h --- TDF writer ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "tdf-write.c" for more information.
  *
  *** Change Log:
- * $Log: tdf.c,v $
+ * $Log: tdf-write.h,v $
  * Revision 1.1.1.1  1998/01/17  15:57:20  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:47:00  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:39  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_TDF_WRITE
+#define H_TDF_WRITE
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/bostream.h>
+#include <exds/dstring.h>
+#include "name-key.h"
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+typedef struct TDFWriterT {
+    BOStreamT			bostream;
+    ByteT			byte;
+    BoolT			new_byte;
+} TDFWriterT;
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
+/*--------------------------------------------------------------------------*/
 
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
+extern BoolT			tdf_writer_open
+(TDFWriterT *, char *);
+extern char *			tdf_writer_name
+(TDFWriterT *);
+extern void			tdf_write_int
+(TDFWriterT *, unsigned);
+extern void			tdf_write_align
+(TDFWriterT *);
+extern void			tdf_write_bytes
+(TDFWriterT *, NStringT *);
+extern void			tdf_write_string
+(TDFWriterT *, NStringT *);
+extern void			tdf_write_name
+(TDFWriterT *, NameKeyT *);
+extern void			tdf_writer_close
+(TDFWriterT *);
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+#endif /* !defined (H_TDF_WRITE) */
 
 /*
  * Local variables(smf):

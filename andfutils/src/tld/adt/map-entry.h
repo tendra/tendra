@@ -58,80 +58,77 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** map-entry.h --- Mapping table entry ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "map-entry.c" for more information.
  *
  *** Change Log:
- * $Log: tdf.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
+ * $Log: map-entry.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:19  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:46:29  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:33  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_MAP_ENTRY
+#define H_MAP_ENTRY
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+typedef struct MapLinkT {
+    unsigned			internal;
+    unsigned			external;
+} MapLinkT;
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
+typedef struct MapEntryT {
+    struct MapEntryT	       *next;
+    NStringT			key;
+    unsigned			count;
+    unsigned			num_links;
+    MapLinkT *		links;
+} MapEntryT;
 
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
+/*--------------------------------------------------------------------------*/
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+extern MapEntryT *	map_entry_create
+(NStringT *, MapEntryT *, unsigned);
+extern MapEntryT *	map_entry_next
+(MapEntryT *);
+extern NStringT *		map_entry_key
+(MapEntryT *);
+extern void			map_entry_set_num_links
+(MapEntryT *, unsigned);
+extern void			map_entry_set_link
+(MapEntryT *, unsigned, unsigned, unsigned);
+extern unsigned			map_entry_get_count
+(MapEntryT *);
+extern unsigned			map_entry_get_num_links
+(MapEntryT *);
+extern void			map_entry_get_link
+(MapEntryT *, unsigned, unsigned *, unsigned *);
+
+extern void			map_entry_check_non_empty
+(MapEntryT *, void *);
+
+#endif /* !defined (H_MAP_ENTRY) */
 
 /*
  * Local variables(smf):

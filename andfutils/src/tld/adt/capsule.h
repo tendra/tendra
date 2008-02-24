@@ -58,80 +58,109 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** capsule.h --- TDF capsule ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "capsule.c" for more information.
  *
  *** Change Log:
- * $Log: tdf.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
+ * $Log: capsule.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:18  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
+ * Revision 1.3  1995/07/07  15:32:20  smf
+ * Updated to support TDF specification 4.0.
  *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:46:15  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:30  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_CAPSULE
+#define H_CAPSULE
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
+#include "shape-table.h"
+#include "tdf-read.h"
+#include "tdf-write.h"
+#include "unit-table.h"
+
+struct LibCapsuleT;
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+#ifdef FS_NO_ENUM
+typedef int CapsuleTypeT, *CapsuleTypeT *
+#define CT_INPUT		(0)
+#define CT_OUTPUT		(1)
+#else
+typedef enum {
+    CT_INPUT,
+    CT_OUTPUT
+} CapsuleTypeT;
+#endif /* defined (FS_NO_ENUM) */
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
+typedef struct CapsuleT {
+    CapsuleTypeT		type;
+    union {
+	TDFReaderT		reader;
+	TDFWriterT		writer;
+    } u;
+    NStringT			contents;
+    unsigned			capsule_index;
+    char *			name;
+    BoolT			complete;
+} CapsuleT;
 
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
+/*--------------------------------------------------------------------------*/
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+extern void			capsule_read_unit_set_file
+(char *);
+extern CapsuleT *		capsule_create_stream_input
+(char *);
+extern CapsuleT *		capsule_create_string_input
+(char *, NStringT *);
+extern CapsuleT *		capsule_create_stream_output
+(char *);
+extern char *			capsule_name
+(CapsuleT *);
+extern unsigned			capsule_byte
+(CapsuleT *);
+extern void			capsule_read
+(CapsuleT *, UnitTableT *, ShapeTableT *);
+extern void			capsule_store_contents
+(CapsuleT *);
+extern NStringT *		capsule_contents
+(CapsuleT *);
+extern void			capsule_set_index
+(CapsuleT *, unsigned);
+extern unsigned			capsule_get_index
+(CapsuleT *);
+extern void			capsule_write
+(CapsuleT *, UnitTableT *, ShapeTableT *);
+extern void			capsule_close
+(CapsuleT *);
+extern unsigned			capsule_get_major_version
+(void);
+extern void			capsule_set_major_version
+(unsigned);
+extern unsigned			capsule_get_minor_version
+(void);
+
+#endif /* !defined (H_CAPSULE) */
 
 /*
  * Local variables(smf):

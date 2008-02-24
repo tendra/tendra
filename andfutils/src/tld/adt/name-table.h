@@ -58,80 +58,71 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** name-table.h --- Name table ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "name-table.c" for more information.
  *
  *** Change Log:
- * $Log: tdf.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:20  release
+ * $Log: name-table.h,v $
+ * Revision 1.1.1.1  1998/01/17  15:57:19  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:46:44  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:36  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_NAME_TABLE
+#define H_NAME_TABLE
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
+#include "name-entry.h"
+#include "name-key.h"
+
+struct ShapeEntryT;
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+#define NAME_TABLE_SIZE	(31)
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
+/*--------------------------------------------------------------------------*/
 
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
+typedef struct NameTableT {
+    NameEntryT *		contents[NAME_TABLE_SIZE];
+} NameTableT;
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+/*--------------------------------------------------------------------------*/
+
+extern NameTableT *	name_table_create
+(void);
+extern void			name_table_add_rename
+(NameTableT *, NameKeyT *, NameKeyT *);
+extern void			name_table_resolve_renames
+(NameTableT *, NStringT *, BoolT);
+extern NameEntryT *	name_table_add
+(NameTableT *, NameKeyT *, struct ShapeEntryT *);
+extern NameEntryT *	name_table_get
+(NameTableT *, NameKeyT *);
+extern void			name_table_iter
+(NameTableT *, void(*)(NameEntryT *, void *), void *);
+extern void			name_table_deallocate
+(NameTableT *);
+
+#endif /* !defined (H_NAME_TABLE) */
 
 /*
  * Local variables(smf):

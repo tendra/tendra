@@ -58,79 +58,161 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** tdf-write.c --- TDF writer ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * This file implements the TDF writer routines used by the TDF linker.
  *
  *** Change Log:
- * $Log: tdf.c,v $
+ * $Log: tdf-write.c,v $
  * Revision 1.1.1.1  1998/01/17  15:57:20  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
+ * Revision 1.3  1995/09/22  08:39:40  smf
  * Fixed problems with incomplete structures (to shut "tcc" up).
  * Fixed some problems in "name-key.c" (no real problems, but rewritten to
  * reduce the warnings that were output by "tcc" and "gcc").
  * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
  * more than once).
  *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:46:58  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:39  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#include "tdf-write.h"
+#include "../gen-errors.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/ostream.h>
 
-#include "adt/solve-cycles.h"
+#include "solve-cycles.h"
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
+static void
+tdf_write_nibble(TDFWriterT *writer,			  unsigned   nibble)
 {
-    unsigned size = 1;
-
-    while (value >>= 3) {
-	size++;
+    if (writer->new_byte) {
+	writer->new_byte = FALSE;
+	writer->byte     = (ByteT)((nibble & 0x0F) << 4);
+    } else {
+	writer->new_byte = TRUE;
+	writer->byte    |= (ByteT)(nibble & 0x0F);
+	bostream_write_byte(& (writer->bostream), writer->byte);
     }
-    return(size);
+}
+
+/*--------------------------------------------------------------------------*/
+
+BoolT
+tdf_writer_open(TDFWriterT *writer,			 char *   name)
+{
+    writer->new_byte = TRUE;
+    if (!bostream_open(& (writer->bostream), name)) {
+	return(FALSE);
+    }
+    return(TRUE);
+}
+
+char *
+tdf_writer_name(TDFWriterT *writer)
+{
+    return(bostream_name(& (writer->bostream)));
 }
 
 void
-write_usage(OStreamT *ostream,		     unsigned use)
+tdf_write_int(TDFWriterT *writer,		       unsigned   value)
 {
-    char * sep = "";
+    unsigned shift = 0;
+    unsigned tmp   = value;
+    unsigned mask  = (~(unsigned)0x07);
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
+    while (tmp & mask) {
+	tmp >>= 3;
+	shift++;
     }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
+    while (shift) {
+	tmp = ((value >> (3 * shift)) & 0x07);
+	shift--;
+	tdf_write_nibble(writer, tmp);
     }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
+    tmp = ((value & 0x07) | 0x08);
+    tdf_write_nibble(writer, tmp);
+}
+
+void
+tdf_write_align(TDFWriterT *writer)
+{
+    if (!(writer->new_byte)) {
+	bostream_write_byte(& (writer->bostream), writer->byte);
+	writer->new_byte = TRUE;
     }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
+}
+
+void
+tdf_write_bytes(TDFWriterT *writer,			 NStringT *  nstring)
+{
+    unsigned length   = nstring_length(nstring);
+    char * contents = nstring_contents(nstring);
+
+    tdf_write_align(writer);
+    bostream_write_chars(& (writer->bostream), length, contents);
+}
+
+void
+tdf_write_string(TDFWriterT *writer,			  NStringT *  nstring)
+{
+    unsigned length = nstring_length(nstring);
+
+    tdf_write_int(writer,(unsigned)8);
+    tdf_write_int(writer, length);
+    tdf_write_bytes(writer, nstring);
+}
+
+void
+tdf_write_name(TDFWriterT *writer,			NameKeyT *  name)
+{
+    unsigned  type;
+    unsigned  components;
+    unsigned  i;
+    NStringT * nstring;
+
+    switch (name_key_type(name))EXHAUSTIVE {
+      case KT_STRING:
+	type = (unsigned)(0x1 << 2);
+	tdf_write_nibble(writer, type);
+	tdf_write_align(writer);
+	tdf_write_string(writer, name_key_string(name));
+	break;
+      case KT_UNIQUE:
+	type = (unsigned)(0x2 << 2);
+	tdf_write_nibble(writer, type);
+	tdf_write_align(writer);
+	components = name_key_components(name);
+	tdf_write_int(writer, components);
+	for (i = 0; i < components; i++) {
+	    nstring = name_key_get_component(name, i);
+	    tdf_write_string(writer, nstring);
+	}
+	break;
     }
-    write_char(ostream, '}');
+}
+
+void
+tdf_writer_close(TDFWriterT *writer)
+{
+    tdf_write_align(writer);
+    bostream_close(& (writer->bostream));
 }
 
 /*

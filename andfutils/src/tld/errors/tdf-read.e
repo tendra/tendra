@@ -28,11 +28,11 @@
 
 
 header $[
-#include "tdf-read.h"
+#include "adt/tdf-read.h"
 ]$;
 
 header(c) $[
-#include "solve-cycles.h"
+#include "adt/solve-cycles.h"
 ]$;
 
 error "unexpected eof in tdf" ("reader" : "TDFReaderT *") {

@@ -58,80 +58,128 @@
 */
 
 
-/*** tdf.c --- Miscellaneous TDF routines.
+/*** shape-entry.h --- Shape table entry ADT.
  *
  ** Author: Steve Folkes <smf@hermes.mod.uk>
  *
  *** Commentary:
  *
- * This file implements various TDF routines used by the TDF linker.
+ * See the file "shape-entry.c" for more information.
  *
  *** Change Log:
- * $Log: tdf.c,v $
+ * $Log: shape-entry.h,v $
  * Revision 1.1.1.1  1998/01/17  15:57:20  release
  * First version to be checked into rolling release.
  *
- * Revision 1.3  1995/09/22  08:39:41  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:47:02  smf
+ * Revision 1.2  1994/12/12  11:46:48  smf
  * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
  * OSSG C Coding Standards.
  *
- * Revision 1.1.1.1  1994/07/25  16:03:40  smf
+ * Revision 1.1.1.1  1994/07/25  16:03:38  smf
  * Initial import of TDF linker 3.5 non shared files.
  *
 **/
 
 /****************************************************************************/
 
-#include "tdf.h"
+#ifndef H_SHAPE_ENTRY
+#define H_SHAPE_ENTRY
 
-#include "adt/solve-cycles.h"
+#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
+#include "map-table.h"
+#include "name-entry.h"
+#include "name-table.h"
+#include "tdf-write.h"
+
+struct ShapeTableT;
+struct UnitTableT;
 
 /*--------------------------------------------------------------------------*/
 
-unsigned
-tdf_int_size(unsigned value)
-{
-    unsigned size = 1;
+typedef struct ShapeEntryT {
+    struct ShapeEntryT	       *next;
+    NStringT			key;
+    NameTableT *		names;
+    unsigned			id_count;
+    BoolT			non_empty;
+    unsigned			num_lib_names;
+    NameEntryT *		head;
+    NameEntryT *	       *tail;
+} ShapeEntryT;
 
-    while (value >>= 3) {
-	size++;
-    }
-    return(size);
-}
+typedef struct ShapeClosureT {
+    MapTableT *		table;
+    TDFWriterT *		writer;
+} ShapeClosureT;
 
-void
-write_usage(OStreamT *ostream,		     unsigned use)
-{
-    char * sep = "";
+typedef struct ShapeLibClosureT {
+    BoolT			did_define;
+    struct ShapeTableT	       *lib_shapes;
+    struct UnitTableT	       *units;
+    struct ShapeTableT	       *shapes;
+} ShapeLibClosureT;
 
-    write_char(ostream, '{');
-    if (use & U_DEFD) {
-	write_cstring(ostream, "DEFD");
-	sep = ", ";
-    }
-    if (use & U_MULT) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "MULT");
-	sep = ", ";
-    }
-    if (use & U_DECD) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "DECD");
-	sep = ", ";
-    }
-    if (use & U_USED) {
-	write_cstring(ostream, sep);
-	write_cstring(ostream, "USED");
-    }
-    write_char(ostream, '}');
-}
+/*--------------------------------------------------------------------------*/
+
+extern ShapeEntryT *	shape_entry_create
+(NStringT *);
+extern ShapeEntryT *	shape_entry_next
+(ShapeEntryT *);
+extern ShapeEntryT *       *shape_entry_next_ref
+(ShapeEntryT *);
+extern NStringT *		shape_entry_key
+(ShapeEntryT *);
+extern NameTableT *	shape_entry_name_table
+(ShapeEntryT *);
+extern unsigned			shape_entry_next_id
+(ShapeEntryT *);
+extern void			shape_entry_set_non_empty
+(ShapeEntryT *);
+extern BoolT			shape_entry_get_non_empty
+(ShapeEntryT *);
+extern void			shape_entry_add_to_list
+(ShapeEntryT *, NameEntryT *);
+extern NameEntryT *	shape_entry_get_from_list
+(ShapeEntryT *);
+extern ShapeEntryT *	shape_entry_deallocate
+(ShapeEntryT *);
+
+extern void			shape_entry_do_count
+(ShapeEntryT *, void *);
+extern void			shape_entry_write_shape
+(ShapeEntryT *, void *);
+extern void			shape_entry_write_externs
+(ShapeEntryT *, void *);
+extern void			shape_entry_compute_tld_size
+(ShapeEntryT *, void *);
+extern void			shape_entry_write_tld
+(ShapeEntryT *, void *);
+extern void			shape_entry_write_count
+(ShapeEntryT *, void *);
+extern void			shape_entry_write_links
+(ShapeEntryT *, void *);
+extern void			shape_entry_check_multi_defs
+(ShapeEntryT *, void *);
+extern void			shape_entry_do_lib_count
+(ShapeEntryT *, void *);
+extern void			shape_entry_do_lib_write
+(ShapeEntryT *, void *);
+extern void			shape_entry_resolve_undefined
+(ShapeEntryT *, void *);
+extern void			shape_entry_hide_all_defd
+(ShapeEntryT *, void *);
+extern void			shape_entry_suppress_mult
+(ShapeEntryT *, void *);
+extern void			shape_entry_lib_suppress_mult
+(ShapeEntryT *, void *);
+extern void			shape_entry_show_content
+(ShapeEntryT *, void *);
+
+#endif /* !defined (H_SHAPE_ENTRY) */
 
 /*
  * Local variables(smf):
