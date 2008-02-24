@@ -174,5 +174,17 @@ typedef enum {
 #  define EXHAUSTIVE
 # endif
 
+/*
+ * A weak prototype contains function parameter type information, but has none
+ * of the automatic argument conversions associated with a normal prototype.
+ * Instead weak prototypes imply the usual argument promotion passing rules for
+ * non-prototyped functions.
+ */
+# ifdef __TenDRA__
+#  pragma TenDRA keyword WEAK for weak
+# else
+#  define WEAK
+# endif
+
 #endif /* !defined (H_COMMON) */
 
