@@ -42,13 +42,6 @@
  * the feature off; if both are defined, the ``FS_NO_'' macro takes
  * precedence, and the feature is turned off.
  *
- *	PO_CHAR_BIT
- *
- * This should be defined to be the number of bits in a ``char'' object, used
- * to define ``CHAR_BIT''.  In an ANSI C compliant standard library, this
- * macro is defined in <limits.h>. If the standard library is not ANSI
- * compliant and no value is provided, then ``8'' will be used.
- *
  ***=== FROM ANSI ============================================================
  *
  * The following ANSI C functions are declared:
@@ -159,10 +152,6 @@
  ** Constant:	FALSE
  *
  * These expand to values suitable for the boolean constants true and false.
- *
- ** Constant:	CHAR_BIT
- *
- * This is the number of bits in a ``char'' object.
  *
  ***=== MACROS ===============================================================
  *
@@ -282,13 +271,5 @@ typedef int BoolT;
 #  include <assert.h>
 #  define UNREACHED assert(FALSE)
 # endif /* defined (__TenDRA__) */
-
-#  ifndef CHAR_BIT
-#   ifdef PO_CHAR_BIT
-#    define CHAR_BIT PO_CHAR_BIT
-#   else
-#    define CHAR_BIT 8
-#   endif /* defined (PO_CHAR_BIT) */
-#  endif /* !defined (CHAR_BIT) */
 
 #endif /* !defined (H_OS_INTERFACE) */
