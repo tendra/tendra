@@ -225,7 +225,7 @@ capsule_read_unit_set_name(IStreamT *istream,				    DStringT *dstring)
 	if (c == '"') {
 	    return(TRUE);
 	} else if (c == '\\') {
-	    switch (istream_read_escaped_char(istream, &c))EXHAUSTIVE {
+	    switch (istream_read_escaped_char(istream, &c)) {
 	      case ISTREAM_STAT_READ_CHAR:
 		dstring_append_char(dstring, c);
 		break;
@@ -1145,7 +1145,7 @@ capsule_write(CapsuleT *   capsule,		       UnitTableT * units,
 void
 capsule_close(CapsuleT *capsule)
 {
-    switch (capsule->type)EXHAUSTIVE {
+    switch (capsule->type) {
       case CT_INPUT:
 	tdf_reader_close(capsule_reader(capsule));
 	break;

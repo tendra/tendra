@@ -789,7 +789,7 @@ main(int    argc,	      char **argv)
     HANDLE {
 	istream_setup();
 	ostream_setup();
-	switch (main_init(argc, argv))EXHAUSTIVE {
+	switch (main_init(argc, argv)) {
 	  case MODE_BUILDER:
 	    builder_main(&main_arg_data);
 	    break;

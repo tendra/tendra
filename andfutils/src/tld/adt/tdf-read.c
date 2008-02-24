@@ -81,7 +81,7 @@ static unsigned
 tdf_read_nibble(TDFReaderT *reader)
 {
     if (reader->new_byte) {
-	switch (reader->type)EXHAUSTIVE {
+	switch (reader->type) {
 	  case RT_STREAM:
 	    if (bistream_read_byte(& (reader->u.bistream), & (reader->byte))) {
 		reader->new_byte = FALSE;
@@ -136,7 +136,7 @@ tdf_reader_open_string(TDFReaderT *reader,				char *   name,
 char *
 tdf_reader_name(TDFReaderT *reader)
 {
-    switch (reader->type)EXHAUSTIVE {
+    switch (reader->type) {
       case RT_STREAM:
 	return(bistream_name(& (reader->u.bistream)));
       case RT_STRING:
@@ -148,7 +148,7 @@ tdf_reader_name(TDFReaderT *reader)
 unsigned
 tdf_reader_byte(TDFReaderT *reader)
 {
-    switch (reader->type)EXHAUSTIVE {
+    switch (reader->type) {
       case RT_STREAM:
 	return(bistream_byte(& (reader->u.bistream)));
       case RT_STRING:
@@ -192,7 +192,7 @@ tdf_read_bytes(TDFReaderT *reader,			NStringT *  nstring)
     char * contents = nstring_contents(nstring);
 
     tdf_read_align(reader);
-    switch (reader->type)EXHAUSTIVE {
+    switch (reader->type) {
       case RT_STREAM:
 	if (bistream_read_chars(&(reader->u.bistream), length, contents) !=
 	    length) {
@@ -264,7 +264,7 @@ tdf_read_eof(TDFReaderT *reader)
 {
     uint8_t byte;
 
-    switch (reader->type)EXHAUSTIVE {
+    switch (reader->type) {
       case RT_STREAM:
 	if (bistream_read_byte(& (reader->u.bistream), &byte)) {
 	    E_expected_eof_in_tdf(reader);
@@ -285,7 +285,7 @@ tdf_read_eof(TDFReaderT *reader)
 void
 tdf_reader_rewind(TDFReaderT *reader)
 {
-    switch (reader->type)EXHAUSTIVE {
+    switch (reader->type) {
       case RT_STREAM:
 	bistream_rewind(& (reader->u.bistream));
 	break;
@@ -298,7 +298,7 @@ tdf_reader_rewind(TDFReaderT *reader)
 void
 tdf_reader_close(TDFReaderT *reader)
 {
-    switch (reader->type)EXHAUSTIVE {
+    switch (reader->type) {
       case RT_STREAM:
 	bistream_close(& (reader->u.bistream));
 	break;

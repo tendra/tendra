@@ -182,7 +182,7 @@ rename_file_read_unique(IStreamT *    istream,				 RenameTokenT *token)
 	    length++;
 	    break;
 	  case '\\':
-	    switch (istream_read_escaped_char(istream, &c))EXHAUSTIVE {
+	    switch (istream_read_escaped_char(istream, &c)) {
 	      case ISTREAM_STAT_READ_CHAR:
 		dstring_append_char(&dstring, c);
 		break;
@@ -234,7 +234,7 @@ rename_file_read_shape(IStreamT *    istream,				RenameTokenT *token)
 	    token->tag = RTOK_SHAPE;
 	    return;
 	  case '\\':
-	    switch (istream_read_escaped_char(istream, &c))EXHAUSTIVE {
+	    switch (istream_read_escaped_char(istream, &c)) {
 	      case ISTREAM_STAT_READ_CHAR:
 		dstring_append_char(&dstring, c);
 		break;
@@ -287,7 +287,7 @@ rename_file_read_string(IStreamT *    istream,				 RenameTokenT *token)
 	    E_rename_illegal_char(istream, c);
 	    break;
 	  case '\\':
-	    switch (istream_read_escaped_char(istream, &c))EXHAUSTIVE {
+	    switch (istream_read_escaped_char(istream, &c)) {
 	      case ISTREAM_STAT_READ_CHAR:
 		dstring_append_char(&dstring, c);
 		break;

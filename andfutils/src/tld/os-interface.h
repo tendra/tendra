@@ -180,14 +180,6 @@
  * most compilers it will do nothing, but on compilers that support it it will
  * tell the compiler that the variable is not expected to be used.
  *
- ** Macro:	EXHAUSTIVE
- ** Exceptions:
- *
- * This macro documents the fact that the switch statement in which it appears
- * is meant to be exhaustive.  It is used as follows:
- *
- *	switch (expression) EXHAUSTIVE { ... }
- *
  ** Macro:	UNREACHED
  ** Exceptions:
  *
@@ -219,11 +211,9 @@
 # endif /* defined (__TenDRA__) */
 
 # ifdef __TenDRA__
-#  pragma TenDRA keyword EXHAUSTIVE for exhaustive
 #  pragma TenDRA keyword FALL_THROUGH for fall into case
 #  pragma TenDRA keyword UNREACHED for set unreachable
 # else
-#  define EXHAUSTIVE
 #  define FALL_THROUGH
 #  include <assert.h>
 #  define UNREACHED assert(FALSE)

@@ -147,7 +147,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		E_arg_parse_ambiguous_option(option, &closure);
 		UNREACHED;
 	    } else {
-		switch (chosen->type)EXHAUSTIVE {
+		switch (chosen->type) {
 		  case AT_SWITCH:
 		   (*((BoolT *)(chosen->closure))) = (c == '-');
 		    break;
@@ -247,7 +247,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		    tmp_list++;
 		}
 		if (chosen) {
-		    switch (chosen->type)EXHAUSTIVE {
+		    switch (chosen->type) {
 		      case AT_SWITCH:
 			(*((BoolT *)(chosen->closure))) = (c == '-');
 			break;

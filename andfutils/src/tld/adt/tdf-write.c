@@ -160,7 +160,7 @@ tdf_write_name(TDFWriterT *writer,			NameKeyT *  name)
     unsigned  i;
     NStringT * nstring;
 
-    switch (name_key_type(name))EXHAUSTIVE {
+    switch (name_key_type(name)) {
       case KT_STRING:
 	type = (unsigned)(0x1 << 2);
 	tdf_write_nibble(writer, type);

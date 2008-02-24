@@ -648,7 +648,7 @@ library_write(LibraryT *   library,		       ShapeTableT *shapes,
 void
 library_close(LibraryT *library)
 {
-    switch (library->type)EXHAUSTIVE {
+    switch (library->type) {
       case CT_INPUT:
 	tdf_reader_close(library_reader(library));
 	break;

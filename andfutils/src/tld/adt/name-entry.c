@@ -146,7 +146,7 @@ NameEntryT *
 name_entry_resolve_renames(NameEntryT *entry,				    NStringT *  shape, 
 				    BoolT      report)
 {
-    switch (entry->type)EXHAUSTIVE {
+    switch (entry->type) {
       case NT_PLACEHOLDER:
       case NT_DIRECT:
 	return(entry);

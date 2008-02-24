@@ -306,7 +306,7 @@ name_key_hash_value(NameKeyT *key)
     unsigned components;
     unsigned i;
 
-    switch (key->type)EXHAUSTIVE {
+    switch (key->type) {
       case KT_STRING:
 	hash_value = nstring_hash_value(& (key->u.string));
 	break;
@@ -330,7 +330,7 @@ name_key_equal(NameKeyT *key1,			NameKeyT *key2)
     if (key1->type != key2->type) {
 	return(FALSE);
     }
-    switch (key1->type)EXHAUSTIVE {
+    switch (key1->type) {
       case KT_STRING:
 	return(nstring_equal(& (key1->u.string), & (key2->u.string)));
       case KT_UNIQUE:
@@ -351,7 +351,7 @@ name_key_equal(NameKeyT *key1,			NameKeyT *key2)
 void
 name_key_assign(NameKeyT *to,			 NameKeyT *from)
 {
-    switch (to->type = from->type)EXHAUSTIVE {
+    switch (to->type = from->type) {
       case KT_STRING:
 	nstring_assign(& (to->u.string), & (from->u.string));
 	break;
@@ -368,7 +368,7 @@ name_key_copy(NameKeyT *to,		       NameKeyT *from)
     unsigned components;
     unsigned i;
 
-    switch (to->type = from->type)EXHAUSTIVE {
+    switch (to->type = from->type) {
       case KT_STRING:
 	nstring_copy(& (to->u.string), & (from->u.string));
 	break;
@@ -389,7 +389,7 @@ name_key_destroy(NameKeyT *key)
     unsigned components;
     unsigned i;
 
-    switch (key->type)EXHAUSTIVE {
+    switch (key->type) {
       case KT_STRING:
 	nstring_destroy(& (key->u.string));
 	break;
@@ -410,7 +410,7 @@ write_name_key(OStreamT *ostream,			NameKeyT *key)
     unsigned components;
     unsigned i;
 
-    switch (key->type)EXHAUSTIVE {
+    switch (key->type) {
       case KT_STRING:
 	write_name_key_1(ostream, & (key->u.string));
 	break;
