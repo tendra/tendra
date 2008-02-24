@@ -87,11 +87,6 @@
  * This should be defined if this system supports the ANSI C ``volatile''
  * keyword.  It is automatically defined if the ``__STDC__'' macro is defined.
  *
- *	FS_CONST
- *
- * This should be defined if this system supports the ANSI C ``const''
- * keyword.  It is automatically defined if the ``__STDC__'' macro is defined.
- *
  *	FS_ANSI_ENVIRON
  *
  * This should be defined if the system has an ANSI C compliant standard
@@ -420,7 +415,6 @@
 #   define FS_STDC_HASH
 #   define FS_PROTOTYPES
 #   define FS_VOLATILE
-#   define FS_CONST
 #   if __STDC__ == 1
 #    define FS_ANSI_ENVIRON
 #   endif /* __STDC__ == 1 */
@@ -442,13 +436,6 @@
 # ifndef FS_VOLATILE
 #  define volatile
 # endif /* !defined (FS_VOLATILE) */
-
-# ifdef FS_NO_CONST
-#  undef FS_CONST
-# endif /* defined (FS_NO_CONST) */
-# ifndef FS_CONST
-#  define const
-# endif /* !defined (FS_CONST) */
 
 # ifdef FS_NO_ANSI_ENVIRON
 #  undef FS_ANSI_ENVIRON
