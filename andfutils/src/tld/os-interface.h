@@ -42,13 +42,6 @@
  * the feature off; if both are defined, the ``FS_NO_'' macro takes
  * precedence, and the feature is turned off.
  *
- *	FS_ASSERT
- *
- * This should be defined if you want assertion checking enabled.  This is on
- * by default.  It is possible that less assertions will be checked, as
- * some of the "inlined" functions may have lost their assertions in the
- * macro version.
- *
  *	PO_CHAR_BIT
  *
  * This should be defined to be the number of bits in a ``char'' object, used
@@ -71,14 +64,6 @@
  * ``SEEK_END''.  In an ANSI C compliant standard library, they are defined in
  * <stdio.h>.  If the standard library is not ANSI compliant and no value is
  * provided, then ``0'', ``1'' and ``2'' will be used.
- *
- * This file also requires that one external function be provided:
- *
- *	void E_assertion_failed(char *, char *, unsigned)
- *
- * This function will be called if an assertion fails.  It will be called with
- * the text of the assertion, the name of the file in which the assertion was
- * written, and line on which it occured.
  *
  ***=== FROM ANSI ============================================================
  *
@@ -245,14 +230,6 @@
  * compiler it expands to ``__inline__'' which causes the compiler to inline
  * the function.
  *
- ** Macro:	ASSERT (assertion)
- ** Exceptions:
- *
- * This macro causes the program to abort if the assertion provided does not
- * hold.  Assertion checking is disabled if the ``FS_NO_ASSERT'' macro is
- * defined.  The assertion "ASSERT (FALSE);" is used to indicate that the
- * program should never reach the current line.
- *
  ** Macro:	UNUSED (variable)
  ** Exceptions:
  *
@@ -323,18 +300,6 @@ typedef int BoolT;
 #  define INLINE
 # endif /* defined (__GNUC__) */
 
-# ifdef FS_ASSERT
-extern void			E_assertion_failed
-	(char *, char *, unsigned);
-#   define ASSERT(a) \
-if (!(a)) { \
-    E_assertion_failed (#a, __FILE__, (unsigned) __LINE__); \
-    abort (); \
-}
-# else
-#  define ASSERT(a)
-# endif /* defined (FS_ASSERT) */
-
 # ifdef __TenDRA__
 #  pragma TenDRA keyword EXHAUSTIVE for exhaustive
 #  pragma TenDRA keyword FALL_THROUGH for fall into case
@@ -342,7 +307,8 @@ if (!(a)) { \
 # else
 #  define EXHAUSTIVE
 #  define FALL_THROUGH
-#  define UNREACHED ASSERT (FALSE)
+#  include <assert.h>
+#  define UNREACHED assert(FALSE)
 # endif /* defined (__TenDRA__) */
 
 #  ifndef CHAR_BIT

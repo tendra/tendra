@@ -65,6 +65,8 @@
  * in "arg-parse.h".  See that file for more details.
  */
 
+#include <assert.h>
+
 #include "arg-parse.h"
 #include "gen-errors.h"
 
@@ -75,7 +77,7 @@ arg_parse_intern_descriptions(ArgListT *arg_list)
 	  (arg_list->short_name != '\0')) {
 	EStringT *estring = error_lookup_string(arg_list->u.name);
 
-	ASSERT(estring != NIL(EStringT *));
+	assert(estring != NIL(EStringT *));
 	arg_list->u.message = estring;
 	arg_list++;
     }

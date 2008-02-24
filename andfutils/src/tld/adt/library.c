@@ -96,6 +96,7 @@
 /****************************************************************************/
 
 #include <stddef.h>
+#include <assert.h>
 #include <string.h>
 
 #include "library.h"
@@ -118,14 +119,14 @@ static ExceptionT *XX_library_error   = EXCEPTION("error in TDF library");
 static TDFReaderT *
 library_reader(LibraryT *library)
 {
-    ASSERT(library->type == LT_INPUT);
+    assert(library->type == LT_INPUT);
     return(& (library->u.reader));
 }
 
 static TDFWriterT *
 library_writer(LibraryT *library)
 {
-    ASSERT(library->type == LT_OUTPUT);
+    assert(library->type == LT_OUTPUT);
     return(& (library->u.writer));
 }
 
@@ -358,7 +359,7 @@ library_write_header(LibraryT *library)
     unsigned   minor       = capsule_get_minor_version();
 
     tdf_write_bytes(writer, const_magic);
-    ASSERT(major >= 4);
+    assert(major >= 4);
     tdf_write_int(writer, major);
     tdf_write_int(writer, minor);
     debug_info_w_lib_versions(major, minor);
@@ -472,7 +473,7 @@ library_num_capsules(LibraryT *library)
 LibCapsuleT *
 library_get_capsule(LibraryT *library,			     unsigned capsule_index)
 {
-    ASSERT(capsule_index < library->num_capsules);
+    assert(capsule_index < library->num_capsules);
     return(& (library->capsules[capsule_index]));
 }
 

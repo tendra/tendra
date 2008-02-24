@@ -90,6 +90,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "map-entry.h"
 #include "shape-table.h"
 
@@ -133,7 +135,7 @@ map_entry_set_link(MapEntryT *entry,			    unsigned  link,
 			    unsigned  internal, 
 			    unsigned  external)
 {
-    ASSERT(link < entry->num_links);
+    assert(link < entry->num_links);
     entry->links[link].internal = internal;
     entry->links[link].external = external;
 }
@@ -155,7 +157,7 @@ map_entry_get_link(MapEntryT *entry,			    unsigned  link,
 			    unsigned *internal_ref, 
 			    unsigned *external_ref)
 {
-    ASSERT(link < entry->num_links);
+    assert(link < entry->num_links);
     *internal_ref = entry->links[link].internal;
     *external_ref = entry->links[link].external;
 }

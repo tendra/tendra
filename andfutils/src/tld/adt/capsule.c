@@ -96,6 +96,8 @@
 
 /****************************************************************************/
 
+#include <assert.h>
+
 #include "capsule.h"
 #include "../debug.h"
 #include <exds/common.h>
@@ -325,14 +327,14 @@ capsule_read_unit_set_file_1(IStreamT *istream)
 static TDFReaderT *
 capsule_reader(CapsuleT *capsule)
 {
-    ASSERT(capsule->type == CT_INPUT);
+    assert(capsule->type == CT_INPUT);
     return(& (capsule->u.reader));
 }
 
 static TDFWriterT *
 capsule_writer(CapsuleT *capsule)
 {
-    ASSERT(capsule->type == CT_OUTPUT);
+    assert(capsule->type == CT_OUTPUT);
     return(& (capsule->u.writer));
 }
 
@@ -749,7 +751,7 @@ capsule_read_tld2_units(CapsuleT *capsule, ShapeTableT *shapes,
     UnitEntryT *tld2_entry = capsule_unit_sets[capsule_tld2_index].entry;
     NStringT *  key        = unit_entry_key(tld2_entry);
 
-    ASSERT(capsule_tld2_index != UINT_MAX);
+    assert(capsule_tld2_index != UINT_MAX);
     capsule_read_tld_unit_header(capsule, key);
     debug_info_r_tld_version((unsigned)0);
     capsule_read_tld_type_0_unit(capsule, shapes, num_shapes, shapes_vec,
@@ -944,7 +946,7 @@ capsule_write_header(CapsuleT *capsule)
     NStringT *  const_magic = capsule_magic();
 
     tdf_write_bytes(writer, const_magic);
-    ASSERT(capsule_major_version >= 4);
+    assert(capsule_major_version >= 4);
     tdf_write_int(writer, capsule_major_version);
     tdf_write_int(writer, capsule_minor_version);
     debug_info_w_versions(capsule_major_version, capsule_minor_version);
@@ -958,7 +960,7 @@ capsule_read_unit_set_file(char * name)
 {
     IStreamT istream;
 
-    ASSERT(capsule_unit_sets == NIL(UnitSetT *));
+    assert(capsule_unit_sets == NIL(UnitSetT *));
     if (!istream_open(&istream, name)) {
 	E_cannot_open_unit_set_file(name);
 	UNREACHED;
@@ -1024,7 +1026,7 @@ void
 capsule_read(CapsuleT *   capsule,		      UnitTableT * units, 
 		      ShapeTableT *shapes)
 {
-    ASSERT(capsule->type == CT_INPUT);
+    assert(capsule->type == CT_INPUT);
     capsule_setup(units);
     HANDLE {
 	UnitEntryT **units_vec;

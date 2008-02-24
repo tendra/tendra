@@ -65,6 +65,8 @@
  * linker.
  */
 
+#include <assert.h>
+
 #include "name-entry.h"
 #include "capsule.h"
 #include "../debug.h"
@@ -123,7 +125,7 @@ name_entry_create_place(NameKeyT *key)
 void
 name_entry_make_direct(NameEntryT * entry,				ShapeEntryT *shape_entry)
 {
-    ASSERT(name_entry_is_place(entry));
+    assert(name_entry_is_place(entry));
     entry->type                    = NT_DIRECT;
     entry->u.direct.id             = shape_entry_next_id(shape_entry);
     entry->u.direct.use            = 0;
@@ -135,7 +137,7 @@ name_entry_make_direct(NameEntryT * entry,				ShapeEntryT *shape_entry)
 void
 name_entry_make_indirect(NameEntryT *entry,				  NameEntryT *indirect)
 {
-    ASSERT(name_entry_is_place(entry));
+    assert(name_entry_is_place(entry));
     entry->type       = NT_INDIRECT;
     entry->u.indirect = indirect;
 }
@@ -206,91 +208,91 @@ name_entry_is_place(NameEntryT *entry)
 unsigned
 name_entry_id(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     return(entry->u.direct.id);
 }
 
 void
 name_entry_merge_use(NameEntryT *entry,			      unsigned   use)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     entry->u.direct.use |= use;
 }
 
 unsigned
 name_entry_get_use(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     return(entry->u.direct.use & (U_DEFD | U_DECD | U_MULT | U_USED));
 }
 
 void
 name_entry_hide(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     entry->u.direct.use |= U_HIDE;
 }
 
 void
 name_entry_unhide(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     entry->u.direct.use &= ~U_HIDE;
 }
 
 BoolT
 name_entry_is_hidden(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     return((entry->u.direct.use & U_HIDE) == U_HIDE);
 }
 
 void
 name_entry_set_definition(NameEntryT *entry,				   CapsuleT *  capsule)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     entry->u.direct.definition = capsule;
 }
 
 CapsuleT *
 name_entry_get_definition(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     return(entry->u.direct.definition);
 }
 
 void
 name_entry_set_lib_definition(NameEntryT * entry,				       LibCapsuleT *capsule)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     entry->u.direct.lib_definition = capsule;
 }
 
 LibCapsuleT *
 name_entry_get_lib_definition(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     return(entry->u.direct.lib_definition);
 }
 
 NameEntryT *
 name_entry_list_next(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     return(entry->u.direct.list_next);
 }
 
 NameEntryT **
 name_entry_list_next_ref(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_direct(entry));
+    assert(name_entry_is_direct(entry));
     return(& (entry->u.direct.list_next));
 }
 
 NameEntryT *
 name_entry_get_indirect(NameEntryT *entry)
 {
-    ASSERT(name_entry_is_indirect(entry));
+    assert(name_entry_is_indirect(entry));
     return(entry->u.indirect);
 }
 

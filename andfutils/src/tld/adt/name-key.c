@@ -64,6 +64,8 @@
  * This file implements the external name key routines used by the TDF linker.
  */
 
+#include <assert.h>
+
 #include "name-key.h"
 #include "../syntax.h"
 
@@ -262,7 +264,7 @@ void
 name_key_set_component(NameKeyT *key,				unsigned component, 
 				NStringT *string)
 {
-    ASSERT((key->type == KT_UNIQUE) && (component < key->u.unique.length));
+    assert((key->type == KT_UNIQUE) && (component < key->u.unique.length));
     nstring_assign(& (key->u.unique.components[component]), string);
 }
 
@@ -275,21 +277,21 @@ name_key_type(NameKeyT *key)
 NStringT *
 name_key_string(NameKeyT *key)
 {
-    ASSERT(key->type == KT_STRING);
+    assert(key->type == KT_STRING);
     return(& (key->u.string));
 }
 
 unsigned
 name_key_components(NameKeyT *key)
 {
-    ASSERT(key->type == KT_UNIQUE);
+    assert(key->type == KT_UNIQUE);
     return(key->u.unique.length);
 }
 
 NStringT *
 name_key_get_component(NameKeyT *key,				unsigned component)
 {
-    ASSERT((key->type == KT_UNIQUE) && (component < key->u.unique.length));
+    assert((key->type == KT_UNIQUE) && (component < key->u.unique.length));
     return(& (key->u.unique.components[component]));
 }
 

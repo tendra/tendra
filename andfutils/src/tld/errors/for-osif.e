@@ -62,23 +62,6 @@ internal "exception corrupt handler" {
     }
 };
 
-internal "assertion failed" {
-    "assertion '${assertion}' failed at line ${line number}, file '${file name}'",
-    {
-	"assertion" : "char *" $[
-	    write_cstring (ostream, closure->assertion);
-	]$
-    }, {
-	"file name" : "char *" $[
-	    write_cstring (ostream, closure->file_name);
-	]$
-    }, {
-	"line number" : "unsigned" $[
-	    write_unsigned (ostream, closure->line_number);
-	]$
-    }
-};
-
 internal "dalloc multi deallocate" {
     "memory block ${block address} allocated at line ${allocation line number} in '${allocation file name}' is deallocated more than once (second deallocation at line ${line number} in file '${file name}'",
     {
