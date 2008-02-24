@@ -468,14 +468,6 @@
 #ifndef H_OS_INTERFACE
 #define H_OS_INTERFACE
 
-/*
- * These are defined tempoarily while I'm porting tld to use libexds. They will
- * be removed in a second pass. I'm defining them now to minimise the amount of
- * change per-commit.
- */
-typedef struct NString * NstringP;
-
-
 # ifdef FS_NO_SHORTNAMES
 #  undef FS_SHORTNAMES
 # endif /* defined (FS_NO_SHORTNAMES) */
