@@ -38,7 +38,7 @@ internal "exception unhandled" {
 	    write_cstring (ostream, exception_name (closure->except_name));
 	]$
     }, {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -51,7 +51,7 @@ internal "exception unhandled" {
 internal "exception corrupt handler" {
     "corrupt exception handler installed at line ${line number}, file '${file name}'",
     {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -64,11 +64,11 @@ internal "exception corrupt handler" {
 internal "assertion failed" {
     "assertion '${assertion}' failed at line ${line number}, file '${file name}'",
     {
-	"assertion" : "CStringP" $[
+	"assertion" : "char *" $[
 	    write_cstring (ostream, closure->assertion);
 	]$
     }, {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -85,7 +85,7 @@ internal "dalloc multi deallocate" {
 	    write_pointer (ostream, closure->block_address);
 	]$
     }, {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -93,7 +93,7 @@ internal "dalloc multi deallocate" {
 	    write_unsigned (ostream, closure->line_number);
 	]$
     }, {
-	"allocation file name" : "CStringP" $[
+	"allocation file name" : "char *" $[
 	    write_cstring (ostream, closure->allocation_file_name);
 	]$
     }, {
@@ -110,7 +110,7 @@ internal "dalloc corrupt block" {
 	    write_pointer (ostream, closure->block_address);
 	]$
     }, {
-	"file name" : "CStringP" $[
+	"file name" : "char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
