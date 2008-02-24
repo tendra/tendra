@@ -1,0 +1,26 @@
+Installing libexds
+------------------
+
+Installing libexds should go smoothly with:
+
+% make PREFIX=/usr/local install
+
+which should automatically compile and install libexds
+under the given prefix. Other targets provided are "all"
+for which the prefix should also be specified, "clean",
+and "test".
+
+Platform-specific options may be given by overriding the
+various makefile variables. See the Makefile for details
+of these. For example, to compile with TenDRA:
+
+% make CC=tcc CFLAGS='-Ysystem -Xs -I ../include'
+
+
+Dependencies required:
+
+The makefiles should be portable; they have been tested with
+NetBSD's make and with GNU make.
+
+A little use is made of C99; more will follow in the future.
+

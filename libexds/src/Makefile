@@ -2,32 +2,48 @@
 
 PREFIX ?= /usr/local
 
-LIBTOOL = libtool
-CC = ${LIBTOOL} --mode=compile cc
-LINK = ${LIBTOOL} --mode=link cc
+CC = cc
 CFLAGS = -I ../include
+LINK = ld -shared
+
+# For NetBSD:
+# LINK = ld -shared -rpath $(PREFIX)/lib
+
+# For Darwin:
+# LINK = gcc -dynamiclib -single_module
+
+# For gcc:
+# CC = gcc
+# CFLAGS -fPIC -Wall -Werror -ansi -pedantic -O2 -I ../include
+
+# For TenDRA, -Ysystem is required for stdint.h:
+# CC = tcc
+# CFLAGS = -Ysystem -Xs -I ../include
+
+AR ?= ar
+INSTALL ?= install
+REMOVE ?= rm -f
+RANLIB ?= ranlib
 
 TARGETS = bitvec.o cstring.o dalloc.o dstring.o error.o \
 	exception.o istream.o ostream.o syntax.o \
 	bistream.o bostream.o cstring-list.o nstring-list.o
 
-LTARGETS = bitvec.lo cstring.lo dalloc.lo dstring.lo error.lo \
-	exception.lo istream.lo ostream.lo syntax.lo \
-	bistream.lo bostream.lo cstring-list.lo nstring-list.lo
 
-
-REMOVE = rm -f
-
-all: libexds.la ${TARGETS}
+all: libexds.so libexds.a ${TARGETS}
 
 clean:
-	${REMOVE} libexds.la ${TARGETS} ${LTARGETS}
-	$(REMOVE) -r .libs
+	${REMOVE} libexds.a libexds.so ${TARGETS}
 
-install: libexds.la
-	#install -m 755 libexds.la ${PREFIX}/lib
-	install -m 755 .libs/libexds.* ${PREFIX}/lib
+install: libexds.so libexds.a
+	$(INSTALL) -m 755 -d $(PREFIX)/lib
+	$(INSTALL) -m 644 libexds.a ${PREFIX}/lib/
+	$(INSTALL) -m 644 libexds.so ${PREFIX}/lib/
 
-libexds.la: ${TARGETS}
-	${LINK} -o libexds.la ${LTARGETS} -rpath $(PREFIX)/lib
+libexds.so: ${TARGETS}
+	${LINK} -o libexds.so ${TARGETS}
+
+libexds.a: $(TARGETS)
+	$(AR) r libexds.a $(TARGETS)
+	$(RANLIB) libexds.a
 
