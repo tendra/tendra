@@ -58,44 +58,18 @@
 */
 
 
-/**** arg-data.c --- Command line argument data ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- **** Commentary:
+/*
+ * arg-data.c - Command line argument data ADT.
  *
  * This file implements the ADT that stores the information on the various
  * command line options that were given to the TDF linker.
- *
- **** Change Log:
- * $Log: arg-data.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:16  release
- * First version to be checked into rolling release.
- *
- * Revision 1.4  1995/09/22  08:36:58  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- *
- * Revision 1.3  1995/07/07  15:31:54  smf
- * Updated to support TDF specification 4.0.
- *
- * Revision 1.2  1994/12/12  11:43:52  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:22  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include "arg-data.h"
 #include "capsule.h"
 #include "../gen-errors.h"
 
 #include "solve-cycles.h"
-
-/*--------------------------------------------------------------------------*/
 
 static void
 shape_control_init(ShapeControlT *control)
@@ -142,8 +116,6 @@ shape_control_entry_set(ShapeControlEntryT *entry)
 {
     entry->all = TRUE;
 }
-
-/*--------------------------------------------------------------------------*/
 
 static void
 rename_control_init(RenameControlT *control)
@@ -194,8 +166,6 @@ rename_control_entry_parse_pair(RenameControlEntryT *entry,					 char *         
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 shape_control_iter(ShapeControlT *control,			    void       (*proc)(NStringT *, BoolT,
 							  NameKeyListT *,
@@ -221,8 +191,6 @@ rename_control_iter(RenameControlT *control,			     void        (*proc)(NStringT
 	(*proc)(& (entry->shape), & (entry->names), closure);
     }
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 arg_data_init(ArgDataT *arg_data,		       char * default_output_file)
@@ -586,10 +554,4 @@ arg_data_get_files(ArgDataT *arg_data)
 {
     return(arg_data->files);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library" "../tdf")
- * eval: (include::add-path-entry "../generated")
- * End:
-**/
+

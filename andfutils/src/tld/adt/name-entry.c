@@ -306,8 +306,6 @@ name_entry_deallocate(NameEntryT *entry)
     return(next);
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 name_entry_do_count(NameEntryT *entry,			     void *   gclosure)
 {

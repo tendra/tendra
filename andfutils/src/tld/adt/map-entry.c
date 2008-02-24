@@ -58,37 +58,12 @@
 */
 
 
-/*** map-entry.c --- Mapping table entry ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * map-entry.c - Mapping table entry ADT.
  *
  * This file implements the mapping table entry routines used by the TDF
  * linker.
- *
- *** Change Log:
- * $Log: map-entry.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
- * First version to be checked into rolling release.
- *
- * Revision 1.3  1995/09/22  08:39:21  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.2  1994/12/12  11:46:27  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:32  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 
@@ -96,8 +71,6 @@
 #include "shape-table.h"
 
 #include "solve-cycles.h"
-
-/*--------------------------------------------------------------------------*/
 
 MapEntryT *
 map_entry_create(NStringT * key,			  MapEntryT *next, 
@@ -162,8 +135,6 @@ map_entry_get_link(MapEntryT *entry,			    unsigned  link,
     *external_ref = entry->links[link].external;
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 map_entry_check_non_empty(MapEntryT *entry,				   void *  gclosure)
 {
@@ -176,10 +147,4 @@ map_entry_check_non_empty(MapEntryT *entry,				   void *  gclosure)
 	shape_entry_set_non_empty(shape_entry);
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

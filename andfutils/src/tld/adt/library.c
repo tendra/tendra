@@ -58,42 +58,11 @@
 */
 
 
-/*** library.c --- TDF library ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * library.c - TDF library ADT.
  *
  * This file implements the TDF library routines used by the TDF linker.
- *
- *** Change Log:
- * $Log: library.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1995/09/22  08:39:17  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.4  1995/07/07  15:32:25  smf
- * Updated to support TDF specification 4.0.
- *
- * Revision 1.3  1994/12/12  11:46:24  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.2  1994/08/23  09:40:08  smf
- * Fixed bug DR114:ids-too-long.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:31  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <stddef.h>
 #include <assert.h>
@@ -110,11 +79,7 @@
 
 #include "solve-cycles.h"
 
-/*--------------------------------------------------------------------------*/
-
 static ExceptionT *XX_library_error   = EXCEPTION("error in TDF library");
-
-/*--------------------------------------------------------------------------*/
 
 static TDFReaderT *
 library_reader(LibraryT *library)
@@ -129,8 +94,6 @@ library_writer(LibraryT *library)
     assert(library->type == LT_OUTPUT);
     return(& (library->u.writer));
 }
-
-/*--------------------------------------------------------------------------*/
 
 static void
 library_check_index_entry(LibraryT *library, ShapeEntryT *entry, BoolT need_dec,
@@ -282,8 +245,6 @@ library_extract_1(LibCapsuleT *capsule,			   BoolT       use_basename)
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 typedef void(*LibTypeProcP)
 (LibraryT *, ShapeTableT *);
 
@@ -293,8 +254,6 @@ static LibTypeProcP library_type_jump_table[] = {
 
 #define LIBRARY_TYPE_JUMP_TABLE_SIZE \
 	((unsigned)(sizeof(library_type_jump_table) / sizeof(LibTypeProcP)))
-
-/*--------------------------------------------------------------------------*/
 
 static NStringT *
 library_magic(void)
@@ -308,8 +267,6 @@ library_magic(void)
     }
     return(&const_magic);
 }
-
-/*--------------------------------------------------------------------------*/
 
 static void
 library_read_header(LibraryT *library)
@@ -348,8 +305,6 @@ library_read_header(LibraryT *library)
     tdf_read_align(reader);
 }
 
-/*--------------------------------------------------------------------------*/
-
 static void
 library_write_header(LibraryT *library)
 {
@@ -365,9 +320,6 @@ library_write_header(LibraryT *library)
     debug_info_w_lib_versions(major, minor);
     tdf_write_align(writer);
 }
-
-
-/*--------------------------------------------------------------------------*/
 
 char *
 lib_capsule_name(LibCapsuleT *capsule)
@@ -415,8 +367,6 @@ lib_capsule_loaded(LibCapsuleT *capsule)
     capsule->loaded = TRUE;
 }
 
-/*--------------------------------------------------------------------------*/
-
 void
 write_lib_capsule_full_name(OStreamT *   ostream,				     LibCapsuleT *capsule)
 {
@@ -425,8 +375,6 @@ write_lib_capsule_full_name(OStreamT *   ostream,				     LibCapsuleT *capsule)
     write_cstring(ostream, lib_capsule_name(capsule));
     write_char(ostream, ')');
 }
-
-/*--------------------------------------------------------------------------*/
 
 LibraryT *
 library_create_stream_input(char * name)
@@ -657,10 +605,4 @@ library_close(LibraryT *library)
 	break;
     }
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+

@@ -58,43 +58,11 @@
 */
 
 
-/*** capsule.c --- TDF capsule ADT.
- *
- ** Author: Steve Folkes <smf@hermes.mod.uk>
- *
- *** Commentary:
+/*
+ * capsule.c - TDF capsule ADT.
  *
  * This file implements the TDF capsule routines used by the TDF linker.
- *
- *** Change Log:
- * $Log: capsule.c,v $
- * Revision 1.1.1.1  1998/01/17  15:57:18  release
- * First version to be checked into rolling release.
- *
- * Revision 1.5  1997/11/05  14:40:06  smf
- * capsule.c:
- * 	- Added "dgcompunit" for DDCI work (TDF 4.1).
- *
- * Revision 1.4  1995/09/22  08:39:10  smf
- * Fixed problems with incomplete structures (to shut "tcc" up).
- * Fixed some problems in "name-key.c" (no real problems, but rewritten to
- * reduce the warnings that were output by "tcc" and "gcc").
- * Fixed bug CR95_354.tld-common-id-problem (library capsules could be loaded
- * more than once).
- *
- * Revision 1.3  1995/07/07  15:32:15  smf
- * Updated to support TDF specification 4.0.
- *
- * Revision 1.2  1994/12/12  11:46:13  smf
- * Performing changes for 'CR94_178.sid+tld-update' - bringing in line with
- * OSSG C Coding Standards.
- *
- * Revision 1.1.1.1  1994/07/25  16:03:29  smf
- * Initial import of TDF linker 3.5 non shared files.
- *
-**/
-
-/****************************************************************************/
+ */
 
 #include <assert.h>
 #include <limits.h>
@@ -113,8 +81,6 @@
 #include "unit-entry.h"
 
 #include "solve-cycles.h"
-
-/*--------------------------------------------------------------------------*/
 
 typedef struct UnitSetListEntryT {
     struct UnitSetListEntryT   *next;
@@ -137,11 +103,7 @@ typedef struct NameDataT {
     unsigned			num_names;
 } NameDataT;
 
-/*--------------------------------------------------------------------------*/
-
 #define NUM_DEFAULT_UNIT_SETS	(12)
-
-/*--------------------------------------------------------------------------*/
 
 static char * capsule_default_unit_set_names[NUM_DEFAULT_UNIT_SETS] = {
     "tld",
@@ -167,8 +129,6 @@ static unsigned   capsule_unit_offset;
 static ExceptionT *XX_capsule_error      = EXCEPTION("error in TDF capsule");
 static unsigned   capsule_major_version = 0;
 static unsigned   capsule_minor_version = 0;
-
-/*--------------------------------------------------------------------------*/
 
 static void
 capsule_setup_defaults(void)
@@ -323,8 +283,6 @@ capsule_read_unit_set_file_1(IStreamT *istream)
     capsule_check_unit_sets(istream);
 }
 
-/*--------------------------------------------------------------------------*/
-
 static TDFReaderT *
 capsule_reader(CapsuleT *capsule)
 {
@@ -351,8 +309,6 @@ capsule_magic(void)
     }
     return(&const_magic);
 }
-
-/*--------------------------------------------------------------------------*/
 
 static void
 capsule_read_header(CapsuleT *capsule)
@@ -563,8 +519,6 @@ capsule_read_external_names(CapsuleT *  capsule,				     unsigned   num_shapes,
     return(names_vec_vec);
 }
 
-/*--------------------------------------------------------------------------*/
-
 static unsigned
 capsule_get_token_index(ShapeTableT *shapes,				 unsigned    num_shapes, 
 				 ShapeDataT * shapes_vec)
@@ -683,8 +637,6 @@ capsule_read_tld_type_1_unit(CapsuleT *capsule, ShapeTableT *shapes,
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 typedef void(*UnitTypeProcP)
 (CapsuleT *, ShapeTableT *, unsigned, ShapeDataT *, NameDataT *);
 
@@ -696,8 +648,6 @@ static UnitTypeProcP capsule_type_jump_table[] = {
 #define CAPSULE_TYPE_JUMP_TABLE_SIZE \
 	((unsigned)(sizeof(capsule_type_jump_table) / \
 		     sizeof(UnitTypeProcP)))
-
-/*--------------------------------------------------------------------------*/
 
 static void
 capsule_read_tld_unit_header(CapsuleT *capsule,				      NStringT *unit_set)
@@ -938,8 +888,6 @@ capsule_read_unit_sets(CapsuleT *capsule, unsigned num_unit_sets,
     }
 }
 
-/*--------------------------------------------------------------------------*/
-
 static void
 capsule_write_header(CapsuleT *capsule)
 {
@@ -953,8 +901,6 @@ capsule_write_header(CapsuleT *capsule)
     debug_info_w_versions(capsule_major_version, capsule_minor_version);
     tdf_write_align(writer);
 }
-
-/*--------------------------------------------------------------------------*/
 
 void
 capsule_read_unit_set_file(char * name)
@@ -1172,10 +1118,4 @@ capsule_get_minor_version(void)
 {
     return(capsule_minor_version);
 }
-
-/*
- * Local variables(smf):
- * eval: (include::add-path-entry "../os-interface" "../library")
- * eval: (include::add-path-entry "../generated")
- * end:
-**/
+
