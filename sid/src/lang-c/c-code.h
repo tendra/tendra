@@ -65,8 +65,8 @@
 #ifndef H_C_CODE
 #define H_C_CODE
 
-#include "../os-interface.h"
 #include "c-out-info.h"
+#include <exds/common.h>
 #include <exds/cstring.h>
 #include <exds/dalloc.h>
 #include <exds/dstring.h>

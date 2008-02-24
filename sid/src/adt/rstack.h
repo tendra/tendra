@@ -30,7 +30,7 @@
  */
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -39,18 +39,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -58,83 +58,48 @@
 */
 
 /*
- * os-interface.h - Primitive definitions.
+ * rstack.h - Renaming stack ADT.
  *
- * This file specifies an interface to the host system's C library, compiler
- * and operating system.  It provides definitions of basic types, constants
- * and macros, and declarations of functions, that can be used by other
- * components of the program.
- *
- * This file used to provide portability abstractions; now all that remains
- * are definitions for semantic purposes, such as CmpT.
+ * See the file "rstack.c" for more information.
  */
 
-#ifndef H_OS_INTERFACE
-#define H_OS_INTERFACE
+#ifndef H_RSTACK
+#define H_RSTACK
 
-# ifdef __TenDRA__
-#  pragma TenDRA keyword UNUSED for discard variable
-#  pragma TenDRA keyword KW_WEAK_PROTOTYPE for weak
-# else
+#include "table.h"
+#include "types.h"
 
-/*
- * This macro documents the fact that the specified variable will no longer be
- * used.  One use is to indicate function parameters that are not used.  On
- * most compilers it will do nothing, but on compilers that support it it will
- * tell the compiler that the variable is not expected to be used.
- */
-#  define UNUSED(v)
-#  define KW_WEAK_PROTOTYPE
-# endif /* defined (__TenDRA__) */
+typedef struct TransStackEntryT {
+    struct TransStackEntryT    *next;
+    TypeRTransT			translator;
+} TransStackEntryT;
 
-/*
- * This is the byte type.  It is possible that this could be larger than an
- * octet in some implementations.
- */
-typedef unsigned char ByteT;
+typedef struct RStackT {
+    TransStackEntryT *		head;
+} RStackT;
 
-/*
- * These expand to values suitable for the boolean constants true and false.
- * Eventually these will be replaced with C99's stdbool.h along with the
- * BoolT type.
- */
-# define FALSE (0)
-# define TRUE (1)
+typedef struct SaveRStackT {
+    TransStackEntryT *		head;
+} SaveRStackT;
 
-# ifdef __TenDRA__
-#  pragma TenDRA keyword EXHAUSTIVE for exhaustive
-#  pragma TenDRA keyword FALL_THROUGH for fall into case
-#  pragma TenDRA keyword UNREACHED for set unreachable
-# else
-#  include <stdlib.h>
-#  include <assert.h>
+extern void		 rstack_init(RStackT *);
+extern void		 rstack_push_frame(RStackT *);
+extern void		 rstack_compute_formal_renaming(RStackT *, TypeTupleT *);
+extern void		 rstack_compute_formal_inlining(RStackT *, TypeTupleT *,
+							TypeTupleT *);
+extern void		 rstack_compute_local_renaming(RStackT *, TypeTupleT *,
+						       TypeTupleT *, TableT *);
+extern void		 rstack_add_translation(RStackT *, struct EntryT *,
+						struct EntryT *,
+						struct EntryT *, BoolT);
+extern void		 rstack_save_state(RStackT *, SaveRStackT *);
+extern struct EntryT	*rstack_get_translation(SaveRStackT *, struct EntryT *,
+						 struct EntryT **, BoolT *);
+extern void		 rstack_apply_for_non_locals(RStackT *, SaveRStackT *,
+						     void(*)(struct EntryT *,
+						     struct EntryT *,
+						     void *), void *);
+extern void		 rstack_pop_frame(RStackT *);
+extern void		 rstack_destroy(RStackT *);
 
-/*
- * This macro documents the fact that the switch statement in which it appears
- * is meant to be exhaustive.  It is used as follows:
- *
- *	switch (expression) EXHAUSTIVE { ... }
- */
-#  define EXHAUSTIVE
-
-/*
- * This macro documents the fact that the current case of a switch statement
- * should follow through into the next (immediately following) case.  It is
- * used as follows:
- *
- *	case 1:
- *	  ...
- *	  FALL_THROUGH;
- *	case 2:
- *	  ...
- */
-#  define FALL_THROUGH
-
-/*
- * This macro documents the fact that the location that it occurs in should be
- * unreachable.
- */
-#  define UNREACHED assert(!"UNREACHED"); abort();
-# endif /* defined (__TenDRA__) */
-
-#endif /* !defined (H_OS_INTERFACE) */
+#endif /* !defined (H_RSTACK) */

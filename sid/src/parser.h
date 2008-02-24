@@ -67,7 +67,6 @@
 #ifndef H_PARSER
 #define H_PARSER
 
-#include "os-interface.h"
 #include "adt/entry-list.h"
 #include "grammar.h"
 #include "lexer.h"

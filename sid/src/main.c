@@ -83,7 +83,8 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
 #include "arg-parse.h"
 #include "lang-c/c-check.h"
 #include "lang-c/c-lexer.h"
@@ -94,7 +95,6 @@
 #include <exds/dstring.h>
 #include <exds/error.h>
 #include <exds/error-file.h>
-#include <exds/exception.h>
 #include "gen-errors.h"
 #include "grammar.h"
 #include <exds/istream.h>

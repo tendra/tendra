@@ -66,7 +66,6 @@
 #ifndef H_TABLE
 #define H_TABLE
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>

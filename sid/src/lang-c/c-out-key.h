@@ -66,7 +66,8 @@
 #ifndef H_C_OUT_KEY
 #define H_C_OUT_KEY
 
-#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
 #include "c-output.h"
 #include <exds/dstring.h>
 #include "../adt/entry.h"

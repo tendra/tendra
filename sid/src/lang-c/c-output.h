@@ -67,7 +67,6 @@
 #ifndef H_C_OUTPUT
 #define H_C_OUTPUT
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/cstring.h>

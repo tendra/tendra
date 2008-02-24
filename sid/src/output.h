@@ -66,8 +66,8 @@
 #ifndef H_OUTPUT
 #define H_OUTPUT
 
-#include "os-interface.h"
 #include <exds/common.h>
+#include <exds/exception.h>
 #include <exds/cstring.h>
 #include <exds/istream.h>
 #include <exds/ostream.h>

@@ -66,7 +66,6 @@
 #ifndef H_SCOPE
 #define H_SCOPE
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>

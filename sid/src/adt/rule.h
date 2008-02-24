@@ -69,7 +69,6 @@
 #ifndef H_RULE
 #define H_RULE
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/bitvec.h>

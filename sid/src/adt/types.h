@@ -66,7 +66,6 @@
 #ifndef H_TYPES
 #define H_TYPES
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>

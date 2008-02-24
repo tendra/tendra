@@ -67,7 +67,6 @@
 #ifndef H_C_OUT_NL
 #define H_C_OUT_NL
 
-#include "../os-interface.h"
 #include "c-output.h"
 #include "../adt/non-local.h"
 #include "../adt/rule.h"

@@ -67,7 +67,6 @@
 #ifndef H_ACTION
 #define H_ACTION
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>

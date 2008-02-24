@@ -66,7 +66,6 @@
 #ifndef H_ENTRY
 #define H_ENTRY
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>

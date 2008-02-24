@@ -66,7 +66,6 @@
 #ifndef H_NON_LOCAL
 #define H_NON_LOCAL
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>

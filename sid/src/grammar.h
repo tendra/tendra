@@ -67,7 +67,6 @@
 #ifndef H_GRAMMAR
 #define H_GRAMMAR
 
-#include "os-interface.h"
 #include "adt/entry.h"
 #include "adt/entry-list.h"
 #include <exds/ostream.h>

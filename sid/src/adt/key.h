@@ -66,7 +66,6 @@
 #ifndef H_KEY
 #define H_KEY
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>

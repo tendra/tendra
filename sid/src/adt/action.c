@@ -63,7 +63,10 @@
  * This file implements the action manipulation routines.
  */
 
-#include "../os-interface.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+
 #include "action.h"
 #include "basic.h"
 #include "name.h"
@@ -108,7 +111,7 @@ action_set_code(ActionT * action, void * code)
 
 void
 action_iter_for_table(ActionT * action, BoolT full,
-		      void(*proc)KW_WEAK_PROTOTYPE(EntryT *, void *),
+		      void(*proc) WEAK (EntryT *, void *),
 		      void * closure)
 {
     if (full) {

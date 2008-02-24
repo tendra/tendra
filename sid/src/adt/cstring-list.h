@@ -68,7 +68,6 @@
 #ifndef H_CSTRING_LIST
 #define H_CSTRING_LIST
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/cstring.h>

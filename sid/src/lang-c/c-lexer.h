@@ -67,8 +67,9 @@
 #ifndef H_C_LEXER
 #define H_C_LEXER
 
-#include "../os-interface.h"
 #include "c-code.h"
+#include <exds/common.h>
+#include <exds/exception.h>
 #include <exds/dstring.h>
 #include <exds/istream.h>
 #include "c-lexi_lexer.h"

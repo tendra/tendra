@@ -30,7 +30,7 @@
  */
 /*
     		 Crown Copyright (c) 1997
-
+    
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -39,55 +39,41 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-
+    
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-
+    
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-
+    
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-
+    
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
         it may be put.
 */
 
-
 /*
- * c-out-types.h --- Output type objects.
+ * c-parser.h - SID C parser.
  *
- * See the file "c-out-types.c" for more information.
+ * This file specifies the interface to the SID C definition file parser that
+ * is produced from the file "c-parser.sid".
  */
 
-#ifndef H_C_OUT_TYPES
-#define H_C_OUT_TYPES
+#ifndef H_C_PARSER
+#define H_C_PARSER
 
-#include "c-output.h"
-#include "../adt/rstack.h"
-#include "../adt/rule.h"
+#include "c-lexer.h"
+#include "c-out-info.h"
 #include "../adt/table.h"
-#include "../adt/types.h"
 
-extern void	c_output_assign(COutputInfoT *, EntryT *, EntryT *, SaveRStackT *,
-				SaveRStackT *, unsigned);
-extern void	c_output_type_decl(COutputInfoT *, TypeTupleT *, TypeTupleT *);
-extern void	c_output_type_defn(COutputInfoT *, TypeTupleT *, TypeTupleT *);
-extern void	c_output_result_assign(COutputInfoT *, TypeTupleT *, unsigned);
-extern void	c_output_alt_names(COutputInfoT *, TypeTupleT *, TypeTupleT *,
-				   SaveRStackT *, unsigned);
-extern void	c_output_rule_params(COutputInfoT *, TypeTupleT *, TypeTupleT *,
-				     SaveRStackT *);
-extern void	c_output_rename(COutputInfoT *, TypeTupleT *, TypeTupleT *,
-				SaveRStackT *, unsigned);
-extern void	c_output_tail_decls(COutputInfoT *, TypeTupleT *, SaveRStackT *,
-				    TypeTupleT *, SaveRStackT *, unsigned);
-extern BoolT	c_output_required_copies(COutputInfoT *, TypeTupleT *, TypeTupleT *,
-					 RStackT *, SaveRStackT *, unsigned,
-					 TableT *);
+extern CLexerStreamT *		c_current_stream;
+extern COutputInfoT *		c_current_out_info;
+extern TableT *			c_current_table;
+extern void			c_parse_grammar(void);
 
-#endif /* !defined (H_C_OUT_TYPES) */
+#endif /* !defined (H_C_PARSER) */

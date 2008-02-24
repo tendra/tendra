@@ -81,7 +81,6 @@
 #ifndef H_ARG_PARSE
 #define H_ARG_PARSE
 
-#include "os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/cstring.h>

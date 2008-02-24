@@ -116,7 +116,7 @@ basic_get_ignored(BasicT * basic)
 
 void
 basic_iter_for_table(BasicT * basic, BoolT full,
-		     void(*proc)KW_WEAK_PROTOTYPE(EntryT *, void *),
+		     void(*proc) WEAK (EntryT *, void *),
 		     void * closure)
 {
     if (full) {

@@ -66,7 +66,6 @@
 #ifndef H_NAME
 #define H_NAME
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>

@@ -67,7 +67,6 @@
 #ifndef H_BASIC
 #define H_BASIC
 
-#include "../os-interface.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/bitvec.h>
