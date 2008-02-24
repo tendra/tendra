@@ -198,7 +198,7 @@ main_print_version(void)
 
 static void
 main_handle_all(CStringP  option,			 ArgUsageP usage, 
-			 GenericP  gclosure, 
+			 void *  gclosure, 
 			 BoolT     enable)
 {
     UNUSED(option);
@@ -210,7 +210,7 @@ main_handle_all(CStringP  option,			 ArgUsageP usage,
 
 static void
 main_handle_all_hide_defd(CStringP  option,				   ArgUsageP usage, 
-				   GenericP  gclosure, 
+				   void *  gclosure, 
 				   BoolT     enable)
 {
     UNUSED(option);
@@ -222,7 +222,7 @@ main_handle_all_hide_defd(CStringP  option,				   ArgUsageP usage,
 
 static void
 main_handle_basename(CStringP  option,			      ArgUsageP usage, 
-			      GenericP  gclosure, 
+			      void *  gclosure, 
 			      BoolT     enable)
 {
     UNUSED(option);
@@ -234,7 +234,7 @@ main_handle_basename(CStringP  option,			      ArgUsageP usage,
 
 static void
 main_handle_debug_file(CStringP  option,				ArgUsageP usage, 
-				GenericP  gclosure, 
+				void *  gclosure, 
 				CStringP  debug_file)
 {
     UNUSED(option);
@@ -246,7 +246,7 @@ main_handle_debug_file(CStringP  option,				ArgUsageP usage,
 
 static void
 main_handle_help(CStringP  option,			  ArgUsageP usage, 
-			  GenericP  gclosure)
+			  void *  gclosure)
 {
     UNUSED(option);
     UNUSED(gclosure);
@@ -258,7 +258,7 @@ main_handle_help(CStringP  option,			  ArgUsageP usage,
 
 static void
 main_handle_hide(CStringP  option,			  ArgUsageP usage, 
-			  GenericP  gclosure, 
+			  void *  gclosure, 
 			  CStringP  shape, 
 			  CStringP  name)
 {
@@ -271,7 +271,7 @@ main_handle_hide(CStringP  option,			  ArgUsageP usage,
 
 static void
 main_handle_hide_defined(CStringP  option,				  ArgUsageP usage, 
-				  GenericP  gclosure, 
+				  void *  gclosure, 
 				  CStringP  shape)
 {
     UNUSED(option);
@@ -283,7 +283,7 @@ main_handle_hide_defined(CStringP  option,				  ArgUsageP usage,
 
 static void
 main_handle_index(CStringP  option,			   ArgUsageP usage, 
-			   GenericP  gclosure, 
+			   void *  gclosure, 
 			   BoolT     enable)
 {
     UNUSED(option);
@@ -295,7 +295,7 @@ main_handle_index(CStringP  option,			   ArgUsageP usage,
 
 static void
 main_handle_info(CStringP  option,			  ArgUsageP usage, 
-			  GenericP  gclosure, 
+			  void *  gclosure, 
 			  BoolT     enable)
 {
     UNUSED(option);
@@ -311,7 +311,7 @@ main_handle_info(CStringP  option,			  ArgUsageP usage,
 
 static void
 main_handle_keep(CStringP  option,			  ArgUsageP usage, 
-			  GenericP  gclosure, 
+			  void *  gclosure, 
 			  CStringP  shape, 
 			  CStringP  name)
 {
@@ -324,7 +324,7 @@ main_handle_keep(CStringP  option,			  ArgUsageP usage,
 
 static void
 main_handle_keep_all(CStringP  option,			      ArgUsageP usage, 
-			      GenericP  gclosure, 
+			      void *  gclosure, 
 			      CStringP  shape)
 {
     UNUSED(option);
@@ -336,7 +336,7 @@ main_handle_keep_all(CStringP  option,			      ArgUsageP usage,
 
 static void
 main_handle_library_file(CStringP  option,				  ArgUsageP usage, 
-				  GenericP  gclosure, 
+				  void *  gclosure, 
 				  CStringP  library_file)
 {
     UNUSED(option);
@@ -348,7 +348,7 @@ main_handle_library_file(CStringP  option,				  ArgUsageP usage,
 
 static void
 main_handle_match_base(CStringP  option,				ArgUsageP usage, 
-				GenericP  gclosure, 
+				void *  gclosure, 
 				BoolT     enable)
 {
     UNUSED(option);
@@ -360,7 +360,7 @@ main_handle_match_base(CStringP  option,				ArgUsageP usage,
 
 static void
 main_handle_output_file(CStringP  option,				 ArgUsageP usage, 
-				 GenericP  gclosure, 
+				 void *  gclosure, 
 				 CStringP  output_file)
 {
     UNUSED(option);
@@ -372,7 +372,7 @@ main_handle_output_file(CStringP  option,				 ArgUsageP usage,
 
 static void
 main_handle_library_path(CStringP  option,				  ArgUsageP usage, 
-				  GenericP  gclosure, 
+				  void *  gclosure, 
 				  CStringP  directory)
 {
     UNUSED(option);
@@ -384,7 +384,7 @@ main_handle_library_path(CStringP  option,				  ArgUsageP usage,
 
 static void
 main_handle_rename(CStringP  option,			    ArgUsageP usage, 
-			    GenericP  gclosure, 
+			    void *  gclosure, 
 			    CStringP  shape, 
 			    CStringP  from, 
 			    CStringP  to)
@@ -398,7 +398,7 @@ main_handle_rename(CStringP  option,			    ArgUsageP usage,
 
 static void
 main_handle_rename_file(CStringP  option,				 ArgUsageP usage, 
-				 GenericP  gclosure, 
+				 void *  gclosure, 
 				 CStringP  name)
 {
     UNUSED(option);
@@ -410,7 +410,7 @@ main_handle_rename_file(CStringP  option,				 ArgUsageP usage,
 
 static void
 main_handle_size(CStringP  option,			  ArgUsageP usage, 
-			  GenericP  gclosure, 
+			  void *  gclosure, 
 			  BoolT     enable)
 {
     UNUSED(option);
@@ -422,7 +422,7 @@ main_handle_size(CStringP  option,			  ArgUsageP usage,
 
 static void
 main_handle_suppress(CStringP  option,			      ArgUsageP usage, 
-			      GenericP  gclosure, 
+			      void *  gclosure, 
 			      CStringP  shape, 
 			      CStringP  name)
 {
@@ -435,7 +435,7 @@ main_handle_suppress(CStringP  option,			      ArgUsageP usage,
 
 static void
 main_handle_suppress_all(CStringP  option,				  ArgUsageP usage, 
-				  GenericP  gclosure, 
+				  void *  gclosure, 
 				  CStringP  shape)
 {
     UNUSED(option);
@@ -447,7 +447,7 @@ main_handle_suppress_all(CStringP  option,				  ArgUsageP usage,
 
 static void
 main_handle_suppress_mult(CStringP  option,				   ArgUsageP usage, 
-				   GenericP  gclosure, 
+				   void *  gclosure, 
 				   BoolT     enable)
 {
     UNUSED(option);
@@ -459,7 +459,7 @@ main_handle_suppress_mult(CStringP  option,				   ArgUsageP usage,
 
 static void
 main_handle_tdf_version(CStringP  option,				 ArgUsageP usage, 
-				 GenericP  gclosure, 
+				 void *  gclosure, 
 				 BoolT     enable)
 {
     UNUSED(option);
@@ -471,7 +471,7 @@ main_handle_tdf_version(CStringP  option,				 ArgUsageP usage,
 
 static void
 main_handle_unit_file(CStringP  option,			       ArgUsageP usage, 
-			       GenericP  gclosure, 
+			       void *  gclosure, 
 			       CStringP  unit_file)
 {
     UNUSED(option);
@@ -483,7 +483,7 @@ main_handle_unit_file(CStringP  option,			       ArgUsageP usage,
 
 static void
 main_handle_version(CStringP  option,			     ArgUsageP usage, 
-			     GenericP  gclosure)
+			     void *  gclosure)
 {
     UNUSED(option);
     UNUSED(usage);
@@ -494,7 +494,7 @@ main_handle_version(CStringP  option,			     ArgUsageP usage,
 
 static void
 main_handle_warning(CStringP  option,			     ArgUsageP usage, 
-			     GenericP  gclosure, 
+			     void *  gclosure, 
 			     BoolT     enable)
 {
     UNUSED(option);
@@ -607,39 +607,39 @@ static EStringDataT main_description_strings[] = {
 static ArgListT main_builder_arg_list[] = {
     {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_debug_file,	NIL(GenericP),
+	(ArgProcP)main_handle_debug_file,	NIL(void *),
 	UB "description of debug-file" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(GenericP),
+	(ArgProcP)main_handle_help,		NIL(void *),
 	UB "description of help" UE
     }, {
 	"include-library", 'i',			AT_FOLLOWING,
-	(ArgProcP)main_handle_library_file,	NIL(GenericP),
+	(ArgProcP)main_handle_library_file,	NIL(void *),
 	UB "description of include-library" UE
     }, {
 	"output-file", 'o',			AT_FOLLOWING,
-	(ArgProcP)main_handle_output_file,	NIL(GenericP),
+	(ArgProcP)main_handle_output_file,	NIL(void *),
 	UB "description of output-file" UE
     }, {
 	"suppress", 's',			AT_FOLLOWING2,
-	(ArgProcP)main_handle_suppress,	NIL(GenericP),
+	(ArgProcP)main_handle_suppress,	NIL(void *),
 	UB "description of suppress" UE
     }, {
 	"suppress-all", 'S',			AT_FOLLOWING,
-	(ArgProcP)main_handle_suppress_all,	NIL(GenericP),
+	(ArgProcP)main_handle_suppress_all,	NIL(void *),
 	UB "description of suppress-all" UE
     }, {
 	"suppress-mult", 'M',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_suppress_mult,	NIL(GenericP),
+	(ArgProcP)main_handle_suppress_mult,	NIL(void *),
 	UB "description of suppress-mult" UE
     }, {
 	"unit-file", 'u',			AT_FOLLOWING,
-	(ArgProcP)main_handle_unit_file,	NIL(GenericP),
+	(ArgProcP)main_handle_unit_file,	NIL(void *),
 	UB "description of unit-file" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(GenericP),
+	(ArgProcP)main_handle_version,		NIL(void *),
 	UB "description of version" UE
     }, ARG_PARSE_END_LIST
 };
@@ -647,27 +647,27 @@ static ArgListT main_builder_arg_list[] = {
 static ArgListT main_contents_arg_list[] = {
     {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_debug_file,	NIL(GenericP),
+	(ArgProcP)main_handle_debug_file,	NIL(void *),
 	UB "description of debug-file" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(GenericP),
+	(ArgProcP)main_handle_help,		NIL(void *),
 	UB "description of help" UE
     }, {
 	"index", 'i',				AT_PROC_SWITCH,
-	(ArgProcP)main_handle_index,		NIL(GenericP),
+	(ArgProcP)main_handle_index,		NIL(void *),
 	UB "description of index" UE
     }, {
 	"size", 's',				AT_PROC_SWITCH,
-	(ArgProcP)main_handle_size,		NIL(GenericP),
+	(ArgProcP)main_handle_size,		NIL(void *),
 	UB "description of size" UE
     }, {
 	"tdf-version", 't',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_tdf_version,	NIL(GenericP),
+	(ArgProcP)main_handle_tdf_version,	NIL(void *),
 	UB "description of tdf-version" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(GenericP),
+	(ArgProcP)main_handle_version,		NIL(void *),
 	UB "description of version" UE
     }, ARG_PARSE_END_LIST
 };
@@ -675,31 +675,31 @@ static ArgListT main_contents_arg_list[] = {
 static ArgListT main_extract_arg_list[] = {
     {
 	"all", 'a',				AT_PROC_SWITCH,
-	(ArgProcP)main_handle_all,		NIL(GenericP),
+	(ArgProcP)main_handle_all,		NIL(void *),
 	UB "description of all" UE
     }, {
 	"basename", 'b',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_basename,	NIL(GenericP),
+	(ArgProcP)main_handle_basename,	NIL(void *),
 	UB "description of basename" UE
     }, {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_debug_file,	NIL(GenericP),
+	(ArgProcP)main_handle_debug_file,	NIL(void *),
 	UB "description of debug-file" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(GenericP),
+	(ArgProcP)main_handle_help,		NIL(void *),
 	UB "description of help" UE
     }, {
 	"info", 'i',				AT_PROC_SWITCH,
-	(ArgProcP)main_handle_info,		NIL(GenericP),
+	(ArgProcP)main_handle_info,		NIL(void *),
 	UB "description of info" UE
     }, {
 	"match-basename", 'm',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_match_base,	NIL(GenericP),
+	(ArgProcP)main_handle_match_base,	NIL(void *),
 	UB "description of match-basename" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(GenericP),
+	(ArgProcP)main_handle_version,		NIL(void *),
 	UB "description of version" UE
     }, ARG_PARSE_END_LIST
 };
@@ -707,83 +707,83 @@ static ArgListT main_extract_arg_list[] = {
 static ArgListT main_linker_arg_list[] = {
     {
 	"all-hide-defined", 'a',		AT_PROC_SWITCH,
-	(ArgProcP)main_handle_all_hide_defd,	NIL(GenericP),
+	(ArgProcP)main_handle_all_hide_defd,	NIL(void *),
 	UB "description of all-hide-defined" UE
     }, {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_debug_file,	NIL(GenericP),
+	(ArgProcP)main_handle_debug_file,	NIL(void *),
 	UB "description of debug-file" UE
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(GenericP),
+	(ArgProcP)main_handle_help,		NIL(void *),
 	UB "description of help" UE
     }, {
 	"hide", 'h',				AT_FOLLOWING2,
-	(ArgProcP)main_handle_hide,		NIL(GenericP),
+	(ArgProcP)main_handle_hide,		NIL(void *),
 	UB "description of hide" UE
     }, {
 	"hide-defined", 'H',			AT_FOLLOWING,
-	(ArgProcP)main_handle_hide_defined,	NIL(GenericP),
+	(ArgProcP)main_handle_hide_defined,	NIL(void *),
 	UB "description of hide-defined" UE
     }, {
 	"keep", 'k',				AT_FOLLOWING2,
-	(ArgProcP)main_handle_keep,		NIL(GenericP),
+	(ArgProcP)main_handle_keep,		NIL(void *),
 	UB "description of keep" UE
     }, {
 	"keep-all", 'K',			AT_FOLLOWING,
-	(ArgProcP)main_handle_keep_all,	NIL(GenericP),
+	(ArgProcP)main_handle_keep_all,	NIL(void *),
 	UB "description of keep-all" UE
     }, {
 	"library", '\0',			AT_FOLLOWING,
-	(ArgProcP)main_handle_library_file,	NIL(GenericP),
+	(ArgProcP)main_handle_library_file,	NIL(void *),
 	UB "description of library-file" UE
     }, {
 	NIL(CStringP), 'l',			AT_EITHER,
-	(ArgProcP)main_handle_library_file,	NIL(GenericP),
+	(ArgProcP)main_handle_library_file,	NIL(void *),
 	UB "description of l" UE
     }, {
 	"output-file", 'o',			AT_FOLLOWING,
-	(ArgProcP)main_handle_output_file,	NIL(GenericP),
+	(ArgProcP)main_handle_output_file,	NIL(void *),
 	UB "description of output-file" UE
     }, {
 	"path", '\0',				AT_FOLLOWING,
-	(ArgProcP)main_handle_library_path,	NIL(GenericP),
+	(ArgProcP)main_handle_library_path,	NIL(void *),
 	UB "description of path" UE
     }, {
 	NIL(CStringP), 'L',			AT_EITHER,
-	(ArgProcP)main_handle_library_path,	NIL(GenericP),
+	(ArgProcP)main_handle_library_path,	NIL(void *),
 	UB "description of L" UE
     }, {
 	"rename", 'r',				AT_FOLLOWING3,
-	(ArgProcP)main_handle_rename,		NIL(GenericP),
+	(ArgProcP)main_handle_rename,		NIL(void *),
 	UB "description of rename" UE
     }, {
 	"rename-file", 'R',			AT_FOLLOWING,
-	(ArgProcP)main_handle_rename_file,	NIL(GenericP),
+	(ArgProcP)main_handle_rename_file,	NIL(void *),
 	UB "description of rename-file" UE
     }, {
 	"suppress", 's',			AT_FOLLOWING2,
-	(ArgProcP)main_handle_suppress,	NIL(GenericP),
+	(ArgProcP)main_handle_suppress,	NIL(void *),
 	UB "description of suppress" UE
     }, {
 	"suppress-all", 'S',			AT_FOLLOWING,
-	(ArgProcP)main_handle_suppress_all,	NIL(GenericP),
+	(ArgProcP)main_handle_suppress_all,	NIL(void *),
 	UB "description of suppress-all" UE
     }, {
 	"suppress-mult", 'M',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_suppress_mult,	NIL(GenericP),
+	(ArgProcP)main_handle_suppress_mult,	NIL(void *),
 	UB "description of suppress-mult" UE
     }, {
 	"unit-file", 'u',			AT_FOLLOWING,
-	(ArgProcP)main_handle_unit_file,	NIL(GenericP),
+	(ArgProcP)main_handle_unit_file,	NIL(void *),
 	UB "description of unit-file" UE
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(GenericP),
+	(ArgProcP)main_handle_version,		NIL(void *),
 	UB "description of version" UE
     }, {
 	"warnings", 'w',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_warning,		NIL(GenericP),
+	(ArgProcP)main_handle_warning,		NIL(void *),
 	UB "description of warning" UE
     }, ARG_PARSE_END_LIST
 };
