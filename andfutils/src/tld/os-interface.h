@@ -140,12 +140,6 @@
  * This is the byte type.  It is possible that this could be larger than a
  * byte in some implementations.
  *
- ** Type:	BoolT
- ** Type:	BoolT *
- ** Repr:	int
- *
- * This is the boolean type.
- *
  ***=== CONSTANTS ============================================================
  *
  ** Constant:	TRUE
@@ -184,14 +178,6 @@
  ** Exceptions:
  *
  * This macro is defined if the POSIX function ``mkdir'' is defined.
- *
- ** Macro:	INLINE
- ** Exceptions:
- *
- * This macro may be used before a function to indicate that the function
- * should be inlined.  Normally it expands to nothing, however under the GNU C
- * compiler it expands to ``__inline__'' which causes the compiler to inline
- * the function.
  *
  ** Macro:	UNUSED (variable)
  ** Exceptions:
@@ -233,16 +219,6 @@
 #ifndef H_OS_INTERFACE
 #define H_OS_INTERFACE
 
-# ifdef __GNUC__
-typedef void NoReturnT;
-# else
-#  ifdef __TenDRA__
-#   pragma TenDRA type NoReturnT for bottom
-#  else
-#   define NoReturnT void
-#  endif /* defined (__TenDRA__) */
-# endif /* defined (__GNUC__) */
-
 # ifdef __TenDRA__
 #  pragma TenDRA keyword UNUSED for discard variable
 # else
@@ -250,16 +226,6 @@ typedef void NoReturnT;
 # endif /* defined (__TenDRA__) */
 
 typedef unsigned char ByteT;
-typedef int BoolT;
-
-# define FALSE (0)
-# define TRUE (1)
-
-# ifdef __GNUC__
-#  define INLINE __inline__
-# else
-#  define INLINE
-# endif /* defined (__GNUC__) */
 
 # ifdef __TenDRA__
 #  pragma TenDRA keyword EXHAUSTIVE for exhaustive

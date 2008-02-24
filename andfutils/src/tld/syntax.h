@@ -75,6 +75,8 @@
 #ifndef H_SYNTAX
 #define H_SYNTAX
 
+#include <exds/common.h>
+
 #include "os-interface.h"
 
 /*
