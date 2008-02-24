@@ -75,10 +75,10 @@ shape_table_create(void)
     unsigned    i;
 
     for (i = 0; i < SHAPE_TABLE_SIZE; i++) {
-	table->contents[i] = NIL(ShapeEntryT *);
+	table->contents[i] = NULL;
     }
-    table->token_entry = NIL(ShapeEntryT *);
-    table->tag_entry   = NIL(ShapeEntryT *);
+    table->token_entry = NULL;
+    table->tag_entry   = NULL;
     return(table);
 }
 
@@ -89,7 +89,7 @@ shape_table_add(ShapeTableT *table,			 NStringT *   key)
     ShapeEntryT **entryp     = & (table->contents[hash_value]);
     ShapeEntryT * entry;
 
-    while ((entry = *entryp) != NIL(ShapeEntryT *)) {
+    while ((entry = *entryp) != NULL) {
 	if (nstring_equal(key, shape_entry_key(entry))) {
 	    return(entry);
 	}
@@ -112,13 +112,13 @@ shape_table_get(ShapeTableT *table,			 NStringT *   key)
 	}
 	entry = shape_entry_next(entry);
     }
-    return(NIL(ShapeEntryT *));
+    return(NULL);
 }
 
 ShapeEntryT *
 shape_table_get_token_entry(ShapeTableT *table)
 {
-    if (table->token_entry == NIL(ShapeEntryT *)) {
+    if (table->token_entry == NULL) {
 	NStringT nstring;
 
 	nstring_copy_cstring(&nstring, "token");
@@ -131,7 +131,7 @@ shape_table_get_token_entry(ShapeTableT *table)
 ShapeEntryT *
 shape_table_get_tag_entry(ShapeTableT *table)
 {
-    if (table->tag_entry == NIL(ShapeEntryT *)) {
+    if (table->tag_entry == NULL) {
 	NStringT nstring;
 
 	nstring_copy_cstring(&nstring, "tag");

@@ -69,7 +69,7 @@
 
 #include "adt/solve-cycles.h"
 
-static OStreamT *debug_file   = NIL(OStreamT *);
+static OStreamT *debug_file   = NULL;
 
 void
 debug_set_file(OStreamT *file)
@@ -77,7 +77,7 @@ debug_set_file(OStreamT *file)
     if (ostream_is_open(file)) {
 	debug_file = file;
     } else {
-	debug_file = NIL(OStreamT *);
+	debug_file = NULL;
     }
 }
 

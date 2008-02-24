@@ -93,7 +93,7 @@ extract_main(ArgDataT *arg_data)
 	UNREACHED;
     }
     if ((library = library_create_stream_input(files[0])) !=
-	NIL(LibraryT *)) {
+	NULL) {
 	if (extract_all) {
 	    library_extract_all(library, extract_base);
 	} else {

@@ -209,12 +209,12 @@ typedef void(*ArgProcP)(char *, ArgUsageT *, void *, ...);
  *	static ArgListT arg_list [] = {
  *	    {
  *		"option name", 'o', AT_PROC_SWITCH, (ArgProcP) arg_proc,
- *		NIL (void *),
+ *		NULL,
  *		{ "option description name" }
  *	    }, ARG_PARSE_END_LIST
  *	};
  *
- * If an option has only a short form, then the name should be NIL (char *);
+ * If an option has only a short form, then the name should be NULL;
  * if it has only a long form, then the character should be '\0'.  It is
  * illegal for an option to have neither a long form or a short form.
  */
@@ -270,8 +270,8 @@ extern void			write_arg_usage
  * This macro should be used to terminate an option list.
  */
 #define ARG_PARSE_END_LIST \
-{NIL(char *), '\0',(ArgTypeT)0, NIL(ArgProcP), NIL(void *), \
- { NIL(char *) } }
+{NULL, '\0',(ArgTypeT)0, NULL, NULL, \
+ { NULL } }
 
 #endif /* !defined (H_ARG_PARSE) */
 

@@ -138,7 +138,7 @@ linker_read_capsules(ArgDataT *   arg_data,			      UnitTableT * units,
 	CapsuleT *capsule;
 
 	if ((capsule = capsule_create_stream_input(input_files[i])) !=
-	    NIL(CapsuleT *)) {
+	    NULL) {
 	    capsule_read(capsule, units, shapes);
 	    capsule_close(capsule);
 	} else {
@@ -161,7 +161,7 @@ linker_load_libraries(ArgDataT *   arg_data,			       ShapeTableT *lib_shapes)
     unsigned    i;
 
     for (i = 0; i < num_files; i++) {
-	LibraryT *library = NIL(LibraryT *);
+	LibraryT *library = NULL;
 
 	if (file_name_is_basename(files[i])) {
 	    unsigned j;
@@ -170,7 +170,7 @@ linker_load_libraries(ArgDataT *   arg_data,			       ShapeTableT *lib_shapes)
 		char * name = file_name_expand(paths[j], files[i], "tl");
 
 		if ((library = library_create_stream_input(name)) !=
-		    NIL(LibraryT *)) {
+		    NULL) {
 		    goto found;
 		} else {
 		    DEALLOCATE(name);
@@ -179,7 +179,7 @@ linker_load_libraries(ArgDataT *   arg_data,			       ShapeTableT *lib_shapes)
 	    E_cannot_open_library_file(files[i]);
 	} else {
 	    if ((library = library_create_stream_input(files[i])) ==
-		NIL(LibraryT *)) {
+		NULL) {
 		E_cannot_open_library_file(files[i]);
 	    }
 	}
@@ -216,7 +216,7 @@ linker_suppress_1(NStringT *    shape,			   BoolT        all,
 
 	    if (name_entry) {
 		debug_info_l_suppress(shape, key);
-		name_entry_set_lib_definition(name_entry, NIL(LibCapsuleT *));
+		name_entry_set_lib_definition(name_entry, NULL);
 	    }
 	}
     }
@@ -227,7 +227,7 @@ linker_suppress(ArgDataT *   arg_data,			 ShapeTableT *lib_shapes)
 {
     if (arg_data_get_suppress_mult(arg_data)) {
 	shape_table_iter(lib_shapes, shape_entry_lib_suppress_mult,
-			  NIL(void *));
+			  NULL);
     }
     shape_control_iter(arg_data_get_suppresses(arg_data), linker_suppress_1,
 			(void *)lib_shapes);
@@ -265,7 +265,7 @@ linker_hide(NStringT *    shape,		     BoolT        all,
     ShapeTableT *shapes = (ShapeTableT *)gclosure;
     ShapeEntryT *entry  = shape_table_get(shapes, shape);
 
-    if (entry == NIL(ShapeEntryT *)) {
+    if (entry == NULL) {
 	E_cannot_hide_shape(shape);
     } else {
 	NameTableT *       table = shape_entry_name_table(entry);
@@ -278,7 +278,7 @@ linker_hide(NStringT *    shape,		     BoolT        all,
 	    NameKeyT *  key        = name_key_list_entry_key(name);
 	    NameEntryT *name_entry = name_table_get(table, key);
 
-	    if (name_entry == NIL(NameEntryT *)) {
+	    if (name_entry == NULL) {
 		E_cannot_hide(shape, key);
 	    } else if (name_entry_get_use(name_entry) & U_DEFD) {
 		debug_info_l_hide(shape, key);
@@ -298,7 +298,7 @@ linker_keep(NStringT *    shape,		     BoolT        all,
     ShapeTableT *shapes = (ShapeTableT *)gclosure;
     ShapeEntryT *entry  = shape_table_get(shapes, shape);
 
-    if (entry == NIL(ShapeEntryT *)) {
+    if (entry == NULL) {
 	E_cannot_keep_shape(shape);
     } else {
 	NameTableT *       table = shape_entry_name_table(entry);
@@ -311,7 +311,7 @@ linker_keep(NStringT *    shape,		     BoolT        all,
 	    NameKeyT *  key        = name_key_list_entry_key(name);
 	    NameEntryT *name_entry = name_table_get(table, key);
 
-	    if (name_entry == NIL(NameEntryT *)) {
+	    if (name_entry == NULL) {
 		E_cannot_keep(shape, key);
 	    } else {
 		debug_info_l_keep(shape, key);
@@ -325,7 +325,7 @@ static void
 linker_hide_and_keep(ArgDataT *   arg_data,			      ShapeTableT *shapes)
 {
     if (arg_data_get_all_hide_defd(arg_data)) {
-	shape_table_iter(shapes, shape_entry_hide_all_defd, NIL(void *));
+	shape_table_iter(shapes, shape_entry_hide_all_defd, NULL);
     }
     shape_control_iter(arg_data_get_hides(arg_data), linker_hide,
 			(void *)shapes);
@@ -345,7 +345,7 @@ linker_write_capsule(ArgDataT *   arg_data,			      UnitTableT * units,
     CapsuleT *capsule;
 
     if ((capsule = capsule_create_stream_output(output_file)) !=
-	NIL(CapsuleT *)) {
+	NULL) {
 	capsule_write(capsule, units, shapes);
 	capsule_close(capsule);
     } else {

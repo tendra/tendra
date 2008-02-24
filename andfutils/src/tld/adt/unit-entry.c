@@ -80,7 +80,7 @@ unit_write(UnitT *      unit,		    ShapeTableT *shapes ,
     unsigned  length = nstring_length(& (unit->contents));
     MapTableT *table;
 
-    if ((table = unit->map_table) != NIL(MapTableT *)) {
+    if ((table = unit->map_table) != NULL) {
 	ShapeClosureT shape_closure;
 
 	shape_closure.table  = table;
@@ -125,7 +125,7 @@ unit_entry_create(NStringT *  key,			   UnitEntryT *next ,
     entry->next  = next;
     entry->order = order;
     nstring_copy(& (entry->key), key);
-    entry->head  = NIL(UnitT *);
+    entry->head  = NULL;
     entry->tail  = & (entry->head);
     return(entry);
 }
@@ -153,9 +153,9 @@ unit_entry_add_unit(UnitEntryT *entry,			     unsigned   num_counts)
 {
     UnitT *unit = ALLOCATE(UnitT);
 
-    unit->next      = NIL(UnitT *);
+    unit->next      = NULL;
     unit->map_table = ((num_counts != 0)?
-		       map_table_create(): NIL(MapTableT *));
+		       map_table_create(): NULL);
     *(entry->tail) = unit;
     entry->tail     = & (unit->next);
     return(unit);
@@ -167,11 +167,11 @@ unit_entry_do_count(UnitEntryT *entry,			     void *   gclosure)
     UnitSetClosureT *closure = (UnitSetClosureT *)gclosure;
     UnitT *          unit;
 
-    if ((unit = entry->head) != NIL(UnitT *)) {
+    if ((unit = entry->head) != NULL) {
 	while (unit) {
 	    MapTableT *table;
 
-	    if ((table = unit->map_table) != NIL(MapTableT *)) {
+	    if ((table = unit->map_table) != NULL) {
 		map_table_iter(table, map_entry_check_non_empty,
 				(void *)closure->shapes);
 	    }

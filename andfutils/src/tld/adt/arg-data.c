@@ -100,7 +100,7 @@
 static void
 shape_control_init(ShapeControlT *control)
 {
-    control->head = NIL(ShapeControlEntryT *);
+    control->head = NULL;
 }
 
 static ShapeControlEntryT *
@@ -148,7 +148,7 @@ shape_control_entry_set(ShapeControlEntryT *entry)
 static void
 rename_control_init(RenameControlT *control)
 {
-    control->head = NIL(RenameControlEntryT *);
+    control->head = NULL;
 }
 
 static RenameControlEntryT *
@@ -241,12 +241,12 @@ arg_data_init(ArgDataT *arg_data,		       char * default_output_file)
     arg_data->content_version     = FALSE;
     ostream_init(& (arg_data->debug_file));
     arg_data->default_output_file = default_output_file;
-    arg_data->output_file         = NIL(char *);
+    arg_data->output_file         = NULL;
     arg_data->num_library_files   = 0;
     arg_data->num_library_paths   = 0;
     cstring_list_init(&arg_data->library.list.file);
     cstring_list_init(& (arg_data->library.list.path));
-    arg_data->unit_file           = NIL(char *);
+    arg_data->unit_file           = NULL;
     arg_data->num_files           = 0;
 }
 

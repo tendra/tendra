@@ -75,7 +75,7 @@ map_table_create(void)
     unsigned  i;
 
     for (i = 0; i < MAP_TABLE_SIZE; i++) {
-	table->contents[i] = NIL(MapEntryT *);
+	table->contents[i] = NULL;
     }
     return(table);
 }
@@ -104,7 +104,7 @@ map_table_get(MapTableT *table,		       NStringT * key)
 	}
 	entry = map_entry_next(entry);
     }
-    return(NIL(MapEntryT *));
+    return(NULL);
 }
 
 void

@@ -90,7 +90,7 @@ contents_main(ArgDataT *arg_data)
 	UNREACHED;
     }
     if ((library = library_create_stream_input(files[0])) !=
-	NIL(LibraryT *)) {
+	NULL) {
 	library_content(library, content_index, content_size,
 			 content_version);
 	library_close(library);

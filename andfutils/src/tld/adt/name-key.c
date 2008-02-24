@@ -431,7 +431,7 @@ write_name_key(OStreamT *ostream,			NameKeyT *key)
 void
 name_key_list_init(NameKeyListT *list)
 {
-    list->head = NIL(NameKeyListEntryT *);
+    list->head = NULL;
 }
 
 void
@@ -473,7 +473,7 @@ name_key_list_entry_next(NameKeyListEntryT *entry)
 void
 name_key_pair_list_init(NameKeyPairListT *list)
 {
-    list->head = NIL(NameKeyPairListEntryT *);
+    list->head = NULL;
 }
 
 BoolT

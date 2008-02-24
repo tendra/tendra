@@ -532,39 +532,39 @@ static EStringDataT main_description_strings[] = {
 static ArgListT main_builder_arg_list[] = {
     {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_debug_file,	NIL(void *),
+	(ArgProcP)main_handle_debug_file,	NULL,
 	{ "description of debug-file" }
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(void *),
+	(ArgProcP)main_handle_help,		NULL,
 	{ "description of help" }
     }, {
 	"include-library", 'i',			AT_FOLLOWING,
-	(ArgProcP)main_handle_library_file,	NIL(void *),
+	(ArgProcP)main_handle_library_file,	NULL,
 	{ "description of include-library" }
     }, {
 	"output-file", 'o',			AT_FOLLOWING,
-	(ArgProcP)main_handle_output_file,	NIL(void *),
+	(ArgProcP)main_handle_output_file,	NULL,
 	{ "description of output-file" }
     }, {
 	"suppress", 's',			AT_FOLLOWING2,
-	(ArgProcP)main_handle_suppress,	NIL(void *),
+	(ArgProcP)main_handle_suppress,	NULL,
 	{ "description of suppress" }
     }, {
 	"suppress-all", 'S',			AT_FOLLOWING,
-	(ArgProcP)main_handle_suppress_all,	NIL(void *),
+	(ArgProcP)main_handle_suppress_all,	NULL,
 	{ "description of suppress-all" }
     }, {
 	"suppress-mult", 'M',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_suppress_mult,	NIL(void *),
+	(ArgProcP)main_handle_suppress_mult,	NULL,
 	{ "description of suppress-mult" }
     }, {
 	"unit-file", 'u',			AT_FOLLOWING,
-	(ArgProcP)main_handle_unit_file,	NIL(void *),
+	(ArgProcP)main_handle_unit_file,	NULL,
 	{ "description of unit-file" }
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(void *),
+	(ArgProcP)main_handle_version,		NULL,
 	{ "description of version" }
     }, ARG_PARSE_END_LIST
 };
@@ -572,27 +572,27 @@ static ArgListT main_builder_arg_list[] = {
 static ArgListT main_contents_arg_list[] = {
     {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_debug_file,	NIL(void *),
+	(ArgProcP)main_handle_debug_file,	NULL,
 	{ "description of debug-file" }
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(void *),
+	(ArgProcP)main_handle_help,		NULL,
 	{ "description of help" }
     }, {
 	"index", 'i',				AT_PROC_SWITCH,
-	(ArgProcP)main_handle_index,		NIL(void *),
+	(ArgProcP)main_handle_index,		NULL,
 	{ "description of index" }
     }, {
 	"size", 's',				AT_PROC_SWITCH,
-	(ArgProcP)main_handle_size,		NIL(void *),
+	(ArgProcP)main_handle_size,		NULL,
 	{ "description of size" }
     }, {
 	"tdf-version", 't',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_tdf_version,	NIL(void *),
+	(ArgProcP)main_handle_tdf_version,	NULL,
 	{ "description of tdf-version" }
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(void *),
+	(ArgProcP)main_handle_version,		NULL,
 	{ "description of version" }
     }, ARG_PARSE_END_LIST
 };
@@ -600,31 +600,31 @@ static ArgListT main_contents_arg_list[] = {
 static ArgListT main_extract_arg_list[] = {
     {
 	"all", 'a',				AT_PROC_SWITCH,
-	(ArgProcP)main_handle_all,		NIL(void *),
+	(ArgProcP)main_handle_all,		NULL,
 	{ "description of all" }
     }, {
 	"basename", 'b',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_basename,	NIL(void *),
+	(ArgProcP)main_handle_basename,	NULL,
 	{ "description of basename" }
     }, {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_debug_file,	NIL(void *),
+	(ArgProcP)main_handle_debug_file,	NULL,
 	{ "description of debug-file" }
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(void *),
+	(ArgProcP)main_handle_help,		NULL,
 	{ "description of help" }
     }, {
 	"info", 'i',				AT_PROC_SWITCH,
-	(ArgProcP)main_handle_info,		NIL(void *),
+	(ArgProcP)main_handle_info,		NULL,
 	{ "description of info" }
     }, {
 	"match-basename", 'm',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_match_base,	NIL(void *),
+	(ArgProcP)main_handle_match_base,	NULL,
 	{ "description of match-basename" }
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(void *),
+	(ArgProcP)main_handle_version,		NULL,
 	{ "description of version" }
     }, ARG_PARSE_END_LIST
 };
@@ -632,83 +632,83 @@ static ArgListT main_extract_arg_list[] = {
 static ArgListT main_linker_arg_list[] = {
     {
 	"all-hide-defined", 'a',		AT_PROC_SWITCH,
-	(ArgProcP)main_handle_all_hide_defd,	NIL(void *),
+	(ArgProcP)main_handle_all_hide_defd,	NULL,
 	{ "description of all-hide-defined" }
     }, {
 	"debug-file", 'd',			AT_FOLLOWING,
-	(ArgProcP)main_handle_debug_file,	NIL(void *),
+	(ArgProcP)main_handle_debug_file,	NULL,
 	{ "description of debug-file" }
     }, {
 	"help", '?',				AT_EMPTY,
-	(ArgProcP)main_handle_help,		NIL(void *),
+	(ArgProcP)main_handle_help,		NULL,
 	{ "description of help" }
     }, {
 	"hide", 'h',				AT_FOLLOWING2,
-	(ArgProcP)main_handle_hide,		NIL(void *),
+	(ArgProcP)main_handle_hide,		NULL,
 	{ "description of hide" }
     }, {
 	"hide-defined", 'H',			AT_FOLLOWING,
-	(ArgProcP)main_handle_hide_defined,	NIL(void *),
+	(ArgProcP)main_handle_hide_defined,	NULL,
 	{ "description of hide-defined" }
     }, {
 	"keep", 'k',				AT_FOLLOWING2,
-	(ArgProcP)main_handle_keep,		NIL(void *),
+	(ArgProcP)main_handle_keep,		NULL,
 	{ "description of keep" }
     }, {
 	"keep-all", 'K',			AT_FOLLOWING,
-	(ArgProcP)main_handle_keep_all,	NIL(void *),
+	(ArgProcP)main_handle_keep_all,	NULL,
 	{ "description of keep-all" }
     }, {
 	"library", '\0',			AT_FOLLOWING,
-	(ArgProcP)main_handle_library_file,	NIL(void *),
+	(ArgProcP)main_handle_library_file,	NULL,
 	{ "description of library-file" }
     }, {
-	NIL(char *), 'l',			AT_EITHER,
-	(ArgProcP)main_handle_library_file,	NIL(void *),
+	NULL, 'l',			AT_EITHER,
+	(ArgProcP)main_handle_library_file,	NULL,
 	{ "description of l" }
     }, {
 	"output-file", 'o',			AT_FOLLOWING,
-	(ArgProcP)main_handle_output_file,	NIL(void *),
+	(ArgProcP)main_handle_output_file,	NULL,
 	{ "description of output-file" }
     }, {
 	"path", '\0',				AT_FOLLOWING,
-	(ArgProcP)main_handle_library_path,	NIL(void *),
+	(ArgProcP)main_handle_library_path,	NULL,
 	{ "description of path" }
     }, {
-	NIL(char *), 'L',			AT_EITHER,
-	(ArgProcP)main_handle_library_path,	NIL(void *),
+	NULL, 'L',			AT_EITHER,
+	(ArgProcP)main_handle_library_path,	NULL,
 	{ "description of L" }
     }, {
 	"rename", 'r',				AT_FOLLOWING3,
-	(ArgProcP)main_handle_rename,		NIL(void *),
+	(ArgProcP)main_handle_rename,		NULL,
 	{ "description of rename" }
     }, {
 	"rename-file", 'R',			AT_FOLLOWING,
-	(ArgProcP)main_handle_rename_file,	NIL(void *),
+	(ArgProcP)main_handle_rename_file,	NULL,
 	{ "description of rename-file" }
     }, {
 	"suppress", 's',			AT_FOLLOWING2,
-	(ArgProcP)main_handle_suppress,	NIL(void *),
+	(ArgProcP)main_handle_suppress,	NULL,
 	{ "description of suppress" }
     }, {
 	"suppress-all", 'S',			AT_FOLLOWING,
-	(ArgProcP)main_handle_suppress_all,	NIL(void *),
+	(ArgProcP)main_handle_suppress_all,	NULL,
 	{ "description of suppress-all" }
     }, {
 	"suppress-mult", 'M',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_suppress_mult,	NIL(void *),
+	(ArgProcP)main_handle_suppress_mult,	NULL,
 	{ "description of suppress-mult" }
     }, {
 	"unit-file", 'u',			AT_FOLLOWING,
-	(ArgProcP)main_handle_unit_file,	NIL(void *),
+	(ArgProcP)main_handle_unit_file,	NULL,
 	{ "description of unit-file" }
     }, {
 	"version", 'v',				AT_EMPTY,
-	(ArgProcP)main_handle_version,		NIL(void *),
+	(ArgProcP)main_handle_version,		NULL,
 	{ "description of version" }
     }, {
 	"warnings", 'w',			AT_PROC_SWITCH,
-	(ArgProcP)main_handle_warning,		NIL(void *),
+	(ArgProcP)main_handle_warning,		NULL,
 	{ "description of warning" }
     }, ARG_PARSE_END_LIST
 };
@@ -744,12 +744,12 @@ main_init(int    argc,		   char **argv)
 	  case 't':
 	    mode     = MODE_CONTENTS;
 	    arg_list = main_contents_arg_list;
-	    arg_data_init(&main_arg_data, NIL(char *));
+	    arg_data_init(&main_arg_data, NULL);
 	    break;
 	  case 'x':
 	    mode     = MODE_EXTRACT;
 	    arg_list = main_extract_arg_list;
-	    arg_data_init(&main_arg_data, NIL(char *));
+	    arg_data_init(&main_arg_data, NULL);
 	    break;
 	  case 'l':
 	    goto linker_case;

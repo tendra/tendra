@@ -162,7 +162,7 @@ library_check_index_entry(LibraryT *library, ShapeEntryT *entry, BoolT need_dec,
 	E_lib_multiply_defined(library, shape_key, key, definition);
     } else if ((use & U_MULT) && (name_use & U_MULT) &&
 	      (!(use & U_DEFD)) && (!(name_use & U_DEFD))) {
-	name_entry_set_lib_definition(name_entry, NIL(LibCapsuleT *));
+	name_entry_set_lib_definition(name_entry, NULL);
     } else if ((use & U_DEFD) ||
 	      ((use & U_MULT) && (!(name_use & (U_MULT | U_DEFD))))) {
 	name_entry_set_lib_definition(name_entry, lib_capsule);
@@ -436,7 +436,7 @@ library_create_stream_input(char * name)
     library->type = LT_INPUT;
     if (!tdf_reader_open(library_reader(library), name)) {
 	DEALLOCATE(library);
-	return(NIL(LibraryT *));
+	return(NULL);
     }
     library->name     = name;
     library->complete = FALSE;
@@ -451,7 +451,7 @@ library_create_stream_output(char * name)
     library->type = LT_OUTPUT;
     if (!tdf_writer_open(library_writer(library), name)) {
 	DEALLOCATE(library);
-	return(NIL(LibraryT *));
+	return(NULL);
     }
     library->name     = name;
     library->complete = FALSE;
@@ -517,7 +517,7 @@ library_content(LibraryT *library,			 BoolT    want_index,
 	}
 	if (want_index) {
 	    shape_table_iter(shapes, shape_entry_show_content,
-			      NIL(void *));
+			      NULL);
 	}
     }
 }
@@ -557,7 +557,7 @@ library_extract(LibraryT *library, BoolT use_basename, BoolT match_basename,
 		LibCapsuleT *capsule   = & (library->capsules[j]);
 		char *    file_name = (files[i]);
 		char *    lib_name  = lib_capsule_name(capsule);
-		char *    base_name = NIL(char *);
+		char *    base_name = NULL;
 
 		if (match_basename) {
 		    base_name = file_name_basename(lib_name);

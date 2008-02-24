@@ -159,7 +159,7 @@ static char * capsule_default_unit_set_names[NUM_DEFAULT_UNIT_SETS] = {
 };
 static UnitSetT   capsule_default_unit_sets[NUM_DEFAULT_UNIT_SETS];
 static unsigned   capsule_num_unit_sets;
-static UnitSetT *  capsule_unit_sets     = NIL(UnitSetT *);
+static UnitSetT *  capsule_unit_sets     = NULL;
 static unsigned   capsule_tld_index     = 0;
 static unsigned   capsule_tld2_index    = 1;
 static unsigned   capsule_unit_length;
@@ -173,7 +173,7 @@ static unsigned   capsule_minor_version = 0;
 static void
 capsule_setup_defaults(void)
 {
-    if (capsule_unit_sets == NIL(UnitSetT *)) {
+    if (capsule_unit_sets == NULL) {
 	unsigned i;
 
 	for (i = 0; i < NUM_DEFAULT_UNIT_SETS; i++) {
@@ -285,7 +285,7 @@ capsule_check_unit_sets(IStreamT *istream)
 static void
 capsule_read_unit_set_file_1(IStreamT *istream)
 {
-    UnitSetListEntryT * head          = NIL(UnitSetListEntryT *);
+    UnitSetListEntryT * head          = NULL;
     UnitSetListEntryT **tail          = &head;
     unsigned           num_unit_sets = 0;
     UnitSetListEntryT * entry;
@@ -299,7 +299,7 @@ capsule_read_unit_set_file_1(IStreamT *istream)
 	    goto done;
 	}
 	entry       = ALLOCATE(UnitSetListEntryT);
-	entry->next = NIL(UnitSetListEntryT *);
+	entry->next = NULL;
 	dstring_to_nstring(&dstring, & (entry->name));
 	*tail       = entry;
 	tail        = & (entry->next);
@@ -400,7 +400,7 @@ capsule_read_unit_set_names(CapsuleT *  capsule,				     UnitTableT *units,
     UnitEntryT **units_vec     = ALLOCATE_VECTOR(UnitEntryT *, num_unit_sets);
     UnitEntryT * tld_entry     = capsule_unit_sets[capsule_tld_index].entry;
     UnitEntryT * tld2_entry    = ((capsule_tld2_index == UINT_MAX)?
-				 NIL(UnitEntryT *):
+				 NULL:
 				 capsule_unit_sets[capsule_tld2_index].entry);
     BoolT       has_tld_unit  = FALSE;
     unsigned    i;
@@ -411,7 +411,7 @@ capsule_read_unit_set_names(CapsuleT *  capsule,				     UnitTableT *units,
 	UnitEntryT *entry;
 
 	tdf_read_string(reader, &nstring);
-	if ((entry = unit_table_get(units, &nstring)) != NIL(UnitEntryT *)) {
+	if ((entry = unit_table_get(units, &nstring)) != NULL) {
 	    unsigned order = unit_entry_order(entry);
 	    unsigned j;
 
@@ -635,7 +635,7 @@ capsule_read_usage(CapsuleT * capsule,			    NameDataT *entry,
 	    E_multiply_defined(capsule, shape_key, key, prev_name);
 	} else if ((use & U_MULT) && (name_use & U_MULT) &&
 		  (!(use & U_DEFD)) && (!(name_use & U_DEFD))) {
-	    name_entry_set_definition(name_entry, NIL(CapsuleT *));
+	    name_entry_set_definition(name_entry, NULL);
 	} else if ((use & U_DEFD) ||
 		  ((use & U_MULT) && (!(name_use & (U_MULT | U_DEFD))))) {
 	    name_entry_set_definition(name_entry, capsule);
@@ -811,7 +811,7 @@ capsule_read_unit_counts(CapsuleT *capsule, unsigned num_shapes,
 	}
 	return(entries);
     } else {
-	return(NIL(MapEntryT **));
+	return(NULL);
     }
 }
 
@@ -913,7 +913,7 @@ capsule_read_unit_sets(CapsuleT *capsule, unsigned num_unit_sets,
     TDFReaderT *reader       = capsule_reader(capsule);
     UnitEntryT *tld_entry    = capsule_unit_sets[capsule_tld_index].entry;
     UnitEntryT *tld2_entry   = ((capsule_tld2_index == UINT_MAX)?
-			       NIL(UnitEntryT *):
+			       NULL:
 			       capsule_unit_sets[capsule_tld2_index].entry);
     unsigned   num_units;
     unsigned   i;
@@ -961,7 +961,7 @@ capsule_read_unit_set_file(char * name)
 {
     IStreamT istream;
 
-    assert(capsule_unit_sets == NIL(UnitSetT *));
+    assert(capsule_unit_sets == NULL);
     if (!istream_open(&istream, name)) {
 	E_cannot_open_unit_set_file(name);
 	UNREACHED;
@@ -978,7 +978,7 @@ capsule_create_stream_input(char * name)
     capsule->type = CT_INPUT;
     if (!tdf_reader_open(capsule_reader(capsule), name)) {
 	DEALLOCATE(capsule);
-	return(NIL(CapsuleT *));
+	return(NULL);
     }
     capsule->name     = name;
     capsule->complete = FALSE;
@@ -1005,7 +1005,7 @@ capsule_create_stream_output(char * name)
     capsule->type = CT_OUTPUT;
     if (!tdf_writer_open(capsule_writer(capsule), name)) {
 	DEALLOCATE(capsule);
-	return(NIL(CapsuleT *));
+	return(NULL);
     }
     capsule->name = name;
     return(capsule);

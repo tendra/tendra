@@ -73,11 +73,11 @@
 void
 arg_parse_intern_descriptions(ArgListT *arg_list)
 {
-    while ((arg_list->name != NIL(char *)) ||
+    while ((arg_list->name != NULL) ||
 	  (arg_list->short_name != '\0')) {
 	EStringT *estring = error_lookup_string(arg_list->u.name);
 
-	assert(estring != NIL(EStringT *));
+	assert(estring != NULL);
 	arg_list->u.message = estring;
 	arg_list++;
     }
@@ -104,16 +104,16 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 	} else if (((c == '-') && (option[1] == '-')) ||
 		  ((c == '+') && (option[1] == '+'))) {
 	    ArgListT *tmp_list  = arg_list;
-	    ArgListT *chosen    = NIL(ArgListT *);
+	    ArgListT *chosen    = NULL;
 	    unsigned matches   = 0;
-	    char * immediate = NIL(char *);
+	    char * immediate = NULL;
 
-	    while ((tmp_list->name != NIL(char *)) ||
+	    while ((tmp_list->name != NULL) ||
 		  (tmp_list->short_name != '\0')) {
 		char * opt = (tmp_list->name);
 		char * arg = (& (option[2]));
 
-		if (opt != NIL(char *)) {
+		if (opt != NULL) {
 		    char optch;
 		    char argch;
 
@@ -159,7 +159,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 				       c == '-');
 		    break;
 		  case AT_IMMEDIATE:
-		    if (immediate != NIL(char *)) {
+		    if (immediate != NULL) {
 			(*(chosen->proc))(option, &closure, chosen->closure,
 					   immediate);
 		    } else {
@@ -168,7 +168,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		    }
 		    break;
 		  case AT_EITHER:
-		    if (immediate != NIL(char *)) {
+		    if (immediate != NULL) {
 			if (immediate[0]!= '\0') {
 			   (*(chosen->proc))(option, &closure,
 					       chosen->closure, immediate);
@@ -234,11 +234,11 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 	} else if ((c == '-') || (c == '+')) {
 	    char * opt = & (option[1]);
 
-	    while ((opt != NIL(char *)) && (*opt != '\0')) {
+	    while ((opt != NULL) && (*opt != '\0')) {
 		ArgListT *tmp_list = arg_list;
-		ArgListT *chosen   = NIL(ArgListT *);
+		ArgListT *chosen   = NULL;
 
-		while ((tmp_list->name != NIL(char *)) ||
+		while ((tmp_list->name != NULL) ||
 		      (tmp_list->short_name != '\0')) {
 		    if (tmp_list->short_name == *opt) {
 			chosen = tmp_list;
@@ -261,7 +261,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		      case AT_IMMEDIATE:
 			(*(chosen->proc))(opt, &closure, chosen->closure,
 					   opt + 1);
-			opt = NIL(char *);
+			opt = NULL;
 			break;
 		      case AT_EITHER:
 			if (opt[1]!= '\0') {
@@ -277,7 +277,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 							   &closure);
 			    UNREACHED;
 			}
-			opt = NIL(char *);
+			opt = NULL;
 			break;
 		      case AT_FOLLOWING:
 			if (tmp_argc > 1) {
@@ -344,7 +344,7 @@ write_arg_usage(OStreamT * ostream,			 ArgUsageT *closure)
     ArgListT *arg_list = (closure->arg_list);
 
     write_cstring(ostream, usage);
-    while ((arg_list->name != NIL(char *)) ||
+    while ((arg_list->name != NULL) ||
 	  (arg_list->short_name != '\0')) {
 	char * desc = error_string_contents(arg_list->u.message);
 

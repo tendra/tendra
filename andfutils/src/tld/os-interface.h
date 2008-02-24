@@ -196,12 +196,6 @@
  *
  * This macro is defined if the POSIX function ``mkdir'' is defined.
  *
- ** Macro:	NIL(type)
- ** Exceptions:
- *
- * This is the null pointer macro.  The argument is the type for which a null
- * pointer is required.
- *
  ** Macro:	INLINE
  ** Exceptions:
  *
@@ -268,8 +262,6 @@ typedef void NoReturnT;
 
 typedef unsigned char ByteT;
 typedef int BoolT;
-
-# define NIL(type) ((type) (0))
 
 # define FALSE (0)
 # define TRUE (1)

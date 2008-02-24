@@ -76,7 +76,7 @@ name_table_create(void)
     unsigned   i;
 
     for (i = 0; i < NAME_TABLE_SIZE; i++) {
-	table->contents[i] = NIL(NameEntryT *);
+	table->contents[i] = NULL;
     }
     return(table);
 }
@@ -92,7 +92,7 @@ name_table_add_rename(NameTableT *table,			       NameKeyT *  from,
     NameEntryT * to_entry;
     NameEntryT * from_entry;
 
-    while ((to_entry = *to_entryp) != NIL(NameEntryT *)) {
+    while ((to_entry = *to_entryp) != NULL) {
 	if (name_key_equal(to, name_entry_key(to_entry))) {
 	    goto found;
 	}
@@ -101,7 +101,7 @@ name_table_add_rename(NameTableT *table,			       NameKeyT *  from,
     to_entry   = name_entry_create_place(to);
     *to_entryp = to_entry;
   found:
-    while ((from_entry = *from_entryp) != NIL(NameEntryT *)) {
+    while ((from_entry = *from_entryp) != NULL) {
 	if (name_key_equal(from, name_entry_key(from_entry))) {
 	    name_entry_make_indirect(from_entry, to_entry);
 	    return;
@@ -136,7 +136,7 @@ name_table_add(NameTableT * table,			NameKeyT *   key,
     NameEntryT **entryp     = & (table->contents[hash_value]);
     NameEntryT * entry;
 
-    while ((entry = *entryp) != NIL(NameEntryT *)) {
+    while ((entry = *entryp) != NULL) {
 	if (name_key_equal(key, name_entry_key(entry))) {
 	    if (name_entry_is_indirect(entry)) {
 		entry = name_entry_get_indirect(entry);
@@ -165,13 +165,13 @@ name_table_get(NameTableT *table,			NameKeyT *  key)
 		entry = name_entry_get_indirect(entry);
 	    }
 	    if (name_entry_is_place(entry)) {
-		return(NIL(NameEntryT *));
+		return(NULL);
 	    }
 	    return(entry);
 	}
 	entry = name_entry_next(entry);
     }
-    return(NIL(NameEntryT *));
+    return(NULL);
 }
 
 void

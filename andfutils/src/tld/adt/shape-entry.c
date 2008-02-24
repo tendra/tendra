@@ -79,12 +79,12 @@ shape_entry_create(NStringT *key)
 {
     ShapeEntryT *entry = ALLOCATE(ShapeEntryT);
 
-    entry->next      = NIL(ShapeEntryT *);
+    entry->next      = NULL;
     nstring_copy(shape_entry_key(entry), key);
     entry->names     = name_table_create();
     entry->id_count  = 0;
     entry->non_empty = FALSE;
-    entry->head      = NIL(NameEntryT *);
+    entry->head      = NULL;
     entry->tail      = & (entry->head);
     return(entry);
 }
@@ -146,9 +146,9 @@ shape_entry_get_from_list(ShapeEntryT *entry)
 {
     NameEntryT *name_entry;
 
-    if ((name_entry = entry->head) != NIL(NameEntryT *)) {
+    if ((name_entry = entry->head) != NULL) {
 	entry->head = name_entry_list_next(name_entry);
-	if (entry->head == NIL(NameEntryT *)) {
+	if (entry->head == NULL) {
 	    entry->tail = (&entry->head);
 	}
     }
@@ -323,13 +323,13 @@ shape_entry_resolve_undefined(ShapeEntryT *entry,				       void *    gclosure)
     ShapeLibClosureT *closure   = (ShapeLibClosureT *)gclosure;
     NStringT *        key       = shape_entry_key(entry);
     ShapeEntryT *     lib_entry = shape_table_get(closure->lib_shapes, key);
-    NameTableT *      table     = ((lib_entry != NIL(ShapeEntryT *))?
+    NameTableT *      table     = ((lib_entry != NULL)?
 				  shape_entry_name_table(lib_entry):
-				  NIL(NameTableT *));
+				  NULL);
     NameEntryT *      name_entry;
 
     while ((name_entry = shape_entry_get_from_list(entry)) !=
-	   NIL(NameEntryT *)) {
+	   NULL) {
 	if (name_entry_resolve_undefined(name_entry, table, closure->units,
 					  closure->shapes, key)) {
 	    closure->did_define = TRUE;
@@ -375,6 +375,6 @@ shape_entry_show_content(ShapeEntryT *entry,				  void *    gclosure)
     write_char(ostream_output, ':');
     write_newline(ostream_output);
     name_table_iter(shape_entry_name_table(entry), name_entry_show_content,
-		     NIL(void *));
+		     NULL);
 }
 

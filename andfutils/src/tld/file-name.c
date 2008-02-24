@@ -161,7 +161,7 @@ file_name_populate(char * path)
 	    *tmp = '\0';
 	   (void)mkdir(new_path, 0755);
 	    *tmp = '/';
-	} while ((tmp = strchr(tmp + 1, '/')) != NIL(char *));
+	} while ((tmp = strchr(tmp + 1, '/')) != NULL);
     }
     DEALLOCATE(new_path);
 }

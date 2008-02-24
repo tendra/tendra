@@ -93,7 +93,7 @@ builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,
     for (i = 0; i < num_lib_files; i++) {
 	LibraryT *library = library_create_stream_input(lib_files[i]);
 
-	if (library != NIL(LibraryT *)) {
+	if (library != NULL) {
 	    ShapeTableT *lib_shapes = shape_table_create();
 
 	    library_read(library, lib_shapes);
@@ -102,7 +102,7 @@ builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,
 	    num_capsules += library_num_capsules(library);
 	    shape_table_deallocate(lib_shapes);
 	} else {
-	    libraries[i] = NIL(LibraryT *);
+	    libraries[i] = NULL;
 	    E_cannot_open_input_file(lib_files[i]);
 	}
     }
@@ -152,7 +152,7 @@ builder_read_capsules(ArgDataT *   arg_data,			       UnitTableT * units ,
     for (i = 0; i < num_libraries; i++) {
 	LibraryT *library = libraries[i];
 
-	if (library != NIL(LibraryT *)) {
+	if (library != NULL) {
 	    unsigned num_lib_capsules = library_num_capsules(library);
 	    unsigned j;
 
@@ -174,7 +174,7 @@ builder_read_capsules(ArgDataT *   arg_data,			       UnitTableT * units ,
 	CapsuleT *capsule;
 
 	if ((capsule = capsule_create_stream_input(input_files[i])) !=
-	    NIL(CapsuleT *)) {
+	    NULL) {
 	    builder_read_capsule(capsule, capsules, capsule_index, units,
 				  shapes);
 	    capsule_index++;
@@ -193,7 +193,7 @@ builder_read_capsules(ArgDataT *   arg_data,			       UnitTableT * units ,
 static void
 builder_check_multi_defs(ShapeTableT *shapes)
 {
-    shape_table_iter(shapes, shape_entry_check_multi_defs, NIL(void *));
+    shape_table_iter(shapes, shape_entry_check_multi_defs, NULL);
     if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
 	exit(EXIT_FAILURE);
 	UNREACHED;
@@ -222,7 +222,7 @@ builder_suppress_1(NStringT *    shape,			    BoolT        all ,
 
 	    if (name_entry) {
 		debug_info_l_suppress(shape, key);
-		name_entry_set_definition(name_entry, NIL(CapsuleT *));
+		name_entry_set_definition(name_entry, NULL);
 	    }
 	}
     }
@@ -233,7 +233,7 @@ builder_suppress(ArgDataT *   arg_data,			  ShapeTableT *lib_shapes)
 {
     if (arg_data_get_suppress_mult(arg_data)) {
 	shape_table_iter(lib_shapes, shape_entry_suppress_mult,
-			  NIL(void *));
+			  NULL);
     }
     shape_control_iter(arg_data_get_suppresses(arg_data), builder_suppress_1,
 			(void *)lib_shapes);
@@ -252,7 +252,7 @@ builder_write_library(ArgDataT *   arg_data,			       ShapeTableT *shapes ,
     LibraryT *library;
 
     if ((library = library_create_stream_output(output_file)) !=
-	NIL(LibraryT *)) {
+	NULL) {
 	library_write(library, shapes, num_capsules, capsules);
 	library_close(library);
     } else {

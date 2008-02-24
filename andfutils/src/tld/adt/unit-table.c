@@ -75,7 +75,7 @@ unit_table_create(void)
     unsigned   i;
 
     for (i = 0; i < UNIT_TABLE_SIZE; i++) {
-	table->contents[i] = NIL(UnitEntryT *);
+	table->contents[i] = NULL;
     }
     return(table);
 }
