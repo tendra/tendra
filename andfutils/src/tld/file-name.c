@@ -141,7 +141,7 @@ file_name_expand(char * dir,			  char * name,
 BoolT
 file_name_is_basename(char * path)
 {
-    return(!!strchr(path, '/'));
+    return(!strchr(path, '/'));
 }
 
 BoolT
