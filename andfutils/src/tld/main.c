@@ -69,6 +69,7 @@
 
 #include <stdlib.h>
 
+#include "../shared/check/check.h"
 #include "adt/arg-data.h"
 #include "arg-parse.h"
 #include "frontend/builder.h"

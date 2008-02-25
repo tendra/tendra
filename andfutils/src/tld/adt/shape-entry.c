@@ -67,6 +67,7 @@
 
 #include <limits.h>
 
+#include "../../shared/check/check.h"
 #include "shape-entry.h"
 #include "../debug.h"
 #include "../gen-errors.h"

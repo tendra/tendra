@@ -73,6 +73,7 @@
 #include <assert.h>
 #include <ctype.h>
 
+#include "shared/check/check.h"
 #include "lexer.h"
 #include "gen-errors.h"
 

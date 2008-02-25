@@ -65,6 +65,7 @@
 
 #include <ctype.h>
 
+#include "../shared/check/check.h"
 #include "c-out-key.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"

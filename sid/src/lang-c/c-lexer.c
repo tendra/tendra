@@ -74,7 +74,9 @@
 #include <assert.h>
 #include <ctype.h>
 
+#include "../shared/check/check.h"
 #include "c-lexi_lexer.h"
+
 struct c_lexi_state c_lexer_current_state ;
 
 #include "../gen-errors.h"

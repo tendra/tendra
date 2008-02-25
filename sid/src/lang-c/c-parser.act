@@ -68,6 +68,7 @@ c-parse-grammar	-> c_parse_grammar;
 */
 
 
+#include "../shared/check/check.h"
 #include "c-parser.h"
 #include "../adt/action.h"
 #include "c-code.h"

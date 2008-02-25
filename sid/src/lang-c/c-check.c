@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,48 +59,65 @@
 
 
 /*
- * contents.c - Front end to library contents mode of TDF linker.
+ * c-check.c - Routines to check grammar.
  *
- * This file provides the front end to the library contents mode of the TDF
- * linker.
+ * This file contains routines to check that all actions and basic result
+ * extraction functions are defined.
  */
 
-#include <stdlib.h>
-
-#include "../../shared/check/check.h"
-#include "contents.h"
+#include "../shared/check/check.h"
+#include "c-check.h"
+#include "../adt/action.h"
+#include "../adt/basic.h"
+#include "../adt/entry.h"
 #include "../gen-errors.h"
-#include "../adt/library.h"
-#include <exds/common.h>
-#include <exds/error.h>
+#include "../adt/table.h"
 
-#include "../adt/solve-cycles.h"
-
-void
-contents_main(ArgDataT *arg_data)
+static void
+c_check_grammar_1(EntryT * entry, void * gclosure)
 {
-    BoolT     content_index   = arg_data_get_content_index(arg_data);
-    BoolT     content_size    = arg_data_get_content_size(arg_data);
-    BoolT     content_version = arg_data_get_content_version(arg_data);
-    unsigned  num_files       = arg_data_get_num_files(arg_data);
-    char * *files           = arg_data_get_files(arg_data);
-    LibraryT * library;
+    TypeT * type;
 
-    if (num_files != 1) {
-	E_too_many_library_files();
-	UNREACHED;
-    }
-    if ((library = library_create_stream_input(files[0])) !=
-	NULL) {
-	library_content(library, content_index, content_size,
-			 content_version);
-	library_close(library);
-    } else {
-	E_cannot_open_input_file(files[0]);
-    }
-    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
-	exit(EXIT_FAILURE);
+    UNUSED(gclosure);
+    switch (entry_type(entry))EXHAUSTIVE {
+      case ET_RULE:
+	break;
+      case ET_BASIC: {
+	  BasicT * basic = entry_get_basic(entry);
+
+	  if ((!types_equal_zero_tuple(basic_result(basic))) &&
+	      (basic_get_result_code(basic) == NULL)) {
+	      E_basic_result_code_not_defined(entry_key(entry));
+	  }
+      }
+	break;
+      case ET_ACTION:
+	if (action_get_code(entry_get_action(entry)) == NULL) {
+	    E_action_code_not_defined(entry_key(entry));
+	}
+	break;
+      case ET_TYPE:
+	type = entry_get_type(entry);
+	if (((type_get_assign_code(type) != NULL) ||
+	     (type_get_param_assign_code(type) != NULL) ||
+	     (type_get_result_assign_code(type) != NULL)) &&
+	    ((type_get_assign_code(type) == NULL) ||
+	     (type_get_param_assign_code(type) == NULL) ||
+	     (type_get_result_assign_code(type) == NULL))) {
+	    E_type_code_not_defined(entry_key(entry));
+	}
+	break;
+      case ET_NON_LOCAL:
+      case ET_NAME:
+      case ET_RENAME:
+	break;
+      case ET_PREDICATE:
 	UNREACHED;
     }
 }
 
+void
+c_check_grammar(GrammarT * grammar)
+{
+    table_iter(grammar_table(grammar), c_check_grammar_1, NULL);
+}

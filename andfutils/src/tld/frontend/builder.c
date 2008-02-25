@@ -68,6 +68,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "../../shared/check/check.h"
 #include "builder.h"
 #include "../adt/capsule.h"
 #include "../debug.h"

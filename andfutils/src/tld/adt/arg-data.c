@@ -65,6 +65,7 @@
  * command line options that were given to the TDF linker.
  */
 
+#include "../../shared/check/check.h"
 #include "arg-data.h"
 #include "capsule.h"
 #include "../gen-errors.h"

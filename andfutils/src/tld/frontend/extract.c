@@ -67,6 +67,7 @@
 
 #include <stdlib.h>
 
+#include "../../shared/check/check.h"
 #include "extract.h"
 #include <exds/common.h>
 #include <exds/error.h>

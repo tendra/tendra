@@ -72,6 +72,7 @@
 #include <limits.h>
 #include <assert.h>
 
+#include "shared/check/check.h"
 #include "parser.h"
 #include "adt/action.h"
 #include "adt/basic.h"

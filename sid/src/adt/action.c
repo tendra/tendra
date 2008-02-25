@@ -67,6 +67,7 @@
 #include <exds/exception.h>
 #include <exds/dalloc.h>
 
+#include "../shared/check/check.h"
 #include "action.h"
 #include "basic.h"
 #include "name.h"

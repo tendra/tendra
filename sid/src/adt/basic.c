@@ -64,6 +64,7 @@
  * This file implements the basic manipulation routines.
  */
 
+#include "../shared/check/check.h"
 #include "basic.h"
 #include "action.h"
 #include "../grammar.h"

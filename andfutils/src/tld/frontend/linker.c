@@ -66,6 +66,7 @@
 
 #include <stdlib.h>
 
+#include "../../shared/check/check.h"
 #include "linker.h"
 #include "../adt/capsule.h"
 #include "../debug.h"

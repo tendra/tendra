@@ -68,6 +68,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include "../../shared/check/check.h"
 #include "library.h"
 #include "capsule.h"
 #include "../debug.h"

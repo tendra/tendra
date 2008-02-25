@@ -65,6 +65,7 @@
 
 #include <limits.h>
 
+#include "../shared/check/check.h"
 #include "table.h"
 #include "action.h"
 #include "basic.h"

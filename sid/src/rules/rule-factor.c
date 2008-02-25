@@ -158,6 +158,7 @@
 
 #include <assert.h>
 
+#include "../shared/check/check.h"
 #include "../adt/rule.h"
 #include "../adt/basic.h"
 #include <exds/bitvec.h>

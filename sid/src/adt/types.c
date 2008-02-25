@@ -67,6 +67,7 @@
 #include <stddef.h>
 #include <limits.h>
 
+#include "../shared/check/check.h"
 #include "types.h"
 #include <exds/dalloc.h>
 #include "../gen-errors.h"

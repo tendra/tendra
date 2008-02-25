@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,6 @@
         it may be put.
 */
 
-
 /*
  * arg-parse.c - Command line argument parsing.
  *
@@ -67,16 +66,16 @@
 
 #include <assert.h>
 
-#include "../shared/check/check.h"
+#include "shared/check/check.h"
 #include "arg-parse.h"
 #include "gen-errors.h"
 
 void
-arg_parse_intern_descriptions(ArgListT *arg_list)
+arg_parse_intern_descriptions(ArgListT * arg_list)
 {
     while ((arg_list->name != NULL) ||
-	  (arg_list->short_name != '\0')) {
-	EStringT *estring = error_lookup_string(arg_list->u.name);
+	   (arg_list->short_name != '\0')) {
+	EStringT * estring = error_lookup_string(arg_list->u.name);
 
 	assert(estring != NULL);
 	arg_list->u.message = estring;
@@ -85,9 +84,7 @@ arg_parse_intern_descriptions(ArgListT *arg_list)
 }
 
 int
-arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
-			     int      argc ,
-			     char   **argv)
+arg_parse_arguments(ArgListT * arg_list, EStringT * usage, int argc, char **argv)
 {
     int       tmp_argc = argc;
     char    **tmp_argv = argv;
@@ -103,16 +100,16 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 	    ((c == '+') && (option[1] == '+'))) && (option[2] == '\0')) {
 	    return(argc - tmp_argc + 1);
 	} else if (((c == '-') && (option[1] == '-')) ||
-		  ((c == '+') && (option[1] == '+'))) {
-	    ArgListT *tmp_list  = arg_list;
-	    ArgListT *chosen    = NULL;
+		   ((c == '+') && (option[1] == '+'))) {
+	    ArgListT * tmp_list  = arg_list;
+	    ArgListT * chosen    = NULL;
 	    unsigned matches   = 0;
 	    char * immediate = NULL;
 
 	    while ((tmp_list->name != NULL) ||
-		  (tmp_list->short_name != '\0')) {
+		   (tmp_list->short_name != '\0')) {
 		char * opt = (tmp_list->name);
-		char * arg = (& (option[2]));
+		char * arg = (&(option[2]));
 
 		if (opt != NULL) {
 		    char optch;
@@ -128,7 +125,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 			immediate = (arg - 1);
 			break;
 		    } else if ((optch == '\0') &&
-			      (((tmp_list->type) == AT_IMMEDIATE) ||
+			       (((tmp_list->type) == AT_IMMEDIATE) ||
 				((tmp_list->type) == AT_EITHER))) {
 			chosen    = tmp_list;
 			matches   = 1;
@@ -148,7 +145,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		E_arg_parse_ambiguous_option(option, &closure);
 		UNREACHED;
 	    } else {
-		switch (chosen->type) {
+		switch (chosen->type)EXHAUSTIVE {
 		  case AT_SWITCH:
 		   (*((BoolT *)(chosen->closure))) = (c == '-');
 		    break;
@@ -157,7 +154,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		    break;
 		  case AT_PROC_SWITCH:
 		   (*(chosen->proc))(option, &closure, chosen->closure,
-				       c == '-');
+				     c == '-');
 		    break;
 		  case AT_IMMEDIATE:
 		    if (immediate != NULL) {
@@ -172,12 +169,12 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		    if (immediate != NULL) {
 			if (immediate[0]!= '\0') {
 			   (*(chosen->proc))(option, &closure,
-					       chosen->closure, immediate);
+					     chosen->closure, immediate);
 			} else if (tmp_argc > 1) {
 			    tmp_argv++;
 			    tmp_argc--;
 			   (*(chosen->proc))(option, &closure,
-					       chosen->closure, tmp_argv[0]);
+					     chosen->closure, tmp_argv[0]);
 			} else {
 			    E_arg_parse_missing_argument(option, &closure);
 			    UNREACHED;
@@ -192,7 +189,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 			tmp_argv++;
 			tmp_argc--;
 			(*(chosen->proc))(option, &closure, chosen->closure,
-					   tmp_argv[0]);
+					  tmp_argv[0]);
 		    } else {
 			E_arg_parse_missing_argument(option, &closure);
 			UNREACHED;
@@ -206,7 +203,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 			tmp_argv += 2;
 			tmp_argc -= 2;
 			(*(chosen->proc))(option, &closure, chosen->closure,
-					   tmp_argv[-1], tmp_argv[0]);
+					  tmp_argv[-1], tmp_argv[0]);
 		    } else {
 			E_arg_parse_missing_argument(option, &closure);
 			UNREACHED;
@@ -217,8 +214,8 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 			tmp_argv += 3;
 			tmp_argc -= 3;
 			(*(chosen->proc))(option, &closure, chosen->closure,
-					   tmp_argv[-2], tmp_argv[-1],
-					   tmp_argv[0]);
+					  tmp_argv[-2], tmp_argv[-1],
+					  tmp_argv[0]);
 		    } else {
 			E_arg_parse_missing_argument(option, &closure);
 			UNREACHED;
@@ -227,20 +224,20 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		}
 	    }
 	} else if (((c == '-') && (option[1] == '+')) ||
-		  ((c == '+') && (option[1] == '-')) ||
-		  ((c == '-') && (option[1] == '\0')) ||
-		  ((c == '+') && (option[1] == '\0'))) {
+		   ((c == '+') && (option[1] == '-')) ||
+		   ((c == '-') && (option[1] == '\0')) ||
+		   ((c == '+') && (option[1] == '\0'))) {
 	    E_arg_parse_unknown_option(option, &closure);
 	    UNREACHED;
 	} else if ((c == '-') || (c == '+')) {
-	    char * opt = & (option[1]);
+	    char * opt = &(option[1]);
 
 	    while ((opt != NULL) && (*opt != '\0')) {
-		ArgListT *tmp_list = arg_list;
-		ArgListT *chosen   = NULL;
+		ArgListT * tmp_list = arg_list;
+		ArgListT * chosen   = NULL;
 
 		while ((tmp_list->name != NULL) ||
-		      (tmp_list->short_name != '\0')) {
+		       (tmp_list->short_name != '\0')) {
 		    if (tmp_list->short_name == *opt) {
 			chosen = tmp_list;
 			break;
@@ -248,7 +245,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		    tmp_list++;
 		}
 		if (chosen) {
-		    switch (chosen->type) {
+		    switch (chosen->type)EXHAUSTIVE {
 		      case AT_SWITCH:
 			(*((BoolT *)(chosen->closure))) = (c == '-');
 			break;
@@ -257,25 +254,25 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 			break;
 		      case AT_PROC_SWITCH:
 			(*(chosen->proc))(opt, &closure, chosen->closure,
-					   c == '-');
+					  c == '-');
 			break;
 		      case AT_IMMEDIATE:
 			(*(chosen->proc))(opt, &closure, chosen->closure,
-					   opt + 1);
+					  opt + 1);
 			opt = NULL;
 			break;
 		      case AT_EITHER:
 			if (opt[1]!= '\0') {
 			   (*(chosen->proc))(opt, &closure, chosen->closure,
-					       opt + 1);
+					     opt + 1);
 			} else if (tmp_argc > 1) {
 			    tmp_argv++;
 			    tmp_argc--;
 			   (*(chosen->proc))(opt, &closure, chosen->closure,
-					       tmp_argv[0]);
+					     tmp_argv[0]);
 			} else {
 			    E_arg_parse_missing_short_arg(option, opt,
-							   &closure);
+							  &closure);
 			    UNREACHED;
 			}
 			opt = NULL;
@@ -285,10 +282,10 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 			    tmp_argv++;
 			    tmp_argc--;
 			   (*(chosen->proc))(opt, &closure, chosen->closure,
-					       tmp_argv[0]);
+					     tmp_argv[0]);
 			} else {
 			    E_arg_parse_missing_short_arg(option, opt,
-							   &closure);
+							  &closure);
 			    UNREACHED;
 			}
 			break;
@@ -300,10 +297,10 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 			    tmp_argv += 2;
 			    tmp_argc -= 2;
 			   (*(chosen->proc))(opt, &closure, chosen->closure,
-					       tmp_argv[-1], tmp_argv[0]);
+					     tmp_argv[-1], tmp_argv[0]);
 			} else {
 			    E_arg_parse_missing_short_arg(option, opt,
-							   &closure);
+							  &closure);
 			    UNREACHED;
 			}
 			break;
@@ -312,11 +309,11 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 			    tmp_argv += 3;
 			    tmp_argc -= 3;
 			   (*(chosen->proc))(opt, &closure, chosen->closure,
-					       tmp_argv[-2], tmp_argv[-1],
-					       tmp_argv[0]);
+					     tmp_argv[-2], tmp_argv[-1],
+					     tmp_argv[0]);
 			} else {
 			    E_arg_parse_missing_short_arg(option, opt,
-							   &closure);
+							  &closure);
 			    UNREACHED;
 			}
 			break;
@@ -339,29 +336,30 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 }
 
 void
-write_arg_usage(OStreamT * ostream,			 ArgUsageT *closure)
+write_arg_usage(OStreamT * ostream, ArgUsageT * closure)
 {
     char * usage    = (closure->usage);
-    ArgListT *arg_list = (closure->arg_list);
+    ArgListT * arg_list = (closure->arg_list);
 
     write_cstring(ostream, usage);
     while ((arg_list->name != NULL) ||
-	  (arg_list->short_name != '\0')) {
+	   (arg_list->short_name != '\0')) {
 	char * desc = error_string_contents(arg_list->u.message);
 
 	if (arg_list->name) {
 	    write_newline(ostream);
 	    write_cstring(ostream, "    {--|++}");
 	    write_cstring(ostream, arg_list->name);
-	    write_cstring(ostream, desc);
 	}
 	if (arg_list->short_name != '\0') {
 	    write_newline(ostream);
 	    write_cstring(ostream, "    {-|+}");
 	    write_char(ostream, arg_list->short_name);
+	}
+	if (arg_list->short_name != '\0' || arg_list->name) {
 	    write_cstring(ostream, desc);
+	    write_newline(ostream);
 	}
 	arg_list++;
     }
 }
-

@@ -74,6 +74,7 @@
  * which is terminated by a semi-colon.
  */
 
+#include "../shared/check/check.h"
 #include "rename-file.h"
 #include <exds/common.h>
 #include <exds/exception.h>

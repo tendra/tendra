@@ -67,6 +67,7 @@
 
 #include <assert.h>
 
+#include "../../shared/check/check.h"
 #include "name-entry.h"
 #include "capsule.h"
 #include "../debug.h"

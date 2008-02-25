@@ -85,6 +85,7 @@
 
 #include <exds/common.h>
 #include <exds/exception.h>
+#include "shared/check/check.h"
 #include "arg-parse.h"
 #include "lang-c/c-check.h"
 #include "lang-c/c-lexer.h"

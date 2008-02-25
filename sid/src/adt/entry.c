@@ -65,6 +65,7 @@
 
 #include <assert.h>
 
+#include "../shared/check/check.h"
 #include "entry.h"
 #include "action.h"
 #include "basic.h"

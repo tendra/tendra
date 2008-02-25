@@ -67,6 +67,7 @@
 
 #include <assert.h>
 
+#include "../shared/check/check.h"
 #include "c-code.h"
 #include "c-out-key.h"
 #include "c-output.h"

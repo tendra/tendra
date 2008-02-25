@@ -68,6 +68,7 @@
 #include <limits.h>
 
 #include "capsule.h"
+#include "../../shared/check/check.h"
 #include "../debug.h"
 #include <exds/common.h>
 #include <exds/exception.h>

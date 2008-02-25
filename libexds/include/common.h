@@ -63,12 +63,10 @@
  * This file specifies an interface to the host system's C library, compiler
  * and operating system.  It provides definitions of basic types, constants
  * and macros, and declarations of functions, that can be used by other
- * components of the program.
+ * components of programs.
  *
  * This file used to provide portability abstractions; now all that remains
- * are definitions for semantic purposes, such as CmpT. It additionally
- * provides an interface to the host system's C compiler, for compiler-specific
- * features related to checking.
+ * are definitions for semantic purposes, such as CmpT.
  *
  * This is seperate from exception.h as some APIs provided by the library
  * may not neccessary make use of the exception mechanism (for example, a
@@ -120,71 +118,6 @@ typedef enum {
  */
 # define FALSE (0)
 # define TRUE (1)
-
-/*
- * This macro documents the fact that the specified variable will no longer be
- * used.  One use is to indicate function parameters that are not used.  On
- * most compilers it will do nothing, but on compilers that support it it will
- * tell the compiler that the variable is not expected to be used.
- */
-# ifdef __TenDRA__
-#  pragma TenDRA keyword UNUSED for discard variable
-# else
-#  define UNUSED(v)
-# endif /* defined (__TenDRA__) */
-
-/*
- * This macro documents the fact that the current case of a switch statement
- * should follow through into the next (immediately following) case.  It is
- * used as follows:
- *
- *	case 1:
- *	  ...
- *	  FALL_THROUGH;
- *	case 2:
- *	  ...
- */
-# ifdef __TenDRA__
-#  pragma TenDRA keyword FALL_THROUGH for fall into case
-# else
-#  define FALL_THROUGH
-# endif /* defined (__TenDRA__) */
-
-/*
- * This macro documents the fact that the location that it occurs in should be
- * unreachable.
- */
-# ifdef __TenDRA__
-#  pragma TenDRA keyword UNREACHED for set unreachable
-# else
-#  include <assert.h>
-#  include <stdlib.h>
-#  define UNREACHED assert(FALSE); abort()
-# endif /* defined (__TenDRA__) */
-
-/*
- * This macro documents the fact that the switch statement in which it appears
- * is meant to be exhaustive.  It is used as follows:
- *
- *  switch (expression) EXHAUSTIVE { ... }
- */
-# ifdef __TenDRA__
-#  pragma TenDRA keyword EXHAUSTIVE for exhaustive
-# else
-#  define EXHAUSTIVE
-# endif
-
-/*
- * A weak prototype contains function parameter type information, but has none
- * of the automatic argument conversions associated with a normal prototype.
- * Instead weak prototypes imply the usual argument promotion passing rules for
- * non-prototyped functions.
- */
-# ifdef __TenDRA__
-#  pragma TenDRA keyword WEAK for weak
-# else
-#  define WEAK
-# endif
 
 #endif /* !defined (H_COMMON) */
 

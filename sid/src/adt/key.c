@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,50 +57,95 @@
         it may be put.
 */
 
-
 /*
- * contents.c - Front end to library contents mode of TDF linker.
+ * key.c - Key ADT.
  *
- * This file provides the front end to the library contents mode of the TDF
- * linker.
+ * This file implements the identifier key routines used by SID.
  */
 
-#include <stdlib.h>
+#include <assert.h>
 
-#include "../../shared/check/check.h"
-#include "contents.h"
-#include "../gen-errors.h"
-#include "../adt/library.h"
-#include <exds/common.h>
-#include <exds/error.h>
-
-#include "../adt/solve-cycles.h"
+#include "../shared/check/check.h"
+#include "key.h"
 
 void
-contents_main(ArgDataT *arg_data)
+key_init_from_string(KeyT * key, NStringT * string, unsigned number)
 {
-    BoolT     content_index   = arg_data_get_content_index(arg_data);
-    BoolT     content_size    = arg_data_get_content_size(arg_data);
-    BoolT     content_version = arg_data_get_content_version(arg_data);
-    unsigned  num_files       = arg_data_get_num_files(arg_data);
-    char * *files           = arg_data_get_files(arg_data);
-    LibraryT * library;
-
-    if (num_files != 1) {
-	E_too_many_library_files();
-	UNREACHED;
-    }
-    if ((library = library_create_stream_input(files[0])) !=
-	NULL) {
-	library_content(library, content_index, content_size,
-			 content_version);
-	library_close(library);
-    } else {
-	E_cannot_open_input_file(files[0]);
-    }
-    if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
-	exit(EXIT_FAILURE);
-	UNREACHED;
-    }
+    key->type   = KT_STRING;
+    nstring_assign(&(key->string), string);
+    key->number = number;
 }
 
+void
+key_init_from_number(KeyT * key, unsigned number)
+{
+    key->type   = KT_NUMERIC;
+    key->number = number;
+}
+
+CmpT
+key_compare(KeyT * key1, KeyT * key2)
+{
+    if ((key1->type) < (key2->type)) {
+	return(CMP_LT);
+    } else if ((key1->type) > (key2->type)) {
+	return(CMP_GT);
+    }
+    switch (key1->type)EXHAUSTIVE {
+      case KT_STRING:
+	return(nstring_compare(&(key1->string), &(key2->string)));
+      case KT_NUMERIC:
+	if (key1->number < key2->number) {
+	    return(CMP_LT);
+	} else if (key1->number > key2->number) {
+	    return(CMP_GT);
+	} else {
+	    return(CMP_EQ);
+	}
+    }
+    UNREACHED;
+}
+
+BoolT
+key_is_string(KeyT * key)
+{
+    return(key->type == KT_STRING);
+}
+
+NStringT *
+key_get_string(KeyT * key)
+{
+    assert(key->type == KT_STRING);
+    return(&(key->string));
+}
+
+unsigned
+key_get_number(KeyT * key)
+{
+    return(key->number);
+}
+
+unsigned
+key_hash_value(KeyT * key)
+{
+    switch (key->type)EXHAUSTIVE {
+      case KT_NUMERIC:
+	return(key->number);
+      case KT_STRING:
+	return(nstring_hash_value(&(key->string)));
+    }
+    UNREACHED;
+}
+
+void
+write_key(OStreamT * ostream, KeyT * key)
+{
+    switch (key->type)EXHAUSTIVE {
+      case KT_STRING:
+	write_nstring(ostream, &(key->string));
+	break;
+      case KT_NUMERIC:
+	write_unsigned(ostream, key->number);
+	break;
+    }
+}

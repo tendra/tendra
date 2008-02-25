@@ -70,6 +70,7 @@
 */
 
 
+#include "../shared/check/check.h"
 #include "c-parser.h"
 #include "../adt/action.h"
 #include "c-code.h"

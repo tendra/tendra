@@ -65,6 +65,7 @@
 
 #include <assert.h>
 
+#include "../shared/check/check.h"
 #include "c-output.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"

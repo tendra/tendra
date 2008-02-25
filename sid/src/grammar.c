@@ -147,6 +147,7 @@
 #include <limits.h>
 #include <stddef.h>
 
+#include "shared/check/check.h"
 #include "grammar.h"
 #include "adt/action.h"
 #include "adt/basic.h"

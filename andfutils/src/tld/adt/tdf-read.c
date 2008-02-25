@@ -67,6 +67,7 @@
 #include <limits.h>
 #include <stdint.h>
 
+#include "../../shared/check/check.h"
 #include "tdf-read.h"
 #include "../gen-errors.h"
 #include <exds/common.h>

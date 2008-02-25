@@ -70,6 +70,7 @@
 #include <exds/exception.h>
 #include <exds/dalloc.h>
 
+#include "../../shared/check/check.h"
 #include "name-key.h"
 #include "../syntax.h"
 
