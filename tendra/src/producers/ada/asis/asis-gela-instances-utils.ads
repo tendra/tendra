@@ -24,25 +24,25 @@ package Asis.Gela.Instances.Utils is
       Name   : in     Asis.Defining_Name;
       Actual : in     Asis.Expression) return Asis.Defining_Name;
 
-   function Make_Object_Renaming
+   function Make_Object
      (Object : in     Cloner_Class;
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;
       Actual : in     Asis.Expression) return Asis.Defining_Name;
 
-   function Make_Subtype
+   function Make_Type
      (Object : in     Cloner_Class;
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;
       Actual : in     Asis.Expression) return Asis.Defining_Name;
 
-   function Make_Procedure_Renaming
+   function Make_Procedure
      (Object : in     Cloner_Class;
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;
       Actual : in     Asis.Expression) return Asis.Defining_Name;
 
-   function Make_Function_Renaming
+   function Make_Function
      (Object : in     Cloner_Class;
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;

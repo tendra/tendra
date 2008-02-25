@@ -2,8 +2,9 @@ with Asis.Elements;
 with Asis.Definitions;
 with Asis.Expressions;
 with Asis.Declarations;
-with Asis.Gela.Visibility;
 with Asis.Gela.Utils;
+with Asis.Gela.Visibility;
+with Asis.Gela.Element_Utils;
 with XASIS.Utils;
 with XASIS.Types;
 
@@ -1484,6 +1485,7 @@ package body Asis.Gela.Classes is
       use Asis.Declarations;
       use Asis.Definitions;
       Def    : Asis.Definition;
+      Actual : Asis.Expression;
       Result : Type_Info;
    begin
       case Declaration_Kind (Tipe) is
@@ -1494,6 +1496,13 @@ package body Asis.Gela.Classes is
            A_Private_Type_Declaration |
            A_Private_Extension_Declaration |
            A_Formal_Type_Declaration =>
+
+            if Is_Part_Of_Instance (Tipe) and then
+              Declaration_Kind (Tipe) = A_Formal_Type_Declaration
+            then
+               Actual := Element_Utils.Generic_Actual (Tipe);
+               return Type_From_Subtype_Mark (Actual, Place);
+            end if;
 
             Result.Base_Type      := Get_Base_Type (Tipe, Place);
             Result.Type_View      := Get_Type_View (Result.Base_Type, Place);

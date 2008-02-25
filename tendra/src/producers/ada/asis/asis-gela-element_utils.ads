@@ -107,6 +107,8 @@ package Asis.Gela.Element_Utils is
      (Funct : Asis.Declaration;
       Tipe  : Asis.Type_Definition);
 
+   function Generic_Actual (Decl : Asis.Declaration) return Asis.Expression;
+
 end Asis.Gela.Element_Utils;
 
 

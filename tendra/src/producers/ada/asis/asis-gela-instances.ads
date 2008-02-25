@@ -15,7 +15,8 @@ package Asis.Gela.Instances is
 
    procedure Make_Instance_Declaration
      (Decl  : Asis.Declaration;
-      Point : Visibility.Point);
+      Point : Visibility.Point;
+      Inner : Visibility.Point);
    --  Clone generic template to make instance of given generic_instantiation
    --  declaration. Mark created elements as Is_Part_Of_Instance.
 

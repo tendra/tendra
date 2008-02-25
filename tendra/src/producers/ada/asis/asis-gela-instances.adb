@@ -48,14 +48,16 @@ package body Asis.Gela.Instances is
    procedure Make_Views
      (Object : Cloner'Class;
       Decl   : Asis.Declaration;
-      Point  : Visibility.Point);
+      Point  : Visibility.Point;
+      Inner  : Visibility.Point);
 
    procedure Make_View
      (Object : in     Cloner'Class;
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;
       Actual : in out Asis.Expression;
-      Point  : in     Visibility.Point);
+      Point  : in     Visibility.Point;
+      Inner  : in     Visibility.Point);
 
    procedure Resolve_Actual
      (Actual : in out Asis.Expression;
@@ -645,7 +647,8 @@ package body Asis.Gela.Instances is
 
    procedure Make_Instance_Declaration
      (Decl  : Asis.Declaration;
-      Point : Visibility.Point)
+      Point : Visibility.Point;
+      Inner : Visibility.Point)
    is
       use Asis.Elements;
       use Asis.Gela.Errors;
@@ -669,7 +672,7 @@ package body Asis.Gela.Instances is
       The_Cloner.Map      := Map'Unchecked_Access;
 
       Create_Normalized_Actuals (Decl, Template);
-      Make_Views (The_Cloner, Decl, Point);
+      Make_Views (The_Cloner, Decl, Point, Inner);
       Copy := Deep_Copy (The_Cloner, Template, Decl);
       Utils.Set_Corresponding_Declaration (Copy, Decl);
       Resolver.Process_Instance (Copy, Point);
@@ -691,7 +694,8 @@ package body Asis.Gela.Instances is
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;
       Actual : in out Asis.Expression;
-      Point  : in     Visibility.Point)
+      Point  : in     Visibility.Point;
+      Inner  : in     Visibility.Point)
    is
       use Asis.Elements;
       Formal : Asis.Declaration := Enclosing_Element (Name);
@@ -699,22 +703,17 @@ package body Asis.Gela.Instances is
    begin
       case Declaration_Kind (Formal) is
          when A_Formal_Object_Declaration =>
-            case Mode_Kind (Formal) is
-               when A_Default_In_Mode | An_In_Mode =>
-                  View := Utils.Make_Constant (Object, Inst, Name, Actual);
-                  Pair_Lists.Append (Object.Map.all,
-                                     (Source => Name, Target => View));
-               when others =>
-                  View := Utils.Make_Object_Renaming
-                    (Object, Inst, Name, Actual);
-                  Pair_Lists.Append (Object.Map.all,
-                                     (Source => Name, Target => View));
-            end case;
+
+            View := Utils.Make_Object (Object, Inst, Name, Actual);
+
+            Pair_Lists.Append
+              (Object.Map.all, (Source => Name, Target => View));
 
          when A_Formal_Type_Declaration =>
-            View := Utils.Make_Subtype (Object, Inst, Name, Actual);
-            Pair_Lists.Append (Object.Map.all,
-                               (Source => Name, Target => View));
+            View := Utils.Make_Type (Object, Inst, Name, Actual);
+            Pair_Lists.Append
+              (Object.Map.all, (Source => Name, Target => View));
+
             Find_Formal_Implicit_Operators (Formal, Actual, Object.Map, Inst);
 
             if Formal_Type_Kind (Formal) = A_Formal_Derived_Type_Definition
@@ -723,16 +722,16 @@ package body Asis.Gela.Instances is
             end if;
 
          when A_Formal_Procedure_Declaration =>
-            View := Utils.Make_Procedure_Renaming (Object, Inst, Name, Actual);
+            View := Utils.Make_Procedure (Object, Inst, Name, Actual);
             Pair_Lists.Append (Object.Map.all,
                                (Source => Name, Target => View));
-            Resolve_Actual (Actual, Point, View, Inst);
+            Resolve_Actual (Actual, Inner, View, Inst);
 
          when A_Formal_Function_Declaration =>
-            View := Utils.Make_Function_Renaming (Object, Inst, Name, Actual);
+            View := Utils.Make_Function (Object, Inst, Name, Actual);
             Pair_Lists.Append (Object.Map.all,
                                (Source => Name, Target => View));
-            Resolve_Actual (Actual, Point, View, Inst);
+            Resolve_Actual (Actual, Inner, View, Inst);
 
          when A_Formal_Package_Declaration
            | A_Formal_Package_Declaration_With_Box =>
@@ -752,7 +751,8 @@ package body Asis.Gela.Instances is
    procedure Make_Views
      (Object : Cloner'Class;
       Decl   : Asis.Declaration;
-      Point  : Visibility.Point)
+      Point  : Visibility.Point;
+      Inner  : Visibility.Point)
    is
       use Asis.Expressions;
       use Asis.Declarations;
@@ -765,7 +765,8 @@ package body Asis.Gela.Instances is
                     Decl,
                     Formal_Parameter (Actuals (I)),
                     Actual,
-                    Point);
+                    Point,
+                    Inner);
          if not Is_Equal (Actual, Actual_Parameter (Actuals (I))) then
             raise Internal_Error;
          end if;

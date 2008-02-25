@@ -13,7 +13,8 @@ package Asis.Gela.Implicit.Decl is
 
    procedure Process
      (Element : in     Asis.Element;
-      Point   : in out Visibility.Point);
+      Point   : in out Visibility.Point;
+      Inner   : in     Visibility.Point);
 
 end Asis.Gela.Implicit.Decl;
 

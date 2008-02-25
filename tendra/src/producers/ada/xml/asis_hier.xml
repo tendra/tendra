@@ -64,7 +64,9 @@
             </node>
           </node>
         </node>
-        <node name="Formal_Type_Declaration_Node"/>
+        <node name="Formal_Type_Declaration_Node">
+          <attr name="Generic_Actual" type="Asis.Expression" defer="y"/>
+        </node>
       </node>
       <node name="Base_Callable_Declaration_Node" abstract="y" helper="y">
         <attr name="Parameter_Profile" type="Primary_Parameter_Lists.List" child="4"/>

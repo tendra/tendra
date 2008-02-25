@@ -217,11 +217,11 @@ package body Asis.Gela.Instances.Utils is
       return Names (Result.all) (1);
    end Make_Constant;
 
-   ---------------------------
-   --  Make_Object_Renaming --
-   ---------------------------
+   ------------------
+   --  Make_Object --
+   ------------------
 
-   function Make_Object_Renaming
+   function Make_Object
      (Object : in     Cloner_Class;
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;
@@ -231,20 +231,22 @@ package body Asis.Gela.Instances.Utils is
       use Asis.Declarations;
       use Asis.Gela.Elements.Decl;
       use Asis.Gela.Elements.Defs;
-      Result    : Object_Renaming_Declaration_Ptr :=
-        new Object_Renaming_Declaration_Node;
+      Result    : Formal_Object_Declaration_Ptr :=
+        new Formal_Object_Declaration_Node;
       Formal    : Asis.Declaration := Enclosing_Element (Name);
       Mark      : Asis.Definition := Object_Declaration_Subtype (Formal);
    begin
       Set_Declaration (Result, Object, Inst, Name);
+      Set_Mode_Kind (Result.all, Mode_Kind (Formal));
       Mark := Deep_Copy (Cloner => Object,
                          Source => Mark,
                          Parent => Asis.Element (Result));
       Set_Object_Declaration_Subtype (Result.all, Asis.Element (Mark));
-      Set_Renamed_Entity (Result.all, Actual);
+      Set_Initialization_Expression (Result.all, Actual);
+      Set_Has_Null_Exclusion (Result.all, Has_Null_Exclusion (Formal));
 
       return Names (Result.all) (1);
-   end Make_Object_Renaming;
+   end Make_Object;
 
    ---------------------------
    -- Make_Package_Renaming --
@@ -268,11 +270,11 @@ package body Asis.Gela.Instances.Utils is
       return Names (Result.all) (1);
    end Make_Package_Renaming;
 
-   -----------------------------
-   --  Make_Function_Renaming --
-   -----------------------------
+   --------------------
+   --  Make_Function --
+   --------------------
 
-   function Make_Function_Renaming
+   function Make_Function
      (Object : in     Cloner_Class;
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;
@@ -282,18 +284,21 @@ package body Asis.Gela.Instances.Utils is
       use Asis.Declarations;
       use Asis.Gela.Elements.Decl;
       use Lists.Primary_Parameter_Lists;
-      Formal    : Asis.Declaration := Enclosing_Element (Name);
       Profile   : Asis.Element;
-      Result    : Function_Renaming_Declaration_Ptr :=
-        new Function_Renaming_Declaration_Node;
-      Params    : Asis.Element_List :=
-        Parameter_Profile (Formal);
+      Formal    : constant Asis.Declaration := Enclosing_Element (Name);
+      Result    : constant Formal_Function_Declaration_Ptr :=
+        new Formal_Function_Declaration_Node;
+      Params    : constant Asis.Element_List := Parameter_Profile (Formal);
    begin
       Set_Declaration (Result, Object, Inst, Name);
-      Set_Renamed_Entity (Result.all, Actual);
+
       Profile := Lists.Primary_Parameter_Lists.Deep_Copy
         (Params, Object, Asis.Element (Result));
+
       Set_Parameter_Profile (Result.all, Profile);
+      Set_Default_Kind (Result.all, Default_Kind (Formal));
+      Set_Has_Abstract (Result.all, Has_Abstract (Formal));
+
       Set_Result_Subtype
         (Result.all,
          Deep_Copy (Cloner => Object,
@@ -301,13 +306,13 @@ package body Asis.Gela.Instances.Utils is
                     Parent => Asis.Element (Result)));
 
       return Names (Result.all) (1);
-   end Make_Function_Renaming;
+   end Make_Function;
 
-   -----------------------------
-   -- Make_Procedure_Renaming --
-   -----------------------------
+   --------------------
+   -- Make_Procedure --
+   --------------------
 
-   function Make_Procedure_Renaming
+   function Make_Procedure
      (Object : in     Cloner_Class;
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;
@@ -317,27 +322,29 @@ package body Asis.Gela.Instances.Utils is
       use Asis.Declarations;
       use Asis.Gela.Elements.Decl;
       use Lists.Primary_Parameter_Lists;
-      Formal    : Asis.Declaration := Enclosing_Element (Name);
       Profile   : Asis.Element;
-      Result    : Procedure_Renaming_Declaration_Ptr :=
-        new Procedure_Renaming_Declaration_Node;
-      Params    : Asis.Element_List :=
-        Parameter_Profile (Formal);
+      Formal    : constant Asis.Declaration := Enclosing_Element (Name);
+      Result    : constant Formal_Procedure_Declaration_Ptr :=
+        new Formal_Procedure_Declaration_Node;
+      Params    : constant Asis.Element_List := Parameter_Profile (Formal);
    begin
       Set_Declaration (Result, Object, Inst, Name);
-      Set_Renamed_Entity (Result.all, Actual);
+
       Profile := Lists.Primary_Parameter_Lists.Deep_Copy
         (Params, Object, Asis.Element (Result));
+
       Set_Parameter_Profile (Result.all, Profile);
+      Set_Default_Kind (Result.all, Default_Kind (Formal));
+      Set_Has_Abstract (Result.all, Has_Abstract (Formal));
 
       return Names (Result.all) (1);
-   end Make_Procedure_Renaming;
+   end Make_Procedure;
 
-   ------------------
-   -- Make_Subtype --
-   ------------------
+   ---------------
+   -- Make_Type --
+   ---------------
 
-   function Make_Subtype
+   function Make_Type
      (Object : in     Cloner_Class;
       Inst   : in     Asis.Declaration;
       Name   : in     Asis.Defining_Name;
@@ -347,18 +354,30 @@ package body Asis.Gela.Instances.Utils is
       use Asis.Declarations;
       use Asis.Gela.Elements.Defs;
       use Asis.Gela.Elements.Decl;
-      Result    : Subtype_Declaration_Ptr := new Subtype_Declaration_Node;
-      Ind       : Subtype_Indication_Ptr := new Subtype_Indication_Node;
+      Formal : constant Asis.Declaration := Enclosing_Element (Name);
+      Result : constant Formal_Type_Declaration_Ptr :=
+        new Formal_Type_Declaration_Node;
+      Discr  : Asis.Definition;
+      View   : Asis.Definition;
    begin
       Set_Declaration (Result, Object, Inst, Name);
-      Set_Enclosing_Element (Ind.all, Asis.Element (Result));
-      Set_Enclosing_Compilation_Unit
-        (Ind.all, Enclosing_Compilation_Unit (Inst.all));
-      Set_Subtype_Mark (Ind.all, Actual);
-      Set_Type_Declaration_View (Result.all, Asis.Element (Ind));
+
+      Discr := Deep_Copy (Cloner => Object,
+                          Source => Discriminant_Part (Formal),
+                          Parent => Asis.Element (Result));
+
+      Set_Discriminant_Part (Result.all, Discr);
+
+      View := Deep_Copy (Cloner => Object,
+                         Source => Type_Declaration_View (Formal),
+                         Parent => Asis.Element (Result));
+
+      Set_Type_Declaration_View (Result.all, View);
+
+      Set_Generic_Actual (Result.all, Actual);
 
       return Names (Result.all) (1);
-   end Make_Subtype;
+   end Make_Type;
 
    ---------------------
    -- New_Direct_Name --

@@ -60,9 +60,10 @@ package body Asis.Gela.Resolver is
       State   : in out State_Information)
    is
       use Asis.Elements;
+      Inner : Visibility.Point := State.Point;
    begin
       Visibility.Leave_Construction (Element, State.Point);
-      Implicit.Decl.Process (Element, State.Point);
+      Implicit.Decl.Process (Element, State.Point, Inner);
 
       if not Is_Part_Of_Instance (Element.all) then
          Overloads.Resolve (Element);

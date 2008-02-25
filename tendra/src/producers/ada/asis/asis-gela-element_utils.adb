@@ -267,6 +267,25 @@ package body Asis.Gela.Element_Utils is
         (Dst, Enclosing_Compilation_Unit (Source.all));
    end Copy_Element;
 
+   --------------------
+   -- Generic_Actual --
+   --------------------
+
+   function Generic_Actual (Decl : Asis.Declaration) return Asis.Expression is
+      use Asis.Elements;
+      use Asis.Gela.Elements.Decl;
+   begin
+      pragma Assert (Is_Part_Of_Instance (Decl) and then
+                     Declaration_Kind (Decl) in A_Formal_Declaration);
+
+      case Declaration_Kind (Decl) is
+         when A_Formal_Type_Declaration =>
+            return Generic_Actual (Formal_Type_Declaration_Node (Decl.all));
+         when others =>
+            raise Internal_Error;
+      end case;
+   end Generic_Actual;
+
    --------------
    -- Override --
    --------------

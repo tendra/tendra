@@ -65,7 +65,8 @@ package body Asis.Gela.Implicit.Decl is
 
    procedure Process
      (Element : in     Asis.Element;
-      Point   : in out Visibility.Point)
+      Point   : in out Visibility.Point;
+      Inner   : in     Visibility.Point)
    is
    begin
       -- if Is_Part_Of_Implicit (Element) then
@@ -105,7 +106,7 @@ package body Asis.Gela.Implicit.Decl is
                   Inheritance.Make_Inherited_Subprograms (Element, Point);
 
                when A_Generic_Instantiation =>
-                  Instances.Make_Instance_Declaration (Element, Point);
+                  Instances.Make_Instance_Declaration (Element, Point, Inner);
 
                when A_Procedure_Declaration
                  | A_Function_Declaration
