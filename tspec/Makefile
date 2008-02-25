@@ -11,8 +11,8 @@ INSTALL = install
 COPY = cp
 
 # TODO Note posix3 is work in progress and therefore disabled
-BASE_APIS = ansi iso posix cpp posix1 posix2 unix95 xpg3 xpg4 svid3 svid3
-EXT_APIS = bsd_extn dummy gcc motif/1_2 \
+BASE_APIS = ansi iso posix posix1 posix2 unix95 xpg3 xpg4 svid3 svid3
+EXT_APIS = bsd_extn dummy gcc cpp motif/1_2 \
 	x5/aw x5 x5/ext x5/lib x5/mit x5/mu x5/proto x5/t
 
 all: tspec
