@@ -26,14 +26,14 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id:$
+ * $Id$
  */
 
 #ifndef H_LEXI_ADT_INCLUDED
 #define H_LEXI_ADT_INCLUDED
 
-#include "common.h"
-#include "dstring.h"
+#include <exds/common.h>
+#include <exds/dstring.h>
 
 #define TABLE_SIZE 256 
 
