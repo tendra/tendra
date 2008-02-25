@@ -46,11 +46,6 @@ package body Asis.Compilation_Units.Relations is
          Unit : in Compilation_Unit)
          return Boolean;
 
-      procedure Remove_From_List
-        (List : in out Compilation_Unit_List;
-         From : in     List_Index;
-         Unit : in     Compilation_Unit);
-
       function Append
         (List : in Compilation_Unit_List_Access;
          Unit : in Compilation_Unit)
@@ -60,6 +55,15 @@ package body Asis.Compilation_Units.Relations is
         (List  : in Compilation_Unit_List_Access;
          Units : in Compilation_Unit_List)
          return Compilation_Unit_List_Access;
+
+      procedure Remove_From_List
+        (List : in out Compilation_Unit_List_Access;
+         Unit : in     Compilation_Unit);
+
+      procedure Remove_From_List
+        (List : in out Compilation_Unit_List;
+         From : in     List_Index;
+         Unit : in     Compilation_Unit);
 
       -- Tree --
       type Root_Tree is
@@ -234,7 +238,9 @@ package body Asis.Compilation_Units.Relations is
          Elaborated      : Boolean := False;
          Body_Elaborated : Boolean := False;
 
-         Internal_Pure : Extended_Boolean := Unknown;
+         Internal_Pure           : Extended_Boolean := Unknown;
+         Internal_Preelaborate   : Extended_Boolean := Unknown;
+         Internal_Spec_With_Body : Extended_Boolean := Unknown;
       end record;
 
       procedure Finalize
@@ -243,6 +249,17 @@ package body Asis.Compilation_Units.Relations is
       function Is_Pure
         (This : in Tree_Node_Access)
          return Boolean;
+
+      function Is_Preelaborate
+        (This : in Tree_Node_Access)
+         return Boolean;
+
+      function Is_Elaborate_Body
+        (This : in Tree_Node_Access)
+         return Boolean;
+
+      procedure Retrive_Pragmas
+        (This : in Tree_Node_Access);
 
       -- Root_Tree --
 
@@ -462,7 +479,7 @@ package body Asis.Compilation_Units.Relations is
    end Normalize;
 
    -------------------------
-   --  Elaboration_Order  -- *
+   --  Elaboration_Order  --
    -------------------------
 
    function Elaboration_Order
@@ -2511,21 +2528,33 @@ package body Asis.Compilation_Units.Relations is
         (This : in Root_Tree_Access;
          Unit : in Compilation_Unit)
       is
-         New_Node : Tree_Node_Access := new Tree_Node;
       begin
-         New_Node.Unit := Unit;
+         if Find (This, Unit) /= null then
+            Asis.Implementation.Set_Status
+              (Asis.Errors.Internal_Error,
+               "Elaboration order dublicate unit: " & Unit_Full_Name (Unit));
 
-         if This.Last_Node = null then
-            This.Next := Add_Node (This.Next, New_Node.Self);
-         else
-            This.Last_Node.Next := Add_Node
-               (This.Last_Node.Next, New_Node.Self);
-
-            New_Node.Prevs := Add_Node
-               (New_Node.Prevs, This.Last_Node.Self);
+            raise Asis.Exceptions.ASIS_Failed;
          end if;
 
-         This.Last_Node := New_Node;
+         declare
+            New_Node : Tree_Node_Access := new Tree_Node;
+         begin
+            New_Node.Unit := Unit;
+
+            if This.Last_Node = null then
+               This.Next := Add_Node (This.Next, New_Node.Self);
+            else
+               This.Last_Node.Next := Add_Node
+                  (This.Last_Node.Next, New_Node.Self);
+
+               New_Node.Prevs := Add_Node
+                  (New_Node.Prevs, This.Last_Node.Self);
+            end if;
+
+            This.Last_Node := New_Node;
+            This.Units := Add_Node_Ordered (This.Units, New_Node.Self);
+         end;
       end Append;
 
       ----------------
@@ -2571,17 +2600,19 @@ package body Asis.Compilation_Units.Relations is
          while Prev_Node /= null loop
             if Prev_Node = To_Node then
                if Circular /= null then
+
                   for Index in reverse Circular.all'Range loop
                      Node.Circular := Append (Node.Circular, Circular (Index));
                   end loop;
 
                   Node.Circular := Append (Node.Circular, Node.Unit);
+                  Node.Circular := Append (Node.Circular, Circular (Circular.all'Last));
 
                   Deallocate (Circular);
                else
                   --  2 pair (self and parent)
                   Node.Circular := Append
-                    (Node.Circular, (Prev_Node.Unit, Node.Unit));
+                    (Node.Circular, (Prev_Node.Unit, Node.Unit, Prev_Node.Unit));
                end if;
 
                return;
@@ -3167,17 +3198,13 @@ package body Asis.Compilation_Units.Relations is
             then
                Node.Circular_Added := True;
 
-               for Index in Node.Circular.all'Range loop
+               for Index in
+                  Node.Circular.all'First .. Node.Circular.all'Last - 1
+               loop
                   Circular_List := Append
-                    (Circular_List, Node.Circular.all (Index));
-
-                  if Index < Node.Circular.all'Last then
-                     Circular_List := Append
-                       (Circular_List, Node.Circular.all (Index + 1));
-                  else
-                     Circular_List := Append
-                       (Circular_List, Node.Circular.all (1));
-                  end if;
+                    (Circular_List, (Node.Circular.all (Index),
+                                     Node.Circular.all (Index + 1))
+                    );
                end loop;
             end if;
          end Genegate_Circular;
@@ -3353,21 +3380,45 @@ package body Asis.Compilation_Units.Relations is
       -- Create_Elaboration_Tree --
       -----------------------------
 
---      An_Elaborate_Pragma,              --  10.2.1(20)
---      An_Elaborate_All_Pragma,          --  10.2.1(21)
---      An_Elaborate_Body_Pragma,         --  10.2.1(22)
 --      A_Partition_Elaboration_Policy_Pragma,   --  H.6 (3)
 --      A_Preelaborable_Initialization_Pragma,   --  7.6 (5)
---      A_Preelaborate_Pragma,            --  10.2.1(3)
---      A_Pure_Pragma,                    --  10.2.1(14)
 
       function Create_Elaboration_Tree
         (This        : in Root_Tree_Access;
          The_Context : in Asis.Context)
          return Root_Tree_Access
       is
-         procedure Process_Pure
+         procedure Process_Pure_Spec
+           (Node : in Tree_Node_Access);
+
+         procedure Process_Pure_Body
             (Node : in Tree_Node_Access);
+
+         procedure Process_Preelaborate_Spec
+           (Node : in Tree_Node_Access);
+
+         procedure Process_Preelaborate_Body
+           (Node : in Tree_Node_Access);
+
+         procedure Process_Spec
+           (Node : in Tree_Node_Access);
+
+         procedure Process_Body
+            (Node : in Tree_Node_Access);
+
+         procedure Elab_Spec
+           (Node : in Tree_Node_Access);
+
+         procedure Elab_Body
+           (Node      : in Tree_Node_Access;
+            All_Bodys : in Boolean := False);
+
+         procedure Elab_Subunits
+           (Node : in Tree_Node_Access);
+
+         procedure Elab_Pragmed_Bodys
+           (Node : in Tree_Node_Access;
+            Unit : in Compilation_Unit);
 
          Result : Root_Tree_Access := new Root_Tree;
 
@@ -3376,27 +3427,284 @@ package body Asis.Compilation_Units.Relations is
          Std : Compilation_Unit :=
             Library_Unit_Declaration ("Standard", The_Context);
 
-         -- Process_Pure --
-         procedure Process_Pure
+         -- for circular elaboration order
+         Elaboration_Line : Compilation_Unit_List_Access := null;
+
+         procedure Elab_Spec
             (Node : in Tree_Node_Access)
          is
-            -- A_Pure_Pragma
+         begin
+            if not Node.Elaborated
+              and then Node.Consistent
+              and then not Is_Nil (Node.Unit)
+              and then Unit_Kind (Node.Unit) in
+                A_Procedure .. A_Generic_Package_Renaming
+            then
+               if Elaboration_Line /= null then
+                  -- test circular --
+                  if In_List
+                     (Elaboration_Line, Elaboration_Line.all'Last, Node.Unit)
+                  then
+                     Node.Circular :=  Append
+                        (Node.Circular, Elaboration_Line.all);
+                     return;
+                  end if;
+               end if;
+
+               Elaboration_Line := Append
+                  (Elaboration_Line, Node.Unit);
+
+               if Node.Next /= null then
+                  for Index in Node.Next.all'Range loop
+                     Elab_Spec (Node.Next (Index));
+                  end loop;
+               end if;
+
+               Elab_Pragmed_Bodys (Node, Node.Unit);
+
+               Append (Result, Node.Unit);
+               Node.Elaborated := True;
+               Remove_From_List (Elaboration_Line, Node.Unit);
+            end if;
+
+            if Is_Elaborate_Body (Node) then
+               --  An_Elaborate_Body_Pragma --  10.2.1(22)
+               Elab_Body (Node);
+            end if;
+         end Elab_Spec;
+
+         -- Elab_Body --
+         procedure Elab_Body
+           (Node      : in Tree_Node_Access;
+            All_Bodys : in Boolean := False)
+         is
+            Unit : Compilation_Unit := Nil_Compilation_Unit;
+         begin
+            if not Node.Body_Elaborated
+            then
+               if not Is_Nil (Node.Unit_Body)
+                 and then Node.Body_Consistent
+               then
+                  Unit := Node.Unit_Body;
+
+               elsif not Is_Nil (Node.Unit)
+                 and then Node.Consistent
+               then
+                  Unit := Node.Unit;
+               end if;
+
+               if Unit_Kind (Unit) in
+                 A_Procedure_Body .. A_Protected_Body_Subunit
+               then
+                  if Elaboration_Line /= null then
+                     -- test circular --
+                     if In_List
+                        (Elaboration_Line, Elaboration_Line.all'Last, Unit)
+                     then
+                        Node.Circular :=  Append
+                           (Node.Circular, Elaboration_Line.all);
+                        return;
+                     end if;
+                  end if;
+
+                  Elaboration_Line := Append (Elaboration_Line, Unit);
+
+                  if Node.Body_Dependences /= null then
+                     for Index in Node.Body_Dependences.all'Range loop
+                        Elab_Spec (Node.Body_Dependences (Index));
+                     end loop;
+                  end if;
+
+                  Elab_Pragmed_Bodys (Node, Unit);
+
+                  if All_Bodys then
+                     if Node.Body_Dependences /= null then
+                        for Index in Node.Body_Dependences.all'Range loop
+                           Elab_Body (Node.Body_Dependences (Index), True);
+                        end loop;
+                     end if;
+                  end if;
+
+                  Append (Result, Unit);
+
+                  if Is_Identical (Unit, Node.Unit_Body) then
+                     Node.Body_Elaborated := True;
+                  else
+                     Node.Elaborated := True;
+                  end if;
+
+                  Remove_From_List (Elaboration_Line, Unit);
+               end if;
+            end if;
+
+            Elab_Subunits (Node);
+         end Elab_Body;
+
+         -- Elab_Subunits --
+         procedure Elab_Subunits
+           (Node : in Tree_Node_Access)
+         is
+            Next_Node : Tree_Node_Access;
+         begin
+            if not Node.Body_Elaborated then
+               return;
+            end if;
+
+            if Node.Prevs /= null then
+               for Index in Node.Prevs.all'Range loop
+                  Next_Node := Node.Prevs (Index);
+
+                  if Unit_Kind (Next_Node.Unit) in
+                    A_Procedure_Body_Subunit .. A_Protected_Body_Subunit
+                  then
+                     Elab_Body (Next_Node);
+                  end if;
+               end loop;
+            end if;
+         end Elab_Subunits;
+
+         -- Elab_Pragmed_Bodys --
+         procedure Elab_Pragmed_Bodys
+           (Node : in Tree_Node_Access;
+            Unit : in Compilation_Unit)
+         is
+            --  An_Elaborate_Pragma     --  10.2.1(20)
+            --  An_Elaborate_All_Pragma --  10.2.1(21)
+
+            use Asis.Elements;
+            With_List : constant Asis.Context_Clause_List :=
+               Context_Clause_Elements (Unit, True);
+
+            El : Element;
+            Internal_Unit : Compilation_Unit;
+         begin
+            for Index in With_List'Range loop
+               El := With_List (Index);
+
+               if Element_Kind (El) = A_Pragma then
+                  if Pragma_Kind (El) = An_Elaborate_Pragma then
+                     Internal_Unit := Get_Compilation_Unit
+                        (Unit, With_List (Index), Index, The_Context);
+
+                     Elab_Body (Find (Result, Internal_Unit));
+
+                  elsif Pragma_Kind (El) = An_Elaborate_All_Pragma then
+                     Internal_Unit := Get_Compilation_Unit
+                        (Unit, With_List (Index), Index, The_Context);
+
+                     Elab_Body (Find (Result, Internal_Unit), True);
+                  end if;
+               end if;
+            end loop;
+         end Elab_Pragmed_Bodys;
+
+         -- Process_Pure_Spec --
+         procedure Process_Pure_Spec
+            (Node : in Tree_Node_Access)
+         is
+            -- A_Pure_Pragma --  10.2.1(14)
          begin
             if not Node.Elaborated
               and then not Is_Nil (Node.Unit)
             then
                if Is_Pure (Node) then
-                  Append (Result, Node.Unit);
-                  Node.Elaborated := True;
+                  Elab_Spec (Node);
                end if;
             end if;
 
             if Node.Prevs /= null then
                for Index in Node.Prevs.all'Range loop
-                  Process_Pure (Node.Prevs (Index));
+                  Process_Pure_Spec (Node.Prevs (Index));
                end loop;
             end if;
-         end Process_Pure;
+         end Process_Pure_Spec;
+
+         -- Process_Pure_Body --
+         procedure Process_Pure_Body
+            (Node : in Tree_Node_Access)
+         is
+            -- A_Pure_Pragma --  10.2.1(14)
+         begin
+            if Is_Pure (Node) then
+               Elab_Body (Node);
+            end if;
+
+            if Node.Prevs /= null then
+               for Index in Node.Prevs.all'Range loop
+                  Process_Pure_Body (Node.Prevs (Index));
+               end loop;
+            end if;
+         end Process_Pure_Body;
+
+         -- Process_Preelaborate_Spec --
+         procedure Process_Preelaborate_Spec
+           (Node : in Tree_Node_Access)
+         is
+            -- A_Preelaborate_Pragma --  10.2.1(3)
+         begin
+            if not Node.Elaborated
+              and then not Is_Nil (Node.Unit)
+            then
+               if Is_Preelaborate (Node) then
+                  Elab_Spec (Node);
+               end if;
+            end if;
+
+            if Node.Prevs /= null then
+               for Index in Node.Prevs.all'Range loop
+                  Process_Preelaborate_Spec (Node.Prevs (Index));
+               end loop;
+            end if;
+         end Process_Preelaborate_Spec;
+
+         -- Process_Preelaborate_Body --
+         procedure Process_Preelaborate_Body
+           (Node : in Tree_Node_Access)
+         is
+            -- A_Preelaborate_Pragma --  10.2.1(3)
+         begin
+            if Is_Preelaborate (Node) then
+               Elab_Body (Node);
+            end if;
+
+            if Node.Prevs /= null then
+               for Index in Node.Prevs.all'Range loop
+                  Process_Preelaborate_Body (Node.Prevs (Index));
+               end loop;
+            end if;
+         end Process_Preelaborate_Body;
+
+         -- Process_Spec --
+         procedure Process_Spec
+            (Node : in Tree_Node_Access)
+         is
+         begin
+            if not Node.Elaborated
+              and then not Is_Nil (Node.Unit)
+            then
+               Elab_Spec (Node);
+            end if;
+
+            if Node.Prevs /= null then
+               for Index in Node.Prevs.all'Range loop
+                  Process_Spec (Node.Prevs (Index));
+               end loop;
+            end if;
+         end Process_Spec;
+
+         -- Process_Body --
+         procedure Process_Body
+            (Node : in Tree_Node_Access)
+         is
+         begin
+            Elab_Body (Node);
+
+            if Node.Prevs /= null then
+               for Index in Node.Prevs.all'Range loop
+                  Process_Body (Node.Prevs (Index));
+               end loop;
+            end if;
+         end Process_Body;
 
       begin
          Root_Node := Find (This, Std);
@@ -3404,11 +3712,39 @@ package body Asis.Compilation_Units.Relations is
 
          Append (Result, Std);
 
-         if Root_Node.Prevs /= null then
-            for Index in Root_Node.Prevs.all'Range loop
-               Process_Pure (Root_Node.Prevs (Index));
-            end loop;
+         if Root_Node.Prevs = null then
+            return Result;
          end if;
+
+         for Index in Root_Node.Prevs.all'Range loop
+            Deallocate (Elaboration_Line);
+            Process_Pure_Spec (Root_Node.Prevs (Index));
+         end loop;
+
+         for Index in Root_Node.Prevs.all'Range loop
+            Deallocate (Elaboration_Line);
+            Process_Pure_Body (Root_Node.Prevs (Index));
+         end loop;
+
+         for Index in Root_Node.Prevs.all'Range loop
+            Deallocate (Elaboration_Line);
+            Process_Preelaborate_Spec (Root_Node.Prevs (Index));
+         end loop;
+
+         for Index in Root_Node.Prevs.all'Range loop
+            Deallocate (Elaboration_Line);
+            Process_Preelaborate_Body (Root_Node.Prevs (Index));
+         end loop;
+
+         for Index in Root_Node.Prevs.all'Range loop
+            Deallocate (Elaboration_Line);
+            Process_Spec (Root_Node.Prevs (Index));
+         end loop;
+
+         for Index in Root_Node.Prevs.all'Range loop
+            Deallocate (Elaboration_Line);
+            Process_Body (Root_Node.Prevs (Index));
+         end loop;
 
          return Result;
       exception
@@ -3427,27 +3763,7 @@ package body Asis.Compilation_Units.Relations is
       is
       begin
          if This.Internal_Pure = Unknown then
-            if not Is_Nil (This.Unit) then
-               declare
-                  Pragma_List : constant Asis.Pragma_Element_List :=
-                     Corresponding_Pragmas (This.Unit.all);
-               begin
-                  for Index in Pragma_List'Range loop
-                     if Pragma_Kind (Pragma_List (Index).all) = A_Pure_Pragma
-                     then
-                        This.Internal_Pure := Extended_True;
-                        exit;
-                     else
-                        Ada.Wide_Text_IO.Put_Line
-                           (Pragma_Kinds'Wide_Image (Pragma_Kind (Pragma_List (Index).all)));
-                     end if;
-                  end loop;
-               end;
-            end if;
-
-            if This.Internal_Pure = Unknown then
-               This.Internal_Pure := Extended_False;
-            end if;
+            Retrive_Pragmas (This);
          end if;
 
          if This.Internal_Pure = Extended_True then
@@ -3456,6 +3772,96 @@ package body Asis.Compilation_Units.Relations is
             return False;
          end if;
       end Is_Pure;
+
+      ---------------------
+      -- Is_Preelaborate --
+      ---------------------
+
+      function Is_Preelaborate
+        (This : in Tree_Node_Access)
+         return Boolean
+      is
+      begin
+         if This.Internal_Preelaborate = Unknown then
+            Retrive_Pragmas (This);
+         end if;
+
+         if This.Internal_Preelaborate = Extended_True then
+            return True;
+         else
+            return False;
+         end if;
+      end Is_Preelaborate;
+
+      -----------------------
+      -- Is_Elaborate_Body --
+      -----------------------
+
+      function Is_Elaborate_Body
+        (This : in Tree_Node_Access)
+         return Boolean
+      is
+      begin
+         if This.Internal_Spec_With_Body = Unknown then
+            Retrive_Pragmas (This);
+         end if;
+
+         if This.Internal_Spec_With_Body = Extended_True then
+            return True;
+         else
+            return False;
+         end if;
+      end Is_Elaborate_Body;
+
+      ---------------------
+      -- Retrive_Pragmas --
+      ---------------------
+
+      procedure Retrive_Pragmas
+        (This : in Tree_Node_Access)
+      is
+      begin
+         if Is_Nil (This.Unit) then
+            return;
+         end if;
+
+         declare
+            Pragma_List : constant Asis.Pragma_Element_List :=
+               Asis.Elements.Corresponding_Pragmas
+                  (Asis.Elements.Unit_Declaration (This.Unit));
+         begin
+            for Index in Pragma_List'Range loop
+               if Pragma_Kind (Pragma_List (Index).all) = A_Pure_Pragma then
+                  This.Internal_Pure := Extended_True;
+               end if;
+
+               if Pragma_Kind (Pragma_List (Index).all) =
+                 A_Preelaborate_Pragma
+               then
+                  This.Internal_Preelaborate := Extended_True;
+               end if;
+
+               if Pragma_Kind (Pragma_List (Index).all) =
+                 An_Elaborate_Body_Pragma
+               then
+                  This.Internal_Spec_With_Body := Extended_True;
+               end if;
+
+            end loop;
+         end;
+
+         if This.Internal_Pure = Unknown then
+            This.Internal_Pure := Extended_False;
+         end if;
+
+         if This.Internal_Preelaborate = Extended_True then
+            This.Internal_Preelaborate := Extended_False;
+         end if;
+
+         if This.Internal_Spec_With_Body = Unknown then
+            This.Internal_Spec_With_Body := Extended_False;
+         end if;
+      end Retrive_Pragmas;
 
       ------------------
       -- Is_Skip_Spec --
@@ -3837,6 +4243,37 @@ package body Asis.Compilation_Units.Relations is
       -- Remove_From_List --
       ----------------------
 
+      procedure Remove_From_List
+        (List : in out Compilation_Unit_List_Access;
+         Unit : in     Compilation_Unit)
+      is
+      begin
+         if List = null then
+            return;
+         end if;
+
+         for Index in List'Range loop
+            if Is_Identical (List (Index), Unit) then
+               if List'Length = 1 then
+                  Deallocate (List);
+               else
+                  declare
+                     Internal : constant Compilation_Unit_List_Access :=
+                        new Compilation_Unit_List (1 .. List'Length - 1);
+                  begin
+                     Internal (1 .. Index - 1) := List (1 .. Index - 1);
+                     Internal (Index .. Internal'Last) := List (Index + 1 .. List'Last);
+                     Deallocate (List);
+                     List := Internal;
+                  end;
+               end if;
+
+               exit;
+            end if;
+         end loop;
+      end Remove_From_List;
+
+      -- Remove_From_List --
       procedure Remove_From_List
         (List : in out Compilation_Unit_List;
          From : in     List_Index;
