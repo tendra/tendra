@@ -321,6 +321,19 @@ add_instruction_donothing ()
 }
 
 /*
+    ADD  A NEW DO NOTHING INSTRUCTION
+
+    This routine adds a new do nothing instruction
+*/
+
+instruction * 
+add_instruction_action (char* name) 
+{
+    instruction* p=new_instruction(action);
+    return p;
+}
+
+/*
     ADD  A NEW PUSH ZONE INSTRUCTION
 
     This routine adds a new push zone instruction

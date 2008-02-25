@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 134 "syntax.act"
+#line 173 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -61,6 +61,7 @@ extern void read_lex(zoneP);
 #define lex_keyword (8)
 #define lex_range (26)
 #define lex_comma (29)
+#define lex_action_Hkw (37)
 #define lex_digit (5)
 #define lex_unknown (31)
 #define lex_close (17)
@@ -79,6 +80,7 @@ extern void read_lex(zoneP);
 #define lex_group (7)
 #define lex_nothing_Hmarker (30)
 #define lex_open (16)
+#define lex_begin_Haction (38)
 #define lex_eof (21)
 #define lex_zone (13)
 #define lex_plus (23)
@@ -86,9 +88,11 @@ extern void read_lex(zoneP);
 #define lex_if (14)
 #define lex_semicolon (24)
 #define lex_arg_Hchar_Hstring (33)
+#define lex_type_Hkw (40)
 #define lex_copyright (6)
 #define lex_open_Hbrace (18)
 #define lex_range_Hclosed_Hclosed (27)
+#define lex_end_Haction (39)
 #define lex_default (12)
 #define lex_arg_Hchar_Hvoid (36)
 #define lex_mapping (9)
@@ -96,9 +100,9 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 633 "syntax.act"
+#line 721 "syntax.act"
 
 #endif
-#line 103 "tmp.syntax.h"
+#line 107 "tmp.syntax.h"
 
 /* END OF FILE */

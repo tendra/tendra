@@ -62,7 +62,7 @@
 #define CHAR_INCLUDED
 
 #include <stddef.h>
-
+#include "adt.h"
 
 typedef unsigned int letter;
 
@@ -93,7 +93,7 @@ typedef struct user_function_tag {
   args_list* args;
 } user_function;
 
-typedef enum instruction_type_tag { return_token, push_zone, pop_zone, apply_function, do_nothing } instruction_type ;
+typedef enum instruction_type_tag { return_token, push_zone, pop_zone, apply_function, do_nothing , action } instruction_type ;
 
 typedef struct instruction_tag {
   instruction_type type;
@@ -257,6 +257,8 @@ typedef struct lexer_parse_tree_tag {
   int no_total_groups;
   char_group_list groups_list;
 
+  TableT table; /* Actions and types */
+
   letter_translation_list (letters_table[LETTER_TRANSLATOR_SIZE]) ;
   letter last_letter_code;
   letter eof_letter_code;
@@ -284,6 +286,7 @@ extern user_function* add_user_function (char *name) ;
 extern instruction * add_instruction_return_token (char* name);
 extern instruction* add_instruction_function (char* name, args_list* args) ;
 extern instruction* add_instruction_donothing () ;
+extern instruction* add_instruction_action (char*) ;
 extern instruction* add_instruction_mapping (char* map) ;
 extern args_list* add_args_list (void) ;
 extern arg* add_arg (arg_type, unsigned int) ;

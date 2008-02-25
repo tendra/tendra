@@ -31,7 +31,7 @@ INSTRUCTION -> instructionP ;
 INSTRUCTIONS_LIST -> instructions_listP ;
 ARG -> argP;
 ARGS_LIST -> args_listP;
-
+TYPETUPLE -> TypeTupleT;
 
 %header% @{
 /*
@@ -70,6 +70,7 @@ ARGS_LIST -> args_listP;
 #include "xalloc.h"
 
 #include "char.h"
+#include "adt.h"
 #include "lex.h"
 #include "syntax.h"
 #include "options.h"
@@ -169,6 +170,25 @@ static char *crt_cond = NULL ;
 extern char *token_prefix ;
 typedef zone* zoneP;
 
+@};
+
+
+%assignments%
+
+TYPETUPLE : (a) -> (b) = @{
+	typetuple_assign(&@b,@&a);
+@};
+
+%parameter-assignments%
+
+TYPETUPLE : (a) -> (b) = @{
+	typetuple_assign(&@b,@a);
+@};
+
+%result-assignments%
+
+TYPETUPLE : (a) -> (b) = @{
+	typetuple_assign(@b, @&a);
 @};
 
 
@@ -354,6 +374,9 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 	@inst=add_instruction_donothing();
 @};
 
+<make-action-inst> : (i:IDENTIFIER) -> (inst:INSTRUCTION)  = @{
+	@inst=add_instruction_action(@i);
+@};
 
 /*CREATE A CHAR LIST */
 <arg-char-list-tmp> : () -> (a:ARG) = @{
@@ -573,7 +596,7 @@ arg-nb-of-chars : () ->(a:ARG) = @{
    @b=(@z==@z->top_level->global_zone);
 @};
 
-<make-copyright> : ( z : ZONE, s:STRING ) -> () = @{
+<make-copyright> : ( s:STRING ) -> () = @{
 	/* TODO can copyright_file be passed in somehow, other than with options as a global? */
 	if(options.copyright_file==NULL) {
 		options.copyright_file=fopen(@s,"r");
@@ -585,9 +608,55 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 		error(ERROR_SERIOUS, "Syntax error: you can only specify one copyright file") ;
 @};
 
+<make-type> : ( z:ZONE, i:IDENTIFIER ) -> () = @{
+	NStringT str;
+	nstring_copy_cstring(&str,@i);
+	if(table_get_entry(@z->top_level->table, &str)) {
+		nstring_destroy(&str);
+		error(ERROR_SERIOUS, "can't create type %s because of name clash",@i);
+	} else {
+		table_add_type(@z->top_level->table, &str);
+	}
+@};
+
+<make-action> : ( z:ZONE, i:IDENTIFIER, params:TYPETUPLE&, results:TYPETUPLE&) -> () = @{
+	NStringT str;
+	nstring_copy_cstring(&str, @i);
+	if(table_get_entry(@z->top_level->table, &str)) {
+		error(ERROR_SERIOUS, "can't create action %s because of name clash",@i);
+		nstring_destroy(&str);
+	} else {
+		table_add_action(@z->top_level->table, &str , @&params, @&results);
+	}
+@};
+
+/*
+	Initializing an empty type tuple
+*/
+
+<init-tuple> : () -> (a:TYPETUPLE) = @{
+	typetuple_init(&@a);
+@};
+
+<append-tuple> : (z:ZONE,a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER) -> () =@{
+	NStringT tstr, istr;
+	nstring_copy_cstring(&tstr,@type);
+	nstring_copy_cstring(&istr,@id);
+	EntryT* entry = table_get_entry(@z->top_level->table,&tstr);
+	if(entry == NULL) {
+		 error(ERROR_SERIOUS, "Unknown type %s", @type);
+		 nstring_destroy(&istr);
+		 nstring_destroy(&tstr);
+	}
+	else if(!entry_is_type(entry))
+		 error(ERROR_SERIOUS, "%s is not a type", @type);
+	else
+		typetuple_append(@&a,typetupleentry_create(&istr,entry));
+@} ;
+
 /* 
-   These actions reports errors if zones contains
-   other things than DEFAULT and TOKENS.
+   These actions reports errors if non global zones contains
+   definitions that should only be in zones.
 */
 
 <E_nonglobalzonekeyword> : () -> () = @{
@@ -598,6 +667,12 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 <E_nonglobalzonecopyright> : () -> () = @{
     error( ERROR_SERIOUS, "Syntax error: A copyright file may only be specified in the global zone") ;
 @};
+
+
+<E_nonglobalzonetype>    : (i:IDENTIFIER) -> () = @{
+    error( ERROR_SERIOUS, "Syntax error: type %s should not be declared inside a zone",@i) ;
+@};
+
 
 /*
     SYNTAX ERROR
@@ -623,6 +698,17 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 	error(ERROR_SERIOUS, "Syntax error: expected colon \':\'");
 @};
 
+<E_expected_semicolon> 	 : () -> () = @{
+	error(ERROR_SERIOUS, "Syntax error: expected semicolon \';\'");
+@};
+
+<E_expected_arrow> 	 : () -> () = @{
+	error(ERROR_SERIOUS, "Syntax error: expected arrow \'->\'");
+@};
+
+<E_expected_equal> 	 : () -> () = @{
+	error(ERROR_SERIOUS, "Syntax error: expected equal \'=\'");
+@};
 
 <syntax-error> : () -> () = @{
     error ( ERROR_SERIOUS, "Syntax error" ) ;

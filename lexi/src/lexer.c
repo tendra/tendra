@@ -141,6 +141,7 @@ bool lexi_group(enum lexi_groups group, int c) {
 
 #include <string.h>
 int lexi_keyword(const char *identifier, int notfound) {
+	if(!strcmp(identifier, "ACTION")) return lex_action_Hkw;
 	if(!strcmp(identifier, "COPYRIGHT")) return lex_copyright;
 	if(!strcmp(identifier, "DEFAULT")) return lex_default;
 	if(!strcmp(identifier, "ELSE")) return lex_else;
@@ -149,6 +150,7 @@ int lexi_keyword(const char *identifier, int notfound) {
 	if(!strcmp(identifier, "KEYWORD")) return lex_keyword;
 	if(!strcmp(identifier, "MAPPING")) return lex_mapping;
 	if(!strcmp(identifier, "TOKEN")) return lex_token;
+	if(!strcmp(identifier, "TYPE")) return lex_type_Hkw;
 	if(!strcmp(identifier, "ZONE")) return lex_zone;
 	if(!strcmp(identifier, "white")) return lex_white;
 	return notfound;
@@ -221,6 +223,8 @@ lexi_read_token(struct lexi_state *state)
 					return lex_arg_Hchar_Hvoid;
 				} else if (c1 == '*') {
 					return lex_arg_Hchar_Hstring;
+				} else if (c1 == 'n') {
+					return lex_arg_Hnb_Hof_Hchars;
 				}
 				if (lexi_group(lexi_group_digit, c1)) {
 					return read_arg_char_nb(c0, c1);
@@ -289,8 +293,14 @@ lexi_read_token(struct lexi_state *state)
 			case ';': {
 				return lex_semicolon;
 			}
+			case '<': {
+				return lex_begin_Haction;
+			}
 			case '=': {
 				return lex_equal;
+			}
+			case '>': {
+				return lex_end_Haction;
 			}
 			case '[': {
 				int c1 = lexi_readchar(state);

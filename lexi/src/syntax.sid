@@ -46,6 +46,8 @@ STRING ;
 INSTRUCTION ;
 INSTRUCTIONS_LIST ;
 
+TYPETUPLE;
+
 ARG ;
 ARGS_LIST ;
 
@@ -103,6 +105,13 @@ arg-char-nb : () -> (:ARG);
 arg-nb-of-chars : () -> (:ARG);
 arg-char-void; //temporary
 
+action-kw ;
+begin-action ; 		// <
+end-action ; 		// >
+
+
+type-kw ;
+
 %productions%
 
 
@@ -119,6 +128,7 @@ arg-char-void; //temporary
 <make-group> : ( :ZONE, :IDENTIFIER, :CHARACTERS ) -> () ;
 <make-trigraph> : ( :ZONE, :CHARACTERS, :STRING ) -> () ;
 <make-inst>  :  ( :IDENTIFIER, :ARGS_LIST) -> (:INSTRUCTION) ;
+<make-action-inst> : (:IDENTIFIER) -> (:INSTRUCTION) ;
 <make-donothing-inst> : () -> (:INSTRUCTION) ;
 <make-token> : ( :ZONE, :CHARACTERS, :INSTRUCTIONS_LIST ) -> () ;
 <make-default> : ( :ZONE, :INSTRUCTIONS_LIST ) -> () ;
@@ -150,8 +160,13 @@ arg-char-void; //temporary
 <E_expected_chars> : () -> (:CHARACTERS);
 
 <E_nonglobalzonekeyword> : () -> ();
+<E_nonglobalzonetype>    : (:IDENTIFIER) -> ();
 <E_nonglobalzonecopyright> : () -> ();
 <E_expected_colon>	 : () -> ();
+<E_expected_semicolon> 	 : () -> ();
+<E_expected_arrow> 	 : () -> ();
+<E_expected_equal> 	 : () -> ();
+
 <is-non-empty> : ( : CHARACTERS , :ZONE) -> ( : BOOL );
 <E_empty_character_string> : () -> ();
 
@@ -160,8 +175,12 @@ arg-char-void; //temporary
 <make-zone> : ( :ZONE, :IDENTIFIER, :CHARACTERS, :INSTRUCTIONS_LIST, 
 	      	:CHARACTERS, :INSTRUCTIONS_LIST, : BOOL ) -> ( :ZONE );
 
-<make-copyright> : ( :ZONE, :STRING ) -> () ;
+<make-copyright> : ( :STRING ) -> () ;
 
+<make-type>: (:ZONE, :IDENTIFIER) -> ();
+<init-tuple>: () -> (:TYPETUPLE);
+<append-tuple> : (:ZONE, :TYPETUPLE&,:IDENTIFIER,:IDENTIFIER) -> ();
+<make-action> : (:ZONE, :IDENTIFIER, :TYPETUPLE&, :TYPETUPLE&) -> ();
 
 /*
     STRINGS
@@ -209,10 +228,12 @@ non-empty-chars : (z:ZONE) -> (c: CHARACTERS) ={
 
 copyright-stmt : ( z:ZONE ) -> () = {
 	copyright; equal; s = string ;
-	?=<is-global-zone> (z) ; 
-	<make-copyright> (z, s) ;
-    ##
-	<E_nonglobalzonecopyright>;
+	{
+		?=<is-global-zone> (z) ; 
+		<make-copyright> (s) ;
+	    ##
+		<E_nonglobalzonecopyright>;
+	};
 }; 
 
 
@@ -223,7 +244,14 @@ copyright-stmt : ( z:ZONE ) -> () = {
 */
 
 white-defn : ( z:ZONE ) -> () = {
-	group ; white ; equal ; s = chars(z) ; <make-white> ( z, s ) ;
+	group ; 
+	white ; 
+	{
+		equal ; 
+	    ##	
+		<E_expected_equal>;
+	};
+	s = chars(z) ; <make-white> ( z, s ) ;
 } ;
 
 
@@ -234,7 +262,15 @@ white-defn : ( z:ZONE ) -> () = {
 */
 
 group-defn : ( z:ZONE ) -> () = {
-        group ; i = identifier ; equal ; s = chars(z) ; <make-group> ( z, i, s ) ;
+        group ; 
+	i = identifier ; 
+	{
+		equal ; 
+	    ##
+	    	<E_expected_equal>;
+	};
+	s = chars(z) ; 
+	<make-group> ( z, i, s ) ;
 } ;
 
 
@@ -285,8 +321,131 @@ args : () -> ( l : ARGS_LIST ) = {
 */
 
 trigraph-defn : ( z:ZONE) -> () = {
-	mapping ; s = chars(z) ; arrow ; t = string-plus ; 
+	mapping ; s = chars(z) ; 
+	{
+		arrow ; 
+	    ##
+		<E_expected_arrow>;
+	} ;
+	t = string-plus ; 
     	<make-trigraph> ( z, s, t ) ;
+} ;
+
+/*
+	TYPE DEFINITION
+
+	This defines a lexi type
+*/
+type-defn : (z:ZONE) -> () = {
+	type-kw ; s = identifier ;
+	{
+		?=<is-global-zone> (z) ; 
+		<make-type> (z, s) ;
+	    ##
+		<E_nonglobalzonetype>(s);
+	};
+} ;
+
+
+
+/* 
+   List of Type Tuples ;
+*/
+
+type-tuple : ( z:ZONE ) -> (a:TYPETUPLE) [
+	type-name : (z:ZONE, a:TYPETUPLE) -> () = {
+		name=identifier ;
+		colon ;
+		type=identifier ;
+		<append-tuple>(z, &a,name,type);
+	} ;
+	type-tuple1 : (z:ZONE, a:TYPETUPLE&) -> () = {
+		type-name(z, a) ;
+	    ||
+		type-name(z, a) ; type-tuple1(z, &a) ;
+	} ; ] = {
+	a=<init-tuple> ;
+    ||
+	a=<init-tuple>;
+	type-tuple1(z, &a) ;
+};
+
+
+/* 
+   ACTION DEFINITION
+*/
+
+action-defn : (z:ZONE) -> () = {
+	action-kw;
+	begin-action ;
+	i = identifier ;
+	end-action ;
+	{
+		it = <init-tuple>;
+		ot = <init-tuple>;
+	    ||
+		colon ;
+		open ;
+		it=type-tuple(z) ;
+		close;
+		{
+			arrow ;
+		    ##
+			<E_expected_arrow> ;
+		} ;
+		open;
+		ot=type-tuple(z) ;
+		close;
+	} ;
+	<make-action>(z,i,&it,&ot);
+} ;
+
+/*
+   ACTION CALL 
+*/
+
+action-call : () -> (inst:INSTRUCTION) [	 
+	lhs-tuple1 : () -> () = {
+		id = identifier;
+	    ||
+		id=identifier; comma; lhs-tuple1;
+	};
+	lhs-tuple : () -> () = {
+		id = identifier;
+	    ||
+		open;
+		lhs-tuple1;
+		close;
+	};
+	rhs-tuple1 : () -> () = {
+		id = identifier;
+	    ||
+		id=identifier; comma; rhs-tuple1;
+	};
+	rhs-tuple : () -> () = {
+     		open ;
+		{
+			$;
+		    ||
+			rhs-tuple1;
+		} ;
+		close;
+	}; ] = {
+       	{
+	        $ ;
+	    ||
+		lhs-tuple ;
+		equal ;
+	} ;
+	begin-action ;
+	i = identifier ;
+	end-action ; 
+	{
+		$;
+	    ||
+		rhs-tuple;
+	};
+    	inst= <make-action-inst>(i) ;
 } ;
 
 
@@ -306,6 +465,8 @@ instruction : () -> (inst:INSTRUCTION) = {
 		nothing-marker; 
 		inst = <make-donothing-inst>;
 	} ;
+    ||	
+    	inst = action-call ;
 } ;
 
 instructions-list : () -> (instl:INSTRUCTIONS_LIST) = {
@@ -432,18 +593,26 @@ zone-defn : (z:ZONE) -> ()  = {
 	open-brace ; command-list(new-zone) ; close-brace ;
 } ;
 
+expected_semicolon : () -> () = {
+	semicolon ; 
+    ##
+	<E_expected_semicolon>;
+} ;
+
 command : (z:ZONE) -> () = {
 	semicolon ;
-    ||	white-defn ( z ) ; semicolon ;
-    ||	group-defn ( z ) ; semicolon ;
-    ||	trigraph-defn ( z ) ; semicolon ;
-    ||	token-defn ( z ) ; semicolon ;
-    ||	keyword-defn ( z ) ; semicolon ;
-    ||  default-defn ( z ); semicolon ;
+    ||	white-defn ( z ) ; expected_semicolon ;	
+    ||	group-defn ( z ) ; expected_semicolon ;
+    ||	trigraph-defn ( z ) ; expected_semicolon ;
+    ||	token-defn ( z ) ; expected_semicolon ;
+    ||	keyword-defn ( z ) ; expected_semicolon ;
+    ||  default-defn ( z ); expected_semicolon ;
     ||  zone-defn ( z ) ;
     ||	open-brace ; command-list( z ) ; close-brace ;
     ||	if-command ( z ) ;
-    ||  copyright-stmt ( z ) ; semicolon ;
+    ||  copyright-stmt ( z ) ; expected_semicolon ;
+    ||  type-defn ( z ) ; expected_semicolon ;
+    ||	action-defn ( z ) ; expected_semicolon ;
 } ;
 
 

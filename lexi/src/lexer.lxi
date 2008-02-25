@@ -75,6 +75,8 @@ GROUP alphanum = "[alpha][digit]" ;
 /* Simple symbols */
 TOKEN "(" -> $open ;
 TOKEN ")" -> $close ;
+TOKEN "<" -> $begin-action ;
+TOKEN ">" -> $end-action ;
 TOKEN "{" -> $open-brace ;
 TOKEN "}" -> $close-brace ;
 TOKEN "->" -> $arrow ;
@@ -89,6 +91,7 @@ TOKEN "$$" -> $nothing-marker ;
 TOKEN ","  -> $comma ;
 TOKEN "\e" -> $eof ;
 TOKEN "##"       -> $arg-char-list ;
+TOKEN "#n"       -> $arg-nb-of-chars ;
 TOKEN "#*"       -> $arg-char-string ;
 TOKEN "#[digit]" -> read_arg_char_nb(##);
 TOKEN "#$" -> $arg-char-void; /* Temporary to preserve backward compatibility
@@ -116,7 +119,9 @@ TOKEN "[alpha]" -> get_identifier (##) ;
 TOKEN "$[alpha]" -> get_sid_ident (##) ;
 
 /* Keywords */
+KEYWORD "TYPE" -> $type-kw ;
 KEYWORD "GROUP" -> $group ;
+KEYWORD "ACTION" -> $action-kw ;
 KEYWORD "KEYWORD" -> $keyword ;
 KEYWORD "ZONE" -> $zone ;
 KEYWORD "DEFAULT" -> $default ;

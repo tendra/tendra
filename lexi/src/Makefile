@@ -7,12 +7,12 @@ MOVE=mv
 SID=sid
 
 CFLAGS+=-Ishared/error -Ishared/xalloc -I.
-LDFLAGS+=-Lshared/error -Lshared/xalloc -I.
+LDFLAGS+=-Lshared/error -Lshared/xalloc -L. -lexds
 
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
 
-TARGETS=char.o syntax.o lex.o main.o options.o output.o lctlex.o lctsyntax.o 
+TARGETS=char.o syntax.o lex.o main.o options.o output.o lctlex.o lctsyntax.o adt.o
 
 all: lexi
 

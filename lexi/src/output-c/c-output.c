@@ -150,6 +150,11 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       output_indent(lex_output, d);
       fprintf(lex_output, "return %s;\n", instr->u.name);
       break;
+    case action :
+      /* assert(!instr->next);*/
+      output_indent(lex_output, d);
+      fprintf(lex_output, "/*Action not implemented yet*/\n", instr->u.name);
+      break;
     case apply_function:
       output_indent(lex_output, d);
       if(!(instr->next))
