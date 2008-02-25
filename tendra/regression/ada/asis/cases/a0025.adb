@@ -94,7 +94,7 @@ begin
       Needed_Units);
 
    --  Test Elaboration_Order:
---    Elaboration_Order
---      (Library_Unit_Declaration ("A0025e"));
+   Elaboration_Order
+    (Library_Unit_Declaration ("A0025"));
 
 end A0025;

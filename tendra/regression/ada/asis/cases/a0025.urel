@@ -117,3 +117,25 @@ End of Missing.
 Circular:
 End of Circular.
 
+Statement_Kind:A_PROCEDURE_CALL_STATEMENT  at a0025.adb [97:4..98:41]
+Consistent:
+  Standard/A_PACKAGE
+  Ada/A_PACKAGE
+  Ada.IO_Exceptions/A_PACKAGE
+  Ada.Text_IO/A_PACKAGE
+  A0025/A_PACKAGE
+  A0025.A/A_PACKAGE
+  Ada.Calendar/A_PACKAGE
+  A0025.B/A_PACKAGE
+  A0025d/A_PACKAGE
+  A0025e/A_PACKAGE
+  A0025c/A_PACKAGE
+  A0025/A_PACKAGE_BODY
+End of Consistent.
+Inconsistent:
+End of Inconsistent.
+Missing:
+End of Missing.
+Circular:
+End of Circular.
+
