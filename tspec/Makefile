@@ -17,13 +17,13 @@ EXT_APIS = bsd_extn dummy gcc motif/1_2 \
 
 all: tspec
 
-tspec: apis extension src/tspec
+tspec: base extension src/tspec
 	+${MKDIR} tspec
 	for api in ${BASE_APIS}; do \
-		src/tspec ${TSPEC_FLAGS} -Iapis $$api; \
+		src/tspec ${TSPEC_FLAGS} -Ibase $$api; \
 	done
 	for api in ${EXT_APIS}; do \
-		src/tspec ${TSPEC_FLAGS} -Iapis -Iextension $$api; \
+		src/tspec ${TSPEC_FLAGS} -Ibase -Iextension $$api; \
 	done
 
 clean:
