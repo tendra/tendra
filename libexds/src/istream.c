@@ -67,6 +67,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#include "../../shared/check/check.h"
 #include "common.h"
 #include "exception.h"
 #include "dalloc.h"

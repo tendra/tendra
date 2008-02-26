@@ -67,6 +67,7 @@
 #include <stdlib.h>
 #include <setjmp.h>
 
+#include "../../shared/check/check.h"
 #include "common.h"
 #include "exception.h"
 

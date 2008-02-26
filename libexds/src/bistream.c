@@ -68,6 +68,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "../../shared/check/check.h"
 #include "common.h"
 #include "exception.h"
 #include "bistream.h"
