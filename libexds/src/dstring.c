@@ -298,6 +298,14 @@ dstring_length(DStringT * dstring)
 }
 
 void
+dstring_assign(DStringT * to, DStringT * from)
+{
+    to->length     = dstring_length(from);
+    to->max_length = from->max_length;
+    to->contents   = (from->contents);
+}
+
+void
 dstring_append_char(DStringT * dstring, char c)
 {
     if ((dstring->length) >= (dstring->max_length)) {

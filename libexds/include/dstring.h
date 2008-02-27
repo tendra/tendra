@@ -227,6 +227,14 @@ extern void		dstring_init(DStringT *);
 
 extern unsigned		dstring_length(DStringT *);
 
+/* 
+ * This function assigns the from dstring to the to dstring.  The from dstring
+ * should not be used afterwards, without reinitialising it.
+ */   
+extern void             dstring_assign(DStringT *, DStringT *);
+ 
+
+
 /*
  * Exceptions:	XX_dalloc_no_memory
  *
