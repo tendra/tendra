@@ -14,9 +14,10 @@ lct-unit -> read_lct_unit ;
 	TYPE MAPPINGS
 */
 
-BOOL   -> int ;
 LETTER -> char ;
-STRING -> StringP;
+BIGSTRING -> DStringT;
+IDENTIFIER -> NStringT;
+TYPETUPLE -> TypeTupleT;
 
 %header% @{
 /*
@@ -52,18 +53,17 @@ STRING -> StringP;
  
 #include "lctsyntax.h"
 #include "lctlex.h"
+#include "char.h"
+#include "adt.h"
 #include "error.h"
+#include "exds/dstring.h"
 
 #define ADVANCE_LEXER ADVANCE_LCT_LEXER
 #define CURRENT_TERMINAL CURRENT_LCT_TERMINAL 
 #define SAVE_LEXER SAVE_LCT_LEXER
 #define RESTORE_LEXER RESTORE_LCT_LEXER
 
-/*
-This will be changed to use nstring eds library as soon as it is extracted from
-tld and sid 
-*/
-typedef mytmpstring* StringP ; 
+lexer_parse_tree* lxi_top_level;
 
 @}, @{
 /*
@@ -98,6 +98,39 @@ typedef mytmpstring* StringP ;
  */
  #ifndef LCT_SYNTAX_HEADER_INCLUDED
  #define LCT_SYNTAX_HEADER_INCLUDED
+
+#include "char.h"
+extern lexer_parse_tree* lxi_top_level;
+@};
+
+%assignments%
+
+IDENTIFIER : (a) -> (b) = @{
+	nstring_assign(&@b,@a);
+@};
+
+BIGSTRING : (a) -> (b) = @{
+	dstring_assign(&@b,@a);
+@};
+
+%parameter-assignments%
+
+IDENTIFIER : (a) -> (b) = @{
+	nstring_assign(&@b,@a);
+@};
+
+BIGSTRING : (a) -> (b) = @{
+	dstring_assign(&@b,@a);
+@};
+
+%result-assignments%
+
+IDENTIFIER : (a) -> (b) = @{
+	nstring_assign(@b,@&a);
+@};
+
+BIGSTRING : (a) -> (b) = @{
+	dstring_assign(@b,@&a);
 @};
 
 %terminals%
@@ -106,39 +139,116 @@ letter : () ->( l:LETTER ) = @{
 	@l = saved_lct_letter ;
 @} ;
 
+identifier : () -> (i:IDENTIFIER) = @{
+	nstring_copy_cstring(&@i,lct_token_buff);
+@};
+
 %actions%
-<true> : () -> ( b:BOOL ) = @{
-	@b = 1 ;
+
+<init-string> : () -> (s:BIGSTRING) = @{
+	dstring_init(&@s);
 @};
 
-<logical-or> : ( a:BOOL, b:BOOL) -> ( c:BOOL) = @{
-	@c =( @a || @b ) ;
+<set-headers> : (sc:BIGSTRING &,sh:BIGSTRING&) -> () = @{
+	if(!global_lct_parse_tree.trailersdefined) {
+		global_lct_parse_tree.headersdefined = 1;
+		dstring_to_nstring(@&sh,&(global_lct_parse_tree.hfileheader)) ;
+		dstring_to_nstring(@&sc,&(global_lct_parse_tree.cfileheader)) ;
+	} else {
+		error(ERROR_SERIOUS, "Headers may not be redefined");
+	}
+	dstring_destroy(@&sc);
+	dstring_destroy(@&sh);
+@} ;
+
+<set-trailers> : (sc:BIGSTRING &,sh:BIGSTRING&) -> () = @{
+	if(!(global_lct_parse_tree.trailersdefined)) {
+		global_lct_parse_tree.trailersdefined = 1;
+		dstring_to_nstring(@&sh,&(global_lct_parse_tree.hfiletrailer)) ;
+		dstring_to_nstring(@&sc,&(global_lct_parse_tree.cfiletrailer)) ;
+	} else {
+		error(ERROR_SERIOUS, "Trailers may not be redefined");
+	}
+	dstring_destroy(@&sc);
+	dstring_destroy(@&sh);
+@} ;
+
+<append-letter> : ( s:BIGSTRING& , c:LETTER ) -> () = @{
+	dstring_append_char(@&s, @c) ;
 @};
 
-<hfile-trailerstring> : () -> (s:STRING) = @{
-	@s=&(global_lct_parse_tree.hfiletrailer) ;
-@} ;
+/*
+	Initializing an empty type tuple
+*/
 
-<cfile-trailerstring> : () -> (s:STRING)  = @{
-	@s=&(global_lct_parse_tree.cfiletrailer) ;
-@} ;
-
-<hfile-headerstring> : () -> (s:STRING)  = @{
-	@s=&(global_lct_parse_tree.hfileheader) ;
-@} ;
-
-<cfile-headerstring> : () -> (s:STRING)  = @{
-	@s=&(global_lct_parse_tree.cfileheader) ;
-@} ;
-
-<append-letter> : ( s:STRING , c:LETTER ) -> (b:BOOL)= @{
-	@b = append_to_string(@s, @c) ;
+<init-tuple> : () -> (a:TYPETUPLE) = @{
+	typetuple_init(&@a);
 @};
 
-<error-if-truncated> : ( b:BOOL ) -> () = @{
-	if(!@b)
-		error(ERROR_SERIOUS, "Header or trailer too long truncated" );
+<append-tuple> : (a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER) -> () =@{
+	EntryT* entry = table_get_entry(lxi_top_level->table,@&type);
+	if(entry == NULL) {
+		 error(ERROR_SERIOUS, "Unknown type %s", nstring_to_cstring(@&type));
+		 nstring_destroy(@&id);
+		 nstring_destroy(@&type);
+	}
+	else if(!entry_is_type(entry))
+		 error(ERROR_SERIOUS, "%s is not a type", @&type);
+	else
+		typetuple_append(@&a,typetupleentry_create(@&id,entry));
 @} ;
+
+<define-action> : (i:IDENTIFIER&,in:TYPETUPLE&,out:TYPETUPLE&,c:BIGSTRING&) -> () = @{
+	EntryT* entry=table_get_entry(lxi_top_level->table,@&i);
+	nstring_destroy(@&i);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			ActionT* action = entry_get_action(entry);
+			int types_errored=0;
+			if(typetuple_length(action_get_inputs(action))!=typetuple_length(@&in)) {
+				error(ERROR_SERIOUS,"Action %s decalared with an incopatible number of inputs", 
+							     nstring_to_cstring(@&i));
+				types_errored=1;
+			} else if(!typetuple_match(action_get_inputs(action),@&in)) {
+				error(ERROR_SERIOUS, "params do not match for action %s",nstring_to_cstring(@&i));
+				types_errored=1;
+			} else {
+				int allhavenames = typetuple_assign_names(action_get_inputs(action),@&in);
+				if(!allhavenames) {
+					error(ERROR_SERIOUS,"outputs tuples in action definition should have names");
+					types_errored=1;
+				}
+			}
+			if(typetuple_length(action_get_outputs(action))!=typetuple_length(@&out)) {
+				error(ERROR_SERIOUS,"Action %s decalared with an incompatible number of outputs", 
+						     nstring_to_cstring(@&i));
+			} else if (!typetuple_match(action_get_outputs(action),@&out)) {
+				error(ERROR_SERIOUS, "results do not match for action %s",nstring_to_cstring(@&i));
+				types_errored=1;
+			} else {				
+				int allhavenames = typetuple_assign_names(action_get_outputs(action),@&out);
+				if(!allhavenames) {
+					error(ERROR_SERIOUS,"outputs tuples in action definition should have names");
+					types_errored=1;
+				}
+			}
+			if(!types_errored) {
+				if(action_is_defined(action))
+					action_set_code(action,@&c);
+				else
+					error(ERROR_SERIOUS,"Action %s has already been defined", nstring_to_cstring(@&i));
+			}
+		} else {
+			dstring_destroy(@&c);
+			error(ERROR_SERIOUS,"%s is not an action", nstring_to_cstring(@&i));
+		}
+	} else {
+		dstring_destroy(@&c);
+		error(ERROR_SERIOUS,"Defining an undeclared action: %s", nstring_to_cstring(@&i));
+	}
+	typetuple_destroy(@&in);
+	typetuple_destroy(@&out);	
+@};
 
 <E-syntax-error> = @{
 	    error ( ERROR_SERIOUS, "Syntax error" ) ;
@@ -158,6 +268,11 @@ letter : () ->( l:LETTER ) = @{
 
 <E_expected_define> = @{
 	    error( ERROR_SERIOUS, "Syntax error: expected '='") ;
+
+@} ;
+
+<E_expected_arrow> = @{
+	    error( ERROR_SERIOUS, "Syntax error: expected '->'") ;
 
 @} ;
 

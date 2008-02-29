@@ -113,7 +113,9 @@ bool lexi_lct_group(enum lexi_lct_groups group, int c) {
 
 #include <string.h>
 int lexi_lct_keyword(const char *identifier, int notfound) {
+	if(!strcmp(identifier, "ACTION")) return lct_lex_action_Hkw;
 	if(!strcmp(identifier, "HEADERS")) return lct_lex_header_Hkw;
+	if(!strcmp(identifier, "MAP")) return lct_lex_map_Hkw;
 	if(!strcmp(identifier, "TRAILERS")) return lct_lex_trailer_Hkw;
 	return notfound;
 }
@@ -201,6 +203,14 @@ lexi_lct_read_token(struct lexi_lct_state *state)
 			case ',': {
 				return lct_lex_comma;
 			}
+			case '-': {
+				int c1 = lexi_lct_readchar(state);
+				if (c1 == '>') {
+					return lct_lex_arrow;
+				}
+				lexi_lct_push(state, c1);
+				break;
+			}
 			case '/': {
 				int c1 = lexi_lct_readchar(state);
 				if (c1 == '*') {
@@ -212,6 +222,9 @@ lexi_lct_read_token(struct lexi_lct_state *state)
 				}
 				lexi_lct_push(state, c1);
 				break;
+			}
+			case ':': {
+				return lct_lex_colon;
 			}
 			case ';': {
 				return lct_lex_semicolon;

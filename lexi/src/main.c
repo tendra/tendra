@@ -227,7 +227,7 @@ main(int argc, char **argv)
 	}
 
 	if(output->inputfiles>1) {
-		process_lctfile(argv[1]);
+		process_lctfile(&top_level,argv[1]);
 	}
 
 	if (exit_status != EXIT_SUCCESS) {

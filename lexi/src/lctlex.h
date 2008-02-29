@@ -26,15 +26,20 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id:
+ * $Id$
  */
 
+#include "exds/common.h"
+#include "exds/dstring.h"
 #include "lctlexer.h"
+#include "char.h"
 
-extern void process_lctfile(char*);
+extern void process_lctfile(lexer_parse_tree*, char*);
 
 extern int crt_lct_token ;
 extern int saved_lct_token ;
+extern char lct_token_buff [2000];
+
 extern struct lexi_lct_state lct_lexer_state;
 
 extern char saved_lct_letter ;
@@ -45,23 +50,18 @@ extern char saved_lct_letter ;
    as it is extracted from 
 */
 
-typedef struct mytmpstring_tag {
-	char str[2500] ;
-	unsigned int length;
-  
-} mytmpstring;
-
 typedef struct lct_parse_tree_tag {
-	mytmpstring hfileheader;
-	mytmpstring cfileheader;
-	mytmpstring hfiletrailer;
-	mytmpstring cfiletrailer;
+	int headersdefined;
+	int trailersdefined;
+	NStringT hfileheader;
+	NStringT cfileheader;
+	NStringT hfiletrailer;
+	NStringT cfiletrailer;
 } lct_parse_tree;
 
 extern lct_parse_tree global_lct_parse_tree ;
 
-extern void init_mytmpstring (mytmpstring*) ;
-extern int append_to_mytmpstring (mytmpstring*, char) ;
+extern void init_lct_parse_tree(lct_parse_tree*);
 
 /*
      PARSER MACROS

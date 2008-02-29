@@ -41,7 +41,7 @@ char saved_lct_letter ;
 
 lct_parse_tree global_lct_parse_tree ;
 
-static char lct_token_buff [2000];
+char lct_token_buff [2000];
 static char *lct_token_end = lct_token_buff + sizeof(lct_token_buff);
 
 static FILE* lct_file;
@@ -90,14 +90,16 @@ get_lct_identifier(int a)
 void 
 init_lct_parse_tree (lct_parse_tree* a) 
 {
-	init_mytmpstring(&(a->hfileheader)) ;
-	init_mytmpstring(&(a->cfileheader)) ;
-	init_mytmpstring(&(a->hfiletrailer)) ;
-	init_mytmpstring(&(a->cfiletrailer)) ;
+	a->headersdefined = 0;
+	a->trailersdefined = 0;
+	nstring_init(&(a->hfileheader)) ;
+	nstring_init(&(a->cfileheader)) ;
+	nstring_init(&(a->hfiletrailer)) ;
+	nstring_init(&(a->cfiletrailer)) ;
 }
 
 void 
-process_lctfile (char* fn) 
+process_lctfile (lexer_parse_tree* parse_tree, char* fn) 
 {
 
 	crt_line_no = 1 ;
@@ -110,23 +112,8 @@ process_lctfile (char* fn)
 	lexi_lct_init(&lct_lexer_state) ;
 	ADVANCE_LCT_LEXER ;
 
+	lxi_top_level=parse_tree;
 	read_lct_unit();
 	fclose(lct_file);
-}
-
-void 
-init_mytmpstring (mytmpstring* s) {
-	s->length=0;
-}
-
-int
-append_to_string (mytmpstring* s, char c) 
-{
-	if(s->length<2000) {
-		(s->str)[(s->length)++]=c;
-		return 0;
-	}
-	else 
-		return 1;
 }
 

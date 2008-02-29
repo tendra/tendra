@@ -56,7 +56,7 @@ typedef struct TypeT {
 
 typedef struct TypeTupleEntryT {
 	EntryT*  type;
-	NStringT*  local_name;
+	NStringT  local_name; /*The type NSTringT* will probably not be the final type */
 	struct TypeTupleEntryT* next;
 } TypeTupleEntryT;
 
@@ -68,14 +68,22 @@ typedef struct TypeTupleT {
 typedef struct ActionT {
 	struct TypeTupleT inputs ;
 	struct TypeTupleT outputs ;
-	void* code;
+	DStringT* code; /* The type of code will change: DStringT* is only a place holder */
 } ActionT;
 
 
 typedef EntryT* TableT[TABLE_SIZE];
 
+extern TypeTupleT* action_get_inputs(ActionT*);
+extern TypeTupleT* action_get_outputs(ActionT*);
+extern DStringT* action_get_code(ActionT*);
+extern void action_set_code(ActionT*, DStringT*);
+extern int action_is_defined(ActionT*);
+
 extern EntryT* entry_create(NStringT*) ;
 extern int entry_is_type(EntryT*) ;
+extern int entry_is_action(EntryT*) ;
+extern ActionT* entry_get_action(EntryT*) ;
 
 extern void table_init(TableT);
 extern EntryT* table_get_entry(TableT, NStringT*) ;
@@ -85,9 +93,14 @@ extern EntryT* table_add_type(TableT, NStringT*) ;
 extern EntryT* table_add_action(TableT, NStringT*, TypeTupleT*, TypeTupleT*) ;
 
 extern TypeTupleEntryT* typetupleentry_create(NStringT*, EntryT*);
+extern void typetupleentry_destroy(TypeTupleEntryT*);
 
 extern void typetuple_init(TypeTupleT*);
 extern void typetuple_append(TypeTupleT*, TypeTupleEntryT*);
-void typetuple_assign(TypeTupleT*, TypeTupleT*);
+extern void typetuple_assign(TypeTupleT*, TypeTupleT*);
+extern int typetuple_length(TypeTupleT*);
+extern int typetuple_assign_names(TypeTupleT*, TypeTupleT*);
+extern int typetuple_match(TypeTupleT*, TypeTupleT*);
+extern void typetuple_destroy(TypeTupleT*);
 
 #endif

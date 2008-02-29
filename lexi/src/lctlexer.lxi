@@ -36,7 +36,9 @@ GROUP alphanum = {A-Z} + {a-z} + {0-9};
 
 TOKEN "=" -> $define ;
 TOKEN ";" -> $semicolon ;
+TOKEN ":" -> $colon ;
 TOKEN "," -> $comma ;
+TOKEN "->" -> $arrow ;
 TOKEN "\e" -> $eof ;
 TOKEN "[alpha]" -> get_lct_identifier (#0) ;
 
@@ -65,3 +67,5 @@ ZONE  code_area : "@{" -> $code-start
 
 KEYWORD "HEADERS" -> $header-kw ; 
 KEYWORD "TRAILERS" -> $trailer-kw ; 
+KEYWORD "MAP" -> $map-kw;
+KEYWORD "ACTION" -> $action-kw;

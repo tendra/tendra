@@ -692,21 +692,15 @@ output_buffer(cmd_line_options* opt)
 void 
 output_headers()
 {
-	int i ;
-	for( i=0 ; i < global_lct_parse_tree.hfileheader.length ; i++) 
-		fputc(global_lct_parse_tree.hfileheader.str[i], lex_output_h);
-	for( i=0 ; i < global_lct_parse_tree.cfileheader.length ; i++) 
-		fputc(global_lct_parse_tree.cfileheader.str[i], lex_output);
+	fputs(nstring_to_cstring(&(global_lct_parse_tree.hfileheader)), lex_output_h);
+	fputs(nstring_to_cstring(&(global_lct_parse_tree.cfileheader)), lex_output);
 }
 
 void 
 output_trailers()
 {
-	int i ;
-	for( i=0 ; i < global_lct_parse_tree.hfiletrailer.length ; i++) 
-		fputc(global_lct_parse_tree.hfiletrailer.str[i], lex_output_h);
-	for( i=0 ; i < global_lct_parse_tree.cfiletrailer.length ; i++) 
-		fputc(global_lct_parse_tree.cfiletrailer.str[i], lex_output);
+	fputs(nstring_to_cstring(&(global_lct_parse_tree.hfiletrailer)), lex_output_h);
+	fputs(nstring_to_cstring(&(global_lct_parse_tree.cfiletrailer)), lex_output);
 }
 
 void

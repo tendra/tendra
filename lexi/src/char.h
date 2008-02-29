@@ -62,6 +62,7 @@
 #define CHAR_INCLUDED
 
 #include <stddef.h>
+#include <stdio.h>
 #include "adt.h"
 
 typedef unsigned int letter;

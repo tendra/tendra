@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 173 "syntax.act"
+#line 135 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -100,7 +100,7 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 721 "syntax.act"
+#line 719 "syntax.act"
 
 #endif
 #line 107 "tmp.syntax.h"

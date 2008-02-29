@@ -30,14 +30,19 @@
  */
 
 %types%
-BOOL ;
 LETTER ;
-STRING ;
+IDENTIFIER ;
+BIGSTRING ;
+TYPETUPLE;
 
 %terminals%
 
 header-kw ;
 trailer-kw ;
+map-kw;
+action-kw;
+colon;
+arrow;
 letter : () -> (:LETTER) ;
 define ;  	//=
 semicolon ;	//;
@@ -45,44 +50,58 @@ comma ;   	//,
 code-start;	//@{
 code-end;	//@}
 eof;
-!identifier;
+identifier : () -> (:IDENTIFIER);
 !unknown ;
 
 %productions%
 
-<logical-or> : ( :BOOL, :BOOL ) -> ( :BOOL ) ;
-<error-if-truncated> : ( :BOOL ) -> () ;
-<true> : () -> (:BOOL) ;
+<init-string> : () -> (:BIGSTRING);
+<set-headers> : (:BIGSTRING &, :BIGSTRING&) -> ();
+<set-trailers> : (:BIGSTRING &, :BIGSTRING&) -> ();
 
+<init-tuple>: () -> (:TYPETUPLE);
+<append-tuple> : (:TYPETUPLE&,:IDENTIFIER,:IDENTIFIER) -> ();
 
-<hfile-trailerstring> : () -> ( :STRING ) ;
-<cfile-trailerstring> : () -> ( :STRING ) ;
-<hfile-headerstring>  : () -> ( :STRING ) ;
-<cfile-headerstring>  : () -> ( :STRING ) ;
+<append-letter> : ( :BIGSTRING & , :LETTER ) -> ();
 
-<append-letter> : ( :STRING , :LETTER ) -> (:BOOL);
+<define-action> : (:IDENTIFIER&, :TYPETUPLE&,:TYPETUPLE&,:BIGSTRING&) -> ();
 
 <E-syntax-error> ;
 <E_expected_code_end> ;
 <E_expected_code_start> ;
 <E_expected_comma> ;
 <E_expected_define> ;
+<E_expected_arrow> ;
 <E_expected_semicolon> ;
 <E_unexpected_eof> ;
 
-letters : ( s:STRING ) -> ( b:BOOL ) = {
-	b = <true> ;
+letters : ( s:BIGSTRING& ) -> () = {
+	$;
     ||
-	b2=letters(s) ; c = letter ; b3=<append-letter>(s,c);
-	b=<logical-or>(b2,b3);
+	letters(&s) ; c = letter ; <append-letter>(&s,c);
 } ;
 
-grp-of-letters : ( s:STRING ) -> () = {
-	b=letters(s) ; <error-if-truncated>(b);
+grp-of-letters : ( s:BIGSTRING& ) -> () = {
+	letters(&s) ;
     	{
 		$ ;
 	    ||
 		eof ; <E_unexpected_eof> ;
+	} ;
+};
+
+code-block : () -> (s:BIGSTRING) = {
+	{
+		code-start ;
+	    ##
+		<E_expected_code_start> ;
+	} ;
+	s=<init-string>;
+	grp-of-letters(&s) ;
+	{
+		code-end ;
+	    ##
+		<E_expected_code_end> ;
 	} ;
 };
 
@@ -93,35 +112,14 @@ header-stmnt : () -> () = {
 	    ##
 		<E_expected_define> ;
 	} ;
-	{
-		code-start ;
-	    ##
-		<E_expected_code_start> ;
-	} ;
-	sc=<cfile-headerstring> ;
-	grp-of-letters(sc) ;
-	{
-		code-end ;
-	    ##
-		<E_expected_code_end> ;
-	} ;
+	sc=code-block;
 	{
 		comma ;
 	    ##
 		<E_expected_comma> ;
 	};
-	{
-		code-start ;
-	    ##
-		<E_expected_code_start> ;
-	} ;
-	sh=<hfile-headerstring> ;
-	grp-of-letters(sh) ;
-	{
-		code-end ;
-	    ##
-		<E_expected_code_end> ;
-	} ;
+	sh=code-block;
+	<set-headers>(&sc,&sh);
 	{
 		semicolon ;
 	    ##
@@ -136,35 +134,14 @@ trailer-stmnt : () -> () = {
 	    ##
 		<E_expected_define> ;
 	} ;
-	{
-		code-start ;
-	    ##
-		<E_expected_code_start> ;
-	} ;
-	sc=<cfile-trailerstring> ;
-	grp-of-letters(sc) ;
-	{
-		code-end ;
-	    ##
-		<E_expected_code_end> ;
-	} ;
+	sc = code-block;
 	{
 		comma ;
 	    ##
 		<E_expected_comma> ;
 	};
-	{
-		code-start ;
-	    ##
-		<E_expected_code_start> ;
-	} ;
-	sh=<hfile-trailerstring> ;
-	grp-of-letters(sh) ;
-	{
-		code-end ;
-	    ##
-		<E_expected_code_end> ;
-	} ;
+	sh=code-block;
+	<set-trailers>(&sc,&sh);
 	{
 		semicolon ;
 	    ##
@@ -172,18 +149,86 @@ trailer-stmnt : () -> () = {
 	} ;
 };
 
+map-stmnt : () -> () = {
+	map-kw ; lexitype=identifier; 
+	{
+		arrow; 
+	    ##
+		<E_expected_arrow>;
+	};
+	ctype=identifier; 
+	{
+		semicolon ;
+	    ##
+		<E_expected_semicolon> ;
+	} ;
+};
+
+action-definition : () -> () [ 
+	type-tuple : ( ) -> (a:TYPETUPLE) [
+		type-name : (a:TYPETUPLE) -> () = {
+			name=identifier ;
+			colon ;
+			type=identifier ;
+			<append-tuple>(&a,name,type);
+		} ;
+		type-tuple1 : (a:TYPETUPLE&) -> () = {
+			type-name(a) ;
+		    ||
+			type-name(a) ; type-tuple1(&a) ;
+		} ; ] = {
+		a=<init-tuple> ;
+	    ||
+		a=<init-tuple>;
+		type-tuple1(&a) ;
+	};
+	function-type-defn : () -> (in:TYPETUPLE,out:TYPETUPLE) = {
+		in=<init-tuple>;
+		out=<init-tuple>;
+	    ||
+		in=type-tuple;
+		{
+			arrow;
+		    ##
+			<E_expected_arrow>;
+		};
+		out=type-tuple;
+	};
+	] = {
+	action-kw; nm= identifier; 
+	(in, out) = function-type-defn ;
+	{
+		define ; 
+	    ##
+		<E_expected_define>;
+	};
+	c = code-block ;
+	<define-action>(&nm,&in,&out,&c);
+	{
+		semicolon ;
+	    ##
+		<E_expected_semicolon> ;
+	} ;
+};
+
+statement : () -> () = {
+	header-stmnt;
+    ||
+	trailer-stmnt;
+    ||
+	action-definition;
+    ||
+	map-stmnt;
+};
+
+statement-list : () -> () = {
+	$;
+    ||
+	statement; statement-list;
+};
 
 lct-unit : () -> () = {
-	{
-		header-stmnt;
-	    ||
-		$;
-	} ;
-	{
-		trailer-stmnt;
-	    ||
-		$;
-	} ;
+	statement-list;
 	eof;
     ##
 	<E-syntax-error> ;

@@ -36,6 +36,7 @@
 static ActionT* action_create(void)
 {
 	ActionT* action = xmalloc_nof (ActionT, 1);
+	action->code = NULL;
 	return action ;
 }
 
@@ -47,6 +48,31 @@ static void action_set_inputs(ActionT* action, TypeTupleT* tuple)
 static void action_set_outputs(ActionT* action, TypeTupleT* tuple)
 {
 	typetuple_assign(&action->outputs,tuple) ;
+}
+
+TypeTupleT* action_get_inputs(ActionT* action)
+{
+	return(&action->inputs) ;
+}
+
+TypeTupleT* action_get_outputs(ActionT* action)
+{
+	return(&action->outputs) ;
+}
+
+DStringT* action_get_code(ActionT* action)
+{
+	return(action->code) ;
+}
+
+void action_set_code(ActionT* action, DStringT* code)
+{
+	action->code = code ;
+}
+
+int action_is_defined(ActionT* action)
+{
+	return (action->code!=NULL) ;
 }
 
 NStringT* entry_key(EntryT* entry) 
@@ -82,7 +108,7 @@ static void entry_set_kind_action(EntryT* entry)
 }
 
 
-static ActionT* entry_get_action(EntryT* entry)
+ActionT* entry_get_action(EntryT* entry)
 {
 	/*TODO assert entry_is_action */
 	return entry->u.action;
@@ -159,12 +185,19 @@ EntryT* table_add_action(TableT table, NStringT* name, TypeTupleT* inputs, TypeT
 
 TypeTupleEntryT* typetupleentry_create(NStringT* str, EntryT* type)
 {
-	TypeTupleEntryT* p; /*= using xmalloc_nof*/
-	nstring_assign((p->local_name), str);
+	TypeTupleEntryT* p = xmalloc_nof(TypeTupleEntryT, 1);
+	nstring_assign(&(p->local_name), str);
 	p->type=type;
 	return p;
 }
 
+void typetupleentry_destroy(TypeTupleEntryT* p)
+{
+	if(p) {
+		nstring_destroy(&(p->local_name));
+	}
+	 xfree(p);
+}
 
 void typetuple_init(TypeTupleT* ttlist) 
 {
@@ -184,4 +217,49 @@ void typetuple_assign(TypeTupleT* to, TypeTupleT* from)
 		to->tail = &(to->head);
 	else 
 		to->tail= from->tail ;
+}
+
+int typetuple_length(TypeTupleT* tuple)
+{
+	int length=0;
+	TypeTupleEntryT* p;
+	for(p=tuple->head; p!=NULL; p=p->next) {
+		length++;
+	}
+	return length;
+}
+
+int typetuple_match(TypeTupleT* t1, TypeTupleT* t2) 
+{
+	int match = 1;
+	TypeTupleEntryT *p, *q;
+	for(p=t1->head, q=t2->head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+		if(p->type!=q->type)
+			return 0;
+	}
+	/* assert(!(p||q)); */
+	return 1;
+}
+
+
+int typetuple_assign_names(TypeTupleT* to, TypeTupleT* from) 
+{
+	int allhavenames=1;
+	TypeTupleEntryT *p, *q;
+	for(p=from->head, q=to->head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+		if(nstring_length(&(p->local_name))==0)
+			allhavenames=0;
+		else 
+			nstring_assign(&q->local_name,&p->local_name);
+	}
+	/* assert(!(p||q))*/
+	return allhavenames;
+}
+
+void typetuple_destroy(TypeTupleT* tuple)
+{
+	TypeTupleEntryT* p;
+	for(p=tuple->head; p!=NULL; p=p->next) {
+		typetupleentry_destroy(p);
+	}
 }
