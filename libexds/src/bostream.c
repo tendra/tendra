@@ -85,15 +85,9 @@ bostream_init(BOStreamT * bostream)
 BoolT
 bostream_open(BOStreamT * bostream,		       char *  name)
 {
-#ifdef FS_BINARY_STDIO
-    if ((bostream->file = fopen(name, "wb")) == NULL) {
-	return(FALSE);
-    }
-#else
     if ((bostream->file = fopen(name, "w")) == NULL) {
 	return(FALSE);
     }
-#endif /* defined (FS_BINARY_STDIO) */
     bostream->name  = name;
     return(TRUE);
 }

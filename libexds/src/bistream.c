@@ -85,15 +85,9 @@ bistream_init(BIStreamT * bistream)
 BoolT
 bistream_open(BIStreamT * bistream,		       char *  name)
 {
-#ifdef FS_BINARY_STDIO
-    if ((bistream->file = fopen(name, "rb")) == NULL) {
-	return(FALSE);
-    }
-#else
     if ((bistream->file = fopen(name, "r")) == NULL) {
 	return(FALSE);
     }
-#endif /* defined (FS_BINARY_STDIO) */
     bistream->bytes = 0;
     bistream->name  = name;
     return(TRUE);
@@ -182,11 +176,7 @@ bistream_name(BIStreamT * bistream)
 void
 bistream_rewind(BIStreamT * bistream)
 {
-#ifdef FS_ANSI_ENVIRON
     rewind(bistream->file);
-#else
-   (void)fseek(bistream->file,(long)0, SEEK_SET);
-#endif /* defined (FS_REWIND) */
 }
 
 void
