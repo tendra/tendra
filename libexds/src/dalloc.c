@@ -45,9 +45,9 @@
 #include <stdint.h>
 
 #include "../../shared/check/check.h"
-#include "common.h"
-#include "exception.h"
-#include "dalloc.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
 
 ExceptionT * XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
 

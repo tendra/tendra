@@ -63,10 +63,6 @@
  * This file specifies the interface to a single size bit vector manipulation
  * facility.  It is necessary to call the ``bitvec_set_size'' function to set
  * the size of these bit vectors, before any are actually created.
- *
- * This depends on:
- *
- *  <exds/common.h>
  */
 
 #ifndef H_BITVEC
@@ -74,9 +70,8 @@
 
 #include <stdint.h>
 
-#ifndef H_OSTREAM
-typedef struct OStreamT OStreamT;
-#endif
+#include <exds/common.h>
+#include <exds/ostream.h>
 
 
 /*

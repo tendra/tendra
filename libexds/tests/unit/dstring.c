@@ -10,10 +10,10 @@
 
 #include <harness.h>
 
-#include "common.h"
-#include "exception.h"
-#include "dstring.h"
-#include "dalloc.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dstring.h>
+#include <exds/dalloc.h>
 
 static size_t n[] = { 0, 1, 2, 5, 10, 127, 128, 129, 254, 255, 256, 257, 1027 };
 static char c[]   = { '\0', '\01', '0', 'x', 'Y', '\037', '\xff', '\x7f' };

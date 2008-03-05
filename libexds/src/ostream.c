@@ -73,11 +73,11 @@
 #include <string.h>
 #include <errno.h>
 
-#include "common.h"
-#include "exception.h"
-#include "dalloc.h"
-#include "ostream.h"
-#include "cstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/ostream.h>
+#include <exds/cstring.h>
 #include "syntax.h"
 
 ExceptionT * XX_ostream_write_error = EXCEPTION("error writing to stream");

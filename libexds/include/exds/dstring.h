@@ -66,10 +66,6 @@
  * when it is necessary to append characters to a string one at a time with
  * reasonable efficiency.
  *
- * This depends on:
- *
- * <exds/common.h>
- *
  *
  * Null pointers are not valid as nstrings or dstrings. Passing a null pointer
  * as the argument to a function will have an undefined effect (on many
@@ -79,9 +75,8 @@
 #ifndef H_DSTRING
 #define H_DSTRING
 
-#ifndef H_OSTREAM
-typedef struct OStreamT OStreamT;
-#endif
+#include <exds/common.h>
+#include <exds/ostream.h>
 
 
 /*

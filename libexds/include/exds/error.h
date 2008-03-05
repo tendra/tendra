@@ -66,10 +66,6 @@
  * different language) with the variable components of the message in a
  * different order.
  *
- * This depends on:
- *
- *  <exds/common.h>
- *
  *
  * In addition to the error mesage support, this facility also provides
  * support for named strings whose text may be redefined.  This is useful for
@@ -79,13 +75,9 @@
 #ifndef H_ERROR
 #define H_ERROR
 
-#ifndef H_OSTREAM
-typedef struct OStreamT OStreamT;
-#endif
-
-#ifndef H_DSTRING
-typedef struct NStringT NStringT;
-#endif
+#include <exds/common.h>
+#include <exds/ostream.h>
+#include <exds/dstring.h>
 
 
 /*

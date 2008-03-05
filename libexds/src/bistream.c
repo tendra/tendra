@@ -69,10 +69,10 @@
 #include <stdint.h>
 
 #include "../../shared/check/check.h"
-#include "common.h"
-#include "exception.h"
-#include "bistream.h"
-#include "cstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/bistream.h>
+#include <exds/cstring.h>
 
 ExceptionT * XX_bistream_read_error = EXCEPTION("error reading from binary stream");
 

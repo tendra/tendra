@@ -62,11 +62,6 @@
  *
  * This file specifies the interface to the input stream facility.
  *
- * This depends on:
- *
- *  <exds/common.h>
- *  <exds/exception.h>
- *
  *
  * Exception:	XX_istream_read_error (char * name)
  *
@@ -79,6 +74,9 @@
 #define H_ISTREAM
 
 #include <stdio.h>
+
+#include <exds/common.h>
+#include <exds/exception.h>
 
 
 /*

@@ -62,11 +62,6 @@
  *
  * This file specifies the interface to the binary input stream facility.
  *
- * This depends on:
- *
- *  <exds/common.h>
- *  <exds/exception.h>
- *
  *
  * Exception:	XX_bistream_read_error (char * name)
  *
@@ -80,6 +75,9 @@
 
 #include <stdio.h>
 #include <stdint.h>
+
+#include <exds/common.h>
+#include <exds/exception.h>
 
 
 /*

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,69 +58,63 @@
 */
 
 /*
- * cstring.h - C string manipulation.
+ * nstring-list.h - String list ADT.
  *
- * This file defines the C string type and specifies some functions that can
- * be used to manipulate C strings.
- *
- * This depends on:
- *
- *  <exds/common.h>
- *
- *
- * Here we use char * to as the type for C strings. Origionally this code had
- * an abstraction specifically for strings, to distinguish from character
- * pointers, however this was cumbersome; it has been removed during transition
- * to use standard library functions.
- *
- * The usual functions from string.h (strlen et al) will work for these.
+ * This file specifies the interface to a string list facility.  This
+ * particular facility allows lists of nstrings (defined in the files
+ * "dstring.[ch]") to be created.
  */
 
-#ifndef H_CSTRING
-#define H_CSTRING
+#ifndef H_NSTRING_LIST
+#define H_NSTRING_LIST
+
+#include <exds/dstring.h>
+
+
+/*
+ * This is the nstring list entry type. Its representation is private.
+ */
+typedef struct NStringListEntryT NStringListEntryT;
+
+/*
+ * This is the nstring list type. Its representation is private.
+ */
+typedef struct NStringListT NStringListT;
+struct NStringListT {
+    NStringListEntryT *		head;
+    NStringListEntryT *	       *tail;
+};
+
+/*
+ * This function initialises the specified nstring list to be an empty list.
+ */
+extern void			nstring_list_init (NStringListT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
  *
- * This function returns a dynamically allocated copy of the specified
- * string.
+ * This function appends the specified nstring onto the specified list.
  */
-extern char *			cstring_duplicate(char *cstring);
+extern void			nstring_list_append (NStringListT *, NStringT *);
 
 /*
- * Exceptions:	XX_dalloc_no_memory
- *
- * This function returns a dynamically allocated copy of the specified prefix
- * of the specified string.  If the cstring is shorter than the prefix
- * length, then only the cstring is used.
+ * This function returns a pointer to the first entry in the specified list.
  */
-extern char *			cstring_duplicate_prefix(char *cstring,
-	unsigned prefix);
+extern NStringListEntryT *	nstring_list_head (NStringListT *);
 
 /*
- * This function returns the hash value associated with the specified
- * string.  This value is guaranteed to be identical for all strings
- * with the same content.
+ * This function returns a pointer to the nstring stored in the specified
+ * list entry.
  */
-extern unsigned			cstring_hash_value(char *cstring);
+extern NStringT *			nstring_list_entry_string (NStringListEntryT *);
 
 /*
- * This function returns true if the specified cstrings have the same
- * content (ignoring differences in case), and false otherwise.
+ * This function deallocates the specified list entry (without deallocating
+ * the string - this must be done by the calling function) and returns a
+ * pointer to the next entry in the list.  Once this function has been called,
+ * the state of the list that the entry is a member of is undefined.  It is
+ * only useful for deallocating the entire list in a loop.
  */
-extern BoolT			cstring_ci_equal(char *cstring1, char *cstring2);
+extern NStringListEntryT *	nstring_list_entry_deallocate (NStringListEntryT *);
 
-/*
- * This function parses an unsigned number in cstring.  If there is a valid
- * number in the string, it is assigned to the number pointed to by num_ref,
- * and the function returns true; otherwise the function returns false.  The
- * function checks for overflow; it will return false if the number is too
- * big.
- */
-extern BoolT			cstring_to_unsigned(char *cstring, unsigned *num_ref);
-
-extern BoolT			cstring_starts(char *cstring, char *s);
-
-extern char *			cstring_find_basename(char *cstring);
-
-#endif /* !defined (H_CSTRING) */
+#endif /* !defined (H_NSTRING_LIST) */

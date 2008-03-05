@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,104 +58,68 @@
 */
 
 /*
- * bostream.h - Binary output stream handling.
+ * cstring.h - C string manipulation.
  *
- * This file specifies the interface to the binary output stream facility.
- *
- * This depends on:
- *
- *  <exds/common.h>
- *  <exds/exception.h>
+ * This file defines the C string type and specifies some functions that can
+ * be used to manipulate C strings.
  *
  *
- * Exception:	XX_bostream_write_error (char * name)
+ * Here we use char * to as the type for C strings. Origionally this code had
+ * an abstraction specifically for strings, to distinguish from character
+ * pointers, however this was cumbersome; it has been removed during transition
+ * to use standard library functions.
  *
- * This exception is raised if a write attempt fails.  The data thrown is a
- * copy of the name of the file that the write error occured on.  The copy
- * should be deallocated when finished with.
+ * The usual functions from string.h (strlen et al) will work for these.
  */
 
-#ifndef H_BOSTREAM
-#define H_BOSTREAM
+#ifndef H_CSTRING
+#define H_CSTRING
 
-#include <stdint.h>
-#include <stdio.h>
+#include <exds/common.h>
 
 
 /*
- * This is the output stream type. Its representation is private.
- */
-typedef struct BOStreamT BOStreamT;
-struct BOStreamT {
-    FILE		       *file;
-    char *			name;
-};
-
-extern ExceptionT *		XX_bostream_write_error;
-
-/*
- * This function initialises the specified bostream not to write to any file.
+ * Exceptions:	XX_dalloc_no_memory
  *
- * See bostream_open() to initialise to write to a specific file.
+ * This function returns a dynamically allocated copy of the specified
+ * string.
  */
-extern void			bostream_init (BOStreamT *);
+extern char *			cstring_duplicate(char *cstring);
 
 /*
- * This function initialises the specified bostream to write to the file with
- * the specified name.  The name should not be modified or deallocated until
- * the bostream has been closed.  If the file cannot be opened, the function
- * returns false. If the file is opened successfully, the function returns
- * true.
+ * Exceptions:	XX_dalloc_no_memory
  *
- * See bostream_init() to initialise not to write to a file.
+ * This function returns a dynamically allocated copy of the specified prefix
+ * of the specified string.  If the cstring is shorter than the prefix
+ * length, then only the cstring is used.
  */
-extern BoolT			bostream_open (BOStreamT *, char *);
+extern char *			cstring_duplicate_prefix(char *cstring,
+	unsigned prefix);
 
 /*
- * This function assigns the from bostream to the to bostream.  The from
- * bostream should not be used again.
+ * This function returns the hash value associated with the specified
+ * string.  This value is guaranteed to be identical for all strings
+ * with the same content.
  */
-extern void			bostream_assign (BOStreamT *, BOStreamT *);
+extern unsigned			cstring_hash_value(char *cstring);
 
 /*
- * This function returns true if the specified bostream is writing to a file,
- * and false otherwise.
+ * This function returns true if the specified cstrings have the same
+ * content (ignoring differences in case), and false otherwise.
  */
-extern BoolT			bostream_is_open (BOStreamT *);
+extern BoolT			cstring_ci_equal(char *cstring1, char *cstring2);
 
 /*
- * Exceptions:	XX_bostream_write_error
- *
- * This function writes the length characters in the chars vector to the
- * specified bostream.
+ * This function parses an unsigned number in cstring.  If there is a valid
+ * number in the string, it is assigned to the number pointed to by num_ref,
+ * and the function returns true; otherwise the function returns false.  The
+ * function checks for overflow; it will return false if the number is too
+ * big.
  */
-extern void			bostream_write_chars (BOStreamT *, unsigned, char *);
+extern BoolT			cstring_to_unsigned(char *cstring, unsigned *num_ref);
 
-/*
- * Exceptions:	XX_bostream_write_error
- *
- * This function writes the length bytes in the bytes vector to the specified
- * bostream.
- */
-extern void			bostream_write_bytes (BOStreamT *, unsigned, uint8_t *);
+extern BoolT			cstring_starts(char *cstring, char *s);
 
-/*
- * Exceptions:	XX_bostream_write_error
- *
- * This function writes the byte to the specified bostream.
- */
-extern void			bostream_write_byte (BOStreamT *, uint8_t);
+extern char *			cstring_find_basename(char *cstring);
 
-/*
- * This function returns the name of the file to which the specified
- * bostream is writing. The return value should not be modified or
- * deallocated.
- */
-extern char *			bostream_name (BOStreamT *);
-
-/*
- * This function closes the specified bostream.
- */
-extern void			bostream_close (BOStreamT *);
-
-#endif /* !defined (H_BOSTREAM) */
+#endif /* !defined (H_CSTRING) */

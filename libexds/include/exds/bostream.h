@@ -58,64 +58,102 @@
 */
 
 /*
- * nstring-list.h - String list ADT.
+ * bostream.h - Binary output stream handling.
  *
- * This file specifies the interface to a string list facility.  This
- * particular facility allows lists of nstrings (defined in the files
- * "dstring.[ch]") to be created.
+ * This file specifies the interface to the binary output stream facility.
+ *
+ *
+ * Exception:	XX_bostream_write_error (char * name)
+ *
+ * This exception is raised if a write attempt fails.  The data thrown is a
+ * copy of the name of the file that the write error occured on.  The copy
+ * should be deallocated when finished with.
  */
 
-#ifndef H_NSTRING_LIST
-#define H_NSTRING_LIST
+#ifndef H_BOSTREAM
+#define H_BOSTREAM
 
-#ifndef H_DSTRING
-typedef struct NStringT NStringT;
-#endif
+#include <stdint.h>
+#include <stdio.h>
+
+#include <exds/common.h>
+#include <exds/exception.h>
+
 
 /*
- * This is the nstring list entry type. Its representation is private.
+ * This is the output stream type. Its representation is private.
  */
-typedef struct NStringListEntryT NStringListEntryT;
-
-/*
- * This is the nstring list type. Its representation is private.
- */
-typedef struct NStringListT NStringListT;
-struct NStringListT {
-    NStringListEntryT *		head;
-    NStringListEntryT *	       *tail;
+typedef struct BOStreamT BOStreamT;
+struct BOStreamT {
+    FILE		       *file;
+    char *			name;
 };
 
-/*
- * This function initialises the specified nstring list to be an empty list.
- */
-extern void			nstring_list_init (NStringListT *);
+extern ExceptionT *		XX_bostream_write_error;
 
 /*
- * Exceptions:	XX_dalloc_no_memory
+ * This function initialises the specified bostream not to write to any file.
  *
- * This function appends the specified nstring onto the specified list.
+ * See bostream_open() to initialise to write to a specific file.
  */
-extern void			nstring_list_append (NStringListT *, NStringT *);
+extern void			bostream_init (BOStreamT *);
 
 /*
- * This function returns a pointer to the first entry in the specified list.
+ * This function initialises the specified bostream to write to the file with
+ * the specified name.  The name should not be modified or deallocated until
+ * the bostream has been closed.  If the file cannot be opened, the function
+ * returns false. If the file is opened successfully, the function returns
+ * true.
+ *
+ * See bostream_init() to initialise not to write to a file.
  */
-extern NStringListEntryT *	nstring_list_head (NStringListT *);
+extern BoolT			bostream_open (BOStreamT *, char *);
 
 /*
- * This function returns a pointer to the nstring stored in the specified
- * list entry.
+ * This function assigns the from bostream to the to bostream.  The from
+ * bostream should not be used again.
  */
-extern NStringT *			nstring_list_entry_string (NStringListEntryT *);
+extern void			bostream_assign (BOStreamT *, BOStreamT *);
 
 /*
- * This function deallocates the specified list entry (without deallocating
- * the string - this must be done by the calling function) and returns a
- * pointer to the next entry in the list.  Once this function has been called,
- * the state of the list that the entry is a member of is undefined.  It is
- * only useful for deallocating the entire list in a loop.
+ * This function returns true if the specified bostream is writing to a file,
+ * and false otherwise.
  */
-extern NStringListEntryT *	nstring_list_entry_deallocate (NStringListEntryT *);
+extern BoolT			bostream_is_open (BOStreamT *);
 
-#endif /* !defined (H_NSTRING_LIST) */
+/*
+ * Exceptions:	XX_bostream_write_error
+ *
+ * This function writes the length characters in the chars vector to the
+ * specified bostream.
+ */
+extern void			bostream_write_chars (BOStreamT *, unsigned, char *);
+
+/*
+ * Exceptions:	XX_bostream_write_error
+ *
+ * This function writes the length bytes in the bytes vector to the specified
+ * bostream.
+ */
+extern void			bostream_write_bytes (BOStreamT *, unsigned, uint8_t *);
+
+/*
+ * Exceptions:	XX_bostream_write_error
+ *
+ * This function writes the byte to the specified bostream.
+ */
+extern void			bostream_write_byte (BOStreamT *, uint8_t);
+
+/*
+ * This function returns the name of the file to which the specified
+ * bostream is writing. The return value should not be modified or
+ * deallocated.
+ */
+extern char *			bostream_name (BOStreamT *);
+
+/*
+ * This function closes the specified bostream.
+ */
+extern void			bostream_close (BOStreamT *);
+
+#endif /* !defined (H_BOSTREAM) */

@@ -70,10 +70,10 @@
 #include <limits.h>
 #include <ctype.h>
 
-#include "common.h"
-#include "exception.h"
-#include "dalloc.h"
-#include "cstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/cstring.h>
 #include "syntax.h"
 
 char *

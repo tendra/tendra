@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,69 +58,45 @@
 */
 
 /*
- * cstring-list.c - String list ADT.
+ * error-file.h - Error file parsing routines.
  *
- * This file implements the string list facility specified in the file
- * "cstring-list.h".  See that file for more details.
+ * This file specifies the interface to an error description file parsing
+ * facility.  This facility extends the error reporting facility specified in
+ * the file "error.h" so that error messages may be redefined by the contents
+ * of a file.
  */
 
-#include <stddef.h>
-#include <string.h>
+#ifndef H_ERROR_FILE
+#define H_ERROR_FILE
 
 #include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/cstring.h>
-#include <exds/dalloc.h>
-#include <exds/cstring-list.h>
 
-void
-cstring_list_init(CStringListT * list)
-{
-    list->head = NULL;
-    list->tail = & (list->head);
-}
 
-void
-cstring_list_append(CStringListT * list,			     char *     string)
-{
-    CStringListEntryT * entry = ALLOCATE(CStringListEntryT);
+/*
+ * This function parses the error file with the specified name.  If must_open
+ * is true, then an error will be reported if the file cannot be opened.
+ * Otherwise, the function will just return silently.
+ *
+ * The format of the file is a sequence of sections.  Sections may appear in
+ * any order, and may be repeated.  There are three section types: '%prefix%',
+ * '%errors%', and '%strings%'.  The prefix section contains a single string,
+ * which is to be used as the error message prefix.  The error and string
+ * sections contain a sequence of name and string pairs, where the name names
+ * the error or string being redefined, and the string specifies the new
+ * contents.  A name is a sequence of characters contained in single quotes,
+ * and a string is a sequence of characters contained in double quotes.  In
+ * both, the backslash character can be used to escape characters in a similar
+ * manner to C.  An example follows:
+ *
+ *	%prefix% "new error prefix"
+ *	%error%
+ *		'error message 1' "new error message 1 message"
+ *	%string%
+ *		'string 1' "new string 1 text"
+ *
+ * In addition, the '#' character can be used as a comment to end of line
+ * character.  Such comments are ignored.
+ */
+extern void	error_file_parse(char *, BoolT);
 
-    entry->next   = NULL;
-    entry->string = string;
-    *(list->tail) = entry;
-    list->tail    = & (entry->next);
-}
-
-BoolT
-cstring_list_contains(CStringListT * list,			       char *     string)
-{
-    CStringListEntryT * entry = list->head;
-    while (entry != NULL) {
-	if (!strcmp(string, entry->string)) {
-	    return(TRUE);
-	}
-	entry = entry->next;
-    }
-    return(FALSE);
-}
-
-CStringListEntryT *
-cstring_list_head(CStringListT * list)
-{
-    return(list->head);
-}
-
-char *
-cstring_list_entry_string(CStringListEntryT * entry)
-{
-    return(entry->string);
-}
-
-CStringListEntryT *
-cstring_list_entry_deallocate(CStringListEntryT * entry)
-{
-    CStringListEntryT * next = entry->next;
-
-    DEALLOCATE(entry);
-    return(next);
-}
+#endif /* !defined (H_ERROR_FILE) */

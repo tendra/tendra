@@ -68,11 +68,11 @@
 #include <stdio.h>
 
 #include "../../shared/check/check.h"
-#include "common.h"
-#include "exception.h"
-#include "dalloc.h"
-#include "istream.h"
-#include "cstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/istream.h>
+#include <exds/cstring.h>
 #include "syntax.h"
 
 #define ISTREAM_BUFSIZE 8193

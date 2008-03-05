@@ -68,8 +68,8 @@
 #include <setjmp.h>
 
 #include "../../shared/check/check.h"
-#include "common.h"
-#include "exception.h"
+#include <exds/common.h>
+#include <exds/exception.h>
 
 void (*unhandled)(ExceptionT *e, const char *file, unsigned line);
 void (*corrupt_handler)(const char *file, unsigned line);

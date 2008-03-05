@@ -69,10 +69,10 @@
 #include <stdint.h>
 
 #include "../../shared/check/check.h"
-#include "common.h"
-#include "exception.h"
-#include "bostream.h"
-#include "cstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/bostream.h>
+#include <exds/cstring.h>
 
 ExceptionT * XX_bostream_write_error = EXCEPTION("error writing to binary stream");
 

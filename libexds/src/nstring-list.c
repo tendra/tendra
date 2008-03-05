@@ -66,12 +66,12 @@
 
 #include <stddef.h>
 
-#include "common.h"
-#include "exception.h"
-#include "dalloc.h"
-#include "ostream.h"
-#include "dstring.h"
-#include "nstring-list.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/ostream.h>
+#include <exds/dstring.h>
+#include <exds/nstring-list.h>
 
 struct NStringListEntryT {
     NStringListEntryT   *next;

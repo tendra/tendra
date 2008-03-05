@@ -70,13 +70,13 @@
 #include <ctype.h>
 
 #include "../../shared/check/check.h"
-#include "common.h"
-#include "exception.h"
-#include "dalloc.h"
-#include "ostream.h"
-#include "cstring.h"
-#include "dstring.h"
-#include "error.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/ostream.h>
+#include <exds/cstring.h>
+#include <exds/dstring.h>
+#include <exds/error.h>
 #include "syntax.h"
 
 /*

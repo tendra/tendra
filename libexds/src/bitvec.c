@@ -70,11 +70,11 @@
 #include <string.h>
 #include <assert.h>
 
-#include "common.h"
-#include "exception.h"
-#include "ostream.h"
-#include "bitvec.h"
-#include "dalloc.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/ostream.h>
+#include <exds/bitvec.h>
+#include <exds/dalloc.h>
 
 /*
  * XXX These need to move into some ctx struct

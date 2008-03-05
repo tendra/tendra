@@ -16,8 +16,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "common.h"
-#include "exception.h"
+#include <exds/common.h>
+#include <exds/exception.h>
 
 /*
  * Three example user-defined exceptions with which to demonstrate.
