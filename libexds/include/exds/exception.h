@@ -144,7 +144,7 @@ struct HandlerT {
  *
  * This must be called before any exception is thrown.
  */
-extern void exception_unhandled(
+void exception_unhandled(
 	void (*handler)(ExceptionT *e, const char *file, unsigned line));
 
 
@@ -153,7 +153,7 @@ extern void exception_unhandled(
  *
  * This must be called before any exception is thrown.
  */
-extern void exception_corrupt_handler(
+void exception_corrupt_handler(
 	void (*handler)(const char *file, unsigned line));
 
 
@@ -161,11 +161,11 @@ extern void exception_corrupt_handler(
  * This function returns the name of the specified exception.  The return
  * value should not be modified or deallocated.
  */
-extern	char *		exception_name(ExceptionT *);
+char *		exception_name(ExceptionT *);
 
 extern HandlerT *			X__exception_handler_stack;
 extern ThrowDataT		X__exception_throw_data;
-extern NoReturnT		X__exception_throw(void);
+NoReturnT		X__exception_throw(void);
 
 /*
  * This macro is used to initialise an exception, e.g.:

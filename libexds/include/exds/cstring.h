@@ -84,7 +84,7 @@
  * This function returns a dynamically allocated copy of the specified
  * string.
  */
-extern char *			cstring_duplicate(char *cstring);
+char *			cstring_duplicate(char *cstring);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -93,7 +93,7 @@ extern char *			cstring_duplicate(char *cstring);
  * of the specified string.  If the cstring is shorter than the prefix
  * length, then only the cstring is used.
  */
-extern char *			cstring_duplicate_prefix(char *cstring,
+char *			cstring_duplicate_prefix(char *cstring,
 	unsigned prefix);
 
 /*
@@ -101,13 +101,13 @@ extern char *			cstring_duplicate_prefix(char *cstring,
  * string.  This value is guaranteed to be identical for all strings
  * with the same content.
  */
-extern unsigned			cstring_hash_value(char *cstring);
+unsigned			cstring_hash_value(char *cstring);
 
 /*
  * This function returns true if the specified cstrings have the same
  * content (ignoring differences in case), and false otherwise.
  */
-extern BoolT			cstring_ci_equal(char *cstring1, char *cstring2);
+BoolT			cstring_ci_equal(char *cstring1, char *cstring2);
 
 /*
  * This function parses an unsigned number in cstring.  If there is a valid
@@ -116,10 +116,10 @@ extern BoolT			cstring_ci_equal(char *cstring1, char *cstring2);
  * function checks for overflow; it will return false if the number is too
  * big.
  */
-extern BoolT			cstring_to_unsigned(char *cstring, unsigned *num_ref);
+BoolT			cstring_to_unsigned(char *cstring, unsigned *num_ref);
 
-extern BoolT			cstring_starts(char *cstring, char *s);
+BoolT			cstring_starts(char *cstring, char *s);
 
-extern char *			cstring_find_basename(char *cstring);
+char *			cstring_find_basename(char *cstring);
 
 #endif /* !defined (H_CSTRING) */

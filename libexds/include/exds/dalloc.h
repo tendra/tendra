@@ -106,15 +106,15 @@ extern ExceptionT *		XX_dalloc_no_memory;
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
-extern void	E_dalloc_multi_deallocate(void *, char *, unsigned,
+void	E_dalloc_multi_deallocate(void *, char *, unsigned,
 					  char *, unsigned);
-extern void	E_dalloc_corrupt_block(void *, char *, unsigned);
-extern void *	X__dalloc_allocate(size_t, size_t, char *, unsigned);
-extern void	X__dalloc_deallocate(void *, char *, unsigned);
+void	E_dalloc_corrupt_block(void *, char *, unsigned);
+void *	X__dalloc_allocate(size_t, size_t, char *, unsigned);
+void	X__dalloc_deallocate(void *, char *, unsigned);
 
 #else
 
-extern void *	X__dalloc_allocate(size_t, size_t);
+void *	X__dalloc_allocate(size_t, size_t);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 

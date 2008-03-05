@@ -239,7 +239,7 @@ typedef enum {
  * expected to be used to initialise named strings: these should be explicitly
  * initialised before they are used.
  */
-extern void		error_init(char *, ErrorInitProcP);
+void		error_init(char *, ErrorInitProcP);
 
 /*
  * This calls the error initialisation procedure if it has not already been
@@ -247,7 +247,7 @@ extern void		error_init(char *, ErrorInitProcP);
  * it should be called before the error value that will be passed to that
  * function is accessed).
  */
-extern void		error_call_init_proc(void);
+void		error_call_init_proc(void);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -256,7 +256,7 @@ extern void		error_call_init_proc(void);
  * name should not be modified or deallocated.  It is possible to define the
  * same tag more than once (but the same value will be returned each time).
  */
-extern ETagT *		error_define_tag(char *);
+ETagT *		error_define_tag(char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -270,7 +270,7 @@ extern ETagT *		error_define_tag(char *);
  * the value of the tag when the error is reported).  The data is for use by
  * the program.
  */
-extern ErrorT *		error_define_error(char *, ESeverityT, char *,
+ErrorT *		error_define_error(char *, ESeverityT, char *,
 					   void *);
 
 /*
@@ -280,7 +280,7 @@ extern ErrorT *		error_define_error(char *, ESeverityT, char *,
  * tags.  The vector should be terminated by the macro ``ERROR_END_TAG_LIST''.
  * This function should only be called once on any vector.
  */
-extern void		error_intern_tags(ETagDataT *);
+void		error_intern_tags(ETagDataT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -289,7 +289,7 @@ extern void		error_intern_tags(ETagDataT *);
  * The vector should be terminated by the macro ``ERROR_END_ERROR_LIST''.
  * This function should only be called once on any vector.
  */
-extern void		error_intern_errors(ErrorDataT *);
+void		error_intern_errors(ErrorDataT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -302,7 +302,7 @@ extern void		error_intern_errors(ErrorDataT *);
  * ``ERROR_STATUS_BAD_MESSAGE''.  If the function succeeds, it will return
  * ``ERROR_STATUS_SUCCESS''.
  */
-extern ErrorStatusT	error_redefine_error(char *, char *);
+ErrorStatusT	error_redefine_error(char *, char *);
 
 /*
  * This function returns the error with the specified name.  If the error does
@@ -310,12 +310,12 @@ extern ErrorStatusT	error_redefine_error(char *, char *);
  * initialisation procedure will be called to initialise the error messages
  * before they are looked up.
  */
-extern ErrorT *		error_lookup_error(char *);
+ErrorT *		error_lookup_error(char *);
 
 /*
  * This function returns the data associated with the specified error.
  */
-extern void *		error_data(ErrorT *);
+void *		error_data(ErrorT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -329,24 +329,24 @@ extern void *		error_data(ErrorT *);
  * program to exit if the error's severity level is ``ERROR_SEVERITY_FATAL''
  * or higher.
  */
-extern void		error_report(ErrorT *, ErrorprocP, void *);
+void		error_report(ErrorT *, ErrorprocP, void *);
 
-extern void		error_set_min_report_severity(ESeverityT);
+void		error_set_min_report_severity(ESeverityT);
 
-extern ESeverityT	error_get_min_report_severity(void);
+ESeverityT	error_get_min_report_severity(void);
 
 /*
  * This function returns the severity of the error with the highest severity
  * that has been passed to ``error_report''.
  */
-extern ESeverityT	error_max_reported_severity(void);
+ESeverityT	error_max_reported_severity(void);
 
 /*
  * This function sets the message to be displayed when the "${severity}" tag
  * is encountered for the specified severity.  Tags are not expanded in the
  * message. The message should not be modified or deallocated.
  */
-extern void		error_set_severity_message(ESeverityT, char *);
+void		error_set_severity_message(ESeverityT, char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -358,7 +358,7 @@ extern void		error_set_severity_message(ESeverityT, char *);
  * All other tags will be ignored.  The function returns true if the message
  * was valid, and false if there was an unterminated tag in the message.
  */
-extern BoolT		error_set_prefix_message(char *);
+BoolT		error_set_prefix_message(char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -367,7 +367,7 @@ extern BoolT		error_set_prefix_message(char *);
  * it the specified contents.  Neither the name nor the contents should be
  * modified or deallocated.  No tag splitting is performed on the contents.
  */
-extern EStringT *		error_define_string(char *, char *);
+EStringT *		error_define_string(char *, char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -377,7 +377,7 @@ extern EStringT *		error_define_string(char *, char *);
  * ``ERROR_END_STRING_LIST''.  This function should only be called once on any
  * vector.
  */
-extern void		error_intern_strings(EStringDataT *);
+void		error_intern_strings(EStringDataT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -386,19 +386,19 @@ extern void		error_intern_strings(EStringDataT *);
  * name.  If the name does not exist, the function returns false, otherwise it
  * returns true.
  */
-extern BoolT		error_redefine_string(char *, char *);
+BoolT		error_redefine_string(char *, char *);
 
 /*
  * This function returns the named string with the specified name.  If the
  * named string does not exist, the function returns the null pointer.
  */
-extern EStringT *		error_lookup_string(char *);
+EStringT *		error_lookup_string(char *);
 
 /*
  * This function returns the contents of the specified named string.  The
  * returned string should not be modified or deallocated.
  */
-extern char *		error_string_contents(EStringT *);
+char *		error_string_contents(EStringT *);
 
 /*
  * This macro should form the last entry in a vector of ``ETagDataT'' objects.

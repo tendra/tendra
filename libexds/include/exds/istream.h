@@ -114,18 +114,18 @@ extern ExceptionT *	 XX_istream_read_error;
  * standard input.  The ``istream_setup'' function must be called before this
  * constant is used.
  */
-extern IStreamT		*const istream_input;
+IStreamT		*const istream_input;
 
 /*
  * This function initialises the input stream facility.  It should be called
  * before any other istream manipulation function.
  */
-extern void			istream_setup(void);
+void			istream_setup(void);
 
 /*
  * This function initialises the specified istream not to read from any file.
  */
-extern void			istream_init(IStreamT *);
+void			istream_init(IStreamT *);
 
 /*
  * Exceptions: XX_dalloc_no_memory, XX_istream_read_error
@@ -136,19 +136,19 @@ extern void			istream_init(IStreamT *);
  * returns false. If the file is opened successfully, the function returns
  * true.
  */
-extern BoolT			istream_open(IStreamT *, char *);
+BoolT			istream_open(IStreamT *, char *);
 
 /*
  * This function assigns the from istream to the to istream.  The from istream
  * should not be used again.
  */
-extern void			istream_assign(IStreamT *, IStreamT *);
+void			istream_assign(IStreamT *, IStreamT *);
 
 /*
  * This function returns true if the specified istream is reading from a file,
  * and false otherwise.
  */
-extern BoolT			istream_is_open(IStreamT *);
+BoolT			istream_is_open(IStreamT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
@@ -159,7 +159,7 @@ extern BoolT			istream_is_open(IStreamT *);
  * the end of file is reached, the function returns false.  If the character
  * read is a newline, then the istream's line count is incremented.
  */
-extern BoolT			istream_read_char(IStreamT *, char *);
+BoolT			istream_read_char(IStreamT *, char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
@@ -169,7 +169,7 @@ extern BoolT			istream_read_char(IStreamT *, char *);
  * character is assigned to the reference argument, and the function returns
  * true.  If the end of file is reached, the function returns false.
  */
-extern BoolT			istream_peek_char(IStreamT *, char *);
+BoolT			istream_peek_char(IStreamT *, char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_istream_read_error
@@ -184,34 +184,34 @@ extern BoolT			istream_peek_char(IStreamT *, char *);
  * are newline characters, then the istream's line counter will be incremented
  * for each newline.
  */
-extern IStreamStatusT		istream_read_escaped_char(IStreamT *, char *);
+IStreamStatusT		istream_read_escaped_char(IStreamT *, char *);
 
 /*
  * This function increments the specified istream's line counter.  It should
  * only really be called as specified in the documentation for the
  * ``ISTREAM_READ_CHAR'' macro.
  */
-extern void			istream_inc_line(IStreamT *);
+void			istream_inc_line(IStreamT *);
 
 /*
  * This function returns the line number of the specified istream (one more
  * than the number of newlines that have been read).
  */
-extern unsigned			istream_line(IStreamT *);
+unsigned			istream_line(IStreamT *);
 
 /*
  * This function returns the name of the file from which the specified istream
  * is reading. The return value should not be modified or deallocated.
  */
-extern char *			istream_name(IStreamT *);
+char *			istream_name(IStreamT *);
 
 /*
  * This function closes the specified istream.
  */
-extern void			istream_close(IStreamT *);
+void			istream_close(IStreamT *);
 
 
-extern void			X__istream_fill_buffer(IStreamT *);
+void			X__istream_fill_buffer(IStreamT *);
 
 /*
  * This macro returns the next character from the specified istream.  It is a

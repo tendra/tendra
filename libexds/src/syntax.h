@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,71 +57,33 @@
         it may be put.
 */
 
-
 /*
- * cstring-list.h - String list ADT.
+ * syntax.h - Character classification.
  *
- * This file specifies the interface to a string list facility.  This
- * particular facility allows lists of cstrings (defined in the files
- * "cstring.[ch]") to be created.
- */
-
-#ifndef H_CSTRING_LIST
-#define H_CSTRING_LIST
-
-#include <exds/common.h>
-
-
-/*
- * This is the cstring list entry type. Its representation is private.
- */
-typedef struct CStringListEntryT CStringListEntryT;
-struct CStringListEntryT {
-    CStringListEntryT   *next;
-    char *			string;
-};
-
-/*
- * This is the cstring list type. Its representation is private.
- */
-typedef struct CStringListT CStringListT;
-struct CStringListT {
-    CStringListEntryT *		head;
-    CStringListEntryT *	       *tail;
-};
-
-/*
- * This function initialises the specified cstring list to be an empty list.
- */
-void			cstring_list_init (CStringListT *);
-
-/*
- * Exceptions:	XX_dalloc_no_memory
+ * This file specifies the interface to a number of syntax table manipulation
+ * functions.  I ought to be able to use <ctype.h> for this, but I can't
+ * because it doesn't have routines to get the numeric value for alphabetic
+ * characters (amongst other omissions).
  *
- * This function appends the specified cstring onto the specified list.
+ * It is assumed elsewhere (in association with the input stream facility
+ * specified in the file "istream.h") that the null and newline characters are
+ * white space, and have no digit value.
  */
-void			cstring_list_append (CStringListT *, char *);
 
-BoolT			cstring_list_contains (CStringListT *, char *);
+#ifndef H_SYNTAX
+#define H_SYNTAX
 
 /*
- * This function returns a pointer to the first entry in the specified list.
+ * This value is returned by the ``syntax_value'' function for characters that
+ * do not have a digit value.
+ *
  */
-CStringListEntryT *	cstring_list_head (CStringListT *);
+#define SYNTAX_NO_VALUE	(-1)
 
 /*
- * This function returns a pointer to the cstring stored in the specified
- * list entry.
+ * This function returns the positive integer digit value that the specified
+ * character should have, or ``SYNTAX_NO_VALUE'' if it has no value.
  */
-char *			cstring_list_entry_string (CStringListEntryT *);
+int	syntax_value(char);
 
-/*
- * This function deallocates the specified list entry (without deallocating
- * the string - this must be done by the calling function) and returns a
- * pointer to the next entry in the list.  Once this function has been called,
- * the state of the list that the entry is a member of is undefined.  It is
- * only useful for deallocating the entire list in a loop.
- */
-CStringListEntryT *	cstring_list_entry_deallocate (CStringListEntryT *);
-
-#endif /* !defined (H_CSTRING_LIST) */
+#endif /* !defined (H_SYNTAX) */

@@ -96,7 +96,7 @@ extern ExceptionT *		XX_bostream_write_error;
  *
  * See bostream_open() to initialise to write to a specific file.
  */
-extern void			bostream_init (BOStreamT *);
+void			bostream_init (BOStreamT *);
 
 /*
  * This function initialises the specified bostream to write to the file with
@@ -107,19 +107,19 @@ extern void			bostream_init (BOStreamT *);
  *
  * See bostream_init() to initialise not to write to a file.
  */
-extern BoolT			bostream_open (BOStreamT *, char *);
+BoolT			bostream_open (BOStreamT *, char *);
 
 /*
  * This function assigns the from bostream to the to bostream.  The from
  * bostream should not be used again.
  */
-extern void			bostream_assign (BOStreamT *, BOStreamT *);
+void			bostream_assign (BOStreamT *, BOStreamT *);
 
 /*
  * This function returns true if the specified bostream is writing to a file,
  * and false otherwise.
  */
-extern BoolT			bostream_is_open (BOStreamT *);
+BoolT			bostream_is_open (BOStreamT *);
 
 /*
  * Exceptions:	XX_bostream_write_error
@@ -127,7 +127,7 @@ extern BoolT			bostream_is_open (BOStreamT *);
  * This function writes the length characters in the chars vector to the
  * specified bostream.
  */
-extern void			bostream_write_chars (BOStreamT *, unsigned, char *);
+void			bostream_write_chars (BOStreamT *, unsigned, char *);
 
 /*
  * Exceptions:	XX_bostream_write_error
@@ -135,25 +135,25 @@ extern void			bostream_write_chars (BOStreamT *, unsigned, char *);
  * This function writes the length bytes in the bytes vector to the specified
  * bostream.
  */
-extern void			bostream_write_bytes (BOStreamT *, unsigned, uint8_t *);
+void			bostream_write_bytes (BOStreamT *, unsigned, uint8_t *);
 
 /*
  * Exceptions:	XX_bostream_write_error
  *
  * This function writes the byte to the specified bostream.
  */
-extern void			bostream_write_byte (BOStreamT *, uint8_t);
+void			bostream_write_byte (BOStreamT *, uint8_t);
 
 /*
  * This function returns the name of the file to which the specified
  * bostream is writing. The return value should not be modified or
  * deallocated.
  */
-extern char *			bostream_name (BOStreamT *);
+char *			bostream_name (BOStreamT *);
 
 /*
  * This function closes the specified bostream.
  */
-extern void			bostream_close (BOStreamT *);
+void			bostream_close (BOStreamT *);
 
 #endif /* !defined (H_BOSTREAM) */
