@@ -68,7 +68,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "../../shared/check/check.h"
+#include "shared/check/check.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/bostream.h>
