@@ -1,41 +1,86 @@
 ------------------------------------------------------------------------------
---                   G E L A   R E P O S I T O R Y                          --
+--                         G E L A   H A S H                                --
 --                 Repository implementation for Gela                       --
 --                     http://www.ten15.org/wiki/Ada                        --
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
 --  Purpose:
---  Dictionary for set keyword's ID, with automatic clean unused IDs.
+--  Hash by SHA-256 algoritm
+--
 
-with Ada.Finalization;
-with Gela.Hash.CRC.b16;
+with Interfaces;
 
-package Gela.Repository.Dictionary is
+package Gela.Hash.SHA.b256 is
 
-   type ID is private;
+   type SHA256 is
+     array (1 .. 64) of Character;
 
-   subtype Code_Point is Wide_Wide_Character range
-     Wide_Wide_Character'Val (0) .. Wide_Wide_Character'Val (16#10FFFF#);
+   type Hasher_256 is
+     new Hasher with private;
 
-   type Code_Point_Array is array (Positive range <>) of Code_Point;
+   Initial_Hasher : constant Hasher_256;
 
-   type Gela_Dictionary is abstract
-     new Ada.Finalization.Limited_Controlled with private;
+   procedure Result
+     (This  : in out Hasher_256;
+      Value :    out SHA256);
 
-   function Get_ID
-     (This  : in Gela_Dictionary;
-      Value : in Code_Point_Array)
-      return ID is abstract;
+   function Calculate
+     (Value : in String)
+      return SHA256;
+
+   function Wide_Calculate
+     (Value : in Wide_String)
+      return SHA256;
+
+   function Wide_Wide_Calculate
+     (Value : in Wide_Wide_String)
+      return SHA256;
+
+   function Calculate
+     (Value : in Ada.Streams.Stream_Element_Array)
+      return SHA256;
+
+--     overriding
+   procedure Update
+     (This  : in out Hasher_256;
+      Value : in     Ada.Streams.Stream_Element_Array);
 
 private
 
-   type ID is new Gela.Hash.CRC.b16.CRC16;
+   --  SHA-256 constants
+   H1 : constant := 16#6a09e667#;
+   H2 : constant := 16#bb67ae85#;
+   H3 : constant := 16#3c6ef372#;
+   H4 : constant := 16#a54ff53a#;
+   H5 : constant := 16#510e527f#;
+   H6 : constant := 16#9b05688c#;
+   H7 : constant := 16#1f83d9ab#;
+   H8 : constant := 16#5be0cd19#;
 
-   type Gela_Dictionary is abstract
-     new Ada.Finalization.Limited_Controlled with null record;
+   type Hash_Array is
+     array (Positive range <>) of Interfaces.Unsigned_32;
 
-end Gela.Repository.Dictionary;
+   type Hasher_256 is new Hasher
+   with record
+      Internal_Buffer : Ada.Streams.Stream_Element_Array (1 .. 63) :=
+        (others => 0);
+
+      Internal_Hash : Hash_Array (1 .. 8) :=
+        (H1, H2, H3, H4, H5, H6, H7, H8);
+   end record;
+
+   procedure Process
+     (This  : in out Hasher_256;
+      Value : in     Ada.Streams.Stream_Element_Array);
+
+   Initial_Hasher : constant Hasher_256 :=
+     (Length          => 0,
+      Last            => 0,
+      Internal_Hash   => (H1, H2, H3, H4, H5, H6, H7, H8),
+      Internal_Buffer => (others => 0));
+
+end Gela.Hash.SHA.b256;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2006, Andry Ogorodnik

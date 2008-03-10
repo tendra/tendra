@@ -1,41 +1,45 @@
 ------------------------------------------------------------------------------
---                   G E L A   R E P O S I T O R Y                          --
+--                         G E L A   H A S H                                --
 --                 Repository implementation for Gela                       --
 --                     http://www.ten15.org/wiki/Ada                        --
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
 --  Purpose:
---  Dictionary for set keyword's ID, with automatic clean unused IDs.
+--  Hash by SHA algoritm
+--
 
-with Ada.Finalization;
-with Gela.Hash.CRC.b16;
+with Ada.Streams;
 
-package Gela.Repository.Dictionary is
+package Gela.Hash.SHA is
 
-   type ID is private;
+   type Hasher is
+     abstract tagged private;
 
-   subtype Code_Point is Wide_Wide_Character range
-     Wide_Wide_Character'Val (0) .. Wide_Wide_Character'Val (16#10FFFF#);
+   procedure Update
+     (This  : in out Hasher'Class;
+      Value : in     String);
 
-   type Code_Point_Array is array (Positive range <>) of Code_Point;
+   procedure Wide_Update
+     (This  : in out Hasher'Class;
+      Value : in     Wide_String);
 
-   type Gela_Dictionary is abstract
-     new Ada.Finalization.Limited_Controlled with private;
+   procedure Wide_Wide_Update
+     (This  : in out Hasher'Class;
+      Value : in     Wide_Wide_String);
 
-   function Get_ID
-     (This  : in Gela_Dictionary;
-      Value : in Code_Point_Array)
-      return ID is abstract;
+   procedure Update
+     (This  : in out Hasher;
+      Value : in     Ada.Streams.Stream_Element_Array) is abstract;
 
 private
 
-   type ID is new Gela.Hash.CRC.b16.CRC16;
+   type Hasher is abstract tagged record
+      Length : Natural := 0;
+      Last   : Ada.Streams.Stream_Element_Offset := 0;
+   end record;
 
-   type Gela_Dictionary is abstract
-     new Ada.Finalization.Limited_Controlled with null record;
-
-end Gela.Repository.Dictionary;
+end Gela.Hash.SHA;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2006, Andry Ogorodnik
