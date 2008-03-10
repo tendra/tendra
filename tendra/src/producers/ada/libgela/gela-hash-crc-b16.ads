@@ -6,14 +6,100 @@
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
 --  Purpose:
---  Subsystem for Hash routines
 
-package Gela.Hash is
-   pragma Pure;
+--  Name  : CRC-16 [CCITT]
+--  Width : 16
+--  Poly  : 0x1021 x^16 + x^12 + x^5 + 1
+--  Init  : 0xFFFF
+--  RefIn : False
+--  RefOut: False
+--  XorOut: 0x0000
+--  Check : 0x29B1 ("123456789")
+--  MaxLen: 4095 byte (32767 bit)
 
-   type Hash_Type is mod 2 ** 32;
+with Ada.Streams;
+with Interfaces;
 
-end Gela.Hash;
+package Gela.Hash.CRC.b16 is
+
+   type CRC16 is new Interfaces.Unsigned_16;
+
+   type Hasher is private;
+
+   Initial_Hasher : constant Hasher;
+
+   procedure Update
+     (This  : in out Hasher;
+      Value : in     String);
+
+   procedure Wide_Update
+     (This  : in out Hasher;
+      Value : in     Wide_String);
+
+   procedure Wide_Wide_Update
+     (This  : in out Hasher;
+      Value : in     Wide_Wide_String);
+
+   procedure Update
+     (This  : in out Hasher;
+      Value : in     Ada.Streams.Stream_Element_Array);
+
+   function Result
+     (This : in Hasher)
+      return CRC16;
+
+   function Calculate
+     (Value : in String)
+      return CRC16;
+
+   function Wide_Calculate
+     (Value : in Wide_String)
+      return CRC16;
+
+   function Wide_Wide_Calculate
+     (Value : in Wide_Wide_String)
+      return CRC16;
+
+   function Calculate
+     (Value : in Ada.Streams.Stream_Element_Array)
+      return CRC16;
+
+   function To_Hash
+     (T : in CRC16)
+      return Hash_Type;
+   pragma Inline (To_Hash);
+
+   function Calculate
+     (Value : in String)
+      return Hash_Type;
+   pragma Inline (Calculate);
+
+   function Wide_Calculate
+     (Value : in Wide_String)
+      return Hash_Type;
+   pragma Inline (Calculate);
+
+   function Wide_Wide_Calculate
+     (Value : in Wide_Wide_String)
+      return Hash_Type;
+   pragma Inline (Calculate);
+
+   function Calculate
+     (Value : in Ada.Streams.Stream_Element_Array)
+      return Hash_Type;
+   pragma Inline (Calculate);
+
+private
+
+   type Hasher is record
+      Length : Integer  := 0;
+      Cm_Reg : CRC16 := 16#FFFF#;
+   end record;
+
+   Initial_Hasher : constant Hasher :=
+     (Length => 0, Cm_Reg => 16#FFFF#);
+
+end Gela.Hash.CRC.b16;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2006, Andry Ogorodnik

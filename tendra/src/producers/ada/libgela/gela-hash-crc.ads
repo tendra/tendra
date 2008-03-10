@@ -6,14 +6,16 @@
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
 --  Purpose:
---  Subsystem for Hash routines
+--  Hash by CRC algoritm
+--  Some common types and functionality
 
-package Gela.Hash is
-   pragma Pure;
+package Gela.Hash.CRC is
 
-   type Hash_Type is mod 2 ** 32;
+   Maximum_Length : constant := 4095;
 
-end Gela.Hash;
+   Maximum_Length_Error : exception;
+
+end Gela.Hash.CRC;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2006, Andry Ogorodnik
@@ -40,3 +42,4 @@ end Gela.Hash;
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
 ------------------------------------------------------------------------------
+
