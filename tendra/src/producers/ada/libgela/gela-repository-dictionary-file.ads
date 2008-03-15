@@ -6,99 +6,26 @@
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
 --  Purpose:
---  Dictionary for set keyword's ID, with automatic clean unused IDs.
+--  Dictionary with store data in file.
 
-with Ada.Finalization;
-with Gela.Hash.CRC.b16;
+package Gela.Repository.Dictionary.File is
 
-package Gela.Repository.Dictionary is
-
-   type ID is private;
-
---     subtype Code_Point is Wide_Wide_Character range
---       Wide_Wide_Character'Val (0) .. Wide_Wide_Character'Val (16#10FFFF#);
-
-   subtype Code_Point_Array is Wide_Wide_String;
-
-   type Gela_Dictionary is abstract
-     new Ada.Finalization.Limited_Controlled with private;
-
-   procedure Get_ID
-     (This   : in out Gela_Dictionary;
-      Value  : in     Code_Point_Array;
-      Result :    out ID);
-
-   function Get_Name
-     (This  : in Gela_Dictionary;
-      Value : in ID)
-      return Code_Point_Array;
-
-   procedure Marck
-     (This  : in Gela_Dictionary;
-      Value : in ID);
-
-   procedure Clear
-     (This : in out Gela_Dictionary);
-
-   function Count
-     (This : in Gela_Dictionary)
-      return Natural;
-
-   Use_Error : exception;
+   type Gela_Dictionary_File is
+     new Gela_Dictionary with private;
 
 private
 
-   type ID is new Gela.Hash.CRC.b16.CRC16;
+   type Gela_Dictionary_File is
+     new Gela_Dictionary with null record;
 
-   type Code_Point_Array_Access is
-     access all Code_Point_Array;
+   procedure Initialize
+     (This : in out Gela_Dictionary_File);
 
-   type ID_Point is record
-      Num  : ID := 0;
-      Data : Code_Point_Array_Access := null;
-      Used : Boolean := False;
-   end record;
-
-   type ID_Point_Array is
-     array (Positive range <>) of ID_Point;
-
-   type ID_Point_Array_Access is
-     access all ID_Point_Array;
-
-   type Gela_Dictionary is abstract
-     new Ada.Finalization.Limited_Controlled
-   with record
-      Data    : ID_Point_Array_Access := null;
-      Changed : Boolean := False;
-   end record;
-
-   procedure Finalize
-     (This : in out Gela_Dictionary);
-
-   function Find
-     (This : in Gela_Dictionary;
-      Num  : in    ID)
-      return Natural;
-
-   procedure Insert
-     (This  : in out Gela_Dictionary;
-      Index : in     Positive;
-      Point : in     ID_Point);
-
-   procedure Delete
-     (This  : in out Gela_Dictionary;
-      Index : in     Positive);
-
-   procedure Free_Unused
-     (This : in out Gela_Dictionary);
-
-   procedure Redirect_Save
-     (This : in out Gela_Dictionary'Class);
-
+--     overriding
    procedure Save
-     (This : in out Gela_Dictionary); -- is null;
+     (This : in out Gela_Dictionary_File);
 
-end Gela.Repository.Dictionary;
+end Gela.Repository.Dictionary.File;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2006, Andry Ogorodnik
