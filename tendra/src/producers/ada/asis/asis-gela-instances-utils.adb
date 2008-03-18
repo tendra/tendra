@@ -36,7 +36,9 @@ package body Asis.Gela.Instances.Utils is
       use Asis.Elements;
    begin
       case Declaration_Kind (Parent) is
-         when A_Package_Instantiation =>
+         when A_Package_Instantiation |
+           A_Formal_Package_Declaration |
+           A_Formal_Package_Declaration_With_Box =>
             return Clone_Package (Item, Parent);
          when A_Procedure_Instantiation =>
             return Clone_Procedure (Item, Parent);
@@ -492,11 +494,24 @@ package body Asis.Gela.Instances.Utils is
    -----------------------------------
 
    procedure Set_Corresponding_Declaration (Item, Source : Asis.Element) is
+      use Asis.Elements;
       use Asis.Gela.Elements.Decl;
-      Node : Package_Instantiation_Node'Class renames
-        Package_Instantiation_Node'Class (Source.all);
    begin
-      Set_Corresponding_Declaration (Node, Item);
+      if Declaration_Kind (Source) = A_Formal_Package_Declaration_With_Box then
+         declare
+            Node : Formal_Package_Declaration_With_Box_Node renames
+              Formal_Package_Declaration_With_Box_Node (Source.all);
+         begin
+            Set_Corresponding_Declaration (Node, Item);
+         end;
+      else
+         declare
+            Node : Package_Instantiation_Node'Class renames
+              Package_Instantiation_Node'Class (Source.all);
+         begin
+            Set_Corresponding_Declaration (Node, Item);
+         end;
+      end if;
    end Set_Corresponding_Declaration;
 
    -------------------------

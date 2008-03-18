@@ -1111,7 +1111,9 @@ package body XASIS.Utils is
       return Kind = A_Package_Declaration or
         Kind = A_Package_Body_Declaration or
         Kind = A_Package_Renaming_Declaration or
-        Kind = A_Package_Instantiation;
+        Kind = A_Package_Instantiation or
+        Kind = A_Formal_Package_Declaration or
+        Kind = A_Formal_Package_Declaration_With_Box;
    end Is_Package_Name;
 
    ----------------------------------

@@ -307,6 +307,8 @@
         <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
         <attr name="Corresponding_Body" type="Asis.Declaration"/>
         <attr name="Generic_Unit_Name" type="Asis.Expression" child="3"/>
+        <attr name="Normalized_Generic_Actual_Part" type="Secondary_Association_Lists.List_Node"/>
+        <attr name="Parameter_Views" type="Primary_Declaration_Lists.List" defer="y"/>
       </node>
     </node>
     <node name="Definition_Node" abstract="y">

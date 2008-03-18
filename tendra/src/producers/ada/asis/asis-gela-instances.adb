@@ -419,9 +419,24 @@ package body Asis.Gela.Instances is
 
       function Find_Actual (Name : Asis.Defining_Name) return Asis.Expression;
       function Assoc_Needed (Name : Asis.Defining_Name) return Boolean;
+      function Actual_Part (Decl : Asis.Declaration) return Association_List;
+
+      -----------------
+      -- Actual_Part --
+      -----------------
+
+      function Actual_Part (Decl : Asis.Declaration) return Association_List is
+         Kind : constant Asis.Declaration_Kinds := Declaration_Kind (Decl);
+      begin
+         if Kind = A_Formal_Package_Declaration_With_Box then
+            return Nil_Element_List;
+         else
+            return Generic_Actual_Part (Decl);
+         end if;
+      end Actual_Part;
 
       Index      : Asis.List_Index := 1;
-      Actuals    : Asis.Association_List := Generic_Actual_Part (Decl);
+      Actuals    : Asis.Association_List := Actual_Part (Decl);
       List       : Asis.Element_List := Generic_Formal_Part (Template);
 
       ------------------
@@ -660,6 +675,8 @@ package body Asis.Gela.Instances is
       Map        : aliased Pair_Lists.List;
       Copy       : Asis.Declaration;
       Templ_Body : Asis.Declaration;
+      Decl_Kind  : constant Asis.Declaration_Kinds :=
+        Declaration_Kind (Template);
    begin
       if Declaration_Kind (Template) not in A_Generic_Declaration then
          Report (Name, Error_Generic_Expected);
@@ -679,7 +696,7 @@ package body Asis.Gela.Instances is
 
       Templ_Body := Asis.Declarations.Corresponding_Body (Template);
 
-      if Assigned (Templ_Body) then
+      if Assigned (Templ_Body) and Decl_Kind in A_Generic_Instantiation then
          Copy := Deep_Copy (The_Cloner, Templ_Body, Decl);
          Utils.Set_Corresponding_Body (Copy, Decl);
       end if;
@@ -756,7 +773,10 @@ package body Asis.Gela.Instances is
    is
       use Asis.Expressions;
       use Asis.Declarations;
-      Actuals : Asis.Association_List := Generic_Actual_Part (Decl, True);
+      --  ASIS prohibits Generic_Actual_Part for
+      --  A_Formal_Package_Declaration_With_Box, so call internal function:
+      Actuals : Asis.Association_List :=
+        Normalized_Generic_Actual_Part (Decl.all);
       Actual  : Asis.Expression;
    begin
       for I in Actuals'Range loop

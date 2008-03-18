@@ -130,6 +130,10 @@ package body Asis.Gela.Implicit.Decl is
                  =>
                   Process_Renaming (Element);
 
+               when A_Formal_Package_Declaration |
+                 A_Formal_Package_Declaration_With_Box =>
+                  Instances.Make_Instance_Declaration (Element, Point, Inner);
+
                when others =>
                   null;
             end case;

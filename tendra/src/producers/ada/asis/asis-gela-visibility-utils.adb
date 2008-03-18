@@ -602,8 +602,16 @@ package body Asis.Gela.Visibility.Utils is
       Template      : Asis.Declaration;
    begin
       if Is_Part_Of_Instance (Decl) then
-         Template      := Enclosing_Element (Decl);
-         return Declaration_Kind (Template) in A_Generic_Instantiation;
+         Template := Enclosing_Element (Decl);
+
+         case Declaration_Kind (Template) is
+            when A_Generic_Instantiation |
+              A_Formal_Package_Declaration |
+              A_Formal_Package_Declaration_With_Box =>
+               return True;
+            when others =>
+               null;
+         end case;
       end if;
 
       return False;
