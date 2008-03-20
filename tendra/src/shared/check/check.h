@@ -88,7 +88,7 @@
 # ifdef __TenDRA__
 #  pragma TenDRA keyword UNUSED for discard variable
 # else
-#  define UNUSED(v)
+#  define UNUSED(v) ((void) (v))
 # endif /* defined (__TenDRA__) */
 
 /*
