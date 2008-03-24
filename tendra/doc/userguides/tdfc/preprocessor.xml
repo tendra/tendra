@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title id="wbS71">Preprocessing checks</title>
+
+	<para>This chapter describes tchk's capabilities for checking the
+		preprocessing constructs that arise in C.</para>
+
+	<section>
+		<title id="1">Preprocessor directives</title>
+
+		<para>By default, the TenDRA C checker understands those preprocessor
+			directives specified by the ISO C standard, section 6.8, i.e.
+			<code>#if</code>, <code>#ifdef</code>, <code>#ifndef</code>,
+			<code>#elif</code>, <code>#else</code>, <code>#endif</code>,
+			<code>#error</code>, <code>#line</code> and <code>#pragma</code>.
+			As has been mentioned, <code>#pragma</code> statements play a
+			significant role in the checker. While any recognised
+			<code>#pragma</code> statements are processed, all unknown pragma
+			statements are ignored by default. The check to detect unknown
+			pragma statements is controlled by:</para>
+
+		<programlisting language="C">#pragma TenDRA unknown pragma <emphasis>permit</emphasis></programlisting>
+
+		<para>The options for <emphasis>permit</emphasis> are
+			<code>disallow</code> (raise an error if an unknown pragma is
+			encountered), <code>warning</code> (allow unknown pragmas with
+			a warning), or <code>allow</code> (allow unknown pragmas without
+			comment).</para>
+
+		<para>In addition, the common non-ISO preprocessor directives,
+			<code>#file</code>, <code>#ident</code>, <code>#assert</code>,
+			<code>#unassert</code> and <code>#weak</code> may be permitted
+			using:</para>
+
+		<programlisting language="C">#pragma TenDRA directive <emphasis>dir</emphasis> allow</programlisting>
+
+		<para>where <emphasis>dir</emphasis> is one of <code>file</code>,
+			<code>ident</code>, <code>assert</code>, <code>unassert</code> or
+			<code>weak</code>. If <emphasis>allow</emphasis> is replaced by
+			<code>warning</code> then the directive is allowed, but a warning
+			is issued. In either case, the modifier <code>(ignore)</code> may
+			be added to indicate that, although the directive is allowed, its
+			effect is ignored. Thus for example:</para>
+
+		<programlisting language="C">#pragma TenDRA directive ident (ignore) allow</programlisting>
+
+		<para>causes the checker to ignore any #ident directives without
+			raising any errors.</para>
+
+		<para>Finally, the directive dir can be disallowed using:</para>
+
+		<programlisting language="C">#pragma TenDRA directive <emphasis>dir</emphasis> disallow</programlisting>
+
+		<para>Finally, the directive <emphasis>dir</emphasis> can be disallowed
+			using:</para>
+
+		<programlisting language="C">#pragma TenDRA unknown directive allow</programlisting>
+
+		<para>Any other unknown preprocessing directives cause the checker to
+			raise an error in the default mode. The pragma may be used to force
+			the checker to ignore such directives without raising any errors.</para>
+
+		<para><code>Disallow</code> and <code>warning</code> variants are also
+			available.</para>
+	</section>
+
+	<section>
+		<title id="7">Indented Preprocessing Directives</title>
+
+		<para>The ISO C standard allows white space to occur before the
+			<code>#</code> in a preprocessing directive, and between the
+			<code>#</code> and the directive name. Many older preprocessors
+			have problems with such directives. The checker's treatment of such
+			directives can be set using:</para>
+
+		<programlisting language="C">#pragma TenDRA indented # directive <emphasis>permit</emphasis></programlisting>
+
+		<para>which detects white space before the <code>#</code> and:</para>
+
+		<programlisting language="C">#pragma TenDRA indented directive after # <emphasis>permit</emphasis></programlisting>
+
+		<para>which detects white space before the <code>#</code> and the
+			directive name. The options for <emphasis>permit</emphasis> are
+			<code>allow</code>, <code>warning</code> or <code>disallow</code>
+			as usual. The default checking profile allows both forms of
+			indented directives.</para>
+	</section>
+
+	<section>
+		<title id="9">Multiple macro definitions</title>
+
+		<para>The ISO C standard states that, for two definitions of a
+			function-like macro to be equal, both the spelling of the
+			parameters and the macro definition must be equal. Thus, for
+			example, in:</para>
+
+	<programlisting language="C">
+#define f( x ) ( x )
+#define f( y ) ( y )</programlisting>
+
+		<para>the two definitions of <code>f</code> are not equal, despite
+			the fact that they are clearly equivalent. Tchk has an alternative
+			definition of macro equality which allows for consistent
+			substitution of parameter names. The type of macro equality used is
+			controlled by:</para>
+
+		<programlisting language="C">#pragma TenDRA weak macro equality allow</programlisting>
+
+		<para>where <emphasis>permit</emphasis> is <code>allow</code>
+			(use alternative definition of macro equality), <code>warning</code>
+			(as for allow but raise a warning), or <code>disallow</code>
+			(use the ISO C definition of macro equality - this is the default
+			setting).</para>
+
+		<para>More generally, the pragma:</para>
+
+		<programlisting language="C">#pragma TenDRA extra macro definition allow</programlisting>
+
+		<para>allows macros to be redefined, both consistently and
+			inconsistently. If the definitions are incompatible, the first
+			definition is overwritten. This pragma has a <code>disallow</code>
+			variant, which resets the check to its default mode.</para>
+	</section>
+
+	<section>
+		<title id="11">Macro arguments</title>
+
+		<para>According to the ISO C standard, section 6.8.3, if a macro
+			argument contains a sequence of preprocessing tokens that would
+			otherwise act as a preprocessing directive, the behaviour is
+			undefined. Tchk allows preprocessing directives in macro arguments
+			by default. The check to detect such macro arguments is controlled
+			by:</para>
+
+		<programlisting language="C">#pragma TenDRA directive as macro argument <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is <code>allow</code>,
+			<code>warning</code> or <code>disallow</code>.</para>
+
+		<para>The ISO C standard, section 6.8.3.2, also states that each
+			<code>#</code> preprocessing token in the replacement list for a
+			function-like macro shall be followed by a parameter as the next
+			preprocessing token in the replacement list. By default, if tchk
+			encounters a <code>#</code> in a function-like macro replacement
+			list which is not followed by a parameter of the macro an error
+			is raised. The checker's behaviour in this situation is
+			controlled by:</para>
+
+		<programlisting language="C">#pragma TenDRA no ident after # <emphasis>permit</emphasis></programlisting>
+
+		<para>where the options for <emphasis>permit</emphasis> are
+			<code>allow</code> (do not raise errors), <code>disallow</code>
+			(default mode) and <code>warning</code> (raise warnings instead of
+			errors).</para>
+	</section>
+
+	<section>
+		<title id="15">Unmatched quotes</title>
+
+		<para>The ISO C standard, section 6.1, states that if a <code>'</code>
+			or <code>"</code> character matches the category of preprocessing
+			tokens described as <quote>single non-whitespace-characters that do
+			not lexically match the other preprocessing token categories</quote>,
+			then the behaviour is undefined. For example:</para>
+
+		<programlisting language="C">#define a 'b</programlisting>
+
+		<para>would result in undefined behaviour. By default the
+			<code>'</code> character is ignored by tchk. A check to detect such
+			statements may be controlled by:</para>
+
+		<programlisting language="C">#pragma TenDRA unmatched quote <emphasis>permit</emphasis></programlisting>
+
+		<para>The usual <code>allow</code>, <code>warning</code> and
+			<code>disallow</code> options are available.</para>
+	</section>
+
+	<section>
+		<title id="17">Include depth</title>
+
+		<para>Most preprocessors set a maximum depth for <code>#include</code>
+			directives (which may be limited by the maximum number of files
+			which can be open on the host system). By default, the checker
+			supports a depth equal to this maximum number. However, a smaller
+			maximum depth can be set using:</para>
+
+		<programlisting language="C">#pragma TenDRA includes depth n</programlisting>
+
+		<para>where <emphasis>n</emphasis> can be any positive integral
+			constant.</para>
+	</section>
+
+	<section>
+		<title id="19">Text after <code>#endif</code></title>
+
+		<para>The ISO C standard, section 6.8, specifies that
+			<code>#endif</code> and <code>#else</code> preprocessor directives
+			do not take any arguments, but should be followed by a newline. In
+			the default checking mode, tchk raises an error when
+			<code>#endif</code> or <code>#else</code> statements are not
+			directly followed by a new line. This behaviour may be modified
+			using:</para>
+
+		<programlisting language="C">#pragma TenDRA text after directive <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is <code>allow</code>
+			(no errors are raised and any text on the same line as the
+			<code>#endif</code> or <code>#else</code> statement is
+			ignored), <code>warning</code> or <code>disallow</code>.</para>
+	</section>
+
+	<section>
+		<title id="21">Text after <code>#</code></title>
+
+		<para>The ISO C standard specifies that a <code>#</code> occuring
+			outside of a macro replacement list must be followed by a new line
+			or by a preprocessing directive and this is enforced by the checker
+			in default mode. The check is controlled by:</para>
+
+		<programlisting language="C">#pragma TenDRA no directive/nline after ident <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> may be <code>allow</code>,
+			<code>disallow</code> or <code>warning</code>.</para>
+	</section>
+
+	<section>
+		<title id="23">New line at end of file</title>
+
+		<para>The ISO C standard, section 5.1.1.2, states that source files
+			must end with new lines. Files which do not end in new lines are
+			flagged as errors by the checker in default mode. The behaviour
+			can be modified using:</para>
+
+		<programlisting language="C">#pragma TenDRA no nline after file end <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> has the usual <code>allow</code>,
+			<code>disallow</code> and <code>warning</code> options.</para>
+	</section>
+</chapter>
+

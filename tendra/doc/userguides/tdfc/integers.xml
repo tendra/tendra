@@ -1,0 +1,497 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title id="wbS32">Integral Types</title>
+
+	<para>The checks described in the previous chapter involved the detection
+		of conversions which could result in undefined values. Certain
+		conversions involving integral types, however, are defined in the ISO C
+		standard and so might be considered safe and unlikely to cause
+		problems. This unfortunately is not the case: some of these conversions
+		may still result in a change in value; the actual size of each integral
+		type is implementation-dependent; and the "old-style" integer
+		conversion rules which predate the ISO standard are still in common
+		use. The checker provides support for both ISO and traditional integer
+		promotion rules. The set of rules used may be specified independently
+		of the two integral range scenarios, 16 bit(default) and 32 bit,
+		described in section 2.1.2.</para>
+
+	<para>The means of specifying and alternative sets of promotion rules,
+		their interaction with the conversion checks described in section
+		3.2 and the additional checks which may be performed on integers
+		and integer operations are described in the remainder of this
+		chapter.</para>
+
+	<section>
+		<title id="wbS32">Integer promotion rules</title>
+
+		<code><emphasis>The ISO C standard rules</emphasis> may be summarised
+			as follows: <code>long</code> integral types promote to themselves;
+			other integral types promote to whichever of <code>int</code> or
+			<code>unsigned int</code> they fit into. In full the promotions are:</code>
+
+		<informalfigure>
+			<literallayout><code>char</code> &#x2192; <code>int</code>
+<code>signed char</code> &#x2192; <code>int</code>
+<code>unsigned char</code> &#x2192; <code>int</code>
+<code>short</code> &#x2192; <code>int</code>
+<code>unsigned short</code> &#x2192; <code>int</code> or <code>unsigned int</code>
+<code>int</code> &#x2192; <code>int</code>
+<code>unsigned int</code> &#x2192; <code>unsigned int</code>
+<code>long</code> &#x2192; <code>long</code>
+<code>unsigned long</code> &#x2192; <code>unsigned long</code></literallayout>
+		</informalfigure>
+
+		<para>Note that even with these simple built-in types, there is a
+			degree of uncertainty, namely concerning the promotion of
+			<code>unsigned short</code>. On most machines, <code>int</code> is
+			strictly larger than <code>short</code> so the promotion of
+			<code>unsigned short</code> is <code>int</code>. However, it is
+			possible for <code>short</code> and <code>int</code> to have the
+			same size, in which case the promotion is <code>unsigned int</code>.
+			When using the ISO C promotion rules, the checker usually avoids
+			making assumptions about the implementation by treating the
+			promotion of <code>unsigned short</code> as an abstract integral
+			type. If, however, the <code>-Y32bit</code> option is specified,
+			<code>int</code> is assumed to be strictly larger than
+			<code>short</code>, and <code>unsigned short</code> promotes to
+			<code>int</code>.</para>
+
+		<para><emphasis>The traditional C integer promotion rules</emphasis> are often
+			referred to as the signed promotion rules. Under these rules, long
+			integral types promote to themselves, as in ISO C, but the other
+			integral types promote to <code>unsigned int</code> if they are
+			qualified by <code>unsigned</code>, and <code>int</code> otherwise.
+			Thus the signed promotion rules may be represented as follows:</para>
+
+		<informalfigure>
+			<literallayout><code>char</code> &#x2192; <code>int</code>
+<code>signed char</code> &#x2192; <code>int</code>
+<code>unsigned char</code> &#x2192; <code>unsigned int</code>
+<code>short</code> &#x2192; <code>int</code>
+<code>unsigned short</code> &#x2192; <code>unsigned int</code>
+<code>int</code> &#x2192; <code>int</code>
+<code>unsigned int</code> &#x2192; <code>unsigned int</code>
+<code>long</code> &#x2192; <code>long</code>
+<code>unsigned long</code> &#x2192; <code>unsigned long</code></literallayout>
+		</informalfigure>
+
+		<para>The traditional promotion rules are applied in the <code>Xt</code>
+			built-in environment only. All of the other built-in environments
+			specify the ISO C promotion rules. Users may also specify their own
+			rules for integer promotions and minimum integer ranges; the methods
+			for doing this are described in Annex H.</para>
+	</section>
+
+	<section>
+		<title id="wbS32">Arithmetic operations on integer types</title>
+
+		<para><emphasis>The ISO C standard rules</emphasis> for calculating the
+			type of an arithmetic operation involving two integer types is as
+			follows - work out the integer promotions of the types of the two
+			operands, then:</para>
+
+		<orderedlist>
+			<listitem>
+				<para>If either promoted type is <code>unsigned long</code>,
+					the result type is <code>unsigned long</code>;</para>
+			</listitem>
+			<listitem>
+				<para>Otherwise, if one promoted type is <code>long</code> and
+					the other is <code>unsigned int</code>, then if a
+					<code>long int</code> can represent all values of an
+					<code>unsigned int</code>, the result type is <code>long</code>;
+					otherwise the result type is <code>unsigned long</code>;</para>
+			</listitem>
+			<listitem>
+				<para>Otherwise, if either promoted type is <code>long</code>,
+					the result type is <code>long</code>;</para>
+			</listitem>
+			<listitem>
+				<para>Otherwise, if either promoted type is <code>unsigned int</code>,
+					the result type is <code>unsigned int</code>;</para>
+			</listitem>
+			<listitem>
+				<para>Otherwise the result type is <code>int</code>.</para>
+			</listitem>
+		</orderedlist>
+
+		<para>Both promoted values are converted to the result type, and the
+			operation is then applied.</para>
+	</section>
+
+	<section>
+		<title id="4">Interaction with the integer conversion
+			checks</title>
+
+		<para>A simple-minded implementation of the integer conversion checks
+			described in 3.2 would interact badly with these rules. Consider,
+			for example, adding two values of type char:</para>
+
+		<programlisting language="C">
+char f ( char a, char b )
+{
+	char c = a + b ;
+	return ( c ) ;
+}</programlisting>
+
+		<para>The various stages in the calculation of <code>c</code> are as
+			follows - <code>a</code> and <code>b</code> are converted to their
+			promotion type, <code>int</code>, added together to give an
+			<code>int</code> result, which is converted to a <code>char</code>
+			and assigned to <code>c</code>. The conversions of <code>a</code>
+			and <code>b</code> from <code>char</code> to <code>int</code> are
+			always safe, and so present no difficulties to the integer conversion
+			checks. The conversion of the result from <code>int</code> to
+			<code>char</code>, however, is precisely the type of value
+			destroying conversion which these checks are designed to detect.</para>
+
+		<para>Obviously, an integer conversion check which flagged all char
+			arithmetic would never be used, thereby losing the potential to
+			detect many subtle portability errors. For this reason, the integer
+			conversion checks are more sophisticated. In all typed languages,
+			the type is used for two purposes - for static type checking and
+			for expressing information about the actual representation of data
+			on the target machine. Essentially it is a confusion between these
+			two roles which leads to the problems above. The C promotion and
+			arithmetic rules are concerned with how data is represented and
+			manipulated, rather than the underlying abstract types of this
+			data. When <code>a</code> and <code>b</code> are promoted to
+			<code>int</code> prior to being added together, this is only a
+			change in representation; at the conceptual level they are still
+			<code>char</code>'s. Again, when they are added, the result may be
+			represented as an <code>int</code>, but conceptually it is a
+			<code>char</code>. Thus the assignment to <code>c</code>, an actual
+			<code>char</code>, is just a change in representation, not a change
+			in conceptual type.</para>
+
+		<para>So each expression may be regarded as having two types - a
+			conceptual type which stands for what the expression means, and a
+			representational type which stands for how the expression is to
+			represented as data on the target machine. In the vast majority of
+			expressions, these types coincide, however the integral promotion
+			and arithmetic conversions are changes of representational, not
+			conceptual, types. The integer conversion checks are concerned with
+			detecting changes of conceptual type, since it is these which are
+			most likely to be due to actual programming errors.</para>
+
+		<para>It is possible to define integral types within the TenDRA
+			extensions to C in which the split between concept and
+			representation is made explicit. The pragma:</para>
+
+		<programlisting language="C">#pragma TenDRA keyword TYPE for type representation</programlisting>
+
+		<para>may be used to introduce a keyword <emphasis>TYPE</emphasis> for
+			this purpose (as with all such pragmas, the precise keyword to be
+			used is left to the user). Once this has been done,
+			<code>TYPE ( r, t )</code> may be used to represent a type which is
+			conceptually of type <code>t</code> but is represented as data like
+			type <code>r</code>. Both <code>t</code> and <code>r</code> must be
+			integral types. For example:</para>
+
+		<programlisting language="C">TYPE ( int, char ) a ;</programlisting>
+
+		<para>declares a variable a which is represented as an int, but is
+			conceptually a char.</para>
+
+		<para>In order to maintain compatibility with other compilers, it is
+			necessary to give <code>TYPE</code> a sensible alternative definition. For all
+			but conversion checking purposes, <code>TYPE ( r, t )</code> is identical to
+			<code>r</code>, so a suitable definition is:</para>
+
+		<programlisting language="C">
+#ifdef __TenDRA__
+#pragma TenDRA keyword TYPE for type representation
+#else
+#define TYPE( r, t ) r
+#endif</programlisting>
+	</section>
+
+	<section>
+		<title id="S37">Target dependent integral types</title>
+
+		<para>Since the checker uses only information about the minimum
+			guaranteed ranges of integral types, integer values for which the
+			actual type of the values is unknown may arise. Integer values of
+			undetermined type generally arise in one of two ways: through the
+			use of integer literals and from API types which are not completely
+			specified.</para>
+
+		<section>
+			<title id="S37">Integer literals</title>
+
+			<para><emphasis>The ISO C rules</emphasis> on the type of integer
+				literals are set out as follows. For each class of integer
+				literals a list of types is given. The type of an integer
+				literal is then the first type in the appropriate list which is
+				large enough to contain the value of the integer literal. The
+				class of the integer literal depends on whether it is decimal,
+				hexadecimal or octal, and whether it is qualified by <code>U</code>
+				(or <code>u</code>) or <code>L</code> (or <code>l</code>) or both.
+				The rules may be summarised as follows:</para>
+
+			<informalfigure>
+				<literallayout>decimal &#x2192; <code>int</code> or <code>long</code> or <code>unsigned long</code>
+hex or octal &#x2192; <code>int</code> or <code>unsigned int</code> or <code>long</code> or <code>unsigned long</code>
+any + U &#x2192; <code>unsigned int</code> or <code>unsigned long</code>
+any + L &#x2192; <code>long</code> or <code>unsigned long</code>
+any + UL &#x2192; <code>unsigned long</code></literallayout>
+			</informalfigure>
+
+			<para>These rules are applied in all the built-in checking modes
+				except <code>Xt</code>. Traditional C does not have the
+				<code>U</code> and <code>L</code> qualifiers, so if the
+				<code>Xt</code> mode is used, these qualifiers are ignored and
+				all integer literals are treated as <code>int</code>,
+				<code>long</code> or <code>unsigned long</code>, depending on
+				the size of the number.</para>
+
+			<para>If a number fits into the minimal range for the first type of
+				the appropriate list, then it is of that type; otherwise its type
+				is undetermined and is said to be target dependent. The checker
+				treats target dependent types as abstract integral types which may
+				lead to integer conversion problems. For example, in:</para>
+
+			<programlisting language="C">int f ( int n ) {
+	return ( n &amp; 0xff00 ) ;
+}</programlisting>
+
+			<para>the type of <code>0xff00</code> is target dependent, since it
+				does not fit into the minimal range for int specified by the
+				ISO C standard (this is detected by the integer overflow
+				analysis described in section 4.6). The arithmetic conversions
+				resulting from the <code>&amp;</code> operation is detected by
+				the checker's conversion analysis. Note that if the
+				<code>-Y32bit</code> option is specified to tchk, an <code>int</code>
+				is assumed to contain at least 32 bits. In this case,
+				<code>0xff00</code> fits into the type int, and so this is the
+				type of the integer literal. No invalid integer conversions is
+				then detected.</para>
+		</section>
+
+		<section>
+			<title id="10">Abstract API types</title>
+
+			<para>Target dependent integral types also occur in API
+				specifications and may be encountered when checking against one
+				of the implementation-independent APIs provided with the
+				checker. The commonest example of this is size_t, which is
+				stated by the ISO C standard to be a target dependent unsigned
+				integral type, and which arises naturally within the language
+				as the type of a <code>sizeof</code> expression.</para>
+
+			<para>The checker has its own internal version of <code>size_t</code>,
+				<code>wchar_t</code> and <code>ptrdiff_t</code> for evaluating
+				static compile-time expressions. These internal types are
+				compatible with the ISO C specification of <code>size_t</code>,
+				<code>wchar_t</code> and <code>ptrdiff_t</code>, and thus are
+				compatible with any conforming definitions of these types found
+				in included files.  However, when checking the following program
+				against the system headers, a warning is produced on some machines
+				concerning the implicit conversion of an <code>unsigned int</code>
+				to type <code>size_t</code>:</para>
+
+			<programlisting language="C">
+#include &lt;stdlib.h&gt;
+int main() {
+	size_t size ;
+	size = sizeof( int ) ;
+}</programlisting>
+
+			<para>The system header on the machine in question actually defines
+				<code>size_t</code> to be a <code>signed int</code> (this of
+				course contravenes the ISO C standard) but the compile time
+				function <code>sizeof</code> returns the checker's internal
+				version of <code>size_t</code> which is an abstract unsigned
+				integral type. By using the pragma:</para>
+
+			<programlisting language="C">#pragma TenDRA set size_t:signed int</programlisting>
+
+			<para>the checker can be instructed to use a different internal
+				definition of <code>size_t</code> when evaluating the
+				<code>sizeof</code> function and the error does not arise.
+				Equivalent options are also available for the
+				<code>ptrdiff_t</code> and <code>wchar_t</code> types.</para>
+		</section>
+	</section>
+
+	<section>
+		<title id="14">Integer overflow checks</title>
+
+		<para>Given the complexity of the rules governing the types of integers
+			and results of integer operations, as well as the variation of
+			integral ranges with machine architecture, it is hardly surprising
+			that unexpected results of integer operations are at the root of
+			many programming problems. These problems can often be hard to
+			track down and may suddenly appear in an application which was
+			previously considered <quote>safe</quote>, when it is moved to a
+			new system. Since the checker supports the concept of a guaranteed
+			minimum size of an integer it is able to detect many potential
+			problems involving integer constants. The pragma:</para>
+
+		<programlisting language="C">#pragma TenDRA integer overflow analysis <emphasis>status</emphasis></programlisting>
+
+		<para>where <emphasis>status</emphasis> is <code>on</code>,
+			<code>warning</code> or <code>off</code>, controls a set of checks
+			on arithmetic expressions involving integer constants. These checks
+			cover overflow, use of constants exceeding the minimum guaranteed
+			size for their type and division by zero. They are not enabled in
+			the default mode.</para>
+
+		<para>There are two special cases of integer overflow for which
+			checking is controlled seperately:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para><code>Bitfield sizes</code>. Obviously, the size of a
+					bitfield must be smaller than or equal to the minimum
+					size of its integral type. A bitfield which is too large
+					is flagged as an error in the default mode. The check on
+					bitfield sizes is controlled by:</para>
+
+				<programlisting language="C">#pragma TenDRA bitfield overflow <emphasis>permit</emphasis></programlisting>
+
+				<para>where <emphasis>permit</emphasis> is one of
+					<code>allow</code>, <code>disallow</code> or
+					<code>warning</code>.</para>
+			</listitem>
+			<listitem>
+				<para><code>Octal and hexadecimal escape sequences</code>.
+					According to the ISO C standard, the value of an octal or
+					hexadecimal escape sequence shall be in the range of
+					representable values for the type unsigned char for an
+					integer character constant, or the unsigned type
+					corresponding to <code>wchar_t</code> for a wide character
+					constant. The check on escape sequence sizes is controlled by:</para>
+
+				<programlisting language="C">#pragma TenDRA character escape overflow <emphasis>permit</emphasis></programlisting>
+
+				<para>where the options for <emphasis>permit</emphasis> are
+					<code>allow</code>, <code>warning</code> and
+					<code>disallow</code>. The check is switched on by
+					default.</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title id="18">Integer operator checks</title>
+
+		<para>The results of some integer operations are undefined by the
+			ISO C standard for certain argument types. Others are
+			implementation-defined or simply likely to produce unexpected
+			results.In the default mode such operations are processed silently,
+			however a set of checks on operations involving integer constants
+			may be controlled using:</para>
+
+		<programlisting language="C">#pragma TenDRA integer operator analysis <emphasis>status</emphasis></programlisting>
+
+		<para>where <emphasis>status</emphasis> is replaced by <code>on</code>,
+			<code>warning</code> or <code>off</code>. This pragma enabled checks on:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>shift operations where an expression is shifted by a negative
+					number or by an amount greater than or equal to the width in bits
+					of the expression being shifted;</para>
+			</listitem>
+			<listitem>
+				<para>right shift operation with a negative value of signed integral
+					type as the first argument;</para>
+			</listitem>
+			<listitem>
+				<para>division operation with a negative operand;</para>
+			</listitem>
+			<listitem>
+				<para>test for an unsigned value strictly greater than or less than 0
+					(these are always true or false respectively);</para>
+			</listitem>
+			<listitem>
+				<para>conversion of a negative constant value to an unsigned
+					type;</para>
+			</listitem>
+			<listitem>
+				<para>application of unary <code>-</code> operator to an unsigned
+					value.</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title id="24">Support for 64 bit integer types (<code>long long</code>)</title>
+
+		<para>Although the use of <code>long long</code> to specify a 64 bit
+			integer type is not supported by the ISO C standard it is becoming
+			increasingly popular as in programming use. By default, tchk does
+			not support the use of <code>long long</code> but the checker can
+			be configured to support the <code>long long</code> type to different
+			degrees using the following pragmas:</para>
+
+		<programlisting language="C">#pragma TenDRA longlong type <emphasis>permit</emphasis></programlisting>
+
+		<para>where <emphasis>permit</emphasis> is one of <code>allow</code>
+			(<code>long long</code> type accepted), <code>disallow</code>
+			(errors produced when <code>long long</code> types are detected)
+			or <code>warning</code> (<code>long long</code> types are accepted
+			but a warning is raised).</para>
+
+		<programlisting language="C">#pragma TenDRA set longlong type : type_name</programlisting>
+
+		<para>where <emphasis>type_name</emphasis> is <code>long</code> or
+			<code>long long</code>.</para>
+
+		<para>The first pragma determines the behaviour of the checker if the
+			type <code>long long</code> is encountered as a type specifier. In the disallow
+			case, an error is raised and the type specifier mapped to <code>long</code>,
+			otherwise the type is stored as <code>long long</code> although a message
+			alerting the user to the use of <code>long long</code> is raised in the warning
+			mode. The second pragma determines the semantics of <code>long long</code>. If
+			the type specified is <code>long long</code>, then <code>long long</code> is treated as a
+			separate integer type and if code generation is enabled, <code>long long</code>
+			types appears in the output. Otherwise the type is mapped to <code>long</code>
+			and all objects declared <code>long long</code> are output as if they had been
+			declared <code>long</code> (a warning is produced when this occurs). In either
+			case, <code>long long</code> is treated as a distinct integer type for the
+			purpose of integer conversion checking.</para>
+
+		<para>Extensions to the integer promotion and arithmetic conversion
+			rules are required for the <code>long long</code> type. These have been
+			implemented as follows:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>the types of integer arithmetic operations where neither
+					argument has <code>long long</code> type are unaffected;</para>
+			</listitem>
+			<listitem>
+				<para><code>long long</code> and <code>unsigned long long</code>
+					both promote to themselves;</para>
+			</listitem>
+			<listitem>
+				<para>the result type of arithmetic operations with one or more
+					arguments of type <code>unsigned long long</code> is
+					<code>unsigned long long</code>;</para>
+			</listitem>
+			<listitem>
+				<para>otherwise if either argument has type
+					<code>signed long long</code> the overall type is
+					<code>long long</code> if both arguments can be represented in
+					this form, otherwise the type is
+					<code>unsigned long long</code>.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>There are now three cases where the type of an integer arithmetic
+			operation is not completely determined from the type of its arguments, i.e.</para>
+
+		<informalfigure>
+			<literallayout><code>signed long long + unsigned long = signed long long</code> <emphasis>or</emphasis> <code>unsigned long long</code>;
+<code>signed long long + unsigned int = signed long long</code> <emphasis>or</emphasis> <code>unsigned long long</code>;
+<code>signed int + unsigned short = signed int</code> <emphasis>or</emphasis> <code>unsigned int</code> ( as before ).
+</literallayout>
+		</informalfigure>
+	</section>
+</chapter>
+

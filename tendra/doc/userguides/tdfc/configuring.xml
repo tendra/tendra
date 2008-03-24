@@ -1,0 +1,329 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title id="wbS8">Configuring the Checker</title>
+
+	<para>There are several methods available for configuring the checker
+		most of which are selected by using the relevant command line
+		option. More detailed customisation may require special
+		<code>#pragma</code> statements to be incorporated into the source
+		code to be analysed (this commonly takes the form of a startup
+		file). The configuration options generally act independently of one
+		another and unless explicitly forbidden in the descriptions below,
+		they may be combined in any way.</para>
+
+	<section>
+		<title id="S9">Built-in checking profiles</title>
+
+		<para>Six standard checking profiles are provided with the tool and are
+			held as a set of startup files which are automatically included in
+			each C source file. A brief description of each profile is given
+			below, for a complete descriptions see Annex A.</para>
+
+		<itemizedlist>
+			<listitem>
+				<para><code>-Xs</code> (strict checks) denotes strict ISO standard
+					C with most extra checks enabled as warnings;</para>
+			</listitem>
+			<listitem>
+				<para><code>-Xp</code> (partial checks) denotes strict ISO standard
+					C with some extra checks enabled;</para>
+			</listitem>
+			<listitem>
+				<para><code>-Xc</code> (conformance) denotes strict ISO standard C
+					with no extra checks enabled;</para>
+			</listitem>
+			<listitem>
+				<para><code>-Xw</code> (warning mode) represents a <quote>warning</quote>
+					oriented compilation mode. Many non-ISO standard C features are
+					permitted with a warning. Extra checks are performed to produce
+					warnings.</para>
+			</listitem>
+			<listitem>
+				<para><code>-Xa</code> (<quote>standard-ish</quote> C) denotes ISO
+					standard C with syntatic relaxation and no extra checks;</para>
+			</listitem>
+			<listitem>
+				<para><code>-Xt</code> (traditional C) denotes traditional (Kernighan and
+					Ritchie) C with no extra checks.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>(The modes Xc, Xa, and Xt are meant to roughly correspond to the
+			modes found on some System V compilers.)</para>
+
+		<para>The default checking environment is Xc, other environments are
+			specified by passing the name of the environment to the checker as
+			a command line flag, e.g. the -Xs flag specifies that the Xs
+			environment is to be used. These environments are the base checking
+			modes and may not be combined: if more than one base mode is
+			specified, only the final base mode is actually used - the earlier
+			ones are ignored.</para>
+
+		<para>There are also two <quote>add-on</quote> checking profiles, called
+			<code>nepc</code> (<code>n</code>o <code>e</code>xtra
+			<code>p</code>ortability <code>c</code>hecks) and
+			<code>not_ansi</code>, which may be used to complement any base
+			mode. The "add-on" modes may alter the status of checks set in the
+			base mode. The <code>nepc</code> mode switches off many of the
+			checks relating to portability issues and may be specified by
+			passing the <code>-nepc</code> command line option to tchk. The
+			<code>not_ansi</code> mode supports a raft of non-ISO features and
+			is specified using the <code>-not_ansi</code> command line
+			flag.</para>
+	</section>
+
+	<section>
+		<title id="S10">2.1.2 Minimum integer ranges</title>
+
+		<para>By default the checker assumes that all integer ranges conform to
+			the minimum ranges prescribed by the ISO C standard, i.e. char
+			contains at least 8 bits, short and int contain at least 16 bits
+			and long contains at least 32 bits. If the -Y32bit flag is passed
+			to the checker it assumes that integers conform to the minimum
+			ranges commonly found on most 32 bit machines, i.e. int contains at
+			least 32 bits and int is strictly larger than short so that the
+			integral promotion of unsigned short is int under the ISO C
+			standard integer promotion rules.</para>
+	</section>
+
+	<section>
+		<title id="S11">API selection</title>
+
+		<para>By default, programs are checked against the standard ISO C API
+			as specified in the ISO C standard Chapter 7. Other APIs are
+			specified by passing the -Yapi-name flag to the tchk, where api-name
+			is one of the API designators listed below. APIs fall into two
+			categories: base APIs and extension APIs. If more than one base API
+			is specified to tchk, only the last one is used for checking; the
+			others are ignored. Additional extension APIs, however, may be used
+			in addition to any suitable base API.</para>
+
+		<para>The base APIs available are:</para>
+		<!-- TODO remove these lists, pointing to the current source's index -->
+
+		<itemizedlist>
+			<listitem>
+				<para><code>ansi</code> ANSI X3.159;</para>
+			</listitem>
+			<listitem>
+				<para><code>iso</code> ISO MSE 9899:1990(Amendment 1:1993(E));</para>
+			</listitem>
+			<listitem>
+				<para><code>posix</code> POSIX 1003.1;</para>
+			</listitem>
+			<listitem>
+				<para><code>posix2</code> POSIX 1003.2;</para>
+			</listitem>
+			<listitem>
+				<para><code>xpg3</code> X/Open Portability Guide 3;</para>
+			</listitem>
+			<listitem>
+				<para><code>xpg4</code> X/Open Portability Guide 4;</para>
+			</listitem>
+			<listitem>
+				<para><code>cose</code> COSE 1170;</para>
+			</listitem>
+			<listitem>
+				<para><code>svid3</code> System V Interface Definition 3rd Edition;</para>
+			</listitem>
+			<listitem>
+				<para><code>aes</code> AES Revision A;</para>
+			</listitem>
+			<listitem>
+				<para><code>system</code> System headers as main API.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>and the extension APIs are:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para><code>bsd_extn</code> BSD-like extension for use with POSIX etc.;</para>
+			</listitem>
+			<listitem>
+				<para><code>x5_lib</code> X11 (Release 5) Library;</para>
+			</listitem>
+			<listitem>
+				<para><code>x5_t</code> X11 (Release 5) Intrinsics Toolkit;</para>
+			</listitem>
+			<listitem>
+				<para><code>x5_mu</code> X11 (Release 5) Miscellaneous Utilities;</para>
+			</listitem>
+			<listitem>
+				<para><code>x5_aw</code> X11 (Release 5) Athena Widgets;</para>
+			</listitem>
+			<listitem>
+				<para><code>x5_mit</code> X11 (Release 5) MIT Implementation;</para>
+			</listitem>
+			<listitem>
+				<para><code>x5_proto</code> X11 (Release 5) Protocol Extension;</para>
+			</listitem>
+			<listitem>
+				<para><code>x5_ext</code> X11 (Release 5) Extensions;</para>
+			</listitem>
+			<listitem>
+				<para><code>x5_private</code> X11 (Release 5) private headers (otherwise protected
+	);</para>
+			</listitem>
+			<listitem>
+				<para><code>motif</code> Motif 1.1;</para>
+			</listitem>
+			<listitem>
+				<para><code>system+</code> System headers as last resort API. Search the system
+					headers only for those objects for which no declaration or
+					definition can be found within the base API.</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title id="S12">Individual command line checking options</title>
+
+		<para>Some of the checks available can be controlled using a command
+			line option of the form <code>-Xopt,opt,...</code>, where the various
+			opt options give a comma-separated list of commands. These commands
+			have the form test=status, where test is the name of the check, and
+			status is either check (apply check and give an error if it fails),
+			warn (apply check and give a warning if it fails) or dont (do not
+			apply check). The names of checks can be found with their
+			descriptions in Chapters 3 - 8; for example the check for implicit
+			function declarations described in 3.4.1 may be switched on using
+			<code>-X:implicit_func=check</code>.</para>
+	</section>
+
+	<section>
+		<title id="S13">2.1.5 Construct a customised checking environment</title>
+
+		<para>The individual checks performed by the C static checker are
+			generally controlled by <code>#pragma</code> directives. The reason
+			for this is that the ISO standard places no restrictions on the syntax
+			following a <code>#pragma</code> preprocessing directive, and most
+			compilers/checkers can be configured to ignore any unknown
+			<code>#pragma</code> directives they encounter.</para>
+
+		<para>Most of these directives begin:</para>
+
+		<programlisting language="C">#pragma TenDRA ...</programlisting>
+
+		<para>and are always checked for syntactical correctness. The individual
+			directives, together with the checks they control are described in
+			Chapters 3 - 8. Section 2.2 describes the method of constructing a
+			new checking profile from these individual checks.</para>
+	</section>
+
+	<section>
+		<title id="13">Scoping checking profiles</title>
+
+		<para>Almost all the available checks are scoped (exceptions will be
+			mentioned in the description of the check). A new checking scope
+			may be started by inserting the pragma:</para>
+
+		<programlisting language="C">#pragma TenDRA begin</programlisting>
+
+		<para>at the outermost level. The scope runs until the matching:</para>
+
+		<programlisting language="C">#pragma TenDRA end</programlisting>
+
+		<para>directive, or to the end of the translation unit (the ISO C
+			standard definition of a translation unit as being a source file,
+			together with any headers or source files included using the
+			<code>#include</code> preprocessing directive, less any source
+			lines skipped by any of the conditional inclusion preprocessing
+			directives, is used throughout this document).</para>
+
+		<para>Checking scopes may be nested in the obvious way.</para>
+
+		<para>Each new checking scope inherits its initial set of checks from
+			the checking scope which immediately contains it (this includes the
+			implicit main checking scope consisting of the entire source file).
+			Any checks switched on or off within the scope apply only to that
+			scope and any scope it contains. The set of checks applied reverts
+			to its previous state at the end of a scope. Thus, for example:</para>
+
+		<programlisting language="C">
+#pragma TenDRA variable analysis on
+/* Variable analysis is on here */
+
+#pragma TenDRA begin
+#pragma TenDRA variable analysis off
+	/* Variable analysis is off here */
+#pragma TenDRA end
+
+/* Variable analysis is on again here */</programlisting>
+
+		<para>Once a check has been set any attempt to change its status
+			within the same scope is flagged as an error. If checks need
+			to be switched on and off in the same source file, they must
+			be properly scoped. The built-in compilation modes have the
+			entire source file as their scope.</para>
+
+		<para>The method of applying different checking profiles to different
+			parts of a program clearly needs to take into account those
+			properties of C which can circumvent such scoping. Consider for
+			example:</para>
+
+		<programlisting language="C">
+#pragma TenDRA begin
+#pragma TenDRA unknown escape allow
+#define STRING "hello\!"
+#pragma TenDRA end
+
+char * f () {
+	return ( STRING ) ;
+}</programlisting>
+
+		<para>The macro <code>STRING</code> is defined in an area where
+			unknown escape sequences, such as <code>\!,</code> are allowed,
+			but it is expanded in an area where they are not allowed (this
+			is the default setting). The conventional approach to macro
+			expansion would lead to the unknown escape sequence being
+			flagged as an error, even though the user probably intended to
+			avoid this. The checker therefore expands all macros using the
+			checking profile in which they were defined, rather than the
+			current checking scope.</para>
+
+		<para>The directives describing the user's desired checking profile
+			could be included directly in the program itself, ideally in some
+			configuration file which is <code>#include</code>'d in all source
+			files. It is however perhaps more appropriate to store the directives as a
+			startup file, <emphasis>file</emphasis> say, which is passed to the checker
+			using the <code>-f</code><emphasis>file</emphasis>command line option. It
+			should be noted that user-defined compilation modes are defined on
+			top of a built-in mode base (normally Xc, the default mode). It is
+			therefore important to scope the new checking profile as described
+			above.</para>
+
+		<para>Names may be associated with checking scopes by using an
+			alternative form of the begin directive:</para>
+
+		<programlisting language="C">#pragma TenDRA begin name environment identifier</programlisting>
+
+		<para>where identifier is any valid C identifier. Thereafter a
+			statement of the form:</para>
+
+		<programlisting language="C">#pragma TenDRA use environment identifier</programlisting>
+
+		<para>changes the current checking environment to the environment
+			associated with identifier.</para>
+
+		<para>Sometimes it may be desirable to use different checking profiles
+			for different parts of a translation unit, e.g. applying less
+			strict checks to any system headers which may be included. The
+			checker can be configured to apply a named checking scope,
+			<emphasis>env_name</emphasis>, to any files included from a
+			directory which has been named <emphasis>dir_name</emphasis>, using:</para>
+
+		<programlisting language="C">#pragma TenDRA directory <emphasis>dir_name</emphasis> use environment <emphasis>env_name</emphasis></programlisting>
+
+		<para>The directory name must be passed to the checker using the
+			<code>-N</code> <emphasis>dir_name</emphasis> <code>:</code>
+			<emphasis>dir</emphasis> <code>-I</code> <code>dir</code>
+			command line option. This is equivalent to the usual
+			<code>-Idir</code> option for specifying include paths, except that it
+			also attaches the name dir_name to the directory.</para>
+	</section>
+</chapter>
+

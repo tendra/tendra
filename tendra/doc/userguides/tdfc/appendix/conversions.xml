@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<appendix>
+	<title id="wbS174">Specifying conversions using the token syntax</title>
+
+	<para>The token syntax described in Annex F can be used to fine-tune the
+		conversion analysis and integer range checks described in section
+		3.2.2 and chapter 4 respectively.</para>
+
+	<section>
+		<title id="2">User-defined conversions</title>
+
+		<para>In the example:</para>
+
+		<programlisting language="C">
+#pragma token TYPE IP#
+#pragma no_def IP
+#pragma token PROC{ TYPE t ,EXP rvalue : t* : e | EXP e}EXP rvalue:IP:p_to_ip#
+#pragma TenDRA conversion p_to_ip allow
+void f(void)
+{
+	IP i, *pip;
+	i = pip;
+}</programlisting>
+
+		<para>the conversion from type pointer to IP to IP would normally
+			result in an error. However the pragma:</para>
+
+		<programlisting language="C">#pragma TenDRA conversion <emphasis>conv_list</emphasis> allow</programlisting>
+
+		<para>allows users to define their own conversions between types that
+			would otherwise be incompatible. Each identifier in the
+			<emphasis>conv_list</emphasis> must be a local identifier for a
+			<code>PROC</code> token (see F.9 Procedure tokens), taking exactly
+			one argument which must be an expression. The procedure must also
+			deliver an expression and both the parameter and the result must
+			be rvalues. When attempting the conversion of a value from one
+			type to another, either by assignment or casting, if that
+			conversion would not normally be permitted, then, for each token
+			introduced as a conversion token by the pragma above:</para>
+
+		<para>An attempt is made to resolve the type of the token result to
+			the type to which the value is being converted.</para>
+
+		<para>If the result is resolved and the value to be converted is a
+			suitable argument for the token procedure, the token procedure is
+			applied to implement the conversion.</para>
+
+		<para>If no suitable conversion token can be found, an error will be
+			raised.</para>
+	</section>
+
+	<section>
+		<title id="4">Specifying integer promotions</title>
+
+		<para>Whenever an integral type is used, e.g. in a call to a
+			traditionally defined function, its promotion must be computed.
+			If no promotion type has been specified, the compiler will raise
+			an error. Although programs will generally use the default rules
+			provided in the built-in compilation modes, the TenDRA compiler
+			also allows programmers to specify their own set of integer
+			promotion rules. Such promotions can be split into two categories:
+			literal promotions and computed promotions.</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>Literal promotions</term>
+				<listitem>
+					<para>The promoted type is supplied directly using the pragma:</para>
+
+					<programlisting language="C">#pragma promote <emphasis>type-name</emphasis> : <emphasis>type-name</emphasis></programlisting>
+
+					<para>The second <emphasis>type-name</emphasis> specifies
+						the promoted type of the first <emphasis>type-name</emphasis>.
+						Both types must be integral types.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>Computed promotions</term>
+				<listitem>
+					<para>The pragma:</para>
+
+					<programlisting language="C">#pragma compute promote <emphasis>proc-token</emphasis></programlisting>
+
+					<para>allows the programmer to provide the identification
+						of a procedure token (see F.9 Procedure tokens) for
+						computing the promotion type of any integral type.
+						This token is then called whenever the promotion of a
+						type without a literal promotion is required. The
+						procedure token <emphasis>proc-token</emphasis> must
+						be declared as:</para>
+
+					<programlisting language="C">#pragma token PROC ( VARIETY ) VARIETY proc-token #</programlisting>
+
+					<para>The TenDRA technology provides two pre-defined
+						procedure tokens, identified by <code>~promote</code>
+						and <code>~sign-promote</code>. These procedures
+						perform integer promotions according to the ISO/ANSI
+						promotion rules or according to the traditional signed
+						promotion rules respectively. The built-in compilation
+						environments (see chapter 2) use these tokens to specify
+						the appropriate set of integer promotion rules.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</section>
+</appendix>
+

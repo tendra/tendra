@@ -1,0 +1,506 @@
+<?xml version="1.0"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<appendix>
+	<title id="wbS165">API checking</title>
+
+	<!-- TODO this might work well as a standalone document -->
+
+	<para>The token syntax described in the previous annex provides the means
+		of describing an API specification independently of any particular
+		implementation of the API. Every object in the API specification is
+		described using the appropriate <code>#pragma</code> token statement. These
+		statements are arranged in TenDRA header files corresponding to the
+		headers comprising the API. Each API consists of a separate set of
+		header files. For example, if the ANSI API is used, the statement:</para>
+
+	<programlisting language="C">#include &lt;sys/types.h&gt;</programlisting>
+
+	<para>will lead to a <quote>header not found</quote> error, whereas the
+		header will be found in the POSIX API.</para>
+
+	<para>Where relationships exist between APIs these have been made
+		explicit in the headers. For example, the POSIX version of stdio.h
+		consists of the ANSI version plus some extra objects. This is
+		implemented by making the TenDRA header describing the POSIX
+		version of <code>stdio.h</code> include the ANSI version of
+		<code>stdio.h</code>.</para>
+
+	<section>
+		<title id="wbS165">Specifying APIs to tcc</title>
+
+		<para>The API against which a program is to be checked is
+			specified to tchk by means of a command-line option of the form
+			<code>-Yapi</code> where <emphasis>api</emphasis> is the API
+			name. For example, ANSI X3.159 is specified by <code>-Yansi</code>
+			(this is the default API) and POSIX 1003.1 is specified by
+			<code>-Yposix</code> (for a full list of the supported APIs
+			see Chapter 2).</para>
+
+		<para>Extension APIs, such as X11, require special attention. The API
+			for a program is never just X11, but X11 plus some base API, for
+			example, X11 plus POSIX or X11 plus XPG3. These composite APIs may
+			be specified by, for example, passing the options <code>-Yposix -Yx5_lib</code>
+			(in that order) to tcc to specify POSIX 1003.1 plus X11 (Release 5)
+			Xlib. The rule is that base APIs, such as POSIX, override the
+			existing API, whereas extension APIs, such as X11, extend it. The
+			command-line option <code>-info</code> causes tcc to print the
+			API currently in use. For example:</para>
+
+		<programlisting language="sh">% tcc -Yposix -Yx5_lib -info file.c</programlisting>
+
+		<para>will result in the message:</para>
+
+		<programlisting>tcc: Information: API is X11 Release 5 Xlib plus POSIX (1003.1).</programlisting>
+	</section>
+
+	<section>
+		<title id="wbS167">API Checking Examples</title>
+
+		<para>As an example of the TenDRA compiler's API checking capacities,
+			consider the following program which prints the names and inode
+			numbers of all the files in the current directory:</para>
+
+		<programlisting language="C">
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;dirent.h&gt;
+int main ()
+{
+	DIR *d = opendir ( "." );
+	struct dirent *e;
+	if ( d = NULL ) return ( 1 );
+	while ( e = readdir(d), e != NULL ) 
+	{
+		printf ( "%s %lu\n", e-&gt;d_name, e-&gt;d_ino );
+	}
+	closedir ( d );
+	return ( 0 );
+}</programlisting>
+
+		<para>A first attempted compilation using strict checking:</para>
+
+		<programlisting language="sh">% tcc -Xs a.c</programlisting>
+
+		<para>results in messages to the effect that the headers
+			<code>&lt;sys/types.h&gt;</code> and <code>&lt;dirent.h&gt;</code>
+			cannot be found, plus a number of consequential errors. This is
+			because tcc is checking the program against the default API, that
+			is against the ANSI API, and the program is certainly not ANSI
+			compliant. It does look as if it might be POSIX compliant however,
+			so a second attempted compilation might be:</para>
+
+		<programlisting language="sh">% tcc -Xs -Yposix a.c</programlisting>
+
+		<para>This results in one error and three warnings. Dealing with the
+			warnings first, the returns of the calls of <code>printf</code>
+			and <code>closedir</code> are being discarded and the variable
+			<code>d</code> has been set and not used. The discarded function
+			returns are deliberate, so they can be made explicit by casting
+			them to <code>void</code>. The discarded assignment to <code>d</code>
+			requires a little more thought - it is due to the mistyping
+			<code>d = NULL</code> instead of <code>d == NULL</code> on line 9.
+			The error is more interesting. In full the error message reads:</para>
+
+		<!-- TODO update this -->
+		<programlisting>
+"a.c":11
+	printf ( "%s %lu\n", e-&gt;d_name, e-&gt;d_ino!!!! );
+Error:ISO[6.5.2.1]{ANSI[3.5.2.1]}: The identifier 'd_ino' is not a member of 
+	'struct/union posix.dirent.dirent'.
+ISO[6.3.2.3]{ANSI[3.3.2.3]}: The second operand of '-&gt;' must be a member of 
+	the struct/union pointed to by the first. </programlisting>
+
+		<para>That is, <code>struct dirent</code> does not have a field called
+			<code>d_ino</code>. In fact this is true; while the <code>d_name</code>
+			field of <code>struct dirent</code> is specified in POSIX,
+			the <code>d_ino</code> field is an XPG3 extension (This example shows
+			that the TenDRA representation of APIs is able to differentiate
+			between APIs at a very fine level). Therefore a third attempted
+			compilation might be:</para>
+
+		<programlisting language="sh">% tcc -Xs -Yxpg3 a.c</programlisting>
+
+		<para>This leads to another error message concerning the
+			<code>printf</code> statement, that the types <code>unsigned long</code>
+			and (the promotion of) <code>ino_t</code> are incompatible. This is
+			due to a mismatch between the <code>printf</code> format string
+			<code>%lu</code> and the type of <code>e-&gt;d_ino</code>. POSIX
+			only says that <code>ino_t</code> is an arithmetic type, not a
+			specific type like <code>unsigned long</code>. The TenDRA representation
+			of POSIX reflects this abstract nature of <code>ino_t</code>, so that
+			the potential portability error is detected. In fact it is impossible
+			to give a <code>printf</code> string which works for all possible
+			implementations of <code>ino_t</code>. The best that can be done is to
+			cast <code>e-&gt;d_ino</code> to some fixed type like
+			<code>unsigned long</code> and print that.</para>
+
+		<para>Hence the corrected, XPG3 conformant program reads:</para>
+
+		<programlisting language="C">
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;dirent.h&gt;
+int main ()
+{
+	DIR *d = opendir ( "." );
+	struct dirent *e;
+	if ( d == NULL ) return ( 1 );
+	while ( e = readdir(d), e != NULL )
+	{
+		( void ) printf ( "%s %lu\n", e-&gt;d_name, ( unsigned long ) e-&gt;d_ino );
+	}
+	( void ) closedir ( d );
+	return ( 0 );
+}</programlisting>
+	</section>
+
+	<section>
+		<title id="1">Redeclaring Objects in APIs</title>
+
+		<para>Of course, it is possible to redeclare the functions declared in
+			the TenDRA API descriptions within the program, provided they are
+			consistent. However, what constitutes a consistent redeclaration in
+			the fully abstract TenDRA machine is not as straightforward as it
+			might seem; an interesting example is malloc in the ANSI API. This
+			is defined by the prototype:</para>
+
+		<programlisting language="C">void *malloc ( size_t );</programlisting>
+
+		<para>where <code>size_t</code> is a target dependent unsigned integral
+			type. The redeclaration:</para>
+
+		<programlisting language="C">void *malloc ();</programlisting>
+
+		<para>is only correct if <code>size_t</code> is its own integral
+			promotion, and therefore is not correct in general.</para>
+
+		<para>Since it is not always desirable to remove these redeclarations
+			(some machines may not have all the
+			necessary functions declared in their system headers) the TenDRA
+			compiler has a facility to accept inconsistent redeclarations of
+			API functions which can be enabled by using the pragma:</para>
+
+		<programlisting language="C">#pragma TenDRA incompatible interface declaration allow</programlisting>
+
+		<para>This pragma supresses the consistency checking of re-declarations
+			of API functions. Replacing allow by warning causes a warning to be
+			printed. In both cases the TenDRA API description of the function
+			takes precedence. The normal behaviour of flagging inconsistent
+			redeclarations as errors can be restored by replacing <code>allow</code>
+			by <code>disallow</code> in the pragma above. (There are also
+			equivalent command-line options to tcc of the form
+			<code>-X:interface_decl=<emphasis>status</emphasis></code>, where
+			<emphasis>status</emphasis> can be <code>check</code>,
+			<code>warn</code> or <code>dont</code>.)</para>
+	</section>
+
+	<section>
+		<title id="wbS168">Defining Objects in APIs</title>
+
+		<para>Since the program API is meant to define the interface between
+			what the program defines and what the target machine defines, the
+			TenDRA compiler normally raises an error if any attempt is made
+			to define an object from the API in the program itself. A subtle
+			example of this is given by compiling the program:</para>
+
+		<programlisting language="C">
+#include &lt;errno.h&gt;
+extern int errno;</programlisting>
+
+		<para>with the ANSI API. ANSI states that <code>errno</code> is an
+			assignable lvalue of type <code>int</code>, and the TenDRA
+			description of the API therefore states precisely that. The
+			declaration of <code>errno</code> as an <code>extern int</code>
+			is therefore an inconsistent specification of <code>errno</code>,
+			but a consistent implementation. Accepting the lesser of two
+			evils, the error reported is therefore that an attempt has been
+			made to define <code>errno</code> despite the fact that it is
+			part of the API.</para>
+
+		<para>Note that if this same program is compiled using the POSIX API,
+			in which <code>errno</code> is explicitly specified to be an
+			<code>extern int</code>, the program merely contains a consistent
+			redeclaration of <code>errno</code> and so does not raise an
+			error.</para>
+
+		<para>The neatest workaround for the ANSI case, which preserves the
+			declaration for those machines which need it, is as follows: if
+			<code>errno</code> is anything other than an <code>extern int</code>
+			it must be defined by a macro. Therefore:</para>
+
+		<programlisting language="C">
+#include &lt;errno.h&gt;
+#ifndef errno
+extern int errno;
+#endif</programlisting>
+
+		<para>should always work.</para>
+
+		<para>In most other examples, the definitions are more obvious. For
+			example, a programmer might provide a memory allocator containing
+			versions of <code>malloc</code>, <code>free</code> etc.:</para>
+
+		<programlisting language="C">
+#include &lt;stdlib.h&gt;
+void *malloc ( size_t sz )
+{
+	....
+}
+
+void free ( void *ptr )
+{
+	....
+}</programlisting>
+
+		<para>If this is deliberate then the TenDRA compiler needs to be told
+			to ignore the API definitions of these objects and to use those
+			provided instead. This is done by listing the objects to be
+			ignored using the pragma:</para>
+
+		<programlisting language="C">#pragma ignore malloc free ....</programlisting>
+
+		<para>(also see section G.10). This should be placed between the API
+			specification and the object definitions. The provided definitions
+			are checked for conformance with the API specifications. There are
+			special forms of this pragma to enable field selectors and objects
+			in the tag namespace to be defined. For example, if we wish to
+			provide a definition of the type <code>div_t</code> from
+			<code>stdlib.h</code> we need to ignore three objects - the type
+			itself and its two field selectors - <code>quot</code> and
+			<code>rem</code>. The definition would therefore take the form:</para>
+
+		<programlisting language="C">
+#include &lt;stdlib.h&gt;
+#pragma ignore div_t div_t.quot div_t.rem
+typedef struct {
+	int quot;
+	int rem;
+} div_t;</programlisting>
+
+		<para>Similarly if we wish to define struct <code>lconv</code> from
+			<code>locale.h</code> the definition would take the form:</para>
+
+		<programlisting>
+#include &lt;locale.h&gt;
+#pragma ignore TAG lconv TAG lconv.decimal_point 
+....
+struct lconv {
+	char *decimal_point;
+	....
+};</programlisting>
+
+		<para>to take into account that <code>lconv</code> lies in the tag
+			name space. By defining objects in the API in this way, we are
+			actually constructing a less general version of the API. This
+			will potentially restrict the portability of the resultant
+			program, and so should not be done without good reason.</para>
+	</section>
+
+	<section>
+		<title id="wbS168">Stepping Outside an API</title>
+
+		<para>Using the TenDRA compiler to check a program against a
+			standard API will only be effective if the appropriate API
+			description is available to the program being tested (just as a
+			program can only be compiled on a conventional machine if the
+			program API is implemented on that machine). What can be done for
+			a program whose API are not supported depends on the degree to
+			which the program API differs from an existing TenDRA API
+			description. If the program API is POSIX with a small extension,
+			say, then it may be possible to express that extension to the
+			TenDRA compiler. For large unsupported program APIs it may be
+			possible to use the system headers on a particular machine to
+			allow for partial program checking (see section H.7).</para>
+
+		<para>For small API extensions the ideal method would be to use the
+			token syntax described in Annex G to express the program API to the
+			TenDRA compiler, however this is not currently encouraged because
+			the syntax of such API descriptions is not yet firmly fixed. For
+			the time being it may be possible to use C to express much of the
+			information the TenDRA compiler needs to check the program. For
+			example, POSIX specifies that <code>sys/stat.h</code> contains a
+			number of macros, <code>S_ISDIR</code>, <code>S_ISREG</code>, and
+			so on, which are used to test whether a file is a directory, a
+			regular file, etc. Suppose that a program is basically POSIX
+			conformant, but uses the additional macro <code>S_ISLNK</code> to
+			test whether the file is a symbolic link (this is in COSE and AES,
+			but not POSIX). A proper TenDRA description of <code>S_ISLNK</code>
+			would contain the information that it was a macro taking a
+			<code>mode_t</code> and returning an <code>int</code>, however for
+			checking purposes it is sufficient to merely give the types. This
+			can be done by pretending that <code>S_ISLNK</code> is a function:</para>
+
+		<programlisting language="C">
+#ifdef __TenDRA__
+/* For TenDRA checking purposes only */
+extern int S_ISLNK ( mode_t ); 
+/* actually a macro */
+#endif</programlisting>
+
+		<para>More complex examples might require an object in the API to be
+			defined in order to provide more information about it (see H.5).
+			For example, suppose that a program is basically ANSI compliant,
+			but assumes that <code>FILE</code> is a structure with a field
+			<code>file_no</code> of type <code>int</code> (representing the
+			file number), rather than a generic type. This might be expressed
+			by:</para>
+
+<programlisting language="C">
+#ifdef __TenDRA__
+/* For TenDRA checking purposes only */
+#pragma ignore FILE
+typedef struct {
+	/* there may be other fields here */
+	int file_no;
+	/* there may be other fields here */
+} FILE;
+#endif</programlisting>
+
+		<para>The methods of API description above are what might be called
+			<quote>example implementations</quote> rather than the
+			<quote>abstract implementations</quote> of the actual TenDRA API
+			descriptions. They should only be used as a last resort, when
+			there is no alternative way of expressing the program within a
+			standard API. For example, there may be no need to access the
+			<code>file_no</code> field of a <code>FILE</code> directly, since
+			POSIX provides a function, <code>fileno</code>, for this purpose.
+			Extending an API in general reduces the number of potential target
+			machines for the corresponding program.</para>
+	</section>
+
+	<section>
+		<title id="wbS168">Using the System Headers</title>
+
+		<para>One possibility if a program API is not supported by the
+			TenDRA compiler is to use the set of system headers on the
+			particular machine on which tcc happens to be running. Of course,
+			this means that the API checking facilities of the TenDRA compiler
+			will not be effective, but it is possible that the other program
+			checking aspects will be of use.</para>
+
+		<para>The system headers are not, and indeed are not intended to be,
+			portable. A simple-minded approach to portability checking with the
+			system headers could lead to more portability problems being found
+			in the system headers than in the program itself. A more
+			sophisticated approach involves applying different compilation
+			modes to the system headers and to the program. The program itself
+			can be checked very rigorously, while the system headers have very
+			lax checks applied.</para>
+
+		<para>This could be done directly, by putting a wrapper around each
+			system header describing the mode to be applied to that header.
+			However the mechanism of named compilation modes (see 2.2) provides
+			an alternative solution. In addition to the normal -Idir
+			command-line option, tcc also supports the option -Nname:dir, which
+			is identical except that it also associates the identifier name
+			with the directory dir. Once a directory has been named in this
+			way, the name can be used in a directive:</para>
+
+		<programlisting language="C">#pragma TenDRA directory <emphasis>name</emphasis> use environment <emphasis>mode</emphasis></programlisting>
+
+		<para>which tells tcc to apply the named compilation mode, mode, to
+			any files included from the directory, name. This is the mechanism
+			used to specify the checks to be applied to the system headers.</para>
+
+		<para>The system headers may be specified to tcc using the
+			<code>-Ysystem</code> command-line option. This specifies
+			<code>/usr/include</code> as the directory
+			to search for headers and passes a system start-up file to tcc.
+			This system start-up file contains any macro definitions which are
+			necessary for tcc to navigate the system headers correctly, plus a
+			description of the compilation mode to be used in compiling the
+			system headers.</para>
+
+		<para>In fact, before searching /usr/include, tcc searches another
+			directory for system headers. This is intended to hold modified
+			versions of any system headers which cause particular problems or
+			require extra information. For example:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>A version of stdio.h is provided for all systems, which
+					contains the declarations of printf and similar functions necessary
+					for tcc to apply its printf-string checks (see 3.3.2).</para>
+			</listitem>
+			<listitem>
+				<para>A version of stdlib.h is provided for all systems which
+					includes the declarations of exit and similar functions necessary
+					for tcc to apply its flow analysis correctly (see 5.7).</para>
+			</listitem>
+			<listitem>
+				<para>Versions of stdarg.h and varargs.h are provided for all systems
+					which work with tcc. Most system headers contain built-in functions
+					which are recognised by cc (but not tcc) to deal with these.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>The user can also use this directory to modify any system headers
+			which cause problems. For example, not all system headers declare
+			all the functions they should, so it might be desirable to add
+			these declarations.</para>
+
+		<para>It should be noted that the system headers and the TenDRA API
+			headers do not mix well. Both are parts of coherent systems of
+			header files, and unless the intersection is very small, it is not
+			usually possible to combine parts of these systems sensibly.</para>
+
+		<para>Even a separation, such as compiling some modules of a program
+			using a TenDRA API description and others using the system headers,
+			can lead to problems in the intermodular linking phase (see Chapter
+			9). There will almost certainly be type inconsistency errors since
+			the TenDRA headers and the system headers will have different
+			representations of the same object.</para>
+	</section>
+
+	<section>
+		<title id="6">Abstract API headers and API usage analysis</title>
+
+		<para>The abstract standard headers provided with the tool are the
+			basis for the API usage analysis checking on dump files described
+			in Chapter 9. The declarations in each abstract header file are
+			enclosed by the following pragmas:</para>
+
+		<programlisting language="C">
+#pragma TenDRA declaration block <emphasis>API_name</emphasis> begin
+#pragma TenDRA declaration block end</programlisting>
+
+		<para><emphasis>API_name</emphasis> has a standard form e.g.
+			<code>api__ansi__stdio</code> for <code>stdio.h</code>
+			in the ANSI API.</para>
+
+		<para>This information is output in the dump format as the start and
+			end of a header scope, i.e.</para>
+
+		<programlisting>
+SSH		 position				ref_no = &lt;API_name&gt;
+SEH		 position				ref_no</programlisting>
+
+		<para>The first occurence of each identifier in the dump output
+			contains scope information; in the case of an identifier
+			declared in the abstract headers, this scope information will
+			normally refer to a header scope. Since each use of the identifier
+			can be traced back to its declaration, this provides a means of
+			tracking API usage within the application when the abstract headers
+			are used. The disadvantages of this method are that only APIs for
+			which abstract headers are available can be used. Objects which are
+			not part of the standard APIs are not available and if an
+			application requires such an identifier (or indeed attempts to use
+			a standard API identifier for which the appropriate header has not
+			been included) the resulting errors may distort or even completely
+			halt the dump output resulting in incomplete or incorrect
+			analysis.</para>
+
+		<para>The second method of API analysis allows compilation of the
+			application against the system headers, thereby overcoming the
+			problems of non-standard API usage mentioned above. The dump of the
+			application can be scanned to determine the identifiers which are
+			used but not defined within the application itself. These
+			identifiers form the program's external API with the system headers
+			and libraries, and can be compared with API reference information,
+			provided by dump output files produced from the abstract standard
+			headers, to determine the applications API usage.</para>
+	</section>
+</appendix>
+

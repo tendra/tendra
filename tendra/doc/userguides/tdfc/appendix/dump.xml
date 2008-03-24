@@ -1,0 +1,322 @@
+<?xml version="1.0"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<appendix>
+	<title id="wbS132">Dump format specification</title>
+
+    <!-- TODO does this belong as a user guide? perhaps a .5 manpage -->
+
+	<section>
+		<title>Basics</title>
+
+		<programlisting language="BNF">
+digit : one of 0 1 2 3 4 5 6 7 8 9
+digit-sequence :
+<emphasis>        digit</emphasis><emphasis>        digit-sequence</emphasis>
+number :
+<emphasis>        digit-sequence</emphasis>
+string :
+<emphasis>        &lt;characters&gt;</emphasis><emphasis>        &amp;digit-sequence&lt;characters&gt;</emphasis>
+location :
+<emphasis>        number number number string string</emphasis><emphasis>        number number number string *</emphasis><emphasis>        number number number *</emphasis><emphasis>        number number *</emphasis><emphasis>        number *</emphasis><emphasis>        *</emphasis></programlisting>
+	</section>
+
+	<section>
+		<title id="wbS133">E.2 Dump commands</title>
+
+		<programlisting language="BNF">
+dump-file :
+                <emphasis>command-list</emphasis><emphasis>opt</emphasis>
+command-list :
+<emphasis>        command</emphasis><emphasis>        command command-list</emphasis>
+command :
+<emphasis>        B base-definition             </emphasis><emphasis>base class graph</emphasis><emphasis>        error-command</emphasis><emphasis>        file-command</emphasis><emphasis>        I identifier-command        </emphasis><emphasis>implicit declarations etc.</emphasis><emphasis>        identifier-command</emphasis><emphasis>        scope-command</emphasis><emphasis>        O identifier identifier </emphasis><emphasis>overriding virtual function</emphasis><emphasis>        P type : type     </emphasis><emphasis>promotion type specifier</emphasis><emphasis>        string-command</emphasis><emphasis>        V number number string    </emphasis><emphasis>version number</emphasis><emphasis>        X api-info            </emphasis><emphasis>external token name</emphasis><emphasis>        Z template-info</emphasis><emphasis>template instance</emphasis></programlisting>
+	</section>
+
+	<section>
+		<title id="wbS134">E.3 API information</title>
+
+		<programlisting language="BNF">
+api-info :
+<emphasis>        identifier key identifier string</emphasis></programlisting>
+	</section>
+
+	<section>
+		<title id="wbS135">Base definitions</title>
+
+		<programlisting language="BNF">
+virtual :
+<emphasis>        V</emphasis>
+base-class :
+<emphasis>        number = virtual</emphasis><emphasis>opt</emphasis><emphasis> access</emphasis><emphasis>opt</emphasis><emphasis> type-name
+</emphasis><emphasis>        number :</emphasis>
+base-list :
+<emphasis>        base-graph</emphasis><emphasis>        base-graph base-list</emphasis>
+base-graph :
+<emphasis>        base-class</emphasis><emphasis>        base-class ( base-list )</emphasis>
+base-definition :
+<emphasis>        identifier-key number base-graph</emphasis>
+base-number :
+<emphasis>        number : type-name</emphasis></programlisting>
+	</section>
+
+	<section>
+		<title id="wbS136">Error commands</title>
+
+		<programlisting language="BNF">
+error-command :
+<emphasis>        EA error-argument             </emphasis><emphasis>error argument</emphasis><emphasis>        EC error-info     </emphasis><emphasis>continuation error</emphasis><emphasis>        EF location error-info    </emphasis><emphasis>fatal error</emphasis><emphasis>        EI location error-info    </emphasis><emphasis>internal error</emphasis><emphasis>        ES location error-info    </emphasis><emphasis>serious error</emphasis><emphasis>        EW location error-info    </emphasis><emphasis>warning</emphasis>
+error-info :
+<emphasis>        error-name number number</emphasis>
+error-name :
+<emphasis>        number = string</emphasis><emphasis>        number</emphasis>
+error-argument :
+<emphasis>        B base-number</emphasis><emphasis>        C scope-identifier</emphasis><emphasis>        E exp</emphasis><emphasis>        H hashid</emphasis><emphasis>        I identifier</emphasis><emphasis>        L location</emphasis><emphasis>        N nat</emphasis><emphasis>        S string</emphasis><emphasis>        T type</emphasis><emphasis>        V number</emphasis><emphasis>        V -number</emphasis></programlisting>
+		</section>
+
+		<section>
+			<title id="wbS137">File commands</title>
+
+			<programlisting language="BNF">
+file-command :
+<emphasis>        FD number = string stringopt        </emphasis><emphasis>inclusion directory</emphasis><emphasis>        FE location         </emphasis><emphasis>file end</emphasis><emphasis>        FIA location string         </emphasis><emphasis>file include with &lt;&gt;</emphasis><emphasis>        FIE location string         </emphasis><emphasis>include end-up</emphasis><emphasis>        FIN location string         </emphasis><emphasis>file include with []</emphasis><emphasis>        FIQ location string</emphasis><emphasis>file include with ""</emphasis>
+                FIR location        <emphasis>resume file</emphasis>
+                FIS location string         <emphasis>include startup</emphasis>
+                FS location directory     <emphasis>file start</emphasis>
+directory :
+                number
+                *</programlisting>
+	</section>
+
+	<section>
+		<title id="wbS138">Identifier commands</title>
+
+		<programlisting language="BNF">
+identifier-command :
+                C identifier-info             <emphasis>call identifier</emphasis>
+                D identifier-info type-info         <emphasis>define identifier</emphasis>
+                L identifier-info             <emphasis>use identifier</emphasis>
+                M identifier-info type-info         <emphasis>declare identifier</emphasis>
+                Q identifier-info             <emphasis>end identifier definition</emphasis>
+                T identifier-info type-info         <emphasis>tentatively define identifier</emphasis>
+                U identifier-info             <emphasis>undefine identifier</emphasis>
+                W identifier-info type-info         <emphasis>weak prototype</emphasis>
+identifier-info :
+                identifier-key location identifier
+identifier-key :
+                CD            <emphasis>static data member</emphasis>
+                CF function-key <emphasis>member function</emphasis>
+                CM            <emphasis>data member</emphasis>
+                CS function-key <emphasis>static member function</emphasis>
+                CV function-key <emphasis>virtual member function</emphasis>
+                E             <emphasis>enumerator</emphasis>
+                FB function-key <emphasis>builtin function</emphasis>
+                FE function key <emphasis>external function</emphasis>
+                FS function-key <emphasis>static function</emphasis>
+                K             <emphasis>keyword</emphasis>
+                L             <emphasis>label</emphasis>
+                MB            <emphasis>built-in macro</emphasis>
+                MF            <emphasis>function-like macro</emphasis>
+                MO            <emphasis>object-like macro</emphasis>
+                NA            <emphasis>namespace alias</emphasis>
+                NN            <emphasis>namespace name</emphasis>
+                TA            <emphasis>type alias</emphasis>
+                TC            <emphasis>class tag</emphasis>
+                TE            <emphasis>enum tag</emphasis>
+                TS            <emphasis>struct tag</emphasis>
+                TU            <emphasis>union tag</emphasis>
+                VA            <emphasis>automatic variable</emphasis>
+                VE            <emphasis>extern variable</emphasis>
+                VP            <emphasis>function parameter</emphasis>
+                VS            <emphasis>static variable</emphasis>
+                XF            <emphasis>procedure token</emphasis>
+                XO            <emphasis>object token</emphasis>
+                XP            <emphasis>token parameter</emphasis>
+                XT            <emphasis>template parameter</emphasis>
+function-key :
+                empty
+                C function-key    <emphasis>C linkage</emphasis>
+                I function-key    <emphasis>inline</emphasis>
+identifier :
+                number = hashid accessopt scope-identifier
+                number
+hashid :
+                string    <emphasis>simple name</emphasis>
+                C type    <emphasis>constructor</emphasis>
+                D type    <emphasis>destructor</emphasis>
+                O string                <emphasis>operator</emphasis>
+                T type    <emphasis>conversion</emphasis>
+access :
+                B             <emphasis>protected</emphasis>
+                N             <emphasis>public</emphasis>
+                P             <emphasis>private</emphasis></programlisting>
+	</section>
+
+	<section>
+		<title id="wbS139">Scope commands</title>
+
+		<programlisting language="BNF">
+scope-command :
+                SE scope-key location identifier                <emphasis>end scope</emphasis>
+                SS scope-key location identifier                <emphasis>start scope</emphasis>
+scope-key :
+                B             <emphasis>block scope</emphasis>
+                CC            <emphasis>conditional scope</emphasis>
+                N             <emphasis>namespace scope</emphasis>
+                CF            <emphasis>false conditional scope</emphasis>
+                CT            <emphasis>true conditional scope</emphasis>
+                D             <emphasis>other declarative scope</emphasis>
+                H             <emphasis>header scope</emphasis>
+                S             <emphasis>class scope</emphasis>
+scope-identifier :
+                identifier
+                *</programlisting>
+	</section>
+
+	<section>
+		<title id="wbS140">String command</title>
+
+		<programlisting language="BNF">
+string-command :
+                A location string             <emphasis>string literal</emphasis>
+                AC location string            <emphasis>character literal</emphasis>
+                ACL location string         <emphasis>wide character literal</emphasis>
+                AL location string            <emphasis>wide string literal</emphasis></programlisting>
+	</section>
+
+	<section>
+		<title id="wbS141">Templates</title>
+
+		<programlisting language="BNF">
+specialisation-info :
+                token-application
+                *
+template-info :
+                identifier-key identifier token-application specialisation-info</programlisting>
+	</section>
+
+	<section>
+		<title id="wbS142">Token sort information</title>
+
+		<programlisting language="BNF">
+sort :
+                ZEC type-info     <emphasis>constant expression</emphasis>
+                ZEL type-info     <emphasis>lvalue expression</emphasis>
+                ZER type-info     <emphasis>rvalue expression</emphasis>
+                ZF type-info        <emphasis>function</emphasis>
+                ZM type-info : type-name                <emphasis>member</emphasis>
+                ZN            <emphasis>integral constant</emphasis>
+                ZPS parameter-list-opt : sort     <emphasis>procedure type ()</emphasis>
+                ZPG parameter-list-opt ; parameter-list-opt:sort 
+<emphasis>                        procedure type {}</emphasis>
+                ZS            <emphasis>statement</emphasis>
+                ZTA         <emphasis>arithmetic type</emphasis>
+                ZTF         <emphasis>floating type</emphasis>
+                ZTI         <emphasis>integral type</emphasis>
+                ZTO         <emphasis>opaque type</emphasis>
+                ZTP         <emphasis>scalar type</emphasis>
+                ZTS         <emphasis>structure type</emphasis>
+                ZTt parameter-list-opt :                <emphasis>template type</emphasis>
+                ZTTS        <emphasis>structure tag </emphasis>
+                ZTTU        <emphasis>union tag</emphasis>
+                ZTU         <emphasis>union type</emphasis>
+                ZUF number            <emphasis>function macro</emphasis>
+                ZUO         <emphasis>object macro</emphasis>
+exp :
+                nat
+member :
+                identifier
+                string
+statement :
+                exp
+token-argument :
+                C identifier        <emphasis>template argument</emphasis>
+                E exp     <emphasis>expression argument</emphasis>
+                F identifier        <emphasis>function argument</emphasis>
+                M member                <emphasis>member argument</emphasis>
+                N nat     <emphasis>integer constant argument</emphasis>
+                S statement         <emphasis>statement argument</emphasis>
+                T type-info         <emphasis>type argument</emphasis>
+token-argument-list :
+                token-argument
+                token-argument , token-argument-list
+token-application :
+                T identifier , token-argument-list :</programlisting>
+		</section>
+
+		<section>
+			<title id="wbS143">E.12 Type information</title>
+
+			<programlisting language="BNF">
+type-info :
+                scope-identifier                <emphasis>for namespace alias</emphasis>
+                sort        <emphasis>for token, macro etc.</emphasis>
+                type        <emphasis>for variable etc.</emphasis>
+                type identifier-opt         <emphasis>for overloaded function</emphasis>
+type :
+                qualifieropt unqualified-type
+qualifier :
+                C             <emphasis>const</emphasis>
+                V             <emphasis>volatile</emphasis>
+                CV            <emphasis>const volatile</emphasis>
+unqualified-type :
+                type-name
+                token-application
+                c             <emphasis>char</emphasis>
+                s             <emphasis>short</emphasis>
+                i             <emphasis>int</emphasis>
+                l             <emphasis>long</emphasis>
+                x             <emphasis>long long</emphasis>
+                f             <emphasis>float</emphasis>
+                d             <emphasis>double</emphasis>
+                r             <emphasis>long double</emphasis>
+                v             <emphasis>void</emphasis>
+                b             <emphasis>bool</emphasis>
+                w             <emphasis>wchar_t</emphasis>
+                Sc            <emphasis>signed char</emphasis>
+                Uc            <emphasis>unsigned char</emphasis>
+                Us            <emphasis>unsigned short</emphasis>
+                Ui            <emphasis>unsigned int</emphasis>
+                Ul            <emphasis>unsigned long</emphasis>
+                Ux            <emphasis>unsigned long long</emphasis>
+                u             <emphasis>bottom</emphasis>
+                y             <emphasis>ptrdiff_t</emphasis>
+                z             <emphasis>size_t</emphasis>
+                a type : type     <emphasis>arithmetic type</emphasis>
+                n nat     <emphasis>literal type</emphasis>
+                p type    <emphasis>promoted type</emphasis>
+                t parameter-listopt : type            <emphasis>template type</emphasis>
+                A natopt : type <emphasis>array type</emphasis>
+                B nat : type        <emphasis>bitfield type</emphasis>
+                F type parameter-types    <emphasis>function type</emphasis>
+                M type-name : type            <emphasis>pointer to member type</emphasis>
+                P type    <emphasis>pointer type</emphasis>
+                R type    <emphasis>reference type</emphasis>
+                W type parameter-types    <emphasis>weak function type</emphasis>
+                Q string                <emphasis>quoted type</emphasis>
+                *             <emphasis>unknown type</emphasis>
+parameter-types :
+                : exceptionopt qualifieropt :     <emphasis>no parameters</emphasis>
+                . exceptionopt qualifieropt :     <emphasis>ellipsis</emphasis>
+                . exceptionopt qualifieropt .     <emphasis>unknown</emphasis>
+                , type parameter-types
+exception :
+                ( exception-listopt )
+exception-list :
+                type
+                type, exception-list
+parameter-list :
+                identifier
+                identifier , parameter-list
+type-name :
+                identifier
+nat :
+                +number
+                -number
+                string
+                identifier
+                token-application</programlisting>
+	</section>
+</appendix>
+

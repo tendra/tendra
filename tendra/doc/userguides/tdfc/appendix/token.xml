@@ -1,0 +1,1469 @@
+<?xml version="1.0"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<appendix>
+	<title>The Token Syntax</title>
+
+	<!-- TODO this would be good as a stand-alone document, merged with tcpplus's token syntax description -->
+	<!-- TODO if we do, s/Chapter// -->
+
+	<para>The token syntax is used to introduce references to program
+		constructs such as types, expressions etc. that can be defined in
+		other compilation modules. This can be thought of as a generalisation
+		of function prototyping which is used to introduce references to
+		functions defined elsewhere. The references introduced by the token
+		syntax are called tokens because they are tokens for the program
+		constructs that they reference. The token syntax is said to specify a
+		token interface.</para>
+
+	<para>It is expected that the general user will have little direct
+		contact with the token syntax, instead using the asbstract standard
+		headers provided or using the tspec tool [Ref. 5] to generate their
+		own token interface header files automatically. However, it may
+		occasionally be necessary to use the raw power of the token syntax
+		directly.</para>
+
+	<para>As an example of the power of the token syntax consider the
+		program below:</para>
+
+	<programlisting language="C">
+#pragma token TYPE FILE#
+#pragma token EXP rvalue:FILE *:stderr#
+int fprintf(FILE *, const char *, ...);
+void f(void) {
+	fprintf(stderr,"hello world\n");
+}</programlisting>
+
+	<para>The first line of the program introduces a token, <code>FILE</code>,
+		for a type. By using its identification, <code>FILE</code>, this token
+		can be used wherever a type could have been used throughout the rest of
+		the program. The compiler can then compile this program to TDF (the
+		abstract TenDRA machine) even though it contains an undefined type.
+		This is fundamental to the construction of portable software, where the
+		developer cannot assume the definitions of various types as they may be
+		different on different machines.</para>
+
+	<para>The second line of the example, which introduces a token for an
+		expression, is somewhat more complicated. In order to make use of
+		an expression, it is necessary to know its type and whether or not
+		it is an lvalue (i.e. whether or not it can be assigned to). As can
+		be seen from the example however, it is not necessary to know the
+		exact type of the expression because a token can be used to
+		represent its type.</para>
+
+	<para>The TenDRA compiler makes no assumptions about the possible
+		definitions of tokens and will raise an error if a program requires
+		information about an undefined token. In this way many errors
+		resulting from inadvertent use of a definition present on the
+		developer's system can be detected. For example, developers often
+		assume that the type FILE will be implemented by a structure type
+		when in fact the ISO C standard permits the implementation of FILE
+		by any type. In the program above, any attempt to access members of
+		stderr would cause the compiler to raise an error.</para>
+
+	<section>
+		<title id="wbS145">Program construction using TDF</title>
+
+		<para>Traditional program construction using the C language has two
+			phases: compilation and linking.</para>
+
+		<para>In the compilation phase the source text written in the C
+			language is mapped to an object code format. This object code is
+			generally not complete in itself and must be linked with other
+			program segments such as definitions from the system libraries.</para>
+
+		<para>When tokens are involved there is an extra stage in the
+			construction process where undefined tokens in one program segment
+			are linked with their definitions in another program segment. To
+			summarise, program construction using TDF and the TenDRA tools has
+			four basic operations:</para>
+
+		<orderedlist>
+			<listitem>
+				<para>Source file compilation to TDF. The TDF produced may be
+					incomplete in the sense that it may contain undefined tokens;</para>
+			</listitem>
+			<listitem>
+				<para>TDF linking. The undefined tokens represented in TDF are linked
+					to their definitions in other compilation modules or libraries.
+					During linking, tokens with the same identifier are treated as the
+					same token;</para>
+			</listitem>
+			<listitem>
+				<para>TDF translation. This is the conversion of TDF into standard
+					object file format for a particular machine system. The program is
+					still incomplete at this stage in the sense that it may contain
+					undefined library functions;</para>
+			</listitem>
+			<listitem>
+				<para>Object file linking. This corresponds directly to standard
+					object file linking.</para>
+			</listitem>
+		</orderedlist>
+	</section>
+
+	<section>
+		<title id="wbS147">The token syntax</title>
+
+		<para>The token syntax is an extension to the ISO C standard language
+			to allow the use of tokens to represent program constructs. Tokens
+			can be used either in place of, or as well as, the definitions
+			required by a program. In the latter case, the tokens exist merely
+			to enforce correct definitions and usage of the objects they
+			reference. However it should be noted that the presence of a token
+			introduction can alter the semantics of a program (examples are
+			given in F.5 Expression tokens). The semantics have been altered to
+			force programs to respect token interfaces where they would
+			otherwise fail to do so.</para>
+
+		<para>The token syntax takes the following basic form:</para>
+
+		<programlisting language="BNF">#pragma token token-introduction token-identification</programlisting>
+
+		<para>It is introduced as a pragma to allow other compilers to ignore
+			it, though if tokens are being used to replace the definitions
+			needed by a program, ignoring these pragmas will generally cause
+			the compilation to fail.</para>
+
+		<para>The <emphasis>token-introduction</emphasis> defines the kind of token being
+			introduced along with any additional information associated with
+			that kind of token. Currently there are five kinds of token that
+			can be introduced, corresponding approximately to expressions,
+			statements, type-names, member designators and function-like
+			macros.</para>
+
+		<para>The <emphasis>token-identification</emphasis> provides the means of
+			referring to the token, both internally within the program and
+			externally for TDF linking purposes.</para>
+	</section>
+
+	<section>
+		<title id="wb">Token identification</title>
+
+		<para>The syntax for the token-identification is as follows:</para>
+
+		<programlisting language="BNF">
+token identification:
+	<emphasis>name-space</emphasis><subscript><emphasis>opt</emphasis></subscript><emphasis>identifier</emphasis> # <emphasis>external-identifier</emphasis><subscript><emphasis>opt</emphasis></subscript>
+
+name-space:
+	TAG</programlisting>
+
+		<para>There is a default name space associated with each kind of token
+			and internal identifiers for tokens generally reside in these
+			default name spaces. The ISO C standard describes the five name
+			spaces as being:</para>
+
+		<orderedlist>
+			<listitem>
+				<para>The label space, in which all label identifiers reside;</para>
+			</listitem>
+			<listitem>
+				<para>The tag space, in which structure, union and enumeration tags
+					reside;</para>
+			</listitem>
+			<listitem>
+				<para>The member name space, in which structure and union member
+					selectors reside;</para>
+			</listitem>
+			<listitem>
+				<para>The macro name space, in which all macro definitions reside.
+					Token identifiers in the macro name space have no definition and so
+					are not expanded. However, they behave as macros in all other
+					respects;</para>
+			</listitem>
+			<listitem>
+				<para>The ordinary name space in which all other identifiers
+					reside.</para>
+			</listitem>
+		</orderedlist>
+
+		<para>The exception is compound type-token identifiers (see F.7.4
+			Compound type tokens) which by default reside in the ordinary name
+			space but can be forced to reside in the tag name space by setting
+			the optional <emphasis>name-space</emphasis> to be <code>TAG</code>.</para>
+
+		<para>The first identifier of the <emphasis>token-identification</emphasis>
+			provides the internal identification of the token. This is the name
+			used to identify the token within the program. It must be followed
+			by a <code>#</code>.</para>
+
+		<para>All further preprocessing tokens until the end of the line are
+			treated as part of the <emphasis>external-identifier</emphasis> with non-empty
+			white space sequences being replaced by a single space. The
+			<emphasis>external-identifier</emphasis> specifies the external identification
+			of the token which is used for TDF linking. External token
+			identifications reside in their own name space which is distinct
+			from the external name space for functions and objects. This means
+			that it is possible to have both a function and a token with the
+			same external identification. If the external-identifier is omitted
+			it is assumed that the internal and external identifications are
+			the same.</para>
+	</section>
+
+	<section>
+		<title id="3">Expression tokens</title>
+
+		<para>There are various properties associated with expression tokens
+			which are used to determine the operations that may be performed
+			upon them.</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>Designation is the classification of the value delivered by
+					evaluating the expression. The three possible designations, implied
+					by the ISO C standard, section 6.3, are:</para>
+
+				<itemizedlist>
+					<listitem>
+						<para>value - expression describes the computation of a value;</para>
+					</listitem>
+					<listitem>
+						<para>object - expression designates a variable which may have an
+							associated type qualifier giving the access conditions;</para>
+					</listitem>
+					<listitem>
+						<para>function designation - expression designates a function.</para>
+					</listitem>
+				</itemizedlist>
+			</listitem>
+			<listitem>
+				<para>Type specifies the type of the expression ignoring any type
+					qualification;</para>
+			</listitem>
+			<listitem>
+				<para>Constancy is the property of being a constant expression as
+					specified in the ISO C Standard section 6.4.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>The syntax for introducing expression tokens is:</para>
+
+		<programlisting language="BNF">
+exp-token:
+	EXP <emphasis>exp-storage</emphasis> : <emphasis>type-name</emphasis> :
+	NAT
+
+exp-storage:
+	rvalue
+	lvalue
+	const</programlisting>
+
+		<para>Expression tokens can be introduced using either the
+			<code>EXP</code> or <code>NAT</code> token introductions.
+			Expression tokens introduced using <code>NAT</code> are
+			constant value designations of type <code>int</code> i.e.
+			they reference constant integer expressions. All other
+			expression tokens are assumed to be non-constant and are
+			introduced using <code>EXP</code>.</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>The <code>exp-storage</code> is either lvalue or rvalue. If it
+					is lvalue, then the token is an object designation without type
+					qualification. If it is rvalue then the token is either a value or
+					a function designation depending on whether or not its type is a
+					function type.</para>
+			</listitem>
+			<listitem>
+				<para>The <emphasis>type-name</emphasis> is the type of the expression to which
+					the token refers.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>All internal expression token identifiers must reside in the
+			macro name space and this is consequently the default name space
+			for such identifiers. Hence the optional name-space,
+			<code>TAG</code>, should not be present in an <code>EXP</code>
+			token introduction. Although the use of an expression token after
+			it has been introduced is very similar to that of an ordinary
+			identifier, as it resides in the macro name space, it has the
+			additional properties listed below:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>expression tokens cannot be hidden by using an inner
+					scope;</para>
+			</listitem>
+			<listitem>
+				<para>with respect to #ifdef, expression tokens are defined;</para>
+			</listitem>
+			<listitem>
+				<para>the scope of expression tokens can be terminated by
+					<code>#undef</code>.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>In order to make use of tokenised expressions, a new symbol,
+			exp-token-name , has been introduced at translation phase seven
+			of the syntax analysis as defined in the ISO C standard. When an
+			expression token identifier is encountered by the preprocessor,
+			an <code>exp-token-name</code> symbol is passed through to the
+			syntax analyser. An <code>exp-token-name</code> provides
+			information about an expression token in the same way that a
+			<code>typedef-name</code> provides information about a type
+			introduced using a <code>typedef</code>. This symbol can only
+			occur as part of a primary-expression (ISO C standard section
+			6.3.1) and the expression resulting from the use of
+			<code>exp-token-name</code> will have the type, designation
+			and constancy specified in the token introduction. As an
+			example, consider the pragma:</para>
+
+		<programlisting language="C">#pragma token EXP rvalue : int : x#</programlisting>
+
+		<para>This introduces a token for an expression which is a value
+			designation of type <code>int</code> with internal and external
+			name <code>x</code>.</para>
+
+		<para>Expression tokens can either be defined using <code>#define</code> statements
+			or by using externals. They can also be resolved as a result of
+			applying the type-resolution or assignment-resolution operators
+			(see <xref linkend="17"/>). Expression token definitions are subject to the
+			following constraints:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>if the <code>exp-token-name</code> refers to a constant
+					expression (i.e. it was introduced using the NAT token
+					introduction), then the defining expression must also be a constant
+					expression as expressed in the ISO C standard, section 6.4;</para>
+			</listitem>
+			<listitem>
+				<para>if the <code>exp-token-name</code> refers to an lvalue
+					expression, then the defining expression must also designate an
+					object and the type of the expression token must be resolvable to
+					the type of the defining expression. All the type qualifiers of the
+					defining expression must appear in the object designation of the
+					token introduction;</para>
+			</listitem>
+			<listitem>
+				<para>if the <code>exp-token-name</code> refers to an expression that
+					has function designation, then the type of the expression token
+					must be resolvable to the type of the defining expression.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>The program below provides two examples of the violation of the
+			second constraint.</para>
+
+	<programlisting language="C">
+#pragma token EXP lvalue : int : i#
+extern short k;
+#define i 6
+#define i k</programlisting>
+
+		<para>The expression token <code>i</code> is an object designation of
+			type <code>int</code>. The first violation occurs because the
+			expression, <code>6</code>, does not designate an object. The
+			second violation is because the type of the token expression,
+			<code>i</code>, is <code>int</code> which cannot be resolved to
+			the type <code>short</code>.</para>
+
+		<para>If the <emphasis>exp-token-name</emphasis> refers to an expression that
+			designates a value, then the defining expression is converted, as
+			if by assignment, to the type of the expression token using the
+			<emphasis>assignment-resolution</emphasis> operator (see <xref linkend="17"/>). With all other
+			designations the defining expression is left unchanged. In both
+			cases the resulting expression is used as the definition of the
+			expression token. This can subtly alter the semantics of a program.
+			Consider the program:</para>
+
+		<programlisting language="C">
+#pragma token EXP rvalue:long:li#
+#define li 6
+int f() {
+	return sizeof(li);
+}</programlisting>
+
+		<para>The definition of the token <code>li</code> causes the
+			expression, <code>6</code>, to be converted to <code>long</code>
+			(this is essential to separate the use of <code>li</code> from its
+			definition). The function, <code>f</code>, then returns
+			<code>sizeof(long)</code>. If the token introduction was absent
+			however <code>f</code> would return <code>sizeof(int)</code>.</para>
+
+		<para>Although they look similar, expression token definitions using
+			<code>#defines</code> are not quite the same as macro definitions. A macro can
+			be defined by any preprocessing tokens which are then computed in
+			phase 3 of translation as defined in the ISO C standard, whereas
+			tokens are defined by assignment-expressions which are computed in
+			phase 7. One of the consequences of this is illustrated by the
+			program below:</para>
+
+		<programlisting language="C">
+#pragma token EXP rvalue:int :X#
+#define X M + 3
+#define M sizeof(int)
+int f(int x)
+{
+	return (x + X);
+}</programlisting>
+
+		<para>If the token introduction of <code>X</code> is absent, the
+			program above will compile as, at the time the definition of
+			<code>X</code> is interpreted (when evaluating <code>x + X</code>),
+			both <code>M</code> and X are in scope. When the token
+			introduction is present the compilation will fail as the
+			definition of <code>X</code>, being part of translation phase
+			7, is interpreted when it is encountered and at this stage
+			<code>M</code> is not defined. This can be rectified by reversing
+			the order of the definitions of <code>X</code> and <code>M</code>
+			or by bracketing the definition of <code>X</code>. i.e.</para>
+
+		<programlisting language="C">#define X (M+3)</programlisting>
+
+		<para>Conversely consider:</para>
+
+		<programlisting language="C">
+#pragma token EXP rvalue:int:X#
+#define M sizeof(int)
+#define X M + 3
+#undef M
+int M(int x) {
+	return (x + X);
+}</programlisting>
+
+		<para>The definition of <code>X</code> is computed on line 3 when
+			<code>M</code> is in scope, not on line 6 where it is used. Token
+			definitions can be used in this way to relieve some of the
+			pressures on name spaces by undefining macros that are only used in
+			token definitions. This facility should be used with care as it
+			may not be a straightforward matter to convert the program back
+			to a conventional C program.</para>
+
+		<para>Expression tokens can also be defined by declaring the
+			<emphasis>exp-token-name</emphasis> that references the token to be
+			an object with external linkage e.g.</para>
+
+		<programlisting language="C">#pragma token EXP lvalue:int:x#
+extern int x;</programlisting>
+
+		<para>The semantics of this program are effectively the same as the
+			semantics of:</para>
+
+		<programlisting language="C">#pragma token EXP lvalue:int:x#
+extern int _x;
+#define x _x</programlisting>
+	</section>
+
+	<section>
+		<title id="6">Statement tokens</title>
+
+		<para>The syntax for introducing a statement token is simply:</para>
+
+		<programlisting language="C">
+#pragma token STATEMENT init_globs#
+int g(int);
+int f(int x) {
+	init_globs return g(x);
+}</programlisting>
+
+		<para>Internal statement token identifiers reside in the macro name
+			space. The optional name space, <code>TAG</code>, should not appear
+			in statement token introductions.</para>
+
+		<para>The use of statement tokens is analogous to the use of
+			expression tokens (see <xref linkend="3"/>). A
+			new symbol, <emphasis>stat-token-name</emphasis>, has been introduced into the
+			syntax analysis at phase 7 of translation as defined in the ISO C
+			standard. This token is passed through to the syntax analyser
+			whenever the preprocessor encounters an identifier referring to a
+			statement token. A <code>stat-token-name</code> can only occur as
+			part of the statement syntax (ISO C standard, section 6.6).</para>
+
+		<para>As with expression tokens, statement tokens are defined using
+			<code>#define</code> statements. An example of this is shown below:</para>
+
+		<programlisting language="C">
+#pragma token STATEMENT i_globs#
+#define i_globs {
+	int i = x;
+	x = 3;
+}</programlisting>
+
+		<para>The constraints on the definition of statement tokens are:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>the use of labels is forbidden unless the definition of the
+					statement token occurs at the outer level (i.e outside of any
+					compound statement forming a function definition);</para>
+			</listitem>
+			<listitem>
+				<para>the use of return within the defining statement is not
+					allowed.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>The semantics of the defining statement are precisely the same
+			as the semantics of a compound statement forming the definition
+			of a function with no parameters and void result. The definition
+			of statement tokens carries the same implications for phases of
+			translation as the definition of expression tokens (see F.5
+			Expression tokens).</para>
+	</section>
+
+	<section>
+		<title id="7">Type tokens</title>
+
+		<para>Type tokens are used to introduce references to types. The ISO C
+			standard, section 6.1.2.5, identifies the following classification
+			of types:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>the type <code>char</code>;</para>
+			</listitem>
+			<listitem>
+				<para>signed integral types;</para>
+			</listitem>
+			<listitem>
+				<para>unsigned integral types;</para>
+			</listitem>
+			<listitem>
+				<para>floating types;</para>
+			</listitem>
+			<listitem>
+				<para>character types;</para>
+			</listitem>
+			<listitem>
+				<para>enumeration types;</para>
+			</listitem>
+			<listitem>
+				<para>array types;</para>
+			</listitem>
+			<listitem>
+				<para>structure types;</para>
+			</listitem>
+			<listitem>
+				<para>union types;</para>
+			</listitem>
+			<listitem>
+				<para>function types;</para>
+			</listitem>
+			<listitem>
+				<para>pointer types;</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>These types fall into the following broader type
+			classifications:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>integral types - consisting of the signed integral types, the
+					unsigned integral types and the type <code>char</code>;</para>
+			</listitem>
+			<listitem>
+				<para>arithmetic types - consisting of the integral types and the
+					floating types;</para>
+			</listitem>
+			<listitem>
+				<para>scalar types - consisting of the arithmetic types and the
+					pointer types;</para>
+			</listitem>
+			<listitem>
+				<para>aggregate types - consisting of the structure and array
+					types;</para>
+			</listitem>
+			<listitem>
+				<para>derived types - consisting of array, structure, union, function
+					and pointer types;</para>
+			</listitem>
+			<listitem>
+				<para>derived declarator types - consisting of array, function and
+					pointer types.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>The classification of a type determines which operations are
+			permitted on objects of that type. For example, the <code>!</code>
+			operator can only be applied to objects of scalar type. In order
+			to reflect this, there are several type token introductions which
+			can be used to classify the type to be referenced, so that the
+			compiler can perform semantic checking on the application of
+			operators. The possible type token introductions are:</para>
+
+		<programlisting language="BNF">
+type-token:
+	TYPE
+	VARIETY
+	ARITHMETIC
+	STRUCT
+	UNION</programlisting>
+	</section>
+
+	<section>
+		<title id="9">General type tokens</title>
+
+		<para>The most general type token introduction is <code>TYPE</code>.
+			This introduces a type of unknown classification which can be
+			defined to be any C type. Only a few generic operations can be
+			applied to such type tokens, since the semantics must be defined
+			for all possible substituted types. Assignment and function
+			argument passing are effectively generic operations, apart from
+			the treatment of array types. For example, according to the ISO C
+			standard, even assignment is not permitted if the left operand has
+			array type and we might therefore expect assignment of general
+			token types to be illegal. Tokens introduced using the TYPE token
+			introduction can thus be regarded as representing non-array types
+			with extensions to represent array types provided by applying
+			non-array semantics as described below.</para>
+
+		<para>Once general type tokens have been introduced, they can be used
+			to construct derived declarator types in the same way as
+			conventional type declarators. For example:</para>
+
+		<!-- TODO aren't these #pragma TenDRA token? -->
+		<programlisting language="C">#pragma token TYPE t_t#
+#pragma token TYPE t_p#
+#pragma token NAT n#
+typedef t_t *ptr_type; /* introduces pointer type */
+typedef t_t fn_type(t_p); /*introduces function type */
+typedef t_t arr_type[n]; /*introduces array type */</programlisting>
+
+		<para>The only standard conversion that can be performed on an object
+			of general token type is the lvalue conversion (ISO C standard
+			section 6.2). Lvalue conversion of an object with general token
+			type is defined to return the item stored in the object. The
+			semantics of lvalue conversion are thus fundamentally altered by
+			the presence of a token introduction. If type <code>t_t</code> is
+			defined to be an array type the lvalue conversion of an object of
+			type <code>t_t</code> will deliver a pointer to the first array
+			element. If, however, <code>t_t</code> is defined to be a general
+			token type, which is later defined to be an array type, lvalue
+			conversion on an object of type <code>t_t</code> will deliver the
+			components of the array.</para>
+
+		<para>This definition of lvalue conversion for general token types is
+			used to allow objects of general tokenised types to be assigned to
+			and passed as arguments to functions. The extensions to the
+			semantics of function argument passing and assignment are as
+			follows: if the type token is defined to be an array then the
+			components of the array are assigned and passed as arguments to the
+			function call; in all other cases the assignment and function call
+			are the same as if the defining type had been used directly.</para>
+
+		<para>The default name space for the internal identifiers for general
+			type tokens is the ordinary name space and all such identifiers
+			must reside in this name space. The local identifier behaves
+			exactly as if it had been introduced with a typedef statement and
+			is thus treated as a <emphasis>typedef-name</emphasis> by the syntax
+			analyser.</para>
+	</section>
+
+	<section>
+		<title id="11">Integral type tokens</title>
+
+		<para>The token introduction <code>VARIETY</code> is used to introduce
+			a token representing an integral type. A token introduced in this
+			way can only be defined as an integral type and can be used
+			wherever an integral type is valid.</para>
+
+		<para>Values which have integral tokenised types can be converted to
+			any scalar type (see <xref linkend="7"/>). Similarly
+			values with any scalar type can be converted to a value with a
+			tokenised integral type. The semantics of these conversions are
+			exactly the same as if the type defining the token were used
+			directly. Consider:</para>
+
+		<programlisting language="C">
+#pragma token VARIETY <code>i_t</code>#
+short f(void)
+{
+	<code>i_t</code> x_i = 5;
+	return x_i;
+}
+	short g(void)
+{
+	long x_i = 5;
+	return x_i;
+}</programlisting>
+
+		<para>Within the function f there are two conversions: the value, 5,
+			of type <code>int</code>, is converted to <code>i_t</code>,
+			the tokenised integral type, and a value of tokenised integral type
+			<code>i_t</code> is converted to a value of type short. If
+			the type <code>i_t</code> were defined to be long then the
+			function f would be exactly equivalent to the function g.</para>
+
+		<para>The usual arithmetic conversions described in the ISO C standard
+			(section 6.3.1.5) are defined on integral type tokens and are
+			applied where required by the ISO C standard.</para>
+
+		<para>The integral promotions are defined according to the rules
+			introduced in Chapter 4. These promotions are first applied to the
+			integral type token and then the usual arithmetic conversions are
+			applied to the resulting type.</para>
+
+		<para>As with general type tokens, integral type tokens can only
+			reside in their default name space, the ordinary name space (the
+			optional name-space, TAG, cannot be specified in the token
+			introduction). They also behave as though they had been introduced
+			using a typedef statement.</para>
+	</section>
+
+	<section>
+		<title id="13">Arithmetic type tokens</title>
+
+		<para>The token introduction <code>ARITHMETIC</code> introduces an
+			arithmetic type token. In theory, such tokens can be defined by any
+			arithmetic type, but the current implementation of the compiler
+			only permits them to be defined by integral types. These type
+			tokens are thus exactly equivalent to the integral type tokens
+			introduced using the token introduction <code>VARIETY</code>.</para>
+	</section>
+
+	<section>
+		<title id="16">Compound type tokens</title>
+
+		<para>For the purposes of this document, a compound type is a type
+			describing objects which have components that are accessible via
+			member selectors. All structure and union types are thus compound
+			types, but, unlike structure and union types in C, compound types
+			do not necessarily have an ordering on their member selectors. In
+			particular, this means that some objects of compound type cannot be
+			initialised with an <emphasis>initialiser-list</emphasis> (see ISO
+			C standard section 6.5.7).</para>
+
+		<para>Compound type tokens are introduced using either the <code>STRUCT</code> or
+			<code>UNION</code> token introductions. A compound type token can be defined by
+			any compound type, regardless of the introduction used. It is
+			expected, however, that programmers will use <code>STRUCT</code> for compound
+			types with non-overlapping member selectors and <code>UNION</code> for compound
+			types with overlapping member selectors. The compound type token
+			introduction does not specify the member selectors of the compound
+			type - these are added later (see <xref linkend="19"/>).</para>
+
+		<para>Values and objects with tokenised compound types can be used
+			anywhere that a structure and union type can be used.</para>
+
+		<para>Internal identifiers of compound type tokens can reside in
+			either the ordinary name space or the tag name space. The default
+			is the ordinary name space; identifiers placed in the ordinary name
+			space behave as if the type had been declared using a typedef
+			statement. If the identifier, id say, is placed in the tag name
+			space, it is as if the type had been declared as struct id or union
+			id. Examples of the introduction and use of compound type tokens
+			are shown below:</para>
+
+		<programlisting language="C">
+#pragma token STRUCT n_t#
+#pragma token STRUCT TAG s_t#
+#pragma token UNION TAG u_t#
+
+void f()
+{
+	n_t x1;
+	struct n_t x2; /* Illegal, n_t not in the tag name space */
+	s_t x3; /* Illegal, s_t not in the ordinary name space*/
+	struct s_t x4;
+	union u_t x5;
+}</programlisting>
+	</section>
+
+	<section>
+		<title id="17">Type token compatibility, definitions etc.</title>
+
+		<para>A type represented by an undefined type token is incompatible
+			(ISO C standard section 6.1.3.6) with all other types except for
+			itself. A type represented by a defined type token is compatible
+			with everything that is compatible with its definition.</para>
+
+		<para>Type tokens can only be defined by using one of the operations
+			known as <code>type-resolution</code> and
+			<code>assignment-resolution</code>. Note that, as type token
+			identifiers do not reside in the macro name space, they cannot be
+			defined using #define statements.</para>
+
+		<para><code>Type-resolution</code> operates on two types and is
+			essentially identical to the operation of type compatibility (ISO C
+			standard section 6.1.3.6) with one major exception. In the case
+			where an undefined type token is found to be incompatible with the
+			type with which it is being compared, the type token is defined to
+			be the type with which it is being compared, thereby making them
+			compatible.</para>
+
+		<para>The ISO C standard prohibits the repeated use of typedef
+			statements to define a type. However, in order to allow type
+			resolution, the compiler allows types to be consistently redefined
+			using multiple typedef statements if:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>there is a resolution of the two types;</para>
+			</listitem>
+			<listitem>
+				<para>as a result of the resolution, at least one token is
+					defined.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>As an example, consider the program below:</para>
+
+		<programlisting language="C">
+#pragma token TYPE t_t#
+typedef t_t *ptr_t_t;
+typedef int **ptr_t_t;</programlisting>
+
+		<para>The second definition of <code>ptr_t_t</code> causes a resolution
+			of the types <code>t_t *</code> and <code>int **</code>. The rules
+			of type compatibility state that two pointers are compatible if
+			their dependent types are compatible, thus type resolution results
+			in the definition of <code>t_t</code> as <code>int *</code>.</para>
+
+		<para><code>Type-resolution</code> can also result in the definition
+			of other tokens. The program below results in the expression token
+			<code>N</code> being defined as <code>(4 * sizeof(int))</code>.</para>
+
+		<programlisting language="C">
+#pragma token EXP rvalue:int:N#
+typedef int arr[N];
+typedef int arr[4 * sizeof(int)];</programlisting>
+
+		<para>The <code>type-resolution</code> operator is not symmetric; a
+			resolution of two types, <code>A</code> and <code>B</code> say, is
+			an attempt to resolve type <code>A</code> to type <code>B</code>.
+			Thus only the undefined tokens of <code>A</code> can be defined as
+			a result of applying the type-resolution operator. In the examples
+			above, if the typedefs were reversed, no <code>type-resolution</code>
+			would take place and the types would be incompatible.</para>
+
+		<para><code>Assignment-resolution</code> is similar to
+			<code>type-resolution</code> but it occurs when converting an
+			object of one type to another type for the purposes of assignment.
+			Suppose the conversion is not possible and the type to which the
+			object is being converted is an undefined token type. If the token
+			can be defined in such a way that the conversion is possible, then
+			that token will be suitably defined. If there is more than one
+			possible definition, the definition causing no conversion will be
+			chosen.</para>
+	</section>
+
+	<section>
+		<title id="19">Selector tokens</title>
+
+		<para>The use of selector tokens is the primary method of adding member
+			selectors to compound type tokens. (The only other method is to
+			define the compound type token to be a particular structure or union
+			type.) The introduction of new selector tokens can occur at any
+			point in a program and they can thus be used to add new member
+			selectors to existing compound types.</para>
+
+		<para>The syntax for introducing member selector tokens as
+			follows:</para>
+
+		<programlisting language="BNF">
+selector-token:
+	MEMBER <emphasis>selector-type-name</emphasis> : <emphasis>type-name</emphasis> :
+
+selector-type-name:
+	<emphasis>type-name</emphasis><emphasis>type-name</emphasis> % <emphasis>constant-expression</emphasis></programlisting>
+
+		<para>The <emphasis>selector-type-name</emphasis> specifies the type of
+			the object selected by the selector token. If the
+			<emphasis>selector-type-name</emphasis> is a plain
+			<emphasis>type-name</emphasis>, the member selector token has that
+			type. If the <emphasis>selector-type-name</emphasis> consists of a
+			<emphasis>type-name</emphasis> and a
+			<emphasis>constant-expression</emphasis> separated by a
+			<code>%</code> sign, the member selector token refers to a bitfield
+			of type <emphasis>type-name</emphasis> and width
+			<emphasis>constant-expression</emphasis>. The second
+			<emphasis>type-name</emphasis> gives the compound type to which the
+			member selector belongs. For example:</para>
+
+		<programlisting language="C">
+#pragma token STRUCT TAG s_t#
+#pragma token MEMBER char*: struct s_t:s_t_mem#</programlisting>
+
+		<para>introduces a compound token type, <code>s_t</code>, which has a
+			member selector, <code>s_t_mem</code>, which selects an object of
+			type <code>char *</code>.</para>
+
+		<para>Internal identifiers of member selector tokens can only reside
+			in the member name space of the compound type to which they belong.
+			Clearly this is also the default name space for such
+			identifiers.</para>
+
+		<para>When structure or union types are declared, according to the ISO
+			C standard there is an implied ordering on the member selectors. In
+			particular this means that:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>during initialisation with an initialiser-list the identified
+					members of a structure are initialised in the order in which they
+					were declared. The first identified member of a union is
+					initialised;</para>
+			</listitem>
+			<listitem>
+				<para>the addresses of structure members will increase in the order
+					in which they were declared.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>The member selectors introduced as selector tokens are not
+			related to any other member selectors until they are defined. There
+			is thus no ordering on the undefined tokenised member selectors of
+			a compound type. If a compound type has only undefined token
+			selectors, it cannot be initialised with an initialiser-list. There
+			will be an ordering on the defined members of a compound type and
+			in this case, the compound type can be initialised
+			automatically.</para>
+
+		<para>The decision to allow unordered member selectors has been taken
+			deliberately in order to separate the decision of which members
+			belong to a structure from that of where such member components lie
+			within the structure. This makes it possible to represent
+			extensions to APIs which require extra member selectors to be added
+			to existing compound types.</para>
+
+		<para>As an example of the use of token member selectors, consider the
+			structure <code>lconv</code> specified in the ISO C Standard library (section
+			7.4.3.1). The standard does not specify all the members of <code>struct
+			lconv</code> or the order in which they appear. This type cannot be
+			represented naturally by existing C types, but can be described by
+			the token syntax.</para>
+
+		<para>There are two methods for defining selector tokens, one explicit
+			and one implicit. As selector token identifiers do not reside in
+			the macro name space they cannot be defined using #define
+			statements.</para>
+
+		<para>Suppose <code>A</code> is an undefined compound token type and
+			<code>mem</code> is an undefined selector token for <code>A</code>.
+			If <code>A</code> is later defined to be the compound type <code>B</code>
+			and <code>B</code> has a member selector with identifier
+			<code>mem</code> then <code>A.mem</code> is defined to be
+			<code>B.mem</code> providing the type of <code>A.mem</code> can
+			be resolved to the type of <code>B.mem</code>. This is known as
+			implicit selector token definition.</para>
+
+		<para>In the program shown below the redefinition of the compound type
+			<code>s_t</code> causes the token for the selector <code>mem_x</code> to be
+			implicitly defined to be the second member of struct
+			<code>s_tag</code>. The consequential type resolution leads to the
+			token type <code>t_t</code> being defined to be int.</para>
+
+		<programlisting language="C">
+#pragma token TYPE t_t#
+#pragma token STRUCT s_t#
+#pragma token MEMBER t_t : s_t : mem_x#
+#pragma token MEMBER t_t : s_t : mem_y#
+struct s_tag { int a, mem_x, b; }
+typedef struct s_tag s_t;</programlisting>
+
+		<para>Explicit selector token definition takes place using the pragma:</para>
+
+		<programlisting language="BNF">#pragma DEFINE MEMBER<emphasis> type-name</emphasis><emphasis>identifier</emphasis> : <emphasis>member-designator</emphasis>
+
+member-designator:
+	<emphasis>identifier</emphasis>
+	<emphasis>identifier . member-designator</emphasis></programlisting>
+
+		<para>The <emphasis>type-name</emphasis> specifies the compound type to
+			which the selector belongs.</para>
+
+		<para>The <emphasis>identifier</emphasis> provides the identification of the
+			member selector within that compound type.</para>
+
+		<para>The <emphasis>member-designator</emphasis> provides the definition of the
+			selector token. It must identify a selector of a compound type.</para>
+
+		<para>If the <emphasis>member-designator</emphasis> is an identifier, then the
+			identifier must be a member of the compound type specified by the
+			<emphasis>type-name</emphasis>. If the <emphasis>member-designator</emphasis> is an
+			identifier, <emphasis>id</emphasis> say, followed by a further
+			member-designator, M say, then:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>the identifier id must be a member identifying a selector of
+					the compound type specified by <emphasis>type-name</emphasis>;</para>
+			</listitem>
+			<listitem>
+				<para>the type of the selector identified by id must have compound
+					type, C say;</para>
+			</listitem>
+			<listitem>
+				<para>the <code>member-designator</code> M must identify a member
+					selector of the compound type C.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>As with implicit selector token definitions, the type of the
+			selector token must be resolved to the type of the selector
+			identified by the <emphasis>member-designator</emphasis>.</para>
+
+		<para>In the example shown below, the selector token mem is defined to
+			be the second member of struct <emphasis>s</emphasis> which in turn is the
+			second member of struct <emphasis>s_t</emphasis>.</para>
+
+		<programlisting language="C">
+#pragma token STRUCT s_t#
+#pragma token MEMBER int : s_t : mem#
+typedef struct {int x; struct {char y; int z;} s; } s_t;
+#pragma DEFINE MEMBER s_t : mem s.z</programlisting>
+	</section>
+
+	<section>
+		<title id="21">Procedure tokens</title>
+
+		<para>Consider the macro <code>SWAP</code> defined below:</para>
+
+		<programlisting language="C">
+#define SWAP(T, A, B) { \
+	T x; \
+	x=B; \
+	B=A; \
+	A=x; \
+}</programlisting>
+
+		<para><code>SWAP</code> can be thought of as a statement that is
+			parameterised by a type and two expressions.</para>
+
+		<para>Procedure tokens are based on this concept of parameterisation.
+			Procedure tokens reference program constructs that are
+			parameterised by other program constructs.</para>
+
+		<para>There are three methods of introducing procedure tokens. These
+			are described in the sections below.</para>
+
+		<section>
+			<title id="22">General procedure tokens</title>
+
+			<para>The syntax for introducing a general procedure token
+				is:</para>
+
+			<programlisting language="BNF">
+general procedure:
+	PROC {<emphasis> bound-toks</emphasis><subscript><emphasis>opt</emphasis></subscript> | <emphasis>prog-pars</emphasis><subscript><emphasis>opt</emphasis></subscript> } <emphasis>token-introduction</emphasis>
+
+simple procedure:
+	PROC ( <emphasis>bound-toks</emphasis><subscript><emphasis>opt</emphasis></subscript> ) <emphasis>token-introduction</emphasis>
+
+bound-toks:
+	<emphasis>bound-token</emphasis>
+	<emphasis>bound-token</emphasis>, <emphasis>bound-toks</emphasis>
+
+bound-token:
+	<emphasis>token-introduction name-space</emphasis><subscript><emphasis>opt</emphasis></subscript><emphasis>identifier</emphasis>
+
+prog-pars:
+	<emphasis>program-parameter</emphasis><emphasis>program-parameter</emphasis>, <emphasis>prog-pars</emphasis>
+
+program parameter:
+	EXP<emphasis> identifier</emphasis>
+	STATEMENT<emphasis> identifier</emphasis>
+	TYPE <emphasis>type-name-identifier</emphasis>
+	MEMBER <emphasis>type-name-identifier</emphasis> : <emphasis>identifier</emphasis></programlisting>
+
+			<para>The final <emphasis>token-introduction</emphasis> specifies
+				the kind of program construct being parameterised. In the
+				current implementation of the compiler, only expressions and
+				statements may be parameterised. The internal procedure token
+				identifier is placed in the default name space of the program
+				construct which it parameterises. For example, the internal
+				identifier of a procedure token parameterising an expression
+				would be placed in the macro name space.</para>
+
+			<para>The <code>bound-toks</code> are the bound token dependencies
+				which describe the program constructs upon which the procedure
+				token depends. These should not be confused with the parameters of
+				the token. The procedure token introduced in:</para>
+
+			<programlisting language="C">#pragma token PROC {TYPE t,EXP rvalue:t**:e|EXP e} EXP:rvalue:t:dderef#</programlisting>
+
+			<para>is intended to represent a double dereference and depends
+				upon the type of the expression to be dereferenced and upon the
+				expression itself but takes only one argument, namely the
+				expression, from which both dependencies can be deduced.</para>
+
+			<para>The bound token dependencies are introduced in exactly the same
+				way as the tokens described in the previous sections with the
+				identifier corresponding to the internal identification of the
+				token. No external identification is allowed. The scope of these
+				local identifiers terminates at the end of the procedure token
+				introduction, and whilst in scope, they hide all other identifiers
+				in the same name space. Such tokens are referred to as
+				<quote>bound</quote> because they are local to the procedure
+				token.</para>
+
+			<para>Once a bound token dependency has been introduced, it can be
+				used throughout the rest of the procedure token introduction in the
+				construction of other components.</para>
+
+			<para>The <emphasis>prog-pars</emphasis> are the program parameters. They
+				describe the parameters with which the procedure token is called.
+				The bound token dependencies are deduced from these program
+				parameters.</para>
+
+			<para>Each program parameter is introduced with a keyword expressing
+				the kind of program construct that it represents. The keywords are
+				as follows:</para>
+
+			<itemizedlist>
+				<listitem>
+					<para><code>EXP</code>. The parameter is an expression and the identifier
+						following <code>EXP</code> must be the identification of a bound token for an
+						expression. When the procedure token is called, the corresponding
+						parameter must be an assignment-expression and is treated as the
+						definition of the bound token, thereby providing definitions for
+						all dependencies relating to that token. For example, the call of
+						the procedure token dderef, introduced above, in the code below:</para>
+
+					<programlisting language="C">
+char f(char **c_ptr_ptr)
+{
+	return dderef(c_ptr_ptr);
+}</programlisting>
+
+					<para>causes the expression, e, to be defined to be <code>c_ptr_ptr</code> thus
+						resolving the type <code>t**</code> to be <code>char **</code>.
+						The type <code>t</code> is hence defined to be <code>char</code>, also
+						providing the type of the expression obtained by
+						the application of the procedure token <code>dderef</code>;</para>
+				</listitem>
+				<listitem>
+					<para><code>STATEMENT</code>. The parameter is a statement. Its semantics
+						correspond directly to those of <code>EXP</code>;</para>
+				</listitem>
+				<listitem>
+					<para><code>TYPE</code>. The parameter is a type. When the procedure token is
+						applied, the corresponding argument must be a
+						<code>type-name</code>. The parameter type is resolved to the
+						argument type in order to define any related dependencies;</para>
+				</listitem>
+				<listitem>
+					<para><code>MEMBER</code>. The parameter is a member selector. The
+						<code>type-name</code> specifies the composite type to which the
+						member selector belongs and the identifier is the identification of
+						the member selector. When the procedure token is applied, the
+						corresponding argument must be a <emphasis>member-designator</emphasis> of the
+						compound type.</para>
+				</listitem>
+			</itemizedlist>
+
+			<para>Currently <code>PROC</code> tokens cannot be passed as
+				program parameters.</para>	<!-- TODO still true? -->
+		</section>
+
+		<section>
+			<title id="S160">Simple procedure tokens</title>
+
+			<para>In cases where there is a direct, one-to-one correspondence
+				between the bound token dependencies and the program parameters a
+				simpler form of procedure token introduction is available.</para>
+
+			<para>Consider the two procedure token introductions below,
+				corresponding to the macro <code>SWAP</code> described earlier.</para>
+
+			<programlisting language="C">
+/* General procedure introduction */
+#pragma token PROC{TYPE t,EXP lvalue:t:e1,EXP lvalue:t:e2 | \
+	TYPE t,EXP e1,EXP e2 } STATEMENT SWAP#
+/* Simple procedure introduction */
+#pragma token PROC(TYPE t,EXP lvalue:t:,EXP lvalue:t: ) STATEMENT SWAP#</programlisting>
+
+			<para>The <emphasis>simple-token</emphasis> syntax is similar to
+				the <emphasis>bound-token</emphasis> syntax, but it also
+				introduces a program parameter for each bound token. The bound
+				token introduced by the <emphasis>simple-token</emphasis>
+				syntax is defined as though it had been introduced with the
+				<emphasis>bound-token</emphasis> syntax. If the final identifier
+				is omitted, then no name space can be specified, the bound token
+				is not identified and in effect there is a local hidden
+				identifier.</para>
+		</section>
+
+		<section>
+			<title id="24">Function procedure tokens</title>
+
+			<para>One of the commonest uses of simple procedure tokens is to
+				represent function in-lining. In this case, the procedure token
+				represents the in-lining of the function, with the function
+				parameters being the program arguments of the procedure token
+				call, and the program construct resulting from the call of the
+				procedure token being the corresponding in-lining of the
+				function. This is a direct parallel to the use of macros to
+				represent functions.</para>
+
+			<para>The syntax for introducing function procedure tokens is:</para>
+
+			<programlisting language="BNF">
+function-procedure:
+	FUNC <emphasis>type-name</emphasis> :</programlisting>
+
+			<para>The <emphasis>type-name</emphasis> must be a prototyped
+				function type. The pragma results in the declaration of a
+				function of that type with external linkage and the
+				introduction of a procedure token suitable for an in-lining of
+				the function. (If an ellipsis is present in the prototyped
+				function type, it is used in the function declaration but not
+				in the procedure token introduction.) Every parameter type
+				and result type is mapped onto the token introduction:</para>
+
+			<programlisting language="BNF">EXP rvalue:</programlisting>
+
+			<para>The example below:</para>
+
+			<programlisting language="C">#pragma token FUNC int(int): putchar#</programlisting>
+
+			<para>declares a function, <code>putchar</code>, which returns an
+				<code>int</code> and takes an <code>int</code> as its
+				argument, and introduces a procedure token suitable for
+				in-lining putchar. Note that:</para>
+
+			<programlisting language="C">#undef putchar</programlisting>
+
+			<para>will remove the procedure token but not the underlying
+				function.</para>
+		</section>
+
+		<section>
+			<title id="S162">Defining procedure tokens</title>
+
+			<para>All procedure tokens are defined by the same mechanism.
+				Since simple and function procedure tokens can be transformed
+				into general procedure tokens, the definition will be
+				explained in terms of general procedure tokens.</para>
+
+			<para>The syntax for defining procedure tokens is given below and is
+				based upon the standard parameterised macro definition. However, as
+				in the definitions of expressions and statements, the
+				<code>#defines</code> of procedure token identifiers are evaluated
+				in phase 7 of translation as described in the ISO C standard.</para>
+
+			<programlisting language="BNF">
+#define <emphasis>identifier</emphasis> ( <emphasis>id-list</emphasis><subscript><emphasis>opt</emphasis></subscript> ) <emphasis>assignment-expression</emphasis>
+
+#define<emphasis> identifier</emphasis> (<emphasis> id-list</emphasis><subscript><emphasis>opt</emphasis></subscript> ) <emphasis>statement</emphasis>
+
+id-list:
+	<emphasis>identifier</emphasis><emphasis>identifer</emphasis>, <emphasis>id-list</emphasis></programlisting>
+
+			<para>The <emphasis>id-list</emphasis> must correspond directly
+				to the program parameters of the procedure token introduction.
+				There must be precisely one identifier for each program
+				parameter. These identifiers are used to identify the program
+				parameters of the procedure token being defined and have a
+				scope that terminates at the end of the procedure token
+				definition. They are placed in the default name spaces for the
+				kinds of program constructs which they identify.</para>
+
+			<para>None of the bound token dependencies can be defined during the
+				evaluation of the definition of the procedure token since they are
+				effectively provided by the arguments of the procedure token each
+				time it is called. To illustrate this, consider the example below
+				based on the dderef token used earlier.</para>
+
+			<programlisting language="C">
+#pragma token PROC{TYPE t, EXP rvalue:t**:e|EXP e}EXP rvalue:t:dderef#
+#define dderef (A) (**(A))</programlisting>
+
+			<para>The identifiers <code>t</code> and <code>e</code> are not in
+				scope during the definition, being merely local identifiers for
+				use in the procedure token introduction. The only identifier in
+				scope is <code>A</code>. <code>A</code> identifies an expression
+				token which is an rvalue whose type is a pointer to a pointer to
+				a type token. The expression token and the type token are
+				provided by the arguments at the time of calling the procedure
+				token.</para>
+
+			<para>Again, the presence of a procedure token introduction can alter
+				the semantics of a program. Consider the program below.</para>
+
+			<programlisting language="C">
+#pragma token PROC {TYPE t, EXP lvalue:t:,EXP lvalue:t:}STATEMENT SWAP#
+#define SWAP(T, A, B) { \
+	T x; \
+	x = B; \
+	B = A; \
+	A = x; \
+}
+
+void f(int x, int y)
+{
+	SWAP(int, x, y)
+}</programlisting>
+
+			<para>Function procedure tokens are introduced with tentative implicit
+				definitions, defining them to be direct calls of the functions they
+				reference and effectively removing the in-lining capability. If a
+				genuine definition is found later in the compilation, it overrides
+				the tentative definition. An example of a tentative definition is
+				shown below:</para>
+
+			<programlisting language="C">
+#pragma token FUNC int(int, long) : func#
+#define func(A, B) (func) (A, B)</programlisting>
+		</section>
+	</section>
+
+	<section>
+		<title id="wbS163">Tokens and APIs</title>
+
+		<para>In Chapter 1 we mentioned that one of the main problems in
+			writing portable software is the lack of separation between
+			specification and implementation of APIs. The TenDRA technology
+			uses the token syntax described in the previous sections to provide
+			an abstract description of an API specification. Collections of
+			tokens representing APIs are called <quote>interfaces</quote>.
+			Tchk can compile programs with these interfaces in order to check
+			applications against API specifications independently of any
+			particular implementation that may be present on the developer's
+			machine.</para>
+
+		<para>In order to produce executable code, definitions of the
+			interface tokens must be provided on all target machines. This is
+			done by compiling the interfaces with the system headers and
+			libraries.</para>
+
+		<para>When developing applications, programmers must ensure that they
+			do not accidentally define a token expressing an API. Implementers
+			of APIs, however, do not want to inadvertently fail to define a
+			token expressing that API. Token definition states have been
+			introduced to enable programmers to instruct the compiler to check
+			that tokens are defined when and only when they wish them to be.
+			This is fundamental to the separation of programs into portable and
+			unportable parts.</para>
+
+		<para>When tokens are first introduced, they are in the free state.
+			This means that the token can be defined or left undefined and if
+			the token is defined during compilation, its definition will be
+			output as TDF.</para>
+
+		<para>Once a token has been given a valid definition, its definition
+			state moves to defined. Tokens may only be defined once. Any
+			attempt to define a token in the defined state is flagged as an
+			error.</para>
+
+		<para>There are three more token definition states which may be set by
+			the programmer. These are as follows:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>Indefinable - the token is not defined and must not be defined.
+					Any attempt to define the token will cause an error. When compiling
+					applications, interface tokens should be in the indefinable state.
+					It is not possible for a token to move from the state of defined to
+					indefinable;</para>
+			</listitem>
+			<listitem>
+				<para>Committed - the token must be defined during the compilation.
+					If no definition is found the compiler will raise an error.
+					Interface tokens should be in the committed state when being
+					compiled with the system headers and libraries to provide
+					definitions;</para>
+			</listitem>
+			<listitem>
+				<para>Ignored - any definition of the token that is assigned during
+					the compilation of the program will not be output as TDF;</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>These token definition states are set using the pragmas:</para>
+
+		<programlisting language="BNF">
+#pragma <emphasis>token-op token-id-list</emphasis><subscript><emphasis>opt</emphasis></subscript>
+
+token-op:
+	define
+	no_def
+	ignore
+	interface
+
+token-id-list:	
+	TAG<subscript><emphasis>opt</emphasis></subscript><emphasis>identifier</emphasis><emphasis>dot-list</emphasis><subscript><emphasis>opt</emphasis></subscript><emphasis>token-id-list</emphasis><subscript><emphasis>opt</emphasis></subscript>
+
+dot-list:
+	. <emphasis>member-designator</emphasis></programlisting>
+
+		<para>The <emphasis>token-id-list</emphasis>  is the list of tokens to
+			which the definition state applies. The tokens in the
+			<emphasis>token-id-list</emphasis> are identified by an identifier,
+			optionally preceded by <code>TAG</code>. If <code>TAG</code> is
+			present, the identifier refers to the tag name space, otherwise the
+			macro and ordinary name spaces are searched for the identifier. If
+			there is no <emphasis>dot-list</emphasis> present, the identifier
+			must refer to a token. If the <emphasis>dot-list</emphasis>is
+			present, the identifier must refer to a compound type and the
+			member-designator must identify a member selector token of that
+			compound type.</para>
+
+		<para>The <emphasis>token-op</emphasis> specifies the definition state to be
+			associated with the tokens in the <code>token-id-list</code>. There
+			are three literal operators and one context dependent operator, as
+			follows:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para><code>no_def</code> causes the token state to move to
+					indefinable.</para>
+			</listitem>
+			<listitem>
+				<para><code>define</code> causes the token state to move to
+					committed;</para>
+			</listitem>
+			<listitem>
+				<para><code>ignore</code> causes the token state to move to
+					ignored;</para>
+			</listitem>
+			<listitem>
+				<para><code>interface</code> is the context dependent operator and is
+					used when describing extensions to existing APIs.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>As an example of an extension API, consider the POSIX
+			<code>stdio.h</code>. This is an extension of the ANSI
+			<code>stdio.h</code> and uses the same tokens to represent the
+			common part of the interface. When compiling applications, nothing
+			can be assumed about the implementation of the ANSI tokens accessed
+			via the POSIX API so they should be in the indefinable state. When
+			the POSIX tokens are being implemented, however, the ANSI
+			implementations can be assumed. The ANSI tokens are then in the
+			ignored state. (Since the definitions of these tokens will have been
+			output already during the definition of the ANSI interface, they
+			should not be output again.)</para>
+
+		<para>The <code>interface</code> operator has a variable
+			interpretation to allow the correct definition state to be
+			associated with these `base-API tokens'. The compiler associates a
+			compilation state with each file it processes. These compilation
+			states determine the interpretation of the interface operator
+			within that file.</para>
+
+		<para>The default compilation state is the standard state. In this
+			state the <code>interface</code> operator is interpreted as the
+			<code>no_def</code> operator. This is the standard state for
+			compiling applications in the presence of APIs;</para>
+
+		<para>Files included using:</para>
+
+		<programlisting language="BNF">#include <emphasis>header</emphasis></programlisting>
+
+		<para>have the same compilation state as the file from which they were included.</para>
+
+		<para>The implementation compilation state is associated with files
+			included using:</para>
+
+		<programlisting language="C">#pragma implement interface <emphasis>header</emphasis></programlisting>
+
+		<para>In this context the <code>interface</code> operator is interpreted
+			as the <code>define</code> operator.</para>
+
+		<para>Including a file using:</para>
+
+		<programlisting language="C">#pragma extend interface <emphasis>header</emphasis></programlisting>
+
+		<para>causes the compilation state to be extension unless the file
+			from which it was included was in the standard state, in which
+			case the compilation state is the standard state. In the extension
+			state the <code>interface</code> operator is interpreted as the
+			<code>ignore</code> operator.</para>
+	</section>
+</appendix>
+

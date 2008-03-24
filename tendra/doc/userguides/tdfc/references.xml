@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE bibliography PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<bibliography>
+	<title>References</title>
+
+	<biblioentry>
+		<para>Tdfc: The C to TDF Producer Issue 1.0 (DRA/CIS3/OSSG/TR/95/102/1.0)</para>
+	</biblioentry>
+	<biblioentry>
+		<para>The C to TDF Producer Issue 2.1.0 (June 1993)</para>
+	</biblioentry>
+	<biblioentry>
+		<para>TCheck, The TenDRA Program Checker (DRA/CIS/CSE2/TR/94/44/1.2, November 1994)</para>
+	</biblioentry>
+	<biblioentry>
+		<para>Tcc Users Guide (DRA/CIS/CSE2/TR/94/48/1.2, June 1994)</para>
+	</biblioentry>
+	<biblioentry>
+		<para>Implementation of ISO/IEC 9899 : 1990, Programming languages - C</para>
+	</biblioentry>
+	<biblioentry>
+		<para>tspec - An API Specification Tool (DRA/CIS/CSE2/94/48/2.1, September 1994)</para>
+	</biblioentry>
+</bibliography>
+

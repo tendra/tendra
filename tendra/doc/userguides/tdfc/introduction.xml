@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<preface id="intro">
+	<title>Introduction</title>
+
+	<section>
+		<title>Background</title>
+
+		<para>The C program static checker was originally developed as a
+			programming tool to aid the construction of portable programs using
+			the Application Programming Interface (API) model of software
+			portability; the principle underlying this approach being:</para>
+
+		<blockquote>
+			<para>If a program is written to conform to an abstract
+				API specification, then that program will be portable to any
+				machine which implements the API specification
+				correctly.</para>
+		</blockquote>
+
+		<para>This approach gave the tool an unusually powerful basis for
+			static checking of C programs and a large amount of development
+			work has resulted in the production of the TenDRA C static checker
+			(tchk). The terms, TenDRA C checker and tchk are used
+			interchangably in this document.</para>
+	</section>
+
+	<section>
+		<title id="wbS4">The C static checker</title>
+
+		<itemizedlist>
+			<listitem>
+				<para>strict interface checking. In particular, the checker can
+					analyse programs against abstract APIs to check their conformance
+					to the specification. Abstract versions of most standard APIs are
+					provided with the tool; alternatively users can define their own
+					abstract APIs using the syntax described in Annex G;</para>
+			</listitem>
+			<listitem>
+				<para>checking of integer sizes, overflows and implicit integer
+					conversions including potential 64-bit problems, against a 16 bit
+					or 32 bit architecture profile;</para>
+			</listitem>
+			<listitem>
+				<para>strict ISO C standard checking, plus configurable support for
+					many non-ISO dialect features;</para>
+			</listitem>
+			<listitem>
+				<para>extensive type checking, including prototype-style checking for
+					traditionally defined functions, conversion checking, type checking
+					on printf and scanf style argument strings and type checking
+					between translation units;</para>
+			</listitem>
+			<listitem>
+				<para>variable analysis, including detection of unused variables, use
+					of uninitialised variables, dependencies on order of evaluation in
+					expressions and detection of unused function returns, computed
+					values and static variables;</para>
+			</listitem>
+			<listitem>
+				<para>detection of unused header files;</para>
+			</listitem>
+			<listitem>
+				<para>configurable tests for detecting many other common programming
+					errors;</para>
+			</listitem>
+			<listitem>
+				<para>complete standard API usage analysis;</para>
+			</listitem>
+			<listitem>
+				<para>several built-in checking environments plus support for
+					user-defined checking profiles.</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title id="wbS6">About this document</title>
+
+		<note>
+			<para>Much of the specifics of this document have been extended by
+				<code>tcpplus</code>. Whilst everything discussed here is still
+				relevant, the new C producer, <emphasis>tdfc2</emphasis>, also
+				incorporates features from <code>tcpplus</code>.</para>
+			<!-- TODO centralise; split off standalone bits -->
+			<!-- TODO merge out OT things to their relevant areas -->
+		</note>
+
+		<itemizedlist>
+			<listitem>
+				<para>Chapter 2: Configuring the Checker describes the built-in
+					checking modes and the design of customised environments;</para>
+			</listitem>
+			<listitem>
+				<para>Chapters 3-8: Type Checking, Integral Types, Data Flow and
+					Variable Analysis , Preprocessing Checks, ISO C and Other Dialects
+					and Common Errors respectively;</para>
+			</listitem>
+			<listitem>
+				<para>Chapter 9: The Symbol Table Dump deals with the detection of
+					unused header files, type checking across translation units and
+					complete standard API usage analysis;</para>
+			</listitem>
+			<listitem>
+				<para>Chapter 10: Conditional Compilation describes the checker's
+					approach to conditional compilation;</para>
+			</listitem>
+			<listitem>
+				<para>Chapter 11: References lists the references used in the
+					production of this document;</para>
+			</listitem>
+			<listitem>
+				<para>Annex A: Checking Modes gives a description of the built-in
+					environments;</para>
+			</listitem>
+			<listitem>
+				<para>Annex B: Command Line Options lists the command line checking
+					options;</para>
+			</listitem>
+			<listitem>
+				<para>Annex C: Specifying Integral Types describes the built-in
+					integer modes and the methods for customising them;</para>
+			</listitem>
+			<listitem>
+				<para>Annex D: Pragma Syntax Specification;</para>
+			</listitem>
+			<listitem>
+				<para>Annex E: Symbol Table Dump Specification;</para>
+			</listitem>
+			<listitem>
+				<para>Annex F: Token Syntax describes the methods and syntax used to
+					produce abstract APIs;</para>
+			</listitem>
+			<listitem>
+				<para>Annex G: Abstract API Manipulation gives details of the ways in
+					which TenDRA abstract APIs may be extended, combined or overriden
+					by local declarations;</para>
+			</listitem>
+			<listitem>
+				<para>Annex H: Specifying Conversions with Tokens.</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+</preface>
+

@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<appendix>
+	<title>Summary of the pragma statements</title>
+	<programlisting language="BNF">
+pragma_syntax:
+	#pragma TenDRA <emphasis>tendra_pragma</emphasis>
+	#pragma token <emphasis>token_pragma</emphasis>
+	#pragma <emphasis>token_operation</emphasis>
+	#pragma <emphasis>integer_pragma</emphasis>
+
+tendra_pragma:
+	begin <xref linkend="13"/>
+	begin <emphasis>name</emphasis> environment <emphasis>identifier</emphasis> 
+	declaration block <emphasis>identifier</emphasis> begin <xref linkend="6"/>
+	declaration block end <xref linkend="6"/>
+	directory <emphasis>name</emphasis> use environment <emphasis>identifier</emphasis>
+	use environment <emphasis>identifier</emphasis>
+	end <xref linkend="13"/><emphasis>analysis_spec</emphasis><emphasis>function_pars</emphasis> <xref linkend="32"/>
+	keyword <emphasis>identifier</emphasis> for <emphasis>keyword_spec</emphasis>
+	type <emphasis>identifier</emphasis> for <emphasis>type_spec</emphasis><emphasis>check_pragma</emphasis><emphasis>variable_pragma</emphasis><emphasis>dialect_pragma</emphasis>
+
+analysis_spec:
+	complete struct/union analysis <emphasis>state</emphasis> <xref linkend="4"/>
+	conversion <emphasis>conv_list</emphasis> allow <xref linkend="2"/>
+	conversion analysis <emphasis>conversion_spec</emphasis> <xref linkend="2"/>
+	discard analysis <emphasis>discard_spec</emphasis> <xref linkend="36"/>
+	enum switch analysis <emphasis>state</emphasis> <xref linkend="2"/>
+	fall into case <emphasis>permit</emphasis> <xref linkend="6"/>
+	function pointer as pointer <emphasis>permit</emphasis> <xref linkend="11"/>
+	integer operator analysis <emphasis>state</emphasis> <xref linkend="18"/>
+	integer overflow analysis <emphasis>state</emphasis> <xref linkend="14"/>
+	nested comment analysis <emphasis>state</emphasis> <xref linkend="45"/>
+	operator precedence analysis <emphasis>state</emphasis> <xref linkend="15"/>
+	unreachable code <emphasis>permit</emphasis> <xref linkend="2"/>
+	variable analysis <emphasis>state</emphasis> <xref linkend="2"/>
+	variable hiding analysis <emphasis>state</emphasis> <xref linkend="6"/>
+	weak prototype analysis <emphasis>state</emphasis> <xref linkend="20"/>
+
+conversion_spec:
+	<emphasis>empty</emphasis>
+	( int-int ) <xref linkend="5"/>
+	( int-int explicit ) <xref linkend="5"/>
+	( int-int implicit ) <xref linkend="5"/>
+	( int-enum implicit) <xref linkend="5"/>
+	(enum-int implicit) <xref linkend="5"/>
+	( int-pointer ) <xref linkend="8"/>
+	( int-pointer explicit ) <xref linkend="8"/>
+	(int-pointer implicit ) <xref linkend="8"/>
+	( pointer-int ) <xref linkend="8"/>
+	( pointer-int explicit ) <xref linkend="8"/>
+	( pointer-int implicit ) <xref linkend="8"/>
+	( pointer-pointer ) <xref linkend="11"/>
+	( pointer-pointer explicit ) <xref linkend="11"/>
+	( pointer-pointer implicit ) <xref linkend="11"/>
+
+discard_spec:
+	<emphasis>empty</emphasis>
+	( function return ) <xref linkend="38"/>
+	( static ) <xref linkend="42"/>
+	( value ) <xref linkend="40"/>
+
+function_pars:
+	<emphasis>argument</emphasis> <emphasis>type_name</emphasis> as
+	<emphasis>type_name</emphasis> <xref linkend="32"/>
+	argument <emphasis>type_name</emphasis> as ... <xref linkend="32"/>
+	extra ... <emphasis>permit</emphasis> <xref linkend="32"/>
+
+keyword_spec:
+	discard value <xref linkend="44"/>
+	discard variable <xref linkend="26"/>
+	exhaustive <xref linkend="32"/>
+	fall into case <xref linkend="6"/>
+	set <xref linkend="29"/>
+	set reachable <xref linkend="2"/>
+	set unreachable <xref linkend="2"/>
+	type representation <xref linkend="4"/>
+	weak <xref linkend="20"/>
+
+type_spec:
+	bottom <xref linkend="34"/>
+	... printf <xref linkend="23"/>
+	... scanf <xref linkend="23"/>
+
+check_pragma:
+	implicit function declaration <emphasis>state</emphasis> <xref linkend="30"/>
+	incompatible interface declaration <emphasis>permit</emphasis> <xref linkend="1"/>
+	incompatible void return <emphasis>permit</emphasis> <xref linkend="25"/>
+
+variable_pragma:
+	discard <emphasis>identifier</emphasis><emphasis>separator</emphasis> <xref linkend="26"/>
+	preserve <emphasis>identifier_list</emphasis> <xref linkend="46"/>
+	set identifier <emphasis>separator</emphasis> <xref linkend="29"/>
+	suspend static <emphasis>identifier_list</emphasis> <xref linkend="46"/>
+	exhaustive <xref linkend="32"/>
+
+separator:
+	;
+	,
+
+identifier_list:
+	<emphasis>identifier</emphasis>
+	<emphasis>identifier</emphasis><emphasis>identifier_list</emphasis>
+
+dialect_pragma:
+	++ <xref linkend="56"/>
+	assignment as bool <emphasis>permit</emphasis> <xref linkend="11"/>
+	bitfield overflow <emphasis>permit</emphasis> <xref linkend="14"/>
+	block function static <emphasis>permit</emphasis> <xref linkend="15"/>
+	character <emphasis>set_sign</emphasis> <xref linkend="9"/>
+	character escape overflow <emphasis>permit</emphasis> <xref linkend="14"/>
+	compatible type : char * == void * : <emphasis>permit</emphasis> <xref linkend="11"/>
+	conditional lvalue <emphasis>dallow</emphasis> <xref linkend="29"/>
+	const conditional <emphasis>permit</emphasis> <xref linkend="13"/>
+	dollar as ident <emphasis>dallow</emphasis> <xref linkend="39"/>
+	directive <emphasis>pp_directive pp_spec</emphasis> <xref linkend="1"/>
+	directive as macro argument <emphasis>permit</emphasis> <xref linkend="11"/>
+	external volatile_t <xref linkend="23"/>
+	extra ; <emphasis>permit</emphasis> <xref linkend="54"/>
+	extra ; after conditional <emphasis>permit</emphasis> <xref linkend="9"/>
+	extra , <emphasis>permit</emphasis> <xref linkend="52"/>
+	extra bitfield int type <emphasis>permit</emphasis> <xref linkend="9"/>
+	extra macro definition <emphasis>dallow</emphasis> <xref linkend="9"/>
+	extra type definition <emphasis>permit</emphasis> <xref linkend="13"/>
+	forward enum declaration <emphasis>dallow</emphasis> <xref linkend="19"/>
+	floating point equality <emphasis>permit</emphasis> <xref linkend="8"/>
+	ident ... <emphasis>permit</emphasis> <xref linkend="27"/>
+	ignore struct/union/enum tag <emphasis>status</emphasis> <xref linkend="31"/>
+	implicit int type for external declaration <emphasis>permit</emphasis> <xref linkend="7"/>
+	implicit int type for function return <emphasis>permit</emphasis> <xref linkend="7"/>
+	includes depth <emphasis>integral_constant</emphasis> <xref linkend="17"/>
+	incompatible linkage <emphasis>permit</emphasis> <xref linkend="5"/>
+	incompatible promoted function argument <emphasis>dallow</emphasis> <xref linkend="37"/>
+	incompatible type qualifier <emphasis>dallow</emphasis> <xref linkend="39"/>
+	incomplete type as object type <emphasis>permit</emphasis> <xref linkend="17"/>
+	indented # directive <emphasis>permit</emphasis> <xref linkend="7"/>
+	initialization of struct/union (auto) <emphasis>permit</emphasis> <xref linkend="33"/>
+	linkage resolution : <emphasis>linkage_spec</emphasis> <xref linkend="1"/>
+	longlong type <emphasis>permit</emphasis> <xref linkend="24"/>
+	no directive/nline after ident <emphasis>permit</emphasis> <xref linkend="21"/>
+	no external declaration <emphasis>permit</emphasis> <xref linkend="50"/>
+	no ident after # <emphasis>permit</emphasis> <xref linkend="11"/>
+	no nline after file end <emphasis>permit</emphasis> <xref linkend="23"/>
+	prototype <emphasis>permit</emphasis> <xref linkend="17"/>
+	prototype (weak) <emphasis>permit</emphasis> <xref linkend="20"/>
+	set longlong type : <emphasis>type_name</emphasis> <xref linkend="24"/>
+	set name limit <emphasis>integer_constant</emphasis> <xref linkend="25"/>
+	set size_t : <emphasis>type_name </emphasis> <xref linkend="10"/>
+	text after directive <emphasis>permit</emphasis> <xref linkend="19"/>
+	unify external linkage <emphasis>status</emphasis> <xref linkend="1"/>
+	unify incompatible string literal <emphasis>permit</emphasis> <xref linkend="43"/>
+	unknown escape <emphasis>permit</emphasis> <xref linkend="36"/>
+	unknown pragma <emphasis>permit</emphasis> <xref linkend="1"/>
+	unknown struct/union <emphasis>dallow</emphasis> <xref linkend="21"/>
+	unknown directive <emphasis>permit</emphasis> <xref linkend="1"/>
+	unmatched quote <emphasis>permit</emphasis> <xref linkend="15"/>
+	variable initialization <emphasis>dallow</emphasis> <xref linkend="35"/>
+	weak macro equality <emphasis>permit</emphasis> <xref linkend="9"/>
+	writeable string literal <emphasis>permit</emphasis> <xref linkend="41"/>
+
+set_sign:
+	signed
+	unsign
+	either
+
+pp_directive:
+	file
+	ident
+	assert
+	unassert
+	weak
+
+pp_spec:
+	allow
+	warning
+	(ignore) allow
+	(ignore) warning
+
+linkage_spec:
+	(internal) on
+	(internal) warning
+	(external) on
+	(external) warning
+	off
+
+state:
+	on
+	warning
+	off
+
+permit:
+	allow
+	warning
+	disallow
+
+dallow:
+	allow
+	disallow
+
+token_pragma:
+	ARITHMETIC <xref linkend="13"/>
+	DEFINE MEMBER
+	EXP <xref linkend="3"/>
+	FUNC <xref linkend="24"/>
+	MEMBER <xref linkend="19"/>
+	NAT <xref linkend="3"/>
+	PROC <xref linkend="22"/>
+	STATEMENT <xref linkend="6"/>
+	STRUCT <xref linkend="16"/>
+	TYPE <xref linkend="9"/>
+	UNION <xref linkend="16"/>
+	VARIETY <xref linkend="11"/>
+
+token_operation:
+	define
+	no_def
+	extend
+	ignore
+	implement
+	interface
+	promote <xref linkend="4"/>
+
+integer_pragma:
+	integer literal <emphasis>lit_class_type_list</emphasis> <xref linkend="2"/>
+
+lit_class_type_list:
+	*<emphasis>int_type_spec</emphasis>
+	integer_constant <emphasis>int_type_spec</emphasis> | <emphasis>lit_class_type_list</emphasis>
+
+int_type_spec:
+	<emphasis>type_name</emphasis>
+	*warning<sub><emphasis>opt</emphasis></sub> : <emphasis>identifier</emphasis>
+	** :</programlisting>
+</appendix>
+

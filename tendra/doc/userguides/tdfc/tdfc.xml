@@ -1,0 +1,76 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<book
+	xmlns:dt="http://xml.water-powered.com/docs"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
+	<bookinfo>
+		<title>C Checker Reference Manual</title>
+
+		<othercredit class="copyeditor">
+			<firstname>Katherine</firstname>
+			<surname>Flavel</surname>
+			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+		</othercredit>
+		<corpauthor>DERA</corpauthor>
+
+		<pubdate>2008</pubdate>
+
+		<copyright>
+			<year>2008</year>
+
+			<holder>The TenDRA Project</holder>
+		</copyright>
+
+		<copyright>
+			<year>1998</year>
+
+			<holder>DERA</holder>
+		</copyright>
+
+		<revhistory>
+<!-- TODO
+			<revision>
+				<date>01 10 2007</date>
+				<revremark>Split off various non-user documentation to
+					<dt:doc name="developer/components/tcpplus"/>,
+					<dt:doc name="papers/cppporting"/> and
+					<dt:doc name="developer/guides/style"/>.</revremark>
+				<author><firstname>kate</firstname></author>
+			</revision>
+-->
+		</revhistory>
+	</bookinfo>
+
+	<xi:include href="introduction.xml"/>
+
+<!-- TODO !?
+	<xi:include href="tdfc2.xml"/>
+	<xi:include href="tdfc3.xml"/>
+	<xi:include href="tdfc4.xml"/>
+-->
+	<xi:include href="configuring.xml"/>
+	<xi:include href="types.xml"/>
+	<xi:include href="integers.xml"/>
+	<xi:include href="analysis.xml"/>
+	<xi:include href="preprocessor.xml"/>
+	<xi:include href="dialect.xml"/>
+	<xi:include href="errors.xml"/>
+	<xi:include href="symboltable.xml"/>
+	<xi:include href="conditional.xml"/>
+
+	<xi:include href="references.xml"/>
+
+	<xi:include href="appendix/modes.xml"/>
+	<xi:include href="appendix/options.xml"/>
+	<xi:include href="appendix/integral.xml"/>
+	<xi:include href="appendix/pragma.xml"/>
+	<xi:include href="appendix/dump.xml"/>
+	<xi:include href="appendix/token.xml"/>
+	<xi:include href="appendix/api.xml"/>
+	<xi:include href="appendix/conversions.xml"/>
+
+</book>
+
