@@ -6,8 +6,8 @@
   $Id$
 -->
 
-<article xmlns:dt="http://xml.water-powered.com/docs">
-  <articleinfo>
+<book xmlns:dt="http://xml.water-powered.com/docs">
+  <bookinfo>
     <title>C++ Producer User Guide</title>
 
     <othercredit class="copyeditor">
@@ -48,7 +48,7 @@
 			<author><firstname>kate</firstname></author>
 		</revision>
 	</revhistory>
-  </articleinfo>
+  </bookinfo>
 
   <chapter id="intro">
     <title>Introduction</title>
@@ -4952,5 +4952,5 @@ reject -&gt; reject</programlisting>
       </listitem>
     </itemizedlist>
   </chapter>
-</article>
+</book>
 

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 
-<appendix>
-	<title>The Token Syntax</title>
+<article>
+	<title>The Pragma Token Syntax</title>
 
-	<!-- TODO this would be good as a stand-alone document, merged with tcpplus's token syntax description -->
+	<!-- TODO merge in tcpplus's token syntax description -->
 	<!-- TODO if we do, s/Chapter// -->
 
 	<para>The token syntax is used to introduce references to program
@@ -1465,5 +1465,5 @@ dot-list:
 			state the <code>interface</code> operator is interpreted as the
 			<code>ignore</code> operator.</para>
 	</section>
-</appendix>
+</article>
 

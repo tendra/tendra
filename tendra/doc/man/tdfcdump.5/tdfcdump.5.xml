@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 
+<refentry id="tdfcdump5">
 <appendix>
-	<title id="wbS132">Dump format specification</title>
+	<refmeta>
+		<refentrytitle>tdfc dump format specification</refentrytitle>
+		<manvolnum>5</manvolnum>
+	</refmeta>
 
-    <!-- TODO does this belong as a user guide? perhaps a .5 manpage -->
+	<!-- TODO very much to do -->
 
-	<section>
+	<refsection>
 		<title>Basics</title>
 
 		<programlisting language="BNF">
@@ -20,10 +24,10 @@ string :
 <emphasis>        &lt;characters&gt;</emphasis><emphasis>        &amp;digit-sequence&lt;characters&gt;</emphasis>
 location :
 <emphasis>        number number number string string</emphasis><emphasis>        number number number string *</emphasis><emphasis>        number number number *</emphasis><emphasis>        number number *</emphasis><emphasis>        number *</emphasis><emphasis>        *</emphasis></programlisting>
-	</section>
+	</refsection>
 
-	<section>
-		<title id="wbS133">E.2 Dump commands</title>
+	<refsection>
+		<title id="wbS133">Dump commands</title>
 
 		<programlisting language="BNF">
 dump-file :
@@ -32,17 +36,17 @@ command-list :
 <emphasis>        command</emphasis><emphasis>        command command-list</emphasis>
 command :
 <emphasis>        B base-definition             </emphasis><emphasis>base class graph</emphasis><emphasis>        error-command</emphasis><emphasis>        file-command</emphasis><emphasis>        I identifier-command        </emphasis><emphasis>implicit declarations etc.</emphasis><emphasis>        identifier-command</emphasis><emphasis>        scope-command</emphasis><emphasis>        O identifier identifier </emphasis><emphasis>overriding virtual function</emphasis><emphasis>        P type : type     </emphasis><emphasis>promotion type specifier</emphasis><emphasis>        string-command</emphasis><emphasis>        V number number string    </emphasis><emphasis>version number</emphasis><emphasis>        X api-info            </emphasis><emphasis>external token name</emphasis><emphasis>        Z template-info</emphasis><emphasis>template instance</emphasis></programlisting>
-	</section>
+	</refsection>
 
-	<section>
+	<refsection>
 		<title id="wbS134">E.3 API information</title>
 
 		<programlisting language="BNF">
 api-info :
 <emphasis>        identifier key identifier string</emphasis></programlisting>
-	</section>
+	</refsection>
 
-	<section>
+	<refsection>
 		<title id="wbS135">Base definitions</title>
 
 		<programlisting language="BNF">
@@ -59,9 +63,9 @@ base-definition :
 <emphasis>        identifier-key number base-graph</emphasis>
 base-number :
 <emphasis>        number : type-name</emphasis></programlisting>
-	</section>
+	</refsection>
 
-	<section>
+	<refsection>
 		<title id="wbS136">Error commands</title>
 
 		<programlisting language="BNF">
@@ -73,9 +77,9 @@ error-name :
 <emphasis>        number = string</emphasis><emphasis>        number</emphasis>
 error-argument :
 <emphasis>        B base-number</emphasis><emphasis>        C scope-identifier</emphasis><emphasis>        E exp</emphasis><emphasis>        H hashid</emphasis><emphasis>        I identifier</emphasis><emphasis>        L location</emphasis><emphasis>        N nat</emphasis><emphasis>        S string</emphasis><emphasis>        T type</emphasis><emphasis>        V number</emphasis><emphasis>        V -number</emphasis></programlisting>
-		</section>
+		</refsection>
 
-		<section>
+		<refsection>
 			<title id="wbS137">File commands</title>
 
 			<programlisting language="BNF">
@@ -87,9 +91,9 @@ file-command :
 directory :
                 number
                 *</programlisting>
-	</section>
+	</refsection>
 
-	<section>
+	<refsection>
 		<title id="wbS138">Identifier commands</title>
 
 		<programlisting language="BNF">
@@ -151,9 +155,9 @@ access :
                 B             <emphasis>protected</emphasis>
                 N             <emphasis>public</emphasis>
                 P             <emphasis>private</emphasis></programlisting>
-	</section>
+	</refsection>
 
-	<section>
+	<refsection>
 		<title id="wbS139">Scope commands</title>
 
 		<programlisting language="BNF">
@@ -172,9 +176,9 @@ scope-key :
 scope-identifier :
                 identifier
                 *</programlisting>
-	</section>
+	</refsection>
 
-	<section>
+	<refsection>
 		<title id="wbS140">String command</title>
 
 		<programlisting language="BNF">
@@ -183,9 +187,9 @@ string-command :
                 AC location string            <emphasis>character literal</emphasis>
                 ACL location string         <emphasis>wide character literal</emphasis>
                 AL location string            <emphasis>wide string literal</emphasis></programlisting>
-	</section>
+	</refsection>
 
-	<section>
+	<refsection>
 		<title id="wbS141">Templates</title>
 
 		<programlisting language="BNF">
@@ -194,9 +198,9 @@ specialisation-info :
                 *
 template-info :
                 identifier-key identifier token-application specialisation-info</programlisting>
-	</section>
+	</refsection>
 
-	<section>
+	<refsection>
 		<title id="wbS142">Token sort information</title>
 
 		<programlisting language="BNF">
@@ -243,9 +247,9 @@ token-argument-list :
                 token-argument , token-argument-list
 token-application :
                 T identifier , token-argument-list :</programlisting>
-		</section>
+		</refsection>
 
-		<section>
+		<refsection>
 			<title id="wbS143">E.12 Type information</title>
 
 			<programlisting language="BNF">
@@ -317,6 +321,6 @@ nat :
                 string
                 identifier
                 token-application</programlisting>
-	</section>
-</appendix>
+	</refsection>
+</refentry>
 

@@ -9,7 +9,7 @@
 	<bookinfo>
 		<title>C Checker Reference Manual</title>
 
-		<othercredit class="copyeditor">
+		<othercredit class="editor">
 			<firstname>Katherine</firstname>
 			<surname>Flavel</surname>
 			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
@@ -31,16 +31,12 @@
 		</copyright>
 
 		<revhistory>
-<!-- TODO
 			<revision>
-				<date>01 10 2007</date>
-				<revremark>Split off various non-user documentation to
-					<dt:doc name="developer/components/tcpplus"/>,
-					<dt:doc name="papers/cppporting"/> and
-					<dt:doc name="developer/guides/style"/>.</revremark>
+				<date>24 03 2008</date>
+				<revremark>Split off various sections to stand-alone
+					documents.</revremark>
 				<author><firstname>kate</firstname></author>
 			</revision>
--->
 		</revhistory>
 	</bookinfo>
 
@@ -67,9 +63,6 @@
 	<xi:include href="appendix/options.xml"/>
 	<xi:include href="appendix/integral.xml"/>
 	<xi:include href="appendix/pragma.xml"/>
-	<xi:include href="appendix/dump.xml"/>
-	<xi:include href="appendix/token.xml"/>
-	<xi:include href="appendix/api.xml"/>
 	<xi:include href="appendix/conversions.xml"/>
 
 </book>

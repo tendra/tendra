@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 
-<appendix>
+<article>
 	<title id="wbS165">API checking</title>
 
-	<!-- TODO this might work well as a standalone document -->
+	<!-- TODO this document can become a guide to using the API checking mechanisms
+		in general, drawing from various other documents -->
 
 	<para>The token syntax described in the previous annex provides the means
 		of describing an API specification independently of any particular
@@ -502,5 +503,7 @@ SEH		 position				ref_no</programlisting>
 			provided by dump output files produced from the abstract standard
 			headers, to determine the applications API usage.</para>
 	</section>
-</appendix>
+
+	<!-- TODO bibliography: see tspec, pragmatoken, tcc user guide, tdfc -->
+</article>
 
