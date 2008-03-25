@@ -25,6 +25,9 @@
 #       no liability whatsoever in relation to any use to which
 #       it may be put.
 #
+# This specification represents the X11 (Release 5) Protocol Extension
+#
+
 $UNIQUE = 1 ;
 $VERSION = "2.6" ;
 

@@ -101,82 +101,8 @@
 			others are ignored. Additional extension APIs, however, may be used
 			in addition to any suitable base API.</para>
 
-		<para>The base APIs available are:</para>
-		<!-- TODO remove these lists, pointing to the current source's index -->
-
-		<itemizedlist>
-			<listitem>
-				<para><code>ansi</code> ANSI X3.159;</para>
-			</listitem>
-			<listitem>
-				<para><code>iso</code> ISO MSE 9899:1990(Amendment 1:1993(E));</para>
-			</listitem>
-			<listitem>
-				<para><code>posix</code> POSIX 1003.1;</para>
-			</listitem>
-			<listitem>
-				<para><code>posix2</code> POSIX 1003.2;</para>
-			</listitem>
-			<listitem>
-				<para><code>xpg3</code> X/Open Portability Guide 3;</para>
-			</listitem>
-			<listitem>
-				<para><code>xpg4</code> X/Open Portability Guide 4;</para>
-			</listitem>
-			<listitem>
-				<para><code>cose</code> COSE 1170;</para>
-			</listitem>
-			<listitem>
-				<para><code>svid3</code> System V Interface Definition 3rd Edition;</para>
-			</listitem>
-			<listitem>
-				<para><code>aes</code> AES Revision A;</para>
-			</listitem>
-			<listitem>
-				<para><code>system</code> System headers as main API.</para>
-			</listitem>
-		</itemizedlist>
-
-		<para>and the extension APIs are:</para>
-
-		<itemizedlist>
-			<listitem>
-				<para><code>bsd_extn</code> BSD-like extension for use with POSIX etc.;</para>
-			</listitem>
-			<listitem>
-				<para><code>x5_lib</code> X11 (Release 5) Library;</para>
-			</listitem>
-			<listitem>
-				<para><code>x5_t</code> X11 (Release 5) Intrinsics Toolkit;</para>
-			</listitem>
-			<listitem>
-				<para><code>x5_mu</code> X11 (Release 5) Miscellaneous Utilities;</para>
-			</listitem>
-			<listitem>
-				<para><code>x5_aw</code> X11 (Release 5) Athena Widgets;</para>
-			</listitem>
-			<listitem>
-				<para><code>x5_mit</code> X11 (Release 5) MIT Implementation;</para>
-			</listitem>
-			<listitem>
-				<para><code>x5_proto</code> X11 (Release 5) Protocol Extension;</para>
-			</listitem>
-			<listitem>
-				<para><code>x5_ext</code> X11 (Release 5) Extensions;</para>
-			</listitem>
-			<listitem>
-				<para><code>x5_private</code> X11 (Release 5) private headers (otherwise protected
-	);</para>
-			</listitem>
-			<listitem>
-				<para><code>motif</code> Motif 1.1;</para>
-			</listitem>
-			<listitem>
-				<para><code>system+</code> System headers as last resort API. Search the system
-					headers only for those objects for which no declaration or
-					definition can be found within the base API.</para>
-			</listitem>
-		</itemizedlist>
+		<!-- TODO explain where you can find a list of APIs, and how to query
+			tspec about it -->
 	</section>
 
 	<section>
