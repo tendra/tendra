@@ -40,7 +40,7 @@
 	owned by the United Kingdom Secretary of State for Defence
 	acting through the Defence Evaluation and Research Agency
 	(DERA).	It is made available to Recipients with a
-	royalty\-free licence for its use, reproduction, transfer
+	royalty-free licence for its use, reproduction, transfer
 	to other parties and amendment for any purpose not excluding
 	product development provided that any such use et cetera
 	shall be deemed to be acceptance of the following conditions:\-
@@ -76,7 +76,7 @@
 		<cmdsynopsis>
 			<command>tcpplus</command>
 			<arg choice="opt"><replaceable>options</replaceable></arg>
-			<arg choice="opt"><replaceable>input-file</replaceable></arg>
+			<arg choice="opt"><replaceable>input-file</replaceable> ...</arg>
 			<arg choice="opt"><replaceable>output-file</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
@@ -105,262 +105,7 @@
 			are combined into a spec output file, which may be specified using the
 			<option>-s</option> option.	Any extra code generation resulting from this linking
 			phase is written to the TDF capsule, <emphasis remap="I">output-file</emphasis>.</para>
-
-		<para>It is recommended that <command>tcpplus</command> is invoked via <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
-			The <option>-Yc++</option> option is required to enable the C++ capabilities.
-			Files with a <markup>.C</markup> suffix are recognised as C++ source files.
-			Options can be passed directly to <command>tcpplus</command> using the
-			<option>-Wx,</option><replaceable>opt</replaceable> option to <emphasis remap="I">tcc</emphasis>.</para>
 	</refsection>
-
-	<refsection id="options">
-		<title>Options</title>
-
-		<para>The command-line options can appear in any order and can be interspersed
-			with the input and output files.	All the multi-part options can be
-			given either as one or two command-line arguments, so that <option>-I</option><replaceable>dir</replaceable>
-			and <option>-I</option> <replaceable>dir</replaceable> are equivalent.	Most of the option handling
-			required is handled by <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> when this is being used, but
-			options may be passed directly to <command>tcpplus</command> using the <option>-Wx,</option><replaceable>opt</replaceable>
-			option.</para>
-
-		<variablelist remap="IP">
-			<varlistentry>
-				<term><option>-A</option><replaceable>predicate</replaceable><emphasis remap="B">(</emphasis><emphasis remap="I">tokens</emphasis><emphasis remap="B">)</emphasis></term>
-				<listitem>
-				<para>Asserts that the given predicate is true.	The special case <option>-A-</option>
-					undefines all the built-in predicates (of which there are none).</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-D</option><replaceable>macro</replaceable></term>
-				<listitem>
-					<para>Defines the given macro to be 1.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-D</option><replaceable>macro</replaceable><emphasis remap="B">=</emphasis><emphasis remap="I">tokens</emphasis></term>
-				<listitem>
-					<para>Defines the given macro to be the given sequence of preprocessing tokens.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-E</option></term>
-				<listitem>
-					<para>Enables preprocessing mode in which the input C++ source file is
-						preprocessed into the output file.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-F</option><replaceable>file</replaceable></term>
-				<listitem>
-					<para>Causes a list of options to be read from <emphasis remap="I">file</emphasis>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-H</option></term>
-				<listitem>
-					<para>Enables verbose inclusion mode in which warnings are printed at the
-						start and the end of each included source file.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-I</option><replaceable>directory</replaceable></term>
-				<listitem>
-					<para>Adds the given directory to the list searched by <command>tcpplus</command> for
-						included source files.	No such directories are built into <command>tcpplus</command>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-N</option><replaceable>name</replaceable><emphasis remap="B">:</emphasis><emphasis remap="I">directory</emphasis></term>
-				<listitem>
-					<para>Is identical to <option>-I</option><replaceable>directory</replaceable> except that it also associates the
-						given identifier with the directory.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-S</option></term>
-				<listitem>
-					<para>Enables spec linker mode in which any number of C++ spec input files are
-						linked into a single C++ spec output file.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-U</option><replaceable>macro</replaceable></term>
-				<listitem>
-					<para>Undefines the given macro.	The special case <option>-U-</option> undefines all the
-						built-in macros.	These are <emphasis remap="B">__FILE__</emphasis>, <emphasis remap="B">__LINE__</emphasis>,
-						<emphasis remap="B">__TIME__</emphasis>, <emphasis remap="B">__DATE__</emphasis>, <emphasis remap="B">__STDC__</emphasis>, <emphasis remap="B">__STDC_VERSION__</emphasis>,
-						and <emphasis remap="B">__cplusplus</emphasis>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-V</option></term>
-				<listitem>
-					<para>Causes <command>tcpplus</command> to print the name of each function to the standard
-						output as it is compiled.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-W</option><replaceable>option</replaceable></term>
-				<listitem>
-					<para>Causes <command>tcpplus</command> to print a warning in the circumstances described
-						by <emphasis remap="I">option</emphasis>.	The special case <option>-Wall</option> enables a wide range of
-						warnings.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-X</option></term>
-				<listitem>
-					<para>Disables exception handling.	The current implementation can be a large
-						run-time overhead if not required.	The effect of linking any module
-						compiled with this option with a module which throws an exception is
-						undefined.	This is equivalent to <option>-j-e</option>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-Z</option><replaceable>number</replaceable></term>
-				<listitem>
-					<para>Sets the maximum number of errors printed by <command>tcpplus</command> before
-						bailing out to be <emphasis remap="I">number</emphasis>.	The default is 32.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-a</option></term>
-				<listitem>
-					<para>Causes <command>tcpplus</command> to apply complete program analysis to its input
-						files.	That is it assumes that no other translation units need to be
-						linked in order for the program to execute.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-c</option></term>
-				<listitem>
-					<para>Disables TDF output.	The output file will still be a valid TDF capsule,
-						only it will contain no information.	This is equivalent to <option>-j-c</option>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-d</option><replaceable>opt</replaceable><emphasis remap="B">=</emphasis><emphasis remap="I">dump-file</emphasis></term>
-				<listitem>
-					<para>Causes <command>tcpplus</command> to dump information about its input file into
-						<emphasis remap="I">dump-file</emphasis>.	<emphasis remap="I">opt</emphasis> is a series of characters describing the
-						information to be dumped; <emphasis remap="B">c</emphasis> for string literals, <emphasis remap="B">e</emphasis> for errors,
-						<emphasis remap="B">h</emphasis> for header files, <emphasis remap="B">k</emphasis> for keywords, <emphasis remap="B">l</emphasis> for local variables,
-						<emphasis remap="B">m</emphasis> for macros, <emphasis remap="B">s</emphasis> for scopes, and <emphasis remap="B">u</emphasis> for usage.	<emphasis remap="B">a</emphasis> is
-						equivalent to <emphasis remap="B">ehlmu</emphasis>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-e</option><replaceable>file</replaceable></term>
-				<listitem>
-					<para>Specifies the given file as an end-up file.	This is equivalent to
-						adding a <emphasis remap="B">#include</emphasis> directive for this file at the end of the input
-						source file.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-f</option><replaceable>file</replaceable></term>
-				<listitem>
-					<para>Specifies the given file as a start-up file.	This is equivalent to
-						adding a <emphasis remap="B">#include</emphasis> directive for this file at the start of the input
-						source file.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-g</option></term>
-				<listitem>
-					<para>Specifies that the output TDF capsule should also contain information
-						to allow for the generation of run-time debugging directives.	This
-						is equivalent to <option>-jg</option>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-h</option></term>
-				<listitem>
-					<para>Causes <command>tcpplus</command> to print a full list of its available command-line
-						options.	This includes a number not documented here which are unlikely
-						to prove useful to the normal user.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-j</option><replaceable>opt</replaceable></term>
-				<listitem>
-					<para>Sets the TDF output options given by <emphasis remap="I">opt</emphasis>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-m</option><replaceable>opt</replaceable></term>
-				<listitem>
-					<para>Sets the error formatting options given by <emphasis remap="I">opt</emphasis>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-n</option><replaceable>port-table</replaceable></term>
-				<listitem>
-					<para>Specifies that the given portability table should be used to specify
-						the basic configuration parameters.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-o</option><replaceable>output-file</replaceable></term>
-				<listitem>
-					<para>Gives an alternative method of specifying the output file.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-q</option></term>
-				<listitem>
-					<para>Causes <command>tcpplus</command> to quit immediately without processing its input
-						file.	This is useful primarily in version and option queries.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-s</option><replaceable>spec-file</replaceable></term>
-				<listitem>
-					<para>Causes <command>tcpplus</command> to write a C++ spec file describing the input source
-						file to <emphasis remap="I">spec-file</emphasis>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-t</option></term>
-				<listitem>
-					<para>Specifies that <command>tcpplus</command> should include token declarations in its
-						output TDF capsule.	While these are strictly unnecessary, they help when
-						pretty-printing the output.	This is equivalent to <option>-jt</option>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-u</option><replaceable>&nbsp;name&nbsp;...&nbsp;name</replaceable></term>
-				<listitem>
-					<para>Causes <command>tcpplus</command> to print the unmangle forms of the given mangled
-						identifier names.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-v</option></term>
-				<listitem>
-					<para>Causes <command>tcpplus</command> to print its version number.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-w</option></term>
-				<listitem>
-					<para>Disables all warning messages.	This is equivalent to <option>-mw</option>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-z</option></term>
-				<listitem>
-					<para>Forces <command>tcpplus</command> to produce an output file even if compilation errors
-						occur.	The effect of installing a TDF capsule produced using this option
-						is undefined.	This is equivalent to <option>-mz</option>.</para>
-				</listitem>
-			</varlistentry>
-		</variablelist>
-	</refsection>
-
-	<!-- TODO hereafter is from tcpplus; this is to be merged in with the above -->
 
 	<refsection id="invocation">
 		<title>Invocation</title>
@@ -395,56 +140,11 @@
 			different options) respectively.</para>
 	</refsection>
 
-	<refsection id="compile">
-		<title>Compilation scheme</title>
-
-		<para>The overall compilation scheme controlled by <code>tcc</code>, as
-			it relates to the C++ producer, can be represented as follows:</para>
-
-		<figure>
-			<title>Compilation Scheme</title>
-
-			<graphic fileref="compile.png"/>
-		</figure>
-
-		<para>Each C++ source file, <code>a.C</code> say, is processed using
-			<code>tcpplus</code> to give an output TDF capsule, <code>a.j</code>,
-			which is passed to the installer phase of <code>tcc</code>.  The capsule
-			is linked with any target dependent token definition libraries, translated
-			to assembler and assembled to give a binary object file,
-			<code>a.o</code>.  The various object files comprising the program
-			are then linked with the system libraries to give a final executable,
-			<code>a.out</code>.</para>
-
-		<para>In addition to this main compilation scheme, <code>tcpplus</code>
-			can additionally be made to output a <A HREF="link.html">C++ spec
-			file</A>
-			for each C++ source file, <code>a.K</code> say.  These C++ spec files
-			can be linked, using <code>tcpplus</code> in its spec linker mode,
-			to give an additional TDF capsule, <code>x.j</code> say, and a combined
-			C++ spec file, <code>x.K</code>.  The main purpose of this C++ spec
-			linking is to perform intermodule checks on the program, however in
-			the course of this checking exported templates which are defined in
-			one module and used in another are instantiated.  This extra code
-			is output to <code>x.j</code>, which is then installed and linked
-			in the normal way.</para>
-
-		<para>Note that intermodule checks, and hence intermodule template instantiations,
-			are only performed if the <code>-im</code> option is passed to <code>tcc</code>.</para>
-
-		<para>The TenDRA checker, <code>tchk</code>, is similar to <code>tcc</code>
-			except that it disables TDF output and has intermodule analysis enabled
-			by default.</para>
-	</refsection>
-
-	<refsection id="option">
-		<title>Producer options</title>
+	<refsection id="options">
+		<title>Options</title>
 
 		<para>The general form for the invocation of <code>tcpplus</code> is as
-			follows:</para>
-
-		<programlisting>
-tcpplus [ <emphasis>options</emphasis> ] [ <emphasis>input-file</emphasis> ] .... [ <emphasis>output-file</emphasis> ]</programlisting>
+			given in the synopsis.</para>
 
 		<para>The output file can alternatively be specified using the
 			<link linkend="output"><code>-o</code> option</link>.  If no output file is
@@ -473,94 +173,107 @@ tcpplus [ <emphasis>options</emphasis> ] [ <emphasis>input-file</emphasis> ] ...
 			table dump output file can generated using the <link linkend="dump"><code>-d</code>
 			option</link>.</para>
 
-		<para>Command-line options can appear in any order and can be interspersed
+		<para>The command-line options can appear in any order and can be interspersed
 			with the input and output files, except following a <code>--</code>
 			option.  All the multi-part options can be given either as one or
-			two command-line arguments, so that <code>-I</code><emphasis>directory</emphasis>
-			and
-			<code>-I</code> <emphasis>directory</emphasis> are equivalent.  The recognised options
-			are as follows:</para>
+			two command-line arguments, so that
+			<option>-I</option><replaceable>dir</replaceable>
+			and <option>-I</option> <replaceable>dir</replaceable> are equivalent.	Most of the option handling
+			required is handled by <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> when this is being used, but
+			options may be passed directly to <command>tcpplus</command> using the <option>-Wx,</option><replaceable>opt</replaceable>
+			option.</para>
 
-		<itemizedlist>
-			<listitem>
-				<para><code>-A<emphasis>predicate</emphasis>(<emphasis>tokens</emphasis>)</code>
-					Asserts that the given predicate is true, that is to say:</para>
+		<para>The recognised options are as follows:</para>
 
-				<programlisting language="C++">#assert <emphasis>predicate</emphasis> ( <emphasis>tokens</emphasis> )</programlisting>
+		<variablelist remap="IP">
+			<varlistentry>
+				<term><option>-A</option><replaceable>predicate</replaceable><emphasis remap="B">(</emphasis><emphasis remap="I">tokens</emphasis><emphasis remap="B">)</emphasis></term>
+				<listitem>
+					<para>Asserts that the given predicate is true, that is to say:</para>
 
-				<para>The special case <code>-A-</code> undefines all the built-in predicates
-					(of which there are none).  Use of this option automatically enables
-					support for the <A HREF="pragma.html#ppdir"><code>#assert</code> and
-					<code>#unassert</code> directives</A>.</para>
-			</listitem>
+					<programlisting language="C++">#assert <emphasis>predicate</emphasis> ( <emphasis>tokens</emphasis> )</programlisting>
 
-			<listitem>
-				<para><code>-D<emphasis>macro</emphasis></code>
-					<code>-D<emphasis>macro</emphasis>=<emphasis>tokens</emphasis></code>
-					Defines the given macro to be 1 in the first case, or the given sequence
-					of preprocessing tokens in the second case, that is to say:</para>
+					<para>The special case <code>-A-</code> undefines all the built-in predicates
+						(of which there are none).  Use of this option automatically enables
+						support for the <A HREF="pragma.html#ppdir"><code>#assert</code> and
+						<code>#unassert</code> directives</A>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-D</option><replaceable>macro</replaceable>
+					<sbr/><option>-D</option><replaceable>macro</replaceable><emphasis remap="B">=</emphasis><replaceable>tokens</replaceable></term>
+				<listitem>
+					<para>Defines the given macro to be 1 in the first case, or the given sequence
+						of preprocessing tokens in the second case, that is to say:</para>
 
-				<programlisting language="C++">
+					<programlisting language="C++">
 #define <emphasis>macro</emphasis> 1
 #define <emphasis>macro tokens</emphasis></programlisting>
 
-				<para>respectively.  In fact <code>-D</code> and <code>-U</code> options
-					to <code>tcc</code> are not passed as <code>-D</code> and <code>-U</code>
-					options to <code>tcpplus</code>.  Instead a
-					<link linkend="start-up">start-up</link> file containing the equivalent
-					<code>#define</code> and <code>#undef</code> directives is used.</para>
-			</listitem>
+					<para>respectively.  In fact <code>-D</code> and <code>-U</code> options
+						to <code>tcc</code> are not passed as <code>-D</code> and <code>-U</code>
+						options to <code>tcpplus</code>.  Instead a
+						<link linkend="start-up">start-up</link> file containing the equivalent
+						<code>#define</code> and <code>#undef</code> directives is used.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-E</option></term>
+				<listitem>
+					<para>Enables preprocessing mode in which the input C++ source file is
+						preprocessed into the output file.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-F</option><replaceable>file</replaceable></term>
+				<listitem>
+					<para>Causes a list of command-line options to be read from <emphasis>file</emphasis>.
+						Other than empty lines and lines beginning with <code>#</code>, each
+						line in the file is treated as if it had been specified as a separate
+						command-line option.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-H</option></term>
+				<listitem>
+					<para>Enables verbose inclusion mode in which warnings are printed at the
+						start and the end of each included source file.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-I</option><replaceable>directory</replaceable></term>
+				<listitem>
+					<para>Adds the given directory to the list searched by <command>tcpplus</command> for
+						included source files.	No such directories are built into <command>tcpplus</command>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-N</option><replaceable>name</replaceable><emphasis remap="B">:</emphasis><emphasis remap="I">directory</emphasis></term>
+				<listitem>
+					<para>This is identical to <option>-I</option><replaceable>directory</replaceable> except that it also associates the
+						given identifier with the directory.  The directory
+						name can be used to specify a <A HREF="pragma.html#scope">compilation
+						profile</A> to be used on files included from this directory.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-S</option></term>
+				<listitem>
+					<para>Enables spec linker mode in which any number of C++ spec input files are
+						linked into a single C++ spec output file.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-U</option><replaceable>macro</replaceable></term>
+				<listitem>
+					<para>Undefines the given macro, that is to say:</para>
 
-			<listitem>
-				<para><A id="preproc"><code>-E</code></A>
-					Enables preprocessing mode in which the input C++ source file is preprocessed
-					into the output file.</para>
-			</listitem>
+						<programlisting language="C++">#undef <emphasis>macro</emphasis></programlisting>
 
-			<listitem>
-				<para><code>-F<emphasis>file</emphasis></code>
-					Causes a list of command-line options to be read from <emphasis>file</emphasis>.
-					Other than empty lines and lines beginning with <code>#</code>, each
-					line in the file is treated as if it had been specified as a separate
-					command-line option.</para>
-			</listitem>
+					<para>The special case <code>-U-</code> undefines all the built-in macros.
+						These may be described as follows:</para>
 
-			<listitem>
-				<para><code>-H</code>
-					Enables verbose inclusion mode in which warnings are printed at the
-					start and end of each included source file.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>-I<emphasis>directory</emphasis></code>
-					Adds the given directory to the list searched for included source
-					files. No such directories are built into the producer by default.</para>
-			</listitem>
-
-			<listitem>
-				<para><A id="directory"><code>-N<emphasis>name</emphasis>:<emphasis>directory</emphasis></code></A>
-					This is identical to <code>-I</code><emphasis>directory</emphasis> except that it
-					also associates the given identifier with the directory.  The directory
-					name can be used to specify a <A HREF="pragma.html#scope">compilation
-					profile</A> to be used on files included from this directory.</para>
-			</listitem>
-
-			<listitem>
-				<para><A id="linker"><code>-S</code></A>
-					Enables C++ spec linker mode, in which any number of C++ spec input
-					files are linked together.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>-U<emphasis>macro</emphasis></code>
-					Undefines the given macro, that is to say:</para>
-
-					<programlisting language="C++">#undef <emphasis>macro</emphasis></programlisting>
-
-				<para>The special case <code>-U-</code> undefines all the built-in macros.
-					These may be described as follows:</para>
-
-				<programlisting language="C++">
+					<programlisting language="C++">
 #define __FILE__		<emphasis>(current file)</emphasis>
 #define __LINE__		<emphasis>(current line)</emphasis>
 #define __TIME__		<emphasis>(current time)</emphasis>
@@ -569,373 +282,406 @@ tcpplus [ <emphasis>options</emphasis> ] [ <emphasis>input-file</emphasis> ] ...
 #define __STDC_VERSION__	199409L
 #define __cplusplus		199711L</programlisting>
 
-				<para>The actual value of <code>__cplusplus</code> gives the date of the
-					draft ISO C++ standard on which the current version of the producer
-					is based. The value given above gives the expected date of the final
-					C++ standard.</para>
-			</listitem>
+					<para>The actual value of <code>__cplusplus</code> gives the date of the
+						draft ISO C++ standard on which the current version of the producer
+						is based. The value given above gives the expected date of the final
+						C++ standard.</para>	<!-- TODO update -->
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-V</option></term>
+				<listitem>
+					<para>Causes <command>tcpplus</command> to print the name of each function to the standard
+						output as it is compiled.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-W</option><replaceable>option</replaceable></term>
+				<listitem>
+					<para>Sets the given <A HREF="pragma.html#low">compiler option</A> to give
+						a warning in the circumstances described by by <emphasis remap="I">option</emphasis>.
+						That is to say:</para>
 
-			<listitem>
-				<para><code>-V</code>
-					Causes the name of each function to be printed to the standard output
-					as it is compiled.</para>
-			</listitem>
+					<programlisting language="C++">#pragma TenDRA option &quot;<emphasis>option</emphasis>&quot; warning</programlisting>
 
-			<listitem>
-				<para><code>-W<emphasis>option</emphasis></code>
-					Sets the given <A HREF="pragma.html#low">compiler option</A> to give
-					a warning, that is to say:</para>
+					<para>The special case <code>-Wall</code> enables a wide range of warnings.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-X</option></term>
+				<listitem>	<!-- TODO link "current implementation" to lib.html -->
+					<para>Disables exception handling.	The current implementation can be a large
+						run-time overhead if not required.	The effect of linking any module
+						compiled with this option with a module which throws an exception is
+						undefined.	This is equivalent to <option>-j-e</option>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-Z</option><replaceable>number</replaceable></term>
+				<listitem>
+					<para>Sets the maximum number of errors printed by <command>tcpplus</command> before
+						bailing out to be <emphasis remap="I">number</emphasis>.	The default is 32.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-a</option></term>
+				<listitem>
+					<para>Causes <command>tcpplus</command> to apply complete program analysis to its input
+						files.	That is it assumes that no other translation units need to be
+						linked in order for the program to execute.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-c</option></term>
+				<listitem>
+					<para>Disables TDF output.	The output file will still be a valid TDF capsule,
+						only it will contain no information.	This is equivalent to <option>-j-c</option>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-d</option><replaceable>opt</replaceable><emphasis remap="B">=</emphasis><emphasis remap="I">dump-file</emphasis></term>
+				<listitem>
+					<para>Causes <command>tcpplus</command> to dump information about its input file into
+						<emphasis remap="I">dump-file</emphasis>.	<emphasis remap="I">opt</emphasis> is a series of characters describing the
+						information to be dumped, as follows:</para>
 
-				<programlisting language="C++">#pragma TenDRA option &quot;<emphasis>option</emphasis>&quot; warning</programlisting>
+					<table>
+						<tr>
+							<th>Key</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td><code>a</code> (<quote>all</quote>)</td>
+							<td>equivalent to <code>ehlmu</code></td>
+						</tr>
+						<tr>
+							<td><code>c</code></td>
+							<td>dump string literals</td>
+						</tr>
+						<tr>
+							<td><code>e</code></td>
+							<td>dump error messages</td>
+						</tr>
+						<tr>
+							<td><code>h</code></td>
+							<td>dump header information</td>
+						</tr>
+						<tr>
+							<td><code>k</code></td>
+							<td>dump keyword identifiers</td>
+						</tr>
+						<tr>
+							<td><code>l</code></td>
+							<td>dump local variables</td>
+						</tr>
+						<tr>
+							<td><code>m</code></td>
+							<td>dump macro identifiers</td>
+						</tr>
+						<tr>
+							<td><code>s</code></td>
+							<td>dump scope information</td>
+						</tr>
+						<tr>
+							<td><code>u</code></td>
+							<td>dump identifier usage information</td>
+						</tr>
+					</table>
 
-				<para>The special case <code>-Wall</code> enables a wide range of warnings.</para>
-			</listitem>
+					<para>Note that these correspond to the <code>tcc -sym</code> options.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-e</option><replaceable>file</replaceable></term>
+				<listitem>
+					<para>Specifies the given file as an <quote>end-up</quote> file.  This is equivalent to
+						adding:</para>
 
-			<listitem>
-				<para><code>-X</code>
-					Disables exception handling.  The <A HREF="lib.html#except">current
-					implementation</A> can be a large run-time overhead if not required.
-					The effect of linking any module compiled with this option with a
-					module which throws an exception is undefined.  This is equivalent
-					to <link linkend="output"><code>-j-e</code></link>.</para>
-			</listitem>
+					<programlisting language="C++">#include &quot;<emphasis>file</emphasis>&quot;</programlisting>
 
-			<listitem>
-				<para><code>-a</code>
-					Causes complete program analysis to be applied.  That is to say it
-					is assumed that no other translation units need to be linked in order
-					for the program to execute.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>-c</code>
-					Disables TDF output.  The output file will still be a valid TDF capsule,
-					but it will contain no information.  This is equivalent to
-					<link linkend="output"><code>-j-c</code></link>.</para>
-			</listitem>
-
-			<listitem>
-				<para><A id="dump"><code>-d<emphasis>opt</emphasis>=<emphasis>dump-file</emphasis></code></A>
-					Specifies the given file as a <A HREF="dump.html">symbol table dump</A>
-					output file.  <emphasis>opt</emphasis> will be a series of characters describing
-					the information to be dumped, as follows:</para>
-
-				<table>
-					<tr>
-						<th>Key</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td><code>a</code></td>
-						<td>equivalent to <code>ehlmu</code></td>
-					</tr>
-					<tr>
-						<td><code>c</code></td>
-						<td>dump string literals</td>
-					</tr>
-					<tr>
-						<td><code>e</code></td>
-						<td>dump error messages</td>
-					</tr>
-					<tr>
-						<td><code>h</code></td>
-						<td>dump header information</td>
-					</tr>
-					<tr>
-						<td><code>k</code></td>
-						<td>dump keyword identifiers</td>
-					</tr>
-					<tr>
-						<td><code>l</code></td>
-						<td>dump local variables</td>
-					</tr>
-					<tr>
-						<td><code>m</code></td>
-						<td>dump macro identifiers</td>
-					</tr>
-					<tr>
-						<td><code>s</code></td>
-						<td>dump scope information</td>
-					</tr>
-					<tr>
-						<td><code>u</code></td>
-						<td>dump identifier usage information</td>
-					</tr>
-				</table>
-
-				<para>Note that these correspond to the <code>tcc -sym</code> options.</para>
-			</listitem>
-
-			<listitem>
-				<para><A id="end-up"><code>-e<emphasis>file</emphasis></code></A>
-					Specifies the given file as an end-up file.  This is equivalent to
+					<para>at the end of the input source file.  More than one end-up file may
+						be given; they are processed in the order given.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-f</option><replaceable>file</replaceable></term>
+				<listitem>
+					<para>Specifies the given file as a start-up file.  This is equivalent to
 					adding:</para>
 
-				<programlisting language="C++">#include &quot;<emphasis>file</emphasis>&quot;</programlisting>
+					<programlisting  language="C++">#include &quot;<emphasis>file</emphasis>&quot;</programlisting>
 
-				<para>at the end of the input source file.  More than one end-up file may
-					be given; they are processed in the order given.</para>
-			</listitem>
+					<para>at the start of the input source file.  More than one start-up file
+						may be given; they are processed in the order given.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-g</option></term>
+				<listitem>
+					<para>Specifies that the output TDF capsule should also contain information
+						to allow for the generation of run-time debugging directives.	This
+						is equivalent to <option>-jg</option>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-h</option></term>
+				<listitem>
+					<para>Causes <command>tcpplus</command> to print a full list of its available command-line
+						options.	This includes a number not documented here which are unlikely
+						to prove useful to the normal user.</para>
+					<!-- TODO document them! perhaps in a separate section -->
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-j</option><replaceable>opt</replaceable></term>
+				<listitem>
+					<para>Sets the TDF output options given by <emphasis>opt</emphasis>.  This consists of
+						a sequence of characters describing the options to be enabled or disabled.
+						By default, or following a <code>+</code>, the options are enabled;
+						following a <code>-</code> they are disabled.  The available options
+						are as follows:</para>
 
-			<listitem>
-				<para><A id="start-up"><code>-f<emphasis>file</emphasis></code></A>
-					Specifies the given file as a start-up file.  This is equivalent to
-					adding:</para>
+					<table>
+						<tr>
+							<th>Key</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td><code>a</code></td>
+							<td>off</td>
+							<td>output external names for local objects</td>
+						</tr>
+						<tr>
+							<td><code>b</code></td>
+							<td>off</td>
+							<td>work round old installer bugs</td>
+						</tr>
+						<tr>
+							<td><code>c</code></td>
+							<td>on</td>
+							<td>output TDF capsule</td>
+						</tr>
+						<tr>
+							<td><code>d</code></td>
+							<td>off</td>
+							<td>output termination function</td>
+						</tr>
+						<tr>
+							<td><code>e</code></td>
+							<td>on</td>
+							<td>output exceptions</td>
+						</tr>
+						<tr>
+							<td><code>f</code></td>
+							<td>on</td>
+							<td>mangle template function signatures</td>
+						</tr>
+						<tr>
+							<td><code>g</code></td>
+							<td>off</td>
+							<td>output debugging information</td>
+						</tr>
+						<tr>
+							<td><code>i</code></td>
+							<td>off</td>
+							<td>output dynamic initialisers as a function</td>
+						</tr>
+						<tr>
+							<td><code>n</code></td>
+							<td>on</td>
+							<td>mangle object names</td>
+						</tr>
+						<tr>
+							<td><code>o</code></td>
+							<td>off</td>
+							<td>order class data members by access</td>
+						</tr>
+						<tr>
+							<td><code>p</code></td>
+							<td>on</td>
+							<td>output partial destructors</td>
+						</tr>
+						<tr>
+							<td><code>r</code></td>
+							<td>on</td>
+							<td>output run-time type information</td>
+						</tr>
+						<tr>
+							<td><code>s</code></td>
+							<td>on</td>
+							<td>output shared string literals</td>
+						</tr>
+						<tr>
+							<td><code>t</code></td>
+							<td>off</td>
+							<td>output token declarations</td>
+						</tr>
+						<tr>
+							<td><code>u</code></td>
+							<td>on</td>
+							<td>output unused static variables</td>
+						</tr>
+						<tr>
+							<td><code>v</code></td>
+							<td>off</td>
+							<td>output local virtual function tables</td>
+						</tr>
+					</table>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-m</option><replaceable>opt</replaceable></term>
+				<listitem>
+					<para>Sets the error formatting options given by <emphasis>opt</emphasis>.  This consists
+						of a sequence of characters describing the options to be enabled or
+						disabled. By default, or following a <code>+</code>, the options are
+						enabled; following a <code>-</code> they are disabled.  The available
+						options are as follows:</para>
 
-				<programlisting  language="C++">#include &quot;<emphasis>file</emphasis>&quot;</programlisting>
+					<table>
+						<tr>
+							<th>Key</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td><code>c</code></td>
+							<td>off</td>
+							<td>show source code with error</td>
+						</tr>
+						<tr>
+							<td><code>e</code></td>
+							<td>off</td>
+							<td>show error name</td>
+						</tr>
+						<tr>
+							<td><code>f</code></td>
+							<td>on</td>
+							<td>reliable <code>fseek</code> function</td>
+						</tr>
+						<tr>
+							<td><code>g</code></td>
+							<td>off</td>
+							<td>record statement locations</td>
+						</tr>
+						<tr>
+							<td><code>i</code></td>
+							<td>on</td>
+							<td>reliable <code>stat</code> function</td>
+						</tr>
+						<tr>
+							<td><code>k</code></td>
+							<td>off</td>
+							<td>enable C++ spec output</td>
+						</tr>
+						<tr>
+							<td><code>l</code></td>
+							<td>off</td>
+							<td>output full error location</td>
+						</tr>
+						<tr>
+							<td><code>s</code></td>
+							<td>on</td>
+							<td>output ISO section number</td>
+						</tr>
+						<tr>
+							<td><code>t</code></td>
+							<td>off</td>
+							<td>use <code>typedef</code> names in errors</td>
+						</tr>
+						<tr>
+							<td><code>w</code></td>
+							<td>off</td>
+							<td>disable warnings</td>
+						</tr>
+						<tr>
+							<td><code>z</code></td>
+							<td>off</td>
+							<td>continue after error</td>
+						</tr>
+					</table>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-n</option><replaceable>port-table</replaceable></term>
+				<listitem>
+					<para>Specifies that the given portability table should be used to specify
+						the basic configuration parameters.</para>
+					<!-- TODO link to user guide to discuss portability tables; they ought to be in a manpage, too -->
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-o</option><replaceable>output-file</replaceable></term>
+				<listitem>
+					<para>Gives an alternative method of specifying the output file.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-q</option></term>
+				<listitem>
+					<para>Causes <command>tcpplus</command> to quit immediately without processing its input
+						files. This is useful primarily in version and command-line option
+						queries.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-s</option><replaceable>spec-file</replaceable></term>
+				<listitem>
+					<para>Causes <command>tcpplus</command> to write a C++ spec file describing the input source
+						file to <emphasis remap="I">spec-file</emphasis>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-t</option></term>
+				<listitem>
+					<para>Specifies that <command>tcpplus</command> should include token declarations in its
+						output TDF capsule.	While these are strictly unnecessary, they help when
+						pretty-printing the output.	This is equivalent to <option>-jt</option>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-u</option><replaceable>&nbsp;name&nbsp;...&nbsp;name</replaceable></term>
+				<listitem>
+					<para>Causes <command>tcpplus</command> to print the unmangle forms of the
+						identifier names.  The form:</para>
 
-				<para>at the start of the input source file.  More than one start-up file
-					may be given; they are processed in the order given.</para>
-			</listitem>
+					<programlisting>tcpplus -u <emphasis>name</emphasis> .... <emphasis>name</emphasis></programlisting>
 
-			<listitem>
-				<para><code>-g</code> Specifies that the output TDF capsule should also contain information
-					to allow for the generation of run-time debugging directives.  This
-					is equivalent to <link linkend="output"><code>-jg</code></link>.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>-h</code> Causes a full list of command-line options to be printed.  This includes
-					a number not documented here which are unlikely to prove useful to
-					the normal user.</para>
-			</listitem>
-
-			<listitem>
-				<para><A id="output"><code>-j<emphasis>opt</emphasis></code></A>
-					Sets the TDF output options given by <emphasis>opt</emphasis>.  This consists of
-					a sequence of characters describing the options to be enabled or disabled.
-					By default, or following a <code>+</code>, the options are enabled;
-					following a <code>-</code> they are disabled.  The available options
-					are as follows:</para>
-
-				<table>
-					<tr>
-						<th>Key</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td><code>a</code></td>
-						<td>off</td>
-						<td>output external names for local objects</td>
-					</tr>
-					<tr>
-						<td><code>b</code></td>
-						<td>off</td>
-						<td>work round old installer bugs</td>
-					</tr>
-					<tr>
-						<td><code>c</code></td>
-						<td>on</td>
-						<td>output TDF capsule</td>
-					</tr>
-					<tr>
-						<td><code>d</code></td>
-						<td>off</td>
-						<td>output termination function</td>
-					</tr>
-					<tr>
-						<td><code>e</code></td>
-						<td>on</td>
-						<td>output exceptions</td>
-					</tr>
-					<tr>
-						<td><code>f</code></td>
-						<td>on</td>
-						<td>mangle template function signatures</td>
-					</tr>
-					<tr>
-						<td><code>g</code></td>
-						<td>off</td>
-						<td>output debugging information</td>
-					</tr>
-					<tr>
-						<td><code>i</code></td>
-						<td>off</td>
-						<td>output dynamic initialisers as a function</td>
-					</tr>
-					<tr>
-						<td><code>n</code></td>
-						<td>on</td>
-						<td>mangle object names</td>
-					</tr>
-					<tr>
-						<td><code>o</code></td>
-						<td>off</td>
-						<td>order class data members by access</td>
-					</tr>
-					<tr>
-						<td><code>p</code></td>
-						<td>on</td>
-						<td>output partial destructors</td>
-					</tr>
-					<tr>
-						<td><code>r</code></td>
-						<td>on</td>
-						<td>output run-time type information</td>
-					</tr>
-					<tr>
-						<td><code>s</code></td>
-						<td>on</td>
-						<td>output shared string literals</td>
-					</tr>
-					<tr>
-						<td><code>t</code></td>
-						<td>off</td>
-						<td>output token declarations</td>
-					</tr>
-					<tr>
-						<td><code>u</code></td>
-						<td>on</td>
-						<td>output unused static variables</td>
-					</tr>
-					<tr>
-						<td><code>v</code></td>
-						<td>off</td>
-						<td>output local virtual function tables</td>
-					</tr>
-				</table>
-			</listitem>
-
-			<listitem>
-				<para><A id="error"><code>-m<emphasis>opt</emphasis></code></A>
-					Sets the error formatting options given by <emphasis>opt</emphasis>.  This consists
-					of a sequence of characters describing the options to be enabled or
-					disabled. By default, or following a <code>+</code>, the options are
-					enabled; following a <code>-</code> they are disabled.  The available
-					options are as follows:</para>
-
-				<table>
-					<tr>
-						<th>Key</th>
-						<th>Default</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td><code>c</code></td>
-						<td>off</td>
-						<td>show source code with error</td>
-					</tr>
-					<tr>
-						<td><code>e</code></td>
-						<td>off</td>
-						<td>show error name</td>
-					</tr>
-					<tr>
-						<td><code>f</code></td>
-						<td>on</td>
-						<td>reliable <code>fseek</code> function</td>
-					</tr>
-					<tr>
-						<td><code>g</code></td>
-						<td>off</td>
-						<td>record statement locations</td>
-					</tr>
-					<tr>
-						<td><code>i</code></td>
-						<td>on</td>
-						<td>reliable <code>stat</code> function</td>
-					</tr>
-					<tr>
-						<td><code>k</code></td>
-						<td>off</td>
-						<td>enable C++ spec output</td>
-					</tr>
-					<tr>
-						<td><code>l</code></td>
-						<td>off</td>
-						<td>output full error location</td>
-					</tr>
-					<tr>
-						<td><code>s</code></td>
-						<td>on</td>
-						<td>output ISO section number</td>
-					</tr>
-					<tr>
-						<td><code>t</code></td>
-						<td>off</td>
-						<td>use <code>typedef</code> names in errors</td>
-					</tr>
-					<tr>
-						<td><code>w</code></td>
-						<td>off</td>
-						<td>disable warnings</td>
-					</tr>
-					<tr>
-						<td><code>z</code></td>
-						<td>off</td>
-						<td>continue after error</td>
-					</tr>
-				</table>
-			</listitem>
-
-			<listitem>
-				<para><A id="table"><code>-n<emphasis>port-table</emphasis></code></A>
-					Specifies that the given <A HREF="pragma.html#table">portability table</A>
-					should be used to specify the basic configuration parameters.</para>
-			</listitem>
-
-			<listitem>
-				<para><A id="output"><code>-o<emphasis>output-file</emphasis></code></A>
-					Gives an alternative method of specifying the output file.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>-q</code>
-					Causes the program to quit immediately without processing its input
-					files. This is useful primarily in version and command-line option
-					queries.</para>
-			</listitem>
-
-			<listitem>
-				<para><A id="spec"><code>-s<emphasis>spec-file</emphasis></code></A>
-					Specifies the given file as a C++ spec output file.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>-t</code>
-					Specifies that token declarations should be included in the output
-					TDF capsule.  While these are strictly unnecessary, they help when
-					pretty-printing the output.  This is equivalent to
-					<link linkend="output"><code>-jt</code></link>.</para>
-			</listitem>
-
-			<listitem>
-				<para><A id="unmangle"><code>-u</code></A>
-					The form:</para>
-
-				<programlisting>tcpplus -u <emphasis>name</emphasis> .... <emphasis>name</emphasis></programlisting>
-
-				<para>can be used to print the unmangled forms of a list of
-					<A HREF="lib.html#mangle">mangled identifier names</A> to the standard
-					output.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>-v</code>
-					Causes the C++ producer version number, plus information on the versions
+					<para>can be used to print the unmangled forms of a list of
+						<A HREF="lib.html#mangle">mangled identifier names</A> to the standard
+						output.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-v</option></term>
+				<listitem>
+					<para>Causes the C++ producer version number, plus information on the versions
 					of C++ and TDF supported, to be printed to the standard error.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>-w</code>
-					Disables all warning messages.  This is equivalent to
-					<link linkend="error"><code>-mw</code></link>.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>-z</code>
-					Forces an output file to be created even if compilation errors occur.
-					The effect of installing a TDF capsule produced using this option
-					is undefined.  This is equivalent to <link linkend="error"><code>-mz</code></link>.</para>
-			</listitem>
-
-			<listitem>
-				<para><code>--</code>
-					Marks the last option.  Any subsequent arguments are interpreted as
-					input and output files even if they resemble command-line options.</para>
-			</listitem>
-		</itemizedlist>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-w</option></term>
+				<listitem>
+					<para>Disables all warning messages.	This is equivalent to <option>-mw</option>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-z</option></term>
+				<listitem>
+					<para>Forces <command>tcpplus</command> to produce an output file even if compilation errors
+						occur.	The effect of installing a TDF capsule produced using this option
+						is undefined.	This is equivalent to <option>-mz</option>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--</option></term>
+				<listitem>
+					<para>Marks the last option.  Any subsequent arguments are interpreted as
+						input and output files even if they resemble command-line options.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsection>
 
 	<refsection id="see_also">
