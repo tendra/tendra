@@ -1,0 +1,707 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<refentry id="tdfcpragma5">
+	<refmeta>
+		<refentrytitle>tdfc pragma syntax</refentrytitle>
+		<manvolnum>5</manvolnum>
+	</refmeta>
+
+	<!-- TODO very much to do -->
+
+	<refsection>
+		<title>Syntax</title>
+
+    <title><code>#pragma</code> directive syntax</title>
+  <para>
+  The following gives a summary of the syntax for the <code>#pragma</code>
+  directives used for <A HREF="pragma.html">compiler configuration</A>
+  and <A HREF="token.html">token specification</A>:
+  <programlisting language="BNF">
+<emphasis>pragma-directive</emphasis> :
+	<link linkend="tendra"># pragma TenDRA ++<emphasis><subscript>opt</subscript> tendra-directive</emphasis></link>
+	<link linkend="token"># pragma <emphasis>token-directive</emphasis></link>
+
+<A id="tendra"><emphasis>tendra-directive</emphasis></A> :
+	<link linkend="scope"><emphasis>scope-directive</emphasis></link>
+	<link linkend="low"><emphasis>low-level-directive</emphasis></link>
+	<link linkend="analysis"><emphasis>analysis-directive on</emphasis></link>
+	<link linkend="check"><emphasis>check-directive allow</emphasis></link>
+	<link linkend="keyword"><emphasis>keyword-directive</emphasis></link>
+	<link linkend="type"><emphasis>type-directive</emphasis></link>
+	<link linkend="linkage"><emphasis>linkage-directive</emphasis></link>
+	<link linkend="misc"><emphasis>misc-directive</emphasis></link>
+	<link linkend="token1"><emphasis>tendra-token-directive</emphasis></link>
+
+<emphasis>on</emphasis> :
+	on
+	warning
+	off
+
+<emphasis>allow</emphasis> :
+	allow
+	warning
+	disallow
+
+
+<A id="scope"><emphasis>scope-directive</emphasis></A> :
+	<A HREF="pragma.html#scope">begin</A>
+	<A HREF="pragma.html#scope">begin name environment <emphasis>identifier</emphasis></A>
+	<A HREF="pragma.html#scope">end</A>
+	<A HREF="pragma.html#scope">directory <emphasis>identifier</emphasis> use environment <emphasis>identifier</emphasis></A>
+	<A HREF="pragma.html#scope">use environment <emphasis>identifier</emphasis></A>
+	<A HREF="pragma.html#scope">use environment <emphasis>identifier</emphasis> reset <emphasis>allow</emphasis></A>
+
+
+<A id="low"><emphasis>low-level-directive</emphasis></A> :
+	<A HREF="pragma.html#low">error <emphasis>string-literal allow</emphasis></A>
+	<A HREF="pragma.html#low">error <emphasis>string-literal on</emphasis></A>
+	<A HREF="pragma.html#low">error <emphasis>string-literal</emphasis> as option <emphasis>string-literal</emphasis></A>
+	<A HREF="pragma.html#low">option <emphasis>string-literal allow</emphasis></A>
+	<A HREF="pragma.html#low">option <emphasis>string-literal on</emphasis></A>
+	<A HREF="pragma.html#limits">option value <emphasis>string-literal integer-literal</emphasis></A>
+	<A HREF="pragma.html#low">use error <emphasis>string-literal</emphasis></A>
+
+
+<A id="analysis"><emphasis>analysis-directive</emphasis></A> :
+	<A HREF="pragma.html#init">complete initialization analysis</A>
+	<A HREF="pragma.html#elab">complete struct / union analysis</A>
+	<A HREF="pragma.html#conv">conversion analysis <emphasis>conversion-spec<subscript>opt</subscript></emphasis></A>
+	<A HREF="pragma.html#discard">discard analysis <emphasis>discard-spec<subscript>opt</subscript></emphasis></A>
+	<A HREF="pragma.html#switch">enum switch analysis</A>
+	<A HREF="pragma.html#linkage">external function linkage</A>
+	<A HREF="pragma.html#for">for initialization block</A>
+	<A HREF="pragma.html#elab">ignore struct / union / enum tag</A>
+	<A HREF="pragma.html#template">implicit export template</A>
+	<A HREF="pragma.html#impl_func">implicit function declaration</A>
+	<A HREF="pragma.html#exp">integer operator analysis</A>
+	<A HREF="pragma.html#exp">integer overflow analysis</A>
+	<A HREF="pragma.html#comment">nested comment analysis</A>
+	<A HREF="pragma.html#exp">operator precedence analysis</A>
+	<A HREF="pragma.html#exp">pointer operator analysis</A>
+	<A HREF="pragma.html#throw">throw analysis</A>
+	<A HREF="pragma.html#linkage">unify external linkage</A>
+	<A HREF="pragma.html#variable">variable analysis</A>
+	<A HREF="pragma.html#hide">variable hiding analysis</A>
+	<A HREF="pragma.html#weak">weak prototype analysis</A>
+
+<emphasis>conversion-spec</emphasis> :
+	( int - int <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )
+	( int - pointer <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )
+	( pointer - int <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )
+	( pointer - pointer <emphasis>implicit-spec<subscript>opt</subscript></emphasis> )
+	( int - enum implicit )
+	( pointer - void * implicit )
+	( void * - pointer implicit )
+
+<emphasis>implicit-spec</emphasis> :
+	implicit
+	explicit
+
+<emphasis>discard-spec</emphasis> :
+	( function return )
+	( static )
+	( value )
+
+
+<A id="check"><emphasis>check-directive</emphasis></A> :
+	<A HREF="pragma.html#overload">ambiguous overload resolution</A>
+	<A HREF="pragma.html#if">assignment as bool</A>
+	<A HREF="pragma.html#bitfield">bitfield overflow</A>
+	<A HREF="pragma.html#linkage">block function static</A>
+	<A HREF="pragma.html#catch_all">catch all</A>
+	<A HREF="pragma.html#escape">character escape overflow</A>
+	<A HREF="token.html#tokdef">compatible token</A>
+	<A HREF="pragma.html#include">complete file includes</A>
+	<A HREF="pragma.html#target-if">conditional declaration</A>
+	<A HREF="pragma.html#lvalue">conditional lvalue</A>
+	<A HREF="pragma.html#overload">conditional overload resolution <emphasis>overload-spec<subscript>opt</subscript></emphasis></A>
+	<A HREF="pragma.html#if">const conditional</A>
+	<A HREF="pragma.html#macro">directive as macro argument</A>
+	<A HREF="pragma.html#identifier">dollar as ident</A>
+	<A HREF="pragma.html#elab">extra ,</A>
+	<A HREF="pragma.html#decl_none">extra ;</A>
+	<A HREF="pragma.html#if">extra ; after conditional</A>
+	<A HREF="pragma.html#weak">extra ...</A>
+	<A HREF="pragma.html#bitfield">extra bitfield int type</A>
+	<A HREF="pragma.html#macro">extra macro definition</A>
+	<A HREF="pragma.html#typedef">extra type definition</A>
+	<A HREF="pragma.html#switch">fall into case</A>
+	<A HREF="pragma.html#elab">forward enum declaration</A>
+	<A HREF="pragma.html#conv">function pointer as pointer</A>
+	<A HREF="pragma.html#ellipsis">ident ...</A>
+	<A HREF="pragma.html#implicit">implicit int type <emphasis>inttype-spec<subscript>opt</subscript></emphasis></A>
+	<A HREF="token.html#tokdef">implicit token definition</A>
+	<A HREF="token.html#spec">incompatible interface declaration</A>
+	<A HREF="token.html#member">incompatible member declaration</A>
+	<A HREF="pragma.html#linkage">incompatible linkage</A>
+	<A HREF="pragma.html#weak">incompatible promoted function argument</A>
+	<A HREF="pragma.html#compatible">incompatible type qualifier</A>
+	<A HREF="pragma.html#return">incompatible void return</A>
+	<A HREF="pragma.html#complete">incomplete type as object type</A>
+	<A HREF="pragma.html#ppdir">indented # directive</A>
+	<A HREF="pragma.html#ppdir">indented directive after #</A>
+	<A HREF="pragma.html#init">initialization of struct / union ( auto )</A>
+	<A HREF="pragma.html#longlong">longlong type</A>
+	<A HREF="pragma.html#ppdir">no directive / nline after ident</A>
+	<A HREF="pragma.html#empty">no external declaration</A>
+	<A HREF="pragma.html#macro">no ident after #</A>
+	<A HREF="pragma.html#lex">no nline after file end</A>
+	<A HREF="token.html#tokdef">no token definition</A>
+	<A HREF="pragma.html#overload">overload resolution</A>
+	<A HREF="pragma.html#weak">prototype</A>
+	<A HREF="pragma.html#weak">prototype ( weak )</A>
+	<A HREF="token.html#exp">rvalue token as const</A>
+	<A HREF="pragma.html#ppdir">text after directive</A>
+	<A HREF="pragma.html#lvalue">this lvalue</A>
+	<A HREF="pragma.html#string">unify incompatible string literal</A>
+	<A HREF="pragma.html#ppdir">unknown directive</A>
+	<A HREF="pragma.html#escape">unknown escape</A>
+	<A HREF="pragma.html#ppdir">unknown pragma</A>
+	<A HREF="pragma.html#decl_none">unknown struct / union</A>
+	<A HREF="pragma.html#string">unmatched quote</A>
+	<A HREF="pragma.html#reach">unreachable code</A>
+	<A HREF="pragma.html#init">variable initialization</A>
+	<A HREF="pragma.html#macro">weak macro equality</A>
+	<A HREF="pragma.html#string">writeable string literal</A>
+
+<emphasis>inttype-spec</emphasis> :
+	for const / volatile
+	for external declaration
+	for function return
+
+<emphasis>overload-spec</emphasis> :
+	( complete )
+	( incomplete )
+
+
+<A id="keyword"><emphasis>keyword-directive</emphasis></A> :
+	<link linkend="keyword">keyword <emphasis>identifier</emphasis> for <emphasis>keyword-spec</emphasis></link>
+	<A HREF="pragma.html#keyword-spec">undef keyword <emphasis>identifier</emphasis></A>
+
+<A id="keyword-spec"><emphasis>keyword-spec</emphasis></A> :
+	<A HREF="pragma.html#discard">discard value</A>
+	<A HREF="pragma.html#variable">discard variable</A>
+	<A HREF="pragma.html#switch">exhaustive</A>
+	<A HREF="pragma.html#switch">fall into case</A>
+	<A HREF="pragma.html#keyword">keyword <emphasis>identifier</emphasis></A>
+	<A HREF="pragma.html#keyword">operator <emphasis>operator</emphasis></A>
+	<A HREF="pragma.html#variable">set</A>
+	<A HREF="pragma.html#reach">set reachable</A>
+	<A HREF="pragma.html#reach">set unreachable</A>
+	<A HREF="pragma.html#conv">type representation</A>
+	<A HREF="pragma.html#weak">weak</A>
+
+
+<A id="type-directive"><emphasis>type-directive</emphasis></A> :
+	<A HREF="pragma.html#reach">bottom <emphasis>identifier</emphasis></A>
+	<A HREF="pragma.html#char">character <emphasis>character-sign</emphasis></A>
+	<A HREF="pragma.html#identifier">character <emphasis>character-literal character-mapping</emphasis></A>
+	<A HREF="pragma.html#identifier">character <emphasis>string-literal character-mapping</emphasis></A>
+	<A HREF="lib.html#arith">compute promote <emphasis>identifier</emphasis></A>
+	<A HREF="pragma.html#escape">escape <emphasis>character-literal character-mapping</emphasis></A>
+	<A HREF="pragma.html#int">integer literal <emphasis>literal-spec</emphasis></A>
+	<A HREF="lib.html#arith">promoted <emphasis>type-id</emphasis> : <emphasis>type-id</emphasis></A>
+	<A HREF="pragma.html#char">set character literal : <emphasis>type-id</emphasis></A>
+	<A HREF="pragma.html#longlong">set longlong type : <emphasis>longlong-spec</emphasis></A>
+	<A HREF="pragma.html#char">set ptrdiff_t : <emphasis>type-id</emphasis></A>
+	<A HREF="pragma.html#char">set size_t : <emphasis>type-id</emphasis></A>
+	<A HREF="pragma.html#char">set wchar_t : <emphasis>type-id</emphasis></A>
+	<A HREF="pragma.html#string">set string literal : <emphasis>string-const</emphasis></A>
+	<A HREF="pragma.html#std">set std namespace : <emphasis>scope-name</emphasis></A>
+	<link linkend="type-spec">type <emphasis>identifier</emphasis> for <emphasis>type-spec</emphasis></link>
+
+<emphasis>character-sign</emphasis> :
+	signed
+	unsigned
+	either
+
+<emphasis>character-mapping</emphasis> :
+	as <emphasis>character-literal</emphasis> allow
+	disallow
+
+<emphasis>literal-spec</emphasis> :
+	<emphasis>literal-base literal-suffix<subscript>opt</subscript> literal-type-list</emphasis>
+
+<emphasis>literal-base</emphasis> :
+	decimal
+	octal
+	hexadecimal
+
+<emphasis>literal-suffix</emphasis> :
+	unsigned
+	long
+	unsigned long
+	long long
+	unsigned long long
+
+<emphasis>literal-type-list</emphasis> :
+	* <emphasis>literal-type-spec</emphasis>
+	<emphasis>integer-literal literal-type-spec</emphasis> | <emphasis>literal-type-list</emphasis>
+	? <emphasis>literal-type-spec</emphasis> | <emphasis>literal-type-list</emphasis>
+
+<emphasis>literal-type-spec</emphasis> :
+	: <emphasis>type-id</emphasis>
+	* <emphasis>allow<subscript>opt</subscript></emphasis> : <emphasis>identifier</emphasis>
+	* * <emphasis>allow<subscript>opt</subscript></emphasis> :
+
+<emphasis>longlong-spec</emphasis> :
+	long
+	long long
+
+<emphasis>string-const</emphasis> :
+	const
+	no const
+
+<emphasis>scope-name</emphasis> :
+	<emphasis>identifier</emphasis>
+	::
+
+<A id="type-spec"><emphasis>type-spec</emphasis></A> :
+	<A HREF="pragma.html#reach">bottom</A>
+	<A HREF="pragma.html#char">ptrdiff_t</A>
+	<A HREF="pragma.html#char">size_t</A>
+	<A HREF="pragma.html#char">wchar_t</A>
+	<A HREF="pragma.html#printf">... printf</A>
+	<A HREF="pragma.html#printf">... scanf</A>
+
+
+<A id="linkage"><emphasis>linkage-directive</emphasis></A> :
+	<A HREF="pragma.html#linkage">const linkage <emphasis>linkage</emphasis></A>
+	<A HREF="pragma.html#linkage">external linkage <emphasis>string-literal</emphasis></A>
+	<A HREF="pragma.html#linkage">external volatile_t</A>
+	<A HREF="pragma.html#linkage">inline linkage <emphasis>linkage</emphasis></A>
+	<A HREF="pragma.html#linkage">linkage resolution : <emphasis>linkage-spec</emphasis></A>
+
+<emphasis>linkage</emphasis> :
+	external
+	internal
+
+<emphasis>linkage-spec</emphasis> :
+	( <emphasis>linkage</emphasis> ) on
+	( <emphasis>linkage</emphasis> ) warning
+	off
+
+
+<A id="misc"><emphasis>misc-directive</emphasis></A> :
+	<A HREF="pragma.html#weak">argument <emphasis>type-id</emphasis> as ...</A>
+	<A HREF="pragma.html#weak">argument <emphasis>type-id</emphasis> as <emphasis>type-id</emphasis></A>
+	<A HREF="pragma.html#compatible">compatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis></A>
+	<A HREF="pragma.html#conv">conversion <emphasis>identifier-list</emphasis> allow</A>
+	<A HREF="dump.html#scope">declaration block <emphasis>identifier</emphasis> begin</A>
+	<A HREF="dump.html#scope">declaration block end</A>
+	<A HREF="pragma.html#ppdir">directive <emphasis>directive-spec directive-state</emphasis></A>
+	<A HREF="pragma.html#variable">discard <emphasis>expression</emphasis></A>
+	<A HREF="pragma.html#switch">exhaustive</A>
+	<A HREF="pragma.html#cast">explicit cast <emphasis>cast-spec<subscript>opt</subscript> allow</emphasis></A>
+	<A HREF="pragma.html#include">includes depth <emphasis>integer-literal</emphasis></A>
+	<A HREF="pragma.html#static">preserve <emphasis>preserve-list</emphasis></A>
+	<A HREF="pragma.html#variable">set <emphasis>expression</emphasis></A>
+	<A HREF="pragma.html#limits">set error limit <emphasis>integer-literal</emphasis></A>
+	<A HREF="pragma.html#identifier">set name limit <emphasis>integer-literal</emphasis> warning<emphasis><subscript>opt</subscript></emphasis></A>
+	<A HREF="pragma.html#discard">suspend static <emphasis>identifier-list</emphasis></A>
+
+<emphasis>directive-spec</emphasis> :
+	assert
+	file
+	ident
+	import
+	include_next
+	unassert
+	warning
+	weak
+
+<emphasis>directive-state</emphasis> :
+	allow
+	warning
+	disallow
+	( ignore ) allow
+	( ignore ) warning
+
+<emphasis>cast-operator</emphasis> :
+	static_cast
+	const_cast
+	reinterpret_cast
+
+<emphasis>cast-spec</emphasis> :
+	as <emphasis>cast-operator</emphasis>
+	<emphasis>cast-spec</emphasis> | <emphasis>cast-operator</emphasis>
+
+<emphasis>preserve-list</emphasis> :
+	<emphasis>identifier-list</emphasis>
+	*
+
+<emphasis>identifier-list</emphasis> :
+	<emphasis>identifier identifier-list<subscript>opt</subscript></emphasis>
+
+
+<A id="token"><emphasis>token-directive</emphasis></A> :
+	<A HREF="token.html#spec">token <emphasis>token-spec</emphasis></A>
+	<A HREF="token.html#tokdef">no_def <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">define <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">ignore <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">interface <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">undef token <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">extend interface <emphasis>header-name</emphasis></A>
+	<A HREF="token.html#tokdef">implement interface <emphasis>header-name</emphasis></A>
+
+<A id="token1"><emphasis>tendra-token-directive</emphasis></A> :
+	<A HREF="token.html#spec">token <emphasis>token-spec</emphasis></A>
+	<A HREF="token.html#tokdef">no_def <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">define <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">reject <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">interface <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">undef token <emphasis>token-list</emphasis></A>
+	<A HREF="token.html#tokdef">extend <emphasis>header-name</emphasis></A>
+	<A HREF="token.html#tokdef">implement <emphasis>header-name</emphasis></A>
+	<A HREF="token.html#tokdef">member definition <emphasis>type-id</emphasis> : <emphasis>identifier member-offset</emphasis></A>
+
+<emphasis>member-offset</emphasis> :
+	::<emphasis><subscript>opt</subscript> id-expression</emphasis>
+	<emphasis>member-offset</emphasis> . ::<emphasis><subscript>opt</subscript> id-expression</emphasis>
+	<emphasis>member-offset</emphasis> [ <emphasis>constant-expression</emphasis> ]
+
+<emphasis>token-list</emphasis> :
+	<emphasis>token-id token-list<subscript>opt</subscript></emphasis>
+	# <emphasis>preproc-token-list</emphasis>
+
+<emphasis>token-id</emphasis> :
+	<emphasis>token-namespace<subscript>opt</subscript> identifier</emphasis>
+	<emphasis>type-id</emphasis> . <emphasis>identifier</emphasis>
+
+
+<emphasis>token-spec</emphasis> :
+	<emphasis>token-introduction token-identification</emphasis>
+
+<emphasis>token-introduction</emphasis> :
+	<emphasis>exp-token</emphasis>
+	<emphasis>statement-token</emphasis>
+	<emphasis>type-token</emphasis>
+	<emphasis>member-token</emphasis>
+	<emphasis>procedure-token</emphasis>
+
+<emphasis>token-identification</emphasis> :
+	<emphasis>token-namespace<subscript>opt</subscript> identifier</emphasis> # <emphasis>external-identifier<subscript>opt</subscript></emphasis>
+
+<emphasis>token-namespace</emphasis> :
+	TAG
+
+<emphasis>external-identifier</emphasis> :
+	-
+	<emphasis>preproc-token-list</emphasis>
+
+<emphasis>exp-token</emphasis> :
+	EXP <emphasis>exp-storage<subscript>opt</subscript></emphasis> : <emphasis>type-id</emphasis> :
+	NAT
+	INTEGER
+
+<emphasis>exp-storage</emphasis> :
+	lvalue
+	rvalue
+	const
+
+<emphasis>statement-token</emphasis> :
+	STATEMENT
+
+<emphasis>type-token</emphasis> :
+	TYPE
+	VARIETY
+	VARIETY signed
+	VARIETY unsigned
+	FLOAT
+	ARITHMETIC
+	SCALAR
+	CLASS
+	STRUCT
+	UNION
+
+<emphasis>member-token</emphasis> :
+	MEMBER <emphasis>access-specifier<subscript>opt</subscript> member-type-id</emphasis> : <emphasis>type-id</emphasis> :
+
+<emphasis>member-type-id</emphasis> :
+	<emphasis>type-id</emphasis>
+	<emphasis>type-id</emphasis> % <emphasis>constant-expression</emphasis>
+
+<emphasis>access-specifier</emphasis> :
+	public
+	protected
+	private
+
+<emphasis>procedure-token</emphasis> :
+	<emphasis>general-procedure</emphasis>
+	<emphasis>simple-procedure</emphasis>
+	<emphasis>function-procedure</emphasis>
+
+<emphasis>general-procedure</emphasis> :
+	PROC { <emphasis>bound-toks<subscript>opt</subscript></emphasis> | <emphasis>prog-pars<subscript>opt</subscript></emphasis> } <emphasis>token-introduction</emphasis>
+
+<emphasis>bound-toks</emphasis> :
+	<emphasis>bound-token</emphasis>
+	<emphasis>bound-token</emphasis> , <emphasis>bound-toks</emphasis>
+
+<emphasis>bound-token</emphasis> :
+	<emphasis>token-introduction token-namespace<subscript>opt</subscript> identifier</emphasis>
+
+<emphasis>prog-pars</emphasis> :
+	<emphasis>program-parameter</emphasis>
+	<emphasis>program-parameter</emphasis> , <emphasis>prog-pars</emphasis>
+
+<emphasis>program-parameter</emphasis> :
+	EXP <emphasis>identifier</emphasis>
+	STATEMENT <emphasis>identifier</emphasis>
+	TYPE <emphasis>type-id</emphasis>
+	MEMBER <emphasis>type-id</emphasis> : <emphasis>identifier</emphasis>
+	PROC <emphasis>identifier</emphasis>
+
+<emphasis>simple-procedure</emphasis> :
+	PROC ( <emphasis>simple-toks<subscript>opt</subscript></emphasis> ) <emphasis>token-introduction</emphasis>
+
+<emphasis>simple-toks</emphasis> :
+	<emphasis>simple-token</emphasis>
+	<emphasis>simple-token</emphasis> , <emphasis>simple-toks</emphasis>
+
+<emphasis>simple-token</emphasis> :
+	<emphasis>token-introduction token-namespace<subscript>opt</subscript> identifier<subscript>opt</subscript></emphasis>
+
+<emphasis>function-procedure</emphasis> :
+	FUNC <emphasis>type-id</emphasis> :</programlisting>
+  </para>
+
+	</refsection>
+
+	<!-- TODO what follows is from tdfc; this is to be merged with the above -->
+	<refsection>
+		<title>C Pragma syntax</title>
+	<programlisting language="BNF">
+pragma_syntax:
+	#pragma TenDRA <emphasis>tendra_pragma</emphasis>
+	#pragma token <emphasis>token_pragma</emphasis>
+	#pragma <emphasis>token_operation</emphasis>
+	#pragma <emphasis>integer_pragma</emphasis>
+
+tendra_pragma:
+	begin <xref linkend="13"/>
+	begin <emphasis>name</emphasis> environment <emphasis>identifier</emphasis> 
+	declaration block <emphasis>identifier</emphasis> begin <xref linkend="6"/>
+	declaration block end <xref linkend="6"/>
+	directory <emphasis>name</emphasis> use environment <emphasis>identifier</emphasis>
+	use environment <emphasis>identifier</emphasis>
+	end <xref linkend="13"/><emphasis>analysis_spec</emphasis><emphasis>function_pars</emphasis> <xref linkend="32"/>
+	keyword <emphasis>identifier</emphasis> for <emphasis>keyword_spec</emphasis>
+	type <emphasis>identifier</emphasis> for <emphasis>type_spec</emphasis><emphasis>check_pragma</emphasis><emphasis>variable_pragma</emphasis><emphasis>dialect_pragma</emphasis>
+
+analysis_spec:
+	complete struct/union analysis <emphasis>state</emphasis> <xref linkend="4"/>
+	conversion <emphasis>conv_list</emphasis> allow <xref linkend="2"/>
+	conversion analysis <emphasis>conversion_spec</emphasis> <xref linkend="2"/>
+	discard analysis <emphasis>discard_spec</emphasis> <xref linkend="36"/>
+	enum switch analysis <emphasis>state</emphasis> <xref linkend="2"/>
+	fall into case <emphasis>permit</emphasis> <xref linkend="6"/>
+	function pointer as pointer <emphasis>permit</emphasis> <xref linkend="11"/>
+	integer operator analysis <emphasis>state</emphasis> <xref linkend="18"/>
+	integer overflow analysis <emphasis>state</emphasis> <xref linkend="14"/>
+	nested comment analysis <emphasis>state</emphasis> <xref linkend="45"/>
+	operator precedence analysis <emphasis>state</emphasis> <xref linkend="15"/>
+	unreachable code <emphasis>permit</emphasis> <xref linkend="2"/>
+	variable analysis <emphasis>state</emphasis> <xref linkend="2"/>
+	variable hiding analysis <emphasis>state</emphasis> <xref linkend="6"/>
+	weak prototype analysis <emphasis>state</emphasis> <xref linkend="20"/>
+
+conversion_spec:
+	<emphasis>empty</emphasis>
+	( int-int ) <xref linkend="5"/>
+	( int-int explicit ) <xref linkend="5"/>
+	( int-int implicit ) <xref linkend="5"/>
+	( int-enum implicit) <xref linkend="5"/>
+	(enum-int implicit) <xref linkend="5"/>
+	( int-pointer ) <xref linkend="8"/>
+	( int-pointer explicit ) <xref linkend="8"/>
+	(int-pointer implicit ) <xref linkend="8"/>
+	( pointer-int ) <xref linkend="8"/>
+	( pointer-int explicit ) <xref linkend="8"/>
+	( pointer-int implicit ) <xref linkend="8"/>
+	( pointer-pointer ) <xref linkend="11"/>
+	( pointer-pointer explicit ) <xref linkend="11"/>
+	( pointer-pointer implicit ) <xref linkend="11"/>
+
+discard_spec:
+	<emphasis>empty</emphasis>
+	( function return ) <xref linkend="38"/>
+	( static ) <xref linkend="42"/>
+	( value ) <xref linkend="40"/>
+
+function_pars:
+	<emphasis>argument</emphasis> <emphasis>type_name</emphasis> as
+	<emphasis>type_name</emphasis> <xref linkend="32"/>
+	argument <emphasis>type_name</emphasis> as ... <xref linkend="32"/>
+	extra ... <emphasis>permit</emphasis> <xref linkend="32"/>
+
+keyword_spec:
+	discard value <xref linkend="44"/>
+	discard variable <xref linkend="26"/>
+	exhaustive <xref linkend="32"/>
+	fall into case <xref linkend="6"/>
+	set <xref linkend="29"/>
+	set reachable <xref linkend="2"/>
+	set unreachable <xref linkend="2"/>
+	type representation <xref linkend="4"/>
+	weak <xref linkend="20"/>
+
+type_spec:
+	bottom <xref linkend="34"/>
+	... printf <xref linkend="23"/>
+	... scanf <xref linkend="23"/>
+
+check_pragma:
+	implicit function declaration <emphasis>state</emphasis> <xref linkend="30"/>
+	incompatible interface declaration <emphasis>permit</emphasis> <xref linkend="1"/>
+	incompatible void return <emphasis>permit</emphasis> <xref linkend="25"/>
+
+variable_pragma:
+	discard <emphasis>identifier</emphasis><emphasis>separator</emphasis> <xref linkend="26"/>
+	preserve <emphasis>identifier_list</emphasis> <xref linkend="46"/>
+	set identifier <emphasis>separator</emphasis> <xref linkend="29"/>
+	suspend static <emphasis>identifier_list</emphasis> <xref linkend="46"/>
+	exhaustive <xref linkend="32"/>
+
+separator:
+	;
+	,
+
+identifier_list:
+	<emphasis>identifier</emphasis>
+	<emphasis>identifier</emphasis><emphasis>identifier_list</emphasis>
+
+dialect_pragma:
+	++ <xref linkend="56"/>
+	assignment as bool <emphasis>permit</emphasis> <xref linkend="11"/>
+	bitfield overflow <emphasis>permit</emphasis> <xref linkend="14"/>
+	block function static <emphasis>permit</emphasis> <xref linkend="15"/>
+	character <emphasis>set_sign</emphasis> <xref linkend="9"/>
+	character escape overflow <emphasis>permit</emphasis> <xref linkend="14"/>
+	compatible type : char * == void * : <emphasis>permit</emphasis> <xref linkend="11"/>
+	conditional lvalue <emphasis>dallow</emphasis> <xref linkend="29"/>
+	const conditional <emphasis>permit</emphasis> <xref linkend="13"/>
+	dollar as ident <emphasis>dallow</emphasis> <xref linkend="39"/>
+	directive <emphasis>pp_directive pp_spec</emphasis> <xref linkend="1"/>
+	directive as macro argument <emphasis>permit</emphasis> <xref linkend="11"/>
+	external volatile_t <xref linkend="23"/>
+	extra ; <emphasis>permit</emphasis> <xref linkend="54"/>
+	extra ; after conditional <emphasis>permit</emphasis> <xref linkend="9"/>
+	extra , <emphasis>permit</emphasis> <xref linkend="52"/>
+	extra bitfield int type <emphasis>permit</emphasis> <xref linkend="9"/>
+	extra macro definition <emphasis>dallow</emphasis> <xref linkend="9"/>
+	extra type definition <emphasis>permit</emphasis> <xref linkend="13"/>
+	forward enum declaration <emphasis>dallow</emphasis> <xref linkend="19"/>
+	floating point equality <emphasis>permit</emphasis> <xref linkend="8"/>
+	ident ... <emphasis>permit</emphasis> <xref linkend="27"/>
+	ignore struct/union/enum tag <emphasis>status</emphasis> <xref linkend="31"/>
+	implicit int type for external declaration <emphasis>permit</emphasis> <xref linkend="7"/>
+	implicit int type for function return <emphasis>permit</emphasis> <xref linkend="7"/>
+	includes depth <emphasis>integral_constant</emphasis> <xref linkend="17"/>
+	incompatible linkage <emphasis>permit</emphasis> <xref linkend="5"/>
+	incompatible promoted function argument <emphasis>dallow</emphasis> <xref linkend="37"/>
+	incompatible type qualifier <emphasis>dallow</emphasis> <xref linkend="39"/>
+	incomplete type as object type <emphasis>permit</emphasis> <xref linkend="17"/>
+	indented # directive <emphasis>permit</emphasis> <xref linkend="7"/>
+	initialization of struct/union (auto) <emphasis>permit</emphasis> <xref linkend="33"/>
+	linkage resolution : <emphasis>linkage_spec</emphasis> <xref linkend="1"/>
+	longlong type <emphasis>permit</emphasis> <xref linkend="24"/>
+	no directive/nline after ident <emphasis>permit</emphasis> <xref linkend="21"/>
+	no external declaration <emphasis>permit</emphasis> <xref linkend="50"/>
+	no ident after # <emphasis>permit</emphasis> <xref linkend="11"/>
+	no nline after file end <emphasis>permit</emphasis> <xref linkend="23"/>
+	prototype <emphasis>permit</emphasis> <xref linkend="17"/>
+	prototype (weak) <emphasis>permit</emphasis> <xref linkend="20"/>
+	set longlong type : <emphasis>type_name</emphasis> <xref linkend="24"/>
+	set name limit <emphasis>integer_constant</emphasis> <xref linkend="25"/>
+	set size_t : <emphasis>type_name </emphasis> <xref linkend="10"/>
+	text after directive <emphasis>permit</emphasis> <xref linkend="19"/>
+	unify external linkage <emphasis>status</emphasis> <xref linkend="1"/>
+	unify incompatible string literal <emphasis>permit</emphasis> <xref linkend="43"/>
+	unknown escape <emphasis>permit</emphasis> <xref linkend="36"/>
+	unknown pragma <emphasis>permit</emphasis> <xref linkend="1"/>
+	unknown struct/union <emphasis>dallow</emphasis> <xref linkend="21"/>
+	unknown directive <emphasis>permit</emphasis> <xref linkend="1"/>
+	unmatched quote <emphasis>permit</emphasis> <xref linkend="15"/>
+	variable initialization <emphasis>dallow</emphasis> <xref linkend="35"/>
+	weak macro equality <emphasis>permit</emphasis> <xref linkend="9"/>
+	writeable string literal <emphasis>permit</emphasis> <xref linkend="41"/>
+
+set_sign:
+	signed
+	unsign
+	either
+
+pp_directive:
+	file
+	ident
+	assert
+	unassert
+	weak
+
+pp_spec:
+	allow
+	warning
+	(ignore) allow
+	(ignore) warning
+
+linkage_spec:
+	(internal) on
+	(internal) warning
+	(external) on
+	(external) warning
+	off
+
+state:
+	on
+	warning
+	off
+
+permit:
+	allow
+	warning
+	disallow
+
+dallow:
+	allow
+	disallow
+
+token_pragma:
+	ARITHMETIC <xref linkend="13"/>
+	DEFINE MEMBER
+	EXP <xref linkend="3"/>
+	FUNC <xref linkend="24"/>
+	MEMBER <xref linkend="19"/>
+	NAT <xref linkend="3"/>
+	PROC <xref linkend="22"/>
+	STATEMENT <xref linkend="6"/>
+	STRUCT <xref linkend="16"/>
+	TYPE <xref linkend="9"/>
+	UNION <xref linkend="16"/>
+	VARIETY <xref linkend="11"/>
+
+token_operation:
+	define
+	no_def
+	extend
+	ignore
+	implement
+	interface
+	promote <xref linkend="4"/>
+
+integer_pragma:
+	integer literal <emphasis>lit_class_type_list</emphasis> <xref linkend="2"/>
+
+lit_class_type_list:
+	*<emphasis>int_type_spec</emphasis>
+	integer_constant <emphasis>int_type_spec</emphasis> | <emphasis>lit_class_type_list</emphasis>
+
+int_type_spec:
+	<emphasis>type_name</emphasis>
+	*warning<sub><emphasis>opt</emphasis></sub> : <emphasis>identifier</emphasis>
+	** :</programlisting>
+	</refsection>
+</refentry>
+
