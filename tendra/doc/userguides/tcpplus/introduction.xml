@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 
 <preface id="intro"
 	xmlns:dt="http://xml.water-powered.com/docs">
@@ -8,115 +8,104 @@
     <title>Introduction</title>
 
     <para>This document is designed as a technical overview of the TenDRA C++
-      to TDF/ANDF producer.  It is divided into two broad areas; descriptions
-      of the <link linkend="interface">public interfaces</link> of the producer, and
-      an overview of the producer <link linkend="program">source code</link>.</para>
+		to TDF/ANDF producer.  It is divided into two broad areas; descriptions
+		of the <link linkend="interface">public interfaces</link> of the producer, and
+		an overview of the producer <link linkend="program">source code</link>.</para>
 
     <para>Whereas the interface description contains most of the information
-      which would be required in a users' guide, it is not necessarily in a
-      readily digestible form.  The C++ producer is designed to complement the
-      existing TenDRA C to TDF producer; although they are completely distinct
-      programs, the same design philosophy underlies both and they share a
-      number of common interfaces.  There are no radical differences between
-      the two producers, besides the fact that the C++ producer covers a
-      vastly larger and more complex language.  This means that much of the
-      <link linkend="tdfc">existing documentation on the C producer</link> can be
-      taken as also applying to the C++ producer.  This document tries to make
-      clear where the C++ producer extends the C producer's interfaces, and
-      those portions of these interfaces which are not directly applicable to
-      C++.</para>
+		which would be required in a users' guide, it is not necessarily in a
+		readily digestible form.  The C++ producer is designed to complement the
+		existing TenDRA C to TDF producer; although they are completely distinct
+		programs, the same design philosophy underlies both and they share a
+		number of common interfaces.  There are no radical differences between
+		the two producers, besides the fact that the C++ producer covers a
+		vastly larger and more complex language.  This means that much of the
+		<link linkend="tdfc">existing documentation on the C producer</link> can be
+		taken as also applying to the C++ producer.  This document tries to make
+		clear where the C++ producer extends the C producer's interfaces, and
+		those portions of these interfaces which are not directly applicable to
+		C++.</para>
 
-    <para>
-    A familiarity with both C++ and TDF is assumed. The version of C++
-    implemented is that given by the <link linkend="cplusplus">draft ISO C++
-    standard</link>.  All references to &quot;ISO C++&quot; within the document
-    should strictly be qualified using the word &quot;draft&quot;, but
-    for convenience this has been left implicit.  The C++ producer has
-    a number of switches which allow it to be configured for older dialects
-    of C++.  In particular, the version of C++ described in the <link linkend="arm">ARM
-    (Annotated Reference Manual)</link> is fully supported.
-    </para>
+    <para>A familiarity with both C++ and TDF is assumed. The version of C++
+		implemented is that given by the <link linkend="cplusplus">draft ISO C++
+		standard</link>.  All references to &quot;ISO C++&quot; within the document
+		should strictly be qualified using the word &quot;draft&quot;, but
+		for convenience this has been left implicit.  The C++ producer has
+		a number of switches which allow it to be configured for older dialects
+		of C++.  In particular, the version of C++ described in the <link linkend="arm">ARM
+		(Annotated Reference Manual)</link> is fully supported.</para>
 
     <para>The <dt:doc name="reference/specification"/> (version 4.0) may be consulted
-    for a description of the compiler intermediate language used.  The
-    paper
-    <dt:doc name="papers/porting"/> provides a useful (if
-    slightly old) introduction to some of the ideas relating to static
-    program analysis and interface checking which underlie the whole TenDRA
-    compilation system.
-    </para>
+		for a description of the compiler intermediate language used.  The
+		paper <dt:doc name="papers/porting"/> provides a useful (if
+		slightly old) introduction to some of the ideas relating to static
+		program analysis and interface checking which underlie the whole TenDRA
+		compilation system.</para>
 
-    <para>
-    The warning sign:
+    <para>The warning sign:
 
-	<warning/>
+		<warning/>
 
-    is used within the document to indicate areas where the implementation
-    is currently incomplete or incorrect.
-    </para>
+		is used within the document to indicate areas where the implementation
+		is currently incomplete or incorrect.</para>
 
     <section id="update">
-      <title>Updated introduction</title>
+		<title>Updated introduction</title>
 
-      <para>Since this document was originally written, the old C producer,
-        <emphasis>tdfc</emphasis>, has been replaced by a new C producer, <emphasis>tdfc2</emphasis>,
-        which is just a modified version of the C++ producer, <emphasis>tcpplus</emphasis>.
-        All C producer documentation continues to apply to the new C producer,
-        but the new C producer also has many of the features described in this
-        document as only applying to the C++ producer.</para>
+		<para>Since this document was originally written, the old C producer,
+			<emphasis>tdfc</emphasis>, has been replaced by a new C producer, <emphasis>tdfc2</emphasis>,
+			which is just a modified version of the C++ producer, <emphasis>tcpplus</emphasis>.
+			All C producer documentation continues to apply to the new C producer,
+			but the new C producer also has many of the features described in this
+			document as only applying to the C++ producer.</para>
     </section>
 
-  <section id="interface">
-    <title>Interface descriptions</title>
-  <para>
-  The most important public interfaces of the C++ producer are the ISO
-  C++ standard and the TDF 4.0 specification; however there are other
-  interfaces, mostly common to both the C and C++ producers, which are
-  described in this section.
-  </para>
-  <para>
-  An important design criterion of the C++ producer was that it should
-  be strictly ISO conformant by default, but have a method whereby dialect
-  features and extra static program analysis can be enabled. This compiler
-  configuration is controlled by the
-  <A HREF="pragma.html"><code>#pragma TenDRA</code> directives</A>
-  described in the first section.
-  </para>
-  <para>
-  The requirement that the C and C++ producers should be able to translate
-  portable C or C++ programs into target independent TDF requires a
-  mechanism whereby the target dependent implementations of APIs can
-  be represented.  This mechanism, the <A HREF="token.html"><code>#pragma
-  token</code> syntax</A>, is described in the following section.  Note
-  that at present this mechanism only contains support for C APIs; it
-  is considered that the C++ language itself contains sufficient interface
-  mechanisms for C++ APIs to be described.
-  </para>
-  <para>
-  The C and C++ producers provide two mechanisms whereby type and declaration
-  information derived from a translation unit can be stored to a file
-  for post-processing by other tools.  The first is the
-  <A HREF="dump.html">symbol table dump</A>, which is a public interface
-  designed for use by third party tools.  The second is the
-  <A HREF="link.html">C/C++ spec file</A>, which is designed for ease
-  of reading and writing by the producers themselves, and is used for
-  intermodule analysis.
-  </para>
-  <para>
-  The mapping from C++ to TDF implemented by the C++ producer is largely
-  straightforward.  There are however target dependencies arising within
-  the language itself which require special handling.  These are represented
-  by certain <A HREF="lib.html">standard tokens</A> which the producer
-  requires to be defined on the target machine.  These tokens are also
-  used to describe the interface between the producer and the run-time
-  system.  Note that the C++ producer is primarily concerned with the
-  C++ language, not with the standard C++ library. An example implementation
-  of those library components which are required as an integral part
-  of the language (memory allocation, exception handling, run-time type
-  information etc.) is provided. Otherwise, libraries should be obtained
-  from third parties.  A number of hints on <A HREF="std.html">integrating
-  such libraries</A> with the C++ producer are given.
-  </para>
+	<section id="interface">
+		<title>Interface descriptions</title>
+
+		<para>The most important public interfaces of the C++ producer are the ISO
+			C++ standard and the TDF 4.0 specification; however there are other
+			interfaces, mostly common to both the C and C++ producers, which are
+			described in this section.</para>
+
+		<para>An important design criterion of the C++ producer was that it should
+			be strictly ISO conformant by default, but have a method whereby dialect
+			features and extra static program analysis can be enabled. This compiler
+			configuration is controlled by the
+			<A HREF="pragma.html"><code>#pragma TenDRA</code> directives</A>
+			described in the first section.</para>
+
+		<para>The requirement that the C and C++ producers should be able to translate
+			portable C or C++ programs into target independent TDF requires a
+			mechanism whereby the target dependent implementations of APIs can
+			be represented.  This mechanism, the <A HREF="token.html"><code>#pragma
+			token</code> syntax</A>, is described in the following section.  Note
+			that at present this mechanism only contains support for C APIs; it
+			is considered that the C++ language itself contains sufficient interface
+			mechanisms for C++ APIs to be described.</para>
+
+		<para>The C and C++ producers provide two mechanisms whereby type and declaration
+			information derived from a translation unit can be stored to a file
+			for post-processing by other tools.  The first is the
+			<A HREF="dump.html">symbol table dump</A>, which is a public interface
+			designed for use by third party tools.  The second is the
+			<A HREF="link.html">C/C++ spec file</A>, which is designed for ease
+			of reading and writing by the producers themselves, and is used for
+			intermodule analysis.</para>
+
+		<para>The mapping from C++ to TDF implemented by the C++ producer is largely
+			straightforward.  There are however target dependencies arising within
+			the language itself which require special handling.  These are represented
+			by certain <A HREF="lib.html">standard tokens</A> which the producer
+			requires to be defined on the target machine.  These tokens are also
+			used to describe the interface between the producer and the run-time
+			system.  Note that the C++ producer is primarily concerned with the
+			C++ language, not with the standard C++ library. An example implementation
+			of those library components which are required as an integral part
+			of the language (memory allocation, exception handling, run-time type
+			information etc.) is provided. Otherwise, libraries should be obtained
+			from third parties.  A number of hints on <A HREF="std.html">integrating
+			such libraries</A> with the C++ producer are given.</para>
 	</section>
 </preface>
 

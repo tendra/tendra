@@ -4,21 +4,24 @@
 
 <bibliography
 	xmlns:dt="http://xml.water-powered.com/docs">
+
 	<title>References</title>
 
 	<biblioentry>
 		<para><citetitle>Working paper for Draft Proposed
-      Internation Standard for Information Systems - Programming Language
-      C++</citetitle>, X3J16/96-0225, December 1996:
-      <ulink url="http://www.cygnus.com/misc/wp/dec96pub/"/> or
-      <ulink url="http://www.maths.warwick.ac.uk/c++/pub/wp/html/cd2/"/>.</para>
+			Internation Standard for Information Systems - Programming Language
+			C++</citetitle>, X3J16/96-0225, December 1996:
+			<ulink url="http://www.cygnus.com/misc/wp/dec96pub/"/> or
+			<ulink url="http://www.maths.warwick.ac.uk/c++/pub/wp/html/cd2/"/>.</para>
 	</biblioentry>
+
 	<biblioentry>
 		<para><citetitle>The Annotated C++ Reference Manual</citetitle>,
 			Margaret Ellis and Bjarne Stroustrup, ISBN 0-201-51459-1,
 			Addison-Wesley, 1990:
 			<ulink url="http://heg-school.aw.com/cseng/authors/ellis/annocpp/annocpp.html"/></para>
 	</biblioentry>
+
 	<biblioentry>
 		<para><dt:doc name="user/guides/tdfc"/>: attached.</para>
 	</biblioentry>

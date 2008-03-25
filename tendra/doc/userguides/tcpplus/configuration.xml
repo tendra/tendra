@@ -1,66 +1,62 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 
 <chapter>
-    <title>Compiler configuration</title>
-  <para>
-  This section describes how the C++ producer can be configured to apply
-  extra static checks or to support various dialects of C++.  In all
-  cases the default behaviour is precisely that specified in the ISO
-  C++ standard with no extra checks.
-  </para>
-  <para>
-  Certain very basic configuration information is specified using a
-  <link linkend="table">portability table</link>, however the primary method
-  of configuration is by means of <code>#pragma</code> directives.
-  These directives may be placed within the program itself, however
-  it is generally more convenient to group them into a
-  <A HREF="man.html#start-up">start-up file</A> in order to create a
-  <A id="usr">user-defined compilation profile</A>.  The
-  <code>#pragma</code> directives recognised by the C++ producer have
-  one of the equivalent forms:
-  <programlisting language="C++">
+	<title>Compiler configuration</title>
+
+	<para>This section describes how the C++ producer can be configured to apply
+		extra static checks or to support various dialects of C++.	In all
+		cases the default behaviour is precisely that specified in the ISO
+		C++ standard with no extra checks.</para>
+
+	<para>Certain very basic configuration information is specified using a
+		<link linkend="table">portability table</link>, however the primary method
+		of configuration is by means of <code>#pragma</code> directives.
+		These directives may be placed within the program itself, however
+		it is generally more convenient to group them into a
+		<A HREF="man.html#start-up">start-up file</A> in order to create a
+		<A id="usr">user-defined compilation profile</A>.	The
+		<code>#pragma</code> directives recognised by the C++ producer have
+		one of the equivalent forms:</para>
+
+	<programlisting language="C++">
 #pragma TenDRA ....
 #pragma TenDRA++ ....</programlisting>
-  Some of these are common to the C and C++ producers (although often
-  with differing default behaviour).  The C producer will ignore any
-  <code>TenDRA++</code> directives, so these may be used in compilation
-  profiles which are to be used by both producers.  In the descriptions
-  below, the presence of a <code>++</code> is used to indicate a directive
-  which is C++ specific; the other directives are common to both producers.
-  </para>
-  <para>
-  Within the description of the <code>#pragma</code> syntax, <emphasis>on</emphasis>
-  stands for <code>on</code>, <code>off</code> or <code>warning</code>,
-  <emphasis>allow</emphasis> stands for <code>allow</code>, <code>disallow</code>
-  or
-  <code>warning</code>, <emphasis>string-literal</emphasis> is any string literal,
-  <emphasis>integer-literal</emphasis> is any integer literal, <emphasis>identifier</emphasis> is
-  any simple, unqualified identifier name, and <emphasis>type-id</emphasis> is any
-  type identifier.  Other syntactic items are described in the text.
-  A
-  <A HREF="pragma1.html">complete grammar</A> for the <code>#pragma</code>
-  directives accepted by the C++ producer is given as an annex.
-  </para>
 
+	<para>Some of these are common to the C and C++ producers (although often
+		with differing default behaviour).	The C producer will ignore any
+		<code>TenDRA++</code> directives, so these may be used in compilation
+		profiles which are to be used by both producers.	In the descriptions
+		below, the presence of a <code>++</code> is used to indicate a directive
+		which is C++ specific; the other directives are common to both producers.</para>
 
-  <section id="table">
-    <title>Portability tables</title>
-  <para>
-  Certain very basic configuration information is read from a file called
-  a portability table, which may be specified to the producer using
-  a
-  <A HREF="man.html#table"><code>-n</code> option</A>.  This information
-  includes the minimum sizes of the basic integral types, the
-  <link linkend="char">sign of plain <code>char</code></link>, and whether signed
-  types can be assumed to be symmetric (for example, [-127,127]) or
-  maximum (for example, [-128,127]).
-  </para>
-  <para>
-  The default portability table values, which are built into the producer,
-  can be expressed in the form:
-  <programlisting>
+	<para>Within the description of the <code>#pragma</code> syntax, <emphasis>on</emphasis>
+		stands for <code>on</code>, <code>off</code> or <code>warning</code>,
+		<emphasis>allow</emphasis> stands for <code>allow</code>, <code>disallow</code> or
+		<code>warning</code>, <emphasis>string-literal</emphasis> is any string literal,
+		<emphasis>integer-literal</emphasis> is any integer literal, <emphasis>identifier</emphasis> is
+		any simple, unqualified identifier name, and <emphasis>type-id</emphasis> is any
+		type identifier.	Other syntactic items are described in the text.
+		A <A HREF="pragma1.html">complete grammar</A> for the <code>#pragma</code>
+		directives accepted by the C++ producer is given as an annex.</para>
+
+	<section id="table">
+		<title>Portability tables</title>
+
+		<para>Certain very basic configuration information is read from a file called
+			a portability table, which may be specified to the producer using
+			a <A HREF="man.html#table"><code>-n</code> option</A>.	This information
+			includes the minimum sizes of the basic integral types, the
+			<link linkend="char">sign of plain <code>char</code></link>, and whether signed
+			types can be assumed to be symmetric (for example, [-127,127]) or
+			maximum (for example, [-128,127]).</para>
+
+		<para>The default portability table values, which are built into the producer,
+			can be expressed in the form:</para>
+
+		<!-- TODO table -->
+		<programlisting>
 char_bits			8
 short_bits			16
 int_bits			16
@@ -71,416 +67,503 @@ ptr_int				none
 ptr_fn				no
 non_prototype_checks		yes
 multibyte			1</programlisting>
-  This illustrates the syntax for the portability table; note that all
-  ten entries are required, even though the last four are ignored.
-  </para>
-  </section>
 
-  <section id="low">
-    <title>Low level configuration</title>
-  <para>
-  The simplest level of configuration is to reset the severity level
-  of a particular error message using:
-  <programlisting language="C++">
+		<para>This illustrates the syntax for the portability table; note that all
+			ten entries are required, even though the last four are ignored.</para>
+	</section>
+
+	<section id="low">
+		<title>Low level configuration</title>
+
+		<para>The simplest level of configuration is to reset the severity level
+			of a particular error message using:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA++ error <emphasis>string-literal on</emphasis>
 #pragma TenDRA++ error <emphasis>string-literal allow</emphasis></programlisting>
-  The given <emphasis>string-literal</emphasis> should name an error from the
-  <A HREF="error.html">error catalogue</A>.  A severity of <code>on</code>
-  or <code>disallow</code> indicates that the associated diagnostic
-  message should be an error, which causes the compilation to fail.
-  A severity of
-  <code>warning</code> indicates that the associated diagnostic message
-  should be a warning, which is printed but allows the compilation to
-  continue.  A severity of <code>off</code> or <code>allow</code>
-  indicates that the associated error should be ignored.  Reducing the
-  severity of any error from its default value, other than via one of
-  the dialect directives described in this section, results in undefined
-  behaviour.
-  </para>
-  <para>
-  The next level of configuration is to reset the severity level of
-  a particular compiler option using:
-  <programlisting language="C++">
+
+		<para>The given <emphasis>string-literal</emphasis> should name an error from the
+			<A HREF="error.html">error catalogue</A>.	A severity of <code>on</code>
+			or <code>disallow</code> indicates that the associated diagnostic
+			message should be an error, which causes the compilation to fail.
+			A severity of
+			<code>warning</code> indicates that the associated diagnostic message
+			should be a warning, which is printed but allows the compilation to
+			continue.	A severity of <code>off</code> or <code>allow</code>
+			indicates that the associated error should be ignored.	Reducing the
+			severity of any error from its default value, other than via one of
+			the dialect directives described in this section, results in undefined
+			behaviour.</para>
+
+		<para>The next level of configuration is to reset the severity level of
+			a particular compiler option using:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA++ option <emphasis>string-literal on</emphasis>
 #pragma TenDRA++ option <emphasis>string-literal allow</emphasis></programlisting>
-  The given <emphasis>string-literal</emphasis> should name an option from the option
-  catalogue.  The simplest form of compiler option just sets the severity
-  level of one or more error messages.  Some of these options may require
-  additional processing to be applied.</para>
-  <para>
-  It is possible to link a particular error message to a particular
-  compiler option using:
-  <programlisting language="C++">
-#pragma TenDRA++ error <emphasis>string-literal</emphasis> as option <emphasis>string-literal</emphasis></programlisting>
-  </para>
-  <para>
-  Note that the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ use error <emphasis>string-literal</emphasis></programlisting>
-  can be used to raise a given error at any point in a translation unit
-  in a similar fashion to the <code>#error</code> directive.  The values
-  of any parameters for this error are unspecified.
-  </para>
-  <para>
-  The directives just described give the primitive operations on error
-  messages and compiler options.  Many of the remaining directives in
-  this section are merely higher level ways of expressing these primitives.
-  </para>
-  </section>
 
-  <section id="scope">
-    <title>Checking scopes</title>
-  <para>
-  Most compiler options are scoped.  A checking scope may be defined
-  by enclosing a list of declarations within:
-  <programlisting language="C++">
+		<para>The given <emphasis>string-literal</emphasis> should name an option from the option
+			catalogue.	The simplest form of compiler option just sets the severity
+			level of one or more error messages.	Some of these options may require
+			additional processing to be applied.</para>
+
+		<para>It is possible to link a particular error message to a particular
+			compiler option using:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ error <emphasis>string-literal</emphasis> as option <emphasis>string-literal</emphasis></programlisting>
+
+		<para>Note that the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ use error <emphasis>string-literal</emphasis></programlisting>
+
+		<para>can be used to raise a given error at any point in a translation unit
+			in a similar fashion to the <code>#error</code> directive.	The values
+			of any parameters for this error are unspecified.</para>
+
+		<para>The directives just described give the primitive operations on error
+			messages and compiler options.	Many of the remaining directives in
+			this section are merely higher level ways of expressing these primitives.</para>
+	</section>
+
+	<section id="scope">
+		<title>Checking scopes</title>
+
+		<para>Most compiler options are scoped.	A checking scope may be defined
+			by enclosing a list of declarations within:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA begin
 ....
 #pragma TenDRA end</programlisting>
-  If the final <code>end</code> directive is omitted then the scope
-  ends at the end of the translation unit.  Checking scopes may be nested
-  in the obvious way.  A checking scope inherits its initial set of
-  checks from its enclosing scope (this includes the implicit main checking
-  scope consisting of the entire input file).  Any checks switched on
-  or off within a scope apply only to the remainder of that scope and
-  any scope it contains.  A particular check can only be set once in
-  a given scope. The set of applied checks reverts to its previous state
-  at the end of the scope.</para>
-  <para>
-  A checking scope can be named using the directives:
-  <programlisting language="C++">
+
+		<para>If the final <code>end</code> directive is omitted then the scope
+			ends at the end of the translation unit.	Checking scopes may be nested
+			in the obvious way.	A checking scope inherits its initial set of
+			checks from its enclosing scope (this includes the implicit main checking
+			scope consisting of the entire input file).	Any checks switched on
+			or off within a scope apply only to the remainder of that scope and
+			any scope it contains.	A particular check can only be set once in
+			a given scope. The set of applied checks reverts to its previous state
+			at the end of the scope.</para>
+
+		<para>A checking scope can be named using the directives:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA begin name environment <emphasis>identifier</emphasis>
 ....
 #pragma TenDRA end</programlisting>
-  Checking scope names occupy a namespace distinct from any other namespace
-  within the translation unit.  A named scope defines a set of modifications
-  to the current checking scope.  These modifications may be reapplied
-  within a different scope using:
-  <programlisting language="C++">
-#pragma TenDRA use environment <emphasis>identifier</emphasis></programlisting>
-  The default behaviour is not to allow checks set in the named checking
-  scope to be reset in the current scope.  This can however be modified
-  using:
-  <programlisting language="C++">
-#pragma TenDRA use environment <emphasis>identifier</emphasis> reset <emphasis>allow</emphasis></programlisting>
-  </para>
-  <para>
-  Another use of a named checking scope is to associate a checking scope
-  with a named include file directory.  This is done using:
-  <programlisting language="C++">
-#pragma TenDRA directory <emphasis>identifier</emphasis> use environment <emphasis>identifier</emphasis></programlisting>
-  where the directory name is one introduced via a
-  <A HREF="man.html#directory"><code>-N</code> command-line option</A>.
-  The effect of this directive, if a <code>#include</code> directive
-  is found to resolve to a file from the given directory, is as if the
-  file was enclosed in directives of the form:
-  <programlisting language="C++">
+
+		<para>Checking scope names occupy a namespace distinct from any other namespace
+			within the translation unit.	A named scope defines a set of modifications
+			to the current checking scope.	These modifications may be reapplied
+			within a different scope using:</para>
+
+		<programlisting language="C++">#pragma TenDRA use environment <emphasis>identifier</emphasis></programlisting>
+
+		<para>The default behaviour is not to allow checks set in the named checking
+			scope to be reset in the current scope.	This can however be modified
+			using:</para>
+
+		<programlisting language="C++">#pragma TenDRA use environment <emphasis>identifier</emphasis> reset <emphasis>allow</emphasis></programlisting>
+
+		<para>Another use of a named checking scope is to associate a checking scope
+			with a named include file directory.	This is done using:</para>
+
+		<programlisting language="C++">#pragma TenDRA directory <emphasis>identifier</emphasis> use environment <emphasis>identifier</emphasis></programlisting>
+
+		<para>where the directory name is one introduced via a
+			<A HREF="man.html#directory"><code>-N</code> command-line option</A>.
+			The effect of this directive, if a <code>#include</code> directive
+			is found to resolve to a file from the given directory, is as if the
+			file was enclosed in directives of the form:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA begin
 #pragma TenDRA use environment <emphasis>identifier</emphasis> reset allow
 ....
 #pragma TenDRA end</programlisting>
-  </para>
-  <para>
-  The checks applied to the expansion of a macro definition are those
-  from the scope in which the macro was defined, not that in which it
-  was expanded. The macro arguments are checked in the scope in which
-  they are specified, that is to say, the scope in which the macro is
-  expanded.  This enables macro definitions to remain localised with
-  respect to checking scopes.
-  </para>
-  </section>
 
-  <section id="limits">
-    <title>Implementation limits</title>
-  <para>
-  This table gives the default implementation limits imposed by the
-  C++ producer for the various implementation quantities listed in Annex
-  B of the ISO C++ standard, together with the minimum limits allowed
-  in ISO C and C++.  A default limit of <emphasis>none</emphasis> means that the quantity
-  is limited only by the size of the host machine (either <code>ULONG_MAX</code>
-  or until it runs out of memory).  A limit of <emphasis>target</emphasis> means that
-  while no limits is imposed by the C++ front-end, particular target
-  machines may impose such limits.
-  </para>
+		<para>The checks applied to the expansion of a macro definition are those
+			from the scope in which the macro was defined, not that in which it
+			was expanded. The macro arguments are checked in the scope in which
+			they are specified, that is to say, the scope in which the macro is
+			expanded.	This enables macro definitions to remain localised with
+			respect to checking scopes.</para>
+	</section>
 
-  <table>
-  <tr><th>Quantity identifier</th>
-  <th>Min C limit</th>  <th>Min C++ limit</th>
-  <th>Default limit</th>
-  </tr>
-  <tr><td>statement_depth</td>
-  <td>15</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>hash_if_depth</td>
-  <td>8</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>declarator_max</td>
-  <td>12</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>paren_depth</td>
-  <td>32</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>name_limit</td>
-  <td>31</td>  <td>1024</td>
-  <td>none</td>
-  </tr>
-  <tr><td>extern_name_limit</td>
-  <td>6</td>  <td>1024</td>
-  <td>target</td>
-  </tr>
-  <tr><td>external_ids</td>
-  <td>511</td>  <td>65536</td>
-  <td>target</td>
-  </tr>
-  <tr><td>block_ids</td>
-  <td>127</td>  <td>1024</td>
-  <td>none</td>
-  </tr>
-  <tr><td>macro_ids</td>
-  <td>1024</td>  <td>65536</td>
-  <td>none</td>
-  </tr>
-  <tr><td>func_pars</td>
-  <td>31</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>func_args</td>
-  <td>31</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>macro_pars</td>
-  <td>31</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>macro_args</td>
-  <td>31</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>line_length</td>
-  <td>509</td>  <td>65536</td>
-  <td>none</td>
-  </tr>
-  <tr><td>string_length</td>
-  <td>509</td>  <td>65536</td>
-  <td>none</td>
-  </tr>
-  <tr><td>sizeof_object</td>
-  <td>32767</td>  <td>262144</td>
-  <td>target</td>
-  </tr>
-  <tr><td>include_depth</td>
-  <td>8</td>  <td>256</td>
-  <td>256</td>
-  </tr>
-  <tr><td>switch_cases</td>
-  <td>257</td>  <td>16384</td>
-  <td>none</td>
-  </tr>
-  <tr><td>data_members</td>
-  <td>127</td>  <td>16384</td>
-  <td>none</td>
-  </tr>
-  <tr><td>enum_consts</td>
-  <td>127</td>  <td>4096</td>
-  <td>none</td>
-  </tr>
-  <tr><td>nested_class</td>
-  <td>15</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>atexit_funcs</td>
-  <td>32</td>  <td>32</td>
-  <td>target</td>
-  </tr>
-  <tr><td>base_classes</td>
-  <td>N/A</td>  <td>16384</td>
-  <td>none</td>
-  </tr>
-  <tr><td>direct_bases</td>
-  <td>N/A</td>  <td>1024</td>
-  <td>none</td>
-  </tr>
-  <tr><td>class_members</td>
-  <td>N/A</td>  <td>4096</td>
-  <td>none</td>
-  </tr>
-  <tr><td>virtual_funcs</td>
-  <td>N/A</td>  <td>16384</td>
-  <td>none</td>
-  </tr>
-  <tr><td>virtual_bases</td>
-  <td>N/A</td>  <td>1024</td>
-  <td>none</td>
-  </tr>
-  <tr><td>static_members</td>
-  <td>N/A</td>  <td>1024</td>
-  <td>none</td>
-  </tr>
-  <tr><td>friends</td>
-  <td>N/A</td>  <td>4096</td>
-  <td>none</td>
-  </tr>
-  <tr><td>access_declarations</td>
-  <td>N/A</td>  <td>4096</td>
-  <td>none</td>
-  </tr>
-  <tr><td>ctor_initializers</td>
-  <td>N/A</td>  <td>6144</td>
-  <td>none</td>
-  </tr>
-  <tr><td>scope_qualifiers</td>
-  <td>N/A</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>external_specs</td>
-  <td>N/A</td>  <td>1024</td>
-  <td>none</td>
-  </tr>
-  <tr><td>template_pars</td>
-  <td>N/A</td>  <td>1024</td>
-  <td>none</td>
-  </tr>
-  <tr><td>instance_depth</td>
-  <td>N/A</td>  <td>17</td>
-  <td>17</td>
-  </tr>
-  <tr><td>exception_handlers</td>
-  <td>N/A</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  <tr><td>exception_specs</td>
-  <td>N/A</td>  <td>256</td>
-  <td>none</td>
-  </tr>
-  </table>
+	<section id="limits">
+		<title>Implementation limits</title>
 
-  <para>
-  It is possible to impose lower limits on most of the quantities listed
-  above by means of the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ option value <emphasis>string-literal integer-literal</emphasis></programlisting>
-  where <emphasis>string-literal</emphasis> gives one of the quantity identifiers
-  listed above and <emphasis>integer-literal</emphasis> gives the limit to be imposed.
-  An error is reported if the quantity exceeds this limit (note however
-  that checks have not yet been implemented for all of the quantities
-  listed).  Note that the <link linkend="identifier"><code>name_limit</code></link>
-  and
-  <link linkend="include"><code>include_depth</code></link> implementation limits
-  can be set using dedicated directives.
-  </para>
-  <para>
-  The maximum number of errors allowed before the producer bails out
-  can be set using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ set error limit <emphasis>integer-literal</emphasis></programlisting>
-  The default value is 32.
-  </para>
-  </section>
+		<para>This table gives the default implementation limits imposed by the
+			C++ producer for the various implementation quantities listed in Annex
+			B of the ISO C++ standard, together with the minimum limits allowed
+			in ISO C and C++.	A default limit of <emphasis>none</emphasis> means that the quantity
+			is limited only by the size of the host machine (either <code>ULONG_MAX</code>
+			or until it runs out of memory).	A limit of <emphasis>target</emphasis> means that
+			while no limits is imposed by the C++ front-end, particular target
+			machines may impose such limits.</para>
 
-  <section id="lex">
-    <title>Lexical analysis</title>
-  <para>
-  During lexical analysis, a source file which is not empty should end
-  in a newline character.  It is possible to relax this constraint using
-  the directive:
-  <programlisting language="C++">
-#pragma TenDRA no nline after file end <emphasis>allow</emphasis></programlisting>
-  </para>
-  </section>
+		<table>
+			<tr>
+				<th>Quantity identifier</th>
+				<th>Min C limit</th>
+				<th>Min C++ limit</th>
+				<th>Default limit</th>
+			</tr>
+			<tr>
+				<td>statement_depth</td>
+				<td>15</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>hash_if_depth</td>
+				<td>8</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>declarator_max</td>
+				<td>12</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>paren_depth</td>
+				<td>32</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>name_limit</td>
+				<td>31</td>
+				<td>1024</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>extern_name_limit</td>
+				<td>6</td>
+				<td>1024</td>
+				<td>target</td>
+			</tr>
+			<tr>
+				<td>external_ids</td>
+				<td>511</td>
+				<td>65536</td>
+				<td>target</td>
+			</tr>
+			<tr>
+				<td>block_ids</td>
+				<td>127</td>
+				<td>1024</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>macro_ids</td>
+				<td>1024</td>
+				<td>65536</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>func_pars</td>
+				<td>31</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>func_args</td>
+				<td>31</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>macro_pars</td>
+				<td>31</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>macro_args</td>
+				<td>31</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>line_length</td>
+				<td>509</td>
+				<td>65536</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>string_length</td>
+				<td>509</td>
+				<td>65536</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>sizeof_object</td>
+				<td>32767</td>
+				<td>262144</td>
+				<td>target</td>
+			</tr>
+			<tr>
+				<td>include_depth</td>
+				<td>8</td>
+				<td>256</td>
+				<td>256</td>
+			</tr>
+			<tr>
+				<td>switch_cases</td>
+				<td>257</td>
+				<td>16384</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>data_members</td>
+				<td>127</td>
+				<td>16384</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>enum_consts</td>
+				<td>127</td>
+				<td>4096</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>nested_class</td>
+				<td>15</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>atexit_funcs</td>
+				<td>32</td>
+				<td>32</td>
+				<td>target</td>
+			</tr>
+			<tr>
+				<td>base_classes</td>
+				<td>N/A</td>
+				<td>16384</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>direct_bases</td>
+				<td>N/A</td>
+				<td>1024</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>class_members</td>
+				<td>N/A</td>
+				<td>4096</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>virtual_funcs</td>
+				<td>N/A</td>
+				<td>16384</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>virtual_bases</td>
+				<td>N/A</td>
+				<td>1024</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>static_members</td>
+				<td>N/A</td>
+				<td>1024</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>friends</td>
+				<td>N/A</td>
+				<td>4096</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>access_declarations</td>
+				<td>N/A</td>
+				<td>4096</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>ctor_initializers</td>
+				<td>N/A</td>
+				<td>6144</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>scope_qualifiers</td>
+				<td>N/A</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>external_specs</td>
+				<td>N/A</td>
+				<td>1024</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>template_pars</td>
+				<td>N/A</td>
+				<td>1024</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>instance_depth</td>
+				<td>N/A</td>
+				<td>17</td>
+				<td>17</td>
+			</tr>
+			<tr>
+				<td>exception_handlers</td>
+				<td>N/A</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+			<tr>
+				<td>exception_specs</td>
+				<td>N/A</td>
+				<td>256</td>
+				<td>none</td>
+			</tr>
+		</table>
 
-  <section id="keyword">
-    <title>Keywords</title>
-  <para>
-  In several places in this section it is described how to introduce
-  keywords for TenDRA language extensions.  By default, no such extra
-  keywords are defined.  There are also low-level directives for defining
-  and undefining keywords.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for keyword <emphasis>identifier</emphasis></programlisting>
-  can be used to introduce a keyword (the first identifier) standing
-  for the standard C++ keyword given by the second identifier.  The
-  directive:
-  <programlisting language="C++">
-#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for operator <emphasis>operator</emphasis></programlisting>
-  can similarly be used to introduce a keyword giving an alternative
-  representation for the given operator or punctuator, as, for example,
-  in:
-  <programlisting language="C++">
-#pragma TenDRA++ keyword and for operator &amp;&amp;</programlisting>
-  Finally the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ undef keyword <emphasis>identifier</emphasis></programlisting>
-  can be used to undefine a keyword.
-  </para>
-  </section>
+		<para>It is possible to impose lower limits on most of the quantities listed
+			above by means of the directive:</para>
 
-  <section id="comment">
-    <title>Comments</title>
-  <para>
-  C-style comments do not nest.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA nested comment analysis <emphasis>on</emphasis></programlisting>
-  enables a check for the characters <code>/*</code> within C-style
-  comments.
-  </para>
-  </section>
+			<programlisting language="C++">#pragma TenDRA++ option value <emphasis>string-literal integer-literal</emphasis></programlisting>
 
-  <section id="lex-identifier-names">
-    <title>Identifier names</title>
-  <para>
-  During lexical analysis, each character in the source file has an
-  associated look-up value which is used to determine whether the character
-  can be used in an identifier name, is a white space character etc.
-  These values are stored in a simple look-up table.  It is possible
-  to set the look-up value using:
-  <programlisting language="C++">
-#pragma TenDRA++ character <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow</programlisting>
-  which sets the look-up for the first character to be the default look-up
-  for the second character.  The form:
-  <programlisting language="C++">
-#pragma TenDRA++ character <emphasis>character-literal</emphasis> disallow</programlisting>
-  sets the look-up of the character to be that of an invalid character.
-  The forms:
-  <programlisting language="C++">
+		<para>where <emphasis>string-literal</emphasis> gives one of the quantity identifiers
+			listed above and <emphasis>integer-literal</emphasis> gives the limit to be imposed.
+			An error is reported if the quantity exceeds this limit (note however
+			that checks have not yet been implemented for all of the quantities
+			listed).	Note that the <link linkend="identifier"><code>name_limit</code></link>
+			and <link linkend="include"><code>include_depth</code></link> implementation limits
+			can be set using dedicated directives.</para>
+
+		<para>The maximum number of errors allowed before the producer bails out
+			can be set using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ set error limit <emphasis>integer-literal</emphasis></programlisting>
+
+		<para>The default value is 32.</para>
+	</section>
+
+	<section id="lex">
+		<title>Lexical analysis</title>
+
+		<para>During lexical analysis, a source file which is not empty should end
+			in a newline character.	It is possible to relax this constraint using
+			the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA no nline after file end <emphasis>allow</emphasis></programlisting>
+	</section>
+
+	<section id="keyword">
+		<title>Keywords</title>
+
+		<para>In several places in this section it is described how to introduce
+			keywords for TenDRA language extensions.	By default, no such extra
+			keywords are defined.	There are also low-level directives for defining
+			and undefining keywords.	The directive:</para>
+
+			<programlisting language="C++">#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for keyword <emphasis>identifier</emphasis></programlisting>
+
+		<para>can be used to introduce a keyword (the first identifier) standing
+			for the standard C++ keyword given by the second identifier.	The
+			directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for operator <emphasis>operator</emphasis></programlisting>
+
+		<para>can similarly be used to introduce a keyword giving an alternative
+			representation for the given operator or punctuator, as, for example,
+			in:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ keyword and for operator &amp;&amp;</programlisting>
+
+		<para>Finally the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ undef keyword <emphasis>identifier</emphasis></programlisting>
+
+		<para>can be used to undefine a keyword.</para>
+	</section>
+
+	<section id="comment">
+		<title>Comments</title>
+
+		<para>C-style comments do not nest.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA nested comment analysis <emphasis>on</emphasis></programlisting>
+
+		<para>enables a check for the characters <code>/*</code> within C-style
+			comments.</para>
+	</section>
+
+	<section id="lex-identifier-names">
+		<title>Identifier names</title>
+
+		<para>During lexical analysis, each character in the source file has an
+			associated look-up value which is used to determine whether the character
+			can be used in an identifier name, is a white space character etc.
+			These values are stored in a simple look-up table.	It is possible
+			to set the look-up value using:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ character <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow</programlisting>
+
+		<para>which sets the look-up for the first character to be the default look-up
+			for the second character.	The form:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ character <emphasis>character-literal</emphasis> disallow</programlisting>
+
+		<para>sets the look-up of the character to be that of an invalid character.
+			The forms:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA++ character <emphasis>string-literal</emphasis> as <emphasis>character-literal</emphasis> allow
 #pragma TenDRA++ character <emphasis>string-literal</emphasis> disallow</programlisting>
-  can be used to modify the look-up values for the set of characters
-  given by the string literal.  For example:
-  <programlisting language="C++">
+
+		<para>can be used to modify the look-up values for the set of characters
+			given by the string literal.	For example:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA character '$' as 'a' allow
 #pragma TenDRA character '\r' as ' ' allow</programlisting>
-  allows <code>$</code> to be used in identifier names (like <code>a</code>)
-  and carriage return to be a white space character.  The former is
-  a common dialect feature and can also be controlled by the directive:
-  <programlisting language="C++">
-#pragma TenDRA dollar as ident <emphasis>allow</emphasis></programlisting>
-  </para>
-  <para>
-  The maximum number of characters allowed in an identifier name can
-  be set using the directives:
-  <programlisting language="C++">
+
+		<para>allows <code>$</code> to be used in identifier names (like <code>a</code>)
+			and carriage return to be a white space character.	The former is
+			a common dialect feature and can also be controlled by the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA dollar as ident <emphasis>allow</emphasis></programlisting>
+
+		<para>The maximum number of characters allowed in an identifier name can
+			be set using the directives:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA set name limit <emphasis>integer-literal</emphasis>
 #pragma TenDRA++ set name limit <emphasis>integer-literal</emphasis> warning</programlisting>
-  This length is given by the <code>name_limit</code> implementation
-  quantity
-  <link linkend="limits">mentioned above</link>.  Identifiers which exceed this
-  length raise an error or a warning, but are not truncated.
-  </para>
-  </section>
 
-  <section id="int">
-    <title>Integer literals</title>
-  <para>
-  The rules for finding the type of an integer literal can be described
-  using directives of the form:
-  <programlisting language="C++">
-#pragma TenDRA integer literal <emphasis>literal-spec</emphasis></programlisting>
-  where:
-  <programlisting language="BNF">
+		<para>This length is given by the <code>name_limit</code> implementation
+			quantity <link linkend="limits">mentioned above</link>.	Identifiers which exceed this
+			length raise an error or a warning, but are not truncated.</para>
+	</section>
+
+	<section id="int">
+		<title>Integer literals</title>
+
+		<para>The rules for finding the type of an integer literal can be described
+			using directives of the form:</para>
+
+		<programlisting language="C++">#pragma TenDRA integer literal <emphasis>literal-spec</emphasis></programlisting>
+
+		<para>where:</para>
+
+		<programlisting language="BNF">
 <emphasis>literal-spec</emphasis> :
 	<emphasis>literal-base literal-suffix<subscript>opt</subscript> literal-type-list</emphasis>
 
@@ -505,1480 +588,1534 @@ multibyte			1</programlisting>
 	: <emphasis>type-id</emphasis>
 	* <emphasis>allow<subscript>opt</subscript></emphasis> : <emphasis>identifier</emphasis>
 	* * <emphasis>allow<subscript>opt</subscript></emphasis> :</programlisting>
-  Each directive gives a literal base and suffix, describing the form
-  of an integer literal, and a list of possible types for literals of
-  this form. This list gives a mapping from the value of the literal
-  to the type to be used to represent the literal.  There are three
-  cases for the literal type; it may be a given integral type, it may
-  be calculated using a given <A HREF="lib.html#literal">literal type
-  token</A>, or it may cause an error to be raised.  There are also
-  three cases for describing a literal range; it may be given by values
-  less than or equal to a given integer literal, it may be given by
-  values which are guaranteed to fit into a given integral type, or
-  it may be match any value.  For example:
-  <programlisting language="C++">
+
+		<para>Each directive gives a literal base and suffix, describing the form
+			of an integer literal, and a list of possible types for literals of
+			this form. This list gives a mapping from the value of the literal
+			to the type to be used to represent the literal.	There are three
+			cases for the literal type; it may be a given integral type, it may
+			be calculated using a given <A HREF="lib.html#literal">literal type
+			token</A>, or it may cause an error to be raised.	There are also
+			three cases for describing a literal range; it may be given by values
+			less than or equal to a given integer literal, it may be given by
+			values which are guaranteed to fit into a given integral type, or
+			it may be match any value.	For example:</para>
+
+		<programlisting language="C++">
 #pragma token PROC ( VARIETY c ) VARIETY l_i # ~lit_int
 #pragma TenDRA integer literal decimal 32767 : int | ** : l_i</programlisting>
-  describes how to find the type of a decimal literal with no suffix.
-  Values less that or equal to 32767 have type <code>int</code>; larger
-  values have target dependent type calculated using the token
-  <code>~lit_int</code>.  Introducing a <code>warning</code> into the
-  directive will cause a warning to be printed if the token is used
-  to calculate the value.
-  </para>
-  <para>
-  Note that this scheme extends that implemented by the C producer,
-  because of the need for more accurate information in the C++ producer.
-  For example, the specification above does not fully express the ISO
-  rule that the type of a decimal integer is the first of the types
-  <code>int</code>, <code>long</code> and <code>unsigned long</code>
-  which it fits into (it only expresses the first step).  However with
-  the C++ extensions it is possible to write:
-  <programlisting language="C++">
+
+		<para>describes how to find the type of a decimal literal with no suffix.
+			Values less that or equal to 32767 have type <code>int</code>; larger
+			values have target dependent type calculated using the token
+			<code>~lit_int</code>.	Introducing a <code>warning</code> into the
+			directive will cause a warning to be printed if the token is used
+			to calculate the value.</para>
+
+		<para>Note that this scheme extends that implemented by the C producer,
+			because of the need for more accurate information in the C++ producer.
+			For example, the specification above does not fully express the ISO
+			rule that the type of a decimal integer is the first of the types
+			<code>int</code>, <code>long</code> and <code>unsigned long</code>
+			which it fits into (it only expresses the first step).	However with
+			the C++ extensions it is possible to write:</para>
+
+		<programlisting language="C++">
 #pragma token PROC ( VARIETY c ) VARIETY l_i # ~lit_int
 #pragma TenDRA integer literal decimal ? : int | ? : long |\
-    ? : unsigned long | ** : l_i</programlisting>
-  </para>
-  </section>
+		? : unsigned long | ** : l_i</programlisting>
+	</section>
 
-  <section id="char">
-    <title>Character literals and built-in types</title>
-  <para>
-  By default, a simple character literal has type <code>int</code> in
-  C and type <code>char</code> in C++.  The type of such literals can
-  be controlled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ set character literal : <emphasis>type-id</emphasis></programlisting>
-  The type of a wide character literal is given by the implementation
-  defined type <code>wchar_t</code>.  By default, the definition of
-  this type is taken from the target machine's <code>&lt;stddef.h&gt;</code>
-  C header (note that in ISO C++, <code>wchar_t</code> is actually a
-  keyword, but its underlying representation must be the same as in
-  C). This definition can be overridden in the producer by means of
-  the directive:
-  <programlisting languae="C++">
-#pragma TenDRA set wchar_t : <emphasis>type-id</emphasis></programlisting>
-  for an integral type <emphasis>type-id</emphasis>.  Similarly, the definitions of
-  the other implementation dependent integral types which arise naturally
-  within the language - the type of the difference of two pointers,
-  <code>ptrdiff_t</code>, and the type of the <code>sizeof</code>
-  operator, <code>size_t</code> - given in the <code>&lt;stddef.h&gt;</code>
-  header can be overridden using the directives:
-  <programlisting language="C++">
+	<section id="char">
+		<title>Character literals and built-in types</title>
+
+		<para>By default, a simple character literal has type <code>int</code> in
+			C and type <code>char</code> in C++.	The type of such literals can
+			be controlled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ set character literal : <emphasis>type-id</emphasis></programlisting>
+
+		<para>The type of a wide character literal is given by the implementation
+			defined type <code>wchar_t</code>.	By default, the definition of
+			this type is taken from the target machine's <code>&lt;stddef.h&gt;</code>
+			C header (note that in ISO C++, <code>wchar_t</code> is actually a
+			keyword, but its underlying representation must be the same as in
+			C). This definition can be overridden in the producer by means of
+			the directive:</para>
+
+		<programlisting languae="C++">#pragma TenDRA set wchar_t : <emphasis>type-id</emphasis></programlisting>
+
+		<para>for an integral type <emphasis>type-id</emphasis>.	Similarly, the definitions of
+			the other implementation dependent integral types which arise naturally
+			within the language - the type of the difference of two pointers,
+			<code>ptrdiff_t</code>, and the type of the <code>sizeof</code>
+			operator, <code>size_t</code> - given in the <code>&lt;stddef.h&gt;</code>
+			header can be overridden using the directives:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA set ptrdiff_t : <emphasis>type-id</emphasis>
 #pragma TenDRA set size_t : <emphasis>type-id</emphasis></programlisting>
-  These directives are useful when targeting a specific machine on which
-  the definitions of these types are known; while they may not affect
-  the code generated they can cut down on spurious conversion warnings.
-  Note that although these types are built into the producer they are
-  not visible to the user unless an appropriate header is included (with
-  the exception of the keyword <code>wchar_t</code> in ISO C++), however
-  the directives:
-  <programlisting language="C++">
-#pragma TenDRA++ type <emphasis>identifier</emphasis> for <emphasis>type-name</emphasis></programlisting>
-  can be used to make these types visible.  They are equivalent to a
-  <code>typedef</code> declaration of <emphasis>identifier</emphasis> as the given
-  built-in type, <code>ptrdiff_t</code>, <code>size_t</code> or
-  <code>wchar_t</code>.
-  </para>
-  <para>
-  Whether plain <code>char</code> is signed or unsigned is implementation
-  dependent.  By default the implementation is determined by the definition
-  of the <A HREF="lib.html#arith"><code>~char</code> token</A>, however
-  this can be overridden in the producer either by means of the
-  <link linkend="table">portability table</link> or by the directive:
-  <programlisting language="C++">
-#pragma TenDRA character <emphasis>character-sign</emphasis></programlisting>
-  where <emphasis>character-sign</emphasis> can be <code>signed</code>,
-  <code>unsigned</code> or <code>either</code> (the default).  Again
-  this directive is useful primarily when targeting a specific machine
-  on which the signedness of <code>char</code> is known.
-  </para>
-  </section>
 
-  <section id="string">
-    <title>String literals</title>
-  <para>
-  By default, character string literals have type <code>char [n]</code>
-  in C and older dialects of C++, but type <code>const char [n]</code>
-  in ISO C++.  Similarly wide string literals have type <code>wchar_t
-  [n]</code>
-  or <code>const wchar_t [n]</code>.  Whether string literals are
-  <code>const</code> or not can be controlled using the two directives:
-  <programlisting language="C++">
+		<para>These directives are useful when targeting a specific machine on which
+			the definitions of these types are known; while they may not affect
+			the code generated they can cut down on spurious conversion warnings.
+			Note that although these types are built into the producer they are
+			not visible to the user unless an appropriate header is included (with
+			the exception of the keyword <code>wchar_t</code> in ISO C++), however
+			the directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ type <emphasis>identifier</emphasis> for <emphasis>type-name</emphasis></programlisting>
+
+		<para>can be used to make these types visible.	They are equivalent to a
+			<code>typedef</code> declaration of <emphasis>identifier</emphasis> as the given
+			built-in type, <code>ptrdiff_t</code>, <code>size_t</code> or
+			<code>wchar_t</code>.</para>
+
+		<para>Whether plain <code>char</code> is signed or unsigned is implementation
+			dependent.	By default the implementation is determined by the definition
+			of the <A HREF="lib.html#arith"><code>~char</code> token</A>, however
+			this can be overridden in the producer either by means of the
+			<link linkend="table">portability table</link> or by the directive:</para>
+
+			<programlisting language="C++">#pragma TenDRA character <emphasis>character-sign</emphasis></programlisting>
+
+		<para>where <emphasis>character-sign</emphasis> can be <code>signed</code>,
+			<code>unsigned</code> or <code>either</code> (the default).	Again
+			this directive is useful primarily when targeting a specific machine
+			on which the signedness of <code>char</code> is known.</para>
+	</section>
+
+	<section id="string">
+		<title>String literals</title>
+
+		<para>By default, character string literals have type <code>char [n]</code>
+			in C and older dialects of C++, but type <code>const char [n]</code>
+			in ISO C++.	Similarly wide string literals have type <code>wchar_t
+			[n]</code> or <code>const wchar_t [n]</code>.	Whether string literals are
+			<code>const</code> or not can be controlled using the two directives:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA++ set string literal : const
 #pragma TenDRA++ set string literal : no const</programlisting>
-  In the case where literals are <code>const</code>, the array-to-pointer
-  conversion is allowed to cast away the <code>const</code> to allow
-  for a degree of backwards compatibility.  The status of this deprecated
-  conversion can be controlled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA writeable string literal <emphasis>allow</emphasis></programlisting>
-  (yes, I know that that should be <code>writable</code>).  Note that
-  this directive has a slightly different meaning in the C producer.
-  </para>
-  <para>
-  Adjacent string literals tokens of similar types (either both character
-  string literals or both wide string literals) are concatenated at
-  an early stage in parser, however it is unspecified what happens if
-  a character string literal token is adjacent to a wide string literal
-  token.  By default this gives an error, but the directive:
-  <programlisting language="C++">
-#pragma TenDRA unify incompatible string literal <emphasis>allow</emphasis></programlisting>
-  can be used to enable the strings to be concatenated to give a wide
-  string literal.
-  </para>
-  <para>
-  If a <code>'</code> or <code>&quot;</code> character does not have
-  a matching closing quote on the same line then it is undefined whether
-  an implementation should report an unterminated string or treat the
-  quote as a single unknown character.  By default, the C++ producer
-  treats this as an unterminated string, but this behaviour can be controlled
-  using the directive:
-  <programlisting language="C++">
-#pragma TenDRA unmatched quote <emphasis>allow</emphasis></programlisting>
-  </para>
-  </section>
 
-  <section id="escape">
-    <title>Escape sequences</title>
-  <para>
-  By default, if the character following the <code>\</code> in an escape
-  sequence is not one of those listed in the ISO C or C++ standards
-  then an error is given.  This behaviour, which is left unspecified
-  by the standards, can be controlled by the directive:
-  <programlisting language="C++">
-#pragma TenDRA unknown escape <emphasis>allow</emphasis></programlisting>
-  The result is that the <code>\</code> in unknown escape sequences
-  is ignored, so that <code>\z</code> is interpreted as <code>z</code>,
-  for example.  Individual escape sequences can be enabled or disabled
-  using the directives:
-  <programlisting language="C++">
+		<para>In the case where literals are <code>const</code>, the array-to-pointer
+			conversion is allowed to cast away the <code>const</code> to allow
+			for a degree of backwards compatibility.	The status of this deprecated
+			conversion can be controlled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA writeable string literal <emphasis>allow</emphasis></programlisting>
+
+		<para>(yes, I know that that should be <code>writable</code>).	Note that
+			this directive has a slightly different meaning in the C producer.</para>
+
+		<para>Adjacent string literals tokens of similar types (either both character
+			string literals or both wide string literals) are concatenated at
+			an early stage in parser, however it is unspecified what happens if
+			a character string literal token is adjacent to a wide string literal
+			token.	By default this gives an error, but the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA unify incompatible string literal <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to enable the strings to be concatenated to give a wide
+			string literal.</para>
+
+		<para>If a <code>'</code> or <code>&quot;</code> character does not have
+			a matching closing quote on the same line then it is undefined whether
+			an implementation should report an unterminated string or treat the
+			quote as a single unknown character.	By default, the C++ producer
+			treats this as an unterminated string, but this behaviour can be controlled
+			using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA unmatched quote <emphasis>allow</emphasis></programlisting>
+	</section>
+
+	<section id="escape">
+		<title>Escape sequences</title>
+
+		<para>By default, if the character following the <code>\</code> in an escape
+			sequence is not one of those listed in the ISO C or C++ standards
+			then an error is given.	This behaviour, which is left unspecified
+			by the standards, can be controlled by the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA unknown escape <emphasis>allow</emphasis></programlisting>
+
+		<para>The result is that the <code>\</code> in unknown escape sequences
+			is ignored, so that <code>\z</code> is interpreted as <code>z</code>,
+			for example.	Individual escape sequences can be enabled or disabled
+			using the directives:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA++ escape <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow
 #pragma TenDRA++ escape <emphasis>character-literal</emphasis> disallow</programlisting>
-  so that, for example:
-  <programlisting language="C++">
+
+		<para>so that, for example:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA++ escape 'e' as '\033' allow
 #pragma TenDRA++ escape 'a' disallow</programlisting>
-  sets <code>\e</code> to be the ASCII escape character and disables
-  the alert character <code>\a</code>.
-  </para>
-  <para>
-  By default, if the value of a character, given for example by a
-  <code>\x</code> escape sequence, does not fit into its type then an
-  error is given.  This implementation dependent behaviour can however
-  be controlled by the directive:
-  <programlisting language="C++">
-#pragma TenDRA character escape overflow <emphasis>allow</emphasis></programlisting>
-  the value being converted to its type in the normal way.
-  </para>
-  </section>
 
-  <section id="ppdir">
-    <title>Preprocessing directives</title>
-  <para>
-  Non-standard preprocessing directives can be controlled using the
-  directives:
-  <programlisting language="C++">
+		<para>sets <code>\e</code> to be the ASCII escape character and disables
+			the alert character <code>\a</code>.</para>
+
+		<para>By default, if the value of a character, given for example by a
+			<code>\x</code> escape sequence, does not fit into its type then an
+			error is given.	This implementation dependent behaviour can however
+			be controlled by the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA character escape overflow <emphasis>allow</emphasis></programlisting>
+
+		<para>the value being converted to its type in the normal way.</para>
+	</section>
+
+	<section id="ppdir">
+		<title>Preprocessing directives</title>
+
+		<para>Non-standard preprocessing directives can be controlled using the
+			directives:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA directive <emphasis>ppdir allow</emphasis>
 #pragma TenDRA directive <emphasis>ppdir</emphasis> (ignore) <emphasis>allow</emphasis></programlisting>
-  where <emphasis>ppdir</emphasis> can be <code>assert</code>, <code>file</code>,
-  <code>ident</code>, <code>import</code> (C++ only),
-  <code>include_next</code> (C++ only), <code>unassert</code>,
-  <code>warning</code> (C++ only) or <code>weak</code>.  The second form
-  causes the directive to be processed but ignored (note that there is no
-  <code>(ignore) disallow</code> form).  The treatment of other unknown
-  preprocessing directives can be controlled using:
-  <programlisting language="C++">
-#pragma TenDRA unknown directive <emphasis>allow</emphasis></programlisting>
-  Cases where the token following the <code>#</code> in a preprocessing
-  directive is not an identifier can be controlled using:
-  <programlisting language="C++">
-#pragma TenDRA no directive/nline after ident <emphasis>allow</emphasis></programlisting>
-  When permitted, unknown preprocessing directives are ignored.
-  </para>
-  <para>
-  By default, unknown <code>#pragma</code> directives are ignored without
-  comment, however this behaviour can be modified using the directive:
-  <programlisting language="C++">
-#pragma TenDRA unknown pragma <emphasis>allow</emphasis></programlisting>
-  Note that any unknown <code>#pragma TenDRA</code> directives always
-  give an error.
-  </para>
-  <para>
-  Older preprocessors allowed text after <code>#else</code> and
-  <code>#endif</code> directives.  The following directive can be used
-  to enable such behaviour:
-  <programlisting language="C++">
-#pragma TenDRA text after directive <emphasis>allow</emphasis></programlisting>
-  Such text after a directive is ignored.
-  </para>
-  <para>
-  Some older preprocessors have problems with white space in preprocessing
-  directives - whether at the start of the line, before the initial
-  <code>#</code>, or between the <code>#</code> and the directive identifier.
-  Such white space can be detected using the directives:
-  <programlisting language="C++">
+
+		<para>where <emphasis>ppdir</emphasis> can be <code>assert</code>, <code>file</code>,
+			<code>ident</code>, <code>import</code> (C++ only),
+			<code>include_next</code> (C++ only), <code>unassert</code>,
+			<code>warning</code> (C++ only) or <code>weak</code>.	The second form
+			causes the directive to be processed but ignored (note that there is no
+			<code>(ignore) disallow</code> form).	The treatment of other unknown
+			preprocessing directives can be controlled using:</para>
+
+		<programlisting language="C++">#pragma TenDRA unknown directive <emphasis>allow</emphasis></programlisting>
+
+		<para>Cases where the token following the <code>#</code> in a preprocessing
+			directive is not an identifier can be controlled using:</para>
+
+		<programlisting language="C++">#pragma TenDRA no directive/nline after ident <emphasis>allow</emphasis></programlisting>
+
+		<para>When permitted, unknown preprocessing directives are ignored.</para>
+
+		<para>By default, unknown <code>#pragma</code> directives are ignored without
+			comment, however this behaviour can be modified using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA unknown pragma <emphasis>allow</emphasis></programlisting>
+
+		<para>Note that any unknown <code>#pragma TenDRA</code> directives always
+			give an error.</para>
+
+		<para>Older preprocessors allowed text after <code>#else</code> and
+			<code>#endif</code> directives.	The following directive can be used
+			to enable such behaviour:</para>
+
+		<programlisting language="C++">#pragma TenDRA text after directive <emphasis>allow</emphasis></programlisting>
+
+		<para>Such text after a directive is ignored.</para>
+
+		<para>Some older preprocessors have problems with white space in preprocessing
+			directives - whether at the start of the line, before the initial
+			<code>#</code>, or between the <code>#</code> and the directive identifier.
+			Such white space can be detected using the directives:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA indented # directive <emphasis>allow</emphasis>
 #pragma TenDRA indented directive after # <emphasis>allow</emphasis></programlisting>
-  respectively.
-  </para>
-  </section>
 
-  <section id="target-if">
-    <title>Target dependent conditional inclusion</title>
-  <para>
-  One of the effects of trying to compile code in a target independent
-  manner is that it is not always possible to completely evaluate the
-  condition in a <code>#if</code> directive.  Thus the conditional inclusion
-  needs to be preserved until the installer phase.  This can only be
-  done if the target dependent <code>#if</code> is more structured than
-  is normally required for preprocessing directives. There are two cases;
-  in the first, where the <code>#if</code> appears in a statement, it
-  is treated as if it were a <code>if</code> statement with braces including
-  its branches; that is:
-  <programlisting language="C++">
+		<para>respectively.</para>
+	</section>
+
+	<section id="target-if">
+		<title>Target dependent conditional inclusion</title>
+
+		<para>One of the effects of trying to compile code in a target independent
+			manner is that it is not always possible to completely evaluate the
+			condition in a <code>#if</code> directive.	Thus the conditional inclusion
+			needs to be preserved until the installer phase.	This can only be
+			done if the target dependent <code>#if</code> is more structured than
+			is normally required for preprocessing directives. There are two cases;
+			in the first, where the <code>#if</code> appears in a statement, it
+			is treated as if it were a <code>if</code> statement with braces including
+			its branches; that is:</para>
+
+		<programlisting language="C++">
 #if cond
-    true_statements
+	true_statements
 #else
-    false_statements
+	false_statements
 #endif</programlisting>
-  maps to:
-  <programlisting>
+
+		<para>maps to:</para>
+
+		<programlisting>
 if ( cond ) {
-    true_statements
+	true_statements
 } else {
-    false_statements
+	false_statements
 }</programlisting>
-  In the second case, where the <code>#if</code> appears in a list of
-  declarations, normally gives an error.  The can however be overridden
-  by the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ conditional declaration <emphasis>allow</emphasis></programlisting>
-  which causes both branches of the <code>#if</code> to be analysed.
-  </para>
-  </section>
 
-  <section id="include">
-    <title>File inclusion directives</title>
-  <para>
-  There is a maximum depth of nested <code>#include</code>
-  directives allowed by the C++ producer. This depth is given by the
-  <code>include_depth</code> implementation quantity
-  <link linkend="limits">mentioned above</link>.  Its value is fairly small
-  in order to detect recursive inclusions.  The maximum depth can be
-  set using:
-  <programlisting language="C++">
-#pragma TenDRA includes depth <emphasis>integer-literal</emphasis></programlisting>
-  </para>
-  <para>
-  A further check, for full pathnames in <code>#include</code> directives
-  (which may not be portable), can be enabled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ complete file includes <emphasis>allow</emphasis></programlisting>
-  </para>
-  </section>
+		<para>In the second case, where the <code>#if</code> appears in a list of
+			declarations, normally gives an error.	The can however be overridden
+			by the directive:</para>
 
-  <section id="macro">
-    <title>Macro definitions</title>
-  <para>
-  By default, multiple consistent definitions of a macro are allowed.
-  This behaviour can be controlled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA extra macro definition <emphasis>allow</emphasis></programlisting>
-  The ISO C/C++ rules for determining whether two macro definitions
-  are consistent are fairly restrictive.  A more relaxed rule allowing
-  for consistent renaming of macro parameters can be enabled using:
-  <programlisting language="C++">
-#pragma TenDRA weak macro equality <emphasis>allow</emphasis></programlisting>
-  </para>
-  <para>
-  In the definition of macros with parameters, a <code>#</code> in the
-  replacement list must be followed by a parameter name, indicating
-  the stringising operation.  This behaviour can be controlled by the
-  directive:
-  <programlisting language="C++">
-#pragma TenDRA no ident after # <emphasis>allow</emphasis></programlisting>
-  which allows a <code>#</code> which is not followed by a parameter
-  name to be treated as a normal preprocessing token.
-  </para>
-  <para>
-  In a list of macro arguments, the effect of a sequence of preprocessing
-  tokens which otherwise resembles a preprocessing directive is undefined.
-  The C++ producer treats such directives as normal sequences of preprocessing
-  tokens, but can be made to report such behaviour using:
-  <programlisting language="C++">
-#pragma TenDRA directive as macro argument <emphasis>allow</emphasis></programlisting>
-  </para>
-  </section>
+		<programlisting language="C++">#pragma TenDRA++ conditional declaration <emphasis>allow</emphasis></programlisting>
 
-  <section id="empty">
-    <title>Empty source files</title>
-  <para>
-  ISO C requires that a translation unit should contain at least one
-  declaration.  C++ and older dialects of C allow translation units
-  which contain no declarations.  This behaviour can be controlled using
-  the directive:
-  <programlisting language="C++">
-#pragma TenDRA no external declaration <emphasis>allow</emphasis></programlisting>
-  </para>
-  </section>
+		<para>which causes both branches of the <code>#if</code> to be analysed.</para>
+	</section>
 
-  <section id="std">
-    <title>The <code>std</code> namespace</title>
-  <para>
-  Several classes declared in the <code>std</code> namespace arise naturally
-  as part of the C++ language specification.  These are as follows:
-	<!-- TODO table? -->
-  <programlisting>
+	<section id="include">
+		<title>File inclusion directives</title>
+
+		<para>There is a maximum depth of nested <code>#include</code>
+			directives allowed by the C++ producer. This depth is given by the
+			<code>include_depth</code> implementation quantity
+			<link linkend="limits">mentioned above</link>.	Its value is fairly small
+			in order to detect recursive inclusions.	The maximum depth can be
+			set using:</para>
+
+		<programlisting language="C++">#pragma TenDRA includes depth <emphasis>integer-literal</emphasis></programlisting>
+
+		<para>A further check, for full pathnames in <code>#include</code> directives
+			(which may not be portable), can be enabled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ complete file includes <emphasis>allow</emphasis></programlisting>
+	</section>
+
+	<section id="macro">
+		<title>Macro definitions</title>
+
+		<para>By default, multiple consistent definitions of a macro are allowed.
+			This behaviour can be controlled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA extra macro definition <emphasis>allow</emphasis></programlisting>
+
+		<para>The ISO C/C++ rules for determining whether two macro definitions
+			are consistent are fairly restrictive.	A more relaxed rule allowing
+			for consistent renaming of macro parameters can be enabled using:</para>
+
+		<programlisting language="C++">#pragma TenDRA weak macro equality <emphasis>allow</emphasis></programlisting>
+
+		<para>In the definition of macros with parameters, a <code>#</code> in the
+			replacement list must be followed by a parameter name, indicating
+			the stringising operation.	This behaviour can be controlled by the
+			directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA no ident after # <emphasis>allow</emphasis></programlisting>
+
+		<para>which allows a <code>#</code> which is not followed by a parameter
+			name to be treated as a normal preprocessing token.</para>
+
+		<para>In a list of macro arguments, the effect of a sequence of preprocessing
+			tokens which otherwise resembles a preprocessing directive is undefined.
+			The C++ producer treats such directives as normal sequences of preprocessing
+			tokens, but can be made to report such behaviour using:</para>
+
+		<programlisting language="C++">#pragma TenDRA directive as macro argument <emphasis>allow</emphasis></programlisting>
+	</section>
+
+	<section id="empty">
+		<title>Empty source files</title>
+
+		<para>ISO C requires that a translation unit should contain at least one
+			declaration.	C++ and older dialects of C allow translation units
+			which contain no declarations.	This behaviour can be controlled using
+			the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA no external declaration <emphasis>allow</emphasis></programlisting>
+	</section>
+
+	<section id="std">
+		<title>The <code>std</code> namespace</title>
+
+		<para>Several classes declared in the <code>std</code> namespace arise naturally
+			as part of the C++ language specification.	These are as follows:</para>
+
+		<!-- TODO table? -->
+		<programlisting>
 std::type_info		// type of typeid construct
 std::bad_cast		// thrown by dynamic_cast construct
 std::bad_typeid		// thrown by typeid construct
 std::bad_alloc		// thrown by new construct
 std::bad_exception	// used in exception specifications</programlisting>
-  The definitions of these classes are found, when needed, by looking
-  up the appropriate class name in the <code>std</code> namespace.
-  Depending on the context, an error may be reported if the class is
-  not found. It is possible to modify the namespace which is searched
-  for these classes using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ set std namespace : <emphasis>scope-name</emphasis></programlisting>
-  where <emphasis>scope-name</emphasis> can be an identifier giving a namespace name
-  or <code>::</code>, indicating the global namespace.
-  </para>
-  </section>
 
-  <section id="linkage">
-    <title>Object linkage</title>
-  <para>
-  If an object is declared with both external and internal linkage in
-  the same translation unit then, by default, an error is given.  This
-  behaviour can be changed using the directive:
-  <programlisting language="C++">
-#pragma TenDRA incompatible linkage <emphasis>allow</emphasis></programlisting>
-  When incompatible linkages are allowed, whether the resultant identifier
-  has external or internal linkage can be set using one of the directives:
-  <programlisting language="C++">
+		<para>The definitions of these classes are found, when needed, by looking
+			up the appropriate class name in the <code>std</code> namespace.
+			Depending on the context, an error may be reported if the class is
+			not found. It is possible to modify the namespace which is searched
+			for these classes using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ set std namespace : <emphasis>scope-name</emphasis></programlisting>
+
+		<para>where <emphasis>scope-name</emphasis> can be an identifier giving a namespace name
+			or <code>::</code>, indicating the global namespace.</para>
+	</section>
+
+	<section id="linkage">
+		<title>Object linkage</title>
+
+		<para>If an object is declared with both external and internal linkage in
+			the same translation unit then, by default, an error is given.	This
+			behaviour can be changed using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA incompatible linkage <emphasis>allow</emphasis></programlisting>
+
+		<para>When incompatible linkages are allowed, whether the resultant identifier
+			has external or internal linkage can be set using one of the directives:</para>
+
+		<programlisting language="C++">
 #pragma TenDRA linkage resolution : off
 #pragma TenDRA linkage resolution : (external) <emphasis>on</emphasis>
 #pragma TenDRA linkage resolution : (internal) <emphasis>on</emphasis></programlisting>
-  </para>
-  <para>
-  It is possible to declare objects with external linkage in a block.
-  C leaves it undefined whether declarations of the same object in different
-  blocks, such as:
-  <programlisting language="C">
+
+		<para>It is possible to declare objects with external linkage in a block.
+			C leaves it undefined whether declarations of the same object in different
+			blocks, such as:</para>
+
+		<programlisting language="C">
 void f ()
 {
-    extern int a ;
-    ....
+	extern int a ;
+	....
 }
 
 void g ()
 {
-    extern double a ;
-    ....
+	extern double a ;
+	....
 }</programlisting>
-  are checked for compatibility.  However in C++ the one definition
-  rule implies that such declarations are indeed checked for compatibility.
-  The status of this check can be set using the directive:
-  <programlisting language="C++">
-#pragma TenDRA unify external linkage <emphasis>on</emphasis></programlisting>
-  Note that it is not possible in ISO C or C++ to declare objects or
-  functions with internal linkage in a block.  While <code>static</code>
-  object definitions in a block have a specific meaning, there is no
-  real reason why <code>static</code> functions should not be declared
-  in a block.  This behaviour can be enabled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA block function static <emphasis>allow</emphasis></programlisting>
-  </para>
-  <para>
-  Inline functions have external linkage by default in ISO C++, but
-  internal linkage in older dialects.  The default linkage can be set
-  using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ inline linkage <emphasis>linkage-spec</emphasis></programlisting>
-  where <emphasis>linkage-spec</emphasis> can be <code>external</code> or
-  <code>internal</code>.  Similarly <code>const</code> objects have
-  internal linkage by default in C++, but external linkage in C.  The
-  default linkage can be set using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ const linkage <emphasis>linkage-spec</emphasis></programlisting>
-  </para>
-  <para>
-  Older dialects of C treated all identifiers with external linkage
-  as if they had been declared <code>volatile</code> (i.e. by being
-  conservative in optimising such values).  This behaviour can be enabled
-  using the directive:
-  <programlisting language="C++">
-#pragma TenDRA external volatile_t</programlisting>
-  </para>
-  <para>
-  It is possible to set the default language linkage using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ external linkage <emphasis>string-literal</emphasis></programlisting>
-  This is equivalent to enclosing the rest of the current checking scope
-  in:
-  <programlisting language="C++">
+
+		<para>are checked for compatibility.	However in C++ the one definition
+			rule implies that such declarations are indeed checked for compatibility.
+			The status of this check can be set using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA unify external linkage <emphasis>on</emphasis></programlisting>
+
+		<para>Note that it is not possible in ISO C or C++ to declare objects or
+			functions with internal linkage in a block.	While <code>static</code>
+			object definitions in a block have a specific meaning, there is no
+			real reason why <code>static</code> functions should not be declared
+			in a block.	This behaviour can be enabled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA block function static <emphasis>allow</emphasis></programlisting>
+
+		<para>Inline functions have external linkage by default in ISO C++, but
+			internal linkage in older dialects.	The default linkage can be set
+			using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ inline linkage <emphasis>linkage-spec</emphasis></programlisting>
+
+		<para>where <emphasis>linkage-spec</emphasis> can be <code>external</code> or
+			<code>internal</code>.	Similarly <code>const</code> objects have
+			internal linkage by default in C++, but external linkage in C.	The
+			default linkage can be set using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ const linkage <emphasis>linkage-spec</emphasis></programlisting>
+
+		<para>Older dialects of C treated all identifiers with external linkage
+			as if they had been declared <code>volatile</code> (i.e. by being
+			conservative in optimising such values).	This behaviour can be enabled
+			using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA external volatile_t</programlisting>
+
+		<para>It is possible to set the default language linkage using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ external linkage <emphasis>string-literal</emphasis></programlisting>
+
+		<para>This is equivalent to enclosing the rest of the current checking scope
+			in:</para>
+
+		<programlisting language="C++">
 extern <emphasis>string-literal</emphasis> {
-    ....
+	....
 }</programlisting>
-  It is unspecified what happens if such a directive is used within
-  an explicit linkage specification and does not nest correctly.  This
-  directive is particularly useful when used in a <link linkend="scope">named
-  environment</link> associated with an include directory.  For example,
-  it can be used to express the fact that all the objects declared in
-  headers included from that directory have C linkage.
-  </para>
-  <para>
-  A change in ISO C++ relative to older dialects is that the language
-  linkage of a function now forms part of the function type.  For example:
-  <programlisting language="C++">
+
+		<para>It is unspecified what happens if such a directive is used within
+			an explicit linkage specification and does not nest correctly.	This
+			directive is particularly useful when used in a <link linkend="scope">named
+			environment</link> associated with an include directory.	For example,
+			it can be used to express the fact that all the objects declared in
+			headers included from that directory have C linkage.</para>
+
+		<para>A change in ISO C++ relative to older dialects is that the language
+			linkage of a function now forms part of the function type.	For example:</para>
+
+		<programlisting language="C++">
 extern &quot;C&quot; int f ( int ) ;
 int ( *pf ) ( int ) = f ;		// error</programlisting>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA++ external function linkage <emphasis>on</emphasis></programlisting>
-  can be used to control whether function types with differing language
-  linkages, but which are otherwise compatible, are considered compatible
-  or not.
-  </para>
-  </section>
 
-  <section id="static">
-    <title>Static identifiers</title>
-  <para>
-  By default, objects and functions with internal linkage are mapped
-  to tags without external names in the output TDF capsule.  Thus such
-  names are not available to the installer and it needs to make up internal
-  names to represent such objects in its output.  This is not desirable
-  in such operations as profiling, where a meaningful internal name
-  is needed to make sense of the output.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA preserve <emphasis>identifier-list</emphasis></programlisting>
-  can be used to preserve the names of the given list of identifiers
-  with internal linkage.  This is done using the <code>static_name_def</code>
-  TDF construct.  The form:
-  <programlisting language="C++">
-#pragma TenDRA preserve *</programlisting>
-  will preserve the names of all identifiers with internal linkage in
-  this way.
-  </para>
-  </section>
+		<para>The directive:</para>
 
-  <section id="decl_none">
-    <title>Empty declarations</title>
-  <para>
-  ISO C++ requires every declaration or member declaration to introduce
-  one or more names into the program.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA unknown struct/union <emphasis>allow</emphasis></programlisting>
-  can be used to relax one particular instance of this rule, by allowing
-  anonymous class definitions (recall that anonymous unions are objects,
-  not types, in C++ and so are not covered by this rule).  The C++ grammar
-  also allows a solitary semicolon as a declaration or member declaration;
-  however such a declaration does not introduce a name and so contravenes
-  the rule above.  The rule can be relaxed in this case using the directive:
-  <programlisting language="C++">
-#pragma TenDRA extra ; <emphasis>allow</emphasis></programlisting>
-  Note that the C++ grammar explicitly allows for an extra semicolon
-  following an inline member function definition, but that semicolons
-  following other function definitions are actually empty declarations
-  of the form above.  A solitary semicolon in a statement is interpreted
-  as an empty expression statement rather than an empty declaration
-  statement.
-  </para>
-  </section>
+		<programlisting language="C++">#pragma TenDRA++ external function linkage <emphasis>on</emphasis></programlisting>
 
-  <section id="implicit">
-    <title>Implicit <code>int</code></title>
-  <para>
-  The C &quot;implicit <code>int</code>&quot; rule, whereby a type of
-  <code>int</code>
-  is inferred in a list of type or declaration specifiers which does
-  not contain a type name, has been removed in ISO C++, although it
-  was supported in older dialects of C++.  This check is controlled
-  by the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ implicit int type <emphasis>allow</emphasis></programlisting>
-  Partial relaxations of this rules are allowed.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA++ implicit int type for const/volatile <emphasis>allow</emphasis></programlisting>
-  will allow for implicit <code>int</code> when the list of type specifiers
-  contains a cv-qualifier.  Similarly the directive:
-  <programlisting language="C++">
-#pragma TenDRA implicit int type for function return <emphasis>allow</emphasis></programlisting>
-  will allow for implicit <code>int</code> in the return type of a function
-  definition (this excludes constructors, destructors and conversion
-  functions, where special rules apply).  A function definition is the
-  only kind of declaration in ISO C where a declaration specifier is
-  not required. Older dialects of C allowed declaration specifiers to
-  be omitted in other cases.  Support for this behaviour can be enabled
-  using:
-  <programlisting language="C++">
-#pragma TenDRA implicit int type for external declaration <emphasis>allow</emphasis></programlisting>
-  The four cases can be demonstrated in the following example:
-  <programlisting language="C">
-extern a ;		// implicit int
-const b = 1 ;		// implicit const int
+		<para>can be used to control whether function types with differing language
+			linkages, but which are otherwise compatible, are considered compatible
+			or not.</para>
+	</section>
 
-f ()			// implicit function return
+	<section id="static">
+		<title>Static identifiers</title>
+
+		<para>By default, objects and functions with internal linkage are mapped
+			to tags without external names in the output TDF capsule.	Thus such
+			names are not available to the installer and it needs to make up internal
+			names to represent such objects in its output.	This is not desirable
+			in such operations as profiling, where a meaningful internal name
+			is needed to make sense of the output.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA preserve <emphasis>identifier-list</emphasis></programlisting>
+
+		<para>can be used to preserve the names of the given list of identifiers
+			with internal linkage.	This is done using the <code>static_name_def</code>
+			TDF construct.	The form:</para>
+
+		<programlisting language="C++">#pragma TenDRA preserve *</programlisting>
+
+		<para>will preserve the names of all identifiers with internal linkage in
+			this way.</para>
+	</section>
+
+	<section id="decl_none">
+		<title>Empty declarations</title>
+
+		<para>ISO C++ requires every declaration or member declaration to introduce
+			one or more names into the program.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA unknown struct/union <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to relax one particular instance of this rule, by allowing
+			anonymous class definitions (recall that anonymous unions are objects,
+			not types, in C++ and so are not covered by this rule).	The C++ grammar
+			also allows a solitary semicolon as a declaration or member declaration;
+			however such a declaration does not introduce a name and so contravenes
+			the rule above.	The rule can be relaxed in this case using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA extra ; <emphasis>allow</emphasis></programlisting>
+
+		<para>Note that the C++ grammar explicitly allows for an extra semicolon
+			following an inline member function definition, but that semicolons
+			following other function definitions are actually empty declarations
+			of the form above.	A solitary semicolon in a statement is interpreted
+			as an empty expression statement rather than an empty declaration
+			statement.</para>
+	</section>
+
+	<section id="implicit">
+		<title>Implicit <code>int</code></title>
+
+		<para>The C &quot;implicit <code>int</code>&quot; rule, whereby a type of
+			<code>int</code>
+			is inferred in a list of type or declaration specifiers which does
+			not contain a type name, has been removed in ISO C++, although it
+			was supported in older dialects of C++.	This check is controlled
+			by the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ implicit int type <emphasis>allow</emphasis></programlisting>
+
+		<para>Partial relaxations of this rules are allowed.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ implicit int type for const/volatile <emphasis>allow</emphasis></programlisting>
+
+			<para>will allow for implicit <code>int</code> when the list of type specifiers
+			contains a cv-qualifier.	Similarly the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA implicit int type for function return <emphasis>allow</emphasis></programlisting>
+
+			<para>will allow for implicit <code>int</code> in the return type of a function
+			definition (this excludes constructors, destructors and conversion
+			functions, where special rules apply).	A function definition is the
+			only kind of declaration in ISO C where a declaration specifier is
+			not required. Older dialects of C allowed declaration specifiers to
+			be omitted in other cases.	Support for this behaviour can be enabled
+			using:</para>
+
+		<programlisting language="C++">#pragma TenDRA implicit int type for external declaration <emphasis>allow</emphasis></programlisting>
+
+			<para>The four cases can be demonstrated in the following example:</para>
+
+		<programlisting language="C++">
+extern a ;	// implicit int
+const b = 1 ;	// implicit const int
+
+f ()	// implicit function return
 {
-    return 2 ;
+	return 2 ;
 }
 
-c = 3 ;			// error: not allowed in C++</programlisting>
-  </para>
-  </section>
+c = 3 ;	// error: not allowed in C++</programlisting>
+	</section>
 
-  <section id="longlong">
-    <title>Extended integral types</title>
-  <para>
-  The <code>long long</code> integral types are not part of ISO C or
-  C++ by default, however support for them can be enabled using the
-  directive:
-  <programlisting language="C++">
-#pragma TenDRA longlong type <emphasis>allow</emphasis></programlisting>
-  This support includes allowing <code>long long</code> in type specifiers
-  and allowing <code>LL</code> and <code>ll</code> as integer literal
-  suffixes.
-  </para>
-  <para>
-  There is a further directive given by the two cases:
-  <programlisting language="C++">
-#pragma TenDRA set longlong type : long long
+	<section id="longlong">
+		<title>Extended integral types</title>
+
+		<para>The <code>long long</code> integral types are not part of ISO C or
+			C++ by default, however support for them can be enabled using the
+			directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA longlong type <emphasis>allow</emphasis></programlisting>
+
+			<para>This support includes allowing <code>long long</code> in type specifiers
+			and allowing <code>LL</code> and <code>ll</code> as integer literal
+			suffixes.</para>
+
+		<para>There is a further directive given by the two cases:</para>
+
+		<programlisting language="C++">#pragma TenDRA set longlong type : long long
 #pragma TenDRA set longlong type : long</programlisting>
-  which can be used to control the implementation of the <code>long
-  long</code> types.  Either they can be mapped to the
-  <A HREF="lib.html#arith">default representation</A>, which is guaranteed
-  to contain at least 64 bits, or they can be mapped to the corresponding
-  <code>long</code> types.
-  </para>
-  <para>
-  Because these <code>long long</code> types are not an intrinsic part
-  of C++ the implementation does not integrate them into the language
-  as fully as is possible.  This is to prevent the presence or otherwise
-  of
-  <code>long long</code> types affecting the semantics of code which
-  does not use them.  For example, it would be possible to extend the
-  rules for the types of integer literals, integer promotion types and
-  arithmetic types to say that if the given value does not fit into
-  the standard integral types then the extended types are tried.  This
-  has not been done, although these rules could be implemented by changing
-  the definitions of the <A HREF="lib.html#arith">standard tokens</A>
-  used to determine these types.  By default, only the rules for arithmetic
-  types involving a <code>long long</code> operand and for <code>LL</code>
-  integer literals mention <code>long long</code> types.
-  </para>
-  </section>
 
-  <section id="bitfield-types">
-    <title>Bitfield types</title>
-  <para>
-  The C++ rules on bitfield types differ slightly from the C rules.
-  Firstly any integral or enumeration type is allowed in a bitfield,
-  and secondly the bitfield width may exceed the underlying type size
-  (the extra bits being treated as padding).  These properties can be
-  controlled using the directives:
-  <programlisting language="C++">
-#pragma TenDRA extra bitfield int type <emphasis>allow</emphasis>
+			<para>which can be used to control the implementation of the <code>long
+			long</code> types.	Either they can be mapped to the
+			<A HREF="lib.html#arith">default representation</A>, which is guaranteed
+			to contain at least 64 bits, or they can be mapped to the corresponding
+			<code>long</code> types.</para>
+
+		<para>Because these <code>long long</code> types are not an intrinsic part
+			of C++ the implementation does not integrate them into the language
+			as fully as is possible.	This is to prevent the presence or otherwise
+			of
+			<code>long long</code> types affecting the semantics of code which
+			does not use them.	For example, it would be possible to extend the
+			rules for the types of integer literals, integer promotion types and
+			arithmetic types to say that if the given value does not fit into
+			the standard integral types then the extended types are tried.	This
+			has not been done, although these rules could be implemented by changing
+			the definitions of the <A HREF="lib.html#arith">standard tokens</A>
+			used to determine these types.	By default, only the rules for arithmetic
+			types involving a <code>long long</code> operand and for <code>LL</code>
+			integer literals mention <code>long long</code> types.</para>
+	</section>
+
+	<section id="bitfield-types">
+		<title>Bitfield types</title>
+
+		<para>The C++ rules on bitfield types differ slightly from the C rules.
+			Firstly any integral or enumeration type is allowed in a bitfield,
+			and secondly the bitfield width may exceed the underlying type size
+			(the extra bits being treated as padding).	These properties can be
+			controlled using the directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA extra bitfield int type <emphasis>allow</emphasis>
 #pragma TenDRA bitfield overflow <emphasis>allow</emphasis></programlisting>
-  respectively.
-  </para>
-  </section>
 
-  <section id="elab">
-    <title>Elaborated type specifiers</title>
-  <para>
-  In elaborated type specifiers, the class key (<code>class</code>,
-  <code>struct</code>, <code>union</code> or <code>enum</code>) should
-  agree with any previous declaration of the type (except that <code>class</code>
-  and <code>struct</code> are interchangeable).  This requirement can
-  be relaxed using the directive:
-  <programlisting language="C++">
-#pragma TenDRA ignore struct/union/enum tag <emphasis>on</emphasis></programlisting>
-  </para>
-  <para>
-  In ISO C and C++ it is not possible to give a forward declaration
-  of an enumeration type.  This constraint can be relaxed using the
-  directive:
-  <programlisting language="C++">
-#pragma TenDRA forward enum declaration <emphasis>allow</emphasis></programlisting>
-  Until the end of its definition, an enumeration type is treated as
-  an incomplete type (as with class types).  In enumeration definitions,
-  and a couple of other contexts where comma-separated lists are required,
-  the directive:
-  <programlisting language="C++">
-#pragma TenDRA extra , <emphasis>allow</emphasis></programlisting>
-  can be used to allow a trailing comma at the end of the list.
-  </para>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA complete struct/union analysis <emphasis>on</emphasis></programlisting>
-  can be used to enable a check that every class or union has been completed
-  within each translation unit in which it is declared.
-  </para>
-  </section>
+			<para>respectively.</para>
+	</section>
 
-  <section id="impl_func">
-    <title>Implicit function declarations</title>
-  <para>
-  C, but not C++, allows calls to undeclared functions, the function
-  being declared implicitly.  It is possible to enable support for implicit
-  function declarations using the directive:
-  <programlisting language="C++">
-#pragma TenDRA implicit function declaration <emphasis>on</emphasis></programlisting>
-  Such implicitly declared functions have C linkage and type
-  <code>int ( ... )</code>.
-  </para>
-  </section>
+	<section id="elab">
+		<title>Elaborated type specifiers</title>
 
-  <section id="weak">
-    <title>Weak function prototypes</title>
-  <para>
-  The C producer supports a concept, weak prototypes, whereby type checking
-  can be applied to the arguments of a non-prototype function.  This
-  checking can be enabled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA weak prototype analysis <emphasis>on</emphasis></programlisting>
-  The concept of weak prototypes is not applicable to C++, where all
-  functions are prototyped.  The C++ producer does allow the syntax
-  for explicit weak prototype declarations, but treats them as if they
-  were normal prototypes.  These declarations are denoted by means of
-  a keyword,
-  <code>WEAK</code> say, introduced by the directive:
-  <programlisting language="C++">
-#pragma TenDRA keyword <emphasis>identifier</emphasis> for weak</programlisting>
-  preceding the <code>(</code> of the function declarator.  The directives:
-  <programlisting language="C++">
-#pragma TenDRA prototype <emphasis>allow</emphasis>
+		<para>In elaborated type specifiers, the class key (<code>class</code>,
+			<code>struct</code>, <code>union</code> or <code>enum</code>) should
+			agree with any previous declaration of the type (except that <code>class</code>
+			and <code>struct</code> are interchangeable).	This requirement can
+			be relaxed using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA ignore struct/union/enum tag <emphasis>on</emphasis></programlisting>
+
+		<para>In ISO C and C++ it is not possible to give a forward declaration
+			of an enumeration type.	This constraint can be relaxed using the
+			directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA forward enum declaration <emphasis>allow</emphasis></programlisting>
+
+			<para>Until the end of its definition, an enumeration type is treated as
+			an incomplete type (as with class types).	In enumeration definitions,
+			and a couple of other contexts where comma-separated lists are required,
+			the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA extra , <emphasis>allow</emphasis></programlisting>
+
+			<para>can be used to allow a trailing comma at the end of the list.</para>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA complete struct/union analysis <emphasis>on</emphasis></programlisting>
+
+			<para>can be used to enable a check that every class or union has been completed
+			within each translation unit in which it is declared.</para>
+	</section>
+
+	<section id="impl_func">
+		<title>Implicit function declarations</title>
+
+		<para>C, but not C++, allows calls to undeclared functions, the function
+			being declared implicitly.	It is possible to enable support for implicit
+			function declarations using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA implicit function declaration <emphasis>on</emphasis></programlisting>
+
+			<para>Such implicitly declared functions have C linkage and type
+			<code>int ( ... )</code>.</para>
+	</section>
+
+	<section id="weak">
+		<title>Weak function prototypes</title>
+
+		<para>The C producer supports a concept, weak prototypes, whereby type checking
+			can be applied to the arguments of a non-prototype function.	This
+			checking can be enabled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA weak prototype analysis <emphasis>on</emphasis></programlisting>
+
+			<para>The concept of weak prototypes is not applicable to C++, where all
+			functions are prototyped.	The C++ producer does allow the syntax
+			for explicit weak prototype declarations, but treats them as if they
+			were normal prototypes.	These declarations are denoted by means of
+			a keyword,
+			<code>WEAK</code> say, introduced by the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for weak</programlisting>
+
+			<para>preceding the <code>(</code> of the function declarator.	The directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA prototype <emphasis>allow</emphasis>
 #pragma TenDRA prototype (weak) <emphasis>allow</emphasis></programlisting>
-  which can be used in the C producer to warn of prototype or weak prototype
-  declarations, are similarly ignored by the C++ producer.
-  </para>
-  <para>
-  The C producer also allows the directives:
-  <programlisting language="C++">
-#pragma TenDRA argument <emphasis>type-id</emphasis> as <emphasis>type-id</emphasis>
+
+			<para>which can be used in the C producer to warn of prototype or weak prototype
+			declarations, are similarly ignored by the C++ producer.</para>
+
+		<para>The C producer also allows the directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA argument <emphasis>type-id</emphasis> as <emphasis>type-id</emphasis>
 #pragma TenDRA argument <emphasis>type-id</emphasis> as ...
 #pragma TenDRA extra ... <emphasis>allow</emphasis>
 #pragma TenDRA incompatible promoted function argument <emphasis>allow</emphasis></programlisting>
-  which control the compatibility of function types.  These directives
-  are ignored by the C++ producer (some of them would make sense in
-  the context of C++ but would over-complicate function overloading).
-  </para>
-  </section>
 
-  <section id="printf">
-    <title><code>printf</code> and <code>scanf</code>
-  argument checking</title>
-  <para>
-  The C producer includes a number of checks that the arguments in a
-  call to a function in the <code>printf</code> or <code>scanf</code>
-  families match the given format string.  The check is implemented
-  by using the directives:
-  <programlisting language="C++">
-#pragma TenDRA type <emphasis>identifier</emphasis> for ... printf
+			<para>which control the compatibility of function types.	These directives
+			are ignored by the C++ producer (some of them would make sense in
+			the context of C++ but would over-complicate function overloading).</para>
+	</section>
+
+	<section id="printf">
+		<title><code>printf</code> and <code>scanf</code>
+			argument checking</title>
+
+		<para>The C producer includes a number of checks that the arguments in a
+			call to a function in the <code>printf</code> or <code>scanf</code>
+			families match the given format string.	The check is implemented
+			by using the directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA type <emphasis>identifier</emphasis> for ... printf
 #pragma TenDRA type <emphasis>identifier</emphasis> for ... scanf</programlisting>
-  to introduce a type representing a <code>printf</code> or <code>scanf</code>
-  format string.  For most purposes this type is treated as <code>const
-  char *</code>, but when it appears in a function declaration it alerts
-  the producer that any extra arguments passed to that function should
-  match the format string passed as the corresponding argument.  The
-  TenDRA API headers conditionally declare <code>printf</code>,
-  <code>scanf</code> and similar functions in something like the form:
-  <programlisting language="C++">
-#ifdef __NO_PRINTF_CHECKS
-typedef const char *__printf_string ;
-#else
+
+			<para>to introduce a type representing a <code>printf</code> or <code>scanf</code>
+			format string.	For most purposes this type is treated as <code>const
+			char *</code>, but when it appears in a function declaration it alerts
+			the producer that any extra arguments passed to that function should
+			match the format string passed as the corresponding argument.	The
+			TenDRA API headers conditionally declare <code>printf</code>,
+			<code>scanf</code> and similar functions in something like the form:</para>
+
+		<programlisting language="C++">#ifdef __NO_PRINTF_CHECKS
+		typedef const char *__printf_string ;
+		#else
 #pragma TenDRA type __printf_string for ... printf
-#endif
+		#endif
 
-int printf ( __printf_string, ... ) ;
-int fprintf ( FILE *, __printf_string, ... ) ;
-int sprintf ( char *, __printf_string, ... ) ;</programlisting>
-  These declarations can be skipped, effectively disabling this check,
-  by defining the <code>__NO_PRINTF_CHECKS</code> macro.
-  </para>
-	<warning>
-  <para>
-  These <code>printf</code> and <code>scanf</code> format string checks
-  have not yet been implemented in the C++ producer due to presence
-  of an alternative, type checked, I/O package - namely
-  <code>&lt;iostream&gt;</code>.  The format string types are simply
-  treated as <code>const char *</code>.
-  </para>
-	</warning>
-  </section>
+		int printf ( __printf_string, ... ) ;
+		int fprintf ( FILE *, __printf_string, ... ) ;
+		int sprintf ( char *, __printf_string, ... ) ;</programlisting>
 
-  <section id="typedef">
-    <title>Type declarations</title>
-  <para>
-  C does not allow multiple definitions of a <code>typedef</code> name,
-  whereas C++ allows multiple consistent definitions.  This behaviour
-  can be controlled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA extra type definition <emphasis>allow</emphasis></programlisting>
-  </para>
-  </section>
+			<para>These declarations can be skipped, effectively disabling this check,
+			by defining the <code>__NO_PRINTF_CHECKS</code> macro.</para>
+			<warning>
+		<para>These <code>printf</code> and <code>scanf</code> format string checks
+			have not yet been implemented in the C++ producer due to presence
+			of an alternative, type checked, I/O package - namely
+			<code>&lt;iostream&gt;</code>.	The format string types are simply
+			treated as <code>const char *</code>.</para>
+			</warning>
+	</section>
 
-  <section id="compatible">
-    <title>Type compatibility</title>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA incompatible type qualifier <emphasis>allow</emphasis></programlisting>
-  allows objects to be redeclared with different cv-qualifiers (normally
-  such redeclarations would be incompatible).  The composite type is
-  qualified using the join of the cv-qualifiers in the various redeclarations.
-  </para>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA compatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis></programlisting>
-  asserts that the given two types are compatible.  Currently the only
-  implemented version is <code>char * == void *</code> which enables
-  <code>char *</code> to be used as a generic pointer as it was in older
-  dialects of C.
-  </para>
-  </section>
+	<section id="typedef">
+		<title>Type declarations</title>
 
-  <section id="complete">
-    <title>Incomplete types</title>
-  <para>
-  Some dialects of C allow incomplete arrays as member types.  These
-  are generally used as a place-holder at the end of a structure to
-  allow for the allocation of an arbitrarily sized array.  Support for
-  this feature can be enabled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA incomplete type as object type <emphasis>allow</emphasis></programlisting>
-  </para>
-  </section>
+		<para>C does not allow multiple definitions of a <code>typedef</code> name,
+			whereas C++ allows multiple consistent definitions.	This behaviour
+			can be controlled using the directive:</para>
 
-  <section id="type-conversions">
-    <title>Type conversions</title>
-  <para>
-  There are a number of directives which allow various classes of type
-  conversion to be checked.  The directives:
-  <programlisting language="C++">
-#pragma TenDRA conversion analysis (int-int explicit) <emphasis>on</emphasis>
+		<programlisting language="C++">#pragma TenDRA extra type definition <emphasis>allow</emphasis></programlisting>
+	</section>
+
+	<section id="compatible">
+		<title>Type compatibility</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA incompatible type qualifier <emphasis>allow</emphasis></programlisting>
+
+			<para>allows objects to be redeclared with different cv-qualifiers (normally
+			such redeclarations would be incompatible).	The composite type is
+			qualified using the join of the cv-qualifiers in the various redeclarations.</para>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA compatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis></programlisting>
+
+			<para>asserts that the given two types are compatible.	Currently the only
+			implemented version is <code>char * == void *</code> which enables
+			<code>char *</code> to be used as a generic pointer as it was in older
+			dialects of C.</para>
+	</section>
+
+	<section id="complete">
+		<title>Incomplete types</title>
+
+		<para>Some dialects of C allow incomplete arrays as member types.	These
+			are generally used as a place-holder at the end of a structure to
+			allow for the allocation of an arbitrarily sized array.	Support for
+			this feature can be enabled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA incomplete type as object type <emphasis>allow</emphasis></programlisting>
+	</section>
+
+	<section id="type-conversions">
+		<title>Type conversions</title>
+
+		<para>There are a number of directives which allow various classes of type
+			conversion to be checked.	The directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA conversion analysis (int-int explicit) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (int-int implicit) <emphasis>on</emphasis></programlisting>
-  will check for unsafe explicit or implicit conversions between arithmetic
-  types.  Similarly conversions between pointers and arithmetic types
-  can be checked using:
-  <programlisting language="C++">
-#pragma TenDRA conversion analysis (int-pointer explicit) <emphasis>on</emphasis>
+
+			<para>will check for unsafe explicit or implicit conversions between arithmetic
+			types.	Similarly conversions between pointers and arithmetic types
+			can be checked using:</para>
+
+		<programlisting language="C++">#pragma TenDRA conversion analysis (int-pointer explicit) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (int-pointer implicit) <emphasis>on</emphasis></programlisting>
-  or equivalently:
-  <programlisting language="C++">
-#pragma TenDRA conversion analysis (pointer-int explicit) <emphasis>on</emphasis>
+
+			<para>or equivalently:</para>
+
+		<programlisting language="C++">#pragma TenDRA conversion analysis (pointer-int explicit) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (pointer-int implicit) <emphasis>on</emphasis></programlisting>
-  Conversions between pointer types can be checked using:
-  <programlisting language="C++">
-#pragma TenDRA conversion analysis (pointer-pointer explicit) <emphasis>on</emphasis>
+
+			<para>Conversions between pointer types can be checked using:</para>
+
+		<programlisting language="C++">#pragma TenDRA conversion analysis (pointer-pointer explicit) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (pointer-pointer implicit) <emphasis>on</emphasis></programlisting>
-  </para>
-  <para>
-  There are some further variants which can be used to enable useful
-  sets of conversion checks.  For example:
-  <programlisting language="C++">
-#pragma TenDRA conversion analysis (int-int) <emphasis>on</emphasis></programlisting>
-  enables both implicit and explicit arithmetic conversion checks.
-  The directives:
-  <programlisting language="C++">
-#pragma TenDRA conversion analysis (int-pointer) <emphasis>on</emphasis>
+
+		<para>There are some further variants which can be used to enable useful
+			sets of conversion checks.	For example:</para>
+
+		<programlisting language="C++">#pragma TenDRA conversion analysis (int-int) <emphasis>on</emphasis></programlisting>
+
+			<para>enables both implicit and explicit arithmetic conversion checks.
+			The directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA conversion analysis (int-pointer) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (pointer-int) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (pointer-pointer) <emphasis>on</emphasis></programlisting>
-  are equivalent to their corresponding explicit forms (because the
-  implicit forms are illegal by default).  The directive:
-  <programlisting language="C++">
-#pragma TenDRA conversion analysis <emphasis>on</emphasis></programlisting>
-  is equivalent to the four directives just given.  It enables checks
-  on implicit and explicit arithmetic conversions, explicit arithmetic
-  to pointer conversions and explicit pointer conversions.
-  </para>
-  <para>
-  The default settings for these checks are determined by the implicit
-  and explicit conversions allowed in C++.  Note that there are differences
-  between the conversions allowed in C and C++.  For example, an arithmetic
-  type can be converted implicitly to an enumeration type in C, but
-  not in C++.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA conversion analysis (int-enum implicit) <emphasis>on</emphasis></programlisting>
-  can be used to control the status of this conversion.  The level of
-  severity for an error message arising from such a conversion is the
-  maximum of the severity set by this directive and that set by the
-  <code>int-int implicit</code> directive above.
-  </para>
-  <para>
-  The implicit pointer conversions described above do not include conversions
-  to and from the generic pointer <code>void *</code>, which have their
-  own controlling directives.  A pointer of type <code>void *</code>
-  can be converted implicitly to another pointer type in C but not in
-  C++; this is controlled by the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ conversion analysis (void*-pointer implicit) <emphasis>on</emphasis></programlisting>
-  The reverse conversion, from a pointer type to <code>void *</code>
-  is allowed in both C and C++, and has a controlling directive:
-  <programlisting language="C++">
-#pragma TenDRA++ conversion analysis (pointer-void* implicit) <emphasis>on</emphasis></programlisting>
-  </para>
-  <para>
-  In ISO C and C++, a function pointer can only be cast to other function
-  pointers, not to object pointers or <code>void *</code>.  Many dialects
-  however allow function pointers to be cast to and from other pointers.
-  This behaviour can be controlled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA function pointer as pointer <emphasis>allow</emphasis></programlisting>
-  which causes function pointers to be treated in the same way as all
-  other pointers.
-  </para>
-  <para>
-  The integer conversion checks described above only apply to unsafe
-  conversions.  A simple-minded check for shortening conversions is
-  not adequate, as is shown by the following example:
-  <programlisting language="C++">
-char a = 1, b = 2 ;
-char c = a + b ;</programlisting>
-  the sum <code>a + b</code> is evaluated as an <code>int</code> which
-  is then shortened to a <code>char</code>.  Any check which does not
-  distinguish this sort of &quot;safe&quot; shortening conversion from
-  unsafe shortening conversions such as:
-  <programlisting language="C++">
-int a = 1, b = 2 ;
-char c = a + b ;</programlisting>
-  is not likely to be very useful.  The producer therefore associates
-  two types with each integral expression; the first is the normal,
-  representation type and the second is the underlying, semantic type.
-  Thus in the first example, the representation type of <code>a + b</code>
-  is <code>int</code>, but semantically it is still a <code>char</code>.
-  The conversion analysis is based on the semantic types.
-  </para>
-	<warning>
-  <para>The C producer supports a directive:
-  <programlisting language="C++">
-#pragma TenDRA keyword <emphasis>identifier</emphasis> for type representation</programlisting>
-  whereby a keyword can be introduced which can be used to explicitly
-  declare a type with given representation and semantic components.
-  Unfortunately this makes the <A HREF="parse.html">C++ grammar</A>
-  ambiguous, so it has not yet been implemented in the C++ producer.
-  </para>
-	</warning>
-  <para>
-  It is possible to allow individual conversions by means of conversion
-  tokens.  A <A HREF="token.html">procedure token</A> which takes one
-  rvalue expression program parameter and returns an rvalue expression,
-  such as:
-  <programlisting language="C++">
-#pragma token PROC ( EXP : t : ) EXP : s : conv #</programlisting>
-  can be regarded as mapping expressions of type <code>t</code> to expressions
-  of type <code>s</code>.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA conversion <emphasis>identifier-list</emphasis> allow</programlisting>
-  can be used to nominate such a token as a conversion token.  That
-  is to say, if the conversion, whether explicit or implicit, from <code>t</code>
-  to <code>s</code> cannot be done by other means, it is done by applying
-  the token <code>conv</code>, so:
-  <programlisting language="C++">
-t a ;
-s b = a ;		// maps to conv ( a )</programlisting>
-  Note that, unlike conversion functions, conversion tokens can be applied
-  to any types.
-  </para>
-  </section>
 
-  <section id="cast">
-    <title>Cast expressions</title>
-  <para>
-  ISO C++ introduces the constructs <code>static_cast</code>,
-  <code>const_cast</code> and <code>reinterpret_cast</code>, which can
-  be used in various contexts where an old style explicit cast would
-  previously have been used.  By default, an explicit cast can perform
-  any combination of the conversions performed by these three constructs.
-  To aid migration to the new style casts the directives:
-  <programlisting language="C++">
-#pragma TenDRA++ explicit cast as <emphasis>cast-state allow</emphasis>
+			<para>are equivalent to their corresponding explicit forms (because the
+			implicit forms are illegal by default).	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA conversion analysis <emphasis>on</emphasis></programlisting>
+
+			<para>is equivalent to the four directives just given.	It enables checks
+			on implicit and explicit arithmetic conversions, explicit arithmetic
+			to pointer conversions and explicit pointer conversions.</para>
+
+		<para>The default settings for these checks are determined by the implicit
+			and explicit conversions allowed in C++.	Note that there are differences
+			between the conversions allowed in C and C++.	For example, an arithmetic
+			type can be converted implicitly to an enumeration type in C, but
+			not in C++.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA conversion analysis (int-enum implicit) <emphasis>on</emphasis></programlisting>
+
+			<para>can be used to control the status of this conversion.	The level of
+			severity for an error message arising from such a conversion is the
+			maximum of the severity set by this directive and that set by the
+			<code>int-int implicit</code> directive above.</para>
+
+		<para>The implicit pointer conversions described above do not include conversions
+			to and from the generic pointer <code>void *</code>, which have their
+			own controlling directives.	A pointer of type <code>void *</code>
+			can be converted implicitly to another pointer type in C but not in
+			C++; this is controlled by the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ conversion analysis (void*-pointer implicit) <emphasis>on</emphasis></programlisting>
+
+			<para>The reverse conversion, from a pointer type to <code>void *</code>
+			is allowed in both C and C++, and has a controlling directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ conversion analysis (pointer-void* implicit) <emphasis>on</emphasis></programlisting>
+
+		<para>In ISO C and C++, a function pointer can only be cast to other function
+			pointers, not to object pointers or <code>void *</code>.	Many dialects
+			however allow function pointers to be cast to and from other pointers.
+			This behaviour can be controlled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA function pointer as pointer <emphasis>allow</emphasis></programlisting>
+
+			<para>which causes function pointers to be treated in the same way as all
+			other pointers.</para>
+
+		<para>The integer conversion checks described above only apply to unsafe
+			conversions.	A simple-minded check for shortening conversions is
+			not adequate, as is shown by the following example:</para>
+
+		<programlisting language="C++">char a = 1, b = 2 ;
+		char c = a + b ;</programlisting>
+
+			<para>the sum <code>a + b</code> is evaluated as an <code>int</code> which
+			is then shortened to a <code>char</code>.	Any check which does not
+			distinguish this sort of &quot;safe&quot; shortening conversion from
+			unsafe shortening conversions such as:</para>
+
+		<programlisting language="C++">int a = 1, b = 2 ;
+		char c = a + b ;</programlisting>
+
+			<para>is not likely to be very useful.	The producer therefore associates
+			two types with each integral expression; the first is the normal,
+			representation type and the second is the underlying, semantic type.
+			Thus in the first example, the representation type of <code>a + b</code>
+			is <code>int</code>, but semantically it is still a <code>char</code>.
+			The conversion analysis is based on the semantic types.</para>
+			<warning>
+		<para>The C producer supports a directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for type representation</programlisting>
+
+			<para>whereby a keyword can be introduced which can be used to explicitly
+			declare a type with given representation and semantic components.
+			Unfortunately this makes the <A HREF="parse.html">C++ grammar</A>
+			ambiguous, so it has not yet been implemented in the C++ producer.</para>
+			</warning>
+		<para>It is possible to allow individual conversions by means of conversion
+			tokens.	A <A HREF="token.html">procedure token</A> which takes one
+			rvalue expression program parameter and returns an rvalue expression,
+			such as:</para>
+
+		<programlisting language="C++">#pragma token PROC ( EXP : t : ) EXP : s : conv #</programlisting>
+
+			<para>can be regarded as mapping expressions of type <code>t</code> to expressions
+			of type <code>s</code>.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA conversion <emphasis>identifier-list</emphasis> allow</programlisting>
+
+			<para>can be used to nominate such a token as a conversion token.	That
+			is to say, if the conversion, whether explicit or implicit, from <code>t</code>
+			to <code>s</code> cannot be done by other means, it is done by applying
+			the token <code>conv</code>, so:</para>
+
+		<programlisting language="C++">t a ;
+		s b = a ;		// maps to conv ( a )</programlisting>
+
+			<para>Note that, unlike conversion functions, conversion tokens can be applied
+			to any types.</para>
+	</section>
+
+	<section id="cast">
+		<title>Cast expressions</title>
+
+		<para>ISO C++ introduces the constructs <code>static_cast</code>,
+			<code>const_cast</code> and <code>reinterpret_cast</code>, which can
+			be used in various contexts where an old style explicit cast would
+			previously have been used.	By default, an explicit cast can perform
+			any combination of the conversions performed by these three constructs.
+			To aid migration to the new style casts the directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ explicit cast as <emphasis>cast-state allow</emphasis>
 #pragma TenDRA++ explicit cast <emphasis>allow</emphasis></programlisting>
-  where <emphasis>cast-state</emphasis> is defined as follows:
-  <programlisting language="BNF">
-<emphasis>cast-state</emphasis> :
-	static_cast
-	const_cast
-	reinterpret_cast
-	static_cast | <emphasis>cast-state</emphasis>
-	const_cast | <emphasis>cast-state</emphasis>
-	reinterpret_cast | <emphasis>cast-state</emphasis></programlisting>
-  can be used to restrict the conversions which can be performed using
-  explicit casts.  The first form sets the interpretation of explicit
-  cast to be combinations of the given constructs; the second resets
-  the interpretation to the default.  For example:
-  <programlisting language="C++">
-#pragma TenDRA++ explicit cast as static_cast | const_cast allow</programlisting>
-  means that conversions requiring <code>reinterpret_cast</code> (the
-  most unportable conversions) will not be allowed to be performed using
-  explicit casts, but will have to be given as a <code>reinterpret_cast</code>
-  construct.  Changing <code>allow</code> to <code>warning</code> will
-  also cause a warning to be issued for every explicit cast expression.
-  </para>
-  </section>
 
-  <section id="ellipsis">
-    <title>Ellipsis functions</title>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA ident ... <emphasis>allow</emphasis></programlisting>
-  may be used to enable or disable the use of <code>...</code> as a
-  primary expression in a function defined with ellipsis.  The type
-  of such an expression is implementation defined.  This expression
-  is used in the definition of the <A HREF="lib.html#ellipsis"><code>va_start
-  </code>
-  macro</A> in the <code>&lt;stdarg.h&gt;</code> header.  This header
-  automatically enables this switch.
-  </para>
-  </section>
+			<para>where <emphasis>cast-state</emphasis> is defined as follows:</para>
 
-  <section id="overload">
-    <title>Overloaded functions</title>
-  <para>
-  Older dialects of C++ did not report ambiguous overloaded function
-  resolutions, but instead resolved the call to the first of the most
-  viable candidates to be declared.  This behaviour can be controlled
-  using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ ambiguous overload resolution <emphasis>allow</emphasis></programlisting>
-  There are occasions when the resolution of an overloaded function
-  call is not clear.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA++ overload resolution <emphasis>allow</emphasis></programlisting>
-  can be used to report the resolution of any such call (whether explicit
-  or implicit) where there is more than one viable candidate.
-  </para>
-  <para>
-  An interesting consequence of compiling C++ in a target independent
-  manner is that certain overload resolutions can only be determined
-  at install-time. For example, in:
-  <programlisting language="C++">
-int f ( int ) ;
-int f ( unsigned int ) ;
-int f ( long ) ;
-int f ( unsigned long ) ;
+		<programlisting language="BNF">
+		<emphasis>cast-state</emphasis> :
+			static_cast
+			const_cast
+			reinterpret_cast
+			static_cast | <emphasis>cast-state</emphasis>
+			const_cast | <emphasis>cast-state</emphasis>
+			reinterpret_cast | <emphasis>cast-state</emphasis></programlisting>
 
-int a = f ( sizeof ( int ) ) ;	// which f?</programlisting>
-  the type of the <code>sizeof</code> operator, <code>size_t</code>,
-  is target dependent, but its promotion must be one of the types
-  <code>int</code>, <code>unsigned int</code>, <code>long</code> or
-  <code>unsigned long</code>.  Thus the call to <code>f</code> always
-  has a unique resolution, but what it is is target dependent.  The
-  equivalent directives:
-  <programlisting language="C++">
-#pragma TenDRA++ conditional overload resolution <emphasis>allow</emphasis>
+			<para>can be used to restrict the conversions which can be performed using
+			explicit casts.	The first form sets the interpretation of explicit
+			cast to be combinations of the given constructs; the second resets
+			the interpretation to the default.	For example:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ explicit cast as static_cast | const_cast allow</programlisting>
+
+			<para>means that conversions requiring <code>reinterpret_cast</code> (the
+			most unportable conversions) will not be allowed to be performed using
+			explicit casts, but will have to be given as a <code>reinterpret_cast</code>
+			construct.	Changing <code>allow</code> to <code>warning</code> will
+			also cause a warning to be issued for every explicit cast expression.</para>
+	</section>
+
+	<section id="ellipsis">
+		<title>Ellipsis functions</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA ident ... <emphasis>allow</emphasis></programlisting>
+
+			<para>may be used to enable or disable the use of <code>...</code> as a
+			primary expression in a function defined with ellipsis.	The type
+			of such an expression is implementation defined.	This expression
+			is used in the definition of the <A HREF="lib.html#ellipsis"><code>va_start
+			</code>
+			macro</A> in the <code>&lt;stdarg.h&gt;</code> header.	This header
+			automatically enables this switch.</para>
+	</section>
+
+	<section id="overload">
+		<title>Overloaded functions</title>
+
+		<para>Older dialects of C++ did not report ambiguous overloaded function
+			resolutions, but instead resolved the call to the first of the most
+			viable candidates to be declared.	This behaviour can be controlled
+			using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ ambiguous overload resolution <emphasis>allow</emphasis></programlisting>
+
+			<para>There are occasions when the resolution of an overloaded function
+			call is not clear.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ overload resolution <emphasis>allow</emphasis></programlisting>
+
+			<para>can be used to report the resolution of any such call (whether explicit
+			or implicit) where there is more than one viable candidate.</para>
+
+		<para>An interesting consequence of compiling C++ in a target independent
+			manner is that certain overload resolutions can only be determined
+			at install-time. For example, in:</para>
+
+		<programlisting language="C++">int f ( int ) ;
+		int f ( unsigned int ) ;
+		int f ( long ) ;
+		int f ( unsigned long ) ;
+
+		int a = f ( sizeof ( int ) ) ;	// which f?</programlisting>
+
+			<para>the type of the <code>sizeof</code> operator, <code>size_t</code>,
+			is target dependent, but its promotion must be one of the types
+			<code>int</code>, <code>unsigned int</code>, <code>long</code> or
+			<code>unsigned long</code>.	Thus the call to <code>f</code> always
+			has a unique resolution, but what it is is target dependent.	The
+			equivalent directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ conditional overload resolution <emphasis>allow</emphasis>
 #pragma TenDRA++ conditional overload resolution (complete) <emphasis>allow</emphasis></programlisting>
-  can be used to warn about such target dependent overload resolutions.
-  By default, such resolutions are only allowed if there is a unique
-  resolution for each possible implementation of the argument types
-  (note that, for simplicity, the possibility of <code>long long</code>
-  implementation types is ignored).  The directive:
-  <programlisting language="C++">
-#pragma TenDRA++ conditional overload resolution (incomplete) <emphasis>allow</emphasis></programlisting>
-  can be used to allow target dependent overload resolutions which only
-  have resolutions for some of the possible implementation types (if
-  one of the <code>f</code> declarations above was removed, for example).
-  If the implementation does not match one of these types then an install-time
-  error is given.
-  </para>
-  <para>
-  There are restrictions on the set of candidate functions involved
-  in a target dependent overload resolution.  Most importantly, it should
-  be possible to bring their return types to a common type, as if by
-  a series of <code>?:</code> operations.  This common type is the type
-  of the target dependent call.  By this means, target dependent types
-  are prevented from propagating further out into the program.  Note
-  that since sets of overloaded functions usually have the same semantics,
-  this does not usually present a problem.
-  </para>
-  </section>
 
-  <section id="expressions">
-    <title>Expressions</title>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA operator precedence analysis <emphasis>on</emphasis></programlisting>
-  can be used to enable a check for expressions where the operator precedence
-  is not necessarily what might be expected.  The intended precedence
-  can be clarified by means of explicit parentheses.  The precedence
-  levels checked are as follows:
-  <itemizedlist>
-  <listitem><code>&amp;&amp;</code> versus <code>||</code>.
-  </listitem>
-  <listitem><code>&lt;&lt;</code> and <code>&gt;&gt;</code> versus binary
-  <code>+</code> and <code>-</code>.
-  </listitem>
-  <listitem>Binary <code>&amp;</code> versus binary <code>+</code>,     <code>-</code>,
-  <code>==</code>, <code>!=</code>, <code>&gt;</code>,     <code>&gt;=</code>,
-  <code>&lt;</code> and <code>&lt;=</code>.
-  </listitem>
-  <listitem><code>^</code> versus binary <code>&amp;</code>, <code>+</code>,
-  <code>-</code>, <code>==</code>, <code>!=</code>, <code>&gt;</code>,
-  <code>&gt;=</code>, <code>&lt;</code> and <code>&lt;=</code>.
-  </listitem>
-  <listitem><code>|</code> versus binary <code>^</code>, <code>&amp;</code>,
-  <code>+</code>, <code>-</code>, <code>==</code>, <code>!=</code>,
-  <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code> and     <code>&lt;=
-  </code>.
-  </listitem>
-  </itemizedlist>
-  Also checked are expressions such as <code>a &lt; b &lt; c</code>
-  which do not have their normal mathematical meaning.  For example,
-  in:
-  <programlisting language="C++">
-d = a &lt;&lt; b + c ;	// precedence is a &lt;&lt; ( b + c )</programlisting>
-  the precedence is counter-intuitive, although strangely enough, it
-  isn't in:
-  <programlisting language="C++">
-cout &lt;&lt; b + c ;		// precedence is cout &lt;&lt; ( b + c )</programlisting>
-  </para>
-  <para>
-  Other dubious arithmetic operations can be checked for using the directive:
-  <programlisting language="C++">
-#pragma TenDRA integer operator analysis <emphasis>on</emphasis></programlisting>
-  This includes checks for operations, such as division by a negative
-  value, which are implementation dependent, and those such as testing
-  whether an unsigned value is less than zero, which serve no purpose.
-  Similarly the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ pointer operator analysis <emphasis>on</emphasis></programlisting>
-  checks for dubious pointer operations.  This includes very simple
-  bounds checking for arrays and checking that only the simple literal
-  <code>0</code>
-  is used in null pointer constants:
-  <programlisting language="C++">
-char *p = 1 - 1 ;	// valid, but weird</programlisting>
-  </para>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA integer overflow analysis <emphasis>on</emphasis></programlisting>
-  is used to control the treatment of overflows in the evaluation of
-  integer constant expressions.  This includes the detection of division
-  by zero.
-  </para>
-  </section>
+			<para>can be used to warn about such target dependent overload resolutions.
+			By default, such resolutions are only allowed if there is a unique
+			resolution for each possible implementation of the argument types
+			(note that, for simplicity, the possibility of <code>long long</code>
+			implementation types is ignored).	The directive:</para>
 
-  <section id="initialiser-expressions">
-    <title>Initialiser expressions</title>
-  <para>
-  C, but not C++, only allows constant expressions in static initialisers.
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA variable initialization <emphasis>allow</emphasis></programlisting>
-  can be enable support for C++-style dynamic initialisers.  Conversely,
-  it can be used in C++ to detect such dynamic initialisers.
-  </para>
-  <para>
-  In older dialects of C it was not possible to initialise an automatic
-  variable of structure or union type.  This can be checked for using
-  the directive:
-  <programlisting language="C++">
-#pragma TenDRA initialization of struct/union (auto) <emphasis>allow</emphasis></programlisting>
-  </para>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA++ complete initialization analysis <emphasis>on</emphasis></programlisting>
-  can be used to check aggregate initialisers.  The initialiser should
-  be fully bracketed (i.e. with no elision of braces), and should have
-  an entry for each member of the structure or array.
-  </para>
-  </section>
+		<programlisting language="C++">#pragma TenDRA++ conditional overload resolution (incomplete) <emphasis>allow</emphasis></programlisting>
 
-  <section id="lvalue">
-    <title>Lvalue expressions</title>
-  <para>
-  C++ defines the results of several operations to be lvalues, whereas
-  they are rvalues in C.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA conditional lvalue <emphasis>allow</emphasis></programlisting>
-  is used to apply the C++ rules for lvalues in conditional (<code>?:</code>)
-  expressions.
-  </para>
-  <para>
-  Older dialects of C++ allowed <code>this</code> to be treated as an
-  lvalue. It is possible to enable support for this dialect feature
-  using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ this lvalue <emphasis>allow</emphasis></programlisting>
-  however it is recommended that programs using this feature should
-  be modified.
-  </para>
-  </section>
+			<para>can be used to allow target dependent overload resolutions which only
+			have resolutions for some of the possible implementation types (if
+			one of the <code>f</code> declarations above was removed, for example).
+			If the implementation does not match one of these types then an install-time
+			error is given.</para>
 
-  <section id="discard">
-    <title>Discarded expressions</title>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA discard analysis <emphasis>on</emphasis></programlisting>
-  can be used to enable a check for values which are calculated but
-  not used.  There are three checks controlled by this directive, each
-  of which can be controlled independently.  The directive:
-  <programlisting language="C++">
-#pragma TenDRA discard analysis (function return) <emphasis>on</emphasis></programlisting>
-  checks for functions which return a value which is not used.  The
-  check needs to be enabled for both the declaration and the call of
-  the function in order for a discarded function return to be reported.
-  Discarded returns for overloaded operator functions are never reported.
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA discard analysis (value) <emphasis>on</emphasis></programlisting>
-  checks for other expressions which are not used.  Finally, the directive:
-  <programlisting language="C++">
-#pragma TenDRA discard analysis (static) <emphasis>on</emphasis></programlisting>
-  checks for variables with internal linkage which are defined but not
-  used.
-  </para>
-  <para>
-  An unused function return or other expression can be asserted to be
-  deliberately discarded by explicitly casting it to <code>void</code>
-  or, equivalently, preceding it by a keyword introduced using the directive:
-  <programlisting language="C++">
-#pragma TenDRA keyword <emphasis>identifier</emphasis> for discard value</programlisting>
-  A static variable can be asserted to be deliberately unused by including
-  it in list of identifiers in a directive of the form:
-  <programlisting language="C++">
-#pragma TenDRA suspend static <emphasis>identifier-list</emphasis></programlisting>
-  </para>
-  </section>
+		<para>There are restrictions on the set of candidate functions involved
+			in a target dependent overload resolution.	Most importantly, it should
+			be possible to bring their return types to a common type, as if by
+			a series of <code>?:</code> operations.	This common type is the type
+			of the target dependent call.	By this means, target dependent types
+			are prevented from propagating further out into the program.	Note
+			that since sets of overloaded functions usually have the same semantics,
+			this does not usually present a problem.</para>
+	</section>
 
-  <section id="if">
-    <title>Conditional and iteration statements</title>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA const conditional <emphasis>allow</emphasis></programlisting>
-  can be used to enable a check for constant expressions used in conditional
-  contexts.  A literal constant is allowed in the condition of a <code>while
-  </code>, <code>for</code> or <code>do</code> statement to allow for
-  such common constructs as:
-  <programlisting language="C++">
-while ( true ) {
-    // while statement body
+	<section id="expressions">
+		<title>Expressions</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA operator precedence analysis <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to enable a check for expressions where the operator precedence
+			is not necessarily what might be expected.	The intended precedence
+			can be clarified by means of explicit parentheses.	The precedence
+			levels checked are as follows:</para>
+
+		<itemizedlist>
+			<listitem>
+				<code>&amp;&amp;</code> versus <code>||</code>.
+			</listitem>
+			<listitem>
+				<code>&lt;&lt;</code> and <code>&gt;&gt;</code> versus binary
+				<code>+</code> and <code>-</code>.
+			</listitem>
+			<listitem>
+				Binary <code>&amp;</code> versus binary <code>+</code>,		 <code>-</code>,
+				<code>==</code>, <code>!=</code>, <code>&gt;</code>,		 <code>&gt;=</code>,
+				<code>&lt;</code> and <code>&lt;=</code>.
+			</listitem>
+			<listitem>
+				<code>^</code> versus binary <code>&amp;</code>, <code>+</code>,
+				<code>-</code>, <code>==</code>, <code>!=</code>, <code>&gt;</code>,
+				<code>&gt;=</code>, <code>&lt;</code> and <code>&lt;=</code>.
+			</listitem>
+			<listitem>
+				<code>|</code> versus binary <code>^</code>, <code>&amp;</code>,
+				<code>+</code>, <code>-</code>, <code>==</code>, <code>!=</code>,
+				<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code> and		 <code>&lt;=
+				</code>.
+			</listitem>
+		</itemizedlist>
+
+		<para>Also checked are expressions such as <code>a &lt; b &lt; c</code>
+			which do not have their normal mathematical meaning.	For example,
+			in:</para>
+
+		<programlisting language="C++">d = a &lt;&lt; b + c ;	// precedence is a &lt;&lt; ( b + c )</programlisting>
+
+			<para>the precedence is counter-intuitive, although strangely enough, it
+			isn't in:</para>
+
+		<programlisting language="C++">cout &lt;&lt; b + c ;		// precedence is cout &lt;&lt; ( b + c )</programlisting>
+
+		<para>Other dubious arithmetic operations can be checked for using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA integer operator analysis <emphasis>on</emphasis></programlisting>
+
+			<para>This includes checks for operations, such as division by a negative
+			value, which are implementation dependent, and those such as testing
+			whether an unsigned value is less than zero, which serve no purpose.
+			Similarly the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ pointer operator analysis <emphasis>on</emphasis></programlisting>
+
+			<para>checks for dubious pointer operations.	This includes very simple
+			bounds checking for arrays and checking that only the simple literal
+			<code>0</code>
+			is used in null pointer constants:</para>
+
+		<programlisting language="C++">char *p = 1 - 1 ;	// valid, but weird</programlisting>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA integer overflow analysis <emphasis>on</emphasis></programlisting>
+
+			<para>is used to control the treatment of overflows in the evaluation of
+			integer constant expressions.	This includes the detection of division
+			by zero.</para>
+	</section>
+
+	<section id="initialiser-expressions">
+		<title>Initialiser expressions</title>
+
+		<para>C, but not C++, only allows constant expressions in static initialisers.
+			The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA variable initialization <emphasis>allow</emphasis></programlisting>
+
+			<para>can be enable support for C++-style dynamic initialisers.	Conversely,
+			it can be used in C++ to detect such dynamic initialisers.</para>
+
+		<para>In older dialects of C it was not possible to initialise an automatic
+			variable of structure or union type.	This can be checked for using
+			the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA initialization of struct/union (auto) <emphasis>allow</emphasis></programlisting>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ complete initialization analysis <emphasis>on</emphasis></programlisting>
+
+			<para>can be used to check aggregate initialisers.	The initialiser should
+			be fully bracketed (i.e. with no elision of braces), and should have
+			an entry for each member of the structure or array.</para>
+	</section>
+
+	<section id="lvalue">
+		<title>Lvalue expressions</title>
+
+		<para>C++ defines the results of several operations to be lvalues, whereas
+			they are rvalues in C.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA conditional lvalue <emphasis>allow</emphasis></programlisting>
+
+			<para>is used to apply the C++ rules for lvalues in conditional (<code>?:</code>)
+			expressions.</para>
+
+		<para>Older dialects of C++ allowed <code>this</code> to be treated as an
+			lvalue. It is possible to enable support for this dialect feature
+			using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ this lvalue <emphasis>allow</emphasis></programlisting>
+
+			<para>however it is recommended that programs using this feature should
+			be modified.</para>
+	</section>
+
+	<section id="discard">
+		<title>Discarded expressions</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA discard analysis <emphasis>on</emphasis></programlisting>
+
+			<para>can be used to enable a check for values which are calculated but
+			not used.	There are three checks controlled by this directive, each
+			of which can be controlled independently.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA discard analysis (function return) <emphasis>on</emphasis></programlisting>
+
+			<para>checks for functions which return a value which is not used.	The
+			check needs to be enabled for both the declaration and the call of
+			the function in order for a discarded function return to be reported.
+			Discarded returns for overloaded operator functions are never reported.
+			The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA discard analysis (value) <emphasis>on</emphasis></programlisting>
+
+			<para>checks for other expressions which are not used.	Finally, the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA discard analysis (static) <emphasis>on</emphasis></programlisting>
+
+			<para>checks for variables with internal linkage which are defined but not
+			used.</para>
+
+		<para>An unused function return or other expression can be asserted to be
+			deliberately discarded by explicitly casting it to <code>void</code>
+			or, equivalently, preceding it by a keyword introduced using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for discard value</programlisting>
+
+			<para>A static variable can be asserted to be deliberately unused by including
+			it in list of identifiers in a directive of the form:</para>
+
+		<programlisting language="C++">#pragma TenDRA suspend static <emphasis>identifier-list</emphasis></programlisting>
+	</section>
+
+	<section id="if">
+		<title>Conditional and iteration statements</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA const conditional <emphasis>allow</emphasis></programlisting>
+
+			<para>can be used to enable a check for constant expressions used in conditional
+			contexts.	A literal constant is allowed in the condition of a <code>while
+			</code>, <code>for</code> or <code>do</code> statement to allow for
+			such common constructs as:</para>
+
+		<programlisting language="C++">while ( true ) {
+	// while statement body
 }</programlisting>
-  and target dependent constant expressions are allowed in the condition
-  of an <code>if</code> statement, but otherwise constant conditions
-  are reported according to the status of this check.
-  </para>
-  <para>
-  The common error of writing <code>=</code> rather than <code>==</code>
-  in conditions can be detected using the directive:
-  <programlisting language="C++">
-#pragma TenDRA assignment as bool <emphasis>allow</emphasis></programlisting>
-  which can be used to disallow such assignment expressions in contexts
-  where a boolean is expected.  The error message can be suppressed
-  by enclosing the assignment within parentheses.
-  </para>
-  <para>
-  Another common error associated with iteration statements, particularly
-  with certain <A HREF="style.html">heretical</A> brace styles, is the
-  accidental insertion of an extra semicolon as in:
-  <programlisting language="C++">
-for ( init ; cond ; step ) ;
+
+			<para>and target dependent constant expressions are allowed in the condition
+			of an <code>if</code> statement, but otherwise constant conditions
+			are reported according to the status of this check.</para>
+
+		<para>The common error of writing <code>=</code> rather than <code>==</code>
+			in conditions can be detected using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA assignment as bool <emphasis>allow</emphasis></programlisting>
+
+			<para>which can be used to disallow such assignment expressions in contexts
+			where a boolean is expected.	The error message can be suppressed
+			by enclosing the assignment within parentheses.</para>
+
+		<para>Another common error associated with iteration statements, particularly
+			with certain <A HREF="style.html">heretical</A> brace styles, is the
+			accidental insertion of an extra semicolon as in:</para>
+
+		<programlisting language="C++">for ( init ; cond ; step ) ;
 {
-    // for statement body
+	// for statement body
 }</programlisting>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA extra ; after conditional <emphasis>allow</emphasis></programlisting>
-  can be used to enable a check for such suspicious empty iteration
-  statement bodies (it actually checks for <code>;{</code>).
-  </para>
-  </section>
 
-  <section id="switch">
-    <title>Switch statements</title>
-  <para>
-  A <code>switch</code> statement is said to be exhaustive if its control
-  statement is guaranteed to take one of the values of its
-  <code>case</code> labels, or if it has a <code>default</code> label.
-  The TenDRA C and C++ producers allow a <code>switch</code> statement
-  to be asserted to be exhaustive using the syntax:
-  <programlisting language="C++">
-switch ( cond ) EXHAUSTIVE {
-    // switch statement body
+			<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA extra ; after conditional <emphasis>allow</emphasis></programlisting>
+
+			<para>can be used to enable a check for such suspicious empty iteration
+			statement bodies (it actually checks for <code>;{</code>).</para>
+	</section>
+
+	<section id="switch">
+		<title>Switch statements</title>
+
+		<para>A <code>switch</code> statement is said to be exhaustive if its control
+			statement is guaranteed to take one of the values of its
+			<code>case</code> labels, or if it has a <code>default</code> label.
+			The TenDRA C and C++ producers allow a <code>switch</code> statement
+			to be asserted to be exhaustive using the syntax:</para>
+
+		<programlisting language="C++">switch ( cond ) EXHAUSTIVE {
+	// switch statement body
 }</programlisting>
-  where <code>EXHAUSTIVE</code> is either the directive:
-  <programlisting language="C++">
-#pragma TenDRA exhaustive</programlisting>
-  or a keyword introduced using:
-  <programlisting language="C++">
-#pragma TenDRA keyword <emphasis>identifier</emphasis> for exhaustive</programlisting>
-  Knowing whether a <code>switch</code> statement is exhaustive or not
-  means that checks relying on flow analysis (including variable usage
-  checks) can be applied more precisely.
-  </para>
-  <para>
-  In certain circumstances it is possible to deduce whether a
-  <code>switch</code> statement is exhaustive or not.  For example,
-  the directive:
-  <programlisting language="C++">
-#pragma TenDRA enum switch analysis <emphasis>on</emphasis></programlisting>
-  enables a check on <code>switch</code> statements on values of enumeration
-  type.  Such statements should be exhaustive, either explicitly by
-  using the <code>EXHAUSTIVE</code> keyword or declaring a
-  <code>default</code> label, or implicitly by having a <code>case</code>
-  label for each enumerator.  Conversely, the value of each <code>case</code>
-  label should equal the value of an enumerator.  For the purposes of
-  this check, boolean values are treated as if they were declared using
-  an enumeration type of the form:
-  <programlisting language="C++">
-enum bool { false = 0, true = 1 } ;</programlisting>
-  </para>
-  <para>
-  A common source of errors in <code>switch</code> statements is the
-  fall-through from one <code>case</code> or <code>default</code>
-  statement to the next.  A check for this can be enabled using:
-  <programlisting language="C++">
-#pragma TenDRA fall into case <emphasis>allow</emphasis></programlisting>
-  <code>case</code> or <code>default</code> labels where fall-through
-  from the previous statement is intentional can be marked by preceding
-  them by a keyword, <code>FALL_THRU</code> say, introduced using the
-  directive:
-  <programlisting language="C++">
-#pragma TenDRA keyword <emphasis>identifier</emphasis> for fall into case</programlisting>
-  </para>
-  </section>
 
-  <section id="for">
-    <title>For statements</title>
-  <para>
-  In ISO C++ the scope of a variable declared in a for-init-statement
-  is the body of the <code>for</code> statement; in older dialects it
-  extended to the end of the enclosing block.  So:
-  <programlisting language="C++">
-for ( int i = 0 ; i &lt; 10 ; i++ ) {
-    // for statement body
+		<para>where <code>EXHAUSTIVE</code> is either the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA exhaustive</programlisting>
+
+		<para>or a keyword introduced using:</para>
+
+		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for exhaustive</programlisting>
+
+		<para>Knowing whether a <code>switch</code> statement is exhaustive or not
+			means that checks relying on flow analysis (including variable usage
+			checks) can be applied more precisely.</para>
+
+		<para>In certain circumstances it is possible to deduce whether a
+			<code>switch</code> statement is exhaustive or not.	For example,
+			the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA enum switch analysis <emphasis>on</emphasis></programlisting>
+
+		<para>enables a check on <code>switch</code> statements on values of enumeration
+			type.	Such statements should be exhaustive, either explicitly by
+			using the <code>EXHAUSTIVE</code> keyword or declaring a
+			<code>default</code> label, or implicitly by having a <code>case</code>
+			label for each enumerator.	Conversely, the value of each <code>case</code>
+			label should equal the value of an enumerator.	For the purposes of
+			this check, boolean values are treated as if they were declared using
+			an enumeration type of the form:</para>
+
+		<programlisting language="C++">enum bool { false = 0, true = 1 } ;</programlisting>
+
+		<para>A common source of errors in <code>switch</code> statements is the
+			fall-through from one <code>case</code> or <code>default</code>
+			statement to the next.	A check for this can be enabled using:</para>
+
+		<programlisting language="C++">#pragma TenDRA fall into case <emphasis>allow</emphasis></programlisting>
+		<para><code>case</code> or <code>default</code> labels where fall-through
+			from the previous statement is intentional can be marked by preceding
+			them by a keyword, <code>FALL_THRU</code> say, introduced using the
+			directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for fall into case</programlisting>
+	</section>
+
+	<section id="for">
+		<title>For statements</title>
+
+		<para>In ISO C++ the scope of a variable declared in a for-init-statement
+			is the body of the <code>for</code> statement; in older dialects it
+			extended to the end of the enclosing block.	So:</para>
+
+		<programlisting language="C++">for ( int i = 0 ; i &lt; 10 ; i++ ) {
+	// for statement body
 }
 return i ;	// OK in older dialects, error in ISO C++</programlisting>
-  This behaviour is controlled by the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ for initialization block <emphasis>on</emphasis></programlisting>
-  a state of <code>on</code> corresponding to the ISO rules and
-  <code>off</code> to the older rules.  Perhaps most useful is the
-  <code>warning</code> state which implements the old rules but gives
-  a warning if a variable declared in a for-init-statement is used outside
-  the corresponding <code>for</code> statement body.  A program which
-  does not give such warnings should compile correctly under either
-  set of rules.
-  </para>
-  </section>
 
-  <section id="return">
-    <title>Return statements</title>
-  <para>
-  In C, but not in C++, it is possible to have a <code>return</code>
-  statement without an expression in a function which does not return
-  <code>void</code>.  It is possible to enable this behaviour using
-  the directive:
-  <programlisting language="C++">
-#pragma TenDRA incompatible void return <emphasis>allow</emphasis></programlisting>
-  Note that this check includes the implicit <code>return</code> caused
-  by falling off the end of a function.  The effect of such a
-  <code>return</code> statement is undefined.  The C++ rule that falling
-  off the end of <code>main</code> is equivalent to returning a value
-  of 0 overrides this check.
-  </para>
-  </section>
+			<para>This behaviour is controlled by the directive:</para>
 
-  <section id="reach">
-    <title>Unreached code analysis</title>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA unreachable code <emphasis>allow</emphasis></programlisting>
-  enables a flow analysis check to detect unreachable code.  It is possible
-  to assert that a statement is reached or not reached by preceding
-  it by a keyword introduced by one of the directives:
-  <programlisting language="C++">
-#pragma TenDRA keyword <emphasis>identifier</emphasis> for set reachable
+		<programlisting language="C++">#pragma TenDRA++ for initialization block <emphasis>on</emphasis></programlisting>
+
+			<para>a state of <code>on</code> corresponding to the ISO rules and
+			<code>off</code> to the older rules.	Perhaps most useful is the
+			<code>warning</code> state which implements the old rules but gives
+			a warning if a variable declared in a for-init-statement is used outside
+			the corresponding <code>for</code> statement body.	A program which
+			does not give such warnings should compile correctly under either
+			set of rules.</para>
+	</section>
+
+	<section id="return">
+		<title>Return statements</title>
+
+		<para>In C, but not in C++, it is possible to have a <code>return</code>
+			statement without an expression in a function which does not return
+			<code>void</code>.	It is possible to enable this behaviour using
+			the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA incompatible void return <emphasis>allow</emphasis></programlisting>
+
+			<para>Note that this check includes the implicit <code>return</code> caused
+			by falling off the end of a function.	The effect of such a
+			<code>return</code> statement is undefined.	The C++ rule that falling
+			off the end of <code>main</code> is equivalent to returning a value
+			of 0 overrides this check.</para>
+	</section>
+
+	<section id="reach">
+		<title>Unreached code analysis</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA unreachable code <emphasis>allow</emphasis></programlisting>
+
+			<para>enables a flow analysis check to detect unreachable code.	It is possible
+			to assert that a statement is reached or not reached by preceding
+			it by a keyword introduced by one of the directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for set reachable
 #pragma TenDRA keyword <emphasis>identifier</emphasis> for set unreachable</programlisting>
-  </para>
-  <para>
-  The fact that certain functions, such as <code>exit</code>, do not
-  return a value can be exploited in the flow analysis routines.  The
-  equivalent directives:
-  <programlisting language="C++">
-#pragma TenDRA bottom <emphasis>identifier</emphasis>
+
+		<para>The fact that certain functions, such as <code>exit</code>, do not
+			return a value can be exploited in the flow analysis routines.	The
+			equivalent directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA bottom <emphasis>identifier</emphasis>
 #pragma TenDRA++ type <emphasis>identifier</emphasis> for bottom</programlisting>
-  can be used to introduce a <code>typedef</code> declaration for the
-  type, bottom, returned by such functions.  The TenDRA API headers
-  declare
-  <code>exit</code> and similar functions in this way, for example:
-  <programlisting language="C++">
-#pragma TenDRA bottom __bottom
+
+			<para>can be used to introduce a <code>typedef</code> declaration for the
+			type, bottom, returned by such functions.	The TenDRA API headers
+			declare
+			<code>exit</code> and similar functions in this way, for example:</para>
+
+		<programlisting language="C++">#pragma TenDRA bottom __bottom
 __bottom exit ( int ) ;
 __bottom abort ( void ) ;</programlisting>
-  The bottom type is compatible with <code>void</code> in function declarations
-  to allow such functions to be redeclared in their conventional form.
-  </para>
-  </section>
 
-  <section id="variable">
-    <title>Variable flow analysis</title>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA variable analysis <emphasis>on</emphasis></programlisting>
-  enables checks on the uses of automatic variables and function parameters.
-  These checks detect:
-  <itemizedlist>
-  <listitem>If a variable is not used in its scope.
-  </listitem>
-  <listitem>If the value of a variable is used before it has been assigned
-  to.
-  </listitem>
-  <listitem>If a variable is assigned to twice without an intervening use.
-  </listitem>
-  <listitem>If a variable is assigned to twice without an intervening sequence
-  point.
-  </listitem>
-  </itemizedlist>
-  as illustrated by the variables <code>a</code>, <code>b</code>,
-  <code>c</code> and <code>d</code> respectively in:
-  <programlisting language="C++">
-void f ()
+			<para>The bottom type is compatible with <code>void</code> in function declarations
+			to allow such functions to be redeclared in their conventional form.</para>
+	</section>
+
+	<section id="variable">
+		<title>Variable flow analysis</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA variable analysis <emphasis>on</emphasis></programlisting>
+
+		<para>enables checks on the uses of automatic variables and function parameters.
+			These checks detect:</para>
+
+		<itemizedlist>
+			<listitem>If a variable is not used in its scope.</listitem>
+			<listitem>If the value of a variable is used before it has been assigned to.</listitem>
+			<listitem>If a variable is assigned to twice without an intervening use.</listitem>
+			<listitem>If a variable is assigned to twice without an intervening sequence point.</listitem>
+		</itemizedlist>
+
+		<para>as illustrated by the variables <code>a</code>, <code>b</code>,
+			<code>c</code> and <code>d</code> respectively in:</para>
+
+		<programlisting language="C++">void f ()
 {
-    int a ;			// a never used
-    int b ;
-    int c = b ;			// b not initialised
-    c = 0 ;			// c assigned to twice
-    int d = 0 ;
-    d = ++d ;			// d assigned to twice
+	int a ;			// a never used
+	int b ;
+	int c = b ;			// b not initialised
+	c = 0 ;			// c assigned to twice
+	int d = 0 ;
+	d = ++d ;			// d assigned to twice
 }</programlisting>
-  The second, and more particularly the third, of these checks requires
-  some fairly sophisticated flow analysis, so any hints which can be
-  picked up from <link linkend="switch">exhaustive <code>switch</code>
-  statements</link> etc. is likely to increase the accuracy of the errors
-  detected.
-  </para>
-  <para>
-  In a non-static member function the various non-static data members
-  are analysed as if they were automatic variables.  It is checked that
-  each member is initialised in a constructor.  A common source of initialisation
-  problems in a constructor is that the base classes and members are
-  initialised in the canonical order of virtual bases, non-virtual direct
-  bases and members in the order of their declaration, rather than in
-  the order in which their initialisers appear in the constructor definition.
-  Therefore a check that the initialisers appear in the canonical order
-  is also applied.
-  </para>
-  <para>
-  It is possible to change the state of a variable during the variable
-  analysis using the directives:
-  <programlisting language="C++">
-#pragma TenDRA set <emphasis>expression</emphasis>
+
+			<para>The second, and more particularly the third, of these checks requires
+			some fairly sophisticated flow analysis, so any hints which can be
+			picked up from <link linkend="switch">exhaustive <code>switch</code>
+			statements</link> etc. is likely to increase the accuracy of the errors
+			detected.</para>
+
+		<para>In a non-static member function the various non-static data members
+			are analysed as if they were automatic variables.	It is checked that
+			each member is initialised in a constructor.	A common source of initialisation
+			problems in a constructor is that the base classes and members are
+			initialised in the canonical order of virtual bases, non-virtual direct
+			bases and members in the order of their declaration, rather than in
+			the order in which their initialisers appear in the constructor definition.
+			Therefore a check that the initialisers appear in the canonical order
+			is also applied.</para>
+
+		<para>It is possible to change the state of a variable during the variable
+			analysis using the directives:</para>
+
+		<programlisting language="C++">#pragma TenDRA set <emphasis>expression</emphasis>
 #pragma TenDRA discard <emphasis>expression</emphasis></programlisting>
-  The first asserts that the variable given by the <emphasis>expression</emphasis>
-  has been assigned to; the second asserts that the variable is not
-  used.  An alternative way of expressing this is by means of keywords:
-  <programlisting language="C++">
-SET ( <emphasis>expression</emphasis> )
+
+		<para>The first asserts that the variable given by the <emphasis>expression</emphasis>
+			has been assigned to; the second asserts that the variable is not
+			used.	An alternative way of expressing this is by means of keywords:</para>
+
+		<programlisting language="C++">SET ( <emphasis>expression</emphasis> )
 DISCARD ( <emphasis>expression</emphasis> )</programlisting>
-  introduced using the directives.
-  <programlisting language="C++">
+
+		<para>introduced using the directives.</para>
+
+		<programlisting language="C++">
 #pragma TenDRA keyword <emphasis>identifier</emphasis> for set
 #pragma TenDRA keyword <emphasis>identifier</emphasis> for discard variable</programlisting>
-  respectively.  These expressions can appear in expression statements
-  and as the first argument of a comma expression.
-  </para>
-	<warning>
-  <para>The variable flow analysis checks have not yet been completely implemented.
-  They may not detect errors in certain circumstances and for extremely
-  convoluted code may occasionally give incorrect errors.</para>
-	</warning>
-  </section>
 
-  <section id="hide">
-    <title>Variable hiding</title>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA variable hiding analysis <emphasis>on</emphasis></programlisting>
-  can be used to enable a check for hiding of other variables and, in
-  member functions, data members, by local variable declarations.
-  </para>
-  </section>
+		<para>respectively.	These expressions can appear in expression statements
+			and as the first argument of a comma expression.</para>
 
-  <section id="exception">
-    <title>Exception analysis</title>
-  <para>
-  The ISO C++ rules do not require exception specifications to be checked
-  statically.  This is to facilitate the integration of large systems
-  where a single change in an exception specification could have ramifications
-  throughout the system.  However it is often useful to apply such checks,
-  which can be enabled using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ throw analysis <emphasis>on</emphasis></programlisting>
-  This detects any potentially uncaught exceptions and other exception
-  problems.  In the error messages arising from this check, an uncaught
-  exception of type <code>...</code> means that an uncaught exception
-  of an unknown type (arising, for example, from a function without
-  an exception specification) may be thrown.  For example:
-  <programlisting language="C++">
+		<warning>
+			<para>The variable flow analysis checks have not yet been completely implemented.
+				They may not detect errors in certain circumstances and for extremely
+				convoluted code may occasionally give incorrect errors.</para>
+		</warning>
+	</section>
+
+	<section id="hide">
+		<title>Variable hiding</title>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA variable hiding analysis <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to enable a check for hiding of other variables and, in
+			member functions, data members, by local variable declarations.</para>
+	</section>
+
+	<section id="exception">
+		<title>Exception analysis</title>
+
+		<para>The ISO C++ rules do not require exception specifications to be checked
+			statically.	This is to facilitate the integration of large systems
+			where a single change in an exception specification could have ramifications
+			throughout the system.	However it is often useful to apply such checks,
+			which can be enabled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ throw analysis <emphasis>on</emphasis></programlisting>
+		<para>This detects any potentially uncaught exceptions and other exception
+			problems.	In the error messages arising from this check, an uncaught
+			exception of type <code>...</code> means that an uncaught exception
+			of an unknown type (arising, for example, from a function without
+			an exception specification) may be thrown.	For example:</para>
+
+		<programlisting language="C++">
 void f ( int ) throw ( int ) ;
 void g ( int ) throw ( long ) ;
 void h ( int ) ;
 
 void e () throw ( int )
 {
-    f ( 1 ) ;			// OK
-    g ( 2 ) ;			// uncaught 'long' exception
-    h ( 3 ) ;			// uncaught '...' exception
+	f ( 1 ) ;	// OK
+	g ( 2 ) ;	// uncaught 'long' exception
+	h ( 3 ) ;	// uncaught '...' exception
 }</programlisting>
-  </para>
-  </section>
+	</section>
 
-  <section id="template">
-    <title>Template compilation</title>
-  <para>
-  The C++ producer makes the distinction between exported templates,
-  which may be used in one module and defined in another, and non-exported
-  templates, which must be defined in every module in which they are
-  used. As in the ISO C++ standard, the <code>export</code> keyword
-  is used to distinguish between the two cases.  In the past, different
-  compilers have had different template compilation models; either all
-  templates were exported or no templates were exported.  The latter
-  is easily emulated - if the <code>export</code> keyword is not used
-  then no templates will be exported.  To emulate the former behaviour
-  the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ implicit export template <emphasis>on</emphasis></programlisting>
-  can be used to treat all templates as if they had been declared using
-  the <code>export</code> keyword.
-  </para>
-	<warning>
-  <para>The automatic instantiation of exported templates has not yet been
-  implemented correctly.  It is intended that such instantiations will
-  be generated during <A HREF="link.html">intermodule analysis</A>
-  (where they conceptually belong).  At present it is necessary to work
-  round this using explicit instantiations.</para>
-	</warning>
-  </section>
+	<section id="template">
+		<title>Template compilation</title>
 
-  <section id="catch_all">
-    <title>Other checks</title>
-  <para>
-  Several checks of varying utility have been implemented in the C++
-  producer but do not as yet have individual directives controlling
-  their use.  These can be enabled <emphasis>en masse</emphasis> using the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ catch all <emphasis>allow</emphasis></programlisting>
-  It is intended that this directive will be phased out as these checks
-  are assigned controlling directives.  It is possible to achieve finer
-  control over these checks by enabling their individual error messages
-  <link linkend="low">as described above</link>.
-  </para>
-  </section>
+		<para>The C++ producer makes the distinction between exported templates,
+			which may be used in one module and defined in another, and non-exported
+			templates, which must be defined in every module in which they are
+			used. As in the ISO C++ standard, the <code>export</code> keyword
+			is used to distinguish between the two cases.	In the past, different
+			compilers have had different template compilation models; either all
+			templates were exported or no templates were exported.	The latter
+			is easily emulated - if the <code>export</code> keyword is not used
+			then no templates will be exported.	To emulate the former behaviour
+			the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ implicit export template <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to treat all templates as if they had been declared using
+			the <code>export</code> keyword.</para>
+
+		<warning>
+			<para>The automatic instantiation of exported templates has not yet been
+				implemented correctly.	It is intended that such instantiations will
+				be generated during <A HREF="link.html">intermodule analysis</A>
+				(where they conceptually belong).	At present it is necessary to work
+				round this using explicit instantiations.</para>
+		</warning>
+	</section>
+
+	<section id="catch_all">
+		<title>Other checks</title>
+
+		<para>Several checks of varying utility have been implemented in the C++
+			producer but do not as yet have individual directives controlling
+			their use.	These can be enabled <emphasis>en masse</emphasis> using the directive:</para>
+
+			<programlisting language="C++">#pragma TenDRA++ catch all <emphasis>allow</emphasis></programlisting>
+
+		<para>It is intended that this directive will be phased out as these checks
+			are assigned controlling directives.	It is possible to achieve finer
+			control over these checks by enabling their individual error messages
+			<link linkend="low">as described above</link>.</para>
+	</section>
 </chapter>
 
