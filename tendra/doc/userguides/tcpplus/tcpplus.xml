@@ -56,7 +56,6 @@
 	<xi:include href="introduction.xml"/>
 
 	<!-- Chapters -->
-	<xi:include href="invocation.xml"/>
 	<xi:include href="configuration.xml"/>
 
 	<!-- Appendicies -->
