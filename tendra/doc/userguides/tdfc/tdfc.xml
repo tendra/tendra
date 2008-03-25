@@ -50,7 +50,6 @@
 	<xi:include href="preprocessor.xml"/>
 	<xi:include href="dialect.xml"/>
 	<xi:include href="errors.xml"/>
-	<xi:include href="symboltable.xml"/>
 	<xi:include href="conditional.xml"/>
 
 	<!-- Appendicies -->

@@ -58,7 +58,6 @@
 	<!-- Chapters -->
 	<xi:include href="invocation.xml"/>
 	<xi:include href="configuration.xml"/>
-	<xi:include href="symboltable.xml"/>
 
 	<!-- Appendicies -->
 	<xi:include href="stdlib.xml"/>
