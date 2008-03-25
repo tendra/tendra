@@ -42,11 +42,7 @@
 
 	<xi:include href="introduction.xml"/>
 
-<!-- TODO !?
-	<xi:include href="tdfc2.xml"/>
-	<xi:include href="tdfc3.xml"/>
-	<xi:include href="tdfc4.xml"/>
--->
+	<!-- Chapters -->
 	<xi:include href="configuring.xml"/>
 	<xi:include href="types.xml"/>
 	<xi:include href="integers.xml"/>
@@ -57,12 +53,13 @@
 	<xi:include href="symboltable.xml"/>
 	<xi:include href="conditional.xml"/>
 
-	<xi:include href="references.xml"/>
-
+	<!-- Appendicies -->
 	<xi:include href="appendix/modes.xml"/>
 	<xi:include href="appendix/options.xml"/>
 	<xi:include href="appendix/integral.xml"/>
 	<xi:include href="appendix/conversions.xml"/>
+
+	<xi:include href="references.xml"/>
 
 </book>
 
