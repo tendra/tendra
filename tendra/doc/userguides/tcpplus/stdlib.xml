@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<appendix>
+    <title>Standard library</title>
+
+	<para>At present the default implementation contains only a very small fraction
+		of the ISO C++ library, namely those headers -
+		<code>&lt;exception&gt;</code>, <code>&lt;new&gt;</code> and
+		<code>&lt;typeinfo&gt;</code> - which are an integral part of the
+		language specification.  These headers are also those which require
+		the most cooperation between the producer and the library implementation,
+		as described in the <A HREF="lib.html">previous section</A>.</para>
+
+	<para>It is suggested that if further library components are required then
+		they be acquired from third parties.  It should be noted however that
+		such libraries may require <link linkend="porting">some effort</link> to be
+		ported to an ISO compliant compiler; for example, some information
+		on porting the <code>libio</code> component of <code>libg++</code>,
+		which contains some very compiler-dependent code, are
+		<link linkend="libio">given below</link>.  Libraries compiled with other C++
+		compilers may not link correctly with modules compiled using <code>tcc</code>.</para>
+</appendix>
+
