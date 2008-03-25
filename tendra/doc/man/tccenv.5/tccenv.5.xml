@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+	"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
+
+<refentry id="tccenv5">
+
+<!--
+        Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+        All rights reserved.
+
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+
+        1. Redistributions of source code must retain the above copyright notice,
+           this list of conditions and the following disclaimer.
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        3. Neither the name of The TenDRA Project nor the names of its contributors
+           may be used to endorse or promote products derived from this software
+           without specific, prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+        IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+        CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+        EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+        OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+        WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+        OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!--
+			 Crown Copyright (c) 1997
+
+	This TenDRA(r) Manual Page is subject to Copyright
+	owned by the United Kingdom Secretary of State for Defence
+	acting through the Defence Evaluation and Research Agency
+	(DERA).	It is made available to Recipients with a
+	royalty\-free licence for its use, reproduction, transfer
+	to other parties and amendment for any purpose not excluding
+	product development provided that any such use et cetera
+	shall be deemed to be acceptance of the following conditions:\-
+
+			(1) Its Recipients shall ensure that this Notice is
+			reproduced upon any copies or amended versions of it;
+
+			(2) Any amended version of it shall be clearly marked to
+			show both the nature of and the organisation responsible
+			for the relevant amendment or amendments;
+
+			(3) Its onward transfer from a recipient to another
+			party shall be deemed to be that party's acceptance of
+			these conditions;
+
+			(4) DERA gives no warranty or assurance as to its
+			quality or suitability for any purpose and DERA accepts
+			no liability whatsoever in relation to any use to which
+			it may be put.
+-->
+
+	<refmeta>
+		<refentrytitle>tccenv</refentrytitle>
+		<manvolnum>5</manvolnum>
+	</refmeta>
+
+	<refnamediv id='name'>
+		<refname>tccenv</refname>
+		<refpurpose>Environments for tcc</refpurpose>
+	</refnamediv>
+
+	<refsection id='description'>
+		<title>Description</title>
+
+		<para><emphasis remap='B'>Tcc</emphasis> environments are used to configure the behaviour of <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+			a special case of which is specifying the APIs used.	The standard
+			environments supplied with the release are used to represent a number of
+			commonly used APIs, implement certain <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> command-line options,
+			and provide a means of implementing system-specific options.	User-defined
+			environments can easily be written to correspond to a user-defined API, or
+			to group together a number of <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> command-line options into a
+			single file.</para>
+
+		<para>An environment is just a file which is interpreted by <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> when it
+			is specified with the command-line option -Y<emphasis remap='B'>string</emphasis>, where
+			<emphasis remap='B'>string</emphasis> is the name of the file.	Each environment file consists of
+			lines of the form</para>
+
+		<para>*<emphasis remap='B'>IDENTIFIER</emphasis> "<emphasis remap='B'>text</emphasis>"</para>
+
+		<para>where <emphasis remap='B'>IDENTIFIER</emphasis> is one of the environmental identifiers, <emphasis remap='B'>text</emphasis>
+			tells <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> how to modify the value given by this identifier, and *
+			stands for one of the environment prefixes + &lt; and &gt;.</para>
+	</refsection>
+
+	<refsection id='userdefined_environments'>
+		<title>User-Defined Environments</title>
+
+		<para>The simplest example of a user-defined environment contains lines of the
+			form</para>
+
+		<para>+FLAG "<emphasis remap='B'>text</emphasis>"</para>
+
+		<para>which tells <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> to interpret <emphasis remap='B'>text</emphasis> as if it were passed on
+			the command-line.	So, for example, an environment consisting of the lines</para>
+
+		<informaltable pgwide='0' frame='none'>
+			<tgroup cols='2' align='center'>
+				<colspec colname='c1'/>
+				<colspec colname='c2'/>
+				<tbody>
+					<row>
+						<entry align='left'>+FLAG "-Yposix"</entry>
+					</row>
+					<row>
+						<entry align='left'>+FLAG "-Xs"</entry>
+					</row>
+					<row>
+						<entry align='left'>+FLAG "-I/home/user/include"</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+
+		<para>will modify <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> to use the POSIX 1003.1 API with strict checks,
+			and add the directory /home/user/include to the search path for #included
+			files.</para>
+
+		<para>By default, <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> looks for environments in the current working
+			directory and in the default environments directory.	In addition, if the
+			system variable <emphasis remap='B'>TCCENV</emphasis> is defined, this specifies a colon-separated
+			list of directories along which <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> searches for any environment
+			which is not a full pathname.</para>
+	</refsection>
+
+	<refsection id='full_environment_list'>
+		<title>Full Environment List</title>
+
+		<para>The majority of the standard environments can be divided into two classes:
+			those which correspond to APIs and those which implement <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>
+			command-line options.	(In addition to these, a small number are used to
+			enable extra tools and to specify minimum integer sizes.)</para>
+
+		<para>The API environments are subdivided into base APIs (such as ANSI, POSIX)
+			and extension APIs (such as the X11 environments):</para>
+
+		<informaltable pgwide='0' frame='none'>
+			<tgroup cols='2' align='center'>
+				<colspec colname='c1'/>
+				<colspec colname='c2'/>
+				<tbody>
+					<row>
+						<entry align='left'><emphasis remap='B'>ansi</emphasis></entry>
+						<entry align='left'>the ANSI X3.159 API (this is the default API environment)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>iso</emphasis></entry>
+						<entry align='left'>the ISO/IEC 9899:1990 (Amendment 1:L1995 (E)) API</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>posix</emphasis></entry>
+						<entry align='left'>the POSIX (IEEE 1003.1:1988) API</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>posix1</emphasis></entry>
+						<entry align='left'>the POSIX.1 (ISO/IEC 9945-1:1990) API</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>posix2</emphasis></entry>
+						<entry align='left'>the POSIX.2 (ISO/IEC 9945-2:1993) API</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>xpg3</emphasis></entry>
+						<entry align='left'>the X/Open Portability Guide 3</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>xpg4</emphasis></entry>
+						<entry align='left'>the X/Open Portability Guide 4</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>unix95</emphasis></entry>
+						<entry align='left'>the X/Open Single UNIX Specification (Spec 1170)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>svid3</emphasis></entry>
+						<entry align='left'>the System V Interface Definition (3rd Edition)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>aes</emphasis></entry>
+						<entry align='left'>the Application Environment Specification (Revision A) API</entry>
+					</row>
+					<row>
+						<entry align='left'></entry>
+						<entry align='left'></entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>bsd_extn</emphasis></entry>
+						<entry align='left'>BSD-like extension for use with POSIX, etc.</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>x5_lib</emphasis></entry>
+						<entry align='left'>X11 (Release 5) X Library</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>x5_t</emphasis></entry>
+						<entry align='left'>X11 (Release 5) Intrinsics Toolkit</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>x5_mu</emphasis></entry>
+						<entry align='left'>X11 (Release 5) Miscellaneous Utilities</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>x5_aw</emphasis></entry>
+						<entry align='left'>X11 (Release 5) Athena Widgets</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>x5_mit</emphasis></entry>
+						<entry align='left'>X11 (Release 5) MIT Implementation</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>x5_proto</emphasis></entry>
+						<entry align='left'>X11 (Release 5) Protocol Extension</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>x5_ext</emphasis></entry>
+						<entry align='left'>X11 (Release 5) Extensions</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>motif_1_1</emphasis></entry>
+						<entry align='left'>Motif (Release 1.1)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>motif_1_2</emphasis></entry>
+						<entry align='left'>Motif (Release 1.2)</entry>
+					</row>
+					<row>
+						<entry align='left'></entry>
+						<entry align='left'></entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>system</emphasis></entry>
+						<entry align='left'>System headers as main API</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>system+</emphasis></entry>
+						<entry align='left'>System headers as last resort extension API</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>tdf_ext</emphasis></entry>
+						<entry align='left'>compilation using TDF Version 4.0 extensions</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+
+		<para>Some environments are available which modify access to previously
+			specified APIs:</para>
+
+		<informaltable pgwide='0' frame='none'>
+			<tgroup cols='2' align='center'>
+			<colspec colname='c1'/>
+			<colspec colname='c2'/>
+			<tbody>
+				<row>
+					<entry align='left'><emphasis remap='B'>x5_private</emphasis></entry>
+					<entry align='left'>permit access to X11 Release 5 private headers (*P.h)</entry>
+				</row>
+				<row>
+					<entry align='left'><emphasis remap='B'>motif_private</emphasis></entry>
+					<entry align='left'>permit access to Motif private headers (*P.h)</entry>
+				</row>
+			</tbody>
+			</tgroup>
+		</informaltable>
+
+		<para>Note that TDF token libraries for all these APIs will not be
+			available on all platforms, so it may not be possible run installers
+			for programs compiled with all API environments.
+			It will always be possible to check code with any API environment
+			using <citerefentry><refentrytitle>tchk</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para>
+
+		<para>The following environments are used to specify the use of particular
+			tools (where available) which are not enabled by default:</para>
+
+		<informaltable pgwide='0' frame='none'>
+			<tgroup cols='2' align='center'>
+				<colspec colname='c1'/>
+				<colspec colname='c2'/>
+				<tbody>
+					<row>
+						<entry align='left'><emphasis remap='B'>c++</emphasis></entry>
+						<entry align='left'>enables the C++ producer/checker <emphasis remap='B'>tcpplus</emphasis>.</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>pl_tdf</emphasis></entry>
+						<entry align='left'>enables the PL_TDF compiler <emphasis remap='B'>tpl</emphasis>.</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>tnc</emphasis></entry>
+						<entry align='left'>enables the TDF notation compiler <emphasis remap='B'>tnc</emphasis>.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+
+		<para>The default behaviour of <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> is to assume the minimal sizes of
+			integer types allowed by ANSI.	This behaviour can be modified with the
+			following environments:</para>
+
+		<informaltable pgwide='0' frame='none'>
+			<tgroup cols='2' align='center'>
+				<colspec colname='c1'/>
+				<colspec colname='c2'/>
+				<tbody>
+					<row>
+						<entry align='left'><emphasis remap='B'>16bit</emphasis></entry>
+						<entry align='left'>specifies minimal integer sizes allowed by ANSI (default)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>32bit</emphasis></entry>
+						<entry align='left'>specifies integer sizes found on most 32-bit machines</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+
+		<para>In addition to these, the following implement target-specific
+			options:</para>
+
+		<informaltable pgwide='0' frame='none'>
+			<tgroup cols='2' align='center'>
+				<colspec colname='c1'/>
+				<colspec colname='c2'/>
+				<tbody>
+					<row>
+						<entry align='left'><emphasis remap='B'>aout</emphasis></entry>
+						<entry align='left'>Use a.out instead of ELF format (386 Linux ELF only).</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>static</emphasis></entry>
+						<entry align='left'>Use static instead of dynamic linking (Alpha only).</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+	</refsection>
+
+	<refsection id='environmental_identifiers'><title>ENVIRONMENTAL IDENTIFIERS</title>
+		<para>In the following list, the environmental prefix * must be replaced by one
+			of + (which replaces the existing value), &lt; (which adds a value to the
+			beginning of the existing list), or &gt; (which adds a value to the end of
+			the existing list).</para>
+
+		<informaltable pgwide='0' frame='none'>
+			<tgroup cols='2' align='center'>
+				<colspec colname='c1'/>
+				<colspec colname='c2'/>
+				<tbody>
+					<row>
+						<entry align='left'><emphasis remap='B'>*API_NAME</emphasis></entry>
+						<entry align='left'>modifies the list of API analysis environment names</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*AS</emphasis></entry>
+						<entry align='left'>modifies the system assembler executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*AS1</emphasis></entry>
+						<entry align='left'>modifies the auxiliary assembler executable (Mips and Alpha only)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*CC</emphasis></entry>
+						<entry align='left'>modifies the system compiler executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*CPP_SPEC_LINK</emphasis></entry>
+						<entry align='left'>modifies the C++ spec linker executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*CRT0</emphasis></entry>
+						<entry align='left'>modifies the first list of initial default .o files</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*CRT1</emphasis></entry>
+						<entry align='left'>modifies the second list of initial default .o files</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*CRTP_N</emphasis></entry>
+						<entry align='left'>modifies the list of additional default .o files (-Yprom only)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*CRTN</emphasis></entry>
+						<entry align='left'>modifies the list of final default .o files</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*DISP</emphasis></entry>
+						<entry align='left'>modifies the TDF pretty printer executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*DUMP_ANAL</emphasis></entry>
+						<entry align='left'>modifies the dump-file analyser executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*DUMP_LINK</emphasis></entry>
+						<entry align='left'>modifies the dump linker executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*DYN_LINK</emphasis></entry>
+						<entry align='left'>modifies the dynamic-initialisation linker executable (RS6000 and Sparc only)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+ENVDIR</emphasis></entry>
+						<entry align='left'>sets the default environment directory</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG</emphasis></entry>
+						<entry align='left'>passes a flag to <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry></entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_AS</emphasis></entry>
+						<entry align='left'>passes a flag to the assembler</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_AS1</emphasis></entry>
+						<entry align='left'>passes a flag to the auxiliary assembler (Mips and Alpha only)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_CC</emphasis></entry>
+						<entry align='left'>passes a flag to the system compiler</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_CPP_SPEC_LINK</emphasis></entry>
+						<entry align='left'>passes a flag to the C++ spec linker</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_DISP</emphasis></entry>
+						<entry align='left'>passes a flag to the TDF pretty printer</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_DUMP_ANAL</emphasis></entry>
+						<entry align='left'>passes a flag to the dump-file analyser</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_DUMP_LINK</emphasis></entry>
+						<entry align='left'>passes a flag to the dump linker</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_DYN_LINK</emphasis></entry>
+						<entry align='left'>passes a flag to the dynamic-initialisation linker ((RS6000 and Sparc only)</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_INSTALL</emphasis></entry>
+						<entry align='left'>passes a flag to the TDF archive builder</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_LD</emphasis></entry>
+						<entry align='left'>passes a flag to the system linker</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_PL_TDF</emphasis></entry>
+						<entry align='left'>passes a flag to the PL_TDF compiler</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_SPEC_LINKER</emphasis></entry>
+						<entry align='left'>passes a flag to the C spec linker</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_TCPPLUS</emphasis></entry>
+						<entry align='left'>passes a flag to the C++ producer</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_TCPPLUSPP</emphasis></entry>
+						<entry align='left'>passes a flag to the C++ preprocessor</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_TDFC</emphasis></entry>
+						<entry align='left'>passes a flag to the C producer</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_TDFCPP</emphasis></entry>
+						<entry align='left'>passes a flag to the C preprocessor</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_TLD</emphasis></entry>
+						<entry align='left'>passes a flag to the TDF linker</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_TNC</emphasis></entry>
+						<entry align='left'>passes a flag to the TDF notation compiler</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+FLAG_TRANS</emphasis></entry>
+						<entry align='left'>passes a flag to the TDF translator</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*INCL</emphasis></entry>
+						<entry align='left'>modifies the list of default include file directories</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*INFO</emphasis></entry>
+						<entry align='left'>modifies the list of API information</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*LD</emphasis></entry>
+						<entry align='left'>modifies the system linker executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*LIB</emphasis></entry>
+						<entry align='left'>modifies the list of default TDF libraries</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+LINE_START</emphasis></entry>
+						<entry align='left'>inserts a line in the <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> built-in start-up file</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+LINE_END</emphasis></entry>
+						<entry align='left'>inserts a line in the <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> built-in end-up file</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*LINK</emphasis></entry>
+						<entry align='left'>modifies the list of default TDF library directories</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*LINK_ENTRY</emphasis></entry>
+						<entry align='left'>modifies the linker options specifying the entry point</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+MACHINE</emphasis></entry>
+						<entry align='left'>sets the target machine type</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+PORTABILITY</emphasis></entry>
+						<entry align='left'>sets the producer portability table</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*PL_TDF</emphasis></entry>
+						<entry align='left'>modifies the PL_TDF compiler executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*SPEC_LINK</emphasis></entry>
+						<entry align='left'>modifies the C spec linker executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*STARTUP</emphasis></entry>
+						<entry align='left'>modifies the list of default C producer start-up files</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*STARTUP_DIR</emphasis></entry>
+						<entry align='left'>modifies the list of default C producer start-up directories</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*STARTUP_CPP</emphasis></entry>
+						<entry align='left'>modifies the list of default C++ producer start-up files</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*STARTUP_CPP_DIR</emphasis></entry>
+						<entry align='left'>modifies the list of default C++ producer start-up directories</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*SUFFIX_CPP</emphasis></entry>
+						<entry align='left'>sets the filename suffix override for C++ source files</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*SYS_LIB</emphasis></entry>
+						<entry align='left'>modifies the list of default system libraries</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*SYS_LIBC</emphasis></entry>
+						<entry align='left'>modifies the list of standard system libraries</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*SYS_LINK</emphasis></entry>
+						<entry align='left'>modifies the list of default system library directories</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*TCPPLUS</emphasis></entry>
+						<entry align='left'>modifies the C++ producer executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*TCPPLUSPP</emphasis></entry>
+						<entry align='left'>modifies the C++ preprocessor executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*TDFC</emphasis></entry>
+						<entry align='left'>modifies the C producer executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*TDFCPP</emphasis></entry>
+						<entry align='left'>modifies the C preprocessor executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+TEMP</emphasis></entry>
+						<entry align='left'>sets the temporary directory</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*TLD</emphasis></entry>
+						<entry align='left'>modifies the TDF linker executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*TNC</emphasis></entry>
+						<entry align='left'>modifies the TDF notation compiler executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>*TRANS</emphasis></entry>
+						<entry align='left'>modifies the TDF translator executable</entry>
+					</row>
+					<row>
+						<entry align='left'><emphasis remap='B'>+VERSION</emphasis></entry>
+						<entry align='left'>sets the target machine version (Mips only)</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</informaltable>
+	</refsection>
+
+	<refsection id='see_also'>
+		<title>See Also</title>
+
+		<para><citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+			<citerefentry><refentrytitle>tchk</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+			<citerefentry><refentrytitle>tcpplus</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+			<citerefentry><refentrytitle>pl</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+			<citerefentry><refentrytitle>tnc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para>
+	</refsection>
+</refentry>
+
