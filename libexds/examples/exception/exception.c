@@ -22,15 +22,16 @@
 /*
  * Three example user-defined exceptions with which to demonstrate.
  */
-ExceptionT * x_a = EXCEPTION("exception a");
-ExceptionT * x_b = EXCEPTION("exception b");
-ExceptionT * x_c = EXCEPTION("exception c");
+ExceptionT *x_a = EXCEPTION("exception a");
+ExceptionT *x_b = EXCEPTION("exception b");
+ExceptionT *x_c = EXCEPTION("exception c");
 
 /*
  * Top-level handler, as required by exception.h. This should not return.
  */
 static void unhandled(ExceptionT *e, const char *file, unsigned line) {
-	printf("unhandled: %s (%d)\n", file, line);
+	printf("unhandled exception \"%s\": %s (%d)\n",
+		exception_name(e), file, line);
 	exit(EXIT_FAILURE);
 }
 
@@ -47,7 +48,7 @@ int main(void) {
 
 		THROW(x_a);
 
-		printf("1: %s thrown; this should not be reached\n",
+		printf("1: \"%s\" thrown; this should not be reached\n",
 			exception_name(x_a));
 
 	} WITH {
@@ -72,7 +73,7 @@ int main(void) {
 
 			THROW(x_a);
 
-			printf("4: %s thrown; this should not be reached\n",
+			printf("4: \"%s\" thrown; this should not be reached\n",
 				exception_name(x_a));
 
 		} WITH {
@@ -87,9 +88,8 @@ int main(void) {
 
 			RETHROW();
 
-			printf("7: %s rethrown; this should not be reached\n",
-				exception_name(EXCEPTION_EXCEPTION()),
-				exception_name(x_a));
+			printf("7: \"%s\" rethrown; this should not be reached\n",
+				exception_name(EXCEPTION_EXCEPTION()));
 
 		} END_HANDLE;
 
@@ -115,7 +115,7 @@ int main(void) {
 
 			THROW(x_a);
 
-			printf("10: %s thrown; this should not be reached\n",
+			printf("10: \"%s\" thrown; this should not be reached\n",
 				exception_name(x_a));
 
 		} WITH {
@@ -130,9 +130,8 @@ int main(void) {
 
 			THROW(x_b);
 
-			printf("13: %s thrown; this should not be reached\n",
-				exception_name(x_b),
-				exception_name(x_a));
+			printf("13: \"%s\" thrown; this should not be reached\n",
+				exception_name(x_b));
 
 		} END_HANDLE;
 
@@ -157,7 +156,7 @@ int main(void) {
 
 		THROW_VALUE(x_a, &i);
 
-		printf("16: %s thrown; this should not be reached\n",
+		printf("16: \"%s\" thrown; this should not be reached\n",
 			exception_name(x_a));
 
 	} WITH {
