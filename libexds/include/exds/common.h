@@ -83,15 +83,15 @@
  * can produce better code if this is declared as ``__volatile__ void''.  The
  * TenDRA compiler can be told that a function doesn't return as well.
  */
-# ifdef __GNUC__
+#ifdef __GNUC__
 typedef void NoReturnT;
+#else
+# ifdef __TenDRA__
+#  pragma TenDRA type NoReturnT for bottom
 # else
-#  ifdef __TenDRA__
-#   pragma TenDRA type NoReturnT for bottom
-#  else
-#   define NoReturnT void
-#  endif /* defined (__TenDRA__) */
-# endif /* defined (__GNUC__) */
+#  define NoReturnT void
+# endif /* defined (__TenDRA__) */
+#endif /* defined (__GNUC__) */
 
 /*
  * This is the boolean type.
@@ -106,9 +106,9 @@ typedef int BoolT;
  * the second argument respectively.
  */
 typedef enum {
-    CMP_LT,
-    CMP_EQ,
-    CMP_GT
+	CMP_LT,
+	CMP_EQ,
+	CMP_GT
 } CmpT;
 
 /*
@@ -116,8 +116,8 @@ typedef enum {
  * Eventually these will be replaced with C99's stdbool.h along with the
  * BoolT type.
  */
-# define FALSE (0)
-# define TRUE (1)
+#define FALSE (0)
+#define TRUE (1)
 
 #endif /* !defined (H_COMMON) */
 

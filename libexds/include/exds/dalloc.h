@@ -102,34 +102,42 @@
 #include <exds/exception.h>
 
 
-extern ExceptionT *		XX_dalloc_no_memory;
+extern ExceptionT *XX_dalloc_no_memory;
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
-void	E_dalloc_multi_deallocate(void *, char *, unsigned,
-					  char *, unsigned);
-void	E_dalloc_corrupt_block(void *, char *, unsigned);
-void *	X__dalloc_allocate(size_t, size_t, char *, unsigned);
-void	X__dalloc_deallocate(void *, char *, unsigned);
+void
+E_dalloc_multi_deallocate(void *, char *, unsigned, char *, unsigned);
+
+void
+E_dalloc_corrupt_block(void *, char *, unsigned);
+
+void *
+X__dalloc_allocate(size_t, size_t, char *, unsigned);
+
+void
+X__dalloc_deallocate(void *, char *, unsigned);
 
 #else
 
-void *	X__dalloc_allocate(size_t, size_t);
+void *
+X__dalloc_allocate(size_t, size_t);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 
+
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
-#define ALLOCATE(type)\
-((type *)X__dalloc_allocate(sizeof(type), (size_t)1, __FILE__, \
-			     (unsigned)__LINE__))
+# define ALLOCATE(type) \
+	((type *) X__dalloc_allocate(sizeof(type), (size_t) 1, __FILE__, \
+		(unsigned)__LINE__))
 
-#define ALLOCATE_VECTOR(type,length)\
-((type *)X__dalloc_allocate(sizeof(type), (size_t)(length), __FILE__, \
-			     (unsigned)__LINE__))
+# define ALLOCATE_VECTOR(type, length) \
+	((type *) X__dalloc_allocate(sizeof(type), (size_t) (length), __FILE__, \
+		(unsigned) __LINE__))
 
-#define DEALLOCATE(pointer)\
-X__dalloc_deallocate((pointer), __FILE__, (unsigned)__LINE__)
+# define DEALLOCATE(pointer) \
+	X__dalloc_deallocate((pointer), __FILE__, (unsigned) __LINE__)
 
 #else
 
@@ -137,23 +145,24 @@ X__dalloc_deallocate((pointer), __FILE__, (unsigned)__LINE__)
  * This macro allocates an object of the specified type.  A pointer to the
  * object is returned.
  */
-#define ALLOCATE(type)\
-((type *)X__dalloc_allocate(sizeof(type), (size_t)1))
+# define ALLOCATE(type) \
+	((type *) X__dalloc_allocate(sizeof(type), (size_t) 1))
 
 /*
  * This macro allocates a vector of the specified length containing objects of
  * the specified type.  A pointer to the first element in the vector is
  * returned.
  */
-#define ALLOCATE_VECTOR(type,length)\
-((type *)X__dalloc_allocate(sizeof(type), (size_t)(length)))
+# define ALLOCATE_VECTOR(type, length) \
+	((type *) X__dalloc_allocate(sizeof(type), (size_t) (length)))
 
 /*
  * This macro deallocates the specified pointer.  If the pointer is a null
- * pointer (``NULL''), this does nothing.
+ * pointer (NULL), this does nothing.
  */
-#define DEALLOCATE(pointer) free(pointer);
+# define DEALLOCATE(pointer) free(pointer);
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
 
 #endif /* !defined (H_DALLOC) */
+

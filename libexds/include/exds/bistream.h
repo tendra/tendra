@@ -85,17 +85,18 @@
  */
 typedef struct BIStreamT BIStreamT;
 struct BIStreamT {
-    FILE		       *file;
-    unsigned			bytes;
-    char *			name;
+	FILE *file;
+	unsigned bytes;
+	char *name;
 };
 
-extern ExceptionT *		XX_bistream_read_error;
+extern ExceptionT *XX_bistream_read_error;
 
 /*
  * This function initialises the specified bistream not to read from any file.
  */
-void			bistream_init (BIStreamT *);
+void
+bistream_init(BIStreamT *);
 
 /*
  * This function initialises the specified bistream to read from the file with
@@ -104,19 +105,22 @@ void			bistream_init (BIStreamT *);
  * returns false. If the file is opened successfully, the function returns
  * true.
  */
-BoolT			bistream_open (BIStreamT *, char *);
+BoolT
+bistream_open(BIStreamT *, char *);
 
 /*
  * This function assigns the from bistream to the to bistream.  The from
  * bistream should not be used again.
  */
-void			bistream_assign (BIStreamT *, BIStreamT *);
+void
+bistream_assign(BIStreamT *, BIStreamT *);
 
 /*
  * This function returns true if the specified bistream is reading from a file,
  * and false otherwise.
  */
-BoolT			bistream_is_open (BIStreamT *);
+BoolT
+bistream_is_open(BIStreamT *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -126,7 +130,8 @@ BoolT			bistream_is_open (BIStreamT *);
  * enough to hold at least length characters.  The function returns the number
  * of characters actually read.
  */
-unsigned			bistream_read_chars (BIStreamT *, unsigned, char *);
+unsigned
+bistream_read_chars(BIStreamT *, unsigned, char *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -136,7 +141,8 @@ unsigned			bistream_read_chars (BIStreamT *, unsigned, char *);
  * hold at least length bytes.  The function returns the number of bytes
  * actually read.
  */
-unsigned			bistream_read_bytes (BIStreamT *, unsigned, uint8_t *);
+unsigned
+bistream_read_bytes(BIStreamT *, unsigned, uint8_t *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -146,29 +152,35 @@ unsigned			bistream_read_bytes (BIStreamT *, unsigned, uint8_t *);
  * function returns true.  If the end of file is reached, the function returns
  * false.
  */
-BoolT			bistream_read_byte (BIStreamT *, uint8_t *);
+BoolT
+bistream_read_byte(BIStreamT *, uint8_t *);
 
 /*
  * This function returns the number of bytes that have been read from the
  * specified bistream.
  */
-unsigned			bistream_byte (BIStreamT *);
+unsigned
+bistream_byte(BIStreamT *);
 
 /*
  * This function returns the name of the file from which the specified
  * bistream is reading. The return value should not be modified or
  * deallocated.
  */
-char *			bistream_name (BIStreamT *);
+char *
+bistream_name(BIStreamT *);
 
 /*
  * This function rewinds the specified bistream.
  */
-void			bistream_rewind (BIStreamT *);
+void
+bistream_rewind(BIStreamT *);
 
 /*
  * This function closes the specified bistream.
  */
-void			bistream_close (BIStreamT *);
+void
+bistream_close(BIStreamT *);
 
 #endif /* !defined (H_BISTREAM) */
+

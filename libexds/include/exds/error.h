@@ -92,11 +92,11 @@ typedef struct ErrorListT ErrorListT;
  * "ERROR_SEVERITY_INTERNAL" which is used for internal program errors.
  */
 typedef enum {
-    ERROR_SEVERITY_INFORMATION,
-    ERROR_SEVERITY_WARNING,
-    ERROR_SEVERITY_ERROR,
-    ERROR_SEVERITY_FATAL,
-    ERROR_SEVERITY_INTERNAL
+	ERROR_SEVERITY_INFORMATION,
+	ERROR_SEVERITY_WARNING,
+	ERROR_SEVERITY_ERROR,
+	ERROR_SEVERITY_FATAL,
+	ERROR_SEVERITY_INTERNAL
 } ESeverityT;
 
 /*
@@ -107,8 +107,8 @@ typedef enum {
  */
 typedef struct ETagT ETagT;
 struct ETagT {
-    ETagT	       *next;
-    char *			name;
+	ETagT *next;
+	char *name;
 };
 
 /*
@@ -116,11 +116,11 @@ struct ETagT {
  */
 typedef struct ErrorT ErrorT;
 struct ErrorT {
-    ErrorT	       *next;
-    char * 			name;
-    ESeverityT			severity;
-    ErrorListT *			error_list;
-    void *			data;
+	ErrorT *next;
+	char *name;
+	ESeverityT severity;
+	ErrorListT *error_list;
+	void *data;
 };
 
 /*
@@ -128,9 +128,9 @@ struct ErrorT {
  */
 typedef struct EStringT EStringT;
 struct EStringT {
-    EStringT	       *next;
-    char *			name;
-    char *			contents;
+	EStringT *next;
+	char *name;
+	char *contents;
 };
 
 /*
@@ -152,17 +152,17 @@ typedef void(*ErrorInitProcP)(void);
  * initialisation), terminated by the ``ERROR_END_TAG_LIST'' macro, e.g.
  *
  *	static ETagDataT tags [] = {
- *	    { "tag 1" },
- *	    { "tag 2" },
- *	    ERROR_END_TAG_LIST
+ *		{ "tag 1" },
+ *		{ "tag 2" },
+ *		ERROR_END_TAG_LIST
  *	};
  *
  * Once the ``error_intern_tags'' function has been called, the ``tag'' field
  * should be used to access the tag object.
  */
 typedef union ETagDataT {
-    char *			name;
-    ETagT *			tag;
+	char *name;
+	ETagT *tag;
 } ETagDataT;
 
 /*
@@ -184,13 +184,14 @@ typedef union ETagDataT {
  * field should be used to access the error object.
  */
 typedef union ErrorDataT {
-    struct {
-	char *		name;
-	ESeverityT		severity;
-	char *		message;
-	void *		data;
-    } s;
-    ErrorT *			error;
+	/* TODO why is this in a struct? */
+	struct {
+		char *name;
+		ESeverityT severity;
+		char *message;
+		void *data;
+	} s;
+	ErrorT *error;
 } ErrorDataT;
 
 /*
@@ -201,28 +202,29 @@ typedef union ErrorDataT {
  * ``ERROR_END_STRING_LIST'' macro, e.g.
  *
  *	static EStringDataT strings [] = {
- *	    { {"string name", "string contents"} },
- *	    ERROR_END_STRING_LIST
+ *		{ {"string name", "string contents"} },
+ *		ERROR_END_STRING_LIST
  *	};
  *
  * Once the ``error_intern_strings'' function has been called, the ``estring''
  * field should be used to access the error string object.
  */
 typedef union EStringDataT {
-    struct {
-	char *		name;
-	char *		contents;
-    } s;
-    EStringT *			estring;
+	/* TODO why is this in a struct? */
+	struct {
+		char *name;
+		char *contents;
+	} s;
+	EStringT *estring;
 } EStringDataT;
 
 /*
  * This is the return type of the ``error_redefine_error'' function.
  */
 typedef enum {
-    ERROR_STATUS_BAD_MESSAGE,
-    ERROR_STATUS_SUCCESS,
-    ERROR_STATUS_BAD_ERROR
+	ERROR_STATUS_BAD_MESSAGE,
+	ERROR_STATUS_SUCCESS,
+	ERROR_STATUS_BAD_ERROR
 } ErrorStatusT;
 
 /*
@@ -239,7 +241,8 @@ typedef enum {
  * expected to be used to initialise named strings: these should be explicitly
  * initialised before they are used.
  */
-void		error_init(char *, ErrorInitProcP);
+void
+error_init(char *, ErrorInitProcP);
 
 /*
  * This calls the error initialisation procedure if it has not already been
@@ -247,7 +250,8 @@ void		error_init(char *, ErrorInitProcP);
  * it should be called before the error value that will be passed to that
  * function is accessed).
  */
-void		error_call_init_proc(void);
+void
+error_call_init_proc(void);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -256,7 +260,8 @@ void		error_call_init_proc(void);
  * name should not be modified or deallocated.  It is possible to define the
  * same tag more than once (but the same value will be returned each time).
  */
-ETagT *		error_define_tag(char *);
+ETagT *
+error_define_tag(char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -270,8 +275,8 @@ ETagT *		error_define_tag(char *);
  * the value of the tag when the error is reported).  The data is for use by
  * the program.
  */
-ErrorT *		error_define_error(char *, ESeverityT, char *,
-					   void *);
+ErrorT *
+error_define_error(char *, ESeverityT, char *, void *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -280,7 +285,8 @@ ErrorT *		error_define_error(char *, ESeverityT, char *,
  * tags.  The vector should be terminated by the macro ``ERROR_END_TAG_LIST''.
  * This function should only be called once on any vector.
  */
-void		error_intern_tags(ETagDataT *);
+void
+error_intern_tags(ETagDataT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -289,7 +295,8 @@ void		error_intern_tags(ETagDataT *);
  * The vector should be terminated by the macro ``ERROR_END_ERROR_LIST''.
  * This function should only be called once on any vector.
  */
-void		error_intern_errors(ErrorDataT *);
+void
+error_intern_errors(ErrorDataT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -302,7 +309,8 @@ void		error_intern_errors(ErrorDataT *);
  * ``ERROR_STATUS_BAD_MESSAGE''.  If the function succeeds, it will return
  * ``ERROR_STATUS_SUCCESS''.
  */
-ErrorStatusT	error_redefine_error(char *, char *);
+ErrorStatusT
+error_redefine_error(char *, char *);
 
 /*
  * This function returns the error with the specified name.  If the error does
@@ -310,12 +318,14 @@ ErrorStatusT	error_redefine_error(char *, char *);
  * initialisation procedure will be called to initialise the error messages
  * before they are looked up.
  */
-ErrorT *		error_lookup_error(char *);
+ErrorT *
+error_lookup_error(char *);
 
 /*
  * This function returns the data associated with the specified error.
  */
-void *		error_data(ErrorT *);
+void *
+error_data(ErrorT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -329,24 +339,29 @@ void *		error_data(ErrorT *);
  * program to exit if the error's severity level is ``ERROR_SEVERITY_FATAL''
  * or higher.
  */
-void		error_report(ErrorT *, ErrorprocP, void *);
+void
+error_report(ErrorT *, ErrorprocP, void *);
 
-void		error_set_min_report_severity(ESeverityT);
+void
+error_set_min_report_severity(ESeverityT);
 
-ESeverityT	error_get_min_report_severity(void);
+ESeverityT
+error_get_min_report_severity(void);
 
 /*
  * This function returns the severity of the error with the highest severity
  * that has been passed to ``error_report''.
  */
-ESeverityT	error_max_reported_severity(void);
+ESeverityT
+error_max_reported_severity(void);
 
 /*
  * This function sets the message to be displayed when the "${severity}" tag
  * is encountered for the specified severity.  Tags are not expanded in the
  * message. The message should not be modified or deallocated.
  */
-void		error_set_severity_message(ESeverityT, char *);
+void
+error_set_severity_message(ESeverityT, char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -358,7 +373,8 @@ void		error_set_severity_message(ESeverityT, char *);
  * All other tags will be ignored.  The function returns true if the message
  * was valid, and false if there was an unterminated tag in the message.
  */
-BoolT		error_set_prefix_message(char *);
+BoolT
+error_set_prefix_message(char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -367,7 +383,8 @@ BoolT		error_set_prefix_message(char *);
  * it the specified contents.  Neither the name nor the contents should be
  * modified or deallocated.  No tag splitting is performed on the contents.
  */
-EStringT *		error_define_string(char *, char *);
+EStringT *
+error_define_string(char *, char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -377,7 +394,8 @@ EStringT *		error_define_string(char *, char *);
  * ``ERROR_END_STRING_LIST''.  This function should only be called once on any
  * vector.
  */
-void		error_intern_strings(EStringDataT *);
+void
+error_intern_strings(EStringDataT *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -386,36 +404,39 @@ void		error_intern_strings(EStringDataT *);
  * name.  If the name does not exist, the function returns false, otherwise it
  * returns true.
  */
-BoolT		error_redefine_string(char *, char *);
+BoolT
+error_redefine_string(char *, char *);
 
 /*
  * This function returns the named string with the specified name.  If the
  * named string does not exist, the function returns the null pointer.
  */
-EStringT *		error_lookup_string(char *);
+EStringT *
+error_lookup_string(char *);
 
 /*
  * This function returns the contents of the specified named string.  The
  * returned string should not be modified or deallocated.
  */
-char *		error_string_contents(EStringT *);
+char *
+error_string_contents(EStringT *);
 
 /*
- * This macro should form the last entry in a vector of ``ETagDataT'' objects.
+ * This macro should form the last entry in a vector of ETagDataT objects.
  */
 #define ERROR_END_TAG_LIST { NULL }
 
 /*
- * This macro should form the last entry in a vector of ``ErrorDataT''
+ * This macro should form the last entry in a vector of ErrorDataT
  * objects.
  */
-#define ERROR_END_ERROR_LIST \
-	{ {NULL, (ESeverityT)0, NULL, NULL} }
+#define ERROR_END_ERROR_LIST { {NULL, (ESeverityT)0, NULL, NULL} }
 
 /*
- * This macro should form the last entry in a vector of ``EStringDataT''
+ * This macro should form the last entry in a vector of EStringDataT
  * objects.
  */
 #define ERROR_END_STRING_LIST { {NULL, NULL} }
 
 #endif /* !defined (H_ERROR) */
+
