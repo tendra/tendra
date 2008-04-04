@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,62 +58,30 @@
 */
 
 /*
- * nstring-list.c - String list ADT.
+ * syntax.c - Character classification.
  *
- * This file implements the string list facility specified in the file
- * "nstring-list.h".  See that file for more details.
+ * This file implements the syntax table facility specified in the file
+ * "syntax.h". See that file for more details.
+ *
+ * This particular implementation assumes that the ASCII character set is
+ * being used. It will need changing for other character sets.
+ *
+ * TODO possibly this could be merged into the cstring interface.
  */
 
-#include <stddef.h>
+#include "syntax.h"
 
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/dalloc.h>
-#include <exds/ostream.h>
-#include <exds/dstring.h>
-#include <exds/nstring-list.h>
-
-struct NStringListEntryT {
-	NStringListEntryT *next;
-	NStringT          string;
-};
-
-void
-nstring_list_init(NStringListT *list)
+int
+syntax_value(char c)
 {
-	list->head = NULL;
-	list->tail = &list->head;
-}
+	if (c >= '0' && c <= '9') {
+		return c - '0';
+	} else if (c >= 'A' && c <= 'Z') {
+		return c - 'A' + 10;
+	} else if (c >= 'a' && c <= 'z') {
+		return c - 'a' + 10;
+	}
 
-void
-nstring_list_append(NStringListT *list, NStringT *string)
-{
-	NStringListEntryT *entry = ALLOCATE(NStringListEntryT);
-
-	entry->next   = NULL;
-	nstring_assign(&entry->string, string);
-	*list->tail   = entry;
-	list->tail    = &entry->next;
-}
-
-NStringListEntryT *
-nstring_list_head(NStringListT *list)
-{
-	return list->head;
-}
-
-NStringT *
-nstring_list_entry_string(NStringListEntryT *entry)
-{
-	return &entry->string;
-}
-
-NStringListEntryT *
-nstring_list_entry_deallocate(NStringListEntryT *entry)
-{
-	NStringListEntryT *next = entry->next;
-
-	DEALLOCATE(entry);
-	return next;
+	return(SYNTAX_NO_VALUE);
 }
 

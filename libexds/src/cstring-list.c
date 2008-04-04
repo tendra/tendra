@@ -74,53 +74,56 @@
 #include <exds/cstring-list.h>
 
 void
-cstring_list_init(CStringListT * list)
+cstring_list_init(CStringListT *list)
 {
-    list->head = NULL;
-    list->tail = & (list->head);
+	list->head = NULL;
+	list->tail = &list->head;
 }
 
 void
-cstring_list_append(CStringListT * list,			     char *     string)
+cstring_list_append(CStringListT *list, char *string)
 {
-    CStringListEntryT * entry = ALLOCATE(CStringListEntryT);
+	CStringListEntryT *entry = ALLOCATE(CStringListEntryT);
 
-    entry->next   = NULL;
-    entry->string = string;
-    *(list->tail) = entry;
-    list->tail    = & (entry->next);
+	entry->next   = NULL;
+	entry->string = string;
+	*list->tail   = entry;
+	list->tail    = &entry->next;
 }
 
 BoolT
-cstring_list_contains(CStringListT * list,			       char *     string)
+cstring_list_contains(CStringListT *list, char *string)
 {
-    CStringListEntryT * entry = list->head;
-    while (entry != NULL) {
-	if (!strcmp(string, entry->string)) {
-	    return(TRUE);
+	CStringListEntryT *entry = list->head;
+
+	while (entry != NULL) {
+		if (!strcmp(string, entry->string)) {
+			return TRUE;
+		}
+		entry = entry->next;
 	}
-	entry = entry->next;
-    }
-    return(FALSE);
+
+	return FALSE;
 }
 
 CStringListEntryT *
-cstring_list_head(CStringListT * list)
+cstring_list_head(CStringListT *list)
 {
-    return(list->head);
+	return list->head;
 }
 
 char *
-cstring_list_entry_string(CStringListEntryT * entry)
+cstring_list_entry_string(CStringListEntryT *entry)
 {
-    return(entry->string);
+	return entry->string;
 }
 
 CStringListEntryT *
-cstring_list_entry_deallocate(CStringListEntryT * entry)
+cstring_list_entry_deallocate(CStringListEntryT *entry)
 {
-    CStringListEntryT * next = entry->next;
+	CStringListEntryT *next = entry->next;
 
-    DEALLOCATE(entry);
-    return(next);
+	DEALLOCATE(entry);
+	return next;
 }
+

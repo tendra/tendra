@@ -49,19 +49,19 @@
 #include <exds/exception.h>
 #include <exds/dalloc.h>
 
-ExceptionT * XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
+ExceptionT *XX_dalloc_no_memory = EXCEPTION("cannot allocate memory");
 
 #ifdef PO_DALLOC_DEBUG_ALIGN
 
 #define DALLOC_MAGIC 0x21436587
 #define ALIGN(x) (((int) (((x) + (PO_DALLOC_DEBUG_ALIGN) - 1) / \
-			  (PO_DALLOC_DEBUG_ALIGN))) * (PO_DALLOC_DEBUG_ALIGN))
+	(PO_DALLOC_DEBUG_ALIGN))) * (PO_DALLOC_DEBUG_ALIGN))
 
 typedef struct DallocDataT {
-    char *			file;
-    unsigned			line;
-    size_t			size;
-    int				magic;
+	char *file;
+	unsigned line;
+	size_t size;
+	int magic;
 } DallocDataT;
 
 static size_t dalloc_data_size = ALIGN(sizeof(DallocDataT));
@@ -73,105 +73,123 @@ static size_t dalloc_data_size = ALIGN(sizeof(DallocDataT));
 #include <mach/mach.h>
 
 void *
-X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
+X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 {
-    void * tmp;
-
-    assert(size != 0);
-    if (length == 0) {
-	tmp = NULL;
-    } else {
-	size_t        real_size = (((size) * length) + dalloc_data_size);
+	size_t real_size;
 	vm_address_t address;
-	DallocDataT *  data;
-	uint8_t *        base;
+	DallocDataT *data;
+	uint8_t *base;
 
-	if (vm_allocate(task_self (), &address, (vm_size_t) real_size,
-			TRUE) != KERN_SUCCESS) {
-	    THROW(XX_dalloc_no_memory);
-	    UNREACHED;
+	assert(size != 0);
+	if (length == 0) {
+		return NULL;
 	}
-	data        = (DallocDataT *)address;
-	base        = (uint8_t *)address;
-	tmp         = (base + dalloc_data_size);
+
+	real_size = (size * length) + dalloc_data_size;
+
+	if (vm_allocate(task_self(), &address, (vm_size_t) real_size, TRUE)
+		!= KERN_SUCCESS) {
+
+		THROW(XX_dalloc_no_memory);
+		UNREACHED;
+	}
+
+	data        = (DallocDataT *) address;
+	base        = (uint8_t *) address;
 	data->file  = file;
 	data->line  = line;
 	data->size  = real_size;
 	data->magic = DALLOC_MAGIC;
-    }
-    return (tmp);
+
+	return base + dalloc_data_size;
 }
 
 void
-X__dalloc_deallocate(void * ptr, char * file, unsigned line)
+X__dalloc_deallocate(void *ptr, char *file, unsigned line)
 {
-    if (ptr) {
-	uint8_t *         pointer = (uint8_t *) ptr;
-	DallocDataT *   data    = (DallocDataT *)(pointer - dalloc_data_size);
-	vm_address_t  address = (vm_address_t) data;
-	vm_size_t     size    = data->size;
+	uint8_t *pointer;
+	DallocDataT *data;
+	vm_address_t address;
+	vm_size_t size;
 	kern_return_t result;
 
-	if (data->magic == 0) {
-	    E_dalloc_multi_deallocate(ptr, file, line, data->file, data->line);
-	    UNREACHED;
-	} else if (data->magic != DALLOC_MAGIC) {
-	    E_dalloc_corrupt_block (ptr, file, line);
-	    UNREACHED;
+	if (!ptr) {
+		return;
 	}
+
+	pointer = (uint8_t *) ptr;
+	data    = (DallocDataT *) (pointer - dalloc_data_size);
+	address = (vm_address_t) data;
+	size    = data->size;
+
+	if (data->magic == 0) {
+		E_dalloc_multi_deallocate(ptr, file, line, data->file, data->line);
+		UNREACHED;
+	} else if (data->magic != DALLOC_MAGIC) {
+		E_dalloc_corrupt_block (ptr, file, line);
+		UNREACHED;
+	}
+
 	data->magic = 0;
-	result = vm_protect (task_self (), address, size, FALSE, VM_PROT_NONE);
+	result = vm_protect (task_self(), address, size, FALSE, VM_PROT_NONE);
 	assert(result == KERN_SUCCESS);
-    }
 }
 
 #else
 
 void *
-X__dalloc_allocate(size_t size, size_t length, char * file, unsigned line)
+X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 {
-    void * tmp;
+	size_t real_size;
+	uint8_t *base;
+	DallocDataT *data;
+	void *tmp;
 
-    assert(size != 0);
-    if (length == 0) {
-	tmp = NULL;
-    } else {
-	size_t       real_size = ((size * length) + dalloc_data_size);
-	uint8_t *       base;
-	DallocDataT * data;
+	assert(size != 0);
+	if (length == 0) {
+		tmp = NULL;
+	}
+
+	real_size = ((size * length) + dalloc_data_size);
 
 	if ((tmp = malloc(real_size)) == NULL) {
-	    THROW(XX_dalloc_no_memory);
-	    UNREACHED;
+		THROW(XX_dalloc_no_memory);
+		UNREACHED;
 	}
-	(void) memset (tmp, 0, real_size);
+
+	(void) memset(tmp, 0, real_size);
 	data        = tmp;
 	base        = tmp;
-	tmp         = (base + dalloc_data_size);
 	data->file  = file;
 	data->line  = line;
 	data->magic = DALLOC_MAGIC;
-    }
-    return (tmp);
+
+	return base + dalloc_data_size;
 }
 
 void
-X__dalloc_deallocate(void * ptr, char * file, unsigned line)
+X__dalloc_deallocate(void *ptr, char *file, unsigned line)
 {
-    if (ptr) {
-	uint8_t *       pointer = (uint8_t *) ptr;
-	DallocDataT * data    = (DallocDataT *)(pointer - dalloc_data_size);
+	uint8_t *pointer;
+	DallocDataT *data;
+
+	if (!ptr) {
+		return;
+	}
+
+	pointer = (uint8_t *) ptr;
+	data    = (DallocDataT *) (pointer - dalloc_data_size);
 
 	if (data->magic == 0) {
-	    E_dalloc_multi_deallocate(ptr, file, line, data->file, data->line);
-	    UNREACHED;
+		E_dalloc_multi_deallocate(ptr, file, line, data->file, data->line);
+		UNREACHED;
 	} else if (data->magic != DALLOC_MAGIC) {
-	    E_dalloc_corrupt_block (ptr, file, line);
-	    UNREACHED;
+		E_dalloc_corrupt_block (ptr, file, line);
+		UNREACHED;
 	}
+
 	data->magic = 0;
 	free ( data);
-    }
 }
 
 #endif /* defined (__NeXT__) */
@@ -181,16 +199,20 @@ X__dalloc_deallocate(void * ptr, char * file, unsigned line)
 void *
 X__dalloc_allocate(size_t size, size_t length)
 {
-    void * tmp;
+	void *tmp;
 
-    assert(size != 0);
-    if (length == 0) {
-	tmp = NULL;
-    } else if ((tmp = calloc(length, size)) == NULL) {
-	THROW(XX_dalloc_no_memory);
-	UNREACHED;
-    }
-    return (tmp);
+	assert(size != 0);
+	if (length == 0) {
+		return NULL;
+	}
+
+	if ((tmp = calloc(length, size)) == NULL) {
+		THROW(XX_dalloc_no_memory);
+		UNREACHED;
+	}
+
+	return tmp;
 }
 
 #endif /* defined (PO_DALLOC_DEBUG_ALIGN) */
+

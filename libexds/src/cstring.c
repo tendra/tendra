@@ -79,92 +79,100 @@
 char *
 cstring_duplicate(char * cstring)
 {
-    size_t length = strlen(cstring);
-    char * tmp    = ALLOCATE_VECTOR(char, length + 1);
+	size_t length = strlen(cstring);
+	char *tmp    = ALLOCATE_VECTOR(char, length + 1);
 
-  (void)strcpy(tmp, cstring);
-    return(tmp);
+	(void) strcpy(tmp, cstring);
+	return tmp;
 }
 
 char *
-cstring_duplicate_prefix(char * cstring, unsigned prefix)
+cstring_duplicate_prefix(char *cstring, unsigned prefix)
 {
-    size_t length = strlen(cstring);
+	size_t length = strlen(cstring);
 
-    if (length <= prefix) {
-	char * tmp = ALLOCATE_VECTOR(char, length + 1);
+	if (length <= prefix) {
+		char *tmp = ALLOCATE_VECTOR(char, length + 1);
 
-	(void)strcpy(tmp, cstring);
-	return(tmp);
-    } else {
-	char * tmp = ALLOCATE_VECTOR(char, prefix + 1);
+		(void) strcpy(tmp, cstring);
+		return tmp;
+	} else {
+		char *tmp = ALLOCATE_VECTOR(char, prefix + 1);
 
-	(void)memcpy(tmp, cstring, (size_t)prefix);
-	tmp[prefix] = '\0';
-	return(tmp);
-    }
+		(void) memcpy(tmp, cstring, (size_t) prefix);
+		tmp[prefix] = '\0';
+		return tmp;
+	}
 }
 
 unsigned
-cstring_hash_value(char * cstring)
+cstring_hash_value(char *cstring)
 {
-    unsigned value = 0;
+	unsigned value = 0;
 
-    while (*cstring) {
-	value += ((unsigned)(*cstring++));
-    }
-    return(value);
-}
-
-BoolT
-cstring_ci_equal(char * cstring1, char * cstring2)
-{
-    char c1;
-    char c2;
-
-    do {
-	c1 = toupper((unsigned char)*cstring1++);
-	c2 = toupper((unsigned char)*cstring2++);
-    } while ((c1) && (c2) && (c1 == c2));
-    return(c1 == c2);
-}
-
-BoolT
-cstring_to_unsigned(char * cstring, unsigned *num_ref)
-{
-    unsigned number = 0;
-
-    if (*cstring == '\0') {
-	return(FALSE);
-    }
-    do {
-		/* TODO this would be better served by strtol */
-	int value = syntax_value(*cstring);
-
-	if ((value == SYNTAX_NO_VALUE) || (value >= 10) ||
-	    (((UINT_MAX - (unsigned)value) / (unsigned)10) < number)) {
-	    return(FALSE);
+	while (*cstring) {
+		value += (unsigned) *cstring++;
 	}
-	number *= (unsigned)10;
-	number += (unsigned)value;
-    } while (*++ cstring);
-    *num_ref = number;
-    return(TRUE);
+
+	return value;
 }
 
 BoolT
-cstring_starts(char * cstring, char * s)
+cstring_ci_equal(char *cstring1, char *cstring2)
 {
-    return(strncmp(cstring, s, strlen(s)) == 0);
+	char c1;
+	char c2;
+
+	do {
+		c1 = toupper((unsigned char) *cstring1++);
+		c2 = toupper((unsigned char) *cstring2++);
+	} while (c1 && c2 && c1 == c2);
+
+	return c1 == c2;
+}
+
+BoolT
+cstring_to_unsigned(char *cstring, unsigned *num_ref)
+{
+	unsigned number = 0;
+
+	if (*cstring == '\0') {
+		return FALSE;
+	}
+
+	do {
+		/* TODO this would be better served by strtol */
+		int value = syntax_value(*cstring);
+
+		if (value == SYNTAX_NO_VALUE || value >= 10 ||
+			((UINT_MAX - (unsigned)value) / (unsigned)10) < number) {
+		return FALSE;
+		}
+
+		number *= (unsigned) 10;
+		number += (unsigned) value;
+	} while (*++ cstring);
+
+	*num_ref = number;
+
+	return TRUE;
+}
+
+BoolT
+cstring_starts(char *cstring, char *s)
+{
+	return strncmp(cstring, s, strlen(s)) == 0;
 }
 
 char *
-cstring_find_basename(char * cstring)
+cstring_find_basename(char *cstring)
 {
-    char * bstring = strrchr(cstring, '/');
-    if (bstring != NULL) {
-	cstring = bstring + 1;
-    }
-    return(cstring);
+	char *bstring = strrchr(cstring, '/');
+
+	if (bstring != NULL) {
+		return bstring + 1;
+	}
+
+	return cstring;
 }
 

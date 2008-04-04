@@ -74,93 +74,93 @@
 #include <exds/bostream.h>
 #include <exds/cstring.h>
 
-ExceptionT * XX_bostream_write_error = EXCEPTION("error writing to binary stream");
+ExceptionT *XX_bostream_write_error = EXCEPTION("error writing to binary stream");
 
 void
-bostream_init(BOStreamT * bostream)
+bostream_init(BOStreamT *bostream)
 {
-    bostream->name = NULL;
+	bostream->name = NULL;
 }
 
 BoolT
-bostream_open(BOStreamT * bostream,		       char *  name)
+bostream_open(BOStreamT *bostream, char *name)
 {
-    if ((bostream->file = fopen(name, "w")) == NULL) {
-	return(FALSE);
-    }
-    bostream->name  = name;
-    return(TRUE);
+	if ((bostream->file = fopen(name, "w")) == NULL) {
+		return FALSE;
+	}
+
+	bostream->name = name;
+	return TRUE;
 }
 
 void
-bostream_assign(BOStreamT * to,			 BOStreamT * from)
+bostream_assign(BOStreamT *to, BOStreamT *from)
 {
-    to->file  = from->file;
-    to->name  = from->name;
+	to->file = from->file;
+	to->name = from->name;
 }
 
 BoolT
-bostream_is_open(BOStreamT * bostream)
+bostream_is_open(BOStreamT *bostream)
 {
-    return(bostream->name != NULL);
+	return bostream->name != NULL;
 }
 
 void
-bostream_write_chars(BOStreamT * bostream,			      unsigned  length ,
-			      char *  chars)
+bostream_write_chars(BOStreamT *bostream, unsigned  length , char *chars)
 {
-    unsigned bytes_read = (unsigned)fwrite(chars, sizeof(char),
-					    (size_t)length, bostream->file);
+	unsigned bytes_read = (unsigned) fwrite(chars, sizeof(char),
+		(size_t) length, bostream->file);
 
-    if ((bytes_read != length) && (ferror(bostream->file))) {
-	char * name = cstring_duplicate(bostream->name);
+	if (bytes_read != length && ferror(bostream->file)) {
+		char *name = cstring_duplicate(bostream->name);
 
-	THROW_VALUE(XX_bostream_write_error, name);
-	UNREACHED;
-    }
+		THROW_VALUE(XX_bostream_write_error, name);
+		UNREACHED;
+	}
 }
 
 void
-bostream_write_bytes(BOStreamT * bostream,			      unsigned  length ,
-			      uint8_t *     bytes)
+bostream_write_bytes(BOStreamT *bostream, unsigned length, uint8_t *bytes)
 {
-    unsigned bytes_read = (unsigned)fwrite(bytes, sizeof(uint8_t),
-					    (size_t)length, bostream->file);
+	unsigned bytes_read = (unsigned) fwrite(bytes, sizeof(uint8_t),
+		(size_t) length, bostream->file);
 
-    if ((bytes_read != length) && (ferror(bostream->file))) {
-	char * name = cstring_duplicate(bostream->name);
+	if (bytes_read != length && ferror(bostream->file)) {
+		char *name = cstring_duplicate(bostream->name);
 
-	THROW_VALUE(XX_bostream_write_error, name);
-	UNREACHED;
-    }
+		THROW_VALUE(XX_bostream_write_error, name);
+		UNREACHED;
+	}
 }
 
 void
-bostream_write_byte(BOStreamT * bostream,			     uint8_t byte)
+bostream_write_byte(BOStreamT *bostream, uint8_t byte)
 {
-    if ((fputc((int)byte, bostream->file) == EOF) &&
-	(ferror(bostream->file))) {
-	char * name = cstring_duplicate(bostream->name);
+	if (fputc((int) byte, bostream->file) == EOF && ferror(bostream->file)) {
+		char *name = cstring_duplicate(bostream->name);
 
-	THROW_VALUE(XX_bostream_write_error, name);
-	UNREACHED;
-    }
+		THROW_VALUE(XX_bostream_write_error, name);
+		UNREACHED;
+	}
 }
 
 char *
-bostream_name(BOStreamT * bostream)
+bostream_name(BOStreamT *bostream)
 {
-    return(bostream->name);
+	return bostream->name;
 }
 
 void
-bostream_close(BOStreamT * bostream)
+bostream_close(BOStreamT *bostream)
 {
-    if (fclose(bostream->file)) {
-	char * name = cstring_duplicate(bostream->name);
+	if (fclose(bostream->file)) {
+		char *name = cstring_duplicate(bostream->name);
 
-	THROW_VALUE(XX_bostream_write_error, name);
-	UNREACHED;
-    }
-    bostream_init(bostream);
+		THROW_VALUE(XX_bostream_write_error, name);
+		UNREACHED;
+	}
+
+	bostream_init(bostream);
 }
+

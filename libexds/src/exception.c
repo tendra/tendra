@@ -74,8 +74,8 @@
 void (*unhandled)(ExceptionT *e, const char *file, unsigned line);
 void (*corrupt_handler)(const char *file, unsigned line);
 
-HandlerT *			X__exception_handler_stack = NULL;
-ThrowDataT			X__exception_throw_data;
+HandlerT *X__exception_handler_stack = NULL;
+ThrowDataT X__exception_throw_data;
 
 void
 exception_unhandled(void (*handler)(ExceptionT *e, const char *file, unsigned line))
@@ -92,46 +92,52 @@ exception_corrupt_handler(void (*handler)(const char *file, unsigned line))
 NoReturnT
 X__exception_throw(void)
 {
-    static BoolT failing = FALSE;
-    HandlerT *     stack   = X__exception_handler_stack;
+	static BoolT failing = FALSE;
+	HandlerT *stack      = X__exception_handler_stack;
 
-    if (failing) {
-	abort();
-	UNREACHED;
-    } else if (stack == NULL) {
-	failing = TRUE;
-	if (unhandled) {
-	    unhandled(X__exception_throw_data.exception,
-		      X__exception_throw_data.file,
-		      X__exception_throw_data.line);
+	if (failing) {
+		abort();
+		UNREACHED;
+	} else if (stack == NULL) {
+		failing = TRUE;
+		if (unhandled) {
+			unhandled(X__exception_throw_data.exception,
+			X__exception_throw_data.file,
+			X__exception_throw_data.line);
+		}
+		abort();
+		UNREACHED;
 	}
-	abort();
-	UNREACHED;
-    }
+
 #ifdef PO_EXCEPTION_STACK_DIRECTION
-    if ((stack->magic_start != X__EXCEPTION_MAGIC) ||
-	(stack->magic_end != X__EXCEPTION_MAGIC) ||
+	if (stack->magic_start != X__EXCEPTION_MAGIC ||
+		stack->magic_end != X__EXCEPTION_MAGIC ||
 #if PO_EXCEPTION_STACK_DIRECTION > 0
-	((stack) > (&stack)) ||
+		stack > &stack ||
 #endif /* PO_EXCEPTION_STACK_DIRECTION > 0 */
 #if PO_EXCEPTION_STACK_DIRECTION < 0
-	((stack) < (&stack)) ||
+		stack < &stack ||
 #endif /* PO_EXCEPTION_STACK_DIRECTION < 0 */
-	(stack->next == stack)) {
-	failing = TRUE;
-	if (corrupt_handler) {
-	    corrupt_handler(stack->file, stack->line);
+		stack->next == stack) {
+
+		failing = TRUE;
+
+		if (corrupt_handler) {
+			corrupt_handler(stack->file, stack->line);
+		}
+
+		abort();
+		UNREACHED;
 	}
-	abort();
-	UNREACHED;
-    }
 #endif /* defined (PO_EXCEPTION_STACK_DIRECTION) */
-    longjmp(X__exception_handler_stack->buffer, 1);
-    UNREACHED;
+
+	longjmp(X__exception_handler_stack->buffer, 1);
+	UNREACHED;
 }
 
 char *
-exception_name(ExceptionT * exc)
+exception_name(ExceptionT *exc)
 {
-    return(exc);
+	return exc;
 }
+

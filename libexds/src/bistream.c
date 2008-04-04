@@ -74,54 +74,55 @@
 #include <exds/bistream.h>
 #include <exds/cstring.h>
 
-ExceptionT * XX_bistream_read_error = EXCEPTION("error reading from binary stream");
+ExceptionT *XX_bistream_read_error = EXCEPTION("error reading from binary stream");
 
 void
-bistream_init(BIStreamT * bistream)
+bistream_init(BIStreamT *bistream)
 {
     bistream->name = NULL;
 }
 
 BoolT
-bistream_open(BIStreamT * bistream,		       char *  name)
+bistream_open(BIStreamT *bistream, char *name)
 {
-    if ((bistream->file = fopen(name, "r")) == NULL) {
-	return(FALSE);
-    }
-    bistream->bytes = 0;
-    bistream->name  = name;
-    return(TRUE);
+	if ((bistream->file = fopen(name, "r")) == NULL) {
+		return(FALSE);
+	}
+
+	bistream->bytes = 0;
+	bistream->name  = name;
+	return TRUE;
 }
 
 void
-bistream_assign(BIStreamT * to,			 BIStreamT * from)
+bistream_assign(BIStreamT *to, BIStreamT *from)
 {
-    to->file  = from->file;
-    to->bytes = from->bytes;
-    to->name  = from->name;
+	to->file  = from->file;
+	to->bytes = from->bytes;
+	to->name  = from->name;
 }
 
 BoolT
 bistream_is_open(BIStreamT * bistream)
 {
-    return(bistream->name != NULL);
+	return bistream->name != NULL;
 }
 
 unsigned
-bistream_read_chars(BIStreamT * bistream,			     unsigned  length ,
-			     char *  chars)
+bistream_read_chars(BIStreamT *bistream, unsigned length, char *chars)
 {
-    unsigned bytes_read = (unsigned)fread(chars, sizeof(char),
-					   (size_t)length, bistream->file);
+	unsigned bytes_read = (unsigned) fread(chars, sizeof(char),
+		(size_t) length, bistream->file);
 
-    if ((bytes_read == 0) && (ferror(bistream->file))) {
-	char * name = cstring_duplicate(bistream->name);
+	if ((bytes_read == 0) && (ferror(bistream->file))) {
+		char *name = cstring_duplicate(bistream->name);
 
-	THROW_VALUE(XX_bistream_read_error, name);
-	UNREACHED;
-    }
-    bistream->bytes += bytes_read;
-    return(bytes_read);
+		THROW_VALUE(XX_bistream_read_error, name);
+		UNREACHED;
+	}
+
+	bistream->bytes += bytes_read;
+	return(bytes_read);
 }
 
 unsigned
@@ -132,56 +133,58 @@ bistream_read_bytes(BIStreamT * bistream,			     unsigned  length ,
 					   (size_t)length, bistream->file);
 
     if ((bytes_read == 0) && (ferror(bistream->file))) {
-	char * name = cstring_duplicate(bistream->name);
+		char * name = cstring_duplicate(bistream->name);
 
-	THROW_VALUE(XX_bistream_read_error, name);
-	UNREACHED;
+		THROW_VALUE(XX_bistream_read_error, name);
+		UNREACHED;
     }
     bistream->bytes += bytes_read;
     return(bytes_read);
 }
 
 BoolT
-bistream_read_byte(BIStreamT * bistream,			    uint8_t *byte_ref)
+bistream_read_byte(BIStreamT *bistream, uint8_t *byte_ref)
 {
-    int byte = fgetc(bistream->file);
+	int byte = fgetc(bistream->file);
 
-    if (byte == EOF) {
-	if (ferror(bistream->file)) {
-	    char * name = cstring_duplicate(bistream->name);
+	if (byte == EOF) {
+		if (ferror(bistream->file)) {
+			char *name = cstring_duplicate(bistream->name);
 
-	    THROW_VALUE(XX_bistream_read_error, name);
-	    UNREACHED;
-	} else if (feof(bistream->file)) {
-	    return(FALSE);
+			THROW_VALUE(XX_bistream_read_error, name);
+			UNREACHED;
+		} else if (feof(bistream->file)) {
+			return(FALSE);
+		}
 	}
-    }
-    bistream->bytes++;
-    *byte_ref = (uint8_t)byte;
-    return(TRUE);
+
+	bistream->bytes++;
+	*byte_ref = (uint8_t) byte;
+	return TRUE;
 }
 
 unsigned
-bistream_byte(BIStreamT * bistream)
+bistream_byte(BIStreamT *bistream)
 {
-    return(bistream->bytes);
+	return bistream->bytes;
 }
 
 char *
-bistream_name(BIStreamT * bistream)
+bistream_name(BIStreamT *bistream)
 {
-    return(bistream->name);
+	return bistream->name;
 }
 
 void
-bistream_rewind(BIStreamT * bistream)
+bistream_rewind(BIStreamT *bistream)
 {
-    rewind(bistream->file);
+	rewind(bistream->file);
 }
 
 void
-bistream_close(BIStreamT * bistream)
+bistream_close(BIStreamT *bistream)
 {
-   (void)fclose(bistream->file);
-    bistream_init(bistream);
+	(void) fclose(bistream->file);
+	bistream_init(bistream);
 }
+

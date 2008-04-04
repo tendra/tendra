@@ -80,261 +80,273 @@
 #include <exds/cstring.h>
 #include "syntax.h"
 
-ExceptionT * XX_ostream_write_error = EXCEPTION("error writing to stream");
+ExceptionT *XX_ostream_write_error = EXCEPTION("error writing to stream");
 
 static OStreamT ostream_output_1 = {
-    NULL,
-    "<stdout>",
-    "<stdout>",
-    0,
-    1
+	NULL,
+	"<stdout>",
+	"<stdout>",
+	0,
+	1
 };
+
 static OStreamT ostream_error_1 = {
-    NULL,
-    "<stderr>",
-    "<stderr>",
-    0,
-    1
+	NULL,
+	"<stderr>",
+	"<stderr>",
+	0,
+	1
 };
 
 OStreamT *const ostream_output = &ostream_output_1;
 OStreamT *const ostream_error  = &ostream_error_1;
 
-#define OSTREAM_WRITE_ERROR_CHECK(ostream)\
-if (ferror((ostream)->file)) { \
-    char * X___name = cstring_duplicate(ostream_name(ostream)); \
-    THROW_VALUE(XX_ostream_write_error, X___name); \
-}
+#define OSTREAM_WRITE_ERROR_CHECK(ostream) \
+	if (ferror((ostream)->file)) { \
+		char * X___name = cstring_duplicate(ostream_name((ostream))); \
+		THROW_VALUE(XX_ostream_write_error, X___name); \
+	}
 
 void
 ostream_setup(void)
 {
-    ostream_output_1.file = stdout;
-    ostream_error_1.file  = stderr;
+	ostream_output_1.file = stdout;
+	ostream_error_1.file  = stderr;
 }
 
 void
-ostream_init(OStreamT * ostream)
+ostream_init(OStreamT *ostream)
 {
-    ostream->name = NULL;
+	ostream->name = NULL;
 }
 
 BoolT
-ostream_open(OStreamT * ostream, char * name)
+ostream_open(OStreamT *ostream, char *name)
 {
-    char * oname = name;
-    char * pname = strrchr(name, '@');
-    if (pname != NULL) {
-	oname = ALLOCATE_VECTOR(char, strlen(name) + 10);
-	(void)sprintf(oname, "%.*s%d%s", (int)(pname - name), name,
-	    ++ostream->no, pname + 1);
-    }
-    if ((ostream->file = fopen(oname, "w")) == NULL) {
-	return(FALSE);
-    }
-    ostream->name = oname;
-    ostream->gen_name = name;
-    ostream->line = 1;
-    (void)setvbuf(ostream->file, NULL, _IOFBF, (size_t)BUFSIZ);
-    return(TRUE);
+	char *oname = name;
+	char *pname = strrchr(name, '@');
+
+	if (pname != NULL) {
+		oname = ALLOCATE_VECTOR(char, strlen(name) + 10);
+		(void) sprintf(oname, "%.*s%d%s", (int) (pname - name), name,
+		++ostream->no, pname + 1);
+	}
+	if ((ostream->file = fopen(oname, "w")) == NULL) {
+		return FALSE;
+	}
+	ostream->name = oname;
+	ostream->gen_name = name;
+	ostream->line = 1;
+	(void) setvbuf(ostream->file, NULL, _IOFBF, (size_t) BUFSIZ);
+	return TRUE;
 }
 
 BoolT
-ostream_is_open(OStreamT * ostream)
+ostream_is_open(OStreamT *ostream)
 {
-    return(ostream->name != NULL);
+	return ostream->name != NULL;
 }
 
 void
-ostream_buffer(OStreamT * ostream)
+ostream_buffer(OStreamT *ostream)
 {
-    (void)setvbuf(ostream->file, NULL, _IOFBF, (size_t)BUFSIZ);
+	(void) setvbuf(ostream->file, NULL, _IOFBF, (size_t) BUFSIZ);
 }
 
 void
-ostream_unbuffer(OStreamT * ostream)
+ostream_unbuffer(OStreamT *ostream)
 {
-    (void)setvbuf(ostream->file, NULL, _IONBF, (size_t)0);
+	(void) setvbuf(ostream->file, NULL, _IONBF, (size_t) 0);
 }
 
 void
-ostream_close(OStreamT * ostream)
+ostream_close(OStreamT *ostream)
 {
-    if (fclose(ostream->file)) {
-	char * name = cstring_duplicate(ostream_name(ostream));
+	if (fclose(ostream->file)) {
+		char *name = cstring_duplicate(ostream_name(ostream));
 
-	THROW_VALUE(XX_ostream_write_error, name);
-    }
-    ostream_init(ostream);
+		THROW_VALUE(XX_ostream_write_error, name);
+	}
+	ostream_init(ostream);
 }
 
 void
-ostream_flush(OStreamT * ostream)
+ostream_flush(OStreamT *ostream)
 {
-    if (fflush(ostream->file)) {
-	char * name = cstring_duplicate(ostream_name(ostream));
+	if (fflush(ostream->file)) {
+		char *name = cstring_duplicate(ostream_name(ostream));
 
-	THROW_VALUE(XX_ostream_write_error, name);
-    }
+		THROW_VALUE(XX_ostream_write_error, name);
+	}
 }
 
 char *
-ostream_name(OStreamT * ostream)
+ostream_name(OStreamT *ostream)
 {
-    return(ostream->name);
+	return ostream->name;
 }
 
 char *
-ostream_gen_name(OStreamT * ostream)
+ostream_gen_name(OStreamT *ostream)
 {
-    return(ostream->gen_name);
+	return ostream->gen_name;
 }
 
 unsigned
-ostream_line(OStreamT * ostream)
+ostream_line(OStreamT *ostream)
 {
-    return(ostream->line);
+	return ostream->line;
 }
 
 void
-write_newline(OStreamT * ostream)
+write_newline(OStreamT *ostream)
 {
-    ostream->line++;
-    (void)putc('\n', ostream->file);
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
-}
-
-void
-write_tab(OStreamT * ostream)
-{
-    (void)putc('\t', ostream->file);
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
-}
-
-void
-write_byte(OStreamT * ostream, uint8_t c)
-{
-    if (c == '\n') {
 	ostream->line++;
-    }
-    (void)putc((int)c, ostream->file);
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
+	(void) putc('\n', ostream->file);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_char(OStreamT * ostream, char c)
+write_tab(OStreamT *ostream)
 {
-    if (c == '\n') {
-	ostream->line++;
-    }
-    (void)putc((int)c, ostream->file);
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
+	(void) putc('\t', ostream->file);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_escaped_char(OStreamT * ostream, char c)
+write_byte(OStreamT *ostream, uint8_t c)
 {
-    switch (c) {
-      case '\0':
-	(void)fputs("\\0", ostream->file);
-	break;
-      case '\f':
-	(void)fputs("\\f", ostream->file);
-	break;
-      case '\n':
-	ostream->line++;
-	(void)fputc('\n', ostream->file);
-	break;
-      case '\r':
-	(void)fputs("\\r", ostream->file);
-	break;
-      case '\t':
-	(void)fputc('\t', ostream->file);
-	break;
-      case '\\':
-	(void)fputs("\\\\", ostream->file);
-	break;
-      default:
-	if (isprint((unsigned char)c)) {
-	    (void)fputc((int)c, ostream->file);
-	} else {
-	    (void)fprintf(ostream->file, "\\x%02x",
-			  (unsigned)(unsigned char)c);
+	if (c == '\n') {
+		ostream->line++;
 	}
-    }
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
+
+	(void) putc((int) c, ostream->file);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_int(OStreamT * ostream, int i)
+write_char(OStreamT *ostream, char c)
 {
-    (void)fprintf(ostream->file, "%d", i);
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
-}
-
-void
-write_unsigned(OStreamT * ostream, unsigned i)
-{
-    (void)fprintf(ostream->file, "%u", i);
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
-}
-
-void
-write_cstring(OStreamT * ostream, char * cstring)
-{
-    char * tmp = cstring;
-
-    while (*tmp) {
-	if (*tmp++ == '\n') {
-	    ostream->line++;
+	if (c == '\n') {
+		ostream->line++;
 	}
-    }
-    (void)fputs(cstring, ostream->file);
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
+
+	(void) putc((int) c, ostream->file);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_bytes(OStreamT * ostream, uint8_t * bytes, unsigned length)
+write_escaped_char(OStreamT *ostream, char c)
 {
-    unsigned tmp_length = length;
-    uint8_t *    tmp_bytes  = bytes;
+	switch (c) {
+	case '\0':
+		(void) fputs("\\0", ostream->file);
+		break;
 
-    while (tmp_length--) {
-	if (*tmp_bytes++ == '\n') {
-	    ostream->line++;
+	case '\f':
+		(void) fputs("\\f", ostream->file);
+		break;
+
+	case '\n':
+		ostream->line++;
+		(void) fputc('\n', ostream->file);
+		break;
+
+	case '\r':
+		(void) fputs("\\r", ostream->file);
+		break;
+
+	case '\t':
+		(void) fputc('\t', ostream->file);
+		break;
+
+	case '\\':
+		(void) fputs("\\\\", ostream->file);
+		break;
+
+	default:
+		if (isprint((unsigned char) c)) {
+			(void) fputc((int) c, ostream->file);
+		} else {
+			(void) fprintf(ostream->file, "\\x%02x",
+				(unsigned) (unsigned char) c);
+		}
 	}
-    }
-    (void)fwrite(bytes, sizeof(uint8_t), (size_t)length,
-		 ostream->file);
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_chars(OStreamT * ostream, char * chars, unsigned length)
+write_int(OStreamT *ostream, int i)
 {
-    while (length--) {
-	write_char(ostream, *chars++);
-    }
+	(void) fprintf(ostream->file, "%d", i);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_escaped_chars(OStreamT * ostream, char * chars, unsigned length)
+write_unsigned(OStreamT *ostream, unsigned i)
 {
-    while (length--) {
-	write_escaped_char(ostream, *chars++);
-    }
+	(void) fprintf(ostream->file, "%u", i);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_system_error(OStreamT * ostream)
+write_cstring(OStreamT *ostream, char *cstring)
 {
-    char * message = strerror(errno);
-    write_cstring(ostream, message);
+	char *tmp = cstring;
+
+	while (*tmp) {
+		if (*tmp++ == '\n') {
+			ostream->line++;
+		}
+	}
+
+	(void) fputs(cstring, ostream->file);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 
 void
-write_pointer(OStreamT * ostream, void * pointer)
+write_bytes(OStreamT *ostream, uint8_t *bytes, unsigned length)
 {
-    (void)fprintf(ostream->file, "%p", pointer);
-    OSTREAM_WRITE_ERROR_CHECK(ostream);
+	unsigned tmp_length = length;
+	uint8_t *tmp_bytes  = bytes;
+
+	while (tmp_length--) {
+		if (*tmp_bytes++ == '\n') {
+			ostream->line++;
+		}
+	}
+
+	(void) fwrite(bytes, sizeof(uint8_t), (size_t) length, ostream->file);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
+
+void
+write_chars(OStreamT *ostream, char *chars, unsigned length)
+{
+	while (length--) {
+		write_char(ostream, *chars++);
+	}
+}
+
+void
+write_escaped_chars(OStreamT *ostream, char *chars, unsigned length)
+{
+	while (length--) {
+		write_escaped_char(ostream, *chars++);
+	}
+}
+
+void
+write_system_error(OStreamT *ostream)
+{
+	char *message = strerror(errno);
+	write_cstring(ostream, message);
+}
+
+void
+write_pointer(OStreamT *ostream, void *pointer)
+{
+	(void) fprintf(ostream->file, "%p", pointer);
+	OSTREAM_WRITE_ERROR_CHECK(ostream);
+}
+

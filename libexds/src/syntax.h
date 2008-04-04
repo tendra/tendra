@@ -74,7 +74,7 @@
 #define H_SYNTAX
 
 /*
- * This value is returned by the ``syntax_value'' function for characters that
+ * This value is returned by the syntax_value function for characters that
  * do not have a digit value.
  *
  */
@@ -82,8 +82,10 @@
 
 /*
  * This function returns the positive integer digit value that the specified
- * character should have, or ``SYNTAX_NO_VALUE'' if it has no value.
+ * character should have, or SYNTAX_NO_VALUE if it has no value.
  */
-int	syntax_value(char);
+int
+syntax_value(char);
 
 #endif /* !defined (H_SYNTAX) */
+
