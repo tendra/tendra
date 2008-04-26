@@ -66,8 +66,14 @@ package body Asis.Gela.Library is
    -------------------
 
    function Gela_Lib_Path return String is
+      Separator : constant Character := '/';
+      Path      : constant String := Env;
    begin
-      return Env;
+      if Path'Length > 0 and then Path (Path'Last) /= Separator then
+         return Path & Separator;
+      else
+         return Env;
+      end if;
    end Gela_Lib_Path;
 
    ---------------------
