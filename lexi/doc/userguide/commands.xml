@@ -331,6 +331,24 @@ TOKEN "[alpha]" -> get_identifier(#0); //return a terminal
 					</para>
 				</listitem>
 			</varlistentry>
+			<varlistentry>
+				<term>Inline action calls</term>
+				<listitem>
+					<para>An inline action call has the form</para>
+					<programlisting language="Lexi">
+(/*commaseparatedoutputlist*/) = &lt;action-name&gt;( /* commaseparatedargumentlist*/);
+					</programlisting>
+					<code> &gt; </code> <code> > &lt; </code> may or may not be removed from the
+					syntax. The decision will happen prior to 2.0. The argumentlist can contain
+					either local variables, <code>#</code> style of arguments. This is not ready yet
+					even if most of the syntax is understood by lexi right now. In particular name
+					resolution for local variables is absent for the moment in lexi code. This will 
+					be added prior to 2.0. It has not yet been decided which types should be 
+					terminals, characters and strings: these will probably be predefined types.
+					Actions and types must have been previously declared 
+					see <!--TODO insert reference-->
+				</listitem>
+				</varlistentry>
 		</variablelist>
 
 			<para>See <xref linkend="interface_terminals"/> for the C
@@ -632,6 +650,32 @@ ZONE string : "[alpha]" -> clear_buffer(#$) [...) "[^alphanum]" ->$identifier  {
 
 			<para>Syntactic sugar for identifiers, comments and string should be added
 			  	in either 2.1 or 2.2.</para>
+	</section>
+
+	<section id="typesdeclaration">
+		<title id="typesdeclaration.title">Character Group Definitions</title>
+			<para>We can declare types in lexi. This will be used for type checking of
+				instructions (inline actions mostly, see <!--TODO put reference-->)
+				that must happen upon encountering a token. Types declaration must only happen
+				in the global zone. Here are examples:</para>
+			<programlisting language="Lexi"> 
+TYPE buffer;
+TYPE integer;
+</programlisting>
+
+	</section>
+
+	<section id="actiondeclaration">
+		<title id="actiondefinitions.title">Action prototypes</title>
+			<para>Any inline actions called inside a list of instructions
+			  must have been previously prototypes. </para>
+			<programlisting language="BNF">action-decl := "ACTION" + identifier [ + ":" + "(" + typelist+")" + "->" + "(" + typelist+")";
+</programlisting>
+Here is an example:
+			<programlisting language="Lexi"> 
+ACTION actionname : (:TYPE1,:TYPE2) ->(:TYPE3,:TYPE4);
+</programlisting>
+
 	</section>
 
 

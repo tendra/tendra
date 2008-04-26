@@ -423,6 +423,64 @@ firstly define lexemes
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
 		href="commands.xml"/>
 
+	<chapter id="lexiactionfile">
+		<title>The lexi action file</title>
+		<section>
+		<title>Introduction</title>
+			<para>The lexi action file (.lct) is the second input file for lexi. In it you
+				can specify header and trailer for both of the ouput files. Before the release of 2.0,
+				it will also contains the definitions of the inline actions. Syntax is not frozen yet
+				but will be prior to the 2.0 tag.
+			</para>
+		</section>
+
+		<section>
+		<title>The header statement</title>
+			<para>This is an optional statement. It is used to specify headers for 
+			  	both output files.
+				It is mostly used to add <code>#include</code> directives in the 
+				output files.
+			</para>
+		<programlisting language="Lexi">HEADERS = @{ /*header for the C file*/
+@}, @{/*Header for the h file*/
+@};</programlisting>
+		</section>
+
+		<section>
+		<title>The trailer statement</title>
+			<para>This is an optional statement. It is used to specify headers for 
+			  	both output files.</para>
+		<programlisting language="Lexi">TRAILERS = @{ /*Trailer for the C file*/
+@}, @{/*Trailer for the h file*/
+@};</programlisting>
+		</section>
+
+		<section>
+		<title>Action definition statement</title>
+			<para>This is not yet operational. This should be operational prior to 2.0. 
+				The syntax is accepted but the semantics are not fully coded yet.
+				An action definition defines the inline code that will be inserted
+				upon encountering a token whose instruction list contains this action 
+				call. Here is an example of the intended syntax
+			</para>
+		<programlisting language="Lexi">ACTION actionname : (inputvar1:TYPE1,inputvar2:TYPE2) -> (outputvar1:TYPE3) = @{ 
+	/*code block*/
+@},
+</programlisting>
+		There is not yet an intended syntax for the code block but it should 
+closely resemble the sid act file syntax.
+		</section>
+
+		<section>
+		<title>Type mappings</title>
+			<para>This is not yet operational. It should be for 2.0. It is used for action arguments 
+			  	type checking. They map an internal lexi type to a C type identifier.
+			</para>
+		<programlisting language="Lexi">MAPPING lexitype -> ctype ;
+</programlisting>
+		</section>
+
+	</chapter>
 	<chapter id="interface">
 		<!-- TODO in the future this should be separate chapters, one per language supported -->
 		<title>Interface</title>
