@@ -15,6 +15,7 @@ package body Asis.Gela.Library is
 
    Search_Path    : Unbounded_Wide_String;
    Path_Separator : constant Wide_String := (1 => Wide_Character'Val (10));
+   File_Separator : constant Wide_Character := '/';
 
    ------------------------
    -- Add_To_Search_Path --
@@ -23,7 +24,11 @@ package body Asis.Gela.Library is
    procedure Add_To_Search_Path (Path : Wide_String) is
       use Ada.Strings.Wide_Unbounded;
    begin
-      Search_Path := Search_Path & Path & Path_Separator;
+      if Path'Length > 0 and then Path (Path'Last) /= File_Separator then
+         Search_Path := Search_Path & Path & File_Separator & Path_Separator;
+      else
+         Search_Path := Search_Path & Path & Path_Separator;
+      end if;
    end Add_To_Search_Path;
 
    ---------------
@@ -46,7 +51,8 @@ package body Asis.Gela.Library is
       use Ada.Characters.Handling;
       Lib : constant Wide_String := To_Wide_String (Gela_Lib_Path);
    begin
-      Search_Path := W.To_Unbounded_Wide_String (Lib & Path_Separator);
+      Search_Path := W.Null_Unbounded_Wide_String;
+      Add_To_Search_Path (Lib);
    end Clear_Search_Path;
 
    ----------------------
@@ -66,14 +72,8 @@ package body Asis.Gela.Library is
    -------------------
 
    function Gela_Lib_Path return String is
-      Separator : constant Character := '/';
-      Path      : constant String := Env;
    begin
-      if Path'Length > 0 and then Path (Path'Last) /= Separator then
-         return Path & Separator;
-      else
-         return Env;
-      end if;
+      return Env;
    end Gela_Lib_Path;
 
    ---------------------
