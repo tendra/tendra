@@ -33,13 +33,14 @@
 
 		<para>&tendra; is a relatively complex system. This document attempts
 			to orientate the reader amongst the maze of file types, and to
-			help show how it all fits together. This document focuses mostly
-			on what files live where, and how they are involved. It does not
-			discuss the minutiae within each stage.</para>
+			help show how it all fits together. The focus here is primarily
+			on what files live where, and how they are involved; the details
+			of each stage are not discussed at length.</para>
 
-		<para>This document contains a few examples, and it is recommended that
-			you follow along and experiment with various alterations whilst
-			reading.</para>
+		<para>A few examples are given, and it is recommended that you follow
+			along and experiment with various alterations whilst reading.
+			This is not a comprihensive guide; it only covers the areas which
+			seemed to be most relevant.</para>
 	</section>
 
 	<section>
