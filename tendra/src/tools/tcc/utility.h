@@ -109,8 +109,8 @@ extern char* find_path_subst(char *);
 extern int hash(char *, int, int);
 extern hashtable *init_table(int, int, int (*fcn)(char *, int, int));
 extern htnode *lookup_table(hashtable *, char *);
-extern pointer xalloc(int);
-extern pointer xrealloc(pointer, int);
+extern void *xalloc(int);
+extern void *xrealloc(void *, int);
 extern char *string_append(char *, char *, char);
 extern char *string_copy(char *);
 extern char *string_concat(char *, char *);
@@ -151,7 +151,7 @@ extern char *progname;
 
 #define alloc_size(T, N)	((int)(N) * (int)sizeof(T))
 #define alloc_nof(T, N)		(T *)xalloc(alloc_size(T, N))
-#define realloc_nof(P, T, N)	(T *)xrealloc((pointer)(P), alloc_size(T, N))
+#define realloc_nof(P, T, N)	(T *)xrealloc((P), alloc_size(T, N))
 #define array_size(A)		((int)sizeof(A) / (int)sizeof(A[0]))
 
 

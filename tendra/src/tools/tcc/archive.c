@@ -103,7 +103,7 @@ read_file(char *nm, char *w, long n, FILE *f)
 		}
 		while (m) {
 			size_t r = m, s;
-			pointer p = (pointer)buffer;
+			void  *p = buffer;
 			if (r > (size_t)block_size) {
 				r = (size_t)block_size;
 			}
@@ -141,7 +141,7 @@ write_file(char *nm, char *rd, FILE *f)
 {
 	FILE *g;
 	size_t n, m;
-	pointer p = (pointer)buffer;
+	void *p = buffer;
 	if (dry_run) {
 		return (0);
 	}
@@ -341,12 +341,12 @@ touch_file(char *nm, char *opt)
 		}
 		if (opt && streq(opt, "-k")) {
 			/* This is an empty C spec file */
-			static unsigned char cs [] = {
+			static unsigned char cs[] = {
 				0x80
 			};
-			size_t s1 = sizeof(cs [0]);
+			size_t s1 = sizeof(cs[0]);
 			size_t sn = (size_t)(sizeof(cs) / s1);
-			IGNORE fwrite((pointer)cs, s1, sn, f);
+			IGNORE fwrite(cs, s1, sn, f);
 		} else {
 			IGNORE fputs("EMPTY\n", f);
 		}
@@ -411,7 +411,7 @@ file_size(char *nm)
 #else
 	{
 		size_t n = 0, m;
-		pointer p = (pointer)buffer;
+		void *p = buffer;
 		FILE *f = fopen(nm, "rb");
 		if (f == NULL) {
 			return (0);
@@ -619,7 +619,7 @@ build_archive(char *arch, char **input)
 		IGNORE fclose(f);
 		return (1);
 	    } else {
-		pointer p = (pointer)buffer;
+		void *p = buffer;
 		size_t m = fread(p, sizeof(char), (size_t)block_size, g);
 		IGNORE fprintf(f, "+ %ld %s\n",(long)m, n);
 		while (m) {

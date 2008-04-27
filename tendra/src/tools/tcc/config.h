@@ -141,7 +141,6 @@
  */
 
 typedef int boolean;
-typedef void *pointer;
 
 
 /*

@@ -388,10 +388,10 @@ comment(int e, char *s, ...) /* VARARGS */
  * This routine allocates a block of memory of size sz and returns the result.
  */
 
-pointer
+void *
 xalloc(int sz)
 {
-	pointer p = (pointer)malloc((size_t)sz);
+	void *p = malloc((size_t)sz);
 	if (p == NULL) {
 		error(FATAL, "Memory allocation error");
 	}
@@ -406,14 +406,14 @@ xalloc(int sz)
  * xrealloc(*null, sz) is equivalent to xalloc(sz).
  */
 
-pointer
-xrealloc(pointer p, int sz)
+void *
+xrealloc(void *p, int sz)
 {
-    pointer q;
+    void *q;
     if (p == NULL) {
 	    return (xalloc(sz));
     }
-    q = (pointer)realloc(p,(size_t)sz);
+    q = realloc(p, (size_t)sz);
     if (q == NULL) {
 	    error(FATAL, "Memory reallocation error");
     }
