@@ -104,7 +104,7 @@ void
 error(int e, char *s, ...) /* VARARGS */
 {
 	va_list args;
-	char *errtype = null;
+	char *errtype = NULL;
 #if FS_STDARG
 	va_start(args, s);
 #else
@@ -203,7 +203,7 @@ lookup_table(hashtable *ht, char *key)
 	char *v = NULL;
 
 	if (!key) {
-		error(WARNING, "Looking up null key in tccenv hashtable");
+		error(WARNING, "Looking up NULL key in tccenv hashtable");
 
 		return NULL;
 	}
@@ -392,7 +392,7 @@ pointer
 xalloc(int sz)
 {
 	pointer p = (pointer)malloc((size_t)sz);
-	if (p == null) {
+	if (p == NULL) {
 		error(FATAL, "Memory allocation error");
 	}
 	return (p);
@@ -410,11 +410,11 @@ pointer
 xrealloc(pointer p, int sz)
 {
     pointer q;
-    if (p == null) {
+    if (p == NULL) {
 	    return (xalloc(sz));
     }
     q = (pointer)realloc(p,(size_t)sz);
-    if (q == null) {
+    if (q == NULL) {
 	    error(FATAL, "Memory reallocation error");
     }
     return (q);
@@ -446,7 +446,7 @@ find_path_subst(char *var)
 	while (*subs){
 		if (!strcmp(var, *subs)) {
 			if (env_paths[i] == NULL){
-				error(FATAL, "The env variable <%s> is null.\n"
+				error(FATAL, "The env variable <%s> is NULL.\n"
 				      "Check your environment or edit your env"
 				      " files", PATH_SUBS[i]);
 			}
@@ -486,7 +486,7 @@ string_alloc(int n)
 	} else {
 		/* Short strings are allocated space from a buffer */
 		static int no_free = 0;
-		static char *free_chars = null;
+		static char *free_chars = NULL;
 		if (n >= no_free) {
 			no_free = 4000;
 			free_chars = alloc_nof(char, no_free);

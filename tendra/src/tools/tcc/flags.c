@@ -80,9 +80,9 @@
 
 char *api_info = "unknown";
 char *api_output = API_ANAL_NAME;
-char *dump_opts = null;
+char *dump_opts = NULL;
 char *environ_dir = ".";
-char *final_name = null;
+char *final_name = NULL;
 char *machine_name = "unknown";
 char *name_E_file = ENDUP_NAME;
 char *name_h_file = STARTUP_NAME;
@@ -91,9 +91,9 @@ char *name_k_file = C_SPEC_COMPLEX_NAME;
 char *name_K_file = CPP_SPEC_COMPLEX_NAME;
 char *name_p_file = TOKDEF_NAME;
 char *temporary_dir = "/usr/tmp";
-char *tokdef_output = null;
+char *tokdef_output = NULL;
 char *version_flag = "";
-char *dev_null = null;
+char *dev_null = NULL;
 char **env_paths = NULL;
 
 
@@ -281,31 +281,31 @@ boolean flag_strip = 0;
  * producer.
  */
 
-list *exec_produce = null;
-list *exec_preproc = null;
-list *exec_cpp_produce = null;
-list *exec_cpp_preproc = null;
-list *exec_tdf_link = null;
-list *exec_translate = null;
-list *exec_assemble = null;
-list *exec_assemble_mips = null;
-list *exec_link = null;
-list *exec_notation = null;
-list *exec_pl_tdf = null;
-list *exec_pretty = null;
-list *exec_spec_link = null;
-list *exec_cpp_spec_link = null;
-list *exec_split_arch = null;
-list *exec_build_arch = null;
-list *exec_cat = null;
-list *exec_cc = null;
-list *exec_mkdir = null;
-list *exec_move = null;
-list *exec_remove = null;
-list *exec_touch = null;
-list *exec_dynlink = null;
-list *exec_dump_anal = null;
-list *exec_dump_link = null;
+list *exec_produce = NULL;
+list *exec_preproc = NULL;
+list *exec_cpp_produce = NULL;
+list *exec_cpp_preproc = NULL;
+list *exec_tdf_link = NULL;
+list *exec_translate = NULL;
+list *exec_assemble = NULL;
+list *exec_assemble_mips = NULL;
+list *exec_link = NULL;
+list *exec_notation = NULL;
+list *exec_pl_tdf = NULL;
+list *exec_pretty = NULL;
+list *exec_spec_link = NULL;
+list *exec_cpp_spec_link = NULL;
+list *exec_split_arch = NULL;
+list *exec_build_arch = NULL;
+list *exec_cat = NULL;
+list *exec_cc = NULL;
+list *exec_mkdir = NULL;
+list *exec_move = NULL;
+list *exec_remove = NULL;
+list *exec_touch = NULL;
+list *exec_dynlink = NULL;
+list *exec_dump_anal = NULL;
+list *exec_dump_link = NULL;
 
 
 /*
@@ -315,23 +315,23 @@ list *exec_dump_link = null;
  * altered by environments and command-line options.
  */
 
-list *std_prod_incldirs = null;
-list *std_prod_portfile = null;
-list *std_prod_startdirs = null;
-list *std_prod_startup = null;
-list *std_cpp_prod_incldirs = null;
-list *std_cpp_prod_startdirs = null;
-list *std_cpp_prod_startup = null;
-list *std_tdf_link_libdirs = null;
-list *std_tdf_link_libs = null;
-list *std_link_crt0 = null;
-list *std_link_crt1 = null;
-list *std_link_crtp_n = null;
-list *std_link_crtn = null;
-list *std_link_libdirs = null;
-list *std_link_libs = null;
-list *std_link_c_libs = null;
-list *std_link_entry = null;
+list *std_prod_incldirs = NULL;
+list *std_prod_portfile = NULL;
+list *std_prod_startdirs = NULL;
+list *std_prod_startup = NULL;
+list *std_cpp_prod_incldirs = NULL;
+list *std_cpp_prod_startdirs = NULL;
+list *std_cpp_prod_startup = NULL;
+list *std_tdf_link_libdirs = NULL;
+list *std_tdf_link_libs = NULL;
+list *std_link_crt0 = NULL;
+list *std_link_crt1 = NULL;
+list *std_link_crtp_n = NULL;
+list *std_link_crtn = NULL;
+list *std_link_libdirs = NULL;
+list *std_link_libs = NULL;
+list *std_link_c_libs = NULL;
+list *std_link_entry = NULL;
 
 
 
@@ -341,16 +341,16 @@ list *std_link_entry = null;
  * These lists of options are those specified on the command-line.
  */
 
-list *usr_prod_incldirs = null;
-list *usr_prod_foptions = null;
-list *usr_prod_eoptions = null;
-list *usr_prod_startup = null;
-list *usr_cpp_prod_startup = null;
-list *usr_pl_tdf_incldirs = null;
-list *usr_tdf_link_libdirs = null;
-list *usr_tdf_link_libs = null;
-list *usr_link_libdirs = null;
-list *usr_link_libs = null;
+list *usr_prod_incldirs = NULL;
+list *usr_prod_foptions = NULL;
+list *usr_prod_eoptions = NULL;
+list *usr_prod_startup = NULL;
+list *usr_cpp_prod_startup = NULL;
+list *usr_pl_tdf_incldirs = NULL;
+list *usr_tdf_link_libdirs = NULL;
+list *usr_tdf_link_libs = NULL;
+list *usr_link_libdirs = NULL;
+list *usr_link_libs = NULL;
 
 
 /*
@@ -360,29 +360,29 @@ list *usr_link_libs = null;
  * various executables.
  */
 
-list *opt_produce = null;
-list *opt_preproc = null;
-list *opt_cpp_produce = null;
-list *opt_cpp_preproc = null;
-list *opt_tdf_link = null;
-list *opt_translate = null;
-list *opt_assemble = null;
-list *opt_assemble_mips = null;
-list *opt_dynlink = null;
-list *opt_link = null;
-list *opt_notation = null;
-list *opt_pl_tdf = null;
-list *opt_pretty = null;
-list *opt_spec_link = null;
-list *opt_cpp_spec_link = null;
-list *opt_dump_anal = null;
-list *opt_dump_link = null;
-list *opt_archive = null;
-list *opt_joiner = null;
-list *opt_cc = null;
-list *opt_startup = null;
-list *opt_endup = null;
-list *opt_unknown = null;
+list *opt_produce = NULL;
+list *opt_preproc = NULL;
+list *opt_cpp_produce = NULL;
+list *opt_cpp_preproc = NULL;
+list *opt_tdf_link = NULL;
+list *opt_translate = NULL;
+list *opt_assemble = NULL;
+list *opt_assemble_mips = NULL;
+list *opt_dynlink = NULL;
+list *opt_link = NULL;
+list *opt_notation = NULL;
+list *opt_pl_tdf = NULL;
+list *opt_pretty = NULL;
+list *opt_spec_link = NULL;
+list *opt_cpp_spec_link = NULL;
+list *opt_dump_anal = NULL;
+list *opt_dump_link = NULL;
+list *opt_archive = NULL;
+list *opt_joiner = NULL;
+list *opt_cc = NULL;
+list *opt_startup = NULL;
+list *opt_endup = NULL;
+list *opt_unknown = NULL;
 
 
 /*
@@ -551,10 +551,10 @@ initialise_options(void)
 
 	/* Initialise other options */
 	find_envpath();
-	for (p = opt_startup; p != null; p = p->next) {
+	for (p = opt_startup; p != NULL; p = p->next) {
 		add_to_startup(p->item);
 	}
-	for (p = opt_endup; p != null; p = p->next) {
+	for (p = opt_endup; p != NULL; p = p->next) {
 		add_to_endup(p->item);
 	}
 	if (checker) {
@@ -586,7 +586,7 @@ initialise_options(void)
 void
 update_options(void)
 {
-	char *mode = null;
+	char *mode = NULL;
 	static boolean done_diag = 0;
 	static boolean done_preproc = 0;
 	static boolean done_prof = 0;

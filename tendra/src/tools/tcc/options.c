@@ -82,7 +82,7 @@
  * All input files found by process_options are added to this list.
  */
 
-filename *input_files = null;
+filename *input_files = NULL;
 
 
 /*
@@ -225,7 +225,7 @@ optmap main_optmap[] = {
 	{"$", "XUnknown option,$s$0|AXO$0", "unknown option", 0},
 
 	/* End marker */
-	{null, null, null, 9999}
+	{NULL, NULL, NULL, 9999}
 };
 
 
@@ -238,121 +238,121 @@ optmap main_optmap[] = {
 
 optmap environ_optmap[] = {
 	/* Options */
-	{"\\+FLAG $", "=$1", null, 0},
-	{"\\+FLAG_TDFC $", "AOc$1", null, 0},
-	{"\\+FLAG_TDFCPP $", "AOp$1", null, 0},
-	{"\\+FLAG_TCPPLUS $", "AOx$1", null, 0},
-	{"\\+FLAG_TCPPLUSPP $", "AOg$1", null, 0},
-	{"\\+FLAG_TOT_CAT $", "", null, 0},
-	{"\\+FLAG_TLD $", "AOL$1", null, 0},
-	{"\\+FLAG_TRANS $", "AOt$1", null, 0},
-	{"\\+FLAG_AS $", "AOa$1", null, 0},
-	{"\\+FLAG_DYN_LINK $", "AOD$1", null, 0},
-	{"\\+FLAG_LD $", "AOl$1", null, 0},
-	{"\\+FLAG_DISP $", "AOd$1", null, 0},
-	{"\\+FLAG_TNC $", "AOn$1", null, 0},
-	{"\\+FLAG_PL_TDF $", "AOP$1", null, 0},
-	{"\\+FLAG_AS1 $", "AOA$1", null, 0},
-	{"\\+FLAG_TDFOPT $", "", null, 0},
-	{"\\+FLAG_SPEC_LINK $", "AOs$1", null, 0},
-	{"\\+FLAG_CPP_SPEC_LINK $", "AOS$1", null, 0},
-	{"\\+FLAG_DUMP_ANAL $", "AOe$1", null, 0},
-	{"\\+FLAG_DUMP_LINK $", "AOu$1", null, 0},
-	{"\\+FLAG_CC $", "AOC$1", null, 0},
-	{"\\+FLAG_INSTALL $", "AOI$1", null, 0},
+	{"\\+FLAG $", "=$1", NULL, 0},
+	{"\\+FLAG_TDFC $", "AOc$1", NULL, 0},
+	{"\\+FLAG_TDFCPP $", "AOp$1", NULL, 0},
+	{"\\+FLAG_TCPPLUS $", "AOx$1", NULL, 0},
+	{"\\+FLAG_TCPPLUSPP $", "AOg$1", NULL, 0},
+	{"\\+FLAG_TOT_CAT $", "", NULL, 0},
+	{"\\+FLAG_TLD $", "AOL$1", NULL, 0},
+	{"\\+FLAG_TRANS $", "AOt$1", NULL, 0},
+	{"\\+FLAG_AS $", "AOa$1", NULL, 0},
+	{"\\+FLAG_DYN_LINK $", "AOD$1", NULL, 0},
+	{"\\+FLAG_LD $", "AOl$1", NULL, 0},
+	{"\\+FLAG_DISP $", "AOd$1", NULL, 0},
+	{"\\+FLAG_TNC $", "AOn$1", NULL, 0},
+	{"\\+FLAG_PL_TDF $", "AOP$1", NULL, 0},
+	{"\\+FLAG_AS1 $", "AOA$1", NULL, 0},
+	{"\\+FLAG_TDFOPT $", "", NULL, 0},
+	{"\\+FLAG_SPEC_LINK $", "AOs$1", NULL, 0},
+	{"\\+FLAG_CPP_SPEC_LINK $", "AOS$1", NULL, 0},
+	{"\\+FLAG_DUMP_ANAL $", "AOe$1", NULL, 0},
+	{"\\+FLAG_DUMP_LINK $", "AOu$1", NULL, 0},
+	{"\\+FLAG_CC $", "AOC$1", NULL, 0},
+	{"\\+FLAG_INSTALL $", "AOI$1", NULL, 0},
 
 	/* Additional filename suffixes */
-	{"\\+SUFFIX_CPP $", "SSC$1|1SO", null, 0},
+	{"\\+SUFFIX_CPP $", "SSC$1|1SO", NULL, 0},
 
 	/* Executables */
-	{"?AS $", "$1Ea$2", null, 0},
-	{"?AS1 $", "$1EA$2", null, 0},
-	{"?BUILD_ARCH $", "$1BB$2", null, 0},
-	{"?CAT $", "$1BC$2", null, 0},
-	{"?CC $", "$1EC$2", null, 0},
-	{"?CPP_SPEC_LINK $", "$1ES$2", null, 0},
-	{"?DISP $", "$1Ed$2", null, 0},
-	{"?DUMP_ANAL $", "$1Ee$2", null, 0},
-	{"?DUMP_LINK $", "$1Eu$2", null, 0},
-	{"?DYN_LINK $", "$1ED$2", null, 0},
-	{"?LD $", "$1El$2", null, 0},
-	{"?MKDIR $", "$1BD$2", null, 0},
-	{"?MOVE $", "$1BM$2", null, 0},
-	{"?PL_TDF $", "$1EP$2", null, 0},
-	{"?REMOVE $", "$1BR$2", null, 0},
-	{"?SPEC_LINK $", "$1Es$2", null, 0},
-	{"?SPLIT_ARCH $", "$1BS$2", null, 0},
-	{"?TCPPLUS $", "$1Ex$2", null, 0},
-	{"?TCPPLUSPP $", "$1Eg$2", null, 0},
-	{"?TDFC $", "$1Ec$2", null, 0},
-	{"?TDFCPP $", "$1Ep$2", null, 0},
-	{"?TDFOPT $", "", null, 0},
-	{"?TLD $", "$1EL$2", null, 0},
-	{"?TNC $", "$1En$2", null, 0},
-	{"?TOUCH $", "$1BT$2", null, 0},
-	{"?TRANS $", "$1Et$2", null, 0},
+	{"?AS $", "$1Ea$2", NULL, 0},
+	{"?AS1 $", "$1EA$2", NULL, 0},
+	{"?BUILD_ARCH $", "$1BB$2", NULL, 0},
+	{"?CAT $", "$1BC$2", NULL, 0},
+	{"?CC $", "$1EC$2", NULL, 0},
+	{"?CPP_SPEC_LINK $", "$1ES$2", NULL, 0},
+	{"?DISP $", "$1Ed$2", NULL, 0},
+	{"?DUMP_ANAL $", "$1Ee$2", NULL, 0},
+	{"?DUMP_LINK $", "$1Eu$2", NULL, 0},
+	{"?DYN_LINK $", "$1ED$2", NULL, 0},
+	{"?LD $", "$1El$2", NULL, 0},
+	{"?MKDIR $", "$1BD$2", NULL, 0},
+	{"?MOVE $", "$1BM$2", NULL, 0},
+	{"?PL_TDF $", "$1EP$2", NULL, 0},
+	{"?REMOVE $", "$1BR$2", NULL, 0},
+	{"?SPEC_LINK $", "$1Es$2", NULL, 0},
+	{"?SPLIT_ARCH $", "$1BS$2", NULL, 0},
+	{"?TCPPLUS $", "$1Ex$2", NULL, 0},
+	{"?TCPPLUSPP $", "$1Eg$2", NULL, 0},
+	{"?TDFC $", "$1Ec$2", NULL, 0},
+	{"?TDFCPP $", "$1Ep$2", NULL, 0},
+	{"?TDFOPT $", "", NULL, 0},
+	{"?TLD $", "$1EL$2", NULL, 0},
+	{"?TNC $", "$1En$2", NULL, 0},
+	{"?TOUCH $", "$1BT$2", NULL, 0},
+	{"?TRANS $", "$1Et$2", NULL, 0},
 
 	/*
 	 * Set special env file variables.
 	 * These must be kept in sync with Table 5 in utility.h
 	 */
-	{"$TENDRA_MACHDIR $", "SSV0$2", null, 0},
-	{"$TENDRA_BINDIR $", "SSV1$2", null, 0},
-	{"$TENDRA_ENVDIR $", "SSV2$2", null, 0},
-	{"$TENDRA_LIBDIR $", "SSV3$2", null, 0},
-	{"$TENDRA_INCLDIR $", "SSV4$2", null, 0},
-	{"$TENDRA_STARTUPDIR $", "SSV5$2", null, 0},
-	{"$TENDRA_TMPDIR $", "SSV6$2", null, 0},
-	{"$TENDRA_BASEDIR $", "SSV7$2", null, 0},
-	{"$TENDRA_SRCDIR $", "SSV8$2", null, 0},
+	{"$TENDRA_MACHDIR $", "SSV0$2", NULL, 0},
+	{"$TENDRA_BINDIR $", "SSV1$2", NULL, 0},
+	{"$TENDRA_ENVDIR $", "SSV2$2", NULL, 0},
+	{"$TENDRA_LIBDIR $", "SSV3$2", NULL, 0},
+	{"$TENDRA_INCLDIR $", "SSV4$2", NULL, 0},
+	{"$TENDRA_STARTUPDIR $", "SSV5$2", NULL, 0},
+	{"$TENDRA_TMPDIR $", "SSV6$2", NULL, 0},
+	{"$TENDRA_BASEDIR $", "SSV7$2", NULL, 0},
+	{"$TENDRA_SRCDIR $", "SSV8$2", NULL, 0},
 
 	/* Flags */
-	{"?API $", "", null, 0},
-	{"?API_NAME $", "", null, 0},
-	{"?INCL $", "$1SI$2", null, 0},
-	{"?INCL_CPP $", "$1Si$2", null, 0},
-	{"?STARTUP_DIR $", "$1Sd$2", null, 0},
-	{"?STARTUP $", "$1Ss$2", null, 0},
-	{"?STARTUP_CPP_DIR $", "$1SD$2", null, 0},
-	{"?STARTUP_CPP $", "$1SS$2", null, 0},
-	{"?PORTABILITY $", "$1SP$2", null, 0},
-	{"?LINK $", "$1SJ$2", null, 0},
-	{"?LIB $", "$1Sj$2", null, 0},
-	{"?CRT0 $", "$1S0$2", null, 0},
-	{"?CRT1 $", "$1S1$2", null, 0},
-	{"?CRTN $", "$1S2$2", null, 0},
-	{"?CRTP_N $", "$1S3$2", null, 0},
-	{"?SYS_LINK $", "$1SL$2", null, 0},
-	{"?SYS_LIB $", "$1Sl$2", null, 0},
-	{"?SYS_LIBC $", "$1Sc$2", null, 0},
-	{"?LINK_ENTRY $", "$1Se$2", null, 0},
+	{"?API $", "", NULL, 0},
+	{"?API_NAME $", "", NULL, 0},
+	{"?INCL $", "$1SI$2", NULL, 0},
+	{"?INCL_CPP $", "$1Si$2", NULL, 0},
+	{"?STARTUP_DIR $", "$1Sd$2", NULL, 0},
+	{"?STARTUP $", "$1Ss$2", NULL, 0},
+	{"?STARTUP_CPP_DIR $", "$1SD$2", NULL, 0},
+	{"?STARTUP_CPP $", "$1SS$2", NULL, 0},
+	{"?PORTABILITY $", "$1SP$2", NULL, 0},
+	{"?LINK $", "$1SJ$2", NULL, 0},
+	{"?LIB $", "$1Sj$2", NULL, 0},
+	{"?CRT0 $", "$1S0$2", NULL, 0},
+	{"?CRT1 $", "$1S1$2", NULL, 0},
+	{"?CRTN $", "$1S2$2", NULL, 0},
+	{"?CRTP_N $", "$1S3$2", NULL, 0},
+	{"?SYS_LINK $", "$1SL$2", NULL, 0},
+	{"?SYS_LIB $", "$1Sl$2", NULL, 0},
+	{"?SYS_LIBC $", "$1Sc$2", NULL, 0},
+	{"?LINK_ENTRY $", "$1Se$2", NULL, 0},
 
 	/* Startup and endup lines */
-	{"\\+COMP_OPTION $", "@CAP:$1", null, 0},
-	{"\\+LINE_START $", "@D$1$n", null, 0},
-	{"\\+LINE_END $", "@F$1$n", null, 0},
+	{"\\+COMP_OPTION $", "@CAP:$1", NULL, 0},
+	{"\\+LINE_START $", "@D$1$n", NULL, 0},
+	{"\\+LINE_END $", "@F$1$n", NULL, 0},
 
 	/* Miscellaneous */
-	{"\\+INFO $", "@SAI$1", null, 0},
-	{">INFO $", "@SAI$SAI@plus@$1", null, 0},
-	{"<INFO $", "@SAI$1@plus@$SAI", null, 0},
-	{"\\+ENVDIR $", "SED$1|CFE", null, 0},
-	{"\\?ENVDIR $", "?:ED$1", null, 0},
-	{"\\+MACHINE $", "SMN$1|CSM", null, 0},
-	{"\\?MACHINE $", "?:MN$1", null, 0},
-	{"\\+SUFFIX $", "STD$1", null, 0}, /* XXX: this MUST be wrong !!! */
-	{"\\+TEMP $", "STD$1", null, 0},
-	{"\\?TEMP $", "?:TD$1", null, 0},
-	{"\\+VERSION $", "SVF$1", null, 0},
-	{"\\?VERSION $", "?:VF$1", null, 0},
+	{"\\+INFO $", "@SAI$1", NULL, 0},
+	{">INFO $", "@SAI$SAI@plus@$1", NULL, 0},
+	{"<INFO $", "@SAI$1@plus@$SAI", NULL, 0},
+	{"\\+ENVDIR $", "SED$1|CFE", NULL, 0},
+	{"\\?ENVDIR $", "?:ED$1", NULL, 0},
+	{"\\+MACHINE $", "SMN$1|CSM", NULL, 0},
+	{"\\?MACHINE $", "?:MN$1", NULL, 0},
+	{"\\+SUFFIX $", "STD$1", NULL, 0}, /* XXX: this MUST be wrong !!! */
+	{"\\+TEMP $", "STD$1", NULL, 0},
+	{"\\?TEMP $", "?:TD$1", NULL, 0},
+	{"\\+VERSION $", "SVF$1", NULL, 0},
+	{"\\?VERSION $", "?:VF$1", NULL, 0},
 
 	/* Errors */
-	{"\\+E$ $", "X+E$soptions$sno$slonger$ssupported", null, 0},
-	{"$ $", "XUnknown$senvironmental$svariable,$s$1", null, 0},
-	{"$", "XIllegal$senvironmental$soption,$s$0", null, 0},
+	{"\\+E$ $", "X+E$soptions$sno$slonger$ssupported", NULL, 0},
+	{"$ $", "XUnknown$senvironmental$svariable,$s$1", NULL, 0},
+	{"$", "XIllegal$senvironmental$soption,$s$0", NULL, 0},
 
 	/* End marker */
-	{ null, null, null, 9999 }
+	{ NULL, NULL, NULL, 9999 }
 };
 
 
@@ -373,8 +373,8 @@ static boolean debug_options = 0;
  */
 
 static boolean xx_bool = 0;
-static list *xx_list = null;
-static char *xx_string = null;
+static list *xx_list = NULL;
+static char *xx_string = NULL;
 
 
 /*
@@ -403,7 +403,7 @@ special_option(void)
 		allow_specs = b;
 	} else if (streq(s, "dump") || streq(s, "cpp_dump")) {
 		allow_specs = b;
-		if (dump_opts == null) {
+		if (dump_opts == NULL) {
 			dump_opts = "-d=";
 		}
 	} else {
@@ -509,7 +509,7 @@ lookup_bool(char *s)
 		break;
 	}
 	error(OPTION, "Unknown boolean identifier, '%c%c'", a, b);
-	return (null);
+	return (NULL);
 }
 
 
@@ -588,7 +588,7 @@ lookup_list(char *s)
 			return (&exec_dump_link);
 		}
 		error(OPTION, "Unknown compilation stage, '%c'", b);
-		return (null);
+		return (NULL);
 	case 'Q':
 		if (checker) {
 			switch (b) {
@@ -606,7 +606,7 @@ lookup_list(char *s)
 				return (&opt_cc);
 			}
 			error(OPTION, "Unknown compilation stage, '%c'", b);
-			return (null);
+			return (NULL);
 		}
 		goto case_O;
 	case 'O':
@@ -654,7 +654,7 @@ case_O:
 			return (&opt_dump_link);
 		}
 		error(OPTION, "Unknown compilation stage, '%c'", b);
-		return (null);
+		return (NULL);
 	case 'S':
 		switch (b) {
 		case 'I':
@@ -725,7 +725,7 @@ case_O:
 		break;
 	}
 	error(OPTION, "Unknown list identifier, '%c%c'", a, b);
-	return (null);
+	return (NULL);
 }
 
 
@@ -758,7 +758,7 @@ lookup_string(char *s)
 			return (&name_p_file);
 		}
 		error(OPTION, "Unknown output file specifier, '%c'", b);
-		return (null);
+		return (NULL);
 	}
 	if (a == 'S') {
 		int t;
@@ -790,7 +790,7 @@ lookup_string(char *s)
 	if (a == 'W' && b == 'D') return (&workdir);
 	if (a == 'X' && b == 'X') return (&xx_string);
 	error(OPTION, "Unknown string identifier, '%c%c'", a, b);
-	return (null);
+	return (NULL);
 }
 
 
@@ -801,7 +801,7 @@ lookup_string(char *s)
  * in lookup_proc.
  */
 
-static char *lookup_proc_arg = null;
+static char *lookup_proc_arg = NULL;
 
 
 /*
@@ -851,7 +851,7 @@ lookup_proc(char *s)
 	if (a == 'S' && b == 'M') return (set_machine);
 	if (a == 'S' && b == 'P') return (special_option);
 	error(OPTION, "Unknown procedure identifier, '%c%c'", a, b);
-	return (null);
+	return (NULL);
 }
 
 
@@ -1018,14 +1018,14 @@ match_option(char *in, char *out, char *opt, args_out *res)
 		    }
 		} else if (c == 'B') {
 		    boolean *b = lookup_bool(p + 1);
-		    if (b == null) return (MATCH_OUT_ERR);
+		    if (b == NULL) return (MATCH_OUT_ERR);
 		    IGNORE sprintf(q, "%d",(int)*b);
 		    while (*q)q++;
 		    p += 2;
 		} else if (c == 'L') {
 		    list *pt;
 		    list **sp = lookup_list(p + 1);
-		    if (sp == null) return (MATCH_OUT_ERR);
+		    if (sp == NULL) return (MATCH_OUT_ERR);
 		    for (pt = *sp; pt; pt = pt->next) {
 			int l = (int)strlen(pt->item);
 			IGNORE strncpy(q, pt->item,(size_t)l);
@@ -1036,7 +1036,7 @@ match_option(char *in, char *out, char *opt, args_out *res)
 		} else if (c == 'S') {
 		    int l;
 		    char **sp = lookup_string(p + 1);
-		    if (sp == null) return (MATCH_OUT_ERR);
+		    if (sp == NULL) return (MATCH_OUT_ERR);
 		    if (*sp) {
 			l = (int)strlen(*sp);
 			IGNORE strncpy(q, *sp,(size_t)l);
@@ -1098,7 +1098,7 @@ interpret_cmd(char *cmd)
     /* Digits set values */
     if (c >= '0' && c <= '9') {
 	boolean *b = lookup_bool(cmd + 1);
-	if (b == null) return;
+	if (b == NULL) return;
 	*b = (boolean)(c - '0');
 	return;
     }
@@ -1112,14 +1112,14 @@ interpret_cmd(char *cmd)
     if (c == '?') {
 	if (cmd[1] == ':') {
 	    char **sp = lookup_string(cmd + 2);
-	    if (sp == null) return;
+	    if (sp == NULL) return;
 	    comment(1, "%s=\"%s\"\n", cmd + 4, *sp);
 	} else {
 	    list *p;
 	    list **sp = lookup_list(cmd + 1);
-	    if (sp == null) return;
+	    if (sp == NULL) return;
 	    comment(1, "%s=\"", cmd + 3);
-	    for (p = *sp; p != null; p = p->next) {
+	    for (p = *sp; p != NULL; p = p->next) {
 		comment(1, "%s", p->item);
 		if (p->next)comment(1, " ");
 	    }
@@ -1141,7 +1141,7 @@ interpret_cmd(char *cmd)
 	case 'A': {
 	    /* Change list */
 	    list **sp = lookup_list(cmd + 1);
-	    if (sp == null) {
+	    if (sp == NULL) {
 		    return;
 	    }
 	    *sp = add_list(*sp, make_list(cmd + 3));
@@ -1150,7 +1150,7 @@ interpret_cmd(char *cmd)
 	case 'B': {
 	    /* Change list */
 	    list **sp = lookup_list(cmd + 1);
-	    if (sp == null) {
+	    if (sp == NULL) {
 		    return;
 	    }
 	    *sp = add_list(make_list(cmd + 3), *sp);
@@ -1159,7 +1159,7 @@ interpret_cmd(char *cmd)
 	case 'L': {
 	    /* Change list */
 	    list **sp = lookup_list(cmd + 1);
-	    if (sp == null) {
+	    if (sp == NULL) {
 		    return;
 	    }
 	    free_list(*sp);
@@ -1169,13 +1169,13 @@ interpret_cmd(char *cmd)
 	case 'C': {
 	    /* Call */
 	    proc p = lookup_proc(cmd + 1);
-	    if (p == null) {
+	    if (p == NULL) {
 		    return;
 	    }
 	    if (cmd[3] == ':') {
 		lookup_proc_arg = cmd + 4;
 	    } else {
-		lookup_proc_arg = null;
+		lookup_proc_arg = NULL;
 	    }
 	    (*p)();
 	    return;
@@ -1290,7 +1290,7 @@ interpret_cmd(char *cmd)
 	    char *s;
 	    optmap *t = main_optmap;
 	    error(INFO, "List of recognised options");
-	    while (s = t->in, s != null) {
+	    while (s = t->in, s != NULL) {
 		if (*s == '-') {
 		    char d;
 		    comment(0, " ");
@@ -1317,7 +1317,7 @@ interpret_cmd(char *cmd)
 			}
 		    }
 		    s = t->explain;
-		    if (s == null) {
+		    if (s == NULL) {
 			    s = "not documented";
 		    }
 		    comment(0, " : ");
@@ -1331,7 +1331,7 @@ interpret_cmd(char *cmd)
 	case 'S': {
 	    /* String */
 	    char **s = lookup_string(cmd + 1);
-	    if (s == null) {
+	    if (s == NULL) {
 		    return;
 	    }
 	    *s = cmd + 3;
@@ -1340,35 +1340,35 @@ interpret_cmd(char *cmd)
 	case 'V':
 	    if (cmd[1] == 'B') {
 		boolean *b = lookup_bool(cmd + 2);
-		if (b == null) {
+		if (b == NULL) {
 			return;
 		}
 		comment(1, "%c%c = %d\n", cmd[2], cmd[3], *b);
 		return;
 	    } else if (cmd[1] == 'L') {
 		list **sp = lookup_list(cmd + 2), *pt;
-		if (sp == null) {
+		if (sp == NULL) {
 			return;
 		}
 		comment(1, "%c%c =", cmd[2], cmd[3]);
-		for (pt = *sp; pt != null; pt = pt->next) {
+		for (pt = *sp; pt != NULL; pt = pt->next) {
 		    if (pt->item) {
 			comment(1, " %s", pt->item);
 		    } else {
-			comment(1, " (null)");
+			comment(1, " (NULL)");
 		    }
 		}
 		comment(1, "\n");
 		return;
 	    } else if (cmd[1] == 'S') {
 		char **s = lookup_string(cmd + 2);
-		if (s == null) {
+		if (s == NULL) {
 			return;
 		}
 		if (*s) {
 		    comment(1, "%c%c = %s\n", cmd[2], cmd[3], *s);
 		} else {
-		    comment(1, "%c%c = (null)\n", cmd[2], cmd[3]);
+		    comment(1, "%c%c = (NULL)\n", cmd[2], cmd[3]);
 		}
 		return;
 	    }
@@ -1395,20 +1395,20 @@ process_options(list *opt, optmap *tab, int fast)
 {
 	optmap *t;
 	list *p = opt;
-	list *accum = null;
-	char *arg = null;
+	list *accum = NULL;
+	char *arg = NULL;
 	int status = MATCH_OK;
 	int a;
 
 	/* Scan through the options */
-	while (p != null) {
+	while (p != NULL) {
 		if (status == MATCH_MORE) {
 			arg = string_concat(arg, p->item);
 		} else {
 			arg = p->item;
 		}
 		status = MATCH_FAILED;
-		for (t = tab; t->in != null; t++) {
+		for (t = tab; t->in != NULL; t++) {
 			args_out res;
 			status = match_option(t->in, t->out, arg, &res);
 			switch (status) {

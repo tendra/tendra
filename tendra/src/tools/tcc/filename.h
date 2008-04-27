@@ -58,186 +58,127 @@
 */
 
 
-#include "config.h"
-#include "list.h"
-#include "utility.h"
+#ifndef FILENAME_INCLUDED
+#define FILENAME_INCLUDED
 
 
 /*
- * SPARE LISTS
+ * TYPE REPRESENTING A FILE NAME
  *
- * This is a list of list structures which have been freed using free_list.
- * new_list tries to allocate new list structures from this list before using
- * its internal array.
+ * The filename structure is used to represent a tcc input or output file. It
+ * has an associated name (the full pathname), a basename (with the directory
+ * and file suffix removed), a file type (see below) and a file storage type
+ * (see below). Filenames are formed into lists using the next field. The may
+ * also be associated into groups which are passed around as if they were a
+ * single file using the aux field.
  */
 
-static list *spare_lists = NULL;
+typedef struct filename_t {
+	char *name;
+	char *bname;
+	int uniq;
+	int type;
+	int storage;
+	boolean final;
+	struct filename_t *aux;
+	struct filename_t *next;
+} filename;
+
+#define no_filename	(NULL)
 
 
 /*
- * CREATE A NEW LIST
+ * FILE TYPES - Table 1
  *
- * This routine allocates a new list structure.
- */
+ * Each of the file types handled by tcc is allocated an identifier. If this
+ * table is changed then it may have knock-on effects in several places in the
+ * program. Hopefully I have marked them all by suitable comments.
+*/
 
-static list *
-new_list(void)
-{
-	if (spare_lists) {
-		list *p = spare_lists;
-		spare_lists = p->next;
-		return (p);
-	} else {
-		static int no_free = 0;
-		static list *free_objs = NULL;
-		if (no_free == 0) {
-			no_free = 1000;
-			free_objs = alloc_nof(list, no_free);
-		}
-		return (free_objs + (--no_free));
-	}
-}
+#define C_SOURCE	0
+#define PREPROC_C	1
+#define CPP_SOURCE	2
+#define PREPROC_CPP	3
+#define INDEP_TDF	4
+#define DEP_TDF		5
+#define AS_SOURCE	6
+#define BINARY_OBJ	7
+#define EXECUTABLE	8
+#define PRETTY_TDF	9
+#define PL_TDF		10
+#define TDF_ARCHIVE	11
+#define MIPS_G_FILE	12
+#define MIPS_T_FILE	13
+#define C_SPEC		14
+#define CPP_SPEC	15
+#define STARTUP_FILE	16
+#define UNKNOWN_TYPE	17
+#define ALL_TYPES	31
+#define DEFAULT_TYPE	BINARY_OBJ
 
 
 /*
- * FREE A LIST
+ * FILE STORAGE TYPES
  *
- * This list returns p to free.
+ * The files handled by tcc may be of three basic types, input files, permanent
+ * output files and temporary output files. The first type may also contain
+ * input options which are treated like input files (for example, system
+ * libraries). The second type includes the preserved intermediate files. In
+ * fact PRESERVED_FILE is only used as the input to make_filename.
  */
 
-void
-free_list(list *p)
-{
-	spare_lists = add_list(p, spare_lists);
-	return;
-}
+#define INPUT_FILE	0
+#define INPUT_OPTION	1
+#define OUTPUT_FILE	2
+#define PRESERVED_FILE	3
+#define TEMP_FILE	4
 
 
 /*
- * JOIN TWO LISTS
+ * SUFFIX OVERRIDES
  *
- * This routine joins two lists, p and q, and returns the result.
+ * This table contains the strings which are used when the suffix overrides are
+ * set from the command line. Initially, it is empty.
  */
 
-list *
-add_list(list *p, list *q)
-{
-	list *r;
-	if (p == NULL) {
-		return (q);
-	}
-	if (q == NULL) {
-		return (p);
-	}
-	for (r = p ; r->next != NULL ; r = r->next) {
-		;	/* empty */
-	}
-	r->next = q;
-	return (p);
-}
+extern char *suffixes[];
 
 
 /*
- * ADD AN ITEM TO A LIST
+ * FILE STORAGE LOCATIONS
  *
- * This routine adds a new item, s, to the end of the list p and returns the
- * result.
+ * Output files may be stored either in the temporary directory or the work
+ * directory.
  */
 
-list *
-add_item(list *p, char *s)
-{
-	list *q, *r;
-	q = new_list();
-	q->item = s;
-	q->next = NULL;
-	if (p == NULL) {
-		return (q);
-	}
-	for ( r = p ; r->next != NULL ; r = r->next ) {
-		;	/* empty */
-	}
-	r->next = q;
-	return (p);
-}
+extern char *tempdir;
+extern char *workdir;
 
 
 /*
- * INSERT AN ITEM INTO A LIST
+ * INPUT FILE VARIABLES
  *
- * This routine adds a new item, s, to the start of the list p and returns the
- * result.
+ * These variables are used to pass information to and from find_filename.
  */
 
-list *
-insert_item(char *s, list *p)
-{
-	list *q = new_list();
-	q->item = s;
-	q->next = p;
-	return (q);
-}
+extern boolean case_insensitive;
+extern boolean option_next;
+extern int no_input_files;
 
 
 /*
- * Insert a command item in ascending order, based on their rank. Items with a
- * lower rank value are executed first.
- */
-
-list*
-insert_inorder(ordered_node* indata, list *inlst)
-{
-	list *head = inlst;
-	list *curr = inlst;
-	list *newlst  = new_list();
-	list *prev = newlst;
-
-	newlst->item = indata;
-	newlst->next = NULL;
-
-	if (inlst == NULL){
-	        return newlst;
-	}
-
-	if (indata->rank < ((ordered_node*)curr->item)->rank){
-	        newlst->next = inlst;
-	        return newlst;
-	}
-
-	while (curr != NULL &&
-	           ((ordered_node*)curr->item)->rank <= indata->rank) {
-	        prev = curr;
-	        curr = curr->next;
-	}
-	prev->next = newlst;
-	newlst->next = curr;
-	return head;
-}
-
-
-/*
- * CONVERT A STRING TO A LIST
+ * PROCEDURE DECLARATIONS
  *
- * This routine converts a string to a list by breaking it at all white spaces
- * (spaces and tabs).
+ * These routines are concerned with creating and manipulating filenames.
  */
 
-list *
-make_list(char *s)
-{
-	list *r = NULL;
-	char *p = string_copy(s);
-	while (1) {
-		while (*p == ' ' || *p == '\t') {
-			*(p++) = 0;
-		}
-		if (*p == 0) {
-			break;
-		}
-		r = add_item(r, p);
-		while (*p && *p != ' ' && *p != '\t') {
-			p++;
-		}
-	}
-	return (r);
-}
+extern char *find_basename(char *);
+extern char *find_fullname(char *);
+extern filename *add_filename(filename *, filename *);
+extern filename *find_filename(char *, int);
+extern filename *make_filename(filename *, int, int);
+extern int find_type(int, int);
+extern int where(int);
+
+
+#endif

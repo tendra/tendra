@@ -58,186 +58,101 @@
 */
 
 
-#include "config.h"
-#include "list.h"
-#include "utility.h"
+#ifndef CONFIG_INCLUDED
+#define CONFIG_INCLUDED
 
 
 /*
- * SPARE LISTS
+ * BASIC API SPECIFICATION
  *
- * This is a list of list structures which have been freed using free_list.
- * new_list tries to allocate new list structures from this list before using
- * its internal array.
+ * The API for this program is ANSI plus a few extensions from POSIX and XPG3.
+ * The ANSI headers are included here, with the FS_* macros being used to
+ * control inclusion of the additional features.
  */
 
-static list *spare_lists = NULL;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <signal.h>
+
+#ifndef EXIT_SUCCESS
+#define EXIT_SUCCESS		0
+#define EXIT_FAILURE		1
+#endif
+
+#ifndef SEEK_SET
+#define SEEK_SET		0
+#define SEEK_CUR		1
+#define SEEK_END		2
+#endif
+
+#ifndef FS_POSIX
+#define FS_POSIX		1
+#endif
+
+#ifndef FS_XPG3
+#define FS_XPG3			FS_POSIX
+#endif
+
+#ifndef FS_DIRENT
+#define FS_DIRENT		FS_POSIX
+#endif
+
+#ifndef FS_FORK
+#define FS_FORK			FS_POSIX
+#endif
+
+#ifndef FS_GETCWD
+#define FS_GETCWD		FS_POSIX
+#endif
+
+#ifndef FS_STAT
+#define FS_STAT			FS_POSIX
+#endif
+
+#ifndef FS_SYS_TYPES
+#define FS_SYS_TYPES		FS_POSIX
+#endif
+
+#ifndef FS_TEMPNAM
+#define FS_TEMPNAM		FS_XPG3
+#endif
+
+#ifndef FS_WAIT
+#define FS_WAIT			FS_POSIX
+#endif
 
 
 /*
- * CREATE A NEW LIST
+ * CODING STANDARD MACROS
  *
- * This routine allocates a new list structure.
+ * The program is written to conform to the local OSSG coding standard. This
+ * header defines the standard macros used in the program.
  */
 
-static list *
-new_list(void)
-{
-	if (spare_lists) {
-		list *p = spare_lists;
-		spare_lists = p->next;
-		return (p);
-	} else {
-		static int no_free = 0;
-		static list *free_objs = NULL;
-		if (no_free == 0) {
-			no_free = 1000;
-			free_objs = alloc_nof(list, no_free);
-		}
-		return (free_objs + (--no_free));
-	}
-}
+
+#include "tendra.h"
 
 
 /*
- * FREE A LIST
+ * BASIC TYPES
  *
- * This list returns p to free.
+ * These types are so ubiquitous that this is the only suitable place for them.
  */
 
-void
-free_list(list *p)
-{
-	spare_lists = add_list(p, spare_lists);
-	return;
-}
+typedef int boolean;
+typedef void *pointer;
 
 
 /*
- * JOIN TWO LISTS
+ * UTILITY MACROS
  *
- * This routine joins two lists, p and q, and returns the result.
+ * These macros are just a matter of programming style.
  */
 
-list *
-add_list(list *p, list *q)
-{
-	list *r;
-	if (p == NULL) {
-		return (q);
-	}
-	if (q == NULL) {
-		return (p);
-	}
-	for (r = p ; r->next != NULL ; r = r->next) {
-		;	/* empty */
-	}
-	r->next = q;
-	return (p);
-}
+#define streq(X, Y)	(strcmp((X), (Y)) == 0)
+#define strneq(X, Y, Z)	(strncmp((X), (Y), (size_t)(Z)) == 0)
+#define MAX_LINE	1024
 
 
-/*
- * ADD AN ITEM TO A LIST
- *
- * This routine adds a new item, s, to the end of the list p and returns the
- * result.
- */
-
-list *
-add_item(list *p, char *s)
-{
-	list *q, *r;
-	q = new_list();
-	q->item = s;
-	q->next = NULL;
-	if (p == NULL) {
-		return (q);
-	}
-	for ( r = p ; r->next != NULL ; r = r->next ) {
-		;	/* empty */
-	}
-	r->next = q;
-	return (p);
-}
-
-
-/*
- * INSERT AN ITEM INTO A LIST
- *
- * This routine adds a new item, s, to the start of the list p and returns the
- * result.
- */
-
-list *
-insert_item(char *s, list *p)
-{
-	list *q = new_list();
-	q->item = s;
-	q->next = p;
-	return (q);
-}
-
-
-/*
- * Insert a command item in ascending order, based on their rank. Items with a
- * lower rank value are executed first.
- */
-
-list*
-insert_inorder(ordered_node* indata, list *inlst)
-{
-	list *head = inlst;
-	list *curr = inlst;
-	list *newlst  = new_list();
-	list *prev = newlst;
-
-	newlst->item = indata;
-	newlst->next = NULL;
-
-	if (inlst == NULL){
-	        return newlst;
-	}
-
-	if (indata->rank < ((ordered_node*)curr->item)->rank){
-	        newlst->next = inlst;
-	        return newlst;
-	}
-
-	while (curr != NULL &&
-	           ((ordered_node*)curr->item)->rank <= indata->rank) {
-	        prev = curr;
-	        curr = curr->next;
-	}
-	prev->next = newlst;
-	newlst->next = curr;
-	return head;
-}
-
-
-/*
- * CONVERT A STRING TO A LIST
- *
- * This routine converts a string to a list by breaking it at all white spaces
- * (spaces and tabs).
- */
-
-list *
-make_list(char *s)
-{
-	list *r = NULL;
-	char *p = string_copy(s);
-	while (1) {
-		while (*p == ' ' || *p == '\t') {
-			*(p++) = 0;
-		}
-		if (*p == 0) {
-			break;
-		}
-		r = add_item(r, p);
-		while (*p && *p != ' ' && *p != '\t') {
-			p++;
-		}
-	}
-	return (r);
-}
+#endif

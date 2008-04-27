@@ -116,30 +116,30 @@ to_lower_case(char *s)
  */
 
 char *suffixes[TYPE_ARRAY_SIZE] = {
-	null,	/* C_SOURCE */
-	null,	/* PREPROC_C */
+	NULL,	/* C_SOURCE */
+	NULL,	/* PREPROC_C */
 	"cpp",	/* CPP_SOURCE */
-	null,	/* PREPROC_CPP */
-	null,	/* INDEP_TDF */
-	null,	/* DEP_TDF */
-	null,	/* AS_SOURCE */
-	null,	/* BINARY_OBJ */
-	null,	/* EXECUTABLE */
-	null,	/* PRETTY_TDF */
-	null,	/* PL_TDF */
-	null,	/* TDF_ARCHIVE */
-	null,	/* MIPS_G_FILE */
-	null,	/* MIPS_T_FILE */
-	null,	/* C_SPEC */
-	null,	/* CPP_SPEC */
-	null,  	/* ERROR_FILE */
-	null,	/* STARTUP_FILE */
-	null,	/* UNKNOWN_TYPE */
-	null,	/* INDEP_TDF_COMPLEX (dummy type) */
-	null,	/* C_SPEC_1 (dummy type) */
-	null,	/* C_SPEC_2 (dummy type) */
-	null,	/* INDEP_TDF_AUX (dummy type) */
-	null	/* BINARY_OBJ_AUX (dummy type) */
+	NULL,	/* PREPROC_CPP */
+	NULL,	/* INDEP_TDF */
+	NULL,	/* DEP_TDF */
+	NULL,	/* AS_SOURCE */
+	NULL,	/* BINARY_OBJ */
+	NULL,	/* EXECUTABLE */
+	NULL,	/* PRETTY_TDF */
+	NULL,	/* PL_TDF */
+	NULL,	/* TDF_ARCHIVE */
+	NULL,	/* MIPS_G_FILE */
+	NULL,	/* MIPS_T_FILE */
+	NULL,	/* C_SPEC */
+	NULL,	/* CPP_SPEC */
+	NULL,  	/* ERROR_FILE */
+	NULL,	/* STARTUP_FILE */
+	NULL,	/* UNKNOWN_TYPE */
+	NULL,	/* INDEP_TDF_COMPLEX (dummy type) */
+	NULL,	/* C_SPEC_1 (dummy type) */
+	NULL,	/* C_SPEC_2 (dummy type) */
+	NULL,	/* INDEP_TDF_AUX (dummy type) */
+	NULL	/* BINARY_OBJ_AUX (dummy type) */
 };
 
 
@@ -150,8 +150,8 @@ char *suffixes[TYPE_ARRAY_SIZE] = {
  * the work directory, workdir.
  */
 
-char *tempdir = null;
-char *workdir = null ;
+char *tempdir = NULL;
+char *workdir = NULL ;
 
 
 /*
@@ -180,11 +180,11 @@ find_basename(char *s)
 char *
 find_fullname(char *s)
 {
-	static char *pwd = null;
+	static char *pwd = NULL;
 	if (*s == '/') {
 		return (s);
 	}
-	if (pwd == null) {
+	if (pwd == NULL) {
 		if (get_cwd(buffer, buffer_size)) {
 			pwd = string_concat(buffer, "/");
 		} else {
@@ -232,7 +232,7 @@ static filename *
 new_filename(void)
 {
 	static int no_free = 0;
-	static filename *free_objs = null;
+	static filename *free_objs = NULL;
 	if (no_free == 0) {
 		no_free = 1000;
 		free_objs = alloc_nof(filename, no_free);
@@ -251,13 +251,13 @@ filename *
 add_filename(filename *p, filename *q)
 {
 	filename *r;
-	if (p == null) {
+	if (p == NULL) {
 		return (q);
 	}
-	if (q == null) {
+	if (q == NULL) {
 		return (p);
 	}
-	for (r = p; r->next != null; r = r->next) {
+	for (r = p; r->next != NULL; r = r->next) {
 		;	/* empty */
 	}
 	r->next = q;
@@ -465,7 +465,7 @@ find_filename(char *s, int t)
 	/* Find the file type */
 	if (suffix_overrides && t == UNKNOWN_TYPE) {
 		for (i = 0; i < TYPE_ARRAY_SIZE; i++) {
-			if (suffixes[i]!= null && streq(e, suffixes[i])) {
+			if (suffixes[i]!= NULL && streq(e, suffixes[i])) {
 				if (checker) {
 					if (i == PL_TDF || i == TDF_ARCHIVE) {
 						continue;
@@ -533,8 +533,8 @@ find_filename(char *s, int t)
 		no_input_files++;
 	}
 	p->final = 0;
-	p->aux = null;
-	p->next = null;
+	p->aux = NULL;
+	p->next = NULL;
 	return (p);
 }
 
@@ -573,7 +573,7 @@ make_filename(filename *p, int t, int s)
 {
 	boolean f = 0;
 	char *b = NULL, *d, *e;
-	char *nm = null;
+	char *nm = NULL;
 	filename *q = new_filename();
 
 	/* Examine the storage class */
@@ -581,7 +581,7 @@ make_filename(filename *p, int t, int s)
 	case INPUT_FILE:
 	case INPUT_OPTION:
 		/* This shouldn't occur */
-		d = null;
+		d = NULL;
 		break;
 	case OUTPUT_FILE:
 		/* Check output file name */
@@ -595,7 +595,7 @@ make_filename(filename *p, int t, int s)
 				b = find_basename(nm);
 #ifdef EXECUTABLE_SUFFIX
 				if (t == EXECUTABLE &&
-				    strchr(b, '.') == null) {
+				    strchr(b, '.') == NULL) {
 					/* Add '.exe' suffix if necessary */
 					nm = string_concat(nm,
 							   EXECUTABLE_SUFFIX);
@@ -619,20 +619,20 @@ make_filename(filename *p, int t, int s)
 		break;
 	default:
 		error(INTERNAL, "Illegal storage type");
-		d = null;
+		d = NULL;
 		break;
 	}
 
 	/* Find the file name */
-	if (nm == null) {
-		if (p != null && p->type == t) {
+	if (nm == NULL) {
+		if (p != NULL && p->type == t) {
 			nm = find_basename(p->name);
-			if (d != null) {
+			if (d != NULL) {
 				IGNORE sprintf(buffer, "%s/%s", d, nm);
 				nm = string_copy(buffer);
 			}
 			b = p->bname;
-		} else if (s == TEMP_FILE && p != null && !verbose) {
+		} else if (s == TEMP_FILE && p != NULL && !verbose) {
 			switch (t) {
 			case BINARY_OBJ_AUX:
 			case BINARY_OBJ:
@@ -661,8 +661,8 @@ default_lab:
 	}
 
 	/* Find the file name */
-	if (nm == null) {
-		if (p == null || make_up_names) {
+	if (nm == NULL) {
+		if (p == NULL || make_up_names) {
 			static int seq = 0;
 			IGNORE sprintf(buffer, MADE_UP_NAME, seq++);
 			b = string_copy(buffer);
@@ -670,7 +670,7 @@ default_lab:
 			b = p->bname;
 		}
 		e = file_suffix(t);
-		if (d == null) {
+		if (d == NULL) {
 			IGNORE sprintf(buffer, "%s.%s", b, e);
 		} else {
 			IGNORE sprintf(buffer, "%s/%s.%s", d, b, e);
@@ -686,7 +686,7 @@ default_lab:
 	q->type = t;
 	q->storage = s;
 	q->final = f;
-	q->aux = null;
-	q->next = null;
+	q->aux = NULL;
+	q->next = NULL;
 	return (q);
 }
