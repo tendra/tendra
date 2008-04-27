@@ -39,7 +39,7 @@
 
 		<para>A few examples are given, and it is recommended that you follow
 			along and experiment with various alterations whilst reading.
-			This is not a comprihensive guide; it only covers the areas which
+			This is not a comprehensive guide; it only covers the areas which
 			seemed to be most relevant.</para>
 	</section>
 
@@ -129,7 +129,7 @@
 			<graphic fileref="compilation.png"/>
 		</figure>
 
-		<para>C is used as an example here, though the similar things
+		<para>C is used as an example here, though similar things
 			apply for any other producer. The main difference would be in
 			&api; checking.</para>
 
@@ -168,9 +168,26 @@ int main(void) {
 		<para>Here I've omitted most of the things <code>&lt;stdio.h&gt;</code>
 			defines, just to keep the example small.</para>
 
+		<para>Note that the contents of the &tspec; &api; Includes are
+			portable; they ought to be the same for any system (this should
+			be the case, since they were generated from the &tspec; &api;
+			Specification sources, which did not involve anything
+			system-specific). Therefore since these are included verbatim for
+			a given &api; at the top of a users' C program, we can infer that
+			the &tdf; capsule produced (<code>foo,j</code>is itself portable.
+			This is what &tendra; is all about: producing a portable binary.
+			The steps following (namely the call to <code>trans</code>
+			and beyond) may therefore be on an alternate system than the one
+			on which <code>hello.j</code> was produced, even though that
+			system may have a different implementation of the &api;s used.
+			As long as the target system provides the same subset in its
+			<code>$api.tl</code>, the code will link and execute as expected.
+			For details on this, see <dt:doc name="tdfandportability"/>.</para>
+
 		<para>The final step of linking also brings in any system-specific
-			libraries which may be required (such as <code>crt0.o</code>).
-			These are not illustrated.</para>
+			libraries which may be required (such as <code>crt0.o</code>),
+			and of course any user-specified libraries, if given. These are
+			not illustrated.</para>
 	</section>
 
 </article>
