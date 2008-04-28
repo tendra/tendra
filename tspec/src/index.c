@@ -432,13 +432,13 @@ print_item_m(object *p, char *u, char *a, type *e)
     switch (q->objtype) {
 
 	case OBJ_CONST: {
-	    print_st("const", q->u.u_type, null_str);
+	    print_st("const", q->u.u_type, NULL);
 	    break;
 	}
 
 	case OBJ_ENUMVAL: {
 	    print_field("enum_member");
-	    print_type(stdout, e, null_str, 0);
+	    print_type(stdout, e, NULL, 0);
 	    print_field_sep();
 	    if (q->u.u_str) {
 		print_value(q->u.u_str);
@@ -451,7 +451,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	case OBJ_EXP: {
 	    type *t = q->u.u_type;
 	    char *s = (t->id == TYPE_LVALUE ? "lvalue" : "rvalue");
-	    print_st(s, t, null_str);
+	    print_st(s, t, NULL);
 	    break;
 	}
 
@@ -461,7 +461,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    if (t->id == TYPE_PROC) {
 		print_sit("func", "extern", t, nm);
 	    } else {
-		print_st("extern", t, null_str);
+		print_st("extern", t, NULL);
 	    }
 	    break;
 	}
@@ -511,9 +511,9 @@ print_item_m(object *p, char *u, char *a, type *e)
 	case OBJ_FIELD: {
 	    field *f = q->u.u_field;
 	    print_field("member");
-	    print_type(stdout, f->stype, null_str, 0);
+	    print_type(stdout, f->stype, NULL, 0);
 	    print_field_sep();
-	    print_type(stdout, f->ftype, null_str, 0);
+	    print_type(stdout, f->ftype, NULL, 0);
 	    print_no_value();
 	    break;
 	}
@@ -536,7 +536,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	case OBJ_STATEMENT: {
 	    type *t = q->u.u_type;
 	    if (t) {
-		print_sit("statement", "param", t, null_str);
+		print_sit("statement", "param", t, NULL);
 	    } else {
 		print_s("statement");
 	    }
@@ -555,7 +555,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	    switch (i) {
 
 		case TYPE_DEFINED: {
-		    print_st("typedef", t->v.next, null_str);
+		    print_st("typedef", t->v.next, NULL);
 		    break;
 		}
 
@@ -581,7 +581,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 
 		case TYPE_PROMOTE: {
 		    print_field("promotion");
-		    print_type(stdout, t->v.next, null_str, 0);
+		    print_type(stdout, t->v.next, NULL, 0);
 		    print_field_sep();
 		    print_no_value();
 		    break;
@@ -609,7 +609,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 		case TYPE_ENUM:
 		case TYPE_ENUM_TAG: {
 		    char *s = NULL;
-		    type *en = null;
+		    type *en = NULL;
 		    object *r = t->v.obj2;
 		    char *inf = (r ? "exact" : "");
 		    switch (i)EXHAUSTIVE {
@@ -671,21 +671,21 @@ print_item_h(object *p, char *u, char *a, type *e)
 
 	case OBJ_CONST: {
 	    IGNORE printf("%s is a constant expression of type ", nm);
-	    print_type(stdout, q->u.u_type, null_str, 0);
+	    print_type(stdout, q->u.u_type, NULL, 0);
 	    IGNORE printf("\n\n");
 	    break;
 	}
 
 	case OBJ_ENUMVAL: {
 	    IGNORE printf("%s is a member of the enumeration type ", nm);
-	    print_type(stdout, e, null_str, 0);
+	    print_type(stdout, e, NULL, 0);
 	    IGNORE printf("\n\n");
 	    break;
 	}
 
 	case OBJ_EXP: {
 	    IGNORE printf("%s is an expression of type ", nm);
-	    print_type(stdout, q->u.u_type, null_str, 0);
+	    print_type(stdout, q->u.u_type, NULL, 0);
 	    IGNORE printf("\n\n");
 	    break;
 	}
@@ -699,7 +699,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 		print_type(stdout, t, nm, 0);
 	    } else {
 		IGNORE printf("expression with type ");
-		print_type(stdout, t, null_str, 0);
+		print_type(stdout, t, NULL, 0);
 	    }
 	    IGNORE printf("\n\n");
 	    break;
@@ -749,9 +749,9 @@ print_item_h(object *p, char *u, char *a, type *e)
 	case OBJ_FIELD: {
 	    field *f = q->u.u_field;
 	    IGNORE printf("%s is a field selector of ", f->fname);
-	    print_type(stdout, f->stype, null_str, 0);
+	    print_type(stdout, f->stype, NULL, 0);
 	    IGNORE printf(" of type ");
-	    print_type(stdout, f->ftype, null_str, 0);
+	    print_type(stdout, f->ftype, NULL, 0);
 	    IGNORE printf("\n\n");
 	    break;
 	}
@@ -780,7 +780,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 	    IGNORE printf("%s is a statement", nm);
 	    if (t) {
 		IGNORE printf(" with arguments");
-		print_type(stdout, t, null_str, 0);
+		print_type(stdout, t, NULL, 0);
 	    }
 	    IGNORE printf("\n\n");
 	    break;
@@ -794,12 +794,12 @@ print_item_h(object *p, char *u, char *a, type *e)
 	case OBJ_TYPE: {
 	    type *t = q->u.u_type;
 	    int i = t->id;
-	    print_type(stdout, t, null_str, 0);
+	    print_type(stdout, t, NULL, 0);
 	    switch (i) {
 
 		case TYPE_DEFINED: {
 		    IGNORE printf(" is a type defined to be ");
-		    print_type(stdout, t->v.next, null_str, 0);
+		    print_type(stdout, t->v.next, NULL, 0);
 		    IGNORE printf("\n\n");
 		    break;
 		}
@@ -826,7 +826,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 
 		case TYPE_PROMOTE: {
 		    IGNORE printf(" is the integral promotion of ");
-		    print_type(stdout, t->v.next, null_str, 0);
+		    print_type(stdout, t->v.next, NULL, 0);
 		    IGNORE printf("\n\n");
 		    break;
 		}
@@ -858,12 +858,12 @@ print_item_h(object *p, char *u, char *a, type *e)
 			case TYPE_UNION: n = "union"; break;
 			case TYPE_UNION_TAG: n = "union"; break;
 		    }
-		    if (r == null) {
+		    if (r == NULL) {
 			IGNORE printf(" is an inexact %s type\n\n", n);
 		    } else {
 			IGNORE printf(" is an exact %s type\n\n", n);
 			while (r) {
-			    print_item_h(r, u, a,(type *)null);
+			    print_item_h(r, u, a,(type *)NULL);
 			    r = r->next;
 			}
 		    }
@@ -914,7 +914,7 @@ print_index_with(object *input, index_func fn)
     info *i = p->u.u_info;
     char *a = p->name;
     char *u = (i->implemented ? "implemented" : "used");
-    for (p = i->elements; p != null; p = p->next) {
+    for (p = i->elements; p != NULL; p = p->next) {
 	switch (p->objtype) {
 
 	    case OBJ_IF: {
@@ -938,7 +938,7 @@ print_index_with(object *input, index_func fn)
 			default:
 			    break;
 		    }
-		} else if (streq(c, BUILDING_MACRO)) {
+		} else if (strcmp(c, BUILDING_MACRO) == 0) {
 		    /* Check for the building_libs macro */
 		    switch (p->u.u_iftype) {
 			case CMD_IF:
@@ -1000,7 +1000,7 @@ print_index_with(object *input, index_func fn)
 	    case OBJ_TOKEN: {
 		/* Deal with tokens */
 		if (i->implemented || !restrict_use) {
-		   (*fn)(p, u, a,(type *)null);
+		   (*fn)(p, u, a,(type *)NULL);
 		}
 		break;
 	    }

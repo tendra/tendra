@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <string.h>
 
 #include "config.h"
 #include "object.h"
@@ -74,8 +75,8 @@
     after the first time it is processed, the message text.
 */
 
-char *copyright = null;
-static char *copyright_text = null;
+char *copyright = NULL;
+static char *copyright_text = NULL;
 
 
 /*
@@ -99,7 +100,7 @@ static char *copyright_text = null;
 
 static boolean weak_proto = 0;
 #define enum_hack	"__enum_"
-#define is_hidden(X)	strneq(X, HIDDEN_NAME, HIDDEN_LEN)
+#define is_hidden(X)	(strncmp(X, HIDDEN_NAME, HIDDEN_LEN) != 0)
 
 
 /*
@@ -108,7 +109,7 @@ static boolean weak_proto = 0;
     These variables hold information about the current output file.
 */
 
-static info *crt_info = null;
+static info *crt_info = NULL;
 static int column = 0;
 
 
@@ -145,7 +146,7 @@ is_tailed_type(type *t)
 static int
 print_head(FILE *output, type *t, int sp, int tok)
 {
-    if (t == null) return(sp);
+    if (t == NULL) return(sp);
     switch (t->id) {
 	case TYPE_VOID:
 	case TYPE_INT:
@@ -242,7 +243,7 @@ print_head(FILE *output, type *t, int sp, int tok)
 static void
 print_tail(FILE *output, type *t, int tok)
 {
-    if (t == null) return;
+    if (t == NULL) return;
     switch (t->id) {
 	case TYPE_LVALUE:
 	case TYPE_RVALUE:
@@ -277,7 +278,7 @@ print_tail(FILE *output, type *t, int tok)
 	    if (s) {
 		OUTS(output, " ( ");
 		while (s) {
-		    print_type(output, s->u.subtype, null_str, tok);
+		    print_type(output, s->u.subtype, NULL, tok);
 		    s = s->v.next;
 		    if (s)OUTS(output, ", ");
 		}
@@ -338,7 +339,7 @@ print_struct_defn(FILE *output, type *t, char *nm, char *tnm, int d)
     }
 
     /* Deal with undefined tokens immediately */
-    if (q == null) {
+    if (q == NULL) {
 	OUT(output, "#pragma token %s %s%s # %s\n", tok, tag, nm, tnm);
 	return;
     }
@@ -596,7 +597,7 @@ print_token(FILE *output, object *p, char *tnm)
 		OUTS(output, "const : ");
 		t = t->u.subtype;
 	    }
-	    print_type(output, t, null_str, 1);
+	    print_type(output, t, NULL, 1);
 	    OUT(output, " : %s # %s\n", nm, tnm);
 	    break;
 	}
@@ -660,9 +661,9 @@ print_token(FILE *output, object *p, char *tnm)
 	    /* Field selectors */
 	    field *f = p->u.u_field;
 	    OUTS(output, "#pragma token MEMBER ");
-	    print_type(output, f->ftype, null_str, 1);
+	    print_type(output, f->ftype, NULL, 1);
 	    OUTS(output, " : ");
-	    print_type(output, f->stype, null_str, 1);
+	    print_type(output, f->stype, NULL, 1);
 	    OUT(output, " : %s # %s\n", f->fname, tnm);
 	    break;
 	}
@@ -671,7 +672,7 @@ print_token(FILE *output, object *p, char *tnm)
 	    /* Functions */
 	    type *t = p->u.u_type;
 	    OUTS(output, "#pragma token FUNC ");
-	    print_type(output, t, null_str, 1);
+	    print_type(output, t, NULL, 1);
 	    OUT(output, " : %s # %s\n", nm, tnm);
 	    break;
 	}
@@ -684,13 +685,13 @@ print_token(FILE *output, object *p, char *tnm)
 	    /* Print the macro arguments */
 	    while (s && s != type_none ) {
 		OUTS(output, "EXP ");
-		print_type(output, s->u.subtype, null_str, 1);
+		print_type(output, s->u.subtype, NULL, 1);
 		s = s->v.next;
 		OUTS(output,(s ? " : , " : " : "));
 	    }
 	    /* Print the macro result */
 	    OUTS(output, ") EXP ");
-	    print_type(output, t->u.subtype, null_str, 1);
+	    print_type(output, t->u.subtype, NULL, 1);
 	    OUT(output, " : %s # %s\n", nm, tnm);
 	    break;
 	}
@@ -704,13 +705,13 @@ print_token(FILE *output, object *p, char *tnm)
 	case OBJ_STATEMENT: {
 	    /* Statements */
 	    type *t = p->u.u_type;
-	    if (t != null) {
+	    if (t != NULL) {
 		/* Statements with arguments */
 		type *s = t->v.next;
 		OUTS(output, "#pragma token PROC ( ");
 		while (s && s != type_none) {
 		    OUTS(output, "EXP ");
-		    print_type(output, s->u.subtype, null_str, 1);
+		    print_type(output, s->u.subtype, NULL, 1);
 		    s = s->v.next;
 		    OUTS(output,(s ? " : , " : " : "));
 		}
@@ -775,7 +776,7 @@ print_ifs(FILE *output, ifcmd *ifs)
 
     /* Simplify the list of statements */
     do {
-	ifcmd *q = null;
+	ifcmd *q = NULL;
 	changed = 0;
 	for (p = ifs; p->dir != CMD_END; p++) {
 	    int d = p->dir;
@@ -873,7 +874,7 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	case OBJ_EXTERN:
 	case OBJ_WEAK: {
 	    /* Deal with externals */
-	    nm = null;
+	    nm = NULL;
 	    break;
 	}
 
@@ -895,9 +896,9 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	case OBJ_FUNC: {
 	    /* Functions containing ... are not actually tokens */
 	    type *t = p->u.u_type->v.next;
-	    while (t != null) {
+	    while (t != NULL) {
 		if (t->u.subtype == type_ellipsis) {
-		    nm = null;
+		    nm = NULL;
 		    break;
 		}
 		t = t->v.next;
@@ -907,13 +908,13 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 
 	case OBJ_DEFINE: {
 	    /* Macro definitions are not tokens */
-	    nm = null;
+	    nm = NULL;
 	    break;
 	}
 
 	case OBJ_DEFMIN: {
 	    /* Macro definitions are not tokens */
-	    nm = null;
+	    nm = NULL;
 	    break;
 	}
 
@@ -937,20 +938,20 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 			if (t->state == 2) {
 			    t->state = 3;
 			} else {
-			    nm = null;
+			    nm = NULL;
 			}
 		    }
 		    break;
 		}
 		case TYPE_DEFINED: {
 		    /* Type definitions are not tokens */
-		    nm = null;
+		    nm = NULL;
 		    break;
 		}
 		case TYPE_ENUM:
 		case TYPE_ENUM_TAG: {
 		    /* Enumeration types are not tokens */
-		    nm = null;
+		    nm = NULL;
 		    break;
 		}
 	    }
@@ -960,7 +961,7 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 	default : {
 	    /* Unknown objects */
 	    error(ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
-	    nm = null;
+	    nm = NULL;
 	    break;
 	}
     }
@@ -990,11 +991,11 @@ static void
 print_include(FILE *output, char *nm, int on)
 {
     object *p;
-    if (nm == null) return;
+    if (nm == NULL) return;
     IGNORE sprintf(buffer, "%s[%s]", crt_info->src, nm);
     if (search_hash(files, buffer, no_version)) return;
     p = make_object(string_copy(buffer), OBJ_FILE);
-    p->u.u_file = null;
+    p->u.u_file = NULL;
     IGNORE add_hash(files, p, no_version);
     if (on)OUT(output, "#include <%s>\n", nm);
     return;
@@ -1014,7 +1015,7 @@ print_object(FILE *output, object *input, int pass)
     object *p;
     ifcmd ifs [100];
     ifs [0].dir = CMD_END;
-    for (p = input; p != null; p = p->next) {
+    for (p = input; p != NULL; p = p->next) {
 	char *nm = p->name;
 	switch (p->objtype) {
 
@@ -1038,7 +1039,7 @@ print_object(FILE *output, object *input, int pass)
 		    object *q = p->u.u_obj;
 		    info *i = q->u.u_info;
 		    char *b = BUILDING_MACRO;
-		    if (streq(i->api, LOCAL_API))break;
+		    if (strcmp(i->api, LOCAL_API) == 0)break;
 		    if (ifs [0].dir != CMD_END)print_ifs(output, ifs);
 		    if (pass == 0) {
 			char *f;
@@ -1076,7 +1077,7 @@ print_object(FILE *output, object *input, int pass)
 		/* Subsets */
 		object *q = p->u.u_obj;
 		info *i = q->u.u_info;
-		if (streq(i->api, LOCAL_API)) {
+		if (strcmp(i->api, LOCAL_API) == 0) {
 		    if (ifs [0].dir != CMD_END)print_ifs(output, ifs);
 		    print_object(output, i->elements, pass);
 		} else {
@@ -1154,11 +1155,11 @@ static void
 scan_object(object *input, int pass)
 {
     object *p;
-    for (p = input; p != null; p = p->next) {
+    for (p = input; p != NULL; p = p->next) {
 	if (p->objtype == OBJ_SET) {
 	    object *q = p->u.u_obj;
 	    info *i = q->u.u_info;
-	    if (streq(i->api, LOCAL_API)) {
+	    if (strcmp(i->api, LOCAL_API) == 0) {
 		scan_object(i->elements, pass);
 	    } else {
 		if (pass < 2)print_set(p, pass);
@@ -1181,12 +1182,12 @@ print_set(object *input, int pass)
 {
     char *nm;
     time_t t1, t2;
-    FILE *output = null;
+    FILE *output = NULL;
     object *ss = input->u.u_obj;
     info *i = ss->u.u_info;
     column = 0;
 
-    if (streq(i->api, LOCAL_API)) {
+    if (strcmp(i->api, LOCAL_API) == 0) {
 	/* Local files go to the standard output */
 	if (pass != 0) return;
 	nm = "stdout";
@@ -1195,7 +1196,7 @@ print_set(object *input, int pass)
 	t2 = (time_t)0;
     } else {
 	nm = (pass ? i->src : i->incl);
-	if (nm == null || (restrict_use && i->implemented == 0)) {
+	if (nm == NULL || (restrict_use && i->implemented == 0)) {
 	    scan_object(i->elements, 1);
 	    return;
 	}
@@ -1216,30 +1217,30 @@ print_set(object *input, int pass)
 	object *q;
 	if (verbose > 1) IGNORE printf("%s is up to date ...\n", nm);
 	q = make_object(nm, OBJ_FILE);
-	q->u.u_file = null;
+	q->u.u_file = NULL;
 	IGNORE add_hash(files, q, no_version);
-	for (q = i->elements; q != null; q = q->next) {
+	for (q = i->elements; q != NULL; q = q->next) {
 	    if (q->objtype == OBJ_SET)print_set(q, pass);
 	}
     } else {
 	/* Output file needs updating */
-	object *q = null;
+	object *q = NULL;
 	info *old_info = crt_info;
 	int old_column = column;
 	boolean old_weak_proto = weak_proto;
 	weak_proto = 0;
 
 	/* Open output file */
-	if (output == null) {
+	if (output == NULL) {
 	    create_dir(nm);
 	    if (verbose) IGNORE printf("Creating %s ...\n", nm);
 	    check_name(nm);
 	    q = make_object(nm, OBJ_FILE);
-	    q->u.u_file = null;
+	    q->u.u_file = NULL;
 	    IGNORE add_hash(files, q, no_version);
 	    output = fopen(nm, "w");
 	    q->u.u_file = output;
-	    if (output == null) {
+	    if (output == NULL) {
 		error(ERR_SERIOUS, "Can't open output file, %s", nm);
 		return;
 	    }
@@ -1253,9 +1254,9 @@ print_set(object *input, int pass)
 
 	    /* Print the copyright message */
 	    if (copyright) {
-		if (copyright_text == null) {
+		if (copyright_text == NULL) {
 		    FILE *f = fopen(copyright, "r");
-		    if (f == null) {
+		    if (f == NULL) {
 			char *err = "Can't open copyright file, %s";
 			error(ERR_SERIOUS, err, copyright);
 			copyright_text = "";
@@ -1277,13 +1278,13 @@ print_set(object *input, int pass)
 	    }
 
 	    /* Find the version number */
-	    if (v == null && i->subset) {
-		char *a = subset_name(i->api, i->file, null_str);
+	    if (v == NULL && i->subset) {
+		char *a = subset_name(i->api, i->file, NULL);
 		object *ap = make_subset(a);
 		v = ap->u.u_info->version;
 	    }
-	    if (v == null && i->file) {
-		char *a = subset_name(i->api, null_str, null_str);
+	    if (v == NULL && i->file) {
+		char *a = subset_name(i->api, NULL, NULL);
 		object *ap = make_subset(a);
 		v = ap->u.u_info->version;
 	    }
@@ -1303,7 +1304,7 @@ print_set(object *input, int pass)
 	    if (i->elements) {
 		boolean is_cpplus = 0;
 		if (i->linkage) {
-		    if (streq(i->linkage, "C++")) {
+		    if (strcmp(i->linkage, "C++") == 0) {
 			OUT(output, "extern \"%s\" {\n\n", i->linkage);
 			is_cpplus = 1;
 		    } else {
@@ -1358,12 +1359,12 @@ print_set(object *input, int pass)
 
 	} else {
 	    /* Source output file */
-	    if (i->method == null) {
+	    if (i->method == NULL) {
 		char *m, *s;
 		char *w1, *w2;
 		int n = output_incl_len;
 		m = macro_name(DEFINE_PREFIX, i->api, i->file, i->subset);
-		w1 = macro_name(WRONG_PREFIX, i->api, null_str, null_str);
+		w1 = macro_name(WRONG_PREFIX, i->api, NULL, NULL);
 		w2 = macro_name(WRONG_PREFIX, i->api, i->file, i->subset);
 		s = i->incl + n;
 		OUTS ( output, "/* AUTOMATICALLY GENERATED BY " ) ;
@@ -1389,7 +1390,7 @@ print_set(object *input, int pass)
 
 	/* End the output */
 	IGNORE fclose(output);
-	if (q)q->u.u_file = null;
+	if (q)q->u.u_file = NULL;
 	crt_info = old_info;
 	column = old_column;
 	weak_proto = old_weak_proto;

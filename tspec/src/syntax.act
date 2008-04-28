@@ -103,7 +103,7 @@ typedef struct {
     construct.
 */
 
-static char *crt_field_name = null ;
+static char *crt_field_name = NULL ;
 static int anon_no = 0 ;
 
 
@@ -116,7 +116,7 @@ static int anon_no = 0 ;
 */
 
 static char *cv_qualifier [] = {
-    null, "const", "volatile", "const volatile"
+    NULL, "const", "volatile", "const volatile"
 } ;
 
 /*
@@ -295,7 +295,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 */
 
 <type_none> : () -> ( t ) = @{
-    @t = null ;
+    @t = NULL ;
 @} ;
 
 <type_builtin> : ( b ) -> ( t ) = @{
@@ -315,27 +315,27 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 @} ;
 
 <type_ptr> : ( c ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) null, TYPE_PTR ) ;
+    @t = make_subtype ( ( type * ) NULL, TYPE_PTR ) ;
     @t->v.str = cv_qualifier [ @c ] ;
 @} ;
 
 <type_array> : ( a ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) null, TYPE_ARRAY ) ;
+    @t = make_subtype ( ( type * ) NULL, TYPE_ARRAY ) ;
     @t->v.str = @a ;
 @} ;
 
 <type_bitfield> : ( a ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) null, TYPE_BITFIELD ) ;
+    @t = make_subtype ( ( type * ) NULL, TYPE_BITFIELD ) ;
     @t->v.str = @a ;
 @} ;
 
 <type_func> : ( p ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) null, TYPE_PROC ) ;
+    @t = make_subtype ( ( type * ) NULL, TYPE_PROC ) ;
     @t->v.next = @p ;
 @} ;
 
 <type_macro> : ( p ) -> ( t ) = @{
-    @t = make_subtype ( ( type * ) null, TYPE_PROC ) ;
+    @t = make_subtype ( ( type * ) NULL, TYPE_PROC ) ;
     @t->v.next = @p ;
 @} ;
 
@@ -356,12 +356,12 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 */
 
 <type_list_none> : () -> ( p ) = @{
-    @p = null ;
+    @p = NULL ;
 @} ;
 
 <type_list_empty> : () -> ( p ) = @{
     error ( ERR_WARNING, "Empty parameter list" ) ;
-    @p = null ;
+    @p = NULL ;
 @} ;
 
 <type_list_cons> : ( t, q ) -> ( p ) = @{
@@ -371,7 +371,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 <type_list_ellipsis> : () -> ( p ) = @{
     @p = make_subtype ( type_ellipsis, TYPE_LIST ) ;
-    @p->v.next = null ;
+    @p->v.next = NULL ;
 @} ;
 
 <param_name> : ( nm ) -> () = @{
@@ -399,7 +399,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 <value_nat> : ( a ) -> ( s ) = @{
     object *p = search_hash ( exps, @a, any_version ) ;
-    if ( p == null ) {
+    if ( p == NULL ) {
 	error ( ERR_SERIOUS, "Undefined NAT, '%s'", @a ) ;
     } else if ( p->objtype != OBJ_NAT ) {
 	error ( ERR_SERIOUS, "'%s' is not a NAT", @a ) ;
@@ -420,7 +420,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 @} ;
 
 <cond_protect> : ( a, b ) -> ( s ) = @{
-    @s = macro_name ( PROTECT_PREFIX, @a, @b, null_str ) ;
+    @s = macro_name ( PROTECT_PREFIX, @a, @b, NULL_str ) ;
 @} ;
 
 
@@ -430,7 +430,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
     These rules describe the macro definition parameter lists.
 */
 
-<param_none> : () -> ( p ) = @{ @p = null ; @} ;
+<param_none> : () -> ( p ) = @{ @p = NULL ; @} ;
 <param_empty> : () -> ( p ) = @{ @p = "" ; @} ;
 
 <param_join> : ( n, q ) -> ( p ) = @{
@@ -445,7 +445,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 */
 
 <name_none> : () -> ( nm ) = @{
-    @nm = null ;
+    @nm = NULL ;
 @} ;
 
 <field_name> : ( fnm ) -> ( nm ) = @{
@@ -500,15 +500,15 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 <subset_next> : ( a ) -> ( s ) = @{ @s = string_concat ( @a, "G" ) ; @} ;
 
 <api_name> : ( a ) -> ( s ) = @{
-    @s = subset_name ( @a, null_str, null_str ) ;
+    @s = subset_name ( @a, NULL_str, NULL_str ) ;
 @} ;
 
 <file_name> : ( a, b ) -> ( s ) = @{
-    @s = subset_name ( @a, @b, null_str ) ;
+    @s = subset_name ( @a, @b, NULL_str ) ;
 @} ;
 
 <subset_name> : ( a, b, c ) -> ( s ) = @{
-    if ( @b [0] == 0 ) @b = null ;
+    if ( @b [0] == 0 ) @b = NULL ;
     @s = subset_name ( @a, @b, @c ) ;
 @} ;
 
@@ -536,7 +536,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 */
 
 <command_none> : () -> ( c ) = @{
-    @c = null ;
+    @c = NULL ;
 @} ;
 
 <command_join> : ( a, b ) -> ( c ) = @{
@@ -547,7 +547,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
     object *p = make_subset ( @s ) ;
     info *i = p->u.u_info ;
     if ( i->subset ) {
-	char *nm = subset_name ( i->api, i->file, null_str ) ;
+	char *nm = subset_name ( i->api, i->file, NULL_str ) ;
 	object *q = search_hash ( subsets, nm, no_version ) ;
 	update_time ( p, q ) ;
     }
@@ -558,7 +558,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 <end_subset> : ( a, b ) -> ( c ) = @{
     object *p = crt_object ;
     if ( p ) p->u.u_info->elements = @b ;
-    @c = make_object ( null_str, OBJ_SET ) ;
+    @c = make_object ( NULL_str, OBJ_SET ) ;
     @c->u.u_obj = p ;
     crt_object = @a ;
 @} ;
@@ -598,7 +598,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 */
 
 <declare_base> : () -> ( c ) = @{
-    @c = null ;
+    @c = NULL ;
 @} ;
 
 <declare_comment> : ( s ) -> ( c ) = @{
@@ -740,11 +740,11 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 
 <begin_field> : ( id, tag ) -> ( t, c ) = @{
     @t = find_type ( @id.iname, any_version, @tag, 0 ) ;
-    if ( @t == null ) {
+    if ( @t == NULL ) {
 	@t = make_type ( @id.iname, @id.ivers, @tag ) ;
 	@c = make_token ( @id.ename, @id.evers, @t->u.obj, OBJ_TYPE ) ;
     } else {
-	@c = null ;
+	@c = NULL ;
     }
     @t = expand_type ( @t ) ;
     switch ( @t->id ) {
@@ -768,14 +768,14 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 	    char *nm = crt_field_name ;
 	    error ( ERR_SERIOUS, "Redefinition of type '%s'", nm ) ;
 	}
-	if ( @b == null ) {
+	if ( @b == NULL ) {
 	    error ( ERR_SERIOUS, "Empty struct/union definition" ) ;
 	} else {
 	    @t->v.obj2 = @b ;
 	}
-	if ( @a == null ) {
+	if ( @a == NULL ) {
 	    /* This is a hack, do properly later */
-	    @c = make_object ( null_str, OBJ_TYPE ) ;
+	    @c = make_object ( NULL_str, OBJ_TYPE ) ;
 	    @c->u.u_type = @t ;
 	    if ( streq ( @c->filename, @t->u.obj->filename ) ) {
 		@t->state = 1 ;
@@ -788,7 +788,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
     } else {
 	@c = join_object ( @a, @b ) ;
     }
-    crt_field_name = null ;
+    crt_field_name = NULL ;
 @} ;
 
 

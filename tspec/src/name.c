@@ -154,12 +154,12 @@ strip_extension(char *nm)
 char *
 dirname(char *nm)
 {
-    char *p, *end = null;
+    char *p, *end = NULL;
     char *dir = string_copy(nm);
     for (p = dir; *p; p++) {
 	if (*p == '/')end = p;
     }
-    if (end == null || end == dir) return(null);
+    if (end == NULL || end == dir) return(NULL);
     *end = 0;
     return(dir);
 }
@@ -176,8 +176,8 @@ char *
 relative(char *from, char *to, int n)
 {
     char *s = buffer;
-    if (from == null) return(to);
-    if (to == null) return(from);
+    if (from == NULL) return(to);
+    if (to == NULL) return(from);
     for (from = from + n; *from; from++) {
 	if (*from == '/') {
 	    IGNORE strcpy(s, "../");
@@ -232,13 +232,13 @@ hack_name(char *nm, char *key)
 char *
 token_name(char *nm)
 {
-    if (strneq(nm, HIDDEN_NAME, HIDDEN_LEN)) {
+    if (strncmp(nm, HIDDEN_NAME, HIDDEN_LEN) != 0) {
 	nm = string_concat("~", nm + HIDDEN_LEN);
     }
     if (unique_names && crt_object) {
 	info *i = crt_object->u.u_info;
 	char *pfx = i->prefix;
-	if (pfx == null) {
+	if (pfx == NULL) {
 	    pfx = token_prefix(i->api, i->file, i->subset);
 	    i->prefix = pfx;
 	}
@@ -260,13 +260,13 @@ token_prefix(char *api, char *file, char *subset)
     UNUSED(subset);
     if (unique_names) {
 	int n;
-	if (file == null) return(api);
+	if (file == NULL) return(api);
 	IGNORE sprintf(buffer, "%s.%s", api, strip_extension(basename(file)));
 	n = (int)strlen(buffer) - 2;
 	if (n >= 0 && buffer [n] == '.')buffer [n] = 0;
 	return(hack_name(buffer, "_Aa0."));
     }
-    return(null);
+    return(NULL);
 }
 
 
@@ -338,7 +338,7 @@ src_name(char *dir, char *api, char *file, char *subset)
 	int n;
 	nm = string_printf(SOURCE_FILE, dir, api, strip_extension(basename(file)));
 	n = (int)strlen(nm) - 4;
-	if (n >= 0 && streq(nm + n, ".h.c")) {
+	if (n >= 0 && strcmp(nm + n, ".h.c") == 0) {
 	    IGNORE strcpy(nm + n, ".c");
 	}
     } else {
@@ -386,7 +386,7 @@ block_name(char *api, char *file, char *subset)
 	IGNORE sprintf(buffer, "%s__%s__%s", pfx, api, strip_extension(file));
 	/* remove any trailing ".h" */
 	len = (int)strlen(buffer);
-	if (streq(buffer + len - 2, ".h"))
+	if (strcmp(buffer + len - 2, ".h") == 0)
 	    buffer [ len - 2 ] = '\0';
     } else {
 	IGNORE sprintf(buffer, "%s__%s", pfx, api);

@@ -76,7 +76,7 @@ typedef struct {
     construct.
 */
 
-static char *crt_field_name = null ;
+static char *crt_field_name = NULL ;
 static int anon_no = 0 ;
 
 
@@ -89,7 +89,7 @@ static int anon_no = 0 ;
 */
 
 static char *cv_qualifier [] = {
-    null, "const", "volatile", "const volatile"
+    NULL, "const", "volatile", "const volatile"
 } ;
 
 /*
@@ -327,7 +327,7 @@ ZRnat_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 		{
 		    {
 
-    (ZIb) = null ;
+    (ZIb) = NULL ;
 		    }
 		}
 		break;
@@ -387,7 +387,7 @@ ZRtype_Hdeclarator_Hlist(SID_COMMAND *ZOc)
 		{
 		    {
 
-    (ZIb) = null ;
+    (ZIb) = NULL ;
 		    }
 		}
 		break;
@@ -487,7 +487,7 @@ ZRexp_Hdeclarator_Hlist(int ZIcmd, SID_TYPE ZIs, int ZIlv, SID_COMMAND *ZOc)
 		{
 		    {
 
-    (ZIb) = null ;
+    (ZIb) = NULL ;
 		    }
 		}
 		break;
@@ -655,7 +655,7 @@ ZRifdef_Hmacro_Hname(SID_STRING *ZOc)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZIc) = macro_name ( PROTECT_PREFIX, (ZIa), (ZIb), null_str ) ;
+    (ZIc) = macro_name ( PROTECT_PREFIX, (ZIa), (ZIb), NULL ) ;
 	    }
 	}
 	break;
@@ -726,7 +726,7 @@ ZR287(SID_TYPE *ZOt)
 	{
 	    {
 
-    (ZIt) = null ;
+    (ZIt) = NULL ;
 	    }
 	}
 	break;
@@ -851,7 +851,7 @@ ZRsubset_Hcommand(SID_COMMAND *ZOc)
     object *p = make_subset ( (ZIs) ) ;
     info *i = p->u.u_info ;
     if ( i->subset ) {
-	char *nm = subset_name ( i->api, i->file, null_str ) ;
+	char *nm = subset_name ( i->api, i->file, NULL ) ;
 	object *q = search_hash ( subsets, nm, no_version ) ;
 	update_time ( p, q ) ;
     }
@@ -880,7 +880,7 @@ ZRsubset_Hcommand(SID_COMMAND *ZOc)
 
     object *p = crt_object ;
     if ( p ) p->u.u_info->elements = (ZIb) ;
-    (ZIc) = make_object ( null_str, OBJ_SET ) ;
+    (ZIc) = make_object ( NULL, OBJ_SET ) ;
     (ZIc)->u.u_obj = p ;
     crt_object = (ZIa) ;
 	}
@@ -1018,7 +1018,7 @@ ZRparameter_Hlist(SID_TYPE *ZOp)
 		{
 		    {
 
-    (ZIq) = null ;
+    (ZIq) = NULL ;
 		    }
 		}
 		break;
@@ -1192,7 +1192,7 @@ ZRenumerator_Hlist(SID_COMMAND *ZOc)
 		{
 		    {
 
-    (ZIb) = null ;
+    (ZIb) = NULL ;
 		    }
 		}
 		break;
@@ -1463,7 +1463,7 @@ ZRconstant_Hvalue(SID_STRING *ZOs)
 	    {
 
     object *p = search_hash ( exps, (ZIa), any_version ) ;
-    if ( p == null ) {
+    if ( p == NULL ) {
 	error ( ERR_SERIOUS, "Undefined NAT, '%s'", (ZIa) ) ;
     } else if ( p->objtype != OBJ_NAT ) {
 	error ( ERR_SERIOUS, "'%s' is not a NAT", (ZIa) ) ;
@@ -1581,7 +1581,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZIc) = null ;
+    (ZIc) = NULL ;
 	    }
 	}
 	break;
@@ -1714,11 +1714,11 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    {
 
     (ZIt) = find_type ( (ZIid).iname, any_version, (ZItag), 0 ) ;
-    if ( (ZIt) == null ) {
+    if ( (ZIt) == NULL ) {
 	(ZIt) = make_type ( (ZIid).iname, (ZIid).ivers, (ZItag) ) ;
 	(ZIa) = make_token ( (ZIid).ename, (ZIid).evers, (ZIt)->u.obj, OBJ_TYPE ) ;
     } else {
-	(ZIa) = null ;
+	(ZIa) = NULL ;
     }
     (ZIt) = expand_type ( (ZIt) ) ;
     switch ( (ZIt)->id ) {
@@ -1760,16 +1760,16 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    char *nm = crt_field_name ;
 	    error ( ERR_SERIOUS, "Redefinition of type '%s'", nm ) ;
 	}
-	if ( (ZIb) == null ) {
+	if ( (ZIb) == NULL ) {
 	    error ( ERR_SERIOUS, "Empty struct/union definition" ) ;
 	} else {
 	    (ZIt)->v.obj2 = (ZIb) ;
 	}
-	if ( (ZIa) == null ) {
+	if ( (ZIa) == NULL ) {
 	    /* This is a hack, do properly later */
-	    (ZIc) = make_object ( null_str, OBJ_TYPE ) ;
+	    (ZIc) = make_object ( NULL, OBJ_TYPE ) ;
 	    (ZIc)->u.u_type = (ZIt) ;
-	    if ( streq ( (ZIc)->filename, (ZIt)->u.obj->filename ) ) {
+	    if ( strcmp( (ZIc)->filename, (ZIt)->u.obj->filename ) == 0 ) {
 		(ZIt)->state = 1 ;
 	    } else {
 		(ZIt)->state = 3 ;
@@ -1780,7 +1780,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
     } else {
 	(ZIc) = join_object ( (ZIa), (ZIb) ) ;
     }
-    crt_field_name = null ;
+    crt_field_name = NULL ;
 	    }
 	}
 	break;
@@ -2094,7 +2094,7 @@ ZR320(SID_STRING *ZIa, SID_STRING *ZOs)
 	{
 	    {
 
-    (ZIs) = subset_name ( (*ZIa), null_str, null_str ) ;
+    (ZIs) = subset_name ( (*ZIa), NULL, NULL ) ;
 	    }
 	}
 	break;
@@ -2132,7 +2132,7 @@ ZR321(SID_STRING *ZIa, SID_STRING *ZIb, SID_STRING *ZOs)
 	    ADVANCE_LEXER;
 	    {
 
-    if ( (*ZIb) [0] == 0 ) (*ZIb) = null ;
+    if ( (*ZIb) [0] == 0 ) (*ZIb) = NULL ;
     (ZIs) = subset_name ( (*ZIa), (*ZIb), (ZIc) ) ;
 	    }
 	}
@@ -2141,7 +2141,7 @@ ZR321(SID_STRING *ZIa, SID_STRING *ZIb, SID_STRING *ZOs)
 	{
 	    {
 
-    (ZIs) = subset_name ( (*ZIa), (*ZIb), null_str ) ;
+    (ZIs) = subset_name ( (*ZIa), (*ZIb), NULL ) ;
 	    }
 	}
 	break;
@@ -2204,7 +2204,7 @@ ZRarray_Hoperator(SID_TYPE *ZOt)
 	ADVANCE_LEXER;
 	{
 
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_ARRAY ) ;
+    (ZIt) = make_subtype ( ( type * ) NULL, TYPE_ARRAY ) ;
     (ZIt)->v.str = (ZIa) ;
 	}
     }
@@ -2451,7 +2451,7 @@ ZRmacro_Hparam_Hlist(SID_TYPE *ZOp)
 		{
 		    {
 
-    (ZIq) = null ;
+    (ZIq) = NULL ;
 		    }
 		}
 		break;
@@ -2768,7 +2768,7 @@ ZRfield_Hdeclarator_Hlist(SID_TYPE ZIm, SID_TYPE ZIs, SID_COMMAND *ZOc)
 		{
 		    {
 
-    (ZIb) = null ;
+    (ZIb) = NULL ;
 		    }
 		}
 		break;
@@ -2915,11 +2915,11 @@ ZR335(SID_TYPE *ZOt)
 	    {
 
     error ( ERR_WARNING, "Empty parameter list" ) ;
-    (ZIp) = null ;
+    (ZIp) = NULL ;
 	    }
 	    {
 
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_PROC ) ;
+    (ZIt) = make_subtype ( ( type * ) NULL, TYPE_PROC ) ;
     (ZIt)->v.next = (ZIp) ;
 	    }
 	}
@@ -2943,7 +2943,7 @@ ZR335(SID_TYPE *ZOt)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_PROC ) ;
+    (ZIt) = make_subtype ( ( type * ) NULL, TYPE_PROC ) ;
     (ZIt)->v.next = (ZIp) ;
 	    }
 	}
@@ -3036,7 +3036,7 @@ ZRcommand_Hlist(SID_COMMAND *ZOc)
 	{
 	    {
 
-    (ZIc) = null ;
+    (ZIc) = NULL ;
 	    }
 	}
 	break;
@@ -3112,7 +3112,7 @@ ZR339(SID_TYPE *ZOq)
 	    {
 
     (ZIq) = make_subtype ( type_ellipsis, TYPE_LIST ) ;
-    (ZIq)->v.next = null ;
+    (ZIq)->v.next = NULL ;
 	    }
 	}
 	break;
@@ -3322,7 +3322,7 @@ ZRdirect_Hdeclarator(SID_IDENTIFIER *ZO316, SID_TYPE *ZO317)
 	    }
 	    {
 
-    (ZIt) = null ;
+    (ZIt) = NULL ;
 	    }
 	    ZR318 (ZIid, ZIt, &ZI316, &ZI317);
 	    if ((CURRENT_TERMINAL) == 75) {
@@ -3468,7 +3468,7 @@ ZRtext_Hcommand(SID_COMMAND *ZOc)
 		    {
 			{
 
-    (ZIb) = null ;
+    (ZIb) = NULL ;
 			}
 		    }
 		    break;
@@ -3536,7 +3536,7 @@ ZR347(SID_IDENTIFIER *ZI345, SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 
 	    {
 
-    (ZI344) = null ;
+    (ZI344) = NULL ;
 	    }
 	    ZR318 (*ZI345, ZI344, &ZIid, &ZIt);
 	    if ((CURRENT_TERMINAL) == 75) {
@@ -3655,7 +3655,7 @@ ZRdirect_Habstract_Hdeclarator(SID_STRING *ZO306, SID_TYPE *ZO307)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZIt) = null ;
+    (ZIt) = NULL ;
 	    }
 	    ZR308 (ZInm, ZIt, &ZI306, &ZI307);
 	    if ((CURRENT_TERMINAL) == 75) {
@@ -3695,11 +3695,11 @@ ZRdirect_Habstract_Hdeclarator(SID_STRING *ZO306, SID_TYPE *ZO307)
 
 	    {
 
-    (ZInm) = null ;
+    (ZInm) = NULL ;
 	    }
 	    {
 
-    (ZIt) = null ;
+    (ZIt) = NULL ;
 	    }
 	    ZR308 (ZInm, ZIt, &ZI306, &ZI307);
 	    if ((CURRENT_TERMINAL) == 75) {
@@ -3930,11 +3930,11 @@ ZR350(SID_TYPE *ZOt)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZIp) = null ;
+    (ZIp) = NULL ;
 	    }
 	    {
 
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_PROC ) ;
+    (ZIt) = make_subtype ( ( type * ) NULL, TYPE_PROC ) ;
     (ZIt)->v.next = (ZIp) ;
 	    }
 	}
@@ -3959,7 +3959,7 @@ ZR350(SID_TYPE *ZOt)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_PROC ) ;
+    (ZIt) = make_subtype ( ( type * ) NULL, TYPE_PROC ) ;
     (ZIt)->v.next = (ZIp) ;
 	    }
 	}
@@ -4035,7 +4035,7 @@ ZRdefine_Hparam_Hclause(SID_STRING *ZOp)
       default:
 	{
 	    {
- (ZIp) = null ; 
+ (ZIp) = NULL ; 
 	    }
 	}
 	break;
@@ -4340,7 +4340,7 @@ ZRbitfield_Hoperator(SID_TYPE *ZOt)
 	}
 	{
 
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_BITFIELD ) ;
+    (ZIt) = make_subtype ( ( type * ) NULL, TYPE_BITFIELD ) ;
     (ZIt)->v.str = (ZIa) ;
 	}
     }
@@ -4407,7 +4407,7 @@ ZRuse_Hsubset_Hname(SID_STRING *ZOs)
 	ADVANCE_LEXER;
 	{
 
-    (ZIs) = subset_name ( (ZIa), (ZIb), null_str ) ;
+    (ZIs) = subset_name ( (ZIa), (ZIb), NULL ) ;
 	}
     }
     goto ZL0;
@@ -4455,7 +4455,7 @@ read_spec(SID_COMMAND *ZOc)
 	}
 	{
 
-    (ZIc) = null ;
+    (ZIc) = NULL ;
 	}
     }
   ZL0:;
@@ -4478,7 +4478,7 @@ ZRmacro_Hdeclarator(SID_IDENTIFIER *ZOid, SID_TYPE *ZOt)
 	    }
 	    {
 
-    (ZIt) = null ;
+    (ZIt) = NULL ;
 	    }
 	}
 	break;
@@ -4667,7 +4667,7 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 		    {
 			{
 
-    (ZIb) = null ;
+    (ZIb) = NULL ;
 			}
 		    }
 		    break;
@@ -4743,7 +4743,7 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 	{
 	    {
 
-    (ZIc) = null ;
+    (ZIc) = NULL ;
 	    }
 	}
 	break;
@@ -4783,7 +4783,7 @@ ZRptr_Hoperator(SID_TYPE *ZOt)
 	}
 	{
 
-    (ZIt) = make_subtype ( ( type * ) null, TYPE_PTR ) ;
+    (ZIt) = make_subtype ( ( type * ) NULL, TYPE_PTR ) ;
     (ZIt)->v.str = cv_qualifier [ (ZIcv) ] ;
 	}
     }
