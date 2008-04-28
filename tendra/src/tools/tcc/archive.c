@@ -474,23 +474,25 @@ file_time(char *nm)
 /*
  * IS A FILE AN ARCHIVE?
  *
- * This routine returns 1 if the file named nm starts with ARCHIVE_HEADER (and
- * so is probably an archive), and 0 otherwise.
+ * Returns 1 if the file starts with ARCHIVE_HEADER, 0 otherwise.
  */
-
-boolean
+int
 is_archive(char *nm)
 {
-	boolean b = 0;
-	FILE *f = fopen(nm, "rb");
-	if (f == NULL) {
-		return (b);
-	}
-	if (fgets(buffer, 20, f) && streq(buffer, ARCHIVE_HEADER)) {
-		b = 1;
-	}
-	IGNORE fclose(f);
-	return (b);
+	FILE *f;
+	int archive = 0;
+	char buf[sizeof(ARCHIVE_HEADER)];
+
+	/* XXX: no distinction between not an archive and fopen error */
+	if ((f = fopen(nm, "r"))  == NULL)
+		return (archive);
+
+	if (fgets(buf, (int)sizeof(buf), f) != NULL)
+		if (strcmp(buf, ARCHIVE_HEADER) == 0)
+			archive = 1;
+
+	(void) fclose(f);
+	return (archive);
 }
 
 
