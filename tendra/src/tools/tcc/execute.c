@@ -211,9 +211,7 @@ int last_return = 0;
  * used to indicate that no process is active.
  */
 
-#if FS_FORK
 static long running_pid = -1;
-#endif
 
 
 /*
@@ -227,14 +225,11 @@ static long running_pid = -1;
 void
 kill_stray(void)
 {
-#if FS_FORK
 	if (running_pid == -1) {
 		return;
 	}
 	IGNORE kill((pid_t)running_pid, SIGTERM);
 	running_pid = -1;
-#endif
-	return;
 }
 
 
@@ -399,7 +394,6 @@ execute(filename *input, filename *output)
 
 	} else if (!dry_run) {
 		/* Call system commands */
-#if FS_FORK
 		pid_t pid = fork();
 		if (pid == (pid_t) -1) {
 			error(SERIOUS, "Can't fork process");
@@ -480,36 +474,6 @@ execute(filename *input, filename *output)
 			error(SERIOUS, "Can't execute '%s'", cmd);
 			exit(2);
 		}
-#else
-		wait_type status;
-		if (!filled_buff) {
-			print_cmd(buff);
-			filled_buff = 1;
-		}
-		err = system(buff + 1);
-		process_return(status, err);
-		if (process_exited(status)) {
-			err = process_exit_value(status);
-			process_delayed_signal();
-		} else {
-			if (process_signaled(status)) {
-				/* delay_signal_handling is a global that tells
-				 * us that it is ok to let the next call to
-				 * execute report that the command received a
-				 * signal. This supports the way that the
-				 * producer is called. */
-				int sig = process_signal_value(status);
-				if (delay_signal_handling &&
-				    last_signal == 0) {
-					last_signaled_cmd = string_copy(cmd);
-					last_signal = sig;
-				} else {
-					handler(sig);
-				}
-			}
-			err = 1;
-		}
-#endif
 	}
 
 	/* Deal with errors */

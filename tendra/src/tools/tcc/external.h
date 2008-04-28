@@ -58,52 +58,57 @@
 */
 
 
-#ifndef CONFIG_INCLUDED
-#define CONFIG_INCLUDED
+#ifndef EXTERNAL_INCLUDED
+#define EXTERNAL_INCLUDED
 
 
 /*
- * BASIC API SPECIFICATION
+ * EXTERNAL INTERFACE SPECIFICATION
  *
- * The API for this program is ANSI plus a few extensions from POSIX and XPG3.
- * The ANSI headers are included here, with the FS_* macros being used to
- * control inclusion of the additional features.
+ * This header describes the non-ANSI component of the program API. The
+ * various components are controlled by the FS_* macros defined in config.h.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <signal.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
-/*
- * CODING STANDARD MACROS
- *
- * The program is written to conform to the local OSSG coding standard. This
- * header defines the standard macros used in the program.
- */
+#ifndef errno
+extern int errno;
+#endif
 
+#ifndef environ
+extern char **environ;
+#endif
 
-#include "tendra.h"
+#ifndef S_ISDIR
+#define S_ISDIR(X)		((X) & S_IFDIR)
+#endif
 
+#ifndef S_IRWXU
+#ifdef S_IREAD
+#define S_IRWXU			S_IREAD
+#define S_IRWXG			S_IWRITE
+#define S_IRWXO			S_IEXEC
+#else
+#define S_IRWXU			0700
+#define S_IRWXG			0070
+#define S_IRWXO			0007
+#endif
+#endif
 
-/*
- * BASIC TYPES
- *
- * These types are so ubiquitous that this is the only suitable place for them.
- */
+#define temp_name(X, Y)		(char *)tempnam((X), (Y))
+#define get_cwd(X, Y)		getcwd((X), (Y))
 
-typedef int boolean;
-
-
-/*
- * UTILITY MACROS
- *
- * These macros are just a matter of programming style.
- */
-
-#define streq(X, Y)	(strcmp((X), (Y)) == 0)
-#define strneq(X, Y, Z)	(strncmp((X), (Y), (size_t)(Z)) == 0)
-#define MAX_LINE	1024
-
+typedef int wait_type;
+#define process_wait(X)		wait((X))
+#define process_return(X, Y)	((X) = (Y))
+#define process_exited(X)	WIFEXITED((X))
+#define process_signaled(X)	WIFSIGNALED((X))
+#define process_exit_value(X)	WEXITSTATUS((X))
+#define process_signal_value(X)	WTERMSIG((X))
 
 #endif

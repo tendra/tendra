@@ -193,18 +193,11 @@ make_dir(char *nm)
 	if (dry_run) {
 		return (0);
 	}
-#if FS_STAT
 	{
 		mode_t m = (mode_t)(S_IRWXU | S_IRWXG | S_IRWXO);
 		int e = mkdir(nm, m);
 		return (e);
 	}
-#else
-	{
-		error(INTERNAL, "Built-in mkdir function not implemented");
-		return (1);
-	}
-#endif
 }
 
 
@@ -227,7 +220,6 @@ move_file(char *from, char *to)
 	if (streq(from, to)) {
 		return (0);
 	}
-#if FS_STAT
 	if (rename(from, to) == 0) {
 		return (0);
 	}
@@ -235,7 +227,6 @@ move_file(char *from, char *to)
 		error(SERIOUS, "Can't rename '%s' to '%s'", from, to);
 		return (1);
 	}
-#endif
 	f = fopen(to, "wb");
 	if (f == NULL) {
 		error(SERIOUS, "Can't open copy destination file, '%s'", to);
@@ -267,61 +258,54 @@ move_file(char *from, char *to)
 int
 remove_file(char *nm)
 {
-	if (dry_run) {
+	int e;
+	struct stat st;
+
+	if (dry_run)
 		return (0);
-	}
-#if FS_DIRENT
-	{
-		struct stat st;
-		int e = stat(nm, &st);
-		if (e != -1) {
-			mode_t m = (mode_t)st.st_mode;
-			if (S_ISDIR(m)) {
-				DIR *d = opendir(nm);
-				if (d == NULL) {
-					e = 1;
-				} else {
-					char *p;
-					struct dirent *t;
-					char buff [1000];
-					IGNORE sprintf(buff, "%s/", nm);
-					p = buff + strlen(buff);
-					while (t = readdir(d), t != NULL) {
-						char *dnm = t->d_name;
-						if (!streq(dnm, ".") &&
-						    !streq(dnm, "..")) {
-							IGNORE strcpy(p, dnm);
-							if (remove_file(buff)) {
-								e = 1;
-							}
+
+	e = stat(nm, &st);
+	if (e != -1) {
+		mode_t m = (mode_t)st.st_mode;
+		if (S_ISDIR(m)) {
+			DIR *d = opendir(nm);
+			if (d == NULL) {
+				e = 1;
+			} else {
+				char *p;
+				struct dirent *t;
+				char buff [1000];
+				IGNORE sprintf(buff, "%s/", nm);
+				p = buff + strlen(buff);
+				while (t = readdir(d), t != NULL) {
+					char *dnm = t->d_name;
+					if (!streq(dnm, ".") &&
+					    !streq(dnm, "..")) {
+						IGNORE strcpy(p, dnm);
+						if (remove_file(buff)) {
+							e = 1;
 						}
 					}
-					IGNORE closedir(d);
-					if (rmdir(nm)) {
-						e = 1;
-					}
 				}
-			} else {
-				e = remove(nm);
+				IGNORE closedir(d);
+				if (rmdir(nm)) {
+					e = 1;
+				}
 			}
 		} else {
-			/* If the file didn't exist, don't worry */
-			if (errno == ENOENT) {
-				return (0);
-			}
+			e = remove(nm);
 		}
-		if (e) {
-			error(SERIOUS, "Can't remove '%s'", nm);
-			return (1);
+	} else {
+		/* If the file didn't exist, don't worry */
+		if (errno == ENOENT) {
+			return (0);
 		}
-		return (0);
 	}
-#else
-	{
-		error(INTERNAL, "Built-in remove function not implemented");
+	if (e) {
+		error(SERIOUS, "Can't remove '%s'", nm);
 		return (1);
 	}
-#endif
+	return (0);
 }
 
 
@@ -357,37 +341,6 @@ touch_file(char *nm, char *opt)
 
 
 /*
- * POOR MAN'S TEMPNAM FUNCTION
- *
- * The token temporary_name can be defined to be either tempnam (which is in
- * XPG3 but not POSIX) or this routine, which is designed to serve a similar
- * purpose. The routine uses tmpnam (which is in ANSI) to create a temporary
- * file name, and appends the suffix pfx to this name. The dir argument is not
- * used.
- */
-
-#if !FS_TEMPNAM
-
-char *
-like_tempnam(char *dir, char *pfx) /* ARGSUSED */
-{
-	static char letter = 'a';
-	char *p = buffer;
-	UNUSED(dir);
-	IGNORE tmpnam(p);
-	p += strlen(p);
-	p [0] = letter;
-	p [1] = '.';
-	IGNORE strcpy(p + 2, pfx);
-	letter = (char)(letter + 1);
-	return (string_copy(buffer));
-}
-
-#endif
-
-
-
-/*
  * FIND THE SIZE OF A FILE
  *
  * This routine calculates the length of a file, returning zero for
@@ -399,30 +352,12 @@ like_tempnam(char *dir, char *pfx) /* ARGSUSED */
 long
 file_size(char *nm)
 {
-#if FS_STAT
-	{
-		struct stat st;
-		int e = stat(nm, &st);
-		if (e == -1) {
-			return (0);
-		}
-		return ((long)st.st_size);
+	struct stat st;
+	int e = stat(nm, &st);
+	if (e == -1) {
+		return (0);
 	}
-#else
-	{
-		size_t n = 0, m;
-		void *p = buffer;
-		FILE *f = fopen(nm, "rb");
-		if (f == NULL) {
-			return (0);
-		}
-		while (m = fread(p, sizeof(char), block_size, f), m != 0) {
-			n = (size_t)(n + m);
-		}
-		IGNORE fclose(f);
-		return ((long)n);
-	}
-#endif
+	return ((long)st.st_size);
 }
 
 
@@ -437,26 +372,17 @@ file_size(char *nm)
 static long
 file_time(char *nm)
 {
-#if FS_STAT
-	{
-		int e;
-		struct stat st;
-		if (dry_run) {
-			return (0);
-		}
-		e = stat(nm, &st);
-		if (e == -1) {
-			error(SERIOUS, "Can't access file '%s'", nm);
-			return (0);
-		}
-		return ((long)st.st_mtime);
-	}
-#else
-	{
-		UNUSED(nm);
+	int e;
+	struct stat st;
+	if (dry_run) {
 		return (0);
 	}
-#endif
+	e = stat(nm, &st);
+	if (e == -1) {
+		error(SERIOUS, "Can't access file '%s'", nm);
+		return (0);
+	}
+	return ((long)st.st_mtime);
 }
 
 

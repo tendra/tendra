@@ -1194,9 +1194,8 @@ interpret_cmd(char *cmd)
 		char c1;
 		char **subs;
 		int i;
-#if FS_STAT
 		struct stat sb;
-#endif
+
 		q = var;
 		r = val;
 		p = cmd + 2;
@@ -1223,12 +1222,12 @@ interpret_cmd(char *cmd)
 		 * Additional error checking for those platforms supporting
 		 * stat().
 		 */
-#if FS_STAT
+
 		if (stat(val, &sb) == -1) {
 		    error(SERIOUS, "interpret_cmd: %s %s",
 			val, strerror(errno));
 		}
-#endif
+
 		i = 0;
 		subs = PATH_SUBS;
 		while (*subs) {
