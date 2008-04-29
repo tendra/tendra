@@ -1,0 +1,348 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY sid "<application><acronym>SID</acronym></application>">
+]>
+
+<appendix id="errors">
+	<title>Understanding error messages</title>
+
+	<para>This section tries to explain what some of the error messages that
+		are reported by the &sid; transforms mean. It does not
+		contain descriptions of messages like "type 'some type' is unknown", as
+		these should be self-explanatory.</para>
+
+	<section id="left-errors">
+		<title>Left recursion elimination errors</title>
+
+		<para><errortext>The parameter or result types of the left recursive
+			calls in the following productions do not match:
+			PRODUCTIONS</errortext>: This means that there is a set of rules which
+			call each other left recursively (i.e. the first item in some of the
+			alternatives in each rule is a call to another rule in the set), and
+			they do not all have the same parameter and result types, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 : ( a : Type1T, b : Type1T, c : Type2T, d : Type2T ) -&gt; () = {
+	rule2 ( a, b ) ;
+||
+	terminal1 ;
+} ;
+
+rule2 : ( a : Type1T, b : Type2T ) -&gt; () = {
+	rule1 ( a, a, b, b ) ;
+||
+	terminal2 ;
+} ;</programlisting>
+
+		<para><errortext>The exception handlers in the left recursion involving
+			the following productions do not match: PRODUCTIONS</errortext>: This
+			means that there is a set of productions which call each other left
+			recursively (i.e. the first item in an alternative is a call to
+			another production in the set), and they do not all have the same
+			exception handler, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	rule2 ;
+||
+	terminal1 ;
+##
+	&lt;action1&gt; ;
+} ;
+
+rule2 = {
+	rule1 ;
+||
+	terminal2 ;
+##
+	&lt;action2&gt; ;
+} ;</programlisting>
+
+		<para>It is quite likely that when using exception handlers, it may be
+			necessary to do the left recursion elimination manually to ensure that
+			the exception handlers occur at the correct place.</para>
+
+		<para><errortext>The argument names of the left recursive calls in the
+			following productions do not match: PRODUCTIONS</errortext>: This
+			means that there is a set of productions which call each other left
+			recursively (i.e. the first item in an alternative is a call to
+			another production in the set), and the arguments to one of the left
+			recursive calls are not the same as the parameters of the calling
+			rule, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 : ( a : Type1T, b : Type1T ) -&gt; () = {
+	rule1 ( b, a ) ;
+||
+	terminal1 ;
+} ;</programlisting>
+
+		<para><errortext>A non-local name in the rule 'RULE' is not in scope in
+			the rule 'RULE' in the left recursive cycle involving the following
+			productions: PRODUCTIONS</errortext>: This means that there is a set
+			of productions which call each other left recursively (i.e. the first
+			item in an alternative is a call to another production in the set),
+			and the first named rule uses a non-local name that is not in scope in
+			the second named rule, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 [
+	name1 : Type1T ;
+	rule1_1 [
+		name1_1 : Type1T ;
+	] = {
+		rule1 ;
+		&lt;action1_1&gt; ( name1_1 ) ;
+	||
+		terminal1 ;
+	} ;
+] = {
+	terminal2 ;
+||
+	rule1_1 ;
+	&lt;action1&gt; ( name1 ) ;
+} ;</programlisting>
+
+		<para><errortext>The rule 'RULE' declares non-local names in the left
+			recursive cycle with more than one entry point involving the following
+			productions: PRODUCTIONS</errortext>: This means that there is a set
+			of productions which call each other left recursively (i.e. the first
+			item in an alternative is a call to another production in the set),
+			and the named rule defines non-local variables even though it is not
+			the only entry point to the cycle, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 [
+	name1 : Type1T ;
+	rule1_1 = {
+		&lt;action1_1&gt; ( name1 ) ;
+	} ;
+] = {
+	terminal1 ;
+	rule1_1 ;
+||
+	rule2 ;
+	&lt;action1&gt; ( name1 ) ;
+} ;
+
+rule2 = {
+	rule1 ;
+	&lt;action2&gt; ;
+||
+	terminal2 ;
+} ;</programlisting>
+
+		<para>No cycle termination for the left recursive set involving the
+			following rules: <token>RULES</token>: This means that there is a set
+			of productions which call each other left recursively (i.e.	the first
+			item in an alternative is a call to another production in the set),
+			and they do not contain an alternative that begins with a non-left
+			recursive call, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	rule2 ;
+||
+	rule3 ;
+} ;
+
+rule2 = {
+	rule1 ;
+||
+	rule3 ;
+} ;
+
+rule3 = {
+	rule1 ;
+||
+	rule2 ;
+} ;</programlisting>
+	</section>
+
+	<section id="first-errors">
+		<title>First set computation errors</title>
+
+		<para>Cannot compute first set for <token>PRODUCTION</token>: This means
+			that &sid; cannot compute the set of terminals and
+			predicates that may start the production. This is normally because
+			there is a recursive call (or cycle) that contains no terminals, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	&lt;action1&gt; ;
+	rule1 ;
+||
+	terminal1 ;
+} ;</programlisting>
+
+		<para>This is not removed by the left recursion elimination phase, as
+			the call is not the leftmost item in the alternative.</para>
+
+		<para>Can see through to predicate '<token>PREDICATE</token>' in
+			production <token>PRODUCTION</token>: This means that there is a
+			predicate that isn't the first item in its alternative, but is
+			preceded only by see-through items, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	&lt;action1&gt; ;
+	? = &lt;predicate&gt; ;
+||
+	terminal1 ;
+} ;</programlisting>
+
+		<para>Can see through to predicates in rule '<token>RULE</token>' in
+			production <token>PRODUCTION</token>: This means that the first rule
+			has at least one predicate in its first set, and the second rule calls
+			it in a position where it is not the first item in the alternative and
+			is preceded only by see-through items, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	? = &lt;predicate&gt; ;
+||
+	terminal1 ;
+} ;
+
+rule2 = {
+	&lt;action&gt; ;
+	rule1 ;
+||
+	terminal2 ;
+} ;</programlisting>
+
+		<para>The rule '<token>RULE</token>' has all terminals in its first set
+			and has a redundant see-through alternative: This means that the
+			rule's first set (the set of all terminals that can start the rule)
+			includes all possible input terminals, and the rule also has a
+			see-through alternative. The see-through alternative will never be
+			used, as one of the other alternatives will always be chosen.</para>
+	</section>
+
+	<section id="factor-errors">
+		<title>Factoring errors</title>
+
+		<para>Too many productions (<token>NUMBER</token>) created during
+			factorisation: This normally means that &sid; cannot factor
+			the grammar. You will need to rewrite the offending part.
+			Unfortunately there is no easy way to do this. Start by looking at the
+			dump file for a set of rules that seem to have been expanded a
+			lot.</para>
+
+		<para>The rule '<token>RULE</token>' cannot be expanded into
+			'<token>RULE</token>' as the exception handlers don't match: When
+			&sid; performs factoring, it needs to expand calls to
+			certain rules into the rules that calls them (this is described in the
+			<link linkend="overview">overview section</link>). If the called rule
+			has an exception handler and it is not the same as the exception
+			handler of the calling rule, then the expansion will fail.</para>
+
+		<para>The rule '<token>RULE</token>' cannot be expanded into
+			'<token>RULE</token>' as it contains non-local name definitions: When
+			&sid; performs factoring, it needs to expand calls to
+			certain rules into the rules that calls them (this is described in the
+			<link linkend="overview">overview section</link>). If the called rule
+			defines any non-local names, then the expansion will fail.</para>
+	</section>
+
+	<section id="check-errors">
+		<title>Checking errors</title>
+
+		<para><errortext>Collision of terminal(s) TERMINALS in rule
+			'RULE'</errortext>: This error means that more than one alternative in
+			the named rule begins with the named terminals, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	&lt;action1&gt; ;
+	terminal1 ;
+||
+	terminal1 ;
+} ;</programlisting>
+
+		<para>Normally, the factoring process will remove the problem, but when
+			something like the above happens to stop the factoring occurring, this
+			error will be produced.</para>
+
+		<para><errortext>Collision of predicate 'PREDICATE' in rule
+			'RULE'</errortext>: This error occurs when more than one alternative
+			in the named rule begins with the named predicate, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	( a, ? ) = &lt;predicate&gt; ;
+	&lt;action1&gt; ( a ) ;
+||
+	( ?, b ) = &lt;predicate&gt; ;
+	&lt;action2&gt; ( b ) ;
+} ;</programlisting>
+
+		<para>Again, it is normally the case that the factoring process will
+			remove this problem, but if the same predicate uses different
+			predicate results in different alternatives, this error will be
+			produced.</para>
+
+		<para>The terminal(s) <token>TERMINALS</token> can start rule
+			'<token>RULE</token>' which is see-through, and the same terminal(s)
+			may appear in the following situations: <token>ALTERNATIVES</token>:
+			This means that there are one or more terminals that can start the
+			named rule (which is see-through), and may also follow it, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	terminal1 ;
+||
+	$ ;
+} ;
+
+rule2 = {
+	rule1 ;
+	terminal1 ;
+||
+	terminal2 ;
+} ;</programlisting>
+
+		<para>The alternatives listed are the alternatives which call the rule,
+			and contain (some of) the named terminals after the call. The call is
+			highlighted.</para>
+
+		<para>The predicate(s) <token>PREDICATES</token> can start rule
+			'<token>RULE</token>' which is see-through and the same predicate(s)
+			may appear in the following situations: <token>ALTERNATIVES</token>:
+			This means that there are one or more predicates that can start the
+			named rule (which is see-through), and may also follow it, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	? = &lt;predicate&gt; ;
+||
+	$ ;
+} ;
+
+rule2 = {
+	terminal1 ;
+	rule1 ;
+	? = &lt;predicate&gt; ;
+||
+	terminal2 ;
+} ;</programlisting>
+
+		<para>The alternatives listed are the alternatives which call the rule,
+			and contain (some of) the named predicates after the call.	The call
+			is highlighted.</para>
+
+		<para>The rule '<token>RULE</token>' contains more than one see-through
+			alternative: This error occurs if the rule has more than one
+			alternative that doesn't need to read a terminal or a predicate, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	&lt;action1&gt; ;
+||
+	&lt;action2&gt; ;
+} ;</programlisting>
+	</section>
+</appendix>
+

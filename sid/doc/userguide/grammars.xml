@@ -1,0 +1,128 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY sid "<application><acronym>SID</acronym></application>">
+]>
+
+<chapter id="grammar">
+	<title>Grammars</title>
+
+	<section id="parsing">
+		<title>Parsing</title>
+
+		<para>There are two phases in traditional language recognition that
+			are relevant to &sid;: the first is lexical analysis
+			(breaking the input up into terminal symbols); the second is
+			syntax analysis or parsing (ensuring that the terminal symbols in
+			the input are in the correct order).</para>
+
+		<para>&sid; currently does very little to help with
+			lexical analysis. It is possible to use &sid; to
+			produce the lexical analyser, but &sid; provides no
+			real support for it at present. For now, the programmer is
+			expected to write the lexical analyser, or use another tool to
+			produce it.</para>
+
+		<para>The lexical analyser should break the input up into a series
+			of terminals. Each of these terminals is allocated a number. In
+			&sid;, these numbers range from zero to the maximum
+			terminal number (specified in the grammar description). The
+			terminals may also have data associated with them (e.g. the value
+			of a number), known as the attributes of the terminal, or the
+			results of the terminal.</para>
+
+		<para>&sid; generates the parser. The parser is a program
+			that reads the sequence of terminals from the lexical analyser,
+			and ensures that they form a valid input in the language being
+			recognised. If the input is not valid, then the parser will fail
+			(&sid; provides mechanisms to allow the parser to
+			recover from errors).</para>
+	</section>
+
+	<section id="context-free">
+		<title>Context free grammars</title>
+
+		<para>This section provides a brief introduction to grammars. It is
+			not intended to be an in-depth guide to grammars, more an
+			introduction which defines some terminology.</para>
+
+		<para>&sid; works with a subset of what are known as
+			context free grammars. A context free grammar consists of a set
+			of input symbols (known as terminals), a set of rules
+			(descriptions of what are legal forms in the language, also known
+			as non-terminals), and an entry point (the rule from which the
+			grammar starts).</para>
+
+		<para>A rule is defined as a series of alternatives (throughout this
+			document the definition of a rule is called a production - this
+			may conflict with some other uses of the term). Each alternative
+			consists of a sequence of items. An item can be a terminal or a
+			rule. As an example (using the &sid; notation, which
+			now looks unlike the conventional syntax for grammars), a comma
+			separated list of integers could be specified as:</para>
+
+		<programlisting language="SID Grammar">
+list-of-integers = {
+	integer ;
+||
+	integer ;
+	comma ;
+	list-of-integers ;
+} ;</programlisting>
+
+		<para>This production contains two alternatives: the first matches the
+			terminal <code>integer</code>; the second matches the sequence of
+			terminals <code>integer</code> followed by <code>comma</code>,
+			followed by another list of integers.</para>
+
+		<para>There is much documentation available on context free grammars
+			(and other types of formal grammar). The reader is advised to
+			find an alternative source for more information.</para>
+	</section>
+
+	<section id="sid-grammar">
+		<title>&sid; grammars</title>
+
+		<para>&sid; grammars are based upon a subset of context
+			free grammars, known as LL(1) grammars. The main property of such
+			grammars is that the parser can always tell which alternative it
+			is going to parse next by looking at the current terminal symbol.
+			&sid; does a number of transforms to turn grammars
+			that are not in this form into it (although it cannot turn all
+			possible grammars into this form). It also provides facilities
+			that allow the user to alter the control flow of the parser.</para>
+
+		<para>&sid; makes the following changes to the context
+			free grammars described above:</para>
+
+		<itemizedlist>
+			<listitem><para>There may be more than one entry point to the
+				grammar.</para></listitem>
+
+			<listitem><para>As well as being a rule or a terminal, an item may be
+				an action, a predicate or an identity. An action is just a user
+				supplied function. A predicate is a cross between a basic and an
+				action (it is a user defined function but it may alter the control
+				flow). An identity is like an assignment in a conventional
+				programming language.</para></listitem>
+
+			<listitem><para>Rules may take parameters and return results (as may
+				actions; terminals may only return results). These may be
+				passed between items using names.</para></listitem>
+
+			<listitem><para>Each rule can have an exception handler associated
+				with it.	Exception handlers are used for error recovery when the
+				input being parsed does not match the grammar.</para></listitem>
+
+			<listitem><para>Rules may be anonymous.</para></listitem>
+
+			<listitem><para>Rules may have non-local names associated with them.
+				These names are in scope for that rule and any rules that are
+				defined inside it. The value of each non-local name is saved on
+				entry to the rule, and restored when the rule is
+				exited.</para></listitem>
+		</itemizedlist>
+	</section>
+</chapter>
+

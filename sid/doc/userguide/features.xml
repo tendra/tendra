@@ -1,0 +1,149 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY sid "<application><acronym>SID</acronym></application>">
+]>
+
+<chapter id="features">
+	<title>Features</title>
+
+	<para>This chapter draws attention to a few of the more interesting features of
+		&sid;-specified grammars, and how they may be used.</para>
+
+	<section id="predicate">
+		<title>Predicates</title>
+
+		<para>Predicates provide the user with a mechanism for altering the
+			control flow in a manner that terminals alone cannot do.</para>
+
+		<para>During the factorisation process, rules that begin with predicates
+			are expanded if necessary to ensure that predicates that may be used to
+			select which alternative to go down always begin the alternative, e.g.:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	rule2 ;
+	/* .... */
+||
+	/* .... */
+} ;
+
+rule2 = {
+	? = &lt;predicate&gt; ;
+	/* .... */
+||
+	/* .... */
+} ;</programlisting>
+
+		<para>would be expanded into:</para>
+
+		<programlisting language="SID Grammar">
+rule1 = {
+	? = predicate ;
+	/* .... */
+	/* .... */
+||
+	/* .... */
+	/* .... */
+||
+	/* .... */
+} ;</programlisting>
+
+		<para>Also, if a predicate is used to select which alternative to use, it
+			must be the first thing in the alternative, so the following would not
+			be allowed:</para>
+
+		<programlisting language="SID Grammar">
+rule = {
+	&lt;action&gt; ;
+	? = &lt;predicate&gt; ;
+	/* .... */
+||
+	/* .... */
+} ;</programlisting>
+
+		<para>When predicates begin a rule, they are executed (in some arbitrary
+			order) until one of them returns true. The alternative that this
+			predicate begins is then selected. If no predicates return true, then
+			one of the remaining alternatives is selected based upon the current
+			terminal (or an error occurs).</para>
+
+		<para>It is important that predicates do not contain dependencies upon the
+			order of evaluation. In practice, predicates are likely to be simple, so
+			this shouldn't be a problem.</para>
+
+		<para>When predicates are used within an alternative, they behave like
+			terminals. If they evaluate to true, then parsing continues.	If they
+			evaluate to false, then an exception is raised.</para>
+	</section>
+
+	<section id="exception">
+		<title>Error handling</title>
+
+		<para>If the input given to the parser is valid, then the parser will not
+			need to produce any errors. Unfortunately this is not always the case,
+			so &sid; provides a mechanism for handling errors.</para>
+
+		<para>When an error occurs, an exception is raised. This passes control to
+			the nearest enclosing exception handler. If there is no exception
+			handler at all, the entry point function will return with the current
+			terminal set to the error value.</para>
+
+		<para>An exception handler is just an alternative that is executed when a
+			terminal or predicate fails. This should obviate the need to rely upon
+			language specific mechanisms (such as <code>setjmp</code> and
+			<code>longjmp</code>) for error recovery.</para>
+	</section>
+
+	<section id="call-by-ref">
+		<title>Call by reference</title>
+
+		<para>The default behaviour of &sid; is to do argument passing
+			using call by copy semantics, and to not allow mutation of parameters of
+			rules and actions (however inlined rules, and rules created during
+			factoring have call by reference parameters). However it is possible to
+			give rule and action parameters call by reference semantics, using the
+			<code>&amp;</code> symbol in the type specification (as described
+			earlier). It is also possible to mutate parameters of actions, using the
+			<code>@=</code> substitution in the action body (also described
+			earlier). It is important to do the correct substitutions in action
+			definitions, as &sid; uses this information to decide where
+			it can optimise the output code.</para>
+
+		<para>If a call by copy parameter is mutated, then &sid; will
+			introduce a new temporary variable and copy the parameter into it - this
+			temporary will then be mutated. Similar code will be output for rules
+			that have call by copy parameters that are mutated (e.g. as a call by
+			reference argument to an action that mutates its parameters).</para>
+	</section>
+
+	<section id="call-entry">
+		<title>Calling entry points</title>
+
+		<para>When calling a function that implements an entry point rule, it
+			should be called with the rule's parameters as the first arguments,
+			followed by the addresses of the rule's results as the remaining
+			arguments. The parameters should have their addresses passed if they are
+			of a type that has a parameter assignment operator defined, or if the
+			parameter is a call by reference parameter.</para>
+
+		<para>For example, given the following rule:</para>
+
+		<programlisting language="SID Grammar">rule1 : ( :Type1T, :Type2T, :Type3T &amp; ) -&gt; ( :Type4T ) ;</programlisting>
+
+		<para>where <code>Type2T</code> has a parameter assignment operator defined,
+			and <code>rule1</code> is mapped to <code>rule1</code> (and the type
+			names are mapped to themselves), the call would be something like:</para>
+
+		<programlisting language="C">
+Type1T a = make_type1 () ;
+Type2T b = make_type2 () ;
+Type3T c = make_type3 () ;
+Type4T d ;
+
+rule1 ( a, b, &amp;c, &amp;d ) ;</programlisting>
+	</section>
+
+</chapter>
+

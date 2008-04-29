@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY sid "<application><acronym>SID</acronym></application>">
+]>
+
+<chapter id="invoke">
+	<title>Invocation</title>
+
+	<para>The input files to &sid; should be a
+		number of input file names dependent upon the output language. The
+		first input file is the &sid; grammar file. In the case of
+		either C dialects there should be one other input file that provides C
+		specific information to &sid;. The number of output files
+		is also language specific. At present, two output files should be
+		specified for the C languages. The first should be a <code>.c</code>
+		file into which the parser is written; the second should be a
+		<code>.h</code> file into which the terminal definitions and external
+		function declarations are written.</para>
+
+	<para>The options list should consist of zero or more options.
+		Rather than duplicate the minutae of the options here, see
+		the <citetitle>&sid; manual page</citetitle> for details on
+		invocation.</para>
+</chapter>
+

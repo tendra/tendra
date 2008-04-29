@@ -1,0 +1,134 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY sid "<application><acronym>SID</acronym></application>">
+	<!ENTITY iso "<acronym>ISO</acronym>">
+]>
+
+<preface id="introduction">
+	<title>Introduction</title>
+
+	<para>This document describes how to use the &sid; parser
+		generator. It was written for &sid; version 1.9. The
+		main features of each version of &sid; are listed below:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term>&sid; 1.0</term>
+			<!-- TODO can this be centralised with the changelog data somehow? -->
+			<listitem>
+				<para>this was the first version of
+					&sid; to support attribute grammars. The output
+					language was C.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.1</term>
+			<listitem>
+				<para>this was a bug fix version of
+					&sid; 1.0.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.2</term>
+			<listitem>
+				<para>this version of &sid; added
+					predicates, exception handling, improved inlining options, and a
+					grammar test pseudo-language.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.3</term>
+			<listitem>
+				<para>this version of &sid; added
+					anonymous rules, and a better syntax for the C specific
+					information.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.4</term>
+			<listitem>
+				<para>this was a bug fix version of
+					&sid; 1.3.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.5</term>
+			<listitem>
+				<para>this was a bug fix version of
+					&sid; 1.4. The command line option syntax changed in
+					this release as well.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.6</term>
+			<listitem>
+				<para>this version of &sid;
+					changed the input syntax, added scoped rules, and removed basics
+					(replacing them with terminal symbols). It also added a stricter
+					&iso; C language.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.7</term>
+			<listitem>
+				<para>The syntax of the actions file changed
+					slightly in this version. The error messages and recovery from
+					syntax errors were also improved in this version.	This version
+					also added explicit call by reference support (rather than the
+					inconsistent function call semantics of earlier versions). The
+					command line options changed in this version, to support language
+					specific options, and the <code>strict-ansi-c</code> language was
+					dropped. Non-local variables were also added.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.8</term>
+			<listitem>
+				<para>Initialisers were added for non-local
+					variables. Assignment was added.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.9</term>
+			<listitem>
+				<para>this was a bug fix version of
+					&sid; 1.8.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>&sid; 1.10</term>
+			<listitem>
+				<para>The first stand-alone release
+					of &sid; seperately to the TenDRA compiler. It is
+					a code clean-up release; features are unchanged from 1.9.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+	<para>&sid; turns specifications of languages into
+		programs that recognise those languages. One of the aims of
+		&sid; was to separate the specification of the
+		language to be recognised from the language that the recogniser
+		program is written in. For this reason, input to &sid;
+		is split into two components: output language independent
+		information, and output language dependent information.</para>
+
+	<para>At present, &sid; will only output programs in C
+		(either &iso; or pre-&iso;), but it is designed so that adding new
+		output languages should be fairly simple. There is one other
+		pseudo-language: the test language. This is used for testing
+		grammars and the transforms, but will not output a parser.</para>
+</preface>
+

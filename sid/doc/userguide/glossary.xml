@@ -1,0 +1,159 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE glossary PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY sid "<application><acronym>SID</acronym></application>">
+]>
+
+<glossary id="sid-glossary">
+	<para>This section describes some of the terms used in the
+		&sid; documentation.</para>
+
+	<glossentry>
+		<glossterm>Alternative</glossterm>
+
+		<glossdef>
+			<para>An alternative is a sequence of items.</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Exception handler</glossterm>
+
+		<glossdef>
+			<para>An exception handler is a special type of alternative.	Each
+				rule may have at most one exception handler. An exception handler
+				is invoked if the current terminal does not match any of the
+				expected terminals, if a predicate fails, or if an action raises
+				an exception, within the scope of the exception handler.</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Expansion</glossterm>
+
+		<glossdef>
+			<para>This is the process of physically inlining a rule into another
+				rule. It is done during the factoring process to turn the grammar
+				into a form that a parser can be produced for. See the entry for
+				factoring.</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Factoring</glossterm>
+
+		<glossdef>
+			<para>This is one of the transforms that &sid; performs
+				on the grammar. See the <link linkend="overview">overview
+				section</link> for a description of the factoring process.</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>First set</glossterm>
+
+		<glossdef>
+			<para>The first set of a rule (or alternative) is the set of
+				terminals and predicates that can start that rule (or
+				alternative).</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Follow set</glossterm>
+
+		<glossdef>
+			<para>The follow set of a rule is the set of terminals and
+				predicates that can follow the rule in any of its
+				invocations.</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Inlining</glossterm>
+
+		<glossdef>
+			<para>This is the process of outputting the code for parsing one
+				rule within the function that parses another rule. This is
+				normally done as part of the output process. Expansion is a form
+				of inlining performed during the factoring process, but the
+				inlining is done by modifying the grammar, rather than as part of
+				the output phase.</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Item</glossterm>
+
+		<glossdef>
+			<para>An item is the equivalent of a statement in a conventional
+				programming language. It can be an invocation of a rule, terminal,
+				action or predicate, or an identity operation (assignment).</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Name</glossterm>
+
+		<glossdef>
+			<para>A name is an identifier that is used to pass information
+				between rules and actions. Local names are defined within a rule,
+				and only exist within the rule itself. Non-local names are defined
+				in a rule's scoped definitions section and exists in all of the
+				rules in that scope. Non-local rules are also saved and restored
+				across calls to the rule that defines them.</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Recursion</glossterm>
+
+		<glossdef>
+			<para>Recursion is where a rule invokes itself. Direct recursion is
+				where the rule invokes itself from one of its own alternatives;
+				indirect recursion is where a rule invokes another rule (which
+				invokes another rule etc.) which eventually invokes the original
+				rule.</para>
+
+			<para>Left recursion is a form of recursion where all of the
+				recursive calls occur as the first item in an alternative. It is
+				not possible to produce a parser for a grammar that contains left
+				recursions, so &sid; turns left recursions into right
+				recursions. This process is known as left recursion
+				elimination.</para>
+
+			<para>Right recursion is a form of recursion where all of the
+				recursive calls occur as the last item in an alternative.</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>Production</glossterm>
+
+		<glossdef>
+			<glossseealso otherterm="rule"/>
+		</glossdef>
+	</glossentry>
+
+	<glossentry id="rule">
+		<glossterm>Rule</glossterm>
+
+		<glossdef>
+			<para>A rule is a sequence of alternatives. A rule may contain a
+				special alternative that is used as an exception handler.	A rule
+				is also referred to as a production; this term is normally used
+				when talking about the definition of a rule.</para>
+		</glossdef>
+	</glossentry>
+
+	<glossentry>
+		<glossterm>See-through</glossterm>
+
+		<glossdef>
+			<para>A rule is said to be see-through if there is an expansion of
+				the rule that does not contain any terminals or predicates.</para>
+		</glossdef>
+	</glossentry>
+</glossary>
+

@@ -1,0 +1,638 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY sid "<application><acronym>SID</acronym></application>">
+]>
+
+<chapter id="info-file">
+	<title>The C information file</title>
+
+	<para>The grammar specification itself is not sufficient to produce a
+		parser. There also needs to be output language specific information to
+		allow the parser to interface with the program it is to be part of. In
+		the case of the C output routines, &sid; needs to know the
+		following information:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>What code should precede and succeed the automatically
+				generated code.</para>
+		</listitem>
+
+		<listitem>
+			<para>How to map the &sid; identifiers into C
+				identifiers.</para>
+		</listitem>
+
+		<listitem>
+			<para>How to do assignments for each type.</para>
+		</listitem>
+
+		<listitem>
+			<para>How to get the current terminal number.</para>
+		</listitem>
+
+		<listitem>
+			<para>How to get the result of the current terminal.</para>
+		</listitem>
+
+		<listitem>
+			<para>How to advance the lexical analyser, to get the next
+				terminal.</para>
+		</listitem>
+
+		<listitem>
+			<para>What the actions are defined as, and how to pass parameters to
+				them.</para>
+		</listitem>
+
+		<listitem>
+			<para>How to save and restore the current terminal when an error
+				occurs.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>Eventually almost all of this should be user suppliable. At the
+		moment, some of the information is supplied by the user in the C
+		information file, some through macros, and some is built in.
+		&sid; currently gets the information as follows:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>The C information file has a header and a trailer section,
+				which define code that precedes and succeeds the code that
+				&sid; generates.</para>
+		</listitem>
+
+		<listitem>
+			<para>The C information file has a section that allows the user to
+				specify mappings from &sid; identifiers into C
+				identifiers. These are only valid for the following types of
+				identifiers: types, functions (implementations of rules) and
+				terminals. For other identifier types (or when no mapping is
+				supplied), &sid; uses some default rules:</para>
+
+			<para>Firstly, &sid; applies a transform to the
+				&sid; identifier name, to make it a legal C identifier.
+				At present this maps <code>_</code> to <code>__</code>,
+				<code>-</code> to <code>_H</code> and <code>:</code> (this occurs
+				in scoped names) to <code>_C</code>. All other characters are
+				left unmodified. This transform cannot be changed.</para>
+
+			<para>&sid; also puts a prefix before all identifiers, to
+				try to prevent clashes (and also to make automatically generated
+				- i.e. numeric - identifiers legal). These prefixes can be
+				redefined for each class of identifier, in the C information file.
+				They should be chosen so as not to clash with any other
+				identifiers (i.e. no other identifiers should begin with that
+				prefix).</para>
+
+			<para>By default, the following prefixes are used:</para>
+
+			<table id="identifier-prefixes">
+				<title>Identifier prefixes</title>
+
+				<tgroup cols="2">
+					<thead>
+						<row>
+							<entry>Prefix</entry>
+
+							<entry>Meaning</entry>
+						</row>
+					</thead>
+
+					<tbody>
+						<row>
+							<entry><code>ZT</code></entry>
+
+							<entry>This prefix is used before type identifiers, for
+								the type name itself.</entry>
+						</row>
+
+						<row>
+							<entry><code>ZR</code></entry>
+
+							<entry>This prefix is used before rule identifiers, for
+								the rule's implementation function.</entry>
+						</row>
+
+						<row>
+							<entry><code>ZL</code></entry>
+
+							<entry>This prefix is used before rule identifiers, for
+								the rule's label when tail recursion is being
+								eliminated. In this case, a number is added to the
+								suffix before the identifier name, to prevent clashes
+								when a rule is inlined twice in the same function.	It
+								is also used before other labels that are automatically
+								generated and are just numbered.</entry>
+						</row>
+
+						<row>
+							<entry><code>ZI</code></entry>
+
+							<entry>This prefix is used before name identifiers used as
+								parameters to functions, or in normal usage. It is also
+								used by non-local names (which doesn't cause a problem
+								as they always occur scoped, and local names never
+								do).</entry>
+						</row>
+
+						<row>
+							<entry><code>ZO</code></entry>
+
+							<entry>This prefix is used before name identifiers used as
+								results of functions. Results are passed as reference
+								parameters, and this suffix is used then. Another
+								identifier with the <code>ZI</code> prefix is also used
+								within the function, and the type reference assignment
+								operator is used at the end of the function to assign
+								the results to the reference parameters.</entry>
+						</row>
+
+						<row>
+							<entry><code>ZB</code></entry>
+
+							<entry>This prefix is used before the terminal symbol
+								names in the generated header file.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</listitem>
+
+		<listitem>
+			<para>Normally, &sid; will do assignments using the C
+				assignment operator. Sometimes, this will not do the right thing,
+				so the user can define a set of assignment operations for any type
+				in the C information file.</para>
+		</listitem>
+
+		<listitem>
+			<para>&sid; expects the <code>CURRENT_TERMINAL</code>
+				macro to be defined, and its definition should return an integer
+				that is the current terminal. The macro should be an expression,
+				not a statement.</para>
+		</listitem>
+
+		<listitem>
+			<para>It is necessary to define how to extract the results of all
+				terminals in the C information file (if a terminal doesn't return
+				anything, then it is not necessary to define how to get the
+				result).</para>
+		</listitem>
+
+		<listitem>
+			<para>&sid; expects the <code>ADVANCE_LEXER</code> macro
+				to be defined, and its definition should cause the lexical
+				analyser to read a new token. The new terminal number should be
+				accessible through the <code>CURRENT_TERMINAL</code> macro. On
+				entry into the parser <code>CURRENT_TERMINAL</code> should give
+				the first terminal number.</para>
+		</listitem>
+
+		<listitem>
+			<para>All actions, and their parameter and result names are defined
+				in the C information file.</para>
+		</listitem>
+
+		<listitem>
+			<para>&sid; expects the <code>SAVE_LEXER</code> and
+				<code>RESTORE_LEXER</code> macros to be defined. The first is
+				called with an argument which is the error terminal value. The
+				macro should save the current terminal's value, and set the
+				current terminal to be the error terminal value. The second macro
+				is called without arguments, and should restore the saved value of
+				the current terminal.	<code>SAVE_LEXER</code> will never be
+				called more than once without a call to
+				<code>RESTORE_LEXER</code>, so the save stack only needs one
+				element.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>The remainder of this section describes the layout of the C
+		information file. The lexical conventions are described first, followed
+		by a description of the sections in the order in which they should
+		appear. Unlike the &sid; grammar file, not all sections are
+		mandatory.</para>
+
+	<section id="info-lex">
+		<title>Lexical conventions</title>
+
+		<para>The lexical conventions of the C information file are very similar
+			to those of the &sid; grammar file. There is a second class
+			of identifier: the C identifier, which is a subset of the valid
+			&sid; identifiers; there is also the C code block.</para>
+
+		<para>A C code block begins with <code>@{</code> and is terminated by
+			<code>@}</code>. The code block consists of all of the characters
+			between the start and end of the code block, subject to substitutions.
+			All substitutions begin with the <code>@</code> character. The
+			following substitutions are recognised:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><code>@@</code></term>
+				<listitem>
+					<para>This substitutes the <code>@</code> character itself.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>@:</code><token>label</token></term>
+				<listitem>
+					<para>This form marks a label, which will be substituted for in
+						the output code. This is necessary, because an action may be
+						inlined into the same function more than once. If this happens,
+						then without doing label substitution there would be two
+						identical labels in the same scope. With label substitution,
+						this problem is avoided. In general, all references to a label
+						within an action should be prefixed with <code>@:</code>. This
+						substitution may not be used in header and trailer code
+						blocks.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>@</code><token>identifier</token></term>
+				<listitem>
+					<para>This form marks a parameter or result identifier
+						substitution. If parameter and result identifiers are not
+						prefixed with an <code>@</code> character, then they will not be
+						substituted. It is an error if the identifier is not a parameter
+						or a result. Header and trailer code blocks have no parameters
+						or results, so it is always an error to use identifier
+						substitution in them. It is an error if any of the result
+						identifiers are not substituted at least once.</para>
+
+					<para>Result identifiers may be assigned to using this form of
+						identifier substitution, but parameter identifiers may not be
+						(nor may there address be taken - they are immutable). To try
+						to prevent this, parameters that are substituted may be cast
+						to their own type, which makes them unmodifiable in ISO C (see
+						the notes on the <link linkend="casts"><code>casts</code>
+						language specific option</link>).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>@&amp;</code><token>identifier</token></term>
+				<listitem>
+					<para>This form marks a parameter identifier whose address is to
+						be substituted, but whose contents will not be modified. The
+						effects of modifying the identifier are undefined. It is an
+						error to use this in parameter assignment operator
+						definitions.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>@=</code><token>identifier</token></term>
+				<listitem>
+					<para>This form marks a parameter identifier that will be
+						modified. For this to be useful, the parameter should be a call
+						by reference parameter, so that the effect of the modification
+						will be propagated. This substitution is only valid in actions
+						(assignment operators are not allowed to modify their
+						parameters).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>@!</code></term>
+				<listitem>
+					<para>This form marks an exception raise. In the generated code, a
+						jump to the current exception handler will be substituted. This
+						substitution is only valid in actions.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>@.</code></term>
+				<listitem>
+					<para>This form marks an attempt to access the current terminal.
+						This substitution is only valid in actions.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>@&gt;</code></term>
+				<listitem>
+					<para>This form marks an attempt to advance the lexical analyser.
+						This substitution is only valid in actions.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para>All other forms are illegal. Note that in the case of labels and
+			identifiers, no white space is allowed between the <code>@:</code>,
+			<code>@</code>, <code>@&amp;</code> or <code>@=</code> and the
+			identifier name. An example of a code block is:</para>
+
+		<programlisting language="SID C Actions">
+@{
+	/* A code block */
+	{
+		int i ;
+
+		if ( @param ) {
+			@! ;
+		}
+
+		@result = 0 ;
+		for ( i = 0 ; i &lt; 100 ; i++ ) {
+			printf ( "{%d}\n", i ) ;
+			@result += i ;
+		}
+
+		@=param += @result ;
+		if ( @. == TOKEN_SEMI ) {
+			@&gt; ;
+		}
+	}
+@}</programlisting>
+	</section>
+
+	<section id="prefixes">
+		<title>The prefixes section</title>
+
+		<para>The first section in the C information file is the prefix
+			definition section. This section is optional. It begins with the
+			section header, followed by a list of prefix definitions. A prefix
+			definition begins with the prefix name, followed by a <code>=</code>
+			symbol, followed by a C identifier that is the new prefix, and
+			terminated by a semicolon. The following example shows all of the
+			prefix names, and their default values:</para>
+
+		<programlisting language="SID C Actions">
+%prefixes%
+type      = ZT ;
+function  = ZR ;
+label     = ZL ;
+input     = ZI ;
+output    = ZO ;
+terminal  = ZB ;</programlisting>
+	</section>
+
+	<section id="maps">
+		<title>The maps section</title>
+
+		<para>The section that follows the prefixes section is the maps section.
+			This section is also optional. It begins with its section header,
+			followed by a list of identifier mappings. An identifier mapping
+			begins with a &sid; identifier (either a type, a rule or a
+			terminal), followed by the <code>-&gt;</code> symbol, followed by the
+			C identifier it is to be mapped to, and terminated by a semicolon. An
+			example follows:</para>
+
+		<programlisting language="SID C Actions">
+%maps%
+NumberT    -&gt; unsigned ;
+calculator -&gt; calculator ;</programlisting>
+
+		<para>Note that it is not possible to map type identifiers to be
+			arbitrary C types. It will be necessary to <code>typedef</code> or
+			macro define the type name in the C file.</para>
+
+		<para>It is recommended that all types, terminals and entry point rules
+			have their names mapped in this section, although this is not
+			necessary. If the names are not mapped, they will have funny names in
+			the rest of the program.</para>
+	</section>
+
+	<section id="header">
+		<title>The header section</title>
+
+		<para>After the maps section comes the header section. This begins with
+			the section header, followed by a code block, followed by a comma,
+			followed by a second code block, and terminated with a semicolon. The
+			first code block will be inserted at the beginning of the generated
+			parser file; the second code block will be inserted at the start of
+			the generated header file. An example is:</para>
+
+	<programlisting language="SID C Actions">
+%header% @{
+	#include "lexer.h"
+
+	LexerT token ;
+
+	#define CURRENT_TERMINAL token.t
+	#define ADVANCE_LEXER    next_token ()
+
+	extern void terminal_error () ;
+	extern void syntax_error () ;
+@}, @{
+@} ;</programlisting>
+	</section>
+
+	<section id="assign">
+		<title>The assignments section</title>
+
+		<para>The assignments section follows the header section. This section
+			is optional. Normally, assignment between two identifiers will be done
+			using the C assignment operator. In some cases this will not do the
+			correct thing, and it is necessary to do the assignment differently.
+			All types for which this applies should have an entry in the
+			assignments section. The section begins with its header, followed by
+			definitions for each type that needs its own assignment operator. Each
+			definition should have one parameter, and one result. The action's
+			name should be the name of the type. An example follows:</para>
+
+		<programlisting language="SID C Actions">
+%assignments%
+
+ListT : ( l1 ) -&gt; ( l2 ) = @{
+	if ( @l2.head = @l1.head ) {
+		@l2.tail = @l1.tail ;
+	} else {
+		@l2.tail = &amp;( @l2.head ) ;
+	}
+@} ;</programlisting>
+
+		<para>If a type has an assignment operator defined, it must also have a
+			parameter assignment operator type defined and a result assignment
+			operator defined (more precisely it must have either no assignment
+			operations defined, or all three assignment operations
+			defined).</para>
+	</section>
+
+	<section id="param-assign">
+		<title>The parameter assignments section</title>
+
+		<para>The parameter assignments section is very similar to the
+			assignments section (which it follows), and is also optional. If a
+			type has an assignment section entry, it must have a parameter
+			assignment entry as well.</para>
+
+		<para>The parameter assignment operator is used in function calls to
+			ensure that the object is copied correctly: if no parameter assignment
+			operator is provided for a type, the standard C call by copy mechanism
+			is used; if a parameter assignment operator is provided for a type,
+			then the address of the object is passed by the calling function, and
+			the called function declares a local of the same type, and uses the
+			parameter assignment operator to copy the object (this should be
+			remembered when passing parameters to entry points that have arguments
+			of a type that has a parameter assignment operator defined).</para>
+
+		<para>The difference between the parameter assignment operator and the
+			assignment operator is that the parameter identifier to the parameter
+			assignment operator is a pointer to the object being manipulated,
+			rather than the object itself. An example reference assignment section
+			is:</para>
+
+		<programlisting language="SID C Actions">
+%parameter-assignments%
+
+ListT : ( l1 ) -&gt; ( l2 ) = @{
+	if ( @l2.head = @l1-&gt;head ) {
+		@l2.tail = @l1-&gt;tail ;
+	} else {
+		@l2.tail = &amp;( @l2.head ) ;
+	}
+@} ;</programlisting>
+	</section>
+
+	<section id="result-assign">
+		<title>The result assignments section</title>
+
+		<para>The result assignments section is very similar to the assignments
+			section and the parameter assignments section (which it follows), and
+			is also optional. If a type has an assignment section entry, it must
+			also have a result assignment entry. The only difference between the
+			two is that the result identifier of the result assignment operation
+			is a pointer to the object being manipulated, rather than the object
+			itself. Result assignments are only used when the results of a rule
+			are assigned back through the reference parameters passed into the
+			function. An example result assignment section is:</para>
+
+		<programlisting language="SID C Actions">
+%result-assignments%
+
+ListT : ( l1 ) -&gt; ( l2 ) = @{
+	if ( @l2-&gt;head = @l1.head ) {
+		@l2-&gt;tail = @l1.tail ;
+	} else {
+		@l2-&gt;tail = &amp;( @l2-&gt;head ) ;
+	}
+@} ;</programlisting>
+	</section>
+
+	<section id="term-result">
+		<title>The terminal result extraction section</title>
+
+		<para>The terminal result extraction section follows the reference
+			assignment section. It defines how to extract the results from
+			terminals. The section begins with its section header, followed by the
+			terminal extraction definitions.</para>
+
+		<para>There must be a definition for every terminal in the grammar that
+			returns a result. It is an error to include a definition for a
+			terminal that doesn't return a result. The result of the definition
+			should be the same as the result of the terminal. An example of the
+			terminal result extraction section follows:</para>
+
+		<programlisting language="SID C Actions">
+%terminals%
+
+number : () -&gt; ( n ) = @{
+	@n = token.u.number ;
+@} ;
+
+identifier : () -&gt; ( i ) = @{
+	@i = token.u.identifier ;
+@} ;
+
+string : () -&gt; ( s ) = @{
+	@s = token.u.string ;
+@} ;</programlisting>
+	</section>
+
+	<section id="action-defn">
+		<title>The action definition section</title>
+
+		<para>The action definition section follows the terminal result
+			extractor definition section. The format is similar to the previous
+			sections: the section header followed by definitions for all of the
+			actions. An action definition has the following form:</para>
+
+		<programlisting>&lt;action-name&gt; : ( parameters ) -&gt; ( results ) = code-block ;</programlisting>
+
+		<para>This is similar to the form of all previous definitions, except
+			that the name is surrounded in angle brackets. What follows is also
+			true of the other definitions as well (unless they state
+			otherwise).</para>
+
+		<para>The <code>action-name</code> is a &sid; identifier that
+			is the name of the action being defined; <code>parameters</code> is a
+			comma separated list of C identifiers that will be the names of the
+			parameters passed to the action, and <code>results</code> is a comma
+			separated list of C identifiers that will be the names of the result
+			parameters passed to the action. The <code>code-block</code> is the C
+			code that defines the action. It is expected that this will assign a
+			valid result to each of the result identifier names.</para>
+
+		<para>The parameter and result tuples have the same form as in the
+			language independent file, except that the types are optional.	Like
+			the language independent file, if the type of an action is zero-tuple
+			to zero-tuple, then the type can be omitted, e.g.:</para>
+
+		<programlisting language="SID C Actions">&lt;action&gt; = @{ /* .... */ @} ;</programlisting>
+
+		<para>An example action definition section is:</para>
+
+		<programlisting language="SID C Actions">
+%actions%
+
+&lt;add&gt; : ( v1, v2 ) -&gt; ( v3 ) = @{
+	@v3 = @v1 + @v2 ;
+@} ;
+
+&lt;subtract&gt; : ( v1 : NumberT, v2 : NumberT ) -&gt; ( v3 : NumberT ) = @{
+	@v3 = @v1 - @v2 ;
+@} ;
+
+&lt;multiply&gt; : ( v1 : NumberT, v2 ) -&gt; ( v3 ) = @{
+	@v3 = @v1 * @v2 ;
+@} ;
+
+&lt;divide&gt; : ( v1, v2 ) -&gt; ( v3 : NumberT ) = @{
+	@v3 = @v1 / @v2 ;
+@} ;
+
+&lt;print&gt; : ( v ) -&gt; () = @{
+	printf ( "%u\n", @v ) ;
+@} ;
+
+&lt;error&gt; = @{
+	fprintf ( stderr, "ERROR\n" ) ;
+	exit ( EXIT_FAILURE ) ;
+@} ;</programlisting>
+
+		<para>Do not define static variables in action definitions; if you do,
+			you will get unexpected results. If you wish to use static variables
+			in actions definitions, then define them in the header block.</para>
+	</section>
+
+	<section id="trailer">
+		<title>The trailer section</title>
+
+		<para>After the action definition section comes the trailer section.
+			This has the same form as the header section. An example is:</para>
+
+		<programlisting language="SID C Actions">
+%trailer% @{
+	int main ()
+	{
+		next_token () ;
+		calculator ( NULL ) ;
+		return 0 ;
+	}
+@}, @{
+@} ;</programlisting>
+
+		<para>The code blocks will be appended to the generated parser, and the
+			generated header file respectively.</para>
+	</section>
+</chapter>
+
