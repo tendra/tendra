@@ -182,23 +182,15 @@ cat_file(char *nm)
  * CREATE A DIRECTORY
  *
  * This routine creates a directory called nm, returning zero if it is
- * successful. Two alternative versions of the routine are provided. The first
- * is POSIX compliant and uses mkdir and various mode constants from
- * sys/stat.h. The second raises an error - in this case the mkdir function
- * should be implemented by an external call.
+ * successful and -1 if not.
  */
-
 int
 make_dir(char *nm)
 {
-	if (dry_run) {
+	if (dry_run)
 		return (0);
-	}
-	{
-		mode_t m = (mode_t)(S_IRWXU | S_IRWXG | S_IRWXO);
-		int e = mkdir(nm, m);
-		return (e);
-	}
+
+	return (mkdir(nm, S_IRWXU|S_IRWXG|S_IRWXO));
 }
 
 
