@@ -84,48 +84,58 @@
  * This routine reads n characters from the file f into a new file named nm. It
  * returns a nonzero value if an error occurs.
  */
-
 static int
 read_file(char *nm, char *w, long n, FILE *f)
 {
+	FILE *g = NULL;
+	int ret = 0;
+	size_t m = (size_t)n;
+
 	if (dry_run) {
 		if (fseek(f, n, SEEK_CUR)) {
 			error(SERIOUS, "Error when stepping over '%s'", nm);
-			return (1);
+			ret = 1;
 		}
-	} else {
-		size_t m = (size_t)n;
-		FILE *g = fopen(nm, w);
-		if (g == NULL) {
-			error(SERIOUS,
-			      "Can't open copy destination file, '%s'", nm);
-			return (1);
-		}
-		while (m) {
-			size_t r = m, s;
-			void  *p = buffer;
-			if (r > (size_t)block_size) {
-				r = (size_t)block_size;
-			}
-			s = fread(p, sizeof(char), r, f);
-			if (s != r) {
-				error(SERIOUS,
-				      "Reading error when creating '%s'", nm);
-				IGNORE fclose(g);
-				return (1);
-			}
-			s = fwrite(p, sizeof(char), r, g);
-			if (s != r) {
-				error(SERIOUS,
-				      "Writing error when creating '%s'", nm);
-				IGNORE fclose(g);
-				return (1);
-			}
-			m = (size_t)(m - r);
-		}
-		IGNORE fclose(g);
+
+		goto out;
 	}
-	return (0);
+
+	if ((g == fopen(nm, w)) == NULL) {
+		error(SERIOUS, "Can't open copy destination file, '%s'", nm);
+		ret = 1;
+		goto out;
+	}
+
+	while (m) {
+		size_t r = m;
+		size_t s;
+		void  *p = buffer;
+
+		if (r > buffer_size)
+			r = buffer_size;
+
+		s = fread(p, sizeof(char), r, f);
+		if (s != r) {
+			error(SERIOUS, "Reading error when creating '%s'", nm);
+			ret = 1;
+			goto out;
+		}
+
+		s = fwrite(p, sizeof(char), r, g);
+		if (s != r) {
+			error(SERIOUS, "Writing error when creating '%s'", nm);
+			ret = 1;
+			goto out;
+		}
+
+		m = (size_t)(m - r);
+	}
+
+out:
+	if (g)
+		(void) fclose(g);
+
+	return (ret);
 }
 
 
