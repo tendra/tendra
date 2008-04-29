@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,101 +58,118 @@
 */
 
 
-#ifndef UTILITY_INCLUDED
-#define UTILITY_INCLUDED
+#ifndef SUFFIX_INCLUDED
+#define SUFFIX_INCLUDED
 
 
 /*
- * TEMPORARY WORK SPACE
+ * SINGLE CHARACTER KEYS FOR FILE TYPES - Table 2
  *
- * This is used as a scratch work area.
+ * Each file type has an associated identifying letter. In most cases this
+ * corresponds to the file suffix. This table needs to be kept in step with
+ * Table 1.
  */
 
-extern char *buffer;
-#define buffer_size	5000
+#define C_SOURCE_KEY			'c'
+#define PREPROC_C_KEY			'i'
+#define CPP_SOURCE_KEY			'C'
+#define PREPROC_CPP_KEY			'I'
+#define INDEP_TDF_KEY			'j'
+#define DEP_TDF_KEY			't'
+#define AS_SOURCE_KEY			's'
+#define BINARY_OBJ_KEY			'o'
+#define BINARY_OBJ_AUX_KEY		'b'
+#define PRETTY_TDF_KEY			'p'
+#define PL_TDF_KEY			'P'
+#define TDF_ARCHIVE_KEY			'A'
+#define MIPS_G_FILE_KEY			'G'
+#define MIPS_T_FILE_KEY			'T'
+#define C_SPEC_KEY			'k'
+#define CPP_SPEC_KEY			'K'
+#define STARTUP_FILE_KEY		'h'
+#define ALL_KEY				'a'
+#define EXTRA_KEY			'+'
 
 
 /*
- * Hash implementation
- */
-
-typedef struct _htnode {
-	struct _htnode *next;
-	char *val;
-	char *key;
-	unsigned int  flag;
-	char *file;
-	int  line_num;
-} htnode;
-
-#define TCCENV	0x01U
-#define USR	0x02U
-#define READ	0x04U
-
-typedef struct _hashtable {
-	htnode **node;
-	int tblsize;
-	int keysize; /* max length of key to hash */
-	int (*hashfcn)(char*, int, int);
-} hashtable;
-
-
-/*
- * PROCEDURE DECLARATIONS
+ * OTHER FILE TYPE INFORMATION - Table 3
  *
- * These routines are concerned with error reporting and memory allocation.
+ * Most of the file suffixes can be deduced from the table above. This table
+ * gives a few other suffixes plus the default names for various output files.
  */
 
-extern void error(int, char *, ...);
-extern void comment(int, char *, ...);
-extern char* find_path_subst(char *);
-extern int hash(char *, int, int);
-extern hashtable *init_table(int, int, int (*fcn)(char *, int, int));
-extern htnode *lookup_table(hashtable *, char *);
-extern void *xalloc(int);
-extern void *xrealloc(void *, int);
-extern char *string_append(char *, char *, char);
-extern char *string_copy(char *);
-extern char *string_concat(char *, char *);
-extern htnode *update_table(hashtable *, char *, char *, unsigned int, char *,
-			    int);
+#define CPP_1_SUFFIX			"cc"
+#define CPP_2_SUFFIX			"cpp"
+#define PREPROC_CPP_1_SUFFIX		"ii"
+#define PREPROC_CPP_2_SUFFIX		"ipp"
+#define AS_2_SUFFIX			"asm"
+#define CPP_SPEC_1_SUFFIX		"kk"
+#define PL_TDF_SUFFIX			"tpl"
+#define TDF_ARCHIVE_SUFFIX		"ta"
+#define TDF_COMPLEX_NAME		"a.j"
+#define TDF_ARCHIVE_NAME		"a.ta"
+#define C_SPEC_COMPLEX_NAME		"a.k"
+#define API_ANAL_NAME			"a.api"
+
+#if FS_DOS
+#define EXECUTABLE_NAME			"a.exe"
+#define EXECUTABLE_SUFFIX		".exe"
+#define CPP_SPEC_COMPLEX_NAME		"a.kk"
+#else
+#define EXECUTABLE_NAME			"a.out"
+#define CPP_SPEC_COMPLEX_NAME		"a.K"
+#endif
+
+#define STARTUP_NAME			"tcc_startup.h"
+#define ENDUP_NAME			"tcc_endup.h"
+#define TOKDEF_NAME			"tcc_tokdef.p"
+#define MADE_UP_NAME			"_tcc%04d"
+#define TEMP_NAME			"_tcc"
 
 
 /*
- * ERROR VARIABLES
+ * SINGLE CHARACTER KEYS FOR EXECUTABLES - Table 4
  *
- * These variables are concerned with error reporting.
+ * Each executable has an associated identifying letter.
  */
 
-extern int exit_status;
-extern char *progname;
+#define PRODUCE_ID			'c'
+#define PREPROC_ID			'p'
+#define CPP_PRODUCE_ID			'x'
+#define CPP_PREPROC_ID			'g'
+#define TDF_LINK_ID			'L'
+#define TRANSLATE_ID			't'
+#define ASSEMBLE_ID			'a'
+#define LINK_ID				'l'
+#define ARCHIVER_ID			'J'
+#define SPEC_LINK_ID			's'
+#define CPP_SPEC_LINK_ID		'S'
+#define PRETTY_ID			'd'
+#define NOTATION_ID			'n'
+#define PL_TDF_ID			'P'
+#define ASSEMBLE_MIPS_ID		'A'
+#define INSTALL_ID			'I'
+#define CC_ID				'C'
+#define DYNLINK_ID			'D'
+#define DUMP_ANAL_ID			'e'
+#define DUMP_LINK_ID			'u'
 
 
 /*
- * ERROR TYPES
+ * OTHER MISCELLANEOUS INFORMATION
  *
- * These values give the severity levels for the error reporting routine,
- * error.
+ * This table contains miscellaneous configuration items.
  */
 
-#define FATAL		0
-#define INTERNAL	1
-#define SERIOUS		2
-#define OPTION		3
-#define WARNING		4
-#define INFO		5
-
-
-/*
- * UTILITY MACROS
- *
- * These macros give convenient shorthands for various constructs.
- */
-
-#define alloc_size(T, N)	((int)(N) * (int)sizeof(T))
-#define alloc_nof(T, N)		(T *)xalloc(alloc_size(T, N))
-#define realloc_nof(P, T, N)	(T *)xrealloc((P), alloc_size(T, N))
-#define array_size(A)		((int)sizeof(A) / (int)sizeof(A[0]))
+#define PROGNAME_TCC			"tcc"
+#define PROGNAME_TCHK			"tchk"
+#define TCCENV_VAR			"TCCENV"
+#define TCCOPT_VAR			"TCCOPTS"
+#define DIAG_ENV			"tcc_diag"
+#define PREPROC_ENV			"tcc_pp"
+#define PROF_ENV			"tcc_prof"
+#define TIME_ENV			"tcc_time"
+#define TNC_ENV				"tnc"
 
 
 #endif
