@@ -145,30 +145,31 @@ out:
  * This routine copies the file named nm into the file f. It returns a nonzero
  * value if an error occurs.
  */
-
 static int
 write_file(char *nm, char *rd, FILE *f)
 {
 	FILE *g;
-	size_t n, m;
+	size_t n;
 	void *p = buffer;
-	if (dry_run) {
+
+	if (dry_run)
 		return (0);
-	}
-	g = fopen(nm, rd);
-	if (g == NULL) {
+
+	if ((g = fopen(nm, rd)) == NULL) {
 		error(SERIOUS, "Can't open copy source file, '%s'", nm);
 		return (1);
 	}
-	while (n = fread(p, sizeof(char), (size_t)block_size, g), n) {
-		m = fwrite(p, sizeof(char), n, f);
-		if (m != n) {
+
+	while ((n = fread(p, sizeof(char), buffer_size, g)) != 0) {
+		if (fwrite(p, sizeof(char), n, f) != n) {
 			error(SERIOUS, "Writing error when copying '%s'", nm);
-			IGNORE fclose(g);
-			return (0);
+			(void) fclose(g);
+			return (1);
 		}
 	}
-	IGNORE fclose(g);
+
+	(void) fclose(g);
+
 	return (0);
 }
 
