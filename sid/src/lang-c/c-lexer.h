@@ -141,8 +141,8 @@ typedef struct CLexerStreamT {
 } CLexerStreamT;
 
 /* XXX Remove once lexi provides identifier support */
-extern int c_lexi_support_read_id(int c, int rettok, enum c_lexi_groups bodygroup);
-extern int c_lexi_read_builtin(int c0, int c1);
+extern int c_lexer_support_read_id(int c, int rettok, enum c_lexi_groups bodygroup);
+extern int c_lexer_read_builtin(int c0, int c1);
 extern int c_lexer_act_read_string(int c);
 extern int c_lexer_unknown_token(int c);
 
