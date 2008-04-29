@@ -170,7 +170,6 @@ write_file(char *nm, char *rd, FILE *f)
  * This routine copies the file named nm to the standard output. It returns a
  * nonzero value if an error occurs.
  */
-
 int
 cat_file(char *nm)
 {
@@ -201,39 +200,42 @@ make_dir(char *nm)
  * if it is successful. Normally the files will be on different filesystems, so
  * we can't always use rename.
  */
-
 int
 move_file(char *from, char *to)
 {
 	int e;
 	FILE *f;
-	if (dry_run) {
+
+	if (dry_run)
 		return (0);
-	}
-	if (streq(from, to)) {
+
+	if (strcmp(from, to) == 0)
 		return (0);
-	}
-	if (rename(from, to) == 0) {
+
+	if (rename(from, to) == 0)
 		return (0);
-	}
+
 	if (errno != EXDEV) {
 		error(SERIOUS, "Can't rename '%s' to '%s'", from, to);
 		return (1);
 	}
-	f = fopen(to, "wb");
-	if (f == NULL) {
+
+	if ((f = fopen(to, "w")) == NULL) {
 		error(SERIOUS, "Can't open copy destination file, '%s'", to);
 		return (1);
 	}
-	e = write_file(from, "rb", f);
-	IGNORE fclose(f);
-	if (e) {
+
+	e = write_file(from, "r", f);
+	(void) fclose(f);
+
+	if (e)
 		return (e);
-	}
-	if (remove(from)) {
+
+	if (remove(from) != 0) {
 		error(SERIOUS, "Can't remove source file, '%s'", from);
 		return (1);
 	}
+
 	return (0);
 }
 
