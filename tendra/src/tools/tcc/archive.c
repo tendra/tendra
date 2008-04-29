@@ -192,6 +192,11 @@ make_dir(char *nm)
 	return (mkdir(nm, S_IRWXU|S_IRWXG|S_IRWXO));
 }
 
+/*
+ * XXX: Define PATH_MAX for move_file() until we've figured out that annoying
+ * XXX: posix api stuff
+ */
+#define PATH_MAX (1024)
 
 /*
  * MOVE A FILE
@@ -243,63 +248,71 @@ move_file(char *from, char *to)
 /*
  * REMOVE A FILE
  *
- * This routine removes the file or directory named nm, returning zero if it is
- * successful. Two alternative versions of the routine are provided. The first
- * is POSIX compliant and uses stuff from sys/stat.h and dirent.h. The second
- * raises an error - in this case the remove function should be implemented by
- * an external call.
+ * This routine removes the file or directory named nm recusivly, returning
+ * zero if it is successful.
  */
-
 int
 remove_file(char *nm)
 {
-	int e;
 	struct stat st;
 
 	if (dry_run)
 		return (0);
 
-	e = stat(nm, &st);
-	if (e != -1) {
-		mode_t m = (mode_t)st.st_mode;
-		if (S_ISDIR(m)) {
-			DIR *d = opendir(nm);
-			if (d == NULL) {
-				e = 1;
-			} else {
-				char *p;
-				struct dirent *t;
-				char buff [1000];
-				IGNORE sprintf(buff, "%s/", nm);
-				p = buff + strlen(buff);
-				while (t = readdir(d), t != NULL) {
-					char *dnm = t->d_name;
-					if (!streq(dnm, ".") &&
-					    !streq(dnm, "..")) {
-						IGNORE strcpy(p, dnm);
-						if (remove_file(buff)) {
-							e = 1;
-						}
-					}
-				}
-				IGNORE closedir(d);
-				if (rmdir(nm)) {
-					e = 1;
-				}
+	if (stat(nm, &st) != 0) {
+		/* If the file didn't exist, don't worry */
+		if (errno == ENOENT)
+			return (0);
+		else {
+			error(SERIOUS, "Can't stat '%s'", nm);
+			return (1);
+		}
+	}
+
+	if (S_ISDIR((mode_t)st.st_mode)) {
+		DIR *d;
+		struct dirent *de;
+		char buf[PATH_MAX];
+
+		if ((d = opendir(nm)) == NULL) {
+			error(SERIOUS, "Can't open directory '%s'", nm);
+			return (1);
+		}
+
+		while ((de = readdir(d)) != NULL) {
+			if (strcmp(de->d_name, ".") == 0 ||
+			    strcmp(de->d_name, "..") == 0)
+				continue;
+
+			if (strlen(nm) + 1 + strlen(de->d_name) >= PATH_MAX) {
+				error(SERIOUS, "Path too long");
+				return (1);
 			}
-		} else {
-			e = remove(nm);
+
+			(void) sprintf(buf, "%s/%s", nm, de->d_name);
+
+			if (remove_file(buf))
+				return (1);
+		}
+
+		(void) closedir(d);
+
+		if (rmdir(nm) != 0) {
+			error(SERIOUS, "Can't remove directory '%s'", nm);
+			return (1);
 		}
 	} else {
-		/* If the file didn't exist, don't worry */
-		if (errno == ENOENT) {
-			return (0);
+		if (remove(nm) != 0) {
+			/* File disappeared between stat and remove... */
+			if (errno == ENOENT)
+				return (0);
+			else {
+				error(SERIOUS, "Can't remove '%s'", nm);
+				return (1);
+			}
 		}
 	}
-	if (e) {
-		error(SERIOUS, "Can't remove '%s'", nm);
-		return (1);
-	}
+
 	return (0);
 }
 
