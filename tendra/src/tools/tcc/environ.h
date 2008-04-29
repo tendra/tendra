@@ -58,8 +58,8 @@
 */
 
 
-#ifndef ENVIRON_INCLUDED
-#define ENVIRON_INCLUDED
+#ifndef ENVIRON_H
+#define ENVIRON_H
 
 #include "utility.h"
 
@@ -104,4 +104,4 @@ int environ_count;		/* how many -Y env loads are attempted */
  */
 #define ENVIRONSUB
 
-#endif
+#endif /* ENVIRON_H */

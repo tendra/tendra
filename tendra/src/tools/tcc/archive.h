@@ -58,8 +58,8 @@
 */
 
 
-#ifndef ARCHIVE_INCLUDED
-#define ARCHIVE_INCLUDED
+#ifndef ARCHIVE_H
+#define ARCHIVE_H
 
 
 /*
@@ -100,4 +100,4 @@ extern int	build_archive(char *, char **);
 extern long	file_size(char *);
 
 
-#endif
+#endif /* ARCHIVE_H */

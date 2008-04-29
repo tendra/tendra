@@ -58,8 +58,8 @@
 */
 
 
-#ifndef COMPILE_INCLUDED
-#define COMPILE_INCLUDED
+#ifndef COMPILE_H
+#define COMPILE_H
 
 
 /*
@@ -71,4 +71,4 @@
 extern filename *apply_all(filename *);
 
 
-#endif
+#endif /* COMPILE_H */

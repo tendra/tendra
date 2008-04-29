@@ -58,8 +58,8 @@
 */
 
 
-#ifndef LIST_INCLUDED
-#define LIST_INCLUDED
+#ifndef LIST_H
+#define LIST_H
 
 /*
  * A ranked instruction. These structs are used to track commands issues
@@ -100,4 +100,4 @@ extern list *make_list(char *);
 extern void free_list(list *);
 
 
-#endif
+#endif /* LIST_H */

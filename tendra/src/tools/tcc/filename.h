@@ -58,8 +58,8 @@
 */
 
 
-#ifndef FILENAME_INCLUDED
-#define FILENAME_INCLUDED
+#ifndef FILENAME_H
+#define FILENAME_H
 
 
 /*
@@ -181,4 +181,4 @@ extern int find_type(int, int);
 extern int where(int);
 
 
-#endif
+#endif /* FILENAME_H */

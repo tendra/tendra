@@ -58,8 +58,8 @@
 */
 
 
-#ifndef CONFIG_INCLUDED
-#define CONFIG_INCLUDED
+#ifndef CONFIG_H
+#define CONFIG_H
 
 
 /*
@@ -106,4 +106,4 @@ typedef int boolean;
 #define MAX_LINE	1024
 
 
-#endif
+#endif /* CONFIG_H */

@@ -58,8 +58,8 @@
 */
 
 
-#ifndef SUFFIX_INCLUDED
-#define SUFFIX_INCLUDED
+#ifndef SUFFIX_H
+#define SUFFIX_H
 
 
 /*
@@ -172,4 +172,4 @@
 #define TNC_ENV				"tnc"
 
 
-#endif
+#endif /* SUFFIX_H */

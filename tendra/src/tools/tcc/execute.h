@@ -58,8 +58,8 @@
 */
 
 
-#ifndef EXECUTE_INCLUDED
-#define EXECUTE_INCLUDED
+#ifndef EXECUTE_H
+#define EXECUTE_H
 
 
 /*
@@ -92,4 +92,4 @@ extern int	 last_return;
 extern boolean	 exec_error;
 
 
-#endif
+#endif /* EXECUTE_H */

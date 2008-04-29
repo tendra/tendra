@@ -58,8 +58,8 @@
 */
 
 
-#ifndef FLAGS_INCLUDED
-#define FLAGS_INCLUDED
+#ifndef FLAGS_H
+#define FLAGS_H
 
 
 /*
@@ -329,4 +329,4 @@ extern list *opt_endup;
 extern list *opt_unknown;
 
 
-#endif
+#endif /* FLAGS_H */

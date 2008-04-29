@@ -58,8 +58,8 @@
 */
 
 
-#ifndef STAGES_INCLUDED
-#define STAGES_INCLUDED
+#ifndef STAGES_H
+#define STAGES_H
 
 
 /*
@@ -92,4 +92,4 @@ extern filename *do_keep(filename *);
 extern int binary_obj_type;
 
 
-#endif
+#endif /* STAGES_H */

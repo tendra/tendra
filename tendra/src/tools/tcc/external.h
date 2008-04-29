@@ -58,8 +58,8 @@
 */
 
 
-#ifndef EXTERNAL_INCLUDED
-#define EXTERNAL_INCLUDED
+#ifndef EXTERNAL_H
+#define EXTERNAL_H
 
 
 /*
@@ -111,4 +111,4 @@ typedef int wait_type;
 #define process_exit_value(X)	WEXITSTATUS((X))
 #define process_signal_value(X)	WTERMSIG((X))
 
-#endif
+#endif /* EXTERNAL_H */

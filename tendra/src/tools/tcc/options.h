@@ -58,8 +58,8 @@
 */
 
 
-#ifndef OPTIONS_INCLUDED
-#define OPTIONS_INCLUDED
+#ifndef OPTIONS_H
+#define OPTIONS_H
 
 
 #include "filename.h"
@@ -125,4 +125,4 @@ extern void process_options(list *, optmap *, int);
 extern filename *input_files;
 
 
-#endif
+#endif /* OPTIONS_H */

@@ -58,8 +58,8 @@
 */
 
 
-#ifndef UTILITY_INCLUDED
-#define UTILITY_INCLUDED
+#ifndef UTILITY_H
+#define UTILITY_H
 
 
 /*
@@ -155,4 +155,4 @@ extern char *progname;
 #define array_size(A)		((int)sizeof(A) / (int)sizeof(A[0]))
 
 
-#endif
+#endif /* UTILITY_H */

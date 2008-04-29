@@ -58,8 +58,8 @@
 */
 
 
-#ifndef MAIN_INCLUDED
-#define MAIN_INCLUDED
+#ifndef MAIN_H
+#define MAIN_H
 
 
 /*
@@ -82,4 +82,4 @@ extern void handler(int);
 extern void print_version(void);
 
 
-#endif
+#endif /* MAIN_H */

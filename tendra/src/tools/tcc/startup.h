@@ -58,8 +58,8 @@
 */
 
 
-#ifndef STARTUP_INCLUDED
-#define STARTUP_INCLUDED
+#ifndef STARTUP_H
+#define STARTUP_H
 
 
 /*
@@ -87,4 +87,4 @@ extern char *startup_opt, *endup_opt;
 extern char *tokdef_name;
 
 
-#endif
+#endif /* STARTUP_H */
