@@ -69,16 +69,6 @@
 
 
 /*
- * ARCHIVE BLOCK SIZE
- *
- * This defines the size of the chunks read and written by the archiving
- * routines. It should not exceed buffer_size.
- */
-
-#define block_size		buffer_size
-
-
-/*
  * READ A GIVEN FILE FROM A STREAM
  *
  * This routine reads n characters from the file f into a new file named nm. It
@@ -559,7 +549,7 @@ build_archive(char *arch, char **input)
 		return (1);
 	    } else {
 		void *p = buffer;
-		size_t m = fread(p, sizeof(char), (size_t)block_size, g);
+		size_t m = fread(p, sizeof(char), buffer_size, g);
 		IGNORE fprintf(f, "+ %ld %s\n",(long)m, n);
 		while (m) {
 		    if (fwrite(p, sizeof(char), m, f)!= m) {
@@ -567,7 +557,7 @@ build_archive(char *arch, char **input)
 			IGNORE fclose(f);
 			return (1);
 		    }
-		    m = fread(p, sizeof(char), (size_t)block_size, g);
+		    m = fread(p, sizeof(char), buffer_size, g);
 		    if (m) {
 			    IGNORE fprintf(f, "+ %ld +\n", (long)m);
 		    }
