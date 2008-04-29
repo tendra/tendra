@@ -285,7 +285,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		int w2 = (n == 0 && in_pre_pass);
 		output_indent(lex_output, d);
 		if(!in_pre_pass && z->zone_pre_pass->next)
-		  fprintf(lex_output, "int c%d = %s_aux_%s()", 
+		  fprintf(lex_output, "int c%d = %s_aux_%s(state)",
 			  n, read_token_name, z->zone_name);
 		else
 		  fprintf(lex_output, "int c%d = %sreadchar(state)", n, lexi_prefix);
@@ -467,8 +467,8 @@ output_zone_prepass(zone *p)
     }
     if(p->zone_pre_pass->next) {
       fprintf(lex_output,"/* PRE PASS ANALYSER for zone %s*/\n\n",p->zone_name);
-      fprintf(lex_output,"static int %s_aux_%s(void)\n", read_token_name,
-	    p->zone_name);
+      fprintf(lex_output,"static int %s_aux_%s(struct %sstate *state)\n", read_token_name,
+	      p->zone_name, lexi_prefix);
       fputs("{\n", lex_output);
       fputs("\tstart: {\n", lex_output);
       output_pass(p, p->zone_pre_pass, in_pre_pass, 0, 2);
@@ -500,7 +500,7 @@ output_zone_pass(zone *p)
     }
     else {
         fprintf(lex_output,"static int\n%s_%s(struct %sstate *state)\n",
-	read_token_name,p->zone_name, lexi_prefix);
+	read_token_name, p->zone_name, lexi_prefix);
 	fputs("{\n", lex_output);
     }
     fputs("\tstart: {\n", lex_output);

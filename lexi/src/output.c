@@ -62,8 +62,8 @@
 #include <assert.h>
 
 #include "output.h"
-#include "error.h"
 
+#include "error/error.h"
 
 void
 output_indent(FILE *out, unsigned int depth)

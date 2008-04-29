@@ -61,10 +61,11 @@
 #include <string.h>
 #include <stddef.h>
 
-#include "error.h"
-#include "xalloc.h"
-
 #include "char.h"
+#include "xalloc/xalloc.h"
+
+#include "error/error.h"
+
 
 
 /*

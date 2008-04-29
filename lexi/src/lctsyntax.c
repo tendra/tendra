@@ -46,7 +46,7 @@
 #include "lctlex.h"
 #include "char.h"
 #include "adt.h"
-#include "error.h"
+#include "error/error.h"
 #include "exds/dstring.h"
 
 #define ADVANCE_LEXER ADVANCE_LCT_LEXER

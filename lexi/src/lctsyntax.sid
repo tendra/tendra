@@ -195,7 +195,7 @@ action-definition : () -> () [
 		out=type-tuple;
 	};
 	] = {
-	action-kw; nm= identifier; 
+	action-kw; nm = identifier; 
 	(in, out) = function-type-defn ;
 	{
 		define ; 

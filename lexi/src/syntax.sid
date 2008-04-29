@@ -375,7 +375,7 @@ type-tuple : ( z:ZONE ) -> (a:TYPETUPLE) [
    ACTION DEFINITION
 */
 
-action-defn : (z:ZONE) -> () = {
+action-decl : (z:ZONE) -> () = {
 	action-kw;
 	begin-action ;
 	i = identifier ;
@@ -612,7 +612,7 @@ command : (z:ZONE) -> () = {
     ||	if-command ( z ) ;
     ||  copyright-stmt ( z ) ; expected_semicolon ;
     ||  type-defn ( z ) ; expected_semicolon ;
-    ||	action-defn ( z ) ; expected_semicolon ;
+    ||	action-decl ( z ) ; expected_semicolon ;
 } ;
 
 

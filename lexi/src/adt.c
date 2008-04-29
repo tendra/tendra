@@ -30,7 +30,7 @@
  */
 
 #include "adt.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include <stdlib.h>
 
 static ActionT* action_create(void)

@@ -62,7 +62,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "error.h"
+#include "error/error.h"
 
 #include "char.h"
 #include "lex.h"

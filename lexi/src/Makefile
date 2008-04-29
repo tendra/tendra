@@ -6,8 +6,8 @@ REMOVE=rm -f
 MOVE=mv
 SID=sid
 
-CFLAGS+=-Ishared/error -Ishared/xalloc -I.
-LDFLAGS+=-Lshared/error -Lshared/xalloc -L. -lexds
+CFLAGS+=-Ishared -I.
+LDFLAGS+=-Lshared/error -Lshared/xalloc -L. 
 
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
@@ -18,7 +18,7 @@ all: lexi
 
 lexi: depend ${TARGETS} output-c/output-c.a output-dot/output-dot.a
 	${CC} ${LDFLAGS} -o $@ ${TARGETS} \
-		-lerror -lxalloc output-c/output-c.a output-dot/output-dot.a
+		-lerror -lxalloc -lexds output-c/output-c.a output-dot/output-dot.a
 
 # TODO should this be under depend: instead?
 output-c/output-c.a:

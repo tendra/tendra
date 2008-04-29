@@ -32,7 +32,7 @@
 #include "lctlex.h"
 #include "lctsyntax.h"
 #include <stdio.h>
-#include "error.h"
+#include "error/error.h"
 
 int crt_lct_token ;
 int saved_lct_token ;

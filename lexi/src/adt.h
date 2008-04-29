@@ -32,8 +32,8 @@
 #ifndef H_LEXI_ADT_INCLUDED
 #define H_LEXI_ADT_INCLUDED
 
-#include <exds/common.h>
-#include <exds/dstring.h>
+#include "exds/common.h"
+#include "exds/dstring.h"
 
 #define TABLE_SIZE 256 
 
