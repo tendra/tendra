@@ -321,29 +321,37 @@ remove_file(char *nm)
  * TOUCH A FILE
  *
  * This routine touches the file called nm. It returns 0 if it is successful.
+ *
+ * XXX: Actually this function writes either "\200" or "EMPTY\n" into
+ * XXX: the file nm.
  */
-
 int
 touch_file(char *nm, char *opt)
 {
-	if (!dry_run) {
-		FILE *f = fopen(nm, "w");
-		if (f == NULL) {
-			error(SERIOUS, "Can't touch file, '%s'", nm);
-		}
-		if (opt && streq(opt, "-k")) {
-			/* This is an empty C spec file */
-			static unsigned char cs[] = {
-				0x80
-			};
-			size_t s1 = sizeof(cs[0]);
-			size_t sn = (size_t)(sizeof(cs) / s1);
-			IGNORE fwrite(cs, s1, sn, f);
-		} else {
-			IGNORE fputs("EMPTY\n", f);
-		}
-		IGNORE fclose(f);
+	FILE *f;
+	char *str;
+
+	if (dry_run)
+		return (0);
+
+	if ((f = fopen(nm, "w")) == NULL) {
+		error(SERIOUS, "Can't touch file, '%s'", nm);
+		return (1);
 	}
+
+	/* XXX: investigate the use of this special case */
+	/* This is an empty C spec file */
+	if (opt && strcmp(opt, "-k") == 0)
+		str = "\200"; /* dec: 128 */
+	else
+		str = "EMPTY\n";
+
+	if (fwrite(str, sizeof(unsigned char), strlen(str), f) != 1) {
+		error(SERIOUS, "Can't write to file '%s'", nm);
+		(void) fclose(f);
+		return (1);
+	}
+
 	return (0);
 }
 

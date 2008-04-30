@@ -76,10 +76,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#ifndef errno
-extern int errno;
-#endif
-
 #ifndef environ
 extern char **environ;
 #endif
