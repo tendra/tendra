@@ -453,37 +453,35 @@ is_archive(char *nm)
  *
  * This routine processes any outstanding archive options.
  */
-
 void
 process_archive_opt(void)
 {
 	list *p;
 	for (p = opt_joiner; p != NULL; p = p->next) {
 		char *opt = p->item;
-		if (streq(opt, "-copy") || streq(opt, "-c")) {
+		if (strcmp(opt, "-copy") == 0 || strcmp(opt, "-c") == 0) {
 			archive_links = 0;
 			link_specs = 0;
-		} else if (streq(opt, "-full") || streq(opt, "-f")) {
+		} else if (strcmp(opt, "-full") == 0 || strcmp(opt, "-f") == 0) {
 			archive_full = 1;
-		} else if (streq(opt, "-link") || streq(opt, "-l")) {
+		} else if (strcmp(opt, "-link") == 0 || strcmp(opt, "-l") == 0) {
 			archive_links = 1;
 			link_specs = 1;
-		} else if (streq(opt, "-names") || streq(opt, "-n")) {
+		} else if (strcmp(opt, "-names") == 0 || strcmp(opt, "-n") == 0) {
 			archive_names = 1;
-		} else if (streq(opt, "-no_names") || streq(opt, "-nn")) {
+		} else if (strcmp(opt, "-no_names") == 0 || strcmp(opt, "-nn") == 0) {
 			archive_names = 0;
-		} else if (streq(opt, "-no_options") || streq(opt, "-no")) {
+		} else if (strcmp(opt, "-no_options") == 0 || strcmp(opt, "-no") == 0) {
 			archive_options = 0;
-		} else if (streq(opt, "-options") || streq(opt, "-o")) {
+		} else if (strcmp(opt, "-options") == 0 || strcmp(opt, "-o") == 0) {
 			archive_options = 1;
-		} else if (streq(opt, "-short") || streq(opt, "-s")) {
+		} else if (strcmp(opt, "-short") == 0 || strcmp(opt, "-s") == 0) {
 			archive_full = 0;
 		} else {
 			error(WARNING, "Unknown archiver option, '%s'", opt);
 		}
 	}
 	opt_joiner = NULL;
-	return;
 }
 
 
