@@ -84,22 +84,6 @@ extern int errno;
 extern char **environ;
 #endif
 
-#ifndef S_ISDIR
-#define S_ISDIR(X)		((X) & S_IFDIR)
-#endif
-
-#ifndef S_IRWXU
-#ifdef S_IREAD
-#define S_IRWXU			S_IREAD
-#define S_IRWXG			S_IWRITE
-#define S_IRWXO			S_IEXEC
-#else
-#define S_IRWXU			0700
-#define S_IRWXG			0070
-#define S_IRWXO			0007
-#endif
-#endif
-
 #define temp_name(X, Y)		(char *)tempnam((X), (Y))
 #define get_cwd(X, Y)		getcwd((X), (Y))
 
