@@ -360,19 +360,16 @@ touch_file(char *nm, char *opt)
  * FIND THE SIZE OF A FILE
  *
  * This routine calculates the length of a file, returning zero for
- * non-existant files. Two versions of the routine are provided. The first is
- * POSIX compliant and uses stat from sys/stat.h to access the length directly.
- * The second just reads the file and counts the number of characters.
+ * non-existant or empty files.
  */
-
 long
 file_size(char *nm)
 {
 	struct stat st;
-	int e = stat(nm, &st);
-	if (e == -1) {
+
+	if (stat(nm, &st) == -1)
 		return (0);
-	}
+
 	return ((long)st.st_size);
 }
 
