@@ -378,23 +378,22 @@ file_size(char *nm)
 /*
  * FIND THE DATE STAMP OF A FILE
  *
- * This routine calculates the date stamp of a file. If the target machine
- * does not support stat, or this is a dry run, zero is always returned.
+ * This routine calculates the date stamp of a file.
+ * If this is a dry run or an error occured, zero is returned.
  */
-
 static long
 file_time(char *nm)
 {
-	int e;
 	struct stat st;
-	if (dry_run) {
+
+	if (dry_run)
 		return (0);
-	}
-	e = stat(nm, &st);
-	if (e == -1) {
+
+	if (stat(nm, &st) == -1) {
 		error(SERIOUS, "Can't access file '%s'", nm);
 		return (0);
 	}
+
 	return ((long)st.st_mtime);
 }
 
