@@ -69,6 +69,36 @@
 
 
 /*
+ * XXX: Define PATH_MAX for move_file() until we've figured out that annoying
+ * XXX: posix api stuff
+ */
+#define PATH_MAX (1024)
+
+
+/*
+ * ARCHIVE HEADER
+ *
+ * A TDF archive always starts with ARCHIVE_HEADER, and the main part of the
+ * archive ends with ARCHIVE_TRAILER.
+ */
+#define ARCHIVE_HEADER		"!TDF\n"
+#define ARCHIVE_TRAILER		"-\n"
+
+
+/*
+ * ARCHIVE FLAGS
+ *
+ * These flags control the output of the file names and options in the output
+ * TDF archive.
+ */
+int archive_type = TDF_ARCHIVE; /* XXX: global */
+static boolean archive_full = 1;
+static boolean archive_links = 0;
+static boolean archive_names = 1;
+static boolean archive_options = 1;
+
+
+/*
  * READ A GIVEN FILE FROM A STREAM
  *
  * This routine reads n characters from the file f into a new file named nm. It
@@ -192,11 +222,6 @@ make_dir(char *nm)
 	return (mkdir(nm, S_IRWXU|S_IRWXG|S_IRWXO));
 }
 
-/*
- * XXX: Define PATH_MAX for move_file() until we've figured out that annoying
- * XXX: posix api stuff
- */
-#define PATH_MAX (1024)
 
 /*
  * MOVE A FILE
@@ -399,17 +424,6 @@ file_time(char *nm)
 
 
 /*
- * ARCHIVE HEADER
- *
- * A TDF archive always starts with ARCHIVE_HEADER, and the main part of the
- * archive ends with ARCHIVE_TRAILER.
- */
-
-#define ARCHIVE_HEADER		"!TDF\n"
-#define ARCHIVE_TRAILER		"-\n"
-
-
-/*
  * IS A FILE AN ARCHIVE?
  *
  * Returns 1 if the file starts with ARCHIVE_HEADER, 0 otherwise.
@@ -432,20 +446,6 @@ is_archive(char *nm)
 	(void) fclose(f);
 	return (archive);
 }
-
-
-/*
- * ARCHIVE FLAGS
- *
- * These flags control the output of the file names and options in the output
- * TDF archive.
- */
-
-int archive_type = TDF_ARCHIVE;
-static boolean archive_full = 1;
-static boolean archive_links = 0;
-static boolean archive_names = 1;
-static boolean archive_options = 1;
 
 
 /*
