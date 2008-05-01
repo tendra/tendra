@@ -58,6 +58,11 @@
 */
 
 
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "config.h"
 #include "external.h"
 #include "filename.h"

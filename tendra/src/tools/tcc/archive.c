@@ -58,6 +58,9 @@
 */
 
 
+#include <stdio.h>
+#include <string.h>
+
 #include "config.h"
 #include "external.h"
 #include "filename.h"

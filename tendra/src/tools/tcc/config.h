@@ -62,19 +62,6 @@
 #define CONFIG_H
 
 
-/*
- * BASIC API SPECIFICATION
- *
- * The API for this program is ANSI plus a few extensions from POSIX and XPG3.
- * The ANSI headers are included here, with the FS_* macros being used to
- * control inclusion of the additional features.
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <signal.h>
-
 #if __TenDRA__
 #pragma TenDRA keyword SET for set
 #pragma TenDRA keyword UNUSED for discard variable
@@ -91,20 +78,9 @@
 #define UNREACHED
 #endif /* __TenDRA__ */
 
-/*
- * BASIC TYPES
- *
- * These types are so ubiquitous that this is the only suitable place for them.
- */
 
+/* Stuff that is currently required but really wants to die */
 typedef int boolean;
-
-
-/*
- * UTILITY MACROS
- *
- * These macros are just a matter of programming style.
- */
 
 #define streq(X, Y)	(strcmp((X), (Y)) == 0)
 #define strneq(X, Y, Z)	(strncmp((X), (Y), (size_t)(Z)) == 0)

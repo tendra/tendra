@@ -57,6 +57,9 @@
         it may be put.
 */
 
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "config.h"
 #include "external.h"

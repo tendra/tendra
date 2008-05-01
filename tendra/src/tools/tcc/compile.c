@@ -58,6 +58,8 @@
 */
 
 
+#include <stdio.h>
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"

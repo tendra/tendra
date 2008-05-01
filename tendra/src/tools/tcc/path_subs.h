@@ -1,6 +1,8 @@
 #ifndef PATH_SUBS_H
 #define PATH_SUBS_H
 
+#include <stddef.h>
+
 /*
  * SUBSTITUTION VARIABLES
  *

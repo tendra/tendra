@@ -58,6 +58,10 @@
 */
 
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -144,7 +148,7 @@ read_env_aux(char *nm, hashtable *ht)
 {
     /* Find the environment */
     FILE *f;
-    char *p, *q;
+    char *ep, *q;
     int   line_num;
 
     if (*nm == 0) {
@@ -152,14 +156,14 @@ read_env_aux(char *nm, hashtable *ht)
     } else if (*nm == '/') {
 	f = fopen(nm, "r");
     } else {
-	p = envpath;
+	ep = envpath;
 	do {
 	    q = buffer;
-	    while (*p && *p != ':') *(q++) = *(p++);
+	    while (*ep && *ep != ':') *(q++) = *(ep++);
 	    *(q++) = '/';
 	    IGNORE strcpy(q, nm);
 	    f = fopen(buffer, "r");
-	} while (f == NULL && *(p++));
+	} while (f == NULL && *(ep++));
     }
     if (f == NULL) {
 	    return (1);
@@ -243,7 +247,7 @@ read_env_aux(char *nm, hashtable *ht)
 		}
 
 		if (c == '<') {
-		    int sub_len;    /* length of substitution */
+		    int sub_len; /* length of substitution */
 		    int diff;       /* difference between two lengths */
 		    int delta;      /* direction of growth */
 		    int cnt;        /* counter */
@@ -504,13 +508,13 @@ dump_env(void)
 		error(FATAL, "No environment information found\n");
 	}
 
-	printf("Environment dump:\n");
+	IGNORE printf("Environment dump:\n");
 	/* Traverse the hash tree and print all data in it */
 	for (i = 0; i < TCC_TBLSIZE; i++) {
 		hn = environ_hashtable->node[i];
 
 		if (hn) {
-			printf("\t%s = %s\n", hn->key, hn->val);
+			IGNORE printf("\t%s = %s\n", hn->key, hn->val);
 		}
 	}
 }
