@@ -251,16 +251,17 @@ static filename *junk = NULL;
 void
 remove_junk(void)
 {
-	if (!dry_run && !flag_keep_err) {
-		filename *p;
-		for (p = junk; p != NULL; p = p->next) {
-			if (p->storage == OUTPUT_FILE) {
-				IGNORE remove_file(p->name);
-			}
+	filename *p;
+
+	if (dry_run || flag_keep_err)
+		return;
+
+	for (p = junk; p != NULL; p = p->next) {
+		if (p->storage == OUTPUT_FILE) {
+			IGNORE remove_file(p->name);
 		}
 	}
 	junk = NULL;
-	return;
 }
 
 

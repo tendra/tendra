@@ -212,7 +212,8 @@ main_end(void)
 	IGNORE signal(SIGINT, SIG_IGN);
 	remove_junk();
 	remove_startup();
-	if (made_tempdir) {
+	if (made_tempdir &&
+	    !(exit_status != EXIT_SUCCESS && flag_keep_err)) {
 		made_tempdir = 0;
 		cmd_string(NULL);
 		cmd_list(exec_remove);
