@@ -61,6 +61,7 @@
 #include "config.h"
 #include "external.h"
 #include "filename.h"
+#include "archive.h"
 #include "list.h"
 #include "environ.h"
 #include "execute.h"
@@ -131,7 +132,7 @@ handler(int sig)
 	if (sig != SIGINT) {
 		char *cmd = (last_command ? last_command : "unknown");
 		error(SERIOUS, "Caught signal %d in '%s'", sig, cmd);
-		if (!flag_keep_err && (remove("core") == 0)) {
+		if (!flag_keep_err && (remove_file("core") == 0)) {
 			error(WARNING, "Removed core");
 		}
 	}

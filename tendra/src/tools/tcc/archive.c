@@ -261,7 +261,7 @@ move_file(char *from, char *to)
 	if (e)
 		return (e);
 
-	if (remove(from) != 0) {
+	if (remove_file(from) != 0) {
 		error(SERIOUS, "Can't remove source file, '%s'", from);
 		return (1);
 	}
@@ -269,15 +269,25 @@ move_file(char *from, char *to)
 	return (0);
 }
 
-
 /*
- * REMOVE A FILE
- *
- * This routine removes the file or directory named nm recusivly, returning
- * zero if it is successful.
+ * Wrapper around remove(3), to ease debugging.
  */
 int
 remove_file(char *nm)
+{
+#if 0
+	fprintf(stderr, "tcc: trying to remove file '%s'\n", nm);
+#endif
+	return (remove(nm));
+}
+
+
+/*
+ * This routine removes the file or directory named nm recusivly, returning
+ * zero if it was successful.
+ */
+int
+remove_recursive(char *nm)
 {
 	struct stat st;
 
@@ -316,7 +326,7 @@ remove_file(char *nm)
 
 			(void) sprintf(buf, "%s/%s", nm, de->d_name);
 
-			if (remove_file(buf))
+			if (remove_recursive(buf))
 				return (1);
 		}
 
@@ -327,7 +337,7 @@ remove_file(char *nm)
 			return (1);
 		}
 	} else {
-		if (remove(nm) != 0) {
+		if (remove_file(nm) != 0) {
 			/* File disappeared between stat and remove... */
 			if (errno == ENOENT)
 				return (0);

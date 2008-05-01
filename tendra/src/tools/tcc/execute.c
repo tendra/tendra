@@ -255,7 +255,7 @@ remove_junk(void)
 		filename *p;
 		for (p = junk; p != NULL; p = p->next) {
 			if (p->storage == OUTPUT_FILE) {
-				IGNORE remove(p->name);
+				IGNORE remove_file(p->name);
 			}
 		}
 	}
@@ -358,7 +358,7 @@ execute(filename *input, filename *output)
 			break;
 		case 'r':
 			if (streq(cmd, "remove")) {
-				err = remove_file(command[1]);
+				err = remove_recursive(command[1]);
 				goto execute_error;
 			}
 			break;
@@ -485,7 +485,7 @@ execute_error:
 		filename *p;
 		for (p = input; p != NULL; p = p->next) {
 			if (p->storage == TEMP_FILE && p->type != BINARY_OBJ) {
-				IGNORE remove(p->name);
+				IGNORE remove_file(p->name);
 			}
 		}
 	}
