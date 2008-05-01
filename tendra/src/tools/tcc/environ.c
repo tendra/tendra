@@ -431,7 +431,6 @@ dereference_var(char *esc_start, char *esc_end, hashtable *ht, char *nm,
  * the env reading would be O(2N), and attempt to finding all possible
  * definitions, including those out of order.)
  */
-
 void
 reconcile_envopts(void)
 {
@@ -439,42 +438,30 @@ reconcile_envopts(void)
 	htnode *hn;
 
 	/*
-	 * If no -Y args were given whatsoever, give a warning, since a
-	 * mysterious internal error ("tcc: Internal: The tool 'C_producer' is
-	 * not available'") is about to follow during the execute stage. This
-	 * mistake is so fundamental, we give a warning even without verbose
-	 * being set.
+	 * If no -Y args were given whatsoever, give a warning even without
+	 * verbose being set.
 	 */
-	if (environ_count == 0) {
+	if (environ_count == 0)
 		error(WARNING, "not invoked with any -Y env arguments");
-	}
-
-	/* All subsequent warnings require a verbose flag */
-	if (!verbose) {
-		return;
-	}
 
 	/*
 	 * If the global env table is NULL, no -Y args succeeded, or none were
 	 * given.
 	 */
-	if (!environ_hashtable) {
-		/* -Y args given, but failed */
+	if (environ_hashtable == NULL)
+		error(FATAL, "failed to load any environment files");
 
-		if (environ_count > 0) {
-			error(WARNING, "failed to load any environment files");
-			return;
-		}
-	}
+	if (!verbose)
+		return;
 
 	for (i = 0; i < TCC_TBLSIZE; i++) {
 		hn = environ_hashtable->node[i];
 
 		if (hn && (hn->flag & USR) && !(hn->flag & READ)) {
 			error(WARNING,
-			      "%s, line %d: environment option %s declared"
-			      " but never used", hn->file, hn->line_num,
-			      hn->key);
+			    "%s, line %d: environment option %s declared"
+			    " but never used", hn->file, hn->line_num,
+			    hn->key);
 		}
 	}
 }
