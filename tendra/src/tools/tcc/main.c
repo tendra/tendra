@@ -59,7 +59,6 @@
 
 
 #include "config.h"
-#include "release.h"
 #include "external.h"
 #include "filename.h"
 #include "list.h"

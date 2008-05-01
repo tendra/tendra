@@ -75,16 +75,21 @@
 #include <string.h>
 #include <signal.h>
 
-/*
- * CODING STANDARD MACROS
- *
- * The program is written to conform to the local OSSG coding standard. This
- * header defines the standard macros used in the program.
- */
-
-
-#include "tendra.h"
-
+#if __TenDRA__
+#pragma TenDRA keyword SET for set
+#pragma TenDRA keyword UNUSED for discard variable
+#pragma TenDRA keyword IGNORE for discard value
+#pragma TenDRA keyword EXHAUSTIVE for exhaustive
+#pragma TenDRA keyword REACHED for set reachable
+#pragma TenDRA keyword UNREACHED for set unreachable
+#else
+#define SET(name)
+#define UNUSED(name)
+#define IGNORE			(void)
+#define EXHAUSTIVE
+#define REACHED
+#define UNREACHED
+#endif /* __TenDRA__ */
 
 /*
  * BASIC TYPES

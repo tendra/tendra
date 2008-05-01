@@ -1,7 +1,6 @@
 # $Id$
 
 TCCOPTS=	-Yxpg4 -Xs
-CCOPTS=		-I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
 
 PROG=		${.CURDIR:T}
 WRAPPER=	tcc.sh
