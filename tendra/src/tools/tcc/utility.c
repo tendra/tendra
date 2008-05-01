@@ -59,11 +59,7 @@
 
 
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include "list.h"
 #include "environ.h"
 #include "flags.h"
@@ -101,19 +97,13 @@ static int	key_match(char *, char *);
  */
 
 void
-error(int e, char *s, ...) /* VARARGS */
+error(int e, char *s, ...)
 {
 	va_list args;
 	char *errtype = NULL;
-#if FS_STDARG
+
 	va_start(args, s);
-#else
-	int e;
-	char *s;
-	va_start(args);
-	e = va_arg(args, int);
-	s = va_arg(args, char *);
-#endif
+
 	switch (e) {
 	case FATAL:
 		exit_status = EXIT_FAILURE;
@@ -360,19 +350,12 @@ hash(char *key, int tblsize, int keysize)
  */
 
 void
-comment(int e, char *s, ...) /* VARARGS */
+comment(int e, char *s, ...)
 {
 	FILE *f;
 	va_list args;
-#if FS_STDARG
+
 	va_start(args, s);
-#else
-	int e;
-	char *s;
-	va_start(args);
-	e = va_arg(args, int);
-	s = va_arg(args, char *);
-#endif
 	f = (e ? stdout : stderr);
 	IGNORE fflush(f);
 	IGNORE vfprintf(f, s, args);
