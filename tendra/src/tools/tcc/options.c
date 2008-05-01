@@ -80,6 +80,21 @@
 
 
 /*
+ * TYPE REPRESENTING AN OPTION ACTION
+ *
+ * The output commands of an optmap are stored as an args_out, which is a
+ * simple array of strings.
+ */
+
+#define max_var		100
+
+typedef struct {
+	int argc;
+	char *argv[max_var];
+} args_out;
+
+
+/*
  * THE LIST OF ALL INPUT FILES
  *
  * All input files found by process_options are added to this list.

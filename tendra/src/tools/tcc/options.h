@@ -81,21 +81,6 @@ typedef struct {
 
 
 /*
- * TYPE REPRESENTING AN OPTION ACTION
- *
- * The output commands of an optmap are stored as an args_out, which is a
- * simple array of strings.
- */
-
-#define max_var		100
-
-typedef struct {
-	int argc;
-	char *argv[max_var];
-} args_out;
-
-
-/*
  * TABLES OF OPTIONS
  *
  * These tables give the option mappings for the command-line options and the
