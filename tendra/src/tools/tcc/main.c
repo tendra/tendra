@@ -85,7 +85,7 @@
 #define VERSION_STRING		"Version: 4.0"
 
 #ifndef RELEASE
-#define RELEASE 		"unknown"
+#define RELEASE			"unknown"
 #endif
 
 
@@ -152,7 +152,6 @@ static boolean made_tempdir = 0;
  * MAIN INITIALISATION ROUTINE
  *
  * This is the initialisation routine called at the very start of the program.
- * The signals SIGINT, SIGSEGV, SIGTERM and SIGFPE are all in ANSI.
  */
 
 static void
@@ -162,11 +161,8 @@ main_start(char *prog, char **envp)
 	buffer = alloc_nof(char, buffer_size);
 	progname = find_basename(prog);
 	IGNORE signal(SIGINT, handler);
-	IGNORE signal(SIGSEGV, handler);
 	IGNORE signal(SIGTERM, handler);
-#ifdef SIGFPE
-	IGNORE signal(SIGFPE, handler);
-#endif
+
 	initialise_options();
 	return;
 }
