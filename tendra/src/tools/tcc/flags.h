@@ -108,7 +108,6 @@ extern char **env_paths;
 
 extern boolean api_checks;
 extern boolean checker;
-extern boolean copyright;
 extern boolean dry_run;
 extern boolean env_dump;
 extern boolean link_specs;

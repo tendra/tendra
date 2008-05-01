@@ -120,7 +120,6 @@ optmap main_optmap[] = {
 	{"-X:+$,+*", "CAP:$1", "specifies a compilation option", 114},
 	{"-X$", "EX$1", "specifies a compilation mode", 115},
 	{"-Y+$", "E$1", "reads an environment", 12},
-	{"-copyright", "1CR", "outputs copyright notice", 117},
 	{"-c", "Ho", "halts compilation after creating .o files", 118},
 	{"-d", "Hd", "halts compilation after creating .d files", 119},
 	{"-dry", "1VB|1DR", "causes a dry run", 120},
@@ -439,7 +438,6 @@ lookup_bool(char *s)
 	case 'C':
 		if (b == 'C') return (&use_system_cc);
 		if (b == 'H') return (&checker);
-		if (b == 'R') return (&copyright);
 		if (b == 'S') return (&allow_specs);
 		break;
 	case 'D':

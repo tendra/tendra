@@ -62,7 +62,6 @@
 #include "filename.h"
 #include "list.h"
 #include "archive.h"
-#include "copyright.h"
 #include "environ.h"
 #include "flags.h"
 #include "startup.h"
@@ -106,7 +105,6 @@ char **env_paths = NULL;
 
 boolean api_checks = 0;
 boolean checker = 0;
-boolean copyright = 0;
 boolean dry_run = 0;
 boolean env_dump = 0;
 boolean link_specs = 1;
@@ -759,12 +757,6 @@ update_options(void)
 			stops[C_SPEC_2] = 1;
 			stops[CPP_SPEC_2] = 1;
 		}
-	}
-
-	/* Print the copyright message if required */
-	if (copyright) {
-		print_copyright();
-		copyright = 0;
 	}
 
 	/* A couple of housekeeping routines */
