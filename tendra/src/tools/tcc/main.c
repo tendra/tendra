@@ -126,19 +126,16 @@ void
 handler(int sig)
 {
 	IGNORE signal(SIGINT, SIG_IGN);
-	if (verbose) {
+	if (verbose)
 		comment(1, "\n");
-	}
+
 	if (sig != SIGINT) {
 		char *cmd = (last_command ? last_command : "unknown");
 		error(SERIOUS, "Caught signal %d in '%s'", sig, cmd);
-		if (!flag_keep_err && (remove_file("core") == 0)) {
-			error(WARNING, "Removed core");
-		}
 	}
+
 	exit_status = EXIT_FAILURE;
 	main_end();
-	return;
 }
 
 
