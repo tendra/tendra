@@ -69,7 +69,6 @@
  * corresponds to the file suffix. This table needs to be kept in step with
  * Table 1.
  */
-
 #define C_SOURCE_KEY			'c'
 #define PREPROC_C_KEY			'i'
 #define CPP_SOURCE_KEY			'C'
@@ -97,7 +96,6 @@
  * Most of the file suffixes can be deduced from the table above. This table
  * gives a few other suffixes plus the default names for various output files.
  */
-
 #define CPP_1_SUFFIX			"cc"
 #define CPP_2_SUFFIX			"cpp"
 #define PREPROC_CPP_1_SUFFIX		"ii"
@@ -110,15 +108,8 @@
 #define TDF_ARCHIVE_NAME		"a.ta"
 #define C_SPEC_COMPLEX_NAME		"a.k"
 #define API_ANAL_NAME			"a.api"
-
-#if FS_DOS
-#define EXECUTABLE_NAME			"a.exe"
-#define EXECUTABLE_SUFFIX		".exe"
-#define CPP_SPEC_COMPLEX_NAME		"a.kk"
-#else
 #define EXECUTABLE_NAME			"a.out"
 #define CPP_SPEC_COMPLEX_NAME		"a.K"
-#endif
 
 #define STARTUP_NAME			"tcc_startup.h"
 #define ENDUP_NAME			"tcc_endup.h"
@@ -132,7 +123,6 @@
  *
  * Each executable has an associated identifying letter.
  */
-
 #define PRODUCE_ID			'c'
 #define PREPROC_ID			'p'
 #define CPP_PRODUCE_ID			'x'
@@ -160,7 +150,6 @@
  *
  * This table contains miscellaneous configuration items.
  */
-
 #define PROGNAME_TCC			"tcc"
 #define PROGNAME_TCHK			"tchk"
 #define TCCENV_VAR			"TCCENV"
