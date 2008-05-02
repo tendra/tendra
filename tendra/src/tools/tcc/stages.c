@@ -99,7 +99,7 @@ do_move(filename *from, filename *to)
 		return (from);
 	}
 	if (to) {
-		if (streq(from->name, to->name)) {
+		if (strcmp(from->name, to->name) == 0) {
 			return (to);
 		}
 		cmd_list(exec_move);
@@ -160,7 +160,7 @@ uniq_filename(char *nm, int t, int s, filename *input)
 	filename *q = make_filename(p, t, s);
 	uniq_tempfile = q;
 	for (p = input; p != NULL; p = p->next) {
-		if (streq(p->name, q->name)) {
+		if (strcmp(p->name, q->name) == 0) {
 			if (p->storage == TEMP_FILE) {
 				uniq_tempfile = make_filename(no_filename, t,
 							      TEMP_FILE);
@@ -207,7 +207,8 @@ uniq_filename(char *nm, int t, int s, filename *input)
 static void
 producer_options(int pp)
 {
-	boolean is_c = (pp == PRODUCE_ID || pp == PREPROC_ID);
+	int is_c = (pp == PRODUCE_ID || pp == PREPROC_ID);
+
 	if (!flag_nepc && std_prod_portfile) {
 		cmd_string("-n");
 		cmd_string(std_prod_portfile->item);
@@ -270,8 +271,9 @@ producer_options(int pp)
 filename *
 do_produce(filename *input)
 {
-	boolean spec_produced;
+	int spec_produced;
 	filename *output, *spec = NULL;
+
 	if (input == NULL) {
 		return (input);
 	}
@@ -865,7 +867,7 @@ do_notation(filename *input)
 		return (input);
 	}
 	keep = where(INDEP_TDF);
-	if (tokdef_name && streq(input->name, tokdef_name)) {
+	if (tokdef_name && strcmp(input->name, tokdef_name) == 0) {
 		keep = TEMP_FILE;
 	}
 	output = make_filename(input, INDEP_TDF, keep);
