@@ -60,7 +60,6 @@
 
 #include <stddef.h>
 
-#include "config.h"
 #include "list.h"
 #include "utility.h"
 
@@ -72,7 +71,6 @@
  * new_list tries to allocate new list structures from this list before using
  * its internal array.
  */
-
 static list *spare_lists = NULL;
 
 
@@ -81,23 +79,25 @@ static list *spare_lists = NULL;
  *
  * This routine allocates a new list structure.
  */
-
 static list *
 new_list(void)
 {
+	static int no_free = 0;
+	static list *free_objs = NULL;
+
 	if (spare_lists) {
 		list *p = spare_lists;
 		spare_lists = p->next;
+
 		return (p);
-	} else {
-		static int no_free = 0;
-		static list *free_objs = NULL;
-		if (no_free == 0) {
-			no_free = 1000;
-			free_objs = alloc_nof(list, no_free);
-		}
-		return (free_objs + (--no_free));
 	}
+
+	if (no_free == 0) {
+		no_free = 1000;
+		free_objs = alloc_nof(list, no_free);
+	}
+
+	return (free_objs + (--no_free));
 }
 
 
@@ -106,12 +106,10 @@ new_list(void)
  *
  * This list returns p to free.
  */
-
 void
 free_list(list *p)
 {
 	spare_lists = add_list(p, spare_lists);
-	return;
 }
 
 
@@ -120,20 +118,20 @@ free_list(list *p)
  *
  * This routine joins two lists, p and q, and returns the result.
  */
-
 list *
 add_list(list *p, list *q)
 {
 	list *r;
-	if (p == NULL) {
+
+	if (p == NULL)
 		return (q);
-	}
-	if (q == NULL) {
+
+	if (q == NULL)
 		return (p);
-	}
-	for (r = p ; r->next != NULL ; r = r->next) {
-		;	/* empty */
-	}
+
+	for (r = p; r->next != NULL; r = r->next)
+		;
+
 	r->next = q;
 	return (p);
 }
@@ -144,23 +142,18 @@ add_list(list *p, list *q)
  *
  * This routine adds a new item, s, to the end of the list p and returns the
  * result.
+ * XXX: better name?
  */
-
 list *
 add_item(list *p, char *s)
 {
-	list *q, *r;
+	list *q;
+
 	q = new_list();
 	q->item = s;
 	q->next = NULL;
-	if (p == NULL) {
-		return (q);
-	}
-	for ( r = p ; r->next != NULL ; r = r->next ) {
-		;	/* empty */
-	}
-	r->next = q;
-	return (p);
+
+	return (add_list(p, q));
 }
 
 
@@ -169,15 +162,18 @@ add_item(list *p, char *s)
  *
  * This routine adds a new item, s, to the start of the list p and returns the
  * result.
+ * XXX: better name?
  */
-
 list *
 insert_item(char *s, list *p)
 {
-	list *q = new_list();
+	list *q;
+
+	q = new_list();
 	q->item = s;
-	q->next = p;
-	return (q);
+	q->next = NULL;
+
+	return (add_list(q, p));
 }
 
 
@@ -185,7 +181,6 @@ insert_item(char *s, list *p)
  * Insert a command item in ascending order, based on their rank. Items with a
  * lower rank value are executed first.
  */
-
 list*
 insert_inorder(ordered_node* indata, list *inlst)
 {
@@ -197,13 +192,12 @@ insert_inorder(ordered_node* indata, list *inlst)
 	newlst->item = indata;
 	newlst->next = NULL;
 
-	if (inlst == NULL){
-	        return newlst;
-	}
+	if (inlst == NULL)
+	        return (newlst);
 
-	if (indata->rank < ((ordered_node*)curr->item)->rank){
+	if (indata->rank < ((ordered_node*)curr->item)->rank) {
 	        newlst->next = inlst;
-	        return newlst;
+	        return (newlst);
 	}
 
 	while (curr != NULL &&
@@ -211,9 +205,11 @@ insert_inorder(ordered_node* indata, list *inlst)
 	        prev = curr;
 	        curr = curr->next;
 	}
+
 	prev->next = newlst;
 	newlst->next = curr;
-	return head;
+
+	return (head);
 }
 
 
@@ -223,23 +219,24 @@ insert_inorder(ordered_node* indata, list *inlst)
  * This routine converts a string to a list by breaking it at all white spaces
  * (spaces and tabs).
  */
-
 list *
 make_list(char *s)
 {
 	list *r = NULL;
 	char *p = string_copy(s);
-	while (1) {
-		while (*p == ' ' || *p == '\t') {
-			*(p++) = 0;
-		}
-		if (*p == 0) {
+
+	for (;;) {
+		while (*p == ' ' || *p == '\t')
+			*(p++) = '\0';
+
+		if (*p == '\0')
 			break;
-		}
+
 		r = add_item(r, p);
-		while (*p && *p != ' ' && *p != '\t') {
+
+		while (*p && *p != ' ' && *p != '\t')
 			p++;
-		}
 	}
+
 	return (r);
 }

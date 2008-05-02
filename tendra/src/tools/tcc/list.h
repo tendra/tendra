@@ -61,12 +61,12 @@
 #ifndef LIST_H
 #define LIST_H
 
+
 /*
  * A ranked instruction. These structs are used to track commands issues
- * according to command line options. Since the commands must be sort, a
- * priority ranking fields is used.
+ * according to command line options. Since the commands must be sorted, a
+ * priority ranking field is used.
  */
-
 typedef struct _tag {
 	char *cmd;
 	int  rank;
@@ -79,25 +79,18 @@ typedef struct _tag {
  * A list consists of a simple list of strings linked via their next field. The
  * string is either char * or ordered_node.
  */
-
 typedef struct list_t {
-    void *item;
-    struct list_t *next;
+	void *item;
+	struct list_t *next;
 } list;
 
 
-/*
- * PROCEDURE DECLARATIONS
- *
- * These routines are concerned with creating and manipulating lists.
- */
-
-extern list *add_list(list *, list *);
-extern list *add_item(list *, char *);
-extern list *insert_item(char *, list *);
-extern list *insert_inorder(ordered_node*, list*);
-extern list *make_list(char *);
-extern void free_list(list *);
+list *add_list(list *, list *);
+list *add_item(list *, char *);
+list *insert_item(char *, list *);
+list *insert_inorder(ordered_node*, list*);
+list *make_list(char *);
+void free_list(list *);
 
 
 #endif /* LIST_H */
