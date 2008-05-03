@@ -201,6 +201,7 @@ main_middle(void)
  * the child process. It cleans up the temporary directory etc. and returns
  * exit_status to the calling process.
  */
+/* TODO we could use atexit() to register this, make it static, and simply exit() elsewhere */
 
 void
 main_end(void)

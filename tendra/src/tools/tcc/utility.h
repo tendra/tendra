@@ -101,6 +101,7 @@ typedef struct _hashtable {
  * PROCEDURE DECLARATIONS
  *
  * These routines are concerned with error reporting and memory allocation.
+ * TODO these ought to use shared/ instead.
  */
 
 extern void error(int, char *, ...);
