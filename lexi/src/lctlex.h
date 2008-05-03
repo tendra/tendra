@@ -31,6 +31,7 @@
 
 #include "exds/common.h"
 #include "exds/dstring.h"
+#include "ccode.h"
 #include "lctlexer.h"
 #include "char.h"
 
@@ -42,7 +43,7 @@ extern char lct_token_buff [2000];
 
 extern struct lexi_lct_state lct_lexer_state;
 
-extern char saved_lct_letter ;
+extern NStringT lct_token_nstring;
 
 /* 
    This custom string will be replaced
@@ -53,10 +54,10 @@ extern char saved_lct_letter ;
 typedef struct lct_parse_tree_tag {
 	int headersdefined;
 	int trailersdefined;
-	NStringT hfileheader;
-	NStringT cfileheader;
-	NStringT hfiletrailer;
-	NStringT cfiletrailer;
+	CcodeT hfileheader;
+	CcodeT cfileheader;
+	CcodeT hfiletrailer;
+	CcodeT cfiletrailer;
 } lct_parse_tree;
 
 extern lct_parse_tree global_lct_parse_tree ;

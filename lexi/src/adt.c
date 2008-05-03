@@ -32,11 +32,15 @@
 #include "adt.h"
 #include "xalloc/xalloc.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
 static ActionT* action_create(void)
 {
 	ActionT* action = xmalloc_nof (ActionT, 1);
-	action->code = NULL;
+	ccode_init(&action->code); 
+	typetuple_init(&action->inputs);
+	typetuple_init(&action->outputs);
+	action->defined=false;
 	return action ;
 }
 
@@ -60,19 +64,24 @@ TypeTupleT* action_get_outputs(ActionT* action)
 	return(&action->outputs) ;
 }
 
-DStringT* action_get_code(ActionT* action)
+CcodeT* action_get_code(ActionT* action)
 {
-	return(action->code) ;
+	return(&action->code) ;
 }
 
-void action_set_code(ActionT* action, DStringT* code)
+void action_set_code(ActionT* action, CcodeT* code)
 {
-	action->code = code ;
+	ccode_assign(&action->code,code) ;
+}
+
+void action_set_define(ActionT* action)
+{
+	action->defined=false;
 }
 
 int action_is_defined(ActionT* action)
 {
-	return (action->code!=NULL) ;
+	return (action->defined) ;
 }
 
 NStringT* entry_key(EntryT* entry) 
@@ -204,6 +213,18 @@ void typetuple_init(TypeTupleT* ttlist)
 	ttlist->head = NULL ;
 	ttlist->tail = &(ttlist->head) ;
 }
+
+bool typetuple_name_is_in(TypeTupleT* tt, NStringT* id) 
+{
+	TypeTupleEntryT* it;
+	for(it=tt->head; it!=NULL;it=it->next) {
+		if(nstring_equal(&it->local_name,id))
+			return true;
+	}
+
+	return false;
+}
+
 
 void typetuple_append(TypeTupleT* ttlist, TypeTupleEntryT* tt) 
 {

@@ -71,7 +71,7 @@ struct zone_tag;
 struct lexer_parse_tree_tag;
 
 typedef enum arg_type_tag { 
-  arg_charP, arg_char_nb, arg_chars_list, arg_litteral, arg_nb_of_chars
+  arg_charP, arg_char_nb, arg_chars_list, arg_litteral, arg_nb_of_chars,
 } arg_type ;
 
 typedef struct arg_tag {

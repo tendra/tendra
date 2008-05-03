@@ -37,21 +37,15 @@
 int crt_lct_token ;
 int saved_lct_token ;
 
-char saved_lct_letter ;
-
 lct_parse_tree global_lct_parse_tree ;
 
 char lct_token_buff [2000];
 static char *lct_token_end = lct_token_buff + sizeof(lct_token_buff);
 
+NStringT lct_token_nstring;
+
 static FILE* lct_file;
 struct lexi_lct_state lct_lexer_state;
-
-static void
-assign_lct_letter(int c)
-{
-	saved_lct_letter = c ;
-}
 
 
 static int 
@@ -64,7 +58,6 @@ lexi_lct_getchar()
 		return LEXI_EOF;
 	return c;
 }
-
 
 static int
 get_lct_identifier(int a)
@@ -84,6 +77,43 @@ get_lct_identifier(int a)
 	return lexi_lct_keyword(lct_token_buff, lct_lex_identifier);
 }
 
+static int
+get_code_lct_identifier(int a)
+{
+ 	int c = a;
+	char *t = lct_token_buff;
+	do {
+		*(t++) = (char)c;
+		if (t == lct_token_end)
+			error(ERROR_FATAL, "Buffer overflow");
+		c = lexi_lct_readchar(&lct_lexer_state);
+        } while(lexi_lct_group(lexi_lct_group_alphanum, c)) ;
+	*t = 0;
+	lexi_lct_push(&lct_lexer_state, c);
+
+	return lct_lex_code_Hidentifier;
+}
+
+
+static int
+get_code_lct_string(int a)
+{
+	int c = a;
+	DStringT dstring;
+	dstring_init(&dstring);
+	do {
+		dstring_append_char(&dstring, c) ;
+		c = lexi_lct_readchar(&lct_lexer_state);
+        } while(c!='@' && c!=LEXI_EOF) ;
+
+	lexi_lct_push(&lct_lexer_state, c);
+	
+	dstring_to_nstring(&dstring,&lct_token_nstring);
+	return lct_lex_code_Hstring;
+}
+
+
+
 
 #include "lctlexer.c"
 
@@ -92,10 +122,10 @@ init_lct_parse_tree (lct_parse_tree* a)
 {
 	a->headersdefined = 0;
 	a->trailersdefined = 0;
-	nstring_init(&(a->hfileheader)) ;
-	nstring_init(&(a->cfileheader)) ;
-	nstring_init(&(a->hfiletrailer)) ;
-	nstring_init(&(a->cfiletrailer)) ;
+	ccode_init(&(a->hfileheader)) ;
+	ccode_init(&(a->cfileheader)) ;
+	ccode_init(&(a->hfiletrailer)) ;
+	ccode_init(&(a->cfiletrailer)) ;
 }
 
 void 

@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 68 "lctsyntax.act"
+#line 76 "lctsyntax.act"
 
 /*
  * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
@@ -45,8 +45,11 @@
  #define LCT_SYNTAX_HEADER_INCLUDED
 
 #include "char.h"
+#include "ccode.h"
+#include "adt.h"
+
 extern lexer_parse_tree* lxi_top_level;
-#line 50 "lctsyntax.h"
+#line 53 "lctsyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -54,27 +57,31 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
-#define lct_lex_code_Hend (11)
+#define lct_lex_lone_Hcode_Hat (11)
+#define lct_lex_code_Hend (10)
+#define lct_lex_code_Heof (13)
 #define lct_lex_trailer_Hkw (1)
-#define lct_lex_comma (9)
+#define lct_lex_comma (8)
 #define lct_lex_action_Hkw (3)
-#define lct_lex_letter (6)
-#define lct_lex_unknown (14)
+#define lct_lex_unknown (18)
 #define lct_lex_colon (4)
-#define lct_lex_identifier (13)
+#define lct_lex_code_Hat (12)
+#define lct_lex_identifier (15)
 #define lct_lex_arrow (5)
-#define lct_lex_eof (12)
-#define lct_lex_semicolon (8)
+#define lct_lex_eof (14)
+#define lct_lex_semicolon (7)
 #define lct_lex_map_Hkw (2)
-#define lct_lex_define (7)
-#define lct_lex_code_Hstart (10)
+#define lct_lex_code_Hstring (17)
+#define lct_lex_define (6)
+#define lct_lex_code_Hidentifier (16)
+#define lct_lex_code_Hstart (9)
 #define lct_lex_header_Hkw (0)
 
 /* BEGINNING OF TRAILER */
 
-#line 289 "lctsyntax.act"
+#line 370 "lctsyntax.act"
 
 #endif
-#line 79 "lctsyntax.h"
+#line 86 "lctsyntax.h"
 
 /* END OF FILE */

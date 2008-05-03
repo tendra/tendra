@@ -143,16 +143,20 @@ lexi_lct_read_token_code_area(struct lexi_lct_state *state)
 		if (c0 == '@') {
 			int c1 = lexi_lct_readchar(state);
 			if (c1 == '@') {
-				assign_lct_letter('@');
-				return lct_lex_letter;
+				return lct_lex_code_Hat;
 			} else if (c1 == '}') {
 				state->zone_function = lexi_lct_read_token;
 				return lct_lex_code_Hend;
 			}
+			if (lexi_lct_group(lexi_lct_group_alpha, c1)) {
+				return get_code_lct_identifier(c0);
+			}
 			lexi_lct_push(state, c1);
+			return lct_lex_lone_Hcode_Hat;
+		} else if (c0 == LEXI_EOF) {
+			return lct_lex_code_Heof;
 		}
-		assign_lct_letter(c0);
-		return lct_lex_letter;
+		return get_code_lct_string(c0);
 	}
 }
 /* MAIN PASS ANALYSER for zone LineComment*/

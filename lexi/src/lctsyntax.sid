@@ -30,10 +30,11 @@
  */
 
 %types%
-LETTER ;
+ENTRYP;
 IDENTIFIER ;
 BIGSTRING ;
 TYPETUPLE;
+CCODE;
 
 %terminals%
 
@@ -43,28 +44,42 @@ map-kw;
 action-kw;
 colon;
 arrow;
-letter : () -> (:LETTER) ;
 define ;  	//=
 semicolon ;	//;
 comma ;   	//,
+
 code-start;	//@{
 code-end;	//@}
+lone-code-at;
+code-at;
+code-eof;
+
 eof;
 identifier : () -> (:IDENTIFIER);
+code-identifier : () -> (:IDENTIFIER);
+code-string : () -> (:BIGSTRING);
 !unknown ;
 
 %productions%
 
-<init-string> : () -> (:BIGSTRING);
-<set-headers> : (:BIGSTRING &, :BIGSTRING&) -> ();
-<set-trailers> : (:BIGSTRING &, :BIGSTRING&) -> ();
+<set-headers> : (:CCODE &, :CCODE&) -> ();
+<set-trailers> : (:CCODE &, :CCODE&) -> ();
 
 <init-tuple>: () -> (:TYPETUPLE);
 <append-tuple> : (:TYPETUPLE&,:IDENTIFIER,:IDENTIFIER) -> ();
 
-<append-letter> : ( :BIGSTRING & , :LETTER ) -> ();
 
-<define-action> : (:IDENTIFIER&, :TYPETUPLE&,:TYPETUPLE&,:BIGSTRING&) -> ();
+<define-action> : (:ENTRYP, :CCODE&) -> ();
+<check-action-tuples> : (:ENTRYP, :TYPETUPLE&, :TYPETUPLE&) -> ();	
+<null-entry> : () -> (:ENTRYP);
+<get-entry-action> : (:IDENTIFIER) -> (:ENTRYP);
+
+
+<init-ccode> : () -> (:CCODE);
+<append-ccode-string> : (:CCODE&, :BIGSTRING&) -> ();
+<append-ccode-identifier> : (:CCODE&, :IDENTIFIER, :ENTRYP) -> ();
+<append-ccode-at> : (:CCODE&) -> ();
+
 
 <E-syntax-error> ;
 <E_expected_code_end> ;
@@ -73,31 +88,44 @@ identifier : () -> (:IDENTIFIER);
 <E_expected_define> ;
 <E_expected_arrow> ;
 <E_expected_semicolon> ;
+
 <E_unexpected_eof> ;
+<E_lone_at_in_code_block>;
 
-letters : ( s:BIGSTRING& ) -> () = {
-	$;
-    ||
-	letters(&s) ; c = letter ; <append-letter>(&s,c);
-} ;
-
-grp-of-letters : ( s:BIGSTRING& ) -> () = {
-	letters(&s) ;
-    	{
-		$ ;
+code-block : (e:ENTRYP) -> (c:CCODE) [
+	code-element : (c:CCODE&, e:ENTRYP) -> () = {
+		s= code-string ;
+		<append-ccode-string>(&c, &s);
+	    ||	
+	    	i = code-identifier;
+		<append-ccode-identifier>(&c, i, e);
 	    ||
-		eof ; <E_unexpected_eof> ;
-	} ;
-};
+		lone-code-at;
+		<E_lone_at_in_code_block>;
+	    ||
+		code-at;
+		<append-ccode-at>(&c);
+	};
 
-code-block : () -> (s:BIGSTRING) = {
+	code-body : (c:CCODE&, e:ENTRYP) -> () = {
+		$;
+	    ||
+		code-element(&c, e);
+		code-body(&c, e); 
+	};
+] = {
 	{
 		code-start ;
-	    ##
+    	##
 		<E_expected_code_start> ;
 	} ;
-	s=<init-string>;
-	grp-of-letters(&s) ;
+	c=<init-ccode>;
+	code-body(&c, e);
+	{
+		$ ;
+	    ||
+		code-eof ; <E_unexpected_eof> ;
+	} ;
 	{
 		code-end ;
 	    ##
@@ -112,13 +140,14 @@ header-stmnt : () -> () = {
 	    ##
 		<E_expected_define> ;
 	} ;
-	sc=code-block;
+	e=<null-entry>;
+	sc=code-block(e);
 	{
 		comma ;
 	    ##
 		<E_expected_comma> ;
 	};
-	sh=code-block;
+	sh=code-block(e);
 	<set-headers>(&sc,&sh);
 	{
 		semicolon ;
@@ -134,13 +163,14 @@ trailer-stmnt : () -> () = {
 	    ##
 		<E_expected_define> ;
 	} ;
-	sc = code-block;
+	e=<null-entry>;
+	sc = code-block(e);
 	{
 		comma ;
 	    ##
 		<E_expected_comma> ;
 	};
-	sh=code-block;
+	sh=code-block(e);
 	<set-trailers>(&sc,&sh);
 	{
 		semicolon ;
@@ -166,16 +196,16 @@ map-stmnt : () -> () = {
 
 action-definition : () -> () [ 
 	type-tuple : ( ) -> (a:TYPETUPLE) [
-		type-name : (a:TYPETUPLE) -> () = {
+		type-name : (a:TYPETUPLE&) -> () = {
 			name=identifier ;
 			colon ;
 			type=identifier ;
 			<append-tuple>(&a,name,type);
 		} ;
 		type-tuple1 : (a:TYPETUPLE&) -> () = {
-			type-name(a) ;
+			type-name(&a) ;
 		    ||
-			type-name(a) ; type-tuple1(&a) ;
+			type-name(&a) ; type-tuple1(&a) ;
 		} ; ] = {
 		a=<init-tuple> ;
 	    ||
@@ -202,8 +232,11 @@ action-definition : () -> () [
 	    ##
 		<E_expected_define>;
 	};
-	c = code-block ;
-	<define-action>(&nm,&in,&out,&c);
+
+	e = <get-entry-action>(nm);
+	<check-action-tuples>(e, &in, &out);
+	c = code-block(e);
+	<define-action>(e, &c);
 	{
 		semicolon ;
 	    ##

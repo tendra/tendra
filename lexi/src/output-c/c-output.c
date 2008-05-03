@@ -63,8 +63,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "error.h"
-#include "xalloc.h"
+#include "error/error.h"
+#include "xalloc/xalloc.h"
 
 #include "char.h"
 #include "lex.h"
@@ -692,15 +692,15 @@ output_buffer(cmd_line_options* opt)
 void 
 output_headers()
 {
-	fputs(nstring_to_cstring(&(global_lct_parse_tree.hfileheader)), lex_output_h);
-	fputs(nstring_to_cstring(&(global_lct_parse_tree.cfileheader)), lex_output);
+	ccode_output(&(global_lct_parse_tree.hfileheader), lex_output_h);
+	ccode_output(&(global_lct_parse_tree.cfileheader), lex_output);
 }
 
 void 
 output_trailers()
 {
-	fputs(nstring_to_cstring(&(global_lct_parse_tree.hfiletrailer)), lex_output_h);
-	fputs(nstring_to_cstring(&(global_lct_parse_tree.cfiletrailer)), lex_output);
+	ccode_output(&(global_lct_parse_tree.hfiletrailer), lex_output_h);
+	ccode_output(&(global_lct_parse_tree.cfiletrailer), lex_output);
 }
 
 void

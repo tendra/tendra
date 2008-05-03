@@ -32,8 +32,10 @@
 #ifndef H_LEXI_ADT_INCLUDED
 #define H_LEXI_ADT_INCLUDED
 
+#include <stdbool.h>
 #include "exds/common.h"
 #include "exds/dstring.h"
+#include "ccode.h"
 
 #define TABLE_SIZE 256 
 
@@ -68,7 +70,8 @@ typedef struct TypeTupleT {
 typedef struct ActionT {
 	struct TypeTupleT inputs ;
 	struct TypeTupleT outputs ;
-	DStringT* code; /* The type of code will change: DStringT* is only a place holder */
+	CcodeT code; 
+	BoolT defined;
 } ActionT;
 
 
@@ -76,13 +79,15 @@ typedef EntryT* TableT[TABLE_SIZE];
 
 extern TypeTupleT* action_get_inputs(ActionT*);
 extern TypeTupleT* action_get_outputs(ActionT*);
-extern DStringT* action_get_code(ActionT*);
-extern void action_set_code(ActionT*, DStringT*);
+extern CcodeT* action_get_code(ActionT*);
+extern void action_set_code(ActionT*, CcodeT*);
 extern int action_is_defined(ActionT*);
+extern void action_set_define(ActionT*);
 
 extern EntryT* entry_create(NStringT*) ;
 extern int entry_is_type(EntryT*) ;
 extern int entry_is_action(EntryT*) ;
+extern NStringT* entry_key(EntryT*) ;
 extern ActionT* entry_get_action(EntryT*) ;
 
 extern void table_init(TableT);
@@ -96,6 +101,7 @@ extern TypeTupleEntryT* typetupleentry_create(NStringT*, EntryT*);
 extern void typetupleentry_destroy(TypeTupleEntryT*);
 
 extern void typetuple_init(TypeTupleT*);
+extern bool typetuple_name_is_in(TypeTupleT*, NStringT*);
 extern void typetuple_append(TypeTupleT*, TypeTupleEntryT*);
 extern void typetuple_assign(TypeTupleT*, TypeTupleT*);
 extern int typetuple_length(TypeTupleT*);

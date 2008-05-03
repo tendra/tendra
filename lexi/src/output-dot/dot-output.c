@@ -34,7 +34,7 @@
 #include <assert.h>
 
 #include "char.h"
-#include "error.h"
+#include "error/error.h"
 #include "options.h"
 #include "dot-output.h"
 #include "output.h"
