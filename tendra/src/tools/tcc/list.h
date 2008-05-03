@@ -63,12 +63,12 @@
 
 
 /*
- * A ranked instruction. These structs are used to track commands issues
+ * A ranked instruction. These structs are used to track commands issued
  * according to command line options. Since the commands must be sorted, a
  * priority ranking field is used.
  */
-typedef struct _tag {
-	char *cmd;
+typedef struct {
+	char *cmd;	/* TODO const */
 	int  rank;
 } ordered_node;
 
@@ -80,6 +80,7 @@ typedef struct _tag {
  * string is either char * or ordered_node.
  */
 typedef struct list_t {
+	/* TODO this ought to be a union of const char * and ordered_node * */
 	void *item;
 	struct list_t *next;
 } list;

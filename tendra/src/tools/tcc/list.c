@@ -162,6 +162,7 @@ add_item(list *p, char *s)
  *
  * This routine adds a new item, s, to the start of the list p and returns the
  * result.
+ * TODO argument order inconsistent against add_item()
  * XXX: better name?
  */
 list *
