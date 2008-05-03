@@ -1,0 +1,12 @@
+/*
+ * Tokens of varying lengths.
+ * $Id$
+ */
+
+TOKEN "a" -> $b;
+TOKEN "aa" -> $aa;
+TOKEN "ab" -> $ab;
+TOKEN "ba" -> $ba;
+TOKEN "bb" -> $bb;
+TOKEN "abc" -> $abc;
+

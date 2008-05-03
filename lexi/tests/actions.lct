@@ -1,0 +1,14 @@
+/*
+ * Dummy actions for testing C code generation.
+ *
+ * $Id$
+ */
+
+HEADERS = @{
+@} , @{
+@};
+
+TRAILERS = @{
+@},@{
+@};
+

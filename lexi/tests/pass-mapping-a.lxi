@@ -1,0 +1,9 @@
+/*
+ * Mapping to an empty string.
+ * $Id$
+ */
+
+MAPPING "a" -> "";
+
+TOKEN "x" -> $x;
+

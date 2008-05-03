@@ -1,0 +1,14 @@
+/*
+ * Nested comments.
+ * $Id$
+ */
+
+// single-line
+
+/*
+ * Multiline.
+ * /* nested multiline */
+ */
+
+TOKEN "x" -> $x;
+

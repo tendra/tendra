@@ -1,0 +1,7 @@
+/*
+ * Comments in SID identifiers.
+ * $Id$
+ */
+
+TOKEN "x" -> $/* error */x;
+

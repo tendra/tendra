@@ -1,0 +1,7 @@
+/*
+ * An empty token.
+ * $Id$
+ */
+
+TOKEN "" -> $empty;
+

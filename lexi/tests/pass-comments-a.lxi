@@ -1,0 +1,33 @@
+/*
+ * Comments.
+ * $Id$
+ */
+
+// single-line
+// nested // single // line
+//
+
+/*
+ * Multiline.
+ */
+
+/**/
+/**//**/
+
+/*
+*/
+
+/**///
+
+/**//*
+*///
+
+/*
+ * Multiline
+ * nested // single // line
+ */
+
+TOKEN "x" /* block */ -> $x;	// single-line
+TOKEN "y" // single
+	-> $y;
+
