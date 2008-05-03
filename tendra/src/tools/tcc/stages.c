@@ -211,7 +211,7 @@ producer_options(int pp)
 
 	if (!flag_nepc && std_prod_portfile) {
 		cmd_string("-n");
-		cmd_string(std_prod_portfile->item);
+		cmd_string(std_prod_portfile->item.s);
 	}
 	if (flag_diag) {
 		if (flag_diag == 1) {

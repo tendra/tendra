@@ -362,7 +362,7 @@ read_env_aux(char *nm, hashtable *ht)
 	    hn = lookup_table(ht, key_start);
 	    if (hn && (hn->flag & TCCENV)) {
 		/* process the command */
-		dummy.item = cmd;
+		dummy.item.s = cmd;
 		dummy.next = NULL;
 		process_options(&dummy, environ_optmap, 1);
 	    }

@@ -68,7 +68,7 @@
  * priority ranking field is used.
  */
 typedef struct {
-	char *cmd;	/* TODO const */
+	char *cmd;
 	int  rank;
 } ordered_node;
 
@@ -76,12 +76,18 @@ typedef struct {
 /*
  * TYPE REPRESENTING A LIST OF STRINGS
  *
- * A list consists of a simple list of strings linked via their next field. The
- * string is either char * or ordered_node.
+ * A list consists of a list of strings linked via their next field. The
+ * string is either char * or encapsulated as an ordered_node.
  */
 typedef struct list_t {
-	/* TODO this ought to be a union of const char * and ordered_node * */
-	void *item;
+	union {
+		/* A string */
+		char *s;
+
+		/* An ordered node */
+		ordered_node *on;
+	} item;
+
 	struct list_t *next;
 } list;
 

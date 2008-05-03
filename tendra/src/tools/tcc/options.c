@@ -1043,8 +1043,8 @@ match_option(char *in, char *out, char *opt, args_out *res)
 		    list **sp = lookup_list(p + 1);
 		    if (sp == NULL) return (MATCH_OUT_ERR);
 		    for (pt = *sp; pt; pt = pt->next) {
-			int l = (int)strlen(pt->item);
-			IGNORE strncpy(q, pt->item,(size_t)l);
+			int l = (int)strlen(pt->item.s);
+			IGNORE strncpy(q, pt->item.s,(size_t)l);
 			q += l;
 			*(q++) = ' ';
 		    }
@@ -1136,7 +1136,7 @@ interpret_cmd(char *cmd)
 	    if (sp == NULL) return;
 	    comment(1, "%s=\"", cmd + 3);
 	    for (p = *sp; p != NULL; p = p->next) {
-		comment(1, "%s", p->item);
+		comment(1, "%s", p->item.s);
 		if (p->next)comment(1, " ");
 	    }
 	    comment(1, "\"\n");
@@ -1367,8 +1367,8 @@ interpret_cmd(char *cmd)
 		}
 		comment(1, "%c%c =", cmd[2], cmd[3]);
 		for (pt = *sp; pt != NULL; pt = pt->next) {
-		    if (pt->item) {
-			comment(1, " %s", pt->item);
+		    if (pt->item.s) {
+			comment(1, " %s", pt->item.s);
 		    } else {
 			comment(1, " (NULL)");
 		    }
@@ -1418,9 +1418,9 @@ process_options(list *opt, optmap *tab, int fast)
 	/* Scan through the options */
 	while (p != NULL) {
 		if (status == MATCH_MORE) {
-			arg = string_concat(arg, p->item);
+			arg = string_concat(arg, p->item.s);
 		} else {
-			arg = p->item;
+			arg = p->item.s;
 		}
 		status = MATCH_FAILED;
 		for (t = tab; t->in != NULL; t++) {
@@ -1434,7 +1434,6 @@ process_options(list *opt, optmap *tab, int fast)
 						interpret_cmd(res.argv[a]);
 					} else {
 						ordered_node *dn =
-						    (ordered_node *)
 						    xalloc(sizeof(ordered_node));
 						dn->rank = t->rank;
 						dn->cmd  = res.argv[a];
@@ -1480,7 +1479,7 @@ end_search:
 	if (no_shuffle == 0 && fast == 0) {
 		while (accum) {
 			ordered_node* dn;
-			dn = accum->item;
+			dn = accum->item.on;
 			interpret_cmd (dn->cmd);
 			accum = accum->next;
 		}

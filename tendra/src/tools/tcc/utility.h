@@ -135,6 +135,7 @@ extern char *progname;
  * error.
  */
 
+/* TODO enum */
 #define FATAL		0
 #define INTERNAL	1
 #define SERIOUS		2
@@ -149,9 +150,10 @@ extern char *progname;
  * These macros give convenient shorthands for various constructs.
  */
 
+/* XXX shouldn't cast to int here */
 #define alloc_size(T, N)	((N) * sizeof(T))
-#define alloc_nof(T, N)		(T *)xalloc(alloc_size(T, N))
-#define realloc_nof(P, T, N)	(T *)xrealloc((P), alloc_size(T, N))
+#define alloc_nof(T, N)		xalloc(alloc_size(T, N))
+#define realloc_nof(P, T, N)	xrealloc((P), alloc_size(T, N))
 #define array_size(A)		(sizeof(A) / sizeof(A[0]))
 
 

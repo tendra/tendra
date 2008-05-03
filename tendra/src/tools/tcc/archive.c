@@ -474,7 +474,7 @@ process_archive_opt(void)
 {
 	list *p;
 	for (p = opt_joiner; p != NULL; p = p->next) {
-		char *opt = p->item;
+		const char *opt = p->item.s;
 		if (strcmp(opt, "-copy") == 0 || strcmp(opt, "-c") == 0) {
 			archive_links = 0;
 			link_specs = 0;

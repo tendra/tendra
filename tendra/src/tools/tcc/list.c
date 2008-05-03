@@ -150,7 +150,7 @@ add_item(list *p, char *s)
 	list *q;
 
 	q = new_list();
-	q->item = s;
+	q->item.s = s;
 	q->next = NULL;
 
 	return (add_list(p, q));
@@ -171,7 +171,7 @@ insert_item(char *s, list *p)
 	list *q;
 
 	q = new_list();
-	q->item = s;
+	q->item.s = s;
 	q->next = NULL;
 
 	return (add_list(q, p));
@@ -190,19 +190,19 @@ insert_inorder(ordered_node* indata, list *inlst)
 	list *newlst  = new_list();
 	list *prev = newlst;
 
-	newlst->item = indata;
+	newlst->item.on = indata;
 	newlst->next = NULL;
 
 	if (inlst == NULL)
 	        return (newlst);
 
-	if (indata->rank < ((ordered_node*)curr->item)->rank) {
+	if (indata->rank < curr->item.on->rank) {
 	        newlst->next = inlst;
 	        return (newlst);
 	}
 
 	while (curr != NULL &&
-	           ((ordered_node*)curr->item)->rank <= indata->rank) {
+	           curr->item.on->rank <= indata->rank) {
 	        prev = curr;
 	        curr = curr->next;
 	}

@@ -550,10 +550,10 @@ initialise_options(void)
 	/* Initialise other options */
 	find_envpath();
 	for (p = opt_startup; p != NULL; p = p->next) {
-		add_to_startup(p->item);
+		add_to_startup(p->item.s);
 	}
 	for (p = opt_endup; p != NULL; p = p->next) {
-		add_to_endup(p->item);
+		add_to_endup(p->item.s);
 	}
 	if (checker) {
 		allow_specs = 1;

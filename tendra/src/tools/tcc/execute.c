@@ -82,6 +82,7 @@
  * complete command is terminated by a null string.
  */
 
+/* TODO I think this ought to be const char ** */
 static char **command = NULL;
 static int command_size = 0;
 static int cmd_no = 0;
@@ -177,7 +178,7 @@ void
 cmd_list(list *p)
 {
 	for (; p != NULL; p = p->next) {
-		cmd_string(p->item);
+		cmd_string(p->item.s);
 	}
 	return;
 }

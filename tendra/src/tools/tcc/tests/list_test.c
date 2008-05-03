@@ -51,7 +51,7 @@ static void addstr(unsigned int n) {
 	for (i = 0; i < sizeof s / sizeof *s; i++) {
 		for (j = 0; j <= n; j++) {
 			assert(p != NULL);
-			assert(0 == strcmp(p->item, s[i]));
+			assert(0 == strcmp(p->item.s, s[i]));
 			p = p->next;
 		}
 	}
@@ -77,7 +77,7 @@ static void insertstr(unsigned int n) {
 	for (i = sizeof s / sizeof *s; i > 0; i--) {
 		for (j = 0; j <= n; j++) {
 			assert(p != NULL);
-			assert(0 == strcmp(p->item, s[i - 1]));
+			assert(0 == strcmp(p->item.s, s[i - 1]));
 			p = p->next;
 		}
 	}
@@ -116,7 +116,7 @@ static void joinstr(unsigned int n) {
 	for (i = 0; i < sizeof s / sizeof *s; i++) {
 		for (j = 0; j <= n; j++) {
 			assert(p != NULL);
-			assert(0 == strcmp(p->item, s[i]));
+			assert(0 == strcmp(p->item.s, s[i]));
 			p = p->next;
 		}
 	}
@@ -124,7 +124,7 @@ static void joinstr(unsigned int n) {
 	for (i = sizeof s / sizeof *s; i > 0; i--) {
 		for (j = 0; j <= n; j++) {
 			assert(p != NULL);
-			assert(0 == strcmp(p->item, s[i - 1]));
+			assert(0 == strcmp(p->item.s, s[i - 1]));
 			p = p->next;
 		}
 	}
@@ -142,7 +142,7 @@ int main(void) {
 	 */
 
 	for (i = 0; i < sizeof n / sizeof *n; i++) {
-		/* Operations on unordered items */
+		/* Operations on string items */
 		addstr(n[i]);
 		insertstr(n[i]);
 		joinstr(n[i]);
