@@ -61,6 +61,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "config.h"
 #include "filename.h"
@@ -82,16 +83,6 @@ boolean case_insensitive = 0;
 
 
 /*
- * IS A CHARACTER UPPER CASE?
- *
- * This macro checks whether the character C is upper case.  It is ASCII
- * dependent.
- */
-
-#define is_upper_case(C)	((C) >= 'A' && (C) <= 'Z')
-
-
-/*
  * CONVERT A STRING TO LOWER CASE
  *
  * This routine converts the string s to lower case.
@@ -102,9 +93,7 @@ to_lower_case(char *s)
 {
 	char c;
 	while (c = *s, c != 0) {
-		if (is_upper_case(c)) {
-			*s = (char)(c - 'A' + 'a');
-		}
+		*s = (char) tolower(c);
 		s++;
 	}
 	return;
@@ -405,8 +394,9 @@ file_suffix(int t)
 		break;
 	}
 	if (suff[0]) {
-		if (case_insensitive && is_upper_case(suff[0])) {
+		if (case_insensitive && isupper(suff[0])) {
 			/* Make allowances for case insensitive systems */
+			/* TODO do we really care to support case-insensitive filesystems? */
 			to_lower_case(suff);
 			suff[1] = suff[0];
 		}
