@@ -181,7 +181,7 @@ main_start(char *prog, char **envp)
 static void
 main_middle(void)
 {
-	char *s = temp_name(temporary_dir, progname);
+	char *s = tempnam(temporary_dir, progname);
 	tempdir = string_copy(s);
 	cmd_list(exec_mkdir);
 	cmd_string(tempdir);

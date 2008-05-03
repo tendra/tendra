@@ -93,7 +93,7 @@ void
 add_to_startup(char *s)
 {
 	if (startup_name == NULL) {
-		startup_name = temp_name(temporary_dir, "ts");
+		startup_name = tempnam(temporary_dir, "ts");
 		startup_opt = string_concat("-f", startup_name);
 	}
 	opt_startup = add_item(opt_startup, s);
@@ -124,7 +124,7 @@ void
 add_to_endup(char *s)
 {
 	if (endup_name == NULL) {
-		endup_name = temp_name(temporary_dir, "te");
+		endup_name = tempnam(temporary_dir, "te");
 		startup_opt = string_concat("-e", endup_name);
 	}
 	opt_endup = add_item(opt_endup, s);
@@ -166,7 +166,7 @@ static void
 add_to_tokdef(char *s)
 {
 	if (tokdef_name == NULL) {
-		tokdef_name = temp_name(temporary_dir, "td");
+		tokdef_name = tempnam(temporary_dir, "td");
 	}
 	if (dry_run) {
 		return;

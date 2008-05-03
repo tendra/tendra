@@ -73,16 +73,11 @@
 #include <dirent.h>
 #include <errno.h>
 #include <sys/stat.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <sys/wait.h>
 
 #ifndef environ
 extern char **environ;
 #endif
-
-#define temp_name(X, Y)		tempnam((X), (Y))
-#define get_cwd(X, Y)		getcwd((X), (Y))
 
 typedef int wait_type;
 #define process_wait(X)		wait((X))

@@ -59,6 +59,7 @@
 
 
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 
 #include "config.h"
@@ -188,7 +189,7 @@ find_fullname(char *s)
 		return (s);
 	}
 	if (pwd == NULL) {
-		if (get_cwd(buffer, buffer_size)) {
+		if (getcwd(buffer, buffer_size)) {
 			pwd = string_concat(buffer, "/");
 		} else {
 			error(WARNING,

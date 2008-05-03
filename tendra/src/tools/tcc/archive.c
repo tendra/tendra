@@ -338,7 +338,7 @@ remove_recursive(char *nm)
 #if 0
 		fprintf(stderr, "tcc: trying to remove directory '%s'\n", nm);
 #endif
-		if (rmdir(nm) != 0) {
+		if (remove(nm) != 0) {
 			error(SERIOUS, "Can't remove directory '%s'", nm);
 			return (1);
 		}
