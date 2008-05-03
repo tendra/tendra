@@ -61,7 +61,6 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
-
 /*
  * TEMPORARY WORK SPACE
  *
@@ -150,10 +149,10 @@ extern char *progname;
  * These macros give convenient shorthands for various constructs.
  */
 
-#define alloc_size(T, N)	((int)(N) * (int)sizeof(T))
+#define alloc_size(T, N)	((N) * sizeof(T))
 #define alloc_nof(T, N)		(T *)xalloc(alloc_size(T, N))
 #define realloc_nof(P, T, N)	(T *)xrealloc((P), alloc_size(T, N))
-#define array_size(A)		((int)sizeof(A) / (int)sizeof(A[0]))
+#define array_size(A)		(sizeof(A) / sizeof(A[0]))
 
 
 #endif /* UTILITY_H */
