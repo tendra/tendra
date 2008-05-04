@@ -61,7 +61,7 @@ extern void read_lex(zoneP);
 #define lex_keyword (8)
 #define lex_range (26)
 #define lex_comma (29)
-#define lex_action_Hkw (37)
+#define lex_action_Hkw (39)
 #define lex_digit (5)
 #define lex_unknown (31)
 #define lex_close (17)
@@ -69,6 +69,7 @@ extern void read_lex(zoneP);
 #define lex_string (2)
 #define lex_equal (22)
 #define lex_colon (25)
+#define lex_arg_Hreturn_Hterminal (36)
 #define lex_range_Hclosed_Hopen (28)
 #define lex_token (10)
 #define lex_white (11)
@@ -80,7 +81,7 @@ extern void read_lex(zoneP);
 #define lex_group (7)
 #define lex_nothing_Hmarker (30)
 #define lex_open (16)
-#define lex_begin_Haction (38)
+#define lex_begin_Haction (40)
 #define lex_eof (21)
 #define lex_zone (13)
 #define lex_plus (23)
@@ -88,21 +89,22 @@ extern void read_lex(zoneP);
 #define lex_if (14)
 #define lex_semicolon (24)
 #define lex_arg_Hchar_Hstring (33)
-#define lex_type_Hkw (40)
+#define lex_type_Hkw (42)
 #define lex_copyright (6)
 #define lex_open_Hbrace (18)
 #define lex_range_Hclosed_Hclosed (27)
-#define lex_end_Haction (39)
+#define lex_end_Haction (41)
 #define lex_default (12)
-#define lex_arg_Hchar_Hvoid (36)
+#define lex_arg_Hchar_Hvoid (38)
 #define lex_mapping (9)
+#define lex_arg_Hignore (37)
 #define lex_arg_Hchar_Hlist (32)
 
 /* BEGINNING OF TRAILER */
 
-#line 719 "syntax.act"
+#line 755 "syntax.act"
 
 #endif
-#line 107 "tmp.syntax.h"
+#line 109 "tmp.syntax.h"
 
 /* END OF FILE */

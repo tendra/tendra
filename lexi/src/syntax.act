@@ -281,6 +281,13 @@ arg-nb-of-chars : () ->(a:ARG) = @{
       @a=add_arg(arg_nb_of_chars,0);
 @};
 
+arg-return-terminal : () -> (a:ARG) = @{
+      @a=add_arg(arg_return_terminal,0);
+@};
+
+arg-ignore : () -> (a:ARG) = @{
+      @a=add_arg(arg_ignore,0);
+@};
 
 %actions%
 
@@ -366,7 +373,7 @@ arg-nb-of-chars : () ->(a:ARG) = @{
         @inst=add_instruction_function(@i,@a);
     } 
     else {
-        @inst=add_instruction_return_token(@i);
+        @inst=add_instruction_return_terminal(@i);
     }
 @};
 
@@ -374,8 +381,21 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 	@inst=add_instruction_donothing();
 @};
 
-<make-action-inst> : (i:IDENTIFIER) -> (inst:INSTRUCTION)  = @{
-	@inst=add_instruction_action(@i);
+<make-action-inst> : ( z: ZONE, i:IDENTIFIER, l:ARGS_LIST, r:ARGS_LIST) -> (inst:INSTRUCTION)  = @{
+	NStringT key;
+	nstring_copy_cstring(&key, @i);
+	EntryT* entry = table_get_entry(@z->top_level->table, &key);
+	if(entry) {
+		if(entry_is_action(entry))
+			@inst=add_instruction_action(entry,@l,@r);
+		else
+			@inst=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", @i);
+	} else {
+		@inst=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", @i);
+	}
+	xfree(@i);
 @};
 
 /*CREATE A CHAR LIST */
@@ -387,11 +407,6 @@ arg-nb-of-chars : () ->(a:ARG) = @{
     ADD ARGS to ARGS LIST
 */
 <args-list-push-front> : ( a:ARG , l:ARGS_LIST ) -> () = @{
-    if(@a->next!= NULL) {
-       if(@a->type==return_token || @a->type==do_nothing) {
-         error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an arg-list"); 
-       }
-    }
     @a->next=@l->head;
     @l->head=@a;
 @};
@@ -413,17 +428,21 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 /*
     ADD INSTRUCTION to INSTRUCTION LIST 
 */
-<add-inst-to-list> : ( i : INSTRUCTION, il : INSTRUCTIONS_LIST ) ->() = @{
-	@i->next=@il->head;
-	@il->head=@i;
+<add-inst-to-list> : ( i : INSTRUCTION, il : INSTRUCTIONS_LIST ) -> () = @{
+	if(@i!=NULL) { // if @i == NULL, an error has already been issued.
+		if((@il->head !=NULL) && (@i->type==return_terminal || @i->type==do_nothing)) {
+			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an arg-list"); 
+		}
+		@i->next=@il->head;
+		@il->head=@i;
+	}
 @};
 
 /*
     EMPTY INSTRUCTION LIST
 */
 
-<empty-inst-list> : () -> (i:INSTRUCTIONS_LIST) //: INSTRUCTIONS_LIST ) 
-= @{
+<empty-inst-list> : () -> (i:INSTRUCTIONS_LIST) = @{
     @i=add_instructions_list();
 @};
 
@@ -473,7 +492,7 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 	"the arglist must remain empty");
         break;
       }
-    case return_token: 
+    case return_terminal: 
     /* Fallback is intentional */
       add_keyword ( @z, @s, crt_cond, @i ) ;
     break;
@@ -552,15 +571,6 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 */
 
 /* 
-   GLOBAL ZONE
-
-   This action gives the global zone 
-<global-zone> : () -> ( z:ZONE ) = @{
-   @z=lxi_parse_tree.global_zone;
-@};
-*/  
-
-/* 
    ADDING A NEW ZONE
 
    This action adds a a new zone
@@ -582,10 +592,17 @@ arg-nb-of-chars : () ->(a:ARG) = @{
     add_char ( @z, @z->zone_main_pass, @b, crt_cond, inst_list, NULL ) ;
 @};
 
-<make_arg_from_string> : ( s : STRING ) -> ( a : ARG )= @{
+<make_arg_from_string> : ( s : STRING ) -> ( a : ARG ) = @{
 	@a = add_litteral_arg (@s);
 @};
 
+<make_arg_from_identifier> : (i:IDENTIFIER) -> (a:ARG) = @{
+	@a = add_identifier_arg (@i);
+@};
+
+<make_arg_none> : () -> (a:ARG) = @{
+	@a = add_none_arg();
+@};
 
 /* 
    IS THE ZONE GLOBAL
@@ -611,6 +628,7 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 <make-type> : ( z:ZONE, i:IDENTIFIER ) -> () = @{
 	NStringT str;
 	nstring_copy_cstring(&str,@i);
+	xfree(@i);
 	if(table_get_entry(@z->top_level->table, &str)) {
 		nstring_destroy(&str);
 		error(ERROR_SERIOUS, "can't create type %s because of name clash",@i);
@@ -622,6 +640,7 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 <make-action> : ( z:ZONE, i:IDENTIFIER, params:TYPETUPLE&, results:TYPETUPLE&) -> () = @{
 	NStringT str;
 	nstring_copy_cstring(&str, @i);
+	xfree(@i);
 	if(table_get_entry(@z->top_level->table, &str)) {
 		error(ERROR_SERIOUS, "can't create action %s because of name clash",@i);
 		nstring_destroy(&str);
@@ -652,6 +671,8 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 		 error(ERROR_SERIOUS, "%s is not a type", @type);
 	else
 		typetuple_append(@&a,typetupleentry_create(&istr,entry));
+	xfree(@type);
+	xfree(@id);
 @} ;
 
 /* 
@@ -711,9 +732,24 @@ arg-nb-of-chars : () ->(a:ARG) = @{
 @};
 
 <syntax-error> : () -> () = @{
-    error ( ERROR_SERIOUS, "Syntax error" ) ;
+	error ( ERROR_SERIOUS, "Syntax error" ) ;
 @} ;
 
+<E_sharp_arg_in_lhs> : () -> () = @{
+	error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+@} ;
+
+<E_string_arg_in_lhs> : () -> () = @{
+	error(ERROR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
+@} ;
+
+<E_return_terminal_in_rhs> : () -> () = @{
+	error(ERROR_SERIOUS, "Return terminal argument in right handside");
+@};
+
+<E_ignore_in_rhs> : () -> () = @{
+	error(ERROR_SERIOUS, "Ignore argument in right handside");
+@};
 
 %trailer% @{
 @}, @{

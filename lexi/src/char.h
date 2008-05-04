@@ -71,7 +71,8 @@ struct zone_tag;
 struct lexer_parse_tree_tag;
 
 typedef enum arg_type_tag { 
-  arg_charP, arg_char_nb, arg_chars_list, arg_litteral, arg_nb_of_chars,
+  arg_charP, arg_char_nb, arg_chars_list, arg_litteral, arg_nb_of_chars, arg_identifier, arg_reference,
+  arg_ignore, arg_return_terminal, arg_none /*Just for error recovery*/ 
 } arg_type ;
 
 typedef struct arg_tag {
@@ -94,7 +95,7 @@ typedef struct user_function_tag {
   args_list* args;
 } user_function;
 
-typedef enum instruction_type_tag { return_token, push_zone, pop_zone, apply_function, do_nothing , action } instruction_type ;
+typedef enum instruction_type_tag { return_terminal, push_zone, pop_zone, apply_function, do_nothing , action } instruction_type ;
 
 typedef struct instruction_tag {
   instruction_type type;
@@ -106,6 +107,11 @@ typedef struct instruction_tag {
       int is_beginendmarker_in_zone ;
     } s;
     user_function* fun; 
+    struct {
+      EntryT* called_act;
+      args_list* lhs; 
+      args_list* rhs; 
+    } act;
   } u;
 } instruction ;
 
@@ -284,14 +290,17 @@ extern size_t zone_maxlength(zone *, int);
 extern zone * find_zone (zone*, char*); 
 
 extern user_function* add_user_function (char *name) ;
-extern instruction * add_instruction_return_token (char* name);
+extern instruction * add_instruction_return_terminal (char* name);
 extern instruction* add_instruction_function (char* name, args_list* args) ;
-extern instruction* add_instruction_donothing () ;
-extern instruction* add_instruction_action (char*) ;
+extern instruction* add_instruction_donothing (void) ;
+extern instruction * add_instruction_action (EntryT*, args_list*, args_list*) ;
 extern instruction* add_instruction_mapping (char* map) ;
 extern args_list* add_args_list (void) ;
 extern arg* add_arg (arg_type, unsigned int) ;
 extern arg* add_litteral_arg ( char* ) ;
+extern arg* add_identifier_arg ( char* ) ;
+extern arg* add_reference_arg ( char* ) ;
+extern arg* add_none_arg ( void ) ;
 extern instruction* add_instruction_pushzone (zone* z) ;
 extern instruction* add_instruction_popzone (zone* z, int is_endmarker_in_zone) ;
 extern instructions_list* add_instructions_list (void) ;

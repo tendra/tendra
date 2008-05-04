@@ -149,7 +149,7 @@ lexi_lct_read_token_code_area(struct lexi_lct_state *state)
 				return lct_lex_code_Hend;
 			}
 			if (lexi_lct_group(lexi_lct_group_alpha, c1)) {
-				return get_code_lct_identifier(c0);
+				return get_code_lct_identifier(c1);
 			}
 			lexi_lct_push(state, c1);
 			return lct_lex_lone_Hcode_Hat;

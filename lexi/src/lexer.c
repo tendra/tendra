@@ -212,6 +212,9 @@ lexi_read_token(struct lexi_state *state)
 		int c0 = lexi_readchar(state);
 		if (lexi_group(lexi_group_white, c0)) goto start;
 		switch (c0) {
+			case '!': {
+				return lex_arg_Hignore;
+			}
 			case '"': {
 				return get_string(c0);
 			}
@@ -241,7 +244,7 @@ lexi_read_token(struct lexi_state *state)
 					return get_sid_ident(c0, c1);
 				}
 				lexi_push(state, c1);
-				break;
+				return lex_arg_Hreturn_Hterminal;
 			}
 			case '(': {
 				return lex_open;

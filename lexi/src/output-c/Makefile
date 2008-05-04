@@ -6,7 +6,7 @@ REMOVE = rm -f
 AR = ar
 RANLIB = ranlib
 
-CFLAGS += -I ../shared/error -I ../shared/xalloc -I ..
+CFLAGS += -I ../shared -I ..
 
 all: output-c.a
 

@@ -118,6 +118,10 @@ TOKEN "\"" -> get_string (##) ;
 TOKEN "[alpha]" -> get_identifier (##) ;
 TOKEN "$[alpha]" -> get_sid_ident (##) ;
 
+TOKEN "$" -> $arg-return-terminal ;
+TOKEN "!" -> $arg-ignore ;
+
+
 /* Keywords */
 KEYWORD "TYPE" -> $type-kw ;
 KEYWORD "GROUP" -> $group ;

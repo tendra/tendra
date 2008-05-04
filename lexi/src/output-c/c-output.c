@@ -145,7 +145,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
   instruction* instr;
   for(instr=ret->head; instr; instr=instr->next) {
     switch(instr->type) {
-    case return_token :
+    case return_terminal :
       /* assert(!instr->next);*/
       output_indent(lex_output, d);
       fprintf(lex_output, "return %s;\n", instr->u.name);
@@ -885,7 +885,7 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 			fprintf(output, "%s()", p->instr->u.fun->name);
 			break;
 
-		case return_token:
+		case return_terminal:
 			fprintf(output, "%s", p->instr->u.name);
 			break;
 

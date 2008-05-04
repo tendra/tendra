@@ -94,7 +94,7 @@ code-string : () -> (:BIGSTRING);
 
 code-block : (e:ENTRYP) -> (c:CCODE) [
 	code-element : (c:CCODE&, e:ENTRYP) -> () = {
-		s= code-string ;
+		s = code-string ;
 		<append-ccode-string>(&c, &s);
 	    ||	
 	    	i = code-identifier;

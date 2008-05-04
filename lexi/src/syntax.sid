@@ -103,6 +103,8 @@ arg-char-list : () -> (:ARG);
 arg-char-string : () -> (:ARG);
 arg-char-nb : () -> (:ARG);
 arg-nb-of-chars : () -> (:ARG);
+arg-return-terminal : () -> (:ARG);
+arg-ignore : () -> (:ARG);
 arg-char-void; //temporary
 
 action-kw ;
@@ -128,7 +130,7 @@ type-kw ;
 <make-group> : ( :ZONE, :IDENTIFIER, :CHARACTERS ) -> () ;
 <make-trigraph> : ( :ZONE, :CHARACTERS, :STRING ) -> () ;
 <make-inst>  :  ( :IDENTIFIER, :ARGS_LIST) -> (:INSTRUCTION) ;
-<make-action-inst> : (:IDENTIFIER) -> (:INSTRUCTION) ;
+<make-action-inst> : (:ZONE, :IDENTIFIER, :ARGS_LIST, :ARGS_LIST) -> (:INSTRUCTION) ;
 <make-donothing-inst> : () -> (:INSTRUCTION) ;
 <make-token> : ( :ZONE, :CHARACTERS, :INSTRUCTIONS_LIST ) -> () ;
 <make-default> : ( :ZONE, :INSTRUCTIONS_LIST ) -> () ;
@@ -150,7 +152,8 @@ type-kw ;
 <args-list-push-front> : ( :ARG , :ARGS_LIST) -> () ;
 <arg-char-list-tmp> :    () -> ( :ARG);
 <make_arg_from_string> : (:STRING) -> (:ARG);
-
+<make_arg_from_identifier> : (:IDENTIFIER) -> (:ARG);
+<make_arg_none> : () -> (:ARG);
 
 <empty-inst-list> : () -> ( : INSTRUCTIONS_LIST);
 <add-inst-to-list> : ( : INSTRUCTION, : INSTRUCTIONS_LIST ) -> ();
@@ -167,8 +170,14 @@ type-kw ;
 <E_expected_arrow> 	 : () -> ();
 <E_expected_equal> 	 : () -> ();
 
+<E_sharp_arg_in_lhs> : () -> ();
+<E_string_arg_in_lhs> : () -> ();
+<E_return_terminal_in_rhs> : () -> ();
+
+
 <is-non-empty> : ( : CHARACTERS , :ZONE) -> ( : BOOL );
 <E_empty_character_string> : () -> ();
+<E_ignore_in_rhs> : () -> ();
 
 <syntax-error> : () -> () ;
 
@@ -286,7 +295,10 @@ single-arg : () -> ( a : ARG ) = {
     ||  a=arg-char-string ;
     ||  a=arg-char-nb ;
     ||  a=arg-nb-of-chars ;
+    ||  a=arg-return-terminal ; <E_return_terminal_in_rhs>;
+    ||  a=arg-ignore ; <E_ignore_in_rhs>;
     ||  b=string ; a=<make_arg_from_string>(b);
+    ||  i=identifier ; a=<make_arg_from_identifier>(i);
 } ;
 
 non-empty-tuple-args : () -> (l: ARGS_LIST) = {
@@ -404,48 +416,55 @@ action-decl : (z:ZONE) -> () = {
    ACTION CALL 
 */
 
-action-call : () -> (inst:INSTRUCTION) [	 
-	lhs-tuple1 : () -> () = {
-		id = identifier;
+action-call : (z:ZONE) -> (inst:INSTRUCTION) [
+	lhs-arg : () -> ( a : ARG ) = {
+		b=arg-char-list ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
+	    ||  b=arg-char-string ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
+	    ||  b=arg-char-nb ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
+	    ||  b=arg-nb-of-chars ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
+	    ||  b=string ; a=<make_arg_none>; <E_string_arg_in_lhs>;
+	    ||  i=identifier ; a=<make_arg_from_identifier>(i);
+	    ||  a=arg-return-terminal ;
+	    ||  a=arg-ignore ;
+} ;
+
+	lhs-tuple1 : () -> (l:ARGS_LIST) = {
+		a = lhs-arg ; l=<empty-args-list> ; <args-list-push-front>(a,l); 
 	    ||
-		id=identifier; comma; lhs-tuple1;
+		a = lhs-arg; comma; l = lhs-tuple1; <args-list-push-front>(a,l);
+
 	};
-	lhs-tuple : () -> () = {
-		id = identifier;
+	lhs-tuple : () -> (l:ARGS_LIST) = {
+		a=lhs-arg; l=<empty-args-list> ; <args-list-push-front>(a,l); 
 	    ||
 		open;
-		lhs-tuple1;
+		l = lhs-tuple1;
 		close;
 	};
-	rhs-tuple1 : () -> () = {
-		id = identifier;
-	    ||
-		id=identifier; comma; rhs-tuple1;
-	};
-	rhs-tuple : () -> () = {
+	rhs-tuple : () -> (r: ARGS_LIST) = {
      		open ;
 		{
-			$;
+			r=<empty-args-list> ;
 		    ||
-			rhs-tuple1;
+			r = non-empty-tuple-args;
 		} ;
 		close;
 	}; ] = {
        	{
-	        $ ;
+	        l = <empty-args-list> ;
 	    ||
-		lhs-tuple ;
+		l=lhs-tuple ;
 		equal ;
 	} ;
 	begin-action ;
 	i = identifier ;
 	end-action ; 
 	{
-		$;
+		r=<empty-args-list> ;
 	    ||
-		rhs-tuple;
+		r = rhs-tuple;
 	};
-    	inst= <make-action-inst>(i) ;
+    	inst = <make-action-inst>(z, i, l, r) ;
 } ;
 
 
@@ -453,7 +472,7 @@ action-call : () -> (inst:INSTRUCTION) [
   INSTRUCTION LISTS
 */
 
-instruction : () -> (inst:INSTRUCTION) = {
+instruction : (z:ZONE) -> (inst:INSTRUCTION) = {
 	{
 		i = identifier ; a = args ;
 	    ||	
@@ -466,17 +485,17 @@ instruction : () -> (inst:INSTRUCTION) = {
 		inst = <make-donothing-inst>;
 	} ;
     ||	
-    	inst = action-call ;
+    	inst = action-call(z) ;
 } ;
 
-instructions-list : () -> (instl:INSTRUCTIONS_LIST) = {
-		  inst=instruction ; 
+instructions-list : (z:ZONE) -> (instl:INSTRUCTIONS_LIST) = {
+		  inst=instruction(z) ; 
 		  instl=<empty-inst-list>;
 		  <add-inst-to-list>( inst, instl);
 	||
-		  inst=instruction ;
+		  inst=instruction(z) ;
    		  comma; 
-		  instl=instructions-list ; 
+		  instl=instructions-list(z) ; 
 		  <add-inst-to-list>( inst, instl);
 } ;
 
@@ -489,13 +508,13 @@ instructions-list : () -> (instl:INSTRUCTIONS_LIST) = {
 
 token-defn : ( z:ZONE ) -> () = {
 	token ; s = non-empty-chars(z) ; arrow ;
-	inst-list=instructions-list;
+	inst-list=instructions-list(z);
 	<make-token> ( z, s, inst-list) ;
 } ;
 
 default-defn : ( z:ZONE ) -> () = {
         token ; default ; arrow ;
-	inst-list=instructions-list;
+	inst-list=instructions-list(z);
         <make-default> ( z, inst-list) ; 
 } ;
 
@@ -509,7 +528,7 @@ default-defn : ( z:ZONE ) -> () = {
 
 keyword-defn : ( z:ZONE ) -> () = {
 	keyword ; s = string ; arrow ;
-	inst=instruction ; 
+	inst=instruction(z) ; 
 	{
 		?=<is-global-zone> (z); 
 	    	<make-keyword> ( z, s, inst) ;
@@ -564,7 +583,7 @@ zone-defn : (z:ZONE) -> ()  = {
 	};
 	{
 		arrow; 
-		entry-instl=instructions-list;
+		entry-instl=instructions-list(z);
 	    ||  
 		entry-instl=<empty-inst-list>;
 	};
@@ -584,7 +603,7 @@ zone-defn : (z:ZONE) -> ()  = {
 	};
 	{
 		arrow; 
-		leaving-instl=instructions-list;
+		leaving-instl=instructions-list(z);
 	    ||  
 		leaving-instl=<empty-inst-list>;
 	};

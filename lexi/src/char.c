@@ -189,6 +189,43 @@ add_litteral_arg ( char* s)
 }
 
 /*
+    ADDS AN ARG
+
+    This routines adds an identifier arg
+ */
+arg *
+add_identifier_arg ( char* s)
+{
+    arg* p = new_arg();
+    p->type = arg_identifier;
+    p->u.litteral = s;
+    return p;
+}
+
+/*
+    ADDS AN ARG
+
+    This routines adds a reference arg
+ */
+arg *
+add_reference_arg ( char* s)
+{
+    arg* p = new_arg();
+    p->type = arg_identifier;
+    p->u.litteral = s;
+    return p;
+}
+
+extern arg* add_none_arg ( void ) 
+{
+    arg* p = new_arg();
+    p->type = arg_none;
+    p->u.litteral = NULL;
+    return p;
+}
+
+
+/*
     ALLOCATES A NEW ARGS LIST
 
     This routines allocates a new args list
@@ -286,9 +323,9 @@ new_instruction (instruction_type type)
 */
 
 instruction * 
-add_instruction_return_token (char* name)
+add_instruction_return_terminal (char* name)
 {
-    instruction *p=new_instruction(return_token);
+    instruction *p=new_instruction(return_terminal);
     p->u.name=name;
     return p;
 }
@@ -328,9 +365,12 @@ add_instruction_donothing ()
 */
 
 instruction * 
-add_instruction_action (char* name) 
+add_instruction_action (EntryT* act, args_list* lhs, args_list* rhs) 
 {
     instruction* p=new_instruction(action);
+    p->u.act.called_act=act;
+    p->u.act.rhs=rhs;
+    p->u.act.lhs=lhs;
     return p;
 }
 

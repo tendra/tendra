@@ -103,7 +103,7 @@ output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
 		if(p->u.definition) {
 			for(instr = p->u.definition->head; instr; instr = instr->next) {
 				switch(instr->type) {
-				case return_token:
+				case return_terminal:
 					/* TODO rename to just prefix */
 					/* TODO map back _H */
 					fprintf(dotout, "$%s",
