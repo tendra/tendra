@@ -65,9 +65,10 @@ code-string : () -> (:BIGSTRING);
 <set-headers> : (:CCODE &, :CCODE&) -> ();
 <set-trailers> : (:CCODE &, :CCODE&) -> ();
 
-<init-tuple>: () -> (:TYPETUPLE);
+<init-tuple> : () -> (:TYPETUPLE);
 <append-tuple> : (:TYPETUPLE&,:IDENTIFIER,:IDENTIFIER) -> ();
 
+<make-map> : (:IDENTIFIER, :IDENTIFIER) -> ();
 
 <define-action> : (:ENTRYP, :CCODE&) -> ();
 <check-action-tuples> : (:ENTRYP, :TYPETUPLE&, :TYPETUPLE&) -> ();	
@@ -187,6 +188,7 @@ map-stmnt : () -> () = {
 		<E_expected_arrow>;
 	};
 	ctype=identifier; 
+	<make-map>(lexitype, ctype);
 	{
 		semicolon ;
 	    ##

@@ -53,7 +53,8 @@ typedef struct EntryT {
 } EntryT;
 
 typedef struct TypeT {
-	void* code;
+	bool mapped;
+	NStringT mapping;
 } TypeT;
 
 typedef struct TypeTupleEntryT {
@@ -88,7 +89,11 @@ extern EntryT* entry_create(NStringT*) ;
 extern int entry_is_type(EntryT*) ;
 extern int entry_is_action(EntryT*) ;
 extern NStringT* entry_key(EntryT*) ;
+extern TypeT* entry_get_type(EntryT*) ;
 extern ActionT* entry_get_action(EntryT*) ;
+
+extern void type_init(TypeT*);
+extern void type_map(TypeT*, NStringT*);
 
 extern void table_init(TableT);
 extern EntryT* table_get_entry(TableT, NStringT*) ;

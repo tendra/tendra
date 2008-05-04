@@ -123,6 +123,24 @@ ActionT* entry_get_action(EntryT* entry)
 	return entry->u.action;
 }
 
+TypeT* entry_get_type(EntryT* entry)
+{
+	/*TODO assert entry_is_type */
+	return entry->u.type;
+}
+
+void type_init(TypeT* t) 
+{
+	nstring_init(&(t->mapping));
+	t->mapped = false;
+}
+
+void type_map(TypeT* t, NStringT* mapping)
+{
+	nstring_assign(&t->mapping,mapping);
+	t->mapped=true;
+}
+
 
 void table_init(TableT table) 
 {

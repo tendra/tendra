@@ -244,6 +244,24 @@ code-string : () -> (s:BIGSTRING) = @{
 		typetuple_append(@&a,typetupleentry_create(@&id,entry));
 @} ;
 
+<make-map> : (lexitype:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
+	EntryT* entry= table_get_entry(lxi_top_level->table,@&lexitype);
+	if(entry !=NULL) {
+		if(entry_is_type(entry)) {
+			TypeT* type = entry_get_type(entry);
+			type_map(type, @&ctype);
+		} else {
+			error(ERROR_SERIOUS, "Name in maps section is not a type");
+			nstring_destroy(@&ctype);
+		}
+	} else {
+		error(ERROR_SERIOUS, "Unknown type in mapping");
+		nstring_destroy(@&ctype);
+	}
+	nstring_destroy(@&lexitype);
+@};
+
+
 <get-entry-action> : (i:IDENTIFIER) -> (e:ENTRYP) = @{
 	@e=table_get_entry(lxi_top_level->table,@&i);
 	nstring_destroy(@&i);
