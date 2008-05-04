@@ -17,7 +17,6 @@
 #include "../filename.h"
 filename *execute(filename *input, filename *output) { }
 #include "../list.h"
-list *opt_endup = NULL;
 const char *temporary_dir = "tempdir";
 const char *name_h_file = "name_h_file";
 const char *name_E_file = "name_E_file";

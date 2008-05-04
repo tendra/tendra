@@ -57,8 +57,6 @@
         it may be put.
 */
 
-#include <stdio.h>
-
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -380,7 +378,6 @@ list *opt_archive = NULL;
 list *opt_joiner = NULL;
 list *opt_cc = NULL;
 list *opt_startup = NULL;
-list *opt_endup = NULL;
 list *opt_unknown = NULL;
 
 
@@ -550,9 +547,6 @@ initialise_options(void)
 
 	/* Initialise other options */
 	find_envpath();
-	for (p = opt_endup; p != NULL; p = p->next) {
-		add_to_endup(p->item.s);
-	}
 	if (checker) {
 		allow_specs = 1;
 	}

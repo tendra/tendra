@@ -125,7 +125,6 @@ add_to_endup(const char *s)
 		endup_name = tempnam(temporary_dir, "te");
 		startup_opt = string_concat("-e", endup_name);
 	}
-	opt_endup = add_item(opt_endup, s);
 	if (dry_run) {
 		return;
 	}
