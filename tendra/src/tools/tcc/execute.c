@@ -300,6 +300,8 @@ print_cmd(char *b)
  * unistd.h to fork a process and various routines from sys/wait.h to analyse
  * the result. The interface with sys/wait.h has been abstracted to also allow
  * the BSD implementation.
+ *
+ * TODO explain what happens when called with no_filename, no_filename
  */
 
 filename *
