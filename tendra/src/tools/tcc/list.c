@@ -145,7 +145,7 @@ add_list(list *p, list *q)
  * XXX: better name?
  */
 list *
-add_item(list *p, char *s)
+add_item(list *p, const char *s)
 {
 	list *q;
 
@@ -166,7 +166,7 @@ add_item(list *p, char *s)
  * XXX: better name?
  */
 list *
-insert_item(char *s, list *p)
+insert_item(const char *s, list *p)
 {
 	list *q;
 
@@ -221,7 +221,7 @@ insert_inorder(ordered_node* indata, list *inlst)
  * (spaces and tabs).
  */
 list *
-make_list(char *s)
+make_list(const char *s)
 {
 	list *r = NULL;
 	char *p = string_copy(s);

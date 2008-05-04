@@ -144,7 +144,7 @@ show_envpath(void)
 */
 
 int
-read_env_aux(char *nm, hashtable *ht)
+read_env_aux(const char *nm, hashtable *ht)
 {
     /* Find the environment */
     FILE *f;
@@ -184,7 +184,7 @@ read_env_aux(char *nm, hashtable *ht)
 	char	*esc_start;  /* start of substituion field, always a '<' */
 	char	*esc_end;    /* end of susbtitution field, always a '>' */
 	int	 esc_len;    /* number of chars to escape over */
-	char	*sub;	     /* character substitution for escape sequences */
+	const char	*sub;	     /* character substitution for escape sequences */
 	int	 count;      /* counter to stop scan at buffer_size */
 	int	 line_len;   /* length of this buffer */
 	char	*end = NULL; /* end of line */
@@ -389,12 +389,12 @@ read_env_aux(char *nm, hashtable *ht)
  * function performs all error handling; it will return a valid char *, or
  * fail.
  */
-char *
-dereference_var(char *esc_start, char *esc_end, hashtable *ht, char *nm,
+const char *
+dereference_var(const char *esc_start, char *esc_end, hashtable *ht, const char *nm,
 		int line_num)
 {
 	htnode* hn;
-	char *sub = NULL;
+	const char *sub = NULL;
 	/* temporarily replace '>' with '\0' to facilitate lookup */
 	char tmp = *esc_end;
 	*esc_end = '\0';
@@ -478,7 +478,7 @@ reconcile_envopts(void)
  */
 
 void
-read_env(char *nm)
+read_env(const char *nm)
 {
 	int e;
 	static hashtable *ht;

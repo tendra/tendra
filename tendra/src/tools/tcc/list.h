@@ -68,7 +68,7 @@
  * priority ranking field is used.
  */
 typedef struct {
-	char *cmd;
+	const char *cmd;
 	int  rank;
 } ordered_node;
 
@@ -82,7 +82,7 @@ typedef struct {
 typedef struct list_t {
 	union {
 		/* A string */
-		char *s;
+		const char *s;
 
 		/* An ordered node */
 		ordered_node *on;
@@ -93,10 +93,10 @@ typedef struct list_t {
 
 
 list *add_list(list *, list *);
-list *add_item(list *, char *);
-list *insert_item(char *, list *);
+list *add_item(list *, const char *);
+list *insert_item(const char *, list *);
 list *insert_inorder(ordered_node*, list*);
-list *make_list(char *);
+list *make_list(const char *);
 void free_list(list *);
 
 

@@ -70,9 +70,9 @@
  */
 
 extern void	dump_env(void);
-extern void	read_env(char *);
-extern int	read_env_aux(char *, hashtable *);
-extern char	*dereference_var(char *, char*, hashtable *, char *, int);
+extern void	read_env(const char *);
+extern int	read_env_aux(const char *, hashtable *);
+extern const char	*dereference_var(const char *, char *, hashtable *, const char *, int);
 extern void	find_envpath(void);
 extern void	reconcile_envopts(void);
 extern void	show_envpath(void);

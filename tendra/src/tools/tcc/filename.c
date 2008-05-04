@@ -108,7 +108,7 @@ to_lower_case(char *s)
  * kept in step with Table 1.
  */
 
-char *suffixes[TYPE_ARRAY_SIZE] = {
+const char *suffixes[TYPE_ARRAY_SIZE] = {
 	NULL,	/* C_SOURCE */
 	NULL,	/* PREPROC_C */
 	"cpp",	/* CPP_SOURCE */
@@ -143,8 +143,8 @@ char *suffixes[TYPE_ARRAY_SIZE] = {
  * the work directory, workdir.
  */
 
-char *tempdir = NULL;
-char *workdir = NULL ;
+const char *tempdir = NULL;
+const char *workdir = NULL ;
 
 
 /*
@@ -152,11 +152,12 @@ char *workdir = NULL ;
  *
  * This routine returns the basename of the file name s.
  */
+/* TODO use basename() */
 
-char *
-find_basename(char *s)
+const char *
+find_basename(const char *s)
 {
-	char *r = s;
+	const char *r = s;
 	for (; *s; s++) {
 		if (*s == '/')r = s + 1;
 	}
@@ -170,10 +171,10 @@ find_basename(char *s)
  * This routine returns the full name of the file name s.
  */
 
-char *
-find_fullname(char *s)
+const char *
+find_fullname(const char *s)
 {
-	static char *pwd = NULL;
+	static const char *pwd = NULL;
 	if (*s == '/') {
 		return (s);
 	}
@@ -449,7 +450,7 @@ static int uniq_no = 0;
  */
 
 filename *
-find_filename(char *s, int t)
+find_filename(const char *s, int t)
 {
 	filename *p = new_filename();
 	char *b = string_copy(find_basename(s));
@@ -470,6 +471,7 @@ find_filename(char *s, int t)
 			}
 		}
 	}
+	/* TODO this is silly */
 	if (t == UNKNOWN_TYPE) {
 		if (e[0]) {
 			if (e[1]) {
@@ -566,8 +568,10 @@ filename *
 make_filename(filename *p, int t, int s)
 {
 	boolean f = 0;
-	char *b = NULL, *d, *e;
-	char *nm = NULL;
+	char *e;
+	const char *d;
+	const char *b = NULL;
+	const char *nm = NULL;
 	filename *q = new_filename();
 
 	/* Examine the storage class */

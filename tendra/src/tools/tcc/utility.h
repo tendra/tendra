@@ -77,10 +77,10 @@ extern char *buffer;
 
 typedef struct _htnode {
 	struct _htnode *next;
-	char *val;
-	char *key;
+	const char *val;
+	const char *key;
 	unsigned int  flag;
-	char *file;
+	const char *file;
 	int  line_num;
 } htnode;
 
@@ -92,7 +92,7 @@ typedef struct _hashtable {
 	htnode **node;
 	int tblsize;
 	int keysize; /* max length of key to hash */
-	int (*hashfcn)(char*, int, int);
+	int (*hashfcn)(const char *, int, int);
 } hashtable;
 
 
@@ -105,17 +105,17 @@ typedef struct _hashtable {
 
 extern void error(int, char *, ...);
 extern void comment(int, char *, ...);
-extern char* find_path_subst(char *);
-extern int hash(char *, int, int);
-extern hashtable *init_table(int, int, int (*fcn)(char *, int, int));
-extern htnode *lookup_table(hashtable *, char *);
+extern const char* find_path_subst(const char *);
+extern int hash(const char *, int, int);
+extern hashtable *init_table(int, int, int (*fcn)(const char *, int, int));
+extern htnode *lookup_table(hashtable *, const char *);
 extern void *xalloc(int);
 extern void *xrealloc(void *, int);
-extern char *string_append(char *, char *, char);
-extern char *string_copy(char *);
-extern char *string_concat(char *, char *);
-extern htnode *update_table(hashtable *, char *, char *, unsigned int, char *,
-			    int);
+extern char *string_append(const char *, const char *, char);
+extern char *string_copy(const char *);
+extern char *string_concat(const char *, const char *);
+extern htnode *update_table(hashtable *, const char *, const char *,
+	unsigned int, const char *, int);
 
 
 /*
@@ -125,7 +125,7 @@ extern htnode *update_table(hashtable *, char *, char *, unsigned int, char *,
  */
 
 extern int exit_status;
-extern char *progname;
+extern const char *progname;
 
 
 /*

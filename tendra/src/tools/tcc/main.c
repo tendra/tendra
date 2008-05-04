@@ -133,7 +133,7 @@ handler(int sig)
 		comment(1, "\n");
 
 	if (sig != SIGINT) {
-		char *cmd = (last_command ? last_command : "unknown");
+		const char *cmd = (last_command ? last_command : "unknown");
 		error(SERIOUS, "Caught signal %d in '%s'", sig, cmd);
 	}
 

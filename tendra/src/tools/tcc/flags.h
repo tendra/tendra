@@ -81,23 +81,23 @@ extern void set_stage(int, int);
  * These variables give various compilation constants.
  */
 
-extern char *api_info;
-extern char *api_output;
-extern char *dump_opts;
-extern char *environ_dir;
-extern char *final_name;
-extern char *machine_name;
-extern char *name_E_file;
-extern char *name_h_file;
-extern char *name_j_file;
-extern char *name_k_file;
-extern char *name_K_file;
-extern char *name_p_file;
-extern char *temporary_dir;
-extern char *tokdef_output;
-extern char *version_flag;
-extern char *dev_null;
-extern char **env_paths;
+extern const char *api_info;
+extern const char *api_output;
+extern const char *dump_opts;
+extern const char *environ_dir;
+extern const char *final_name;
+extern const char *machine_name;
+extern const char *name_E_file;
+extern const char *name_h_file;
+extern const char *name_j_file;
+extern const char *name_k_file;
+extern const char *name_K_file;
+extern const char *name_p_file;
+extern const char *temporary_dir;
+extern const char *tokdef_output;
+extern const char *version_flag;
+extern const char *dev_null;
+extern const char **env_paths;
 
 
 /*

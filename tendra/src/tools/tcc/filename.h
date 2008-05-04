@@ -74,8 +74,8 @@
  */
 
 typedef struct filename_t {
-	char *name;
-	char *bname;
+	const char *name;
+	const char *bname;
 	int uniq;
 	int type;
 	int storage;
@@ -141,7 +141,7 @@ typedef struct filename_t {
  * set from the command line. Initially, it is empty.
  */
 
-extern char *suffixes[];
+extern const char *suffixes[];
 
 
 /*
@@ -151,8 +151,8 @@ extern char *suffixes[];
  * directory.
  */
 
-extern char *tempdir;
-extern char *workdir;
+extern const char *tempdir;
+extern const char *workdir;
 
 
 /*
@@ -172,10 +172,10 @@ extern int no_input_files;
  * These routines are concerned with creating and manipulating filenames.
  */
 
-extern char *find_basename(char *);
-extern char *find_fullname(char *);
+extern const char *find_basename(const char *);
+extern const char *find_fullname(const char *);
 extern filename *add_filename(filename *, filename *);
-extern filename *find_filename(char *, int);
+extern filename *find_filename(const char *, int);
 extern filename *make_filename(filename *, int, int);
 extern int find_type(int, int);
 extern int where(int);

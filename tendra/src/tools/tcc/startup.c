@@ -90,7 +90,7 @@ char *startup_opt = NULL, *endup_opt = NULL;
  */
 
 void
-add_to_startup(char *s)
+add_to_startup(const char *s)
 {
 	if (startup_name == NULL) {
 		startup_name = tempnam(temporary_dir, "ts");
@@ -121,7 +121,7 @@ add_to_startup(char *s)
  */
 
 void
-add_to_endup(char *s)
+add_to_endup(const char *s)
 {
 	if (endup_name == NULL) {
 		endup_name = tempnam(temporary_dir, "te");
@@ -163,7 +163,7 @@ char *tokdef_name = NULL;
  */
 
 static void
-add_to_tokdef(char *s)
+add_to_tokdef(const char *s)
 {
 	if (tokdef_name == NULL) {
 		tokdef_name = tempnam(temporary_dir, "td");
@@ -270,7 +270,7 @@ remove_startup(void)
  */
 
 void
-add_pragma(char *s)
+add_pragma(const char *s)
 {
 	char *e;
 	char *level = "warning";
@@ -303,7 +303,7 @@ add_pragma(char *s)
  */
 
 void
-add_token(char *s)
+add_token(const char *s)
 {
 	char *type = "int";
 	char *defn = "1";

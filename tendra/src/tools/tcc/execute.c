@@ -82,8 +82,7 @@
  * complete command is terminated by a null string.
  */
 
-/* TODO I think this ought to be const char ** */
-static char **command = NULL;
+static const char **command = NULL;
 static int command_size = 0;
 static int cmd_no = 0;
 
@@ -136,7 +135,7 @@ process_delayed_signal(void)
  */
 
 void
-cmd_string(char *s)
+cmd_string(const char *s)
 {
 	if (cmd_no >= command_size) {
 		command_size += 1000;
@@ -159,7 +158,7 @@ cmd_string(char *s)
  */
 
 void
-cmd_filename(filename *p)
+cmd_filename(const filename *p)
 {
 	for (; p != NULL; p = p->next) {
 		cmd_string(p->name);
@@ -175,7 +174,7 @@ cmd_filename(filename *p)
  */
 
 void
-cmd_list(list *p)
+cmd_list(const list *p)
 {
 	for (; p != NULL; p = p->next) {
 		cmd_string(p->item.s);
@@ -207,7 +206,7 @@ reset_exec_error(void)
  * success) are stored.
  */
 
-char *last_command = NULL;
+const char *last_command = NULL;
 int last_return = 0;
 
 
@@ -246,7 +245,7 @@ kill_stray(void)
  * This gives the list of the files which are to be removed if an error occurs.
  */
 
-static filename *junk = NULL;
+static const filename *junk = NULL;
 
 
 /*
@@ -258,7 +257,7 @@ static filename *junk = NULL;
 void
 remove_junk(void)
 {
-	filename *p;
+	const filename *p;
 
 	if (dry_run || flag_keep_err)
 		return;
@@ -282,7 +281,7 @@ remove_junk(void)
 static void
 print_cmd(char *b)
 {
-	char **s;
+	const char **s;
 	for (s = command; *s != NULL; s++) {
 		*b = ' ';
 		IGNORE strcpy(b + 1, *s);
@@ -306,7 +305,7 @@ print_cmd(char *b)
 filename *
 execute(filename *input, filename *output)
 {
-	char *cmd;
+	const char *cmd;
 	int err = 0;
 	boolean filled_buff = 0;
 	char buff[buffer_size];
@@ -323,7 +322,7 @@ execute(filename *input, filename *output)
 
 	if (taciturn) {
 		/* Print input files if in taciturn mode */
-		filename *p;
+		const filename *p;
 		for (p = input; p != NULL; p = p->next) {
 			if (p->storage == INPUT_FILE) {
 				comment(1, "%s:\n", p->name);
@@ -340,6 +339,7 @@ execute(filename *input, filename *output)
 
 	if (cmd && strneq(cmd, "builtin/", 8)) {
 		/* Check built in commands */
+		/* XXX this is optimisation at the expense of readability; simplify */
 		cmd += 8;
 		switch (*cmd) {
 		case 'b':
@@ -446,7 +446,7 @@ execute(filename *input, filename *output)
 
 			/* print tool chain commands sent to execv */
 			if (tool_chain) {
-				char **curr = command;
+				const char **curr = command;
 				IGNORE printf ("\n%s \\\n", *curr++);
 
 				while (*curr) {
@@ -477,7 +477,8 @@ execute(filename *input, filename *output)
 				}
 			}
 
-			IGNORE execve(cmd, command, environment);
+			/* XXX The cast to void * is to const-ness. Perhaps copy first */
+			IGNORE execve(cmd, (void *) command, environment);
 			running_pid = -1;
 			error(SERIOUS, "Can't execute '%s'", cmd);
 			exit(2);
@@ -490,7 +491,7 @@ execute_error:
 	last_return = err;
 	if (tidy_up) {
 		/* Remove unneeded files */
-		filename *p;
+		const filename *p;
 		for (p = input; p != NULL; p = p->next) {
 			if (p->storage == TEMP_FILE && p->type != BINARY_OBJ) {
 				IGNORE remove_file(p->name);

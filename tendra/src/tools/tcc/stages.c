@@ -154,7 +154,7 @@ static filename *uniq_tempfile = NULL;
  */
 
 static filename *
-uniq_filename(char *nm, int t, int s, filename *input)
+uniq_filename(const char *nm, int t, int s, filename *input)
 {
 	filename *p = find_filename(nm, t);
 	filename *q = make_filename(p, t, s);
@@ -272,7 +272,8 @@ filename *
 do_produce(filename *input)
 {
 	int spec_produced;
-	filename *output, *spec = NULL;
+	filename *output;
+	filename *spec = NULL;
 
 	if (input == NULL) {
 		return (input);
@@ -711,7 +712,7 @@ linker_options(filename *input, filename *output)
 	if (use_hp_linker) {
 		filename *p;
 		for (p = input; p != NULL; p = p->next) {
-			char *arg = p->name;
+			const char *arg = p->name;
 			if (strneq(arg, "-B", 2)) {
 				cmd_string("-B");
 				cmd_string(arg + 2);
@@ -731,7 +732,7 @@ linker_options(filename *input, filename *output)
 	} else {
 		filename *p;
 		for (p = input; p != NULL; p = p->next) {
-			char *arg = p->name;
+			const char *arg = p->name;
 			if (strneq(arg, "-l", 2)) {
 				/*
 				 * Save up -l options for inclusion after any

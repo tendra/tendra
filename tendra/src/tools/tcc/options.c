@@ -391,7 +391,7 @@ static boolean debug_options = 0;
 
 static boolean xx_bool = 0;
 static list *xx_list = NULL;
-static char *xx_string = NULL;
+static const char *xx_string = NULL;
 
 
 /*
@@ -405,7 +405,7 @@ static void
 special_option(void)
 {
 	boolean b = 1;
-	char *s = xx_string;
+	const char *s = xx_string;
 	if (strneq(s, "no_", 3)) {
 		b = 0;
 		s += 3;
@@ -436,9 +436,10 @@ special_option(void)
  * This routine takes a two letter code, s, and returns a pointer to the
  * corresponding boolean variable.
  */
+/* TODO could this be replaced with an enum? */
 
 static boolean *
-lookup_bool(char *s)
+lookup_bool(const char *s)
 {
 	char a = s[0];
 	char b = 0;
@@ -466,6 +467,7 @@ lookup_bool(char *s)
 		break;
 	case 'E':
 		if (b == 'S') return (&no_shuffle);
+		/* TODO fall-through intentional? */
 	case 'H':
 		if (b == 'L') return (&use_hp_linker);
 		break;
@@ -538,7 +540,7 @@ lookup_bool(char *s)
  */
 
 static list **
-lookup_list(char *s)
+lookup_list(const char *s)
 {
 	char a = s[0];
 	char b = 0;
@@ -752,8 +754,8 @@ case_O:
  * corresponding string variable.
  */
 
-static char **
-lookup_string(char *s)
+static const char **
+lookup_string(const char *s)
 {
 	char a = s[0];
 	char b = 0;
@@ -778,7 +780,7 @@ lookup_string(char *s)
 	}
 	if (a == 'S') {
 		int t;
-		char *p1;
+		const char *p1;
 
 		if (b == 'V') {
 			int i = s[2] - '0';
@@ -817,7 +819,7 @@ lookup_string(char *s)
  * in lookup_proc.
  */
 
-static char *lookup_proc_arg = NULL;
+static const char *lookup_proc_arg = NULL;
 
 
 /*
@@ -852,7 +854,7 @@ add_token_aux(void)
 typedef void	(*proc)(void);
 
 static proc
-lookup_proc(char *s)
+lookup_proc(const char *s)
 {
 	char a = s[0];
 	char b = 0;
@@ -893,14 +895,14 @@ lookup_proc(char *s)
  */
 
 static int
-match_option(char *in, char *out, char *opt, args_out *res)
+match_option(char *in, char *out, const char *opt, args_out *res)
 {
     char *p = in;
-    char *q = opt;
+    const char *q = opt;
 
     int i, a, v = 1;
     int go = 1, loop = 1, loopv = -1;
-    struct { char *txt; int len; } var[max_var];
+    struct { const char *txt; int len; } var[max_var];
 
     /* Process input */
     while (*p && go) {
@@ -1012,7 +1014,7 @@ match_option(char *in, char *out, char *opt, args_out *res)
     for (i = 0; i < loop; i++) {
 	int count = 0;
 	char buff[MAX_LINE];
-	q = buff;
+	char *q = buff;
 	for (p = out; *p && count < MAX_LINE; p++, count++) {
 	    if (*p == '$') {
 		/* Variable */
@@ -1033,7 +1035,7 @@ match_option(char *in, char *out, char *opt, args_out *res)
 			q += l;
 		    }
 		} else if (c == 'B') {
-		    boolean *b = lookup_bool(p + 1);
+		    const boolean *b = lookup_bool(p + 1);
 		    if (b == NULL) return (MATCH_OUT_ERR);
 		    IGNORE sprintf(q, "%d",(int)*b);
 		    while (*q)q++;
@@ -1051,7 +1053,7 @@ match_option(char *in, char *out, char *opt, args_out *res)
 		    p += 2;
 		} else if (c == 'S') {
 		    int l;
-		    char **sp = lookup_string(p + 1);
+		    const char **sp = lookup_string(p + 1);
 		    if (sp == NULL) return (MATCH_OUT_ERR);
 		    if (*sp) {
 			l = (int)strlen(*sp);
@@ -1091,7 +1093,7 @@ match_option(char *in, char *out, char *opt, args_out *res)
  */
 
 static void
-interpret_cmd(char *cmd)
+interpret_cmd(const char *cmd)
 {
     char c = *cmd;
 
@@ -1127,7 +1129,7 @@ interpret_cmd(char *cmd)
     /* Deal with list query */
     if (c == '?') {
 	if (cmd[1] == ':') {
-	    char **sp = lookup_string(cmd + 2);
+	    const char **sp = lookup_string(cmd + 2);
 	    if (sp == NULL) return;
 	    comment(1, "%s=\"%s\"\n", cmd + 4, *sp);
 	} else {
@@ -1206,7 +1208,8 @@ interpret_cmd(char *cmd)
 		char var[MAX_LINE];
 		char val[MAX_LINE];
 		int  count;
-		char *p, *q, *r;
+		char *q, *r;
+		const char *p;
 		char c1;
 		char **subs;
 		int i;
@@ -1278,7 +1281,7 @@ interpret_cmd(char *cmd)
 	    int t;
 	    filename *f;
 	    char stage = cmd[1];
-	    char *name = cmd + 2;
+	    const char *name = cmd + 2;
 	    if (stage == '?') {
 		t = UNKNOWN_TYPE;
 	    } else {
@@ -1345,7 +1348,7 @@ interpret_cmd(char *cmd)
 	}
 	case 'S': {
 	    /* String */
-	    char **s = lookup_string(cmd + 1);
+	    const char **s = lookup_string(cmd + 1);
 	    if (s == NULL) {
 		    return;
 	    }
@@ -1376,7 +1379,7 @@ interpret_cmd(char *cmd)
 		comment(1, "\n");
 		return;
 	    } else if (cmd[1] == 'S') {
-		char **s = lookup_string(cmd + 2);
+		const char **s = lookup_string(cmd + 2);
 		if (s == NULL) {
 			return;
 		}
@@ -1411,7 +1414,7 @@ process_options(list *opt, optmap *tab, int fast)
 	optmap *t;
 	list *p = opt;
 	list *accum = NULL;
-	char *arg = NULL;
+	const char *arg = NULL;
 	int status = MATCH_OK;
 	int a;
 

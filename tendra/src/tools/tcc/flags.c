@@ -77,23 +77,23 @@
  * the main temporary directory.
  */
 
-char *api_info = "unknown";
-char *api_output = API_ANAL_NAME;
-char *dump_opts = NULL;
-char *environ_dir = ".";
-char *final_name = NULL;
-char *machine_name = "unknown";
-char *name_E_file = ENDUP_NAME;
-char *name_h_file = STARTUP_NAME;
-char *name_j_file = TDF_COMPLEX_NAME;
-char *name_k_file = C_SPEC_COMPLEX_NAME;
-char *name_K_file = CPP_SPEC_COMPLEX_NAME;
-char *name_p_file = TOKDEF_NAME;
-char *temporary_dir = "/usr/tmp";
-char *tokdef_output = NULL;
-char *version_flag = "";
-char *dev_null = NULL;
-char **env_paths = NULL;
+const char *api_info = "unknown";
+const char *api_output = API_ANAL_NAME;
+const char *dump_opts = NULL;
+const char *environ_dir = ".";
+const char *final_name = NULL;
+const char *machine_name = "unknown";
+const char *name_E_file = ENDUP_NAME;
+const char *name_h_file = STARTUP_NAME;
+const char *name_j_file = TDF_COMPLEX_NAME;
+const char *name_k_file = C_SPEC_COMPLEX_NAME;
+const char *name_K_file = CPP_SPEC_COMPLEX_NAME;
+const char *name_p_file = TOKDEF_NAME;
+const char *temporary_dir = "/usr/tmp";	/* XXX strange default */
+const char *tokdef_output = NULL;
+const char *version_flag = "";
+const char *dev_null = NULL;
+const char **env_paths = NULL;
 
 
 /*
@@ -561,7 +561,7 @@ initialise_options(void)
 
 	/* allocate space for cmd line env args */
 	sz = (sizeof(PATH_SUBS));
-	env_paths = (char**) xalloc (sz * sizeof(char *));
+	env_paths = xalloc (sz * sizeof(char *));
 
 	/* Here, we should set these to sane defaults.  For now, just NULL */
 	for (i=0; i < sz; i++) {

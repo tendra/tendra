@@ -68,12 +68,12 @@
  * These procedures are concerned with the tcc startup and endup files.
  */
 
-extern void add_to_startup(char *);
-extern void add_to_endup(char *);
+extern void add_to_startup(const char *);
+extern void add_to_endup(const char *);
 extern void close_startup(void);
 extern void remove_startup(void);
-extern void add_pragma(char *);
-extern void add_token(char *);
+extern void add_pragma(const char *);
+extern void add_token(const char *);
 
 
 /*

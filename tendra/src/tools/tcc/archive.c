@@ -108,7 +108,7 @@ static boolean archive_options = 1;
  * returns a nonzero value if an error occurs.
  */
 static int
-read_file(char *nm, char *w, long n, FILE *f)
+read_file(const char *nm, const char *w, long n, FILE *f)
 {
 	FILE *g = NULL;
 	int ret = 0;
@@ -169,7 +169,7 @@ out:
  * value if an error occurs.
  */
 static int
-write_file(char *nm, char *rd, FILE *f)
+write_file(const char *nm, const char *rd, FILE *f)
 {
 	FILE *g;
 	size_t n;
@@ -204,7 +204,7 @@ write_file(char *nm, char *rd, FILE *f)
  * nonzero value if an error occurs.
  */
 int
-cat_file(char *nm)
+cat_file(const char *nm)
 {
 	return (write_file(nm, "r", stdout));
 }
@@ -217,7 +217,7 @@ cat_file(char *nm)
  * successful and -1 if not.
  */
 int
-make_dir(char *nm)
+make_dir(const char *nm)
 {
 	if (dry_run)
 		return (0);
@@ -234,7 +234,7 @@ make_dir(char *nm)
  * we can't always use rename.
  */
 int
-move_file(char *from, char *to)
+move_file(const char *from, const char *to)
 {
 	int e;
 	FILE *f;
@@ -276,7 +276,7 @@ move_file(char *from, char *to)
  * Wrapper around remove(3), to ease debugging.
  */
 int
-remove_file(char *nm)
+remove_file(const char *nm)
 {
 #if 0
 	fprintf(stderr, "tcc: trying to remove file '%s'\n", nm);
@@ -290,7 +290,7 @@ remove_file(char *nm)
  * zero if it was successful.
  */
 int
-remove_recursive(char *nm)
+remove_recursive(const char *nm)
 {
 	struct stat st;
 
@@ -367,7 +367,7 @@ remove_recursive(char *nm)
  * XXX: the file nm.
  */
 int
-touch_file(char *nm, char *opt)
+touch_file(const char *nm, const char *opt)
 {
 	FILE *f;
 	char *str;
@@ -404,7 +404,7 @@ touch_file(char *nm, char *opt)
  * non-existant or empty files.
  */
 long
-file_size(char *nm)
+file_size(const char *nm)
 {
 	struct stat st;
 
@@ -423,7 +423,7 @@ file_size(char *nm)
  * If this is a dry run or an error occured, zero is returned.
  */
 static long
-file_time(char *nm)
+file_time(const char *nm)
 {
 	struct stat st;
 
@@ -445,7 +445,7 @@ file_time(char *nm)
  * Returns 1 if the file starts with ARCHIVE_HEADER, 0 otherwise.
  */
 int
-is_archive(char *nm)
+is_archive(const char *nm)
 {
 	FILE *f;
 	int archive = 0;
@@ -511,10 +511,10 @@ process_archive_opt(void)
  */
 
 int
-build_archive(char *arch, char **input)
+build_archive(const char *arch, const char **input)
 {
     FILE *f;
-    char **s;
+    const char **s;
     boolean end = 0;
     if (dry_run) {
 	    return (0);
@@ -540,7 +540,7 @@ build_archive(char *arch, char **input)
 	    end = 1;
 	} else if (archive_links && archive_type != TDF_ARCHIVE) {
 	    /* Archive file - link */
-	    char *ln = *s;
+	    const char *ln = *s;
 	    if (verbose) {
 		comment(1, "... archive file %s (link)\n", ln);
 	    }
@@ -551,7 +551,7 @@ build_archive(char *arch, char **input)
 	} else {
 	    /* Archive file - copy */
 	    FILE *g;
-	    char *n = find_basename(*s);
+	    const char *n = find_basename(*s);
 	    if (!archive_names) {
 		int i, m = (int)strlen(n);
 		buffer [0] = '*';
@@ -608,7 +608,7 @@ build_archive(char *arch, char **input)
  */
 
 int
-split_archive(char *arch, filename **ret)
+split_archive(const char *arch, filename **ret)
 {
     boolean go = 1;
     char *emsg = NULL;

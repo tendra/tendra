@@ -83,14 +83,14 @@
  */
 
 int exit_status = EXIT_SUCCESS;
-char *progname = PROGNAME_TCC;
+const char *progname = PROGNAME_TCC;
 
 
 /*
  * Static function prototypes.
  */
 
-static int	key_match(char *, char *);
+static int	key_match(const char *, const char *);
 
 
 /*
@@ -164,7 +164,7 @@ error(int e, char *s, ...)
  */
 
 hashtable*
-init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
+init_table(int tblsize, int keysize, int (*hashfcn) (const char *, int, int))
 {
 	int i;
 	hashtable* ht;
@@ -190,11 +190,11 @@ init_table(int tblsize, int keysize, int (*hashfcn) (char*, int, int))
 }
 
 htnode *
-lookup_table(hashtable *ht, char *key)
+lookup_table(hashtable *ht, const char *key)
 {
 	int  hashval;
 	htnode *hn;
-	char *v = NULL;
+	const char *v = NULL;
 
 	if (!key) {
 		error(WARNING, "Looking up NULL key in tccenv hashtable");
@@ -207,6 +207,7 @@ lookup_table(hashtable *ht, char *key)
 
 	if (hn) {
 		v = hn->key;
+		/* XXX v is not used? */
 	}
 
 	while (hn != NULL && !key_match(key, hn->key)) {
@@ -221,7 +222,7 @@ lookup_table(hashtable *ht, char *key)
 }
 
 static int
-key_match(char *key, char *keyfield)
+key_match(const char *key, const char *keyfield)
 {
 	int i;
 
@@ -248,8 +249,8 @@ key_match(char *key, char *keyfield)
 }
 
 htnode *
-update_table(hashtable *ht, char *key, char *val, unsigned int flag,
-	     char *file, int line_num)
+update_table(hashtable *ht, const char *key, const char *val, unsigned int flag,
+	     const char *file, int line_num)
 {
 	int hashval;
 	htnode *hn;
@@ -317,7 +318,7 @@ update_table(hashtable *ht, char *key, char *val, unsigned int flag,
  * skips over the leading command char, either +, <, >, or ?.
  */
 int
-hash(char *key, int tblsize, int keysize)
+hash(const char *key, int tblsize, int keysize)
 {
 	int i = 1;
 	int hashval = 0;
@@ -421,8 +422,8 @@ xrealloc(void *p, int sz)
  *   c) for a select group of variables, sane defaults are used.
  */
 
-char *
-find_path_subst(char *var)
+const char *
+find_path_subst(const char *var)
 {
 	char *ret;
 	char **subs;
@@ -492,9 +493,10 @@ string_alloc(int n)
  * This routine allocates space for a copy of the string s and copies the
  * string into this space. This copy is returned.
  */
+/* TODO rename to xstrdup(), move to shared/ */
 
 char *
-string_copy(char *s)
+string_copy(const char *s)
 {
 	int n = (int)strlen(s);
 	char *r = string_alloc(n + 1);
@@ -512,7 +514,7 @@ string_copy(char *s)
  */
 
 char *
-string_concat(char *s, char *t)
+string_concat(const char *s, const char *t)
 {
 	int n = (int)strlen(s);
 	int m = (int)strlen(t);
@@ -535,7 +537,7 @@ string_concat(char *s, char *t)
  */	
  	 	
 char *	
-string_append(char *s, char *t, char delimeter)	
+string_append(const char *s, const char *t, char delimeter)	
 {	
 	int n = (int)strlen(s);	
 	int m = (int)strlen(t);	
