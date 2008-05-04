@@ -323,7 +323,6 @@ extern list *opt_dump_link;
 extern list *opt_archive;
 extern list *opt_joiner;
 extern list *opt_cc;
-extern list *opt_startup;
 extern list *opt_endup;
 extern list *opt_unknown;
 

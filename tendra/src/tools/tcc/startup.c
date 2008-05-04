@@ -95,7 +95,6 @@ add_to_startup(const char *s)
 		startup_name = tempnam(temporary_dir, "ts");
 		startup_opt = string_concat("-f", startup_name);
 	}
-	opt_startup = add_item(opt_startup, s);
 	if (dry_run) {
 		return;
 	}
