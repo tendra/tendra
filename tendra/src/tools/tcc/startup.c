@@ -62,7 +62,6 @@
 #include <string.h>
 
 #include "config.h"
-#include "external.h"
 #include "filename.h"
 #include "list.h"
 #include "execute.h"

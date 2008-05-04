@@ -66,7 +66,6 @@
 #include "config.h"
 #include "filename.h"
 #include "list.h"
-#include "external.h"
 #include "flags.h"
 #include "startup.h"
 #include "suffix.h"

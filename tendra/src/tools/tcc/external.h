@@ -69,10 +69,6 @@
  * various components are controlled by the FS_* macros defined in config.h.
  */
 
-#include <sys/types.h>
-#include <dirent.h>
-#include <errno.h>
-#include <sys/stat.h>
 #include <sys/wait.h>
 
 #ifndef environ
