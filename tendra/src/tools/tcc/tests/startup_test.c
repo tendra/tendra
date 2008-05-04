@@ -15,7 +15,7 @@
  */
 #include "../config.h"
 #include "../filename.h"
-filename *execute(filename *input, filename *output) { }
+filename *execute(filename *input, filename *output) { return NULL; }
 #include "../list.h"
 const char *temporary_dir = "tempdir";
 const char *name_h_file = "name_h_file";
