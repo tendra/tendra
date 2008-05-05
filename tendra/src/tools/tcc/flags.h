@@ -61,6 +61,7 @@
 #ifndef FLAGS_H
 #define FLAGS_H
 
+#include "table.h"
 
 /*
  * PROCEDURE DECLARATIONS
@@ -72,7 +73,7 @@
 extern void initialise_options(void);
 extern void update_options(void);
 extern void set_machine(void);
-extern void set_stage(int, int);
+extern void set_stage(enum filetype, int);
 
 
 /*
@@ -149,40 +150,6 @@ extern boolean allow_pl_tdf;
 extern boolean allow_specs;
 
 
-/*
- * FILE PRESERVATION AND CONSTRUCTION OPTIONS
- *
- * These tables control whether output files of the various file types should
- * be kept and whether the compilation stops after they are produced.
- */
-
-extern boolean keeps[];
-extern boolean keeps_aux[];
-extern boolean stops[];
-
-
-/*
- * EXTRA FILE TYPES
- *
- * These dummy file types are in addition to those listed in filename.h. They
- * are used in the keeps and stops arrays to resolve questions about, for
- * example, TDF building, which in terms of file types maps :
- *
- *     INDEP_TDF x ... x INDEP_TDF -> INDEP_TDF
- *
- * By introducing a dummy type for the output we can refine the keeps and stops
- * information to, for example, keep the output but not the input.
-*/
-
-#define INDEP_TDF_COMPLEX	(UNKNOWN_TYPE + 1)
-#define C_SPEC_1		(UNKNOWN_TYPE + 2)
-#define C_SPEC_2		(UNKNOWN_TYPE + 3)
-#define CPP_SPEC_1		(UNKNOWN_TYPE + 4)
-#define CPP_SPEC_2		(UNKNOWN_TYPE + 5)
-#define INDEP_TDF_AUX		(UNKNOWN_TYPE + 6)
-#define BINARY_OBJ_AUX		(UNKNOWN_TYPE + 7)
-#define TYPE_ARRAY_SIZE		(UNKNOWN_TYPE + 8)
-
 
 /*
  * PRESERVATION AND CONSTRUCTION FLAGS
@@ -192,6 +159,7 @@ extern boolean stops[];
  * STOP_ONLY_STAGE means "stop", KEEP_STAGE means "keep" and DONT_KEEP_STAGE
  * means "don't keep".
  */
+/* TODO enum */
 
 #define STOP_STAGE		0
 #define STOP_ONLY_STAGE		1

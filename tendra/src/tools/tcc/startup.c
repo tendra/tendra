@@ -69,6 +69,7 @@
 #include "flags.h"
 #include "startup.h"
 #include "utility.h"
+#include "table.h"
 
 
 /*
@@ -238,7 +239,7 @@ close_startup(void)
 void
 remove_startup(void)
 {
-	if (keeps[STARTUP_FILE]) {
+	if (table_keep(STARTUP_FILE)) {
 		if (startup_name) {
 			cmd_list(exec_move);
 			cmd_string(startup_name);

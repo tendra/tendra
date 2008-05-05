@@ -672,11 +672,9 @@ split_archive(const char *arch, filename **ret)
 		    q = make_filename(no_filename, INDEP_TDF, k);
 		} else if (strneq(p, "*.", 2)) {
 		    /* New form hidden names */
-		    int t;
 		    p = string_copy(p);
 		    q = find_filename(p, UNKNOWN_TYPE);
-		    t = q->type;
-		    q = make_filename(no_filename, t, where(t));
+		    q = make_filename(no_filename, q->type, where(q->type));
 		} else {
 		    /* Unhidden names */
 		    p = string_copy(p);
@@ -768,7 +766,7 @@ archive_error:
     IGNORE fclose(f);
     if (need_moves) {
 	    for (q = output; q != NULL; q = q->next) {
-		    if (q->aux && keeps_aux [ archive_type ]) {
+		    if (q->aux && filetype_table[archive_type].keep_aux) {
 			    if (verbose) {
 				    comment(1, "... rename %s to %s\n",
 					    q->name, q->aux->name);

@@ -61,6 +61,7 @@
 #ifndef STAGES_H
 #define STAGES_H
 
+#include "table.h"
 
 /*
  * PROCEDURE DECLARATIONS
@@ -85,11 +86,12 @@ extern filename *do_pl_tdf(filename *);
 extern filename *do_pretty(filename *);
 extern filename *do_split_arch(filename *);
 extern filename *do_build_arch(filename *);
-extern filename *do_build_file(filename *, int);
-extern filename *do_link_specs(filename *, int);
-extern filename *do_cc(filename *, int);
+extern filename *do_build_file(filename *, enum filetype);
+extern filename *do_link_specs(filename *, enum filetype);
+extern filename *do_cc(filename *, enum filetype);
 extern filename *do_keep(filename *);
-extern int binary_obj_type;
+
+extern enum filetype binary_obj_type;
 
 
 #endif /* STAGES_H */

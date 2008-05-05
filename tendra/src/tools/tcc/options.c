@@ -77,6 +77,7 @@
 #include "suffix.h"
 #include "utility.h"
 #include "path_subs.h"
+#include "table.h"
 
 
 /*
@@ -753,6 +754,7 @@ case_O:
  * This routine takes a two letter code, s, and returns a pointer to the
  * corresponding string variable.
  */
+/* TODO if this is a lookup function, why return the address? */
 
 static const char **
 lookup_string(const char *s)
@@ -779,7 +781,7 @@ lookup_string(const char *s)
 		return (NULL);
 	}
 	if (a == 'S') {
-		int t;
+		enum filetype t;
 		const char *p1;
 
 		if (b == 'V') {
@@ -794,7 +796,7 @@ lookup_string(const char *s)
 		}
 
 		t = find_type(b, 0);
-		return (suffixes + t);
+		return (&filetype_table[t].suffix);
 	}
 	if (a == 'A' && b == 'I') return (&api_info);
 	if (a == 'A' && b == 'O') return (&api_output);
@@ -1014,7 +1016,7 @@ match_option(char *in, char *out, const char *opt, args_out *res)
     for (i = 0; i < loop; i++) {
 	int count = 0;
 	char buff[MAX_LINE];
-	char *q = buff;
+	char *q = buff;	/* TODO rename */
 	for (p = out; *p && count < MAX_LINE; p++, count++) {
 	    if (*p == '$') {
 		/* Variable */
@@ -1278,7 +1280,7 @@ interpret_cmd(const char *cmd)
 	}
 	case 'I': {
 	    /* Input file */
-	    int t;
+	    enum filetype t;
 	    filename *f;
 	    char stage = cmd[1];
 	    const char *name = cmd + 2;

@@ -73,6 +73,7 @@
 #include "startup.h"
 #include "suffix.h"
 #include "utility.h"
+#include "table.h"
 
 static filename *apply_unjoin(filename *, int);
 
@@ -108,9 +109,9 @@ apply_cc(filename *input)
 		switch (p->type) {
 		case C_SOURCE:
 			/* C source */
-			if (make_preproc || keeps[PREPROC_C]) {
+			if (make_preproc || table_keep(PREPROC_C)) {
 				p = do_cc(p, PREPROC_C);
-				if (stops[PREPROC_C]) {
+				if (table_stop(PREPROC_C)) {
 					break;
 				}
 			}
@@ -127,15 +128,15 @@ preproc_c_lab:
 					ps = ps->next;
 				}
 			}
-			if (stops[DEP_TDF]) {
+			if (table_stop(DEP_TDF)) {
 				if (ps != NULL) {
 					p = NULL;
 				}
 				break;
-			} else if (stops[AS_SOURCE]) {
+			} else if (table_stop(AS_SOURCE)) {
 				p = do_cc(p, AS_SOURCE);
 				break;
-			} else if (keeps[AS_SOURCE]) {
+			} else if (table_keep(AS_SOURCE)) {
 				p = do_cc(p, AS_SOURCE);
 			} else {
 				p = do_cc(p, binary_obj_type);
@@ -144,9 +145,9 @@ preproc_c_lab:
 			goto as_source_lab;
 		case CPP_SOURCE:
 			/* C++ source */
-			if (make_preproc || keeps[PREPROC_CPP]) {
+			if (make_preproc || table_keep(PREPROC_CPP)) {
 				p = do_cc(p, PREPROC_CPP);
-				if (stops[PREPROC_CPP]) {
+				if (table_stop(PREPROC_CPP)) {
 					break;
 				}
 			}
@@ -163,15 +164,15 @@ preproc_cpp_lab:
 					ps = ps->next;
 				}
 			}
-			if (stops[DEP_TDF]) {
+			if (table_stop(DEP_TDF)) {
 				if (ps != NULL) {
 					p = NULL;
 				}
 				break;
-			} else if (stops[AS_SOURCE]) {
+			} else if (table_stop(AS_SOURCE)) {
 				p = do_cc(p, AS_SOURCE);
 				break;
-			} else if (keeps[AS_SOURCE]) {
+			} else if (table_keep(AS_SOURCE)) {
 				p = do_cc(p, AS_SOURCE);
 			} else {
 				p = do_cc(p, binary_obj_type);
@@ -181,7 +182,7 @@ preproc_cpp_lab:
 		case AS_SOURCE:
 as_source_lab:
 			/* Assembly source file */
-			if (!stops[AS_SOURCE]) {
+			if (!table_stop(AS_SOURCE)) {
 				p = do_cc(p, BINARY_OBJ);
 			}
 			break;
@@ -196,8 +197,8 @@ as_source_lab:
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
-				    keeps_aux[BINARY_OBJ] == 1 &&
-				    !stops[AS_SOURCE]) {
+				    filetype_table[BINARY_OBJ].keep_aux == FTK_TC &&
+				    !table_stop(AS_SOURCE)) {
 					p = do_build_file(p, BINARY_OBJ);
 				}
 			}
@@ -210,8 +211,8 @@ as_source_lab:
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
-				    keeps_aux[BINARY_OBJ] == 1 &&
-				    !stops[AS_SOURCE]) {
+				    filetype_table[BINARY_OBJ].keep_aux == FTK_TC &&
+				    !table_stop(AS_SOURCE)) {
 					p = do_build_file(p, BINARY_OBJ);
 				}
 			}
@@ -227,8 +228,8 @@ as_source_lab:
 		if (p && p->storage != INPUT_FILE && p->aux == NULL) {
 			boolean have_spec = 0;
 			filename *p_archive = p;
-			int t = p->type;
-			if (t == BINARY_OBJ && keeps[t] &&
+			enum filetype t = p->type;
+			if (t == BINARY_OBJ && table_keep(t) &&
 			    binary_obj_type != t) {
 				if (spec_of(p_archive, ps)) {
 					p_archive->next = ps;
@@ -262,7 +263,7 @@ static filename *
 apply_tdf_link(filename *p)
 {
 	static boolean tried = 0;
-	if (p == NULL || stops[INDEP_TDF]) {
+	if (p == NULL || table_stop(INDEP_TDF)) {
 		return (p);
 	}
 	if (tokdef_name && tokdef_output == NULL && !tried) {
@@ -302,15 +303,16 @@ apply_compile(filename *input, int produce)
 		filename *pc = p;
 		filename *pn = p->next;
 		p->next = NULL;
+		/* TODO consider callbacks instead of switching here; then this is centralised to table.c */
 		switch (p->type) {
 		case C_SOURCE:
 			/* C source */
-			if (keeps[PREPROC_C]) {
+			if (table_keep(PREPROC_C)) {
 				p = do_preproc(p);
 			} else {
 				p = do_produce(p);
 			}
-			if (allow_specs && stops[C_SPEC]) {
+			if (allow_specs && table_stop(C_SPEC)) {
 				p = NULL;
 			}
 			if (p != pc) {
@@ -319,11 +321,11 @@ apply_compile(filename *input, int produce)
 			break;
 		case PREPROC_C:
 			/* Preprocessed C source */
-			if (stops[PREPROC_C]) {
+			if (table_stop(PREPROC_C)) {
 				break;
 			}
 			p = do_produce(p);
-			if (allow_specs && stops[C_SPEC]) {
+			if (allow_specs && table_stop(C_SPEC)) {
 				p = NULL;
 			}
 			if (p != pc) {
@@ -333,12 +335,12 @@ apply_compile(filename *input, int produce)
 		case CPP_SOURCE:
 			/* C++ source */
 			if (allow_cpp) {
-				if (keeps[PREPROC_CPP]) {
+				if (table_keep(PREPROC_CPP)) {
 					p = do_cpp_preproc(p);
 				} else {
 					p = do_cpp_produce(p);
 				}
-				if (allow_specs && stops[CPP_SPEC]) {
+				if (allow_specs && table_stop(CPP_SPEC)) {
 					p = NULL;
 				}
 				if (p != pc) {
@@ -352,12 +354,12 @@ apply_compile(filename *input, int produce)
 			break;
 		case PREPROC_CPP:
 			/* Preprocessed C++ source */
-			if (stops[PREPROC_CPP]) {
+			if (table_stop(PREPROC_CPP)) {
 				break;
 			}
 			if (allow_cpp) {
 				p = do_cpp_produce(p);
-				if (allow_specs && stops[CPP_SPEC]) {
+				if (allow_specs && table_stop(CPP_SPEC)) {
 					p = NULL;
 				}
 				if (p != pc) {
@@ -432,8 +434,8 @@ apply_compile(filename *input, int produce)
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
-				    keeps_aux[BINARY_OBJ] == 1 &&
-				    !stops[AS_SOURCE]) {
+				    filetype_table[BINARY_OBJ].keep_aux == FTK_TC &&
+				    !table_stop(AS_SOURCE)) {
 					p = do_build_file(p, BINARY_OBJ);
 				}
 			}
@@ -446,11 +448,14 @@ apply_compile(filename *input, int produce)
 				p->type = DEFAULT_TYPE;
 			} else {
 				if (p->storage == INPUT_FILE &&
-				    keeps_aux[BINARY_OBJ] == 1 &&
-				    !stops[AS_SOURCE]) {
+				    filetype_table[BINARY_OBJ].keep_aux == FTK_TC &&
+				    !table_stop(AS_SOURCE)) {
 					p = do_build_file(p, BINARY_OBJ);
 				}
 			}
+			break;
+		default:
+			/* TODO: document; here I think we fall through to handle the rest below. */
 			break;
 		}
 		if (p && p->storage != INPUT_FILE && p->aux == NULL) {
@@ -467,15 +472,15 @@ apply_compile(filename *input, int produce)
 				have_spec = 1;
 			}
 			if (have_spec) {
-				int t = p->type;
-				if (t == INDEP_TDF && checker && !stops[t]) {
-					if (stops[BINARY_OBJ] ||
-					    keeps_aux[BINARY_OBJ] == 1) {
+				enum filetype t = p->type;
+				if (t == INDEP_TDF && checker && !table_stop(t)) {
+					if (table_stop(BINARY_OBJ) ||
+					    filetype_table[BINARY_OBJ].keep_aux == FTK_TC) {
 						p = do_build_file(p->next,
 								  BINARY_OBJ);
 					}
 				}
-				if (t == BINARY_OBJ && keeps[t]) {
+				if (t == BINARY_OBJ && table_keep(t)) {
 					p = do_build_file(p, BINARY_OBJ);
 				}
 			}
@@ -547,7 +552,7 @@ apply_link(filename *input)
 		p = pn;
 	}
 	last_return = 0;
-	keeps[binary_obj_type] = 0;
+	filetype_table[binary_obj_type].keep = FTK_FC;
 	specs_out = do_link_specs(specs, spec_out);
 	links = add_filename(links, filter_ofiles(specs_out));
 	if (use_dynlink != 0 && use_system_cc == 0) {
@@ -564,8 +569,8 @@ apply_link(filename *input)
 	if (last_return) {
 		/* If the linking failed, keep the .o files */
 		filename *q = input;
-		boolean b = keeps[BINARY_OBJ];
-		keeps[BINARY_OBJ] = 1;
+		boolean b = table_keep(BINARY_OBJ);
+		filetype_table[BINARY_OBJ].keep = FTK_TC;
 		p = NULL;
 		while (q != NULL) {
 			filename *qa = q->aux;
@@ -863,7 +868,7 @@ apply_all(filename *input)
 
 	/* Main compilation phases */
 	p = apply_compile(p, (int)checker);
-	if (allow_specs && !stops[BINARY_OBJ]) {
+	if (allow_specs && !table_stop(BINARY_OBJ)) {
 		p = apply_unjoin(p, BINARY_OBJ);
 	}
 	p = apply_link(p);

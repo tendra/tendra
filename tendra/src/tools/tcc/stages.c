@@ -71,6 +71,7 @@
 #include "startup.h"
 #include "suffix.h"
 #include "utility.h"
+#include "table.h"
 
 
 /*
@@ -81,7 +82,7 @@
  * This value determines this file type.
  */
 
-int binary_obj_type = BINARY_OBJ;
+enum filetype binary_obj_type = BINARY_OBJ;
 
 
 /*
@@ -154,7 +155,7 @@ static filename *uniq_tempfile = NULL;
  */
 
 static filename *
-uniq_filename(const char *nm, int t, int s, filename *input)
+uniq_filename(const char *nm, enum filetype t, int s, filename *input)
 {
 	filename *p = find_filename(nm, t);
 	filename *q = make_filename(p, t, s);
@@ -335,7 +336,7 @@ do_preproc(filename *input)
 	if (checker && !use_system_cc) {
 		return (input);
 	}
-	if (keeps[PREPROC_C]) {
+	if (table_keep(PREPROC_C)) {
 		output = make_filename(input, PREPROC_C, where(PREPROC_C));
 	} else {
 		output = NULL;
@@ -428,7 +429,7 @@ do_cpp_preproc(filename *input)
 	if (checker && !use_system_cc) {
 		return (input);
 	}
-	if (keeps[PREPROC_CPP]) {
+	if (table_keep(PREPROC_CPP)) {
 		output = make_filename(input, PREPROC_CPP, where(PREPROC_CPP));
 	} else {
 		output = NULL;
@@ -457,7 +458,7 @@ filename *
 do_tdf_link(filename *input)
 {
 	filename *output;
-	if (input == NULL || stops[INDEP_TDF]) {
+	if (input == NULL || table_stop(INDEP_TDF)) {
 		return (input);
 	}
 	output = make_filename(input, DEP_TDF, where(DEP_TDF));
@@ -528,9 +529,9 @@ do_tdf_build(filename *input)
 filename *
 do_translate(filename *input)
 {
-	int t;
+	enum filetype t;
 	filename *output;
-	if (input == NULL || stops[DEP_TDF]) {
+	if (input == NULL || table_stop(DEP_TDF)) {
 		return (input);
 	}
 	if (use_assembler) {
@@ -571,7 +572,7 @@ do_translate(filename *input)
 		output->aux = make_filename(input, t, where(t));
 		t = MIPS_T_FILE;
 		output->aux->aux = make_filename(input, t, where(t));
-		if (keeps[AS_SOURCE]) {
+		if (table_keep(AS_SOURCE)) {
 			cmd_string("-S");
 			cmd_filename(input);
 			cmd_filename(output->aux);
@@ -588,7 +589,7 @@ do_translate(filename *input)
 		cmd_filename(output);
 	} else {
 		/* Deal with non-assemblers */
-		if (keeps[AS_SOURCE]) {
+		if (table_keep(AS_SOURCE)) {
 			t = AS_SOURCE;
 			output->aux = make_filename(input, t, where(t));
 			cmd_string("-S");
@@ -616,8 +617,8 @@ filename *
 do_assemble(filename *input)
 {
 	filename *output;
-	int t = binary_obj_type;
-	if (input == NULL || stops[AS_SOURCE]) {
+	enum filetype t = binary_obj_type;
+	if (input == NULL || table_stop(AS_SOURCE)) {
 		return (input);
 	}
 	output = make_filename(input, t, where(t));
@@ -785,7 +786,7 @@ filename *
 do_dynlink(filename *input)
 {
 	filename *linked_ofiles, *extra_sfile, *output = NULL;
-	if (input == NULL || stops[BINARY_OBJ]) {
+	if (input == NULL || table_stop(BINARY_OBJ)) {
 		return (input);
 	}
 	if (checker && !use_system_cc) {
@@ -835,7 +836,7 @@ do_link(filename *input)
 {
 	int keep;
 	filename *output;
-	if (input == NULL || stops[BINARY_OBJ]) {
+	if (input == NULL || table_stop(BINARY_OBJ)) {
 		return (input);
 	}
 	if (checker && !use_system_cc) {
@@ -919,7 +920,7 @@ filename *
 do_pretty(filename *input)
 {
 	filename *output;
-	if (input == NULL || stops[DEP_TDF]) {
+	if (input == NULL || table_stop(DEP_TDF)) {
 		return (input);
 	}
 	output = make_filename(input, PRETTY_TDF, where(PRETTY_TDF));
@@ -966,7 +967,7 @@ do_build_arch(filename *input)
 {
 	int keep;
 	filename *output;
-	if (input == NULL || stops[INDEP_TDF]) {
+	if (input == NULL || table_stop(INDEP_TDF)) {
 		return (input);
 	}
 	if (exec_error) {
@@ -1000,14 +1001,14 @@ do_build_arch(filename *input)
  */
 
 filename *
-do_build_file(filename *input, int t)
+do_build_file(filename *input, enum filetype t)
 {
-	int s;
+	enum filetype s;
 	filename *output;
 	if (input == NULL) {
 		return (input);
 	}
-	if (!(keeps[t] || keeps_aux[t] == 1)) {
+	if (!(table_keep(t) || filetype_table[t].keep_aux == FTK_TC)) {	/* TODO not also FTK_TN? */
 		return (input);
 	}
 	archive_type = t;
@@ -1041,7 +1042,7 @@ do_build_file(filename *input, int t)
  */
 
 filename *
-do_link_specs(filename *input, int t)
+do_link_specs(filename *input, enum filetype t)
 {
 	int keep;
 	filename *output, *spec_file;
@@ -1050,7 +1051,7 @@ do_link_specs(filename *input, int t)
 	}
 	if (t == C_SPEC_2 || t == CPP_SPEC_2) {
 		/* Don't link in these cases */
-		if (stops[BINARY_OBJ]) {
+		if (table_stop(BINARY_OBJ)) {
 			return (input);
 		}
 	}
@@ -1122,7 +1123,7 @@ do_link_specs(filename *input, int t)
  */
 
 filename *
-do_cc(filename *input, int t)
+do_cc(filename *input, enum filetype t)
 {
 	char *flag;
 	filename *output;
@@ -1131,7 +1132,7 @@ do_cc(filename *input, int t)
 	}
 	output = make_filename(input, t, where(t));
 	if (t == PREPROC_C) {
-		if (keeps[t]) {
+		if (table_keep(t)) {
 			flag = "-P";
 		} else {
 			flag = "-E";

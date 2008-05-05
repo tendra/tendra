@@ -67,6 +67,7 @@
 #include "suffix.h"
 #include "utility.h"
 #include "path_subs.h"
+#include "table.h"
 
 
 /*
@@ -148,106 +149,13 @@ boolean allow_pl_tdf = 0;
 boolean allow_specs = 0;
 
 
+static enum filetype_keep keep_all = FTK_FC;
+
 /*
- * FILE PRESERVATION AND CONSTRUCTION OPTIONS
- *
- * These arrays control the creation and storage of the various file types. In
- * the keeps array, a nonzero value indicates that any file of this type which
- * is created should be preserved. In the stops array, it indicates that the
- * compilation halts at this stage. In either case, 0 means "false but
- * changeable", 1 means "true but changeable", and 2 means "true and
- * unchangeable". The special variable, keep_ofiles, indicates whether all
+ * The special variable, keep_ofiles, indicates whether all
  * binary object files should be kept when more than one input file is given
- * (this is for cc compatibility). The keeps_aux array keeps track of the
- * explicit file preservation options. These tables need to be kept in step
- * with Table 1.
+ * (this is for cc compatibility).
  */
-
-boolean keeps[TYPE_ARRAY_SIZE] = {
-	0,	/* C_SOURCE */
-	0,	/* PREPROC_C */
-	0,	/* CPP_SOURCE */
-	0,	/* PREPROC_CPP */
-	0,	/* INDEP_TDF */
-	0,	/* DEP_TDF */
-	0,	/* AS_SOURCE */
-	0,	/* BINARY_OBJ */
-	2,	/* EXECUTABLE */
-	1,	/* PRETTY_TDF */
-	0,	/* PL_TDF */
-	2,	/* TDF_ARCHIVE */
-	0,	/* MIPS_G_FILE */
-	0,	/* MIPS_T_FILE */
-	0,	/* C_SPEC */
-	0,	/* CPP_SPEC */
-	0,	/* STARTUP_FILE */
-	0,	/* UNKNOWN_TYPE */
-	0,	/* INDEP_TDF_COMPLEX (dummy type) */
-	0,	/* C_SPEC_1 (dummy type) */
-	1,	/* C_SPEC_2 (dummy type) */
-	0,	/* CPP_SPEC_1 (dummy type) */
-	1,	/* CPP_SPEC_2 (dummy type) */
-	0,	/* INDEP_TDF_AUX (dummy type) */
-	0	/* BINARY_OBJ_AUX (dummy type) */
-};
-
-boolean keeps_aux[TYPE_ARRAY_SIZE] = {
-	0,	/* C_SOURCE */
-	0,	/* PREPROC_C */
-	0,	/* CPP_SOURCE */
-	0,	/* PREPROC_CPP */
-	0,	/* INDEP_TDF */
-	0,	/* DEP_TDF */
-	0,	/* AS_SOURCE */
-	0,	/* BINARY_OBJ */
-	0,	/* EXECUTABLE */
-	0,	/* PRETTY_TDF */
-	0,	/* PL_TDF */
-	0,	/* TDF_ARCHIVE */
-	0,	/* MIPS_G_FILE */
-	0,	/* MIPS_T_FILE */
-	0,	/* C_SPEC */
-	0,	/* CPP_SPEC */
-	0,	/* STARTUP_FILE */
-	0,	/* UNKNOWN_TYPE */
-	0,	/* INDEP_TDF_COMPLEX (dummy type) */
-	0,	/* C_SPEC_1 (dummy type) */
-	0,	/* C_SPEC_2 (dummy type) */
-	0,	/* CPP_SPEC_1 (dummy type) */
-	0,	/* CPP_SPEC_2 (dummy type) */
-	0,	/* INDEP_TDF_AUX (dummy type) */
-	0	/* BINARY_OBJ_AUX (dummy type) */
-};
-
-boolean stops[TYPE_ARRAY_SIZE] = {
-	0,	/* C_SOURCE */
-	0,	/* PREPROC_C */
-	0,	/* CPP_SOURCE */
-	0,	/* PREPROC_CPP */
-	0,	/* INDEP_TDF */
-	0,	/* DEP_TDF */
-	0,	/* AS_SOURCE */
-	0,	/* BINARY_OBJ */
-	2,	/* EXECUTABLE */
-	2,	/* PRETTY_TDF */
-	0,	/* PL_TDF */
-	2,	/* TDF_ARCHIVE */
-	0,	/* MIPS_G_FILE */
-	0,	/* MIPS_T_FILE */
-	0,	/* C_SPEC */
-	0,	/* CPP_SPEC */
-	0,	/* STARTUP_FILE */
-	0,	/* UNKNOWN_TYPE */
-	0,	/* INDEP_TDF_COMPLEX (dummy type) */
-	0,	/* C_SPEC_1 (dummy type) */
-	0,	/* C_SPEC_2 (dummy type) */
-	0,	/* CPP_SPEC_1 (dummy type) */
-	0,	/* CPP_SPEC_2 (dummy type) */
-	0,	/* INDEP_TDF_AUX (dummy type) */
-	0	/* BINARY_OBJ_AUX (dummy type) */
-};
-
-static boolean keep_all = 0;
 static boolean keep_ofiles = 1;
 
 
@@ -390,39 +298,40 @@ list *opt_unknown = NULL;
  */
 
 void
-set_stage(int t, int k)
+set_stage(enum filetype t, int k)
 {
 	if (t == ALL_TYPES) {
-		boolean ks = keeps[STARTUP_FILE];
+		boolean ks = table_keep(STARTUP_FILE);
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
 			error(WARNING, "Illegal stop option");
 		} else if (k == KEEP_STAGE) {
-			int i;
-			for (i = 0; i < array_size(keeps); i++) {
-				if (keeps[i] == 0) {
-					keeps[i] = 1;
+			enum filetype i;
+			/* TODO rework this */
+			for (i = 0; i < array_size(filetype_table); i++) {
+				if (table_keep(i) == FTK_FC) {
+					filetype_table[i].keep = FTK_TC;
 				}
 			}
-			keep_all = 1;
+			keep_all = FTK_TC;
 		} else if (k == DONT_KEEP_STAGE) {
-			int i;
-			for (i = 0; i < array_size(keeps); i++) {
-				if (keeps[i] == 1) {
-					keeps[i] = 0;
+			enum filetype i;
+			for (i = 0; i < array_size(filetype_table); i++) {
+				if (table_keep(i) == FTK_TC) {
+					filetype_table[i].keep = FTK_FC;
 				}
 			}
-			keep_all = 0;
+			keep_all = FTK_FC;
 			keep_ofiles = 0;
 		}
-		keeps[STARTUP_FILE] = ks;
+		filetype_table[STARTUP_FILE].keep = ks;
 	} else {
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
 			static int last_stop = UNKNOWN_TYPE;
-			if (stops[t] == 0) {
-				stops[t] = 1;
+			if (table_stop(t) == 0) {
+				filetype_table[t].stop = 1;
 			}
-			if (k == STOP_STAGE && keeps[t] == 0) {
-				keeps[t] = 1;
+			if (k == STOP_STAGE && table_keep(t) == FTK_FC) {
+				filetype_table[t].keep = FTK_TC;
 			}
 			switch (last_stop) {
 			case UNKNOWN_TYPE:
@@ -452,18 +361,18 @@ default_lab:
 			}
 			last_stop = t;
 		} else if (k == KEEP_STAGE) {
-			if (keeps[t] == 0) {
-				keeps[t] = 1;
+			if (table_keep(t) == FTK_FC) {
+				filetype_table[t].keep = FTK_TC;
 			}
-			keeps_aux[t] = 1;
+			filetype_table[t].keep_aux = FTK_TC;
 			if (t == BINARY_OBJ) {
 				keep_ofiles = 1;
 			}
 		} else if (k == DONT_KEEP_STAGE) {
-			if (keeps[t] == 1) {
-				keeps[t] = 0;
+			if (table_keep(t) == FTK_TC) {
+				filetype_table[t].keep = FTK_TC;
 			}
-			keeps_aux[t] = 2;
+			filetype_table[t].keep_aux = FTK_TC;
 			if (t == BINARY_OBJ) {
 				keep_ofiles = 0;
 			}
@@ -518,7 +427,6 @@ void
 initialise_options(void)
 {
 	/* Initialise executables */
-	list *p;
 	int sz;
 	int i;
 	exec_produce = make_list("builtin/undef C_producer");
@@ -595,11 +503,12 @@ update_options(void)
 		}
 		mode = "system compiler";
 	}
+	/* TODO there must be a nicer way to express this */
 	if (mode) {
 		if (make_archive) {
 			error(WARNING, "Can't build TDF archive in %s mode",
 			      mode);
-			stops[INDEP_TDF] = 1;
+			filetype_table[INDEP_TDF].stop = FTK_TC;
 			make_archive = 0;
 		}
 		if (make_complex) {
@@ -610,7 +519,7 @@ update_options(void)
 		if (make_pretty) {
 			error(WARNING, "Can't pretty print TDF in %s mode",
 			      mode);
-			stops[INDEP_TDF] = 1;
+			filetype_table[INDEP_TDF].stop = FTK_TC;
 			make_pretty = 0;
 		}
 		allow_notation = 0;
@@ -630,7 +539,7 @@ update_options(void)
 	}
 
 	/* Read special environments etc. */
-	if (make_preproc && keeps[PREPROC_C] && !done_preproc) {
+	if (make_preproc && table_keep(PREPROC_C) && !done_preproc) {
 		read_env(PREPROC_ENV);
 		done_preproc = 1;
 	}
@@ -655,88 +564,89 @@ update_options(void)
 
 #if 0
 	/* The option -Fk means stop after producer */
-	if (stops[C_SPEC] || stops[CPP_SPEC] ||
-	    stops[PREPROC_C] || stops[PREPROC_CPP]) {
-		stops[INDEP_TDF] = 1;
+	if (table_stop(C_SPEC) || table_stop(CPP_SPEC) ||
+	    table_stop(PREPROC_C) || table_stop(PREPROC_CPP)) {
+		filetype_table[INDEP_TDF].stop = FTK_TC;
 	}
 #endif
 
 	/* Propagate stop options down */
-	if (stops[INDEP_TDF]) {
-		stops[INDEP_TDF_COMPLEX] = 1;
-		stops[DEP_TDF] = 1;
-		stops[AS_SOURCE] = 1;
-		stops[BINARY_OBJ] = 1;
-	} else if (stops[DEP_TDF]) {
-		stops[AS_SOURCE] = 1;
-		stops[BINARY_OBJ] = 1;
-	} else if (stops[AS_SOURCE]) {
-		stops[BINARY_OBJ] = 1;
-	} else if (stops[MIPS_G_FILE]) {
-		stops[BINARY_OBJ] = 1;
-	} else if (stops[MIPS_T_FILE]) {
-		stops[BINARY_OBJ] = 1;
+	/* TODO perhaps if our table contains a notion of "previous" types, we can automate this */
+	if (table_stop(INDEP_TDF)) {
+		filetype_table[INDEP_TDF_COMPLEX].stop = FTK_TC;
+		filetype_table[DEP_TDF].stop = FTK_TC;
+		filetype_table[AS_SOURCE].stop = FTK_TC;
+		filetype_table[BINARY_OBJ].stop = FTK_TC;
+	} else if (table_stop(DEP_TDF)) {
+		filetype_table[AS_SOURCE].stop = FTK_TC;
+		filetype_table[BINARY_OBJ].stop = FTK_TC;
+	} else if (table_stop(AS_SOURCE)) {
+		filetype_table[BINARY_OBJ].stop = FTK_TC;
+	} else if (table_stop(MIPS_G_FILE)) {
+		filetype_table[BINARY_OBJ].stop = FTK_TC;
+	} else if (table_stop(MIPS_T_FILE)) {
+		filetype_table[BINARY_OBJ].stop = FTK_TC;
 	}
 
 	/* Check keep options */
 	if (make_complex) {
-		if (keeps[INDEP_TDF]) {
-			keeps[INDEP_TDF] = keep_all;
-			keeps[INDEP_TDF_COMPLEX] = 1;
+		if (table_keep(INDEP_TDF)) {
+			filetype_table[INDEP_TDF].keep = keep_all;
+			filetype_table[INDEP_TDF_COMPLEX].keep = FTK_TC;
 		}
-		if (stops[INDEP_TDF]) {
-			keeps[C_SPEC_1] = 1;
-			keeps[CPP_SPEC_1] = 1;
+		if (table_stop(INDEP_TDF)) {
+			filetype_table[C_SPEC_1].keep = FTK_TC;
+			filetype_table[CPP_SPEC_1].keep = FTK_TC;
 		}
 	}
-	if (keeps[C_SPEC]) {
+	if (table_keep(C_SPEC)) {
 		if (make_complex) {
-			keeps[C_SPEC] = keep_all;
-			keeps[C_SPEC_1] = 1;
+			filetype_table[C_SPEC].keep = keep_all;
+			filetype_table[C_SPEC_1].keep = FTK_TC;
 		}
 	} else {
-		if (keeps_aux[C_SPEC] == 2) {
-			keeps[C_SPEC_1] = 0;
-			keeps[C_SPEC_2] = 0;
+		if (filetype_table[C_SPEC].keep_aux == FTK_TN) {
+			filetype_table[C_SPEC_1].keep = FTK_FC;
+			filetype_table[C_SPEC_2].keep = FTK_FC;
 		}
 	}
-	if (keeps[CPP_SPEC]) {
+	if (table_keep(CPP_SPEC)) {
 		if (make_complex) {
-			keeps[CPP_SPEC] = keep_all;
-			keeps[CPP_SPEC_1] = 1;
+			filetype_table[CPP_SPEC].keep = keep_all;
+			filetype_table[CPP_SPEC_1].keep = FTK_TC;
 		}
-	} else if (keeps_aux[CPP_SPEC] == 2) {
-		keeps[CPP_SPEC_1] = 0;
-		keeps[CPP_SPEC_2] = 0;
+	} else if (filetype_table[CPP_SPEC].keep_aux == FTK_TN) {
+		filetype_table[CPP_SPEC_1].keep = FTK_FC;
+		filetype_table[CPP_SPEC_2].keep = FTK_FC;
 	}
 	if (keep_ofiles && no_input_files > 1 && !make_complex) {
-		keeps[BINARY_OBJ] = 1;
+		filetype_table[BINARY_OBJ].keep = FTK_TC;
 	}
-	if (keeps_aux[BINARY_OBJ] == 1) {
-		keeps[BINARY_OBJ_AUX] = 1;
+	if (filetype_table[BINARY_OBJ].keep_aux == FTK_TC) {
+		filetype_table[BINARY_OBJ_AUX].keep = FTK_TC;
 	}
 	if (link_specs) {
-		boolean b;
+		enum filetype_keep b;
 		if (checker && !use_system_cc) {
-			if (keeps_aux[BINARY_OBJ]) {
-				b = 1;
-			} else if (stops[BINARY_OBJ] && !stops[AS_SOURCE]) {
-				b = keeps[BINARY_OBJ];
+			if (filetype_table[BINARY_OBJ].keep_aux) {
+				b = FTK_TC;
+			} else if (table_stop(BINARY_OBJ) && !table_stop(AS_SOURCE)) {
+				b = filetype_table[BINARY_OBJ].keep;
 			} else {
-				b = 0;
+				b = FTK_TN;
 			}
 		} else {
-			b = keeps[BINARY_OBJ];
+			b = table_keep(BINARY_OBJ);
 		}
 		if (b) {
 			if (make_complex) {
-				keeps[C_SPEC_1] = 1;
-				keeps[CPP_SPEC_1] = 1;
+				filetype_table[C_SPEC_1].keep = FTK_TC;
+				filetype_table[CPP_SPEC_1].keep = FTK_TC;
 			} else {
-				keeps[C_SPEC] = 1;
-				keeps[CPP_SPEC] = 1;
+				filetype_table[C_SPEC].keep = FTK_TC;
+				filetype_table[CPP_SPEC].keep = FTK_TC;
 			}
-			keeps[BINARY_OBJ_AUX] = 1;
+			filetype_table[BINARY_OBJ_AUX].keep = FTK_TC;
 		}
 	}
 
@@ -746,8 +656,8 @@ update_options(void)
 			allow_specs = 1;
 		}
 		if (!use_system_cc) {
-			stops[C_SPEC_2] = 1;
-			stops[CPP_SPEC_2] = 1;
+			filetype_table[C_SPEC_2].stop = FTK_TC;
+			filetype_table[CPP_SPEC_2].stop = FTK_TC;
 		}
 	}
 

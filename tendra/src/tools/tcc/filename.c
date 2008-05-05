@@ -70,6 +70,7 @@
 #include "startup.h"
 #include "suffix.h"
 #include "utility.h"
+#include "table.h"
 
 
 /*
@@ -97,42 +98,6 @@ to_lower_case(char *s)
 	}
 	return;
 }
-
-
-/*
- * SUFFIX OVERRIDES
- *
- * This table contains the strings which are used when the suffix overrides are
- * set from the command line. Initially, it is empty. This table needs to be
- * kept in step with Table 1.
- */
-
-const char *suffixes[TYPE_ARRAY_SIZE] = {
-	NULL,	/* C_SOURCE */
-	NULL,	/* PREPROC_C */
-	"cpp",	/* CPP_SOURCE */
-	NULL,	/* PREPROC_CPP */
-	NULL,	/* INDEP_TDF */
-	NULL,	/* DEP_TDF */
-	NULL,	/* AS_SOURCE */
-	NULL,	/* BINARY_OBJ */
-	NULL,	/* EXECUTABLE */
-	NULL,	/* PRETTY_TDF */
-	NULL,	/* PL_TDF */
-	NULL,	/* TDF_ARCHIVE */
-	NULL,	/* MIPS_G_FILE */
-	NULL,	/* MIPS_T_FILE */
-	NULL,	/* C_SPEC */
-	NULL,	/* CPP_SPEC */
-	NULL,  	/* ERROR_FILE */
-	NULL,	/* STARTUP_FILE */
-	NULL,	/* UNKNOWN_TYPE */
-	NULL,	/* INDEP_TDF_COMPLEX (dummy type) */
-	NULL,	/* C_SPEC_1 (dummy type) */
-	NULL,	/* C_SPEC_2 (dummy type) */
-	NULL,	/* INDEP_TDF_AUX (dummy type) */
-	NULL	/* BINARY_OBJ_AUX (dummy type) */
-};
 
 
 /*
@@ -265,8 +230,10 @@ add_filename(filename *p, filename *q)
  * true), or a stage identifier (otherwise), to a file type. This routine
  * needs to be kept in step with Table 1 and Table 2.
  */
+/* TODO split into two functions. Have this search table.h instead */
+/* TODO _KEY ought perhaps to be an enum, and thus s not an int */
 
-int
+enum filetype
 find_type(int s, int suff)
 {
 	switch (s) {
@@ -329,6 +296,7 @@ find_type(int s, int suff)
  * This routine converts a file type, t, into the corresponding file suffix. It
  * needs to be kept in step with Table 1 and Table 2.
  */
+/* TODO Have this search table.h instead. We can probably eliminate _KEY in favour of strings */
 
 static char *
 file_suffix(int t)
@@ -447,20 +415,24 @@ static int uniq_no = 0;
  * deduced from the file suffix. This routine needs to be kept in step with
  * Table 1, Table 2 and Table 3.
  */
+/* TODO have this search table.h instead */
 
 filename *
-find_filename(const char *s, int t)
+find_filename(const char *s, enum filetype t)
 {
 	filename *p = new_filename();
 	char *b = string_copy(find_basename(s));
 	char *e = split_name(b);
-	int i;
 
 	/* Find the file type */
+	/* TODO rewrite the logic here */
 	if (suffix_overrides && t == UNKNOWN_TYPE) {
+		enum filetype i;
+
 		for (i = 0; i < TYPE_ARRAY_SIZE; i++) {
-			if (suffixes[i]!= NULL && streq(e, suffixes[i])) {
+			if (table_suffix(i)!= NULL && streq(e, table_suffix(i))) {
 				if (checker) {
+					/* TODO perhaps we can categorise checkable and non-checkable types */
 					if (i == PL_TDF || i == TDF_ARCHIVE) {
 						continue;
 					}
@@ -541,14 +513,14 @@ find_filename(const char *s, int t)
  * may be PRESERVED_FILE which is only a legal storage type when it is passed
  * to make_filename (which turns it into OUTPUT_FILE).
  */
-
+/* TODO silly name */
 int
-where(int t)
+where(enum filetype t)
 {
-	if (!keeps[t]) {
+	if (!table_keep(t)) {
 		return (TEMP_FILE);
 	}
-	if (!stops[t]) {
+	if (!table_stop(t)) {
 		return (PRESERVED_FILE);
 	}
 	return (OUTPUT_FILE);
@@ -559,12 +531,12 @@ where(int t)
  * CREATE A FILENAME FROM ANOTHER FILENAME
  *
  * This routine creates a new filename structure by forming the file derived
- * from p which has type t and storage s. This routine needs to be kept in step
- * with Table 1 and Table 2.
+ * from p which has type t and storage s.
  */
+/* TODO have this search table.h instead */
 
 filename *
-make_filename(filename *p, int t, int s)
+make_filename(filename *p, enum filetype t, int s)
 {
 	boolean f = 0;
 	char *e;

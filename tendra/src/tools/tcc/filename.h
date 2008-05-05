@@ -61,6 +61,56 @@
 #ifndef FILENAME_H
 #define FILENAME_H
 
+#include "config.h"
+
+
+/* TODO comment on keeping in sync with the table and vice-versa */
+enum filetype {
+	/* TODO prefix FT_ */
+	C_SOURCE     = 0,
+	PREPROC_C    = 1,
+	CPP_SOURCE   = 2,
+	PREPROC_CPP  = 3,
+	INDEP_TDF    = 4,
+	DEP_TDF      = 5,
+	AS_SOURCE    = 6,
+	BINARY_OBJ   = 7,
+	EXECUTABLE   = 8,
+	PRETTY_TDF   = 9,
+	PL_TDF       = 10,
+	TDF_ARCHIVE  = 11,
+	MIPS_G_FILE  = 12,
+	MIPS_T_FILE  = 13,
+	C_SPEC       = 14,
+	CPP_SPEC     = 15,
+	STARTUP_FILE = 16,
+
+	/* Things which aren't really types */
+	UNKNOWN_TYPE = 17,
+	ALL_TYPES    = 31,
+	DEFAULT_TYPE = BINARY_OBJ,  /* TODO what is this used for? */
+
+	/*
+	 * EXTRA FILE TYPES
+	 *
+	 * These dummy file types are in addition to those listed in filename.h. They
+	 * are used in the keeps and stops arrays to resolve questions about, for
+	 * example, TDF building, which in terms of file types maps :
+	 *
+	 *     INDEP_TDF x ... x INDEP_TDF -> INDEP_TDF
+	 *
+	 * By introducing a dummy type for the output we can refine the keeps and stops
+	 * information to, for example, keep the output but not the input.
+	 */
+	INDEP_TDF_COMPLEX = UNKNOWN_TYPE + 1,
+	C_SPEC_1          = UNKNOWN_TYPE + 2,
+	C_SPEC_2          = UNKNOWN_TYPE + 3,
+	CPP_SPEC_1        = UNKNOWN_TYPE + 4,
+	CPP_SPEC_2        = UNKNOWN_TYPE + 5,
+	INDEP_TDF_AUX     = UNKNOWN_TYPE + 6,
+	BINARY_OBJ_AUX    = UNKNOWN_TYPE + 7
+};
+
 
 /*
  * TYPE REPRESENTING A FILE NAME
@@ -77,7 +127,7 @@ typedef struct filename_t {
 	const char *name;
 	const char *bname;
 	int uniq;
-	int type;
+	enum filetype type;
 	int storage;
 	boolean final;
 	struct filename_t *aux;
@@ -85,36 +135,6 @@ typedef struct filename_t {
 } filename;
 
 #define no_filename	(NULL)
-
-
-/*
- * FILE TYPES - Table 1
- *
- * Each of the file types handled by tcc is allocated an identifier. If this
- * table is changed then it may have knock-on effects in several places in the
- * program. Hopefully I have marked them all by suitable comments.
-*/
-
-#define C_SOURCE	0
-#define PREPROC_C	1
-#define CPP_SOURCE	2
-#define PREPROC_CPP	3
-#define INDEP_TDF	4
-#define DEP_TDF		5
-#define AS_SOURCE	6
-#define BINARY_OBJ	7
-#define EXECUTABLE	8
-#define PRETTY_TDF	9
-#define PL_TDF		10
-#define TDF_ARCHIVE	11
-#define MIPS_G_FILE	12
-#define MIPS_T_FILE	13
-#define C_SPEC		14
-#define CPP_SPEC	15
-#define STARTUP_FILE	16
-#define UNKNOWN_TYPE	17
-#define ALL_TYPES	31
-#define DEFAULT_TYPE	BINARY_OBJ
 
 
 /*
@@ -126,22 +146,13 @@ typedef struct filename_t {
  * libraries). The second type includes the preserved intermediate files. In
  * fact PRESERVED_FILE is only used as the input to make_filename.
  */
+/* TODO enum */
 
 #define INPUT_FILE	0
 #define INPUT_OPTION	1
 #define OUTPUT_FILE	2
 #define PRESERVED_FILE	3
 #define TEMP_FILE	4
-
-
-/*
- * SUFFIX OVERRIDES
- *
- * This table contains the strings which are used when the suffix overrides are
- * set from the command line. Initially, it is empty.
- */
-
-extern const char *suffixes[];
 
 
 /*
@@ -175,10 +186,10 @@ extern int no_input_files;
 extern const char *find_basename(const char *);
 extern const char *find_fullname(const char *);
 extern filename *add_filename(filename *, filename *);
-extern filename *find_filename(const char *, int);
-extern filename *make_filename(filename *, int, int);
-extern int find_type(int, int);
-extern int where(int);
+extern filename *find_filename(const char *, enum filetype);
+extern filename *make_filename(filename *, enum filetype, int);
+extern enum filetype find_type(int, int);
+extern int where(enum filetype);
 
 
 #endif /* FILENAME_H */
