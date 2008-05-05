@@ -60,6 +60,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "config.h"
 #include "filename.h"
@@ -89,8 +90,10 @@ char *startup_opt = NULL, *endup_opt = NULL;
  */
 
 void
-add_to_startup(const char *s)
+add_to_startup(const char *fmt, ...)
 {
+	va_list ap;
+
 	if (startup_name == NULL) {
 		startup_name = tempnam(temporary_dir, "ts");
 		startup_opt = string_concat("-f", startup_name);
@@ -107,7 +110,11 @@ add_to_startup(const char *s)
 		}
 		IGNORE fprintf(startup_file, "#line 1 \"%s\"\n", name_h_file);
 	}
-	IGNORE fputs(s, startup_file);
+
+	va_start(ap, fmt);
+	IGNORE vfprintf(startup_file, fmt, ap);
+	va_end(ap);
+
 	return;
 }
 
@@ -119,8 +126,10 @@ add_to_startup(const char *s)
  */
 
 void
-add_to_endup(const char *s)
+add_to_endup(const char *fmt, ...)
 {
+	va_list ap;
+
 	if (endup_name == NULL) {
 		endup_name = tempnam(temporary_dir, "te");
 		startup_opt = string_concat("-e", endup_name);
@@ -137,7 +146,11 @@ add_to_endup(const char *s)
 		}
 		IGNORE fprintf(endup_file, "#line 1 \"%s\"\n", name_E_file);
 	}
-	IGNORE fputs(s, endup_file);
+
+	va_start(ap, fmt);
+	IGNORE vfprintf(endup_file, fmt, ap);
+	va_end(ap);
+
 	return;
 }
 
@@ -160,8 +173,10 @@ char *tokdef_name = NULL;
  */
 
 static void
-add_to_tokdef(const char *s)
+add_to_tokdef(const char *fmt, ...)
 {
+	va_list ap;
+
 	if (tokdef_name == NULL) {
 		tokdef_name = tempnam(temporary_dir, "td");
 	}
@@ -179,7 +194,11 @@ add_to_tokdef(const char *s)
 		IGNORE fputs("( make_tokdec ~signed_int variety )\n\n",
 			     tokdef_file);
 	}
-	IGNORE fputs(s, tokdef_file);
+
+	va_start(ap, fmt);
+	IGNORE vfprintf(tokdef_file, fmt, ap);
+	va_end(ap);
+
 	return;
 }
 
@@ -283,11 +302,7 @@ add_pragma(const char *s)
 	}
 
 	/* Write option to startup file */
-	add_to_startup("#pragma TenDRA option \"");
-	add_to_startup(s);
-	add_to_startup("\" ");
-	add_to_startup(level);
-	add_to_startup("\n");
+	add_to_startup("#pragma TenDRA option \"%s\" %s\n", s, level);
 	return;
 }
 
@@ -311,21 +326,11 @@ add_token(const char *s)
 	}
 
 	/* Write token description to startup file */
-	add_to_startup("#pragma token EXP const : ");
-	add_to_startup(type);
-	add_to_startup(" : ");
-	add_to_startup(s);
-	add_to_startup(" #\n");
-	add_to_startup("#pragma interface ");
-	add_to_startup(s);
-	add_to_startup("\n");
+	add_to_startup("#pragma token EXP const : %s : %s #\n", type, s);
+	add_to_startup("#pragma interface %s\n", s);
 
 	/* Write definition to token definition file */
-	add_to_tokdef("( make_tokdef ");
-	add_to_tokdef(s);
-	add_to_tokdef(" exp\n");
-	add_to_tokdef("  ( make_int ~signed_int ");
-	add_to_tokdef(defn);
-	add_to_tokdef(" ) )\n\n");
+	add_to_tokdef("( make_tokdef %s exp\n", s);
+	add_to_tokdef("  ( make_int ~signed_int %s ) )\n\n", defn);
 	return;
 }
