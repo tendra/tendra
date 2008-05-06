@@ -692,14 +692,12 @@ package body Asis.Gela.Overloads.Types is
          Keep :    out Boolean)
       is
          Tipe : Type_Info := Type_Of_Declaration (Decl, Element);
-         Prof : Asis.Subtype_Mark;
       begin
          if not Is_Not_Type (Tipe) then
             Add_Expr (Tipe);
             Keep := False;
          elsif Parameterless (Decl) then
-            Prof := Get_Result_Profile (Decl);
-            Tipe := Type_From_Subtype_Mark (Prof, Element);
+            Tipe := Type_From_Indication (Get_Result_Subtype (Decl), Element);
 
             if Is_Not_Type (Tipe) then
                Keep := True;
