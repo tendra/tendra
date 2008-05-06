@@ -655,6 +655,11 @@ package body Asis.Gela.Normalizer.Utils is
          when A_Linker_Options_Pragma =>
             Replace.Operator_Symbol_To_String_Literal (Element);
 
+         when An_Unknown_Pragma =>
+            if Expression_Kind (Element) = An_Operator_Symbol then
+               Replace.Operator_Symbol_To_String_Literal (Element);
+            end if;
+
          when others =>
             null;
       end case;
