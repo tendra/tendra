@@ -161,6 +161,7 @@ package body Asis.Gela.Classes is
    ----------------------
 
    function Destination_Type (Tipe : Type_Info) return Type_Info is
+      use Asis.Elements;
       use Asis.Definitions;
       use Asis.Declarations;
 
@@ -183,6 +184,11 @@ package body Asis.Gela.Classes is
          when Defining_Name_Info =>
             Def    := Object_Declaration_Subtype
               (Elements.Enclosing_Element (Top.Object_Name));
+
+            if Definition_Kind (Def) = Asis.A_Component_Definition then
+               Def := Component_Subtype_Indication (Def);
+            end if;
+
             Def    := Anonymous_Access_To_Object_Subtype_Mark (Def);
             Result := Type_From_Subtype_Mark (Def, Tipe.Place);
          when Return_Info =>
