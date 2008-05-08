@@ -13,6 +13,8 @@
 		contain descriptions of messages like "type 'some type' is unknown", as
 		these should be self-explanatory.</para>
 
+	<!-- TODO explain error: sid: Error: parser.act: 80: substituted exception call in unsuitable code block -->
+
 	<section id="left-errors">
 		<title>Left recursion elimination errors</title>
 
