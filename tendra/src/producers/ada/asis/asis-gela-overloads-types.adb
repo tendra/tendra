@@ -691,17 +691,21 @@ package body Asis.Gela.Overloads.Types is
         (Decl : in     Asis.Declaration;
          Keep :    out Boolean)
       is
-         Tipe : Type_Info := Type_Of_Declaration (Decl, Element);
+         Subtipe : Asis.Definition;
+         Tipe    : Type_Info := Type_Of_Declaration (Decl, Element);
       begin
          if not Is_Not_Type (Tipe) then
             Add_Expr (Tipe);
             Keep := False;
          elsif Parameterless (Decl) then
-            Tipe := Type_From_Indication (Get_Result_Subtype (Decl), Element);
+            Subtipe := Get_Result_Subtype (Decl);
 
-            if Is_Not_Type (Tipe) then
+            if not Assigned (Subtipe) then
+               --  Parameterless procedure
                Keep := True;
             else
+               Tipe := Type_From_Indication (Subtipe, Element);
+
                Add_Expr (Tipe, Call => True, Down => (A_Declaration, Decl));
 
                if Force then
