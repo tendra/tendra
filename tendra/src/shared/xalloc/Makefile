@@ -4,4 +4,4 @@ LIB = ${.CURDIR:T}
 
 SRCS = xalloc.c
 
-.include "../Makefile.inc"
+.include "Makefile.inc"

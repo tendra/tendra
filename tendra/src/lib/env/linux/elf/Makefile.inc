@@ -1,3 +1,9 @@
-# $Id: Makefile.inc 1559 2007-09-30 11:51:54Z tobiasu $
+# generic Makefile.inc
+
+.if defined(_BASEDIR_RELATIVE)
+_BASEDIR_RELATIVE := ${_BASEDIR_RELATIVE}/..
+.else
+_BASEDIR_RELATIVE = ..
+.endif
 
 .include "../Makefile.inc"

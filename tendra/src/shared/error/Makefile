@@ -4,4 +4,4 @@ LIB = ${.CURDIR:T}
 
 SRCS = error.c
 
-.include "../Makefile.inc"
+.include "Makefile.inc"
