@@ -375,6 +375,71 @@ output    = ZO ;
 terminal  = ZB ;</programlisting>
 	</section>
 
+	<section id="persistents">
+		<title>The persistent section</title>
+
+		<para>&sid; supports passing local variables through rules in the
+			grammar, which are eventually passed on to actions. This helps keep
+			the generated parser thread-safe, since each variable may be passed
+			through from the entry point.  However in practise, often grammars
+			tend to build up a structure which is conceptually global to all
+			rules (commonly some sort of <quote>parse tree</quote> under
+			construction). To pass this through each rule in the grammar and on
+			to all actions is certainly possible, but a little
+			inconvenient:</para>
+
+		<programlisting language="SID Grammar">rule: ( l1 : ParsetreeT, ... ) -> ( ... ) = {
+	...
+}</programlisting>
+
+		<para>However, adding this declaration to each rule and action would be
+			tiresome and error-prone. Instead, it reads more naturally to view
+			this variable as if it were <quote>global</quote>. This keeps it
+			out of the grammar entirely, as it is a concept specific to the
+			action file. <firstterm>Persistent variables</firstterm> provide a
+			mechanism to automate this process of passing-through as described
+			above, whilst leaving the grammar file untouched. (This could be
+			done by hand, though it would require passing variables through
+			rules in the grammar; hence persistent variables are not
+			necessary, but merely nice to have.)</para>
+
+		<para>From a user's perspective, persistent variables act as globals
+			specific to each invocation. They are accessible by every rule and
+			every parsing instance. Since they originate from an entry point,
+			they persist only for each invocation of an entry into the parser.</para>
+
+		<para>Persistent variables are declared in their own section. This
+			section is optional.</para>
+
+		<programlisting language="SID C Actions">
+%persistent%
+
+	pv1 : Type1T ;
+	pv2 : Type2T ;
+</programlisting>
+
+		<para>The persistent variables declared may be used in actions in the
+			same manner as actions' parameters:</para>
+
+		<programlisting language="SID C Actions">
+&lt;append-node&gt; : ( l1 : Type3 ) -&gt; ( ) = @{
+	f ( @pv1, @pv1, @l1 ) ;
+@} ;
+</programlisting>
+
+		<para>These are passed in at the entry point to the parser.</para>
+		<!-- TODO an example? what order are they passed in? -->
+
+
+		<!-- TODO: what did Kevin mean here?
+			<kevin2993> The caller can always initialize them then ignore them on return.
+		-->
+
+		<para>Since the <code>ADVANCE_LEXER</code> macro is expanded inside
+			generated functions that represent rules, it too may access persistent
+			variables, as they are in scope in all rules.</para>
+	</section>
+
 	<section id="maps">
 		<title>The maps section</title>
 
