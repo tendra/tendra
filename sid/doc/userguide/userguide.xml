@@ -60,6 +60,7 @@
 	<!-- Appendicies -->
 	<xi:include href="glossary.xml"/>
 	<xi:include href="appendix-errmsg.xml"/>
+	<xi:include href="appendix-advice.xml"/>
 
 </book>
 

@@ -1,0 +1,314 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY sid "<application><acronym>SID</acronym></application>">
+	<!ENTITY eof "<acronym>EOF</acronym>">
+]>
+
+<appendix id="advice">
+	<title>Advice on writing parsers with &sid;</title>
+
+	<para>This appendix lists a few points of advice for writing parsers using
+		&sid;. This list is intended to cover a few of the areas which might
+		be confusing (particularly to somebody coming from a background with
+		another parser generator), and an explanation of generally what is
+		considered good technique when using &sid;. Hopefully this list will
+		expand over time.</para>
+
+	<para>In general, the examples included with &sid; are designed to help
+		orientate the reader and illustrate common practises. Also look at the
+		implementation of &sid; itself (both its <code>.sid</code> file
+		and <code>.act</code> file parsers are written using itself), which
+		demonstrates more complex uses. There are also several other programs
+		using &sid; throughout the TenDRA repository which may be of interest,
+		not least of which is the compiler itself.</para>
+
+	<!-- TODO link to appropriate sections -->
+
+	<section id="advice-eof">
+		<title>Handling &eof;</title>
+
+		<para>Given the action:</para>
+
+		<programlisting language="SID C Actions"><![CDATA[
+<is-eof>: () -> (eof:Boolean) = @{
+	@eof = (@. == TOKEN_EOF);
+@};]]></programlisting>
+
+		<para>used in a grammar as a predicate, we can have an empty
+			alternative which is only reached during &eof;. This can be used as
+			a <quote>get-out</quote> clause to end recursion; for example,
+			in a shell-like language, the entry point may be expressed as:</para>
+
+		<programlisting language="SID Grammar"><![CDATA[
+script = {
+	? = <is-eof>;
+||
+	list-of-statements;
+};
+
+%entry% script;]]></programlisting>
+
+		<para>where <code>list-of-statements</code> is the usual recursive
+			structure for expressing lists. Since predicates used in alternatives
+			only permit parsing to continue if they return true, the
+			<code>&lt;is-eof&gt;</code> alternative is only parsed if &eof; has
+			been reached. Otherwise, the predicate raises an exception.</para>
+
+		<para>Usually &eof; would be considered an error if encountered during a
+			more complex rule, and hence would not appear elsewhere in the
+			grammar. Similarly a parser for a file format would expect an
+			<code>eof</code> token at the end of its input stream.
+			&sid; itself is a good example for this typical requirement; the
+			last rule for its entry point reads simply:</para>
+
+		<programlisting language="SID Grammar"><![CDATA[{
+	eof;
+##
+	<expected-eof>;
+};]]></programlisting>
+
+		<para>where <code>&lt;expected-eof&gt;</code> produces an error.</para>
+	</section>
+
+	<section>
+		<title>Adding common mistakes to the grammar</title>
+
+		<para>For a given language there is often a well-known set of common
+			mistakes people make.
+			One approach to producing more useful error messages is to add
+			these well-known mistakes as rules in the grammar, so that these
+			specific cases may be identified. (These production would of
+			course go on to call actions that raise an error).</para>
+
+		<para>This technique is particularly appropriate for errors which are not
+			simply <quote>missing</quote> items. Instead, those are best handled
+			with empty alternatives, such as:</para>
+
+		<programlisting language="SID Grammar">
+<![CDATA[{
+	semicolon;
+##
+	<err-expected-semicolon>;
+}]]></programlisting>
+
+		<para>The approach of encoding common mistakes into the grammar as
+			productions also lends itself particularly well to warnings; for
+			example in C a missing semicolon after a struct at the end of a
+			header, or the semicolon in <code>for (...); { ... }</code>.</para>
+	</section>
+
+	<section>
+		<title>Throwing exceptions inside exception handlers</title>
+
+		<para>Error handling may be centralised to a higher-level point whilst
+			keeping the specific errors which caused the parse to fail local to
+			their respective areas. This allows for specific error messages
+			without having to repeat the same handling mechanisms. One way to
+			achieve this is to have local error handlers call actions which
+			raise a new exception (by calling the <code>@!</code> command).
+			This newly-raised exception may then be caught by an error handler
+			further up the grammar.</para>
+	</section>
+
+	<section>
+		<title>Continuing from an exception handler</title>
+
+		<para>An exception handler in &sid; may contain rules just as any other
+			alternative does, so that the parse may continue after an error.
+			This is helpful for having the parser perform semantic checks for
+			non-syntax errors such as overflows or type mismatches:</para>
+
+		<programlisting language="SID Grammar"><![CDATA[
+variable-declaration = {
+	v = variable; equals; l = literal;
+	<instantiate-variable>(v, l);
+};
+
+statement = {
+	variable-declaration;
+||
+	...
+};
+
+list-of-statements = {
+	statement;
+||
+	statement;
+	semicolon;
+	list-of-statements;
+##
+	list-of-statements;
+};]]></programlisting>
+
+		<para>Here the <code>&lt;instantiate-variable&gt;</code> action may
+			raise an exception (say, that the literal used to instantiate the
+			variable is of an incompatible type);
+			this exception bubbles up in the grammar to the <code>list-of-statements</code>
+			rule. Since the error is relatively minor (especially as it is syntactically valid),
+			rather than abort at this point it may be more convenient to the user to
+			continue parsing in order to identify any other possible errors
+			later on in the input.</para>
+
+		<para>In the example above, the most sensible approach seems to be to
+			recur into the <code>list-of-statements</code> rule when such errors
+			are encountered. In this case, this permits additional valid lists
+			of statements to follow.<!-- TODO Discuss overhead for recursion here,
+			versus tail recursion in general (SID can optimise some things away)
+			versus stack/stackless LL(1) Non-tail recursive grammars are transformed
+			to make them tail-recursive? --></para>
+
+		<para>It is also especially good for interpreters, where exiting the
+			program would be inappropriate. In the case of the calculator
+			example<!-- TODO link -->, which reads and executes expressions,
+			after a user has entered something invalid the parser is recurred
+			through an error handler all of the time for the remainder of
+			execution.</para>
+	</section>
+
+	<section>
+		<title>Manifesting semantic checks as syntax errors</title>
+
+		<para>Often grammars express constructs which are syntactically identical, but
+			who's validity depends on other context. For example, a language offering
+			declarations of several optional items may consider re-declaring the same
+			item as an error. One approach is to simply list these items in order in
+			the grammar, and make each optional (as &sid;'s grammar does for the
+			<code>%types%</code>, <code>%terminals%</code> etc sections).</para>
+
+		<para>Another approach would be to consider the order of these irrelevant,
+			as long as each item is present once at most. Hence in the following
+			example, <code>A</code> and/or <code>B</code> may be present, in any
+			order, but it is a syntax error to define either <code>A</code> or
+			<code>B</code> twice:</para>
+
+		<programlisting language="SID Grammar"><![CDATA[rule = {
+	? = <a-not-defined>;
+	A;
+||
+	? = <b-not-defined>;
+	B;
+##
+	rule;	/* TODO check this: to handle predicates raising on false */
+};]]></programlisting>
+
+		<para>The predicates responsible for the semantic checks direct the syntax
+			accordingly, altering what is henceforth considered to be a valid parse.
+			A following redefinition will be a syntax error according to the
+			permissible rules in the grammar (now excluding the predicates'
+			alternatives). It (perhaps) seems natural to present these redefinitions
+			as syntax errors to the user.</para>
+	</section>
+
+	<section id="advice-panic">
+		<title>Implementing <quote>panic mode</quote></title>
+
+		<para>When implementing parsers for compilers, it is often more useful
+			to the user to try to continue a little way rather than exit on the
+			first error encountered. This can help show unrelated errors, so that
+			the user may address those whilst debugging and not resort to tediously
+			dealing with a single error for each compilation attempt.</para>
+
+		<para>The traditional scheme for providing this is to implement a <quote>panic
+			mode</quote> for parsing which returns to a high-level parsing rule
+			when a syntax or lexical error is detected. Commonly it is sensible to
+			skip the erroneous region and re-synchronise the input stream at a
+			<quote>statement</quote> rule (or whatever suits the grammar).</para>
+
+		<para>After a syntax error has been encountered, panic mode is provided for
+			by skipping over tokens until a statement separator (commonly a semicolon)
+			is found <footnote>
+				<para>Apparently this is why so many languages use semicolons.</para>
+			</footnote> and tokens are discarded until the separator is reached. The
+			parse may then continue. This is not perfect, but often helpful enough
+			to the user.</para>
+
+		<para>The <link linkend="exception">exception handling</link> mechanism of
+			&sid; provides a means to change the parse for error situations (without
+			resorting to non-local <code>goto</code> commands such as
+			<code>longjmp</code> for C); this exception handle may be entered from
+			any of the children of the given rule:</para>
+
+		<programlisting language="SID Grammar"><![CDATA[
+rule = {
+	...
+##
+	<panic>;
+}
+]]></programlisting>
+
+		<para>In &sid;, panic mode is quite naturally implemented by providing an
+			action which performs this token-skipping:</para>
+
+		<programlisting language="SID C Actions"><![CDATA[
+<panic>: () -> () = @{
+	while (@. != TOKEN_SEMI && @. != TOKEN_EOF) {
+		/* Advance to the next token */
+		@>;
+	}
+@};]]></programlisting>
+
+		<para>For larger languages, it may be sensible to skip until more
+			appropriate tokens depending which point in the grammar has failed
+			to parse. This works nicely with exception handlers strategically
+			placed throughout the grammar, each calling an action to skip to
+			an appropriate token. The parser for &sid;'s <code>.sid</code>
+			files serve as a good example for this.</para>
+	</section>
+
+	<section id="advice-duplicate">
+		<title>Duplicating token values</title>
+
+		<para>Often a parser needs to retrieve the values lexed when producing a
+			token - to obtain the spelling for identifiers, for example.
+			Consider the following fragment:</para>
+
+		<programlisting language="SID Grammar"><![CDATA[
+rule = {
+	w = word;
+	command = <duplicate>(w);
+	empty-list = <empty-list>;
+	argument-list = list-of-words(empty-list);
+	<do-execute>(execute, command, argument-list);
+}]]></programlisting>
+
+		<para>Here the terminal <code>word</code> produces a value (the spelling
+			for a word, as stored by the lexer), which is passed to the
+			<code>&lt;duplicate&gt;</code> action:</para>
+
+		<programlisting language="SID C Actions"><![CDATA[<duplicate>: (in :STRING) -> (out :STRING) = @{
+	@out = strdup(@in);
+	if (@out == NULL) {
+		perror("strdup");
+		exit(EXIT_FAILURE);
+	}
+@};]]></programlisting>
+
+		<para>So the value from the token buffer which stored this spelling
+			is duplicated in memory such that the buffer may be reused for the
+			next token. Or at least, that was the intention.</para>
+
+		<para>As it turns out, what actually happens is that the one-token
+			look-ahead for the LL(1) grammar causes the parser to
+			advance one token before executing the <code>&lt;duplicate&gt;</code>
+			action. So when <code>&lt;duplicate&gt;</code> <emphasis>is</emphasis>
+			called, a new token has already been read into the buffer.
+			This gives the effect of these tokens appearing to be <quote>along
+			one</quote>, as each value is one ahead of where it ought to be.</para>
+
+		<para>To avoid this, we can have the <code>word</code> terminal
+			perform this duplication itself, and instead simply call:</para>
+
+		<programlisting language="SID C Actions"><![CDATA[w = word;
+empty-list = <empty-list>;
+argument-list = list-of-words(empty-list);
+<do-execute>(execute, w, argument-list);
+]]></programlisting>
+
+		<para>This also reads more naturally as the need for a separate
+			<code>&lt;duplicate&gt;</code> action is removed.</para>
+	</section>
+
+</appendix>
+
