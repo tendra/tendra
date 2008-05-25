@@ -44,7 +44,7 @@
 					or 32 bit architecture profile;</para>
 			</listitem>
 			<listitem>
-				<para>strict ISO C standard checking, plus configurable support for
+				<para>strict ISO C90 standard checking, plus configurable support for
 					many non-ISO dialect features;</para>
 			</listitem>
 			<listitem>

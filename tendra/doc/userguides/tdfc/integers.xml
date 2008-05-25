@@ -423,7 +423,7 @@ int main() {
 		<title id="24">Support for 64 bit integer types (<code>long long</code>)</title>
 
 		<para>Although the use of <code>long long</code> to specify a 64 bit
-			integer type is not supported by the ISO C standard it is becoming
+			integer type is not supported by the ISO C90 standard it is becoming
 			increasingly popular as in programming use. By default, tchk does
 			not support the use of <code>long long</code> but the checker can
 			be configured to support the <code>long long</code> type to different
