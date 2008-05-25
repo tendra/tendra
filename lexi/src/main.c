@@ -219,6 +219,13 @@ main(int argc, char **argv)
 
 	/* Process input file */
 	init_lexer_parse_tree(&top_level);
+
+	set_predefined_char_lexi_type(&top_level, "CHARACTER", "char");
+	set_predefined_string_lexi_type(&top_level, "STRING", "char*");
+	set_predefined_int_lexi_type(&top_level, "INTEGER", "int");
+	set_predefined_terminal_lexi_type(&top_level, "TERMINAL");
+
+
 	process_file(argv[0],&top_level);
 
 	if (exit_status != EXIT_SUCCESS) {

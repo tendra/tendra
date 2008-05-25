@@ -12,7 +12,7 @@ LDFLAGS+=-Lshared/error -Lshared/xalloc -L.
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
 
-TARGETS=char.o syntax.o lex.o main.o options.o output.o lctlex.o lctsyntax.o adt.o ccode.o
+TARGETS=char.o syntax.o lex.o main.o options.o output.o lctlex.o lctsyntax.o adt.o ccode.o localnames.o
 
 all: lexi
 

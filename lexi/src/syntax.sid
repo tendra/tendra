@@ -92,6 +92,7 @@ equal ;
 plus ;
 semicolon ;
 colon ;
+reference ;
 range ;
 range-closed-closed ;
 range-closed-open ;
@@ -151,12 +152,14 @@ type-kw ;
 <empty-args-list> : () -> ( :ARGS_LIST) ;
 <args-list-push-front> : ( :ARG , :ARGS_LIST) -> () ;
 <arg-char-list-tmp> :    () -> ( :ARG);
+<make_arg_terminal> : (:IDENTIFIER) -> (:ARG);
 <make_arg_from_string> : (:STRING) -> (:ARG);
 <make_arg_from_identifier> : (:IDENTIFIER) -> (:ARG);
+<make_arg_from_reference> : (:IDENTIFIER) -> (:ARG);
 <make_arg_none> : () -> (:ARG);
 
 <empty-inst-list> : () -> ( : INSTRUCTIONS_LIST);
-<add-inst-to-list> : ( : INSTRUCTION, : INSTRUCTIONS_LIST ) -> ();
+<add-inst-to-list> : ( : ZONE, : INSTRUCTION, : INSTRUCTIONS_LIST ) -> ();
 
 <E_expected_identifier> : () -> (:IDENTIFIER);
 <E_expected_range> : () -> ();
@@ -172,12 +175,15 @@ type-kw ;
 
 <E_sharp_arg_in_lhs> : () -> ();
 <E_string_arg_in_lhs> : () -> ();
-<E_return_terminal_in_rhs> : () -> ();
+<E_terminal_in_lhs> :() -> (); 
 
+<E_return_terminal_in_rhs> : () -> ();
+<E_string_in_action_rhs> : () -> ();
 
 <is-non-empty> : ( : CHARACTERS , :ZONE) -> ( : BOOL );
 <E_empty_character_string> : () -> ();
 <E_ignore_in_rhs> : () -> ();
+<E_sharp_list_in_action_rhs> : () -> ();
 
 <syntax-error> : () -> () ;
 
@@ -188,7 +194,7 @@ type-kw ;
 
 <make-type>: (:ZONE, :IDENTIFIER) -> ();
 <init-tuple>: () -> (:TYPETUPLE);
-<append-tuple> : (:ZONE, :TYPETUPLE&,:IDENTIFIER,:IDENTIFIER) -> ();
+<append-tuple> : (:ZONE, :TYPETUPLE&,:IDENTIFIER,:IDENTIFIER,:BOOL) -> ();
 <make-action> : (:ZONE, :IDENTIFIER, :TYPETUPLE&, :TYPETUPLE&) -> ();
 
 /*
@@ -298,7 +304,9 @@ single-arg : () -> ( a : ARG ) = {
     ||  a=arg-return-terminal ; <E_return_terminal_in_rhs>;
     ||  a=arg-ignore ; <E_ignore_in_rhs>;
     ||  b=string ; a=<make_arg_from_string>(b);
-    ||  i=identifier ; a=<make_arg_from_identifier>(i);
+    ||  b=sid-identifier ; a=<make_arg_terminal>(b); 
+    ||  i=identifier ; a = <make_arg_from_identifier>(i); 
+    ||  reference; i=identifier ; a = <make_arg_from_reference>(i); 
 } ;
 
 non-empty-tuple-args : () -> (l: ARGS_LIST) = {
@@ -369,7 +377,12 @@ type-tuple : ( z:ZONE ) -> (a:TYPETUPLE) [
 		name=identifier ;
 		colon ;
 		type=identifier ;
-		<append-tuple>(z, &a,name,type);
+		{
+			isref = <false>;
+		    ||
+			reference; isref = <true>;
+		};
+		<append-tuple>(z, &a, name, type, isref);
 	} ;
 	type-tuple1 : (z:ZONE, a:TYPETUPLE&) -> () = {
 		type-name(z, a) ;
@@ -424,6 +437,8 @@ action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 	    ||  b=arg-nb-of-chars ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
 	    ||  b=string ; a=<make_arg_none>; <E_string_arg_in_lhs>;
 	    ||  i=identifier ; a=<make_arg_from_identifier>(i);
+	    ||  reference; i=identifier ; a=<make_arg_from_reference>(i);
+	    ||  b=sid-identifier ; a=<make_arg_none>; <E_terminal_in_lhs>; 
 	    ||  a=arg-return-terminal ;
 	    ||  a=arg-ignore ;
 } ;
@@ -441,12 +456,30 @@ action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 		l = lhs-tuple1;
 		close;
 	};
+	rhs-arg : () -> ( a : ARG ) = {
+		b=arg-char-list ; a=<make_arg_none>; <E_sharp_list_in_action_rhs>;
+	    ||  a=arg-char-string ;
+	    ||  a=arg-char-nb ;
+	    ||  a=arg-nb-of-chars ;
+	    ||  b=sid-identifier ; a=<make_arg_terminal>(b); 
+	    ||  b=arg-return-terminal ; a=<make_arg_none>; <E_return_terminal_in_rhs>;
+	    ||  b=arg-ignore ; a=<make_arg_none>; <E_ignore_in_rhs>;
+	    ||  b=string ; a=<make_arg_none>; <E_string_in_action_rhs>;
+	    ||  reference; i=identifier ; a=<make_arg_from_reference>(i);
+	    ||	i=identifier ; a=<make_arg_from_identifier>(i);
+	} ;
+	rhs-tuple1 : () -> (r:ARGS_LIST) = {
+		a = rhs-arg ; r=<empty-args-list> ; <args-list-push-front>(a,r); 
+	    ||
+		a = rhs-arg; comma; r = rhs-tuple1; <args-list-push-front>(a,r);
+
+	};
 	rhs-tuple : () -> (r: ARGS_LIST) = {
      		open ;
 		{
-			r=<empty-args-list> ;
+			r = <empty-args-list> ;
 		    ||
-			r = non-empty-tuple-args;
+			r = rhs-tuple1 ;
 		} ;
 		close;
 	}; ] = {
@@ -491,12 +524,12 @@ instruction : (z:ZONE) -> (inst:INSTRUCTION) = {
 instructions-list : (z:ZONE) -> (instl:INSTRUCTIONS_LIST) = {
 		  inst=instruction(z) ; 
 		  instl=<empty-inst-list>;
-		  <add-inst-to-list>( inst, instl);
+		  <add-inst-to-list>(z, inst, instl);
 	||
 		  inst=instruction(z) ;
    		  comma; 
 		  instl=instructions-list(z) ; 
-		  <add-inst-to-list>( inst, instl);
+		  <add-inst-to-list>(z, inst, instl);
 } ;
 
 /*

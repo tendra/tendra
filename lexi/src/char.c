@@ -62,6 +62,10 @@
 #include <stddef.h>
 
 #include "char.h"
+
+#include "exds/common.h"
+#include "exds/dstring.h"
+
 #include "xalloc/xalloc.h"
 
 #include "error/error.h"
@@ -156,7 +160,9 @@ new_arg(void)
 	args_free = xmalloc_nof(arg, args_left);
     }
     p = args_free + (--args_left);
-    p->next =NULL;
+    p->next = NULL;
+    p->lexi_type = NULL;
+    p->is_reference = false;
     return p;
 }
 
@@ -213,10 +219,21 @@ add_reference_arg ( char* s)
     arg* p = new_arg();
     p->type = arg_identifier;
     p->u.litteral = s;
+    p->is_reference = true;
     return p;
 }
 
-extern arg* add_none_arg ( void ) 
+arg* 
+add_terminal_arg ( char* s) 
+{
+    arg* p = new_arg();
+    p->type = arg_terminal;
+    p->u.litteral = s;
+    return p;
+}
+
+arg* 
+add_none_arg ( void ) 
 {
     arg* p = new_arg();
     p->type = arg_none;
@@ -367,7 +384,7 @@ add_instruction_donothing ()
 instruction * 
 add_instruction_action (EntryT* act, args_list* lhs, args_list* rhs) 
 {
-    instruction* p=new_instruction(action);
+    instruction* p=new_instruction(action_call);
     p->u.act.called_act=act;
     p->u.act.rhs=rhs;
     p->u.act.lhs=lhs;
@@ -424,6 +441,7 @@ new_instructions_list (void)
     p = instructions_list_free + (--instructions_list_left);
     p->head=NULL;
     p->tail=&(p->head);
+    p->local_names = NULL;
     return p;   
 }
 
@@ -438,6 +456,22 @@ add_instructions_list (void)
 {
     instructions_list *p=new_instructions_list();
     return p;   
+}
+
+
+/*
+	GET local names from InstructionsList
+*/
+LocalNamesT* 
+instructionslist_localnames(instructions_list* l)
+{
+	return l->local_names;
+}
+
+LocalNamesT** 
+instructionslist_localnamesref(instructions_list* l)
+{
+	return &(l->local_names);
 }
 
 
@@ -473,7 +507,7 @@ new_zone (char* zid, lexer_parse_tree* top_level)
 
     p->type=typezone_pure_function; /* Not used yet.*/
 
-    p->default_actions=NULL;
+    p->default_instructions=NULL;
     p->default_cond=NULL;
 
     p->entering_instructions=NULL;
@@ -930,6 +964,150 @@ void init_lexer_parse_tree(lexer_parse_tree* t) {
 
 }
 
+void 
+set_predefined_char_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+	NStringT cstr;
+	nstring_copy_cstring(&cstr, c_type);
+
+	/* TODO assert(table_get_entry(top_level->table, &str) == NULL) */
+       	EntryT* entry = table_add_type(top_level->table, &str, true);
+	TypeT* type = entry_get_type(entry);
+	type_map(type, &cstr);
+	top_level->lexi_char_type = entry;
+}
+
+void 
+set_predefined_string_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+	NStringT cstr;
+	nstring_copy_cstring(&cstr, c_type);
+
+	/* TODO assert(table_get_entry(top_level->table, &str) == NULL) */
+       	EntryT* entry = table_add_type(top_level->table, &str, true);
+	TypeT* type = entry_get_type(entry);
+	type_map(type, &cstr);
+	top_level->lexi_string_type = entry;
+}
+
+void 
+set_predefined_terminal_lexi_type(lexer_parse_tree* top_level, char* lexi_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+
+	/* TODO assert(table_get_entry(top_level->table, &str) == NULL) */
+       	EntryT* entry = table_add_type(top_level->table, &str, true);
+	top_level->lexi_terminal_type = entry;
+}
+
+void 
+set_predefined_int_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+	NStringT cstr;
+	nstring_copy_cstring(&cstr, c_type);
+
+	/* TODO assert(table_get_entry(top_level->table, &str) == NULL) */
+       	EntryT* entry = table_add_type(top_level->table, &str, true);
+	TypeT* type = entry_get_type(entry);
+	type_map(type, &cstr);
+	top_level->lexi_int_type = entry;
+}
+
+EntryT* lexer_char_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_char_type;
+}
+
+EntryT* lexer_string_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_string_type;
+}
+
+EntryT* lexer_int_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_int_type;
+}
+
+EntryT* lexer_terminal_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_terminal_type;
+}
+
+/*
+	FILLING types for args
+*/
+bool args_rhs_fill_type(args_list* rhs, LocalNamesT* locals, lexer_parse_tree* top_level) 
+{
+       	arg* p;
+	bool successful = true;
+	for (p = rhs->head; p != NULL ; p = p->next) {
+	switch(p->type) {
+		case arg_identifier: 
+			{
+				NStringT* str;
+				EntryT* entrytype;
+				nstring_copy_cstring(str, p->u.litteral);
+				entrytype = localnames_get_type(locals, str);
+				nstring_destroy(str);
+				if(!entrytype) {
+					successful = false;
+					EntryT* tableentry = table_get_entry(top_level->table, str);
+					if(!tableentry) {
+						error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.litteral);
+					} else if (entry_is_localname(tableentry)) {
+						error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.litteral);
+					} else if (entry_is_action(tableentry)) {
+						error(ERROR_SERIOUS, "%s is not a local name but either an action which is not allowed", p->u.litteral);
+					} else if (entry_is_type(tableentry)) {
+						error(ERROR_SERIOUS, "%s is not a local name but either a type which is not allowed", p->u.litteral);
+					} else {
+						; /* TODO assert(0) this should be unreachable*/
+					}
+				}
+				p->lexi_type = entrytype;				
+			}
+			break;
+		case arg_charP:
+			/* TODO assert(lexer_string_type(top_level)) */
+			p->lexi_type = lexer_string_type(top_level);
+	 		break;
+		case arg_char_nb:
+			/* TODO assert(lexer_char_type(top_level)) */
+			p->lexi_type = lexer_char_type(top_level);
+	 		break;
+		case arg_terminal:
+			/* TODO assert(lexer_terminal_type(top_level)) */
+			p->lexi_type = lexer_terminal_type(top_level);
+	 		break;
+		case arg_nb_of_chars:
+			/* TODO assert(lexer_terminal_type(top_level)) */
+			p->lexi_type = lexer_int_type(top_level);
+	 		break;		
+		case arg_none:
+			break; //Error already detected, do nothing and leave p->lexitype = NULL
+		
+		case arg_litteral:
+		case arg_chars_list:
+		case arg_ignore:
+		case arg_return_terminal:
+			/* TODO assert(0): we should never reach this place */
+			break;
+		default:
+			break;
+			/* TODO assert(0): we should never reach this place either, doubly so*/
+		}
+	}
+	return successful;
+}
+
+
 /*
   A trivial hash function
 */
@@ -951,5 +1129,4 @@ unsigned int hash_cstring_n(char* p,size_t len)
     p++;
   }
   return value % GROUP_HASH_TABLE_SIZE;
-
 }

@@ -105,6 +105,14 @@ int entry_is_action (EntryT* entry)
 		return 0;
 }
 
+int entry_is_localname(EntryT* entry) 
+{
+	if(entry->entry_kind==entry_local_name)
+		return 1;
+	else
+		return 0;
+}
+
 
 static void entry_set_kind_type ( EntryT* entry)
 {
@@ -116,6 +124,11 @@ static void entry_set_kind_action(EntryT* entry)
 	entry->entry_kind=entry_action;
 }
 
+static void entry_set_kind_local_name(EntryT* entry) 
+{
+	entry->entry_kind=entry_local_name;
+}
+
 
 ActionT* entry_get_action(EntryT* entry)
 {
@@ -123,16 +136,33 @@ ActionT* entry_get_action(EntryT* entry)
 	return entry->u.action;
 }
 
+void entry_set_type(EntryT* entry, TypeT* type)
+{
+	/*TODO assert entry_is_type */
+	entry->u.type = type;
+}
+
+void entry_set_action(EntryT* entry, ActionT* action)
+{
+	/*TODO assert entry_is_action */
+	entry->u.action = action;
+}
+
+
+
 TypeT* entry_get_type(EntryT* entry)
 {
 	/*TODO assert entry_is_type */
 	return entry->u.type;
 }
 
-void type_init(TypeT* t) 
+TypeT* type_create(bool predefined) 
 {
-	nstring_init(&(t->mapping));
-	t->mapped = false;
+	TypeT* type = xmalloc_nof(TypeT,1);
+	nstring_init(&(type->mapping));
+	type->mapped = false;
+	type->predefined = predefined;
+	return type;
 }
 
 void type_map(TypeT* t, NStringT* mapping)
@@ -185,16 +215,11 @@ EntryT* entry_create(NStringT* name)
 	return entry;
 }
 
-static TypeT* type_create(void)
-{
-	TypeT* type = xmalloc_nof(TypeT,1);
-	return type;
-}
-
-EntryT* table_add_type(TableT table, NStringT* type_name) 
+EntryT* table_add_type(TableT table, NStringT* type_name, bool predefined) 
 {
 	EntryT* entry = entry_create(type_name);
 	entry_set_kind_type(entry);
+	entry_set_type(entry, type_create(predefined));
 	table_add_entry(table, entry);
 	return entry;
 }
@@ -204,17 +229,29 @@ EntryT* table_add_action(TableT table, NStringT* name, TypeTupleT* inputs, TypeT
 	EntryT* entry = entry_create(name);
 	entry_set_kind_action(entry);
 	table_add_entry(table, entry);
+	entry_set_action(entry, action_create());
 	action_set_inputs(entry_get_action(entry),inputs) ;
-	action_set_outputs(entry_get_action(entry),inputs) ;
+	action_set_outputs(entry_get_action(entry),outputs) ;
+	return entry;
+}
+
+EntryT* 
+table_add_local_name(TableT table, NStringT* name) 
+{
+	EntryT* entry = entry_create(name);
+	entry_set_kind_local_name(entry);
+	table_add_entry(table, entry);
 	return entry;
 }
 
 
-TypeTupleEntryT* typetupleentry_create(NStringT* str, EntryT* type)
+
+TypeTupleEntryT* typetupleentry_create(NStringT* str, EntryT* type, bool isref)
 {
 	TypeTupleEntryT* p = xmalloc_nof(TypeTupleEntryT, 1);
 	nstring_assign(&(p->local_name), str);
 	p->type=type;
+	p->is_reference=isref;
 	return p;
 }
 
@@ -255,7 +292,7 @@ void typetuple_assign(TypeTupleT* to, TypeTupleT* from)
 	if((to->head=from->head)==NULL) 
 		to->tail = &(to->head);
 	else 
-		to->tail= from->tail ;
+		to->tail = from->tail ;
 }
 
 int typetuple_length(TypeTupleT* tuple)
@@ -273,7 +310,7 @@ int typetuple_match(TypeTupleT* t1, TypeTupleT* t2)
 	int match = 1;
 	TypeTupleEntryT *p, *q;
 	for(p=t1->head, q=t2->head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-		if(p->type!=q->type)
+		if((p->type!=q->type) || (p->is_reference!=q->is_reference))
 			return 0;
 	}
 	/* assert(!(p||q)); */

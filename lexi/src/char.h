@@ -64,6 +64,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include "adt.h"
+#include "localnames.h"
 
 typedef unsigned int letter;
 
@@ -71,7 +72,8 @@ struct zone_tag;
 struct lexer_parse_tree_tag;
 
 typedef enum arg_type_tag { 
-  arg_charP, arg_char_nb, arg_chars_list, arg_litteral, arg_nb_of_chars, arg_identifier, arg_reference,
+  arg_charP, arg_char_nb, arg_chars_list, arg_litteral, arg_nb_of_chars, 
+  arg_identifier, arg_terminal,
   arg_ignore, arg_return_terminal, arg_none /*Just for error recovery*/ 
 } arg_type ;
 
@@ -82,6 +84,8 @@ typedef struct arg_tag {
     unsigned int digit;
     char* litteral;
   } u ;
+  EntryT* lexi_type;
+  bool is_reference;
 } arg;
 
 /* ordered */
@@ -95,7 +99,7 @@ typedef struct user_function_tag {
   args_list* args;
 } user_function;
 
-typedef enum instruction_type_tag { return_terminal, push_zone, pop_zone, apply_function, do_nothing , action } instruction_type ;
+typedef enum instruction_type_tag { return_terminal, push_zone, pop_zone, apply_function, do_nothing , action_call } instruction_type ;
 
 typedef struct instruction_tag {
   instruction_type type;
@@ -117,6 +121,7 @@ typedef struct instruction_tag {
 
 /* ordered */
 typedef struct instructions_list_tag {
+  LocalNamesT* local_names;
   instruction* head;
   instruction** tail;
 } instructions_list;
@@ -216,7 +221,7 @@ typedef struct zone_tag {
     char_group_list groups_hash_table [GROUP_HASH_TABLE_SIZE];  
     char_group* white_space;
 
-    instructions_list *default_actions;
+    instructions_list *default_instructions;
     char *default_cond;
 
     instructions_list* entering_instructions;
@@ -266,6 +271,11 @@ typedef struct lexer_parse_tree_tag {
 
   TableT table; /* Actions and types */
 
+  EntryT* lexi_char_type;    /*  for #0 arguments */
+  EntryT* lexi_string_type;  /*  for #* arguments */
+  EntryT* lexi_int_type;     /*  for #n arguments */
+  EntryT* lexi_terminal_type;     /*  for $ = returns */
+
   letter_translation_list (letters_table[LETTER_TRANSLATOR_SIZE]) ;
   letter last_letter_code;
   letter eof_letter_code;
@@ -278,6 +288,17 @@ typedef struct lexer_parse_tree_tag {
 */
 
 extern void init_lexer_parse_tree(lexer_parse_tree*);
+
+extern void set_predefined_char_lexi_type(lexer_parse_tree*, char*, char*);
+extern void set_predefined_string_lexi_type(lexer_parse_tree*, char*, char*);
+extern void set_predefined_int_lexi_type(lexer_parse_tree*, char*, char*);
+extern void set_predefined_terminal_lexi_type(lexer_parse_tree*, char*);
+
+extern EntryT* lexer_char_type(lexer_parse_tree*);
+extern EntryT* lexer_string_type(lexer_parse_tree*);
+extern EntryT* lexer_int_type(lexer_parse_tree*);
+extern EntryT* lexer_terminal_type(lexer_parse_tree*);
+
 extern void add_char(zone*, character*, letter*, char *, instructions_list*, char* );
 extern zone* add_zone(zone*, char*,letter*, int);
 extern char_group* make_group(zone*, char *, letter *);
@@ -300,6 +321,7 @@ extern arg* add_arg (arg_type, unsigned int) ;
 extern arg* add_litteral_arg ( char* ) ;
 extern arg* add_identifier_arg ( char* ) ;
 extern arg* add_reference_arg ( char* ) ;
+extern arg* add_terminal_arg ( char* ) ;
 extern arg* add_none_arg ( void ) ;
 extern instruction* add_instruction_pushzone (zone* z) ;
 extern instruction* add_instruction_popzone (zone* z, int is_endmarker_in_zone) ;
@@ -309,4 +331,9 @@ extern void letters_table_add_translation(letter_translation*, letter_translatio
 extern letter_translation* letters_table_get_translation(letter, letter_translation_list []);
 extern unsigned int hash_cstring (char*);
 extern unsigned int hash_cstring_n(char*,size_t);
+
+extern LocalNamesT* instructionslist_localnames(instructions_list*);
+extern LocalNamesT** instructionslist_localnamesref(instructions_list*);
+
+extern bool args_rhs_fill_type(args_list*, LocalNamesT*, lexer_parse_tree*);
 #endif

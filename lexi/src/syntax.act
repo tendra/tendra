@@ -66,6 +66,11 @@ TYPETUPLE -> TypeTupleT;
 #include <string.h>
 #include <stdio.h>
 
+#include "exds/common.h"
+#include "exds/exception.h"
+#include "exds/dalloc.h"
+#include "exds/dstring.h"
+
 #include "error/error.h"
 #include "xalloc/xalloc.h"
 
@@ -428,11 +433,52 @@ arg-ignore : () -> (a:ARG) = @{
 /*
     ADD INSTRUCTION to INSTRUCTION LIST 
 */
-<add-inst-to-list> : ( i : INSTRUCTION, il : INSTRUCTIONS_LIST ) -> () = @{
-	if(@i!=NULL) { // if @i == NULL, an error has already been issued.
+<add-inst-to-list> : ( z : ZONE, i : INSTRUCTION, il : INSTRUCTIONS_LIST ) -> () = @{
+	if(@i!=NULL) { /* if @i == NULL, an error has already been issued.*/
+		LocalNamesT** locals = instructionslist_localnamesref(@il);
 		if((@il->head !=NULL) && (@i->type==return_terminal || @i->type==do_nothing)) {
-			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an arg-list"); 
+			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); 
 		}
+		if(@i->type == apply_function) {
+			args_rhs_fill_type(@i->u.fun->args, *locals, @z->top_level) ;
+		}
+		if(@i->type == action_call) {
+			EntryT* entryaction = @i->u.act.called_act;
+			ActionT* action = entry_get_action(entryaction);
+			args_list* rhs = @i->u.act.rhs;
+			args_list* lhs = @i->u.act.lhs;
+
+			/* CHECKING RHS COMPATIBILITY */ 
+			if(args_rhs_fill_type(rhs, *locals, @z->top_level)) {
+				arg* p;
+				TypeTupleEntryT* q;
+				for ( p = rhs->head, q = action->inputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+					if(p->lexi_type!=q->type || p->is_reference!=q->is_reference) {
+						char* s = nstring_to_cstring(entry_key(entryaction));
+						/* TODO in error message: output type specification of both rhs and inputs*/
+						error(ERROR_SERIOUS, "In call to action %s, arguments do not match, TODO should be TODO", s);
+						DEALLOCATE(s);
+					}
+				}
+				if(p!=NULL) {
+					char* s = nstring_to_cstring(entry_key(entryaction));
+					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
+					DEALLOCATE(s);
+				}
+				if(q!=NULL) {
+					char* s = nstring_to_cstring(entry_key(entryaction));
+					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
+					DEALLOCATE(s);
+				}
+			}
+			/* CHECKING LHS COMPATIBILITY */ 
+     			/* TODO: check that the same reference or identifier does not appear twice in the lhs*/
+     			/* TODO: check that no identifier has been set before in the the instruction list*/
+			/* TODO: Check that types corresponds including length: beware ignore that match all types */
+			/* TODO: Add new variables to localnames */
+			/* TODO in case of  errors in lhs match print types of outputs and types of lhs */
+		}
+		/* TODO only append if no error */
 		@i->next=@il->head;
 		@il->head=@i;
 	}
@@ -471,7 +517,7 @@ arg-ignore : () -> (a:ARG) = @{
     This action creates a main-pass default from s to the lexical token i.
 */
 <make-default> : ( z : ZONE, i : INSTRUCTIONS_LIST ) -> () = @{
-    @z->default_actions=@i;
+    @z->default_instructions=@i;
     @z->default_cond=crt_cond;
 @} ;
 
@@ -600,6 +646,15 @@ arg-ignore : () -> (a:ARG) = @{
 	@a = add_identifier_arg (@i);
 @};
 
+<make_arg_from_reference> : (i:IDENTIFIER) -> (a:ARG) = @{
+	@a = add_reference_arg (@i);
+@};
+
+<make_arg_terminal> : (i:IDENTIFIER) -> (a:ARG) = @{
+	@a = add_terminal_arg (@i);
+@};
+
+
 <make_arg_none> : () -> (a:ARG) = @{
 	@a = add_none_arg();
 @};
@@ -629,11 +684,20 @@ arg-ignore : () -> (a:ARG) = @{
 	NStringT str;
 	nstring_copy_cstring(&str,@i);
 	xfree(@i);
-	if(table_get_entry(@z->top_level->table, &str)) {
+	EntryT* entry;
+	if(entry=table_get_entry(@z->top_level->table, &str)) {
 		nstring_destroy(&str);
-		error(ERROR_SERIOUS, "can't create type %s because of name clash",@i);
+		/* TODO switch ? */
+		if(entry_is_type(entry))
+			error(ERROR_SERIOUS, "Type %s already exists",@i);
+		else if(entry_is_localname(entry))
+			error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",@i,@i);
+		else if(entry_is_action(entry))
+			error(ERROR_SERIOUS, "Can't create type %s, %s has already been declared as an action",@i, @i);
+		else
+			; /* TODO assert(0): we should never reach that place*/
 	} else {
-		table_add_type(@z->top_level->table, &str);
+		table_add_type(@z->top_level->table, &str, false);
 	}
 @};
 
@@ -641,9 +705,18 @@ arg-ignore : () -> (a:ARG) = @{
 	NStringT str;
 	nstring_copy_cstring(&str, @i);
 	xfree(@i);
-	if(table_get_entry(@z->top_level->table, &str)) {
-		error(ERROR_SERIOUS, "can't create action %s because of name clash",@i);
+	EntryT* entry;
+	if(entry=table_get_entry(@z->top_level->table, &str)) {
 		nstring_destroy(&str);
+		/* TODO switch ? */
+	   	if(entry_is_action(entry))
+			error(ERROR_SERIOUS, "Action %s already exists",@i);
+		else if(entry_is_localname(entry))
+			error(ERROR_SERIOUS, "Can't create type %s, %s has been previously used as a local name. We do not allow retroactive hiding.",@i,@i);
+		else if(entry_is_type(entry))
+			error(ERROR_SERIOUS, "Can't create action %s, %s has already been declared as a type",@i, @i);
+		else
+			; /* TODO assert(0): we should never reach that place*/
 	} else {
 		table_add_action(@z->top_level->table, &str , @&params, @&results);
 	}
@@ -657,7 +730,7 @@ arg-ignore : () -> (a:ARG) = @{
 	typetuple_init(&@a);
 @};
 
-<append-tuple> : (z:ZONE,a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER) -> () =@{
+<append-tuple> : (z:ZONE, a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
 	NStringT tstr, istr;
 	nstring_copy_cstring(&tstr,@type);
 	nstring_copy_cstring(&istr,@id);
@@ -670,7 +743,7 @@ arg-ignore : () -> (a:ARG) = @{
 	else if(!entry_is_type(entry))
 		 error(ERROR_SERIOUS, "%s is not a type", @type);
 	else
-		typetuple_append(@&a,typetupleentry_create(&istr,entry));
+		typetuple_append(@&a,typetupleentry_create(&istr,entry,@isref));
 	xfree(@type);
 	xfree(@id);
 @} ;
@@ -747,8 +820,23 @@ arg-ignore : () -> (a:ARG) = @{
 	error(ERROR_SERIOUS, "Return terminal argument in right handside");
 @};
 
+<E_string_in_action_rhs> : () -> () = @{
+	error(ERROR_SERIOUS, "String argument in right handside of action call: purposefuly not implemented to avoid confusions. Will be implemented with an alternate meaning once direct function calls are removed from lexi");
+@};
+
+
+<E_sharp_list_in_action_rhs> : () -> () = @{
+	error(ERROR_SERIOUS, "Args of style ## are not implemented in actions right hand side. Whether they will be implemented in the future remains undecided at the moment.");
+/* TODO take a decision.*/
+@};
+
+
 <E_ignore_in_rhs> : () -> () = @{
 	error(ERROR_SERIOUS, "Ignore argument in right handside");
+@};
+
+<E_terminal_in_lhs> : () -> () = @{
+	error(ERROR_SERIOUS, "Terminal argument in left handside");
 @};
 
 %trailer% @{

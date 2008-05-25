@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 135 "syntax.act"
+#line 140 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -56,21 +56,21 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
-#define lex_arg_Hnb_Hof_Hchars (35)
-#define lex_arg_Hchar_Hnb (34)
+#define lex_arg_Hnb_Hof_Hchars (36)
+#define lex_arg_Hchar_Hnb (35)
 #define lex_keyword (8)
-#define lex_range (26)
-#define lex_comma (29)
-#define lex_action_Hkw (39)
+#define lex_range (27)
+#define lex_comma (30)
+#define lex_action_Hkw (40)
 #define lex_digit (5)
-#define lex_unknown (31)
+#define lex_unknown (32)
 #define lex_close (17)
 #define lex_sid_Hidentifier (1)
 #define lex_string (2)
 #define lex_equal (22)
 #define lex_colon (25)
-#define lex_arg_Hreturn_Hterminal (36)
-#define lex_range_Hclosed_Hopen (28)
+#define lex_arg_Hreturn_Hterminal (37)
+#define lex_range_Hclosed_Hopen (29)
 #define lex_token (10)
 #define lex_white (11)
 #define lex_identifier (0)
@@ -79,32 +79,33 @@ extern void read_lex(zoneP);
 #define lex_arrow (20)
 #define lex_upper (3)
 #define lex_group (7)
-#define lex_nothing_Hmarker (30)
+#define lex_nothing_Hmarker (31)
 #define lex_open (16)
-#define lex_begin_Haction (40)
+#define lex_reference (26)
+#define lex_begin_Haction (41)
 #define lex_eof (21)
 #define lex_zone (13)
 #define lex_plus (23)
 #define lex_close_Hbrace (19)
 #define lex_if (14)
 #define lex_semicolon (24)
-#define lex_arg_Hchar_Hstring (33)
-#define lex_type_Hkw (42)
+#define lex_arg_Hchar_Hstring (34)
+#define lex_type_Hkw (43)
 #define lex_copyright (6)
 #define lex_open_Hbrace (18)
-#define lex_range_Hclosed_Hclosed (27)
-#define lex_end_Haction (41)
+#define lex_range_Hclosed_Hclosed (28)
+#define lex_end_Haction (42)
 #define lex_default (12)
-#define lex_arg_Hchar_Hvoid (38)
+#define lex_arg_Hchar_Hvoid (39)
 #define lex_mapping (9)
-#define lex_arg_Hignore (37)
-#define lex_arg_Hchar_Hlist (32)
+#define lex_arg_Hignore (38)
+#define lex_arg_Hchar_Hlist (33)
 
 /* BEGINNING OF TRAILER */
 
-#line 755 "syntax.act"
+#line 843 "syntax.act"
 
 #endif
-#line 109 "tmp.syntax.h"
+#line 110 "tmp.syntax.h"
 
 /* END OF FILE */

@@ -26,10 +26,11 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: lex.c 1714 2007-11-25 13:36:15Z kate $
+ * $Id$
  */
 
 %types%
+BOOL;
 ENTRYP;
 IDENTIFIER ;
 BIGSTRING ;
@@ -40,8 +41,9 @@ CCODE;
 
 header-kw ;
 trailer-kw ;
-map-kw;
-action-kw;
+map-kw ;
+action-kw ;
+reference ;	//&
 colon;
 arrow;
 define ;  	//=
@@ -62,11 +64,14 @@ code-string : () -> (:BIGSTRING);
 
 %productions%
 
+<true> : () -> (:BOOL) ;
+<false> : () -> (:BOOL) ;
+
 <set-headers> : (:CCODE &, :CCODE&) -> ();
 <set-trailers> : (:CCODE &, :CCODE&) -> ();
 
 <init-tuple> : () -> (:TYPETUPLE);
-<append-tuple> : (:TYPETUPLE&,:IDENTIFIER,:IDENTIFIER) -> ();
+<append-tuple> : (:TYPETUPLE&, :IDENTIFIER, :IDENTIFIER, :BOOL) -> ();
 
 <make-map> : (:IDENTIFIER, :IDENTIFIER) -> ();
 
@@ -202,7 +207,12 @@ action-definition : () -> () [
 			name=identifier ;
 			colon ;
 			type=identifier ;
-			<append-tuple>(&a,name,type);
+			{
+				isref = <false>;
+			    ||
+				reference; isref = <true>;
+			};
+			<append-tuple>(&a,name,type,isref);
 		} ;
 		type-tuple1 : (a:TYPETUPLE&) -> () = {
 			type-name(&a) ;

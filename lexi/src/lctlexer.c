@@ -26,7 +26,7 @@
  *  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  *  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * 
- * $Id: COPYINGBSD 1834 2008-01-08 21:28:46Z kate $
+ * $Id$
  * 
  */
 
@@ -204,6 +204,9 @@ lexi_lct_read_token(struct lexi_lct_state *state)
 		int c0 = lexi_lct_readchar(state);
 		if (lexi_lct_group(lexi_lct_group_white, c0)) goto start;
 		switch (c0) {
+			case '&': {
+				return lct_lex_reference;
+			}
 			case ',': {
 				return lct_lex_comma;
 			}

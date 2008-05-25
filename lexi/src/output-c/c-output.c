@@ -140,7 +140,7 @@ static const char *read_token_name;
 static const char *lexi_prefix;
 
 static	void 
-output_actions( zone* z, instructions_list* ret, int n, int d)
+output_instructions( zone* z, instructions_list* ret, int n, int d)
 {
   instruction* instr;
   for(instr=ret->head; instr; instr=instr->next) {
@@ -150,7 +150,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       output_indent(lex_output, d);
       fprintf(lex_output, "return %s;\n", instr->u.name);
       break;
-    case action :
+    case action_call :
       /* assert(!instr->next);*/
       output_indent(lex_output, d);
       fprintf(lex_output, "/*Action not implemented yet*/\n", instr->u.name);
@@ -200,7 +200,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
       fprintf(lex_output, "state->zone_function = %s_%s;\n",
 	      read_token_name, instr->u.s.z->zone_name);
       if(instr->u.s.z->entering_instructions->head) 
-	output_actions(NULL,instr->u.s.z->entering_instructions,n,d);
+	output_instructions(NULL,instr->u.s.z->entering_instructions,n,d);
       else {
 	output_indent(lex_output, d);
 	fprintf(lex_output,"return %s(state);\n",read_token_name);
@@ -221,7 +221,7 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 	}
       }
       if(z->leaving_instructions->head) 
-	output_actions(NULL,z->leaving_instructions,n,d);
+	output_instructions(NULL,z->leaving_instructions,n,d);
       else {
 	output_indent(lex_output, d);
 	fprintf(lex_output,"return %s(state);\n",read_token_name);
@@ -233,9 +233,9 @@ output_actions( zone* z, instructions_list* ret, int n, int d)
 /*Should be caught during parsing*/
   /* assert(!instr->next);*/
       output_indent(lex_output, d);
-      if(z) /* if z==NULL, we are in a push or pop zone action and can't go to start*/
+      if(z) /* if z==NULL, we are in a push or pop zone instruction and can't go to start*/
 	fputs("goto start;\n",lex_output);	  	
-      else /*We're outputting entering and leaving actions.*/
+      else /*We're outputting entering and leaving instruction.*/
 	fprintf(lex_output,"return %s(state);\n",read_token_name);	  
       break;
     }
@@ -435,7 +435,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				fprintf(lex_output, "if (%s) {", cond);
 				d++;
 			}
-			output_actions(z,ret,n,d);
+			output_instructions(z,ret,n,d);
 			if (cond) {
 			  d--;
 			  fprintf(lex_output, "}");
@@ -505,13 +505,13 @@ output_zone_pass(zone *p)
     }
     fputs("\tstart: {\n", lex_output);
     output_pass(p, p->zone_main_pass, in_pre_pass, 0, 2);
-    if(p->default_actions) {
+    if(p->default_instructions) {
         int dd=2;
 	if(p->default_cond) {
 	    fprintf(lex_output,"\tif(%s) {\n\t",p->default_cond);
 	    dd=4;
         }
-        output_actions(p,p->default_actions,1,dd);
+        output_instructions(p,p->default_instructions,1,dd);
         if(p->default_cond) 
 	    fprintf(lex_output,"}\n");
     } 

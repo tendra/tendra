@@ -1,17 +1,4 @@
 /*
- * Automatically generated from the files:
- *	lctsyntax.sid
- * and
- *	lctsyntax.act
- * by:
- *	sid
- */
-
-/* BEGINNING OF HEADER */
-
-#line 80 "lctsyntax.act"
-
-/*
  * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
@@ -39,50 +26,28 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id:$
+ * $Id$
  */
- #ifndef LCT_SYNTAX_HEADER_INCLUDED
- #define LCT_SYNTAX_HEADER_INCLUDED
 
-#include "char.h"
-#include "ccode.h"
-#include "adt.h"
+#ifndef _H_LEXI_LOCAL_NAMES 
+#define _H_LEXI_LOCAL_NAMES 
 
-extern lexer_parse_tree* lxi_top_level;
-#line 53 "lctsyntax.h"
+struct EntryT;
 
-/* BEGINNING OF FUNCTION DECLARATIONS */
+/* 
+	This is a trie of chars, the leaves point to a type represented by an EntryT*, see adt.h
+	This structure stores the types of the local names used in actions so we can type check
+	during parsing.
+*/
+typedef struct LocalNamesT {
+	char c;
+	struct LocalNamesT* next;
+	struct LocalNamesT* opt;
+	struct EntryT* type;
+} LocalNamesT;
 
-extern void read_lct_unit(void);
-
-/* BEGINNING OF TERMINAL DEFINITIONS */
-
-#define lct_lex_lone_Hcode_Hat (12)
-#define lct_lex_code_Hend (11)
-#define lct_lex_code_Heof (14)
-#define lct_lex_trailer_Hkw (1)
-#define lct_lex_comma (9)
-#define lct_lex_action_Hkw (3)
-#define lct_lex_unknown (19)
-#define lct_lex_colon (5)
-#define lct_lex_code_Hat (13)
-#define lct_lex_identifier (16)
-#define lct_lex_arrow (6)
-#define lct_lex_reference (4)
-#define lct_lex_eof (15)
-#define lct_lex_semicolon (8)
-#define lct_lex_map_Hkw (2)
-#define lct_lex_code_Hstring (18)
-#define lct_lex_define (7)
-#define lct_lex_code_Hidentifier (17)
-#define lct_lex_code_Hstart (10)
-#define lct_lex_header_Hkw (0)
-
-/* BEGINNING OF TRAILER */
-
-#line 404 "lctsyntax.act"
+extern LocalNamesT* localnames_create(char);
+extern int localnames_add_nstring(LocalNamesT**, NStringT*, struct EntryT*);
+extern struct EntryT* localnames_get_type(LocalNamesT*, NStringT*);
 
 #endif
-#line 87 "lctsyntax.h"
-
-/* END OF FILE */

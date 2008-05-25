@@ -14,6 +14,7 @@ lct-unit -> read_lct_unit ;
 	TYPE MAPPINGS
 */
 
+BOOL -> bool;
 CCODE -> CcodeT; 
 BIGSTRING -> NStringT;
 IDENTIFIER -> NStringT;
@@ -52,6 +53,9 @@ ENTRYP -> EntryP;
  * $Id:$
  */
  
+
+#include <stdbool.h>
+
 #include "lctsyntax.h"
 #include "lctlex.h"
 #include "char.h"
@@ -59,7 +63,7 @@ ENTRYP -> EntryP;
 #include "adt.h"
 #include "error/error.h"
 #include "exds/common.h"
-#include <exds/exception.h>
+#include "exds/exception.h"
 #include "exds/dalloc.h"
 #include "exds/dstring.h"
 #include "exds/cstring.h"
@@ -162,6 +166,19 @@ code-string : () -> (s:BIGSTRING) = @{
 
 %actions%
 
+/*
+    BOOLEANS
+
+    These actions give the booleans true and false.
+*/
+
+<true> : () -> ( b : BOOL ) =	@{ @b = true ; @} ;
+<false> : () -> ( b : BOOL ) =	@{ @b = false ; @} ;
+
+/*
+	C CODE MANIPULATION
+*/
+
 <init-ccode> : () -> (c:CCODE) = @{
 	ccode_init(&@c);
 @};
@@ -229,7 +246,7 @@ code-string : () -> (s:BIGSTRING) = @{
 	typetuple_init(&@a);
 @};
 
-<append-tuple> : (a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER) -> () =@{
+<append-tuple> : (a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
 	EntryT* entry = table_get_entry(lxi_top_level->table,@&type);
 	if(entry == NULL) {
 		 char* pt = nstring_to_cstring(@&type);
@@ -241,7 +258,7 @@ code-string : () -> (s:BIGSTRING) = @{
 	else if(!entry_is_type(entry))
 		 error(ERROR_SERIOUS, "%s is not a type", @&type);
 	else
-		typetuple_append(@&a,typetupleentry_create(@&id,entry));
+		typetuple_append(@&a,typetupleentry_create(@&id,entry, @isref));
 @} ;
 
 <make-map> : (lexitype:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
@@ -365,7 +382,6 @@ code-string : () -> (s:BIGSTRING) = @{
 
 <E_expected_arrow> = @{
 	    error( ERROR_SERIOUS, "Syntax error: expected '->'") ;
-
 @} ;
 
 <E_expected_semicolon> = @{

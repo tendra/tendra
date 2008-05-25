@@ -54,7 +54,7 @@
  *         no liability whatsoever in relation to any use to which
  *         it may be put.
  * 
- * $Id: COPYING 1834 2008-01-08 21:28:46Z kate $
+ * $Id$
  * 
  */
 

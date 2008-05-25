@@ -246,6 +246,9 @@ lexi_read_token(struct lexi_state *state)
 				lexi_push(state, c1);
 				return lex_arg_Hreturn_Hterminal;
 			}
+			case '&': {
+				return lex_reference;
+			}
 			case '(': {
 				return lex_open;
 			}

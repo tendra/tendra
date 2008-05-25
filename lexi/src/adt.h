@@ -44,9 +44,9 @@ struct TypeT ;
 
 typedef struct EntryT {
 	NStringT key ;
-	enum { entry_action, entry_type, entry_local_name} entry_kind ;
+	enum { entry_action, entry_type, entry_local_name } entry_kind ;
 	union {
-	      struct ActionT *action ;
+	      struct ActionT* action ;
 	      struct TypeT* type ;
 	} u;
 	struct EntryT* next ;
@@ -54,12 +54,14 @@ typedef struct EntryT {
 
 typedef struct TypeT {
 	bool mapped;
+	bool predefined;
 	NStringT mapping;
 } TypeT;
 
 typedef struct TypeTupleEntryT {
 	EntryT*  type;
 	NStringT  local_name; /*The type NSTringT* will probably not be the final type */
+	bool is_reference;
 	struct TypeTupleEntryT* next;
 } TypeTupleEntryT;
 
@@ -88,21 +90,24 @@ extern void action_set_define(ActionT*);
 extern EntryT* entry_create(NStringT*) ;
 extern int entry_is_type(EntryT*) ;
 extern int entry_is_action(EntryT*) ;
+extern int entry_is_localname(EntryT*) ;
 extern NStringT* entry_key(EntryT*) ;
+extern void entry_set_type(EntryT*, TypeT*) ;
+extern void entry_set_action(EntryT* , ActionT*) ;
 extern TypeT* entry_get_type(EntryT*) ;
 extern ActionT* entry_get_action(EntryT*) ;
 
-extern void type_init(TypeT*);
+extern TypeT* type_create(bool);
 extern void type_map(TypeT*, NStringT*);
 
 extern void table_init(TableT);
 extern EntryT* table_get_entry(TableT, NStringT*) ;
 extern EntryT* table_add_local_name(TableT, NStringT*) ;
 extern EntryT* table_get_type(TableT, NStringT*) ;
-extern EntryT* table_add_type(TableT, NStringT*) ;
+extern EntryT* table_add_type(TableT, NStringT*, bool) ;
 extern EntryT* table_add_action(TableT, NStringT*, TypeTupleT*, TypeTupleT*) ;
 
-extern TypeTupleEntryT* typetupleentry_create(NStringT*, EntryT*);
+extern TypeTupleEntryT* typetupleentry_create(NStringT*, EntryT*, bool);
 extern void typetupleentry_destroy(TypeTupleEntryT*);
 
 extern void typetuple_init(TypeTupleT*);

@@ -81,6 +81,7 @@ TOKEN "{" -> $open-brace ;
 TOKEN "}" -> $close-brace ;
 TOKEN "->" -> $arrow ;
 TOKEN ":" -> $colon ;
+TOKEN "&" -> $reference ;
 TOKEN ";" -> $semicolon ;
 TOKEN "=" -> $equal ;
 TOKEN "+" -> $plus ;
