@@ -1,23 +1,9 @@
-%prefixes%
-
-%persistents%
-sid_current_grammar:GrammarP ;
-
-%maps%
-
-AltP			-> AltP;
-BoolT			-> BoolT;
-EntryP			-> EntryP;
-ItemP			-> ItemP;
-RuleP			-> RuleP;
-TypeTupleT		-> TypeTupleT;
-NonLocalEntryP		-> NonLocalEntryP;
-StringT			-> NStringT;
-sid-parse-grammar	-> sid_parse_grammar;
-
-%header% @{
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * SID's .sid format parser actions.
+ */
+
+/*
+ * Copyright (c) 2008 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,1787 +32,1918 @@ sid-parse-grammar	-> sid_parse_grammar;
  *
  * $Id$
  */
-/*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
 
-#include <limits.h>
-#include <assert.h>
+/* TODO: could some of these be centralised for the c-language actions? */
 
-#include "shared/check/check.h"
-#include "parser.h"
-#include "adt/action.h"
-#include "adt/basic.h"
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/bitvec.h>
-#include <exds/dalloc.h>
-#include <exds/dstring.h>
-#include "gen-errors.h"
-#include "grammar.h"
-#include "lexer.h"
-#include "adt/non-local.h"
-#include "adt/rule.h"
-#include "adt/scope.h"
-#include "adt/table.h"
-#include "adt/types.h"
+%prefixes%
 
-#define CURRENT_TERMINAL lexer_get_terminal (sid_current_stream)
-#define ADVANCE_LEXER lexer_next_token (sid_current_stream)
-#define SAVE_LEXER(x) (lexer_save_terminal (sid_current_stream, (LexerTokenT) (x)))
-#define RESTORE_LEXER (lexer_restore_terminal (sid_current_stream))
-#define ALT_LIMIT (UINT_MAX - 1)
+%persistents%
 
-/* typedefs for the maps section */
-typedef AltT * AltP;
-typedef EntryT * EntryP;
-typedef ItemT * ItemP;
-typedef RuleT *RuleP;
-typedef NonLocalEntryT *NonLocalEntryP;
+	sid_current_grammar : GrammarP;
 
-LexerStreamT *		sid_current_stream;
+%maps%
 
-static ScopeStackT	sid_scope_stack;
-static ScopeStackT	sid_global_scope;
-static ScopeStackT 	*sid_current_scope;
-static EntryT *		sid_current_entry;
-static RuleT *		sid_enclosing_rule;
-static RuleT *		sid_current_rule;
-static BoolT		sid_redefining_entry;
-static NStringT		sid_maximum_scope;
-static BoolT		sid_saved_pred_id;
-static BoolT		sid_current_pred_id;
-static AltT *		sid_current_alt;
-static ItemT *		sid_current_item;
-static unsigned		sid_alternative;
-static BoolT            sid_internal_rule;
-static EntryT *		sid_external_rule;
-static unsigned		sid_num_alternatives = 0;
-static BoolT		sid_propagating_error = FALSE;
-static BoolT		sid_finished_terminals = FALSE;
+	AltP              -> AltP;
+	BoolT             -> BoolT;
+	EntryP            -> EntryP;
+	ItemP             -> ItemP;
+	RuleP             -> RuleP;
+	TypeTupleT        -> TypeTupleT;
+	NonLocalEntryP    -> NonLocalEntryP;
+	StringT           -> NStringT;
+	sid-parse-grammar -> sid_parse_grammar;
+
+%header% @{
+
+	/*
+	 * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+	 * All rights reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are met:
+	 *
+	 * 1. Redistributions of source code must retain the above copyright notice,
+	 *    this list of conditions and the following disclaimer.
+	 * 2. Redistributions in binary form must reproduce the above copyright notice,
+	 *    this list of conditions and the following disclaimer in the documentation
+	 *    and/or other materials provided with the distribution.
+	 * 3. Neither the name of The TenDRA Project nor the names of its contributors
+	 *    may be used to endorse or promote products derived from this software
+	 *    without specific, prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+	 * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+	 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+	 * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+	 * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+	 * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	 * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+	 * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+	 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+	 * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+	 * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	 *
+	 * $Id$
+	 */
+	/*
+				 Crown Copyright (c) 1997
+
+		This TenDRA(r) Computer Program is subject to Copyright
+		owned by the United Kingdom Secretary of State for Defence
+		acting through the Defence Evaluation and Research Agency
+		(DERA).  It is made available to Recipients with a
+		royalty-free licence for its use, reproduction, transfer
+		to other parties and amendment for any purpose not excluding
+		product development provided that any such use et cetera
+		shall be deemed to be acceptance of the following conditions:-
+
+			(1) Its Recipients shall ensure that this Notice is
+			reproduced upon any copies or amended versions of it;
+
+			(2) Any amended version of it shall be clearly marked to
+			show both the nature of and the organisation responsible
+			for the relevant amendment or amendments;
+
+			(3) Its onward transfer from a recipient to another
+			party shall be deemed to be that party's acceptance of
+			these conditions;
+
+			(4) DERA gives no warranty or assurance as to its
+			quality or suitability for any purpose and DERA accepts
+			no liability whatsoever in relation to any use to which
+			it may be put.
+	*/
+
+	#include <limits.h>
+	#include <assert.h>
+
+	#include "shared/check/check.h"
+	#include "parser.h"
+	#include "adt/action.h"
+	#include "adt/basic.h"
+	#include <exds/common.h>
+	#include <exds/exception.h>
+	#include <exds/bitvec.h>
+	#include <exds/dalloc.h>
+	#include <exds/dstring.h>
+	#include "gen-errors.h"
+	#include "grammar.h"
+	#include "lexer.h"
+	#include "adt/non-local.h"
+	#include "adt/rule.h"
+	#include "adt/scope.h"
+	#include "adt/table.h"
+	#include "adt/types.h"
+
+	#define CURRENT_TERMINAL lexer_get_terminal(sid_current_stream)
+	#define ADVANCE_LEXER lexer_next_token(sid_current_stream)
+	#define SAVE_LEXER(x) (lexer_save_terminal(sid_current_stream, (LexerTokenT) (x)))
+	#define RESTORE_LEXER (lexer_restore_terminal(sid_current_stream))
+	#define ALT_LIMIT (UINT_MAX - 1)
+
+	/* typedefs for the maps section */
+	typedef AltT *AltP;
+	typedef EntryT *EntryP;
+	typedef ItemT *ItemP;
+	typedef RuleT *RuleP;
+	typedef NonLocalEntryT *NonLocalEntryP;
+
+	LexerStreamT *sid_current_stream;
+
+	static ScopeStackT  sid_scope_stack;
+	static ScopeStackT  sid_global_scope;
+	static ScopeStackT *sid_current_scope;
+	static EntryT      *sid_current_entry;
+	static RuleT       *sid_enclosing_rule;
+	static RuleT       *sid_current_rule;
+	static BoolT        sid_redefining_entry;
+	static NStringT     sid_maximum_scope;
+	static BoolT        sid_saved_pred_id;
+	static BoolT        sid_current_pred_id;
+	static AltT        *sid_current_alt;
+	static ItemT       *sid_current_item;
+	static unsigned     sid_alternative;
+	static BoolT        sid_internal_rule;
+	static EntryT      *sid_external_rule;
+	static unsigned     sid_num_alternatives = 0;
+	static BoolT        sid_propagating_error = FALSE;
+	static BoolT        sid_finished_terminals = FALSE;
+
 @}, @{
-/*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
 
+	/*
+				 Crown Copyright (c) 1997
+
+		This TenDRA(r) Computer Program is subject to Copyright
+		owned by the United Kingdom Secretary of State for Defence
+		acting through the Defence Evaluation and Research Agency
+		(DERA).  It is made available to Recipients with a
+		royalty-free licence for its use, reproduction, transfer
+		to other parties and amendment for any purpose not excluding
+		product development provided that any such use et cetera
+		shall be deemed to be acceptance of the following conditions:-
+
+			(1) Its Recipients shall ensure that this Notice is
+			reproduced upon any copies or amended versions of it;
+
+			(2) Any amended version of it shall be clearly marked to
+			show both the nature of and the organisation responsible
+			for the relevant amendment or amendments;
+
+			(3) Its onward transfer from a recipient to another
+			party shall be deemed to be that party's acceptance of
+			these conditions;
+
+			(4) DERA gives no warranty or assurance as to its
+			quality or suitability for any purpose and DERA accepts
+			no liability whatsoever in relation to any use to which
+			it may be put.
+	*/
 
 @};
 
 %assignments%
 
-StringT: (a) -> (b) = @{
-    nstring_assign (&@b, @&a);
-@};
+	StringT: (a) -> (b) = @{
+		nstring_assign (&@b, @&a);
+	@};
 
-/*
-We should probably do a list copy for assignments
-This has no importance since we do not rename in the sid code anyway.
-*/
-TypeTupleT : (a) -> (b) = @{
-	if((@b.head=@a.head)==NULL) 
-		@b.tail = &(@b.head);
-	else 
-		@b.tail= @a.tail ;
-@};
+	/*
+	We should probably do a list copy for assignments
+	This has no importance since we do not rename in the sid code anyway.
+	*/
+	TypeTupleT: (a) -> (b) = @{
+		@b.head = @a.head;
+
+		if (@b.head == NULL) {
+			@b.tail = &(@b.head);
+		} else {
+			@b.tail= @a.tail ;
+		}
+	@};
 
 %parameter-assignments%
 
-StringT: (a) -> (b) = @{
-    nstring_assign (&@b, @a);
-@};
+	StringT: (a) -> (b) = @{
+		nstring_assign(&@b, @a);
+	@};
 
-TypeTupleT : (a) -> (b) = @{
-	if((@b.head=@a->head)==NULL) 
-		@b.tail = &(@b.head);
-	else 
-		@b.tail= @a->tail ;
-@};
+	TypeTupleT: (a) -> (b) = @{
+		@b.head = @a->head;
 
+		if (@b.head == NULL) {
+			@b.tail = &(@b.head);
+		} else {
+			@b.tail= @a->tail ;
+		}
+	@};
 
 %result-assignments%
 
-StringT: (a) -> (b) = @{
-    nstring_assign (@b, @&a);
-@};
+	StringT: (a) -> (b) = @{
+		nstring_assign(@b, @&a);
+	@};
 
-TypeTupleT : (a) -> (b) = @{
-	if((@b->head=@a.head)==NULL) 
-		@b->tail = &(@b->head);
-	else 
-		@b->tail= @a.tail ;
-@};
+	TypeTupleT: (a) -> (b) = @{
+		@b->head = @a.head;
+
+		if (@b->head == NULL) {
+			@b->tail = &(@b->head);
+		} else {
+			@b->tail= @a.tail ;
+		}
+	@};
 
 %terminals%
 
-identifier: () -> (i) = @{
-    nstring_assign (&@i, lexer_string_value (sid_current_stream));
-@};
+	identifier: () -> (i) = @{
+		nstring_assign(&@i, lexer_string_value(sid_current_stream));
+	@};
 
 %actions%
 
-<init> = @{
-scope_stack_init (&sid_scope_stack);
-scope_stack_init (&sid_global_scope);
-@};
+	<init> = @{
+		scope_stack_init(&sid_scope_stack);
+		scope_stack_init(&sid_global_scope);
+	@};
 
-// Type section actions:
 
-<add-type>: (string:StringT&) -> () = @{
-    if (table_add_type (grammar_table(sid_current_grammar), &@=string) == NULL) {
-	E_duplicate_type (@&string);
-	nstring_destroy (&@=string);
-    }
-@};
+	/*
+	 * Type section actions
+	 */
 
-// Terminals section actions:
-
-<terminal>: (string:StringT&) -> (entry:EntryP) = @{
-    @entry = table_add_basic (grammar_table(sid_current_grammar), &@=string,
-					 sid_current_grammar, FALSE);
-    if (@entry == NULL) {
-	E_duplicate_basic (@&string);
-	nstring_destroy (&@=string);
-    }
-@};
-
-<i-terminal>: ( string:StringT&) -> (entry:EntryP) = @{
-    @entry = table_add_basic (grammar_table(sid_current_grammar), &@=string,
-					 sid_current_grammar, TRUE);
-    if (@entry == NULL) {
-	E_duplicate_basic (@&string);
-	nstring_destroy (&@=string);
-    } 
-@};
-
-<x-terminal> : (entry:EntryP, params:TypeTupleT&, results:TypeTupleT&) -> () = @{
-    if (@entry) {
-	KeyT * key = entry_key (@entry);
-	BasicT* basic = entry_get_basic (@entry);
-	if (types_contains_names (@&params)) {
-	    E_basic_param_has_names (key, @&params);
-	}
-	if (types_contains_names (@&results)) {
-	    E_basic_result_has_names (key, @&results);
-	}
-	if (types_contains_references (@&results)) {
-	    E_basic_result_has_refs (key, @&results);
-	}
-	if (!types_equal_zero_tuple (@&params)) {
-	    E_basic_param_mismatch (key, @&params);
-	}
-	types_assign (basic_result (basic), @&results);
-    } else {
-	types_destroy (@&results);
-    }
-    types_destroy (@&params);
-@};
-
-<x-terminals> = @{
-    unsigned max_terminal = grammar_max_terminal (sid_current_grammar);
-
-    bitvec_set_size (max_terminal);
-    sid_finished_terminals = TRUE;
-@};
-
-// Tuple manipulation actions:
-
-<init-tuple> : () -> (tuple : TypeTupleT) = @{
-    types_init (&@tuple);
-@};
-
-<current-tuple> : () -> () = @{
-    sid_current_pred_id = FALSE;
-@};
-
-<save-tuple> = @{
-    sid_saved_pred_id = sid_current_pred_id;
-@};
-
-<tuple-name>: (tuple:TypeTupleT&, name:StringT&, type:StringT&) -> () = @{
-    if (!types_add_typed_name (@&tuple, grammar_table(sid_current_grammar), &@=name,
-			       @&type, FALSE)) {
-	E_unknown_type (@&type);
-    }
-    nstring_destroy (&@=type);
-@};
-
-<tuple-ref-name>: (tuple:TypeTupleT&, name:StringT&, type:StringT&) -> () = @{
-    if (!types_add_typed_name (@&tuple, grammar_table(sid_current_grammar), &@=name,
-			       @&type, TRUE)) {
-	E_unknown_type (@&type);
-    }
-    nstring_destroy (&@=type);
-@};
-
-<tuple-type>: (tuple:TypeTupleT&, type:StringT&) -> () = @{
-    if (!types_add_type (@&tuple, grammar_table(sid_current_grammar), @&type,
-			 FALSE)) {
-	E_unknown_type (@&type);
-    }
-    nstring_destroy (&@=type);
-@};
-
-<tuple-ref-type>:  (tuple:TypeTupleT&, type:StringT&) -> () = @{
-    if (!types_add_type (@&tuple, grammar_table(sid_current_grammar), @&type, TRUE)) {
-	E_unknown_type (@&type);
-    }
-    nstring_destroy (&@=type);
-@};
-
-<add-name>: (tuple:TypeTupleT&, name:StringT&) -> () = @{
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  @&name, &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), @&name);
-
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type (@&tuple, name_entry, NULL,
-				 FALSE);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&@=name);
-    } else if (non_local_entry) {
-	types_add_name_and_type (@&tuple, non_local_entry,
-				 NULL, FALSE);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&@=name);
-    } else {
-	types_add_name (@&tuple, grammar_table(sid_current_grammar), &@=name, FALSE);
-    }
-@};
-
-<add-ref-name>: (tuple:TypeTupleT& ,name:StringT&) -> () = @{
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  @&name, &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), @&name);
-
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type (@&tuple, name_entry, NULL,
-				 TRUE);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&@=name);
-    } else if (non_local_entry) {
-	types_add_name_and_type (@&tuple, non_local_entry,
-				 NULL, TRUE);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&@=name);
-    } else {
-	types_add_name (@&tuple, grammar_table(sid_current_grammar), &@=name, TRUE);
-    }
-@};
-
-<add-var>: (tuple:TypeTupleT&, name:StringT&) -> () = @{
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  @&name, &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), @&name);
-
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type_var (@&tuple, name_entry,
-				     NULL);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&@=name);
-    } else if (non_local_entry) {
-	types_add_name_and_type_var (@&tuple, non_local_entry,
-				     NULL);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&@=name);
-    } else {
-	E_undefined_assignment (@&name);
-	types_add_name (@&tuple, grammar_table(sid_current_grammar), &@=name, FALSE);
-    }
-@};
-
-<add-pred> : (tuple:TypeTupleT&) -> () = @{
-    if (sid_current_pred_id) {
-	E_multi_predicate_return ();
-    }
-    sid_current_pred_id = TRUE;
-    types_add_name_entry (@&tuple, grammar_get_predicate_id(sid_current_grammar));
-@};
-
-<add-void> : (tuple :TypeTupleT&) -> () = @{
-    EntryT * entry = table_add_generated_name (grammar_table(sid_current_grammar));
-
-    types_add_name_entry (@&tuple, entry);
-@};
-
-// Productions section actions:
-
-<use-global> = @{
-    sid_current_scope = &sid_global_scope;
-@};
-
-<use-local> = @{
-    sid_current_scope = &sid_scope_stack;
-@};
-
-<action>: (string:StringT&) -> (entry:EntryP) = @{
-    @entry = scope_stack_add_action (sid_current_scope,
-						grammar_table(sid_current_grammar), &@=string,
-						sid_enclosing_rule,
-						&sid_redefining_entry);
-    if (!@entry) {
-	E_duplicate_action (@&string);
-	nstring_destroy (&@=string);
-    }
-@};
-
-<x-action> : (entry:EntryP, n_params:TypeTupleT&, n_results:TypeTupleT&) -> () = @{
-    if (@entry) {
-	KeyT *       key     = entry_key (sid_current_entry);
-	ActionT*     action  = entry_get_action(@entry);
-	TypeTupleT * param   = action_param (action);
-	TypeTupleT * result  = action_result (action);
-	BoolT      errored = FALSE;
-
-	if (types_contains_names (@&n_params)) {
-	    E_action_param_has_names (key, @&n_params);
-	    errored = TRUE;
-	}
-	if (sid_redefining_entry) {
-	    if (!types_equal (param, @&n_params)) {
-		E_action_param_mismatch (key, param, @&n_params);
-		errored = TRUE;
-	    }
-	}
-	if (types_contains_names (@&n_results)) {
-	    E_action_result_has_names (key, @&n_results);
-	    errored = TRUE;
-	}
-	if (types_contains_references (@&n_results)) {
-	    E_action_result_has_refs (key, @&n_results);
-	    errored = TRUE;
-	}
-	if (sid_redefining_entry) {
-	    if (!types_equal (result, @&n_results)) {
-		E_action_result_mismatch (key, result, @&n_results);
-		errored = TRUE;
-	    }
-	}
-	if (errored || sid_redefining_entry) {
-	    types_destroy (@&n_params);
-	    types_destroy (@&n_results);
-	} else {
-	    types_assign (param, @&n_params);
-	    types_assign (result, @&n_results);
-	}
-    } else {
-	types_destroy (@&n_params);
-	types_destroy (@&n_results);
-    }
-@};
-
-<non-local>: (id:StringT&, type_id:StringT&) -> (nonlocalentry:NonLocalEntryP) = @{
-    @nonlocalentry = NULL;
-    if ((sid_enclosing_rule == NULL) ||
-	(sid_current_scope == &sid_global_scope)) {
-	E_global_scope_non_local (@&id);
-	nstring_destroy (&@=id);
-    } else {
-	EntryT * type = table_get_type (grammar_table(sid_current_grammar), @&type_id);
-
-	if (type == NULL) {
-	    E_unknown_type (@&type_id);
-	    nstring_destroy (&@=id);
-	} else {
-	    EntryT * name = scope_stack_add_non_local (sid_current_scope,
-						     grammar_table(sid_current_grammar),
-						     &@=id, type,
-						     sid_enclosing_rule);
-
-	    if (name) {
-		NonLocalListT * non_locals = rule_non_locals (sid_enclosing_rule);
-		@nonlocalentry = non_local_list_add (non_locals, name, type);
-	    } else {
-		E_duplicate_non_local (@&id);
-		nstring_destroy (&@=id);
-	    }
-	}
-    }
-    nstring_destroy (&@=type_id);
-@};
-
-<non-local-init>: (nonlocalentry:NonLocalEntryP, action_id:StringT&) -> () = @{
-    EntryT * actionentry = scope_stack_get_action (&sid_scope_stack, grammar_table(sid_current_grammar),
-					   @&action_id);
-
-    if (actionentry == NULL) {
-	E_unknown_action (@&action_id);
-    } else if (@nonlocalentry) {
-	EntryT *     type   = non_local_entry_get_type (@nonlocalentry);
-	KeyT *       name   = entry_key (non_local_entry_get_name (@nonlocalentry));
-	ActionT *    action = entry_get_action (actionentry);
-	TypeTupleT * param  = action_param (action);
-	TypeTupleT * result = action_result (action);
-	TypeTupleT tuple;
-	TypeTupleT ref_tuple;
-
-	types_init (&tuple);
-	types_init (&ref_tuple);
-	types_add_type_entry (&tuple, type, FALSE);
-	types_add_type_entry (&ref_tuple, type, TRUE);
-	if ((!types_equal (param, &tuple)) &&
-	    (!types_equal (param, &ref_tuple)) &&
-	    (!types_equal_zero_tuple (param))) {
-	    E_initialiser_param_mismatch (name, &tuple, &ref_tuple, param);
-	}
-	if (!types_equal (result, &tuple)) {
-	    E_initialiser_result_mismatch (name, &tuple, result);
-	}
-	types_destroy (&ref_tuple);
-	types_destroy (&tuple);
-	non_local_entry_set_initialiser (@nonlocalentry, actionentry);
-    }
-    nstring_destroy (&@=action_id);
-@};
-
-<rule>: (string) -> () = @{
-    sid_current_entry = scope_stack_add_rule (sid_current_scope,
-					      grammar_table(sid_current_grammar), &@=string,
-					      sid_enclosing_rule,
-					      &sid_redefining_entry);
-    if (sid_current_entry) {
-	sid_current_rule = entry_get_rule (sid_current_entry);
-    } else {
-	E_duplicate_rule (@&string);
-	nstring_destroy (&@=string);
-    }
-@};
-
-<x-rule> : (n_params:TypeTupleT&,n_results:TypeTupleT&) -> () = @{
-    if (sid_current_entry) {
-	KeyT *       key     = entry_key (sid_current_entry);
-	TypeTupleT * param   = rule_param (sid_current_rule);
-	TypeTupleT * result  = rule_result (sid_current_rule);
-	BoolT      errored = FALSE;
-
-	if (types_contains_names (@&n_params)) {
-	    E_rule_param_has_names (key, @&n_params);
-	    errored = TRUE;
-	}
-	if (sid_redefining_entry) {
-	    if (!types_equal (param, @&n_params)) {
-		E_rule_param_mismatch (key, param, @&n_params);
-		errored = TRUE;
-	    }
-	}
-	if (types_contains_names (@&n_results)) {
-	    E_rule_result_has_names (key, @&n_results);
-	    errored = TRUE;
-	}
-	if (types_contains_references (@&n_results)) {
-	    E_rule_result_has_refs (key, @&n_results);
-	    errored = TRUE;
-	}
-	if (sid_redefining_entry) {
-	    if (!types_equal (result, @&n_results)) {
-		E_rule_result_mismatch (key, result, @&n_results);
-		errored = TRUE;
-	    }
-	}
-	if (errored || sid_redefining_entry) {
-	    types_destroy (@&n_params);
-	    types_destroy (@&n_results);
-	} else {
-	    types_assign (param, @&n_params);
-	    types_assign (result, @&n_results);
-	}
-    } else {
-	types_destroy (@&n_params);
-	types_destroy (@&n_results);
-    }
-@};
-
-<prod> : (n_params:TypeTupleT&,n_results:TypeTupleT&) -> () = @{
-    if (sid_current_entry) {
-	KeyT * key = entry_key (sid_current_entry);
-
-	if (rule_is_defined (sid_current_rule)) {
-	    E_rule_already_defined (key);
-	    sid_current_entry = NULL;
-	    types_destroy (@&n_params);
-	    types_destroy (@&n_results);
-	} else {
-	    TypeTupleT * param   = rule_param (sid_current_rule);
-	    TypeTupleT * result  = rule_result (sid_current_rule);
-	    BoolT      errored = FALSE;
-
-	    rule_defined (sid_current_rule);
-	    if (!types_disjoint_names (@&n_params)) {
-		E_rule_param_clash (key, @&n_params);
-		errored = TRUE;
-	    }
-	    if (types_check_shadowing (@&n_params, &sid_scope_stack,
-				       sid_current_rule)) {
-		errored = TRUE;
-	    }
-	    if (sid_redefining_entry) {
-		if (!types_fillin_names (param, @&n_params)) {
-		    E_rule_param_mismatch (key, param, @&n_params);
-		    errored = TRUE;
+	<add-type>: (string :StringT &) -> () = @{
+		if (table_add_type (grammar_table(sid_current_grammar), &@=string) == NULL) {
+			E_duplicate_type(@&string);
+			nstring_destroy(&@=string);
 		}
-		types_destroy (@&n_params);
-	    } else {
-		types_assign (param, @&n_params);
-	    }
-	    if (!types_disjoint_names (@&n_results)) {
-		E_rule_result_clash (key, @&n_results);
-		errored = TRUE;
-	    }
-	    if (types_check_shadowing (@&n_results, &sid_scope_stack,
-				       sid_current_rule)) {
-		errored = TRUE;
-	    }
-	    if (types_contains_references (@&n_results)) {
-		E_rule_result_has_refs (key, @&n_results);
-		errored = TRUE;
-	    }
-	    if (sid_redefining_entry) {
-		if (!types_fillin_names (result, @&n_results)) {
-		    E_rule_result_mismatch (key, result, @&n_results);
-		    errored = TRUE;
+	@};
+
+
+	/*
+	 * Terminals section actions
+	 */
+
+	<terminal>: (string :StringT &) -> (entry :EntryP) = @{
+		@entry = table_add_basic(grammar_table(sid_current_grammar), &@=string,
+			sid_current_grammar, FALSE);
+		if (@entry == NULL) {
+			E_duplicate_basic(@&string);
+			nstring_destroy(&@=string);
 		}
-		types_destroy (@&n_results);
-	    } else {
-		types_assign (result, @&n_results);
-	    }
-	    if (errored) {
-		sid_current_entry = NULL;
-	    } else {
-		if (types_intersect (param, result)) {
-		    E_rule_formal_clash (key, param, result);
-		    sid_current_entry = NULL;
+	@};
+
+	<i-terminal>: ( string :StringT &) -> (entry :EntryP) = @{
+		@entry = table_add_basic(grammar_table(sid_current_grammar), &@=string,
+			sid_current_grammar, TRUE);
+		if (@entry == NULL) {
+			E_duplicate_basic(@&string);
+			nstring_destroy(&@=string);
 		}
-	    }
-	}
-    } else {
-	types_destroy (@&n_params);
-	types_destroy (@&n_results);
-    }
-    sid_alternative   = 0;
-    sid_internal_rule = FALSE;
-    sid_external_rule = sid_current_entry;
-    nstring_init (&sid_maximum_scope);
-@};
+	@};
 
-<x-prod> = @{
-    if (sid_current_entry) {
-	nstring_assign (rule_maximum_scope (sid_current_rule),
-			&sid_maximum_scope);
-    } else {
-	nstring_destroy (&sid_maximum_scope);
-    }
-@};
+	<x-terminal>: (entry :EntryP, params :TypeTupleT &, results :TypeTupleT &) -> () = @{
+		if (@entry) {
+			KeyT *key = entry_key(@entry);
+			BasicT *basic = entry_get_basic(@entry);
+			if (types_contains_names(@&params)) {
+				E_basic_param_has_names(key, @&params);
+			}
+			if (types_contains_names(@&results)) {
+				E_basic_result_has_names(key, @&results);
+			}
+			if (types_contains_references(@&results)) {
+				E_basic_result_has_refs(key, @&results);
+			}
+			if (!types_equal_zero_tuple(@&params)) {
+				E_basic_param_mismatch(key, @&params);
+			}
+			types_assign(basic_result(basic), @&results);
+		} else {
+			types_destroy(@&results);
+		}
+		types_destroy(@&params);
+	@};
 
-<push-scope> = @{
-    if (sid_current_entry) {
-	KeyT *     key   = entry_key (sid_current_entry);
-	NStringT * scope = key_get_string (key);
+	<x-terminals> = @{
+		unsigned max_terminal = grammar_max_terminal(sid_current_grammar);
 
-	scope_stack_push (&sid_scope_stack, scope);
-    }
-@};
+		bitvec_set_size(max_terminal);
+		sid_finished_terminals = TRUE;
+	@};
 
-<pop-scope> = @{
-    if (sid_current_entry) {
-	scope_stack_pop (&sid_scope_stack);
-    }
-@};
 
-<save-scope>: () -> (saved_entry, saved_rule) = @{
-    @saved_entry       = sid_current_entry;
-    @saved_rule        = sid_enclosing_rule;
+	/*
+	 * Tuple manipulation actions
+	 */
 
-    sid_enclosing_rule = sid_current_rule;
-@};
+	<init-tuple>: () -> (tuple :TypeTupleT) = @{
+		types_init(&@tuple);
+	@};
 
-<restore-scope>: (saved_entry, saved_rule) -> () = @{
-    sid_current_entry  = @saved_entry;
-    sid_current_rule   = sid_enclosing_rule;
-    sid_enclosing_rule = @saved_rule;
-    sid_alternative    = 0;
-    sid_internal_rule  = FALSE;
-    sid_external_rule  = sid_current_entry;
-    nstring_init (&sid_maximum_scope);
-@};
+	<current-tuple>: () -> () = @{
+		sid_current_pred_id = FALSE;
+	@};
 
-<empty-alt> = @{
-    if ((++ sid_num_alternatives) == ALT_LIMIT) {
-	E_too_many_alternatives ();
-	UNREACHED;
-    }
-    if (!sid_internal_rule) {
-	sid_alternative ++;
-    }
-    if (sid_current_entry) {
-	if (rule_has_empty_alt (sid_current_rule)) {
-	    E_multiple_empty_alts (entry_key (sid_external_rule));
-	} else if (!types_equal_zero_tuple (rule_result (sid_current_rule))) {
-	    E_alt_result_mismatch (entry_key (sid_external_rule),
-				   sid_alternative);
-	} else {
-	    rule_add_empty_alt (sid_current_rule);
-	}
-    }
-@};
+	<save-tuple> = @{
+		sid_saved_pred_id = sid_current_pred_id;
+	@};
 
-<non-empty-alt> = @{
-    if ((++ sid_num_alternatives) == ALT_LIMIT) {
-	E_too_many_alternatives ();
-	UNREACHED;
-    }
-    if (!sid_internal_rule) {
-	sid_alternative ++;
-    }
-    if (sid_current_entry) {
-	sid_current_alt = alt_create ();
-    }
-@};
+	<tuple-name>: (tuple :TypeTupleT &, name :StringT &, type :StringT &) -> () = @{
+		if (!types_add_typed_name(@&tuple, grammar_table(sid_current_grammar),
+			&@=name, @&type, FALSE)) {
+			E_unknown_type(@&type);
+		}
+		nstring_destroy(&@=type);
+	@};
 
-<x-non-empty-alt> = @{
-    if ((sid_current_entry) && (sid_current_alt)) {
-	if (types_check_names (rule_result (sid_current_rule),
-			       alt_names (sid_current_alt))) {
-	    TypeTupleT used;
+	<tuple-ref-name>: (tuple :TypeTupleT &, name :StringT &, type :StringT &) -> () = @{
+		if (!types_add_typed_name(@&tuple, grammar_table(sid_current_grammar),
+			&@=name, @&type, TRUE)) {
+			E_unknown_type(@&type);
+		}
+		nstring_destroy(&@=type);
+	@};
 
-	    types_copy (&used, rule_result (sid_current_rule));
-	    item_compute_minimal_dataflow (alt_item_head (sid_current_alt),
-					   &used);
-	    types_destroy (&used);
-	    rule_add_alt (sid_current_rule, sid_current_alt);
-	} else {
-	    (void) alt_deallocate (sid_current_alt);
-	    E_alt_result_mismatch (entry_key (sid_external_rule),
-				   sid_alternative);
-	}
-    }
-@};
+	<tuple-type>: (tuple :TypeTupleT &, type :StringT &) -> () = @{
+		if (!types_add_type(@&tuple, grammar_table(sid_current_grammar), @&type,
+		FALSE)) {
+			E_unknown_type(@&type);
+		}
+		nstring_destroy(&@=type);
+	@};
 
-<handler> = @{
-    if (sid_current_entry) {
-	sid_current_alt = alt_create ();
-    }
-@};
+	<tuple-ref-type>:  (tuple :TypeTupleT &, type :StringT &) -> () = @{
+		if (!types_add_type(@&tuple, grammar_table(sid_current_grammar), @&type, TRUE)) {
+			E_unknown_type(@&type);
+		}
+		nstring_destroy(&@=type);
+	@};
 
-<x-handler> = @{
-    if ((sid_current_entry) && (sid_current_alt)) {
-	if (types_check_names (rule_result (sid_current_rule),
-			       alt_names (sid_current_alt))) {
-	    TypeTupleT used;
+	<add-name>: (tuple :TypeTupleT &, name :StringT &) -> () = @{
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
 
-	    types_copy (&used, rule_result (sid_current_rule));
-	    item_compute_minimal_dataflow (alt_item_head (sid_current_alt),
-					   &used);
-	    types_destroy (&used);
-	    rule_set_handler (sid_current_rule, sid_current_alt);
-	} else {
-	    (void) alt_deallocate (sid_current_alt);
-	    E_handler_result_mismatch (entry_key (sid_external_rule));
-	}
-    }
-@};
+		non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+			grammar_table(sid_current_grammar), @&name, &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), @&name);
 
-<save>: () -> (saved_entry, saved_rule, saved_alt, saved_internal, item) = @{
-    @saved_entry      = sid_current_entry;
-    @saved_rule       = sid_current_rule;
-    @saved_alt        = sid_current_alt;
-    @saved_internal   = sid_internal_rule;
-    @item             = NULL;
-    sid_internal_rule = TRUE;
-    if ((sid_current_entry) && (sid_current_alt)) {
-	sid_current_entry = table_add_generated_rule (grammar_table(sid_current_grammar),
-						      FALSE);
-	sid_current_rule  = entry_get_rule (sid_current_entry);
-	@item             = item_create (sid_current_entry);
-	rule_defined (sid_current_rule);
-	item_inlinable (@item);
-	types_copy (item_param (@item), rule_param (@saved_rule));
-	types_append_copy (item_param (@item), alt_names (@saved_alt));
-	types_copy (rule_param (sid_current_rule), item_param (@item));
-	types_make_references (rule_param (sid_current_rule),
-			       item_param (@item));
-	alt_add_item (@saved_alt, @item);
-    } else {
-	sid_current_entry = NULL;
-    }
-@};
-
-<restore>:
-    (saved_entry, saved_rule, saved_alt, saved_internal, item) -> () = @{
-    if ((@saved_entry) && (@saved_alt)) {
-	rule_compute_result_intersect (sid_current_rule);
-	types_copy (item_result (@item), rule_result (sid_current_rule));
-	types_add_new_names (alt_names (@saved_alt), item_result (@item),
-			     grammar_get_predicate_id(sid_current_grammar));
-    }
-    sid_internal_rule = @saved_internal;
-    sid_current_alt   = @saved_alt;
-    sid_current_rule  = @saved_rule;
-    sid_current_entry = @saved_entry;
-@};
-
-<prod-action>: (string) -> () = @{
-    if ((sid_current_entry) && (sid_current_alt)) {
-	EntryT * entry = scope_stack_get_action (&sid_scope_stack,
-					       grammar_table(sid_current_grammar), @&string);
-
-	if (entry) {
-	    sid_current_item = item_create (entry);
-	} else {
-	    E_unknown_action (@&string);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	}
-    } else {
-	sid_current_item = NULL;
-    }
-    nstring_destroy (&@=string);
-@};
-
-<x-prod-action> : (lhs:TypeTupleT&, rhs:TypeTupleT&) -> () = @{
-    if (sid_current_item) {
-	BoolT   errored = FALSE;
-	EntryT * entry   = item_entry (sid_current_item);
-	ActionT *action  = entry_get_action (entry);
-
-	if (types_resolve (@&rhs, rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_equal (@&rhs, action_param (action))) {
-		item_add_param (sid_current_item, @&rhs);
-	    } else {
-		E_action_param_call_mismatch (entry_key (entry),
-					      action_param (action),
-					      @&rhs);
-		types_destroy (@&rhs);
-		errored = TRUE;
-	    }
-	} else {
-	    types_destroy (@&rhs);
-	    errored = TRUE;
-	}
-	if (types_disjoint_names (@&lhs)) {
-	    if (types_check_undefined (@&lhs,
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (types_fillin_types (@&lhs,
-					action_result (action))) {
-		    types_add_new_names (alt_names (sid_current_alt),
-					 @&lhs, grammar_get_predicate_id(sid_current_grammar));
-		    if (sid_saved_pred_id) {
-			BoolT  reference;
-			EntryT * type = types_find_name_type (@&lhs,
-							    grammar_get_predicate_id(sid_current_grammar),
-							    &reference);
-
-			assert((type != NULL) && (!reference));
-			if(grammar_get_predicate_type (sid_current_grammar)) {
-			    if (type != grammar_get_predicate_type (sid_current_grammar)) {
-				E_predicate_type (grammar_get_predicate_type (sid_current_grammar), type);
-			    }
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+						name_entry = NULL;
+				}
 			} else {
-			    grammar_set_predicate_type (sid_current_grammar,
-							type);
+				name_entry = NULL;
 			}
-			item_to_predicate (sid_current_item);
-		    }
-		    item_add_result (sid_current_item, @&lhs);
-		} else {
-		    E_action_result_call_mismatch (entry_key (entry),
-						   action_result (action),
-						   @&lhs);
-		    types_destroy (@&lhs);
-		    errored = TRUE;
 		}
-	    } else {
-		types_destroy (@&lhs);
-		errored = TRUE;
-	    }
-	} else {
-	    E_action_result_call_clash (entry_key (entry), @&lhs);
-	    types_destroy (@&lhs);
-	    errored = TRUE;
-	}
-	if (errored) {
-	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	} else {
-	    alt_add_item (sid_current_alt, sid_current_item);
-	}
-    } else {
-	types_destroy (@&lhs);
-	types_destroy (@&rhs);
-    }
-@};
 
-<x-identity> : (lhs:TypeTupleT&, rhs:TypeTupleT&) -> () = @{
-    if ((sid_current_entry) && (sid_current_alt)) {
-	EntryT * entry = table_add_rename (grammar_table(sid_current_grammar));
-
-	if (types_resolve (@&rhs, rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_contains_references (@&rhs)) {
-		E_identity_param_has_refs (@&rhs,
-					   entry_key (sid_external_rule),
-					   sid_alternative);
-		types_destroy (@&rhs);
-		sid_current_item = NULL;
-	    } else {
-		sid_current_item = item_create (entry);
-		item_add_param (sid_current_item, @&rhs);
-	    }
-	} else {
-	    types_destroy (@&rhs);
-	    sid_current_item = NULL;
-	}
-	if (types_disjoint_names (@&lhs)) {
-	    if (types_check_undefined (@&lhs,
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (sid_current_item) {
-		    if (types_fillin_types (@&lhs,
-					    item_param (sid_current_item))) {
-			types_add_new_names (alt_names (sid_current_alt),
-					     @&lhs,
-					     grammar_get_predicate_id(sid_current_grammar));
-			if (sid_saved_pred_id) {
-			    E_predicate ();
+		if (name_entry) {
+			types_add_name_and_type(@&tuple, name_entry, NULL, FALSE);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
 			}
-			item_add_result (sid_current_item, @&lhs);
-			alt_add_item (sid_current_alt, sid_current_item);
-		    } else {
-			E_identity_mismatch (item_param (sid_current_item),
-					     @&lhs);
-			types_destroy (@&lhs);
-			(void) item_deallocate (sid_current_item);
+			nstring_destroy(&@=name);
+		} else if (non_local_entry) {
+			types_add_name_and_type(@&tuple, non_local_entry, NULL, FALSE);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy(&sid_maximum_scope);
+				nstring_assign(&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&@=name);
+		} else {
+			types_add_name(@&tuple, grammar_table(sid_current_grammar), &@=name, FALSE);
+		}
+	@};
+
+	/* TODO: these are a bit repetitive; can they be centralised? */
+	<add-ref-name>: (tuple :TypeTupleT & ,name :StringT &) -> () = @{
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
+
+		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
+			grammar_table(sid_current_grammar), @&name, &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), @&name);
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+						name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type (@&tuple, name_entry, NULL, TRUE);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&@=name);
+		} else if (non_local_entry) {
+			types_add_name_and_type (@&tuple, non_local_entry, NULL, TRUE);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy(&sid_maximum_scope);
+				nstring_assign(&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&@=name);
+		} else {
+			types_add_name(@&tuple, grammar_table(sid_current_grammar), &@=name, TRUE);
+		}
+	@};
+
+	<add-var>: (tuple :TypeTupleT &, name :StringT &) -> () = @{
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
+
+		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
+			grammar_table(sid_current_grammar), @&name, &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), @&name);
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+					name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type_var(@&tuple, name_entry, NULL);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&@=name);
+		} else if (non_local_entry) {
+			types_add_name_and_type_var (@&tuple, non_local_entry, NULL);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy (&sid_maximum_scope);
+				nstring_assign (&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&@=name);
+		} else {
+			E_undefined_assignment(@&name);
+			types_add_name(@&tuple, grammar_table(sid_current_grammar), &@=name, FALSE);
+		}
+	@};
+
+	<add-pred>: (tuple :TypeTupleT &) -> () = @{
+		if (sid_current_pred_id) {
+			E_multi_predicate_return();
+		}
+		sid_current_pred_id = TRUE;
+		types_add_name_entry(@&tuple, grammar_get_predicate_id(sid_current_grammar));
+	@};
+
+	<add-void>: (tuple :TypeTupleT &) -> () = @{
+		EntryT *entry;
+
+		entry = table_add_generated_name(grammar_table(sid_current_grammar));
+		types_add_name_entry(@&tuple, entry);
+	@};
+
+
+	/*
+	 * Productions section actions
+	 */
+
+	<use-global> = @{
+		sid_current_scope = &sid_global_scope;
+	@};
+
+	<use-local> = @{
+		sid_current_scope = &sid_scope_stack;
+	@};
+
+	<action>: (string :StringT &) -> (entry :EntryP) = @{
+		@entry = scope_stack_add_action (sid_current_scope,
+			grammar_table(sid_current_grammar), &@=string, sid_enclosing_rule,
+			&sid_redefining_entry);
+		if (!@entry) {
+			E_duplicate_action(@&string);
+			nstring_destroy(&@=string);
+		}
+	@};
+
+	<x-action>: (entry :EntryP, n_params :TypeTupleT &, n_results :TypeTupleT &) -> () = @{
+		if (@entry) {
+			KeyT       *key     = entry_key(sid_current_entry);
+			ActionT    *action  = entry_get_action(@entry);
+			TypeTupleT *param   = action_param(action);
+			TypeTupleT *result  = action_result(action);
+			BoolT       errored = FALSE;
+
+			if (types_contains_names(@&n_params)) {
+				E_action_param_has_names(key, @&n_params);
+				errored = TRUE;
+			}
+
+			if (sid_redefining_entry) {
+				if (!types_equal(param, @&n_params)) {
+					E_action_param_mismatch(key, param, @&n_params);
+					errored = TRUE;
+				}
+			}
+
+			if (types_contains_names(@&n_results)) {
+				E_action_result_has_names(key, @&n_results);
+				errored = TRUE;
+			}
+
+			if (types_contains_references(@&n_results)) {
+				E_action_result_has_refs(key, @&n_results);
+				errored = TRUE;
+			}
+
+			if (sid_redefining_entry) {
+				if (!types_equal(result, @&n_results)) {
+					E_action_result_mismatch(key, result, @&n_results);
+					errored = TRUE;
+				}
+			}
+
+			if (errored || sid_redefining_entry) {
+				types_destroy(@&n_params);
+				types_destroy(@&n_results);
+			} else {
+				types_assign(param, @&n_params);
+				types_assign(result, @&n_results);
+			}
+		} else {
+			types_destroy(@&n_params);
+			types_destroy(@&n_results);
+		}
+	@};
+
+	<non-local>: (id :StringT &, type_id :StringT &) -> (nonlocalentry :NonLocalEntryP) = @{
+		@nonlocalentry = NULL;
+		if (sid_enclosing_rule == NULL || sid_current_scope == &sid_global_scope) {
+			E_global_scope_non_local(@&id);
+			nstring_destroy(&@=id);
+		} else {
+			EntryT *type;
+
+			type = table_get_type(grammar_table(sid_current_grammar), @&type_id);
+			if (type == NULL) {
+				E_unknown_type(@&type_id);
+				nstring_destroy(&@=id);
+			} else {
+				EntryT *name;
+
+				name = scope_stack_add_non_local (sid_current_scope,
+					grammar_table(sid_current_grammar), &@=id, type,
+					sid_enclosing_rule);
+				if (name) {
+					NonLocalListT *non_locals;
+
+					non_locals = rule_non_locals(sid_enclosing_rule);
+					@nonlocalentry = non_local_list_add(non_locals, name, type);
+				} else {
+					E_duplicate_non_local(@&id);
+					nstring_destroy(&@=id);
+				}
+			}
+		}
+		nstring_destroy(&@=type_id);
+	@};
+
+	<non-local-init>: (nonlocalentry :NonLocalEntryP, action_id :StringT &) -> () = @{
+		EntryT *actionentry;
+
+		actionentry = scope_stack_get_action(&sid_scope_stack,
+			grammar_table(sid_current_grammar), @&action_id);
+
+		if (actionentry == NULL) {
+			E_unknown_action (@&action_id);
+		} else if (@nonlocalentry) {
+			EntryT     *type   = non_local_entry_get_type(@nonlocalentry);
+			KeyT       *name   = entry_key(non_local_entry_get_name(@nonlocalentry));
+			ActionT    *action = entry_get_action(actionentry);
+			TypeTupleT *param  = action_param(action);
+			TypeTupleT *result = action_result(action);
+			TypeTupleT  tuple;
+			TypeTupleT  ref_tuple;
+
+			types_init(&tuple);
+			types_init(&ref_tuple);
+			types_add_type_entry(&tuple, type, FALSE);
+			types_add_type_entry(&ref_tuple, type, TRUE);
+
+			if (!types_equal(param, &tuple) && !types_equal(param, &ref_tuple)
+				&& !types_equal_zero_tuple(param)) {
+				E_initialiser_param_mismatch(name, &tuple, &ref_tuple, param);
+			}
+
+			if (!types_equal(result, &tuple)) {
+				E_initialiser_result_mismatch(name, &tuple, result);
+			}
+
+			types_destroy(&ref_tuple);
+			types_destroy(&tuple);
+			non_local_entry_set_initialiser(@nonlocalentry, actionentry);
+		}
+		nstring_destroy(&@=action_id);
+	@};
+
+	<rule>: (string) -> () = @{
+		sid_current_entry = scope_stack_add_rule(sid_current_scope,
+			grammar_table(sid_current_grammar), &@=string, sid_enclosing_rule,
+			&sid_redefining_entry);
+		if (sid_current_entry) {
+			sid_current_rule = entry_get_rule(sid_current_entry);
+		} else {
+			E_duplicate_rule(@&string);
+			nstring_destroy(&@=string);
+		}
+	@};
+
+	/* TODO: This looks a bit repetitive, too */
+	<x-rule>: (n_params :TypeTupleT &, n_results :TypeTupleT &) -> () = @{
+		if (sid_current_entry) {
+			KeyT       *key     = entry_key (sid_current_entry);
+			TypeTupleT *param   = rule_param (sid_current_rule);
+			TypeTupleT *result  = rule_result (sid_current_rule);
+			BoolT       errored = FALSE;
+
+			if (types_contains_names(@&n_params)) {
+				E_rule_param_has_names(key, @&n_params);
+				errored = TRUE;
+			}
+
+			if (sid_redefining_entry) {
+				if (!types_equal(param, @&n_params)) {
+					E_rule_param_mismatch(key, param, @&n_params);
+					errored = TRUE;
+				}
+			}
+
+			if (types_contains_names(@&n_results)) {
+				E_rule_result_has_names(key, @&n_results);
+				errored = TRUE;
+			}
+
+			if (types_contains_references(@&n_results)) {
+				E_rule_result_has_refs(key, @&n_results);
+				errored = TRUE;
+			}
+
+			if (sid_redefining_entry) {
+				if (!types_equal(result, @&n_results)) {
+					E_rule_result_mismatch (key, result, @&n_results);
+					errored = TRUE;
+				}
+			}
+
+			if (errored || sid_redefining_entry) {
+				types_destroy(@&n_params);
+				types_destroy(@&n_results);
+			} else {
+				types_assign(param, @&n_params);
+				types_assign(result, @&n_results);
+			}
+		} else {
+			types_destroy(@&n_params);
+			types_destroy(@&n_results);
+		}
+	@};
+
+	<prod>: (n_params :TypeTupleT &, n_results :TypeTupleT &) -> () = @{
+		if (sid_current_entry) {
+			KeyT *key;
+
+			key = entry_key(sid_current_entry);
+
+			if (rule_is_defined(sid_current_rule)) {
+				E_rule_already_defined (key);
+				sid_current_entry = NULL;
+				types_destroy(@&n_params);
+				types_destroy(@&n_results);
+			} else {
+				TypeTupleT *param   = rule_param(sid_current_rule);
+				TypeTupleT *result  = rule_result(sid_current_rule);
+				BoolT       errored = FALSE;
+
+				rule_defined(sid_current_rule);
+				if (!types_disjoint_names(@&n_params)) {
+					E_rule_param_clash(key, @&n_params);
+					errored = TRUE;
+				}
+
+				if (types_check_shadowing(@&n_params, &sid_scope_stack,
+					sid_current_rule)) {
+					errored = TRUE;
+				}
+
+				if (sid_redefining_entry) {
+					if (!types_fillin_names(param, @&n_params)) {
+						E_rule_param_mismatch(key, param, @&n_params);
+						errored = TRUE;
+					}
+					types_destroy(@&n_params);
+				} else {
+					types_assign(param, @&n_params);
+				}
+
+				if (!types_disjoint_names(@&n_results)) {
+					E_rule_result_clash(key, @&n_results);
+					errored = TRUE;
+				}
+
+				if (types_check_shadowing(@&n_results, &sid_scope_stack,
+					sid_current_rule)) {
+					errored = TRUE;
+				}
+
+				if (types_contains_references(@&n_results)) {
+					E_rule_result_has_refs(key, @&n_results);
+					errored = TRUE;
+				}
+
+				if (sid_redefining_entry) {
+					if (!types_fillin_names(result, @&n_results)) {
+						E_rule_result_mismatch(key, result, @&n_results);
+						errored = TRUE;
+					}
+					types_destroy(@&n_results);
+				} else {
+					types_assign(result, @&n_results);
+				}
+
+				if (errored) {
+					sid_current_entry = NULL;
+				} else {
+					if (types_intersect(param, result)) {
+						E_rule_formal_clash(key, param, result);
+						sid_current_entry = NULL;
+					}
+				}
+			}
+		} else {
+			types_destroy(@&n_params);
+			types_destroy(@&n_results);
+		}
+
+		sid_alternative   = 0;
+		sid_internal_rule = FALSE;
+		sid_external_rule = sid_current_entry;
+		nstring_init(&sid_maximum_scope);
+	@};
+
+	<x-prod> = @{
+		if (sid_current_entry) {
+			nstring_assign(rule_maximum_scope(sid_current_rule),
+				&sid_maximum_scope);
+		} else {
+			nstring_destroy(&sid_maximum_scope);
+		}
+	@};
+
+	<push-scope> = @{
+		if (sid_current_entry) {
+			KeyT     *key   = entry_key(sid_current_entry);
+			NStringT *scope = key_get_string(key);
+
+			scope_stack_push(&sid_scope_stack, scope);
+		}
+	@};
+
+	<pop-scope> = @{
+		if (sid_current_entry) {
+			scope_stack_pop(&sid_scope_stack);
+		}
+	@};
+
+	<save-scope>: () -> (saved_entry, saved_rule) = @{
+		@saved_entry = sid_current_entry;
+		@saved_rule  = sid_enclosing_rule;
+
+		sid_enclosing_rule = sid_current_rule;
+	@};
+
+	<restore-scope>: (saved_entry, saved_rule) -> () = @{
+		sid_current_entry  = @saved_entry;
+		sid_current_rule   = sid_enclosing_rule;
+		sid_enclosing_rule = @saved_rule;
+		sid_alternative    = 0;
+		sid_internal_rule  = FALSE;
+		sid_external_rule  = sid_current_entry;
+
+		nstring_init(&sid_maximum_scope);
+	@};
+
+	<empty-alt> = @{
+		sid_num_alternatives++;
+		if (sid_num_alternatives == ALT_LIMIT) {
+			E_too_many_alternatives();
+			UNREACHED;
+		}
+
+		if (!sid_internal_rule) {
+			sid_alternative++;
+		}
+
+		if (sid_current_entry) {
+			if (rule_has_empty_alt(sid_current_rule)) {
+				E_multiple_empty_alts(entry_key(sid_external_rule));
+			} else if (!types_equal_zero_tuple(rule_result(sid_current_rule))) {
+				E_alt_result_mismatch(entry_key (sid_external_rule),
+					sid_alternative);
+			} else {
+				rule_add_empty_alt(sid_current_rule);
+			}
+		}
+	@};
+
+	<non-empty-alt> = @{
+		sid_num_alternatives++;
+		if (sid_num_alternatives == ALT_LIMIT) {
+			E_too_many_alternatives();
+			UNREACHED;
+		}
+
+		if (!sid_internal_rule) {
+			sid_alternative++;
+		}
+
+		if (sid_current_entry) {
+			sid_current_alt = alt_create();
+		}
+	@};
+
+	<x-non-empty-alt> = @{
+		if (sid_current_entry && sid_current_alt) {
+			if (types_check_names(rule_result(sid_current_rule),
+				alt_names(sid_current_alt))) {
+				TypeTupleT used;
+
+				types_copy(&used, rule_result(sid_current_rule));
+				item_compute_minimal_dataflow(alt_item_head (sid_current_alt),
+					&used);
+				types_destroy(&used);
+				rule_add_alt(sid_current_rule, sid_current_alt);
+			} else {
+				(void) alt_deallocate(sid_current_alt);
+				E_alt_result_mismatch(entry_key (sid_external_rule),
+					sid_alternative);
+			}
+		}
+	@};
+
+	<handler> = @{
+		if (sid_current_entry) {
+			sid_current_alt = alt_create();
+		}
+	@};
+
+	<x-handler> = @{
+		if (sid_current_entry && sid_current_alt) {
+			if (types_check_names(rule_result(sid_current_rule),
+				alt_names(sid_current_alt))) {
+				TypeTupleT used;
+
+				types_copy(&used, rule_result (sid_current_rule));
+				item_compute_minimal_dataflow (alt_item_head (sid_current_alt),
+					&used);
+				types_destroy(&used);
+				rule_set_handler(sid_current_rule, sid_current_alt);
+			} else {
+				(void) alt_deallocate(sid_current_alt);
+				E_handler_result_mismatch(entry_key (sid_external_rule));
+			}
+		}
+	@};
+
+	<save>: () -> (saved_entry, saved_rule, saved_alt, saved_internal, item) = @{
+		@saved_entry      = sid_current_entry;
+		@saved_rule       = sid_current_rule;
+		@saved_alt        = sid_current_alt;
+		@saved_internal   = sid_internal_rule;
+		@item             = NULL;
+		sid_internal_rule = TRUE;
+
+		if (sid_current_entry && sid_current_alt) {
+			sid_current_entry = table_add_generated_rule(grammar_table(sid_current_grammar), FALSE);
+			sid_current_rule  = entry_get_rule(sid_current_entry);
+			@item             = item_create(sid_current_entry);
+
+			rule_defined(sid_current_rule);
+			item_inlinable(@item);
+			types_copy(item_param(@item), rule_param(@saved_rule));
+			types_append_copy(item_param(@item), alt_names(@saved_alt));
+			types_copy(rule_param(sid_current_rule), item_param(@item));
+			types_make_references(rule_param (sid_current_rule), item_param(@item));
+			alt_add_item(@saved_alt, @item);
+		} else {
+			sid_current_entry = NULL;
+		}
+	@};
+
+	<restore>: (saved_entry, saved_rule, saved_alt, saved_internal, item) -> () = @{
+		if (@saved_entry && @saved_alt) {
+			rule_compute_result_intersect(sid_current_rule);
+			types_copy (item_result(@item), rule_result(sid_current_rule));
+			types_add_new_names(alt_names(@saved_alt), item_result(@item),
+			grammar_get_predicate_id(sid_current_grammar));
+		}
+
+		sid_internal_rule = @saved_internal;
+		sid_current_alt   = @saved_alt;
+		sid_current_rule  = @saved_rule;
+		sid_current_entry = @saved_entry;
+	@};
+
+	<prod-action>: (string) -> () = @{
+		if (sid_current_entry && sid_current_alt) {
+			EntryT *entry;
+
+			entry = scope_stack_get_action(&sid_scope_stack,
+				grammar_table(sid_current_grammar), @&string);
+			if (entry) {
+				sid_current_item = item_create(entry);
+			} else {
+				E_unknown_action(@&string);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			}
+		} else {
 			sid_current_item = NULL;
-		    }
 		}
-	    } else {
-		types_destroy (@&lhs);
+		nstring_destroy(&@=string);
+	@};
+
+	<x-prod-action>: (lhs :TypeTupleT &, rhs :TypeTupleT &) -> () = @{
 		if (sid_current_item) {
-		    (void) item_deallocate (sid_current_item);
-		    sid_current_item = NULL;
-		}
-	    }
-	} else {
-	    E_identity_result_clash (@&lhs);
-	    types_destroy (@&lhs);
-	    if (sid_current_item) {
-		(void) item_deallocate (sid_current_item);
-		sid_current_item = NULL;
-	    }
-	}
-	if (sid_current_item == NULL) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-    } else {
-	types_destroy (@&lhs);
-	types_destroy (@&rhs);
-    }
-@};
+			BoolT    errored = FALSE;
+			EntryT  *entry   = item_entry(sid_current_item);
+			ActionT *action  = entry_get_action(entry);
 
-<x-prod-rule>: (lhs:TypeTupleT&, rhs:TypeTupleT&, string:StringT&) -> () = @{
-    TypeTupleT * param  = NULL;
-    TypeTupleT * result = NULL;
-    EntryT *     entry  = NULL;
-    RuleT *      rule;
-    BasicT *     basic;
-
-    if ((sid_current_entry) && (sid_current_alt)) {
-	entry = scope_stack_get_rule (&sid_scope_stack, grammar_table(sid_current_grammar),
-				      @&string);
-	if (entry) {
-	    sid_current_item = item_create (entry);
-	    rule             = entry_get_rule (entry);
-	    param            = rule_param (rule);
-	    result           = rule_result (rule);
-	} else {
-	    entry = table_get_basic (grammar_table(sid_current_grammar), @&string);
-	    if (entry) {
-		sid_current_item = item_create (entry);
-		basic            = entry_get_basic (entry);
-		param            = NULL;
-		result           = basic_result (basic);
-		if (basic_get_ignored (basic)) {
-		    E_ignored_basic_call (@&string);
-		}
-	    } else {
-		E_unknown_rule_or_basic (@&string);
-		sid_current_item = NULL;
-	    }
-	}
-    } else {
-	sid_current_item = NULL;
-    }
-    nstring_destroy (&@=string);
-    if (sid_current_item) {
-	BoolT errored = FALSE;
-	KeyT *  key     = entry_key (entry);
-
-	if (types_resolve (@&rhs, rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (param) {
-		if (types_equal (@&rhs, param)) {
-		    item_add_param (sid_current_item, @&rhs);
-		} else {
-		    E_rule_param_call_mismatch (key, param, @&rhs);
-		    types_destroy (@&rhs);
-		    errored = TRUE;
-		}
-	    } else {
-		if (!types_equal_zero_tuple (@&rhs)) {
-		    E_basic_param_call_mismatch (key, @&rhs);
-		    types_destroy (@&rhs);
-		    errored = TRUE;
-		}
-	    }
-	} else {
-	    types_destroy (@&rhs);
-	    errored = TRUE;
-	}
-	if (types_disjoint_names (@&lhs)) {
-	    if (types_check_undefined (@&lhs,
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (types_fillin_types (@&lhs, result)) {
-		    types_add_new_names (alt_names (sid_current_alt),
-					 @&lhs, grammar_get_predicate_id(sid_current_grammar));
-		    if (sid_saved_pred_id) {
-			E_predicate ();
-		    }
-		    item_add_result (sid_current_item, @&lhs);
-		} else {
-		    if (param) {
-			E_rule_result_call_mismatch (key, result,
-						     @&lhs);
-		    } else {
-			E_basic_result_call_mismatch (key, result,
-						      @&lhs);
-		    }
-		    types_destroy (@&lhs);
-		    errored = TRUE;
-		}
-	    } else {
-		types_destroy (@&lhs);
-		errored = TRUE;
-	    }
-	} else {
-	    if (param) {
-		E_rule_result_call_clash (key, @&lhs);
-	    } else {
-		E_basic_result_call_clash (key, @&lhs);
-	    }
-	    types_destroy (@&lhs);
-	    errored = TRUE;
-	}
-	if (errored) {
-	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	} else {
-	    alt_add_item (sid_current_alt, sid_current_item);
-	}
-    } else {
-	if (sid_current_alt) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-	types_destroy (@&lhs);
-	types_destroy (@&rhs);
-    }
-@};
-
-<x-prod-rule-or-identity>: (lhs:TypeTupleT&, string:StringT&) -> () = @{
-    EntryT *     name_entry = table_get_entry (grammar_table(sid_current_grammar), @&string);
-    EntryT *     entry      = NULL;
-    TypeTupleT * param      = NULL;
-    TypeTupleT * result     = NULL;
-    RuleT *      rule;
-    BasicT *     basic;
-    TypeTupleT   rhs ;
-
-    types_init(&rhs);
-
-    if ((sid_current_entry) && (sid_current_alt)) {
-	if ((name_entry != NULL) &&
-	    (!types_contains (alt_names (sid_current_alt), name_entry)) &&
-	    (!types_contains (rule_param (sid_current_rule), name_entry))) {
-	    name_entry = NULL;
-	}
-	entry = scope_stack_get_rule (&sid_scope_stack, grammar_table(sid_current_grammar),
-				      @&string);
-	if (entry) {
-	    sid_current_item = item_create (entry);
-	    rule             = entry_get_rule (entry);
-	    param            = rule_param (rule);
-	    result           = rule_result (rule);
-	} else {
-	    entry = table_get_basic (grammar_table(sid_current_grammar), @&string);
-	    if (entry) {
-		sid_current_item = item_create (entry);
-		basic            = entry_get_basic (entry);
-		param            = NULL;
-		result           = basic_result (basic);
-		if ((name_entry == NULL) &&
-		    basic_get_ignored (basic)) {
-		    E_ignored_basic_call (@&string);
-		}
-	    }
-	}
-	if ((entry == NULL) && (name_entry == NULL)) {
-	    NStringT scope;
-
-	    name_entry = scope_stack_get_non_local (&sid_scope_stack,
-						    grammar_table(sid_current_grammar),
-						    @&string, &scope);
-	    if (name_entry) {
-		if (nstring_length (&scope) >
-		    nstring_length (&sid_maximum_scope)) {
-		    nstring_destroy (&sid_maximum_scope);
-		    nstring_assign (&sid_maximum_scope, &scope);
-		} else {
-		    nstring_destroy (&scope);
-		}
-	    } else {
-		E_unknown_rule_or_basic (@&string);
-	    }
-	} else if ((entry != NULL) && (name_entry != NULL)) {
-	    E_ambiguous_call (@&string);
-	    entry      = NULL;
-	    name_entry = NULL;
-	}
-    } else {
-	name_entry = NULL;
-    }
-    nstring_destroy (&@=string);
-    if (entry) {
-	BoolT errored = FALSE;
-	KeyT *  key     = entry_key (entry);
-
-	if (types_resolve (&rhs, rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (param) {
-		if (types_equal (&rhs, param)) {
-		    item_add_param (sid_current_item, &rhs);
-		} else {
-		    E_rule_param_call_mismatch (key, param, &rhs);
-		    types_destroy (&rhs);
-		    errored = TRUE;
-		}
-	    } else {
-		if (!types_equal_zero_tuple (&rhs)) {
-		    E_basic_param_call_mismatch (key, &rhs);
-		    types_destroy (&rhs);
-		    errored = TRUE;
-		}
-	    }
-	} else {
-	    types_destroy (&rhs);
-	    errored = TRUE;
-	}
-	if (types_disjoint_names (@&lhs)) {
-	    if (types_check_undefined (@&lhs,
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (types_fillin_types (@&lhs, result)) {
-		    types_add_new_names (alt_names (sid_current_alt),
-					 @&lhs, grammar_get_predicate_id(sid_current_grammar));
-		    if (sid_saved_pred_id) {
-			E_predicate ();
-		    }
-		    item_add_result (sid_current_item, @&lhs);
-		} else {
-		    if (param) {
-			E_rule_result_call_mismatch (key, result,
-						     @&lhs);
-		    } else {
-			E_basic_result_call_mismatch (key, result,
-						      @&lhs);
-		    }
-		    types_destroy (@&lhs);
-		    errored = TRUE;
-		}
-	    } else {
-		types_destroy (@&lhs);
-		errored = TRUE;
-	    }
-	} else {
-	    if (param) {
-		E_rule_result_call_clash (key, @&lhs);
-	    } else {
-		E_basic_result_call_clash (key, @&lhs);
-	    }
-	    types_destroy (@&lhs);
-	    errored = TRUE;
-	}
-	if (errored) {
-	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	} else {
-	    alt_add_item (sid_current_alt, sid_current_item);
-	}
-    } else if (name_entry) {
-	types_add_name_entry (&rhs, name_entry);
-	entry = table_add_rename (grammar_table(sid_current_grammar));
-	if (types_resolve (&rhs, rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_contains_references (&rhs)) {
-		E_identity_param_has_refs (&rhs,
-					   entry_key (sid_external_rule),
-					   sid_alternative);
-		types_destroy (&rhs);
-		sid_current_item = NULL;
-	    } else {
-		sid_current_item = item_create (entry);
-		item_add_param (sid_current_item, &rhs);
-	    }
-	} else {
-	    types_destroy (&rhs);
-	    sid_current_item = NULL;
-	}
-	if (types_disjoint_names (@&lhs)) {
-	    if (types_check_undefined (@&lhs,
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (sid_current_item) {
-		    if (types_fillin_types (@&lhs,
-					    item_param (sid_current_item))) {
-			types_add_new_names (alt_names (sid_current_alt),
-					     @&lhs,
-					     grammar_get_predicate_id(sid_current_grammar));
-			if (sid_saved_pred_id) {
-			    E_predicate ();
+			if (types_resolve(@&rhs, rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (types_equal(@&rhs, action_param(action))) {
+					item_add_param(sid_current_item, @&rhs);
+				} else {
+					E_action_param_call_mismatch(entry_key (entry),
+							  action_param(action), @&rhs);
+					types_destroy (@&rhs);
+					errored = TRUE;
+				}
+			} else {
+				types_destroy(@&rhs);
+				errored = TRUE;
 			}
-			item_add_result (sid_current_item, @&lhs);
-			alt_add_item (sid_current_alt, sid_current_item);
-		    } else {
-			E_identity_mismatch (item_param (sid_current_item),
-					     @&lhs);
-			types_destroy (@&lhs);
-			(void) item_deallocate (sid_current_item);
+
+			if (types_disjoint_names(@&lhs)) {
+				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (types_fillin_types(@&lhs, action_result(action))) {
+						types_add_new_names(alt_names(sid_current_alt),
+							@&lhs, grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							BoolT   reference;
+							EntryT *type;
+
+							type = types_find_name_type(@&lhs,
+								grammar_get_predicate_id(sid_current_grammar), &reference);
+							assert(type != NULL && !reference);
+							if (grammar_get_predicate_type(sid_current_grammar)) {
+								if (type != grammar_get_predicate_type(sid_current_grammar)) {
+									E_predicate_type(grammar_get_predicate_type(sid_current_grammar), type);
+								}
+							} else {
+								grammar_set_predicate_type(sid_current_grammar, type);
+							}
+							item_to_predicate(sid_current_item);
+						}
+						item_add_result(sid_current_item, @&lhs);
+					} else {
+						E_action_result_call_mismatch(entry_key (entry),
+							action_result(action), @&lhs);
+						types_destroy(@&lhs);
+						errored = TRUE;
+					}
+				} else {
+					types_destroy(@&lhs);
+					errored = TRUE;
+				}
+			} else {
+				E_action_result_call_clash(entry_key (entry), @&lhs);
+				types_destroy(@&lhs);
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
+		} else {
+			types_destroy(@&lhs);
+			types_destroy(@&rhs);
+		}
+	@};
+
+	<x-identity>: (lhs :TypeTupleT &, rhs :TypeTupleT &) -> () = @{
+		if (sid_current_entry && sid_current_alt) {
+			EntryT *entry = table_add_rename(grammar_table(sid_current_grammar));
+
+			if (types_resolve(@&rhs, rule_param (sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (types_contains_references(@&rhs)) {
+					E_identity_param_has_refs (@&rhs, entry_key(sid_external_rule),
+						sid_alternative);
+					types_destroy (@&rhs);
+					sid_current_item = NULL;
+				} else {
+					sid_current_item = item_create(entry);
+					item_add_param(sid_current_item, @&rhs);
+				}
+			} else {
+				types_destroy(@&rhs);
+				sid_current_item = NULL;
+			}
+
+			if (types_disjoint_names(@&lhs)) {
+				if (types_check_undefined(@&lhs, rule_param (sid_current_rule),
+					alt_names (sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (sid_current_item) {
+						if (types_fillin_types(@&lhs, item_param(sid_current_item))) {
+							types_add_new_names(alt_names (sid_current_alt),
+							@&lhs, grammar_get_predicate_id(sid_current_grammar));
+							if (sid_saved_pred_id) {
+								E_predicate();
+							}
+							item_add_result(sid_current_item, @&lhs);
+							alt_add_item(sid_current_alt, sid_current_item);
+						} else {
+							E_identity_mismatch(item_param (sid_current_item), @&lhs);
+							types_destroy(@&lhs);
+							(void) item_deallocate(sid_current_item);
+							sid_current_item = NULL;
+						}
+					}
+				} else {
+					types_destroy(@&lhs);
+					if (sid_current_item) {
+						(void) item_deallocate(sid_current_item);
+						sid_current_item = NULL;
+					}
+				}
+			} else {
+				E_identity_result_clash(@&lhs);
+				types_destroy (@&lhs);
+				if (sid_current_item) {
+					(void) item_deallocate(sid_current_item);
+					sid_current_item = NULL;
+				}
+			}
+
+			if (sid_current_item == NULL) {
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt = NULL;
+			}
+		} else {
+			types_destroy(@&lhs);
+			types_destroy(@&rhs);
+		}
+	@};
+
+	<x-prod-rule>: (lhs :TypeTupleT &, rhs :TypeTupleT &, string :StringT &) -> () = @{
+		TypeTupleT *param  = NULL;
+		TypeTupleT *result = NULL;
+		EntryT     *entry  = NULL;
+		RuleT      *rule;
+		BasicT     *basic;
+
+		if (sid_current_entry && sid_current_alt) {
+			entry = scope_stack_get_rule(&sid_scope_stack,
+				grammar_table(sid_current_grammar), @&string);
+			if (entry) {
+				sid_current_item = item_create(entry);
+				rule             = entry_get_rule(entry);
+				param            = rule_param(rule);
+				result           = rule_result(rule);
+			} else {
+				entry = table_get_basic(grammar_table(sid_current_grammar), @&string);
+				if (entry) {
+					sid_current_item = item_create(entry);
+					basic            = entry_get_basic(entry);
+					param            = NULL;
+					result           = basic_result(basic);
+
+					if (basic_get_ignored(basic)) {
+						E_ignored_basic_call(@&string);
+					}
+				} else {
+					E_unknown_rule_or_basic(@&string);
+					sid_current_item = NULL;
+				}
+			}
+		} else {
 			sid_current_item = NULL;
-		    }
 		}
-	    } else {
-		types_destroy (@&lhs);
+
+		nstring_destroy(&@=string);
 		if (sid_current_item) {
-		    (void) item_deallocate (sid_current_item);
-		    sid_current_item = NULL;
+			BoolT  errored = FALSE;
+			KeyT  *key     = entry_key (entry);
+
+			if (types_resolve(@&rhs, rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (param) {
+					if (types_equal(@&rhs, param)) {
+						item_add_param(sid_current_item, @&rhs);
+					} else {
+						E_rule_param_call_mismatch(key, param, @&rhs);
+						types_destroy(@&rhs);
+						errored = TRUE;
+					}
+				} else {
+					if (!types_equal_zero_tuple(@&rhs)) {
+						E_basic_param_call_mismatch(key, @&rhs);
+						types_destroy(@&rhs);
+						errored = TRUE;
+					}
+				}
+			} else {
+				types_destroy(@&rhs);
+				errored = TRUE;
+			}
+
+			if (types_disjoint_names (@&lhs)) {
+				if (types_check_undefined (@&lhs, rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (types_fillin_types(@&lhs, result)) {
+						types_add_new_names(alt_names (sid_current_alt),
+							@&lhs, grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							E_predicate ();
+						}
+						item_add_result(sid_current_item, @&lhs);
+					} else {
+						if (param) {
+							E_rule_result_call_mismatch(key, result, @&lhs);
+						} else {
+							E_basic_result_call_mismatch(key, result, @&lhs);
+						}
+						types_destroy(@&lhs);
+						errored = TRUE;
+					}
+				} else {
+					types_destroy(@&lhs);
+					errored = TRUE;
+				}
+			} else {
+				if (param) {
+					E_rule_result_call_clash (key, @&lhs);
+				} else {
+					E_basic_result_call_clash (key, @&lhs);
+				}
+
+				types_destroy (@&lhs);
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
+		} else {
+			if (sid_current_alt) {
+				(void) alt_deallocate (sid_current_alt);
+				sid_current_alt = NULL;
+			}
+			types_destroy (@&lhs);
+			types_destroy (@&rhs);
 		}
-	    }
-	} else {
-	    E_identity_result_clash (@&lhs);
-	    types_destroy (@&lhs);
-	    if (sid_current_item) {
-		(void) item_deallocate (sid_current_item);
-		sid_current_item = NULL;
-	    }
-	}
-	if (sid_current_item == NULL) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-    } else {
-	if (sid_current_alt) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-	types_destroy (@&lhs);
-	types_destroy (&rhs);
-    }
-@};
+	@};
 
-<add-entry>: (string) -> () = @{
-    EntryT * entry = table_get_rule (grammar_table(sid_current_grammar), @&string);
+	<x-prod-rule-or-identity>: (lhs :TypeTupleT &, string :StringT &) -> () = @{
+		EntryT     *name_entry = table_get_entry(grammar_table(sid_current_grammar), @&string);
+		EntryT     *entry      = NULL;
+		TypeTupleT *param      = NULL;
+		TypeTupleT *result     = NULL;
+		RuleT      *rule;
+		BasicT     *basic;
+		TypeTupleT  rhs;
 
-    if (entry) {
-	if (entry_list_contains (grammar_entry_list(sid_current_grammar), entry)) {
-	    E_mult_entry (entry_key (entry));
-	} else {
-	    entry_list_add (grammar_entry_list(sid_current_grammar), entry);
-	    rule_required (entry_get_rule (entry));
-	}
-    } else {
-	E_unknown_rule (@&string);
-    }
-    nstring_destroy (&@=string);
-@};
+		types_init(&rhs);
 
-// Error recovery stuff:
+		if (sid_current_entry && sid_current_alt) {
+			if (name_entry != NULL &&
+				!types_contains(alt_names (sid_current_alt), name_entry) &&
+				!types_contains(rule_param (sid_current_rule), name_entry)) {
+				name_entry = NULL;
+			}
 
-<unhandled-syntax-error> = @{
-    UNREACHED;
-@};
+			entry = scope_stack_get_rule(&sid_scope_stack, grammar_table(sid_current_grammar),
+				@&string);
+			if (entry) {
+				sid_current_item = item_create (entry);
+				rule             = entry_get_rule (entry);
+				param            = rule_param (rule);
+				result           = rule_result (rule);
+			} else {
+				entry = table_get_basic(grammar_table(sid_current_grammar), @&string);
+				if (entry) {
+					sid_current_item = item_create (entry);
+					basic            = entry_get_basic (entry);
+					param            = NULL;
+					result           = basic_result (basic);
+					if (name_entry == NULL && basic_get_ignored(basic)) {
+						E_ignored_basic_call (@&string);
+					}
+				}
+			}
 
-<expected-typemark> = @{
-    if (!sid_propagating_error) {
-	E_expected_typemark ();
-    }
-@};
+			if (entry == NULL && name_entry == NULL) {
+				NStringT scope;
 
-<expected-identifier> = @{
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
-@};
+				name_entry = scope_stack_get_non_local (&sid_scope_stack,
+					grammar_table(sid_current_grammar), @&string, &scope);
+				if (name_entry) {
+					if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+						nstring_destroy(&sid_maximum_scope);
+						nstring_assign(&sid_maximum_scope, &scope);
+					} else {
+						nstring_destroy(&scope);
+					}
+				} else {
+					E_unknown_rule_or_basic(@&string);
+				}
+			} else if (entry != NULL && name_entry != NULL) {
+				E_ambiguous_call(@&string);
+				entry      = NULL;
+				name_entry = NULL;
+			}
+		} else {
+			name_entry = NULL;
+		}
+		nstring_destroy(&@=string);
 
-<expected-tuple-defn> = @{
-    if (!sid_propagating_error) {
-	E_expected_tuple_defn ();
-    }
-@};
+		if (entry) {
+			BoolT  errored = FALSE;
+			KeyT  *key     = entry_key(entry);
 
-<expected-terminal-decn> = @{
-    if (!sid_propagating_error) {
-	E_expected_terminal_decn ();
-    }
-@};
+			if (types_resolve(&rhs, rule_param (sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (param) {
+					if (types_equal(&rhs, param)) {
+						item_add_param(sid_current_item, &rhs);
+					} else {
+						E_rule_param_call_mismatch(key, param, &rhs);
+						types_destroy (&rhs);
+						errored = TRUE;
+					}
+				} else {
+					if (!types_equal_zero_tuple(&rhs)) {
+						E_basic_param_call_mismatch(key, &rhs);
+						types_destroy(&rhs);
+						errored = TRUE;
+					}
+				}
+			} else {
+				types_destroy(&rhs);
+				errored = TRUE;
+			}
 
-<expected-separator> = @{
-    if (!sid_propagating_error) {
-	E_expected_separator ();
-    }
-@};
+			if (types_disjoint_names(@&lhs)) {
+				if (types_check_undefined(@&lhs, rule_param (sid_current_rule),
+					alt_names (sid_current_alt), E_redefined_name,
+					entry_key (sid_external_rule), sid_alternative)) {
+					if (types_fillin_types(@&lhs, result)) {
+						types_add_new_names(alt_names (sid_current_alt),
+							@&lhs, grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							E_predicate();
+						}
+						item_add_result(sid_current_item, @&lhs);
+					} else {
+						if (param) {
+							E_rule_result_call_mismatch(key, result, @&lhs);
+						} else {
+							E_basic_result_call_mismatch (key, result, @&lhs);
+						}
+						types_destroy(@&lhs);
+						errored = TRUE;
+					}
+				} else {
+					types_destroy(@&lhs);
+					errored = TRUE;
+				}
+			} else {
+				if (param) {
+					E_rule_result_call_clash(key, @&lhs);
+				} else {
+					E_basic_result_call_clash(key, @&lhs);
+				}
+				types_destroy(@&lhs);
+				errored = TRUE;
+			}
 
-<expected-open-tuple> = @{
-    if (!sid_propagating_error) {
-	E_expected_open_tuple ();
-    }
-@};
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
+		} else if (name_entry) {
+			types_add_name_entry(&rhs, name_entry);
+			entry = table_add_rename (grammar_table(sid_current_grammar));
+			if (types_resolve (&rhs, rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (types_contains_references(&rhs)) {
+					E_identity_param_has_refs(&rhs, entry_key(sid_external_rule),
+						sid_alternative);
+					types_destroy(&rhs);
+					sid_current_item = NULL;
+				} else {
+					sid_current_item = item_create(entry);
+					item_add_param(sid_current_item, &rhs);
+				}
+			} else {
+				types_destroy(&rhs);
+				sid_current_item = NULL;
+			}
 
-<expected-close-tuple> = @{
-    if (!sid_propagating_error) {
-	E_expected_close_tuple ();
-    }
-@};
+			if (types_disjoint_names(@&lhs)) {
+				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (sid_current_item) {
+						if (types_fillin_types(@&lhs, item_param(sid_current_item))) {
+							types_add_new_names(alt_names (sid_current_alt),
+								@&lhs, grammar_get_predicate_id(sid_current_grammar));
+							if (sid_saved_pred_id) {
+								E_predicate();
+							}
+							item_add_result(sid_current_item, @&lhs);
+							alt_add_item(sid_current_alt, sid_current_item);
+						} else {
+							E_identity_mismatch(item_param(sid_current_item), @&lhs);
+							types_destroy(@&lhs);
+							(void) item_deallocate(sid_current_item);
+							sid_current_item = NULL;
+						}
+					}
+				} else {
+					types_destroy(@&lhs);
+					if (sid_current_item) {
+						(void) item_deallocate(sid_current_item);
+						sid_current_item = NULL;
+					}
+				}
+			} else {
+				E_identity_result_clash(@&lhs);
+				types_destroy(@&lhs);
+				if (sid_current_item) {
+					(void) item_deallocate(sid_current_item);
+					sid_current_item = NULL;
+				}
+			}
 
-<expected-arrow> = @{
-    if (!sid_propagating_error) {
-	E_expected_arrow ();
-    }
-@};
+			if (sid_current_item == NULL) {
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt = NULL;
+			}
+		} else {
+			if (sid_current_alt) {
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt = NULL;
+			}
+			types_destroy(@&lhs);
+			types_destroy(&rhs);
+		}
+	@};
 
-<expected-terminator> = @{
-    if (!sid_propagating_error) {
-	E_expected_terminator ();
-    }
-@};
+	<add-entry>: (string) -> () = @{
+		EntryT *entry;
 
-<expected-lhs-name> = @{
-    if (!sid_propagating_error) {
-	E_expected_lhs_name ();
-    }
-@};
+		entry = table_get_rule (grammar_table(sid_current_grammar), @&string);
+		if (entry) {
+			if (entry_list_contains(grammar_entry_list(sid_current_grammar), entry)) {
+				E_mult_entry(entry_key(entry));
+			} else {
+				entry_list_add(grammar_entry_list(sid_current_grammar), entry);
+				rule_required(entry_get_rule (entry));
+			}
+		} else {
+			E_unknown_rule(@&string);
+		}
+		nstring_destroy(&@=string);
+	@};
 
-<expected-rhs-name> = @{
-    if (!sid_propagating_error) {
-	E_expected_rhs_name ();
-    }
-@};
 
-<expected-begin-action> = @{
-    if (!sid_propagating_error) {
-	E_expected_begin_action ();
-    }
-@};
+	/*
+	 * Error recovery stuff
+	 */
 
-<expected-end-action> = @{
-    if (!sid_propagating_error) {
-	E_expected_end_action ();
-    }
-@};
+	<unhandled-syntax-error> = @{
+		UNREACHED;
+	@};
 
-<expected-end-scope> = @{
-    if (!sid_propagating_error) {
-	E_expected_end_scope ();
-    }
-@};
+	<expected-typemark> = @{
+		if (!sid_propagating_error) {
+			E_expected_typemark();
+		}
+	@};
 
-<expected-tuple-or-terminator> = @{
-    if (!sid_propagating_error) {
-	E_expected_tuple_or_term ();
-    }
-@};
+	<expected-identifier> = @{
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	@};
 
-<expected-item-rhs> = @{
-    if (!sid_propagating_error) {
-	E_expected_item_rhs ();
-    }
-@};
+	<expected-tuple-defn> = @{
+		if (!sid_propagating_error) {
+			E_expected_tuple_defn();
+		}
+	@};
 
-<expected-define> = @{
-    if (!sid_propagating_error) {
-	E_expected_define ();
-    }
-@};
+	<expected-terminal-decn> = @{
+		if (!sid_propagating_error) {
+			E_expected_terminal_decn();
+		}
+	@};
 
-<expected-tuple-or-define-or-terminator> = @{
-    if (!sid_propagating_error) {
-	E_expected_tuple_def_or_term ();
-    }
-@};
+	<expected-separator> = @{
+		if (!sid_propagating_error) {
+			E_expected_separator();
+		}
+	@};
 
-<expected-begin-rule> = @{
-    if (!sid_propagating_error) {
-	E_expected_begin_rule ();
-    }
-@};
+	<expected-open-tuple> = @{
+		if (!sid_propagating_error) {
+			E_expected_open_tuple();
+		}
+	@};
 
-<expected-end-rule> = @{
-    if (!sid_propagating_error) {
-	E_expected_end_rule ();
-    }
-@};
+	<expected-close-tuple> = @{
+		if (!sid_propagating_error) {
+			E_expected_close_tuple();
+		}
+	@};
 
-<expected-item> = @{
-    if (!sid_propagating_error) {
-	E_expected_item ();
-    }
-@};
+	<expected-arrow> = @{
+		if (!sid_propagating_error) {
+			E_expected_arrow();
+		}
+	@};
 
-<expected-alternative> = @{
-    if (!sid_propagating_error) {
-	E_expected_alternative ();
-    }
-@};
+	<expected-terminator> = @{
+		if (!sid_propagating_error) {
+			E_expected_terminator();
+		}
+	@};
 
-<expected-other-defn> = @{
-    if (!sid_propagating_error) {
-	E_expected_other_defn ();
-    }
-@};
+	<expected-lhs-name> = @{
+		if (!sid_propagating_error) {
+			E_expected_lhs_name();
+		}
+	@};
 
-<expected-production-defn> = @{
-    if (!sid_propagating_error) {
-	E_expected_production_defn ();
-    }
-@};
+	<expected-rhs-name> = @{
+		if (!sid_propagating_error) {
+			E_expected_rhs_name();
+		}
+	@};
 
-<expected-blt-types> = @{
-    if (!sid_propagating_error) {
-	E_expected_blt_types ();
-    }
-@};
+	<expected-begin-action> = @{
+		if (!sid_propagating_error) {
+			E_expected_begin_action();
+		}
+	@};
 
-<expected-blt-terminals> = @{
-    if (!sid_propagating_error) {
-	E_expected_blt_terminals ();
-    }
-@};
+	<expected-end-action> = @{
+		if (!sid_propagating_error) {
+			E_expected_end_action();
+		}
+	@};
 
-<expected-blt-productions> = @{
-    if (!sid_propagating_error) {
-	E_expected_blt_productions ();
-    }
-@};
+	<expected-end-scope> = @{
+		if (!sid_propagating_error) {
+			E_expected_end_scope();
+		}
+	@};
 
-<expected-blt-entry> = @{
-    if (!sid_propagating_error) {
-	E_expected_blt_entry ();
-    }
-@};
+	<expected-tuple-or-terminator> = @{
+		if (!sid_propagating_error) {
+			E_expected_tuple_or_term();
+		}
+	@};
 
-<expected-eof> = @{
-    if (!sid_propagating_error) {
-	E_expected_eof ();
-    }
-@};
+	<expected-item-rhs> = @{
+		if (!sid_propagating_error) {
+			E_expected_item_rhs();
+		}
+	@};
 
-<expected-terminator-or-define> = @{
-    if (!sid_propagating_error) {
-	E_expected_terminator_or_define ();
-    }
-@};
+	<expected-define> = @{
+		if (!sid_propagating_error) {
+			E_expected_define();
+		}
+	@};
 
-<destroy-string>: (string) -> () = @{
-    nstring_destroy (&@=string);
-@};
+	<expected-tuple-or-define-or-terminator> = @{
+		if (!sid_propagating_error) {
+			E_expected_tuple_def_or_term();
+		}
+	@};
 
-<skip-to-end-of-tuple-defn> = @{
-    if (sid_finished_terminals) {
-	while ((@. != LEXER_TOK_EOF) &&
-	       (@. != LEXER_TOK_DEFINE) &&
-	       (@. != LEXER_TOK_BEGIN_SCOPE) &&
-	       (@. != LEXER_TOK_BEGIN_RULE) &&
-	       (@. != LEXER_TOK_SEPARATOR) &&
-	       (@. != LEXER_TOK_CLOSE_TUPLE) &&
-	       (@. != LEXER_TOK_TERMINATOR) &&
-	       (@. != LEXER_TOK_BLT_ENTRY)) {
-	    if (@. == LEXER_TOK_IDENTIFIER) {
-		nstring_destroy (lexer_string_value (sid_current_stream));
-	    }
-	    @>;
-	}
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	if (@. != LEXER_TOK_EOF) {
-	    @>;
-	}
-    } else {
-	while ((@. != LEXER_TOK_EOF) &&
-	       (@. != LEXER_TOK_SEPARATOR) &&
-	       (@. != LEXER_TOK_CLOSE_TUPLE) &&
-	       (@. != LEXER_TOK_TERMINATOR) &&
-	       (@. != LEXER_TOK_BLT_PRODUCTIONS) &&
-	       (@. != LEXER_TOK_BLT_ENTRY)) {
-	    if (@. == LEXER_TOK_IDENTIFIER) {
-		nstring_destroy (lexer_string_value (sid_current_stream));
-	    }
-	    @>;
-	}
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	if (@. != LEXER_TOK_EOF) {
-	    @>;
-	}
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-begin-rule> = @{
+		if (!sid_propagating_error) {
+			E_expected_begin_rule();
+		}
+	@};
 
-<skip-to-end-of-terminal-decn> = @{
-    while ((@. != LEXER_TOK_EOF) &&
-	   (@. != LEXER_TOK_TERMINATOR) &&
-	   (@. != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (@. != LEXER_TOK_BLT_ENTRY)) {
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	@>;
-    }
-    if (@. == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (@. != LEXER_TOK_EOF) {
-	@>;
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-end-rule> = @{
+		if (!sid_propagating_error) {
+			E_expected_end_rule();
+		}
+	@};
 
-<skip-to-end-of-lhs-name> = @{
-    while ((@. != LEXER_TOK_EOF) &&
-	   (@. != LEXER_TOK_TERMINATOR) &&
-	   (@. != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (@. != LEXER_TOK_BLT_ENTRY)) {
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	@>;
-    }
-    if (@. == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (@. != LEXER_TOK_EOF) {
-	@>;
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-item> = @{
+		if (!sid_propagating_error) {
+			E_expected_item();
+		}
+	@};
 
-<skip-to-end-of-rhs-name> = @{
-    while ((@. != LEXER_TOK_EOF) &&
-	   (@. != LEXER_TOK_TERMINATOR) &&
-	   (@. != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (@. != LEXER_TOK_BLT_ENTRY)) {
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	@>;
-    }
-    if (@. == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (@. != LEXER_TOK_EOF) {
-	@>;
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-alternative> = @{
+		if (!sid_propagating_error) {
+			E_expected_alternative();
+		}
+	@};
 
-<skip-to-end-of-action-decn> = @{
-    while ((@. != LEXER_TOK_EOF) &&
-	   (@. != LEXER_TOK_TERMINATOR) &&
-	   (@. != LEXER_TOK_END_SCOPE) &&
-	   (@. != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (@. != LEXER_TOK_BLT_ENTRY)) {
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	@>;
-    }
-    if (@. == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (@. != LEXER_TOK_EOF) {
-	@>;
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-other-defn> = @{
+		if (!sid_propagating_error) {
+			E_expected_other_defn();
+		}
+	@};
 
-<skip-to-end-of-item> = @{
-    while ((@. != LEXER_TOK_EOF) &&
-	   (@. != LEXER_TOK_TERMINATOR) &&
-	   (@. != LEXER_TOK_ALT_SEP) &&
-	   (@. != LEXER_TOK_HANDLER_SEP) &&
-	   (@. != LEXER_TOK_BEGIN_RULE) &&
-	   (@. != LEXER_TOK_END_RULE) &&
-	   (@. != LEXER_TOK_END_SCOPE) &&
-	   (@. != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (@. != LEXER_TOK_BLT_ENTRY)) {
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	@>;
-    }
-    if (@. == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (@. != LEXER_TOK_EOF) {
-	@>;
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-production-defn> = @{
+		if (!sid_propagating_error) {
+			E_expected_production_defn();
+		}
+	@};
 
-<skip-to-end-of-alternative> = @{
-    while ((@. != LEXER_TOK_EOF) &&
-	   (@. != LEXER_TOK_ALT_SEP) &&
-	   (@. != LEXER_TOK_HANDLER_SEP) &&
-	   (@. != LEXER_TOK_END_RULE) &&
-	   (@. != LEXER_TOK_END_SCOPE) &&
-	   (@. != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (@. != LEXER_TOK_BLT_ENTRY)) {
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	@>;
-    }
-    if (@. == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (@. != LEXER_TOK_EOF) {
-	@>;
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-blt-types> = @{
+		if (!sid_propagating_error) {
+			E_expected_blt_types();
+		}
+	@};
 
-<skip-to-end-of-other-defn> = @{
-    while ((@. != LEXER_TOK_EOF) &&
-	   (@. != LEXER_TOK_TERMINATOR) &&
-	   (@. != LEXER_TOK_END_SCOPE) &&
-	   (@. != LEXER_TOK_END_RULE) &&
-	   (@. != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (@. != LEXER_TOK_BLT_ENTRY)) {
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	@>;
-    }
-    if (@. == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (@. != LEXER_TOK_EOF) {
-	@>;
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-blt-terminals> = @{
+		if (!sid_propagating_error) {
+			E_expected_blt_terminals();
+		}
+	@};
 
-<skip-to-end-of-production-defn> = @{
-    while ((@. != LEXER_TOK_EOF) &&
-	   (@. != LEXER_TOK_TERMINATOR) &&
-	   (@. != LEXER_TOK_END_SCOPE) &&
-	   (@. != LEXER_TOK_END_RULE) &&
-	   (@. != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (@. != LEXER_TOK_BLT_ENTRY)) {
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	@>;
-    }
-    if (@. == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (@. != LEXER_TOK_EOF) {
-	@>;
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-blt-productions> = @{
+		if (!sid_propagating_error) {
+			E_expected_blt_productions();
+		}
+	@};
 
-<skip-to-end-of-entry-list> = @{
-    while ((@. != LEXER_TOK_EOF) &&
-	   (@. != LEXER_TOK_TERMINATOR) &&
-	   (@. != LEXER_TOK_SEPARATOR)) {
-	if (@. == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	@>;
-    }
-    if (@. == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (@. != LEXER_TOK_EOF) {
-	@>;
-    }
-    sid_propagating_error = TRUE;
-@};
+	<expected-blt-entry> = @{
+		if (!sid_propagating_error) {
+			E_expected_blt_entry();
+		}
+	@};
 
-<skip-recover> = @{
-    sid_propagating_error = FALSE;
-@};
+	<expected-eof> = @{
+		if (!sid_propagating_error) {
+			E_expected_eof();
+		}
+	@};
 
-<is-blt-entry-or-end-scope-or-eof>: () -> (predicate) = @{
-    @predicate = ((@. == LEXER_TOK_EOF) ||
-		  (@. == LEXER_TOK_END_SCOPE) ||
-		  (@. == LEXER_TOK_BLT_ENTRY));
-@};
+	<expected-terminator-or-define> = @{
+		if (!sid_propagating_error) {
+			E_expected_terminator_or_define();
+		}
+	@};
 
-<is-close-tuple-or-skipped-or-eof>: () -> (predicate) = @{
-    @predicate = ((@. == LEXER_TOK_CLOSE_TUPLE) ||
-		  (@. == LEXER_TOK_EOF) ||
-		  (sid_propagating_error));
-@};
+	<destroy-string>: (string) -> () = @{
+		nstring_destroy(&@=string);
+	@};
 
-<is-terminator>: () -> (predicate) = @{
-    @predicate = (@. == LEXER_TOK_TERMINATOR);
-@};
+	/* TODO: Suspiciously repetitive */
+	<skip-to-end-of-tuple-defn> = @{
+		if (sid_finished_terminals) {
+			while (@. != LEXER_TOK_EOF
+				&& @. != LEXER_TOK_DEFINE
+				&& @. != LEXER_TOK_BEGIN_SCOPE
+				&& @. != LEXER_TOK_BEGIN_RULE
+				&& @. != LEXER_TOK_SEPARATOR
+				&& @. != LEXER_TOK_CLOSE_TUPLE
+				&& @. != LEXER_TOK_TERMINATOR
+				&& @. != LEXER_TOK_BLT_ENTRY) {
+				if (@. == LEXER_TOK_IDENTIFIER) {
+					nstring_destroy(lexer_string_value(sid_current_stream));
+				}
+				@>;
+			}
 
-<is-not-separator>: () -> (predicate) = @{
-    @predicate = (@. != LEXER_TOK_SEPARATOR);
-@};
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+
+			if (@. != LEXER_TOK_EOF) {
+				@>;
+			}
+		} else {
+			while (@. != LEXER_TOK_EOF
+				&& @. != LEXER_TOK_SEPARATOR
+				&& @. != LEXER_TOK_CLOSE_TUPLE
+				&& @. != LEXER_TOK_TERMINATOR
+				&& @. != LEXER_TOK_BLT_PRODUCTIONS
+				&& @. != LEXER_TOK_BLT_ENTRY) {
+				if (@. == LEXER_TOK_IDENTIFIER) {
+					nstring_destroy (lexer_string_value (sid_current_stream));
+				}
+				@>;
+			}
+
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy (lexer_string_value (sid_current_stream));
+			}
+
+			if (@. != LEXER_TOK_EOF) {
+				@>;
+			}
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-to-end-of-terminal-decn> = @{
+		while (@. != LEXER_TOK_EOF
+			&& @. != LEXER_TOK_TERMINATOR
+			&& @. != LEXER_TOK_BLT_PRODUCTIONS
+			&& @. != LEXER_TOK_BLT_ENTRY) {
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			@>;
+		}
+
+		if (@. == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (@. != LEXER_TOK_EOF) {
+			@>;
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-to-end-of-lhs-name> = @{
+		while (@. != LEXER_TOK_EOF
+			&& @. != LEXER_TOK_TERMINATOR
+			&& @. != LEXER_TOK_BLT_PRODUCTIONS
+			&& @. != LEXER_TOK_BLT_ENTRY) {
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			@>;
+		}
+
+		if (@. == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (@. != LEXER_TOK_EOF) {
+			@>;
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-to-end-of-rhs-name> = @{
+		while (@. != LEXER_TOK_EOF
+			&& @. != LEXER_TOK_TERMINATOR
+			&& @. != LEXER_TOK_BLT_PRODUCTIONS
+			&& @. != LEXER_TOK_BLT_ENTRY) {
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			@>;
+		}
+
+		if (@. == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (@. != LEXER_TOK_EOF) {
+			@>;
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-to-end-of-action-decn> = @{
+		while (@. != LEXER_TOK_EOF
+			&& @. != LEXER_TOK_TERMINATOR
+			&& @. != LEXER_TOK_END_SCOPE
+			&& @. != LEXER_TOK_BLT_PRODUCTIONS
+			&& @. != LEXER_TOK_BLT_ENTRY) {
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			@>;
+		}
+
+		if (@. == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (@. != LEXER_TOK_EOF) {
+			@>;
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-to-end-of-item> = @{
+		while (@. != LEXER_TOK_EOF
+			&& @. != LEXER_TOK_TERMINATOR
+			&& @. != LEXER_TOK_ALT_SEP
+			&& @. != LEXER_TOK_HANDLER_SEP
+			&& @. != LEXER_TOK_BEGIN_RULE
+			&& @. != LEXER_TOK_END_RULE
+			&& @. != LEXER_TOK_END_SCOPE
+			&& @. != LEXER_TOK_BLT_PRODUCTIONS
+			&& @. != LEXER_TOK_BLT_ENTRY) {
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			@>;
+		}
+
+		if (@. == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (@. != LEXER_TOK_EOF) {
+			@>;
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-to-end-of-alternative> = @{
+		while (@. != LEXER_TOK_EOF
+			&& @. != LEXER_TOK_ALT_SEP
+			&& @. != LEXER_TOK_HANDLER_SEP
+			&& @. != LEXER_TOK_END_RULE
+			&& @. != LEXER_TOK_END_SCOPE
+			&& @. != LEXER_TOK_BLT_PRODUCTIONS
+			&& @. != LEXER_TOK_BLT_ENTRY) {
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			@>;
+		}
+
+		if (@. == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (@. != LEXER_TOK_EOF) {
+			@>;
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-to-end-of-other-defn> = @{
+		while (@. != LEXER_TOK_EOF
+			&& @. != LEXER_TOK_TERMINATOR
+			&& @. != LEXER_TOK_END_SCOPE
+			&& @. != LEXER_TOK_END_RULE
+			&& @. != LEXER_TOK_BLT_PRODUCTIONS
+			&& @. != LEXER_TOK_BLT_ENTRY) {
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			@>;
+		}
+
+		if (@. == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (@. != LEXER_TOK_EOF) {
+			@>;
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-to-end-of-production-defn> = @{
+		while (@. != LEXER_TOK_EOF
+			&& @. != LEXER_TOK_TERMINATOR
+			&& @. != LEXER_TOK_END_SCOPE
+			&& @. != LEXER_TOK_END_RULE
+			&& @. != LEXER_TOK_BLT_PRODUCTIONS
+			&& @. != LEXER_TOK_BLT_ENTRY) {
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			@>;
+		}
+
+		if (@. == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (@. != LEXER_TOK_EOF) {
+			@>;
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-to-end-of-entry-list> = @{
+		while (@. != LEXER_TOK_EOF
+			&& @. != LEXER_TOK_TERMINATOR
+			&& @. != LEXER_TOK_SEPARATOR) {
+			if (@. == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			@>;
+		}
+
+		if (@. == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (@. != LEXER_TOK_EOF) {
+			@>;
+		}
+
+		sid_propagating_error = TRUE;
+	@};
+
+	<skip-recover> = @{
+		sid_propagating_error = FALSE;
+	@};
+
+	<is-blt-entry-or-end-scope-or-eof>: () -> (predicate) = @{
+		@predicate = (@. == LEXER_TOK_EOF
+			|| @. == LEXER_TOK_END_SCOPE
+			|| @. == LEXER_TOK_BLT_ENTRY);
+	@};
+
+	<is-close-tuple-or-skipped-or-eof>: () -> (predicate) = @{
+		@predicate = (@. == LEXER_TOK_CLOSE_TUPLE
+			|| @. == LEXER_TOK_EOF
+			|| sid_propagating_error);
+	@};
+
+	<is-terminator>: () -> (predicate) = @{
+		@predicate = (@. == LEXER_TOK_TERMINATOR);
+	@};
+
+	<is-not-separator>: () -> (predicate) = @{
+		@predicate = (@. != LEXER_TOK_SEPARATOR);
+	@};
 
 %trailer% @{
+
 @}, @{
+
 @};
+

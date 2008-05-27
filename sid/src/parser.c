@@ -10,119 +10,121 @@
 /* BEGINNING OF HEADER */
 
 
-/*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- * 3. Neither the name of The TenDRA Project nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific, prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
- * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * $Id$
- */
-/*
-    		 Crown Copyright (c) 1997
-    
-    This TenDRA(r) Computer Program is subject to Copyright
-    owned by the United Kingdom Secretary of State for Defence
-    acting through the Defence Evaluation and Research Agency
-    (DERA).  It is made available to Recipients with a
-    royalty-free licence for its use, reproduction, transfer
-    to other parties and amendment for any purpose not excluding
-    product development provided that any such use et cetera
-    shall be deemed to be acceptance of the following conditions:-
-    
-        (1) Its Recipients shall ensure that this Notice is
-        reproduced upon any copies or amended versions of it;
-    
-        (2) Any amended version of it shall be clearly marked to
-        show both the nature of and the organisation responsible
-        for the relevant amendment or amendments;
-    
-        (3) Its onward transfer from a recipient to another
-        party shall be deemed to be that party's acceptance of
-        these conditions;
-    
-        (4) DERA gives no warranty or assurance as to its
-        quality or suitability for any purpose and DERA accepts
-        no liability whatsoever in relation to any use to which
-        it may be put.
-*/
 
-#include <limits.h>
-#include <assert.h>
+	/*
+	 * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+	 * All rights reserved.
+	 *
+	 * Redistribution and use in source and binary forms, with or without
+	 * modification, are permitted provided that the following conditions are met:
+	 *
+	 * 1. Redistributions of source code must retain the above copyright notice,
+	 *    this list of conditions and the following disclaimer.
+	 * 2. Redistributions in binary form must reproduce the above copyright notice,
+	 *    this list of conditions and the following disclaimer in the documentation
+	 *    and/or other materials provided with the distribution.
+	 * 3. Neither the name of The TenDRA Project nor the names of its contributors
+	 *    may be used to endorse or promote products derived from this software
+	 *    without specific, prior written permission.
+	 *
+	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+	 * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+	 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+	 * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+	 * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+	 * EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	 * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+	 * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+	 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+	 * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+	 * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	 *
+	 * $Id$
+	 */
+	/*
+				 Crown Copyright (c) 1997
 
-#include "shared/check/check.h"
-#include "parser.h"
-#include "adt/action.h"
-#include "adt/basic.h"
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/bitvec.h>
-#include <exds/dalloc.h>
-#include <exds/dstring.h>
-#include "gen-errors.h"
-#include "grammar.h"
-#include "lexer.h"
-#include "adt/non-local.h"
-#include "adt/rule.h"
-#include "adt/scope.h"
-#include "adt/table.h"
-#include "adt/types.h"
+		This TenDRA(r) Computer Program is subject to Copyright
+		owned by the United Kingdom Secretary of State for Defence
+		acting through the Defence Evaluation and Research Agency
+		(DERA).  It is made available to Recipients with a
+		royalty-free licence for its use, reproduction, transfer
+		to other parties and amendment for any purpose not excluding
+		product development provided that any such use et cetera
+		shall be deemed to be acceptance of the following conditions:-
 
-#define CURRENT_TERMINAL lexer_get_terminal (sid_current_stream)
-#define ADVANCE_LEXER lexer_next_token (sid_current_stream)
-#define SAVE_LEXER(x) (lexer_save_terminal (sid_current_stream, (LexerTokenT) (x)))
-#define RESTORE_LEXER (lexer_restore_terminal (sid_current_stream))
-#define ALT_LIMIT (UINT_MAX - 1)
+			(1) Its Recipients shall ensure that this Notice is
+			reproduced upon any copies or amended versions of it;
 
-/* typedefs for the maps section */
-typedef AltT * AltP;
-typedef EntryT * EntryP;
-typedef ItemT * ItemP;
-typedef RuleT *RuleP;
-typedef NonLocalEntryT *NonLocalEntryP;
+			(2) Any amended version of it shall be clearly marked to
+			show both the nature of and the organisation responsible
+			for the relevant amendment or amendments;
 
-LexerStreamT *		sid_current_stream;
+			(3) Its onward transfer from a recipient to another
+			party shall be deemed to be that party's acceptance of
+			these conditions;
 
-static ScopeStackT	sid_scope_stack;
-static ScopeStackT	sid_global_scope;
-static ScopeStackT 	*sid_current_scope;
-static EntryT *		sid_current_entry;
-static RuleT *		sid_enclosing_rule;
-static RuleT *		sid_current_rule;
-static BoolT		sid_redefining_entry;
-static NStringT		sid_maximum_scope;
-static BoolT		sid_saved_pred_id;
-static BoolT		sid_current_pred_id;
-static AltT *		sid_current_alt;
-static ItemT *		sid_current_item;
-static unsigned		sid_alternative;
-static BoolT            sid_internal_rule;
-static EntryT *		sid_external_rule;
-static unsigned		sid_num_alternatives = 0;
-static BoolT		sid_propagating_error = FALSE;
-static BoolT		sid_finished_terminals = FALSE;
+			(4) DERA gives no warranty or assurance as to its
+			quality or suitability for any purpose and DERA accepts
+			no liability whatsoever in relation to any use to which
+			it may be put.
+	*/
+
+	#include <limits.h>
+	#include <assert.h>
+
+	#include "shared/check/check.h"
+	#include "parser.h"
+	#include "adt/action.h"
+	#include "adt/basic.h"
+	#include <exds/common.h>
+	#include <exds/exception.h>
+	#include <exds/bitvec.h>
+	#include <exds/dalloc.h>
+	#include <exds/dstring.h>
+	#include "gen-errors.h"
+	#include "grammar.h"
+	#include "lexer.h"
+	#include "adt/non-local.h"
+	#include "adt/rule.h"
+	#include "adt/scope.h"
+	#include "adt/table.h"
+	#include "adt/types.h"
+
+	#define CURRENT_TERMINAL lexer_get_terminal(sid_current_stream)
+	#define ADVANCE_LEXER lexer_next_token(sid_current_stream)
+	#define SAVE_LEXER(x) (lexer_save_terminal(sid_current_stream, (LexerTokenT) (x)))
+	#define RESTORE_LEXER (lexer_restore_terminal(sid_current_stream))
+	#define ALT_LIMIT (UINT_MAX - 1)
+
+	/* typedefs for the maps section */
+	typedef AltT *AltP;
+	typedef EntryT *EntryP;
+	typedef ItemT *ItemP;
+	typedef RuleT *RuleP;
+	typedef NonLocalEntryT *NonLocalEntryP;
+
+	LexerStreamT *sid_current_stream;
+
+	static ScopeStackT  sid_scope_stack;
+	static ScopeStackT  sid_global_scope;
+	static ScopeStackT *sid_current_scope;
+	static EntryT      *sid_current_entry;
+	static RuleT       *sid_enclosing_rule;
+	static RuleT       *sid_current_rule;
+	static BoolT        sid_redefining_entry;
+	static NStringT     sid_maximum_scope;
+	static BoolT        sid_saved_pred_id;
+	static BoolT        sid_current_pred_id;
+	static AltT        *sid_current_alt;
+	static ItemT       *sid_current_item;
+	static unsigned     sid_alternative;
+	static BoolT        sid_internal_rule;
+	static EntryT      *sid_external_rule;
+	static unsigned     sid_num_alternatives = 0;
+	static BoolT        sid_propagating_error = FALSE;
+	static BoolT        sid_finished_terminals = FALSE;
+
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -188,84 +190,96 @@ ZR256(GrammarP sid_current_grammar, TypeTupleT *ZI128, TypeTupleT *ZI129)
 	{
 	    {
 
-    if (sid_current_entry) {
-	KeyT * key = entry_key (sid_current_entry);
+		if (sid_current_entry) {
+			KeyT *key;
 
-	if (rule_is_defined (sid_current_rule)) {
-	    E_rule_already_defined (key);
-	    sid_current_entry = NULL;
-	    types_destroy ((ZI128));
-	    types_destroy ((ZI129));
-	} else {
-	    TypeTupleT * param   = rule_param (sid_current_rule);
-	    TypeTupleT * result  = rule_result (sid_current_rule);
-	    BoolT      errored = FALSE;
+			key = entry_key(sid_current_entry);
 
-	    rule_defined (sid_current_rule);
-	    if (!types_disjoint_names ((ZI128))) {
-		E_rule_param_clash (key, (ZI128));
-		errored = TRUE;
-	    }
-	    if (types_check_shadowing ((ZI128), &sid_scope_stack,
-				       sid_current_rule)) {
-		errored = TRUE;
-	    }
-	    if (sid_redefining_entry) {
-		if (!types_fillin_names (param, (ZI128))) {
-		    E_rule_param_mismatch (key, param, (ZI128));
-		    errored = TRUE;
+			if (rule_is_defined(sid_current_rule)) {
+				E_rule_already_defined (key);
+				sid_current_entry = NULL;
+				types_destroy((ZI128));
+				types_destroy((ZI129));
+			} else {
+				TypeTupleT *param   = rule_param(sid_current_rule);
+				TypeTupleT *result  = rule_result(sid_current_rule);
+				BoolT       errored = FALSE;
+
+				rule_defined(sid_current_rule);
+				if (!types_disjoint_names((ZI128))) {
+					E_rule_param_clash(key, (ZI128));
+					errored = TRUE;
+				}
+
+				if (types_check_shadowing((ZI128), &sid_scope_stack,
+					sid_current_rule)) {
+					errored = TRUE;
+				}
+
+				if (sid_redefining_entry) {
+					if (!types_fillin_names(param, (ZI128))) {
+						E_rule_param_mismatch(key, param, (ZI128));
+						errored = TRUE;
+					}
+					types_destroy((ZI128));
+				} else {
+					types_assign(param, (ZI128));
+				}
+
+				if (!types_disjoint_names((ZI129))) {
+					E_rule_result_clash(key, (ZI129));
+					errored = TRUE;
+				}
+
+				if (types_check_shadowing((ZI129), &sid_scope_stack,
+					sid_current_rule)) {
+					errored = TRUE;
+				}
+
+				if (types_contains_references((ZI129))) {
+					E_rule_result_has_refs(key, (ZI129));
+					errored = TRUE;
+				}
+
+				if (sid_redefining_entry) {
+					if (!types_fillin_names(result, (ZI129))) {
+						E_rule_result_mismatch(key, result, (ZI129));
+						errored = TRUE;
+					}
+					types_destroy((ZI129));
+				} else {
+					types_assign(result, (ZI129));
+				}
+
+				if (errored) {
+					sid_current_entry = NULL;
+				} else {
+					if (types_intersect(param, result)) {
+						E_rule_formal_clash(key, param, result);
+						sid_current_entry = NULL;
+					}
+				}
+			}
+		} else {
+			types_destroy((ZI128));
+			types_destroy((ZI129));
 		}
-		types_destroy ((ZI128));
-	    } else {
-		types_assign (param, (ZI128));
-	    }
-	    if (!types_disjoint_names ((ZI129))) {
-		E_rule_result_clash (key, (ZI129));
-		errored = TRUE;
-	    }
-	    if (types_check_shadowing ((ZI129), &sid_scope_stack,
-				       sid_current_rule)) {
-		errored = TRUE;
-	    }
-	    if (types_contains_references ((ZI129))) {
-		E_rule_result_has_refs (key, (ZI129));
-		errored = TRUE;
-	    }
-	    if (sid_redefining_entry) {
-		if (!types_fillin_names (result, (ZI129))) {
-		    E_rule_result_mismatch (key, result, (ZI129));
-		    errored = TRUE;
-		}
-		types_destroy ((ZI129));
-	    } else {
-		types_assign (result, (ZI129));
-	    }
-	    if (errored) {
-		sid_current_entry = NULL;
-	    } else {
-		if (types_intersect (param, result)) {
-		    E_rule_formal_clash (key, param, result);
-		    sid_current_entry = NULL;
-		}
-	    }
-	}
-    } else {
-	types_destroy ((ZI128));
-	types_destroy ((ZI129));
-    }
-    sid_alternative   = 0;
-    sid_internal_rule = FALSE;
-    sid_external_rule = sid_current_entry;
-    nstring_init (&sid_maximum_scope);
+
+		sid_alternative   = 0;
+		sid_internal_rule = FALSE;
+		sid_external_rule = sid_current_entry;
+		nstring_init(&sid_maximum_scope);
+	
 	    }
 	    {
 
-    if (sid_current_entry) {
-	KeyT *     key   = entry_key (sid_current_entry);
-	NStringT * scope = key_get_string (key);
+		if (sid_current_entry) {
+			KeyT     *key   = entry_key(sid_current_entry);
+			NStringT *scope = key_get_string(key);
 
-	scope_stack_push (&sid_scope_stack, scope);
-    }
+			scope_stack_push(&sid_scope_stack, scope);
+		}
+	
 	    }
 	    ZR198 (sid_current_grammar);
 	    ZR221 (sid_current_grammar);
@@ -288,9 +302,10 @@ ZR256(GrammarP sid_current_grammar, TypeTupleT *ZI128, TypeTupleT *ZI129)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_begin_rule ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_begin_rule();
+		}
+	
 		    }
 		}
 	      ZL2:;
@@ -303,18 +318,20 @@ ZR256(GrammarP sid_current_grammar, TypeTupleT *ZI128, TypeTupleT *ZI129)
 	    }
 	    {
 
-    if (sid_current_entry) {
-	scope_stack_pop (&sid_scope_stack);
-    }
+		if (sid_current_entry) {
+			scope_stack_pop(&sid_scope_stack);
+		}
+	
 	    }
 	    {
 
-    if (sid_current_entry) {
-	nstring_assign (rule_maximum_scope (sid_current_rule),
-			&sid_maximum_scope);
-    } else {
-	nstring_destroy (&sid_maximum_scope);
-    }
+		if (sid_current_entry) {
+			nstring_assign(rule_maximum_scope(sid_current_rule),
+				&sid_maximum_scope);
+		} else {
+			nstring_destroy(&sid_maximum_scope);
+		}
+	
 	    }
 	    ZR241 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -327,47 +344,53 @@ ZR256(GrammarP sid_current_grammar, TypeTupleT *ZI128, TypeTupleT *ZI129)
 	{
 	    {
 
-    if (sid_current_entry) {
-	KeyT *       key     = entry_key (sid_current_entry);
-	TypeTupleT * param   = rule_param (sid_current_rule);
-	TypeTupleT * result  = rule_result (sid_current_rule);
-	BoolT      errored = FALSE;
+		if (sid_current_entry) {
+			KeyT       *key     = entry_key (sid_current_entry);
+			TypeTupleT *param   = rule_param (sid_current_rule);
+			TypeTupleT *result  = rule_result (sid_current_rule);
+			BoolT       errored = FALSE;
 
-	if (types_contains_names ((ZI128))) {
-	    E_rule_param_has_names (key, (ZI128));
-	    errored = TRUE;
-	}
-	if (sid_redefining_entry) {
-	    if (!types_equal (param, (ZI128))) {
-		E_rule_param_mismatch (key, param, (ZI128));
-		errored = TRUE;
-	    }
-	}
-	if (types_contains_names ((ZI129))) {
-	    E_rule_result_has_names (key, (ZI129));
-	    errored = TRUE;
-	}
-	if (types_contains_references ((ZI129))) {
-	    E_rule_result_has_refs (key, (ZI129));
-	    errored = TRUE;
-	}
-	if (sid_redefining_entry) {
-	    if (!types_equal (result, (ZI129))) {
-		E_rule_result_mismatch (key, result, (ZI129));
-		errored = TRUE;
-	    }
-	}
-	if (errored || sid_redefining_entry) {
-	    types_destroy ((ZI128));
-	    types_destroy ((ZI129));
-	} else {
-	    types_assign (param, (ZI128));
-	    types_assign (result, (ZI129));
-	}
-    } else {
-	types_destroy ((ZI128));
-	types_destroy ((ZI129));
-    }
+			if (types_contains_names((ZI128))) {
+				E_rule_param_has_names(key, (ZI128));
+				errored = TRUE;
+			}
+
+			if (sid_redefining_entry) {
+				if (!types_equal(param, (ZI128))) {
+					E_rule_param_mismatch(key, param, (ZI128));
+					errored = TRUE;
+				}
+			}
+
+			if (types_contains_names((ZI129))) {
+				E_rule_result_has_names(key, (ZI129));
+				errored = TRUE;
+			}
+
+			if (types_contains_references((ZI129))) {
+				E_rule_result_has_refs(key, (ZI129));
+				errored = TRUE;
+			}
+
+			if (sid_redefining_entry) {
+				if (!types_equal(result, (ZI129))) {
+					E_rule_result_mismatch (key, result, (ZI129));
+					errored = TRUE;
+				}
+			}
+
+			if (errored || sid_redefining_entry) {
+				types_destroy((ZI128));
+				types_destroy((ZI129));
+			} else {
+				types_assign(param, (ZI128));
+				types_assign(result, (ZI129));
+			}
+		} else {
+			types_destroy((ZI128));
+			types_destroy((ZI129));
+		}
+	
 	    }
 	    ADVANCE_LEXER;
 	}
@@ -423,9 +446,10 @@ ZR237(GrammarP sid_current_grammar)
     {
 	{
 
-    if (sid_current_entry) {
-	sid_current_alt = alt_create ();
-    }
+		if (sid_current_entry) {
+			sid_current_alt = alt_create();
+		}
+	
 	}
 	ZR235 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -434,21 +458,22 @@ ZR237(GrammarP sid_current_grammar)
 	}
 	{
 
-    if ((sid_current_entry) && (sid_current_alt)) {
-	if (types_check_names (rule_result (sid_current_rule),
-			       alt_names (sid_current_alt))) {
-	    TypeTupleT used;
+		if (sid_current_entry && sid_current_alt) {
+			if (types_check_names(rule_result(sid_current_rule),
+				alt_names(sid_current_alt))) {
+				TypeTupleT used;
 
-	    types_copy (&used, rule_result (sid_current_rule));
-	    item_compute_minimal_dataflow (alt_item_head (sid_current_alt),
-					   &used);
-	    types_destroy (&used);
-	    rule_set_handler (sid_current_rule, sid_current_alt);
-	} else {
-	    (void) alt_deallocate (sid_current_alt);
-	    E_handler_result_mismatch (entry_key (sid_external_rule));
-	}
-    }
+				types_copy(&used, rule_result (sid_current_rule));
+				item_compute_minimal_dataflow (alt_item_head (sid_current_alt),
+					&used);
+				types_destroy(&used);
+				rule_set_handler(sid_current_rule, sid_current_alt);
+			} else {
+				(void) alt_deallocate(sid_current_alt);
+				E_handler_result_mismatch(entry_key (sid_external_rule));
+			}
+		}
+	
 	}
     }
     return;
@@ -474,9 +499,10 @@ ZR142(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 	    {
 		{
 
-    (ZI0) = ((CURRENT_TERMINAL == LEXER_TOK_CLOSE_TUPLE) ||
-		  (CURRENT_TERMINAL == LEXER_TOK_EOF) ||
-		  (sid_propagating_error));
+		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_CLOSE_TUPLE
+			|| CURRENT_TERMINAL == LEXER_TOK_EOF
+			|| sid_propagating_error);
+	
 		}
 		if (!ZI0)
 		    goto ZL5;
@@ -499,9 +525,10 @@ ZR142(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_separator ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_separator();
+		}
+	
 		}
 		goto ZL2_142;
 	    }
@@ -523,23 +550,27 @@ ZR239(GrammarP sid_current_grammar)
 	{
 	    {
 
-    if ((++ sid_num_alternatives) == ALT_LIMIT) {
-	E_too_many_alternatives ();
-	UNREACHED;
-    }
-    if (!sid_internal_rule) {
-	sid_alternative ++;
-    }
-    if (sid_current_entry) {
-	if (rule_has_empty_alt (sid_current_rule)) {
-	    E_multiple_empty_alts (entry_key (sid_external_rule));
-	} else if (!types_equal_zero_tuple (rule_result (sid_current_rule))) {
-	    E_alt_result_mismatch (entry_key (sid_external_rule),
-				   sid_alternative);
-	} else {
-	    rule_add_empty_alt (sid_current_rule);
-	}
-    }
+		sid_num_alternatives++;
+		if (sid_num_alternatives == ALT_LIMIT) {
+			E_too_many_alternatives();
+			UNREACHED;
+		}
+
+		if (!sid_internal_rule) {
+			sid_alternative++;
+		}
+
+		if (sid_current_entry) {
+			if (rule_has_empty_alt(sid_current_rule)) {
+				E_multiple_empty_alts(entry_key(sid_external_rule));
+			} else if (!types_equal_zero_tuple(rule_result(sid_current_rule))) {
+				E_alt_result_mismatch(entry_key (sid_external_rule),
+					sid_alternative);
+			} else {
+				rule_add_empty_alt(sid_current_rule);
+			}
+		}
+	
 	    }
 	    ADVANCE_LEXER;
 	    ZR241 (sid_current_grammar);
@@ -554,16 +585,20 @@ ZR239(GrammarP sid_current_grammar)
 	{
 	    {
 
-    if ((++ sid_num_alternatives) == ALT_LIMIT) {
-	E_too_many_alternatives ();
-	UNREACHED;
-    }
-    if (!sid_internal_rule) {
-	sid_alternative ++;
-    }
-    if (sid_current_entry) {
-	sid_current_alt = alt_create ();
-    }
+		sid_num_alternatives++;
+		if (sid_num_alternatives == ALT_LIMIT) {
+			E_too_many_alternatives();
+			UNREACHED;
+		}
+
+		if (!sid_internal_rule) {
+			sid_alternative++;
+		}
+
+		if (sid_current_entry) {
+			sid_current_alt = alt_create();
+		}
+	
 	    }
 	    ZR235 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -572,22 +607,23 @@ ZR239(GrammarP sid_current_grammar)
 	    }
 	    {
 
-    if ((sid_current_entry) && (sid_current_alt)) {
-	if (types_check_names (rule_result (sid_current_rule),
-			       alt_names (sid_current_alt))) {
-	    TypeTupleT used;
+		if (sid_current_entry && sid_current_alt) {
+			if (types_check_names(rule_result(sid_current_rule),
+				alt_names(sid_current_alt))) {
+				TypeTupleT used;
 
-	    types_copy (&used, rule_result (sid_current_rule));
-	    item_compute_minimal_dataflow (alt_item_head (sid_current_alt),
-					   &used);
-	    types_destroy (&used);
-	    rule_add_alt (sid_current_rule, sid_current_alt);
-	} else {
-	    (void) alt_deallocate (sid_current_alt);
-	    E_alt_result_mismatch (entry_key (sid_external_rule),
-				   sid_alternative);
-	}
-    }
+				types_copy(&used, rule_result(sid_current_rule));
+				item_compute_minimal_dataflow(alt_item_head (sid_current_alt),
+					&used);
+				types_destroy(&used);
+				rule_add_alt(sid_current_rule, sid_current_alt);
+			} else {
+				(void) alt_deallocate(sid_current_alt);
+				E_alt_result_mismatch(entry_key (sid_external_rule),
+					sid_alternative);
+			}
+		}
+	
 	    }
 	}
 	break;
@@ -601,35 +637,41 @@ ZR239(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_alternative ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_alternative();
+		}
+	
 	}
 	{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_ALT_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
 	{
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 	}
     }
 }
@@ -671,7 +713,8 @@ ZR246(GrammarP sid_current_grammar)
 	  case 4:
 	    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 	    }
 	    break;
 	  default:
@@ -697,24 +740,26 @@ ZR246(GrammarP sid_current_grammar)
 
 		    {
 
-    types_init (&(ZI128));
+		types_init(&(ZI128));
+	
 		    }
 		    {
 
-    types_init (&(ZI129));
+		types_init(&(ZI129));
+	
 		    }
 		    {
 
-    sid_current_entry = scope_stack_add_rule (sid_current_scope,
-					      grammar_table(sid_current_grammar), &(ZI156),
-					      sid_enclosing_rule,
-					      &sid_redefining_entry);
-    if (sid_current_entry) {
-	sid_current_rule = entry_get_rule (sid_current_entry);
-    } else {
-	E_duplicate_rule ((&ZI156));
-	nstring_destroy (&(ZI156));
-    }
+		sid_current_entry = scope_stack_add_rule(sid_current_scope,
+			grammar_table(sid_current_grammar), &(ZI156), sid_enclosing_rule,
+			&sid_redefining_entry);
+		if (sid_current_entry) {
+			sid_current_rule = entry_get_rule(sid_current_entry);
+		} else {
+			E_duplicate_rule((&ZI156));
+			nstring_destroy(&(ZI156));
+		}
+	
 		    }
 		    ZR256 (sid_current_grammar, &ZI128, &ZI129);
 		    if ((CURRENT_TERMINAL) == 26) {
@@ -731,34 +776,40 @@ ZR246(GrammarP sid_current_grammar)
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_other_defn ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_other_defn();
+		}
+	
 		}
 		{
 
-    nstring_destroy (&(ZI156));
+		nstring_destroy(&(ZI156));
+	
 		}
 		{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 		}
 	    }
 	  ZL2:;
@@ -781,7 +832,8 @@ ZR169(GrammarP sid_current_grammar, TypeTupleT *ZO132)
     {
 	{
 
-    sid_current_pred_id = FALSE;
+		sid_current_pred_id = FALSE;
+	
 	}
 	ZR191 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -790,7 +842,8 @@ ZR169(GrammarP sid_current_grammar, TypeTupleT *ZO132)
 	}
 	{
 
-    types_init (&(ZI132));
+		types_init(&(ZI132));
+	
 	}
 	ZR177 (sid_current_grammar, &ZI132);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -799,7 +852,8 @@ ZR169(GrammarP sid_current_grammar, TypeTupleT *ZO132)
 	}
 	{
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 	}
 	ZR192 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -814,11 +868,14 @@ ZR169(GrammarP sid_current_grammar, TypeTupleT *ZO132)
   ZL0:;
     {
 
-	if((ZO132->head=ZI132.head)==NULL) 
-		ZO132->tail = &(ZO132->head);
-	else 
-		ZO132->tail= ZI132.tail ;
-    }
+		ZO132->head = ZI132.head;
+
+		if (ZO132->head == NULL) {
+			ZO132->tail = &(ZO132->head);
+		} else {
+			ZO132->tail= ZI132.tail ;
+		}
+	    }
 }
 
 static void
@@ -841,9 +898,10 @@ ZR151(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_arrow ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_arrow();
+		}
+	
 	}
     }
 }
@@ -886,7 +944,8 @@ ZR181(GrammarP sid_current_grammar, TypeTupleT *ZO132)
     {
 	{
 
-    sid_current_pred_id = FALSE;
+		sid_current_pred_id = FALSE;
+	
 	}
 	ZR191 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -895,7 +954,8 @@ ZR181(GrammarP sid_current_grammar, TypeTupleT *ZO132)
 	}
 	{
 
-    types_init (&(ZI132));
+		types_init(&(ZI132));
+	
 	}
 	ZR189 (sid_current_grammar, &ZI132);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -904,7 +964,8 @@ ZR181(GrammarP sid_current_grammar, TypeTupleT *ZO132)
 	}
 	{
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 	}
 	ZR192 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -919,11 +980,14 @@ ZR181(GrammarP sid_current_grammar, TypeTupleT *ZO132)
   ZL0:;
     {
 
-	if((ZO132->head=ZI132.head)==NULL) 
-		ZO132->tail = &(ZO132->head);
-	else 
-		ZO132->tail= ZI132.tail ;
-    }
+		ZO132->head = ZI132.head;
+
+		if (ZO132->head == NULL) {
+			ZO132->tail = &(ZO132->head);
+		} else {
+			ZO132->tail= ZI132.tail ;
+		}
+	    }
 }
 
 static void
@@ -941,28 +1005,29 @@ ZR228(GrammarP sid_current_grammar)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI162)      = sid_current_entry;
-    (ZI69)       = sid_current_rule;
-    (ZI230)        = sid_current_alt;
-    (ZI231)   = sid_internal_rule;
-    (ZI232)             = NULL;
-    sid_internal_rule = TRUE;
-    if ((sid_current_entry) && (sid_current_alt)) {
-	sid_current_entry = table_add_generated_rule (grammar_table(sid_current_grammar),
-						      FALSE);
-	sid_current_rule  = entry_get_rule (sid_current_entry);
-	(ZI232)             = item_create (sid_current_entry);
-	rule_defined (sid_current_rule);
-	item_inlinable ((ZI232));
-	types_copy (item_param ((ZI232)), rule_param ((ZI69)));
-	types_append_copy (item_param ((ZI232)), alt_names ((ZI230)));
-	types_copy (rule_param (sid_current_rule), item_param ((ZI232)));
-	types_make_references (rule_param (sid_current_rule),
-			       item_param ((ZI232)));
-	alt_add_item ((ZI230), (ZI232));
-    } else {
-	sid_current_entry = NULL;
-    }
+		(ZI162)      = sid_current_entry;
+		(ZI69)       = sid_current_rule;
+		(ZI230)        = sid_current_alt;
+		(ZI231)   = sid_internal_rule;
+		(ZI232)             = NULL;
+		sid_internal_rule = TRUE;
+
+		if (sid_current_entry && sid_current_alt) {
+			sid_current_entry = table_add_generated_rule(grammar_table(sid_current_grammar), FALSE);
+			sid_current_rule  = entry_get_rule(sid_current_entry);
+			(ZI232)             = item_create(sid_current_entry);
+
+			rule_defined(sid_current_rule);
+			item_inlinable((ZI232));
+			types_copy(item_param((ZI232)), rule_param((ZI69)));
+			types_append_copy(item_param((ZI232)), alt_names((ZI230)));
+			types_copy(rule_param(sid_current_rule), item_param((ZI232)));
+			types_make_references(rule_param (sid_current_rule), item_param((ZI232)));
+			alt_add_item((ZI230), (ZI232));
+		} else {
+			sid_current_entry = NULL;
+		}
+	
 	    }
 	    ZR226 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -971,16 +1036,18 @@ ZR228(GrammarP sid_current_grammar)
 	    }
 	    {
 
-    if (((ZI162)) && ((ZI230))) {
-	rule_compute_result_intersect (sid_current_rule);
-	types_copy (item_result ((ZI232)), rule_result (sid_current_rule));
-	types_add_new_names (alt_names ((ZI230)), item_result ((ZI232)),
-			     grammar_get_predicate_id(sid_current_grammar));
-    }
-    sid_internal_rule = (ZI231);
-    sid_current_alt   = (ZI230);
-    sid_current_rule  = (ZI69);
-    sid_current_entry = (ZI162);
+		if ((ZI162) && (ZI230)) {
+			rule_compute_result_intersect(sid_current_rule);
+			types_copy (item_result((ZI232)), rule_result(sid_current_rule));
+			types_add_new_names(alt_names((ZI230)), item_result((ZI232)),
+			grammar_get_predicate_id(sid_current_grammar));
+		}
+
+		sid_internal_rule = (ZI231);
+		sid_current_alt   = (ZI230);
+		sid_current_rule  = (ZI69);
+		sid_current_entry = (ZI162);
+	
 	    }
 	    ZR233 (sid_current_grammar);
 	    ZR241 (sid_current_grammar);
@@ -1000,7 +1067,8 @@ ZR228(GrammarP sid_current_grammar)
 	    }
 	    {
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 	    }
 	}
 	break;
@@ -1028,7 +1096,8 @@ ZR154(GrammarP sid_current_grammar)
 	  case 4:
 	    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 	    }
 	    break;
 	  default:
@@ -1037,10 +1106,11 @@ ZR154(GrammarP sid_current_grammar)
 	ADVANCE_LEXER;
 	{
 
-    if (table_add_type (grammar_table(sid_current_grammar), &(ZI156)) == NULL) {
-	E_duplicate_type ((&ZI156));
-	nstring_destroy (&(ZI156));
-    }
+		if (table_add_type (grammar_table(sid_current_grammar), &(ZI156)) == NULL) {
+			E_duplicate_type((&ZI156));
+			nstring_destroy(&(ZI156));
+		}
+	
 	}
 	ZR241 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -1090,10 +1160,11 @@ ZR198(GrammarP sid_current_grammar)
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI162)       = sid_current_entry;
-    (ZI69)        = sid_enclosing_rule;
+		(ZI162) = sid_current_entry;
+		(ZI69)  = sid_enclosing_rule;
 
-    sid_enclosing_rule = sid_current_rule;
+		sid_enclosing_rule = sid_current_rule;
+	
 	    }
 	    ZR167 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -1102,13 +1173,15 @@ ZR198(GrammarP sid_current_grammar)
 	    }
 	    {
 
-    sid_current_entry  = (ZI162);
-    sid_current_rule   = sid_enclosing_rule;
-    sid_enclosing_rule = (ZI69);
-    sid_alternative    = 0;
-    sid_internal_rule  = FALSE;
-    sid_external_rule  = sid_current_entry;
-    nstring_init (&sid_maximum_scope);
+		sid_current_entry  = (ZI162);
+		sid_current_rule   = sid_enclosing_rule;
+		sid_enclosing_rule = (ZI69);
+		sid_alternative    = 0;
+		sid_internal_rule  = FALSE;
+		sid_external_rule  = sid_current_entry;
+
+		nstring_init(&sid_maximum_scope);
+	
 	    }
 	    {
 		{
@@ -1125,9 +1198,10 @@ ZR198(GrammarP sid_current_grammar)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_end_scope ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_end_scope();
+		}
+	
 		    }
 		}
 	      ZL2:;
@@ -1155,48 +1229,50 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 
 	    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 	    }
 	    ADVANCE_LEXER;
 	    {
 
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  (&ZI156), &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), (&ZI156));
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
 
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type ((ZI132), name_entry, NULL,
-				 FALSE);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else if (non_local_entry) {
-	types_add_name_and_type ((ZI132), non_local_entry,
-				 NULL, FALSE);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else {
-	types_add_name ((ZI132), grammar_table(sid_current_grammar), &(ZI156), FALSE);
-    }
+		non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+			grammar_table(sid_current_grammar), (&ZI156), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI156));
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+						name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type((ZI132), name_entry, NULL, FALSE);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else if (non_local_entry) {
+			types_add_name_and_type((ZI132), non_local_entry, NULL, FALSE);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy(&sid_maximum_scope);
+				nstring_assign(&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else {
+			types_add_name((ZI132), grammar_table(sid_current_grammar), &(ZI156), FALSE);
+		}
+	
 	    }
 	}
 	break;
@@ -1205,9 +1281,11 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 	    ADVANCE_LEXER;
 	    {
 
-    EntryT * entry = table_add_generated_name (grammar_table(sid_current_grammar));
+		EntryT *entry;
 
-    types_add_name_entry ((ZI132), entry);
+		entry = table_add_generated_name(grammar_table(sid_current_grammar));
+		types_add_name_entry((ZI132), entry);
+	
 	    }
 	}
 	break;
@@ -1216,11 +1294,12 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 	    ADVANCE_LEXER;
 	    {
 
-    if (sid_current_pred_id) {
-	E_multi_predicate_return ();
-    }
-    sid_current_pred_id = TRUE;
-    types_add_name_entry ((ZI132), grammar_get_predicate_id(sid_current_grammar));
+		if (sid_current_pred_id) {
+			E_multi_predicate_return();
+		}
+		sid_current_pred_id = TRUE;
+		types_add_name_entry((ZI132), grammar_get_predicate_id(sid_current_grammar));
+	
 	    }
 	}
 	break;
@@ -1235,7 +1314,8 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		      case 4:
 			{
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 			}
 			break;
 		      default:
@@ -1244,44 +1324,45 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		    ADVANCE_LEXER;
 		    {
 
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  (&ZI156), &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), (&ZI156));
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
 
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type_var ((ZI132), name_entry,
-				     NULL);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else if (non_local_entry) {
-	types_add_name_and_type_var ((ZI132), non_local_entry,
-				     NULL);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else {
-	E_undefined_assignment ((&ZI156));
-	types_add_name ((ZI132), grammar_table(sid_current_grammar), &(ZI156), FALSE);
-    }
+		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
+			grammar_table(sid_current_grammar), (&ZI156), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI156));
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+					name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type_var((ZI132), name_entry, NULL);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else if (non_local_entry) {
+			types_add_name_and_type_var ((ZI132), non_local_entry, NULL);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy (&sid_maximum_scope);
+				nstring_assign (&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else {
+			E_undefined_assignment((&ZI156));
+			types_add_name((ZI132), grammar_table(sid_current_grammar), &(ZI156), FALSE);
+		}
+	
 		    }
 		}
 		goto ZL2;
@@ -1289,9 +1370,10 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 		    }
 		}
 	      ZL2:;
@@ -1308,28 +1390,33 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZI132)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_lhs_name ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_lhs_name();
+		}
+	
 	}
 	{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
     }
 }
@@ -1350,7 +1437,8 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 	    }
 	    {
 
-    sid_saved_pred_id = sid_current_pred_id;
+		sid_saved_pred_id = sid_current_pred_id;
+	
 	    }
 	    ZR151 (sid_current_grammar);
 	    ZR147 (sid_current_grammar, &ZI129);
@@ -1360,16 +1448,16 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 	    }
 	    {
 
-    sid_current_entry = scope_stack_add_rule (sid_current_scope,
-					      grammar_table(sid_current_grammar), &(*ZI156),
-					      sid_enclosing_rule,
-					      &sid_redefining_entry);
-    if (sid_current_entry) {
-	sid_current_rule = entry_get_rule (sid_current_entry);
-    } else {
-	E_duplicate_rule ((ZI156));
-	nstring_destroy (&(*ZI156));
-    }
+		sid_current_entry = scope_stack_add_rule(sid_current_scope,
+			grammar_table(sid_current_grammar), &(*ZI156), sid_enclosing_rule,
+			&sid_redefining_entry);
+		if (sid_current_entry) {
+			sid_current_rule = entry_get_rule(sid_current_entry);
+		} else {
+			E_duplicate_rule((ZI156));
+			nstring_destroy(&(*ZI156));
+		}
+	
 	    }
 	    ZR256 (sid_current_grammar, &ZI128, &ZI129);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -1389,7 +1477,8 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 		      case 4:
 			{
 
-    nstring_assign (&ZI138, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI138, lexer_string_value(sid_current_stream));
+	
 			}
 			break;
 		      default:
@@ -1398,33 +1487,36 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 		    ADVANCE_LEXER;
 		    {
 
-    (ZI250) = NULL;
-    if ((sid_enclosing_rule == NULL) ||
-	(sid_current_scope == &sid_global_scope)) {
-	E_global_scope_non_local ((ZI156));
-	nstring_destroy (&(*ZI156));
-    } else {
-	EntryT * type = table_get_type (grammar_table(sid_current_grammar), (&ZI138));
+		(ZI250) = NULL;
+		if (sid_enclosing_rule == NULL || sid_current_scope == &sid_global_scope) {
+			E_global_scope_non_local((ZI156));
+			nstring_destroy(&(*ZI156));
+		} else {
+			EntryT *type;
 
-	if (type == NULL) {
-	    E_unknown_type ((&ZI138));
-	    nstring_destroy (&(*ZI156));
-	} else {
-	    EntryT * name = scope_stack_add_non_local (sid_current_scope,
-						     grammar_table(sid_current_grammar),
-						     &(*ZI156), type,
-						     sid_enclosing_rule);
+			type = table_get_type(grammar_table(sid_current_grammar), (&ZI138));
+			if (type == NULL) {
+				E_unknown_type((&ZI138));
+				nstring_destroy(&(*ZI156));
+			} else {
+				EntryT *name;
 
-	    if (name) {
-		NonLocalListT * non_locals = rule_non_locals (sid_enclosing_rule);
-		(ZI250) = non_local_list_add (non_locals, name, type);
-	    } else {
-		E_duplicate_non_local ((ZI156));
-		nstring_destroy (&(*ZI156));
-	    }
-	}
-    }
-    nstring_destroy (&(ZI138));
+				name = scope_stack_add_non_local (sid_current_scope,
+					grammar_table(sid_current_grammar), &(*ZI156), type,
+					sid_enclosing_rule);
+				if (name) {
+					NonLocalListT *non_locals;
+
+					non_locals = rule_non_locals(sid_enclosing_rule);
+					(ZI250) = non_local_list_add(non_locals, name, type);
+				} else {
+					E_duplicate_non_local((ZI156));
+					nstring_destroy(&(*ZI156));
+				}
+			}
+		}
+		nstring_destroy(&(ZI138));
+	
 		    }
 		    {
 			switch (CURRENT_TERMINAL) {
@@ -1446,9 +1538,10 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 				    {
 					{
 
-    if (!sid_propagating_error) {
-	E_expected_begin_action ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_begin_action();
+		}
+	
 					}
 				    }
 				  ZL6:;
@@ -1461,7 +1554,8 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 					  case 4:
 					    {
 
-    nstring_assign (&ZI51, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI51, lexer_string_value(sid_current_stream));
+	
 					    }
 					    break;
 					  default:
@@ -1470,37 +1564,42 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 					ADVANCE_LEXER;
 					{
 
-    EntryT * actionentry = scope_stack_get_action (&sid_scope_stack, grammar_table(sid_current_grammar),
-					   (&ZI51));
+		EntryT *actionentry;
 
-    if (actionentry == NULL) {
-	E_unknown_action ((&ZI51));
-    } else if ((ZI250)) {
-	EntryT *     type   = non_local_entry_get_type ((ZI250));
-	KeyT *       name   = entry_key (non_local_entry_get_name ((ZI250)));
-	ActionT *    action = entry_get_action (actionentry);
-	TypeTupleT * param  = action_param (action);
-	TypeTupleT * result = action_result (action);
-	TypeTupleT tuple;
-	TypeTupleT ref_tuple;
+		actionentry = scope_stack_get_action(&sid_scope_stack,
+			grammar_table(sid_current_grammar), (&ZI51));
 
-	types_init (&tuple);
-	types_init (&ref_tuple);
-	types_add_type_entry (&tuple, type, FALSE);
-	types_add_type_entry (&ref_tuple, type, TRUE);
-	if ((!types_equal (param, &tuple)) &&
-	    (!types_equal (param, &ref_tuple)) &&
-	    (!types_equal_zero_tuple (param))) {
-	    E_initialiser_param_mismatch (name, &tuple, &ref_tuple, param);
-	}
-	if (!types_equal (result, &tuple)) {
-	    E_initialiser_result_mismatch (name, &tuple, result);
-	}
-	types_destroy (&ref_tuple);
-	types_destroy (&tuple);
-	non_local_entry_set_initialiser ((ZI250), actionentry);
-    }
-    nstring_destroy (&(ZI51));
+		if (actionentry == NULL) {
+			E_unknown_action ((&ZI51));
+		} else if ((ZI250)) {
+			EntryT     *type   = non_local_entry_get_type((ZI250));
+			KeyT       *name   = entry_key(non_local_entry_get_name((ZI250)));
+			ActionT    *action = entry_get_action(actionentry);
+			TypeTupleT *param  = action_param(action);
+			TypeTupleT *result = action_result(action);
+			TypeTupleT  tuple;
+			TypeTupleT  ref_tuple;
+
+			types_init(&tuple);
+			types_init(&ref_tuple);
+			types_add_type_entry(&tuple, type, FALSE);
+			types_add_type_entry(&ref_tuple, type, TRUE);
+
+			if (!types_equal(param, &tuple) && !types_equal(param, &ref_tuple)
+				&& !types_equal_zero_tuple(param)) {
+				E_initialiser_param_mismatch(name, &tuple, &ref_tuple, param);
+			}
+
+			if (!types_equal(result, &tuple)) {
+				E_initialiser_result_mismatch(name, &tuple, result);
+			}
+
+			types_destroy(&ref_tuple);
+			types_destroy(&tuple);
+			non_local_entry_set_initialiser((ZI250), actionentry);
+		}
+		nstring_destroy(&(ZI51));
+	
 					}
 					ZR225 (sid_current_grammar);
 					ZR241 (sid_current_grammar);
@@ -1514,9 +1613,10 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 				    {
 					{
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 					}
 				    }
 				  ZL8:;
@@ -1536,9 +1636,10 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 			{
 			    {
 
-    if (!sid_propagating_error) {
-	E_expected_terminator_or_define ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_terminator_or_define();
+		}
+	
 			    }
 			}
 		      ZL4:;
@@ -1549,34 +1650,40 @@ ZR293(GrammarP sid_current_grammar, NStringT *ZI156)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 		    }
 		    {
 
-    nstring_destroy (&(*ZI156));
+		nstring_destroy(&(*ZI156));
+	
 		    }
 		    {
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 		    }
 		}
 	      ZL2:;
@@ -1609,15 +1716,17 @@ ZR167(GrammarP sid_current_grammar)
 	}
 	{
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 	}
 	{
 	    {
 		{
 
-    (ZI0) = ((CURRENT_TERMINAL == LEXER_TOK_EOF) ||
-		  (CURRENT_TERMINAL == LEXER_TOK_END_SCOPE) ||
-		  (CURRENT_TERMINAL == LEXER_TOK_BLT_ENTRY));
+		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_EOF
+			|| CURRENT_TERMINAL == LEXER_TOK_END_SCOPE
+			|| CURRENT_TERMINAL == LEXER_TOK_BLT_ENTRY);
+	
 		}
 		if (!ZI0)
 		    goto ZL4;
@@ -1642,42 +1751,49 @@ ZR167(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_production_defn ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_production_defn();
+		}
+	
 	}
 	{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
 	{
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 	}
 	{
 	    {
 		{
 
-    (ZI0) = ((CURRENT_TERMINAL == LEXER_TOK_EOF) ||
-		  (CURRENT_TERMINAL == LEXER_TOK_END_SCOPE) ||
-		  (CURRENT_TERMINAL == LEXER_TOK_BLT_ENTRY));
+		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_EOF
+			|| CURRENT_TERMINAL == LEXER_TOK_END_SCOPE
+			|| CURRENT_TERMINAL == LEXER_TOK_BLT_ENTRY);
+	
 		}
 		if (!ZI0)
 		    goto ZL7;
@@ -1704,17 +1820,21 @@ ZR295(GrammarP sid_current_grammar)
 	    ADVANCE_LEXER;
 	    {
 
-    types_init (&(ZI201));
+		types_init(&(ZI201));
+	
 	    }
 	    {
 
-    EntryT * entry = table_add_generated_name (grammar_table(sid_current_grammar));
+		EntryT *entry;
 
-    types_add_name_entry ((&ZI201), entry);
+		entry = table_add_generated_name(grammar_table(sid_current_grammar));
+		types_add_name_entry((&ZI201), entry);
+	
 	    }
 	    {
 
-    sid_saved_pred_id = sid_current_pred_id;
+		sid_saved_pred_id = sid_current_pred_id;
+	
 	    }
 	    ZR221 (sid_current_grammar);
 	    ZR206 (sid_current_grammar, &ZI201);
@@ -1731,19 +1851,22 @@ ZR295(GrammarP sid_current_grammar)
 	    ADVANCE_LEXER;
 	    {
 
-    types_init (&(ZI201));
+		types_init(&(ZI201));
+	
 	    }
 	    {
 
-    if (sid_current_pred_id) {
-	E_multi_predicate_return ();
-    }
-    sid_current_pred_id = TRUE;
-    types_add_name_entry ((&ZI201), grammar_get_predicate_id(sid_current_grammar));
+		if (sid_current_pred_id) {
+			E_multi_predicate_return();
+		}
+		sid_current_pred_id = TRUE;
+		types_add_name_entry((&ZI201), grammar_get_predicate_id(sid_current_grammar));
+	
 	    }
 	    {
 
-    sid_saved_pred_id = sid_current_pred_id;
+		sid_saved_pred_id = sid_current_pred_id;
+	
 	    }
 	    ZR221 (sid_current_grammar);
 	    ZR206 (sid_current_grammar, &ZI201);
@@ -1759,11 +1882,13 @@ ZR295(GrammarP sid_current_grammar)
 
 	    {
 
-    sid_saved_pred_id = sid_current_pred_id;
+		sid_saved_pred_id = sid_current_pred_id;
+	
 	    }
 	    {
 
-    types_init (&(ZI201));
+		types_init(&(ZI201));
+	
 	    }
 	    ADVANCE_LEXER;
 	    ZR224 (sid_current_grammar, &ZI201);
@@ -1793,8 +1918,9 @@ sid_parse_grammar(GrammarP sid_current_grammar)
     {
 	{
 
-scope_stack_init (&sid_scope_stack);
-scope_stack_init (&sid_global_scope);
+		scope_stack_init(&sid_scope_stack);
+		scope_stack_init(&sid_global_scope);
+	
 	}
 	{
 	    {
@@ -1811,9 +1937,10 @@ scope_stack_init (&sid_global_scope);
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_blt_types ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_blt_types();
+		}
+	
 		}
 	    }
 	  ZL2:;
@@ -1838,9 +1965,10 @@ scope_stack_init (&sid_global_scope);
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_blt_terminals ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_blt_terminals();
+		}
+	
 		}
 	    }
 	  ZL4:;
@@ -1852,10 +1980,11 @@ scope_stack_init (&sid_global_scope);
 	}
 	{
 
-    unsigned max_terminal = grammar_max_terminal (sid_current_grammar);
+		unsigned max_terminal = grammar_max_terminal(sid_current_grammar);
 
-    bitvec_set_size (max_terminal);
-    sid_finished_terminals = TRUE;
+		bitvec_set_size(max_terminal);
+		sid_finished_terminals = TRUE;
+	
 	}
 	{
 	    {
@@ -1872,9 +2001,10 @@ scope_stack_init (&sid_global_scope);
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_blt_productions ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_blt_productions();
+		}
+	
 		}
 	    }
 	  ZL6:;
@@ -1899,9 +2029,10 @@ scope_stack_init (&sid_global_scope);
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_blt_entry ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_blt_entry();
+		}
+	
 		}
 	    }
 	  ZL8:;
@@ -1927,9 +2058,10 @@ scope_stack_init (&sid_global_scope);
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_eof ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_eof();
+		}
+	
 		}
 	    }
 	  ZL10:;
@@ -1940,7 +2072,8 @@ scope_stack_init (&sid_global_scope);
     {
 	{
 
-    UNREACHED;
+		UNREACHED;
+	
 	}
     }
 }
@@ -1979,51 +2112,54 @@ ZR296(GrammarP sid_current_grammar, NStringT *ZI156)
 
 	    {
 
-    types_init (&(ZI201));
+		types_init(&(ZI201));
+	
 	    }
 	    {
 
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  (ZI156), &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), (ZI156));
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
 
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type ((&ZI201), name_entry, NULL,
-				 FALSE);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(*ZI156));
-    } else if (non_local_entry) {
-	types_add_name_and_type ((&ZI201), non_local_entry,
-				 NULL, FALSE);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(*ZI156));
-    } else {
-	types_add_name ((&ZI201), grammar_table(sid_current_grammar), &(*ZI156), FALSE);
-    }
+		non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+			grammar_table(sid_current_grammar), (ZI156), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (ZI156));
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+						name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type((&ZI201), name_entry, NULL, FALSE);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(*ZI156));
+		} else if (non_local_entry) {
+			types_add_name_and_type((&ZI201), non_local_entry, NULL, FALSE);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy(&sid_maximum_scope);
+				nstring_assign(&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(*ZI156));
+		} else {
+			types_add_name((&ZI201), grammar_table(sid_current_grammar), &(*ZI156), FALSE);
+		}
+	
 	    }
 	    {
 
-    sid_saved_pred_id = sid_current_pred_id;
+		sid_saved_pred_id = sid_current_pred_id;
+	
 	    }
 	    ADVANCE_LEXER;
 	    ZR206 (sid_current_grammar, &ZI201);
@@ -2037,7 +2173,8 @@ ZR296(GrammarP sid_current_grammar, NStringT *ZI156)
 	{
 	    {
 
-    sid_saved_pred_id = sid_current_pred_id;
+		sid_saved_pred_id = sid_current_pred_id;
+	
 	    }
 	    ZR297 (sid_current_grammar, ZI156);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -2068,131 +2205,135 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI156)
 
 	    {
 
-    sid_current_pred_id = FALSE;
+		sid_current_pred_id = FALSE;
+	
 	    }
 	    {
 
-    types_init (&(ZI201));
+		types_init(&(ZI201));
+	
 	    }
 	    {
 
-    types_init (&(ZI204));
+		types_init(&(ZI204));
+	
 	    }
 	    {
 
-    TypeTupleT * param  = NULL;
-    TypeTupleT * result = NULL;
-    EntryT *     entry  = NULL;
-    RuleT *      rule;
-    BasicT *     basic;
+		TypeTupleT *param  = NULL;
+		TypeTupleT *result = NULL;
+		EntryT     *entry  = NULL;
+		RuleT      *rule;
+		BasicT     *basic;
 
-    if ((sid_current_entry) && (sid_current_alt)) {
-	entry = scope_stack_get_rule (&sid_scope_stack, grammar_table(sid_current_grammar),
-				      (ZI156));
-	if (entry) {
-	    sid_current_item = item_create (entry);
-	    rule             = entry_get_rule (entry);
-	    param            = rule_param (rule);
-	    result           = rule_result (rule);
-	} else {
-	    entry = table_get_basic (grammar_table(sid_current_grammar), (ZI156));
-	    if (entry) {
-		sid_current_item = item_create (entry);
-		basic            = entry_get_basic (entry);
-		param            = NULL;
-		result           = basic_result (basic);
-		if (basic_get_ignored (basic)) {
-		    E_ignored_basic_call ((ZI156));
-		}
-	    } else {
-		E_unknown_rule_or_basic ((ZI156));
-		sid_current_item = NULL;
-	    }
-	}
-    } else {
-	sid_current_item = NULL;
-    }
-    nstring_destroy (&(*ZI156));
-    if (sid_current_item) {
-	BoolT errored = FALSE;
-	KeyT *  key     = entry_key (entry);
+		if (sid_current_entry && sid_current_alt) {
+			entry = scope_stack_get_rule(&sid_scope_stack,
+				grammar_table(sid_current_grammar), (ZI156));
+			if (entry) {
+				sid_current_item = item_create(entry);
+				rule             = entry_get_rule(entry);
+				param            = rule_param(rule);
+				result           = rule_result(rule);
+			} else {
+				entry = table_get_basic(grammar_table(sid_current_grammar), (ZI156));
+				if (entry) {
+					sid_current_item = item_create(entry);
+					basic            = entry_get_basic(entry);
+					param            = NULL;
+					result           = basic_result(basic);
 
-	if (types_resolve ((&ZI204), rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (param) {
-		if (types_equal ((&ZI204), param)) {
-		    item_add_param (sid_current_item, (&ZI204));
+					if (basic_get_ignored(basic)) {
+						E_ignored_basic_call((ZI156));
+					}
+				} else {
+					E_unknown_rule_or_basic((ZI156));
+					sid_current_item = NULL;
+				}
+			}
 		} else {
-		    E_rule_param_call_mismatch (key, param, (&ZI204));
-		    types_destroy ((&ZI204));
-		    errored = TRUE;
+			sid_current_item = NULL;
 		}
-	    } else {
-		if (!types_equal_zero_tuple ((&ZI204))) {
-		    E_basic_param_call_mismatch (key, (&ZI204));
-		    types_destroy ((&ZI204));
-		    errored = TRUE;
-		}
-	    }
-	} else {
-	    types_destroy ((&ZI204));
-	    errored = TRUE;
-	}
-	if (types_disjoint_names ((&ZI201))) {
-	    if (types_check_undefined ((&ZI201),
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (types_fillin_types ((&ZI201), result)) {
-		    types_add_new_names (alt_names (sid_current_alt),
-					 (&ZI201), grammar_get_predicate_id(sid_current_grammar));
-		    if (sid_saved_pred_id) {
-			E_predicate ();
-		    }
-		    item_add_result (sid_current_item, (&ZI201));
+
+		nstring_destroy(&(*ZI156));
+		if (sid_current_item) {
+			BoolT  errored = FALSE;
+			KeyT  *key     = entry_key (entry);
+
+			if (types_resolve((&ZI204), rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (param) {
+					if (types_equal((&ZI204), param)) {
+						item_add_param(sid_current_item, (&ZI204));
+					} else {
+						E_rule_param_call_mismatch(key, param, (&ZI204));
+						types_destroy((&ZI204));
+						errored = TRUE;
+					}
+				} else {
+					if (!types_equal_zero_tuple((&ZI204))) {
+						E_basic_param_call_mismatch(key, (&ZI204));
+						types_destroy((&ZI204));
+						errored = TRUE;
+					}
+				}
+			} else {
+				types_destroy((&ZI204));
+				errored = TRUE;
+			}
+
+			if (types_disjoint_names ((&ZI201))) {
+				if (types_check_undefined ((&ZI201), rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (types_fillin_types((&ZI201), result)) {
+						types_add_new_names(alt_names (sid_current_alt),
+							(&ZI201), grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							E_predicate ();
+						}
+						item_add_result(sid_current_item, (&ZI201));
+					} else {
+						if (param) {
+							E_rule_result_call_mismatch(key, result, (&ZI201));
+						} else {
+							E_basic_result_call_mismatch(key, result, (&ZI201));
+						}
+						types_destroy((&ZI201));
+						errored = TRUE;
+					}
+				} else {
+					types_destroy((&ZI201));
+					errored = TRUE;
+				}
+			} else {
+				if (param) {
+					E_rule_result_call_clash (key, (&ZI201));
+				} else {
+					E_basic_result_call_clash (key, (&ZI201));
+				}
+
+				types_destroy ((&ZI201));
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
 		} else {
-		    if (param) {
-			E_rule_result_call_mismatch (key, result,
-						     (&ZI201));
-		    } else {
-			E_basic_result_call_mismatch (key, result,
-						      (&ZI201));
-		    }
-		    types_destroy ((&ZI201));
-		    errored = TRUE;
+			if (sid_current_alt) {
+				(void) alt_deallocate (sid_current_alt);
+				sid_current_alt = NULL;
+			}
+			types_destroy ((&ZI201));
+			types_destroy ((&ZI204));
 		}
-	    } else {
-		types_destroy ((&ZI201));
-		errored = TRUE;
-	    }
-	} else {
-	    if (param) {
-		E_rule_result_call_clash (key, (&ZI201));
-	    } else {
-		E_basic_result_call_clash (key, (&ZI201));
-	    }
-	    types_destroy ((&ZI201));
-	    errored = TRUE;
-	}
-	if (errored) {
-	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	} else {
-	    alt_add_item (sid_current_alt, sid_current_item);
-	}
-    } else {
-	if (sid_current_alt) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-	types_destroy ((&ZI201));
-	types_destroy ((&ZI204));
-    }
+	
 	    }
 	    ADVANCE_LEXER;
 	}
@@ -2204,7 +2345,8 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI156)
 
 	    {
 
-    types_init (&(ZI201));
+		types_init(&(ZI201));
+	
 	    }
 	    ZR181 (sid_current_grammar, &ZI204);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -2213,119 +2355,120 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI156)
 	    }
 	    {
 
-    TypeTupleT * param  = NULL;
-    TypeTupleT * result = NULL;
-    EntryT *     entry  = NULL;
-    RuleT *      rule;
-    BasicT *     basic;
+		TypeTupleT *param  = NULL;
+		TypeTupleT *result = NULL;
+		EntryT     *entry  = NULL;
+		RuleT      *rule;
+		BasicT     *basic;
 
-    if ((sid_current_entry) && (sid_current_alt)) {
-	entry = scope_stack_get_rule (&sid_scope_stack, grammar_table(sid_current_grammar),
-				      (ZI156));
-	if (entry) {
-	    sid_current_item = item_create (entry);
-	    rule             = entry_get_rule (entry);
-	    param            = rule_param (rule);
-	    result           = rule_result (rule);
-	} else {
-	    entry = table_get_basic (grammar_table(sid_current_grammar), (ZI156));
-	    if (entry) {
-		sid_current_item = item_create (entry);
-		basic            = entry_get_basic (entry);
-		param            = NULL;
-		result           = basic_result (basic);
-		if (basic_get_ignored (basic)) {
-		    E_ignored_basic_call ((ZI156));
-		}
-	    } else {
-		E_unknown_rule_or_basic ((ZI156));
-		sid_current_item = NULL;
-	    }
-	}
-    } else {
-	sid_current_item = NULL;
-    }
-    nstring_destroy (&(*ZI156));
-    if (sid_current_item) {
-	BoolT errored = FALSE;
-	KeyT *  key     = entry_key (entry);
+		if (sid_current_entry && sid_current_alt) {
+			entry = scope_stack_get_rule(&sid_scope_stack,
+				grammar_table(sid_current_grammar), (ZI156));
+			if (entry) {
+				sid_current_item = item_create(entry);
+				rule             = entry_get_rule(entry);
+				param            = rule_param(rule);
+				result           = rule_result(rule);
+			} else {
+				entry = table_get_basic(grammar_table(sid_current_grammar), (ZI156));
+				if (entry) {
+					sid_current_item = item_create(entry);
+					basic            = entry_get_basic(entry);
+					param            = NULL;
+					result           = basic_result(basic);
 
-	if (types_resolve ((&ZI204), rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (param) {
-		if (types_equal ((&ZI204), param)) {
-		    item_add_param (sid_current_item, (&ZI204));
+					if (basic_get_ignored(basic)) {
+						E_ignored_basic_call((ZI156));
+					}
+				} else {
+					E_unknown_rule_or_basic((ZI156));
+					sid_current_item = NULL;
+				}
+			}
 		} else {
-		    E_rule_param_call_mismatch (key, param, (&ZI204));
-		    types_destroy ((&ZI204));
-		    errored = TRUE;
+			sid_current_item = NULL;
 		}
-	    } else {
-		if (!types_equal_zero_tuple ((&ZI204))) {
-		    E_basic_param_call_mismatch (key, (&ZI204));
-		    types_destroy ((&ZI204));
-		    errored = TRUE;
-		}
-	    }
-	} else {
-	    types_destroy ((&ZI204));
-	    errored = TRUE;
-	}
-	if (types_disjoint_names ((&ZI201))) {
-	    if (types_check_undefined ((&ZI201),
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (types_fillin_types ((&ZI201), result)) {
-		    types_add_new_names (alt_names (sid_current_alt),
-					 (&ZI201), grammar_get_predicate_id(sid_current_grammar));
-		    if (sid_saved_pred_id) {
-			E_predicate ();
-		    }
-		    item_add_result (sid_current_item, (&ZI201));
+
+		nstring_destroy(&(*ZI156));
+		if (sid_current_item) {
+			BoolT  errored = FALSE;
+			KeyT  *key     = entry_key (entry);
+
+			if (types_resolve((&ZI204), rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (param) {
+					if (types_equal((&ZI204), param)) {
+						item_add_param(sid_current_item, (&ZI204));
+					} else {
+						E_rule_param_call_mismatch(key, param, (&ZI204));
+						types_destroy((&ZI204));
+						errored = TRUE;
+					}
+				} else {
+					if (!types_equal_zero_tuple((&ZI204))) {
+						E_basic_param_call_mismatch(key, (&ZI204));
+						types_destroy((&ZI204));
+						errored = TRUE;
+					}
+				}
+			} else {
+				types_destroy((&ZI204));
+				errored = TRUE;
+			}
+
+			if (types_disjoint_names ((&ZI201))) {
+				if (types_check_undefined ((&ZI201), rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (types_fillin_types((&ZI201), result)) {
+						types_add_new_names(alt_names (sid_current_alt),
+							(&ZI201), grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							E_predicate ();
+						}
+						item_add_result(sid_current_item, (&ZI201));
+					} else {
+						if (param) {
+							E_rule_result_call_mismatch(key, result, (&ZI201));
+						} else {
+							E_basic_result_call_mismatch(key, result, (&ZI201));
+						}
+						types_destroy((&ZI201));
+						errored = TRUE;
+					}
+				} else {
+					types_destroy((&ZI201));
+					errored = TRUE;
+				}
+			} else {
+				if (param) {
+					E_rule_result_call_clash (key, (&ZI201));
+				} else {
+					E_basic_result_call_clash (key, (&ZI201));
+				}
+
+				types_destroy ((&ZI201));
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
 		} else {
-		    if (param) {
-			E_rule_result_call_mismatch (key, result,
-						     (&ZI201));
-		    } else {
-			E_basic_result_call_mismatch (key, result,
-						      (&ZI201));
-		    }
-		    types_destroy ((&ZI201));
-		    errored = TRUE;
+			if (sid_current_alt) {
+				(void) alt_deallocate (sid_current_alt);
+				sid_current_alt = NULL;
+			}
+			types_destroy ((&ZI201));
+			types_destroy ((&ZI204));
 		}
-	    } else {
-		types_destroy ((&ZI201));
-		errored = TRUE;
-	    }
-	} else {
-	    if (param) {
-		E_rule_result_call_clash (key, (&ZI201));
-	    } else {
-		E_basic_result_call_clash (key, (&ZI201));
-	    }
-	    types_destroy ((&ZI201));
-	    errored = TRUE;
-	}
-	if (errored) {
-	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	} else {
-	    alt_add_item (sid_current_alt, sid_current_item);
-	}
-    } else {
-	if (sid_current_alt) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-	types_destroy ((&ZI201));
-	types_destroy ((&ZI204));
-    }
+	
 	    }
 	    ZR241 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -2356,7 +2499,8 @@ ZR147(GrammarP sid_current_grammar, TypeTupleT *ZO132)
     {
 	{
 
-    types_init (&(ZI132));
+		types_init(&(ZI132));
+	
 	}
 	ZR191 (sid_current_grammar);
 	ZR145 (sid_current_grammar, &ZI132);
@@ -2366,7 +2510,8 @@ ZR147(GrammarP sid_current_grammar, TypeTupleT *ZO132)
 	}
 	{
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 	}
 	ZR192 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == 26) {
@@ -2381,11 +2526,14 @@ ZR147(GrammarP sid_current_grammar, TypeTupleT *ZO132)
   ZL0:;
     {
 
-	if((ZO132->head=ZI132.head)==NULL) 
-		ZO132->tail = &(ZO132->head);
-	else 
-		ZO132->tail= ZI132.tail ;
-    }
+		ZO132->head = ZI132.head;
+
+		if (ZO132->head == NULL) {
+			ZO132->tail = &(ZO132->head);
+		} else {
+			ZO132->tail= ZI132.tail ;
+		}
+	    }
 }
 
 static void
@@ -2398,48 +2546,50 @@ ZR183(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 
 	    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 	    }
 	    ADVANCE_LEXER;
 	    {
 
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  (&ZI156), &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), (&ZI156));
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
 
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type ((ZI132), name_entry, NULL,
-				 FALSE);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else if (non_local_entry) {
-	types_add_name_and_type ((ZI132), non_local_entry,
-				 NULL, FALSE);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else {
-	types_add_name ((ZI132), grammar_table(sid_current_grammar), &(ZI156), FALSE);
-    }
+		non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+			grammar_table(sid_current_grammar), (&ZI156), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI156));
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+						name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type((ZI132), name_entry, NULL, FALSE);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else if (non_local_entry) {
+			types_add_name_and_type((ZI132), non_local_entry, NULL, FALSE);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy(&sid_maximum_scope);
+				nstring_assign(&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else {
+			types_add_name((ZI132), grammar_table(sid_current_grammar), &(ZI156), FALSE);
+		}
+	
 	    }
 	}
 	break;
@@ -2454,7 +2604,8 @@ ZR183(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		      case 4:
 			{
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 			}
 			break;
 		      default:
@@ -2463,43 +2614,44 @@ ZR183(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		    ADVANCE_LEXER;
 		    {
 
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  (&ZI156), &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), (&ZI156));
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
 
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type ((ZI132), name_entry, NULL,
-				 TRUE);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else if (non_local_entry) {
-	types_add_name_and_type ((ZI132), non_local_entry,
-				 NULL, TRUE);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else {
-	types_add_name ((ZI132), grammar_table(sid_current_grammar), &(ZI156), TRUE);
-    }
+		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
+			grammar_table(sid_current_grammar), (&ZI156), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI156));
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+						name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type ((ZI132), name_entry, NULL, TRUE);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else if (non_local_entry) {
+			types_add_name_and_type ((ZI132), non_local_entry, NULL, TRUE);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy(&sid_maximum_scope);
+				nstring_assign(&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else {
+			types_add_name((ZI132), grammar_table(sid_current_grammar), &(ZI156), TRUE);
+		}
+	
 		    }
 		}
 		goto ZL2;
@@ -2507,28 +2659,33 @@ ZR183(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 		    }
 		    {
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 		    }
 		}
 	      ZL2:;
@@ -2545,28 +2702,33 @@ ZR183(GrammarP sid_current_grammar, TypeTupleT *ZI132)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_rhs_name ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_rhs_name();
+		}
+	
 	}
 	{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
     }
 }
@@ -2591,7 +2753,8 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 
 	    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 	    }
 	    ADVANCE_LEXER;
 	    {
@@ -2607,119 +2770,120 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 			}
 			{
 
-    TypeTupleT * param  = NULL;
-    TypeTupleT * result = NULL;
-    EntryT *     entry  = NULL;
-    RuleT *      rule;
-    BasicT *     basic;
+		TypeTupleT *param  = NULL;
+		TypeTupleT *result = NULL;
+		EntryT     *entry  = NULL;
+		RuleT      *rule;
+		BasicT     *basic;
 
-    if ((sid_current_entry) && (sid_current_alt)) {
-	entry = scope_stack_get_rule (&sid_scope_stack, grammar_table(sid_current_grammar),
-				      (&ZI156));
-	if (entry) {
-	    sid_current_item = item_create (entry);
-	    rule             = entry_get_rule (entry);
-	    param            = rule_param (rule);
-	    result           = rule_result (rule);
-	} else {
-	    entry = table_get_basic (grammar_table(sid_current_grammar), (&ZI156));
-	    if (entry) {
-		sid_current_item = item_create (entry);
-		basic            = entry_get_basic (entry);
-		param            = NULL;
-		result           = basic_result (basic);
-		if (basic_get_ignored (basic)) {
-		    E_ignored_basic_call ((&ZI156));
-		}
-	    } else {
-		E_unknown_rule_or_basic ((&ZI156));
-		sid_current_item = NULL;
-	    }
-	}
-    } else {
-	sid_current_item = NULL;
-    }
-    nstring_destroy (&(ZI156));
-    if (sid_current_item) {
-	BoolT errored = FALSE;
-	KeyT *  key     = entry_key (entry);
+		if (sid_current_entry && sid_current_alt) {
+			entry = scope_stack_get_rule(&sid_scope_stack,
+				grammar_table(sid_current_grammar), (&ZI156));
+			if (entry) {
+				sid_current_item = item_create(entry);
+				rule             = entry_get_rule(entry);
+				param            = rule_param(rule);
+				result           = rule_result(rule);
+			} else {
+				entry = table_get_basic(grammar_table(sid_current_grammar), (&ZI156));
+				if (entry) {
+					sid_current_item = item_create(entry);
+					basic            = entry_get_basic(entry);
+					param            = NULL;
+					result           = basic_result(basic);
 
-	if (types_resolve ((&ZI204), rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (param) {
-		if (types_equal ((&ZI204), param)) {
-		    item_add_param (sid_current_item, (&ZI204));
+					if (basic_get_ignored(basic)) {
+						E_ignored_basic_call((&ZI156));
+					}
+				} else {
+					E_unknown_rule_or_basic((&ZI156));
+					sid_current_item = NULL;
+				}
+			}
 		} else {
-		    E_rule_param_call_mismatch (key, param, (&ZI204));
-		    types_destroy ((&ZI204));
-		    errored = TRUE;
+			sid_current_item = NULL;
 		}
-	    } else {
-		if (!types_equal_zero_tuple ((&ZI204))) {
-		    E_basic_param_call_mismatch (key, (&ZI204));
-		    types_destroy ((&ZI204));
-		    errored = TRUE;
-		}
-	    }
-	} else {
-	    types_destroy ((&ZI204));
-	    errored = TRUE;
-	}
-	if (types_disjoint_names ((ZI201))) {
-	    if (types_check_undefined ((ZI201),
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (types_fillin_types ((ZI201), result)) {
-		    types_add_new_names (alt_names (sid_current_alt),
-					 (ZI201), grammar_get_predicate_id(sid_current_grammar));
-		    if (sid_saved_pred_id) {
-			E_predicate ();
-		    }
-		    item_add_result (sid_current_item, (ZI201));
+
+		nstring_destroy(&(ZI156));
+		if (sid_current_item) {
+			BoolT  errored = FALSE;
+			KeyT  *key     = entry_key (entry);
+
+			if (types_resolve((&ZI204), rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (param) {
+					if (types_equal((&ZI204), param)) {
+						item_add_param(sid_current_item, (&ZI204));
+					} else {
+						E_rule_param_call_mismatch(key, param, (&ZI204));
+						types_destroy((&ZI204));
+						errored = TRUE;
+					}
+				} else {
+					if (!types_equal_zero_tuple((&ZI204))) {
+						E_basic_param_call_mismatch(key, (&ZI204));
+						types_destroy((&ZI204));
+						errored = TRUE;
+					}
+				}
+			} else {
+				types_destroy((&ZI204));
+				errored = TRUE;
+			}
+
+			if (types_disjoint_names ((ZI201))) {
+				if (types_check_undefined ((ZI201), rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (types_fillin_types((ZI201), result)) {
+						types_add_new_names(alt_names (sid_current_alt),
+							(ZI201), grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							E_predicate ();
+						}
+						item_add_result(sid_current_item, (ZI201));
+					} else {
+						if (param) {
+							E_rule_result_call_mismatch(key, result, (ZI201));
+						} else {
+							E_basic_result_call_mismatch(key, result, (ZI201));
+						}
+						types_destroy((ZI201));
+						errored = TRUE;
+					}
+				} else {
+					types_destroy((ZI201));
+					errored = TRUE;
+				}
+			} else {
+				if (param) {
+					E_rule_result_call_clash (key, (ZI201));
+				} else {
+					E_basic_result_call_clash (key, (ZI201));
+				}
+
+				types_destroy ((ZI201));
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
 		} else {
-		    if (param) {
-			E_rule_result_call_mismatch (key, result,
-						     (ZI201));
-		    } else {
-			E_basic_result_call_mismatch (key, result,
-						      (ZI201));
-		    }
-		    types_destroy ((ZI201));
-		    errored = TRUE;
+			if (sid_current_alt) {
+				(void) alt_deallocate (sid_current_alt);
+				sid_current_alt = NULL;
+			}
+			types_destroy ((ZI201));
+			types_destroy ((&ZI204));
 		}
-	    } else {
-		types_destroy ((ZI201));
-		errored = TRUE;
-	    }
-	} else {
-	    if (param) {
-		E_rule_result_call_clash (key, (ZI201));
-	    } else {
-		E_basic_result_call_clash (key, (ZI201));
-	    }
-	    types_destroy ((ZI201));
-	    errored = TRUE;
-	}
-	if (errored) {
-	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	} else {
-	    alt_add_item (sid_current_alt, sid_current_item);
-	}
-    } else {
-	if (sid_current_alt) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-	types_destroy ((ZI201));
-	types_destroy ((&ZI204));
-    }
+	
 			}
 			ZR241 (sid_current_grammar);
 			if ((CURRENT_TERMINAL) == 26) {
@@ -2732,217 +2896,211 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 		    {
 			{
 
-    sid_current_pred_id = FALSE;
+		sid_current_pred_id = FALSE;
+	
 			}
 			{
 
-    EntryT *     name_entry = table_get_entry (grammar_table(sid_current_grammar), (&ZI156));
-    EntryT *     entry      = NULL;
-    TypeTupleT * param      = NULL;
-    TypeTupleT * result     = NULL;
-    RuleT *      rule;
-    BasicT *     basic;
-    TypeTupleT   rhs ;
+		EntryT     *name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI156));
+		EntryT     *entry      = NULL;
+		TypeTupleT *param      = NULL;
+		TypeTupleT *result     = NULL;
+		RuleT      *rule;
+		BasicT     *basic;
+		TypeTupleT  rhs;
 
-    types_init(&rhs);
+		types_init(&rhs);
 
-    if ((sid_current_entry) && (sid_current_alt)) {
-	if ((name_entry != NULL) &&
-	    (!types_contains (alt_names (sid_current_alt), name_entry)) &&
-	    (!types_contains (rule_param (sid_current_rule), name_entry))) {
-	    name_entry = NULL;
-	}
-	entry = scope_stack_get_rule (&sid_scope_stack, grammar_table(sid_current_grammar),
-				      (&ZI156));
-	if (entry) {
-	    sid_current_item = item_create (entry);
-	    rule             = entry_get_rule (entry);
-	    param            = rule_param (rule);
-	    result           = rule_result (rule);
-	} else {
-	    entry = table_get_basic (grammar_table(sid_current_grammar), (&ZI156));
-	    if (entry) {
-		sid_current_item = item_create (entry);
-		basic            = entry_get_basic (entry);
-		param            = NULL;
-		result           = basic_result (basic);
-		if ((name_entry == NULL) &&
-		    basic_get_ignored (basic)) {
-		    E_ignored_basic_call ((&ZI156));
-		}
-	    }
-	}
-	if ((entry == NULL) && (name_entry == NULL)) {
-	    NStringT scope;
-
-	    name_entry = scope_stack_get_non_local (&sid_scope_stack,
-						    grammar_table(sid_current_grammar),
-						    (&ZI156), &scope);
-	    if (name_entry) {
-		if (nstring_length (&scope) >
-		    nstring_length (&sid_maximum_scope)) {
-		    nstring_destroy (&sid_maximum_scope);
-		    nstring_assign (&sid_maximum_scope, &scope);
-		} else {
-		    nstring_destroy (&scope);
-		}
-	    } else {
-		E_unknown_rule_or_basic ((&ZI156));
-	    }
-	} else if ((entry != NULL) && (name_entry != NULL)) {
-	    E_ambiguous_call ((&ZI156));
-	    entry      = NULL;
-	    name_entry = NULL;
-	}
-    } else {
-	name_entry = NULL;
-    }
-    nstring_destroy (&(ZI156));
-    if (entry) {
-	BoolT errored = FALSE;
-	KeyT *  key     = entry_key (entry);
-
-	if (types_resolve (&rhs, rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (param) {
-		if (types_equal (&rhs, param)) {
-		    item_add_param (sid_current_item, &rhs);
-		} else {
-		    E_rule_param_call_mismatch (key, param, &rhs);
-		    types_destroy (&rhs);
-		    errored = TRUE;
-		}
-	    } else {
-		if (!types_equal_zero_tuple (&rhs)) {
-		    E_basic_param_call_mismatch (key, &rhs);
-		    types_destroy (&rhs);
-		    errored = TRUE;
-		}
-	    }
-	} else {
-	    types_destroy (&rhs);
-	    errored = TRUE;
-	}
-	if (types_disjoint_names ((ZI201))) {
-	    if (types_check_undefined ((ZI201),
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (types_fillin_types ((ZI201), result)) {
-		    types_add_new_names (alt_names (sid_current_alt),
-					 (ZI201), grammar_get_predicate_id(sid_current_grammar));
-		    if (sid_saved_pred_id) {
-			E_predicate ();
-		    }
-		    item_add_result (sid_current_item, (ZI201));
-		} else {
-		    if (param) {
-			E_rule_result_call_mismatch (key, result,
-						     (ZI201));
-		    } else {
-			E_basic_result_call_mismatch (key, result,
-						      (ZI201));
-		    }
-		    types_destroy ((ZI201));
-		    errored = TRUE;
-		}
-	    } else {
-		types_destroy ((ZI201));
-		errored = TRUE;
-	    }
-	} else {
-	    if (param) {
-		E_rule_result_call_clash (key, (ZI201));
-	    } else {
-		E_basic_result_call_clash (key, (ZI201));
-	    }
-	    types_destroy ((ZI201));
-	    errored = TRUE;
-	}
-	if (errored) {
-	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	} else {
-	    alt_add_item (sid_current_alt, sid_current_item);
-	}
-    } else if (name_entry) {
-	types_add_name_entry (&rhs, name_entry);
-	entry = table_add_rename (grammar_table(sid_current_grammar));
-	if (types_resolve (&rhs, rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_contains_references (&rhs)) {
-		E_identity_param_has_refs (&rhs,
-					   entry_key (sid_external_rule),
-					   sid_alternative);
-		types_destroy (&rhs);
-		sid_current_item = NULL;
-	    } else {
-		sid_current_item = item_create (entry);
-		item_add_param (sid_current_item, &rhs);
-	    }
-	} else {
-	    types_destroy (&rhs);
-	    sid_current_item = NULL;
-	}
-	if (types_disjoint_names ((ZI201))) {
-	    if (types_check_undefined ((ZI201),
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (sid_current_item) {
-		    if (types_fillin_types ((ZI201),
-					    item_param (sid_current_item))) {
-			types_add_new_names (alt_names (sid_current_alt),
-					     (ZI201),
-					     grammar_get_predicate_id(sid_current_grammar));
-			if (sid_saved_pred_id) {
-			    E_predicate ();
+		if (sid_current_entry && sid_current_alt) {
+			if (name_entry != NULL &&
+				!types_contains(alt_names (sid_current_alt), name_entry) &&
+				!types_contains(rule_param (sid_current_rule), name_entry)) {
+				name_entry = NULL;
 			}
-			item_add_result (sid_current_item, (ZI201));
-			alt_add_item (sid_current_alt, sid_current_item);
-		    } else {
-			E_identity_mismatch (item_param (sid_current_item),
-					     (ZI201));
-			types_destroy ((ZI201));
-			(void) item_deallocate (sid_current_item);
-			sid_current_item = NULL;
-		    }
+
+			entry = scope_stack_get_rule(&sid_scope_stack, grammar_table(sid_current_grammar),
+				(&ZI156));
+			if (entry) {
+				sid_current_item = item_create (entry);
+				rule             = entry_get_rule (entry);
+				param            = rule_param (rule);
+				result           = rule_result (rule);
+			} else {
+				entry = table_get_basic(grammar_table(sid_current_grammar), (&ZI156));
+				if (entry) {
+					sid_current_item = item_create (entry);
+					basic            = entry_get_basic (entry);
+					param            = NULL;
+					result           = basic_result (basic);
+					if (name_entry == NULL && basic_get_ignored(basic)) {
+						E_ignored_basic_call ((&ZI156));
+					}
+				}
+			}
+
+			if (entry == NULL && name_entry == NULL) {
+				NStringT scope;
+
+				name_entry = scope_stack_get_non_local (&sid_scope_stack,
+					grammar_table(sid_current_grammar), (&ZI156), &scope);
+				if (name_entry) {
+					if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+						nstring_destroy(&sid_maximum_scope);
+						nstring_assign(&sid_maximum_scope, &scope);
+					} else {
+						nstring_destroy(&scope);
+					}
+				} else {
+					E_unknown_rule_or_basic((&ZI156));
+				}
+			} else if (entry != NULL && name_entry != NULL) {
+				E_ambiguous_call((&ZI156));
+				entry      = NULL;
+				name_entry = NULL;
+			}
+		} else {
+			name_entry = NULL;
 		}
-	    } else {
-		types_destroy ((ZI201));
-		if (sid_current_item) {
-		    (void) item_deallocate (sid_current_item);
-		    sid_current_item = NULL;
+		nstring_destroy(&(ZI156));
+
+		if (entry) {
+			BoolT  errored = FALSE;
+			KeyT  *key     = entry_key(entry);
+
+			if (types_resolve(&rhs, rule_param (sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (param) {
+					if (types_equal(&rhs, param)) {
+						item_add_param(sid_current_item, &rhs);
+					} else {
+						E_rule_param_call_mismatch(key, param, &rhs);
+						types_destroy (&rhs);
+						errored = TRUE;
+					}
+				} else {
+					if (!types_equal_zero_tuple(&rhs)) {
+						E_basic_param_call_mismatch(key, &rhs);
+						types_destroy(&rhs);
+						errored = TRUE;
+					}
+				}
+			} else {
+				types_destroy(&rhs);
+				errored = TRUE;
+			}
+
+			if (types_disjoint_names((ZI201))) {
+				if (types_check_undefined((ZI201), rule_param (sid_current_rule),
+					alt_names (sid_current_alt), E_redefined_name,
+					entry_key (sid_external_rule), sid_alternative)) {
+					if (types_fillin_types((ZI201), result)) {
+						types_add_new_names(alt_names (sid_current_alt),
+							(ZI201), grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							E_predicate();
+						}
+						item_add_result(sid_current_item, (ZI201));
+					} else {
+						if (param) {
+							E_rule_result_call_mismatch(key, result, (ZI201));
+						} else {
+							E_basic_result_call_mismatch (key, result, (ZI201));
+						}
+						types_destroy((ZI201));
+						errored = TRUE;
+					}
+				} else {
+					types_destroy((ZI201));
+					errored = TRUE;
+				}
+			} else {
+				if (param) {
+					E_rule_result_call_clash(key, (ZI201));
+				} else {
+					E_basic_result_call_clash(key, (ZI201));
+				}
+				types_destroy((ZI201));
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
+		} else if (name_entry) {
+			types_add_name_entry(&rhs, name_entry);
+			entry = table_add_rename (grammar_table(sid_current_grammar));
+			if (types_resolve (&rhs, rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (types_contains_references(&rhs)) {
+					E_identity_param_has_refs(&rhs, entry_key(sid_external_rule),
+						sid_alternative);
+					types_destroy(&rhs);
+					sid_current_item = NULL;
+				} else {
+					sid_current_item = item_create(entry);
+					item_add_param(sid_current_item, &rhs);
+				}
+			} else {
+				types_destroy(&rhs);
+				sid_current_item = NULL;
+			}
+
+			if (types_disjoint_names((ZI201))) {
+				if (types_check_undefined((ZI201), rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (sid_current_item) {
+						if (types_fillin_types((ZI201), item_param(sid_current_item))) {
+							types_add_new_names(alt_names (sid_current_alt),
+								(ZI201), grammar_get_predicate_id(sid_current_grammar));
+							if (sid_saved_pred_id) {
+								E_predicate();
+							}
+							item_add_result(sid_current_item, (ZI201));
+							alt_add_item(sid_current_alt, sid_current_item);
+						} else {
+							E_identity_mismatch(item_param(sid_current_item), (ZI201));
+							types_destroy((ZI201));
+							(void) item_deallocate(sid_current_item);
+							sid_current_item = NULL;
+						}
+					}
+				} else {
+					types_destroy((ZI201));
+					if (sid_current_item) {
+						(void) item_deallocate(sid_current_item);
+						sid_current_item = NULL;
+					}
+				}
+			} else {
+				E_identity_result_clash((ZI201));
+				types_destroy((ZI201));
+				if (sid_current_item) {
+					(void) item_deallocate(sid_current_item);
+					sid_current_item = NULL;
+				}
+			}
+
+			if (sid_current_item == NULL) {
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt = NULL;
+			}
+		} else {
+			if (sid_current_alt) {
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt = NULL;
+			}
+			types_destroy((ZI201));
+			types_destroy(&rhs);
 		}
-	    }
-	} else {
-	    E_identity_result_clash ((ZI201));
-	    types_destroy ((ZI201));
-	    if (sid_current_item) {
-		(void) item_deallocate (sid_current_item);
-		sid_current_item = NULL;
-	    }
-	}
-	if (sid_current_item == NULL) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-    } else {
-	if (sid_current_alt) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-	types_destroy ((ZI201));
-	types_destroy (&rhs);
-    }
+	
 			}
 			ADVANCE_LEXER;
 		    }
@@ -2955,37 +3113,43 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_tuple_or_term ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_tuple_or_term();
+		}
+	
 		    }
 		    {
 
-    nstring_destroy (&(ZI156));
+		nstring_destroy(&(ZI156));
+	
 		    }
 		    {
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_ALT_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 		    }
 		}
 	      ZL2:;
@@ -3003,75 +3167,71 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 	    }
 	    {
 
-    if ((sid_current_entry) && (sid_current_alt)) {
-	EntryT * entry = table_add_rename (grammar_table(sid_current_grammar));
+		if (sid_current_entry && sid_current_alt) {
+			EntryT *entry = table_add_rename(grammar_table(sid_current_grammar));
 
-	if (types_resolve ((&ZI204), rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_contains_references ((&ZI204))) {
-		E_identity_param_has_refs ((&ZI204),
-					   entry_key (sid_external_rule),
-					   sid_alternative);
-		types_destroy ((&ZI204));
-		sid_current_item = NULL;
-	    } else {
-		sid_current_item = item_create (entry);
-		item_add_param (sid_current_item, (&ZI204));
-	    }
-	} else {
-	    types_destroy ((&ZI204));
-	    sid_current_item = NULL;
-	}
-	if (types_disjoint_names ((ZI201))) {
-	    if (types_check_undefined ((ZI201),
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (sid_current_item) {
-		    if (types_fillin_types ((ZI201),
-					    item_param (sid_current_item))) {
-			types_add_new_names (alt_names (sid_current_alt),
-					     (ZI201),
-					     grammar_get_predicate_id(sid_current_grammar));
-			if (sid_saved_pred_id) {
-			    E_predicate ();
+			if (types_resolve((&ZI204), rule_param (sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (types_contains_references((&ZI204))) {
+					E_identity_param_has_refs ((&ZI204), entry_key(sid_external_rule),
+						sid_alternative);
+					types_destroy ((&ZI204));
+					sid_current_item = NULL;
+				} else {
+					sid_current_item = item_create(entry);
+					item_add_param(sid_current_item, (&ZI204));
+				}
+			} else {
+				types_destroy((&ZI204));
+				sid_current_item = NULL;
 			}
-			item_add_result (sid_current_item, (ZI201));
-			alt_add_item (sid_current_alt, sid_current_item);
-		    } else {
-			E_identity_mismatch (item_param (sid_current_item),
-					     (ZI201));
-			types_destroy ((ZI201));
-			(void) item_deallocate (sid_current_item);
-			sid_current_item = NULL;
-		    }
+
+			if (types_disjoint_names((ZI201))) {
+				if (types_check_undefined((ZI201), rule_param (sid_current_rule),
+					alt_names (sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (sid_current_item) {
+						if (types_fillin_types((ZI201), item_param(sid_current_item))) {
+							types_add_new_names(alt_names (sid_current_alt),
+							(ZI201), grammar_get_predicate_id(sid_current_grammar));
+							if (sid_saved_pred_id) {
+								E_predicate();
+							}
+							item_add_result(sid_current_item, (ZI201));
+							alt_add_item(sid_current_alt, sid_current_item);
+						} else {
+							E_identity_mismatch(item_param (sid_current_item), (ZI201));
+							types_destroy((ZI201));
+							(void) item_deallocate(sid_current_item);
+							sid_current_item = NULL;
+						}
+					}
+				} else {
+					types_destroy((ZI201));
+					if (sid_current_item) {
+						(void) item_deallocate(sid_current_item);
+						sid_current_item = NULL;
+					}
+				}
+			} else {
+				E_identity_result_clash((ZI201));
+				types_destroy ((ZI201));
+				if (sid_current_item) {
+					(void) item_deallocate(sid_current_item);
+					sid_current_item = NULL;
+				}
+			}
+
+			if (sid_current_item == NULL) {
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt = NULL;
+			}
+		} else {
+			types_destroy((ZI201));
+			types_destroy((&ZI204));
 		}
-	    } else {
-		types_destroy ((ZI201));
-		if (sid_current_item) {
-		    (void) item_deallocate (sid_current_item);
-		    sid_current_item = NULL;
-		}
-	    }
-	} else {
-	    E_identity_result_clash ((ZI201));
-	    types_destroy ((ZI201));
-	    if (sid_current_item) {
-		(void) item_deallocate (sid_current_item);
-		sid_current_item = NULL;
-	    }
-	}
-	if (sid_current_item == NULL) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-    } else {
-	types_destroy ((ZI201));
-	types_destroy ((&ZI204));
-    }
+	
 	    }
 	    ZR241 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -3086,12 +3246,14 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 
 	    {
 
-    sid_current_pred_id = FALSE;
+		sid_current_pred_id = FALSE;
+	
 	    }
 	    ADVANCE_LEXER;
 	    {
 
-    types_init (&(ZI204));
+		types_init(&(ZI204));
+	
 	    }
 	    {
 		{
@@ -3101,7 +3263,8 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 		      case 4:
 			{
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 			}
 			break;
 		      default:
@@ -3110,115 +3273,112 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 		    ADVANCE_LEXER;
 		    {
 
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  (&ZI156), &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), (&ZI156));
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
 
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type ((&ZI204), name_entry, NULL,
-				 TRUE);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else if (non_local_entry) {
-	types_add_name_and_type ((&ZI204), non_local_entry,
-				 NULL, TRUE);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else {
-	types_add_name ((&ZI204), grammar_table(sid_current_grammar), &(ZI156), TRUE);
-    }
+		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
+			grammar_table(sid_current_grammar), (&ZI156), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI156));
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+						name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type ((&ZI204), name_entry, NULL, TRUE);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else if (non_local_entry) {
+			types_add_name_and_type ((&ZI204), non_local_entry, NULL, TRUE);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy(&sid_maximum_scope);
+				nstring_assign(&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else {
+			types_add_name((&ZI204), grammar_table(sid_current_grammar), &(ZI156), TRUE);
+		}
+	
 		    }
 		    {
 
-    if ((sid_current_entry) && (sid_current_alt)) {
-	EntryT * entry = table_add_rename (grammar_table(sid_current_grammar));
+		if (sid_current_entry && sid_current_alt) {
+			EntryT *entry = table_add_rename(grammar_table(sid_current_grammar));
 
-	if (types_resolve ((&ZI204), rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_contains_references ((&ZI204))) {
-		E_identity_param_has_refs ((&ZI204),
-					   entry_key (sid_external_rule),
-					   sid_alternative);
-		types_destroy ((&ZI204));
-		sid_current_item = NULL;
-	    } else {
-		sid_current_item = item_create (entry);
-		item_add_param (sid_current_item, (&ZI204));
-	    }
-	} else {
-	    types_destroy ((&ZI204));
-	    sid_current_item = NULL;
-	}
-	if (types_disjoint_names ((ZI201))) {
-	    if (types_check_undefined ((ZI201),
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (sid_current_item) {
-		    if (types_fillin_types ((ZI201),
-					    item_param (sid_current_item))) {
-			types_add_new_names (alt_names (sid_current_alt),
-					     (ZI201),
-					     grammar_get_predicate_id(sid_current_grammar));
-			if (sid_saved_pred_id) {
-			    E_predicate ();
+			if (types_resolve((&ZI204), rule_param (sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (types_contains_references((&ZI204))) {
+					E_identity_param_has_refs ((&ZI204), entry_key(sid_external_rule),
+						sid_alternative);
+					types_destroy ((&ZI204));
+					sid_current_item = NULL;
+				} else {
+					sid_current_item = item_create(entry);
+					item_add_param(sid_current_item, (&ZI204));
+				}
+			} else {
+				types_destroy((&ZI204));
+				sid_current_item = NULL;
 			}
-			item_add_result (sid_current_item, (ZI201));
-			alt_add_item (sid_current_alt, sid_current_item);
-		    } else {
-			E_identity_mismatch (item_param (sid_current_item),
-					     (ZI201));
-			types_destroy ((ZI201));
-			(void) item_deallocate (sid_current_item);
-			sid_current_item = NULL;
-		    }
+
+			if (types_disjoint_names((ZI201))) {
+				if (types_check_undefined((ZI201), rule_param (sid_current_rule),
+					alt_names (sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (sid_current_item) {
+						if (types_fillin_types((ZI201), item_param(sid_current_item))) {
+							types_add_new_names(alt_names (sid_current_alt),
+							(ZI201), grammar_get_predicate_id(sid_current_grammar));
+							if (sid_saved_pred_id) {
+								E_predicate();
+							}
+							item_add_result(sid_current_item, (ZI201));
+							alt_add_item(sid_current_alt, sid_current_item);
+						} else {
+							E_identity_mismatch(item_param (sid_current_item), (ZI201));
+							types_destroy((ZI201));
+							(void) item_deallocate(sid_current_item);
+							sid_current_item = NULL;
+						}
+					}
+				} else {
+					types_destroy((ZI201));
+					if (sid_current_item) {
+						(void) item_deallocate(sid_current_item);
+						sid_current_item = NULL;
+					}
+				}
+			} else {
+				E_identity_result_clash((ZI201));
+				types_destroy ((ZI201));
+				if (sid_current_item) {
+					(void) item_deallocate(sid_current_item);
+					sid_current_item = NULL;
+				}
+			}
+
+			if (sid_current_item == NULL) {
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt = NULL;
+			}
+		} else {
+			types_destroy((ZI201));
+			types_destroy((&ZI204));
 		}
-	    } else {
-		types_destroy ((ZI201));
-		if (sid_current_item) {
-		    (void) item_deallocate (sid_current_item);
-		    sid_current_item = NULL;
-		}
-	    }
-	} else {
-	    E_identity_result_clash ((ZI201));
-	    types_destroy ((ZI201));
-	    if (sid_current_item) {
-		(void) item_deallocate (sid_current_item);
-		sid_current_item = NULL;
-	    }
-	}
-	if (sid_current_item == NULL) {
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt = NULL;
-	}
-    } else {
-	types_destroy ((ZI201));
-	types_destroy ((&ZI204));
-    }
+	
 		    }
 		    ZR241 (sid_current_grammar);
 		    if ((CURRENT_TERMINAL) == 26) {
@@ -3231,33 +3391,38 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 		    }
 		    {
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_ALT_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 		    }
 		}
 	      ZL4:;
@@ -3274,33 +3439,38 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI201)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_item_rhs ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_item_rhs();
+		}
+	
 	}
 	{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_ALT_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
     }
 }
@@ -3354,7 +3524,8 @@ ZR158(GrammarP sid_current_grammar)
 	}
 	{
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
@@ -3389,84 +3560,80 @@ ZR202(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 	    }
 	    {
 
-    if (sid_current_item) {
-	BoolT   errored = FALSE;
-	EntryT * entry   = item_entry (sid_current_item);
-	ActionT *action  = entry_get_action (entry);
+		if (sid_current_item) {
+			BoolT    errored = FALSE;
+			EntryT  *entry   = item_entry(sid_current_item);
+			ActionT *action  = entry_get_action(entry);
 
-	if (types_resolve ((&ZI204), rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_equal ((&ZI204), action_param (action))) {
-		item_add_param (sid_current_item, (&ZI204));
-	    } else {
-		E_action_param_call_mismatch (entry_key (entry),
-					      action_param (action),
-					      (&ZI204));
-		types_destroy ((&ZI204));
-		errored = TRUE;
-	    }
-	} else {
-	    types_destroy ((&ZI204));
-	    errored = TRUE;
-	}
-	if (types_disjoint_names ((ZI201))) {
-	    if (types_check_undefined ((ZI201),
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (types_fillin_types ((ZI201),
-					action_result (action))) {
-		    types_add_new_names (alt_names (sid_current_alt),
-					 (ZI201), grammar_get_predicate_id(sid_current_grammar));
-		    if (sid_saved_pred_id) {
-			BoolT  reference;
-			EntryT * type = types_find_name_type ((ZI201),
-							    grammar_get_predicate_id(sid_current_grammar),
-							    &reference);
-
-			assert((type != NULL) && (!reference));
-			if(grammar_get_predicate_type (sid_current_grammar)) {
-			    if (type != grammar_get_predicate_type (sid_current_grammar)) {
-				E_predicate_type (grammar_get_predicate_type (sid_current_grammar), type);
-			    }
+			if (types_resolve((&ZI204), rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (types_equal((&ZI204), action_param(action))) {
+					item_add_param(sid_current_item, (&ZI204));
+				} else {
+					E_action_param_call_mismatch(entry_key (entry),
+							  action_param(action), (&ZI204));
+					types_destroy ((&ZI204));
+					errored = TRUE;
+				}
 			} else {
-			    grammar_set_predicate_type (sid_current_grammar,
-							type);
+				types_destroy((&ZI204));
+				errored = TRUE;
 			}
-			item_to_predicate (sid_current_item);
-		    }
-		    item_add_result (sid_current_item, (ZI201));
+
+			if (types_disjoint_names((ZI201))) {
+				if (types_check_undefined((ZI201), rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (types_fillin_types((ZI201), action_result(action))) {
+						types_add_new_names(alt_names(sid_current_alt),
+							(ZI201), grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							BoolT   reference;
+							EntryT *type;
+
+							type = types_find_name_type((ZI201),
+								grammar_get_predicate_id(sid_current_grammar), &reference);
+							assert(type != NULL && !reference);
+							if (grammar_get_predicate_type(sid_current_grammar)) {
+								if (type != grammar_get_predicate_type(sid_current_grammar)) {
+									E_predicate_type(grammar_get_predicate_type(sid_current_grammar), type);
+								}
+							} else {
+								grammar_set_predicate_type(sid_current_grammar, type);
+							}
+							item_to_predicate(sid_current_item);
+						}
+						item_add_result(sid_current_item, (ZI201));
+					} else {
+						E_action_result_call_mismatch(entry_key (entry),
+							action_result(action), (ZI201));
+						types_destroy((ZI201));
+						errored = TRUE;
+					}
+				} else {
+					types_destroy((ZI201));
+					errored = TRUE;
+				}
+			} else {
+				E_action_result_call_clash(entry_key (entry), (ZI201));
+				types_destroy((ZI201));
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
 		} else {
-		    E_action_result_call_mismatch (entry_key (entry),
-						   action_result (action),
-						   (ZI201));
-		    types_destroy ((ZI201));
-		    errored = TRUE;
+			types_destroy((ZI201));
+			types_destroy((&ZI204));
 		}
-	    } else {
-		types_destroy ((ZI201));
-		errored = TRUE;
-	    }
-	} else {
-	    E_action_result_call_clash (entry_key (entry), (ZI201));
-	    types_destroy ((ZI201));
-	    errored = TRUE;
-	}
-	if (errored) {
-	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	} else {
-	    alt_add_item (sid_current_alt, sid_current_item);
-	}
-    } else {
-	types_destroy ((ZI201));
-	types_destroy ((&ZI204));
-    }
+	
 	    }
 	    ZR241 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -3481,92 +3648,90 @@ ZR202(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 
 	    {
 
-    sid_current_pred_id = FALSE;
+		sid_current_pred_id = FALSE;
+	
 	    }
 	    {
 
-    types_init (&(ZI204));
+		types_init(&(ZI204));
+	
 	    }
 	    {
 
-    if (sid_current_item) {
-	BoolT   errored = FALSE;
-	EntryT * entry   = item_entry (sid_current_item);
-	ActionT *action  = entry_get_action (entry);
+		if (sid_current_item) {
+			BoolT    errored = FALSE;
+			EntryT  *entry   = item_entry(sid_current_item);
+			ActionT *action  = entry_get_action(entry);
 
-	if (types_resolve ((&ZI204), rule_param (sid_current_rule),
-			   alt_names (sid_current_alt), E_undefined_name,
-			   entry_key (sid_external_rule), sid_alternative)) {
-	    if (types_equal ((&ZI204), action_param (action))) {
-		item_add_param (sid_current_item, (&ZI204));
-	    } else {
-		E_action_param_call_mismatch (entry_key (entry),
-					      action_param (action),
-					      (&ZI204));
-		types_destroy ((&ZI204));
-		errored = TRUE;
-	    }
-	} else {
-	    types_destroy ((&ZI204));
-	    errored = TRUE;
-	}
-	if (types_disjoint_names ((ZI201))) {
-	    if (types_check_undefined ((ZI201),
-				       rule_param (sid_current_rule),
-				       alt_names (sid_current_alt),
-				       E_redefined_name,
-				       entry_key (sid_external_rule),
-				       sid_alternative)) {
-		if (types_fillin_types ((ZI201),
-					action_result (action))) {
-		    types_add_new_names (alt_names (sid_current_alt),
-					 (ZI201), grammar_get_predicate_id(sid_current_grammar));
-		    if (sid_saved_pred_id) {
-			BoolT  reference;
-			EntryT * type = types_find_name_type ((ZI201),
-							    grammar_get_predicate_id(sid_current_grammar),
-							    &reference);
-
-			assert((type != NULL) && (!reference));
-			if(grammar_get_predicate_type (sid_current_grammar)) {
-			    if (type != grammar_get_predicate_type (sid_current_grammar)) {
-				E_predicate_type (grammar_get_predicate_type (sid_current_grammar), type);
-			    }
+			if (types_resolve((&ZI204), rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (types_equal((&ZI204), action_param(action))) {
+					item_add_param(sid_current_item, (&ZI204));
+				} else {
+					E_action_param_call_mismatch(entry_key (entry),
+							  action_param(action), (&ZI204));
+					types_destroy ((&ZI204));
+					errored = TRUE;
+				}
 			} else {
-			    grammar_set_predicate_type (sid_current_grammar,
-							type);
+				types_destroy((&ZI204));
+				errored = TRUE;
 			}
-			item_to_predicate (sid_current_item);
-		    }
-		    item_add_result (sid_current_item, (ZI201));
+
+			if (types_disjoint_names((ZI201))) {
+				if (types_check_undefined((ZI201), rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (types_fillin_types((ZI201), action_result(action))) {
+						types_add_new_names(alt_names(sid_current_alt),
+							(ZI201), grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							BoolT   reference;
+							EntryT *type;
+
+							type = types_find_name_type((ZI201),
+								grammar_get_predicate_id(sid_current_grammar), &reference);
+							assert(type != NULL && !reference);
+							if (grammar_get_predicate_type(sid_current_grammar)) {
+								if (type != grammar_get_predicate_type(sid_current_grammar)) {
+									E_predicate_type(grammar_get_predicate_type(sid_current_grammar), type);
+								}
+							} else {
+								grammar_set_predicate_type(sid_current_grammar, type);
+							}
+							item_to_predicate(sid_current_item);
+						}
+						item_add_result(sid_current_item, (ZI201));
+					} else {
+						E_action_result_call_mismatch(entry_key (entry),
+							action_result(action), (ZI201));
+						types_destroy((ZI201));
+						errored = TRUE;
+					}
+				} else {
+					types_destroy((ZI201));
+					errored = TRUE;
+				}
+			} else {
+				E_action_result_call_clash(entry_key (entry), (ZI201));
+				types_destroy((ZI201));
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
 		} else {
-		    E_action_result_call_mismatch (entry_key (entry),
-						   action_result (action),
-						   (ZI201));
-		    types_destroy ((ZI201));
-		    errored = TRUE;
+			types_destroy((ZI201));
+			types_destroy((&ZI204));
 		}
-	    } else {
-		types_destroy ((ZI201));
-		errored = TRUE;
-	    }
-	} else {
-	    E_action_result_call_clash (entry_key (entry), (ZI201));
-	    types_destroy ((ZI201));
-	    errored = TRUE;
-	}
-	if (errored) {
-	    (void) item_deallocate (sid_current_item);
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	} else {
-	    alt_add_item (sid_current_alt, sid_current_item);
-	}
-    } else {
-	types_destroy ((ZI201));
-	types_destroy ((&ZI204));
-    }
+	
 	    }
 	    ADVANCE_LEXER;
 	}
@@ -3581,33 +3746,38 @@ ZR202(GrammarP sid_current_grammar, TypeTupleT *ZI201)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_tuple_or_term ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_tuple_or_term();
+		}
+	
 	}
 	{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_ALT_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
     }
 }
@@ -3626,7 +3796,8 @@ ZR261(GrammarP sid_current_grammar)
 		    ADVANCE_LEXER;
 		    {
 
-    sid_current_scope = &sid_global_scope;
+		sid_current_scope = &sid_global_scope;
+	
 		    }
 		}
 		break;
@@ -3634,7 +3805,8 @@ ZR261(GrammarP sid_current_grammar)
 		{
 		    {
 
-    sid_current_scope = &sid_scope_stack;
+		sid_current_scope = &sid_scope_stack;
+	
 		    }
 		}
 		break;
@@ -3681,7 +3853,8 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 
 	    {
 
-    nstring_assign (&ZI135, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI135, lexer_string_value(sid_current_stream));
+	
 	    }
 	    ADVANCE_LEXER;
 	    {
@@ -3699,9 +3872,10 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_typemark ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_typemark();
+		}
+	
 		    }
 		}
 	      ZL2:;
@@ -3714,7 +3888,8 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		      case 4:
 			{
 
-    nstring_assign (&ZI138, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI138, lexer_string_value(sid_current_stream));
+	
 			}
 			break;
 		      default:
@@ -3728,11 +3903,12 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 				ADVANCE_LEXER;
 				{
 
-    if (!types_add_typed_name ((ZI132), grammar_table(sid_current_grammar), &(ZI135),
-			       (&ZI138), TRUE)) {
-	E_unknown_type ((&ZI138));
-    }
-    nstring_destroy (&(ZI138));
+		if (!types_add_typed_name((ZI132), grammar_table(sid_current_grammar),
+			&(ZI135), (&ZI138), TRUE)) {
+			E_unknown_type((&ZI138));
+		}
+		nstring_destroy(&(ZI138));
+	
 				}
 			    }
 			    break;
@@ -3740,11 +3916,12 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 			    {
 				{
 
-    if (!types_add_typed_name ((ZI132), grammar_table(sid_current_grammar), &(ZI135),
-			       (&ZI138), FALSE)) {
-	E_unknown_type ((&ZI138));
-    }
-    nstring_destroy (&(ZI138));
+		if (!types_add_typed_name((ZI132), grammar_table(sid_current_grammar),
+			&(ZI135), (&ZI138), FALSE)) {
+			E_unknown_type((&ZI138));
+		}
+		nstring_destroy(&(ZI138));
+	
 				}
 			    }
 			    break;
@@ -3756,56 +3933,64 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 		    }
 		    {
 
-    nstring_destroy (&(ZI135));
+		nstring_destroy(&(ZI135));
+	
 		    }
 		    {
 
-    if (sid_finished_terminals) {
-	while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_DEFINE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BEGIN_SCOPE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_SEPARATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-		nstring_destroy (lexer_string_value (sid_current_stream));
-	    }
-	    ADVANCE_LEXER;
-	}
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	    ADVANCE_LEXER;
-	}
-    } else {
-	while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_SEPARATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-		nstring_destroy (lexer_string_value (sid_current_stream));
-	    }
-	    ADVANCE_LEXER;
-	}
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	    ADVANCE_LEXER;
-	}
-    }
-    sid_propagating_error = TRUE;
+		if (sid_finished_terminals) {
+			while (CURRENT_TERMINAL != LEXER_TOK_EOF
+				&& CURRENT_TERMINAL != LEXER_TOK_DEFINE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_SCOPE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+					nstring_destroy(lexer_string_value(sid_current_stream));
+				}
+				ADVANCE_LEXER;
+			}
+
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+
+			if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+				ADVANCE_LEXER;
+			}
+		} else {
+			while (CURRENT_TERMINAL != LEXER_TOK_EOF
+				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+					nstring_destroy (lexer_string_value (sid_current_stream));
+				}
+				ADVANCE_LEXER;
+			}
+
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy (lexer_string_value (sid_current_stream));
+			}
+
+			if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+				ADVANCE_LEXER;
+			}
+		}
+
+		sid_propagating_error = TRUE;
+	
 		    }
 		}
 	      ZL4:;
@@ -3823,7 +4008,8 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		      case 4:
 			{
 
-    nstring_assign (&ZI138, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI138, lexer_string_value(sid_current_stream));
+	
 			}
 			break;
 		      default:
@@ -3837,10 +4023,11 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 				ADVANCE_LEXER;
 				{
 
-    if (!types_add_type ((ZI132), grammar_table(sid_current_grammar), (&ZI138), TRUE)) {
-	E_unknown_type ((&ZI138));
-    }
-    nstring_destroy (&(ZI138));
+		if (!types_add_type((ZI132), grammar_table(sid_current_grammar), (&ZI138), TRUE)) {
+			E_unknown_type((&ZI138));
+		}
+		nstring_destroy(&(ZI138));
+	
 				}
 			    }
 			    break;
@@ -3848,11 +4035,12 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 			    {
 				{
 
-    if (!types_add_type ((ZI132), grammar_table(sid_current_grammar), (&ZI138),
-			 FALSE)) {
-	E_unknown_type ((&ZI138));
-    }
-    nstring_destroy (&(ZI138));
+		if (!types_add_type((ZI132), grammar_table(sid_current_grammar), (&ZI138),
+		FALSE)) {
+			E_unknown_type((&ZI138));
+		}
+		nstring_destroy(&(ZI138));
+	
 				}
 			    }
 			    break;
@@ -3864,52 +4052,59 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 		    }
 		    {
 
-    if (sid_finished_terminals) {
-	while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_DEFINE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BEGIN_SCOPE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_SEPARATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-		nstring_destroy (lexer_string_value (sid_current_stream));
-	    }
-	    ADVANCE_LEXER;
-	}
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	    ADVANCE_LEXER;
-	}
-    } else {
-	while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_SEPARATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-		nstring_destroy (lexer_string_value (sid_current_stream));
-	    }
-	    ADVANCE_LEXER;
-	}
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	    ADVANCE_LEXER;
-	}
-    }
-    sid_propagating_error = TRUE;
+		if (sid_finished_terminals) {
+			while (CURRENT_TERMINAL != LEXER_TOK_EOF
+				&& CURRENT_TERMINAL != LEXER_TOK_DEFINE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_SCOPE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+					nstring_destroy(lexer_string_value(sid_current_stream));
+				}
+				ADVANCE_LEXER;
+			}
+
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+
+			if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+				ADVANCE_LEXER;
+			}
+		} else {
+			while (CURRENT_TERMINAL != LEXER_TOK_EOF
+				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+					nstring_destroy (lexer_string_value (sid_current_stream));
+				}
+				ADVANCE_LEXER;
+			}
+
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy (lexer_string_value (sid_current_stream));
+			}
+
+			if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+				ADVANCE_LEXER;
+			}
+		}
+
+		sid_propagating_error = TRUE;
+	
 		    }
 		}
 	      ZL7:;
@@ -3926,52 +4121,59 @@ ZR133(GrammarP sid_current_grammar, TypeTupleT *ZI132)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_tuple_defn ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_tuple_defn();
+		}
+	
 	}
 	{
 
-    if (sid_finished_terminals) {
-	while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_DEFINE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BEGIN_SCOPE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_SEPARATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-		nstring_destroy (lexer_string_value (sid_current_stream));
-	    }
-	    ADVANCE_LEXER;
-	}
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	    ADVANCE_LEXER;
-	}
-    } else {
-	while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_SEPARATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	       (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-		nstring_destroy (lexer_string_value (sid_current_stream));
-	    }
-	    ADVANCE_LEXER;
-	}
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	    ADVANCE_LEXER;
-	}
-    }
-    sid_propagating_error = TRUE;
+		if (sid_finished_terminals) {
+			while (CURRENT_TERMINAL != LEXER_TOK_EOF
+				&& CURRENT_TERMINAL != LEXER_TOK_DEFINE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_SCOPE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+					nstring_destroy(lexer_string_value(sid_current_stream));
+				}
+				ADVANCE_LEXER;
+			}
+
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+
+			if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+				ADVANCE_LEXER;
+			}
+		} else {
+			while (CURRENT_TERMINAL != LEXER_TOK_EOF
+				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+					nstring_destroy (lexer_string_value (sid_current_stream));
+				}
+				ADVANCE_LEXER;
+			}
+
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy (lexer_string_value (sid_current_stream));
+			}
+
+			if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+				ADVANCE_LEXER;
+			}
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
     }
 }
@@ -3996,9 +4198,10 @@ ZR191(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_open_tuple ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_open_tuple();
+		}
+	
 	}
     }
 }
@@ -4023,9 +4226,10 @@ ZR192(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_close_tuple ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_close_tuple();
+		}
+	
 	}
     }
 }
@@ -4047,7 +4251,8 @@ ZR267(GrammarP sid_current_grammar)
 	    {
 		{
 
-    (ZI0) = (CURRENT_TERMINAL == LEXER_TOK_TERMINATOR);
+		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_TERMINATOR);
+	
 		}
 		if (!ZI0)
 		    goto ZL5;
@@ -4070,37 +4275,44 @@ ZR267(GrammarP sid_current_grammar)
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_separator ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_separator();
+		}
+	
 		}
 		{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_SEPARATOR)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 		}
 		{
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 		}
 		{
 		    {
 			{
 
-    (ZI0) = (CURRENT_TERMINAL != LEXER_TOK_SEPARATOR);
+		(ZI0) = (CURRENT_TERMINAL != LEXER_TOK_SEPARATOR);
+	
 			}
 			if (!ZI0)
 			    goto ZL7;
@@ -4140,7 +4352,8 @@ ZR130(GrammarP sid_current_grammar, TypeTupleT *ZO128, TypeTupleT *ZO129)
 	    }
 	    {
 
-    sid_saved_pred_id = sid_current_pred_id;
+		sid_saved_pred_id = sid_current_pred_id;
+	
 	    }
 	    ZR151 (sid_current_grammar);
 	    ZR147 (sid_current_grammar, &ZI129);
@@ -4154,11 +4367,13 @@ ZR130(GrammarP sid_current_grammar, TypeTupleT *ZO128, TypeTupleT *ZO129)
 	{
 	    {
 
-    types_init (&(ZI128));
+		types_init(&(ZI128));
+	
 	    }
 	    {
 
-    types_init (&(ZI129));
+		types_init(&(ZI129));
+	
 	    }
 	}
 	break;
@@ -4172,18 +4387,24 @@ ZR130(GrammarP sid_current_grammar, TypeTupleT *ZO128, TypeTupleT *ZO129)
   ZL0:;
     {
 
-	if((ZO128->head=ZI128.head)==NULL) 
-		ZO128->tail = &(ZO128->head);
-	else 
-		ZO128->tail= ZI128.tail ;
-    }
+		ZO128->head = ZI128.head;
+
+		if (ZO128->head == NULL) {
+			ZO128->tail = &(ZO128->head);
+		} else {
+			ZO128->tail= ZI128.tail ;
+		}
+	    }
     {
 
-	if((ZO129->head=ZI129.head)==NULL) 
-		ZO129->tail = &(ZO129->head);
-	else 
-		ZO129->tail= ZI129.tail ;
-    }
+		ZO129->head = ZI129.head;
+
+		if (ZO129->head == NULL) {
+			ZO129->tail = &(ZO129->head);
+		} else {
+			ZO129->tail= ZI129.tail ;
+		}
+	    }
 }
 
 static void
@@ -4196,14 +4417,16 @@ ZR215(GrammarP sid_current_grammar)
 
 	    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 	    }
 	    ADVANCE_LEXER;
 	    {
 		{
 		    {
 
-    sid_current_pred_id = FALSE;
+		sid_current_pred_id = FALSE;
+	
 		    }
 		    ZR296 (sid_current_grammar, &ZI156);
 		    if ((CURRENT_TERMINAL) == 26) {
@@ -4216,37 +4439,43 @@ ZR215(GrammarP sid_current_grammar)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_tuple_def_or_term ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_tuple_def_or_term();
+		}
+	
 		    }
 		    {
 
-    nstring_destroy (&(ZI156));
+		nstring_destroy(&(ZI156));
+	
 		    }
 		    {
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_ALT_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 		    }
 		}
 	      ZL2:;
@@ -4265,7 +4494,8 @@ ZR215(GrammarP sid_current_grammar)
 		      case 4:
 			{
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 			}
 			break;
 		      default:
@@ -4274,56 +4504,60 @@ ZR215(GrammarP sid_current_grammar)
 		    ADVANCE_LEXER;
 		    {
 
-    sid_current_pred_id = FALSE;
+		sid_current_pred_id = FALSE;
+	
 		    }
 		    {
 
-    types_init (&(ZI201));
+		types_init(&(ZI201));
+	
 		    }
 		    {
 
-    NStringT scope;
-    EntryT *   non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-							  grammar_table(sid_current_grammar),
-							  (&ZI156), &scope);
-    EntryT *   name_entry      = table_get_entry (grammar_table(sid_current_grammar), (&ZI156));
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
 
-    if (name_entry) {
-	if ((sid_current_entry) && (sid_current_alt)) {
-	    if ((!types_contains (alt_names (sid_current_alt), name_entry)) &&
-		(!types_contains (rule_param (sid_current_rule),
-				  name_entry))) {
-		name_entry = NULL;
-	    }
-	} else {
-	    name_entry = NULL;
-	}
-    }
-    if (name_entry) {
-	types_add_name_and_type_var ((&ZI201), name_entry,
-				     NULL);
-	if (non_local_entry) {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else if (non_local_entry) {
-	types_add_name_and_type_var ((&ZI201), non_local_entry,
-				     NULL);
-	if (nstring_length (&scope) > nstring_length (&sid_maximum_scope)) {
-	    nstring_destroy (&sid_maximum_scope);
-	    nstring_assign (&sid_maximum_scope, &scope);
-	} else {
-	    nstring_destroy (&scope);
-	}
-	nstring_destroy (&(ZI156));
-    } else {
-	E_undefined_assignment ((&ZI156));
-	types_add_name ((&ZI201), grammar_table(sid_current_grammar), &(ZI156), FALSE);
-    }
+		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
+			grammar_table(sid_current_grammar), (&ZI156), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI156));
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+					name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type_var((&ZI201), name_entry, NULL);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else if (non_local_entry) {
+			types_add_name_and_type_var ((&ZI201), non_local_entry, NULL);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy (&sid_maximum_scope);
+				nstring_assign (&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(ZI156));
+		} else {
+			E_undefined_assignment((&ZI156));
+			types_add_name((&ZI201), grammar_table(sid_current_grammar), &(ZI156), FALSE);
+		}
+	
 		    }
 		    {
 
-    sid_saved_pred_id = sid_current_pred_id;
+		sid_saved_pred_id = sid_current_pred_id;
+	
 		    }
 		    ZR221 (sid_current_grammar);
 		    ZR206 (sid_current_grammar, &ZI201);
@@ -4337,9 +4571,10 @@ ZR215(GrammarP sid_current_grammar)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 		    }
 		}
 	      ZL4:;
@@ -4357,7 +4592,8 @@ ZR215(GrammarP sid_current_grammar)
 	    }
 	    {
 
-    sid_saved_pred_id = sid_current_pred_id;
+		sid_saved_pred_id = sid_current_pred_id;
+	
 	    }
 	    ZR221 (sid_current_grammar);
 	    ZR206 (sid_current_grammar, &ZI201);
@@ -4371,7 +4607,8 @@ ZR215(GrammarP sid_current_grammar)
 	{
 	    {
 
-    sid_current_pred_id = FALSE;
+		sid_current_pred_id = FALSE;
+	
 	    }
 	    ZR295 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -4404,17 +4641,19 @@ ZR160(GrammarP sid_current_grammar)
 
 	    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 	    }
 	    ADVANCE_LEXER;
 	    {
 
-    (ZI162) = table_add_basic (grammar_table(sid_current_grammar), &(ZI156),
-					 sid_current_grammar, FALSE);
-    if ((ZI162) == NULL) {
-	E_duplicate_basic ((&ZI156));
-	nstring_destroy (&(ZI156));
-    }
+		(ZI162) = table_add_basic(grammar_table(sid_current_grammar), &(ZI156),
+			sid_current_grammar, FALSE);
+		if ((ZI162) == NULL) {
+			E_duplicate_basic((&ZI156));
+			nstring_destroy(&(ZI156));
+		}
+	
 	    }
 	    ZR130 (sid_current_grammar, &ZI128, &ZI129);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -4423,26 +4662,27 @@ ZR160(GrammarP sid_current_grammar)
 	    }
 	    {
 
-    if ((ZI162)) {
-	KeyT * key = entry_key ((ZI162));
-	BasicT* basic = entry_get_basic ((ZI162));
-	if (types_contains_names ((&ZI128))) {
-	    E_basic_param_has_names (key, (&ZI128));
-	}
-	if (types_contains_names ((&ZI129))) {
-	    E_basic_result_has_names (key, (&ZI129));
-	}
-	if (types_contains_references ((&ZI129))) {
-	    E_basic_result_has_refs (key, (&ZI129));
-	}
-	if (!types_equal_zero_tuple ((&ZI128))) {
-	    E_basic_param_mismatch (key, (&ZI128));
-	}
-	types_assign (basic_result (basic), (&ZI129));
-    } else {
-	types_destroy ((&ZI129));
-    }
-    types_destroy ((&ZI128));
+		if ((ZI162)) {
+			KeyT *key = entry_key((ZI162));
+			BasicT *basic = entry_get_basic((ZI162));
+			if (types_contains_names((&ZI128))) {
+				E_basic_param_has_names(key, (&ZI128));
+			}
+			if (types_contains_names((&ZI129))) {
+				E_basic_result_has_names(key, (&ZI129));
+			}
+			if (types_contains_references((&ZI129))) {
+				E_basic_result_has_refs(key, (&ZI129));
+			}
+			if (!types_equal_zero_tuple((&ZI128))) {
+				E_basic_param_mismatch(key, (&ZI128));
+			}
+			types_assign(basic_result(basic), (&ZI129));
+		} else {
+			types_destroy((&ZI129));
+		}
+		types_destroy((&ZI128));
+	
 	    }
 	    ZR241 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -4465,7 +4705,8 @@ ZR160(GrammarP sid_current_grammar)
 		      case 4:
 			{
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 			}
 			break;
 		      default:
@@ -4474,12 +4715,13 @@ ZR160(GrammarP sid_current_grammar)
 		    ADVANCE_LEXER;
 		    {
 
-    (ZI162) = table_add_basic (grammar_table(sid_current_grammar), &(ZI156),
-					 sid_current_grammar, TRUE);
-    if ((ZI162) == NULL) {
-	E_duplicate_basic ((&ZI156));
-	nstring_destroy (&(ZI156));
-    } 
+		(ZI162) = table_add_basic(grammar_table(sid_current_grammar), &(ZI156),
+			sid_current_grammar, TRUE);
+		if ((ZI162) == NULL) {
+			E_duplicate_basic((&ZI156));
+			nstring_destroy(&(ZI156));
+		}
+	
 		    }
 		    ZR130 (sid_current_grammar, &ZI128, &ZI129);
 		    if ((CURRENT_TERMINAL) == 26) {
@@ -4488,26 +4730,27 @@ ZR160(GrammarP sid_current_grammar)
 		    }
 		    {
 
-    if ((ZI162)) {
-	KeyT * key = entry_key ((ZI162));
-	BasicT* basic = entry_get_basic ((ZI162));
-	if (types_contains_names ((&ZI128))) {
-	    E_basic_param_has_names (key, (&ZI128));
-	}
-	if (types_contains_names ((&ZI129))) {
-	    E_basic_result_has_names (key, (&ZI129));
-	}
-	if (types_contains_references ((&ZI129))) {
-	    E_basic_result_has_refs (key, (&ZI129));
-	}
-	if (!types_equal_zero_tuple ((&ZI128))) {
-	    E_basic_param_mismatch (key, (&ZI128));
-	}
-	types_assign (basic_result (basic), (&ZI129));
-    } else {
-	types_destroy ((&ZI129));
-    }
-    types_destroy ((&ZI128));
+		if ((ZI162)) {
+			KeyT *key = entry_key((ZI162));
+			BasicT *basic = entry_get_basic((ZI162));
+			if (types_contains_names((&ZI128))) {
+				E_basic_param_has_names(key, (&ZI128));
+			}
+			if (types_contains_names((&ZI129))) {
+				E_basic_result_has_names(key, (&ZI129));
+			}
+			if (types_contains_references((&ZI129))) {
+				E_basic_result_has_refs(key, (&ZI129));
+			}
+			if (!types_equal_zero_tuple((&ZI128))) {
+				E_basic_param_mismatch(key, (&ZI128));
+			}
+			types_assign(basic_result(basic), (&ZI129));
+		} else {
+			types_destroy((&ZI129));
+		}
+		types_destroy((&ZI128));
+	
 		    }
 		    ZR241 (sid_current_grammar);
 		    if ((CURRENT_TERMINAL) == 26) {
@@ -4520,28 +4763,33 @@ ZR160(GrammarP sid_current_grammar)
 		{
 		    {
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 		    }
 		    {
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 		    }
 		}
 	      ZL2:;
@@ -4558,28 +4806,33 @@ ZR160(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_terminal_decn ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_terminal_decn();
+		}
+	
 	}
 	{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
     }
 }
@@ -4604,9 +4857,10 @@ ZR221(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_define ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_define();
+		}
+	
 	}
     }
 }
@@ -4624,7 +4878,8 @@ ZR224(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 	  case 4:
 	    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 	    }
 	    break;
 	  default:
@@ -4633,22 +4888,24 @@ ZR224(GrammarP sid_current_grammar, TypeTupleT *ZI201)
 	ADVANCE_LEXER;
 	{
 
-    if ((sid_current_entry) && (sid_current_alt)) {
-	EntryT * entry = scope_stack_get_action (&sid_scope_stack,
-					       grammar_table(sid_current_grammar), (&ZI156));
+		if (sid_current_entry && sid_current_alt) {
+			EntryT *entry;
 
-	if (entry) {
-	    sid_current_item = item_create (entry);
-	} else {
-	    E_unknown_action ((&ZI156));
-	    sid_current_item = NULL;
-	    (void) alt_deallocate (sid_current_alt);
-	    sid_current_alt  = NULL;
-	}
-    } else {
-	sid_current_item = NULL;
-    }
-    nstring_destroy (&(ZI156));
+			entry = scope_stack_get_action(&sid_scope_stack,
+				grammar_table(sid_current_grammar), (&ZI156));
+			if (entry) {
+				sid_current_item = item_create(entry);
+			} else {
+				E_unknown_action((&ZI156));
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			}
+		} else {
+			sid_current_item = NULL;
+		}
+		nstring_destroy(&(ZI156));
+	
 	}
 	ZR225 (sid_current_grammar);
 	ZR202 (sid_current_grammar, ZI201);
@@ -4662,33 +4919,38 @@ ZR224(GrammarP sid_current_grammar, TypeTupleT *ZI201)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 	}
 	{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_ALT_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
     }
 }
@@ -4713,9 +4975,10 @@ ZR225(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_end_action ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_end_action();
+		}
+	
 	}
     }
 }
@@ -4740,9 +5003,10 @@ ZR233(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_end_rule ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_end_rule();
+		}
+	
 	}
     }
 }
@@ -4772,7 +5036,8 @@ ZR193(GrammarP sid_current_grammar)
 		  case 4:
 		    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 		    }
 		    break;
 		  default:
@@ -4781,14 +5046,14 @@ ZR193(GrammarP sid_current_grammar)
 		ADVANCE_LEXER;
 		{
 
-    (ZI162) = scope_stack_add_action (sid_current_scope,
-						grammar_table(sid_current_grammar), &(ZI156),
-						sid_enclosing_rule,
-						&sid_redefining_entry);
-    if (!(ZI162)) {
-	E_duplicate_action ((&ZI156));
-	nstring_destroy (&(ZI156));
-    }
+		(ZI162) = scope_stack_add_action (sid_current_scope,
+			grammar_table(sid_current_grammar), &(ZI156), sid_enclosing_rule,
+			&sid_redefining_entry);
+		if (!(ZI162)) {
+			E_duplicate_action((&ZI156));
+			nstring_destroy(&(ZI156));
+		}
+	
 		}
 		ZR225 (sid_current_grammar);
 		ZR130 (sid_current_grammar, &ZI128, &ZI129);
@@ -4798,48 +5063,54 @@ ZR193(GrammarP sid_current_grammar)
 		}
 		{
 
-    if ((ZI162)) {
-	KeyT *       key     = entry_key (sid_current_entry);
-	ActionT*     action  = entry_get_action((ZI162));
-	TypeTupleT * param   = action_param (action);
-	TypeTupleT * result  = action_result (action);
-	BoolT      errored = FALSE;
+		if ((ZI162)) {
+			KeyT       *key     = entry_key(sid_current_entry);
+			ActionT    *action  = entry_get_action((ZI162));
+			TypeTupleT *param   = action_param(action);
+			TypeTupleT *result  = action_result(action);
+			BoolT       errored = FALSE;
 
-	if (types_contains_names ((&ZI128))) {
-	    E_action_param_has_names (key, (&ZI128));
-	    errored = TRUE;
-	}
-	if (sid_redefining_entry) {
-	    if (!types_equal (param, (&ZI128))) {
-		E_action_param_mismatch (key, param, (&ZI128));
-		errored = TRUE;
-	    }
-	}
-	if (types_contains_names ((&ZI129))) {
-	    E_action_result_has_names (key, (&ZI129));
-	    errored = TRUE;
-	}
-	if (types_contains_references ((&ZI129))) {
-	    E_action_result_has_refs (key, (&ZI129));
-	    errored = TRUE;
-	}
-	if (sid_redefining_entry) {
-	    if (!types_equal (result, (&ZI129))) {
-		E_action_result_mismatch (key, result, (&ZI129));
-		errored = TRUE;
-	    }
-	}
-	if (errored || sid_redefining_entry) {
-	    types_destroy ((&ZI128));
-	    types_destroy ((&ZI129));
-	} else {
-	    types_assign (param, (&ZI128));
-	    types_assign (result, (&ZI129));
-	}
-    } else {
-	types_destroy ((&ZI128));
-	types_destroy ((&ZI129));
-    }
+			if (types_contains_names((&ZI128))) {
+				E_action_param_has_names(key, (&ZI128));
+				errored = TRUE;
+			}
+
+			if (sid_redefining_entry) {
+				if (!types_equal(param, (&ZI128))) {
+					E_action_param_mismatch(key, param, (&ZI128));
+					errored = TRUE;
+				}
+			}
+
+			if (types_contains_names((&ZI129))) {
+				E_action_result_has_names(key, (&ZI129));
+				errored = TRUE;
+			}
+
+			if (types_contains_references((&ZI129))) {
+				E_action_result_has_refs(key, (&ZI129));
+				errored = TRUE;
+			}
+
+			if (sid_redefining_entry) {
+				if (!types_equal(result, (&ZI129))) {
+					E_action_result_mismatch(key, result, (&ZI129));
+					errored = TRUE;
+				}
+			}
+
+			if (errored || sid_redefining_entry) {
+				types_destroy((&ZI128));
+				types_destroy((&ZI129));
+			} else {
+				types_assign(param, (&ZI128));
+				types_assign(result, (&ZI129));
+			}
+		} else {
+			types_destroy((&ZI128));
+			types_destroy((&ZI129));
+		}
+	
 		}
 		ZR241 (sid_current_grammar);
 		if ((CURRENT_TERMINAL) == 26) {
@@ -4852,29 +5123,34 @@ ZR193(GrammarP sid_current_grammar)
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 		}
 		{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 		}
 	    }
 	  ZL2:;
@@ -4916,37 +5192,43 @@ ZR235(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_item ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_item();
+		}
+	
 	}
 	{
 
-    while ((CURRENT_TERMINAL != LEXER_TOK_EOF) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_TERMINATOR) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_ALT_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_RULE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_END_SCOPE) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS) &&
-	   (CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY)) {
-	if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	    nstring_destroy (lexer_string_value (sid_current_stream));
-	}
-	ADVANCE_LEXER;
-    }
-    if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
-	nstring_destroy (lexer_string_value (sid_current_stream));
-    }
-    if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
-	ADVANCE_LEXER;
-    }
-    sid_propagating_error = TRUE;
+		while (CURRENT_TERMINAL != LEXER_TOK_EOF
+			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+				nstring_destroy(lexer_string_value(sid_current_stream));
+			}
+			ADVANCE_LEXER;
+		}
+
+		if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
+			nstring_destroy(lexer_string_value(sid_current_stream));
+		}
+
+		if (CURRENT_TERMINAL != LEXER_TOK_EOF) {
+			ADVANCE_LEXER;
+		}
+
+		sid_propagating_error = TRUE;
+	
 	}
 	{
 
-    sid_propagating_error = FALSE;
+		sid_propagating_error = FALSE;
+	
 	}
     }
 }
@@ -4964,7 +5246,8 @@ ZR269(GrammarP sid_current_grammar)
 	  case 4:
 	    {
 
-    nstring_assign (&ZI156, lexer_string_value (sid_current_stream));
+		nstring_assign(&ZI156, lexer_string_value(sid_current_stream));
+	
 	    }
 	    break;
 	  default:
@@ -4973,19 +5256,21 @@ ZR269(GrammarP sid_current_grammar)
 	ADVANCE_LEXER;
 	{
 
-    EntryT * entry = table_get_rule (grammar_table(sid_current_grammar), (&ZI156));
+		EntryT *entry;
 
-    if (entry) {
-	if (entry_list_contains (grammar_entry_list(sid_current_grammar), entry)) {
-	    E_mult_entry (entry_key (entry));
-	} else {
-	    entry_list_add (grammar_entry_list(sid_current_grammar), entry);
-	    rule_required (entry_get_rule (entry));
-	}
-    } else {
-	E_unknown_rule ((&ZI156));
-    }
-    nstring_destroy (&(ZI156));
+		entry = table_get_rule (grammar_table(sid_current_grammar), (&ZI156));
+		if (entry) {
+			if (entry_list_contains(grammar_entry_list(sid_current_grammar), entry)) {
+				E_mult_entry(entry_key(entry));
+			} else {
+				entry_list_add(grammar_entry_list(sid_current_grammar), entry);
+				rule_required(entry_get_rule (entry));
+			}
+		} else {
+			E_unknown_rule((&ZI156));
+		}
+		nstring_destroy(&(ZI156));
+	
 	}
     }
     return;
@@ -4993,9 +5278,10 @@ ZR269(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_identifier ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_identifier();
+		}
+	
 	}
     }
 }
@@ -5017,9 +5303,10 @@ ZR174(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 	    {
 		{
 
-    (ZI0) = ((CURRENT_TERMINAL == LEXER_TOK_CLOSE_TUPLE) ||
-		  (CURRENT_TERMINAL == LEXER_TOK_EOF) ||
-		  (sid_propagating_error));
+		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_CLOSE_TUPLE
+			|| CURRENT_TERMINAL == LEXER_TOK_EOF
+			|| sid_propagating_error);
+	
 		}
 		if (!ZI0)
 		    goto ZL5;
@@ -5042,9 +5329,10 @@ ZR174(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_separator ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_separator();
+		}
+	
 		}
 		goto ZL2_174;
 	    }
@@ -5078,9 +5366,10 @@ ZR241(GrammarP sid_current_grammar)
     {
 	{
 
-    if (!sid_propagating_error) {
-	E_expected_terminator ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_terminator();
+		}
+	
 	}
     }
 }
@@ -5102,9 +5391,10 @@ ZR186(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 	    {
 		{
 
-    (ZI0) = ((CURRENT_TERMINAL == LEXER_TOK_CLOSE_TUPLE) ||
-		  (CURRENT_TERMINAL == LEXER_TOK_EOF) ||
-		  (sid_propagating_error));
+		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_CLOSE_TUPLE
+			|| CURRENT_TERMINAL == LEXER_TOK_EOF
+			|| sid_propagating_error);
+	
 		}
 		if (!ZI0)
 		    goto ZL5;
@@ -5127,9 +5417,10 @@ ZR186(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 	    {
 		{
 
-    if (!sid_propagating_error) {
-	E_expected_separator ();
-    }
+		if (!sid_propagating_error) {
+			E_expected_separator();
+		}
+	
 		}
 		goto ZL2_186;
 	    }
@@ -5144,6 +5435,7 @@ ZR186(GrammarP sid_current_grammar, TypeTupleT *ZI132)
 }
 
 /* BEGINNING OF TRAILER */
+
 
 
 
