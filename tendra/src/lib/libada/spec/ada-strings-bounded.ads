@@ -3,7 +3,7 @@
 --       ASIS implementation for Gela project, a portable Ada compiler      --
 --                     http://www.ten15.org/wiki/Ada                        --
 --                     - - - - - - - - - - - - - - -                        --
---            Read copyright and license at the end of this file            --
+--          Read copyright and license at the end of ada.ads file           --
 ------------------------------------------------------------------------------
 --  $TenDRA$
 
@@ -32,6 +32,11 @@ package Ada.Strings.Bounded is
                                  return Bounded_String;
 
       function To_String (Source : in Bounded_String) return String;
+
+      procedure Set_Bounded_String
+        (Target :    out Bounded_String;
+         Source : in     String;
+         Drop   : in     Truncation := Error);
 
       function Append (Left, Right : in Bounded_String;
                        Drop        : in Truncation  := Error)
@@ -97,6 +102,18 @@ package Ada.Strings.Bounded is
                       High   : in Natural)
                      return String;
 
+      function Bounded_Slice
+        (Source : in Bounded_String;
+         Low    : in Positive;
+         High   : in Natural)
+        return Bounded_String;
+
+      procedure Bounded_Slice
+        (Source : in     Bounded_String;
+         Target :    out Bounded_String;
+         Low    : in     Positive;
+         High   : in     Natural);
+
       function "="  (Left, Right : in Bounded_String) return Boolean;
       function "="  (Left : in Bounded_String; Right : in String)
                     return Boolean;
@@ -136,7 +153,21 @@ package Ada.Strings.Bounded is
       function ">="  (Left : in String; Right : in Bounded_String)
                      return Boolean;
 
-      -- Search functions
+      -- Search subprograms
+
+      function Index (Source  : in Bounded_String;
+                      Pattern : in String;
+                      From    : in Positive;
+                      Going   : in Direction := Forward;
+                      Mapping : in Maps.Character_Mapping := Maps.Identity)
+                     return Natural;
+
+      function Index (Source  : in Bounded_String;
+                      Pattern : in String;
+                      From    : in Positive;
+                      Going   : in Direction := Forward;
+                      Mapping : in Maps.Character_Mapping_Function)
+                     return Natural;
 
       function Index (Source   : in Bounded_String;
                       Pattern  : in String;
@@ -151,11 +182,23 @@ package Ada.Strings.Bounded is
                       Mapping  : in Maps.Character_Mapping_Function)
                      return Natural;
 
+      function Index (Source  : in Bounded_String;
+                      Set     : in Maps.Character_Set;
+                      From    : in Positive;
+                      Test    : in Membership := Inside;
+                      Going   : in Direction := Forward)
+                     return Natural;
+
       function Index (Source : in Bounded_String;
                       Set    : in Maps.Character_Set;
                       Test   : in Membership := Inside;
                       Going  : in Direction  := Forward)
                      return Natural;
+
+      function Index_Non_Blank (Source : in Bounded_String;
+                                From   : in Positive;
+                                Going  : in Direction := Forward)
+                               return Natural;
 
       function Index_Non_Blank (Source : in Bounded_String;
                                 Going  : in Direction := Forward)
@@ -314,36 +357,12 @@ package Ada.Strings.Bounded is
 
    private
 
-      pragma Import (Ada, Bounded_String);
-      pragma Import (Ada, Null_Bounded_String);
+      type Bounded_String is null record;
+      Null_Bounded_String : constant Bounded_String := (null record);
 
    end Generic_Bounded_Length;
 
 end Ada.Strings.Bounded;
 
 
-------------------------------------------------------------------------------
---  Copyright (c) 2006, Maxim Reznik
---  All rights reserved.
---
---  Redistribution and use in source and binary forms, with or without
---  modification, are permitted provided that the following conditions are met:
---
---     * Redistributions of source code must retain the above copyright notice,
---     * this list of conditions and the following disclaimer.
---     * Redistributions in binary form must reproduce the above copyright
---     * notice, this list of conditions and the following disclaimer in the
---     * documentation and/or other materials provided with the distribution.
---
---  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
---  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
---  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
---  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
---  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
---  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
---  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
---  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
---  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
---  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
---  POSSIBILITY OF SUCH DAMAGE.
-------------------------------------------------------------------------------
+

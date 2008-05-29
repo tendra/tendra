@@ -38,6 +38,7 @@ package body Asis.Gela.Visibility.Utils is
 
    procedure Is_Char_Literal
      (Name         : in     Asis.Program_Text;
+      Is_Wide_Wide :    out Boolean;
       Is_Wide_Char :    out Boolean;
       Is_Char      :    out Boolean);
 
@@ -372,6 +373,7 @@ package body Asis.Gela.Visibility.Utils is
       Part              : Part_Access        := Item.Part;
       Region            : Region_Access      := Part.Region;
       Stored_Item       : Region_Item_Access;
+      Is_Wide_Wide      : Boolean;
       Is_Wide_Char      : Boolean;
       Is_Char           : Boolean;
 
@@ -410,7 +412,7 @@ package body Asis.Gela.Visibility.Utils is
          Item.Count := Item.Count + 1;
       end Fix_Item_Prev;
    begin
-      Is_Char_Literal (Name, Is_Wide_Char, Is_Char);
+      Is_Char_Literal (Name, Is_Wide_Wide, Is_Wide_Char, Is_Char);
 
       --  loop over regions (Region)
       while Region /= null loop
@@ -428,8 +430,11 @@ package body Asis.Gela.Visibility.Utils is
                      return Item;
                   end if;
 
-               when Char | Wide_Char =>
-                  if Is_Wide_Char or (Is_Char and Item.Kind = Char) then
+               when Char | Wide_Char | Wide_Wide_Char =>
+                  if Is_Wide_Wide or
+                    (Is_Wide_Char and Item.Kind in Char .. Wide_Char) or
+                    (Is_Char and Item.Kind = Char)
+                  then
                      Fix_Item_Prev;
 
                      return Item;
@@ -565,15 +570,19 @@ package body Asis.Gela.Visibility.Utils is
 
    procedure Is_Char_Literal
      (Name         : in     Asis.Program_Text;
+      Is_Wide_Wide :    out Boolean;
       Is_Wide_Char :    out Boolean;
       Is_Char      :    out Boolean)
    is
       use Ada.Characters.Handling;
    begin
       if Name (Name'First) = ''' then
-         Is_Wide_Char := True;
+         Is_Wide_Wide := True;
+         Is_Wide_Char := Wide_Character'Pos (Name (Name'First + 1)) not in
+           16#D800# .. 16#DFFF#;
          Is_Char      := Is_Character (Name (Name'First + 1));
       else
+         Is_Wide_Wide := False;
          Is_Wide_Char := False;
          Is_Char      := False;
       end if;

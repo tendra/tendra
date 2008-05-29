@@ -110,7 +110,7 @@ package body XASIS.Types is
       The_Natural             := Natural;
       The_Character           := Character;
       The_Wide_Character      := Wide_Character;
-      The_Wide_Wide_Character := Wide_Character;
+      The_Wide_Wide_Character := Wide_Wide_Character;
    end Initialize;
 
    procedure Initialize

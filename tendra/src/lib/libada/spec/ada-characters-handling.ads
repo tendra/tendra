@@ -3,14 +3,16 @@
 --       ASIS implementation for Gela project, a portable Ada compiler      --
 --                     http://www.ten15.org/wiki/Ada                        --
 --                     - - - - - - - - - - - - - - -                        --
---            Read copyright and license at the end of this file            --
+--          Read copyright and license at the end of ada.ads file           --
 ------------------------------------------------------------------------------
 --  $TenDRA$
 
-package Ada.Characters.Handling is
-   pragma Preelaborate(Handling);
+with Ada.Characters.Conversions;
 
-   --Character classification functions
+package Ada.Characters.Handling is
+   pragma Pure (Handling);
+
+   --  Character classification functions
 
    function Is_Control           (Item : in Character) return Boolean;
    function Is_Graphic           (Item : in Character) return Boolean;
@@ -25,7 +27,7 @@ package Ada.Characters.Handling is
    function Is_Alphanumeric      (Item : in Character) return Boolean;
    function Is_Special           (Item : in Character) return Boolean;
 
-   --Conversion functions for Character and String
+   --  Conversion functions for Character and String
 
    function To_Lower (Item : in Character) return Character;
    function To_Upper (Item : in Character) return Character;
@@ -35,7 +37,7 @@ package Ada.Characters.Handling is
    function To_Upper (Item : in String) return String;
    function To_Basic (Item : in String) return String;
 
-   --Classifications of and conversions between Character and ISO 646
+   --  Classifications of and conversions between Character and ISO 646
 
    subtype ISO_646 is
      Character range Character'Val(0) .. Character'Val(127);
@@ -51,49 +53,31 @@ package Ada.Characters.Handling is
                         Substitute : in ISO_646 := ' ')
                        return String;
 
-   --Classifications of and conversions between Wide_Character and Character.
+   --  The functions Is_Character, Is_String, To_Character, To_String,
+   --  To_Wide_Character  and To_Wide_String are obsolescent; see J.14.
 
-   function Is_Character (Item : in Wide_Character) return Boolean;
-   function Is_String    (Item : in Wide_String)    return Boolean;
+   function Is_Character (Item : in Wide_Character) return Boolean
+     renames Conversions.Is_Character;
+   function Is_String    (Item : in Wide_String)    return Boolean
+     renames Conversions.Is_String;
 
    function To_Character (Item       : in Wide_Character;
                           Substitute : in Character := ' ')
-                         return Character;
+                         return Character
+     renames Conversions.To_Character;
 
    function To_String    (Item       : in Wide_String;
                           Substitute : in Character := ' ')
-                         return String;
+                         return String
+     renames Conversions.To_String;
 
-   function To_Wide_Character
-     (Item : in Character) return Wide_Character;
+   function To_Wide_Character (Item : in Character) return Wide_Character
+     renames Conversions.To_Wide_Character;
 
-   function To_Wide_String (Item : in String) return Wide_String;
+   function To_Wide_String    (Item : in String)    return Wide_String
+     renames Conversions.To_Wide_String;
 
 end Ada.Characters.Handling;
 
 
-------------------------------------------------------------------------------
---  Copyright (c) 2006, Maxim Reznik
---  All rights reserved.
---
---  Redistribution and use in source and binary forms, with or without
---  modification, are permitted provided that the following conditions are met:
---
---     * Redistributions of source code must retain the above copyright notice,
---     * this list of conditions and the following disclaimer.
---     * Redistributions in binary form must reproduce the above copyright
---     * notice, this list of conditions and the following disclaimer in the
---     * documentation and/or other materials provided with the distribution.
---
---  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
---  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
---  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
---  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
---  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
---  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
---  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
---  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
---  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
---  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
---  POSSIBILITY OF SUCH DAMAGE.
-------------------------------------------------------------------------------
+

@@ -3,7 +3,7 @@
 --       ASIS implementation for Gela project, a portable Ada compiler      --
 --                     http://www.ten15.org/wiki/Ada                        --
 --                     - - - - - - - - - - - - - - -                        --
---            Read copyright and license at the end of this file            --
+--          Read copyright and license at the end of ada.ads file           --
 ------------------------------------------------------------------------------
 --  $TenDRA$
 
@@ -14,33 +14,10 @@ package Ada.Numerics is
 
    Pi : constant :=
      3.14159_26535_89793_23846_26433_83279_50288_41971_69399_37511;
+   -- n  : constant := Pi;  --  TODO: Convert to UTF-8
    e  : constant :=
      2.71828_18284_59045_23536_02874_71352_66249_77572_47093_69996;
 end Ada.Numerics;
 
 
-------------------------------------------------------------------------------
---  Copyright (c) 2006, Maxim Reznik
---  All rights reserved.
---
---  Redistribution and use in source and binary forms, with or without
---  modification, are permitted provided that the following conditions are met:
---
---     * Redistributions of source code must retain the above copyright notice,
---     * this list of conditions and the following disclaimer.
---     * Redistributions in binary form must reproduce the above copyright
---     * notice, this list of conditions and the following disclaimer in the
---     * documentation and/or other materials provided with the distribution.
---
---  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
---  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
---  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
---  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
---  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
---  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
---  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
---  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
---  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
---  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
---  POSSIBILITY OF SUCH DAMAGE.
-------------------------------------------------------------------------------
+

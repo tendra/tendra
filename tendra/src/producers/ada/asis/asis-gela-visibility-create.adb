@@ -38,6 +38,7 @@ package body Asis.Gela.Visibility.Create is
 
    procedure Is_Character
      (Name         : in     Asis.Defining_Name;
+      Is_Wide_Wide :    out Boolean;
       Is_Wide_Char :    out Boolean;
       Is_Char      :    out Boolean);
 
@@ -345,8 +346,11 @@ package body Asis.Gela.Visibility.Create is
    Char : Classes.Type_Info;
    Wide : Classes.Type_Info;
 
+   Wide_Wide : Classes.Type_Info;
+
    procedure Is_Character
      (Name         : in     Asis.Defining_Name;
+      Is_Wide_Wide :    out Boolean;
       Is_Wide_Char :    out Boolean;
       Is_Char      :    out Boolean)
    is
@@ -355,6 +359,7 @@ package body Asis.Gela.Visibility.Create is
       Decl : Asis.Declaration := Enclosing_Element (Name);
       Tipe : Classes.Type_Info;
    begin
+      Is_Wide_Wide := False;
       Is_Wide_Char := False;
       Is_Char := False;
 
@@ -367,17 +372,26 @@ package body Asis.Gela.Visibility.Create is
                                                 XASIS.Types.Character);
          Wide := Classes.Type_From_Declaration (XASIS.Types.Wide_Character,
                                                 XASIS.Types.Wide_Character);
+         Wide_Wide := Classes.Type_From_Declaration
+           (XASIS.Types.Wide_Wide_Character, XASIS.Types.Wide_Wide_Character);
       end if;
 
       Decl := Enclosing_Element (Enclosing_Element (Decl));
       Tipe := Classes.Type_From_Declaration (Decl, Decl);
 
       if Classes.Is_Child_Of (Tipe, Char) then
+         Is_Wide_Wide := True;
          Is_Wide_Char := True;
          Is_Char := True;
          return;
       elsif Classes.Is_Child_Of (Tipe, Wide) then
+         Is_Wide_Wide := True;
          Is_Wide_Char := True;
+         Is_Char := False;
+         return;
+      elsif Classes.Is_Child_Of (Tipe, Wide_Wide) then
+         Is_Wide_Wide := True;
+         Is_Wide_Char := False;
          Is_Char := False;
          return;
       end if;
@@ -471,6 +485,7 @@ package body Asis.Gela.Visibility.Create is
       Item         : Region_Item_Access;
       Prev         : Region_Item_Access;
       Homograph    : Asis.Defining_Name;
+      Is_Wide_Wide : Boolean;
       Is_Wide_Char : Boolean;
       Is_Char      : Boolean;
       Library_Unit : Boolean := False;
@@ -496,13 +511,15 @@ package body Asis.Gela.Visibility.Create is
          Element_Utils.Set_Override (Defining_Name, Homograph);
       end if;
 
-      Is_Character (Defining_Name, Is_Wide_Char, Is_Char);
+      Is_Character (Defining_Name, Is_Wide_Wide, Is_Wide_Char, Is_Char);
 
-      if Is_Wide_Char then
+      if Is_Wide_Wide then
          if Is_Char then
             Item := new Visibility.Region_Item (Visibility.Char);
-         else
+         elsif Is_Wide_Char then
             Item := new Visibility.Region_Item (Visibility.Wide_Char);
+         else
+            Item := new Visibility.Region_Item (Visibility.Wide_Wide_Char);
          end if;
       else
          Item := new Visibility.Region_Item (Definition);

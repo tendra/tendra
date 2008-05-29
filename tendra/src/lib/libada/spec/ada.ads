@@ -8,12 +8,12 @@
 --  $TenDRA$
 
 package Ada is
-   pragma Pure(Ada);
+   pragma Pure (Ada);
 end Ada;
 
 
 ------------------------------------------------------------------------------
---  Copyright (c) 2006, Maxim Reznik
+--  Copyright (c) 2006-2008, Maxim Reznik
 --  All rights reserved.
 --
 --  Redistribution and use in source and binary forms, with or without

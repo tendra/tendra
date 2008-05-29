@@ -38,7 +38,7 @@ Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [21:4..21:9]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
 
 Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [21:16..21:16]
-   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..292:13]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..294:13]
 
 Expression_Kind:AN_IDENTIFIER X at a0009.adb [21:14..21:14]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER X at a0009.adb [14:4..14:4]
@@ -47,7 +47,7 @@ Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [22:4..22:9]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
 
 Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [22:16..22:16]
-   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..292:13]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..294:13]
 
 Expression_Kind:AN_IDENTIFIER X at a0009.adb [22:14..22:14]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER X at a0009.adb [14:4..14:4]
@@ -59,7 +59,7 @@ Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [23:4..23:9]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
 
 Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [23:16..23:16]
-   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..292:13]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..294:13]
 
 Expression_Kind:AN_IDENTIFIER A at a0009.adb [23:14..23:14]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER A at a0009.adb [13:4..13:4]
@@ -92,7 +92,7 @@ Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [26:4..26:9]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
 
 Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [26:16..26:16]
-   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..292:13]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..294:13]
 
 Expression_Kind:AN_IDENTIFIER S at a0009.adb [26:14..26:14]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER S at a0009.adb [16:4..16:4]
@@ -101,7 +101,7 @@ Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [27:4..27:9]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
 
 Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [27:16..27:16]
-   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..292:13]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..294:13]
 
 Expression_Kind:AN_IDENTIFIER S at a0009.adb [27:14..27:14]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER S at a0009.adb [16:4..16:4]
@@ -113,7 +113,7 @@ Expression_Kind:AN_IDENTIFIER Ignore at a0009.adb [28:4..28:9]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Ignore at a0009.adb [17:4..17:9]
 
 Expression_Kind:AN_OPERATOR_SYMBOL "=" at a0009.adb [28:16..28:16]
-   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..292:13]
+   Defining_Name_Kind:A_DEFINING_OPERATOR_SYMBOL "=" implicit of Declaration_Kind:A_PACKAGE_DECLARATION Standard at standard.ads [10:1..294:13]
 
 Expression_Kind:AN_IDENTIFIER P at a0009.adb [28:14..28:14]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER P at a0009.adb [15:4..15:4]

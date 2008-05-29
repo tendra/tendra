@@ -153,6 +153,7 @@ package body Asis.Gela.Implicit is
    ---------------------------------
 
    procedure Hide_Implementation_Defined (Decl : Asis.Declaration) is
+      Exp : Asis.Expression;
       Def : Asis.Definition;
    begin
       case Declaration_Kind (Decl.all) is
@@ -181,8 +182,17 @@ package body Asis.Gela.Implicit is
                         end;
                      when A_Signed_Integer_Type_Definition =>
                         Def := Integer_Constraint (Def.all);
-                        Hide_Element (Lower_Bound (Def.all));
-                        Hide_Element (Upper_Bound (Def.all));
+                        Exp := Lower_Bound (Def.all);
+
+                        if Expression_Kind (Exp.all) /= An_Integer_Literal then
+                           Hide_Element (Exp);
+                        end if;
+
+                        Exp := Upper_Bound (Def.all);
+
+                        if Expression_Kind (Exp.all) /= An_Integer_Literal then
+                           Hide_Element (Exp);
+                        end if;
 
                      when A_Modular_Type_Definition =>
                         Hide_Element (Mod_Static_Expression (Def.all));
@@ -766,6 +776,7 @@ package body Asis.Gela.Implicit is
          Hide_Implementation_Defined (Unit, "Storage_Unit");
          Hide_Implementation_Defined (Unit, "Word_Size");
          Hide_Implementation_Defined (Unit, "Memory_Size");
+         Hide_Implementation_Defined (Unit, "Default_Bit_Order");
          Hide_Implementation_Defined (Unit, "Any_Priority");
          Hide_Implementation_Defined (Unit, "Priority");
 
@@ -774,6 +785,9 @@ package body Asis.Gela.Implicit is
          Find_Declaration (Unit, The_Root_Storage_Pool, "Root_Storage_Pool");
          XASIS.Types.Initialize
            (Root_Storage_Pool => The_Root_Storage_Pool);
+
+      elsif Are_Equal_Identifiers (Name, "System.RPC") then
+         Hide_Implementation_Defined (Unit, "Partition_Id");
 
       elsif Are_Equal_Identifiers (Name, "System.Storage_Elements") then
          Hide_Implementation_Defined (Unit, "Storage_Offset");
@@ -796,17 +810,60 @@ package body Asis.Gela.Implicit is
          Hide_Implementation_Defined (Unit, "C_float");
          Hide_Implementation_Defined (Unit, "double");
          Hide_Implementation_Defined (Unit, "long_double");
+         Hide_Implementation_Defined (Unit, "char");
+         Hide_Implementation_Defined (Unit, "nul");
+         Hide_Implementation_Defined (Unit, "wchar_t");
+         Hide_Implementation_Defined (Unit, "wide_nul");
+         Hide_Implementation_Defined (Unit, "char16_t");
+         Hide_Implementation_Defined (Unit, "char16_nul");
+         Hide_Implementation_Defined (Unit, "char32_t");
+         Hide_Implementation_Defined (Unit, "char32_nul");
 
       elsif Are_Equal_Identifiers (Name, "Ada.Command_Line") then
          Hide_Implementation_Defined (Unit, "Exit_Status");
+
+      elsif Are_Equal_Identifiers (Name, "Ada.Containers") then
+         Hide_Implementation_Defined (Unit, "Hash_Type");
+         Hide_Implementation_Defined (Unit, "Count_Type");
+
+      elsif Are_Equal_Identifiers (Name, "Ada.Decimal") then
+         Hide_Implementation_Defined (Unit, "Max_Scale");
+         Hide_Implementation_Defined (Unit, "Min_Scale");
+         Hide_Implementation_Defined (Unit, "Max_Decimal_Digits");
 
       elsif Are_Equal_Identifiers (Name, "Ada.Direct_IO")
         or else Are_Equal_Identifiers (Name, "Ada.Streams.Stream_IO")
       then
          Hide_Implementation_Defined (Unit, "Count");
 
+      elsif Are_Equal_Identifiers (Name, "Ada.Directories") then
+         Hide_Implementation_Defined (Unit, "File_Size");
+
+      elsif Are_Equal_Identifiers (Name, "Ada.Dispatching.Round_Robin") then
+         Hide_Implementation_Defined (Unit, "Default_Quantum");
+
+      elsif Are_Equal_Identifiers (Name, "Ada.Execution_Time") then
+         --  TODO: Make it A_Real_Number_Declaration
+         Hide_Implementation_Defined (Unit, "CPU_Time_Unit");
+
+      elsif Are_Equal_Identifiers (Name, "Ada.Execution_Time.Timers") then
+         Hide_Implementation_Defined (Unit, "Min_Handler_Ceiling");
+
+      elsif Are_Equal_Identifiers (Name, "Ada.Execution_Time.Group_Budgets")
+      then
+         Hide_Implementation_Defined (Unit, "Min_Handler_Ceiling");
+
+      elsif Are_Equal_Identifiers (Name, "Ada.Interrupts") then
+         Hide_Implementation_Defined (Unit, "Interrupt_ID");
+
+      elsif Are_Equal_Identifiers (Name, "Ada.Real_Time") then
+         --  TODO: Make it A_Real_Number_Declaration
+         Hide_Implementation_Defined (Unit, "Time_Unit");
+         Hide_Implementation_Defined (Unit, "Seconds_Count");
+
       elsif Are_Equal_Identifiers (Name, "Ada.Text_IO")
         or else Are_Equal_Identifiers (Name, "Ada.Wide_Text_IO")
+        or else Are_Equal_Identifiers (Name, "Ada.Wide_Wide_Text_IO")
       then
          Hide_Implementation_Defined (Unit, "Count");
          Hide_Implementation_Defined (Unit, "Field");

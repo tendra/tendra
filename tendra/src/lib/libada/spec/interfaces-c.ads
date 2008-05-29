@@ -3,7 +3,7 @@
 --       ASIS implementation for Gela project, a portable Ada compiler      --
 --                     http://www.ten15.org/wiki/Ada                        --
 --                     - - - - - - - - - - - - - - -                        --
---            Read copyright and license at the end of this file            --
+--          Read copyright and license at the end of ada.ads file           --
 ------------------------------------------------------------------------------
 --  $TenDRA$
 
@@ -48,9 +48,9 @@ package Interfaces.C is
 
    -- Characters and Strings
 
-   type char is new Character; --  implementation-defined character type;
+   type char is ('x'); --  implementation-defined character type;
 
-   nul : constant char := char'Val (0); --  implementation-defined;
+   nul : constant char := implementation-defined;
 
    function To_C   (Item : in Character) return char;
 
@@ -84,7 +84,7 @@ package Interfaces.C is
 
    type wchar_t is (' ');  --  implementation-defined char type;
 
-   Wide_Nul : constant wchar_t := Wchar_T'Val (0); --  implementation-defined;
+   wide_nul : constant wchar_t := implementation-defined;
 
    function To_C   (Item : in Wide_Character) return wchar_t;
    function To_Ada (Item : in wchar_t       ) return Wide_Character;
@@ -113,33 +113,73 @@ package Interfaces.C is
                      Count    : out Natural;
                      Trim_Nul : in  Boolean := True);
 
+   --  ISO/IEC 10646:2003 compatible types defined by ISO/IEC TR 19769:2004.
+
+   type char16_t is ('x');  --  implementation-defined character type
+
+   char16_nul : constant char16_t := implementation-defined;
+
+   function To_C (Item : in Wide_Character) return char16_t;
+
+   function To_Ada (Item : in char16_t) return Wide_Character;
+
+   type char16_array is array (size_t range <>) of aliased char16_t;
+   pragma Pack (char16_array);
+
+   function Is_Nul_Terminated (Item : in char16_array) return Boolean;
+
+   function To_C (Item       : in Wide_String;
+                  Append_Nul : in Boolean := True)
+                 return char16_array;
+
+   function To_Ada (Item     : in char16_array;
+                    Trim_Nul : in Boolean := True)
+                   return Wide_String;
+
+   procedure To_C (Item       : in     Wide_String;
+                   Target     :    out char16_array;
+                   Count      :    out size_t;
+                   Append_Nul : in     Boolean := True);
+
+   procedure To_Ada (Item     : in     char16_array;
+                     Target   :    out Wide_String;
+                     Count    :    out Natural;
+                     Trim_Nul : in     Boolean := True);
+
+   type char32_t is ('x');  --  implementation-defined character type
+
+   char32_nul : constant char32_t := implementation-defined;
+
+   function To_C (Item : in Wide_Wide_Character) return char32_t;
+
+   function To_Ada (Item : in char32_t) return Wide_Wide_Character;
+
+   type char32_array is array (size_t range <>) of aliased char32_t;
+   pragma Pack (char32_array);
+
+   function Is_Nul_Terminated (Item : in char32_array) return Boolean;
+
+   function To_C (Item       : in Wide_Wide_String;
+                  Append_Nul : in Boolean := True)
+                 return char32_array;
+
+   function To_Ada (Item     : in char32_array;
+                    Trim_Nul : in Boolean := True)
+                   return Wide_Wide_String;
+
+   procedure To_C (Item       : in     Wide_Wide_String;
+                   Target     :    out char32_array;
+                   Count      :    out size_t;
+                   Append_Nul : in     Boolean := True);
+
+   procedure To_Ada (Item     : in     char32_array;
+                     Target   :    out Wide_Wide_String;
+                     Count    :    out Natural;
+                     Trim_Nul : in     Boolean := True);
+
    Terminator_Error : exception;
 
 end Interfaces.C;
 
 
-------------------------------------------------------------------------------
---  Copyright (c) 2006, Maxim Reznik
---  All rights reserved.
---
---  Redistribution and use in source and binary forms, with or without
---  modification, are permitted provided that the following conditions are met:
---
---     * Redistributions of source code must retain the above copyright notice,
---     * this list of conditions and the following disclaimer.
---     * Redistributions in binary form must reproduce the above copyright
---     * notice, this list of conditions and the following disclaimer in the
---     * documentation and/or other materials provided with the distribution.
---
---  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
---  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
---  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
---  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
---  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
---  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
---  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
---  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
---  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
---  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
---  POSSIBILITY OF SUCH DAMAGE.
-------------------------------------------------------------------------------
+

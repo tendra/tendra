@@ -256,8 +256,8 @@ package body Asis.Gela.Overloads.Walk.Down is
          Index   : Asis.List_Index := 1;
          Ignore  : Boolean;
          First   : Asis.List_Index := List'First;
-         Last    : constant Asis.List_Index :=
-            Asis.List_Index (Count_Component (List));
+         Last    : constant Asis.ASIS_Natural :=
+            Asis.ASIS_Natural (Count_Component (List));
          Result  : Component_Info_List (1 .. Last);
          Decl    : Asis.Declaration := Get_Type_View (Tipe);
          Discr   : Discriminant_Info_List := Get_Discriminants (Decl);

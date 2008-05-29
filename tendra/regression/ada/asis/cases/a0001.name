@@ -8,13 +8,13 @@ Expression_Kind:AN_IDENTIFIER Ada at a0001.adb [13:6..13:8]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Ada at ada.ads [10:9..10:11]
 
 Expression_Kind:AN_IDENTIFIER Exceptions at a0001.adb [13:10..13:19]
-   Defining_Name_Kind:A_DEFINING_EXPANDED_NAME Ada.Exceptions at ada-exceptions.ads [10:9..10:22]
+   Defining_Name_Kind:A_DEFINING_EXPANDED_NAME Ada.Exceptions at ada-exceptions.ads [12:9..12:22]
 
 Expression_Kind:AN_IDENTIFIER Ada at a0001.adb [18:11..18:13]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Ada at ada.ads [10:9..10:11]
 
 Expression_Kind:AN_IDENTIFIER Exceptions at a0001.adb [18:15..18:24]
-   Defining_Name_Kind:A_DEFINING_EXPANDED_NAME Ada.Exceptions at ada-exceptions.ads [10:9..10:22]
+   Defining_Name_Kind:A_DEFINING_EXPANDED_NAME Ada.Exceptions at ada-exceptions.ads [12:9..12:22]
 
 Expression_Kind:AN_IDENTIFIER Integer at a0001.adb [22:20..22:26]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER Integer at standard.ads [37:9..37:15]

@@ -709,7 +709,7 @@ package body Asis.Gela.Visibility is
             end if;
 
             case Item.Kind is
-               when Definition | Char | Wide_Char =>
+               when Definition | Char | Wide_Char | Wide_Wide_Char  =>
                   if Item.Kind = Definition and then Item.Still_Hidden then
                      Visible := 'H';
                   else

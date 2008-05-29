@@ -128,14 +128,16 @@ private
    type Region_Item_Access is access all Region_Item;
 
    type Item_Kinds is
-     (Definition, Char, Wide_Char, Use_Package, Use_Type, Dummy);
+     (Definition,
+      Char, Wide_Char, Wide_Wide_Char,
+      Use_Package, Use_Type, Dummy);
 
    type Region_Item (Kind : Item_Kinds := Definition) is record
       Part          : Part_Access;
       Next          : Region_Item_Access;
 
       case Kind is
-         when Definition | Char | Wide_Char =>
+         when Definition | Char | Wide_Char | Wide_Wide_Char =>
             Defining_Name : Asis.Defining_Name;
             --  List of equal names in the same region:
             Prev          : Region_Item_Access;

@@ -3,16 +3,16 @@
 --       ASIS implementation for Gela project, a portable Ada compiler      --
 --                     http://www.ten15.org/wiki/Ada                        --
 --                     - - - - - - - - - - - - - - -                        --
---            Read copyright and license at the end of this file            --
+--          Read copyright and license at the end of ada.ads file           --
 ------------------------------------------------------------------------------
 --  $TenDRA$
 
 with Ada.Strings.Wide_Maps;
-
 package Ada.Strings.Wide_Unbounded is
    pragma Preelaborate (Wide_Unbounded);
 
    type Unbounded_Wide_String is private;
+   pragma Preelaborable_Initialization (Unbounded_Wide_String);
 
    Null_Unbounded_Wide_String : constant Unbounded_Wide_String;
 
@@ -32,6 +32,10 @@ package Ada.Strings.Wide_Unbounded is
    function To_Wide_String (Source : in Unbounded_Wide_String)
                            return Wide_String;
 
+   procedure Set_Unbounded_Wide_String
+     (Target :    out Unbounded_Wide_String;
+      Source : in     Wide_String);
+
    procedure Append (Source   : in out Unbounded_Wide_String;
                      New_Item : in Unbounded_Wide_String);
 
@@ -44,17 +48,19 @@ package Ada.Strings.Wide_Unbounded is
    function "&" (Left, Right : in Unbounded_Wide_String)
                 return Unbounded_Wide_String;
 
-   function "&" (Left : in Unbounded_Wide_String; Right : in Wide_String)
+   function "&" (Left  : in Unbounded_Wide_String;
+                 Right : in Wide_String)
                 return Unbounded_Wide_String;
 
-   function "&" (Left : in Wide_String; Right : in Unbounded_Wide_String)
+   function "&" (Left  : in Wide_String;
+                 Right : in Unbounded_Wide_String)
                 return Unbounded_Wide_String;
 
-   function "&" (Left : in Unbounded_Wide_String;
+   function "&" (Left  : in Unbounded_Wide_String;
                  Right : in Wide_Character)
                 return Unbounded_Wide_String;
 
-   function "&" (Left : in Wide_Character;
+   function "&" (Left  : in Wide_Character;
                  Right : in Unbounded_Wide_String)
                 return Unbounded_Wide_String;
 
@@ -71,57 +77,83 @@ package Ada.Strings.Wide_Unbounded is
                    High   : in Natural)
                   return Wide_String;
 
+   function Unbounded_Slice
+     (Source : in Unbounded_Wide_String;
+      Low    : in Positive;
+      High   : in Natural)
+     return Unbounded_Wide_String;
+
+   procedure Unbounded_Slice
+     (Source : in     Unbounded_Wide_String;
+      Target :    out Unbounded_Wide_String;
+      Low    : in     Positive;
+      High   : in     Natural);
+
    function "="  (Left, Right : in Unbounded_Wide_String) return Boolean;
 
-   function "="  (Left : in Unbounded_Wide_String;
+   function "="  (Left  : in Unbounded_Wide_String;
                   Right : in Wide_String)
                  return Boolean;
 
-   function "="  (Left : in Wide_String;
+   function "="  (Left  : in Wide_String;
                   Right : in Unbounded_Wide_String)
                  return Boolean;
 
    function "<"  (Left, Right : in Unbounded_Wide_String) return Boolean;
 
-   function "<"  (Left : in Unbounded_Wide_String;
+   function "<"  (Left  : in Unbounded_Wide_String;
                   Right : in Wide_String)
                  return Boolean;
 
-   function "<"  (Left : in Wide_String;
+   function "<"  (Left  : in Wide_String;
                   Right : in Unbounded_Wide_String)
                  return Boolean;
 
    function "<=" (Left, Right : in Unbounded_Wide_String) return Boolean;
 
-   function "<="  (Left : in Unbounded_Wide_String;
+   function "<="  (Left  : in Unbounded_Wide_String;
                    Right : in Wide_String)
                   return Boolean;
 
-   function "<="  (Left : in Wide_String;
+   function "<="  (Left  : in Wide_String;
                    Right : in Unbounded_Wide_String)
                   return Boolean;
 
    function ">"  (Left, Right : in Unbounded_Wide_String) return Boolean;
 
-   function ">"  (Left : in Unbounded_Wide_String;
+   function ">"  (Left  : in Unbounded_Wide_String;
                   Right : in Wide_String)
                  return Boolean;
 
-   function ">"  (Left : in Wide_String;
+   function ">"  (Left  : in Wide_String;
                   Right : in Unbounded_Wide_String)
                  return Boolean;
 
    function ">=" (Left, Right : in Unbounded_Wide_String) return Boolean;
 
-   function ">="  (Left : in Unbounded_Wide_String;
-                   Right : in Wide_String)
+   function ">="  (Left : in Unbounded_Wide_String; Right : in Wide_String)
                   return Boolean;
 
-   function ">="  (Left : in Wide_String;
+   function ">="  (Left  : in Wide_String;
                    Right : in Unbounded_Wide_String)
                   return Boolean;
 
    -- Search subprograms
+
+   function Index (Source  : in Unbounded_Wide_String;
+                   Pattern : in Wide_String;
+                   From    : in Positive;
+                   Going   : in Direction := Forward;
+                   Mapping : in Wide_Maps.Wide_Character_Mapping
+                     := Wide_Maps.Identity)
+                  return Natural;
+
+   function Index (Source  : in Unbounded_Wide_String;
+                   Pattern : in Wide_String;
+                   From    : in Positive;
+                   Going   : in Direction := Forward;
+                   Mapping : in Wide_Maps.Wide_Character_Mapping_Function)
+                  return Natural;
 
    function Index (Source   : in Unbounded_Wide_String;
                    Pattern  : in Wide_String;
@@ -138,8 +170,20 @@ package Ada.Strings.Wide_Unbounded is
 
    function Index (Source : in Unbounded_Wide_String;
                    Set    : in Wide_Maps.Wide_Character_Set;
+                   From   : in Positive;
+                   Test   : in Membership := Inside;
+                   Going  : in Direction := Forward)
+                  return Natural;
+
+   function Index (Source : in Unbounded_Wide_String;
+                   Set    : in Wide_Maps.Wide_Character_Set;
                    Test   : in Membership := Inside;
                    Going  : in Direction  := Forward) return Natural;
+
+   function Index_Non_Blank (Source : in Unbounded_Wide_String;
+                             From   : in Positive;
+                             Going  : in Direction := Forward)
+                            return Natural;
 
    function Index_Non_Blank (Source : in Unbounded_Wide_String;
                              Going  : in Direction := Forward)
@@ -277,28 +321,4 @@ private
 end Ada.Strings.Wide_Unbounded;
 
 
-------------------------------------------------------------------------------
---  Copyright (c) 2006, Maxim Reznik
---  All rights reserved.
---
---  Redistribution and use in source and binary forms, with or without
---  modification, are permitted provided that the following conditions are met:
---
---     * Redistributions of source code must retain the above copyright notice,
---     * this list of conditions and the following disclaimer.
---     * Redistributions in binary form must reproduce the above copyright
---     * notice, this list of conditions and the following disclaimer in the
---     * documentation and/or other materials provided with the distribution.
---
---  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
---  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
---  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
---  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
---  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
---  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
---  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
---  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
---  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
---  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
---  POSSIBILITY OF SUCH DAMAGE.
-------------------------------------------------------------------------------
+

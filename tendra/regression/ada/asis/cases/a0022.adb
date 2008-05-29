@@ -7,9 +7,9 @@
 --  Purpose: Check bag-fix: use clause on renamed packages
 --
 
-with Text_IO;
+with A0022A;
 procedure A0022 (Text : String) is
-use Text_IO;
+use A0022A;
 begin
    Put_Line (Text);
 end;
