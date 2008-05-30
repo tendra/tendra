@@ -1,0 +1,3 @@
+TYPE dummytype;
+
+ACTION <dummy> : (:dummytype) -> ();
