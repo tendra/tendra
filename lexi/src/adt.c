@@ -91,18 +91,12 @@ NStringT* entry_key(EntryT* entry)
 
 int entry_is_type(EntryT* entry) 
 {
-	if(entry->entry_kind==entry_type)
-		return 1;
-	else
-		return 0;
+  return(entry->entry_kind==entry_type);
 }
 
 int entry_is_action (EntryT* entry) 
 {
-	if(entry->entry_kind==entry_action)
-		return 1;
-	else
-		return 0;
+  return (entry->entry_kind==entry_action);
 }
 
 int entry_is_localname(EntryT* entry) 

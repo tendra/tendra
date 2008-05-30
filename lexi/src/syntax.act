@@ -389,11 +389,12 @@ arg-ignore : () -> (a:ARG) = @{
 	nstring_copy_cstring(&key, @i);
 	EntryT* entry = table_get_entry(@z->top_level->table, &key);
 	if(entry) {
-		if(entry_is_action(entry))
+		if(entry_is_action(entry)) {
 			@inst=add_instruction_action(entry,@l,@r);
-		else
+		} else {
 			@inst=NULL;
 			error(ERROR_SERIOUS, "Name %s is not an action", @i);
+		}
 	} else {
 		@inst=NULL;
 		error(ERROR_SERIOUS, "Unknown action %s", @i);
@@ -702,7 +703,6 @@ arg-ignore : () -> (a:ARG) = @{
 <make-action> : ( z:ZONE, i:IDENTIFIER, params:TYPETUPLE&, results:TYPETUPLE&) -> () = @{
 	NStringT str;
 	nstring_copy_cstring(&str, @i);
-	xfree(@i);
 	EntryT* entry;
 	if(entry=table_get_entry(@z->top_level->table, &str)) {
 		nstring_destroy(&str);
@@ -718,6 +718,7 @@ arg-ignore : () -> (a:ARG) = @{
 	} else {
 		table_add_action(@z->top_level->table, &str , @&params, @&results);
 	}
+	xfree(@i);
 @};
 
 /*
