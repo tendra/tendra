@@ -118,7 +118,7 @@ main(int argc, char **argv)
 		void (*output_all)(cmd_line_options *, lexer_parse_tree *);
 		const char *options;
 	} outputs[] = {
-		{ "C90", 2, 2, c_output_all, COMMON_OPTIONS	},
+		{ "C90", 2, 2, c_output_all, COMMON_OPTIONS "a" },
 		{ "C99", 2, 2, c_output_all, COMMON_OPTIONS "a"	},
 		{ "Dot", 1, 1, dot_output_all, COMMON_OPTIONS	},
 	};
