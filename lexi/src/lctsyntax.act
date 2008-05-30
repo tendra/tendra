@@ -50,7 +50,7 @@ ENTRYP -> EntryP;
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id:$
+ * $Id$
  */
  
 
@@ -106,7 +106,7 @@ lexer_parse_tree* lxi_top_level;
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id:$
+ * $Id$
  */
  #ifndef LCT_SYNTAX_HEADER_INCLUDED
  #define LCT_SYNTAX_HEADER_INCLUDED
@@ -174,6 +174,12 @@ code-string : () -> (s:BIGSTRING) = @{
 
 <true> : () -> ( b : BOOL ) =	@{ @b = true ; @} ;
 <false> : () -> ( b : BOOL ) =	@{ @b = false ; @} ;
+
+/*
+	STRINGS
+*/
+
+<empty-identifier> : () -> ( s: IDENTIFIER) = @{ nstring_init(&@s); @};
 
 /*
 	C CODE MANIPULATION

@@ -39,7 +39,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id:$
+ * $Id$
  */
  #ifndef LCT_SYNTAX_HEADER_INCLUDED
  #define LCT_SYNTAX_HEADER_INCLUDED
@@ -80,7 +80,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 404 "lctsyntax.act"
+#line 410 "lctsyntax.act"
 
 #endif
 #line 87 "lctsyntax.h"

@@ -308,16 +308,14 @@ arg-ignore : () -> (a:ARG) = @{
 @} ;
 
 /*
-    CREATE A NULL IDENTIFIER
+    CREATE AN EMPTY IDENTIFIER
 
     This action creates a NULL IDENTIFIER
 */
 
-/*
-<null-identifier> : () -> ( i : IDENTIFIER ) = @{
-    @i = NULL;
+<empty-identifier> : () -> ( i : IDENTIFIER ) = @{
+    @i = "";
 @} ;
-*/
 
 /*
     CREATE A CHARACTER STRING
@@ -738,12 +736,15 @@ arg-ignore : () -> (a:ARG) = @{
 	if(entry == NULL) {
 		 error(ERROR_SERIOUS, "Unknown type %s", @type);
 		 nstring_destroy(&istr);
-		 nstring_destroy(&tstr);
 	}
-	else if(!entry_is_type(entry))
+	else if(!entry_is_type(entry)) {
 		 error(ERROR_SERIOUS, "%s is not a type", @type);
-	else
+		 nstring_destroy(&istr);
+	}
+	else {
 		typetuple_append(@&a,typetupleentry_create(&istr,entry,@isref));
+	}
+	nstring_destroy(&tstr);
 	xfree(@type);
 	xfree(@id);
 @} ;
@@ -783,6 +784,14 @@ arg-ignore : () -> (a:ARG) = @{
 	error(ERROR_SERIOUS, "Syntax error: expected range");
 @};
 
+<E_expected_open> : () -> () = @{
+	error(ERROR_SERIOUS, "Syntax error: expected open \'(\'");
+@};
+
+<E_expected_close> : () -> () = @{
+	error(ERROR_SERIOUS, "Syntax error: expected close \')\'");
+@};
+
 <E_expected_chars> : () -> (c:CHARACTERS) = @{
         @c = NULL ;
 	error(ERROR_SERIOUS, "Syntax error: expected characters");
@@ -803,6 +812,15 @@ arg-ignore : () -> (a:ARG) = @{
 <E_expected_equal> 	 : () -> () = @{
 	error(ERROR_SERIOUS, "Syntax error: expected equal \'=\'");
 @};
+
+<E_expected_begin_action> 	 : () -> () = @{
+	error(ERROR_SERIOUS, "Syntax error: expected begin action \'<\'");
+@};
+
+<E_expected_end_action> 	 : () -> () = @{
+	error(ERROR_SERIOUS, "Syntax error: expected end action \'>\'");
+@};
+
 
 <syntax-error> : () -> () = @{
 	error ( ERROR_SERIOUS, "Syntax error" ) ;

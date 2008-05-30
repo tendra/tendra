@@ -103,7 +103,7 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 843 "syntax.act"
+#line 861 "syntax.act"
 
 #endif
 #line 110 "tmp.syntax.h"

@@ -67,6 +67,8 @@ code-string : () -> (:BIGSTRING);
 <true> : () -> (:BOOL) ;
 <false> : () -> (:BOOL) ;
 
+<empty-identifier> : () -> ( : IDENTIFIER);
+
 <set-headers> : (:CCODE &, :CCODE&) -> ();
 <set-trailers> : (:CCODE &, :CCODE&) -> ();
 
@@ -204,7 +206,11 @@ map-stmnt : () -> () = {
 action-definition : () -> () [ 
 	type-tuple : ( ) -> (a:TYPETUPLE) [
 		type-name : (a:TYPETUPLE&) -> () = {
-			name=identifier ;
+			{
+				name=identifier ;
+			    ||
+				name=<empty-identifier>;
+			};
 			colon ;
 			type=identifier ;
 			{
@@ -217,7 +223,7 @@ action-definition : () -> () [
 		type-tuple1 : (a:TYPETUPLE&) -> () = {
 			type-name(&a) ;
 		    ||
-			type-name(&a) ; type-tuple1(&a) ;
+			type-name(&a) ; comma; type-tuple1(&a) ;
 		} ; ] = {
 		a=<init-tuple> ;
 	    ||

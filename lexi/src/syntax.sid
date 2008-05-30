@@ -143,7 +143,7 @@ type-kw ;
 <true> : () -> ( :BOOL ) ;
 <false> : () -> ( :BOOL ) ;
 
-//<null-identifier> : () -> ( :IDENTIFIER );
+<empty-identifier> : () -> ( :IDENTIFIER );
 
 //<global-zone> : () -> ( :ZONE );
 <is-global-zone> : ( :ZONE ) -> ( :BOOL );
@@ -162,7 +162,11 @@ type-kw ;
 <add-inst-to-list> : ( : ZONE, : INSTRUCTION, : INSTRUCTIONS_LIST ) -> ();
 
 <E_expected_identifier> : () -> (:IDENTIFIER);
+<E_expected_begin_action> : () -> ();
+<E_expected_end_action> : () -> ();
 <E_expected_range> : () -> ();
+<E_expected_open> : () -> ();
+<E_expected_close> : () -> ();
 <E_expected_chars> : () -> (:CHARACTERS);
 
 <E_nonglobalzonekeyword> : () -> ();
@@ -374,7 +378,11 @@ type-defn : (z:ZONE) -> () = {
 
 type-tuple : ( z:ZONE ) -> (a:TYPETUPLE) [
 	type-name : (z:ZONE, a:TYPETUPLE) -> () = {
-		name=identifier ;
+		{
+			name=identifier ;
+		    ||	
+		    	name=<empty-identifier>;
+		};
 		colon ;
 		type=identifier ;
 		{
@@ -387,7 +395,7 @@ type-tuple : ( z:ZONE ) -> (a:TYPETUPLE) [
 	type-tuple1 : (z:ZONE, a:TYPETUPLE&) -> () = {
 		type-name(z, a) ;
 	    ||
-		type-name(z, a) ; type-tuple1(z, &a) ;
+		type-name(z, a) ; comma; type-tuple1(z, &a) ;
 	} ; ] = {
 	a=<init-tuple> ;
     ||
@@ -402,25 +410,49 @@ type-tuple : ( z:ZONE ) -> (a:TYPETUPLE) [
 
 action-decl : (z:ZONE) -> () = {
 	action-kw;
-	begin-action ;
+	{
+		begin-action ;
+	    ##
+		<E_expected_begin_action>;
+	};
 	i = identifier ;
-	end-action ;
+	{
+		end-action ;
+	    ##
+		<E_expected_end_action>;
+	};
 	{
 		it = <init-tuple>;
 		ot = <init-tuple>;
 	    ||
 		colon ;
-		open ;
+		{
+			open ;
+		    ##
+			<E_expected_open>;
+		};
 		it=type-tuple(z) ;
-		close;
+		{
+			close ;
+		    ##
+			<E_expected_close>;
+		};
 		{
 			arrow ;
 		    ##
 			<E_expected_arrow> ;
 		} ;
-		open;
+		{
+			open ;
+		    ##
+			<E_expected_open>;
+		};
 		ot=type-tuple(z) ;
-		close;
+		{
+			close ;
+		    ##
+			<E_expected_close>;
+		};
 	} ;
 	<make-action>(z,i,&it,&ot);
 } ;
