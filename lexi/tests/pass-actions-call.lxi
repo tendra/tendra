@@ -1,0 +1,2 @@
+ACTION <dummy>;
+TOKEN DEFAULT -> <dummy>;
