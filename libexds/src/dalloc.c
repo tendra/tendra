@@ -37,12 +37,14 @@
 /*
  * TODO Perhaps this can be replaced with our centralised xalloc.h if
  * the exception system is also centralised?
+ *
+ * TODO I don't see why .base is ByteT and not char *. A few other things
+ * ought to be void *, too.
  */
 
 #include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include <stdint.h>
 
 #include "shared/check/check.h"
 #include <exds/common.h>
@@ -78,7 +80,7 @@ X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 	size_t real_size;
 	vm_address_t address;
 	DallocDataT *data;
-	uint8_t *base;
+	ByteT *base;
 
 	assert(size != 0);
 	if (length == 0) {
@@ -95,7 +97,7 @@ X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 	}
 
 	data        = (DallocDataT *) address;
-	base        = (uint8_t *) address;
+	base        = (ByteT *) address;
 	data->file  = file;
 	data->line  = line;
 	data->size  = real_size;
@@ -107,7 +109,7 @@ X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 void
 X__dalloc_deallocate(void *ptr, char *file, unsigned line)
 {
-	uint8_t *pointer;
+	ByteT *pointer;
 	DallocDataT *data;
 	vm_address_t address;
 	vm_size_t size;
@@ -117,7 +119,7 @@ X__dalloc_deallocate(void *ptr, char *file, unsigned line)
 		return;
 	}
 
-	pointer = (uint8_t *) ptr;
+	pointer = (ByteT *) ptr;
 	data    = (DallocDataT *) (pointer - dalloc_data_size);
 	address = (vm_address_t) data;
 	size    = data->size;
@@ -141,7 +143,7 @@ void *
 X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 {
 	size_t real_size;
-	uint8_t *base;
+	ByteT *base;
 	DallocDataT *data;
 	void *tmp;
 
@@ -170,14 +172,14 @@ X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 void
 X__dalloc_deallocate(void *ptr, char *file, unsigned line)
 {
-	uint8_t *pointer;
+	ByteT *pointer;
 	DallocDataT *data;
 
 	if (!ptr) {
 		return;
 	}
 
-	pointer = (uint8_t *) ptr;
+	pointer = (ByteT *) ptr;
 	data    = (DallocDataT *) (pointer - dalloc_data_size);
 
 	if (data->magic == 0) {

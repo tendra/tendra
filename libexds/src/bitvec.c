@@ -65,7 +65,6 @@
  */
 
 #include <stddef.h>
-#include <stdint.h>
 #include <limits.h>
 #include <string.h>
 #include <assert.h>
@@ -81,7 +80,7 @@
  */
 static unsigned		bitvec_size;
 static unsigned		bitvec_valid_bits;
-static uint8_t		bitvec_mask;
+static ByteT		bitvec_mask;
 
 #define NUM_BITS ((unsigned) CHAR_BIT)
 
@@ -100,7 +99,7 @@ bitvec_set_size(unsigned size)
 			mask >>= 1;
 			mask  |= (unsigned) 1 << (NUM_BITS - (unsigned) 1);
 		}
-		bitvec_mask = (uint8_t) mask;
+		bitvec_mask = (ByteT) mask;
 	}
 	bitvec_mask = ~bitvec_mask;
 }
@@ -108,13 +107,13 @@ bitvec_set_size(unsigned size)
 void
 bitvec_init(BitVecT *bitvec)
 {
-	bitvec->bits = ALLOCATE_VECTOR(uint8_t, bitvec_size);
+	bitvec->bits = ALLOCATE_VECTOR(ByteT, bitvec_size);
 }
 
 void
 bitvec_copy(BitVecT *to, BitVecT *from)
 {
-	to->bits = ALLOCATE_VECTOR(uint8_t, bitvec_size);
+	to->bits = ALLOCATE_VECTOR(ByteT, bitvec_size);
 	(void) memcpy(to->bits, from->bits, (size_t) bitvec_size);
 }
 
@@ -133,7 +132,7 @@ bitvec_empty(BitVecT *bitvec)
 BoolT
 bitvec_is_empty(BitVecT *bitvec)
 {
-	uint8_t *bitvec_bits = bitvec->bits;
+	ByteT *bitvec_bits = bitvec->bits;
 	unsigned bytes       = bitvec_size;
 
 	while (bytes--) {
@@ -148,14 +147,14 @@ bitvec_is_empty(BitVecT *bitvec)
 BoolT
 bitvec_is_full(BitVecT *bitvec)
 {
-	uint8_t *bitvec_bits = bitvec->bits;
+	ByteT *bitvec_bits = bitvec->bits;
 	unsigned bytes       = bitvec_size;
 
 	while (bytes--) {
-		uint8_t byte = *bitvec_bits++;
+		ByteT byte = *bitvec_bits++;
 
 		if (bytes == 0) {
-			byte |= (uint8_t) ~bitvec_mask;
+			byte |= (ByteT) ~bitvec_mask;
 		}
 		byte = ~byte;
 		if (byte) {
@@ -170,7 +169,7 @@ void
 bitvec_set(BitVecT *bitvec, unsigned bit)
 {
 	assert(bit < bitvec_valid_bits);
-	bitvec->bits[bit / NUM_BITS] |= (uint8_t) (1 << (bit % NUM_BITS));
+	bitvec->bits[bit / NUM_BITS] |= (ByteT) (1 << (bit % NUM_BITS));
 }
 
 BoolT
@@ -178,14 +177,14 @@ bitvec_is_set(BitVecT *bitvec, unsigned bit)
 {
     assert(bit < bitvec_valid_bits);
 	/* XXX check cast and parenthesis wrt bitvec_set() */
-    return bitvec->bits[bit / NUM_BITS] & ((uint8_t) 1 << (bit % NUM_BITS));
+    return bitvec->bits[bit / NUM_BITS] & ((ByteT) 1 << (bit % NUM_BITS));
 }
 
 void
 bitvec_or(BitVecT *to, BitVecT *from)
 {
-	uint8_t *to_bits   = to->bits;
-	uint8_t *from_bits = from->bits;
+	ByteT *to_bits   = to->bits;
+	ByteT *from_bits = from->bits;
 	unsigned bytes     = bitvec_size;
 
 	while (bytes--) {
@@ -196,8 +195,8 @@ bitvec_or(BitVecT *to, BitVecT *from)
 void
 bitvec_and(BitVecT *to, BitVecT *from)
 {
-	uint8_t *to_bits   = to->bits;
-	uint8_t *from_bits = from->bits;
+	ByteT *to_bits   = to->bits;
+	ByteT *from_bits = from->bits;
 	unsigned bytes     = bitvec_size;
 
 	while (bytes--) {
@@ -208,7 +207,7 @@ bitvec_and(BitVecT *to, BitVecT *from)
 void
 bitvec_not(BitVecT *to)
 {
-	uint8_t *to_bits = to->bits;
+	ByteT *to_bits = to->bits;
 	unsigned bytes   = bitvec_size;
 
 	while (bytes--) {
@@ -221,8 +220,8 @@ bitvec_not(BitVecT *to)
 BoolT
 bitvec_equal(BitVecT *bitvec1, BitVecT *bitvec2)
 {
-	uint8_t *bitvec1_bits = bitvec1->bits;
-	uint8_t *bitvec2_bits = bitvec2->bits;
+	ByteT *bitvec1_bits = bitvec1->bits;
+	ByteT *bitvec2_bits = bitvec2->bits;
 	unsigned bytes        = bitvec_size;
 
 	while (bytes--) {
@@ -237,8 +236,8 @@ bitvec_equal(BitVecT *bitvec1, BitVecT *bitvec2)
 BoolT
 bitvec_intersects(BitVecT *bitvec1, BitVecT *bitvec2)
 {
-	uint8_t *bitvec1_bits = bitvec1->bits;
-	uint8_t *bitvec2_bits = bitvec2->bits;
+	ByteT *bitvec1_bits = bitvec1->bits;
+	ByteT *bitvec2_bits = bitvec2->bits;
 	unsigned bytes        = bitvec_size;
 
 	while (bytes--) {

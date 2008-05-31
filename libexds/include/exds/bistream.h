@@ -74,7 +74,6 @@
 #define H_BISTREAM
 
 #include <stdio.h>
-#include <stdint.h>
 
 #include <exds/common.h>
 #include <exds/exception.h>
@@ -142,7 +141,7 @@ bistream_read_chars(BIStreamT *, unsigned, char *);
  * actually read.
  */
 unsigned
-bistream_read_bytes(BIStreamT *, unsigned, uint8_t *);
+bistream_read_bytes(BIStreamT *, unsigned, ByteT *);
 
 /*
  * Exceptions:	XX_bistream_read_error
@@ -153,7 +152,7 @@ bistream_read_bytes(BIStreamT *, unsigned, uint8_t *);
  * false.
  */
 BoolT
-bistream_read_byte(BIStreamT *, uint8_t *);
+bistream_read_byte(BIStreamT *, ByteT *);
 
 /*
  * This function returns the number of bytes that have been read from the

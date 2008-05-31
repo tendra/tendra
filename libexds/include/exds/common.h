@@ -72,10 +72,17 @@
  * may not neccessary make use of the exception mechanism (for example, a
  * memory pool allocation system). However, that would be built upon to
  * provide an exception-throwing interface as an additional layer.
+ *
+ * Any compiler-specific or standard-specific features should be in this file.
  */
 
 #ifndef H_COMMON
 #define H_COMMON
+
+#if __STDC_VERSION__ >= 199901L
+# include <stdbool.h>
+# include <stdint.h>
+#endif
 
 /*
  * This is the return type of a function that doesn't return (e.g.
@@ -95,10 +102,21 @@ typedef void NoReturnT;
 
 /*
  * This is the boolean type.
- * TODO this is to be replaced with C99's bool, or something similar for
- * non-C99.
  */
+#if __STDC_VERSION__ >= 199901L
+typedef bool BoolT;
+#else
 typedef int BoolT;
+#endif
+
+/*
+ * An unsigned byte. This may be larger than an octet.
+ */
+#if __STDC_VERSION__ >= 199901L
+typedef uint8_t ByteT;
+#else
+typedef unsigned char ByteT;
+#endif
 
 /*
  * This is the type returned by comparison functions.  The values represent
@@ -113,11 +131,14 @@ typedef enum {
 
 /*
  * These expand to values suitable for the boolean constants true and false.
- * Eventually these will be replaced with C99's stdbool.h along with the
- * BoolT type.
  */
-#define FALSE (0)
-#define TRUE (1)
+#if __STDC_VERSION__ >= 199901L
+# define FALSE false
+# define TRUE true
+#else
+# define FALSE 0
+# define TRUE 1
+#endif
 
 #endif /* !defined (H_COMMON) */
 

@@ -68,8 +68,6 @@
 #ifndef H_BITVEC
 #define H_BITVEC
 
-#include <stdint.h>
-
 #include <exds/common.h>
 #include <exds/ostream.h>
 
@@ -80,7 +78,7 @@
  */
 typedef struct BitVecT BitVecT;
 struct BitVecT {
-	uint8_t *bits;
+	ByteT *bits;
 };
 
 /*

@@ -73,7 +73,6 @@
 #ifndef H_BOSTREAM
 #define H_BOSTREAM
 
-#include <stdint.h>
 #include <stdio.h>
 
 #include <exds/common.h>
@@ -141,7 +140,7 @@ bostream_write_chars(BOStreamT *, unsigned, char *);
  * bostream.
  */
 void
-bostream_write_bytes(BOStreamT *, unsigned, uint8_t *);
+bostream_write_bytes(BOStreamT *, unsigned, ByteT *);
 
 /*
  * Exceptions:	XX_bostream_write_error
@@ -149,7 +148,7 @@ bostream_write_bytes(BOStreamT *, unsigned, uint8_t *);
  * This function writes the byte to the specified bostream.
  */
 void
-bostream_write_byte(BOStreamT *, uint8_t);
+bostream_write_byte(BOStreamT *, ByteT);
 
 /*
  * This function returns the name of the file to which the specified
