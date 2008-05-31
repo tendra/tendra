@@ -70,6 +70,8 @@
 			it may be put.
 	*/
 
+	#include <assert.h>
+
 	#include "../shared/check/check.h"
 	#include "c-parser.h"
 	#include "../adt/action.h"
