@@ -323,6 +323,7 @@ package body Asis.Gela.Inheritance is
       use Asis.Elements;
 
       The_Cloner : Cloner;
+      Name       : Asis.Defining_Name;
       Def        : Asis.Definition := Classes.Get_Type_Def (Tipe);
       Decl       : Asis.Declaration := Classes.Get_Declaration (Tipe);
       Overriden  : Boolean;
@@ -338,15 +339,21 @@ package body Asis.Gela.Inheritance is
          Utils.Set_Result_Profile (Result, Tipe);
       end if;
 
+      Name := XASIS.Utils.Declaration_Name (Result);
+
       if Visible then
          Visibility.New_Implicit_Declaration (Result, Point, Decl, Overriden);
       else
-         Visibility.Set_Not_Declared (XASIS.Utils.Declaration_Name (Result));
+         Visibility.Set_Not_Declared (Name);
       end if;
 
       --  if not Overriden then
       Element_Utils.Add_Inherited_Subprogram (Def, Result);
       --  end if;
+
+      if Defining_Name_Kind (Name) = A_Defining_Operator_Symbol then
+         Element_Utils.Add_Type_Operator (Def, Result);
+      end if;
    end Make_Inherited_Subprogram;
 
    --------------------------------
