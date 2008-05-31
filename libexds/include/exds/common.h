@@ -131,13 +131,25 @@ typedef enum {
 
 /*
  * These expand to values suitable for the boolean constants true and false.
+ *
+ * As these are relatively common, they are defined conditionally for
+ * convenience of other programs. If they already exist, it is assumed that
+ * they have similar values.
  */
-#if __STDC_VERSION__ >= 199901L
-# define FALSE false
-# define TRUE true
-#else
-# define FALSE 0
-# define TRUE 1
+#ifndef TRUE
+# if __STDC_VERSION__ >= 199901L
+#  define TRUE true
+# else
+#  define TRUE 1
+# endif
+#endif
+
+#ifndef FALSE
+# if __STDC_VERSION__ >= 199901L
+#  define FALSE false
+# else
+#  define FALSE 0
+# endif
 #endif
 
 #endif /* !defined (H_COMMON) */
