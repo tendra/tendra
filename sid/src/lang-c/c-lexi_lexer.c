@@ -34,12 +34,9 @@
 #include "c-lexi_lexer.h"
 
 #include <assert.h>
-#include <stdbool.h>
-#include <stdint.h>
-
 /* LOOKUP TABLE */
 
-typedef uint16_t lookup_type;
+typedef unsigned short lookup_type;
 static lookup_type lookup_tab[257] = {
 	0x0000, 0x0000, 0x0000, 0x0000,
 	0x0000, 0x0000, 0x0000, 0x0000,
@@ -132,7 +129,7 @@ int c_lexi_readchar(struct c_lexi_state *state) {
 	return c_lexi_getchar();
 }
 
-bool c_lexi_group(enum c_lexi_groups group, int c) {
+int c_lexi_group(enum c_lexi_groups group, int c) {
 	return lookup_tab[c] & group;
 }
 

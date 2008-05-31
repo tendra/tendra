@@ -27,6 +27,7 @@ INSTALL=install
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
 
 SIDOPTS=-l ansi-c -s numeric -s no-lines
+LEXIOPTS=-lC90 -a
 
 #PARSER_OUT=${SRC}/parser.c ${SRC}/junk.h
 #C_OUT=${SRC}/c-parser.c ${SRC}/c-junk.h
@@ -83,6 +84,6 @@ lexer.c: lexi_lexer.c
 lexi_lexer.h lexi_lexer.c: lexi_lexer.lxi lexi_lexer.lct
 	-${MOVE} lexi_lexer.c sav.lexi_lexer.c 
 	-${MOVE} lexi_lexer.h sav.lexi_lexer.h
-	${LEXI} -lC99 -a lexi_lexer.lxi lexi_lexer.lct lexi_lexer.c lexi_lexer.h \
+	${LEXI} ${LEXIOPTS} lexi_lexer.lxi lexi_lexer.lct lexi_lexer.c lexi_lexer.h \
 		|| ( ${MOVE} sav.lexi_lexer.c lexi_lexer.c ; ${MOVE} sav.lexi_lexer.h lexi_lexer.h ; exit 1 )
 

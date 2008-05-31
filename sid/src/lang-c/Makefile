@@ -13,6 +13,7 @@ LEXI=lexi
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
 
 SIDOPTS=-l ansi-c -s numeric -s no-lines
+LEXIOPTS=-lC90 -a
 
 #PARSER_OUT=${SRC}/parser.c ${SRC}/junk.h
 #C_OUT=${SRC}/c-parser.c ${SRC}/c-junk.h
@@ -39,7 +40,7 @@ c-lexer.c: c-lexi_lexer.c
 c-lexi_lexer.h c-lexi_lexer.c: c-lexi_lexer.lxi c-lexi_lexer.lct
 	-${MOVE} c-lexi_lexer.c sav.c-lexi_lexer.c 
 	-${MOVE} c-lexi_lexer.h sav.c-lexi_lexer.h
-	${LEXI} -t C_TOK_ -p c_lexi_ -lC99 -a c-lexi_lexer.lxi c-lexi_lexer.lct c-lexi_lexer.c c-lexi_lexer.h \
+	${LEXI} ${LEXIOPTS} -t C_TOK_ -p c_lexi_ c-lexi_lexer.lxi c-lexi_lexer.lct c-lexi_lexer.c c-lexi_lexer.h \
 		|| ( ${MOVE} sav.c-lexi_lexer.c c-lexi_lexer.c ; ${MOVE} sav.c-lexi_lexer.h c-lexi_lexer.h ; exit 1 )
 
 

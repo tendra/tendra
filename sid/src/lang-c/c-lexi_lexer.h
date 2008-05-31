@@ -7,8 +7,6 @@
 #define LEXI_GENERATED_HEADER_c_lexi__INCLUDED
 
 
-#include <stdbool.h>
-
 /*
  * This struct holds state for the lexer; its representation is
  * private, but present here for ease of allocation.
@@ -54,7 +52,7 @@ enum c_lexi_groups {
 };
 
 /* true if the given character is present in the given group */
-extern bool c_lexi_group(enum c_lexi_groups group, int c);
+extern int c_lexi_group(enum c_lexi_groups group, int c);
 
 /* Identify a keyword */
 extern int c_lexi_keyword(const char *identifier, int notfound);
