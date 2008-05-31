@@ -85,312 +85,353 @@
 #include "../gen-errors.h"
 
 static void
-rule_check_first_set_1(RuleT * rule, GrammarT * grammar)
+rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 {
-    BoolT         is_empty            = rule_has_empty_alt(rule);
-    BoolT         is_empty_mesg_shown = FALSE;
-    BitVecT       test;
-    EntryListT    predicate_list;
-    AltT *          alt;
-    BasicClosureT closure;
+	BoolT         is_empty            = rule_has_empty_alt(rule);
+	BoolT         is_empty_mesg_shown = FALSE;
+	BitVecT       test;
+	EntryListT    predicate_list;
+	AltT          *alt;
+	BasicClosureT closure;
 
-    closure.grammar = grammar;
-    bitvec_init(&test);
-    entry_list_init(&predicate_list);
-    for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	ItemT * item        = alt_item_head(alt);
-	BoolT see_through = TRUE;
+	closure.grammar = grammar;
+	bitvec_init(&test);
+	entry_list_init(&predicate_list);
+	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
+		ItemT *item        = alt_item_head(alt);
+		BoolT see_through = TRUE;
 #ifndef NDEBUG
-	ItemT *   initial     = item;
+		ItemT *initial     = item;
 #endif
 
-	for (; see_through && item; item = item_next(item)) {
-	    EntryT * entry = item_entry(item);
+		for ( ; see_through && item; item = item_next(item)) {
+			EntryT *entry = item_entry(item);
 
-	    switch (item_type(item))EXHAUSTIVE {
-	      case ET_PREDICATE:
-		assert(item == initial);
-		if (entry_list_contains(&predicate_list, entry)) {
-		    E_predicate_collision(rule, entry_key(entry));
+			switch (item_type(item)) EXHAUSTIVE {
+			case ET_PREDICATE:
+				assert(item == initial);
+				if (entry_list_contains(&predicate_list, entry)) {
+					E_predicate_collision(rule, entry_key(entry));
+				} else {
+					entry_list_add(&predicate_list, entry);
+				}
+				see_through = FALSE;
+				break;
+
+			case ET_ACTION:
+			case ET_RENAME:
+				break;
+
+			case ET_BASIC: {
+					unsigned terminal = basic_terminal(entry_get_basic(entry));
+					BitVecT tmp;
+
+					see_through = FALSE;
+					if (!bitvec_is_set(&test, terminal)) {
+						bitvec_set(&test, terminal);
+						break;
+					}
+
+					bitvec_init(&tmp);
+					bitvec_set(&tmp, terminal);
+					bitvec_and(&tmp, &test);
+					closure.bitvec = &tmp;
+					E_first_set_collision(rule, &closure);
+					bitvec_destroy(&tmp);
+				}
+				break;
+
+			case ET_RULE: {
+					RuleT      *item_rule  = entry_get_rule(entry);
+					EntryListT *item_preds = rule_predicate_first(item_rule);
+					EntryListT  tmp_list;
+					BitVecT    *bitvec;
+					BitVecT     tmp;
+
+					entry_list_intersection(&tmp_list, &predicate_list,
+					item_preds);
+
+					if (!entry_list_is_empty(&tmp_list)) {
+						E_predicate_list_collision(rule, &tmp_list);
+					}
+
+					entry_list_destroy(&tmp_list);
+					entry_list_append(&predicate_list, item_preds);
+					bitvec      = rule_first_set(item_rule);
+					see_through = rule_is_see_through(item_rule);
+
+					if (!bitvec_intersects(&test, bitvec)) {
+						bitvec_or(&test, bitvec);
+						break;
+					}
+
+					bitvec_copy(&tmp, bitvec);
+					bitvec_and(&tmp, &test);
+					closure.bitvec = &tmp;
+					E_first_set_collision(rule, &closure);
+					bitvec_destroy(&tmp);
+				}
+				break;
+
+			case ET_NON_LOCAL:
+			case ET_TYPE:
+			case ET_NAME:
+				UNREACHED;
+			}
+
+		}
+
+		if (!see_through) {
+			continue;
+		}
+
+		if (is_empty) {
+			if (!is_empty_mesg_shown) {
+				E_multiple_see_through_alts(rule);
+				is_empty_mesg_shown = TRUE;
+			}
 		} else {
-		    entry_list_add(&predicate_list, entry);
+			is_empty = TRUE;
 		}
-		see_through = FALSE;
-		break;
-	      case ET_ACTION:
-	      case ET_RENAME:
-		break;
-	      case ET_BASIC: {
-		  unsigned terminal = basic_terminal(entry_get_basic(entry));
-
-		  see_through = FALSE;
-		  if (bitvec_is_set(&test, terminal)) {
-		      BitVecT tmp;
-
-		      bitvec_init(&tmp);
-		      bitvec_set(&tmp, terminal);
-		      bitvec_and(&tmp, &test);
-		      closure.bitvec = &tmp;
-		      E_first_set_collision(rule, &closure);
-		      bitvec_destroy(&tmp);
-		  } else {
-		      bitvec_set(&test, terminal);
-		  }
-	      }
-		break;
-	      case ET_RULE: {
-		  RuleT *      item_rule  = entry_get_rule(entry);
-		  EntryListT * item_preds = rule_predicate_first(item_rule);
-		  EntryListT tmp_list;
-		  BitVecT *    bitvec;
-
-		  entry_list_intersection(&tmp_list, &predicate_list,
-					  item_preds);
-		  if (!entry_list_is_empty(&tmp_list)) {
-		      E_predicate_list_collision(rule, &tmp_list);
-		  }
-		  entry_list_destroy(&tmp_list);
-		  entry_list_append(&predicate_list, item_preds);
-		  bitvec      = rule_first_set(item_rule);
-		  see_through = rule_is_see_through(item_rule);
-		  if (bitvec_intersects(&test, bitvec)) {
-		      BitVecT tmp;
-
-		      bitvec_copy(&tmp, bitvec);
-		      bitvec_and(&tmp, &test);
-		      closure.bitvec = &tmp;
-		      E_first_set_collision(rule, &closure);
-		      bitvec_destroy(&tmp);
-		  } else {
-		      bitvec_or(&test, bitvec);
-		  }
-	      }
-		break;
-	      case ET_NON_LOCAL:
-	      case ET_TYPE:
-	      case ET_NAME:
-		UNREACHED;
-	    }
 	}
-	if (see_through) {
-	    if (is_empty) {
-		if (!is_empty_mesg_shown) {
-		    E_multiple_see_through_alts(rule);
-		    is_empty_mesg_shown = TRUE;
-		}
-	    } else {
-		is_empty = TRUE;
-	    }
-	}
-    }
-    bitvec_destroy(&test);
+	bitvec_destroy(&test);
 }
 
 static void rule_compute_follow_set_1(RuleT *, GrammarT *, BitVecT *, EntryListT *,
-				      ClashListT *);
+	ClashListT *);
 
 static void
-rule_compute_follow_set_3(GrammarT * grammar, ItemT * item, BitVecT * context,
-			  EntryListT * pred_context, ClashListT * clashes)
+rule_compute_follow_set_3(GrammarT *grammar, ItemT *item, BitVecT *context,
+	EntryListT *pred_context, ClashListT *clashes)
 {
-    if (item != NULL) {
 	EntryT * entry;
 
+	if (item == NULL) {
+		return;
+	}
+
 	rule_compute_follow_set_3(grammar, item_next(item), context,
-				  pred_context, clashes);
+		pred_context, clashes);
 	entry = item_entry(item);
-	switch (item_type(item))EXHAUSTIVE {
-	  case ET_PREDICATE:
-	    entry_list_destroy(pred_context);
-	    entry_list_init(pred_context);
-	    entry_list_add(pred_context, entry);
-	    clashes->next = NULL;
-	    break;
-	  case ET_ACTION:
-	  case ET_RENAME:
-	    break;
-	  case ET_RULE: {
-	      RuleT * rule = entry_get_rule(entry);
 
-	      clashes->item = item;
-	      rule_compute_follow_set_1(rule, grammar, context, pred_context,
-					clashes);
-	      if (rule_is_see_through(rule)) {
-		  bitvec_or(context, rule_first_set(rule));
-		  entry_list_append(pred_context, rule_predicate_first(rule));
-	      } else {
-		  bitvec_replace(context, rule_first_set(rule));
-		  entry_list_destroy(pred_context);
-		  entry_list_init(pred_context);
-		  entry_list_append(pred_context, rule_predicate_first(rule));
-		  clashes->next = NULL;
-	      }
-	  }
-	    break;
-	  case ET_BASIC: {
-	      BasicT * basic = entry_get_basic(entry);
+	switch (item_type(item)) EXHAUSTIVE {
+	case ET_PREDICATE:
+		entry_list_destroy(pred_context);
+		entry_list_init(pred_context);
+		entry_list_add(pred_context, entry);
+		clashes->next = NULL;
+		break;
 
-	      bitvec_empty(context);
-	      bitvec_set(context, basic_terminal(basic));
-	      clashes->next = NULL;
-	  }
-	    break;
-	  case ET_NON_LOCAL:
-	  case ET_NAME:
-	  case ET_TYPE:
-	    UNREACHED;
+	case ET_ACTION:
+	case ET_RENAME:
+		break;
+
+	case ET_RULE: {
+			RuleT *rule = entry_get_rule(entry);
+
+			clashes->item = item;
+			rule_compute_follow_set_1(rule, grammar, context, pred_context,
+				clashes);
+
+			if (rule_is_see_through(rule)) {
+				bitvec_or(context, rule_first_set(rule));
+				entry_list_append(pred_context, rule_predicate_first(rule));
+			} else {
+				bitvec_replace(context, rule_first_set(rule));
+				entry_list_destroy(pred_context);
+				entry_list_init(pred_context);
+				entry_list_append(pred_context, rule_predicate_first(rule));
+				clashes->next = NULL;
+			}
+		}
+		break;
+
+	case ET_BASIC: {
+			BasicT *basic = entry_get_basic(entry);
+
+			bitvec_empty(context);
+			bitvec_set(context, basic_terminal(basic));
+			clashes->next = NULL;
+		}
+		break;
+
+	case ET_NON_LOCAL:
+	case ET_NAME:
+	case ET_TYPE:
+		UNREACHED;
 	}
-    }
 }
 
 static void
-rule_compute_follow_set_2(RuleT * rule, GrammarT * grammar, AltT * alt,
-			  BitVecT * context, EntryListT * pred_context,
-			  ClashListT * clashes)
+rule_compute_follow_set_2(RuleT *rule, GrammarT *grammar, AltT *alt,
+	BitVecT *context, EntryListT *pred_context, ClashListT *clashes)
 {
-    BitVecT    tmp;
-    EntryListT tmp_list;
-    ClashListT clash;
-
-    clash.next = clashes;
-    clash.rule = rule;
-    clash.alt  = alt;
-    bitvec_copy(&tmp, context);
-    entry_list_copy(&tmp_list, pred_context);
-    rule_compute_follow_set_3(grammar, alt_item_head(alt), &tmp, &tmp_list,
-			      &clash);
-    bitvec_destroy(&tmp);
-    entry_list_destroy(&tmp_list);
-}
-
-static void
-rule_compute_follow_set_1(RuleT * rule, GrammarT * grammar, BitVecT * context,
-			  EntryListT * pred_context, ClashListT * clashes)
-{
-    BitVecT *       follow      = rule_follow_set(rule);
-    EntryListT *    pred_follow = rule_predicate_follow(rule);
-    BitVecT *       first       = rule_first_set(rule);
-    EntryListT *    pred_first  = rule_predicate_first(rule);
-    BitVecT       test;
-    AltT *          alt;
-    BasicClosureT closure;
-
-    if (rule_has_started_follows(rule)) {
-	bitvec_copy(&test, follow);
-	bitvec_or(follow, context);
-	if (bitvec_equal(&test, follow) &&
-	    entry_list_includes(pred_follow, pred_context)) {
-	    bitvec_destroy(&test);
-	    return;
-	}
-	entry_list_append(pred_follow, pred_context);
-	bitvec_destroy(&test);
-    } else {
-	bitvec_replace(follow, context);
-	entry_list_append(pred_follow, pred_context);
-	rule_started_follows(rule);
-    }
-    closure.grammar = grammar;
-    if (rule_is_see_through(rule)) {
+	BitVecT    tmp;
 	EntryListT tmp_list;
+	ClashListT clash;
 
-	if (bitvec_intersects(follow, first)) {
-	    bitvec_copy(&test, follow);
-	    bitvec_and(&test, first);
-	    closure.bitvec = &test;
-	    E_follow_set_collision(rule, &closure, clashes);
-	    bitvec_not(&test);
-	    bitvec_and(first, &test);
-	    bitvec_destroy(&test);
-	}
-	entry_list_intersection(&tmp_list, pred_follow, pred_first);
-	if (!entry_list_is_empty(&tmp_list)) {
-	    E_predicate_follow_set_coll(rule, &tmp_list, clashes);
-	    entry_list_unlink_used(pred_first, &tmp_list);
-	}
+	clash.next = clashes;
+	clash.rule = rule;
+	clash.alt  = alt;
+	bitvec_copy(&tmp, context);
+	entry_list_copy(&tmp_list, pred_context);
+	rule_compute_follow_set_3(grammar, alt_item_head(alt), &tmp, &tmp_list,
+		&clash);
+	bitvec_destroy(&tmp);
 	entry_list_destroy(&tmp_list);
-    }
-    if ((alt = rule_get_handler(rule)) != NULL) {
-	rule_compute_follow_set_2(rule, grammar, alt, follow, pred_follow,
-				   clashes);
-    }
-    for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	rule_compute_follow_set_2(rule, grammar, alt, follow, pred_follow,
-				  clashes);
-    }
 }
 
 static void
-rule_compute_see_through_alt_1(RuleT * rule)
+rule_compute_follow_set_1(RuleT *rule, GrammarT *grammar, BitVecT *context,
+	EntryListT *pred_context, ClashListT *clashes)
 {
-    if (!rule_has_empty_alt(rule)) {
-	AltT * alt;
+	BitVecT    *follow      = rule_follow_set(rule);
+	EntryListT *pred_follow = rule_predicate_follow(rule);
+	BitVecT    *first       = rule_first_set(rule);
+	EntryListT *pred_first  = rule_predicate_first(rule);
+	BitVecT     test;
+	AltT       *alt;
+	BasicClosureT closure;
+
+	if (rule_has_started_follows(rule)) {
+		bitvec_copy(&test, follow);
+		bitvec_or(follow, context);
+		if (bitvec_equal(&test, follow) &&
+			entry_list_includes(pred_follow, pred_context)) {
+			bitvec_destroy(&test);
+			return;
+		}
+
+		entry_list_append(pred_follow, pred_context);
+		bitvec_destroy(&test);
+	} else {
+		bitvec_replace(follow, context);
+		entry_list_append(pred_follow, pred_context);
+		rule_started_follows(rule);
+	}
+
+	closure.grammar = grammar;
+	if (rule_is_see_through(rule)) {
+		EntryListT tmp_list;
+
+		if (bitvec_intersects(follow, first)) {
+			bitvec_copy(&test, follow);
+			bitvec_and(&test, first);
+			closure.bitvec = &test;
+			E_follow_set_collision(rule, &closure, clashes);
+			bitvec_not(&test);
+			bitvec_and(first, &test);
+			bitvec_destroy(&test);
+		}
+
+		entry_list_intersection(&tmp_list, pred_follow, pred_first);
+		if (!entry_list_is_empty(&tmp_list)) {
+			E_predicate_follow_set_coll(rule, &tmp_list, clashes);
+			entry_list_unlink_used(pred_first, &tmp_list);
+		}
+		entry_list_destroy(&tmp_list);
+	}
+
+	alt = rule_get_handler(rule);
+	if (alt != NULL) {
+		rule_compute_follow_set_2(rule, grammar, alt, follow, pred_follow,
+			clashes);
+	}
 
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	    ItemT * item;
-
-	    for (item = alt_item_head(alt); item; item = item_next(item)) {
-		RuleT * item_rule;
-
-		if ((!item_is_action(item)) && (!item_is_rename(item)) &&
-		    ((!item_is_rule(item)) ||
-		     ((item_rule = entry_get_rule(item_entry(item))),
-		      (!rule_is_see_through(item_rule))))) {
-		    goto next_alt;
-		}
-	    }
-	    rule_set_see_through_alt(rule, alt);
-	    return;
-	  next_alt:;
+		rule_compute_follow_set_2(rule, grammar, alt, follow, pred_follow,
+			clashes);
 	}
-    }
 }
 
 static void
-rule_compute_alt_first_sets_1(RuleT * rule)
+rule_compute_see_through_alt_1(RuleT *rule)
 {
-    AltT * alt;
+	AltT *alt;
 
-    for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	BitVecT * alt_firsts  = alt_first_set(alt);
-	ItemT *   item        = alt_item_head(alt);
-	BoolT   see_through = TRUE;
+	if (rule_has_empty_alt(rule)) {
+		return;
+	}
+
+	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
+		ItemT *item;
+
+		for (item = alt_item_head(alt); item; item = item_next(item)) {
+			RuleT *item_rule;
+
+			if (item_is_action(item) || item_is_rename(item)) {
+				continue;
+			}
+
+			if (!item_is_rule(item)) {
+				goto next_alt;
+			}
+
+			/* TODO: assert item is entry? */
+			item_rule = entry_get_rule(item_entry(item));
+			if (!rule_is_see_through(item_rule)) {
+				goto next_alt;
+			}
+		}
+
+		rule_set_see_through_alt(rule, alt);
+		return;
+
+next_alt:
+			;
+	}
+}
+
+static void
+rule_compute_alt_first_sets_1(RuleT *rule)
+{
+	AltT *alt;
+
+	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
+		BitVecT *alt_firsts  = alt_first_set(alt);
+		ItemT   *item        = alt_item_head(alt);
+		BoolT    see_through = TRUE;
 #ifndef NDEBUG
-	ItemT *   initial     = item;
+		ItemT   *initial     = item;
 #endif
 
-	for (; see_through && item; item = item_next(item)) {
-	    EntryT * entry = item_entry(item);
+		for (; see_through && item; item = item_next(item)) {
+			EntryT *entry = item_entry(item);
 
-	    switch (item_type(item))EXHAUSTIVE {
-	      case ET_PREDICATE:
-		assert(item == initial);
-		see_through = FALSE;
-		break;
-	      case ET_ACTION:
-	      case ET_RENAME:
-		break;
-	      case ET_BASIC:
-		see_through = FALSE;
-		bitvec_set(alt_firsts, basic_terminal(entry_get_basic(entry)));
-		break;
-	      case ET_RULE: {
-		  RuleT * item_rule = entry_get_rule(entry);
+			switch (item_type(item)) EXHAUSTIVE {
+			case ET_PREDICATE:
+				assert(item == initial);
+				see_through = FALSE;
+				break;
 
-		  see_through = rule_is_see_through(item_rule);
-		  bitvec_or(alt_firsts, rule_first_set(item_rule));
-	      }
-		break;
-	      case ET_NON_LOCAL:
-	      case ET_TYPE:
-	      case ET_NAME:
-		UNREACHED;
-	    }
+			case ET_ACTION:
+			case ET_RENAME:
+				break;
+
+			case ET_BASIC:
+				see_through = FALSE;
+				bitvec_set(alt_firsts, basic_terminal(entry_get_basic(entry)));
+				break;
+
+			case ET_RULE: {
+					RuleT *item_rule = entry_get_rule(entry);
+
+					see_through = rule_is_see_through(item_rule);
+					bitvec_or(alt_firsts, rule_first_set(item_rule));
+				}
+				break;
+
+			case ET_NON_LOCAL:
+			case ET_TYPE:
+			case ET_NAME:
+				UNREACHED;
+			}
+		}
+
+		if (see_through) {
+			bitvec_or(alt_firsts, rule_follow_set(rule));
+		}
 	}
-	if (see_through) {
-	    bitvec_or(alt_firsts, rule_follow_set(rule));
-	}
-    }
 }
 
 
@@ -401,65 +442,67 @@ rule_compute_alt_first_sets_1(RuleT * rule)
 void
 rule_check_first_set(EntryT * entry, void * gclosure)
 {
-    GrammarT * grammar = (GrammarT *)gclosure;
+	GrammarT *grammar = gclosure;
 
-    if (entry_is_rule(entry)) {
-	RuleT * rule = entry_get_rule(entry);
+	if (entry_is_rule(entry)) {
+		RuleT *rule = entry_get_rule(entry);
 
-	rule_check_first_set_1(rule, grammar);
-    }
+		rule_check_first_set_1(rule, grammar);
+	}
 }
 
 void
-rule_compute_follow_set(EntryT * entry, void * gclosure)
+rule_compute_follow_set(EntryT *entry, void *gclosure)
 {
-    GrammarT * grammar = (GrammarT *)gclosure;
+	GrammarT   *grammar = gclosure;
+	RuleT      *rule;
+	BitVecT     outer;
+	EntryListT  pred_outer;
 
-    if (entry_is_rule(entry)) {
-	RuleT *   rule = entry_get_rule(entry);
-	BitVecT    outer;
-	EntryListT pred_outer;
+	if (!entry_is_rule(entry)) {
+		return;
+	}
 
+	rule = entry_get_rule(entry);
 	bitvec_init(&outer);
 	entry_list_init(&pred_outer);
-	rule_compute_follow_set_1(rule, grammar, &outer, &pred_outer,
-				  NULL);
+	rule_compute_follow_set_1(rule, grammar, &outer, &pred_outer, NULL);
 	bitvec_destroy(&outer);
 	entry_list_destroy(&pred_outer);
-    }
 }
 
 void
-rule_compute_see_through_alt(EntryT * entry, void * gclosure)
+rule_compute_see_through_alt(EntryT *entry, void *gclosure)
 {
-    UNUSED(gclosure);
-    if (entry_is_rule(entry)) {
-	RuleT * rule = entry_get_rule(entry);
+	UNUSED(gclosure);
+	if (entry_is_rule(entry)) {
+		RuleT *rule = entry_get_rule(entry);
 
-	rule_compute_see_through_alt_1(rule);
-    }
+		rule_compute_see_through_alt_1(rule);
+	}
 }
 
 void
-rule_compute_alt_first_sets(EntryT * entry, void * gclosure)
+rule_compute_alt_first_sets(EntryT *entry, void *gclosure)
 {
-    UNUSED(gclosure);
-    if (entry_is_rule(entry)) {
-	RuleT * rule = entry_get_rule(entry);
+	UNUSED(gclosure);
+	if (entry_is_rule(entry)) {
+		RuleT *rule = entry_get_rule(entry);
 
-	rule_compute_alt_first_sets_1(rule);
-    }
+		rule_compute_alt_first_sets_1(rule);
+	}
 }
 
 void
-write_clashes(OStreamT * ostream, ClashListT * clashes)
+write_clashes(OStreamT *ostream, ClashListT *clashes)
 {
-    write_newline(ostream);
-    while (clashes) {
-	write_rule_lhs(ostream, clashes->rule);
-	write_alt_highlighting(ostream, clashes->alt, clashes->item);
-	write_cstring(ostream, "};");
 	write_newline(ostream);
-	clashes = clashes->next;
-    }
+
+	for (; clashes; clashes = clashes->next) {
+		write_rule_lhs(ostream, clashes->rule);
+		write_alt_highlighting(ostream, clashes->alt, clashes->item);
+		write_cstring(ostream, "};");
+		write_newline(ostream);
+	}
 }
+

@@ -70,269 +70,308 @@
 #include "rule.h"
 
 void
-scope_stack_init(ScopeStackT * stack)
+scope_stack_init(ScopeStackT *stack)
 {
-    stack->head = NULL;
+	stack->head = NULL;
 }
 
 void
-scope_stack_push(ScopeStackT * stack, NStringT * scope)
+scope_stack_push(ScopeStackT *stack, NStringT *scope)
 {
-    ScopeStackFrameT * frame = ALLOCATE(ScopeStackFrameT);
-    DStringT         dstring;
+	ScopeStackFrameT *frame = ALLOCATE(ScopeStackFrameT);
+	DStringT          dstring;
 
-    dstring_init(&dstring);
-    if (frame->head) {
-	dstring_append_nstring(&dstring, &(stack->head->scope));
-    }
-    dstring_append_nstring(&dstring, scope);
-    dstring_append_cstring(&dstring, "::");
-    dstring_to_nstring(&dstring, &(frame->scope));
-    dstring_destroy(&dstring);
-    frame->next = stack->head;
-    frame->head = NULL;
-    frame->tail = &(frame->head);
-    stack->head = frame;
+	dstring_init(&dstring);
+	if (frame->head) {
+		dstring_append_nstring(&dstring, &stack->head->scope);
+	}
+
+	dstring_append_nstring(&dstring, scope);
+	dstring_append_cstring(&dstring, "::");
+	dstring_to_nstring(&dstring, &frame->scope);
+	dstring_destroy(&dstring);
+	frame->next = stack->head;
+	frame->head = NULL;
+	frame->tail = &frame->head;
+	stack->head = frame;
 }
 
 void
-scope_stack_pop(ScopeStackT * stack)
+scope_stack_pop(ScopeStackT *stack)
 {
-    ScopeStackFrameT * frame = stack->head;
-    ScopeMapEntryT *   entry;
-    ScopeMapEntryT *   next;
+	ScopeStackFrameT *frame = stack->head;
+	ScopeMapEntryT   *entry;
+	ScopeMapEntryT   *next;
 
-    assert(frame);
-    stack->head = frame->next;
-    nstring_destroy(&(frame->scope));
-    for (entry = frame->head; entry; entry = next) {
-	next = entry->next;
-	DEALLOCATE(entry);
-    }
-    DEALLOCATE(frame);
+	assert(frame);
+	stack->head = frame->next;
+	nstring_destroy(&frame->scope);
+
+	for (entry = frame->head; entry; entry = next) {
+		next = entry->next;
+		DEALLOCATE(entry);
+	}
+
+	DEALLOCATE(frame);
 }
 
 EntryT *
-scope_stack_add_rule(ScopeStackT * stack, TableT * table, NStringT * key, RuleT * rule,
-		     BoolT *found_ref)
+scope_stack_add_rule(ScopeStackT *stack, TableT *table, NStringT *key,
+	RuleT *rule, BoolT *found_ref)
 {
-    *found_ref = FALSE;
-    if (stack->head) {
-	DStringT dstring;
-	NStringT nstring;
-	EntryT *   entry;
+	DStringT        dstring;
+	NStringT        nstring;
+	EntryT         *entry;
+	EntryT         *from;
+	ScopeMapEntryT *map;
 
-	dstring_init(&dstring);
-	dstring_append_nstring(&dstring, &(stack->head->scope));
-	dstring_append_nstring(&dstring, key);
-	dstring_to_nstring(&dstring, &nstring);
-	dstring_destroy(&dstring);
-	if ((entry = table_get_rule(table, &nstring)) != NULL) {
-	    *found_ref = TRUE;
-	    nstring_destroy(&nstring);
-	    return(entry);
-	} else if ((entry = table_add_rule(table, &nstring)) !=
-		   NULL) {
-	    EntryT *         from = table_add_name(table, key);
-	    ScopeMapEntryT * map  = ALLOCATE(ScopeMapEntryT);
-
-	   (void)scope_stack_check_shadowing(stack, from, rule);
-	    map->next            = NULL;
-	    map->from            = from;
-	    map->to              = entry;
-	    *(stack->head->tail) = map;
-	    stack->head->tail    = &(map->next);
-	    return(entry);
-	} else {
-	    nstring_destroy(&nstring);
-	    return(NULL);
-	}
-    } else {
-	if (table_get_rule(table, key)) {
-	    *found_ref = TRUE;
-	}
-	return(table_add_rule(table, key));
-    }
-}
-
-EntryT *
-scope_stack_add_action(ScopeStackT * stack, TableT * table, NStringT * key,
-		       RuleT * rule, BoolT *found_ref)
-{
-    *found_ref = FALSE;
-    if (stack->head) {
-	DStringT dstring;
-	NStringT nstring;
-	EntryT *   entry;
-
-	dstring_init(&dstring);
-	dstring_append_nstring(&dstring, &(stack->head->scope));
-	dstring_append_nstring(&dstring, key);
-	dstring_to_nstring(&dstring, &nstring);
-	dstring_destroy(&dstring);
-	if ((entry = table_get_action(table, &nstring)) != NULL) {
-	    *found_ref = TRUE;
-	    nstring_destroy(&nstring);
-	    return(entry);
-	} else if ((entry = table_add_action(table, &nstring)) !=
-		   NULL) {
-	    EntryT *         from = table_add_name(table, key);
-	    ScopeMapEntryT * map  = ALLOCATE(ScopeMapEntryT);
-
-	   (void)scope_stack_check_shadowing(stack, from, rule);
-	    map->next            = NULL;
-	    map->from            = from;
-	    map->to              = entry;
-	    *(stack->head->tail) = map;
-	    stack->head->tail    = &(map->next);
-	    return(entry);
-	} else {
-	    nstring_destroy(&nstring);
-	    return(NULL);
-	}
-    } else {
-	if (table_get_action(table, key)) {
-	    *found_ref = TRUE;
-	}
-	return(table_add_action(table, key));
-    }
-}
-
-EntryT *
-scope_stack_add_non_local(ScopeStackT * stack, TableT * table, NStringT * key,
-			  EntryT * type, RuleT * rule)
-{
-    DStringT dstring;
-    NStringT nstring;
-    EntryT *   entry;
-
-    assert(stack->head);
-    dstring_init(&dstring);
-    dstring_append_nstring(&dstring, &(stack->head->scope));
-    dstring_append_nstring(&dstring, key);
-    dstring_to_nstring(&dstring, &nstring);
-    dstring_destroy(&dstring);
-    if ((entry = table_add_non_local(table, &nstring, type)) !=
-	NULL) {
-	EntryT *         from = table_add_name(table, key);
-	ScopeMapEntryT * map  = ALLOCATE(ScopeMapEntryT);
-
-	(void)scope_stack_check_shadowing(stack, from, rule);
-	map->next            = NULL;
-	map->from            = from;
-	map->to              = entry;
-	*(stack->head->tail) = map;
-	stack->head->tail    = &(map->next);
-	return(entry);
-    } else {
-	nstring_destroy(&nstring);
-	return(NULL);
-    }
-}
-
-EntryT *
-scope_stack_get_rule(ScopeStackT * stack, TableT * table, NStringT * key)
-{
-    EntryT * entry = table_get_entry(table, key);
-
-    if (entry) {
-	ScopeStackFrameT * frame = stack->head;
-
-	for (; frame; frame = frame->next) {
-	    ScopeMapEntryT * map = frame->head;
-
-	    for (; map; map = map->next) {
-		if (map->from == entry) {
-		    if (entry_is_rule(map->to)) {
-			return(map->to);
-		    } else {
-			return(NULL);
-		    }
+	*found_ref = FALSE;
+	if (!stack->head) {
+		if (table_get_rule(table, key)) {
+			*found_ref = TRUE;
 		}
-	    }
+
+		return table_add_rule(table, key);
 	}
+
+	dstring_init(&dstring);
+	dstring_append_nstring(&dstring, &stack->head->scope);
+	dstring_append_nstring(&dstring, key);
+	dstring_to_nstring(&dstring, &nstring);
+	dstring_destroy(&dstring);
+
+	entry = table_get_rule(table, &nstring);
+	if (entry != NULL) {
+		*found_ref = TRUE;
+		nstring_destroy(&nstring);
+		return entry;
+	}
+
+	entry = table_add_rule(table, &nstring);
+	if (entry == NULL) {
+		nstring_destroy(&nstring);
+		return NULL;
+	}
+
+	from = table_add_name(table, key);
+	map  = ALLOCATE(ScopeMapEntryT);
+
+	(void) scope_stack_check_shadowing(stack, from, rule);
+	map->next          = NULL;
+	map->from          = from;
+	map->to            = entry;
+	*stack->head->tail = map;
+	stack->head->tail  = &map->next;
+
+	return entry;
+}
+
+EntryT *
+scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
+	RuleT *rule, BoolT *found_ref)
+{
+	DStringT        dstring;
+	NStringT        nstring;
+	EntryT         *entry;
+	EntryT         *from;
+	ScopeMapEntryT *map;
+
+	*found_ref = FALSE;
+	if (!stack->head) {
+		if (table_get_action(table, key)) {
+			*found_ref = TRUE;
+		}
+
+		return table_add_action(table, key);
+	}
+
+	dstring_init(&dstring);
+	dstring_append_nstring(&dstring, &(stack->head->scope));
+	dstring_append_nstring(&dstring, key);
+	dstring_to_nstring(&dstring, &nstring);
+	dstring_destroy(&dstring);
+
+	entry = table_get_action(table, &nstring);
+	if (entry != NULL) {
+		*found_ref = TRUE;
+		nstring_destroy(&nstring);
+		return entry;
+	}
+
+	entry = table_add_action(table, &nstring);
+	if (entry == NULL) {
+		nstring_destroy(&nstring);
+		return(NULL);
+	}
+
+	from = table_add_name(table, key);
+	map  = ALLOCATE(ScopeMapEntryT);
+
+	(void) scope_stack_check_shadowing(stack, from, rule);
+	map->next          = NULL;
+	map->from          = from;
+	map->to            = entry;
+	*stack->head->tail = map;
+	stack->head->tail  = &map->next;
+
+	return entry;
+}
+
+EntryT *
+scope_stack_add_non_local(ScopeStackT *stack, TableT *table, NStringT *key,
+	EntryT *type, RuleT *rule)
+{
+	DStringT        dstring;
+	NStringT        nstring;
+	EntryT         *entry;
+	EntryT         *from;
+	ScopeMapEntryT *map;
+
+	assert(stack->head);
+	dstring_init(&dstring);
+	dstring_append_nstring(&dstring, &(stack->head->scope));
+	dstring_append_nstring(&dstring, key);
+	dstring_to_nstring(&dstring, &nstring);
+	dstring_destroy(&dstring);
+
+
+	entry = table_add_non_local(table, &nstring, type);
+	if (entry == NULL) {
+		nstring_destroy(&nstring);
+		return NULL;
+	}
+
+	from = table_add_name(table, key);
+	map  = ALLOCATE(ScopeMapEntryT);
+
+	(void) scope_stack_check_shadowing(stack, from, rule);
+	map->next          = NULL;
+	map->from          = from;
+	map->to            = entry;
+	*stack->head->tail = map;
+	stack->head->tail  = &map->next;
+
+	return entry;
+}
+
+EntryT *
+scope_stack_get_rule(ScopeStackT *stack, TableT *table, NStringT *key)
+{
+	EntryT *entry = table_get_entry(table, key);
+	ScopeStackFrameT *frame;
+
+	if (!entry) {
+		return NULL;
+	}
+
+	for (frame = stack->head; frame; frame = frame->next) {
+		ScopeMapEntryT *map;
+
+		for (map = frame->head; map; map = map->next) {
+			if (map->from != entry) {
+				continue;
+			}
+
+			if (entry_is_rule(map->to)) {
+				return map->to;
+			} else {
+				return NULL;
+			}
+		}
+	}
+
 	if (entry_is_rule(entry)) {
-	    return(entry);
+		return entry;
 	}
-    }
-    return(NULL);
+
+	return NULL;
 }
 
 EntryT *
-scope_stack_get_action(ScopeStackT * stack, TableT * table, NStringT * key)
+scope_stack_get_action(ScopeStackT *stack, TableT *table, NStringT *key)
 {
-    EntryT * entry = table_get_entry(table, key);
+	EntryT *entry = table_get_entry(table, key);
+	ScopeStackFrameT *frame;
 
-    if (entry) {
-	ScopeStackFrameT * frame = stack->head;
-
-	for (; frame; frame = frame->next) {
-	    ScopeMapEntryT * map = frame->head;
-
-	    for (; map; map = map->next) {
-		if (map->from == entry) {
-		    if (entry_is_action(map->to)) {
-			return(map->to);
-		    } else {
-			return(NULL);
-		    }
-		}
-	    }
+	if (!entry) {
+		return NULL;
 	}
+
+	for (frame = stack->head; frame; frame = frame->next) {
+		ScopeMapEntryT *map;
+
+		for (map = frame->head ; map; map = map->next) {
+			if (map->from != entry) {
+				continue;
+			}
+
+			if (entry_is_action(map->to)) {
+				return map->to;
+			} else {
+				return NULL;
+			}
+		}
+	}
+
 	if (entry_is_action(entry)) {
-	    return(entry);
+		return entry;
 	}
-    }
-    return(NULL);
+
+	return NULL;
 }
 
 EntryT *
-scope_stack_get_non_local(ScopeStackT * stack, TableT * table, NStringT * key,
-			  NStringT * scope)
+scope_stack_get_non_local(ScopeStackT *stack, TableT *table, NStringT *key,
+	NStringT *scope)
 {
-    EntryT * entry = table_get_entry(table, key);
+	EntryT * entry = table_get_entry(table, key);
+	ScopeStackFrameT *frame;
 
-    if (entry) {
-	ScopeStackFrameT * frame = stack->head;
-
-	for (; frame; frame = frame->next) {
-	    ScopeMapEntryT * map = frame->head;
-
-	    for (; map; map = map->next) {
-		if (map->from == entry) {
-		    if (entry_is_non_local(map->to)) {
-			nstring_copy(scope, &(frame->scope));
-			return(map->to);
-		    } else {
-			return(NULL);
-		    }
-		}
-	    }
+	if (!entry) {
+		return NULL;
 	}
-    }
-    return(NULL);
+
+	for (frame = stack->head ; frame; frame = frame->next) {
+		ScopeMapEntryT *map;
+
+		for (map = frame->head; map; map = map->next) {
+			if (map->from != entry) {
+				continue;
+			}
+
+			if (entry_is_non_local(map->to)) {
+				nstring_copy(scope, &frame->scope);
+				return map->to;
+			} else {
+				return NULL;
+			}
+		}
+	}
+
+	return NULL;
 }
 
 BoolT
-scope_stack_check_shadowing(ScopeStackT * stack, EntryT * from, RuleT * rule)
+scope_stack_check_shadowing(ScopeStackT *stack, EntryT *from, RuleT *rule)
 {
-    ScopeStackFrameT * frame = stack->head;
+	ScopeStackFrameT *frame;
 
-    for (; frame; frame = frame->next) {
-	ScopeMapEntryT * entry;
+	for (frame = stack->head; frame; frame = frame->next) {
+		ScopeMapEntryT *entry;
 
-	for (entry = frame->head; entry; entry = entry->next) {
-	    if (entry->from == from) {
-		E_shadows_non_local(entry_key(from), entry_key(entry->to),
-				     rule);
-		return(TRUE);
-	    }
+		for (entry = frame->head; entry; entry = entry->next) {
+			if (entry->from == from) {
+				E_shadows_non_local(entry_key(from), entry_key(entry->to), rule);
+				return TRUE;
+			}
+		}
 	}
-    }
-    if (entry_is_rule(from) || entry_is_action(from) ||
-	entry_is_basic(from)) {
-	E_shadows_global(entry_key(from), rule);
-	return(TRUE);
-    }
-    return(FALSE);
+
+	if (entry_is_rule(from) || entry_is_action(from) || entry_is_basic(from)) {
+		E_shadows_global(entry_key(from), rule);
+		return TRUE;
+	}
+
+	return FALSE;
 }
+

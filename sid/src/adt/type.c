@@ -58,68 +58,63 @@
 */
 
 /*
- * action.c - Action ADT.
+ * type.c - Type ADT.
  *
- * This file implements the action manipulation routines.
+ * This file implements the type ADT manipulation routines.
  */
 
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/dalloc.h>
+#include <assert.h>
 
-#include "../shared/check/check.h"
-#include "action.h"
-#include "basic.h"
-#include "name.h"
-#include "rule.h"
 #include "type.h"
 
-ActionT *
-action_create(void)
+TypeT *
+type_create(void)
 {
-	ActionT *action = ALLOCATE(ActionT);
+	TypeT *type = ALLOCATE(TypeT);
 
-	types_init(action_param(action));
-	types_init(action_result(action));
-	action->code = NULL;
+	type->assign_code        = NULL;
+	type->param_assign_code  = NULL;
+	type->result_assign_code = NULL;
 
-	return action;
-}
-
-/* TODO some of these could become macros or inlined functions */
-TypeTupleT *
-action_param(ActionT *action)
-{
-	return &action->param;
-}
-
-TypeTupleT *
-action_result(ActionT *action)
-{
-	return &action->result;
+	return type;
 }
 
 void *
-action_get_code(ActionT *action)
+type_get_assign_code(TypeT *type)
 {
-	return action->code;
+	return type->assign_code;
 }
 
 void
-action_set_code(ActionT *action, void *code)
+type_set_assign_code(TypeT *type, void *code)
 {
-	action->code = code;
+	assert(type->assign_code == NULL);
+	type->assign_code = code;
+}
+
+void *
+type_get_param_assign_code(TypeT *type)
+{
+	return type->param_assign_code;
 }
 
 void
-action_iter_for_table(ActionT *action, BoolT full,
-	void (*proc) WEAK (EntryT *, void *), void *closure)
+type_set_param_assign_code(TypeT *type, void *code)
 {
-	if (!full) {
-		return;
-	}
+	assert(type->param_assign_code == NULL);
+	type->param_assign_code = code;
+}
 
-	types_iter_for_table(action_param(action), proc, closure);
-	types_iter_for_table(action_result(action), proc, closure);
+void *
+type_get_result_assign_code(TypeT *type)
+{
+	return type->result_assign_code;
+}
+
+void
+type_set_result_assign_code(TypeT *type, void *code)
+{
+	assert(type->result_assign_code == NULL);
+	type->result_assign_code = code;
 }
 

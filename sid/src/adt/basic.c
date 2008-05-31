@@ -57,7 +57,6 @@
         it may be put.
 */
 
-
 /*
  * basic.c - Basic ADT.
  *
@@ -74,81 +73,85 @@
 #include "type.h"
 
 BasicT *
-basic_create(GrammarT * grammar, BoolT ignored)
+basic_create(GrammarT *grammar, BoolT ignored)
 {
-    BasicT * basic = ALLOCATE(BasicT);
+	BasicT *basic = ALLOCATE(BasicT);
 
-    basic->terminal        = grammar_next_terminal(grammar);
-    types_init(basic_result(basic));
-    basic->result_code     = NULL;
-    basic->ignored         = ignored;
-    return(basic);
+	basic->terminal    = grammar_next_terminal(grammar);
+	types_init(basic_result(basic));
+	basic->result_code = NULL;
+	basic->ignored     = ignored;
+
+	return basic;
 }
 
 unsigned
-basic_terminal(BasicT * basic)
+basic_terminal(BasicT *basic)
 {
-    return(basic->terminal);
+	return basic->terminal;
 }
 
 TypeTupleT *
-basic_result(BasicT * basic)
+basic_result(BasicT *basic)
 {
-    return(&(basic->result));
+	return &basic->result;
 }
 
 void *
-basic_get_result_code(BasicT * basic)
+basic_get_result_code(BasicT *basic)
 {
-    return(basic->result_code);
+	return basic->result_code;
 }
 
 void
-basic_set_result_code(BasicT * basic, void * code)
+basic_set_result_code(BasicT *basic, void *code)
 {
-    basic->result_code = code;
+	basic->result_code = code;
 }
 
 BoolT
-basic_get_ignored(BasicT * basic)
+basic_get_ignored(BasicT *basic)
 {
-    return(basic->ignored);
+	return basic->ignored;
 }
 
 void
-basic_iter_for_table(BasicT * basic, BoolT full,
-		     void(*proc) WEAK (EntryT *, void *),
-		     void * closure)
+basic_iter_for_table(BasicT *basic, BoolT full,
+	void (*proc) WEAK (EntryT *, void *), void *closure)
 {
-    if (full) {
-	types_iter_for_table(basic_result(basic), proc, closure);
-    }
+	if (full) {
+		types_iter_for_table(basic_result(basic), proc, closure);
+	}
 }
 
 void
-write_basics(OStreamT * ostream, BasicClosureT * closure)
+write_basics(OStreamT *ostream, BasicClosureT *closure)
 {
-    BitVecT *  bitvec   = closure->bitvec;
-    TableT *   table    = grammar_table(closure->grammar);
-    unsigned terminal = bitvec_first_bit(bitvec);
-    unsigned num_bits = bitvec_num_bits(bitvec);
+	BitVecT  *bitvec   = closure->bitvec;
+	TableT   *table    = grammar_table(closure->grammar);
+	unsigned  terminal = bitvec_first_bit(bitvec);
+	unsigned  num_bits = bitvec_num_bits(bitvec);
 
-    while (num_bits) {
-	EntryT * entry = table_get_basic_by_number(table, terminal);
+	while (num_bits) {
+		EntryT *entry;
 
-	if (entry) {
-	    write_char(ostream, '\'');
-	    write_key(ostream, entry_key(entry));
-	    write_char(ostream, '\'');
-	} else {
-	    write_unsigned(ostream, terminal);
+		entry = table_get_basic_by_number(table, terminal);
+		if (entry) {
+			write_char(ostream, '\'');
+			write_key(ostream, entry_key(entry));
+			write_char(ostream, '\'');
+		} else {
+			write_unsigned(ostream, terminal);
+		}
+
+		if (num_bits > 2) {
+			write_cstring(ostream, ", ");
+		} else if (num_bits == 2) {
+			write_cstring(ostream, " & ");
+		}
+
+		num_bits--;
+		(void) bitvec_next_bit(bitvec, &terminal);
 	}
-	if (num_bits > 2) {
-	    write_cstring(ostream, ", ");
-	} else if (num_bits == 2) {
-	    write_cstring(ostream, " & ");
-	}
-	num_bits--;
-	(void)bitvec_next_bit(bitvec, &terminal);
-    }
 }
+

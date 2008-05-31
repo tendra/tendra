@@ -58,68 +58,83 @@
 */
 
 /*
- * action.c - Action ADT.
+ * name.c - Name ADT.
  *
- * This file implements the action manipulation routines.
+ * This file implements the name manipulation routines.
  */
 
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/dalloc.h>
+#include <assert.h>
 
-#include "../shared/check/check.h"
-#include "action.h"
-#include "basic.h"
 #include "name.h"
-#include "rule.h"
-#include "type.h"
 
-ActionT *
-action_create(void)
+NameT *
+name_create(void)
 {
-	ActionT *action = ALLOCATE(ActionT);
+	NameT *name = ALLOCATE(NameT);
 
-	types_init(action_param(action));
-	types_init(action_result(action));
-	action->code = NULL;
+	name->clash    = FALSE;
+	name->used     = FALSE;
+	name->labelled = FALSE;
 
-	return action;
+	return name;
 }
 
-/* TODO some of these could become macros or inlined functions */
-TypeTupleT *
-action_param(ActionT *action)
+BoolT
+name_test_and_set_clash(NameT *name)
 {
-	return &action->param;
-}
+	BoolT clash = name->clash;
 
-TypeTupleT *
-action_result(ActionT *action)
-{
-	return &action->result;
-}
-
-void *
-action_get_code(ActionT *action)
-{
-	return action->code;
+	name->clash = TRUE;
+	return clash;
 }
 
 void
-action_set_code(ActionT *action, void *code)
+name_reset_clash(NameT *name)
 {
-	action->code = code;
+	name->clash = FALSE;
+}
+
+BoolT
+name_is_used(NameT *name)
+{
+	return name->used;
 }
 
 void
-action_iter_for_table(ActionT *action, BoolT full,
-	void (*proc) WEAK (EntryT *, void *), void *closure)
+name_used(NameT *name)
 {
-	if (!full) {
-		return;
-	}
+	name->used = TRUE;
+}
 
-	types_iter_for_table(action_param(action), proc, closure);
-	types_iter_for_table(action_result(action), proc, closure);
+void
+name_not_used(NameT *name)
+{
+	name->used = FALSE;
+}
+
+unsigned
+name_get_label(NameT *name)
+{
+	assert(name->labelled);
+	return name->label;
+}
+
+void
+name_set_label(NameT *name, unsigned label)
+{
+	name->labelled = TRUE;
+	name->label    = label;
+}
+
+void
+name_reset_label(NameT *name)
+{
+	name->labelled = FALSE;
+}
+
+BoolT
+name_has_label(NameT *name)
+{
+	return name->labelled;
 }
 

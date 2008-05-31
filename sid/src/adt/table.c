@@ -78,51 +78,54 @@
 static unsigned
 table_next_generated_key(void)
 {
-    static unsigned sequence = 0;
+	static unsigned sequence = 0;
 
-    if (sequence == UINT_MAX) {
-	E_too_many_generated_ids();
-	UNREACHED;
-    }
-    return(sequence++);
+	if (sequence == UINT_MAX) {
+		E_too_many_generated_ids();
+		UNREACHED;
+	}
+
+	return sequence++;
 }
 
 static EntryT *
-table_add_entry(TableT * table, NStringT * key, EntryTypeT type, BoolT *found_ref)
+table_add_entry(TableT *table, NStringT *key, EntryTypeT type, BoolT *found_ref)
 {
-    unsigned hash   = (nstring_hash_value(key)% TABLE_SIZE);
-    EntryT *  *entryp = &(table->contents[hash]);
-    EntryT *   entry;
-    unsigned number;
+	unsigned hash   = nstring_hash_value(key) % TABLE_SIZE;
+	EntryT **entryp = &table->contents[hash];
+	EntryT *entry;
+	unsigned number;
 
-    *found_ref = FALSE;
-    while ((entry = *entryp) != NULL) {
-	KeyT * ent_key = entry_key(entry);
+	*found_ref = FALSE;
+	while ((entry = *entryp) != NULL) {
+		KeyT *ent_key = entry_key(entry);
 
-	if ((key_is_string(ent_key)) &&
-	   (nstring_equal(key_get_string(ent_key), key))) {
-	    if (type == ET_NAME) {
-		nstring_destroy(key);
-		return(entry);
-	    } else if (entry_type(entry) == ET_NAME) {
-		nstring_destroy(key);
-		entry_change_type(entry, type);
-		return(entry);
-	    } else if ((entry_type(entry) == type) &&
-		      ((type == ET_ACTION) || (type == ET_RULE))) {
-		*found_ref = TRUE;
-		nstring_destroy(key);
-		return(entry);
-	    } else {
-		return(NULL);
-	    }
+		if (key_is_string(ent_key) && nstring_equal(key_get_string(ent_key), key)) {
+			if (type == ET_NAME) {
+				nstring_destroy(key);
+				return entry;
+			} else if (entry_type(entry) == ET_NAME) {
+				nstring_destroy(key);
+				entry_change_type(entry, type);
+				return entry;
+			} else if (entry_type(entry) == type
+				&& (type == ET_ACTION || type == ET_RULE)) {
+				*found_ref = TRUE;
+				nstring_destroy(key);
+				return entry;
+			} else {
+				return NULL;
+			}
+		}
+
+		entryp = entry_next_ref(entry);
 	}
-	entryp = entry_next_ref(entry);
-    }
-    number  = table_next_generated_key();
-    entry   = entry_create_from_string(key, number, type);
-    *entryp = entry;
-    return(entry);
+
+	number  = table_next_generated_key();
+	entry   = entry_create_from_string(key, number, type);
+	*entryp = entry;
+
+	return entry;
 }
 
 
@@ -131,253 +134,269 @@ table_add_entry(TableT * table, NStringT * key, EntryTypeT type, BoolT *found_re
  */
 
 void
-table_init(TableT * table)
+table_init(TableT *table)
 {
-    unsigned i;
+	unsigned i;
 
-    for (i = 0; i < TABLE_SIZE; i++) {
-	table->contents[i] = NULL;
-    }
+	for (i = 0; i < TABLE_SIZE; i++) {
+		table->contents[i] = NULL;
+	}
 }
 
 EntryT *
-table_add_type(TableT * table, NStringT * key)
+table_add_type(TableT *table, NStringT *key)
 {
-    BoolT  found;
-    EntryT * entry = table_add_entry(table, key, ET_TYPE, &found);
+	BoolT  found;
+	EntryT *entry = table_add_entry(table, key, ET_TYPE, &found);
 
-    if (entry) {
-	entry_set_type(entry, type_create());
-    }
-    return(entry);
+	if (entry) {
+		entry_set_type(entry, type_create());
+	}
+
+	return entry;
 }
 
 EntryT *
-table_add_basic(TableT * table, NStringT * key, GrammarT * grammar, BoolT ignored)
+table_add_basic(TableT *table, NStringT *key, GrammarT *grammar, BoolT ignored)
 {
-    BoolT  found;
-    EntryT * entry = table_add_entry(table, key, ET_BASIC, &found);
+	BoolT   found;
+	EntryT *entry = table_add_entry(table, key, ET_BASIC, &found);
 
-    if (entry) {
-	entry_set_basic(entry, basic_create(grammar, ignored));
-    }
-    return(entry);
+	if (entry) {
+		entry_set_basic(entry, basic_create(grammar, ignored));
+	}
+
+	return entry;
 }
 
 EntryT *
-table_add_action(TableT * table, NStringT * key)
+table_add_action(TableT *table, NStringT *key)
 {
-    BoolT  found;
-    EntryT * entry = table_add_entry(table, key, ET_ACTION, &found);
+	BoolT   found;
+	EntryT *entry = table_add_entry(table, key, ET_ACTION, &found);
 
-    if ((entry != NULL) && (!found)) {
-	entry_set_action(entry, action_create());
-    }
-    return(entry);
+	if (entry != NULL && !found) {
+		entry_set_action(entry, action_create());
+	}
+
+	return entry;
 }
 
 EntryT *
-table_add_rule(TableT * table, NStringT * key)
+table_add_rule(TableT *table, NStringT *key)
 {
-    BoolT  found;
-    EntryT * entry = table_add_entry(table, key, ET_RULE, &found);
+	BoolT   found;
+	EntryT *entry = table_add_entry(table, key, ET_RULE, &found);
 
-    if ((entry != NULL) && (!found)) {
+	if (entry != NULL && !found) {
+		entry_set_rule(entry, rule_create(entry));
+	}
+
+	return entry;
+}
+
+EntryT *
+table_add_generated_rule(TableT *table, BoolT traced)
+{
+	unsigned sequence = table_next_generated_key();
+	unsigned hash     = sequence % TABLE_SIZE;
+	EntryT **entryp   = &table->contents[hash];
+	EntryT *entry;
+
+	entry = entry_create_from_number(sequence, ET_RULE, traced, *entryp);
 	entry_set_rule(entry, rule_create(entry));
-    }
-    return(entry);
+	*entryp = entry;
+
+	return entry;
 }
 
 EntryT *
-table_add_generated_rule(TableT * table, BoolT traced)
+table_add_name(TableT *table, NStringT *key)
 {
-    unsigned sequence = table_next_generated_key();
-    unsigned hash     = (sequence % TABLE_SIZE);
-    EntryT *  *entryp   = &(table->contents[hash]);
-    EntryT *   entry;
+	BoolT found;
 
-    entry = entry_create_from_number(sequence, ET_RULE, traced, *entryp);
-    entry_set_rule(entry, rule_create(entry));
-    *entryp = entry;
-    return(entry);
+	return table_add_entry(table, key, ET_NAME, &found);
 }
 
 EntryT *
-table_add_name(TableT * table, NStringT * key)
+table_add_generated_name(TableT *table)
 {
-    BoolT found;
+	unsigned sequence = table_next_generated_key();
+	unsigned hash     = sequence % TABLE_SIZE;
+	EntryT **entryp   = &table->contents[hash];
+	EntryT *entry;
 
-    return(table_add_entry(table, key, ET_NAME, &found));
-}
+	entry = entry_create_from_number(sequence, ET_NAME, FALSE, *entryp);
+	*entryp = entry;
 
-EntryT *
-table_add_generated_name(TableT * table)
-{
-    unsigned sequence = table_next_generated_key();
-    unsigned hash     = (sequence % TABLE_SIZE);
-    EntryT *  *entryp   = &(table->contents[hash]);
-    EntryT *   entry;
-
-    entry = entry_create_from_number(sequence, ET_NAME, FALSE, *entryp);
-    *entryp = entry;
-    return(entry);
+	return entry;
 }
 
 EntryT *
 table_add_rename(TableT * table)
 {
-    unsigned sequence = table_next_generated_key();
-    unsigned hash     = (sequence % TABLE_SIZE);
-    EntryT *  *entryp   = &(table->contents[hash]);
-    EntryT *   entry;
+	unsigned sequence = table_next_generated_key();
+	unsigned hash     = sequence % TABLE_SIZE;
+	EntryT **entryp   = &table->contents[hash];
+	EntryT *entry;
 
-    entry = entry_create_from_number(sequence, ET_RENAME, TRUE, *entryp);
-    *entryp = entry;
-    return(entry);
+	entry = entry_create_from_number(sequence, ET_RENAME, TRUE, *entryp);
+	*entryp = entry;
+
+	return entry;
 }
 
 EntryT *
-table_add_non_local(TableT * table, NStringT * key, EntryT * type)
+table_add_non_local(TableT *table, NStringT *key, EntryT *type)
 {
-    BoolT  found;
-    EntryT * entry = table_add_entry(table, key, ET_NON_LOCAL, &found);
+	BoolT   found;
+	EntryT *entry;
 
-    if (entry) {
-	entry_set_non_local(entry, type);
-    }
-    return(entry);
-}
-
-EntryT *
-table_get_entry(TableT * table, NStringT * key)
-{
-    unsigned hash  = (nstring_hash_value(key)% TABLE_SIZE);
-    EntryT *   entry = (table->contents[hash]);
-
-    while (entry) {
-	KeyT * ent_key = entry_key(entry);
-
-	if ((key_is_string(ent_key)) &&
-	   (nstring_equal(key_get_string(ent_key), key))) {
-	    return(entry);
+	entry = table_add_entry(table, key, ET_NON_LOCAL, &found);
+	if (entry) {
+		entry_set_non_local(entry, type);
 	}
-	entry = entry->next;
-    }
-    return(NULL);
+
+	return entry;
 }
 
 EntryT *
-table_get_type(TableT * table, NStringT * key)
+table_get_entry(TableT *table, NStringT *key)
 {
-    EntryT * entry = table_get_entry(table, key);
+	unsigned  hash  = nstring_hash_value(key) % TABLE_SIZE;
+	EntryT   *entry;
 
-    if ((entry) && (entry_is_type(entry))) {
-	return(entry);
-    } else {
-	return(NULL);
-    }
-}
+	for(entry = table->contents[hash]; entry; entry = entry->next) {
+		KeyT *ent_key = entry_key(entry);
 
-EntryT *
-table_get_basic(TableT * table, NStringT * key)
-{
-    EntryT * entry = table_get_entry(table, key);
-
-    if ((entry) && (entry_is_basic(entry))) {
-	return(entry);
-    } else {
-	return(NULL);
-    }
-}
-
-EntryT *
-table_get_basic_by_number(TableT * table, unsigned number)
-{
-    unsigned i;
-
-    for (i = 0; i < TABLE_SIZE; i++) {
-	EntryT * entry;
-
-	for (entry = table->contents[i]; entry; entry = entry_next(entry)) {
-	    if (entry_is_basic(entry)) {
-		BasicT * basic = entry_get_basic(entry);
-
-		if (basic_terminal(basic) == number) {
-		    return(entry);
+		if (key_is_string(ent_key) &&
+			nstring_equal(key_get_string(ent_key), key)) {
+			return entry;
 		}
-	    }
 	}
-    }
-    return(NULL);
+
+	return NULL;
 }
 
 EntryT *
-table_get_action(TableT * table, NStringT * key)
+table_get_type(TableT *table, NStringT *key)
 {
-    EntryT * entry = table_get_entry(table, key);
+	EntryT *entry;
 
-    if ((entry) && (entry_is_action(entry))) {
-	return(entry);
-    } else {
-	return(NULL);
-    }
+	entry = table_get_entry(table, key);
+	if (entry && entry_is_type(entry)) {
+		return entry;
+	} else {
+		return NULL;
+	}
 }
 
 EntryT *
-table_get_rule(TableT * table, NStringT * key)
+table_get_basic(TableT *table, NStringT *key)
 {
-    EntryT * entry = table_get_entry(table, key);
+	EntryT *entry;
 
-    if ((entry) && (entry_is_rule(entry))) {
-	return(entry);
-    } else {
-	return(NULL);
-    }
+	entry = table_get_entry(table, key);
+	if (entry && entry_is_basic(entry)) {
+		return entry;
+	} else {
+		return NULL;
+	}
+}
+
+EntryT *
+table_get_basic_by_number(TableT *table, unsigned number)
+{
+	unsigned i;
+
+	for (i = 0; i < TABLE_SIZE; i++) {
+		EntryT *entry;
+
+		for (entry = table->contents[i]; entry; entry = entry_next(entry)) {
+			BasicT *basic;
+
+			if (!entry_is_basic(entry)) {
+				continue;
+			}
+
+			basic = entry_get_basic(entry);
+			if (basic_terminal(basic) == number) {
+				return entry;
+			}
+		}
+	}
+
+	return NULL;
+}
+
+EntryT *
+table_get_action(TableT *table, NStringT *key)
+{
+	EntryT *entry;
+
+	entry = table_get_entry(table, key);
+	if (entry && entry_is_action(entry)) {
+		return entry;
+	} else {
+		return NULL;
+	}
+}
+
+EntryT *
+table_get_rule(TableT *table, NStringT *key)
+{
+	EntryT *entry;
+
+	entry = table_get_entry(table, key);
+	if (entry && entry_is_rule(entry)) {
+		return entry;
+	} else {
+		return NULL;
+	}
 }
 
 void
-table_iter(TableT * table, void (*proc)(EntryT *, void *),
-	   void * closure)
+table_iter(TableT *table, void (*proc)(EntryT *, void *), void *closure)
 {
-    unsigned i;
+	unsigned i;
 
-    for (i = 0; i < TABLE_SIZE; i++) {
-	EntryT * entry;
+	for (i = 0; i < TABLE_SIZE; i++) {
+		EntryT *entry;
 
-	for (entry = table->contents[i]; entry; entry = entry_next(entry)) {
-	   (*proc)(entry, closure);
+		for (entry = table->contents[i]; entry; entry = entry_next(entry)) {
+			proc(entry, closure);
+		}
 	}
-    }
 }
 
 void
-table_untrace(TableT * table)
+table_untrace(TableT *table)
 {
-    unsigned i;
+	unsigned i;
 
-    for (i = 0; i < TABLE_SIZE; i++) {
-	EntryT * entry;
+	for (i = 0; i < TABLE_SIZE; i++) {
+		EntryT *entry;
 
-	for (entry = table->contents[i]; entry; entry = entry_next(entry)) {
-	    entry_not_traced(entry);
+		for (entry = table->contents[i]; entry; entry = entry_next(entry)) {
+			entry_not_traced(entry);
+		}
 	}
-    }
 }
 
 void
 table_unlink_untraced_rules(TableT * table)
 {
-    unsigned i;
+	unsigned i;
 
-    for (i = 0; i < TABLE_SIZE; i++) {
-	EntryT * entry = (table->contents[i]);
+	for (i = 0; i < TABLE_SIZE; i++) {
+		EntryT *entry;
 
-	while (entry) {
-	    if (entry_is_rule(entry) && (!entry_is_traced(entry))) {
-		rule_deallocate(entry_get_rule(entry));
-		entry_change_type(entry, ET_NAME);
-	    }
-	    entry = entry_next(entry);
+		for (entry = table->contents[i]; entry; entry = entry_next(entry)) {
+			if (entry_is_rule(entry) && !entry_is_traced(entry)) {
+				rule_deallocate(entry_get_rule(entry));
+				entry_change_type(entry, ET_NAME);
+			}
+		}
 	}
-    }
 }
+

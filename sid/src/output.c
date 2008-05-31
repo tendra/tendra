@@ -72,103 +72,106 @@
 #include "output.h"
 
 void
-out_info_init(OutputInfoT * info, char * prog)
+out_info_init(OutputInfoT *info, char *prog)
 {
-    info->prog_name       = prog;
-    info->current_ostream = NULL;
-    info->istreams        = NULL;
-    info->ostreams        = NULL;
-    info->input_names     = NULL;
-    info->output_names    = NULL;
-    info->tab_width       = 8;
+	info->prog_name       = prog;
+	info->current_ostream = NULL;
+	info->istreams        = NULL;
+	info->ostreams        = NULL;
+	info->input_names     = NULL;
+	info->output_names    = NULL;
+	info->tab_width       = 8;
 }
 
 char *
-out_info_get_prog_name(OutputInfoT * info)
+out_info_get_prog_name(OutputInfoT *info)
 {
-    return(info->prog_name);
+	return info->prog_name;
 }
 
 void
-out_info_set_current_ostream(OutputInfoT * info, unsigned i)
+out_info_set_current_ostream(OutputInfoT *info, unsigned i)
 {
-    info->current_ostream = &(info->ostreams[i]);
+	info->current_ostream = &info->ostreams[i];
 }
 
 OStreamT *
-out_info_get_current_ostream(OutputInfoT * info)
+out_info_get_current_ostream(OutputInfoT *info)
 {
-    return(info->current_ostream);
+	return info->current_ostream;
 }
 
 void
-out_info_set_num_input_files(OutputInfoT * info, unsigned size)
+out_info_set_num_input_files(OutputInfoT *info, unsigned size)
 {
-    info->istreams    = ALLOCATE_VECTOR(IStreamT, size);
-    info->input_names = ALLOCATE_VECTOR(char *, size);
+	info->istreams    = ALLOCATE_VECTOR(IStreamT, size);
+	info->input_names = ALLOCATE_VECTOR(char *, size);
 }
 
 void
-out_info_set_num_output_files(OutputInfoT * info, unsigned size)
+out_info_set_num_output_files(OutputInfoT *info, unsigned size)
 {
-    info->ostreams     = ALLOCATE_VECTOR(OStreamT, size);
-    info->output_names = ALLOCATE_VECTOR(char *, size);
+	info->ostreams     = ALLOCATE_VECTOR(OStreamT, size);
+	info->output_names = ALLOCATE_VECTOR(char *, size);
 }
 
 IStreamT *
-out_info_get_istream(OutputInfoT * info, unsigned i)
+out_info_get_istream(OutputInfoT *info, unsigned i)
 {
-    return(&(info->istreams[i]));
+	return &info->istreams[i];
 }
 
 OStreamT *
-out_info_get_ostream(OutputInfoT * info, unsigned i)
+out_info_get_ostream(OutputInfoT *info, unsigned i)
 {
-    return(&(info->ostreams[i]));
+	return &info->ostreams[i];
 }
 
 void
-out_info_set_infile_name(OutputInfoT * info, unsigned i, char * name)
+out_info_set_infile_name(OutputInfoT *info, unsigned i, char *name)
 {
-    info->input_names[i] = name;
+	info->input_names[i] = name;
 }
 
 char *
-out_info_get_infile_name(OutputInfoT * info, unsigned i)
+out_info_get_infile_name(OutputInfoT *info, unsigned i)
 {
-    return(info->input_names[i]);
+	return info->input_names[i];
 }
 
 void
-out_info_set_outfile_name(OutputInfoT * info, unsigned i, char * name)
+out_info_set_outfile_name(OutputInfoT *info, unsigned i, char *name)
 {
-    info->output_names[i] = name;
+	info->output_names[i] = name;
 }
 
 char *
-out_info_get_outfile_name(OutputInfoT * info, unsigned i)
+out_info_get_outfile_name(OutputInfoT *info, unsigned i)
 {
-    return(info->output_names[i]);
+	return info->output_names[i];
 }
 
 void
-out_info_set_tab_width(OutputInfoT * info, unsigned width)
+out_info_set_tab_width(OutputInfoT *info, unsigned width)
 {
-    info->tab_width = width;
+	info->tab_width = width;
 }
 
 void
-output_indent(OutputInfoT * info, unsigned indent)
+output_indent(OutputInfoT *info, unsigned indent)
 {
-    OStreamT * ostream    = out_info_get_current_ostream(info);
-    unsigned tab_width  = info->tab_width;
-    unsigned num_tabs   = (indent / tab_width);
-    unsigned num_spaces = (indent % tab_width);
+	OStreamT *ostream   = out_info_get_current_ostream(info);
+	unsigned tab_width  = info->tab_width;
+	unsigned num_tabs   = indent / tab_width;
+	unsigned num_spaces = indent % tab_width;
 
-    while (num_tabs --) {
-	write_tab(ostream);
-    }
-    while (num_spaces --) {
-	write_char(ostream, ' ');
-    }
+	/* TODO: remove soft tabs */
+	while (num_tabs--) {
+		write_tab(ostream);
+	}
+
+	while (num_spaces--) {
+		write_char(ostream, ' ');
+	}
 }
+

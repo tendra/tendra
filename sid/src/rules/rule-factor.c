@@ -95,8 +95,8 @@
  * highest priority in any of the group's alternatives, which is not preceded
  * by an action.  If there is no such rule, then the group's priority is one.
  *
- * The ``rule_group_by_initial_item'' function is responsible for this
- * re-ordering.  It uses the rule's alternative tail pointer (``alt_tail'') to
+ * The rule_group_by_initial_item() function is responsible for this
+ * re-ordering.  It uses the rule's alternative tail pointer (alt_tail) to
  * indicate where in the rule it should start the grouping from.  Nothing
  * before this point is modified (it is assumed that it is already grouped).
  * The pointer will always be restored to the end of the alternative list by
@@ -147,8 +147,8 @@
  * It is possible that this final stage of the factorization process will go
  * on forever.  To prevent this, there is a limit on the number of new rules
  * that can be created.  This stage of the factorisation process is
- * implemented by the functions ``rule_factor_2'', ``rule_factor_3'', and
- * ``rule_factor_4''.
+ * implemented by the functions rule_factor_2(), rule_factor_3(), and
+ * rule_factor_4().
  *
  * When the new rule is created, the ``rule_compute_first_set_1'' function is
  * called to calculate its first set, whether or not it is see through and its
@@ -167,464 +167,509 @@
 #include "../adt/types.h"
 
 typedef struct AltGroupT {
-    struct AltGroupT	       *next;
-    BitVecT			first_set;
-    EntryListT			predicate_first;
-    unsigned			priority;
-    AltT *		       *alt_ref;
+	struct AltGroupT *next;
+	BitVecT           first_set;
+	EntryListT        predicate_first;
+	unsigned          priority;
+	AltT             **alt_ref;
 } AltGroupT;
 
 typedef struct AltGroupListT {
-    AltGroupT *			head;
-    AltGroupT *		       *tail;
+	AltGroupT  *head;
+	AltGroupT **tail;
 } AltGroupListT;
 
-static unsigned			rule_factor_limit = 1000;
+static unsigned rule_factor_limit = 1000;
 
-static unsigned			rule_overlaps(ItemT *, BitVecT *, EntryListT *);
+static unsigned rule_overlaps(ItemT *, BitVecT *, EntryListT *);
+
 
 static AltGroupT *
-group_create(ItemT * item, AltT * *alt_ref)
+group_create(ItemT *item, AltT **alt_ref)
 {
-    AltGroupT * group = ALLOCATE(AltGroupT);
+	AltGroupT *group = ALLOCATE(AltGroupT);
 
-    group->next     = NULL;
-    bitvec_init(&(group->first_set));
-    entry_list_init(&(group->predicate_first));
-    group->priority = rule_overlaps(item, &(group->first_set),
-				    &(group->predicate_first));
-    group->alt_ref  = alt_ref;
-    return(group);
+	group->next = NULL;
+	bitvec_init(&group->first_set);
+	entry_list_init(&group->predicate_first);
+	group->priority = rule_overlaps(item, &group->first_set,
+		&group->predicate_first);
+	group->alt_ref = alt_ref;
+
+	return group;
 }
 
 static AltGroupT *
-group_deallocate(AltGroupT * group)
+group_deallocate(AltGroupT *group)
 {
-    AltGroupT * next = group->next;
+	AltGroupT *next = group->next;
 
-    bitvec_destroy(&(group->first_set));
-    entry_list_destroy(&(group->predicate_first));
-    DEALLOCATE(group);
-    return(next);
+	bitvec_destroy(&group->first_set);
+	entry_list_destroy(&group->predicate_first);
+	DEALLOCATE(group);
+
+	return next;
 }
 
 static unsigned
-rule_overlaps(ItemT * initial_item, BitVecT * first_set, EntryListT * predicate_first)
+rule_overlaps(ItemT *initial_item, BitVecT *first_set, EntryListT *predicate_first)
 {
-    unsigned priority    = 0;
-    BoolT    see_through = TRUE;
-    BoolT    no_action   = TRUE;
-    ItemT *    item;
+	unsigned  priority    = 0;
+	BoolT     see_through = TRUE;
+	BoolT     no_action   = TRUE;
+	ItemT    *item;
 
-    for (item = initial_item; see_through && (item != NULL);
-	 item = item_next(item)) {
-	switch (item_type(item))EXHAUSTIVE {
-	  case ET_PREDICATE:
-	    assert(item == initial_item);
-	    entry_list_add_if_missing(predicate_first, item_entry(item));
-	    see_through = FALSE;
-	    break;
-	  case ET_RENAME:
-	  case ET_ACTION:
-	    no_action = FALSE;
-	    break;
-	  case ET_RULE: {
-	      EntryT *   entry         = item_entry(item);
-	      RuleT *    item_rule     = entry_get_rule(entry);
-	      unsigned item_priority = rule_get_priority(item_rule);
+	for (item = initial_item; see_through && item != NULL;
+		item = item_next(item)) {
+		switch (item_type(item)) EXHAUSTIVE {
+		case ET_PREDICATE:
+			assert(item == initial_item);
+			entry_list_add_if_missing(predicate_first, item_entry(item));
+			see_through = FALSE;
+			break;
 
-	      bitvec_or(first_set, rule_first_set(item_rule));
-	      entry_list_append(predicate_first,
+		case ET_RENAME:
+		case ET_ACTION:
+			no_action = FALSE;
+			break;
+
+		case ET_RULE: {
+				EntryT   *entry         = item_entry(item);
+				RuleT    *item_rule     = entry_get_rule(entry);
+				unsigned  item_priority = rule_get_priority(item_rule);
+
+				bitvec_or(first_set, rule_first_set(item_rule));
+				entry_list_append(predicate_first,
 				rule_predicate_first(item_rule));
-	      see_through = rule_is_see_through(item_rule);
-	      if ((item_priority > priority) && no_action) {
-		  priority = item_priority;
-	      }
-	  }
-	    break;
-	  case ET_BASIC: {
-	      BasicT * basic = entry_get_basic(item_entry(item));
+				see_through = rule_is_see_through(item_rule);
+				if (item_priority > priority && no_action) {
+					priority = item_priority;
+				}
+			}
+			break;
 
-	      see_through = FALSE;
-	      bitvec_set(first_set, basic_terminal(basic));
-	  }
-	    break;
-	  case ET_NON_LOCAL:
-	  case ET_NAME:
-	  case ET_TYPE:
-	    UNREACHED;
-	}
-    }
-    return(priority + 1);
-}
+		case ET_BASIC: {
+				BasicT *basic = entry_get_basic(item_entry(item));
 
-static void
-rule_group_by_initial_item(RuleT * rule, AltGroupListT * groups)
-{
-    AltT * *alt_ref = (rule->alt_tail);
-    AltT *  alt;
+				see_through = FALSE;
+				bitvec_set(first_set, basic_terminal(basic));
+			}
+			break;
 
-  next_alt:
-    while ((alt = *alt_ref) != NULL) {
-	ItemT *     item = alt_item_head(alt);
-	AltGroupT * group;
-
-	for (group = groups->head; group; group = group->next) {
-	    AltT * *group_alt_ref = group->alt_ref;
-	    ItemT * alt_item      = alt_item_head(*group_alt_ref);
-
-	    if (((item_entry(item) == item_entry(alt_item)) &&
-		 types_equal_numbers(item_param(item), item_param(alt_item)) &&
-		 types_equal_numbers(item_result(item),
-				     item_result(alt_item))) ||
-		(item_is_rename(item) && item_is_rename(alt_item) &&
-		 types_equal_names(item_param(item), item_param(alt_item)) &&
-		 types_equal_names(item_result(item),
-				   item_result(alt_item)))) {
-		unsigned priority;
-
-		*alt_ref        = alt_next(alt);
-		alt_set_next(alt, *group_alt_ref);
-		*group_alt_ref  = alt;
-		priority        = rule_overlaps(item, &(group->first_set),
-						&(group->predicate_first));
-		if (priority > group->priority) {
-		    group->priority = priority;
+		case ET_NON_LOCAL:
+		case ET_NAME:
+		case ET_TYPE:
+			UNREACHED;
 		}
-		goto next_alt;
-	    }
 	}
-	group           = group_create(item, alt_ref);
-	*(groups->tail) = group;
-	groups->tail    = &(group->next);
-	alt_ref         = alt_next_ref(alt);
-    }
-    rule->alt_tail = alt_ref;
+
+	return priority + 1;
 }
 
-static void			rule_factor_1(RuleT *, FactorClosureT *);
+static void
+rule_group_by_initial_item(RuleT *rule, AltGroupListT *groups)
+{
+	AltT **alt_ref = rule->alt_tail;
+	AltT  *alt;
+
+next_alt:
+	while ((alt = *alt_ref) != NULL) {
+		ItemT     *item = alt_item_head(alt);
+		AltGroupT *group;
+
+		for (group = groups->head; group; group = group->next) {
+			AltT  **group_alt_ref = group->alt_ref;
+			ItemT  *alt_item      = alt_item_head(*group_alt_ref);
+			unsigned priority;
+
+			/* TODO: simplify */
+			if ((item_entry(item) == item_entry(alt_item)
+					&& types_equal_numbers(item_param(item), item_param(alt_item))
+					&& types_equal_numbers(item_result(item), item_result(alt_item)))
+				|| (item_is_rename(item) && item_is_rename(alt_item)
+					&& types_equal_names(item_param(item), item_param(alt_item))
+					&& types_equal_names(item_result(item), item_result(alt_item)))) {
+				unsigned priority;
+
+				*alt_ref        = alt_next(alt);
+				alt_set_next(alt, *group_alt_ref);
+				*group_alt_ref  = alt;
+				priority        = rule_overlaps(item, &(group->first_set),
+				&group->predicate_first);
+
+				if (priority > group->priority) {
+					group->priority = priority;
+				}
+
+				goto next_alt;
+			}
+		}
+
+		group         = group_create(item, alt_ref);
+		*groups->tail = group;
+		groups->tail  = &group->next;
+		alt_ref       = alt_next_ref(alt);
+	}
+	rule->alt_tail = alt_ref;
+}
+
+static void rule_factor_1(RuleT *, FactorClosureT *);
 
 static void
-rule_expand(RuleT * rule, FactorClosureT * closure, AltGroupT * group,
-	    AltGroupListT * groups)
+rule_expand(RuleT *rule, FactorClosureT *closure, AltGroupT *group,
+	AltGroupListT *groups)
 {
-    AltT *       alt       = (*(group->alt_ref));
-    ItemT *      item      = alt_item_head(alt);
-    RuleT *      item_rule = entry_get_rule(item_entry(item));
-    AltT *       handler   = rule_get_handler(item_rule);
-    AltGroupT * *last;
-    AltT *      *tail;
-    TypeTransT translator;
+	AltT        *alt       = *group->alt_ref;
+	ItemT       *item      = alt_item_head(alt);
+	RuleT       *item_rule = entry_get_rule(item_entry(item));
+	AltT        *handler   = rule_get_handler(item_rule);
+	AltGroupT  **last;
+	AltT       **tail;
+	TypeTransT   translator;
 
-    rule_factor_1(item_rule, closure);
-    if (handler && (!alt_equal(handler, rule_get_handler(rule)))) {
-	E_factor_handler_mismatch(item_rule, rule);
-    }
-    if (!non_local_list_is_empty(rule_non_locals(item_rule))) {
-	E_factor_nl_entry(item_rule, rule);
-    }
-    for (last = &(groups->head); *last != group; last = &((*last)->next)) {
-	/*NOTHING*/
-    }
-    if (((*last) = (group->next)) != NULL) {
-	*(group->alt_ref)      = *(group->next->alt_ref);
-	*(group->next->alt_ref) = NULL;
-	group->next->alt_ref    = group->alt_ref;
-    } else {
-	groups->tail            = last;
-	*(group->alt_ref)      = NULL;
-	rule->alt_tail          = group->alt_ref;
-    }
-   (void)group_deallocate(group);
-    tail = rule->alt_tail;
-    while (alt) {
-	AltT *       item_alt = rule_alt_head(item_rule);
-	SaveTransT state;
-
-	trans_init(&translator, rule_param(rule), rule_result(rule), alt);
-	trans_add_translations(&translator, rule_param(item_rule),
-			       item_param(alt_item_head(alt)));
-	trans_add_translations(&translator, rule_result(item_rule),
-			       item_result(alt_item_head(alt)));
-	trans_save_state(&translator, &state);
-	if (rule_has_empty_alt(item_rule)) {
-	    AltT * new_alt = alt_create_merge(NULL,
-					    item_next(alt_item_head(alt)),
-					    &translator, closure->table);
-
-	    *tail = new_alt;
-	    tail  = alt_next_ref(new_alt);
-	    trans_restore_state(&translator, &state);
+	rule_factor_1(item_rule, closure);
+	if (handler && !alt_equal(handler, rule_get_handler(rule))) {
+		E_factor_handler_mismatch(item_rule, rule);
 	}
-	for (; item_alt; item_alt = alt_next(item_alt)) {
-	    AltT * new_alt = alt_create_merge(alt_item_head(item_alt),
-					    item_next(alt_item_head(alt)),
-					    &translator, closure->table);
 
-	    *tail = new_alt;
-	    tail  = alt_next_ref(new_alt);
-	    trans_restore_state(&translator, &state);
+	if (!non_local_list_is_empty(rule_non_locals(item_rule))) {
+		E_factor_nl_entry(item_rule, rule);
 	}
-	trans_destroy(&translator);
-	alt = alt_deallocate(alt);
-    }
+
+	for (last = &groups->head; *last != group; last = &(*last)->next) {
+		/*NOTHING*/
+	}
+
+	*last = group->next;
+	if (*last != NULL) {
+		*group->alt_ref       = *group->next->alt_ref;
+		*group->next->alt_ref = NULL;
+		group->next->alt_ref  = group->alt_ref;
+	} else {
+		groups->tail          = last;
+		*group->alt_ref       = NULL;
+		rule->alt_tail        = group->alt_ref;
+	}
+
+	(void) group_deallocate(group);
+
+	tail = rule->alt_tail;
+	while (alt) {
+		AltT *item_alt = rule_alt_head(item_rule);
+		SaveTransT state;
+
+		trans_init(&translator, rule_param(rule), rule_result(rule), alt);
+		trans_add_translations(&translator, rule_param(item_rule),
+			item_param(alt_item_head(alt)));
+		trans_add_translations(&translator, rule_result(item_rule),
+			item_result(alt_item_head(alt)));
+		trans_save_state(&translator, &state);
+
+		if (rule_has_empty_alt(item_rule)) {
+			AltT *new_alt;
+
+			new_alt = alt_create_merge(NULL, item_next(alt_item_head(alt)),
+				&translator, closure->table);
+
+			*tail = new_alt;
+			tail  = alt_next_ref(new_alt);
+			trans_restore_state(&translator, &state);
+		}
+
+		for (; item_alt; item_alt = alt_next(item_alt)) {
+			AltT *new_alt;
+
+			new_alt = alt_create_merge(alt_item_head(item_alt),
+				item_next(alt_item_head(alt)), &translator, closure->table);
+
+			*tail = new_alt;
+			tail = alt_next_ref(new_alt);
+			trans_restore_state(&translator, &state);
+		}
+
+		trans_destroy(&translator);
+		alt = alt_deallocate(alt);
+	}
 }
 
 static BoolT
-rule_expand_item_clashes(RuleT * rule, FactorClosureT * closure,
-			 AltGroupListT * groups)
+rule_expand_item_clashes(RuleT *rule, FactorClosureT *closure,
+	AltGroupListT *groups)
 {
-    BitVecT *   bitvec1 = &(closure->bitvec1);
-    BitVecT *   bitvec2 = &(closure->bitvec2);
-    AltGroupT * group;
+	BitVecT   *bitvec1 = &closure->bitvec1;
+	BitVecT   *bitvec2 = &closure->bitvec2;
+	AltGroupT *group;
 
-    for (group = groups->head; group; group = group->next) {
-	AltGroupT * group2;
-	AltT *      first_alt = (*(group->alt_ref));
-	ItemT *     item      = alt_item_head(first_alt);
+	for (group = groups->head; group; group = group->next) {
+		AltGroupT *group2;
+		AltT      *first_alt = *group->alt_ref;
+		ItemT     *item      = alt_item_head(first_alt);
+		RuleT     *item_rule;
 
-	if (item_is_rule(item)) {
-	    RuleT * item_rule = entry_get_rule(item_entry(item));
-
-	    if (!entry_list_is_empty(rule_predicate_first(item_rule))) {
-		rule_expand(rule, closure, group, groups);
-		return(TRUE);
-	    } else if (rule_is_see_through(item_rule)) {
-		AltT *       alt = first_alt;
-		AltT *       end = NULL;
-		EntryListT predicate_first;
-
-		if (group->next) {
-		    end = *(group->next->alt_ref);
+		if (!item_is_rule(item)) {
+			continue;
 		}
-		bitvec_replace(bitvec1, rule_first_set(item_rule));
-		do {
-		    bitvec_empty(bitvec2);
-		    entry_list_init(&predicate_first);
-		   (void)rule_overlaps(item_next(alt_item_head(alt)),
-				       bitvec2, &predicate_first);
-		    if (bitvec_intersects(bitvec1, bitvec2) ||
-			(!entry_list_is_empty(&predicate_first))) {
-			entry_list_destroy(&predicate_first);
+
+		item_rule = entry_get_rule(item_entry(item));
+
+		if (!entry_list_is_empty(rule_predicate_first(item_rule))) {
 			rule_expand(rule, closure, group, groups);
-			return(TRUE);
-		    }
-		    entry_list_destroy(&predicate_first);
-		} while ((alt = alt_next(alt)) != end);
-	    }
-	    for (group2 = groups->head; group2; group2 = group2->next) {
-		if ((group2 != group) &&
-		   (bitvec_intersects(&(group2->first_set),
-				      &(group->first_set)))) {
-		    if (group->priority > group2->priority) {
-			rule_expand(rule, closure, group, groups);
-		    } else {
-			rule_expand(rule, closure, group2, groups);
-		    }
-		    return(TRUE);
+
+			return TRUE;
+		} else if (rule_is_see_through(item_rule)) {
+			AltT       *alt = first_alt;
+			AltT       *end = NULL;
+			EntryListT  predicate_first;
+
+			if (group->next) {
+				end = *group->next->alt_ref;
+			}
+			bitvec_replace(bitvec1, rule_first_set(item_rule));
+
+			do {
+				bitvec_empty(bitvec2);
+				entry_list_init(&predicate_first);
+				(void) rule_overlaps(item_next(alt_item_head(alt)),
+					bitvec2, &predicate_first);
+
+				if (bitvec_intersects(bitvec1, bitvec2)
+					|| !entry_list_is_empty(&predicate_first)) {
+					entry_list_destroy(&predicate_first);
+					rule_expand(rule, closure, group, groups);
+
+					return TRUE;
+				}
+
+				entry_list_destroy(&predicate_first);
+			} while ((alt = alt_next(alt)) != end);
 		}
-	    }
+
+		for (group2 = groups->head; group2; group2 = group2->next) {
+			if (group2 != group
+				&& bitvec_intersects(&group2->first_set, &group->first_set)) {
+				if (group->priority > group2->priority) {
+					rule_expand(rule, closure, group, groups);
+				} else {
+					rule_expand(rule, closure, group2, groups);
+				}
+
+				return TRUE;
+			}
+		}
 	}
-    }
-    return(FALSE);
+
+	return FALSE;
 }
 
 static ItemT *
-rule_create_factored(TypeTupleT * params, TypeTupleT * result, AltT * alt,
-		     TableT * table)
+rule_create_factored(TypeTupleT *params, TypeTupleT *result, AltT *alt,
+	TableT *table)
 {
-    static unsigned factorised_rules = 0;
-    EntryT *          new_entry;
-    ItemT *           new_item;
-    RuleT *           new_rule;
+	static  unsigned factorised_rules = 0;
+	EntryT *new_entry;
+	ItemT  *new_item;
+	RuleT  *new_rule;
 
-    if (factorised_rules == rule_factor_limit) {
-	E_too_many_factorisations(rule_factor_limit);
-	UNREACHED;
-    }
-    factorised_rules ++;
-    new_entry = table_add_generated_rule(table, FALSE);
-    new_rule  = entry_get_rule(new_entry);
-    types_copy(rule_param(new_rule), params);
-    types_copy(rule_result(new_rule), result);
-    while (alt) {
-	AltT * tmp_alt = alt;
-
-	alt = alt_next(alt);
-	alt_set_next(tmp_alt, NULL);
-	if (alt_item_head(tmp_alt)) {
-	    rule_add_alt(new_rule, tmp_alt);
-	} else {
-	    rule_add_empty_alt(new_rule);
-	   (void)alt_deallocate(tmp_alt);
+	if (factorised_rules == rule_factor_limit) {
+		E_too_many_factorisations(rule_factor_limit);
+		UNREACHED;
 	}
-    }
-    rule_compute_first_set_1(new_rule);
-    new_item  = item_create(new_entry);
-    types_assign(item_param(new_item), params);
-    types_assign(item_result(new_item), result);
-    types_make_references(rule_param(new_rule), item_param(new_item));
-    return(new_item);
+
+	factorised_rules++;
+	new_entry = table_add_generated_rule(table, FALSE);
+	new_rule  = entry_get_rule(new_entry);
+	types_copy(rule_param(new_rule), params);
+	types_copy(rule_result(new_rule), result);
+
+	while (alt) {
+		AltT *tmp_alt = alt;
+
+		alt = alt_next(alt);
+		alt_set_next(tmp_alt, NULL);
+		if (alt_item_head(tmp_alt)) {
+			rule_add_alt(new_rule, tmp_alt);
+		} else {
+			rule_add_empty_alt(new_rule);
+			(void) alt_deallocate(tmp_alt);
+		}
+	}
+
+	rule_compute_first_set_1(new_rule);
+	new_item  = item_create(new_entry);
+	types_assign(item_param(new_item), params);
+	types_assign(item_result(new_item), result);
+	types_make_references(rule_param(new_rule), item_param(new_item));
+
+	return new_item;
 }
 
 static BoolT
-rule_factor_4(RuleT * rule, AltT * old_alt, AltT * new_alt, TableT * table,
-	      EntryT * predicate_id, TypeTupleT * params, BoolT * items_equal_ref)
+rule_factor_4(RuleT *rule, AltT *old_alt, AltT *new_alt, TableT *table,
+	EntryT *predicate_id, TypeTupleT *params, BoolT *items_equal_ref)
 {
-    ItemT *       old_item     = alt_item_head(old_alt);
-    BoolT       result_equal = TRUE;
-    AltT *        alt;
-    TypeBTransT translator;
+	ItemT *old_item     = alt_item_head(old_alt);
+	BoolT  result_equal = TRUE;
+	AltT  *alt;
+	TypeBTransT translator;
 
-    for (alt = alt_next(old_alt); alt; alt = alt_next(alt)) {
-	ItemT * item = alt_item_head(alt);
+	for (alt = alt_next(old_alt); alt; alt = alt_next(alt)) {
+		ItemT *item = alt_item_head(alt);
 
-	if (((item == NULL) && (old_item != NULL)) ||
-	    ((item != NULL) && (old_item == NULL))) {
-	    *items_equal_ref = FALSE;
-	    return(TRUE);
-	} else if ((item == NULL) && (old_item == NULL)) {
-	    /*NOTHING*/
-	} else if (((item_entry(old_item) == item_entry(item)) &&
-		    types_equal_numbers(item_param(old_item),
-					item_param(item)) &&
-		    types_equal_numbers(item_result(old_item),
-					item_result(item))) ||
-		   (item_is_rename(item) && item_is_rename(old_item) &&
-		    types_equal_names(item_param(item),
-				      item_param(old_item)) &&
-		    types_equal_names(item_result(item),
-				      item_result(old_item)))) {
-	    if (result_equal) {
-		result_equal = types_equal_names(item_result(old_item),
-						 item_result(item));
-	    }
-	} else {
-	    *items_equal_ref = FALSE;
-	    return(TRUE);
+		/* TODO: XOR might read more nicely here! */
+		if ((item == NULL && old_item != NULL) || (item != NULL && old_item == NULL)) {
+			*items_equal_ref = FALSE;
+			return(TRUE);
+		} else if (item == NULL && old_item == NULL) {
+			/*NOTHING*/
+		} else if ((item_entry(old_item) == item_entry(item)
+				&& types_equal_numbers(item_param(old_item), item_param(item))
+				&& types_equal_numbers(item_result(old_item), item_result(item)))
+			|| (item_is_rename(item)
+				&& item_is_rename(old_item)
+				&& types_equal_names(item_param(item), item_param(old_item))
+				&& types_equal_names(item_result(item), item_result(old_item)))) {
+			/* TODO can we centralise chunks of these expressions? (and elsewhere, too) */
+
+			if (result_equal) {
+				result_equal = types_equal_names(item_result(old_item),
+					item_result(item));
+			}
+		} else {
+			*items_equal_ref = FALSE;
+			return(TRUE);
+		}
 	}
-    }
-    if (old_item == NULL) {
-	*items_equal_ref = FALSE;
-	return(FALSE);
-    }
-    btrans_init(&translator);
-    for (alt = old_alt; alt; alt = alt_next(alt)) {
-	ItemT * item = alt_unlink_item_head(alt);
 
-	if (!result_equal) {
-	    ItemT * new_item;
+	if (old_item == NULL) {
+		*items_equal_ref = FALSE;
+		return FALSE;
+	}
 
-	    if (alt == old_alt) {
-		new_item = btrans_generate_non_pred_names(&translator,
-							  item_result(item),
-							  rule_result(rule),
-							  predicate_id, table);
-		types_translate(item_result(item), &translator);
-	    } else {
-		new_item = btrans_regen_non_pred_names(&translator,
-						       item_result(item),
-						       rule_result(rule),
-						       table);
-	    }
-	    item_translate_list(alt_item_head(alt), &translator);
-	    if (new_item) {
-		alt_add_item(alt, new_item);
-	    }
+	btrans_init(&translator);
+	for (alt = old_alt; alt; alt = alt_next(alt)) {
+		ItemT *item = alt_unlink_item_head(alt);
+
+		if (!result_equal) {
+			ItemT *new_item;
+
+			if (alt == old_alt) {
+				new_item = btrans_generate_non_pred_names(&translator,
+					item_result(item), rule_result(rule), predicate_id, table);
+			types_translate(item_result(item), &translator);
+			} else {
+				new_item = btrans_regen_non_pred_names(&translator,
+					item_result(item), rule_result(rule), table);
+			}
+			item_translate_list(alt_item_head(alt), &translator);
+			if (new_item) {
+				alt_add_item(alt, new_item);
+			}
+		}
+
+		if (alt == old_alt) {
+			types_add_new_names(params, item_result(item), predicate_id);
+			alt_add_item(new_alt, item);
+		} else {
+			(void) item_deallocate(item);
+		}
 	}
-	if (alt == old_alt) {
-	    types_add_new_names(params, item_result(item), predicate_id);
-	    alt_add_item(new_alt, item);
-	} else {
-	   (void)item_deallocate(item);
-	}
-    }
-    btrans_destroy(&translator);
-    return(TRUE);
+
+	btrans_destroy(&translator);
+	return TRUE;
 }
 
 static void
-rule_factor_3(RuleT * rule, TableT * table, EntryT * predicate_id, AltT * old_alt,
-	      AltT * new_alt)
+rule_factor_3(RuleT *rule, TableT *table, EntryT *predicate_id, AltT *old_alt,
+	AltT *new_alt)
 {
-    BoolT       items_equal = TRUE;
-    BoolT       found_items;
-    TypeTupleT  params;
-    TypeTupleT  result;
+	BoolT       items_equal = TRUE;
+	BoolT       found_items;
+	TypeTupleT  params;
+	TypeTupleT  result;
 
-    types_copy(&params, rule_param(rule));
-    types_copy(&result, rule_result(rule));
-    do {
-	found_items = rule_factor_4(rule, old_alt, new_alt, table,
-				    predicate_id, &params, &items_equal);
-    } while (items_equal);
-    if (found_items) {
-	ItemT * new_item;
+	types_copy(&params, rule_param(rule));
+	types_copy(&result, rule_result(rule));
 
-	types_unlink_used(&result, &params);
-	types_unlink_unused(&params, old_alt);
-	new_item = rule_create_factored(&params, &result, old_alt, table);
-	alt_add_item(new_alt, new_item);
-    } else {
+	do {
+		found_items = rule_factor_4(rule, old_alt, new_alt, table,
+			predicate_id, &params, &items_equal);
+	} while (items_equal);
+
+	if (found_items) {
+		ItemT *new_item;
+
+		types_unlink_used(&result, &params);
+		types_unlink_unused(&params, old_alt);
+		new_item = rule_create_factored(&params, &result, old_alt, table);
+		alt_add_item(new_alt, new_item);
+		return;
+	}
+
 	types_destroy(&params);
+
 	while (old_alt) {
-	    AltT * tmp_alt = old_alt;
+		AltT *tmp_alt = old_alt;
 
-	    old_alt = alt_next(old_alt);
-	    assert(alt_item_head(tmp_alt) == NULL);
-	   (void)alt_deallocate(tmp_alt);
+		old_alt = alt_next(old_alt);
+		assert(alt_item_head(tmp_alt) == NULL);
+		(void) alt_deallocate(tmp_alt);
 	}
-    }
 }
 
 static void
-rule_factor_2(RuleT * rule, TableT * table, EntryT * predicate_id,
-	      AltGroupListT * groups)
+rule_factor_2(RuleT *rule, TableT *table, EntryT *predicate_id,
+	AltGroupListT *groups)
 {
-    AltGroupT * group;
+	AltGroupT *group;
 
-    for (group = groups->head; group; group = group_deallocate(group)) {
-	AltT * alt = *(group->alt_ref);
-	AltT * new_alt;
+	for (group = groups->head; group; group = group_deallocate(group)) {
+		AltT *alt = *group->alt_ref;
+		AltT *new_alt;
 
-	if (group->next) {
-	    if (group->next->alt_ref == alt_next_ref(*(group->alt_ref))) {
-		goto done;
-	    }
-	    new_alt                 = alt_create();
-	    alt_set_next(new_alt, *(group->next->alt_ref));
-	    *(group->next->alt_ref) = NULL;
-	    group->next->alt_ref    = alt_next_ref(new_alt);
-	} else {
-	    if (alt_next(*(group->alt_ref)) == NULL) {
-		goto done;
-	    }
-	    new_alt        = alt_create();
-	    rule->alt_tail = alt_next_ref(new_alt);
+		if (group->next) {
+			if (group->next->alt_ref == alt_next_ref(*group->alt_ref)) {
+				goto done;
+			}
+
+			new_alt = alt_create();
+			alt_set_next(new_alt, *group->next->alt_ref);
+			*group->next->alt_ref = NULL;
+			group->next->alt_ref    = alt_next_ref(new_alt);
+		} else {
+			if (alt_next(*group->alt_ref) == NULL) {
+				goto done;
+			}
+			new_alt        = alt_create();
+			rule->alt_tail = alt_next_ref(new_alt);
+		}
+
+		*group->alt_ref = new_alt;
+		rule_factor_3(rule, table, predicate_id, alt, new_alt);
+done:
+		;
 	}
-	*(group->alt_ref) = new_alt;
-	rule_factor_3(rule, table, predicate_id, alt, new_alt);
-      done:;
-    }
 }
 
 static void
-rule_factor_1(RuleT * rule, FactorClosureT * closure)
+rule_factor_1(RuleT *rule, FactorClosureT *closure)
 {
-    AltGroupListT groups;
+	AltGroupListT groups;
 
-    groups.head = NULL;
-    groups.tail = &(groups.head);
-    if (rule_is_factored(rule)) {
-	return;
-    }
-    rule_factored(rule);
-    rule->alt_tail = &(rule->alt_head);
-    do {
-	rule_renumber(rule, FALSE, closure->predicate_id);
-	rule_group_by_initial_item(rule, &groups);
-    } while (rule_expand_item_clashes(rule, closure, &groups));
-    rule_factor_2(rule, closure->table, closure->predicate_id, &groups);
+	groups.head = NULL;
+	groups.tail = &groups.head;
+	if (rule_is_factored(rule)) {
+		return;
+	}
+
+	rule_factored(rule);
+	rule->alt_tail = &rule->alt_head;
+
+	do {
+		rule_renumber(rule, FALSE, closure->predicate_id);
+		rule_group_by_initial_item(rule, &groups);
+	} while (rule_expand_item_clashes(rule, closure, &groups));
+
+	rule_factor_2(rule, closure->table, closure->predicate_id, &groups);
 }
 
 
@@ -633,19 +678,20 @@ rule_factor_1(RuleT * rule, FactorClosureT * closure)
  */
 
 void
-rule_factor(EntryT * entry, void * gclosure)
+rule_factor(EntryT *entry, void *gclosure)
 {
-    FactorClosureT * closure = (FactorClosureT *)gclosure;
+	FactorClosureT *closure = gclosure;
 
-    if (entry_is_rule(entry)) {
-	RuleT * rule = entry_get_rule(entry);
+	if (entry_is_rule(entry)) {
+		RuleT *rule = entry_get_rule(entry);
 
-	rule_factor_1(rule, closure);
-    }
+		rule_factor_1(rule, closure);
+	}
 }
 
 void
 rule_set_factor_limit(unsigned limit)
 {
-    rule_factor_limit = limit;
+	rule_factor_limit = limit;
 }
+

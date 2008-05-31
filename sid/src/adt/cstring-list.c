@@ -58,68 +58,55 @@
 */
 
 /*
- * action.c - Action ADT.
+ * cstring-list.c - String list ADT.
  *
- * This file implements the action manipulation routines.
+ * This file implements the string list facility specified in the file
+ * "cstring-list.h".  See that file for more details.
  */
 
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/dalloc.h>
+/*
+ * TODO two thoughts: 1. linked lists are a recursive type; this implementation
+ * is not. 2. Lists are common and could be centralised.
+ */
 
-#include "../shared/check/check.h"
-#include "action.h"
-#include "basic.h"
-#include "name.h"
-#include "rule.h"
-#include "type.h"
+#include "cstring-list.h"
 
-ActionT *
-action_create(void)
+void
+cstring_list_init(CStringListT *list)
 {
-	ActionT *action = ALLOCATE(ActionT);
-
-	types_init(action_param(action));
-	types_init(action_result(action));
-	action->code = NULL;
-
-	return action;
-}
-
-/* TODO some of these could become macros or inlined functions */
-TypeTupleT *
-action_param(ActionT *action)
-{
-	return &action->param;
-}
-
-TypeTupleT *
-action_result(ActionT *action)
-{
-	return &action->result;
-}
-
-void *
-action_get_code(ActionT *action)
-{
-	return action->code;
+	list->head = NULL;
+	list->tail = &list->head;
 }
 
 void
-action_set_code(ActionT *action, void *code)
+cstring_list_append(CStringListT *list, char *string)
 {
-	action->code = code;
+	CStringListEntryT *entry = ALLOCATE(CStringListEntryT);
+
+	entry->next   = NULL;
+	entry->string = string;
+	*list->tail   = entry;
+	list->tail    = &entry->next;
 }
 
-void
-action_iter_for_table(ActionT *action, BoolT full,
-	void (*proc) WEAK (EntryT *, void *), void *closure)
+CStringListEntryT *
+cstring_list_head(CStringListT *list)
 {
-	if (!full) {
-		return;
-	}
+	return list->head;
+}
 
-	types_iter_for_table(action_param(action), proc, closure);
-	types_iter_for_table(action_result(action), proc, closure);
+char *
+cstring_list_entry_string(CStringListEntryT *entry)
+{
+	return entry->string;
+}
+
+CStringListEntryT *
+cstring_list_entry_deallocate(CStringListEntryT *entry)
+{
+	CStringListEntryT *next = entry->next;
+
+	DEALLOCATE(entry);
+	return next;
 }
 

@@ -75,672 +75,719 @@
 #include "../adt/name.h"
 
 static void
-c_code_set_labels(CCodeT * code)
+c_code_set_labels(CCodeT *code)
 {
-    CCodeItemT * item;
+	CCodeItemT *item;
 
-    for (item = code->head; item; item = item->next) {
-	if (item->type == CCT_LABEL) {
-	    NameT * name = entry_get_name(item->u.ident);
+	for (item = code->head; item; item = item->next) {
+		if (item->type == CCT_LABEL) {
+			NameT *name = entry_get_name(item->u.ident);
 
-	    if (!name_has_label(name)) {
-		name_set_label(name, c_out_next_label());
-	    }
+			if (!name_has_label(name)) {
+				name_set_label(name, c_out_next_label());
+			}
+		}
 	}
-    }
 }
 
 static void
-c_code_reset_labels(CCodeT * code)
+c_code_reset_labels(CCodeT *code)
 {
-    CCodeItemT * item;
+	CCodeItemT *item;
 
-    for (item = code->head; item; item = item->next) {
-	if (item->type == CCT_LABEL) {
-	    NameT * name = entry_get_name(item->u.ident);
+	for (item = code->head; item; item = item->next) {
+		if (item->type == CCT_LABEL) {
+			NameT *name = entry_get_name(item->u.ident);
 
-	    name_reset_label(name);
+			name_reset_label(name);
+		}
 	}
-    }
 }
 
 static EntryT *
-c_code_get_translation(SaveRStackT * state, TypeBTransT * translator, EntryT * ident,
-		       EntryT * *type_ref, BoolT *reference_ref,
-		       EntryT * *entry_ref)
+c_code_get_translation(SaveRStackT *state, TypeBTransT *translator, EntryT *ident,
+	EntryT **type_ref, BoolT *reference_ref, EntryT * *entry_ref)
 {
-    EntryT * entry = btrans_get_translation(translator, ident);
-    EntryT * stack_entry;
+	EntryT *entry;
+	EntryT *stack_entry;
 
-    assert(entry);
-    stack_entry = rstack_get_translation(state, entry, type_ref,
-					 reference_ref);
-    if ((stack_entry == NULL) && (entry_is_non_local(entry))) {
-	stack_entry    = entry;
-	*type_ref      = entry_get_non_local(entry);
-	*reference_ref = FALSE;
-    }
-    assert(stack_entry);
-    if (entry_ref) {
-	*entry_ref = entry;
-    }
-    return(stack_entry);
+	entry = btrans_get_translation(translator, ident);
+	assert(entry);
+
+	stack_entry = rstack_get_translation(state, entry, type_ref, reference_ref);
+	if (stack_entry == NULL && entry_is_non_local(entry)) {
+		stack_entry = entry;
+		*type_ref = entry_get_non_local(entry);
+		*reference_ref = FALSE;
+	}
+
+	assert(stack_entry);
+	if (entry_ref) {
+		*entry_ref = entry;
+	}
+
+	return stack_entry;
 }
 
 
 /*
- * Externally-visible functions
- */
+* Externally-visible functions
+*/
 
 CCodeT *
-c_code_create(char * file, unsigned line)
+c_code_create(char *file, unsigned line)
 {
-    CCodeT * code = ALLOCATE(CCodeT);
+	CCodeT *code = ALLOCATE(CCodeT);
 
-    code->head = NULL;
-    code->tail = &(code->head);
-    code->file = file;
-    code->line = line;
-    types_init(&(code->param));
-    types_init(&(code->result));
-    return(code);
+	code->head = NULL;
+	code->tail = &(code->head);
+	code->file = file;
+	code->line = line;
+	types_init(&code->param);
+	types_init(&code->result);
+
+	return code;
 }
 
 void
-c_code_append_string(CCodeT * code, NStringT * string)
+c_code_append_string(CCodeT *code, NStringT *string)
 {
-    CCodeItemT * item = ALLOCATE(CCodeItemT);
+	CCodeItemT *item = ALLOCATE(CCodeItemT);
 
-    item->next    = NULL;
-    item->type    = CCT_STRING;
-    nstring_assign(&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	item->next  = NULL;
+	item->type  = CCT_STRING;
+	nstring_assign(&item->u.string, string);
+	*code->tail = item;
+	code->tail  = &item->next;
 }
 
 void
-c_code_append_label(CCodeT * code, NStringT * string)
+c_code_append_label(CCodeT *code, NStringT *string)
 {
-    CCodeItemT * item = ALLOCATE(CCodeItemT);
+	CCodeItemT *item = ALLOCATE(CCodeItemT);
 
-    item->next    = NULL;
-    item->type    = CCT_LABEL;
-    nstring_assign(&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	item->next  = NULL;
+	item->type  = CCT_LABEL;
+	nstring_assign(&item->u.string, string);
+	*code->tail = item;
+	code->tail  = &item->next;
 }
 
 void
-c_code_append_identifier(CCodeT * code, NStringT * string)
+c_code_append_identifier(CCodeT *code, NStringT *string)
 {
-    CCodeItemT * item = ALLOCATE(CCodeItemT);
+	CCodeItemT *item = ALLOCATE(CCodeItemT);
 
-    item->next    = NULL;
-    item->type    = CCT_IDENT;
-    nstring_assign(&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	item->next  = NULL;
+	item->type  = CCT_IDENT;
+	nstring_assign(&item->u.string, string);
+	*code->tail = item;
+	code->tail  = &item->next;
 }
 
 void
-c_code_append_modifiable(CCodeT * code, NStringT * string)
+c_code_append_modifiable(CCodeT *code, NStringT *string)
 {
-    CCodeItemT * item = ALLOCATE(CCodeItemT);
+	CCodeItemT *item = ALLOCATE(CCodeItemT);
 
-    item->next    = NULL;
-    item->type    = CCT_MOD_IDENT;
-    nstring_assign(&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	item->next  = NULL;
+	item->type  = CCT_MOD_IDENT;
+	nstring_assign(&item->u.string, string);
+	*code->tail = item;
+	code->tail  = &item->next;
 }
 
 void
-c_code_append_reference(CCodeT * code, NStringT * string)
+c_code_append_reference(CCodeT *code, NStringT *string)
 {
-    CCodeItemT * item = ALLOCATE(CCodeItemT);
+	CCodeItemT *item = ALLOCATE(CCodeItemT);
 
-    item->next    = NULL;
-    item->type    = CCT_REF_IDENT;
-    nstring_assign(&(item->u.string), string);
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	item->next  = NULL;
+	item->type  = CCT_REF_IDENT;
+	nstring_assign(&item->u.string, string);
+	*code->tail = item;
+	code->tail  = &item->next;
 }
 
 void
-c_code_append_exception(CCodeT * code)
+c_code_append_exception(CCodeT *code)
 {
-    CCodeItemT * item = ALLOCATE(CCodeItemT);
+	CCodeItemT *item = ALLOCATE(CCodeItemT);
 
-    item->next    = NULL;
-    item->type    = CCT_EXCEPTION;
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	item->next  = NULL;
+	item->type  = CCT_EXCEPTION;
+	*code->tail = item;
+	code->tail  = &item->next;
 }
 
 void
-c_code_append_advance(CCodeT * code)
+c_code_append_advance(CCodeT *code)
 {
-    CCodeItemT * item = ALLOCATE(CCodeItemT);
+	CCodeItemT *item = ALLOCATE(CCodeItemT);
 
-    item->next    = NULL;
-    item->type    = CCT_ADVANCE;
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	item->next  = NULL;
+	item->type  = CCT_ADVANCE;
+	*code->tail = item;
+	code->tail  = &item->next;
 }
 
 void
-c_code_append_terminal(CCodeT * code)
+c_code_append_terminal(CCodeT *code)
 {
-    CCodeItemT * item = ALLOCATE(CCodeItemT);
+	CCodeItemT *item = ALLOCATE(CCodeItemT);
 
-    item->next    = NULL;
-    item->type    = CCT_TERMINAL;
-    *(code->tail) = item;
-    code->tail    = &(item->next);
+	item->next  = NULL;
+	item->type  = CCT_TERMINAL;
+	*code->tail = item;
+	code->tail  = &item->next;
 }
 
 void
-c_code_check(CCodeT * code, BoolT exceptions, BoolT param_op, TypeTupleT * param,
-	     TypeTupleT * result, TableT * table)
+c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
+	TypeTupleT *result, TableT *table)
 {
-    CCodeItemT * item;
-    EntryT *     entry;
+	CCodeItemT *item;
+	EntryT     *entry;
 
-    for (item = code->head; item; item = item->next) {
-	switch (item->type)EXHAUSTIVE {
-	  case CCT_IDENT:
-	    entry         = table_add_name(table, &(item->u.string));
-	    item->u.ident = entry;
-	    if (((param == NULL) ||
-		 (!types_contains(param, entry))) &&
-		((result == NULL) ||
-		 (!types_contains(result, entry)))) {
-		E_bad_id_substitution(c_code_file(code), c_code_line(code),
-				      entry);
-	    } else if (result) {
-		name_used(entry_get_name(entry));
-	    }
-	    break;
-	  case CCT_MOD_IDENT:
-	    entry         = table_add_name(table, &(item->u.string));
-	    item->u.ident = entry;
-	    if (exceptions) {
-		if ((param == NULL) ||
-		    (!types_mutated(param, entry))) {
-		    E_bad_mod_id_substitution(c_code_file(code),
-					      c_code_line(code), entry);
-		}
-	    } else {
-		E_mod_id_in_assign(c_code_file(code), c_code_line(code),
-				   entry);
-	    }
-	    break;
-	  case CCT_REF_IDENT:
-	    entry         = table_add_name(table, &(item->u.string));
-	    item->u.ident = entry;
-	    if (!param_op) {
-		if ((param == NULL) ||
-		    (!types_contains(param, entry))) {
-		    E_bad_ref_id_substitution(c_code_file(code),
-					      c_code_line(code), entry);
-		}
-	    } else {
-		E_ref_id_in_param_op(c_code_file(code), c_code_line(code),
-				     entry);
-	    }
-	    break;
-	  case CCT_LABEL:
-	    entry         = table_add_name(table, &(item->u.string));
-	    item->u.ident = entry;
-	    if ((param == NULL) && (result == NULL)) {
-		E_bad_label_substitution(c_code_file(code),
-					 c_code_line(code), entry);
-	    }
-	    break;
-	  case CCT_EXCEPTION:
-	    if (!exceptions) {
-		E_bad_exception_substitution(c_code_file(code),
-					     c_code_line(code));
-	    }
-	    break;
-	  case CCT_ADVANCE:
-	    if (!exceptions) {
-		E_bad_advance_substitution(c_code_file(code),
-					   c_code_line(code));
-	    }
-	    break;
-	  case CCT_TERMINAL:
-	    if (!exceptions) {
-		E_bad_terminal_substitution(c_code_file(code),
-					    c_code_line(code));
-	    }
-	    break;
-	  case CCT_STRING:
-	    break;
-	}
-    }
-    if (result) {
-	types_check_used(result, E_code_undefined_result, code);
 	for (item = code->head; item; item = item->next) {
-	    if (item->type == CCT_IDENT) {
-		name_not_used(entry_get_name(item->u.ident));
-	    }
+		switch (item->type) EXHAUSTIVE {
+		case CCT_IDENT:
+			entry = table_add_name(table, &item->u.string);
+			item->u.ident = entry;
+			if ((param == NULL || !types_contains(param, entry))
+				&& (result == NULL || !types_contains(result, entry))) {
+				E_bad_id_substitution(c_code_file(code), c_code_line(code),
+					entry);
+			} else if (result) {
+				name_used(entry_get_name(entry));
+			}
+			break;
+
+		case CCT_MOD_IDENT:
+			entry = table_add_name(table, &item->u.string);
+			item->u.ident = entry;
+			if (exceptions) {
+				if (param == NULL || !types_mutated(param, entry)) {
+					E_bad_mod_id_substitution(c_code_file(code),
+					c_code_line(code), entry);
+				}
+			} else {
+				E_mod_id_in_assign(c_code_file(code), c_code_line(code),
+					entry);
+			}
+			break;
+
+		case CCT_REF_IDENT:
+			entry = table_add_name(table, &item->u.string);
+			item->u.ident = entry;
+			if (!param_op) {
+				if (param == NULL || !types_contains(param, entry)) {
+					E_bad_ref_id_substitution(c_code_file(code),
+					c_code_line(code), entry);
+				}
+			} else {
+				E_ref_id_in_param_op(c_code_file(code), c_code_line(code),
+					entry);
+			}
+			break;
+
+		case CCT_LABEL:
+			entry = table_add_name(table, &item->u.string);
+			item->u.ident = entry;
+			if (param == NULL && result == NULL) {
+				E_bad_label_substitution(c_code_file(code), c_code_line(code),
+					entry);
+			}
+			break;
+
+		case CCT_EXCEPTION:
+			if (!exceptions) {
+				E_bad_exception_substitution(c_code_file(code),
+					c_code_line(code));
+			}
+			break;
+
+		case CCT_ADVANCE:
+			if (!exceptions) {
+				E_bad_advance_substitution(c_code_file(code),
+					c_code_line(code));
+			}
+			break;
+
+		case CCT_TERMINAL:
+			if (!exceptions) {
+				E_bad_terminal_substitution(c_code_file(code),
+					c_code_line(code));
+			}
+			break;
+
+		case CCT_STRING:
+			break;
+		}
 	}
-    }
-    if (param) {
-	types_assign(&(code->param), param);
-    }
-    if (result) {
-	types_assign(&(code->result), result);
-    }
+
+	if (result) {
+		types_check_used(result, E_code_undefined_result, code);
+		for (item = code->head; item; item = item->next) {
+			if (item->type == CCT_IDENT) {
+				name_not_used(entry_get_name(item->u.ident));
+			}
+		}
+	}
+
+	if (param) {
+		types_assign(&(code->param), param);
+	}
+
+	if (result) {
+		types_assign(&(code->result), result);
+	}
 }
 
 char *
-c_code_file(CCodeT * code)
+c_code_file(CCodeT *code)
 {
-    return(code->file);
+	return code->file;
 }
 
 unsigned
-c_code_line(CCodeT * code)
+c_code_line(CCodeT *code)
 {
-    return(code->line);
+	return code->line;
 }
 
 TypeTupleT *
-c_code_param(CCodeT * code)
+c_code_param(CCodeT *code)
 {
-    return(&(code->param));
+	return &code->param;
 }
 
 TypeTupleT *
-c_code_result(CCodeT * code)
+c_code_result(CCodeT *code)
 {
-    return(&(code->result));
+	return &code->result;
 }
 
 void
-c_code_deallocate(CCodeT * code)
+c_code_deallocate(CCodeT *code)
 {
-    CCodeItemT * item = code->head;
+	CCodeItemT *item;
+	CCodeItemT *next;
 
-    while (item) {
-	CCodeItemT * next = item->next;
+	for (item = code->head; item; item = next) {
+		next = item->next;
 
-	switch (item->type)EXHAUSTIVE {
-	  case CCT_STRING:
-	    nstring_destroy(&(item->u.string));
-	    break;
-	  case CCT_IDENT:
-	  case CCT_MOD_IDENT:
-	  case CCT_REF_IDENT:
-	  case CCT_LABEL:
-	  case CCT_EXCEPTION:
-	  case CCT_TERMINAL:
-	  case CCT_ADVANCE:
-	    break;
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			nstring_destroy(&item->u.string);
+			break;
+
+		case CCT_IDENT:
+		case CCT_MOD_IDENT:
+		case CCT_REF_IDENT:
+		case CCT_LABEL:
+		case CCT_EXCEPTION:
+		case CCT_TERMINAL:
+		case CCT_ADVANCE:
+			break;
+		}
+
+		DEALLOCATE(item);
 	}
-	DEALLOCATE(item);
-	item = next;
-    }
-    types_destroy(&(code->param));
-    types_destroy(&(code->result));
-    DEALLOCATE(code);
+
+	types_destroy(&code->param);
+	types_destroy(&code->result);
+	DEALLOCATE(code);
 }
 
 void
-c_output_c_code_action(COutputInfoT * info, CCodeT * code, TypeTupleT * param,
-		       TypeTupleT * result, SaveRStackT * state,
-		       RuleT * handler_rule)
+c_output_c_code_action(COutputInfoT *info, CCodeT *code, TypeTupleT *param,
+	TypeTupleT *result, SaveRStackT *state, RuleT *handler_rule)
 {
-    OStreamT *    ostream      = c_out_info_ostream(info);
-    NStringT *    label_prefix = c_out_info_label_prefix(info);
-    NStringT *    in_prefix    = c_out_info_in_prefix(info);
-    CCodeItemT *  item;
-    CCodeItemT *  last_item;
-    EntryT *      stack_entry;
-    EntryT *      entry;
-    EntryT *      stack_type;
-    BoolT       stack_reference;
-    BoolT       use_cast;
-    TypeBTransT translator;
+	OStreamT   *ostream      = c_out_info_ostream(info);
+	NStringT   *label_prefix = c_out_info_label_prefix(info);
+	NStringT   *in_prefix    = c_out_info_in_prefix(info);
+	CCodeItemT *item;
+	CCodeItemT *last_item = NULL;
+	EntryT     *stack_entry;
+	EntryT     *entry;
+	EntryT     *stack_type;
+	BoolT       stack_reference;
+	BoolT       use_cast;
+	TypeBTransT translator;
 
-    char c;
+	char c;
 
-    c_code_set_labels(code);
-    btrans_init(&translator);
-    btrans_add_translations(&translator, &(code->param), param);
-    btrans_add_translations(&translator, &(code->result), result);
-    for (item = code->head; item; item = item->next) {
-	switch (item->type)EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring(ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring(ostream, label_prefix);
-	    write_unsigned(ostream,
-			   name_get_label(entry_get_name(item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    stack_entry = c_code_get_translation(state, &translator,
-						 item->u.ident, &stack_type,
-						 &stack_reference, &entry);
-	    use_cast = (types_contains(param, entry) &&
-			c_out_info_get_casts(info));
-	    if (use_cast) {
-		write_cstring(ostream, "((");
-		c_output_mapped_key(info, stack_type);
-		write_cstring(ostream, ") (");
-	    } else {
-		write_char(ostream, '(');
-	    }
-	    if (stack_reference) {
-		write_char(ostream, '*');
-	    }
-	    c_output_key(info, entry_key(stack_entry), in_prefix);
-	    if (use_cast) {
-		write_cstring(ostream, "))");
-	    } else {
-		write_char(ostream, ')');
-	    }
-	    break;
-	  case CCT_MOD_IDENT:
-	    stack_entry = c_code_get_translation(state, &translator,
-						 item->u.ident, &stack_type,
-						 &stack_reference,
-						 NULL);
-	    write_char(ostream, '(');
-	    if (stack_reference) {
-		write_char(ostream, '*');
-	    }
-	    c_output_key(info, entry_key(stack_entry), in_prefix);
-	    write_char(ostream, ')');
-	    break;
-	  case CCT_REF_IDENT:
-	    stack_entry = c_code_get_translation(state, &translator,
-						 item->u.ident, &stack_type,
-						 &stack_reference,
-						 NULL);
-	    write_char(ostream, '(');
-	    if (!stack_reference) {
-		write_char(ostream, '&');
-	    }
-	    c_output_key(info, entry_key(stack_entry), in_prefix);
-	    write_char(ostream, ')');
-	    break;
-	  case CCT_EXCEPTION:
-	    write_cstring(ostream, "goto ");
-	    write_nstring(ostream, label_prefix);
-	    write_unsigned(ostream, rule_get_handler_label(handler_rule));
-	    break;
-	  case CCT_ADVANCE:
-	    write_cstring(ostream, "ADVANCE_LEXER");
-	    break;
-	  case CCT_TERMINAL:
-	    write_cstring(ostream, "CURRENT_TERMINAL");
-	    break;
+	c_code_set_labels(code);
+	btrans_init(&translator);
+	btrans_add_translations(&translator, &code->param, param);
+	btrans_add_translations(&translator, &code->result, result);
+
+	for (item = code->head; item; item = item->next) {
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring(ostream, &item->u.string);
+			break;
+
+		case CCT_LABEL:
+			write_nstring(ostream, label_prefix);
+			write_unsigned(ostream,
+				name_get_label(entry_get_name(item->u.ident)));
+			break;
+
+		case CCT_IDENT:
+			stack_entry = c_code_get_translation(state, &translator,
+				item->u.ident, &stack_type, &stack_reference, &entry);
+			use_cast = types_contains(param, entry) && c_out_info_get_casts(info);
+			if (use_cast) {
+				write_cstring(ostream, "((");
+				c_output_mapped_key(info, stack_type);
+				write_cstring(ostream, ") (");
+			} else {
+				write_char(ostream, '(');
+			}
+
+			if (stack_reference) {
+				write_char(ostream, '*');
+			}
+
+			c_output_key(info, entry_key(stack_entry), in_prefix);
+
+			if (use_cast) {
+				write_cstring(ostream, "))");
+			} else {
+				write_char(ostream, ')');
+			}
+			break;
+
+		case CCT_MOD_IDENT:
+			stack_entry = c_code_get_translation(state, &translator,
+				item->u.ident, &stack_type, &stack_reference, NULL);
+
+			write_char(ostream, '(');
+			if (stack_reference) {
+				write_char(ostream, '*');
+			}
+			c_output_key(info, entry_key(stack_entry), in_prefix);
+			write_char(ostream, ')');
+			break;
+
+		case CCT_REF_IDENT:
+			stack_entry = c_code_get_translation(state, &translator,
+				item->u.ident, &stack_type, &stack_reference, NULL);
+			write_char(ostream, '(');
+			if (!stack_reference) {
+				write_char(ostream, '&');
+			}
+			c_output_key(info, entry_key(stack_entry), in_prefix);
+			write_char(ostream, ')');
+			break;
+
+		case CCT_EXCEPTION:
+			write_cstring(ostream, "goto ");
+			write_nstring(ostream, label_prefix);
+			write_unsigned(ostream, rule_get_handler_label(handler_rule));
+			break;
+
+		case CCT_ADVANCE:
+			write_cstring(ostream, "ADVANCE_LEXER");
+			break;
+
+		case CCT_TERMINAL:
+			write_cstring(ostream, "CURRENT_TERMINAL");
+			break;
+		}
+		last_item = item;
 	}
-	last_item=item;
-    }
-    if((last_item->type==CCT_STRING)) {
-	c = nstring_contents(&last_item->u.string)[nstring_length(&last_item->u.string)-1] ;
-	if(c!= '\n' && c!= '\r') {
-	    write_newline(ostream);
+
+	assert(last_item != NULL);
+	if (last_item->type == CCT_STRING) {
+		c = nstring_contents(&last_item->u.string)[nstring_length(&last_item->u.string) - 1];
+		if (c != '\n' && c != '\r') {
+			write_newline(ostream);
+		}
+	} else {
+		write_newline(ostream);
 	}
-    } 
-    else {
-        write_newline(ostream);
-    }
-    btrans_destroy(&translator);
-    c_code_reset_labels(code);
+
+	btrans_destroy(&translator);
+	c_code_reset_labels(code);
 }
 
 void
 c_output_c_code_basic(COutputInfoT * info, CCodeT * code, TypeTupleT * result,
-		      SaveRStackT * state)
+SaveRStackT * state)
 {
-    OStreamT *    ostream      = c_out_info_ostream(info);
-    NStringT *    label_prefix = c_out_info_label_prefix(info);
-    NStringT *    in_prefix    = c_out_info_in_prefix(info);
-    CCodeItemT *  item;
-    CCodeItemT *  last_item;
-    EntryT *      stack_entry;
-    EntryT *      stack_type;
-    BoolT       stack_reference;
-    TypeBTransT translator;
-    char c;
+	OStreamT   *ostream      = c_out_info_ostream(info);
+	NStringT   *label_prefix = c_out_info_label_prefix(info);
+	NStringT   *in_prefix    = c_out_info_in_prefix(info);
+	CCodeItemT *item;
+	CCodeItemT *last_item = NULL;
+	EntryT     *stack_entry;
+	EntryT     *stack_type;
+	BoolT       stack_reference;
+	TypeBTransT translator;
+	char c;
 
-    c_code_set_labels(code);
-    btrans_init(&translator);
-    btrans_add_translations(&translator, &(code->result), result);
-    for (item = code->head; item; item = item->next) {
-	switch (item->type)EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring(ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring(ostream, label_prefix);
-	    write_unsigned(ostream,
-			   name_get_label(entry_get_name(item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    stack_entry = c_code_get_translation(state, &translator,
-						 item->u.ident, &stack_type,
-						 &stack_reference,
-						 NULL);
-	    c_output_key(info, entry_key(stack_entry), in_prefix);
-	    break;
-	  case CCT_MOD_IDENT:
-	  case CCT_REF_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
+	c_code_set_labels(code);
+	btrans_init(&translator);
+	btrans_add_translations(&translator, &code->result, result);
+
+	for (item = code->head; item; item = item->next) {
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring(ostream, &(item->u.string));
+			break;
+
+		case CCT_LABEL:
+			write_nstring(ostream, label_prefix);
+			write_unsigned(ostream, name_get_label(entry_get_name(item->u.ident)));
+			break;
+
+		case CCT_IDENT:
+			stack_entry = c_code_get_translation(state, &translator,
+				item->u.ident, &stack_type, &stack_reference, NULL);
+			c_output_key(info, entry_key(stack_entry), in_prefix);
+			break;
+
+		case CCT_MOD_IDENT:
+		case CCT_REF_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
+		}
+
+		last_item = item;
 	}
-	last_item=item;
-    }
-    if((last_item->type==CCT_STRING)) {
-	c = nstring_contents(&last_item->u.string)[nstring_length(&last_item->u.string)-1] ;
-	if(c!= '\n' && c!= '\r') {
-	    write_newline(ostream);
+
+	assert(last_item != NULL);
+	if (last_item->type == CCT_STRING) {
+		c = nstring_contents(&last_item->u.string)[nstring_length(&last_item->u.string) - 1] ;
+		if (c != '\n' && c != '\r') {
+			write_newline(ostream);
+		}
+	} else {
+		write_newline(ostream);
 	}
-    }
-    else {
-        write_newline(ostream);
-    }
-    btrans_destroy(&translator);
-    c_code_reset_labels(code);
+
+	btrans_destroy(&translator);
+	c_code_reset_labels(code);
 }
 
 void
-c_output_c_code_assign(COutputInfoT * info, CCodeT * code, EntryT * type,
-		       EntryT * from, EntryT * to, BoolT from_reference,
-		       BoolT to_reference)
+c_output_c_code_assign(COutputInfoT *info, CCodeT *code, EntryT *type,
+	EntryT *from, EntryT *to, BoolT from_reference, BoolT to_reference)
 {
-    OStreamT *   ostream      = c_out_info_ostream(info);
-    NStringT *   label_prefix = c_out_info_label_prefix(info);
-    NStringT *   in_prefix    = c_out_info_in_prefix(info);
-    BoolT      is_param;
-    BoolT      use_cast;
-    CCodeItemT * item;
+	OStreamT   *ostream      = c_out_info_ostream(info);
+	NStringT   *label_prefix = c_out_info_label_prefix(info);
+	NStringT   *in_prefix    = c_out_info_in_prefix(info);
+	BoolT       is_param;
+	BoolT       use_cast;
+	CCodeItemT *item;
 
-    c_code_set_labels(code);
-    for (item = code->head; item; item = item->next) {
-	switch (item->type)EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring(ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring(ostream, label_prefix);
-	    write_unsigned(ostream,
-			   name_get_label(entry_get_name(item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    is_param = types_contains(&(code->param), item->u.ident);
-	    use_cast = (is_param && c_out_info_get_casts(info));
-	    if (use_cast) {
-		write_cstring(ostream, "((");
-		c_output_mapped_key(info, type);
-		write_cstring(ostream, ") (");
-	    } else {
-		write_char(ostream, '(');
-	    }
-	    if (is_param) {
-		if (from_reference) {
-		    write_char(ostream, '*');
+	c_code_set_labels(code);
+	for (item = code->head; item; item = item->next) {
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring(ostream, &item->u.string);
+			break;
+
+		case CCT_LABEL:
+			write_nstring(ostream, label_prefix);
+			write_unsigned(ostream,
+			name_get_label(entry_get_name(item->u.ident)));
+			break;
+
+		case CCT_IDENT:
+			is_param = types_contains(&code->param, item->u.ident);
+			use_cast = (is_param && c_out_info_get_casts(info));
+			if (use_cast) {
+				write_cstring(ostream, "((");
+				c_output_mapped_key(info, type);
+				write_cstring(ostream, ") (");
+			} else {
+				write_char(ostream, '(');
+			}
+
+			if (is_param) {
+				if (from_reference) {
+					write_char(ostream, '*');
+				}
+
+				c_output_key(info, entry_key(from), in_prefix);
+			} else {
+				if (to_reference) {
+					write_char(ostream, '*');
+				}
+				c_output_key(info, entry_key(to), in_prefix);
+			}
+
+			if (use_cast) {
+				write_cstring(ostream, "))");
+			} else {
+				write_char(ostream, ')');
+			}
+			break;
+
+		case CCT_REF_IDENT:
+			write_char(ostream, '(');
+			if (!from_reference) {
+				write_char(ostream, '&');
+			}
+			c_output_key(info, entry_key(from), in_prefix);
+			write_char(ostream, ')');
+			break;
+
+		case CCT_MOD_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
 		}
-		c_output_key(info, entry_key(from), in_prefix);
-	    } else {
-		if (to_reference) {
-		    write_char(ostream, '*');
-		}
-		c_output_key(info, entry_key(to), in_prefix);
-	    }
-	    if (use_cast) {
-		write_cstring(ostream, "))");
-	    } else {
-		write_char(ostream, ')');
-	    }
-	    break;
-	  case CCT_REF_IDENT:
-	    write_char(ostream, '(');
-	    if (!from_reference) {
-		write_char(ostream, '&');
-	    }
-	    c_output_key(info, entry_key(from), in_prefix);
-	    write_char(ostream, ')');
-	    break;
-	  case CCT_MOD_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
 	}
-    }
-    c_code_reset_labels(code);
+	c_code_reset_labels(code);
 }
 
 void
-c_output_c_code_param_assign(COutputInfoT * info, CCodeT * code, EntryT * type,
-			     EntryT * entry)
+c_output_c_code_param_assign(COutputInfoT *info, CCodeT *code, EntryT *type,
+	EntryT *entry)
 {
-    OStreamT *   ostream      = c_out_info_ostream(info);
-    NStringT *   label_prefix = c_out_info_label_prefix(info);
-    NStringT *   in_prefix    = c_out_info_in_prefix(info);
-    NStringT *   out_prefix   = c_out_info_out_prefix(info);
-    CCodeItemT * item;
+	OStreamT   *ostream      = c_out_info_ostream(info);
+	NStringT   *label_prefix = c_out_info_label_prefix(info);
+	NStringT   *in_prefix    = c_out_info_in_prefix(info);
+	NStringT   *out_prefix   = c_out_info_out_prefix(info);
+	CCodeItemT *item;
 
-    c_code_set_labels(code);
-    for (item = code->head; item; item = item->next) {
-	switch (item->type)EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring(ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring(ostream, label_prefix);
-	    write_unsigned(ostream,
-			   name_get_label(entry_get_name(item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    if (types_contains(&(code->param), item->u.ident)) {
-		BoolT use_cast = c_out_info_get_casts(info);
+	c_code_set_labels(code);
+	for (item = code->head; item; item = item->next) {
+		BoolT use_cast;
 
-		if (use_cast) {
-		    write_cstring(ostream, "((");
-		    c_output_mapped_key(info, type);
-		    write_cstring(ostream, " *) (");
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring(ostream, &item->u.string);
+			break;
+
+		case CCT_LABEL:
+			write_nstring(ostream, label_prefix);
+			write_unsigned(ostream,
+				name_get_label(entry_get_name(item->u.ident)));
+			break;
+
+		case CCT_IDENT:
+			if (!types_contains(&code->param, item->u.ident)) {
+				c_output_key(info, entry_key(entry), in_prefix);
+				break;
+			}
+
+			use_cast = c_out_info_get_casts(info);
+			if (use_cast) {
+				write_cstring(ostream, "((");
+				c_output_mapped_key(info, type);
+				write_cstring(ostream, " *) (");
+			}
+
+			c_output_key(info, entry_key(entry), out_prefix);
+
+			if (use_cast) {
+				write_cstring(ostream, "))");
+			}
+			break;
+
+		case CCT_MOD_IDENT:
+		case CCT_REF_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
 		}
-		c_output_key(info, entry_key(entry), out_prefix);
-		if (use_cast) {
-		    write_cstring(ostream, "))");
-		}
-	    } else {
-		c_output_key(info, entry_key(entry), in_prefix);
-	    }
-	    break;
-	  case CCT_MOD_IDENT:
-	  case CCT_REF_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
 	}
-    }
-    c_code_reset_labels(code);
+	c_code_reset_labels(code);
 }
 
 void
-c_output_c_code_result_assign(COutputInfoT * info, CCodeT * code, EntryT * type,
-			      EntryT * entry)
+c_output_c_code_result_assign(COutputInfoT *info, CCodeT *code, EntryT *type,
+	EntryT *entry)
 {
-    OStreamT *   ostream      = c_out_info_ostream(info);
-    NStringT *   label_prefix = c_out_info_label_prefix(info);
-    NStringT *   in_prefix    = c_out_info_in_prefix(info);
-    NStringT *   out_prefix   = c_out_info_out_prefix(info);
-    CCodeItemT * item;
+	OStreamT   *ostream      = c_out_info_ostream(info);
+	NStringT   *label_prefix = c_out_info_label_prefix(info);
+	NStringT   *in_prefix    = c_out_info_in_prefix(info);
+	NStringT   *out_prefix   = c_out_info_out_prefix(info);
+	CCodeItemT *item;
 
-    c_code_set_labels(code);
-    for (item = code->head; item; item = item->next) {
-	switch (item->type)EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring(ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	    write_nstring(ostream, label_prefix);
-	    write_unsigned(ostream,
-			   name_get_label(entry_get_name(item->u.ident)));
-	    break;
-	  case CCT_IDENT:
-	    if (types_contains(&(code->param), item->u.ident)) {
-		BoolT use_cast = c_out_info_get_casts(info);
+	c_code_set_labels(code);
+	for (item = code->head; item; item = item->next) {
+		BoolT use_cast;
 
-		if (use_cast) {
-		    write_cstring(ostream, "((");
-		    c_output_mapped_key(info, type);
-		    write_cstring(ostream, ") (");
+		switch (item->type)EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring(ostream, &item->u.string);
+			break;
+
+		case CCT_LABEL:
+			write_nstring(ostream, label_prefix);
+			write_unsigned(ostream,
+				name_get_label(entry_get_name(item->u.ident)));
+			break;
+
+		case CCT_IDENT:
+			if (!types_contains(&code->param, item->u.ident)) {
+				c_output_key(info, entry_key(entry), out_prefix);
+				break;
+			}
+
+			use_cast = c_out_info_get_casts(info);
+
+			if (use_cast) {
+				write_cstring(ostream, "((");
+				c_output_mapped_key(info, type);
+				write_cstring(ostream, ") (");
+			}
+
+			c_output_key(info, entry_key(entry), in_prefix);
+
+			if (use_cast) {
+				write_cstring(ostream, "))");
+			}
+			break;
+
+		case CCT_REF_IDENT:
+			write_cstring(ostream, "(&");
+			c_output_key(info, entry_key(entry), in_prefix);
+			write_char(ostream, ')');
+			break;
+
+		case CCT_MOD_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
 		}
-		c_output_key(info, entry_key(entry), in_prefix);
-		if (use_cast) {
-		    write_cstring(ostream, "))");
-		}
-	    } else {
-		c_output_key(info, entry_key(entry), out_prefix);
-	    }
-	    break;
-	  case CCT_REF_IDENT:
-	    write_cstring(ostream, "(&");
-	    c_output_key(info, entry_key(entry), in_prefix);
-	    write_char(ostream, ')');
-	    break;
-	  case CCT_MOD_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
 	}
-    }
-    c_code_reset_labels(code);
+	c_code_reset_labels(code);
 }
 
 void
-c_output_c_code(COutputInfoT * info, CCodeT * code)
+c_output_c_code(COutputInfoT *info, CCodeT *code)
 {
-    OStreamT *   ostream = c_out_info_ostream(info);
-    CCodeItemT * item;
+	OStreamT   *ostream = c_out_info_ostream(info);
+	CCodeItemT *item;
 
-    for (item = code->head; item; item = item->next) {
-	switch (item->type)EXHAUSTIVE {
-	  case CCT_STRING:
-	    write_nstring(ostream, &(item->u.string));
-	    break;
-	  case CCT_LABEL:
-	  case CCT_IDENT:
-	  case CCT_MOD_IDENT:
-	  case CCT_REF_IDENT:
-	  case CCT_EXCEPTION:
-	  case CCT_ADVANCE:
-	  case CCT_TERMINAL:
-	    UNREACHED;
+	for (item = code->head; item; item = item->next) {
+		switch (item->type) EXHAUSTIVE {
+		case CCT_STRING:
+			write_nstring(ostream, &item->u.string);
+			break;
+
+		case CCT_LABEL:
+		case CCT_IDENT:
+		case CCT_MOD_IDENT:
+		case CCT_REF_IDENT:
+		case CCT_EXCEPTION:
+		case CCT_ADVANCE:
+		case CCT_TERMINAL:
+			UNREACHED;
+		}
 	}
-    }
 }
+

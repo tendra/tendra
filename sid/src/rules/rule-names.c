@@ -72,29 +72,30 @@
 #include "../adt/types.h"
 
 static void
-rule_recompute_alt_names_2(AltT * alt, EntryT * predicate_id)
+rule_recompute_alt_names_2(AltT *alt, EntryT *predicate_id)
 {
-    TypeTupleT * names = alt_names(alt);
-    ItemT *      item;
+	TypeTupleT *names = alt_names(alt);
+	ItemT      *item;
 
-    types_destroy(names);
-    types_init(names);
-    for (item = alt_item_head(alt); item; item = item_next(item)) {
-	types_add_new_names(names, item_result(item), predicate_id);
-    }
+	types_destroy(names);
+	types_init(names);
+	for (item = alt_item_head(alt); item; item = item_next(item)) {
+		types_add_new_names(names, item_result(item), predicate_id);
+	}
 }
 
 static void
-rule_recompute_alt_names_1(RuleT * rule, EntryT * predicate_id)
+rule_recompute_alt_names_1(RuleT *rule, EntryT *predicate_id)
 {
-    AltT * alt;
+	AltT *alt;
 
-    if ((alt = rule_get_handler(rule)) != NULL) {
-	rule_recompute_alt_names_2(alt, predicate_id);
-    }
-    for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	rule_recompute_alt_names_2(alt, predicate_id);
-    }
+	if ((alt = rule_get_handler(rule)) != NULL) {
+		rule_recompute_alt_names_2(alt, predicate_id);
+	}
+
+	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
+		rule_recompute_alt_names_2(alt, predicate_id);
+	}
 }
 
 
@@ -103,12 +104,19 @@ rule_recompute_alt_names_1(RuleT * rule, EntryT * predicate_id)
  */
 
 void
-rule_recompute_alt_names(EntryT * entry, void * gclosure)
+rule_recompute_alt_names(EntryT *entry, void *gclosure)
 {
-    if (entry_is_rule(entry)) {
-	RuleT *  rule         = entry_get_rule(entry);
-	EntryT * predicate_id = (EntryT *)gclosure;
+
+	RuleT  *rule;
+	EntryT *predicate_id;
+
+	if (!entry_is_rule(entry)) {
+		return;
+	}
+
+	rule = entry_get_rule(entry);
+	predicate_id = gclosure;
 
 	rule_recompute_alt_names_1(rule, predicate_id);
-    }
 }
+

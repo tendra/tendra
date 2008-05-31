@@ -91,9 +91,9 @@ LexT *lexer_token;
  */
 
 void
-lexer_init(LexerStreamT * stream, IStreamT * istream)
+lexer_init(LexerStreamT *stream, IStreamT *istream)
 {
-	istream_assign(&(stream->istream), istream);
+	istream_assign(&stream->istream, istream);
 	lexer_stream = stream;
 	lexer_token = &stream->token;
 	lexi_init(&lexi_current_state);
@@ -101,53 +101,53 @@ lexer_init(LexerStreamT * stream, IStreamT * istream)
 }
 
 void
-lexer_close(LexerStreamT * stream)
+lexer_close(LexerStreamT *stream)
 {
-	istream_close(&(stream->istream));
+	istream_close(&stream->istream);
 }
 
 char *
-lexer_stream_name(LexerStreamT * stream)
+lexer_stream_name(LexerStreamT *stream)
 {
-	return(istream_name(&(stream->istream)));
+	return istream_name(&stream->istream);
 }
 
 unsigned
-lexer_stream_line(LexerStreamT * stream)
+lexer_stream_line(LexerStreamT *stream)
 {
-	return(istream_line(&(stream->istream)));
+	return istream_line(&stream->istream);
 }
 
 LexerTokenT
-lexer_get_terminal(LexerStreamT * stream)
+lexer_get_terminal(LexerStreamT *stream)
 {
-	return(stream->token.t);
+	return stream->token.t;
 }
 
 void
-lexer_next_token(LexerStreamT * stream)
+lexer_next_token(LexerStreamT *stream)
 {
 	lexer_token->t = lexi_read_token(&lexi_current_state);
 	stream->token = *lexer_token;
 }
 
 NStringT *
-lexer_string_value(LexerStreamT * stream)
+lexer_string_value(LexerStreamT *stream)
 {
 	assert(stream->token.t == LEXER_TOK_IDENTIFIER);
-	return(&(stream->token.u.string));
+	return &stream->token.u.string;
 }
 
 void
-lexer_save_terminal(LexerStreamT * stream, LexerTokenT error_terminal)
+lexer_save_terminal(LexerStreamT *stream, LexerTokenT error_terminal)
 {
 	assert(stream->token.t != error_terminal);
 	stream->saved_terminal = stream->token.t;
-	stream->token.t		= error_terminal;
+	stream->token.t        = error_terminal;
 }
 
 void
-lexer_restore_terminal(LexerStreamT * stream)
+lexer_restore_terminal(LexerStreamT *stream)
 {
 	stream->token.t = stream->saved_terminal;
 }
@@ -161,12 +161,12 @@ int
 lexi_getchar(void)
 {
 	char c;
-	IStreamT * istream;
+	IStreamT *istream;
 
-	istream = &(lexer_stream->istream);
+	istream = &lexer_stream->istream;
 	assert(istream);
 
-	if(!istream_read_char(istream, &c)) {
+	if (!istream_read_char(istream, &c)) {
 		return LEXI_EOF;
 	}
 
@@ -179,32 +179,32 @@ Using the unreadchr provided by the lexi interface
 static void
 unread_char(int c)
 {
-	assert(!lexer_unreadchar);
+assert(!lexer_unreadchar);
 
-	lexer_unreadchar = c;
+lexer_unreadchar = c;
 }
-*/
+ */
 
 int
 read_identifier(int c)
 {
-	IStreamT * istream;
+	IStreamT *istream;
 	DStringT dstring;
 
-	istream = &(lexer_stream->istream);
+	istream = &lexer_stream->istream;
 
 	dstring_init(&dstring);
 	for (;;) {
 		dstring_append_char(&dstring, c);
 
 		c = lexi_readchar(&lexi_current_state);
-		if(c == LEXI_EOF) {
+		if (c == LEXI_EOF) {
 			E_eof_in_identifier(istream);
 			return LEXER_TOK_EOF;
 		}
 
-		if(!lexi_group(lexi_group_identbody,c)) {
-		  lexi_push(&lexi_current_state,c);
+		if (!lexi_group(lexi_group_identbody, c)) {
+			lexi_push(&lexi_current_state, c);
 			break;
 		}
 	}
@@ -219,28 +219,28 @@ read_identifier(int c)
 int
 read_builtin(int c)
 {
-	IStreamT * istream;
+	IStreamT *istream;
 	DStringT dstring;
 	char *cstring;
 
-	istream = &(lexer_stream->istream);
+	istream = &lexer_stream->istream;
 
 	dstring_init(&dstring);
 	do {
 		c = lexi_readchar(&lexi_current_state);
-		if(c == LEXI_EOF) {
+		if (c == LEXI_EOF) {
 			E_eof_in_builtin(istream);
 			return LEXER_TOK_EOF;
 		}
 
-		if(c == '%') {
+		if (c == '%') {
 			break;
 		}
 
 		dstring_append_char(&dstring, c);
-	} while(lexi_group(lexi_group_builtin,c));
+	} while (lexi_group(lexi_group_builtin, c));
 
-	if(c != '%') {
+	if (c != '%') {
 		E_illegal_character_in_builtin(istream, c);
 
 		/* abandon this token and move on */
@@ -260,6 +260,7 @@ read_builtin(int c)
 		E_unknown_builtin(istream, cstring);
 		UNREACHED;
 	}
+
 	DEALLOCATE(cstring);
 	return lexer_token->t;
 }
@@ -267,11 +268,11 @@ read_builtin(int c)
 int
 lexi_unknown_token(int c)
 {
-	IStreamT * istream;
+	IStreamT *istream;
 
-	istream = &(lexer_stream->istream);
+	istream = &lexer_stream->istream;
 
-	if(c == LEXI_EOF) {
+	if (c == LEXI_EOF) {
 		return LEXER_TOK_EOF;
 	}
 

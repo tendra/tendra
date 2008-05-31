@@ -100,10 +100,10 @@ CCodeT *code;
 int
 c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup)
 {
-	IStreamT * istream;
+	IStreamT *istream;
 	DStringT dstring;
 
-	istream = &(c_lexer_stream->istream);
+	istream = &c_lexer_stream->istream;
 
 	dstring_init(&dstring);
 	for (;;) {
@@ -111,14 +111,14 @@ c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup)
 
 		dstring_append_char(&dstring, c);
 
-		if(!istream_peek_char(istream, &t)) {
+		if (!istream_peek_char(istream, &t)) {
 			E_eof_in_identifier(istream);
 			return LEXER_TOK_EOF;
 		}
 
 		c = t;
 
-		if(!c_lexi_group(bodygroup,c)) {
+		if (!c_lexi_group(bodygroup, c)) {
 			break;
 		}
 
@@ -126,16 +126,16 @@ c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup)
 	}
 
 	c_lexer_token->t = rettok;
-	dstring_to_nstring(&dstring, &(c_lexer_token->u.string));
+	dstring_to_nstring(&dstring, &c_lexer_token->u.string);
 	dstring_destroy(&dstring);
 
-	if(rettok == C_TOK_C_IDENTIFIER) {
+	if (rettok == C_TOK_C_IDENTIFIER) {
 		/*
 		 * This is a special case; we differentiate between C and SID
 		 * identifiers based on the premise that all SID identifiers
 		 * contain at least one hyphen.
 		 */
-		if(nstring_contains(&c_lexer_token->u.string, '-')) {
+		if (nstring_contains(&c_lexer_token->u.string, '-')) {
 			c_lexer_token->t = C_TOK_SID_IDENTIFIER;
 		}
 	}
@@ -149,9 +149,9 @@ c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup)
  */
 
 void
-c_lexer_init(CLexerStreamT * stream, IStreamT * istream)
+c_lexer_init(CLexerStreamT *stream, IStreamT *istream)
 {
-	istream_assign(&(stream->istream), istream);
+	istream_assign(&stream->istream, istream);
 	c_lexer_stream = stream;
 	c_lexer_token = &stream->token;
 	c_lexi_init(&c_lexer_current_state);
@@ -159,66 +159,67 @@ c_lexer_init(CLexerStreamT * stream, IStreamT * istream)
 }
 
 void
-c_lexer_close(CLexerStreamT * stream)
+c_lexer_close(CLexerStreamT *stream)
 {
-	istream_close(&(stream->istream));
+	istream_close(&stream->istream);
 }
 
 char *
-c_lexer_stream_name(CLexerStreamT * stream)
+c_lexer_stream_name(CLexerStreamT *stream)
 {
-	return(istream_name(&(stream->istream)));
+	return istream_name(&stream->istream);
 }
 
 unsigned
-c_lexer_stream_line(CLexerStreamT * stream)
+c_lexer_stream_line(CLexerStreamT *stream)
 {
-	return(istream_line(&(stream->istream)));
+	return istream_line(&stream->istream);
 }
 
 CTokenT
-c_lexer_get_terminal(CLexerStreamT * stream)
+c_lexer_get_terminal(CLexerStreamT *stream)
 {
-	return(stream->token.t);
+	return stream->token.t;
 }
 
 void
-c_lexer_next_token(CLexerStreamT * stream)
+c_lexer_next_token(CLexerStreamT *stream)
 {
 	stream->token = *c_lexer_token;
 	c_lexer_token->t = c_lexi_read_token(&c_lexer_current_state);
 }
 
 NStringT *
-c_lexer_string_value(CLexerStreamT * stream)
+c_lexer_string_value(CLexerStreamT *stream)
 {
-	assert((stream->token.t == C_TOK_C_IDENTIFIER) ||
-	   (stream->token.t == C_TOK_SID_IDENTIFIER)  ||
-	   (stream->token.t == C_TOK_ACT_LABEL)  ||
-	   (stream->token.t == C_TOK_ACT_MODIFIABLE)  ||
-	   (stream->token.t == C_TOK_ACT_IDENTIFIER)  ||
-	   (stream->token.t == C_TOK_ACT_REFERENCE)  ||
-	   (stream->token.t == C_TOK_ACT_CODESTRING));
-	return(&(stream->token.u.string));
+	assert(stream->token.t == C_TOK_C_IDENTIFIER
+		|| stream->token.t == C_TOK_SID_IDENTIFIER
+		|| stream->token.t == C_TOK_ACT_LABEL
+		|| stream->token.t == C_TOK_ACT_MODIFIABLE
+		|| stream->token.t == C_TOK_ACT_IDENTIFIER
+		|| stream->token.t == C_TOK_ACT_REFERENCE
+		|| stream->token.t == C_TOK_ACT_CODESTRING);
+
+	return &stream->token.u.string;
 }
 
 CCodeT *
-c_lexer_code_value(CLexerStreamT * stream)
+c_lexer_code_value(CLexerStreamT *stream)
 {
 	assert(stream->token.t == C_TOK_CODE);
-	return(stream->token.u.code);
+	return stream->token.u.code;
 }
 
 void
-c_lexer_save_terminal(CLexerStreamT * stream, CTokenT error_terminal)
+c_lexer_save_terminal(CLexerStreamT *stream, CTokenT error_terminal)
 {
 	assert(stream->token.t != error_terminal);
 	stream->saved_terminal = stream->token.t;
-	stream->token.t		= error_terminal;
+	stream->token.t = error_terminal;
 }
 
 void
-c_lexer_restore_terminal(CLexerStreamT * stream)
+c_lexer_restore_terminal(CLexerStreamT *stream)
 {
 	stream->token.t = stream->saved_terminal;
 }
@@ -231,13 +232,13 @@ c_lexer_restore_terminal(CLexerStreamT * stream)
 int
 c_lexi_getchar(void)
 {
-	IStreamT * istream;
+	IStreamT *istream;
 	char c;
 
-	istream = &(c_lexer_stream->istream);
+	istream = &c_lexer_stream->istream;
 	assert(istream);
 
-	if(!istream_read_char(istream, &c)) {
+	if (!istream_read_char(istream, &c)) {
 		return LEXI_EOF;
 	}
 
@@ -247,17 +248,17 @@ c_lexi_getchar(void)
 int
 c_lexer_read_builtin(int c0, int c1)
 {
-	IStreamT * istream;
+	IStreamT *istream;
 	DStringT dstring;
 	char *cstring;
 	int c;
 
-	istream = &(c_lexer_stream->istream);
+	istream = &c_lexer_stream->istream;
 
 	dstring_init(&dstring);
 	c = c1;	/* [builtinstart] */
 	do {
-		if(!c_lexi_group(c_lexi_group_builtinbody,c)) {
+		if (!c_lexi_group(c_lexi_group_builtinbody,c)) {
 			E_c_illegal_character_in_identifier(istream, c);
 			return LEXER_TOK_EOF;	/* XXX EOF? */
 		}
@@ -265,11 +266,11 @@ c_lexer_read_builtin(int c0, int c1)
 		dstring_append_char(&dstring, c);
 
 		c = c_lexi_getchar();
-		if(c == LEXI_EOF) {
+		if (c == LEXI_EOF) {
 			E_eof_in_identifier(istream);
 			return LEXER_TOK_EOF;
 		}
-	} while(!c_lexi_group(c_lexi_group_builtindlmt,c));
+	} while (!c_lexi_group(c_lexi_group_builtindlmt, c));
 
 	/* XXX This would be replaced by keywords pending lexi's reworked keyword API */
 	cstring = dstring_destroy_to_cstring(&dstring);
@@ -319,10 +320,10 @@ c_lexer_read_builtin(int c0, int c1)
 int
 c_lexer_act_read_string(int c)
 {
-	IStreamT * istream;
+	IStreamT *istream;
 	DStringT dstring;
 
-	istream = &(c_lexer_stream->istream);
+	istream = &c_lexer_stream->istream;
 
 	dstring_init(&dstring);
 	for (;;) {
@@ -330,14 +331,14 @@ c_lexer_act_read_string(int c)
 
 		dstring_append_char(&dstring, c);
 
-		if(!istream_peek_char(istream, &t)) {
+		if (!istream_peek_char(istream, &t)) {
 			E_c_eof_in_code(istream);
 			return LEXER_TOK_EOF;
 		}
 
 		c = t;
 
-		if(c == '@') {
+		if (c == '@') {
 			break;
 		}
 
@@ -345,7 +346,7 @@ c_lexer_act_read_string(int c)
 	}
 
 	c_lexer_token->t = C_TOK_ACT_CODESTRING;
-	dstring_to_nstring(&dstring, &(c_lexer_token->u.string));
+	dstring_to_nstring(&dstring, &c_lexer_token->u.string);
 	dstring_destroy(&dstring);
 
 	return c_lexer_token->t;
@@ -354,20 +355,20 @@ c_lexer_act_read_string(int c)
 int
 c_lexer_unknown_token(int c)
 {
-    IStreamT * istream;
+	IStreamT *istream;
 
-    istream = &(c_lexer_stream->istream);
+	istream = &c_lexer_stream->istream;
 
-    if(c == LEXI_EOF) {
-        return LEXER_TOK_EOF;
-    }
+	if (c == LEXI_EOF) {
+		return LEXER_TOK_EOF;
+	}
 
-    E_c_illegal_character(istream, c);
+	E_c_illegal_character(istream, c);
 
-    /*
-     * We try to continue regardless as convenience to the user so that
-     * any further errors might possibly be identified.
-     */
-    return c_lexi_read_token(&c_lexer_current_state);
+	/*
+	 * We try to continue regardless as convenience to the user so that
+	 * any further errors might possibly be identified.
+	 */
+	return c_lexi_read_token(&c_lexer_current_state);
 }
 

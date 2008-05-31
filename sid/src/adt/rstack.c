@@ -74,116 +74,113 @@
 #include "type.h"
 
 void
-rstack_init(RStackT * rstack)
+rstack_init(RStackT *rstack)
 {
-    rstack->head = NULL;
+	rstack->head = NULL;
 }
 
 void
-rstack_push_frame(RStackT * rstack)
+rstack_push_frame(RStackT *rstack)
 {
-    TransStackEntryT * frame = ALLOCATE(TransStackEntryT);
+	TransStackEntryT *frame = ALLOCATE(TransStackEntryT);
 
-    frame->next = rstack->head;
-    rtrans_init(&(frame->translator));
-    rstack->head = frame;
+	frame->next = rstack->head;
+	rtrans_init(&frame->translator);
+	rstack->head = frame;
 }
 
 void
-rstack_compute_formal_renaming(RStackT * rstack, TypeTupleT * names)
+rstack_compute_formal_renaming(RStackT *rstack, TypeTupleT *names)
 {
-    assert(rstack->head);
-    types_compute_formal_renaming(names, &(rstack->head->translator));
+	assert(rstack->head);
+	types_compute_formal_renaming(names, &rstack->head->translator);
 }
 
 void
-rstack_compute_formal_inlining(RStackT * rstack, TypeTupleT * names,
-			       TypeTupleT * renames)
+rstack_compute_formal_inlining(RStackT *rstack, TypeTupleT *names, TypeTupleT *renames)
 {
-    SaveRStackT state;
+	SaveRStackT state;
 
-    assert(rstack->head);
-    state.head = rstack->head->next;
-    types_compute_formal_inlining(names, renames, &(rstack->head->translator),
-				  &state);
+	assert(rstack->head);
+	state.head = rstack->head->next;
+	types_compute_formal_inlining(names, renames, &rstack->head->translator, &state);
 }
 
 void
-rstack_compute_local_renaming(RStackT * rstack, TypeTupleT * names,
-			      TypeTupleT * exclude, TableT * table)
+rstack_compute_local_renaming(RStackT *rstack, TypeTupleT *names,
+	TypeTupleT *exclude, TableT *table)
 {
-    SaveRStackT state;
+	SaveRStackT state;
 
-    assert(rstack->head);
-    state.head = rstack->head->next;
-    types_compute_local_renaming(names, exclude, &(rstack->head->translator),
-				 &state, table);
+	assert(rstack->head);
+	state.head = rstack->head->next;
+	types_compute_local_renaming(names, exclude, &rstack->head->translator,
+		&state, table);
 }
 
 void
-rstack_add_translation(RStackT * rstack, EntryT * from, EntryT * to, EntryT * type,
-		       BoolT reference)
+rstack_add_translation(RStackT *rstack, EntryT *from, EntryT *to, EntryT *type,
+	BoolT reference)
 {
-    assert(rstack->head);
-    rtrans_add_translation(&(rstack->head->translator), from, to, type,
-			   reference);
+	assert(rstack->head);
+	rtrans_add_translation(&rstack->head->translator, from, to, type, reference);
 }
 
 void
-rstack_save_state(RStackT * rstack, SaveRStackT * state)
+rstack_save_state(RStackT *rstack, SaveRStackT *state)
 {
-    state->head = rstack->head;
+	state->head = rstack->head;
 }
 
 EntryT *
-rstack_get_translation(SaveRStackT * state, EntryT * entry, EntryT * *type_ref,
-		       BoolT *reference_ref)
+rstack_get_translation(SaveRStackT *state, EntryT *entry, EntryT **type_ref,
+	BoolT *reference_ref)
 {
-    TransStackEntryT * frame = state->head;
+	TransStackEntryT *frame;
 
-    while (frame) {
-	EntryT * translation;
+	for (frame = state->head; frame; frame = frame->next) {
+		EntryT *translation;
 
-	translation = rtrans_get_translation(&(frame->translator), entry,
-					     type_ref, reference_ref);
-	if (translation) {
-	    return(translation);
+		translation = rtrans_get_translation(&frame->translator, entry,
+			type_ref, reference_ref);
+		if (translation) {
+			return translation;
+		}
 	}
-	frame = frame->next;
-    }
-    return(NULL);
+
+	return NULL;
 }
 
 void
-rstack_apply_for_non_locals(RStackT * non_local_stack, SaveRStackT * state,
-			    void (*proc)(EntryT *, EntryT *, void *),
-			    void * closure)
+rstack_apply_for_non_locals(RStackT *non_local_stack, SaveRStackT *state,
+	void (*proc)(EntryT *, EntryT *, void *), void *closure)
 {
-    TransStackEntryT * frame = non_local_stack->head;
+	TransStackEntryT *frame = non_local_stack->head;
 
-    if ((frame != NULL) && (state->head)) {
-	TransStackEntryT * limit = state->head->next;
+	if (frame != NULL && state->head) {
+		TransStackEntryT *limit = state->head->next;
 
-	for (; frame != limit; frame = frame->next) {
-	    rtrans_apply_for_non_locals(&(frame->translator), proc, closure);
+		for ( ; frame != limit; frame = frame->next) {
+			rtrans_apply_for_non_locals(&frame->translator, proc, closure);
+		}
 	}
-    }
 }
 
 void
-rstack_pop_frame(RStackT * rstack)
+rstack_pop_frame(RStackT *rstack)
 {
-    TransStackEntryT * frame = rstack->head;
+	TransStackEntryT *frame = rstack->head;
 
-    rstack->head = frame->next;
-    rtrans_destroy(&(frame->translator));
-    DEALLOCATE(frame);
+	rstack->head = frame->next;
+	rtrans_destroy(&frame->translator);
+	DEALLOCATE(frame);
 }
 
 void
-rstack_destroy(RStackT * rstack)
+rstack_destroy(RStackT *rstack)
 {
-    while (rstack->head) {
-	rstack_pop_frame(rstack);
-    }
+	while (rstack->head) {
+		rstack_pop_frame(rstack);
+	}
 }
+

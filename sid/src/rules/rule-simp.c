@@ -96,226 +96,252 @@
 #define EQUALITY_TABLE_SIZE	(127)
 
 typedef struct RuleSortListT {
-    AltT *			head;
-    AltT *		       *tail;
+	AltT  *head;
+	AltT **tail;
 } RuleSortListT;
 
 typedef struct ReplaceClosureT {
-    EntryT *			from;
-    EntryT *			to;
+	EntryT *from;
+	EntryT *to;
 } ReplaceClosureT;
 
-static RuleT *		equality_table[EQUALITY_TABLE_SIZE];
+static RuleT *equality_table[EQUALITY_TABLE_SIZE];
 
 static void
-rule_sort_alts(RuleSortListT * sort_list)
+rule_sort_alts(RuleSortListT *sort_list)
 {
-    AltT * alt      = sort_list->head;
-    AltT * scan_alt = alt_next(alt);
-
-    if (scan_alt) {
+	AltT *alt      = sort_list->head;
+	AltT *scan_alt = alt_next(alt);
 	RuleSortListT lower;
 	RuleSortListT higher;
 
-	lower.tail  = &(lower.head);
-	higher.tail = &(higher.head);
+	if (!scan_alt) {
+		return;
+	}
+
+	lower.tail  = &lower.head;
+	higher.tail = &higher.head;
 	for (; scan_alt; scan_alt = alt_next(scan_alt)) {
-	    if (alt_less_than(scan_alt, alt)) {
-		*(lower.tail) = scan_alt;
-		lower.tail     = alt_next_ref(scan_alt);
-	    } else {
-		*(higher.tail) = scan_alt;
-		higher.tail    = alt_next_ref(scan_alt);
-	    }
+		if (alt_less_than(scan_alt, alt)) {
+			*lower.tail = scan_alt;
+			lower.tail  = alt_next_ref(scan_alt);
+		} else {
+			*higher.tail = scan_alt;
+			higher.tail  = alt_next_ref(scan_alt);
+		}
 	}
-	*(lower.tail) = NULL;
-	*(higher.tail) = NULL;
+	*lower.tail  = NULL;
+	*higher.tail = NULL;
+
 	if (lower.head) {
-	    rule_sort_alts(&lower);
-	    sort_list->head = lower.head;
-	    sort_list->tail = lower.tail;
+		rule_sort_alts(&lower);
+		sort_list->head = lower.head;
+		sort_list->tail = lower.tail;
 	} else {
-	    sort_list->tail = &(sort_list->head);
+		sort_list->tail = &(sort_list->head);
 	}
-	*(sort_list->tail) = alt;
-	sort_list->tail    = alt_next_ref(alt);
+	*sort_list->tail = alt;
+	sort_list->tail  = alt_next_ref(alt);
+
 	if (higher.head) {
-	    rule_sort_alts(&higher);
-	    *(sort_list->tail) = higher.head;
-	    sort_list->tail    = higher.tail;
+		rule_sort_alts(&higher);
+		*sort_list->tail = higher.head;
+		sort_list->tail  = higher.tail;
 	}
-	*(sort_list->tail) = NULL;
-    }
+	*sort_list->tail = NULL;
 }
 
 static void
-rule_reorder(RuleT * rule)
+rule_reorder(RuleT *rule)
 {
-    RuleSortListT sort_list;
+	RuleSortListT sort_list;
 
-    if ((sort_list.head = rule_alt_head(rule)) != NULL) {
+	sort_list.head = rule_alt_head(rule);
+	if (sort_list.head  == NULL) {
+		return;
+	}
+
 	sort_list.tail = rule->alt_tail;
 	rule_sort_alts(&sort_list);
 	rule->alt_head = sort_list.head;
 	rule->alt_tail = sort_list.tail;
-    }
 }
 
 static void
-rule_hash_1(RuleT * rule, EntryT * predicate_id)
+rule_hash_1(RuleT *rule, EntryT *predicate_id)
 {
-    unsigned hash_value = (unsigned)(rule_has_empty_alt(rule)? 3 : 0);
-    AltT *     alt;
+	unsigned  hash_value = rule_has_empty_alt(rule) ? 3 : 0;
+	AltT     *alt;
 
-    rule_renumber(rule, TRUE, predicate_id);
-    rule_reorder(rule);
-    for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	ItemT * item;
-	KeyT *  key = NULL;
+	rule_renumber(rule, TRUE, predicate_id);
+	rule_reorder(rule);
 
-	hash_value += 5;
-	for (item = alt_item_head(alt); item; item = item_next(item)) {
-	    hash_value++;
-	    if (!item_is_rule(item)) {
-		key = entry_key(item_entry(item));
-	    }
-	}
-	if (key) {
-	    hash_value += key_hash_value(key);
-	}
-    }
-    hash_value %= EQUALITY_TABLE_SIZE;
-    rule_set_next_in_table(rule, equality_table[hash_value]);
-    equality_table[hash_value] = rule;
-}
-
-static void
-rule_hash_for_comparison(EntryT * entry, void * gclosure)
-{
-    if (entry_is_rule(entry)) {
-	RuleT *  rule         = entry_get_rule(entry);
-	EntryT * predicate_id = (EntryT *)gclosure;
-
-	rule_hash_1(rule, predicate_id);
-    }
-}
-
-static BoolT
-rule_equal(RuleT * rule1, RuleT * rule2)
-{
-    AltT * alt1;
-    AltT * alt2;
-
-    if ((!types_equal_numbers(rule_param(rule1), rule_param(rule2))) ||
-	(!types_equal_numbers(rule_result(rule1), rule_result(rule2))) ||
-	(rule_has_empty_alt(rule1) != rule_has_empty_alt(rule2)) ||
-	(!alt_equal(rule_get_handler(rule1), rule_get_handler(rule2))) ||
-	(!non_local_list_is_empty(rule_non_locals(rule1))) ||
-	(!non_local_list_is_empty(rule_non_locals(rule2)))) {
-	return(FALSE);
-    }
-    for (alt1 = rule_alt_head(rule1), alt2 = rule_alt_head(rule2);
-	 alt1 && alt2; alt1 = alt_next(alt1), alt2 = alt_next(alt2)) {
-	ItemT * item1;
-	ItemT * item2;
-
-	for (item1 = alt_item_head(alt1), item2 = alt_item_head(alt2);
-	     item1 && item2;
-	     item1 = item_next(item1), item2 = item_next(item2)) {
-	    if ((item_entry(item1) != item_entry(item2)) ||
-		(!types_equal_numbers(item_param(item1), item_param(item2))) ||
-		(!types_equal_numbers(item_result(item1),
-				      item_result(item2)))) {
-		return(FALSE);
-	    }
-	}
-	if (item1 || item2) {
-	    return(FALSE);
-	}
-    }
-    if (alt1 || alt2) {
-	return(FALSE);
-    }
-    return(TRUE);
-}
-
-static BoolT
-rule_do_replacements_1(AltT * alt, ReplaceClosureT * closure)
-{
-    BoolT changed = FALSE;
-    ItemT * item;
-
-    for (item = alt_item_head(alt); item; item = item_next(item)) {
-	if (item_entry(item) == closure->from) {
-	    item_set_entry(item, closure->to);
-	    changed = TRUE;
-	}
-    }
-    return(changed);
-}
-
-static void
-rule_do_replacements(EntryT * entry, void * gclosure)
-{
-    ReplaceClosureT * closure = (ReplaceClosureT *)gclosure;
-
-    if (entry_is_rule(entry)) {
-	RuleT * rule    = entry_get_rule(entry);
-	BoolT changed = FALSE;
-	AltT *  alt;
-
-	if ((alt = rule_get_handler(rule)) != NULL) {
-	    if (rule_do_replacements_1(alt, closure)) {
-		changed = TRUE;
-	    }
-	}
 	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
-	    if (rule_do_replacements_1(alt, closure)) {
-		changed = TRUE;
-	    }
+		ItemT *item;
+		KeyT  *key = NULL;
+
+		hash_value += 5;
+		for (item = alt_item_head(alt); item; item = item_next(item)) {
+			hash_value++;
+			if (!item_is_rule(item)) {
+				key = entry_key(item_entry(item));
+			}
+		}
+
+		if (key) {
+			hash_value += key_hash_value(key);
+		}
 	}
-	if (changed) {
-	    rule_reorder(rule);
+
+	hash_value %= EQUALITY_TABLE_SIZE;
+	rule_set_next_in_table(rule, equality_table[hash_value]);
+	equality_table[hash_value] = rule;
+}
+
+static void
+rule_hash_for_comparison(EntryT *entry, void *gclosure)
+{
+	RuleT  *rule;
+	EntryT *predicate_id = gclosure;
+
+	if (!entry_is_rule(entry)) {
+		return;
 	}
-    }
+
+	rule         = entry_get_rule(entry);
+	rule_hash_1(rule, predicate_id);
 }
 
 static BoolT
-rule_remove_duplicates_1(RuleT * *rule_ref, TableT * table)
+rule_equal(RuleT *rule1, RuleT *rule2)
 {
-    BoolT did_remove = FALSE;
-    RuleT * rule;
+	AltT *alt1;
+	AltT *alt2;
 
-    while ((rule = *rule_ref) != NULL) {
-	RuleT * *inner_rule_ref = rule_get_next_in_table_ref(rule);
-	RuleT *  inner_rule;
-
-	while ((inner_rule = *inner_rule_ref) != NULL) {
-	    if (rule_equal(rule, inner_rule)) {
-		ReplaceClosureT closure;
-
-		if (rule_is_required(inner_rule)) {
-		    closure.from = rule_entry(rule);
-		    closure.to   = rule_entry(inner_rule);
-		    *rule_ref    = rule_get_next_in_table(rule);
-		} else {
-		    closure.from    = rule_entry(inner_rule);
-		    closure.to      = rule_entry(rule);
-		    *inner_rule_ref = rule_get_next_in_table(inner_rule);
-		}
-		table_iter(table, rule_do_replacements, &closure);
-		did_remove = TRUE;
-		if (rule != *rule_ref) {
-		    goto removed_rule;
-		}
-	    } else {
-		inner_rule_ref = rule_get_next_in_table_ref(inner_rule);
-	    }
+	if (!types_equal_numbers(rule_param(rule1), rule_param(rule2))
+		|| !types_equal_numbers(rule_result(rule1), rule_result(rule2))
+		|| rule_has_empty_alt(rule1) != rule_has_empty_alt(rule2)
+		|| !alt_equal(rule_get_handler(rule1), rule_get_handler(rule2))
+		|| !non_local_list_is_empty(rule_non_locals(rule1))
+		|| !non_local_list_is_empty(rule_non_locals(rule2))) {
+		return FALSE;
 	}
-	rule_ref = rule_get_next_in_table_ref(rule);
-      removed_rule:;
-    }
-    return(did_remove);
+
+	for (alt1 = rule_alt_head(rule1), alt2 = rule_alt_head(rule2);
+		alt1 && alt2; alt1 = alt_next(alt1), alt2 = alt_next(alt2)) {
+		ItemT *item1;
+		ItemT *item2;
+
+		for (item1 = alt_item_head(alt1), item2 = alt_item_head(alt2);
+			item1 && item2; item1 = item_next(item1), item2 = item_next(item2)) {
+			if (item_entry(item1) != item_entry(item2)
+				|| !types_equal_numbers(item_param(item1), item_param(item2))
+				|| !types_equal_numbers(item_result(item1), item_result(item2))) {
+				return FALSE;
+			}
+		}
+
+		if (item1 || item2) {
+			return FALSE;
+		}
+	}
+
+	if (alt1 || alt2) {
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+static BoolT
+rule_do_replacements_1(AltT *alt, ReplaceClosureT *closure)
+{
+	BoolT changed = FALSE;
+	ItemT *item;
+
+	for (item = alt_item_head(alt); item; item = item_next(item)) {
+		if (item_entry(item) == closure->from) {
+			item_set_entry(item, closure->to);
+			changed = TRUE;
+		}
+	}
+
+	return changed;
+}
+
+static void
+rule_do_replacements(EntryT *entry, void *gclosure)
+{
+	ReplaceClosureT *closure = gclosure;
+	RuleT *rule;
+	BoolT  changed;
+	AltT  *alt;
+
+	if (!entry_is_rule(entry)) {
+		return;
+	}
+
+	changed = FALSE;
+	rule = entry_get_rule(entry);
+	alt = rule_get_handler(rule);
+	if (alt != NULL) {
+		if (rule_do_replacements_1(alt, closure)) {
+			changed = TRUE;
+		}
+	}
+
+	for (alt = rule_alt_head(rule); alt; alt = alt_next(alt)) {
+		if (rule_do_replacements_1(alt, closure)) {
+			changed = TRUE;
+		}
+	}
+
+	if (changed) {
+		rule_reorder(rule);
+	}
+}
+
+static BoolT
+rule_remove_duplicates_1(RuleT **rule_ref, TableT *table)
+{
+	BoolT  did_remove = FALSE;
+	RuleT *rule;
+
+	while ((rule = *rule_ref) != NULL) {
+		RuleT **inner_rule_ref = rule_get_next_in_table_ref(rule);
+		RuleT  *inner_rule;
+
+		while ((inner_rule = *inner_rule_ref) != NULL) {
+			ReplaceClosureT closure;
+
+			if (!rule_equal(rule, inner_rule)) {
+				inner_rule_ref = rule_get_next_in_table_ref(inner_rule);
+				continue;
+			}
+
+			if (rule_is_required(inner_rule)) {
+				closure.from = rule_entry(rule);
+				closure.to   = rule_entry(inner_rule);
+				*rule_ref    = rule_get_next_in_table(rule);
+			} else {
+				closure.from    = rule_entry(inner_rule);
+				closure.to      = rule_entry(rule);
+				*inner_rule_ref = rule_get_next_in_table(inner_rule);
+			}
+
+			table_iter(table, rule_do_replacements, &closure);
+			did_remove = TRUE;
+			if (rule != *rule_ref) {
+				goto removed_rule;
+			}
+		}
+		rule_ref = rule_get_next_in_table_ref(rule);
+
+removed_rule:
+		;
+	}
+
+	return did_remove;
 }
 
 
@@ -324,21 +350,23 @@ rule_remove_duplicates_1(RuleT * *rule_ref, TableT * table)
  */
 
 void
-rule_remove_duplicates(TableT * table, EntryT * predicate_id)
+rule_remove_duplicates(TableT *table, EntryT *predicate_id)
 {
-    BoolT    did_remove;
-    unsigned i;
+	BoolT    did_remove;
+	unsigned i;
 
-    for (i = 0; i < EQUALITY_TABLE_SIZE; i++) {
-	equality_table[i] = NULL;
-    }
-    table_iter(table, rule_hash_for_comparison, predicate_id);
-    do {
-	did_remove = FALSE;
 	for (i = 0; i < EQUALITY_TABLE_SIZE; i++) {
-	    if (rule_remove_duplicates_1(&(equality_table[i]), table)) {
-		did_remove = TRUE;
-	    }
+		equality_table[i] = NULL;
 	}
-    } while (did_remove);
+
+	table_iter(table, rule_hash_for_comparison, predicate_id);
+	do {
+		did_remove = FALSE;
+		for (i = 0; i < EQUALITY_TABLE_SIZE; i++) {
+			if (rule_remove_duplicates_1(&equality_table[i], table)) {
+				did_remove = TRUE;
+			}
+		}
+	} while (did_remove);
 }
+

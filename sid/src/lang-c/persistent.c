@@ -29,44 +29,49 @@
  * $Id$
  */
 
-/* persistent.h Persistent variables
- *
- * 
+/*
+ * persistent.h - Persistent variables
  */
 
 #include "persistent.h"
 
-PersistentT* 
-persistent_create (NStringT* name, NStringT* ctype) 
+PersistentT *
+persistent_create(NStringT *name, NStringT *ctype)
 {
-	PersistentT* persistent = ALLOCATE (PersistentT);
+	PersistentT *persistent = ALLOCATE(PersistentT);
+
 	nstring_assign(&persistent->name, name);
 	nstring_assign(&persistent->ctype, ctype);
-	persistent -> next = NULL ;
-	return persistent ;
+	persistent -> next = NULL;
+
+	return persistent;
 }
 
-void 
-persistent_list_init (PersistentListT* persistent_list) 
+void
+persistent_list_init(PersistentListT *persistent_list)
 {
-	persistent_list->head = NULL ;
-	persistent_list->tail = &(persistent_list->head) ;
+	persistent_list->head = NULL;
+	persistent_list->tail = &persistent_list->head;
 }
 
-void 
-persistent_list_append (PersistentListT* persistent_list, PersistentT* persistent) 
+void
+persistent_list_append(PersistentListT *persistent_list, PersistentT *persistent)
 {
-	*(persistent_list->tail) = persistent ;
-	persistent_list->tail = &(persistent->next) ;
+	*persistent_list->tail = persistent;
+	persistent_list->tail = &persistent->next;
 }
 
-PersistentT* 
-persistent_list_find (PersistentListT* list, NStringT* name) 
+PersistentT *
+persistent_list_find(PersistentListT *list, NStringT *name)
 {
-  PersistentT* p;
-	for(p=list->head; p ; p= p->next) {
-	  if(nstring_equal(&p->name, name))
-			break;
+	PersistentT *p;
+
+	for (p = list->head; p; p = p->next) {
+		if (nstring_equal(&p->name, name)) {
+			return p;
+		}
 	}
-	return p ;
+
+	return NULL;
 }
+

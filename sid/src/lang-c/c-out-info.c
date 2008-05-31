@@ -67,229 +67,230 @@
 #include "c-code.h"
 
 void
-c_out_info_init(COutputInfoT * info, OutputInfoT * out_info)
+c_out_info_init(COutputInfoT *info, OutputInfoT *out_info)
 {
-    info->info        = out_info;
-    info->header1     = NULL;
-    info->header2     = NULL;
-    info->trailer1    = NULL;
-    info->trailer2    = NULL;
-    persistent_list_init(&(info->persistents));
-    nstring_copy_cstring(c_out_info_type_prefix(info), "ZT");
-    nstring_copy_cstring(c_out_info_fn_prefix(info), "ZR");
-    nstring_copy_cstring(c_out_info_in_prefix(info), "ZI");
-    nstring_copy_cstring(c_out_info_out_prefix(info), "ZO");
-    nstring_copy_cstring(c_out_info_label_prefix(info), "ZL");
-    nstring_copy_cstring(c_out_info_terminal_prefix(info), "ZB");
-    nstring_copy_cstring(c_out_info_persistents_prefix(info), "ZP");
-    info->prototypes  = FALSE;
-    info->numeric_ids = FALSE;
-    info->casts       = FALSE;
-    info->unreachable = FALSE;
-    info->lines       = TRUE;
-    info->split       = 0;
+	info->info        = out_info;
+	info->header1     = NULL;
+	info->header2     = NULL;
+	info->trailer1    = NULL;
+	info->trailer2    = NULL;
+	persistent_list_init(&info->persistents);
+	nstring_copy_cstring(c_out_info_type_prefix(info), "ZT");
+	nstring_copy_cstring(c_out_info_fn_prefix(info), "ZR");
+	nstring_copy_cstring(c_out_info_in_prefix(info), "ZI");
+	nstring_copy_cstring(c_out_info_out_prefix(info), "ZO");
+	nstring_copy_cstring(c_out_info_label_prefix(info), "ZL");
+	nstring_copy_cstring(c_out_info_terminal_prefix(info), "ZB");
+	nstring_copy_cstring(c_out_info_persistents_prefix(info), "ZP");
+	info->prototypes  = FALSE;
+	info->numeric_ids = FALSE;
+	info->casts       = FALSE;
+	info->unreachable = FALSE;
+	info->lines       = TRUE;
+	info->split       = 0;
 }
 
 OutputInfoT *
-c_out_info_info(COutputInfoT * info)
+c_out_info_info(COutputInfoT *info)
 {
-    return(info->info);
+	return info->info;
 }
 
 OStreamT *
-c_out_info_ostream(COutputInfoT * info)
+c_out_info_ostream(COutputInfoT *info)
 {
-    return(out_info_get_current_ostream(info->info));
+	return out_info_get_current_ostream(info->info);
 }
 
 char *
-c_out_info_program_name(COutputInfoT * info)
+c_out_info_program_name(COutputInfoT *info)
 {
-    return(out_info_get_prog_name(info->info));
+	return out_info_get_prog_name(info->info);
 }
 
 char *
-c_out_info_source_name(COutputInfoT * info)
+c_out_info_source_name(COutputInfoT *info)
 {
-    return(out_info_get_infile_name(info->info, (unsigned)0));
+	return out_info_get_infile_name(info->info, 0);
 }
 
 char *
-c_out_info_c_source_name(COutputInfoT * info)
+c_out_info_c_source_name(COutputInfoT *info)
 {
-    return(out_info_get_infile_name(info->info, (unsigned)1));
+	return out_info_get_infile_name(info->info, 1);
 }
 
 CCodeT *
-c_out_info_get_header1(COutputInfoT * info)
+c_out_info_get_header1(COutputInfoT *info)
 {
-    return(info->header1);
+	return info->header1;
 }
 
 void
-c_out_info_set_header1(COutputInfoT * info, CCodeT * code)
+c_out_info_set_header1(COutputInfoT *info, CCodeT *code)
 {
-    info->header1 = code;
+	info->header1 = code;
 }
 
 CCodeT *
-c_out_info_get_header2(COutputInfoT * info)
+c_out_info_get_header2(COutputInfoT *info)
 {
-    return(info->header2);
+	return info->header2;
 }
 
 void
-c_out_info_set_header2(COutputInfoT * info, CCodeT * code)
+c_out_info_set_header2(COutputInfoT *info, CCodeT *code)
 {
-    info->header2 = code;
+	info->header2 = code;
 }
 
 CCodeT *
-c_out_info_get_trailer1(COutputInfoT * info)
+c_out_info_get_trailer1(COutputInfoT *info)
 {
-    return(info->trailer1);
+	return info->trailer1;
 }
 
 void
-c_out_info_set_trailer1(COutputInfoT * info, CCodeT * code)
+c_out_info_set_trailer1(COutputInfoT *info, CCodeT *code)
 {
-    info->trailer1 = code;
+	info->trailer1 = code;
 }
 
 CCodeT *
-c_out_info_get_trailer2(COutputInfoT * info)
+c_out_info_get_trailer2(COutputInfoT *info)
 {
-    return(info->trailer2);
+	return info->trailer2;
 }
 
 void
-c_out_info_set_trailer2(COutputInfoT * info, CCodeT * code)
+c_out_info_set_trailer2(COutputInfoT *info, CCodeT *code)
 {
-    info->trailer2 = code;
+	info->trailer2 = code;
 }
 
 NStringT *
-c_out_info_type_prefix(COutputInfoT * info)
+c_out_info_type_prefix(COutputInfoT *info)
 {
-    return(&(info->prefixes[CPFX_TYPE]));
+	return &info->prefixes[CPFX_TYPE];
 }
 
 NStringT *
-c_out_info_fn_prefix(COutputInfoT * info)
+c_out_info_fn_prefix(COutputInfoT *info)
 {
-    return(&(info->prefixes[CPFX_FN]));
+	return &info->prefixes[CPFX_FN];
 }
 
 NStringT *
-c_out_info_in_prefix(COutputInfoT * info)
+c_out_info_in_prefix(COutputInfoT *info)
 {
-    return(&(info->prefixes[CPFX_IN]));
+	return &info->prefixes[CPFX_IN];
 }
 
 NStringT *
-c_out_info_out_prefix(COutputInfoT * info)
+c_out_info_out_prefix(COutputInfoT *info)
 {
-    return(&(info->prefixes[CPFX_OUT]));
+	return &info->prefixes[CPFX_OUT];
 }
 
 NStringT *
-c_out_info_label_prefix(COutputInfoT * info)
+c_out_info_label_prefix(COutputInfoT *info)
 {
-    return(&(info->prefixes[CPFX_LABEL]));
+	return &info->prefixes[CPFX_LABEL];
 }
 
 NStringT *
-c_out_info_terminal_prefix(COutputInfoT * info)
+c_out_info_terminal_prefix(COutputInfoT *info)
 {
-    return(&(info->prefixes[CPFX_TERMINAL]));
+	return &info->prefixes[CPFX_TERMINAL];
 }
 
 NStringT *
-c_out_info_persistents_prefix(COutputInfoT * info)
+c_out_info_persistents_prefix(COutputInfoT *info)
 {
-    return(&(info->prefixes[CPFX_PERSISTENTS]));
+	return &info->prefixes[CPFX_PERSISTENTS];
 }
 
 NStringT *
-c_out_info_prefix(COutputInfoT * info, CPrefixT prefix)
+c_out_info_prefix(COutputInfoT *info, CPrefixT prefix)
 {
-    return(&(info->prefixes[prefix]));
+	return &info->prefixes[prefix];
 }
 
-PersistentListT * 
-c_out_info_persistents(COutputInfoT* info)
+PersistentListT *
+c_out_info_persistents(COutputInfoT *info)
 {
-  return &(info->persistents);
+	return &info->persistents;
 }
 
 BoolT
-c_out_info_get_prototypes(COutputInfoT * info)
+c_out_info_get_prototypes(COutputInfoT *info)
 {
-    return(info->prototypes);
+	return info->prototypes;
 }
 
 void
-c_out_info_set_prototypes(COutputInfoT * info, BoolT prototypes)
+c_out_info_set_prototypes(COutputInfoT *info, BoolT prototypes)
 {
-    info->prototypes = prototypes;
+	info->prototypes = prototypes;
 }
 
 BoolT
-c_out_info_get_numeric_ids(COutputInfoT * info)
+c_out_info_get_numeric_ids(COutputInfoT *info)
 {
-    return(info->numeric_ids);
+	return info->numeric_ids;
 }
 
 void
-c_out_info_set_numeric_ids(COutputInfoT * info, BoolT numeric_ids)
+c_out_info_set_numeric_ids(COutputInfoT *info, BoolT numeric_ids)
 {
-    info->numeric_ids = numeric_ids;
+	info->numeric_ids = numeric_ids;
 }
 
 BoolT
-c_out_info_get_casts(COutputInfoT * info)
+c_out_info_get_casts(COutputInfoT *info)
 {
-    return(info->casts);
+	return info->casts;
 }
 
 void
-c_out_info_set_casts(COutputInfoT * info, BoolT casts)
+c_out_info_set_casts(COutputInfoT *info, BoolT casts)
 {
-    info->casts = casts;
+	info->casts = casts;
 }
 
 BoolT
-c_out_info_get_unreachable(COutputInfoT * info)
+c_out_info_get_unreachable(COutputInfoT *info)
 {
-    return(info->unreachable);
+	return info->unreachable;
 }
 
 void
-c_out_info_set_unreachable(COutputInfoT * info, BoolT unreachable)
+c_out_info_set_unreachable(COutputInfoT *info, BoolT unreachable)
 {
-    info->unreachable = unreachable;
+	info->unreachable = unreachable;
 }
 
 BoolT
-c_out_info_get_lines(COutputInfoT * info)
+c_out_info_get_lines(COutputInfoT *info)
 {
-    return(info->lines);
+	return info->lines;
 }
 
 void
-c_out_info_set_lines(COutputInfoT * info, BoolT lines)
+c_out_info_set_lines(COutputInfoT *info, BoolT lines)
 {
-    info->lines = lines;
+	info->lines = lines;
 }
 
 unsigned
-c_out_info_get_split(COutputInfoT * info)
+c_out_info_get_split(COutputInfoT *info)
 {
-    return(info->split);
+	return info->split;
 }
 
 void
-c_out_info_set_split(COutputInfoT * info, unsigned split)
+c_out_info_set_split(COutputInfoT *info, unsigned split)
 {
-    info->split = split;
+	info->split = split;
 }
+

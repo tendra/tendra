@@ -74,263 +74,278 @@
 #include "type.h"
 
 ItemT *
-item_create(EntryT * entry)
+item_create(EntryT *entry)
 {
-    ItemT * item = ALLOCATE(ItemT);
+	ItemT *item = ALLOCATE(ItemT);
 
-    item->next         = NULL;
-    types_init(item_param(item));
-    types_init(item_result(item));
-    item->type         = entry_type(entry);
-    item->entry        = entry;
-    item->inlinable    = FALSE;
-    item->tail_call    = FALSE;
-    return(item);
+	item->next         = NULL;
+	types_init(item_param(item));
+	types_init(item_result(item));
+	item->type         = entry_type(entry);
+	item->entry        = entry;
+	item->inlinable    = FALSE;
+	item->tail_call    = FALSE;
+
+	return item;
 }
 
 ItemT *
-item_duplicate(ItemT * item)
+item_duplicate(ItemT *item)
 {
-    ItemT * new_item = ALLOCATE(ItemT);
+	ItemT *new_item = ALLOCATE(ItemT);
 
-    new_item->next         = NULL;
-    types_copy(item_param(new_item), item_param(item));
-    types_copy(item_result(new_item), item_result(item));
-    new_item->type         = item->type;
-    new_item->entry        = item->entry;
-    new_item->inlinable    = item->inlinable;
-    new_item->tail_call    = item->tail_call;
-    return(new_item);
+	new_item->next         = NULL;
+	types_copy(item_param(new_item), item_param(item));
+	types_copy(item_result(new_item), item_result(item));
+	new_item->type         = item->type;
+	new_item->entry        = item->entry;
+	new_item->inlinable    = item->inlinable;
+	new_item->tail_call    = item->tail_call;
+
+	return new_item;
 }
 
 ItemT *
-item_duplicate_and_translate(ItemT * item, TypeTransT * translator, TableT * table)
+item_duplicate_and_translate(ItemT *item, TypeTransT *translator, TableT *table)
 {
-    ItemT * new_item = ALLOCATE(ItemT);
+	ItemT *new_item = ALLOCATE(ItemT);
 
-    new_item->next         = NULL;
-    types_copy_and_translate(item_param(new_item), item_param(item),
-			      translator, table);
-    types_copy_and_translate(item_result(new_item), item_result(item),
-			      translator, table);
-    new_item->type         = item->type;
-    new_item->entry        = item->entry;
-    new_item->inlinable    = item->inlinable;
-    new_item->tail_call    = item->tail_call;
-    return(new_item);
+	new_item->next         = NULL;
+	types_copy_and_translate(item_param(new_item), item_param(item), translator, table);
+	types_copy_and_translate(item_result(new_item), item_result(item), translator, table);
+	new_item->type         = item->type;
+	new_item->entry        = item->entry;
+	new_item->inlinable    = item->inlinable;
+	new_item->tail_call    = item->tail_call;
+
+	return new_item;
 }
 
 void
-item_translate_list(ItemT * item, TypeBTransT * translator)
+item_translate_list(ItemT *item, TypeBTransT *translator)
 {
-    for (; item; item = item_next(item)) {
-	types_translate(item_param(item), translator);
-	types_translate(item_result(item), translator);
-    }
+	for ( ; item; item = item_next(item)) {
+		types_translate(item_param(item), translator);
+		types_translate(item_result(item), translator);
+	}
 }
 
 void
-item_to_predicate(ItemT * item)
+item_to_predicate(ItemT *item)
 {
-    assert(item_is_action(item));
-    item->type = ET_PREDICATE;
+	assert(item_is_action(item));
+	item->type = ET_PREDICATE;
 }
 
 ItemT *
-item_next(ItemT * item)
+item_next(ItemT *item)
 {
-    return(item->next);
+	return item->next;
 }
 
-ItemT * *
+ItemT **
 item_next_ref(ItemT * item)
 {
-    return(&(item->next));
+	return &item->next;
 }
 
 void
-item_set_next(ItemT * item1, ItemT * item2)
+item_set_next(ItemT *item1, ItemT *item2)
 {
-    item1->next = item2;
+	item1->next = item2;
 }
 
 EntryT *
-item_entry(ItemT * item)
+item_entry(ItemT *item)
 {
-    return(item->entry);
+	return item->entry;
 }
 
 void
-item_set_entry(ItemT * item, EntryT * entry)
+item_set_entry(ItemT *item, EntryT *entry)
 {
-    item->entry = entry;
+	item->entry = entry;
 }
 
 EntryTypeT
-item_type(ItemT * item)
+item_type(ItemT *item)
 {
-    return(item->type);
+	return item->type;
 }
 
 BoolT
-item_is_rule(ItemT * item)
+item_is_rule(ItemT *item)
 {
-    return(item->type == ET_RULE);
+	return item->type == ET_RULE;
 }
 
 BoolT
-item_is_action(ItemT * item)
+item_is_action(ItemT *item)
 {
-    return(item->type == ET_ACTION);
+	return item->type == ET_ACTION;
 }
 
 BoolT
-item_is_predicate(ItemT * item)
+item_is_predicate(ItemT *item)
 {
-    return(item->type == ET_PREDICATE);
+	return item->type == ET_PREDICATE;
 }
 
 BoolT
-item_is_basic(ItemT * item)
+item_is_basic(ItemT *item)
 {
-    return(item->type == ET_BASIC);
+	return item->type == ET_BASIC;
 }
 
 BoolT
-item_is_rename(ItemT * item)
+item_is_rename(ItemT *item)
 {
-    return(item->type == ET_RENAME);
+	return item->type == ET_RENAME;
 }
 
 TypeTupleT *
-item_param(ItemT * item)
+item_param(ItemT *item)
 {
-    return(&(item->param));
+	return &item->param;
 }
 
 void
-item_add_param(ItemT * item, TypeTupleT * param)
+item_add_param(ItemT *item, TypeTupleT *param)
 {
-    types_assign(item_param(item), param);
+	types_assign(item_param(item), param);
 }
 
 TypeTupleT *
-item_result(ItemT * item)
+item_result(ItemT *item)
 {
-    return(&(item->result));
+	return &item->result;
 }
 
 void
-item_add_result(ItemT * item, TypeTupleT * result)
+item_add_result(ItemT *item, TypeTupleT *result)
 {
-    types_assign(item_result(item), result);
+	types_assign(item_result(item), result);
 }
 
 BoolT
-item_is_inlinable(ItemT * item)
+item_is_inlinable(ItemT *item)
 {
-    return(item->inlinable);
+	return item->inlinable;
 }
 
 void
-item_inlinable(ItemT * item)
+item_inlinable(ItemT *item)
 {
-    item->inlinable = TRUE;
+	item->inlinable = TRUE;
 }
 
 BoolT
-item_is_tail_call(ItemT * item)
+item_is_tail_call(ItemT *item)
 {
-    return(item->tail_call);
+	return item->tail_call;
 }
 
 void
-item_tail_call(ItemT * item)
+item_tail_call(ItemT *item)
 {
-    item->tail_call = TRUE;
+	item->tail_call = TRUE;
 }
 
 BoolT
-item_names_used_in_list(ItemT * item, TypeTupleT * names)
+item_names_used_in_list(ItemT *item, TypeTupleT *names)
 {
-    while (item) {
-	if ((types_intersect(item_param(item), names)) ||
-	    (types_intersect(item_result(item), names))) {
-	    return(TRUE);
+	for ( ; item; item = item_next(item)) {
+		if (types_intersect(item_param(item), names)
+			|| types_intersect(item_result(item), names)) {
+			return TRUE;
+		}
 	}
-	item = item_next(item);
-    }
-    return(FALSE);
+
+	return FALSE;
 }
 
 void
-item_compute_minimal_dataflow(ItemT * item, TypeTupleT * used)
+item_compute_minimal_dataflow(ItemT *item, TypeTupleT *used)
 {
-    if (item) {
-	ItemT * next = item_next(item);
+	ItemT *next;
+
+	if (!item) {
+		return;
+	}
+
+	next = item_next(item);
 
 	if (next) {
-	    item_compute_minimal_dataflow(next, used);
+		item_compute_minimal_dataflow(next, used);
 	}
-	if (item_is_inlinable(item)) {
-	    RuleT * rule = entry_get_rule(item_entry(item));
 
-	    types_inplace_intersection(item_result(item), used);
-	    types_inplace_intersection(rule_result(rule), used);
-	    rule_compute_minimal_dataflow(rule, item_param(item));
+	if (item_is_inlinable(item)) {
+		RuleT *rule = entry_get_rule(item_entry(item));
+
+		types_inplace_intersection(item_result(item), used);
+		types_inplace_intersection(rule_result(rule), used);
+		rule_compute_minimal_dataflow(rule, item_param(item));
 	}
+
 	types_add_new_names(used, item_param(item), NULL);
-    }
 }
 
 ItemT *
-item_deallocate(ItemT * item)
+item_deallocate(ItemT *item)
 {
-    ItemT * next = item_next(item);
+	ItemT *next = item_next(item);
 
-    types_destroy(item_param(item));
-    types_destroy(item_result(item));
-    DEALLOCATE(item);
-    return(next);
+	types_destroy(item_param(item));
+	types_destroy(item_result(item));
+	DEALLOCATE(item);
+
+	return next;
 }
 
 void
-write_item(OStreamT * ostream, ItemT * item)
+write_item(OStreamT *ostream, ItemT *item)
 {
-    EntryT * entry = item_entry(item);
+	EntryT *entry = item_entry(item);
 
-    write_type_names(ostream, item_result(item), TRUE);
-    if (item_is_predicate(item)) {
-	write_cstring(ostream, " ?");
-    }
-    write_cstring(ostream, " = ");
-    switch (item_type(item))EXHAUSTIVE {
-      case ET_ACTION:
-      case ET_PREDICATE:
-	write_char(ostream, '<');
-	write_key(ostream, entry_key(entry));
-	write_cstring(ostream, "> ");
-	break;
-      case ET_RULE:
-	if (item_is_inlinable(item)) {
-	    if (item_is_tail_call(item)) {
-		write_char(ostream, '*');
-	    } else {
-		write_char(ostream, '+');
-	    }
+	write_type_names(ostream, item_result(item), TRUE);
+	if (item_is_predicate(item)) {
+		write_cstring(ostream, " ?");
 	}
-	FALL_THROUGH;
-      case ET_BASIC:
-	write_key(ostream, entry_key(item_entry(item)));
-	write_char(ostream, ' ');
-	break;
-      case ET_RENAME:
-	break;
-      case ET_NON_LOCAL:
-      case ET_NAME:
-      case ET_TYPE:
-	UNREACHED;
-    }
-    write_type_names(ostream, item_param(item), TRUE);
-    write_char(ostream, ';');
+
+	write_cstring(ostream, " = ");
+	switch (item_type(item)) EXHAUSTIVE {
+	case ET_ACTION:
+	case ET_PREDICATE:
+		write_char(ostream, '<');
+		write_key(ostream, entry_key(entry));
+		write_cstring(ostream, "> ");
+		break;
+
+	case ET_RULE:
+		if (item_is_inlinable(item)) {
+			if (item_is_tail_call(item)) {
+				write_char(ostream, '*');
+			} else {
+				write_char(ostream, '+');
+			}
+		}
+		FALL_THROUGH;
+
+	case ET_BASIC:
+		write_key(ostream, entry_key(item_entry(item)));
+		write_char(ostream, ' ');
+		break;
+
+	case ET_RENAME:
+		break;
+
+	case ET_NON_LOCAL:
+	case ET_NAME:
+	case ET_TYPE:
+		UNREACHED;
+	}
+
+	write_type_names(ostream, item_param(item), TRUE);
+	write_char(ostream, ';');
 }
+

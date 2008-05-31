@@ -85,243 +85,254 @@ entry_traced(EntryT * entry)
  */
 
 EntryT *
-entry_create_from_string(NStringT * key, unsigned number, EntryTypeT type)
+entry_create_from_string(NStringT *key, unsigned number, EntryTypeT type)
 {
-    EntryT * entry = ALLOCATE(EntryT);
+	EntryT *entry = ALLOCATE(EntryT);
 
-    entry->next   = NULL;
-    key_init_from_string(entry_key(entry), key, number);
-    entry->mapped = FALSE;
-    nstring_init(&(entry->mapping));
-    entry->type   = type;
-    entry->name   = name_create();
-    entry->traced = FALSE;
-    return(entry);
+	entry->next   = NULL;
+	key_init_from_string(entry_key(entry), key, number);
+	entry->mapped = FALSE;
+	nstring_init(&entry->mapping);
+	entry->type   = type;
+	entry->name   = name_create();
+	entry->traced = FALSE;
+
+	return entry;
 }
 
 EntryT *
-entry_create_from_number(unsigned key, EntryTypeT type, BoolT traced,
-			 EntryT * next)
+entry_create_from_number(unsigned key, EntryTypeT type, BoolT traced, EntryT *next)
 {
-    EntryT * entry = ALLOCATE(EntryT);
+	EntryT *entry = ALLOCATE(EntryT);
 
-    entry->next   = next;
-    key_init_from_number(entry_key(entry), key);
-    entry->mapped = FALSE;
-    nstring_init(&(entry->mapping));
-    entry->type   = type;
-    entry->name   = name_create();
-    entry->traced = traced;
-    return(entry);
+	entry->next   = next;
+	key_init_from_number(entry_key(entry), key);
+	entry->mapped = FALSE;
+	nstring_init(&entry->mapping);
+	entry->type   = type;
+	entry->name   = name_create();
+	entry->traced = traced;
+
+	return entry;
 }
 
 void
-entry_set_basic(EntryT * entry, BasicT * basic)
+entry_set_basic(EntryT *entry, BasicT *basic)
 {
-    assert(entry_is_basic(entry));
-    entry->u.basic = basic;
+	assert(entry_is_basic(entry));
+	entry->u.basic = basic;
 }
 
 void
-entry_set_rule(EntryT * entry, RuleT * rule)
+entry_set_rule(EntryT *entry, RuleT *rule)
 {
-    assert(entry_is_rule(entry));
-    entry->u.rule = rule;
+	assert(entry_is_rule(entry));
+	entry->u.rule = rule;
 }
 
 void
-entry_set_action(EntryT * entry, ActionT * action)
+entry_set_action(EntryT *entry, ActionT *action)
 {
-    assert(entry_is_action(entry));
-    entry->u.action = action;
+	assert(entry_is_action(entry));
+	entry->u.action = action;
 }
 
 void
-entry_set_type(EntryT * entry, TypeT * type)
+entry_set_type(EntryT *entry, TypeT *type)
 {
-    assert(entry_is_type(entry));
-    entry->u.type = type;
+	assert(entry_is_type(entry));
+	entry->u.type = type;
 }
 
 void
-entry_set_non_local(EntryT * entry, EntryT * type)
+entry_set_non_local(EntryT *entry, EntryT *type)
 {
-    assert(entry_is_non_local(entry));
-    entry->u.non_local = type;
+	assert(entry_is_non_local(entry));
+	entry->u.non_local = type;
 }
 
 EntryT *
-entry_next(EntryT * entry)
+entry_next(EntryT *entry)
 {
-    return(entry->next);
+	return entry->next;
 }
 
-EntryT * *
-entry_next_ref(EntryT * entry)
+EntryT **
+entry_next_ref(EntryT *entry)
 {
-    return(&(entry->next));
+	return &entry->next;
 }
 
 KeyT *
-entry_key(EntryT * entry)
+entry_key(EntryT *entry)
 {
-    return(&(entry->key));
+	return &entry->key;
 }
 
 EntryTypeT
-entry_type(EntryT * entry)
+entry_type(EntryT *entry)
 {
-    return(entry->type);
+	return entry->type;
 }
 
 void
-entry_change_type(EntryT * entry, EntryTypeT type)
+entry_change_type(EntryT *entry, EntryTypeT type)
 {
-    entry->type = type;
+	entry->type = type;
 }
 
 BoolT
-entry_is_basic(EntryT * entry)
+entry_is_basic(EntryT *entry)
 {
-    return(entry->type == ET_BASIC);
+	return entry->type == ET_BASIC;
 }
 
 BoolT
-entry_is_action(EntryT * entry)
+entry_is_action(EntryT *entry)
 {
-    return(entry->type == ET_ACTION);
+	return entry->type == ET_ACTION;
 }
 
 BoolT
-entry_is_rule(EntryT * entry)
+entry_is_rule(EntryT *entry)
 {
-    return(entry->type == ET_RULE);
+	return entry->type == ET_RULE;
 }
 
 BoolT
-entry_is_type(EntryT * entry)
+entry_is_type(EntryT *entry)
 {
-    return(entry->type == ET_TYPE);
+	return entry->type == ET_TYPE;
 }
 
 BoolT
-entry_is_non_local(EntryT * entry)
+entry_is_non_local(EntryT *entry)
 {
-    return(entry->type == ET_NON_LOCAL);
+	return entry->type == ET_NON_LOCAL;
 }
 
 BasicT *
-entry_get_basic(EntryT * entry)
+entry_get_basic(EntryT *entry)
 {
-    assert(entry_is_basic(entry));
-    return(entry->u.basic);
+	assert(entry_is_basic(entry));
+	return entry->u.basic;
 }
 
 ActionT *
-entry_get_action(EntryT * entry)
+entry_get_action(EntryT *entry)
 {
-    assert(entry_is_action(entry));
-    return(entry->u.action);
+	assert(entry_is_action(entry));
+	return entry->u.action;
 }
 
 RuleT *
-entry_get_rule(EntryT * entry)
+entry_get_rule(EntryT *entry)
 {
-    assert(entry_is_rule(entry));
-    return(entry->u.rule);
+	assert(entry_is_rule(entry));
+	return entry->u.rule;
 }
 
 NameT *
-entry_get_name(EntryT * entry)
+entry_get_name(EntryT *entry)
 {
-    return(entry->name);
+	return entry->name;
 }
 
 TypeT *
-entry_get_type(EntryT * entry)
+entry_get_type(EntryT *entry)
 {
-    assert(entry_is_type(entry));
-    return(entry->u.type);
+	assert(entry_is_type(entry));
+	return entry->u.type;
 }
 
 EntryT *
-entry_get_non_local(EntryT * entry)
+entry_get_non_local(EntryT *entry)
 {
-    assert(entry_is_non_local(entry));
-    return(entry->u.non_local);
+	assert(entry_is_non_local(entry));
+	return entry->u.non_local;
 }
 
 void
-entry_set_mapping(EntryT * entry, NStringT * mapping)
+entry_set_mapping(EntryT *entry, NStringT *mapping)
 {
-    if (entry->mapped) {
-	nstring_destroy(&(entry->mapping));
-    }
-    nstring_assign(&(entry->mapping), mapping);
-    entry->mapped = TRUE;
+	if (entry->mapped) {
+		nstring_destroy(&entry->mapping);
+	}
+
+	nstring_assign(&entry->mapping, mapping);
+	entry->mapped = TRUE;
 }
 
 NStringT *
-entry_get_mapping(EntryT * entry)
+entry_get_mapping(EntryT *entry)
 {
-    if (entry->mapped) {
-	return(&(entry->mapping));
-    }
-    return(NULL);
+	if (entry->mapped) {
+		return &entry->mapping;
+	}
+
+	return NULL;
 }
 
 void
-entry_iter(EntryT * entry, BoolT full, void (*proc)(EntryT *, void *),
-	   void * closure)
+entry_iter(EntryT *entry, BoolT full, void (*proc)(EntryT *, void *), void *closure)
 {
-    if (!entry_is_traced(entry)) {
+	if (entry_is_traced(entry)) {
+		return;
+	}
+
 	entry_traced(entry);
 	if (proc) {
-	   (*proc)(entry, closure);
+		proc(entry, closure);
 	}
+
 	switch (entry_type(entry))EXHAUSTIVE {
-	  case ET_RULE: {
-	      RuleT * rule = entry_get_rule(entry);
+	case ET_RULE: {
+			RuleT *rule = entry_get_rule(entry);
 
-	      rule_iter_for_table(rule, full, proc, closure);
-	  }
-	    break;
-	  case ET_ACTION: {
-	      ActionT * action = entry_get_action(entry);
+			rule_iter_for_table(rule, full, proc, closure);
+		}
+		break;
 
-	      action_iter_for_table(action, full, proc, closure);
-	  }
-	    break;
-	  case ET_BASIC: {
-	      BasicT * basic = entry_get_basic(entry);
+	case ET_ACTION: {
+			ActionT *action = entry_get_action(entry);
 
-	      basic_iter_for_table(basic, full, proc, closure);
-	  }
-	    break;
-	  case ET_NON_LOCAL:
-	    if (full) {
-		entry_iter(entry_get_non_local(entry), TRUE, proc, closure);
-	    }
-	    break;
-	  case ET_NAME:
-	  case ET_TYPE:
-	  case ET_RENAME:
-	    /*NOTHING*/
-	    break;
-	  case ET_PREDICATE:
-	    UNREACHED;
+			action_iter_for_table(action, full, proc, closure);
+		}
+		break;
+
+	case ET_BASIC: {
+			BasicT *basic = entry_get_basic(entry);
+
+			basic_iter_for_table(basic, full, proc, closure);
+		}
+		break;
+
+	case ET_NON_LOCAL:
+		if (full) {
+			entry_iter(entry_get_non_local(entry), TRUE, proc, closure);
+		}
+		break;
+
+	case ET_NAME:
+	case ET_TYPE:
+	case ET_RENAME:
+		/* NOTHING */
+		break;
+
+	case ET_PREDICATE:
+		UNREACHED;
 	}
-    }
 }
 
 void
-entry_not_traced(EntryT * entry)
+entry_not_traced(EntryT *entry)
 {
-    entry->traced = FALSE;
+	entry->traced = FALSE;
 }
 
 BoolT
-entry_is_traced(EntryT * entry)
+entry_is_traced(EntryT *entry)
 {
-    return(entry->traced);
+	return entry->traced;
 }
+
