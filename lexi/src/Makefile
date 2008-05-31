@@ -8,6 +8,7 @@ SID=sid
 
 CFLAGS+=-Ishared -I.
 LDFLAGS+=-Lshared/error -Lshared/xalloc -L. 
+LEXIFLAGS+=-lC99 -a
 
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
@@ -60,13 +61,13 @@ lctlex.o : lctsyntax.h lctlexer.c lctlexer.h
 lexer.c lexer.h: lexer.lxi lexer.lct COPYING
 	-${MOVE} lexer.c sav.lexer.c 
 	-${MOVE} lexer.h sav.lexer.h
-	${LEXI} -lC99 -a lexer.lxi lexer.lct lexer.c lexer.h \
+	${LEXI} ${LEXIFLAGS} lexer.lxi lexer.lct lexer.c lexer.h \
 		|| ( ${MOVE} sav.lexer.c lexer.c ; ${MOVE} sav.lexer.h lexer.h ; exit 1 )
 
 lctlexer.c lctlexer.h: lctlexer.lxi COPYING
 	-${MOVE} lctlexer.c sav.lctlexer.c
 	-${MOVE} lctlexer.h sav.lctlexer.h
-	${LEXI} -lC99 -a -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.lct lctlexer.c lctlexer.h \
+	${LEXI} ${LEXIFLAGS} -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.lct lctlexer.c lctlexer.h \
 		|| ( ${MOVE} sav.lctlexer.c lctlexer.c ; ${MOVE} sav.lctlexer.h lctlexer.h ; exit 1 )
 
 
