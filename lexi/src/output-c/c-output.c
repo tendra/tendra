@@ -720,16 +720,21 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	read_token_name = xstrcat(opt->lexi_prefix, "read_token");
 	lexi_prefix = opt->lexi_prefix;
 
+	/*
+	 * Here we ouput exact-width types from stdint.h for C99, and appropiate
+	 * types based on their respective minimum maxiums otherwise. These types
+	 * may be larger than required on some systems, but that's ok.
+	 */
 	if (top_level->no_total_groups >= 16) {
-		grouptype = "uint32_t";
+		grouptype = language == C99 ? "uint32_t" : "unsigned long";
 		grouphex = "0x%08lxUL";
 		groupwidth = 2;
 	} else if (top_level->no_total_groups >= 8) {
-		grouptype = "uint16_t";
+		grouptype = language == C99 ? "uint16_t" : "unsigned short";
 		grouphex = "0x%04lx";
 		groupwidth = 4;
 	} else {
-		grouptype = "uint8_t";
+		grouptype = language == C99 ? "uint8_t" : "unsigned char";
 		grouphex = "0x%02lx";
 		groupwidth = 8;
 	}
@@ -757,8 +762,8 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	if(language == C99) {
 		fputs("#include <stdbool.h>\n", lex_output);
 		fputs("#include <stdbool.h>\n\n", lex_output_h);
+		fputs("#include <stdint.h>\n\n", lex_output);
 	}
-	fputs("#include <stdint.h>\n\n", lex_output);
 
 	fputs("/*\n"
 		" * This struct holds state for the lexer; its representation is\n"
