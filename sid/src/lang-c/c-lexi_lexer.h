@@ -27,16 +27,16 @@ struct c_lexi_state {
 #endif
 
 /* Push a character to lexi's buffer */
-extern void c_lexi_push(struct c_lexi_state *state, const int c);
+void c_lexi_push(struct c_lexi_state *state, const int c);
 
 /* Pop a character from lexi's buffer */
-extern int c_lexi_pop(struct c_lexi_state *state);
+int c_lexi_pop(struct c_lexi_state *state);
 
 /* Flush lexi's buffer */
-extern void c_lexi_flush(struct c_lexi_state *state);
+void c_lexi_flush(struct c_lexi_state *state);
 
 /* Read a character */
-extern int c_lexi_readchar(struct c_lexi_state *state);
+int c_lexi_readchar(struct c_lexi_state *state);
 
 enum c_lexi_groups {
 	c_lexi_group_identstart = 0x0001,
@@ -52,13 +52,13 @@ enum c_lexi_groups {
 };
 
 /* true if the given character is present in the given group */
-extern int c_lexi_group(enum c_lexi_groups group, int c);
+int c_lexi_group(enum c_lexi_groups group, int c);
 
 /* Identify a keyword */
-extern int c_lexi_keyword(const char *identifier, int notfound);
+int c_lexi_keyword(const char *identifier, int notfound);
 
 /* Identify a token */
-extern int c_lexi_read_token(struct c_lexi_state *state);
+int c_lexi_read_token(struct c_lexi_state *state);
 
 /* Initialise a c_lexi_state structure */
 void c_lexi_init(struct c_lexi_state *state);

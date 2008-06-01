@@ -90,12 +90,12 @@ typedef struct ActionT {
     void *			code;
 } ActionT;
 
-extern ActionT *		action_create(void);
-extern TypeTupleT *	action_param(ActionT *);
-extern TypeTupleT *	action_result(ActionT *);
-extern void *		action_get_code(ActionT *);
-extern void		action_set_code(ActionT *, void *);
-extern void		action_iter_for_table(ActionT *, BoolT,
+ActionT *		action_create(void);
+TypeTupleT *	action_param(ActionT *);
+TypeTupleT *	action_result(ActionT *);
+void *		action_get_code(ActionT *);
+void		action_set_code(ActionT *, void *);
+void		action_iter_for_table(ActionT *, BoolT,
 					      void(*)(EntryT *, void *),
 					      void *);
 

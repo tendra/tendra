@@ -72,7 +72,7 @@
 #include "lexer.h"
 #include "adt/table.h"
 
-extern LexerStreamT *	sid_current_stream;
-extern void		sid_parse_grammar(GrammarP);
+LexerStreamT *	sid_current_stream;
+void		sid_parse_grammar(GrammarP);
 
 #endif /* !defined (H_PARSER) */

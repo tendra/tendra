@@ -72,7 +72,7 @@
 #include <exds/istream.h>
 #include  "lexi_lexer.h"
 
-extern struct lexi_state lexi_current_state ;
+struct lexi_state lexi_current_state ;
 
 /*
  * Note:
@@ -123,15 +123,15 @@ typedef struct LexerStreamT {
 	LexerTokenT saved_terminal;
 } LexerStreamT;
 
-extern void	lexer_init(LexerStreamT *, IStreamT *);
-extern void	lexer_close(LexerStreamT *);
-extern char	*lexer_stream_name(LexerStreamT *);
-extern unsigned	lexer_stream_line(LexerStreamT *);
-extern LexerTokenT	lexer_get_terminal(LexerStreamT *);
-extern void	lexer_next_token(LexerStreamT *);
-extern NStringT	*lexer_string_value(LexerStreamT *);
-extern void	lexer_save_terminal(LexerStreamT *, LexerTokenT);
-extern void	lexer_restore_terminal(LexerStreamT *);
+void	lexer_init(LexerStreamT *, IStreamT *);
+void	lexer_close(LexerStreamT *);
+char	*lexer_stream_name(LexerStreamT *);
+unsigned	lexer_stream_line(LexerStreamT *);
+LexerTokenT	lexer_get_terminal(LexerStreamT *);
+void	lexer_next_token(LexerStreamT *);
+NStringT	*lexer_string_value(LexerStreamT *);
+void	lexer_save_terminal(LexerStreamT *, LexerTokenT);
+void	lexer_restore_terminal(LexerStreamT *);
 
 
 /*
@@ -143,6 +143,6 @@ int read_builtin(int c);
 int lexi_unknown_token(int c0);
 
 /* XXX remove once lexi provides opaque pointers */
-extern LexerStreamT *lexer_stream;
+LexerStreamT *lexer_stream;
 
 #endif /* !defined (H_LEXER) */

@@ -77,15 +77,15 @@ typedef struct NameT {
     unsigned			label;
 } NameT;
 
-extern NameT *		name_create(void);
-extern BoolT		name_test_and_set_clash(NameT *);
-extern void		name_reset_clash(NameT *);
-extern BoolT		name_is_used(NameT *);
-extern void		name_used(NameT *);
-extern void		name_not_used(NameT *);
-extern unsigned		name_get_label(NameT *);
-extern void		name_set_label(NameT *, unsigned);
-extern void		name_reset_label(NameT *);
-extern BoolT		name_has_label(NameT *);
+NameT *		name_create(void);
+BoolT		name_test_and_set_clash(NameT *);
+void		name_reset_clash(NameT *);
+BoolT		name_is_used(NameT *);
+void		name_used(NameT *);
+void		name_not_used(NameT *);
+unsigned		name_get_label(NameT *);
+void		name_set_label(NameT *, unsigned);
+void		name_reset_label(NameT *);
+BoolT		name_has_label(NameT *);
 
 #endif /* !defined (H_NAME) */

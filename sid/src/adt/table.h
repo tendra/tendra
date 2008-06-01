@@ -82,24 +82,24 @@ typedef struct TableT {
     EntryT *			contents[TABLE_SIZE];
 } TableT;
 
-extern void	table_init(TableT *);
-extern EntryT *	table_add_type(TableT *, NStringT *);
-extern EntryT *	table_add_basic(TableT *, NStringT *, struct GrammarT *, BoolT);
-extern EntryT *	table_add_action(TableT *, NStringT *);
-extern EntryT *	table_add_rule(TableT *, NStringT *);
-extern EntryT *	table_add_generated_rule(TableT *, BoolT);
-extern EntryT *	table_add_name(TableT *, NStringT *);
-extern EntryT *	table_add_generated_name(TableT *);
-extern EntryT *	table_add_rename(TableT *);
-extern EntryT *	table_add_non_local(TableT *, NStringT *, EntryT *);
-extern EntryT *	table_get_entry(TableT *, NStringT *);
-extern EntryT *	table_get_type(TableT *, NStringT *);
-extern EntryT *	table_get_basic(TableT *, NStringT *);
-extern EntryT *	table_get_basic_by_number(TableT *, unsigned);
-extern EntryT *	table_get_action(TableT *, NStringT *);
-extern EntryT *	table_get_rule(TableT *, NStringT *);
-extern void	table_iter(TableT *, void(*)(EntryT *, void *), void *);
-extern void	table_untrace(TableT *);
-extern void	table_unlink_untraced_rules(TableT *);
+void	table_init(TableT *);
+EntryT *	table_add_type(TableT *, NStringT *);
+EntryT *	table_add_basic(TableT *, NStringT *, struct GrammarT *, BoolT);
+EntryT *	table_add_action(TableT *, NStringT *);
+EntryT *	table_add_rule(TableT *, NStringT *);
+EntryT *	table_add_generated_rule(TableT *, BoolT);
+EntryT *	table_add_name(TableT *, NStringT *);
+EntryT *	table_add_generated_name(TableT *);
+EntryT *	table_add_rename(TableT *);
+EntryT *	table_add_non_local(TableT *, NStringT *, EntryT *);
+EntryT *	table_get_entry(TableT *, NStringT *);
+EntryT *	table_get_type(TableT *, NStringT *);
+EntryT *	table_get_basic(TableT *, NStringT *);
+EntryT *	table_get_basic_by_number(TableT *, unsigned);
+EntryT *	table_get_action(TableT *, NStringT *);
+EntryT *	table_get_rule(TableT *, NStringT *);
+void	table_iter(TableT *, void(*)(EntryT *, void *), void *);
+void	table_untrace(TableT *);
+void	table_unlink_untraced_rules(TableT *);
 
 #endif /* !defined (H_TABLE) */

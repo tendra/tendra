@@ -82,21 +82,21 @@ typedef struct OutputInfoT {
     unsigned			tab_width;
 } OutputInfoT;
 
-extern void		out_info_init(OutputInfoT *, char *);
-extern char *		out_info_get_prog_name(OutputInfoT *);
-extern void		out_info_set_current_ostream(OutputInfoT *, unsigned);
-extern OStreamT *		out_info_get_current_ostream(OutputInfoT *);
-extern void		out_info_set_num_input_files(OutputInfoT *, unsigned);
-extern void		out_info_set_num_output_files(OutputInfoT *, unsigned);
-extern IStreamT *		out_info_get_istream(OutputInfoT *, unsigned);
-extern OStreamT *		out_info_get_ostream(OutputInfoT *, unsigned);
-extern void		out_info_set_infile_name(OutputInfoT *, unsigned,
+void		out_info_init(OutputInfoT *, char *);
+char *		out_info_get_prog_name(OutputInfoT *);
+void		out_info_set_current_ostream(OutputInfoT *, unsigned);
+OStreamT *		out_info_get_current_ostream(OutputInfoT *);
+void		out_info_set_num_input_files(OutputInfoT *, unsigned);
+void		out_info_set_num_output_files(OutputInfoT *, unsigned);
+IStreamT *		out_info_get_istream(OutputInfoT *, unsigned);
+OStreamT *		out_info_get_ostream(OutputInfoT *, unsigned);
+void		out_info_set_infile_name(OutputInfoT *, unsigned,
 						 char *);
-extern char *		out_info_get_infile_name(OutputInfoT *, unsigned);
-extern void		out_info_set_outfile_name(OutputInfoT *, unsigned,
+char *		out_info_get_infile_name(OutputInfoT *, unsigned);
+void		out_info_set_outfile_name(OutputInfoT *, unsigned,
 						  char *);
-extern char *		out_info_get_outfile_name(OutputInfoT *, unsigned);
-extern void		out_info_set_tab_width(OutputInfoT *, unsigned);
-extern void		output_indent(OutputInfoT *, unsigned);
+char *		out_info_get_outfile_name(OutputInfoT *, unsigned);
+void		out_info_set_tab_width(OutputInfoT *, unsigned);
+void		output_indent(OutputInfoT *, unsigned);
 
 #endif /* !defined (H_OUTPUT) */

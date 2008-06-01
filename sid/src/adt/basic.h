@@ -117,16 +117,16 @@ typedef struct BasicClosureT {
     GrammarT *			grammar;
 } BasicClosureT;
 
-extern BasicT *		basic_create(GrammarT *, BoolT);
-extern unsigned		basic_terminal(BasicT *);
-extern TypeTupleT *	basic_result(BasicT *);
-extern void *		basic_get_result_code(BasicT *);
-extern void		basic_set_result_code(BasicT *, void *);
-extern BoolT		basic_get_ignored(BasicT *);
-extern void		basic_iter_for_table(BasicT *, BoolT,
+BasicT *		basic_create(GrammarT *, BoolT);
+unsigned		basic_terminal(BasicT *);
+TypeTupleT *	basic_result(BasicT *);
+void *		basic_get_result_code(BasicT *);
+void		basic_set_result_code(BasicT *, void *);
+BoolT		basic_get_ignored(BasicT *);
+void		basic_iter_for_table(BasicT *, BoolT,
 					     void(*)(EntryT *, void *),
 					     void *);
 
-extern void		write_basics(OStreamT *, BasicClosureT *);
+void		write_basics(OStreamT *, BasicClosureT *);
 
 #endif /* !defined (H_BASIC) */

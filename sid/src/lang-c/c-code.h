@@ -105,34 +105,34 @@ typedef struct CCodeT {
     TypeTupleT			result;
 } CCodeT;
 
-extern CCodeT *		c_code_create(char *, unsigned);
-extern void		c_code_append_string(CCodeT *, NStringT *);
-extern void		c_code_append_label(CCodeT *, NStringT *);
-extern void		c_code_append_identifier(CCodeT *, NStringT *);
-extern void		c_code_append_modifiable(CCodeT *, NStringT *);
-extern void		c_code_append_reference(CCodeT *, NStringT *);
-extern void		c_code_append_exception(CCodeT *);
-extern void		c_code_append_advance(CCodeT *);
-extern void		c_code_append_terminal(CCodeT *);
-extern void		c_code_check(CCodeT *, BoolT, BoolT, TypeTupleT *,
+CCodeT *		c_code_create(char *, unsigned);
+void		c_code_append_string(CCodeT *, NStringT *);
+void		c_code_append_label(CCodeT *, NStringT *);
+void		c_code_append_identifier(CCodeT *, NStringT *);
+void		c_code_append_modifiable(CCodeT *, NStringT *);
+void		c_code_append_reference(CCodeT *, NStringT *);
+void		c_code_append_exception(CCodeT *);
+void		c_code_append_advance(CCodeT *);
+void		c_code_append_terminal(CCodeT *);
+void		c_code_check(CCodeT *, BoolT, BoolT, TypeTupleT *,
 				     TypeTupleT *, TableT *);
-extern char *		c_code_file(CCodeT *);
-extern unsigned		c_code_line(CCodeT *);
-extern TypeTupleT *	c_code_param(CCodeT *);
-extern TypeTupleT *	c_code_result(CCodeT *);
-extern void		c_code_deallocate(CCodeT *);
+char *		c_code_file(CCodeT *);
+unsigned		c_code_line(CCodeT *);
+TypeTupleT *	c_code_param(CCodeT *);
+TypeTupleT *	c_code_result(CCodeT *);
+void		c_code_deallocate(CCodeT *);
 
-extern void		c_output_c_code_action(COutputInfoT *, CCodeT *,
+void		c_output_c_code_action(COutputInfoT *, CCodeT *,
 					       TypeTupleT *, TypeTupleT *,
 					       SaveRStackT *, RuleT *);
-extern void		c_output_c_code_basic(COutputInfoT *, CCodeT *, TypeTupleT *,
+void		c_output_c_code_basic(COutputInfoT *, CCodeT *, TypeTupleT *,
 					      SaveRStackT *);
-extern void		c_output_c_code_assign(COutputInfoT *, CCodeT *, EntryT *,
+void		c_output_c_code_assign(COutputInfoT *, CCodeT *, EntryT *,
 					       EntryT *, EntryT *, BoolT, BoolT);
-extern void		c_output_c_code_param_assign(COutputInfoT *, CCodeT *,
+void		c_output_c_code_param_assign(COutputInfoT *, CCodeT *,
 						     EntryT *, EntryT *);
-extern void		c_output_c_code_result_assign(COutputInfoT *, CCodeT *,
+void		c_output_c_code_result_assign(COutputInfoT *, CCodeT *,
 						      EntryT *, EntryT *);
-extern void		c_output_c_code(COutputInfoT *, CCodeT *);
+void		c_output_c_code(COutputInfoT *, CCodeT *);
 
 #endif /* !defined (H_C_CODE) */

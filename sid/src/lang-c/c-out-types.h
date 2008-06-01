@@ -73,20 +73,20 @@
 #include "../adt/table.h"
 #include "../adt/types.h"
 
-extern void	c_output_assign(COutputInfoT *, EntryT *, EntryT *, SaveRStackT *,
+void	c_output_assign(COutputInfoT *, EntryT *, EntryT *, SaveRStackT *,
 				SaveRStackT *, unsigned);
-extern void	c_output_type_decl(COutputInfoT *, TypeTupleT *, TypeTupleT *);
-extern void	c_output_type_defn(COutputInfoT *, TypeTupleT *, TypeTupleT *);
-extern void	c_output_result_assign(COutputInfoT *, TypeTupleT *, unsigned);
-extern void	c_output_alt_names(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+void	c_output_type_decl(COutputInfoT *, TypeTupleT *, TypeTupleT *);
+void	c_output_type_defn(COutputInfoT *, TypeTupleT *, TypeTupleT *);
+void	c_output_result_assign(COutputInfoT *, TypeTupleT *, unsigned);
+void	c_output_alt_names(COutputInfoT *, TypeTupleT *, TypeTupleT *,
 				   SaveRStackT *, unsigned);
-extern void	c_output_rule_params(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+void	c_output_rule_params(COutputInfoT *, TypeTupleT *, TypeTupleT *,
 				     SaveRStackT *);
-extern void	c_output_rename(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+void	c_output_rename(COutputInfoT *, TypeTupleT *, TypeTupleT *,
 				SaveRStackT *, unsigned);
-extern void	c_output_tail_decls(COutputInfoT *, TypeTupleT *, SaveRStackT *,
+void	c_output_tail_decls(COutputInfoT *, TypeTupleT *, SaveRStackT *,
 				    TypeTupleT *, SaveRStackT *, unsigned);
-extern BoolT	c_output_required_copies(COutputInfoT *, TypeTupleT *, TypeTupleT *,
+BoolT	c_output_required_copies(COutputInfoT *, TypeTupleT *, TypeTupleT *,
 					 RStackT *, SaveRStackT *, unsigned,
 					 TableT *);
 

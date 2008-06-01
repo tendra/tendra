@@ -92,20 +92,20 @@ typedef struct ScopeStackT {
     ScopeStackFrameT *		head;
 } ScopeStackT;
 
-extern void	scope_stack_init(ScopeStackT *);
-extern void	scope_stack_push(ScopeStackT *, NStringT *);
-extern void	scope_stack_pop(ScopeStackT *);
-extern EntryT *	scope_stack_add_rule(ScopeStackT *, TableT *, NStringT *,
+void	scope_stack_init(ScopeStackT *);
+void	scope_stack_push(ScopeStackT *, NStringT *);
+void	scope_stack_pop(ScopeStackT *);
+EntryT *	scope_stack_add_rule(ScopeStackT *, TableT *, NStringT *,
 				     struct RuleT *, BoolT *);
-extern EntryT *	scope_stack_add_action(ScopeStackT *, TableT *, NStringT *,
+EntryT *	scope_stack_add_action(ScopeStackT *, TableT *, NStringT *,
 				       struct RuleT *, BoolT *);
-extern EntryT *	scope_stack_add_non_local(ScopeStackT *, TableT *, NStringT *,
+EntryT *	scope_stack_add_non_local(ScopeStackT *, TableT *, NStringT *,
 					  EntryT *, struct RuleT *);
-extern EntryT *	scope_stack_get_rule(ScopeStackT *, TableT *, NStringT *);
-extern EntryT *	scope_stack_get_action(ScopeStackT *, TableT *, NStringT *);
-extern EntryT *	scope_stack_get_non_local(ScopeStackT *, TableT *, NStringT *,
+EntryT *	scope_stack_get_rule(ScopeStackT *, TableT *, NStringT *);
+EntryT *	scope_stack_get_action(ScopeStackT *, TableT *, NStringT *);
+EntryT *	scope_stack_get_non_local(ScopeStackT *, TableT *, NStringT *,
 					  NStringT *);
-extern BoolT	scope_stack_check_shadowing(ScopeStackT *, EntryT *,
+BoolT	scope_stack_check_shadowing(ScopeStackT *, EntryT *,
 					    struct RuleT *);
 
 #endif /* !defined (H_SCOPE) */

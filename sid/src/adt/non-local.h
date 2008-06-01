@@ -84,19 +84,19 @@ typedef struct NonLocalListT {
     NonLocalEntryT *	       *tail;
 } NonLocalListT;
 
-extern void		non_local_list_init(NonLocalListT *);
-extern NonLocalEntryT *	non_local_list_add(NonLocalListT *, EntryT *, EntryT *);
-extern BoolT		non_local_list_is_empty(NonLocalListT *);
-extern void		non_local_list_iter_for_table(NonLocalListT *,
+void		non_local_list_init(NonLocalListT *);
+NonLocalEntryT *	non_local_list_add(NonLocalListT *, EntryT *, EntryT *);
+BoolT		non_local_list_is_empty(NonLocalListT *);
+void		non_local_list_iter_for_table(NonLocalListT *,
 						      void(*)(EntryT *, void *),
 						      void *);
-extern void		non_local_list_destroy(NonLocalListT *);
+void		non_local_list_destroy(NonLocalListT *);
 
-extern void		write_non_locals(OStreamT *, NonLocalListT *);
+void		write_non_locals(OStreamT *, NonLocalListT *);
 
-extern void		non_local_entry_set_initialiser(NonLocalEntryT *, EntryT *);
-extern EntryT *		non_local_entry_get_initialiser(NonLocalEntryT *);
-extern EntryT *		non_local_entry_get_type(NonLocalEntryT *);
-extern EntryT *		non_local_entry_get_name(NonLocalEntryT *);
+void		non_local_entry_set_initialiser(NonLocalEntryT *, EntryT *);
+EntryT *		non_local_entry_get_initialiser(NonLocalEntryT *);
+EntryT *		non_local_entry_get_type(NonLocalEntryT *);
+EntryT *		non_local_entry_get_name(NonLocalEntryT *);
 
 #endif /* !defined (H_NON_LOCAL) */

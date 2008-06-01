@@ -86,24 +86,24 @@ typedef struct SaveListT {
     struct EntryListEntryT    **last_ref;
 } SaveListT;
 
-extern void	entry_list_init(EntryListT *);
-extern void	entry_list_copy(EntryListT *, EntryListT *);
-extern void	entry_list_add(EntryListT *, EntryT *);
-extern void	entry_list_add_if_missing(EntryListT *, EntryT *);
-extern BoolT	entry_list_contains(EntryListT *, EntryT *);
-extern BoolT	entry_list_includes(EntryListT *, EntryListT *);
-extern void	entry_list_intersection(EntryListT *, EntryListT *, EntryListT *);
-extern void	entry_list_unlink_used(EntryListT *, EntryListT *);
-extern void	entry_list_append(EntryListT *, EntryListT *);
-extern BoolT	entry_list_is_empty(EntryListT *);
-extern void	entry_list_save_state(EntryListT *, SaveListT *);
-extern void	entry_list_restore_state(EntryListT *, SaveListT *);
-extern void	entry_list_iter(EntryListT *, void(*)(EntryT *, void *),
+void	entry_list_init(EntryListT *);
+void	entry_list_copy(EntryListT *, EntryListT *);
+void	entry_list_add(EntryListT *, EntryT *);
+void	entry_list_add_if_missing(EntryListT *, EntryT *);
+BoolT	entry_list_contains(EntryListT *, EntryT *);
+BoolT	entry_list_includes(EntryListT *, EntryListT *);
+void	entry_list_intersection(EntryListT *, EntryListT *, EntryListT *);
+void	entry_list_unlink_used(EntryListT *, EntryListT *);
+void	entry_list_append(EntryListT *, EntryListT *);
+BoolT	entry_list_is_empty(EntryListT *);
+void	entry_list_save_state(EntryListT *, SaveListT *);
+void	entry_list_restore_state(EntryListT *, SaveListT *);
+void	entry_list_iter(EntryListT *, void(*)(EntryT *, void *),
 				void *);
-extern void	entry_list_iter_table(EntryListT *, BoolT,
+void	entry_list_iter_table(EntryListT *, BoolT,
 				      void(*)(EntryT *, void *), void *);
-extern void	entry_list_destroy(EntryListT *);
+void	entry_list_destroy(EntryListT *);
 
-extern void	write_entry_list(OStreamT *, EntryListT *);
+void	write_entry_list(OStreamT *, EntryListT *);
 
 #endif /* !defined (H_ENTRY_LIST) */

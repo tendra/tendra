@@ -71,11 +71,11 @@
 #include "../adt/non-local.h"
 #include "../adt/rule.h"
 
-extern void	c_output_non_locals(COutputInfoT *, NonLocalListT *);
-extern void	c_output_declare_non_locals(COutputInfoT *, NonLocalListT *);
-extern void	c_output_save_non_locals(COutputInfoT *, RuleT *, unsigned,
+void	c_output_non_locals(COutputInfoT *, NonLocalListT *);
+void	c_output_declare_non_locals(COutputInfoT *, NonLocalListT *);
+void	c_output_save_non_locals(COutputInfoT *, RuleT *, unsigned,
 					 RStackT *, RStackT *, RuleT *, TableT *);
-extern void	c_output_restore_non_locals(COutputInfoT *, RuleT *, unsigned,
+void	c_output_restore_non_locals(COutputInfoT *, RuleT *, unsigned,
 					    RStackT *, RStackT *);
 
 #endif /* !defined (H_C_OUT_NL) */

@@ -71,9 +71,9 @@
 #include "c-out-info.h"
 #include "../adt/table.h"
 
-extern CLexerStreamT *		c_current_stream;
-extern COutputInfoT *		c_current_out_info;
-extern TableT *			c_current_table;
-extern void			c_parse_grammar(void);
+CLexerStreamT *		c_current_stream;
+COutputInfoT *		c_current_out_info;
+TableT *			c_current_table;
+void			c_parse_grammar(void);
 
 #endif /* !defined (H_C_PARSER) */

@@ -130,14 +130,14 @@ typedef struct GrammarT {
     EntryT *			predicate_id;
 } GrammarT, *GrammarP;
 
-extern void		grammar_init(GrammarT *);
-extern TableT *		grammar_table(GrammarT *);
-extern EntryListT *	grammar_entry_list(GrammarT *);
-extern unsigned		grammar_max_terminal(GrammarT *);
-extern unsigned		grammar_next_terminal(GrammarT *);
-extern EntryT *		grammar_get_predicate_type(GrammarT *);
-extern void		grammar_set_predicate_type(GrammarT *, EntryT *);
-extern EntryT *		grammar_get_predicate_id(GrammarT *);
+void		grammar_init(GrammarT *);
+TableT *		grammar_table(GrammarT *);
+EntryListT *	grammar_entry_list(GrammarT *);
+unsigned		grammar_max_terminal(GrammarT *);
+unsigned		grammar_next_terminal(GrammarT *);
+EntryT *		grammar_get_predicate_type(GrammarT *);
+void		grammar_set_predicate_type(GrammarT *, EntryT *);
+EntryT *		grammar_get_predicate_id(GrammarT *);
 
 
 /*
@@ -150,7 +150,7 @@ extern EntryT *		grammar_get_predicate_id(GrammarT *);
  * and ensures that there are no unused rules, basics, actions or types, and
  * that all of the rules are defined.
  */
-extern void		grammar_check_complete(GrammarT *);
+void		grammar_check_complete(GrammarT *);
 
 /*
  * This function applies several functions from the file "rule.c" to the rules
@@ -175,7 +175,7 @@ extern void		grammar_check_complete(GrammarT *);
  * Algorithms"; Aho, Hopcroft, Ullman; Addison Wesley; ISBN 0-201-00023-7;
  * page 222}.
  */
-extern void		grammar_remove_left_recursion(GrammarT *);
+void		grammar_remove_left_recursion(GrammarT *);
 
 /*
  * This function applies the rule_compute_first_set() function to all rules
@@ -183,7 +183,7 @@ extern void		grammar_remove_left_recursion(GrammarT *);
  * also computes a priority for the rule, and whether the rule is see through
  * or not.  See the file "rule-first.c" for more details.
  */
-extern void		grammar_compute_first_sets(GrammarT *);
+void		grammar_compute_first_sets(GrammarT *);
 
 /*
  * This function applies the rule_factor() function to all of the rules in
@@ -191,21 +191,21 @@ extern void		grammar_compute_first_sets(GrammarT *);
  * make them more likely to be LL(1).  See the file "rule-factor.c" for more
  * details.
  */
-extern void		grammar_factor(GrammarT *);
+void		grammar_factor(GrammarT *);
 
 /*
  * This function calls the rule_remove_duplicates() function on the grammar,
  * to remove any rules that have identical form.  See the file "rule-simp.c"
  * for more details.
  */
-extern void		grammar_simplify(GrammarT *);
+void		grammar_simplify(GrammarT *);
 
 /*
  * This function applies a number of functions to the rules in the grammar in
  * order to indicate which rules should be inlined during the output phase.
  * See the file "rule-tail.c" for more details.
  */
-extern void		grammar_compute_inlining(GrammarT *);
+void		grammar_compute_inlining(GrammarT *);
 
 /*
  * This function applies a number of functions to the rules in the grammar in
@@ -213,7 +213,7 @@ extern void		grammar_compute_inlining(GrammarT *);
  * for all of the alternatives within a rule to be calculated, and if there is
  * a see through alternative.  See the file "rule-check.c" for more details.
  */
-extern void		grammar_check_collisions(GrammarT *);
+void		grammar_check_collisions(GrammarT *);
 
 /*
  * This function applies the rule_recompute_alt_names() function to all
@@ -221,7 +221,7 @@ extern void		grammar_check_collisions(GrammarT *);
  * are used within each alternative of the rule.  See the file "rule-names.c"
  * for more details.
  */
-extern void		grammar_recompute_alt_names(GrammarT *);
+void		grammar_recompute_alt_names(GrammarT *);
 
 /*
  * This function applies the rule_compute_mutations() function to all rules
@@ -229,9 +229,9 @@ extern void		grammar_recompute_alt_names(GrammarT *);
  * that mutate their parameters.  See the file "rule-mutate.c" for more
  * details.
  */
-extern void		grammar_compute_mutations(GrammarT *);
+void		grammar_compute_mutations(GrammarT *);
 
-extern void		write_grammar(OStreamT *, GrammarT *);
+void		write_grammar(OStreamT *, GrammarT *);
 
 #endif /* !defined (H_GRAMMAR) */
 

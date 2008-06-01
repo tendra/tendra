@@ -82,24 +82,24 @@ typedef struct SaveRStackT {
     TransStackEntryT *		head;
 } SaveRStackT;
 
-extern void		 rstack_init(RStackT *);
-extern void		 rstack_push_frame(RStackT *);
-extern void		 rstack_compute_formal_renaming(RStackT *, TypeTupleT *);
-extern void		 rstack_compute_formal_inlining(RStackT *, TypeTupleT *,
+void		 rstack_init(RStackT *);
+void		 rstack_push_frame(RStackT *);
+void		 rstack_compute_formal_renaming(RStackT *, TypeTupleT *);
+void		 rstack_compute_formal_inlining(RStackT *, TypeTupleT *,
 							TypeTupleT *);
-extern void		 rstack_compute_local_renaming(RStackT *, TypeTupleT *,
+void		 rstack_compute_local_renaming(RStackT *, TypeTupleT *,
 						       TypeTupleT *, TableT *);
-extern void		 rstack_add_translation(RStackT *, struct EntryT *,
+void		 rstack_add_translation(RStackT *, struct EntryT *,
 						struct EntryT *,
 						struct EntryT *, BoolT);
-extern void		 rstack_save_state(RStackT *, SaveRStackT *);
-extern struct EntryT	*rstack_get_translation(SaveRStackT *, struct EntryT *,
+void		 rstack_save_state(RStackT *, SaveRStackT *);
+struct EntryT	*rstack_get_translation(SaveRStackT *, struct EntryT *,
 						 struct EntryT **, BoolT *);
-extern void		 rstack_apply_for_non_locals(RStackT *, SaveRStackT *,
+void		 rstack_apply_for_non_locals(RStackT *, SaveRStackT *,
 						     void(*)(struct EntryT *,
 						     struct EntryT *,
 						     void *), void *);
-extern void		 rstack_pop_frame(RStackT *);
-extern void		 rstack_destroy(RStackT *);
+void		 rstack_pop_frame(RStackT *);
+void		 rstack_destroy(RStackT *);
 
 #endif /* !defined (H_RSTACK) */

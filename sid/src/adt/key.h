@@ -81,14 +81,14 @@ typedef struct KeyT {
     unsigned			number;
 } KeyT;
 
-extern void		key_init_from_string(KeyT *, NStringT *, unsigned);
-extern void		key_init_from_number(KeyT *, unsigned);
-extern CmpT		key_compare(KeyT *, KeyT *);
-extern BoolT		key_is_string(KeyT *);
-extern NStringT *		key_get_string(KeyT *);
-extern unsigned		key_get_number(KeyT *);
-extern unsigned		key_hash_value(KeyT *);
+void		key_init_from_string(KeyT *, NStringT *, unsigned);
+void		key_init_from_number(KeyT *, unsigned);
+CmpT		key_compare(KeyT *, KeyT *);
+BoolT		key_is_string(KeyT *);
+NStringT *		key_get_string(KeyT *);
+unsigned		key_get_number(KeyT *);
+unsigned		key_hash_value(KeyT *);
 
-extern void		write_key(OStreamT *, KeyT *);
+void		write_key(OStreamT *, KeyT *);
 
 #endif /* !defined (H_KEY) */

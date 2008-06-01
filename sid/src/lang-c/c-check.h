@@ -69,6 +69,6 @@
 
 #include "../grammar.h"
 
-extern void		c_check_grammar(GrammarT *);
+void		c_check_grammar(GrammarT *);
 
 #endif /* !defined (H_C_CHECK) */

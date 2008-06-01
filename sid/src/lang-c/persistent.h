@@ -51,8 +51,8 @@ typedef struct PersistentListT_tag {
 	PersistentT** tail ;
 } PersistentListT ;
 
-extern PersistentT* persistent_create (NStringT* name, NStringT* ctype) ;
-extern void persistent_list_init (PersistentListT* list) ;
-extern void persistent_list_append (PersistentListT* list, PersistentT* persistent) ;
-extern PersistentT* persistent_list_find (PersistentListT* list, NStringT* name) ;
+PersistentT* persistent_create (NStringT* name, NStringT* ctype) ;
+void persistent_list_init (PersistentListT* list) ;
+void persistent_list_append (PersistentListT* list, PersistentT* persistent) ;
+PersistentT* persistent_list_find (PersistentListT* list, NStringT* name) ;
 #endif

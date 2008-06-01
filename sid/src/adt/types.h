@@ -151,119 +151,119 @@ typedef struct SaveNTransT {
 } SaveNTransT;
 
 /* Defined in "types.c": */
-extern void		types_init(TypeTupleT *);
-extern void		types_copy(TypeTupleT *, TypeTupleT *);
-extern void		types_copy_and_translate(TypeTupleT *, TypeTupleT *,
+void		types_init(TypeTupleT *);
+void		types_copy(TypeTupleT *, TypeTupleT *);
+void		types_copy_and_translate(TypeTupleT *, TypeTupleT *,
 						 TypeTransT *, TableT *);
-extern void		types_append_copy(TypeTupleT *, TypeTupleT *);
-extern void		types_translate(TypeTupleT *, TypeBTransT *);
-extern void		types_renumber(TypeTupleT *, TypeNTransT *);
-extern void		types_assign(TypeTupleT *, TypeTupleT *);
-extern EntryT *		types_find_name_type(TypeTupleT *, EntryT *, BoolT *);
-extern BoolT		types_mutated(TypeTupleT *, EntryT *);
-extern BoolT		types_compute_mutations(TypeTupleT *, TypeTupleT *,
+void		types_append_copy(TypeTupleT *, TypeTupleT *);
+void		types_translate(TypeTupleT *, TypeBTransT *);
+void		types_renumber(TypeTupleT *, TypeNTransT *);
+void		types_assign(TypeTupleT *, TypeTupleT *);
+EntryT *		types_find_name_type(TypeTupleT *, EntryT *, BoolT *);
+BoolT		types_mutated(TypeTupleT *, EntryT *);
+BoolT		types_compute_mutations(TypeTupleT *, TypeTupleT *,
 						TypeTupleT *);
-extern BoolT		types_compute_assign_mutations(TypeTupleT *, TypeTupleT *);
-extern void		types_propogate_mutations(TypeTupleT *, TypeTupleT *);
-extern BoolT		types_contains(TypeTupleT *, EntryT *);
-extern BoolT		types_contains_names(TypeTupleT *);
-extern BoolT		types_contains_references(TypeTupleT *);
-extern void		types_make_references(TypeTupleT *, TypeTupleT *);
-extern BoolT		types_intersect(TypeTupleT *, TypeTupleT *);
-extern void		types_inplace_intersection(TypeTupleT *, TypeTupleT *);
-extern void		types_compute_intersection(TypeTupleT *, TypeTupleT *,
+BoolT		types_compute_assign_mutations(TypeTupleT *, TypeTupleT *);
+void		types_propogate_mutations(TypeTupleT *, TypeTupleT *);
+BoolT		types_contains(TypeTupleT *, EntryT *);
+BoolT		types_contains_names(TypeTupleT *);
+BoolT		types_contains_references(TypeTupleT *);
+void		types_make_references(TypeTupleT *, TypeTupleT *);
+BoolT		types_intersect(TypeTupleT *, TypeTupleT *);
+void		types_inplace_intersection(TypeTupleT *, TypeTupleT *);
+void		types_compute_intersection(TypeTupleT *, TypeTupleT *,
 						   TypeTupleT *);
-extern CmpT		types_compare(TypeTupleT *, TypeTupleT *);
-extern BoolT		types_equal(TypeTupleT *, TypeTupleT *);
-extern BoolT		types_equal_zero_tuple(TypeTupleT *);
-extern BoolT		types_equal_names(TypeTupleT *, TypeTupleT *);
-extern BoolT		types_equal_numbers(TypeTupleT *, TypeTupleT *);
-extern void		types_add_name_and_type(TypeTupleT *, EntryT *, EntryT *,
+CmpT		types_compare(TypeTupleT *, TypeTupleT *);
+BoolT		types_equal(TypeTupleT *, TypeTupleT *);
+BoolT		types_equal_zero_tuple(TypeTupleT *);
+BoolT		types_equal_names(TypeTupleT *, TypeTupleT *);
+BoolT		types_equal_numbers(TypeTupleT *, TypeTupleT *);
+void		types_add_name_and_type(TypeTupleT *, EntryT *, EntryT *,
 						BoolT);
-extern void		types_add_name_and_type_var(TypeTupleT *, EntryT *, EntryT *);
-extern BoolT		types_add_type(TypeTupleT *, TableT *, NStringT *, BoolT);
-extern void		types_add_name(TypeTupleT *, TableT *, NStringT *, BoolT);
-extern BoolT		types_add_typed_name(TypeTupleT *, TableT *, NStringT *,
+void		types_add_name_and_type_var(TypeTupleT *, EntryT *, EntryT *);
+BoolT		types_add_type(TypeTupleT *, TableT *, NStringT *, BoolT);
+void		types_add_name(TypeTupleT *, TableT *, NStringT *, BoolT);
+BoolT		types_add_typed_name(TypeTupleT *, TableT *, NStringT *,
 					     NStringT *, BoolT);
-extern void		types_add_name_entry(TypeTupleT *, EntryT *);
-extern void		types_add_type_entry(TypeTupleT *, EntryT *, BoolT);
-extern void		types_add_new_names(TypeTupleT *, TypeTupleT *, EntryT *);
-extern BoolT		types_disjoint_names(TypeTupleT *);
-extern BoolT		types_resolve(TypeTupleT *, TypeTupleT *, TypeTupleT *,
+void		types_add_name_entry(TypeTupleT *, EntryT *);
+void		types_add_type_entry(TypeTupleT *, EntryT *, BoolT);
+void		types_add_new_names(TypeTupleT *, TypeTupleT *, EntryT *);
+BoolT		types_disjoint_names(TypeTupleT *);
+BoolT		types_resolve(TypeTupleT *, TypeTupleT *, TypeTupleT *,
 				      void(*)(KeyT *, KeyT *, unsigned), KeyT *,
 				      unsigned);
-extern BoolT		types_check_undefined(TypeTupleT *, TypeTupleT *,
+BoolT		types_check_undefined(TypeTupleT *, TypeTupleT *,
 					      TypeTupleT *,
 					      void(*)(KeyT *, KeyT *, unsigned),
 					      KeyT *, unsigned);
-extern BoolT		types_fillin_types(TypeTupleT *, TypeTupleT *);
-extern BoolT		types_fillin_names(TypeTupleT *, TypeTupleT *);
-extern BoolT		types_check_names(TypeTupleT *, TypeTupleT *);
-extern void		types_check_used(TypeTupleT *, void(*)(void *, EntryT *),
+BoolT		types_fillin_types(TypeTupleT *, TypeTupleT *);
+BoolT		types_fillin_names(TypeTupleT *, TypeTupleT *);
+BoolT		types_check_names(TypeTupleT *, TypeTupleT *);
+void		types_check_used(TypeTupleT *, void(*)(void *, EntryT *),
 					 void *);
-extern void		types_unlink_used(TypeTupleT *, TypeTupleT *);
-extern void		types_unlink_unused(TypeTupleT *, struct AltT *);
-extern void		types_compute_formal_renaming(TypeTupleT *, TypeRTransT *);
-extern void		types_compute_formal_inlining(TypeTupleT *, TypeTupleT *,
+void		types_unlink_used(TypeTupleT *, TypeTupleT *);
+void		types_unlink_unused(TypeTupleT *, struct AltT *);
+void		types_compute_formal_renaming(TypeTupleT *, TypeRTransT *);
+void		types_compute_formal_inlining(TypeTupleT *, TypeTupleT *,
 						      TypeRTransT *,
 						      struct SaveRStackT *);
-extern void		types_compute_local_renaming(TypeTupleT *, TypeTupleT *,
+void		types_compute_local_renaming(TypeTupleT *, TypeTupleT *,
 						     TypeRTransT *,
 						     struct SaveRStackT *,
 						     TableT *);
-extern void		types_compute_param_from_trans(TypeTupleT *, TypeNTransT *,
+void		types_compute_param_from_trans(TypeTupleT *, TypeNTransT *,
 						       TypeNTransT *, TypeTupleT *);
-extern BoolT		types_check_shadowing(TypeTupleT *, ScopeStackT *,
+BoolT		types_check_shadowing(TypeTupleT *, ScopeStackT *,
 					      struct RuleT *);
-extern void		types_iter_for_table(TypeTupleT *,
+void		types_iter_for_table(TypeTupleT *,
 					     void(*)(EntryT *, void *),
 					     void *);
-extern void		types_destroy(TypeTupleT *);
+void		types_destroy(TypeTupleT *);
 
-extern void		write_type_types(OStreamT *, TypeTupleT *);
-extern void		write_type_names(OStreamT *, TypeTupleT *, BoolT);
+void		write_type_types(OStreamT *, TypeTupleT *);
+void		write_type_names(OStreamT *, TypeTupleT *, BoolT);
 
 
-extern void		btrans_init(TypeBTransT *);
-extern void		btrans_add_translations(TypeBTransT *, TypeTupleT *,
+void		btrans_init(TypeBTransT *);
+void		btrans_add_translations(TypeBTransT *, TypeTupleT *,
 						TypeTupleT *);
-extern void		btrans_add_translation(TypeBTransT *, EntryT *, EntryT *);
-extern void		btrans_generate_names(TypeBTransT *, TypeTupleT *, TableT *);
-extern void		btrans_regenerate_names(TypeBTransT *, TypeTupleT *);
-extern struct ItemT    *btrans_generate_non_pred_names(TypeBTransT *, TypeTupleT *,
+void		btrans_add_translation(TypeBTransT *, EntryT *, EntryT *);
+void		btrans_generate_names(TypeBTransT *, TypeTupleT *, TableT *);
+void		btrans_regenerate_names(TypeBTransT *, TypeTupleT *);
+struct ItemT    *btrans_generate_non_pred_names(TypeBTransT *, TypeTupleT *,
 						       TypeTupleT *, EntryT *,
 						       TableT *);
-extern struct ItemT    *btrans_regen_non_pred_names(TypeBTransT *, TypeTupleT *,
+struct ItemT    *btrans_regen_non_pred_names(TypeBTransT *, TypeTupleT *,
 						    TypeTupleT *, TableT *);
-extern EntryT *		btrans_get_translation(TypeBTransT *, EntryT *);
-extern void		btrans_destroy(TypeBTransT *);
+EntryT *		btrans_get_translation(TypeBTransT *, EntryT *);
+void		btrans_destroy(TypeBTransT *);
 
 
-extern void	rtrans_init(TypeRTransT *);
-extern void	rtrans_add_translation(TypeRTransT *, EntryT *, EntryT *, EntryT *,
+void	rtrans_init(TypeRTransT *);
+void	rtrans_add_translation(TypeRTransT *, EntryT *, EntryT *, EntryT *,
 				       BoolT);
-extern EntryT *	rtrans_get_translation(TypeRTransT *, EntryT *, EntryT * *, BoolT *);
-extern void	rtrans_apply_for_non_locals(TypeRTransT *,
+EntryT *	rtrans_get_translation(TypeRTransT *, EntryT *, EntryT * *, BoolT *);
+void	rtrans_apply_for_non_locals(TypeRTransT *,
 					    void(*)(EntryT *, EntryT *, void *),
 					    void *);
-extern void	rtrans_destroy(TypeRTransT *);
+void	rtrans_destroy(TypeRTransT *);
 
 
-extern void	trans_init(TypeTransT *, TypeTupleT *, TypeTupleT *, struct AltT *);
-extern void	trans_add_translations(TypeTransT *, TypeTupleT *, TypeTupleT *);
-extern void	trans_add_translation(TypeTransT *, EntryT *, EntryT *);
-extern void	trans_save_state(TypeTransT *, SaveTransT *);
-extern EntryT *	trans_get_translation(TypeTransT *, EntryT *);
-extern void	trans_restore_state(TypeTransT *, SaveTransT *);
-extern void	trans_destroy(TypeTransT *);
+void	trans_init(TypeTransT *, TypeTupleT *, TypeTupleT *, struct AltT *);
+void	trans_add_translations(TypeTransT *, TypeTupleT *, TypeTupleT *);
+void	trans_add_translation(TypeTransT *, EntryT *, EntryT *);
+void	trans_save_state(TypeTransT *, SaveTransT *);
+EntryT *	trans_get_translation(TypeTransT *, EntryT *);
+void	trans_restore_state(TypeTransT *, SaveTransT *);
+void	trans_destroy(TypeTransT *);
 
 
-extern void	ntrans_init(TypeNTransT *);
-extern void	ntrans_save_state(TypeNTransT *, SaveNTransT *);
-extern unsigned	ntrans_get_translation(TypeNTransT *, EntryT *);
-extern EntryT *	ntrans_get_indirect_translation(TypeNTransT *, TypeNTransT *,
+void	ntrans_init(TypeNTransT *);
+void	ntrans_save_state(TypeNTransT *, SaveNTransT *);
+unsigned	ntrans_get_translation(TypeNTransT *, EntryT *);
+EntryT *	ntrans_get_indirect_translation(TypeNTransT *, TypeNTransT *,
 						EntryT *);
-extern void	ntrans_restore_state(TypeNTransT *, SaveNTransT *);
-extern void	ntrans_destroy(TypeNTransT *);
+void	ntrans_restore_state(TypeNTransT *, SaveNTransT *);
+void	ntrans_destroy(TypeNTransT *);
 
 #endif /* !defined (H_TYPES) */

@@ -75,7 +75,7 @@
 #include "c-lexi_lexer.h"
 
 
-extern struct c_lexi_state c_lexer_current_state ;
+struct c_lexi_state c_lexer_current_state ;
 
 /*
  * Note:
@@ -141,26 +141,26 @@ typedef struct CLexerStreamT {
 } CLexerStreamT;
 
 /* XXX Remove once lexi provides identifier support */
-extern int c_lexer_support_read_id(int c, int rettok, enum c_lexi_groups bodygroup);
-extern int c_lexer_read_builtin(int c0, int c1);
-extern int c_lexer_act_read_string(int c);
-extern int c_lexer_unknown_token(int c);
+int c_lexer_support_read_id(int c, int rettok, enum c_lexi_groups bodygroup);
+int c_lexer_read_builtin(int c0, int c1);
+int c_lexer_act_read_string(int c);
+int c_lexer_unknown_token(int c);
 
 /* Lexi interface support */
-extern int c_lexi_getchar(void);
+int c_lexi_getchar(void);
 
-extern void		c_lexer_init(CLexerStreamT *, IStreamT *);
-extern void		c_lexer_close(CLexerStreamT *);
-extern char *		c_lexer_stream_name(CLexerStreamT *);
-extern unsigned		c_lexer_stream_line(CLexerStreamT *);
-extern CTokenT		c_lexer_get_terminal(CLexerStreamT *);
-extern void		c_lexer_next_token(CLexerStreamT *);
-extern NStringT *		c_lexer_string_value(CLexerStreamT *);
-extern CCodeT *		c_lexer_code_value(CLexerStreamT *);
-extern void		c_lexer_save_terminal(CLexerStreamT *, CTokenT);
-extern void		c_lexer_restore_terminal(CLexerStreamT *);
+void		c_lexer_init(CLexerStreamT *, IStreamT *);
+void		c_lexer_close(CLexerStreamT *);
+char *		c_lexer_stream_name(CLexerStreamT *);
+unsigned		c_lexer_stream_line(CLexerStreamT *);
+CTokenT		c_lexer_get_terminal(CLexerStreamT *);
+void		c_lexer_next_token(CLexerStreamT *);
+NStringT *		c_lexer_string_value(CLexerStreamT *);
+CCodeT *		c_lexer_code_value(CLexerStreamT *);
+void		c_lexer_save_terminal(CLexerStreamT *, CTokenT);
+void		c_lexer_restore_terminal(CLexerStreamT *);
 
 /* XXX remove once lexi provides opaque pointers */
-extern CLexerStreamT *c_lexer_stream;
+CLexerStreamT *c_lexer_stream;
 
 #endif /* !defined (H_C_LEXER) */

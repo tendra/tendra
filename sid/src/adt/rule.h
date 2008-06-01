@@ -316,234 +316,234 @@ typedef struct ClashListT {
  * Defined in "rule.c":
  */
 
-extern RuleT *		rule_create(EntryT *);
-extern void		rule_reinit(RuleT *);
-extern EntryT *		rule_entry(RuleT *);
-extern TypeTupleT *	rule_param(RuleT *);
-extern TypeTupleT *	rule_result(RuleT *);
-extern NonLocalListT *	rule_non_locals(RuleT *);
-extern NStringT *		rule_maximum_scope(RuleT *);
-extern BoolT		rule_is_defined(RuleT *);
-extern void		rule_defined(RuleT *);
-extern void		rule_add_alt(RuleT *, AltT *);
-extern BoolT		rule_has_empty_alt(RuleT *);
-extern void		rule_add_empty_alt(RuleT *);
-extern BoolT		rule_has_one_alt(RuleT *);
-extern void		rule_compute_result_intersect(RuleT *);
-extern void		rule_compute_minimal_dataflow(RuleT *, TypeTupleT *);
-extern BoolT		rule_is_required(RuleT *);
-extern void		rule_required(RuleT *);
-extern void		rule_compute_reverse_list(RuleT *, CycleTypeT);
-extern void		rule_reinit_reverse_list(RuleT *);
-extern EntryListT *	rule_reverse_list(RuleT *);
-extern void		rule_set_dfs_state(RuleT *, DFSStateT);
-extern RuleT *		rule_next_in_root_list(RuleT *);
-extern void		rule_build_root_list(EntryT *, void *);
-extern RuleT *		rule_get_next_in_dfs(RuleT *);
-extern void		rule_compute_dfs(RuleT *, CycleTypeT, RuleT * *);
-extern RuleT *		rule_get_next_in_reverse_dfs(RuleT *);
-extern RuleT *	       *rule_next_in_reverse_dfs_ref(RuleT *);
-extern void		rule_compute_reverse_dfs(RuleT *, RuleT *, RuleT * *);
-extern BoolT		rule_has_no_cycles(RuleT *);
-extern void		rule_no_cycles(RuleT *);
-extern unsigned		rule_get_cycle_index(RuleT *);
-extern void		rule_set_cycle_index(RuleT *, unsigned);
-extern void		rule_reset_cycle_index(RuleT *);
-extern BoolT		rule_has_computed_first_set(RuleT *);
-extern void		rule_computed_first_set(RuleT *);
-extern BoolT		rule_is_computing_first_set(RuleT *);
-extern void		rule_computing_first_set(RuleT *);
-extern BitVecT *		rule_first_set(RuleT *);
-extern EntryListT *	rule_predicate_first(RuleT *);
-extern BoolT		rule_is_see_through(RuleT *);
-extern void		rule_see_through(RuleT *);
-extern unsigned		rule_get_priority(RuleT *);
-extern void		rule_set_priority(RuleT *, unsigned);
-extern BoolT		rule_is_factored(RuleT *);
-extern void		rule_factored(RuleT *);
-extern RuleT *		rule_get_tail_group(RuleT *);
-extern void		rule_set_tail_group(RuleT *, RuleT *);
-extern BoolT		rule_is_being_inlined(RuleT *);
-extern void		rule_being_inlined(RuleT *);
-extern BoolT		rule_is_checked_for_inlining(RuleT *);
-extern void		rule_checked_for_inlining(RuleT *);
-extern EntryListT *	rule_call_list(RuleT *);
-extern RuleT *		rule_get_next_in_table(RuleT *);
-extern RuleT *	       *rule_get_next_in_table_ref(RuleT *);
-extern void		rule_set_next_in_table(RuleT *, RuleT *);
-extern BitVecT *		rule_follow_set(RuleT *);
-extern EntryListT *	rule_predicate_follow(RuleT *);
-extern BoolT		rule_has_started_follows(RuleT *);
-extern void		rule_started_follows(RuleT *);
-extern void		rule_set_see_through_alt(RuleT *, AltT *);
-extern AltT *		rule_see_through_alt(RuleT *);
-extern BoolT		rule_needs_function(RuleT *);
-extern void		rule_will_need_function(RuleT *);
-extern BoolT		rule_is_all_basics(RuleT *);
-extern void		rule_all_basics(RuleT *);
-extern SaveRStackT *	rule_rstack_state(RuleT *);
-extern SaveRStackT *	rule_non_local_state(RuleT *);
-extern BoolT		rule_is_being_output(RuleT *);
-extern void		rule_being_output(RuleT *);
-extern void		rule_not_being_output(RuleT *);
-extern unsigned		rule_get_start_label(RuleT *);
-extern void		rule_set_start_label(RuleT *, unsigned);
-extern unsigned		rule_get_call_count(RuleT *);
-extern void		rule_inc_call_count(RuleT *);
-extern unsigned		rule_get_end_label(RuleT *);
-extern void		rule_set_end_label(RuleT *, unsigned);
-extern BoolT		rule_used_end_label(RuleT *);
-extern unsigned		rule_get_next_label(RuleT *);
-extern void		rule_set_next_label(RuleT *, unsigned);
-extern unsigned		rule_get_handler_label(RuleT *);
-extern void		rule_set_handler_label(RuleT *, unsigned);
-extern BoolT		rule_used_handler_label(RuleT *);
-extern AltT *		rule_get_handler(RuleT *);
-extern void		rule_set_handler(RuleT *, AltT *);
-extern AltT *		rule_alt_head(RuleT *);
-extern void		rule_renumber(RuleT *, BoolT, EntryT *);
-extern void		rule_iter_for_table(RuleT *, BoolT,
+RuleT *		rule_create(EntryT *);
+void		rule_reinit(RuleT *);
+EntryT *		rule_entry(RuleT *);
+TypeTupleT *	rule_param(RuleT *);
+TypeTupleT *	rule_result(RuleT *);
+NonLocalListT *	rule_non_locals(RuleT *);
+NStringT *		rule_maximum_scope(RuleT *);
+BoolT		rule_is_defined(RuleT *);
+void		rule_defined(RuleT *);
+void		rule_add_alt(RuleT *, AltT *);
+BoolT		rule_has_empty_alt(RuleT *);
+void		rule_add_empty_alt(RuleT *);
+BoolT		rule_has_one_alt(RuleT *);
+void		rule_compute_result_intersect(RuleT *);
+void		rule_compute_minimal_dataflow(RuleT *, TypeTupleT *);
+BoolT		rule_is_required(RuleT *);
+void		rule_required(RuleT *);
+void		rule_compute_reverse_list(RuleT *, CycleTypeT);
+void		rule_reinit_reverse_list(RuleT *);
+EntryListT *	rule_reverse_list(RuleT *);
+void		rule_set_dfs_state(RuleT *, DFSStateT);
+RuleT *		rule_next_in_root_list(RuleT *);
+void		rule_build_root_list(EntryT *, void *);
+RuleT *		rule_get_next_in_dfs(RuleT *);
+void		rule_compute_dfs(RuleT *, CycleTypeT, RuleT * *);
+RuleT *		rule_get_next_in_reverse_dfs(RuleT *);
+RuleT *	       *rule_next_in_reverse_dfs_ref(RuleT *);
+void		rule_compute_reverse_dfs(RuleT *, RuleT *, RuleT * *);
+BoolT		rule_has_no_cycles(RuleT *);
+void		rule_no_cycles(RuleT *);
+unsigned		rule_get_cycle_index(RuleT *);
+void		rule_set_cycle_index(RuleT *, unsigned);
+void		rule_reset_cycle_index(RuleT *);
+BoolT		rule_has_computed_first_set(RuleT *);
+void		rule_computed_first_set(RuleT *);
+BoolT		rule_is_computing_first_set(RuleT *);
+void		rule_computing_first_set(RuleT *);
+BitVecT *		rule_first_set(RuleT *);
+EntryListT *	rule_predicate_first(RuleT *);
+BoolT		rule_is_see_through(RuleT *);
+void		rule_see_through(RuleT *);
+unsigned		rule_get_priority(RuleT *);
+void		rule_set_priority(RuleT *, unsigned);
+BoolT		rule_is_factored(RuleT *);
+void		rule_factored(RuleT *);
+RuleT *		rule_get_tail_group(RuleT *);
+void		rule_set_tail_group(RuleT *, RuleT *);
+BoolT		rule_is_being_inlined(RuleT *);
+void		rule_being_inlined(RuleT *);
+BoolT		rule_is_checked_for_inlining(RuleT *);
+void		rule_checked_for_inlining(RuleT *);
+EntryListT *	rule_call_list(RuleT *);
+RuleT *		rule_get_next_in_table(RuleT *);
+RuleT *	       *rule_get_next_in_table_ref(RuleT *);
+void		rule_set_next_in_table(RuleT *, RuleT *);
+BitVecT *		rule_follow_set(RuleT *);
+EntryListT *	rule_predicate_follow(RuleT *);
+BoolT		rule_has_started_follows(RuleT *);
+void		rule_started_follows(RuleT *);
+void		rule_set_see_through_alt(RuleT *, AltT *);
+AltT *		rule_see_through_alt(RuleT *);
+BoolT		rule_needs_function(RuleT *);
+void		rule_will_need_function(RuleT *);
+BoolT		rule_is_all_basics(RuleT *);
+void		rule_all_basics(RuleT *);
+SaveRStackT *	rule_rstack_state(RuleT *);
+SaveRStackT *	rule_non_local_state(RuleT *);
+BoolT		rule_is_being_output(RuleT *);
+void		rule_being_output(RuleT *);
+void		rule_not_being_output(RuleT *);
+unsigned		rule_get_start_label(RuleT *);
+void		rule_set_start_label(RuleT *, unsigned);
+unsigned		rule_get_call_count(RuleT *);
+void		rule_inc_call_count(RuleT *);
+unsigned		rule_get_end_label(RuleT *);
+void		rule_set_end_label(RuleT *, unsigned);
+BoolT		rule_used_end_label(RuleT *);
+unsigned		rule_get_next_label(RuleT *);
+void		rule_set_next_label(RuleT *, unsigned);
+unsigned		rule_get_handler_label(RuleT *);
+void		rule_set_handler_label(RuleT *, unsigned);
+BoolT		rule_used_handler_label(RuleT *);
+AltT *		rule_get_handler(RuleT *);
+void		rule_set_handler(RuleT *, AltT *);
+AltT *		rule_alt_head(RuleT *);
+void		rule_renumber(RuleT *, BoolT, EntryT *);
+void		rule_iter_for_table(RuleT *, BoolT,
 					    void(*)(EntryT *, void *),
 					    void *);
-extern void		rule_deallocate(RuleT *);
+void		rule_deallocate(RuleT *);
 
-extern void		write_rule_lhs(OStreamT *, RuleT *);
-extern void		write_rule(OStreamT *, RuleT *);
+void		write_rule_lhs(OStreamT *, RuleT *);
+void		write_rule(OStreamT *, RuleT *);
 
-extern void		rule_list_init(RuleListT *);
-extern void		rule_list_append (RuleListT *, RuleT *, RuleT * *);
-extern void		rule_list_terminate(RuleListT *);
-extern RuleT *		rule_list_head(RuleListT *);
+void		rule_list_init(RuleListT *);
+void		rule_list_append (RuleListT *, RuleT *, RuleT * *);
+void		rule_list_terminate(RuleListT *);
+RuleT *		rule_list_head(RuleListT *);
 
 
 /*
  * Defined in "rule-check.c":
  */
 
-extern void		rule_check_first_set(EntryT *, void *);
-extern void		rule_compute_follow_set(EntryT *, void *);
-extern void		rule_compute_see_through_alt(EntryT *, void *);
-extern void		rule_compute_alt_first_sets(EntryT *, void *);
+void		rule_check_first_set(EntryT *, void *);
+void		rule_compute_follow_set(EntryT *, void *);
+void		rule_compute_see_through_alt(EntryT *, void *);
+void		rule_compute_alt_first_sets(EntryT *, void *);
 
-extern void		write_clashes(OStreamT *, ClashListT *);
+void		write_clashes(OStreamT *, ClashListT *);
 
 
 /*
  * Defined in "rule-factor.c":
  */
 
-extern void		rule_factor(EntryT *, void *);
-extern void		rule_set_factor_limit(unsigned);
+void		rule_factor(EntryT *, void *);
+void		rule_set_factor_limit(unsigned);
 
 
 /*
  * Defined in "rule-firsts.c":
  */
 
-extern void		rule_compute_first_set_1(RuleT *);
-extern void		rule_compute_first_set(EntryT *, void *);
+void		rule_compute_first_set_1(RuleT *);
+void		rule_compute_first_set(EntryT *, void *);
 
 
 /*
  * Defined in "rule-lre.c":
  */
 
-extern void		rule_remove_left_cycle(RuleT *, EntryT *, TableT *);
+void		rule_remove_left_cycle(RuleT *, EntryT *, TableT *);
 
 
 /*
  * Defined in "rule-mutate.c":
  */
 
-extern void		rule_compute_mutations(EntryT *, void *);
+void		rule_compute_mutations(EntryT *, void *);
 
 
 /*
  * Defined in "rule-names.c":
  */
 
-extern void		rule_recompute_alt_names(EntryT *, void *);
+void		rule_recompute_alt_names(EntryT *, void *);
 
 
 /*
  * Defined in "rule-simp.c":
  */
 
-extern void		rule_remove_duplicates(TableT *, EntryT *);
+void		rule_remove_duplicates(TableT *, EntryT *);
 
 
 /*
  * Defined in "rule-tail.c":
  */
 
-extern void		rule_handle_tails(RuleT *);
-extern void		rule_compute_all_basics(EntryT *, void *);
-extern void		rule_compute_inlining(EntryT *, void *);
-extern void		rule_compute_needed_functions(EntryT *, void *);
-extern void		rule_handle_need_functions(RuleT *);
-extern BoolT		rule_get_inline_tail_calls(void);
-extern void		rule_set_inline_tail_calls(BoolT);
-extern void		rule_set_inline_all_basics(BoolT);
-extern void		rule_set_inline_singles(BoolT);
-extern void		rule_set_inline_non_tail_calls(BoolT);
-extern void		rule_set_multiple_inlining(BoolT);
+void		rule_handle_tails(RuleT *);
+void		rule_compute_all_basics(EntryT *, void *);
+void		rule_compute_inlining(EntryT *, void *);
+void		rule_compute_needed_functions(EntryT *, void *);
+void		rule_handle_need_functions(RuleT *);
+BoolT		rule_get_inline_tail_calls(void);
+void		rule_set_inline_tail_calls(BoolT);
+void		rule_set_inline_all_basics(BoolT);
+void		rule_set_inline_singles(BoolT);
+void		rule_set_inline_non_tail_calls(BoolT);
+void		rule_set_multiple_inlining(BoolT);
 
 
 /*
  * Defined in "alt.c":
  */
 
-extern AltT *		alt_create(void);
-extern AltT *		alt_create_merge(ItemT *, ItemT *, TypeTransT *, TableT *);
-extern AltT *		alt_duplicate(AltT *);
-extern BoolT		alt_less_than(AltT *, AltT *);
-extern BoolT		alt_equal(AltT *, AltT *);
-extern AltT *		alt_next(AltT *);
-extern AltT *	       *alt_next_ref(AltT *);
-extern void		alt_set_next(AltT *, AltT *);
-extern TypeTupleT *	alt_names(AltT *);
-extern BitVecT *		alt_first_set(AltT *);
-extern ItemT *		alt_item_head(AltT *);
-extern ItemT *		alt_unlink_item_head(AltT *);
-extern void		alt_add_item(AltT *, ItemT *);
-extern AltT *		alt_deallocate(AltT *);
+AltT *		alt_create(void);
+AltT *		alt_create_merge(ItemT *, ItemT *, TypeTransT *, TableT *);
+AltT *		alt_duplicate(AltT *);
+BoolT		alt_less_than(AltT *, AltT *);
+BoolT		alt_equal(AltT *, AltT *);
+AltT *		alt_next(AltT *);
+AltT *	       *alt_next_ref(AltT *);
+void		alt_set_next(AltT *, AltT *);
+TypeTupleT *	alt_names(AltT *);
+BitVecT *		alt_first_set(AltT *);
+ItemT *		alt_item_head(AltT *);
+ItemT *		alt_unlink_item_head(AltT *);
+void		alt_add_item(AltT *, ItemT *);
+AltT *		alt_deallocate(AltT *);
 
-extern void		write_alt(OStreamT *, AltT *);
-extern void		write_alt_highlighting(OStreamT *, AltT *, ItemT *);
+void		write_alt(OStreamT *, AltT *);
+void		write_alt_highlighting(OStreamT *, AltT *, ItemT *);
 
 
 /*
  * Defined in "item.c":
  */
 
-extern ItemT *		item_create(EntryT *);
-extern ItemT *		item_duplicate(ItemT *);
-extern ItemT *		item_duplicate_and_translate(ItemT *, TypeTransT *, TableT *);
-extern void		item_translate_list(ItemT *, TypeBTransT *);
-extern void		item_to_predicate(ItemT *);
-extern ItemT *		item_next (ItemT *);
-extern ItemT *	       *item_next_ref(ItemT *);
-extern void		item_set_next(ItemT *, ItemT *);
-extern EntryT *		item_entry(ItemT *);
-extern void		item_set_entry(ItemT *, EntryT *);
-extern EntryTypeT	item_type(ItemT *);
-extern BoolT		item_is_rule(ItemT *);
-extern BoolT		item_is_action(ItemT *);
-extern BoolT		item_is_predicate(ItemT *);
-extern BoolT		item_is_basic(ItemT *);
-extern BoolT		item_is_rename(ItemT *);
-extern TypeTupleT *	item_param(ItemT *);
-extern void		item_add_param(ItemT *, TypeTupleT *);
-extern TypeTupleT *	item_result(ItemT *);
-extern void		item_add_result(ItemT *, TypeTupleT *);
-extern BoolT		item_is_inlinable(ItemT *);
-extern void		item_inlinable(ItemT *);
-extern BoolT		item_is_tail_call(ItemT *);
-extern void		item_tail_call(ItemT *);
-extern BoolT		item_names_used_in_list(ItemT *, TypeTupleT *);
-extern void		item_compute_minimal_dataflow(ItemT *, TypeTupleT *);
-extern ItemT *		item_deallocate(ItemT *);
+ItemT *		item_create(EntryT *);
+ItemT *		item_duplicate(ItemT *);
+ItemT *		item_duplicate_and_translate(ItemT *, TypeTransT *, TableT *);
+void		item_translate_list(ItemT *, TypeBTransT *);
+void		item_to_predicate(ItemT *);
+ItemT *		item_next (ItemT *);
+ItemT *	       *item_next_ref(ItemT *);
+void		item_set_next(ItemT *, ItemT *);
+EntryT *		item_entry(ItemT *);
+void		item_set_entry(ItemT *, EntryT *);
+EntryTypeT	item_type(ItemT *);
+BoolT		item_is_rule(ItemT *);
+BoolT		item_is_action(ItemT *);
+BoolT		item_is_predicate(ItemT *);
+BoolT		item_is_basic(ItemT *);
+BoolT		item_is_rename(ItemT *);
+TypeTupleT *	item_param(ItemT *);
+void		item_add_param(ItemT *, TypeTupleT *);
+TypeTupleT *	item_result(ItemT *);
+void		item_add_result(ItemT *, TypeTupleT *);
+BoolT		item_is_inlinable(ItemT *);
+void		item_inlinable(ItemT *);
+BoolT		item_is_tail_call(ItemT *);
+void		item_tail_call(ItemT *);
+BoolT		item_names_used_in_list(ItemT *, TypeTupleT *);
+void		item_compute_minimal_dataflow(ItemT *, TypeTupleT *);
+ItemT *		item_deallocate(ItemT *);
 
-extern void		write_item(OStreamT *, ItemT *);
+void		write_item(OStreamT *, ItemT *);
 
 #endif /* !defined (H_RULE) */
