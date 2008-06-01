@@ -62,16 +62,16 @@ struct lexi_lct_state {
 #endif
 
 /* Push a character to lexi's buffer */
-void lexi_lct_push(struct lexi_lct_state *state, const int c);
+extern void lexi_lct_push(struct lexi_lct_state *state, const int c);
 
 /* Pop a character from lexi's buffer */
-int lexi_lct_pop(struct lexi_lct_state *state);
+extern int lexi_lct_pop(struct lexi_lct_state *state);
 
 /* Flush lexi's buffer */
-void lexi_lct_flush(struct lexi_lct_state *state);
+extern void lexi_lct_flush(struct lexi_lct_state *state);
 
 /* Read a character */
-int lexi_lct_readchar(struct lexi_lct_state *state);
+extern int lexi_lct_readchar(struct lexi_lct_state *state);
 
 enum lexi_lct_groups {
 	lexi_lct_group_alpha = 0x01,
@@ -83,13 +83,13 @@ enum lexi_lct_groups {
 };
 
 /* true if the given character is present in the given group */
-bool lexi_lct_group(enum lexi_lct_groups group, int c);
+extern bool lexi_lct_group(enum lexi_lct_groups group, int c);
 
 /* Identify a keyword */
-int lexi_lct_keyword(const char *identifier, int notfound);
+extern int lexi_lct_keyword(const char *identifier, int notfound);
 
 /* Identify a token */
-int lexi_lct_read_token(struct lexi_lct_state *state);
+extern int lexi_lct_read_token(struct lexi_lct_state *state);
 
 /* Initialise a lexi_lct_state structure */
 void lexi_lct_init(struct lexi_lct_state *state);

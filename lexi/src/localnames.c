@@ -92,7 +92,7 @@ localnames_get_type(LocalNamesT* locals, NStringT* name)
 {
 	unsigned int i;
 	LocalNamesT* crt = locals;
-	EntryT* entry;
+	EntryT* entry = NULL;
 	char* p = nstring_contents(name); /* BEWARE: not zero terminated! */
 	for (i = 0; i < nstring_length(name); ++i) {
 		while ( crt != NULL && (crt->c < p[i]) )

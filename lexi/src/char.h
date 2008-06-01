@@ -84,7 +84,6 @@ typedef struct arg_tag {
     unsigned int digit;
     char* litteral;
   } u ;
-  EntryT* lexi_type;
   bool is_reference;
 } arg;
 

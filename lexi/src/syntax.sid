@@ -184,6 +184,9 @@ type-kw ;
 <E_return_terminal_in_rhs> : () -> ();
 <E_string_in_action_rhs> : () -> ();
 
+<E_terminal_in_function_rhs>;
+<E_localname_in_function_rhs>;
+
 <is-non-empty> : ( : CHARACTERS , :ZONE) -> ( : BOOL );
 <E_empty_character_string> : () -> ();
 <E_ignore_in_rhs> : () -> ();
@@ -305,11 +308,11 @@ single-arg : () -> ( a : ARG ) = {
     ||  a=arg-char-string ;
     ||  a=arg-char-nb ;
     ||  a=arg-nb-of-chars ;
-    ||  a=arg-return-terminal ; <E_return_terminal_in_rhs>;
+    ||  b=arg-return-terminal ; a=<make_arg_none>; <E_return_terminal_in_rhs>;
     ||  a=arg-ignore ; <E_ignore_in_rhs>;
     ||  b=string ; a=<make_arg_from_string>(b);
-    ||  b=sid-identifier ; a=<make_arg_terminal>(b); 
-    ||  i=identifier ; a = <make_arg_from_identifier>(i); 
+    ||  b=sid-identifier ; a=<make_arg_none>; <E_terminal_in_function_rhs>;
+    ||  i=identifier ; a = <make_arg_none>; <E_localname_in_function_rhs>;
     ||  reference; i=identifier ; a = <make_arg_from_reference>(i); 
 } ;
 
@@ -377,7 +380,7 @@ type-defn : (z:ZONE) -> () = {
 */
 
 type-tuple : ( z:ZONE ) -> (a:TYPETUPLE) [
-	type-name : (z:ZONE, a:TYPETUPLE) -> () = {
+	type-name : (z:ZONE, a:TYPETUPLE&) -> () = {
 		{
 			name=identifier ;
 		    ||	
@@ -393,9 +396,9 @@ type-tuple : ( z:ZONE ) -> (a:TYPETUPLE) [
 		<append-tuple>(z, &a, name, type, isref);
 	} ;
 	type-tuple1 : (z:ZONE, a:TYPETUPLE&) -> () = {
-		type-name(z, a) ;
+		type-name(z, &a) ;
 	    ||
-		type-name(z, a) ; comma; type-tuple1(z, &a) ;
+		type-name(z, &a) ; comma; type-tuple1(z, &a) ;
 	} ; ] = {
 	a=<init-tuple> ;
     ||

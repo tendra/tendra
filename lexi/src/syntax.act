@@ -314,7 +314,7 @@ arg-ignore : () -> (a:ARG) = @{
 */
 
 <empty-identifier> : () -> ( i : IDENTIFIER ) = @{
-    @i = "";
+    @i = xstrcpy("");
 @} ;
 
 /*
@@ -390,7 +390,22 @@ arg-ignore : () -> (a:ARG) = @{
 	EntryT* entry = table_get_entry(@z->top_level->table, &key);
 	if(entry) {
 		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=@l->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							break;		   
+						}
+					}
+				}
+			}
 			@inst=add_instruction_action(entry,@l,@r);
+		 /* END Inefficient code*/
 		} else {
 			@inst=NULL;
 			error(ERROR_SERIOUS, "Name %s is not an action", @i);
@@ -435,47 +450,177 @@ arg-ignore : () -> (a:ARG) = @{
 <add-inst-to-list> : ( z : ZONE, i : INSTRUCTION, il : INSTRUCTIONS_LIST ) -> () = @{
 	if(@i!=NULL) { /* if @i == NULL, an error has already been issued.*/
 		LocalNamesT** locals = instructionslist_localnamesref(@il);
-		if((@il->head !=NULL) && (@i->type==return_terminal || @i->type==do_nothing)) {
-			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); 
-		}
-		if(@i->type == apply_function) {
-			args_rhs_fill_type(@i->u.fun->args, *locals, @z->top_level) ;
-		}
+/*		if((@il->head !=NULL) && (@i->type==return_terminal || @i->type==do_nothing)) {
+			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
+		}*/
 		if(@i->type == action_call) {
 			EntryT* entryaction = @i->u.act.called_act;
 			ActionT* action = entry_get_action(entryaction);
 			args_list* rhs = @i->u.act.rhs;
 			args_list* lhs = @i->u.act.lhs;
 
+			arg* p;
+			TypeTupleEntryT* q;
+
 			/* CHECKING RHS COMPATIBILITY */ 
-			if(args_rhs_fill_type(rhs, *locals, @z->top_level)) {
-				arg* p;
-				TypeTupleEntryT* q;
-				for ( p = rhs->head, q = action->inputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
-					if(p->lexi_type!=q->type || p->is_reference!=q->is_reference) {
-						char* s = nstring_to_cstring(entry_key(entryaction));
-						/* TODO in error message: output type specification of both rhs and inputs*/
-						error(ERROR_SERIOUS, "In call to action %s, arguments do not match, TODO should be TODO", s);
-						DEALLOCATE(s);
+			for ( p = rhs->head, q = action->inputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+			      	EntryT* entrytype = NULL;
+				NStringT str;
+			      	switch (p->type) {
+				case arg_identifier: 
+				     	nstring_copy_cstring(&str, p->u.litteral);
+					entrytype=localnames_get_type(*locals, &str);
+					nstring_destroy(&str);
+					if(!entrytype) {
+						EntryT* tableentry = table_get_entry(@z->top_level->table, &str);
+						if(!tableentry) {
+							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.litteral);
+							entrytype = NULL;
+						} else if (entry_is_localname(tableentry)) {
+							error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.litteral);
+							entrytype = NULL;
+						} else if (entry_is_action(tableentry)) {
+							error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.litteral);
+							entrytype = NULL;
+						} else if (entry_is_type(tableentry)) {
+							error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.litteral);
+							entrytype = NULL;
+						} else {
+							; /* TODO assert(0) this should be unreachable*/
+						}
+					}
+					break;
+				case arg_charP:
+					/* TODO assert(lexer_string_type(top_level)) */
+					entrytype = lexer_string_type(@z->top_level);
+		 			break;
+				case arg_char_nb:
+					/* TODO assert(lexer_char_type(top_level)) */
+					entrytype = lexer_char_type(@z->top_level);
+			 		break;
+				case arg_terminal:
+					/* TODO assert(lexer_terminal_type(top_level)) */
+					entrytype = lexer_terminal_type(@z->top_level);
+					break;
+				case arg_nb_of_chars:
+					/* TODO assert(lexer_terminal_type(top_level)) */
+					entrytype = lexer_int_type(@z->top_level);
+		 			break;
+				case arg_none:
+					break; //Error already detected, do nothing and leave p->lexitype = NULL
+				case arg_litteral:
+				case arg_chars_list:
+				case arg_ignore:
+				case arg_return_terminal:
+					/* TODO assert(0): we should never reach this place */
+				break;
+			default:
+				break;
+				/* TODO assert(0): we should never reach this place either, doubly so*/
+			}
+			if(entrytype) {
+				if( q->type!=entrytype || p->is_reference!=q->is_reference) {
+						char* s1 = nstring_to_cstring(entry_key(entryaction));
+						char* s2 = nstring_to_cstring(entry_key(entrytype));
+						char* s3 = p->is_reference ? "&" : "";
+						char* s4 = nstring_to_cstring(entry_key(q->type));
+						char* s5 = q->is_reference ? "&" : "";
+						error(ERROR_SERIOUS, "In call to action %s, argument \'%s\' has type \'%s%s\' when it should have type %s", s1, p->u.litteral, s2, s3, s4, s5);
+						DEALLOCATE(s1);
+						DEALLOCATE(s2);
+						DEALLOCATE(s4);
 					}
 				}
-				if(p!=NULL) {
-					char* s = nstring_to_cstring(entry_key(entryaction));
-					error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
-					DEALLOCATE(s);
+			}
+			if(p!=NULL) {
+				char* s = nstring_to_cstring(entry_key(entryaction));
+				error(ERROR_SERIOUS, "In call to action %s, too many arguments", s);
+				DEALLOCATE(s);
+			}
+			if(q!=NULL) {
+				char* s = nstring_to_cstring(entry_key(entryaction));
+				error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
+				DEALLOCATE(s);
+			}
+
+			for ( p = lhs->head, q = action->outputs.head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
+			      	EntryT* entrytype;
+				switch (p->type) {
+				case arg_identifier: 
+					{
+						NStringT str;
+						EntryT* entry; 
+						nstring_copy_cstring(&str, p->u.litteral);
+						entrytype = localnames_get_type(*locals, &str);
+						if(!entrytype) {
+							EntryT* entry = table_get_entry(@z->top_level->table, &str);
+							localnames_add_nstring(locals, &str, q->type);
+							if(entry) {
+								nstring_destroy(&str);
+								if (entry_is_action(entry)) {
+									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.litteral);
+								} else if (entry_is_type(entry)) {
+									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.litteral);									
+								}
+							} else {
+								table_add_local_name(@z->top_level->table, &str);
+							}
+							if(p->is_reference) {
+								char* s = nstring_to_cstring(entry_key(entryaction));
+								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.litteral);
+								DEALLOCATE(s);
+							} 
+						} else {
+							nstring_destroy(&str);
+							if(!p->is_reference) {
+								char* s = nstring_to_cstring(entry_key(entryaction));
+								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.litteral);
+								entrytype=q->type; /* To avoid outputting that error more than once*/
+								DEALLOCATE(s);
+							}
+						}
+					}
+					break;
+				case arg_return_terminal:
+					entrytype = lexer_terminal_type(@z->top_level);
+					q->is_reference = false;
+					/* TODO assert(q->is_reference == false) */
+					break;
+				case arg_ignore:
+					/*always acceptable */
+					entrytype=q->type;
+					p->is_reference=q->is_reference;
+					break;
+				case arg_none:
+					break;
+					/* TODO asserting errored is already set */
+					/* Error has already been detected */
+				case arg_charP:
+				case arg_char_nb:
+				case arg_chars_list:
+				case arg_terminal:
+				case arg_nb_of_chars:
+					break; /* UNREACHABLE */
+				default:
+					break; /* UNREACHABLE */
 				}
-				if(q!=NULL) {
-					char* s = nstring_to_cstring(entry_key(entryaction));
-					error(ERROR_SERIOUS, "In call to action %s, not enough arguments", s);
-					DEALLOCATE(s);
+				if(p->is_reference != q->is_reference) {
+					if(p->is_reference)
+						error(ERROR_SERIOUS, "In call to action %, %s should not be a reference", p->u.litteral);
+					else
+						error(ERROR_SERIOUS, "In call to action %, %s should not be a reference", p->u.litteral);
 				}
 			}
-			/* CHECKING LHS COMPATIBILITY */ 
-     			/* TODO: check that the same reference or identifier does not appear twice in the lhs*/
-     			/* TODO: check that no identifier has been set before in the the instruction list*/
-			/* TODO: Check that types corresponds including length: beware ignore that match all types */
-			/* TODO: Add new variables to localnames */
-			/* TODO in case of  errors in lhs match print types of outputs and types of lhs */
+			if(p!=NULL) {
+				char* s = nstring_to_cstring(entry_key(entryaction));
+				error(ERROR_SERIOUS, "In call to action %s, too many results", s);
+				DEALLOCATE(s);
+			}
+			if(q!=NULL) {
+				char* s = nstring_to_cstring(entry_key(entryaction));
+				error(ERROR_SERIOUS, "In call to action %s, not enough results", s);
+				DEALLOCATE(s);
+			}
 		}
 		/* TODO only append if no error */
 		@i->next=@il->head;
@@ -841,6 +986,15 @@ arg-ignore : () -> (a:ARG) = @{
 
 <E_string_in_action_rhs> : () -> () = @{
 	error(ERROR_SERIOUS, "String argument in right handside of action call: purposefuly not implemented to avoid confusions. Will be implemented with an alternate meaning once direct function calls are removed from lexi");
+@};
+
+
+<E_terminal_in_function_rhs> : () -> () = @{
+	error(ERROR_SERIOUS, "Terminals in function rhs not implemented yet ");
+@};
+
+<E_localname_in_function_rhs> : () -> () = @{
+	error(ERROR_SERIOUS, "Local names in function rhs not implemented yet ");
 @};
 
 
