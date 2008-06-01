@@ -582,7 +582,7 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 
 	fputs("\n/* true if the given character is present in the given group */\n",
 		lex_output_h);
-	fprintf(lex_output_h, "extern %s %sgroup(enum %sgroups group, int c);\n",
+	fprintf(lex_output_h, "%s %sgroup(enum %sgroups group, int c);\n",
 		language == C90 ? "int" : "bool", opt->lexi_prefix, opt->lexi_prefix);
 
 	/*
@@ -644,7 +644,7 @@ output_buffer(cmd_line_options* opt)
 {
 	/* Buffer operations */
 	fputs("/* Push a character to lexi's buffer */\n", lex_output_h);
-	fprintf(lex_output_h, "extern void %spush(struct %sstate *state, const int c);\n\n",
+	fprintf(lex_output_h, "void %spush(struct %sstate *state, const int c);\n\n",
 		lexi_prefix, lexi_prefix);
 	fprintf(lex_output, "void %spush(struct %sstate *state, const int c) {\n",
 		lexi_prefix, lexi_prefix);
@@ -656,7 +656,7 @@ output_buffer(cmd_line_options* opt)
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Pop a character from lexi's buffer */\n", lex_output_h);
-	fprintf(lex_output_h, "extern int %spop(struct %sstate *state);\n\n",
+	fprintf(lex_output_h, "int %spop(struct %sstate *state);\n\n",
 		lexi_prefix, lexi_prefix);
 	fprintf(lex_output, "int %spop(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
@@ -668,7 +668,7 @@ output_buffer(cmd_line_options* opt)
 	fputs("}\n\n", lex_output);
 
 	fputs("/* Flush lexi's buffer */\n", lex_output_h);
-	fprintf(lex_output_h, "extern void %sflush(struct %sstate *state);\n\n",
+	fprintf(lex_output_h, "void %sflush(struct %sstate *state);\n\n",
 		lexi_prefix, lexi_prefix);
 	fprintf(lex_output, "void %sflush(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
@@ -677,7 +677,7 @@ output_buffer(cmd_line_options* opt)
 
 	/* TODO nice thing: we can abstract away 'aux() here, too. */
 	fputs("/* Read a character */\n", lex_output_h);
-	fprintf(lex_output_h, "extern int %sreadchar(struct %sstate *state);\n\n",
+	fprintf(lex_output_h, "int %sreadchar(struct %sstate *state);\n\n",
 		lexi_prefix, lexi_prefix);
 	fprintf(lex_output,"int %sreadchar(struct %sstate *state) {\n",
 		lexi_prefix, lexi_prefix);
@@ -818,7 +818,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	in_pre_pass = 0;
 
 	fputs("\n/* Identify a token */\n", lex_output_h);
-	fprintf(lex_output_h, "extern int %s(struct %sstate *state);\n\n",
+	fprintf(lex_output_h, "int %s(struct %sstate *state);\n\n",
 		read_token_name, lexi_prefix);
 
 	/* lexi_init() */
@@ -864,7 +864,7 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 	keyword *p;
 
 	fputs("\n/* Identify a keyword */\n", output_h);
-	fprintf(output_h, "extern int %skeyword(const char *identifier, int notfound);\n",
+	fprintf(output_h, "int %skeyword(const char *identifier, int notfound);\n",
 		lexi_prefix);
 
 	fprintf(output, "#include <string.h>\n");
