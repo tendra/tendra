@@ -1,0 +1,2 @@
+ACTION <dummy> : (:CHARACTER) -> (:TERMINAL);
+TOKEN DEFAULT -> $ = <dummy>(#0);

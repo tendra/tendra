@@ -1,0 +1,3 @@
+TYPE t1;
+ACTION <dummy> : () -> (:t1);
+TOKEN DEFAULT -> a = <dummy>;
