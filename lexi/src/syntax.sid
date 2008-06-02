@@ -557,14 +557,14 @@ instruction : (z:ZONE) -> (inst:INSTRUCTION) = {
 } ;
 
 instructions-list : (z:ZONE) -> (instl:INSTRUCTIONS_LIST) = {
-		  inst=instruction(z) ; 
-		  instl=<empty-inst-list>;
-		  <add-inst-to-list>(z, inst, instl);
-	||
-		  inst=instruction(z) ;
-   		  comma; 
-		  instl=instructions-list(z) ; 
-		  <add-inst-to-list>(z, inst, instl);
+	inst=instruction(z);
+	instl=<empty-inst-list>;
+	<add-inst-to-list>(z, inst, instl);
+    ||
+	instl=instructions-list(z);
+   	comma;
+	inst=instruction(z);
+	<add-inst-to-list>(z, inst, instl);
 } ;
 
 /*

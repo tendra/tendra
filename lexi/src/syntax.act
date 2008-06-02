@@ -623,8 +623,8 @@ arg-ignore : () -> (a:ARG) = @{
 			}
 		}
 		/* TODO only append if no error */
-		@i->next=@il->head;
-		@il->head=@i;
+		*@il->tail=@i;
+		@il->tail=&@i->next;
 	}
 @};
 

@@ -54,7 +54,8 @@ localnames_create(char c)
 	Adding an entry to the trie
 	
 	This functions adds key "name" with value "type" to the trie.
-	It return 1 upon success and 0 upon failure.
+	It return 1 upon success and 0 upon failure. It is not possible to 
+	add the empty string which is fine as no identifier can have zero length.
 */
 int
 localnames_add_nstring(LocalNamesT** locals, NStringT* name, struct EntryT* type)
@@ -73,7 +74,7 @@ localnames_add_nstring(LocalNamesT** locals, NStringT* name, struct EntryT* type
 		entry = &((*crt)->type);
 		crt   = &((*crt)->next);
 	}
-	if(entry == NULL) {
+	if(*entry == NULL) {
 		*entry = type;
 		return 1; /* Success */
 	} else {
