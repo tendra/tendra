@@ -1,0 +1,2 @@
+ACTION <dummy> : (:TERMINAL) -> () ;
+TOKEN DEFAULT -> <dummy>(!);

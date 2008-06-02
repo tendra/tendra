@@ -1,0 +1,7 @@
+TYPE t1;
+TYPE t2;
+TYPE t3;
+TYPE t4;
+ACTION <dummy1> : () -> (:t1, :t2, :t3, :t4) ;
+ACTION <dummy2> : (:t1, :t2, :t3, :t4&, :TERMINAL) -> ();
+TOKEN DEFAULT -> (a,b,c,d) = <dummy1>(), <dummy2>(a,b,c,&d,#0);

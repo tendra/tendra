@@ -1,0 +1,2 @@
+ACTION <dummy> : (:STRING, :CHARACTER, :TERMINAL, :STRING, :CHARACTER) -> ();
+TOKEN DEFAULT -> <dummy>(#*, #0, $id, #*);
