@@ -1,0 +1,6 @@
+TYPE t1;
+TYPE t2;
+
+ACTION <dummy1> : () -> (:t1, :t2);
+ACTION <dummy2> : (:t1, :t2) -> ();
+TOKEN DEFAULT -> (aaab, aaac) = <dummy1>, <dummy2>(aaac, aaab);
