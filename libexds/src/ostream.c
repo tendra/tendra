@@ -64,7 +64,6 @@
  * "ostream.h".  See that file for more details.
  *
  * TODO this would really benifit from a printf() style interface.
- * TODO are the byte-writing interfaces really used?
  */
 
 #include <ctype.h>
@@ -214,17 +213,6 @@ write_tab(OStreamT *ostream)
 }
 
 void
-write_byte(OStreamT *ostream, ByteT c)
-{
-	if (c == '\n') {
-		ostream->line++;
-	}
-
-	(void) putc((int) c, ostream->file);
-	OSTREAM_WRITE_ERROR_CHECK(ostream);
-}
-
-void
 write_char(OStreamT *ostream, char c)
 {
 	if (c == '\n') {
@@ -301,22 +289,6 @@ write_cstring(OStreamT *ostream, char *cstring)
 	}
 
 	(void) fputs(cstring, ostream->file);
-	OSTREAM_WRITE_ERROR_CHECK(ostream);
-}
-
-void
-write_bytes(OStreamT *ostream, ByteT *bytes, unsigned length)
-{
-	unsigned tmp_length = length;
-	ByteT *tmp_bytes  = bytes;
-
-	while (tmp_length--) {
-		if (*tmp_bytes++ == '\n') {
-			ostream->line++;
-		}
-	}
-
-	(void) fwrite(bytes, sizeof(ByteT), (size_t) length, ostream->file);
 	OSTREAM_WRITE_ERROR_CHECK(ostream);
 }
 

@@ -205,14 +205,6 @@ write_tab(OStreamT *);
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
  *
- * This function writes the specified byte to the specified ostream.
- */
-void
-write_byte(OStreamT *, ByteT);
-
-/*
- * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
- *
  * This function writes the specified character to the specified ostream.
  */
 void
@@ -252,15 +244,6 @@ write_unsigned(OStreamT *, unsigned);
  */
 void
 write_cstring(OStreamT *, char *);
-
-/*
- * Exceptions: XX_dalloc_no_memory, XX_ostream_write_error
- *
- * This function writes the specified sequence of bytes (of the specified
- * length) to the specified ostream.
- */
-void
-write_bytes(OStreamT *, ByteT *, unsigned);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
