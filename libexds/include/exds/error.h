@@ -184,7 +184,6 @@ typedef union ETagDataT {
  * field should be used to access the error object.
  */
 typedef union ErrorDataT {
-	/* TODO why is this in a struct? */
 	struct {
 		char *name;
 		ESeverityT severity;
@@ -210,7 +209,6 @@ typedef union ErrorDataT {
  * field should be used to access the error string object.
  */
 typedef union EStringDataT {
-	/* TODO why is this in a struct? */
 	struct {
 		char *name;
 		char *contents;
