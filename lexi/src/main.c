@@ -84,7 +84,7 @@ cmd_line_options options;
 static void
 report_usage(void) {
 	fputs("usage: lexi [-vh] [-a] [-t token-prefix] [-p lexi-prefix] "
-		"[-l output-language] [-C copyright-notice-file] "
+		"[-i interface-prefix] [-l output-language] [-C copyright-notice-file] "
 		"input-file [lct-input-file] [output-file ...]\n", stdout);
 }
 
@@ -110,7 +110,7 @@ main(int argc, char **argv)
  	cmd_line_options_init(&options);
 	int i;
 
-#define COMMON_OPTIONS "C:t:l:p:vh"
+#define COMMON_OPTIONS "C:t:l:p:i:vh"
 	struct outputs {
 		const char *language;
 		const signed int inputfiles;
@@ -172,6 +172,10 @@ main(int argc, char **argv)
 			options.lexi_prefix=optarg;
 			break;
 
+		case 'i':
+			options.interface_prefix = optarg;
+			break;
+
 		default:
 			/* getopt will report error */
 
@@ -182,6 +186,14 @@ main(int argc, char **argv)
 	}
 	argc -= optind;
 	argv += optind;
+
+	/*
+	 * Default to the lexi_prefix if no interface prefix is given. This maintains
+	 * compatibility should -p be given and -i not be specified.
+	 */
+	if (options.interface_prefix == NULL) {
+		options.interface_prefix = options.lexi_prefix;
+	}
 
 	/*
 	 * This is carried through for output routines shared between multiple

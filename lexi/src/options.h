@@ -59,6 +59,7 @@ typedef struct cmd_line_options_tag {
 	 */
 	bool generate_asserts;
 	const char* lexi_prefix;
+	const char* interface_prefix;
 
 	/*
 	 * An array of files to which output is written. The number (and

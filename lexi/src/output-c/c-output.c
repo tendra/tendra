@@ -480,13 +480,13 @@ output_zone_prepass(zone *p)
 }
 
 static void
-output_zone_pass(zone *p) 
+output_zone_pass(cmd_line_options *opt, zone *p) 
 {
     zone *z;
     int in_pre_pass=0;
     int is_p_global_zone=(p==p->top_level->global_zone);
     for(z=p->next;z!=NULL;z=z->opt) {
-        output_zone_pass(z);
+        output_zone_pass(opt, z);
     }
     fprintf(lex_output,"/* MAIN PASS ANALYSER for zone %s*/\n\n",p->zone_name);
     if(is_p_global_zone) {
@@ -517,7 +517,7 @@ output_zone_pass(zone *p)
     } 
     else 
         fprintf(lex_output, "\t\treturn %sunknown_token;\n",
-			lexi_prefix);
+			opt->interface_prefix);
     fputs("\t}\n", lex_output);
     fputs("}\n", lex_output);
     return;
@@ -685,7 +685,7 @@ output_buffer(cmd_line_options* opt)
 	fprintf(lex_output,"\t\treturn %spop(state);\n", lexi_prefix);
 	fputs("\t}\n\n", lex_output);
 	/* TODO pass opaque here */
-	fprintf(lex_output, "\treturn %sgetchar();\n", lexi_prefix);
+	fprintf(lex_output, "\treturn %sgetchar();\n", opt->interface_prefix);
 	fputs("}\n", lex_output);
 }
 
@@ -838,7 +838,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	output_zone_pass_prototypes(top_level->global_zone);
 
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
-  	output_zone_pass(top_level->global_zone);
+  	output_zone_pass(opt, top_level->global_zone);
 
 	fputs("#endif\n", lex_output_h);
 	output_trailers() ;
