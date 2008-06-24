@@ -750,11 +750,11 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(lex_output_h, "#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fputs("\n", lex_output_h);
 
-	output_headers() ;
-
 	if(opt->outputfile[1].name) {
 		fprintf(lex_output, "#include \"%s\"\n\n", opt->outputfile[1].name);
 	}
+
+	output_headers() ;
 
 	if(opt->generate_asserts) {
 		fputs("#include <assert.h>\n", lex_output);
