@@ -100,6 +100,7 @@ typedef struct COutputInfoT {
     BoolT		casts;
     BoolT		unreachable;
     BoolT		lines;
+    BoolT		terminals;
     unsigned		split;
 } COutputInfoT;
 
@@ -136,6 +137,8 @@ BoolT		 c_out_info_get_unreachable(COutputInfoT *);
 void		 c_out_info_set_unreachable(COutputInfoT *, BoolT);
 BoolT		 c_out_info_get_lines(COutputInfoT *);
 void		 c_out_info_set_lines(COutputInfoT *, BoolT);
+BoolT		 c_out_info_get_terminals(COutputInfoT *);
+void		 c_out_info_set_terminals(COutputInfoT *, BoolT);
 unsigned		 c_out_info_get_split(COutputInfoT *);
 void		 c_out_info_set_split(COutputInfoT *, unsigned);
 

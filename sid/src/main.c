@@ -191,6 +191,12 @@ main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
 		} else if (!strcmp(option, "no-lines")
 			|| !strcmp(option, "no-line")) {
 			c_out_info_set_lines(c_out_info, FALSE);
+		} else if (!strcmp(option, "terminals")
+			|| !strcmp(option, "terminal")) {
+			c_out_info_set_terminals(c_out_info, TRUE);
+		} else if (!strcmp(option, "no-terminals")
+			|| !strcmp(option, "no-terminal")) {
+			c_out_info_set_terminals(c_out_info, FALSE);
 		} else {
 			char  *lang;
 			lang = ansi ? "ansi-c" : "pre-ansi-c";

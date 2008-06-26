@@ -1224,12 +1224,14 @@ c_output_header(COutputInfoT *info, GrammarT *grammar)
 		table_iter(table, c_output_ext_declaration, info);
 	}
 
-	write_newline(ostream);
-	write_cstring (ostream, "/* BEGINNING OF TERMINAL DEFINITIONS */");
-	write_newline(ostream);
-	write_newline(ostream);
-	table_iter(table, c_output_terminal, info);
-	write_newline(ostream);
+	if (c_out_info_get_terminals(info)) {
+		write_newline(ostream);
+		write_cstring (ostream, "/* BEGINNING OF TERMINAL DEFINITIONS */");
+		write_newline(ostream);
+		write_newline(ostream);
+		table_iter(table, c_output_terminal, info);
+		write_newline(ostream);
+	}
 
 	write_cstring (ostream, "/* BEGINNING OF TRAILER */");
 	write_newline(ostream);

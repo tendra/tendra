@@ -87,6 +87,7 @@ c_out_info_init(COutputInfoT *info, OutputInfoT *out_info)
 	info->casts       = FALSE;
 	info->unreachable = FALSE;
 	info->lines       = TRUE;
+	info->terminals   = TRUE;
 	info->split       = 0;
 }
 
@@ -280,6 +281,18 @@ void
 c_out_info_set_lines(COutputInfoT *info, BoolT lines)
 {
 	info->lines = lines;
+}
+
+BoolT
+c_out_info_get_terminals(COutputInfoT *info)
+{
+	return info->terminals;
+}
+
+void
+c_out_info_set_terminals(COutputInfoT *info, BoolT lines)
+{
+	info->terminals = lines;
 }
 
 unsigned

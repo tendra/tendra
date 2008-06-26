@@ -26,7 +26,7 @@ INSTALL=install
 # XXX: Do I want to have them removed during clean?
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
 
-SIDOPTS=-l ansi-c -s numeric -s no-lines
+SIDOPTS=-l ansi-c -s numeric -s no-lines -s no-terminals
 LEXIOPTS=-lC90 -a
 
 #PARSER_OUT=${SRC}/parser.c ${SRC}/junk.h
