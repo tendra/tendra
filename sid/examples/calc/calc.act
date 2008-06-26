@@ -1,115 +1,116 @@
 %prefixes%
 
-terminal = T_ ;
-function = p_ ;
+	terminal = T_ ;
+	function = p_ ;
 
 %maps%
 
-Number -> int;
-Bool -> int;
+	Number -> int;
+	Bool -> int;
 
 %header% @{
 
-#include "calc.h"
+	#include "calc.h"
 
-#include <stdio.h>
+	#include <stdio.h>
 
-extern int yylex(void);
+	extern int yylex(void);
 
-int tok, val;
+	int tok, val;
 
-static int save_tok;
+	static int save_tok;
 
-#define CURRENT_TERMINAL ( tok )
-#define ADVANCE_LEXER    ( tok = yylex() )
-#define SAVE_LEXER(e)    ( save_tok = tok, tok = e )
-#define RESTORE_LEXER    ( tok = save_tok )
+	#define CURRENT_TERMINAL ( tok )
+	#define ADVANCE_LEXER    ( tok = yylex() )
+	#define SAVE_LEXER(e)    ( save_tok = tok, tok = e )
+	#define RESTORE_LEXER    ( tok = save_tok )
 
 @}, @{
 
-extern int tok, val;
+	extern int tok, val;
 
 @};
 
 %terminals%
 
-number: () -> (n:Number) = @{
-	@n = val;
-@};
+	number: () -> (n:Number) = @{
+		@n = val;
+	@};
 
 %actions%
 
-<is-eof>: () -> (eof:Bool) = @{
-	@eof = @. == T_eof;
-@};
+	<is-eof>: () -> (eof:Bool) = @{
+		@eof = @. == T_eof;
+	@};
 
-<is-newline>: () -> (nl:Bool) = @{
-	@nl = @. == T_newline;
-@};
+	<is-newline>: () -> (nl:Bool) = @{
+		@nl = @. == T_newline;
+	@};
 
-<Pos>: (a:Number) -> (n:Number) = @{
-	@n = +@a;
-@};
+	<Pos>: (a:Number) -> (n:Number) = @{
+		@n = +@a;
+	@};
 
-<Neg>: (a:Number) -> (n:Number) = @{
-	@n = -@a;
-@};
+	<Neg>: (a:Number) -> (n:Number) = @{
+		@n = -@a;
+	@};
 
-<Mul>: (a:Number, b:Number) -> (n:Number) = @{
-	@n = @a * @b;
-@};
+	<Mul>: (a:Number, b:Number) -> (n:Number) = @{
+		@n = @a * @b;
+	@};
 
-<Div>: (a:Number, b:Number) -> (n:Number) = @{
-	if (@b == 0) {
-		@!;
-	}
+	<Div>: (a:Number, b:Number) -> (n:Number) = @{
+		if (@b == 0) {
+			@!;
+		}
 
-	@n = @a / @b;
-@};
+		@n = @a / @b;
+	@};
 
-<Mod>: (a:Number, b:Number) -> (n:Number) = @{
-	if (@b == 0) {
-		@!;
-	}
+	<Mod>: (a:Number, b:Number) -> (n:Number) = @{
+		if (@b == 0) {
+			@!;
+		}
 
-	@n = @a % @b;
-@};
+		@n = @a % @b;
+	@};
 
-<Add>: (a:Number, b:Number) -> (n:Number) = @{
-	@n = @a + @b;
-@};
+	<Add>: (a:Number, b:Number) -> (n:Number) = @{
+		@n = @a + @b;
+	@};
 
-<Sub>: (a:Number, b:Number) -> (n:Number) = @{
-	@n = @a - @b;
-@};
+	<Sub>: (a:Number, b:Number) -> (n:Number) = @{
+		@n = @a - @b;
+	@};
 
-<Print>: (a:Number) -> () = @{
-	printf("%d\n", @a);
-@};
+	<Print>: (a:Number) -> () = @{
+		printf("%d\n", @a);
+	@};
 
-<err-syntax> = @{
-	fprintf(stderr, "syntax error\n");
-@};
+	<err-syntax> = @{
+		fprintf(stderr, "syntax error\n");
+	@};
 
-<err-divide-by-zero>: () -> (n:Number) = @{
-	fprintf(stderr, "divide by zero\n");
-	@n = 0;
-@};
+	<err-divide-by-zero>: () -> (n:Number) = @{
+		fprintf(stderr, "divide by zero\n");
+		@n = 0;
+	@};
 
-<panic> = @{
-	while (@. != T_eof && @. != T_newline) {
-		@>;
-	}
-@};
+	<panic> = @{
+		while (@. != T_eof && @. != T_newline) {
+			@>;
+		}
+	@};
 
 %trailer% @{
 
-int main(void) {
-	ADVANCE_LEXER;
-	p_expressions();
-	return 0;
-}
+	int main(void) {
+		ADVANCE_LEXER;
+		p_expressions();
+		return 0;
+	}
 
 @}, @{
 
 @};
+

@@ -1,110 +1,113 @@
 %types%
 
-Number;
-Bool;
+	Number;
+	Bool;
 
 %terminals%
 
-!eof;
+	!eof;
 
-number: () -> (:Number);
-add; sub; mul; div; mod; lparen; rparen;
-newline;
+	number: () -> (:Number);
+	add; sub; mul; div; mod; lparen; rparen;
+	newline;
 
-!error;
+	!error;
 
 %productions%
 
-<is-eof>: () -> (:Bool);
-<is-newline>: () -> (:Bool);
+	<is-eof>: () -> (:Bool);
+	<is-newline>: () -> (:Bool);
 
-<Pos>: (:Number) -> (:Number);
-<Neg>: (:Number) -> (:Number);
-<Mul>: (:Number, :Number) -> (:Number);
-<Div>: (:Number, :Number) -> (:Number);
-<Mod>: (:Number, :Number) -> (:Number);
-<Add>: (:Number, :Number) -> (:Number);
-<Sub>: (:Number, :Number) -> (:Number);
-<Print>: (:Number) -> ();
+	<Pos>: (:Number) -> (:Number);
+	<Neg>: (:Number) -> (:Number);
+	<Mul>: (:Number, :Number) -> (:Number);
+	<Div>: (:Number, :Number) -> (:Number);
+	<Mod>: (:Number, :Number) -> (:Number);
+	<Add>: (:Number, :Number) -> (:Number);
+	<Sub>: (:Number, :Number) -> (:Number);
+	<Print>: (:Number) -> ();
 
-<panic>;
-<err-syntax>;
-<err-divide-by-zero>: () -> (:Number);
-
-expressions;
-
-expression: () -> (n:Number) [
-	prim-expr: () -> (n:Number) = {
-		n = number;
-	||
-		lparen; n = expression; rparen;
-	};
-
-	un-expr: () -> (n:Number) = {
-		n = prim-expr;
-	||
-		add; n1 = un-expr;
-		n = <Pos>(n1);
-	||
-		sub; n1 = un-expr;
-		n = <Neg>(n1);
-	};
-
-	mul-expr: () -> (n:Number) = {
-		n = un-expr;
-	||
-		n1 = mul-expr; mul; n2 = un-expr;
-		n = <Mul>(n1, n2);
-	||
-		n1 = mul-expr; div; n2 = un-expr;
-		{
-			n = <Div>(n1, n2);
-		##
-			n = <err-divide-by-zero>;
-			<panic>;
-			expressions;
-		};
-	||
-		n1 = mul-expr; mod; n2 = un-expr;
-		{
-			n = <Mod>(n1, n2);
-		##
-			n = <err-divide-by-zero>;
-			<panic>;
-			expressions;
-		};
-	};
-
-	add-expr: () -> (n:Number) = {
-		n = mul-expr;
-	||
-		n1 = add-expr; add; n2 = mul-expr;
-		n = <Add>(n1, n2);
-	||
-		n1 = add-expr; sub; n2 = mul-expr;
-		n = <Sub>(n1, n2);
-	};
-] /* expression */ = {
-	n = add-expr;
-};
-
-expressions = {
-	? = <is-eof>;
-||
-	newline;
-	expressions;
-||
-	e = expression;
-	{
-		? = <is-newline>;
-		<Print>(e);
-		newline;
-	};
-	expressions;
-##
-	<err-syntax>;
 	<panic>;
-	expressions;
-};
+	<err-syntax>;
+	<err-divide-by-zero>: () -> (:Number);
 
-%entry% expressions;
+	expressions;
+
+	expression: () -> (n:Number) [
+		prim-expr: () -> (n:Number) = {
+			n = number;
+		||
+			lparen; n = expression; rparen;
+		};
+
+		un-expr: () -> (n:Number) = {
+			n = prim-expr;
+		||
+			add; n1 = un-expr;
+			n = <Pos>(n1);
+		||
+			sub; n1 = un-expr;
+			n = <Neg>(n1);
+		};
+
+		mul-expr: () -> (n:Number) = {
+			n = un-expr;
+		||
+			n1 = mul-expr; mul; n2 = un-expr;
+			n = <Mul>(n1, n2);
+		||
+			n1 = mul-expr; div; n2 = un-expr;
+			{
+				n = <Div>(n1, n2);
+			##
+				n = <err-divide-by-zero>;
+				<panic>;
+				expressions;
+			};
+		||
+			n1 = mul-expr; mod; n2 = un-expr;
+			{
+				n = <Mod>(n1, n2);
+			##
+				n = <err-divide-by-zero>;
+				<panic>;
+				expressions;
+			};
+		};
+
+		add-expr: () -> (n:Number) = {
+			n = mul-expr;
+		||
+			n1 = add-expr; add; n2 = mul-expr;
+			n = <Add>(n1, n2);
+		||
+			n1 = add-expr; sub; n2 = mul-expr;
+			n = <Sub>(n1, n2);
+		};
+	] /* expression */ = {
+		n = add-expr;
+	};
+
+	expressions = {
+		? = <is-eof>;
+	||
+		newline;
+		expressions;
+	||
+		e = expression;
+		{
+			? = <is-newline>;
+			<Print>(e);
+			newline;
+		};
+		expressions;
+	##
+		<err-syntax>;
+		<panic>;
+		expressions;
+	};
+
+%entry%
+
+	expressions;
+
