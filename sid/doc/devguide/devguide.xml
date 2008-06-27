@@ -234,6 +234,8 @@
 				the number of outputted file. Don't remove the last line: it serves as a guard.
 				To add a new output language, add a line to <code>main_language_list</code>
 				and implement the new top level functions.</para>
+
+			<!-- TODO explain that languages may have language-specific options -->
 		</section>
 
 		<section>
