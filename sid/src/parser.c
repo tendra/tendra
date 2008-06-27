@@ -5050,10 +5050,6 @@ ZR194(GrammarP sid_current_grammar)
 			TypeTupleT *result  = action_result(action);
 			BoolT       errored = FALSE;
 
-			if (action_get_ignored(action)) {
-				E_ignored_action_call(key_get_string(entry_key((ZI163))));
-			}
-
 			if (types_contains_names((&ZI129))) {
 				E_action_param_has_names(key, (&ZI129));
 				errored = TRUE;
@@ -5157,10 +5153,6 @@ ZR194(GrammarP sid_current_grammar)
 			TypeTupleT *param   = action_param(action);
 			TypeTupleT *result  = action_result(action);
 			BoolT       errored = FALSE;
-
-			if (action_get_ignored(action)) {
-				E_ignored_action_call(key_get_string(entry_key((ZI163))));
-			}
 
 			if (types_contains_names((&ZI129))) {
 				E_action_param_has_names(key, (&ZI129));
