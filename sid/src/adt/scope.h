@@ -98,7 +98,7 @@ void	scope_stack_pop(ScopeStackT *);
 EntryT *	scope_stack_add_rule(ScopeStackT *, TableT *, NStringT *,
 				     struct RuleT *, BoolT *);
 EntryT *	scope_stack_add_action(ScopeStackT *, TableT *, NStringT *,
-				       struct RuleT *, BoolT *);
+				       struct RuleT *, BoolT *, BoolT);
 EntryT *	scope_stack_add_non_local(ScopeStackT *, TableT *, NStringT *,
 					  EntryT *, struct RuleT *);
 EntryT *	scope_stack_get_rule(ScopeStackT *, TableT *, NStringT *);

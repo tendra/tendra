@@ -88,13 +88,20 @@ typedef struct ActionT {
 	 * specific type for blocks of code.
 	 */
     void *			code;
+
+	/*
+	 * Indicates if the terminal is ignored or not, i.e. declared with a
+	 * preceding ! in the .sid file.
+	 */
+    BoolT           ignored;
 } ActionT;
 
-ActionT *		action_create(void);
+ActionT *		action_create(BoolT);
 TypeTupleT *	action_param(ActionT *);
 TypeTupleT *	action_result(ActionT *);
 void *		action_get_code(ActionT *);
 void		action_set_code(ActionT *, void *);
+BoolT		action_get_ignored(ActionT *);
 void		action_iter_for_table(ActionT *, BoolT,
 					      void(*)(EntryT *, void *),
 					      void *);

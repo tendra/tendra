@@ -170,13 +170,13 @@ table_add_basic(TableT *table, NStringT *key, GrammarT *grammar, BoolT ignored)
 }
 
 EntryT *
-table_add_action(TableT *table, NStringT *key)
+table_add_action(TableT *table, NStringT *key, BoolT ignored)
 {
 	BoolT   found;
 	EntryT *entry = table_add_entry(table, key, ET_ACTION, &found);
 
 	if (entry != NULL && !found) {
-		entry_set_action(entry, action_create());
+		entry_set_action(entry, action_create(ignored));
 	}
 
 	return entry;

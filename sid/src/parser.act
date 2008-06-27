@@ -533,7 +533,17 @@
 	<action>: (string :StringT &) -> (entry :EntryP) = @{
 		@entry = scope_stack_add_action (sid_current_scope,
 			grammar_table(sid_current_grammar), &@=string, sid_enclosing_rule,
-			&sid_redefining_entry);
+			&sid_redefining_entry, FALSE);
+		if (!@entry) {
+			E_duplicate_action(@&string);
+			nstring_destroy(&@=string);
+		}
+	@};
+
+	<i-action>: (string :StringT &) -> (entry :EntryP) = @{
+		@entry = scope_stack_add_action (sid_current_scope,
+			grammar_table(sid_current_grammar), &@=string, sid_enclosing_rule,
+			&sid_redefining_entry, TRUE);
 		if (!@entry) {
 			E_duplicate_action(@&string);
 			nstring_destroy(&@=string);
@@ -547,6 +557,10 @@
 			TypeTupleT *param   = action_param(action);
 			TypeTupleT *result  = action_result(action);
 			BoolT       errored = FALSE;
+
+			if (action_get_ignored(action)) {
+				E_ignored_action_call(key_get_string(entry_key(@entry)));
+			}
 
 			if (types_contains_names(@&n_params)) {
 				E_action_param_has_names(key, @&n_params);
@@ -638,6 +652,10 @@
 			TypeTupleT *result = action_result(action);
 			TypeTupleT  tuple;
 			TypeTupleT  ref_tuple;
+
+			if (action_get_ignored(action)) {
+				E_ignored_action_call(key_get_string(entry_key(actionentry)));
+			}
 
 			types_init(&tuple);
 			types_init(&ref_tuple);
@@ -992,6 +1010,10 @@
 			BoolT    errored = FALSE;
 			EntryT  *entry   = item_entry(sid_current_item);
 			ActionT *action  = entry_get_action(entry);
+
+			if (action_get_ignored(action)) {
+				E_ignored_action_call(key_get_string(entry_key(entry)));
+			}
 
 			if (types_resolve(@&rhs, rule_param(sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,

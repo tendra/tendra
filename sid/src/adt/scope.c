@@ -168,7 +168,7 @@ scope_stack_add_rule(ScopeStackT *stack, TableT *table, NStringT *key,
 
 EntryT *
 scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
-	RuleT *rule, BoolT *found_ref)
+	RuleT *rule, BoolT *found_ref, BoolT ignored)
 {
 	DStringT        dstring;
 	NStringT        nstring;
@@ -182,7 +182,7 @@ scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
 			*found_ref = TRUE;
 		}
 
-		return table_add_action(table, key);
+		return table_add_action(table, key, ignored);
 	}
 
 	dstring_init(&dstring);
@@ -198,7 +198,7 @@ scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
 		return entry;
 	}
 
-	entry = table_add_action(table, &nstring);
+	entry = table_add_action(table, &nstring, ignored);
 	if (entry == NULL) {
 		nstring_destroy(&nstring);
 		return(NULL);

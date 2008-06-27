@@ -121,6 +121,7 @@
 	<add-pred>: (:TypeTupleT &) -> ();
 	<add-void>: (:TypeTupleT &) -> ();
 	<action>: (:StringT &) -> (:EntryP);
+	<i-action>: (:StringT &) -> (:EntryP);
 	<x-action>: (:EntryP, :TypeTupleT &, :TypeTupleT &) -> () ;
 	<non-local>: (:StringT &, :StringT &) -> (:NonLocalEntryP);
 	<non-local-init>: (:NonLocalEntryP, :StringT &) -> ();
@@ -513,9 +514,9 @@
 			 */
 
 			action-decn = {
-				begin-action;
-
 				{
+					begin-action;
+
 					id = identifier;
 					entry = <action>(&id);
 					{
@@ -530,6 +531,31 @@
 						terminator;
 					##
 						<expected-terminator>;
+					};
+				||
+					ignore;
+
+					begin-action;
+
+					{
+						id = identifier;
+						entry = <i-action>(&id);
+						{
+							end-action;
+						##
+							<expected-end-action>;
+						};
+
+						(params, results) = function-type-defn;
+						<x-action>(entry, &params, &results);
+						{
+							terminator;
+						##
+							<expected-terminator>;
+						};
+					##
+						<expected-identifier>;
+						<skip-to-end-of-action-decn>;
 					};
 				##
 					<expected-identifier>;

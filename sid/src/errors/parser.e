@@ -1385,6 +1385,27 @@ error "identity param has refs" {
     }
 };
 
+error "ignored action call" {
+    "${file name}: ${line number}: invocation of ignored action '${action name}'",
+    {
+	"file name" : "char *" $[
+	    write_cstring(ostream, closure->file_name);
+	]$ $[
+	    closure.file_name = lexer_stream_name(sid_current_stream);
+	]$
+    }, {
+	"line number" : "unsigned" $[
+	    write_unsigned(ostream, closure->line_number);
+	]$ $[
+	    closure.line_number = lexer_stream_line(sid_current_stream);
+	]$
+    }, {
+	"action name" : "NStringT *" $[
+	    write_nstring(ostream, closure->action_name);
+	]$
+    }
+};
+
 error "ignored basic call" {
     "${file name}: ${line number}: invocation of ignored terminal '${terminal name}'",
     {

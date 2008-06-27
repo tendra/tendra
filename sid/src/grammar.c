@@ -80,12 +80,24 @@ static void
 grammar_trace_ignored(EntryT *entry, void *gclosure)
 {
 	UNUSED(gclosure);
-	if (entry_is_basic(entry)) {
-		BasicT *basic = entry_get_basic(entry);
+	switch (entry_type(entry)){
+	case ET_BASIC: {
+			BasicT *basic = entry_get_basic(entry);
 
-		if (basic_get_ignored(basic)) {
-			entry_iter(entry, TRUE, NULL, NULL);
+			if (basic_get_ignored(basic)) {
+				entry_iter(entry, TRUE, NULL, NULL);
+			}
 		}
+		break;
+
+	case ET_ACTION: {
+			ActionT *action = entry_get_action(entry);
+
+			if (action_get_ignored(action)) {
+				entry_iter(entry, TRUE, NULL, NULL);
+			}
+		}
+		break;
 	}
 }
 

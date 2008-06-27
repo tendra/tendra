@@ -75,13 +75,14 @@
 #include "type.h"
 
 ActionT *
-action_create(void)
+action_create(BoolT ignored)
 {
 	ActionT *action = ALLOCATE(ActionT);
 
 	types_init(action_param(action));
 	types_init(action_result(action));
 	action->code = NULL;
+	action->ignored = ignored;
 
 	return action;
 }
@@ -109,6 +110,12 @@ void
 action_set_code(ActionT *action, void *code)
 {
 	action->code = code;
+}
+
+BoolT
+action_get_ignored(ActionT *action)
+{
+	return action->ignored;
 }
 
 void

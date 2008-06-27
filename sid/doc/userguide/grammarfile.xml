@@ -152,6 +152,11 @@ rule2 ;</programlisting>
 &lt;action1&gt; : ( :StringT &amp; ) -&gt; () ;
 &lt;action2&gt; ;</programlisting>
 
+		<para>Action declarations may be prefixed with <code>!</code> if they are
+			not to be used in the grammar. This is particularly useful for several
+			grammars which share the same actions, where not all of the grammars
+			make use of the actions provided.</para>
+
 		<para>A declaration (or a definition) may be prefixed with the
 			<code>::</code> symbol. This symbol forces the definition into the
 			outermost scope. Scopes are described later on.</para>
