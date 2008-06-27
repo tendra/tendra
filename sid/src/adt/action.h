@@ -90,7 +90,7 @@ typedef struct ActionT {
     void *			code;
 
 	/*
-	 * Indicates if the terminal is ignored or not, i.e. declared with a
+	 * Indicates if the action is ignored or not, i.e. declared with a
 	 * preceding ! in the .sid file.
 	 */
     BoolT           ignored;
