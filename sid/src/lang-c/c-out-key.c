@@ -201,3 +201,19 @@ c_output_label_key(COutputInfoT *info, KeyT *key, unsigned label)
 	}
 }
 
+void
+c_output_string_key(COutputInfoT *info, KeyT *key, NStringT *prefix)
+{
+	OStreamT *ostream = c_out_info_ostream(info);
+
+	write_nstring(ostream, prefix);
+	if (key_is_string(key)) {
+		NStringT *nstring = key_get_string(key);
+
+		write_c_key(ostream, nstring_contents(nstring),
+			nstring_length(nstring));
+	} else {
+		write_unsigned(ostream, key_get_number(key));
+	}
+}
+

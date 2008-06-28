@@ -100,8 +100,12 @@ typedef struct GrammarT {
 	 * The number of terminals.
 	 *
 	 * Terminals are numbered from 0 to .terminal - 1. The value of
-	 * .terminal is primarily [TODO only?] used while parsing the * .sid file
-	 * to tell each newly constructed terminal which number it should hold.
+	 * .terminal is primarily used while parsing the * .sid file to tell each
+	 * newly constructed terminal which number it should hold.
+	 *
+	 * It is also used as a convenience to find the maximum terminal during
+	 * output which is used to represent errors.
+	 *
 	 * See the BasicT type.
 	 */
     unsigned			terminal;

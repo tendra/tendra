@@ -173,6 +173,12 @@ main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
 		} else if (!strcmp(option, "no-numeric-ids")
 			|| !strcmp(option, "no-numeric")) {
 			c_out_info_set_numeric_ids(c_out_info, FALSE);
+		} else if (!strcmp(option, "numeric-terminals")
+			|| !strcmp(option, "numeric-terminals")) {
+			c_out_info_set_numeric_terminals(c_out_info, TRUE);
+		} else if (!strcmp(option, "no-numeric-terminals")
+			|| !strcmp(option, "no-numeric-terminals")) {
+			c_out_info_set_numeric_terminals(c_out_info, FALSE);
 		} else if (!strcmp(option, "casts")
 			|| !strcmp(option, "cast")) {
 			c_out_info_set_casts(c_out_info, TRUE);

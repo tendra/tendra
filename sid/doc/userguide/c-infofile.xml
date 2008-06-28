@@ -209,6 +209,15 @@
 				<code>RESTORE_LEXER</code>, so the save stack only needs one
 				element.</para>
 		</listitem>
+
+		<listitem>
+			<para>&sid; expects the <code>ERROR_TERMINAL</code> macro to be
+				defined if the <code>-s no-numeric-terminals</code> option is
+				given. This is expected to specify a value which is not a valid
+				terminal number. This is required as with non-numeric terminals
+				(that is, symbolic names) a non-terminal value would not
+				otherwise be known.</para>
+		</listitem>
 	</itemizedlist>
 
 	<para>The remainder of this section describes the layout of the C

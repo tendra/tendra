@@ -69,11 +69,11 @@
 void
 c_out_info_init(COutputInfoT *info, OutputInfoT *out_info)
 {
-	info->info        = out_info;
-	info->header1     = NULL;
-	info->header2     = NULL;
-	info->trailer1    = NULL;
-	info->trailer2    = NULL;
+	info->info              = out_info;
+	info->header1           = NULL;
+	info->header2           = NULL;
+	info->trailer1          = NULL;
+	info->trailer2          = NULL;
 	persistent_list_init(&info->persistents);
 	nstring_copy_cstring(c_out_info_type_prefix(info), "ZT");
 	nstring_copy_cstring(c_out_info_fn_prefix(info), "ZR");
@@ -82,13 +82,14 @@ c_out_info_init(COutputInfoT *info, OutputInfoT *out_info)
 	nstring_copy_cstring(c_out_info_label_prefix(info), "ZL");
 	nstring_copy_cstring(c_out_info_terminal_prefix(info), "ZB");
 	nstring_copy_cstring(c_out_info_persistents_prefix(info), "ZP");
-	info->prototypes  = FALSE;
-	info->numeric_ids = FALSE;
-	info->casts       = FALSE;
-	info->unreachable = FALSE;
-	info->lines       = TRUE;
-	info->terminals   = TRUE;
-	info->split       = 0;
+	info->prototypes        = FALSE;
+	info->numeric_ids       = FALSE;
+	info->numeric_terminals = TRUE;
+	info->casts             = FALSE;
+	info->unreachable       = FALSE;
+	info->lines             = TRUE;
+	info->terminals         = TRUE;
+	info->split             = 0;
 }
 
 OutputInfoT *
@@ -245,6 +246,18 @@ void
 c_out_info_set_numeric_ids(COutputInfoT *info, BoolT numeric_ids)
 {
 	info->numeric_ids = numeric_ids;
+}
+
+BoolT
+c_out_info_get_numeric_terminals(COutputInfoT *info)
+{
+	return info->numeric_terminals;
+}
+
+void
+c_out_info_set_numeric_terminals(COutputInfoT *info, BoolT numeric_terminals)
+{
+	info->numeric_terminals = numeric_terminals;
 }
 
 BoolT

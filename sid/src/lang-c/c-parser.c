@@ -205,8 +205,9 @@ ZR115(CCodeP ZI108)
 {
   ZL2_115:;
     switch (CURRENT_TERMINAL) {
-      case 24: case 25: case 26: case 27: case 28:
-      case 29: case 30: case 31: case 32: case 33:
+      case 24: case 25: case 26: case 27:
+      case 28: case 29: case 30: case 31:
+      case 32: case 33:
 	{
 	    ZR111 (ZI108);
 	    if ((CURRENT_TERMINAL) == 36) {

@@ -580,8 +580,8 @@ ZR243(GrammarP sid_current_grammar)
 	    }
 	}
 	break;
-      case 4: case 6: case 10: case 13: case 18:
-      case 19: case 24:
+      case 4: case 6: case 10: case 13:
+      case 18: case 19: case 24:
 	{
 	    {
 
@@ -1057,8 +1057,8 @@ ZR232(GrammarP sid_current_grammar)
 	    }
 	}
 	break;
-      case 4: case 6: case 10: case 18: case 19:
-      case 24:
+      case 4: case 6: case 10: case 18:
+      case 19: case 24:
 	{
 	    ZR219 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == 26) {
@@ -5295,8 +5295,8 @@ ZR239(GrammarP sid_current_grammar)
 	ZR232 (sid_current_grammar);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 4: case 6: case 10: case 13: case 18:
-	      case 19: case 24:
+	      case 4: case 6: case 10: case 13:
+	      case 18: case 19: case 24:
 		{
 		    goto ZL2_239;
 		}

@@ -190,6 +190,18 @@ c_output_ext_declaration(EntryT *entry, void *gclosure)
 }
 
 static void
+c_output_error_terminal(COutputInfoT *info, unsigned error_terminal)
+{
+	OStreamT *ostream = c_out_info_ostream(info);
+
+	if (c_out_info_get_numeric_terminals(info)) {
+		write_unsigned(ostream, error_terminal);
+	} else {
+		write_cstring(ostream, "(ERROR_TERMINAL)");
+	}
+}
+
+static void
 c_output_terminal_1(COutputInfoT *info, EntryT *entry)
 {
 	OStreamT *ostream = c_out_info_ostream(info);
@@ -260,7 +272,7 @@ c_output_static_vars(COutputInfoT *info, GrammarT *grammar, BoolT def)
 		c_output_mapped_key(info, predicate_type);
 		write_char(ostream, ' ');
 		c_output_key(info, entry_key(grammar_get_predicate_id(grammar)),
-		c_out_info_in_prefix(info));
+			c_out_info_in_prefix(info));
 		write_char(ostream, ';');
 		write_newline(ostream);
 	}
@@ -341,13 +353,43 @@ c_output_switch(COutputInfoT *info, unsigned indent)
 }
 
 static void
-c_output_case(COutputInfoT *info, unsigned terminal, unsigned indent)
+c_output_terminal_entry(COutputInfoT *info, EntryT *entry)
+{
+	OStreamT *ostream = c_out_info_ostream(info);
+
+	if (c_out_info_get_numeric_terminals(info)) {
+		BasicT *basic = entry_get_basic(entry);
+
+		write_unsigned(ostream, basic_terminal(basic));
+	} else {
+		KeyT     *key     = entry_key(entry);
+
+		write_cstring(ostream, "(");
+		c_output_string_key(info, key, c_out_info_terminal_prefix(info));
+		write_cstring(ostream, ")");
+	}
+}
+
+static void
+c_output_case(COutputInfoT *info, EntryT *entry, unsigned indent)
 {
 	OStreamT *ostream = c_out_info_ostream(info);
 
 	c_output_indent(info, indent + C_INDENT_STEP - C_INDENT_FOR_CASE);
 	write_cstring(ostream, "case ");
-	write_unsigned(ostream, terminal);
+	c_output_terminal_entry(info, entry);
+	write_char(ostream, ':');
+	write_newline(ostream);
+}
+
+static void
+c_output_error_case(COutputInfoT *info, unsigned error_terminal, unsigned indent)
+{
+	OStreamT *ostream = c_out_info_ostream(info);
+
+	c_output_indent(info, indent + C_INDENT_STEP - C_INDENT_FOR_CASE);
+	write_cstring(ostream, "case ");
+	c_output_error_terminal(info, error_terminal);
 	write_char(ostream, ':');
 	write_newline(ostream);
 }
@@ -363,13 +405,15 @@ c_output_default(COutputInfoT *info, unsigned indent)
 }
 
 static void
-c_output_bitvec_cases(COutputInfoT *info, BitVecT *bitvec, unsigned indent)
+c_output_bitvec_cases(COutputInfoT *info, TableT *table, BitVecT *bitvec, unsigned indent)
 {
 	OStreamT *ostream  = c_out_info_ostream(info);
 	unsigned terminal = bitvec_first_bit(bitvec);
 	unsigned count    = 0;
 
 	do {
+		EntryT *entry = table_get_basic_by_number(table, terminal);
+
 		if (count++ == 0) {
 			c_output_indent(info, indent + C_INDENT_STEP - C_INDENT_FOR_CASE);
 		} else {
@@ -377,10 +421,10 @@ c_output_bitvec_cases(COutputInfoT *info, BitVecT *bitvec, unsigned indent)
 		}
 
 		write_cstring(ostream, "case ");
-		write_unsigned(ostream, terminal);
+		c_output_terminal_entry(info, entry);
 		write_char(ostream, ':');
 
-		if (count == 5) {
+		if (count == 4) {
 			write_newline(ostream);
 			count = 0;
 		}
@@ -418,7 +462,7 @@ c_output_error_if(COutputInfoT *info, unsigned error_terminal, unsigned indent)
 
 	c_output_indent(info, indent);
 	write_cstring(ostream, "if ((CURRENT_TERMINAL) == ");
-	write_unsigned(ostream, error_terminal);
+	c_output_error_terminal(info, error_terminal);
 	write_cstring(ostream, ") {");
 	write_newline(ostream);
 }
@@ -506,19 +550,18 @@ c_output_basic_in_alt(COutputInfoT *info, ItemT *item, RuleT *handler_rule,
 	EntryT  *entry       = item_entry(item);
 	KeyT    *key         = entry_key(entry);
 	BasicT  *basic       = entry_get_basic(entry);
-	unsigned terminal    = basic_terminal(basic);
 	CCodeT  *code        = basic_get_result_code(basic);
 	unsigned code_indent = need_switch ? indent + C_INDENT_STEP : indent;
 
 	if (need_switch) {
 		c_output_switch (info, indent);
-		c_output_case(info, terminal, indent);
+		c_output_case(info, entry, indent);
 		if (code) {
 			c_output_basic_extract(info, code, item, key, state, code_indent);
 		}
 		c_output_break(info, code_indent);
 		if (need_check) {
-			c_output_case(info, error_terminal, indent);
+			c_output_error_case(info, error_terminal, indent);
 			c_output_restore(info, handler_rule, outer_level, code_indent);
 		}
 		c_output_default(info, indent);
@@ -900,8 +943,8 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 					assert(!full_first_set);
 					c_output_default(info, code_indent);
 				} else {
-					c_output_bitvec_cases(info, alt_first_set(alt),
-					code_indent);
+					c_output_bitvec_cases(info, table, alt_first_set(alt),
+						code_indent);
 				}
 
 				if (c_output_alt(info, alt, rule, handler_rule, call_list,
@@ -915,7 +958,7 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 			}
 
 			if (need_check) {
-				c_output_case(info, error_terminal, code_indent);
+				c_output_error_case(info, error_terminal, code_indent);
 				c_output_restore(info, handler_rule, outer_level,
 				code_indent + C_INDENT_STEP);
 
@@ -925,7 +968,7 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 				c_output_default(info, code_indent);
 				if (!rule_has_empty_alt(rule)) {
 					c_output_jump(info, rule_get_handler_label(handler_rule),
-					code_indent + C_INDENT_STEP);
+						code_indent + C_INDENT_STEP);
 				} else {
 					c_output_break(info, code_indent + C_INDENT_STEP);
 					reachable = TRUE;
@@ -993,7 +1036,7 @@ c_output_rule(COutputInfoT *info, RuleT *rule, RuleT *handler_rule,
 
 				c_output_indent(info, code_indent);
 				write_cstring(ostream, "SAVE_LEXER (");
-				write_unsigned(ostream, error_terminal);
+				c_output_error_terminal(info, error_terminal);
 				write_cstring(ostream, ");");
 				write_newline(ostream);
 				c_output_return(info, code_indent);
@@ -1162,6 +1205,19 @@ c_output_parser(COutputInfoT *info, GrammarT *grammar)
 	c_output_c_code(info, header);
 	c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
 	write_newline(ostream);
+
+	/* TODO: #error for other undefined macros, too */
+
+	if (!c_out_info_get_numeric_terminals(info)) {
+		write_newline(ostream);
+		write_cstring (ostream, "#ifndef ERROR_TERMINAL");
+		write_newline(ostream);
+		write_cstring (ostream, "#error \"-s no-numeric-terminals given and ERROR_TERMINAL is not defined\"");
+		write_newline(ostream);
+		write_cstring (ostream, "#endif");
+		write_newline(ostream);
+		write_newline(ostream);
+	}
 
 	if (c_out_info_get_split(info) == 0) {
 		write_cstring (ostream, "/* BEGINNING OF FUNCTION DECLARATIONS */");

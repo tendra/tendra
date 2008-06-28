@@ -97,6 +97,7 @@ typedef struct COutputInfoT {
     PersistentListT    persistents;
     BoolT		prototypes;
     BoolT		numeric_ids;
+    BoolT		numeric_terminals;
     BoolT		casts;
     BoolT		unreachable;
     BoolT		lines;
@@ -131,6 +132,8 @@ BoolT		 c_out_info_get_prototypes(COutputInfoT *);
 void		 c_out_info_set_prototypes(COutputInfoT *, BoolT);
 BoolT		 c_out_info_get_numeric_ids(COutputInfoT *);
 void		 c_out_info_set_numeric_ids(COutputInfoT *, BoolT);
+BoolT		 c_out_info_get_numeric_terminals(COutputInfoT *);
+void		 c_out_info_set_numeric_terminals(COutputInfoT *, BoolT);
 BoolT		 c_out_info_get_casts(COutputInfoT *);
 void		 c_out_info_set_casts(COutputInfoT *, BoolT);
 BoolT		 c_out_info_get_unreachable(COutputInfoT *);
