@@ -71,6 +71,7 @@ ZONE act:	"@{" -> $ACT-CODESTART	/* XXX to remove when merged into the grammar *
 	TOKEN "@:[identstart]" -> c_lexer_act_read_label();
 	TOKEN "@&[identstart]" -> c_lexer_act_read_reference();
 	TOKEN "@=[identstart]" -> c_lexer_act_read_modifiable();
+	TOKEN "@$[identstart]" -> c_lexer_act_read_basic();
 
 	/* TODO c_lexer_read_code_id(): code identifier? */
 	TOKEN "@[identstart]" -> c_lexer_act_read_identifier();

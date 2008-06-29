@@ -33,7 +33,7 @@
 
 		<programlisting language="SID C Actions"><![CDATA[
 <is-eof>: () -> (eof:Boolean) = @{
-	@eof = (@. == TOKEN_EOF);
+	@eof = (@. == @$EOF);
 @};]]></programlisting>
 
 		<para>used in a grammar as a predicate, we can have an empty
@@ -243,7 +243,7 @@ rule = {
 
 		<programlisting language="SID C Actions"><![CDATA[
 <panic>: () -> () = @{
-	while (@. != TOKEN_SEMI && @. != TOKEN_EOF) {
+	while (@. != @$SEMI && @. != @$EOF) {
 		/* Advance to the next token */
 		@>;
 	}

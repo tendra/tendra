@@ -162,6 +162,18 @@ c_code_append_string(CCodeT *code, NStringT *string)
 }
 
 void
+c_code_append_basic(CCodeT *code, NStringT *string)
+{
+	CCodeItemT *item = ALLOCATE(CCodeItemT);
+
+	item->next  = NULL;
+	item->type  = CCT_BASIC;
+	nstring_assign(&item->u.string, string);
+	*code->tail = item;
+	code->tail  = &item->next;
+}
+
+void
 c_code_append_label(CCodeT *code, NStringT *string)
 {
 	CCodeItemT *item = ALLOCATE(CCodeItemT);
@@ -291,6 +303,20 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 			}
 			break;
 
+		case CCT_BASIC:
+			entry = table_get_basic(table, &item->u.string);
+			/*
+			 * Note that we do not check basic_get_ignored() here;
+			 * grammar_check_complete() for details.
+			 */
+			if (!entry) {
+				E_bad_basic_substitution(c_code_file(code), c_code_line(code),
+					&item->u.string);
+			} else {
+				item->u.basic = entry;
+			}
+			break;
+
 		case CCT_LABEL:
 			entry = table_add_name(table, &item->u.string);
 			item->u.ident = entry;
@@ -385,6 +411,7 @@ c_code_deallocate(CCodeT *code)
 		case CCT_IDENT:
 		case CCT_MOD_IDENT:
 		case CCT_REF_IDENT:
+		case CCT_BASIC:
 		case CCT_LABEL:
 		case CCT_EXCEPTION:
 		case CCT_TERMINAL:
@@ -427,6 +454,10 @@ c_output_c_code_action(COutputInfoT *info, CCodeT *code, TypeTupleT *param,
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			write_nstring(ostream, &item->u.string);
+			break;
+
+		case CCT_BASIC:
+			c_output_terminal_entry(info, item->u.basic);
 			break;
 
 		case CCT_LABEL:
@@ -539,6 +570,10 @@ SaveRStackT * state)
 			write_nstring(ostream, &(item->u.string));
 			break;
 
+		case CCT_BASIC:
+			c_output_terminal_entry(info, item->u.basic);
+			break;
+
 		case CCT_LABEL:
 			write_nstring(ostream, label_prefix);
 			write_unsigned(ostream, name_get_label(entry_get_name(item->u.ident)));
@@ -591,6 +626,10 @@ c_output_c_code_assign(COutputInfoT *info, CCodeT *code, EntryT *type,
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			write_nstring(ostream, &item->u.string);
+			break;
+
+		case CCT_BASIC:
+			c_output_terminal_entry(info, item->u.basic);
 			break;
 
 		case CCT_LABEL:
@@ -668,6 +707,10 @@ c_output_c_code_param_assign(COutputInfoT *info, CCodeT *code, EntryT *type,
 			write_nstring(ostream, &item->u.string);
 			break;
 
+		case CCT_BASIC:
+			c_output_terminal_entry(info, item->u.basic);
+			break;
+
 		case CCT_LABEL:
 			write_nstring(ostream, label_prefix);
 			write_unsigned(ostream,
@@ -724,6 +767,10 @@ c_output_c_code_result_assign(COutputInfoT *info, CCodeT *code, EntryT *type,
 			write_nstring(ostream, &item->u.string);
 			break;
 
+		case CCT_BASIC:
+			c_output_terminal_entry(info, item->u.basic);
+			break;
+
 		case CCT_LABEL:
 			write_nstring(ostream, label_prefix);
 			write_unsigned(ostream,
@@ -777,6 +824,10 @@ c_output_c_code(COutputInfoT *info, CCodeT *code)
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
 			write_nstring(ostream, &item->u.string);
+			break;
+
+		case CCT_BASIC:
+			c_output_terminal_entry(info, item->u.basic);
 			break;
 
 		case CCT_LABEL:

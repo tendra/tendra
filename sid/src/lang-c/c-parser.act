@@ -204,6 +204,10 @@
 		@c = c_lexer_code_value(c_current_stream);
 	@};
 
+	ACT-BASIC: () -> (i :StringT) = @{
+		nstring_assign(&@i, c_lexer_string_value(c_current_stream));
+	@};
+
 	ACT-LABEL: () -> (i :StringT) = @{
 		nstring_assign(&@i, c_lexer_string_value(c_current_stream));
 	@};
@@ -757,6 +761,10 @@
 
 	<append-ccode-advance>: (code :CCodeP) -> () = @{
 		c_code_append_advance(@code);
+	@};
+
+	<append-ccode-basic>: (code :CCodeP, i :StringT &) -> () = @{
+		c_code_append_basic(@code, &@=i);
 	@};
 
 	<append-ccode-label>: (code :CCodeP, i :StringT &) -> () = @{

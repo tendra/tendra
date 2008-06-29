@@ -332,6 +332,20 @@
 						This substitution is only valid in actions.</para>
 				</listitem>
 			</varlistentry>
+
+			<varlistentry>
+				<term><code>@$</code><token>terminal</token></term>
+				<listitem>
+					<para>This form introduces a terminal, as would be referenced by
+						the parser itself. This serves two purposes; firstly it acts
+						as a convenience for consistency to the grammar (as opposed
+						to writing the underlying C symbols), and secondly the
+						expansion of <code>@$</code> is subject to the same rules
+						as references to terminals elsewhere in the grammar. Most
+						notably, this includes <code>-s numeric-terminals</code>
+						causing the terminal name to expand numerically.</para>
+				</listitem>
+			</varlistentry>
 		</variablelist>
 
 		<para>All other forms are illegal. Note that in the case of labels and
@@ -356,7 +370,7 @@
 		}
 
 		@=param += @result ;
-		if ( @. == TOKEN_SEMI ) {
+		if ( @. == @$SEMI ) {
 			@&gt; ;
 		}
 	}

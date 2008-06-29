@@ -353,24 +353,6 @@ c_output_switch(COutputInfoT *info, unsigned indent)
 }
 
 static void
-c_output_terminal_entry(COutputInfoT *info, EntryT *entry)
-{
-	OStreamT *ostream = c_out_info_ostream(info);
-
-	if (c_out_info_get_numeric_terminals(info)) {
-		BasicT *basic = entry_get_basic(entry);
-
-		write_unsigned(ostream, basic_terminal(basic));
-	} else {
-		KeyT     *key     = entry_key(entry);
-
-		write_cstring(ostream, "(");
-		c_output_string_key(info, key, c_out_info_terminal_prefix(info));
-		write_cstring(ostream, ")");
-	}
-}
-
-static void
 c_output_case(COutputInfoT *info, EntryT *entry, unsigned indent)
 {
 	OStreamT *ostream = c_out_info_ostream(info);
@@ -1363,5 +1345,23 @@ c_output_close(COutputInfoT *info, unsigned indent)
 	c_output_indent(info, indent);
 	write_char(ostream, '}');
 	write_newline(ostream);
+}
+
+void
+c_output_terminal_entry(COutputInfoT *info, EntryT *entry)
+{
+	OStreamT *ostream = c_out_info_ostream(info);
+
+	if (c_out_info_get_numeric_terminals(info)) {
+		BasicT *basic = entry_get_basic(entry);
+
+		write_unsigned(ostream, basic_terminal(basic));
+	} else {
+		KeyT     *key     = entry_key(entry);
+
+		write_cstring(ostream, "(");
+		c_output_string_key(info, key, c_out_info_terminal_prefix(info));
+		write_cstring(ostream, ")");
+	}
 }
 

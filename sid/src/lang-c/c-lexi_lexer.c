@@ -30,6 +30,9 @@
 #define c_lexer_act_read_modifiable(c0, c1, c2) \
 	c_lexer_support_read_id(c2, C_TOK_ACT_HMODIFIABLE, c_lexi_group_act_identbody)
 
+#define c_lexer_act_read_basic(c0, c1, c2) \
+	c_lexer_support_read_id(c2, C_TOK_ACT_HBASIC, c_lexi_group_identbody)
+
 #define c_lexer_act_read_identifier(c0, c1) \
 	c_lexer_support_read_id(c1, C_TOK_ACT_HIDENTIFIER, c_lexi_group_act_identbody)
 
@@ -164,6 +167,14 @@ c_lexi_read_token_act(struct c_lexi_state *state)
 			switch (c1) {
 				case '!': {
 					return C_TOK_ACT_HEXCEPTION;
+				}
+				case '$': {
+					int c2 = c_lexi_readchar(state);
+					if (c_lexi_group(c_lexi_group_identstart, c2)) {
+						return c_lexer_act_read_basic(c0, c1, c2);
+					}
+					c_lexi_push(state, c2);
+					break;
 				}
 				case '&': {
 					int c2 = c_lexi_readchar(state);

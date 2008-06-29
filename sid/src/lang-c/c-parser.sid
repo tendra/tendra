@@ -99,6 +99,7 @@
 	ACT-EXCEPTION;      // @!
 	ACT-TERMINAL;       // @.
 	ACT-ADVANCE;        // @>
+	ACT-BASIC:      () -> (:StringT); // @:[A-ZA-Z][A-ZA-Z0-9]*
 	ACT-LABEL:      () -> (:StringT); // @:[A-ZA-Z][A-ZA-Z0-9]*
 	ACT-REFERENCE:  () -> (:StringT); // @&[A-ZA-Z][A-ZA-Z0-9]*
 	ACT-IDENTIFIER: () -> (:StringT); // @[A-ZA-Z][A-ZA-Z0-9]*
@@ -142,6 +143,7 @@
 	<append-ccode-exception>: (:CCodeP) -> () ;
 	<append-ccode-terminal>: (:CCodeP) -> () ;
 	<append-ccode-advance>: (:CCodeP) -> () ;
+	<append-ccode-basic>: (:CCodeP, :StringT &) -> () ;
 	<append-ccode-label>: (:CCodeP, :StringT &) -> () ;
 	<append-ccode-reference>: (:CCodeP, :StringT &) -> () ;
 	<append-ccode-identifier>: (:CCodeP, :StringT &) -> () ;
@@ -205,6 +207,9 @@
 			||
 				ACT-ADVANCE;
 				<append-ccode-advance>(c) ;
+			||
+				i = ACT-BASIC;
+				<append-ccode-basic>(c, &i) ;
 			||
 				i = ACT-LABEL;
 				<append-ccode-label>(c, &i) ;

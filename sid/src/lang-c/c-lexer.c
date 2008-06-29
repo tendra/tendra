@@ -194,6 +194,7 @@ c_lexer_string_value(CLexerStreamT *stream)
 {
 	assert(stream->token.t == C_TOK_C_HIDENTIFIER
 		|| stream->token.t == C_TOK_SID_HIDENTIFIER
+		|| stream->token.t == C_TOK_ACT_HBASIC
 		|| stream->token.t == C_TOK_ACT_HLABEL
 		|| stream->token.t == C_TOK_ACT_HMODIFIABLE
 		|| stream->token.t == C_TOK_ACT_HIDENTIFIER

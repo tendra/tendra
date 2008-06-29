@@ -117,6 +117,12 @@ grammar_check_1(EntryT *entry, void *gclosure)
 		break;
 
 	case ET_BASIC:
+		/*
+		 * Note that we do not consider use of basics in action blocks (that is
+		 * by the @$basic-name construct) as "used", since that is a language-
+		 * specific construct. Usage in the grammatical sense must still hold
+		 * true even with no action file.
+		 */
 		if (!entry_is_traced(entry)) {
 			E_basic_not_used(entry_key(entry));
 		}

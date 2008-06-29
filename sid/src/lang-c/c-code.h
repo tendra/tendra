@@ -78,6 +78,7 @@
 
 typedef enum {
     CCT_STRING,
+    CCT_BASIC,
     CCT_LABEL,
     CCT_IDENT,
     CCT_MOD_IDENT,
@@ -93,6 +94,7 @@ typedef struct CCodeItemT {
     union {
 	NStringT		string;
 	EntryT *			ident;
+	EntryT *			basic;
     } u;
 } CCodeItemT;
 
@@ -107,6 +109,7 @@ typedef struct CCodeT {
 
 CCodeT *		c_code_create(char *, unsigned);
 void		c_code_append_string(CCodeT *, NStringT *);
+void		c_code_append_basic(CCodeT *, NStringT *);
 void		c_code_append_label(CCodeT *, NStringT *);
 void		c_code_append_identifier(CCodeT *, NStringT *);
 void		c_code_append_modifiable(CCodeT *, NStringT *);

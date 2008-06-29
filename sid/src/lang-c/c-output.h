@@ -90,5 +90,6 @@ void		c_output_key_message(COutputInfoT *, char *, KeyT *,
 unsigned		c_out_next_label(void);
 void		c_output_open(COutputInfoT *, unsigned);
 void		c_output_close(COutputInfoT *, unsigned);
+void		c_output_terminal_entry(COutputInfoT *, EntryT *);
 
 #endif /* !defined (H_C_OUTPUT) */
