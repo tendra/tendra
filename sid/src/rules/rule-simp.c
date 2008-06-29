@@ -138,7 +138,7 @@ rule_sort_alts(RuleSortListT *sort_list)
 		sort_list->head = lower.head;
 		sort_list->tail = lower.tail;
 	} else {
-		sort_list->tail = &(sort_list->head);
+		sort_list->tail = &sort_list->head;
 	}
 	*sort_list->tail = alt;
 	sort_list->tail  = alt_next_ref(alt);

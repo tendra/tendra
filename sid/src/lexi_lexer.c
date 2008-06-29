@@ -111,7 +111,7 @@ lexi_read_token_bracketed_comment(struct lexi_state *state)
 			}
 			lexi_push(state, c1);
 		} else if (c0 == LEXI_EOF) {
-			E_eof_in_comment(&(lexer_stream->istream));
+			E_eof_in_comment(&lexer_stream->istream);
 			goto start;
 		}
 		goto start;
@@ -129,7 +129,7 @@ lexi_read_token_singleline_comment(struct lexi_state *state)
 			state->zone_function = lexi_read_token;
 			return lexi_read_token(state);
 		} else if (c0 == LEXI_EOF) {
-			E_eof_in_comment(&(lexer_stream->istream));
+			E_eof_in_comment(&lexer_stream->istream);
 			goto start;
 		}
 		goto start;

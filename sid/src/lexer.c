@@ -210,7 +210,7 @@ read_identifier(int c)
 	}
 
 	lexer_token->t = LEXER_TOK_IDENTIFIER;
-	dstring_to_nstring(&dstring, &(lexer_token->u.string));
+	dstring_to_nstring(&dstring, &lexer_token->u.string);
 	dstring_destroy(&dstring);
 
 	return lexer_token->t;

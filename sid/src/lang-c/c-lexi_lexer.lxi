@@ -30,7 +30,7 @@ ZONE bracketed_comment: "/*" ... "*/" {
 	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 
-	TOKEN "\e" -> E_c_eof_in_comment("&(c_lexer_stream->istream)"), $$;
+	TOKEN "\e" -> E_c_eof_in_comment("&c_lexer_stream->istream"), $$;
 }
 
 /* TODO anonoymous zones would be nice: ZONE "//" ... "\n" { */
@@ -39,7 +39,7 @@ ZONE singleline_comment: "//" ... "\n" {
 	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 
-	TOKEN "\e" -> E_c_eof_in_comment("&(c_lexer_stream->istream)"), $$;
+	TOKEN "\e" -> E_c_eof_in_comment("&c_lexer_stream->istream"), $$;
 }
 
 

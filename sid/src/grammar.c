@@ -80,7 +80,7 @@ static void
 grammar_trace_ignored(EntryT *entry, void *gclosure)
 {
 	UNUSED(gclosure);
-	switch (entry_type(entry)){
+	switch (entry_type(entry)) EXHAUSTIVE {
 	case ET_BASIC: {
 			BasicT *basic = entry_get_basic(entry);
 
@@ -97,6 +97,14 @@ grammar_trace_ignored(EntryT *entry, void *gclosure)
 				entry_iter(entry, TRUE, NULL, NULL);
 			}
 		}
+		break;
+
+	case ET_TYPE:
+	case ET_RULE:
+	case ET_NAME:
+	case ET_RENAME:
+	case ET_PREDICATE:
+	case ET_NON_LOCAL:
 		break;
 	}
 }

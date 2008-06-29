@@ -304,8 +304,8 @@ ZR112(CCodeP *ZO111)
 	{
 #line 744 "c-parser.act"
 
-		(ZI111) = c_code_create(istream_name(&(c_lexer_stream->istream)), 
-			istream_line(&(c_lexer_stream->istream)));
+		(ZI111) = c_code_create(istream_name(&c_lexer_stream->istream), 
+			istream_line(&c_lexer_stream->istream));
 	
 #line 311 "tmp.c-parser.c"
 	}
@@ -1662,13 +1662,13 @@ ZR122(void)
 		int prefix;
 
 		if (!c_inited_prefix_names) {
-			nstring_copy_cstring(&(c_prefix_names[CPFX_TYPE]), "type");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_FN]), "function");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_IN]), "input");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_OUT]), "output");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_LABEL]), "label");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_TERMINAL]), "terminal");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_PERSISTENTS]), "persistents");
+			nstring_copy_cstring(&c_prefix_names[CPFX_TYPE], "type");
+			nstring_copy_cstring(&c_prefix_names[CPFX_FN], "function");
+			nstring_copy_cstring(&c_prefix_names[CPFX_IN], "input");
+			nstring_copy_cstring(&c_prefix_names[CPFX_OUT], "output");
+			nstring_copy_cstring(&c_prefix_names[CPFX_LABEL], "label");
+			nstring_copy_cstring(&c_prefix_names[CPFX_TERMINAL], "terminal");
+			nstring_copy_cstring(&c_prefix_names[CPFX_PERSISTENTS], "persistents");
 			c_inited_prefix_names = TRUE;
 		}
 

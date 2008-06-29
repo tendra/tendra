@@ -238,13 +238,13 @@
 		int prefix;
 
 		if (!c_inited_prefix_names) {
-			nstring_copy_cstring(&(c_prefix_names[CPFX_TYPE]), "type");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_FN]), "function");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_IN]), "input");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_OUT]), "output");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_LABEL]), "label");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_TERMINAL]), "terminal");
-			nstring_copy_cstring(&(c_prefix_names[CPFX_PERSISTENTS]), "persistents");
+			nstring_copy_cstring(&c_prefix_names[CPFX_TYPE], "type");
+			nstring_copy_cstring(&c_prefix_names[CPFX_FN], "function");
+			nstring_copy_cstring(&c_prefix_names[CPFX_IN], "input");
+			nstring_copy_cstring(&c_prefix_names[CPFX_OUT], "output");
+			nstring_copy_cstring(&c_prefix_names[CPFX_LABEL], "label");
+			nstring_copy_cstring(&c_prefix_names[CPFX_TERMINAL], "terminal");
+			nstring_copy_cstring(&c_prefix_names[CPFX_PERSISTENTS], "persistents");
 			c_inited_prefix_names = TRUE;
 		}
 
@@ -741,8 +741,8 @@
 	 */
 
 	<ccode-init>: () -> (code :CCodeP) = @{
-		@code = c_code_create(istream_name(&(c_lexer_stream->istream)), 
-			istream_line(&(c_lexer_stream->istream)));
+		@code = c_code_create(istream_name(&c_lexer_stream->istream), 
+			istream_line(&c_lexer_stream->istream));
 	@};
 
 	<append-ccode-at>: (code :CCodeP) -> () = @{

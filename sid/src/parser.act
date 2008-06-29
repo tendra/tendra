@@ -219,7 +219,7 @@
 		@b.head = @a.head;
 
 		if (@b.head == NULL) {
-			@b.tail = &(@b.head);
+			@b.tail = &@b.head;
 		} else {
 			@b.tail= @a.tail ;
 		}
@@ -235,7 +235,7 @@
 		@b.head = @a->head;
 
 		if (@b.head == NULL) {
-			@b.tail = &(@b.head);
+			@b.tail = &@b.head;
 		} else {
 			@b.tail= @a->tail ;
 		}
@@ -251,7 +251,7 @@
 		@b->head = @a.head;
 
 		if (@b->head == NULL) {
-			@b->tail = &(@b->head);
+			@b->tail = &@b->head;
 		} else {
 			@b->tail= @a.tail ;
 		}

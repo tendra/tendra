@@ -131,8 +131,8 @@ c_code_get_translation(SaveRStackT *state, TypeBTransT *translator, EntryT *iden
 
 
 /*
-* Externally-visible functions
-*/
+ * Externally-visible functions
+ */
 
 CCodeT *
 c_code_create(char *file, unsigned line)
@@ -140,7 +140,7 @@ c_code_create(char *file, unsigned line)
 	CCodeT *code = ALLOCATE(CCodeT);
 
 	code->head = NULL;
-	code->tail = &(code->head);
+	code->tail = &code->head;
 	code->file = file;
 	code->line = line;
 	types_init(&code->param);
@@ -362,11 +362,11 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 	}
 
 	if (param) {
-		types_assign(&(code->param), param);
+		types_assign(&code->param, param);
 	}
 
 	if (result) {
-		types_assign(&(code->result), result);
+		types_assign(&code->result, result);
 	}
 }
 
@@ -567,7 +567,7 @@ SaveRStackT * state)
 	for (item = code->head; item; item = item->next) {
 		switch (item->type) EXHAUSTIVE {
 		case CCT_STRING:
-			write_nstring(ostream, &(item->u.string));
+			write_nstring(ostream, &item->u.string);
 			break;
 
 		case CCT_BASIC:

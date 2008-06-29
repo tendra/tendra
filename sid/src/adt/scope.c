@@ -186,7 +186,7 @@ scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
 	}
 
 	dstring_init(&dstring);
-	dstring_append_nstring(&dstring, &(stack->head->scope));
+	dstring_append_nstring(&dstring, &stack->head->scope);
 	dstring_append_nstring(&dstring, key);
 	dstring_to_nstring(&dstring, &nstring);
 	dstring_destroy(&dstring);
@@ -229,7 +229,7 @@ scope_stack_add_non_local(ScopeStackT *stack, TableT *table, NStringT *key,
 
 	assert(stack->head);
 	dstring_init(&dstring);
-	dstring_append_nstring(&dstring, &(stack->head->scope));
+	dstring_append_nstring(&dstring, &stack->head->scope);
 	dstring_append_nstring(&dstring, key);
 	dstring_to_nstring(&dstring, &nstring);
 	dstring_destroy(&dstring);

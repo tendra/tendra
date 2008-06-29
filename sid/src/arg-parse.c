@@ -109,8 +109,8 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 			char *immediate = NULL;
 
 			while (tmp_list->name != NULL || tmp_list->short_name != '\0') {
-				char * opt = (tmp_list->name);
-				char * arg = (&(option[2]));
+				char *opt = tmp_list->name;
+				char *arg = &option[2];
 
 				if (opt != NULL) {
 					char optch;

@@ -999,7 +999,7 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZO134)
 		ZO134->head = ZI134.head;
 
 		if (ZO134->head == NULL) {
-			ZO134->tail = &(ZO134->head);
+			ZO134->tail = &ZO134->head;
 		} else {
 			ZO134->tail= ZI134.tail ;
 		}
@@ -1133,7 +1133,7 @@ ZR183(GrammarP sid_current_grammar, TypeTupleT *ZO134)
 		ZO134->head = ZI134.head;
 
 		if (ZO134->head == NULL) {
-			ZO134->tail = &(ZO134->head);
+			ZO134->tail = &ZO134->head;
 		} else {
 			ZO134->tail= ZI134.tail ;
 		}
@@ -2651,7 +2651,7 @@ ZR149(GrammarP sid_current_grammar, TypeTupleT *ZO134)
 		ZO134->head = ZI134.head;
 
 		if (ZO134->head == NULL) {
-			ZO134->tail = &(ZO134->head);
+			ZO134->tail = &ZO134->head;
 		} else {
 			ZO134->tail= ZI134.tail ;
 		}
@@ -5112,7 +5112,7 @@ ZR132(GrammarP sid_current_grammar, TypeTupleT *ZO130, TypeTupleT *ZO131)
 		ZO130->head = ZI130.head;
 
 		if (ZO130->head == NULL) {
-			ZO130->tail = &(ZO130->head);
+			ZO130->tail = &ZO130->head;
 		} else {
 			ZO130->tail= ZI130.tail ;
 		}
@@ -5126,7 +5126,7 @@ ZR132(GrammarP sid_current_grammar, TypeTupleT *ZO130, TypeTupleT *ZO131)
 		ZO131->head = ZI131.head;
 
 		if (ZO131->head == NULL) {
-			ZO131->tail = &(ZO131->head);
+			ZO131->tail = &ZO131->head;
 		} else {
 			ZO131->tail= ZI131.tail ;
 		}

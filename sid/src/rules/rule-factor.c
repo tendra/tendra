@@ -280,7 +280,6 @@ next_alt:
 		for (group = groups->head; group; group = group->next) {
 			AltT  **group_alt_ref = group->alt_ref;
 			ItemT  *alt_item      = alt_item_head(*group_alt_ref);
-			unsigned priority;
 
 			/* TODO: simplify */
 			if ((item_entry(item) == item_entry(alt_item)
@@ -294,8 +293,8 @@ next_alt:
 				*alt_ref        = alt_next(alt);
 				alt_set_next(alt, *group_alt_ref);
 				*group_alt_ref  = alt;
-				priority        = rule_overlaps(item, &(group->first_set),
-				&group->predicate_first);
+				priority        = rule_overlaps(item, &group->first_set,
+					&group->predicate_first);
 
 				if (priority > group->priority) {
 					group->priority = priority;
