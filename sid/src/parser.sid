@@ -75,32 +75,32 @@
 
 %terminals%
 
-	blt-types;       // %types%
-	blt-terminals;   // %terminals%
-	blt-productions; // %productions%
-	blt-entry;       // %entry%
-	identifier: () -> (: StringT);
-	typemark;        // :
-	open-tuple;	     // (
-	close-tuple;     // )
-	arrow;           // ->
-	terminator;      // ;
-	begin-action;    // <
-	end-action;      // >
-	define;          // =
-	begin-rule;      // {
-	end-rule;        // }
-	alt-sep;         // ||
-	handler-sep;     // ##
-	empty;           // $
-	pred-result;     // ?
-	ignore;          // !
-	scopemark;       // ::
-	begin-scope;     // [
-	end-scope;       // ]
-	separator;       // ,
-	reference;       // &
-	eof;
+	BLT-TYPES;       // %types%
+	BLT-TERMINALS;   // %terminals%
+	BLT-PRODUCTIONS; // %productions%
+	BLT-ENTRY;       // %entry%
+	IDENTIFIER: () -> (: StringT);
+	TYPEMARK;        // :
+	OPEN-TUPLE;	     // (
+	CLOSE-TUPLE;     // )
+	ARROW;           // ->
+	TERMINATOR;      // ;
+	BEGIN-ACTION;    // <
+	END-ACTION;      // >
+	DEFINE;          // =
+	BEGIN-RULE;      // {
+	END-RULE;        // }
+	ALT-SEP;         // ||
+	HANDLER-SEP;     // ##
+	EMPTY;           // $
+	PRED-RESULT;     // ?
+	IGNORE;          // !
+	SCOPEMARK;       // ::
+	BEGIN-SCOPE;     // [
+	END-SCOPE;       // ]
+	SEPARATOR;       // ,
+	REFERENCE;       // &
+	EOF;
 
 %productions%
 
@@ -216,17 +216,17 @@
 
 		function-type-defn: () -> (params :TypeTupleT, results :TypeTupleT) [
 			tuple-defn: (tuple :TypeTupleT &) -> () = {
-				name = identifier;
+				name = IDENTIFIER;
 				{
-					typemark;
+					TYPEMARK;
 				##
 					<expected-typemark>;
 				};
 
 				{
-					type = identifier;
+					type = IDENTIFIER;
 					{
-						reference;
+						REFERENCE;
 						<tuple-ref-name>(&tuple, &name, &type);
 					||
 						<tuple-name>(&tuple, &name, &type);
@@ -237,11 +237,11 @@
 					<skip-to-end-of-tuple-defn>;
 				};
 			||
-				typemark;
+				TYPEMARK;
 				{
-					type = identifier;
+					type = IDENTIFIER;
 					{
-						reference;
+						REFERENCE;
 						<tuple-ref-type>(&tuple, &type);
 					||
 						<tuple-type>(&tuple, &type);
@@ -260,7 +260,7 @@
 				{
 					? = <is-close-tuple-or-skipped-or-eof>;
 				||
-					separator;
+					SEPARATOR;
 					tuple-defn-list-1(&tuple);
 				##
 					<expected-separator>;
@@ -278,7 +278,7 @@
 				tuple = <init-tuple>;
 
 				{
-					open-tuple;
+					OPEN-TUPLE;
 				##
 					<expected-open-tuple>;
 				};
@@ -287,18 +287,18 @@
 				<skip-recover>;
 
 				{
-					close-tuple;
+					CLOSE-TUPLE;
 				##
 					<expected-close-tuple>;
 				};
 			};
 		] = {
-			typemark;
+			TYPEMARK;
 			params = type-tuple-defn;
 			<save-tuple>;
 
 			{
-				arrow;
+				ARROW;
 			##
 				<expected-arrow>;
 			};
@@ -316,11 +316,11 @@
 
 		type-decl-list [
 			type-decl = {
-				id = identifier;
+				id = IDENTIFIER;
 				<add-type> (&id);
 
 				{
-					terminator;
+					TERMINATOR;
 				##
 					<expected-terminator>;
 				};
@@ -339,26 +339,26 @@
 
 		terminal-decn-list [
 			terminal-decn = {
-				id = identifier;
+				id = IDENTIFIER;
 				entry = <terminal>(&id);
 				(params, results) = function-type-defn;
 				<x-terminal>(entry, &params, &results);
 
 				{
-					terminator;
+					TERMINATOR;
 				##
 					<expected-terminator>;
 				};
 			||
-				ignore;
+				IGNORE;
 				{
-					id = identifier;
+					id = IDENTIFIER;
 					entry = <i-terminal>(&id);
 					(params, results) = function-type-defn;
 					<x-terminal>(entry, &params, &results);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -389,22 +389,22 @@
 			/* LHS tuples */
 			lhs-name-tuple: () -> (tuple :TypeTupleT) [
 				lhs-name: (tuple :TypeTupleT &) -> () = {
-					id = identifier;
+					id = IDENTIFIER;
 					<add-name>(&tuple, &id);
 				||
-					reference;
+					REFERENCE;
 
 					{
-						id = identifier;
+						id = IDENTIFIER;
 						<add-var>(&tuple, &id);
 					##
 						<expected-identifier>;
 					};
 				||
-					pred-result;
+					PRED-RESULT;
 					<add-pred>(&tuple);
 				||
-					ignore;
+					IGNORE;
 					<add-void>(&tuple);
 				##
 					<expected-lhs-name>;
@@ -417,7 +417,7 @@
 					{
 						? = <is-close-tuple-or-skipped-or-eof>;
 					||
-						separator;
+						SEPARATOR;
 						lhs-name-list-1(&tuple);
 					##
 						<expected-separator>;
@@ -434,7 +434,7 @@
 				<current-tuple>;
 
 				{
-					open-tuple;
+					OPEN-TUPLE;
 				##
 					<expected-open-tuple>;
 				};
@@ -444,7 +444,7 @@
 				<skip-recover>;
 
 				{
-					close-tuple;
+					CLOSE-TUPLE;
 				##
 					<expected-close-tuple>;
 				};
@@ -453,13 +453,13 @@
 			/* RHS tuples */
 			rhs-name-tuple: () -> (tuple :TypeTupleT) [
 				rhs-name: (tuple :TypeTupleT &) -> () = {
-					id = identifier;
+					id = IDENTIFIER;
 					<add-name>(&tuple, &id);
 				||
-					reference;
+					REFERENCE;
 
 					{
-						id = identifier;
+						id = IDENTIFIER;
 						<add-ref-name>(&tuple, &id);
 					##
 						<expected-identifier>;
@@ -476,7 +476,7 @@
 					{
 						? = <is-close-tuple-or-skipped-or-eof>;
 					||
-						separator;
+						SEPARATOR;
 						rhs-name-list-1(&tuple);
 					##
 						<expected-separator>;
@@ -493,7 +493,7 @@
 				<current-tuple>;
 
 				{
-					open-tuple;
+					OPEN-TUPLE;
 				##
 					<expected-open-tuple>;
 				};
@@ -502,7 +502,7 @@
 				rhs-name-list(&tuple);
 				<skip-recover>;
 				{
-					close-tuple;
+					CLOSE-TUPLE;
 				##
 					<expected-close-tuple>;
 				};
@@ -515,12 +515,12 @@
 
 			action-decn = {
 				{
-					begin-action;
+					BEGIN-ACTION;
 
-					id = identifier;
+					id = IDENTIFIER;
 					entry = <action>(&id);
 					{
-						end-action;
+						END-ACTION;
 					##
 						<expected-end-action>;
 					};
@@ -528,20 +528,20 @@
 					(params, results) = function-type-defn;
 					<x-action>(entry, &params, &results);
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
 				||
-					ignore;
+					IGNORE;
 
-					begin-action;
+					BEGIN-ACTION;
 
 					{
-						id = identifier;
+						id = IDENTIFIER;
 						entry = <i-action>(&id);
 						{
-							end-action;
+							END-ACTION;
 						##
 							<expected-end-action>;
 						};
@@ -549,7 +549,7 @@
 						(params, results) = function-type-defn;
 						<x-action>(entry, &params, &results);
 						{
-							terminator;
+							TERMINATOR;
 						##
 							<expected-terminator>;
 						};
@@ -571,13 +571,13 @@
 			production-locals = {
 				$;
 			||
-				begin-scope;
+				BEGIN-SCOPE;
 				(entry, rule) = <save-scope>;
 				production-defn-list;
 				<restore-scope>(entry, rule);
 
 				{
-					end-scope;
+					END-SCOPE;
 				##
 					<expected-end-scope>;
 				};
@@ -588,7 +588,7 @@
 				<x-prod-action>(&lhs-tuple, &rhs-tuple);
 
 				{
-					terminator;
+					TERMINATOR;
 				##
 					<expected-terminator>;
 				};
@@ -596,20 +596,20 @@
 				<current-tuple>;
 				rhs-tuple = <init-tuple>;
 				<x-prod-action>(&lhs-tuple, &rhs-tuple);
-				terminator;
+				TERMINATOR;
 			##
 				<expected-tuple-or-terminator>;
 				<skip-to-end-of-item>;
 			};
 
 			production-defn-define-1: (lhs-tuple :TypeTupleT &) -> () = {
-				begin-action;
+				BEGIN-ACTION;
 				{
-					id = identifier;
+					id = IDENTIFIER;
 					<prod-action>(&id);
 
 					{
-						end-action;
+						END-ACTION;
 					##
 						<expected-end-action>;
 					};
@@ -619,18 +619,18 @@
 					<skip-to-end-of-item>;
 				};
 			||
-				id = identifier;
+				id = IDENTIFIER;
 
 				{
 					<current-tuple>;
 					<x-prod-rule-or-identity> (&lhs-tuple, &id);
-					terminator;
+					TERMINATOR;
 				||
 					rhs-tuple = rhs-name-tuple;
 					<x-prod-rule>(&lhs-tuple, &rhs-tuple, &id);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -641,15 +641,15 @@
 				};
 			||
 				<current-tuple>;
-				reference;
+				REFERENCE;
 				rhs-tuple = <init-tuple>;
 				{
-					id = identifier;
+					id = IDENTIFIER;
 					<add-ref-name>(&rhs-tuple, &id);
 					<x-identity>(&lhs-tuple, &rhs-tuple);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -661,7 +661,7 @@
 				rhs-tuple = rhs-name-tuple;
 				<x-identity>(&lhs-tuple, &rhs-tuple);
 				{
-					terminator;
+					TERMINATOR;
 				##
 					<expected-terminator>;
 				};
@@ -675,7 +675,7 @@
 				<save-tuple>;
 
 				{
-					define;
+					DEFINE;
 				##
 					<expected-define>;
 				};
@@ -683,13 +683,13 @@
 				production-defn-define-1(&lhs-tuple);
 			||
 				<current-tuple>;
-				pred-result;
+				PRED-RESULT;
 				lhs-tuple = <init-tuple>;
 				<add-pred>(&lhs-tuple);
 				<save-tuple>;
 
 				{
-					define;
+					DEFINE;
 				##
 					<expected-define>;
 				};
@@ -697,29 +697,29 @@
 				production-defn-define-1(&lhs-tuple);
 			||
 				<current-tuple>;
-				ignore;
+				IGNORE;
 				lhs-tuple = <init-tuple>;
 				<add-void>(&lhs-tuple);
 				<save-tuple>;
 
 				{
-					define;
+					DEFINE;
 				##
 					<expected-define>;
 				};
 
 				production-defn-define-1(&lhs-tuple);
 			||
-				reference;
+				REFERENCE;
 				{
-					id = identifier;
+					id = IDENTIFIER;
 					<current-tuple>;
 					lhs-tuple = <init-tuple>;
 					<add-var>(&lhs-tuple,&id);
 					<save-tuple>;
 
 					{
-						define;
+						DEFINE;
 					##
 						<expected-define>;
 					};
@@ -729,7 +729,7 @@
 					<expected-identifier>;
 				};
 			||
-				id = identifier;
+				id = IDENTIFIER;
 
 				{
 					<current-tuple>;
@@ -739,7 +739,7 @@
 					<x-prod-rule>(&lhs-tuple, &rhs-tuple, &id);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -748,7 +748,7 @@
 					lhs-tuple = <init-tuple>;
 					<add-name>(&lhs-tuple,&id);
 					<save-tuple>;
-					define;
+					DEFINE;
 					production-defn-define-1(&lhs-tuple);
 				||
 					<current-tuple>;
@@ -757,7 +757,7 @@
 					lhs-tuple = <init-tuple>;
 					rhs-tuple = <init-tuple>;
 					<x-prod-rule>(&lhs-tuple, &rhs-tuple, &id);
-					terminator;
+					TERMINATOR;
 				##
 					<expected-tuple-or-define-or-terminator>;
 					<destroy-string>(&id);
@@ -767,14 +767,14 @@
 				<current-tuple>;
 				<save-tuple>;
 				lhs-tuple = <init-tuple>;
-				begin-action;
+				BEGIN-ACTION;
 
 				{
-					id = identifier;
+					id = IDENTIFIER;
 					<prod-action>(&id);
 
 					{
-						end-action;
+						END-ACTION;
 					##
 						<expected-end-action>;
 					};
@@ -793,19 +793,19 @@
 				production-defn-define;
 				<skip-recover>;
 			||
-				begin-rule;
+				BEGIN-RULE;
 				(entry, rule, alt, internal, item) = <save>;
 				production-defn-rhs;
 				<restore>(entry, rule, alt, internal, item);
 
 				{
-					end-rule;
+					END-RULE;
 				##
 					<expected-end-rule>;
 				};
 
 				{
-					terminator;
+					TERMINATOR;
 				##
 					<expected-terminator>;
 				};
@@ -830,10 +830,10 @@
 
 			production-defn-alternative = {
 				<empty-alt>;
-				empty;
+				EMPTY;
 
 				{
-					terminator;
+					TERMINATOR;
 				##
 					<expected-terminator>;
 				};
@@ -853,7 +853,7 @@
 				{
 					$;
 				||
-					alt-sep;
+					ALT-SEP;
 					production-defn-alternatives;
 				};
 			};
@@ -864,43 +864,43 @@
 				{
 					$;
 				||
-					handler-sep;
+					HANDLER-SEP;
 					exception-handler;
 				};
 			};
 
 			other-defn = {
-				id = identifier;
+				id = IDENTIFIER;
 
 				{
-					typemark;
+					TYPEMARK;
 
 					{
-						type = identifier;
+						type = IDENTIFIER;
 						nonlocalentry = <non-local>(&id, &type);
 
 						{
-							terminator;
+							TERMINATOR;
 						||
-							define;
+							DEFINE;
 							{
-								begin-action;
+								BEGIN-ACTION;
 							##
 								<expected-begin-action>;
 							};
 
 							{
-								action = identifier;
+								action = IDENTIFIER;
 								<non-local-init>(nonlocalentry, &action);
 
 								{
-									end-action;
+									END-ACTION;
 								##
 									<expected-end-action>;
 								};
 
 								{
-									terminator;
+									TERMINATOR;
 								##
 									<expected-terminator>;
 								};
@@ -925,20 +925,20 @@
 
 					{
 						<x-rule>(&params, &results);
-						terminator;
+						TERMINATOR;
 					||
 						<prod>(&params, &results);
 						<push-scope>;
 						production-locals;
 
 						{
-							define;
+							DEFINE;
 						##
 							<expected-define>;
 						};
 
 						{
-							begin-rule;
+							BEGIN-RULE;
 						##
 							<expected-begin-rule>;
 						};
@@ -946,7 +946,7 @@
 						production-defn-rhs;
 
 						{
-							end-rule;
+							END-RULE;
 						##
 							<expected-end-rule>;
 						};
@@ -954,7 +954,7 @@
 						<pop-scope>;
 						<x-prod>;
 						{
-							terminator;
+							TERMINATOR;
 						##
 							<expected-terminator>;
 						};
@@ -969,7 +969,7 @@
 
 			production-defn = {
 				{
-					scopemark;
+					SCOPEMARK;
 					<use-global>;
 				||
 					<use-local>;
@@ -1009,7 +1009,7 @@
 
 		entry-list [
 			entry = {
-				id = identifier;
+				id = IDENTIFIER;
 				<add-entry>(&id);
 			##
 				<expected-identifier>;
@@ -1020,7 +1020,7 @@
 			{
 				? = <is-terminator>;
 			||
-				separator;
+				SEPARATOR;
 				entry-list;
 			##
 				<expected-separator>;
@@ -1038,7 +1038,7 @@
 		<init>;
 
 		{
-			blt-types;
+			BLT-TYPES;
 		##
 			<expected-blt-types>;
 		};
@@ -1046,7 +1046,7 @@
 		type-decl-list;
 
 		{
-			blt-terminals;
+			BLT-TERMINALS;
 		##
 			<expected-blt-terminals>;
 		};
@@ -1055,7 +1055,7 @@
 		<x-terminals>;
 
 		{
-			blt-productions;
+			BLT-PRODUCTIONS;
 		##
 			<expected-blt-productions>;
 		};
@@ -1063,7 +1063,7 @@
 		production-defn-list;
 
 		{
-			blt-entry;
+			BLT-ENTRY;
 		##
 			<expected-blt-entry>;
 		};
@@ -1071,13 +1071,13 @@
 		entry-list;
 
 		{
-			terminator;
+			TERMINATOR;
 		##
 			<expected-terminator>;
 		};
 
 		{
-			eof;
+			EOF;
 		##
 			<expected-eof>;
 		};

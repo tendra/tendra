@@ -249,13 +249,13 @@ read_builtin(int c)
 
 	cstring = dstring_destroy_to_cstring(&dstring);
 	if (cstring_ci_equal(cstring, "types")) {
-		lexer_token->t = LEXER_TOK_BLT_TYPES;
+		lexer_token->t = LEXER_TOK_BLT_HTYPES;
 	} else if (cstring_ci_equal(cstring, "terminals")) {
-		lexer_token->t = LEXER_TOK_BLT_TERMINALS;
+		lexer_token->t = LEXER_TOK_BLT_HTERMINALS;
 	} else if (cstring_ci_equal(cstring, "productions")) {
-		lexer_token->t = LEXER_TOK_BLT_PRODUCTIONS;
+		lexer_token->t = LEXER_TOK_BLT_HPRODUCTIONS;
 	} else if (cstring_ci_equal(cstring, "entry")) {
-		lexer_token->t = LEXER_TOK_BLT_ENTRY;
+		lexer_token->t = LEXER_TOK_BLT_HENTRY;
 	} else {
 		E_unknown_builtin(istream, cstring);
 		UNREACHED;

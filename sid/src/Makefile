@@ -26,7 +26,7 @@ INSTALL=install
 # XXX: Do I want to have them removed during clean?
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
 
-SIDOPTS=-l ansi-c -s numeric -s no-lines -s no-terminals
+SIDOPTS=-l ansi-c -s numeric -s no-lines -s no-terminals -s no-numeric-terminals
 LEXIOPTS=-lC90 -a
 
 #PARSER_OUT=${SRC}/parser.c ${SRC}/junk.h
@@ -81,9 +81,11 @@ gen-errors.c: ${BUILD_ERRORS} ${EFILES}
 
 lexer.c: lexi_lexer.c
 
+lexer.h: lexi_lexer.h
+
 lexi_lexer.h lexi_lexer.c: lexi_lexer.lxi lexi_lexer.lct
 	-${MOVE} lexi_lexer.c sav.lexi_lexer.c 
 	-${MOVE} lexi_lexer.h sav.lexi_lexer.h
-	${LEXI} ${LEXIOPTS} lexi_lexer.lxi lexi_lexer.lct lexi_lexer.c lexi_lexer.h \
+	${LEXI} ${LEXIOPTS} -t LEXER_TOK_ lexi_lexer.lxi lexi_lexer.lct lexi_lexer.c lexi_lexer.h \
 		|| ( ${MOVE} sav.lexi_lexer.c lexi_lexer.c ; ${MOVE} sav.lexi_lexer.h lexi_lexer.h ; exit 1 )
 

@@ -91,6 +91,7 @@
 	#include "adt/table.h"
 	#include "adt/types.h"
 
+	#define ERROR_TERMINAL LEXER_TOK_ERROR
 	#define CURRENT_TERMINAL lexer_get_terminal(sid_current_stream)
 	#define ADVANCE_LEXER lexer_next_token(sid_current_stream)
 	#define SAVE_LEXER(x) (lexer_save_terminal(sid_current_stream, (LexerTokenT) (x)))
@@ -125,6 +126,11 @@
 	static BoolT        sid_propagating_error = FALSE;
 	static BoolT        sid_finished_terminals = FALSE;
 
+
+
+#ifndef ERROR_TERMINAL
+#error "-s no-numeric-terminals given and ERROR_TERMINAL is not defined"
+#endif
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -185,7 +191,7 @@ static BoolT ZI0;
 static void
 ZR246(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
   ZL2_246:;
@@ -193,13 +199,13 @@ ZR246(GrammarP sid_current_grammar)
 	ZR243 (sid_current_grammar);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 15:
+	      case (LEXER_TOK_ALT_HSEP):
 		{
 		    ADVANCE_LEXER;
 		    goto ZL2_246;
 		}
 		/*UNREACHED*/
-	      case 26:
+	      case (ERROR_TERMINAL):
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -209,14 +215,14 @@ ZR246(GrammarP sid_current_grammar)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR241(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -228,7 +234,7 @@ ZR241(GrammarP sid_current_grammar)
 	
 	}
 	ZR239 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -254,7 +260,7 @@ ZR241(GrammarP sid_current_grammar)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -262,7 +268,7 @@ static void
 ZR260(GrammarP sid_current_grammar, TypeTupleT *ZI129, TypeTupleT *ZI130)
 {
     switch (CURRENT_TERMINAL) {
-      case 12: case 21:
+      case (LEXER_TOK_DEFINE): case (LEXER_TOK_BEGIN_HSCOPE):
 	{
 	    {
 
@@ -360,13 +366,13 @@ ZR260(GrammarP sid_current_grammar, TypeTupleT *ZI129, TypeTupleT *ZI130)
 	    ZR202 (sid_current_grammar);
 	    ZR225 (sid_current_grammar);
 	    {
-		if ((CURRENT_TERMINAL) == 26) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL1;
 		}
 		{
 		    switch (CURRENT_TERMINAL) {
-		      case 13:
+		      case (LEXER_TOK_BEGIN_HRULE):
 			break;
 		      default:
 			goto ZL3;
@@ -388,7 +394,7 @@ ZR260(GrammarP sid_current_grammar, TypeTupleT *ZI129, TypeTupleT *ZI130)
 	    }
 	    ZR230 (sid_current_grammar);
 	    ZR237 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -410,13 +416,13 @@ ZR260(GrammarP sid_current_grammar, TypeTupleT *ZI129, TypeTupleT *ZI130)
 	
 	    }
 	    ZR245 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 9:
+      case (LEXER_TOK_TERMINATOR):
 	{
 	    {
 
@@ -471,35 +477,35 @@ ZR260(GrammarP sid_current_grammar, TypeTupleT *ZI129, TypeTupleT *ZI130)
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR143(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
   ZL2_143:;
     {
 	ZR134 (sid_current_grammar, ZI133);
 	{
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		{
 
-		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_CLOSE_TUPLE
+		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_CLOSE_HTUPLE
 			|| CURRENT_TERMINAL == LEXER_TOK_EOF
 			|| sid_propagating_error);
 	
@@ -511,7 +517,7 @@ ZR143(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    /*UNREACHED*/
 	  ZL5:;
 	    switch (CURRENT_TERMINAL) {
-	      case 23:
+	      case (LEXER_TOK_SEPARATOR):
 		{
 		    ADVANCE_LEXER;
 		    goto ZL2_143;
@@ -538,7 +544,7 @@ ZR143(GrammarP sid_current_grammar, TypeTupleT *ZI133)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -546,7 +552,7 @@ static void
 ZR243(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
-      case 17:
+      case (LEXER_TOK_EMPTY):
 	{
 	    {
 
@@ -574,14 +580,14 @@ ZR243(GrammarP sid_current_grammar)
 	    }
 	    ADVANCE_LEXER;
 	    ZR245 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 4: case 6: case 10: case 13:
-      case 18: case 19: case 24:
+      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_OPEN_HTUPLE): case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_BEGIN_HRULE):
+      case (LEXER_TOK_PRED_HRESULT): case (LEXER_TOK_IGNORE): case (LEXER_TOK_REFERENCE):
 	{
 	    {
 
@@ -601,7 +607,7 @@ ZR243(GrammarP sid_current_grammar)
 	
 	    }
 	    ZR239 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -627,7 +633,7 @@ ZR243(GrammarP sid_current_grammar)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
@@ -645,12 +651,12 @@ ZR243(GrammarP sid_current_grammar)
 	{
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
-			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -680,37 +686,37 @@ static void
 ZR178(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 {
     switch (CURRENT_TERMINAL) {
-      case 4: case 18: case 19: case 24:
+      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_PRED_HRESULT): case (LEXER_TOK_IGNORE): case (LEXER_TOK_REFERENCE):
 	{
 	    ZR175 (sid_current_grammar, ZI133);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR250(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	NStringT ZI157;
 
 	switch (CURRENT_TERMINAL) {
-	  case 4:
+	  case (LEXER_TOK_IDENTIFIER):
 	    {
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -723,17 +729,17 @@ ZR250(GrammarP sid_current_grammar)
 	ADVANCE_LEXER;
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 5:
+	      case (LEXER_TOK_TYPEMARK):
 		{
 		    ADVANCE_LEXER;
 		    ZR297 (sid_current_grammar, &ZI157);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
 		}
 		break;
-	      case 9: case 12: case 21:
+	      case (LEXER_TOK_TERMINATOR): case (LEXER_TOK_DEFINE): case (LEXER_TOK_BEGIN_HSCOPE):
 		{
 		    TypeTupleT ZI129;
 		    TypeTupleT ZI130;
@@ -762,7 +768,7 @@ ZR250(GrammarP sid_current_grammar)
 	
 		    }
 		    ZR260 (sid_current_grammar, &ZI129, &ZI130);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
@@ -790,10 +796,10 @@ ZR250(GrammarP sid_current_grammar)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -817,7 +823,7 @@ ZR250(GrammarP sid_current_grammar)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -826,7 +832,7 @@ ZR170(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 {
     TypeTupleT ZI133;
 
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -836,7 +842,7 @@ ZR170(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 	
 	}
 	ZR192 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -846,7 +852,7 @@ ZR170(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 	
 	}
 	ZR178 (sid_current_grammar, &ZI133);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -856,14 +862,14 @@ ZR170(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 	
 	}
 	ZR193 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
   ZL0:;
     {
@@ -881,12 +887,12 @@ ZR170(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 static void
 ZR152(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 8:
+	  case (LEXER_TOK_ARROW):
 	    break;
 	  default:
 	    goto ZL1;
@@ -911,10 +917,10 @@ ZR153(GrammarP sid_current_grammar)
 {
   ZL2_153:;
     switch (CURRENT_TERMINAL) {
-      case 4:
+      case (LEXER_TOK_IDENTIFIER):
 	{
 	    ZR155 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    } else {
@@ -922,14 +928,14 @@ ZR153(GrammarP sid_current_grammar)
 	    }
 	}
 	/*UNREACHED*/
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -938,7 +944,7 @@ ZR182(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 {
     TypeTupleT ZI133;
 
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -948,7 +954,7 @@ ZR182(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 	
 	}
 	ZR192 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -958,7 +964,7 @@ ZR182(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 	
 	}
 	ZR190 (sid_current_grammar, &ZI133);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -968,14 +974,14 @@ ZR182(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 	
 	}
 	ZR193 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
   ZL0:;
     {
@@ -994,7 +1000,7 @@ static void
 ZR232(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
-      case 13:
+      case (LEXER_TOK_BEGIN_HRULE):
 	{
 	    EntryP ZI163;
 	    RuleP ZI70;
@@ -1030,7 +1036,7 @@ ZR232(GrammarP sid_current_grammar)
 	
 	    }
 	    ZR230 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1051,17 +1057,17 @@ ZR232(GrammarP sid_current_grammar)
 	    }
 	    ZR237 (sid_current_grammar);
 	    ZR245 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 4: case 6: case 10: case 18:
-      case 19: case 24:
+      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_OPEN_HTUPLE): case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_PRED_HRESULT):
+      case (LEXER_TOK_IGNORE): case (LEXER_TOK_REFERENCE):
 	{
 	    ZR219 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1072,28 +1078,28 @@ ZR232(GrammarP sid_current_grammar)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR155(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	NStringT ZI157;
 
 	switch (CURRENT_TERMINAL) {
-	  case 4:
+	  case (LEXER_TOK_IDENTIFIER):
 	    {
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -1113,14 +1119,14 @@ ZR155(GrammarP sid_current_grammar)
 	
 	}
 	ZR245 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -1128,23 +1134,23 @@ static void
 ZR190(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 {
     switch (CURRENT_TERMINAL) {
-      case 4: case 24:
+      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_REFERENCE):
 	{
 	    ZR187 (sid_current_grammar, ZI133);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -1152,7 +1158,7 @@ static void
 ZR202(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
-      case 21:
+      case (LEXER_TOK_BEGIN_HSCOPE):
 	{
 	    EntryP ZI163;
 	    RuleP ZI70;
@@ -1167,7 +1173,7 @@ ZR202(GrammarP sid_current_grammar)
 	
 	    }
 	    ZR168 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1186,7 +1192,7 @@ ZR202(GrammarP sid_current_grammar)
 	    {
 		{
 		    switch (CURRENT_TERMINAL) {
-		      case 22:
+		      case (LEXER_TOK_END_HSCOPE):
 			break;
 		      default:
 			goto ZL3;
@@ -1208,14 +1214,14 @@ ZR202(GrammarP sid_current_grammar)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -1223,7 +1229,7 @@ static void
 ZR172(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 {
     switch (CURRENT_TERMINAL) {
-      case 4:
+      case (LEXER_TOK_IDENTIFIER):
 	{
 	    NStringT ZI157;
 
@@ -1276,7 +1282,7 @@ ZR172(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    }
 	}
 	break;
-      case 19:
+      case (LEXER_TOK_IGNORE):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1289,7 +1295,7 @@ ZR172(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    }
 	}
 	break;
-      case 18:
+      case (LEXER_TOK_PRED_HRESULT):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1303,7 +1309,7 @@ ZR172(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    }
 	}
 	break;
-      case 24:
+      case (LEXER_TOK_REFERENCE):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1311,7 +1317,7 @@ ZR172(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		    NStringT ZI157;
 
 		    switch (CURRENT_TERMINAL) {
-		      case 4:
+		      case (LEXER_TOK_IDENTIFIER):
 			{
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -1380,7 +1386,7 @@ ZR172(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
@@ -1399,8 +1405,8 @@ ZR172(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -1424,13 +1430,13 @@ ZR172(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 static void
 ZR168(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
   ZL2_168:;
     {
 	ZR265 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -1444,8 +1450,8 @@ ZR168(GrammarP sid_current_grammar)
 		{
 
 		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_EOF
-			|| CURRENT_TERMINAL == LEXER_TOK_END_SCOPE
-			|| CURRENT_TERMINAL == LEXER_TOK_BLT_ENTRY);
+			|| CURRENT_TERMINAL == LEXER_TOK_END_HSCOPE
+			|| CURRENT_TERMINAL == LEXER_TOK_BLT_HENTRY);
 	
 		}
 		if (!ZI0)
@@ -1455,7 +1461,7 @@ ZR168(GrammarP sid_current_grammar)
 	    /*UNREACHED*/
 	  ZL4:;
 	    switch (CURRENT_TERMINAL) {
-	      case 4: case 10: case 19: case 20:
+	      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_IGNORE): case (LEXER_TOK_SCOPEMARK):
 		{
 		    goto ZL2_168;
 		}
@@ -1480,10 +1486,10 @@ ZR168(GrammarP sid_current_grammar)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -1511,8 +1517,8 @@ ZR168(GrammarP sid_current_grammar)
 		{
 
 		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_EOF
-			|| CURRENT_TERMINAL == LEXER_TOK_END_SCOPE
-			|| CURRENT_TERMINAL == LEXER_TOK_BLT_ENTRY);
+			|| CURRENT_TERMINAL == LEXER_TOK_END_HSCOPE
+			|| CURRENT_TERMINAL == LEXER_TOK_BLT_HENTRY);
 	
 		}
 		if (!ZI0)
@@ -1532,7 +1538,7 @@ ZR168(GrammarP sid_current_grammar)
 void
 sid_parse_grammar(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -1545,7 +1551,7 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 0:
+		  case (LEXER_TOK_BLT_HTYPES):
 		    break;
 		  default:
 		    goto ZL3;
@@ -1567,13 +1573,13 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	}
 	ZR153 (sid_current_grammar);
 	{
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 1:
+		  case (LEXER_TOK_BLT_HTERMINALS):
 		    break;
 		  default:
 		    goto ZL5;
@@ -1594,7 +1600,7 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	  ZL4:;
 	}
 	ZR159 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -1609,7 +1615,7 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 2:
+		  case (LEXER_TOK_BLT_HPRODUCTIONS):
 		    break;
 		  default:
 		    goto ZL7;
@@ -1631,13 +1637,13 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	}
 	ZR168 (sid_current_grammar);
 	{
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 3:
+		  case (LEXER_TOK_BLT_HENTRY):
 		    break;
 		  default:
 		    goto ZL9;
@@ -1660,13 +1666,13 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	ZR271 (sid_current_grammar);
 	ZR245 (sid_current_grammar);
 	{
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 25:
+		  case (LEXER_TOK_EOF):
 		    break;
 		  default:
 		    goto ZL11;
@@ -1702,23 +1708,23 @@ static void
 ZR146(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 {
     switch (CURRENT_TERMINAL) {
-      case 4: case 5:
+      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_TYPEMARK):
 	{
 	    ZR143 (sid_current_grammar, ZI133);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -1726,13 +1732,13 @@ static void
 ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 {
     switch (CURRENT_TERMINAL) {
-      case 6:
+      case (LEXER_TOK_OPEN_HTUPLE):
 	{
 	    TypeTupleT ZI129;
 	    TypeTupleT ZI130;
 
 	    ZR148 (sid_current_grammar, &ZI129);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1743,7 +1749,7 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 	    }
 	    ZR152 (sid_current_grammar);
 	    ZR148 (sid_current_grammar, &ZI130);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1761,13 +1767,13 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 	
 	    }
 	    ZR260 (sid_current_grammar, &ZI129, &ZI130);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 4:
+      case (LEXER_TOK_IDENTIFIER):
 	{
 	    {
 		{
@@ -1775,7 +1781,7 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 		    NonLocalEntryP ZI254;
 
 		    switch (CURRENT_TERMINAL) {
-		      case 4:
+		      case (LEXER_TOK_IDENTIFIER):
 			{
 
 		nstring_assign(&ZI139, lexer_string_value(sid_current_stream));
@@ -1821,13 +1827,13 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 		    }
 		    {
 			switch (CURRENT_TERMINAL) {
-			  case 12:
+			  case (LEXER_TOK_DEFINE):
 			    {
 				ADVANCE_LEXER;
 				{
 				    {
 					switch (CURRENT_TERMINAL) {
-					  case 10:
+					  case (LEXER_TOK_BEGIN_HACTION):
 					    break;
 					  default:
 					    goto ZL7;
@@ -1852,7 +1858,7 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 					NStringT ZI51;
 
 					switch (CURRENT_TERMINAL) {
-					  case 4:
+					  case (LEXER_TOK_IDENTIFIER):
 					    {
 
 		nstring_assign(&ZI51, lexer_string_value(sid_current_stream));
@@ -1908,7 +1914,7 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 					}
 					ZR229 (sid_current_grammar);
 					ZR245 (sid_current_grammar);
-					if ((CURRENT_TERMINAL) == 26) {
+					if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 					    RESTORE_LEXER;
 					    goto ZL9;
 					}
@@ -1928,7 +1934,7 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 				}
 			    }
 			    break;
-			  case 9:
+			  case (LEXER_TOK_TERMINATOR):
 			    {
 				ADVANCE_LEXER;
 			    }
@@ -1969,10 +1975,10 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -1995,14 +2001,14 @@ ZR297(GrammarP sid_current_grammar, NStringT *ZI157)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -2010,7 +2016,7 @@ static void
 ZR299(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
-      case 19:
+      case (LEXER_TOK_IGNORE):
 	{
 	    TypeTupleT ZI205;
 
@@ -2035,13 +2041,13 @@ ZR299(GrammarP sid_current_grammar)
 	    }
 	    ZR225 (sid_current_grammar);
 	    ZR210 (sid_current_grammar, &ZI205);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 18:
+      case (LEXER_TOK_PRED_HRESULT):
 	{
 	    TypeTupleT ZI205;
 
@@ -2067,13 +2073,13 @@ ZR299(GrammarP sid_current_grammar)
 	    }
 	    ZR225 (sid_current_grammar);
 	    ZR210 (sid_current_grammar, &ZI205);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 10:
+      case (LEXER_TOK_BEGIN_HACTION):
 	{
 	    TypeTupleT ZI205;
 
@@ -2089,20 +2095,20 @@ ZR299(GrammarP sid_current_grammar)
 	    }
 	    ADVANCE_LEXER;
 	    ZR228 (sid_current_grammar, &ZI205);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -2110,7 +2116,7 @@ static void
 ZR300(GrammarP sid_current_grammar, NStringT *ZI157)
 {
     switch (CURRENT_TERMINAL) {
-      case 12:
+      case (LEXER_TOK_DEFINE):
 	{
 	    TypeTupleT ZI205;
 
@@ -2167,13 +2173,13 @@ ZR300(GrammarP sid_current_grammar, NStringT *ZI157)
 	    }
 	    ADVANCE_LEXER;
 	    ZR210 (sid_current_grammar, &ZI205);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 6: case 9:
+      case (LEXER_TOK_OPEN_HTUPLE): case (LEXER_TOK_TERMINATOR):
 	{
 	    {
 
@@ -2181,20 +2187,20 @@ ZR300(GrammarP sid_current_grammar, NStringT *ZI157)
 	
 	    }
 	    ZR301 (sid_current_grammar, ZI157);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -2202,7 +2208,7 @@ static void
 ZR301(GrammarP sid_current_grammar, NStringT *ZI157)
 {
     switch (CURRENT_TERMINAL) {
-      case 9:
+      case (LEXER_TOK_TERMINATOR):
 	{
 	    TypeTupleT ZI205;
 	    TypeTupleT ZI208;
@@ -2342,7 +2348,7 @@ ZR301(GrammarP sid_current_grammar, NStringT *ZI157)
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 6:
+      case (LEXER_TOK_OPEN_HTUPLE):
 	{
 	    TypeTupleT ZI205;
 	    TypeTupleT ZI208;
@@ -2353,7 +2359,7 @@ ZR301(GrammarP sid_current_grammar, NStringT *ZI157)
 	
 	    }
 	    ZR182 (sid_current_grammar, &ZI208);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2475,20 +2481,20 @@ ZR301(GrammarP sid_current_grammar, NStringT *ZI157)
 	
 	    }
 	    ZR245 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -2497,7 +2503,7 @@ ZR148(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 {
     TypeTupleT ZI133;
 
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -2508,7 +2514,7 @@ ZR148(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 	}
 	ZR192 (sid_current_grammar);
 	ZR146 (sid_current_grammar, &ZI133);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -2518,14 +2524,14 @@ ZR148(GrammarP sid_current_grammar, TypeTupleT *ZO133)
 	
 	}
 	ZR193 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
   ZL0:;
     {
@@ -2544,7 +2550,7 @@ static void
 ZR184(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 {
     switch (CURRENT_TERMINAL) {
-      case 4:
+      case (LEXER_TOK_IDENTIFIER):
 	{
 	    NStringT ZI157;
 
@@ -2597,7 +2603,7 @@ ZR184(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    }
 	}
 	break;
-      case 24:
+      case (LEXER_TOK_REFERENCE):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -2605,7 +2611,7 @@ ZR184(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		    NStringT ZI157;
 
 		    switch (CURRENT_TERMINAL) {
-		      case 4:
+		      case (LEXER_TOK_IDENTIFIER):
 			{
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -2672,8 +2678,8 @@ ZR184(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -2696,7 +2702,7 @@ ZR184(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
@@ -2715,8 +2721,8 @@ ZR184(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -2741,17 +2747,17 @@ static void
 ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 {
     switch (CURRENT_TERMINAL) {
-      case 10:
+      case (LEXER_TOK_BEGIN_HACTION):
 	{
 	    ADVANCE_LEXER;
 	    ZR228 (sid_current_grammar, ZI205);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 4:
+      case (LEXER_TOK_IDENTIFIER):
 	{
 	    NStringT ZI157;
 
@@ -2763,12 +2769,12 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 	    ADVANCE_LEXER;
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 6:
+		  case (LEXER_TOK_OPEN_HTUPLE):
 		    {
 			TypeTupleT ZI208;
 
 			ZR182 (sid_current_grammar, &ZI208);
-			if ((CURRENT_TERMINAL) == 26) {
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			    RESTORE_LEXER;
 			    goto ZL3;
 			}
@@ -2890,13 +2896,13 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 	
 			}
 			ZR245 (sid_current_grammar);
-			if ((CURRENT_TERMINAL) == 26) {
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			    RESTORE_LEXER;
 			    goto ZL3;
 			}
 		    }
 		    break;
-		  case 9:
+		  case (LEXER_TOK_TERMINATOR):
 		    {
 			{
 
@@ -3131,13 +3137,13 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -3160,12 +3166,12 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 	    }
 	}
 	break;
-      case 6:
+      case (LEXER_TOK_OPEN_HTUPLE):
 	{
 	    TypeTupleT ZI208;
 
 	    ZR182 (sid_current_grammar, &ZI208);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3238,13 +3244,13 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 	
 	    }
 	    ZR245 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 24:
+      case (LEXER_TOK_REFERENCE):
 	{
 	    TypeTupleT ZI208;
 
@@ -3264,7 +3270,7 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 		    NStringT ZI157;
 
 		    switch (CURRENT_TERMINAL) {
-		      case 4:
+		      case (LEXER_TOK_IDENTIFIER):
 			{
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -3385,7 +3391,7 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 	
 		    }
 		    ZR245 (sid_current_grammar);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL5;
 		    }
@@ -3404,13 +3410,13 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -3433,7 +3439,7 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
@@ -3452,13 +3458,13 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -3482,24 +3488,24 @@ ZR210(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 static void
 ZR230(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	ZR246 (sid_current_grammar);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 16:
+	      case (LEXER_TOK_HANDLER_HSEP):
 		{
 		    ADVANCE_LEXER;
 		    ZR241 (sid_current_grammar);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		}
 		break;
-	      case 26:
+	      case (ERROR_TERMINAL):
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -3509,20 +3515,20 @@ ZR230(GrammarP sid_current_grammar)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR159(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
   ZL2_159:;
     {
 	ZR161 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -3533,7 +3539,7 @@ ZR159(GrammarP sid_current_grammar)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 4: case 19:
+	      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_IGNORE):
 		{
 		    goto ZL2_159;
 		}
@@ -3545,7 +3551,7 @@ ZR159(GrammarP sid_current_grammar)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -3553,12 +3559,12 @@ static void
 ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 {
     switch (CURRENT_TERMINAL) {
-      case 6:
+      case (LEXER_TOK_OPEN_HTUPLE):
 	{
 	    TypeTupleT ZI208;
 
 	    ZR182 (sid_current_grammar, &ZI208);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -3644,13 +3650,13 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 	
 	    }
 	    ZR245 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 9:
+      case (LEXER_TOK_TERMINATOR):
 	{
 	    TypeTupleT ZI208;
 
@@ -3748,7 +3754,7 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 	    ADVANCE_LEXER;
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
@@ -3767,13 +3773,13 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -3797,13 +3803,13 @@ ZR206(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 static void
 ZR265(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 20:
+	      case (LEXER_TOK_SCOPEMARK):
 		{
 		    ADVANCE_LEXER;
 		    {
@@ -3826,19 +3832,19 @@ ZR265(GrammarP sid_current_grammar)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 10: case 19:
+	      case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_IGNORE):
 		{
 		    ZR194 (sid_current_grammar);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		}
 		break;
-	      case 4:
+	      case (LEXER_TOK_IDENTIFIER):
 		{
 		    ZR250 (sid_current_grammar);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -3851,7 +3857,7 @@ ZR265(GrammarP sid_current_grammar)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -3859,7 +3865,7 @@ static void
 ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 {
     switch (CURRENT_TERMINAL) {
-      case 4:
+      case (LEXER_TOK_IDENTIFIER):
 	{
 	    NStringT ZI136;
 
@@ -3872,7 +3878,7 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    {
 		{
 		    switch (CURRENT_TERMINAL) {
-		      case 5:
+		      case (LEXER_TOK_TYPEMARK):
 			break;
 		      default:
 			goto ZL3;
@@ -3897,7 +3903,7 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		    NStringT ZI139;
 
 		    switch (CURRENT_TERMINAL) {
-		      case 4:
+		      case (LEXER_TOK_IDENTIFIER):
 			{
 
 		nstring_assign(&ZI139, lexer_string_value(sid_current_stream));
@@ -3910,7 +3916,7 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		    ADVANCE_LEXER;
 		    {
 			switch (CURRENT_TERMINAL) {
-			  case 24:
+			  case (LEXER_TOK_REFERENCE):
 			    {
 				ADVANCE_LEXER;
 				{
@@ -3960,12 +3966,12 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		if (sid_finished_terminals) {
 			while (CURRENT_TERMINAL != LEXER_TOK_EOF
 				&& CURRENT_TERMINAL != LEXER_TOK_DEFINE
-				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_SCOPE
-				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HSCOPE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
 				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_HTUPLE
 				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 					nstring_destroy(lexer_string_value(sid_current_stream));
 				}
@@ -3982,10 +3988,10 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		} else {
 			while (CURRENT_TERMINAL != LEXER_TOK_EOF
 				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_HTUPLE
 				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 					nstring_destroy (lexer_string_value (sid_current_stream));
 				}
@@ -4009,7 +4015,7 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    }
 	}
 	break;
-      case 5:
+      case (LEXER_TOK_TYPEMARK):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4017,7 +4023,7 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		    NStringT ZI139;
 
 		    switch (CURRENT_TERMINAL) {
-		      case 4:
+		      case (LEXER_TOK_IDENTIFIER):
 			{
 
 		nstring_assign(&ZI139, lexer_string_value(sid_current_stream));
@@ -4030,7 +4036,7 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		    ADVANCE_LEXER;
 		    {
 			switch (CURRENT_TERMINAL) {
-			  case 24:
+			  case (LEXER_TOK_REFERENCE):
 			    {
 				ADVANCE_LEXER;
 				{
@@ -4074,12 +4080,12 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		if (sid_finished_terminals) {
 			while (CURRENT_TERMINAL != LEXER_TOK_EOF
 				&& CURRENT_TERMINAL != LEXER_TOK_DEFINE
-				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_SCOPE
-				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HSCOPE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
 				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_HTUPLE
 				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 					nstring_destroy(lexer_string_value(sid_current_stream));
 				}
@@ -4096,10 +4102,10 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		} else {
 			while (CURRENT_TERMINAL != LEXER_TOK_EOF
 				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_HTUPLE
 				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 					nstring_destroy (lexer_string_value (sid_current_stream));
 				}
@@ -4123,7 +4129,7 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
@@ -4143,12 +4149,12 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		if (sid_finished_terminals) {
 			while (CURRENT_TERMINAL != LEXER_TOK_EOF
 				&& CURRENT_TERMINAL != LEXER_TOK_DEFINE
-				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_SCOPE
-				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HSCOPE
+				&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
 				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_HTUPLE
 				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 					nstring_destroy(lexer_string_value(sid_current_stream));
 				}
@@ -4165,10 +4171,10 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 		} else {
 			while (CURRENT_TERMINAL != LEXER_TOK_EOF
 				&& CURRENT_TERMINAL != LEXER_TOK_SEPARATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_TUPLE
+				&& CURRENT_TERMINAL != LEXER_TOK_CLOSE_HTUPLE
 				&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-				&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-				&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+				&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 				if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 					nstring_destroy (lexer_string_value (sid_current_stream));
 				}
@@ -4193,12 +4199,12 @@ ZR134(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 static void
 ZR192(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 6:
+	  case (LEXER_TOK_OPEN_HTUPLE):
 	    break;
 	  default:
 	    goto ZL1;
@@ -4221,14 +4227,14 @@ ZR192(GrammarP sid_current_grammar)
 static void
 ZR271(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
   ZL2_271:;
     {
 	ZR273 (sid_current_grammar);
 	{
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4245,7 +4251,7 @@ ZR271(GrammarP sid_current_grammar)
 	    /*UNREACHED*/
 	  ZL5:;
 	    switch (CURRENT_TERMINAL) {
-	      case 23:
+	      case (LEXER_TOK_SEPARATOR):
 		{
 		    ADVANCE_LEXER;
 		    goto ZL2_271;
@@ -4315,19 +4321,19 @@ ZR271(GrammarP sid_current_grammar)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR193(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 7:
+	  case (LEXER_TOK_CLOSE_HTUPLE):
 	    break;
 	  default:
 	    goto ZL1;
@@ -4354,11 +4360,11 @@ ZR131(GrammarP sid_current_grammar, TypeTupleT *ZO129, TypeTupleT *ZO130)
     TypeTupleT ZI130;
 
     switch (CURRENT_TERMINAL) {
-      case 5:
+      case (LEXER_TOK_TYPEMARK):
 	{
 	    ADVANCE_LEXER;
 	    ZR148 (sid_current_grammar, &ZI129);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4369,7 +4375,7 @@ ZR131(GrammarP sid_current_grammar, TypeTupleT *ZO129, TypeTupleT *ZO130)
 	    }
 	    ZR152 (sid_current_grammar);
 	    ZR148 (sid_current_grammar, &ZI130);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4389,12 +4395,12 @@ ZR131(GrammarP sid_current_grammar, TypeTupleT *ZO129, TypeTupleT *ZO130)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
   ZL0:;
     {
@@ -4423,7 +4429,7 @@ static void
 ZR219(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
-      case 4:
+      case (LEXER_TOK_IDENTIFIER):
 	{
 	    NStringT ZI157;
 
@@ -4441,7 +4447,7 @@ ZR219(GrammarP sid_current_grammar)
 	
 		    }
 		    ZR300 (sid_current_grammar, &ZI157);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
@@ -4465,13 +4471,13 @@ ZR219(GrammarP sid_current_grammar)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -4494,7 +4500,7 @@ ZR219(GrammarP sid_current_grammar)
 	    }
 	}
 	break;
-      case 24:
+      case (LEXER_TOK_REFERENCE):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4503,7 +4509,7 @@ ZR219(GrammarP sid_current_grammar)
 		    TypeTupleT ZI205;
 
 		    switch (CURRENT_TERMINAL) {
-		      case 4:
+		      case (LEXER_TOK_IDENTIFIER):
 			{
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -4573,7 +4579,7 @@ ZR219(GrammarP sid_current_grammar)
 		    }
 		    ZR225 (sid_current_grammar);
 		    ZR210 (sid_current_grammar, &ZI205);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL5;
 		    }
@@ -4593,12 +4599,12 @@ ZR219(GrammarP sid_current_grammar)
 	    }
 	}
 	break;
-      case 6:
+      case (LEXER_TOK_OPEN_HTUPLE):
 	{
 	    TypeTupleT ZI205;
 
 	    ZR170 (sid_current_grammar, &ZI205);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4609,13 +4615,13 @@ ZR219(GrammarP sid_current_grammar)
 	    }
 	    ZR225 (sid_current_grammar);
 	    ZR210 (sid_current_grammar, &ZI205);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 10: case 18: case 19:
+      case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_PRED_HRESULT): case (LEXER_TOK_IGNORE):
 	{
 	    {
 
@@ -4623,20 +4629,20 @@ ZR219(GrammarP sid_current_grammar)
 	
 	    }
 	    ZR299 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -4644,7 +4650,7 @@ static void
 ZR161(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
-      case 4:
+      case (LEXER_TOK_IDENTIFIER):
 	{
 	    NStringT ZI157;
 	    EntryP ZI163;
@@ -4668,7 +4674,7 @@ ZR161(GrammarP sid_current_grammar)
 	
 	    }
 	    ZR131 (sid_current_grammar, &ZI129, &ZI130);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -4697,13 +4703,13 @@ ZR161(GrammarP sid_current_grammar)
 	
 	    }
 	    ZR245 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 19:
+      case (LEXER_TOK_IGNORE):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -4714,7 +4720,7 @@ ZR161(GrammarP sid_current_grammar)
 		    TypeTupleT ZI130;
 
 		    switch (CURRENT_TERMINAL) {
-		      case 4:
+		      case (LEXER_TOK_IDENTIFIER):
 			{
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -4736,7 +4742,7 @@ ZR161(GrammarP sid_current_grammar)
 	
 		    }
 		    ZR131 (sid_current_grammar, &ZI129, &ZI130);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
@@ -4765,7 +4771,7 @@ ZR161(GrammarP sid_current_grammar)
 	
 		    }
 		    ZR245 (sid_current_grammar);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
@@ -4784,8 +4790,8 @@ ZR161(GrammarP sid_current_grammar)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -4808,7 +4814,7 @@ ZR161(GrammarP sid_current_grammar)
 	    }
 	}
 	break;
-      case 26:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
@@ -4827,8 +4833,8 @@ ZR161(GrammarP sid_current_grammar)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -4852,12 +4858,12 @@ ZR161(GrammarP sid_current_grammar)
 static void
 ZR225(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 12:
+	  case (LEXER_TOK_DEFINE):
 	    break;
 	  default:
 	    goto ZL1;
@@ -4880,14 +4886,14 @@ ZR225(GrammarP sid_current_grammar)
 static void
 ZR228(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	NStringT ZI157;
 
 	switch (CURRENT_TERMINAL) {
-	  case 4:
+	  case (LEXER_TOK_IDENTIFIER):
 	    {
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -4921,7 +4927,7 @@ ZR228(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 	}
 	ZR229 (sid_current_grammar);
 	ZR206 (sid_current_grammar, ZI205);
-	if ((CURRENT_TERMINAL) == 26) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -4940,13 +4946,13 @@ ZR228(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -4970,12 +4976,12 @@ ZR228(GrammarP sid_current_grammar, TypeTupleT *ZI205)
 static void
 ZR229(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 11:
+	  case (LEXER_TOK_END_HACTION):
 	    break;
 	  default:
 	    goto ZL1;
@@ -4998,13 +5004,13 @@ ZR229(GrammarP sid_current_grammar)
 static void
 ZR194(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 10:
+	      case (LEXER_TOK_BEGIN_HACTION):
 		{
 		    NStringT ZI157;
 		    EntryP ZI163;
@@ -5013,7 +5019,7 @@ ZR194(GrammarP sid_current_grammar)
 
 		    ADVANCE_LEXER;
 		    switch (CURRENT_TERMINAL) {
-		      case 4:
+		      case (LEXER_TOK_IDENTIFIER):
 			{
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -5037,7 +5043,7 @@ ZR194(GrammarP sid_current_grammar)
 		    }
 		    ZR229 (sid_current_grammar);
 		    ZR131 (sid_current_grammar, &ZI129, &ZI130);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
@@ -5093,17 +5099,17 @@ ZR194(GrammarP sid_current_grammar)
 	
 		    }
 		    ZR245 (sid_current_grammar);
-		    if ((CURRENT_TERMINAL) == 26) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
 		}
 		break;
-	      case 19:
+	      case (LEXER_TOK_IGNORE):
 		{
 		    ADVANCE_LEXER;
 		    switch (CURRENT_TERMINAL) {
-		      case 10:
+		      case (LEXER_TOK_BEGIN_HACTION):
 			break;
 		      default:
 			goto ZL3;
@@ -5117,7 +5123,7 @@ ZR194(GrammarP sid_current_grammar)
 			    TypeTupleT ZI130;
 
 			    switch (CURRENT_TERMINAL) {
-			      case 4:
+			      case (LEXER_TOK_IDENTIFIER):
 				{
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -5141,7 +5147,7 @@ ZR194(GrammarP sid_current_grammar)
 			    }
 			    ZR229 (sid_current_grammar);
 			    ZR131 (sid_current_grammar, &ZI129, &ZI130);
-			    if ((CURRENT_TERMINAL) == 26) {
+			    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 				RESTORE_LEXER;
 				goto ZL5;
 			    }
@@ -5197,7 +5203,7 @@ ZR194(GrammarP sid_current_grammar)
 	
 			    }
 			    ZR245 (sid_current_grammar);
-			    if ((CURRENT_TERMINAL) == 26) {
+			    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 				RESTORE_LEXER;
 				goto ZL5;
 			    }
@@ -5216,9 +5222,9 @@ ZR194(GrammarP sid_current_grammar)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -5258,9 +5264,9 @@ ZR194(GrammarP sid_current_grammar)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -5287,7 +5293,7 @@ ZR194(GrammarP sid_current_grammar)
 static void
 ZR239(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
   ZL2_239:;
@@ -5295,13 +5301,13 @@ ZR239(GrammarP sid_current_grammar)
 	ZR232 (sid_current_grammar);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 4: case 6: case 10: case 13:
-	      case 18: case 19: case 24:
+	      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_OPEN_HTUPLE): case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_BEGIN_HRULE):
+	      case (LEXER_TOK_PRED_HRESULT): case (LEXER_TOK_IGNORE): case (LEXER_TOK_REFERENCE):
 		{
 		    goto ZL2_239;
 		}
 		/*UNREACHED*/
-	      case 26:
+	      case (ERROR_TERMINAL):
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -5323,13 +5329,13 @@ ZR239(GrammarP sid_current_grammar)
 
 		while (CURRENT_TERMINAL != LEXER_TOK_EOF
 			&& CURRENT_TERMINAL != LEXER_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != LEXER_TOK_ALT_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_SEP
-			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_RULE
-			&& CURRENT_TERMINAL != LEXER_TOK_END_SCOPE
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_PRODUCTIONS
-			&& CURRENT_TERMINAL != LEXER_TOK_BLT_ENTRY) {
+			&& CURRENT_TERMINAL != LEXER_TOK_ALT_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_HANDLER_HSEP
+			&& CURRENT_TERMINAL != LEXER_TOK_BEGIN_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HRULE
+			&& CURRENT_TERMINAL != LEXER_TOK_END_HSCOPE
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HPRODUCTIONS
+			&& CURRENT_TERMINAL != LEXER_TOK_BLT_HENTRY) {
 			if (CURRENT_TERMINAL == LEXER_TOK_IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
@@ -5358,14 +5364,14 @@ ZR239(GrammarP sid_current_grammar)
 static void
 ZR273(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	NStringT ZI157;
 
 	switch (CURRENT_TERMINAL) {
-	  case 4:
+	  case (LEXER_TOK_IDENTIFIER):
 	    {
 
 		nstring_assign(&ZI157, lexer_string_value(sid_current_stream));
@@ -5411,12 +5417,12 @@ ZR273(GrammarP sid_current_grammar)
 static void
 ZR237(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 14:
+	  case (LEXER_TOK_END_HRULE):
 	    break;
 	  default:
 	    goto ZL1;
@@ -5439,21 +5445,21 @@ ZR237(GrammarP sid_current_grammar)
 static void
 ZR175(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
   ZL2_175:;
     {
 	ZR172 (sid_current_grammar, ZI133);
 	{
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		{
 
-		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_CLOSE_TUPLE
+		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_CLOSE_HTUPLE
 			|| CURRENT_TERMINAL == LEXER_TOK_EOF
 			|| sid_propagating_error);
 	
@@ -5465,7 +5471,7 @@ ZR175(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    /*UNREACHED*/
 	  ZL5:;
 	    switch (CURRENT_TERMINAL) {
-	      case 23:
+	      case (LEXER_TOK_SEPARATOR):
 		{
 		    ADVANCE_LEXER;
 		    goto ZL2_175;
@@ -5492,19 +5498,19 @@ ZR175(GrammarP sid_current_grammar, TypeTupleT *ZI133)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR245(GrammarP sid_current_grammar)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 9:
+	  case (LEXER_TOK_TERMINATOR):
 	    break;
 	  default:
 	    goto ZL1;
@@ -5527,21 +5533,21 @@ ZR245(GrammarP sid_current_grammar)
 static void
 ZR187(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 {
-    if ((CURRENT_TERMINAL) == 26) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
   ZL2_187:;
     {
 	ZR184 (sid_current_grammar, ZI133);
 	{
-	    if ((CURRENT_TERMINAL) == 26) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		{
 
-		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_CLOSE_TUPLE
+		(ZI0) = (CURRENT_TERMINAL == LEXER_TOK_CLOSE_HTUPLE
 			|| CURRENT_TERMINAL == LEXER_TOK_EOF
 			|| sid_propagating_error);
 	
@@ -5553,7 +5559,7 @@ ZR187(GrammarP sid_current_grammar, TypeTupleT *ZI133)
 	    /*UNREACHED*/
 	  ZL5:;
 	    switch (CURRENT_TERMINAL) {
-	      case 23:
+	      case (LEXER_TOK_SEPARATOR):
 		{
 		    ADVANCE_LEXER;
 		    goto ZL2_187;
@@ -5580,7 +5586,7 @@ ZR187(GrammarP sid_current_grammar, TypeTupleT *ZI133)
     }
     return;
   ZL1:;
-    SAVE_LEXER (26);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 

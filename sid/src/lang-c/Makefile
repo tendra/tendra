@@ -12,7 +12,7 @@ LEXI=lexi
 # XXX: Do I want to have them removed during clean?
 #CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
 
-SIDOPTS=-l ansi-c -s numeric -s no-lines
+SIDOPTS=-l ansi-c -s numeric -s no-lines -s no-numeric-terminals
 LEXIOPTS=-lC90 -a
 
 #PARSER_OUT=${SRC}/parser.c ${SRC}/junk.h
@@ -36,6 +36,8 @@ c-parser.c: c-parser.sid c-parser.act
 	${MOVE} tmp.$@ $@
 
 c-lexer.c: c-lexi_lexer.c
+
+c-lexer.h: c-lexi_lexer.h
 
 c-lexi_lexer.h c-lexi_lexer.c: c-lexi_lexer.lxi c-lexi_lexer.lct
 	-${MOVE} c-lexi_lexer.c sav.c-lexi_lexer.c 

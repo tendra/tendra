@@ -9,7 +9,7 @@
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- * 1. Redistributions of source code must retain the above copyright notice,
+ * 1. Redistributions of source CODE must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
@@ -70,43 +70,43 @@
 
 %terminals%
 
-	blt-prefixes;       // %prefixes%
-	blt-maps;           // %maps%
-	blt-persistents;    // %persistents%
-	blt-assignments;    // %assignments%
-	blt-terminals;      // %terminals%
-	blt-header;         // %header%
-	blt-actions;        // %actions%
-	blt-trailer;        // %trailer%
-	blt-result-assign;  // %result-assignments%
-	sid-identifier: () -> (:StringT);
-	c-identifier: () -> (:StringT);
-	separator;          // ,
-	typemark;           // :
-	terminator;         // ;
-	begin-action;       // <
-	define;             // =
-	end-action;         // >
-	!code: () -> (:CCodeP); // @{ ... @}
-	arrow;              // ->
-	open-tuple;         // (
-	close-tuple;        // )
-	blt-param-assign;   // %parameter-assignments%
-	reference;          // &
-	eof;
+	BLT-PREFIXES;       // %prefixed%
+	BLT-MAPS;           // %maps%
+	BLT-PERSISTENTS;    // %persistents%
+	BLT-ASSIGNMENTS;    // %assignments%
+	BLT-TERMINALS;      // %terminals%
+	BLT-HEADER;         // %header%
+	BLT-ACTIONS;        // %actions%
+	BLT-TRAILER;        // %trailer%
+	BLT-RESULT-ASSIGN;  // %result-assignments%
+	SID-IDENTIFIER: () -> (:StringT);
+	C-IDENTIFIER: () -> (:StringT);
+	SEPARATOR;          // ,
+	TYPEMARK;           // :
+	TERMINATOR;         // ;
+	BEGIN-ACTION;       // <
+	DEFINE;             // =
+	END-ACTION;         // >
+	!CODE: () -> (:CCodeP); // @{ ... @}
+	ARROW;              // ->
+	OPEN-TUPLE;         // (
+	CLOSE-TUPLE;        // )
+	BLT-PARAM-ASSIGN;   // %parameter-assignments%
+	REFERENCE;          // &
+	EOF;
 
-	act-at;             // @@
-	act-exception;      // @!
-	act-terminal;       // @.
-	act-advance;        // @>
-	act-label:      () -> (:StringT); // @:[a-zA-Z][a-zA-Z0-9]*
-	act-reference:  () -> (:StringT); // @&[a-zA-Z][a-zA-Z0-9]*
-	act-identifier: () -> (:StringT); // @[a-zA-Z][a-zA-Z0-9]*
-	act-modifiable: () -> (:StringT); // @=[a-zA-Z][a-zA-Z0-9]*
-	act-codestring: () -> (:StringT); // [^@]*
-	act-eof;            //
-	act-codestart;      // @{
-	act-codeend;        // @}
+	ACT-AT;             // @@
+	ACT-EXCEPTION;      // @!
+	ACT-TERMINAL;       // @.
+	ACT-ADVANCE;        // @>
+	ACT-LABEL:      () -> (:StringT); // @:[A-ZA-Z][A-ZA-Z0-9]*
+	ACT-REFERENCE:  () -> (:StringT); // @&[A-ZA-Z][A-ZA-Z0-9]*
+	ACT-IDENTIFIER: () -> (:StringT); // @[A-ZA-Z][A-ZA-Z0-9]*
+	ACT-MODIFIABLE: () -> (:StringT); // @=[A-ZA-Z][A-ZA-Z0-9]*
+	ACT-CODESTRING: () -> (:StringT); // [^@]*
+	ACT-EOF;            //
+	ACT-CODESTART;      // @{
+	ACT-CODEEND;        // @}
 
 %productions%
 
@@ -187,41 +187,41 @@
 		 */
 
 		identifier: () -> (id :StringT) = {
-			id = sid-identifier;
+			id = SID-IDENTIFIER;
 		||
-			id = c-identifier;
+			id = C-IDENTIFIER;
 		};
 
 		code-block: () -> (c :CCodeP) [
 			code-body-single: (c :CCodeP) -> () = {
-				act-at;
+				ACT-AT;
 				<append-ccode-at>(c) ;
 			||
-				act-exception;
+				ACT-EXCEPTION;
 				<append-ccode-exception>(c) ;
 			||
-				act-terminal;
+				ACT-TERMINAL;
 				<append-ccode-terminal>(c) ;
 			||
-				act-advance;
+				ACT-ADVANCE;
 				<append-ccode-advance>(c) ;
 			||
-				i = act-label;
+				i = ACT-LABEL;
 				<append-ccode-label>(c, &i) ;
 			||
-				i = act-reference;
+				i = ACT-REFERENCE;
 				<append-ccode-reference>(c, &i) ;
 			||
-				i = act-identifier;
+				i = ACT-IDENTIFIER;
 				<append-ccode-identifier>(c, &i) ;
 			||
-				i = act-modifiable;
+				i = ACT-MODIFIABLE;
 				<append-ccode-modifiable>(c, &i) ;
 			||
-				s = act-codestring;
+				s = ACT-CODESTRING;
 				<append-ccode-codestring>(c, &s) ;
 			||
-				act-eof;
+				ACT-EOF;
 				<E-eof-in-code-block>;
 			};
 
@@ -232,10 +232,10 @@
 				code-body(c);
 			};
 		] = {
-			act-codestart ;
+			ACT-CODESTART ;
 			c = <ccode-init>;
 			code-body(c);
-			act-codeend ;
+			ACT-CODEEND ;
 		};
 
 
@@ -249,17 +249,17 @@
 				<set-prefix>(&prefix);
 
 				{
-					define;
+					DEFINE;
 				##
 					<expected-define>;
 				};
 
 				{
-					name = c-identifier;
+					name = C-IDENTIFIER;
 					<x-set-prefix>(&name);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -287,17 +287,17 @@
 				<set-map>(&from);
 
 				{
-					arrow;
+					ARROW;
 				##
 					<expected-arrow>;
 				};
 
 				{
-					to = c-identifier;
+					to = C-IDENTIFIER;
 					<x-set-map>(&to);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -317,16 +317,16 @@
 		persistent-list [
 			persistent = {
 				{
-					name = c-identifier;
+					name = C-IDENTIFIER;
 				##
 					name = <empty-string>;
 					<expected-c-identifier>;
 				};
 
-				typemark;
+				TYPEMARK;
 
 				{
-					type = c-identifier;
+					type = C-IDENTIFIER;
 				##
 					type = <empty-string>;
 					<expected-identifier>;
@@ -334,7 +334,7 @@
 
 				<set-persistent>(&name, &type);
 				{
-					terminator;
+					TERMINATOR;
 				##
 					<expected-terminator>;
 				};
@@ -353,16 +353,16 @@
 
 		function-type-defn [
 			tuple-defn = {
-				name = c-identifier;
+				name = C-IDENTIFIER;
 
 				{
-					typemark;
+					TYPEMARK;
 
 					{
 						type = identifier;
 
 						{
-							reference;
+							REFERENCE;
 							<tuple-ref-type>(&name, &type);
 						||
 							<tuple-type>(&name, &type);
@@ -386,7 +386,7 @@
 				{
 					? = <is-close-tuple-or-skipped-or-eof>;
 				||
-					separator;
+					SEPARATOR;
 					tuple-defn-list-1;
 				##
 					<expected-separator>;
@@ -404,7 +404,7 @@
 				<init-tuple>;
 
 				{
-					open-tuple;
+					OPEN-TUPLE;
 				##
 					<expected-open-tuple>;
 				};
@@ -413,18 +413,18 @@
 				<skip-recover>;
 
 				{
-					close-tuple;
+					CLOSE-TUPLE;
 				##
 					<expected-close-tuple>;
 				};
 			};
 		] = {
-			typemark;
+			TYPEMARK;
 			type-tuple-defn;
 			<save-tuple>;
 
 			{
-				arrow;
+				ARROW;
 			##
 				<expected-arrow>;
 			};
@@ -446,7 +446,7 @@
 				function-type-defn;
 
 				{
-					define;
+					DEFINE;
 				##
 					<expected-define>;
 				};
@@ -456,7 +456,7 @@
 					<x-assign>(body);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -480,7 +480,7 @@
 				function-type-defn;
 
 				{
-					define;
+					DEFINE;
 				##
 					<expected-define>;
 				};
@@ -490,7 +490,7 @@
 					<x-passign>(body);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -514,7 +514,7 @@
 				function-type-defn;
 
 				{
-					define;
+					DEFINE;
 				##
 					<expected-define>;
 				};
@@ -524,7 +524,7 @@
 					<x-rassign>(body);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -553,7 +553,7 @@
 				function-type-defn;
 
 				{
-					define;
+					DEFINE;
 				##
 					<expected-define>;
 				};
@@ -563,7 +563,7 @@
 					<x-set-terminal>(body);
 
 					{
-						terminator;
+						TERMINATOR;
 					##
 						<expected-terminator>;
 					};
@@ -587,14 +587,14 @@
 
 		action-list [
 			action = {
-				begin-action;
+				BEGIN-ACTION;
 
 				{
 					id = identifier;
 					<set-action>(&id);
 
 					{
-						end-action;
+						END-ACTION;
 					##
 						<expected-end-action>;
 					};
@@ -602,7 +602,7 @@
 					function-type-defn;
 
 					{
-						define;
+						DEFINE;
 					##
 						<expected-define>;
 					};
@@ -612,7 +612,7 @@
 						<x-set-action>(body);
 
 						{
-							terminator;
+							TERMINATOR;
 						##
 							<expected-terminator>;
 						};
@@ -634,28 +634,28 @@
 		};
 	] /* c-parse-grammar */ = {
 		{
-			blt-prefixes;
+			BLT-PREFIXES;
 			prefix-list;
 		||
 			$;
 		};
 
 		{
-			blt-persistents;
+			BLT-PERSISTENTS;
 			persistent-list;
 		||
 			$;
 		};
 
 		{
-			blt-maps;
+			BLT-MAPS;
 			map-list;
 		||
 			$;
 		};
 
 		{
-			blt-header;
+			BLT-HEADER;
 		##
 			<expected-blt-header>;
 		};
@@ -668,7 +668,7 @@
 		};
 
 		{
-			separator;
+			SEPARATOR;
 		##
 			<expected-separator>;
 		};
@@ -681,34 +681,34 @@
 		};
 
 		{
-			terminator;
+			TERMINATOR;
 		##
 			<expected-terminator>;
 		};
 
 		{
-			blt-assignments;
+			BLT-ASSIGNMENTS;
 			assignment-list;
 		||
 			$;
 		};
 
 		{
-			blt-param-assign;
+			BLT-PARAM-ASSIGN;
 			param-assign-list;
 		||
 			$;
 		};
 
 		{
-			blt-result-assign;
+			BLT-RESULT-ASSIGN;
 			result-assign-list;
 		||
 			$;
 		};
 
 		{
-			blt-terminals;
+			BLT-TERMINALS;
 		##
 			<expected-blt-terminals>;
 		};
@@ -716,7 +716,7 @@
 		terminal-list;
 
 		{
-			blt-actions;
+			BLT-ACTIONS;
 		##
 			<expected-blt-actions>;
 		};
@@ -724,7 +724,7 @@
 		action-list;
 
 		{
-			blt-trailer;
+			BLT-TRAILER;
 		##
 			<expected-blt-trailer>;
 		};
@@ -737,7 +737,7 @@
 		};
 
 		{
-			separator;
+			SEPARATOR;
 		##
 			<expected-separator>;
 		};
@@ -750,13 +750,13 @@
 		};
 
 		{
-			terminator;
+			TERMINATOR;
 		##
 			<expected-terminator>;
 		};
 
 		{
-			eof;
+			EOF;
 		##
 			<expected-eof>;
 		};

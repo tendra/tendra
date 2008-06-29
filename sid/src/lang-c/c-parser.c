@@ -83,6 +83,7 @@
 	#include "../adt/type.h"
 	#include "../adt/types.h"
 
+	#define ERROR_TERMINAL C_TOK_ERROR
 	#define CURRENT_TERMINAL c_lexer_get_terminal (c_current_stream)
 	#define ADVANCE_LEXER c_lexer_next_token (c_current_stream)
 	#define SAVE_LEXER(x) (c_lexer_save_terminal (c_current_stream, (CTokenT) (x)))
@@ -103,6 +104,11 @@
 	COutputInfoT  *c_current_out_info;
 	TableT        *c_current_table;
 
+
+
+#ifndef ERROR_TERMINAL
+#error "-s no-numeric-terminals given and ERROR_TERMINAL is not defined"
+#endif
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -147,10 +153,10 @@ ZR134(void)
 {
   ZL2_134:;
     switch (CURRENT_TERMINAL) {
-      case 10:
+      case (C_TOK_C_HIDENTIFIER):
 	{
 	    ZR136 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    } else {
@@ -158,14 +164,14 @@ ZR134(void)
 	    }
 	}
 	/*UNREACHED*/
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -174,10 +180,10 @@ ZR174(void)
 {
   ZL2_174:;
     switch (CURRENT_TERMINAL) {
-      case 9: case 10:
+      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
 	{
 	    ZR176 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -189,14 +195,14 @@ ZR174(void)
 	    goto ZL2_174;
 	}
 	/*UNREACHED*/
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -205,12 +211,12 @@ ZR115(CCodeP ZI108)
 {
   ZL2_115:;
     switch (CURRENT_TERMINAL) {
-      case 24: case 25: case 26: case 27:
-      case 28: case 29: case 30: case 31:
-      case 32: case 33:
+      case (C_TOK_ACT_HAT): case (C_TOK_ACT_HEXCEPTION): case (C_TOK_ACT_HTERMINAL): case (C_TOK_ACT_HADVANCE):
+      case (C_TOK_ACT_HLABEL): case (C_TOK_ACT_HREFERENCE): case (C_TOK_ACT_HIDENTIFIER): case (C_TOK_ACT_HMODIFIABLE):
+      case (C_TOK_ACT_HCODESTRING): case (C_TOK_ACT_HEOF):
 	{
 	    ZR111 (ZI108);
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    } else {
@@ -218,14 +224,14 @@ ZR115(CCodeP ZI108)
 	    }
 	}
 	/*UNREACHED*/
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -234,10 +240,10 @@ ZR181(void)
 {
   ZL2_181:;
     switch (CURRENT_TERMINAL) {
-      case 9: case 10:
+      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
 	{
 	    ZR183 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -249,14 +255,14 @@ ZR181(void)
 	    goto ZL2_181;
 	}
 	/*UNREACHED*/
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -265,12 +271,12 @@ ZR109(CCodeP *ZO108)
 {
     CCodeP ZI108;
 
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 34:
+	  case (C_TOK_ACT_HCODESTART):
 	    break;
 	  default:
 	    goto ZL1;
@@ -284,9 +290,9 @@ ZR109(CCodeP *ZO108)
 	}
 	ZR115 (ZI108);
 	switch (CURRENT_TERMINAL) {
-	  case 35:
+	  case (C_TOK_ACT_HCODEEND):
 	    break;
-	  case 36:
+	  case (ERROR_TERMINAL):
 	    RESTORE_LEXER;
 	    goto ZL1;
 	  default:
@@ -296,7 +302,7 @@ ZR109(CCodeP *ZO108)
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
   ZL0:;
     *ZO108 = ZI108;
@@ -305,12 +311,12 @@ ZR109(CCodeP *ZO108)
 static void
 ZR158(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 18:
+	  case (C_TOK_ARROW):
 	    break;
 	  default:
 	    goto ZL1;
@@ -333,7 +339,7 @@ ZR158(void)
 static void
 ZR127(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -341,7 +347,7 @@ ZR127(void)
 
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 10:
+	      case (C_TOK_C_HIDENTIFIER):
 		{
 		    {
 
@@ -351,7 +357,7 @@ ZR127(void)
 		    ADVANCE_LEXER;
 		}
 		break;
-	      case 9:
+	      case (C_TOK_SID_HIDENTIFIER):
 		{
 		    {
 
@@ -396,7 +402,7 @@ ZR127(void)
 	}
 	ZR158 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -404,7 +410,7 @@ ZR127(void)
 		NStringT ZI132;
 
 		switch (CURRENT_TERMINAL) {
-		  case 10:
+		  case (C_TOK_C_HIDENTIFIER):
 		    {
 
 		nstring_assign(&ZI132, c_lexer_string_value(c_current_stream));
@@ -425,7 +431,7 @@ ZR127(void)
 	
 		}
 		ZR124 ();
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -444,13 +450,13 @@ ZR127(void)
 
 		while (CURRENT_TERMINAL != C_TOK_EOF
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_ASSIGNMENTS
-			&& CURRENT_TERMINAL != C_TOK_BLT_PARAM_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_RESULT_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_TERMINALS
-			&& CURRENT_TERMINAL != C_TOK_BLT_ACTIONS
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HASSIGNMENTS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HPARAM_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HRESULT_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTERMINALS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HACTIONS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			} else if (CURRENT_TERMINAL == C_TOK_CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
@@ -458,7 +464,7 @@ ZR127(void)
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -475,14 +481,14 @@ ZR127(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR161(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -490,7 +496,7 @@ ZR161(void)
 
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 10:
+	      case (C_TOK_C_HIDENTIFIER):
 		{
 		    {
 
@@ -500,7 +506,7 @@ ZR161(void)
 		    ADVANCE_LEXER;
 		}
 		break;
-	      case 9:
+	      case (C_TOK_SID_HIDENTIFIER):
 		{
 		    {
 
@@ -529,7 +535,7 @@ ZR161(void)
 	ZR142 ();
 	ZR121 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -537,7 +543,7 @@ ZR161(void)
 		CCodeP ZI165;
 
 		ZR109 (&ZI165);
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -597,7 +603,7 @@ ZR161(void)
 	
 		}
 		ZR124 ();
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -616,12 +622,12 @@ ZR161(void)
 
 		while (CURRENT_TERMINAL != C_TOK_EOF
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_PARAM_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_RESULT_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_TERMINALS
-			&& CURRENT_TERMINAL != C_TOK_BLT_ACTIONS
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HPARAM_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HRESULT_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTERMINALS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HACTIONS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			} else if (CURRENT_TERMINAL == C_TOK_CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
@@ -629,7 +635,7 @@ ZR161(void)
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -646,19 +652,19 @@ ZR161(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR190(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 14:
+	  case (C_TOK_BEGIN_HACTION):
 	    break;
 	  default:
 	    goto ZL1;
@@ -670,7 +676,7 @@ ZR190(void)
 
 		{
 		    switch (CURRENT_TERMINAL) {
-		      case 10:
+		      case (C_TOK_C_HIDENTIFIER):
 			{
 			    {
 
@@ -680,7 +686,7 @@ ZR190(void)
 			    ADVANCE_LEXER;
 			}
 			break;
-		      case 9:
+		      case (C_TOK_SID_HIDENTIFIER):
 			{
 			    {
 
@@ -714,7 +720,7 @@ ZR190(void)
 		{
 		    {
 			switch (CURRENT_TERMINAL) {
-			  case 16:
+			  case (C_TOK_END_HACTION):
 			    break;
 			  default:
 			    goto ZL6;
@@ -737,7 +743,7 @@ ZR190(void)
 		ZR142 ();
 		ZR121 ();
 		{
-		    if ((CURRENT_TERMINAL) == 36) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
@@ -745,7 +751,7 @@ ZR190(void)
 			CCodeP ZI165;
 
 			ZR109 (&ZI165);
-			if ((CURRENT_TERMINAL) == 36) {
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			    RESTORE_LEXER;
 			    goto ZL8;
 			}
@@ -801,7 +807,7 @@ ZR190(void)
 	
 			}
 			ZR124 ();
-			if ((CURRENT_TERMINAL) == 36) {
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			    RESTORE_LEXER;
 			    goto ZL8;
 			}
@@ -820,9 +826,9 @@ ZR190(void)
 
 		while (CURRENT_TERMINAL != C_TOK_EOF
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER
-			|| CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER
+			|| CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			} else if (CURRENT_TERMINAL == C_TOK_CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
@@ -830,7 +836,7 @@ ZR190(void)
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -859,9 +865,9 @@ ZR190(void)
 
 		while (CURRENT_TERMINAL != C_TOK_EOF
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER
-			|| CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER
+			|| CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			} else if (CURRENT_TERMINAL == C_TOK_CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
@@ -869,7 +875,7 @@ ZR190(void)
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -886,28 +892,28 @@ ZR190(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR149(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
   ZL2_149:;
     {
 	ZR144 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		{
 
-		(ZI0) = (CURRENT_TERMINAL == C_TOK_CLOSE_TUPLE
+		(ZI0) = (CURRENT_TERMINAL == C_TOK_CLOSE_HTUPLE
 			|| CURRENT_TERMINAL == C_TOK_EOF
 			|| c_propagating_error);
 	
@@ -919,7 +925,7 @@ ZR149(void)
 	    /*UNREACHED*/
 	  ZL5:;
 	    switch (CURRENT_TERMINAL) {
-	      case 11:
+	      case (C_TOK_SEPARATOR):
 		{
 		    ADVANCE_LEXER;
 		    goto ZL2_149;
@@ -946,7 +952,7 @@ ZR149(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -955,10 +961,10 @@ ZR188(void)
 {
   ZL2_188:;
     switch (CURRENT_TERMINAL) {
-      case 14:
+      case (C_TOK_BEGIN_HACTION):
 	{
 	    ZR190 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -970,21 +976,21 @@ ZR188(void)
 	    goto ZL2_188;
 	}
 	/*UNREACHED*/
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR169(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -992,7 +998,7 @@ ZR169(void)
 
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 10:
+	      case (C_TOK_C_HIDENTIFIER):
 		{
 		    {
 
@@ -1002,7 +1008,7 @@ ZR169(void)
 		    ADVANCE_LEXER;
 		}
 		break;
-	      case 9:
+	      case (C_TOK_SID_HIDENTIFIER):
 		{
 		    {
 
@@ -1031,7 +1037,7 @@ ZR169(void)
 	ZR142 ();
 	ZR121 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1039,7 +1045,7 @@ ZR169(void)
 		CCodeP ZI165;
 
 		ZR109 (&ZI165);
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -1098,7 +1104,7 @@ ZR169(void)
 	
 		}
 		ZR124 ();
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -1117,12 +1123,12 @@ ZR169(void)
 
 		while (CURRENT_TERMINAL != C_TOK_EOF
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_RESULT_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_TERMINALS
-			&& CURRENT_TERMINAL != C_TOK_BLT_ACTIONS
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER
-				|| CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HRESULT_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTERMINALS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HACTIONS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER
+				|| CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			} else if (CURRENT_TERMINAL == C_TOK_CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
@@ -1130,7 +1136,7 @@ ZR169(void)
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -1147,7 +1153,7 @@ ZR169(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -1156,10 +1162,10 @@ ZR117(void)
 {
   ZL2_117:;
     switch (CURRENT_TERMINAL) {
-      case 9: case 10:
+      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
 	{
 	    ZR119 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1171,14 +1177,14 @@ ZR117(void)
 	    goto ZL2_117;
 	}
 	/*UNREACHED*/
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -1186,7 +1192,7 @@ static void
 ZR111(CCodeP ZI108)
 {
     switch (CURRENT_TERMINAL) {
-      case 27:
+      case (C_TOK_ACT_HADVANCE):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1196,7 +1202,7 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 24:
+      case (C_TOK_ACT_HAT):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1208,7 +1214,7 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 32:
+      case (C_TOK_ACT_HCODESTRING):
 	{
 	    NStringT ZI114;
 
@@ -1226,7 +1232,7 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 33:
+      case (C_TOK_ACT_HEOF):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1236,7 +1242,7 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 25:
+      case (C_TOK_ACT_HEXCEPTION):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1246,7 +1252,7 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 30:
+      case (C_TOK_ACT_HIDENTIFIER):
 	{
 	    NStringT ZI113;
 
@@ -1263,7 +1269,7 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 28:
+      case (C_TOK_ACT_HLABEL):
 	{
 	    NStringT ZI113;
 
@@ -1280,7 +1286,7 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 31:
+      case (C_TOK_ACT_HMODIFIABLE):
 	{
 	    NStringT ZI113;
 
@@ -1297,7 +1303,7 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 29:
+      case (C_TOK_ACT_HREFERENCE):
 	{
 	    NStringT ZI113;
 
@@ -1314,7 +1320,7 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 26:
+      case (C_TOK_ACT_HTERMINAL):
 	{
 	    ADVANCE_LEXER;
 	    {
@@ -1324,21 +1330,21 @@ ZR111(CCodeP ZI108)
 	    }
 	}
 	break;
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR119(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -1346,7 +1352,7 @@ ZR119(void)
 
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 10:
+	      case (C_TOK_C_HIDENTIFIER):
 		{
 		    {
 
@@ -1356,7 +1362,7 @@ ZR119(void)
 		    ADVANCE_LEXER;
 		}
 		break;
-	      case 9:
+	      case (C_TOK_SID_HIDENTIFIER):
 		{
 		    {
 
@@ -1400,7 +1406,7 @@ ZR119(void)
 	}
 	ZR121 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1408,7 +1414,7 @@ ZR119(void)
 		NStringT ZI123;
 
 		switch (CURRENT_TERMINAL) {
-		  case 10:
+		  case (C_TOK_C_HIDENTIFIER):
 		    {
 
 		nstring_assign(&ZI123, c_lexer_string_value(c_current_stream));
@@ -1432,7 +1438,7 @@ ZR119(void)
 	
 		}
 		ZR124 ();
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -1451,14 +1457,14 @@ ZR119(void)
 
 		while (CURRENT_TERMINAL != C_TOK_EOF
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_MAPS
-			&& CURRENT_TERMINAL != C_TOK_BLT_TERMINALS
-			&& CURRENT_TERMINAL != C_TOK_BLT_ASSIGNMENTS
-			&& CURRENT_TERMINAL != C_TOK_BLT_PARAM_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_RESULT_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_ACTIONS
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HMAPS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTERMINALS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HASSIGNMENTS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HPARAM_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HRESULT_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HACTIONS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			} else if (CURRENT_TERMINAL == C_TOK_CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
@@ -1466,7 +1472,7 @@ ZR119(void)
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -1483,24 +1489,24 @@ ZR119(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 void
 c_parse_grammar(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 0:
+	      case (C_TOK_BLT_HPREFIXES):
 		{
 		    ADVANCE_LEXER;
 		    ZR117 ();
-		    if ((CURRENT_TERMINAL) == 36) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -1512,11 +1518,11 @@ c_parse_grammar(void)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 2:
+	      case (C_TOK_BLT_HPERSISTENTS):
 		{
 		    ADVANCE_LEXER;
 		    ZR134 ();
-		    if ((CURRENT_TERMINAL) == 36) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -1528,11 +1534,11 @@ c_parse_grammar(void)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 1:
+	      case (C_TOK_BLT_HMAPS):
 		{
 		    ADVANCE_LEXER;
 		    ZR125 ();
-		    if ((CURRENT_TERMINAL) == 36) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -1545,7 +1551,7 @@ c_parse_grammar(void)
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 5:
+		  case (C_TOK_BLT_HHEADER):
 		    break;
 		  default:
 		    goto ZL6;
@@ -1570,7 +1576,7 @@ c_parse_grammar(void)
 		CCodeP ZI202;
 
 		ZR109 (&ZI202);
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL8;
 		}
@@ -1596,7 +1602,7 @@ c_parse_grammar(void)
 	}
 	ZR215 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1604,7 +1610,7 @@ c_parse_grammar(void)
 		CCodeP ZI205;
 
 		ZR109 (&ZI205);
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL10;
 		}
@@ -1631,17 +1637,17 @@ c_parse_grammar(void)
 	ZR124 ();
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 3:
+	      case (C_TOK_BLT_HASSIGNMENTS):
 		{
 		    ADVANCE_LEXER;
 		    ZR159 ();
-		    if ((CURRENT_TERMINAL) == 36) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
 		}
 		break;
-	      case 36:
+	      case (ERROR_TERMINAL):
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
@@ -1650,11 +1656,11 @@ c_parse_grammar(void)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 21:
+	      case (C_TOK_BLT_HPARAM_HASSIGN):
 		{
 		    ADVANCE_LEXER;
 		    ZR167 ();
-		    if ((CURRENT_TERMINAL) == 36) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -1666,11 +1672,11 @@ c_parse_grammar(void)
 	}
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 8:
+	      case (C_TOK_BLT_HRESULT_HASSIGN):
 		{
 		    ADVANCE_LEXER;
 		    ZR174 ();
-		    if ((CURRENT_TERMINAL) == 36) {
+		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
 		    }
@@ -1683,7 +1689,7 @@ c_parse_grammar(void)
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 4:
+		  case (C_TOK_BLT_HTERMINALS):
 		    break;
 		  default:
 		    goto ZL15;
@@ -1705,13 +1711,13 @@ c_parse_grammar(void)
 	}
 	ZR181 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 6:
+		  case (C_TOK_BLT_HACTIONS):
 		    break;
 		  default:
 		    goto ZL17;
@@ -1733,13 +1739,13 @@ c_parse_grammar(void)
 	}
 	ZR188 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 7:
+		  case (C_TOK_BLT_HTRAILER):
 		    break;
 		  default:
 		    goto ZL19;
@@ -1764,7 +1770,7 @@ c_parse_grammar(void)
 		CCodeP ZI214;
 
 		ZR109 (&ZI214);
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL21;
 		}
@@ -1790,7 +1796,7 @@ c_parse_grammar(void)
 	}
 	ZR215 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -1798,7 +1804,7 @@ c_parse_grammar(void)
 		CCodeP ZI217;
 
 		ZR109 (&ZI217);
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL23;
 		}
@@ -1824,13 +1830,13 @@ c_parse_grammar(void)
 	}
 	ZR124 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 23:
+		  case (C_TOK_EOF):
 		    break;
 		  default:
 		    goto ZL25;
@@ -1866,30 +1872,30 @@ static void
 ZR152(void)
 {
     switch (CURRENT_TERMINAL) {
-      case 10:
+      case (C_TOK_C_HIDENTIFIER):
 	{
 	    ZR149 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR154(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -1901,7 +1907,7 @@ ZR154(void)
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 19:
+		  case (C_TOK_OPEN_HTUPLE):
 		    break;
 		  default:
 		    goto ZL3;
@@ -1922,7 +1928,7 @@ ZR154(void)
 	  ZL2:;
 	}
 	ZR152 ();
-	if ((CURRENT_TERMINAL) == 36) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
@@ -1934,7 +1940,7 @@ ZR154(void)
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 20:
+		  case (C_TOK_CLOSE_HTUPLE):
 		    break;
 		  default:
 		    goto ZL5;
@@ -1957,14 +1963,14 @@ ZR154(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR136(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -1974,7 +1980,7 @@ ZR136(void)
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 10:
+		  case (C_TOK_C_HIDENTIFIER):
 		    {
 
 		nstring_assign(&ZI123, c_lexer_string_value(c_current_stream));
@@ -2005,7 +2011,7 @@ ZR136(void)
 	  ZL2:;
 	}
 	switch (CURRENT_TERMINAL) {
-	  case 12:
+	  case (C_TOK_TYPEMARK):
 	    break;
 	  default:
 	    goto ZL1;
@@ -2014,7 +2020,7 @@ ZR136(void)
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
-		  case 10:
+		  case (C_TOK_C_HIDENTIFIER):
 		    {
 
 		nstring_assign(&ZI140, c_lexer_string_value(c_current_stream));
@@ -2059,26 +2065,26 @@ ZR136(void)
 	
 	}
 	ZR124 ();
-	if ((CURRENT_TERMINAL) == 36) {
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR215(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 11:
+	  case (C_TOK_SEPARATOR):
 	    break;
 	  default:
 	    goto ZL1;
@@ -2101,7 +2107,7 @@ ZR215(void)
 static void
 ZR176(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -2109,7 +2115,7 @@ ZR176(void)
 
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 10:
+	      case (C_TOK_C_HIDENTIFIER):
 		{
 		    {
 
@@ -2119,7 +2125,7 @@ ZR176(void)
 		    ADVANCE_LEXER;
 		}
 		break;
-	      case 9:
+	      case (C_TOK_SID_HIDENTIFIER):
 		{
 		    {
 
@@ -2148,7 +2154,7 @@ ZR176(void)
 	ZR142 ();
 	ZR121 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2156,7 +2162,7 @@ ZR176(void)
 		CCodeP ZI165;
 
 		ZR109 (&ZI165);
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -2215,7 +2221,7 @@ ZR176(void)
 	
 		}
 		ZR124 ();
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -2234,10 +2240,10 @@ ZR176(void)
 
 		while (CURRENT_TERMINAL != C_TOK_EOF
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_TERMINALS
-			&& CURRENT_TERMINAL != C_TOK_BLT_ACTIONS
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTERMINALS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HACTIONS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			} else if (CURRENT_TERMINAL == C_TOK_CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
@@ -2245,7 +2251,7 @@ ZR176(void)
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -2262,21 +2268,21 @@ ZR176(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR144(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	NStringT ZI123;
 
 	switch (CURRENT_TERMINAL) {
-	  case 10:
+	  case (C_TOK_C_HIDENTIFIER):
 	    {
 
 		nstring_assign(&ZI123, c_lexer_string_value(c_current_stream));
@@ -2289,7 +2295,7 @@ ZR144(void)
 	ADVANCE_LEXER;
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 12:
+	      case (C_TOK_TYPEMARK):
 		{
 		    ADVANCE_LEXER;
 		    {
@@ -2298,7 +2304,7 @@ ZR144(void)
 
 			    {
 				switch (CURRENT_TERMINAL) {
-				  case 10:
+				  case (C_TOK_C_HIDENTIFIER):
 				    {
 					{
 
@@ -2308,7 +2314,7 @@ ZR144(void)
 					ADVANCE_LEXER;
 				    }
 				    break;
-				  case 9:
+				  case (C_TOK_SID_HIDENTIFIER):
 				    {
 					{
 
@@ -2324,7 +2330,7 @@ ZR144(void)
 			    }
 			    {
 				switch (CURRENT_TERMINAL) {
-				  case 22:
+				  case (C_TOK_REFERENCE):
 				    {
 					ADVANCE_LEXER;
 					{
@@ -2375,20 +2381,20 @@ ZR144(void)
 			&& CURRENT_TERMINAL != C_TOK_DEFINE
 			&& CURRENT_TERMINAL != C_TOK_CODE
 			&& CURRENT_TERMINAL != C_TOK_SEPARATOR
-			&& CURRENT_TERMINAL != C_TOK_CLOSE_TUPLE
+			&& CURRENT_TERMINAL != C_TOK_CLOSE_HTUPLE
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_PARAM_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_RESULT_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_TERMINALS
-			&& CURRENT_TERMINAL != C_TOK_BLT_ACTIONS
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HPARAM_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HRESULT_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTERMINALS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HACTIONS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			}
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -2432,20 +2438,20 @@ ZR144(void)
 			&& CURRENT_TERMINAL != C_TOK_DEFINE
 			&& CURRENT_TERMINAL != C_TOK_CODE
 			&& CURRENT_TERMINAL != C_TOK_SEPARATOR
-			&& CURRENT_TERMINAL != C_TOK_CLOSE_TUPLE
+			&& CURRENT_TERMINAL != C_TOK_CLOSE_HTUPLE
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_PARAM_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_RESULT_ASSIGN
-			&& CURRENT_TERMINAL != C_TOK_BLT_TERMINALS
-			&& CURRENT_TERMINAL != C_TOK_BLT_ACTIONS
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HPARAM_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HRESULT_HASSIGN
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTERMINALS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HACTIONS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			}
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -2462,7 +2468,7 @@ ZR144(void)
 static void
 ZR183(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
@@ -2470,7 +2476,7 @@ ZR183(void)
 
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 10:
+	      case (C_TOK_C_HIDENTIFIER):
 		{
 		    {
 
@@ -2480,7 +2486,7 @@ ZR183(void)
 		    ADVANCE_LEXER;
 		}
 		break;
-	      case 9:
+	      case (C_TOK_SID_HIDENTIFIER):
 		{
 		    {
 
@@ -2516,7 +2522,7 @@ ZR183(void)
 	ZR142 ();
 	ZR121 ();
 	{
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2524,7 +2530,7 @@ ZR183(void)
 		CCodeP ZI165;
 
 		ZR109 (&ZI165);
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -2579,7 +2585,7 @@ ZR183(void)
 	
 		}
 		ZR124 ();
-		if ((CURRENT_TERMINAL) == 36) {
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
 		    goto ZL4;
 		}
@@ -2598,9 +2604,9 @@ ZR183(void)
 
 		while (CURRENT_TERMINAL != C_TOK_EOF
 			&& CURRENT_TERMINAL != C_TOK_TERMINATOR
-			&& CURRENT_TERMINAL != C_TOK_BLT_ACTIONS
-			&& CURRENT_TERMINAL != C_TOK_BLT_TRAILER) {
-			if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+			&& CURRENT_TERMINAL != C_TOK_BLT_HACTIONS
+			&& CURRENT_TERMINAL != C_TOK_BLT_HTRAILER) {
+			if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			} else if (CURRENT_TERMINAL == C_TOK_CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
@@ -2608,7 +2614,7 @@ ZR183(void)
 			ADVANCE_LEXER;
 		}
 
-		if (CURRENT_TERMINAL == C_TOK_SID_IDENTIFIER || CURRENT_TERMINAL == C_TOK_C_IDENTIFIER) {
+		if (CURRENT_TERMINAL == C_TOK_SID_HIDENTIFIER || CURRENT_TERMINAL == C_TOK_C_HIDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
@@ -2625,7 +2631,7 @@ ZR183(void)
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -2634,10 +2640,10 @@ ZR125(void)
 {
   ZL2_125:;
     switch (CURRENT_TERMINAL) {
-      case 9: case 10:
+      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
 	{
 	    ZR127 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2649,14 +2655,14 @@ ZR125(void)
 	    goto ZL2_125;
 	}
 	/*UNREACHED*/
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -2664,11 +2670,11 @@ static void
 ZR142(void)
 {
     switch (CURRENT_TERMINAL) {
-      case 12:
+      case (C_TOK_TYPEMARK):
 	{
 	    ADVANCE_LEXER;
 	    ZR154 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2679,7 +2685,7 @@ ZR142(void)
 	    }
 	    ZR158 ();
 	    ZR154 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2695,12 +2701,12 @@ ZR142(void)
 	    }
 	}
 	break;
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -2709,10 +2715,10 @@ ZR159(void)
 {
   ZL2_159:;
     switch (CURRENT_TERMINAL) {
-      case 9: case 10:
+      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
 	{
 	    ZR161 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2724,14 +2730,14 @@ ZR159(void)
 	    goto ZL2_159;
 	}
 	/*UNREACHED*/
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
@@ -2740,10 +2746,10 @@ ZR167(void)
 {
   ZL2_167:;
     switch (CURRENT_TERMINAL) {
-      case 9: case 10:
+      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
 	{
 	    ZR169 ();
-	    if ((CURRENT_TERMINAL) == 36) {
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -2755,26 +2761,26 @@ ZR167(void)
 	    goto ZL2_167;
 	}
 	/*UNREACHED*/
-      case 36:
+      case (ERROR_TERMINAL):
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (36);
+    SAVE_LEXER ((ERROR_TERMINAL));
     return;
 }
 
 static void
 ZR121(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 15:
+	  case (C_TOK_DEFINE):
 	    break;
 	  default:
 	    goto ZL1;
@@ -2797,12 +2803,12 @@ ZR121(void)
 static void
 ZR124(void)
 {
-    if ((CURRENT_TERMINAL) == 36) {
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
 	switch (CURRENT_TERMINAL) {
-	  case 13:
+	  case (C_TOK_TERMINATOR):
 	    break;
 	  default:
 	    goto ZL1;

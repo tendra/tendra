@@ -129,14 +129,14 @@ c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup)
 	dstring_to_nstring(&dstring, &c_lexer_token->u.string);
 	dstring_destroy(&dstring);
 
-	if (rettok == C_TOK_C_IDENTIFIER) {
+	if (rettok == C_TOK_C_HIDENTIFIER) {
 		/*
 		 * This is a special case; we differentiate between C and SID
 		 * identifiers based on the premise that all SID identifiers
 		 * contain at least one hyphen.
 		 */
 		if (nstring_contains(&c_lexer_token->u.string, '-')) {
-			c_lexer_token->t = C_TOK_SID_IDENTIFIER;
+			c_lexer_token->t = C_TOK_SID_HIDENTIFIER;
 		}
 	}
 
@@ -192,13 +192,13 @@ c_lexer_next_token(CLexerStreamT *stream)
 NStringT *
 c_lexer_string_value(CLexerStreamT *stream)
 {
-	assert(stream->token.t == C_TOK_C_IDENTIFIER
-		|| stream->token.t == C_TOK_SID_IDENTIFIER
-		|| stream->token.t == C_TOK_ACT_LABEL
-		|| stream->token.t == C_TOK_ACT_MODIFIABLE
-		|| stream->token.t == C_TOK_ACT_IDENTIFIER
-		|| stream->token.t == C_TOK_ACT_REFERENCE
-		|| stream->token.t == C_TOK_ACT_CODESTRING);
+	assert(stream->token.t == C_TOK_C_HIDENTIFIER
+		|| stream->token.t == C_TOK_SID_HIDENTIFIER
+		|| stream->token.t == C_TOK_ACT_HLABEL
+		|| stream->token.t == C_TOK_ACT_HMODIFIABLE
+		|| stream->token.t == C_TOK_ACT_HIDENTIFIER
+		|| stream->token.t == C_TOK_ACT_HREFERENCE
+		|| stream->token.t == C_TOK_ACT_HCODESTRING);
 
 	return &stream->token.u.string;
 }
@@ -275,35 +275,35 @@ c_lexer_read_builtin(int c0, int c1)
 	/* XXX This would be replaced by keywords pending lexi's reworked keyword API */
 	cstring = dstring_destroy_to_cstring(&dstring);
 	if (cstring_ci_equal(cstring, "prefixes")) {
-		c_lexer_token->t = C_TOK_BLT_PREFIXES;
+		c_lexer_token->t = C_TOK_BLT_HPREFIXES;
 	} else if (cstring_ci_equal(cstring, "persistents")) {
-		c_lexer_token->t = C_TOK_BLT_PERSISTENTS;
+		c_lexer_token->t = C_TOK_BLT_HPERSISTENTS;
 	} else if (cstring_ci_equal(cstring, "maps")) {
-		c_lexer_token->t = C_TOK_BLT_MAPS;
+		c_lexer_token->t = C_TOK_BLT_HMAPS;
 	} else if (cstring_ci_equal(cstring, "assignments")) {
-		c_lexer_token->t = C_TOK_BLT_ASSIGNMENTS;
+		c_lexer_token->t = C_TOK_BLT_HASSIGNMENTS;
 	} else if (cstring_ci_equal(cstring, "assign")) {
-		c_lexer_token->t = C_TOK_BLT_ASSIGNMENTS;
+		c_lexer_token->t = C_TOK_BLT_HASSIGNMENTS;
 	} else if (cstring_ci_equal(cstring, "terminals")) {
-		c_lexer_token->t = C_TOK_BLT_TERMINALS;
+		c_lexer_token->t = C_TOK_BLT_HTERMINALS;
 	} else if (cstring_ci_equal(cstring, "header")) {
-		c_lexer_token->t = C_TOK_BLT_HEADER;
+		c_lexer_token->t = C_TOK_BLT_HHEADER;
 	} else if (cstring_ci_equal(cstring, "actions")) {
-		c_lexer_token->t = C_TOK_BLT_ACTIONS;
+		c_lexer_token->t = C_TOK_BLT_HACTIONS;
 	} else if (cstring_ci_equal(cstring, "trailer")) {
-		c_lexer_token->t = C_TOK_BLT_TRAILER;
+		c_lexer_token->t = C_TOK_BLT_HTRAILER;
 	} else if (cstring_ci_equal(cstring, "result-assignments")) {
-		c_lexer_token->t = C_TOK_BLT_RESULT_ASSIGN;
+		c_lexer_token->t = C_TOK_BLT_HRESULT_HASSIGN;
 	} else if (cstring_ci_equal(cstring, "result-assign")) {
-		c_lexer_token->t = C_TOK_BLT_RESULT_ASSIGN;
+		c_lexer_token->t = C_TOK_BLT_HRESULT_HASSIGN;
 	} else if (cstring_ci_equal(cstring, "parameter-assignments")) {
-		c_lexer_token->t = C_TOK_BLT_PARAM_ASSIGN;
+		c_lexer_token->t = C_TOK_BLT_HPARAM_HASSIGN;
 	} else if (cstring_ci_equal(cstring, "parameter-assign")) {
-		c_lexer_token->t = C_TOK_BLT_PARAM_ASSIGN;
+		c_lexer_token->t = C_TOK_BLT_HPARAM_HASSIGN;
 	} else if (cstring_ci_equal(cstring, "param-assignments")) {
-		c_lexer_token->t = C_TOK_BLT_PARAM_ASSIGN;
+		c_lexer_token->t = C_TOK_BLT_HPARAM_HASSIGN;
 	} else if (cstring_ci_equal(cstring, "param-assign")) {
-		c_lexer_token->t = C_TOK_BLT_PARAM_ASSIGN;
+		c_lexer_token->t = C_TOK_BLT_HPARAM_HASSIGN;
 	} else {
 		E_c_unknown_builtin(istream, cstring);
 		UNREACHED;
@@ -345,7 +345,7 @@ c_lexer_act_read_string(int c)
 		c_lexi_getchar();
 	}
 
-	c_lexer_token->t = C_TOK_ACT_CODESTRING;
+	c_lexer_token->t = C_TOK_ACT_HCODESTRING;
 	dstring_to_nstring(&dstring, &c_lexer_token->u.string);
 	dstring_destroy(&dstring);
 

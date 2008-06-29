@@ -3,7 +3,7 @@
  * $Id$
  */
 
-/* -l C_TOK_ */
+/* -p C_TOK_ */
 
 TOKEN "\e" -> $EOF;
 
@@ -13,11 +13,11 @@ TOKEN "," -> $SEPARATOR;
 TOKEN "&" -> $REFERENCE;
 TOKEN ";" -> $TERMINATOR;
 
-TOKEN "<" -> C_TOK_BEGIN_ACTION;
-TOKEN ">" -> C_TOK_END_ACTION;
+TOKEN "<" -> $BEGIN-ACTION;
+TOKEN ">" -> $END-ACTION;
 
-TOKEN "(" -> C_TOK_OPEN_TUPLE;
-TOKEN ")" -> C_TOK_CLOSE_TUPLE;
+TOKEN "(" -> $OPEN-TUPLE;
+TOKEN ")" -> $CLOSE-TUPLE;
 
 TOKEN "->" -> $ARROW;
 
@@ -55,17 +55,17 @@ TOKEN "[builtindlmt][builtinstart]" -> c_lexer_read_builtin();
 /* Used by c_lexer_act_read_identifier() */
 GROUP act_identbody = "[identstart]" + {0-9};
 
-ZONE act:	"@{" -> C_TOK_ACT_CODESTART	/* XXX to remove when merged into the grammar */
-	...		"@}" -> C_TOK_ACT_CODEEND {
+ZONE act:	"@{" -> $ACT-CODESTART	/* XXX to remove when merged into the grammar */
+	...		"@}" -> $ACT-CODEEND {
 
 	GROUP white ="";
 	TOKEN DEFAULT -> c_lexer_act_read_string();
-	TOKEN "\e" -> C_TOK_ACT_EOF;	/* XXX to remove when merged into the grammar */
+	TOKEN "\e" -> $ACT-EOF;	/* XXX to remove when merged into the grammar */
 
-	TOKEN "@@" -> C_TOK_ACT_AT;
-	TOKEN "@!" -> C_TOK_ACT_EXCEPTION;
-	TOKEN "@." -> C_TOK_ACT_TERMINAL;
-	TOKEN "@>" -> C_TOK_ACT_ADVANCE;
+	TOKEN "@@" -> $ACT-AT;
+	TOKEN "@!" -> $ACT-EXCEPTION;
+	TOKEN "@." -> $ACT-TERMINAL;
+	TOKEN "@>" -> $ACT-ADVANCE;
 
 	/* TODO these would be nicer once we have "a" * "b" */
 	TOKEN "@:[identstart]" -> c_lexer_act_read_label();
