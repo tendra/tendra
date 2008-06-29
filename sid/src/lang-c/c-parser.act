@@ -118,7 +118,7 @@
 	#include "../adt/type.h"
 	#include "../adt/types.h"
 
-	#define ERROR_TERMINAL C_TOK_ERROR
+	#define ERROR_TERMINAL @$ERROR
 	#define CURRENT_TERMINAL c_lexer_get_terminal (c_current_stream)
 	#define ADVANCE_LEXER c_lexer_next_token (c_current_stream)
 	#define SAVE_LEXER(x) (c_lexer_save_terminal (c_current_stream, (CTokenT) (x)))
@@ -896,28 +896,28 @@
 	@};
 
 	<skip-to-end-of-tuple-defn> = @{
-		while (@. != C_TOK_EOF
-			&& @. != C_TOK_DEFINE
-			&& @. != C_TOK_CODE
-			&& @. != C_TOK_SEPARATOR
-			&& @. != C_TOK_CLOSE_HTUPLE
-			&& @. != C_TOK_TERMINATOR
-			&& @. != C_TOK_BLT_HPARAM_HASSIGN
-			&& @. != C_TOK_BLT_HRESULT_HASSIGN
-			&& @. != C_TOK_BLT_HTERMINALS
-			&& @. != C_TOK_BLT_HACTIONS
-			&& @. != C_TOK_BLT_HTRAILER) {
-			if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$DEFINE
+			&& @. != @$CODE
+			&& @. != @$SEPARATOR
+			&& @. != @$CLOSE-TUPLE
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-PARAM-ASSIGN
+			&& @. != @$BLT-RESULT-ASSIGN
+			&& @. != @$BLT-TERMINALS
+			&& @. != @$BLT-ACTIONS
+			&& @. != @$BLT-TRAILER) {
+			if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
-		if (@. != C_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -925,28 +925,28 @@
 	@};
 
 	<skip-to-end-of-prefix> = @{
-		while (@. != C_TOK_EOF
-			&& @. != C_TOK_TERMINATOR
-			&& @. != C_TOK_BLT_HMAPS
-			&& @. != C_TOK_BLT_HTERMINALS
-			&& @. != C_TOK_BLT_HASSIGNMENTS
-			&& @. != C_TOK_BLT_HPARAM_HASSIGN
-			&& @. != C_TOK_BLT_HRESULT_HASSIGN
-			&& @. != C_TOK_BLT_HACTIONS
-			&& @. != C_TOK_BLT_HTRAILER) {
-			if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-MAPS
+			&& @. != @$BLT-TERMINALS
+			&& @. != @$BLT-ASSIGNMENTS
+			&& @. != @$BLT-PARAM-ASSIGN
+			&& @. != @$BLT-RESULT-ASSIGN
+			&& @. != @$BLT-ACTIONS
+			&& @. != @$BLT-TRAILER) {
+			if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
-			} else if (@. == C_TOK_CODE) {
+			} else if (@. == @$CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
-		if (@. != C_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -954,27 +954,27 @@
 	@};
 
 	<skip-to-end-of-map> = @{
-		while (@. != C_TOK_EOF
-			&& @. != C_TOK_TERMINATOR
-			&& @. != C_TOK_BLT_HASSIGNMENTS
-			&& @. != C_TOK_BLT_HPARAM_HASSIGN
-			&& @. != C_TOK_BLT_HRESULT_HASSIGN
-			&& @. != C_TOK_BLT_HTERMINALS
-			&& @. != C_TOK_BLT_HACTIONS
-			&& @. != C_TOK_BLT_HTRAILER) {
-			if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-ASSIGNMENTS
+			&& @. != @$BLT-PARAM-ASSIGN
+			&& @. != @$BLT-RESULT-ASSIGN
+			&& @. != @$BLT-TERMINALS
+			&& @. != @$BLT-ACTIONS
+			&& @. != @$BLT-TRAILER) {
+			if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
-			} else if (@. == C_TOK_CODE) {
+			} else if (@. == @$CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
-		if (@. != C_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -982,26 +982,26 @@
 	@};
 
 	<skip-to-end-of-assignment> = @{
-		while (@. != C_TOK_EOF
-			&& @. != C_TOK_TERMINATOR
-			&& @. != C_TOK_BLT_HPARAM_HASSIGN
-			&& @. != C_TOK_BLT_HRESULT_HASSIGN
-			&& @. != C_TOK_BLT_HTERMINALS
-			&& @. != C_TOK_BLT_HACTIONS
-			&& @. != C_TOK_BLT_HTRAILER) {
-			if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-PARAM-ASSIGN
+			&& @. != @$BLT-RESULT-ASSIGN
+			&& @. != @$BLT-TERMINALS
+			&& @. != @$BLT-ACTIONS
+			&& @. != @$BLT-TRAILER) {
+			if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
-			} else if (@. == C_TOK_CODE) {
+			} else if (@. == @$CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
-		if (@. != C_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1009,26 +1009,26 @@
 	@};
 
 	<skip-to-end-of-param-assign> = @{
-		while (@. != C_TOK_EOF
-			&& @. != C_TOK_TERMINATOR
-			&& @. != C_TOK_BLT_HRESULT_HASSIGN
-			&& @. != C_TOK_BLT_HTERMINALS
-			&& @. != C_TOK_BLT_HACTIONS
-			&& @. != C_TOK_BLT_HTRAILER) {
-			if (@. == C_TOK_SID_HIDENTIFIER
-				|| @. == C_TOK_C_HIDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-RESULT-ASSIGN
+			&& @. != @$BLT-TERMINALS
+			&& @. != @$BLT-ACTIONS
+			&& @. != @$BLT-TRAILER) {
+			if (@. == @$SID-IDENTIFIER
+				|| @. == @$C-IDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
-			} else if (@. == C_TOK_CODE) {
+			} else if (@. == @$CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
-		if (@. != C_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1036,24 +1036,24 @@
 	@};
 
 	<skip-to-end-of-result-assign> = @{
-		while (@. != C_TOK_EOF
-			&& @. != C_TOK_TERMINATOR
-			&& @. != C_TOK_BLT_HTERMINALS
-			&& @. != C_TOK_BLT_HACTIONS
-			&& @. != C_TOK_BLT_HTRAILER) {
-			if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-TERMINALS
+			&& @. != @$BLT-ACTIONS
+			&& @. != @$BLT-TRAILER) {
+			if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
-			} else if (@. == C_TOK_CODE) {
+			} else if (@. == @$CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
-		if (@. != C_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1061,23 +1061,23 @@
 	@};
 
 	<skip-to-end-of-terminal> = @{
-		while (@. != C_TOK_EOF
-			&& @. != C_TOK_TERMINATOR
-			&& @. != C_TOK_BLT_HACTIONS
-			&& @. != C_TOK_BLT_HTRAILER) {
-			if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-ACTIONS
+			&& @. != @$BLT-TRAILER) {
+			if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
-			} else if (@. == C_TOK_CODE) {
+			} else if (@. == @$CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
-		if (@. != C_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1085,23 +1085,23 @@
 	@};
 
 	<skip-to-end-of-action> = @{
-		while (@. != C_TOK_EOF
-			&& @. != C_TOK_TERMINATOR
-			&& @. != C_TOK_BLT_HTRAILER) {
-			if (@. == C_TOK_SID_HIDENTIFIER
-			|| @. == C_TOK_C_HIDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-TRAILER) {
+			if (@. == @$SID-IDENTIFIER
+			|| @. == @$C-IDENTIFIER) {
 				nstring_destroy(c_lexer_string_value(c_current_stream));
-			} else if (@. == C_TOK_CODE) {
+			} else if (@. == @$CODE) {
 				c_code_deallocate(c_lexer_code_value(c_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == C_TOK_SID_HIDENTIFIER || @. == C_TOK_C_HIDENTIFIER) {
+		if (@. == @$SID-IDENTIFIER || @. == @$C-IDENTIFIER) {
 			nstring_destroy(c_lexer_string_value(c_current_stream));
 		}
 
-		if (@. != C_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1113,8 +1113,8 @@
 	@};
 
 	<is-close-tuple-or-skipped-or-eof>: () -> (predicate) = @{
-		@predicate = (@. == C_TOK_CLOSE_HTUPLE
-			|| @. == C_TOK_EOF
+		@predicate = (@. == @$CLOSE-TUPLE
+			|| @. == @$EOF
 			|| c_propagating_error);
 	@};
 

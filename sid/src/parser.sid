@@ -100,7 +100,9 @@
 	END-SCOPE;       // ]
 	SEPARATOR;       // ,
 	REFERENCE;       // &
+
 	EOF;
+	!ERROR;
 
 %productions%
 

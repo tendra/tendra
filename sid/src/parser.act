@@ -137,7 +137,7 @@
 	#include "adt/table.h"
 	#include "adt/types.h"
 
-	#define ERROR_TERMINAL LEXER_TOK_ERROR
+	#define ERROR_TERMINAL @$ERROR
 	#define CURRENT_TERMINAL lexer_get_terminal(sid_current_stream)
 	#define ADVANCE_LEXER lexer_next_token(sid_current_stream)
 	#define SAVE_LEXER(x) (lexer_save_terminal(sid_current_stream, (LexerTokenT) (x)))
@@ -1682,45 +1682,45 @@
 	/* TODO: Suspiciously repetitive */
 	<skip-to-end-of-tuple-defn> = @{
 		if (sid_finished_terminals) {
-			while (@. != LEXER_TOK_EOF
-				&& @. != LEXER_TOK_DEFINE
-				&& @. != LEXER_TOK_BEGIN_HSCOPE
-				&& @. != LEXER_TOK_BEGIN_HRULE
-				&& @. != LEXER_TOK_SEPARATOR
-				&& @. != LEXER_TOK_CLOSE_HTUPLE
-				&& @. != LEXER_TOK_TERMINATOR
-				&& @. != LEXER_TOK_BLT_HENTRY) {
-				if (@. == LEXER_TOK_IDENTIFIER) {
+			while (@. != @$EOF
+				&& @. != @$DEFINE
+				&& @. != @$BEGIN-SCOPE
+				&& @. != @$BEGIN-RULE
+				&& @. != @$SEPARATOR
+				&& @. != @$CLOSE-TUPLE
+				&& @. != @$TERMINATOR
+				&& @. != @$BLT-ENTRY) {
+				if (@. == @$IDENTIFIER) {
 					nstring_destroy(lexer_string_value(sid_current_stream));
 				}
 				@>;
 			}
 
-			if (@. == LEXER_TOK_IDENTIFIER) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 
-			if (@. != LEXER_TOK_EOF) {
+			if (@. != @$EOF) {
 				@>;
 			}
 		} else {
-			while (@. != LEXER_TOK_EOF
-				&& @. != LEXER_TOK_SEPARATOR
-				&& @. != LEXER_TOK_CLOSE_HTUPLE
-				&& @. != LEXER_TOK_TERMINATOR
-				&& @. != LEXER_TOK_BLT_HPRODUCTIONS
-				&& @. != LEXER_TOK_BLT_HENTRY) {
-				if (@. == LEXER_TOK_IDENTIFIER) {
+			while (@. != @$EOF
+				&& @. != @$SEPARATOR
+				&& @. != @$CLOSE-TUPLE
+				&& @. != @$TERMINATOR
+				&& @. != @$BLT-PRODUCTIONS
+				&& @. != @$BLT-ENTRY) {
+				if (@. == @$IDENTIFIER) {
 					nstring_destroy (lexer_string_value (sid_current_stream));
 				}
 				@>;
 			}
 
-			if (@. == LEXER_TOK_IDENTIFIER) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy (lexer_string_value (sid_current_stream));
 			}
 
-			if (@. != LEXER_TOK_EOF) {
+			if (@. != @$EOF) {
 				@>;
 			}
 		}
@@ -1729,21 +1729,21 @@
 	@};
 
 	<skip-to-end-of-terminal-decn> = @{
-		while (@. != LEXER_TOK_EOF
-			&& @. != LEXER_TOK_TERMINATOR
-			&& @. != LEXER_TOK_BLT_HPRODUCTIONS
-			&& @. != LEXER_TOK_BLT_HENTRY) {
-			if (@. == LEXER_TOK_IDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-PRODUCTIONS
+			&& @. != @$BLT-ENTRY) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == LEXER_TOK_IDENTIFIER) {
+		if (@. == @$IDENTIFIER) {
 			nstring_destroy(lexer_string_value(sid_current_stream));
 		}
 
-		if (@. != LEXER_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1751,21 +1751,21 @@
 	@};
 
 	<skip-to-end-of-lhs-name> = @{
-		while (@. != LEXER_TOK_EOF
-			&& @. != LEXER_TOK_TERMINATOR
-			&& @. != LEXER_TOK_BLT_HPRODUCTIONS
-			&& @. != LEXER_TOK_BLT_HENTRY) {
-			if (@. == LEXER_TOK_IDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-PRODUCTIONS
+			&& @. != @$BLT-ENTRY) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == LEXER_TOK_IDENTIFIER) {
+		if (@. == @$IDENTIFIER) {
 			nstring_destroy(lexer_string_value(sid_current_stream));
 		}
 
-		if (@. != LEXER_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1773,21 +1773,21 @@
 	@};
 
 	<skip-to-end-of-rhs-name> = @{
-		while (@. != LEXER_TOK_EOF
-			&& @. != LEXER_TOK_TERMINATOR
-			&& @. != LEXER_TOK_BLT_HPRODUCTIONS
-			&& @. != LEXER_TOK_BLT_HENTRY) {
-			if (@. == LEXER_TOK_IDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$BLT-PRODUCTIONS
+			&& @. != @$BLT-ENTRY) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == LEXER_TOK_IDENTIFIER) {
+		if (@. == @$IDENTIFIER) {
 			nstring_destroy(lexer_string_value(sid_current_stream));
 		}
 
-		if (@. != LEXER_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1795,22 +1795,22 @@
 	@};
 
 	<skip-to-end-of-action-decn> = @{
-		while (@. != LEXER_TOK_EOF
-			&& @. != LEXER_TOK_TERMINATOR
-			&& @. != LEXER_TOK_END_HSCOPE
-			&& @. != LEXER_TOK_BLT_HPRODUCTIONS
-			&& @. != LEXER_TOK_BLT_HENTRY) {
-			if (@. == LEXER_TOK_IDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$END-SCOPE
+			&& @. != @$BLT-PRODUCTIONS
+			&& @. != @$BLT-ENTRY) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == LEXER_TOK_IDENTIFIER) {
+		if (@. == @$IDENTIFIER) {
 			nstring_destroy(lexer_string_value(sid_current_stream));
 		}
 
-		if (@. != LEXER_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1818,26 +1818,26 @@
 	@};
 
 	<skip-to-end-of-item> = @{
-		while (@. != LEXER_TOK_EOF
-			&& @. != LEXER_TOK_TERMINATOR
-			&& @. != LEXER_TOK_ALT_HSEP
-			&& @. != LEXER_TOK_HANDLER_HSEP
-			&& @. != LEXER_TOK_BEGIN_HRULE
-			&& @. != LEXER_TOK_END_HRULE
-			&& @. != LEXER_TOK_END_HSCOPE
-			&& @. != LEXER_TOK_BLT_HPRODUCTIONS
-			&& @. != LEXER_TOK_BLT_HENTRY) {
-			if (@. == LEXER_TOK_IDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$ALT-SEP
+			&& @. != @$HANDLER-SEP
+			&& @. != @$BEGIN-RULE
+			&& @. != @$END-RULE
+			&& @. != @$END-SCOPE
+			&& @. != @$BLT-PRODUCTIONS
+			&& @. != @$BLT-ENTRY) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == LEXER_TOK_IDENTIFIER) {
+		if (@. == @$IDENTIFIER) {
 			nstring_destroy(lexer_string_value(sid_current_stream));
 		}
 
-		if (@. != LEXER_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1845,24 +1845,24 @@
 	@};
 
 	<skip-to-end-of-alternative> = @{
-		while (@. != LEXER_TOK_EOF
-			&& @. != LEXER_TOK_ALT_HSEP
-			&& @. != LEXER_TOK_HANDLER_HSEP
-			&& @. != LEXER_TOK_END_HRULE
-			&& @. != LEXER_TOK_END_HSCOPE
-			&& @. != LEXER_TOK_BLT_HPRODUCTIONS
-			&& @. != LEXER_TOK_BLT_HENTRY) {
-			if (@. == LEXER_TOK_IDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$ALT-SEP
+			&& @. != @$HANDLER-SEP
+			&& @. != @$END-RULE
+			&& @. != @$END-SCOPE
+			&& @. != @$BLT-PRODUCTIONS
+			&& @. != @$BLT-ENTRY) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == LEXER_TOK_IDENTIFIER) {
+		if (@. == @$IDENTIFIER) {
 			nstring_destroy(lexer_string_value(sid_current_stream));
 		}
 
-		if (@. != LEXER_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1870,23 +1870,23 @@
 	@};
 
 	<skip-to-end-of-other-defn> = @{
-		while (@. != LEXER_TOK_EOF
-			&& @. != LEXER_TOK_TERMINATOR
-			&& @. != LEXER_TOK_END_HSCOPE
-			&& @. != LEXER_TOK_END_HRULE
-			&& @. != LEXER_TOK_BLT_HPRODUCTIONS
-			&& @. != LEXER_TOK_BLT_HENTRY) {
-			if (@. == LEXER_TOK_IDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$END-SCOPE
+			&& @. != @$END-RULE
+			&& @. != @$BLT-PRODUCTIONS
+			&& @. != @$BLT-ENTRY) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == LEXER_TOK_IDENTIFIER) {
+		if (@. == @$IDENTIFIER) {
 			nstring_destroy(lexer_string_value(sid_current_stream));
 		}
 
-		if (@. != LEXER_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1894,23 +1894,23 @@
 	@};
 
 	<skip-to-end-of-production-defn> = @{
-		while (@. != LEXER_TOK_EOF
-			&& @. != LEXER_TOK_TERMINATOR
-			&& @. != LEXER_TOK_END_HSCOPE
-			&& @. != LEXER_TOK_END_HRULE
-			&& @. != LEXER_TOK_BLT_HPRODUCTIONS
-			&& @. != LEXER_TOK_BLT_HENTRY) {
-			if (@. == LEXER_TOK_IDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$END-SCOPE
+			&& @. != @$END-RULE
+			&& @. != @$BLT-PRODUCTIONS
+			&& @. != @$BLT-ENTRY) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == LEXER_TOK_IDENTIFIER) {
+		if (@. == @$IDENTIFIER) {
 			nstring_destroy(lexer_string_value(sid_current_stream));
 		}
 
-		if (@. != LEXER_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1918,20 +1918,20 @@
 	@};
 
 	<skip-to-end-of-entry-list> = @{
-		while (@. != LEXER_TOK_EOF
-			&& @. != LEXER_TOK_TERMINATOR
-			&& @. != LEXER_TOK_SEPARATOR) {
-			if (@. == LEXER_TOK_IDENTIFIER) {
+		while (@. != @$EOF
+			&& @. != @$TERMINATOR
+			&& @. != @$SEPARATOR) {
+			if (@. == @$IDENTIFIER) {
 				nstring_destroy(lexer_string_value(sid_current_stream));
 			}
 			@>;
 		}
 
-		if (@. == LEXER_TOK_IDENTIFIER) {
+		if (@. == @$IDENTIFIER) {
 			nstring_destroy(lexer_string_value(sid_current_stream));
 		}
 
-		if (@. != LEXER_TOK_EOF) {
+		if (@. != @$EOF) {
 			@>;
 		}
 
@@ -1943,23 +1943,23 @@
 	@};
 
 	<is-blt-entry-or-end-scope-or-eof>: () -> (predicate) = @{
-		@predicate = (@. == LEXER_TOK_EOF
-			|| @. == LEXER_TOK_END_HSCOPE
-			|| @. == LEXER_TOK_BLT_HENTRY);
+		@predicate = (@. == @$EOF
+			|| @. == @$END-SCOPE
+			|| @. == @$BLT-ENTRY);
 	@};
 
 	<is-close-tuple-or-skipped-or-eof>: () -> (predicate) = @{
-		@predicate = (@. == LEXER_TOK_CLOSE_HTUPLE
-			|| @. == LEXER_TOK_EOF
+		@predicate = (@. == @$CLOSE-TUPLE
+			|| @. == @$EOF
 			|| sid_propagating_error);
 	@};
 
 	<is-terminator>: () -> (predicate) = @{
-		@predicate = (@. == LEXER_TOK_TERMINATOR);
+		@predicate = (@. == @$TERMINATOR);
 	@};
 
 	<is-not-separator>: () -> (predicate) = @{
-		@predicate = (@. != LEXER_TOK_SEPARATOR);
+		@predicate = (@. != @$SEPARATOR);
 	@};
 
 %trailer% @{
