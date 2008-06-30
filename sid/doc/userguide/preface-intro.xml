@@ -138,8 +138,9 @@
 
 	<para>At present, &sid; will only output programs in C
 		(either &iso; or pre-&iso;), but it is designed so that adding new
-		output languages should be fairly simple. There is one other
-		pseudo-language: the test language. This is used for testing
-		grammars and the transforms, but will not output a parser.</para>
+		output languages should be fairly simple. Output of the grammar
+		to BNF is also provided. There is one other pseudo-language:
+		the test language. This is used for testing grammars and the
+		transforms, but will not output a parser.</para>
 </preface>
 

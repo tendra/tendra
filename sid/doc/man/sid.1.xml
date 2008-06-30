@@ -369,7 +369,8 @@
 					<listitem>
 						<para>This option specifies the output language.
 							Currently this should be either <quote>ansi-c</quote>,
-							<quote>pre-ansi-c</quote>, or <quote>test</quote>.
+							<quote>pre-ansi-c</quote>, <quote>test</quote>, or
+							<quote>bnf</quote>.
 							The default is <quote>ansi-c</quote>.</para>
 
 						<para>The <quote>ansi-c</quote> and <quote>pre-ansi-c</quote>
@@ -489,6 +490,12 @@
 							to check the transformations that would be applied
 							to the grammar.	There are no language specific options
 							for the <quote>test</quote> language.</para>
+
+						<para>The <quote>bnf</quote> language takes one input
+							file (the grammar) and produced one output file.
+							It is intended to provide a convenient means to
+							convert SID grammars into other formats, or to
+							inspect their contents in a simpler form.</para>
 					</listitem>
 				</varlistentry>
 

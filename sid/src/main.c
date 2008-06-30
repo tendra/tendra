@@ -85,30 +85,38 @@
 
 #include <exds/common.h>
 #include <exds/exception.h>
-#include "shared/check/check.h"
-#include "arg-parse.h"
-#include "lang-c/c-check.h"
-#include "lang-c/c-lexer.h"
-#include "lang-c/c-output.h"
-#include "lang-c/c-parser.h"
 #include <exds/cstring.h>
-#include "adt/cstring-list.h"
 #include <exds/dstring.h>
 #include <exds/error.h>
 #include <exds/error-file.h>
+#include <exds/istream.h>
+#include <exds/ostream.h>
+
+#include "shared/check/check.h"
+
+#include "adt/rule.h"
+#include "adt/cstring-list.h"
+
+#include "arg-parse.h"
 #include "gen-errors.h"
 #include "grammar.h"
-#include <exds/istream.h>
 #include "lexer.h"
-#include <exds/ostream.h>
 #include "output.h"
 #include "parser.h"
-#include "adt/rule.h"
+
+#include "lang-c/c-out-info.h"
+#include "lang-c/c-output.h"
+#include "lang-c/c-check.h"
+#include "lang-c/c-lexer.h"
+#include "lang-c/c-parser.h"
+
+#include "lang-bnf/bnf-output.h"
+#include "lang-bnf/bnf-out-info.h"
 
 #define USAGE "\
 usage:[option ...] in-file ... out-file ...\n\
 where option is one of:\n"
-#define VERSION "sid: version 1.11 (ansi-c, pre-ansi-c, test)"
+#define VERSION "sid: version 1.11 (ansi-c, pre-ansi-c, test, bnf)"
 #define RELEASE "tendra.org"
 
 typedef struct PhaseListT {
@@ -258,6 +266,42 @@ main_output_c(void *gclosure, GrammarT *grammar)
 }
 
 static void *
+main_init_bnf(OutputInfoT *out_info, CStringListT *options)
+{
+	BNFOutputInfoT      *bnf_out_info;
+	CStringListEntryT   *entry;
+
+	bnf_out_info = ALLOCATE(BNFOutputInfoT);
+	bnf_out_info_init(bnf_out_info, out_info);
+
+	for (entry = cstring_list_head(options); entry;
+		entry = cstring_list_entry_deallocate(entry)) {
+		char *option = cstring_list_entry_string(entry);
+
+		E_bad_language_option("bnf", option);
+	}
+
+	return bnf_out_info;
+}
+
+static void
+main_input_bnf(void *gclosure, GrammarT *grammar)
+{
+	UNUSED(gclosure);
+	UNUSED(grammar);
+}
+
+static void
+main_output_bnf(void *gclosure, GrammarT *grammar)
+{
+	BNFOutputInfoT *bnf_out_info = gclosure;
+
+	out_info_set_current_ostream(bnf_out_info_info(bnf_out_info), 0);
+	bnf_output_parser(bnf_out_info, grammar);
+}
+
+/* TODO possibly we can move these out into lang-X/main.c */
+static void *
 main_init_test(OutputInfoT *info, CStringListT *options)
 {
 	CStringListEntryT *entry;
@@ -315,6 +359,7 @@ static LangListT main_language_list[] = {
 	{ "iso-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2 },
 	{ "pre-iso-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2 },
 	{ "test", main_init_test, main_input_test, 1, main_output_test, 0 },
+	{ "bnf", main_init_bnf, main_input_bnf, 1, main_output_bnf, 1 },
 	{ NULL, NULL, NULL, 0, NULL, 0 }
 };
 

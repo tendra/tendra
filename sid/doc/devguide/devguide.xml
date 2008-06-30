@@ -211,21 +211,14 @@
 			<title>Adding a New Output Language: <code>main_language_list</code></title>
 
 			<para>The global variable <code>main_language</code>
-				allows us to easily modify the output language. Right now only
-				C is supported. It's a pointer to a structure
-				called <code>LangListT</code>. This pointer will always
-				point to an element in the table <code>main_language_list</code>:
+				allows us to easily modify the output language.
+				It's a pointer to a structure called <code>LangListT</code>.
+				This pointer will always point to an element in the
+				table <code>main_language_list</code>, which contains callbacks
+				for the various stages of processing.</para>
 
-				<programlisting language="C">static LangListT main_language_list[] = {
-    {"ansi-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2},
-    {"pre-ansi-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2},
-    {"iso-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2},
-    {"pre-iso-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2},
-    {"test", main_init_test, main_input_test, 1, main_output_test, 0},
-    {NULL, NULL, NULL, 0, NULL, 0}
-};</programlisting>
-
-				The first member indicates the option name. The second one
+			<!-- TODO reword by name, not numerically -->
+			<para>The first member indicates the option name. The second one
 				is a pointer to the initialisation function. The third one
 				contains a pointer to the top input routine for the action file.
 				The fourth one is an integer indicating the number of
