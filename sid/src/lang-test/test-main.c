@@ -88,21 +88,7 @@ main_init_test(OutputInfoT *info, CStringListT *options)
 	return NULL;
 }
 
-static void
-main_input_test(void *gclosure, GrammarT *grammar)
-{
-	UNUSED(gclosure);
-	UNUSED(grammar);
-}
-
-static void
-main_output_test(void *gclosure, GrammarT *grammar)
-{
-	UNUSED(gclosure);
-	UNUSED(grammar);
-}
-
 struct LangListT test_language_list = {
-	"test", main_init_test, main_input_test, 1, main_output_test, 0
+	"test", 1, 0, main_init_test, NULL, NULL
 };
 

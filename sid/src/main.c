@@ -477,8 +477,13 @@ main_1(OutputInfoT *out_info, OStreamT *dstream)
 	GrammarT      grammar;
 	void         *output_closure;
 
-	output_closure = main_language->init_proc(out_info,
-		&main_language_options);
+	if (main_language->init_proc != NULL) {
+		output_closure = main_language->init_proc(out_info,
+			&main_language_options);
+	} else {
+		output_closure = NULL;
+	}
+
 	grammar_init(&grammar);
 	lexer_init(&lstream, out_info_get_istream(out_info, 0));
 	sid_current_stream  = &lstream;
@@ -487,8 +492,12 @@ main_1(OutputInfoT *out_info, OStreamT *dstream)
 	main_abort_if_errored();
 	grammar_check_complete(&grammar);
 	main_abort_if_errored();
-	main_language->input_proc(output_closure, &grammar);
-	main_abort_if_errored();
+
+	if (main_language->input_proc != NULL) {
+		main_language->input_proc(output_closure, &grammar);
+		main_abort_if_errored();
+	}
+
 	main_dump_grammar(dstream, &grammar, "Original grammar:");
 	grammar_remove_left_recursion(&grammar);
 	main_dump_grammar(dstream, &grammar, "After left recursion elimination:");
@@ -508,7 +517,10 @@ main_1(OutputInfoT *out_info, OStreamT *dstream)
 	if (dstream) {
 		ostream_close(dstream);
 	}
-	main_language->output_proc(output_closure, &grammar);
+
+	if (main_language->output_proc != NULL) {
+		main_language->output_proc(output_closure, &grammar);
+	}
 }
 
 

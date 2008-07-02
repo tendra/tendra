@@ -40,13 +40,43 @@
 #include "grammar.h"
 #include "adt/cstring-list.h"
 
+/*
+ * This structure provides the interface for language-specific implementations;
+ * this acts as the entry point from main.c. Each language provides one
+ * (or several) instances of this, each acting as a language as per the -l flag.
+ *
+ * The callbacks provided may be given as NULL if they are not required.
+ */
 typedef struct LangListT {
-	char     *language;
-	void     *(*init_proc)(OutputInfoT *, CStringListT *);
-	void     (*input_proc)(void *, GrammarT *);
+	/*
+	 * The name of the language, as used by the -l flag. This should not
+	 * contain spaces.
+	 */
+	const char *language;
+
+	/*
+	 * The number of input files and output files required for this language.
+	 */
 	unsigned num_input_files;
-	void     (*output_proc)(void *, GrammarT *);
 	unsigned num_output_files;
+
+	/*
+	 * Initialisation. This is called before the grammar is parsed.
+	 *
+	 * The value returned is an opaque pointer passed to the input_proc()
+	 * and output_proc() callbacks.
+	 */
+	void *(*init_proc)(OutputInfoT *, CStringListT *);
+
+	/*
+	 * File input. This is called after the grammar is parsed.
+	 */
+	void  (*input_proc)(void *, GrammarT *);
+
+	/*
+	 * File output.
+	 */
+	void  (*output_proc)(void *, GrammarT *);
 } LangListT;
 
 #endif /* H_LANG */

@@ -92,7 +92,7 @@ fatal "bad split size" {
 fatal "usage" {
     "language '${language name}' requires ${number input files} input files and ${number output files} output files\n${usage}",
     {
-	"language name" : "char *" $[
+	"language name" : "const char *" $[
 	    write_cstring(ostream, closure->language_name);
 	]$
     }, {

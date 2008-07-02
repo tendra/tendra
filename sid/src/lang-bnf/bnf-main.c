@@ -95,13 +95,6 @@ main_init_bnf(OutputInfoT *out_info, CStringListT *options)
 }
 
 static void
-main_input_bnf(void *gclosure, GrammarT *grammar)
-{
-	UNUSED(gclosure);
-	UNUSED(grammar);
-}
-
-static void
 main_output_bnf(void *gclosure, GrammarT *grammar)
 {
 	BNFOutputInfoT *bnf_out_info = gclosure;
@@ -111,6 +104,6 @@ main_output_bnf(void *gclosure, GrammarT *grammar)
 }
 
 struct LangListT bnf_language_list = {
-	"bnf", main_init_bnf, main_input_bnf, 1, main_output_bnf, 1
+	"bnf", 1, 1, main_init_bnf, NULL, main_output_bnf
 };
 

@@ -202,18 +202,18 @@ main_output_c(void *gclosure, GrammarT *grammar)
 }
 
 struct LangListT c_language_list_ansi = {
-	"ansi-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2
+	"ansi-c", 2, 2, main_init_ansi_c, main_input_c, main_output_c
 };
 
 struct LangListT c_language_list_pre_ansi = {
-	"pre-ansi-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2
+	"pre-ansi-c", 2, 2, main_init_pre_ansi_c, main_input_c, main_output_c
 };
 
 struct LangListT c_language_list_iso = {
-	"iso-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2
+	"iso-c", 2, 2, main_init_ansi_c, main_input_c, main_output_c
 };
 
 struct LangListT c_language_list_pre_iso = {
-	"pre-iso-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2
+	"pre-iso-c", 2, 2, main_init_pre_ansi_c, main_input_c, main_output_c
 };
 
