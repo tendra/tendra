@@ -633,7 +633,7 @@ debug_info_w_end_capsule(void)
 }
 
 void
-debug_info_r_start_library(char * name)
+debug_info_r_start_library(const char * name)
 {
     if (debug_file) {
 	write_cstring(debug_file, "Reading library '");
@@ -755,7 +755,7 @@ debug_info_r_abort_library(void)
 }
 
 void
-debug_info_w_start_library(char * name)
+debug_info_w_start_library(const char * name)
 {
     if (debug_file) {
 	write_cstring(debug_file, "Writing library '");

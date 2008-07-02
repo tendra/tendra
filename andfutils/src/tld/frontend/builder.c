@@ -86,7 +86,7 @@ builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,
 				unsigned *num_capsules_ref)
 {
     unsigned  num_lib_files   = arg_data_num_library_files(arg_data);
-    char * *lib_files       = arg_data_library_files(arg_data);
+    const char * *lib_files       = arg_data_library_files(arg_data);
     LibraryT **libraries       = ALLOCATE_VECTOR(LibraryT *, num_lib_files);
     unsigned  num_capsules    = 0;
     unsigned  i;

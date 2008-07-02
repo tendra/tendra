@@ -55,7 +55,7 @@ fatal "no memory" {
 fatal "read error" {
     "error reading from file '${file name}': ${system error}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -69,7 +69,7 @@ fatal "read error" {
 fatal "write error" {
     "error writing to file '${file name}': ${system error}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -83,7 +83,7 @@ fatal "write error" {
 error "cannot open input file" {
     "cannot open input file '${file name}': ${system error}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -97,7 +97,7 @@ error "cannot open input file" {
 fatal "cannot open output file" {
     "cannot open output file '${file name}': ${system error}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -111,7 +111,7 @@ fatal "cannot open output file" {
 error "cannot open library file" {
     "cannot open library file '${file name}': ${system error}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -125,7 +125,7 @@ error "cannot open library file" {
 error "illegal external name" {
     "illegal external name '${name}'",
     {
-	"name" : "char *" $[
+	"name" : "const char *" $[
 	    write_cstring (ostream, closure->name);
 	]$
     }

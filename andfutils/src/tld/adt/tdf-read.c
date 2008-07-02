@@ -108,7 +108,7 @@ tdf_read_nibble(TDFReaderT *reader)
 }
 
 BoolT
-tdf_reader_open(TDFReaderT *reader,			 char *   name)
+tdf_reader_open(TDFReaderT *reader,			 const char *   name)
 {
     reader->type     = RT_STREAM;
     reader->new_byte = TRUE;
@@ -134,7 +134,7 @@ tdf_reader_open_string(TDFReaderT *reader,				char *   name,
     reader->u.string.byte     = 0;
 }
 
-char *
+const char *
 tdf_reader_name(TDFReaderT *reader)
 {
     switch (reader->type) {

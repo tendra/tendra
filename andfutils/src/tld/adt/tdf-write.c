@@ -97,7 +97,7 @@ tdf_writer_open(TDFWriterT *writer,			 char *   name)
     return(TRUE);
 }
 
-char *
+const char *
 tdf_writer_name(TDFWriterT *writer)
 {
     return(bostream_name(& (writer->bostream)));

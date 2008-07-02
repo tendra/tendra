@@ -131,9 +131,7 @@ c_output_save_non_locals_1(COutputInfoT *info, NonLocalEntryT *non_local,
 	c_output_location(info, c_code_file(code), c_code_line(code));
 	c_output_c_code_action(info, code, &args, &result_args, &state,
 		handler_rule);
-	c_output_location(info, ostream_name(ostream),
-
-	ostream_line(ostream) + 1);
+	c_output_location(info, ostream_name(ostream), ostream_line(ostream) + 1);
 	rstack_pop_frame(rstack);
 
 	if (copies) {

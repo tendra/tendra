@@ -135,7 +135,7 @@ c_code_get_translation(SaveRStackT *state, TypeBTransT *translator, EntryT *iden
  */
 
 CCodeT *
-c_code_create(char *file, unsigned line)
+c_code_create(const char *file, unsigned line)
 {
 	CCodeT *code = ALLOCATE(CCodeT);
 
@@ -370,7 +370,7 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 	}
 }
 
-char *
+const char *
 c_code_file(CCodeT *code)
 {
 	return code->file;

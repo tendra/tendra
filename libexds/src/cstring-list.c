@@ -81,7 +81,7 @@ cstring_list_init(CStringListT *list)
 }
 
 void
-cstring_list_append(CStringListT *list, char *string)
+cstring_list_append(CStringListT *list, const char *string)
 {
 	CStringListEntryT *entry = ALLOCATE(CStringListEntryT);
 
@@ -92,7 +92,7 @@ cstring_list_append(CStringListT *list, char *string)
 }
 
 BoolT
-cstring_list_contains(CStringListT *list, char *string)
+cstring_list_contains(CStringListT *list, const char *string)
 {
 	CStringListEntryT *entry = list->head;
 
@@ -112,7 +112,7 @@ cstring_list_head(CStringListT *list)
 	return list->head;
 }
 
-char *
+const char *
 cstring_list_entry_string(CStringListEntryT *entry)
 {
 	return entry->string;

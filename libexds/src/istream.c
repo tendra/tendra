@@ -161,7 +161,7 @@ istream_init(IStreamT *istream)
 }
 
 BoolT
-istream_open(IStreamT *istream, char *name)
+istream_open(IStreamT *istream, const char *name)
 {
     if ((istream->file = fopen(name, "r")) == NULL) {
 		return FALSE;
@@ -301,7 +301,7 @@ istream_line(IStreamT *istream)
 	return istream->line;
 }
 
-char *
+const char *
 istream_name(IStreamT *istream)
 {
 	return istream->name;
@@ -335,5 +335,6 @@ X__istream_fill_buffer(IStreamT *istream)
     istream->current   = istream->buffer;
     istream->end       = istream->current + bytes;
     istream->read_last = FALSE;
-    *(istream->end)++  = '\0';
+    *istream->end++  = '\0';
 }
+

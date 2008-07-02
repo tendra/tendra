@@ -100,14 +100,14 @@ extern char *			file_name_dirname
  * suffix seperator character.
  */
 extern char *			file_name_expand
-(char *, char *, char *);
+(const char *, const char *, const char *);
 
 /*
  * This function returns true if the specified path has no directory
  * component.
  */
 extern BoolT			file_name_is_basename
-(char *);
+(const char *);
 
 /*
  * This function returns true if the specified path is an absolute path name.

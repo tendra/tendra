@@ -341,13 +341,13 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 void
 write_arg_usage(OStreamT * ostream,			 ArgUsageT *closure)
 {
-    char * usage    = (closure->usage);
+    const char *usage  = (closure->usage);
     ArgListT *arg_list = (closure->arg_list);
 
     write_cstring(ostream, usage);
     while ((arg_list->name != NULL) ||
 	  (arg_list->short_name != '\0')) {
-	char * desc = error_string_contents(arg_list->u.message);
+	const char * desc = error_string_contents(arg_list->u.message);
 
 	if (arg_list->name) {
 	    write_newline(ostream);

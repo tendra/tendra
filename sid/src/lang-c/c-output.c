@@ -1060,13 +1060,13 @@ static void
 c_output_definition_1(COutputInfoT *info, RuleT *rule, EntryT *predicate_id,
 	EntryT *predicate_type, unsigned error_terminal, TableT *table)
 {
-	OStreamT *ostream = c_out_info_ostream(info);
-	EntryT   *entry   = rule_entry(rule);
-	unsigned  split   = c_out_info_get_split(info);
-	RStackT   rstack;
-	RStackT   non_local_stack;
-	char     *name;
-	CCodeT   *header;
+	OStreamT   *ostream = c_out_info_ostream(info);
+	EntryT     *entry   = rule_entry(rule);
+	unsigned    split   = c_out_info_get_split(info);
+	RStackT     rstack;
+	RStackT     non_local_stack;
+	const char *name;
+	CCodeT     *header;
 
 	if (rule_is_required(rule)) {
 		write_cstring(ostream, "void");
@@ -1284,7 +1284,7 @@ c_output_header(COutputInfoT *info, GrammarT *grammar)
 }
 
 void
-c_output_location(COutputInfoT *info, char *file, unsigned line)
+c_output_location(COutputInfoT *info, const char *file, unsigned line)
 {
 	OStreamT *ostream;
 

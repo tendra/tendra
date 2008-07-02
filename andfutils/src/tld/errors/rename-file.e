@@ -36,7 +36,7 @@ header(c) $[
 error "cannot open rename file" {
     "cannot open rename file '${file name}': ${system error}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -50,7 +50,7 @@ error "cannot open rename file" {
 error "rename expected shape" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected shape name",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);
@@ -67,7 +67,7 @@ error "rename expected shape" ("istream" : "IStreamT *") {
 error "rename expected name" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected external name",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);
@@ -84,7 +84,7 @@ error "rename expected name" ("istream" : "IStreamT *") {
 error "rename expected semi" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected semi colon",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);
@@ -101,7 +101,7 @@ error "rename expected semi" ("istream" : "IStreamT *") {
 error "rename unexpected eof" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: unexpected end of file",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);
@@ -118,7 +118,7 @@ error "rename unexpected eof" ("istream" : "IStreamT *") {
 error "rename unexpected newline" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: unexpected newline",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);
@@ -135,7 +135,7 @@ error "rename unexpected newline" ("istream" : "IStreamT *") {
 error "rename illegal escape" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal escape sequence",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);
@@ -152,7 +152,7 @@ error "rename illegal escape" ("istream" : "IStreamT *") {
 error "rename illegal char" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character '${character}'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);

@@ -75,7 +75,7 @@ static size_t dalloc_data_size = ALIGN(sizeof(DallocDataT));
 #include <mach/mach.h>
 
 void *
-X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
+X__dalloc_allocate(size_t size, size_t length, const char *file, unsigned line)
 {
 	size_t real_size;
 	vm_address_t address;
@@ -107,7 +107,7 @@ X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 }
 
 void
-X__dalloc_deallocate(void *ptr, char *file, unsigned line)
+X__dalloc_deallocate(void *ptr, const char *file, unsigned line)
 {
 	ByteT *pointer;
 	DallocDataT *data;
@@ -140,7 +140,7 @@ X__dalloc_deallocate(void *ptr, char *file, unsigned line)
 #else
 
 void *
-X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
+X__dalloc_allocate(size_t size, size_t length, const char *file, unsigned line)
 {
 	size_t real_size;
 	ByteT *base;
@@ -152,7 +152,7 @@ X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 		tmp = NULL;
 	}
 
-	real_size = ((size * length) + dalloc_data_size);
+	real_size = size * length + dalloc_data_size;
 
 	if ((tmp = malloc(real_size)) == NULL) {
 		THROW(XX_dalloc_no_memory);
@@ -170,7 +170,7 @@ X__dalloc_allocate(size_t size, size_t length, char *file, unsigned line)
 }
 
 void
-X__dalloc_deallocate(void *ptr, char *file, unsigned line)
+X__dalloc_deallocate(void *ptr, const char *file, unsigned line)
 {
 	ByteT *pointer;
 	DallocDataT *data;
@@ -191,7 +191,7 @@ X__dalloc_deallocate(void *ptr, char *file, unsigned line)
 	}
 
 	data->magic = 0;
-	free ( data);
+	free(data);
 }
 
 #endif /* defined (__NeXT__) */

@@ -125,7 +125,7 @@ typedef struct LexerStreamT {
 
 void	lexer_init(LexerStreamT *, IStreamT *);
 void	lexer_close(LexerStreamT *);
-char	*lexer_stream_name(LexerStreamT *);
+const char	*lexer_stream_name(LexerStreamT *);
 unsigned	lexer_stream_line(LexerStreamT *);
 LexerTokenT	lexer_get_terminal(LexerStreamT *);
 void	lexer_next_token(LexerStreamT *);

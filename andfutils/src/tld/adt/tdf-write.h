@@ -83,7 +83,7 @@ typedef struct TDFWriterT {
 
 extern BoolT			tdf_writer_open
 (TDFWriterT *, char *);
-extern char *			tdf_writer_name
+extern const char *		tdf_writer_name
 (TDFWriterT *);
 extern void			tdf_write_int
 (TDFWriterT *, unsigned);

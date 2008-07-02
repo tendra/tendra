@@ -38,7 +38,7 @@ header $[
 error "c illegal character" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character '${character}'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -59,7 +59,7 @@ error "c illegal character" ("istream" : "IStreamT *") {
 error "c illegal comment character" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal comment character '${character}'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -80,7 +80,7 @@ error "c illegal comment character" ("istream" : "IStreamT *") {
 error "c eof in comment" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in comment",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -97,7 +97,7 @@ error "c eof in comment" ("istream" : "IStreamT *") {
 fatal "c unknown builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: unknown builtin '%${builtin}%'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -109,7 +109,7 @@ fatal "c unknown builtin" ("istream" : "IStreamT *") {
 	    closure.line_number = istream_line(istream);
 	]$
     }, {
-	"builtin" : "char *" $[
+	"builtin" : "const char *" $[
 	    write_cstring(ostream, closure->builtin);
 	]$
     }
@@ -118,7 +118,7 @@ fatal "c unknown builtin" ("istream" : "IStreamT *") {
 error "c null character in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: null character in builtin",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -135,7 +135,7 @@ error "c null character in builtin" ("istream" : "IStreamT *") {
 error "c eof in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in builtin",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -152,7 +152,7 @@ error "c eof in builtin" ("istream" : "IStreamT *") {
 error "c newline in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: newline in builtin",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -169,7 +169,7 @@ error "c newline in builtin" ("istream" : "IStreamT *") {
 error "c code block syntax" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected '{' to begin code block",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -186,7 +186,7 @@ error "c code block syntax" ("istream" : "IStreamT *") {
 error "c illegal character in identifier" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character in identifier': '${character}'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -207,7 +207,7 @@ error "c illegal character in identifier" ("istream" : "IStreamT *") {
 error "c illegal at char" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character after '@': '${character}'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -228,7 +228,7 @@ error "c illegal at char" ("istream" : "IStreamT *") {
 error "c eof in code" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in C code block",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -245,7 +245,7 @@ error "c eof in code" ("istream" : "IStreamT *") {
 error "c expected at id" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected identifier after '@${character}' construct",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);

@@ -152,7 +152,7 @@ int c_lexi_getchar(void);
 
 void		c_lexer_init(CLexerStreamT *, IStreamT *);
 void		c_lexer_close(CLexerStreamT *);
-char *		c_lexer_stream_name(CLexerStreamT *);
+const char *	c_lexer_stream_name(CLexerStreamT *);
 unsigned		c_lexer_stream_line(CLexerStreamT *);
 CTokenT		c_lexer_get_terminal(CLexerStreamT *);
 void		c_lexer_next_token(CLexerStreamT *);

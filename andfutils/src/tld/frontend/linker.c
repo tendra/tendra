@@ -155,8 +155,8 @@ linker_read_capsules(ArgDataT *   arg_data,			      UnitTableT * units,
 static void
 linker_load_libraries(ArgDataT *   arg_data,			       ShapeTableT *lib_shapes)
 {
-    char *   *files     = arg_data_library_files(arg_data);
-    char *   *paths     = arg_data_library_paths(arg_data);
+    const char *   *files     = arg_data_library_files(arg_data);
+    const char *   *paths     = arg_data_library_paths(arg_data);
     unsigned    num_files = arg_data_num_library_files(arg_data);
     unsigned    num_paths = arg_data_num_library_paths(arg_data);
     unsigned    i;

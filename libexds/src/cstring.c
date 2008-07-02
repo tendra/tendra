@@ -77,7 +77,7 @@
 #include "syntax.h"
 
 char *
-cstring_duplicate(char * cstring)
+cstring_duplicate(const char *cstring)
 {
 	size_t length = strlen(cstring);
 	char *tmp    = ALLOCATE_VECTOR(char, length + 1);
@@ -87,7 +87,7 @@ cstring_duplicate(char * cstring)
 }
 
 char *
-cstring_duplicate_prefix(char *cstring, unsigned prefix)
+cstring_duplicate_prefix(const char *cstring, unsigned prefix)
 {
 	size_t length = strlen(cstring);
 
@@ -106,7 +106,7 @@ cstring_duplicate_prefix(char *cstring, unsigned prefix)
 }
 
 unsigned
-cstring_hash_value(char *cstring)
+cstring_hash_value(const char *cstring)
 {
 	unsigned value = 0;
 
@@ -118,7 +118,7 @@ cstring_hash_value(char *cstring)
 }
 
 BoolT
-cstring_ci_equal(char *cstring1, char *cstring2)
+cstring_ci_equal(const char *cstring1, const char *cstring2)
 {
 	char c1;
 	char c2;
@@ -132,7 +132,7 @@ cstring_ci_equal(char *cstring1, char *cstring2)
 }
 
 BoolT
-cstring_to_unsigned(char *cstring, unsigned *num_ref)
+cstring_to_unsigned(const char *cstring, unsigned *num_ref)
 {
 	unsigned number = 0;
 
@@ -151,7 +151,7 @@ cstring_to_unsigned(char *cstring, unsigned *num_ref)
 
 		number *= (unsigned) 10;
 		number += (unsigned) value;
-	} while (*++ cstring);
+	} while (*++cstring);
 
 	*num_ref = number;
 
@@ -159,15 +159,15 @@ cstring_to_unsigned(char *cstring, unsigned *num_ref)
 }
 
 BoolT
-cstring_starts(char *cstring, char *s)
+cstring_starts(const char *cstring, const char *s)
 {
 	return strncmp(cstring, s, strlen(s)) == 0;
 }
 
-char *
-cstring_find_basename(char *cstring)
+const char *
+cstring_find_basename(const char *cstring)
 {
-	char *bstring = strrchr(cstring, '/');
+	const char *bstring = strrchr(cstring, '/');
 
 	if (bstring != NULL) {
 		return bstring + 1;

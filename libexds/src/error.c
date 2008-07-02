@@ -102,7 +102,7 @@ struct ErrorListT {
 static ETagT	*tag_table[TAG_TABLE_SIZE];
 static ErrorT	*error_table[ERROR_TABLE_SIZE];
 static EStringT	*string_table[STRING_TABLE_SIZE];
-static char		*program_name    = NULL;
+static const char *program_name    = NULL;
 static ErrorInitProcP init_proc  = NULL;
 static ETagT	*etag_program	 = NULL;
 static ETagT	*etag_severity	 = NULL;
@@ -138,12 +138,14 @@ error_deallocate_error_list(ErrorListT *error_list)
 }
 
 static ErrorListT *
-error_parse_message(char *message)
+error_parse_message(const char *message)
 {
 	ErrorListT *error_list;
 	ErrorListT **error_list_next = &error_list;
 	char *message_copy    = cstring_duplicate(message);
-	char *scan            = message = message_copy;
+	char *scan            = message_copy;
+
+	message = message_copy;
 
 	/* TODO this really ought to use lexi, after it settles a little */
 	while (*scan) {
@@ -209,7 +211,7 @@ error_parse_message(char *message)
 
 static void
 write_error_list(OStreamT *ostream, ErrorListT *error_list, ErrorT *error,
-ErrorprocP proc, void *closure)
+	ErrorprocP proc, void *closure)
 {
 	while (error_list) {
 		switch (error_list->tag) EXHAUSTIVE {
@@ -247,9 +249,9 @@ ErrorprocP proc, void *closure)
  */
 
 void
-error_init(char *name, ErrorInitProcP proc)
+error_init(const char *name, ErrorInitProcP proc)
 {
-	static char *prefix = "${program name}: ${severity}: ";
+	static const char *prefix = "${program name}: ${severity}: ";
 
 	program_name = name;
 
@@ -281,7 +283,7 @@ error_call_init_proc(void)
 }
 
 ETagT *
-error_define_tag(char *name)
+error_define_tag(const char *name)
 {
 	unsigned hash   = cstring_hash_value(name) % TAG_TABLE_SIZE;
 	ETagT **entryp = &tag_table[hash];
@@ -302,7 +304,8 @@ error_define_tag(char *name)
 }
 
 ErrorT *
-error_define_error(char *name, ESeverityT severity, char *message, void *data)
+error_define_error(const char *name, ESeverityT severity, const char *message,
+	void *data)
 {
 	ErrorListT *error_list = error_parse_message(message);
 	unsigned hash          = cstring_hash_value(name) % ERROR_TABLE_SIZE;
@@ -350,7 +353,7 @@ error_intern_errors(ErrorDataT *vector)
 }
 
 ErrorStatusT
-error_redefine_error(char *name, char *message)
+error_redefine_error(const char *name, const char *message)
 {
 	error_call_init_proc();
 
@@ -379,7 +382,7 @@ error_redefine_error(char *name, char *message)
 }
 
 ErrorT *
-error_lookup_error(char *name)
+error_lookup_error(const char *name)
 {
 	error_call_init_proc();
 
@@ -450,13 +453,13 @@ error_max_reported_severity(void)
 }
 
 void
-error_set_severity_message(ESeverityT severity, char *message)
+error_set_severity_message(ESeverityT severity, const char *message)
 {
 	severity_data[severity].estring->contents = message;
 }
 
 BoolT
-error_set_prefix_message(char *message)
+error_set_prefix_message(const char *message)
 {
 	ErrorListT *error_list = error_parse_message(message);
 
@@ -466,11 +469,12 @@ error_set_prefix_message(char *message)
 
 	error_deallocate_error_list(error_prefix);
 	error_prefix = error_list;
+
 	return TRUE;
 }
 
 EStringT *
-error_define_string(char *name, char *contents)
+error_define_string(const char *name, const char *contents)
 {
 	unsigned hash     = cstring_hash_value(name) % STRING_TABLE_SIZE;
 	EStringT **entryp = &string_table[hash];
@@ -503,7 +507,7 @@ error_intern_strings(EStringDataT *vector)
 }
 
 BoolT
-error_redefine_string(char *name, char *contents)
+error_redefine_string(const char *name, const char *contents)
 {
 	unsigned hash  = cstring_hash_value(name) % STRING_TABLE_SIZE;
 	EStringT *entry = string_table[hash];
@@ -521,7 +525,7 @@ error_redefine_string(char *name, char *contents)
 }
 
 EStringT *
-error_lookup_string(char *name)
+error_lookup_string(const char *name)
 {
 	unsigned hash   = cstring_hash_value(name) % STRING_TABLE_SIZE;
 	EStringT *entry = string_table[hash];
@@ -537,7 +541,7 @@ error_lookup_string(char *name)
 	return NULL;
 }
 
-char *
+const char *
 error_string_contents(EStringT *estring)
 {
 	return estring->contents;

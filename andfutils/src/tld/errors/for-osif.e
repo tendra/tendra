@@ -39,7 +39,7 @@ internal "exception unhandled" {
 	    write_cstring (ostream, exception_name (closure->except_name));
 	]$
     }, {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -52,7 +52,7 @@ internal "exception unhandled" {
 internal "exception corrupt handler" {
     "corrupt exception handler installed at line ${line number}, file '${file name}'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -69,7 +69,7 @@ internal "dalloc multi deallocate" {
 	    write_pointer (ostream, closure->block_address);
 	]$
     }, {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -77,7 +77,7 @@ internal "dalloc multi deallocate" {
 	    write_unsigned (ostream, closure->line_number);
 	]$
     }, {
-	"allocation file name" : "char *" $[
+	"allocation file name" : "const char *" $[
 	    write_cstring (ostream, closure->allocation_file_name);
 	]$
     }, {
@@ -94,7 +94,7 @@ internal "dalloc corrupt block" {
 	    write_pointer (ostream, closure->block_address);
 	]$
     }, {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {

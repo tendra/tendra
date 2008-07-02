@@ -121,8 +121,8 @@ typedef struct ArgDataT {
 	    CStringListT	path;
 	} list;
 	struct {
-	    char *	       *file;
-	    char *	       *path;
+	    const char *       *file;
+	    const char *       *path;
 	} vector;
     } library;
     char *			unit_file;
@@ -213,9 +213,9 @@ extern unsigned			arg_data_num_library_files
 (ArgDataT *);
 extern unsigned			arg_data_num_library_paths
 (ArgDataT *);
-extern char *		       *arg_data_library_files
+extern const char *	       *arg_data_library_files
 (ArgDataT *);
-extern char *		       *arg_data_library_paths
+extern const char *	       *arg_data_library_paths
 (ArgDataT *);
 extern void			arg_data_set_unit_file
 (ArgDataT *, char *);

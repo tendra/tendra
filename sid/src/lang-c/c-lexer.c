@@ -164,7 +164,7 @@ c_lexer_close(CLexerStreamT *stream)
 	istream_close(&stream->istream);
 }
 
-char *
+const char *
 c_lexer_stream_name(CLexerStreamT *stream)
 {
 	return istream_name(&stream->istream);

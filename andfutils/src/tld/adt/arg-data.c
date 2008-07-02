@@ -484,8 +484,8 @@ arg_data_vector_libraries(ArgDataT *arg_data)
 {
     unsigned          num_files = arg_data->num_library_files;
     unsigned          num_paths = arg_data->num_library_paths;
-    char *         *files     = ALLOCATE_VECTOR(char *, num_files);
-    char *         *paths     = ALLOCATE_VECTOR(char *, num_paths);
+    const char *     *files     = ALLOCATE_VECTOR(const char *, num_files);
+    const char *     *paths     = ALLOCATE_VECTOR(const char *, num_paths);
     CStringListEntryT *entry;
     unsigned          i;
 
@@ -513,13 +513,13 @@ arg_data_num_library_paths(ArgDataT *arg_data)
     return(arg_data->num_library_paths);
 }
 
-char * *
+const char * *
 arg_data_library_files(ArgDataT *arg_data)
 {
     return(arg_data->library.vector.file);
 }
 
-char * *
+const char * *
 arg_data_library_paths(ArgDataT *arg_data)
 {
     return(arg_data->library.vector.path);

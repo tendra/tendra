@@ -84,7 +84,7 @@
 
 void		c_output_parser(COutputInfoT *, GrammarT *);
 void		c_output_header(COutputInfoT *, GrammarT *);
-void		c_output_location(COutputInfoT *, char *, unsigned);
+void		c_output_location(COutputInfoT *, const char *, unsigned);
 void		c_output_key_message(COutputInfoT *, char *, KeyT *,
 					     char *, unsigned);
 unsigned		c_out_next_label(void);

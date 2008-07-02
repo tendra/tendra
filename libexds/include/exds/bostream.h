@@ -63,7 +63,7 @@
  * This file specifies the interface to the binary output stream facility.
  *
  *
- * Exception:	XX_bostream_write_error (char * name)
+ * Exception:	XX_bostream_write_error
  *
  * This exception is raised if a write attempt fails.  The data thrown is a
  * copy of the name of the file that the write error occured on.  The copy
@@ -85,7 +85,7 @@
 typedef struct BOStreamT BOStreamT;
 struct BOStreamT {
 	FILE *file;
-	char *name;
+	const char *name;
 };
 
 extern ExceptionT *XX_bostream_write_error;
@@ -108,7 +108,7 @@ bostream_init(BOStreamT *);
  * See bostream_init() to initialise not to write to a file.
  */
 BoolT
-bostream_open(BOStreamT *, char *);
+bostream_open(BOStreamT *, const char *);
 
 /*
  * This function assigns the from bostream to the to bostream.  The from
@@ -131,7 +131,7 @@ bostream_is_open(BOStreamT *);
  * specified bostream.
  */
 void
-bostream_write_chars(BOStreamT *, unsigned, char *);
+bostream_write_chars(BOStreamT *, unsigned, const char *);
 
 /*
  * Exceptions:	XX_bostream_write_error
@@ -140,7 +140,7 @@ bostream_write_chars(BOStreamT *, unsigned, char *);
  * bostream.
  */
 void
-bostream_write_bytes(BOStreamT *, unsigned, ByteT *);
+bostream_write_bytes(BOStreamT *, unsigned, const ByteT *);
 
 /*
  * Exceptions:	XX_bostream_write_error
@@ -155,7 +155,7 @@ bostream_write_byte(BOStreamT *, ByteT);
  * bostream is writing. The return value should not be modified or
  * deallocated.
  */
-char *
+const char *
 bostream_name(BOStreamT *);
 
 /*

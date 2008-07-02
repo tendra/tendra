@@ -99,10 +99,10 @@ typedef struct TDFReaderT {
 extern ExceptionT *	XX_tdf_read_error;
 
 extern BoolT			tdf_reader_open
-(TDFReaderT *, char *);
+(TDFReaderT *, const char *);
 extern void			tdf_reader_open_string
 (TDFReaderT *, char *, NStringT *);
-extern char *			tdf_reader_name
+extern const char *			tdf_reader_name
 (TDFReaderT *);
 extern unsigned			tdf_reader_byte
 (TDFReaderT *);

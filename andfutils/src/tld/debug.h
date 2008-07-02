@@ -173,7 +173,7 @@ extern void			debug_info_w_end_capsule
 (void);
 
 extern void			debug_info_r_start_library
-(char *);
+(const char *);
 extern void			debug_info_r_lib_versions
 (unsigned, unsigned);
 extern void			debug_info_r_library_version
@@ -194,7 +194,7 @@ extern void			debug_info_r_abort_library
 (void);
 
 extern void			debug_info_w_start_library
-(char *);
+(const char *);
 extern void			debug_info_w_lib_versions
 (unsigned, unsigned);
 extern void			debug_info_w_library_version

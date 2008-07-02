@@ -162,7 +162,7 @@ exception_corrupt_handler(void (*handler)(const char *file, unsigned line));
  * This function returns the name of the specified exception.  The return
  * value should not be modified or deallocated.
  */
-char *exception_name(ExceptionT *);
+const char *exception_name(ExceptionT *);
 
 extern HandlerT *X__exception_handler_stack;
 extern ThrowDataT X__exception_throw_data;

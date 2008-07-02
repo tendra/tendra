@@ -98,8 +98,8 @@ file_name_dirname(char * path)
 }
 
 char *
-file_name_expand(char * dir,			  char * name, 
-			  char * suffix)
+file_name_expand(const char * dir,			  const char * name, 
+			  const char * suffix)
 {
     unsigned dir_length  = strlen(dir);
     unsigned name_length = strlen(name);
@@ -139,7 +139,7 @@ file_name_expand(char * dir,			  char * name,
 }
 
 BoolT
-file_name_is_basename(char * path)
+file_name_is_basename(const char * path)
 {
     return(!strchr(path, '/'));
 }

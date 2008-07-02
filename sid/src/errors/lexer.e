@@ -38,7 +38,7 @@ header $[
 error "illegal character" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character '${character}'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -59,7 +59,7 @@ error "illegal character" ("istream" : "IStreamT *") {
 error "eof in comment" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in comment",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -76,7 +76,7 @@ error "eof in comment" ("istream" : "IStreamT *") {
 fatal "unknown builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: unknown builtin '%${builtin}%'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -88,7 +88,7 @@ fatal "unknown builtin" ("istream" : "IStreamT *") {
 	    closure.line_number = istream_line(istream);
 	]$
     }, {
-	"builtin" : "char *" $[
+	"builtin" : "const char *" $[
 	    write_cstring(ostream, closure->builtin);
 	]$
     }
@@ -97,7 +97,7 @@ fatal "unknown builtin" ("istream" : "IStreamT *") {
 error "eof in identifier" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in identifier",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -114,7 +114,7 @@ error "eof in identifier" ("istream" : "IStreamT *") {
 error "eof in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in builtin",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -131,7 +131,7 @@ error "eof in builtin" ("istream" : "IStreamT *") {
 error "illegal character in builtin" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal character '${character}' in builtin, expecting '%'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -152,7 +152,7 @@ error "illegal character in builtin" ("istream" : "IStreamT *") {
 error "expected hash" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: second character missing from '##' operator",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);
@@ -169,7 +169,7 @@ error "expected hash" ("istream" : "IStreamT *") {
 error "expected pipe" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: second character missing from '||' operator",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name(istream);

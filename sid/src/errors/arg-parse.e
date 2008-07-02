@@ -36,11 +36,11 @@ fatal "arg parse unknown option" {
 ${usage}",
     {
 	"option" : "const char *" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"usage" : "ArgUsageT *" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };
@@ -50,15 +50,15 @@ fatal "arg parse unknown short opt" {
 ${usage}",
     {
 	"option" : "const char *" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"option location" : "const char *" $[
-	    write_cstring (ostream, closure->option_location);
+	    write_cstring(ostream, closure->option_location);
 	]$
     }, {
 	"usage" : "ArgUsageT *" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };
@@ -68,11 +68,11 @@ fatal "arg parse ambiguous option" {
 ${usage}",
     {
 	"option" : "const char *" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"usage" : "ArgUsageT *" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };
@@ -82,11 +82,11 @@ fatal "arg parse missing argument" {
 ${usage}",
     {
 	"option" : "const char *" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"usage" : "ArgUsageT *" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };
@@ -96,15 +96,15 @@ fatal "arg parse missing short arg" {
 ${usage}",
     {
 	"option" : "const char *" $[
-	    write_cstring (ostream, closure->option);
+	    write_cstring(ostream, closure->option);
 	]$
     }, {
 	"option location" : "const char *" $[
-	    write_cstring (ostream, closure->option_location);
+	    write_cstring(ostream, closure->option_location);
 	]$
     }, {
 	"usage" : "ArgUsageT *" $[
-	    write_arg_usage (ostream, closure->usage);
+	    write_arg_usage(ostream, closure->usage);
 	]$
     }
 };

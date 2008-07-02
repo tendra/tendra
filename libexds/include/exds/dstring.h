@@ -130,14 +130,14 @@ nstring_assign(NStringT *, NStringT *);
  * specified cstring.
  */
 void
-nstring_copy_cstring(NStringT *, char *);
+nstring_copy_cstring(NStringT *, const char *);
 
 /*
  * This function inserts the specified cstring into the specified nstring.
  * Sufficient characters are copied to fill up the nstring.
  */
 void
-nstring_insert_cstring(NStringT *, char *);
+nstring_insert_cstring(NStringT *, const char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -263,7 +263,7 @@ dstring_append_char(DStringT *, char);
  * dstring.
  */
 void
-dstring_append_cstring(DStringT *, char *);
+dstring_append_cstring(DStringT *, const char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory

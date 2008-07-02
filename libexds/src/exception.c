@@ -135,7 +135,7 @@ X__exception_throw(void)
 	UNREACHED;
 }
 
-char *
+const char *
 exception_name(ExceptionT *exc)
 {
 	return exc;

@@ -45,7 +45,7 @@ fatal "tld multiple debug files" {
 fatal "tld cannot open debug file" {
     "cannot open debug file '${file name}': ${system error}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {

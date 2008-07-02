@@ -82,6 +82,6 @@ syntax_value(char c)
 		return c - 'a' + 10;
 	}
 
-	return(SYNTAX_NO_VALUE);
+	return SYNTAX_NO_VALUE;
 }
 

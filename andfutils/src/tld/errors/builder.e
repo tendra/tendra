@@ -36,7 +36,7 @@ header(c) $[
 error "duplicate capsule name" {
     "capsule name '${cap name}' occurs more than once in input capsule list",
     {
-	"cap name" : "char *" $[
+	"cap name" : "const char *" $[
 	    write_cstring (ostream, closure->cap_name);
 	]$
     }

@@ -331,7 +331,7 @@ lib_capsule_name(LibCapsuleT *capsule)
 char *
 lib_capsule_full_name(LibCapsuleT *capsule)
 {
-    char * lib_name   = library_name(capsule->library);
+    const char * lib_name   = library_name(capsule->library);
     unsigned lib_length = strlen(lib_name);
     char * name       = lib_capsule_name(capsule);
     unsigned length     = strlen(name);
@@ -378,7 +378,7 @@ write_lib_capsule_full_name(OStreamT *   ostream,				     LibCapsuleT *capsule)
 }
 
 LibraryT *
-library_create_stream_input(char * name)
+library_create_stream_input(const char * name)
 {
     LibraryT *library = ALLOCATE(LibraryT);
 
@@ -407,7 +407,7 @@ library_create_stream_output(char * name)
     return(library);
 }
 
-char *
+const char *
 library_name(LibraryT *library)
 {
     return(library->name);

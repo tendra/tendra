@@ -108,7 +108,7 @@ typedef enum {
 typedef struct ETagT ETagT;
 struct ETagT {
 	ETagT *next;
-	char *name;
+	const char *name;
 };
 
 /*
@@ -117,7 +117,7 @@ struct ETagT {
 typedef struct ErrorT ErrorT;
 struct ErrorT {
 	ErrorT *next;
-	char *name;
+	const char *name;
 	ESeverityT severity;
 	ErrorListT *error_list;
 	void *data;
@@ -129,8 +129,8 @@ struct ErrorT {
 typedef struct EStringT EStringT;
 struct EStringT {
 	EStringT *next;
-	char *name;
-	char *contents;
+	const char *name;
+	const char *contents;
 };
 
 /*
@@ -161,7 +161,7 @@ typedef void(*ErrorInitProcP)(void);
  * should be used to access the tag object.
  */
 typedef union ETagDataT {
-	char *name;
+	const char *name;
 	ETagT *tag;
 } ETagDataT;
 
@@ -185,7 +185,7 @@ typedef union ETagDataT {
  */
 typedef union ErrorDataT {
 	struct {
-		char *name;
+		const char *name;
 		ESeverityT severity;
 		char *message;
 		void *data;
@@ -210,8 +210,8 @@ typedef union ErrorDataT {
  */
 typedef union EStringDataT {
 	struct {
-		char *name;
-		char *contents;
+		const char *name;
+		const char *contents;
 	} s;
 	EStringT *estring;
 } EStringDataT;
@@ -240,7 +240,7 @@ typedef enum {
  * initialised before they are used.
  */
 void
-error_init(char *, ErrorInitProcP);
+error_init(const char *, ErrorInitProcP);
 
 /*
  * This calls the error initialisation procedure if it has not already been
@@ -259,7 +259,7 @@ error_call_init_proc(void);
  * same tag more than once (but the same value will be returned each time).
  */
 ETagT *
-error_define_tag(char *);
+error_define_tag(const char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -274,7 +274,7 @@ error_define_tag(char *);
  * the program.
  */
 ErrorT *
-error_define_error(char *, ESeverityT, char *, void *);
+error_define_error(const char *, ESeverityT, const char *, void *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -308,7 +308,7 @@ error_intern_errors(ErrorDataT *);
  * ``ERROR_STATUS_SUCCESS''.
  */
 ErrorStatusT
-error_redefine_error(char *, char *);
+error_redefine_error(const char *, const char *);
 
 /*
  * This function returns the error with the specified name.  If the error does
@@ -317,7 +317,7 @@ error_redefine_error(char *, char *);
  * before they are looked up.
  */
 ErrorT *
-error_lookup_error(char *);
+error_lookup_error(const char *);
 
 /*
  * This function returns the data associated with the specified error.
@@ -359,7 +359,7 @@ error_max_reported_severity(void);
  * message. The message should not be modified or deallocated.
  */
 void
-error_set_severity_message(ESeverityT, char *);
+error_set_severity_message(ESeverityT, const char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -372,7 +372,7 @@ error_set_severity_message(ESeverityT, char *);
  * was valid, and false if there was an unterminated tag in the message.
  */
 BoolT
-error_set_prefix_message(char *);
+error_set_prefix_message(const char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -382,7 +382,7 @@ error_set_prefix_message(char *);
  * modified or deallocated.  No tag splitting is performed on the contents.
  */
 EStringT *
-error_define_string(char *, char *);
+error_define_string(const char *, const char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -403,20 +403,20 @@ error_intern_strings(EStringDataT *);
  * returns true.
  */
 BoolT
-error_redefine_string(char *, char *);
+error_redefine_string(const char *, const char *);
 
 /*
  * This function returns the named string with the specified name.  If the
  * named string does not exist, the function returns the null pointer.
  */
 EStringT *
-error_lookup_string(char *);
+error_lookup_string(const char *);
 
 /*
  * This function returns the contents of the specified named string.  The
  * returned string should not be modified or deallocated.
  */
-char *
+const char *
 error_string_contents(EStringT *);
 
 /*

@@ -63,7 +63,7 @@
  * This file specifies the interface to the input stream facility.
  *
  *
- * Exception:	XX_istream_read_error (char * name)
+ * Exception:	XX_istream_read_error
  *
  * This exception is raised if a read attempt fails.  The data thrown is a
  * copy of the name of the file that the read error occured on.  The copy
@@ -91,7 +91,7 @@ struct IStreamT {
 	char *end;
 	char *limit;
 	unsigned line;
-	char *name;
+	const char *name;
 	BoolT read_last;
 };
 
@@ -139,7 +139,7 @@ istream_init(IStreamT *);
  * true.
  */
 BoolT
-istream_open(IStreamT *, char *);
+istream_open(IStreamT *, const char *);
 
 /*
  * This function assigns the from istream to the to istream.  The from istream
@@ -213,7 +213,7 @@ istream_line(IStreamT *);
  * This function returns the name of the file from which the specified istream
  * is reading. The return value should not be modified or deallocated.
  */
-char *
+const char *
 istream_name(IStreamT *);
 
 /*

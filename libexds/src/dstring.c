@@ -104,7 +104,7 @@ nstring_assign(NStringT *to, NStringT *from)
 }
 
 void
-nstring_copy_cstring(NStringT *nstring, char *cstring)
+nstring_copy_cstring(NStringT *nstring, const char *cstring)
 {
 	unsigned length = strlen(cstring);
 
@@ -119,7 +119,7 @@ nstring_copy_cstring(NStringT *nstring, char *cstring)
 }
 
 void
-nstring_insert_cstring(NStringT *nstring, char *cstring)
+nstring_insert_cstring(NStringT *nstring, const char *cstring)
 {
 	unsigned length = nstring_length(nstring);
 
@@ -319,7 +319,7 @@ dstring_append_char(DStringT *dstring, char c)
 }
 
 void
-dstring_append_cstring(DStringT *dstring, char *cstring)
+dstring_append_cstring(DStringT *dstring, const char *cstring)
 {
 	unsigned clength = strlen(cstring);
 	unsigned length  = clength + dstring->length;

@@ -78,7 +78,7 @@
 typedef struct CStringListEntryT CStringListEntryT;
 struct CStringListEntryT {
 	CStringListEntryT *next;
-	char *string;
+	const char *string;
 };
 
 /*
@@ -102,10 +102,10 @@ cstring_list_init(CStringListT *);
  * This function appends the specified cstring onto the specified list.
  */
 void
-cstring_list_append(CStringListT *, char *);
+cstring_list_append(CStringListT *, const char *);
 
 BoolT
-cstring_list_contains(CStringListT *, char *);
+cstring_list_contains(CStringListT *, const char *);
 
 /*
  * This function returns a pointer to the first entry in the specified list.
@@ -117,7 +117,7 @@ cstring_list_head(CStringListT *);
  * This function returns a pointer to the cstring stored in the specified
  * list entry.
  */
-char *
+const char *
 cstring_list_entry_string(CStringListEntryT *);
 
 /*

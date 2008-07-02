@@ -120,15 +120,16 @@ ostream_init(OStreamT *ostream)
 }
 
 BoolT
-ostream_open(OStreamT *ostream, char *name)
+ostream_open(OStreamT *ostream, const char *name)
 {
-	char *oname = name;
-	char *pname = strrchr(name, '@');
+	const char *oname = name;
+	const char *pname = strrchr(name, '@');
 
 	if (pname != NULL) {
-		oname = ALLOCATE_VECTOR(char, strlen(name) + 10);
-		(void) sprintf(oname, "%.*s%d%s", (int) (pname - name), name,
-		++ostream->no, pname + 1);
+		char *s = ALLOCATE_VECTOR(char, strlen(name) + 10);
+		(void) sprintf(s, "%.*s%d%s", (int) (pname - name), name,
+			++ostream->no, pname + 1);
+		oname = s;
 	}
 	if ((ostream->file = fopen(oname, "w")) == NULL) {
 		return FALSE;
@@ -179,13 +180,13 @@ ostream_flush(OStreamT *ostream)
 	}
 }
 
-char *
+const char *
 ostream_name(OStreamT *ostream)
 {
 	return ostream->name;
 }
 
-char *
+const char *
 ostream_gen_name(OStreamT *ostream)
 {
 	return ostream->gen_name;
@@ -278,10 +279,11 @@ write_unsigned(OStreamT *ostream, unsigned i)
 }
 
 void
-write_cstring(OStreamT *ostream, char *cstring)
+write_cstring(OStreamT *ostream, const char *cstring)
 {
-	char *tmp = cstring;
+	const char *tmp = cstring;
 
+	/* TODO: use strchr() */
 	while (*tmp) {
 		if (*tmp++ == '\n') {
 			ostream->line++;
@@ -293,7 +295,7 @@ write_cstring(OStreamT *ostream, char *cstring)
 }
 
 void
-write_chars(OStreamT *ostream, char *chars, unsigned length)
+write_chars(OStreamT *ostream, const char *chars, unsigned length)
 {
 	while (length--) {
 		write_char(ostream, *chars++);
@@ -301,7 +303,7 @@ write_chars(OStreamT *ostream, char *chars, unsigned length)
 }
 
 void
-write_escaped_chars(OStreamT *ostream, char *chars, unsigned length)
+write_escaped_chars(OStreamT *ostream, const char *chars, unsigned length)
 {
 	while (length--) {
 		write_escaped_char(ostream, *chars++);
@@ -316,7 +318,7 @@ write_system_error(OStreamT *ostream)
 }
 
 void
-write_pointer(OStreamT *ostream, void *pointer)
+write_pointer(OStreamT *ostream, const void *pointer)
 {
 	(void) fprintf(ostream->file, "%p", pointer);
 	OSTREAM_WRITE_ERROR_CHECK(ostream);

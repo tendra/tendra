@@ -82,7 +82,7 @@ bistream_init(BIStreamT *bistream)
 }
 
 BoolT
-bistream_open(BIStreamT *bistream, char *name)
+bistream_open(BIStreamT *bistream, const char *name)
 {
 	if ((bistream->file = fopen(name, "r")) == NULL) {
 		return(FALSE);
@@ -102,7 +102,7 @@ bistream_assign(BIStreamT *to, BIStreamT *from)
 }
 
 BoolT
-bistream_is_open(BIStreamT * bistream)
+bistream_is_open(BIStreamT *bistream)
 {
 	return bistream->name != NULL;
 }
@@ -125,8 +125,7 @@ bistream_read_chars(BIStreamT *bistream, unsigned length, char *chars)
 }
 
 unsigned
-bistream_read_bytes(BIStreamT * bistream,			     unsigned  length ,
-			     ByteT *     bytes)
+bistream_read_bytes(BIStreamT *bistream, unsigned  length, ByteT *bytes)
 {
     unsigned bytes_read = (unsigned)fread(bytes, sizeof(ByteT),
 					   (size_t)length, bistream->file);
@@ -168,7 +167,7 @@ bistream_byte(BIStreamT *bistream)
 	return bistream->bytes;
 }
 
-char *
+const char *
 bistream_name(BIStreamT *bistream)
 {
 	return bistream->name;

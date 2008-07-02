@@ -42,7 +42,7 @@ header(c) $[
 fatal "cannot open unit set file" {
     "cannot open unit set file '${file name}': ${system error}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -56,7 +56,7 @@ fatal "cannot open unit set file" {
 fatal "unit set expected quote" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: expected double quote to begin unit set name",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);
@@ -73,7 +73,7 @@ fatal "unit set expected quote" ("istream" : "IStreamT *") {
 fatal "unit set illegal escape" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: illegal escape sequence in unit set name",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);
@@ -90,7 +90,7 @@ fatal "unit set illegal escape" ("istream" : "IStreamT *") {
 fatal "unit set eof in name" ("istream" : "IStreamT *") {
     "${file name}: ${line number}: end of file in unit set name",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = istream_name (istream);
@@ -107,7 +107,7 @@ fatal "unit set eof in name" ("istream" : "IStreamT *") {
 fatal "unit set duplicate name" {
     "${file name}: unit set name '${unit set name}' occurs more than once",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }, {
@@ -120,7 +120,7 @@ fatal "unit set duplicate name" {
 fatal "unit set no tld name" {
     "${file name}: linker information unit set name 'tld' does not occur",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }
@@ -129,7 +129,7 @@ fatal "unit set no tld name" {
 error "capsule bad magic" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: bad magic number '${magic name}' should be '${proper magic name}'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -154,7 +154,7 @@ error "capsule bad magic" ("capsule" : "CapsuleT *") {
 error "capsule bad version" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: illegal major version number ${major version}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -175,7 +175,7 @@ error "capsule bad version" ("capsule" : "CapsuleT *") {
 error "capsule version mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: major version number mismatch (${major version} should be ${proper major version})",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -200,7 +200,7 @@ error "capsule version mismatch" ("capsule" : "CapsuleT *") {
 error "duplicate unit set name" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: unit set '${unit set name}' occurs more than once",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -221,7 +221,7 @@ error "duplicate unit set name" ("capsule" : "CapsuleT *") {
 error "out of order unit set name" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: unit set '${unit set name}' occurs in wrong order",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -242,7 +242,7 @@ error "out of order unit set name" ("capsule" : "CapsuleT *") {
 error "unknown unit set name" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: unit set '${unit set name}' is unknown",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -263,7 +263,7 @@ error "unknown unit set name" ("capsule" : "CapsuleT *") {
 error "duplicate shape name" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: shape '${shape name}' occurs more than once",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -284,7 +284,7 @@ error "duplicate shape name" ("capsule" : "CapsuleT *") {
 error "shape and name count mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external name count ${name count} does not equal shape count ${shape count}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -309,7 +309,7 @@ error "shape and name count mismatch" ("capsule" : "CapsuleT *") {
 error "name id out of range" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} name '${name}' has out of range identifier ${identifier} (greater than ${identifier limit})",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -342,7 +342,7 @@ error "name id out of range" ("capsule" : "CapsuleT *") {
 error "name id used multiple times" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} name '${name}' is bound to previously used identifier ${identifier}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -371,7 +371,7 @@ error "name id used multiple times" ("capsule" : "CapsuleT *") {
 error "too many tld units" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains wrong number of units in linker information unit set (should be one)",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -388,7 +388,7 @@ error "too many tld units" ("capsule" : "CapsuleT *") {
 warning "tld2 unit set type obsolete" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains 'tld2' unit set type which is no longer supported",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -405,7 +405,7 @@ warning "tld2 unit set type obsolete" ("capsule" : "CapsuleT *") {
 error "too many tld unit counts" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains wrong number of counts in linker information unit (should be zero)",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -422,7 +422,7 @@ error "too many tld unit counts" ("capsule" : "CapsuleT *") {
 error "too many tld unit mappings" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains wrong number of mappings in linker information unit (should be zero)",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -439,7 +439,7 @@ error "too many tld unit mappings" ("capsule" : "CapsuleT *") {
 error "tld unit wrong size" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: linker information unit contents is the wrong size (final offset is ${offset} but should be ${correct offset})",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -464,7 +464,7 @@ error "tld unit wrong size" ("capsule" : "CapsuleT *") {
 error "unknown tld unit type" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: linker information unit version number ${version number} is not supported in this implementation",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -485,7 +485,7 @@ error "unknown tld unit type" ("capsule" : "CapsuleT *") {
 error "unit set count mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: unit count ${unit count} does not equal unit set count ${unit set count}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -510,7 +510,7 @@ error "unit set count mismatch" ("capsule" : "CapsuleT *") {
 warning "missing tld unit set" {
     "capsule '${file name}' has no linker information unit set",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }
@@ -519,7 +519,7 @@ warning "missing tld unit set" {
 error "extra tld unit set" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: capsule contains both a 'tld' and a 'tld2' unit set",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -536,7 +536,7 @@ error "extra tld unit set" ("capsule" : "CapsuleT *") {
 error "defined but not declared" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' is defined but not declared",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -561,7 +561,7 @@ error "defined but not declared" ("capsule" : "CapsuleT *") {
 error "illegally multiply defined" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has the multiply defined bit set illegally",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -586,7 +586,7 @@ error "illegally multiply defined" ("capsule" : "CapsuleT *") {
 error "bad usage" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has usage ${usage} which has no meaning in this implementation",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -615,7 +615,7 @@ error "bad usage" ("capsule" : "CapsuleT *") {
 error "multiply defined" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' is defined more than once (previous definition in '${previous file name}')",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -635,7 +635,7 @@ error "multiply defined" ("capsule" : "CapsuleT *") {
 	    write_name_key (ostream, closure->name);
 	]$
     }, {
-	"previous file name" : "char *" $[
+	"previous file name" : "const char *" $[
 	    write_cstring (ostream, closure->previous_file_name);
 	]$
     }
@@ -644,7 +644,7 @@ error "multiply defined" ("capsule" : "CapsuleT *") {
 error "unit count num mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: illegal count number ${count number} in ${unit set name} unit ${unit number} (should be 0 or ${shape number})",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -677,7 +677,7 @@ error "unit count num mismatch" ("capsule" : "CapsuleT *") {
 error "unit mapping num mismatch" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: illegal mapping number ${mapping number} in ${unit set name} unit ${unit number} (should be ${count number})",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);
@@ -710,7 +710,7 @@ error "unit mapping num mismatch" ("capsule" : "CapsuleT *") {
 error "id out of range" ("capsule" : "CapsuleT *") {
     "${file name}: byte ${byte number}: ${shape name} identifier ${identifier} is out of range in mapping table of ${unit set name} unit ${unit number} (should be less than ${identifier limit})",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = capsule_name (capsule);

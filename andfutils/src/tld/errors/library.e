@@ -38,7 +38,7 @@ header(c) $[
 error "library bad magic" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: bad magic number '${magic name}' should be '${proper magic name}'",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);
@@ -63,7 +63,7 @@ error "library bad magic" ("library" : "LibraryT *") {
 error "library bad version" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: illegal major version number ${major version}",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);
@@ -84,7 +84,7 @@ error "library bad version" ("library" : "LibraryT *") {
 error "library version mismatch" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: major version number mismatch (${major version} should be ${proper major version})",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);
@@ -109,7 +109,7 @@ error "library version mismatch" ("library" : "LibraryT *") {
 error "null in file name" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: capsule name '${cap name}' contains null character",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);
@@ -130,11 +130,11 @@ error "null in file name" ("library" : "LibraryT *") {
 error "capsule not found" {
     "capsule '${cap name}' is not contained in library '${lib name}'",
     {
-	"cap name" : "char *" $[
+	"cap name" : "const char *" $[
 	    write_cstring (ostream, closure->cap_name);
 	]$
     }, {
-	"lib name" : "char *" $[
+	"lib name" : "const char *" $[
 	    write_cstring (ostream, closure->lib_name);
 	]$
     }
@@ -143,11 +143,11 @@ error "capsule not found" {
 info "extracting capsule" {
     "extracted capsule '${cap name}' into '${file name}'",
     {
-	"cap name" : "char *" $[
+	"cap name" : "const char *" $[
 	    write_cstring (ostream, closure->cap_name);
 	]$
     }, {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$
     }
@@ -156,7 +156,7 @@ info "extracting capsule" {
 error "lib unknown type" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: library version number ${version number} is not supported in this implementation",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);
@@ -177,7 +177,7 @@ error "lib unknown type" ("library" : "LibraryT *") {
 error "lib defined but not declared" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' is defined but not declared",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);
@@ -202,7 +202,7 @@ error "lib defined but not declared" ("library" : "LibraryT *") {
 error "lib illegally mult defined" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has the multiply defined bit set illegally",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);
@@ -227,7 +227,7 @@ error "lib illegally mult defined" ("library" : "LibraryT *") {
 error "lib bad usage" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has usage ${usage} which has no meaning in this implementation",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);
@@ -256,7 +256,7 @@ error "lib bad usage" ("library" : "LibraryT *") {
 error "lib multiply defined" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' is defined more than once in libraries (previous definition in '${previous file name}')",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);
@@ -285,7 +285,7 @@ error "lib multiply defined" ("library" : "LibraryT *") {
 error "capsule index too big" ("library" : "LibraryT *") {
     "${file name}: byte ${byte number}: external ${shape name} '${name}' has capsule index ${capsule index} (should be less than ${num capsules})",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = library_name (library);

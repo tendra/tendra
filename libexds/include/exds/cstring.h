@@ -85,7 +85,7 @@
  * string.
  */
 char *
-cstring_duplicate(char *cstring);
+cstring_duplicate(const char *cstring);
 
 /*
  * Exceptions:	XX_dalloc_no_memory
@@ -95,7 +95,7 @@ cstring_duplicate(char *cstring);
  * length, then only the cstring is used.
  */
 char *
-cstring_duplicate_prefix(char *cstring, unsigned prefix);
+cstring_duplicate_prefix(const char *cstring, unsigned prefix);
 
 /*
  * This function returns the hash value associated with the specified
@@ -103,14 +103,14 @@ cstring_duplicate_prefix(char *cstring, unsigned prefix);
  * with the same content.
  */
 unsigned
-cstring_hash_value(char *cstring);
+cstring_hash_value(const char *cstring);
 
 /*
  * This function returns true if the specified cstrings have the same
  * content (ignoring differences in case), and false otherwise.
  */
 BoolT
-cstring_ci_equal(char *cstring1, char *cstring2);
+cstring_ci_equal(const char *cstring1, const char *cstring2);
 
 /*
  * This function parses an unsigned number in cstring.  If there is a valid
@@ -120,13 +120,13 @@ cstring_ci_equal(char *cstring1, char *cstring2);
  * big.
  */
 BoolT
-cstring_to_unsigned(char *cstring, unsigned *num_ref);
+cstring_to_unsigned(const char *cstring, unsigned *num_ref);
 
 BoolT
-cstring_starts(char *cstring, char *s);
+cstring_starts(const char *cstring, const char *s);
 
-char *
-cstring_find_basename(char *cstring);
+const char *
+cstring_find_basename(const char *cstring);
 
 #endif /* !defined (H_CSTRING) */
 

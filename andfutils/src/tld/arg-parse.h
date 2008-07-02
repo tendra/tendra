@@ -178,7 +178,7 @@ typedef enum {
  * This is the type of argument to be passed to ``write_arg_usage''.
  */
 typedef struct ArgUsageT {
-    char *			usage;
+    const char *			usage;
     struct ArgListT	       *arg_list;
 } ArgUsageT;
 

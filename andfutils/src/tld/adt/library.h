@@ -95,7 +95,7 @@ typedef struct LibraryT {
 	TDFReaderT		reader;
 	TDFWriterT		writer;
     } u;
-    char *			name;
+    const char *			name;
     unsigned			num_capsules;
     LibCapsuleT *		capsules;
     unsigned			major;
@@ -118,10 +118,10 @@ extern void			write_lib_capsule_full_name
 (OStreamT *, LibCapsuleT *);
 
 extern LibraryT *		library_create_stream_input
-(char *);
+(const char *);
 extern LibraryT *		library_create_stream_output
 (char *);
-extern char *			library_name
+extern const char *		library_name
 (LibraryT *);
 extern unsigned			library_num_capsules
 (LibraryT *);

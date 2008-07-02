@@ -28,77 +28,68 @@
 
 
 header $[
-#include <exds/exception.h>
+#include "adt/key.h"
+#include "parser.h"
 ]$;
 
-internal "exception unhandled" {
-    "unhandled exception '${except name}' thrown from line ${line number}, file '${file name}'",
+error "shadows non local" {
+    "${file name}: ${line number}: the name '${name name}' shadows the non local name '${non local name name}' in rule '${rule name}'",
     {
-	"except name" : "ExceptionT *" $[
-	    write_cstring(ostream, exception_name(closure->except_name));
-	]$
-    }, {
 	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
+	]$ $[
+	    closure.file_name = lexer_stream_name(sid_current_stream);
 	]$
     }, {
 	"line number" : "unsigned" $[
 	    write_unsigned(ostream, closure->line_number);
+	]$ $[
+	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
+    }, {
+	"name name" : "KeyT *" $[
+	    write_key(ostream, closure->name_name);
+	]$
+    }, {
+	"non local name name" : "KeyT *" $[
+	    write_key(ostream, closure->non_local_name_name);
+	]$
+    }, {
+	"production" : "RuleT *" $[
+	    write_rule(ostream, closure->production);
+	]$
+    }, {
+	"rule name" : "RuleT *" $[
+	    write_key(ostream, entry_key(rule_entry(closure->production)));
+	]$ $[]$
     }
 };
 
-internal "exception corrupt handler" {
-    "corrupt exception handler installed at line ${line number}, file '${file name}'",
+error "shadows global" {
+    "${file name}: ${line number}: the name '${name name}' shadows a global name in rule '${rule name}'",
     {
 	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);
+	]$ $[
+	    closure.file_name = lexer_stream_name(sid_current_stream);
 	]$
     }, {
 	"line number" : "unsigned" $[
 	    write_unsigned(ostream, closure->line_number);
-	]$
-    }
-};
-
-internal "dalloc multi deallocate" {
-    "memory block ${block address} allocated at line ${allocation line number} in '${allocation file name}' is deallocated more than once (second deallocation at line ${line number} in file '${file name}'",
-    {
-	"block address" : "void *" $[
-	    write_pointer(ostream, closure->block_address);
+	]$ $[
+	    closure.line_number = lexer_stream_line(sid_current_stream);
 	]$
     }, {
-	"file name" : "const char *" $[
-	    write_cstring(ostream, closure->file_name);
+	"name name" : "KeyT *" $[
+	    write_key(ostream, closure->name_name);
 	]$
     }, {
-	"line number" : "unsigned" $[
-	    write_unsigned(ostream, closure->line_number);
+	"production" : "RuleT *" $[
+	    write_rule(ostream, closure->production);
 	]$
     }, {
-	"allocation file name" : "const char *" $[
-	    write_cstring(ostream, closure->allocation_file_name);
-	]$
-    }, {
-	"allocation line number" : "unsigned" $[
-	    write_unsigned(ostream, closure->allocation_line_number);
-	]$
-    }
-};
-
-internal "dalloc corrupt block" {
-    "memory block ${block address} is corrupt at deallocation (deallocation at line ${line number} in file '${file name}'",
-    {
-	"block address" : "void *" $[
-	    write_pointer(ostream, closure->block_address);
-	]$
-    }, {
-	"file name" : "const char *" $[
-	    write_cstring(ostream, closure->file_name);
-	]$
-    }, {
-	"line number" : "unsigned" $[
-	    write_unsigned(ostream, closure->line_number);
-	]$
+	"rule name" : "RuleT *" $[
+	    write_key(ostream, entry_key(rule_entry(closure->production)));
+	]$ $[]$
     }
 };

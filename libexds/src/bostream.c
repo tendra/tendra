@@ -82,7 +82,7 @@ bostream_init(BOStreamT *bostream)
 }
 
 BoolT
-bostream_open(BOStreamT *bostream, char *name)
+bostream_open(BOStreamT *bostream, const char *name)
 {
 	if ((bostream->file = fopen(name, "w")) == NULL) {
 		return FALSE;
@@ -106,7 +106,7 @@ bostream_is_open(BOStreamT *bostream)
 }
 
 void
-bostream_write_chars(BOStreamT *bostream, unsigned  length , char *chars)
+bostream_write_chars(BOStreamT *bostream, unsigned  length, const char *chars)
 {
 	unsigned bytes_read = (unsigned) fwrite(chars, sizeof(char),
 		(size_t) length, bostream->file);
@@ -120,7 +120,7 @@ bostream_write_chars(BOStreamT *bostream, unsigned  length , char *chars)
 }
 
 void
-bostream_write_bytes(BOStreamT *bostream, unsigned length, ByteT *bytes)
+bostream_write_bytes(BOStreamT *bostream, unsigned length, const ByteT *bytes)
 {
 	unsigned bytes_read = (unsigned) fwrite(bytes, sizeof(ByteT),
 		(size_t) length, bostream->file);
@@ -144,7 +144,7 @@ bostream_write_byte(BOStreamT *bostream, ByteT byte)
 	}
 }
 
-char *
+const char *
 bostream_name(BOStreamT *bostream)
 {
 	return bostream->name;

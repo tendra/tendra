@@ -63,7 +63,7 @@
  * This file specifies the interface to the output stream facility.
  *
  *
- * Exception:	XX_ostream_write_error (char * name)
+ * Exception:	XX_ostream_write_error
  *
  * This exception is raised if a write attempt fails.  The data thrown is a
  * copy of the name of the file on which the error occured.  The copy should
@@ -86,8 +86,8 @@
 typedef struct OStreamT OStreamT;
 struct OStreamT {
 	FILE *file;
-	char *name;
-	char *gen_name;
+	const char *name;
+	const char *gen_name;
 	int no;
 	unsigned line;
 };
@@ -129,7 +129,7 @@ ostream_init(OStreamT *);
  * closed.  The initial buffering state of the ostream is fully buffered.
  */
 BoolT
-ostream_open(OStreamT *, char *);
+ostream_open(OStreamT *, const char *);
 
 /*
  * This function returns true if the specified ostream is writing to a file,
@@ -172,10 +172,10 @@ ostream_flush(OStreamT *);
  * This function returns the name of the file that the specified ostream is
  * writing to.  The return value should not be modified or deallocated.
  */
-char *
+const char *
 ostream_name(OStreamT *);
 
-char *
+const char *
 ostream_gen_name(OStreamT * ostream);
 
 /*
@@ -243,7 +243,7 @@ write_unsigned(OStreamT *, unsigned);
  * This function writes the specified C string to the specified ostream.
  */
 void
-write_cstring(OStreamT *, char *);
+write_cstring(OStreamT *, const char *);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -252,7 +252,7 @@ write_cstring(OStreamT *, char *);
  * length) to the specified ostream.
  */
 void
-write_chars(OStreamT *, char *, unsigned);
+write_chars(OStreamT *, const char *, unsigned);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -262,7 +262,7 @@ write_chars(OStreamT *, char *, unsigned);
  * function, in that it will `pretty-print' non-printing characters.
  */
 void
-write_escaped_chars(OStreamT *, char *, unsigned);
+write_escaped_chars(OStreamT *, const char *, unsigned);
 
 /*
  * Exceptions:	XX_dalloc_no_memory, XX_ostream_write_error
@@ -281,7 +281,7 @@ write_system_error(OStreamT *);
  * to by the pointer to the specified ostream.
  */
 void
-write_pointer(OStreamT *, void *);
+write_pointer(OStreamT *, const void *);
 
 #endif /* !defined (H_OSTREAM) */
 

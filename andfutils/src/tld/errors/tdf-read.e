@@ -38,7 +38,7 @@ header(c) $[
 error "unexpected eof in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: unexpected end of file",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = tdf_reader_name (reader);
@@ -55,7 +55,7 @@ error "unexpected eof in tdf" ("reader" : "TDFReaderT *") {
 error "tdf integer too big in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: TDF integer is too large for this machine",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = tdf_reader_name (reader);
@@ -72,7 +72,7 @@ error "tdf integer too big in tdf" ("reader" : "TDFReaderT *") {
 error "unsupported char size in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: string character size ${character size} is not supported on this machine",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = tdf_reader_name (reader);
@@ -93,7 +93,7 @@ error "unsupported char size in tdf" ("reader" : "TDFReaderT *") {
 error "bad name type in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: name type ${name type} is unknown",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = tdf_reader_name (reader);
@@ -114,7 +114,7 @@ error "bad name type in tdf" ("reader" : "TDFReaderT *") {
 error "expected eof in tdf" ("reader" : "TDFReaderT *") {
     "${file name}: byte ${byte number}: expected end of file",
     {
-	"file name" : "char *" $[
+	"file name" : "const char *" $[
 	    write_cstring (ostream, closure->file_name);
 	]$ $[
 	    closure.file_name = tdf_reader_name (reader);

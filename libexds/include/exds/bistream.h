@@ -63,7 +63,7 @@
  * This file specifies the interface to the binary input stream facility.
  *
  *
- * Exception:	XX_bistream_read_error (char * name)
+ * Exception:	XX_bistream_read_error
  *
  * This exception is raised if a read attempt fails.  The data thrown is a
  * copy of the name of the file that the read error occured on.  The copy
@@ -86,7 +86,7 @@ typedef struct BIStreamT BIStreamT;
 struct BIStreamT {
 	FILE *file;
 	unsigned bytes;
-	char *name;
+	const char *name;
 };
 
 extern ExceptionT *XX_bistream_read_error;
@@ -105,7 +105,7 @@ bistream_init(BIStreamT *);
  * true.
  */
 BoolT
-bistream_open(BIStreamT *, char *);
+bistream_open(BIStreamT *, const char *);
 
 /*
  * This function assigns the from bistream to the to bistream.  The from
@@ -166,7 +166,7 @@ bistream_byte(BIStreamT *);
  * bistream is reading. The return value should not be modified or
  * deallocated.
  */
-char *
+const char *
 bistream_name(BIStreamT *);
 
 /*

@@ -106,7 +106,7 @@ lexer_close(LexerStreamT *stream)
 	istream_close(&stream->istream);
 }
 
-char *
+const char *
 lexer_stream_name(LexerStreamT *stream)
 {
 	return istream_name(&stream->istream);
