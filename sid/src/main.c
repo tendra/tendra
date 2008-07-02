@@ -103,15 +103,11 @@
 #include "lexer.h"
 #include "output.h"
 #include "parser.h"
+#include "lang.h"
 
-#include "lang-c/c-out-info.h"
-#include "lang-c/c-output.h"
-#include "lang-c/c-check.h"
-#include "lang-c/c-lexer.h"
-#include "lang-c/c-parser.h"
-
-#include "lang-bnf/bnf-output.h"
-#include "lang-bnf/bnf-out-info.h"
+#include "lang-c/c-main.h"
+#include "lang-test/test-main.h"
+#include "lang-bnf/bnf-main.h"
 
 #define USAGE "\
 usage:[option ...] in-file ... out-file ...\n\
@@ -124,15 +120,6 @@ typedef struct PhaseListT {
 	void (*proc)(BoolT);
 } PhaseListT;
 
-typedef struct LangListT {
-	char     *language;
-	void     *(*init_proc)(OutputInfoT *, CStringListT *);
-	void     (*input_proc)(void *, GrammarT *);
-	unsigned num_input_files;
-	void     (*output_proc)(void *, GrammarT *);
-	unsigned num_output_files;
-} LangListT;
-
 static void
 main_handle_phase_all(BoolT enable)
 {
@@ -141,195 +128,6 @@ main_handle_phase_all(BoolT enable)
 	rule_set_inline_all_basics(enable);
 	rule_set_inline_non_tail_calls(enable);
 	rule_set_multiple_inlining(enable);
-}
-
-static void *
-main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
-{
-	COutputInfoT      *c_out_info = ALLOCATE(COutputInfoT);
-	CStringListEntryT *entry;
-
-	c_out_info_init(c_out_info, out_info);
-	if (ansi) {
-		c_out_info_set_prototypes(c_out_info, TRUE);
-	}
-
-	for (entry = cstring_list_head(options); entry;
-		entry = cstring_list_entry_deallocate(entry)) {
-		char *option;
-
-		option = cstring_list_entry_string(entry);
-		if (!strcmp(option, "prototypes") || !strcmp(option, "proto")) {
-			c_out_info_set_prototypes(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-prototypes")
-			|| !strcmp(option, "no-proto")) {
-			c_out_info_set_prototypes(c_out_info, FALSE);
-		} else if (!strcmp(option, "split")) {
-			c_out_info_set_split(c_out_info, 5000);
-		} else if (cstring_starts(option, "split=")) {
-			unsigned limit;
-			if (!cstring_to_unsigned(option + 6, &limit)) {
-				E_bad_split_size(option + 6);
-				UNREACHED;
-			}
-			c_out_info_set_split(c_out_info, limit);
-		} else if (!strcmp(option, "no-split")) {
-			c_out_info_set_split(c_out_info, 0);
-		} else if (!strcmp(option, "numeric-ids")
-			|| !strcmp(option, "numeric")) {
-			c_out_info_set_numeric_ids(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-numeric-ids")
-			|| !strcmp(option, "no-numeric")) {
-			c_out_info_set_numeric_ids(c_out_info, FALSE);
-		} else if (!strcmp(option, "numeric-terminals")
-			|| !strcmp(option, "numeric-terminals")) {
-			c_out_info_set_numeric_terminals(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-numeric-terminals")
-			|| !strcmp(option, "no-numeric-terminals")) {
-			c_out_info_set_numeric_terminals(c_out_info, FALSE);
-		} else if (!strcmp(option, "casts")
-			|| !strcmp(option, "cast")) {
-			c_out_info_set_casts(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-casts")
-			|| !strcmp(option, "no-cast")) {
-			c_out_info_set_casts(c_out_info, FALSE);
-		} else if (!strcmp(option, "unreachable-macros")
-			|| !strcmp(option, "unreachable-macro")) {
-			c_out_info_set_unreachable(c_out_info, TRUE);
-		} else if (!strcmp(option, "unreachable-comments")
-			|| !strcmp(option, "unreachable-comment")) {
-			c_out_info_set_unreachable(c_out_info, FALSE);
-		} else if (!strcmp(option, "lines")
-			|| !strcmp(option, "line")) {
-			c_out_info_set_lines(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-lines")
-			|| !strcmp(option, "no-line")) {
-			c_out_info_set_lines(c_out_info, FALSE);
-		} else if (!strcmp(option, "terminals")
-			|| !strcmp(option, "terminal")) {
-			c_out_info_set_terminals(c_out_info, TRUE);
-		} else if (!strcmp(option, "no-terminals")
-			|| !strcmp(option, "no-terminal")) {
-			c_out_info_set_terminals(c_out_info, FALSE);
-		} else {
-			char  *lang;
-			lang = ansi ? "ansi-c" : "pre-ansi-c";
-			E_bad_language_option(lang, option);
-		}
-	}
-
-	return c_out_info;
-}
-
-static void *
-main_init_ansi_c(OutputInfoT *out_info, CStringListT *options)
-{
-	return main_init_c(out_info, options, TRUE);
-}
-
-static void *
-main_init_pre_ansi_c(OutputInfoT *out_info, CStringListT *options)
-{
-	return main_init_c(out_info, options, FALSE);
-}
-
-static void
-main_input_c(void *gclosure, GrammarT *grammar)
-{
-	COutputInfoT  *c_out_info = gclosure;
-	OutputInfoT   *out_info   = c_out_info_info(c_out_info);
-	CLexerStreamT  clstream;
-
-	c_lexer_init(&clstream, out_info_get_istream(out_info, (unsigned)1));
-	c_current_stream   = &clstream;
-	c_current_out_info = c_out_info;
-	c_current_table    = grammar_table(grammar);
-	c_parse_grammar();
-	c_lexer_close(&clstream);
-	if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
-		exit(EXIT_FAILURE);
-		UNREACHED;
-	}
-	c_check_grammar(grammar);
-}
-
-static void
-main_output_c(void *gclosure, GrammarT *grammar)
-{
-	COutputInfoT *c_out_info = gclosure;
-
-	grammar_compute_mutations(grammar);
-	out_info_set_current_ostream(c_out_info_info(c_out_info), 0);
-	c_output_parser(c_out_info, grammar);
-	out_info_set_current_ostream(c_out_info_info(c_out_info), 1);
-	c_output_header(c_out_info, grammar);
-}
-
-static void *
-main_init_bnf(OutputInfoT *out_info, CStringListT *options)
-{
-	BNFOutputInfoT      *bnf_out_info;
-	CStringListEntryT   *entry;
-
-	bnf_out_info = ALLOCATE(BNFOutputInfoT);
-	bnf_out_info_init(bnf_out_info, out_info);
-
-	for (entry = cstring_list_head(options); entry;
-		entry = cstring_list_entry_deallocate(entry)) {
-		char *option = cstring_list_entry_string(entry);
-
-		E_bad_language_option("bnf", option);
-	}
-
-	return bnf_out_info;
-}
-
-static void
-main_input_bnf(void *gclosure, GrammarT *grammar)
-{
-	UNUSED(gclosure);
-	UNUSED(grammar);
-}
-
-static void
-main_output_bnf(void *gclosure, GrammarT *grammar)
-{
-	BNFOutputInfoT *bnf_out_info = gclosure;
-
-	out_info_set_current_ostream(bnf_out_info_info(bnf_out_info), 0);
-	bnf_output_parser(bnf_out_info, grammar);
-}
-
-/* TODO possibly we can move these out into lang-X/main.c */
-static void *
-main_init_test(OutputInfoT *info, CStringListT *options)
-{
-	CStringListEntryT *entry;
-
-	UNUSED(info);
-	for (entry = cstring_list_head(options); entry;
-		entry = cstring_list_entry_deallocate(entry)) {
-		char *option;
-
-		option = cstring_list_entry_string(entry);
-		E_bad_language_option("test", option);
-	}
-
-	return NULL;
-}
-
-static void
-main_input_test(void *gclosure, GrammarT *grammar)
-{
-	UNUSED(gclosure);
-	UNUSED(grammar);
-}
-
-static void
-main_output_test(void *gclosure, GrammarT *grammar)
-{
-	UNUSED(gclosure);
-	UNUSED(grammar);
 }
 
 static BoolT main_did_one_off = FALSE;
@@ -351,19 +149,15 @@ static PhaseListT  main_phase_list[] = {
 	{ NULL, NULL }
 };
 
-/* TODO: permit unused functions (e.g. main_input_test) to be NULL */
-/* TODO split off each language into a separate .c file presenting its own struct */
-static LangListT main_language_list[] = {
-	{ "ansi-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2 },
-	{ "pre-ansi-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2 },
-	{ "iso-c", main_init_ansi_c, main_input_c, 2, main_output_c, 2 },
-	{ "pre-iso-c", main_init_pre_ansi_c, main_input_c, 2, main_output_c, 2 },
-	{ "test", main_init_test, main_input_test, 1, main_output_test, 0 },
-	{ "bnf", main_init_bnf, main_input_bnf, 1, main_output_bnf, 1 },
-	{ NULL, NULL, NULL, 0, NULL, 0 }
-};
+/*
+ * Note that the size of this array needs to be kept in sync with the list of
+ * languages initialised in main().
+ *
+ * TODO: permit unused functions (e.g. main_input_test) to be NULL
+ */
+static LangListT *main_language_list[6];
 
-static LangListT *main_language = &main_language_list[0];
+static LangListT *main_language;
 
 static void
 main_handle_dump_file(char *option, ArgUsageT *usage, void *gclosure,
@@ -461,16 +255,16 @@ static void
 main_handle_language(char *option, ArgUsageT *usage, void *gclosure,
 	char *language_str)
 {
-	LangListT *entry;
+	size_t i;
 
 	UNUSED(option);
 	UNUSED(usage);
 	UNUSED(gclosure);
 	main_did_other = TRUE;
 
-	for (entry = main_language_list; entry->language; entry++) {
-		if (!strcmp(language_str, entry->language)) {
-			main_language = entry;
+	for (i = 0; i < sizeof main_language_list / sizeof *main_language_list; i++) {
+		if (!strcmp(language_str, main_language_list[i]->language)) {
+			main_language = main_language_list[i];
 			return;
 		}
 	}
@@ -725,6 +519,16 @@ main_1(OutputInfoT *out_info, OStreamT *dstream)
 int
 main(int argc, char **argv)
 {
+	main_language_list[0] = &c_language_list_ansi;
+	main_language_list[1] = &c_language_list_pre_ansi;
+	main_language_list[2] = &c_language_list_iso;
+	main_language_list[3] = &c_language_list_pre_iso;
+	main_language_list[4] = &test_language_list;
+	main_language_list[5] = &bnf_language_list;
+
+	/* Default to ANSI C */
+	main_language = main_language_list[0];
+
 	HANDLE {
 		OutputInfoT out_info;
 

@@ -50,6 +50,7 @@ clean:
 	${REMOVE} sid gen-errors.c gen-errors.h ${TARGETS}
 	cd rules && ${MAKE} clean
 	cd lang-c && ${MAKE} clean
+	cd lang-test && ${MAKE} clean
 	cd lang-bnf && ${MAKE} clean
 	cd adt && ${MAKE} clean
 
@@ -58,9 +59,11 @@ maintainer-clean:
 	${REMOVE} lexi_lexer.c
 	cd lang-c && ${MAKE} maintainer-clean
 
-sid: ${TARGETS} rules/rules.a lang-c/lang-c.a lang-bnf/lang-bnf.a adt/adt.a
+sid: ${TARGETS} rules/rules.a adt/adt.a \
+	lang-c/lang-c.a lang-test/lang-test.a lang-bnf/lang-bnf.a
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ ${TARGETS} \
-		rules/rules.a lang-c/lang-c.a lang-bnf/lang-bnf.a adt/adt.a -lexds ${LIBS_EXDS}
+		rules/rules.a adt/adt.a \
+		lang-c/lang-c.a lang-test/lang-test.a lang-bnf/lang-bnf.a -lexds ${LIBS_EXDS}
 
 rules/rules.a:
 	cd rules && ${MAKE} all
@@ -70,6 +73,9 @@ adt/adt.a:
 
 lang-c/lang-c.a:
 	cd lang-c && ${MAKE} all
+
+lang-test/lang-test.a:
+	cd lang-test && ${MAKE} all
 
 lang-bnf/lang-bnf.a:
 	cd lang-bnf && ${MAKE} all

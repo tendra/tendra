@@ -1,6 +1,6 @@
 # $Id$
 
-TARGETS=bnf-output.o bnf-out-info.o
+TARGETS=bnf-main.o bnf-output.o bnf-out-info.o
 
 REMOVE=rm -f
 
