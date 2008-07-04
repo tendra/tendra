@@ -98,7 +98,7 @@ CCodeT *code;
  * identifiers by itself.
  */
 int
-c_lexer_support_read_id(int c, int rettok, enum lexi_groups bodygroup)
+c_lexer_support_read_id(int c, int rettok, enum c_lexi_groups bodygroup)
 {
 	IStreamT *istream;
 	DStringT dstring;
