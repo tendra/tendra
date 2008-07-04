@@ -88,7 +88,6 @@
 #include <exds/cstring.h>
 #include <exds/dstring.h>
 #include <exds/error.h>
-#include <exds/error-file.h>
 #include <exds/istream.h>
 #include <exds/ostream.h>
 
