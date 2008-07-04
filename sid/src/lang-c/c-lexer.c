@@ -254,6 +254,8 @@ c_lexer_read_builtin(int c0, int c1)
 	char *cstring;
 	int c;
 
+	UNUSED(c0);
+
 	istream = &c_lexer_stream->istream;
 
 	dstring_init(&dstring);
