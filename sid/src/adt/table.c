@@ -144,13 +144,13 @@ table_init(TableT *table)
 }
 
 EntryT *
-table_add_type(TableT *table, NStringT *key)
+table_add_type(TableT *table, NStringT *key, BoolT ignored)
 {
 	BoolT  found;
 	EntryT *entry = table_add_entry(table, key, ET_TYPE, &found);
 
 	if (entry) {
-		entry_set_type(entry, type_create());
+		entry_set_type(entry, type_create(ignored));
 	}
 
 	return entry;
@@ -233,7 +233,7 @@ table_add_generated_name(TableT *table)
 }
 
 EntryT *
-table_add_rename(TableT * table)
+table_add_rename(TableT *table)
 {
 	unsigned sequence = table_next_generated_key();
 	unsigned hash     = sequence % TABLE_SIZE;

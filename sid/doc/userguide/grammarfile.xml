@@ -83,6 +83,12 @@ StringT ;</programlisting>
 			as it is possible to use many different target languages).	All types
 			used in the grammar must be declared here. Similarly, all types
 			declared here must be used in the grammar.</para>
+
+		<para>Types may be prefixed with <code>!</code> if they are not to be
+			used in the grammar. Such ignored types may however be present in
+			ignored terminals and actions. This is intended to facilitate the
+			use of types which are specific to actions only used by one grammar,
+			where the actions are shared between several grammars.</para>
 	</section>
 
 	<section id="term-decl">

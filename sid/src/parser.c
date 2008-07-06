@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 140 "parser.act"
+#line 143 "parser.act"
 
 
 	/*
@@ -74,23 +74,26 @@
 	#include <limits.h>
 	#include <assert.h>
 
-	#include "shared/check/check.h"
-	#include "parser.h"
-	#include "adt/action.h"
-	#include "adt/basic.h"
 	#include <exds/common.h>
 	#include <exds/exception.h>
 	#include <exds/bitvec.h>
 	#include <exds/dalloc.h>
 	#include <exds/dstring.h>
-	#include "gen-errors.h"
-	#include "grammar.h"
-	#include "lexer.h"
+
+	#include "adt/action.h"
+	#include "adt/basic.h"
+	#include "adt/key.h"
 	#include "adt/non-local.h"
 	#include "adt/rule.h"
 	#include "adt/scope.h"
 	#include "adt/table.h"
 	#include "adt/types.h"
+
+	#include "shared/check/check.h"
+	#include "parser.h"
+	#include "gen-errors.h"
+	#include "grammar.h"
+	#include "lexer.h"
 
 	#define ERROR_TERMINAL (LEXER_TOK_ERROR)
 	#define CURRENT_TERMINAL lexer_get_terminal(sid_current_stream)
@@ -127,7 +130,7 @@
 	static BoolT        sid_propagating_error = FALSE;
 	static BoolT        sid_finished_terminals = FALSE;
 
-#line 131 "tmp.parser.c"
+#line 134 "tmp.parser.c"
 
 
 #ifndef ERROR_TERMINAL
@@ -136,53 +139,53 @@
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
-static void ZR247(GrammarP);
-static void ZR242(GrammarP);
-static void ZR261(GrammarP, TypeTupleT *, TypeTupleT *);
-static void ZR144(GrammarP, TypeTupleT *);
+static void ZR249(GrammarP);
 static void ZR244(GrammarP);
-static void ZR179(GrammarP, TypeTupleT *);
-static void ZR251(GrammarP);
-static void ZR171(GrammarP, TypeTupleT *);
-static void ZR154(GrammarP);
-static void ZR153(GrammarP);
-static void ZR183(GrammarP, TypeTupleT *);
-static void ZR233(GrammarP);
-static void ZR156(GrammarP);
-static void ZR191(GrammarP, TypeTupleT *);
-static void ZR203(GrammarP);
-static void ZR173(GrammarP, TypeTupleT *);
-static void ZR169(GrammarP);
-extern void sid_parse_grammar(GrammarP);
-static void ZR147(GrammarP, TypeTupleT *);
-static void ZR298(GrammarP, NStringT *);
-static void ZR300(GrammarP);
-static void ZR301(GrammarP, NStringT *);
-static void ZR149(GrammarP, TypeTupleT *);
-static void ZR302(GrammarP, NStringT *);
-static void ZR185(GrammarP, TypeTupleT *);
-static void ZR211(GrammarP, TypeTupleT *);
-static void ZR231(GrammarP);
-static void ZR160(GrammarP);
-static void ZR207(GrammarP, TypeTupleT *);
-static void ZR266(GrammarP);
-static void ZR135(GrammarP, TypeTupleT *);
-static void ZR272(GrammarP);
-static void ZR193(GrammarP);
-static void ZR194(GrammarP);
-static void ZR132(GrammarP, TypeTupleT *, TypeTupleT *);
-static void ZR220(GrammarP);
-static void ZR162(GrammarP);
-static void ZR226(GrammarP);
-static void ZR229(GrammarP, TypeTupleT *);
-static void ZR230(GrammarP);
-static void ZR195(GrammarP);
-static void ZR240(GrammarP);
-static void ZR274(GrammarP);
-static void ZR238(GrammarP);
-static void ZR176(GrammarP, TypeTupleT *);
+static void ZR145(GrammarP, TypeTupleT *);
+static void ZR263(GrammarP, TypeTupleT *, TypeTupleT *);
 static void ZR246(GrammarP);
-static void ZR188(GrammarP, TypeTupleT *);
+static void ZR181(GrammarP, TypeTupleT *);
+static void ZR253(GrammarP);
+static void ZR173(GrammarP, TypeTupleT *);
+static void ZR155(GrammarP);
+static void ZR185(GrammarP, TypeTupleT *);
+static void ZR235(GrammarP);
+static void ZR154(GrammarP);
+static void ZR157(GrammarP);
+static void ZR193(GrammarP, TypeTupleT *);
+static void ZR205(GrammarP);
+static void ZR175(GrammarP, TypeTupleT *);
+static void ZR171(GrammarP);
+extern void sid_parse_grammar(GrammarP);
+static void ZR148(GrammarP, TypeTupleT *);
+static void ZR300(GrammarP, NStringT *);
+static void ZR150(GrammarP, TypeTupleT *);
+static void ZR302(GrammarP);
+static void ZR187(GrammarP, TypeTupleT *);
+static void ZR303(GrammarP, NStringT *);
+static void ZR304(GrammarP, NStringT *);
+static void ZR213(GrammarP, TypeTupleT *);
+static void ZR233(GrammarP);
+static void ZR162(GrammarP);
+static void ZR209(GrammarP, TypeTupleT *);
+static void ZR268(GrammarP);
+static void ZR136(GrammarP, TypeTupleT *);
+static void ZR274(GrammarP);
+static void ZR195(GrammarP);
+static void ZR196(GrammarP);
+static void ZR133(GrammarP, TypeTupleT *, TypeTupleT *);
+static void ZR222(GrammarP);
+static void ZR164(GrammarP);
+static void ZR228(GrammarP);
+static void ZR231(GrammarP, TypeTupleT *);
+static void ZR232(GrammarP);
+static void ZR197(GrammarP);
+static void ZR242(GrammarP);
+static void ZR276(GrammarP);
+static void ZR178(GrammarP, TypeTupleT *);
+static void ZR240(GrammarP);
+static void ZR248(GrammarP);
+static void ZR190(GrammarP, TypeTupleT *);
 
 /* BEGINNING OF STATIC VARIABLES */
 
@@ -191,22 +194,22 @@ static BoolT ZI0;
 /* BEGINNING OF FUNCTION DEFINITIONS */
 
 static void
-ZR247(GrammarP sid_current_grammar)
+ZR249(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
-  ZL2_247:;
+  ZL2_249:;
     {
-	ZR244 (sid_current_grammar);
-	/* BEGINNING OF INLINE: 249 */
+	ZR246 (sid_current_grammar);
+	/* BEGINNING OF INLINE: 251 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case (LEXER_TOK_ALT_HSEP):
 		{
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list::production-defn-alternatives */
-		    goto ZL2_247;
+		    goto ZL2_249;
 		    /* END OF INLINE: sid-parse-grammar::production-defn-list::production-defn-alternatives */
 		}
 		/*UNREACHED*/
@@ -217,7 +220,7 @@ ZR247(GrammarP sid_current_grammar)
 		break;
 	    }
 	}
-	/* END OF INLINE: 249 */
+	/* END OF INLINE: 251 */
     }
     return;
   ZL1:;
@@ -226,7 +229,7 @@ ZR247(GrammarP sid_current_grammar)
 }
 
 static void
-ZR242(GrammarP sid_current_grammar)
+ZR244(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -234,23 +237,23 @@ ZR242(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: handler */
 	{
-#line 928 "parser.act"
+#line 999 "parser.act"
 
 		if (sid_current_entry) {
 			sid_current_alt = alt_create();
 		}
 	
-#line 244 "tmp.parser.c"
+#line 247 "tmp.parser.c"
 	}
 	/* END OF ACTION: handler */
-	ZR240 (sid_current_grammar);
+	ZR242 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: x-handler */
 	{
-#line 946 "parser.act"
+#line 1017 "parser.act"
 
 		if (sid_current_entry && sid_current_alt) {
 			if (types_check_names(rule_result(sid_current_rule),
@@ -268,7 +271,7 @@ ZR242(GrammarP sid_current_grammar)
 			}
 		}
 	
-#line 272 "tmp.parser.c"
+#line 275 "tmp.parser.c"
 	}
 	/* END OF ACTION: x-handler */
     }
@@ -279,14 +282,88 @@ ZR242(GrammarP sid_current_grammar)
 }
 
 static void
-ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
+ZR145(GrammarP sid_current_grammar, TypeTupleT *ZI135)
+{
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+	return;
+    }
+  ZL2_145:;
+    {
+	ZR136 (sid_current_grammar, ZI135);
+	/* BEGINNING OF INLINE: 147 */
+	{
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+		/* BEGINNING OF ACTION: is-close-tuple-or-skipped-or-eof */
+		{
+#line 2023 "parser.act"
+
+		(ZI0) = (CURRENT_TERMINAL == (LEXER_TOK_CLOSE_HTUPLE)
+			|| CURRENT_TERMINAL == (LEXER_TOK_EOF)
+			|| sid_propagating_error);
+	
+#line 309 "tmp.parser.c"
+		}
+		/* END OF ACTION: is-close-tuple-or-skipped-or-eof */
+		if (!ZI0)
+		    goto ZL5;
+		goto ZL3;
+	    }
+	    /*UNREACHED*/
+	  ZL5:;
+	    switch (CURRENT_TERMINAL) {
+	      case (LEXER_TOK_SEPARATOR):
+		{
+		    ADVANCE_LEXER;
+		    /* BEGINNING OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
+		    goto ZL2_145;
+		    /* END OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
+		}
+		/*UNREACHED*/
+	      default:
+		goto ZL4;
+	    }
+	    /*UNREACHED*/
+	  ZL4:;
+	    {
+		/* BEGINNING OF ACTION: expected-separator */
+		{
+#line 1597 "parser.act"
+
+		if (!sid_propagating_error) {
+			E_expected_separator();
+		}
+	
+#line 341 "tmp.parser.c"
+		}
+		/* END OF ACTION: expected-separator */
+		/* BEGINNING OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
+		goto ZL2_145;
+		/* END OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
+	    }
+	    /*UNREACHED*/
+	  ZL3:;
+	}
+	/* END OF INLINE: 147 */
+    }
+    return;
+  ZL1:;
+    SAVE_LEXER ((ERROR_TERMINAL));
+    return;
+}
+
+static void
+ZR263(GrammarP sid_current_grammar, TypeTupleT *ZI131, TypeTupleT *ZI132)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_DEFINE): case (LEXER_TOK_BEGIN_HSCOPE):
 	{
 	    /* BEGINNING OF ACTION: prod */
 	    {
-#line 751 "parser.act"
+#line 806 "parser.act"
 
 		if (sid_current_entry) {
 			KeyT *key;
@@ -296,36 +373,16 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 			if (rule_is_defined(sid_current_rule)) {
 				E_rule_already_defined (key);
 				sid_current_entry = NULL;
-				types_destroy((ZI130));
 				types_destroy((ZI131));
+				types_destroy((ZI132));
 			} else {
 				TypeTupleT *param   = rule_param(sid_current_rule);
 				TypeTupleT *result  = rule_result(sid_current_rule);
 				BoolT       errored = FALSE;
 
 				rule_defined(sid_current_rule);
-				if (!types_disjoint_names((ZI130))) {
-					E_rule_param_clash(key, (ZI130));
-					errored = TRUE;
-				}
-
-				if (types_check_shadowing((ZI130), &sid_scope_stack,
-					sid_current_rule)) {
-					errored = TRUE;
-				}
-
-				if (sid_redefining_entry) {
-					if (!types_fillin_names(param, (ZI130))) {
-						E_rule_param_mismatch(key, param, (ZI130));
-						errored = TRUE;
-					}
-					types_destroy((ZI130));
-				} else {
-					types_assign(param, (ZI130));
-				}
-
 				if (!types_disjoint_names((ZI131))) {
-					E_rule_result_clash(key, (ZI131));
+					E_rule_param_clash(key, (ZI131));
 					errored = TRUE;
 				}
 
@@ -334,19 +391,55 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 					errored = TRUE;
 				}
 
-				if (types_contains_references((ZI131))) {
-					E_rule_result_has_refs(key, (ZI131));
-					errored = TRUE;
-				}
-
 				if (sid_redefining_entry) {
-					if (!types_fillin_names(result, (ZI131))) {
-						E_rule_result_mismatch(key, result, (ZI131));
+					if (!types_fillin_names(param, (ZI131))) {
+						E_rule_param_mismatch(key, param, (ZI131));
 						errored = TRUE;
 					}
 					types_destroy((ZI131));
 				} else {
-					types_assign(result, (ZI131));
+					types_assign(param, (ZI131));
+				}
+
+				if (!types_disjoint_names((ZI132))) {
+					E_rule_result_clash(key, (ZI132));
+					errored = TRUE;
+				}
+
+				if (types_check_shadowing((ZI132), &sid_scope_stack,
+					sid_current_rule)) {
+					errored = TRUE;
+				}
+
+				if (types_contains_references((ZI132))) {
+					E_rule_result_has_refs(key, (ZI132));
+					errored = TRUE;
+				}
+
+				{
+					EntryT *type;
+
+					type = types_find_ignored((ZI131));
+					if (type != NULL) {
+						E_ignored_type(key_get_string(entry_key(type)));
+						errored = TRUE;
+					}
+
+					type = types_find_ignored((ZI132));
+					if (type != NULL) {
+						E_ignored_type(key_get_string(entry_key(type)));
+						errored = TRUE;
+					}
+				}
+
+				if (sid_redefining_entry) {
+					if (!types_fillin_names(result, (ZI132))) {
+						E_rule_result_mismatch(key, result, (ZI132));
+						errored = TRUE;
+					}
+					types_destroy((ZI132));
+				} else {
+					types_assign(result, (ZI132));
 				}
 
 				if (errored) {
@@ -359,8 +452,8 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 				}
 			}
 		} else {
-			types_destroy((ZI130));
 			types_destroy((ZI131));
+			types_destroy((ZI132));
 		}
 
 		sid_alternative   = 0;
@@ -368,12 +461,12 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 		sid_external_rule = sid_current_entry;
 		nstring_init(&sid_maximum_scope);
 	
-#line 372 "tmp.parser.c"
+#line 465 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: prod */
 	    /* BEGINNING OF ACTION: push-scope */
 	    {
-#line 840 "parser.act"
+#line 911 "parser.act"
 
 		if (sid_current_entry) {
 			KeyT     *key   = entry_key(sid_current_entry);
@@ -382,12 +475,12 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 			scope_stack_push(&sid_scope_stack, scope);
 		}
 	
-#line 386 "tmp.parser.c"
+#line 479 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: push-scope */
-	    ZR203 (sid_current_grammar);
-	    ZR226 (sid_current_grammar);
-	    /* BEGINNING OF INLINE: 263 */
+	    ZR205 (sid_current_grammar);
+	    ZR228 (sid_current_grammar);
+	    /* BEGINNING OF INLINE: 265 */
 	    {
 		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		    RESTORE_LEXER;
@@ -407,39 +500,39 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 		{
 		    /* BEGINNING OF ACTION: expected-begin-rule */
 		    {
-#line 1610 "parser.act"
+#line 1681 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_begin_rule();
 		}
 	
-#line 417 "tmp.parser.c"
+#line 510 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-begin-rule */
 		}
 	      ZL2:;
 	    }
-	    /* END OF INLINE: 263 */
-	    ZR231 (sid_current_grammar);
-	    ZR238 (sid_current_grammar);
+	    /* END OF INLINE: 265 */
+	    ZR233 (sid_current_grammar);
+	    ZR240 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: pop-scope */
 	    {
-#line 846 "parser.act"
+#line 917 "parser.act"
 
 		if (sid_current_entry) {
 			scope_stack_pop(&sid_scope_stack);
 		}
 	
-#line 438 "tmp.parser.c"
+#line 531 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: pop-scope */
 	    /* BEGINNING OF ACTION: x-prod */
 	    {
-#line 831 "parser.act"
+#line 902 "parser.act"
 
 		if (sid_current_entry) {
 			nstring_assign(rule_maximum_scope(sid_current_rule),
@@ -448,10 +541,10 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 			nstring_destroy(&sid_maximum_scope);
 		}
 	
-#line 452 "tmp.parser.c"
+#line 545 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: x-prod */
-	    ZR246 (sid_current_grammar);
+	    ZR248 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -462,7 +555,7 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 	{
 	    /* BEGINNING OF ACTION: x-rule */
 	    {
-#line 700 "parser.act"
+#line 739 "parser.act"
 
 		if (sid_current_entry) {
 			KeyT       *key     = entry_key (sid_current_entry);
@@ -470,48 +563,64 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 			TypeTupleT *result  = rule_result (sid_current_rule);
 			BoolT       errored = FALSE;
 
-			if (types_contains_names((ZI130))) {
-				E_rule_param_has_names(key, (ZI130));
+			if (types_contains_names((ZI131))) {
+				E_rule_param_has_names(key, (ZI131));
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
-				if (!types_equal(param, (ZI130))) {
-					E_rule_param_mismatch(key, param, (ZI130));
+				if (!types_equal(param, (ZI131))) {
+					E_rule_param_mismatch(key, param, (ZI131));
 					errored = TRUE;
 				}
 			}
 
-			if (types_contains_names((ZI131))) {
-				E_rule_result_has_names(key, (ZI131));
+			if (types_contains_names((ZI132))) {
+				E_rule_result_has_names(key, (ZI132));
 				errored = TRUE;
 			}
 
-			if (types_contains_references((ZI131))) {
-				E_rule_result_has_refs(key, (ZI131));
+			if (types_contains_references((ZI132))) {
+				E_rule_result_has_refs(key, (ZI132));
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
-				if (!types_equal(result, (ZI131))) {
-					E_rule_result_mismatch (key, result, (ZI131));
+				if (!types_equal(result, (ZI132))) {
+					E_rule_result_mismatch (key, result, (ZI132));
+					errored = TRUE;
+				}
+			}
+
+			{
+				EntryT *type;
+
+				type = types_find_ignored((ZI131));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+					errored = TRUE;
+				}
+
+				type = types_find_ignored((ZI132));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
 					errored = TRUE;
 				}
 			}
 
 			if (errored || sid_redefining_entry) {
-				types_destroy((ZI130));
 				types_destroy((ZI131));
+				types_destroy((ZI132));
 			} else {
-				types_assign(param, (ZI130));
-				types_assign(result, (ZI131));
+				types_assign(param, (ZI131));
+				types_assign(result, (ZI132));
 			}
 		} else {
-			types_destroy((ZI130));
 			types_destroy((ZI131));
+			types_destroy((ZI132));
 		}
 	
-#line 515 "tmp.parser.c"
+#line 624 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: x-rule */
 	    ADVANCE_LEXER;
@@ -529,88 +638,14 @@ ZR261(GrammarP sid_current_grammar, TypeTupleT *ZI130, TypeTupleT *ZI131)
 }
 
 static void
-ZR144(GrammarP sid_current_grammar, TypeTupleT *ZI134)
-{
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-  ZL2_144:;
-    {
-	ZR135 (sid_current_grammar, ZI134);
-	/* BEGINNING OF INLINE: 146 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		/* BEGINNING OF ACTION: is-close-tuple-or-skipped-or-eof */
-		{
-#line 1952 "parser.act"
-
-		(ZI0) = (CURRENT_TERMINAL == (LEXER_TOK_CLOSE_HTUPLE)
-			|| CURRENT_TERMINAL == (LEXER_TOK_EOF)
-			|| sid_propagating_error);
-	
-#line 556 "tmp.parser.c"
-		}
-		/* END OF ACTION: is-close-tuple-or-skipped-or-eof */
-		if (!ZI0)
-		    goto ZL5;
-		goto ZL3;
-	    }
-	    /*UNREACHED*/
-	  ZL5:;
-	    switch (CURRENT_TERMINAL) {
-	      case (LEXER_TOK_SEPARATOR):
-		{
-		    ADVANCE_LEXER;
-		    /* BEGINNING OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
-		    goto ZL2_144;
-		    /* END OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
-		}
-		/*UNREACHED*/
-	      default:
-		goto ZL4;
-	    }
-	    /*UNREACHED*/
-	  ZL4:;
-	    {
-		/* BEGINNING OF ACTION: expected-separator */
-		{
-#line 1526 "parser.act"
-
-		if (!sid_propagating_error) {
-			E_expected_separator();
-		}
-	
-#line 588 "tmp.parser.c"
-		}
-		/* END OF ACTION: expected-separator */
-		/* BEGINNING OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
-		goto ZL2_144;
-		/* END OF INLINE: sid-parse-grammar::function-type-defn::tuple-defn-list-1 */
-	    }
-	    /*UNREACHED*/
-	  ZL3:;
-	}
-	/* END OF INLINE: 146 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
-}
-
-static void
-ZR244(GrammarP sid_current_grammar)
+ZR246(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_EMPTY):
 	{
 	    /* BEGINNING OF ACTION: empty-alt */
 	    {
-#line 887 "parser.act"
+#line 958 "parser.act"
 
 		sid_num_alternatives++;
 		if (sid_num_alternatives == ALT_LIMIT) {
@@ -633,11 +668,11 @@ ZR244(GrammarP sid_current_grammar)
 			}
 		}
 	
-#line 637 "tmp.parser.c"
+#line 672 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: empty-alt */
 	    ADVANCE_LEXER;
-	    ZR246 (sid_current_grammar);
+	    ZR248 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -649,7 +684,7 @@ ZR244(GrammarP sid_current_grammar)
 	{
 	    /* BEGINNING OF ACTION: non-empty-alt */
 	    {
-#line 903 "parser.act"
+#line 974 "parser.act"
 
 		sid_num_alternatives++;
 		if (sid_num_alternatives == ALT_LIMIT) {
@@ -665,17 +700,17 @@ ZR244(GrammarP sid_current_grammar)
 			sid_current_alt = alt_create();
 		}
 	
-#line 669 "tmp.parser.c"
+#line 704 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: non-empty-alt */
-	    ZR240 (sid_current_grammar);
+	    ZR242 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: x-non-empty-alt */
 	    {
-#line 922 "parser.act"
+#line 993 "parser.act"
 
 		if (sid_current_entry && sid_current_alt) {
 			if (types_check_names(rule_result(sid_current_rule),
@@ -694,7 +729,7 @@ ZR244(GrammarP sid_current_grammar)
 			}
 		}
 	
-#line 698 "tmp.parser.c"
+#line 733 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: x-non-empty-alt */
 	}
@@ -709,18 +744,18 @@ ZR244(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-alternative */
 	{
-#line 1628 "parser.act"
+#line 1699 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_alternative();
 		}
 	
-#line 719 "tmp.parser.c"
+#line 754 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-alternative */
 	/* BEGINNING OF ACTION: skip-to-end-of-alternative */
 	{
-#line 1848 "parser.act"
+#line 1919 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_ALT_HSEP)
@@ -745,28 +780,28 @@ ZR244(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 749 "tmp.parser.c"
+#line 784 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-alternative */
 	/* BEGINNING OF ACTION: skip-recover */
 	{
-#line 1943 "parser.act"
+#line 2014 "parser.act"
 
 		sid_propagating_error = FALSE;
 	
-#line 758 "tmp.parser.c"
+#line 793 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-recover */
     }
 }
 
 static void
-ZR179(GrammarP sid_current_grammar, TypeTupleT *ZI134)
+ZR181(GrammarP sid_current_grammar, TypeTupleT *ZI135)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_PRED_HRESULT): case (LEXER_TOK_IGNORE): case (LEXER_TOK_REFERENCE):
 	{
-	    ZR176 (sid_current_grammar, ZI134);
+	    ZR178 (sid_current_grammar, ZI135);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -785,23 +820,23 @@ ZR179(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 }
 
 static void
-ZR251(GrammarP sid_current_grammar)
+ZR253(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
-	NStringT ZI158;
+	NStringT ZI160;
 
 	switch (CURRENT_TERMINAL) {
 	  case (LEXER_TOK_IDENTIFIER):
 	    /* BEGINNING OF EXTRACT: IDENTIFIER */
 	    {
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 805 "tmp.parser.c"
+#line 840 "tmp.parser.c"
 	    }
 	    /* END OF EXTRACT: IDENTIFIER */
 	    break;
@@ -809,13 +844,13 @@ ZR251(GrammarP sid_current_grammar)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	/* BEGINNING OF INLINE: 253 */
+	/* BEGINNING OF INLINE: 255 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case (LEXER_TOK_TYPEMARK):
 		{
 		    ADVANCE_LEXER;
-		    ZR298 (sid_current_grammar, &ZI158);
+		    ZR300 (sid_current_grammar, &ZI160);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
@@ -824,45 +859,45 @@ ZR251(GrammarP sid_current_grammar)
 		break;
 	      case (LEXER_TOK_TERMINATOR): case (LEXER_TOK_DEFINE): case (LEXER_TOK_BEGIN_HSCOPE):
 		{
-		    TypeTupleT ZI130;
 		    TypeTupleT ZI131;
+		    TypeTupleT ZI132;
 
 		    /* BEGINNING OF ACTION: init-tuple */
 		    {
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI130));
+		types_init(&(ZI131));
 	
-#line 837 "tmp.parser.c"
+#line 872 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: init-tuple */
 		    /* BEGINNING OF ACTION: init-tuple */
 		    {
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI131));
+		types_init(&(ZI132));
 	
-#line 846 "tmp.parser.c"
+#line 881 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: init-tuple */
 		    /* BEGINNING OF ACTION: rule */
 		    {
-#line 682 "parser.act"
+#line 721 "parser.act"
 
 		sid_current_entry = scope_stack_add_rule(sid_current_scope,
-			grammar_table(sid_current_grammar), &(ZI158), sid_enclosing_rule,
+			grammar_table(sid_current_grammar), &(ZI160), sid_enclosing_rule,
 			&sid_redefining_entry);
 		if (sid_current_entry) {
 			sid_current_rule = entry_get_rule(sid_current_entry);
 		} else {
-			E_duplicate_rule((&ZI158));
-			nstring_destroy(&(ZI158));
+			E_duplicate_rule((&ZI160));
+			nstring_destroy(&(ZI160));
 		}
 	
-#line 863 "tmp.parser.c"
+#line 898 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: rule */
-		    ZR261 (sid_current_grammar, &ZI130, &ZI131);
+		    ZR263 (sid_current_grammar, &ZI131, &ZI132);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
@@ -877,27 +912,27 @@ ZR251(GrammarP sid_current_grammar)
 	    {
 		/* BEGINNING OF ACTION: expected-other-defn */
 		{
-#line 1634 "parser.act"
+#line 1705 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_other_defn();
 		}
 	
-#line 887 "tmp.parser.c"
+#line 922 "tmp.parser.c"
 		}
 		/* END OF ACTION: expected-other-defn */
 		/* BEGINNING OF ACTION: destroy-string */
 		{
-#line 1679 "parser.act"
+#line 1750 "parser.act"
 
-		nstring_destroy(&(ZI158));
+		nstring_destroy(&(ZI160));
 	
-#line 896 "tmp.parser.c"
+#line 931 "tmp.parser.c"
 		}
 		/* END OF ACTION: destroy-string */
 		/* BEGINNING OF ACTION: skip-to-end-of-other-defn */
 		{
-#line 1873 "parser.act"
+#line 1944 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -921,13 +956,13 @@ ZR251(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 925 "tmp.parser.c"
+#line 960 "tmp.parser.c"
 		}
 		/* END OF ACTION: skip-to-end-of-other-defn */
 	    }
 	  ZL2:;
 	}
-	/* END OF INLINE: 253 */
+	/* END OF INLINE: 255 */
     }
     return;
   ZL1:;
@@ -936,9 +971,9 @@ ZR251(GrammarP sid_current_grammar)
 }
 
 static void
-ZR171(GrammarP sid_current_grammar, TypeTupleT *ZO134)
+ZR173(GrammarP sid_current_grammar, TypeTupleT *ZO135)
 {
-    TypeTupleT ZI134;
+    TypeTupleT ZI135;
 
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -946,42 +981,42 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZO134)
     {
 	/* BEGINNING OF ACTION: current-tuple */
 	{
-#line 349 "parser.act"
+#line 372 "parser.act"
 
 		sid_current_pred_id = FALSE;
 	
-#line 954 "tmp.parser.c"
+#line 989 "tmp.parser.c"
 	}
 	/* END OF ACTION: current-tuple */
-	ZR193 (sid_current_grammar);
+	ZR195 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: init-tuple */
 	{
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI134));
+		types_init(&(ZI135));
 	
-#line 968 "tmp.parser.c"
+#line 1003 "tmp.parser.c"
 	}
 	/* END OF ACTION: init-tuple */
-	ZR179 (sid_current_grammar, &ZI134);
+	ZR181 (sid_current_grammar, &ZI135);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: skip-recover */
 	{
-#line 1943 "parser.act"
+#line 2014 "parser.act"
 
 		sid_propagating_error = FALSE;
 	
-#line 982 "tmp.parser.c"
+#line 1017 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-recover */
-	ZR194 (sid_current_grammar);
+	ZR196 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
@@ -994,34 +1029,34 @@ ZR171(GrammarP sid_current_grammar, TypeTupleT *ZO134)
   ZL0:;
     /* BEGINNING OF RESULT ASSIGNMENT: TypeTupleT */
     {
-#line 251 "parser.act"
+#line 254 "parser.act"
 
-		ZO134->head = ZI134.head;
+		ZO135->head = ZI135.head;
 
-		if (ZO134->head == NULL) {
-			ZO134->tail = &ZO134->head;
+		if (ZO135->head == NULL) {
+			ZO135->tail = &ZO135->head;
 		} else {
-			ZO134->tail= ZI134.tail ;
+			ZO135->tail= ZI135.tail ;
 		}
-	#line 1007 "tmp.parser.c"
+	#line 1042 "tmp.parser.c"
     }
     /* END OF RESULT ASSIGNMENT: TypeTupleT */
 }
 
 static void
-ZR154(GrammarP sid_current_grammar)
+ZR155(GrammarP sid_current_grammar)
 {
-  ZL2_154:;
+  ZL2_155:;
     switch (CURRENT_TERMINAL) {
-      case (LEXER_TOK_IDENTIFIER):
+      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_IGNORE):
 	{
-	    ZR156 (sid_current_grammar);
+	    ZR157 (sid_current_grammar);
 	    /* BEGINNING OF INLINE: sid-parse-grammar::type-decl-list */
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    } else {
-		goto ZL2_154;
+		goto ZL2_155;
 	    }
 	    /* END OF INLINE: sid-parse-grammar::type-decl-list */
 	}
@@ -1038,7 +1073,185 @@ ZR154(GrammarP sid_current_grammar)
 }
 
 static void
-ZR153(GrammarP sid_current_grammar)
+ZR185(GrammarP sid_current_grammar, TypeTupleT *ZO135)
+{
+    TypeTupleT ZI135;
+
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+	return;
+    }
+    {
+	/* BEGINNING OF ACTION: current-tuple */
+	{
+#line 372 "parser.act"
+
+		sid_current_pred_id = FALSE;
+	
+#line 1091 "tmp.parser.c"
+	}
+	/* END OF ACTION: current-tuple */
+	ZR195 (sid_current_grammar);
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+	/* BEGINNING OF ACTION: init-tuple */
+	{
+#line 367 "parser.act"
+
+		types_init(&(ZI135));
+	
+#line 1105 "tmp.parser.c"
+	}
+	/* END OF ACTION: init-tuple */
+	ZR193 (sid_current_grammar, &ZI135);
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+	/* BEGINNING OF ACTION: skip-recover */
+	{
+#line 2014 "parser.act"
+
+		sid_propagating_error = FALSE;
+	
+#line 1119 "tmp.parser.c"
+	}
+	/* END OF ACTION: skip-recover */
+	ZR196 (sid_current_grammar);
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+	    RESTORE_LEXER;
+	    goto ZL1;
+	}
+    }
+    goto ZL0;
+  ZL1:;
+    SAVE_LEXER ((ERROR_TERMINAL));
+    return;
+  ZL0:;
+    /* BEGINNING OF RESULT ASSIGNMENT: TypeTupleT */
+    {
+#line 254 "parser.act"
+
+		ZO135->head = ZI135.head;
+
+		if (ZO135->head == NULL) {
+			ZO135->tail = &ZO135->head;
+		} else {
+			ZO135->tail= ZI135.tail ;
+		}
+	#line 1144 "tmp.parser.c"
+    }
+    /* END OF RESULT ASSIGNMENT: TypeTupleT */
+}
+
+static void
+ZR235(GrammarP sid_current_grammar)
+{
+    switch (CURRENT_TERMINAL) {
+      case (LEXER_TOK_BEGIN_HRULE):
+	{
+	    EntryP ZI166;
+	    RuleP ZI72;
+	    AltP ZI237;
+	    BoolT ZI238;
+	    ItemP ZI239;
+
+	    ADVANCE_LEXER;
+	    /* BEGINNING OF ACTION: save */
+	    {
+#line 1020 "parser.act"
+
+		(ZI166)      = sid_current_entry;
+		(ZI72)       = sid_current_rule;
+		(ZI237)        = sid_current_alt;
+		(ZI238)   = sid_internal_rule;
+		(ZI239)             = NULL;
+		sid_internal_rule = TRUE;
+
+		if (sid_current_entry && sid_current_alt) {
+			sid_current_entry = table_add_generated_rule(grammar_table(sid_current_grammar), FALSE);
+			sid_current_rule  = entry_get_rule(sid_current_entry);
+			(ZI239)             = item_create(sid_current_entry);
+
+			rule_defined(sid_current_rule);
+			item_inlinable((ZI239));
+			types_copy(item_param((ZI239)), rule_param((ZI72)));
+			types_append_copy(item_param((ZI239)), alt_names((ZI237)));
+			types_copy(rule_param(sid_current_rule), item_param((ZI239)));
+			types_make_references(rule_param (sid_current_rule), item_param((ZI239)));
+			alt_add_item((ZI237), (ZI239));
+		} else {
+			sid_current_entry = NULL;
+		}
+	
+#line 1189 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: save */
+	    ZR233 (sid_current_grammar);
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    /* BEGINNING OF ACTION: restore */
+	    {
+#line 1045 "parser.act"
+
+		if ((ZI166) && (ZI237)) {
+			rule_compute_result_intersect(sid_current_rule);
+			types_copy (item_result((ZI239)), rule_result(sid_current_rule));
+			types_add_new_names(alt_names((ZI237)), item_result((ZI239)),
+			grammar_get_predicate_id(sid_current_grammar));
+		}
+
+		sid_internal_rule = (ZI238);
+		sid_current_alt   = (ZI237);
+		sid_current_rule  = (ZI72);
+		sid_current_entry = (ZI166);
+	
+#line 1213 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: restore */
+	    ZR240 (sid_current_grammar);
+	    ZR248 (sid_current_grammar);
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	}
+	break;
+      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_OPEN_HTUPLE): case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_PRED_HRESULT):
+      case (LEXER_TOK_IGNORE): case (LEXER_TOK_REFERENCE):
+	{
+	    ZR222 (sid_current_grammar);
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    /* BEGINNING OF ACTION: skip-recover */
+	    {
+#line 2014 "parser.act"
+
+		sid_propagating_error = FALSE;
+	
+#line 1238 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: skip-recover */
+	}
+	break;
+      case (ERROR_TERMINAL):
+	return;
+      default:
+	goto ZL1;
+    }
+    return;
+  ZL1:;
+    SAVE_LEXER ((ERROR_TERMINAL));
+    return;
+}
+
+static void
+ZR154(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -1057,234 +1270,97 @@ ZR153(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-arrow */
 	{
-#line 1544 "parser.act"
+#line 1615 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_arrow();
 		}
 	
-#line 1067 "tmp.parser.c"
+#line 1280 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-arrow */
     }
 }
 
 static void
-ZR183(GrammarP sid_current_grammar, TypeTupleT *ZO134)
-{
-    TypeTupleT ZI134;
-
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	/* BEGINNING OF ACTION: current-tuple */
-	{
-#line 349 "parser.act"
-
-		sid_current_pred_id = FALSE;
-	
-#line 1088 "tmp.parser.c"
-	}
-	/* END OF ACTION: current-tuple */
-	ZR193 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	    RESTORE_LEXER;
-	    goto ZL1;
-	}
-	/* BEGINNING OF ACTION: init-tuple */
-	{
-#line 344 "parser.act"
-
-		types_init(&(ZI134));
-	
-#line 1102 "tmp.parser.c"
-	}
-	/* END OF ACTION: init-tuple */
-	ZR191 (sid_current_grammar, &ZI134);
-	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	    RESTORE_LEXER;
-	    goto ZL1;
-	}
-	/* BEGINNING OF ACTION: skip-recover */
-	{
-#line 1943 "parser.act"
-
-		sid_propagating_error = FALSE;
-	
-#line 1116 "tmp.parser.c"
-	}
-	/* END OF ACTION: skip-recover */
-	ZR194 (sid_current_grammar);
-	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	    RESTORE_LEXER;
-	    goto ZL1;
-	}
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
-  ZL0:;
-    /* BEGINNING OF RESULT ASSIGNMENT: TypeTupleT */
-    {
-#line 251 "parser.act"
-
-		ZO134->head = ZI134.head;
-
-		if (ZO134->head == NULL) {
-			ZO134->tail = &ZO134->head;
-		} else {
-			ZO134->tail= ZI134.tail ;
-		}
-	#line 1141 "tmp.parser.c"
-    }
-    /* END OF RESULT ASSIGNMENT: TypeTupleT */
-}
-
-static void
-ZR233(GrammarP sid_current_grammar)
-{
-    switch (CURRENT_TERMINAL) {
-      case (LEXER_TOK_BEGIN_HRULE):
-	{
-	    EntryP ZI164;
-	    RuleP ZI71;
-	    AltP ZI235;
-	    BoolT ZI236;
-	    ItemP ZI237;
-
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: save */
-	    {
-#line 949 "parser.act"
-
-		(ZI164)      = sid_current_entry;
-		(ZI71)       = sid_current_rule;
-		(ZI235)        = sid_current_alt;
-		(ZI236)   = sid_internal_rule;
-		(ZI237)             = NULL;
-		sid_internal_rule = TRUE;
-
-		if (sid_current_entry && sid_current_alt) {
-			sid_current_entry = table_add_generated_rule(grammar_table(sid_current_grammar), FALSE);
-			sid_current_rule  = entry_get_rule(sid_current_entry);
-			(ZI237)             = item_create(sid_current_entry);
-
-			rule_defined(sid_current_rule);
-			item_inlinable((ZI237));
-			types_copy(item_param((ZI237)), rule_param((ZI71)));
-			types_append_copy(item_param((ZI237)), alt_names((ZI235)));
-			types_copy(rule_param(sid_current_rule), item_param((ZI237)));
-			types_make_references(rule_param (sid_current_rule), item_param((ZI237)));
-			alt_add_item((ZI235), (ZI237));
-		} else {
-			sid_current_entry = NULL;
-		}
-	
-#line 1186 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: save */
-	    ZR231 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: restore */
-	    {
-#line 974 "parser.act"
-
-		if ((ZI164) && (ZI235)) {
-			rule_compute_result_intersect(sid_current_rule);
-			types_copy (item_result((ZI237)), rule_result(sid_current_rule));
-			types_add_new_names(alt_names((ZI235)), item_result((ZI237)),
-			grammar_get_predicate_id(sid_current_grammar));
-		}
-
-		sid_internal_rule = (ZI236);
-		sid_current_alt   = (ZI235);
-		sid_current_rule  = (ZI71);
-		sid_current_entry = (ZI164);
-	
-#line 1210 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: restore */
-	    ZR238 (sid_current_grammar);
-	    ZR246 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_OPEN_HTUPLE): case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_PRED_HRESULT):
-      case (LEXER_TOK_IGNORE): case (LEXER_TOK_REFERENCE):
-	{
-	    ZR220 (sid_current_grammar);
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: skip-recover */
-	    {
-#line 1943 "parser.act"
-
-		sid_propagating_error = FALSE;
-	
-#line 1235 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: skip-recover */
-	}
-	break;
-      case (ERROR_TERMINAL):
-	return;
-      default:
-	goto ZL1;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
-}
-
-static void
-ZR156(GrammarP sid_current_grammar)
+ZR157(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
-	NStringT ZI158;
-
-	switch (CURRENT_TERMINAL) {
-	  case (LEXER_TOK_IDENTIFIER):
-	    /* BEGINNING OF EXTRACT: IDENTIFIER */
-	    {
-#line 263 "parser.act"
-
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
-	
-#line 1268 "tmp.parser.c"
-	    }
-	    /* END OF EXTRACT: IDENTIFIER */
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	/* BEGINNING OF ACTION: add-type */
+	/* BEGINNING OF INLINE: 159 */
 	{
-#line 279 "parser.act"
+	    switch (CURRENT_TERMINAL) {
+	      case (LEXER_TOK_IDENTIFIER):
+		{
+		    NStringT ZI160;
 
-		if (table_add_type (grammar_table(sid_current_grammar), &(ZI158)) == NULL) {
-			E_duplicate_type((&ZI158));
-			nstring_destroy(&(ZI158));
+		    /* BEGINNING OF EXTRACT: IDENTIFIER */
+		    {
+#line 266 "parser.act"
+
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
+	
+#line 1306 "tmp.parser.c"
+		    }
+		    /* END OF EXTRACT: IDENTIFIER */
+		    ADVANCE_LEXER;
+		    /* BEGINNING OF ACTION: add-type */
+		    {
+#line 282 "parser.act"
+
+		if (table_add_type (grammar_table(sid_current_grammar), &(ZI160), FALSE) == NULL) {
+			E_duplicate_type((&ZI160));
+			nstring_destroy(&(ZI160));
 		}
 	
-#line 1285 "tmp.parser.c"
+#line 1319 "tmp.parser.c"
+		    }
+		    /* END OF ACTION: add-type */
+		}
+		break;
+	      case (LEXER_TOK_IGNORE):
+		{
+		    NStringT ZI160;
+
+		    ADVANCE_LEXER;
+		    switch (CURRENT_TERMINAL) {
+		      case (LEXER_TOK_IDENTIFIER):
+			/* BEGINNING OF EXTRACT: IDENTIFIER */
+			{
+#line 266 "parser.act"
+
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
+	
+#line 1337 "tmp.parser.c"
+			}
+			/* END OF EXTRACT: IDENTIFIER */
+			break;
+		      default:
+			goto ZL1;
+		    }
+		    ADVANCE_LEXER;
+		    /* BEGINNING OF ACTION: i-add-type */
+		    {
+#line 289 "parser.act"
+
+		if (table_add_type (grammar_table(sid_current_grammar), &(ZI160), TRUE) == NULL) {
+			E_duplicate_type((&ZI160));
+			nstring_destroy(&(ZI160));
+		}
+	
+#line 1354 "tmp.parser.c"
+		    }
+		    /* END OF ACTION: i-add-type */
+		}
+		break;
+	      default:
+		goto ZL1;
+	    }
 	}
-	/* END OF ACTION: add-type */
-	ZR246 (sid_current_grammar);
+	/* END OF INLINE: 159 */
+	ZR248 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
@@ -1297,12 +1373,12 @@ ZR156(GrammarP sid_current_grammar)
 }
 
 static void
-ZR191(GrammarP sid_current_grammar, TypeTupleT *ZI134)
+ZR193(GrammarP sid_current_grammar, TypeTupleT *ZI135)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_REFERENCE):
 	{
-	    ZR188 (sid_current_grammar, ZI134);
+	    ZR190 (sid_current_grammar, ZI135);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -1321,49 +1397,49 @@ ZR191(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 }
 
 static void
-ZR203(GrammarP sid_current_grammar)
+ZR205(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_BEGIN_HSCOPE):
 	{
-	    EntryP ZI164;
-	    RuleP ZI71;
+	    EntryP ZI166;
+	    RuleP ZI72;
 
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: save-scope */
 	    {
-#line 849 "parser.act"
+#line 920 "parser.act"
 
-		(ZI164) = sid_current_entry;
-		(ZI71)  = sid_enclosing_rule;
+		(ZI166) = sid_current_entry;
+		(ZI72)  = sid_enclosing_rule;
 
 		sid_enclosing_rule = sid_current_rule;
 	
-#line 1343 "tmp.parser.c"
+#line 1419 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: save-scope */
-	    ZR169 (sid_current_grammar);
+	    ZR171 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: restore-scope */
 	    {
-#line 856 "parser.act"
+#line 927 "parser.act"
 
-		sid_current_entry  = (ZI164);
+		sid_current_entry  = (ZI166);
 		sid_current_rule   = sid_enclosing_rule;
-		sid_enclosing_rule = (ZI71);
+		sid_enclosing_rule = (ZI72);
 		sid_alternative    = 0;
 		sid_internal_rule  = FALSE;
 		sid_external_rule  = sid_current_entry;
 
 		nstring_init(&sid_maximum_scope);
 	
-#line 1364 "tmp.parser.c"
+#line 1440 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: restore-scope */
-	    /* BEGINNING OF INLINE: 205 */
+	    /* BEGINNING OF INLINE: 207 */
 	    {
 		{
 		    switch (CURRENT_TERMINAL) {
@@ -1379,19 +1455,19 @@ ZR203(GrammarP sid_current_grammar)
 		{
 		    /* BEGINNING OF ACTION: expected-end-scope */
 		    {
-#line 1580 "parser.act"
+#line 1651 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_end_scope();
 		}
 	
-#line 1389 "tmp.parser.c"
+#line 1465 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-end-scope */
 		}
 	      ZL2:;
 	    }
-	    /* END OF INLINE: 205 */
+	    /* END OF INLINE: 207 */
 	}
 	break;
       case (ERROR_TERMINAL):
@@ -1406,34 +1482,34 @@ ZR203(GrammarP sid_current_grammar)
 }
 
 static void
-ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
+ZR175(GrammarP sid_current_grammar, TypeTupleT *ZI135)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_IDENTIFIER):
 	{
-	    NStringT ZI158;
+	    NStringT ZI160;
 
 	    /* BEGINNING OF EXTRACT: IDENTIFIER */
 	    {
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 1423 "tmp.parser.c"
+#line 1499 "tmp.parser.c"
 	    }
 	    /* END OF EXTRACT: IDENTIFIER */
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: add-name */
 	    {
-#line 392 "parser.act"
+#line 415 "parser.act"
 
 		NStringT scope;
 		EntryT *non_local_entry;
 		EntryT *name_entry;
 
 		non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-			grammar_table(sid_current_grammar), (&ZI158), &scope);
-		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI158));
+			grammar_table(sid_current_grammar), (&ZI160), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI160));
 
 		if (name_entry) {
 			if (sid_current_entry && sid_current_alt) {
@@ -1447,25 +1523,25 @@ ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		}
 
 		if (name_entry) {
-			types_add_name_and_type((ZI134), name_entry, NULL, FALSE);
+			types_add_name_and_type((ZI135), name_entry, NULL, FALSE);
 			if (non_local_entry) {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else if (non_local_entry) {
-			types_add_name_and_type((ZI134), non_local_entry, NULL, FALSE);
+			types_add_name_and_type((ZI135), non_local_entry, NULL, FALSE);
 			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
 				nstring_destroy(&sid_maximum_scope);
 				nstring_assign(&sid_maximum_scope, &scope);
 			} else {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else {
-			types_add_name((ZI134), grammar_table(sid_current_grammar), &(ZI158), FALSE);
+			types_add_name((ZI135), grammar_table(sid_current_grammar), &(ZI160), FALSE);
 		}
 	
-#line 1469 "tmp.parser.c"
+#line 1545 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: add-name */
 	}
@@ -1475,14 +1551,14 @@ ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: add-void */
 	    {
-#line 520 "parser.act"
+#line 543 "parser.act"
 
 		EntryT *entry;
 
 		entry = table_add_generated_name(grammar_table(sid_current_grammar));
-		types_add_name_entry((ZI134), entry);
+		types_add_name_entry((ZI135), entry);
 	
-#line 1486 "tmp.parser.c"
+#line 1562 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: add-void */
 	}
@@ -1492,15 +1568,15 @@ ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: add-pred */
 	    {
-#line 513 "parser.act"
+#line 536 "parser.act"
 
 		if (sid_current_pred_id) {
 			E_multi_predicate_return();
 		}
 		sid_current_pred_id = TRUE;
-		types_add_name_entry((ZI134), grammar_get_predicate_id(sid_current_grammar));
+		types_add_name_entry((ZI135), grammar_get_predicate_id(sid_current_grammar));
 	
-#line 1504 "tmp.parser.c"
+#line 1580 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: add-pred */
 	}
@@ -1508,20 +1584,20 @@ ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
       case (LEXER_TOK_REFERENCE):
 	{
 	    ADVANCE_LEXER;
-	    /* BEGINNING OF INLINE: 175 */
+	    /* BEGINNING OF INLINE: 177 */
 	    {
 		{
-		    NStringT ZI158;
+		    NStringT ZI160;
 
 		    switch (CURRENT_TERMINAL) {
 		      case (LEXER_TOK_IDENTIFIER):
 			/* BEGINNING OF EXTRACT: IDENTIFIER */
 			{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 1525 "tmp.parser.c"
+#line 1601 "tmp.parser.c"
 			}
 			/* END OF EXTRACT: IDENTIFIER */
 			break;
@@ -1531,15 +1607,15 @@ ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: add-var */
 		    {
-#line 473 "parser.act"
+#line 496 "parser.act"
 
 		NStringT scope;
 		EntryT *non_local_entry;
 		EntryT *name_entry;
 
 		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
-			grammar_table(sid_current_grammar), (&ZI158), &scope);
-		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI158));
+			grammar_table(sid_current_grammar), (&ZI160), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI160));
 
 		if (name_entry) {
 			if (sid_current_entry && sid_current_alt) {
@@ -1553,26 +1629,26 @@ ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		}
 
 		if (name_entry) {
-			types_add_name_and_type_var((ZI134), name_entry, NULL);
+			types_add_name_and_type_var((ZI135), name_entry, NULL);
 			if (non_local_entry) {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else if (non_local_entry) {
-			types_add_name_and_type_var ((ZI134), non_local_entry, NULL);
+			types_add_name_and_type_var ((ZI135), non_local_entry, NULL);
 			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
 				nstring_destroy (&sid_maximum_scope);
 				nstring_assign (&sid_maximum_scope, &scope);
 			} else {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else {
-			E_undefined_assignment((&ZI158));
-			types_add_name((ZI134), grammar_table(sid_current_grammar), &(ZI158), FALSE);
+			E_undefined_assignment((&ZI160));
+			types_add_name((ZI135), grammar_table(sid_current_grammar), &(ZI160), FALSE);
 		}
 	
-#line 1576 "tmp.parser.c"
+#line 1652 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: add-var */
 		}
@@ -1581,19 +1657,19 @@ ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		{
 		    /* BEGINNING OF ACTION: expected-identifier */
 		    {
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 1591 "tmp.parser.c"
+#line 1667 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-identifier */
 		}
 	      ZL2:;
 	    }
-	    /* END OF INLINE: 175 */
+	    /* END OF INLINE: 177 */
 	}
 	break;
       case (ERROR_TERMINAL):
@@ -1606,18 +1682,18 @@ ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
     {
 	/* BEGINNING OF ACTION: expected-lhs-name */
 	{
-#line 1556 "parser.act"
+#line 1627 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_lhs_name();
 		}
 	
-#line 1616 "tmp.parser.c"
+#line 1692 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-lhs-name */
 	/* BEGINNING OF ACTION: skip-to-end-of-lhs-name */
 	{
-#line 1754 "parser.act"
+#line 1825 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -1639,46 +1715,46 @@ ZR173(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 
 		sid_propagating_error = TRUE;
 	
-#line 1643 "tmp.parser.c"
+#line 1719 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-lhs-name */
     }
 }
 
 static void
-ZR169(GrammarP sid_current_grammar)
+ZR171(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
-  ZL2_169:;
+  ZL2_171:;
     {
-	ZR266 (sid_current_grammar);
+	ZR268 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: skip-recover */
 	{
-#line 1943 "parser.act"
+#line 2014 "parser.act"
 
 		sid_propagating_error = FALSE;
 	
-#line 1668 "tmp.parser.c"
+#line 1744 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-recover */
-	/* BEGINNING OF INLINE: 270 */
+	/* BEGINNING OF INLINE: 272 */
 	{
 	    {
 		/* BEGINNING OF ACTION: is-blt-entry-or-end-scope-or-eof */
 		{
-#line 1946 "parser.act"
+#line 2017 "parser.act"
 
 		(ZI0) = (CURRENT_TERMINAL == (LEXER_TOK_EOF)
 			|| CURRENT_TERMINAL == (LEXER_TOK_END_HSCOPE)
 			|| CURRENT_TERMINAL == (LEXER_TOK_BLT_HENTRY));
 	
-#line 1682 "tmp.parser.c"
+#line 1758 "tmp.parser.c"
 		}
 		/* END OF ACTION: is-blt-entry-or-end-scope-or-eof */
 		if (!ZI0)
@@ -1691,7 +1767,7 @@ ZR169(GrammarP sid_current_grammar)
 	      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_IGNORE): case (LEXER_TOK_SCOPEMARK):
 		{
 		    /* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list */
-		    goto ZL2_169;
+		    goto ZL2_171;
 		    /* END OF INLINE: sid-parse-grammar::production-defn-list */
 		}
 		/*UNREACHED*/
@@ -1700,25 +1776,25 @@ ZR169(GrammarP sid_current_grammar)
 	    }
 	  ZL3:;
 	}
-	/* END OF INLINE: 270 */
+	/* END OF INLINE: 272 */
     }
     return;
   ZL1:;
     {
 	/* BEGINNING OF ACTION: expected-production-defn */
 	{
-#line 1640 "parser.act"
+#line 1711 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_production_defn();
 		}
 	
-#line 1717 "tmp.parser.c"
+#line 1793 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-production-defn */
 	/* BEGINNING OF ACTION: skip-to-end-of-production-defn */
 	{
-#line 1897 "parser.act"
+#line 1968 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -1742,30 +1818,30 @@ ZR169(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 1746 "tmp.parser.c"
+#line 1822 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-production-defn */
 	/* BEGINNING OF ACTION: skip-recover */
 	{
-#line 1943 "parser.act"
+#line 2014 "parser.act"
 
 		sid_propagating_error = FALSE;
 	
-#line 1755 "tmp.parser.c"
+#line 1831 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-recover */
-	/* BEGINNING OF INLINE: 271 */
+	/* BEGINNING OF INLINE: 273 */
 	{
 	    {
 		/* BEGINNING OF ACTION: is-blt-entry-or-end-scope-or-eof */
 		{
-#line 1946 "parser.act"
+#line 2017 "parser.act"
 
 		(ZI0) = (CURRENT_TERMINAL == (LEXER_TOK_EOF)
 			|| CURRENT_TERMINAL == (LEXER_TOK_END_HSCOPE)
 			|| CURRENT_TERMINAL == (LEXER_TOK_BLT_HENTRY));
 	
-#line 1769 "tmp.parser.c"
+#line 1845 "tmp.parser.c"
 		}
 		/* END OF ACTION: is-blt-entry-or-end-scope-or-eof */
 		if (!ZI0)
@@ -1775,13 +1851,13 @@ ZR169(GrammarP sid_current_grammar)
 	  ZL7:;
 	    {
 		/* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list */
-		goto ZL2_169;
+		goto ZL2_171;
 		/* END OF INLINE: sid-parse-grammar::production-defn-list */
 	    }
 	    /*UNREACHED*/
 	  ZL6:;
 	}
-	/* END OF INLINE: 271 */
+	/* END OF INLINE: 273 */
     }
 }
 
@@ -1794,15 +1870,15 @@ sid_parse_grammar(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: init */
 	{
-#line 271 "parser.act"
+#line 274 "parser.act"
 
 		scope_stack_init(&sid_scope_stack);
 		scope_stack_init(&sid_global_scope);
 	
-#line 1803 "tmp.parser.c"
+#line 1879 "tmp.parser.c"
 	}
 	/* END OF ACTION: init */
-	/* BEGINNING OF INLINE: 277 */
+	/* BEGINNING OF INLINE: 279 */
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
@@ -1818,21 +1894,21 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	    {
 		/* BEGINNING OF ACTION: expected-blt-types */
 		{
-#line 1646 "parser.act"
+#line 1717 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_blt_types();
 		}
 	
-#line 1828 "tmp.parser.c"
+#line 1904 "tmp.parser.c"
 		}
 		/* END OF ACTION: expected-blt-types */
 	    }
 	  ZL2:;
 	}
-	/* END OF INLINE: 277 */
-	ZR154 (sid_current_grammar);
-	/* BEGINNING OF INLINE: 278 */
+	/* END OF INLINE: 279 */
+	ZR155 (sid_current_grammar);
+	/* BEGINNING OF INLINE: 280 */
 	{
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
@@ -1852,37 +1928,37 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	    {
 		/* BEGINNING OF ACTION: expected-blt-terminals */
 		{
-#line 1652 "parser.act"
+#line 1723 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_blt_terminals();
 		}
 	
-#line 1862 "tmp.parser.c"
+#line 1938 "tmp.parser.c"
 		}
 		/* END OF ACTION: expected-blt-terminals */
 	    }
 	  ZL4:;
 	}
-	/* END OF INLINE: 278 */
-	ZR160 (sid_current_grammar);
+	/* END OF INLINE: 280 */
+	ZR162 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: x-terminals */
 	{
-#line 336 "parser.act"
+#line 359 "parser.act"
 
 		unsigned max_terminal = grammar_max_terminal(sid_current_grammar);
 
 		bitvec_set_size(max_terminal);
 		sid_finished_terminals = TRUE;
 	
-#line 1883 "tmp.parser.c"
+#line 1959 "tmp.parser.c"
 	}
 	/* END OF ACTION: x-terminals */
-	/* BEGINNING OF INLINE: 279 */
+	/* BEGINNING OF INLINE: 281 */
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
@@ -1898,21 +1974,21 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	    {
 		/* BEGINNING OF ACTION: expected-blt-productions */
 		{
-#line 1658 "parser.act"
+#line 1729 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_blt_productions();
 		}
 	
-#line 1908 "tmp.parser.c"
+#line 1984 "tmp.parser.c"
 		}
 		/* END OF ACTION: expected-blt-productions */
 	    }
 	  ZL6:;
 	}
-	/* END OF INLINE: 279 */
-	ZR169 (sid_current_grammar);
-	/* BEGINNING OF INLINE: 280 */
+	/* END OF INLINE: 281 */
+	ZR171 (sid_current_grammar);
+	/* BEGINNING OF INLINE: 282 */
 	{
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
@@ -1932,22 +2008,22 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	    {
 		/* BEGINNING OF ACTION: expected-blt-entry */
 		{
-#line 1664 "parser.act"
+#line 1735 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_blt_entry();
 		}
 	
-#line 1942 "tmp.parser.c"
+#line 2018 "tmp.parser.c"
 		}
 		/* END OF ACTION: expected-blt-entry */
 	    }
 	  ZL8:;
 	}
-	/* END OF INLINE: 280 */
-	ZR272 (sid_current_grammar);
-	ZR246 (sid_current_grammar);
-	/* BEGINNING OF INLINE: 282 */
+	/* END OF INLINE: 282 */
+	ZR274 (sid_current_grammar);
+	ZR248 (sid_current_grammar);
+	/* BEGINNING OF INLINE: 284 */
 	{
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
@@ -1967,42 +2043,42 @@ sid_parse_grammar(GrammarP sid_current_grammar)
 	    {
 		/* BEGINNING OF ACTION: expected-eof */
 		{
-#line 1670 "parser.act"
+#line 1741 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_eof();
 		}
 	
-#line 1977 "tmp.parser.c"
+#line 2053 "tmp.parser.c"
 		}
 		/* END OF ACTION: expected-eof */
 	    }
 	  ZL10:;
 	}
-	/* END OF INLINE: 282 */
+	/* END OF INLINE: 284 */
     }
     return;
   ZL1:;
     {
 	/* BEGINNING OF ACTION: unhandled-syntax-error */
 	{
-#line 1496 "parser.act"
+#line 1567 "parser.act"
 
 		UNREACHED;
 	
-#line 1994 "tmp.parser.c"
+#line 2070 "tmp.parser.c"
 	}
 	/* END OF ACTION: unhandled-syntax-error */
     }
 }
 
 static void
-ZR147(GrammarP sid_current_grammar, TypeTupleT *ZI134)
+ZR148(GrammarP sid_current_grammar, TypeTupleT *ZI135)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_TYPEMARK):
 	{
-	    ZR144 (sid_current_grammar, ZI134);
+	    ZR145 (sid_current_grammar, ZI135);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -2021,52 +2097,52 @@ ZR147(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 }
 
 static void
-ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
+ZR300(GrammarP sid_current_grammar, NStringT *ZI160)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_OPEN_HTUPLE):
 	{
-	    TypeTupleT ZI130;
 	    TypeTupleT ZI131;
+	    TypeTupleT ZI132;
 
-	    ZR149 (sid_current_grammar, &ZI130);
+	    ZR150 (sid_current_grammar, &ZI131);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: save-tuple */
 	    {
-#line 353 "parser.act"
+#line 376 "parser.act"
 
 		sid_saved_pred_id = sid_current_pred_id;
 	
-#line 2044 "tmp.parser.c"
+#line 2120 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: save-tuple */
-	    ZR153 (sid_current_grammar);
-	    ZR149 (sid_current_grammar, &ZI131);
+	    ZR154 (sid_current_grammar);
+	    ZR150 (sid_current_grammar, &ZI132);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: rule */
 	    {
-#line 682 "parser.act"
+#line 721 "parser.act"
 
 		sid_current_entry = scope_stack_add_rule(sid_current_scope,
-			grammar_table(sid_current_grammar), &(*ZI158), sid_enclosing_rule,
+			grammar_table(sid_current_grammar), &(*ZI160), sid_enclosing_rule,
 			&sid_redefining_entry);
 		if (sid_current_entry) {
 			sid_current_rule = entry_get_rule(sid_current_entry);
 		} else {
-			E_duplicate_rule((ZI158));
-			nstring_destroy(&(*ZI158));
+			E_duplicate_rule((ZI160));
+			nstring_destroy(&(*ZI160));
 		}
 	
-#line 2067 "tmp.parser.c"
+#line 2143 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: rule */
-	    ZR261 (sid_current_grammar, &ZI130, &ZI131);
+	    ZR263 (sid_current_grammar, &ZI131, &ZI132);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -2075,21 +2151,21 @@ ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
 	break;
       case (LEXER_TOK_IDENTIFIER):
 	{
-	    /* BEGINNING OF INLINE: 254 */
+	    /* BEGINNING OF INLINE: 256 */
 	    {
 		{
-		    NStringT ZI140;
-		    NonLocalEntryP ZI255;
+		    NStringT ZI141;
+		    NonLocalEntryP ZI257;
 
 		    switch (CURRENT_TERMINAL) {
 		      case (LEXER_TOK_IDENTIFIER):
 			/* BEGINNING OF EXTRACT: IDENTIFIER */
 			{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI140, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI141, lexer_string_value(sid_current_stream));
 	
-#line 2093 "tmp.parser.c"
+#line 2169 "tmp.parser.c"
 			}
 			/* END OF EXTRACT: IDENTIFIER */
 			break;
@@ -2099,48 +2175,48 @@ ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: non-local */
 		    {
-#line 607 "parser.act"
+#line 646 "parser.act"
 
-		(ZI255) = NULL;
+		(ZI257) = NULL;
 		if (sid_enclosing_rule == NULL || sid_current_scope == &sid_global_scope) {
-			E_global_scope_non_local((ZI158));
-			nstring_destroy(&(*ZI158));
+			E_global_scope_non_local((ZI160));
+			nstring_destroy(&(*ZI160));
 		} else {
 			EntryT *type;
 
-			type = table_get_type(grammar_table(sid_current_grammar), (&ZI140));
+			type = table_get_type(grammar_table(sid_current_grammar), (&ZI141));
 			if (type == NULL) {
-				E_unknown_type((&ZI140));
-				nstring_destroy(&(*ZI158));
+				E_unknown_type((&ZI141));
+				nstring_destroy(&(*ZI160));
 			} else {
 				EntryT *name;
 
 				name = scope_stack_add_non_local (sid_current_scope,
-					grammar_table(sid_current_grammar), &(*ZI158), type,
+					grammar_table(sid_current_grammar), &(*ZI160), type,
 					sid_enclosing_rule);
 				if (name) {
 					NonLocalListT *non_locals;
 
 					non_locals = rule_non_locals(sid_enclosing_rule);
-					(ZI255) = non_local_list_add(non_locals, name, type);
+					(ZI257) = non_local_list_add(non_locals, name, type);
 				} else {
-					E_duplicate_non_local((ZI158));
-					nstring_destroy(&(*ZI158));
+					E_duplicate_non_local((ZI160));
+					nstring_destroy(&(*ZI160));
 				}
 			}
 		}
-		nstring_destroy(&(ZI140));
+		nstring_destroy(&(ZI141));
 	
-#line 2135 "tmp.parser.c"
+#line 2211 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: non-local */
-		    /* BEGINNING OF INLINE: 256 */
+		    /* BEGINNING OF INLINE: 258 */
 		    {
 			switch (CURRENT_TERMINAL) {
 			  case (LEXER_TOK_DEFINE):
 			    {
 				ADVANCE_LEXER;
-				/* BEGINNING OF INLINE: 257 */
+				/* BEGINNING OF INLINE: 259 */
 				{
 				    {
 					switch (CURRENT_TERMINAL) {
@@ -2156,33 +2232,33 @@ ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
 				    {
 					/* BEGINNING OF ACTION: expected-begin-action */
 					{
-#line 1568 "parser.act"
+#line 1639 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_begin_action();
 		}
 	
-#line 2166 "tmp.parser.c"
+#line 2242 "tmp.parser.c"
 					}
 					/* END OF ACTION: expected-begin-action */
 				    }
 				  ZL6:;
 				}
-				/* END OF INLINE: 257 */
-				/* BEGINNING OF INLINE: 258 */
+				/* END OF INLINE: 259 */
+				/* BEGINNING OF INLINE: 260 */
 				{
 				    {
-					NStringT ZI52;
+					NStringT ZI53;
 
 					switch (CURRENT_TERMINAL) {
 					  case (LEXER_TOK_IDENTIFIER):
 					    /* BEGINNING OF EXTRACT: IDENTIFIER */
 					    {
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI52, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI53, lexer_string_value(sid_current_stream));
 	
-#line 2186 "tmp.parser.c"
+#line 2262 "tmp.parser.c"
 					    }
 					    /* END OF EXTRACT: IDENTIFIER */
 					    break;
@@ -2192,18 +2268,18 @@ ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
 					ADVANCE_LEXER;
 					/* BEGINNING OF ACTION: non-local-init */
 					{
-#line 642 "parser.act"
+#line 681 "parser.act"
 
 		EntryT *actionentry;
 
 		actionentry = scope_stack_get_action(&sid_scope_stack,
-			grammar_table(sid_current_grammar), (&ZI52));
+			grammar_table(sid_current_grammar), (&ZI53));
 
 		if (actionentry == NULL) {
-			E_unknown_action ((&ZI52));
-		} else if ((ZI255)) {
-			EntryT     *type   = non_local_entry_get_type((ZI255));
-			KeyT       *name   = entry_key(non_local_entry_get_name((ZI255)));
+			E_unknown_action ((&ZI53));
+		} else if ((ZI257)) {
+			EntryT     *type   = non_local_entry_get_type((ZI257));
+			KeyT       *name   = entry_key(non_local_entry_get_name((ZI257)));
 			ActionT    *action = entry_get_action(actionentry);
 			TypeTupleT *param  = action_param(action);
 			TypeTupleT *result = action_result(action);
@@ -2230,15 +2306,15 @@ ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
 
 			types_destroy(&ref_tuple);
 			types_destroy(&tuple);
-			non_local_entry_set_initialiser((ZI255), actionentry);
+			non_local_entry_set_initialiser((ZI257), actionentry);
 		}
-		nstring_destroy(&(ZI52));
+		nstring_destroy(&(ZI53));
 	
-#line 2238 "tmp.parser.c"
+#line 2314 "tmp.parser.c"
 					}
 					/* END OF ACTION: non-local-init */
-					ZR230 (sid_current_grammar);
-					ZR246 (sid_current_grammar);
+					ZR232 (sid_current_grammar);
+					ZR248 (sid_current_grammar);
 					if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 					    RESTORE_LEXER;
 					    goto ZL9;
@@ -2249,19 +2325,19 @@ ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
 				    {
 					/* BEGINNING OF ACTION: expected-identifier */
 					{
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 2259 "tmp.parser.c"
+#line 2335 "tmp.parser.c"
 					}
 					/* END OF ACTION: expected-identifier */
 				    }
 				  ZL8:;
 				}
-				/* END OF INLINE: 258 */
+				/* END OF INLINE: 260 */
 			    }
 			    break;
 			  case (LEXER_TOK_TERMINATOR):
@@ -2277,46 +2353,46 @@ ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
 			{
 			    /* BEGINNING OF ACTION: expected-terminator-or-define */
 			    {
-#line 1676 "parser.act"
+#line 1747 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_terminator_or_define();
 		}
 	
-#line 2287 "tmp.parser.c"
+#line 2363 "tmp.parser.c"
 			    }
 			    /* END OF ACTION: expected-terminator-or-define */
 			}
 		      ZL4:;
 		    }
-		    /* END OF INLINE: 256 */
+		    /* END OF INLINE: 258 */
 		}
 		goto ZL2;
 	      ZL3:;
 		{
 		    /* BEGINNING OF ACTION: expected-identifier */
 		    {
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 2306 "tmp.parser.c"
+#line 2382 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-identifier */
 		    /* BEGINNING OF ACTION: destroy-string */
 		    {
-#line 1679 "parser.act"
+#line 1750 "parser.act"
 
-		nstring_destroy(&(*ZI158));
+		nstring_destroy(&(*ZI160));
 	
-#line 2315 "tmp.parser.c"
+#line 2391 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: destroy-string */
 		    /* BEGINNING OF ACTION: skip-to-end-of-other-defn */
 		    {
-#line 1873 "parser.act"
+#line 1944 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -2340,13 +2416,13 @@ ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
 
 		sid_propagating_error = TRUE;
 	
-#line 2344 "tmp.parser.c"
+#line 2420 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: skip-to-end-of-other-defn */
 		}
 	      ZL2:;
 	    }
-	    /* END OF INLINE: 254 */
+	    /* END OF INLINE: 256 */
 	}
 	break;
       case (ERROR_TERMINAL):
@@ -2361,249 +2437,9 @@ ZR298(GrammarP sid_current_grammar, NStringT *ZI158)
 }
 
 static void
-ZR300(GrammarP sid_current_grammar)
+ZR150(GrammarP sid_current_grammar, TypeTupleT *ZO135)
 {
-    switch (CURRENT_TERMINAL) {
-      case (LEXER_TOK_IGNORE):
-	{
-	    TypeTupleT ZI206;
-
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: init-tuple */
-	    {
-#line 344 "parser.act"
-
-		types_init(&(ZI206));
-	
-#line 2379 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: init-tuple */
-	    /* BEGINNING OF ACTION: add-void */
-	    {
-#line 520 "parser.act"
-
-		EntryT *entry;
-
-		entry = table_add_generated_name(grammar_table(sid_current_grammar));
-		types_add_name_entry((&ZI206), entry);
-	
-#line 2391 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: add-void */
-	    /* BEGINNING OF ACTION: save-tuple */
-	    {
-#line 353 "parser.act"
-
-		sid_saved_pred_id = sid_current_pred_id;
-	
-#line 2400 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: save-tuple */
-	    ZR226 (sid_current_grammar);
-	    ZR211 (sid_current_grammar, &ZI206);
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      case (LEXER_TOK_PRED_HRESULT):
-	{
-	    TypeTupleT ZI206;
-
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: init-tuple */
-	    {
-#line 344 "parser.act"
-
-		types_init(&(ZI206));
-	
-#line 2422 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: init-tuple */
-	    /* BEGINNING OF ACTION: add-pred */
-	    {
-#line 513 "parser.act"
-
-		if (sid_current_pred_id) {
-			E_multi_predicate_return();
-		}
-		sid_current_pred_id = TRUE;
-		types_add_name_entry((&ZI206), grammar_get_predicate_id(sid_current_grammar));
-	
-#line 2435 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: add-pred */
-	    /* BEGINNING OF ACTION: save-tuple */
-	    {
-#line 353 "parser.act"
-
-		sid_saved_pred_id = sid_current_pred_id;
-	
-#line 2444 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: save-tuple */
-	    ZR226 (sid_current_grammar);
-	    ZR211 (sid_current_grammar, &ZI206);
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      case (LEXER_TOK_BEGIN_HACTION):
-	{
-	    TypeTupleT ZI206;
-
-	    /* BEGINNING OF ACTION: save-tuple */
-	    {
-#line 353 "parser.act"
-
-		sid_saved_pred_id = sid_current_pred_id;
-	
-#line 2465 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: save-tuple */
-	    /* BEGINNING OF ACTION: init-tuple */
-	    {
-#line 344 "parser.act"
-
-		types_init(&(ZI206));
-	
-#line 2474 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: init-tuple */
-	    ADVANCE_LEXER;
-	    ZR229 (sid_current_grammar, &ZI206);
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      case (ERROR_TERMINAL):
-	return;
-      default:
-	goto ZL1;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
-}
-
-static void
-ZR301(GrammarP sid_current_grammar, NStringT *ZI158)
-{
-    switch (CURRENT_TERMINAL) {
-      case (LEXER_TOK_DEFINE):
-	{
-	    TypeTupleT ZI206;
-
-	    /* BEGINNING OF ACTION: init-tuple */
-	    {
-#line 344 "parser.act"
-
-		types_init(&(ZI206));
-	
-#line 2510 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: init-tuple */
-	    /* BEGINNING OF ACTION: add-name */
-	    {
-#line 392 "parser.act"
-
-		NStringT scope;
-		EntryT *non_local_entry;
-		EntryT *name_entry;
-
-		non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-			grammar_table(sid_current_grammar), (ZI158), &scope);
-		name_entry = table_get_entry(grammar_table(sid_current_grammar), (ZI158));
-
-		if (name_entry) {
-			if (sid_current_entry && sid_current_alt) {
-				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
-					!types_contains(rule_param(sid_current_rule), name_entry)) {
-						name_entry = NULL;
-				}
-			} else {
-				name_entry = NULL;
-			}
-		}
-
-		if (name_entry) {
-			types_add_name_and_type((&ZI206), name_entry, NULL, FALSE);
-			if (non_local_entry) {
-				nstring_destroy(&scope);
-			}
-			nstring_destroy(&(*ZI158));
-		} else if (non_local_entry) {
-			types_add_name_and_type((&ZI206), non_local_entry, NULL, FALSE);
-			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
-				nstring_destroy(&sid_maximum_scope);
-				nstring_assign(&sid_maximum_scope, &scope);
-			} else {
-				nstring_destroy(&scope);
-			}
-			nstring_destroy(&(*ZI158));
-		} else {
-			types_add_name((&ZI206), grammar_table(sid_current_grammar), &(*ZI158), FALSE);
-		}
-	
-#line 2555 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: add-name */
-	    /* BEGINNING OF ACTION: save-tuple */
-	    {
-#line 353 "parser.act"
-
-		sid_saved_pred_id = sid_current_pred_id;
-	
-#line 2564 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: save-tuple */
-	    ADVANCE_LEXER;
-	    ZR211 (sid_current_grammar, &ZI206);
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      case (LEXER_TOK_OPEN_HTUPLE): case (LEXER_TOK_TERMINATOR):
-	{
-	    /* BEGINNING OF ACTION: save-tuple */
-	    {
-#line 353 "parser.act"
-
-		sid_saved_pred_id = sid_current_pred_id;
-	
-#line 2583 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: save-tuple */
-	    ZR302 (sid_current_grammar, ZI158);
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      case (ERROR_TERMINAL):
-	return;
-      default:
-	goto ZL1;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
-}
-
-static void
-ZR149(GrammarP sid_current_grammar, TypeTupleT *ZO134)
-{
-    TypeTupleT ZI134;
+    TypeTupleT ZI135;
 
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -2611,29 +2447,29 @@ ZR149(GrammarP sid_current_grammar, TypeTupleT *ZO134)
     {
 	/* BEGINNING OF ACTION: init-tuple */
 	{
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI134));
+		types_init(&(ZI135));
 	
-#line 2619 "tmp.parser.c"
+#line 2455 "tmp.parser.c"
 	}
 	/* END OF ACTION: init-tuple */
-	ZR193 (sid_current_grammar);
-	ZR147 (sid_current_grammar, &ZI134);
+	ZR195 (sid_current_grammar);
+	ZR148 (sid_current_grammar, &ZI135);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: skip-recover */
 	{
-#line 1943 "parser.act"
+#line 2014 "parser.act"
 
 		sid_propagating_error = FALSE;
 	
-#line 2634 "tmp.parser.c"
+#line 2470 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-recover */
-	ZR194 (sid_current_grammar);
+	ZR196 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
@@ -2646,321 +2482,135 @@ ZR149(GrammarP sid_current_grammar, TypeTupleT *ZO134)
   ZL0:;
     /* BEGINNING OF RESULT ASSIGNMENT: TypeTupleT */
     {
-#line 251 "parser.act"
+#line 254 "parser.act"
 
-		ZO134->head = ZI134.head;
+		ZO135->head = ZI135.head;
 
-		if (ZO134->head == NULL) {
-			ZO134->tail = &ZO134->head;
+		if (ZO135->head == NULL) {
+			ZO135->tail = &ZO135->head;
 		} else {
-			ZO134->tail= ZI134.tail ;
+			ZO135->tail= ZI135.tail ;
 		}
-	#line 2659 "tmp.parser.c"
+	#line 2495 "tmp.parser.c"
     }
     /* END OF RESULT ASSIGNMENT: TypeTupleT */
 }
 
 static void
-ZR302(GrammarP sid_current_grammar, NStringT *ZI158)
+ZR302(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
-      case (LEXER_TOK_TERMINATOR):
+      case (LEXER_TOK_IGNORE):
 	{
-	    TypeTupleT ZI206;
-	    TypeTupleT ZI209;
+	    TypeTupleT ZI208;
 
-	    /* BEGINNING OF ACTION: current-tuple */
-	    {
-#line 349 "parser.act"
-
-		sid_current_pred_id = FALSE;
-	
-#line 2679 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: current-tuple */
-	    /* BEGINNING OF ACTION: init-tuple */
-	    {
-#line 344 "parser.act"
-
-		types_init(&(ZI206));
-	
-#line 2688 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: init-tuple */
-	    /* BEGINNING OF ACTION: init-tuple */
-	    {
-#line 344 "parser.act"
-
-		types_init(&(ZI209));
-	
-#line 2697 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: init-tuple */
-	    /* BEGINNING OF ACTION: x-prod-rule */
-	    {
-#line 1163 "parser.act"
-
-		TypeTupleT *param  = NULL;
-		TypeTupleT *result = NULL;
-		EntryT     *entry  = NULL;
-		RuleT      *rule;
-		BasicT     *basic;
-
-		if (sid_current_entry && sid_current_alt) {
-			entry = scope_stack_get_rule(&sid_scope_stack,
-				grammar_table(sid_current_grammar), (ZI158));
-			if (entry) {
-				sid_current_item = item_create(entry);
-				rule             = entry_get_rule(entry);
-				param            = rule_param(rule);
-				result           = rule_result(rule);
-			} else {
-				entry = table_get_basic(grammar_table(sid_current_grammar), (ZI158));
-				if (entry) {
-					sid_current_item = item_create(entry);
-					basic            = entry_get_basic(entry);
-					param            = NULL;
-					result           = basic_result(basic);
-
-					if (basic_get_ignored(basic)) {
-						E_ignored_basic_call((ZI158));
-					}
-				} else {
-					E_unknown_rule_or_basic((ZI158));
-					sid_current_item = NULL;
-				}
-			}
-		} else {
-			sid_current_item = NULL;
-		}
-
-		nstring_destroy(&(*ZI158));
-		if (sid_current_item) {
-			BoolT  errored = FALSE;
-			KeyT  *key     = entry_key (entry);
-
-			if (types_resolve((&ZI209), rule_param(sid_current_rule),
-				alt_names(sid_current_alt), E_undefined_name,
-				entry_key(sid_external_rule), sid_alternative)) {
-				if (param) {
-					if (types_equal((&ZI209), param)) {
-						item_add_param(sid_current_item, (&ZI209));
-					} else {
-						E_rule_param_call_mismatch(key, param, (&ZI209));
-						types_destroy((&ZI209));
-						errored = TRUE;
-					}
-				} else {
-					if (!types_equal_zero_tuple((&ZI209))) {
-						E_basic_param_call_mismatch(key, (&ZI209));
-						types_destroy((&ZI209));
-						errored = TRUE;
-					}
-				}
-			} else {
-				types_destroy((&ZI209));
-				errored = TRUE;
-			}
-
-			if (types_disjoint_names ((&ZI206))) {
-				if (types_check_undefined ((&ZI206), rule_param(sid_current_rule),
-					alt_names(sid_current_alt), E_redefined_name,
-					entry_key(sid_external_rule), sid_alternative)) {
-					if (types_fillin_types((&ZI206), result)) {
-						types_add_new_names(alt_names (sid_current_alt),
-							(&ZI206), grammar_get_predicate_id(sid_current_grammar));
-						if (sid_saved_pred_id) {
-							E_predicate ();
-						}
-						item_add_result(sid_current_item, (&ZI206));
-					} else {
-						if (param) {
-							E_rule_result_call_mismatch(key, result, (&ZI206));
-						} else {
-							E_basic_result_call_mismatch(key, result, (&ZI206));
-						}
-						types_destroy((&ZI206));
-						errored = TRUE;
-					}
-				} else {
-					types_destroy((&ZI206));
-					errored = TRUE;
-				}
-			} else {
-				if (param) {
-					E_rule_result_call_clash (key, (&ZI206));
-				} else {
-					E_basic_result_call_clash (key, (&ZI206));
-				}
-
-				types_destroy ((&ZI206));
-				errored = TRUE;
-			}
-
-			if (errored) {
-				(void) item_deallocate(sid_current_item);
-				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
-				sid_current_alt  = NULL;
-			} else {
-				alt_add_item(sid_current_alt, sid_current_item);
-			}
-		} else {
-			if (sid_current_alt) {
-				(void) alt_deallocate (sid_current_alt);
-				sid_current_alt = NULL;
-			}
-			types_destroy ((&ZI206));
-			types_destroy ((&ZI209));
-		}
-	
-#line 2818 "tmp.parser.c"
-	    }
-	    /* END OF ACTION: x-prod-rule */
 	    ADVANCE_LEXER;
-	}
-	break;
-      case (LEXER_TOK_OPEN_HTUPLE):
-	{
-	    TypeTupleT ZI206;
-	    TypeTupleT ZI209;
-
 	    /* BEGINNING OF ACTION: init-tuple */
 	    {
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI206));
+		types_init(&(ZI208));
 	
-#line 2835 "tmp.parser.c"
+#line 2515 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: init-tuple */
-	    ZR183 (sid_current_grammar, &ZI209);
+	    /* BEGINNING OF ACTION: add-void */
+	    {
+#line 543 "parser.act"
+
+		EntryT *entry;
+
+		entry = table_add_generated_name(grammar_table(sid_current_grammar));
+		types_add_name_entry((&ZI208), entry);
+	
+#line 2527 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: add-void */
+	    /* BEGINNING OF ACTION: save-tuple */
+	    {
+#line 376 "parser.act"
+
+		sid_saved_pred_id = sid_current_pred_id;
+	
+#line 2536 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: save-tuple */
+	    ZR228 (sid_current_grammar);
+	    ZR213 (sid_current_grammar, &ZI208);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
-	    /* BEGINNING OF ACTION: x-prod-rule */
+	}
+	break;
+      case (LEXER_TOK_PRED_HRESULT):
+	{
+	    TypeTupleT ZI208;
+
+	    ADVANCE_LEXER;
+	    /* BEGINNING OF ACTION: init-tuple */
 	    {
-#line 1163 "parser.act"
+#line 367 "parser.act"
 
-		TypeTupleT *param  = NULL;
-		TypeTupleT *result = NULL;
-		EntryT     *entry  = NULL;
-		RuleT      *rule;
-		BasicT     *basic;
-
-		if (sid_current_entry && sid_current_alt) {
-			entry = scope_stack_get_rule(&sid_scope_stack,
-				grammar_table(sid_current_grammar), (ZI158));
-			if (entry) {
-				sid_current_item = item_create(entry);
-				rule             = entry_get_rule(entry);
-				param            = rule_param(rule);
-				result           = rule_result(rule);
-			} else {
-				entry = table_get_basic(grammar_table(sid_current_grammar), (ZI158));
-				if (entry) {
-					sid_current_item = item_create(entry);
-					basic            = entry_get_basic(entry);
-					param            = NULL;
-					result           = basic_result(basic);
-
-					if (basic_get_ignored(basic)) {
-						E_ignored_basic_call((ZI158));
-					}
-				} else {
-					E_unknown_rule_or_basic((ZI158));
-					sid_current_item = NULL;
-				}
-			}
-		} else {
-			sid_current_item = NULL;
-		}
-
-		nstring_destroy(&(*ZI158));
-		if (sid_current_item) {
-			BoolT  errored = FALSE;
-			KeyT  *key     = entry_key (entry);
-
-			if (types_resolve((&ZI209), rule_param(sid_current_rule),
-				alt_names(sid_current_alt), E_undefined_name,
-				entry_key(sid_external_rule), sid_alternative)) {
-				if (param) {
-					if (types_equal((&ZI209), param)) {
-						item_add_param(sid_current_item, (&ZI209));
-					} else {
-						E_rule_param_call_mismatch(key, param, (&ZI209));
-						types_destroy((&ZI209));
-						errored = TRUE;
-					}
-				} else {
-					if (!types_equal_zero_tuple((&ZI209))) {
-						E_basic_param_call_mismatch(key, (&ZI209));
-						types_destroy((&ZI209));
-						errored = TRUE;
-					}
-				}
-			} else {
-				types_destroy((&ZI209));
-				errored = TRUE;
-			}
-
-			if (types_disjoint_names ((&ZI206))) {
-				if (types_check_undefined ((&ZI206), rule_param(sid_current_rule),
-					alt_names(sid_current_alt), E_redefined_name,
-					entry_key(sid_external_rule), sid_alternative)) {
-					if (types_fillin_types((&ZI206), result)) {
-						types_add_new_names(alt_names (sid_current_alt),
-							(&ZI206), grammar_get_predicate_id(sid_current_grammar));
-						if (sid_saved_pred_id) {
-							E_predicate ();
-						}
-						item_add_result(sid_current_item, (&ZI206));
-					} else {
-						if (param) {
-							E_rule_result_call_mismatch(key, result, (&ZI206));
-						} else {
-							E_basic_result_call_mismatch(key, result, (&ZI206));
-						}
-						types_destroy((&ZI206));
-						errored = TRUE;
-					}
-				} else {
-					types_destroy((&ZI206));
-					errored = TRUE;
-				}
-			} else {
-				if (param) {
-					E_rule_result_call_clash (key, (&ZI206));
-				} else {
-					E_basic_result_call_clash (key, (&ZI206));
-				}
-
-				types_destroy ((&ZI206));
-				errored = TRUE;
-			}
-
-			if (errored) {
-				(void) item_deallocate(sid_current_item);
-				sid_current_item = NULL;
-				(void) alt_deallocate(sid_current_alt);
-				sid_current_alt  = NULL;
-			} else {
-				alt_add_item(sid_current_alt, sid_current_item);
-			}
-		} else {
-			if (sid_current_alt) {
-				(void) alt_deallocate (sid_current_alt);
-				sid_current_alt = NULL;
-			}
-			types_destroy ((&ZI206));
-			types_destroy ((&ZI209));
-		}
+		types_init(&(ZI208));
 	
-#line 2961 "tmp.parser.c"
+#line 2558 "tmp.parser.c"
 	    }
-	    /* END OF ACTION: x-prod-rule */
-	    ZR246 (sid_current_grammar);
+	    /* END OF ACTION: init-tuple */
+	    /* BEGINNING OF ACTION: add-pred */
+	    {
+#line 536 "parser.act"
+
+		if (sid_current_pred_id) {
+			E_multi_predicate_return();
+		}
+		sid_current_pred_id = TRUE;
+		types_add_name_entry((&ZI208), grammar_get_predicate_id(sid_current_grammar));
+	
+#line 2571 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: add-pred */
+	    /* BEGINNING OF ACTION: save-tuple */
+	    {
+#line 376 "parser.act"
+
+		sid_saved_pred_id = sid_current_pred_id;
+	
+#line 2580 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: save-tuple */
+	    ZR228 (sid_current_grammar);
+	    ZR213 (sid_current_grammar, &ZI208);
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	}
+	break;
+      case (LEXER_TOK_BEGIN_HACTION):
+	{
+	    TypeTupleT ZI208;
+
+	    /* BEGINNING OF ACTION: save-tuple */
+	    {
+#line 376 "parser.act"
+
+		sid_saved_pred_id = sid_current_pred_id;
+	
+#line 2601 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: save-tuple */
+	    /* BEGINNING OF ACTION: init-tuple */
+	    {
+#line 367 "parser.act"
+
+		types_init(&(ZI208));
+	
+#line 2610 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: init-tuple */
+	    ADVANCE_LEXER;
+	    ZR231 (sid_current_grammar, &ZI208);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -2979,34 +2629,34 @@ ZR302(GrammarP sid_current_grammar, NStringT *ZI158)
 }
 
 static void
-ZR185(GrammarP sid_current_grammar, TypeTupleT *ZI134)
+ZR187(GrammarP sid_current_grammar, TypeTupleT *ZI135)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_IDENTIFIER):
 	{
-	    NStringT ZI158;
+	    NStringT ZI160;
 
 	    /* BEGINNING OF EXTRACT: IDENTIFIER */
 	    {
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 2996 "tmp.parser.c"
+#line 2646 "tmp.parser.c"
 	    }
 	    /* END OF EXTRACT: IDENTIFIER */
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: add-name */
 	    {
-#line 392 "parser.act"
+#line 415 "parser.act"
 
 		NStringT scope;
 		EntryT *non_local_entry;
 		EntryT *name_entry;
 
 		non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
-			grammar_table(sid_current_grammar), (&ZI158), &scope);
-		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI158));
+			grammar_table(sid_current_grammar), (&ZI160), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI160));
 
 		if (name_entry) {
 			if (sid_current_entry && sid_current_alt) {
@@ -3020,25 +2670,25 @@ ZR185(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		}
 
 		if (name_entry) {
-			types_add_name_and_type((ZI134), name_entry, NULL, FALSE);
+			types_add_name_and_type((ZI135), name_entry, NULL, FALSE);
 			if (non_local_entry) {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else if (non_local_entry) {
-			types_add_name_and_type((ZI134), non_local_entry, NULL, FALSE);
+			types_add_name_and_type((ZI135), non_local_entry, NULL, FALSE);
 			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
 				nstring_destroy(&sid_maximum_scope);
 				nstring_assign(&sid_maximum_scope, &scope);
 			} else {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else {
-			types_add_name((ZI134), grammar_table(sid_current_grammar), &(ZI158), FALSE);
+			types_add_name((ZI135), grammar_table(sid_current_grammar), &(ZI160), FALSE);
 		}
 	
-#line 3042 "tmp.parser.c"
+#line 2692 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: add-name */
 	}
@@ -3046,20 +2696,20 @@ ZR185(GrammarP sid_current_grammar, TypeTupleT *ZI134)
       case (LEXER_TOK_REFERENCE):
 	{
 	    ADVANCE_LEXER;
-	    /* BEGINNING OF INLINE: 187 */
+	    /* BEGINNING OF INLINE: 189 */
 	    {
 		{
-		    NStringT ZI158;
+		    NStringT ZI160;
 
 		    switch (CURRENT_TERMINAL) {
 		      case (LEXER_TOK_IDENTIFIER):
 			/* BEGINNING OF EXTRACT: IDENTIFIER */
 			{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 3063 "tmp.parser.c"
+#line 2713 "tmp.parser.c"
 			}
 			/* END OF EXTRACT: IDENTIFIER */
 			break;
@@ -3069,15 +2719,15 @@ ZR185(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: add-ref-name */
 		    {
-#line 433 "parser.act"
+#line 456 "parser.act"
 
 		NStringT scope;
 		EntryT *non_local_entry;
 		EntryT *name_entry;
 
 		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
-			grammar_table(sid_current_grammar), (&ZI158), &scope);
-		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI158));
+			grammar_table(sid_current_grammar), (&ZI160), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI160));
 
 		if (name_entry) {
 			if (sid_current_entry && sid_current_alt) {
@@ -3091,25 +2741,25 @@ ZR185(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		}
 
 		if (name_entry) {
-			types_add_name_and_type ((ZI134), name_entry, NULL, TRUE);
+			types_add_name_and_type ((ZI135), name_entry, NULL, TRUE);
 			if (non_local_entry) {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else if (non_local_entry) {
-			types_add_name_and_type ((ZI134), non_local_entry, NULL, TRUE);
+			types_add_name_and_type ((ZI135), non_local_entry, NULL, TRUE);
 			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
 				nstring_destroy(&sid_maximum_scope);
 				nstring_assign(&sid_maximum_scope, &scope);
 			} else {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else {
-			types_add_name((ZI134), grammar_table(sid_current_grammar), &(ZI158), TRUE);
+			types_add_name((ZI135), grammar_table(sid_current_grammar), &(ZI160), TRUE);
 		}
 	
-#line 3113 "tmp.parser.c"
+#line 2763 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: add-ref-name */
 		}
@@ -3118,18 +2768,18 @@ ZR185(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		{
 		    /* BEGINNING OF ACTION: expected-identifier */
 		    {
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 3128 "tmp.parser.c"
+#line 2778 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-identifier */
 		    /* BEGINNING OF ACTION: skip-to-end-of-rhs-name */
 		    {
-#line 1776 "parser.act"
+#line 1847 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -3151,13 +2801,13 @@ ZR185(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 
 		sid_propagating_error = TRUE;
 	
-#line 3155 "tmp.parser.c"
+#line 2805 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: skip-to-end-of-rhs-name */
 		}
 	      ZL2:;
 	    }
-	    /* END OF INLINE: 187 */
+	    /* END OF INLINE: 189 */
 	}
 	break;
       case (ERROR_TERMINAL):
@@ -3170,18 +2820,18 @@ ZR185(GrammarP sid_current_grammar, TypeTupleT *ZI134)
     {
 	/* BEGINNING OF ACTION: expected-rhs-name */
 	{
-#line 1562 "parser.act"
+#line 1633 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_rhs_name();
 		}
 	
-#line 3180 "tmp.parser.c"
+#line 2830 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-rhs-name */
 	/* BEGINNING OF ACTION: skip-to-end-of-rhs-name */
 	{
-#line 1776 "parser.act"
+#line 1847 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -3203,55 +2853,159 @@ ZR185(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 
 		sid_propagating_error = TRUE;
 	
-#line 3207 "tmp.parser.c"
+#line 2857 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-rhs-name */
     }
 }
 
 static void
-ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
+ZR303(GrammarP sid_current_grammar, NStringT *ZI160)
 {
     switch (CURRENT_TERMINAL) {
-      case (LEXER_TOK_BEGIN_HACTION):
+      case (LEXER_TOK_DEFINE):
 	{
+	    TypeTupleT ZI208;
+
+	    /* BEGINNING OF ACTION: init-tuple */
+	    {
+#line 367 "parser.act"
+
+		types_init(&(ZI208));
+	
+#line 2877 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: init-tuple */
+	    /* BEGINNING OF ACTION: add-name */
+	    {
+#line 415 "parser.act"
+
+		NStringT scope;
+		EntryT *non_local_entry;
+		EntryT *name_entry;
+
+		non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+			grammar_table(sid_current_grammar), (ZI160), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (ZI160));
+
+		if (name_entry) {
+			if (sid_current_entry && sid_current_alt) {
+				if (!types_contains(alt_names(sid_current_alt), name_entry) &&
+					!types_contains(rule_param(sid_current_rule), name_entry)) {
+						name_entry = NULL;
+				}
+			} else {
+				name_entry = NULL;
+			}
+		}
+
+		if (name_entry) {
+			types_add_name_and_type((&ZI208), name_entry, NULL, FALSE);
+			if (non_local_entry) {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(*ZI160));
+		} else if (non_local_entry) {
+			types_add_name_and_type((&ZI208), non_local_entry, NULL, FALSE);
+			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
+				nstring_destroy(&sid_maximum_scope);
+				nstring_assign(&sid_maximum_scope, &scope);
+			} else {
+				nstring_destroy(&scope);
+			}
+			nstring_destroy(&(*ZI160));
+		} else {
+			types_add_name((&ZI208), grammar_table(sid_current_grammar), &(*ZI160), FALSE);
+		}
+	
+#line 2922 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: add-name */
+	    /* BEGINNING OF ACTION: save-tuple */
+	    {
+#line 376 "parser.act"
+
+		sid_saved_pred_id = sid_current_pred_id;
+	
+#line 2931 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: save-tuple */
 	    ADVANCE_LEXER;
-	    ZR229 (sid_current_grammar, ZI206);
+	    ZR213 (sid_current_grammar, &ZI208);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case (LEXER_TOK_IDENTIFIER):
+      case (LEXER_TOK_OPEN_HTUPLE): case (LEXER_TOK_TERMINATOR):
 	{
-	    NStringT ZI158;
-
-	    /* BEGINNING OF EXTRACT: IDENTIFIER */
+	    /* BEGINNING OF ACTION: save-tuple */
 	    {
-#line 263 "parser.act"
+#line 376 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		sid_saved_pred_id = sid_current_pred_id;
 	
-#line 3237 "tmp.parser.c"
+#line 2950 "tmp.parser.c"
 	    }
-	    /* END OF EXTRACT: IDENTIFIER */
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF INLINE: 215 */
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case (LEXER_TOK_OPEN_HTUPLE):
-		    {
-			TypeTupleT ZI209;
+	    /* END OF ACTION: save-tuple */
+	    ZR304 (sid_current_grammar, ZI160);
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	}
+	break;
+      case (ERROR_TERMINAL):
+	return;
+      default:
+	goto ZL1;
+    }
+    return;
+  ZL1:;
+    SAVE_LEXER ((ERROR_TERMINAL));
+    return;
+}
 
-			ZR183 (sid_current_grammar, &ZI209);
-			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			    RESTORE_LEXER;
-			    goto ZL3;
-			}
-			/* BEGINNING OF ACTION: x-prod-rule */
-			{
-#line 1163 "parser.act"
+static void
+ZR304(GrammarP sid_current_grammar, NStringT *ZI160)
+{
+    switch (CURRENT_TERMINAL) {
+      case (LEXER_TOK_TERMINATOR):
+	{
+	    TypeTupleT ZI208;
+	    TypeTupleT ZI211;
+
+	    /* BEGINNING OF ACTION: current-tuple */
+	    {
+#line 372 "parser.act"
+
+		sid_current_pred_id = FALSE;
+	
+#line 2986 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: current-tuple */
+	    /* BEGINNING OF ACTION: init-tuple */
+	    {
+#line 367 "parser.act"
+
+		types_init(&(ZI208));
+	
+#line 2995 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: init-tuple */
+	    /* BEGINNING OF ACTION: init-tuple */
+	    {
+#line 367 "parser.act"
+
+		types_init(&(ZI211));
+	
+#line 3004 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: init-tuple */
+	    /* BEGINNING OF ACTION: x-prod-rule */
+	    {
+#line 1234 "parser.act"
 
 		TypeTupleT *param  = NULL;
 		TypeTupleT *result = NULL;
@@ -3261,14 +3015,14 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 
 		if (sid_current_entry && sid_current_alt) {
 			entry = scope_stack_get_rule(&sid_scope_stack,
-				grammar_table(sid_current_grammar), (&ZI158));
+				grammar_table(sid_current_grammar), (ZI160));
 			if (entry) {
 				sid_current_item = item_create(entry);
 				rule             = entry_get_rule(entry);
 				param            = rule_param(rule);
 				result           = rule_result(rule);
 			} else {
-				entry = table_get_basic(grammar_table(sid_current_grammar), (&ZI158));
+				entry = table_get_basic(grammar_table(sid_current_grammar), (ZI160));
 				if (entry) {
 					sid_current_item = item_create(entry);
 					basic            = entry_get_basic(entry);
@@ -3276,10 +3030,10 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 					result           = basic_result(basic);
 
 					if (basic_get_ignored(basic)) {
-						E_ignored_basic_call((&ZI158));
+						E_ignored_basic_call((ZI160));
 					}
 				} else {
-					E_unknown_rule_or_basic((&ZI158));
+					E_unknown_rule_or_basic((ZI160));
 					sid_current_item = NULL;
 				}
 			}
@@ -3287,66 +3041,66 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 			sid_current_item = NULL;
 		}
 
-		nstring_destroy(&(ZI158));
+		nstring_destroy(&(*ZI160));
 		if (sid_current_item) {
 			BoolT  errored = FALSE;
 			KeyT  *key     = entry_key (entry);
 
-			if (types_resolve((&ZI209), rule_param(sid_current_rule),
+			if (types_resolve((&ZI211), rule_param(sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (param) {
-					if (types_equal((&ZI209), param)) {
-						item_add_param(sid_current_item, (&ZI209));
+					if (types_equal((&ZI211), param)) {
+						item_add_param(sid_current_item, (&ZI211));
 					} else {
-						E_rule_param_call_mismatch(key, param, (&ZI209));
-						types_destroy((&ZI209));
+						E_rule_param_call_mismatch(key, param, (&ZI211));
+						types_destroy((&ZI211));
 						errored = TRUE;
 					}
 				} else {
-					if (!types_equal_zero_tuple((&ZI209))) {
-						E_basic_param_call_mismatch(key, (&ZI209));
-						types_destroy((&ZI209));
+					if (!types_equal_zero_tuple((&ZI211))) {
+						E_basic_param_call_mismatch(key, (&ZI211));
+						types_destroy((&ZI211));
 						errored = TRUE;
 					}
 				}
 			} else {
-				types_destroy((&ZI209));
+				types_destroy((&ZI211));
 				errored = TRUE;
 			}
 
-			if (types_disjoint_names ((ZI206))) {
-				if (types_check_undefined ((ZI206), rule_param(sid_current_rule),
+			if (types_disjoint_names ((&ZI208))) {
+				if (types_check_undefined ((&ZI208), rule_param(sid_current_rule),
 					alt_names(sid_current_alt), E_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
-					if (types_fillin_types((ZI206), result)) {
+					if (types_fillin_types((&ZI208), result)) {
 						types_add_new_names(alt_names (sid_current_alt),
-							(ZI206), grammar_get_predicate_id(sid_current_grammar));
+							(&ZI208), grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
 							E_predicate ();
 						}
-						item_add_result(sid_current_item, (ZI206));
+						item_add_result(sid_current_item, (&ZI208));
 					} else {
 						if (param) {
-							E_rule_result_call_mismatch(key, result, (ZI206));
+							E_rule_result_call_mismatch(key, result, (&ZI208));
 						} else {
-							E_basic_result_call_mismatch(key, result, (ZI206));
+							E_basic_result_call_mismatch(key, result, (&ZI208));
 						}
-						types_destroy((ZI206));
+						types_destroy((&ZI208));
 						errored = TRUE;
 					}
 				} else {
-					types_destroy((ZI206));
+					types_destroy((&ZI208));
 					errored = TRUE;
 				}
 			} else {
 				if (param) {
-					E_rule_result_call_clash (key, (ZI206));
+					E_rule_result_call_clash (key, (&ZI208));
 				} else {
-					E_basic_result_call_clash (key, (ZI206));
+					E_basic_result_call_clash (key, (&ZI208));
 				}
 
-				types_destroy ((ZI206));
+				types_destroy ((&ZI208));
 				errored = TRUE;
 			}
 
@@ -3363,14 +3117,336 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				(void) alt_deallocate (sid_current_alt);
 				sid_current_alt = NULL;
 			}
-			types_destroy ((ZI206));
-			types_destroy ((&ZI209));
+			types_destroy ((&ZI208));
+			types_destroy ((&ZI211));
 		}
 	
-#line 3371 "tmp.parser.c"
+#line 3125 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: x-prod-rule */
+	    ADVANCE_LEXER;
+	}
+	break;
+      case (LEXER_TOK_OPEN_HTUPLE):
+	{
+	    TypeTupleT ZI208;
+	    TypeTupleT ZI211;
+
+	    /* BEGINNING OF ACTION: init-tuple */
+	    {
+#line 367 "parser.act"
+
+		types_init(&(ZI208));
+	
+#line 3142 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: init-tuple */
+	    ZR185 (sid_current_grammar, &ZI211);
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    /* BEGINNING OF ACTION: x-prod-rule */
+	    {
+#line 1234 "parser.act"
+
+		TypeTupleT *param  = NULL;
+		TypeTupleT *result = NULL;
+		EntryT     *entry  = NULL;
+		RuleT      *rule;
+		BasicT     *basic;
+
+		if (sid_current_entry && sid_current_alt) {
+			entry = scope_stack_get_rule(&sid_scope_stack,
+				grammar_table(sid_current_grammar), (ZI160));
+			if (entry) {
+				sid_current_item = item_create(entry);
+				rule             = entry_get_rule(entry);
+				param            = rule_param(rule);
+				result           = rule_result(rule);
+			} else {
+				entry = table_get_basic(grammar_table(sid_current_grammar), (ZI160));
+				if (entry) {
+					sid_current_item = item_create(entry);
+					basic            = entry_get_basic(entry);
+					param            = NULL;
+					result           = basic_result(basic);
+
+					if (basic_get_ignored(basic)) {
+						E_ignored_basic_call((ZI160));
+					}
+				} else {
+					E_unknown_rule_or_basic((ZI160));
+					sid_current_item = NULL;
+				}
+			}
+		} else {
+			sid_current_item = NULL;
+		}
+
+		nstring_destroy(&(*ZI160));
+		if (sid_current_item) {
+			BoolT  errored = FALSE;
+			KeyT  *key     = entry_key (entry);
+
+			if (types_resolve((&ZI211), rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (param) {
+					if (types_equal((&ZI211), param)) {
+						item_add_param(sid_current_item, (&ZI211));
+					} else {
+						E_rule_param_call_mismatch(key, param, (&ZI211));
+						types_destroy((&ZI211));
+						errored = TRUE;
+					}
+				} else {
+					if (!types_equal_zero_tuple((&ZI211))) {
+						E_basic_param_call_mismatch(key, (&ZI211));
+						types_destroy((&ZI211));
+						errored = TRUE;
+					}
+				}
+			} else {
+				types_destroy((&ZI211));
+				errored = TRUE;
+			}
+
+			if (types_disjoint_names ((&ZI208))) {
+				if (types_check_undefined ((&ZI208), rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (types_fillin_types((&ZI208), result)) {
+						types_add_new_names(alt_names (sid_current_alt),
+							(&ZI208), grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							E_predicate ();
+						}
+						item_add_result(sid_current_item, (&ZI208));
+					} else {
+						if (param) {
+							E_rule_result_call_mismatch(key, result, (&ZI208));
+						} else {
+							E_basic_result_call_mismatch(key, result, (&ZI208));
+						}
+						types_destroy((&ZI208));
+						errored = TRUE;
+					}
+				} else {
+					types_destroy((&ZI208));
+					errored = TRUE;
+				}
+			} else {
+				if (param) {
+					E_rule_result_call_clash (key, (&ZI208));
+				} else {
+					E_basic_result_call_clash (key, (&ZI208));
+				}
+
+				types_destroy ((&ZI208));
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
+		} else {
+			if (sid_current_alt) {
+				(void) alt_deallocate (sid_current_alt);
+				sid_current_alt = NULL;
+			}
+			types_destroy ((&ZI208));
+			types_destroy ((&ZI211));
+		}
+	
+#line 3268 "tmp.parser.c"
+	    }
+	    /* END OF ACTION: x-prod-rule */
+	    ZR248 (sid_current_grammar);
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	}
+	break;
+      case (ERROR_TERMINAL):
+	return;
+      default:
+	goto ZL1;
+    }
+    return;
+  ZL1:;
+    SAVE_LEXER ((ERROR_TERMINAL));
+    return;
+}
+
+static void
+ZR213(GrammarP sid_current_grammar, TypeTupleT *ZI208)
+{
+    switch (CURRENT_TERMINAL) {
+      case (LEXER_TOK_BEGIN_HACTION):
+	{
+	    ADVANCE_LEXER;
+	    ZR231 (sid_current_grammar, ZI208);
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	}
+	break;
+      case (LEXER_TOK_IDENTIFIER):
+	{
+	    NStringT ZI160;
+
+	    /* BEGINNING OF EXTRACT: IDENTIFIER */
+	    {
+#line 266 "parser.act"
+
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
+	
+#line 3313 "tmp.parser.c"
+	    }
+	    /* END OF EXTRACT: IDENTIFIER */
+	    ADVANCE_LEXER;
+	    /* BEGINNING OF INLINE: 217 */
+	    {
+		switch (CURRENT_TERMINAL) {
+		  case (LEXER_TOK_OPEN_HTUPLE):
+		    {
+			TypeTupleT ZI211;
+
+			ZR185 (sid_current_grammar, &ZI211);
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+			    RESTORE_LEXER;
+			    goto ZL3;
+			}
+			/* BEGINNING OF ACTION: x-prod-rule */
+			{
+#line 1234 "parser.act"
+
+		TypeTupleT *param  = NULL;
+		TypeTupleT *result = NULL;
+		EntryT     *entry  = NULL;
+		RuleT      *rule;
+		BasicT     *basic;
+
+		if (sid_current_entry && sid_current_alt) {
+			entry = scope_stack_get_rule(&sid_scope_stack,
+				grammar_table(sid_current_grammar), (&ZI160));
+			if (entry) {
+				sid_current_item = item_create(entry);
+				rule             = entry_get_rule(entry);
+				param            = rule_param(rule);
+				result           = rule_result(rule);
+			} else {
+				entry = table_get_basic(grammar_table(sid_current_grammar), (&ZI160));
+				if (entry) {
+					sid_current_item = item_create(entry);
+					basic            = entry_get_basic(entry);
+					param            = NULL;
+					result           = basic_result(basic);
+
+					if (basic_get_ignored(basic)) {
+						E_ignored_basic_call((&ZI160));
+					}
+				} else {
+					E_unknown_rule_or_basic((&ZI160));
+					sid_current_item = NULL;
+				}
+			}
+		} else {
+			sid_current_item = NULL;
+		}
+
+		nstring_destroy(&(ZI160));
+		if (sid_current_item) {
+			BoolT  errored = FALSE;
+			KeyT  *key     = entry_key (entry);
+
+			if (types_resolve((&ZI211), rule_param(sid_current_rule),
+				alt_names(sid_current_alt), E_undefined_name,
+				entry_key(sid_external_rule), sid_alternative)) {
+				if (param) {
+					if (types_equal((&ZI211), param)) {
+						item_add_param(sid_current_item, (&ZI211));
+					} else {
+						E_rule_param_call_mismatch(key, param, (&ZI211));
+						types_destroy((&ZI211));
+						errored = TRUE;
+					}
+				} else {
+					if (!types_equal_zero_tuple((&ZI211))) {
+						E_basic_param_call_mismatch(key, (&ZI211));
+						types_destroy((&ZI211));
+						errored = TRUE;
+					}
+				}
+			} else {
+				types_destroy((&ZI211));
+				errored = TRUE;
+			}
+
+			if (types_disjoint_names ((ZI208))) {
+				if (types_check_undefined ((ZI208), rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
+					if (types_fillin_types((ZI208), result)) {
+						types_add_new_names(alt_names (sid_current_alt),
+							(ZI208), grammar_get_predicate_id(sid_current_grammar));
+						if (sid_saved_pred_id) {
+							E_predicate ();
+						}
+						item_add_result(sid_current_item, (ZI208));
+					} else {
+						if (param) {
+							E_rule_result_call_mismatch(key, result, (ZI208));
+						} else {
+							E_basic_result_call_mismatch(key, result, (ZI208));
+						}
+						types_destroy((ZI208));
+						errored = TRUE;
+					}
+				} else {
+					types_destroy((ZI208));
+					errored = TRUE;
+				}
+			} else {
+				if (param) {
+					E_rule_result_call_clash (key, (ZI208));
+				} else {
+					E_basic_result_call_clash (key, (ZI208));
+				}
+
+				types_destroy ((ZI208));
+				errored = TRUE;
+			}
+
+			if (errored) {
+				(void) item_deallocate(sid_current_item);
+				sid_current_item = NULL;
+				(void) alt_deallocate(sid_current_alt);
+				sid_current_alt  = NULL;
+			} else {
+				alt_add_item(sid_current_alt, sid_current_item);
+			}
+		} else {
+			if (sid_current_alt) {
+				(void) alt_deallocate (sid_current_alt);
+				sid_current_alt = NULL;
+			}
+			types_destroy ((ZI208));
+			types_destroy ((&ZI211));
+		}
+	
+#line 3447 "tmp.parser.c"
 			}
 			/* END OF ACTION: x-prod-rule */
-			ZR246 (sid_current_grammar);
+			ZR248 (sid_current_grammar);
 			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			    RESTORE_LEXER;
 			    goto ZL3;
@@ -3381,18 +3457,18 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 		    {
 			/* BEGINNING OF ACTION: current-tuple */
 			{
-#line 349 "parser.act"
+#line 372 "parser.act"
 
 		sid_current_pred_id = FALSE;
 	
-#line 3389 "tmp.parser.c"
+#line 3465 "tmp.parser.c"
 			}
 			/* END OF ACTION: current-tuple */
 			/* BEGINNING OF ACTION: x-prod-rule-or-identity */
 			{
-#line 1271 "parser.act"
+#line 1342 "parser.act"
 
-		EntryT     *name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI158));
+		EntryT     *name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI160));
 		EntryT     *entry      = NULL;
 		TypeTupleT *param      = NULL;
 		TypeTupleT *result     = NULL;
@@ -3410,21 +3486,21 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 			}
 
 			entry = scope_stack_get_rule(&sid_scope_stack, grammar_table(sid_current_grammar),
-				(&ZI158));
+				(&ZI160));
 			if (entry) {
 				sid_current_item = item_create (entry);
 				rule             = entry_get_rule (entry);
 				param            = rule_param (rule);
 				result           = rule_result (rule);
 			} else {
-				entry = table_get_basic(grammar_table(sid_current_grammar), (&ZI158));
+				entry = table_get_basic(grammar_table(sid_current_grammar), (&ZI160));
 				if (entry) {
 					sid_current_item = item_create (entry);
 					basic            = entry_get_basic (entry);
 					param            = NULL;
 					result           = basic_result (basic);
 					if (name_entry == NULL && basic_get_ignored(basic)) {
-						E_ignored_basic_call ((&ZI158));
+						E_ignored_basic_call ((&ZI160));
 					}
 				}
 			}
@@ -3433,7 +3509,7 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				NStringT scope;
 
 				name_entry = scope_stack_get_non_local (&sid_scope_stack,
-					grammar_table(sid_current_grammar), (&ZI158), &scope);
+					grammar_table(sid_current_grammar), (&ZI160), &scope);
 				if (name_entry) {
 					if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
 						nstring_destroy(&sid_maximum_scope);
@@ -3442,17 +3518,17 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 						nstring_destroy(&scope);
 					}
 				} else {
-					E_unknown_rule_or_basic((&ZI158));
+					E_unknown_rule_or_basic((&ZI160));
 				}
 			} else if (entry != NULL && name_entry != NULL) {
-				E_ambiguous_call((&ZI158));
+				E_ambiguous_call((&ZI160));
 				entry      = NULL;
 				name_entry = NULL;
 			}
 		} else {
 			name_entry = NULL;
 		}
-		nstring_destroy(&(ZI158));
+		nstring_destroy(&(ZI160));
 
 		if (entry) {
 			BoolT  errored = FALSE;
@@ -3481,37 +3557,37 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				errored = TRUE;
 			}
 
-			if (types_disjoint_names((ZI206))) {
-				if (types_check_undefined((ZI206), rule_param (sid_current_rule),
+			if (types_disjoint_names((ZI208))) {
+				if (types_check_undefined((ZI208), rule_param (sid_current_rule),
 					alt_names (sid_current_alt), E_redefined_name,
 					entry_key (sid_external_rule), sid_alternative)) {
-					if (types_fillin_types((ZI206), result)) {
+					if (types_fillin_types((ZI208), result)) {
 						types_add_new_names(alt_names (sid_current_alt),
-							(ZI206), grammar_get_predicate_id(sid_current_grammar));
+							(ZI208), grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
 							E_predicate();
 						}
-						item_add_result(sid_current_item, (ZI206));
+						item_add_result(sid_current_item, (ZI208));
 					} else {
 						if (param) {
-							E_rule_result_call_mismatch(key, result, (ZI206));
+							E_rule_result_call_mismatch(key, result, (ZI208));
 						} else {
-							E_basic_result_call_mismatch (key, result, (ZI206));
+							E_basic_result_call_mismatch (key, result, (ZI208));
 						}
-						types_destroy((ZI206));
+						types_destroy((ZI208));
 						errored = TRUE;
 					}
 				} else {
-					types_destroy((ZI206));
+					types_destroy((ZI208));
 					errored = TRUE;
 				}
 			} else {
 				if (param) {
-					E_rule_result_call_clash(key, (ZI206));
+					E_rule_result_call_clash(key, (ZI208));
 				} else {
-					E_basic_result_call_clash(key, (ZI206));
+					E_basic_result_call_clash(key, (ZI208));
 				}
-				types_destroy((ZI206));
+				types_destroy((ZI208));
 				errored = TRUE;
 			}
 
@@ -3543,36 +3619,36 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				sid_current_item = NULL;
 			}
 
-			if (types_disjoint_names((ZI206))) {
-				if (types_check_undefined((ZI206), rule_param(sid_current_rule),
+			if (types_disjoint_names((ZI208))) {
+				if (types_check_undefined((ZI208), rule_param(sid_current_rule),
 					alt_names(sid_current_alt), E_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (sid_current_item) {
-						if (types_fillin_types((ZI206), item_param(sid_current_item))) {
+						if (types_fillin_types((ZI208), item_param(sid_current_item))) {
 							types_add_new_names(alt_names (sid_current_alt),
-								(ZI206), grammar_get_predicate_id(sid_current_grammar));
+								(ZI208), grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
 								E_predicate();
 							}
-							item_add_result(sid_current_item, (ZI206));
+							item_add_result(sid_current_item, (ZI208));
 							alt_add_item(sid_current_alt, sid_current_item);
 						} else {
-							E_identity_mismatch(item_param(sid_current_item), (ZI206));
-							types_destroy((ZI206));
+							E_identity_mismatch(item_param(sid_current_item), (ZI208));
+							types_destroy((ZI208));
 							(void) item_deallocate(sid_current_item);
 							sid_current_item = NULL;
 						}
 					}
 				} else {
-					types_destroy((ZI206));
+					types_destroy((ZI208));
 					if (sid_current_item) {
 						(void) item_deallocate(sid_current_item);
 						sid_current_item = NULL;
 					}
 				}
 			} else {
-				E_identity_result_clash((ZI206));
-				types_destroy((ZI206));
+				E_identity_result_clash((ZI208));
+				types_destroy((ZI208));
 				if (sid_current_item) {
 					(void) item_deallocate(sid_current_item);
 					sid_current_item = NULL;
@@ -3588,11 +3664,11 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				(void) alt_deallocate(sid_current_alt);
 				sid_current_alt = NULL;
 			}
-			types_destroy((ZI206));
+			types_destroy((ZI208));
 			types_destroy(&rhs);
 		}
 	
-#line 3596 "tmp.parser.c"
+#line 3672 "tmp.parser.c"
 			}
 			/* END OF ACTION: x-prod-rule-or-identity */
 			ADVANCE_LEXER;
@@ -3606,27 +3682,27 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 		{
 		    /* BEGINNING OF ACTION: expected-tuple-or-terminator */
 		    {
-#line 1586 "parser.act"
+#line 1657 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_tuple_or_term();
 		}
 	
-#line 3616 "tmp.parser.c"
+#line 3692 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-tuple-or-terminator */
 		    /* BEGINNING OF ACTION: destroy-string */
 		    {
-#line 1679 "parser.act"
+#line 1750 "parser.act"
 
-		nstring_destroy(&(ZI158));
+		nstring_destroy(&(ZI160));
 	
-#line 3625 "tmp.parser.c"
+#line 3701 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: destroy-string */
 		    /* BEGINNING OF ACTION: skip-to-end-of-item */
 		    {
-#line 1821 "parser.act"
+#line 1892 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -3653,78 +3729,78 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 
 		sid_propagating_error = TRUE;
 	
-#line 3657 "tmp.parser.c"
+#line 3733 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: skip-to-end-of-item */
 		}
 	      ZL2:;
 	    }
-	    /* END OF INLINE: 215 */
+	    /* END OF INLINE: 217 */
 	}
 	break;
       case (LEXER_TOK_OPEN_HTUPLE):
 	{
-	    TypeTupleT ZI209;
+	    TypeTupleT ZI211;
 
-	    ZR183 (sid_current_grammar, &ZI209);
+	    ZR185 (sid_current_grammar, &ZI211);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: x-identity */
 	    {
-#line 1091 "parser.act"
+#line 1162 "parser.act"
 
 		if (sid_current_entry && sid_current_alt) {
 			EntryT *entry = table_add_rename(grammar_table(sid_current_grammar));
 
-			if (types_resolve((&ZI209), rule_param (sid_current_rule),
+			if (types_resolve((&ZI211), rule_param (sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
-				if (types_contains_references((&ZI209))) {
-					E_identity_param_has_refs ((&ZI209), entry_key(sid_external_rule),
+				if (types_contains_references((&ZI211))) {
+					E_identity_param_has_refs ((&ZI211), entry_key(sid_external_rule),
 						sid_alternative);
-					types_destroy ((&ZI209));
+					types_destroy ((&ZI211));
 					sid_current_item = NULL;
 				} else {
 					sid_current_item = item_create(entry);
-					item_add_param(sid_current_item, (&ZI209));
+					item_add_param(sid_current_item, (&ZI211));
 				}
 			} else {
-				types_destroy((&ZI209));
+				types_destroy((&ZI211));
 				sid_current_item = NULL;
 			}
 
-			if (types_disjoint_names((ZI206))) {
-				if (types_check_undefined((ZI206), rule_param (sid_current_rule),
+			if (types_disjoint_names((ZI208))) {
+				if (types_check_undefined((ZI208), rule_param (sid_current_rule),
 					alt_names (sid_current_alt), E_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (sid_current_item) {
-						if (types_fillin_types((ZI206), item_param(sid_current_item))) {
+						if (types_fillin_types((ZI208), item_param(sid_current_item))) {
 							types_add_new_names(alt_names (sid_current_alt),
-							(ZI206), grammar_get_predicate_id(sid_current_grammar));
+							(ZI208), grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
 								E_predicate();
 							}
-							item_add_result(sid_current_item, (ZI206));
+							item_add_result(sid_current_item, (ZI208));
 							alt_add_item(sid_current_alt, sid_current_item);
 						} else {
-							E_identity_mismatch(item_param (sid_current_item), (ZI206));
-							types_destroy((ZI206));
+							E_identity_mismatch(item_param (sid_current_item), (ZI208));
+							types_destroy((ZI208));
 							(void) item_deallocate(sid_current_item);
 							sid_current_item = NULL;
 						}
 					}
 				} else {
-					types_destroy((ZI206));
+					types_destroy((ZI208));
 					if (sid_current_item) {
 						(void) item_deallocate(sid_current_item);
 						sid_current_item = NULL;
 					}
 				}
 			} else {
-				E_identity_result_clash((ZI206));
-				types_destroy ((ZI206));
+				E_identity_result_clash((ZI208));
+				types_destroy ((ZI208));
 				if (sid_current_item) {
 					(void) item_deallocate(sid_current_item);
 					sid_current_item = NULL;
@@ -3736,14 +3812,14 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				sid_current_alt = NULL;
 			}
 		} else {
-			types_destroy((ZI206));
-			types_destroy((&ZI209));
+			types_destroy((ZI208));
+			types_destroy((&ZI211));
 		}
 	
-#line 3744 "tmp.parser.c"
+#line 3820 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: x-identity */
-	    ZR246 (sid_current_grammar);
+	    ZR248 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -3752,41 +3828,41 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 	break;
       case (LEXER_TOK_REFERENCE):
 	{
-	    TypeTupleT ZI209;
+	    TypeTupleT ZI211;
 
 	    /* BEGINNING OF ACTION: current-tuple */
 	    {
-#line 349 "parser.act"
+#line 372 "parser.act"
 
 		sid_current_pred_id = FALSE;
 	
-#line 3764 "tmp.parser.c"
+#line 3840 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: current-tuple */
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: init-tuple */
 	    {
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI209));
+		types_init(&(ZI211));
 	
-#line 3774 "tmp.parser.c"
+#line 3850 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: init-tuple */
-	    /* BEGINNING OF INLINE: 217 */
+	    /* BEGINNING OF INLINE: 219 */
 	    {
 		{
-		    NStringT ZI158;
+		    NStringT ZI160;
 
 		    switch (CURRENT_TERMINAL) {
 		      case (LEXER_TOK_IDENTIFIER):
 			/* BEGINNING OF EXTRACT: IDENTIFIER */
 			{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 3790 "tmp.parser.c"
+#line 3866 "tmp.parser.c"
 			}
 			/* END OF EXTRACT: IDENTIFIER */
 			break;
@@ -3796,15 +3872,15 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: add-ref-name */
 		    {
-#line 433 "parser.act"
+#line 456 "parser.act"
 
 		NStringT scope;
 		EntryT *non_local_entry;
 		EntryT *name_entry;
 
 		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
-			grammar_table(sid_current_grammar), (&ZI158), &scope);
-		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI158));
+			grammar_table(sid_current_grammar), (&ZI160), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI160));
 
 		if (name_entry) {
 			if (sid_current_entry && sid_current_alt) {
@@ -3818,81 +3894,81 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 		}
 
 		if (name_entry) {
-			types_add_name_and_type ((&ZI209), name_entry, NULL, TRUE);
+			types_add_name_and_type ((&ZI211), name_entry, NULL, TRUE);
 			if (non_local_entry) {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else if (non_local_entry) {
-			types_add_name_and_type ((&ZI209), non_local_entry, NULL, TRUE);
+			types_add_name_and_type ((&ZI211), non_local_entry, NULL, TRUE);
 			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
 				nstring_destroy(&sid_maximum_scope);
 				nstring_assign(&sid_maximum_scope, &scope);
 			} else {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else {
-			types_add_name((&ZI209), grammar_table(sid_current_grammar), &(ZI158), TRUE);
+			types_add_name((&ZI211), grammar_table(sid_current_grammar), &(ZI160), TRUE);
 		}
 	
-#line 3840 "tmp.parser.c"
+#line 3916 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: add-ref-name */
 		    /* BEGINNING OF ACTION: x-identity */
 		    {
-#line 1091 "parser.act"
+#line 1162 "parser.act"
 
 		if (sid_current_entry && sid_current_alt) {
 			EntryT *entry = table_add_rename(grammar_table(sid_current_grammar));
 
-			if (types_resolve((&ZI209), rule_param (sid_current_rule),
+			if (types_resolve((&ZI211), rule_param (sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
-				if (types_contains_references((&ZI209))) {
-					E_identity_param_has_refs ((&ZI209), entry_key(sid_external_rule),
+				if (types_contains_references((&ZI211))) {
+					E_identity_param_has_refs ((&ZI211), entry_key(sid_external_rule),
 						sid_alternative);
-					types_destroy ((&ZI209));
+					types_destroy ((&ZI211));
 					sid_current_item = NULL;
 				} else {
 					sid_current_item = item_create(entry);
-					item_add_param(sid_current_item, (&ZI209));
+					item_add_param(sid_current_item, (&ZI211));
 				}
 			} else {
-				types_destroy((&ZI209));
+				types_destroy((&ZI211));
 				sid_current_item = NULL;
 			}
 
-			if (types_disjoint_names((ZI206))) {
-				if (types_check_undefined((ZI206), rule_param (sid_current_rule),
+			if (types_disjoint_names((ZI208))) {
+				if (types_check_undefined((ZI208), rule_param (sid_current_rule),
 					alt_names (sid_current_alt), E_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (sid_current_item) {
-						if (types_fillin_types((ZI206), item_param(sid_current_item))) {
+						if (types_fillin_types((ZI208), item_param(sid_current_item))) {
 							types_add_new_names(alt_names (sid_current_alt),
-							(ZI206), grammar_get_predicate_id(sid_current_grammar));
+							(ZI208), grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
 								E_predicate();
 							}
-							item_add_result(sid_current_item, (ZI206));
+							item_add_result(sid_current_item, (ZI208));
 							alt_add_item(sid_current_alt, sid_current_item);
 						} else {
-							E_identity_mismatch(item_param (sid_current_item), (ZI206));
-							types_destroy((ZI206));
+							E_identity_mismatch(item_param (sid_current_item), (ZI208));
+							types_destroy((ZI208));
 							(void) item_deallocate(sid_current_item);
 							sid_current_item = NULL;
 						}
 					}
 				} else {
-					types_destroy((ZI206));
+					types_destroy((ZI208));
 					if (sid_current_item) {
 						(void) item_deallocate(sid_current_item);
 						sid_current_item = NULL;
 					}
 				}
 			} else {
-				E_identity_result_clash((ZI206));
-				types_destroy ((ZI206));
+				E_identity_result_clash((ZI208));
+				types_destroy ((ZI208));
 				if (sid_current_item) {
 					(void) item_deallocate(sid_current_item);
 					sid_current_item = NULL;
@@ -3904,14 +3980,14 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				sid_current_alt = NULL;
 			}
 		} else {
-			types_destroy((ZI206));
-			types_destroy((&ZI209));
+			types_destroy((ZI208));
+			types_destroy((&ZI211));
 		}
 	
-#line 3912 "tmp.parser.c"
+#line 3988 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: x-identity */
-		    ZR246 (sid_current_grammar);
+		    ZR248 (sid_current_grammar);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL5;
@@ -3922,18 +3998,18 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 		{
 		    /* BEGINNING OF ACTION: expected-identifier */
 		    {
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 3932 "tmp.parser.c"
+#line 4008 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-identifier */
 		    /* BEGINNING OF ACTION: skip-to-end-of-item */
 		    {
-#line 1821 "parser.act"
+#line 1892 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -3960,13 +4036,13 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 
 		sid_propagating_error = TRUE;
 	
-#line 3964 "tmp.parser.c"
+#line 4040 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: skip-to-end-of-item */
 		}
 	      ZL4:;
 	    }
-	    /* END OF INLINE: 217 */
+	    /* END OF INLINE: 219 */
 	}
 	break;
       case (ERROR_TERMINAL):
@@ -3979,18 +4055,18 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
     {
 	/* BEGINNING OF ACTION: expected-item-rhs */
 	{
-#line 1592 "parser.act"
+#line 1663 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_item_rhs();
 		}
 	
-#line 3989 "tmp.parser.c"
+#line 4065 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-item-rhs */
 	/* BEGINNING OF ACTION: skip-to-end-of-item */
 	{
-#line 1821 "parser.act"
+#line 1892 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -4017,27 +4093,27 @@ ZR211(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 
 		sid_propagating_error = TRUE;
 	
-#line 4021 "tmp.parser.c"
+#line 4097 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-item */
     }
 }
 
 static void
-ZR231(GrammarP sid_current_grammar)
+ZR233(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
-	ZR247 (sid_current_grammar);
-	/* BEGINNING OF INLINE: 250 */
+	ZR249 (sid_current_grammar);
+	/* BEGINNING OF INLINE: 252 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case (LEXER_TOK_HANDLER_HSEP):
 		{
 		    ADVANCE_LEXER;
-		    ZR242 (sid_current_grammar);
+		    ZR244 (sid_current_grammar);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
@@ -4051,7 +4127,7 @@ ZR231(GrammarP sid_current_grammar)
 		break;
 	    }
 	}
-	/* END OF INLINE: 250 */
+	/* END OF INLINE: 252 */
     }
     return;
   ZL1:;
@@ -4060,34 +4136,34 @@ ZR231(GrammarP sid_current_grammar)
 }
 
 static void
-ZR160(GrammarP sid_current_grammar)
+ZR162(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
-  ZL2_160:;
+  ZL2_162:;
     {
-	ZR162 (sid_current_grammar);
+	ZR164 (sid_current_grammar);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: skip-recover */
 	{
-#line 1943 "parser.act"
+#line 2014 "parser.act"
 
 		sid_propagating_error = FALSE;
 	
-#line 4082 "tmp.parser.c"
+#line 4158 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-recover */
-	/* BEGINNING OF INLINE: 168 */
+	/* BEGINNING OF INLINE: 170 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_IGNORE):
 		{
 		    /* BEGINNING OF INLINE: sid-parse-grammar::terminal-decn-list */
-		    goto ZL2_160;
+		    goto ZL2_162;
 		    /* END OF INLINE: sid-parse-grammar::terminal-decn-list */
 		}
 		/*UNREACHED*/
@@ -4095,7 +4171,7 @@ ZR160(GrammarP sid_current_grammar)
 		break;
 	    }
 	}
-	/* END OF INLINE: 168 */
+	/* END OF INLINE: 170 */
     }
     return;
   ZL1:;
@@ -4104,21 +4180,21 @@ ZR160(GrammarP sid_current_grammar)
 }
 
 static void
-ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
+ZR209(GrammarP sid_current_grammar, TypeTupleT *ZI208)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_OPEN_HTUPLE):
 	{
-	    TypeTupleT ZI209;
+	    TypeTupleT ZI211;
 
-	    ZR183 (sid_current_grammar, &ZI209);
+	    ZR185 (sid_current_grammar, &ZI211);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: x-prod-action */
 	    {
-#line 1017 "parser.act"
+#line 1088 "parser.act"
 
 		if (sid_current_item) {
 			BoolT    errored = FALSE;
@@ -4129,34 +4205,34 @@ ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				E_ignored_action_call(key_get_string(entry_key(entry)));
 			}
 
-			if (types_resolve((&ZI209), rule_param(sid_current_rule),
+			if (types_resolve((&ZI211), rule_param(sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
-				if (types_equal((&ZI209), action_param(action))) {
-					item_add_param(sid_current_item, (&ZI209));
+				if (types_equal((&ZI211), action_param(action))) {
+					item_add_param(sid_current_item, (&ZI211));
 				} else {
 					E_action_param_call_mismatch(entry_key (entry),
-							  action_param(action), (&ZI209));
-					types_destroy ((&ZI209));
+							  action_param(action), (&ZI211));
+					types_destroy ((&ZI211));
 					errored = TRUE;
 				}
 			} else {
-				types_destroy((&ZI209));
+				types_destroy((&ZI211));
 				errored = TRUE;
 			}
 
-			if (types_disjoint_names((ZI206))) {
-				if (types_check_undefined((ZI206), rule_param(sid_current_rule),
+			if (types_disjoint_names((ZI208))) {
+				if (types_check_undefined((ZI208), rule_param(sid_current_rule),
 					alt_names(sid_current_alt), E_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
-					if (types_fillin_types((ZI206), action_result(action))) {
+					if (types_fillin_types((ZI208), action_result(action))) {
 						types_add_new_names(alt_names(sid_current_alt),
-							(ZI206), grammar_get_predicate_id(sid_current_grammar));
+							(ZI208), grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
 							BoolT   reference;
 							EntryT *type;
 
-							type = types_find_name_type((ZI206),
+							type = types_find_name_type((ZI208),
 								grammar_get_predicate_id(sid_current_grammar), &reference);
 							assert(type != NULL && !reference);
 							if (grammar_get_predicate_type(sid_current_grammar)) {
@@ -4168,20 +4244,20 @@ ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 							}
 							item_to_predicate(sid_current_item);
 						}
-						item_add_result(sid_current_item, (ZI206));
+						item_add_result(sid_current_item, (ZI208));
 					} else {
 						E_action_result_call_mismatch(entry_key (entry),
-							action_result(action), (ZI206));
-						types_destroy((ZI206));
+							action_result(action), (ZI208));
+						types_destroy((ZI208));
 						errored = TRUE;
 					}
 				} else {
-					types_destroy((ZI206));
+					types_destroy((ZI208));
 					errored = TRUE;
 				}
 			} else {
-				E_action_result_call_clash(entry_key (entry), (ZI206));
-				types_destroy((ZI206));
+				E_action_result_call_clash(entry_key (entry), (ZI208));
+				types_destroy((ZI208));
 				errored = TRUE;
 			}
 
@@ -4194,14 +4270,14 @@ ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				alt_add_item(sid_current_alt, sid_current_item);
 			}
 		} else {
-			types_destroy((ZI206));
-			types_destroy((&ZI209));
+			types_destroy((ZI208));
+			types_destroy((&ZI211));
 		}
 	
-#line 4202 "tmp.parser.c"
+#line 4278 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: x-prod-action */
-	    ZR246 (sid_current_grammar);
+	    ZR248 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -4210,29 +4286,29 @@ ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 	break;
       case (LEXER_TOK_TERMINATOR):
 	{
-	    TypeTupleT ZI209;
+	    TypeTupleT ZI211;
 
 	    /* BEGINNING OF ACTION: current-tuple */
 	    {
-#line 349 "parser.act"
+#line 372 "parser.act"
 
 		sid_current_pred_id = FALSE;
 	
-#line 4222 "tmp.parser.c"
+#line 4298 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: current-tuple */
 	    /* BEGINNING OF ACTION: init-tuple */
 	    {
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI209));
+		types_init(&(ZI211));
 	
-#line 4231 "tmp.parser.c"
+#line 4307 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: init-tuple */
 	    /* BEGINNING OF ACTION: x-prod-action */
 	    {
-#line 1017 "parser.act"
+#line 1088 "parser.act"
 
 		if (sid_current_item) {
 			BoolT    errored = FALSE;
@@ -4243,34 +4319,34 @@ ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				E_ignored_action_call(key_get_string(entry_key(entry)));
 			}
 
-			if (types_resolve((&ZI209), rule_param(sid_current_rule),
+			if (types_resolve((&ZI211), rule_param(sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
-				if (types_equal((&ZI209), action_param(action))) {
-					item_add_param(sid_current_item, (&ZI209));
+				if (types_equal((&ZI211), action_param(action))) {
+					item_add_param(sid_current_item, (&ZI211));
 				} else {
 					E_action_param_call_mismatch(entry_key (entry),
-							  action_param(action), (&ZI209));
-					types_destroy ((&ZI209));
+							  action_param(action), (&ZI211));
+					types_destroy ((&ZI211));
 					errored = TRUE;
 				}
 			} else {
-				types_destroy((&ZI209));
+				types_destroy((&ZI211));
 				errored = TRUE;
 			}
 
-			if (types_disjoint_names((ZI206))) {
-				if (types_check_undefined((ZI206), rule_param(sid_current_rule),
+			if (types_disjoint_names((ZI208))) {
+				if (types_check_undefined((ZI208), rule_param(sid_current_rule),
 					alt_names(sid_current_alt), E_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
-					if (types_fillin_types((ZI206), action_result(action))) {
+					if (types_fillin_types((ZI208), action_result(action))) {
 						types_add_new_names(alt_names(sid_current_alt),
-							(ZI206), grammar_get_predicate_id(sid_current_grammar));
+							(ZI208), grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
 							BoolT   reference;
 							EntryT *type;
 
-							type = types_find_name_type((ZI206),
+							type = types_find_name_type((ZI208),
 								grammar_get_predicate_id(sid_current_grammar), &reference);
 							assert(type != NULL && !reference);
 							if (grammar_get_predicate_type(sid_current_grammar)) {
@@ -4282,20 +4358,20 @@ ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 							}
 							item_to_predicate(sid_current_item);
 						}
-						item_add_result(sid_current_item, (ZI206));
+						item_add_result(sid_current_item, (ZI208));
 					} else {
 						E_action_result_call_mismatch(entry_key (entry),
-							action_result(action), (ZI206));
-						types_destroy((ZI206));
+							action_result(action), (ZI208));
+						types_destroy((ZI208));
 						errored = TRUE;
 					}
 				} else {
-					types_destroy((ZI206));
+					types_destroy((ZI208));
 					errored = TRUE;
 				}
 			} else {
-				E_action_result_call_clash(entry_key (entry), (ZI206));
-				types_destroy((ZI206));
+				E_action_result_call_clash(entry_key (entry), (ZI208));
+				types_destroy((ZI208));
 				errored = TRUE;
 			}
 
@@ -4308,11 +4384,11 @@ ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 				alt_add_item(sid_current_alt, sid_current_item);
 			}
 		} else {
-			types_destroy((ZI206));
-			types_destroy((&ZI209));
+			types_destroy((ZI208));
+			types_destroy((&ZI211));
 		}
 	
-#line 4316 "tmp.parser.c"
+#line 4392 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: x-prod-action */
 	    ADVANCE_LEXER;
@@ -4328,18 +4404,18 @@ ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
     {
 	/* BEGINNING OF ACTION: expected-tuple-or-terminator */
 	{
-#line 1586 "parser.act"
+#line 1657 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_tuple_or_term();
 		}
 	
-#line 4338 "tmp.parser.c"
+#line 4414 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-tuple-or-terminator */
 	/* BEGINNING OF ACTION: skip-to-end-of-item */
 	{
-#line 1821 "parser.act"
+#line 1892 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -4366,20 +4442,20 @@ ZR207(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 
 		sid_propagating_error = TRUE;
 	
-#line 4370 "tmp.parser.c"
+#line 4446 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-item */
     }
 }
 
 static void
-ZR266(GrammarP sid_current_grammar)
+ZR268(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
-	/* BEGINNING OF INLINE: 268 */
+	/* BEGINNING OF INLINE: 270 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case (LEXER_TOK_SCOPEMARK):
@@ -4387,11 +4463,11 @@ ZR266(GrammarP sid_current_grammar)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: use-global */
 		    {
-#line 530 "parser.act"
+#line 553 "parser.act"
 
 		sid_current_scope = &sid_global_scope;
 	
-#line 4395 "tmp.parser.c"
+#line 4471 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: use-global */
 		}
@@ -4400,24 +4476,24 @@ ZR266(GrammarP sid_current_grammar)
 		{
 		    /* BEGINNING OF ACTION: use-local */
 		    {
-#line 534 "parser.act"
+#line 557 "parser.act"
 
 		sid_current_scope = &sid_scope_stack;
 	
-#line 4408 "tmp.parser.c"
+#line 4484 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: use-local */
 		}
 		break;
 	    }
 	}
-	/* END OF INLINE: 268 */
-	/* BEGINNING OF INLINE: 269 */
+	/* END OF INLINE: 270 */
+	/* BEGINNING OF INLINE: 271 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_IGNORE):
 		{
-		    ZR195 (sid_current_grammar);
+		    ZR197 (sid_current_grammar);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
@@ -4426,7 +4502,7 @@ ZR266(GrammarP sid_current_grammar)
 		break;
 	      case (LEXER_TOK_IDENTIFIER):
 		{
-		    ZR251 (sid_current_grammar);
+		    ZR253 (sid_current_grammar);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL1;
@@ -4437,7 +4513,7 @@ ZR266(GrammarP sid_current_grammar)
 		goto ZL1;
 	    }
 	}
-	/* END OF INLINE: 269 */
+	/* END OF INLINE: 271 */
     }
     return;
   ZL1:;
@@ -4446,24 +4522,24 @@ ZR266(GrammarP sid_current_grammar)
 }
 
 static void
-ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
+ZR136(GrammarP sid_current_grammar, TypeTupleT *ZI135)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_IDENTIFIER):
 	{
-	    NStringT ZI137;
+	    NStringT ZI138;
 
 	    /* BEGINNING OF EXTRACT: IDENTIFIER */
 	    {
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI137, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI138, lexer_string_value(sid_current_stream));
 	
-#line 4463 "tmp.parser.c"
+#line 4539 "tmp.parser.c"
 	    }
 	    /* END OF EXTRACT: IDENTIFIER */
 	    ADVANCE_LEXER;
-	    /* BEGINNING OF INLINE: 138 */
+	    /* BEGINNING OF INLINE: 139 */
 	    {
 		{
 		    switch (CURRENT_TERMINAL) {
@@ -4479,33 +4555,33 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		{
 		    /* BEGINNING OF ACTION: expected-typemark */
 		    {
-#line 1502 "parser.act"
+#line 1573 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_typemark();
 		}
 	
-#line 4489 "tmp.parser.c"
+#line 4565 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-typemark */
 		}
 	      ZL2:;
 	    }
-	    /* END OF INLINE: 138 */
-	    /* BEGINNING OF INLINE: 139 */
+	    /* END OF INLINE: 139 */
+	    /* BEGINNING OF INLINE: 140 */
 	    {
 		{
-		    NStringT ZI140;
+		    NStringT ZI141;
 
 		    switch (CURRENT_TERMINAL) {
 		      case (LEXER_TOK_IDENTIFIER):
 			/* BEGINNING OF EXTRACT: IDENTIFIER */
 			{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI140, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI141, lexer_string_value(sid_current_stream));
 	
-#line 4509 "tmp.parser.c"
+#line 4585 "tmp.parser.c"
 			}
 			/* END OF EXTRACT: IDENTIFIER */
 			break;
@@ -4513,7 +4589,7 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 			goto ZL5;
 		    }
 		    ADVANCE_LEXER;
-		    /* BEGINNING OF INLINE: 141 */
+		    /* BEGINNING OF INLINE: 142 */
 		    {
 			switch (CURRENT_TERMINAL) {
 			  case (LEXER_TOK_REFERENCE):
@@ -4521,15 +4597,15 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 				ADVANCE_LEXER;
 				/* BEGINNING OF ACTION: tuple-ref-name */
 				{
-#line 364 "parser.act"
+#line 387 "parser.act"
 
-		if (!types_add_typed_name((ZI134), grammar_table(sid_current_grammar),
-			&(ZI137), (&ZI140), TRUE)) {
-			E_unknown_type((&ZI140));
+		if (!types_add_typed_name((ZI135), grammar_table(sid_current_grammar),
+			&(ZI138), (&ZI141), TRUE)) {
+			E_unknown_type((&ZI141));
 		}
-		nstring_destroy(&(ZI140));
+		nstring_destroy(&(ZI141));
 	
-#line 4533 "tmp.parser.c"
+#line 4609 "tmp.parser.c"
 				}
 				/* END OF ACTION: tuple-ref-name */
 			    }
@@ -4538,49 +4614,49 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 			    {
 				/* BEGINNING OF ACTION: tuple-name */
 				{
-#line 356 "parser.act"
+#line 379 "parser.act"
 
-		if (!types_add_typed_name((ZI134), grammar_table(sid_current_grammar),
-			&(ZI137), (&ZI140), FALSE)) {
-			E_unknown_type((&ZI140));
+		if (!types_add_typed_name((ZI135), grammar_table(sid_current_grammar),
+			&(ZI138), (&ZI141), FALSE)) {
+			E_unknown_type((&ZI141));
 		}
-		nstring_destroy(&(ZI140));
+		nstring_destroy(&(ZI141));
 	
-#line 4550 "tmp.parser.c"
+#line 4626 "tmp.parser.c"
 				}
 				/* END OF ACTION: tuple-name */
 			    }
 			    break;
 			}
 		    }
-		    /* END OF INLINE: 141 */
+		    /* END OF INLINE: 142 */
 		}
 		goto ZL4;
 	      ZL5:;
 		{
 		    /* BEGINNING OF ACTION: expected-identifier */
 		    {
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 4570 "tmp.parser.c"
+#line 4646 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-identifier */
 		    /* BEGINNING OF ACTION: destroy-string */
 		    {
-#line 1679 "parser.act"
+#line 1750 "parser.act"
 
-		nstring_destroy(&(ZI137));
+		nstring_destroy(&(ZI138));
 	
-#line 4579 "tmp.parser.c"
+#line 4655 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: destroy-string */
 		    /* BEGINNING OF ACTION: skip-to-end-of-tuple-defn */
 		    {
-#line 1685 "parser.act"
+#line 1756 "parser.act"
 
 		if (sid_finished_terminals) {
 			while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
@@ -4628,32 +4704,32 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 
 		sid_propagating_error = TRUE;
 	
-#line 4632 "tmp.parser.c"
+#line 4708 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: skip-to-end-of-tuple-defn */
 		}
 	      ZL4:;
 	    }
-	    /* END OF INLINE: 139 */
+	    /* END OF INLINE: 140 */
 	}
 	break;
       case (LEXER_TOK_TYPEMARK):
 	{
 	    ADVANCE_LEXER;
-	    /* BEGINNING OF INLINE: 142 */
+	    /* BEGINNING OF INLINE: 143 */
 	    {
 		{
-		    NStringT ZI140;
+		    NStringT ZI141;
 
 		    switch (CURRENT_TERMINAL) {
 		      case (LEXER_TOK_IDENTIFIER):
 			/* BEGINNING OF EXTRACT: IDENTIFIER */
 			{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI140, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI141, lexer_string_value(sid_current_stream));
 	
-#line 4657 "tmp.parser.c"
+#line 4733 "tmp.parser.c"
 			}
 			/* END OF EXTRACT: IDENTIFIER */
 			break;
@@ -4661,7 +4737,7 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 			goto ZL8;
 		    }
 		    ADVANCE_LEXER;
-		    /* BEGINNING OF INLINE: 143 */
+		    /* BEGINNING OF INLINE: 144 */
 		    {
 			switch (CURRENT_TERMINAL) {
 			  case (LEXER_TOK_REFERENCE):
@@ -4669,14 +4745,14 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 				ADVANCE_LEXER;
 				/* BEGINNING OF ACTION: tuple-ref-type */
 				{
-#line 380 "parser.act"
+#line 403 "parser.act"
 
-		if (!types_add_type((ZI134), grammar_table(sid_current_grammar), (&ZI140), TRUE)) {
-			E_unknown_type((&ZI140));
+		if (!types_add_type((ZI135), grammar_table(sid_current_grammar), (&ZI141), TRUE)) {
+			E_unknown_type((&ZI141));
 		}
-		nstring_destroy(&(ZI140));
+		nstring_destroy(&(ZI141));
 	
-#line 4680 "tmp.parser.c"
+#line 4756 "tmp.parser.c"
 				}
 				/* END OF ACTION: tuple-ref-type */
 			    }
@@ -4685,40 +4761,40 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 			    {
 				/* BEGINNING OF ACTION: tuple-type */
 				{
-#line 372 "parser.act"
+#line 395 "parser.act"
 
-		if (!types_add_type((ZI134), grammar_table(sid_current_grammar), (&ZI140),
-		FALSE)) {
-			E_unknown_type((&ZI140));
+		if (!types_add_type((ZI135), grammar_table(sid_current_grammar), (&ZI141),
+			FALSE)) {
+			E_unknown_type((&ZI141));
 		}
-		nstring_destroy(&(ZI140));
+		nstring_destroy(&(ZI141));
 	
-#line 4697 "tmp.parser.c"
+#line 4773 "tmp.parser.c"
 				}
 				/* END OF ACTION: tuple-type */
 			    }
 			    break;
 			}
 		    }
-		    /* END OF INLINE: 143 */
+		    /* END OF INLINE: 144 */
 		}
 		goto ZL7;
 	      ZL8:;
 		{
 		    /* BEGINNING OF ACTION: expected-identifier */
 		    {
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 4717 "tmp.parser.c"
+#line 4793 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-identifier */
 		    /* BEGINNING OF ACTION: skip-to-end-of-tuple-defn */
 		    {
-#line 1685 "parser.act"
+#line 1756 "parser.act"
 
 		if (sid_finished_terminals) {
 			while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
@@ -4766,13 +4842,13 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 
 		sid_propagating_error = TRUE;
 	
-#line 4770 "tmp.parser.c"
+#line 4846 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: skip-to-end-of-tuple-defn */
 		}
 	      ZL7:;
 	    }
-	    /* END OF INLINE: 142 */
+	    /* END OF INLINE: 143 */
 	}
 	break;
       case (ERROR_TERMINAL):
@@ -4785,18 +4861,18 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
     {
 	/* BEGINNING OF ACTION: expected-tuple-defn */
 	{
-#line 1514 "parser.act"
+#line 1585 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_tuple_defn();
 		}
 	
-#line 4795 "tmp.parser.c"
+#line 4871 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-tuple-defn */
 	/* BEGINNING OF ACTION: skip-to-end-of-tuple-defn */
 	{
-#line 1685 "parser.act"
+#line 1756 "parser.act"
 
 		if (sid_finished_terminals) {
 			while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
@@ -4844,22 +4920,22 @@ ZR135(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 
 		sid_propagating_error = TRUE;
 	
-#line 4848 "tmp.parser.c"
+#line 4924 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-tuple-defn */
     }
 }
 
 static void
-ZR272(GrammarP sid_current_grammar)
+ZR274(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
-  ZL2_272:;
+  ZL2_274:;
     {
-	ZR274 (sid_current_grammar);
-	/* BEGINNING OF INLINE: 275 */
+	ZR276 (sid_current_grammar);
+	/* BEGINNING OF INLINE: 277 */
 	{
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
@@ -4868,11 +4944,11 @@ ZR272(GrammarP sid_current_grammar)
 	    {
 		/* BEGINNING OF ACTION: is-terminator */
 		{
-#line 1958 "parser.act"
+#line 2029 "parser.act"
 
 		(ZI0) = (CURRENT_TERMINAL == (LEXER_TOK_TERMINATOR));
 	
-#line 4876 "tmp.parser.c"
+#line 4952 "tmp.parser.c"
 		}
 		/* END OF ACTION: is-terminator */
 		if (!ZI0)
@@ -4886,7 +4962,7 @@ ZR272(GrammarP sid_current_grammar)
 		{
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF INLINE: sid-parse-grammar::entry-list */
-		    goto ZL2_272;
+		    goto ZL2_274;
 		    /* END OF INLINE: sid-parse-grammar::entry-list */
 		}
 		/*UNREACHED*/
@@ -4898,18 +4974,18 @@ ZR272(GrammarP sid_current_grammar)
 	    {
 		/* BEGINNING OF ACTION: expected-separator */
 		{
-#line 1526 "parser.act"
+#line 1597 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_separator();
 		}
 	
-#line 4908 "tmp.parser.c"
+#line 4984 "tmp.parser.c"
 		}
 		/* END OF ACTION: expected-separator */
 		/* BEGINNING OF ACTION: skip-to-end-of-entry-list */
 		{
-#line 1921 "parser.act"
+#line 1992 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -4930,28 +5006,28 @@ ZR272(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 4934 "tmp.parser.c"
+#line 5010 "tmp.parser.c"
 		}
 		/* END OF ACTION: skip-to-end-of-entry-list */
 		/* BEGINNING OF ACTION: skip-recover */
 		{
-#line 1943 "parser.act"
+#line 2014 "parser.act"
 
 		sid_propagating_error = FALSE;
 	
-#line 4943 "tmp.parser.c"
+#line 5019 "tmp.parser.c"
 		}
 		/* END OF ACTION: skip-recover */
-		/* BEGINNING OF INLINE: 276 */
+		/* BEGINNING OF INLINE: 278 */
 		{
 		    {
 			/* BEGINNING OF ACTION: is-not-separator */
 			{
-#line 1962 "parser.act"
+#line 2033 "parser.act"
 
 		(ZI0) = (CURRENT_TERMINAL != (LEXER_TOK_SEPARATOR));
 	
-#line 4955 "tmp.parser.c"
+#line 5031 "tmp.parser.c"
 			}
 			/* END OF ACTION: is-not-separator */
 			if (!ZI0)
@@ -4961,17 +5037,17 @@ ZR272(GrammarP sid_current_grammar)
 		  ZL7:;
 		    {
 			/* BEGINNING OF INLINE: sid-parse-grammar::entry-list */
-			goto ZL2_272;
+			goto ZL2_274;
 			/* END OF INLINE: sid-parse-grammar::entry-list */
 		    }
 		    /*UNREACHED*/
 		  ZL6:;
 		}
-		/* END OF INLINE: 276 */
+		/* END OF INLINE: 278 */
 	    }
 	  ZL3:;
 	}
-	/* END OF INLINE: 275 */
+	/* END OF INLINE: 277 */
     }
     return;
   ZL1:;
@@ -4980,7 +5056,7 @@ ZR272(GrammarP sid_current_grammar)
 }
 
 static void
-ZR193(GrammarP sid_current_grammar)
+ZR195(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -4999,20 +5075,20 @@ ZR193(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-open-tuple */
 	{
-#line 1532 "parser.act"
+#line 1603 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_open_tuple();
 		}
 	
-#line 5009 "tmp.parser.c"
+#line 5085 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-open-tuple */
     }
 }
 
 static void
-ZR194(GrammarP sid_current_grammar)
+ZR196(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -5031,44 +5107,44 @@ ZR194(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-close-tuple */
 	{
-#line 1538 "parser.act"
+#line 1609 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_close_tuple();
 		}
 	
-#line 5041 "tmp.parser.c"
+#line 5117 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-close-tuple */
     }
 }
 
 static void
-ZR132(GrammarP sid_current_grammar, TypeTupleT *ZO130, TypeTupleT *ZO131)
+ZR133(GrammarP sid_current_grammar, TypeTupleT *ZO131, TypeTupleT *ZO132)
 {
-    TypeTupleT ZI130;
     TypeTupleT ZI131;
+    TypeTupleT ZI132;
 
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_TYPEMARK):
 	{
 	    ADVANCE_LEXER;
-	    ZR149 (sid_current_grammar, &ZI130);
+	    ZR150 (sid_current_grammar, &ZI131);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: save-tuple */
 	    {
-#line 353 "parser.act"
+#line 376 "parser.act"
 
 		sid_saved_pred_id = sid_current_pred_id;
 	
-#line 5068 "tmp.parser.c"
+#line 5144 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: save-tuple */
-	    ZR153 (sid_current_grammar);
-	    ZR149 (sid_current_grammar, &ZI131);
+	    ZR154 (sid_current_grammar);
+	    ZR150 (sid_current_grammar, &ZI132);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -5079,20 +5155,20 @@ ZR132(GrammarP sid_current_grammar, TypeTupleT *ZO130, TypeTupleT *ZO131)
 	{
 	    /* BEGINNING OF ACTION: init-tuple */
 	    {
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI130));
+		types_init(&(ZI131));
 	
-#line 5087 "tmp.parser.c"
+#line 5163 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: init-tuple */
 	    /* BEGINNING OF ACTION: init-tuple */
 	    {
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI131));
+		types_init(&(ZI132));
 	
-#line 5096 "tmp.parser.c"
+#line 5172 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: init-tuple */
 	}
@@ -5107,21 +5183,7 @@ ZR132(GrammarP sid_current_grammar, TypeTupleT *ZO130, TypeTupleT *ZO131)
   ZL0:;
     /* BEGINNING OF RESULT ASSIGNMENT: TypeTupleT */
     {
-#line 251 "parser.act"
-
-		ZO130->head = ZI130.head;
-
-		if (ZO130->head == NULL) {
-			ZO130->tail = &ZO130->head;
-		} else {
-			ZO130->tail= ZI130.tail ;
-		}
-	#line 5120 "tmp.parser.c"
-    }
-    /* END OF RESULT ASSIGNMENT: TypeTupleT */
-    /* BEGINNING OF RESULT ASSIGNMENT: TypeTupleT */
-    {
-#line 251 "parser.act"
+#line 254 "parser.act"
 
 		ZO131->head = ZI131.head;
 
@@ -5130,42 +5192,56 @@ ZR132(GrammarP sid_current_grammar, TypeTupleT *ZO130, TypeTupleT *ZO131)
 		} else {
 			ZO131->tail= ZI131.tail ;
 		}
-	#line 5134 "tmp.parser.c"
+	#line 5196 "tmp.parser.c"
+    }
+    /* END OF RESULT ASSIGNMENT: TypeTupleT */
+    /* BEGINNING OF RESULT ASSIGNMENT: TypeTupleT */
+    {
+#line 254 "parser.act"
+
+		ZO132->head = ZI132.head;
+
+		if (ZO132->head == NULL) {
+			ZO132->tail = &ZO132->head;
+		} else {
+			ZO132->tail= ZI132.tail ;
+		}
+	#line 5210 "tmp.parser.c"
     }
     /* END OF RESULT ASSIGNMENT: TypeTupleT */
 }
 
 static void
-ZR220(GrammarP sid_current_grammar)
+ZR222(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_IDENTIFIER):
 	{
-	    NStringT ZI158;
+	    NStringT ZI160;
 
 	    /* BEGINNING OF EXTRACT: IDENTIFIER */
 	    {
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 5153 "tmp.parser.c"
+#line 5229 "tmp.parser.c"
 	    }
 	    /* END OF EXTRACT: IDENTIFIER */
 	    ADVANCE_LEXER;
-	    /* BEGINNING OF INLINE: 227 */
+	    /* BEGINNING OF INLINE: 229 */
 	    {
 		{
 		    /* BEGINNING OF ACTION: current-tuple */
 		    {
-#line 349 "parser.act"
+#line 372 "parser.act"
 
 		sid_current_pred_id = FALSE;
 	
-#line 5166 "tmp.parser.c"
+#line 5242 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: current-tuple */
-		    ZR301 (sid_current_grammar, &ZI158);
+		    ZR303 (sid_current_grammar, &ZI160);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
@@ -5176,27 +5252,27 @@ ZR220(GrammarP sid_current_grammar)
 		{
 		    /* BEGINNING OF ACTION: expected-tuple-or-define-or-terminator */
 		    {
-#line 1604 "parser.act"
+#line 1675 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_tuple_def_or_term();
 		}
 	
-#line 5186 "tmp.parser.c"
+#line 5262 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-tuple-or-define-or-terminator */
 		    /* BEGINNING OF ACTION: destroy-string */
 		    {
-#line 1679 "parser.act"
+#line 1750 "parser.act"
 
-		nstring_destroy(&(ZI158));
+		nstring_destroy(&(ZI160));
 	
-#line 5195 "tmp.parser.c"
+#line 5271 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: destroy-string */
 		    /* BEGINNING OF ACTION: skip-to-end-of-item */
 		    {
-#line 1821 "parser.act"
+#line 1892 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -5223,33 +5299,33 @@ ZR220(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 5227 "tmp.parser.c"
+#line 5303 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: skip-to-end-of-item */
 		}
 	      ZL2:;
 	    }
-	    /* END OF INLINE: 227 */
+	    /* END OF INLINE: 229 */
 	}
 	break;
       case (LEXER_TOK_REFERENCE):
 	{
 	    ADVANCE_LEXER;
-	    /* BEGINNING OF INLINE: 225 */
+	    /* BEGINNING OF INLINE: 227 */
 	    {
 		{
-		    NStringT ZI158;
-		    TypeTupleT ZI206;
+		    NStringT ZI160;
+		    TypeTupleT ZI208;
 
 		    switch (CURRENT_TERMINAL) {
 		      case (LEXER_TOK_IDENTIFIER):
 			/* BEGINNING OF EXTRACT: IDENTIFIER */
 			{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 5253 "tmp.parser.c"
+#line 5329 "tmp.parser.c"
 			}
 			/* END OF EXTRACT: IDENTIFIER */
 			break;
@@ -5259,33 +5335,33 @@ ZR220(GrammarP sid_current_grammar)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: current-tuple */
 		    {
-#line 349 "parser.act"
+#line 372 "parser.act"
 
 		sid_current_pred_id = FALSE;
 	
-#line 5267 "tmp.parser.c"
+#line 5343 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: current-tuple */
 		    /* BEGINNING OF ACTION: init-tuple */
 		    {
-#line 344 "parser.act"
+#line 367 "parser.act"
 
-		types_init(&(ZI206));
+		types_init(&(ZI208));
 	
-#line 5276 "tmp.parser.c"
+#line 5352 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: init-tuple */
 		    /* BEGINNING OF ACTION: add-var */
 		    {
-#line 473 "parser.act"
+#line 496 "parser.act"
 
 		NStringT scope;
 		EntryT *non_local_entry;
 		EntryT *name_entry;
 
 		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
-			grammar_table(sid_current_grammar), (&ZI158), &scope);
-		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI158));
+			grammar_table(sid_current_grammar), (&ZI160), &scope);
+		name_entry = table_get_entry(grammar_table(sid_current_grammar), (&ZI160));
 
 		if (name_entry) {
 			if (sid_current_entry && sid_current_alt) {
@@ -5299,39 +5375,39 @@ ZR220(GrammarP sid_current_grammar)
 		}
 
 		if (name_entry) {
-			types_add_name_and_type_var((&ZI206), name_entry, NULL);
+			types_add_name_and_type_var((&ZI208), name_entry, NULL);
 			if (non_local_entry) {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else if (non_local_entry) {
-			types_add_name_and_type_var ((&ZI206), non_local_entry, NULL);
+			types_add_name_and_type_var ((&ZI208), non_local_entry, NULL);
 			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
 				nstring_destroy (&sid_maximum_scope);
 				nstring_assign (&sid_maximum_scope, &scope);
 			} else {
 				nstring_destroy(&scope);
 			}
-			nstring_destroy(&(ZI158));
+			nstring_destroy(&(ZI160));
 		} else {
-			E_undefined_assignment((&ZI158));
-			types_add_name((&ZI206), grammar_table(sid_current_grammar), &(ZI158), FALSE);
+			E_undefined_assignment((&ZI160));
+			types_add_name((&ZI208), grammar_table(sid_current_grammar), &(ZI160), FALSE);
 		}
 	
-#line 5322 "tmp.parser.c"
+#line 5398 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: add-var */
 		    /* BEGINNING OF ACTION: save-tuple */
 		    {
-#line 353 "parser.act"
+#line 376 "parser.act"
 
 		sid_saved_pred_id = sid_current_pred_id;
 	
-#line 5331 "tmp.parser.c"
+#line 5407 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: save-tuple */
-		    ZR226 (sid_current_grammar);
-		    ZR211 (sid_current_grammar, &ZI206);
+		    ZR228 (sid_current_grammar);
+		    ZR213 (sid_current_grammar, &ZI208);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL5;
@@ -5342,41 +5418,41 @@ ZR220(GrammarP sid_current_grammar)
 		{
 		    /* BEGINNING OF ACTION: expected-identifier */
 		    {
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 5352 "tmp.parser.c"
+#line 5428 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-identifier */
 		}
 	      ZL4:;
 	    }
-	    /* END OF INLINE: 225 */
+	    /* END OF INLINE: 227 */
 	}
 	break;
       case (LEXER_TOK_OPEN_HTUPLE):
 	{
-	    TypeTupleT ZI206;
+	    TypeTupleT ZI208;
 
-	    ZR171 (sid_current_grammar, &ZI206);
+	    ZR173 (sid_current_grammar, &ZI208);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: save-tuple */
 	    {
-#line 353 "parser.act"
+#line 376 "parser.act"
 
 		sid_saved_pred_id = sid_current_pred_id;
 	
-#line 5376 "tmp.parser.c"
+#line 5452 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: save-tuple */
-	    ZR226 (sid_current_grammar);
-	    ZR211 (sid_current_grammar, &ZI206);
+	    ZR228 (sid_current_grammar);
+	    ZR213 (sid_current_grammar, &ZI208);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -5387,14 +5463,14 @@ ZR220(GrammarP sid_current_grammar)
 	{
 	    /* BEGINNING OF ACTION: current-tuple */
 	    {
-#line 349 "parser.act"
+#line 372 "parser.act"
 
 		sid_current_pred_id = FALSE;
 	
-#line 5395 "tmp.parser.c"
+#line 5471 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: current-tuple */
-	    ZR300 (sid_current_grammar);
+	    ZR302 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -5413,74 +5489,87 @@ ZR220(GrammarP sid_current_grammar)
 }
 
 static void
-ZR162(GrammarP sid_current_grammar)
+ZR164(GrammarP sid_current_grammar)
 {
     switch (CURRENT_TERMINAL) {
       case (LEXER_TOK_IDENTIFIER):
 	{
-	    NStringT ZI158;
-	    EntryP ZI164;
-	    TypeTupleT ZI130;
+	    NStringT ZI160;
+	    EntryP ZI166;
 	    TypeTupleT ZI131;
+	    TypeTupleT ZI132;
 
 	    /* BEGINNING OF EXTRACT: IDENTIFIER */
 	    {
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 5433 "tmp.parser.c"
+#line 5509 "tmp.parser.c"
 	    }
 	    /* END OF EXTRACT: IDENTIFIER */
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: terminal */
 	    {
-#line 291 "parser.act"
+#line 301 "parser.act"
 
-		(ZI164) = table_add_basic(grammar_table(sid_current_grammar), &(ZI158),
+		(ZI166) = table_add_basic(grammar_table(sid_current_grammar), &(ZI160),
 			sid_current_grammar, FALSE);
-		if ((ZI164) == NULL) {
-			E_duplicate_basic((&ZI158));
-			nstring_destroy(&(ZI158));
+		if ((ZI166) == NULL) {
+			E_duplicate_basic((&ZI160));
+			nstring_destroy(&(ZI160));
 		}
 	
-#line 5448 "tmp.parser.c"
+#line 5524 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: terminal */
-	    ZR132 (sid_current_grammar, &ZI130, &ZI131);
+	    ZR133 (sid_current_grammar, &ZI131, &ZI132);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	    /* BEGINNING OF ACTION: x-terminal */
 	    {
-#line 309 "parser.act"
+#line 319 "parser.act"
 
-		if ((ZI164)) {
-			KeyT *key = entry_key((ZI164));
-			BasicT *basic = entry_get_basic((ZI164));
-			if (types_contains_names((&ZI130))) {
-				E_basic_param_has_names(key, (&ZI130));
-			}
+		if ((ZI166)) {
+			KeyT *key = entry_key((ZI166));
+			BasicT *basic = entry_get_basic((ZI166));
 			if (types_contains_names((&ZI131))) {
-				E_basic_result_has_names(key, (&ZI131));
+				E_basic_param_has_names(key, (&ZI131));
 			}
-			if (types_contains_references((&ZI131))) {
-				E_basic_result_has_refs(key, (&ZI131));
+			if (types_contains_names((&ZI132))) {
+				E_basic_result_has_names(key, (&ZI132));
 			}
-			if (!types_equal_zero_tuple((&ZI130))) {
-				E_basic_param_mismatch(key, (&ZI130));
+			if (types_contains_references((&ZI132))) {
+				E_basic_result_has_refs(key, (&ZI132));
 			}
-			types_assign(basic_result(basic), (&ZI131));
+			if (!types_equal_zero_tuple((&ZI131))) {
+				E_basic_param_mismatch(key, (&ZI131));
+			}
+			if (!basic_get_ignored(basic)) {
+				EntryT *type;
+
+				type = types_find_ignored((&ZI131));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+				}
+
+				type = types_find_ignored((&ZI132));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+				}
+			}
+			types_assign(basic_result(basic), (&ZI132));
 		} else {
-			types_destroy((&ZI131));
+			types_destroy((&ZI132));
 		}
-		types_destroy((&ZI130));
+		types_destroy((&ZI131));
 	
-#line 5481 "tmp.parser.c"
+#line 5570 "tmp.parser.c"
 	    }
 	    /* END OF ACTION: x-terminal */
-	    ZR246 (sid_current_grammar);
+	    ZR248 (sid_current_grammar);
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
 		goto ZL1;
@@ -5490,23 +5579,23 @@ ZR162(GrammarP sid_current_grammar)
       case (LEXER_TOK_IGNORE):
 	{
 	    ADVANCE_LEXER;
-	    /* BEGINNING OF INLINE: 166 */
+	    /* BEGINNING OF INLINE: 168 */
 	    {
 		{
-		    NStringT ZI158;
-		    EntryP ZI164;
-		    TypeTupleT ZI130;
+		    NStringT ZI160;
+		    EntryP ZI166;
 		    TypeTupleT ZI131;
+		    TypeTupleT ZI132;
 
 		    switch (CURRENT_TERMINAL) {
 		      case (LEXER_TOK_IDENTIFIER):
 			/* BEGINNING OF EXTRACT: IDENTIFIER */
 			{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 5510 "tmp.parser.c"
+#line 5599 "tmp.parser.c"
 			}
 			/* END OF EXTRACT: IDENTIFIER */
 			break;
@@ -5516,52 +5605,65 @@ ZR162(GrammarP sid_current_grammar)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: i-terminal */
 		    {
-#line 300 "parser.act"
+#line 310 "parser.act"
 
-		(ZI164) = table_add_basic(grammar_table(sid_current_grammar), &(ZI158),
+		(ZI166) = table_add_basic(grammar_table(sid_current_grammar), &(ZI160),
 			sid_current_grammar, TRUE);
-		if ((ZI164) == NULL) {
-			E_duplicate_basic((&ZI158));
-			nstring_destroy(&(ZI158));
+		if ((ZI166) == NULL) {
+			E_duplicate_basic((&ZI160));
+			nstring_destroy(&(ZI160));
 		}
 	
-#line 5529 "tmp.parser.c"
+#line 5618 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: i-terminal */
-		    ZR132 (sid_current_grammar, &ZI130, &ZI131);
+		    ZR133 (sid_current_grammar, &ZI131, &ZI132);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
 		    /* BEGINNING OF ACTION: x-terminal */
 		    {
-#line 309 "parser.act"
+#line 319 "parser.act"
 
-		if ((ZI164)) {
-			KeyT *key = entry_key((ZI164));
-			BasicT *basic = entry_get_basic((ZI164));
-			if (types_contains_names((&ZI130))) {
-				E_basic_param_has_names(key, (&ZI130));
-			}
+		if ((ZI166)) {
+			KeyT *key = entry_key((ZI166));
+			BasicT *basic = entry_get_basic((ZI166));
 			if (types_contains_names((&ZI131))) {
-				E_basic_result_has_names(key, (&ZI131));
+				E_basic_param_has_names(key, (&ZI131));
 			}
-			if (types_contains_references((&ZI131))) {
-				E_basic_result_has_refs(key, (&ZI131));
+			if (types_contains_names((&ZI132))) {
+				E_basic_result_has_names(key, (&ZI132));
 			}
-			if (!types_equal_zero_tuple((&ZI130))) {
-				E_basic_param_mismatch(key, (&ZI130));
+			if (types_contains_references((&ZI132))) {
+				E_basic_result_has_refs(key, (&ZI132));
 			}
-			types_assign(basic_result(basic), (&ZI131));
+			if (!types_equal_zero_tuple((&ZI131))) {
+				E_basic_param_mismatch(key, (&ZI131));
+			}
+			if (!basic_get_ignored(basic)) {
+				EntryT *type;
+
+				type = types_find_ignored((&ZI131));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+				}
+
+				type = types_find_ignored((&ZI132));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+				}
+			}
+			types_assign(basic_result(basic), (&ZI132));
 		} else {
-			types_destroy((&ZI131));
+			types_destroy((&ZI132));
 		}
-		types_destroy((&ZI130));
+		types_destroy((&ZI131));
 	
-#line 5562 "tmp.parser.c"
+#line 5664 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: x-terminal */
-		    ZR246 (sid_current_grammar);
+		    ZR248 (sid_current_grammar);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
@@ -5572,18 +5674,18 @@ ZR162(GrammarP sid_current_grammar)
 		{
 		    /* BEGINNING OF ACTION: expected-identifier */
 		    {
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 5582 "tmp.parser.c"
+#line 5684 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: expected-identifier */
 		    /* BEGINNING OF ACTION: skip-to-end-of-terminal-decn */
 		    {
-#line 1732 "parser.act"
+#line 1803 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -5605,13 +5707,13 @@ ZR162(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 5609 "tmp.parser.c"
+#line 5711 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: skip-to-end-of-terminal-decn */
 		}
 	      ZL2:;
 	    }
-	    /* END OF INLINE: 166 */
+	    /* END OF INLINE: 168 */
 	}
 	break;
       case (ERROR_TERMINAL):
@@ -5624,18 +5726,18 @@ ZR162(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-terminal-decn */
 	{
-#line 1520 "parser.act"
+#line 1591 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_terminal_decn();
 		}
 	
-#line 5634 "tmp.parser.c"
+#line 5736 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-terminal-decn */
 	/* BEGINNING OF ACTION: skip-to-end-of-terminal-decn */
 	{
-#line 1732 "parser.act"
+#line 1803 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -5657,14 +5759,14 @@ ZR162(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 5661 "tmp.parser.c"
+#line 5763 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-terminal-decn */
     }
 }
 
 static void
-ZR226(GrammarP sid_current_grammar)
+ZR228(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -5683,36 +5785,36 @@ ZR226(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-define */
 	{
-#line 1598 "parser.act"
+#line 1669 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_define();
 		}
 	
-#line 5693 "tmp.parser.c"
+#line 5795 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-define */
     }
 }
 
 static void
-ZR229(GrammarP sid_current_grammar, TypeTupleT *ZI206)
+ZR231(GrammarP sid_current_grammar, TypeTupleT *ZI208)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
-	NStringT ZI158;
+	NStringT ZI160;
 
 	switch (CURRENT_TERMINAL) {
 	  case (LEXER_TOK_IDENTIFIER):
 	    /* BEGINNING OF EXTRACT: IDENTIFIER */
 	    {
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 5716 "tmp.parser.c"
+#line 5818 "tmp.parser.c"
 	    }
 	    /* END OF EXTRACT: IDENTIFIER */
 	    break;
@@ -5722,17 +5824,17 @@ ZR229(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 	ADVANCE_LEXER;
 	/* BEGINNING OF ACTION: prod-action */
 	{
-#line 992 "parser.act"
+#line 1063 "parser.act"
 
 		if (sid_current_entry && sid_current_alt) {
 			EntryT *entry;
 
 			entry = scope_stack_get_action(&sid_scope_stack,
-				grammar_table(sid_current_grammar), (&ZI158));
+				grammar_table(sid_current_grammar), (&ZI160));
 			if (entry) {
 				sid_current_item = item_create(entry);
 			} else {
-				E_unknown_action((&ZI158));
+				E_unknown_action((&ZI160));
 				sid_current_item = NULL;
 				(void) alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
@@ -5740,13 +5842,13 @@ ZR229(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 		} else {
 			sid_current_item = NULL;
 		}
-		nstring_destroy(&(ZI158));
+		nstring_destroy(&(ZI160));
 	
-#line 5746 "tmp.parser.c"
+#line 5848 "tmp.parser.c"
 	}
 	/* END OF ACTION: prod-action */
-	ZR230 (sid_current_grammar);
-	ZR207 (sid_current_grammar, ZI206);
+	ZR232 (sid_current_grammar);
+	ZR209 (sid_current_grammar, ZI208);
 	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	    RESTORE_LEXER;
 	    goto ZL1;
@@ -5757,18 +5859,18 @@ ZR229(GrammarP sid_current_grammar, TypeTupleT *ZI206)
     {
 	/* BEGINNING OF ACTION: expected-identifier */
 	{
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 5767 "tmp.parser.c"
+#line 5869 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-identifier */
 	/* BEGINNING OF ACTION: skip-to-end-of-item */
 	{
-#line 1821 "parser.act"
+#line 1892 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -5795,14 +5897,14 @@ ZR229(GrammarP sid_current_grammar, TypeTupleT *ZI206)
 
 		sid_propagating_error = TRUE;
 	
-#line 5799 "tmp.parser.c"
+#line 5901 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-item */
     }
 }
 
 static void
-ZR230(GrammarP sid_current_grammar)
+ZR232(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -5821,45 +5923,45 @@ ZR230(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-end-action */
 	{
-#line 1574 "parser.act"
+#line 1645 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_end_action();
 		}
 	
-#line 5831 "tmp.parser.c"
+#line 5933 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-end-action */
     }
 }
 
 static void
-ZR195(GrammarP sid_current_grammar)
+ZR197(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
-	/* BEGINNING OF INLINE: 197 */
+	/* BEGINNING OF INLINE: 199 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case (LEXER_TOK_BEGIN_HACTION):
 		{
-		    NStringT ZI158;
-		    EntryP ZI164;
-		    TypeTupleT ZI130;
+		    NStringT ZI160;
+		    EntryP ZI166;
 		    TypeTupleT ZI131;
+		    TypeTupleT ZI132;
 
 		    ADVANCE_LEXER;
 		    switch (CURRENT_TERMINAL) {
 		      case (LEXER_TOK_IDENTIFIER):
 			/* BEGINNING OF EXTRACT: IDENTIFIER */
 			{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 5863 "tmp.parser.c"
+#line 5965 "tmp.parser.c"
 			}
 			/* END OF EXTRACT: IDENTIFIER */
 			break;
@@ -5869,81 +5971,97 @@ ZR195(GrammarP sid_current_grammar)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: action */
 		    {
-#line 537 "parser.act"
+#line 560 "parser.act"
 
-		(ZI164) = scope_stack_add_action (sid_current_scope,
-			grammar_table(sid_current_grammar), &(ZI158), sid_enclosing_rule,
+		(ZI166) = scope_stack_add_action (sid_current_scope,
+			grammar_table(sid_current_grammar), &(ZI160), sid_enclosing_rule,
 			&sid_redefining_entry, FALSE);
-		if (!(ZI164)) {
-			E_duplicate_action((&ZI158));
-			nstring_destroy(&(ZI158));
+		if (!(ZI166)) {
+			E_duplicate_action((&ZI160));
+			nstring_destroy(&(ZI160));
 		}
 	
-#line 5883 "tmp.parser.c"
+#line 5985 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: action */
-		    ZR230 (sid_current_grammar);
-		    ZR132 (sid_current_grammar, &ZI130, &ZI131);
+		    ZR232 (sid_current_grammar);
+		    ZR133 (sid_current_grammar, &ZI131, &ZI132);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
 		    }
 		    /* BEGINNING OF ACTION: x-action */
 		    {
-#line 557 "parser.act"
+#line 580 "parser.act"
 
-		if ((ZI164)) {
+		if ((ZI166)) {
 			KeyT       *key     = entry_key(sid_current_entry);
-			ActionT    *action  = entry_get_action((ZI164));
+			ActionT    *action  = entry_get_action((ZI166));
 			TypeTupleT *param   = action_param(action);
 			TypeTupleT *result  = action_result(action);
 			BoolT       errored = FALSE;
 
-			if (types_contains_names((&ZI130))) {
-				E_action_param_has_names(key, (&ZI130));
+			if (types_contains_names((&ZI131))) {
+				E_action_param_has_names(key, (&ZI131));
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
-				if (!types_equal(param, (&ZI130))) {
-					E_action_param_mismatch(key, param, (&ZI130));
+				if (!types_equal(param, (&ZI131))) {
+					E_action_param_mismatch(key, param, (&ZI131));
 					errored = TRUE;
 				}
 			}
 
-			if (types_contains_names((&ZI131))) {
-				E_action_result_has_names(key, (&ZI131));
+			if (types_contains_names((&ZI132))) {
+				E_action_result_has_names(key, (&ZI132));
 				errored = TRUE;
 			}
 
-			if (types_contains_references((&ZI131))) {
-				E_action_result_has_refs(key, (&ZI131));
+			if (types_contains_references((&ZI132))) {
+				E_action_result_has_refs(key, (&ZI132));
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
-				if (!types_equal(result, (&ZI131))) {
-					E_action_result_mismatch(key, result, (&ZI131));
+				if (!types_equal(result, (&ZI132))) {
+					E_action_result_mismatch(key, result, (&ZI132));
+					errored = TRUE;
+				}
+			}
+
+			if (!action_get_ignored(action)) {
+				EntryT *type;
+
+				type = types_find_ignored((&ZI131));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+					errored = TRUE;
+				}
+
+				type = types_find_ignored((&ZI132));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
 					errored = TRUE;
 				}
 			}
 
 			if (errored || sid_redefining_entry) {
-				types_destroy((&ZI130));
 				types_destroy((&ZI131));
+				types_destroy((&ZI132));
 			} else {
-				types_assign(param, (&ZI130));
-				types_assign(result, (&ZI131));
+				types_assign(param, (&ZI131));
+				types_assign(result, (&ZI132));
 			}
 		} else {
-			types_destroy((&ZI130));
 			types_destroy((&ZI131));
+			types_destroy((&ZI132));
 		}
 	
-#line 5944 "tmp.parser.c"
+#line 6062 "tmp.parser.c"
 		    }
 		    /* END OF ACTION: x-action */
-		    ZR246 (sid_current_grammar);
+		    ZR248 (sid_current_grammar);
 		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 			RESTORE_LEXER;
 			goto ZL3;
@@ -5960,23 +6078,23 @@ ZR195(GrammarP sid_current_grammar)
 			goto ZL3;
 		    }
 		    ADVANCE_LEXER;
-		    /* BEGINNING OF INLINE: 200 */
+		    /* BEGINNING OF INLINE: 202 */
 		    {
 			{
-			    NStringT ZI158;
-			    EntryP ZI164;
-			    TypeTupleT ZI130;
+			    NStringT ZI160;
+			    EntryP ZI166;
 			    TypeTupleT ZI131;
+			    TypeTupleT ZI132;
 
 			    switch (CURRENT_TERMINAL) {
 			      case (LEXER_TOK_IDENTIFIER):
 				/* BEGINNING OF EXTRACT: IDENTIFIER */
 				{
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 5980 "tmp.parser.c"
+#line 6098 "tmp.parser.c"
 				}
 				/* END OF EXTRACT: IDENTIFIER */
 				break;
@@ -5986,81 +6104,97 @@ ZR195(GrammarP sid_current_grammar)
 			    ADVANCE_LEXER;
 			    /* BEGINNING OF ACTION: i-action */
 			    {
-#line 547 "parser.act"
+#line 570 "parser.act"
 
-		(ZI164) = scope_stack_add_action (sid_current_scope,
-			grammar_table(sid_current_grammar), &(ZI158), sid_enclosing_rule,
+		(ZI166) = scope_stack_add_action (sid_current_scope,
+			grammar_table(sid_current_grammar), &(ZI160), sid_enclosing_rule,
 			&sid_redefining_entry, TRUE);
-		if (!(ZI164)) {
-			E_duplicate_action((&ZI158));
-			nstring_destroy(&(ZI158));
+		if (!(ZI166)) {
+			E_duplicate_action((&ZI160));
+			nstring_destroy(&(ZI160));
 		}
 	
-#line 6000 "tmp.parser.c"
+#line 6118 "tmp.parser.c"
 			    }
 			    /* END OF ACTION: i-action */
-			    ZR230 (sid_current_grammar);
-			    ZR132 (sid_current_grammar, &ZI130, &ZI131);
+			    ZR232 (sid_current_grammar);
+			    ZR133 (sid_current_grammar, &ZI131, &ZI132);
 			    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 				RESTORE_LEXER;
 				goto ZL5;
 			    }
 			    /* BEGINNING OF ACTION: x-action */
 			    {
-#line 557 "parser.act"
+#line 580 "parser.act"
 
-		if ((ZI164)) {
+		if ((ZI166)) {
 			KeyT       *key     = entry_key(sid_current_entry);
-			ActionT    *action  = entry_get_action((ZI164));
+			ActionT    *action  = entry_get_action((ZI166));
 			TypeTupleT *param   = action_param(action);
 			TypeTupleT *result  = action_result(action);
 			BoolT       errored = FALSE;
 
-			if (types_contains_names((&ZI130))) {
-				E_action_param_has_names(key, (&ZI130));
+			if (types_contains_names((&ZI131))) {
+				E_action_param_has_names(key, (&ZI131));
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
-				if (!types_equal(param, (&ZI130))) {
-					E_action_param_mismatch(key, param, (&ZI130));
+				if (!types_equal(param, (&ZI131))) {
+					E_action_param_mismatch(key, param, (&ZI131));
 					errored = TRUE;
 				}
 			}
 
-			if (types_contains_names((&ZI131))) {
-				E_action_result_has_names(key, (&ZI131));
+			if (types_contains_names((&ZI132))) {
+				E_action_result_has_names(key, (&ZI132));
 				errored = TRUE;
 			}
 
-			if (types_contains_references((&ZI131))) {
-				E_action_result_has_refs(key, (&ZI131));
+			if (types_contains_references((&ZI132))) {
+				E_action_result_has_refs(key, (&ZI132));
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
-				if (!types_equal(result, (&ZI131))) {
-					E_action_result_mismatch(key, result, (&ZI131));
+				if (!types_equal(result, (&ZI132))) {
+					E_action_result_mismatch(key, result, (&ZI132));
+					errored = TRUE;
+				}
+			}
+
+			if (!action_get_ignored(action)) {
+				EntryT *type;
+
+				type = types_find_ignored((&ZI131));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+					errored = TRUE;
+				}
+
+				type = types_find_ignored((&ZI132));
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
 					errored = TRUE;
 				}
 			}
 
 			if (errored || sid_redefining_entry) {
-				types_destroy((&ZI130));
 				types_destroy((&ZI131));
+				types_destroy((&ZI132));
 			} else {
-				types_assign(param, (&ZI130));
-				types_assign(result, (&ZI131));
+				types_assign(param, (&ZI131));
+				types_assign(result, (&ZI132));
 			}
 		} else {
-			types_destroy((&ZI130));
 			types_destroy((&ZI131));
+			types_destroy((&ZI132));
 		}
 	
-#line 6061 "tmp.parser.c"
+#line 6195 "tmp.parser.c"
 			    }
 			    /* END OF ACTION: x-action */
-			    ZR246 (sid_current_grammar);
+			    ZR248 (sid_current_grammar);
 			    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 				RESTORE_LEXER;
 				goto ZL5;
@@ -6071,18 +6205,18 @@ ZR195(GrammarP sid_current_grammar)
 			{
 			    /* BEGINNING OF ACTION: expected-identifier */
 			    {
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 6081 "tmp.parser.c"
+#line 6215 "tmp.parser.c"
 			    }
 			    /* END OF ACTION: expected-identifier */
 			    /* BEGINNING OF ACTION: skip-to-end-of-action-decn */
 			    {
-#line 1798 "parser.act"
+#line 1869 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -6105,13 +6239,13 @@ ZR195(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 6109 "tmp.parser.c"
+#line 6243 "tmp.parser.c"
 			    }
 			    /* END OF ACTION: skip-to-end-of-action-decn */
 			}
 		      ZL4:;
 		    }
-		    /* END OF INLINE: 200 */
+		    /* END OF INLINE: 202 */
 		}
 		break;
 	      default:
@@ -6122,18 +6256,18 @@ ZR195(GrammarP sid_current_grammar)
 	    {
 		/* BEGINNING OF ACTION: expected-identifier */
 		{
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 6132 "tmp.parser.c"
+#line 6266 "tmp.parser.c"
 		}
 		/* END OF ACTION: expected-identifier */
 		/* BEGINNING OF ACTION: skip-to-end-of-action-decn */
 		{
-#line 1798 "parser.act"
+#line 1869 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -6156,33 +6290,33 @@ ZR195(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 6160 "tmp.parser.c"
+#line 6294 "tmp.parser.c"
 		}
 		/* END OF ACTION: skip-to-end-of-action-decn */
 	    }
 	  ZL2:;
 	}
-	/* END OF INLINE: 197 */
+	/* END OF INLINE: 199 */
     }
 }
 
 static void
-ZR240(GrammarP sid_current_grammar)
+ZR242(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
-  ZL2_240:;
+  ZL2_242:;
     {
-	ZR233 (sid_current_grammar);
-	/* BEGINNING OF INLINE: 299 */
+	ZR235 (sid_current_grammar);
+	/* BEGINNING OF INLINE: 301 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case (LEXER_TOK_IDENTIFIER): case (LEXER_TOK_OPEN_HTUPLE): case (LEXER_TOK_BEGIN_HACTION): case (LEXER_TOK_BEGIN_HRULE):
 	      case (LEXER_TOK_PRED_HRESULT): case (LEXER_TOK_IGNORE): case (LEXER_TOK_REFERENCE):
 		{
 		    /* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list::production-defn-non-empty-alternative */
-		    goto ZL2_240;
+		    goto ZL2_242;
 		    /* END OF INLINE: sid-parse-grammar::production-defn-list::production-defn-non-empty-alternative */
 		}
 		/*UNREACHED*/
@@ -6193,25 +6327,25 @@ ZR240(GrammarP sid_current_grammar)
 		break;
 	    }
 	}
-	/* END OF INLINE: 299 */
+	/* END OF INLINE: 301 */
     }
     return;
   ZL1:;
     {
 	/* BEGINNING OF ACTION: expected-item */
 	{
-#line 1622 "parser.act"
+#line 1693 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_item();
 		}
 	
-#line 6210 "tmp.parser.c"
+#line 6344 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-item */
 	/* BEGINNING OF ACTION: skip-to-end-of-item */
 	{
-#line 1821 "parser.act"
+#line 1892 "parser.act"
 
 		while (CURRENT_TERMINAL != (LEXER_TOK_EOF)
 			&& CURRENT_TERMINAL != (LEXER_TOK_TERMINATOR)
@@ -6238,39 +6372,39 @@ ZR240(GrammarP sid_current_grammar)
 
 		sid_propagating_error = TRUE;
 	
-#line 6242 "tmp.parser.c"
+#line 6376 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-to-end-of-item */
 	/* BEGINNING OF ACTION: skip-recover */
 	{
-#line 1943 "parser.act"
+#line 2014 "parser.act"
 
 		sid_propagating_error = FALSE;
 	
-#line 6251 "tmp.parser.c"
+#line 6385 "tmp.parser.c"
 	}
 	/* END OF ACTION: skip-recover */
     }
 }
 
 static void
-ZR274(GrammarP sid_current_grammar)
+ZR276(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
     {
-	NStringT ZI158;
+	NStringT ZI160;
 
 	switch (CURRENT_TERMINAL) {
 	  case (LEXER_TOK_IDENTIFIER):
 	    /* BEGINNING OF EXTRACT: IDENTIFIER */
 	    {
-#line 263 "parser.act"
+#line 266 "parser.act"
 
-		nstring_assign(&ZI158, lexer_string_value(sid_current_stream));
+		nstring_assign(&ZI160, lexer_string_value(sid_current_stream));
 	
-#line 6274 "tmp.parser.c"
+#line 6408 "tmp.parser.c"
 	    }
 	    /* END OF EXTRACT: IDENTIFIER */
 	    break;
@@ -6280,11 +6414,11 @@ ZR274(GrammarP sid_current_grammar)
 	ADVANCE_LEXER;
 	/* BEGINNING OF ACTION: add-entry */
 	{
-#line 1475 "parser.act"
+#line 1546 "parser.act"
 
 		EntryT *entry;
 
-		entry = table_get_rule (grammar_table(sid_current_grammar), (&ZI158));
+		entry = table_get_rule (grammar_table(sid_current_grammar), (&ZI160));
 		if (entry) {
 			if (entry_list_contains(grammar_entry_list(sid_current_grammar), entry)) {
 				E_mult_entry(entry_key(entry));
@@ -6293,11 +6427,11 @@ ZR274(GrammarP sid_current_grammar)
 				rule_required(entry_get_rule (entry));
 			}
 		} else {
-			E_unknown_rule((&ZI158));
+			E_unknown_rule((&ZI160));
 		}
-		nstring_destroy(&(ZI158));
+		nstring_destroy(&(ZI160));
 	
-#line 6301 "tmp.parser.c"
+#line 6435 "tmp.parser.c"
 	}
 	/* END OF ACTION: add-entry */
     }
@@ -6306,20 +6440,94 @@ ZR274(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-identifier */
 	{
-#line 1508 "parser.act"
+#line 1579 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_identifier();
 		}
 	
-#line 6316 "tmp.parser.c"
+#line 6450 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-identifier */
     }
 }
 
 static void
-ZR238(GrammarP sid_current_grammar)
+ZR178(GrammarP sid_current_grammar, TypeTupleT *ZI135)
+{
+    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+	return;
+    }
+  ZL2_178:;
+    {
+	ZR175 (sid_current_grammar, ZI135);
+	/* BEGINNING OF INLINE: 180 */
+	{
+	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    }
+	    {
+		/* BEGINNING OF ACTION: is-close-tuple-or-skipped-or-eof */
+		{
+#line 2023 "parser.act"
+
+		(ZI0) = (CURRENT_TERMINAL == (LEXER_TOK_CLOSE_HTUPLE)
+			|| CURRENT_TERMINAL == (LEXER_TOK_EOF)
+			|| sid_propagating_error);
+	
+#line 6480 "tmp.parser.c"
+		}
+		/* END OF ACTION: is-close-tuple-or-skipped-or-eof */
+		if (!ZI0)
+		    goto ZL5;
+		goto ZL3;
+	    }
+	    /*UNREACHED*/
+	  ZL5:;
+	    switch (CURRENT_TERMINAL) {
+	      case (LEXER_TOK_SEPARATOR):
+		{
+		    ADVANCE_LEXER;
+		    /* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
+		    goto ZL2_178;
+		    /* END OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
+		}
+		/*UNREACHED*/
+	      default:
+		goto ZL4;
+	    }
+	    /*UNREACHED*/
+	  ZL4:;
+	    {
+		/* BEGINNING OF ACTION: expected-separator */
+		{
+#line 1597 "parser.act"
+
+		if (!sid_propagating_error) {
+			E_expected_separator();
+		}
+	
+#line 6512 "tmp.parser.c"
+		}
+		/* END OF ACTION: expected-separator */
+		/* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
+		goto ZL2_178;
+		/* END OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
+	    }
+	    /*UNREACHED*/
+	  ZL3:;
+	}
+	/* END OF INLINE: 180 */
+    }
+    return;
+  ZL1:;
+    SAVE_LEXER ((ERROR_TERMINAL));
+    return;
+}
+
+static void
+ZR240(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -6338,94 +6546,20 @@ ZR238(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-end-rule */
 	{
-#line 1616 "parser.act"
+#line 1687 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_end_rule();
 		}
 	
-#line 6348 "tmp.parser.c"
+#line 6556 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-end-rule */
     }
 }
 
 static void
-ZR176(GrammarP sid_current_grammar, TypeTupleT *ZI134)
-{
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-  ZL2_176:;
-    {
-	ZR173 (sid_current_grammar, ZI134);
-	/* BEGINNING OF INLINE: 178 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		/* BEGINNING OF ACTION: is-close-tuple-or-skipped-or-eof */
-		{
-#line 1952 "parser.act"
-
-		(ZI0) = (CURRENT_TERMINAL == (LEXER_TOK_CLOSE_HTUPLE)
-			|| CURRENT_TERMINAL == (LEXER_TOK_EOF)
-			|| sid_propagating_error);
-	
-#line 6378 "tmp.parser.c"
-		}
-		/* END OF ACTION: is-close-tuple-or-skipped-or-eof */
-		if (!ZI0)
-		    goto ZL5;
-		goto ZL3;
-	    }
-	    /*UNREACHED*/
-	  ZL5:;
-	    switch (CURRENT_TERMINAL) {
-	      case (LEXER_TOK_SEPARATOR):
-		{
-		    ADVANCE_LEXER;
-		    /* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
-		    goto ZL2_176;
-		    /* END OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
-		}
-		/*UNREACHED*/
-	      default:
-		goto ZL4;
-	    }
-	    /*UNREACHED*/
-	  ZL4:;
-	    {
-		/* BEGINNING OF ACTION: expected-separator */
-		{
-#line 1526 "parser.act"
-
-		if (!sid_propagating_error) {
-			E_expected_separator();
-		}
-	
-#line 6410 "tmp.parser.c"
-		}
-		/* END OF ACTION: expected-separator */
-		/* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
-		goto ZL2_176;
-		/* END OF INLINE: sid-parse-grammar::production-defn-list::lhs-name-tuple::lhs-name-list-1 */
-	    }
-	    /*UNREACHED*/
-	  ZL3:;
-	}
-	/* END OF INLINE: 178 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
-}
-
-static void
-ZR246(GrammarP sid_current_grammar)
+ZR248(GrammarP sid_current_grammar)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
@@ -6444,28 +6578,28 @@ ZR246(GrammarP sid_current_grammar)
     {
 	/* BEGINNING OF ACTION: expected-terminator */
 	{
-#line 1550 "parser.act"
+#line 1621 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_terminator();
 		}
 	
-#line 6454 "tmp.parser.c"
+#line 6588 "tmp.parser.c"
 	}
 	/* END OF ACTION: expected-terminator */
     }
 }
 
 static void
-ZR188(GrammarP sid_current_grammar, TypeTupleT *ZI134)
+ZR190(GrammarP sid_current_grammar, TypeTupleT *ZI135)
 {
     if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 	return;
     }
-  ZL2_188:;
+  ZL2_190:;
     {
-	ZR185 (sid_current_grammar, ZI134);
-	/* BEGINNING OF INLINE: 190 */
+	ZR187 (sid_current_grammar, ZI135);
+	/* BEGINNING OF INLINE: 192 */
 	{
 	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
 		RESTORE_LEXER;
@@ -6474,13 +6608,13 @@ ZR188(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 	    {
 		/* BEGINNING OF ACTION: is-close-tuple-or-skipped-or-eof */
 		{
-#line 1952 "parser.act"
+#line 2023 "parser.act"
 
 		(ZI0) = (CURRENT_TERMINAL == (LEXER_TOK_CLOSE_HTUPLE)
 			|| CURRENT_TERMINAL == (LEXER_TOK_EOF)
 			|| sid_propagating_error);
 	
-#line 6484 "tmp.parser.c"
+#line 6618 "tmp.parser.c"
 		}
 		/* END OF ACTION: is-close-tuple-or-skipped-or-eof */
 		if (!ZI0)
@@ -6494,7 +6628,7 @@ ZR188(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 		{
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list::rhs-name-tuple::rhs-name-list-1 */
-		    goto ZL2_188;
+		    goto ZL2_190;
 		    /* END OF INLINE: sid-parse-grammar::production-defn-list::rhs-name-tuple::rhs-name-list-1 */
 		}
 		/*UNREACHED*/
@@ -6506,23 +6640,23 @@ ZR188(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 	    {
 		/* BEGINNING OF ACTION: expected-separator */
 		{
-#line 1526 "parser.act"
+#line 1597 "parser.act"
 
 		if (!sid_propagating_error) {
 			E_expected_separator();
 		}
 	
-#line 6516 "tmp.parser.c"
+#line 6650 "tmp.parser.c"
 		}
 		/* END OF ACTION: expected-separator */
 		/* BEGINNING OF INLINE: sid-parse-grammar::production-defn-list::rhs-name-tuple::rhs-name-list-1 */
-		goto ZL2_188;
+		goto ZL2_190;
 		/* END OF INLINE: sid-parse-grammar::production-defn-list::rhs-name-tuple::rhs-name-list-1 */
 	    }
 	    /*UNREACHED*/
 	  ZL3:;
 	}
-	/* END OF INLINE: 190 */
+	/* END OF INLINE: 192 */
     }
     return;
   ZL1:;
@@ -6532,9 +6666,9 @@ ZR188(GrammarP sid_current_grammar, TypeTupleT *ZI134)
 
 /* BEGINNING OF TRAILER */
 
-#line 1967 "parser.act"
+#line 2038 "parser.act"
 
 
-#line 6539 "tmp.parser.c"
+#line 6673 "tmp.parser.c"
 
 /* END OF FILE */

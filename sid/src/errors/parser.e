@@ -1427,6 +1427,27 @@ error "ignored basic call" {
     }
 };
 
+error "ignored type" {
+    "${file name}: ${line number}: invocation of ignored type '${type name}'",
+    {
+	"file name" : "const char *" $[
+	    write_cstring(ostream, closure->file_name);
+	]$ $[
+	    closure.file_name = lexer_stream_name(sid_current_stream);
+	]$
+    }, {
+	"line number" : "unsigned" $[
+	    write_unsigned(ostream, closure->line_number);
+	]$ $[
+	    closure.line_number = lexer_stream_line(sid_current_stream);
+	]$
+    }, {
+	"type name" : "NStringT *" $[
+	    write_nstring(ostream, closure->type_name);
+	]$
+    }
+};
+
 error "ambiguous call" {
     "${file name}: ${line number}: identifier '${identifier name}' used in ambiguous context [may be name, rule or terminal]",
     {

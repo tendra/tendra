@@ -114,6 +114,7 @@
 	<tuple-ref-type>: (:TypeTupleT &, :StringT &) -> ();
 	<save-tuple>;
 	<add-type>: (:StringT &) -> ();
+	<i-add-type>: (:StringT &) -> ();
 	<terminal>: (:StringT &) -> (:EntryP);
 	<i-terminal>: (:StringT &) -> (:EntryP);
 	<x-terminal>  : (:EntryP, :TypeTupleT &, :TypeTupleT &) -> ();
@@ -318,8 +319,14 @@
 
 		type-decl-list [
 			type-decl = {
-				id = IDENTIFIER;
-				<add-type> (&id);
+				{
+					id = IDENTIFIER;
+					<add-type> (&id);
+				||
+					IGNORE;
+					id = IDENTIFIER;
+					<i-add-type> (&id);
+				};
 
 				{
 					TERMINATOR;

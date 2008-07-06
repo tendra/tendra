@@ -143,7 +143,7 @@ grammar_check_1(EntryT *entry, void *gclosure)
 		break;
 
 	case ET_TYPE:
-		if (!entry_is_traced(entry)) {
+		if (!entry_is_traced(entry) && !type_get_ignored(entry_get_type(entry))) {
 			E_type_not_used(entry_key(entry));
 		}
 		break;

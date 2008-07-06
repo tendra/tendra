@@ -168,6 +168,7 @@ void		types_propogate_mutations(TypeTupleT *, TypeTupleT *);
 BoolT		types_contains(TypeTupleT *, EntryT *);
 BoolT		types_contains_names(TypeTupleT *);
 BoolT		types_contains_references(TypeTupleT *);
+EntryT *	types_find_ignored(TypeTupleT *tuple);
 void		types_make_references(TypeTupleT *, TypeTupleT *);
 BoolT		types_intersect(TypeTupleT *, TypeTupleT *);
 void		types_inplace_intersection(TypeTupleT *, TypeTupleT *);

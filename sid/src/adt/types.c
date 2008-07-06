@@ -84,7 +84,7 @@ static void
 types_add_name_and_type_1(TypeTupleT *to, EntryT *name, EntryT *type,
 	BoolT reference, BoolT assign)
 {
-	TypeTupleEntryT * link = ALLOCATE(TypeTupleEntryT);
+	TypeTupleEntryT *link = ALLOCATE(TypeTupleEntryT);
 
 	link->next      = NULL;
 	link->type      = type;
@@ -354,6 +354,20 @@ types_contains_references(TypeTupleT *tuple)
 	}
 
 	return FALSE;
+}
+
+EntryT *
+types_find_ignored(TypeTupleT *tuple)
+{
+	TypeTupleEntryT *type;
+
+	for (type = tuple->head; type; type = type->next) {
+		if (type_get_ignored(entry_get_type(type->type))) {
+			return type->type;
+		}
+	}
+
+	return NULL;
 }
 
 void

@@ -84,14 +84,22 @@ typedef struct TypeT {
     void *			assign_code;
     void *			param_assign_code;
     void *			result_assign_code;
+
+	/*
+	 * If a type is not used in the grammar, the .ignored field is set true.
+	 * However, an ignored type may be used in places which are themselves
+	 * ignored, such as terminal extraction or production definitions.
+	 */
+	BoolT			ignored;
 } TypeT;
 
-TypeT *		type_create(void);
+TypeT *		type_create(BoolT ignored);
 void *		type_get_assign_code(TypeT *);
 void		type_set_assign_code(TypeT *, void *);
 void *		type_get_param_assign_code(TypeT *);
 void		type_set_param_assign_code(TypeT *, void *);
 void *		type_get_result_assign_code(TypeT *);
 void		type_set_result_assign_code(TypeT *, void *);
+BoolT		type_get_ignored(TypeT *);
 
 #endif /* !defined (H_TYPE) */

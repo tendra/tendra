@@ -119,23 +119,26 @@
 	#include <limits.h>
 	#include <assert.h>
 
-	#include "shared/check/check.h"
-	#include "parser.h"
-	#include "adt/action.h"
-	#include "adt/basic.h"
 	#include <exds/common.h>
 	#include <exds/exception.h>
 	#include <exds/bitvec.h>
 	#include <exds/dalloc.h>
 	#include <exds/dstring.h>
-	#include "gen-errors.h"
-	#include "grammar.h"
-	#include "lexer.h"
+
+	#include "adt/action.h"
+	#include "adt/basic.h"
+	#include "adt/key.h"
 	#include "adt/non-local.h"
 	#include "adt/rule.h"
 	#include "adt/scope.h"
 	#include "adt/table.h"
 	#include "adt/types.h"
+
+	#include "shared/check/check.h"
+	#include "parser.h"
+	#include "gen-errors.h"
+	#include "grammar.h"
+	#include "lexer.h"
 
 	#define ERROR_TERMINAL @$ERROR
 	#define CURRENT_TERMINAL lexer_get_terminal(sid_current_stream)
@@ -276,7 +279,14 @@
 	 */
 
 	<add-type>: (string :StringT &) -> () = @{
-		if (table_add_type (grammar_table(sid_current_grammar), &@=string) == NULL) {
+		if (table_add_type (grammar_table(sid_current_grammar), &@=string, FALSE) == NULL) {
+			E_duplicate_type(@&string);
+			nstring_destroy(&@=string);
+		}
+	@};
+
+	<i-add-type>: (string :StringT &) -> () = @{
+		if (table_add_type (grammar_table(sid_current_grammar), &@=string, TRUE) == NULL) {
 			E_duplicate_type(@&string);
 			nstring_destroy(&@=string);
 		}
@@ -320,6 +330,19 @@
 			}
 			if (!types_equal_zero_tuple(@&params)) {
 				E_basic_param_mismatch(key, @&params);
+			}
+			if (!basic_get_ignored(basic)) {
+				EntryT *type;
+
+				type = types_find_ignored(@&params);
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+				}
+
+				type = types_find_ignored(@&results);
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+				}
 			}
 			types_assign(basic_result(basic), @&results);
 		} else {
@@ -370,7 +393,7 @@
 
 	<tuple-type>: (tuple :TypeTupleT &, type :StringT &) -> () = @{
 		if (!types_add_type(@&tuple, grammar_table(sid_current_grammar), @&type,
-		FALSE)) {
+			FALSE)) {
 			E_unknown_type(@&type);
 		}
 		nstring_destroy(&@=type);
@@ -590,6 +613,22 @@
 				}
 			}
 
+			if (!action_get_ignored(action)) {
+				EntryT *type;
+
+				type = types_find_ignored(@&n_params);
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+					errored = TRUE;
+				}
+
+				type = types_find_ignored(@&n_results);
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+					errored = TRUE;
+				}
+			}
+
 			if (errored || sid_redefining_entry) {
 				types_destroy(@&n_params);
 				types_destroy(@&n_results);
@@ -726,6 +765,22 @@
 				}
 			}
 
+			{
+				EntryT *type;
+
+				type = types_find_ignored(@&n_params);
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+					errored = TRUE;
+				}
+
+				type = types_find_ignored(@&n_results);
+				if (type != NULL) {
+					E_ignored_type(key_get_string(entry_key(type)));
+					errored = TRUE;
+				}
+			}
+
 			if (errored || sid_redefining_entry) {
 				types_destroy(@&n_params);
 				types_destroy(@&n_results);
@@ -789,6 +844,22 @@
 				if (types_contains_references(@&n_results)) {
 					E_rule_result_has_refs(key, @&n_results);
 					errored = TRUE;
+				}
+
+				{
+					EntryT *type;
+
+					type = types_find_ignored(@&n_params);
+					if (type != NULL) {
+						E_ignored_type(key_get_string(entry_key(type)));
+						errored = TRUE;
+					}
+
+					type = types_find_ignored(@&n_results);
+					if (type != NULL) {
+						E_ignored_type(key_get_string(entry_key(type)));
+						errored = TRUE;
+					}
 				}
 
 				if (sid_redefining_entry) {

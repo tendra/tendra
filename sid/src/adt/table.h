@@ -83,7 +83,7 @@ typedef struct TableT {
 } TableT;
 
 void	table_init(TableT *);
-EntryT *	table_add_type(TableT *, NStringT *);
+EntryT *	table_add_type(TableT *, NStringT *, BoolT);
 EntryT *	table_add_basic(TableT *, NStringT *, struct GrammarT *, BoolT);
 EntryT *	table_add_action(TableT *, NStringT *, BoolT);
 EntryT *	table_add_rule(TableT *, NStringT *);

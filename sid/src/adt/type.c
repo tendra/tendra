@@ -68,13 +68,14 @@
 #include "type.h"
 
 TypeT *
-type_create(void)
+type_create(BoolT ignored)
 {
 	TypeT *type = ALLOCATE(TypeT);
 
 	type->assign_code        = NULL;
 	type->param_assign_code  = NULL;
 	type->result_assign_code = NULL;
+	type->ignored            = ignored;
 
 	return type;
 }
@@ -116,5 +117,11 @@ type_set_result_assign_code(TypeT *type, void *code)
 {
 	assert(type->result_assign_code == NULL);
 	type->result_assign_code = code;
+}
+
+BoolT
+type_get_ignored(TypeT *type)
+{
+	return type->ignored;
 }
 
