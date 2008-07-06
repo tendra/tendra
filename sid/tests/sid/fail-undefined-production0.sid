@@ -1,0 +1,8 @@
+%types%
+%terminals%
+	a;
+%productions%
+	c;	/* FAIL: undefined production */
+	b = { a; c; };
+%entry%
+	b;

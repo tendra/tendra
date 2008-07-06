@@ -1,0 +1,8 @@
+%types%
+	!c;
+%terminals%
+	a: () -> (:c);	/* FAIL: invoked ignored type */
+%productions%
+	b = { ! = a; };
+%entry%
+	b;

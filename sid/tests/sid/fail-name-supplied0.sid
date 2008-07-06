@@ -1,0 +1,9 @@
+%types%
+	c;
+%terminals%
+	a;
+%productions%
+	<e>: () -> (n:c);	/* FAIL: name supplied */
+	b = { a; ! = <e>; };
+%entry%
+	b;

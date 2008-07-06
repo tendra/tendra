@@ -1,0 +1,9 @@
+%types%
+%terminals%
+	a;
+%productions%
+	!<c>;
+
+	b = { a; };
+%entry%
+	b;

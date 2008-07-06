@@ -1,0 +1,12 @@
+%types%
+%terminals%
+	a;
+%productions%
+	!<c>;
+
+	b = {
+		a;
+		<c>;	/* FAIL: invocation of ignored action <c> */
+	};
+%entry%
+	b;

@@ -1,0 +1,9 @@
+%types%
+	!c;
+%terminals%
+	a;
+%productions%
+	d: () -> (:c) = { $ };	/* FAIL: invocation of ignored type */
+	b = { a; ! = d; };
+%entry%
+	b;

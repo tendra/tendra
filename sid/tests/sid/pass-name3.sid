@@ -1,0 +1,11 @@
+%types%
+	c;
+%terminals%
+	a;
+%productions%
+	<e>: () -> (:c);
+	d: (:c) -> ();
+	d: (n:c) -> () = { $; };
+	b = { a; f = <e>; d(f); };
+%entry%
+	b;

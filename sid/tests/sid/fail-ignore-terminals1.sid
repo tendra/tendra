@@ -1,0 +1,11 @@
+%types%
+%terminals%
+	a;
+	!c;
+%productions%
+	b = {
+		a;
+		c;	/* FAIL: invocation of ignored terminal */
+	};
+%entry%
+	b;

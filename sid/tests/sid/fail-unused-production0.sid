@@ -1,0 +1,9 @@
+%types%
+%terminals%
+	a;
+%productions%
+	c;	/* FAIL: unused production */
+	c = { $; };
+	b = { a; };
+%entry%
+	b;
