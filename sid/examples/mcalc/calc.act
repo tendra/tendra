@@ -55,7 +55,6 @@
 
 	<Mul>: (a:Number, b:Number) -> (n:Number) = @{
 		@n = @a * @b;
-printf("%d %d -> %d\n", @a, @b, @n);
 	@};
 
 	<Div>: (a:Number, b:Number) -> (n:Number) = @{
@@ -64,7 +63,6 @@ printf("%d %d -> %d\n", @a, @b, @n);
 		}
 
 		@n = @a / @b;
-printf("%d %d -> %d\n", @a, @b, @n);
 	@};
 
 	<Mod>: (a:Number, b:Number) -> (n:Number) = @{
@@ -77,7 +75,6 @@ printf("%d %d -> %d\n", @a, @b, @n);
 
 	<Add>: (a:Number, b:Number) -> (n:Number) = @{
 		@n = @a + @b;
-printf("%d %d -> %d\n", @a, @b, @n);
 	@};
 
 	<Sub>: (a:Number, b:Number) -> (n:Number) = @{
