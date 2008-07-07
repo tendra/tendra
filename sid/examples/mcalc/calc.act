@@ -1,0 +1,111 @@
+%prefixes%
+
+	terminal = T_ ;
+	function = p_ ;
+
+%maps%
+
+	Number -> int;
+	Bool -> int;
+
+%header% @{
+
+	#include "lexer.h"
+
+	#include <stdio.h>
+
+	extern int yylex(void);
+	extern int tok, val;
+
+	static int save_tok;
+
+	#define ERROR_TERMINAL   ( @$error )
+	#define CURRENT_TERMINAL ( tok )
+	#define ADVANCE_LEXER    ( tok = yylex() )
+	#define SAVE_LEXER(e)    ( save_tok = tok, tok = e )
+	#define RESTORE_LEXER    ( tok = save_tok )
+
+@}, @{
+
+@};
+
+%terminals%
+
+	number: () -> (n:Number) = @{
+		@n = val;
+	@};
+
+%actions%
+
+	<is-eof>: () -> (eof:Bool) = @{
+		@eof = @. == @$eof;
+	@};
+
+	<is-newline>: () -> (nl:Bool) = @{
+		@nl = @. == @$newline;
+	@};
+
+	<Pos>: (a:Number) -> (n:Number) = @{
+		@n = +@a;
+	@};
+
+	<Neg>: (a:Number) -> (n:Number) = @{
+		@n = -@a;
+	@};
+
+	<Mul>: (a:Number, b:Number) -> (n:Number) = @{
+		@n = @a * @b;
+printf("%d %d -> %d\n", @a, @b, @n);
+	@};
+
+	<Div>: (a:Number, b:Number) -> (n:Number) = @{
+		if (@b == 0) {
+			@!;
+		}
+
+		@n = @a / @b;
+printf("%d %d -> %d\n", @a, @b, @n);
+	@};
+
+	<Mod>: (a:Number, b:Number) -> (n:Number) = @{
+		if (@b == 0) {
+			@!;
+		}
+
+		@n = @a % @b;
+	@};
+
+	<Add>: (a:Number, b:Number) -> (n:Number) = @{
+		@n = @a + @b;
+printf("%d %d -> %d\n", @a, @b, @n);
+	@};
+
+	<Sub>: (a:Number, b:Number) -> (n:Number) = @{
+		@n = @a - @b;
+	@};
+
+	<Print>: (a:Number) -> () = @{
+		printf("%d\n", @a);
+	@};
+
+	<err-syntax> = @{
+		fprintf(stderr, "syntax error\n");
+	@};
+
+	<err-divide-by-zero>: () -> (n:Number) = @{
+		fprintf(stderr, "divide by zero\n");
+		@n = 0;
+	@};
+
+	<panic> = @{
+		while (@. != @$eof && @. != @$newline) {
+			@>;
+		}
+	@};
+
+%trailer% @{
+
+@}, @{
+
+@};
+

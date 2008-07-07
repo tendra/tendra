@@ -1,0 +1,101 @@
+%types%
+
+	Number;
+	Bool;
+
+%terminals%
+
+	!eof;
+
+	number: () -> (:Number);
+	add; sub; mul; div; mod; !lparen; !rparen;
+	newline;
+
+	!error;
+
+%productions%
+
+	<is-eof>: () -> (:Bool);
+	<is-newline>: () -> (:Bool);
+
+	!<Pos>: (:Number) -> (:Number);
+	!<Neg>: (:Number) -> (:Number);
+	<Mul>: (:Number, :Number) -> (:Number);
+	<Div>: (:Number, :Number) -> (:Number);
+	<Mod>: (:Number, :Number) -> (:Number);
+	<Add>: (:Number, :Number) -> (:Number);
+	<Sub>: (:Number, :Number) -> (:Number);
+	<Print>: (:Number) -> ();
+
+	<panic>;
+	<err-syntax>;
+	<err-divide-by-zero>: () -> (:Number);
+
+	rpn-expressions;
+
+	expression: () -> (n:Number) [
+		div-expr: (n1:Number, n2:Number) -> (n:Number) = {
+			n = <Div>(n1, n2);
+		##
+			n = <err-divide-by-zero>;
+			<panic>;
+			rpn-expressions;
+		};
+
+		mod-expr: (n1:Number, n2:Number) -> (n:Number) = {
+			n = <Mod>(n1, n2);
+		##
+			n = <err-divide-by-zero>;
+			<panic>;
+			rpn-expressions;
+		};
+	] = {
+		{
+			n1 = number;
+		||
+			n1 = expression;
+		};
+
+		n2 = number;
+
+		{
+			mul;
+			n = <Mul>(n1, n2);
+		||
+			div;
+			n = div-expr(n1, n2);
+		||
+			mod;
+			n = mod-expr(n1, n2);
+		||
+			add;
+			n = <Add>(n1, n2);
+		||
+			sub;
+			n = <Sub>(n1, n2);
+		};
+	};
+
+	rpn-expressions = {
+		? = <is-eof>;
+	||
+		newline;
+		rpn-expressions;
+	||
+		e = expression;
+		{
+			? = <is-newline>;
+			<Print>(e);
+			newline;
+		};
+		rpn-expressions;
+	##
+		<err-syntax>;
+		<panic>;
+		rpn-expressions;
+	};
+
+%entry%
+
+	rpn-expressions;
+
