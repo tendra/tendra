@@ -40,11 +40,11 @@
 %actions%
 
 	<is-eof>: () -> (eof:Bool) = @{
-		@eof = @. == T_eof;
+		@eof = @. == @$eof;
 	@};
 
 	<is-newline>: () -> (nl:Bool) = @{
-		@nl = @. == T_newline;
+		@nl = @. == @$newline;
 	@};
 
 	<Pos>: (a:Number) -> (n:Number) = @{
@@ -97,7 +97,7 @@
 	@};
 
 	<panic> = @{
-		while (@. != T_eof && @. != T_newline) {
+		while (@. != @$eof && @. != @$newline) {
 			@>;
 		}
 	@};
