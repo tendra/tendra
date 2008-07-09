@@ -560,6 +560,7 @@
 		@entry = scope_stack_add_action (sid_current_scope,
 			grammar_table(sid_current_grammar), &@=string, sid_enclosing_rule,
 			&sid_redefining_entry, FALSE);
+			sid_current_entry = @entry;
 		if (!@entry) {
 			E_duplicate_action(@&string);
 			nstring_destroy(&@=string);
@@ -570,6 +571,7 @@
 		@entry = scope_stack_add_action (sid_current_scope,
 			grammar_table(sid_current_grammar), &@=string, sid_enclosing_rule,
 			&sid_redefining_entry, TRUE);
+			sid_current_entry = @entry;
 		if (!@entry) {
 			E_duplicate_action(@&string);
 			nstring_destroy(&@=string);
