@@ -9,7 +9,7 @@
 # $1 - The expected value for $?
 # $2 - The .lxi file under test
 lxitest() {
-	../src/lexi $2 actions.lct - - 2>&- >&-
+	../src/lexi -ltest $2 2>&- >&-
 	r=$?
 	if [ $r -ne $1 ]; then
 		echo "FAIL: $r where expecting $1 for $2"

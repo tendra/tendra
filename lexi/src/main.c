@@ -121,6 +121,7 @@ main(int argc, char **argv)
 		{ "C90", 2, 2, c_output_all, COMMON_OPTIONS "a" },
 		{ "C99", 2, 2, c_output_all, COMMON_OPTIONS "a"	},
 		{ "Dot", 1, 1, dot_output_all, COMMON_OPTIONS	},
+		{ "test", 1, 0, NULL, COMMON_OPTIONS	},
 	};
 
 	/* Default to C90 output */
@@ -259,7 +260,8 @@ main(int argc, char **argv)
 		top_level.global_zone->white_space = make_group(top_level.global_zone,"white",
 							  make_string(" \t\n",top_level.global_zone));
 
-	output->output_all(&options, &top_level);
+	if(output->output_all!=NULL)
+		output->output_all(&options, &top_level);
 
 	for(i = 0; i < output->outputfiles; i++) {
 		if(options.outputfile[i].file) {
