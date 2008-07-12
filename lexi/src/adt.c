@@ -261,17 +261,18 @@ void typetuple_init(TypeTupleT* ttlist)
 {
 	ttlist->head = NULL ;
 	ttlist->tail = &(ttlist->head) ;
+	ttlist->length = 0;
 }
 
-bool typetuple_name_is_in(TypeTupleT* tt, NStringT* id) 
+TypeTupleEntryT* typetuple_name_is_in(TypeTupleT* tt, NStringT* id) 
 {
 	TypeTupleEntryT* it;
 	for(it=tt->head; it!=NULL;it=it->next) {
 		if(nstring_equal(&it->local_name,id))
-			return true;
+			return it;
 	}
 
-	return false;
+	return NULL;
 }
 
 
@@ -279,6 +280,7 @@ void typetuple_append(TypeTupleT* ttlist, TypeTupleEntryT* tt)
 {
 	*(ttlist->tail) = tt ;
 	ttlist->tail = &(tt->next) ;
+	++ttlist->length;
 }
 
 void typetuple_assign(TypeTupleT* to, TypeTupleT* from)
@@ -291,12 +293,7 @@ void typetuple_assign(TypeTupleT* to, TypeTupleT* from)
 
 int typetuple_length(TypeTupleT* tuple)
 {
-	int length=0;
-	TypeTupleEntryT* p;
-	for(p=tuple->head; p!=NULL; p=p->next) {
-		length++;
-	}
-	return length;
+	return tuple->length;
 }
 
 int typetuple_match(TypeTupleT* t1, TypeTupleT* t2) 
@@ -307,8 +304,10 @@ int typetuple_match(TypeTupleT* t1, TypeTupleT* t2)
 		if((p->type!=q->type) || (p->is_reference!=q->is_reference))
 			return 0;
 	}
-	/* assert(!(p||q)); */
-	return 1;
+	if(p && q)
+		return 1;
+	else
+		return 0;
 }
 
 
@@ -332,4 +331,43 @@ void typetuple_destroy(TypeTupleT* tuple)
 	for(p=tuple->head; p!=NULL; p=p->next) {
 		typetupleentry_destroy(p);
 	}
+}
+
+
+static int
+cmp_tuples_names(void const* p, void const* q)
+{
+	switch(nstring_compare((NStringT*)p, (NStringT*) q)) {
+	case CMP_LT:
+		return -1;
+	case CMP_EQ:
+		return 0;
+	case CMP_GT:
+		return 1;
+	}
+}
+/*
+  This helper function returns true if all names in params and results
+  are unique. It returns false otherewise.
+*/
+int typetuple_unique_names(TypeTupleT* params, TypeTupleT* results) 
+{
+	int total_length=typetuple_length(params)+typetuple_length(results);
+	NStringT** tab = xmalloc_nof(NStringT*,typetuple_length(params)+typetuple_length(results));
+	TypeTupleEntryT* p;
+	int i = 0;
+	for(p=params->head;p!=NULL;p=p->next, ++i) {
+		tab[i]=&p->local_name;
+	}
+	for(p=results->head;p!=NULL;p=p->next, ++i) {
+		tab[i]=&p->local_name;
+	}
+	qsort(tab, total_length, sizeof(NStringT**), &cmp_tuples_names);
+	for(i=0;i<total_length-1;++i) {
+		if(nstring_equal(tab[i],tab[i+1])) {
+			return false;
+		}
+	}
+	xfree(p);
+	return true;
 }

@@ -158,6 +158,10 @@ code-identifier : () -> (i:IDENTIFIER) = @{
 	nstring_copy_cstring(&@i,lct_token_buff);
 @};
 
+code-reference : () -> (i:IDENTIFIER) = @{
+	nstring_copy_cstring(&@i,lct_token_buff);
+@};
+
 code-string : () -> (s:BIGSTRING) = @{
 	nstring_assign(&@s, &lct_token_nstring);
 @};
@@ -197,12 +201,21 @@ code-string : () -> (s:BIGSTRING) = @{
 	ccode_append_string(@&c,@&s);
 @};
 
-<append-ccode-identifier> : (c:CCODE&, i:IDENTIFIER, e:ENTRYP) -> () = @{
+<append-ccode-identifier> : (c:CCODE&, i:IDENTIFIER, e:ENTRYP, b:BOOL) -> () = @{
 	if(@e) {
 		ActionT* action = entry_get_action(@e);
-	 	if (typetuple_name_is_in(action_get_inputs(action),@&i) || 
-	       	   typetuple_name_is_in(action_get_outputs(action),@&i)) {
-			ccode_append_identifier(@&c,@&i);
+		TypeTupleEntryT *p, *q;
+	 	if ((p = typetuple_name_is_in(action_get_inputs(action),@&i)) || 
+	       	    (q = typetuple_name_is_in(action_get_outputs(action),@&i))) {
+		   	if(!@b) {
+				ccode_append_identifier(@&c,@&i);
+			} else {
+				if(p && p->is_reference) {
+					ccode_append_reference(@&c,@&i);
+				} else {
+					error(ERROR_SERIOUS, "In code block the \'@@&\' can only be used for input parameters that are references");
+				}
+			}
 		} else {
 			char* pi = nstring_to_cstring(@&i);
 			nstring_destroy(@&i);
@@ -261,10 +274,14 @@ code-string : () -> (s:BIGSTRING) = @{
 		 nstring_destroy(@&id);
 		 nstring_destroy(@&type);
 	}
-	else if(!entry_is_type(entry))
-		 error(ERROR_SERIOUS, "%s is not a type", @&type);
-	else
+	else if(!entry_is_type(entry)) {
+		error(ERROR_SERIOUS, "%s is not a type", @&type);
+		nstring_destroy(@&type);
+	}
+	else {
 		typetuple_append(@&a,typetupleentry_create(@&id,entry, @isref));
+		nstring_destroy(@&type);
+	}
 @} ;
 
 <make-map> : (lexitype:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
@@ -310,6 +327,7 @@ code-string : () -> (s:BIGSTRING) = @{
 <check-action-tuples> : (e:ENTRYP, in:TYPETUPLE&, out:TYPETUPLE&) -> () = @{
 	if(@e) {
 		/*TODO assert (entry_is_action(@e)); */	       
+		/* TODO check that the same name does not appear twice in the input and output tuple */
 		ActionT* action = entry_get_action(@e);
 		if(typetuple_length(action_get_inputs(action))!=typetuple_length(@&in)) {
 			char* pe=nstring_to_cstring(entry_key(@e));

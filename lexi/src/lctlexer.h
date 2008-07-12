@@ -53,7 +53,7 @@ struct lexi_lct_state {
 	 * Lexi's buffer is a simple stack. The size is calculated as
 	 * max(mapping) - 1 + max(token) - 1
 	 */
-	int buffer[2 - 1];
+	int buffer[3 - 1];
 	int buffer_index;
 };
 

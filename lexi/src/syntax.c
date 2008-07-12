@@ -939,7 +939,7 @@ ZRinstructions_Hlist(zoneP ZI226, instructions_listP *ZO231)
 #line 450 "syntax.act"
 
 	if((ZIinst)!=NULL) { /* if (ZIinst) == NULL, an error has already been issued.*/
-		LocalNamesT** locals = instructionslist_localnamesref((ZIinstl));
+		LocalNamesT* locals = instructionslist_localnames((ZIinstl));
 /*		if(((ZIinstl)->head !=NULL) && ((ZIinst)->type==return_terminal || (ZIinst)->type==do_nothing)) {
 			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
 		}*/
@@ -959,7 +959,7 @@ ZRinstructions_Hlist(zoneP ZI226, instructions_listP *ZO231)
 			      	switch (p->type) {
 				case arg_identifier: 
 				     	nstring_copy_cstring(&str, p->u.litteral);
-					entrytype=localnames_get_type(*locals, &str);
+					entrytype=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!entrytype) {
 						EntryT* tableentry = table_get_entry((ZI226)->top_level->table, &str);
@@ -1041,7 +1041,7 @@ ZRinstructions_Hlist(zoneP ZI226, instructions_listP *ZO231)
 						NStringT str;
 						EntryT* entry; 
 						nstring_copy_cstring(&str, p->u.litteral);
-						entrytype = localnames_get_type(*locals, &str);
+						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
 							EntryT* entry = table_get_entry((ZI226)->top_level->table, &str);
 							localnames_add_nstring(locals, &str, q->type);
@@ -3517,7 +3517,7 @@ ZR232(zoneP ZI226, instructions_listP ZI229, zoneP *ZO230, instructions_listP *Z
 #line 450 "syntax.act"
 
 	if((ZIinst)!=NULL) { /* if (ZIinst) == NULL, an error has already been issued.*/
-		LocalNamesT** locals = instructionslist_localnamesref((ZIinstl));
+		LocalNamesT* locals = instructionslist_localnames((ZIinstl));
 /*		if(((ZIinstl)->head !=NULL) && ((ZIinst)->type==return_terminal || (ZIinst)->type==do_nothing)) {
 			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
 		}*/
@@ -3537,7 +3537,7 @@ ZR232(zoneP ZI226, instructions_listP ZI229, zoneP *ZO230, instructions_listP *Z
 			      	switch (p->type) {
 				case arg_identifier: 
 				     	nstring_copy_cstring(&str, p->u.litteral);
-					entrytype=localnames_get_type(*locals, &str);
+					entrytype=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!entrytype) {
 						EntryT* tableentry = table_get_entry((ZI226)->top_level->table, &str);
@@ -3619,7 +3619,7 @@ ZR232(zoneP ZI226, instructions_listP ZI229, zoneP *ZO230, instructions_listP *Z
 						NStringT str;
 						EntryT* entry; 
 						nstring_copy_cstring(&str, p->u.litteral);
-						entrytype = localnames_get_type(*locals, &str);
+						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
 							EntryT* entry = table_get_entry((ZI226)->top_level->table, &str);
 							localnames_add_nstring(locals, &str, q->type);

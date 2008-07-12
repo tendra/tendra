@@ -63,10 +63,16 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "exds/common.h"
+#include "exds/exception.h"
+#include "exds/dalloc.h"
+#include "exds/dstring.h"
+
 #include "error/error.h"
 #include "xalloc/xalloc.h"
 
 #include "char.h"
+#include "localnames.h"
 #include "lex.h"
 #include "lctlex.h"
 #include "c-output.h"
@@ -139,10 +145,68 @@ char_lit(letter_translation* ctrans)
 static const char *read_token_name;
 static const char *lexi_prefix;
 
-static	void 
+
+static void 
+output_locals(LocalNamesT* locals, int d, FILE* lex_output )
+{
+	const char* prefixvar = "ZV";
+	const char* prefixtype = "ZT";
+	char* s = xmalloc_nof(char, locals->max_depth+1);
+	LocalNamesIteratorT it ;
+	for( localnames_begin(&it, locals); 
+	    it.p; 
+	    localnamesiterator_next(&it)) {
+		EntryT* t;
+		LocalNamesEntryT* p= it.p;
+		int i;
+		s[it.depth]=0;
+		for( i = it.depth-1 ; i>=0; --i) {
+			/* TODO assert(p) */
+			s[i]=p->c;
+			p=p->up;
+		}
+		output_indent(lex_output,d);
+		t = it.p->type;
+		/* TODO assert(entry_is_type(t)); */
+		char* st;
+		if(t->u.type->mapped) {
+			prefixtype="";
+			nstring_to_cstring(&t->u.type->mapping);
+		} else {
+			st=nstring_to_cstring(entry_key(t));
+		}
+	       	fprintf(lex_output,"%s%s %s%s;\n", prefixtype, st, prefixvar, s);
+		DEALLOCATE(st);
+	}
+	xfree(s);
+}
+
+static void 
+output_action(FILE* lex_output, EntryT* action, int d)
+{
+	/* TODO Create a translation stack */
+	/* TODO assert(entry_is_action(action)) */
+	if(action_is_defined(&action)) {
+		ccode_output(lex_output, &action->u.action->code);
+	} else {
+		/*TODO We should catch this error before beginning output */
+		error(ERROR_SERIOUS, "Action \%s is used but undefined");
+	}
+}
+
+
+static void 
 output_instructions( zone* z, instructions_list* ret, int n, int d)
 {
   instruction* instr;
+  LocalNamesT* locals = instructionslist_localnames(ret);
+  if(locals->top) {
+    output_indent(lex_output,d);
+    fputs("{\n", lex_output);
+    ++d;
+    output_locals(locals, d, lex_output );
+  }
+    
   for(instr=ret->head; instr; instr=instr->next) {
     switch(instr->type) {
     case return_terminal :
@@ -152,8 +216,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       break;
     case action_call :
       /* assert(!instr->next);*/
-      output_indent(lex_output, d);
-      fprintf(lex_output, "/*Action not implemented yet*/\n", instr->u.name);
+      output_action(lex_output, instr->u.act.called_act, d);
       break;
     case apply_function:
       output_indent(lex_output, d);
@@ -240,6 +303,13 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       break;
     }
   }
+
+  if(locals->top) {
+    d--;
+    output_indent(lex_output,d);
+    fputs("}\n", lex_output);
+  }
+
 }
 
 /*
@@ -692,15 +762,15 @@ output_buffer(cmd_line_options* opt)
 void 
 output_headers()
 {
-	ccode_output(&(global_lct_parse_tree.hfileheader), lex_output_h);
-	ccode_output(&(global_lct_parse_tree.cfileheader), lex_output);
+	ccode_output(lex_output_h, &(global_lct_parse_tree.hfileheader));
+	ccode_output(lex_output, &(global_lct_parse_tree.cfileheader));
 }
 
 void 
 output_trailers()
 {
-	ccode_output(&(global_lct_parse_tree.hfiletrailer), lex_output_h);
-	ccode_output(&(global_lct_parse_tree.cfiletrailer), lex_output);
+	ccode_output(lex_output_h, &(global_lct_parse_tree.hfiletrailer));
+	ccode_output(lex_output, &(global_lct_parse_tree.cfiletrailer));
 }
 
 void

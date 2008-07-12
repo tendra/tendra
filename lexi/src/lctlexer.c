@@ -142,7 +142,13 @@ lexi_lct_read_token_code_area(struct lexi_lct_state *state)
 		if (lexi_lct_group(lexi_lct_group_code_area_white, c0)) goto start;
 		if (c0 == '@') {
 			int c1 = lexi_lct_readchar(state);
-			if (c1 == '@') {
+			if (c1 == '&') {
+				int c2 = lexi_lct_readchar(state);
+				if (lexi_lct_group(lexi_lct_group_alpha, c2)) {
+					return get_code_lct_reference(c2);
+				}
+				lexi_lct_push(state, c2);
+			} else if (c1 == '@') {
 				return lct_lex_code_Hat;
 			} else if (c1 == '}') {
 				state->zone_function = lexi_lct_read_token;

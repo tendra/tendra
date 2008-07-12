@@ -35,29 +35,6 @@ static void ccodeitem_destroy(CcodeItemT* ccode_item)
 }
 
 
-static void 
-ccodeitem_output(CcodeItemT* ccode_item, FILE* file) 
-{
-	char* s;
-	switch(ccode_item->item_type) {
-		case Ccode_at:
-			fputs("@", file);
-			break;
-		case Ccode_string:
-			s = nstring_to_cstring(ccodeitem_name(ccode_item));
-			fputs(s, file);
-			DEALLOCATE(s)
-			break;
-		case Ccode_identifier:
-			s =nstring_to_cstring(ccodeitem_name(ccode_item));
-			fputs("/* Not implemented yet: Identifier @", file);
-			fputs(s, file);
-			fputs("*/", file);
-			DEALLOCATE(s)
-			break;
-	}
-}
-
 void ccode_init(CcodeT* c) 
 {
 	c->head=NULL;
@@ -94,6 +71,13 @@ void ccode_append_identifier(CcodeT* ccode, NStringT* i)
 	ccode_append_ccodeitem(ccode, ccode_item);
 }
 
+void ccode_append_reference(CcodeT* ccode, NStringT* i)
+{
+	CcodeItemT* ccode_item = ccodeitem_create(Ccode_reference);
+	nstring_assign(ccodeitem_name(ccode_item),i);
+	ccode_append_ccodeitem(ccode, ccode_item);
+}
+
 void ccode_append_string(CcodeT* ccode, NStringT* s) 
 {
 	CcodeItemT* ccode_item = ccodeitem_create(Ccode_string);
@@ -110,13 +94,38 @@ void ccode_destroy(CcodeT* c)
 }
 
 
+static void 
+ccodeitem_output(CcodeItemT* ccode_item, FILE* file) 
+{
+	char* s;
+	switch(ccode_item->item_type) {
+		case Ccode_at:
+			fputs("@", file);
+			break;
+		case Ccode_string:
+			s = nstring_to_cstring(ccodeitem_name(ccode_item));
+			fputs(s, file);
+			DEALLOCATE(s)
+			break;
+		case Ccode_identifier:
+		case Ccode_reference:
+			s = nstring_to_cstring(ccodeitem_name(ccode_item));
+			/* Inefficient code */
+			
+			/* End inefficient code */
+			fprintf(file,"/* Not implemented yet: Identifier @s. Have to recover passing name. */", s);
+			DEALLOCATE(s)
+			break;
+	}
+}
+
+
 void 
-ccode_output(CcodeT* ccode, FILE* file) 
+ccode_output(FILE* file, CcodeT* ccode) 
 {
 	CcodeItemT* it;
 	for(it=ccode->head; it!=NULL; it = it->next) {
 		ccodeitem_output(it, file);
 	}
-	
 }
 

@@ -64,6 +64,7 @@ ZONE  code_area : "@{" -> $code-start
 	GROUP white = "" ;
 	TOKEN DEFAULT -> get_code_lct_string (#0) ;
 	TOKEN "@[alpha]" -> get_code_lct_identifier (#1) ;
+	TOKEN "@&[alpha]" -> get_code_lct_reference (#2) ;
 	TOKEN "@@"	 -> $code-at;
 	TOKEN "@"	 -> $lone-code-at;
 	TOKEN "\e"	 -> $code-eof;

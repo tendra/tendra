@@ -68,6 +68,7 @@ typedef struct TypeTupleEntryT {
 typedef struct TypeTupleT {
 	TypeTupleEntryT*  head;
 	TypeTupleEntryT** tail;
+	unsigned int length;
 } TypeTupleT;
 
 typedef struct ActionT {
@@ -111,7 +112,7 @@ extern TypeTupleEntryT* typetupleentry_create(NStringT*, EntryT*, bool);
 extern void typetupleentry_destroy(TypeTupleEntryT*);
 
 extern void typetuple_init(TypeTupleT*);
-extern bool typetuple_name_is_in(TypeTupleT*, NStringT*);
+extern TypeTupleEntryT* typetuple_name_is_in(TypeTupleT*, NStringT*);
 extern void typetuple_append(TypeTupleT*, TypeTupleEntryT*);
 extern void typetuple_assign(TypeTupleT*, TypeTupleT*);
 extern int typetuple_length(TypeTupleT*);

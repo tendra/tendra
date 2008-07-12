@@ -449,7 +449,7 @@ arg-ignore : () -> (a:ARG) = @{
 */
 <add-inst-to-list> : ( z : ZONE, i : INSTRUCTION, il : INSTRUCTIONS_LIST ) -> () = @{
 	if(@i!=NULL) { /* if @i == NULL, an error has already been issued.*/
-		LocalNamesT** locals = instructionslist_localnamesref(@il);
+		LocalNamesT* locals = instructionslist_localnames(@il);
 /*		if((@il->head !=NULL) && (@i->type==return_terminal || @i->type==do_nothing)) {
 			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
 		}*/
@@ -469,7 +469,7 @@ arg-ignore : () -> (a:ARG) = @{
 			      	switch (p->type) {
 				case arg_identifier: 
 				     	nstring_copy_cstring(&str, p->u.litteral);
-					entrytype=localnames_get_type(*locals, &str);
+					entrytype=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!entrytype) {
 						EntryT* tableentry = table_get_entry(@z->top_level->table, &str);
@@ -551,7 +551,7 @@ arg-ignore : () -> (a:ARG) = @{
 						NStringT str;
 						EntryT* entry; 
 						nstring_copy_cstring(&str, p->u.litteral);
-						entrytype = localnames_get_type(*locals, &str);
+						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
 							EntryT* entry = table_get_entry(@z->top_level->table, &str);
 							localnames_add_nstring(locals, &str, q->type);

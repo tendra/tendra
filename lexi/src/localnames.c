@@ -37,18 +37,27 @@
 #include "localnames.h"
 #include "adt.h"
 
-LocalNamesT* 
-localnames_create(char c)
+static LocalNamesEntryT* 
+localnamesentry_create(char c, LocalNamesEntryT* parent)
 {
-	LocalNamesT* locals = xmalloc_nof(LocalNamesT, 1);
+	LocalNamesEntryT* locals = xmalloc_nof(LocalNamesEntryT, 1);
 	
 	locals->c    = c;
 	locals->next = NULL;
 	locals->opt  = NULL;
 	locals->type = NULL;
+	locals->up = parent;
 
 	return locals;
 }
+
+extern void
+localnames_init(LocalNamesT* p)
+{
+	p->max_depth = 0;
+	p->top = NULL;
+}
+
 
 /* 
 	Adding an entry to the trie
@@ -58,24 +67,27 @@ localnames_create(char c)
 	add the empty string which is fine as no identifier can have zero length.
 */
 int
-localnames_add_nstring(LocalNamesT** locals, NStringT* name, struct EntryT* type)
+localnames_add_nstring(LocalNamesT* locals, NStringT* name, struct EntryT* type)
 {
 	unsigned int i;
 	/* TODO assert(locals!=NULL) */
-	LocalNamesT** crt = locals;
-	EntryT** entry ;
+	LocalNamesEntryT** crt = &(locals->top);
+	LocalNamesEntryT* parent = NULL;
 	char* p = nstring_contents(name); /* BEWARE: not zero terminated! */
 	for (i = 0; i < nstring_length(name); ++i) {
-		while ( (*crt)!=NULL && ((*crt)->c < p[i]) )
+		while ( (*crt!=NULL) && ((*crt)->c < p[i]) )
 			crt=&((*crt)->opt);
 		if ( (*crt==NULL) || ((*crt)->c != p[i])) {
-			*crt = localnames_create(p[i]);
+		  LocalNamesEntryT* newcrt = localnamesentry_create(p[i], parent);
+			newcrt->opt = *crt;
+			*crt=newcrt;
 		}
-		entry = &((*crt)->type);
-		crt   = &((*crt)->next);
+		parent = *crt;
+		crt  = &((*crt)->next);
 	}
-	if(*entry == NULL) {
-		*entry = type;
+	if(parent->type == NULL) {
+		parent->type = type;
+		locals->max_depth = ((locals->max_depth > nstring_length(name)) ? locals->max_depth : nstring_length(name));
 		return 1; /* Success */
 	} else {
 		return 0; /* Failure: key already present in trie */
@@ -92,7 +104,7 @@ struct EntryT*
 localnames_get_type(LocalNamesT* locals, NStringT* name)
 {
 	unsigned int i;
-	LocalNamesT* crt = locals;
+	LocalNamesEntryT* crt = locals->top;
 	EntryT* entry = NULL;
 	char* p = nstring_contents(name); /* BEWARE: not zero terminated! */
 	for (i = 0; i < nstring_length(name); ++i) {
@@ -106,6 +118,35 @@ localnames_get_type(LocalNamesT* locals, NStringT* name)
 		}
 	}
 	return entry;
-	
 }
 
+/* Iterating over a trie without using recursive functions */
+void localnames_begin(LocalNamesIteratorT* it, LocalNamesT* locals)
+{
+	it->p=locals->top;
+	it->depth=0;
+	if(it->p) {
+		++it->depth;
+	        while ( it->p->next!=NULL) {
+			it->p=it->p->next;
+			++it->depth;
+		}
+	}
+	return;
+}
+
+void localnamesiterator_next(LocalNamesIteratorT* it)
+{
+	do {
+		it->p =it->p->up;
+		it->depth--;
+	} while(it->p && (it->p->type==NULL) && (it->p->opt==NULL));
+	if(it->p && it->p->opt) {
+		it->p = it->p->opt;
+		while(it->p->next) {
+			it->p=it->p->next;
+			it->depth++;
+		}
+	}
+	/* TODO Assert(it->p->type!=NULL||it->p==NULL) */
+}

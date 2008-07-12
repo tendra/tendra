@@ -120,7 +120,7 @@ typedef struct instruction_tag {
 
 /* ordered */
 typedef struct instructions_list_tag {
-  LocalNamesT* local_names;
+  LocalNamesT local_names;
   instruction* head;
   instruction** tail;
 } instructions_list;
@@ -332,7 +332,5 @@ extern unsigned int hash_cstring (char*);
 extern unsigned int hash_cstring_n(char*,size_t);
 
 extern LocalNamesT* instructionslist_localnames(instructions_list*);
-extern LocalNamesT** instructionslist_localnamesref(instructions_list*);
-
 extern bool args_rhs_fill_type(args_list*, LocalNamesT*, lexer_parse_tree*);
 #endif

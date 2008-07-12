@@ -62,6 +62,7 @@
 #include <stddef.h>
 
 #include "char.h"
+#include "localnames.h"
 
 #include "exds/common.h"
 #include "exds/dstring.h"
@@ -440,14 +441,14 @@ new_instructions_list (void)
     p = instructions_list_free + (--instructions_list_left);
     p->head=NULL;
     p->tail=&(p->head);
-    p->local_names = NULL;
+    localnames_init(&(p->local_names));
     return p;   
 }
 
 /*
     ADDS A NEW INSTRUCTIONS LIST
 
-    This routine adds a ne instructions list.
+    This routine adds a new instructions list.
 */
 
 instructions_list*
@@ -464,15 +465,8 @@ add_instructions_list (void)
 LocalNamesT* 
 instructionslist_localnames(instructions_list* l)
 {
-	return l->local_names;
+	return &l->local_names;
 }
-
-LocalNamesT** 
-instructionslist_localnamesref(instructions_list* l)
-{
-	return &(l->local_names);
-}
-
 
 /*
     ALLOCATE A NEW ZONE

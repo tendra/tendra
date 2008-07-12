@@ -76,18 +76,18 @@ static void ZRcode_Hblock_C_Ccode_Helement(CcodeT *, EntryP);
 static void ZRmap_Hstmnt(void);
 extern void read_lct_unit(void);
 static void ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Htuple1(TypeTupleT *);
-static void ZR72(void);
 static void ZRstatement_Hlist(void);
+static void ZR74(void);
 static void ZRcode_Hblock_C_Ccode_Hbody(CcodeT *, EntryP);
 static void ZRheader_Hstmnt(void);
 static void ZRcode_Hblock(EntryP, CcodeT *);
 static void ZRstatement(void);
-static void ZR96(void);
 static void ZRtrailer_Hstmnt(void);
 static void ZRaction_Hdefinition(void);
 static void ZR98(void);
-static void ZR99(void);
-static void ZR105(TypeTupleT *);
+static void ZR100(void);
+static void ZR101(void);
+static void ZR106(TypeTupleT *);
 static void ZRaction_Hdefinition_C_Ctype_Htuple(TypeTupleT *);
 
 /* BEGINNING OF STATIC VARIABLES */
@@ -98,7 +98,7 @@ static void ZRaction_Hdefinition_C_Ctype_Htuple(TypeTupleT *);
 static void
 ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
@@ -106,7 +106,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 	NStringT ZItype;
 	bool ZIisref;
 
-	/* BEGINNING OF INLINE: 85 */
+	/* BEGINNING OF INLINE: 87 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 16:
@@ -126,7 +126,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 		{
 		    /* BEGINNING OF ACTION: empty-identifier */
 		    {
-#line 182 "lctsyntax.act"
+#line 186 "lctsyntax.act"
  nstring_init(&(ZIname)); 
 #line 132 "lctsyntax.c"
 		    }
@@ -135,7 +135,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 		break;
 	    }
 	}
-	/* END OF INLINE: 85 */
+	/* END OF INLINE: 87 */
 	switch (CURRENT_TERMINAL) {
 	  case 5:
 	    break;
@@ -158,7 +158,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	/* BEGINNING OF INLINE: 88 */
+	/* BEGINNING OF INLINE: 90 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 4:
@@ -166,7 +166,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: true */
 		    {
-#line 175 "lctsyntax.act"
+#line 179 "lctsyntax.act"
  (ZIisref) = true ; 
 #line 172 "lctsyntax.c"
 		    }
@@ -177,7 +177,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 		{
 		    /* BEGINNING OF ACTION: false */
 		    {
-#line 176 "lctsyntax.act"
+#line 180 "lctsyntax.act"
  (ZIisref) = false ; 
 #line 183 "lctsyntax.c"
 		    }
@@ -186,10 +186,10 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 		break;
 	    }
 	}
-	/* END OF INLINE: 88 */
+	/* END OF INLINE: 90 */
 	/* BEGINNING OF ACTION: append-tuple */
 	{
-#line 255 "lctsyntax.act"
+#line 268 "lctsyntax.act"
 
 	EntryT* entry = table_get_entry(lxi_top_level->table,(&ZItype));
 	if(entry == NULL) {
@@ -199,17 +199,21 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 		 nstring_destroy((&ZIname));
 		 nstring_destroy((&ZItype));
 	}
-	else if(!entry_is_type(entry))
-		 error(ERROR_SERIOUS, "%s is not a type", (&ZItype));
-	else
+	else if(!entry_is_type(entry)) {
+		error(ERROR_SERIOUS, "%s is not a type", (&ZItype));
+		nstring_destroy((&ZItype));
+	}
+	else {
 		typetuple_append((ZIa),typetupleentry_create((&ZIname),entry, (ZIisref)));
-#line 207 "lctsyntax.c"
+		nstring_destroy((&ZItype));
+	}
+#line 211 "lctsyntax.c"
 	}
 	/* END OF ACTION: append-tuple */
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
 }
 
@@ -223,9 +227,9 @@ ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(TypeTupleT *ZOin, TypeTupleT *ZOout
       case 5: case 6: case 16:
 	{
 	    ZRaction_Hdefinition_C_Ctype_Htuple (&ZIin);
-	    ZR96 ();
+	    ZR98 ();
 	    ZRaction_Hdefinition_C_Ctype_Htuple (&ZIout);
-	    if ((CURRENT_TERMINAL) == 20) {
+	    if ((CURRENT_TERMINAL) == 21) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -235,28 +239,28 @@ ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn(TypeTupleT *ZOin, TypeTupleT *ZOout
 	{
 	    /* BEGINNING OF ACTION: init-tuple */
 	    {
-#line 251 "lctsyntax.act"
+#line 264 "lctsyntax.act"
 
 	typetuple_init(&(ZIin));
-#line 242 "lctsyntax.c"
+#line 246 "lctsyntax.c"
 	    }
 	    /* END OF ACTION: init-tuple */
 	    /* BEGINNING OF ACTION: init-tuple */
 	    {
-#line 251 "lctsyntax.act"
+#line 264 "lctsyntax.act"
 
 	typetuple_init(&(ZIout));
-#line 250 "lctsyntax.c"
+#line 254 "lctsyntax.c"
 	    }
 	    /* END OF ACTION: init-tuple */
 	}
 	break;
-      case 20:
+      case 21:
 	return;
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
   ZL0:;
     *ZOin = ZIin;
@@ -272,10 +276,10 @@ ZRcode_Hblock_C_Ccode_Helement(CcodeT *ZIc, EntryP ZIe)
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: append-ccode-at */
 	    {
-#line 192 "lctsyntax.act"
+#line 196 "lctsyntax.act"
 
 	ccode_append_at(&(*ZIc));
-#line 279 "lctsyntax.c"
+#line 283 "lctsyntax.c"
 	    }
 	    /* END OF ACTION: append-ccode-at */
 	}
@@ -283,25 +287,42 @@ ZRcode_Hblock_C_Ccode_Helement(CcodeT *ZIc, EntryP ZIe)
       case 17:
 	{
 	    NStringT ZIi;
+	    bool ZIb;
 
 	    /* BEGINNING OF EXTRACT: code-identifier */
 	    {
 #line 157 "lctsyntax.act"
 
 	nstring_copy_cstring(&ZIi,lct_token_buff);
-#line 293 "lctsyntax.c"
+#line 298 "lctsyntax.c"
 	    }
 	    /* END OF EXTRACT: code-identifier */
 	    ADVANCE_LEXER;
+	    /* BEGINNING OF ACTION: false */
+	    {
+#line 180 "lctsyntax.act"
+ (ZIb) = false ; 
+#line 306 "lctsyntax.c"
+	    }
+	    /* END OF ACTION: false */
 	    /* BEGINNING OF ACTION: append-ccode-identifier */
 	    {
-#line 200 "lctsyntax.act"
+#line 204 "lctsyntax.act"
 
 	if((ZIe)) {
 		ActionT* action = entry_get_action((ZIe));
-	 	if (typetuple_name_is_in(action_get_inputs(action),(&ZIi)) || 
-	       	   typetuple_name_is_in(action_get_outputs(action),(&ZIi))) {
-			ccode_append_identifier((ZIc),(&ZIi));
+		TypeTupleEntryT *p, *q;
+	 	if ((p = typetuple_name_is_in(action_get_inputs(action),(&ZIi))) || 
+	       	    (q = typetuple_name_is_in(action_get_outputs(action),(&ZIi)))) {
+		   	if(!(ZIb)) {
+				ccode_append_identifier((ZIc),(&ZIi));
+			} else {
+				if(p && p->is_reference) {
+					ccode_append_reference((ZIc),(&ZIi));
+				} else {
+					error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
+				}
+			}
 		} else {
 			char* pi = nstring_to_cstring((&ZIi));
 			nstring_destroy((&ZIi));
@@ -315,30 +336,87 @@ ZRcode_Hblock_C_Ccode_Helement(CcodeT *ZIc, EntryP ZIe)
 		error(ERROR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
 		nstring_destroy((&ZIi));
 	}
-#line 319 "lctsyntax.c"
+#line 340 "lctsyntax.c"
 	    }
 	    /* END OF ACTION: append-ccode-identifier */
 	}
 	break;
       case 18:
 	{
+	    NStringT ZIi;
+	    bool ZIb;
+
+	    /* BEGINNING OF EXTRACT: code-reference */
+	    {
+#line 161 "lctsyntax.act"
+
+	nstring_copy_cstring(&ZIi,lct_token_buff);
+#line 355 "lctsyntax.c"
+	    }
+	    /* END OF EXTRACT: code-reference */
+	    ADVANCE_LEXER;
+	    /* BEGINNING OF ACTION: true */
+	    {
+#line 179 "lctsyntax.act"
+ (ZIb) = true ; 
+#line 363 "lctsyntax.c"
+	    }
+	    /* END OF ACTION: true */
+	    /* BEGINNING OF ACTION: append-ccode-identifier */
+	    {
+#line 204 "lctsyntax.act"
+
+	if((ZIe)) {
+		ActionT* action = entry_get_action((ZIe));
+		TypeTupleEntryT *p, *q;
+	 	if ((p = typetuple_name_is_in(action_get_inputs(action),(&ZIi))) || 
+	       	    (q = typetuple_name_is_in(action_get_outputs(action),(&ZIi)))) {
+		   	if(!(ZIb)) {
+				ccode_append_identifier((ZIc),(&ZIi));
+			} else {
+				if(p && p->is_reference) {
+					ccode_append_reference((ZIc),(&ZIi));
+				} else {
+					error(ERROR_SERIOUS, "In code block the \'@&\' can only be used for input parameters that are references");
+				}
+			}
+		} else {
+			char* pi = nstring_to_cstring((&ZIi));
+			nstring_destroy((&ZIi));
+			char* pe =  nstring_to_cstring(entry_key((ZIe)));
+			error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output" 
+					     "parameter of action %s", pi, pe );
+			DEALLOCATE(pi);
+			DEALLOCATE(pe);
+		}
+	} else {
+		error(ERROR_SERIOUS, "The @ code identifiers are not allowed in headers or trailers");
+		nstring_destroy((&ZIi));
+	}
+#line 397 "lctsyntax.c"
+	    }
+	    /* END OF ACTION: append-ccode-identifier */
+	}
+	break;
+      case 19:
+	{
 	    NStringT ZIs;
 
 	    /* BEGINNING OF EXTRACT: code-string */
 	    {
-#line 161 "lctsyntax.act"
+#line 165 "lctsyntax.act"
 
 	nstring_assign(&ZIs, &lct_token_nstring);
-#line 333 "lctsyntax.c"
+#line 411 "lctsyntax.c"
 	    }
 	    /* END OF EXTRACT: code-string */
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: append-ccode-string */
 	    {
-#line 196 "lctsyntax.act"
+#line 200 "lctsyntax.act"
 
 	ccode_append_string((ZIc),(&ZIs));
-#line 342 "lctsyntax.c"
+#line 420 "lctsyntax.c"
 	    }
 	    /* END OF ACTION: append-ccode-string */
 	}
@@ -348,29 +426,29 @@ ZRcode_Hblock_C_Ccode_Helement(CcodeT *ZIc, EntryP ZIe)
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: E_lone_at_in_code_block */
 	    {
-#line 402 "lctsyntax.act"
+#line 420 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Lone @ inside @{ @} block") ;
-#line 355 "lctsyntax.c"
+#line 433 "lctsyntax.c"
 	    }
 	    /* END OF ACTION: E_lone_at_in_code_block */
 	}
 	break;
-      case 20:
+      case 21:
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
 }
 
 static void
 ZRmap_Hstmnt(void)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
@@ -391,7 +469,7 @@ ZRmap_Hstmnt(void)
 #line 153 "lctsyntax.act"
 
 	nstring_copy_cstring(&ZIlexitype,lct_token_buff);
-#line 395 "lctsyntax.c"
+#line 473 "lctsyntax.c"
 	    }
 	    /* END OF EXTRACT: identifier */
 	    break;
@@ -399,7 +477,7 @@ ZRmap_Hstmnt(void)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	ZR96 ();
+	ZR98 ();
 	switch (CURRENT_TERMINAL) {
 	  case 16:
 	    /* BEGINNING OF EXTRACT: identifier */
@@ -407,11 +485,11 @@ ZRmap_Hstmnt(void)
 #line 153 "lctsyntax.act"
 
 	nstring_copy_cstring(&ZIctype,lct_token_buff);
-#line 411 "lctsyntax.c"
+#line 489 "lctsyntax.c"
 	    }
 	    /* END OF EXTRACT: identifier */
 	    break;
-	  case 20:
+	  case 21:
 	    RESTORE_LEXER;
 	    goto ZL1;
 	  default:
@@ -420,7 +498,7 @@ ZRmap_Hstmnt(void)
 	ADVANCE_LEXER;
 	/* BEGINNING OF ACTION: make-map */
 	{
-#line 270 "lctsyntax.act"
+#line 287 "lctsyntax.act"
 
 	EntryT* entry= table_get_entry(lxi_top_level->table,(&ZIlexitype));
 	if(entry !=NULL) {
@@ -436,25 +514,25 @@ ZRmap_Hstmnt(void)
 		nstring_destroy((&ZIctype));
 	}
 	nstring_destroy((&ZIlexitype));
-#line 440 "lctsyntax.c"
+#line 518 "lctsyntax.c"
 	}
 	/* END OF ACTION: make-map */
-	ZR99 ();
-	if ((CURRENT_TERMINAL) == 20) {
+	ZR101 ();
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
 }
 
 void
 read_lct_unit(void)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
@@ -462,7 +540,7 @@ read_lct_unit(void)
 	switch (CURRENT_TERMINAL) {
 	  case 15:
 	    break;
-	  case 20:
+	  case 21:
 	    RESTORE_LEXER;
 	    goto ZL1;
 	  default:
@@ -475,10 +553,10 @@ read_lct_unit(void)
     {
 	/* BEGINNING OF ACTION: E-syntax-error */
 	{
-#line 368 "lctsyntax.act"
+#line 386 "lctsyntax.act"
 
 	    error ( ERROR_SERIOUS, "Syntax error" ) ;
-#line 482 "lctsyntax.c"
+#line 560 "lctsyntax.c"
 	}
 	/* END OF ACTION: E-syntax-error */
     }
@@ -487,13 +565,13 @@ read_lct_unit(void)
 static void
 ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Htuple1(TypeTupleT *ZIa)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
   ZL2_action_Hdefinition_C_Ctype_Htuple_C_Ctype_Htuple1:;
     {
 	ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname (ZIa);
-	/* BEGINNING OF INLINE: 106 */
+	/* BEGINNING OF INLINE: 107 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 9:
@@ -504,25 +582,54 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Htuple1(TypeTupleT *ZIa)
 		    /* END OF INLINE: action-definition::type-tuple::type-tuple1 */
 		}
 		/*UNREACHED*/
-	      case 20:
+	      case 21:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
 		break;
 	    }
 	}
-	/* END OF INLINE: 106 */
+	/* END OF INLINE: 107 */
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
 }
 
 static void
-ZR72(void)
+ZRstatement_Hlist(void)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+  ZL2_statement_Hlist:;
+    switch (CURRENT_TERMINAL) {
+      case 0: case 1: case 2: case 3:
+	{
+	    ZRstatement ();
+	    /* BEGINNING OF INLINE: statement-list */
+	    if ((CURRENT_TERMINAL) == 21) {
+		RESTORE_LEXER;
+		goto ZL1;
+	    } else {
+		goto ZL2_statement_Hlist;
+	    }
+	    /* END OF INLINE: statement-list */
+	}
+	/*UNREACHED*/
+      case 21:
+	return;
+      default:
+	break;
+    }
+    return;
+  ZL1:;
+    SAVE_LEXER (21);
+    return;
+}
+
+static void
+ZR74(void)
+{
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
@@ -539,42 +646,13 @@ ZR72(void)
     {
 	/* BEGINNING OF ACTION: E_expected_comma */
 	{
-#line 380 "lctsyntax.act"
+#line 398 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected ','") ;
-#line 546 "lctsyntax.c"
+#line 653 "lctsyntax.c"
 	}
 	/* END OF ACTION: E_expected_comma */
     }
-}
-
-static void
-ZRstatement_Hlist(void)
-{
-  ZL2_statement_Hlist:;
-    switch (CURRENT_TERMINAL) {
-      case 0: case 1: case 2: case 3:
-	{
-	    ZRstatement ();
-	    /* BEGINNING OF INLINE: statement-list */
-	    if ((CURRENT_TERMINAL) == 20) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    } else {
-		goto ZL2_statement_Hlist;
-	    }
-	    /* END OF INLINE: statement-list */
-	}
-	/*UNREACHED*/
-      case 20:
-	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER (20);
-    return;
 }
 
 static void
@@ -582,11 +660,11 @@ ZRcode_Hblock_C_Ccode_Hbody(CcodeT *ZIc, EntryP ZIe)
 {
   ZL2_code_Hblock_C_Ccode_Hbody:;
     switch (CURRENT_TERMINAL) {
-      case 12: case 13: case 17: case 18:
+      case 12: case 13: case 17: case 18: case 19:
 	{
 	    ZRcode_Hblock_C_Ccode_Helement (ZIc, ZIe);
 	    /* BEGINNING OF INLINE: code-block::code-body */
-	    if ((CURRENT_TERMINAL) == 20) {
+	    if ((CURRENT_TERMINAL) == 21) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    } else {
@@ -595,21 +673,21 @@ ZRcode_Hblock_C_Ccode_Hbody(CcodeT *ZIc, EntryP ZIe)
 	    /* END OF INLINE: code-block::code-body */
 	}
 	/*UNREACHED*/
-      case 20:
+      case 21:
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
 }
 
 static void
 ZRheader_Hstmnt(void)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
@@ -624,29 +702,29 @@ ZRheader_Hstmnt(void)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	ZR98 ();
-	if ((CURRENT_TERMINAL) == 20) {
+	ZR100 ();
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: null-entry */
 	{
-#line 306 "lctsyntax.act"
+#line 323 "lctsyntax.act"
 
 	(ZIe)=NULL;
-#line 638 "lctsyntax.c"
+#line 716 "lctsyntax.c"
 	}
 	/* END OF ACTION: null-entry */
 	ZRcode_Hblock (ZIe, &ZIsc);
-	ZR72 ();
+	ZR74 ();
 	ZRcode_Hblock (ZIe, &ZIsh);
-	if ((CURRENT_TERMINAL) == 20) {
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: set-headers */
 	{
-#line 222 "lctsyntax.act"
+#line 235 "lctsyntax.act"
 
 	if(!global_lct_parse_tree.trailersdefined) {
 		global_lct_parse_tree.headersdefined = 1;
@@ -657,18 +735,18 @@ ZRheader_Hstmnt(void)
 		ccode_destroy((&ZIsc));
 		ccode_destroy((&ZIsh));
 	}
-#line 661 "lctsyntax.c"
+#line 739 "lctsyntax.c"
 	}
 	/* END OF ACTION: set-headers */
-	ZR99 ();
-	if ((CURRENT_TERMINAL) == 20) {
+	ZR101 ();
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
 }
 
@@ -677,11 +755,11 @@ ZRcode_Hblock(EntryP ZIe, CcodeT *ZOc)
 {
     CcodeT ZIc;
 
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
-	/* BEGINNING OF INLINE: 61 */
+	/* BEGINNING OF INLINE: 63 */
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
@@ -697,26 +775,26 @@ ZRcode_Hblock(EntryP ZIe, CcodeT *ZOc)
 	    {
 		/* BEGINNING OF ACTION: E_expected_code_start */
 		{
-#line 376 "lctsyntax.act"
+#line 394 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected  '@{'") ;
-#line 704 "lctsyntax.c"
+#line 782 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_code_start */
 	    }
 	  ZL2:;
 	}
-	/* END OF INLINE: 61 */
+	/* END OF INLINE: 63 */
 	/* BEGINNING OF ACTION: init-ccode */
 	{
-#line 188 "lctsyntax.act"
+#line 192 "lctsyntax.act"
 
 	ccode_init(&(ZIc));
-#line 716 "lctsyntax.c"
+#line 794 "lctsyntax.c"
 	}
 	/* END OF ACTION: init-ccode */
 	ZRcode_Hblock_C_Ccode_Hbody (&ZIc, ZIe);
-	/* BEGINNING OF INLINE: 62 */
+	/* BEGINNING OF INLINE: 64 */
 	{
 	    switch (CURRENT_TERMINAL) {
 	      case 14:
@@ -724,23 +802,23 @@ ZRcode_Hblock(EntryP ZIe, CcodeT *ZOc)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: E_unexpected_eof */
 		    {
-#line 398 "lctsyntax.act"
+#line 416 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Unexpected End of File inside @{ @} block") ;
-#line 731 "lctsyntax.c"
+#line 809 "lctsyntax.c"
 		    }
 		    /* END OF ACTION: E_unexpected_eof */
 		}
 		break;
-	      case 20:
+	      case 21:
 		RESTORE_LEXER;
 		goto ZL1;
 	      default:
 		break;
 	    }
 	}
-	/* END OF INLINE: 62 */
-	/* BEGINNING OF INLINE: 63 */
+	/* END OF INLINE: 64 */
+	/* BEGINNING OF INLINE: 65 */
 	{
 	    {
 		switch (CURRENT_TERMINAL) {
@@ -756,20 +834,20 @@ ZRcode_Hblock(EntryP ZIe, CcodeT *ZOc)
 	    {
 		/* BEGINNING OF ACTION: E_expected_code_end */
 		{
-#line 372 "lctsyntax.act"
+#line 390 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected  '@}'") ;
-#line 763 "lctsyntax.c"
+#line 841 "lctsyntax.c"
 		}
 		/* END OF ACTION: E_expected_code_end */
 	    }
 	  ZL5:;
 	}
-	/* END OF INLINE: 63 */
+	/* END OF INLINE: 65 */
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
   ZL0:;
     *ZOc = ZIc;
@@ -782,7 +860,7 @@ ZRstatement(void)
       case 3:
 	{
 	    ZRaction_Hdefinition ();
-	    if ((CURRENT_TERMINAL) == 20) {
+	    if ((CURRENT_TERMINAL) == 21) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -791,7 +869,7 @@ ZRstatement(void)
       case 0:
 	{
 	    ZRheader_Hstmnt ();
-	    if ((CURRENT_TERMINAL) == 20) {
+	    if ((CURRENT_TERMINAL) == 21) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -800,7 +878,7 @@ ZRstatement(void)
       case 2:
 	{
 	    ZRmap_Hstmnt ();
-	    if ((CURRENT_TERMINAL) == 20) {
+	    if ((CURRENT_TERMINAL) == 21) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
@@ -809,56 +887,27 @@ ZRstatement(void)
       case 1:
 	{
 	    ZRtrailer_Hstmnt ();
-	    if ((CURRENT_TERMINAL) == 20) {
+	    if ((CURRENT_TERMINAL) == 21) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 20:
+      case 21:
 	return;
       default:
 	goto ZL1;
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
-}
-
-static void
-ZR96(void)
-{
-    if ((CURRENT_TERMINAL) == 20) {
-	return;
-    }
-    {
-	switch (CURRENT_TERMINAL) {
-	  case 6:
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-    }
-    return;
-  ZL1:;
-    {
-	/* BEGINNING OF ACTION: E_expected_arrow */
-	{
-#line 389 "lctsyntax.act"
-
-	    error( ERROR_SERIOUS, "Syntax error: expected '->'") ;
-#line 853 "lctsyntax.c"
-	}
-	/* END OF ACTION: E_expected_arrow */
-    }
 }
 
 static void
 ZRtrailer_Hstmnt(void)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
@@ -873,29 +922,29 @@ ZRtrailer_Hstmnt(void)
 	    goto ZL1;
 	}
 	ADVANCE_LEXER;
-	ZR98 ();
-	if ((CURRENT_TERMINAL) == 20) {
+	ZR100 ();
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: null-entry */
 	{
-#line 306 "lctsyntax.act"
+#line 323 "lctsyntax.act"
 
 	(ZIe)=NULL;
-#line 887 "lctsyntax.c"
+#line 936 "lctsyntax.c"
 	}
 	/* END OF ACTION: null-entry */
 	ZRcode_Hblock (ZIe, &ZIsc);
-	ZR72 ();
+	ZR74 ();
 	ZRcode_Hblock (ZIe, &ZIsh);
-	if ((CURRENT_TERMINAL) == 20) {
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: set-trailers */
 	{
-#line 234 "lctsyntax.act"
+#line 247 "lctsyntax.act"
 
 	if(!(global_lct_parse_tree.trailersdefined)) {
 		global_lct_parse_tree.trailersdefined = 1;
@@ -906,25 +955,25 @@ ZRtrailer_Hstmnt(void)
 		ccode_destroy((&ZIsc));
 		ccode_destroy((&ZIsh));
 	}
-#line 910 "lctsyntax.c"
+#line 959 "lctsyntax.c"
 	}
 	/* END OF ACTION: set-trailers */
-	ZR99 ();
-	if ((CURRENT_TERMINAL) == 20) {
+	ZR101 ();
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
 }
 
 static void
 ZRaction_Hdefinition(void)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
@@ -948,7 +997,7 @@ ZRaction_Hdefinition(void)
 #line 153 "lctsyntax.act"
 
 	nstring_copy_cstring(&ZInm,lct_token_buff);
-#line 952 "lctsyntax.c"
+#line 1001 "lctsyntax.c"
 	    }
 	    /* END OF EXTRACT: identifier */
 	    break;
@@ -957,14 +1006,14 @@ ZRaction_Hdefinition(void)
 	}
 	ADVANCE_LEXER;
 	ZRaction_Hdefinition_C_Cfunction_Htype_Hdefn (&ZIin, &ZIout);
-	ZR98 ();
-	if ((CURRENT_TERMINAL) == 20) {
+	ZR100 ();
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: get-entry-action */
 	{
-#line 288 "lctsyntax.act"
+#line 305 "lctsyntax.act"
 
 	(ZIe)=table_get_entry(lxi_top_level->table,(&ZInm));
 	nstring_destroy((&ZInm));
@@ -981,15 +1030,16 @@ ZRaction_Hdefinition(void)
 		DEALLOCATE(pi);
 	}
 		nstring_destroy((&ZInm));
-#line 985 "lctsyntax.c"
+#line 1034 "lctsyntax.c"
 	}
 	/* END OF ACTION: get-entry-action */
 	/* BEGINNING OF ACTION: check-action-tuples */
 	{
-#line 310 "lctsyntax.act"
+#line 327 "lctsyntax.act"
 
 	if((ZIe)) {
 		/*TODO assert (entry_is_action((ZIe))); */	       
+		/* TODO check that the same name does not appear twice in the input and output tuple */
 		ActionT* action = entry_get_action((ZIe));
 		if(typetuple_length(action_get_inputs(action))!=typetuple_length((&ZIin))) {
 			char* pe=nstring_to_cstring(entry_key((ZIe)));
@@ -1024,17 +1074,17 @@ ZRaction_Hdefinition(void)
 	}
 	typetuple_destroy((&ZIin));
 	typetuple_destroy((&ZIout));
-#line 1028 "lctsyntax.c"
+#line 1078 "lctsyntax.c"
 	}
 	/* END OF ACTION: check-action-tuples */
 	ZRcode_Hblock (ZIe, &ZIc);
-	if ((CURRENT_TERMINAL) == 20) {
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
 	/* BEGINNING OF ACTION: define-action */
 	{
-#line 350 "lctsyntax.act"
+#line 368 "lctsyntax.act"
 
 	if((ZIe)) {
 	       /*TODO assert entry_is_action */	       
@@ -1051,25 +1101,54 @@ ZRaction_Hdefinition(void)
 	} else {
 		ccode_destroy((&ZIc));
 	}
-#line 1055 "lctsyntax.c"
+#line 1105 "lctsyntax.c"
 	}
 	/* END OF ACTION: define-action */
-	ZR99 ();
-	if ((CURRENT_TERMINAL) == 20) {
+	ZR101 ();
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
 }
 
 static void
 ZR98(void)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
+	return;
+    }
+    {
+	switch (CURRENT_TERMINAL) {
+	  case 6:
+	    break;
+	  default:
+	    goto ZL1;
+	}
+	ADVANCE_LEXER;
+    }
+    return;
+  ZL1:;
+    {
+	/* BEGINNING OF ACTION: E_expected_arrow */
+	{
+#line 407 "lctsyntax.act"
+
+	    error( ERROR_SERIOUS, "Syntax error: expected '->'") ;
+#line 1143 "lctsyntax.c"
+	}
+	/* END OF ACTION: E_expected_arrow */
+    }
+}
+
+static void
+ZR100(void)
+{
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
@@ -1086,20 +1165,20 @@ ZR98(void)
     {
 	/* BEGINNING OF ACTION: E_expected_define */
 	{
-#line 384 "lctsyntax.act"
+#line 402 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected '='") ;
 
-#line 1094 "lctsyntax.c"
+#line 1173 "lctsyntax.c"
 	}
 	/* END OF ACTION: E_expected_define */
     }
 }
 
 static void
-ZR99(void)
+ZR101(void)
 {
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
@@ -1116,36 +1195,36 @@ ZR99(void)
     {
 	/* BEGINNING OF ACTION: E_expected_semicolon */
 	{
-#line 393 "lctsyntax.act"
+#line 411 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected ';'") ;
-#line 1123 "lctsyntax.c"
+#line 1202 "lctsyntax.c"
 	}
 	/* END OF ACTION: E_expected_semicolon */
     }
 }
 
 static void
-ZR105(TypeTupleT *ZIa)
+ZR106(TypeTupleT *ZIa)
 {
     switch (CURRENT_TERMINAL) {
       case 5: case 16:
 	{
 	    ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Htuple1 (ZIa);
-	    if ((CURRENT_TERMINAL) == 20) {
+	    if ((CURRENT_TERMINAL) == 21) {
 		RESTORE_LEXER;
 		goto ZL1;
 	    }
 	}
 	break;
-      case 20:
+      case 21:
 	return;
       default:
 	break;
     }
     return;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
 }
 
@@ -1154,27 +1233,27 @@ ZRaction_Hdefinition_C_Ctype_Htuple(TypeTupleT *ZOa)
 {
     TypeTupleT ZIa;
 
-    if ((CURRENT_TERMINAL) == 20) {
+    if ((CURRENT_TERMINAL) == 21) {
 	return;
     }
     {
 	/* BEGINNING OF ACTION: init-tuple */
 	{
-#line 251 "lctsyntax.act"
+#line 264 "lctsyntax.act"
 
 	typetuple_init(&(ZIa));
-#line 1167 "lctsyntax.c"
+#line 1246 "lctsyntax.c"
 	}
 	/* END OF ACTION: init-tuple */
-	ZR105 (&ZIa);
-	if ((CURRENT_TERMINAL) == 20) {
+	ZR106 (&ZIa);
+	if ((CURRENT_TERMINAL) == 21) {
 	    RESTORE_LEXER;
 	    goto ZL1;
 	}
     }
     goto ZL0;
   ZL1:;
-    SAVE_LEXER (20);
+    SAVE_LEXER (21);
     return;
   ZL0:;
     *ZOa = ZIa;
@@ -1182,9 +1261,9 @@ ZRaction_Hdefinition_C_Ctype_Htuple(TypeTupleT *ZOa)
 
 /* BEGINNING OF TRAILER */
 
-#line 408 "lctsyntax.act"
+#line 426 "lctsyntax.act"
 
 
-#line 1189 "lctsyntax.c"
+#line 1268 "lctsyntax.c"
 
 /* END OF FILE */

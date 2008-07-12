@@ -96,6 +96,24 @@ get_code_lct_identifier(int a)
 
 
 static int
+get_code_lct_reference(int a)
+{
+ 	int c = a;
+	char *t = lct_token_buff;
+	do {
+		*(t++) = (char)c;
+		if (t == lct_token_end)
+			error(ERROR_FATAL, "Buffer overflow");
+		c = lexi_lct_readchar(&lct_lexer_state);
+        } while(lexi_lct_group(lexi_lct_group_alphanum, c)) ;
+	*t = 0;
+	lexi_lct_push(&lct_lexer_state, c);
+
+	return lct_lex_code_Hreference;
+}
+
+
+static int
 get_code_lct_string(int a)
 {
 	int c = a;
