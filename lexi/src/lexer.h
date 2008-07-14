@@ -90,16 +90,16 @@ struct lexi_state {
 #endif
 
 /* Push a character to lexi's buffer */
-extern void lexi_push(struct lexi_state *state, const int c);
+void lexi_push(struct lexi_state *state, const int c);
 
 /* Pop a character from lexi's buffer */
-extern int lexi_pop(struct lexi_state *state);
+int lexi_pop(struct lexi_state *state);
 
 /* Flush lexi's buffer */
-extern void lexi_flush(struct lexi_state *state);
+void lexi_flush(struct lexi_state *state);
 
 /* Read a character */
-extern int lexi_readchar(struct lexi_state *state);
+int lexi_readchar(struct lexi_state *state);
 
 enum lexi_groups {
 	lexi_group_white = 0x01,
@@ -111,13 +111,13 @@ enum lexi_groups {
 };
 
 /* true if the given character is present in the given group */
-extern bool lexi_group(enum lexi_groups group, int c);
+bool lexi_group(enum lexi_groups group, int c);
 
 /* Identify a keyword */
-extern int lexi_keyword(const char *identifier, int notfound);
+int lexi_keyword(const char *identifier, int notfound);
 
 /* Identify a token */
-extern int lexi_read_token(struct lexi_state *state);
+int lexi_read_token(struct lexi_state *state);
 
 /* Initialise a lexi_state structure */
 void lexi_init(struct lexi_state *state);
