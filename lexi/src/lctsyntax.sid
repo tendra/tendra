@@ -240,6 +240,7 @@ action-definition : () -> () [
 		in=<init-tuple>;
 		out=<init-tuple>;
 	    ||
+		colon;
 		in=type-tuple;
 		{
 			arrow;
