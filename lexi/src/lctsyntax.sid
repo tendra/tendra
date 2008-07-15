@@ -49,6 +49,8 @@ arrow;
 define ;  	//=
 semicolon ;	//;
 comma ;   	//,
+open ; 		//(
+close ; 	//)
 
 code-start;	//@{
 code-end;	//@}
@@ -97,6 +99,7 @@ code-string : () -> (:BIGSTRING);
 <E_expected_define> ;
 <E_expected_arrow> ;
 <E_expected_semicolon> ;
+<E_expected_identifier>;
 
 <E_unexpected_eof> ;
 <E_lone_at_in_code_block>;
@@ -231,10 +234,14 @@ action-definition : () -> () [
 		    ||
 			type-name(&a) ; comma; type-tuple1(&a) ;
 		} ; ] = {
+		open;
 		a=<init-tuple> ;
+		close;
 	    ||
+		open;
 		a=<init-tuple>;
 		type-tuple1(&a) ;
+		close;
 	};
 	function-type-defn : () -> (in:TYPETUPLE,out:TYPETUPLE) = {
 		in=<init-tuple>;
@@ -250,7 +257,13 @@ action-definition : () -> () [
 		out=type-tuple;
 	};
 	] = {
-	action-kw; nm = identifier; 
+	action-kw; 
+	{
+		nm = identifier; 
+	    ##
+		nm = <empty-identifier>;
+		<E_expected_identifier>;
+	};
 	(in, out) = function-type-defn ;
 	{
 		define ; 

@@ -57,33 +57,35 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TERMINAL DEFINITIONS */
 
-#define lct_lex_lone_Hcode_Hat (12)
-#define lct_lex_code_Hreference (18)
-#define lct_lex_code_Hend (11)
-#define lct_lex_code_Heof (14)
+#define lct_lex_lone_Hcode_Hat (14)
+#define lct_lex_code_Hreference (20)
+#define lct_lex_code_Hend (13)
+#define lct_lex_code_Heof (16)
 #define lct_lex_trailer_Hkw (1)
 #define lct_lex_comma (9)
 #define lct_lex_action_Hkw (3)
-#define lct_lex_unknown (20)
+#define lct_lex_unknown (22)
+#define lct_lex_close (11)
 #define lct_lex_colon (5)
-#define lct_lex_code_Hat (13)
-#define lct_lex_identifier (16)
+#define lct_lex_code_Hat (15)
+#define lct_lex_identifier (18)
 #define lct_lex_arrow (6)
+#define lct_lex_open (10)
 #define lct_lex_reference (4)
-#define lct_lex_eof (15)
+#define lct_lex_eof (17)
 #define lct_lex_semicolon (8)
 #define lct_lex_map_Hkw (2)
-#define lct_lex_code_Hstring (19)
+#define lct_lex_code_Hstring (21)
 #define lct_lex_define (7)
-#define lct_lex_code_Hidentifier (17)
-#define lct_lex_code_Hstart (10)
+#define lct_lex_code_Hidentifier (19)
+#define lct_lex_code_Hstart (12)
 #define lct_lex_header_Hkw (0)
 
 /* BEGINNING OF TRAILER */
 
-#line 427 "lctsyntax.act"
+#line 431 "lctsyntax.act"
 
 #endif
-#line 88 "lctsyntax.h"
+#line 90 "lctsyntax.h"
 
 /* END OF FILE */

@@ -31,9 +31,11 @@
 
 COPYRIGHT = "COPYINGBSD";
 
-GROUP alpha = {A-Z} + {a-z};
-GROUP alphanum = {A-Z} + {a-z} + {0-9};
+GROUP alpha = {A-Z} + {a-z} + "_";
+GROUP alphanum = {A-Z} + {a-z} + {0-9} + "_";
 
+TOKEN "(" -> $open;
+TOKEN ")" -> $close; ;
 TOKEN "=" -> $define ;
 TOKEN "&" -> $reference ;
 TOKEN ";" -> $semicolon ;

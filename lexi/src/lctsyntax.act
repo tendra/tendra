@@ -344,7 +344,7 @@ code-string : () -> (s:BIGSTRING) = @{
 		}
 		if(typetuple_length(action_get_outputs(action))!=typetuple_length(@&out)) {
 			char* pe=nstring_to_cstring(entry_key(@e));
-			error(ERROR_SERIOUS,"Action %s decalared with an incompatible number of outputs", pe);
+			error(ERROR_SERIOUS,"Action %s declared with an incompatible number of outputs", pe);
 			DEALLOCATE(pe);
 		} else if (!typetuple_match(action_get_outputs(action),@&out)) {
 			char* pe=nstring_to_cstring(entry_key(@e));
@@ -388,6 +388,10 @@ code-string : () -> (s:BIGSTRING) = @{
 
 <E_expected_code_end> = @{
 	    error( ERROR_SERIOUS, "Syntax error: expected  '@@}'") ;
+@};
+
+<E_expected_identifier> = @{
+	    error( ERROR_SERIOUS, "Syntax error: expected  identifier") ;
 @};
 
 <E_expected_code_start> = @{
