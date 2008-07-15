@@ -81,7 +81,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 428 "lctsyntax.act"
+#line 427 "lctsyntax.act"
 
 #endif
 #line 88 "lctsyntax.h"

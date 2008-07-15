@@ -304,7 +304,6 @@ code-string : () -> (s:BIGSTRING) = @{
 
 <get-entry-action> : (i:IDENTIFIER) -> (e:ENTRYP) = @{
 	@e=table_get_entry(lxi_top_level->table,@&i);
-	nstring_destroy(@&i);
 	if(@e) {
 		if(!entry_is_action(@e)) {
 			@e=NULL; /*TODO skip to end of action */
@@ -317,7 +316,7 @@ code-string : () -> (s:BIGSTRING) = @{
 		error(ERROR_SERIOUS,"Defining an undeclared action: %s", pi);
 		DEALLOCATE(pi);
 	}
-		nstring_destroy(@&i);
+	nstring_destroy(@&i);
 @};
 
 <null-entry> : () -> (e:ENTRYP) = @{

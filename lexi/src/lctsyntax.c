@@ -427,7 +427,7 @@ ZRcode_Hblock_C_Ccode_Helement(CcodeT *ZIc, EntryP ZIe)
 	    ADVANCE_LEXER;
 	    /* BEGINNING OF ACTION: E_lone_at_in_code_block */
 	    {
-#line 420 "lctsyntax.act"
+#line 419 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Lone @ inside @{ @} block") ;
 #line 434 "lctsyntax.c"
@@ -554,7 +554,7 @@ read_lct_unit(void)
     {
 	/* BEGINNING OF ACTION: E-syntax-error */
 	{
-#line 386 "lctsyntax.act"
+#line 385 "lctsyntax.act"
 
 	    error ( ERROR_SERIOUS, "Syntax error" ) ;
 #line 561 "lctsyntax.c"
@@ -647,7 +647,7 @@ ZR74(void)
     {
 	/* BEGINNING OF ACTION: E_expected_comma */
 	{
-#line 398 "lctsyntax.act"
+#line 397 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected ','") ;
 #line 654 "lctsyntax.c"
@@ -710,7 +710,7 @@ ZRheader_Hstmnt(void)
 	}
 	/* BEGINNING OF ACTION: null-entry */
 	{
-#line 323 "lctsyntax.act"
+#line 322 "lctsyntax.act"
 
 	(ZIe)=NULL;
 #line 717 "lctsyntax.c"
@@ -776,7 +776,7 @@ ZRcode_Hblock(EntryP ZIe, CcodeT *ZOc)
 	    {
 		/* BEGINNING OF ACTION: E_expected_code_start */
 		{
-#line 394 "lctsyntax.act"
+#line 393 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected  '@{'") ;
 #line 783 "lctsyntax.c"
@@ -803,7 +803,7 @@ ZRcode_Hblock(EntryP ZIe, CcodeT *ZOc)
 		    ADVANCE_LEXER;
 		    /* BEGINNING OF ACTION: E_unexpected_eof */
 		    {
-#line 416 "lctsyntax.act"
+#line 415 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Unexpected End of File inside @{ @} block") ;
 #line 810 "lctsyntax.c"
@@ -835,7 +835,7 @@ ZRcode_Hblock(EntryP ZIe, CcodeT *ZOc)
 	    {
 		/* BEGINNING OF ACTION: E_expected_code_end */
 		{
-#line 390 "lctsyntax.act"
+#line 389 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected  '@}'") ;
 #line 842 "lctsyntax.c"
@@ -930,7 +930,7 @@ ZRtrailer_Hstmnt(void)
 	}
 	/* BEGINNING OF ACTION: null-entry */
 	{
-#line 323 "lctsyntax.act"
+#line 322 "lctsyntax.act"
 
 	(ZIe)=NULL;
 #line 937 "lctsyntax.c"
@@ -1017,7 +1017,6 @@ ZRaction_Hdefinition(void)
 #line 305 "lctsyntax.act"
 
 	(ZIe)=table_get_entry(lxi_top_level->table,(&ZInm));
-	nstring_destroy((&ZInm));
 	if((ZIe)) {
 		if(!entry_is_action((ZIe))) {
 			(ZIe)=NULL; /*TODO skip to end of action */
@@ -1030,13 +1029,13 @@ ZRaction_Hdefinition(void)
 		error(ERROR_SERIOUS,"Defining an undeclared action: %s", pi);
 		DEALLOCATE(pi);
 	}
-		nstring_destroy((&ZInm));
-#line 1035 "lctsyntax.c"
+	nstring_destroy((&ZInm));
+#line 1034 "lctsyntax.c"
 	}
 	/* END OF ACTION: get-entry-action */
 	/* BEGINNING OF ACTION: check-action-tuples */
 	{
-#line 327 "lctsyntax.act"
+#line 326 "lctsyntax.act"
 
 	if((ZIe)) {
 		/*TODO assert (entry_is_action((ZIe))); */	       
@@ -1075,7 +1074,7 @@ ZRaction_Hdefinition(void)
 	}
 	typetuple_destroy((&ZIin));
 	typetuple_destroy((&ZIout));
-#line 1079 "lctsyntax.c"
+#line 1078 "lctsyntax.c"
 	}
 	/* END OF ACTION: check-action-tuples */
 	ZRcode_Hblock (ZIe, &ZIc);
@@ -1085,7 +1084,7 @@ ZRaction_Hdefinition(void)
 	}
 	/* BEGINNING OF ACTION: define-action */
 	{
-#line 368 "lctsyntax.act"
+#line 367 "lctsyntax.act"
 
 	if((ZIe)) {
 	       /*TODO assert entry_is_action */	       
@@ -1102,7 +1101,7 @@ ZRaction_Hdefinition(void)
 	} else {
 		ccode_destroy((&ZIc));
 	}
-#line 1106 "lctsyntax.c"
+#line 1105 "lctsyntax.c"
 	}
 	/* END OF ACTION: define-action */
 	ZR101 ();
@@ -1137,10 +1136,10 @@ ZR98(void)
     {
 	/* BEGINNING OF ACTION: E_expected_arrow */
 	{
-#line 407 "lctsyntax.act"
+#line 406 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected '->'") ;
-#line 1144 "lctsyntax.c"
+#line 1143 "lctsyntax.c"
 	}
 	/* END OF ACTION: E_expected_arrow */
     }
@@ -1166,11 +1165,11 @@ ZR100(void)
     {
 	/* BEGINNING OF ACTION: E_expected_define */
 	{
-#line 402 "lctsyntax.act"
+#line 401 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected '='") ;
 
-#line 1174 "lctsyntax.c"
+#line 1173 "lctsyntax.c"
 	}
 	/* END OF ACTION: E_expected_define */
     }
@@ -1196,10 +1195,10 @@ ZR101(void)
     {
 	/* BEGINNING OF ACTION: E_expected_semicolon */
 	{
-#line 411 "lctsyntax.act"
+#line 410 "lctsyntax.act"
 
 	    error( ERROR_SERIOUS, "Syntax error: expected ';'") ;
-#line 1203 "lctsyntax.c"
+#line 1202 "lctsyntax.c"
 	}
 	/* END OF ACTION: E_expected_semicolon */
     }
@@ -1243,7 +1242,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple(TypeTupleT *ZOa)
 #line 264 "lctsyntax.act"
 
 	typetuple_init(&(ZIa));
-#line 1247 "lctsyntax.c"
+#line 1246 "lctsyntax.c"
 	}
 	/* END OF ACTION: init-tuple */
 	ZR106 (&ZIa);
@@ -1262,9 +1261,9 @@ ZRaction_Hdefinition_C_Ctype_Htuple(TypeTupleT *ZOa)
 
 /* BEGINNING OF TRAILER */
 
-#line 426 "lctsyntax.act"
+#line 425 "lctsyntax.act"
 
 
-#line 1269 "lctsyntax.c"
+#line 1268 "lctsyntax.c"
 
 /* END OF FILE */
