@@ -1,0 +1,3 @@
+ACTION <dummy> : () -> (:TERMINAL, :TERMINAL);
+
+TOKEN DEFAULT -> ($, $) = <dummy>;
