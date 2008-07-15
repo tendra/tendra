@@ -198,7 +198,8 @@ output_action(FILE* lex_output, EntryT* action, args_list* lhs, args_list* rhs, 
 		ccode_output(lex_output, &action->u.action->code, &trans, d );
 		if(lhs->nb_return_terminal) {
 			/*TODO assert(lhs->nb_return_terminal==1)*/
-			fputs("\nreturn ZT1;\n",lex_output);
+			output_indent(lex_output,d);
+			fputs("return ZT1;\n",lex_output);
 		}
 	} else {
 		/*TODO We should catch this error before beginning output */

@@ -39,7 +39,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: lctsyntax.act 2153 2008-07-15 22:16:40Z flaviusaetius $
+ * $Id: lctsyntax.act 2156 2008-07-15 23:24:53Z flaviusaetius $
  */
  
 

@@ -421,7 +421,6 @@ void nametrans_append_tuple(NameTransT* tr, TypeTupleT* tuple, args_list* l)
 		nametrans_append(tr, &p->local_name, q);
 	}
 	/*TODO  assert(!p&&!q) */
-	++(tr->size);
 }
 
 arg* nametrans_translate(NameTransT* trans, NStringT* key)
