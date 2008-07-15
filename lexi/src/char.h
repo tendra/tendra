@@ -91,6 +91,7 @@ typedef struct arg_tag {
 typedef struct args_list_tag {
   arg*  head ;
   arg** tail ;
+  int nb_return_terminal;
 } args_list ;
 
 typedef struct user_function_tag {
@@ -120,9 +121,10 @@ typedef struct instruction_tag {
 
 /* ordered */
 typedef struct instructions_list_tag {
-  LocalNamesT local_names;
   instruction* head;
   instruction** tail;
+  LocalNamesT local_names;
+  int nb_return_terminal;
 } instructions_list;
 
 
@@ -322,6 +324,8 @@ extern arg* add_identifier_arg ( char* ) ;
 extern arg* add_reference_arg ( char* ) ;
 extern arg* add_terminal_arg ( char* ) ;
 extern arg* add_none_arg ( void ) ;
+extern void arg_output(arg*, bool, int, FILE*);
+
 extern instruction* add_instruction_pushzone (zone* z) ;
 extern instruction* add_instruction_popzone (zone* z, int is_endmarker_in_zone) ;
 extern instructions_list* add_instructions_list (void) ;

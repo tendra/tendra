@@ -182,12 +182,20 @@ output_locals(LocalNamesT* locals, int d, FILE* lex_output )
 }
 
 static void 
-output_action(FILE* lex_output, EntryT* action, int d)
+output_action(FILE* lex_output, EntryT* action, args_list* lhs, args_list* rhs, int d)
 {
-	/* TODO Create a translation stack */
 	/* TODO assert(entry_is_action(action)) */
-	if(action_is_defined(&action)) {
-		ccode_output(lex_output, &action->u.action->code);
+	NameTransT trans;
+	/* Semi Inefficient : we will recreate the translator stack each time we output the same action:
+	    this will never be the same translator stack, however the sort will always give the same permutation:
+	    an optimization should be possible here. I don't see it as necessary for the moment.*/
+	nametrans_init(&trans, typetuple_length(&action->u.action->inputs)+typetuple_length(&action->u.action->outputs));
+	nametrans_append_tuple(&trans,&action->u.action->inputs,rhs);
+	nametrans_append_tuple(&trans,&action->u.action->outputs,lhs);
+	nametrans_sort(&trans);
+	/* End Semi Inefficient*/
+	if(action_is_defined(action->u.action)) {
+		ccode_output(lex_output, &action->u.action->code, &trans, d );
 	} else {
 		/*TODO We should catch this error before beginning output */
 		error(ERROR_SERIOUS, "Action \%s is used but undefined");
@@ -216,7 +224,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       break;
     case action_call :
       /* assert(!instr->next);*/
-      output_action(lex_output, instr->u.act.called_act, d);
+      output_action(lex_output, instr->u.act.called_act, instr->u.act.lhs, instr->u.act.rhs, d);
       break;
     case apply_function:
       output_indent(lex_output, d);
@@ -762,15 +770,15 @@ output_buffer(cmd_line_options* opt)
 void 
 output_headers()
 {
-	ccode_output(lex_output_h, &(global_lct_parse_tree.hfileheader));
-	ccode_output(lex_output, &(global_lct_parse_tree.cfileheader));
+	ccode_output(lex_output_h, &(global_lct_parse_tree.hfileheader), NULL, 0);
+	ccode_output(lex_output, &(global_lct_parse_tree.cfileheader), NULL, 0);
 }
 
 void 
 output_trailers()
 {
-	ccode_output(lex_output_h, &(global_lct_parse_tree.hfiletrailer));
-	ccode_output(lex_output, &(global_lct_parse_tree.cfiletrailer));
+	ccode_output(lex_output_h, &(global_lct_parse_tree.hfiletrailer),NULL,0);
+	ccode_output(lex_output, &(global_lct_parse_tree.cfiletrailer),NULL,0);
 }
 
 void

@@ -29,6 +29,7 @@
  * $Id$
  */
 
+#include "char.h"
 #include "adt.h"
 #include "xalloc/xalloc.h"
 #include <stdlib.h>
@@ -370,4 +371,77 @@ int typetuple_unique_names(TypeTupleT* params, TypeTupleT* results)
 	}
 	xfree(p);
 	return true;
+}
+
+void nametrans_init(NameTransT* p, unsigned int s)
+{
+	p->tab=xmalloc_nof(NameTransT,s);
+	p->size=0;
+	p->capacity=s;
+}
+
+void nametrans_destroy(NameTransT* p)
+{
+	xfree(p->tab);
+}
+
+static int nametrans_cmp(const void* p, const void* q) 
+{
+	switch(nstring_compare(&(((NameTransEntryT*)p)->from),&(((NameTransEntryT*)p)->from))) {
+	case CMP_LT:
+		return -1;
+	case CMP_EQ:
+		return 0;
+	case CMP_GT:
+		return 1;
+	}
+}
+
+void nametrans_sort(NameTransT* p)
+{
+	qsort(p->tab,p->size,sizeof(NameTransEntryT*),&nametrans_cmp); 
+}
+
+static void nametrans_append(NameTransT* tr, NStringT* from, arg* to)
+{
+	/* TODO when debugging : Checking tr->size<tr->capacity */
+	nstring_assign(&(tr->tab[tr->size].from), from);
+	tr->tab[tr->size].to = to;
+	++(tr->size);
+}
+
+void nametrans_append_tuple(NameTransT* tr, TypeTupleT* tuple, args_list* l)
+{
+	TypeTupleEntryT* p;
+	arg* q;
+	for(p=tuple->head,q=l->head;p!=NULL&&q!=NULL;p=p->next,q=q->next) {
+		nametrans_append(tr, &p->local_name, q);
+	}
+	/*TODO  assert(!p&&!q) */
+	++(tr->size);
+}
+
+arg* nametrans_translate(NameTransT* trans, NStringT* key)
+{
+	int i=0;
+	int j=trans->size;
+	/* TODO assert(i<j) */
+	int mid = (i+j)/2;
+	while(i<j) {
+		switch(nstring_compare(&trans->tab[mid].from,key)) {
+		case CMP_LT:
+			i=mid;
+			mid=(i+j+1)/2;
+			break;
+		case CMP_EQ:
+		case CMP_GT:
+			j=mid;
+			mid=(i+j)/2;
+			break;
+		}
+	}
+	if(nstring_compare(&trans->tab[i].from,key)==CMP_EQ)
+		return trans->tab[i].to;
+	else
+		return NULL;
 }

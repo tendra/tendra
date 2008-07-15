@@ -428,6 +428,13 @@ arg-ignore : () -> (a:ARG) = @{
 <args-list-push-front> : ( a:ARG , l:ARGS_LIST ) -> () = @{
     @a->next=@l->head;
     @l->head=@a;
+    if(@a->type==arg_return_terminal)
+	@l->nb_return_terminal++;
+@};
+
+<check-args-list> : ( l:ARGS_LIST) -> () = @{
+    if(@l->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 @};
 
 /*
@@ -453,7 +460,15 @@ arg-ignore : () -> (a:ARG) = @{
 /*		if((@il->head !=NULL) && (@i->type==return_terminal || @i->type==do_nothing)) {
 			error(ERROR_SERIOUS, "A $sid-identifier or a $$ can only appear at the end of an instruction-list"); Does not work anymore since we append and do not prepend anymore. No pb as this will be unecessary due to the upcoming removal of direct function calls.
 		}*/
+		if(@il->nb_return_terminal>0 && @i->type!=do_nothing)
+			error(ERROR_SERIOUS, "No instruction may follow an instruction that returns a terminal");
+		if(@i->type == return_terminal) {
+			++(@il->nb_return_terminal);
+		}
 		if(@i->type == action_call) {
+			@il->nb_return_terminal+=@i->u.act.lhs->nb_return_terminal;
+			if(@il->nb_return_terminal>1)
+				error(ERROR_SERIOUS, "Only one terminal may be returned per token");
 			EntryT* entryaction = @i->u.act.called_act;
 			ActionT* action = entry_get_action(entryaction);
 			args_list* rhs = @i->u.act.rhs;
@@ -627,6 +642,12 @@ arg-ignore : () -> (a:ARG) = @{
 		@il->tail=&@i->next;
 	}
 @};
+
+<check-inst-list> : (il: INSTRUCTIONS_LIST ) -> () = @{
+	if(@il->nb_return_terminal>1)
+		error(ERROR_SERIOUS, "At most one return terminal may be specified per instruction list");
+@};
+
 
 /*
     EMPTY INSTRUCTION LIST

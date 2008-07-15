@@ -150,6 +150,7 @@ type-kw ;
 
 <null-args-list> : () -> ( :ARGS_LIST) ;
 <empty-args-list> : () -> ( :ARGS_LIST) ;
+<check-args-list> : ( :ARGS_LIST) -> () ;
 <args-list-push-front> : ( :ARG , :ARGS_LIST) -> () ;
 <arg-char-list-tmp> :    () -> ( :ARG);
 <make_arg_terminal> : (:IDENTIFIER) -> (:ARG);
@@ -160,6 +161,8 @@ type-kw ;
 
 <empty-inst-list> : () -> ( : INSTRUCTIONS_LIST);
 <add-inst-to-list> : ( : ZONE, : INSTRUCTION, : INSTRUCTIONS_LIST ) -> ();
+<check-inst-list> : (: INSTRUCTIONS_LIST ) -> ();
+
 
 <E_expected_identifier> : () -> (:IDENTIFIER);
 <E_expected_begin_action> : () -> ();
@@ -484,7 +487,7 @@ action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 		a = lhs-arg; comma; l = lhs-tuple1; <args-list-push-front>(a,l);
 
 	};
-	lhs-tuple : () -> (l:ARGS_LIST) = {
+	lhs-tuple : () -> (l:ARGS_LIST) = { 
 		a=lhs-arg; l=<empty-args-list> ; <args-list-push-front>(a,l); 
 	    ||
 		open;
@@ -524,6 +527,8 @@ action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 		l=lhs-tuple ;
 		equal ;
 	} ;
+	<check-args-list>(l);
+
 	begin-action ;
 	i = identifier ;
 	end-action ; 
@@ -577,6 +582,7 @@ instructions-list : (z:ZONE) -> (instl:INSTRUCTIONS_LIST) = {
 token-defn : ( z:ZONE ) -> () = {
 	token ; s = non-empty-chars(z) ; arrow ;
 	inst-list=instructions-list(z);
+	<check-inst-list>(inst-list);
 	<make-token> ( z, s, inst-list) ;
 } ;
 

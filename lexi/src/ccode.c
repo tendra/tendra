@@ -5,6 +5,7 @@
 #include "exds/dalloc.h"
 #include "exds/dstring.h"
 
+#include "char.h"
 #include "ccode.h"
 
 CcodeItemT* 
@@ -95,9 +96,10 @@ void ccode_destroy(CcodeT* c)
 
 
 static void 
-ccodeitem_output(CcodeItemT* ccode_item, FILE* file) 
+ccodeitem_output(FILE* file, CcodeItemT* ccode_item, NameTransT* trans, int d) 
 {
 	char* s;
+	arg* to;
 	switch(ccode_item->item_type) {
 		case Ccode_at:
 			fputs("@", file);
@@ -108,24 +110,26 @@ ccodeitem_output(CcodeItemT* ccode_item, FILE* file)
 			DEALLOCATE(s)
 			break;
 		case Ccode_identifier:
+			to = nametrans_translate(trans, ccodeitem_name(ccode_item));
+			arg_output(to, false, d, file);
+			break;
 		case Ccode_reference:
-			s = nstring_to_cstring(ccodeitem_name(ccode_item));
-			/* Inefficient code */
-			
-			/* End inefficient code */
-			fprintf(file,"/* Not implemented yet: Identifier @s. Have to recover passing name. */", s);
-			DEALLOCATE(s)
+			to = nametrans_translate(trans, ccodeitem_name(ccode_item));
+			arg_output(to, true, d,file);
+			break;
+		//			fprintf(file,"/* Not implemented yet: Identifier @s. Have to recover passing name. */", s);
+			//			DEALLOCATE(s)
 			break;
 	}
 }
 
 
 void 
-ccode_output(FILE* file, CcodeT* ccode) 
+ccode_output(FILE* file, CcodeT* ccode, NameTransT* trans, int d) 
 {
 	CcodeItemT* it;
 	for(it=ccode->head; it!=NULL; it = it->next) {
-		ccodeitem_output(it, file);
+		ccodeitem_output(file, it, trans, d);
 	}
 }
 

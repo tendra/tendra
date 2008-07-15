@@ -241,6 +241,52 @@ add_none_arg ( void )
     return p;
 }
 
+void 
+arg_output(arg* p, bool is_ref, int d, FILE* file)
+{
+	switch(p->type) {
+	case arg_charP:
+		error(ERROR_SERIOUS, "#* is not implemented yet at output level"); 
+		break;
+	case arg_char_nb:
+		/*TODO assert(p->u.digit<nb_of_chars);*/
+		fprintf(file, "c%d", p->u.digit);
+		break;
+	case arg_nb_of_chars:
+		fprintf(file, "%d", d);
+		break;
+
+	case arg_identifier:
+		if(p->is_reference) {
+			/*TODO assert(is_ref);*/
+			fprintf(file, "%s", p->u.litteral);
+		}
+		else {
+			if(is_ref)
+				fprintf(file, "(*%s)", p->u.litteral);
+			else
+				fprintf(file, "%s", p->u.litteral);
+		}
+		break;
+	case arg_terminal:
+		fprintf(file, "%s", p->u.litteral);
+		break;
+	case arg_ignore:
+		error(ERROR_SERIOUS, "Ignore symbol ! is not implemented yet at output level"); 
+		/*TODO implement*/
+		break;
+	case arg_return_terminal:
+		fprintf(file, "ZT1"); /*TODO make prefixes option controllable or lct file controllable*/
+		break;
+
+	case arg_litteral:
+	case arg_none :
+	case arg_chars_list:
+	default:
+		break;
+		/*TODO ASSERT UNREACHABLE*/
+	}
+}
 
 /*
     ALLOCATES A NEW ARGS LIST
@@ -260,6 +306,7 @@ new_args_list (void)
     p = args_lists_free + (--args_lists_left);
     p->head =NULL;
     p->tail=&(p->head);
+    p->nb_return_terminal = 0;
     return p;
 }
 
@@ -442,6 +489,7 @@ new_instructions_list (void)
     p->head=NULL;
     p->tail=&(p->head);
     localnames_init(&(p->local_names));
+    p->nb_return_terminal=0;
     return p;   
 }
 
