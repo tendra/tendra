@@ -286,6 +286,7 @@ void typetuple_append(TypeTupleT* ttlist, TypeTupleEntryT* tt)
 
 void typetuple_assign(TypeTupleT* to, TypeTupleT* from)
 {
+	to->length=from->length;
 	if((to->head=from->head)==NULL) 
 		to->tail = &(to->head);
 	else 
