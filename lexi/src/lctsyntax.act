@@ -353,7 +353,7 @@ code-string : () -> (s:BIGSTRING) = @{
 		} else {				
 			int allhavenames = typetuple_assign_names(action_get_outputs(action),@&out);
 			if(!allhavenames) {
-			char* pe=nstring_to_cstring(entry_key(@e));
+				char* pe=nstring_to_cstring(entry_key(@e));
 				error(ERROR_SERIOUS,"outputs tuples in the definition of action %s should have names",pe);
 			DEALLOCATE(pe);
 			}

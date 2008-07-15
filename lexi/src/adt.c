@@ -77,7 +77,7 @@ void action_set_code(ActionT* action, CcodeT* code)
 
 void action_set_define(ActionT* action)
 {
-	action->defined=false;
+	action->defined=true;
 }
 
 int action_is_defined(ActionT* action)
@@ -320,8 +320,10 @@ int typetuple_assign_names(TypeTupleT* to, TypeTupleT* from)
 	for(p=from->head, q=to->head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
 		if(nstring_length(&(p->local_name))==0)
 			allhavenames=0;
-		else 
+		else {
 			nstring_assign(&q->local_name,&p->local_name);
+			nstring_init(&p->local_name);
+		}
 	}
 	/* assert(!(p||q))*/
 	return allhavenames;

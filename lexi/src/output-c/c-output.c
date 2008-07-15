@@ -202,7 +202,9 @@ output_action(FILE* lex_output, EntryT* action, args_list* lhs, args_list* rhs, 
 		}
 	} else {
 		/*TODO We should catch this error before beginning output */
-		error(ERROR_SERIOUS, "Action \%s is used but undefined");
+		char* pe=nstring_to_cstring(entry_key(action));
+		error(ERROR_SERIOUS, "Action \%s is used but undefined", pe);
+		DEALLOCATE(pe);
 	}
 }
 

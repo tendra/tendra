@@ -1092,7 +1092,7 @@ ZRaction_Hdefinition(void)
 		} else {				
 			int allhavenames = typetuple_assign_names(action_get_outputs(action),(&ZIout));
 			if(!allhavenames) {
-			char* pe=nstring_to_cstring(entry_key((ZIe)));
+				char* pe=nstring_to_cstring(entry_key((ZIe)));
 				error(ERROR_SERIOUS,"outputs tuples in the definition of action %s should have names",pe);
 			DEALLOCATE(pe);
 			}
