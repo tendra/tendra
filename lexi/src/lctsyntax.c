@@ -328,7 +328,7 @@ ZRcode_Hblock_C_Ccode_Helement(CcodeT *ZIc, EntryP ZIe)
 			char* pi = nstring_to_cstring((&ZIi));
 			nstring_destroy((&ZIi));
 			char* pe =  nstring_to_cstring(entry_key((ZIe)));
-			error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output" 
+			error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output " 
 					     "parameter of action %s", pi, pe );
 			DEALLOCATE(pi);
 			DEALLOCATE(pe);
@@ -385,7 +385,7 @@ ZRcode_Hblock_C_Ccode_Helement(CcodeT *ZIc, EntryP ZIe)
 			char* pi = nstring_to_cstring((&ZIi));
 			nstring_destroy((&ZIi));
 			char* pe =  nstring_to_cstring(entry_key((ZIe)));
-			error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output" 
+			error(ERROR_SERIOUS, "Identifier @%s is neither an input nor an output " 
 					     "parameter of action %s", pi, pe );
 			DEALLOCATE(pi);
 			DEALLOCATE(pe);
@@ -1083,7 +1083,7 @@ ZRaction_Hdefinition(void)
 		}
 		if(typetuple_length(action_get_outputs(action))!=typetuple_length((&ZIout))) {
 			char* pe=nstring_to_cstring(entry_key((ZIe)));
-			error(ERROR_SERIOUS,"Action %s decalared with an incompatible number of outputs", pe);
+			error(ERROR_SERIOUS,"Action %s declared with an incompatible number of outputs", pe);
 			DEALLOCATE(pe);
 		} else if (!typetuple_match(action_get_outputs(action),(&ZIout))) {
 			char* pe=nstring_to_cstring(entry_key((ZIe)));

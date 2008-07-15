@@ -220,7 +220,7 @@ code-string : () -> (s:BIGSTRING) = @{
 			char* pi = nstring_to_cstring(@&i);
 			nstring_destroy(@&i);
 			char* pe =  nstring_to_cstring(entry_key(@e));
-			error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output" 
+			error(ERROR_SERIOUS, "Identifier @@%s is neither an input nor an output " 
 					     "parameter of action %s", pi, pe );
 			DEALLOCATE(pi);
 			DEALLOCATE(pe);

@@ -305,7 +305,7 @@ int typetuple_match(TypeTupleT* t1, TypeTupleT* t2)
 		if((p->type!=q->type) || (p->is_reference!=q->is_reference))
 			return 0;
 	}
-	if(p && q)
+	if(!p && !q)
 		return 1;
 	else
 		return 0;
