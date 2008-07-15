@@ -196,6 +196,10 @@ output_action(FILE* lex_output, EntryT* action, args_list* lhs, args_list* rhs, 
 	/* End Semi Inefficient*/
 	if(action_is_defined(action->u.action)) {
 		ccode_output(lex_output, &action->u.action->code, &trans, d );
+		if(lhs->nb_return_terminal) {
+			/*TODO assert(lhs->nb_return_terminal==1)*/
+			fputs("\nreturn ZT1;\n",file)
+		}
 	} else {
 		/*TODO We should catch this error before beginning output */
 		error(ERROR_SERIOUS, "Action \%s is used but undefined");
