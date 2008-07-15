@@ -368,11 +368,10 @@ code-string : () -> (s:BIGSTRING) = @{
 	if(@e) {
 	       /*TODO assert entry_is_action */	       
 	        ActionT* action = entry_get_action(@e);
-			if(action_is_defined(action)) {
+			if(!action_is_defined(action)) {
 				action_set_define(action);
 				action_set_code(action, @&c);
-			}
-			else {
+			} else {
 				char* pe=nstring_to_cstring(entry_key(@e));
 				error(ERROR_SERIOUS,"Action %s has already been defined", pe);
 				DEALLOCATE(pe);
