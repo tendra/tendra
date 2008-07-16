@@ -211,7 +211,7 @@
 %assignments%
 
 	StringT: (a) -> (b) = @{
-		nstring_assign (&@b, @&a);
+		nstring_assign(&@b, @&a);
 	@};
 
 	/*
@@ -279,14 +279,14 @@
 	 */
 
 	<add-type>: (string :StringT &) -> () = @{
-		if (table_add_type (grammar_table(sid_current_grammar), &@=string, FALSE) == NULL) {
+		if (table_add_type(grammar_table(sid_current_grammar), &@=string, FALSE) == NULL) {
 			E_duplicate_type(@&string);
 			nstring_destroy(&@=string);
 		}
 	@};
 
 	<i-add-type>: (string :StringT &) -> () = @{
-		if (table_add_type (grammar_table(sid_current_grammar), &@=string, TRUE) == NULL) {
+		if (table_add_type(grammar_table(sid_current_grammar), &@=string, TRUE) == NULL) {
 			E_duplicate_type(@&string);
 			nstring_destroy(&@=string);
 		}
@@ -411,7 +411,7 @@
 		EntryT *non_local_entry;
 		EntryT *name_entry;
 
-		non_local_entry = scope_stack_get_non_local (&sid_scope_stack,
+		non_local_entry = scope_stack_get_non_local(&sid_scope_stack,
 			grammar_table(sid_current_grammar), @&name, &scope);
 		name_entry = table_get_entry(grammar_table(sid_current_grammar), @&name);
 
@@ -514,10 +514,10 @@
 			}
 			nstring_destroy(&@=name);
 		} else if (non_local_entry) {
-			types_add_name_and_type_var (@&tuple, non_local_entry, NULL);
+			types_add_name_and_type_var(@&tuple, non_local_entry, NULL);
 			if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
-				nstring_destroy (&sid_maximum_scope);
-				nstring_assign (&sid_maximum_scope, &scope);
+				nstring_destroy(&sid_maximum_scope);
+				nstring_assign(&sid_maximum_scope, &scope);
 			} else {
 				nstring_destroy(&scope);
 			}
@@ -557,7 +557,7 @@
 	@};
 
 	<action>: (string :StringT &) -> (entry :EntryP) = @{
-		@entry = scope_stack_add_action (sid_current_scope,
+		@entry = scope_stack_add_action(sid_current_scope,
 			grammar_table(sid_current_grammar), &@=string, sid_enclosing_rule,
 			&sid_redefining_entry, FALSE);
 			sid_current_entry = @entry;
@@ -568,7 +568,7 @@
 	@};
 
 	<i-action>: (string :StringT &) -> (entry :EntryP) = @{
-		@entry = scope_stack_add_action (sid_current_scope,
+		@entry = scope_stack_add_action(sid_current_scope,
 			grammar_table(sid_current_grammar), &@=string, sid_enclosing_rule,
 			&sid_redefining_entry, TRUE);
 			sid_current_entry = @entry;
@@ -659,7 +659,7 @@
 			} else {
 				EntryT *name;
 
-				name = scope_stack_add_non_local (sid_current_scope,
+				name = scope_stack_add_non_local(sid_current_scope,
 					grammar_table(sid_current_grammar), &@=id, type,
 					sid_enclosing_rule);
 				if (name) {
@@ -683,7 +683,7 @@
 			grammar_table(sid_current_grammar), @&action_id);
 
 		if (actionentry == NULL) {
-			E_unknown_action (@&action_id);
+			E_unknown_action(@&action_id);
 		} else if (@nonlocalentry) {
 			EntryT     *type   = non_local_entry_get_type(@nonlocalentry);
 			KeyT       *name   = entry_key(non_local_entry_get_name(@nonlocalentry));
@@ -733,9 +733,9 @@
 	/* TODO: This looks a bit repetitive, too */
 	<x-rule>: (n_params :TypeTupleT &, n_results :TypeTupleT &) -> () = @{
 		if (sid_current_entry) {
-			KeyT       *key     = entry_key (sid_current_entry);
-			TypeTupleT *param   = rule_param (sid_current_rule);
-			TypeTupleT *result  = rule_result (sid_current_rule);
+			KeyT       *key     = entry_key(sid_current_entry);
+			TypeTupleT *param   = rule_param(sid_current_rule);
+			TypeTupleT *result  = rule_result(sid_current_rule);
 			BoolT       errored = FALSE;
 
 			if (types_contains_names(@&n_params)) {
@@ -762,7 +762,7 @@
 
 			if (sid_redefining_entry) {
 				if (!types_equal(result, @&n_results)) {
-					E_rule_result_mismatch (key, result, @&n_results);
+					E_rule_result_mismatch(key, result, @&n_results);
 					errored = TRUE;
 				}
 			}
@@ -803,7 +803,7 @@
 			key = entry_key(sid_current_entry);
 
 			if (rule_is_defined(sid_current_rule)) {
-				E_rule_already_defined (key);
+				E_rule_already_defined(key);
 				sid_current_entry = NULL;
 				types_destroy(@&n_params);
 				types_destroy(@&n_results);
@@ -951,7 +951,7 @@
 			if (rule_has_empty_alt(sid_current_rule)) {
 				E_multiple_empty_alts(entry_key(sid_external_rule));
 			} else if (!types_equal_zero_tuple(rule_result(sid_current_rule))) {
-				E_alt_result_mismatch(entry_key (sid_external_rule),
+				E_alt_result_mismatch(entry_key(sid_external_rule),
 					sid_alternative);
 			} else {
 				rule_add_empty_alt(sid_current_rule);
@@ -982,13 +982,13 @@
 				TypeTupleT used;
 
 				types_copy(&used, rule_result(sid_current_rule));
-				item_compute_minimal_dataflow(alt_item_head (sid_current_alt),
+				item_compute_minimal_dataflow(alt_item_head(sid_current_alt),
 					&used);
 				types_destroy(&used);
 				rule_add_alt(sid_current_rule, sid_current_alt);
 			} else {
 				(void) alt_deallocate(sid_current_alt);
-				E_alt_result_mismatch(entry_key (sid_external_rule),
+				E_alt_result_mismatch(entry_key(sid_external_rule),
 					sid_alternative);
 			}
 		}
@@ -1006,14 +1006,14 @@
 				alt_names(sid_current_alt))) {
 				TypeTupleT used;
 
-				types_copy(&used, rule_result (sid_current_rule));
-				item_compute_minimal_dataflow (alt_item_head (sid_current_alt),
+				types_copy(&used, rule_result(sid_current_rule));
+				item_compute_minimal_dataflow(alt_item_head(sid_current_alt),
 					&used);
 				types_destroy(&used);
 				rule_set_handler(sid_current_rule, sid_current_alt);
 			} else {
 				(void) alt_deallocate(sid_current_alt);
-				E_handler_result_mismatch(entry_key (sid_external_rule));
+				E_handler_result_mismatch(entry_key(sid_external_rule));
 			}
 		}
 	@};
@@ -1036,7 +1036,7 @@
 			types_copy(item_param(@item), rule_param(@saved_rule));
 			types_append_copy(item_param(@item), alt_names(@saved_alt));
 			types_copy(rule_param(sid_current_rule), item_param(@item));
-			types_make_references(rule_param (sid_current_rule), item_param(@item));
+			types_make_references(rule_param(sid_current_rule), item_param(@item));
 			alt_add_item(@saved_alt, @item);
 		} else {
 			sid_current_entry = NULL;
@@ -1046,7 +1046,7 @@
 	<restore>: (saved_entry, saved_rule, saved_alt, saved_internal, item) -> () = @{
 		if (@saved_entry && @saved_alt) {
 			rule_compute_result_intersect(sid_current_rule);
-			types_copy (item_result(@item), rule_result(sid_current_rule));
+			types_copy(item_result(@item), rule_result(sid_current_rule));
 			types_add_new_names(alt_names(@saved_alt), item_result(@item),
 			grammar_get_predicate_id(sid_current_grammar));
 		}
@@ -1093,9 +1093,9 @@
 				if (types_equal(@&rhs, action_param(action))) {
 					item_add_param(sid_current_item, @&rhs);
 				} else {
-					E_action_param_call_mismatch(entry_key (entry),
+					E_action_param_call_mismatch(entry_key(entry),
 							  action_param(action), @&rhs);
-					types_destroy (@&rhs);
+					types_destroy(@&rhs);
 					errored = TRUE;
 				}
 			} else {
@@ -1128,7 +1128,7 @@
 						}
 						item_add_result(sid_current_item, @&lhs);
 					} else {
-						E_action_result_call_mismatch(entry_key (entry),
+						E_action_result_call_mismatch(entry_key(entry),
 							action_result(action), @&lhs);
 						types_destroy(@&lhs);
 						errored = TRUE;
@@ -1138,7 +1138,7 @@
 					errored = TRUE;
 				}
 			} else {
-				E_action_result_call_clash(entry_key (entry), @&lhs);
+				E_action_result_call_clash(entry_key(entry), @&lhs);
 				types_destroy(@&lhs);
 				errored = TRUE;
 			}
@@ -1161,13 +1161,13 @@
 		if (sid_current_entry && sid_current_alt) {
 			EntryT *entry = table_add_rename(grammar_table(sid_current_grammar));
 
-			if (types_resolve(@&rhs, rule_param (sid_current_rule),
+			if (types_resolve(@&rhs, rule_param(sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (types_contains_references(@&rhs)) {
-					E_identity_param_has_refs (@&rhs, entry_key(sid_external_rule),
+					E_identity_param_has_refs(@&rhs, entry_key(sid_external_rule),
 						sid_alternative);
-					types_destroy (@&rhs);
+					types_destroy(@&rhs);
 					sid_current_item = NULL;
 				} else {
 					sid_current_item = item_create(entry);
@@ -1179,12 +1179,12 @@
 			}
 
 			if (types_disjoint_names(@&lhs)) {
-				if (types_check_undefined(@&lhs, rule_param (sid_current_rule),
-					alt_names (sid_current_alt), E_redefined_name,
+				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (sid_current_item) {
 						if (types_fillin_types(@&lhs, item_param(sid_current_item))) {
-							types_add_new_names(alt_names (sid_current_alt),
+							types_add_new_names(alt_names(sid_current_alt),
 							@&lhs, grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
 								E_predicate();
@@ -1192,7 +1192,7 @@
 							item_add_result(sid_current_item, @&lhs);
 							alt_add_item(sid_current_alt, sid_current_item);
 						} else {
-							E_identity_mismatch(item_param (sid_current_item), @&lhs);
+							E_identity_mismatch(item_param(sid_current_item), @&lhs);
 							types_destroy(@&lhs);
 							(void) item_deallocate(sid_current_item);
 							sid_current_item = NULL;
@@ -1207,7 +1207,7 @@
 				}
 			} else {
 				E_identity_result_clash(@&lhs);
-				types_destroy (@&lhs);
+				types_destroy(@&lhs);
 				if (sid_current_item) {
 					(void) item_deallocate(sid_current_item);
 					sid_current_item = NULL;
@@ -1262,7 +1262,7 @@
 		nstring_destroy(&@=string);
 		if (sid_current_item) {
 			BoolT  errored = FALSE;
-			KeyT  *key     = entry_key (entry);
+			KeyT  *key     = entry_key(entry);
 
 			if (types_resolve(@&rhs, rule_param(sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,
@@ -1287,12 +1287,12 @@
 				errored = TRUE;
 			}
 
-			if (types_disjoint_names (@&lhs)) {
-				if (types_check_undefined (@&lhs, rule_param(sid_current_rule),
+			if (types_disjoint_names(@&lhs)) {
+				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
 					alt_names(sid_current_alt), E_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (types_fillin_types(@&lhs, result)) {
-						types_add_new_names(alt_names (sid_current_alt),
+						types_add_new_names(alt_names(sid_current_alt),
 							@&lhs, grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
 							E_predicate ();
@@ -1313,12 +1313,12 @@
 				}
 			} else {
 				if (param) {
-					E_rule_result_call_clash (key, @&lhs);
+					E_rule_result_call_clash(key, @&lhs);
 				} else {
-					E_basic_result_call_clash (key, @&lhs);
+					E_basic_result_call_clash(key, @&lhs);
 				}
 
-				types_destroy (@&lhs);
+				types_destroy(@&lhs);
 				errored = TRUE;
 			}
 
@@ -1335,8 +1335,8 @@
 				(void) alt_deallocate (sid_current_alt);
 				sid_current_alt = NULL;
 			}
-			types_destroy (@&lhs);
-			types_destroy (@&rhs);
+			types_destroy(@&lhs);
+			types_destroy(@&rhs);
 		}
 	@};
 
@@ -1353,8 +1353,8 @@
 
 		if (sid_current_entry && sid_current_alt) {
 			if (name_entry != NULL &&
-				!types_contains(alt_names (sid_current_alt), name_entry) &&
-				!types_contains(rule_param (sid_current_rule), name_entry)) {
+				!types_contains(alt_names(sid_current_alt), name_entry) &&
+				!types_contains(rule_param(sid_current_rule), name_entry)) {
 				name_entry = NULL;
 			}
 
@@ -1363,17 +1363,17 @@
 			if (entry) {
 				sid_current_item = item_create (entry);
 				rule             = entry_get_rule (entry);
-				param            = rule_param (rule);
-				result           = rule_result (rule);
+				param            = rule_param(rule);
+				result           = rule_result(rule);
 			} else {
 				entry = table_get_basic(grammar_table(sid_current_grammar), @&string);
 				if (entry) {
 					sid_current_item = item_create (entry);
-					basic            = entry_get_basic (entry);
+					basic            = entry_get_basic(entry);
 					param            = NULL;
-					result           = basic_result (basic);
+					result           = basic_result(basic);
 					if (name_entry == NULL && basic_get_ignored(basic)) {
-						E_ignored_basic_call (@&string);
+						E_ignored_basic_call(@&string);
 					}
 				}
 			}
@@ -1381,7 +1381,7 @@
 			if (entry == NULL && name_entry == NULL) {
 				NStringT scope;
 
-				name_entry = scope_stack_get_non_local (&sid_scope_stack,
+				name_entry = scope_stack_get_non_local(&sid_scope_stack,
 					grammar_table(sid_current_grammar), @&string, &scope);
 				if (name_entry) {
 					if (nstring_length(&scope) > nstring_length(&sid_maximum_scope)) {
@@ -1407,7 +1407,7 @@
 			BoolT  errored = FALSE;
 			KeyT  *key     = entry_key(entry);
 
-			if (types_resolve(&rhs, rule_param (sid_current_rule),
+			if (types_resolve(&rhs, rule_param(sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (param) {
@@ -1415,7 +1415,7 @@
 						item_add_param(sid_current_item, &rhs);
 					} else {
 						E_rule_param_call_mismatch(key, param, &rhs);
-						types_destroy (&rhs);
+						types_destroy(&rhs);
 						errored = TRUE;
 					}
 				} else {
@@ -1431,11 +1431,11 @@
 			}
 
 			if (types_disjoint_names(@&lhs)) {
-				if (types_check_undefined(@&lhs, rule_param (sid_current_rule),
-					alt_names (sid_current_alt), E_redefined_name,
-					entry_key (sid_external_rule), sid_alternative)) {
+				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
+					alt_names(sid_current_alt), E_redefined_name,
+					entry_key(sid_external_rule), sid_alternative)) {
 					if (types_fillin_types(@&lhs, result)) {
-						types_add_new_names(alt_names (sid_current_alt),
+						types_add_new_names(alt_names(sid_current_alt),
 							@&lhs, grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
 							E_predicate();
@@ -1445,7 +1445,7 @@
 						if (param) {
 							E_rule_result_call_mismatch(key, result, @&lhs);
 						} else {
-							E_basic_result_call_mismatch (key, result, @&lhs);
+							E_basic_result_call_mismatch(key, result, @&lhs);
 						}
 						types_destroy(@&lhs);
 						errored = TRUE;
@@ -1475,7 +1475,7 @@
 		} else if (name_entry) {
 			types_add_name_entry(&rhs, name_entry);
 			entry = table_add_rename (grammar_table(sid_current_grammar));
-			if (types_resolve (&rhs, rule_param(sid_current_rule),
+			if (types_resolve(&rhs, rule_param(sid_current_rule),
 				alt_names(sid_current_alt), E_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (types_contains_references(&rhs)) {
@@ -1498,7 +1498,7 @@
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (sid_current_item) {
 						if (types_fillin_types(@&lhs, item_param(sid_current_item))) {
-							types_add_new_names(alt_names (sid_current_alt),
+							types_add_new_names(alt_names(sid_current_alt),
 								@&lhs, grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
 								E_predicate();
@@ -1545,13 +1545,13 @@
 	<add-entry>: (string) -> () = @{
 		EntryT *entry;
 
-		entry = table_get_rule (grammar_table(sid_current_grammar), @&string);
+		entry = table_get_rule(grammar_table(sid_current_grammar), @&string);
 		if (entry) {
 			if (entry_list_contains(grammar_entry_list(sid_current_grammar), entry)) {
 				E_mult_entry(entry_key(entry));
 			} else {
 				entry_list_add(grammar_entry_list(sid_current_grammar), entry);
-				rule_required(entry_get_rule (entry));
+				rule_required(entry_get_rule(entry));
 			}
 		} else {
 			E_unknown_rule(@&string);
@@ -1784,13 +1784,13 @@
 				&& @. != @$BLT-PRODUCTIONS
 				&& @. != @$BLT-ENTRY) {
 				if (@. == @$IDENTIFIER) {
-					nstring_destroy (lexer_string_value (sid_current_stream));
+					nstring_destroy(lexer_string_value (sid_current_stream));
 				}
 				@>;
 			}
 
 			if (@. == @$IDENTIFIER) {
-				nstring_destroy (lexer_string_value (sid_current_stream));
+				nstring_destroy(lexer_string_value (sid_current_stream));
 			}
 
 			if (@. != @$EOF) {

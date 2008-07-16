@@ -125,14 +125,14 @@
 	<add-void>: (:TypeTupleT &) -> ();
 	<action>: (:StringT &) -> (:EntryP);
 	<i-action>: (:StringT &) -> (:EntryP);
-	<x-action>: (:EntryP, :TypeTupleT &, :TypeTupleT &) -> () ;
+	<x-action>: (:EntryP, :TypeTupleT &, :TypeTupleT &) -> ();
 	<non-local>: (:StringT &, :StringT &) -> (:NonLocalEntryP);
 	<non-local-init>: (:NonLocalEntryP, :StringT &) -> ();
 	<save-scope>: () -> (:EntryP, :RuleP);
 	<restore-scope>: (:EntryP, :RuleP) -> ();
 	<prod-action>: (:StringT &) -> ();
 	<x-prod-action>: (:TypeTupleT &, :TypeTupleT &) -> ();
-	<x-identity>: (:TypeTupleT &, :TypeTupleT &) -> () ;
+	<x-identity>: (:TypeTupleT &, :TypeTupleT &) -> ();
 	<x-prod-rule>: (:TypeTupleT &, :TypeTupleT &, :StringT &) -> ();
 	<x-prod-rule-or-identity>: (:TypeTupleT &, :StringT &) -> ();
 	<save>: () -> (:EntryP, :RuleP, :AltP, :BoolT, :ItemP);
@@ -308,8 +308,8 @@
 
 			results = type-tuple-defn;
 		||
-			params = <init-tuple> ;
-			results = <init-tuple> ;
+			params = <init-tuple>;
+			results = <init-tuple>;
 		};
 
 
