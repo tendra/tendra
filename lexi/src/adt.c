@@ -432,13 +432,15 @@ arg* nametrans_translate(NameTransT* trans, NStringT* key)
 	while(i<j) {
 		switch(nstring_compare(&trans->tab[mid].from,key)) {
 		case CMP_LT:
-			i=mid;
-			mid=(i+j+1)/2;
+			i=mid+1;
+			mid=(i+j)/2;
 			break;
 		case CMP_EQ:
+			return trans->tab[mid].to;
+			break;
 		case CMP_GT:
-			j=mid;
-			mid=(i+j)/2;
+			j=mid-1;
+			mid=(i+j+1)/2;
 			break;
 		}
 	}
