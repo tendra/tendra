@@ -40,3 +40,8 @@ TRAILERS = @{
 @},@{
 /* Hfile lct trailer */
 @} ;
+
+MAP TERMINAL -> int;
+ACTION get_string : () -> (a:TERMINAL) = @{
+       @a = read_string();
+@};

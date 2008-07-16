@@ -216,7 +216,12 @@ lexi_read_token(struct lexi_state *state)
 				return lex_arg_Hignore;
 			}
 			case '"': {
-				return get_string(c0);
+				{
+					int ZT1;
+
+       ZT1 = read_string();
+					return ZT1;
+				}
 			}
 			case '#': {
 				int c1 = lexi_readchar(state);
