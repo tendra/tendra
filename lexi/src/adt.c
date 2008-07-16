@@ -390,7 +390,7 @@ void nametrans_destroy(NameTransT* p)
 
 static int nametrans_cmp(const void* p, const void* q) 
 {
-	switch(nstring_compare(&(((NameTransEntryT*)p)->from),&(((NameTransEntryT*)p)->from))) {
+	switch(nstring_compare(&(((NameTransEntryT*)p)->from),&(((NameTransEntryT*)q)->from))) {
 	case CMP_LT:
 		return -1;
 	case CMP_EQ:
@@ -402,7 +402,7 @@ static int nametrans_cmp(const void* p, const void* q)
 
 void nametrans_sort(NameTransT* p)
 {
-	qsort(p->tab,p->size,sizeof(NameTransEntryT*),&nametrans_cmp); 
+	qsort(p->tab,p->size,sizeof(NameTransEntryT),&nametrans_cmp); 
 }
 
 static void nametrans_append(NameTransT* tr, NStringT* from, arg* to)
@@ -426,7 +426,7 @@ void nametrans_append_tuple(NameTransT* tr, TypeTupleT* tuple, args_list* l)
 arg* nametrans_translate(NameTransT* trans, NStringT* key)
 {
 	int i=0;
-	int j=trans->size;
+	int j=trans->size-1;
 	/* TODO assert(i<j) */
 	int mid = (i+j)/2;
 	while(i<j) {
