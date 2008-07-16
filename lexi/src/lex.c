@@ -90,9 +90,6 @@ static int lexi_getchar(void);
 static int read_identifier(int, int);
 static int read_string(void);
 
-#define get_identifier(A)	read_identifier((A), 0)
-#define get_sid_ident(A, B)	read_identifier((B), 1)
-#define get_string(A)		read_string()
 #define lexi_unknown_token	lex_unknown
 
 static int read_arg_char_nb(int,int) ;

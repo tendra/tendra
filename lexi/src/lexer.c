@@ -246,7 +246,12 @@ lexi_read_token(struct lexi_state *state)
 					return lex_nothing_Hmarker;
 				}
 				if (lexi_group(lexi_group_alpha, c1)) {
-					return get_sid_ident(c0, c1);
+					{
+						int ZT1;
+
+       ZT1 = read_identifier(c1, 1);
+						return ZT1;
+					}
 				}
 				lexi_push(state, c1);
 				return lex_arg_Hreturn_Hterminal;
@@ -391,7 +396,12 @@ lexi_read_token(struct lexi_state *state)
 			}
 		}
 		if (lexi_group(lexi_group_alpha, c0)) {
-			return get_identifier(c0);
+			{
+				int ZT1;
+
+       ZT1 = read_identifier(c0, 0);
+				return ZT1;
+			}
 		}
 		return lexi_unknown_token;
 	}

@@ -68,6 +68,8 @@ COPYRIGHT = "COPYING";
 
 /*Actions*/
 ACTION <get_string> : () -> (:TERMINAL);
+ACTION <get_identifier> : (:CHARACTER) -> (:TERMINAL);
+ACTION <get_sid_identifier> : (:CHARACTER) -> (:TERMINAL);
 
 /* Character groups */
 GROUP white = " \t\n\r" ;
@@ -119,8 +121,8 @@ ZONE line_comment : "//" ... "\n" {
 
 
 TOKEN "\"" -> $ = <get_string> () ;
-TOKEN "[alpha]" -> get_identifier (##) ;
-TOKEN "$[alpha]" -> get_sid_ident (##) ;
+TOKEN "[alpha]" -> $ = <get_identifier> (#0) ;
+TOKEN "$[alpha]" -> $ = <get_sid_identifier> (#1) ;
 
 TOKEN "$" -> $arg-return-terminal ;
 TOKEN "!" -> $arg-ignore ;

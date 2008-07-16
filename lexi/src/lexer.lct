@@ -42,6 +42,15 @@ TRAILERS = @{
 @} ;
 
 MAP TERMINAL -> int;
+
 ACTION get_string : () -> (a:TERMINAL) = @{
        @a = read_string();
+@};
+
+ACTION get_sid_identifier : (c:CHARACTER) -> (a:TERMINAL) = @{
+       @a = read_identifier(@c, 1);
+@};
+
+ACTION get_identifier : (c:CHARACTER) -> (a:TERMINAL) = @{
+       @a = read_identifier(@c, 0);
 @};
