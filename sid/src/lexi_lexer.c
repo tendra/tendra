@@ -149,6 +149,9 @@ lexi_read_token(struct lexi_state *state)
 			case '!': {
 				return LEXER_TOK_IGNORE;
 			}
+			case '"': {
+				return read_basic(c0);
+			}
 			case '#': {
 				int c1 = lexi_readchar(state);
 				if (c1 == '#') {

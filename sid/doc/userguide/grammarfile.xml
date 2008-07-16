@@ -135,6 +135,20 @@ StringT ;</programlisting>
 		<programlisting language="SID Grammar">
 !terminal1 ;
 !terminal2 : () -&gt; ( :StringT ) ;</programlisting>
+
+		<para>Terminals may optionally be quoted; this permits the use of
+			non-alphanumeric characters, which is helpful if they don't have
+			convenient names. It can also help make the grammar a little clearer
+			to read, if the associated lexer is not to hand. For example:</para>
+
+		<programlisting language="SID Grammar">
+!"-&gt;" ;
+"*" ;
+"{" : () -&gt; ( :BraceT ) ;</programlisting>
+
+		<para>As with other symbols, these are transformed in the generated
+			parser according to the respective language-specific rules for
+			producing legal identifiers in that language.</para>
 	</section>
 
 	<section id="rule-defn">

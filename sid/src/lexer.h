@@ -86,6 +86,7 @@ typedef enum {
 	LEXER_TOK_BLT_HPRODUCTIONS,
 	LEXER_TOK_BLT_HENTRY,
 	LEXER_TOK_IDENTIFIER,
+	LEXER_TOK_BASIC,
 	LEXER_TOK_TYPEMARK,
 	LEXER_TOK_OPEN_HTUPLE,
 	LEXER_TOK_CLOSE_HTUPLE,
@@ -139,6 +140,7 @@ void	lexer_restore_terminal(LexerStreamT *);
  */
 int lexi_getchar(void);
 int read_identifier(int c);
+int read_basic(int c);
 int read_builtin(int c);
 int lexi_unknown_token(int c0);
 

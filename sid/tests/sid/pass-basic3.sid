@@ -1,0 +1,8 @@
+%types%
+	c;
+%terminals%
+	"a": () -> (:c);
+%productions%
+	b = { x = "a"; };
+%entry%
+	b;

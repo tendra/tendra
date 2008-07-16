@@ -1,0 +1,6 @@
+%types%
+%terminals%
+%productions%
+	"b" = { $$; };	/* FAIL: "x" is an invalid production name */
+%entry%
+	b;

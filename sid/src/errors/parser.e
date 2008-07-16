@@ -1427,6 +1427,27 @@ error "ignored basic call" {
     }
 };
 
+error "identifier is not basic" {
+    "${file name}: ${line number}: quoted identifier '${identifier}' is not a terminal",
+    {
+	"file name" : "const char *" $[
+	    write_cstring(ostream, closure->file_name);
+	]$ $[
+	    closure.file_name = lexer_stream_name(sid_current_stream);
+	]$
+    }, {
+	"line number" : "unsigned" $[
+	    write_unsigned(ostream, closure->line_number);
+	]$ $[
+	    closure.line_number = lexer_stream_line(sid_current_stream);
+	]$
+    }, {
+	"identifier" : "NStringT *" $[
+	    write_nstring(ostream, closure->identifier);
+	]$
+    }
+};
+
 error "ignored type" {
     "${file name}: ${line number}: invocation of ignored type '${type name}'",
     {
@@ -1511,6 +1532,23 @@ error "expected typemark" {
 
 error "expected identifier" {
     "${file name}: ${line number}: expected identifier",
+    {
+	"file name" : "const char *" $[
+	    write_cstring(ostream, closure->file_name);
+	]$ $[
+	    closure.file_name = lexer_stream_name(sid_current_stream);
+	]$
+    }, {
+	"line number" : "unsigned" $[
+	    write_unsigned(ostream, closure->line_number);
+	]$ $[
+	    closure.line_number = lexer_stream_line(sid_current_stream);
+	]$
+    }
+};
+
+error "expected identifier or basic" {
+    "${file name}: ${line number}: expected identifier or terminal",
     {
 	"file name" : "const char *" $[
 	    write_cstring(ostream, closure->file_name);

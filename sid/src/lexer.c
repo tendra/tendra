@@ -134,7 +134,8 @@ lexer_next_token(LexerStreamT *stream)
 NStringT *
 lexer_string_value(LexerStreamT *stream)
 {
-	assert(stream->token.t == LEXER_TOK_IDENTIFIER);
+	assert(stream->token.t == LEXER_TOK_IDENTIFIER
+		|| stream->token.t == LEXER_TOK_BASIC);
 	return &stream->token.u.string;
 }
 
@@ -210,6 +211,36 @@ read_identifier(int c)
 	}
 
 	lexer_token->t = LEXER_TOK_IDENTIFIER;
+	dstring_to_nstring(&dstring, &lexer_token->u.string);
+	dstring_destroy(&dstring);
+
+	return lexer_token->t;
+}
+
+int
+read_basic(int c)
+{
+	IStreamT *istream;
+	DStringT dstring;
+
+	istream = &lexer_stream->istream;
+
+	dstring_init(&dstring);
+	for (;;) {
+		c = lexi_readchar(&lexi_current_state);
+		if (c == LEXI_EOF) {
+			E_eof_in_identifier(istream);	/* TODO eof_in_basic */
+			return LEXER_TOK_EOF;
+		}
+
+		if (c == '\"') {
+			break;
+		}
+
+		dstring_append_char(&dstring, c);
+	}
+
+	lexer_token->t = LEXER_TOK_BASIC;
 	dstring_to_nstring(&dstring, &lexer_token->u.string);
 	dstring_destroy(&dstring);
 

@@ -1,0 +1,7 @@
+%types%
+%terminals%
+	"a";
+%productions%
+	b = { $$; };	/* FAIL: unused terminal */
+%entry%
+	b;

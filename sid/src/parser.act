@@ -266,6 +266,10 @@
 		nstring_assign(&@i, lexer_string_value(sid_current_stream));
 	@};
 
+	BASIC: () -> (i) = @{
+		nstring_assign(&@i, lexer_string_value(sid_current_stream));
+	@};
+
 %actions%
 
 	<init> = @{
@@ -356,6 +360,17 @@
 
 		bitvec_set_size(max_terminal);
 		sid_finished_terminals = TRUE;
+	@};
+
+	<x-basic>: (string :StringT) -> () = @{
+		EntryT *entry = table_get_entry(grammar_table(sid_current_grammar), @&string);
+
+		if (entry) {
+			if (!entry_is_basic(entry)) {
+				E_identifier_is_not_basic(@&string);
+			}
+		}
+
 	@};
 
 
@@ -1577,6 +1592,12 @@
 	<expected-identifier> = @{
 		if (!sid_propagating_error) {
 			E_expected_identifier();
+		}
+	@};
+
+	<expected-identifier-or-basic> = @{
+		if (!sid_propagating_error) {
+			E_expected_identifier_or_basic();
 		}
 	@};
 

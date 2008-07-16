@@ -53,4 +53,6 @@ ZONE bracketed_comment: "/*" ... "*/" {
 GROUP builtin = {a-z} + {A-Z};
 TOKEN "%" -> read_builtin();
 
+TOKEN "\"" -> read_basic();
+
 TOKEN DEFAULT -> lexi_unknown_token ();

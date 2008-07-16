@@ -79,6 +79,7 @@
 	BLT-TERMINALS;   // %terminals%
 	BLT-PRODUCTIONS; // %productions%
 	BLT-ENTRY;       // %entry%
+	BASIC: () -> (: StringT);
 	IDENTIFIER: () -> (: StringT);
 	TYPEMARK;        // :
 	OPEN-TUPLE;	     // (
@@ -118,6 +119,8 @@
 	<terminal>: (:StringT &) -> (:EntryP);
 	<i-terminal>: (:StringT &) -> (:EntryP);
 	<x-terminal>  : (:EntryP, :TypeTupleT &, :TypeTupleT &) -> ();
+	<x-terminals>;
+	<x-basic>: (:StringT) -> ();
 	<add-name>: (:TypeTupleT &, : StringT &) -> ();
 	<add-ref-name>: (:TypeTupleT &, :StringT &) -> ();
 	<add-var>: (:TypeTupleT &, :StringT &) -> ();
@@ -152,12 +155,12 @@
 	<use-local>;
 	<add-entry>: (:StringT &) -> ();
 	<init>;
-	<x-terminals>;
 
 	<unhandled-syntax-error>;
 
 	<expected-typemark>;
 	<expected-identifier>;
+	<expected-identifier-or-basic>;
 	<expected-tuple-defn>;
 	<expected-terminal-decn>;
 	<expected-separator>;
@@ -326,6 +329,8 @@
 					IGNORE;
 					id = IDENTIFIER;
 					<i-add-type> (&id);
+				##
+					<expected-identifier>;
 				};
 
 				{
@@ -346,9 +351,16 @@
 		 * Terminal declarations
 		 */
 
+		identifier-or-basic: () -> (s: StringT) = {
+			s = IDENTIFIER;
+		||
+			s = BASIC;
+			<x-basic>(s);
+		};
+
 		terminal-decn-list [
 			terminal-decn = {
-				id = IDENTIFIER;
+				id = identifier-or-basic;
 				entry = <terminal>(&id);
 				(params, results) = function-type-defn;
 				<x-terminal>(entry, &params, &results);
@@ -361,7 +373,7 @@
 			||
 				IGNORE;
 				{
-					id = IDENTIFIER;
+					id = identifier-or-basic;
 					entry = <i-terminal>(&id);
 					(params, results) = function-type-defn;
 					<x-terminal>(entry, &params, &results);
@@ -628,7 +640,7 @@
 					<skip-to-end-of-item>;
 				};
 			||
-				id = IDENTIFIER;
+				id = identifier-or-basic;
 
 				{
 					<current-tuple>;
@@ -653,7 +665,7 @@
 				REFERENCE;
 				rhs-tuple = <init-tuple>;
 				{
-					id = IDENTIFIER;
+					id = identifier-or-basic;
 					<add-ref-name>(&rhs-tuple, &id);
 					<x-identity>(&lhs-tuple, &rhs-tuple);
 
@@ -663,7 +675,7 @@
 						<expected-terminator>;
 					};
 				##
-					<expected-identifier>;
+					<expected-identifier-or-basic>;
 					<skip-to-end-of-item>;
 				};
 			||
@@ -738,7 +750,7 @@
 					<expected-identifier>;
 				};
 			||
-				id = IDENTIFIER;
+				id = identifier-or-basic;
 
 				{
 					<current-tuple>;
