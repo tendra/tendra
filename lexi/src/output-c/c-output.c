@@ -171,7 +171,7 @@ output_locals(LocalNamesT* locals, int d, FILE* lex_output )
 		char* st;
 		if(t->u.type->mapped) {
 			prefixtype="";
-			nstring_to_cstring(&t->u.type->mapping);
+			st=nstring_to_cstring(&t->u.type->mapping);
 		} else {
 			st=nstring_to_cstring(entry_key(t));
 		}
