@@ -151,6 +151,7 @@ output_locals(LocalNamesT* locals, int d, FILE* lex_output )
 {
 	const char* prefixvar = "ZV";
 	const char* prefixtype = "ZT";
+	char* st;
 	char* s = xmalloc_nof(char, locals->max_depth+1);
 	LocalNamesIteratorT it ;
 	for( localnames_begin(&it, locals); 
@@ -166,9 +167,7 @@ output_locals(LocalNamesT* locals, int d, FILE* lex_output )
 			p=p->up;
 		}
 		output_indent(lex_output,d);
-		t = it.p->type;
 		/* TODO assert(entry_is_type(t)); */
-		char* st;
 		if(t->u.type->mapped) {
 			prefixtype="";
 			st=nstring_to_cstring(&t->u.type->mapping);
@@ -182,7 +181,7 @@ output_locals(LocalNamesT* locals, int d, FILE* lex_output )
 }
 
 static void 
-output_action(FILE* lex_output, EntryT* action, args_list* lhs, args_list* rhs, int d)
+output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, args_list* lhs, args_list* rhs, int d)
 {
 	/* TODO assert(entry_is_action(action)) */
 	NameTransT trans;
@@ -193,12 +192,30 @@ output_action(FILE* lex_output, EntryT* action, args_list* lhs, args_list* rhs, 
 	nametrans_append_tuple(&trans,&action->u.action->inputs,rhs);
 	nametrans_append_tuple(&trans,&action->u.action->outputs,lhs);
 	nametrans_sort(&trans);
+
+	output_indent(lex_output, d);
+	fputs("{\n", lex_output);
+	++d;
+	if(lhs->nb_return_terminal) {
+		char* st;
+		EntryT* t = lexer_terminal_type(top_level);
+		char* prefixtype = "ZT";
+		/* TODO assert(entry_is_type(t)); */
+		output_indent(lex_output, d);
+		if(t->u.type->mapped) {
+			prefixtype="";
+			st=nstring_to_cstring(&t->u.type->mapping);
+		} else {
+			st=nstring_to_cstring(entry_key(t));
+		}
+	       	fprintf(lex_output,"%s%s ZT1;\n", prefixtype, st);
+	}
 	/* End Semi Inefficient*/
 	if(action_is_defined(action->u.action)) {
 		ccode_output(lex_output, &action->u.action->code, &trans, d );
 		if(lhs->nb_return_terminal) {
 			/*TODO assert(lhs->nb_return_terminal==1)*/
-			output_indent(lex_output,d);
+			output_indent(lex_output, d);
 			fputs("return ZT1;\n",lex_output);
 		}
 	} else {
@@ -207,6 +224,9 @@ output_action(FILE* lex_output, EntryT* action, args_list* lhs, args_list* rhs, 
 		error(ERROR_SERIOUS, "Action \%s is used but undefined", pe);
 		DEALLOCATE(pe);
 	}
+	--d;
+	output_indent(lex_output, d);
+	fputs("}\n", lex_output);
 }
 
 
@@ -231,7 +251,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       break;
     case action_call :
       /* assert(!instr->next);*/
-      output_action(lex_output, instr->u.act.called_act, instr->u.act.lhs, instr->u.act.rhs, d);
+      output_action(lex_output, z->top_level, instr->u.act.called_act, instr->u.act.lhs, instr->u.act.rhs, d);
       break;
     case apply_function:
       output_indent(lex_output, d);
