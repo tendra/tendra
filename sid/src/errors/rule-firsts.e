@@ -37,10 +37,6 @@ error "cannot compute first set" {
 	"production" : "RuleT *" $[
 	    write_rule(ostream, closure->production);
 	]$
-    }, {
-	"rule name" : "RuleT *" $[
-	    write_key(ostream, entry_key(rule_entry(closure->production)));
-	]$ $[]$
     }
 };
 
