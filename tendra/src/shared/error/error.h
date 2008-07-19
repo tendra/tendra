@@ -68,18 +68,20 @@
     routines.
 */
 
-#define ERROR_NONE		0x00	/* Error reporting off */
-#define ERROR_WARNING		0x01	/* Warning */
-#define ERROR_SERIOUS		0x02	/* Error, does exit after N errors */
-#define ERROR_FATAL		0x03	/* Fatal exits immediately */
+enum error_severity {
+	ERROR_NONE,	   /* Error reporting off */
+	ERROR_WARNING, /* Warning */
+	ERROR_SERIOUS, /* Error, does exit after N errors */
+	ERROR_FATAL    /* Fatal exits immediately */
+};
 
 
 /*
     DECLARATIONS FOR ERROR ROUTINES
 */
 
-void error(int, const char *, ...);
-void error_posn(int, const char *, int, const char *, ...);
+void error(enum error_severity, const char *, ...);
+void error_posn(enum error_severity, const char *, int, const char *, ...);
 void set_progname(const char *, const char *);
 void report_version(void);
 

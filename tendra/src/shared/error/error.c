@@ -126,7 +126,7 @@ report_version(void)
 */
 
 static void
-error_msg(int e, const char *fn, int ln, const char *s, va_list args)
+error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list args)
 {
 	if (e == ERROR_NONE) {
 		/*
@@ -186,7 +186,7 @@ error_msg(int e, const char *fn, int ln, const char *s, va_list args)
 */
 
 void
-error(int e, const char *s, ...)
+error(enum error_severity e, const char *s, ...)
 {
 	va_list args;
 	va_start(args, s);
@@ -203,7 +203,7 @@ error(int e, const char *s, ...)
 */
 
 void
-error_posn(int e, const char *fn, int ln, const char *s, ...)
+error_posn(enum error_severity e, const char *fn, int ln, const char *s, ...)
 {
 	va_list args;
 	va_start(args, s);
