@@ -68,17 +68,22 @@
 #include <assert.h>
 #include <string.h>
 
-#include "../../shared/check/check.h"
+#include "check/check.h"
+
 #include "library.h"
 #include "capsule.h"
-#include "../debug.h"
-#include <exds/exception.h>
-#include "../file-name.h"
-#include "../gen-errors.h"
-#include "../tdf.h"
 #include "tdf-write.h"
-
 #include "solve-cycles.h"
+
+/* from .. */
+#include "debug.h"
+#include "file-name.h"
+#include "tdf.h"
+
+#include <exds/exception.h>
+
+#include "errors/gen-errors.h"
+
 
 static ExceptionT *XX_library_error   = EXCEPTION("error in TDF library");
 

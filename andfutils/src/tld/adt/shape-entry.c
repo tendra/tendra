@@ -67,13 +67,16 @@
 
 #include <limits.h>
 
-#include "../../shared/check/check.h"
-#include "shape-entry.h"
-#include "../debug.h"
-#include "../gen-errors.h"
-#include "unit-table.h"
+#include "check/check.h"
 
+#include "errors/gen-errors.h"
+
+#include "shape-entry.h"
+#include "unit-table.h"
 #include "solve-cycles.h"
+
+/* from .. */
+#include "debug.h"
 
 ShapeEntryT *
 shape_entry_create(NStringT *key)

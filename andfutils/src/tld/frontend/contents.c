@@ -67,14 +67,17 @@
 
 #include <stdlib.h>
 
-#include "../../shared/check/check.h"
-#include "contents.h"
-#include "../gen-errors.h"
-#include "../adt/library.h"
-#include <exds/common.h>
-#include <exds/error.h>
+#include "check/check.h"
 
-#include "../adt/solve-cycles.h"
+#include "errors/gen-errors.h"
+
+#include "adt/library.h"
+#include "adt/solve-cycles.h"
+#include "adt/arg-data.h"
+
+#include "exds/common.h"
+#include "exds/error.h"
+
 
 void
 contents_main(ArgDataT *arg_data)

@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -64,13 +64,9 @@
  * See the file "builder.c" for more information.
  */
 
-#ifndef H_BUILDER
-#define H_BUILDER
+#ifndef BUILDER_H
+#define BUILDER_H
 
-#include "../adt/arg-data.h"
+void builder_main(ArgDataT *);
 
-extern void			builder_main
-(ArgDataT *);
-
-#endif /* !defined (H_BUILDER) */
-
+#endif /* BUILDER_H */

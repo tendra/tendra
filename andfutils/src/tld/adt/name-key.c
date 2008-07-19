@@ -70,11 +70,14 @@
 #include <exds/exception.h>
 #include <exds/dalloc.h>
 
-#include "../../shared/check/check.h"
-#include "name-key.h"
-#include "../syntax.h"
+#include "check/check.h"
 
+#include "name-key.h"
 #include "solve-cycles.h"
+
+/* from .. */
+#include "syntax.h"
+
 
 static BoolT
 name_key_parse_hex_char(char * name,				 char    *c_ref)

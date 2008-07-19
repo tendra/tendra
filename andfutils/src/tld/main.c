@@ -69,21 +69,26 @@
 
 #include <stdlib.h>
 
-#include "../shared/check/check.h"
+#include "check/check.h"
+
 #include "adt/arg-data.h"
-#include "arg-parse.h"
+#include "adt/solve-cycles.h"
+
 #include "frontend/builder.h"
 #include "frontend/contents.h"
-#include "debug.h"
+#include "frontend/extract.h"
+#include "frontend/linker.h"
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/error.h>
-#include "frontend/extract.h"
-#include "gen-errors.h"
-#include "frontend/linker.h"
-#include "rename-file.h"
 
-#include "adt/solve-cycles.h"
+#include "errors/gen-errors.h"
+
+#include "rename-file.h"
+#include "debug.h"
+#include "arg-parse.h"
+
 
 #define USAGE "\
 \tusage:[mode][option ...]file ...\n\

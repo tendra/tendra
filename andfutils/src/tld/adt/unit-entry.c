@@ -66,11 +66,13 @@
  */
 
 #include "unit-entry.h"
-#include "../debug.h"
 #include "shape-entry.h"
-#include "../tdf.h"
-
 #include "solve-cycles.h"
+
+/* from .. */
+#include "debug.h"
+#include "tdf.h"
+
 
 static void
 unit_write(UnitT *      unit,		    ShapeTableT *shapes ,

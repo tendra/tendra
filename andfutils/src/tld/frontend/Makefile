@@ -1,16 +1,25 @@
 # $Id$
 
-AR = ar
-RANLIB = ranlib
-CFLAGS =
-REMOVE = rm -f
+AR?=		ar
+CC?=		cc
+RANLIB?=	ranlib
+REMOVE?=	rm -f
 
-TARGETS = builder.o contents.o extract.o linker.o
+EXDSLIBDIR?=
+EXDSINCDIR?=	../../../../libexds/include
+SHRDINCDIR?=	../../../../shared
 
-frontend.a: $(TARGETS)
-	$(AR) r $@ $(TARGETS)
-	$(RANLIB) $@
+CPPFLAGS+=	-I${EXDSINCDIR} -I${SHRDINCDIR} -I..
+CFLAGS+=	${CPPFLAGS}
+
+OBJS=		builder.o contents.o extract.o linker.o
+
+all: libfrontend.a
+
+libfrontend.a: ${OBJS}
+	${AR} r $@ ${OBJS}
+	${RANLIB} $@
 
 clean:
-	$(REMOVE) frontend.a $(TARGETS)
+	${REMOVE} libfrontend.a ${OBJS}
 

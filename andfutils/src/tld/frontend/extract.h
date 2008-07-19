@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -64,13 +64,9 @@
  * See the file "extract.c" for more information.
  */
 
-#ifndef H_EXTRACT
-#define H_EXTRACT
+#ifndef EXTRACT_H
+#define EXTRACT_H
 
-#include "../adt/arg-data.h"
+void extract_main(ArgDataT *);
 
-extern void			extract_main
-(ArgDataT *);
-
-#endif /* !defined (H_EXTRACT) */
-
+#endif /* EXTRACT_H */

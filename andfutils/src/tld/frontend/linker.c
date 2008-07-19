@@ -66,20 +66,25 @@
 
 #include <stdlib.h>
 
-#include "../../shared/check/check.h"
-#include "linker.h"
-#include "../adt/capsule.h"
-#include "../debug.h"
-#include <exds/common.h>
-#include <exds/error.h>
-#include "../file-name.h"
-#include "../gen-errors.h"
-#include "../adt/library.h"
-#include "../adt/shape-table.h"
-#include "../tdf.h"
-#include "../adt/unit-table.h"
+#include "check/check.h"
 
-#include "../adt/solve-cycles.h"
+/* from .. */
+#include "debug.h"
+#include "file-name.h"
+#include "tdf.h"
+
+#include "adt/capsule.h"
+#include "adt/library.h"
+#include "adt/shape-table.h"
+#include "adt/unit-table.h"
+#include "adt/solve-cycles.h"
+#include "adt/arg-data.h"
+
+#include "exds/common.h"
+#include "exds/error.h"
+
+#include "errors/gen-errors.h"
+
 
 typedef struct RenameClosureT {
     ShapeTableT *		shapes;

@@ -67,14 +67,17 @@
 #include <limits.h>
 #include <stdint.h>
 
-#include "../../shared/check/check.h"
+#include "check/check.h"
+
+#include "errors/gen-errors.h"
+
 #include "tdf-read.h"
-#include "../gen-errors.h"
+#include "solve-cycles.h"
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>
 
-#include "solve-cycles.h"
 
 ExceptionT *XX_tdf_read_error = EXCEPTION("error reading TDF capsule");
 

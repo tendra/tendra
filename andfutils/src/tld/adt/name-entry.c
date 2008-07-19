@@ -67,22 +67,27 @@
 
 #include <assert.h>
 
-#include "../../shared/check/check.h"
+#include "check/check.h"
+
+#include "errors/gen-errors.h"
+
 #include "name-entry.h"
 #include "capsule.h"
-#include "../debug.h"
-#include "../gen-errors.h"
 #include "library.h"
 #include "name-table.h"
+#include "unit-table.h"
+#include "solve-cycles.h"
+#include "shape-entry.h"
+#include "shape-table.h"
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>
-#include "shape-entry.h"
-#include "shape-table.h"
-#include "../tdf.h"
-#include "unit-table.h"
 
-#include "solve-cycles.h"
+/* from .. */
+#include "tdf.h"
+#include "debug.h"
+
 
 NameEntryT *
 name_entry_create_direct(NameKeyT *   key,				  ShapeEntryT *shape_entry)

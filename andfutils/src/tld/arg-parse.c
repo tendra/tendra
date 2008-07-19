@@ -67,9 +67,11 @@
 
 #include <assert.h>
 
-#include "../shared/check/check.h"
+#include "check/check.h"
+
 #include "arg-parse.h"
-#include "gen-errors.h"
+
+#include "errors/gen-errors.h"
 
 void
 arg_parse_intern_descriptions(ArgListT *arg_list)

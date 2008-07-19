@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -64,13 +64,9 @@
  * See the file "linker.c" for more information.
  */
 
-#ifndef H_LINKER
-#define H_LINKER
+#ifndef LINKER_H
+#define LINKER_H
 
-#include "../adt/arg-data.h"
+void linker_main(ArgDataT *);
 
-extern void			linker_main
-(ArgDataT *);
-
-#endif /* !defined (H_LINKER) */
-
+#endif /* LINKER_H */

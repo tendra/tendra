@@ -68,18 +68,22 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "../../shared/check/check.h"
-#include "builder.h"
-#include "../adt/capsule.h"
-#include "../debug.h"
-#include <exds/common.h>
-#include <exds/error.h>
-#include "../gen-errors.h"
-#include "../adt/library.h"
-#include "../adt/shape-table.h"
-#include "../adt/unit-table.h"
+/* from .. */
+#include "debug.h"
 
-#include "../adt/solve-cycles.h"
+#include "check/check.h"
+
+#include "exds/common.h"
+#include "exds/error.h"
+
+#include "adt/library.h"
+#include "adt/shape-table.h"
+#include "adt/unit-table.h"
+#include "adt/solve-cycles.h"
+#include "adt/capsule.h"
+#include "adt/arg-data.h"
+
+#include "errors/gen-errors.h"
 
 static LibraryT **
 builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,

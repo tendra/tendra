@@ -74,15 +74,18 @@
  * which is terminated by a semi-colon.
  */
 
-#include "../shared/check/check.h"
-#include "rename-file.h"
+#include "check/check.h"
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>
-#include "gen-errors.h"
 #include <exds/istream.h>
 #include <exds/nstring-list.h>
+
+#include "rename-file.h"
 #include "syntax.h"
+
+#include "errors/gen-errors.h"
 
 #include "adt/solve-cycles.h"
 

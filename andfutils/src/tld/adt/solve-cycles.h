@@ -35,8 +35,9 @@
  * "tcc" gives out when linking files together.
  */
 
+/* XXX: Get rid of this file */
+
 #include "capsule.h"
-#include "../debug.h"
 #include "library.h"
 #include "map-entry.h"
 #include "map-table.h"
@@ -47,6 +48,9 @@
 #include "shape-table.h"
 #include "tdf-read.h"
 #include "tdf-write.h"
-#include "../tdf.h"
 #include "unit-entry.h"
 #include "unit-table.h"
+
+/* from .. */
+#include "debug.h"
+#include "tdf.h"

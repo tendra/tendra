@@ -67,12 +67,14 @@
 #include <stdint.h>
 
 #include "tdf-write.h"
-#include "../gen-errors.h"
+#include "solve-cycles.h"
+
+#include "errors/gen-errors.h"
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>
 
-#include "solve-cycles.h"
 
 static void
 tdf_write_nibble(TDFWriterT *writer,			  unsigned   nibble)

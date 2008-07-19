@@ -1,18 +1,26 @@
 # $Id$
 
-AR = ar
-RANLIB = ranlib
-CFLAGS =
-REMOVE = rm -f
+AR?=		ar
+CC?=		cc
+RANLIB?=	ranlib
+REMOVE?=	rm -f
 
-TARGETS = arg-data.o map-entry.o name-entry.o name-table.o shape-table.o \
-	tdf-write.o unit-table.o capsule.o map-table.o name-key.o shape-entry.o \
-	tdf-read.o unit-entry.o library.o
+EXDSLIBDIR?=
+EXDSINCDIR?=	../../../../libexds/include
+SHRDINCDIR?=	../../../../shared
 
-adt.a: $(TARGETS)
-	$(AR) r $@ $(TARGETS)
-	$(RANLIB) $@
+CPPFLAGS+=	-I${EXDSINCDIR} -I${SHRDINCDIR} -I..
+CFLAGS+=	${CPPFLAGS}
+
+OBJS=		arg-data.o map-entry.o name-entry.o name-table.o shape-table.o \
+		tdf-write.o unit-table.o capsule.o map-table.o name-key.o \
+		shape-entry.o tdf-read.o unit-entry.o library.o
+all: libadt.a
+
+libadt.a: ${OBJS}
+	${AR} r $@ ${OBJS}
+	${RANLIB} $@
 
 clean:
-	$(REMOVE) adt.a $(TARGETS)
+	${REMOVE} libadt.a ${OBJS}
 

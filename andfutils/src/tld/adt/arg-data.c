@@ -65,12 +65,14 @@
  * command line options that were given to the TDF linker.
  */
 
-#include "../../shared/check/check.h"
+#include "check/check.h"
+
 #include "arg-data.h"
 #include "capsule.h"
-#include "../gen-errors.h"
-
 #include "solve-cycles.h"
+
+#include "errors/gen-errors.h"
+
 
 static void
 shape_control_init(ShapeControlT *control)

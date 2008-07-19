@@ -68,19 +68,24 @@
 #include <limits.h>
 
 #include "capsule.h"
-#include "../../shared/check/check.h"
-#include "../debug.h"
+
+#include "check/check.h"
+
+/* from .. */
+#include "debug.h"
+#include "syntax.h"
+#include "tdf.h"
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>
-#include "../gen-errors.h"
 #include <exds/istream.h>
+
+#include "errors/gen-errors.h"
+
 #include "name-key.h"
 #include "library.h"
-#include "../syntax.h"
-#include "../tdf.h"
 #include "unit-entry.h"
-
 #include "solve-cycles.h"
 
 typedef struct UnitSetListEntryT {

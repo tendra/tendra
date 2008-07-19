@@ -29,7 +29,7 @@
  * $Id$
  */
 /*
-    		 Crown Copyright (c) 1997
+		 Crown Copyright (c) 1997
 
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
@@ -64,13 +64,9 @@
  * See the file "contents.c" for more information.
  */
 
-#ifndef H_CONTENTS
-#define H_CONTENTS
+#ifndef CONTENTS_H
+#define CONTENTS_H
 
-#include "../adt/arg-data.h"
+void contents_main(ArgDataT *);
 
-extern void			contents_main
-(ArgDataT *);
-
-#endif /* !defined (H_CONTENTS) */
-
+#endif /* CONTENTS_H */

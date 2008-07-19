@@ -67,14 +67,16 @@
 
 #include <stdlib.h>
 
-#include "../../shared/check/check.h"
-#include "extract.h"
-#include <exds/common.h>
-#include <exds/error.h>
-#include "../gen-errors.h"
-#include "../adt/library.h"
+#include "check/check.h"
 
-#include "../adt/solve-cycles.h"
+#include "exds/common.h"
+#include "exds/error.h"
+
+#include "errors/gen-errors.h"
+
+#include "adt/library.h"
+#include "adt/solve-cycles.h"
+#include "adt/arg-data.h"
 
 void
 extract_main(ArgDataT *arg_data)
