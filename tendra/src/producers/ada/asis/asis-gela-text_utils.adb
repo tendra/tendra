@@ -33,7 +33,8 @@ package body Asis.Gela.Text_Utils is
         new Source_Buffers.Current.Source_Buffer;
       Name   : constant String := To_String (File);
    begin
-      Source_Buffers.Current.Open (Result.all, Name);
+      --  Comment till it will be actually used:
+      --  Source_Buffers.Current.Open (Result.all, Name);
 
       return Source_Buffer_Access (Result);
    end New_Buffer;
