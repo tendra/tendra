@@ -247,6 +247,7 @@ TypeTupleEntryT* typetupleentry_create(NStringT* str, EntryT* type, bool isref)
 	nstring_assign(&(p->local_name), str);
 	p->type=type;
 	p->is_reference=isref;
+	p->next = NULL;
 	return p;
 }
 
