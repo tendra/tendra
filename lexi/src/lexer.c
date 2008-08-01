@@ -235,7 +235,12 @@ lexi_read_token(struct lexi_state *state)
 					return lex_arg_Hnb_Hof_Hchars;
 				}
 				if (lexi_group(lexi_group_digit, c1)) {
-					return read_arg_char_nb(c0, c1);
+					{
+						int ZT1;
+
+       ZT1 = read_arg_char_nb(c1);
+						return ZT1;
+					}
 				}
 				lexi_push(state, c1);
 				break;

@@ -54,3 +54,7 @@ ACTION get_sid_identifier : (c:CHARACTER) -> (a:TERMINAL) = @{
 ACTION get_identifier : (c:CHARACTER) -> (a:TERMINAL) = @{
        @a = read_identifier(@c, 0);
 @};
+
+ACTION read_arg_char_nb : (c:CHARACTER) -> (a:TERMINAL) = @{
+       @a = read_arg_char_nb(@c);
+@};

@@ -70,6 +70,7 @@ COPYRIGHT = "COPYING";
 ACTION <get_string> : () -> (:TERMINAL);
 ACTION <get_identifier> : (:CHARACTER) -> (:TERMINAL);
 ACTION <get_sid_identifier> : (:CHARACTER) -> (:TERMINAL);
+ACTION <read_arg_char_nb>: (:CHARACTER) -> (:TERMINAL);
 
 /* Character groups */
 GROUP white = " \t\n\r" ;
@@ -99,7 +100,7 @@ TOKEN "\e" -> $eof ;
 TOKEN "##"       -> $arg-char-list ;
 TOKEN "#n"       -> $arg-nb-of-chars ;
 TOKEN "#*"       -> $arg-char-string ;
-TOKEN "#[digit]" -> read_arg_char_nb(##);
+TOKEN "#[digit]" -> $ = <read_arg_char_nb>(#1);
 TOKEN "#$" -> $arg-char-void; /* Temporary to preserve backward compatibility
       	      		      for a small amount of time */
 

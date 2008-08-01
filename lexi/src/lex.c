@@ -92,7 +92,7 @@ static int read_string(void);
 
 #define lexi_unknown_token	lex_unknown
 
-static int read_arg_char_nb(int,int) ;
+static int read_arg_char_nb(int) ;
 
 /*
     AUTOMATICALLY GENERATED SECTION
@@ -204,7 +204,7 @@ static short chartoint (int c) {
 /*
   Arg TOKEN number
  */
-static int read_arg_char_nb(int c0, int c1)  
+static int read_arg_char_nb(int c1)  
 {
   int c;
   number_buffer=chartoint(c1);
