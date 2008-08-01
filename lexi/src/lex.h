@@ -69,6 +69,7 @@
 
 extern void process_file(char *, lexer_parse_tree*);
 extern char token_buff [];
+extern char *token_end;
 extern int crt_lex_token;
 extern int saved_lex_token;
 extern unsigned int number_buffer;

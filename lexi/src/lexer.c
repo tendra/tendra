@@ -219,7 +219,24 @@ lexi_read_token(struct lexi_state *state)
 				{
 					int ZT1;
 
-       ZT1 = read_string();
+	int c;
+	int escaped = 0;
+	char *t = token_buff;
+	while (c = lexi_readchar(&lexer_state), (c != '"' || escaped)) {
+		if (c == '\n' || c == LEXI_EOF) {
+			error(ERROR_SERIOUS, "Unexpected end of string");
+			break;
+		}
+		*(t++) = (char)c;
+		if (t == token_end) error(ERROR_FATAL, "Buffer overflow");
+		if (escaped) {
+			escaped = 0;
+		} else {
+			if (c == '\\') escaped = 1;
+		}
+	}
+	*t = 0;
+	ZT1 = lex_string; 
 					return ZT1;
 				}
 			}
@@ -238,7 +255,14 @@ lexi_read_token(struct lexi_state *state)
 					{
 						int ZT1;
 
-       ZT1 = read_arg_char_nb(c1);
+	int c;
+	number_buffer = c1 - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
+	while(isdigit(c=lexi_readchar(&lexer_state))){
+		number_buffer*=10;
+		number_buffer += c - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
+	}
+	lexi_push(&lexer_state, c);
+	ZT1=lex_arg_Hchar_Hnb;
 						return ZT1;
 					}
 				}

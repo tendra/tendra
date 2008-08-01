@@ -88,7 +88,6 @@ static FILE *lex_input;
 
 static int lexi_getchar(void);
 static int read_identifier(int, int);
-static int read_string(void);
 
 #define lexi_unknown_token	lex_unknown
 
@@ -131,7 +130,7 @@ lexi_getchar(void)
 */
 
 char token_buff [2000];
-static char *token_end = token_buff + sizeof(token_buff);
+char *token_end = token_buff + sizeof(token_buff);
 unsigned int number_buffer;
 
 /*
@@ -159,61 +158,6 @@ read_identifier(int a, int sid)
     /* Deal with keywords */
     if (sid) return lex_sid_Hidentifier;
 	return lexi_keyword(token_buff, lex_identifier);
-}
-
-
-/*
-    READ A STRING
-
-    This routine reads a string.  It is entered after the initial
-    quote has been read.
-*/
-
-static int
-read_string(void)
-{
-    int c;
-    int escaped = 0;
-    char *t = token_buff;
-    while (c = lexi_readchar(&lexer_state), (c != '"' || escaped)) {
-	if (c == '\n' || c == LEXI_EOF) {
-	    error(ERROR_SERIOUS, "Unexpected end of string");
-	    break;
-	}
-	*(t++) = (char)c;
-	if (t == token_end)error(ERROR_FATAL, "Buffer overflow");
-	if (escaped) {
-	    escaped = 0;
-	} else {
-	    if (c == '\\')escaped = 1;
-	}
-    }
-    *t = 0;
-    return lex_string;
-}
-
-
-/*
-  Char to integer. There is probably a standard way to do this
- */
-
-static short chartoint (int c) {
-	return c - '0';
-}
-
-/*
-  Arg TOKEN number
- */
-static int read_arg_char_nb(int c1)  
-{
-  int c;
-  number_buffer=chartoint(c1);
-  while(isdigit(c=lexi_readchar(&lexer_state))){
-    number_buffer*=10;
-    number_buffer+=chartoint(c);
-  }
-  lexi_push(&lexer_state, c);
-  return lex_arg_Hchar_Hnb;
 }
 
 /*
