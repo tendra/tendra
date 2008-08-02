@@ -40,3 +40,27 @@ TRAILERS = @{
 @},@{
 /* Hfile lct trailer */
 @} ;
+
+MAP TERMINAL -> int;
+
+ACTION get_lct_identifier : (c:CHARACTER) -> (a:TERMINAL) = 
+@{
+	@a=get_lct_identifier(@c);
+@} ;
+
+ACTION get_code_lct_identifier : (c:CHARACTER) -> (a:TERMINAL) = 
+@{
+	@a=get_code_lct_identifier(@c);
+@} ;
+
+
+ACTION get_code_lct_reference : (c:CHARACTER) -> (a:TERMINAL) = 
+@{
+	@a=get_code_lct_reference(@c);
+@} ;
+
+
+ACTION get_code_lct_string : (c:CHARACTER) -> (a:TERMINAL) = 
+@{
+	@a=get_code_lct_string(@c);
+@} ;

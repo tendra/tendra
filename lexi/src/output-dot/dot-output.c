@@ -110,8 +110,13 @@ output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
 						instr->u.name + strlen(opt->lexi_prefix) - 1);
 					break;
 
-				case apply_function:
+				case pure_apply_function:
 					fprintf(dotout, "%s()",
+						instr->u.fun->name);
+					break;
+
+				case terminal_apply_function:
+					fprintf(dotout, "$=%s()",
 						instr->u.fun->name);
 					break;
 

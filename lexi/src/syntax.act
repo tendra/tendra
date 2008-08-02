@@ -371,9 +371,12 @@ arg-ignore : () -> (a:ARG) = @{
 /* 
    CREATE AN INSTRUCTION 
 */
-<make-inst>  :  ( i : IDENTIFIER, a : ARGS_LIST ) -> ( inst : INSTRUCTION ) = @{
+<make-inst>  :  ( i : IDENTIFIER, a : ARGS_LIST, b:BOOL ) -> ( inst : INSTRUCTION ) = @{
     if(@a) {
-        @inst=add_instruction_function(@i,@a);
+    	if(@b)
+	    @inst=add_instruction_terminalfunction(@i,@a);
+	else
+	    @inst=add_instruction_purefunction(@i,@a);
     } 
     else {
         @inst=add_instruction_return_terminal(@i);
@@ -425,6 +428,13 @@ arg-ignore : () -> (a:ARG) = @{
 /*
     ADD ARGS to ARGS LIST
 */
+<append-arg-args-list> : ( l:ARGS_LIST, a:ARG ) -> () = @{
+    *@l->tail=@a;
+    @l->tail=&@a->next;
+    if(@a->type==arg_return_terminal)
+	@l->nb_return_terminal++;
+@};
+
 <args-list-push-front> : ( a:ARG , l:ARGS_LIST ) -> () = @{
     @a->next=@l->head;
     @l->head=@a;
@@ -436,6 +446,18 @@ arg-ignore : () -> (a:ARG) = @{
     if(@l->nb_return_terminal>1)
 	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 @};
+
+<check-lhs-args-function> : (l:ARGS_LIST) -> (b:BOOL) = @{
+	if(@l->head==NULL)
+		@b=false;
+	else {
+		@b=true;
+		if(@l->head->next!=NULL || @l->head->type != arg_return_terminal)
+			error(ERROR_SERIOUS,"For direct function calls, at most one return value, of type TERMINAL '$=', may be specified");
+	}
+	
+@};
+
 
 /*
    CREATES AN EMPTY ARGS LIST
@@ -463,6 +485,9 @@ arg-ignore : () -> (a:ARG) = @{
 		if(@il->nb_return_terminal>0 && @i->type!=do_nothing)
 			error(ERROR_SERIOUS, "No instruction may follow an instruction that returns a terminal");
 		if(@i->type == return_terminal) {
+			++(@il->nb_return_terminal);
+		}
+		if(@i->type == terminal_apply_function) {
 			++(@il->nb_return_terminal);
 		}
 		if(@i->type == action_call) {
@@ -640,6 +665,7 @@ arg-ignore : () -> (a:ARG) = @{
 		/* TODO only append if no error */
 		*@il->tail=@i;
 		@il->tail=&@i->next;
+		++(@il->size);
 	}
 @};
 
@@ -666,6 +692,8 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-token> : ( z : ZONE, s : CHARACTERS, il : INSTRUCTIONS_LIST) -> () = @{
         add_char ( @z, @z->zone_main_pass, @s, crt_cond, @il, NULL) ;
+	if(@il->nb_return_terminal)
+		@z->type=typezone_general_zone;
 @} ;
 
 <is-non-empty> : ( c : CHARACTERS, z :ZONE ) -> ( b : BOOL ) = @{
@@ -696,8 +724,9 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-keyword> : ( z: ZONE, s : STRING, i : INSTRUCTION ) -> () = @{
     switch(@i->type) {
-    case apply_function:
-      if(@i->u.fun->args->head==NULL) {
+    case terminal_apply_function:
+    case pure_apply_function:
+      if(@i->u.fun->args->head!=NULL) {
         error(ERROR_SERIOUS, "Syntax error: for keywords using "
 	"user defined functions, "
 	"the arglist must remain empty");
@@ -794,8 +823,13 @@ arg-ignore : () -> (a:ARG) = @{
     instruction* inst;
     instructions_list* inst_list;
     @nz=add_zone(@z,@i,@e, @endmarkerclosed );
-    @nz->entering_instructions=@binst;
+
     @nz->leaving_instructions=@einst;
+    if(@nz->leaving_instructions->nb_return_terminal)
+	@nz->type= typezone_pseudo_token;
+    @nz->entering_instructions=@binst;
+    if(@nz->entering_instructions->nb_return_terminal)
+	@nz->type=typezone_general_zone;
     inst=add_instruction_pushzone(@nz);
     inst_list=add_instructions_list();
     *(inst_list->tail)=inst;

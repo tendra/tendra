@@ -401,9 +401,19 @@ add_instruction_return_terminal (char* name)
 */
 
 instruction * 
-add_instruction_function (char* name, args_list* args) 
+add_instruction_terminalfunction (char* name, args_list* args) 
 {
-    instruction* p=new_instruction(apply_function);
+    instruction* p=new_instruction(terminal_apply_function);
+    p->u.fun=add_user_function(name);
+    p->u.fun->args=args;
+    return p;
+}
+
+
+instruction * 
+add_instruction_purefunction (char* name, args_list* args) 
+{
+    instruction* p=new_instruction(pure_apply_function);
     p->u.fun=add_user_function(name);
     p->u.fun->args=args;
     return p;
@@ -489,6 +499,7 @@ new_instructions_list (void)
     p->head=NULL;
     p->tail=&(p->head);
     localnames_init(&(p->local_names));
+    p->size = 0;
     p->nb_return_terminal=0;
     return p;   
 }
@@ -546,7 +557,7 @@ new_zone (char* zid, lexer_parse_tree* top_level)
     }
     p->white_space=NULL;
 
-    p->type=typezone_pure_function; /* Not used yet.*/
+    p->type=typezone_pure_function; 
 
     p->default_instructions=NULL;
     p->default_cond=NULL;

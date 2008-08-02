@@ -130,7 +130,7 @@ type-kw ;
 <make-white> : ( :ZONE, :CHARACTERS ) -> () ;
 <make-group> : ( :ZONE, :IDENTIFIER, :CHARACTERS ) -> () ;
 <make-trigraph> : ( :ZONE, :CHARACTERS, :STRING ) -> () ;
-<make-inst>  :  ( :IDENTIFIER, :ARGS_LIST) -> (:INSTRUCTION) ;
+<make-inst>  :  ( :IDENTIFIER, :ARGS_LIST, :BOOL) -> (:INSTRUCTION) ;
 <make-action-inst> : (:ZONE, :IDENTIFIER, :ARGS_LIST, :ARGS_LIST) -> (:INSTRUCTION) ;
 <make-donothing-inst> : () -> (:INSTRUCTION) ;
 <make-token> : ( :ZONE, :CHARACTERS, :INSTRUCTIONS_LIST ) -> () ;
@@ -151,7 +151,9 @@ type-kw ;
 <null-args-list> : () -> ( :ARGS_LIST) ;
 <empty-args-list> : () -> ( :ARGS_LIST) ;
 <check-args-list> : ( :ARGS_LIST) -> () ;
-<args-list-push-front> : ( :ARG , :ARGS_LIST) -> () ;
+<check-lhs-args-function> : (:ARGS_LIST) -> (:BOOL);
+<args-list-push-front>: ( :ARG , :ARGS_LIST) -> () ;
+<append-arg-args-list>: ( :ARGS_LIST, :ARG ) -> () ;
 <arg-char-list-tmp> :    () -> ( :ARG);
 <make_arg_terminal> : (:IDENTIFIER) -> (:ARG);
 <make_arg_from_string> : (:STRING) -> (:ARG);
@@ -467,32 +469,37 @@ action-decl : (z:ZONE) -> () = {
    ACTION CALL 
 */
 
-action-call : (z:ZONE) -> (inst:INSTRUCTION) [
-	lhs-arg : () -> ( a : ARG ) = {
-		b=arg-char-list ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
-	    ||  b=arg-char-string ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
-	    ||  b=arg-char-nb ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
-	    ||  b=arg-nb-of-chars ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
-	    ||  b=string ; a=<make_arg_none>; <E_string_arg_in_lhs>;
-	    ||  i=identifier ; a=<make_arg_from_identifier>(i);
-	    ||  reference; i=identifier ; a=<make_arg_from_reference>(i);
-	    ||  b=sid-identifier ; a=<make_arg_none>; <E_terminal_in_lhs>; 
-	    ||  a=arg-return-terminal ;
-	    ||  a=arg-ignore ;
-} ;
+function-action-call : (z:ZONE) -> (inst:INSTRUCTION) [
+	lhs-arg : (l:ARGS_LIST) -> () = {
+		{
+			b=arg-char-list ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
+		    ||  b=arg-char-string ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
+		    ||  b=arg-char-nb ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
+		    ||  b=arg-nb-of-chars ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
+		    ||  b=string ; a=<make_arg_none>; <E_string_arg_in_lhs>;
+		    ||  i=identifier ; a=<make_arg_from_identifier>(i);
+		    ||  reference; i=identifier ; a=<make_arg_from_reference>(i);
+		    ||  b=sid-identifier ; a=<make_arg_none>; <E_terminal_in_lhs>; 
+		    ||  a=arg-return-terminal ;
+		    ||  a=arg-ignore ;
+		 };
+		<append-arg-args-list>(l, a); 
+	};
 
-	lhs-tuple1 : () -> (l:ARGS_LIST) = {
-		a = lhs-arg ; l=<empty-args-list> ; <args-list-push-front>(a,l); 
+	lhs-tuple1 : (l:ARGS_LIST) -> () = {
+		lhs-arg(l) ; 
 	    ||
-		a = lhs-arg; comma; l = lhs-tuple1; <args-list-push-front>(a,l);
+		lhs-arg(l); comma; lhs-tuple1(l); 
 
 	};
-	lhs-tuple : () -> (l:ARGS_LIST) = { 
-		a=lhs-arg; l=<empty-args-list> ; <args-list-push-front>(a,l); 
-	    ||
-		open;
-		l = lhs-tuple1;
-		close;
+	lhs-tuple : (l:ARGS_LIST) -> () = { 
+		{
+			lhs-arg(l);  
+		    ||
+			open;
+			lhs-tuple1(l);
+			close;
+		};
 	};
 	rhs-arg : () -> ( a : ARG ) = {
 		b=arg-char-list ; a=<make_arg_none>; <E_sharp_list_in_action_rhs>;
@@ -521,23 +528,29 @@ action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 		} ;
 		close;
 	}; ] = {
+	l = <empty-args-list> ;
+	i = identifier ; 
+	a = args ; 
+	b=<check-lhs-args-function>(l);
+	inst = <make-inst>( i, a, b);
+    ||
+	l = <empty-args-list> ;
        	{
-	        l = <empty-args-list> ;
+		$;
 	    ||
-		l=lhs-tuple ;
+		lhs-tuple(l) ;
 		equal ;
 	} ;
-	<check-args-list>(l);
-
 	begin-action ;
 	i = identifier ;
+	<check-args-list>(l);
 	end-action ; 
 	{
 		r=<empty-args-list> ;
 	    ||
 		r = rhs-tuple;
 	};
-    	inst = <make-action-inst>(z, i, l, r) ;
+	inst = <make-action-inst>(z, i, l, r) ;
 } ;
 
 
@@ -546,19 +559,17 @@ action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 */
 
 instruction : (z:ZONE) -> (inst:INSTRUCTION) = {
-	{
-		i = identifier ; a = args ;
-	    ||	
-	    	i = sid-identifier ; a = <null-args-list> ;
-	} ;
-	inst = <make-inst>( i, a);
+	l = <empty-args-list> ;
+	i = sid-identifier ; 
+	a = <null-args-list> ; 
+	b = <true>; 
+	inst = <make-inst>( i, a, b);
     ||	
-    	{
-		nothing-marker; 
-		inst = <make-donothing-inst>;
-	} ;
+	l = <empty-args-list> ;
+	nothing-marker; 
+	inst = <make-donothing-inst>;
     ||	
-    	inst = action-call(z) ;
+    	inst = function-action-call(z) ;
 } ;
 
 instructions-list : (z:ZONE) -> (instl:INSTRUCTIONS_LIST) = {

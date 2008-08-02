@@ -234,6 +234,7 @@ static void
 output_instructions( zone* z, instructions_list* ret, int n, int d)
 {
   instruction* instr;
+  int changezone = 0;
   LocalNamesT* locals = instructionslist_localnames(ret);
   if(locals->top) {
     output_indent(lex_output,d);
@@ -250,13 +251,13 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       fprintf(lex_output, "return %s;\n", instr->u.name);
       break;
     case action_call :
-      /* assert(!instr->next);*/
       output_action(lex_output, z->top_level, instr->u.act.called_act, instr->u.act.lhs, instr->u.act.rhs, d);
       break;
-    case apply_function:
+    case terminal_apply_function:
+    case pure_apply_function:
       output_indent(lex_output, d);
-      if(!(instr->next))
-	fprintf(lex_output, "return ");
+      if(instr->type == terminal_apply_function)
+	fprintf(lex_output, "return "); 
       fprintf(lex_output, "%s(", instr->u.fun->name);
       {
 	arg* fun_args;
@@ -294,6 +295,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       fputs(");\n", lex_output);
       break;
     case push_zone:
+      changezone=1;
       output_indent(lex_output, d);
       fprintf(lex_output, "state->zone_function = %s_%s;\n",
 	      read_token_name, instr->u.s.z->zone_name);
@@ -305,6 +307,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       }
       break;
     case pop_zone:
+      changezone=1;
       output_indent(lex_output, d);
       if(instr->u.s.z==instr->u.s.z->top_level->global_zone)
 	fprintf(lex_output, "state->zone_function = %s;\n",read_token_name);
@@ -327,18 +330,19 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       break;
     case do_nothing:
       if(instr->next) 
-	error(ERROR_SERIOUS, "$$ should only appear at the end of an instruction list");
-/*Should be caught during parsing*/
-  /* assert(!instr->next);*/
-      output_indent(lex_output, d);
-      if(z) /* if z==NULL, we are in a push or pop zone instruction and can't go to start*/
-	fputs("goto start;\n",lex_output);	  	
-      else /*We're outputting entering and leaving instruction.*/
-	fprintf(lex_output,"return %s(state);\n",read_token_name);	  
+	error(ERROR_SERIOUS, "$$ should only appear at the end of an instruction list"); /*TODO Should be caught during parsing*/
       break;
     }
   }
-
+  if(ret->nb_return_terminal == 0 && !changezone) {
+    if(z) {/* if z==NULL, we are in a push or pop zone instruction and can't go to start*/
+      output_indent(lex_output, d);
+      fputs("goto start;\n",lex_output);
+    } else if(!z) {/*We're outputting entering and leaving instruction.*/
+      output_indent(lex_output, d);
+      fprintf(lex_output,"return %s(state);\n",read_token_name);
+    }
+  }
   if(locals->top) {
     d--;
     output_indent(lex_output,d);
@@ -987,7 +991,7 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 			p->name);
 
 		switch(p->instr->type) {
-		case apply_function:
+		case pure_apply_function:
 			/*
 			 * Arguments are not permitted for functions in
 			 * keyword instructions.

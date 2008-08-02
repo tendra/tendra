@@ -99,7 +99,7 @@ typedef struct user_function_tag {
   args_list* args;
 } user_function;
 
-typedef enum instruction_type_tag { return_terminal, push_zone, pop_zone, apply_function, do_nothing , action_call } instruction_type ;
+typedef enum instruction_type_tag { return_terminal, push_zone, pop_zone, pure_apply_function, terminal_apply_function, do_nothing , action_call } instruction_type ;
 
 typedef struct instruction_tag {
   instruction_type type;
@@ -123,6 +123,7 @@ typedef struct instruction_tag {
 typedef struct instructions_list_tag {
   instruction* head;
   instruction** tail;
+  int size;
   LocalNamesT local_names;
   int nb_return_terminal;
 } instructions_list;
@@ -203,9 +204,9 @@ typedef struct keyword_tag {
 */
 
 typedef enum zone_type_tag {
-    typezone_true_zone, /* A zone that can return more than one terminal */
-    typezone_pure_function, /* A zone never returning a terminal */ 
-    typezone_pseudo_token /* A zone that may return only one terminal on zone exit*/
+    typezone_general_zone, /* A zone that can return more than one terminal */
+    typezone_pseudo_token, /* A zone that returns only one terminal on zone exit*/
+    typezone_pure_function /* A zone that never returns a terminal */ 
 } zone_type;
 
 /*
@@ -313,7 +314,8 @@ extern zone * find_zone (zone*, char*);
 
 extern user_function* add_user_function (char *name) ;
 extern instruction * add_instruction_return_terminal (char* name);
-extern instruction* add_instruction_function (char* name, args_list* args) ;
+extern instruction* add_instruction_purefunction (char* name, args_list* args) ;
+extern instruction* add_instruction_terminalfunction (char* name, args_list* args) ;
 extern instruction* add_instruction_donothing (void) ;
 extern instruction * add_instruction_action (EntryT*, args_list*, args_list*) ;
 extern instruction* add_instruction_mapping (char* map) ;

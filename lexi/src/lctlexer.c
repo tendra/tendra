@@ -145,7 +145,12 @@ lexi_lct_read_token_code_area(struct lexi_lct_state *state)
 			if (c1 == '&') {
 				int c2 = lexi_lct_readchar(state);
 				if (lexi_lct_group(lexi_lct_group_alpha, c2)) {
-					return get_code_lct_reference(c2);
+					{
+						int ZT1;
+
+	ZT1=get_code_lct_reference(c2);
+						return ZT1;
+					}
 				}
 				lexi_lct_push(state, c2);
 			} else if (c1 == '@') {
@@ -155,14 +160,24 @@ lexi_lct_read_token_code_area(struct lexi_lct_state *state)
 				return lct_lex_code_Hend;
 			}
 			if (lexi_lct_group(lexi_lct_group_alpha, c1)) {
-				return get_code_lct_identifier(c1);
+				{
+					int ZT1;
+
+	ZT1=get_code_lct_identifier(c1);
+					return ZT1;
+				}
 			}
 			lexi_lct_push(state, c1);
 			return lct_lex_lone_Hcode_Hat;
 		} else if (c0 == LEXI_EOF) {
 			return lct_lex_code_Heof;
 		}
-		return get_code_lct_string(c0);
+		{
+			int ZT1;
+
+	ZT1=get_code_lct_string(c0);
+			return ZT1;
+		}
 	}
 }
 /* MAIN PASS ANALYSER for zone LineComment*/
@@ -265,7 +280,12 @@ lexi_lct_read_token(struct lexi_lct_state *state)
 			}
 		}
 		if (lexi_lct_group(lexi_lct_group_alpha, c0)) {
-			return get_lct_identifier(c0);
+			{
+				int ZT1;
+
+	ZT1=get_lct_identifier(c0);
+				return ZT1;
+			}
 		}
 		return lct_lex_unknown;
 	}
