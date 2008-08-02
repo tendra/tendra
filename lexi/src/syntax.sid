@@ -529,6 +529,12 @@ function-action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 		close;
 	}; ] = {
 	l = <empty-args-list> ;
+       	{
+		$;
+	    ||
+		lhs-tuple(l) ;
+		equal ;
+	} ;
 	i = identifier ; 
 	a = args ; 
 	b=<check-lhs-args-function>(l);
