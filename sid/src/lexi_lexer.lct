@@ -40,3 +40,25 @@ HEADERS = @{
 TRAILERS = @{
 @},@{
 @} ;
+
+MAP TERMINAL -> int;
+
+ACTION read_identifier : (c:CHARACTER) -> (t:TERMINAL) = @{
+	@t=read_identifier(@c);
+@};
+
+ACTION read_basic : () -> (t:TERMINAL) = @{
+       @t=read_basic();
+@};
+
+ACTION read_builtin : () -> (t:TERMINAL) = @{
+       @t=read_builtin();
+@};
+
+ACTION lexi_unknown_token : (c:CHARACTER) -> (t:TERMINAL) = @{
+	@t= lexi_unknown_token(@c);
+@};
+
+ACTION E_eof_in_comment : () -> () =@{
+	E_eof_in_comment(&lexer_stream->istream);
+@};

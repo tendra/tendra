@@ -5,6 +5,12 @@
 
 /* -p LEXER_TOK */
 
+ACTION <read_identifier> : (:CHARACTER) -> (:TERMINAL);
+ACTION <read_basic> : () -> (:TERMINAL);
+ACTION <read_builtin> : () -> (:TERMINAL);
+ACTION <lexi_unknown_token> : (:CHARACTER) -> (:TERMINAL);
+ACTION <E_eof_in_comment> : () -> ();
+
 TOKEN "::" -> $SCOPEMARK;
 TOKEN "||" -> $ALT-SEP;
 TOKEN "##" -> $HANDLER-SEP;
@@ -34,25 +40,25 @@ TOKEN "->" -> $ARROW;
 
 GROUP identstart = {a-z} + {A-Z} + "_";
 GROUP identbody = "[identstart]" + {0-9} + "-";
-TOKEN "[identstart]" -> read_identifier();
+TOKEN "[identstart]" -> $ = <read_identifier>(#0);
 
 ZONE singleline_comment: "//" ... "\n" {
 	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 
-	TOKEN "\e" -> E_eof_in_comment("&lexer_stream->istream"), $$;
+	TOKEN "\e" -> <E_eof_in_comment>; //("&lexer_stream->istream");
 }
 
 ZONE bracketed_comment: "/*" ... "*/" {
 	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 
-	TOKEN "\e" -> E_eof_in_comment("&lexer_stream->istream"), $$;
+	TOKEN "\e" -> <E_eof_in_comment>;
 }
 
 GROUP builtin = {a-z} + {A-Z};
-TOKEN "%" -> read_builtin();
+TOKEN "%" -> $ = <read_builtin>();
 
-TOKEN "\"" -> read_basic();
+TOKEN "\"" -> $ = <read_basic>();
 
-TOKEN DEFAULT -> lexi_unknown_token ();
+TOKEN DEFAULT -> $ = <lexi_unknown_token> (#0);

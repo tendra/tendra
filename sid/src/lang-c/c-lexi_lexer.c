@@ -236,7 +236,10 @@ c_lexi_read_token_singleline_comment(struct c_lexi_state *state)
 			state->zone_function = c_lexi_read_token;
 			return c_lexi_read_token(state);
 		} else if (c0 == LEXI_EOF) {
-			E_c_eof_in_comment(&c_lexer_stream->istream);
+			{
+
+	 E_c_eof_in_comment(&c_lexer_stream->istream);
+			}
 			goto start;
 		}
 		goto start;
@@ -258,7 +261,10 @@ c_lexi_read_token_bracketed_comment(struct c_lexi_state *state)
 			}
 			c_lexi_push(state, c1);
 		} else if (c0 == LEXI_EOF) {
-			E_c_eof_in_comment(&c_lexer_stream->istream);
+			{
+
+	 E_c_eof_in_comment(&c_lexer_stream->istream);
+			}
 			goto start;
 		}
 		goto start;

@@ -218,11 +218,11 @@ read_identifier(int c)
 }
 
 int
-read_basic(int c)
+read_basic(void)
 {
 	IStreamT *istream;
 	DStringT dstring;
-
+	int c;
 	istream = &lexer_stream->istream;
 
 	dstring_init(&dstring);
@@ -248,11 +248,12 @@ read_basic(int c)
 }
 
 int
-read_builtin(int c)
+read_builtin(void)
 {
 	IStreamT *istream;
 	DStringT dstring;
 	char *cstring;
+	int c;
 
 	istream = &lexer_stream->istream;
 

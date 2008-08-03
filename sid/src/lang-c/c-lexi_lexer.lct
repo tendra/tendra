@@ -66,3 +66,9 @@ HEADERS = @{
 TRAILERS = @{
 @},@{
 @} ;
+
+MAP TERMINAL -> int;
+
+ACTION E_c_eof_in_comment : () -> () = @{
+	 E_c_eof_in_comment(&c_lexer_stream->istream);
+@};

@@ -5,6 +5,9 @@
 
 /* -p C_TOK_ */
 
+ACTION <E_c_eof_in_comment> : () -> () ;
+
+
 TOKEN "\e" -> $EOF;
 
 TOKEN ":" -> $TYPEMARK;
@@ -24,13 +27,13 @@ TOKEN "->" -> $ARROW;
 /* XXX I think '-' can be in identstart, too */
 GROUP identstart = {a-z} + {A-Z} + "_";
 GROUP identbody = "[identstart]" + {0-9} + "-";
-TOKEN "[identstart]" -> c_lexer_read_identifier();
+TOKEN "[identstart]" -> $ = c_lexer_read_identifier();
 
 ZONE bracketed_comment: "/*" ... "*/" {
 	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 
-	TOKEN "\e" -> E_c_eof_in_comment("&c_lexer_stream->istream"), $$;
+	TOKEN "\e" -> <E_c_eof_in_comment>;
 }
 
 /* TODO anonoymous zones would be nice: ZONE "//" ... "\n" { */
@@ -39,7 +42,7 @@ ZONE singleline_comment: "//" ... "\n" {
 	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 
-	TOKEN "\e" -> E_c_eof_in_comment("&c_lexer_stream->istream"), $$;
+	TOKEN "\e" -> <E_c_eof_in_comment>;
 }
 
 
@@ -47,7 +50,7 @@ ZONE singleline_comment: "//" ... "\n" {
 GROUP builtinstart = {a-z};
 GROUP builtinbody = "[builtinstart]-";
 GROUP builtindlmt = "%";
-TOKEN "[builtindlmt][builtinstart]" -> c_lexer_read_builtin();
+TOKEN "[builtindlmt][builtinstart]" -> $ = c_lexer_read_builtin();
 
 
 /* TODO split at_* functions into separate file */
@@ -59,7 +62,7 @@ ZONE act:	"@{" -> $ACT-CODESTART	/* XXX to remove when merged into the grammar *
 	...		"@}" -> $ACT-CODEEND {
 
 	GROUP white ="";
-	TOKEN DEFAULT -> c_lexer_act_read_string();
+	TOKEN DEFAULT -> $ = c_lexer_act_read_string();
 	TOKEN "\e" -> $ACT-EOF;	/* XXX to remove when merged into the grammar */
 
 	TOKEN "@@" -> $ACT-AT;
@@ -68,13 +71,13 @@ ZONE act:	"@{" -> $ACT-CODESTART	/* XXX to remove when merged into the grammar *
 	TOKEN "@>" -> $ACT-ADVANCE;
 
 	/* TODO these would be nicer once we have "a" * "b" */
-	TOKEN "@:[identstart]" -> c_lexer_act_read_label();
-	TOKEN "@&[identstart]" -> c_lexer_act_read_reference();
-	TOKEN "@=[identstart]" -> c_lexer_act_read_modifiable();
-	TOKEN "@$[identstart]" -> c_lexer_act_read_basic();
+	TOKEN "@:[identstart]" -> $ = c_lexer_act_read_label();
+	TOKEN "@&[identstart]" -> $ = c_lexer_act_read_reference();
+	TOKEN "@=[identstart]" -> $ = c_lexer_act_read_modifiable();
+	TOKEN "@$[identstart]" -> $ = c_lexer_act_read_basic();
 
 	/* TODO c_lexer_read_code_id(): code identifier? */
-	TOKEN "@[identstart]" -> c_lexer_act_read_identifier();
+	TOKEN "@[identstart]" -> $ = c_lexer_act_read_identifier();
 }
 
-TOKEN DEFAULT -> c_lexer_unknown_token();
+TOKEN DEFAULT -> $ = c_lexer_unknown_token();

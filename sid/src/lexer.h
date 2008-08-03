@@ -140,8 +140,8 @@ void	lexer_restore_terminal(LexerStreamT *);
  */
 int lexi_getchar(void);
 int read_identifier(int c);
-int read_basic(int c);
-int read_builtin(int c);
+int read_basic(void);
+int read_builtin(void);
 int lexi_unknown_token(int c0);
 
 /* XXX remove once lexi provides opaque pointers */
