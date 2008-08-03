@@ -296,24 +296,42 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       break;
     case push_zone:
       changezone=1;
-      output_indent(lex_output, d);
-      fprintf(lex_output, "state->zone_function = %s_%s;\n",
-	      read_token_name, instr->u.s.z->zone_name);
-      if(instr->u.s.z->entering_instructions->head) 
-	output_instructions(NULL,instr->u.s.z->entering_instructions,n,d);
-      else {
+      if(instr->u.s.z->type == typezone_general_zone) {
 	output_indent(lex_output, d);
-	fprintf(lex_output,"return %s(state);\n",read_token_name);
+	fprintf(lex_output, "state->zone_function = %s_%s;\n",
+		read_token_name, instr->u.s.z->zone_name);
+      }
+      if(instr->u.s.z->entering_instructions->head) {
+	output_instructions(NULL,instr->u.s.z->entering_instructions,n,d);
+      }
+      if(instr->u.s.z->entering_instructions->nb_return_terminal == 0) {
+	output_indent(lex_output, d);
+	switch(instr->u.s.z->type) {
+	case typezone_general_zone:
+	  fprintf(lex_output,"return %s(state);\n",read_token_name);
+	  break;
+	case typezone_pseudo_token:
+	  fputs("return ", lex_output);
+	  /* FALL THROUGH VOLUNTARY*/
+	case typezone_pure_function:
+	  fprintf(lex_output, "%s_%s(state);\n", read_token_name, instr->u.s.z->zone_name);
+	  output_indent(lex_output, d);
+	  fputs("goto start;\n", lex_output);
+	  break;
+	}
       }
       break;
     case pop_zone:
       changezone=1;
-      output_indent(lex_output, d);
-      if(instr->u.s.z==instr->u.s.z->top_level->global_zone)
-	fprintf(lex_output, "state->zone_function = %s;\n",read_token_name);
-      else
-	fprintf(lex_output, "state->zone_function = %s_%s;\n",read_token_name,
-		instr->u.s.z->zone_name);
+      if(z->type == typezone_general_zone) { 
+	output_indent(lex_output, d);
+	if(instr->u.s.z==instr->u.s.z->top_level->global_zone) {
+	  fprintf(lex_output, "state->zone_function = %s;\n",read_token_name);
+	} else {
+	  fprintf(lex_output, "state->zone_function = %s_%s;\n",read_token_name,
+		  instr->u.s.z->zone_name);
+	}
+      }
       if(!instr->u.s.is_beginendmarker_in_zone) {
 	int i;
 	for (i = n-1;i>=0;--i) {
@@ -323,9 +341,19 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       }
       if(z->leaving_instructions->head) 
 	output_instructions(NULL,z->leaving_instructions,n,d);
-      else {
+      if(z->leaving_instructions->nb_return_terminal ==0 ) {
 	output_indent(lex_output, d);
-	fprintf(lex_output,"return %s(state);\n",read_token_name);
+	switch(z->type) {
+	case typezone_general_zone:
+	  fprintf(lex_output,"return %s(state);\n",read_token_name);
+	  break;
+	case typezone_pure_function:
+	  fputs("return;\n", lex_output);
+	  break;
+	case typezone_pseudo_token:
+	  break;
+	  /*UNREACHABLE*/ /*TODO assert*/
+	}
       }
       break;
     case do_nothing:
@@ -338,10 +366,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
     if(z) {/* if z==NULL, we are in a push or pop zone instruction and can't go to start*/
       output_indent(lex_output, d);
       fputs("goto start;\n",lex_output);
-    } else if(!z) {/*We're outputting entering and leaving instruction.*/
-      output_indent(lex_output, d);
-      fprintf(lex_output,"return %s(state);\n",read_token_name);
-    }
+    } 
   }
   if(locals->top) {
     d--;

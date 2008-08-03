@@ -189,8 +189,7 @@ lexi_lct_read_token_LineComment(struct lexi_lct_state *state)
 		int c0 = lexi_lct_readchar(state);
 		if (lexi_lct_group(lexi_lct_group_LineComment_white, c0)) goto start;
 		if (c0 == '\n') {
-			state->zone_function = lexi_lct_read_token;
-			return lexi_lct_read_token(state);
+			return;
 		}
 		goto start;
 	}
@@ -206,8 +205,7 @@ lexi_lct_read_token_Comment(struct lexi_lct_state *state)
 		if (c0 == '*') {
 			int c1 = lexi_lct_readchar(state);
 			if (c1 == '/') {
-				state->zone_function = lexi_lct_read_token;
-				return lexi_lct_read_token(state);
+				return;
 			}
 			lexi_lct_push(state, c1);
 		}
@@ -248,11 +246,11 @@ lexi_lct_read_token(struct lexi_lct_state *state)
 			case '/': {
 				int c1 = lexi_lct_readchar(state);
 				if (c1 == '*') {
-					state->zone_function = lexi_lct_read_token_Comment;
-					return lexi_lct_read_token(state);
+					lexi_lct_read_token_Comment(state);
+					goto start;
 				} else if (c1 == '/') {
-					state->zone_function = lexi_lct_read_token_LineComment;
-					return lexi_lct_read_token(state);
+					lexi_lct_read_token_LineComment(state);
+					goto start;
 				}
 				lexi_lct_push(state, c1);
 				break;
