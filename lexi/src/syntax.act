@@ -837,6 +837,19 @@ arg-ignore : () -> (a:ARG) = @{
     add_char ( @z, @z->zone_main_pass, @b, crt_cond, inst_list, NULL ) ;
 @};
 
+<update-zone-type> : (zparent:ZONE, zchild:ZONE) -> () = @{
+	switch(@zchild->type) {
+		case typezone_pseudo_token:
+		case typezone_general_zone:
+			@zparent->type = typezone_general_zone;
+			break;
+		case typezone_pure_function:
+			break; //do nothing
+
+	}
+@};
+
+
 <make_arg_from_string> : ( s : STRING ) -> ( a : ARG ) = @{
 	@a = add_litteral_arg (@s);
 @};

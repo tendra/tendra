@@ -201,6 +201,7 @@ type-kw ;
 
 <make-zone> : ( :ZONE, :IDENTIFIER, :CHARACTERS, :INSTRUCTIONS_LIST, 
 	      	:CHARACTERS, :INSTRUCTIONS_LIST, : BOOL ) -> ( :ZONE );
+<update-zone-type> : (:ZONE, :ZONE) -> ();
 
 <make-copyright> : ( :STRING ) -> () ;
 
@@ -701,6 +702,7 @@ zone-defn : (z:ZONE) -> ()  = {
 	new-zone=<make-zone>(z,zid,b,entry-instl,e,leaving-instl,lendclosed);
 
 	open-brace ; command-list(new-zone) ; close-brace ;
+	<update-zone-type>(z,new-zone);
 } ;
 
 expected_semicolon : () -> () = {
