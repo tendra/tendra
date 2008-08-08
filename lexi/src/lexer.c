@@ -200,6 +200,7 @@ static int lexi_read_token_identifierzone(struct lexi_state *state);
 static int lexi_read_token_stringzone(struct lexi_state *state);
 static int lexi_read_token_line_comment(struct lexi_state *state);
 static int lexi_read_token_comment(struct lexi_state *state);
+static int lexi_read_token_arg_char_nb_zone(struct lexi_state *state);
 /* MAIN PASS ANALYSERS */
 
 /* MAIN PASS ANALYSER for zone sididentifierzone*/
@@ -356,6 +357,26 @@ lexi_read_token_comment(struct lexi_state *state)
 		goto start;
 	}
 }
+/* MAIN PASS ANALYSER for zone arg_char_nb_zone*/
+
+static int
+lexi_read_token_arg_char_nb_zone(struct lexi_state *state)
+{
+	start: {
+		int c0 = lexi_readchar(state);
+		if (lexi_group(lexi_group_white, c0)) goto start;
+		if (!lexi_group(lexi_group_digit, c0)) {
+			lexi_push(state, c0);
+			return lex_arg_Hchar_Hnb;
+		}
+		{
+
+	number_buffer *= 10;
+	number_buffer += c0 - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
+		}
+		goto start;
+	}
+}
 /* MAIN PASS ANALYSER for zone global*/
 
 int
@@ -391,18 +412,16 @@ lexi_read_token(struct lexi_state *state)
 				}
 				if (lexi_group(lexi_group_digit, c1)) {
 					{
-						int ZT1;
 
-	int c;
-	number_buffer = c1 - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
-	while(isdigit(c=lexi_readchar(&lexer_state))){
-		number_buffer*=10;
-		number_buffer += c - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
-	}
-	lexi_push(&lexer_state, c);
-	ZT1=lex_arg_Hchar_Hnb;
-						return ZT1;
+	number_buffer = 0;
 					}
+					{
+
+	number_buffer *= 10;
+	number_buffer += c1 - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
+					}
+					return lexi_read_token_arg_char_nb_zone(state);
+					goto start;
 				}
 				lexi_push(state, c1);
 				break;

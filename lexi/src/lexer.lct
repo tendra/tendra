@@ -73,13 +73,11 @@ ACTION E_newline_in_string = @{
 @};
 
 
-ACTION read_arg_char_nb : (c:CHARACTER) -> (a:TERMINAL) = @{
-	int c;
-	number_buffer = @c - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
-	while(isdigit(c=lexi_readchar(&lexer_state))){
-		number_buffer*=10;
-		number_buffer += c - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
-	}
-	lexi_push(&lexer_state, c);
-	@a=lex_arg_Hchar_Hnb;
+ACTION number_buffer_init : () -> () = @{
+	number_buffer = 0;
+@};
+
+ACTION number_buffer_push_digit : (c:CHARACTER) -> () = @{
+	number_buffer *= 10;
+	number_buffer += @c - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
 @};
