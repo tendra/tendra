@@ -87,7 +87,6 @@ static FILE *lex_input;
 */
 
 static int lexi_getchar(void);
-static int read_identifier(int, int);
 
 #define lexi_unknown_token	lex_unknown
 
@@ -132,33 +131,6 @@ lexi_getchar(void)
 char token_buff [2000];
 char *token_end = token_buff + sizeof(token_buff);
 unsigned int number_buffer;
-
-/*
-    READ AN IDENTIFIER
-
-    This routine reads an identifier beginning with a, returning the
-    corresponding lexical token.  Keywords are dealt with locally.
-    The sid flag indicates whether a sid-style identifier is expected.
-*/
-
-static int
-read_identifier(int a, int sid)
-{
-    int c = a;
-    int e = (sid ? '-' : 'x');
-    char *t = token_buff;
-    do {
-	*(t++) = (char)c;
-	if (t == token_end)error(ERROR_FATAL, "Buffer overflow");
-	c = lexi_readchar(&lexer_state);
-    } while (lexi_group(lexi_group_alphanum, c) || c == e);
-    *t = 0;
-    lexi_push(&lexer_state, c);
-
-    /* Deal with keywords */
-    if (sid) return lex_sid_Hidentifier;
-	return lexi_keyword(token_buff, lex_identifier);
-}
 
 /*
     CURRENT TOKEN

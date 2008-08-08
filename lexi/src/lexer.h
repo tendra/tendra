@@ -101,13 +101,16 @@ void lexi_flush(struct lexi_state *state);
 int lexi_readchar(struct lexi_state *state);
 
 enum lexi_groups {
-	lexi_group_white = 0x01,
-	lexi_group_alpha = 0x02,
-	lexi_group_digit = 0x04,
-	lexi_group_alphanum = 0x08,
-	lexi_group_comment_white = 0x10,
-	lexi_group_line_comment_white = 0x20,
-	lexi_group_stringzone_white = 0x40
+	lexi_group_white = 0x0001,
+	lexi_group_alpha = 0x0002,
+	lexi_group_digit = 0x0004,
+	lexi_group_alphanum = 0x0008,
+	lexi_group_alphanumhyphen = 0x0010,
+	lexi_group_comment_white = 0x0020,
+	lexi_group_line_comment_white = 0x0040,
+	lexi_group_stringzone_white = 0x0080,
+	lexi_group_identifierzone_white = 0x0100,
+	lexi_group_sididentifierzone_white = 0x0200
 };
 
 /* true if the given character is present in the given group */

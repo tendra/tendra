@@ -73,8 +73,8 @@ ACTION <finalize_token_buffer> ;
 ACTION <E_eof_in_string>;
 ACTION <E_newline_in_string>;
 
-ACTION <get_identifier> : (:CHARACTER) -> (:TERMINAL);
-ACTION <get_sid_identifier> : (:CHARACTER) -> (:TERMINAL);
+ACTION <token_keyword_match> : (:TERMINAL) -> (:TERMINAL);
+
 ACTION <read_arg_char_nb>: (:CHARACTER) -> (:TERMINAL);
 
 /* Character groups */
@@ -82,6 +82,7 @@ GROUP white = " \t\n\r" ;
 GROUP alpha = {A-Z} + {a-z} + "_" ;
 GROUP digit = {0-9} ;
 GROUP alphanum = "[alpha][digit]" ;
+GROUP alphanumhyphen = "[alphanum]-" ;
 
 /* Simple symbols */
 TOKEN "(" -> $open ;
@@ -128,7 +129,7 @@ ZONE line_comment : "//" ... "\n" {
 
 //TOKEN "\"" -> $ = <get_string> () ;
 
-ZONE stringzone : "\"" ->  <init_token_buffer>... "\"" -> <finalize_token_buffer>, $string {
+ZONE stringzone : "\"" ->  <init_token_buffer> ... "\"" -> <finalize_token_buffer>, $string {
      	GROUP white = "";
 	TOKEN DEFAULT -> <push_token_buffer>(#0);
 	TOKEN "\\\"" -> <push_token_buffer>(#1);
@@ -137,8 +138,15 @@ ZONE stringzone : "\"" ->  <init_token_buffer>... "\"" -> <finalize_token_buffer
 }
 
 
-TOKEN "[alpha]" -> $ = <get_identifier> (#0) ;
-TOKEN "$[alpha]" -> $ = <get_sid_identifier> (#1) ;
+ZONE identifierzone : "[alpha]" ->  <init_token_buffer>, <push_token_buffer>(#0) [...) "[^alphanum]" -> <finalize_token_buffer>, $ = <token_keyword_match>($identifier) {
+     	GROUP white = "";
+	TOKEN DEFAULT -> <push_token_buffer>(#0);
+}
+
+ZONE sididentifierzone : "$[alpha]" ->  <init_token_buffer>, <push_token_buffer>(#1) [...) "[^alphanumhyphen]" -> <finalize_token_buffer>, $sid-identifier {
+     	GROUP white = "";
+	TOKEN DEFAULT -> <push_token_buffer>(#0);
+}
 
 TOKEN "$" -> $arg-return-terminal ;
 TOKEN "!" -> $arg-ignore ;

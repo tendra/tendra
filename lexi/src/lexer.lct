@@ -60,6 +60,10 @@ ACTION finalize_token_buffer = @{
 	}
 @};
 
+ACTION token_keyword_match : (ti:TERMINAL) -> (to:TERMINAL) = @{
+	@to = lexi_keyword(token_buff, @ti);
+@};
+
 ACTION E_eof_in_string = @{
 	error(ERROR_SERIOUS, "Unexpected eof in string");
 @};
@@ -68,14 +72,6 @@ ACTION E_newline_in_string = @{
 	error(ERROR_SERIOUS, "Unexpected newline in string");
 @};
 
-
-ACTION get_sid_identifier : (c:CHARACTER) -> (a:TERMINAL) = @{
-       @a = read_identifier(@c, 1);
-@};
-
-ACTION get_identifier : (c:CHARACTER) -> (a:TERMINAL) = @{
-       @a = read_identifier(@c, 0);
-@};
 
 ACTION read_arg_char_nb : (c:CHARACTER) -> (a:TERMINAL) = @{
 	int c;
