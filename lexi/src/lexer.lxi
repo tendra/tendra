@@ -67,7 +67,12 @@
 COPYRIGHT = "COPYING";
 
 /*Actions*/
-ACTION <get_string> : () -> (:TERMINAL);
+ACTION <init_token_buffer> ;
+ACTION <push_token_buffer> : (:CHARACTER) -> ();
+ACTION <finalize_token_buffer> ;
+ACTION <E_eof_in_string>;
+ACTION <E_newline_in_string>;
+
 ACTION <get_identifier> : (:CHARACTER) -> (:TERMINAL);
 ACTION <get_sid_identifier> : (:CHARACTER) -> (:TERMINAL);
 ACTION <read_arg_char_nb>: (:CHARACTER) -> (:TERMINAL);
@@ -121,7 +126,17 @@ ZONE line_comment : "//" ... "\n" {
 }
 
 
-TOKEN "\"" -> $ = <get_string> () ;
+//TOKEN "\"" -> $ = <get_string> () ;
+
+ZONE stringzone : "\"" ->  <init_token_buffer>... "\"" -> <finalize_token_buffer>, $string {
+     	GROUP white = "";
+	TOKEN DEFAULT -> <push_token_buffer>(#0);
+	TOKEN "\\\"" -> <push_token_buffer>(#1);
+	TOKEN "\e" -> <E_eof_in_string>;
+	TOKEN "\n" -> <E_newline_in_string>;
+}
+
+
 TOKEN "[alpha]" -> $ = <get_identifier> (#0) ;
 TOKEN "$[alpha]" -> $ = <get_sid_identifier> (#1) ;
 

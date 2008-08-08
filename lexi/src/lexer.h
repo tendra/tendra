@@ -67,7 +67,6 @@
 #define LEXI_GENERATED_HEADER_lexi__INCLUDED
 
 
-/* Hfile lct header */
 #include <stdbool.h>
 
 /*
@@ -107,7 +106,8 @@ enum lexi_groups {
 	lexi_group_digit = 0x04,
 	lexi_group_alphanum = 0x08,
 	lexi_group_comment_white = 0x10,
-	lexi_group_line_comment_white = 0x20
+	lexi_group_line_comment_white = 0x20,
+	lexi_group_stringzone_white = 0x40
 };
 
 /* true if the given character is present in the given group */
@@ -124,5 +124,4 @@ void lexi_init(struct lexi_state *state);
 
 #endif
 
-/* Hfile lct trailer */
 

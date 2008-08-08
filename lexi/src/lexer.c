@@ -66,7 +66,7 @@
 #include "lexer.h"
 
 
-/* Cfile lct header */
+static char* token_current;
 #include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -163,10 +163,66 @@ void lexi_init(struct lexi_state *state) {
 }
 /* ZONES PASS ANALYSER PROTOTYPES*/
 
+static int lexi_read_token_stringzone(struct lexi_state *state);
 static int lexi_read_token_line_comment(struct lexi_state *state);
 static int lexi_read_token_comment(struct lexi_state *state);
 /* MAIN PASS ANALYSERS */
 
+/* MAIN PASS ANALYSER for zone stringzone*/
+
+static int
+lexi_read_token_stringzone(struct lexi_state *state)
+{
+	start: {
+		int c0 = lexi_readchar(state);
+		if (lexi_group(lexi_group_stringzone_white, c0)) goto start;
+		if (c0 == '\n') {
+			{
+
+	error(ERROR_SERIOUS, "Unexpected newline in string");
+			}
+			goto start;
+		} else if (c0 == '"') {
+			{
+
+       	if(token_current==token_end) {
+		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+	       *(token_end-1) = 0;		
+	} else {
+	       *token_current++ = 0;	
+	}
+			}
+			return lex_string;
+		} else if (c0 == '\\') {
+			int c1 = lexi_readchar(state);
+			if (c1 == '"') {
+				{
+
+       	if(token_current==token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *token_current++ = c1;
+				}
+				goto start;
+			}
+			lexi_push(state, c1);
+		} else if (c0 == LEXI_EOF) {
+			{
+
+	error(ERROR_SERIOUS, "Unexpected eof in string");
+			}
+			goto start;
+		}
+		{
+
+       	if(token_current==token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *token_current++ = c0;
+		}
+		goto start;
+	}
+}
 /* MAIN PASS ANALYSER for zone line_comment*/
 
 static int
@@ -215,28 +271,11 @@ lexi_read_token(struct lexi_state *state)
 			}
 			case '"': {
 				{
-					int ZT1;
 
-	int c;
-	int escaped = 0;
-	char *t = token_buff;
-	while (c = lexi_readchar(&lexer_state), (c != '"' || escaped)) {
-		if (c == '\n' || c == LEXI_EOF) {
-			error(ERROR_SERIOUS, "Unexpected end of string");
-			break;
-		}
-		*(t++) = (char)c;
-		if (t == token_end) error(ERROR_FATAL, "Buffer overflow");
-		if (escaped) {
-			escaped = 0;
-		} else {
-			if (c == '\\') escaped = 1;
-		}
-	}
-	*t = 0;
-	ZT1 = lex_string; 
-					return ZT1;
+	token_current=token_buff;
 				}
+				return lexi_read_token_stringzone(state);
+				goto start;
 			}
 			case '#': {
 				int c1 = lexi_readchar(state);
@@ -434,5 +473,4 @@ lexi_read_token(struct lexi_state *state)
 	}
 }
 
-/* Cfile lct trailer */
 
