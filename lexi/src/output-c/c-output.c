@@ -231,7 +231,7 @@ output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, arg
 
 
 static void 
-output_instructions( zone* z, instructions_list* ret, int n, int d)
+output_instructions( zone* z, instructions_list* ret, int n, int d, int innerzonechange)
 {
   instruction* instr;
   int changezone = 0;
@@ -302,7 +302,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
 		read_token_name, instr->u.s.z->zone_name);
       }
       if(instr->u.s.z->entering_instructions->head) {
-	output_instructions(NULL,instr->u.s.z->entering_instructions,n,d);
+	output_instructions(z,instr->u.s.z->entering_instructions,n,d, 1);
       }
       if(instr->u.s.z->entering_instructions->nb_return_terminal == 0) {
 	output_indent(lex_output, d);
@@ -340,7 +340,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
 	}
       }
       if(z->leaving_instructions->head) 
-	output_instructions(NULL,z->leaving_instructions,n,d);
+	output_instructions(z,z->leaving_instructions,n,d,1);
       if(z->leaving_instructions->nb_return_terminal ==0 ) {
 	output_indent(lex_output, d);
 	switch(z->type) {
@@ -362,11 +362,9 @@ output_instructions( zone* z, instructions_list* ret, int n, int d)
       break;
     }
   }
-  if(ret->nb_return_terminal == 0 && !changezone) {
-    if(z) {/* if z==NULL, we are in a push or pop zone instruction and can't go to start*/
-      output_indent(lex_output, d);
-      fputs("goto start;\n",lex_output);
-    } 
+  if(ret->nb_return_terminal == 0 && !changezone && !innerzonechange) {
+    output_indent(lex_output, d);
+    fputs("goto start;\n",lex_output);
   }
   if(locals->top) {
     d--;
@@ -569,7 +567,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				fprintf(lex_output, "if (%s) {", cond);
 				d++;
 			}
-			output_instructions(z,ret,n,d);
+			output_instructions(z,ret,n,d,0);
 			if (cond) {
 			  d--;
 			  fprintf(lex_output, "}");
@@ -645,7 +643,7 @@ output_zone_pass(cmd_line_options *opt, zone *p)
 	    fprintf(lex_output,"\tif(%s) {\n\t",p->default_cond);
 	    dd=4;
         }
-        output_instructions(p,p->default_instructions,1,dd);
+        output_instructions(p,p->default_instructions,1,dd, 0);
         if(p->default_cond) 
 	    fprintf(lex_output,"}\n");
     } 
