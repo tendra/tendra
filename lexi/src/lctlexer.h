@@ -39,7 +39,28 @@
 #define LEXI_GENERATED_HEADER_lexi_lct__INCLUDED
 
 
-/* Hfile lct header */
+#include <stdio.h>
+#include "lctsyntax.h"
+
+extern FILE* lct_file;
+extern char lct_token_buff [];
+extern int crt_lct_token ;
+extern int saved_lct_token ;
+extern lct_parse_tree global_lct_parse_tree ;
+
+extern struct lexi_lct_state lct_lexer_state;
+extern NStringT lct_token_nstring;
+
+
+/*
+     PARSER MACROS
+*/
+
+#define CURRENT_LCT_TERMINAL	crt_lct_token
+#define ADVANCE_LCT_LEXER		crt_lct_token = lexi_lct_read_token(&lct_lexer_state)
+#define SAVE_LCT_LEXER(T)       (saved_lct_token = crt_lct_token,\
+                                  crt_lct_token = (T))
+#define RESTORE_LCT_LEXER          (crt_lct_token = saved_lct_token)
 #include <stdbool.h>
 
 /*
@@ -76,10 +97,11 @@ int lexi_lct_readchar(struct lexi_lct_state *state);
 enum lexi_lct_groups {
 	lexi_lct_group_alpha = 0x01,
 	lexi_lct_group_alphanum = 0x02,
-	lexi_lct_group_Comment_white = 0x04,
-	lexi_lct_group_LineComment_white = 0x08,
-	lexi_lct_group_code_area_white = 0x10,
-	lexi_lct_group_white = 0x20
+	lexi_lct_group_identifierzone_white = 0x04,
+	lexi_lct_group_Comment_white = 0x08,
+	lexi_lct_group_LineComment_white = 0x10,
+	lexi_lct_group_code_area_white = 0x20,
+	lexi_lct_group_white = 0x40
 };
 
 /* true if the given character is present in the given group */
@@ -96,5 +118,4 @@ void lexi_lct_init(struct lexi_lct_state *state);
 
 #endif
 
-/* Hfile lct trailer */
 

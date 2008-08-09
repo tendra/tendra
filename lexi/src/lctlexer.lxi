@@ -34,9 +34,10 @@ COPYRIGHT = "COPYINGBSD";
 GROUP alpha = {A-Z} + {a-z} + "_";
 GROUP alphanum = {A-Z} + {a-z} + {0-9} + "_";
 
-ACTION <get_lct_identifier> : (:CHARACTER) -> (:TERMINAL) ; 
-ACTION <get_code_lct_identifier> : (:CHARACTER) -> (:TERMINAL) ; 
-ACTION <get_code_lct_reference> : (:CHARACTER) -> (:TERMINAL) ;
+ACTION <init_token_buffer> ;
+ACTION <push_token_buffer> : (:CHARACTER) -> ();
+ACTION <finalize_token_buffer> ;
+ACTION <token_keyword_match> : (:TERMINAL) -> (:TERMINAL);
 ACTION <get_code_lct_string> : (:CHARACTER) -> (:TERMINAL) ;
 
 
@@ -49,7 +50,11 @@ TOKEN ":" -> $colon ;
 TOKEN "," -> $comma ;
 TOKEN "->" -> $arrow ;
 TOKEN "\e" -> $eof ;
-TOKEN "[alpha]" -> $ = <get_lct_identifier> (#0) ;
+
+ZONE identifierzone : "[alpha]" -> <init_token_buffer>, <push_token_buffer>(#0) [...) "[^alphanum]" -> <finalize_token_buffer>, $ = <token_keyword_match>($identifier) {
+	GROUP white = "";
+	TOKEN DEFAULT -> <push_token_buffer>(#0);
+}
 
 TOKEN DEFAULT -> $unknown ;
 
@@ -71,8 +76,15 @@ ZONE  code_area : "@{" -> $code-start
 {
 	GROUP white = "" ;
 	TOKEN DEFAULT -> $ = <get_code_lct_string> (#0) ;
-	TOKEN "@[alpha]" -> $ = <get_code_lct_identifier> (#1) ;
-	TOKEN "@&[alpha]" -> $ = <get_code_lct_reference> (#2) ;
+	
+	ZONE codeidentifierzone : "@[alpha]" -> <init_token_buffer>, <push_token_buffer>(#1) [...) "[^alphanum]" -> <finalize_token_buffer>, $code-identifier {
+		TOKEN DEFAULT -> <push_token_buffer>(#0);
+	}
+
+	ZONE codereferencezone :  "@&[alpha]" -> <init_token_buffer>, <push_token_buffer>(#2) [...) "[^alphanum]" -> <finalize_token_buffer>, $code-reference {
+		TOKEN DEFAULT -> <push_token_buffer>(#0);
+	}
+
 	TOKEN "@@"	 -> $code-at;
 	TOKEN "@"	 -> $lone-code-at;
 	TOKEN "\e"	 -> $code-eof;

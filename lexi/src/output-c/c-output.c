@@ -74,7 +74,7 @@
 #include "char.h"
 #include "localnames.h"
 #include "lexer.h"
-#include "lctlex.h"
+#include "lctsyntax.h"
 #include "c-output.h"
 #include "options.h"
 #include "output.h"

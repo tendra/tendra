@@ -38,7 +38,33 @@
 #include "lctlexer.h"
 
 
-/* Cfile lct header */
+#include "lctlexer.h"
+#include "lctsyntax.h"
+#include "error/error.h"
+
+int crt_lct_token ;
+int saved_lct_token ;
+
+char lct_token_buff [2000];
+static char *lct_token_end = lct_token_buff + sizeof(lct_token_buff);
+static char* lct_token_current;
+
+NStringT lct_token_nstring;
+
+FILE* lct_file;
+struct lexi_lct_state lct_lexer_state;
+
+static int 
+lexi_lct_getchar() 
+{
+	int c =fgetc(lct_file);
+	if(c == '\n') 
+		crt_line_no++;
+	if(c == EOF) 
+		return LEXI_EOF;
+	return c;
+}
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -48,10 +74,10 @@
 typedef uint8_t lookup_type;
 static lookup_type lookup_tab[257] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x20, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x00, 0x40, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
 	0x02, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -127,11 +153,76 @@ void lexi_lct_init(struct lexi_lct_state *state) {
 }
 /* ZONES PASS ANALYSER PROTOTYPES*/
 
+static int lexi_lct_read_token_codereferencezone(struct lexi_lct_state *state);
+static int lexi_lct_read_token_codeidentifierzone(struct lexi_lct_state *state);
 static int lexi_lct_read_token_code_area(struct lexi_lct_state *state);
 static int lexi_lct_read_token_LineComment(struct lexi_lct_state *state);
 static int lexi_lct_read_token_Comment(struct lexi_lct_state *state);
+static int lexi_lct_read_token_identifierzone(struct lexi_lct_state *state);
 /* MAIN PASS ANALYSERS */
 
+/* MAIN PASS ANALYSER for zone codereferencezone*/
+
+static int
+lexi_lct_read_token_codereferencezone(struct lexi_lct_state *state)
+{
+	start: {
+		int c0 = lexi_lct_readchar(state);
+		if (lexi_lct_group(lexi_lct_group_code_area_white, c0)) goto start;
+		if (!lexi_lct_group(lexi_lct_group_alphanum, c0)) {
+			lexi_lct_push(state, c0);
+			{
+
+       	if(lct_token_current==lct_token_end) {
+		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+	       *(lct_token_end-1) = 0;		
+	} else {
+	       *lct_token_current++ = 0;	
+	}
+			}
+			return lct_lex_code_Hreference;
+		}
+		{
+
+       	if(lct_token_current==lct_token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *lct_token_current++ = c0;
+		}
+		goto start;
+	}
+}
+/* MAIN PASS ANALYSER for zone codeidentifierzone*/
+
+static int
+lexi_lct_read_token_codeidentifierzone(struct lexi_lct_state *state)
+{
+	start: {
+		int c0 = lexi_lct_readchar(state);
+		if (lexi_lct_group(lexi_lct_group_code_area_white, c0)) goto start;
+		if (!lexi_lct_group(lexi_lct_group_alphanum, c0)) {
+			lexi_lct_push(state, c0);
+			{
+
+       	if(lct_token_current==lct_token_end) {
+		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+	       *(lct_token_end-1) = 0;		
+	} else {
+	       *lct_token_current++ = 0;	
+	}
+			}
+			return lct_lex_code_Hidentifier;
+		}
+		{
+
+       	if(lct_token_current==lct_token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *lct_token_current++ = c0;
+		}
+		goto start;
+	}
+}
 /* MAIN PASS ANALYSER for zone code_area*/
 
 static int
@@ -146,11 +237,18 @@ lexi_lct_read_token_code_area(struct lexi_lct_state *state)
 				int c2 = lexi_lct_readchar(state);
 				if (lexi_lct_group(lexi_lct_group_alpha, c2)) {
 					{
-						int ZT1;
 
-	ZT1=get_code_lct_reference(c2);
-						return ZT1;
+	lct_token_current=lct_token_buff;
 					}
+					{
+
+       	if(lct_token_current==lct_token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *lct_token_current++ = c2;
+					}
+					return lexi_lct_read_token_codereferencezone(state);
+					goto start;
 				}
 				lexi_lct_push(state, c2);
 			} else if (c1 == '@') {
@@ -161,11 +259,18 @@ lexi_lct_read_token_code_area(struct lexi_lct_state *state)
 			}
 			if (lexi_lct_group(lexi_lct_group_alpha, c1)) {
 				{
-					int ZT1;
 
-	ZT1=get_code_lct_identifier(c1);
-					return ZT1;
+	lct_token_current=lct_token_buff;
 				}
+				{
+
+       	if(lct_token_current==lct_token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *lct_token_current++ = c1;
+				}
+				return lexi_lct_read_token_codeidentifierzone(state);
+				goto start;
 			}
 			lexi_lct_push(state, c1);
 			return lct_lex_lone_Hcode_Hat;
@@ -175,7 +280,19 @@ lexi_lct_read_token_code_area(struct lexi_lct_state *state)
 		{
 			int ZT1;
 
-	ZT1=get_code_lct_string(c0);
+	int c = c0;
+	DStringT dstring;
+	dstring_init(&dstring);
+	do {
+		dstring_append_char(&dstring, c) ;
+		c = lexi_lct_readchar(&lct_lexer_state);
+        } while(c!='@' && c!=LEXI_EOF) ;
+
+	lexi_lct_push(&lct_lexer_state, c);
+	
+	dstring_to_nstring(&dstring,&lct_token_nstring);
+	dstring_destroy(&dstring);
+	ZT1 = lct_lex_code_Hstring;
 			return ZT1;
 		}
 	}
@@ -208,6 +325,42 @@ lexi_lct_read_token_Comment(struct lexi_lct_state *state)
 				return;
 			}
 			lexi_lct_push(state, c1);
+		}
+		goto start;
+	}
+}
+/* MAIN PASS ANALYSER for zone identifierzone*/
+
+static int
+lexi_lct_read_token_identifierzone(struct lexi_lct_state *state)
+{
+	start: {
+		int c0 = lexi_lct_readchar(state);
+		if (lexi_lct_group(lexi_lct_group_identifierzone_white, c0)) goto start;
+		if (!lexi_lct_group(lexi_lct_group_alphanum, c0)) {
+			lexi_lct_push(state, c0);
+			{
+
+       	if(lct_token_current==lct_token_end) {
+		error(ERROR_FATAL, "Buffer overflow: trailing 0");
+	       *(lct_token_end-1) = 0;		
+	} else {
+	       *lct_token_current++ = 0;	
+	}
+			}
+			{
+				int ZT1;
+
+	ZT1 = lexi_lct_keyword(lct_token_buff, lct_lex_identifier);
+				return ZT1;
+			}
+		}
+		{
+
+       	if(lct_token_current==lct_token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *lct_token_current++ = c0;
 		}
 		goto start;
 	}
@@ -279,15 +432,21 @@ lexi_lct_read_token(struct lexi_lct_state *state)
 		}
 		if (lexi_lct_group(lexi_lct_group_alpha, c0)) {
 			{
-				int ZT1;
 
-	ZT1=get_lct_identifier(c0);
-				return ZT1;
+	lct_token_current=lct_token_buff;
 			}
+			{
+
+       	if(lct_token_current==lct_token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *lct_token_current++ = c0;
+			}
+			return lexi_lct_read_token_identifierzone(state);
+			goto start;
 		}
 		return lct_lex_unknown;
 	}
 }
 
-/* Cfile lct trailer */
 

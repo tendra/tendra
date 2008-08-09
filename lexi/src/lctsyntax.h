@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 119 "lctsyntax.act"
+#line 93 "lctsyntax.act"
 
 /*
  * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
@@ -48,8 +48,21 @@
 #include "ccode.h"
 #include "adt.h"
 
+
+typedef struct lct_parse_tree_tag {
+	int headersdefined;
+	int trailersdefined;
+	CcodeT hfileheader;
+	CcodeT cfileheader;
+	CcodeT hfiletrailer;
+	CcodeT cfiletrailer;
+} lct_parse_tree;
+
 extern lexer_parse_tree* lxi_top_level;
-#line 53 "lctsyntax.h"
+extern lct_parse_tree global_lct_parse_tree ;
+
+extern void init_lct_parse_tree(lct_parse_tree*);
+#line 66 "lctsyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -83,9 +96,9 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 432 "lctsyntax.act"
+#line 456 "lctsyntax.act"
 
 #endif
-#line 90 "lctsyntax.h"
+#line 103 "lctsyntax.h"
 
 /* END OF FILE */

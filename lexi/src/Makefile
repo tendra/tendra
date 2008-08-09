@@ -13,7 +13,7 @@ LEXIFLAGS+=-lC99 -a
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
 
-TARGETS=char.o syntax.o lexer.o main.o options.o output.o lctlex.o lctsyntax.o adt.o ccode.o localnames.o
+TARGETS=char.o syntax.o lexer.o main.o options.o output.o lctlexer.o lctsyntax.o adt.o ccode.o localnames.o
 
 all: lexi
 
@@ -49,14 +49,14 @@ install: lexi
 	${INSTALL} -m 755 -d ${BINDIR}
 	${INSTALL} -m 755 lexi ${BINDIR}/
 
-lex.o: lexer.c lexer.h
+lexer.o: lexer.h
 syntax.o: lexer.h
 
 main.o char.o syntax.o: char.h
-lex.o main.o syntax.o : syntax.h
-main.o : output-c/c-output.h output-dot/dot-output.h lctlex.h
+lexer.o main.o syntax.o : syntax.h
+main.o : output-c/c-output.h output-dot/dot-output.h lctlexer.h lexer.h lctsyntax.h
 main.o options.o : options.h
-lctlex.o : lctsyntax.h lctlexer.c lctlexer.h
+lctlexer.o : lctsyntax.h lctlexer.h
 
 lexer.c lexer.h: lexer.lxi lexer.lct COPYING
 	-${MOVE} lexer.c sav.lexer.c 

@@ -57,7 +57,7 @@ ENTRYP -> EntryP;
 #include <stdbool.h>
 
 #include "lctsyntax.h"
-#include "lctlex.h"
+#include "lctlexer.h"
 #include "char.h"
 #include "ccode.h"
 #include "adt.h"
@@ -75,7 +75,20 @@ ENTRYP -> EntryP;
 
 typedef EntryT* EntryP;
 
+
+
+void init_lct_parse_tree (lct_parse_tree* a) 
+{
+	a->headersdefined = 0;
+	a->trailersdefined = 0;
+	ccode_init(&(a->hfileheader)) ;
+	ccode_init(&(a->cfileheader)) ;
+	ccode_init(&(a->hfiletrailer)) ;
+	ccode_init(&(a->cfiletrailer)) ;
+}
+
 lexer_parse_tree* lxi_top_level;
+lct_parse_tree global_lct_parse_tree ;
 
 @}, @{
 /*
@@ -115,7 +128,20 @@ lexer_parse_tree* lxi_top_level;
 #include "ccode.h"
 #include "adt.h"
 
+
+typedef struct lct_parse_tree_tag {
+	int headersdefined;
+	int trailersdefined;
+	CcodeT hfileheader;
+	CcodeT cfileheader;
+	CcodeT hfiletrailer;
+	CcodeT cfiletrailer;
+} lct_parse_tree;
+
 extern lexer_parse_tree* lxi_top_level;
+extern lct_parse_tree global_lct_parse_tree ;
+
+extern void init_lct_parse_tree(lct_parse_tree*);
 @};
 
 %assignments%

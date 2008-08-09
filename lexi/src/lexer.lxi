@@ -78,8 +78,6 @@ ACTION <token_keyword_match> : (:TERMINAL) -> (:TERMINAL);
 ACTION <number_buffer_init> : () -> () ;
 ACTION <number_buffer_push_digit> : (c:CHARACTER) -> ();
 
-ACTION <read_arg_char_nb>: (:CHARACTER) -> (:TERMINAL);
-
 /* Character groups */
 GROUP white = " \t\n\r" ;
 GROUP alpha = {A-Z} + {a-z} + "_" ;

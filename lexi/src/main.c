@@ -66,8 +66,9 @@
 
 #include "char.h"
 #include "lexer.h"
-#include "lctlex.h"
+#include "lctlexer.h"
 #include "syntax.h"
+#include "lctsyntax.h"
 #include "output-c/c-output.h"
 #include "output-dot/dot-output.h"
 #include "options.h"
@@ -83,7 +84,7 @@ cmd_line_options options;
 /*
     PROCESS FILE
 
-    This routine processes the input file nm.
+    This routine processes the lxi input file.
 */
 
 static void
@@ -107,6 +108,30 @@ process_lxi_file(char *nm,lexer_parse_tree* top_level)
 	read_lex(top_level->global_zone);
 	if (nm)fclose(lex_input);
 	return;
+}
+
+/*
+    PROCESS FILE
+
+    This routine processes the lct input file.
+*/
+static void 
+process_lct_file (lexer_parse_tree* parse_tree, char* fn) 
+{
+
+	crt_line_no = 1 ;
+	if (!(lct_file=fopen(fn,"r"))) {
+		error(ERROR_SERIOUS, "Can't open input file, '%s'", fn);
+		return; /*error message*/
+	}
+	crt_file_name = fn;
+	init_lct_parse_tree(&global_lct_parse_tree) ;
+	lexi_lct_init(&lct_lexer_state) ;
+	ADVANCE_LCT_LEXER ;
+
+	lxi_top_level=parse_tree;
+	read_lct_unit();
+	fclose(lct_file);
 }
 
 /*
@@ -278,7 +303,7 @@ main(int argc, char **argv)
 	}
 
 	if(output->inputfiles>1) {
-		process_lctfile(&top_level,argv[1]);
+		process_lct_file(&top_level,argv[1]);
 	}
 
 	if (exit_status != EXIT_SUCCESS) {
