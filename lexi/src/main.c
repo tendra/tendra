@@ -89,24 +89,24 @@ cmd_line_options options;
 static void
 process_lxi_file(char *nm,lexer_parse_tree* top_level)
 {
-    crt_line_no = 1;
-    if (nm == NULL || !strcmp(nm, "-")) {
-	crt_file_name = "<stdin>";
-	lex_input = stdin;
-	nm = NULL;
-    } else {
-	crt_file_name = nm;
-	lex_input = fopen(nm, "r");
-	if (lex_input == NULL) {
-	    error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
-	    return;
+	crt_line_no = 1;
+	if (nm == NULL || !strcmp(nm, "-")) {
+		crt_file_name = "<stdin>";
+		lex_input = stdin;
+		nm = NULL;
+	} else {
+		crt_file_name = nm;
+		lex_input = fopen(nm, "r");
+		if (lex_input == NULL) {
+			error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+			return;
+		}
 	}
-    }
 	lexi_init(&lexer_state);
-    ADVANCE_LXI_LEXER;
-    read_lex(top_level->global_zone);
-    if (nm)fclose(lex_input);
-    return;
+	ADVANCE_LXI_LEXER;
+	read_lex(top_level->global_zone);
+	if (nm)fclose(lex_input);
+	return;
 }
 
 /*
