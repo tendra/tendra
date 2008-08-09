@@ -138,7 +138,6 @@ typedef struct instructions_list_tag {
 */
 typedef struct character_tag {
     letter ch;
-    char* cond;
     struct character_tag *opt;
     struct character_tag *next;
     union {
@@ -181,7 +180,6 @@ typedef struct char_group_list_tag {
 typedef struct keyword_tag {
     char *name;
     instruction* instr;
-    char* cond;
     int done;
     struct keyword_tag *next;
 } keyword;
@@ -224,7 +222,6 @@ typedef struct zone_tag {
     char_group* white_space;
 
     instructions_list *default_instructions;
-    char *default_cond;
 
     instructions_list* entering_instructions;
     instructions_list* leaving_instructions;
@@ -301,13 +298,13 @@ extern EntryT* lexer_string_type(lexer_parse_tree*);
 extern EntryT* lexer_int_type(lexer_parse_tree*);
 extern EntryT* lexer_terminal_type(lexer_parse_tree*);
 
-extern void add_char(zone*, character*, letter*, char *, instructions_list*, char* );
+extern void add_char(zone*, character*, letter*, instructions_list*, char* );
 extern zone* add_zone(zone*, char*,letter*, int);
 extern char_group* make_group(zone*, char *, letter *);
 extern int in_group(char_group *, letter);
 extern letter *make_string(char *, zone*);
 extern letter find_escape(int,letter);
-extern void add_keyword(zone*, char *, char*, instruction*);
+extern void add_keyword(zone*, char*, instruction*);
 extern size_t char_maxlength(character *, letter);
 extern size_t zone_maxlength(zone *, int);
 extern zone * find_zone (zone*, char*); 

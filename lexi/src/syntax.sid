@@ -78,9 +78,6 @@ white ;
 default ;
 zone ;
 
-if ;
-else ;
-
 open ;
 close ;
 open-brace ;
@@ -136,10 +133,6 @@ type-kw ;
 <make-token> : ( :ZONE, :CHARACTERS, :INSTRUCTIONS_LIST ) -> () ;
 <make-default> : ( :ZONE, :INSTRUCTIONS_LIST ) -> () ;
 <make-keyword> : ( :ZONE, :STRING, :INSTRUCTION ) -> () ;
-<add-condition> : ( :IDENTIFIER ) -> () ;
-<compl-condition> : () -> () ;
-<get-condition> : () -> ( :IDENTIFIER ) ;
-<set-condition> : ( :IDENTIFIER ) -> () ;
 <true> : () -> ( :BOOL ) ;
 <false> : () -> ( :BOOL ) ;
 
@@ -645,17 +638,6 @@ command-list : (z:ZONE) -> () = {
     ##	<syntax-error> ;
 } ;
 
-if-command : (z:ZONE) -> () = {
-	if ; open ; i = identifier ; close ;
-	j = <get-condition> ;
-	<add-condition> ( i ) ;
-	command ( z ) ;
-	{
-		else ; <compl-condition> ; command ( z ) ; <set-condition> ( j ) ;
-	    ##	<set-condition> ( j ) ;
-	} ;
-} ;
-
 zone-defn : (z:ZONE) -> ()  = {
 	zone; 
 	{
@@ -721,7 +703,6 @@ command : (z:ZONE) -> () = {
     ||  default-defn ( z ); expected_semicolon ;
     ||  zone-defn ( z ) ;
     ||	open-brace ; command-list( z ) ; close-brace ;
-    ||	if-command ( z ) ;
     ||  copyright-stmt ( z ) ; expected_semicolon ;
     ||  type-defn ( z ) ; expected_semicolon ;
     ||	action-decl ( z ) ; expected_semicolon ;

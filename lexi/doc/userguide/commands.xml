@@ -390,7 +390,7 @@ TOKEN "[alpha]" -> get_identifier(#0); //return a terminal
 			spellings in order to be useful to a later stage, such
 			as parsing.</para>
 
-		<!-- TODO only defined once: even in IFs?  -->
+		<!-- TODO only defined once?  -->
 
 		<para>Unlike many lexical analysers, tokens in
 			<application>Lexi</application> are not specified by regular
@@ -688,120 +688,5 @@ ACTION actionname : (:TYPE1,:TYPE2) ->(:TYPE3,:TYPE4);
 	</section>
 -->
 
-	<section id="conditionalcommands">
-		<title>Conditional Commands</title>
-
-		<para><!-- Runtime or compiletime? TODO check --></para>
-
-		<para>The identifier specified is passed through to the generated code
-			as-is - it is expected to be resolved to a symbol provided by the
-			user's program. Expressions are not supported, though may be provided
-			by defining a macro which provides a simple identifier:</para>
-
-		<para><!-- The command given may be in a block? TODO --></para>
-
-		<para><!-- TODO kevin says:
-       The general syntax is
-TODO then define groups inside a block as undefined, and adjust the grammar
-TODO or we can have groups inside IFs as silently creating multiple groups, so for example:
-IF (x) { GROUP "x" ...; } ELSE { GROUP "x" ...; } would make two groups, not one.
-TODO for the moment, we can not permit them and decide that later. NEW UNDEFINED BEHAVIOUR
-
-            IF (identifier) {
-                 commands ....
-            } ELSE {
-                  commands ....
-            }
-		-->
-		</para>
-
-		<para>Conditions may be used around the token, keyword and pre-pass
-			mapping constructs. They affect the constructs in the following ways:
-
-			<variablelist>
-				<varlistentry>
-					<term>Tokens</term>
-					<listitem>
-						<para>The corresponding terminal is returned if
-							the token is read and the conditions holds true. If the
-							condition is not true, the effect is the same as if the
-							token was not defined.</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term>Keywords</term>
-					<listitem>
-						<para>The <code>MAKE_KEYWORD</code>
-							call  is  enclosed by  the given condition.</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term>Pre-pass mappings</term>
-					<listitem>
-						<para>The mapping replacement
-							is only performed if the condition holds true.</para>
-					</listitem>
-				</varlistentry>
-			</variablelist>
-
-			They do not affect groups.</para>
-
-		<para>The conditional constructs are not a particularly powerful
-			mechanism as the braces do not introduce scope.
-			So, for example, they do not provide a means to have
-			multiple definitions of tokens. In particular, having one
-			spelling map to different lexemes is not permitted:
-
-			<programlisting language="Lexi">IF (xxx) {
-	TOKEN "a" -> $aaa;
-} ELSE {
-	TOKEN "a" -> $bbb;
-}</programlisting>
-
-			As the token <quote>a</quote> is defined twice; both definitions are in
-			the same scope and are therefore mutually illegal. However, a
-			similar effect could be achieved by having one token definition
-			call a user-defined function which returns whichever identifier is
-			appropriate; this technique may be useful for implementing languages
-			where the lexer needs to be aware of post-lexing concepts such
-			as type in order to correctly categorise a lexeme (that is, where
-			the lexeme depends on more than simply spelling). Languages with
-			unreserved keywords are one such example (see
-			<xref linkend="keyworddefinitions"/> for details). Another example is
-			C's infamous typedef lexing using the <acronym>ANSI</acronym>
-			C grammar:<footnote>
-				<para>Note that C's case, a rearranged grammar
-				avoids this issue: see
-				<ulink url="http://compilers.iecc.com/comparch/article/92-01-056"/>.</para>
-			</footnote>
-
-			<programlisting language="C">typedef char F;
-long a = sizeof(F), F, b = sizeof(F);</programlisting>
-
-			Where an annotation from the symbol table may be requested using
-			<application>Lexi</application> (for brevity we assume that
-			identifiers and typedef names may only be a single character):
-
-			<programlisting language="Lexi">TOKEN "[alpha]" -> f() ;</programlisting>
-
-			<programlisting language="C">int f(char c) {
-	<lineannotation>store c for the parser to pick up</lineannotation>
-
-	if(s(c)) {
-		return lex_typedef;
-	} else {
-		return lex_identifier;
-	}
-}</programlisting>
-
-			Where <code>s()</code> is a suitably-defined function which interrogates
-			the annotations present in a symbol table.</para>
-
-			<!-- TODO make it valid? introduce scope for this purpose? -->
-
-		<para><!-- TODO Kevin says: IF constructs can nest. --></para>
-	</section>
 </chapter>
 

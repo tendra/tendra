@@ -390,7 +390,6 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 	int classes = 0;
 	instructions_list *ret = NULL;
 	char* retmap= NULL ;
-	char *cond = NULL;
 	letter_translation* ctrans;
 	zone* scope;
 
@@ -403,7 +402,6 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				retmap = q->u.map;
 			else
 				ret = q->u.definition;
-			cond = q->cond;
 		} else if (ctrans->type==char_letter || ctrans->type==eof_letter) {
 			cases++;
 		} else {
@@ -540,41 +538,19 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				if (m) {
 					error(ERROR_SERIOUS, "Bad mapping string, '%s'", map);
 				}
-				if (cond) {
-					output_indent(lex_output, d);
-					fprintf(lex_output, "if (%s) {\n", cond);
-					output_indent(lex_output, d + 1);
-					fprintf(lex_output, "c0 = %s;\n", str);
-					output_indent(lex_output, d + 1);
-					fputs("goto restart;\n", lex_output);
-					output_indent(lex_output, d);
-					fputs("}\n", lex_output);
-				} else {
-					output_indent(lex_output, d);
-					fprintf(lex_output, "c0 = %s;\n", str);
-					output_indent(lex_output, d);
-					fputs("goto restart;\n", lex_output);
-				}
+				output_indent(lex_output, d);
+				fprintf(lex_output, "c0 = %s;\n", str);
+				output_indent(lex_output, d);
+				fputs("goto restart;\n", lex_output);
 			} else {
 				output_indent(lex_output, d);
-				if (cond)
-					fprintf(lex_output, "if (%s) ", cond);
 				fputs("goto start;\n", lex_output);
 			}
 		} else {
-			if (cond) {
-			output_indent(lex_output, d);
-				fprintf(lex_output, "if (%s) {", cond);
-				d++;
-			}
 			output_instructions(z,ret,n,d,0);
-			if (cond) {
-			  d--;
-			  fprintf(lex_output, "}");
-			}
        		}
 	}
-	return (ret || retmap) && (cond == NULL);
+	return ret || retmap;
 }
 
 static void
@@ -639,13 +615,7 @@ output_zone_pass(cmd_line_options *opt, zone *p)
     output_pass(p, p->zone_main_pass, in_pre_pass, 0, 2);
     if(p->default_instructions) {
         int dd=2;
-	if(p->default_cond) {
-	    fprintf(lex_output,"\tif(%s) {\n\t",p->default_cond);
-	    dd=4;
-        }
         output_instructions(p,p->default_instructions,1,dd, 0);
-        if(p->default_cond) 
-	    fprintf(lex_output,"}\n");
     } 
     else 
         fprintf(lex_output, "\t\treturn %sunknown_token;\n",
@@ -1005,10 +975,6 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 
 	for (p = top_level->global_zone->keywords; p; p = p->next) {
 		fprintf(output, "\tif(");
-
-		if(p->cond) {
-			fprintf(output, "%s && ", p->cond);
-		}
 
 		fprintf(output, "!strcmp(identifier, \"%s\")) return ",
 			p->name);

@@ -91,7 +91,6 @@ new_char(letter c)
     }
     p = chars_free + (--chars_left);
     p->ch = c;
-    p->cond = NULL;
     p->opt = NULL;
     p->next = NULL;
     p->u.definition = NULL;
@@ -107,7 +106,7 @@ new_char(letter c)
 */
 
 void
-add_char(zone* z, character *p, letter *s, char *cond, instructions_list* instlist, char* map)
+add_char(zone* z, character *p, letter *s, instructions_list* instlist, char* map)
 {
     character *q;
     letter c = *s;
@@ -133,14 +132,13 @@ add_char(zone* z, character *p, letter *s, char *cond, instructions_list* instli
     if (c == z->top_level->last_letter_code) {
         if ((instlist && q->u.definition) || (map && q->u.map))
 	    error(ERROR_SERIOUS, "TOKEN already defined");
-        q->cond=cond;
         if(instlist) 
 	    q->u.definition=instlist;
         else
 	    q->u.map=map;
     }
     else 
-      add_char(z, q, s + 1, cond, instlist, map);
+      add_char(z, q, s + 1, instlist, map);
     
     return;
 }
@@ -560,7 +558,6 @@ new_zone (char* zid, lexer_parse_tree* top_level)
     p->type=typezone_pure_function; 
 
     p->default_instructions=NULL;
-    p->default_cond=NULL;
 
     p->entering_instructions=NULL;
     p->leaving_instructions=NULL;
@@ -617,7 +614,7 @@ add_zone(zone* current_zone, char* zid, letter* e, int endmarkerclosed)
   inst_list=add_instructions_list();
   *(inst_list->tail)=inst;
   inst_list->tail=&(inst->next);
-  add_char(q,q->zone_main_pass,e,NULL,inst_list,NULL);
+  add_char(q,q->zone_main_pass,e,inst_list,NULL);
   return q;
 }
 
@@ -834,7 +831,7 @@ make_string(char *s, zone* scope)
 */
 
 void
-add_keyword(zone* z, char *nm, char* cond ,instruction* instr)
+add_keyword(zone* z, char *nm, instruction* instr)
 {
     static int keywords_left = 0;
     static keyword *keywords_free = NULL;
@@ -856,7 +853,6 @@ add_keyword(zone* z, char *nm, char* cond ,instruction* instr)
     p = keywords_free + (--keywords_left);
     p->name = nm;
     p->instr = instr;
-    p->cond = cond;
     p->done = 0;
     if (q == NULL) {
 	p->next = z->keywords;

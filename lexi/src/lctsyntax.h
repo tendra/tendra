@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 80 "lctsyntax.act"
+#line 119 "lctsyntax.act"
 
 /*
  * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
@@ -83,7 +83,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 430 "lctsyntax.act"
+#line 432 "lctsyntax.act"
 
 #endif
 #line 90 "lctsyntax.h"
