@@ -74,7 +74,6 @@
 #include "error/error.h"
 #include "xalloc/xalloc.h"
 
-#include "lex.h"
 #include "lexer.h"
 #include "syntax.h"
 /*

@@ -73,7 +73,7 @@
 
 #include "char.h"
 #include "localnames.h"
-#include "lex.h"
+#include "lexer.h"
 #include "lctlex.h"
 #include "c-output.h"
 #include "options.h"

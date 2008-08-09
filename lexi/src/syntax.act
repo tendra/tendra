@@ -76,7 +76,7 @@ TYPETUPLE -> TypeTupleT;
 
 #include "char.h"
 #include "adt.h"
-#include "lex.h"
+#include "lexer.h"
 #include "syntax.h"
 #include "options.h"
 
