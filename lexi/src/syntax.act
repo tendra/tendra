@@ -636,10 +636,11 @@ arg-ignore : () -> (a:ARG) = @{
 					break; /* UNREACHABLE */
 				}
 				if(p->is_reference != q->is_reference) {
+					/* XXX: state which action */
 					if(p->is_reference)
-						error(ERROR_SERIOUS, "In call to action %, %s should not be a reference", p->u.litteral);
+						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.litteral);
 					else
-						error(ERROR_SERIOUS, "In call to action %, %s should not be a reference", p->u.litteral);
+						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.litteral);
 				}
 			}
 			if(p!=NULL) {
