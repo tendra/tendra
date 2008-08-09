@@ -13,7 +13,7 @@ LEXIFLAGS+=-lC99 -a
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
 
-TARGETS=char.o syntax.o lex.o main.o options.o output.o lctlex.o lctsyntax.o adt.o ccode.o localnames.o
+TARGETS=char.o syntax.o lexer.o main.o options.o output.o lctlex.o lctsyntax.o adt.o ccode.o localnames.o
 
 all: lexi
 

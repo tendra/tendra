@@ -66,7 +66,71 @@
 #include "lexer.h"
 
 
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
+#include "lex.h"
+#include "lexer.h"
+#include "syntax.h"
+/*
+	THE CURRENT LEXER STATE
+*/
+struct lexi_state lexer_state;
+
+/*
+    INPUT FILE
+
+    This is the file from which the lexical routine read their input.
+*/
+
+FILE *lex_input;
+
+/*
+    TOKEN BUFFER
+
+    This buffer is used by read_token to hold the values of identifiers
+    and strings.
+*/
+char token_buff [2000];
+char *token_end = token_buff + sizeof(token_buff);
 static char* token_current;
+unsigned int number_buffer;
+
+/*
+    CURRENT TOKEN
+
+    These variables are used by the parser to hold the current and former
+    lexical tokens.
+*/
+
+int crt_lex_token;
+int saved_lex_token;
+
+#define lexi_unknown_token	lex_unknown
+
+/*
+    GET THE NEXT CHARACTER
+
+    This routine reads the next character, either from the pending buffer
+    or from the input file.
+*/
+
+static int
+lexi_getchar(void)
+{
+    int c;
+    c = fgetc(lex_input);
+    if (c == '\n')crt_line_no++;
+    if (c == EOF) return LEXI_EOF;
+    c &= 0xff;
+    return c;
+}
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdint.h>

@@ -30,8 +30,92 @@
  */
 
 HEADERS = @{
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
+#include "lex.h"
+#include "lexer.h"
+#include "syntax.h"
+/*
+	THE CURRENT LEXER STATE
+*/
+struct lexi_state lexer_state;
+
+/*
+    INPUT FILE
+
+    This is the file from which the lexical routine read their input.
+*/
+
+FILE *lex_input;
+
+/*
+    TOKEN BUFFER
+
+    This buffer is used by read_token to hold the values of identifiers
+    and strings.
+*/
+char token_buff [2000];
+char *token_end = token_buff + sizeof(token_buff);
 static char* token_current;
+unsigned int number_buffer;
+
+/*
+    CURRENT TOKEN
+
+    These variables are used by the parser to hold the current and former
+    lexical tokens.
+*/
+
+int crt_lex_token;
+int saved_lex_token;
+
+#define lexi_unknown_token	lex_unknown
+
+/*
+    GET THE NEXT CHARACTER
+
+    This routine reads the next character, either from the pending buffer
+    or from the input file.
+*/
+
+static int
+lexi_getchar(void)
+{
+    int c;
+    c = fgetc(lex_input);
+    if (c == '\n')crt_line_no++;
+    if (c == EOF) return LEXI_EOF;
+    c &= 0xff;
+    return c;
+}
+
 @} , @{
+#include <stdio.h> /*TODO This is necessary because lexi automatically prepend #include "lexer.h" to the header. Maybe we should remove this unecessary feature*/
+
+extern char token_buff [];
+extern char *token_end;
+extern int crt_lex_token;
+extern int saved_lex_token;
+extern unsigned int number_buffer;
+extern struct lexi_state lexer_state;
+
+extern FILE *lex_input;
+
+/*
+     PARSER MACROS
+*/
+
+#define CURRENT_LXI_TERMINAL	crt_lex_token
+#define ADVANCE_LXI_LEXER		crt_lex_token = lexi_read_token(&lexer_state)
+#define SAVE_LXI_LEXER(T)       (saved_lex_token = crt_lex_token,\
+                                  crt_lex_token = (T))
+#define RESTORE_LXI_LEXER          (crt_lex_token = saved_lex_token)
 @};
 
 TRAILERS = @{

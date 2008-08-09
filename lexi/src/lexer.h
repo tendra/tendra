@@ -67,6 +67,26 @@
 #define LEXI_GENERATED_HEADER_lexi__INCLUDED
 
 
+#include <stdio.h> /*TODO This is necessary because lexi automatically prepend #include "lexer.h" to the header. Maybe we should remove this unecessary feature*/
+
+extern char token_buff [];
+extern char *token_end;
+extern int crt_lex_token;
+extern int saved_lex_token;
+extern unsigned int number_buffer;
+extern struct lexi_state lexer_state;
+
+extern FILE *lex_input;
+
+/*
+     PARSER MACROS
+*/
+
+#define CURRENT_LXI_TERMINAL	crt_lex_token
+#define ADVANCE_LXI_LEXER		crt_lex_token = lexi_read_token(&lexer_state)
+#define SAVE_LXI_LEXER(T)       (saved_lex_token = crt_lex_token,\
+                                  crt_lex_token = (T))
+#define RESTORE_LXI_LEXER          (crt_lex_token = saved_lex_token)
 #include <stdbool.h>
 
 /*

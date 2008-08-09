@@ -65,7 +65,7 @@
 #include "error/error.h"
 
 #include "char.h"
-#include "lex.h"
+#include "lexer.h"
 #include "lctlex.h"
 #include "syntax.h"
 #include "output-c/c-output.h"
@@ -77,6 +77,37 @@
  * It shouldn't be global.
  */
 cmd_line_options options;
+
+
+
+/*
+    PROCESS FILE
+
+    This routine processes the input file nm.
+*/
+
+static void
+process_lxi_file(char *nm,lexer_parse_tree* top_level)
+{
+    crt_line_no = 1;
+    if (nm == NULL || !strcmp(nm, "-")) {
+	crt_file_name = "<stdin>";
+	lex_input = stdin;
+	nm = NULL;
+    } else {
+	crt_file_name = nm;
+	lex_input = fopen(nm, "r");
+	if (lex_input == NULL) {
+	    error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
+	    return;
+	}
+    }
+	lexi_init(&lexer_state);
+    ADVANCE_LXI_LEXER;
+    read_lex(top_level->global_zone);
+    if (nm)fclose(lex_input);
+    return;
+}
 
 /*
  * Usage
@@ -206,7 +237,7 @@ main(int argc, char **argv)
 	if (argc < output->outputfiles + output->inputfiles) {
 		report_usage();
 		error(ERROR_FATAL, "Not enough arguments");
-		/* TODO resolve - here, and pass FILE * to process_file();
+		/* TODO resolve - here, and pass FILE * to process_lxi_file();
 		 * we can permit argc < 1 for stdin */
 	}
 
@@ -239,7 +270,7 @@ main(int argc, char **argv)
 	set_predefined_terminal_lexi_type(&top_level, "TERMINAL");
 
 
-	process_file(argv[0],&top_level);
+	process_lxi_file(argv[0],&top_level);
 
 	if (exit_status != EXIT_SUCCESS) {
 		error(ERROR_FATAL, "Terminating due to previous errors");
