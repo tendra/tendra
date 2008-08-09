@@ -3,7 +3,7 @@
 PREFIX ?= /usr/local
 
 all:
-	for dir in src include/exds examples; do ( cd $$dir && ${MAKE} CFLAGS=x all ); done
+	for dir in src include/exds examples; do ( cd $$dir && ${MAKE} all ); done
 
 clean:
 	for dir in src include/exds tests examples; do ( cd $$dir && ${MAKE} clean ); done
