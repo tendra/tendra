@@ -285,24 +285,6 @@ main_handle_switch(char *option, ArgUsageT *usage, void *gclosure,
 }
 
 static void
-main_handle_tab_width(char *option, ArgUsageT *usage, void *gclosure,
-	char *width_str)
-{
-	unsigned width;
-
-	UNUSED(option);
-	UNUSED(usage);
-	UNUSED(gclosure);
-
-	main_did_other = TRUE;
-	if (!cstring_to_unsigned(width_str, &width) || width == 0) {
-		E_bad_tab_width(width_str);
-		UNREACHED;
-	}
-	out_info_set_tab_width(main_info_closure, width);
-}
-
-static void
 main_handle_version(char *option, ArgUsageT *usage, void *gclosure)
 {
 	UNUSED(option);
@@ -338,9 +320,6 @@ static EStringDataT main_description_strings[] = {
 	} }, { {
 		"description of switch",
 		" OPTION\n\tPass OPTION to language specific option parser."
-	} }, { {
-		"description of tab-width",
-		" NUMBER\n\tSet the number of spaces in a tab character."
 	} }, { {
 		"description of version",
 		"\n\tDisplay the version number on the standard error."
@@ -378,10 +357,6 @@ static ArgListT main_arglist[] = {
 		"switch", 's', AT_FOLLOWING,
 		(ArgProcP) main_handle_switch, NULL,
 		{ "description of switch" }
-	}, {
-		"tab-width", 't', AT_FOLLOWING,
-		(ArgProcP)main_handle_tab_width, NULL,
-		{ "description of tab-width" }
 	}, {
 		"version", 'v',	AT_EMPTY,
 		(ArgProcP) main_handle_version,	 NULL,

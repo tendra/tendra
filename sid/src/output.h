@@ -79,7 +79,6 @@ typedef struct OutputInfoT {
     OStreamT *			ostreams;
     char *		       *input_names;
     char *		       *output_names;
-    unsigned			tab_width;
 } OutputInfoT;
 
 void		out_info_init(OutputInfoT *, char *);
@@ -96,7 +95,6 @@ char *		out_info_get_infile_name(OutputInfoT *, unsigned);
 void		out_info_set_outfile_name(OutputInfoT *, unsigned,
 						  char *);
 char *		out_info_get_outfile_name(OutputInfoT *, unsigned);
-void		out_info_set_tab_width(OutputInfoT *, unsigned);
 void		output_indent(OutputInfoT *, unsigned);
 
 #endif /* !defined (H_OUTPUT) */

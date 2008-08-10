@@ -31,15 +31,6 @@ header $[
 #include "arg-parse.h"
 ]$;
 
-fatal "bad tab width" {
-    "bad tab width '${tab width}'",
-    {
-	"tab width" : "const char *" $[
-	    write_cstring(ostream, closure->tab_width);
-	]$
-    }
-};
-
 fatal "bad factor limit" {
     "bad factor limit '${factor limit}'",
     {

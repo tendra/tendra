@@ -80,7 +80,6 @@ out_info_init(OutputInfoT *info, char *prog)
 	info->ostreams        = NULL;
 	info->input_names     = NULL;
 	info->output_names    = NULL;
-	info->tab_width       = 8;
 }
 
 char *
@@ -152,26 +151,12 @@ out_info_get_outfile_name(OutputInfoT *info, unsigned i)
 }
 
 void
-out_info_set_tab_width(OutputInfoT *info, unsigned width)
-{
-	info->tab_width = width;
-}
-
-void
 output_indent(OutputInfoT *info, unsigned indent)
 {
 	OStreamT *ostream   = out_info_get_current_ostream(info);
-	unsigned tab_width  = info->tab_width;
-	unsigned num_tabs   = indent / tab_width;
-	unsigned num_spaces = indent % tab_width;
 
-	/* TODO: remove soft tabs */
-	while (num_tabs--) {
+	while (indent--) {
 		write_tab(ostream);
-	}
-
-	while (num_spaces--) {
-		write_char(ostream, ' ');
 	}
 }
 

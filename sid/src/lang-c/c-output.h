@@ -76,11 +76,11 @@
 #include <exds/ostream.h>
 #include "c-out-info.h"
 
-#define C_INDENT_STEP		((unsigned)4)
+#define C_INDENT_STEP		((unsigned)1)
 #define C_INDENT_FOR_ERROR	C_INDENT_STEP
-#define C_INDENT_FOR_PARAM	((unsigned)2)
-#define C_INDENT_FOR_CASE	((unsigned)2)
-#define C_INDENT_FOR_LABEL	((unsigned)2)
+#define C_INDENT_FOR_PARAM	((unsigned)1)
+#define C_INDENT_FOR_CASE	((unsigned)1)
+#define C_INDENT_FOR_LABEL	((unsigned)1)
 
 void		c_output_parser(COutputInfoT *, GrammarT *);
 void		c_output_header(COutputInfoT *, GrammarT *);
