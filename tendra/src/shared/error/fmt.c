@@ -38,7 +38,7 @@
  * their own, for convenient representation of their own data. This is
  * particularly useful for presenting ADTs in a form recognisable to the user;
  * the motivation for this is to display parsed constructs in their input syntax
- * when hilighting errors in user-input languages.
+ * when highlighting errors in user-input languages.
  *
  * The implementation is not particularly efficient, since error messages do not
  * need to be.
