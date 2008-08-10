@@ -61,6 +61,10 @@
 #ifndef ERROR_INCLUDED
 #define ERROR_INCLUDED
 
+
+#include <stdio.h>
+
+
 /*
     ERROR SEVERITY LEVELS
 
@@ -84,6 +88,7 @@ void error(enum error_severity, const char *, ...);
 void error_posn(enum error_severity, const char *, int, const char *, ...);
 void set_progname(const char *, const char *);
 void report_version(void);
+void fmt_register(char c, void (*f)(FILE *fp, void *));
 
 extern const char *progname;
 extern const char *progvers;

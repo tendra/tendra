@@ -7,9 +7,9 @@ REMOVE?= rm -f
 all: liberror.a
 
 clean:
-	${REMOVE} error.o liberror.a
+	${REMOVE} error.o fmt.o liberror.a
 
-liberror.a: error.o
-	${AR} -rcus $@ error.o
+liberror.a: error.o fmt.o
+	${AR} -rcus $@ error.o fmt.o
 	${RANLIB} $@
 

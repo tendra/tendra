@@ -63,6 +63,7 @@
 #include <string.h>
 
 #include "error.h"
+#include "fmt.h"
 
 
 /*
@@ -165,7 +166,7 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 			(void) fprintf(stderr, "line %d: ", ln);
 	}
 
-	(void) vfprintf(stderr, s, args);
+	(void) vefprintf(stderr, s, args);
 	(void) fprintf(stderr, ".\n");
 
 	if (e == ERROR_FATAL)

@@ -2,6 +2,6 @@
 
 LIB = ${.CURDIR:T}
 
-SRCS = error.c
+SRCS = error.c fmt.c
 
 .include "Makefile.inc"
