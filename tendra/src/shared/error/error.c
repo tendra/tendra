@@ -167,7 +167,7 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 	}
 
 	(void) vefprintf(stderr, s, args);
-	(void) fprintf(stderr, ".\n");
+	(void) fprintf(stderr, "\n");
 
 	if (e == ERROR_FATAL)
 		exit(exit_status);
