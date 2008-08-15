@@ -41,7 +41,7 @@ package Asis.Definitions is
 --  The Enclosing_Element for each implicit declaration is the declaration
 --  (type or object) that declared the type.
 --
---  For limited private types, if a user-defined equality operator has
+--  If a user-defined equality operator has
 --  been defined, an Ada implementation has two choices when dealing with an
 --  instance of the "/=" operator.  a) treat A/=B as NOT(A=B), b) implicitly
 --  create a "/=" operator.  Implementations that take the second alternative
@@ -1474,9 +1474,9 @@ package Asis.Definitions is
       return Boolean;
 
 -------------------------------------------------------------------------------
---  Defintion specifies the definition element to query.
+--  Definition specifies the definition element to query.
 --
---  Returns True if the element has a task definition.
+--  Returns True if the element has a task_definition that is given explicitly.
 --
 --  Returns False for any other Element including a Nil_Element.
 --

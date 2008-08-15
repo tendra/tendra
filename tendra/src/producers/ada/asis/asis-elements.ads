@@ -322,7 +322,7 @@ package Asis.Elements is
 --       A_Declaration
 --
 -------------------------------------------------------------------------------
---  13.10 function Trait_Kind
+--  13.10 function Trait_Kind (Obsolescent) - see clause X
 -------------------------------------------------------------------------------
 
    function Trait_Kind (Element : in Asis.Element)
@@ -783,93 +783,6 @@ package Asis.Elements is
 --       A_Representation_Clause
 --
 -------------------------------------------------------------------------------
---  13.xx function Has_Limited
--------------------------------------------------------------------------------
-
-   function Has_Limited (Element : in Asis.Element) return Boolean;
-
--------------------------------------------------------------------------------
---  Element specifies the Element to query.
---
---  Returns True if the reserved word Limited appears in the Element.
---
---  Returns True for declarations explicitly defined as limited, limited
---  private, abstract limited, or abstract limited private.
---
---  Returns True for context clauses qualified as limited.
---
---  Expected Element_Kinds:
---    A_Declaration
---    A_Definition
---    A_Clause
---
---  Expected Declaration_Kinds:
---    A_Type_Declaration
---    A_Private_Type_Declaration
---    A_Private_Extension_Declaration
---
---  Expected Definition_Kinds:
---    A_Type_Definition
---    A_Private_Type_Definition
---    A_Tagged_Private_Type_Definition
---    A_Private_Extension_Definition
---    An_Interface_Type_Definition
---    A_Tagged_Record_Type_Definition          (Added by Gela)
---    A_Record_Type_Definition                 (Added by Gela)
---    A_Derived_Type_Definition                (Added by Gela)
---    A_Derived_Record_Extension_Definition    (Added by Gela)
---
---  Expected Formal_Type_Kinds:
---    A_Formal_Private_Type_Definition
---    A_Formal_Tagged_Private_Type_Definition
---    A_Formal_Derived_Type_Definition
----   A_Formal_Interface_Type_Definition       (Added by Gela)
---
---  Expected Clause_Kinds:
---    A_With_Clause
---
---  Returns False for any other element, including a Nil_Element.
---
--------------------------------------------------------------------------------
---  13.xx function Has_Private
--------------------------------------------------------------------------------
-
-   function Has_Private (Element : in Asis.Element) return Boolean;
-
--------------------------------------------------------------------------------
---  Element specifies the element to query.
---
---  Returns True if the reserved word Private appears in the Element.
---
---  Returns True for declarations explicitly defined as private, limited
---  private, abstract private,
---  and abstract limited private.
---
---  Returns True for a context clause qualified as private.
---
---  Returns False for any unexpected Element_Kind, including a Nil_Element.
---
---  Expected Declaration_Kinds:
---    A_Type_Declaration
---    A_Private_Type_Declaration
---
---  Expected Definition_Kinds:
---    A_Type_Definition
---    A_Private_Type_Definition
---    A_Tagged_Private_Type_Definition
---    A_Private_Extension_Definition
---
---  Expected Formal_Type_Kinds:
---    A_Formal_Private_Type_Definition
---    A_Formal_Tagged_Private_Type_Definition
---    A_Formal_Derived_Type_Definition (Added by Gela)
---
---  Expected Clause_Kinds:
---    A_With_Clause
---
---  Returns False for any other Element including a Nil_Element.
---
--------------------------------------------------------------------------------
 --  13.xx function Has_Abstract
 -------------------------------------------------------------------------------
 
@@ -878,48 +791,33 @@ package Asis.Elements is
 -------------------------------------------------------------------------------
 --  Element specifies the element to query.
 --
---  Returns True if the reserved word Abstract appears in the Element.
+--  Returns True if the reserved word *abstract* appears in the Element, and
+--  False otherwise.
 --
---  Expected Declaration_Kinds:
---    A_Type_Declaration
+--  Returns False for any unexpected element, including a Nil_Element.
+--
+--  Element expects an element that has one of the following Declaration_Kinds:
+--    A_Formal_Procedure_Declaration
+--    A_Formal_Function_Declaration
+--    A_Function_Declaration
 --    A_Private_Type_Declaration
 --    A_Private_Extension_Declaration
 --    A_Procedure_Declaration
---    A_Function_Declaration
+--    A_Type_Declaration
 --
---  Expected Definition_Kinds:
---    A_Type_Definition
+--  or an element that has one of the following Definition_Kinds:
+--    A_Private_Extension_Definition
 --    A_Private_Type_Definition                (Gela: couldn't be abstract)
 --    A_Tagged_Private_Type_Definition
---    A_Private_Extension_Definition
---    An_Interface_Type_Definition             (Gela: couldn't have abstract)
+--    A_Type_Definition
 --    A_Tagged_Record_Type_Definition          (Added by Gela)
 --    A_Derived_Type_Definition                (Added by Gela)
 --    A_Derived_Record_Extension_Definition    (Added by Gela)
 --
---  Expected Formal_Type_Kinds:
+--  or an element that has one of the following Formal_Type_Kinds:
 --    A_Formal_Private_Type_Definition         (Gela: couldn't have abstract)
 --    A_Formal_Tagged_Private_Type_Definition
 --    A_Formal_Derived_Type_Definition
---
---
---  Returns False for any other element, including a Nil_Element.
---
--------------------------------------------------------------------------------
---  13.xx function Has_Reverse
--------------------------------------------------------------------------------
-
-   function Has_Reverse (Element : in Asis.Element) return Boolean;
-
--------------------------------------------------------------------------------
---  Element specifies the Element to query.
---
---  Returns True if the reserved word Reverse appears in the Element.
---
---  Expected Declaration_Kinds:
---    A_Loop_Parameter_Specification
---
---  Returns False for any other Element including a Nil_Element.
 --
 -------------------------------------------------------------------------------
 --  13.xx function Has_Aliased
@@ -930,37 +828,90 @@ package Asis.Elements is
 -------------------------------------------------------------------------------
 --  Element specifies the Element to query.
 --
---  Returns True if the reserved word Aliased appears in the element.
+--  Returns True if the reserved word *aliased* appears in Element, and
+--  False otherwise.
 --
---  Expected Declaration_Kinds:
---    A_Variable_Declaration
+--  Returns False for any unexpected element, including a Nil_Element.
+--
+--  Element expects an element that has one of the following Declaration_Kinds:
 --    A_Constant_Declaration
 --    A_Deferred_Constant_Declaration
 --    A_Return_Object_Specification
+--    A_Variable_Declaration
 --
---  Expected Definition_Kinds:
+--  Element expects an element that has one of the following Declaration_Kinds:
 --    A_Component_Definition
 --
---  Returns False for any other Element, including a Nil_Element.
---
 -------------------------------------------------------------------------------
---  13.xx function Has_Synchronized
+--  13.xx function Has_Limited
 -------------------------------------------------------------------------------
 
-   function Has_Synchronized (Element : in Asis.Element) return Boolean;
+   function Has_Limited (Element : in Asis.Element) return Boolean;
 
 -------------------------------------------------------------------------------
 --  Element specifies the Element to query.
 --
---  Returns true if the reserved word Synchronized appears in the
---  element.
+--  Returns True if the reserved word *limited* appears in Element, and
+--  False otherwise.
 --
---  Expected Definition_Kinds:
+--  Returns False for any unexpected element, including a Nil_Element.
+--
+--  Element expects an element that has one of the following Clause_Kinds:
+--    A_With_Clause
+--
+--  or an element that has one of the following Declaration_Kinds:
+--    A_Type_Declaration
+--    A_Private_Type_Declaration
+--    A_Private_Extension_Declaration
+--
+--  or an element that has one of the following Definition_Kinds:
+--    A_Type_Definition
+--    A_Private_Type_Definition
+--    A_Tagged_Private_Type_Definition
 --    A_Private_Extension_Definition
 --    An_Interface_Type_Definition
+--    A_Tagged_Record_Type_Definition          (Added by Gela)
+--    A_Record_Type_Definition                 (Added by Gela)
+--    A_Derived_Type_Definition                (Added by Gela)
+--    A_Derived_Record_Extension_Definition    (Added by Gela)
+--
+--  or an element that has one of the following Formal_Type_Kinds:
+--    A_Formal_Private_Type_Definition
+--    A_Formal_Tagged_Private_Type_Definition
+--    A_Formal_Derived_Type_Definition
+--    A_Formal_Interface_Type_Definition       (Added by Gela)
+--
+-------------------------------------------------------------------------------
+--  13.xx function Has_Private
+-------------------------------------------------------------------------------
+
+   function Has_Private (Element : in Asis.Element) return Boolean;
+
+-------------------------------------------------------------------------------
+--  Element specifies the element to query.
+--
+--  Returns True if the reserved word *private* appears in Element, and
+--  False otherwise.
+--
+--  Returns False for any unexpected element, including a Nil_Element.
+--
+--  Element expects an element that has one of the following Declaration_Kinds:
+--    A_Type_Declaration
+--    A_Private_Type_Declaration
+--
+--  or an element that has one of the following Definition_Kinds:
+--    A_Private_Extension_Definition
+--    A_Private_Type_Definition
+--    A_Tagged_Private_Type_Definition
+--    A_Type_Definition
+--
+--  or an element that has one of the following Formal_Type_Kinds:
+--    A_Formal_Private_Type_Definition
+--    A_Formal_Tagged_Private_Type_Definition
 --    A_Formal_Derived_Type_Definition (Added by Gela)
 --
---  Returns False for any other Element including a Nil_Element.
+--  or an element that has one of the following Clause_Kinds:
+--    A_With_Clause
 --
 -------------------------------------------------------------------------------
 --  13.xx function Has_Protected
@@ -971,18 +922,82 @@ package Asis.Elements is
 -------------------------------------------------------------------------------
 --  Element specifies the Element to query.
 --
---  Returns true if the reserved word Protected appears in the element.
+--  Returns True if the reserved word *protected* appears in Element, and
+--  False otherwise.
 --
---  Expected Definition_Kinds:
+--  Returns False for any unexpected element, including a Nil_Element.
+--
+--  Element expects an element that has one of the following Definition_Kinds:
 --    An_Interface_Type_Definition
 --    A_Protected_Definition
 --
---  Expected Declaration_Kinds
+--  or an element that has one of the following Declaration_Kinds
+--    A_Protected_Body_Declaration
 --    A_Protected_Type_Declaration
 --    A_Single_Protected_Declaration
---    A_Protected_Body_Declaration
+--
+-------------------------------------------------------------------------------
+--  13.xx function Has_Reverse
+-------------------------------------------------------------------------------
+
+   function Has_Reverse (Element : in Asis.Element) return Boolean;
+
+-------------------------------------------------------------------------------
+--  Element specifies the Element to query.
+--
+--  Returns True if the reserved word *reverse* appears in Element, and
+--  False otherwise.
+--
+--  Returns False for any unexpected element, including a Nil_Element.
+--
+--  Element expects an element that has one of the following Declaration_Kinds:
+--    A_Loop_Parameter_Specification
+--
+-------------------------------------------------------------------------------
+--  13.xx function Has_Synchronized
+-------------------------------------------------------------------------------
+
+   function Has_Synchronized (Element : in Asis.Element) return Boolean;
+
+-------------------------------------------------------------------------------
+--  Element specifies the Element to query.
+--
+--  Returns True if the reserved word *synchronized* appears in Element, and
+--  False otherwise.
+--
+--  Returns False for any unexpected element, including a Nil_Element.
+--
+--  Element expects an element that has one of the following Definition_Kinds:
+--    An_Interface_Type_Definition
+--    A_Private_Extension_Definition
+--    A_Formal_Derived_Type_Definition (Added by Gela)
 --
 --  Returns False for any other Element including a Nil_Element.
+--
+-------------------------------------------------------------------------------
+--  13.xx function Has_Tagged
+-------------------------------------------------------------------------------
+
+   function Has_Tagged (Element : in Asis.Element) return Boolean;
+
+-------------------------------------------------------------------------------
+--  Element specifies the Element to query.
+--
+--  Returns True if the reserved word *tagged* appears in Element, and
+--  False otherwise.
+--
+--  Returns False for any unexpected element, including a Nil_Element.
+--
+--  Element expects an element that has one of the following Definition_Kinds:
+--    A_Tagged_Incomplete_Type_Definition
+--    A_Tagged_Private_Type_Definition
+--    A_Tagged_Record_Type_Definition  (Gela: isn't a Definition_Kind!)
+--
+--  or an element that has one of the following Type_Kinds:
+--    A_Tagged_Record_Type_Definition
+--
+--  or an element that has one of the following Formal_Type_Kinds:
+--    A_Formal_Tagged_Private_Type_Definition
 --
 -------------------------------------------------------------------------------
 --  13.xx function Has_Task
@@ -993,13 +1008,16 @@ package Asis.Elements is
 -------------------------------------------------------------------------------
 --  Element specifies the Element to query.
 --
---  Returns true if the reserved word Task appears in the element.
+--  Returns True if the reserved word *task* appears in Element, and
+--  False otherwise.
 --
---  Expected Definition_Kinds:
+--  Returns False for any unexpected element, including a Nil_Element.
+--
+--  Element expects an element that has one of the following Definition_Kinds:
 --    An_Interface_Type_Definition
 --    A_Task_Definition
 --
---  Expected Declaration_Kinds
+--  or an element that has one of the following Declaration_Kinds
 --    A_Task_Type_Declaration
 --    A_Single_task_Declaration
 --    A_Task_Body_Declaration
@@ -1027,6 +1045,15 @@ package Asis.Elements is
 --    A_Procedure_Declaration
 --    A_Formal_Procedure_Declaration
 --
+--  Note:
+--  This routine tests for the syntactic element null_procedure_declaration;
+--  calling Is_Null_Procedure on a renaming of a null procedure will return
+--  False. Use the routine ASIS.Callable_Views.Is_Null to determine if a
+--  declaration is semantically a null procedure (including renames).
+--
+--  AASIS Note: A generic procedure cannot be null, while generic formal
+--  procedures can be null.
+--
 -------------------------------------------------------------------------------
 -- 13.xx function Is_Abstract_Subprogram
 -------------------------------------------------------------------------------
@@ -1049,6 +1076,15 @@ package Asis.Elements is
 --    A_Function_Declaration
 --    A_Formal_Procedure_Declaration
 --    A_Formal_Function_Declaration
+--
+--  Note: This routine tests for the syntactic element
+--  abstract_subprogram_declaration; calling Is_Abstract_Subprogram on a
+--  renaming of an abstract subprogram will return False. Use the routine
+--  ASIS.Callable_Views.Is_Abstract to determine if a declaration is
+--  semantically an abstract subprogram (including renames).
+--
+--  AASIS Note: A generic subprogram cannot be abstract, while generic formal
+--  subprograms can be abstract.
 --
 -------------------------------------------------------------------------------
 --  13.29 function Is_Nil

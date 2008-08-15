@@ -338,9 +338,16 @@ package Asis.Declarations is
 --  access_definition, or full type definition.
 --
 --  For a single_task_declaration or single_protected_declaration, returns
---  the task_definition or protected_definition following the reserved word
---  "is"; use Is_Task_Definition_Present to determine if the entire definition
---  is omitted.
+--  the task_definition or protected_definition. If no task_definition is
+--  given explicitly (the reserved word is is not written), an empty
+--  task_definition is returned for which Is_Task_Definition_Present returns
+--  False.
+--
+--  If an empty task_definition E is returned, then
+--  Is_Part_of_Implicit(E) = False; Element_Span(E) returns a value where the
+--  First_Column_Number > Last_Column_Numbber and First_Line = Last_Line =
+--  the line of the semicolon; Element_Image(E) = ""; and Lines(E) returns
+--  a single line whose Line_Image = "".
 --
 --  For a Component_Declaration, returns the Component_Definition following
 --  the colon.
@@ -852,9 +859,6 @@ package Asis.Declarations is
 
 -------------------------------------------------------------------------------
 --  Declaration  - Specifies the function declaration to query.
---
---  Returns the subtype mark expression for the return type for any
---  function declaration.
 --
 --  Returns a definition that corresponds to the result subtype
 --  of the function, as specified by a subtype_indication (with
@@ -2294,11 +2298,12 @@ package Asis.Declarations is
 --  Declaration   - Specifies the declaration to query.
 --
 --  Returns a list of subtype marks making up the interface_list in the
---  argument declaration, in their order of appearance.
+--  argument declaration, in their order of appearance. If Declaration has no
+--  progenitors, an empty list is returned.
 --
 --  Appropriate Declaration_Kinds:
 --     A_Private_Extension_Declaration
---     A_Private_Type_Declaration       -- ??? Mistake ??? (RMM)
+--     A_Private_Type_Declaration       -- (Gela: ??? Mistake ???)
 --     A_Task_Type_Declaration
 --     A_Protected_Type_Declaration
 --     A_Single_Task_Declaration

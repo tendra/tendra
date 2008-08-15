@@ -1,0 +1,62 @@
+!standard 3.9.5                                     06-12-11  SI99-0017-1/03
+!class binding interpretation 06-04-20
+!status ARG Approved  12-0-0  06-11-17
+!status work item 06-07-19
+!status received 06-07-19
+!priority High
+!difficulty Easy
+!qualifier Omission
+!subject Trait_Kind is unclear for access definitions
+
+!summary
+
+The description of Trait_Kinds is unclear for An_Access_Definition_Trait.
+
+!question
+
+Should the description of Trait_Kinds be updated to clarify the
+meaning of an_access_definition_trait (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+Replace the first two paragraphs of 3.9.5
+
+with:
+
+  Trait_Kinds provide a means of further classifying the syntactic structure 
+  or "trait" of certain A_Declaration and A_Definition elements.
+  Trait_Kinds are determined only by the presence (or absence) of certain
+  syntactic constructs. The semantics of an element are not considered.
+
+  The syntax of interest here are the reserved words "abstract", "aliased", 
+  "limited", "private", "reverse", whereever they appear, and the reserved 
+  word "access" when it qualifies a definition defining an anonymous type
+  (an access_definition).
+  Trait_Kinds enumerates all combinations useful in this classification.
+
+
+Replace the comment following An_Ordinary_Trait with
+   -- The declaration or definition does not have any of the following traits
+
+Replace the comment following An_Access_Definition_Trait with
+   -- The definition defines an anonymous access type
+ 
+!discussion
+
+This wording change was the result of a discussion on SI99-0002 at the Porto ARG meeting,
+questioning the wording '... and "access" when it appears in an_access_definition'.
+This change is to clarify that the intent is for the an_access_definition_trait
+to apply to an access_definition, and not to an access_type_definition. 
+
+Note that SI-22 recommends that this entire type become obsolescent, so we're
+not adding any new kinds of entities to the supported traits.
+
+!appendix
+
+
+****************************************************************
+

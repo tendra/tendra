@@ -436,6 +436,19 @@ package body Asis.Elements is
       end if;
    end Has_Protected;
 
+   ----------------
+   -- Has_Tagged --
+   ----------------
+
+   function Has_Tagged (Element : in Asis.Element) return Boolean is
+   begin
+      if Assigned (Element) then
+         return Has_Tagged (Element.all);
+      else
+         return False;
+      end if;
+   end Has_Tagged;
+
    --------------
    -- Has_Task --
    --------------

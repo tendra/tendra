@@ -1,0 +1,159 @@
+!standard 16.1                                            06-12-14  SI99-0015-1/03
+!class binding interpretation 06-04-20
+!status ARG Approved  8-0-2  06-06-10
+!status work item 06-04-20
+!status received 06-04-03
+!priority High
+!difficulty Easy
+!qualifier Error
+!subject Correct Corresponding_Type_Operators
+
+!summary
+
+ASIS V2 didn't allow the function Corresponding_Type_Operators to accept
+all approprriate Definition_Kinds.
+
+!question
+
+Should the ommission to function Corresponding_Type_Operators in ASIS V2
+be corrected? (Yes.)
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+Replace the allowed Definition_Kinds in 16.1 (function Corresponding_Type_Operators) by:
+
+ Appropriate Definition_Kinds:
+      A_Type_Definition
+      A_Private_Type_Definition
+      A_Tagged_Private_Type_Definition
+      A_Private_Extension_Definition
+      A_Task_Definition
+      A_Protected_Definition
+      A_Formal_Type_Definition
+
+   Also, drop "For limited private types," as all types allow user-defined
+   equality operators Ada 95.
+
+!discussion
+
+This change is technically incompatible. However, only programs that rely
+on Asis_Failed to be raised for one of the new Definition_Kinds would fail;
+there should be very few such programs.
+
+Recommended by Gary E Barnes 06-04-03, see "!appendix" section.
+
+!appendix
+
+Subject: Re: Asis.Definitions.Corresponding_Type_Operators
+From: Gary E Barnes
+Date: Mon, 3 Apr 2006 20:58:13 -0600
+
+It is something that ASIS v1 could do that ASIS v2 can not do.  In 
+particular, there are important language semantics made visible in v1 that 
+are hidden in v2.  I would think this should be on the list of things to 
+be fixed in ASIS v3.  Below is the way I would write it up.
+
+
+In ASIS v2, section 16.1, the function Corresponding_Type_Operators only
+works on elements of Definition_Kind:
+
+    A_Type_Definition
+    A_Formal_Type_Definition
+
+In ASIS v1, <no section, package Asis.Declarations>, the function
+Type_Operatorsions worked on Element_Kind:
+
+    A_Type_Definition
+
+The kind named "A_Type_Definition" in ASIS v1 and v2 are very different. 
+In
+ASIS v1 this Element_Kind included all of:
+
+     type Type_Definition_Kinds is
+        new Asis_Vendor_Primitives.Enums.Type_Definition_Kinds;
+     -- (
+     --  A_Subtype_Definition,   -- Though not an Ada term, this kind is
+     --                          -- distinct from a subtype indication that
+     --                          -- is a component of several other
+     --                          -- Type_Definition_Kinds
+     --
+     --  An_Enumeration_Type_Definition,
+     --  An_Integer_Type_Definition,
+     --  A_Float_Type_Definition,
+     --  A_Fixed_Type_Definition,
+     --  An_Array_Type_Definition,
+     --  A_Record_Type_Definition,
+     --  An_Access_Type_Definition,
+     --  A_Derived_Type_Definition,
+     --  A_Task_Type_Definition,
+     --  A_Private_Type_Definition,
+     --  A_Limited_Private_Type_Definition,
+     --
+     --  A_Generic_Discrete_Subtype_Definition,
+     --  A_Generic_Integer_Subtype_Definition,
+     --  A_Generic_Float_Subtype_Definition,
+     --  A_Generic_Fixed_Subtype_Definition,
+     --  A_Generic_Array_Type_Definition,
+     --  A_Generic_Access_Type_Definition,
+     --  A_Generic_Private_Type_Definition,
+     --  A_Generic_Limited_Private_Type_Definition,
+     --
+     --  A_Universal_Integer_Definition,     -- only in package Standard
+     --  A_Universal_Real_Definition,        -- only in package Standard
+     --  A_Universal_Fixed_Definition,       -- only in package Standard
+     --
+     --  Not_A_Type_Definition);
+
+This list included everything in the language that will cause primitive
+operations (primitive subprograms) to be implicitly defined.
+
+ASIS v2 broke the ASIS v1 Type_Definition_Kinds into two various subgroups
+of Definition_Kinds and mixed in things such as A_Discrete_Range that are
+dissimilar and in particular are not primitive declaring type definitions.
+This was extremely incompatible but is irreversible at this point.
+
+When this was done at least one function interface change was missed.  The
+ASIS v2 interface Corresponding_Type_Operators replaced the ASIS v1
+interface Type_Operators.  When the v1 A_Type_Definition was broken up 
+this interface should have been given a new set of acceptable Element kinds
+corresponding to all of the old acceptable Element kinds.  That didn't
+happen.
+
+Whereas it presently is limited to only a subset of possible primitive
+declaring type definitions by the list:
+
+-- Appropriate Definition_Kinds:
+--      A_Type_Definition
+--      A_Formal_Type_Definition
+
+It should have been expanded to include all of the original varieties of
+primitive subprogram declaring type definitions by the list:
+
+-- Appropriate Definition_Kinds:
+--      A_Type_Definition
+--      A_Record_Definition
+--      A_Null_Record_Definition
+--      A_Private_Type_Definition
+--      A_Tagged_Private_Type_Definition
+--      A_Private_Extension_Definition
+--      A_Task_Definition
+--      A_Protected_Definition
+--      A_Formal_Type_Definition
+
+Repairing this in ASIS v3 will be incompatible.  However I would argue that
+the only programs that will notice this change are those that reply on
+having the Asis_Failed exception raised when one of the newly appropriate
+Definition_Kinds is passed in.  Other than ASIS implementation testing
+programs I would expect the list of such programs to be empty.
+
+Without making this change there is literally no way using the ASIS
+specification to discover the list of primitive subprogram for (as just 
+one example) a tagged private type.
+
+
+****************************************************************
+

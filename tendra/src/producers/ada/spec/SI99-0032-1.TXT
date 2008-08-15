@@ -1,0 +1,196 @@
+!standard 3.9.9                                   08-02-21  SI99-0032-1/03
+!standard 3.9.13
+!standard 15.9
+!standard 15.49
+!standard 16.39
+!class Binding Interpretation 07-12-06
+!status ARG Approved  7-0-2  08-02-08
+!status work item 07-12-06
+!status received 07-12-03
+!priority Medium
+!difficulty Easy
+!qualifier Omission
+!subject Corrections for SI99-0004-1 and SI99-0006-1
+
+!summary
+
+Add Universal_Access to Root_Type_Kinds.
+
+An_Access_Definition does indeed belong in Definition_Kinds.
+
+The details of the empty task_definition potentially returned by
+Object_Declaration_Subtype are defined.
+
+Progentitor_List can be called on a type definition that does not
+have an interface_list; in this case the returned list is empty.
+
+
+!question
+
+(1) The Amendment (Ada 2005) defines a new universal type (universal_access), so
+a new enumeration literal should be added to Root_Type_Kinds.
+
+(2) SI99-0004-1 says that An_Access_Definition should be added to
+Asis.Definition_Kinds after An_Enumeration_Literal_Specification. But that
+literal is not in Definition_Kinds. Where should this be added?
+
+(3) 15.9 as modified by SI99-0004-1 says: "For a single_task_declaration or
+single_protected_declaration, returns the task_definition or protected_definition
+following the reserved word is; use Is_Task_Definition_Present to determine
+if the entire definition is omitted." This makes no sense in the case where
+there is no definition present - there is nothing to return. What should this say?
+
+(4) What does Progenitor_List (defined by SI99-0006-1) return for a type that
+does not have an interface_list?
+
+!recommendation
+
+(See summary.)
+
+!wording
+
+Modify 3.9.9 as follows:
+
+      ...
+      An_Others_Choice                -- 3.8.1(5), 4.3.1(5), 4.3.3(5), 11.2(5)
+      {An_Access_Definition           -- 3.10(6)}
+      ...
+
+[Note: SI99-0011 adds two items to this enumeration; this one is intended to
+precede those items.]
+
+Modify 3.9.13 as follows:
+
+   type Root_Type_Kinds is (
+
+      Not_A_Root_Type_Definition,            --  An unexpected element
+
+      A_Root_Integer_Definition,             --  3.4.1(8)
+      A_Root_Real_Definition,                --  3.4.1(8)
+
+      A_Universal_Integer_Definition,        --  3.4.1(6)
+      A_Universal_Real_Definition,           --  3.4.1(6)
+      A_Universal_Fixed_Definition{,         --  3.4.1(6)
+      A_Universal_Access_Definition});       --  3.4.1(6)
+
+Modify the third text paragraph of 15.9 (now Object_Declaration_Subtype):
+
+For a single_task_declaration or single_protected_declaration, returns
+the task_definition or protected_definition{.}[ following the reserved word
+is; use Is_Task_Definition_Present to determine if the entire definition
+is omitted.]{ If no task_definition is given explicitly (the reserved word is
+is not written), an empty task_definition is returned for which
+Is_Task_Definition_Present returns False.}
+
+{If an empty task_definition E is returned, then Is_Part_of_Implicit(E) = False;
+Element_Span(E) returns a value where the First_Column_Number > Last_Column_Number and
+First_Line = Last_Line = the line of the semicolon; Element_Image(E) = ""; and
+Lines(E) returns a single line whose Line_Image = "".}
+
+Modify the second text paragraph of 15.49 (Progenitor_List):
+
+Returns a list of subtype marks making up the interface_list in the argument
+declaration, in their order of appearance.{ If Declaration has no progenitors,
+an empty list is returned.}
+
+Modify the second text paragraph of 16.39 (Is_Task_Definition_Present):
+
+Returns True if the element has a {task_definition that is given explicitly}[task definition].
+
+!discussion
+
+(1) is obviously needed. (2) is correcting a bug in the original SI and specifying the
+location relative to SI99-0011-1.
+
+(3) Makes the wording meaningful, and defines the details of the empty task_definition.
+Note that Is_Part_of_Implicit has to return False for the empty task_definition so that
+it can be queried for its source information.
+
+(4) is needed in order that it is clear what happens with types without an Interface_List.
+
+!appendix
+
+!topic Add A_Universal_Access_Definition to Root_Type_Kinds
+!reference Ada 2005 RM 3.4.1(6)
+!from Maxim Reznik 07-12-01
+!keywords universal access
+!discussion
+
+The Amendment (Ada 2005) defines new universal type (universal_access), so
+new enumeration literal should be added to Root_Type_Kinds:
+
+-------------------------------------------------------------------------------
+--  3.9.13 type Root_Type_Kinds
+-------------------------------------------------------------------------------
+--  Root_Type_Kinds
+--   Literals                               -- Reference Manual
+-------------------------------------------------------------------------------
+
+   type Root_Type_Kinds is (
+
+      Not_A_Root_Type_Definition,            --  An unexpected element
+
+      A_Root_Integer_Definition,             --  3.4.1(8)
+      A_Root_Real_Definition,                --  3.4.1(8)
+
+      A_Universal_Integer_Definition,        --  3.4.1(6)
+      A_Universal_Real_Definition,           --  3.4.1(6)
+      A_Universal_Fixed_Definition,          --  3.4.1(6)
+      A_Universal_Access_Definition);        --  3.4.1(6)
+
+I think it could be part of SI99-0004-1.
+
+****************************************************************
+
+From: Greg Gicca
+Sent: Wednesday, January 23, 2008  10:08 AM
+
+In SI99-0004-1, we have
+
+!wording
+
+* Extend existing Element classification: -- ASIS 3.9.9
+  - add An_Access_Definition to Asis.Definition_Kinds after
+    An_Enumeration_Literal_Specification
+   
+   
+ 
+The above is found in Declaration_Kinds, not Definition_Kinds.  Did we 
+mean the first?
+
+****************************************************************
+
+From: Sergey I. Rybin
+Sent: Wednesday, January 23, 2008  11:02 AM
+
+> The above is found in Declaration_Kinds, not Definition_Kinds.  Did we 
+> mean the first?
+
+An_Access_Definition in no case should be added to Declaration_Kinds.
+
+I think "after An_Enumeration_Literal_Specification" is a bug here.
+
+What is the right place for it in Definition_Kinds? May be, between
+An_Others_Choice and An_Incomplete_Type_Definition?
+
+****************************************************************
+
+From: Greg Gicca
+Sent: Wednesday, January 23, 2008  5:49 PM
+
+Sergey's reply makes sense.  Should this SI be examined thoroughly and 
+then reviewed at the next meeting or should I check it out and try for 
+approval via e-mail to make the updates?
+
+****************************************************************
+
+From: Randy Brukardt
+Sent: Wednesday, January 23, 2008  7:22 PM
+
+SI-32 fixes another bug (an omission) from SI99-0004, so my suggestion is to
+make the fix there. (Presuming that this is the only bug in it; if there are
+more bugs, we should put SI99-0004 back on the agenda, with all of the fixes
+including the SI-32 one). Otherwise, we'll never finish anything (most AIs
+and SIs have bugs if you look hard enough).
+
+****************************************************************

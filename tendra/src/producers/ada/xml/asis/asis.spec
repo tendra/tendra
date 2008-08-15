@@ -305,10 +305,10 @@ package Asis is
 --
 --  For example, Element_Kinds'A_Declaration might be classified into
 --  Declaration_Kinds'A_Parameter_Specification which might be further
---  classified into Trait_Kinds'An_Access_Definition_Trait.
+--  classified into Mode_Kinds'An_In_Mode.
 --  This fully identifies the syntax of an element such as:
 --
---        (Who : access Person)
+--        (Who : in Person)
 --
 --  All Element_Kinds and subordinate kinds Queries are in Asis.Elements.
 --
@@ -327,17 +327,13 @@ package Asis is
 --                                          -> Operator_Kinds
 --
 --         A_Declaration         -> Declaration_Kinds
---                                          -> Trait_Kinds
 --                                          -> Declaration_Origins
 --                                          -> Mode_Kinds
 --                                          -> Subprogram_Default_Kinds
 --
 --         A_Definition          -> Definition_Kinds
---                                          -> Trait_Kinds
 --                                          -> Type_Kinds
---                                                     -> Trait_Kinds
 --                                          -> Formal_Type_Kinds
---                                                     -> Trait_Kinds
 --                                          -> Access_Type_Kinds
 --                                          -> Root_Type_Kinds
 --                                          -> Constraint_Kinds
@@ -490,16 +486,14 @@ package Asis is
      A_Protected_Type_Declaration,            --  9.4(2)
      An_Incomplete_Type_Declaration,          --  3.2.1(2),3.10(2)
      A_Private_Type_Declaration,              --  3.2.1(2),7.3(2)
-                              --              --         -> Trait_Kinds
      A_Private_Extension_Declaration,         --  3.2.1(2),7.3(3)
-                              --              --         -> Trait_Kinds
 
      A_Subtype_Declaration,                   --  3.2.2(2)
 
-     A_Variable_Declaration,                  --  3.3.1(2) -> Trait_Kinds
-     A_Constant_Declaration,                  --  3.3.1(4) -> Trait_Kinds
+     A_Variable_Declaration,                  --  3.3.1(2)
+     A_Constant_Declaration,                  --  3.3.1(4)
      A_Deferred_Constant_Declaration,         --  3.3.1(6),7.4(2)
-                              --              --         -> Trait_Kinds
+
      A_Single_Task_Declaration,               --  3.3.1(2),9.1(3)
      A_Single_Protected_Declaration,          --  3.3.1(2),9.4(2)
 
@@ -508,18 +502,17 @@ package Asis is
 
      An_Enumeration_Literal_Specification,    --  3.5.1(3)
 
-     A_Discriminant_Specification,            --  3.7(5)   -> Trait_Kinds
+     A_Discriminant_Specification,            --  3.7(5)
      A_Component_Declaration,                 --  3.8(6)
 
      A_Return_Object_Specification,           --  6.5(2)
 
-     A_Loop_Parameter_Specification,          --  5.5(4)   -> Trait_Kinds
+     A_Loop_Parameter_Specification,          --  5.5(4)
 
-     A_Procedure_Declaration,                 --  6.1(4)   -> Trait_Kinds
-     A_Function_Declaration,                  --  6.1(4)   -> Trait_Kinds
+     A_Procedure_Declaration,                 --  6.1(4)
+     A_Function_Declaration,                  --  6.1(4)
 
-     A_Parameter_Specification,               --  6.1(15)  -> Trait_Kinds
-                              --              --         -> Mode_Kinds
+     A_Parameter_Specification,               --  6.1(15) -> Mode_Kinds
      A_Procedure_Body_Declaration,            --  6.3(2)
      A_Function_Body_Declaration,             --  6.3(2)
 
@@ -618,15 +611,18 @@ package Asis is
        An_Indicator_of_Not_Overriding);  -- 8.3.1 (2)
 
 -------------------------------------------------------------------------------
---  3.9.5 type Trait_Kinds
+--  3.9.5 type Trait_Kinds (Obsolescent) - see clause X
 -------------------------------------------------------------------------------
 --
---  Trait_Kinds provide a means of further classifying the syntactic structure
+--  Trait_Kinds provide a means of further classifying the syntactic structure 
 --  or "trait" of certain A_Declaration and A_Definition elements.
 --  Trait_Kinds are determined only by the presence (or absence) of certain
---  reserved words.  The semantics of an element are not considered.
---  The reserved words of interest here are "abstract", "aliased", "limited",
---  "private", "reverse", and "access" when it appears in an access_definition.
+--  syntactic constructs. The semantics of an element are not considered.
+--
+--  The syntax of interest here are the reserved words "abstract", "aliased", 
+--  "limited", "private", "reverse", whereever they appear, and the reserved 
+--  word "access" when it qualifies a definition defining an anonymous type
+--  (an access_definition).
 --  Trait_Kinds enumerates all combinations useful in this classification.
 --
 --  For example, A_Variable_Declaration element that is semantically a
@@ -675,15 +671,14 @@ package Asis is
 
      Not_A_Trait,                         --  An unexpected element
 
-     An_Ordinary_Trait,                --  The declaration or definition does
-                                       --  not contain the reserved words
-                                       --  "aliased", "reverse", "private",
-                                       --  "limited", "abstract", or
-                                       --  "access" in an access_definition
+     An_Ordinary_Trait,                   --  The declaration or definition
+                                          --  does not have any of the
+                                          --  following traits 
 
      An_Aliased_Trait,                    --  "aliased" is present
-     An_Access_Definition_Trait,          --  "access" in an access_definition
-                                          --  is present (obsolete in Ada 2005)
+     An_Access_Definition_Trait,          --  The definition defines an
+                                          --  anonymous access type
+
      A_Reverse_Trait,                     --  "reverse" is present
      A_Private_Trait,                     --  Only "private" is present
      A_Limited_Trait,                     --  Only "limited" is present
@@ -758,12 +753,12 @@ package Asis is
 
      Not_A_Definition,                 --  An unexpected element
 
-     A_Type_Definition,                --  3.2.1(4)    -> Type_Kinds
+     A_Type_Definition,                --  3.2.1(4)
 
      A_Subtype_Indication,             --  3.2.2(3)
      A_Constraint,                     --  3.2.2(5)    -> Constraint_Kinds
 
-     A_Component_Definition,           --  3.6(7)      -> Trait_Kinds
+     A_Component_Definition,           --  3.6(7)
 
      A_Discrete_Subtype_Definition,    --  3.6(6)      -> Discrete_Range_Kinds
      A_Discrete_Range,                 --  3.6.1(3)    -> Discrete_Range_Kinds
@@ -780,15 +775,14 @@ package Asis is
 
      An_Others_Choice,                 --  3.8.1(5), 4.3.1(5), 4.3.3(5),11.2(5)
 
-     An_Access_Definition,             --  3.3.1(2), 3.6(7), 3.10(6), 6.1(13),
-                                       --  6.5(2), 8.5.1(2), 12.4(2)
+     An_Access_Definition,             --  3.10(6)
 
      An_Incomplete_Type_Definition,       --  3.10.1(1)
      A_Tagged_Incomplete_Type_Definition, --  3.10.1(2)
 
-     A_Private_Type_Definition,        --  7.3(2)      -> Trait_Kinds
-     A_Tagged_Private_Type_Definition, --  7.3(2)      -> Trait_Kinds
-     A_Private_Extension_Definition,   --  7.3(3)      -> Trait_Kinds
+     A_Private_Type_Definition,        --  7.3(2)
+     A_Tagged_Private_Type_Definition, --  7.3(2)
+     A_Private_Extension_Definition,   --  7.3(3)
 
      A_Task_Definition,                --  9.1(4)
      A_Protected_Definition,           --  9.4(4)
@@ -806,8 +800,8 @@ package Asis is
 
      Not_A_Type_Definition,                  --  An unexpected element
 
-     A_Derived_Type_Definition,              --  3.4(2)    -> Trait_Kinds
-     A_Derived_Record_Extension_Definition,  --  3.4(2)    -> Trait_Kinds
+     A_Derived_Type_Definition,              --  3.4(2)
+     A_Derived_Record_Extension_Definition,  --  3.4(2)
 
      An_Enumeration_Type_Definition,         --  3.5.1(2)
 
@@ -824,8 +818,8 @@ package Asis is
      An_Unconstrained_Array_Definition,      --  3.6(2)
      A_Constrained_Array_Definition,         --  3.6(2)
 
-     A_Record_Type_Definition,               --  3.8(2)    -> Trait_Kinds
-     A_Tagged_Record_Type_Definition,        --  3.8(2)    -> Trait_Kinds
+     A_Record_Type_Definition,               --  3.8(2)
+     A_Tagged_Record_Type_Definition,        --  3.8(2)
 
      An_Interface_Type_Definition,           --  3.9.4 (2) -> Interface_Kinds
 
@@ -842,10 +836,10 @@ package Asis is
 
      Not_A_Formal_Type_Definition,              --  An unexpected element
 
-     A_Formal_Private_Type_Definition,          --  12.5.1(2)   -> Trait_Kinds
-     A_Formal_Tagged_Private_Type_Definition,   --  12.5.1(2)   -> Trait_Kinds
+     A_Formal_Private_Type_Definition,          --  12.5.1(2)
+     A_Formal_Tagged_Private_Type_Definition,   --  12.5.1(2)
 
-     A_Formal_Derived_Type_Definition,          --  12.5.1(3)   -> Trait_Kinds
+     A_Formal_Derived_Type_Definition,          --  12.5.1(3)
 
      A_Formal_Discrete_Type_Definition,         --  12.5.2(2)
 
@@ -940,7 +934,7 @@ package Asis is
       A_Universal_Integer_Definition,        --  3.4.1(6)
       A_Universal_Real_Definition,           --  3.4.1(6)
       A_Universal_Fixed_Definition,          --  3.4.1(6)
-      A_Universal_Access_Definition);        --  3.4.1(6)  Added by Gela
+      A_Universal_Access_Definition);        --  3.4.1(6)
 
 
 -------------------------------------------------------------------------------

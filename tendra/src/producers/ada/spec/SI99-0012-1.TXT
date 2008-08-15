@@ -1,6 +1,7 @@
-!standard 3.9.5                                    07-06-13  SI99-0012-1/05
+!standard 3.9.5                                    07-11-17  SI99-0012-1/06
 !standard 15.27
 !class binding interpretation 06-04-20
+!status ARG Approved  9-0-1  07-11-09
 !status work item 06-04-20
 !status received 06-02-13
 !priority High
@@ -10,7 +11,8 @@
 
 !summary
 
-Add support for null procedure declarations in ASIS via boolean queries.
+Add support for abstract subprogram declarations and null procedure declarations
+in ASIS via boolean queries.
 
 !question
 
@@ -43,6 +45,11 @@ Add two new functions to clause 13:
           A_Procedure_Declaration
           A_Formal_Procedure_Declaration
 
+    Note: This routine tests for the syntactic element null_procedure_declaration; calling
+    Is_Null_Procedure on a renaming of a null procedure will return False. Use the
+    routine ASIS.Callable_Views.Is_Null to determine if a declaration is semantically a
+    null procedure (including renames).
+
     AASIS Note: A generic procedure cannot be null, while generic formal procedures can
     be null.
 
@@ -66,8 +73,13 @@ Add two new functions to clause 13:
           A_Formal_Procedure_Declaration
           A_Formal_Function_Declaration
 
+    Note: This routine tests for the syntactic element abstract_subprogram_declaration;
+    calling Is_Abstract_Subprogram on a renaming of an abstract subprogram will return False.
+    Use the routine ASIS.Callable_Views.Is_Abstract to determine if a declaration is
+    semantically an abstract subprogram (including renames).
+
     AASIS Note: A generic subprogram cannot be abstract, while generic formal
-    subrprograms can be abstract.
+    subprograms can be abstract.
 
 
 Add the following paragraph just before the "Returns A_Pragma ..."
@@ -81,9 +93,9 @@ Returns A_Nil_Element for a null procedure or an abstract procedure.
 For the original suggestion from Sergey Rybin see the appendix.
 Another idea suggested extending the declarations_kinds to include 
 A_Null_Procedure_Declaration. Discussion at the Porto and Albuquerque 
-meetings suggested that a null proceduree should be handled in a manner 
+meetings suggested that a null procedure should be handled in a manner 
 similar to abstract subprograms. As it was decided not to
-update the trait_kinds to accomodate abstract subprograms, the abstract
+update the trait_kinds to accommodate abstract subprograms, the abstract
 characteristic of an element is determined by a has_abstract query
 that would return true for declarations that include the abstract keyword.
 

@@ -1,4 +1,4 @@
-!standard 3.9.5                                     07-06-13  SI99-0004-1/04
+!standard 3.9.5                                     07-11-17  SI99-0004-1/05
 !standard 3.9.9
 !standard 3.9.12
 !standard 13.10
@@ -6,6 +6,7 @@
 !standard 16.19
 !standard 16.20
 !class binding interpretation 06-04-20
+!status ARG Approved  9-0-1  07-11-09
 !status work item 06-04-20
 !status received 06-02-13
 !priority High
@@ -19,7 +20,7 @@ Add An_Access_Definition to Asis.Definition_Kinds and define a new type for
 the new types of access definition kinds.
 
 The new null exclusion trait of an access type needs to be added to type
-Trait_Kinds and its existance made visible.
+Trait_Kinds and its existence made visible.
 
 Change the functionality of Object_Declaration_View to also return the values
 returned by Asis.Declarations.Declaration_Subtype_Mark. Change name to
@@ -28,7 +29,7 @@ Object_Declaration_Subtype.
 
 !question
 
-The Amendment (Ada 2005) defines new access defition kinds; should these
+The Amendment (Ada 2005) defines new access definition kinds; should these
 be added as a new value in Asis.Definition_Kinds and should the new
 Access_Definitions kinds be available in a new enumeration type
 in package Asis? (Yes.)
@@ -217,7 +218,7 @@ Add the following query to ASIS.Definitions:
     function Is_Task_Definition_Present (Definition : in Asis.Definition) 
                   return Boolean; 
  
-        Defintion specifies the definition element to query.
+        Definition specifies the definition element to query.
 
         Returns True if the element has a task definition.
 
@@ -240,9 +241,6 @@ Make function Result_Profile obsolescent, and replace it with:
                          return Asis.Definition; 
  
        Declaration specifies the function declaration to query. 
- 
-       Returns the subtype mark expression for the return type for any
-       function declaration. 
  
        Returns a definition that corresponds to the result subtype
        of the function, as specified by a subtype_indication (with

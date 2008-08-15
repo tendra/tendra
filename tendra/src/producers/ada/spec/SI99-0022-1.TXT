@@ -1,13 +1,14 @@
-!standard 13.43                                    07-11-07  SI99-0022-1/04
+!standard 13.43                                    08-02-15  SI99-0022-1/07
 !standard 13.44
 !standard 13.45
 !class Binding Interpretation 06-11-17
+!status ARG Approved  6-0-3  08-02-08
 !status work item 06-10-10
 !status received 06-10-10
 !priority High
 !difficulty Medium
 !qualifier Omission
-!subject Add boolean queries to ease use of trait_kinds
+!subject Add Boolean queries to ease use of Trait_Kinds
 
 !summary
 
@@ -23,7 +24,7 @@ checking for a number of traits. This is made worse with Ada 2005. Should there
 be an alternative method of determining the presence/absence of syntax
 constructs? (Yes.)
 
-Also, the Amendment (Ada 2005) defines new types of With clauses; it needs to
+Also, the Amendment (Ada 2005) defines new types of With clauses; it must
 be possible to determine what type of with clause is present by extending
 traits or its replacement.
 
@@ -45,104 +46,46 @@ Trait_kinds and the associated trait_kind query become obsolescent.
 
 The following queries are added:
 
+function Has_Abstract ( Element : in Asis.Element ) return Boolean;
+function Has_Aliased (Element : in Asis.Element ) return Boolean;
 function Has_Limited ( Element : in Asis.Element ) return Boolean;
 function Has_Private ( Element : in Asis.Element ) return Boolean;
-function Has_Abstract ( Element : in Asis.Element ) return Boolean;
-function Has_Reverse (Element : in Asis.Element ) return Boolean;
-function Has_Aliased (Element : in Asis.Element ) return Boolean;
-function Has_Synchronized (Element : in Asis.Element ) return Boolean;
-
-function Has_Task (Element : in Asis.Element ) return Boolean;
 function Has_Protected (Element : in Asis.Element ) return Boolean;
+function Has_Reverse (Element : in Asis.Element ) return Boolean;
+function Has_Synchronized (Element : in Asis.Element ) return Boolean;
+function Has_Tagged (Element : in Asis.Element ) return Boolean;
+function Has_Task (Element : in Asis.Element ) return Boolean;
 
-The two functions Has_Task and Has_Protected are included for
-consistency. They are not necessary to replace Trait_Kinds.
+The four functions Has_Task, Has_Protected, Has_Synchronized and Has_Tagged 
+are included for consistency. They are not necessary to replace Trait_Kinds.
 
 !wording
 
-Need to update 3.9.4 to remove the references to further classication
-via trait_kinds
+- In section 3.9.1, 
+  replace "Trait_Kinds'An_Access_Definition_Trait"
+  with "Mode_Kinds'An_In_Mode"
+
+  replace ( Who : access Person )
+  with    ( Who : in Person )
+
+  Delete all 4 lines that contain "-> Trait_Kinds"
+
+In 3.9.4,
+- Delete all 10 occurrences of "-> Trait_Kinds"
+
+In 3.9.9, 3.9.10 and 3.9.11, 
+- delete all 11 occurrences of "-> Trait_Kinds"
+
+Make 3.9.5 obsolescent
+- Replace "3.9.5 type Trait_Kinds"
+  with "3.9.5 type Trait_Kinds (Obsolescent) - see clause X"
+
+Make 13.10 obsolescent
+- Replace "13.10 function Trait_Kind"
+  with "13.10 function Trait_Kind (Obsolescent) - see clause X"
+
 
 Add the following new clauses to section 13:
-
-13.xx function Has_Limited
-
-
-function Has_Limited ( Element : in Asis.Element ) return Boolean;
-
-Element specifies the Element to query.
-
-Returns True if the reserved word Limited appears in the Element.
-
-Returns True for declarations explicitly defined as limited, limited
-private,
-abstract limited, or abstract limited private.
-
-Returns True for context clauses qualified as limited.
-
-Expected Element_Kinds:
-  A_Declaration
-  A_Definition
-  A_Clause
-
-Expected Declaration_Kinds:
-  A_Type_Declaration
-  A_Private_Type_Declaration
-  A_Private_Extension_Declaration
-
-Expected Definition_Kinds:
-  A_Type_Definition
-  A_Private_Type_Definition
-  A_Tagged_Private_Type_Definition
-  A_Private_Extension_Definition
-  An_Interface_Type_Definition
-
-Expected Formal_Type_Kinds:
-  A_Formal_Private_Type_Definition
-  A_Formal_Tagged_Private_Type_Definition
-  A_Formal_Derived_Type_Definition
-
-Expected Clause_Kinds:
-  A_With_Clause
-
-Returns False for any other element, including a Nil_Element.
-
-
-13.xx function Has_Private
-
-function Has_Private ( Element : in Asis.Element ) return Boolean;
-
-Element specifies the element to query.
-
-Returns True if the reserved word Private appears in the Element.
-
-Returns True for declarations explicitly defined as private, limited
-private, abstract private,
-and abstract limited private.
-
-Returns True for a context clause qualified as private.
-
-Returns False for any unexpected Element_Kind, including a Nil_Element.
-
-Expected Declaration_Kinds:
-  A_Type_Declaration
-  A_Private_Type_Declaration
-
-Expected Definition_Kinds:
-  A_Type_Definition
-  A_Private_Type_Definition
-  A_Tagged_Private_Type_Definition
-  A_Private_Extension_Definition
-
-Expected Formal_Type_Kinds:
-  A_Formal_Private_Type_Definition
-  A_Formal_Tagged_Private_Type_Definition
-
-Expected Clause_Kinds:
-  A_With_Clause
-
-Returns False for any other Element including a Nil_Element.
-
 
 13.xx function Has_Abstract
 
@@ -150,44 +93,30 @@ function Has_Abstract ( Element : in Asis.Element ) return Boolean;
 
 Element specifies the element to query.
 
-Returns True if the reserved word Abstract appears in the Element.
+Returns True if the reserved word *abstract* appears in Element, and
+False otherwise.
 
+Returns False for any unexpected element, including a Nil_Element.
 
-Expected Declaration_Kinds:
-  A_Type_Declaration
+Element expects an element that has one of the following Declaration_Kinds:
+  A_Formal_Procedure_Declaration
+  A_Formal_Function_Declaration
+  A_Function_Declaration
   A_Private_Type_Declaration
   A_Private_Extension_Declaration
   A_Procedure_Declaration
-  A_Function_Declaration
+  A_Type_Declaration
 
-Expected Definition_Kinds:
-  A_Type_Definition
+or an element that has one of the following Definition_Kinds:
+  A_Private_Extension_Definition
   A_Private_Type_Definition
   A_Tagged_Private_Type_Definition
-  A_Private_Extension_Definition
-  An_Interface_Type_Definition
+  A_Type_Definition
 
-Expected Formal_Type_Kinds:
+or an element that has one of the following Formal_Type_Kinds:
   A_Formal_Private_Type_Definition
   A_Formal_Tagged_Private_Type_Definition
   A_Formal_Derived_Type_Definition
-
-
-Returns False for any other element, including a Nil_Element.
-
-
-13.xx function Has_Reverse
-
-function Has_Reverse ( Element : in Asis.Element ) return Boolean;
-
-Element specifies the Element to query.
-
-Returns True if the reserved word Reverse appears in the Element.
-
-Expected Declaration_Kinds:
-  A_Loop_Parameter_Specification
-
-Returns False for any other Element including a Nil_Element.
 
 
 13.xx function Has_Aliased
@@ -196,18 +125,117 @@ function Has_Aliased ( Element : in Asis.Element ) return Boolean;
 
 Element specifies the Element to query.
 
-Returns True if the reserved word Aliased appears in the element.
+Returns True if the reserved word *aliased* appears in Element, and
+False otherwise.
 
-Expected Declaration_Kinds:
-  A_Variable_Declaration
+Returns False for any unexpected element, including a Nil_Element.
+
+Element expects an element that has one of the following Declaration_Kinds:
   A_Constant_Declaration
   A_Deferred_Constant_Declaration
-  A_Return_Object_Specification 
+  A_Return_Object_Specification  
+  A_Variable_Declaration
 
-Expected Definition_Kinds:
+or an element that has one of the following Definition_Kinds:
   A_Component_Definition
 
-Returns False for any other Element, including a Nil_Element.
+
+13.xx function Has_Limited
+
+
+function Has_Limited ( Element : in Asis.Element ) return Boolean;
+
+Element specifies the Element to query.
+
+Returns True if the reserved word *limited* appears in Element, and
+False otherwise.
+
+Returns False for any unexpected element, including a Nil_Element.
+
+Element expects an element that has one of the following Clause_Kinds:
+  A_With_Clause
+
+or an element that has one of the following Declaration_Kinds:
+  A_Type_Declaration
+  A_Private_Type_Declaration
+  A_Private_Extension_Declaration
+
+or an element that has one of the following Definition_Kinds:
+  A_Type_Definition
+  A_Private_Type_Definition
+  A_Tagged_Private_Type_Definition
+  A_Private_Extension_Definition
+  An_Interface_Type_Definition
+
+or an element that has one of the following Formal_Type_Kinds:
+  A_Formal_Private_Type_Definition
+  A_Formal_Tagged_Private_Type_Definition
+  A_Formal_Derived_Type_Definition
+
+
+13.xx function Has_Private
+
+function Has_Private ( Element : in Asis.Element ) return Boolean;
+
+Element specifies the element to query.
+
+Returns True if the reserved word *private* appears in Element, and
+False otherwise.
+
+Returns False for any unexpected element, including a Nil_Element.
+
+Element expects an element that has one of the following Declaration_Kinds:
+  A_Type_Declaration
+  A_Private_Type_Declaration
+
+or an element that has one of the following Definition_Kinds:
+  A_Private_Extension_Definition
+  A_Private_Type_Definition
+  A_Tagged_Private_Type_Definition
+  A_Type_Definition
+
+or an element that has one of the following Formal_Type_Kinds:
+  A_Formal_Private_Type_Definition
+  A_Formal_Tagged_Private_Type_Definition
+
+or an element that has one of the following Clause_Kinds:
+  A_With_Clause
+
+
+13.xx function Has_Protected
+
+function Has_Protected( Element : in Asis.Element ) return Boolean;
+
+Element specifies the Element to query.
+
+Returns True if the reserved word *protected* appears in Element, and
+False otherwise.
+
+Returns False for any unexpected element, including a Nil_Element.
+
+Element expects an element that has one of the following Definition_Kinds:
+  An_Interface_Type_Definition
+  A_Protected_Definition
+
+or an element that has one of the following Declaration_Kinds
+  A_Protected_Body_Declaration         
+  A_Protected_Type_Declaration
+  A_Single_Protected_Declaration
+
+
+13.xx function Has_Reverse
+
+function Has_Reverse ( Element : in Asis.Element ) return Boolean;
+
+Element specifies the Element to query.
+
+Returns True if the reserved word *reverse* appears in Element, and
+False otherwise.
+
+Returns False for any unexpected element, including a Nil_Element.
+
+Element expects an element that has one of the following Declaration_Kinds:
+  A_Loop_Parameter_Specification
 
 
 13.xx function Has_Synchronized
@@ -216,63 +244,59 @@ function Has_Synchronized ( Element : in Asis.Element ) return Boolean;
 
 Element specifies the Element to query.
 
-Returns true if the reserved word Synchronized appears in the
-element. 
+Returns True if the reserved word *synchronized* appears in Element, and
+False otherwise.
 
-Expected Definition_Kinds:
-  A_Private_Extension_Definition
+Returns False for any unexpected element, including a Nil_Element.
+ 
+Element expects an element that has one of the following Definition_Kinds:
   An_Interface_Type_Definition
+  A_Private_Extension_Definition
 
 
-Returns False for any other Element including a Nil_Element.
+13.xx function Has_Tagged
 
-
--------------------------------------------------------------------
-
-13.xx function Has_Protected
-
-function Has_Protected( Element : in Asis.Element ) return Boolean;
+function Has_Tagged( Element : in Asis.Element ) return Boolean;
 
 Element specifies the Element to query.
 
-Returns true if the reserved word Protected appears in the element.
+Returns True if the reserved word *tagged* appears in Element, and
+False otherwise.
 
+Returns False for any unexpected element, including a Nil_Element.
 
-Expected Definition_Kinds:
-  An_Interface_Type_Definition
-  A_Protected_Definition
+Element expects an element that has one of the following Definition_Kinds:
+  A_Tagged_Incomplete_Type_Definition
+  A_Tagged_Private_Type_Definition
+  A_Tagged_Record_Type_Definition
 
-Expected Declaration_Kinds
-  A_Protected_Type_Declaration
-  A_Single_Protected_Declaration
-  A_Protected_Body_Declaration        
+or an element that has one of the following Type_Kinds:
+  A_Tagged_Record_Type_Definition
 
-
-Returns False for any other Element including a Nil_Element.
-
-
+or an element that has one of the following Formal_Type_Kinds:
+  A_Formal_Tagged_Private_Type_Definition
 
 
 13.xx function Has_Task
 
-function Has_Protected( Element : in Asis.Element ) return Boolean;
+function Has_Task( Element : in Asis.Element ) return Boolean;
 
 Element specifies the Element to query.
 
-Returns true if the reserved word Protected appears in the element.
+Returns True if the reserved word *task* appears in Element, and
+False otherwise.
 
+Returns False for any unexpected element, including a Nil_Element.
 
-Expected Definition_Kinds:
+Element expects an element that has one of the following Definition_Kinds:
   An_Interface_Type_Definition
   A_Task_Definition
 
-
-Expected Declaration_Kinds
+or an element that has one of the following Declaration_Kinds
   A_Task_Type_Declaration
   A_Single_task_Declaration
   A_Task_Body_Declaration        
 
-Returns False for any other Element including a Nil_Element.
 
 !discussion
 
@@ -299,6 +323,16 @@ nonsense queries like asking if A_Deferred_Constant has the "Abstract" trait.
 
 The queries need to support determining if "limited" and "private" are present on
 with_clauses, as the Amendment adds limited_with_clauses and private_with_clauses.
+
+As this set of queries provides a uniform approach for querying about the presence of
+certain reserved words, extending the set to cover a larger set of reserved words was
+investigated. Similar queries are added for Task, Protected, Synchronized, and Tagged,
+even though alternate mechanisms exist to determine their presence/absence.
+The reserved words *Constant* and *All* were rejected as adding too much confusion 
+because they could appear in subelements of the element, and whether or not that 
+should be taken into account is unclear. *Until* is covered by the
+A_Delay_Until_Statement Statement_Kind (there is no A_Delay_Statement Statement_Kind, 
+only A_Delay_Until_Statement and A_Delay_Relative_Statement).
 
 !appendix
 
@@ -356,5 +390,76 @@ RM-06 10.1.2
 
 ****************************************************************
 
+!topic SI99-0022-1 corrections
+!reference Ada 2005 RM 7.3(2)
+!from Maxim Reznik 07-12-31
+!keywords abstract private type
+!discussion
+
+Please consider follow changes to ASIS SI99-0022-1.
+
+For function
+
+  function Has_Abstract (Element : in Asis.Element) return Boolean;
+
+Follow Definition_Kinds should be removed:
+--    A_Private_Type_Definition
+--    An_Interface_Type_Definition
+--    A_Formal_Private_Type_Definition
+because they could not have keyword abstract according syntax rules:
+
+private_type_declaration ::=
+  type defining_identifier [discriminant_part] is [[abstract] tagged]
+[limited] private;
+
+Here 'abstract' goes with tagged only, but it has separate
+A_Tagged_Private_Type_Definition kind.
+
+formal_private_type_definition ::= [[abstract] tagged] [limited] private
+
+Here 'abstract' goes with tagged only, but it has separate
+A_Formal_Tagged_Private_Type_Definition kind.
+
+interface_type_definition ::=
+   [limited | task | protected | synchronized] interface [and interface_list]
+
+All interface types are abstract, but none has keyword abstract in the syntax.
+
+Follow Definition_Kinds should be added:
+--    A_Tagged_Record_Type_Definition
+--    A_Derived_Type_Definition
+--    A_Derived_Record_Extension_Definition
+
+record_type_definition ::= [[abstract] tagged] [limited] record_definition
+
+derived_type_definition ::=
+   [abstract] [limited] new parent_subtype_indication [[and
+interface_list] record_extension_part]
+
+
+For function
+
+  function Has_Limited (Element : in Asis.Element) return Boolean;
+
+Follow Definition_Kinds should be added:
+--    A_Tagged_Record_Type_Definition
+--    A_Record_Type_Definition
+--    A_Derived_Type_Definition
+--    A_Derived_Record_Extension_Definition
+---   A_Formal_Interface_Type_Definition
+
+For function
+  function Has_Private (Element : in Asis.Element) return Boolean;
+
+Follow Definition_Kind should be added:
+--    A_Formal_Derived_Type_Definition
+
+For function
+  function Has_Synchronized (Element : in Asis.Element) return Boolean;
+
+Follow Definition_Kind should be added:
+--    A_Formal_Derived_Type_Definition
+
+****************************************************************
 
 

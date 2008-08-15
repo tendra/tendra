@@ -367,6 +367,7 @@
           <attr name="Has_Limited" type="Boolean"/>
           <node name="Tagged_Record_Type_Node">
             <attr name="Has_Abstract" type="Boolean"/>
+            <attr name="Has_Tagged" type="Boolean"/>
           </node>
         </node>
         <node name="Interface_Type_Node">
@@ -499,7 +500,9 @@
       </node>
 
       <node name="Incomplete_Type_Definition_Node">
-        <node name="Tagged_Incomplete_Type_Definition_Node"/>
+        <node name="Tagged_Incomplete_Type_Definition_Node">
+          <attr name="Has_Tagged" type="Boolean"/>
+        </node>
       </node>
 
       <node name="Private_Type_Definition_Node">
@@ -510,6 +513,7 @@
         <attr name="Has_Private" type="Boolean"/>
         <node name="Tagged_Private_Type_Definition_Node">
           <attr name="Has_Abstract" type="Boolean"/>
+          <attr name="Has_Tagged" type="Boolean"/>
         </node>
         <node name="Private_Extension_Definition_Node">
           <attr name="Ancestor_Subtype_Indication"
@@ -541,6 +545,7 @@
           <attr name="Has_Private" type="Boolean"/>
           <node name="Formal_Tagged_Private_Type_Node">
             <attr name="Has_Abstract" type="Boolean"/>
+            <attr name="Has_Tagged" type="Boolean"/>
           </node>
         </node>
         <node name="Formal_Derived_Type_Node">
