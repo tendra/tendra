@@ -1656,6 +1656,7 @@ package body Asis.Gela.Overloads.Walk.Up is
                   Add (Store, Stored);
                   Add (Result, Up_Expression (Tipe));
                elsif Item.Kind = A_Record_Aggregate
+                 or Item.Kind = An_Array_Aggregate
                  or Item.Kind = A_String_Type
                then
                   Stored.Kind := An_Array;
