@@ -65,6 +65,19 @@ package body Asis.Gela.Contexts.Utils is
       use Secondary_Pragma_Lists;
       use Asis.Gela.Unit_Utils;
 
+      function Find_Unit return Asis.Compilation_Unit is
+         Next : Asis.Element;
+      begin
+         for J in 1 .. Length (The_Context.Compilation.all) loop
+            Next := Get_Item (The_Context.Compilation, J);
+            if Next.all in Compilation_Unit_Node'Class then
+               return Asis.Compilation_Unit (Next);
+            end if;
+         end loop;
+
+         return Asis.Nil_Compilation_Unit;
+      end Find_Unit;
+
       Index     : Natural;
       Next      : Asis.Element;
       Last_Unit : Asis.Element;
@@ -89,16 +102,20 @@ package body Asis.Gela.Contexts.Utils is
               and Assigned (Last_Unit)
             then
                Add_Pragma (Last_Unit, Next, True);
-            else
-               if Is_Configuration_Pragma (Pragma_Kind (Next.all)) then
+            elsif Is_Configuration_Pragma (Pragma_Kind (Next.all)) then
                   Make_Configuration_Unit (The_Context);
                   Add_Pragma
                     (Asis.Element (The_Context.Configuration_Unit), Next);
-               else
-                  Errors.Report (Item => Next,
-                                 What => Errors.Error_Syntax_Misplaced_Pragma,
-                                 Argument1 => Pragma_Name_Image (Next.all));
-               end if;
+            elsif Is_Program_Unit_Pragma (Pragma_Kind (Next.all)) then
+               Element_Utils.Set_Enclosing_Compilation_Unit (Next, Find_Unit);
+               Errors.Report (Item => Next,
+                              What => Errors.Error_Syntax_Misplaced_Pragma,
+                              Argument1 => Pragma_Name_Image (Next.all));
+            else
+               Element_Utils.Set_Enclosing_Compilation_Unit (Next, Find_Unit);
+               Errors.Report (Item => Next,
+                              What => Errors.Warning_Syntax_Ignored_Pragma,
+                              Argument1 => Pragma_Name_Image (Next.all));
             end if;
          end if;
 

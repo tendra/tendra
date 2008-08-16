@@ -534,7 +534,7 @@ package body Asis.Gela.Contexts is
       Utils.Parse_Parameters (The_Context);
       Utils.Read_File_And_Supporters (The_Context);
 
-      if The_Context.Error /= Success then
+      if The_Context.Error > Warning then
          Implementation.Set_Status
            (Asis.Errors.Environment_Error,
             "There are compilation errors");

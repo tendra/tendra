@@ -13,7 +13,7 @@ package Asis.Gela.Errors is
 
     type Code is
       (Success_Dummy,
-       Warning_Dummy,
+       Warning_Syntax_Ignored_Pragma,
        Error_Syntax_Assoc_In_Attribute,
        Error_Syntax_Too_Many_Constraints,
        Error_Syntax_Bad_Constraints,
@@ -46,9 +46,12 @@ package Asis.Gela.Errors is
        Fatal_Dummy);
 
     subtype Success_Code is Code range Success_Dummy .. Success_Dummy;
-    subtype Warning_Code is Code range Warning_Dummy .. Warning_Dummy;
+    subtype Warning_Code is Code range
+      Warning_Syntax_Ignored_Pragma .. Warning_Syntax_Ignored_Pragma;
+
     subtype Error_Code   is Code range
       Error_Syntax_Assoc_In_Attribute .. Error_Cant_Read_Unit;
+
     subtype Fatal_Code   is Code range Fatal_Dummy .. Fatal_Dummy;
 
     procedure Report
