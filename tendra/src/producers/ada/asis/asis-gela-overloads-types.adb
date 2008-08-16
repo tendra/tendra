@@ -1464,6 +1464,7 @@ package body Asis.Gela.Overloads.Types is
             case Declaration_Kind (Expression_Type) is
                when An_Ordinary_Type_Declaration
                  | A_Private_Type_Declaration
+                 | A_Formal_Type_Declaration
                  | A_Subtype_Declaration =>
                   Tipe := Type_From_Declaration (Expression_Type, Place);
                when others =>
