@@ -377,16 +377,29 @@ package body Asis.Gela.Classes is
    begin
       Def  := Get_Type_Def (Tipe);
 
-      case Type_Kind (Def) is
-         when An_Unconstrained_Array_Definition =>
-            Mark := Index_Subtype_Definitions (Def) (Index);
-            Result := Type_From_Subtype_Mark (Mark, Tipe.Place);
-         when A_Constrained_Array_Definition =>
-            Def := Discrete_Subtype_Definitions (Def) (Index);
-            Result := Type_From_Discrete_Def (Def, Tipe.Place);
-         when others =>
-            raise Internal_Error;
-      end case;
+      if Definition_Kind (Def) = A_Formal_Type_Definition then
+         case Formal_Type_Kind (Def) is
+            when A_Formal_Unconstrained_Array_Definition =>
+               Mark := Index_Subtype_Definitions (Def) (Index);
+               Result := Type_From_Subtype_Mark (Mark, Tipe.Place);
+            when A_Formal_Constrained_Array_Definition =>
+               Def := Discrete_Subtype_Definitions (Def) (Index);
+               Result := Type_From_Discrete_Def (Def, Tipe.Place);
+            when others =>
+               raise Internal_Error;
+         end case;
+      else
+         case Type_Kind (Def) is
+            when An_Unconstrained_Array_Definition =>
+               Mark := Index_Subtype_Definitions (Def) (Index);
+               Result := Type_From_Subtype_Mark (Mark, Tipe.Place);
+            when A_Constrained_Array_Definition =>
+               Def := Discrete_Subtype_Definitions (Def) (Index);
+               Result := Type_From_Discrete_Def (Def, Tipe.Place);
+            when others =>
+               raise Internal_Error;
+         end case;
+      end if;
 
       return Result;
    end Get_Array_Index_Type;

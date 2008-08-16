@@ -535,12 +535,24 @@ package body Asis.Gela.Overloads.Walk.Down is
       use Asis.Definitions;
       Def  : Asis.Definition := Get_Type_Def (Tipe);
    begin
-      if Type_Kind (Def) = An_Unconstrained_Array_Definition then
-         return Index_Subtype_Definitions (Def)'Length;
-      elsif Type_Kind (Def) = A_Constrained_Array_Definition then
-         return Discrete_Subtype_Definitions (Def)'Length;
+      if Definition_Kind (Def) = A_Formal_Type_Definition then
+         case Formal_Type_Kind (Def) is
+            when A_Formal_Unconstrained_Array_Definition =>
+               return Index_Subtype_Definitions (Def)'Length;
+            when A_Formal_Constrained_Array_Definition =>
+               return Discrete_Subtype_Definitions (Def)'Length;
+            when others =>
+               raise Internal_Error;
+         end case;
       else
-         raise Internal_Error;
+         case Type_Kind (Def) is
+            when An_Unconstrained_Array_Definition =>
+               return Index_Subtype_Definitions (Def)'Length;
+            when A_Constrained_Array_Definition =>
+               return Discrete_Subtype_Definitions (Def)'Length;
+            when others =>
+               raise Internal_Error;
+         end case;
       end if;
    end Array_Dimention;
 
