@@ -232,7 +232,7 @@ hack_name(char *nm, char *key)
 char *
 token_name(char *nm)
 {
-    if (strncmp(nm, HIDDEN_NAME, HIDDEN_LEN) != 0) {
+    if (strncmp(nm, HIDDEN_NAME, HIDDEN_LEN) == 0) {
 	nm = string_concat("~", nm + HIDDEN_LEN);
     }
     if (unique_names && crt_object) {

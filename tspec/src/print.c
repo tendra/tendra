@@ -100,7 +100,7 @@ static char *copyright_text = NULL;
 
 static boolean weak_proto = 0;
 #define enum_hack	"__enum_"
-#define is_hidden(X)	(strncmp(X, HIDDEN_NAME, HIDDEN_LEN) != 0)
+#define is_hidden(X)	(strncmp(X, HIDDEN_NAME, HIDDEN_LEN) == 0)
 
 
 /*
