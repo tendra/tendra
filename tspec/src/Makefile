@@ -16,10 +16,10 @@ TARGETS = hash.o index.o lex.o main.o makefile.o name.o object.o print.o \
 REMOVE = rm -f
 INSTALL = install
 #LEXI=lexi
-#SID=sid
-#SIDOPTS=-l ossg-c -s no-lines
-#
-#SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
+SID=sid
+SIDOPTS=-s no-lines
+
+SID_OUT=syntax.c syntax.h
 #LEXI_OUT=${SRC}/lexer.h ${SRC}/keyword.h
 
 
@@ -38,11 +38,11 @@ tspec: $(TARGETS)
 
 
 #auto : ${SID_OUT} ${LEXI_OUT}
-#
-#${SRC}/syntax.c : ${SRC}/syntax.sid ${SRC}/syntax.act
-#	@${REMOVE} ${SID_OUT}
-#	${SID} ${SIDOPTS} ${SRC}/syntax.sid ${SRC}/syntax.act ${SID_OUT}
-#
+
+syntax.c syntax.h: syntax.sid syntax.act
+	@${REMOVE} ${SID_OUT}
+	${SID} ${SIDOPTS} syntax.sid syntax.act ${SID_OUT}
+
 #${SRC}/lexer.h : ${SRC}/lexer.lxi
 #	@${REMOVE} ${SRC}/lexer.h
 #	${LEXI} ${SRC}/lexer.lxi ${SRC}/lexer.h

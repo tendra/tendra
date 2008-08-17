@@ -66,6 +66,8 @@ VERSION -> int ;
         it may be put.
 */
 
+#include <stddef.h>
+#include <string.h>
 
 #include "config.h"
 #include "object.h"
@@ -420,7 +422,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 @} ;
 
 <cond_protect> : ( a, b ) -> ( s ) = @{
-    @s = macro_name ( PROTECT_PREFIX, @a, @b, NULL_str ) ;
+    @s = macro_name ( PROTECT_PREFIX, @a, @b, NULL ) ;
 @} ;
 
 
@@ -500,11 +502,11 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 <subset_next> : ( a ) -> ( s ) = @{ @s = string_concat ( @a, "G" ) ; @} ;
 
 <api_name> : ( a ) -> ( s ) = @{
-    @s = subset_name ( @a, NULL_str, NULL_str ) ;
+    @s = subset_name ( @a, NULL, NULL ) ;
 @} ;
 
 <file_name> : ( a, b ) -> ( s ) = @{
-    @s = subset_name ( @a, @b, NULL_str ) ;
+    @s = subset_name ( @a, @b, NULL ) ;
 @} ;
 
 <subset_name> : ( a, b, c ) -> ( s ) = @{
@@ -547,7 +549,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
     object *p = make_subset ( @s ) ;
     info *i = p->u.u_info ;
     if ( i->subset ) {
-	char *nm = subset_name ( i->api, i->file, NULL_str ) ;
+	char *nm = subset_name ( i->api, i->file, NULL ) ;
 	object *q = search_hash ( subsets, nm, no_version ) ;
 	update_time ( p, q ) ;
     }
@@ -558,7 +560,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 <end_subset> : ( a, b ) -> ( c ) = @{
     object *p = crt_object ;
     if ( p ) p->u.u_info->elements = @b ;
-    @c = make_object ( NULL_str, OBJ_SET ) ;
+    @c = make_object ( NULL, OBJ_SET ) ;
     @c->u.u_obj = p ;
     crt_object = @a ;
 @} ;
@@ -775,9 +777,9 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 	}
 	if ( @a == NULL ) {
 	    /* This is a hack, do properly later */
-	    @c = make_object ( NULL_str, OBJ_TYPE ) ;
+	    @c = make_object ( NULL, OBJ_TYPE ) ;
 	    @c->u.u_type = @t ;
-	    if ( streq ( @c->filename, @t->u.obj->filename ) ) {
+	    if ( strcmp ( @c->filename, @t->u.obj->filename ) == 0 ) {
 		@t->state = 1 ;
 	    } else {
 		@t->state = 3 ;

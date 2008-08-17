@@ -39,6 +39,8 @@
         it may be put.
 */
 
+#include <stddef.h>
+#include <string.h>
 
 #include "config.h"
 #include "object.h"
@@ -198,8 +200,9 @@ ZRsimple_Htype(SID_TYPE *ZOt)
     SID_TYPE ZIt;
 
     switch (CURRENT_TERMINAL) {
-      case 32: case 34: case 37: case 38: case 39:
-      case 42: case 43: case 46: case 47:
+      case 32: case 34: case 37: case 38:
+      case 39: case 42: case 43: case 46:
+      case 47:
 	{
 	    unsigned ZIb;
 
@@ -899,9 +902,10 @@ ZRqualified_Htype(SID_TYPE *ZOt)
     SID_TYPE ZIt;
 
     switch (CURRENT_TERMINAL) {
-      case 0: case 32: case 34: case 35: case 37:
-      case 38: case 39: case 42: case 43: case 44:
-      case 45: case 46: case 47:
+      case 0: case 32: case 34: case 35:
+      case 37: case 38: case 39: case 42:
+      case 43: case 44: case 45: case 46:
+      case 47:
 	{
 	    SID_TYPE ZI331;
 
@@ -1769,7 +1773,7 @@ ZRspec_Hcommand(SID_COMMAND *ZOc)
 	    /* This is a hack, do properly later */
 	    (ZIc) = make_object ( NULL, OBJ_TYPE ) ;
 	    (ZIc)->u.u_type = (ZIt) ;
-	    if ( strcmp( (ZIc)->filename, (ZIt)->u.obj->filename ) == 0 ) {
+	    if ( strcmp ( (ZIc)->filename, (ZIt)->u.obj->filename ) == 0 ) {
 		(ZIt)->state = 1 ;
 	    } else {
 		(ZIt)->state = 3 ;
@@ -2176,7 +2180,8 @@ ZRarray_Hoperator(SID_TYPE *ZOt)
 	ADVANCE_LEXER;
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 0: case 1: case 5: case 67: case 68:
+	      case 0: case 1: case 5: case 67:
+	      case 68:
 		{
 		    ZRconstant_Hvalue (&ZIa);
 		    if ((CURRENT_TERMINAL) == 75) {
@@ -2319,9 +2324,10 @@ ZR322(SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 0: case 32: case 33: case 34: case 35:
-      case 37: case 38: case 39: case 42: case 43:
-      case 44: case 45: case 46: case 47: case 48:
+      case 0: case 32: case 33: case 34:
+      case 35: case 37: case 38: case 39:
+      case 42: case 43: case 44: case 45:
+      case 46: case 47: case 48:
 	{
 	    SID_TYPE ZIs;
 	    SID_IDENTIFIER ZIid;
@@ -2924,9 +2930,10 @@ ZR335(SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 0: case 32: case 33: case 34: case 35:
-      case 37: case 38: case 39: case 42: case 43:
-      case 44: case 45: case 46: case 47: case 48:
+      case 0: case 32: case 33: case 34:
+      case 35: case 37: case 38: case 39:
+      case 42: case 43: case 44: case 45:
+      case 46: case 47: case 48:
 	{
 	    SID_TYPE ZIp;
 
@@ -2968,10 +2975,11 @@ ZRcommand_Hlist(SID_COMMAND *ZOc)
 
   ZL2_command_Hlist:;
     switch (CURRENT_TERMINAL) {
-      case 7: case 8: case 9: case 12: case 13:
-      case 14: case 15: case 19: case 21: case 22:
-      case 23: case 24: case 26: case 27: case 28:
-      case 29: case 30:
+      case 7: case 8: case 9: case 12:
+      case 13: case 14: case 15: case 19:
+      case 21: case 22: case 23: case 24:
+      case 26: case 27: case 28: case 29:
+      case 30:
 	{
 	    SID_COMMAND ZIa;
 	    SID_COMMAND ZIb;
@@ -2998,8 +3006,8 @@ ZRcommand_Hlist(SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 4: case 5: case 6: case 16: case 17:
-      case 18:
+      case 4: case 5: case 6: case 16:
+      case 17: case 18:
 	{
 	    SID_COMMAND ZIa;
 	    SID_COMMAND ZIb;
@@ -3116,9 +3124,10 @@ ZR339(SID_TYPE *ZOq)
 	    }
 	}
 	break;
-      case 0: case 32: case 33: case 34: case 35:
-      case 37: case 38: case 39: case 42: case 43:
-      case 44: case 45: case 46: case 47: case 48:
+      case 0: case 32: case 33: case 34:
+      case 35: case 37: case 38: case 39:
+      case 42: case 43: case 44: case 45:
+      case 46: case 47: case 48:
 	{
 	    ZRparameter_Hlist (&ZIq);
 	    if ((CURRENT_TERMINAL) == 75) {
@@ -3939,10 +3948,10 @@ ZR350(SID_TYPE *ZOt)
 	    }
 	}
 	break;
-      case 0: case 32: case 33: case 34: case 35:
-      case 37: case 38: case 39: case 40: case 42:
-      case 43: case 44: case 45: case 46: case 47:
-      case 48:
+      case 0: case 32: case 33: case 34:
+      case 35: case 37: case 38: case 39:
+      case 40: case 42: case 43: case 44:
+      case 45: case 46: case 47: case 48:
 	{
 	    SID_TYPE ZIp;
 
@@ -4563,8 +4572,9 @@ ZRbuiltin_Htype(unsigned *ZOb)
 	ZRtype_Hkeyword (&ZIa);
 	{
 	    switch (CURRENT_TERMINAL) {
-	      case 32: case 34: case 37: case 38: case 39:
-	      case 42: case 43: case 46: case 47:
+	      case 32: case 34: case 37: case 38:
+	      case 39: case 42: case 43: case 46:
+	      case 47:
 		{
 		    unsigned ZId;
 
@@ -4708,9 +4718,10 @@ ZRfield_Hlist(SID_TYPE ZIm, SID_COMMAND *ZOc)
 	    }
 	}
 	break;
-      case 0: case 32: case 33: case 34: case 35:
-      case 37: case 38: case 39: case 42: case 43:
-      case 44: case 45: case 46: case 47: case 48:
+      case 0: case 32: case 33: case 34:
+      case 35: case 37: case 38: case 39:
+      case 42: case 43: case 44: case 45:
+      case 46: case 47: case 48:
 	{
 	    SID_TYPE ZIt;
 	    SID_COMMAND ZIa;
