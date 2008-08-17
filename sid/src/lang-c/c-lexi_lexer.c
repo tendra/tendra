@@ -233,8 +233,7 @@ c_lexi_read_token_singleline_comment(struct c_lexi_state *state)
 		int c0 = c_lexi_readchar(state);
 		if (c_lexi_group(c_lexi_group_singleline_comment_white, c0)) goto start;
 		if (c0 == '\n') {
-			state->zone_function = c_lexi_read_token;
-			return c_lexi_read_token(state);
+			return;
 		} else if (c0 == LEXI_EOF) {
 			{
 
@@ -256,8 +255,7 @@ c_lexi_read_token_bracketed_comment(struct c_lexi_state *state)
 		if (c0 == '*') {
 			int c1 = c_lexi_readchar(state);
 			if (c1 == '/') {
-				state->zone_function = c_lexi_read_token;
-				return c_lexi_read_token(state);
+				return;
 			}
 			c_lexi_push(state, c1);
 		} else if (c0 == LEXI_EOF) {
@@ -304,11 +302,11 @@ c_lexi_read_token(struct c_lexi_state *state)
 			case '/': {
 				int c1 = c_lexi_readchar(state);
 				if (c1 == '*') {
-					state->zone_function = c_lexi_read_token_bracketed_comment;
-					return c_lexi_read_token(state);
+					c_lexi_read_token_bracketed_comment(state);
+					goto start;
 				} else if (c1 == '/') {
-					state->zone_function = c_lexi_read_token_singleline_comment;
-					return c_lexi_read_token(state);
+					c_lexi_read_token_singleline_comment(state);
+					goto start;
 				}
 				c_lexi_push(state, c1);
 				break;

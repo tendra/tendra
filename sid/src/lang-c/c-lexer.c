@@ -113,7 +113,7 @@ c_lexer_support_read_id(int c, int rettok, enum c_lexi_groups bodygroup)
 
 		if (!istream_peek_char(istream, &t)) {
 			E_eof_in_identifier(istream);
-			return LEXER_TOK_EOF;
+			return C_TOK_EOF;
 		}
 
 		c = t;
@@ -263,7 +263,7 @@ c_lexer_read_builtin(int c0, int c1)
 	do {
 		if (!c_lexi_group(c_lexi_group_builtinbody,c)) {
 			E_c_illegal_character_in_identifier(istream, c);
-			return LEXER_TOK_EOF;	/* XXX EOF? */
+			return C_TOK_EOF;	/* XXX EOF? */
 		}
 
 		dstring_append_char(&dstring, c);
@@ -271,7 +271,7 @@ c_lexer_read_builtin(int c0, int c1)
 		c = c_lexi_getchar();
 		if (c == LEXI_EOF) {
 			E_eof_in_identifier(istream);
-			return LEXER_TOK_EOF;
+			return C_TOK_EOF;
 		}
 	} while (!c_lexi_group(c_lexi_group_builtindlmt, c));
 
@@ -336,7 +336,7 @@ c_lexer_act_read_string(int c)
 
 		if (!istream_peek_char(istream, &t)) {
 			E_c_eof_in_code(istream);
-			return LEXER_TOK_EOF;
+			return C_TOK_EOF;
 		}
 
 		c = t;
@@ -363,7 +363,7 @@ c_lexer_unknown_token(int c)
 	istream = &c_lexer_stream->istream;
 
 	if (c == LEXI_EOF) {
-		return LEXER_TOK_EOF;
+		return C_TOK_EOF;
 	}
 
 	E_c_illegal_character(istream, c);
