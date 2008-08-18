@@ -526,12 +526,12 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			if (m) {
 				char *str;
 				if (m == '\\') {
-				  letter ca=find_escape((map)[1],top_level->eof_letter_code);
-				  ctrans=letters_table_get_translation(ca,top_level->letters_table);
+					letter ca=find_escape((map)[1],top_level->eof_letter_code);
+					ctrans=letters_table_get_translation(ca,top_level->letters_table);
 				        str = char_lit(ctrans);
 					m = (map) [2];
 				} else {
-				  ctrans=letters_table_get_translation((letter)m,top_level->letters_table);
+					ctrans=letters_table_get_translation((letter)m,top_level->letters_table);
 					str = char_lit(ctrans);
 					m = (map) [1];
 				}
