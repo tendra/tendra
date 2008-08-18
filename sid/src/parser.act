@@ -135,8 +135,8 @@
 	#include "adt/types.h"
 
 	#include "shared/check/check.h"
+	#include "shared/error/error.h"
 	#include "parser.h"
-	#include "gen-errors.h"
 	#include "grammar.h"
 	#include "lexer.h"
 
@@ -174,6 +174,60 @@
 	static unsigned     sid_num_alternatives = 0;
 	static BoolT        sid_propagating_error = FALSE;
 	static BoolT        sid_finished_terminals = FALSE;
+
+
+	static void err_redeclared(const char *type, NStringT *name) {
+		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			"identifier '%S' redeclared as %s",
+			(void *) name, type);
+	}
+
+	static void err_unknown(const char *type, NStringT *name) {
+		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			"%s '%S' hasn't been declared",
+			type, (void *) name);
+	}
+
+	static void err_basic_mismatch(const char *type, KeyT *key, TypeTupleT *a) {
+		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			"parameter type mismatch for %s of terminal '%K' [%Y should be ()])",
+			type, (void *) key, (void *) a);
+	}
+
+	static void err_type_mismatch(const char *item, const char *verb, KeyT *key, TypeTupleT *a, TypeTupleT *b) {
+		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			"%s type mismatch for %s '%K' [%Y should be %Y]",
+			item, verb, (void *) key, (void *) a, (void *) b);
+	}
+
+	static void err_type_mismatch_of(const char *item, const char *verb, const char *entity,
+		KeyT *key, TypeTupleT *a, TypeTupleT *b) {
+		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			"%s type mismatch for %s of %s '%K' [%Y should be %Y]",
+			item, verb, entity, (void *) key, (void *) a, (void *) b);
+	}
+
+	static void err_expected(const char *item) {
+		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			"expected %s", item);
+	}
+
+	static void err_ignored(const char *item, NStringT *name) {
+		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			"invocation of ignored %s '%S'", item, (void *) name);
+	}
+
+	static void err_undefined_name(KeyT *name, KeyT *rule, unsigned alt) {
+		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			"undefined parameter name '%K' in alternative %u of production '%K'",
+			(void *) name, alt, (void *) rule);
+	}
+
+	static void err_redefined_name(KeyT *name, KeyT *rule, unsigned alt) {
+		error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+			"redefined name '%K' in alternative %u of production '%K'",
+			(void *) name, alt, (void *) rule);
+	}
 
 @}, @{
 
@@ -284,14 +338,14 @@
 
 	<add-type>: (string :StringT &) -> () = @{
 		if (table_add_type(grammar_table(sid_current_grammar), &@=string, FALSE) == NULL) {
-			E_duplicate_type(@&string);
+			err_redeclared("type", @&string);
 			nstring_destroy(&@=string);
 		}
 	@};
 
 	<i-add-type>: (string :StringT &) -> () = @{
 		if (table_add_type(grammar_table(sid_current_grammar), &@=string, TRUE) == NULL) {
-			E_duplicate_type(@&string);
+			err_redeclared("type", @&string);
 			nstring_destroy(&@=string);
 		}
 	@};
@@ -305,7 +359,7 @@
 		@entry = table_add_basic(grammar_table(sid_current_grammar), &@=string,
 			sid_current_grammar, FALSE);
 		if (@entry == NULL) {
-			E_duplicate_basic(@&string);
+			err_redeclared("terminal", @&string);
 			nstring_destroy(&@=string);
 		}
 	@};
@@ -314,7 +368,7 @@
 		@entry = table_add_basic(grammar_table(sid_current_grammar), &@=string,
 			sid_current_grammar, TRUE);
 		if (@entry == NULL) {
-			E_duplicate_basic(@&string);
+			err_redeclared("terminal", @&string);
 			nstring_destroy(&@=string);
 		}
 	@};
@@ -324,28 +378,34 @@
 			KeyT *key = entry_key(@entry);
 			BasicT *basic = entry_get_basic(@entry);
 			if (types_contains_names(@&params)) {
-				E_basic_param_has_names(key, @&params);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"parameter of declaration of terminal '%K' has names [parameter = %Y]",
+					(void *) key, (void *) @&params);
 			}
 			if (types_contains_names(@&results)) {
-				E_basic_result_has_names(key, @&results);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result of declaration of terminal '%K' has names [result = %Y]",
+					(void *) key, (void *) @&results);
 			}
 			if (types_contains_references(@&results)) {
-				E_basic_result_has_refs(key, @&results);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result of declaration of terminal '%K' has references [result = %Y]",
+					(void *) key, (void *) @&results);
 			}
 			if (!types_equal_zero_tuple(@&params)) {
-				E_basic_param_mismatch(key, @&params);
+				err_basic_mismatch("declaration", key, @&params);
 			}
 			if (!basic_get_ignored(basic)) {
 				EntryT *type;
 
 				type = types_find_ignored(@&params);
 				if (type != NULL) {
-					E_ignored_type(key_get_string(entry_key(type)));
+					err_ignored("type", key_get_string(entry_key(type)));
 				}
 
 				type = types_find_ignored(@&results);
 				if (type != NULL) {
-					E_ignored_type(key_get_string(entry_key(type)));
+					err_ignored("type", key_get_string(entry_key(type)));
 				}
 			}
 			types_assign(basic_result(basic), @&results);
@@ -367,7 +427,9 @@
 
 		if (entry) {
 			if (!entry_is_basic(entry)) {
-				E_identifier_is_not_basic(@&string);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"quoted identifier '%S' is not a terminal",
+					(void *) @&string);
 			}
 		}
 
@@ -393,7 +455,7 @@
 	<tuple-name>: (tuple :TypeTupleT &, name :StringT &, type :StringT &) -> () = @{
 		if (!types_add_typed_name(@&tuple, grammar_table(sid_current_grammar),
 			&@=name, @&type, FALSE)) {
-			E_unknown_type(@&type);
+			err_unknown("type", @&type);
 		}
 		nstring_destroy(&@=type);
 	@};
@@ -401,7 +463,7 @@
 	<tuple-ref-name>: (tuple :TypeTupleT &, name :StringT &, type :StringT &) -> () = @{
 		if (!types_add_typed_name(@&tuple, grammar_table(sid_current_grammar),
 			&@=name, @&type, TRUE)) {
-			E_unknown_type(@&type);
+			err_unknown("type", @&type);
 		}
 		nstring_destroy(&@=type);
 	@};
@@ -409,14 +471,14 @@
 	<tuple-type>: (tuple :TypeTupleT &, type :StringT &) -> () = @{
 		if (!types_add_type(@&tuple, grammar_table(sid_current_grammar), @&type,
 			FALSE)) {
-			E_unknown_type(@&type);
+			err_unknown("type", @&type);
 		}
 		nstring_destroy(&@=type);
 	@};
 
 	<tuple-ref-type>:  (tuple :TypeTupleT &, type :StringT &) -> () = @{
 		if (!types_add_type(@&tuple, grammar_table(sid_current_grammar), @&type, TRUE)) {
-			E_unknown_type(@&type);
+			err_unknown("type", @&type);
 		}
 		nstring_destroy(&@=type);
 	@};
@@ -538,14 +600,16 @@
 			}
 			nstring_destroy(&@=name);
 		} else {
-			E_undefined_assignment(@&name);
+			error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				"assignment to undefined name '%S'", (void *) @&name);
 			types_add_name(@&tuple, grammar_table(sid_current_grammar), &@=name, FALSE);
 		}
 	@};
 
 	<add-pred>: (tuple :TypeTupleT &) -> () = @{
 		if (sid_current_pred_id) {
-			E_multi_predicate_return();
+			error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				"result contains more than one predicate result symbol");
 		}
 		sid_current_pred_id = TRUE;
 		types_add_name_entry(@&tuple, grammar_get_predicate_id(sid_current_grammar));
@@ -577,7 +641,7 @@
 			&sid_redefining_entry, FALSE);
 			sid_current_entry = @entry;
 		if (!@entry) {
-			E_duplicate_action(@&string);
+			err_redeclared("action", @&string);
 			nstring_destroy(&@=string);
 		}
 	@};
@@ -588,7 +652,7 @@
 			&sid_redefining_entry, TRUE);
 			sid_current_entry = @entry;
 		if (!@entry) {
-			E_duplicate_action(@&string);
+			err_redeclared("action", @&string);
 			nstring_destroy(&@=string);
 		}
 	@};
@@ -602,30 +666,36 @@
 			BoolT       errored = FALSE;
 
 			if (types_contains_names(@&n_params)) {
-				E_action_param_has_names(key, @&n_params);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"parameter of declaration of action '%K' has names [parameter = %Y]",
+					(void *) key, (void *) @&n_params);
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
 				if (!types_equal(param, @&n_params)) {
-					E_action_param_mismatch(key, param, @&n_params);
+					err_type_mismatch("parameter", "action", key, @&n_params, param);
 					errored = TRUE;
 				}
 			}
 
 			if (types_contains_names(@&n_results)) {
-				E_action_result_has_names(key, @&n_results);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result of declaration of action '%K' has names [result = %Y]",
+					(void *) key, (void *) @&n_results);
 				errored = TRUE;
 			}
 
 			if (types_contains_references(@&n_results)) {
-				E_action_result_has_refs(key, @&n_results);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result of declaration of action '%K' has references [result = %Y]",
+					(void *) key, (void *) @&n_results);
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
 				if (!types_equal(result, @&n_results)) {
-					E_action_result_mismatch(key, result, @&n_results);
+					err_type_mismatch("result", "action", key, @&n_params, param);
 					errored = TRUE;
 				}
 			}
@@ -635,13 +705,13 @@
 
 				type = types_find_ignored(@&n_params);
 				if (type != NULL) {
-					E_ignored_type(key_get_string(entry_key(type)));
+					err_ignored("type", key_get_string(entry_key(type)));
 					errored = TRUE;
 				}
 
 				type = types_find_ignored(@&n_results);
 				if (type != NULL) {
-					E_ignored_type(key_get_string(entry_key(type)));
+					err_ignored("type", key_get_string(entry_key(type)));
 					errored = TRUE;
 				}
 			}
@@ -662,14 +732,16 @@
 	<non-local>: (id :StringT &, type_id :StringT &) -> (nonlocalentry :NonLocalEntryP) = @{
 		@nonlocalentry = NULL;
 		if (sid_enclosing_rule == NULL || sid_current_scope == &sid_global_scope) {
-			E_global_scope_non_local(@&id);
+			error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				"definition of non local name '%S' at global scope",
+				(void *) @&id);
 			nstring_destroy(&@=id);
 		} else {
 			EntryT *type;
 
 			type = table_get_type(grammar_table(sid_current_grammar), @&type_id);
 			if (type == NULL) {
-				E_unknown_type(@&type_id);
+				err_unknown("type", @&type_id);
 				nstring_destroy(&@=id);
 			} else {
 				EntryT *name;
@@ -683,7 +755,7 @@
 					non_locals = rule_non_locals(sid_enclosing_rule);
 					@nonlocalentry = non_local_list_add(non_locals, name, type);
 				} else {
-					E_duplicate_non_local(@&id);
+					err_redeclared("non-local", @&id);
 					nstring_destroy(&@=id);
 				}
 			}
@@ -698,7 +770,7 @@
 			grammar_table(sid_current_grammar), @&action_id);
 
 		if (actionentry == NULL) {
-			E_unknown_action(@&action_id);
+			err_unknown("action", @&action_id);
 		} else if (@nonlocalentry) {
 			EntryT     *type   = non_local_entry_get_type(@nonlocalentry);
 			KeyT       *name   = entry_key(non_local_entry_get_name(@nonlocalentry));
@@ -709,7 +781,7 @@
 			TypeTupleT  ref_tuple;
 
 			if (action_get_ignored(action)) {
-				E_ignored_action_call(key_get_string(entry_key(actionentry)));
+				err_ignored("action call", key_get_string(entry_key(actionentry)));
 			}
 
 			types_init(&tuple);
@@ -719,11 +791,13 @@
 
 			if (!types_equal(param, &tuple) && !types_equal(param, &ref_tuple)
 				&& !types_equal_zero_tuple(param)) {
-				E_initialiser_param_mismatch(name, &tuple, &ref_tuple, param);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"parameter type mismatch for initialiser of non local name '%K' [%Y should be %Y, %Y or ()]",
+					(void *) name, (void *) param, (void *) &tuple, (void *) &ref_tuple);
 			}
 
 			if (!types_equal(result, &tuple)) {
-				E_initialiser_result_mismatch(name, &tuple, result);
+				err_type_mismatch_of("result", "initialiser", "non-local name", name, result, &tuple);
 			}
 
 			types_destroy(&ref_tuple);
@@ -740,7 +814,7 @@
 		if (sid_current_entry) {
 			sid_current_rule = entry_get_rule(sid_current_entry);
 		} else {
-			E_duplicate_rule(@&string);
+			err_redeclared("rule", @&string);
 			nstring_destroy(&@=string);
 		}
 	@};
@@ -754,30 +828,36 @@
 			BoolT       errored = FALSE;
 
 			if (types_contains_names(@&n_params)) {
-				E_rule_param_has_names(key, @&n_params);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"parameter of declaration of rule '%K' has names [parameter = %Y]",
+					(void *) key, (void *) @&n_params);
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
 				if (!types_equal(param, @&n_params)) {
-					E_rule_param_mismatch(key, param, @&n_params);
+					err_type_mismatch("parameter", "production", key, @&n_params, param);
 					errored = TRUE;
 				}
 			}
 
 			if (types_contains_names(@&n_results)) {
-				E_rule_result_has_names(key, @&n_results);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result of declaration of rule '%K' has names [result = %Y]",
+					(void *) key, (void *) @&n_results);
 				errored = TRUE;
 			}
 
 			if (types_contains_references(@&n_results)) {
-				E_rule_result_has_refs(key, @&n_results);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result of declaration or definition of rule '%K' has references [result = %Y]",
+					(void *) key, (void *) @&n_results);
 				errored = TRUE;
 			}
 
 			if (sid_redefining_entry) {
 				if (!types_equal(result, @&n_results)) {
-					E_rule_result_mismatch(key, result, @&n_results);
+					err_type_mismatch("result", "production", key, @&n_results, result);
 					errored = TRUE;
 				}
 			}
@@ -787,13 +867,13 @@
 
 				type = types_find_ignored(@&n_params);
 				if (type != NULL) {
-					E_ignored_type(key_get_string(entry_key(type)));
+					err_ignored("type", key_get_string(entry_key(type)));
 					errored = TRUE;
 				}
 
 				type = types_find_ignored(@&n_results);
 				if (type != NULL) {
-					E_ignored_type(key_get_string(entry_key(type)));
+					err_ignored("type", key_get_string(entry_key(type)));
 					errored = TRUE;
 				}
 			}
@@ -818,7 +898,8 @@
 			key = entry_key(sid_current_entry);
 
 			if (rule_is_defined(sid_current_rule)) {
-				E_rule_already_defined(key);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"production '%K' is already defined", (void *) key);
 				sid_current_entry = NULL;
 				types_destroy(@&n_params);
 				types_destroy(@&n_results);
@@ -829,7 +910,9 @@
 
 				rule_defined(sid_current_rule);
 				if (!types_disjoint_names(@&n_params)) {
-					E_rule_param_clash(key, @&n_params);
+					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						"parameter names are not disjoint (or are missing) for production '%K' [parameter = %Y]",
+						(void *) key, (void *) @&n_params);
 					errored = TRUE;
 				}
 
@@ -840,7 +923,7 @@
 
 				if (sid_redefining_entry) {
 					if (!types_fillin_names(param, @&n_params)) {
-						E_rule_param_mismatch(key, param, @&n_params);
+						err_type_mismatch("parameter", "production", key, @&n_params, param);
 						errored = TRUE;
 					}
 					types_destroy(@&n_params);
@@ -849,7 +932,9 @@
 				}
 
 				if (!types_disjoint_names(@&n_results)) {
-					E_rule_result_clash(key, @&n_results);
+					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						"result names are not disjoint (or are missing) for production '%K' [result = %Y]",
+						(void *) key, (void *) @&n_results);
 					errored = TRUE;
 				}
 
@@ -859,7 +944,9 @@
 				}
 
 				if (types_contains_references(@&n_results)) {
-					E_rule_result_has_refs(key, @&n_results);
+					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						"result of declaration or definition of rule '%K' has references [result = %Y]",
+						(void *) key, (void *) @&n_results);
 					errored = TRUE;
 				}
 
@@ -868,20 +955,20 @@
 
 					type = types_find_ignored(@&n_params);
 					if (type != NULL) {
-						E_ignored_type(key_get_string(entry_key(type)));
+						err_ignored("type", key_get_string(entry_key(type)));
 						errored = TRUE;
 					}
 
 					type = types_find_ignored(@&n_results);
 					if (type != NULL) {
-						E_ignored_type(key_get_string(entry_key(type)));
+						err_ignored("type", key_get_string(entry_key(type)));
 						errored = TRUE;
 					}
 				}
 
 				if (sid_redefining_entry) {
 					if (!types_fillin_names(result, @&n_results)) {
-						E_rule_result_mismatch(key, result, @&n_results);
+						err_type_mismatch("result", "production", key, @&n_results, result);
 						errored = TRUE;
 					}
 					types_destroy(@&n_results);
@@ -893,7 +980,9 @@
 					sid_current_entry = NULL;
 				} else {
 					if (types_intersect(param, result)) {
-						E_rule_formal_clash(key, param, result);
+						error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+							"parameter and result names are not disjoint for production '%K' [parameter = %Y, result = %Y]",
+							(void *) key, (void *) param, (void *) result);
 						sid_current_entry = NULL;
 					}
 				}
@@ -954,7 +1043,8 @@
 	<empty-alt> = @{
 		sid_num_alternatives++;
 		if (sid_num_alternatives == ALT_LIMIT) {
-			E_too_many_alternatives();
+			error_posn(ERROR_FATAL, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				"too many alternatives in grammar");
 			UNREACHED;
 		}
 
@@ -964,10 +1054,13 @@
 
 		if (sid_current_entry) {
 			if (rule_has_empty_alt(sid_current_rule)) {
-				E_multiple_empty_alts(entry_key(sid_external_rule));
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"production '%K' has multiple empty alternatives",
+					(void *) entry_key(sid_external_rule));
 			} else if (!types_equal_zero_tuple(rule_result(sid_current_rule))) {
-				E_alt_result_mismatch(entry_key(sid_external_rule),
-					sid_alternative);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result formals are not defined in alternative %u of production '%K'",
+					sid_alternative, (void *) entry_key(sid_external_rule));
 			} else {
 				rule_add_empty_alt(sid_current_rule);
 			}
@@ -977,7 +1070,8 @@
 	<non-empty-alt> = @{
 		sid_num_alternatives++;
 		if (sid_num_alternatives == ALT_LIMIT) {
-			E_too_many_alternatives();
+			error_posn(ERROR_FATAL, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+				"too many alternatives in grammar");
 			UNREACHED;
 		}
 
@@ -1003,8 +1097,9 @@
 				rule_add_alt(sid_current_rule, sid_current_alt);
 			} else {
 				(void) alt_deallocate(sid_current_alt);
-				E_alt_result_mismatch(entry_key(sid_external_rule),
-					sid_alternative);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result formals are not defined in alternative %u of production '%K'",
+					sid_alternative, (void *) entry_key(sid_external_rule));
 			}
 		}
 	@};
@@ -1028,7 +1123,9 @@
 				rule_set_handler(sid_current_rule, sid_current_alt);
 			} else {
 				(void) alt_deallocate(sid_current_alt);
-				E_handler_result_mismatch(entry_key(sid_external_rule));
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result formals are not defined in exception handler alternative of production '%K'",
+					(void *) entry_key(sid_external_rule));
 			}
 		}
 	@};
@@ -1081,7 +1178,7 @@
 			if (entry) {
 				sid_current_item = item_create(entry);
 			} else {
-				E_unknown_action(@&string);
+				err_unknown("action", @&string);
 				sid_current_item = NULL;
 				(void) alt_deallocate(sid_current_alt);
 				sid_current_alt  = NULL;
@@ -1099,17 +1196,17 @@
 			ActionT *action  = entry_get_action(entry);
 
 			if (action_get_ignored(action)) {
-				E_ignored_action_call(key_get_string(entry_key(entry)));
+				err_ignored("action call", key_get_string(entry_key(entry)));
 			}
 
 			if (types_resolve(@&rhs, rule_param(sid_current_rule),
-				alt_names(sid_current_alt), E_undefined_name,
+				alt_names(sid_current_alt), err_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (types_equal(@&rhs, action_param(action))) {
 					item_add_param(sid_current_item, @&rhs);
 				} else {
-					E_action_param_call_mismatch(entry_key(entry),
-							  action_param(action), @&rhs);
+					err_type_mismatch_of("parameter", "invocation", "action",
+						entry_key(entry), @&rhs, action_param(action));
 					types_destroy(@&rhs);
 					errored = TRUE;
 				}
@@ -1120,7 +1217,7 @@
 
 			if (types_disjoint_names(@&lhs)) {
 				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
-					alt_names(sid_current_alt), E_redefined_name,
+					alt_names(sid_current_alt), err_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (types_fillin_types(@&lhs, action_result(action))) {
 						types_add_new_names(alt_names(sid_current_alt),
@@ -1134,7 +1231,9 @@
 							assert(type != NULL && !reference);
 							if (grammar_get_predicate_type(sid_current_grammar)) {
 								if (type != grammar_get_predicate_type(sid_current_grammar)) {
-									E_predicate_type(grammar_get_predicate_type(sid_current_grammar), type);
+									error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+										"predicate type mismatch [%Y should be %Y]",
+										(void *) type, (void *) grammar_get_predicate_type(sid_current_grammar));
 								}
 							} else {
 								grammar_set_predicate_type(sid_current_grammar, type);
@@ -1143,8 +1242,8 @@
 						}
 						item_add_result(sid_current_item, @&lhs);
 					} else {
-						E_action_result_call_mismatch(entry_key(entry),
-							action_result(action), @&lhs);
+						err_type_mismatch_of("result", "invocation", "action",
+							entry_key(entry), @&lhs, action_result(action));
 						types_destroy(@&lhs);
 						errored = TRUE;
 					}
@@ -1153,7 +1252,9 @@
 					errored = TRUE;
 				}
 			} else {
-				E_action_result_call_clash(entry_key(entry), @&lhs);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result names are not disjoint for invocation of action '%K' [result = %Y]",
+					(void *) entry_key(entry), (void *) @&lhs);
 				types_destroy(@&lhs);
 				errored = TRUE;
 			}
@@ -1177,11 +1278,12 @@
 			EntryT *entry = table_add_rename(grammar_table(sid_current_grammar));
 
 			if (types_resolve(@&rhs, rule_param(sid_current_rule),
-				alt_names(sid_current_alt), E_undefined_name,
+				alt_names(sid_current_alt), err_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (types_contains_references(@&rhs)) {
-					E_identity_param_has_refs(@&rhs, entry_key(sid_external_rule),
-						sid_alternative);
+					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						"cannot take address of identity parameters in alternative %u of production '%K' [parameter = %Y]",
+						sid_alternative, (void *) entry_key(sid_external_rule), (void *) @&rhs);
 					types_destroy(@&rhs);
 					sid_current_item = NULL;
 				} else {
@@ -1195,19 +1297,22 @@
 
 			if (types_disjoint_names(@&lhs)) {
 				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
-					alt_names(sid_current_alt), E_redefined_name,
+					alt_names(sid_current_alt), err_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (sid_current_item) {
 						if (types_fillin_types(@&lhs, item_param(sid_current_item))) {
 							types_add_new_names(alt_names(sid_current_alt),
 							@&lhs, grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
-								E_predicate();
+								error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+									"predicate result symbol used in result of something other than an action");
 							}
 							item_add_result(sid_current_item, @&lhs);
 							alt_add_item(sid_current_alt, sid_current_item);
 						} else {
-							E_identity_mismatch(item_param(sid_current_item), @&lhs);
+							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+								"type mismatch for identity [%Y should be %Y]",
+								(void *) @&lhs, (void *) item_param(sid_current_item));
 							types_destroy(@&lhs);
 							(void) item_deallocate(sid_current_item);
 							sid_current_item = NULL;
@@ -1221,7 +1326,9 @@
 					}
 				}
 			} else {
-				E_identity_result_clash(@&lhs);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result names are not disjoint for identity [result = %Y]",
+					(void *) @&lhs);
 				types_destroy(@&lhs);
 				if (sid_current_item) {
 					(void) item_deallocate(sid_current_item);
@@ -1263,10 +1370,10 @@
 					result           = basic_result(basic);
 
 					if (basic_get_ignored(basic)) {
-						E_ignored_basic_call(@&string);
+						err_ignored("terminal", @&string);
 					}
 				} else {
-					E_unknown_rule_or_basic(@&string);
+					err_unknown("identifier", @&string);
 					sid_current_item = NULL;
 				}
 			}
@@ -1280,19 +1387,20 @@
 			KeyT  *key     = entry_key(entry);
 
 			if (types_resolve(@&rhs, rule_param(sid_current_rule),
-				alt_names(sid_current_alt), E_undefined_name,
+				alt_names(sid_current_alt), err_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (param) {
 					if (types_equal(@&rhs, param)) {
 						item_add_param(sid_current_item, @&rhs);
 					} else {
-						E_rule_param_call_mismatch(key, param, @&rhs);
+						err_type_mismatch_of("parameter", "invocation", "rule",
+							key, @&rhs, param);
 						types_destroy(@&rhs);
 						errored = TRUE;
 					}
 				} else {
 					if (!types_equal_zero_tuple(@&rhs)) {
-						E_basic_param_call_mismatch(key, @&rhs);
+						err_basic_mismatch("invocation", key, @&rhs);
 						types_destroy(@&rhs);
 						errored = TRUE;
 					}
@@ -1304,20 +1412,23 @@
 
 			if (types_disjoint_names(@&lhs)) {
 				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
-					alt_names(sid_current_alt), E_redefined_name,
+					alt_names(sid_current_alt), err_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (types_fillin_types(@&lhs, result)) {
 						types_add_new_names(alt_names(sid_current_alt),
 							@&lhs, grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
-							E_predicate ();
+							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+								"predicate result symbol used in result of something other than an action");
 						}
 						item_add_result(sid_current_item, @&lhs);
 					} else {
 						if (param) {
-							E_rule_result_call_mismatch(key, result, @&lhs);
+							err_type_mismatch_of("result", "invocation", "rule",
+								key, @&lhs, result);
 						} else {
-							E_basic_result_call_mismatch(key, result, @&lhs);
+							err_type_mismatch_of("result", "invocation", "terminal",
+								key, @&lhs, result);
 						}
 						types_destroy(@&lhs);
 						errored = TRUE;
@@ -1328,9 +1439,13 @@
 				}
 			} else {
 				if (param) {
-					E_rule_result_call_clash(key, @&lhs);
+					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						"result names are not disjoint for invocation of rule '%K' [result = %Y]",
+						(void *) key, (void *) @&lhs);
 				} else {
-					E_basic_result_call_clash(key, @&lhs);
+					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						"result names are not disjoint for invocation of terminal '%K' [result = %Y]",
+						(void *) key, (void *) @&lhs);
 				}
 
 				types_destroy(@&lhs);
@@ -1388,7 +1503,7 @@
 					param            = NULL;
 					result           = basic_result(basic);
 					if (name_entry == NULL && basic_get_ignored(basic)) {
-						E_ignored_basic_call(@&string);
+						err_ignored("terminal", @&string);
 					}
 				}
 			}
@@ -1406,10 +1521,12 @@
 						nstring_destroy(&scope);
 					}
 				} else {
-					E_unknown_rule_or_basic(@&string);
+					err_unknown("identifier", @&string);
 				}
 			} else if (entry != NULL && name_entry != NULL) {
-				E_ambiguous_call(@&string);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"identifier '%S' used in ambiguous context [may be name, rule or terminal]",
+						(void *) @&string);
 				entry      = NULL;
 				name_entry = NULL;
 			}
@@ -1423,19 +1540,20 @@
 			KeyT  *key     = entry_key(entry);
 
 			if (types_resolve(&rhs, rule_param(sid_current_rule),
-				alt_names(sid_current_alt), E_undefined_name,
+				alt_names(sid_current_alt), err_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (param) {
 					if (types_equal(&rhs, param)) {
 						item_add_param(sid_current_item, &rhs);
 					} else {
-						E_rule_param_call_mismatch(key, param, &rhs);
+						err_type_mismatch_of("parameter", "invocation", "rule",
+							key, &rhs, param);
 						types_destroy(&rhs);
 						errored = TRUE;
 					}
 				} else {
 					if (!types_equal_zero_tuple(&rhs)) {
-						E_basic_param_call_mismatch(key, &rhs);
+						err_basic_mismatch("invocation", key, &rhs);
 						types_destroy(&rhs);
 						errored = TRUE;
 					}
@@ -1447,20 +1565,23 @@
 
 			if (types_disjoint_names(@&lhs)) {
 				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
-					alt_names(sid_current_alt), E_redefined_name,
+					alt_names(sid_current_alt), err_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (types_fillin_types(@&lhs, result)) {
 						types_add_new_names(alt_names(sid_current_alt),
 							@&lhs, grammar_get_predicate_id(sid_current_grammar));
 						if (sid_saved_pred_id) {
-							E_predicate();
+							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+								"predicate result symbol used in result of something other than an action");
 						}
 						item_add_result(sid_current_item, @&lhs);
 					} else {
 						if (param) {
-							E_rule_result_call_mismatch(key, result, @&lhs);
+							err_type_mismatch_of("result", "invocation", "rule",
+								key, @&lhs, result);
 						} else {
-							E_basic_result_call_mismatch(key, result, @&lhs);
+							err_type_mismatch_of("result", "invocation", "terminal",
+								key, @&lhs, result);
 						}
 						types_destroy(@&lhs);
 						errored = TRUE;
@@ -1471,10 +1592,15 @@
 				}
 			} else {
 				if (param) {
-					E_rule_result_call_clash(key, @&lhs);
+					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						"result names are not disjoint for invocation of rule '%K' [result = %Y]",
+						(void *) key, (void *) @&lhs);
 				} else {
-					E_basic_result_call_clash(key, @&lhs);
+					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						"result names are not disjoint for invocation of terminal '%K' [result = %Y]",
+						(void *) key, (void *) @&lhs);
 				}
+
 				types_destroy(@&lhs);
 				errored = TRUE;
 			}
@@ -1491,11 +1617,12 @@
 			types_add_name_entry(&rhs, name_entry);
 			entry = table_add_rename (grammar_table(sid_current_grammar));
 			if (types_resolve(&rhs, rule_param(sid_current_rule),
-				alt_names(sid_current_alt), E_undefined_name,
+				alt_names(sid_current_alt), err_undefined_name,
 				entry_key(sid_external_rule), sid_alternative)) {
 				if (types_contains_references(&rhs)) {
-					E_identity_param_has_refs(&rhs, entry_key(sid_external_rule),
-						sid_alternative);
+					error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+						"cannot take address of identity parameters in alternative %u of production '%K' [parameter = %Y]",
+						sid_alternative, (void *) entry_key(sid_external_rule), (void *) &rhs);
 					types_destroy(&rhs);
 					sid_current_item = NULL;
 				} else {
@@ -1509,19 +1636,22 @@
 
 			if (types_disjoint_names(@&lhs)) {
 				if (types_check_undefined(@&lhs, rule_param(sid_current_rule),
-					alt_names(sid_current_alt), E_redefined_name,
+					alt_names(sid_current_alt), err_redefined_name,
 					entry_key(sid_external_rule), sid_alternative)) {
 					if (sid_current_item) {
 						if (types_fillin_types(@&lhs, item_param(sid_current_item))) {
 							types_add_new_names(alt_names(sid_current_alt),
 								@&lhs, grammar_get_predicate_id(sid_current_grammar));
 							if (sid_saved_pred_id) {
-								E_predicate();
+								error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+									"predicate result symbol used in result of something other than an action");
 							}
 							item_add_result(sid_current_item, @&lhs);
 							alt_add_item(sid_current_alt, sid_current_item);
 						} else {
-							E_identity_mismatch(item_param(sid_current_item), @&lhs);
+							error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+								"type mismatch for identity [%Y should be %Y]",
+								(void *) @&lhs, (void *) item_param(sid_current_item));
 							types_destroy(@&lhs);
 							(void) item_deallocate(sid_current_item);
 							sid_current_item = NULL;
@@ -1535,7 +1665,9 @@
 					}
 				}
 			} else {
-				E_identity_result_clash(@&lhs);
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"result names are not disjoint for identity [result = %Y]",
+					(void *) @&lhs);
 				types_destroy(@&lhs);
 				if (sid_current_item) {
 					(void) item_deallocate(sid_current_item);
@@ -1563,13 +1695,15 @@
 		entry = table_get_rule(grammar_table(sid_current_grammar), @&string);
 		if (entry) {
 			if (entry_list_contains(grammar_entry_list(sid_current_grammar), entry)) {
-				E_mult_entry(entry_key(entry));
+				error_posn(ERROR_SERIOUS, lexer_stream_name(sid_current_stream), (int) lexer_stream_line(sid_current_stream),
+					"rule '%K' occurs in the entry list more than once",
+					(void *) entry_key(entry));
 			} else {
 				entry_list_add(grammar_entry_list(sid_current_grammar), entry);
 				rule_required(entry_get_rule(entry));
 			}
 		} else {
-			E_unknown_rule(@&string);
+			err_unknown("rule", @&string);
 		}
 		nstring_destroy(&@=string);
 	@};
@@ -1585,187 +1719,187 @@
 
 	<expected-typemark> = @{
 		if (!sid_propagating_error) {
-			E_expected_typemark();
+			err_expected("':'");
 		}
 	@};
 
 	<expected-identifier> = @{
 		if (!sid_propagating_error) {
-			E_expected_identifier();
+			err_expected("identifier");
 		}
 	@};
 
 	<expected-identifier-or-basic> = @{
 		if (!sid_propagating_error) {
-			E_expected_identifier_or_basic();
+			err_expected("identifier or terminal");
 		}
 	@};
 
 	<expected-tuple-defn> = @{
 		if (!sid_propagating_error) {
-			E_expected_tuple_defn();
+			err_expected("identifier or ':'");
 		}
 	@};
 
 	<expected-terminal-decn> = @{
 		if (!sid_propagating_error) {
-			E_expected_terminal_decn();
+			err_expected("identifier or '!'");
 		}
 	@};
 
 	<expected-separator> = @{
 		if (!sid_propagating_error) {
-			E_expected_separator();
+			err_expected("','");
 		}
 	@};
 
 	<expected-open-tuple> = @{
 		if (!sid_propagating_error) {
-			E_expected_open_tuple();
+			err_expected("'('");
 		}
 	@};
 
 	<expected-close-tuple> = @{
 		if (!sid_propagating_error) {
-			E_expected_close_tuple();
+			err_expected("')'");
 		}
 	@};
 
 	<expected-arrow> = @{
 		if (!sid_propagating_error) {
-			E_expected_arrow();
+			err_expected("'->'");
 		}
 	@};
 
 	<expected-terminator> = @{
 		if (!sid_propagating_error) {
-			E_expected_terminator();
+			err_expected("';'");
 		}
 	@};
 
 	<expected-lhs-name> = @{
 		if (!sid_propagating_error) {
-			E_expected_lhs_name();
+			err_expected("identifier, '?' or '!'");
 		}
 	@};
 
 	<expected-rhs-name> = @{
 		if (!sid_propagating_error) {
-			E_expected_rhs_name();
+			err_expected("identifier or '&'");
 		}
 	@};
 
 	<expected-begin-action> = @{
 		if (!sid_propagating_error) {
-			E_expected_begin_action();
+			err_expected("expected '<'");
 		}
 	@};
 
 	<expected-end-action> = @{
 		if (!sid_propagating_error) {
-			E_expected_end_action();
+			err_expected("expected '>'");
 		}
 	@};
 
 	<expected-end-scope> = @{
 		if (!sid_propagating_error) {
-			E_expected_end_scope();
+			err_expected("expected ']'");
 		}
 	@};
 
 	<expected-tuple-or-terminator> = @{
 		if (!sid_propagating_error) {
-			E_expected_tuple_or_term();
+			err_expected("tuple or ';'");
 		}
 	@};
 
 	<expected-item-rhs> = @{
 		if (!sid_propagating_error) {
-			E_expected_item_rhs();
+			err_expected("item right hand side");
 		}
 	@};
 
 	<expected-define> = @{
 		if (!sid_propagating_error) {
-			E_expected_define();
+			err_expected("'='");
 		}
 	@};
 
 	<expected-tuple-or-define-or-terminator> = @{
 		if (!sid_propagating_error) {
-			E_expected_tuple_def_or_term();
+			err_expected("tuple, '=' or ';'");
 		}
 	@};
 
 	<expected-begin-rule> = @{
 		if (!sid_propagating_error) {
-			E_expected_begin_rule();
+			err_expected("'{'");
 		}
 	@};
 
 	<expected-end-rule> = @{
 		if (!sid_propagating_error) {
-			E_expected_end_rule();
+			err_expected("'}'");
 		}
 	@};
 
 	<expected-item> = @{
 		if (!sid_propagating_error) {
-			E_expected_item();
+			err_expected("item");
 		}
 	@};
 
 	<expected-alternative> = @{
 		if (!sid_propagating_error) {
-			E_expected_alternative();
+			err_expected("alternative");
 		}
 	@};
 
 	<expected-other-defn> = @{
 		if (!sid_propagating_error) {
-			E_expected_other_defn();
+			err_expected("rule declaration or rule or non local name definition");
 		}
 	@};
 
 	<expected-production-defn> = @{
 		if (!sid_propagating_error) {
-			E_expected_production_defn();
+			err_expected("rule declaration or definition, or action declaration");
 		}
 	@};
 
 	<expected-blt-types> = @{
 		if (!sid_propagating_error) {
-			E_expected_blt_types();
+			err_expected("'%types%'");
 		}
 	@};
 
 	<expected-blt-terminals> = @{
 		if (!sid_propagating_error) {
-			E_expected_blt_terminals();
+			err_expected("'%terminals%'");
 		}
 	@};
 
 	<expected-blt-productions> = @{
 		if (!sid_propagating_error) {
-			E_expected_blt_productions();
+			err_expected("'%productions%'");
 		}
 	@};
 
 	<expected-blt-entry> = @{
 		if (!sid_propagating_error) {
-			E_expected_blt_entry();
+			err_expected("'%entry%'");
 		}
 	@};
 
 	<expected-eof> = @{
 		if (!sid_propagating_error) {
-			E_expected_eof();
+			err_expected("end of file");
 		}
 	@};
 
 	<expected-terminator-or-define> = @{
 		if (!sid_propagating_error) {
-			E_expected_terminator_or_define();
+			err_expected("';' or '='");
 		}
 	@};
 

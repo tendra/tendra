@@ -116,8 +116,8 @@
 #include <assert.h>
 
 #include "../adt/rule.h"
+#include "../shared/error/error.h"
 #include <exds/dstring.h>
-#include "../gen-errors.h"
 
 typedef struct MatrixEntryT {
 	AltT        *alt;
@@ -468,7 +468,12 @@ rule_check_non_locals(RuleT *this_rule, RuleT *rule_list, unsigned real_size)
 
 			if (!nstring_is_prefix(scope, string)
 				|| !nstring_length(string) + 2 == length) {
-				E_out_of_scope_non_local(this_rule, rule, rule_list);
+
+				error(ERROR_SERIOUS, "a non local name in the rule '%N' is not "
+					"in scope in the rule '%N' in the left recursive cycle "
+					"involving the following productions:\n%P",
+					(void *) this_rule, (void *) rule, (void *) rule_list);
+
 				return FALSE;
 			}
 		}
@@ -478,7 +483,10 @@ rule_check_non_locals(RuleT *this_rule, RuleT *rule_list, unsigned real_size)
 		return TRUE;
 	}
 
-	E_left_recursion_nl_entry(this_rule, rule_list);
+	error(ERROR_SERIOUS, "the rule '%N' declares non local names in the left "
+		"recursive cycle with more than one entry point involving the "
+		"following productions:\n%P", (void *) this_rule, (void *) rule_list);
+
 	return FALSE;
 }
 
@@ -504,7 +512,10 @@ rule_check_alt_cycle_types(RuleT *rule, RuleT *rule_list, AltT *alt,
 	if (need_check && !types_equal_names(rule_param(rule), item_param(item))) {
 		btrans_destroy(translator1);
 		btrans_destroy(translator2);
-		E_left_recursion_name_mismatch(rule_list);
+
+		error(ERROR_SERIOUS, "the argument names of the left recursive calls "
+			"in the following productions do not match:\n%P",
+			(void *) rule_list);
 
 		return FALSE;
 	}
@@ -572,13 +583,17 @@ rule_check_cycle_types(RuleT *rule_list, EntryT *predicate_id,
 		rule = rule_get_next_in_reverse_dfs(rule)) {
 		if (!types_equal(param, rule_param(rule))
 			|| !types_equal(result, rule_result(rule))) {
-			E_left_recursion_type_mismatch(rule_list);
+			error(ERROR_SERIOUS, "the parameter or result types of the left "
+				"recursive calls in the following productions do not match:\n%P",
+				(void *) rule_list);
 			return FALSE;
 		}
 
 		rule_renumber(rule, TRUE, predicate_id);
 		if (!alt_equal(handler, rule_get_handler(rule))) {
-			E_left_rec_handler_mismatch(rule_list);
+			error(ERROR_SERIOUS, "the exception handlers in the left recursion "
+				"involving the following productions do not match:\n%P",
+				(void *) rule_list);
 			return FALSE;
 		}
 
@@ -775,7 +790,9 @@ rule_left_cycle_general_case_2(RuleT *rule_list, unsigned size,
 	}
 
 	if (not_found) {
-		E_cycle_no_terminator(rule_list);
+		error(ERROR_SERIOUS, "no cycle termination for the left recursive set "
+			"involving the following rules: %W", (void *) rule_list);
+
 		return FALSE;
 	}
 

@@ -67,9 +67,9 @@
 
 #include "../lang.h"
 #include "../output.h"
-#include "../gen-errors.h"
 #include "../adt/cstring-list.h"
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
 
 static void *
 main_init_test(OutputInfoT *info, CStringListT *options)
@@ -82,7 +82,8 @@ main_init_test(OutputInfoT *info, CStringListT *options)
 		char *option;
 
 		option = cstring_list_entry_string(entry);
-		E_bad_language_option("test", option);
+		error(ERROR_FATAL, "language '%s' doesn't understand option '%s'",
+			"test", option);
 	}
 
 	return NULL;

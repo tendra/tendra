@@ -67,8 +67,8 @@
 #include <assert.h>
 
 #include "shared/check/check.h"
+#include "shared/error/error.h"
 #include "arg-parse.h"
-#include "gen-errors.h"
 
 void
 arg_parse_intern_descriptions(ArgListT *arg_list)
@@ -142,10 +142,10 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 			}
 
 			if (matches == 0) {
-				E_arg_parse_unknown_option(option, &closure);
+				error(ERROR_FATAL, "unknown option '%s'", option);
 				UNREACHED;
 			} else if (matches > 1) {
-				E_arg_parse_ambiguous_option(option, &closure);
+				error(ERROR_FATAL, "ambiguous option '%s'", option);
 				UNREACHED;
 			} else {
 				switch (chosen->type)EXHAUSTIVE {
@@ -165,7 +165,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 					if (immediate != NULL) {
 						chosen->proc(option, &closure, chosen->closure, immediate);
 					} else {
-						E_arg_parse_unknown_option(option, &closure);
+						error(ERROR_FATAL, "unknown option '%s'", option);
 						UNREACHED;
 					}
 					break;
@@ -181,11 +181,11 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 							chosen->proc(option, &closure,
 							chosen->closure, tmp_argv[0]);
 						} else {
-							E_arg_parse_missing_argument(option, &closure);
+							error(ERROR_FATAL, "missing argument for option '%s'", option);
 							UNREACHED;
 						}
 					} else {
-						E_arg_parse_unknown_option(option, &closure);
+						error(ERROR_FATAL, "unknown option '%s'", option);
 						UNREACHED;
 					}
 					break;
@@ -197,7 +197,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 						chosen->proc(option, &closure, chosen->closure,
 						tmp_argv[0]);
 					} else {
-						E_arg_parse_missing_argument(option, &closure);
+						error(ERROR_FATAL, "missing argument for option '%s'", option);
 						UNREACHED;
 					}
 					break;
@@ -213,7 +213,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 						chosen->proc(option, &closure, chosen->closure,
 						tmp_argv[-1], tmp_argv[0]);
 					} else {
-						E_arg_parse_missing_argument(option, &closure);
+						error(ERROR_FATAL, "missing argument for option '%s'", option);
 						UNREACHED;
 					}
 					break;
@@ -226,7 +226,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 						tmp_argv[-2], tmp_argv[-1],
 						tmp_argv[0]);
 					} else {
-						E_arg_parse_missing_argument(option, &closure);
+						error(ERROR_FATAL, "missing argument for option '%s'", option);
 						UNREACHED;
 					}
 					break;
@@ -236,7 +236,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 			|| (c == '+' && option[1] == '-')
 			|| (c == '-' && option[1] == '\0')
 			|| (c == '+' && option[1] == '\0')) {
-			E_arg_parse_unknown_option(option, &closure);
+			error(ERROR_FATAL, "unknown option '%s'", option);
 			UNREACHED;
 		} else if (c == '-' || c == '+') {
 			char *opt = &option[1];
@@ -280,7 +280,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 							tmp_argc--;
 							chosen->proc(opt, &closure, chosen->closure, tmp_argv[0]);
 						} else {
-							E_arg_parse_missing_short_arg(option, opt, &closure);
+							error(ERROR_FATAL, "missing argument for option '%s' at '%s'", option, opt);
 							UNREACHED;
 						}
 						opt = NULL;
@@ -293,8 +293,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 							chosen->proc(opt, &closure, chosen->closure,
 							tmp_argv[0]);
 						} else {
-							E_arg_parse_missing_short_arg(option, opt,
-							&closure);
+							error(ERROR_FATAL, "missing argument for option '%s' at '%s'", option, opt);
 							UNREACHED;
 						}
 						break;
@@ -310,7 +309,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 							chosen->proc(opt, &closure, chosen->closure,
 							tmp_argv[-1], tmp_argv[0]);
 						} else {
-							E_arg_parse_missing_short_arg(option, opt, &closure);
+							error(ERROR_FATAL, "missing argument for option '%s' at '%s'", option, opt);
 							UNREACHED;
 						}
 						break;
@@ -322,13 +321,13 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 							chosen->proc(opt, &closure, chosen->closure,
 								tmp_argv[-2], tmp_argv[-1], tmp_argv[0]);
 						} else {
-							E_arg_parse_missing_short_arg(option, opt, &closure);
+							error(ERROR_FATAL, "missing argument for option '%s' at '%s'", option, opt);
 							UNREACHED;
 						}
 						break;
 					}
 				} else {
-					E_arg_parse_unknown_short_opt(option, opt, &closure);
+					error(ERROR_FATAL, "unknown short option '%s' at '%s'", option, opt);
 					UNREACHED;
 				}
 

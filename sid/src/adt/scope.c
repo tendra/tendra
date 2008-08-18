@@ -65,8 +65,8 @@
 
 #include <assert.h>
 
+#include "../shared/error/error.h"
 #include "scope.h"
-#include "../gen-errors.h"
 #include "rule.h"
 
 void
@@ -361,14 +361,16 @@ scope_stack_check_shadowing(ScopeStackT *stack, EntryT *from, RuleT *rule)
 
 		for (entry = frame->head; entry; entry = entry->next) {
 			if (entry->from == from) {
-				E_shadows_non_local(entry_key(from), entry_key(entry->to), rule);
+				error(ERROR_SERIOUS, "the name '%K' shadows the non local name '%K' in rule '%N'",
+					(void *) entry_key(from), (void *) entry_key(entry->to), rule);
 				return TRUE;
 			}
 		}
 	}
 
 	if (entry_is_rule(from) || entry_is_action(from) || entry_is_basic(from)) {
-		E_shadows_global(entry_key(from), rule);
+		error(ERROR_SERIOUS, "the name '%K' shadows a global name in rule '%N'",
+			(void *) entry_key(from), (void *) rule);
 		return TRUE;
 	}
 

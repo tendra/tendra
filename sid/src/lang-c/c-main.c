@@ -75,9 +75,9 @@
 
 #include "../lang.h"
 #include "../output.h"
-#include "../gen-errors.h"
 #include "../adt/cstring-list.h"
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
 
 static void *
 main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
@@ -105,7 +105,7 @@ main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
 		} else if (cstring_starts(option, "split=")) {
 			unsigned limit;
 			if (!cstring_to_unsigned(option + 6, &limit)) {
-				E_bad_split_size(option + 6);
+				error(ERROR_FATAL, "bad split size '%s'", option + 6);
 				UNREACHED;
 			}
 			c_out_info_set_split(c_out_info, limit);
@@ -148,9 +148,8 @@ main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
 			|| !strcmp(option, "no-terminal")) {
 			c_out_info_set_terminals(c_out_info, FALSE);
 		} else {
-			char  *lang;
-			lang = ansi ? "ansi-c" : "pre-ansi-c";
-			E_bad_language_option(lang, option);
+			error(ERROR_FATAL, "language '%s' doesn't understand option '%s'",
+				ansi ? "ansi-c" : "pre-ansi-c", option);
 		}
 	}
 

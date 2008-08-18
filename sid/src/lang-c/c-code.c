@@ -59,7 +59,7 @@
 
 
 /*
- * c-code.c --- SID C code ADT routines.
+ * c-code.c - SID C code ADT routines.
  *
  * This file implements the C code ADT used to represent action definitions
  * for the C output language.
@@ -68,10 +68,10 @@
 #include <assert.h>
 
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
 #include "c-code.h"
 #include "c-out-key.h"
 #include "c-output.h"
-#include "../gen-errors.h"
 #include "../adt/name.h"
 
 static void
@@ -127,6 +127,16 @@ c_code_get_translation(SaveRStackT *state, TypeBTransT *translator, EntryT *iden
 	}
 
 	return stack_entry;
+}
+
+static void
+
+code_undefined_result(void *gclosure, EntryT *name)
+{
+	CCodeT *code = gclosure;
+
+	error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+		"code result '%K' is not defined", (void *) entry_key(name));
 }
 
 
@@ -268,8 +278,9 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 			item->u.ident = entry;
 			if ((param == NULL || !types_contains(param, entry))
 				&& (result == NULL || !types_contains(result, entry))) {
-				E_bad_id_substitution(c_code_file(code), c_code_line(code),
-					entry);
+				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+					"substituted identifier '%K' is not a parameter or result",
+					(void *) entry_key(entry));
 			} else if (result) {
 				name_used(entry_get_name(entry));
 			}
@@ -280,12 +291,14 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 			item->u.ident = entry;
 			if (exceptions) {
 				if (param == NULL || !types_mutated(param, entry)) {
-					E_bad_mod_id_substitution(c_code_file(code),
-					c_code_line(code), entry);
+					error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+						"substituted mutable identifier '%K' is not a parameter",
+						(void *) entry_key(entry));
 				}
 			} else {
-				E_mod_id_in_assign(c_code_file(code), c_code_line(code),
-					entry);
+				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+					"substituted mutable identifier '%K' in assignment operator definition",
+					(void *) entry_key(entry));
 			}
 			break;
 
@@ -294,12 +307,14 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 			item->u.ident = entry;
 			if (!param_op) {
 				if (param == NULL || !types_contains(param, entry)) {
-					E_bad_ref_id_substitution(c_code_file(code),
-					c_code_line(code), entry);
+					error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+						"substituted reference identifier '%K' is not a parameter",
+						(void *) entry_key(entry));
 				}
 			} else {
-				E_ref_id_in_param_op(c_code_file(code), c_code_line(code),
-					entry);
+				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+					"substituted address of identifier '%K' in parameter assignment operator definition",
+					(void *) entry_key(entry));
 			}
 			break;
 
@@ -310,8 +325,9 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 			 * grammar_check_complete() for details.
 			 */
 			if (!entry) {
-				E_bad_basic_substitution(c_code_file(code), c_code_line(code),
-					&item->u.string);
+				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+					"substituted terminal '%s' hasn't been declared or defined",
+						nstring_contents(&item->u.string));
 			} else {
 				item->u.basic = entry;
 			}
@@ -321,29 +337,30 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 			entry = table_add_name(table, &item->u.string);
 			item->u.ident = entry;
 			if (param == NULL && result == NULL) {
-				E_bad_label_substitution(c_code_file(code), c_code_line(code),
-					entry);
+				error_posn(ERROR_FATAL, c_code_file(code), (int) c_code_line(code),
+					"substituted label '%K' in unparameterised block",
+					(void *) entry_key(entry));
 			}
 			break;
 
 		case CCT_EXCEPTION:
 			if (!exceptions) {
-				E_bad_exception_substitution(c_code_file(code),
-					c_code_line(code));
+				error_posn(ERROR_SERIOUS, c_code_file(code), (int) c_code_line(code),
+					"substituted exception call in unsuitable code block");
 			}
 			break;
 
 		case CCT_ADVANCE:
 			if (!exceptions) {
-				E_bad_advance_substitution(c_code_file(code),
-					c_code_line(code));
+				error_posn(ERROR_SERIOUS, c_code_file(code), (int) c_code_line(code),
+					"substituted lexer advance call in unsuitable code block");
 			}
 			break;
 
 		case CCT_TERMINAL:
 			if (!exceptions) {
-				E_bad_terminal_substitution(c_code_file(code),
-					c_code_line(code));
+				error_posn(ERROR_SERIOUS, c_code_file(code), (int) c_code_line(code),
+					"substituted current terminal call in unsuitable code block");
 			}
 			break;
 
@@ -353,7 +370,7 @@ c_code_check(CCodeT *code, BoolT exceptions, BoolT param_op, TypeTupleT *param,
 	}
 
 	if (result) {
-		types_check_used(result, E_code_undefined_result, code);
+		types_check_used(result, code_undefined_result, code);
 		for (item = code->head; item; item = item->next) {
 			if (item->type == CCT_IDENT) {
 				name_not_used(entry_get_name(item->u.ident));

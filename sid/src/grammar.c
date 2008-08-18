@@ -68,10 +68,10 @@
 #include <stddef.h>
 
 #include "shared/check/check.h"
+#include "shared/error/error.h"
 #include "grammar.h"
 #include "adt/action.h"
 #include "adt/basic.h"
-#include "gen-errors.h"
 #include "adt/name.h"
 #include "adt/rule.h"
 #include "adt/type.h"
@@ -116,11 +116,13 @@ grammar_check_1(EntryT *entry, void *gclosure)
 	switch (entry_type(entry)) EXHAUSTIVE {
 	case ET_RULE:
 		if (!rule_is_defined(entry_get_rule(entry))) {
-			E_rule_not_defined(entry_key(entry));
+			error(ERROR_SERIOUS, "rule '%K' is never defined",
+				(void *) entry_key(entry));
 		}
 
 		if (!entry_is_traced(entry)) {
-			E_rule_not_used(entry_key(entry));
+			error(ERROR_SERIOUS, "rule '%K' is never used",
+				(void *) entry_key(entry));
 		}
 		break;
 
@@ -132,25 +134,29 @@ grammar_check_1(EntryT *entry, void *gclosure)
 		 * true even with no action file.
 		 */
 		if (!entry_is_traced(entry)) {
-			E_basic_not_used(entry_key(entry));
+			error(ERROR_SERIOUS, "basic '%K' is never used",
+				(void *) entry_key(entry));
 		}
 		break;
 
 	case ET_ACTION:
 		if (!entry_is_traced(entry)) {
-			E_action_not_used(entry_key(entry));
+			error(ERROR_SERIOUS, "action '%K' is never used",
+				(void *) entry_key(entry));
 		}
 		break;
 
 	case ET_TYPE:
 		if (!entry_is_traced(entry) && !type_get_ignored(entry_get_type(entry))) {
-			E_type_not_used(entry_key(entry));
+			error(ERROR_SERIOUS, "type '%K' is never used",
+				(void *) entry_key(entry));
 		}
 		break;
 
 	case ET_NON_LOCAL:
 		if (!entry_is_traced(entry)) {
-			E_non_local_not_used(entry_key(entry));
+			error(ERROR_SERIOUS, "non-local name '%K' is never used",
+				(void *) entry_key(entry));
 		}
 		break;
 
@@ -275,7 +281,7 @@ unsigned
 grammar_next_terminal(GrammarT *grammar)
 {
 	if (grammar->terminal == UINT_MAX) {
-		E_too_many_terminals();
+		error(ERROR_FATAL, "too many terminals in grammar");
 		UNREACHED;
 	}
 

@@ -66,12 +66,13 @@
  */
 
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
 #include "c-check.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"
 #include "../adt/entry.h"
-#include "../gen-errors.h"
 #include "../adt/table.h"
+#include "../adt/type.h"
 
 static void
 c_check_grammar_1(EntryT *entry, void *gclosure)
@@ -88,14 +89,16 @@ c_check_grammar_1(EntryT *entry, void *gclosure)
 
 			if (!types_equal_zero_tuple(basic_result(basic)) &&
 				basic_get_result_code(basic) == NULL) {
-				E_basic_result_code_not_defined(entry_key(entry));
+				error(ERROR_SERIOUS, "result code not defined for basic '%K'",
+					(void *) entry_key(entry));
 			}
 		}
 		break;
 
 	case ET_ACTION:
 		if (action_get_code(entry_get_action(entry)) == NULL) {
-			E_action_code_not_defined(entry_key(entry));
+			error(ERROR_SERIOUS, "definition code not defined for action '%K'",
+				(void *) entry_key(entry));
 		}
 		break;
 
@@ -107,7 +110,8 @@ c_check_grammar_1(EntryT *entry, void *gclosure)
 			&& (type_get_assign_code(type) == NULL
 				|| type_get_param_assign_code(type) == NULL
 				|| type_get_result_assign_code(type) == NULL)) {
-			E_type_code_not_defined(entry_key(entry));
+			error(ERROR_SERIOUS, "some but not all assignment operators defined for type '%K'",
+				(void *) entry_key(entry));
 		}
 		break;
 

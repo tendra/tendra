@@ -7,8 +7,8 @@
 
 
 
-#include "lexer.h"
-#include "gen-errors.h"
+	#include "lexer.h"
+	#include "shared/error/error.h"
 
 #include <assert.h>
 /* LOOKUP TABLE */
@@ -106,14 +106,14 @@ lexi_read_token_bracketed_comment(struct lexi_state *state)
 		if (c0 == '*') {
 			int c1 = lexi_readchar(state);
 			if (c1 == '/') {
-				state->zone_function = lexi_read_token;
-				return lexi_read_token(state);
+				return;
 			}
 			lexi_push(state, c1);
 		} else if (c0 == LEXI_EOF) {
 			{
 
-	E_eof_in_comment(&lexer_stream->istream);
+	error_posn(ERROR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
+		"end of file in comment");
 			}
 			goto start;
 		}
@@ -129,12 +129,12 @@ lexi_read_token_singleline_comment(struct lexi_state *state)
 		int c0 = lexi_readchar(state);
 		if (lexi_group(lexi_group_singleline_comment_white, c0)) goto start;
 		if (c0 == '\n') {
-			state->zone_function = lexi_read_token;
-			return lexi_read_token(state);
+			return;
 		} else if (c0 == LEXI_EOF) {
 			{
 
-	E_eof_in_comment(&lexer_stream->istream);
+	error_posn(ERROR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
+		"end of file in comment");
 			}
 			goto start;
 		}
@@ -205,11 +205,11 @@ lexi_read_token(struct lexi_state *state)
 			case '/': {
 				int c1 = lexi_readchar(state);
 				if (c1 == '*') {
-					state->zone_function = lexi_read_token_bracketed_comment;
-					return lexi_read_token(state);
+					lexi_read_token_bracketed_comment(state);
+					goto start;
 				} else if (c1 == '/') {
-					state->zone_function = lexi_read_token_singleline_comment;
-					return lexi_read_token(state);
+					lexi_read_token_singleline_comment(state);
+					goto start;
 				}
 				lexi_push(state, c1);
 				break;

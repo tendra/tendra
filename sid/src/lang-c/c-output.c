@@ -64,8 +64,11 @@
  */
 
 #include <assert.h>
+#include <string.h>
+#include <errno.h>
 
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
 #include "c-output.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"
@@ -75,7 +78,6 @@
 #include "c-out-types.h"
 #include <exds/dstring.h>
 #include <exds/ostream.h>
-#include "../gen-errors.h"
 #include "../output.h"
 #include "../adt/name.h"
 #include "../adt/rstack.h"
@@ -1119,7 +1121,7 @@ c_output_definition_1(COutputInfoT *info, RuleT *rule, EntryT *predicate_id,
 	ostream_close(ostream);
 
 	if (!ostream_open(ostream, name)) {
-		E_cannot_open_output_file(name);
+		error(ERROR_FATAL, "cannot open output file '%s': %s", name, strerror(errno));
 		UNREACHED;
 	}
 

@@ -69,7 +69,6 @@
 #include "entry.h"
 #include "action.h"
 #include "basic.h"
-#include "../gen-errors.h"
 #include "name.h"
 #include "rule.h"
 #include "type.h"

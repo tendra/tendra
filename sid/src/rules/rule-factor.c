@@ -159,11 +159,11 @@
 #include <assert.h>
 
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
 #include "../adt/rule.h"
 #include "../adt/basic.h"
 #include <exds/bitvec.h>
 #include "../adt/entry-list.h"
-#include "../gen-errors.h"
 #include "../adt/types.h"
 
 typedef struct AltGroupT {
@@ -328,11 +328,13 @@ rule_expand(RuleT *rule, FactorClosureT *closure, AltGroupT *group,
 
 	rule_factor_1(item_rule, closure);
 	if (handler && !alt_equal(handler, rule_get_handler(rule))) {
-		E_factor_handler_mismatch(item_rule, rule);
+		error(ERROR_SERIOUS, "the rule '%N' cannot be expanded into '%N' as the exception handlers don't match",
+			(void *) item_rule, (void *) rule);
 	}
 
 	if (!non_local_list_is_empty(rule_non_locals(item_rule))) {
-		E_factor_nl_entry(item_rule, rule);
+		error(ERROR_SERIOUS, "the rule '%N' cannot be expanded into '%N' as it contains non local name definitions",
+			(void *) item_rule, (void *) rule);
 	}
 
 	for (last = &groups->head; *last != group; last = &(*last)->next) {
@@ -470,7 +472,8 @@ rule_create_factored(TypeTupleT *params, TypeTupleT *result, AltT *alt,
 	RuleT  *new_rule;
 
 	if (factorised_rules == rule_factor_limit) {
-		E_too_many_factorisations(rule_factor_limit);
+		error(ERROR_FATAL, "too many productions (%u) created during factorisation",
+			rule_factor_limit);
 		UNREACHED;
 	}
 

@@ -75,11 +75,11 @@
 #include <ctype.h>
 
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
+#include "c-lexer.h"
 #include "c-lexi_lexer.h"
 
 struct c_lexi_state c_lexer_current_state ;
-
-#include "../gen-errors.h"
 
 
 /*
@@ -112,7 +112,8 @@ c_lexer_support_read_id(int c, int rettok, enum c_lexi_groups bodygroup)
 		dstring_append_char(&dstring, c);
 
 		if (!istream_peek_char(istream, &t)) {
-			E_eof_in_identifier(istream);
+			error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+				"end of file in identifier");
 			return C_TOK_EOF;
 		}
 
@@ -262,7 +263,8 @@ c_lexer_read_builtin(int c0, int c1)
 	c = c1;	/* [builtinstart] */
 	do {
 		if (!c_lexi_group(c_lexi_group_builtinbody,c)) {
-			E_c_illegal_character_in_identifier(istream, c);
+			error_posn(ERROR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
+				"illegal character in identifier': '%C'", (void *) &c);
 			return C_TOK_EOF;	/* XXX EOF? */
 		}
 
@@ -270,7 +272,8 @@ c_lexer_read_builtin(int c0, int c1)
 
 		c = c_lexi_getchar();
 		if (c == LEXI_EOF) {
-			E_eof_in_identifier(istream);
+			error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+				"end of file in identifier");
 			return C_TOK_EOF;
 		}
 	} while (!c_lexi_group(c_lexi_group_builtindlmt, c));
@@ -308,7 +311,8 @@ c_lexer_read_builtin(int c0, int c1)
 	} else if (cstring_ci_equal(cstring, "param-assign")) {
 		c_lexer_token->t = C_TOK_BLT_HPARAM_HASSIGN;
 	} else {
-		E_c_unknown_builtin(istream, cstring);
+		error_posn(ERROR_FATAL, istream_name(istream), (int) istream_line(istream),
+			"unknown builtin '%%%s%%'", cstring);
 		UNREACHED;
 	}
 	DEALLOCATE(cstring);
@@ -335,7 +339,8 @@ c_lexer_act_read_string(int c)
 		dstring_append_char(&dstring, c);
 
 		if (!istream_peek_char(istream, &t)) {
-			E_c_eof_in_code(istream);
+			error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+				"end of file in C code block");
 			return C_TOK_EOF;
 		}
 
@@ -366,7 +371,8 @@ c_lexer_unknown_token(int c)
 		return C_TOK_EOF;
 	}
 
-	E_c_illegal_character(istream, c);
+	error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+		"illegal character '%C'", (void *) &c);
 
 	/*
 	 * We try to continue regardless as convenience to the user so that

@@ -10,7 +10,7 @@ SID=sid
 LEXI=lexi
 
 # XXX: Do I want to have them removed during clean?
-#CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h gen-errors.c gen-errors.h
+#CLEAN_EXTRA= parser.c junk.h c-parser.c c-junk.h
 
 SIDOPTS=-l ansi-c -s numeric -s no-numeric-terminals
 LEXIOPTS=-lC90 -a

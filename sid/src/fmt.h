@@ -6,13 +6,13 @@
  * modification, are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *	this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *	this list of conditions and the following disclaimer in the documentation
+ *	and/or other materials provided with the distribution.
  * 3. Neither the name of The TenDRA Project nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific, prior written permission.
+ *	may be used to endorse or promote products derived from this software
+ *	without specific, prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
  * IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,40 +29,15 @@
  * $Id$
  */
 
-HEADERS = @{
+/*
+ * fmt.h - Application-specific format specifiers for shared/error.
+ *
+ * See the file "fmt.c" for more information.
+ */
 
-	#include "lexer.h"
-	#include "shared/error/error.h"
+#ifndef H_FMT
+#define H_FMT
 
-@} , @{
-@};
+void fmt_init(void);
 
-TRAILERS = @{
-@},@{
-@};
-
-
-MAP TERMINAL -> int;
-
-
-ACTION eof_in_comment = @{
-	error_posn(ERROR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
-		"end of file in comment");
-@};
-
-ACTION read_identifier : (c:CHARACTER) -> (t:TERMINAL) = @{
-	@t=read_identifier(@c);
-@};
-
-ACTION read_basic : () -> (t:TERMINAL) = @{
-       @t=read_basic();
-@};
-
-ACTION read_builtin : () -> (t:TERMINAL) = @{
-       @t=read_builtin();
-@};
-
-ACTION lexi_unknown_token : (c:CHARACTER) -> (t:TERMINAL) = @{
-	@t= lexi_unknown_token(@c);
-@};
-
+#endif /* !defined (H_FMT) */

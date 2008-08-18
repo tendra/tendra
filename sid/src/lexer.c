@@ -70,12 +70,14 @@
  * specifc lexical analyser files as well.
  */
 
+#include <exds/dalloc.h>
+
 #include <assert.h>
 #include <ctype.h>
 
 #include "shared/check/check.h"
+#include "shared/error/error.h"
 #include "lexer.h"
-#include "gen-errors.h"
 
 struct lexi_state lexi_current_state ;
 
@@ -200,7 +202,8 @@ read_identifier(int c)
 
 		c = lexi_readchar(&lexi_current_state);
 		if (c == LEXI_EOF) {
-			E_eof_in_identifier(istream);
+			error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+				"end of file in identifier");
 			return LEXER_TOK_EOF;
 		}
 
@@ -229,7 +232,8 @@ read_basic(void)
 	for (;;) {
 		c = lexi_readchar(&lexi_current_state);
 		if (c == LEXI_EOF) {
-			E_eof_in_identifier(istream);	/* TODO eof_in_basic */
+			error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+				"end of file in basic");
 			return LEXER_TOK_EOF;
 		}
 
@@ -261,7 +265,8 @@ read_builtin(void)
 	do {
 		c = lexi_readchar(&lexi_current_state);
 		if (c == LEXI_EOF) {
-			E_eof_in_builtin(istream);
+			error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+				"end of file in builtin");
 			return LEXER_TOK_EOF;
 		}
 
@@ -273,7 +278,8 @@ read_builtin(void)
 	} while (lexi_group(lexi_group_builtin, c));
 
 	if (c != '%') {
-		E_illegal_character_in_builtin(istream, c);
+		error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+			"illegal character '%C' in builtin, expecting '%%'", (void *) &c);
 
 		/* abandon this token and move on */
 		return lexi_read_token(&lexi_current_state);
@@ -289,7 +295,8 @@ read_builtin(void)
 	} else if (cstring_ci_equal(cstring, "entry")) {
 		lexer_token->t = LEXER_TOK_BLT_HENTRY;
 	} else {
-		E_unknown_builtin(istream, cstring);
+		error_posn(ERROR_FATAL, istream_name(istream), (int) istream_line(istream),
+			"unknown builtin '%%%s%%'", cstring);
 		UNREACHED;
 	}
 
@@ -308,7 +315,8 @@ lexi_unknown_token(int c)
 		return LEXER_TOK_EOF;
 	}
 
-	E_illegal_character(istream, c);
+	error_posn(ERROR_SERIOUS, istream_name(istream), (int) istream_line(istream),
+		"illegal character '%C'", (void *) &c);
 
 	/*
 	 * We try to continue regardless as convenience to the user so that

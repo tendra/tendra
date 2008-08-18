@@ -31,34 +31,34 @@
 
 HEADERS = @{
 
-#include "c-lexer.h"
-#include "../gen-errors.h"
+	#include "c-lexer.h"
+	#include "../shared/error/error.h"
 
-/*
- * Lexi interface identifier wrappers.
- *
- * These are defined here just to keep them out of the way; nothing but the
- * lxi file references them.
- *
- * TODO These will be removed once Lexi provides identifier support.
- */
-#define c_lexer_read_identifier(c) \
-	c_lexer_support_read_id(c, C_TOK_C_HIDENTIFIER, c_lexi_group_identbody)
+	/*
+	 * Lexi interface identifier wrappers.
+	 *
+	 * These are defined here just to keep them out of the way; nothing but the
+	 * lxi file references them.
+	 *
+	 * TODO These will be removed once Lexi provides identifier support.
+	 */
+	#define c_lexer_read_identifier(c) \
+		c_lexer_support_read_id(c, C_TOK_C_HIDENTIFIER, c_lexi_group_identbody)
 
-#define c_lexer_act_read_label(c0, c1, c2) \
-	c_lexer_support_read_id(c2, C_TOK_ACT_HLABEL, c_lexi_group_act_identbody)
+	#define c_lexer_act_read_label(c0, c1, c2) \
+		c_lexer_support_read_id(c2, C_TOK_ACT_HLABEL, c_lexi_group_act_identbody)
 
-#define c_lexer_act_read_reference(c0, c1, c2) \
-	c_lexer_support_read_id(c2, C_TOK_ACT_HREFERENCE, c_lexi_group_act_identbody)
+	#define c_lexer_act_read_reference(c0, c1, c2) \
+		c_lexer_support_read_id(c2, C_TOK_ACT_HREFERENCE, c_lexi_group_act_identbody)
 
-#define c_lexer_act_read_modifiable(c0, c1, c2) \
-	c_lexer_support_read_id(c2, C_TOK_ACT_HMODIFIABLE, c_lexi_group_act_identbody)
+	#define c_lexer_act_read_modifiable(c0, c1, c2) \
+		c_lexer_support_read_id(c2, C_TOK_ACT_HMODIFIABLE, c_lexi_group_act_identbody)
 
-#define c_lexer_act_read_basic(c0, c1, c2) \
-	c_lexer_support_read_id(c2, C_TOK_ACT_HBASIC, c_lexi_group_identbody)
+	#define c_lexer_act_read_basic(c0, c1, c2) \
+		c_lexer_support_read_id(c2, C_TOK_ACT_HBASIC, c_lexi_group_identbody)
 
-#define c_lexer_act_read_identifier(c0, c1) \
-	c_lexer_support_read_id(c1, C_TOK_ACT_HIDENTIFIER, c_lexi_group_act_identbody)
+	#define c_lexer_act_read_identifier(c0, c1) \
+		c_lexer_support_read_id(c1, C_TOK_ACT_HIDENTIFIER, c_lexi_group_act_identbody)
 
 @} , @{
 @};
@@ -69,6 +69,9 @@ TRAILERS = @{
 
 MAP TERMINAL -> int;
 
-ACTION E_c_eof_in_comment : () -> () = @{
-	 E_c_eof_in_comment(&c_lexer_stream->istream);
+
+ACTION eof_in_comment = @{
+	error_posn(ERROR_FATAL, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
+		"end of file in comment");
 @};
+

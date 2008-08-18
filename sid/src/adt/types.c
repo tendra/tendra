@@ -68,9 +68,10 @@
 #include <limits.h>
 
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
 #include "types.h"
+#include "type.h"
 #include <exds/dalloc.h>
-#include "../gen-errors.h"
 #include "name.h"
 #include "rstack.h"
 #include "rule.h"
@@ -1353,7 +1354,7 @@ ntrans_add_translation(TypeNTransT *translator, EntryT *from)
 	NTransT *link = ALLOCATE(NTransT);
 
 	if (translator->count == UINT_MAX) {
-		E_too_many_generated_names();
+		error(ERROR_FATAL, "too many automatically generated names required");
 		UNREACHED;
 	}
 

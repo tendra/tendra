@@ -3,9 +3,7 @@
  * $Id$
  */
 
-/* -p C_TOK_ */
-
-ACTION <E_c_eof_in_comment> : () -> () ;
+ACTION <eof_in_comment>;
 
 
 TOKEN "\e" -> $EOF;
@@ -33,7 +31,7 @@ ZONE bracketed_comment: "/*" ... "*/" {
 	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 
-	TOKEN "\e" -> <E_c_eof_in_comment>;
+	TOKEN "\e" -> <eof_in_comment>;
 }
 
 /* TODO anonoymous zones would be nice: ZONE "//" ... "\n" { */
@@ -42,7 +40,7 @@ ZONE singleline_comment: "//" ... "\n" {
 	GROUP white = "";
 	TOKEN DEFAULT -> $$;
 
-	TOKEN "\e" -> <E_c_eof_in_comment>;
+	TOKEN "\e" -> <eof_in_comment>;
 }
 
 
@@ -81,3 +79,4 @@ ZONE act:	"@{" -> $ACT-CODESTART	/* XXX to remove when merged into the grammar *
 }
 
 TOKEN DEFAULT -> $ = c_lexer_unknown_token();
+

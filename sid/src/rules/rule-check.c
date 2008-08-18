@@ -79,10 +79,10 @@
 #include <assert.h>
 
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
 #include "../adt/rule.h"
 #include "../adt/basic.h"
 #include <exds/bitvec.h>
-#include "../gen-errors.h"
 
 static void
 rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
@@ -111,7 +111,8 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 			case ET_PREDICATE:
 				assert(item == initial);
 				if (entry_list_contains(&predicate_list, entry)) {
-					E_predicate_collision(rule, entry_key(entry));
+					error(ERROR_SERIOUS, "collision of predicate '%K', in rule '%N'",
+						(void *) rule, (void *) entry_key(entry));
 				} else {
 					entry_list_add(&predicate_list, entry);
 				}
@@ -136,7 +137,8 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 					bitvec_set(&tmp, terminal);
 					bitvec_and(&tmp, &test);
 					closure.bitvec = &tmp;
-					E_first_set_collision(rule, &closure);
+					error(ERROR_SERIOUS, "collision of terminal(s) %B in rule '%N'",
+						(void *) &closure, (void *) rule);
 					bitvec_destroy(&tmp);
 				}
 				break;
@@ -152,7 +154,8 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 					item_preds);
 
 					if (!entry_list_is_empty(&tmp_list)) {
-						E_predicate_list_collision(rule, &tmp_list);
+						error(ERROR_SERIOUS, "collision of predicates %L in rule '%N'",
+							(void *) &tmp_list, (void *) rule);
 					}
 
 					entry_list_destroy(&tmp_list);
@@ -168,7 +171,8 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 					bitvec_copy(&tmp, bitvec);
 					bitvec_and(&tmp, &test);
 					closure.bitvec = &tmp;
-					E_first_set_collision(rule, &closure);
+					error(ERROR_SERIOUS, "collision of terminal(s) %B in rule '%N'",
+						(void *) &closure, (void *) rule);
 					bitvec_destroy(&tmp);
 				}
 				break;
@@ -187,7 +191,8 @@ rule_check_first_set_1(RuleT *rule, GrammarT *grammar)
 
 		if (is_empty) {
 			if (!is_empty_mesg_shown) {
-				E_multiple_see_through_alts(rule);
+				error(ERROR_SERIOUS, "the rule '%N' contains more than one see through alternative",
+					(void *) rule);
 				is_empty_mesg_shown = TRUE;
 			}
 		} else {
@@ -318,7 +323,10 @@ rule_compute_follow_set_1(RuleT *rule, GrammarT *grammar, BitVecT *context,
 			bitvec_copy(&test, follow);
 			bitvec_and(&test, first);
 			closure.bitvec = &test;
-			E_follow_set_collision(rule, &closure, clashes);
+			error(ERROR_SERIOUS, "the terminal(s) %B can start rule '%N' which "
+				"is see through, and the same terminal(s) may appear in the "
+				"following situations:\n%A",
+				(void *) &closure, (void *) rule, (void *) clashes);
 			bitvec_not(&test);
 			bitvec_and(first, &test);
 			bitvec_destroy(&test);
@@ -326,7 +334,10 @@ rule_compute_follow_set_1(RuleT *rule, GrammarT *grammar, BitVecT *context,
 
 		entry_list_intersection(&tmp_list, pred_follow, pred_first);
 		if (!entry_list_is_empty(&tmp_list)) {
-			E_predicate_follow_set_coll(rule, &tmp_list, clashes);
+			error(ERROR_SERIOUS, "the predicate(s) %L can start rule '%N' which "
+				"is see through, and the same predicate(s) may appear in the "
+				"following situations:\n%A",
+				(void *) &tmp_list, (void *) rule, (void *) clashes);
 			entry_list_unlink_used(pred_first, &tmp_list);
 		}
 		entry_list_destroy(&tmp_list);

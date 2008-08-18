@@ -66,10 +66,10 @@
 #include <limits.h>
 
 #include "../shared/check/check.h"
+#include "../shared/error/error.h"
 #include "table.h"
 #include "action.h"
 #include "basic.h"
-#include "../gen-errors.h"
 #include "../grammar.h"
 #include "name.h"
 #include "rule.h"
@@ -81,7 +81,7 @@ table_next_generated_key(void)
 	static unsigned sequence = 0;
 
 	if (sequence == UINT_MAX) {
-		E_too_many_generated_ids();
+		error(ERROR_FATAL, "too many automatically generated identifiers required");
 		UNREACHED;
 	}
 
