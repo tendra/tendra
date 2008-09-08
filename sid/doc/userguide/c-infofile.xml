@@ -435,7 +435,7 @@ terminal  = ZB ;</programlisting>
 			section is optional.</para>
 
 		<programlisting language="SID C Actions">
-%persistent%
+%persistents%
 
 	pv1 : Type1T ;
 	pv2 : Type2T ;
