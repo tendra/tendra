@@ -212,7 +212,7 @@ typedef enum zone_type_tag {
 */
 typedef struct zone_tag {
     char* zone_name;
-    zone_type type;  /* Not used yet.*/
+    zone_type type;  
 
     character* zone_pre_pass;
     character* zone_main_pass;

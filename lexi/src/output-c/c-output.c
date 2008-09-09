@@ -557,11 +557,14 @@ static void
 output_zone_pass_prototypes(zone *p) 
 {
   zone *z;
+  char* s = "int";
   for(z=p->next;z!=NULL;z=z->opt) {
     output_zone_pass_prototypes(z);
   }
+  if(p->type == typezone_pure_function)
+    s = "void";
   if(!(p==p->top_level->global_zone))
-    fprintf(lex_output,"static int %s_%s(struct %sstate *state);\n",
+    fprintf(lex_output,"static %s %s_%s(struct %sstate *state);\n", s,
 		read_token_name,p->zone_name, lexi_prefix);
 }
 
@@ -607,7 +610,11 @@ output_zone_pass(cmd_line_options *opt, zone *p)
 	}
     }
     else {
-        fprintf(lex_output,"static int\n%s_%s(struct %sstate *state)\n",
+        char* s= "int";
+        if(p->type == typezone_pure_function)
+	    s = "void";
+
+        fprintf(lex_output,"static %s\n%s_%s(struct %sstate *state)\n", s,
 	read_token_name, p->zone_name, lexi_prefix);
 	fputs("{\n", lex_output);
     }
