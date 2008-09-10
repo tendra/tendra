@@ -444,8 +444,8 @@ void f <emphasis>WEAK</emphasis> ( char * );</programlisting>
 #include &lt;stdio.h&gt;
 extern void f ();
 void g () {
-			f ( "hello" );
-			f ( NULL );
+	f ( "hello" );
+	f ( NULL );
 }</programlisting>
 
 					<para>the argument in the first call of <code>f</code> is
