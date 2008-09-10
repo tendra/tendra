@@ -860,7 +860,12 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fputs("\n", lex_output_h);
 
 	if(opt->outputfile[1].name) {
-		fprintf(lex_output, "#include \"%s\"\n\n", opt->outputfile[1].name);
+		char *s;
+
+		/* XXX: This assumes both files are in the same directory */
+		s = xstrdup(opt->outputfile[1].name);
+		fprintf(lex_output, "#include \"%s\"\n\n", basename(s));
+		free(s);
 	}
 
 	output_headers() ;
