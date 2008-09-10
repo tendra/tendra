@@ -259,8 +259,8 @@ void lexi_init(struct lexi_state *state) {
 static int lexi_read_token_sididentifierzone(struct lexi_state *state);
 static int lexi_read_token_identifierzone(struct lexi_state *state);
 static int lexi_read_token_stringzone(struct lexi_state *state);
-static int lexi_read_token_line_comment(struct lexi_state *state);
-static int lexi_read_token_comment(struct lexi_state *state);
+static void lexi_read_token_line_comment(struct lexi_state *state);
+static void lexi_read_token_comment(struct lexi_state *state);
 static int lexi_read_token_arg_char_nb_zone(struct lexi_state *state);
 /* MAIN PASS ANALYSERS */
 
@@ -388,7 +388,7 @@ lexi_read_token_stringzone(struct lexi_state *state)
 }
 /* MAIN PASS ANALYSER for zone line_comment*/
 
-static int
+static void
 lexi_read_token_line_comment(struct lexi_state *state)
 {
 	start: {
@@ -402,7 +402,7 @@ lexi_read_token_line_comment(struct lexi_state *state)
 }
 /* MAIN PASS ANALYSER for zone comment*/
 
-static int
+static void
 lexi_read_token_comment(struct lexi_state *state)
 {
 	start: {
