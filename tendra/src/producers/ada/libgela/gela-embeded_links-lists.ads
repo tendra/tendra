@@ -15,7 +15,7 @@ generic
    with procedure Set_Next (Item, Next : Element_Access) is <>;
 
 package Gela.Embeded_Links.Lists is
-   pragma Pure (Lists);
+   pragma Preelaborate (Lists);
 
    type List is limited private;
 
