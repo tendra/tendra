@@ -33,6 +33,12 @@ end Asis;
     <xsl:when test="contains(@name, '_Kind')">
       return <xsl:call-template name="real-not-a-kind"/>;
 </xsl:when>
+<xsl:when test="starts-with (@name, 'Is_') or starts-with (@name, 'Has_')">
+      return False;
+</xsl:when>
+<xsl:when test="@name='Declaration_Origin'">
+      return Not_A_Declaration_Origin;
+</xsl:when>
     <xsl:otherwise>
       Raise_Inappropriate_Element
         (Get_Context (Element), "<xsl:call-template name="attr-name"/>");

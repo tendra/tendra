@@ -672,9 +672,12 @@ package body Asis.Declarations is
       Enclosing_Unit : constant Compilation_Unit :=
          Enclosing_Compilation_Unit (Declaration.all);
    begin
-      Check_Nil_Element (Declaration, "Is_Subunit");
-      return Is_Equal (Declaration, Unit_Declaration (Enclosing_Unit.all))
-        and Unit_Kind (Enclosing_Unit.all) in A_Subunit;
+      if Assigned (Declaration) then
+         return Is_Equal (Declaration, Unit_Declaration (Enclosing_Unit.all))
+           and Unit_Kind (Enclosing_Unit.all) in A_Subunit;
+      else
+         return False;
+      end if;
    end Is_Subunit;
 
    -----------
