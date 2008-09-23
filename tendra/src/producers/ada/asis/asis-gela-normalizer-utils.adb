@@ -195,11 +195,13 @@ package body Asis.Gela.Normalizer.Utils is
    -----------------------------------
 
    procedure Drop_Range_Subtype_Indication (Element : Asis.Element) is
-      Node  : Node_Type renames Node_Type (Element.all);
-      Child : constant Asis.Element := Get_Subtype_Mark (Element.all);
-      Attr  : constant Asis.Element := Get_Subtype_Mark (Child.all);
+      Node       : Node_Type renames Node_Type (Element.all);
+      Child      : constant Asis.Element := Get_Subtype_Mark (Element.all);
+      Attr       : constant Asis.Element := Get_Subtype_Mark (Child.all);
+      Constraint : constant Asis.Element := Subtype_Constraint (Child.all);
    begin
       Set_Subtype_Mark (Node, Attr);
+      Set_Subtype_Constraint (Node, Constraint);
    end Drop_Range_Subtype_Indication;
 
    ------------------------

@@ -273,6 +273,10 @@ private package Asis.Gela.Normalizer.Utils is
         (Element : in out Node_Type;
          Value   : in     Asis.Expression) is <>;
 
+      with procedure Set_Subtype_Constraint
+        (Element : in out Node_Type;
+         Value   : in     Asis.Constraint) is <>;
+
    procedure Drop_Range_Subtype_Indication (Element : Asis.Element);
 
 
