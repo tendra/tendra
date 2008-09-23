@@ -33,8 +33,43 @@
 
 	rpn-expressions;
 
+	/*
+	 * This is a good example of SID eliminating left-factors in grammars to
+	 * produce an LL(1) result. This grammar for RPN has two expressions
+	 * followed by an operator:
+	 *
+     *    expression = {
+     *        n1 = expression;
+     *        n2 = expression;
+     *        { mul || div || add || sub };
+     *    ||
+     *        number;
+     *    };
+     *
+     * This is left-recursive, and hence not LL(1). The usual factoring is:
+     *
+     *    expression = {
+     *        number;
+     *        expression1;
+     *    };
+     *
+     *    expression1 = {
+     *        expression;
+     *        { mul || div || add || sub };
+     *        expression1;
+     *    ||
+     *        $;
+     *    };
+	 *
+	 * And this is exactly what SID produces during left-recursion elimination
+	 * (which you can see by running 'sid -d /dev/stdout -l test rpn.sid').
+	 * The result is LL(1), and not particularly readable.
+	 *
+	 * So this allows grammars to be written in a more natural form, making
+	 * them more readable. In particular this suits RPN rather nicely.
+	 */
 	expression: () -> (n:Number) [
-		div-expr: (n1:Number, n2:Number) -> (n:Number) = {
+		div-op: (n1:Number, n2:Number) -> (n:Number) = {
 			n = <Div>(n1, n2);
 		##
 			n = <err-divide-by-zero>;
@@ -42,7 +77,7 @@
 			rpn-expressions;
 		};
 
-		mod-expr: (n1:Number, n2:Number) -> (n:Number) = {
+		mod-op: (n1:Number, n2:Number) -> (n:Number) = {
 			n = <Mod>(n1, n2);
 		##
 			n = <err-divide-by-zero>;
@@ -50,23 +85,20 @@
 			rpn-expressions;
 		};
 	] = {
-		{
-			n1 = number;
-		||
-			n1 = expression;
-		};
-
-		n2 = number;
+		n = number;
+	||
+		n1 = expression;
+		n2 = expression;
 
 		{
 			mul;
 			n = <Mul>(n1, n2);
 		||
 			div;
-			n = div-expr(n1, n2);
+			n = div-op(n1, n2);
 		||
 			mod;
-			n = mod-expr(n1, n2);
+			n = mod-op(n1, n2);
 		||
 			add;
 			n = <Add>(n1, n2);
