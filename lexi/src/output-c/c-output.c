@@ -806,7 +806,6 @@ output_buffer(cmd_line_options* opt)
 	fputs("\tstate->buffer_index = 0;\n", lex_output);
 	fputs("}\n\n", lex_output);
 
-	/* TODO nice thing: we can abstract away 'aux() here, too. */
 	fputs("/* Read a character */\n", lex_output_h);
 	fprintf(lex_output_h, "int %sreadchar(struct %sstate *state);\n\n",
 		lexi_prefix, lexi_prefix);
@@ -987,7 +986,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 /*
 	KEYWORDS GENERATION
 
-	This routine outputs a type-agnostic keyword interface.
+	This routine outputs a keyword interface.
 
 	TODO at some point (where the code is clearer), this can
 	be rewritten to generate and output a trie in its own right.
