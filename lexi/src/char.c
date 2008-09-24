@@ -739,6 +739,24 @@ int is_group_empty(char_group *grp)
 
 
 /*
+	ARE ALL GROUPS EMPTY?
+*/
+
+int all_groups_empty(char_group *list)
+{
+	char_group *g;
+
+	for (g = list; g != NULL; g = g->next_in_groups_list) {
+		if (!is_group_empty(g)) {
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+
+/*
     FIND AN ESCAPE SEQUENCE
 
     This routine finds the character corresponding to the escape sequence c.

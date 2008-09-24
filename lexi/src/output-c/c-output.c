@@ -673,11 +673,21 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 {
 	char_group* grp;
 
+	if (all_groups_empty(top_level->groups_list.head)) {
+		return;
+	}
+
 	fprintf(lex_output_h, "enum %sgroups {\n", opt->lexi_prefix);
 
 	/* Group interface */
 	for( grp=top_level->groups_list.head; grp!=NULL; grp=grp->next_in_groups_list) {
-		unsigned long m = (unsigned long)(1 << grp->group_code);
+		unsigned long m;
+
+		if (is_group_empty(grp)) {
+			continue;
+		}
+
+		m = (unsigned long)(1 << grp->group_code);
 		if(grp->z==grp->z->top_level->global_zone) {
 			fprintf(lex_output_h, "\t%sgroup_%s = ",
 				opt->lexi_prefix, grp->name);
@@ -723,6 +733,11 @@ output_lookup_table(cmd_line_options* opt, lexer_parse_tree* top_level, const ch
 {
 	int c;
 	char_group* grp;
+
+	if (all_groups_empty(top_level->groups_list.head)) {
+		return;
+	}
+
 	/* Character look-up table */
 	fputs("/* LOOKUP TABLE */\n\n", lex_output);
 	fprintf(lex_output, "typedef %s lookup_type;\n", grouptype);
