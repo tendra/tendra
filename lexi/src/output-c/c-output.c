@@ -999,6 +999,10 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 {
 	keyword *p;
 
+	if (top_level->global_zone->keywords == NULL) {
+		return;
+	}
+
 	fputs("\n/* Identify a keyword */\n", output_h);
 	fprintf(output_h, "int %skeyword(const char *identifier, int notfound);\n",
 		lexi_prefix);
