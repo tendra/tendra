@@ -421,17 +421,24 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		  fprintf(lex_output, "int c%d = %sreadchar(state)", n, lexi_prefix);
 		fputs(";\n", lex_output);
 		if (w1) {
-			output_indent(lex_output, d);
-			for(scope=z; scope != NULL; scope=scope->up) {
-				if(scope->white_space) {
-					if(scope==scope->top_level->global_zone)
-						fprintf(lex_output, "if (%sgroup(%sgroup_white, c0)) goto start;\n",
-							lexi_prefix, lexi_prefix);
-					else 
-						fprintf(lex_output,"if (%sgroup(%sgroup_%s_%s, c0)) goto start;\n",
-							lexi_prefix, lexi_prefix, scope->zone_name, scope->white_space->name);
+			for (scope=z; scope != NULL; scope=scope->up) {
+				if (scope->white_space == NULL) {
+					continue;
+				}
+
+				if (is_group_empty(scope->white_space)) {
 					break;
 				}
+
+				output_indent(lex_output, d);
+				if (scope==scope->top_level->global_zone) {
+					fprintf(lex_output, "if (%sgroup(%sgroup_white, c0)) goto start;\n",
+					lexi_prefix, lexi_prefix);
+				} else {
+					fprintf(lex_output,"if (%sgroup(%sgroup_%s_%s, c0)) goto start;\n",
+						lexi_prefix, lexi_prefix, scope->zone_name, scope->white_space->name);
+				}
+				break;
 			}
 		}
 		if (w2) {

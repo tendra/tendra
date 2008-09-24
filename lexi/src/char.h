@@ -302,6 +302,7 @@ extern void add_char(zone*, character*, letter*, instructions_list*, char* );
 extern zone* add_zone(zone*, char*,letter*, int);
 extern char_group* make_group(zone*, char *, letter *);
 extern int in_group(char_group *, letter);
+extern int is_group_empty(char_group *);
 extern letter *make_string(char *, zone*);
 extern letter find_escape(int,letter);
 extern void add_keyword(zone*, char*, instruction*);

@@ -726,6 +726,19 @@ in_group(char_group *grp, letter c)
 
 
 /*
+	IS A GROUP EMPTY?
+*/
+
+int is_group_empty(char_group *grp)
+{
+    letter *p = grp->defn;
+    if (p == NULL) return 1;
+
+    return *p == grp->z->top_level->last_letter_code;
+}
+
+
+/*
     FIND AN ESCAPE SEQUENCE
 
     This routine finds the character corresponding to the escape sequence c.
