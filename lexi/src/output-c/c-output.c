@@ -133,6 +133,30 @@ char_lit(letter_translation* ctrans)
 
 
 /*
+	FIND THE LENGTH REQUIRED FOR THE TOKEN BUFFER
+
+	A token buffer is only required if prepass mappings and the tokens proper
+	constitute more than one character in total. For just one character
+	lookahead, lexi_push() would never be called, and so the buffer is
+	unneccessary, and its length will be zero.
+*/
+static int
+buffer_length(lexer_parse_tree *top_level)
+{
+	int i;
+
+	/* XXX: account for is_beginendmarker_in_zone */
+
+	i = zone_maxlength(top_level->global_zone, 0) - 1;
+	if (top_level->global_zone->zone_pre_pass->next) {
+		i += zone_maxlength(top_level->global_zone, 1) - 1;
+	}
+
+	return i;
+}
+
+
+/*
 	OUTPUT OPTIONS
 
 	The flag in_pre_pass is used to indicate the preliminary pass to
@@ -771,9 +795,36 @@ output_lookup_table(cmd_line_options* opt, lexer_parse_tree* top_level, const ch
 */
 
 static void
-output_buffer(cmd_line_options* opt) 
+output_buffer(cmd_line_options *opt, lexer_parse_tree *top_level)
 {
-	/* Buffer operations */
+	/*
+	 * Strictly the state argument is not required in the case of a
+	 * lookahead of one character, since the token buffer does not exist.
+	 * However, we pass it regardless, for simplicity.
+	 */
+	fputs("/* Read a character */\n", lex_output_h);
+	fprintf(lex_output_h, "int %sreadchar(struct %sstate *state);\n\n",
+		lexi_prefix, lexi_prefix);
+	fprintf(lex_output,"int %sreadchar(struct %sstate *state) {\n",
+		lexi_prefix, lexi_prefix);
+
+	if (buffer_length(top_level) > 0) {
+		fputs("\tif(state->buffer_index) {\n", lex_output);
+		fprintf(lex_output,"\t\treturn %spop(state);\n", lexi_prefix);
+		fputs("\t}\n\n", lex_output);
+	}
+
+	/* TODO pass opaque here */
+	fprintf(lex_output, "\treturn %sgetchar();\n", opt->interface_prefix);
+	fputs("}\n", lex_output);
+
+
+	if (buffer_length(top_level) == 0) {
+		return;
+	}
+
+
+	/* Other buffer operations */
 	fputs("/* Push a character to lexi's buffer */\n", lex_output_h);
 	fprintf(lex_output_h, "void %spush(struct %sstate *state, const int c);\n\n",
 		lexi_prefix, lexi_prefix);
@@ -805,18 +856,22 @@ output_buffer(cmd_line_options* opt)
 		lexi_prefix, lexi_prefix);
 	fputs("\tstate->buffer_index = 0;\n", lex_output);
 	fputs("}\n\n", lex_output);
+}
 
-	fputs("/* Read a character */\n", lex_output_h);
-	fprintf(lex_output_h, "int %sreadchar(struct %sstate *state);\n\n",
-		lexi_prefix, lexi_prefix);
-	fprintf(lex_output,"int %sreadchar(struct %sstate *state) {\n",
-		lexi_prefix, lexi_prefix);
-	fputs("\tif(state->buffer_index) {\n", lex_output);
-	fprintf(lex_output,"\t\treturn %spop(state);\n", lexi_prefix);
-	fputs("\t}\n\n", lex_output);
-	/* TODO pass opaque here */
-	fprintf(lex_output, "\treturn %sgetchar();\n", opt->interface_prefix);
-	fputs("}\n", lex_output);
+static void
+output_buffer_storage(cmd_line_options *opt, lexer_parse_tree *top_level)
+{
+	if (buffer_length(top_level) == 0) {
+		return;
+	}
+
+	/* Buffer storage */
+	fputs("\n", lex_output_h);
+	fputs("\t/*\n", lex_output_h);
+	fputs("\t * Lexi's buffer is a simple stack.\n", lex_output_h);
+	fputs("\t */\n", lex_output_h);
+	fprintf(lex_output_h, "\tint buffer[%u];\n", buffer_length(top_level));
+	fputs("\tint buffer_index;\n", lex_output_h);
 }
 
 void 
@@ -907,23 +962,11 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(lex_output_h, "struct %sstate {\n"
 	      "\tint (*zone_function)(struct %sstate *);\n",
 		opt->lexi_prefix, opt->lexi_prefix);
-
-	/* Buffer storage */
-	fputs("\n", lex_output_h);
-	fputs("\t/*\n", lex_output_h);
-	fputs("\t * Lexi's buffer is a simple stack. The size is calculated as\n", lex_output_h);
-	fputs("\t * max(mapping) - 1 + max(token) - 1\n", lex_output_h);
-	fputs("\t */\n", lex_output_h);
-	if(top_level->global_zone->zone_pre_pass->next) {
-		fprintf(lex_output_h, "\tint buffer[%u - 1 + %u - 1];\n",
-			zone_maxlength(top_level->global_zone, 1), 
-			zone_maxlength(top_level->global_zone, 0));
-	} else {
-		fprintf(lex_output_h, "\tint buffer[%u - 1];\n",
-			zone_maxlength(top_level->global_zone, 0));
-	}
-	fputs("\tint buffer_index;\n", lex_output_h);
+	output_buffer_storage(opt, top_level);
 	fputs("};\n\n", lex_output_h);
+
+	output_buffer(opt, top_level);
+	fputs("\n", lex_output);
 
 	output_lookup_table(opt,top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);
@@ -931,9 +974,6 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fputs("#ifndef LEXI_EOF\n", lex_output_h);
 	fprintf(lex_output_h, "#define LEXI_EOF %u\n", top_level->eof_letter_code);
 	fputs("#endif\n\n", lex_output_h);
-
-	output_buffer(opt);
-	fputs("\n", lex_output);
 
 	output_macros(opt,top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);
@@ -963,11 +1003,12 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(lex_output_h, "void %sinit(struct %sstate *state);\n\n",
 		opt->lexi_prefix, opt->lexi_prefix);
 	fprintf(lex_output,"void %sinit(struct %sstate *state) {\n"
-		"\tstate->zone_function = %s;\n"
-		"\tstate->buffer_index = 0;\n"
-		"}\n",
-		opt->lexi_prefix, opt->lexi_prefix,
-		read_token_name);
+		"\tstate->zone_function = %s;\n",
+		opt->lexi_prefix, opt->lexi_prefix, read_token_name);
+	if (buffer_length(top_level) > 0) {
+		fprintf(lex_output, "\tstate->buffer_index = 0;\n");
+	}
+	fprintf(lex_output, "}\n");
 
 	fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
 	output_zone_pass_prototypes(top_level->global_zone);
