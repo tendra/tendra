@@ -471,8 +471,8 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			d++;
 		}
 
-		if (cases > 4) {
-			/* Small number of cases */
+		if (cases > 1) {
+			/* Large number of cases */
 			output_indent(lex_output, d);
 			fprintf(lex_output, "switch (c%d) {\n", n);
 			for (q = p->next; q != NULL; q = q->opt) {
@@ -492,24 +492,18 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			output_indent(lex_output, d);
 			fputs("}\n", lex_output);
 		} else {
-			/* Large number of cases */
-			int started = 0;
+			/* Single case */
 			for (q = p->next; q != NULL; q = q->opt) {
 				letter c = q->ch;
 				ctrans=letters_table_get_translation(c,top_level->letters_table);
 				if (ctrans->type==char_letter||ctrans->type==eof_letter) {
 					output_indent(lex_output, d);
-					if (started)
-						fputs("} else ", lex_output);
 					fprintf(lex_output, "if (c%d == %s) {\n",
 								n, char_lit(ctrans));
 					output_pass(z, q, in_pre_pass, n + 1, d + 1);
-					started = 1;
+					output_indent(lex_output, d);
+					fputs("}\n", lex_output);
 				}
-			}
-			if (started) {
-				output_indent(lex_output, d);
-				fputs("}\n", lex_output);
 			}
 		}
 
