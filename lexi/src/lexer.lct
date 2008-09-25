@@ -162,5 +162,5 @@ ACTION number_buffer_init : () -> () = @{
 
 ACTION number_buffer_push_digit : (c:CHARACTER) -> () = @{
 	number_buffer *= 10;
-	number_buffer += @c - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
+	number_buffer += @c - '0';
 @};
