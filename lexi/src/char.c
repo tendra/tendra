@@ -181,20 +181,6 @@ add_arg (arg_type t, unsigned int d)
 /*
     ADDS AN ARG
 
-    This routines adds a string arg
- */
-arg *
-add_litteral_arg ( char* s)
-{
-    arg* p = new_arg();
-    p->type = arg_litteral;
-    p->u.litteral = s;
-    return p;
-}
-
-/*
-    ADDS AN ARG
-
     This routines adds an identifier arg
  */
 arg *
@@ -277,7 +263,6 @@ arg_output(arg* p, bool is_ref, int d, FILE* file)
 		fprintf(file, "ZT1"); /*TODO make prefixes option controllable or lct file controllable*/
 		break;
 
-	case arg_litteral:
 	case arg_none :
 	case arg_chars_list:
 	default:

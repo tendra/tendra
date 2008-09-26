@@ -411,11 +411,6 @@ arg-ignore : () -> (a:ARG) = @{
 	xfree(@i);
 @};
 
-/*CREATE A CHAR LIST */
-<arg-char-list-tmp> : () -> (a:ARG) = @{
-      @a=add_arg(arg_chars_list,0);
-@};
-
 /*
     ADD ARGS to ARGS LIST
 */
@@ -436,17 +431,6 @@ arg-ignore : () -> (a:ARG) = @{
 <check-args-list> : ( l:ARGS_LIST) -> () = @{
     if(@l->nb_return_terminal>1)
 	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-@};
-
-<check-lhs-args-function> : (l:ARGS_LIST) -> (b:BOOL) = @{
-	if(@l->head==NULL)
-		@b=false;
-	else {
-		@b=true;
-		if(@l->head->next!=NULL || @l->head->type != arg_return_terminal)
-			error(ERROR_SERIOUS,"For direct function calls, at most one return value, of type TERMINAL '$=', may be specified");
-	}
-	
 @};
 
 
@@ -539,7 +523,6 @@ arg-ignore : () -> (a:ARG) = @{
 		 			break;
 				case arg_none:
 					break; //Error already detected, do nothing and leave p->lexitype = NULL
-				case arg_litteral:
 				case arg_chars_list:
 				case arg_ignore:
 				case arg_return_terminal:
@@ -787,10 +770,6 @@ arg-ignore : () -> (a:ARG) = @{
 @};
 
 
-<make_arg_from_string> : ( s : STRING ) -> ( a : ARG ) = @{
-	@a = add_litteral_arg (@s);
-@};
-
 <make_arg_from_identifier> : (i:IDENTIFIER) -> (a:ARG) = @{
 	@a = add_identifier_arg (@i);
 @};
@@ -991,15 +970,6 @@ arg-ignore : () -> (a:ARG) = @{
 
 <E_string_in_action_rhs> : () -> () = @{
 	error(ERROR_SERIOUS, "String argument in right handside of action call: purposefuly not implemented to avoid confusions. Will be implemented with an alternate meaning once direct function calls are removed from lexi");
-@};
-
-
-<E_terminal_in_function_rhs> : () -> () = @{
-	error(ERROR_SERIOUS, "Terminals in function rhs not implemented yet ");
-@};
-
-<E_localname_in_function_rhs> : () -> () = @{
-	error(ERROR_SERIOUS, "Local names in function rhs not implemented yet ");
 @};
 
 

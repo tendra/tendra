@@ -103,7 +103,6 @@ arg-char-nb : () -> (:ARG);
 arg-nb-of-chars : () -> (:ARG);
 arg-return-terminal : () -> (:ARG);
 arg-ignore : () -> (:ARG);
-arg-char-void; //temporary
 
 action-kw ;
 begin-action ; 		// <
@@ -144,12 +143,9 @@ type-kw ;
 <null-args-list> : () -> ( :ARGS_LIST) ;
 <empty-args-list> : () -> ( :ARGS_LIST) ;
 <check-args-list> : ( :ARGS_LIST) -> () ;
-<check-lhs-args-function> : (:ARGS_LIST) -> (:BOOL);
 <args-list-push-front>: ( :ARG , :ARGS_LIST) -> () ;
 <append-arg-args-list>: ( :ARGS_LIST, :ARG ) -> () ;
-<arg-char-list-tmp> :    () -> ( :ARG);
 <make_arg_terminal> : (:IDENTIFIER) -> (:ARG);
-<make_arg_from_string> : (:STRING) -> (:ARG);
 <make_arg_from_identifier> : (:IDENTIFIER) -> (:ARG);
 <make_arg_from_reference> : (:IDENTIFIER) -> (:ARG);
 <make_arg_none> : () -> (:ARG);
@@ -181,9 +177,6 @@ type-kw ;
 
 <E_return_terminal_in_rhs> : () -> ();
 <E_string_in_action_rhs> : () -> ();
-
-<E_terminal_in_function_rhs>;
-<E_localname_in_function_rhs>;
 
 <is-non-empty> : ( : CHARACTERS , :ZONE) -> ( : BOOL );
 <E_empty_character_string> : () -> ();
@@ -292,50 +285,6 @@ group-defn : ( z:ZONE ) -> () = {
 	};
 	s = chars(z) ; 
 	<make-group> ( z, i, s ) ;
-} ;
-
-
-/*
-    RETURN ARGUMENTS
-
-    This action deals with the optional arguments which may be used in
-    a token definition.
-*/
-
-single-arg : () -> ( a : ARG ) = {
-	a=arg-char-list ;
-    ||  a=arg-char-string ;
-    ||  a=arg-char-nb ;
-    ||  a=arg-nb-of-chars ;
-    ||  b=arg-return-terminal ; a=<make_arg_none>; <E_return_terminal_in_rhs>;
-    ||  a=arg-ignore ; <E_ignore_in_rhs>;
-    ||  b=string ; a=<make_arg_from_string>(b);
-    ||  b=sid-identifier ; a=<make_arg_none>; <E_terminal_in_function_rhs>;
-    ||  i=identifier ; a = <make_arg_none>; <E_localname_in_function_rhs>;
-    ||  reference; i=identifier ; a = <make_arg_from_reference>(i); 
-} ;
-
-non-empty-tuple-args : () -> (l: ARGS_LIST) = {
-	a=single-arg ; l=<empty-args-list> ; <args-list-push-front>(a,l); 
-    ||
-	a=single-arg ; comma ; l=non-empty-tuple-args ;
-	<args-list-push-front>(a,l);
-} ;
-
-tuple-args : () -> (l : ARGS_LIST) = {
-	l=<empty-args-list> ;
-	tmp=<arg-char-list-tmp>;
-	<args-list-push-front>(tmp,l); 
-    ||
-	arg-char-void; //temporary
-	l=<empty-args-list> ;
-    ||
-	l=non-empty-tuple-args ;  
-};
-
-args : () -> ( l : ARGS_LIST ) = {
-	l = <null-args-list> ;
-    ||	open ; l=tuple-args ; close ;
 } ;
 
 
@@ -463,7 +412,7 @@ action-decl : (z:ZONE) -> () = {
    ACTION CALL 
 */
 
-function-action-call : (z:ZONE) -> (inst:INSTRUCTION) [
+action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 	lhs-arg : (l:ARGS_LIST) -> () = {
 		{
 			b=arg-char-list ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
@@ -529,18 +478,6 @@ function-action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 		lhs-tuple(l) ;
 		equal ;
 	} ;
-	i = identifier ; 
-	a = args ; 
-	b=<check-lhs-args-function>(l);
-	inst = <make-inst>( i, a, b);
-    ||
-	l = <empty-args-list> ;
-       	{
-		$;
-	    ||
-		lhs-tuple(l) ;
-		equal ;
-	} ;
 	begin-action ;
 	i = identifier ;
 	<check-args-list>(l);
@@ -569,7 +506,7 @@ instruction : (z:ZONE) -> (inst:INSTRUCTION) = {
 	nothing-marker; 
 	inst = <make-donothing-inst>;
     ||	
-    	inst = function-action-call(z) ;
+    	inst = action-call(z) ;
 } ;
 
 instructions-list : (z:ZONE) -> (instl:INSTRUCTIONS_LIST) = {

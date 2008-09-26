@@ -115,9 +115,6 @@ ZONE arg_char_nb_zone : "#[digit]" -> <number_buffer_init>, <number_buffer_push_
 }
 
 
-TOKEN "#$" -> $arg-char-void; /* Temporary to preserve backward compatibility
-      	      		      for a small amount of time */
-
 /* Special strings */
 TOKEN "{A-Z}" -> $upper ;
 TOKEN "{a-z}" -> $lower ;

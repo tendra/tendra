@@ -486,9 +486,6 @@ lexi_read_token(struct lexi_state *state)
 					case '#': {
 						return lex_arg_Hchar_Hlist;
 					}
-					case '$': {
-						return lex_arg_Hchar_Hvoid;
-					}
 					case '*': {
 						return lex_arg_Hchar_Hstring;
 					}

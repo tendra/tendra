@@ -352,10 +352,6 @@ output_instructions( zone* z, instructions_list* ret, int n, int d, int innerzon
 	  case arg_charP:
 	    error(ERROR_SERIOUS, "#* Not implemented yet in output.c");
 	    break;
-	    
-	  case arg_litteral:
-	    fprintf(lex_output, "%s", fun_args->u.litteral);
-	  break;
 	  
 	  case arg_char_nb:
 	    if(fun_args->u.digit <n)
