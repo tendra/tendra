@@ -71,16 +71,14 @@ struct lexi_lct_state {
 	int (*zone_function)(struct lexi_lct_state *);
 
 	/*
-	 * Lexi's buffer is a simple stack. The size is calculated as
-	 * max(mapping) - 1 + max(token) - 1
+	 * Lexi's buffer is a simple stack.
 	 */
-	int buffer[3 - 1];
+	int buffer[2];
 	int buffer_index;
 };
 
-#ifndef LEXI_EOF
-#define LEXI_EOF 256
-#endif
+/* Read a character */
+int lexi_lct_readchar(struct lexi_lct_state *state);
 
 /* Push a character to lexi's buffer */
 void lexi_lct_push(struct lexi_lct_state *state, const int c);
@@ -91,16 +89,13 @@ int lexi_lct_pop(struct lexi_lct_state *state);
 /* Flush lexi's buffer */
 void lexi_lct_flush(struct lexi_lct_state *state);
 
-/* Read a character */
-int lexi_lct_readchar(struct lexi_lct_state *state);
+#ifndef LEXI_EOF
+#define LEXI_EOF 256
+#endif
 
 enum lexi_lct_groups {
 	lexi_lct_group_alpha = 0x01,
 	lexi_lct_group_alphanum = 0x02,
-	lexi_lct_group_identifierzone_white = 0x04,
-	lexi_lct_group_Comment_white = 0x08,
-	lexi_lct_group_LineComment_white = 0x10,
-	lexi_lct_group_code_area_white = 0x20,
 	lexi_lct_group_white = 0x40
 };
 
