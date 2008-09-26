@@ -134,6 +134,30 @@ lexi_getchar(void)
 #include <stdbool.h>
 #include <stdint.h>
 
+int lexi_readchar(struct lexi_state *state) {
+	if(state->buffer_index) {
+		return lexi_pop(state);
+	}
+
+	return lexi_getchar();
+}
+void lexi_push(struct lexi_state *state, const int c) {
+	assert(state);
+	assert(state->buffer_index < sizeof state->buffer / sizeof *state->buffer);
+	state->buffer[state->buffer_index++] = c;
+}
+
+int lexi_pop(struct lexi_state *state) {
+	assert(state);
+	assert(state->buffer_index > 0);
+	return state->buffer[--state->buffer_index];
+}
+
+void lexi_flush(struct lexi_state *state) {
+	state->buffer_index = 0;
+}
+
+
 /* LOOKUP TABLE */
 
 typedef uint16_t lookup_type;
@@ -205,30 +229,6 @@ static lookup_type lookup_tab[257] = {
 	0x0000
 };
 
-void lexi_push(struct lexi_state *state, const int c) {
-	assert(state);
-	assert(state->buffer_index < sizeof state->buffer / sizeof *state->buffer);
-	state->buffer[state->buffer_index++] = c;
-}
-
-int lexi_pop(struct lexi_state *state) {
-	assert(state);
-	assert(state->buffer_index > 0);
-	return state->buffer[--state->buffer_index];
-}
-
-void lexi_flush(struct lexi_state *state) {
-	state->buffer_index = 0;
-}
-
-int lexi_readchar(struct lexi_state *state) {
-	if(state->buffer_index) {
-		return lexi_pop(state);
-	}
-
-	return lexi_getchar();
-}
-
 bool lexi_group(enum lexi_groups group, int c) {
 	return lookup_tab[c] & group;
 }
@@ -271,7 +271,6 @@ lexi_read_token_sididentifierzone(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
-		if (lexi_group(lexi_group_sididentifierzone_white, c0)) goto start;
 		if (!lexi_group(lexi_group_alphanumhyphen, c0)) {
 			lexi_push(state, c0);
 			{
@@ -302,7 +301,6 @@ lexi_read_token_identifierzone(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
-		if (lexi_group(lexi_group_identifierzone_white, c0)) goto start;
 		if (!lexi_group(lexi_group_alphanum, c0)) {
 			lexi_push(state, c0);
 			{
@@ -338,15 +336,16 @@ lexi_read_token_stringzone(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
-		if (lexi_group(lexi_group_stringzone_white, c0)) goto start;
-		if (c0 == '\n') {
-			{
+		switch (c0) {
+			case '\n': {
+				{
 
 	error(ERROR_SERIOUS, "Unexpected newline in string");
+				}
+				goto start;
 			}
-			goto start;
-		} else if (c0 == '"') {
-			{
+			case '"': {
+				{
 
        	if(token_current==token_end) {
 		error(ERROR_FATAL, "Buffer overflow: trailing 0");
@@ -354,27 +353,50 @@ lexi_read_token_stringzone(struct lexi_state *state)
 	} else {
 	       *token_current++ = 0;	
 	}
+				}
+				return lex_string;
 			}
-			return lex_string;
-		} else if (c0 == '\\') {
-			int c1 = lexi_readchar(state);
-			if (c1 == '"') {
-				{
+			case '\\': {
+				int c1 = lexi_readchar(state);
+				switch (c1) {
+					case '"': {
+						{
 
        	if(token_current==token_end-1)
 		error(ERROR_FATAL, "Buffer overflow");
 	else 
 	       *token_current++ = c1;
+						}
+						goto start;
+					}
+					case '\\': {
+						{
+
+       	if(token_current==token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *token_current++ = c0;
+						}
+						{
+
+       	if(token_current==token_end-1)
+		error(ERROR_FATAL, "Buffer overflow");
+	else 
+	       *token_current++ = c0;
+						}
+						goto start;
+					}
+				}
+				lexi_push(state, c1);
+				break;
+			}
+			case LEXI_EOF: {
+				{
+
+	error(ERROR_SERIOUS, "Unexpected eof in string");
 				}
 				goto start;
 			}
-			lexi_push(state, c1);
-		} else if (c0 == LEXI_EOF) {
-			{
-
-	error(ERROR_SERIOUS, "Unexpected eof in string");
-			}
-			goto start;
 		}
 		{
 
@@ -393,7 +415,6 @@ lexi_read_token_line_comment(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
-		if (lexi_group(lexi_group_line_comment_white, c0)) goto start;
 		if (c0 == '\n') {
 			return;
 		}
@@ -407,7 +428,6 @@ lexi_read_token_comment(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
-		if (lexi_group(lexi_group_comment_white, c0)) goto start;
 		if (c0 == '*') {
 			int c1 = lexi_readchar(state);
 			if (c1 == '/') {
@@ -433,7 +453,7 @@ lexi_read_token_arg_char_nb_zone(struct lexi_state *state)
 		{
 
 	number_buffer *= 10;
-	number_buffer += c0 - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
+	number_buffer += c0 - '0';
 		}
 		goto start;
 	}
@@ -462,14 +482,19 @@ lexi_read_token(struct lexi_state *state)
 			}
 			case '#': {
 				int c1 = lexi_readchar(state);
-				if (c1 == '#') {
-					return lex_arg_Hchar_Hlist;
-				} else if (c1 == '$') {
-					return lex_arg_Hchar_Hvoid;
-				} else if (c1 == '*') {
-					return lex_arg_Hchar_Hstring;
-				} else if (c1 == 'n') {
-					return lex_arg_Hnb_Hof_Hchars;
+				switch (c1) {
+					case '#': {
+						return lex_arg_Hchar_Hlist;
+					}
+					case '$': {
+						return lex_arg_Hchar_Hvoid;
+					}
+					case '*': {
+						return lex_arg_Hchar_Hstring;
+					}
+					case 'n': {
+						return lex_arg_Hnb_Hof_Hchars;
+					}
 				}
 				if (lexi_group(lexi_group_digit, c1)) {
 					{
@@ -479,7 +504,7 @@ lexi_read_token(struct lexi_state *state)
 					{
 
 	number_buffer *= 10;
-	number_buffer += c1 - '0'; /*TODO do this in a safe way that does not assume ASCII or a coding where digits are contiguous*/
+	number_buffer += c1 - '0';
 					}
 					return lexi_read_token_arg_char_nb_zone(state);
 					goto start;
@@ -547,12 +572,15 @@ lexi_read_token(struct lexi_state *state)
 			}
 			case '/': {
 				int c1 = lexi_readchar(state);
-				if (c1 == '*') {
-					lexi_read_token_comment(state);
-					goto start;
-				} else if (c1 == '/') {
-					lexi_read_token_line_comment(state);
-					goto start;
+				switch (c1) {
+					case '*': {
+						lexi_read_token_comment(state);
+						goto start;
+					}
+					case '/': {
+						lexi_read_token_line_comment(state);
+						goto start;
+					}
 				}
 				lexi_push(state, c1);
 				break;
@@ -580,10 +608,13 @@ lexi_read_token(struct lexi_state *state)
 						int c3 = lexi_readchar(state);
 						if (c3 == '.') {
 							int c4 = lexi_readchar(state);
-							if (c4 == ')') {
-								return lex_range_Hclosed_Hopen;
-							} else if (c4 == ']') {
-								return lex_range_Hclosed_Hclosed;
+							switch (c4) {
+								case ')': {
+									return lex_range_Hclosed_Hopen;
+								}
+								case ']': {
+									return lex_range_Hclosed_Hclosed;
+								}
 							}
 							lexi_push(state, c4);
 						}
@@ -596,48 +627,55 @@ lexi_read_token(struct lexi_state *state)
 			}
 			case '{': {
 				int c1 = lexi_readchar(state);
-				if (c1 == '0') {
-					int c2 = lexi_readchar(state);
-					if (c2 == '-') {
-						int c3 = lexi_readchar(state);
-						if (c3 == '9') {
-							int c4 = lexi_readchar(state);
-							if (c4 == '}') {
-								return lex_digit;
+				switch (c1) {
+					case '0': {
+						int c2 = lexi_readchar(state);
+						if (c2 == '-') {
+							int c3 = lexi_readchar(state);
+							if (c3 == '9') {
+								int c4 = lexi_readchar(state);
+								if (c4 == '}') {
+									return lex_digit;
+								}
+								lexi_push(state, c4);
 							}
-							lexi_push(state, c4);
+							lexi_push(state, c3);
 						}
-						lexi_push(state, c3);
+						lexi_push(state, c2);
+						break;
 					}
-					lexi_push(state, c2);
-				} else if (c1 == 'A') {
-					int c2 = lexi_readchar(state);
-					if (c2 == '-') {
-						int c3 = lexi_readchar(state);
-						if (c3 == 'Z') {
-							int c4 = lexi_readchar(state);
-							if (c4 == '}') {
-								return lex_upper;
+					case 'A': {
+						int c2 = lexi_readchar(state);
+						if (c2 == '-') {
+							int c3 = lexi_readchar(state);
+							if (c3 == 'Z') {
+								int c4 = lexi_readchar(state);
+								if (c4 == '}') {
+									return lex_upper;
+								}
+								lexi_push(state, c4);
 							}
-							lexi_push(state, c4);
+							lexi_push(state, c3);
 						}
-						lexi_push(state, c3);
+						lexi_push(state, c2);
+						break;
 					}
-					lexi_push(state, c2);
-				} else if (c1 == 'a') {
-					int c2 = lexi_readchar(state);
-					if (c2 == '-') {
-						int c3 = lexi_readchar(state);
-						if (c3 == 'z') {
-							int c4 = lexi_readchar(state);
-							if (c4 == '}') {
-								return lex_lower;
+					case 'a': {
+						int c2 = lexi_readchar(state);
+						if (c2 == '-') {
+							int c3 = lexi_readchar(state);
+							if (c3 == 'z') {
+								int c4 = lexi_readchar(state);
+								if (c4 == '}') {
+									return lex_lower;
+								}
+								lexi_push(state, c4);
 							}
-							lexi_push(state, c4);
+							lexi_push(state, c3);
 						}
-						lexi_push(state, c3);
+						lexi_push(state, c2);
+						break;
 					}
-					lexi_push(state, c2);
 				}
 				lexi_push(state, c1);
 				return lex_open_Hbrace;

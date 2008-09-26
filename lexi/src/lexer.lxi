@@ -141,6 +141,7 @@ ZONE stringzone : "\"" ->  <init_token_buffer> ... "\"" -> <finalize_token_buffe
      	GROUP white = "";
 	TOKEN DEFAULT -> <push_token_buffer>(#0);
 	TOKEN "\\\"" -> <push_token_buffer>(#1);
+	TOKEN "\\\\" -> <push_token_buffer>(#0), <push_token_buffer>(#0);
 	TOKEN "\e" -> <E_eof_in_string>;
 	TOKEN "\n" -> <E_newline_in_string>;
 }

@@ -97,16 +97,14 @@ struct lexi_state {
 	int (*zone_function)(struct lexi_state *);
 
 	/*
-	 * Lexi's buffer is a simple stack. The size is calculated as
-	 * max(mapping) - 1 + max(token) - 1
+	 * Lexi's buffer is a simple stack.
 	 */
-	int buffer[5 - 1];
+	int buffer[4];
 	int buffer_index;
 };
 
-#ifndef LEXI_EOF
-#define LEXI_EOF 256
-#endif
+/* Read a character */
+int lexi_readchar(struct lexi_state *state);
 
 /* Push a character to lexi's buffer */
 void lexi_push(struct lexi_state *state, const int c);
@@ -117,8 +115,9 @@ int lexi_pop(struct lexi_state *state);
 /* Flush lexi's buffer */
 void lexi_flush(struct lexi_state *state);
 
-/* Read a character */
-int lexi_readchar(struct lexi_state *state);
+#ifndef LEXI_EOF
+#define LEXI_EOF 256
+#endif
 
 enum lexi_groups {
 	lexi_group_white = 0x0001,
@@ -126,11 +125,6 @@ enum lexi_groups {
 	lexi_group_digit = 0x0004,
 	lexi_group_alphanum = 0x0008,
 	lexi_group_alphanumhyphen = 0x0010,
-	lexi_group_comment_white = 0x0020,
-	lexi_group_line_comment_white = 0x0040,
-	lexi_group_stringzone_white = 0x0080,
-	lexi_group_identifierzone_white = 0x0100,
-	lexi_group_sididentifierzone_white = 0x0200
 };
 
 /* true if the given character is present in the given group */
