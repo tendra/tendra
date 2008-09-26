@@ -69,6 +69,30 @@ lexi_lct_getchar()
 #include <stdbool.h>
 #include <stdint.h>
 
+int lexi_lct_readchar(struct lexi_lct_state *state) {
+	if(state->buffer_index) {
+		return lexi_lct_pop(state);
+	}
+
+	return lexi_lct_getchar();
+}
+void lexi_lct_push(struct lexi_lct_state *state, const int c) {
+	assert(state);
+	assert(state->buffer_index < sizeof state->buffer / sizeof *state->buffer);
+	state->buffer[state->buffer_index++] = c;
+}
+
+int lexi_lct_pop(struct lexi_lct_state *state) {
+	assert(state);
+	assert(state->buffer_index > 0);
+	return state->buffer[--state->buffer_index];
+}
+
+void lexi_lct_flush(struct lexi_lct_state *state) {
+	state->buffer_index = 0;
+}
+
+
 /* LOOKUP TABLE */
 
 typedef uint8_t lookup_type;
@@ -108,30 +132,6 @@ static lookup_type lookup_tab[257] = {
 	0x00
 };
 
-void lexi_lct_push(struct lexi_lct_state *state, const int c) {
-	assert(state);
-	assert(state->buffer_index < sizeof state->buffer / sizeof *state->buffer);
-	state->buffer[state->buffer_index++] = c;
-}
-
-int lexi_lct_pop(struct lexi_lct_state *state) {
-	assert(state);
-	assert(state->buffer_index > 0);
-	return state->buffer[--state->buffer_index];
-}
-
-void lexi_lct_flush(struct lexi_lct_state *state) {
-	state->buffer_index = 0;
-}
-
-int lexi_lct_readchar(struct lexi_lct_state *state) {
-	if(state->buffer_index) {
-		return lexi_lct_pop(state);
-	}
-
-	return lexi_lct_getchar();
-}
-
 bool lexi_lct_group(enum lexi_lct_groups group, int c) {
 	return lookup_tab[c] & group;
 }
@@ -168,7 +168,6 @@ lexi_lct_read_token_codereferencezone(struct lexi_lct_state *state)
 {
 	start: {
 		int c0 = lexi_lct_readchar(state);
-		if (lexi_lct_group(lexi_lct_group_code_area_white, c0)) goto start;
 		if (!lexi_lct_group(lexi_lct_group_alphanum, c0)) {
 			lexi_lct_push(state, c0);
 			{
@@ -199,7 +198,6 @@ lexi_lct_read_token_codeidentifierzone(struct lexi_lct_state *state)
 {
 	start: {
 		int c0 = lexi_lct_readchar(state);
-		if (lexi_lct_group(lexi_lct_group_code_area_white, c0)) goto start;
 		if (!lexi_lct_group(lexi_lct_group_alphanum, c0)) {
 			lexi_lct_push(state, c0);
 			{
@@ -230,52 +228,59 @@ lexi_lct_read_token_code_area(struct lexi_lct_state *state)
 {
 	start: {
 		int c0 = lexi_lct_readchar(state);
-		if (lexi_lct_group(lexi_lct_group_code_area_white, c0)) goto start;
-		if (c0 == '@') {
-			int c1 = lexi_lct_readchar(state);
-			if (c1 == '&') {
-				int c2 = lexi_lct_readchar(state);
-				if (lexi_lct_group(lexi_lct_group_alpha, c2)) {
-					{
+		switch (c0) {
+			case '@': {
+				int c1 = lexi_lct_readchar(state);
+				switch (c1) {
+					case '&': {
+						int c2 = lexi_lct_readchar(state);
+						if (lexi_lct_group(lexi_lct_group_alpha, c2)) {
+							{
 
 	lct_token_current=lct_token_buff;
-					}
-					{
+							}
+							{
 
        	if(lct_token_current==lct_token_end-1)
 		error(ERROR_FATAL, "Buffer overflow");
 	else 
 	       *lct_token_current++ = c2;
+							}
+							return lexi_lct_read_token_codereferencezone(state);
+							goto start;
+						}
+						lexi_lct_push(state, c2);
+						break;
 					}
-					return lexi_lct_read_token_codereferencezone(state);
-					goto start;
+					case '@': {
+						return lct_lex_code_Hat;
+					}
+					case '}': {
+						state->zone_function = lexi_lct_read_token;
+						return lct_lex_code_Hend;
+					}
 				}
-				lexi_lct_push(state, c2);
-			} else if (c1 == '@') {
-				return lct_lex_code_Hat;
-			} else if (c1 == '}') {
-				state->zone_function = lexi_lct_read_token;
-				return lct_lex_code_Hend;
-			}
-			if (lexi_lct_group(lexi_lct_group_alpha, c1)) {
-				{
+				if (lexi_lct_group(lexi_lct_group_alpha, c1)) {
+					{
 
 	lct_token_current=lct_token_buff;
-				}
-				{
+					}
+					{
 
        	if(lct_token_current==lct_token_end-1)
 		error(ERROR_FATAL, "Buffer overflow");
 	else 
 	       *lct_token_current++ = c1;
+					}
+					return lexi_lct_read_token_codeidentifierzone(state);
+					goto start;
 				}
-				return lexi_lct_read_token_codeidentifierzone(state);
-				goto start;
+				lexi_lct_push(state, c1);
+				return lct_lex_lone_Hcode_Hat;
 			}
-			lexi_lct_push(state, c1);
-			return lct_lex_lone_Hcode_Hat;
-		} else if (c0 == LEXI_EOF) {
-			return lct_lex_code_Heof;
+			case LEXI_EOF: {
+				return lct_lex_code_Heof;
+			}
 		}
 		{
 			int ZT1;
@@ -304,7 +309,6 @@ lexi_lct_read_token_LineComment(struct lexi_lct_state *state)
 {
 	start: {
 		int c0 = lexi_lct_readchar(state);
-		if (lexi_lct_group(lexi_lct_group_LineComment_white, c0)) goto start;
 		if (c0 == '\n') {
 			return;
 		}
@@ -318,7 +322,6 @@ lexi_lct_read_token_Comment(struct lexi_lct_state *state)
 {
 	start: {
 		int c0 = lexi_lct_readchar(state);
-		if (lexi_lct_group(lexi_lct_group_Comment_white, c0)) goto start;
 		if (c0 == '*') {
 			int c1 = lexi_lct_readchar(state);
 			if (c1 == '/') {
@@ -336,7 +339,6 @@ lexi_lct_read_token_identifierzone(struct lexi_lct_state *state)
 {
 	start: {
 		int c0 = lexi_lct_readchar(state);
-		if (lexi_lct_group(lexi_lct_group_identifierzone_white, c0)) goto start;
 		if (!lexi_lct_group(lexi_lct_group_alphanum, c0)) {
 			lexi_lct_push(state, c0);
 			{
@@ -398,12 +400,15 @@ lexi_lct_read_token(struct lexi_lct_state *state)
 			}
 			case '/': {
 				int c1 = lexi_lct_readchar(state);
-				if (c1 == '*') {
-					lexi_lct_read_token_Comment(state);
-					goto start;
-				} else if (c1 == '/') {
-					lexi_lct_read_token_LineComment(state);
-					goto start;
+				switch (c1) {
+					case '*': {
+						lexi_lct_read_token_Comment(state);
+						goto start;
+					}
+					case '/': {
+						lexi_lct_read_token_LineComment(state);
+						goto start;
+					}
 				}
 				lexi_lct_push(state, c1);
 				break;
