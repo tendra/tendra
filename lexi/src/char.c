@@ -188,7 +188,7 @@ add_identifier_arg ( char* s)
 {
     arg* p = new_arg();
     p->type = arg_identifier;
-    p->u.litteral = s;
+    p->u.literal = s;
     return p;
 }
 
@@ -202,7 +202,7 @@ add_reference_arg ( char* s)
 {
     arg* p = new_arg();
     p->type = arg_identifier;
-    p->u.litteral = s;
+    p->u.literal = s;
     p->is_reference = true;
     return p;
 }
@@ -212,7 +212,7 @@ add_terminal_arg ( char* s)
 {
     arg* p = new_arg();
     p->type = arg_terminal;
-    p->u.litteral = s;
+    p->u.literal = s;
     return p;
 }
 
@@ -221,7 +221,7 @@ add_none_arg ( void )
 {
     arg* p = new_arg();
     p->type = arg_none;
-    p->u.litteral = NULL;
+    p->u.literal = NULL;
     return p;
 }
 
@@ -243,17 +243,17 @@ arg_output(arg* p, bool is_ref, int d, FILE* file)
 	case arg_identifier:
 		if(p->is_reference) {
 			/*TODO assert(is_ref);*/
-			fprintf(file, "%s", p->u.litteral);
+			fprintf(file, "%s", p->u.literal);
 		}
 		else {
 			if(is_ref)
-				fprintf(file, "(*%s)", p->u.litteral);
+				fprintf(file, "(*%s)", p->u.literal);
 			else
-				fprintf(file, "%s", p->u.litteral);
+				fprintf(file, "%s", p->u.literal);
 		}
 		break;
 	case arg_terminal:
-		fprintf(file, "%s", p->u.litteral);
+		fprintf(file, "%s", p->u.literal);
 		break;
 	case arg_ignore:
 		error(ERROR_SERIOUS, "Ignore symbol ! is not implemented yet at output level"); 

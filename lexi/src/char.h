@@ -82,7 +82,7 @@ typedef struct arg_tag {
   struct arg_tag* next;
   union {
     unsigned int digit;
-    char* litteral;
+    char* literal;
   } u ;
   bool is_reference;
 } arg;

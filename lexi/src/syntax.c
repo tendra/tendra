@@ -883,22 +883,22 @@ ZRinstructions_Hlist(zoneP ZI213, instructions_listP *ZO218)
 				NStringT str;
 			      	switch (p->type) {
 				case arg_identifier: 
-				     	nstring_copy_cstring(&str, p->u.litteral);
+				     	nstring_copy_cstring(&str, p->u.literal);
 					entrytype=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!entrytype) {
 						EntryT* tableentry = table_get_entry((ZI213)->top_level->table, &str);
 						if(!tableentry) {
-							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.litteral);
+							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 							entrytype = NULL;
 						} else if (entry_is_localname(tableentry)) {
-							error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.litteral);
+							error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
 							entrytype = NULL;
 						} else if (entry_is_action(tableentry)) {
-							error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.litteral);
+							error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
 							entrytype = NULL;
 						} else if (entry_is_type(tableentry)) {
-							error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.litteral);
+							error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
 							entrytype = NULL;
 						} else {
 							; /* TODO assert(0) this should be unreachable*/
@@ -939,7 +939,7 @@ ZRinstructions_Hlist(zoneP ZI213, instructions_listP *ZO218)
 						char* s3 = p->is_reference ? "&" : "";
 						char* s4 = nstring_to_cstring(entry_key(q->type));
 						char* s5 = q->is_reference ? "&" : "";
-						error(ERROR_SERIOUS, "In call to action %s, argument \'%s\' has type \'%s%s\' when it should have type %s", s1, p->u.litteral, s2, s3, s4, s5);
+						error(ERROR_SERIOUS, "In call to action %s, argument \'%s\' has type \'%s%s\' when it should have type %s", s1, p->u.literal, s2, s3, s4, s5);
 						DEALLOCATE(s1);
 						DEALLOCATE(s2);
 						DEALLOCATE(s4);
@@ -964,7 +964,7 @@ ZRinstructions_Hlist(zoneP ZI213, instructions_listP *ZO218)
 					{
 						NStringT str;
 						EntryT* entry; 
-						nstring_copy_cstring(&str, p->u.litteral);
+						nstring_copy_cstring(&str, p->u.literal);
 						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
 							EntryT* entry = table_get_entry((ZI213)->top_level->table, &str);
@@ -972,23 +972,23 @@ ZRinstructions_Hlist(zoneP ZI213, instructions_listP *ZO218)
 							if(entry) {
 								nstring_destroy(&str);
 								if (entry_is_action(entry)) {
-									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.litteral);
+									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
 								} else if (entry_is_type(entry)) {
-									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.litteral);									
+									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
 								table_add_local_name((ZI213)->top_level->table, &str);
 							}
 							if(p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(entryaction));
-								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.litteral);
+								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
 								DEALLOCATE(s);
 							} 
 						} else {
 							nstring_destroy(&str);
 							if(!p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(entryaction));
-								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.litteral);
+								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
 								entrytype=q->type; /* To avoid outputting that error more than once*/
 								DEALLOCATE(s);
 							}
@@ -1021,9 +1021,9 @@ ZRinstructions_Hlist(zoneP ZI213, instructions_listP *ZO218)
 				if(p->is_reference != q->is_reference) {
 					/* XXX: state which action */
 					if(p->is_reference)
-						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.litteral);
+						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 					else
-						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.litteral);
+						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 				}
 			}
 			if(p!=NULL) {
@@ -1857,22 +1857,22 @@ ZL2_219:;
 				NStringT str;
 			      	switch (p->type) {
 				case arg_identifier: 
-				     	nstring_copy_cstring(&str, p->u.litteral);
+				     	nstring_copy_cstring(&str, p->u.literal);
 					entrytype=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!entrytype) {
 						EntryT* tableentry = table_get_entry((ZI213)->top_level->table, &str);
 						if(!tableentry) {
-							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.litteral);
+							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 							entrytype = NULL;
 						} else if (entry_is_localname(tableentry)) {
-							error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.litteral);
+							error(ERROR_SERIOUS, "local name %s has been defined but not in this scope", p->u.literal);
 							entrytype = NULL;
 						} else if (entry_is_action(tableentry)) {
-							error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.litteral);
+							error(ERROR_SERIOUS, "%s is not a local name but an action which is not allowed", p->u.literal);
 							entrytype = NULL;
 						} else if (entry_is_type(tableentry)) {
-							error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.litteral);
+							error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
 							entrytype = NULL;
 						} else {
 							; /* TODO assert(0) this should be unreachable*/
@@ -1913,7 +1913,7 @@ ZL2_219:;
 						char* s3 = p->is_reference ? "&" : "";
 						char* s4 = nstring_to_cstring(entry_key(q->type));
 						char* s5 = q->is_reference ? "&" : "";
-						error(ERROR_SERIOUS, "In call to action %s, argument \'%s\' has type \'%s%s\' when it should have type %s", s1, p->u.litteral, s2, s3, s4, s5);
+						error(ERROR_SERIOUS, "In call to action %s, argument \'%s\' has type \'%s%s\' when it should have type %s", s1, p->u.literal, s2, s3, s4, s5);
 						DEALLOCATE(s1);
 						DEALLOCATE(s2);
 						DEALLOCATE(s4);
@@ -1938,7 +1938,7 @@ ZL2_219:;
 					{
 						NStringT str;
 						EntryT* entry; 
-						nstring_copy_cstring(&str, p->u.litteral);
+						nstring_copy_cstring(&str, p->u.literal);
 						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
 							EntryT* entry = table_get_entry((ZI213)->top_level->table, &str);
@@ -1946,23 +1946,23 @@ ZL2_219:;
 							if(entry) {
 								nstring_destroy(&str);
 								if (entry_is_action(entry)) {
-									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.litteral);
+									error(ERROR_SERIOUS, "In action lhs. Name %s is an action. Hiding globals by local names is not allowed", p->u.literal);
 								} else if (entry_is_type(entry)) {
-									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.litteral);									
+									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
 								table_add_local_name((ZI213)->top_level->table, &str);
 							}
 							if(p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(entryaction));
-								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.litteral);
+								error(ERROR_SERIOUS, "In action call %s, you can only use references %s for preexisting variables", s, p->u.literal);
 								DEALLOCATE(s);
 							} 
 						} else {
 							nstring_destroy(&str);
 							if(!p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(entryaction));
-								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.litteral);
+								error(ERROR_SERIOUS, "In action call %s, name %s already declared. Use references to change the value of an already existing variable", s, p->u.literal);
 								entrytype=q->type; /* To avoid outputting that error more than once*/
 								DEALLOCATE(s);
 							}
@@ -1995,9 +1995,9 @@ ZL2_219:;
 				if(p->is_reference != q->is_reference) {
 					/* XXX: state which action */
 					if(p->is_reference)
-						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.litteral);
+						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 					else
-						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.litteral);
+						error(ERROR_SERIOUS, "In call to action, %s should not be a reference", p->u.literal);
 				}
 			}
 			if(p!=NULL) {
@@ -2330,9 +2330,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -2462,9 +2462,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -2594,9 +2594,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -2709,9 +2709,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -2841,9 +2841,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -2956,9 +2956,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -3037,9 +3037,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -3161,9 +3161,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -3280,9 +3280,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -3411,9 +3411,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -3584,9 +3584,9 @@ ZR223(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
@@ -3719,9 +3719,9 @@ ZR227(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI226, instructionP *ZOinst)
 			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
 				if(p->type==arg_identifier) {
 					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.litteral, q->u.litteral)) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
 							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.litteral);
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
 							break;		   
 						}
 					}
