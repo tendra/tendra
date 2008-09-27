@@ -57,6 +57,7 @@
         it may be put.
 */
 
+#include <assert.h>
 #include <string.h>
 
 #include "xalloc/xalloc.h"
@@ -65,6 +66,14 @@
 #include "keyword.h"
 #include "zone.h"
 #include "instruction.h"
+
+struct keyword_tag {
+	const char *name;
+	instruction *instr;
+
+	/* All keywords are formed into a list using the next field */
+	keyword *next;
+};
 
 
 /*
@@ -75,8 +84,11 @@
 */
 
 void
-add_keyword(zone* z, char *nm, instruction* instr)
+add_keyword(zone* z, const char *nm, instruction* instr)
 {
+	assert(nm != NULL);
+	assert(strlen(nm) > 0);
+
     static int keywords_left = 0;
     static keyword *keywords_free = NULL;
     keyword *p = z->keywords, *q = NULL;
@@ -97,7 +109,6 @@ add_keyword(zone* z, char *nm, instruction* instr)
     p = keywords_free + (--keywords_left);
     p->name = nm;
     p->instr = instr;
-    p->done = 0;
     if (q == NULL) {
 	p->next = z->keywords;
 	z->keywords = p;
@@ -106,5 +117,34 @@ add_keyword(zone* z, char *nm, instruction* instr)
 	q->next = p;
     }
     return;
+}
+
+void
+keywords_iterate(keyword *kw, void (*f)(keyword *, void *), void *opaque)
+{
+	keyword *k;
+
+	assert(kw != NULL);
+	assert(f != NULL);
+
+	for (k = kw; k; k = k->next) {
+		f(k, opaque);
+	}
+}
+
+instruction *
+keyword_instruction(keyword *kw)
+{
+	assert(kw != NULL);
+
+	return kw->instr;
+}
+
+const char *
+keyword_name(keyword *kw)
+{
+	assert(kw != NULL);
+
+	return kw->name;
 }
 

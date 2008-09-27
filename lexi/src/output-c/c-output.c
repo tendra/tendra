@@ -172,6 +172,35 @@ buffer_length(lexer_parse_tree *top_level)
 	return i;
 }
 
+static void
+output_keyword(keyword *keyword, void *opaque)
+{
+	FILE *output = opaque;
+
+	fprintf(output, "\tif(");
+
+	fprintf(output, "!strcmp(identifier, \"%s\")) return ", keyword_name(keyword));
+
+	switch (keyword_instruction(keyword)->type) {
+	case pure_apply_function:
+		/*
+		 * Arguments are not permitted for functions in
+		 * keyword instructions.
+		 */
+		fprintf(output, "%s()", keyword_instruction(keyword)->u.fun->name);
+		break;
+
+	case return_terminal:
+		fprintf(output, "%s", keyword_instruction(keyword)->u.name);
+		break;
+
+	default:
+		assert(!"unrecognised instruction type for keyword");
+	}
+
+	fprintf(output, ";\n");
+}
+
 /*
 	KEYWORDS GENERATION
 
@@ -199,31 +228,7 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 	fprintf(output, "int %skeyword(const char *identifier, int notfound) {\n",
 		lexi_prefix);
 
-	for (p = top_level->global_zone->keywords; p; p = p->next) {
-		fprintf(output, "\tif(");
-
-		fprintf(output, "!strcmp(identifier, \"%s\")) return ",
-			p->name);
-
-		switch(p->instr->type) {
-		case pure_apply_function:
-			/*
-			 * Arguments are not permitted for functions in
-			 * keyword instructions.
-			 */
-			fprintf(output, "%s()", p->instr->u.fun->name);
-			break;
-
-		case return_terminal:
-			fprintf(output, "%s", p->instr->u.name);
-			break;
-
-		default:
-			assert(!"unrecognised instruction type for keyword");
-		}
-
-		fprintf(output, ";\n");
-	}
+	keywords_iterate(top_level->global_zone->keywords, output_keyword, output);
 
 	fprintf(output, "\treturn notfound;\n}\n");
 

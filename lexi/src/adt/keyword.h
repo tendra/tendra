@@ -63,23 +63,20 @@
 
 struct instruction_tag;
 struct zone_tag;
+struct keyword_tag;
 
 /*
     TYPE REPRESENTING A KEYWORD
 
-    A keyword consists of a name plus some associated data.  All keywords
-    are formed into a list using the next field.  done is a flag used in
-    the output routines.
+    A keyword consists of a name plus some associated data.
 */
 
-typedef struct keyword_tag {
-    char *name;
-    struct instruction_tag *instr;
-    int done;
-    struct keyword_tag *next;
-} keyword;
+typedef struct keyword_tag keyword;
 
 
-extern void add_keyword(struct zone_tag *, char*, struct instruction_tag *);
+extern void add_keyword(struct zone_tag *, const char*, struct instruction_tag *);
+extern void keywords_iterate(struct keyword_tag *, void (*f)(struct keyword_tag *, void *), void *);
+extern struct instruction_tag *keyword_instruction(struct keyword_tag *);
+extern const char *keyword_name(struct keyword_tag *);
 
 #endif
