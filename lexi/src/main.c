@@ -65,7 +65,6 @@
 #include "error/error.h"
 
 #include "adt/tree.h"
-#include "adt/type.h"
 
 #include "lexer.h"
 #include "lctlexer.h"
@@ -107,7 +106,7 @@ process_lxi_file(char *nm,lexer_parse_tree* top_level)
 	}
 	lexi_init(&lexer_state);
 	ADVANCE_LXI_LEXER;
-	read_lex(top_level->global_zone);
+	read_lex(tree_get_globalzone(top_level));
 	if (nm)fclose(lex_input);
 	return;
 }
@@ -164,7 +163,7 @@ int
 main(int argc, char **argv)
 {
 	int optc;
-	lexer_parse_tree top_level;
+	lexer_parse_tree *top_level;
  	cmd_line_options_init(&options);
 	int i;
 
@@ -289,15 +288,15 @@ main(int argc, char **argv)
 	}
 
 	/* Process input file */
-	init_lexer_parse_tree(&top_level);
+	top_level = init_lexer_parse_tree();
 
-	set_predefined_char_lexi_type(&top_level, "CHARACTER", "char");
-	set_predefined_string_lexi_type(&top_level, "STRING", "char*");
-	set_predefined_int_lexi_type(&top_level, "INTEGER", "int");
-	set_predefined_terminal_lexi_type(&top_level, "TERMINAL");
+	set_predefined_char_lexi_type(top_level, "CHARACTER", "char");
+	set_predefined_string_lexi_type(top_level, "STRING", "char*");
+	set_predefined_int_lexi_type(top_level, "INTEGER", "int");
+	set_predefined_terminal_lexi_type(top_level, "TERMINAL");
 
 
-	process_lxi_file(argv[0],&top_level);
+	process_lxi_file(argv[0], top_level);
 
 	if (exit_status != EXIT_SUCCESS) {
 		error(ERROR_FATAL, "Terminating due to previous errors");
@@ -305,7 +304,7 @@ main(int argc, char **argv)
 	}
 
 	if(output->inputfiles>1) {
-		process_lct_file(&top_level,argv[1]);
+		process_lct_file(top_level, argv[1]);
 	}
 
 	if (exit_status != EXIT_SUCCESS) {
@@ -314,12 +313,12 @@ main(int argc, char **argv)
 	}
 
 	/* Generate output */
- 	if (top_level.global_zone->white_space == NULL)
-		top_level.global_zone->white_space = make_group(top_level.global_zone,"white",
-							  make_string(" \t\n",top_level.global_zone));
+ 	if (tree_get_globalzone(top_level)->white_space == NULL)
+		tree_get_globalzone(top_level)->white_space = make_group(tree_get_globalzone(top_level), "white",
+							  make_string(" \t\n", tree_get_globalzone(top_level)));
 
 	if(output->output_all!=NULL)
-		output->output_all(&options, &top_level);
+		output->output_all(&options, top_level);
 
 	for(i = 0; i < output->outputfiles; i++) {
 		if(options.outputfile[i].file) {

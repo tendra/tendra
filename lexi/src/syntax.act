@@ -79,7 +79,6 @@ TYPETUPLE -> TypeTupleT;
 #include "adt/keyword.h"
 #include "adt/zone.h"
 #include "adt/tree.h"
-#include "adt/type.h"
 #include "adt/char.h"
 
 #include "adt.h"
@@ -389,7 +388,7 @@ arg-ignore : () -> (a:ARG) = @{
 <make-action-inst> : ( z: ZONE, i:IDENTIFIER, l:ARGS_LIST, r:ARGS_LIST) -> (inst:INSTRUCTION)  = @{
 	NStringT key;
 	nstring_copy_cstring(&key, @i);
-	EntryT* entry = table_get_entry(@z->top_level->table, &key);
+	EntryT* entry = table_get_entry(tree_get_table(@z->top_level), &key);
 	if(entry) {
 		if(entry_is_action(entry)) {
 			/* TODO: Inefficient code follows: */
@@ -495,7 +494,7 @@ arg-ignore : () -> (a:ARG) = @{
 					entrytype=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!entrytype) {
-						EntryT* tableentry = table_get_entry(@z->top_level->table, &str);
+						EntryT* tableentry = table_get_entry(tree_get_table(@z->top_level), &str);
 						if(!tableentry) {
 							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 							entrytype = NULL;
@@ -574,7 +573,7 @@ arg-ignore : () -> (a:ARG) = @{
 						nstring_copy_cstring(&str, p->u.literal);
 						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
-							EntryT* entry = table_get_entry(@z->top_level->table, &str);
+							EntryT* entry = table_get_entry(tree_get_table(@z->top_level), &str);
 							localnames_add_nstring(locals, &str, q->type);
 							if(entry) {
 								nstring_destroy(&str);
@@ -584,7 +583,7 @@ arg-ignore : () -> (a:ARG) = @{
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
-								table_add_local_name(@z->top_level->table, &str);
+								table_add_local_name(tree_get_table(@z->top_level), &str);
 							}
 							if(p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(entryaction));
@@ -679,7 +678,7 @@ arg-ignore : () -> (a:ARG) = @{
 @} ;
 
 <is-non-empty> : ( c : CHARACTERS, z :ZONE ) -> ( b : BOOL ) = @{
-    @b=(@c[0]!=@z->top_level->last_letter_code);
+    @b=(@c[0]!=tree_get_lastlettercode(@z->top_level));
 @};
 
 <E_empty_character_string> : () -> () = @{
@@ -800,7 +799,7 @@ arg-ignore : () -> (a:ARG) = @{
    This action report if the zone z is the global zone 
 */
 <is-global-zone> : ( z : ZONE ) -> ( b : BOOL ) = @{
-   @b=(@z==@z->top_level->global_zone);
+   @b = tree_zoneisglobal(@z->top_level, @z);
 @};
 
 <make-copyright> : ( s:STRING ) -> () = @{
@@ -820,7 +819,7 @@ arg-ignore : () -> (a:ARG) = @{
 	nstring_copy_cstring(&str,@i);
 	xfree(@i);
 	EntryT* entry;
-	entry=table_get_entry(@z->top_level->table, &str);
+	entry=table_get_entry(tree_get_table(@z->top_level), &str);
 	if(entry != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
@@ -833,7 +832,7 @@ arg-ignore : () -> (a:ARG) = @{
 		else
 			UNREACHED;
 	} else {
-		table_add_type(@z->top_level->table, &str, false);
+		table_add_type(tree_get_table(@z->top_level), &str, false);
 	}
 @};
 
@@ -841,7 +840,7 @@ arg-ignore : () -> (a:ARG) = @{
 	NStringT str;
 	nstring_copy_cstring(&str, @i);
 	EntryT* entry;
-	entry=table_get_entry(@z->top_level->table, &str);
+	entry=table_get_entry(tree_get_table(@z->top_level), &str);
 	if(entry != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
@@ -854,7 +853,7 @@ arg-ignore : () -> (a:ARG) = @{
 		else
 			UNREACHED;
 	} else {
-		table_add_action(@z->top_level->table, &str , @&params, @&results);
+		table_add_action(tree_get_table(@z->top_level), &str , @&params, @&results);
 	}
 	xfree(@i);
 @};
@@ -871,7 +870,7 @@ arg-ignore : () -> (a:ARG) = @{
 	NStringT tstr, istr;
 	nstring_copy_cstring(&tstr,@type);
 	nstring_copy_cstring(&istr,@id);
-	EntryT* entry = table_get_entry(@z->top_level->table,&tstr);
+	EntryT* entry = table_get_entry(tree_get_table(@z->top_level), &tstr);
 	if(entry == NULL) {
 		 error(ERROR_SERIOUS, "Unknown type %s", @type);
 		 nstring_destroy(&istr);

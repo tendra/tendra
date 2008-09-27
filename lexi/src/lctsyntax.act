@@ -293,7 +293,7 @@ code-string : () -> (s:BIGSTRING) = @{
 @};
 
 <append-tuple> : (a:TYPETUPLE&, id:IDENTIFIER, type:IDENTIFIER, isref:BOOL) -> () =@{
-	EntryT* entry = table_get_entry(lxi_top_level->table,@&type);
+	EntryT* entry = table_get_entry(tree_get_table(lxi_top_level), @&type);
 	if(entry == NULL) {
 		 char* pt = nstring_to_cstring(@&type);
 		 error(ERROR_SERIOUS, "Unknown type %s", pt);
@@ -312,7 +312,7 @@ code-string : () -> (s:BIGSTRING) = @{
 @} ;
 
 <make-map> : (lexitype:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
-	EntryT* entry= table_get_entry(lxi_top_level->table,@&lexitype);
+	EntryT* entry= table_get_entry(tree_get_table(lxi_top_level), @&lexitype);
 	if(entry !=NULL) {
 		if(entry_is_type(entry)) {
 			TypeT* type = entry_get_type(entry);
@@ -330,7 +330,7 @@ code-string : () -> (s:BIGSTRING) = @{
 
 
 <get-entry-action> : (i:IDENTIFIER) -> (e:ENTRYP) = @{
-	@e=table_get_entry(lxi_top_level->table,@&i);
+	@e=table_get_entry(tree_get_table(lxi_top_level), @&i);
 	if(@e) {
 		if(!entry_is_action(@e)) {
 			@e=NULL; /*TODO skip to end of action */

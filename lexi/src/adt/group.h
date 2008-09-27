@@ -101,6 +101,5 @@ struct char_group_list_tag {
 extern char_group* make_group(struct zone_tag *, char *, letter *);
 extern int in_group(char_group *, letter);
 extern int is_group_empty(char_group *);
-extern int all_groups_empty(char_group *list);
 
 #endif

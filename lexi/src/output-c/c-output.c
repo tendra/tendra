@@ -76,8 +76,8 @@
 #include "adt/instruction.h"
 #include "adt/keyword.h"
 #include "adt/tree.h"
-#include "adt/type.h"
 #include "adt/zone.h"
+#include "adt/group.h"
 
 #include "localnames.h"
 #include "lexer.h"
@@ -164,9 +164,9 @@ buffer_length(lexer_parse_tree *top_level)
 
 	/* XXX: account for is_beginendmarker_in_zone */
 
-	i = zone_maxlength(top_level->global_zone, 0) - 1;
-	if (top_level->global_zone->zone_pre_pass->next) {
-		i += zone_maxlength(top_level->global_zone, 1) - 1;
+	i = zone_maxlength(tree_get_globalzone(top_level), 0) - 1;
+	if (tree_get_globalzone(top_level)->zone_pre_pass->next) {
+		i += zone_maxlength(tree_get_globalzone(top_level), 1) - 1;
 	}
 
 	return i;
@@ -214,9 +214,7 @@ output_keyword(keyword *keyword, void *opaque)
 static void
 output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 {
-	keyword *p;
-
-	if (top_level->global_zone->keywords == NULL) {
+	if (tree_get_globalzone(top_level)->keywords == NULL) {
 		return;
 	}
 
@@ -228,7 +226,7 @@ output_keywords(lexer_parse_tree* top_level, FILE *output, FILE *output_h)
 	fprintf(output, "int %skeyword(const char *identifier, int notfound) {\n",
 		lexi_prefix);
 
-	keywords_iterate(top_level->global_zone->keywords, output_keyword, output);
+	keywords_iterate(tree_get_globalzone(top_level)->keywords, output_keyword, output);
 
 	fprintf(output, "\treturn notfound;\n}\n");
 
@@ -410,7 +408,7 @@ output_instructions( zone* z, instructions_list* ret, unsigned int n, int d, int
       changezone=1;
       if(z->type == typezone_general_zone) { 
 	output_indent(lex_output, d);
-	if(instr->u.s.z==instr->u.s.z->top_level->global_zone) {
+	if(instr->u.s.z==tree_get_globalzone(instr->u.s.z->top_level)) {
 	  fprintf(lex_output, "state->zone_function = %s;\n",read_token_name);
 	} else {
 	  fprintf(lex_output, "state->zone_function = %s_%s;\n",read_token_name,
@@ -480,8 +478,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 
 	/* First pass */
 	for (q = p->next; q != NULL; q = q->opt) {
-	    letter c = q->ch;
-	    ctrans=letters_table_get_translation(c,top_level->letters_table);
+	    ctrans=tree_get_translation(top_level, q);
 		if (ctrans->type==last_letter) {
 			if(in_pre_pass)
 				retmap = q->u.map;
@@ -516,7 +513,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 				}
 
 				output_indent(lex_output, d);
-				if (scope==scope->top_level->global_zone) {
+				if (scope==tree_get_globalzone(scope->top_level)) {
 					fprintf(lex_output, "if (%sgroup(%sgroup_white, c0)) goto start;\n",
 					lexi_prefix, lexi_prefix);
 				} else {
@@ -537,8 +534,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			output_indent(lex_output, d);
 			fprintf(lex_output, "switch (c%d) {\n", n);
 			for (q = p->next; q != NULL; q = q->opt) {
-				letter c = q->ch;
-				ctrans=letters_table_get_translation(c,top_level->letters_table);
+				ctrans=tree_get_translation(top_level, q);
 				if (ctrans->type == char_letter||ctrans->type==eof_letter) {
 					output_indent(lex_output, d + 1);
 					fprintf(lex_output, "case %s: {\n", char_lit(ctrans));
@@ -555,8 +551,7 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 		} else {
 			/* Single case */
 			for (q = p->next; q != NULL; q = q->opt) {
-				letter c = q->ch;
-				ctrans=letters_table_get_translation(c,top_level->letters_table);
+				ctrans=tree_get_translation(top_level, q);
 				if (ctrans->type==char_letter||ctrans->type==eof_letter) {
 					output_indent(lex_output, d);
 					fprintf(lex_output, "if (c%d == %s) {\n",
@@ -572,15 +567,14 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			/* Complex cases */
 			int started = 0;
 			for (q = p->next; q != NULL; q = q->opt) {
-				letter c = q->ch;
-				ctrans=letters_table_get_translation(c,top_level->letters_table);
+				ctrans=tree_get_translation(top_level, q);
 				if (ctrans->type==group_letter||ctrans->type==notin_group_letter) {
 					char* reverse_match=(ctrans->type==notin_group_letter) ? "!": "";
 					char_group *grp=ctrans->u.grp;
 					output_indent(lex_output, d);
 					if (started)
 						fputs("} else ", lex_output);
-					if(grp->z==grp->z->top_level->global_zone)
+					if(grp->z==tree_get_globalzone(grp->z->top_level))
 						fprintf(lex_output, "if (%s%sgroup(%sgroup_%s, c%d)) {\n",
 							reverse_match, lexi_prefix, lexi_prefix, grp->name, n);
 					else
@@ -612,12 +606,12 @@ output_pass(zone* z, character* p, int in_pre_pass, int n, int d)
 			if (m) {
 				char *str;
 				if (m == '\\') {
-					letter ca=find_escape((map)[1],top_level->eof_letter_code);
-					ctrans=letters_table_get_translation(ca,top_level->letters_table);
+					letter ca=find_escape((map)[1],tree_get_eoflettercode(top_level));
+					ctrans=tree_get_translationl(top_level, ca);
 				        str = char_lit(ctrans);
 					m = (map) [2];
 				} else {
-					ctrans=letters_table_get_translation((letter)m,top_level->letters_table);
+					ctrans=tree_get_translationl(top_level, (letter) m);
 					str = char_lit(ctrans);
 					m = (map) [1];
 				}
@@ -649,7 +643,7 @@ output_zone_pass_prototypes(zone *p)
   }
   if(p->type == typezone_pure_function)
     s = "void";
-  if(!(p==p->top_level->global_zone))
+  if(!(p==tree_get_globalzone(p->top_level)))
     fprintf(lex_output,"static %s %s_%s(struct %sstate *state);\n", s,
 		read_token_name,p->zone_name, lexi_prefix);
 }
@@ -681,7 +675,7 @@ output_zone_pass(cmd_line_options *opt, zone *p)
 {
     zone *z;
     int in_pre_pass=0;
-    int is_p_global_zone=(p==p->top_level->global_zone);
+    int is_p_global_zone=(p==tree_get_globalzone(p->top_level));
     for(z=p->next;z!=NULL;z=z->opt) {
         output_zone_pass(opt, z);
     }
@@ -690,7 +684,7 @@ output_zone_pass(cmd_line_options *opt, zone *p)
        	fprintf(lex_output,"int\n%s(struct %sstate *state)\n",
 		read_token_name, lexi_prefix);
 	fputs("{\n", lex_output);
-	if(p->top_level->global_zone->next!=NULL) {
+	if(tree_get_globalzone(p->top_level)->next!=NULL) {
 	  fprintf(lex_output, "\tif(state->zone_function != %s)\n", read_token_name);
 	  fprintf(lex_output, "\t\treturn (*state->zone_function)(state);\n");
 	}
@@ -751,14 +745,14 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 {
 	char_group* grp;
 
-	if (all_groups_empty(top_level->groups_list.head)) {
+	if (all_groups_empty(top_level)) {
 		return;
 	}
 
 	fprintf(lex_output_h, "enum %sgroups {\n", opt->lexi_prefix);
 
 	/* Group interface */
-	for( grp=top_level->groups_list.head; grp!=NULL; grp=grp->next_in_groups_list) {
+	for( grp=tree_get_grouplist(top_level)->head; grp!=NULL; grp=grp->next_in_groups_list) {
 		unsigned long m;
 
 		if (is_group_empty(grp)) {
@@ -766,7 +760,7 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 		}
 
 		m = (unsigned long)(1 << grp->group_code);
-		if(grp->z==grp->z->top_level->global_zone) {
+		if(grp->z==tree_get_globalzone(grp->z->top_level)) {
 			fprintf(lex_output_h, "\t%sgroup_%s = ",
 				opt->lexi_prefix, grp->name);
 		} else {
@@ -812,7 +806,7 @@ output_lookup_table(lexer_parse_tree* top_level, const char *grouptype,
 	int c;
 	char_group* grp;
 
-	if (all_groups_empty(top_level->groups_list.head)) {
+	if (all_groups_empty(top_level)) {
 		return;
 	}
 
@@ -822,9 +816,9 @@ output_lookup_table(lexer_parse_tree* top_level, const char *grouptype,
 	fputs("static lookup_type lookup_tab[257] = {\n", lex_output);
 	for (c = 0; c <= 256; c++) {
 		unsigned long m = 0;
-		letter a = (c == 256 ? top_level->eof_letter_code : (letter)c);
+		letter a = (c == 256 ? tree_get_eoflettercode(top_level) : (letter)c);
 		m = 0;
-		for( grp=top_level->groups_list.head; grp!=NULL; grp=grp->next_in_groups_list) {
+		for( grp=tree_get_grouplist(top_level)->head; grp!=NULL; grp=grp->next_in_groups_list) {
 			if (in_group(grp, a)) {
 				m |= (unsigned long)(1 << grp->group_code);
 			}
@@ -964,11 +958,12 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	 * types based on their respective minimum maxiums otherwise. These types
 	 * may be larger than required on some systems, but that's ok.
 	 */
-	if (top_level->no_total_groups >= 16) {
+	/* TODO: assert we don't have too many groups */
+	if (tree_get_totalnogroups(top_level) >= 16) {
 		grouptype = language == C99 ? "uint32_t" : "unsigned long";
 		grouphex = "0x%08lxUL";
 		groupwidth = 2;
-	} else if (top_level->no_total_groups >= 8) {
+	} else if (tree_get_totalnogroups(top_level) >= 8) {
 		grouptype = language == C99 ? "uint16_t" : "unsigned short";
 		grouphex = "0x%04lx";
 		groupwidth = 4;
@@ -1026,7 +1021,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fputs("\n\n", lex_output);
 
 	fputs("#ifndef LEXI_EOF\n", lex_output_h);
-	fprintf(lex_output_h, "#define LEXI_EOF %u\n", top_level->eof_letter_code);
+	fprintf(lex_output_h, "#define LEXI_EOF %u\n", tree_get_eoflettercode(top_level));
 	fputs("#endif\n\n", lex_output_h);
 
 	output_macros(opt,top_level,grouphex);
@@ -1040,7 +1035,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	/* Lexical pre-pass */
 	in_pre_pass=1;
 	fputs("/* PRE-PASS ANALYSERS */\n\n", lex_output);
-	output_zone_prepass(top_level->global_zone);
+	output_zone_prepass(tree_get_globalzone(top_level));
 
 	/* Main pass */
 
@@ -1065,10 +1060,10 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(lex_output, "}\n");
 
 	fputs("/* ZONES PASS ANALYSER PROTOTYPES*/\n\n", lex_output);
-	output_zone_pass_prototypes(top_level->global_zone);
+	output_zone_pass_prototypes(tree_get_globalzone(top_level));
 
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
-  	output_zone_pass(opt, top_level->global_zone);
+  	output_zone_pass(opt, tree_get_globalzone(top_level));
 
 	fputs("#endif\n", lex_output_h);
 	output_trailers() ;

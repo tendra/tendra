@@ -205,7 +205,7 @@ ZRaction_Hdefinition_C_Ctype_Htuple_C_Ctype_Hname(TypeTupleT *ZIa)
 		{
 #line 296 "lctsyntax.act"
 
-	EntryT* entry = table_get_entry(lxi_top_level->table,(&ZItype));
+	EntryT* entry = table_get_entry(tree_get_table(lxi_top_level), (&ZItype));
 	if(entry == NULL) {
 		 char* pt = nstring_to_cstring((&ZItype));
 		 error(ERROR_SERIOUS, "Unknown type %s", pt);
@@ -515,7 +515,7 @@ ZRmap_Hstmnt(void)
 		{
 #line 315 "lctsyntax.act"
 
-	EntryT* entry= table_get_entry(lxi_top_level->table,(&ZIlexitype));
+	EntryT* entry= table_get_entry(tree_get_table(lxi_top_level), (&ZIlexitype));
 	if(entry !=NULL) {
 		if(entry_is_type(entry)) {
 			TypeT* type = entry_get_type(entry);
@@ -1057,7 +1057,7 @@ ZRaction_Hdefinition(void)
 		{
 #line 333 "lctsyntax.act"
 
-	(ZIe)=table_get_entry(lxi_top_level->table,(&ZInm));
+	(ZIe)=table_get_entry(tree_get_table(lxi_top_level), (&ZInm));
 	if((ZIe)) {
 		if(!entry_is_action((ZIe))) {
 			(ZIe)=NULL; /*TODO skip to end of action */

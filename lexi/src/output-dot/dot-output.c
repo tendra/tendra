@@ -90,13 +90,13 @@ quote_char(letter_translation* ctrans)
 
 /*
  * Render out a single node. The shape and label of the node is determined by
- * its type according to letters_table_get_translation().
+ * its type according to tree_get_translation().
  */
 static void
 output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
 	letter_translation *ctrans;
 
-	ctrans = letters_table_get_translation(p->ch, top_level->letters_table);
+	ctrans = tree_get_translation(top_level, p);
 	fprintf(dotout, "\tc%p [ ", (void *) p);
 
 	switch(ctrans->type) {
@@ -191,7 +191,7 @@ pass(character *p, lexer_parse_tree *top_level, cmd_line_options *opt) {
 	for(q = p->next; q; q = q->opt) {
 		letter_translation* ctrans;
 
-		ctrans = letters_table_get_translation(q->ch, top_level->letters_table);
+		ctrans = tree_get_translation(top_level, q);
 
 		fprintf(dotout, "\tc%p -> c%p [ dir=%s ];\n",
 			(void *) p, (void *) q, ctrans->type == last_letter ? "forward" : "none");
@@ -216,7 +216,7 @@ void dot_output_all(cmd_line_options *opt, lexer_parse_tree *top_level) {
 	/* TODO output pre-pass mappings (render as -> "xyz") */
 	/* TODO keywords, pending #250 */
 
-	pass(top_level->global_zone->zone_main_pass, top_level, opt);
+	pass(tree_get_globalzone(top_level)->zone_main_pass, top_level, opt);
 
 	fprintf(dotout, "};\n");
 

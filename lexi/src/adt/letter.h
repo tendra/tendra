@@ -96,7 +96,5 @@ extern letter find_escape(int c, letter eof_letter_code);
 extern letter *make_string(char *, struct zone_tag *);
 extern letter_translation* new_letter_translation(letter_translation_type ltt);
 extern letter_translation* add_group_letter_translation(struct char_group_tag *, int);
-extern void letters_table_add_translation(letter_translation*, letter_translation_list []);
-extern letter_translation* letters_table_get_translation(letter, letter_translation_list []);
 
 #endif

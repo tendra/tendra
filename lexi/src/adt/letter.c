@@ -120,7 +120,7 @@ make_string(char *s, zone* scope)
 	char c = *(s++);
 	if (c == '\\') {
 	    c = *(s++);
-	    a = find_escape(c,scope->top_level->eof_letter_code);
+	    a = find_escape(c,tree_get_eoflettercode(scope->top_level));
 	} else if (c == '[') {
 	    size_t glen;
 	    char *gnm = s;
@@ -161,7 +161,7 @@ make_string(char *s, zone* scope)
 	p [i] = a;
 	i++;
     }
-    p [i] = scope->top_level->last_letter_code;
+    p [i] = tree_get_lastlettercode(scope->top_level);
     return p;
 }
 
@@ -190,35 +190,8 @@ letter_translation* add_group_letter_translation(char_group* grp, int reverse_ma
 {
   letter_translation_type type= reverse_match ? notin_group_letter: group_letter;
   letter_translation*p= new_letter_translation(type);
-  p->letter_code=grp->z->top_level->next_generated_key++;
+  p->letter_code=tree_add_generated_key(grp->z->top_level);
   p->u.grp=grp;
   return p;
-}
-
-/* 
-   ADD LETTER TRANSLATION TO TABLE
-*/
-void letters_table_add_translation(letter_translation* ltrans, 
-				  letter_translation_list table[])
-{
-  unsigned int n=ltrans->letter_code%LETTER_TRANSLATOR_SIZE;
-  *(table[n].tail)=ltrans;
-  table[n].tail=&(ltrans->next);
-}
-
-
-/* 
-   GET LETTER TRANSLATION FROM TABLE
-*/
-letter_translation* letters_table_get_translation(letter letter_code,
-				  letter_translation_list table[])
-{
-  unsigned int n=letter_code%LETTER_TRANSLATOR_SIZE;
-  letter_translation* p;
-  for (p=table[n].head; p!=NULL;p=p->next) {
-    if(p->letter_code==letter_code)
-      return p;
-  }
-  return NULL;
 }
 

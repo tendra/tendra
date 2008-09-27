@@ -57,15 +57,57 @@
         it may be put.
 */
 
+#include <assert.h>
+#include <stddef.h>
+
+#include "shared/xalloc/xalloc.h"
+
+#include "../adt.h"
+
+#include "char.h"
 #include "tree.h"
 #include "letter.h"
 #include "zone.h"
 
 
 /*
+    PARAMETERS
+*/
+
+#define LETTER_TRANSLATOR_SIZE  512
+
+
+struct lexer_parse_tree_tag {
+	struct zone_tag *global_zone;
+
+	FILE *copyright_file;
+
+	unsigned int no_total_groups;
+	char_group_list groups_list;
+
+	TableT table; /* Actions and types */
+
+	EntryT* lexi_char_type;    /*  for #0 arguments */
+	EntryT* lexi_string_type;  /*  for #* arguments */
+	EntryT* lexi_int_type;     /*  for #n arguments */
+	EntryT* lexi_terminal_type;     /*  for $ = returns */
+
+	letter_translation_list letters_table[LETTER_TRANSLATOR_SIZE];
+	letter last_letter_code;
+	letter eof_letter_code;
+	letter next_generated_key;
+};
+
+
+/*
 Initialize the main parse tree
 */
-void init_lexer_parse_tree(lexer_parse_tree* t) {
+lexer_parse_tree*
+init_lexer_parse_tree(void) {
+  lexer_parse_tree *t;
+
+  t = xmalloc(sizeof *t);
+
   int i = 0;
   letter_translation* trans;
   for(i=0; i< LETTER_TRANSLATOR_SIZE;i++) {
@@ -78,17 +120,17 @@ void init_lexer_parse_tree(lexer_parse_tree* t) {
     trans=new_letter_translation(char_letter);
     trans->letter_code=i;
     trans->u.ch=i;
-    letters_table_add_translation(trans, t->letters_table);
+    tree_add_translation(t, trans);
   }
   trans=new_letter_translation(eof_letter);
   t->eof_letter_code=i;
   trans->letter_code=i++;
-  letters_table_add_translation(trans,t->letters_table);
+  tree_add_translation(t, trans);
 
   trans=new_letter_translation(last_letter);
   t->last_letter_code=i;
   trans->letter_code=i++;
-  letters_table_add_translation(trans,t->letters_table);
+  tree_add_translation(t, trans);
 
   t->next_generated_key=i;
 
@@ -97,5 +139,215 @@ void init_lexer_parse_tree(lexer_parse_tree* t) {
   t->groups_list.head=NULL;
   (t->groups_list.tail)=&(t->groups_list.head);
 
+  return t;
+}
+
+int
+tree_zoneisglobal(lexer_parse_tree *t, zone *z)
+{
+	assert(t != NULL);
+	assert(z != NULL);
+
+	return tree_get_globalzone(t) == z;
+}
+
+zone *
+tree_get_globalzone(lexer_parse_tree *t)
+{
+	assert(t != NULL);
+
+	return t->global_zone;
+}
+
+EntryT **
+tree_get_table(lexer_parse_tree *t)
+{
+	assert(t != NULL);
+
+	return t->table;
+}
+
+letter
+tree_get_lastlettercode(lexer_parse_tree *t)
+{
+	assert(t != NULL);
+
+	return t->last_letter_code;
+}
+
+letter
+tree_get_eoflettercode(lexer_parse_tree *t)
+{
+	assert(t != NULL);
+
+	return t->eof_letter_code;
+}
+
+char_group_list *
+tree_get_grouplist(lexer_parse_tree *t)
+{
+	assert(t != NULL);
+
+	return &t->groups_list;
+}
+
+unsigned int
+tree_get_totalnogroups(lexer_parse_tree *t)
+{
+	assert(t != NULL);
+
+	/* TODO: instead of storing this, we can count on the fly */
+	return t->no_total_groups;
+}
+
+/* TODO: this is silly, and can go when tree_get_totalnogroups() runs on the fly */
+void
+tree_inctotalnogroups(lexer_parse_tree *t)
+{
+	assert(t != NULL);
+
+	t->no_total_groups++;
+}
+
+int
+all_groups_empty(lexer_parse_tree *t)
+{
+	char_group *g;
+
+	assert(t != NULL);
+
+	for (g = t->groups_list.head; g != NULL; g = g->next_in_groups_list) {
+		if (!is_group_empty(g)) {
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+letter_translation *
+tree_get_translation(lexer_parse_tree *t, character *c)
+{
+	assert(t != NULL);
+	assert(c != NULL);
+
+	return tree_get_translationl(t, c->ch);
+}
+
+/* TODO: this is only used in a couple of places, which ought to be rewritten */
+letter_translation *
+tree_get_translationl(lexer_parse_tree *t, letter l)
+{
+	unsigned int n;
+	letter_translation *p;
+
+	assert(t != NULL);
+
+	n = l % LETTER_TRANSLATOR_SIZE;
+	for (p = t->letters_table[n].head; p != NULL; p = p->next) {
+		if (p->letter_code == l) {
+			return p;
+		}
+	}
+
+	return NULL;
+}
+
+void
+tree_add_translation(lexer_parse_tree *t, letter_translation *trans)
+{
+	unsigned int n;
+
+	assert(t != NULL);
+	assert(trans != NULL);
+
+	n = trans->letter_code % LETTER_TRANSLATOR_SIZE;
+	*t->letters_table[n].tail = trans;
+	t->letters_table[n].tail = &trans->next;
+}
+
+/* TODO: I am dubious about requiring .next_generated_key */
+letter
+tree_add_generated_key(lexer_parse_tree *t)
+{
+	assert(t != NULL);
+
+	return t->next_generated_key++;
+}
+
+void 
+set_predefined_char_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+	NStringT cstr;
+	nstring_copy_cstring(&cstr, c_type);
+
+	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
+       	EntryT* entry = table_add_type(tree_get_table(top_level), &str, true);
+	TypeT* type = entry_get_type(entry);
+	type_map(type, &cstr);
+	top_level->lexi_char_type = entry;
+}
+
+void 
+set_predefined_string_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+	NStringT cstr;
+	nstring_copy_cstring(&cstr, c_type);
+
+	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
+       	EntryT* entry = table_add_type(tree_get_table(top_level), &str, true);
+	TypeT* type = entry_get_type(entry);
+	type_map(type, &cstr);
+	top_level->lexi_string_type = entry;
+}
+
+void 
+set_predefined_terminal_lexi_type(lexer_parse_tree* top_level, char* lexi_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+
+	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
+       	EntryT* entry = table_add_type(tree_get_table(top_level), &str, true);
+	top_level->lexi_terminal_type = entry;
+}
+
+void 
+set_predefined_int_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+	NStringT cstr;
+	nstring_copy_cstring(&cstr, c_type);
+
+	/* TODO assert(table_get_entry(tree_get_table(top_level), &str) == NULL) */
+       	EntryT* entry = table_add_type(tree_get_table(top_level), &str, true);
+	TypeT* type = entry_get_type(entry);
+	type_map(type, &cstr);
+	top_level->lexi_int_type = entry;
+}
+
+EntryT* lexer_char_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_char_type;
+}
+
+EntryT* lexer_string_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_string_type;
+}
+
+EntryT* lexer_int_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_int_type;
+}
+
+EntryT* lexer_terminal_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_terminal_type;
 }
 

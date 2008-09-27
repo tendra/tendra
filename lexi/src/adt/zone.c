@@ -81,9 +81,9 @@ zone_maxlength(zone* z, int in_prepass)
 	size_t maxopt;
 
 	if(in_prepass)
-		maxopt = char_maxlength(z->zone_pre_pass,  z->top_level->last_letter_code) ;
+		maxopt = char_maxlength(z->zone_pre_pass, tree_get_lastlettercode(z->top_level));
 	else
-		maxopt = char_maxlength(z->zone_main_pass,  z->top_level->last_letter_code) ;
+		maxopt = char_maxlength(z->zone_main_pass, tree_get_lastlettercode(z->top_level));
 	for (p = z->next ; p; p = p->opt) {
 		size_t k = zone_maxlength(p, in_prepass);
 		maxopt = k > maxopt ? k : maxopt ; 
@@ -111,8 +111,8 @@ new_zone (char* zid, lexer_parse_tree* top_level)
     }
     p = zones_free + (--zones_left);
     p->zone_name=zid;
-    p->zone_main_pass=new_char(top_level->last_letter_code);
-    p->zone_pre_pass=new_char(top_level->last_letter_code);
+    p->zone_main_pass=new_char(tree_get_lastlettercode(top_level));
+    p->zone_pre_pass=new_char(tree_get_lastlettercode(top_level));
 
     p->keywords=NULL;
 

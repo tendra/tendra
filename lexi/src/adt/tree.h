@@ -61,49 +61,61 @@
 #ifndef TREE_INCLUDED
 #define TREE_INCLUDED
 
-#include <stdio.h>
-
 #include "../adt.h"
 
 #include "letter.h"
-#include "group.h"
 
-
-/*
-    PARAMETERS
-*/
-
-#define LETTER_TRANSLATOR_SIZE  512
-
+struct character_tag;
 
 
 /* 
    THE LEXER PARSE TREE OF THE LXI FILE
 */
 
-typedef struct lexer_parse_tree_tag {
-  struct zone_tag *global_zone;
-
-  FILE* copyright_file;
-
-  int no_total_groups;
-  char_group_list groups_list;
-
-  TableT table; /* Actions and types */
-
-  EntryT* lexi_char_type;    /*  for #0 arguments */
-  EntryT* lexi_string_type;  /*  for #* arguments */
-  EntryT* lexi_int_type;     /*  for #n arguments */
-  EntryT* lexi_terminal_type;     /*  for $ = returns */
-
-  letter_translation_list (letters_table[LETTER_TRANSLATOR_SIZE]) ;
-  letter last_letter_code;
-  letter eof_letter_code;
-  letter next_generated_key;
-
-} lexer_parse_tree;
+typedef struct lexer_parse_tree_tag lexer_parse_tree;
 
 
-extern void init_lexer_parse_tree(lexer_parse_tree*);
+extern lexer_parse_tree *init_lexer_parse_tree(void);
+extern int tree_zoneisglobal(lexer_parse_tree *, struct zone_tag *);
+extern struct zone_tag *tree_get_globalzone(lexer_parse_tree *);
+extern EntryT **tree_get_table(lexer_parse_tree *);
+extern letter tree_get_lastlettercode(lexer_parse_tree *t);
+extern letter tree_get_eoflettercode(lexer_parse_tree *t);
+extern struct char_group_list_tag *tree_get_grouplist(lexer_parse_tree *t);
+extern unsigned int tree_get_totalnogroups(lexer_parse_tree *t);
+extern void tree_inctotalnogroups(lexer_parse_tree *t);
+extern letter_translation *tree_get_translation(lexer_parse_tree *t, struct character_tag *c);
+extern letter_translation *tree_get_translationl(lexer_parse_tree *t, letter l);
+
+
+/*
+    ARE ALL GROUPS EMPTY?
+*/
+extern int all_groups_empty(lexer_parse_tree *t);
+
+/*
+   ADD LETTER TRANSLATION TO TABLE
+*/
+extern void tree_add_translation(lexer_parse_tree *t, letter_translation *trans);
+
+/*
+   GET LETTER TRANSLATION FROM TABLE
+*/
+extern letter_translation *tree_get_lettertranslation(lexer_parse_tree *t, struct character_tag *c);
+extern letter_translation *tree_get_translationl(lexer_parse_tree *t, letter l);
+
+extern void tree_add_translation(lexer_parse_tree *t, letter_translation *trans);
+
+extern letter tree_add_generated_key(lexer_parse_tree *t);
+
+extern void set_predefined_char_lexi_type(struct lexer_parse_tree_tag *, char*, char*);
+extern void set_predefined_string_lexi_type(struct lexer_parse_tree_tag *, char*, char*);
+extern void set_predefined_int_lexi_type(struct lexer_parse_tree_tag *, char*, char*);
+extern void set_predefined_terminal_lexi_type(struct lexer_parse_tree_tag *, char*);
+
+extern EntryT* lexer_char_type(struct lexer_parse_tree_tag *);
+extern EntryT* lexer_string_type(struct lexer_parse_tree_tag *);
+extern EntryT* lexer_int_type(struct lexer_parse_tree_tag *);
+extern EntryT* lexer_terminal_type(struct lexer_parse_tree_tag *);
 
 #endif

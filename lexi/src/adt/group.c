@@ -117,20 +117,21 @@ make_group(zone* z,char *nm, letter *s)
 	    return NULL;
 	}
     }
-    if (top_level->no_total_groups >= MAX_GROUPS) {
-	error(ERROR_SERIOUS, "Too many groups defined (%d)", top_level->no_total_groups);
+    if (tree_get_totalnogroups(top_level) >= MAX_GROUPS) {
+	error(ERROR_SERIOUS, "Too many groups defined (%u)", tree_get_totalnogroups(top_level));
 	return NULL;
     }
     grp=new_group(nm,z);
     grp->name = nm;
     grp->defn = s;
     grp->z = z;
-    grp->group_code=top_level->no_total_groups++;
+    grp->group_code=tree_get_totalnogroups(top_level) + 1;
+	tree_inctotalnogroups(top_level);
 
     trans=add_group_letter_translation(grp,0); /* In group match */
     reverse_trans=add_group_letter_translation(grp,1); /* Not in group match */
-    letters_table_add_translation(trans, top_level->letters_table);
-    letters_table_add_translation(reverse_trans, top_level->letters_table);
+	tree_add_translation(top_level, trans);
+	tree_add_translation(top_level, reverse_trans);
 
     grp->letter_code = trans->letter_code;
     grp->notin_letter_code = reverse_trans->letter_code;
@@ -138,8 +139,8 @@ make_group(zone* z,char *nm, letter *s)
     *(z->groups_hash_table[hash_key].tail)=grp;
     z->groups_hash_table[hash_key].tail=&(grp->next);
 
-    *(z->top_level->groups_list.tail)=grp;
-    z->top_level->groups_list.tail=&(grp->next_in_groups_list);
+    *(tree_get_grouplist(z->top_level)->tail)=grp;
+    tree_get_grouplist(z->top_level)->tail=&(grp->next_in_groups_list);
     return grp;
 }
 
@@ -157,10 +158,10 @@ in_group(char_group *grp, letter c)
     letter_translation* atrans;
     letter* p= grp->defn;
     letter_translation* ctrans;
-    ctrans=letters_table_get_translation(c,grp->z->top_level->letters_table);
+	ctrans=tree_get_translationl(grp->z->top_level, c);
     if (p == NULL) return 0;
-    while (a = *(p++), a != grp->z->top_level->last_letter_code) {
-        atrans=letters_table_get_translation(a,grp->z->top_level->letters_table);
+    while (a = *(p++), a != tree_get_lastlettercode(grp->z->top_level)) {
+		atrans=tree_get_translationl(grp->z->top_level, a);
 	if (atrans->type==char_letter && atrans->u.ch == ctrans->u.ch) {
 	    return 1;
 	} else if (atrans->type==group_letter) {
@@ -182,24 +183,7 @@ int is_group_empty(char_group *grp)
     letter *p = grp->defn;
     if (p == NULL) return 1;
 
-    return *p == grp->z->top_level->last_letter_code;
+    return *p == tree_get_lastlettercode(grp->z->top_level);
 }
 
-
-/*
-	ARE ALL GROUPS EMPTY?
-*/
-
-int all_groups_empty(char_group *list)
-{
-	char_group *g;
-
-	for (g = list; g != NULL; g = g->next_in_groups_list) {
-		if (!is_group_empty(g)) {
-			return 0;
-		}
-	}
-
-	return 1;
-}
 

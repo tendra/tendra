@@ -1,6 +1,6 @@
 # $Id$
 
-TARGETS = char.o group.o instruction.o keyword.o letter.o tree.o type.o zone.o
+TARGETS = char.o group.o instruction.o keyword.o letter.o tree.o zone.o
 
 REMOVE = rm -f
 AR = ar

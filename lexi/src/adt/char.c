@@ -156,7 +156,7 @@ add_char(zone* z, character *p, letter *s, instructions_list* instlist, char* ma
 	    }
 	}
     }
-    if (c == z->top_level->last_letter_code) {
+    if (c == tree_get_lastlettercode(z->top_level)) {
         if ((instlist && q->u.definition) || (map && q->u.map))
 	    error(ERROR_SERIOUS, "TOKEN already defined");
         if(instlist) 
