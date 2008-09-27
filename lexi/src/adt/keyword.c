@@ -57,30 +57,54 @@
         it may be put.
 */
 
+#include <string.h>
 
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
+#include "xalloc/xalloc.h"
+#include "error/error.h"
 
-#include "adt/tree.h"
-
-#include "options.h"
+#include "keyword.h"
+#include "zone.h"
+#include "instruction.h"
 
 
 /*
- * Main output routine.
- *
- * This routine is the entry point for the main output routine.
- *
- * This interface provides support for generating code for both C90 and C99.
- * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
- */
-void
-c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
+    ADD A KEYWORD
 
-#endif
+    This routine adds the keyword nm with its associated data to the list
+    of all keywords.
+*/
+
+void
+add_keyword(zone* z, char *nm, instruction* instr)
+{
+    static int keywords_left = 0;
+    static keyword *keywords_free = NULL;
+    keyword *p = z->keywords, *q = NULL;
+    while (p) {
+	int c = strcmp(nm, p->name);
+	if (c == 0) {
+	    error(ERROR_SERIOUS, "Keyword '%s' already defined", nm);
+	    return;
+	}
+	if (c < 0)break;
+	q = p;
+	p = p->next;
+    }
+    if (keywords_left == 0) {
+	keywords_left = 100;
+	keywords_free = xmalloc_nof(keyword, keywords_left);
+    }
+    p = keywords_free + (--keywords_left);
+    p->name = nm;
+    p->instr = instr;
+    p->done = 0;
+    if (q == NULL) {
+	p->next = z->keywords;
+	z->keywords = p;
+    } else {
+	p->next = q->next;
+	q->next = p;
+    }
+    return;
+}
 

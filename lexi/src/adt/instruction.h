@@ -58,29 +58,95 @@
 */
 
 
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
+#ifndef INSTRUCTION_INCLUDED
+#define INSTRUCTION_INCLUDED
 
-#include "adt/tree.h"
+#include <stdbool.h>
 
-#include "options.h"
+struct zone_tag;
+
+#include "../adt.h"
+#include "../localnames.h"
 
 
-/*
- * Main output routine.
- *
- * This routine is the entry point for the main output routine.
- *
- * This interface provides support for generating code for both C90 and C99.
- * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
- */
-void
-c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
+typedef enum arg_type_tag { 
+  arg_charP, arg_char_nb, arg_chars_list, arg_nb_of_chars, 
+  arg_identifier, arg_terminal,
+  arg_ignore, arg_return_terminal, arg_none /*Just for error recovery*/ 
+} arg_type ;
+
+typedef struct arg_tag {
+  arg_type type;
+  struct arg_tag* next;
+  union {
+    unsigned int digit;
+    char* literal;
+  } u ;
+  bool is_reference;
+} arg;
+
+/* ordered */
+typedef struct args_list_tag {
+  arg*  head ;
+  arg** tail ;
+  int nb_return_terminal;
+} args_list ;
+
+typedef struct user_function_tag {
+  char* name;
+  args_list* args;
+} user_function;
+
+typedef enum instruction_type_tag { return_terminal, push_zone, pop_zone, pure_apply_function, terminal_apply_function, do_nothing , action_call } instruction_type ;
+
+typedef struct instruction_tag {
+  instruction_type type;
+  struct instruction_tag* next;
+  union {
+    char* name;  /* token   */
+    struct {
+      struct zone_tag* z;
+      int is_beginendmarker_in_zone ;
+    } s;
+    user_function* fun; 
+    struct {
+      EntryT* called_act;
+      args_list* lhs; 
+      args_list* rhs; 
+    } act;
+  } u;
+} instruction ;
+
+/* ordered */
+typedef struct instructions_list_tag {
+  instruction* head;
+  instruction** tail;
+  int size;
+  LocalNamesT local_names;
+  int nb_return_terminal;
+} instructions_list;
+
+
+extern arg* add_arg (arg_type, unsigned int) ;
+extern arg* add_identifier_arg ( char* ) ;
+extern arg* add_reference_arg ( char* ) ;
+extern arg* add_terminal_arg ( char* ) ;
+extern arg* add_none_arg ( void ) ;
+extern void arg_output(arg*, bool, int, FILE*);
+extern args_list* add_args_list (void) ;
+
+extern user_function* add_user_function (char *name) ;
+extern instruction * add_instruction_return_terminal (char* name);
+extern instruction* add_instruction_purefunction (char* name, args_list* args) ;
+extern instruction* add_instruction_terminalfunction (char* name, args_list* args) ;
+extern instruction* add_instruction_donothing (void) ;
+extern instruction * add_instruction_action (EntryT*, args_list*, args_list*) ;
+extern instruction* add_instruction_mapping (char* map) ;
+
+extern instruction* add_instruction_pushzone (struct zone_tag *z) ;
+extern instruction* add_instruction_popzone (struct zone_tag *z, int is_endmarker_in_zone) ;
+extern instructions_list* add_instructions_list (void) ;
+
+extern LocalNamesT* instructionslist_localnames(instructions_list*);
 
 #endif
-

@@ -33,7 +33,8 @@
 #ifndef DOT_OUTPUT_INCLUDED
 #define DOT_OUTPUT_INCLUDED
 
-#include "char.h"
+#include "adt/tree.h"
+
 #include "options.h"
 
 /*

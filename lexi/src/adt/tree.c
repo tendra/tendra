@@ -57,30 +57,45 @@
         it may be put.
 */
 
-
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
-
-#include "adt/tree.h"
-
-#include "options.h"
+#include "tree.h"
+#include "letter.h"
+#include "zone.h"
 
 
 /*
- * Main output routine.
- *
- * This routine is the entry point for the main output routine.
- *
- * This interface provides support for generating code for both C90 and C99.
- * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
- */
-void
-c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
+Initialize the main parse tree
+*/
+void init_lexer_parse_tree(lexer_parse_tree* t) {
+  int i = 0;
+  letter_translation* trans;
+  for(i=0; i< LETTER_TRANSLATOR_SIZE;i++) {
+    t->letters_table[i].head=NULL;
+    t->letters_table[i].tail=&(t->letters_table[i].head);
+  }
+  
+  /* This might change once we add support for other charsets */
+  for(i=0; i<256; i++) {
+    trans=new_letter_translation(char_letter);
+    trans->letter_code=i;
+    trans->u.ch=i;
+    letters_table_add_translation(trans, t->letters_table);
+  }
+  trans=new_letter_translation(eof_letter);
+  t->eof_letter_code=i;
+  trans->letter_code=i++;
+  letters_table_add_translation(trans,t->letters_table);
 
-#endif
+  trans=new_letter_translation(last_letter);
+  t->last_letter_code=i;
+  trans->letter_code=i++;
+  letters_table_add_translation(trans,t->letters_table);
+
+  t->next_generated_key=i;
+
+  t->no_total_groups=0;
+  t->global_zone=new_zone("global",t);
+  t->groups_list.head=NULL;
+  (t->groups_list.tail)=&(t->groups_list.head);
+
+}
 

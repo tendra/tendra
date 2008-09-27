@@ -58,29 +58,45 @@
 */
 
 
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
+#ifndef LETTER_INCLUDED
+#define LETTER_INCLUDED
 
-#include "adt/tree.h"
+struct zone_tag;
 
-#include "options.h"
-
+typedef unsigned int letter;
 
 /*
- * Main output routine.
- *
- * This routine is the entry point for the main output routine.
- *
- * This interface provides support for generating code for both C90 and C99.
- * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
- */
-void
-c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
+  THE LETTER TRANSLATOR TYPES
+*/
+
+typedef enum letter_translation_type_tag {
+  eof_letter, last_letter, group_letter, notin_group_letter, char_letter
+} letter_translation_type;
+
+typedef struct letter_translation_tag letter_translation;
+struct letter_translation_tag {
+  letter_translation_type type;
+  letter letter_code;
+  union {
+    int ch;
+    struct char_group_tag *grp;
+  } u;
+  letter_translation *next;
+};
+
+
+typedef struct letter_translation_list_tag letter_translation_list;
+struct letter_translation_list_tag {
+  letter_translation* head;
+  letter_translation** tail;
+};
+
+
+extern letter find_escape(int c, letter eof_letter_code);
+extern letter *make_string(char *, struct zone_tag *);
+extern letter_translation* new_letter_translation(letter_translation_type ltt);
+extern letter_translation* add_group_letter_translation(struct char_group_tag *, int);
+extern void letters_table_add_translation(letter_translation*, letter_translation_list []);
+extern letter_translation* letters_table_get_translation(letter, letter_translation_list []);
 
 #endif
-

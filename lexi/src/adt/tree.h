@@ -58,29 +58,52 @@
 */
 
 
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
+#ifndef TREE_INCLUDED
+#define TREE_INCLUDED
 
-#include "adt/tree.h"
+#include <stdio.h>
 
-#include "options.h"
+#include "../adt.h"
+
+#include "letter.h"
+#include "group.h"
 
 
 /*
- * Main output routine.
- *
- * This routine is the entry point for the main output routine.
- *
- * This interface provides support for generating code for both C90 and C99.
- * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
- */
-void
-c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
+    PARAMETERS
+*/
+
+#define LETTER_TRANSLATOR_SIZE  512
+
+
+
+/* 
+   THE LEXER PARSE TREE OF THE LXI FILE
+*/
+
+typedef struct lexer_parse_tree_tag {
+  struct zone_tag *global_zone;
+
+  FILE* copyright_file;
+
+  int no_total_groups;
+  char_group_list groups_list;
+
+  TableT table; /* Actions and types */
+
+  EntryT* lexi_char_type;    /*  for #0 arguments */
+  EntryT* lexi_string_type;  /*  for #* arguments */
+  EntryT* lexi_int_type;     /*  for #n arguments */
+  EntryT* lexi_terminal_type;     /*  for $ = returns */
+
+  letter_translation_list (letters_table[LETTER_TRANSLATOR_SIZE]) ;
+  letter last_letter_code;
+  letter eof_letter_code;
+  letter next_generated_key;
+
+} lexer_parse_tree;
+
+
+extern void init_lexer_parse_tree(lexer_parse_tree*);
 
 #endif
-

@@ -33,8 +33,13 @@
 #include <string.h>
 #include <assert.h>
 
-#include "char.h"
 #include "error/error.h"
+
+#include "adt/char.h"
+#include "adt/instruction.h"
+#include "adt/tree.h"
+#include "adt/zone.h"	/* XXX */
+
 #include "options.h"
 #include "dot-output.h"
 #include "output.h"

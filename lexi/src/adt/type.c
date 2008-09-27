@@ -57,30 +57,88 @@
         it may be put.
 */
 
+#include "exds/common.h"
+#include "exds/dstring.h"
 
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
+#include "xalloc/xalloc.h"
+#include "error/error.h"
 
-#include "adt/tree.h"
+#include "type.h"
+#include "tree.h"
 
-#include "options.h"
+void 
+set_predefined_char_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+	NStringT cstr;
+	nstring_copy_cstring(&cstr, c_type);
 
+	/* TODO assert(table_get_entry(top_level->table, &str) == NULL) */
+       	EntryT* entry = table_add_type(top_level->table, &str, true);
+	TypeT* type = entry_get_type(entry);
+	type_map(type, &cstr);
+	top_level->lexi_char_type = entry;
+}
 
-/*
- * Main output routine.
- *
- * This routine is the entry point for the main output routine.
- *
- * This interface provides support for generating code for both C90 and C99.
- * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
- */
-void
-c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
+void 
+set_predefined_string_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+	NStringT cstr;
+	nstring_copy_cstring(&cstr, c_type);
 
-#endif
+	/* TODO assert(table_get_entry(top_level->table, &str) == NULL) */
+       	EntryT* entry = table_add_type(top_level->table, &str, true);
+	TypeT* type = entry_get_type(entry);
+	type_map(type, &cstr);
+	top_level->lexi_string_type = entry;
+}
+
+void 
+set_predefined_terminal_lexi_type(lexer_parse_tree* top_level, char* lexi_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+
+	/* TODO assert(table_get_entry(top_level->table, &str) == NULL) */
+       	EntryT* entry = table_add_type(top_level->table, &str, true);
+	top_level->lexi_terminal_type = entry;
+}
+
+void 
+set_predefined_int_lexi_type(lexer_parse_tree* top_level, char* lexi_type, char* c_type)
+{
+	NStringT str;
+	nstring_copy_cstring(&str, lexi_type);
+	NStringT cstr;
+	nstring_copy_cstring(&cstr, c_type);
+
+	/* TODO assert(table_get_entry(top_level->table, &str) == NULL) */
+       	EntryT* entry = table_add_type(top_level->table, &str, true);
+	TypeT* type = entry_get_type(entry);
+	type_map(type, &cstr);
+	top_level->lexi_int_type = entry;
+}
+
+EntryT* lexer_char_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_char_type;
+}
+
+EntryT* lexer_string_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_string_type;
+}
+
+EntryT* lexer_int_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_int_type;
+}
+
+EntryT* lexer_terminal_type(lexer_parse_tree* top_level)
+{
+	return top_level->lexi_terminal_type;
+}
 

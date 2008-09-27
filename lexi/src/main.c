@@ -64,7 +64,9 @@
 
 #include "error/error.h"
 
-#include "char.h"
+#include "adt/tree.h"
+#include "adt/type.h"
+
 #include "lexer.h"
 #include "lctlexer.h"
 #include "syntax.h"

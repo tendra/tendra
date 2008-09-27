@@ -13,17 +13,20 @@ LEXIFLAGS+=-lC99 -a
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
 
-TARGETS=char.o syntax.o lexer.o main.o options.o output.o lctlexer.o lctsyntax.o adt.o ccode.o localnames.o
+TARGETS=syntax.o lexer.o main.o options.o output.o lctlexer.o lctsyntax.o adt.o ccode.o localnames.o
 
 all: lexi
 
-lexi: depend ${TARGETS} output-c/output-c.a output-dot/output-dot.a
+lexi: depend ${TARGETS} output-c/output-c.a output-dot/output-dot.a adt/adt.a
 	${CC} ${LDFLAGS} -o $@ ${TARGETS} \
-		-lerror -lxalloc -lexds output-c/output-c.a output-dot/output-dot.a
+		-lerror -lxalloc -lexds output-c/output-c.a output-dot/output-dot.a adt/adt.a
 
 # TODO should this be under depend: instead?
 output-c/output-c.a:
 	cd output-c && ${MAKE} all
+
+adt/adt.a:
+	cd adt && ${MAKE} all
 
 output-dot/output-dot.a:
 	cd output-dot && ${MAKE} all
@@ -37,6 +40,7 @@ clean:
 	cd shared && ${MAKE} -f makefile.standalone clean
 	cd output-c && ${MAKE} clean
 	cd output-dot && ${MAKE} clean
+	cd adt && ${MAKE} clean
 
 # Remove everything not in the distribution
 distclean:
@@ -52,7 +56,6 @@ install: lexi
 lexer.o: lexer.h
 syntax.o: lexer.h
 
-main.o char.o syntax.o: char.h
 lexer.o main.o syntax.o : syntax.h
 main.o : output-c/c-output.h output-dot/dot-output.h lctlexer.h lexer.h lctsyntax.h
 main.o options.o : options.h

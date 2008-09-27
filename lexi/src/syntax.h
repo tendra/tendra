@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 169 "syntax.act"
+#line 176 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -44,11 +44,12 @@
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
-#include "char.h"
+#include "adt/zone.h"
+
 extern char *token_prefix ;
 typedef zone* zoneP;
 
-#line 52 "tmp.syntax.h"
+#line 53 "tmp.syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -100,9 +101,9 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 993 "syntax.act"
+#line 1000 "syntax.act"
 
 #endif
-#line 107 "tmp.syntax.h"
+#line 108 "tmp.syntax.h"
 
 /* END OF FILE */

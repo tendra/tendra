@@ -62,6 +62,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <libgen.h>
 
 #include "exds/common.h"
 #include "exds/exception.h"
@@ -71,7 +72,13 @@
 #include "error/error.h"
 #include "xalloc/xalloc.h"
 
-#include "char.h"
+#include "adt/char.h"
+#include "adt/instruction.h"
+#include "adt/keyword.h"
+#include "adt/tree.h"
+#include "adt/type.h"
+#include "adt/zone.h"
+
 #include "localnames.h"
 #include "lexer.h"
 #include "lctsyntax.h"

@@ -58,29 +58,36 @@
 */
 
 
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
+#ifndef CHAR_INCLUDED
+#define CHAR_INCLUDED
 
-#include "adt/tree.h"
+#include <stddef.h>
 
-#include "options.h"
+#include "letter.h"
 
+struct zone_tag;
 
 /*
- * Main output routine.
- *
- * This routine is the entry point for the main output routine.
- *
- * This interface provides support for generating code for both C90 and C99.
- * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
- */
-void
-c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
+    TYPE REPRESENTING A CHARACTER
+
+    A character consists of a single letter (which may have associated
+    data) plus pointers to the next character and to a list of alternative
+    characters.
+*/
+typedef struct character_tag character;
+struct character_tag {
+    letter ch;
+    character *opt;
+    character *next;
+    union {
+        struct instructions_list_tag *definition; 
+        char *map;   
+    } u;
+};
+
+
+extern character * new_char(letter c);
+extern size_t char_maxlength(character *, letter);
+extern void add_char(struct zone_tag *, character*, letter*, struct instructions_list_tag *, char* );
 
 #endif
-

@@ -29,11 +29,14 @@
  * $Id$
  */
 
-#include "char.h"
-#include "adt.h"
-#include "xalloc/xalloc.h"
 #include <stdlib.h>
 #include <stdbool.h>
+
+#include "xalloc/xalloc.h"
+
+#include "adt/instruction.h"
+
+#include "adt.h"
 
 static ActionT* action_create(void)
 {

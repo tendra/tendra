@@ -58,29 +58,70 @@
 */
 
 
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
+#ifndef ZONE_INCLUDED
+#define ZONE_INCLUDED
 
-#include "adt/tree.h"
+#include <stddef.h>
 
-#include "options.h"
+#include "group.h"
+
+struct keyword_tag;
+struct lexer_parse_tree_tag;
 
 
 /*
- * Main output routine.
- *
- * This routine is the entry point for the main output routine.
- *
- * This interface provides support for generating code for both C90 and C99.
- * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
- */
-void
-c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
+    PARAMETERS
+*/
+
+#define GROUP_HASH_TABLE_SIZE     128
+
+
+/* 
+   Type of Zones indicate if a zone return terminals or not.
+
+   If a zone never return terminal then it is possible to output 
+   a more efficient code.
+   
+*/
+
+typedef enum zone_type_tag {
+    typezone_general_zone, /* A zone that can return more than one terminal */
+    typezone_pseudo_token, /* A zone that returns only one terminal on zone exit*/
+    typezone_pure_function /* A zone that never returns a terminal */ 
+} zone_type;
+
+/*
+    TYPE REPRESENTING A ZONE
+*/
+typedef struct zone_tag zone;
+struct zone_tag {
+    char* zone_name;
+    zone_type type;  
+
+    struct character_tag *zone_pre_pass;
+    struct character_tag *zone_main_pass;
+
+    struct keyword_tag *keywords;
+    char_group_list groups_hash_table [GROUP_HASH_TABLE_SIZE];  
+    char_group* white_space;
+
+    struct instructions_list_tag *default_instructions;
+
+    struct instructions_list_tag* entering_instructions;
+    struct instructions_list_tag* leaving_instructions;
+
+    zone *opt; /*opt=brother*/
+    zone *next;/* next=first son*/ 
+    zone *up; 
+    struct lexer_parse_tree_tag *top_level;
+};
+
+extern size_t zone_maxlength(zone* z, int in_prepass);
+extern zone * new_zone (char* zid, struct lexer_parse_tree_tag *top_level);
+extern zone* add_zone(zone*, char*,letter*, int);
+extern zone * find_zone (zone*, char*); 
+
+extern unsigned int hash_cstring (char*);
+extern unsigned int hash_cstring_n(char*,size_t);
 
 #endif
-

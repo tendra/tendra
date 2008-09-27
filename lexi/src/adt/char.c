@@ -57,30 +57,116 @@
         it may be put.
 */
 
+#include <stddef.h>
 
-#ifndef C_OUTPUT_INCLUDED
-#define C_OUTPUT_INCLUDED
+#include "xalloc/xalloc.h"
+#include "error/error.h"
 
-#include "adt/tree.h"
+#include "char.h"
 
-#include "options.h"
+#include "group.h"	/* XXX */
+#include "zone.h"	/* XXX */
+#include "instruction.h"	/* XXX */
+#include "tree.h"	/* XXX */
 
 
 /*
- * Main output routine.
- *
- * This routine is the entry point for the main output routine.
- *
- * This interface provides support for generating code for both C90 and C99.
- * There are slight differences in the generates APIs between the two (for
- * example, C99 provides <stdbool.h>, but otherwise they remain similar
- * enough to roll together into one interface.
- *
- * Exactly which standard is used depends on the value of opt.language. This
- * is expected to be either C90 or C99.
- */
-void
-c_output_all(cmd_line_options *opt, lexer_parse_tree *top_level);
+	COUNT MAXIMUM TOKEN LENGTH
 
-#endif
+	Find the maximum token length within the given lexical pass.
+*/
+size_t
+char_maxlength(character *c, letter lastlettercode)
+{
+	character *p;
+	size_t maxopt;
+
+	maxopt = 0;
+	for(p = c->next; p; p = p->opt) {
+		size_t l;
+
+		if(p->ch == lastlettercode) {
+			continue;
+		}
+
+		l = char_maxlength(p, lastlettercode) + 1;
+
+		if(l > maxopt) {
+			maxopt = l;
+		}
+	}
+
+	return maxopt;
+}
+
+
+/*
+    ALLOCATE A NEW CHARACTER
+
+    This routine allocates a new character with value c.
+*/
+
+character *
+new_char(letter c)
+{
+    character *p;
+    static int chars_left = 0;
+    static character *chars_free = NULL;
+    if (chars_left == 0) {
+	chars_left = 100;
+	chars_free = xmalloc_nof(character, chars_left);
+    }
+    p = chars_free + (--chars_left);
+    p->ch = c;
+    p->opt = NULL;
+    p->next = NULL;
+    p->u.definition = NULL;
+    return p;
+}
+
+
+/*
+    ADD A CHARACTER
+
+    This routine adds the string s (defined using data) to the lexical
+    pass p.
+*/
+
+void
+add_char(zone* z, character *p, letter *s, instructions_list* instlist, char* map)
+{
+    character *q;
+    letter c = *s;
+    if (p->next == NULL) {
+	q = new_char(c);
+	p->next = q;
+    } else {
+	character *r = NULL;
+	for (q = p->next; q && (q->ch < c); q = q->opt)r = q;
+	if (q && q->ch == c) {
+	    /* already exists */
+	} else {
+	    q = new_char(c);
+	    if (r == NULL) {
+		q->opt = p->next;
+		p->next = q;
+	    } else {
+		q->opt = r->opt;
+		r->opt = q;
+	    }
+	}
+    }
+    if (c == z->top_level->last_letter_code) {
+        if ((instlist && q->u.definition) || (map && q->u.map))
+	    error(ERROR_SERIOUS, "TOKEN already defined");
+        if(instlist) 
+	    q->u.definition=instlist;
+        else
+	    q->u.map=map;
+    }
+    else 
+      add_char(z, q, s + 1, instlist, map);
+    
+    return;
+}
 

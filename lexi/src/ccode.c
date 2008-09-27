@@ -1,11 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "exds/common.h"
 #include "exds/exception.h"
 #include "exds/dalloc.h"
 #include "exds/dstring.h"
 
-#include "char.h"
+#include "adt/instruction.h"
+
 #include "ccode.h"
 
 CcodeItemT* 

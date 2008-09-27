@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 93 "lctsyntax.act"
+#line 146 "lctsyntax.act"
 
 /*
  * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
@@ -44,10 +44,10 @@
  #ifndef LCT_SYNTAX_HEADER_INCLUDED
  #define LCT_SYNTAX_HEADER_INCLUDED
 
-#include "char.h"
 #include "ccode.h"
 #include "adt.h"
 
+#include "adt/tree.h"
 
 typedef struct lct_parse_tree_tag {
 	int headersdefined;
@@ -96,7 +96,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 456 "lctsyntax.act"
+#line 459 "lctsyntax.act"
 
 #endif
 #line 103 "lctsyntax.h"

@@ -74,7 +74,13 @@ TYPETUPLE -> TypeTupleT;
 #include "error/error.h"
 #include "xalloc/xalloc.h"
 
-#include "char.h"
+#include "adt/instruction.h"
+#include "adt/keyword.h"
+#include "adt/zone.h"
+#include "adt/tree.h"
+#include "adt/type.h"
+#include "adt/char.h"
+
 #include "adt.h"
 #include "lexer.h"
 #include "syntax.h"
@@ -162,7 +168,8 @@ char *token_prefix = "lex_" ;
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
-#include "char.h"
+#include "adt/zone.h"
+
 extern char *token_prefix ;
 typedef zone* zoneP;
 
