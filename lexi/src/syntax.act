@@ -73,6 +73,7 @@ TYPETUPLE -> TypeTupleT;
 
 #include "error/error.h"
 #include "xalloc/xalloc.h"
+#include "check/check.h"
 
 #include "adt/instruction.h"
 #include "adt/keyword.h"
@@ -508,7 +509,7 @@ arg-ignore : () -> (a:ARG) = @{
 							error(ERROR_SERIOUS, "%s is not a local name but a type which is not allowed", p->u.literal);
 							entrytype = NULL;
 						} else {
-							; /* TODO assert(0) this should be unreachable*/
+							UNREACHED;
 						}
 					}
 					break;
@@ -533,11 +534,11 @@ arg-ignore : () -> (a:ARG) = @{
 				case arg_chars_list:
 				case arg_ignore:
 				case arg_return_terminal:
-					/* TODO assert(0): we should never reach this place */
+					UNREACHED;
 				break;
 			default:
+				UNREACHED;
 				break;
-				/* TODO assert(0): we should never reach this place either, doubly so*/
 			}
 			if(entrytype) {
 				if( q->type!=entrytype || p->is_reference!=q->is_reference) {
@@ -570,7 +571,6 @@ arg-ignore : () -> (a:ARG) = @{
 				case arg_identifier: 
 					{
 						NStringT str;
-						EntryT* entry; 
 						nstring_copy_cstring(&str, p->u.literal);
 						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
@@ -820,7 +820,8 @@ arg-ignore : () -> (a:ARG) = @{
 	nstring_copy_cstring(&str,@i);
 	xfree(@i);
 	EntryT* entry;
-	if(entry=table_get_entry(@z->top_level->table, &str)) {
+	entry=table_get_entry(@z->top_level->table, &str);
+	if(entry != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
 		if(entry_is_type(entry))
@@ -830,7 +831,7 @@ arg-ignore : () -> (a:ARG) = @{
 		else if(entry_is_action(entry))
 			error(ERROR_SERIOUS, "Can't create type %s, %s has already been declared as an action",@i, @i);
 		else
-			; /* TODO assert(0): we should never reach that place*/
+			UNREACHED;
 	} else {
 		table_add_type(@z->top_level->table, &str, false);
 	}
@@ -840,7 +841,8 @@ arg-ignore : () -> (a:ARG) = @{
 	NStringT str;
 	nstring_copy_cstring(&str, @i);
 	EntryT* entry;
-	if(entry=table_get_entry(@z->top_level->table, &str)) {
+	entry=table_get_entry(@z->top_level->table, &str);
+	if(entry != NULL) {
 		nstring_destroy(&str);
 		/* TODO switch ? */
 	   	if(entry_is_action(entry))
@@ -850,7 +852,7 @@ arg-ignore : () -> (a:ARG) = @{
 		else if(entry_is_type(entry))
 			error(ERROR_SERIOUS, "Can't create action %s, %s has already been declared as a type",@i, @i);
 		else
-			; /* TODO assert(0): we should never reach that place*/
+			UNREACHED;
 	} else {
 		table_add_action(@z->top_level->table, &str , @&params, @&results);
 	}

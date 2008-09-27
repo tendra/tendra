@@ -25,6 +25,7 @@ void ccode_append_at(CcodeT*);
 void ccode_append_identifier(CcodeT*, NStringT*);
 void ccode_append_reference(CcodeT* ccode, NStringT* i);
 void ccode_append_string(CcodeT*, NStringT*);
+void ccode_destroy(CcodeT* c);
 void ccode_output(FILE*, CcodeT*, struct NameTransT*, int) ;
 
 #endif /*H_LEXI_CCODE_INCLUDED*/

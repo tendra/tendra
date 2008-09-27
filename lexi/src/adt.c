@@ -32,6 +32,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "shared/check/check.h"
+
 #include "xalloc/xalloc.h"
 
 #include "adt/instruction.h"
@@ -304,7 +306,6 @@ int typetuple_length(TypeTupleT* tuple)
 
 int typetuple_match(TypeTupleT* t1, TypeTupleT* t2) 
 {
-	int match = 1;
 	TypeTupleEntryT *p, *q;
 	for(p=t1->head, q=t2->head; p!=NULL && q!=NULL; p=p->next, q=q->next) {
 		if((p->type!=q->type) || (p->is_reference!=q->is_reference))
@@ -345,7 +346,7 @@ void typetuple_destroy(TypeTupleT* tuple)
 static int
 cmp_tuples_names(void const* p, void const* q)
 {
-	switch(nstring_compare((NStringT*)p, (NStringT*) q)) {
+	switch(nstring_compare((NStringT*)p, (NStringT*) q)) EXHAUSTIVE {
 	case CMP_LT:
 		return -1;
 	case CMP_EQ:
@@ -353,6 +354,7 @@ cmp_tuples_names(void const* p, void const* q)
 	case CMP_GT:
 		return 1;
 	}
+	UNREACHED;
 }
 /*
   This helper function returns true if all names in params and results
@@ -394,7 +396,7 @@ void nametrans_destroy(NameTransT* p)
 
 static int nametrans_cmp(const void* p, const void* q) 
 {
-	switch(nstring_compare(&(((NameTransEntryT*)p)->from),&(((NameTransEntryT*)q)->from))) {
+	switch(nstring_compare(&(((NameTransEntryT*)p)->from),&(((NameTransEntryT*)q)->from))) EXHAUSTIVE {
 	case CMP_LT:
 		return -1;
 	case CMP_EQ:
@@ -402,6 +404,7 @@ static int nametrans_cmp(const void* p, const void* q)
 	case CMP_GT:
 		return 1;
 	}
+	UNREACHED;
 }
 
 void nametrans_sort(NameTransT* p)

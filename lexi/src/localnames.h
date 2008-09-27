@@ -49,7 +49,7 @@ typedef struct LocalNamesEntryT {
 
 typedef struct LocalNamesT {
 	LocalNamesEntryT* top;
-	int max_depth ;
+	unsigned int max_depth ;
 } LocalNamesT;
 
 typedef struct LocalNamesIteratorT {

@@ -305,7 +305,7 @@ output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, arg
 	} else {
 		/*TODO We should catch this error before beginning output */
 		char* pe=nstring_to_cstring(entry_key(action));
-		error(ERROR_SERIOUS, "Action \%s is used but undefined", pe);
+		error(ERROR_SERIOUS, "Action %s is used but undefined", pe);
 		DEALLOCATE(pe);
 	}
 	--d;
@@ -315,7 +315,7 @@ output_action(FILE* lex_output, lexer_parse_tree* top_level, EntryT* action, arg
 
 
 static void 
-output_instructions( zone* z, instructions_list* ret, int n, int d, int innerzonechange)
+output_instructions( zone* z, instructions_list* ret, unsigned int n, int d, int innerzonechange)
 {
   instruction* instr;
   int changezone = 0;
@@ -346,7 +346,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d, int innerzon
       {
 	arg* fun_args;
 	for(fun_args=instr->u.fun->args->head;fun_args;fun_args=fun_args->next) {
-	  int i;
+	  unsigned int i;
 	  if(fun_args!=instr->u.fun->args->head) 
 	    fputs(", ", lex_output);
 	  switch(fun_args->type) {
@@ -368,7 +368,7 @@ output_instructions( zone* z, instructions_list* ret, int n, int d, int innerzon
 	    /*Should be caught during parsing*/
 	    break;
 	  case arg_nb_of_chars:
-	    fprintf(lex_output, "%d", n);	  
+	    fprintf(lex_output, "%u", n);	  
 	  }
 	}
       }
@@ -719,7 +719,7 @@ output_zone_pass(cmd_line_options *opt, zone *p)
 	This routine outputs the copyright statement and closes opt->copyright_file.
 */
 static void
-output_copyright(lexer_parse_tree* top_level, cmd_line_options* opt)
+output_copyright(cmd_line_options* opt)
 {
 	if(!opt->copyright_file) {
 		return;
@@ -742,8 +742,7 @@ output_copyright(lexer_parse_tree* top_level, cmd_line_options* opt)
 */
 
 static void
-output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *grouptype, 
-		    const char *grouphex,size_t groupwidth) 
+output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *grouphex) 
 {
 	char_group* grp;
 
@@ -802,7 +801,7 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 */
 
 static void
-output_lookup_table(cmd_line_options* opt, lexer_parse_tree* top_level, const char *grouptype, 
+output_lookup_table(lexer_parse_tree* top_level, const char *grouptype, 
 		    const char *grouphex, size_t groupwidth) 
 {
 	int c;
@@ -909,7 +908,7 @@ output_buffer(cmd_line_options *opt, lexer_parse_tree *top_level)
 }
 
 static void
-output_buffer_storage(cmd_line_options *opt, lexer_parse_tree *top_level)
+output_buffer_storage(lexer_parse_tree *top_level)
 {
 	if (buffer_length(top_level) == 0) {
 		return;
@@ -976,7 +975,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 
 
 
-	output_copyright(top_level,opt);
+	output_copyright(opt);
 
 	output_generated_by_lexi(OUTPUT_COMMENT_C90, lex_output);
 
@@ -1012,20 +1011,20 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(lex_output_h, "struct %sstate {\n"
 	      "\tint (*zone_function)(struct %sstate *);\n",
 		opt->lexi_prefix, opt->lexi_prefix);
-	output_buffer_storage(opt, top_level);
+	output_buffer_storage(top_level);
 	fputs("};\n\n", lex_output_h);
 
 	output_buffer(opt, top_level);
 	fputs("\n", lex_output);
 
-	output_lookup_table(opt,top_level,grouptype,grouphex,groupwidth);
+	output_lookup_table(top_level,grouptype,grouphex,groupwidth);
 	fputs("\n\n", lex_output);
 
 	fputs("#ifndef LEXI_EOF\n", lex_output_h);
 	fprintf(lex_output_h, "#define LEXI_EOF %u\n", top_level->eof_letter_code);
 	fputs("#endif\n\n", lex_output_h);
 
-	output_macros(opt,top_level,grouptype,grouphex,groupwidth);
+	output_macros(opt,top_level,grouphex);
 	fputs("\n\n", lex_output);
 
 

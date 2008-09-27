@@ -97,7 +97,7 @@ output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
 	letter_translation *ctrans;
 
 	ctrans = letters_table_get_translation(p->ch, top_level->letters_table);
-	fprintf(dotout, "\tc%p [ ", p);
+	fprintf(dotout, "\tc%p [ ", (void *) p);
 
 	switch(ctrans->type) {
 	case last_letter: {
@@ -194,7 +194,7 @@ pass(character *p, lexer_parse_tree *top_level, cmd_line_options *opt) {
 		ctrans = letters_table_get_translation(q->ch, top_level->letters_table);
 
 		fprintf(dotout, "\tc%p -> c%p [ dir=%s ];\n",
-			p, q, ctrans->type == last_letter ? "forward" : "none");
+			(void *) p, (void *) q, ctrans->type == last_letter ? "forward" : "none");
 
 		pass(q, top_level, opt);
 	}
