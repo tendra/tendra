@@ -85,13 +85,6 @@ struct letter_translation_tag {
 };
 
 
-typedef struct letter_translation_list_tag letter_translation_list;
-struct letter_translation_list_tag {
-  letter_translation* head;
-  letter_translation** tail;
-};
-
-
 extern letter find_escape(int c, letter eof_letter_code);
 extern letter *make_string(char *, struct zone_tag *);
 extern letter_translation* new_letter_translation(letter_translation_type ltt);

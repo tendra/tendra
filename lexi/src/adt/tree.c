@@ -70,13 +70,6 @@
 #include "zone.h"
 
 
-/*
-    PARAMETERS
-*/
-
-#define LETTER_TRANSLATOR_SIZE  512
-
-
 struct lexer_parse_tree_tag {
 	struct zone_tag *global_zone;
 
@@ -92,7 +85,7 @@ struct lexer_parse_tree_tag {
 	EntryT* lexi_int_type;     /*  for #n arguments */
 	EntryT* lexi_terminal_type;     /*  for $ = returns */
 
-	letter_translation_list letters_table[LETTER_TRANSLATOR_SIZE];
+	letter_translation *letters;
 	letter last_letter_code;
 	letter eof_letter_code;
 	letter next_generated_key;
@@ -110,10 +103,7 @@ init_lexer_parse_tree(void) {
 
   int i = 0;
   letter_translation* trans;
-  for(i=0; i< LETTER_TRANSLATOR_SIZE;i++) {
-    t->letters_table[i].head=NULL;
-    t->letters_table[i].tail=&(t->letters_table[i].head);
-  }
+  t->letters = NULL;
   
   /* This might change once we add support for other charsets */
   for(i=0; i<256; i++) {
@@ -238,13 +228,11 @@ tree_get_translation(lexer_parse_tree *t, character *c)
 letter_translation *
 tree_get_translationl(lexer_parse_tree *t, letter l)
 {
-	unsigned int n;
 	letter_translation *p;
 
 	assert(t != NULL);
 
-	n = l % LETTER_TRANSLATOR_SIZE;
-	for (p = t->letters_table[n].head; p != NULL; p = p->next) {
+	for (p = t->letters; p != NULL; p = p->next) {
 		if (p->letter_code == l) {
 			return p;
 		}
@@ -256,14 +244,11 @@ tree_get_translationl(lexer_parse_tree *t, letter l)
 void
 tree_add_translation(lexer_parse_tree *t, letter_translation *trans)
 {
-	unsigned int n;
-
 	assert(t != NULL);
 	assert(trans != NULL);
 
-	n = trans->letter_code % LETTER_TRANSLATOR_SIZE;
-	*t->letters_table[n].tail = trans;
-	t->letters_table[n].tail = &trans->next;
+	trans->next = t->letters;
+	t->letters = trans;
 }
 
 /* TODO: I am dubious about requiring .next_generated_key */
