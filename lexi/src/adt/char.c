@@ -110,13 +110,7 @@ character *
 new_char(letter c)
 {
     character *p;
-    static int chars_left = 0;
-    static character *chars_free = NULL;
-    if (chars_left == 0) {
-	chars_left = 100;
-	chars_free = xmalloc_nof(character, chars_left);
-    }
-    p = chars_free + (--chars_left);
+	p = xmalloc(sizeof *p);
     p->ch = c;
     p->opt = NULL;
     p->next = NULL;
