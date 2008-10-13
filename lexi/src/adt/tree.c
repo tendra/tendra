@@ -78,7 +78,7 @@ struct lexer_parse_tree_tag {
 	unsigned int no_total_groups;
 	char_group_list groups_list;
 
-	TableT table; /* Actions and types */
+	EntryT *table; /* Actions and types */
 
 	EntryT* lexi_char_type;    /*  for #0 arguments */
 	EntryT* lexi_string_type;  /*  for #* arguments */
@@ -104,6 +104,7 @@ init_lexer_parse_tree(void) {
   int i = 0;
   letter_translation* trans;
   t->letters = NULL;
+  t->table = NULL;
   
   /* This might change once we add support for other charsets */
   for(i=0; i<256; i++) {
@@ -154,7 +155,7 @@ tree_get_table(lexer_parse_tree *t)
 {
 	assert(t != NULL);
 
-	return t->table;
+	return &t->table;
 }
 
 letter

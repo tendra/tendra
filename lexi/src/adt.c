@@ -172,50 +172,56 @@ void type_map(TypeT* t, NStringT* mapping)
 }
 
 
-void table_init(TableT table) 
+EntryT *table_get_entry(EntryT **table, NStringT* key)
 {
-	int i = 0 ;
-	for( i=0 ; i < TABLE_SIZE ; ++i)
-		table[i] = NULL ;
+	EntryT *entry;
+
+	assert(table != NULL);
+
+	for (entry = *table; entry != NULL; entry = entry->next) {
+		if (nstring_equal(&entry->key, key)) {
+			return entry;
+		}
+	}
+
+	return NULL;
+}
+
+EntryT* table_get_type(EntryT **table, NStringT* key ) 
+{
+	EntryT *entry;
+
+	assert(table != NULL);
+
+	entry = table_get_entry(table, key);
+
+	if (entry_is_type(entry)) {
+		return entry;
+	}
+
+	return NULL;
 }
 
 
-EntryT* table_get_entry(TableT table, NStringT* key ) 
+static void table_add_entry(EntryT **table, EntryT *entry)
 {
-	unsigned int hash = nstring_hash_value(key)%TABLE_SIZE ;
-	EntryT* entry ; 
+	assert(table != NULL);
+	assert(entry != NULL);
+	assert(entry->next == NULL);
 
-	for ( entry = table[hash] ; entry != NULL ; entry = entry->next) 
-		if(nstring_equal(&entry->key,key))
-			return entry ;
-        return NULL ;
-}
-
-EntryT* table_get_type(TableT table, NStringT* key ) 
-{
-  EntryT* entry = table_get_entry(table, key);
-
-  if(entry_is_type(entry))
-    return entry;
-  return NULL ;
-}
-
-
-static void table_add_entry(TableT table, EntryT* entry)
-{
-	unsigned int hash=nstring_hash_value(entry_key(entry))%TABLE_SIZE;
-	entry->next=table[hash];
-	table[hash]=entry;
+	entry->next = *table;
+	*table = entry;
 }
 
 EntryT* entry_create(NStringT* name) 
 {
 	EntryT* entry = xmalloc_nof(EntryT, 1);
 	nstring_assign(entry_key(entry), name);
+	entry->next = NULL;
 	return entry;
 }
 
-EntryT* table_add_type(TableT table, NStringT* type_name, bool predefined) 
+EntryT* table_add_type(EntryT **table, NStringT* type_name, bool predefined) 
 {
 	EntryT* entry = entry_create(type_name);
 	entry_set_kind_type(entry);
@@ -224,7 +230,7 @@ EntryT* table_add_type(TableT table, NStringT* type_name, bool predefined)
 	return entry;
 }
 
-EntryT* table_add_action(TableT table, NStringT* name, TypeTupleT* inputs, TypeTupleT* outputs) 
+EntryT* table_add_action(EntryT **table, NStringT* name, TypeTupleT* inputs, TypeTupleT* outputs) 
 {
 	EntryT* entry = entry_create(name);
 	entry_set_kind_action(entry);
@@ -236,7 +242,7 @@ EntryT* table_add_action(TableT table, NStringT* name, TypeTupleT* inputs, TypeT
 }
 
 EntryT* 
-table_add_local_name(TableT table, NStringT* name) 
+table_add_local_name(EntryT **table, NStringT* name) 
 {
 	EntryT* entry = entry_create(name);
 	entry_set_kind_local_name(entry);

@@ -37,8 +37,6 @@
 #include "exds/dstring.h"
 #include "ccode.h"
 
-#define TABLE_SIZE 256 
-
 struct ActionT ;
 struct TypeT ;
 
@@ -93,8 +91,6 @@ typedef struct ActionT {
 } ActionT;
 
 
-typedef EntryT* TableT[TABLE_SIZE];
-
 extern TypeTupleT* action_get_inputs(ActionT*);
 extern TypeTupleT* action_get_outputs(ActionT*);
 extern CcodeT* action_get_code(ActionT*);
@@ -115,12 +111,11 @@ extern ActionT* entry_get_action(EntryT*) ;
 extern TypeT* type_create(bool);
 extern void type_map(TypeT*, NStringT*);
 
-extern void table_init(TableT);
-extern EntryT* table_get_entry(TableT, NStringT*) ;
-extern EntryT* table_add_local_name(TableT, NStringT*) ;
-extern EntryT* table_get_type(TableT, NStringT*) ;
-extern EntryT* table_add_type(TableT, NStringT*, bool) ;
-extern EntryT* table_add_action(TableT, NStringT*, TypeTupleT*, TypeTupleT*) ;
+extern EntryT* table_get_entry(EntryT **, NStringT*) ;
+extern EntryT* table_add_local_name(EntryT **, NStringT*) ;
+extern EntryT* table_get_type(EntryT **, NStringT*) ;
+extern EntryT* table_add_type(EntryT **, NStringT*, bool) ;
+extern EntryT* table_add_action(EntryT **, NStringT*, TypeTupleT*, TypeTupleT*) ;
 
 extern TypeTupleEntryT* typetupleentry_create(NStringT*, EntryT*, bool);
 extern void typetupleentry_destroy(TypeTupleEntryT*);
