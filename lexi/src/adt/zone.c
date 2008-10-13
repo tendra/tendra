@@ -144,15 +144,18 @@ new_zone (char* zid, lexer_parse_tree* top_level)
 */
 
 zone * 
-find_zone (zone* z, char* zid) 
+find_zone(zone *z, char *name) 
 {
-    zone* q;
-    for(q=z->next; q!=NULL ; q=q->opt) {
-        if(strcmp(q->zone_name,zid)==0)
-	    break;
-    }
-    return q;
-    }
+	zone *q;
+
+	for (q = z->next; q != NULL; q = q->opt) {
+		if (strcmp(q->zone_name, name) == 0) {
+			return q;
+		}
+	}
+
+	return NULL;
+}
 
 /*
     ADD A ZONE
