@@ -76,13 +76,7 @@ static arg*
 new_arg(void) 
 {
     arg *p;
-    static int args_left = 0;
-    static arg *args_free = NULL;
-    if (args_left == 0) {
-	args_left = 100;
-	args_free = xmalloc_nof(arg, args_left);
-    }
-    p = args_free + (--args_left);
+    p = xmalloc(sizeof *p);
     p->next = NULL;
     p->is_reference = false;
     return p;
@@ -204,13 +198,7 @@ static args_list*
 new_args_list (void) 
 {
     args_list *p;
-    static int args_lists_left = 0;
-    static args_list *args_lists_free = NULL;
-    if (args_lists_left == 0) {
-	args_lists_left = 100;
-	args_lists_free = xmalloc_nof(args_list, args_lists_left);
-    }
-    p = args_lists_free + (--args_lists_left);
+    p = xmalloc(sizeof *p);
     p->head =NULL;
     p->tail=&(p->head);
     p->nb_return_terminal = 0;
@@ -240,13 +228,7 @@ static user_function *
 new_user_function (void)
 {
     user_function *p;
-    static int user_functions_left = 0;
-    static user_function *user_functions_free = NULL;
-    if (user_functions_left == 0) {
-	user_functions_left = 100;
-	user_functions_free = xmalloc_nof(user_function, user_functions_left);
-    }
-    p = user_functions_free + (--user_functions_left);
+	p = xmalloc(sizeof *p);
     p->name=NULL;
     p->args=NULL;
     return p;
@@ -275,13 +257,7 @@ static instruction *
 new_instruction (instruction_type type) 
 {
     instruction *p;
-    static int instructions_left = 0;
-    static instruction *instructions_free = NULL;
-    if (instructions_left == 0) {
-	instructions_left = 100;
-	instructions_free = xmalloc_nof(instruction, instructions_left);
-    }
-    p = instructions_free + (--instructions_left);
+	p = xmalloc(sizeof *p);
     p->type=type;
     p->next=NULL;
     return p;
@@ -396,13 +372,7 @@ instructions_list*
 new_instructions_list (void)
 {
     instructions_list *p;
-    static int instructions_list_left = 0;
-    static instructions_list *instructions_list_free = NULL;
-    if (instructions_list_left == 0) {
-	instructions_list_left = 100;
-	instructions_list_free = xmalloc_nof(instructions_list, instructions_list_left);
-    }
-    p = instructions_list_free + (--instructions_list_left);
+	p = xmalloc(sizeof *p);
     p->head=NULL;
     p->tail=&(p->head);
     localnames_init(&(p->local_names));

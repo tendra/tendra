@@ -77,13 +77,7 @@ static char_group *
 new_group (char* grid, zone* z) 
 {
     char_group *p;
-    static int groups_left = 0;
-    static char_group *groups_free = NULL;
-    if (groups_left == 0) {
-	groups_left = 100;
-	groups_free = xmalloc_nof(char_group, groups_left);
-    }
-    p = groups_free + (--groups_left);
+	p = xmalloc(sizeof *p);
     p->name=grid;
     p->defn=NULL;
     p->next=NULL;

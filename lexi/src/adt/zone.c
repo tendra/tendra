@@ -103,13 +103,7 @@ new_zone (char* zid, lexer_parse_tree* top_level)
 {
     zone *p;
     int i;
-    static int zones_left = 0;
-    static zone *zones_free = NULL;
-    if (zones_left == 0) {
-	zones_left = 100;
-	zones_free = xmalloc_nof(zone, zones_left);
-    }
-    p = zones_free + (--zones_left);
+    p = xmalloc(sizeof *p);
     p->zone_name=zid;
     p->zone_main_pass=new_char(tree_get_lastlettercode(top_level));
     p->zone_pre_pass=new_char(tree_get_lastlettercode(top_level));

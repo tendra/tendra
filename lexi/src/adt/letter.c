@@ -171,13 +171,7 @@ make_string(char *s, zone* scope)
 letter_translation* new_letter_translation(letter_translation_type ltt)
 {
   letter_translation *p;
-  static int letter_translation_left = 0;
-  static letter_translation *letter_translation_free = NULL;
-  if (letter_translation_left == 0) {
-    letter_translation_left = 100;
-    letter_translation_free = xmalloc_nof(letter_translation, letter_translation_left);
-  }
-  p = letter_translation_free + (--letter_translation_left);
+  p = xmalloc(sizeof *p);
   p->type=ltt;
   p->next=NULL;
   return p;

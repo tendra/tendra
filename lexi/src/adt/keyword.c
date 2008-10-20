@@ -89,8 +89,6 @@ add_keyword(zone* z, const char *nm, instruction* instr)
 	assert(nm != NULL);
 	assert(strlen(nm) > 0);
 
-    static int keywords_left = 0;
-    static keyword *keywords_free = NULL;
     keyword *p = z->keywords, *q = NULL;
     while (p) {
 	int c = strcmp(nm, p->name);
@@ -102,11 +100,7 @@ add_keyword(zone* z, const char *nm, instruction* instr)
 	q = p;
 	p = p->next;
     }
-    if (keywords_left == 0) {
-	keywords_left = 100;
-	keywords_free = xmalloc_nof(keyword, keywords_left);
-    }
-    p = keywords_free + (--keywords_left);
+    p = xmalloc(sizeof *p);
     p->name = nm;
     p->instr = instr;
     if (q == NULL) {
