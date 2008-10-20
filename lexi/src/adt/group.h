@@ -87,14 +87,15 @@ struct char_group_tag {
     letter notin_letter_code;
     unsigned int group_code; /* for outputting the bitfield */
     struct zone_tag *z; /* Points back to the zone we are in */
-    char_group *next; /* Next in hash table */  
-    char_group *next_in_groups_list; 
-};
 
-typedef struct char_group_list_tag char_group_list;
-struct char_group_list_tag {
-    char_group*  head;
-    char_group** tail;
+	/*
+	 * char_group elements appear in two superimposed lists; .next is a list of
+	 * the groups within one zone in the tree of zones. Unrelated to that, a
+	 * global list of all groups is maintained by .next_in_groups_list; this is
+	 * used for numbering all groups uniquely.
+	 */
+    char_group *next;
+    char_group *next_in_groups_list;
 };
 
 

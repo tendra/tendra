@@ -69,13 +69,6 @@ struct keyword_tag;
 struct lexer_parse_tree_tag;
 
 
-/*
-    PARAMETERS
-*/
-
-#define GROUP_HASH_TABLE_SIZE     128
-
-
 /* 
    Type of Zones indicate if a zone return terminals or not.
 
@@ -102,8 +95,8 @@ struct zone_tag {
     struct character_tag *zone_main_pass;
 
     struct keyword_tag *keywords;
-    char_group_list groups_hash_table [GROUP_HASH_TABLE_SIZE];  
-    char_group* white_space;
+    char_group *groups;  
+    char_group *white_space;
 
     struct instructions_list_tag *default_instructions;
 
@@ -120,8 +113,5 @@ extern size_t zone_maxlength(zone* z, int in_prepass);
 extern zone * new_zone (char* zid, struct lexer_parse_tree_tag *top_level);
 extern zone* add_zone(zone*, char*,letter*, int);
 extern zone * find_zone (zone*, char*); 
-
-extern unsigned int hash_cstring (char*);
-extern unsigned int hash_cstring_n(char*,size_t);
 
 #endif

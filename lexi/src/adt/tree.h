@@ -81,7 +81,7 @@ extern struct zone_tag *tree_get_globalzone(lexer_parse_tree *);
 extern EntryT **tree_get_table(lexer_parse_tree *);
 extern letter tree_get_lastlettercode(lexer_parse_tree *t);
 extern letter tree_get_eoflettercode(lexer_parse_tree *t);
-extern struct char_group_list_tag *tree_get_grouplist(lexer_parse_tree *t);
+extern struct char_group_tag *tree_get_grouplist(lexer_parse_tree *t);
 extern unsigned int tree_get_totalnogroups(lexer_parse_tree *t);
 extern letter_translation *tree_get_translation(lexer_parse_tree *t, struct character_tag *c);
 extern letter_translation *tree_get_translationl(lexer_parse_tree *t, letter l);
@@ -104,8 +104,8 @@ extern letter_translation *tree_get_lettertranslation(lexer_parse_tree *t, struc
 extern letter_translation *tree_get_translationl(lexer_parse_tree *t, letter l);
 
 extern void tree_add_translation(lexer_parse_tree *t, letter_translation *trans);
-
 extern letter tree_add_generated_key(lexer_parse_tree *t);
+extern void tree_add_group(lexer_parse_tree *t, struct char_group_tag *g);
 
 extern void set_predefined_char_lexi_type(struct lexer_parse_tree_tag *, char*, char*);
 extern void set_predefined_string_lexi_type(struct lexer_parse_tree_tag *, char*, char*);

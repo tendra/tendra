@@ -102,18 +102,14 @@ zone *
 new_zone (char* zid, lexer_parse_tree* top_level) 
 {
     zone *p;
-    int i;
+
     p = xmalloc(sizeof *p);
     p->zone_name=zid;
     p->zone_main_pass=new_char(tree_get_lastlettercode(top_level));
     p->zone_pre_pass=new_char(tree_get_lastlettercode(top_level));
 
     p->keywords=NULL;
-
-    for(i=0; i<GROUP_HASH_TABLE_SIZE;i++) {
-        p->groups_hash_table[i].head=NULL;
-        p->groups_hash_table[i].tail=&(p->groups_hash_table[i].head);
-    }
+	p->groups=NULL;
     p->white_space=NULL;
 
     p->type=typezone_pure_function; 
@@ -182,28 +178,3 @@ add_zone(zone* current_zone, char* zid, letter* e, int endmarkerclosed)
   return q;
 }
 
-
-/*
-  A trivial hash function
-
-  TODO: make this static, and provide a public interface for retrieval, instead.
-*/
-unsigned int hash_cstring (char* p) {
-  unsigned int value=0;
-  while(*p) {
-    value+=*p;
-    p++;
-  }
-  return value % GROUP_HASH_TABLE_SIZE;
-}
-
-unsigned int hash_cstring_n(char* p,size_t len)
-{
-  unsigned int value=0;
-  unsigned int i=0;
-  while(*p && (i++ < len)) {
-    value+=*p;
-    p++;
-  }
-  return value % GROUP_HASH_TABLE_SIZE;	/* XXX: why GROUP_HASH_TABLE_SIZE? */
-}

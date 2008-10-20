@@ -102,10 +102,8 @@ make_group(zone* z,char *nm, letter *s)
    lexer_parse_tree* top_level=z->top_level;
    letter_translation* trans; 
    letter_translation* reverse_trans; 
-   unsigned int hash_key=hash_cstring(nm);
 
-   for (grp = z->groups_hash_table[hash_key].head; 
-	grp !=NULL; grp=grp->next) {
+   for (grp = z->groups; grp !=NULL; grp = grp->next) {
 	if (!strcmp(nm, grp->name)) {
 	    error(ERROR_SERIOUS, "Group '%s' already defined", nm);
 	    return NULL;
@@ -129,11 +127,19 @@ make_group(zone* z,char *nm, letter *s)
     grp->letter_code = trans->letter_code;
     grp->notin_letter_code = reverse_trans->letter_code;
 
-    *(z->groups_hash_table[hash_key].tail)=grp;
-    z->groups_hash_table[hash_key].tail=&(grp->next);
+	/* add to tail: order matters for group numbering */
+	{
+		char_group **p;
 
-    *(tree_get_grouplist(z->top_level)->tail)=grp;
-    tree_get_grouplist(z->top_level)->tail=&(grp->next_in_groups_list);
+		for (p = &z->groups; *p != NULL; p = &(*p)->next) {
+			/* empty */
+		}
+		grp->next = *p;
+		*p = grp;
+	}
+
+	tree_add_group(z->top_level, grp);
+
     return grp;
 }
 

@@ -111,7 +111,6 @@ make_string(char *s, zone* scope)
 {
     int i = 0, n = (int)strlen(s);
     letter *p = xmalloc_nof(letter, n + 1);
-    unsigned int hash_key;
     int reverse_match=0;
     char_group* grp;
     zone* inner_scope;
@@ -140,9 +139,8 @@ make_string(char *s, zone* scope)
 			"Unterminated character group name, '%s'", gnm);
 	    }
 	    
-	    hash_key=hash_cstring_n(gnm,glen);
 	    for(inner_scope=scope; inner_scope!=NULL;inner_scope=inner_scope->up) {
-	       for (grp = inner_scope->groups_hash_table[hash_key].head; grp!=NULL; grp=grp->next) {
+	       for (grp = inner_scope->groups; grp != NULL; grp = grp->next) {
 		   if (strncmp(gnm, grp->name, glen) == 0) 
 		       break;
 		}

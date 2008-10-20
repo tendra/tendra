@@ -75,7 +75,7 @@ struct lexer_parse_tree_tag {
 
 	FILE *copyright_file;
 
-	char_group_list groups_list;
+	char_group *groups_list;
 
 	EntryT *table; /* Actions and types */
 
@@ -125,8 +125,7 @@ init_lexer_parse_tree(void) {
   t->next_generated_key=i;
 
   t->global_zone=new_zone("global",t);
-  t->groups_list.head=NULL;
-  (t->groups_list.tail)=&(t->groups_list.head);
+  t->groups_list=NULL;
 
   return t;
 }
@@ -172,12 +171,12 @@ tree_get_eoflettercode(lexer_parse_tree *t)
 	return t->eof_letter_code;
 }
 
-char_group_list *
+char_group *
 tree_get_grouplist(lexer_parse_tree *t)
 {
 	assert(t != NULL);
 
-	return &t->groups_list;
+	return t->groups_list;
 }
 
 unsigned int
@@ -189,7 +188,7 @@ tree_get_totalnogroups(lexer_parse_tree *t)
 	assert(t != NULL);
 
 	i = 0;
-	for (g = t->groups_list.head; g != NULL; g = g->next_in_groups_list) {
+	for (g = t->groups_list; g != NULL; g = g->next_in_groups_list) {
 		i++;
 	}
 
@@ -203,7 +202,7 @@ all_groups_empty(lexer_parse_tree *t)
 
 	assert(t != NULL);
 
-	for (g = t->groups_list.head; g != NULL; g = g->next_in_groups_list) {
+	for (g = t->groups_list; g != NULL; g = g->next_in_groups_list) {
 		if (!is_group_empty(g)) {
 			return 0;
 		}
@@ -255,6 +254,18 @@ tree_add_generated_key(lexer_parse_tree *t)
 	assert(t != NULL);
 
 	return t->next_generated_key++;
+}
+
+void
+tree_add_group(lexer_parse_tree *t, char_group *g)
+{
+	char_group **p;
+
+	assert(t != NULL);
+	assert(g->next_in_groups_list == NULL);
+
+	g->next_in_groups_list = t->groups_list;
+	t->groups_list = g;
 }
 
 void 

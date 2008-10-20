@@ -120,11 +120,11 @@ void lexi_flush(struct lexi_state *state);
 #endif
 
 enum lexi_groups {
-	lexi_group_white = 0x1,
-	lexi_group_alpha = 0x2,
-	lexi_group_digit = 0x4,
-	lexi_group_alphanum = 0x8,
 	lexi_group_alphanumhyphen = 0x10,
+	lexi_group_alphanum = 0x8,
+	lexi_group_digit = 0x4,
+	lexi_group_alpha = 0x2,
+	lexi_group_white = 0x1
 };
 
 /* true if the given character is present in the given group */

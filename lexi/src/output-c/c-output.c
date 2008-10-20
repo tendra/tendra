@@ -752,7 +752,7 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level)
 	fprintf(lex_output_h, "enum %sgroups {\n", opt->lexi_prefix);
 
 	/* Group interface */
-	for( grp=tree_get_grouplist(top_level)->head; grp!=NULL; grp=grp->next_in_groups_list) {
+	for (grp = tree_get_grouplist(top_level); grp != NULL; grp = grp->next_in_groups_list) {
 		unsigned long m;
 
 		if (is_group_empty(grp)) {
@@ -817,7 +817,7 @@ output_lookup_table(lexer_parse_tree* top_level, const char *grouptype,
 		unsigned long m = 0;
 		letter a = (c == 256 ? tree_get_eoflettercode(top_level) : (letter)c);
 		m = 0;
-		for( grp=tree_get_grouplist(top_level)->head; grp!=NULL; grp=grp->next_in_groups_list) {
+		for (grp = tree_get_grouplist(top_level); grp != NULL; grp = grp->next_in_groups_list) {
 			if (in_group(grp, a)) {
 				m |= (unsigned long)(1 << grp->group_code);
 			}
