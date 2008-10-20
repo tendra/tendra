@@ -741,7 +741,7 @@ output_copyright(cmd_line_options* opt)
 */
 
 static void
-output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *grouphex) 
+output_macros(cmd_line_options* opt, lexer_parse_tree* top_level) 
 {
 	char_group* grp;
 
@@ -761,13 +761,12 @@ output_macros(cmd_line_options* opt, lexer_parse_tree* top_level, const char *gr
 
 		m = (unsigned long)(1 << grp->group_code);
 		if(grp->z==tree_get_globalzone(grp->z->top_level)) {
-			fprintf(lex_output_h, "\t%sgroup_%s = ",
-				opt->lexi_prefix, grp->name);
+			fprintf(lex_output_h, "\t%sgroup_%s = %#lx",
+				opt->lexi_prefix, grp->name, m);
 		} else {
-			fprintf(lex_output_h, "\t%sgroup_%s_%s = ",
-				opt->lexi_prefix, grp->z->zone_name, grp->name);
+			fprintf(lex_output_h, "\t%sgroup_%s_%s = %#lx",
+				opt->lexi_prefix, grp->z->zone_name, grp->name, m);
 		}
-		fprintf(lex_output_h, grouphex, m);
 
 		if(grp->next_in_groups_list) {
 			fputs(",", lex_output_h);
@@ -961,15 +960,15 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	/* TODO: assert we don't have too many groups */
 	if (tree_get_totalnogroups(top_level) >= 16) {
 		grouptype = language == C99 ? "uint32_t" : "unsigned long";
-		grouphex = "0x%08lxUL";
+		grouphex = "%#08lxUL";
 		groupwidth = 2;
 	} else if (tree_get_totalnogroups(top_level) >= 8) {
 		grouptype = language == C99 ? "uint16_t" : "unsigned short";
-		grouphex = "0x%04lx";
+		grouphex = "%#04lx";
 		groupwidth = 4;
 	} else {
 		grouptype = language == C99 ? "uint8_t" : "unsigned char";
-		grouphex = "0x%02lx";
+		grouphex = "%#02lx";
 		groupwidth = 8;
 	}
 
@@ -1024,7 +1023,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(lex_output_h, "#define LEXI_EOF %u\n", tree_get_eoflettercode(top_level));
 	fputs("#endif\n\n", lex_output_h);
 
-	output_macros(opt,top_level,grouphex);
+	output_macros(opt,top_level);
 	fputs("\n\n", lex_output);
 
 
