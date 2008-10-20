@@ -83,7 +83,6 @@ extern letter tree_get_lastlettercode(lexer_parse_tree *t);
 extern letter tree_get_eoflettercode(lexer_parse_tree *t);
 extern struct char_group_list_tag *tree_get_grouplist(lexer_parse_tree *t);
 extern unsigned int tree_get_totalnogroups(lexer_parse_tree *t);
-extern void tree_inctotalnogroups(lexer_parse_tree *t);
 extern letter_translation *tree_get_translation(lexer_parse_tree *t, struct character_tag *c);
 extern letter_translation *tree_get_translationl(lexer_parse_tree *t, letter l);
 

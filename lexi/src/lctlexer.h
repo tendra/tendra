@@ -94,9 +94,9 @@ void lexi_lct_flush(struct lexi_lct_state *state);
 #endif
 
 enum lexi_lct_groups {
-	lexi_lct_group_alpha = 0x01,
-	lexi_lct_group_alphanum = 0x02,
-	lexi_lct_group_white = 0x40
+	lexi_lct_group_alpha = 0x02,
+	lexi_lct_group_alphanum = 0x04,
+	lexi_lct_group_white = 0x80
 };
 
 /* true if the given character is present in the given group */

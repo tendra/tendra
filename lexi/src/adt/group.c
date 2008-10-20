@@ -120,7 +120,6 @@ make_group(zone* z,char *nm, letter *s)
     grp->defn = s;
     grp->z = z;
     grp->group_code=tree_get_totalnogroups(top_level) + 1;
-	tree_inctotalnogroups(top_level);
 
     trans=add_group_letter_translation(grp,0); /* In group match */
     reverse_trans=add_group_letter_translation(grp,1); /* Not in group match */

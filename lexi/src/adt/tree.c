@@ -75,7 +75,6 @@ struct lexer_parse_tree_tag {
 
 	FILE *copyright_file;
 
-	unsigned int no_total_groups;
 	char_group_list groups_list;
 
 	EntryT *table; /* Actions and types */
@@ -125,7 +124,6 @@ init_lexer_parse_tree(void) {
 
   t->next_generated_key=i;
 
-  t->no_total_groups=0;
   t->global_zone=new_zone("global",t);
   t->groups_list.head=NULL;
   (t->groups_list.tail)=&(t->groups_list.head);
@@ -185,19 +183,17 @@ tree_get_grouplist(lexer_parse_tree *t)
 unsigned int
 tree_get_totalnogroups(lexer_parse_tree *t)
 {
+	char_group *g;
+	unsigned int i;
+
 	assert(t != NULL);
 
-	/* TODO: instead of storing this, we can count on the fly */
-	return t->no_total_groups;
-}
+	i = 0;
+	for (g = t->groups_list.head; g != NULL; g = g->next_in_groups_list) {
+		i++;
+	}
 
-/* TODO: this is silly, and can go when tree_get_totalnogroups() runs on the fly */
-void
-tree_inctotalnogroups(lexer_parse_tree *t)
-{
-	assert(t != NULL);
-
-	t->no_total_groups++;
+	return i;
 }
 
 int
