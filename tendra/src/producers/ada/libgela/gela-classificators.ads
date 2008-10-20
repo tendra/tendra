@@ -7,31 +7,26 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Portable source buffer implementation. It uses Ada.Streams.Stream_IO
---  to read a buffer allocated in memory.
+--  Abstract interface for classificators. Classificator reads code units
+--  from source buffer, makes code points and fill Character_Class_Buffer
+--  with their classes.
 
-with Ada.Streams;
+with Gela.Source_Buffers;
+with Gela.Character_Class_Buffers;
 
-package Gela.Source_Buffers.Portable is
+package Gela.Classificators is
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with private;
+   type Code_Point is mod 16#11_0000#;
 
-   procedure Open
-     (Object    : in out Source_Buffer;
-      File_Name : in     String);
+   type Classificator is abstract tagged null record;
 
-   procedure Close (Object : in out Source_Buffer);
+   procedure Read
+     (Object : in out Classificator;
+      Input  : in out Source_Buffers.Cursor;
+      Buffer : in out Character_Class_Buffers.Character_Class_Buffer)
+      is abstract;
 
-   function Buffer_Start (Object : Source_Buffer) return Cursor;
-
-private
-   type Array_Access is access all Ada.Streams.Stream_Element_Array;
-
-   type Source_Buffer is new Source_Buffers.Source_Buffer with record
-      Internal_Array : Array_Access;
-   end record;
-
-end Gela.Source_Buffers.Portable;
+end Gela.Classificators;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -58,8 +53,4 @@ end Gela.Source_Buffers.Portable;
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
 --
---  Authors:
---    Andry Ogorodnik
---    Maxim Reznik
---    Vadim Godunko
 ------------------------------------------------------------------------------

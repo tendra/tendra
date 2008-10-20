@@ -1,15 +1,21 @@
 with Ada.Streams.Stream_IO;
+with Ada.Unchecked_Conversion;
 with Ada.Unchecked_Deallocation;
 
 package body Gela.Source_Buffers.Portable is
+
+   type Stream_Element_Access is access all Ada.Streams.Stream_Element;
+
+   function Convert is new Ada.Unchecked_Conversion
+     (Stream_Element_Access, Cursor);
 
    ----------
    -- Open --
    ----------
 
    procedure Open
-     (This : in out Source_Buffer;
-      Name : in     String)
+     (Object    : in out Source_Buffer;
+      File_Name : in     String)
    is
       use Ada.Streams;
       use Ada.Streams.Stream_IO;
@@ -20,31 +26,22 @@ package body Gela.Source_Buffers.Portable is
       File_Size : IO_Count;
       Upper     : Stream_Element_Offset;
       Last      : Stream_Element_Offset;
+
+      End_Of_File : constant Stream_Element :=
+        Stream_Element'Val (Code_Unit'Pos (Source_Buffers.End_Of_File));
    begin
-      Open (Input, In_File, Name);
+      Open (Input, In_File, File_Name);
 
       File_Size := Size (Input);
 
-      if File_Size > IO_Count (Offset'Last) then
-         Close (Input);
-         raise Use_Error;
-      else
-         This.Internal_Size := Offset (File_Size);
-      end if;
+      --  Reserve a few bytes for End_Of_File marker.
+      Upper := Stream_Element_Offset (File_Size + 2);
 
-      if This.Internal_Size = 0 then
-         return;
-      end if;
+      Object.Internal_Array := new Stream_Element_Array (1 .. Upper);
 
-      Upper := Stream_Element_Offset (File_Size);
+      Read (Input, Object.Internal_Array.all, Last);
 
-      This.Internal_Array := new Stream_Element_Array (1 .. Upper);
-
-      Read (Input, This.Internal_Array.all, Last);
-
-      This.Internal_Array (Last + 1 .. Upper) := (others => 0);
-
-      This.Internal_Data := This.Internal_Array (1)'Address;
+      Object.Internal_Array (Last + 1 .. Upper) := (others => End_Of_File);
 
       Close (Input);
    end Open;
@@ -53,13 +50,21 @@ package body Gela.Source_Buffers.Portable is
    -- Close --
    -----------
 
-   procedure Close (This : in out Source_Buffer) is
+   procedure Close (Object : in out Source_Buffer) is
       procedure Deallocate is new Ada.Unchecked_Deallocation
         (Ada.Streams.Stream_Element_Array, Array_Access);
    begin
-      Deallocate (This.Internal_Array);
-      This.Internal_Data := System.Null_Address;
+      Deallocate (Object.Internal_Array);
    end Close;
+
+   ------------------
+   -- Buffer_Start --
+   ------------------
+
+   function Buffer_Start (Object : Source_Buffer) return Cursor is
+   begin
+      return Convert (Object.Internal_Array (1)'Access);
+   end Buffer_Start;
 
 end Gela.Source_Buffers.Portable;
 

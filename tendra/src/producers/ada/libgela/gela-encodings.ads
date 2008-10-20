@@ -7,31 +7,33 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Portable source buffer implementation. It uses Ada.Streams.Stream_IO
---  to read a buffer allocated in memory.
+--  List of supported encodings
 
-with Ada.Streams;
+package Gela.Encodings is
 
-package Gela.Source_Buffers.Portable is
+   type Encoding is
+     (UTF_8,
+      ISO_8859_1,      ISO_8859_2,
+      ISO_8859_3,      ISO_8859_4,
+      ISO_8859_5,      ISO_8859_6,
+      ISO_8859_7,      ISO_8859_8,
+      ISO_8859_9,      ISO_8859_10,
+      ISO_8859_11,     ISO_8859_13,
+      ISO_8859_14,     ISO_8859_15,
+      ISO_8859_16,
+      CP_037,      CP_424,      CP_437,      CP_500,
+      CP_875,      CP_737,      CP_775,      CP_850,
+      CP_852,      CP_855,      CP_856,      CP_857,
+      CP_860,      CP_861,      CP_862,      CP_863,
+      CP_864,      CP_865,      CP_866,      CP_869,
+      CP_874,      CP_1006,     CP_1026,     CP_1250,
+      CP_1251,     CP_1252,     CP_1253,     CP_1254,
+      CP_1255,     CP_1256,     CP_1257,     CP_1258,
+      KOI8_R,      AtariST);
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with private;
+   subtype Fixed_Width_Encoding is Encoding range ISO_8859_1 .. AtariST;
 
-   procedure Open
-     (Object    : in out Source_Buffer;
-      File_Name : in     String);
-
-   procedure Close (Object : in out Source_Buffer);
-
-   function Buffer_Start (Object : Source_Buffer) return Cursor;
-
-private
-   type Array_Access is access all Ada.Streams.Stream_Element_Array;
-
-   type Source_Buffer is new Source_Buffers.Source_Buffer with record
-      Internal_Array : Array_Access;
-   end record;
-
-end Gela.Source_Buffers.Portable;
+end Gela.Encodings;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -58,8 +60,4 @@ end Gela.Source_Buffers.Portable;
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
 --
---  Authors:
---    Andry Ogorodnik
---    Maxim Reznik
---    Vadim Godunko
 ------------------------------------------------------------------------------

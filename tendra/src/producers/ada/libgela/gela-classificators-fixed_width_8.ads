@@ -7,31 +7,37 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Portable source buffer implementation. It uses Ada.Streams.Stream_IO
---  to read a buffer allocated in memory.
+--  Classificator for any fixed width encoding.
 
-with Ada.Streams;
+with Gela.Decoders;
 
-package Gela.Source_Buffers.Portable is
+generic
+   with function To_Character_Class
+     (Code : Code_Point)
+     return Character_Class_Buffers.Character_Class;
+package Gela.Classificators.Fixed_Width_8 is
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with private;
+   type Classificator is new Classificators.Classificator with private;
 
-   procedure Open
-     (Object    : in out Source_Buffer;
-      File_Name : in     String);
+   procedure Initialize
+     (Object  :    out Classificator;
+      Decoder : in out Decoders.Decoder'Class);
 
-   procedure Close (Object : in out Source_Buffer);
-
-   function Buffer_Start (Object : Source_Buffer) return Cursor;
+   procedure Read
+     (Object : in out Classificator;
+      Input  : in out Source_Buffers.Cursor;
+      Buffer : in out Character_Class_Buffers.Character_Class_Buffer);
 
 private
-   type Array_Access is access all Ada.Streams.Stream_Element_Array;
+   type Translation is
+     array (Source_Buffers.Code_Unit) of
+     Character_Class_Buffers.Character_Class;
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with record
-      Internal_Array : Array_Access;
+   type Classificator is new Classificators.Classificator with record
+      Table : Translation;
    end record;
 
-end Gela.Source_Buffers.Portable;
+end Gela.Classificators.Fixed_Width_8;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -58,8 +64,4 @@ end Gela.Source_Buffers.Portable;
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
 --
---  Authors:
---    Andry Ogorodnik
---    Maxim Reznik
---    Vadim Godunko
 ------------------------------------------------------------------------------

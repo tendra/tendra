@@ -1,37 +1,38 @@
-------------------------------------------------------------------------------
---                           G E L A   A S I S                              --
---       ASIS implementation for Gela project, a portable Ada compiler      --
---                     http://www.ten15.org/wiki/Ada                        --
---                     - - - - - - - - - - - - - - -                        --
---            Read copyright and license at the end of this file            --
-------------------------------------------------------------------------------
---  $TenDRA$
---  Purpose:
---  Portable source buffer implementation. It uses Ada.Streams.Stream_IO
---  to read a buffer allocated in memory.
+package body Gela.Decoders.Fixed_Width_8 is
 
-with Ada.Streams;
+   ------------
+   -- Decode --
+   ------------
 
-package Gela.Source_Buffers.Portable is
+   procedure Decode
+     (Object : in out Decoder;
+      From   : in     Source_Buffers.Cursor;
+      To     : in     Source_Buffers.Cursor;
+      Result :    out Wide_String;
+      Last   :    out Natural)
+   is
+      use Source_Buffers;
+      Pos   : Cursor := From;
+      Char  : Character;
+      Index : Natural := Result'First - 1;
+   begin
+      while Pos /= To loop
+         Index := Index + 1;
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with private;
+         Char := Element (Pos);
+         Next (Pos);
 
-   procedure Open
-     (Object    : in out Source_Buffer;
-      File_Name : in     String);
+         if Character'Pos (Char) in Object.Table'Range then
+            Result (Index) := Object.Table (Character'Pos (Char));
+         else
+            Result (Index) := Wide_Character'Val (Character'Pos (Char));
+         end if;
+      end loop;
 
-   procedure Close (Object : in out Source_Buffer);
+      Last := Index;
+   end Decode;
 
-   function Buffer_Start (Object : Source_Buffer) return Cursor;
-
-private
-   type Array_Access is access all Ada.Streams.Stream_Element_Array;
-
-   type Source_Buffer is new Source_Buffers.Source_Buffer with record
-      Internal_Array : Array_Access;
-   end record;
-
-end Gela.Source_Buffers.Portable;
+end Gela.Decoders.Fixed_Width_8;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -58,8 +59,4 @@ end Gela.Source_Buffers.Portable;
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
 --
---  Authors:
---    Andry Ogorodnik
---    Maxim Reznik
---    Vadim Godunko
 ------------------------------------------------------------------------------

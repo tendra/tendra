@@ -7,31 +7,46 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Portable source buffer implementation. It uses Ada.Streams.Stream_IO
---  to read a buffer allocated in memory.
+--  Scanner breaks text from source buffers into tokens.
 
-with Ada.Streams;
+with Gela.Scanner_Tables;
+with Gela.Classificators;
+with Gela.Source_Buffers;
+with Gela.Character_Class_Buffers;
 
-package Gela.Source_Buffers.Portable is
+package Gela.Scanners is
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with private;
+   type Scanner
+     (Classificator : access Gela.Classificators.Classificator'Class)
+      is limited private;
 
-   procedure Open
-     (Object    : in out Source_Buffer;
-      File_Name : in     String);
+   procedure Next_Token
+     (Object : in out Scanner;
+      Token  :    out Gela.Scanner_Tables.Token);
 
-   procedure Close (Object : in out Source_Buffer);
+   procedure Token_Span
+     (Object : in     Scanner;
+      From   :    out Gela.Source_Buffers.Cursor;
+      To     :    out Gela.Source_Buffers.Cursor);
 
-   function Buffer_Start (Object : Source_Buffer) return Cursor;
+   procedure Initialize
+     (Object :    out Scanner;
+      Cursor : in     Gela.Source_Buffers.Cursor);
 
 private
-   type Array_Access is access all Ada.Streams.Stream_Element_Array;
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with record
-      Internal_Array : Array_Access;
-   end record;
+   type Scanner
+     (Classificator : access Gela.Classificators.Classificator'Class) is
+      record
+         Classes   : Character_Class_Buffers.Character_Class_Buffer;
+         Start     : Scanner_Tables.State := Scanner_Tables.Default;
+         Input     : Source_Buffers.Cursor;
+         From      : Source_Buffers.Cursor;
+         To        : Source_Buffers.Cursor;
+      end record;
 
-end Gela.Source_Buffers.Portable;
+end Gela.Scanners;
+
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -57,9 +72,4 @@ end Gela.Source_Buffers.Portable;
 --  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
---
---  Authors:
---    Andry Ogorodnik
---    Maxim Reznik
---    Vadim Godunko
 ------------------------------------------------------------------------------

@@ -10,83 +10,49 @@
 --  Abstract interface to source text buffers.
 --
 --  Such buffer contains source represented as array of code units.
---  Direct pointer to code units provided to speed access up. User is
---  responsible to watch pointer stay in buffer boundaries.
+--  Direct pointer (cursor) to code units provided to speed access up.
+--  User is responsible to watch pointer stay in buffer boundaries.
+--  Special code unit value (End_Of_File) is returned when end of
+--  source buffer is reached.
 
-with System;
-with Ada.Finalization;
+with Interfaces.C.Pointers;
 
 package Gela.Source_Buffers is
    pragma Preelaborate;
 
-   type Offset is range 0 .. Integer'Last;
+   type Cursor is private;
 
-   subtype Count is Offset range 1 .. Offset'Last;
+   type Source_Buffer is abstract tagged private;
 
-   type Code_Unit_8 is mod 2 ** 8;
-   type Code_Unit_8_Access is access all Code_Unit_8;
+   function Buffer_Start (Object : Source_Buffer) return Cursor is abstract;
 
-   type Code_Unit_16 is mod 2 ** 16;
-   type Code_Unit_16_Access is access all Code_Unit_16;
+   subtype Code_Unit is Character;
 
-   type Code_Unit_32 is mod 2 ** 32;
-   type Code_Unit_32_Access is access all Code_Unit_32;
+   function Element (Object : Cursor) return Code_Unit;
 
-   function "+"
-     (Left  : in Code_Unit_8_Access;
-      Right : in Offset)
-      return Code_Unit_8_Access;
+   procedure Next (Object : in out Cursor);
 
-   function "+"
-     (Left  : in Code_Unit_16_Access;
-      Right : in Offset)
-      return Code_Unit_16_Access;
-
-   function "+"
-     (Left  : in Code_Unit_32_Access;
-      Right : in Offset)
-      return Code_Unit_32_Access;
-
-   type Code_Unit_Size is (Unit_8, Unit_16, Unit_32);
-
-   ----------------------------
-   -- Abstract_Source_Buffer --
-   ----------------------------
-
-   type Abstract_Source_Buffer is abstract tagged limited private;
-
-   function Data (This : in Abstract_Source_Buffer)
-      return Code_Unit_8_Access;
-
-   function Data (This : in Abstract_Source_Buffer)
-      return Code_Unit_16_Access;
-
-   function Data (This : in Abstract_Source_Buffer)
-      return Code_Unit_32_Access;
-
-   function Size
-     (This      : in Abstract_Source_Buffer;
-      Unit_Size : in Code_Unit_Size) return Offset;
-
-   function Is_Open (This : in Abstract_Source_Buffer) return Boolean;
-
-   procedure Close (This : in out Abstract_Source_Buffer) is abstract;
+   End_Of_File : constant Code_Unit;
 
    Use_Error  : exception;
 
 private
-   pragma Inline ("+");
-   pragma Inline (Is_Open);
-   pragma Inline (Size);
+   pragma Inline (Element);
+   pragma Inline (Next);
 
-   type Abstract_Source_Buffer is abstract
-      new Ada.Finalization.Limited_Controlled
-   with record
-      Internal_Data : System.Address := System.Null_Address;
-      Internal_Size : Offset         := 0;
-   end record;
+   End_Of_File : constant Code_Unit := Code_Unit'Val (0);
 
-   procedure Finalize (This : in out Abstract_Source_Buffer);
+   type Code_Unit_Array is array (Positive range <>) of aliased Code_Unit;
+
+   package Pointers is new Interfaces.C.Pointers
+     (Index              => Positive,
+      Element            => Code_Unit,
+      Element_Array      => Code_Unit_Array,
+      Default_Terminator => End_Of_File);
+
+   type Cursor is new Pointers.Pointer;
+
+   type Source_Buffer is abstract tagged null record;
 
 end Gela.Source_Buffers;
 

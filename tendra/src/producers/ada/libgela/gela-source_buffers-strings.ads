@@ -7,31 +7,33 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Portable source buffer implementation. It uses Ada.Streams.Stream_IO
---  to read a buffer allocated in memory.
+--  Take string as source buffer.
 
-with Ada.Streams;
-
-package Gela.Source_Buffers.Portable is
+package Gela.Source_Buffers.Strings is
 
    type Source_Buffer is new Source_Buffers.Source_Buffer with private;
 
-   procedure Open
-     (Object    : in out Source_Buffer;
-      File_Name : in     String);
-
-   procedure Close (Object : in out Source_Buffer);
-
    function Buffer_Start (Object : Source_Buffer) return Cursor;
 
+   procedure Initialize
+     (Object : in out Source_Buffer;
+      Text   : in     String);
+
+   procedure Clear (Object : in out Source_Buffer);
+
 private
-   type Array_Access is access all Ada.Streams.Stream_Element_Array;
+
+   type String_Buffer is array (Positive range <>) of aliased Character;
+
+   type String_Access is access all String_Buffer;
+   pragma Controlled (String_Access);
 
    type Source_Buffer is new Source_Buffers.Source_Buffer with record
-      Internal_Array : Array_Access;
+      Buffer        : String_Access;
+      Buffer_Start  : Cursor;
    end record;
 
-end Gela.Source_Buffers.Portable;
+end Gela.Source_Buffers.Strings;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -57,9 +59,4 @@ end Gela.Source_Buffers.Portable;
 --  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
---
---  Authors:
---    Andry Ogorodnik
---    Maxim Reznik
---    Vadim Godunko
 ------------------------------------------------------------------------------

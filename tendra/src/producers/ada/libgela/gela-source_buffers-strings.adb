@@ -1,37 +1,46 @@
-------------------------------------------------------------------------------
---                           G E L A   A S I S                              --
---       ASIS implementation for Gela project, a portable Ada compiler      --
---                     http://www.ten15.org/wiki/Ada                        --
---                     - - - - - - - - - - - - - - -                        --
---            Read copyright and license at the end of this file            --
-------------------------------------------------------------------------------
---  $TenDRA$
---  Purpose:
---  Portable source buffer implementation. It uses Ada.Streams.Stream_IO
---  to read a buffer allocated in memory.
+with Ada.Unchecked_Deallocation;
 
-with Ada.Streams;
+package body Gela.Source_Buffers.Strings is
 
-package Gela.Source_Buffers.Portable is
+   ------------------
+   -- Buffer_Start --
+   ------------------
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with private;
+   function Buffer_Start (Object : Source_Buffer) return Cursor is
+   begin
+      return Object.Buffer_Start;
+   end Buffer_Start;
 
-   procedure Open
-     (Object    : in out Source_Buffer;
-      File_Name : in     String);
+   -----------
+   -- Clear --
+   -----------
 
-   procedure Close (Object : in out Source_Buffer);
+   procedure Clear (Object : in out Source_Buffer) is
+      procedure Free is
+         new Ada.Unchecked_Deallocation (String_Buffer, String_Access);
+   begin
+      if Object.Buffer /= null then
+         Free (Object.Buffer);
+      end if;
+   end Clear;
 
-   function Buffer_Start (Object : Source_Buffer) return Cursor;
+   ----------------
+   -- Initialize --
+   ----------------
 
-private
-   type Array_Access is access all Ada.Streams.Stream_Element_Array;
+   procedure Initialize
+     (Object : in out Source_Buffer;
+      Text   : in     String)
+   is
+   begin
+      Clear (Object);
+      Object.Buffer := new String_Buffer (1 .. Text'Length + 1);
+      Object.Buffer.all (Object.Buffer.all'Last) := End_Of_File;
+      Object.Buffer.all (1 .. Text'Length) := String_Buffer (Text);
+      Object.Buffer_Start := Object.Buffer.all (1)'Access;
+   end Initialize;
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with record
-      Internal_Array : Array_Access;
-   end record;
-
-end Gela.Source_Buffers.Portable;
+end Gela.Source_Buffers.Strings;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -57,9 +66,4 @@ end Gela.Source_Buffers.Portable;
 --  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
---
---  Authors:
---    Andry Ogorodnik
---    Maxim Reznik
---    Vadim Godunko
 ------------------------------------------------------------------------------

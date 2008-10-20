@@ -7,31 +7,53 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Portable source buffer implementation. It uses Ada.Streams.Stream_IO
---  to read a buffer allocated in memory.
+--  Buffers from this package holds class for each character from source
+--  buffer. Special character class (End_Of_Buffer) signals buffer is
+--  empty.
 
-with Ada.Streams;
+package Gela.Character_Class_Buffers is
 
-package Gela.Source_Buffers.Portable is
+   type Character_Class is mod 256;
+   for Character_Class'Size use 8;
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with private;
+   End_Of_Buffer : constant Character_Class;
 
-   procedure Open
-     (Object    : in out Source_Buffer;
-      File_Name : in     String);
+   type Character_Class_Buffer is limited private;
 
-   procedure Close (Object : in out Source_Buffer);
+   procedure Put
+     (Object : in out Character_Class_Buffer;
+      Item   : in     Character_Class;
+      Full   :    out Boolean);
 
-   function Buffer_Start (Object : Source_Buffer) return Cursor;
+   procedure Get
+     (Object : in out Character_Class_Buffer;
+      Item   :    out Character_Class);
+
+   procedure Mark         (Object : in out Character_Class_Buffer);
+   procedure Back_To_Mark (Object : in out Character_Class_Buffer);
 
 private
-   type Array_Access is access all Ada.Streams.Stream_Element_Array;
 
-   type Source_Buffer is new Source_Buffers.Source_Buffer with record
-      Internal_Array : Array_Access;
+   type Array_Index is mod 4096;
+
+   type Character_Class_Array is array (Array_Index) of Character_Class;
+
+   type Character_Class_Buffer is record
+      --  Index points to last read character
+      Index : Array_Index := Array_Index'Last - 1;
+      --  Free points to where next Put will place an item
+      Free  : Array_Index := 0;
+      Mark  : Array_Index := 0;
+      Data  : Character_Class_Array := (others => End_Of_Buffer);
    end record;
 
-end Gela.Source_Buffers.Portable;
+   End_Of_Buffer : constant Character_Class := 0;
+
+   pragma Inline (Put);
+   pragma Inline (Get);
+   pragma Inline (Mark);
+   pragma Inline (Back_To_Mark);
+end Gela.Character_Class_Buffers;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -58,8 +80,4 @@ end Gela.Source_Buffers.Portable;
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
 --
---  Authors:
---    Andry Ogorodnik
---    Maxim Reznik
---    Vadim Godunko
 ------------------------------------------------------------------------------
