@@ -244,8 +244,8 @@ output_locals(LocalNamesT* locals, int d, FILE* lex_output )
 	for( localnames_begin(&it, locals); 
 	    it.p; 
 	    localnamesiterator_next(&it)) {
-		EntryT* t;
 		LocalNamesEntryT* p= it.p;
+		EntryT* t=p->type;
 		int i;
 		s[it.depth]=0;
 		for( i = it.depth-1 ; i>=0; --i) {
