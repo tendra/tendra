@@ -5,7 +5,7 @@ package body Gela.Decoders.Fixed_Width_8 is
    ------------
 
    procedure Decode
-     (Object : in out Decoder;
+     (Object : in     Decoder;
       From   : in     Source_Buffers.Cursor;
       To     : in     Source_Buffers.Cursor;
       Result :    out Wide_String;

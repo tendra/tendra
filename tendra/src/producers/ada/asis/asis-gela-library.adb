@@ -1,6 +1,7 @@
 with Ada.Wide_Text_IO;
 with Ada.Strings.Maps;
 with Ada.Strings.Fixed;
+with Ada.Strings.Wide_Fixed;
 with Ada.Characters.Handling;
 with Ada.Command_Line;
 
@@ -135,6 +136,17 @@ package body Asis.Gela.Library is
 
       return File_Name;
    end Find_File;
+
+   ------------------------
+   -- Is_Predefined_Unit --
+   ------------------------
+
+   function Is_Predefined_Unit (File_Name : Wide_String) return Boolean is
+      use Ada.Characters.Handling;
+      Lib : constant Wide_String := To_Wide_String (Gela_Lib_Path);
+   begin
+      return Ada.Strings.Wide_Fixed.Index (File_Name, Lib) > 0;
+   end Is_Predefined_Unit;
 
    ------------------
    -- To_File_Name --

@@ -87,7 +87,6 @@ BIN_XARGS?=		/usr/bin/xargs
 # Ada related binaries  
 BIN_GNATMAKE?=  /usr/local/bin/gnatmake
 BIN_GNATCHOP?=  /usr/local/bin/gnatchop
-BIN_AFLEX?=     /usr/local/bin/aflex
 BIN_AYACC?=     /usr/local/bin/ayacc
 BIN_XSLTPROC?=  /usr/local/bin/xsltproc
 

@@ -1,0 +1,179 @@
+-- identifier_start ::=
+--     letter_uppercase
+--   | letter_lowercase
+--   | letter_titlecase
+--   | letter_modifier
+--   | letter_other
+--   | number_letter
+--
+-- identifier_start [\p{Uppercase_Letter}\p{Lowercase_Letter}\p{Titlecase_Letter}\p{Modifier_Letter}\p{Other_Letter}\p{Letter_Number}]
+
+identifier_start [\p{Lu}\p{Ll}\p{Lt}\p{Lm}\p{Lo}\p{Nl}]
+
+-- identifier_extend ::=
+--      mark_non_spacing
+--    | mark_spacing_combining
+--    | number_decimal
+--    | punctuation_connector
+--    | other_format
+--
+-- identifier_extend [\p{Nonspacing_Mark}\p{Spacing_Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Format}]
+
+identifier_extend [\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}]
+
+-- digit ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+digit       [0-9]
+
+-- numeral ::= digit {[underline] digit}
+numeral      {digit}(_?{digit})*
+
+-- exponent ::= E [+] numeral | E - numeral
+exponent       [Ee]\+?{numeral}|[Ee]-{numeral}
+
+-- decimal_literal ::= numeral [.numeral] [exponent]
+-- decimal_literal      {numeral}(.{numeral})?{exponent}?
+real_decimal_literal    {numeral}.{numeral}{exponent}?
+integer_decimal_literal {numeral}{exponent}?
+
+-- base ::= numeral
+base      {numeral}
+
+-- extended_digit ::= digit | A | B | C | D | E | F
+extended_digit      [\m{digit}AaBbCcDdEeFf]
+
+-- based_numeral ::= extended_digit {[underline] extended_digit}
+based_numeral      {extended_digit}(_?{extended_digit})*
+
+-- based_literal ::=   base # based_numeral [.based_numeral] # [exponent]
+-- based_literal      {base}#{based_numeral}(.{based_numeral})?#{exponent}?
+real_based_literal    {base}#{based_numeral}.{based_numeral}#{exponent}?
+integer_based_literal {base}#{based_numeral}#{exponent}?
+
+format_effector [\t\n\v\f\r\u0085\p{Zl}\p{Zp}]
+
+fffe [\ufffe\u1fffe\u2fffe\u3fffe\u4fffe\u5fffe\u6fffe\u7fffe\u8fffe\u9fffe\uafffe\ubfffe\ucfffe\udfffe\uefffe\uffffe\u10fffe]
+
+ffff [\uffff\u1ffff\u2ffff\u3ffff\u4ffff\u5ffff\u6ffff\u7ffff\u8ffff\u9ffff\uaffff\ubffff\ucffff\udffff\ueffff\ufffff\u10ffff]
+
+graphic_character [^\p{Cc}\p{Co}\p{Cs}\m{format_effector}\m{fffe}\m{ffff}]
+
+-- string_element ::= "" | non_quotation_mark_graphic_character
+string_element      ""|[\m{graphic_character}-["]]
+
+x [\p{Format}]*
+
+%%
+Identifier_Token        {identifier_start}({identifier_start}|{identifier_extend})*
+-- Numeric_Literal_Token  {decimal_literal}|{based_literal}
+Real_Literal_Token      {real_decimal_literal}|{real_based_literal}
+Integer_Literal_Token   {integer_decimal_literal}|{integer_based_literal}
+Character_Literal_Token '{graphic_character}'
+String_Literal_Token    "{string_element}*"
+
+Abort_Token     [Aa]{x}[Bb]{x}[Oo]{x}[Rr]{x}[Tt]{x}
+Abs_Token       [Aa]{x}[Bb]{x}[Ss]{x}
+Abstract_Token  [Aa]{x}[Bb]{x}[Ss]{x}[Tt]{x}[Rr]{x}[Aa]{x}[Cc]{x}[Tt]{x}
+Accept_Token    [Aa]{x}[Cc]{x}[Cc]{x}[Ee]{x}[Pp]{x}[Tt]{x}
+Access_Token    [Aa]{x}[Cc]{x}[Cc]{x}[Ee]{x}[Ss]{x}[Ss]{x}
+Aliased_Token   [Aa]{x}[Ll]{x}[Ii]{x}[Aa]{x}[Ss]{x}[Ee]{x}[Dd]{x}
+All_Token       [Aa]{x}[Ll]{x}[Ll]{x}
+And_Token       [Aa]{x}[Nn]{x}[Dd]{x}
+Array_Token     [Aa]{x}[Rr]{x}[Rr]{x}[Aa]{x}[Yy]{x}
+At_Token        [Aa]{x}[Tt]{x}
+Begin_Token     [Bb]{x}[Ee]{x}[Gg]{x}[Ii]{x}[Nn]{x}
+Body_Token      [Bb]{x}[Oo]{x}[Dd]{x}[Yy]{x}
+Case_Token      [Cc]{x}[Aa]{x}[Ss]{x}[Ee]{x}
+Constant_Token  [Cc]{x}[Oo]{x}[Nn]{x}[Ss]{x}[Tt]{x}[Aa]{x}[Nn]{x}[Tt]{x}
+Declare_Token   [Dd]{x}[Ee]{x}[Cc]{x}[Ll]{x}[Aa]{x}[Rr]{x}[Ee]{x}
+Delay_Token     [Dd]{x}[Ee]{x}[Ll]{x}[Aa]{x}[Yy]{x}
+Delta_Token     [Dd]{x}[Ee]{x}[Ll]{x}[Tt]{x}[Aa]{x}
+Digits_Token    [Dd]{x}[Ii]{x}[Gg]{x}[Ii]{x}[Tt]{x}[Ss]{x}
+Do_Token        [Dd]{x}[Oo]{x}
+Else_Token      [Ee]{x}[Ll]{x}[Ss]{x}[Ee]{x}
+Elsif_Token     [Ee]{x}[Ll]{x}[Ss]{x}[Ii]{x}[Ff]{x}
+End_Token       [Ee]{x}[Nn]{x}[Dd]{x}
+Entry_Token     [Ee]{x}[Nn]{x}[Tt]{x}[Rr]{x}[Yy]{x}
+Exception_Token [Ee]{x}[Xx]{x}[Cc]{x}[Ee]{x}[Pp]{x}[Tt]{x}[Ii]{x}[Oo]{x}[Nn]{x}
+Exit_Token      [Ee]{x}[Xx]{x}[Ii]{x}[Tt]{x}
+For_Token       [Ff]{x}[Oo]{x}[Rr]{x}
+Function_Token  [Ff]{x}[Uu]{x}[Nn]{x}[Cc]{x}[Tt]{x}[Ii]{x}[Oo]{x}[Nn]{x}
+Generic_Token   [Gg]{x}[Ee]{x}[Nn]{x}[Ee]{x}[Rr]{x}[Ii]{x}[Cc]{x}
+Goto_Token      [Gg]{x}[Oo]{x}[Tt]{x}[Oo]{x}
+If_Token        [Ii]{x}[Ff]{x}
+In_Token        [Ii]{x}[Nn]{x}
+Interface_Token [Ii]{x}[Nn]{x}[Tt]{x}[Ee]{x}[Rr]{x}[Ff]{x}[Aa]{x}[Cc]{x}[Ee]{x}
+Is_Token        [Ii]{x}[Ss]{x}
+Limited_Token   [Ll]{x}[Ii]{x}[Mm]{x}[Ii]{x}[Tt]{x}[Ee]{x}[Dd]{x}
+Loop_Token      [Ll]{x}[Oo]{x}[Oo]{x}[Pp]{x}
+Mod_Token       [Mm]{x}[Oo]{x}[Dd]{x}
+New_Token       [Nn]{x}[Ee]{x}[Ww]{x}
+Not_Token       [Nn]{x}[Oo]{x}[Tt]{x}
+Null_Token      [Nn]{x}[Uu]{x}[Ll]{x}[Ll]{x}
+Of_Token        [Oo]{x}[Ff]{x}
+Or_Token        [Oo]{x}[Rr]{x}
+Others_Token    [Oo]{x}[Tt]{x}[Hh]{x}[Ee]{x}[Rr]{x}[Ss]{x}
+Out_Token       [Oo]{x}[Uu]{x}[Tt]{x}
+Overriding_Token [Oo]{x}[Vv]{x}[Ee]{x}[Rr]{x}[Rr]{x}[Ii]{x}[Dd]{x}[Ii]{x}[Nn]{x}[Gg]{x}
+Package_Token   [Pp]{x}[Aa]{x}[Cc]{x}[Kk]{x}[Aa]{x}[Gg]{x}[Ee]{x}
+Pragma_Token    [Pp]{x}[Rr]{x}[Aa]{x}[Gg]{x}[Mm]{x}[Aa]{x}
+Private_Token   [Pp]{x}[Rr]{x}[Ii]{x}[Vv]{x}[Aa]{x}[Tt]{x}[Ee]{x}
+Procedure_Token [Pp]{x}[Rr]{x}[Oo]{x}[Cc]{x}[Ee]{x}[Dd]{x}[Uu]{x}[Rr]{x}[Ee]{x}
+Protected_Token [Pp]{x}[Rr]{x}[Oo]{x}[Tt]{x}[Ee]{x}[Cc]{x}[Tt]{x}[Ee]{x}[Dd]{x}
+Raise_Token     [Rr]{x}[Aa]{x}[Ii]{x}[Ss]{x}[Ee]{x}
+Range_Token     [Rr]{x}[Aa]{x}[Nn]{x}[Gg]{x}[Ee]{x}
+Record_Token    [Rr]{x}[Ee]{x}[Cc]{x}[Oo]{x}[Rr]{x}[Dd]{x}
+Rem_Token       [Rr]{x}[Ee]{x}[Mm]{x}
+Renames_Token   [Rr]{x}[Ee]{x}[Nn]{x}[Aa]{x}[Mm]{x}[Ee]{x}[Ss]{x}
+Requeue_Token   [Rr]{x}[Ee]{x}[Qq]{x}[Uu]{x}[Ee]{x}[Uu]{x}[Ee]{x}
+Return_Token    [Rr]{x}[Ee]{x}[Tt]{x}[Uu]{x}[Rr]{x}[Nn]{x}
+Reverse_Token   [Rr]{x}[Ee]{x}[Vv]{x}[Ee]{x}[Rr]{x}[Ss]{x}[Ee]{x}
+Select_Token    [Ss]{x}[Ee]{x}[Ll]{x}[Ee]{x}[Cc]{x}[Tt]{x}
+Separate_Token  [Ss]{x}[Ee]{x}[Pp]{x}[Aa]{x}[Rr]{x}[Aa]{x}[Tt]{x}[Ee]{x}
+Subtype_Token   [Ss]{x}[Uu]{x}[Bb]{x}[Tt]{x}[Yy]{x}[Pp]{x}[Ee]{x}
+Synchronized_Token [Ss]{x}[Yy]{x}[Nn]{x}[Cc]{x}[Hh]{x}[Rr]{x}[Oo]{x}[Nn]{x}[Ii]{x}[Zz]{x}[Ee]{x}[Dd]{x}
+Tagged_Token    [Tt]{x}[Aa]{x}[Gg]{x}[Gg]{x}[Ee]{x}[Dd]{x}
+Task_Token      [Tt]{x}[Aa]{x}[Ss]{x}[Kk]{x}
+Terminate_Token [Tt]{x}[Ee]{x}[Rr]{x}[Mm]{x}[Ii]{x}[Nn]{x}[Aa]{x}[Tt]{x}[Ee]{x}
+Then_Token      [Tt]{x}[Hh]{x}[Ee]{x}[Nn]{x}
+Type_Token      [Tt]{x}[Yy]{x}[Pp]{x}[Ee]{x}
+Until_Token     [Uu]{x}[Nn]{x}[Tt]{x}[Ii]{x}[Ll]{x}
+Use_Token       [Uu]{x}[Ss]{x}[Ee]{x}
+When_Token      [Ww]{x}[Hh]{x}[Ee]{x}[Nn]{x}
+While_Token     [Ww]{x}[Hh]{x}[Ii]{x}[Ll]{x}[Ee]{x}
+With_Token      [Ww]{x}[Ii]{x}[Tt]{x}[Hh]{x}
+Xor_Token       [Xx]{x}[Oo]{x}[Rr]{x}
+
+
+Double_Star_Token          \*\*
+Right_Label_Token          >>
+Greater_Or_Equal_Token     >=
+Box_Token                  <>
+Left_Label_Token           <<
+Less_Or_Equal_Token        <=
+Inequality_Token           /=
+Assignment_Token           :=
+Arrow_Token                =>
+Double_Dot_Token           ..
+Ampersand_Token            &
+Greater_Token              >
+Less_Token                 <
+Apostrophe_Token           '
+Left_Parenthesis_Token     \(
+Right_Parenthesis_Token    \)
+Star_Token                 \*
+Plus_Token                 \+
+Comma_Token                ,
+Hyphen_Token               -
+Dot_Token                  .
+Slash_Token                /
+Colon_Token                :
+Semicolon_Token            ;
+Equal_Token                =
+Vertical_Line_Token        \|
+Separator_Token            [ \f\r\t\v]+
+New_Line_Token             [\m{format_effector}-[\t]]
+
+-- comment ::= --{non_end_of_line_character}
+comment_Token       --[^\m{format_effector}-[\t]]*
+
+End_Of_Input \u0000

@@ -11,13 +11,26 @@ package body Asis.Gela.Text_Utils is
 
    type Buffer_Access is access all Source_Buffers.Current.Source_Buffer;
 
+   -------------
+   -- Decoder --
+   -------------
+
+   function Decoder (Unit : Asis.Compilation_Unit) return Decoder_Access is
+      List : constant Compilations.Compilation_List :=
+        Contexts.Utils.Compilation_List (Enclosing_Context (Unit.all));
+      Comp : constant Compilations.Compilation :=
+        Compilations.Enclosing (Unit);
+   begin
+      return Compilations.Decoder (List, Comp);
+   end Decoder;
+
    ----------
    -- Free --
    ----------
 
    procedure Free (Buffer : in out Source_Buffer_Access) is
       procedure Destroy is new Ada.Unchecked_Deallocation
-        (Source_Buffers.Abstract_Source_Buffer'Class, Source_Buffer_Access);
+        (Source_Buffers.Source_Buffer'Class, Source_Buffer_Access);
    begin
       Destroy (Buffer);
    end Free;
@@ -33,8 +46,7 @@ package body Asis.Gela.Text_Utils is
         new Source_Buffers.Current.Source_Buffer;
       Name   : constant String := To_String (File);
    begin
-      --  Comment till it will be actually used:
-      --  Source_Buffers.Current.Open (Result.all, Name);
+      Source_Buffers.Current.Open (Result.all, Name);
 
       return Source_Buffer_Access (Result);
    end New_Buffer;

@@ -9,11 +9,14 @@ with Asis.Gela.Implicit;
 with Asis.Gela.Implicit.Limited_View;
 with Asis.Gela.Resolver;
 with Asis.Gela.Normalizer;
+with Asis.Gela.Text_Utils;
 with Asis.Gela.Unit_Utils;
 with Asis.Gela.Compilations;
 with Asis.Gela.Element_Utils;
 
 with Ada.Strings.Wide_Maps;
+
+with Gela.Decoders.Create;
 
 package body Asis.Gela.Contexts.Utils is
 
@@ -55,6 +58,10 @@ package body Asis.Gela.Contexts.Utils is
    procedure Split_Compilation
      (The_Context  : in out Concrete_Context_Node;
       Limited_View : in     Boolean);
+
+   procedure Set_Encoding
+     (The_Context   : in out Concrete_Context_Node;
+      Encoding_Name : in     Wide_String);
 
    ------------------------
    -- Move_First_Pragmas --
@@ -290,6 +297,10 @@ package body Asis.Gela.Contexts.Utils is
                   when 'A' =>
                      pragma Assert (Debug.Set (Word (3 .. Word'Last)));
                      null;
+
+                  when 'E' =>
+                     Set_Encoding (The_Context, Word (3 .. Word'Last));
+
                   when others =>
                      null;
                end case;
@@ -351,14 +362,27 @@ package body Asis.Gela.Contexts.Utils is
       use Asis.Gela.Compilations;
 
       File        : constant Wide_String := Current_File (The_Context);
+      Encoding    : Encodings.Encoding := The_Context.User_Encoding;
+      Buffer      : Text_Utils.Source_Buffer_Access;
+      Decoder     : Text_Utils.Decoder_Access;
       Implicit    : Asis.Compilation_Unit;
       New_Version : Compilation;
       Old_Version : constant Compilation :=
         Get_Compilation (The_Context.Compilation_List, File);
    begin
-      New_Compilation (The_Context.Compilation_List, File, New_Version);
+      if Library.Is_Predefined_Unit (File) then
+         Encoding := Encodings.ISO_8859_1; --UTF_8;
+      end if;
 
-      The_Context.Compilation  := List (Parser.Run (The_Context.This));
+      Decoder := Decoders.Create (Encoding);
+      Buffer  := Text_Utils.New_Buffer (File);
+
+      New_Compilation
+        (The_Context.Compilation_List, File, Buffer, Decoder, New_Version);
+
+      The_Context.Compilation :=
+        List (Parser.Run
+              (The_Context.This, Buffer.all, Encoding, Decoder.all));
 
       declare
          Units : constant Compilation_Unit_List :=
@@ -569,6 +593,20 @@ package body Asis.Gela.Contexts.Utils is
          end if;
       end loop;
    end Read_Withed;
+
+   ------------------
+   -- Set_Encoding --
+   ------------------
+
+   procedure Set_Encoding
+     (The_Context   : in out Concrete_Context_Node;
+      Encoding_Name : in     Wide_String) is
+   begin
+      The_Context.User_Encoding :=
+        Encodings.Encoding'Wide_Value (Encoding_Name);
+   exception when Constraint_Error =>
+      Report_Error (The_Context, Text => "Unknown encoding: " & Encoding_Name);
+   end Set_Encoding;
 
    -----------------------
    -- Split_Compilation --

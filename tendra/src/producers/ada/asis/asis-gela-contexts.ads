@@ -13,6 +13,8 @@ with Asis.Gela.Lists;                use Asis.Gela.Lists;
 with Asis.Gela.Compilations;
 with Ada.Strings.Wide_Unbounded;
 
+with Gela.Encodings; use Gela;
+
 package Asis.Gela.Contexts is
 
    type Concrete_Context_Node is new Context_Node with private;
@@ -143,10 +145,10 @@ package Asis.Gela.Contexts is
 
    procedure Report_Error
      (The_Context : in out Concrete_Context_Node;
-      The_Unit    : in     Compilation_Unit;
-      Where       : in     Text_Position;
+      The_Unit    : in     Compilation_Unit := Asis.Nil_Compilation_Unit;
+      Where       : in     Text_Position    := Asis.Nil_Text_Position;
       Text        : in     Wide_String;
-      Level       : in     Error_Level);
+      Level       : in     Error_Level      := Fatal);
 
    function Check_Appropriate
      (The_Context : in Concrete_Context_Node)
@@ -187,6 +189,7 @@ private
       Compilation_List          : Gela.Compilations.Compilation_List;
       Configuration_Unit        : Asis.Compilation_Unit;
       Limited_Views             : Secondary_Unit_Lists.List_Node;
+      User_Encoding             : Encodings.Encoding;
    end record;
 
 end Asis.Gela.Contexts;

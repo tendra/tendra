@@ -517,7 +517,11 @@ package body Asis.Gela.Unit_Utils is
       The_Unit : Any_Compilation_Unit_Node renames
         Any_Compilation_Unit_Node (Unit.all);
    begin
-      Set_Unit_Origin (The_Unit, An_Application_Unit);
+      if Library.Is_Predefined_Unit (Text_Name (The_Unit)) then
+         Set_Unit_Origin (The_Unit, A_Predefined_Unit);
+      else
+         Set_Unit_Origin (The_Unit, An_Application_Unit);
+      end if;
    end Set_Unit_Origin;
 
    --------------------------

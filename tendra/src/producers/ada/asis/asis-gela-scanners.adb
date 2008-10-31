@@ -1,4 +1,4 @@
-package body Gela.Scanners is
+package body Asis.Gela.Scanners is
 
    ----------------
    -- Next_Token --
@@ -20,6 +20,7 @@ package body Gela.Scanners is
       Result        : Scanner_Tables.Token := Scanner_Tables.Error;
       Class         : Character_Class_Buffers.Character_Class;
       Position      : Source_Buffers.Cursor := Object.To;
+      Accepted      : Scanner_Tables.Token;
    begin
       Object.From := Position;
 
@@ -30,16 +31,16 @@ package body Gela.Scanners is
             Classificators.Read
               (Object.Classificator.all, Object.Input, Object.Classes);
          else
-            Current_State := Scanner_Tables.Table (Current_State, Class);
+            Current_State := Scanner_Tables.Switch (Current_State, Class);
 
             exit when Current_State = Error;
 
             Source_Buffers.Next (Position);
 
-            if Scanner_Tables.Finish (Current_State) /= Scanner_Tables.Error
-              and then Class /= Surrogate
+            Accepted := Scanner_Tables.Accepted (Current_State);
+            if Accepted /= Scanner_Tables.Error and then Class /= Surrogate
             then
-               Result := Scanner_Tables.Finish (Current_State);
+               Result := Accepted;
                Character_Class_Buffers.Mark (Object.Classes);
                Object.To := Position;
             end if;
@@ -57,8 +58,8 @@ package body Gela.Scanners is
 
    procedure Token_Span
      (Object : in     Scanner;
-      From   :    out Gela.Source_Buffers.Cursor;
-      To     :    out Gela.Source_Buffers.Cursor)
+      From   :    out Source_Buffers.Cursor;
+      To     :    out Source_Buffers.Cursor)
    is
    begin
       From := Object.From;
@@ -71,7 +72,7 @@ package body Gela.Scanners is
 
    procedure Initialize
      (Object :    out Scanner;
-      Cursor : in     Gela.Source_Buffers.Cursor)
+      Cursor : in     Source_Buffers.Cursor)
    is
    begin
       Object.Start := Scanner_Tables.Default;
@@ -80,7 +81,7 @@ package body Gela.Scanners is
       Object.To    := Cursor;
    end Initialize;
 
-end Gela.Scanners;
+end Asis.Gela.Scanners;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik

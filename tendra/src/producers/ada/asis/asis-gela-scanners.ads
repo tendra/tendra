@@ -7,14 +7,48 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Classificator constructor.
+--  Scanner breaks text from source buffers into tokens.
 
-with Gela.Encodings;
-with Gela.Decoders;
+with Asis.Gela.Scanner_Tables;
+with Gela.Classificators;
+with Gela.Source_Buffers;
+with Gela.Character_Class_Buffers;
 
-function Gela.Classificators.Create
-  (Encoding : Encodings.Encoding;
-   Decoder  : Decoders.Decoder'Class) return Classificator'Class;
+use Gela;
+
+package Asis.Gela.Scanners is
+
+   type Scanner
+     (Classificator : access Classificators.Classificator'Class)
+      is limited private;
+
+   procedure Next_Token
+     (Object : in out Scanner;
+      Token  :    out Scanner_Tables.Token);
+
+   procedure Token_Span
+     (Object : in     Scanner;
+      From   :    out Source_Buffers.Cursor;
+      To     :    out Source_Buffers.Cursor);
+
+   procedure Initialize
+     (Object :    out Scanner;
+      Cursor : in     Source_Buffers.Cursor);
+
+private
+
+   type Scanner
+     (Classificator : access Classificators.Classificator'Class) is
+      record
+         Classes   : Character_Class_Buffers.Character_Class_Buffer;
+         Start     : Scanner_Tables.State := Scanner_Tables.Default;
+         Input     : Source_Buffers.Cursor;
+         From      : Source_Buffers.Cursor;
+         To        : Source_Buffers.Cursor;
+      end record;
+
+end Asis.Gela.Scanners;
+
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -40,6 +74,4 @@ function Gela.Classificators.Create
 --  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
---
 ------------------------------------------------------------------------------
-

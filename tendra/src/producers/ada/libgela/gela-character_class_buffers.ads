@@ -40,9 +40,9 @@ private
 
    type Character_Class_Buffer is record
       --  Index points to last read character
-      Index : Array_Index := Array_Index'Last - 1;
+      Index : Array_Index := Array_Index'Last;
       --  Free points to where next Put will place an item
-      Free  : Array_Index := 0;
+      Free  : Array_Index := 1;
       Mark  : Array_Index := 0;
       Data  : Character_Class_Array := (others => End_Of_Buffer);
    end record;

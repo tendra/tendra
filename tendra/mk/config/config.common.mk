@@ -58,8 +58,7 @@ config-create:
 .endfor 
 
 .if defined(WITH_ADA)
-.for BIN in ${BIN_GNATMAKE} ${BIN_GNATCHOP} ${BIN_AFLEX} ${BIN_AYACC} \
-			${BIN_XSLTPROC}
+.for BIN in ${BIN_GNATMAKE} ${BIN_GNATCHOP} ${BIN_AYACC} ${BIN_XSLTPROC}
 	@${BIN_ECHO} ${BIN}
 	@${BIN_TEST} -x "${BIN}"
 .endfor 

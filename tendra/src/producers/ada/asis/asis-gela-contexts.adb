@@ -38,6 +38,7 @@ package body Asis.Gela.Contexts is
       The_Context.Parameters   := U.To_Unbounded_Wide_String (Parameters);
       The_Context.Has_Associations := True;
       The_Context.Error            := Success;
+      The_Context.User_Encoding    := Encodings.ISO_8859_1; --UTF_8;
       --  The_Context.Current_File     := The_Context.Parameters;
       Compilations.Initialize (The_Context.Compilation_List);
    end Associate;
@@ -563,10 +564,10 @@ package body Asis.Gela.Contexts is
 
    procedure Report_Error
      (The_Context : in out Concrete_Context_Node;
-      The_Unit    : in     Compilation_Unit;
-      Where       : in     Text_Position;
+      The_Unit    : in     Compilation_Unit := Asis.Nil_Compilation_Unit;
+      Where       : in     Text_Position    := Asis.Nil_Text_Position;
       Text        : in     Wide_String;
-      Level       : in     Error_Level)
+      Level       : in     Error_Level      := Fatal)
    is
       function Get_File_Name return Wide_String is
       begin

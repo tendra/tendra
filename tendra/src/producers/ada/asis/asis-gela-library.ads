@@ -36,6 +36,9 @@ package Asis.Gela.Library is
    procedure Add_To_Search_Path (Path : Wide_String);
    --  Add Path to list of directories where look for source files
 
+   function Is_Predefined_Unit (File_Name : Wide_String) return Boolean;
+   --  Check if this file reserved for predefined units
+
 end Asis.Gela.Library;
 
 

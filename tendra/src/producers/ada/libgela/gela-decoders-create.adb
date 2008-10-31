@@ -1,3 +1,4 @@
+with Gela.Decoders.Constants;
 
 function Gela.Decoders.Create
   (Encoding : Encodings.Encoding) return Decoder_Access is

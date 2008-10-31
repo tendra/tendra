@@ -1,5 +1,11 @@
 package body Gela.Source_Buffers is
 
+   function "-" (Left, Right : Cursor) return Integer is
+      Result : constant Interfaces.C.ptrdiff_t := Left - Right;
+   begin
+      return Integer (Result);
+   end "-";
+
    -------------
    -- Element --
    -------------

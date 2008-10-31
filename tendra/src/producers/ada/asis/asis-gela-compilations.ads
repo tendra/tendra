@@ -15,6 +15,8 @@ with Asis.Gela.Pools;
 with Asis.Gela.Text_Utils;
 with Ada.Strings.Wide_Unbounded;
 
+with Gela.Encodings; use Gela;
+
 package Asis.Gela.Compilations is
 
    type Compilation      is private;
@@ -28,9 +30,11 @@ package Asis.Gela.Compilations is
       File : in Wide_String) return Compilation;
 
    procedure New_Compilation
-     (List : in out Compilation_List;
-      File : in     Wide_String;
-      Item :    out Compilation);
+     (List     : in out Compilation_List;
+      File     : in     Wide_String;
+      Buffer   : in     Text_Utils.Source_Buffer_Access;
+      Decoder  : in     Text_Utils.Decoder_Access;
+      Item     :    out Compilation);
 
    procedure Drop_Compilation
      (List : in out Compilation_List;
@@ -48,6 +52,10 @@ package Asis.Gela.Compilations is
      (List : Compilation_List;
       Item : Compilation) return Text_Utils.Source_Buffer_Access;
 
+   function Decoder
+     (List : Compilation_List;
+      Item : Compilation) return Text_Utils.Decoder_Access;
+
 private
    package U renames Ada.Strings.Wide_Unbounded;
 
@@ -58,6 +66,7 @@ private
       Version   : Version_Count;
       Pool      : Pools.Pool_State;
       Buffer    : Text_Utils.Source_Buffer_Access;
+      Decoder   : Text_Utils.Decoder_Access;
    end record;
 
    type Compilation_Count is range 0 .. 2 ** 15 - 1;

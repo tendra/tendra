@@ -9,12 +9,13 @@
 --  Purpose:
 --  Helper functions to work with text and source buffers
 
+with Gela.Decoders;
 with Gela.Source_Buffers;             use Gela;
 
 package Asis.Gela.Text_Utils is
 
    type Source_Buffer_Access is
-     access all Source_Buffers.Abstract_Source_Buffer'Class;
+     access all Source_Buffers.Source_Buffer'Class;
 
    function New_Buffer (File : in Wide_String) return Source_Buffer_Access;
 
@@ -22,6 +23,11 @@ package Asis.Gela.Text_Utils is
 
    function Source_Buffer
      (Unit : Asis.Compilation_Unit) return Source_Buffer_Access;
+
+   subtype Decoder_Access is Decoders.Decoder_Access;
+
+   function Decoder
+     (Unit : Asis.Compilation_Unit) return Decoder_Access;
 
 end Asis.Gela.Text_Utils;
 

@@ -6,7 +6,7 @@ ADA_SRC = ${.CURDIR}/asis-[^g]*.adb
 
 ADA_DIR = ${.CURDIR:C/(.*)\/asis.*/\1/}
 XML   = ${ADA_DIR}/xml
-AFLEX = ${XML}/aflex
+UAFLEX = ${XML}/uaflex
 AYACC = ${XML}/ayacc
 ASIS  = ${XML}/asis
 
@@ -20,28 +20,11 @@ CFLAGS+= -I${ADA_DIR}/xasis
 
 #  Lexer part
 
-LEXER_TMP = lexer.adb lexer-dfa.adb lexer-io.adb lexer-dfa.ads \
-            lexer.ads lexer-io.ads
+LEXER_SRC = asis-gela-scanner_tables.adb asis-gela-scanner_tables.ads
 
-LEXER_SRC = ${LEXER_TMP:S/lexer/asis-gela-lexer/g}
-
-${LEXER_SRC}: ${XML}/tokens.xml    ${AFLEX}/lexic.l     \
-              ${AFLEX}/to_l.sed    ${AFLEX}/ident.sed   \
-              ${AFLEX}/delim.xsl   ${AFLEX}/delim.sed   \
-              ${AFLEX}/keyword.xsl ${AFLEX}/keyword.sed \
-              ${AFLEX}/deep.sed                         \
-
-	$(BIN_XSLTPROC) -o delim.tmp ${AFLEX}/delim.xsl ${XML}/tokens.xml
-	$(BIN_SED) -f ${AFLEX}/delim.sed delim.tmp > delim.l
-	$(BIN_XSLTPROC) -o keyword.tmp ${AFLEX}/keyword.xsl ${XML}/tokens.xml
-	$(BIN_SED) -f ${AFLEX}/keyword.sed keyword.tmp > keyword.l
-	$(BIN_SED) -e '/^%%/,$$d' ${AFLEX}/lexic.l            > lexer.l
-	$(BIN_ECHO) %%                                       >> lexer.l
-	$(BIN_SED) -f ${AFLEX}/to_l.sed keyword.l delim.l    >> lexer.l
-	$(BIN_SED) -f ${AFLEX}/ident.sed ${AFLEX}/lexic.l    >> lexer.l
-	$(BIN_AFLEX) lexer.l
-	$(BIN_SED) -f ${AFLEX}/deep.sed ${LEXER_TMP}          > lexer.all
-	$(BIN_RM) ${LEXER_TMP}
+${LEXER_SRC}: ${UAFLEX}/ada.uaflex
+	../../../utilities/uaflex/uaflex ${UAFLEX}/ada.uaflex \
+	   Asis.Gela.Scanner_Tables > lexer.all
 	$(BIN_GNATCHOP) -w lexer.all
 
 #  Parser part
@@ -56,9 +39,12 @@ ${PARSER_SRC}: ${XML}/fixed.xsl      ${XML}/syntax.xml                   \
                ${AYACC}/deep.sed     ${AYACC}/asis-gela-parser.adt       \
 
 	$(BIN_XSLTPROC) -o fixed.xml ${XML}/fixed.xsl ${XML}/syntax.xml
+	$(BIN_ECHO) %token New_Line_Token                     > parser.y
+	$(BIN_ECHO) %token Separator_Token                   >> parser.y
+	$(BIN_ECHO) %token Comment_Token                     >> parser.y
 	../../../utilities/xml2ayacc/xml_to_y \
            ${XML}/asis_hier.xml ${XML}/tokens.xml fixed.xml ${XML}/code.xml \
-           > parser.y
+           >> parser.y
 	$(BIN_CAT) ${AYACC}/asis-gela-parser.adt >> parser.y
 	$(BIN_AYACC) parser.y
 	$(BIN_SED) -f ${AYACC}/deep.sed ${PARSER_TMP} > parser.all

@@ -32,6 +32,8 @@ package Gela.Source_Buffers is
 
    procedure Next (Object : in out Cursor);
 
+   function "-" (Left, Right : Cursor) return Integer;
+
    End_Of_File : constant Code_Unit;
 
    Use_Error  : exception;
@@ -39,6 +41,7 @@ package Gela.Source_Buffers is
 private
    pragma Inline (Element);
    pragma Inline (Next);
+   pragma Inline ("-");
 
    End_Of_File : constant Code_Unit := Code_Unit'Val (0);
 

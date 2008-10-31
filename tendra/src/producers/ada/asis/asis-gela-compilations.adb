@@ -12,6 +12,22 @@ package body Asis.Gela.Compilations is
 
    Version : Version_Count := 0;
 
+   -------------
+   -- Decoder --
+   -------------
+
+   function Decoder
+     (List : Compilation_List;
+      Item : Compilation) return Text_Utils.Decoder_Access
+   is
+   begin
+      if Valid_Version (List, Item) then
+         return List.Nodes (Item.Index).Decoder;
+      else
+         return null;
+      end if;
+   end Decoder;
+
    ----------------------
    -- Drop_Compilation --
    ----------------------
@@ -112,9 +128,11 @@ package body Asis.Gela.Compilations is
    ---------------------
 
    procedure New_Compilation
-     (List : in out Compilation_List;
-      File : in     Wide_String;
-      Item :    out Compilation)
+     (List     : in out Compilation_List;
+      File     : in     Wide_String;
+      Buffer   : in     Text_Utils.Source_Buffer_Access;
+      Decoder  : in     Text_Utils.Decoder_Access;
+      Item     :    out Compilation)
    is
       Index : Compilation_Count := List.Last + 1;
    begin
@@ -147,7 +165,8 @@ package body Asis.Gela.Compilations is
       List.Nodes (Index).File_Name := U.To_Unbounded_Wide_String (File);
       List.Nodes (Index).Version   := Version;
       List.Nodes (Index).Pool      := Pools.State (Lists.Pool);
-      List.Nodes (Index).Buffer    := Text_Utils.New_Buffer (File);
+      List.Nodes (Index).Buffer    := Buffer;
+      List.Nodes (Index).Decoder   := Decoder;
 
       Item                         := (Index, Version);
    end New_Compilation;

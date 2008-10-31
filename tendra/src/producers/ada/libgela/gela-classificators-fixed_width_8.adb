@@ -9,7 +9,7 @@ package body Gela.Classificators.Fixed_Width_8 is
 
    procedure Initialize
      (Object  :    out Classificator;
-      Decoder : in out Decoders.Decoder'Class)
+      Decoder : in     Decoders.Decoder'Class)
    is
       use Gela.Source_Buffers;
       Input   : Strings.Source_Buffer;

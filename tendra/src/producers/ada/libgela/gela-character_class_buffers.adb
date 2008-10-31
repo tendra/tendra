@@ -12,7 +12,7 @@ package body Gela.Character_Class_Buffers is
    begin
       Object.Data (Object.Free) := Item;
       Object.Free := Object.Free + 1;
-      Full := (Object.Free <= Array_Index'Last / 2) =
+      Full := (Object.Free <= Array_Index'Last / 2) /=
               (Object.Index <= Array_Index'Last / 2);
    end Put;
 
