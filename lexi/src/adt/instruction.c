@@ -220,34 +220,6 @@ add_args_list (void)
 
 
 /*
-    ALLOCATE A NEW USER FUNCTION
-
-    This routine allocates a new user provided function
-*/
-static user_function * 
-new_user_function (void)
-{
-    user_function *p;
-	p = xmalloc(sizeof *p);
-    p->name=NULL;
-    p->args=NULL;
-    return p;
-}
-/*
-    ALLOCATE ADDS USER FUNCTION
-
-    This routine add a new user provided function
-*/
-user_function * 
-add_user_function (char *name)
-{
-    user_function *p=new_user_function();
-    p->name=name;
-    return p;
-}
-
-
-/*
     ALLOCATE A NEW INSTRUCTION
 
     This routine allocates a new instrucion
@@ -274,31 +246,6 @@ add_instruction_return_terminal (char* name)
 {
     instruction *p=new_instruction(return_terminal);
     p->u.name=name;
-    return p;
-}
-
-/*
-    ADD  A NEW FUNCTION INSTRUCTION
-
-    This routine adds a new function instruction
-*/
-
-instruction * 
-add_instruction_terminalfunction (char* name, args_list* args) 
-{
-    instruction* p=new_instruction(terminal_apply_function);
-    p->u.fun=add_user_function(name);
-    p->u.fun->args=args;
-    return p;
-}
-
-
-instruction * 
-add_instruction_purefunction (char* name, args_list* args) 
-{
-    instruction* p=new_instruction(pure_apply_function);
-    p->u.fun=add_user_function(name);
-    p->u.fun->args=args;
     return p;
 }
 

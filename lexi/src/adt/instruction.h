@@ -92,12 +92,7 @@ typedef struct args_list_tag {
   int nb_return_terminal;
 } args_list ;
 
-typedef struct user_function_tag {
-  char* name;
-  args_list* args;
-} user_function;
-
-typedef enum instruction_type_tag { return_terminal, push_zone, pop_zone, pure_apply_function, terminal_apply_function, do_nothing , action_call } instruction_type ;
+typedef enum instruction_type_tag { return_terminal, push_zone, pop_zone, do_nothing , action_call } instruction_type ;
 
 typedef struct instruction_tag {
   instruction_type type;
@@ -108,7 +103,6 @@ typedef struct instruction_tag {
       struct zone_tag* z;
       int is_beginendmarker_in_zone ;
     } s;
-    user_function* fun; 
     struct {
       EntryT* called_act;
       args_list* lhs; 
@@ -135,10 +129,7 @@ extern arg* add_none_arg ( void ) ;
 extern void arg_output(arg*, bool, int, FILE*);
 extern args_list* add_args_list (void) ;
 
-extern user_function* add_user_function (char *name) ;
 extern instruction * add_instruction_return_terminal (char* name);
-extern instruction* add_instruction_purefunction (char* name, args_list* args) ;
-extern instruction* add_instruction_terminalfunction (char* name, args_list* args) ;
 extern instruction* add_instruction_donothing (void) ;
 extern instruction * add_instruction_action (EntryT*, args_list*, args_list*) ;
 extern instruction* add_instruction_mapping (char* map) ;

@@ -369,16 +369,8 @@ arg-ignore : () -> (a:ARG) = @{
 /* 
    CREATE AN INSTRUCTION 
 */
-<make-inst>  :  ( i : IDENTIFIER, a : ARGS_LIST, b:BOOL ) -> ( inst : INSTRUCTION ) = @{
-    if(@a) {
-    	if(@b)
-	    @inst=add_instruction_terminalfunction(@i,@a);
-	else
-	    @inst=add_instruction_purefunction(@i,@a);
-    } 
-    else {
+<make-terminal-inst>  :  ( i : IDENTIFIER ) -> ( inst : INSTRUCTION ) = @{
         @inst=add_instruction_return_terminal(@i);
-    }
 @};
 
 <make-donothing-inst> : () -> ( inst : INSTRUCTION ) = @{
@@ -448,13 +440,6 @@ arg-ignore : () -> (a:ARG) = @{
     @l=add_args_list();
 @};
 
-/* 
-   CREATES A NULL ARG LIST
-*/
-<null-args-list> : () -> ( l:ARGS_LIST ) = @{
-    @l = NULL ;
-@};
-
 /*
     ADD INSTRUCTION to INSTRUCTION LIST 
 */
@@ -467,9 +452,6 @@ arg-ignore : () -> (a:ARG) = @{
 		if(@il->nb_return_terminal>0 && @i->type!=do_nothing)
 			error(ERROR_SERIOUS, "No instruction may follow an instruction that returns a terminal");
 		if(@i->type == return_terminal) {
-			++(@il->nb_return_terminal);
-		}
-		if(@i->type == terminal_apply_function) {
 			++(@il->nb_return_terminal);
 		}
 		if(@i->type == action_call) {
@@ -704,14 +686,6 @@ arg-ignore : () -> (a:ARG) = @{
 
 <make-keyword> : ( z: ZONE, s : STRING, i : INSTRUCTION ) -> () = @{
     switch(@i->type) {
-    case terminal_apply_function:
-    case pure_apply_function:
-      if(@i->u.fun->args->head!=NULL) {
-        error(ERROR_SERIOUS, "Syntax error: for keywords using "
-	"user defined functions, "
-	"the arglist must remain empty");
-        break;
-      }
     case return_terminal: 
     /* Fallback is intentional */
       add_keyword ( @z, @s, @i ) ;

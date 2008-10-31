@@ -126,7 +126,7 @@ type-kw ;
 <make-white> : ( :ZONE, :CHARACTERS ) -> () ;
 <make-group> : ( :ZONE, :IDENTIFIER, :CHARACTERS ) -> () ;
 <make-trigraph> : ( :ZONE, :CHARACTERS, :STRING ) -> () ;
-<make-inst>  :  ( :IDENTIFIER, :ARGS_LIST, :BOOL) -> (:INSTRUCTION) ;
+<make-terminal-inst>  :  ( :IDENTIFIER) -> (:INSTRUCTION) ;
 <make-action-inst> : (:ZONE, :IDENTIFIER, :ARGS_LIST, :ARGS_LIST) -> (:INSTRUCTION) ;
 <make-donothing-inst> : () -> (:INSTRUCTION) ;
 <make-token> : ( :ZONE, :CHARACTERS, :INSTRUCTIONS_LIST ) -> () ;
@@ -140,7 +140,6 @@ type-kw ;
 //<global-zone> : () -> ( :ZONE );
 <is-global-zone> : ( :ZONE ) -> ( :BOOL );
 
-<null-args-list> : () -> ( :ARGS_LIST) ;
 <empty-args-list> : () -> ( :ARGS_LIST) ;
 <check-args-list> : ( :ARGS_LIST) -> () ;
 <args-list-push-front>: ( :ARG , :ARGS_LIST) -> () ;
@@ -498,9 +497,7 @@ action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 instruction : (z:ZONE) -> (inst:INSTRUCTION) = {
 	l = <empty-args-list> ;
 	i = sid-identifier ; 
-	a = <null-args-list> ; 
-	b = <true>; 
-	inst = <make-inst>( i, a, b);
+	inst = <make-terminal-inst>(i);
     ||	
 	l = <empty-args-list> ;
 	nothing-marker; 

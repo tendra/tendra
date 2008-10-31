@@ -182,14 +182,6 @@ output_keyword(keyword *keyword, void *opaque)
 	fprintf(output, "!strcmp(identifier, \"%s\")) return ", keyword_name(keyword));
 
 	switch (keyword_instruction(keyword)->type) {
-	case pure_apply_function:
-		/*
-		 * Arguments are not permitted for functions in
-		 * keyword instructions.
-		 */
-		fprintf(output, "%s()", keyword_instruction(keyword)->u.fun->name);
-		break;
-
 	case return_terminal:
 		fprintf(output, "%s", keyword_instruction(keyword)->u.name);
 		break;
@@ -339,43 +331,6 @@ output_instructions( zone* z, instructions_list* ret, unsigned int n, int d, int
       break;
     case action_call :
       output_action(lex_output, z->top_level, instr->u.act.called_act, instr->u.act.lhs, instr->u.act.rhs, d);
-      break;
-    case terminal_apply_function:
-    case pure_apply_function:
-      output_indent(lex_output, d);
-      if(instr->type == terminal_apply_function)
-	fprintf(lex_output, "return "); 
-      fprintf(lex_output, "%s(", instr->u.fun->name);
-      {
-	arg* fun_args;
-	for(fun_args=instr->u.fun->args->head;fun_args;fun_args=fun_args->next) {
-	  unsigned int i;
-	  if(fun_args!=instr->u.fun->args->head) 
-	    fputs(", ", lex_output);
-	  switch(fun_args->type) {
-	  case arg_chars_list:
-	    fputs("c0", lex_output);
-	    for (i = 1; i < n ; i++)
-	      fprintf(lex_output, ", c%d", i);
-	    break;
-	    
-	  case arg_charP:
-	    error(ERROR_SERIOUS, "#* Not implemented yet in output.c");
-	    break;
-	  
-	  case arg_char_nb:
-	    if(fun_args->u.digit <n)
-	      fprintf(lex_output, "c%d", fun_args->u.digit);
-	    else
-	      error(ERROR_SERIOUS, "In #[0-9]* arg, the digit must be smaller than the number of chars in a token");
-	    /*Should be caught during parsing*/
-	    break;
-	  case arg_nb_of_chars:
-	    fprintf(lex_output, "%u", n);	  
-	  }
-	}
-      }
-      fputs(");\n", lex_output);
       break;
     case push_zone:
       changezone=1;
