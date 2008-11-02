@@ -23,7 +23,6 @@ unit -> read_lex ;
 */
 
 BOOL -> int ;
-CHARACTERS -> SID_CHARS ;
 IDENTIFIER -> SID_STRING ;
 ZONE -> zoneP ;
 STRING -> SID_STRING ;
@@ -103,8 +102,8 @@ extern cmd_line_options options;
     These types give the implementation of the types used in the syntax.
 */
 
-typedef letter *SID_CHARS ;
 typedef char *SID_STRING ;
+typedef char *SID_CHARS ;
 /*typedef zone* zoneP; Done in syntax.h */
 typedef instruction* instructionP ;
 typedef instructions_list* instructions_listP ;
@@ -315,17 +314,6 @@ arg-ignore : () -> (a:ARG) = @{
     @i = xstrcpy("");
 @} ;
 
-/*
-    CREATE A CHARACTER STRING
-
-    This action maps an input string into its internal representation
-    as an array of character codes.
-*/
-
-<make-chars> : ( z : ZONE, s : STRING ) -> ( c : CHARACTERS ) = @{
-    @c = make_string ( @s, @z ) ;
-@} ;
-
 
 /*
     SET WHITE SPACE VARIABLE
@@ -335,7 +323,7 @@ arg-ignore : () -> (a:ARG) = @{
     been set.
 */
 
-<make-white> : ( z : ZONE, s : CHARACTERS ) -> () = @{
+<make-white> : ( z : ZONE, s : STRING ) -> () = @{
     if ( @z->white_space) {
 	error ( ERROR_SERIOUS, "White space group already defined" ) ;
     }
@@ -349,7 +337,7 @@ arg-ignore : () -> (a:ARG) = @{
     This action defines the character group i to be s.
 */
 
-<make-group> : ( z : ZONE, i : IDENTIFIER, s : CHARACTERS ) -> () = @{
+<make-group> : ( z : ZONE, i : IDENTIFIER, s : STRING ) -> () = @{
     make_group ( @z, @i, @s ) ;
 @} ;
 
@@ -360,8 +348,12 @@ arg-ignore : () -> (a:ARG) = @{
     This action creates a pre-pass mapping from s to t.
 */
 
-<make-trigraph> : ( z : ZONE, s : CHARACTERS, t : STRING ) -> () = @{
-    add_char ( @z, @z->zone_pre_pass, @s, NULL, @t) ;
+<make-trigraph> : ( z : ZONE, s : STRING, t : STRING ) -> () = @{
+	assert(@z != NULL);
+	assert(@s != NULL);
+	assert(@t != NULL);
+
+	add_prepass(@z, @s, @t);
 @} ;
 
 
@@ -653,14 +645,14 @@ arg-ignore : () -> (a:ARG) = @{
     This action creates a main-pass mapping from s to the lexical token i.
 */
 
-<make-token> : ( z : ZONE, s : CHARACTERS, il : INSTRUCTIONS_LIST) -> () = @{
-        add_char ( @z, @z->zone_main_pass, @s, @il, NULL) ;
+<make-token> : ( z : ZONE, s : STRING, il : INSTRUCTIONS_LIST) -> () = @{
+	add_mainpass(@z, @s, @il);
 	if(@il->nb_return_terminal)
 		@z->type=typezone_general_zone;
 @} ;
 
-<is-non-empty> : ( c : CHARACTERS, z :ZONE ) -> ( b : BOOL ) = @{
-    @b=(@c[0]!=tree_get_lastlettercode(@z->top_level));
+<is-non-empty> : ( s : STRING ) -> ( b : BOOL ) = @{
+	@b = strlen(@s) > 0;
 @};
 
 <E_empty_character_string> : () -> () = @{
@@ -715,8 +707,8 @@ arg-ignore : () -> (a:ARG) = @{
 
    This action adds a a new zone
 */
-<make-zone> : ( z : ZONE , i : IDENTIFIER, b : CHARACTERS, 
-	      	binst : INSTRUCTIONS_LIST, e : CHARACTERS, 
+<make-zone> : ( z : ZONE , i : IDENTIFIER, b : STRING, 
+	      	binst : INSTRUCTIONS_LIST, e : STRING, 
 		einst : INSTRUCTIONS_LIST, endmarkerclosed : BOOL ) 
 		      		-> ( nz : ZONE) = 
 @{
@@ -734,7 +726,7 @@ arg-ignore : () -> (a:ARG) = @{
     inst_list=add_instructions_list();
     *(inst_list->tail)=inst;
     inst_list->tail=&(inst->next);
-    add_char ( @z, @z->zone_main_pass, @b, inst_list, NULL ) ;
+	add_mainpass(@z, @b, inst_list);
 @};
 
 <update-zone-type> : (zparent:ZONE, zchild:ZONE) -> () = @{
@@ -904,8 +896,8 @@ arg-ignore : () -> (a:ARG) = @{
 	error(ERROR_SERIOUS, "Syntax error: expected close \')\'");
 @};
 
-<E_expected_chars> : () -> (c:CHARACTERS) = @{
-        @c = NULL ;
+<E_expected_chars> : () -> (s:STRING) = @{
+        @s = NULL ;
 	error(ERROR_SERIOUS, "Syntax error: expected characters");
 @};
 

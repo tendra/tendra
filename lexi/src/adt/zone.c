@@ -57,12 +57,12 @@
         it may be put.
 */
 
+#include <assert.h>
 #include <string.h>
 
 #include "xalloc/xalloc.h"
 #include "error/error.h"
 
-#include "letter.h"
 #include "zone.h"
 #include "char.h"
 #include "instruction.h"
@@ -70,75 +70,25 @@
 
 
 /*
-	COUNT MAXIMUM TOKEN LENGTH
+    FIND A ZONE
 
-	Find the maximum token length necessary for a given zone
-*/
-size_t
-zone_maxlength(zone* z, int in_prepass)
-{
-	zone *p;
-	size_t maxopt;
-
-	if(in_prepass)
-		maxopt = char_maxlength(z->zone_pre_pass, tree_get_lastlettercode(z->top_level));
-	else
-		maxopt = char_maxlength(z->zone_main_pass, tree_get_lastlettercode(z->top_level));
-	for (p = z->next ; p; p = p->opt) {
-		size_t k = zone_maxlength(p, in_prepass);
-		maxopt = k > maxopt ? k : maxopt ; 
-	}
-	return maxopt;
-}
-
-
-/*
-    ALLOCATE A NEW ZONE
-
-    This routine allocates a new zone
+    This routine finds a zone within the current zone. This does not include
+	searching in parent zones.
 */
 
-zone * 
-new_zone (char* zid, lexer_parse_tree* top_level) 
-{
-    zone *p;
-
-    p = xmalloc(sizeof *p);
-    p->zone_name=zid;
-    p->zone_main_pass=new_char(tree_get_lastlettercode(top_level));
-    p->zone_pre_pass=new_char(tree_get_lastlettercode(top_level));
-
-    p->keywords=NULL;
-	p->groups=NULL;
-    p->white_space=NULL;
-
-    p->type=typezone_pure_function; 
-
-    p->default_instructions=NULL;
-
-    p->entering_instructions=NULL;
-    p->leaving_instructions=NULL;
-
-    p->opt=NULL;
-    p->next=NULL;
-    p->up=NULL;
-    p->top_level=top_level;
-    return p;
-}
-
-/*
-    FIND A  ZONE
-
-    This routine finds a zone under the current one
-
-*/
-
-zone * 
+static zone * 
 find_zone(zone *z, char *name) 
 {
 	zone *q;
 
+	assert(z != NULL);
+	assert(name != NULL);
+
 	for (q = z->next; q != NULL; q = q->opt) {
+		if (q->zone_name == NULL) {
+			continue;
+		}
+
 		if (strcmp(q->zone_name, name) == 0) {
 			return q;
 		}
@@ -148,33 +98,177 @@ find_zone(zone *z, char *name)
 }
 
 /*
+	COUNT MAXIMUM TOKEN LENGTH
+
+	Find the maximum token length necessary for a given zone
+*/
+size_t
+zone_maxlength(zone* z, int in_prepass)
+{
+	size_t max;
+	zone *p;
+
+	assert(z != NULL);
+
+	{
+		character *pass;
+
+		pass = in_prepass ? z->zone_pre_pass : z->zone_main_pass;
+		max  = pass == NULL ? 0 : char_maxlength(pass);
+	}
+
+	for (p = z->next; p != NULL; p = p->opt) {
+		size_t l;
+
+		l = zone_maxlength(p, in_prepass);
+		if (l > max) {
+			max = l;
+		}
+	}
+
+	return max;
+}
+
+
+/*
+    ALLOCATE A NEW ZONE
+
+    This routine allocates a new zone.
+
+    TODO: make this private, and provide a add_globalzone() instead.
+*/
+
+zone * 
+new_zone(lexer_parse_tree *top_level) 
+{
+	zone *new;
+
+	assert(top_level != NULL);
+
+	new = xmalloc(sizeof *new);
+	new->zone_name = NULL;
+	new->type = typezone_pure_function; 
+
+	new->zone_main_pass = NULL;
+	new->zone_pre_pass  = NULL;
+
+	new->keywords    = NULL;
+	new->groups      = NULL;
+	new->white_space = NULL;
+
+	new->default_instructions  = NULL;
+	new->entering_instructions = NULL;
+	new->leaving_instructions  = NULL;
+
+	new->opt  = NULL;
+	new->next = NULL;
+	new->up   = NULL;
+
+	new->top_level = top_level;
+
+	return new;
+}
+
+/*
     ADD A ZONE
 
     This routine adds a new zone named zid under the current zone z
 */
-zone* 
-add_zone(zone* current_zone, char* zid, letter* e, int endmarkerclosed)
+zone * 
+add_zone(zone *z, char *name, const char *e, int endmarkerclosed)
 {
-  zone* q;
-  instruction* inst; 
-  instructions_list* inst_list; 
-  for(q=current_zone->next; q!=NULL; q=q->opt) {
-    if(strcmp(q->zone_name,zid)==0) {
-      error(ERROR_SERIOUS, "Zone %s already exists in this scope",zid);
-      return NULL;
-    }
-  }
+	zone *new;
+	instruction *inst; 
+	instructions_list *inst_list; 
 
-  q=new_zone(zid,current_zone->top_level);
-  q->opt=current_zone->next;
-  current_zone->next=q;
-  q->up=current_zone;
+	assert(z != NULL);
+	assert(name != NULL);
+	assert(e != NULL);
 
-  inst = add_instruction_popzone(current_zone, endmarkerclosed);
-  inst_list=add_instructions_list();
-  *(inst_list->tail)=inst;
-  inst_list->tail=&(inst->next);
-  add_char(q,q->zone_main_pass,e,inst_list,NULL);
-  return q;
+	if (find_zone(z, name)) {
+		error(ERROR_SERIOUS, "Zone %s already exists in this scope", name);
+		return NULL;
+	}
+
+	new = new_zone(z->top_level);
+	new->zone_name = name;
+	new->opt = z->next;
+	z->next = new;
+	new->up = z;
+
+	inst = add_instruction_popzone(z, endmarkerclosed);
+	inst_list = add_instructions_list();
+	*inst_list->tail = inst;
+	inst_list->tail = &inst->next;
+
+	add_mainpass(new, e, inst_list);
+
+	return new;
+}
+
+character *
+add_mainpass(zone *z, const char *s, instructions_list *l)
+{
+	character *new;
+
+	assert(z != NULL);
+	assert(s != NULL);
+	assert(l != NULL);
+
+	new = add_string(z, &z->zone_main_pass, s);
+	if (new == NULL) {
+		return NULL;
+	}
+
+	if (new->u.definition != NULL) {
+		error(ERROR_SERIOUS, "Token \"%s\" already exists in zone %s", s, zone_name(z));
+		return NULL;
+	}
+
+	new->u.definition = l;
+
+	return new;
+}
+
+character *
+add_prepass(zone *z, const char *s, char *m)
+{
+	character *new;
+
+	assert(z != NULL);
+	assert(s != NULL);
+	assert(m != NULL);
+
+	new = add_string(z, &z->zone_pre_pass, s);
+	assert(new != NULL);
+
+	if (new->u.map != NULL) {
+		error(ERROR_SERIOUS, "Mapping \"%s\" already exists in zone %s", s, zone_name(z));
+		return NULL;
+	}
+
+	new->u.map = m;
+
+	return new;
+}
+
+int
+zone_isglobal(zone *z)
+{
+	assert(z != NULL);
+
+	return z == tree_get_globalzone(z->top_level);
+}
+
+const char *
+zone_name(zone *z)
+{
+	assert(z != NULL);
+
+	if (z->zone_name == NULL) {
+		return "the global zone";
+	}
+
+	return z->zone_name;
 }
 

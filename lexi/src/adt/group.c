@@ -57,119 +57,153 @@
         it may be put.
 */
 
+#include <assert.h>
 #include <string.h>
 
 #include "xalloc/xalloc.h"
 #include "error/error.h"
 
+#include "char.h"
 #include "group.h"
 #include "zone.h"
 #include "tree.h"
 
 
-/*
-    ALLOCATE A NEW GROUP
-
-    This routine allocates a new group
-*/
-
-static char_group * 
-new_group (char* grid, zone* z) 
+static void
+unescape_string(zone *z, int *o, char *s)
 {
-    char_group *p;
-	p = xmalloc(sizeof *p);
-    p->name=grid;
-    p->defn=NULL;
-    p->next=NULL;
-    p->z=z;
+	const char *p;
+	unsigned int i;
 
-    return p;
+	for (i = 0; i <= 255; i++) {
+		o[i] = 0;
+	}
+
+	/* TODO: this is strikngly similar to add_string(). fold both into the .lxi file? */
+	for (p = s; *p != '\0'; p++) {
+		char_group *g;
+		char *e;
+		int not;
+		int c;
+
+		switch (*p) {
+		case '[':
+			not = 0;
+
+			p++;
+			if (*p == '^') {
+				not = 1;
+				p++;
+			}
+
+			e = strchr(p, ']');
+			if (e == NULL || *p == '\0') {
+				error(ERROR_SERIOUS, "Unterminated group");
+				break;
+			}
+
+			*e = '\0';
+			g = find_group(z, p);
+			if (g == NULL) {
+				error(ERROR_SERIOUS, "Unknown group '%s'", p);
+				break;
+			}
+
+			/* merge in the named group */
+			for (i = 0; i <= 255; i++) {
+				o[i] |= not ? !in_group(g, i) : in_group(g, i);
+			}
+
+			p = e;
+			break;
+
+		case '\\':
+			p++;
+			if (*p == '\0') {
+				error(ERROR_SERIOUS, "Missing escape");
+				break;
+			}
+
+			c = find_escape(*p);
+			if (c == EOF) {
+				error(ERROR_SERIOUS, "Groups may not contain EOF");
+				break;
+			}
+
+			i = (unsigned char) c;
+			o[i] = 1;
+			break;
+
+		default:
+			i = (unsigned char ) *p;
+			o[i] = 1;
+			break;
+		}
+	}
 }
-
-
 
 /*
     CREATE A NEW GROUP
 
-    This routine creates a new character group with name nm and
-    definition s.
+    This routine creates a new character group with definition s, which is
+	a null-terminated string of escaped values as per find_escape(). It may
+	not contain "\e" (for EOF), since EOF is not permitted in groups.
+
+	s may be NULL to indicate the empty group.
 */
 
-char_group*
-make_group(zone* z,char *nm, letter *s)
+char_group *
+make_group(zone *z, char *name, char *defn)
 {
-   char_group* grp;
-   lexer_parse_tree* top_level=z->top_level;
-   letter_translation* trans; 
-   letter_translation* reverse_trans; 
+	char_group *new;
 
-   for (grp = z->groups; grp !=NULL; grp = grp->next) {
-	if (!strcmp(nm, grp->name)) {
-	    error(ERROR_SERIOUS, "Group '%s' already defined", nm);
-	    return NULL;
+	assert(z != NULL);
+	assert(name != NULL);
+
+	if (strlen(defn) == 0) {
+		defn = NULL;
 	}
-    }
-    if (tree_get_totalnogroups(top_level) >= MAX_GROUPS) {
-	error(ERROR_SERIOUS, "Too many groups defined (%u)", tree_get_totalnogroups(top_level));
-	return NULL;
-    }
-    grp=new_group(nm,z);
-    grp->name = nm;
-    grp->defn = s;
-    grp->z = z;
-    grp->group_code = tree_get_totalnogroups(top_level);
 
-    trans=add_group_letter_translation(grp,0); /* In group match */
-    reverse_trans=add_group_letter_translation(grp,1); /* Not in group match */
-	tree_add_translation(top_level, trans);
-	tree_add_translation(top_level, reverse_trans);
-
-    grp->letter_code = trans->letter_code;
-    grp->notin_letter_code = reverse_trans->letter_code;
-
-	/* add to tail: order matters for group numbering */
 	{
-		char_group **p;
+		char_group *g;
 
-		for (p = &z->groups; *p != NULL; p = &(*p)->next) {
-			/* empty */
+		g = find_group(z, name);
+		if (g != NULL && g->z == z) {
+			error(ERROR_SERIOUS, "Group '%s' already defined for this zone", name);
+			return NULL;
 		}
-		grp->next = *p;
-		*p = grp;
 	}
 
-	tree_add_group(z->top_level, grp);
+	new = xmalloc(sizeof *new);
+	new->name = name;
+	new->z = z;
+	new->next_in_groups_list = NULL;
 
-    return grp;
+	if (defn == NULL) {
+		unescape_string(z, new->defn, "");
+	} else {
+		unescape_string(z, new->defn, defn);
+	}
+
+	new->next = z->groups;
+	z->groups = new;
+
+	tree_add_group(z->top_level, new);
+
+	return new;
 }
 
 
 /*
     IS A LETTER IN A GROUP?
-
-    This routine checks whether the letter c is in the list p.
 */
 
 int
-in_group(char_group *grp, letter c)
+in_group(char_group *g, char c)
 {
-    letter a;
-    letter_translation* atrans;
-    letter* p= grp->defn;
-    letter_translation* ctrans;
-	ctrans=tree_get_translationl(grp->z->top_level, c);
-    if (p == NULL) return 0;
-    while (a = *(p++), a != tree_get_lastlettercode(grp->z->top_level)) {
-		atrans=tree_get_translationl(grp->z->top_level, a);
-	if (atrans->type==char_letter && atrans->u.ch == ctrans->u.ch) {
-	    return 1;
-	} else if (atrans->type==group_letter) {
-	    if (in_group(atrans->u.grp, c)) return 1;
-	} else if (atrans->type==notin_group_letter) {
-	    if (!in_group(atrans->u.grp, c)) return 1;
-	}
-    }
-    return 0;
+	assert(g != NULL);
+
+	return g->defn[(unsigned char) c];
 }
 
 
@@ -177,12 +211,67 @@ in_group(char_group *grp, letter c)
 	IS A GROUP EMPTY?
 */
 
-int is_group_empty(char_group *grp)
+int
+is_group_empty(char_group *g)
 {
-    letter *p = grp->defn;
-    if (p == NULL) return 1;
+	unsigned int i;
 
-    return *p == tree_get_lastlettercode(grp->z->top_level);
+	assert(g != NULL);
+
+	for (i = 0; i <= 255; i++) {
+		if (g->defn[i]) {
+			return 0;
+		}
+	}
+
+	return 1;
 }
 
+
+/*
+	ARE TWO GROUPS EQUIVALENT?
+*/
+
+int
+is_group_equal(char_group *a, char_group *b)
+{
+	unsigned int i;
+
+	assert(a != NULL);
+	assert(b != NULL);
+
+	for (i = 0; i <= 255; i++) {
+		if (!!a->defn[i] != !!b->defn[i]) {
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+
+/*
+	FIND A GROUP BY NAME
+
+	This searches within the list of groups specific to a zone and its parent
+	zones, rather than in all groups globally.
+*/
+
+char_group *
+find_group(const zone *z, const char *name)
+{
+	char_group *p;
+
+	for (p = z->groups; p != NULL; p = p->next) {
+		if (0 == strcmp(name, p->name)) {
+			return p;
+		}
+	}
+
+	if (z->up == NULL) {
+		return NULL;
+	}
+
+	return find_group(z->up, name);
+}
 

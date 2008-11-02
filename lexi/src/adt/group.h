@@ -61,16 +61,7 @@
 #ifndef GROUP_INCLUDED
 #define GROUP_INCLUDED
 
-#include "letter.h"
-
 struct zone_tag;
-
-
-/*
-    PARAMETERS
-*/
-
-#define MAX_GROUPS      32
 
 
 /*
@@ -81,12 +72,19 @@ struct zone_tag;
 
 typedef struct char_group_tag char_group;
 struct char_group_tag {
-    char *name;
-    letter *defn;
-    letter letter_code;
-    letter notin_letter_code;
-    unsigned int group_code; /* for outputting the bitfield */
-    struct zone_tag *z; /* Points back to the zone we are in */
+	char *name;
+
+	/*
+	 * The set of characters present in a group, expressed as a bitmap. Each
+	 * element is true if the index is a character in the group, and false
+	 * otherwise. Since EOF is not a character, it may not be present in groups.
+	 */
+	int defn[256];
+
+	/*
+	 * The zone within which this group is defined.
+	 */
+	struct zone_tag *z;
 
 	/*
 	 * char_group elements appear in two superimposed lists; .next is a list of
@@ -94,13 +92,15 @@ struct char_group_tag {
 	 * global list of all groups is maintained by .next_in_groups_list; this is
 	 * used for numbering all groups uniquely.
 	 */
-    char_group *next;
-    char_group *next_in_groups_list;
+	char_group *next;
+	char_group *next_in_groups_list;
 };
 
 
-extern char_group* make_group(struct zone_tag *, char *, letter *);
-extern int in_group(char_group *, letter);
+extern char_group *make_group(struct zone_tag *, char *, char *);
+extern int in_group(char_group *, char);
 extern int is_group_empty(char_group *);
+extern int is_group_equal(char_group *a, char_group *b);
+extern char_group *find_group(const struct zone_tag *z, const char *name);
 
 #endif

@@ -57,34 +57,27 @@
  * XXX centralise this?
  */
 static char *
-quote_char(letter_translation* ctrans)
+quote_char(int c)
 {
 	static char buff[5];
 
-	assert(ctrans->type != last_letter);
-
-	if(ctrans->type == eof_letter) {
-		return "\\\\e";
-	}
-
-	assert(ctrans->type == char_letter);
-
-	if(ctrans->u.ch > 127) {
+	if (c > 127) {
 		return "?";
 	}
 
-	switch (ctrans->u.ch) {
-		case '\n': return "\\n";
-		case '\r': return "\\r";
-		case '\t': return "\\t";
-		case '\v': return "\\v";
-		case '\f': return "\\f";
-		case '\\': return "\\\"";
-		case '\'': return "\\'";
-		case '\"': return "\\\"";
+	switch (c) {
+	case EOF:  return "\\\\e";
+	case '\n': return "\\n";
+	case '\r': return "\\r";
+	case '\t': return "\\t";
+	case '\v': return "\\v";
+	case '\f': return "\\f";
+	case '\\': return "\\\"";
+	case '\'': return "\\'";
+	case '\"': return "\\\"";
 	}
 
-	sprintf(buff, "%c", (char)ctrans->u.ch);
+	sprintf(buff, "%c", c);
 	return buff;
 }
 
@@ -94,74 +87,63 @@ quote_char(letter_translation* ctrans)
  */
 static void
 output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
-	letter_translation *ctrans;
+	/* node value */
+	{
+		fprintf(dotout, "\t\tc%p [ ", (void *) p);
 
-	ctrans = tree_get_translation(top_level, p);
-	fprintf(dotout, "\tc%p [ ", (void *) p);
+		switch (p->type) {
+		case char_letter:
+			fprintf(dotout, "label=\"%s\"", quote_char(p->v.c));
+			break;
 
-	switch(ctrans->type) {
-	case last_letter: {
-		instruction* instr;
-
-		fprintf(dotout, "shape=plaintext, label=\"");
-
-		if(p->u.definition) {
-			for(instr = p->u.definition->head; instr; instr = instr->next) {
-				switch(instr->type) {
-				case return_terminal:
-					/* TODO rename to just prefix */
-					/* TODO map back _H */
-					fprintf(dotout, "$%s",
-						instr->u.name + strlen(opt->lexi_prefix) - 1);
-					break;
-
-				case pop_zone:
-					fprintf(dotout, "<pop> %s",
-						instr->u.s.z->zone_name);
-					break;
-
-				case push_zone:
-					fprintf(dotout, "<push> %s",
-						instr->u.s.z->zone_name);
-					break;
-
-				case do_nothing:
-					fprintf(dotout, "$$");
-					break;
-
-				default:
-					fprintf(dotout, "TODO");	/* TODO unimplemented */
-					break;
-				}
-			}
-		} else {
-			/* Must be the root node, which, confusingly, is of type last_letter */
-			fprintf(dotout, "/");
+		case group_letter:
+			fprintf(dotout, "shape=box, label=\"[%s%s]\"", p->v.g.not ? "^" : "",
+				p->v.g.grp->name);
+			break;
 		}
 
-		fprintf(dotout, "\"");
-		break;
+		fprintf(dotout, " ];\n");
 	}
 
-	case eof_letter:
-	case char_letter:
-		fprintf(dotout, "label=\"%s\"",
-			quote_char(ctrans));
-		break;
+	/* actions */
+	if (p->u.definition != NULL) {
+		instruction* instr;
 
-	case group_letter:
-	case notin_group_letter:
-		/* TODO handle inverted groups */
-		fprintf(dotout, "shape=box, label=\"[%s]\"",
-			ctrans->u.grp->name);
-		break;
+		fprintf(dotout, "\t\tc%p -> i%p;\n", (void *) p, (void *) p);
+		fprintf(dotout, "\t\ti%p [ ", (void *) p);
+		fprintf(dotout, "shape=plaintext, label=\"");
 
-	default:
-		fprintf(dotout, "shape=plaintext, label=\"TODO\"");
-		break;
+		for (instr = p->u.definition->head; instr != NULL; instr = instr->next) {
+			switch (instr->type) {
+			case return_terminal:
+				/* TODO rename to just prefix */
+				/* TODO map back _H */
+				fprintf(dotout, "$%s",
+					instr->u.name + strlen(opt->lexi_prefix) - 1);
+				break;
+
+			case pop_zone:
+				fprintf(dotout, "<pop> %s",
+					instr->u.s.z->zone_name);
+				break;
+
+			case push_zone:
+				fprintf(dotout, "<push> %s",
+					instr->u.s.z->zone_name);
+				break;
+
+			case do_nothing:
+				fprintf(dotout, "$$");
+				break;
+
+			default:
+				fprintf(dotout, "TODO");	/* TODO unimplemented */
+				break;
+			}
+		}
+
+		fprintf(dotout, "\" ];\n");
 	}
-
-	fprintf(dotout, " ];\n");
 }
 
 /*
@@ -169,30 +151,58 @@ output_node(lexer_parse_tree *top_level, character *p, cmd_line_options *opt) {
  * adjacent nodes.
  */
 static void
-pass(character *p, lexer_parse_tree *top_level, cmd_line_options *opt) {
+pass(void *prev, character *p, lexer_parse_tree *top_level, cmd_line_options *opt) {
 	character *q;
 
-	if(!p) {
-		return;
-	}
+	for (q = p; q != NULL; q = q->opt) {
+		output_node(top_level, q, opt);
 
-	output_node(top_level, p, opt);
+		fprintf(dotout, "\t\tc%p -> c%p [ dir=none ];\n", prev, (void *) q);
 
-	for(q = p->next; q; q = q->opt) {
-		letter_translation* ctrans;
+		if (q->next == NULL) {
+			continue;
+		}
 
-		ctrans = tree_get_translation(top_level, q);
-
-		fprintf(dotout, "\tc%p -> c%p [ dir=%s ];\n",
-			(void *) p, (void *) q, ctrans->type == last_letter ? "forward" : "none");
-
-		pass(q, top_level, opt);
+		pass(q, q->next, top_level, opt);
 	}
 
 }
 
+static void
+output_zone(cmd_line_options *opt, lexer_parse_tree *top_level,  zone *z)
+{
+	zone *p;
+
+	assert(opt != NULL);
+	assert(top_level != NULL);
+	assert(z != NULL);
+
+	fprintf(dotout, "\t{\n");
+
+	for (p = z; p != NULL; p = p->opt) {
+		/* TODO output pre-pass mappings (render as -> "xyz") */
+		/* TODO keywords, pending #250 */
+		/* TODO DEFAULT */
+		/* TODO enter/leaving instructions */
+
+		fprintf(dotout, "\t\tc%p [ shape=plaintext, label=\"%s\" ];\n",
+			(void *) p, p->zone_name == NULL ? "(global)" : p->zone_name);
+
+		pass(p, p->zone_main_pass, top_level, opt);
+
+		if (p->next != NULL) {
+			output_zone(opt, top_level, p->next);
+		}
+	}
+
+	fprintf(dotout, "\t}\n");
+}
+
 void dot_output_all(cmd_line_options *opt, lexer_parse_tree *top_level) {
-	if(opt->copyright_file) {
+	assert(opt != NULL);
+	assert(top_level != NULL);
+
+	if (opt->copyright_file) {
 		output_comment_file(OUTPUT_COMMENT_C90, dotout, opt->copyright_file);
 	}
 
@@ -202,11 +212,8 @@ void dot_output_all(cmd_line_options *opt, lexer_parse_tree *top_level) {
 	fprintf(dotout, "\tnode [ shape=circle, fontname=verdana ];\n");
 	fprintf(dotout, "\trankdir = LR;\n");
 
-	/* TODO output each zone */
-	/* TODO output pre-pass mappings (render as -> "xyz") */
-	/* TODO keywords, pending #250 */
-
-	pass(tree_get_globalzone(top_level)->zone_main_pass, top_level, opt);
+	/* TODO output each child zone, not just siblings (nest as subgraphs) */
+	output_zone(opt, top_level, tree_get_globalzone(top_level));
 
 	fprintf(dotout, "};\n");
 

@@ -38,7 +38,6 @@
 */
 
 BOOL ;
-CHARACTERS ;
 IDENTIFIER ;
 ZONE;
 STRING ;
@@ -122,14 +121,13 @@ type-kw ;
 */
 
 <string-concat> : ( :STRING, :STRING ) -> ( :STRING ) ;
-<make-chars> : ( :ZONE, :STRING ) -> ( :CHARACTERS ) ;
-<make-white> : ( :ZONE, :CHARACTERS ) -> () ;
-<make-group> : ( :ZONE, :IDENTIFIER, :CHARACTERS ) -> () ;
-<make-trigraph> : ( :ZONE, :CHARACTERS, :STRING ) -> () ;
+<make-white> : ( :ZONE, :STRING ) -> () ;
+<make-group> : ( :ZONE, :IDENTIFIER, :STRING ) -> () ;
+<make-trigraph> : ( :ZONE, :STRING, :STRING ) -> () ;
 <make-terminal-inst>  :  ( :IDENTIFIER) -> (:INSTRUCTION) ;
 <make-action-inst> : (:ZONE, :IDENTIFIER, :ARGS_LIST, :ARGS_LIST) -> (:INSTRUCTION) ;
 <make-donothing-inst> : () -> (:INSTRUCTION) ;
-<make-token> : ( :ZONE, :CHARACTERS, :INSTRUCTIONS_LIST ) -> () ;
+<make-token> : ( :ZONE, :STRING, :INSTRUCTIONS_LIST ) -> () ;
 <make-default> : ( :ZONE, :INSTRUCTIONS_LIST ) -> () ;
 <make-keyword> : ( :ZONE, :STRING, :INSTRUCTION ) -> () ;
 <true> : () -> ( :BOOL ) ;
@@ -160,7 +158,7 @@ type-kw ;
 <E_expected_range> : () -> ();
 <E_expected_open> : () -> ();
 <E_expected_close> : () -> ();
-<E_expected_chars> : () -> (:CHARACTERS);
+<E_expected_chars> : () -> (:STRING);
 
 <E_nonglobalzonekeyword> : () -> ();
 <E_nonglobalzonetype>    : (:IDENTIFIER) -> ();
@@ -177,15 +175,15 @@ type-kw ;
 <E_return_terminal_in_rhs> : () -> ();
 <E_string_in_action_rhs> : () -> ();
 
-<is-non-empty> : ( : CHARACTERS , :ZONE) -> ( : BOOL );
+<is-non-empty> : ( : STRING ) -> ( : BOOL );
 <E_empty_character_string> : () -> ();
 <E_ignore_in_rhs> : () -> ();
 <E_sharp_list_in_action_rhs> : () -> ();
 
 <syntax-error> : () -> () ;
 
-<make-zone> : ( :ZONE, :IDENTIFIER, :CHARACTERS, :INSTRUCTIONS_LIST, 
-	      	:CHARACTERS, :INSTRUCTIONS_LIST, : BOOL ) -> ( :ZONE );
+<make-zone> : ( :ZONE, :IDENTIFIER, :STRING, :INSTRUCTIONS_LIST, 
+	      	:STRING, :INSTRUCTIONS_LIST, : BOOL ) -> ( :ZONE );
 <update-zone-type> : (:ZONE, :ZONE) -> ();
 
 <make-copyright> : ( :STRING ) -> () ;
@@ -218,20 +216,12 @@ string-plus : () -> ( s : STRING ) = {
 
 /*
     CHARACTER STRING
-
-    This action transforms an input string into the internal representation
-    of arrays of character codes.
 */
 
-chars : (z:ZONE) -> ( c : CHARACTERS ) = {
-	s = string-plus ;
-	c = <make-chars> ( z, s ) ;
-} ;
-
-non-empty-chars : (z:ZONE) -> (c: CHARACTERS) ={
-	c=chars(z);
+non-empty-chars : () -> (s: STRING) ={
+	s = string-plus;
 	{
-		?=<is-non-empty>(c,z);
+		? = <is-non-empty>(s);
 	    ##
 		<E_empty_character_string>;
 	};
@@ -264,7 +254,7 @@ white-defn : ( z:ZONE ) -> () = {
 	    ##	
 		<E_expected_equal>;
 	};
-	s = chars(z) ; <make-white> ( z, s ) ;
+	s = string-plus ; <make-white> ( z, s ) ;
 } ;
 
 
@@ -282,7 +272,7 @@ group-defn : ( z:ZONE ) -> () = {
 	    ##
 	    	<E_expected_equal>;
 	};
-	s = chars(z) ; 
+	s = non-empty-chars ; 
 	<make-group> ( z, i, s ) ;
 } ;
 
@@ -295,7 +285,7 @@ group-defn : ( z:ZONE ) -> () = {
 */
 
 trigraph-defn : ( z:ZONE) -> () = {
-	mapping ; s = chars(z) ; 
+	mapping ; s = string-plus ; 
 	{
 		arrow ; 
 	    ##
@@ -525,7 +515,7 @@ instructions-list : (z:ZONE) -> (instl:INSTRUCTIONS_LIST) = {
 */
 
 token-defn : ( z:ZONE ) -> () = {
-	token ; s = non-empty-chars(z) ; arrow ;
+	token ; s = non-empty-chars ; arrow ;
 	inst-list=instructions-list(z);
 	<check-inst-list>(inst-list);
 	<make-token> ( z, s, inst-list) ;
@@ -585,7 +575,7 @@ zone-defn : (z:ZONE) -> ()  = {
 		<E_expected_colon>;
 	};
 	{
-		b=non-empty-chars(z); 
+		b=non-empty-chars; 
 	    ##  
 	    	b=<E_expected_chars>;
 	};
@@ -605,7 +595,7 @@ zone-defn : (z:ZONE) -> ()  = {
 		<E_expected_range>; lendclosed=<false> ;
 	};
 	{
-		e=non-empty-chars(z); 
+		e=non-empty-chars; 
 	    ##  
 	    	e=<E_expected_chars>;
 	};

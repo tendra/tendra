@@ -52,6 +52,7 @@ typedef struct cmd_line_options_tag {
 	 * The selected output language. See main.c for the various
 	 * possibilities here.
 	 */
+	/* TODO: this ought to be an enum */
 	const char *language;
 
 	/*

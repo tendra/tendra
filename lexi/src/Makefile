@@ -9,6 +9,7 @@ SID=sid
 CFLAGS+=-Ishared -I.
 LDFLAGS+=-Lshared/error -Lshared/xalloc -L. 
 LEXIFLAGS+=-lC99 -a
+SIDFLAGS+=-s no-line
 
 PREFIX?=/usr/local
 BINDIR?=${PREFIX}/bin
@@ -79,7 +80,7 @@ syntax.h: syntax.c
 
 syntax.c: syntax.sid syntax.act
 	@${REMOVE} syntax.h syntax.c
-	${SID} syntax.sid syntax.act tmp.syntax.c tmp.syntax.h \
+	${SID} ${SIDFLAGS} syntax.sid syntax.act tmp.syntax.c tmp.syntax.h \
 		|| ( ${REMOVE} tmp.syntax.{c,h} ; exit 1 )
 	${MOVE} tmp.syntax.c syntax.c
 	${MOVE} tmp.syntax.h syntax.h

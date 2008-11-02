@@ -314,8 +314,7 @@ main(int argc, char **argv)
 
 	/* Generate output */
  	if (tree_get_globalzone(top_level)->white_space == NULL)
-		tree_get_globalzone(top_level)->white_space = make_group(tree_get_globalzone(top_level), "white",
-							  make_string(" \t\n", tree_get_globalzone(top_level)));
+		tree_get_globalzone(top_level)->white_space = make_group(tree_get_globalzone(top_level), "white", " \t\n");
 
 	if(output->output_all!=NULL)
 		output->output_all(&options, top_level);

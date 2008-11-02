@@ -57,7 +57,10 @@
         it may be put.
 */
 
+#include <assert.h>
 #include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "xalloc/xalloc.h"
 #include "error/error.h"
@@ -71,27 +74,115 @@
 
 
 /*
+	FIND AN ESCAPE SEQUENCE
+
+	This routine finds the character corresponding to the escape sequence c,
+	or EOF for \e.
+*/
+
+int
+find_escape(char c)
+{
+	switch (c) {
+	case 'n':  return '\n';
+	case 't':  return '\t';
+	case 'v':  return '\v';
+	case 'f':  return '\f';
+	case 'r':  return '\r';
+	case '?':  return '?';
+	case '"':  return '"';
+	case '[':  return '[';
+	case '\\': return '\\';
+	case '\'': return '\'';
+	case 'e':  return EOF;
+
+	default:
+		error(ERROR_SERIOUS, "Unknown escape sequence, '\\%c'", c);
+		return c;
+	}
+}
+
+
+/*
+	ARE TWO VALUES EQUAL?
+*/
+
+static int
+values_equal(letter_translation_type type, const union char_value *a, const union char_value *b)
+{
+	switch (type) {
+	case group_letter:
+		return a->g.not == b->g.not && is_group_equal(a->g.grp, b->g.grp);
+
+	case char_letter:
+		return a->c == b->c;
+	}
+
+	assert(!"unreached");
+	return 0;
+}
+
+
+/*
+    ALLOCATE A NEW CHARACTER
+
+    This routine allocates a new character with value v.
+*/
+
+static character *
+new_char(letter_translation_type type, const union char_value *v)
+{
+    character *new;
+
+	assert(v != NULL);
+
+	switch (type) {
+	case group_letter:
+		assert(v->g.grp != NULL);
+		break;
+
+	case char_letter:
+		assert(v->c >= 0 || v->c == EOF);
+		break;
+	}
+
+	new = xmalloc(sizeof *new);
+    new->opt = NULL;
+    new->next = NULL;
+	new->type = type;
+	new->v = *v;
+
+	/* XXX: nonportable: u.map and u.definition may differ in representation */
+	new->u.map = NULL;
+
+    return new;
+}
+
+
+/*
 	COUNT MAXIMUM TOKEN LENGTH
 
 	Find the maximum token length within the given lexical pass.
 */
 size_t
-char_maxlength(character *c, letter lastlettercode)
+char_maxlength(character *c)
 {
 	character *p;
 	size_t maxopt;
 
+	assert(c != NULL);
+
 	maxopt = 0;
-	for(p = c->next; p; p = p->opt) {
+	for (p = c; p != NULL; p = p->opt) {
 		size_t l;
 
-		if(p->ch == lastlettercode) {
+		if (p->next == NULL) {
 			continue;
 		}
 
-		l = char_maxlength(p, lastlettercode) + 1;
+		l = char_maxlength(p->next) + 1;
 
-		if(l > maxopt) {
+		if (l > maxopt) {
 			maxopt = l;
 		}
 	}
@@ -101,66 +192,119 @@ char_maxlength(character *c, letter lastlettercode)
 
 
 /*
-    ALLOCATE A NEW CHARACTER
-
-    This routine allocates a new character with value c.
+	FIND AN EXISTING ALTERNATIVE OF THE GIVEN VALUE, OR ADD A NEW ONE
 */
 
-character *
-new_char(letter c)
+static character *
+find_or_add(character **n, letter_translation_type type, const union char_value *v)
 {
-    character *p;
-	p = xmalloc(sizeof *p);
-    p->ch = c;
-    p->opt = NULL;
-    p->next = NULL;
-    p->u.definition = NULL;
-    return p;
+	assert(n != NULL);
+
+	/* find an existing node, if present */
+	{
+		character *p;
+
+		for (p = *n; p != NULL; p = p->opt) {
+			if (p->type != type) {
+				continue;
+			}
+
+			if (values_equal(type, &p->v, v)) {
+				return p;
+			}
+		}
+	}
+
+	/* otherwise, add a new node */
+	{
+		character *new;
+
+		new = new_char(type, v);
+		new->opt = *n;
+		*n = new;
+
+		return new;
+	}
 }
 
 
 /*
-    ADD A CHARACTER
+	ADD A STRING
 
-    This routine adds the string s (defined using data) to the lexical
-    pass p.
+	This routine adds the string s to the lexical pass n. This reads a C string
+	and creates a trail of characters in the trie. *n may be NULL for an empty
+	trie.
+
+	The string given may contain escape sequences as per find_escape().
+
+	TODO: Could move parsing into the .lxi file; strings would make a nice zone.
 */
-
-void
-add_char(zone* z, character *p, letter *s, instructions_list* instlist, char* map)
+character *
+add_string(zone *z, character **n, const char *s)
 {
-    character *q;
-    letter c = *s;
-    if (p->next == NULL) {
-	q = new_char(c);
-	p->next = q;
-    } else {
-	character *r = NULL;
-	for (q = p->next; q && (q->ch < c); q = q->opt)r = q;
-	if (q && q->ch == c) {
-	    /* already exists */
-	} else {
-	    q = new_char(c);
-	    if (r == NULL) {
-		q->opt = p->next;
-		p->next = q;
-	    } else {
-		q->opt = r->opt;
-		r->opt = q;
-	    }
+	const char *p;
+	character *leaf;
+
+	assert(z != NULL);
+	assert(n != NULL);
+	assert(s != NULL);
+
+	if (strlen(s) == 0) {
+		return NULL;
 	}
-    }
-    if (c == tree_get_lastlettercode(z->top_level)) {
-        if ((instlist && q->u.definition) || (map && q->u.map))
-	    error(ERROR_SERIOUS, "TOKEN already defined");
-        if(instlist) 
-	    q->u.definition=instlist;
-        else
-	    q->u.map=map;
-    }
-    else 
-      add_char(z, q, s + 1, instlist, map);
-    
-    return;
+
+	leaf = NULL;
+	for (p = s; *p; p++) {
+		char *e;
+		union char_value v;
+
+		switch (*p) {
+		case '[':	/* group */
+			v.g.not = 0;
+
+			p++;
+			if (*p == '^') {
+				v.g.not = 1;
+				p++;
+			}
+
+			e = strchr(p, ']');
+			if (e == NULL || *p == '\0') {
+				error(ERROR_SERIOUS, "Unterminated group");
+				return NULL;
+			}
+
+			*e = '\0';
+			v.g.grp = find_group(z, p);
+			if (v.g.grp == NULL) {
+				error(ERROR_SERIOUS, "Unknown group '%s'", p);
+			}
+
+			leaf = find_or_add(n, group_letter, &v);
+			p = e;
+			break;
+
+		case '\\':	/* escaped character */
+			p++;
+			if (*p == '\0') {
+				error(ERROR_SERIOUS, "Missing escape");
+				break;
+			}
+
+			v.c = find_escape(*p);
+			leaf = find_or_add(n, char_letter, &v);
+			break;
+
+		default:	/* literal character */
+			v.c = *p;
+			leaf = find_or_add(n, char_letter, &v);
+			break;
+		}
+
+		assert(leaf != NULL);
+		n = &leaf->next;
+	}
+
+	return leaf;
 }
 

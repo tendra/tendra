@@ -66,7 +66,6 @@
 
 #include "char.h"
 #include "tree.h"
-#include "letter.h"
 #include "zone.h"
 
 
@@ -83,51 +82,19 @@ struct lexer_parse_tree_tag {
 	EntryT* lexi_string_type;  /*  for #* arguments */
 	EntryT* lexi_int_type;     /*  for #n arguments */
 	EntryT* lexi_terminal_type;     /*  for $ = returns */
-
-	letter_translation *letters;
-	letter last_letter_code;
-	letter eof_letter_code;
-	letter next_generated_key;
 };
 
 
-/*
-Initialize the main parse tree
-*/
 lexer_parse_tree*
 init_lexer_parse_tree(void) {
-  lexer_parse_tree *t;
+	lexer_parse_tree *new;
 
-  t = xmalloc(sizeof *t);
+	new = xmalloc(sizeof *new);
+	new->table = NULL;
+	new->global_zone = new_zone(new);
+	new->groups_list = NULL;
 
-  int i = 0;
-  letter_translation* trans;
-  t->letters = NULL;
-  t->table = NULL;
-  
-  /* This might change once we add support for other charsets */
-  for(i=0; i<256; i++) {
-    trans=new_letter_translation(char_letter);
-    trans->letter_code=i;
-    trans->u.ch=i;
-    tree_add_translation(t, trans);
-  }
-  trans=new_letter_translation(eof_letter);
-  t->eof_letter_code=i;
-  trans->letter_code=i++;
-  tree_add_translation(t, trans);
-
-  trans=new_letter_translation(last_letter);
-  t->last_letter_code=i;
-  trans->letter_code=i++;
-  tree_add_translation(t, trans);
-
-  t->next_generated_key=i;
-
-  t->global_zone=new_zone("global",t);
-  t->groups_list=NULL;
-
-  return t;
+	return new;
 }
 
 int
@@ -155,44 +122,12 @@ tree_get_table(lexer_parse_tree *t)
 	return &t->table;
 }
 
-letter
-tree_get_lastlettercode(lexer_parse_tree *t)
-{
-	assert(t != NULL);
-
-	return t->last_letter_code;
-}
-
-letter
-tree_get_eoflettercode(lexer_parse_tree *t)
-{
-	assert(t != NULL);
-
-	return t->eof_letter_code;
-}
-
 char_group *
 tree_get_grouplist(lexer_parse_tree *t)
 {
 	assert(t != NULL);
 
 	return t->groups_list;
-}
-
-unsigned int
-tree_get_totalnogroups(lexer_parse_tree *t)
-{
-	char_group *g;
-	unsigned int i;
-
-	assert(t != NULL);
-
-	i = 0;
-	for (g = t->groups_list; g != NULL; g = g->next_in_groups_list) {
-		i++;
-	}
-
-	return i;
 }
 
 int
@@ -211,56 +146,9 @@ all_groups_empty(lexer_parse_tree *t)
 	return 1;
 }
 
-letter_translation *
-tree_get_translation(lexer_parse_tree *t, character *c)
-{
-	assert(t != NULL);
-	assert(c != NULL);
-
-	return tree_get_translationl(t, c->ch);
-}
-
-/* TODO: this is only used in a couple of places, which ought to be rewritten */
-letter_translation *
-tree_get_translationl(lexer_parse_tree *t, letter l)
-{
-	letter_translation *p;
-
-	assert(t != NULL);
-
-	for (p = t->letters; p != NULL; p = p->next) {
-		if (p->letter_code == l) {
-			return p;
-		}
-	}
-
-	return NULL;
-}
-
-void
-tree_add_translation(lexer_parse_tree *t, letter_translation *trans)
-{
-	assert(t != NULL);
-	assert(trans != NULL);
-
-	trans->next = t->letters;
-	t->letters = trans;
-}
-
-/* TODO: I am dubious about requiring .next_generated_key */
-letter
-tree_add_generated_key(lexer_parse_tree *t)
-{
-	assert(t != NULL);
-
-	return t->next_generated_key++;
-}
-
 void
 tree_add_group(lexer_parse_tree *t, char_group *g)
 {
-	char_group **p;
-
 	assert(t != NULL);
 	assert(g->next_in_groups_list == NULL);
 
