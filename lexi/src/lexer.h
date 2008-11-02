@@ -94,7 +94,7 @@ extern FILE *lex_input;
  * private, but present here for ease of allocation.
  */
 struct lexi_state {
-	int (*zone_function)(struct lexi_state *);
+	int (*zone)(struct lexi_state *);
 
 	/*
 	 * Lexi's buffer is a simple stack.
@@ -116,15 +116,20 @@ int lexi_pop(struct lexi_state *state);
 void lexi_flush(struct lexi_state *state);
 
 #ifndef LEXI_EOF
-#define LEXI_EOF 256
+#define LEXI_EOF -1
 #endif
 
 enum lexi_groups {
-	lexi_group_alphanumhyphen = 0x10,
-	lexi_group_alphanum = 0x8,
+	lexi_sididentifierzone_white = 0,
+	lexi_identifierzone_white = 0,
+	lexi_stringzone_white = 0,
+	lexi_line_comment_white = 0,
+	lexi_comment_white = 0,
+	lexi_group_alphanumhyphen = 0x1,
+	lexi_group_alphanum = 0x2,
 	lexi_group_digit = 0x4,
-	lexi_group_alpha = 0x2,
-	lexi_group_white = 0x1
+	lexi_group_alpha = 0x8,
+	lexi_group_white = 0x10
 };
 
 /* true if the given character is present in the given group */

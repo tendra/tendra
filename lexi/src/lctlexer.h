@@ -68,7 +68,7 @@ extern NStringT lct_token_nstring;
  * private, but present here for ease of allocation.
  */
 struct lexi_lct_state {
-	int (*zone_function)(struct lexi_lct_state *);
+	int (*zone)(struct lexi_lct_state *);
 
 	/*
 	 * Lexi's buffer is a simple stack.
@@ -90,13 +90,17 @@ int lexi_lct_pop(struct lexi_lct_state *state);
 void lexi_lct_flush(struct lexi_lct_state *state);
 
 #ifndef LEXI_EOF
-#define LEXI_EOF 256
+#define LEXI_EOF -1
 #endif
 
 enum lexi_lct_groups {
-	lexi_lct_group_white = 0x40,
+	lexi_lct_group_white = 0x1,
+	lexi_lct_code_area_white = 0,
+	lexi_lct_LineComment_white = 0,
+	lexi_lct_Comment_white = 0,
+	lexi_lct_identifierzone_white = 0,
 	lexi_lct_group_alphanum = 0x2,
-	lexi_lct_group_alpha = 0x1
+	lexi_lct_group_alpha = 0x4
 };
 
 /* true if the given character is present in the given group */
