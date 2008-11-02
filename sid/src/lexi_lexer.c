@@ -11,45 +11,13 @@
 	#include "shared/error/error.h"
 
 #include <assert.h>
-/* LOOKUP TABLE */
+int lexi_readchar(struct lexi_state *state) {
+	if (state->buffer_index) {
+		return lexi_pop(state);
+	}
 
-typedef unsigned char lookup_type;
-static lookup_type lookup_tab[257] = {
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x20, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00,
-	0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-	0x02, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
-	0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
-	0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
-	0x13, 0x13, 0x13, 0x00, 0x00, 0x00, 0x00, 0x03,
-	0x00, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
-	0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
-	0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
-	0x13, 0x13, 0x13, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00
-};
-
+	return lexi_getchar();
+}
 void lexi_push(struct lexi_state *state, const int c) {
 	assert(state);
 	assert(state->buffer_index < sizeof state->buffer / sizeof *state->buffer);
@@ -66,155 +34,256 @@ void lexi_flush(struct lexi_state *state) {
 	state->buffer_index = 0;
 }
 
-int lexi_readchar(struct lexi_state *state) {
-	if(state->buffer_index) {
-		return lexi_pop(state);
-	}
 
-	return lexi_getchar();
-}
+/* LOOKUP TABLE */
+
+typedef unsigned char lookup_type;
+static lookup_type lookup_tab[] = {
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,  0x1,  0x1,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,  0x1,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,  0x4,    0,    0, 
+	 0x4,  0x4,  0x4,  0x4,  0x4,  0x4,  0x4,  0x4,  0x4,  0x4,    0,    0, 
+	   0,    0,    0,    0,    0,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe, 
+	 0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe, 
+	 0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,    0,    0,    0,    0,  0xc, 
+	   0,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe, 
+	 0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe,  0xe, 
+	 0xe,  0xe,  0xe,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 
+	   0,    0,    0,    0
+};
 
 int lexi_group(enum lexi_groups group, int c) {
 	return lookup_tab[c] & group;
 }
 
 
-#include <string.h>
-int lexi_keyword(const char *identifier, int notfound) {
-	return notfound;
-}
 /* PRE-PASS ANALYSERS */
 
 void lexi_init(struct lexi_state *state) {
-	state->zone_function = lexi_read_token;
+	state->zone = lexi_read_token;
 	state->buffer_index = 0;
 }
 /* ZONES PASS ANALYSER PROTOTYPES*/
 
-static int lexi_read_token_bracketed_comment(struct lexi_state *state);
-static int lexi_read_token_singleline_comment(struct lexi_state *state);
+static void lexi_read_token_bracketed_comment(struct lexi_state *state);
+static void lexi_read_token_singleline_comment(struct lexi_state *state);
 /* MAIN PASS ANALYSERS */
 
-/* MAIN PASS ANALYSER for zone bracketed_comment*/
 
-static int
+/* MAIN PASS ANALYSER for bracketed_comment */
+static void
 lexi_read_token_bracketed_comment(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
-		if (lexi_group(lexi_group_bracketed_comment_white, c0)) goto start;
-		if (c0 == '*') {
-			int c1 = lexi_readchar(state);
-			if (c1 == '/') {
-				return;
-			}
-			lexi_push(state, c1);
-		} else if (c0 == LEXI_EOF) {
-			{
+		switch (c0) {
+		case LEXI_EOF: {
+				/* ACTION <eof_in_comment> */
+				{
 
 	error_posn(ERROR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
 		"end of file in comment");
+				}
+				/* END ACTION <eof_in_comment> */
+				goto start;	/* leaf */
 			}
-			goto start;
+
+		case '*': {
+				int c1 = lexi_readchar(state);
+				if (c1 == '/') {
+					return;
+				}
+				lexi_push(state, c1);
+			}
+			break;
+
 		}
-		goto start;
+
+		/* DEFAULT */
+		goto start; /* DEFAULT */
 	}
 }
-/* MAIN PASS ANALYSER for zone singleline_comment*/
 
-static int
+/* MAIN PASS ANALYSER for singleline_comment */
+static void
 lexi_read_token_singleline_comment(struct lexi_state *state)
 {
 	start: {
 		int c0 = lexi_readchar(state);
-		if (lexi_group(lexi_group_singleline_comment_white, c0)) goto start;
-		if (c0 == '\n') {
-			return;
-		} else if (c0 == LEXI_EOF) {
-			{
+		switch (c0) {
+		case LEXI_EOF: {
+				/* ACTION <eof_in_comment> */
+				{
 
 	error_posn(ERROR_FATAL, istream_name(&lexer_stream->istream), (int) istream_line(&lexer_stream->istream),
 		"end of file in comment");
+				}
+				/* END ACTION <eof_in_comment> */
+				goto start;	/* leaf */
 			}
-			goto start;
+
+		case '\n': {
+				return;
+			}
+
 		}
-		goto start;
+
+		/* DEFAULT */
+		goto start; /* DEFAULT */
 	}
 }
-/* MAIN PASS ANALYSER for zone global*/
 
+/* MAIN PASS ANALYSER for the global zone */
 int
 lexi_read_token(struct lexi_state *state)
 {
-	if(state->zone_function != lexi_read_token)
-		return (*state->zone_function)(state);
+	if (state->zone != lexi_read_token)
+		return state->zone(state);
 	start: {
 		int c0 = lexi_readchar(state);
 		if (lexi_group(lexi_group_white, c0)) goto start;
 		switch (c0) {
-			case '!': {
-				return LEXER_TOK_IGNORE;
-			}
-			case '"': {
+		case '"': {
+				/* ACTION <read_basic> */
 				{
 					int ZT1;
 
        ZT1=read_basic();
 					return ZT1;
 				}
+				/* END ACTION <read_basic> */
+				goto start;	/* leaf */
 			}
-			case '#': {
-				int c1 = lexi_readchar(state);
-				if (c1 == '#') {
-					return LEXER_TOK_HANDLER_HSEP;
-				}
-				lexi_push(state, c1);
-				break;
-			}
-			case '$': {
-				return LEXER_TOK_EMPTY;
-			}
-			case '%': {
+
+		case '%': {
+				/* ACTION <read_builtin> */
 				{
 					int ZT1;
 
        ZT1=read_builtin();
 					return ZT1;
 				}
+				/* END ACTION <read_builtin> */
+				goto start;	/* leaf */
 			}
-			case '&': {
-				return LEXER_TOK_REFERENCE;
+
+		case '/': {
+				int c1 = lexi_readchar(state);
+				switch (c1) {
+				case '*': {
+						lexi_read_token_bracketed_comment(state);
+						goto start;	/* pure function */
+					}
+
+				case '/': {
+						lexi_read_token_singleline_comment(state);
+						goto start;	/* pure function */
+					}
+
+				}
+				lexi_push(state, c1);
 			}
-			case '(': {
-				return LEXER_TOK_OPEN_HTUPLE;
-			}
-			case ')': {
-				return LEXER_TOK_CLOSE_HTUPLE;
-			}
-			case ',': {
-				return LEXER_TOK_SEPARATOR;
-			}
-			case '-': {
+			break;
+
+		case '-': {
 				int c1 = lexi_readchar(state);
 				if (c1 == '>') {
 					return LEXER_TOK_ARROW;
 				}
 				lexi_push(state, c1);
-				break;
 			}
-			case '/': {
+			break;
+
+		case ')': {
+				return LEXER_TOK_CLOSE_HTUPLE;
+			}
+
+		case '(': {
+				return LEXER_TOK_OPEN_HTUPLE;
+			}
+
+		case ']': {
+				return LEXER_TOK_END_HSCOPE;
+			}
+
+		case '[': {
+				return LEXER_TOK_BEGIN_HSCOPE;
+			}
+
+		case '}': {
+				return LEXER_TOK_END_HRULE;
+			}
+
+		case '{': {
+				return LEXER_TOK_BEGIN_HRULE;
+			}
+
+		case '>': {
+				return LEXER_TOK_END_HACTION;
+			}
+
+		case '<': {
+				return LEXER_TOK_BEGIN_HACTION;
+			}
+
+		case ';': {
+				return LEXER_TOK_TERMINATOR;
+			}
+
+		case '&': {
+				return LEXER_TOK_REFERENCE;
+			}
+
+		case '!': {
+				return LEXER_TOK_IGNORE;
+			}
+
+		case '?': {
+				return LEXER_TOK_PRED_HRESULT;
+			}
+
+		case '=': {
+				return LEXER_TOK_DEFINE;
+			}
+
+		case ',': {
+				return LEXER_TOK_SEPARATOR;
+			}
+
+		case '$': {
+				return LEXER_TOK_EMPTY;
+			}
+
+		case '#': {
 				int c1 = lexi_readchar(state);
-				if (c1 == '*') {
-					lexi_read_token_bracketed_comment(state);
-					goto start;
-				} else if (c1 == '/') {
-					lexi_read_token_singleline_comment(state);
-					goto start;
+				if (c1 == '#') {
+					return LEXER_TOK_HANDLER_HSEP;
 				}
 				lexi_push(state, c1);
-				break;
 			}
-			case ':': {
+			break;
+
+		case '|': {
+				int c1 = lexi_readchar(state);
+				if (c1 == '|') {
+					return LEXER_TOK_ALT_HSEP;
+				}
+				lexi_push(state, c1);
+			}
+			break;
+
+		case ':': {
 				int c1 = lexi_readchar(state);
 				if (c1 == ':') {
 					return LEXER_TOK_SCOPEMARK;
@@ -222,56 +291,30 @@ lexi_read_token(struct lexi_state *state)
 				lexi_push(state, c1);
 				return LEXER_TOK_TYPEMARK;
 			}
-			case ';': {
-				return LEXER_TOK_TERMINATOR;
-			}
-			case '<': {
-				return LEXER_TOK_BEGIN_HACTION;
-			}
-			case '=': {
-				return LEXER_TOK_DEFINE;
-			}
-			case '>': {
-				return LEXER_TOK_END_HACTION;
-			}
-			case '?': {
-				return LEXER_TOK_PRED_HRESULT;
-			}
-			case '[': {
-				return LEXER_TOK_BEGIN_HSCOPE;
-			}
-			case ']': {
-				return LEXER_TOK_END_HSCOPE;
-			}
-			case '{': {
-				return LEXER_TOK_BEGIN_HRULE;
-			}
-			case '|': {
-				int c1 = lexi_readchar(state);
-				if (c1 == '|') {
-					return LEXER_TOK_ALT_HSEP;
-				}
-				lexi_push(state, c1);
-				break;
-			}
-			case '}': {
-				return LEXER_TOK_END_HRULE;
-			}
+
 		}
 		if (lexi_group(lexi_group_identstart, c0)) {
+			/* ACTION <read_identifier> */
 			{
 				int ZT1;
 
 	ZT1=read_identifier(c0);
 				return ZT1;
 			}
+			/* END ACTION <read_identifier> */
+			goto start;	/* leaf */
 		}
+
+		/* DEFAULT */
+		/* ACTION <lexi_unknown_token> */
 		{
 			int ZT1;
 
 	ZT1= lexi_unknown_token(c0);
 			return ZT1;
 		}
+		/* END ACTION <lexi_unknown_token> */
+		goto start; /* DEFAULT */
 	}
 }
 

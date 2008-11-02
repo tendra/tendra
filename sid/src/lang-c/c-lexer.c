@@ -248,14 +248,12 @@ c_lexi_getchar(void)
 }
 
 int
-c_lexer_read_builtin(int c0, int c1)
+c_lexer_read_builtin(int c1)
 {
 	IStreamT *istream;
 	DStringT dstring;
 	char *cstring;
 	int c;
-
-	UNUSED(c0);
 
 	istream = &c_lexer_stream->istream;
 

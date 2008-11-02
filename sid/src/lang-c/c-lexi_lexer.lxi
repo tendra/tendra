@@ -5,6 +5,11 @@
 
 ACTION <eof_in_comment>;
 
+ACTION <read_builtin> : (:CHARACTER) -> (:TERMINAL);
+ACTION <support_read_id_global> : (:CHARACTER, :TERMINAL) -> (:TERMINAL);
+ACTION <support_read_id_act> : (:CHARACTER, :TERMINAL) -> (:TERMINAL);
+ACTION <act_read_string> : (:CHARACTER) -> (:TERMINAL);
+ACTION <unknown_token> : (:CHARACTER) -> (:TERMINAL);
 
 TOKEN "\e" -> $EOF;
 
@@ -25,7 +30,7 @@ TOKEN "->" -> $ARROW;
 /* XXX I think '-' can be in identstart, too */
 GROUP identstart = {a-z} + {A-Z} + "_";
 GROUP identbody = "[identstart]" + {0-9} + "-";
-TOKEN "[identstart]" -> $ = c_lexer_read_identifier();
+TOKEN "[identstart]" -> $ = <support_read_id_global>(#0, $C-IDENTIFIER);
 
 ZONE bracketed_comment: "/*" ... "*/" {
 	GROUP white = "";
@@ -48,7 +53,7 @@ ZONE singleline_comment: "//" ... "\n" {
 GROUP builtinstart = {a-z};
 GROUP builtinbody = "[builtinstart]-";
 GROUP builtindlmt = "%";
-TOKEN "[builtindlmt][builtinstart]" -> $ = c_lexer_read_builtin();
+TOKEN "[builtindlmt][builtinstart]" -> $ = <read_builtin>(#1);
 
 
 /* TODO split at_* functions into separate file */
@@ -60,7 +65,7 @@ ZONE act:	"@{" -> $ACT-CODESTART	/* XXX to remove when merged into the grammar *
 	...		"@}" -> $ACT-CODEEND {
 
 	GROUP white ="";
-	TOKEN DEFAULT -> $ = c_lexer_act_read_string();
+	TOKEN DEFAULT -> $ = <act_read_string>(#0);
 	TOKEN "\e" -> $ACT-EOF;	/* XXX to remove when merged into the grammar */
 
 	TOKEN "@@" -> $ACT-AT;
@@ -69,14 +74,14 @@ ZONE act:	"@{" -> $ACT-CODESTART	/* XXX to remove when merged into the grammar *
 	TOKEN "@>" -> $ACT-ADVANCE;
 
 	/* TODO these would be nicer once we have "a" * "b" */
-	TOKEN "@:[identstart]" -> $ = c_lexer_act_read_label();
-	TOKEN "@&[identstart]" -> $ = c_lexer_act_read_reference();
-	TOKEN "@=[identstart]" -> $ = c_lexer_act_read_modifiable();
-	TOKEN "@$[identstart]" -> $ = c_lexer_act_read_basic();
+	TOKEN "@:[identstart]" -> $ = <support_read_id_act>(#2,$ACT-LABEL);
+	TOKEN "@&[identstart]" -> $ = <support_read_id_act>(#2,$ACT-REFERENCE);
+	TOKEN "@=[identstart]" -> $ = <support_read_id_act>(#2,$ACT-MODIFIABLE);
+	TOKEN "@$[identstart]" -> $ = <support_read_id_global>(#2,$ACT-BASIC);
 
 	/* TODO c_lexer_read_code_id(): code identifier? */
-	TOKEN "@[identstart]" -> $ = c_lexer_act_read_identifier();
+	TOKEN "@[identstart]" -> $ = <support_read_id_act>(#1,$ACT-IDENTIFIER);
 }
 
-TOKEN DEFAULT -> $ = c_lexer_unknown_token();
+TOKEN DEFAULT -> $ = <unknown_token>(#0);
 
