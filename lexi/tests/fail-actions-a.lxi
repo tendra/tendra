@@ -1,0 +1,3 @@
+TYPE atype;
+TYPE anothertype;
+ACTION <action> : (:atype) -> (:notatype);
