@@ -1,5 +1,3 @@
-with Ada.Unchecked_Conversion;
-
 package body Gela.Hash.CRC.b32 is
 
    Keys : constant array (CRC32 range 0 .. 255) of CRC32 :=
@@ -47,12 +45,12 @@ package body Gela.Hash.CRC.b32 is
       1423857449, 601450431,  3009837614, 3294710456, 1567103746, 711928724,
       3020668471, 3272380065, 1510334235, 755167117);
 
-   type Byte_Array is
-     array (Natural range <>) of Interfaces.Unsigned_8;
+   subtype Byte is CRC32 range 0 .. 255;
 
-   procedure Update
+   procedure Update_Hash
      (This  : in out Hasher;
-      Value : in     Byte_Array);
+      Value : in     Byte);
+   pragma Inline (Update_Hash);
 
    ------------
    -- Update --
@@ -60,15 +58,17 @@ package body Gela.Hash.CRC.b32 is
 
    procedure Update
      (This  : in out Hasher;
-      Value : in     String)
-   is
-      subtype C_Array is
-        Byte_Array (1 .. Value'Size / Interfaces.Unsigned_8'Size);
-
-      function To_Array is
-        new Ada.Unchecked_Conversion (String, C_Array);
+      Value : in     String) is
    begin
-      Update (This, To_Array (Value));
+      This.Length := This.Length + Value'Length;
+
+      if This.Length > Maximum_Length then
+         raise Maximum_Length_Error;
+      end if;
+
+      for J in Value'Range loop
+         Update_Hash (This, Character'Pos (Value (J)));
+      end loop;
    end Update;
 
    -----------------
@@ -77,15 +77,18 @@ package body Gela.Hash.CRC.b32 is
 
    procedure Wide_Update
      (This  : in out Hasher;
-      Value : in     Wide_String)
-   is
-      subtype C_Array is
-        Byte_Array (1 .. Value'Size / Interfaces.Unsigned_8'Size);
-
-      function To_Array is
-        new Ada.Unchecked_Conversion (Wide_String, C_Array);
+      Value : in     Wide_String) is
    begin
-      Update (This, To_Array (Value));
+      This.Length := This.Length + 2 * Value'Length;
+
+      if This.Length > Maximum_Length then
+         raise Maximum_Length_Error;
+      end if;
+
+      for J in Value'Range loop
+         Update_Hash (This, Wide_Character'Pos (Value (J)) and 16#FF#);
+         Update_Hash (This, Shift_Right (Wide_Character'Pos (Value (J)), 8));
+      end loop;
    end Wide_Update;
 
    ----------------------
@@ -96,13 +99,20 @@ package body Gela.Hash.CRC.b32 is
      (This  : in out Hasher;
       Value : in     Wide_Wide_String)
    is
-      subtype C_Array is
-        Byte_Array (1 .. Value'Size / Interfaces.Unsigned_8'Size);
-
-      function To_Array is
-        new Ada.Unchecked_Conversion (Wide_Wide_String, C_Array);
+      subtype W is Wide_Wide_Character;
    begin
-      Update (This, To_Array (Value));
+      This.Length := This.Length + 4 * Value'Length;
+
+      if This.Length > Maximum_Length then
+         raise Maximum_Length_Error;
+      end if;
+
+      for J in Value'Range loop
+         Update_Hash (This,              W'Pos (Value (J))      and 16#FF#);
+         Update_Hash (This, Shift_Right (W'Pos (Value (J)),  8) and 16#FF#);
+         Update_Hash (This, Shift_Right (W'Pos (Value (J)), 16) and 16#FF#);
+         Update_Hash (This, Shift_Right (W'Pos (Value (J)), 24));
+      end loop;
    end Wide_Wide_Update;
 
    ------------
@@ -111,52 +121,56 @@ package body Gela.Hash.CRC.b32 is
 
    procedure Update
      (This  : in out Hasher;
-      Value : in     Ada.Streams.Stream_Element_Array)
-   is
-      subtype C_Array is
-        Byte_Array (1 .. Value'Size / Interfaces.Unsigned_8'Size);
-
-      function To_Array is
-        new Ada.Unchecked_Conversion
-          (Ada.Streams.Stream_Element_Array, C_Array);
+      Value : in     Ada.Streams.Stream_Element_Array) is
    begin
-      Update (This, To_Array (Value));
+      This.Length := This.Length + Value'Length;
+
+      if This.Length > Maximum_Length then
+         raise Maximum_Length_Error;
+      end if;
+
+      for J in Value'Range loop
+         Update_Hash (This, CRC32 (Value (J)));
+      end loop;
    end Update;
 
+   ---------------
    -- Calculate --
-   function Calculate
-     (Value : in String)
-      return CRC32
-   is
+   ---------------
+
+   function Calculate (Value : in String) return CRC32 is
       H : Hasher;
    begin
       Update (H, Value);
       return Result (H);
    end Calculate;
 
+   --------------------
    -- Wide_Calculate --
-   function Wide_Calculate
-     (Value : in Wide_String)
-      return CRC32
-   is
+   --------------------
+
+   function Wide_Calculate (Value : in Wide_String) return CRC32 is
       H : Hasher;
    begin
       Wide_Update (H, Value);
       return Result (H);
    end Wide_Calculate;
 
+   ---------------
    -- Calculate --
-   function Wide_Wide_Calculate
-     (Value : in Wide_Wide_String)
-      return CRC32
-   is
+   ---------------
+
+   function Wide_Wide_Calculate (Value : in Wide_Wide_String) return CRC32 is
       H : Hasher;
    begin
       Wide_Wide_Update (H, Value);
       return Result (H);
    end Wide_Wide_Calculate;
 
+   ---------------
    -- Calculate --
+   ---------------
+
    function Calculate
      (Value : in Ada.Streams.Stream_Element_Array)
       return CRC32
@@ -167,34 +181,37 @@ package body Gela.Hash.CRC.b32 is
       return Result (H);
    end Calculate;
 
+   -------------
    -- To_Hash --
-   function To_Hash
-     (T : in CRC32)
-      return Hash_Type
-   is
+   -------------
+
+   function To_Hash (T : in CRC32) return Hash_Type is
    begin
       return Hash_Type (T);
    end To_Hash;
 
+   ---------------
    -- Calculate --
-   function Calculate
-     (Value : in String)
-      return Hash_Type
-   is
+   ---------------
+
+   function Calculate (Value : in String) return Hash_Type is
    begin
       return To_Hash (Calculate (Value));
    end Calculate;
 
+   --------------------
    -- Wide_Calculate --
-   function Wide_Calculate
-     (Value : in Wide_String)
-      return Hash_Type
-   is
+   --------------------
+
+   function Wide_Calculate (Value : in Wide_String) return Hash_Type is
    begin
       return To_Hash (Wide_Calculate (Value));
    end Wide_Calculate;
 
+   ---------------
    -- Calculate --
+   ---------------
+
    function Wide_Wide_Calculate
      (Value : in Wide_Wide_String)
       return Hash_Type
@@ -203,7 +220,10 @@ package body Gela.Hash.CRC.b32 is
       return To_Hash (Wide_Wide_Calculate (Value));
    end Wide_Wide_Calculate;
 
+   ---------------
    -- Calculate --
+   ---------------
+
    function Calculate
      (Value : in Ada.Streams.Stream_Element_Array)
       return Hash_Type
@@ -216,36 +236,20 @@ package body Gela.Hash.CRC.b32 is
    -- Update --
    ------------
 
-   procedure Update
+   procedure Update_Hash
      (This  : in out Hasher;
-      Value : in     Byte_Array)
+      Value : in     Byte)
    is
-      use Interfaces;
-
-      Reg : CRC32 := This.Cm_Reg;
    begin
-      This.Length := This.Length + Value'Length;
-
-      if This.Length > Maximum_Length then
-         raise Maximum_Length_Error;
-      end if;
-
-      for Index in Value'Range loop
-         Reg := Shift_Right (Reg, 8) xor
-           Keys (CRC32 (Value (Index)) xor (Reg and 16#0000_00FF#));
-      end loop;
-
-      This.Cm_Reg := Reg;
-   end Update;
+      This.Cm_Reg := Shift_Right (This.Cm_Reg, 8) xor
+        Keys (Value xor (This.Cm_Reg and 16#0000_00FF#));
+   end Update_Hash;
 
    ------------
    -- Result --
    ------------
 
-   function Result
-     (This : in Hasher)
-      return CRC32
-   is
+   function Result (This : in Hasher) return CRC32 is
    begin
       return This.Cm_Reg xor 16#FFFFFFFF#;
    end Result;
