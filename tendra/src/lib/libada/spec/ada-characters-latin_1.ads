@@ -224,210 +224,210 @@ package Ada.Characters.Latin_1 is
 
    -- Character positions 160 (16#A0#) .. 175 (16#AF#):
    No_Break_Space
-     : constant Character := ' ';  --Character'Val(160)
+     : constant Character := 'Â ';  --Character'Val(160)
    NBSP                        : Character renames No_Break_Space;
    Inverted_Exclamation
-     : constant Character := '¡';  --Character'Val(161)
+     : constant Character := 'Â¡';  --Character'Val(161)
    Cent_Sign
-     : constant Character := '¢';  --Character'Val(162)
+     : constant Character := 'Â¢';  --Character'Val(162)
    Pound_Sign
-     : constant Character := '£';  --Character'Val(163)
+     : constant Character := 'Â£';  --Character'Val(163)
    Currency_Sign
-     : constant Character := '¤';  --Character'Val(164)
+     : constant Character := 'Â¤';  --Character'Val(164)
    Yen_Sign
-     : constant Character := '¥';  --Character'Val(165)
+     : constant Character := 'Â¥';  --Character'Val(165)
    Broken_Bar
-     : constant Character := '¦';  --Character'Val(166)
+     : constant Character := 'Â¦';  --Character'Val(166)
    Section_Sign
-     : constant Character := '§';  --Character'Val(167)
+     : constant Character := 'Â§';  --Character'Val(167)
    Diaeresis
-     : constant Character := '¨';  --Character'Val(168)
+     : constant Character := 'Â¨';  --Character'Val(168)
    Copyright_Sign
-     : constant Character := '©';  --Character'Val(169)
+     : constant Character := 'Â©';  --Character'Val(169)
    Feminine_Ordinal_Indicator
-     : constant Character := 'ª';  --Character'Val(170)
+     : constant Character := 'Âª';  --Character'Val(170)
    Left_Angle_Quotation
-     : constant Character := '«';  --Character'Val(171)
+     : constant Character := 'Â«';  --Character'Val(171)
    Not_Sign
-     : constant Character := '¬';  --Character'Val(172)
+     : constant Character := 'Â¬';  --Character'Val(172)
    Soft_Hyphen
-     : constant Character := '­';  --Character'Val(173)
+     : constant Character := 'Â­';  --Character'Val(173)
    Registered_Trade_Mark_Sign
-     : constant Character := '®';  --Character'Val(174)
+     : constant Character := 'Â®';  --Character'Val(174)
    Macron
-     : constant Character := '¯';  --Character'Val(175)
+     : constant Character := 'Â¯';  --Character'Val(175)
 
    -- Character positions 176 (16#B0#) .. 191 (16#BF#):
    Degree_Sign
-     : constant Character := '°';  --Character'Val(176)
+     : constant Character := 'Â°';  --Character'Val(176)
    Ring_Above                  : Character renames Degree_Sign;
    Plus_Minus_Sign
-     : constant Character := '±';  --Character'Val(177)
+     : constant Character := 'Â±';  --Character'Val(177)
    Superscript_Two
-     : constant Character := '²';  --Character'Val(178)
+     : constant Character := 'Â²';  --Character'Val(178)
    Superscript_Three
-     : constant Character := '³';  --Character'Val(179)
+     : constant Character := 'Â³';  --Character'Val(179)
    Acute
-     : constant Character := '´';  --Character'Val(180)
+     : constant Character := 'Â´';  --Character'Val(180)
    Micro_Sign
-     : constant Character := 'µ';  --Character'Val(181)
+     : constant Character := 'Âµ';  --Character'Val(181)
    Pilcrow_Sign
-     : constant Character := '¶';  --Character'Val(182)
+     : constant Character := 'Â¶';  --Character'Val(182)
    Paragraph_Sign              : Character renames Pilcrow_Sign;
    Middle_Dot
-     : constant Character := '·';  --Character'Val(183)
+     : constant Character := 'Â·';  --Character'Val(183)
    Cedilla
-     : constant Character := '¸';  --Character'Val(184)
+     : constant Character := 'Â¸';  --Character'Val(184)
    Superscript_One
-     : constant Character := '¹';  --Character'Val(185)
+     : constant Character := 'Â¹';  --Character'Val(185)
    Masculine_Ordinal_Indicator
-     : constant Character := 'º';  --Character'Val(186)
+     : constant Character := 'Âº';  --Character'Val(186)
    Right_Angle_Quotation
-     : constant Character := '»';  --Character'Val(187)
+     : constant Character := 'Â»';  --Character'Val(187)
    Fraction_One_Quarter
-     : constant Character := '¼';  --Character'Val(188)
+     : constant Character := 'Â¼';  --Character'Val(188)
    Fraction_One_Half
-     : constant Character := '½';  --Character'Val(189)
+     : constant Character := 'Â½';  --Character'Val(189)
    Fraction_Three_Quarters
-     : constant Character := '¾';  --Character'Val(190)
+     : constant Character := 'Â¾';  --Character'Val(190)
    Inverted_Question
-     : constant Character := '¿';  --Character'Val(191)
+     : constant Character := 'Â¿';  --Character'Val(191)
 
    -- Character positions 192 (16#C0#) .. 207 (16#CF#):
    UC_A_Grave
-     : constant Character := 'À';  --Character'Val(192)
+     : constant Character := 'Ã€';  --Character'Val(192)
    UC_A_Acute
-     : constant Character := 'Á';  --Character'Val(193)
+     : constant Character := 'Ã';  --Character'Val(193)
    UC_A_Circumflex
-     : constant Character := 'Â';  --Character'Val(194)
+     : constant Character := 'Ã‚';  --Character'Val(194)
    UC_A_Tilde
-     : constant Character := 'Ã';  --Character'Val(195)
+     : constant Character := 'Ãƒ';  --Character'Val(195)
    UC_A_Diaeresis
-     : constant Character := 'Ä';  --Character'Val(196)
+     : constant Character := 'Ã„';  --Character'Val(196)
    UC_A_Ring
-     : constant Character := 'Å';  --Character'Val(197)
+     : constant Character := 'Ã…';  --Character'Val(197)
    UC_AE_Diphthong
-     : constant Character := 'Æ';  --Character'Val(198)
+     : constant Character := 'Ã†';  --Character'Val(198)
    UC_C_Cedilla
-     : constant Character := 'Ç';  --Character'Val(199)
+     : constant Character := 'Ã‡';  --Character'Val(199)
    UC_E_Grave
-     : constant Character := 'È';  --Character'Val(200)
+     : constant Character := 'Ãˆ';  --Character'Val(200)
    UC_E_Acute
-     : constant Character := 'É';  --Character'Val(201)
+     : constant Character := 'Ã‰';  --Character'Val(201)
    UC_E_Circumflex
-     : constant Character := 'Ê';  --Character'Val(202)
+     : constant Character := 'ÃŠ';  --Character'Val(202)
    UC_E_Diaeresis
-     : constant Character := 'Ë';  --Character'Val(203)
+     : constant Character := 'Ã‹';  --Character'Val(203)
    UC_I_Grave
-     : constant Character := 'Ì';  --Character'Val(204)
+     : constant Character := 'ÃŒ';  --Character'Val(204)
    UC_I_Acute
-     : constant Character := 'Í';  --Character'Val(205)
+     : constant Character := 'Ã';  --Character'Val(205)
    UC_I_Circumflex
-     : constant Character := 'Î';  --Character'Val(206)
+     : constant Character := 'Ã';  --Character'Val(206)
    UC_I_Diaeresis
-     : constant Character := 'Ï';  --Character'Val(207)
+     : constant Character := 'Ã';  --Character'Val(207)
 
    -- Character positions 208 (16#D0#) .. 223 (16#DF#):
    UC_Icelandic_Eth
-     : constant Character := 'Ğ';  --Character'Val(208)
+     : constant Character := 'Ã';  --Character'Val(208)
    UC_N_Tilde
-     : constant Character := 'Ñ';  --Character'Val(209)
+     : constant Character := 'Ã‘';  --Character'Val(209)
    UC_O_Grave
-     : constant Character := 'Ò';  --Character'Val(210)
+     : constant Character := 'Ã’';  --Character'Val(210)
    UC_O_Acute
-     : constant Character := 'Ó';  --Character'Val(211)
+     : constant Character := 'Ã“';  --Character'Val(211)
    UC_O_Circumflex
-     : constant Character := 'Ô';  --Character'Val(212)
+     : constant Character := 'Ã”';  --Character'Val(212)
    UC_O_Tilde
-     : constant Character := 'Õ';  --Character'Val(213)
+     : constant Character := 'Ã•';  --Character'Val(213)
    UC_O_Diaeresis
-     : constant Character := 'Ö';  --Character'Val(214)
+     : constant Character := 'Ã–';  --Character'Val(214)
    Multiplication_Sign
-     : constant Character := '×';  --Character'Val(215)
+     : constant Character := 'Ã—';  --Character'Val(215)
    UC_O_Oblique_Stroke
-     : constant Character := 'Ø';  --Character'Val(216)
+     : constant Character := 'Ã˜';  --Character'Val(216)
    UC_U_Grave
-     : constant Character := 'Ù';  --Character'Val(217)
+     : constant Character := 'Ã™';  --Character'Val(217)
    UC_U_Acute
-     : constant Character := 'Ú';  --Character'Val(218)
+     : constant Character := 'Ãš';  --Character'Val(218)
    UC_U_Circumflex
-     : constant Character := 'Û';  --Character'Val(219)
+     : constant Character := 'Ã›';  --Character'Val(219)
    UC_U_Diaeresis
-     : constant Character := 'Ü';  --Character'Val(220)
+     : constant Character := 'Ãœ';  --Character'Val(220)
    UC_Y_Acute
-     : constant Character := 'İ';  --Character'Val(221)
+     : constant Character := 'Ã';  --Character'Val(221)
    UC_Icelandic_Thorn
-     : constant Character := 'Ş';  --Character'Val(222)
+     : constant Character := 'Ã';  --Character'Val(222)
    LC_German_Sharp_S
-     : constant Character := 'ß';  --Character'Val(223)
+     : constant Character := 'ÃŸ';  --Character'Val(223)
 
    -- Character positions 224 (16#E0#) .. 239 (16#EF#):
    LC_A_Grave
-     : constant Character := 'à';  --Character'Val(224)
+     : constant Character := 'Ã ';  --Character'Val(224)
    LC_A_Acute
-     : constant Character := 'á';  --Character'Val(225)
+     : constant Character := 'Ã¡';  --Character'Val(225)
    LC_A_Circumflex
-     : constant Character := 'â';  --Character'Val(226)
+     : constant Character := 'Ã¢';  --Character'Val(226)
    LC_A_Tilde
-     : constant Character := 'ã';  --Character'Val(227)
+     : constant Character := 'Ã£';  --Character'Val(227)
    LC_A_Diaeresis
-     : constant Character := 'ä';  --Character'Val(228)
+     : constant Character := 'Ã¤';  --Character'Val(228)
    LC_A_Ring
-     : constant Character := 'å';  --Character'Val(229)
+     : constant Character := 'Ã¥';  --Character'Val(229)
    LC_AE_Diphthong
-     : constant Character := 'æ';  --Character'Val(230)
+     : constant Character := 'Ã¦';  --Character'Val(230)
    LC_C_Cedilla
-     : constant Character := 'ç';  --Character'Val(231)
+     : constant Character := 'Ã§';  --Character'Val(231)
    LC_E_Grave
-     : constant Character := 'è';  --Character'Val(232)
+     : constant Character := 'Ã¨';  --Character'Val(232)
    LC_E_Acute
-     : constant Character := 'é';  --Character'Val(233)
+     : constant Character := 'Ã©';  --Character'Val(233)
    LC_E_Circumflex
-     : constant Character := 'ê';  --Character'Val(234)
+     : constant Character := 'Ãª';  --Character'Val(234)
    LC_E_Diaeresis
-     : constant Character := 'ë';  --Character'Val(235)
+     : constant Character := 'Ã«';  --Character'Val(235)
    LC_I_Grave
-     : constant Character := 'ì';  --Character'Val(236)
+     : constant Character := 'Ã¬';  --Character'Val(236)
    LC_I_Acute
-     : constant Character := 'í';  --Character'Val(237)
+     : constant Character := 'Ã­';  --Character'Val(237)
    LC_I_Circumflex
-     : constant Character := 'î';  --Character'Val(238)
+     : constant Character := 'Ã®';  --Character'Val(238)
    LC_I_Diaeresis
-     : constant Character := 'ï';  --Character'Val(239)
+     : constant Character := 'Ã¯';  --Character'Val(239)
 
    -- Character positions 240 (16#F0#) .. 255 (16#FF#):
    LC_Icelandic_Eth
-     : constant Character := 'ğ';  --Character'Val(240)
+     : constant Character := 'Ã°';  --Character'Val(240)
    LC_N_Tilde
-     : constant Character := 'ñ';  --Character'Val(241)
+     : constant Character := 'Ã±';  --Character'Val(241)
    LC_O_Grave
-     : constant Character := 'ò';  --Character'Val(242)
+     : constant Character := 'Ã²';  --Character'Val(242)
    LC_O_Acute
-     : constant Character := 'ó';  --Character'Val(243)
+     : constant Character := 'Ã³';  --Character'Val(243)
    LC_O_Circumflex
-     : constant Character := 'ô';  --Character'Val(244)
+     : constant Character := 'Ã´';  --Character'Val(244)
    LC_O_Tilde
-     : constant Character := 'õ';  --Character'Val(245)
+     : constant Character := 'Ãµ';  --Character'Val(245)
    LC_O_Diaeresis
-     : constant Character := 'ö';  --Character'Val(246)
+     : constant Character := 'Ã¶';  --Character'Val(246)
    Division_Sign
-     : constant Character := '÷';  --Character'Val(247)
+     : constant Character := 'Ã·';  --Character'Val(247)
    LC_O_Oblique_Stroke
-     : constant Character := 'ø';  --Character'Val(248)
+     : constant Character := 'Ã¸';  --Character'Val(248)
    LC_U_Grave
-     : constant Character := 'ù';  --Character'Val(249)
+     : constant Character := 'Ã¹';  --Character'Val(249)
    LC_U_Acute
-     : constant Character := 'ú';  --Character'Val(250)
+     : constant Character := 'Ãº';  --Character'Val(250)
    LC_U_Circumflex
-     : constant Character := 'û';  --Character'Val(251)
+     : constant Character := 'Ã»';  --Character'Val(251)
    LC_U_Diaeresis
-     : constant Character := 'ü';  --Character'Val(252)
+     : constant Character := 'Ã¼';  --Character'Val(252)
    LC_Y_Acute
-     : constant Character := 'ı';  --Character'Val(253)
+     : constant Character := 'Ã½';  --Character'Val(253)
    LC_Icelandic_Thorn
-     : constant Character := 'ş';  --Character'Val(254)
+     : constant Character := 'Ã¾';  --Character'Val(254)
    LC_Y_Diaeresis
-     : constant Character := 'ÿ';  --Character'Val(255)
+     : constant Character := 'Ã¿';  --Character'Val(255)
 end Ada.Characters.Latin_1;
 
 

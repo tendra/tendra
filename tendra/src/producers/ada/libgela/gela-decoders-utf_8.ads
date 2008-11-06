@@ -7,37 +7,22 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Classificator for any fixed width encoding.
+--  Decoder for any fixed width encoding.
 
-with Gela.Decoders;
+package Gela.Decoders.UTF_8 is
 
-generic
-   with function To_Character_Class
-     (Code : Code_Point)
-     return Character_Class_Buffers.Character_Class;
-package Gela.Classificators.Fixed_Width_8 is
+   type Translation_Table is new Wide_String;
 
-   type Classificator is new Classificators.Classificator with private;
+   type Decoder is new Decoders.Decoder with null record;
 
-   procedure Initialize
-     (Object  :    out Classificator;
-      Decoder : in     Decoders.Decoder'Class);
+   procedure Decode
+     (Object : in     Decoder;
+      From   : in     Source_Buffers.Cursor;
+      To     : in     Source_Buffers.Cursor;
+      Result :    out Wide_String;
+      Last   :    out Natural);
 
-   procedure Read
-     (Object : in out Classificator;
-      Input  : in out Source_Buffers.Cursor;
-      Buffer : in out Character_Class_Buffers.Character_Class_Buffer);
-
-private
-   type Translation is
-     array (Source_Buffers.Code_Unit) of
-     Character_Class_Buffers.Character_Class;
-
-   type Classificator is new Classificators.Classificator with record
-      Table : Translation;
-   end record;
-
-end Gela.Classificators.Fixed_Width_8;
+end Gela.Decoders.UTF_8;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik

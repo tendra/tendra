@@ -38,8 +38,8 @@ package body Asis.Gela.Scanners is
             Source_Buffers.Next (Position);
 
             Accepted := Scanner_Tables.Accepted (Current_State);
-            if Accepted /= Scanner_Tables.Error and then Class /= Surrogate
-            then
+
+            if Accepted /= Scanner_Tables.Error then
                Result := Accepted;
                Character_Class_Buffers.Mark (Object.Classes);
                Object.To := Position;

@@ -1,4 +1,5 @@
 with Gela.Encodings; use Gela.Encodings;
+with Gela.Decoders.UTF_8;
 with Gela.Decoders.Fixed_Width_8; use Gela.Decoders.Fixed_Width_8;
 
 private package Gela.Decoders.Constants is
@@ -2364,5 +2365,7 @@ private package Gela.Decoders.Constants is
       CP_1258 => CP_1258_Decoder'Access,
       KOI8_R => KOI8_R_Decoder'Access,
       ATARIST => ATARIST_Decoder'Access);
+
+   UTF_8 : aliased Gela.Decoders.UTF_8.Decoder;
 
 end Gela.Decoders.Constants;

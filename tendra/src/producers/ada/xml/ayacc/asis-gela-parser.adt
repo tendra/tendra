@@ -101,9 +101,9 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
          To    : Source_Buffers.Cursor;
       begin
          Scanners.Next_Token (Scanner, Token);
-text_io.put_Line (Token'Img & To_String (Get_Token_Value));
+--text_io.put_Line (Token'Img & To_String (Get_Token_Value));
          Scanners.Token_Span (Scanner, From, To);
-         Get_Current_Column := Get_Current_Column + (To - From - 1);
+         Get_Current_Column := Get_Current_Column + (To - From);
 
          while Token = New_Line_Token or
            Token = Separator_Token or
@@ -115,9 +115,9 @@ text_io.put_Line (Token'Img & To_String (Get_Token_Value));
             end if;
 
             Scanners.Next_Token (Scanner, Token);
-text_io.put_Line (Token'Img & To_String (Get_Token_Value));
+--text_io.put_Line (Token'Img & To_String (Get_Token_Value));
             Scanners.Token_Span (Scanner, From, To);
-            Get_Current_Column := Get_Current_Column + (To - From - 1);
+            Get_Current_Column := Get_Current_Column + (To - From);
          end loop;
 
          return Token;

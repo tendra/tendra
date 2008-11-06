@@ -6,7 +6,7 @@ begin
    if Encoding in Encodings.Fixed_Width_Encoding then
       return Constants.Table (Encoding);
    else
-      raise Program_Error;
+      return Constants.UTF_8'Access;
    end if;
 end Gela.Decoders.Create;
 

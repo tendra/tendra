@@ -38,7 +38,7 @@ package body Asis.Gela.Contexts is
       The_Context.Parameters   := U.To_Unbounded_Wide_String (Parameters);
       The_Context.Has_Associations := True;
       The_Context.Error            := Success;
-      The_Context.User_Encoding    := Encodings.ISO_8859_1; --UTF_8;
+      The_Context.User_Encoding    := Encodings.UTF_8;
       --  The_Context.Current_File     := The_Context.Parameters;
       Compilations.Initialize (The_Context.Compilation_List);
    end Associate;

@@ -15,13 +15,11 @@ generic
    with function To_Character_Class
      (Code : Code_Point)
      return Character_Class_Buffers.Character_Class;
-package Gela.Classificators.Fixed_Width_8 is
+
+   Skip_Code : in Character_Class_Buffers.Character_Class;
+package Gela.Classificators.UTF_8 is
 
    type Classificator is new Classificators.Classificator with private;
-
-   procedure Initialize
-     (Object  :    out Classificator;
-      Decoder : in     Decoders.Decoder'Class);
 
    procedure Read
      (Object : in out Classificator;
@@ -29,15 +27,10 @@ package Gela.Classificators.Fixed_Width_8 is
       Buffer : in out Character_Class_Buffers.Character_Class_Buffer);
 
 private
-   type Translation is
-     array (Source_Buffers.Code_Unit) of
-     Character_Class_Buffers.Character_Class;
 
-   type Classificator is new Classificators.Classificator with record
-      Table : Translation;
-   end record;
+   type Classificator is new Classificators.Classificator with null record;
 
-end Gela.Classificators.Fixed_Width_8;
+end Gela.Classificators.UTF_8;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik

@@ -371,7 +371,7 @@ package body Asis.Gela.Contexts.Utils is
         Get_Compilation (The_Context.Compilation_List, File);
    begin
       if Library.Is_Predefined_Unit (File) then
-         Encoding := Encodings.ISO_8859_1; --UTF_8;
+         Encoding := Encodings.UTF_8;
       end if;
 
       Decoder := Decoders.Create (Encoding);
