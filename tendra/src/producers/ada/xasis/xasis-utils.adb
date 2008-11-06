@@ -14,6 +14,8 @@ with Ada.Strings.Wide_Fixed;
 with Ada.Strings.Wide_Unbounded;
 with XASIS.Types;
 
+with Gela.To_Upper; use Gela;
+
 package body XASIS.Utils is
 
    use Asis;
@@ -29,17 +31,27 @@ package body XASIS.Utils is
    function Are_Equal_Identifiers
      (Left, Right : Asis.Program_Text) return Boolean
    is
-      use Ada.Characters.Handling;
-      L : constant String := To_Lower (To_String (Left));
-      R : constant String := To_Lower (To_String (Right));
+      L_Text : Wide_String (1 .. Left'Length * 3);
+      L_Last : Natural;
+      R_Text : Wide_String (1 .. Right'Length * 3);
+      R_Last : Natural;
    begin
       if Left (Left'First) = ''' then
          return Left = Right;
-      else
-         if R = "false" then
-            return L = R;
+      elsif Left (Left'First) = '"' then
+         To_Upper.Identifier (Left,  L_Text, L_Last);
+         To_Upper.Identifier (Right, R_Text, R_Last);
+
+         if L_Last > 0 then
+            return L_Text (1 .. L_Last) = R_Text (1 .. R_Last);
+         else
+            return Left = Right;
          end if;
-         return To_Lower (To_String (Left)) = To_Lower (To_String (Right));
+      else
+         To_Upper.Identifier (Left,  L_Text, L_Last);
+         To_Upper.Identifier (Right, R_Text, R_Last);
+
+         return L_Text (1 .. L_Last) = R_Text (1 .. R_Last);
       end if;
    end Are_Equal_Identifiers;
 
