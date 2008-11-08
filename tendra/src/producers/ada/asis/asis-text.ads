@@ -618,11 +618,17 @@ package Asis.Text is
 
 private
 
-   type Line is (Implementation_Defined);
-   Nil_Line  : constant Line := Implementation_Defined;
-   Nil_Line_List : constant Line_List (1 .. 0) := (others => Nil_Line);
+   type Line is record
+      Unit  : Asis.Compilation_Unit;
+      From  : Positive := 1;
+      To    : Natural  := Positive'Last;
+      Index : Line_Number := 0;
+   end record;
 
--------------------------------------------------------------------------------
+   Nil_Line      : constant Line :=
+     (Nil_Compilation_Unit, 1, Positive'Last, 0);
+
+   Nil_Line_List : constant Line_List (1 .. 0) := (others => Nil_Line);
 
 end Asis.Text;
 

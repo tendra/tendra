@@ -113,6 +113,29 @@ package body Asis.Gela.Compilations is
       return (Max, Ver);
    end Get_Compilation;
 
+   --------------
+   -- Get_Line --
+   --------------
+
+   function Get_Line
+     (List  : Compilation_List;
+      Item  : Compilation;
+      Index : Asis.Asis_Positive) return Lines.Line is
+   begin
+      return Lines.Vectors.Get (List.Nodes (Item.Index).Line_List, Index);
+   end Get_Line;
+
+   --------------------
+   -- Get_Line_Count --
+   --------------------
+
+   function Get_Line_Count
+     (List  : Compilation_List;
+      Item  : Compilation) return Asis.Asis_Natural is
+   begin
+      return Lines.Vectors.Length (List.Nodes (Item.Index).Line_List);
+   end Get_Line_Count;
+
    ----------------
    -- Initialize --
    ----------------
@@ -170,6 +193,18 @@ package body Asis.Gela.Compilations is
 
       Item                         := (Index, Version);
    end New_Compilation;
+
+   -------------------
+   -- Set_Line_List --
+   -------------------
+
+   procedure Set_Line_List
+     (List      : in out Compilation_List;
+      Item      : in     Compilation;
+      Line_List : in     Lines.Vector) is
+   begin
+      Lines.Vectors.Copy (List.Nodes (Item.Index).Line_List, Line_List);
+   end Set_Line_List;
 
    -------------------
    -- Source_Buffer --

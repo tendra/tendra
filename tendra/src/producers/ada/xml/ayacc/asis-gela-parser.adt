@@ -20,13 +20,16 @@ with Gela;                     use Gela;
 with Gela.Decoders;
 with Gela.Encodings;
 with Gela.Source_Buffers;
+with Asis.Gela.Lines;
 
 ##
-   function Run
-     (The_Context : Asis.Context;
-      Input       : Source_Buffers.Source_Buffer'Class;
-      Encoding    : Encodings.Encoding;
-      Decoder     : Decoders.Decoder'Class) return Asis.Element;
+   procedure Run
+     (The_Context : in     Asis.Context;
+      Input       : in     Source_Buffers.Source_Buffer'Class;
+      Encoding    : in     Encodings.Encoding;
+      Decoder     : in     Decoders.Decoder'Class;
+      Line_List   : in out Lines.Vector;
+      Result      :    out Asis.Element);
 ##
 
 
@@ -66,11 +69,13 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
 
    package text_io renames Ada.Text_IO;
 
-   function Run
-     (The_Context : Asis.Context;
-      Input       : Source_Buffers.Source_Buffer'Class;
-      Encoding    : Encodings.Encoding;
-      Decoder     : Decoders.Decoder'Class) return Asis.Element
+   procedure Run
+     (The_Context : in     Asis.Context;
+      Input       : in     Source_Buffers.Source_Buffer'Class;
+      Encoding    : in     Encodings.Encoding;
+      Decoder     : in     Decoders.Decoder'Class;
+      Line_List   : in out Lines.Vector;
+      Result      :    out Asis.Element)
    is
 
       Chooser : aliased Classificators.Classificator'Class :=
@@ -82,6 +87,9 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
       Last_Compilation   : Asis.Element;
       Get_Current_Line   : Positive := 1;
       Get_Current_Column : Positive := 1;
+      Line               : Lines.Line;
+      Has_Comment        : Boolean := False;
+      Comment            : Source_Buffers.Cursor;
 
       function Get_Token_Value return Wide_String is
          From    : Source_Buffers.Cursor;
@@ -110,8 +118,22 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
            Token = Comment_Token
          loop
             if Token = New_Line_Token then
+               if Has_Comment then
+                  Has_Comment := False;
+                  Line.Comment := Comment;
+               else
+                  Line.Comment := From;
+               end if;
+
+               Line.To := From;
+               Lines.Vectors.Add (Line_List, Line);
+
+               Line.From := To;
                Get_Current_Line := Get_Current_Line + 1;
                Get_Current_Column := 1;
+            elsif Token = Comment_Token then
+               Has_Comment := True;
+               Comment := From;
             end if;
 
             Scanners.Next_Token (Scanner, Token);
@@ -138,7 +160,16 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
 
    begin
       Scanners.Initialize (Scanner, Source_Buffers.Buffer_Start (Input));
+      Line.From := Source_Buffers.Buffer_Start (Input);
       YYParse;
-      return Last_Compilation;
+      declare
+         From    : Source_Buffers.Cursor;
+         To      : Source_Buffers.Cursor;
+      begin
+         Scanners.Token_Span (Scanner, From, To);
+         Line.To := From;
+         Lines.Vectors.Add (Line_List, Line);
+      end;
+      Result := Last_Compilation;
    end Run;
 

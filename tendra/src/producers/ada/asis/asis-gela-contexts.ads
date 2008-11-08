@@ -9,6 +9,7 @@
 --  Purpose:
 --  Object Oriented implementation of Context.
 
+with Asis.Gela.Lines;
 with Asis.Gela.Lists;                use Asis.Gela.Lists;
 with Asis.Gela.Compilations;
 with Ada.Strings.Wide_Unbounded;
@@ -190,6 +191,7 @@ private
       Configuration_Unit        : Asis.Compilation_Unit;
       Limited_Views             : Secondary_Unit_Lists.List_Node;
       User_Encoding             : Encodings.Encoding;
+      Line_List                 : Lines.Vector;
    end record;
 
 end Asis.Gela.Contexts;

@@ -365,6 +365,7 @@ package body Asis.Gela.Contexts.Utils is
       Encoding    : Encodings.Encoding := The_Context.User_Encoding;
       Buffer      : Text_Utils.Source_Buffer_Access;
       Decoder     : Text_Utils.Decoder_Access;
+      Root        : Asis.Element;
       Implicit    : Asis.Compilation_Unit;
       New_Version : Compilation;
       Old_Version : constant Compilation :=
@@ -377,12 +378,23 @@ package body Asis.Gela.Contexts.Utils is
       Decoder := Decoders.Create (Encoding);
       Buffer  := Text_Utils.New_Buffer (File);
 
+      Lines.Vectors.Clear (The_Context.Line_List);
+
       New_Compilation
         (The_Context.Compilation_List, File, Buffer, Decoder, New_Version);
 
-      The_Context.Compilation :=
-        List (Parser.Run
-              (The_Context.This, Buffer.all, Encoding, Decoder.all));
+      Parser.Run (The_Context.This,
+                  Buffer.all,
+                  Encoding,
+                  Decoder.all,
+                  The_Context.Line_List,
+                  Root);
+
+      Set_Line_List (The_Context.Compilation_List,
+                     New_Version,
+                     The_Context.Line_List);
+
+      The_Context.Compilation := List (Root);
 
       declare
          Units : constant Compilation_Unit_List :=

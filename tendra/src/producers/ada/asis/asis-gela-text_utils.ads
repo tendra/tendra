@@ -12,6 +12,8 @@
 with Gela.Decoders;
 with Gela.Source_Buffers;             use Gela;
 
+with Asis.Gela.Lines;
+
 package Asis.Gela.Text_Utils is
 
    type Source_Buffer_Access is
@@ -28,6 +30,13 @@ package Asis.Gela.Text_Utils is
 
    function Decoder
      (Unit : Asis.Compilation_Unit) return Decoder_Access;
+
+   function Get_Line
+     (Unit  : Asis.Compilation_Unit;
+      Index : Asis.Asis_Positive) return Lines.Line;
+
+   function Compilation_Line_Count
+     (Unit : Asis.Compilation_Unit) return Asis.Asis_Natural;
 
 end Asis.Gela.Text_Utils;
 

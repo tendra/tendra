@@ -11,6 +11,21 @@ package body Asis.Gela.Text_Utils is
 
    type Buffer_Access is access all Source_Buffers.Current.Source_Buffer;
 
+   ----------------------------
+   -- Compilation_Line_Count --
+   ----------------------------
+
+   function Compilation_Line_Count
+     (Unit : Asis.Compilation_Unit) return Asis.Asis_Natural
+   is
+      List : constant Compilations.Compilation_List :=
+        Contexts.Utils.Compilation_List (Enclosing_Context (Unit.all));
+      Comp : constant Compilations.Compilation :=
+        Compilations.Enclosing (Unit);
+   begin
+      return Compilations.Get_Line_Count (List, Comp);
+   end Compilation_Line_Count;
+
    -------------
    -- Decoder --
    -------------
@@ -34,6 +49,22 @@ package body Asis.Gela.Text_Utils is
    begin
       Destroy (Buffer);
    end Free;
+
+   --------------
+   -- Get_Line --
+   --------------
+
+   function Get_Line
+     (Unit  : Asis.Compilation_Unit;
+      Index : Asis.Asis_Positive) return Lines.Line
+   is
+      List : constant Compilations.Compilation_List :=
+        Contexts.Utils.Compilation_List (Enclosing_Context (Unit.all));
+      Comp : constant Compilations.Compilation :=
+        Compilations.Enclosing (Unit);
+   begin
+      return Compilations.Get_Line (List, Comp, Index);
+   end Get_Line;
 
    ----------------
    -- New_Buffer --
