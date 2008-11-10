@@ -1,3 +1,5 @@
+%s Allow_Char
+
 -- identifier_start ::=
 --     letter_uppercase
 --   | letter_lowercase
@@ -67,7 +69,7 @@ Identifier_Token        {identifier_start}({identifier_start}|{identifier_extend
 -- Numeric_Literal_Token  {decimal_literal}|{based_literal}
 Real_Literal_Token      {real_decimal_literal}|{real_based_literal}
 Integer_Literal_Token   {integer_decimal_literal}|{integer_based_literal}
-Character_Literal_Token '{graphic_character}'
+<Allow_Char> Character_Literal_Token '{graphic_character}'
 String_Literal_Token    "{string_element}*"
 
 Abort_Token     [Aa]{x}[Bb]{x}[Oo]{x}[Rr]{x}[Tt]{x}

@@ -1,5 +1,16 @@
 package body Asis.Gela.Scanners is
 
+   -----------
+   -- Enter --
+   -----------
+
+   procedure Enter
+     (Object : in out Scanner;
+      State  : in     Scanner_Tables.State) is
+   begin
+      Object.Start := State;
+   end Enter;
+
    ----------------
    -- Next_Token --
    ----------------

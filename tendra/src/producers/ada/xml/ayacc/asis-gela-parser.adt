@@ -34,6 +34,7 @@ with Asis.Gela.Lines;
 
 
 with Asis.Gela.Scanners;
+with Asis.Gela.Scanner_Tables;
 with Gela.Character_Class_Buffers;
 with Gela.Classificators;
 with Asis.Gela.Classificators_Create;
@@ -141,6 +142,12 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
             Scanners.Token_Span (Scanner, From, To);
             Get_Current_Column := Get_Current_Column + (To - From);
          end loop;
+
+         if Token = Identifier_Token then
+            Scanners.Enter (Scanner, Scanner_Tables.Default);
+         else
+            Scanners.Enter (Scanner, Scanner_Tables.Allow_Char);
+         end if;
 
          return Token;
       end YYLex;

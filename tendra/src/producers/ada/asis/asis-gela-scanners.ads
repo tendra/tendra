@@ -30,10 +30,16 @@ package Asis.Gela.Scanners is
      (Object : in     Scanner;
       From   :    out Source_Buffers.Cursor;
       To     :    out Source_Buffers.Cursor);
+   pragma Inline (Token_Span);
 
    procedure Initialize
      (Object :    out Scanner;
       Cursor : in     Source_Buffers.Cursor);
+
+   procedure Enter
+     (Object : in out Scanner;
+      State  : in     Scanner_Tables.State);
+   pragma Inline (Enter);
 
 private
 
