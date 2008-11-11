@@ -112,7 +112,8 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
          Scanners.Next_Token (Scanner, Token);
 --text_io.put_Line (Token'Img & To_String (Get_Token_Value));
          Scanners.Token_Span (Scanner, From, To);
-         Get_Current_Column := Get_Current_Column + (To - From);
+         Get_Current_Column :=
+           Get_Current_Column + Scanners.Token_Length (Scanner);
 
          while Token = New_Line_Token or
            Token = Separator_Token or
@@ -140,7 +141,8 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
             Scanners.Next_Token (Scanner, Token);
 --text_io.put_Line (Token'Img & To_String (Get_Token_Value));
             Scanners.Token_Span (Scanner, From, To);
-            Get_Current_Column := Get_Current_Column + (To - From);
+            Get_Current_Column :=
+              Get_Current_Column + Scanners.Token_Length (Scanner);
          end loop;
 
          if Token = Identifier_Token then

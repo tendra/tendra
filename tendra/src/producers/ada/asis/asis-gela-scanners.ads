@@ -32,6 +32,9 @@ package Asis.Gela.Scanners is
       To     :    out Source_Buffers.Cursor);
    pragma Inline (Token_Span);
 
+   function Token_Length (Object : Scanner) return Positive;
+   pragma Inline (Token_Length);
+
    procedure Initialize
      (Object :    out Scanner;
       Cursor : in     Source_Buffers.Cursor);
@@ -46,11 +49,12 @@ private
    type Scanner
      (Classificator : access Classificators.Classificator'Class) is
       record
-         Classes   : Character_Class_Buffers.Character_Class_Buffer;
-         Start     : Scanner_Tables.State := Scanner_Tables.Default;
-         Input     : Source_Buffers.Cursor;
-         From      : Source_Buffers.Cursor;
-         To        : Source_Buffers.Cursor;
+         Classes    : Character_Class_Buffers.Character_Class_Buffer;
+         Start      : Scanner_Tables.State := Scanner_Tables.Default;
+         Input      : Source_Buffers.Cursor;
+         From       : Source_Buffers.Cursor;
+         To         : Source_Buffers.Cursor;
+         Surrogates : Natural := 0;
       end record;
 
 end Asis.Gela.Scanners;

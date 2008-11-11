@@ -32,6 +32,7 @@ package body Asis.Gela.Scanners is
       Class         : Character_Class_Buffers.Character_Class;
       Position      : Source_Buffers.Cursor := Object.To;
       Accepted      : Scanner_Tables.Token;
+      Sur_Count     : Natural := 0;
    begin
       Object.From := Position;
 
@@ -50,10 +51,13 @@ package body Asis.Gela.Scanners is
 
             Accepted := Scanner_Tables.Accepted (Current_State);
 
+            Sur_Count := Sur_Count + Boolean'Pos (Class = Surrogate);
+
             if Accepted /= Scanner_Tables.Error then
                Result := Accepted;
                Character_Class_Buffers.Mark (Object.Classes);
                Object.To := Position;
+               Object.Surrogates := Sur_Count;
             end if;
          end if;
       end loop;
@@ -62,6 +66,16 @@ package body Asis.Gela.Scanners is
 
       Token := Result;
    end Next_Token;
+
+   ------------------
+   -- Token_Length --
+   ------------------
+
+   function Token_Length (Object : Scanner) return Positive is
+      use type Source_Buffers.Cursor;
+   begin
+      return Object.To - Object.From - Object.Surrogates;
+   end Token_Length;
 
    ----------------
    -- Token_Span --
