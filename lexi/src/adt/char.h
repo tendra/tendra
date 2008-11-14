@@ -83,9 +83,9 @@ union char_value {
 	/* for group_letter */
 	struct {
 		unsigned int not:1;	/* boolean */
-		struct char_group_tag *grp;
+		struct char_group_name_tag *grp;
 	} g;
-} v;
+};
 
 
 /*

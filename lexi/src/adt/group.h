@@ -70,10 +70,11 @@ struct zone_tag;
     A character group is a named unordered set of letters.
 */
 
-typedef struct char_group_tag char_group;
-struct char_group_tag {
-	char *name;
+typedef struct char_group_name_tag char_group_name;
+typedef struct char_group_defn_tag char_group_defn;
 
+
+struct char_group_defn_tag {
 	/*
 	 * The set of characters present in a group, expressed as a bitmap. Each
 	 * element is true if the index is a character in the group, and false
@@ -82,25 +83,37 @@ struct char_group_tag {
 	int defn[256];
 
 	/*
+	 * Groups definition are maintained in a global list. This is
+	 * used for numbering group definitions at output.
+	 */
+	char_group_defn *next_in_groups_list;
+};
+
+
+struct char_group_name_tag {
+	char *name;
+
+	/*
 	 * The zone within which this group is defined.
 	 */
 	struct zone_tag *z;
 
 	/*
-	 * char_group elements appear in two superimposed lists; .next is a list of
-	 * the groups within one zone in the tree of zones. Unrelated to that, a
-	 * global list of all groups is maintained by .next_in_groups_list; this is
-	 * used for numbering all groups uniquely.
+	 * A pointer to the group definition. Several groups can point to the same definition.
 	 */
-	char_group *next;
-	char_group *next_in_groups_list;
+
+	char_group_defn* def;
+	/*
+	 * char_group_name elements appear in a list of group within one zone in the tree of zones
+	 */
+	char_group_name *next;
 };
 
 
-extern char_group *make_group(struct zone_tag *, char *, char *);
-extern int in_group(char_group *, char);
-extern int is_group_empty(char_group *);
-extern int is_group_equal(char_group *a, char_group *b);
-extern char_group *find_group(const struct zone_tag *z, const char *name);
+extern char_group_name *make_group(struct zone_tag *, char *, char *);
+extern int in_group(char_group_defn *, char);
+extern int is_group_empty(char_group_defn *);
+extern int is_group_equal(char_group_defn *a, char_group_defn *b);
+extern char_group_name *find_group(const struct zone_tag *z, const char *name);
 
 #endif

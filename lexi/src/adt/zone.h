@@ -104,8 +104,8 @@ struct zone_tag {
 	struct character_tag *zone_main_pass;
 
 	struct keyword_tag *keywords;
-	char_group *groups;  
-	char_group *white_space;
+	char_group_name *groups;  
+	char_group_name *white_space;
 
 	struct instructions_list_tag *default_instructions;
 	struct instructions_list_tag* entering_instructions;

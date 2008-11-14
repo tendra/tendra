@@ -181,7 +181,7 @@ buffer_length(lexer_parse_tree *top_level)
 }
 
 static void
-output_groupname(FILE *f, char_group *g)
+output_groupname(FILE *f, char_group_name *g)
 {
 	const char *prefix;
 
@@ -664,7 +664,7 @@ output_char_groups(zone *z, character *p, int in_pre_pass, unsigned int n, unsig
 	/* output groups */
 	started = 0;
 	for (q = p; q != NULL; q = q->opt) {
-		char_group *g;
+		char_group_name *g;
 
 		if (q->type != group_letter) {
 			continue;
@@ -726,10 +726,10 @@ output_pass(zone *z, character *p, int in_pre_pass, unsigned int n, unsigned int
 
 	/* TODO: can we move out w1 and w2 into output_zone_*pass(), and keep the recursion simple? */
 	if (w1) {
-		char_group *white;
+		char_group_name *white;
 
 		white = find_group(z, "white");
-		if (white != NULL && !is_group_empty(white)) {
+		if (white != NULL && !is_group_empty(white->def)) {
 			output_indent(lex_output, d);
 			fprintf(lex_output, "if (%sgroup(", lexi_prefix);
 			output_groupname(lex_output, white);
@@ -904,15 +904,15 @@ output_copyright(cmd_line_options* opt)
 	if a character belongs to a group or not.
 */
 static unsigned long
-group_number(char_group *g)
+group_number(lexer_parse_tree* top_level, char_group_defn *g)
 {
 	unsigned int i;
-	char_group *p;
+	char_group_defn *p;
 
 	assert(g != NULL);
 
 	i = 0;
-	for (p = tree_get_grouplist(g->z->top_level); p != NULL; p = p->next_in_groups_list) {
+	for (p = tree_get_grouplist(top_level); p != NULL; p = p->next_in_groups_list) {
 		if (g == p) {
 			return 1 << i;
 		}
@@ -930,7 +930,7 @@ static unsigned int
 count_nonempty_groups(lexer_parse_tree *top_level)
 {
 	unsigned int i;
-	char_group *p;
+	char_group_defn *p;
 
 	assert(top_level != NULL);
 
@@ -950,36 +950,50 @@ count_nonempty_groups(lexer_parse_tree *top_level)
 */
 
 static void
+output_macros_zone(cmd_line_options* opt, zone* z)
+{
+	zone* p;
+	char_group_name *g;
+
+	/* Group interface */
+	for (p = z; p != NULL; p = p->opt) {
+		for (g = p->groups; g != NULL; g = g->next) {
+			unsigned long m;
+
+			if (is_group_empty(g->def)) {
+				m = 0;
+			} else {
+				m = group_number(z->top_level, g->def);
+			}
+
+			fputc('\t', lex_output_h);
+			output_groupname(lex_output_h, g);
+			fprintf(lex_output_h, " = %#lx", m);
+
+			if (g->next || z->next || z->opt) {
+				fputs(",", lex_output_h);
+			}
+
+			fputs("\n", lex_output_h);
+		}
+		if(z->next) {
+			output_macros_zone(opt, z->next);
+		}
+	}
+
+}
+
+
+static void
 output_macros(cmd_line_options* opt, lexer_parse_tree* top_level) 
 {
-	char_group *g;
 
 	if (all_groups_empty(top_level)) {
 		return;
-	}
+	} else 
 
 	fprintf(lex_output_h, "enum %sgroups {\n", opt->lexi_prefix);
-
-	/* Group interface */
-	for (g = tree_get_grouplist(top_level); g != NULL; g = g->next_in_groups_list) {
-		unsigned long m;
-
-		if (is_group_empty(g)) {
-			m = 0;
-		} else {
-			m = group_number(g);
-		}
-
-		fputc('\t', lex_output_h);
-		output_groupname(lex_output_h, g);
-		fprintf(lex_output_h, " = %#lx", m);
-
-		if (g->next_in_groups_list) {
-			fputs(",", lex_output_h);
-		}
-
-		fputs("\n", lex_output_h);
-	}
+	output_macros_zone(opt, tree_get_globalzone(top_level));
 
 	fputs("};\n", lex_output_h);
 
@@ -1009,7 +1023,7 @@ output_lookup_table(lexer_parse_tree* top_level, const char *grouptype,
 		    const char *grouphex, size_t groupwidth) 
 {
 	int c;
-	char_group *g;
+	char_group_defn *g;
 
 	if (all_groups_empty(top_level)) {
 		return;
@@ -1026,7 +1040,7 @@ output_lookup_table(lexer_parse_tree* top_level, const char *grouptype,
 		m = 0;
 		for (g = tree_get_grouplist(top_level); g != NULL; g = g->next_in_groups_list) {
 			if (in_group(g, c)) {
-				m |= group_number(g);
+				m |= group_number(top_level, g);
 			}
 		}
 

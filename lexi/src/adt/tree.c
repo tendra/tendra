@@ -74,7 +74,7 @@ struct lexer_parse_tree_tag {
 
 	FILE *copyright_file;
 
-	char_group *groups_list;
+	char_group_defn *groups_list;
 
 	EntryT *table; /* Actions and types */
 
@@ -122,7 +122,7 @@ tree_get_table(lexer_parse_tree *t)
 	return &t->table;
 }
 
-char_group *
+char_group_defn *
 tree_get_grouplist(lexer_parse_tree *t)
 {
 	assert(t != NULL);
@@ -133,7 +133,7 @@ tree_get_grouplist(lexer_parse_tree *t)
 int
 all_groups_empty(lexer_parse_tree *t)
 {
-	char_group *g;
+	char_group_defn *g;
 
 	assert(t != NULL);
 
@@ -147,7 +147,7 @@ all_groups_empty(lexer_parse_tree *t)
 }
 
 void
-tree_add_group(lexer_parse_tree *t, char_group *g)
+tree_add_group(lexer_parse_tree *t, char_group_defn *g)
 {
 	assert(t != NULL);
 	assert(g->next_in_groups_list == NULL);

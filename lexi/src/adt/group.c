@@ -81,7 +81,7 @@ unescape_string(zone *z, int *o, char *s)
 
 	/* TODO: this is strikngly similar to add_string(). fold both into the .lxi file? */
 	for (p = s; *p != '\0'; p++) {
-		char_group *g;
+		char_group_name *g;
 		char *e;
 		int not;
 		int c;
@@ -111,7 +111,7 @@ unescape_string(zone *z, int *o, char *s)
 
 			/* merge in the named group */
 			for (i = 0; i <= 255; i++) {
-				o[i] |= not ? !in_group(g, i) : in_group(g, i);
+				o[i] |= not ? !in_group(g->def, i) : in_group(g->def, i);
 			}
 
 			p = e;
@@ -152,10 +152,11 @@ unescape_string(zone *z, int *o, char *s)
 	s may be NULL to indicate the empty group.
 */
 
-char_group *
+char_group_name*
 make_group(zone *z, char *name, char *defn)
 {
-	char_group *new;
+	char_group_name *new;
+	char_group_defn *new_def;
 
 	assert(z != NULL);
 	assert(name != NULL);
@@ -165,7 +166,7 @@ make_group(zone *z, char *name, char *defn)
 	}
 
 	{
-		char_group *g;
+		char_group_name *g;
 
 		g = find_group(z, name);
 		if (g != NULL && g->z == z) {
@@ -177,18 +178,17 @@ make_group(zone *z, char *name, char *defn)
 	new = xmalloc(sizeof *new);
 	new->name = name;
 	new->z = z;
-	new->next_in_groups_list = NULL;
-
-	if (defn == NULL) {
-		unescape_string(z, new->defn, "");
-	} else {
-		unescape_string(z, new->defn, defn);
-	}
-
 	new->next = z->groups;
 	z->groups = new;
 
-	tree_add_group(z->top_level, new);
+	new_def = xmalloc(sizeof *new_def);
+	if (defn == NULL) {
+		unescape_string(z, new_def->defn, "");
+	} else {
+		unescape_string(z, new_def->defn, defn);
+	}
+	new->def=new_def;
+	tree_add_group(z->top_level, new_def);
 
 	return new;
 }
@@ -199,7 +199,7 @@ make_group(zone *z, char *name, char *defn)
 */
 
 int
-in_group(char_group *g, char c)
+in_group(char_group_defn *g, char c)
 {
 	assert(g != NULL);
 
@@ -212,7 +212,7 @@ in_group(char_group *g, char c)
 */
 
 int
-is_group_empty(char_group *g)
+is_group_empty(char_group_defn *g)
 {
 	unsigned int i;
 
@@ -233,7 +233,7 @@ is_group_empty(char_group *g)
 */
 
 int
-is_group_equal(char_group *a, char_group *b)
+is_group_equal(char_group_defn *a, char_group_defn *b)
 {
 	unsigned int i;
 
@@ -257,10 +257,10 @@ is_group_equal(char_group *a, char_group *b)
 	zones, rather than in all groups globally.
 */
 
-char_group *
+char_group_name *
 find_group(const zone *z, const char *name)
 {
-	char_group *p;
+	char_group_name *p;
 
 	for (p = z->groups; p != NULL; p = p->next) {
 		if (0 == strcmp(name, p->name)) {
