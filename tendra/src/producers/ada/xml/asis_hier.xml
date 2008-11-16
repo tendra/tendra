@@ -876,10 +876,12 @@
   <node name="Fake_Element_Node" abstract="y" helper="y">
     <attr name="Start_Position" type="Asis.Text_Position"/>
     <node name="Token_Node" helper="y">
-      <attr name="Token" type="Natural" defer="y"/>
-      <attr name="Length" type="Positive" defer="y"/>
       <attr name="End_Position" type="Asis.Text_Position"/>
-      <attr name="Value_Image" type="Unbounded_Wide_String"/>
+      <attr name="Raw_Image" type="Gela_String"/>
+    </node>
+    <node name="Private_Indicator_Node" helper="y">
+      <attr name="Next_Element" type="Asis.Element"/>
+      <attr name="End_Position" type="Asis.Text_Position"/>
     </node>
     <node name="Handled_Statements_Node" helper="y">
       <attr name="Statements" type="Primary_Statement_Lists.List" defer="y"/>

@@ -4,6 +4,8 @@
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
+with Gela.Source_Buffers; use Gela;
+
 -------------------------------------------------------------------------------
 package Asis is
    pragma Preelaborate;
@@ -1773,6 +1775,10 @@ private
    function To_Wide_String (Item : Text_Position) return Wide_String;
 
    Nil_Text_Position : constant Text_Position := (0, 0);
+
+   type Gela_String is record
+      From, To : Source_Buffers.Cursor;
+   end record;
 
    -----------------
    -- Error_Level --

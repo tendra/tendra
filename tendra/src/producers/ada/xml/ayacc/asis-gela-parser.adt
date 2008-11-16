@@ -128,6 +128,22 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
          return Line (1 .. Last);
       end Get_Token_Value;
 
+      function Raw_Value return Gela_String is
+         From    : Source_Buffers.Cursor;
+         To      : Source_Buffers.Cursor;
+      begin
+         Scanners.Token_Span (Scanner, From, To);
+         return (From, To);
+      end Raw_Value;
+
+      function To_String (Raw : Gela_String) return Wide_String is
+         Line    : Wide_String (1 .. 2048);
+         Last    : Natural;
+      begin
+         Decoders.Decode (Decoder, Raw.From, Raw.To, Line, Last);
+         return Line (1 .. Last);
+      end To_String;
+
       function YYLex return Tokens.Token is
          use type Source_Buffers.Cursor;
          Token : Tokens.Token;

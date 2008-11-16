@@ -19,7 +19,7 @@ package Asis.Gela.Parser_Utils is
       Line    : in     Positive;
       Column  : in     Positive;
       Length  : in     Positive;
-      Image   : in     Asis.Program_Text);
+      Image   : in     Gela_String);
 
    procedure Push_Argument
      (Call : in out Elements.Expr.Function_Call_Node;

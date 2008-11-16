@@ -1739,6 +1739,12 @@
    <seq node="Primary_Clause_Lists.List"/>
  </rule>
 
+ <rule name="context_item">
+   <seq contains_name="private" node="Private_Indicator">
+     <item name="private"/>
+   </seq>
+ </rule>
+
  <rule name="vertical_line_exception_choice_list">
    <seq node="Primary_Choise_Lists.List"/>
  </rule>

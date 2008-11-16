@@ -931,7 +931,7 @@ package body Generate is
          Put_Line (Indent & "   Init_Token (Element => Node.all,");
          Put_Line (Indent & "               Line    => Get_Current_Line,");
          Put_Line (Indent & "               Column  => Get_Current_Column,");
-         Put_Line (Indent & "               Image   => Get_Token_Value,");
+         Put_Line (Indent & "               Image   => Raw_Value,");
          Put_Line (Indent &
                    "               Length  => " & To_String (Length) & ");");
       else
@@ -1742,12 +1742,12 @@ package body Generate is
          end;
       elsif In_Quote then
          Put_Line (Indent & Proc & " (" & Name & ".all, '""' & " &
-                   "Value_Image ($" & To_String (Index) &
-                   ".all) & '""');");
+                   "To_String (Raw_Image ($" & To_String (Index) &
+                   ".all)) & '""');");
       else
          Put_Line (Indent & Proc & " (" & Name & ".all, " &
-                   "Value_Image ($" & To_String (Index) &
-                   ".all));");
+                   "To_String (Raw_Image ($" & To_String (Index) &
+                   ".all)));");
 --                 Quote (Item_Name (Child), In_Quote) & ");");
       end if;
    end Set_Name_Image_Code;

@@ -12,14 +12,13 @@ package body Asis.Gela.Parser_Utils is
       Line    : in     Positive;
       Column  : in     Positive;
       Length  : in     Positive;
-      Image   : in     Asis.Program_Text)
+      Image   : in     Gela_String)
    is
       use Asis.Gela.Elements.Helpers;
    begin
       Set_Start_Position (Element, (Line, Column - Length));
       Set_End_Position (Element, (Line, Column - 1));
-      Set_Length (Element, Length);
-      Set_Value_Image (Element, Image);
+      Set_Raw_Image (Element, Image);
    end Init_Token;
 
    -------------------
