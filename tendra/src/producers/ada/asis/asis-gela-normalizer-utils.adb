@@ -406,31 +406,15 @@ package body Asis.Gela.Normalizer.Utils is
       use Lists.Primary_Parameter_Lists;
 
       Node     : Access_Type_Node renames Access_Type_Node (Element.all);
-      Modifier : constant Asis.Element := General_Access_Modifier (Node);
       Profile  : constant Function_Profile_Ptr :=
         Function_Profile_Ptr (Access_To_Function_Result_Subtype (Node));
       Params   : constant List := List
         (Access_To_Subprogram_Parameter_Profile_List (Node));
    begin
       if Assigned (Get_Access_To_Object_Definition (Node)) then
-         if not Assigned (Modifier) then
-            Set_Access_Type_Kind (Node, A_Pool_Specific_Access_To_Variable);
-         else
-            declare
-               Token : Token_Node renames
-                 Token_Node (Modifier.all);
-            begin
-               if Length (Token) = 3 then  --  "all"
-                  Set_Access_Type_Kind (Node, An_Access_To_Variable);
-               else                        --  "constant"
-                  Set_Access_Type_Kind (Node, An_Access_To_Constant);
-               end if;
-            end;
-         end if;
+         null;
       elsif Profile /= null then
-         if Assigned (Modifier) then
-            Set_Access_Type_Kind (Node, An_Access_To_Protected_Function);
-         else
+         if Access_Type_Kind (Node) /= An_Access_To_Protected_Function then
             Set_Access_Type_Kind (Node, An_Access_To_Function);
          end if;
 
@@ -440,9 +424,7 @@ package body Asis.Gela.Normalizer.Utils is
          Set_Access_To_Subprogram_Parameter_Profile
            (Node, Parameter_Profile_List (Profile.all));
       else
-         if Assigned (Modifier) then
-            Set_Access_Type_Kind (Node, An_Access_To_Protected_Procedure);
-         else
+         if Access_Type_Kind (Node) /= An_Access_To_Protected_Procedure then
             Set_Access_Type_Kind (Node, An_Access_To_Procedure);
          end if;
 
@@ -609,32 +591,6 @@ package body Asis.Gela.Normalizer.Utils is
       end loop;
    end Normalize_Component_List;
 
-   ------------------------------------
-   -- Normalize_Overriding_Indicator --
-   ------------------------------------
-
-   procedure Normalize_Overriding_Indicator (Element : Asis.Element) is
-      Node      : Node_Type renames Node_Type (Element.all);
-      Indicator : Asis.Element := Overriding_Indicator (Node);
-   begin
-      if not Assigned (Indicator) then
-         Set_Overriding_Indicator_Kind (Node, No_Overriding_Indicator);
-      else
-         declare
-            use Asis.Gela.Elements.Helpers;
-            Token : Token_Node renames Token_Node (Indicator.all);
-         begin
-            if Length (Token) = 3 then  --  "not"
-               Set_Overriding_Indicator_Kind
-                 (Node, An_Indicator_of_Not_Overriding);
-            else                        --  ""
-               Set_Overriding_Indicator_Kind
-                 (Node, An_Indicator_of_Overriding);
-            end if;
-         end;
-      end if;
-   end Normalize_Overriding_Indicator;
-
    -------------------------------
    -- Normalize_Pragma_Argument --
    -------------------------------
@@ -749,7 +705,7 @@ package body Asis.Gela.Normalizer.Utils is
 
    procedure Set_Default_Kind (Element : Asis.Element) is
       use Asis.Gela.Elements.Decl;
-      use Asis.Gela.Elements.Helpers;
+      use Asis.Gela.Elements.Expr;
 
       Default : constant Asis.Element :=
         Formal_Subprogram_Default (Element.all);
@@ -758,9 +714,12 @@ package body Asis.Gela.Normalizer.Utils is
    begin
       if not Assigned (Default) then
          Set_Default_Kind (Ptr.all, A_Nil_Default);
-      elsif Default.all in Token_Node then
+      elsif Default.all in Box_Expression_Node then
          Set_Default_Kind (Ptr.all, A_Box_Default);
          Set_Formal_Subprogram_Default (Ptr.all, Nil_Element);
+--      elsif Default.all in Null_Literal_Node then
+--         Set_Default_Kind (Ptr.all, A_Null_Default);
+--         Set_Formal_Subprogram_Default (Ptr.all, Nil_Element);
       else
          Set_Default_Kind (Ptr.all, A_Name_Default);
       end if;
@@ -822,44 +781,6 @@ package body Asis.Gela.Normalizer.Utils is
    begin
       Set_Is_Private_Present (Node, Assigned (List));
    end Set_Has_Private;
-
-   -------------------
-   -- Set_Mode_Kind --
-   -------------------
-
-   procedure Set_Mode_Kind (Element : Asis.Element) is
-      use Asis.Gela.Elements.Decl;
-      use Lists.Primary_Token_Lists;
-      use Asis.Gela.Elements.Helpers;
-
-      Node   : Formal_Object_Declaration_Node renames
-        Formal_Object_Declaration_Node (Element.all);
-      Modes  : constant List := List (Mode_Element (Node));
-   begin
-      if Modes = null then
-         Set_Mode_Kind (Node, A_Default_In_Mode);
-         return;
-      end if;
-
-      case Length (Modes.all) is
-         when 0 =>
-            Set_Mode_Kind (Node, A_Default_In_Mode);
-         when 2 =>
-            Set_Mode_Kind (Node, An_In_Out_Mode);
-         when others =>
-            declare
-               First : constant Asis.Element := Get_Item (Modes, 1);
-               Token : constant Token_Ptr := Token_Ptr (First);
-            begin
-               if Length (Token.all) = 2 then  --  "in"
-                  Set_Mode_Kind (Node, An_In_Mode);
-               else                            --  "out"
-                  Set_Mode_Kind (Node, An_Out_Mode);
-               end if;
-            end;
-      end case;
-      Set_Mode_Element (Node, Nil_Element);
-   end Set_Mode_Kind;
 
    ---------------
    -- Set_Names --

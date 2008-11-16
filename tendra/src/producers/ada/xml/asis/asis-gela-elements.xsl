@@ -219,6 +219,15 @@ end </xsl:text>
       <xsl:when test="@type = 'Boolean'">
         <xsl:text> := False</xsl:text>
       </xsl:when>
+      <xsl:when test="@type = 'Asis.Mode_Kinds'">
+        <xsl:text> := A_Default_In_Mode</xsl:text>
+      </xsl:when>
+      <xsl:when test="@type = 'Asis.Access_Type_Kinds'">
+        <xsl:text> := A_Pool_Specific_Access_To_Variable</xsl:text>
+      </xsl:when>
+      <xsl:when test="@type = 'Asis.Overriding_Indicator_Kinds'">
+        <xsl:text> := No_Overriding_Indicator</xsl:text>
+      </xsl:when>
       <xsl:when test="@type = 'Asis.Trait_Kinds'">
         <xsl:text> := An_Ordinary_Trait</xsl:text>
       </xsl:when>

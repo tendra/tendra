@@ -14,7 +14,6 @@ with Asis.Declarations;
 private package Asis.Gela.Normalizer.Utils is
 
    procedure Set_Default_Kind (Element : Asis.Element);
-   procedure Set_Mode_Kind    (Element : Asis.Element);
 
    procedure Set_Names
      (Element : Asis.Element;
@@ -278,23 +277,6 @@ private package Asis.Gela.Normalizer.Utils is
          Value   : in     Asis.Constraint) is <>;
 
    procedure Drop_Range_Subtype_Indication (Element : Asis.Element);
-
-
-   ------------------------------------
-   -- Normalize_Overriding_Indicator --
-   ------------------------------------
-
-   generic
-      type Node_Type is new Element_Node with private;
-
-      with function Overriding_Indicator
-        (Element : Node_Type) return Asis.Element is <>;
-
-      with procedure Set_Overriding_Indicator_Kind
-        (Element : in out Node_Type;
-         Value   : in     Asis.Overriding_Indicator_Kinds) is <>;
-
-   procedure Normalize_Overriding_Indicator (Element : Asis.Element);
 
 end Asis.Gela.Normalizer.Utils;
 

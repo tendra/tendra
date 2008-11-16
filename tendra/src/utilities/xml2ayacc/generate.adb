@@ -3,6 +3,7 @@ with Tokens;
 with Gela.Containers.Lists;
 with Ada.Text_IO;
 with Gramar_Items;           use Gramar_Items;
+with Gramar_Items.Code;
 with Ada.Strings.Unbounded;
 
 package body Generate is
@@ -237,6 +238,10 @@ package body Generate is
    procedure Print_Rule (Item : in Rule) is
       Rule_Name : constant String := Translate_Name (Name (Item));
    begin
+      if Code.Skip_Rule (Rule_Name) then
+         return;
+      end if;
+
       Put_Line (Rule_Name & " :");
       for I in 1 .. Count (Item) loop
          if I > 1 then
@@ -876,8 +881,15 @@ package body Generate is
 
             Put_Line (Indent & Proc & " (" & Parent_Name & ".all, True);");
 
-         else
+         elsif Attribute_Type (Parent_Type, Attr) = "Mode_Kinds" then
 
+            Put_Line (Indent & Proc & " (" & Parent_Name &
+                      ".all, Modes.$" & To_String (Index) &
+                      ");");
+         elsif Value (Child) /= "" then
+            Put_Line (Indent & Proc & " (" & Parent_Name &
+                      ".all, " & Value (Child) & ");");
+         else
             Put_Line (Indent & Proc & " (" & Parent_Name & ".all, $" &
                       To_String (Index) & ");");
          end if;
@@ -914,7 +926,7 @@ package body Generate is
       if Length /= 0 then
          Put_Line (Indent &
                    "   Node :  constant Token_Ptr := " &
-                   New_Node ("Token_Node") & ";");
+                   "Token_Stack (yy.tos)'Unchecked_Access;");
          Put_Line (Indent & "begin");
          Put_Line (Indent & "   Init_Token (Element => Node.all,");
          Put_Line (Indent & "               Line    => Get_Current_Line,");

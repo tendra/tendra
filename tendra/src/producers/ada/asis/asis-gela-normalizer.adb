@@ -186,15 +186,6 @@ package body Asis.Gela.Normalizer is
       Utils.Set_Names (Element);
 
       case Declaration_Kind (Element.all) is
-         when An_Entry_Declaration =>
-            declare
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                    (Entry_Declaration_Node);
-            begin
-               Normalize_Overriding_Indicator (Element);
-            end;
-
          when An_Entry_Body_Declaration =>
             declare
                procedure Split_Specification is
@@ -226,9 +217,6 @@ package body Asis.Gela.Normalizer is
                Split_Specification (Element);
                Utils.Set_Default_Kind (Element);
             end;
-
-         when A_Formal_Object_Declaration | A_Parameter_Specification =>
-            Utils.Set_Mode_Kind (Element);
 
          when A_Formal_Package_Declaration_With_Box =>
             declare
@@ -265,13 +253,9 @@ package body Asis.Gela.Normalizer is
                   new Utils.Check_Back_Identifier
                     (Function_Body_Declaration_Node);
 
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                    (Function_Body_Declaration_Node);
             begin
                Split_Specification (Element);
                Normalize_Handled_Statements (Element);
-               Normalize_Overriding_Indicator (Element);
                Check_Back_Identifier (Element);
             end;
 
@@ -280,13 +264,8 @@ package body Asis.Gela.Normalizer is
                procedure Split_Specification is
                   new Utils.Split_Function_Specification
                     (Function_Body_Stub_Node);
-
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                    (Function_Body_Stub_Node);
             begin
                Split_Specification (Element);
-               Normalize_Overriding_Indicator (Element);
             end;
 
          when A_Function_Declaration =>
@@ -294,13 +273,8 @@ package body Asis.Gela.Normalizer is
                procedure Split_Specification is
                   new Utils.Split_Function_Specification
                     (Function_Declaration_Node);
-
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                    (Function_Declaration_Node);
             begin
                Split_Specification (Element);
-               Normalize_Overriding_Indicator (Element);
 
                if Is_Null_Procedure (Element.all) then
                   Errors.Report
@@ -339,15 +313,10 @@ package body Asis.Gela.Normalizer is
                procedure Set_Generic_Unit_Names is new
                  Utils.Set_Generic_Unit_Names
                    (Function_Instantiation_Node);
-
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                   (Function_Instantiation_Node);
             begin
                Split_Specification (Element);
                Utils.Check_Empty_Profile (Parameter_Profile);
                Utils.Check_Empty_Result (Result_Subtype);
-               Normalize_Overriding_Indicator (Element);
                Set_Generic_Unit_Names (Element);
             end;
 
@@ -356,13 +325,8 @@ package body Asis.Gela.Normalizer is
                procedure Split_Specification is
                   new Utils.Split_Function_Specification
                     (Function_Renaming_Declaration_Node);
-
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                    (Function_Renaming_Declaration_Node);
             begin
                Split_Specification (Element);
-               Normalize_Overriding_Indicator (Element);
             end;
 
          when A_Generic_Function_Declaration =>
@@ -518,14 +482,9 @@ package body Asis.Gela.Normalizer is
                procedure Check_Back_Identifier is
                   new Utils.Check_Back_Identifier
                     (Procedure_Body_Declaration_Node);
-
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                    (Procedure_Body_Declaration_Node);
             begin
                Split_Specification (Element);
                Normalize_Handled_Statements (Element);
-               Normalize_Overriding_Indicator (Element);
                Check_Back_Identifier (Element);
             end;
 
@@ -534,13 +493,8 @@ package body Asis.Gela.Normalizer is
                procedure Split_Specification is
                   new Utils.Split_Procedure_Specification
                     (Procedure_Body_Stub_Node);
-
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                    (Procedure_Body_Stub_Node);
             begin
                Split_Specification (Element);
-               Normalize_Overriding_Indicator (Element);
             end;
 
          when A_Procedure_Declaration =>
@@ -548,13 +502,8 @@ package body Asis.Gela.Normalizer is
                procedure Split_Specification is
                   new Utils.Split_Procedure_Specification
                     (Procedure_Declaration_Node);
-
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                    (Procedure_Declaration_Node);
             begin
                Split_Specification (Element);
-               Normalize_Overriding_Indicator (Element);
             end;
 
          when A_Procedure_Instantiation =>
@@ -576,14 +525,9 @@ package body Asis.Gela.Normalizer is
                procedure Set_Generic_Unit_Names is new
                  Utils.Set_Generic_Unit_Names
                    (Procedure_Instantiation_Node);
-
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                   (Procedure_Instantiation_Node);
             begin
                Split_Specification (Element);
                Utils.Check_Empty_Profile (Parameter_Profile);
-               Normalize_Overriding_Indicator (Element);
                Set_Generic_Unit_Names (Element);
             end;
 
@@ -592,13 +536,8 @@ package body Asis.Gela.Normalizer is
                procedure Split_Specification is
                   new Utils.Split_Procedure_Specification
                     (Procedure_Renaming_Declaration_Node);
-
-               procedure Normalize_Overriding_Indicator is
-                  new Utils.Normalize_Overriding_Indicator
-                    (Procedure_Renaming_Declaration_Node);
             begin
                Split_Specification (Element);
-               Normalize_Overriding_Indicator (Element);
             end;
 
          when A_Protected_Body_Declaration =>

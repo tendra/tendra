@@ -15,6 +15,22 @@ pragma_r :
 }
 ;
 
+mode :
+     in     { Modes.$1 := An_In_Mode; }
+   | in out { Modes.$1 := An_In_Out_Mode; }
+   | out    { Modes.$1 := An_Out_Mode; }
+;
+
+general_access_modifier :
+     all       { Last_Access_Kind := An_Access_To_Variable; }
+   | constant  { Last_Access_Kind := An_Access_To_Constant; }
+;
+
+overriding_indicator :
+     not overriding { Last_Overriding_Kind := An_Indicator_of_Not_Overriding; }
+   | overriding     { Last_Overriding_Kind := An_Indicator_of_Overriding; }
+;
+
 %%
 with Gela;                     use Gela;
 with Gela.Decoders;
@@ -91,6 +107,15 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
       Line               : Lines.Line;
       Has_Comment        : Boolean := False;
       Comment            : Source_Buffers.Cursor;
+      Token_Stack        : array (1 .. 300) of aliased Token_Node;
+      Last_Access_Kind   : Asis.Access_Type_Kinds;
+      Last_Overriding_Kind : Asis.Overriding_Indicator_Kinds;
+
+      package Modes is
+         package yy is
+            value_stack  : array (1 .. 300) of Mode_Kinds;
+         end yy;
+      end Modes;
 
       function Get_Token_Value return Wide_String is
          From    : Source_Buffers.Cursor;

@@ -22,6 +22,7 @@ package body Gramar_Items.Code is
       Trait_Name          : Unbounded_String;
       Create              : Unbounded_String;
       Choise              : Unbounded_String;
+      Value               : Unbounded_String;
       Instance            : Positive := 1;
       Wrapper             : Natural;
    end record;
@@ -93,6 +94,9 @@ package body Gramar_Items.Code is
    Conflict_Names  : array (1 .. 20) of Unbounded_String;
    Conflict_Count  : Natural := 0;
 
+   Skip_Rules : array (1 .. 20) of Unbounded_String;
+   Skip_Count : Natural := 0;
+
    function Get_Parent_Wrap return Natural;
 
    function Find_Seq
@@ -135,8 +139,14 @@ package body Gramar_Items.Code is
          if Local_Name = "rule" then
             declare
                Name : constant String := Get_Attribute ("name");
+               Skip : constant String := Get_Attribute ("skip");
             begin
                Current_Rule := To_Unbounded_String (Name);
+
+               if Skip = "y" then
+                  Skip_Count := Skip_Count + 1;
+                  Skip_Rules (Skip_Count) := Current_Rule;
+               end if;
             end;
          elsif Local_Name = "seq" then
             declare
@@ -191,6 +201,7 @@ package body Gramar_Items.Code is
                Instance   : constant String := Get_Attribute ("instance");
                Create     : constant String := Get_Attribute ("create");
                Choise     : constant String := Get_Attribute ("choise");
+               Value      : constant String := Get_Attribute ("value");
                I          : constant Item_Info_Ptr := new Item_Info;
             begin
                I.Item_Name := To_Unbounded_String (Name);
@@ -199,6 +210,7 @@ package body Gramar_Items.Code is
                I.Trait_Name := To_Unbounded_String (Trait);
                I.Create := To_Unbounded_String (Create);
                I.Choise := To_Unbounded_String (Choise);
+               I.Value := To_Unbounded_String (Value);
                I.Wrapper := Get_Parent_Wrap;
 
                if Instance /= "" then
@@ -516,6 +528,21 @@ package body Gramar_Items.Code is
       end if;
    end Choise;
 
+   function Value
+     (Rule_Name : String;
+      Seq       : Sequence;
+      Item_Name : String) return String
+   is
+      Info_Ptr : constant Item_Info_Ptr :=
+        Find_Item (Rule_Name, Seq, Item_Name, 1);
+   begin
+      if Info_Ptr /= null then
+         return To_String (Info_Ptr.Value);
+      else
+         return "";
+      end if;
+   end Value;
+
    function Wrapper_Index
      (Rule_Name : String;
       Seq       : Sequence;
@@ -669,6 +696,17 @@ package body Gramar_Items.Code is
 
       return False;
    end Conflict_Name;
+
+   function Skip_Rule (Rule_Name : String) return Boolean is
+   begin
+      for J in 1 .. Skip_Count loop
+         if Skip_Rules (J) = Rule_Name then
+            return True;
+         end if;
+      end loop;
+
+      return False;
+   end Skip_Rule;
 
 end Gramar_Items.Code;
 

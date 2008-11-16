@@ -63,6 +63,11 @@ package Gramar_Items.Code is
       Seq       : Sequence;
       Item_Name : String) return String;
 
+   function Value
+     (Rule_Name : String;
+      Seq       : Sequence;
+      Item_Name : String) return String;
+
    function Created_Node_Name
      (Rule_Name : String;
       Seq       : Sequence;
@@ -95,6 +100,8 @@ package Gramar_Items.Code is
       Wrapper   : Positive) return Positive;
 
    function Conflict_Name (Rule_Name : String) return Boolean;
+
+   function Skip_Rule (Rule_Name : String) return Boolean;
 
 end Gramar_Items.Code;
 

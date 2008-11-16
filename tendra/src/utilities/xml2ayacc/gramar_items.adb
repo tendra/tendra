@@ -811,6 +811,13 @@ package body Gramar_Items is
       return Code.Choise (R_Name, Object.Parent, I_Name);
    end Choise;
 
+   function Value (Object : Item) return String is
+      I_Name : constant String := Item_Name (Item'Class (Object));
+      R_Name : constant String := Rule_Name (Object.Parent);
+   begin
+      return Code.Value (R_Name, Object.Parent, I_Name);
+   end Value;
+
    function Rule_Name (Seq : Sequence) return String is
    begin
       if Seq.Parent /= null then

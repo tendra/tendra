@@ -257,13 +257,17 @@
  </rule>
 
  <rule name="access_to_object_definition">
-   <seq node="Access_Type"/>
+   <seq node="Access_Type">
+     <item name="general_access_modifier" attr="Access_Type_Kind"
+           value="Last_Access_Kind"/>
+   </seq>
  </rule>
 
  <rule name="access_to_subprogram_definition">
    <seq contains_name="procedure">
      <wrap node="Access_Type">
-       <item name="protected" attr="General_Access_Modifier"/>
+       <item name="protected" attr="Access_Type_Kind"
+             value="An_Access_To_Protected_Procedure"/>
        <wrap pos="end"
              node="Primary_Parameter_Lists.List"
              attr="Access_To_Subprogram_Parameter_Profile"
@@ -274,8 +278,10 @@
      </wrap>
    </seq>
    <seq node="Access_Type">
-     <item name="protected" attr="General_Access_Modifier"/>
-     <item name="parameter_and_result_profile" attr="Access_To_Function_Result_Subtype"/>
+     <item name="protected" attr="Access_Type_Kind"
+           value="An_Access_To_Protected_Function"/>
+     <item name="parameter_and_result_profile"
+           attr="Access_To_Function_Result_Subtype"/>
    </seq>
  </rule>
 
@@ -605,6 +611,8 @@
    <seq true-node="Procedure_Declaration" false-node="Function_Declaration">
      <item name="subprogram_specification" attr="Specification"
            choise="Procedure_Specification_Node"/>
+     <item name="overriding_indicator" attr="Overriding_Indicator_Kind"
+           value="Last_Overriding_Kind"/>
    </seq>
  </rule>
 
@@ -612,6 +620,8 @@
    <seq true-node="Procedure_Declaration" false-node="Function_Declaration">
      <item name="subprogram_specification" attr="Specification"
            choise="Procedure_Specification_Node"/>
+     <item name="overriding_indicator" attr="Overriding_Indicator_Kind"
+           value="Last_Overriding_Kind"/>
    </seq>
  </rule>
 
@@ -620,6 +630,8 @@
      <item name="subprogram_specification" attr="Specification"
            choise="Procedure_Specification_Node"/>
      <item name="null" attr="Is_Null_Procedure"/>
+     <item name="overriding_indicator" attr="Overriding_Indicator_Kind"
+           value="Last_Overriding_Kind"/>
    </seq>
  </rule>
 
@@ -646,7 +658,7 @@
              pos="end">
          <item name="subtype_mark"/>
        </wrap>
-       <item name="mode" attr="Mode_Element"/>
+       <item name="mode" attr="Mode_Kind"/>
        <item name="assignment_default_expression_option"
              attr="Initialization_Expression"/>
      </wrap>
@@ -655,15 +667,15 @@
      <item name="access_definition" 
            attr="Object_Declaration_Subtype"
            trait="access_definition"/>
-     <item name="mode" attr="Mode_Element"/>
+     <item name="mode" attr="Mode_Kind"/>
      <item name="assignment_default_expression_option"
            attr="Initialization_Expression"/>
    </seq>
  </rule>
 
- <rule name="mode">
-   <seq node="Primary_Token_Lists.List"/>
- </rule>
+ <rule name="mode" skip="y"/>
+ <rule name="general_access_modifier" skip="y"/>
+ <rule name="overriding_indicator" skip="y"/>
 
  <rule name="subprogram_body">
    <seq true-node="Procedure_Body_Declaration"
@@ -672,6 +684,8 @@
            choise="Procedure_Specification_Node"/>
      <item name="declarative_part" attr="Body_Declarative_Items"/>
      <item name="designator" attr="Compound_Name"/>
+     <item name="overriding_indicator" attr="Overriding_Indicator_Kind"
+           value="Last_Overriding_Kind"/>
    </seq>
  </rule>
 
@@ -821,6 +835,8 @@
            choise="Procedure_Specification_Node"/>
      <item name="name"
            attr="Renamed_Entity"/>
+     <item name="overriding_indicator" attr="Overriding_Indicator_Kind"
+           value="Last_Overriding_Kind"/>
    </seq>
  </rule>
 
@@ -1081,6 +1097,8 @@
    <seq true-node="Procedure_Body_Stub" false-node="Function_Body_Stub">
      <item name="subprogram_specification" attr="Specification"
            choise="Procedure_Specification_Node"/>
+     <item name="overriding_indicator" attr="Overriding_Indicator_Kind"
+           value="Last_Overriding_Kind"/>
    </seq>
  </rule>
 
@@ -1168,6 +1186,8 @@
      <item name="subprogram_specification" attr="Specification"
            choise="Procedure_Specification_Node"/>
      <item name="compound_name" attr="Generic_Unit_Name"/>
+     <item name="overriding_indicator" attr="Overriding_Indicator_Kind"
+           value="Last_Overriding_Kind"/>
    </seq>
    <seq node="Package_Instantiation">
      <item name="compound_name" attr="Generic_Unit_Name"/>
@@ -1189,14 +1209,14 @@
              pos="end">
          <item name="subtype_mark"/>
        </wrap>
-       <item name="mode" attr="Mode_Element"/>
+       <item name="mode" attr="Mode_Kind"/>
        <item name="assignment_default_expression_option"
              attr="Initialization_Expression"/>
      </wrap>
    </seq>
    <seq>
      <item name="access_definition" attr="Object_Declaration_Subtype"/>
-     <item name="mode" attr="Mode_Element"/>
+     <item name="mode" attr="Mode_Kind"/>
      <item name="assignment_default_expression_option"
            attr="Initialization_Expression"/>
    </seq>
@@ -1774,6 +1794,8 @@
    <seq>
      <item name="left_parenthesis_discrete_subtype_definition_option"
            attr="Entry_Family_Definition"/>
+     <item name="overriding_indicator" attr="Overriding_Indicator_Kind"
+           value="Last_Overriding_Kind"/>
    </seq>
  </rule>
 
@@ -1957,6 +1979,9 @@
  <rule name="subprogram_default">
    <seq contains_name="null" node="Null_Literal">
      <item name="null"/>
+   </seq>
+   <seq contains_name="box" node="Box_Expression">
+     <item name="box"/>
    </seq>
  </rule>
  

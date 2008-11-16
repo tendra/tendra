@@ -85,9 +85,6 @@ package Asis.Gela.Lists is
    package Primary_Unit_Lists is
       new Primary_Lists ((Not_An_Element, A_Pragma));
 
-   package Primary_Token_Lists is
-      new Primary_Lists ((1 => Not_An_Element));
-
    ---------------------
    -- Secondary_Lists --
    ---------------------
@@ -120,9 +117,6 @@ package Asis.Gela.Lists is
    --      An_Enumeration_Literal
 
    package Secondary_Unit_Lists is
-      new Secondary_Lists ((1 => Not_An_Element));
-
-   package Secondary_Token_Lists is
       new Secondary_Lists ((1 => Not_An_Element));
 
 end Asis.Gela.Lists;

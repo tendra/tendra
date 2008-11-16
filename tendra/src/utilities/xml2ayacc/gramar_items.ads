@@ -31,6 +31,7 @@ package Gramar_Items is
    function Parent    (Object : Item) return Wrapper;
    function Create_Node (Object : Item) return String;
    function Trait_Name  (Object : Item) return String;
+   function Value     (Object : Item) return String;
 
    --------------
    -- Sequence --
