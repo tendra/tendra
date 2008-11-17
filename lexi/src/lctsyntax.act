@@ -60,6 +60,7 @@ ENTRYP -> EntryP;
 #include "lctlexer.h"
 #include "ccode.h"
 #include "adt.h"
+#include "xalloc/xalloc.h"
 #include "error/error.h"
 #include "exds/common.h"
 #include "exds/exception.h"
@@ -86,6 +87,8 @@ void init_lct_parse_tree (lct_parse_tree* a)
 	ccode_init(&(a->cfileheader)) ;
 	ccode_init(&(a->hfiletrailer)) ;
 	ccode_init(&(a->cfiletrailer)) ;
+	a->arg_head = NULL;
+	a->arg_tail = &(a->arg_head);
 }
 
 lexer_parse_tree* lxi_top_level;
@@ -130,6 +133,13 @@ lct_parse_tree global_lct_parse_tree ;
 
 #include "adt/tree.h"
 
+struct lxi_additional_argument {
+       	char* name;
+	char* ctype;
+
+	struct lxi_additional_argument* next;
+};
+
 typedef struct lct_parse_tree_tag {
 	int headersdefined;
 	int trailersdefined;
@@ -137,6 +147,8 @@ typedef struct lct_parse_tree_tag {
 	CcodeT cfileheader;
 	CcodeT hfiletrailer;
 	CcodeT cfiletrailer;
+	struct lxi_additional_argument* arg_head;
+	struct lxi_additional_argument** arg_tail;
 } lct_parse_tree;
 
 extern lexer_parse_tree* lxi_top_level;
@@ -258,6 +270,19 @@ code-string : () -> (s:BIGSTRING) = @{
 	}
 @};
 
+<define-additional-argument> : (name:IDENTIFIER, ctype:IDENTIFIER) -> () = @{
+	struct lxi_additional_argument* p;
+	if(nstring_length(@&name)>0 && nstring_length(@&ctype)>0) {
+		p = xmalloc(sizeof(*p));
+		p->name = nstring_to_cstring(@&name);
+		p->ctype = nstring_to_cstring(@&ctype);
+		p->next = NULL ;
+		*(global_lct_parse_tree.arg_tail) = p;
+		global_lct_parse_tree.arg_tail = &(p->next);
+	}
+	nstring_destroy(@&name);
+	nstring_destroy(@&ctype);
+@};
 
 <set-headers> : (sc:CCODE &,sh:CCODE&) -> () = @{
 	if(!global_lct_parse_tree.trailersdefined) {
@@ -439,6 +464,10 @@ code-string : () -> (s:BIGSTRING) = @{
 
 <E_expected_semicolon> = @{
 	    error( ERROR_SERIOUS, "Syntax error: expected ';'") ;
+@} ;
+
+<E_expected_colon> = @{
+	    error( ERROR_SERIOUS, "Syntax error: expected ':'") ;
 @} ;
 
 

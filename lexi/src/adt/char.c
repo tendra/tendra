@@ -112,7 +112,7 @@ values_equal(letter_translation_type type, const union char_value *a, const unio
 {
 	switch (type) {
 	case group_letter:
-		return a->g.not == b->g.not && is_group_equal(a->g.grp, b->g.grp);
+		return a->g.not == b->g.not && is_group_equal(a->g.grp->def, b->g.grp->def);
 
 	case char_letter:
 		return a->c == b->c;

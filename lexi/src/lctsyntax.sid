@@ -43,6 +43,8 @@ header-kw ;
 trailer-kw ;
 map-kw ;
 action-kw ;
+argument-kw;
+
 reference ;	//&
 colon;
 arrow;
@@ -91,6 +93,7 @@ code-string : () -> (:BIGSTRING);
 <append-ccode-identifier> : (:CCODE&, :IDENTIFIER, :ENTRYP, :BOOL) -> ();
 <append-ccode-at> : (:CCODE&) -> ();
 
+<define-additional-argument> : (:IDENTIFIER, :IDENTIFIER) -> ();
 
 <E-syntax-error> ;
 <E_expected_code_end> ;
@@ -98,6 +101,7 @@ code-string : () -> (:BIGSTRING);
 <E_expected_comma> ;
 <E_expected_define> ;
 <E_expected_arrow> ;
+<E_expected_colon> ;
 <E_expected_semicolon> ;
 <E_expected_identifier>;
 
@@ -282,6 +286,34 @@ action-definition : () -> () [
 	} ;
 };
 
+argument-stmnt : () -> () = {
+	argument-kw; 
+	{
+		name = identifier ;
+	    ##
+		name = <empty-identifier>;
+		<E_expected_identifier>;
+	};
+	{
+		colon ;
+	    ##
+		<E_expected_colon>;
+	};
+	{
+		ctype = identifier ;
+	    ##
+		ctype = <empty-identifier>;
+		<E_expected_identifier>;
+	};
+	<define-additional-argument>(name, ctype);	
+	{
+		semicolon ; 
+	    ##
+		<E_expected_semicolon>;
+	};
+};
+
+
 statement : () -> () = {
 	header-stmnt;
     ||
@@ -290,6 +322,8 @@ statement : () -> () = {
 	action-definition;
     ||
 	map-stmnt;
+    ||
+	argument-stmnt;
 };
 
 statement-list : () -> () = {

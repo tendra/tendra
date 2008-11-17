@@ -50,7 +50,6 @@ struct lexi_state lexer_state;
 
     This is the file from which the lexical routine read their input.
 */
-
 FILE *lex_input;
 
 /*
@@ -104,6 +103,8 @@ extern int saved_lex_token;
 extern unsigned int number_buffer;
 extern struct lexi_state lexer_state;
 
+typedef FILE* FILE_P ;
+
 extern FILE *lex_input;
 
 /*
@@ -120,6 +121,8 @@ extern FILE *lex_input;
 TRAILERS = @{
 @},@{
 @} ;
+
+//ARGUMENT input:FILE_P ;
 
 MAP TERMINAL -> int;
 

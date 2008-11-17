@@ -95,12 +95,12 @@ void lexi_lct_flush(struct lexi_lct_state *state);
 
 enum lexi_lct_groups {
 	lexi_lct_group_white = 0x1,
+	lexi_lct_group_alphanum = 0x2,
+	lexi_lct_group_alpha = 0x4,
 	lexi_lct_code_area_white = 0,
 	lexi_lct_LineComment_white = 0,
 	lexi_lct_Comment_white = 0,
 	lexi_lct_identifierzone_white = 0,
-	lexi_lct_group_alphanum = 0x2,
-	lexi_lct_group_alpha = 0x4
 };
 
 /* true if the given character is present in the given group */

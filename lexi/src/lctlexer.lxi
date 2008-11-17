@@ -94,3 +94,4 @@ KEYWORD "HEADERS" -> $header-kw ;
 KEYWORD "TRAILERS" -> $trailer-kw ; 
 KEYWORD "MAP" -> $map-kw;
 KEYWORD "ACTION" -> $action-kw;
+KEYWORD "ARGUMENT" -> $argument-kw;

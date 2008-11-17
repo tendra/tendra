@@ -86,7 +86,6 @@ struct lexi_state lexer_state;
 
     This is the file from which the lexical routine read their input.
 */
-
 FILE *lex_input;
 
 /*
@@ -207,9 +206,10 @@ int lexi_keyword(const char *identifier, int notfound) {
 }
 /* PRE-PASS ANALYSERS */
 
-void lexi_init(struct lexi_state *state) {
+void lexi_init(struct lexi_state *state, FILE_P input) {
 	state->zone = lexi_read_token;
 	state->buffer_index = 0;
+	state->input = input;
 }
 /* ZONES PASS ANALYSER PROTOTYPES*/
 

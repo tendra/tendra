@@ -76,6 +76,8 @@ extern int saved_lex_token;
 extern unsigned int number_buffer;
 extern struct lexi_state lexer_state;
 
+typedef FILE* FILE_P ;
+
 extern FILE *lex_input;
 
 /*
@@ -101,6 +103,7 @@ struct lexi_state {
 	 */
 	int buffer[4];
 	int buffer_index;
+	FILE_P input;
 };
 
 /* Read a character */
@@ -120,16 +123,16 @@ void lexi_flush(struct lexi_state *state);
 #endif
 
 enum lexi_groups {
+	lexi_group_alphanumhyphen = 0x1,
+	lexi_group_alphanum = 0x2,
+	lexi_group_digit = 0x4,
+	lexi_group_alpha = 0x8,
+	lexi_group_white = 0x10,
 	lexi_sididentifierzone_white = 0,
 	lexi_identifierzone_white = 0,
 	lexi_stringzone_white = 0,
 	lexi_line_comment_white = 0,
 	lexi_comment_white = 0,
-	lexi_group_alphanumhyphen = 0x1,
-	lexi_group_alphanum = 0x2,
-	lexi_group_digit = 0x4,
-	lexi_group_alpha = 0x8,
-	lexi_group_white = 0x10
 };
 
 /* true if the given character is present in the given group */
@@ -142,7 +145,7 @@ int lexi_keyword(const char *identifier, int notfound);
 int lexi_read_token(struct lexi_state *state);
 
 /* Initialise a lexi_state structure */
-void lexi_init(struct lexi_state *state);
+void lexi_init(struct lexi_state *state, FILE_P input);
 
 #endif
 

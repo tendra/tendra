@@ -1243,6 +1243,10 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	      "\tint (*zone)(struct %sstate *);\n",
 		opt->lexi_prefix, opt->lexi_prefix);
 	output_buffer_storage(top_level);
+	struct lxi_additional_argument* add_arg;
+	for(add_arg = global_lct_parse_tree.arg_head; add_arg != NULL; add_arg = add_arg->next) {
+		fprintf(lex_output_h, "\t%s %s;\n", add_arg->ctype, add_arg->name);
+	}
 	fputs("};\n\n", lex_output_h);
 
 	output_buffer(opt, top_level);
@@ -1276,13 +1280,23 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	/* TODO assert() state */
 	fprintf(lex_output_h, "/* Initialise a %sstate structure */\n",
 		opt->lexi_prefix);
-	fprintf(lex_output_h, "void %sinit(struct %sstate *state);\n\n",
+	fprintf(lex_output_h, "void %sinit(struct %sstate *state",
 		opt->lexi_prefix, opt->lexi_prefix);
-	fprintf(lex_output,"void %sinit(struct %sstate *state) {\n"
-		"\tstate->zone = %s;\n",
-		opt->lexi_prefix, opt->lexi_prefix, read_token_name);
+	fprintf(lex_output,"void %sinit(struct %sstate *state",
+		opt->lexi_prefix, opt->lexi_prefix);
+
+	for(add_arg = global_lct_parse_tree.arg_head; add_arg != NULL; add_arg = add_arg->next) {
+		fprintf(lex_output_h, ", %s %s", add_arg->ctype, add_arg->name);
+		fprintf(lex_output, ", %s %s", add_arg->ctype, add_arg->name);
+	}
+	fputs(");\n\n",lex_output_h);
+	fprintf(lex_output, ") {\n\tstate->zone = %s;\n", read_token_name);
+
 	if (buffer_length(top_level) > 0) {
 		fprintf(lex_output, "\tstate->buffer_index = 0;\n");
+	}
+	for(add_arg = global_lct_parse_tree.arg_head; add_arg != NULL; add_arg = add_arg->next) {
+		fprintf(lex_output, "\tstate->%s = %s;\n", add_arg->name, add_arg->name);
 	}
 	fprintf(lex_output, "}\n");
 
