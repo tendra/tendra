@@ -76,7 +76,7 @@ int saved_lex_token;
 */
 
 static int
-lexi_getchar(lexi_state* state)
+lexi_getchar(struct lexi_state* state)
 {
     int c;
     c = fgetc(state->input);

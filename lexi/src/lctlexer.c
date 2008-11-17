@@ -74,7 +74,7 @@ int lexi_lct_readchar(struct lexi_lct_state *state) {
 		return lexi_lct_pop(state);
 	}
 
-	return lexi_lct_getchar();
+	return lexi_lct_getchar(state);
 }
 void lexi_lct_push(struct lexi_lct_state *state, const int c) {
 	assert(state);
