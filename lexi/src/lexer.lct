@@ -46,13 +46,6 @@ HEADERS = @{
 struct lexi_state lexer_state;
 
 /*
-    INPUT FILE
-
-    This is the file from which the lexical routine read their input.
-*/
-FILE *lex_input;
-
-/*
     TOKEN BUFFER
 
     This buffer is used by read_token to hold the values of identifiers
@@ -83,10 +76,10 @@ int saved_lex_token;
 */
 
 static int
-lexi_getchar(void)
+lexi_getchar(lexi_state* state)
 {
     int c;
-    c = fgetc(lex_input);
+    c = fgetc(state->input);
     if (c == '\n')crt_line_no++;
     if (c == EOF) return LEXI_EOF;
     c &= 0xff;
@@ -105,8 +98,6 @@ extern struct lexi_state lexer_state;
 
 typedef FILE* FILE_P ;
 
-extern FILE *lex_input;
-
 /*
      PARSER MACROS
 */
@@ -122,7 +113,7 @@ TRAILERS = @{
 @},@{
 @} ;
 
-//ARGUMENT input:FILE_P ;
+ARGUMENT input:FILE_P ;
 
 MAP TERMINAL -> int;
 

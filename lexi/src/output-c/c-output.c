@@ -1087,7 +1087,7 @@ output_buffer(cmd_line_options *opt, lexer_parse_tree *top_level)
 	}
 
 	/* TODO pass opaque here */
-	fprintf(lex_output, "\treturn %sgetchar();\n", opt->interface_prefix);
+	fprintf(lex_output, "\treturn %sgetchar(state);\n", opt->interface_prefix);
 	fputs("}\n", lex_output);
 
 	if (buffer_length(top_level) == 0) {

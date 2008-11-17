@@ -82,13 +82,6 @@
 struct lexi_state lexer_state;
 
 /*
-    INPUT FILE
-
-    This is the file from which the lexical routine read their input.
-*/
-FILE *lex_input;
-
-/*
     TOKEN BUFFER
 
     This buffer is used by read_token to hold the values of identifiers
@@ -119,10 +112,10 @@ int saved_lex_token;
 */
 
 static int
-lexi_getchar(void)
+lexi_getchar(struct lexi_state* state)
 {
     int c;
-    c = fgetc(lex_input);
+    c = fgetc(state->input);
     if (c == '\n')crt_line_no++;
     if (c == EOF) return LEXI_EOF;
     c &= 0xff;
@@ -138,7 +131,7 @@ int lexi_readchar(struct lexi_state *state) {
 		return lexi_pop(state);
 	}
 
-	return lexi_getchar();
+	return lexi_getchar(state);
 }
 void lexi_push(struct lexi_state *state, const int c) {
 	assert(state);

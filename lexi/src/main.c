@@ -91,23 +91,24 @@ cmd_line_options options;
 static void
 process_lxi_file(char *nm,lexer_parse_tree* top_level)
 {
+	FILE* input;
 	crt_line_no = 1;
 	if (nm == NULL || !strcmp(nm, "-")) {
 		crt_file_name = "<stdin>";
-		lex_input = stdin;
+		input = stdin;
 		nm = NULL;
 	} else {
 		crt_file_name = nm;
-		lex_input = fopen(nm, "r");
-		if (lex_input == NULL) {
+		input = fopen(nm, "r");
+		if (input == NULL) {
 			error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
 			return;
 		}
 	}
-	lexi_init(&lexer_state);
+	lexi_init(&lexer_state, input);
 	ADVANCE_LXI_LEXER;
 	read_lex(tree_get_globalzone(top_level));
-	if (nm)fclose(lex_input);
+	if (nm)fclose(input);
 	return;
 }
 

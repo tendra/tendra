@@ -78,8 +78,6 @@ extern struct lexi_state lexer_state;
 
 typedef FILE* FILE_P ;
 
-extern FILE *lex_input;
-
 /*
      PARSER MACROS
 */
