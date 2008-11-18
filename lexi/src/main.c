@@ -122,13 +122,14 @@ process_lct_file (lexer_parse_tree* parse_tree, char* fn)
 {
 
 	crt_line_no = 1 ;
+	FILE* lct_file;
 	if (!(lct_file=fopen(fn,"r"))) {
 		error(ERROR_SERIOUS, "Can't open input file, '%s'", fn);
 		return; /*error message*/
 	}
 	crt_file_name = fn;
 	init_lct_parse_tree(&global_lct_parse_tree) ;
-	lexi_lct_init(&lct_lexer_state) ;
+	lexi_lct_init(&lct_lexer_state, lct_file) ;
 	ADVANCE_LCT_LEXER ;
 
 	lxi_top_level=parse_tree;

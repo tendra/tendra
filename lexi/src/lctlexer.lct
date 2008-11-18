@@ -43,13 +43,12 @@ static char* lct_token_current;
 
 NStringT lct_token_nstring;
 
-FILE* lct_file;
 struct lexi_lct_state lct_lexer_state;
 
 static int 
-lexi_lct_getchar() 
+lexi_lct_getchar(struct lexi_lct_state* state) 
 {
-	int c =fgetc(lct_file);
+	int c =fgetc(state->input);
 	if(c == '\n') 
 		crt_line_no++;
 	if(c == EOF) 
@@ -61,7 +60,8 @@ lexi_lct_getchar()
 #include <stdio.h>
 #include "lctsyntax.h"
 
-extern FILE* lct_file;
+typedef FILE* FILE_P_lct ;
+
 extern char lct_token_buff [];
 extern int crt_lct_token ;
 extern int saved_lct_token ;
@@ -88,6 +88,7 @@ TRAILERS = @{
 
 MAP TERMINAL -> int;
 
+ARGUMENT input:FILE_P_lct ;
 
 ACTION init_token_buffer = @{
 	lct_token_current=lct_token_buff;

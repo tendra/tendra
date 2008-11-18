@@ -51,13 +51,12 @@ static char* lct_token_current;
 
 NStringT lct_token_nstring;
 
-FILE* lct_file;
 struct lexi_lct_state lct_lexer_state;
 
 static int 
-lexi_lct_getchar() 
+lexi_lct_getchar(struct lexi_lct_state* state) 
 {
-	int c =fgetc(lct_file);
+	int c =fgetc(state->input);
 	if(c == '\n') 
 		crt_line_no++;
 	if(c == EOF) 
@@ -137,9 +136,10 @@ int lexi_lct_keyword(const char *identifier, int notfound) {
 }
 /* PRE-PASS ANALYSERS */
 
-void lexi_lct_init(struct lexi_lct_state *state) {
+void lexi_lct_init(struct lexi_lct_state *state, FILE_P_lct input) {
 	state->zone = lexi_lct_read_token;
 	state->buffer_index = 0;
+	state->input = input;
 }
 /* ZONES PASS ANALYSER PROTOTYPES*/
 

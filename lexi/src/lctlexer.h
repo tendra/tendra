@@ -42,7 +42,8 @@
 #include <stdio.h>
 #include "lctsyntax.h"
 
-extern FILE* lct_file;
+typedef FILE* FILE_P_lct ;
+
 extern char lct_token_buff [];
 extern int crt_lct_token ;
 extern int saved_lct_token ;
@@ -75,6 +76,7 @@ struct lexi_lct_state {
 	 */
 	int buffer[2];
 	int buffer_index;
+	FILE_P_lct input;
 };
 
 /* Read a character */
@@ -113,7 +115,7 @@ int lexi_lct_keyword(const char *identifier, int notfound);
 int lexi_lct_read_token(struct lexi_lct_state *state);
 
 /* Initialise a lexi_lct_state structure */
-void lexi_lct_init(struct lexi_lct_state *state);
+void lexi_lct_init(struct lexi_lct_state *state, FILE_P_lct input);
 
 #endif
 
