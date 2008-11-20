@@ -1214,7 +1214,7 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fprintf(lex_output_h, "#define LEXI_GENERATED_HEADER_%s_INCLUDED\n", lexi_prefix);
 	fputs("\n", lex_output_h);
 
-	if (opt->outputfile[1].name) {
+	if (opt->outputfile[1].name && (opt->outputfile[1].file!=stdout)) {
 		char *s;
 
 		/* XXX: This assumes both files are in the same directory */
