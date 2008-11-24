@@ -38,6 +38,7 @@
 #ifndef TABLE_H
 #define TABLE_H
 
+#include "config.h"
 #include "filename.h"
 
 #define TYPE_ARRAY_SIZE     (UNKNOWN_TYPE + 8)
@@ -90,6 +91,31 @@ struct filetype_table {
 	/* TODO who uses this? can we remove the feature? */
 	const char *suffix;
 
+	/*
+	 * SINGLE CHARACTER KEYS FOR FILE TYPES
+	 *
+	 * Each file type has an associated identifying letter. In most cases this
+	 * corresponds to the file suffix. This is expected to be unique per type.
+	 *
+	 * Unused keys are set to '\0'.
+	 *
+	 * TODO: We can probably eliminate this in favour of strings.
+	 */
+	char key;
+
+	/*
+	 * True if this filetype is applicable to the checker. In this case, when
+	 * run as the checker, tcc will consider this filetype unrecognised if this
+	 * is false.
+	 */
+	boolean checker;
+
+	/*
+	 * True if this filetype's key is a stage identifier as well as being a
+	 * suffix; false indicates a suffix. Stage identifiers are a superset.
+	 */
+	boolean stage;
+
 	/* TODO more fields to come here. move in content from various lookup functions */
 };
 
@@ -107,9 +133,28 @@ int table_keep(enum filetype type);
 int table_stop(enum filetype type);
 
 /*
- * Find the suffice for the given filetype.
+ * Find the suffix for the given filetype.
  */
-const char *table_suffix(enum filetype type);
+const char *
+table_suffix(enum filetype type);
+
+/*
+ * Find the single-character key for the given filetype.
+ */
+char table_key(enum filetype type);
+
+/*
+ * Find the filetype associated with a single-character key, which may either
+ * be a suffix or a stage identifier.
+ */
+enum filetype
+table_findbykey(char key);
+
+boolean
+table_checker(enum filetype type);
+
+boolean
+table_stage(enum filetype type);
 
 #endif
 

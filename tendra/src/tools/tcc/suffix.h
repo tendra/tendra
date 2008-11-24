@@ -65,27 +65,12 @@
 /*
  * SINGLE CHARACTER KEYS FOR FILE TYPES - Table 2
  *
- * Each file type has an associated identifying letter. In most cases this
- * corresponds to the file suffix. This table needs to be kept in step with
- * Table 1.
+ * These are the special keys which do not correspond directly to a file type
+ * present in table.h.
+ *
+ * TODO: is ALL_KEY actually used? (Perhaps only given by the user?)
+ * TODO: can we merge the EXTRA_KEY information into table.h somehow?
  */
-#define C_SOURCE_KEY			'c'
-#define PREPROC_C_KEY			'i'
-#define CPP_SOURCE_KEY			'C'
-#define PREPROC_CPP_KEY			'I'
-#define INDEP_TDF_KEY			'j'
-#define DEP_TDF_KEY			't'
-#define AS_SOURCE_KEY			's'
-#define BINARY_OBJ_KEY			'o'
-#define BINARY_OBJ_AUX_KEY		'b'
-#define PRETTY_TDF_KEY			'p'
-#define PL_TDF_KEY			'P'
-#define TDF_ARCHIVE_KEY			'A'
-#define MIPS_G_FILE_KEY			'G'
-#define MIPS_T_FILE_KEY			'T'
-#define C_SPEC_KEY			'k'
-#define CPP_SPEC_KEY			'K'
-#define STARTUP_FILE_KEY		'h'
 #define ALL_KEY				'a'
 #define EXTRA_KEY			'+'
 

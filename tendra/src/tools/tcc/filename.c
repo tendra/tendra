@@ -229,41 +229,29 @@ add_filename(filename *p, filename *q)
  * This routine converts the letter s, which is a file suffix, to a file type.
  * This routine needs to be kept in step with Table 1 and Table 2.
  */
-/* TODO Have this search table.h instead */
-/* TODO _KEY ought perhaps to be an enum, and thus s not an int */
+/* TODO keys ought perhaps to be an enum, and thus s not a char */
 
 enum filetype
 find_type_suffix(char s)
 {
-	switch (s) {
-	case C_SOURCE_KEY:
-		return (C_SOURCE);
-	case PREPROC_C_KEY:
-		return (PREPROC_C);
-	case CPP_SOURCE_KEY:
-		return (CPP_SOURCE);
-	case PREPROC_CPP_KEY:
-		return (PREPROC_CPP);
-	case AS_SOURCE_KEY:
-		return (AS_SOURCE);
-	case BINARY_OBJ_KEY:
-		return (BINARY_OBJ);
-	case C_SPEC_KEY:
-		return (C_SPEC);
-	case CPP_SPEC_KEY:
-		return (CPP_SPEC);
+	enum filetype t;
+
+	t = table_findbykey(s);
+	if (t == UNKNOWN_TYPE) {
+		error(SERIOUS, "Unknown file type, '%c'", s);
+		return UNKNOWN_TYPE;
 	}
-	if (!checker) {
-		switch (s) {
-		case INDEP_TDF_KEY:
-			return (INDEP_TDF);
-		case DEP_TDF_KEY:
-			return (DEP_TDF);
-		case PRETTY_TDF_KEY:
-			return (PRETTY_TDF);
-		}
+
+	/* TODO: perhaps overkill to put this in filetype_table */
+	if (table_stage(t)) {
+		return DEFAULT_TYPE;
 	}
-	return(DEFAULT_TYPE);
+
+	if (checker && !table_checker(t)) {
+		return DEFAULT_TYPE;
+	}
+
+	return t;
 }
 
 
@@ -273,60 +261,30 @@ find_type_suffix(char s)
  * This routine converts the letter s, which is a stage identifier, to a file
  * type. This routine needs to be kept in step with Table 1 and Table 2.
  */
-/* TODO Have this search table.h instead */
-/* TODO _KEY ought perhaps to be an enum, and thus s not an int */
+/* TODO keys ought perhaps to be an enum, and thus s not a char */
 
 enum filetype
 find_type_stage(char s)
 {
-	switch (s) {
-	case C_SOURCE_KEY:
-		return (C_SOURCE);
-	case PREPROC_C_KEY:
-		return (PREPROC_C);
-	case CPP_SOURCE_KEY:
-		return (CPP_SOURCE);
-	case PREPROC_CPP_KEY:
-		return (PREPROC_CPP);
-	case AS_SOURCE_KEY:
-		return (AS_SOURCE);
-	case BINARY_OBJ_KEY:
-		return (BINARY_OBJ);
-	case C_SPEC_KEY:
-		return (C_SPEC);
-	case CPP_SPEC_KEY:
-		return (CPP_SPEC);
+	enum filetype t;
+
+	if (s == ALL_KEY) {
+		return ALL_TYPES;
 	}
-	if (!checker) {
-		switch (s) {
-		case INDEP_TDF_KEY:
-			return (INDEP_TDF);
-		case DEP_TDF_KEY:
-			return (DEP_TDF);
-		case PRETTY_TDF_KEY:
-			return (PRETTY_TDF);
-		}
+
+	t = table_findbykey(s);
+
+	if (checker && !table_checker(t)) {
+		error(SERIOUS, "File type '%c' non-applicable for the checker", s);
+		return UNKNOWN_TYPE;
 	}
-	switch (s) {
-	case MIPS_G_FILE_KEY:
-		return (MIPS_G_FILE);
-	case MIPS_T_FILE_KEY:
-		return (MIPS_T_FILE);
-	case STARTUP_FILE_KEY:
-		return (STARTUP_FILE);
-	case ALL_KEY:
-		return (ALL_TYPES);
+
+	if (t == UNKNOWN_TYPE) {
+		error(SERIOUS, "Unknown file type, '%c'", s);
+		return UNKNOWN_TYPE;
 	}
-	if (!checker) {
-		switch (s) {
-		case PL_TDF_KEY:
-			return (PL_TDF);
-		case TDF_ARCHIVE_KEY:
-			return (TDF_ARCHIVE);
-		}
-	}
-	error(WARNING, "Unknown file type, '%c'",(unsigned char)s);
-	return (UNKNOWN_TYPE);
+
+	return t;
 }
 
 
@@ -336,7 +294,7 @@ find_type_stage(char s)
  * This routine converts a file type, t, into the corresponding file suffix. It
  * needs to be kept in step with Table 1 and Table 2.
  */
-/* TODO Have this search table.h instead. We can probably eliminate _KEY in favour of strings */
+/* TODO Have this search table.h instead. We can probably eliminate keys in favour of strings */
 
 static char *
 file_suffix(int t)
@@ -345,60 +303,61 @@ file_suffix(int t)
 	suff[0] = 0;
 	suff[1] = 0;
 	suff[2] = 0;
+	/* TODO: rearrange for simplicity */
 	switch (t) {
 	case C_SOURCE:
-		suff[0] = C_SOURCE_KEY;
+		suff[0] = table_key(C_SOURCE);
 		break;
 	case PREPROC_C:
-		suff[0] = PREPROC_C_KEY;
+		suff[0] = table_key(PREPROC_C);
 		break;
 	case CPP_SOURCE:
-		suff[0] = CPP_SOURCE_KEY;
+		suff[0] = table_key(CPP_SOURCE);
 		break;
 	case PREPROC_CPP:
-		suff[0] = PREPROC_CPP_KEY;
+		suff[0] = table_key(PREPROC_CPP);
 		break;
 	case INDEP_TDF:
-		suff[0] = INDEP_TDF_KEY;
+		suff[0] = table_key(INDEP_TDF);
 		break;
 	case INDEP_TDF_AUX:
-		suff[0] = INDEP_TDF_KEY;
+		suff[0] = table_key(INDEP_TDF);
 		suff[1] = EXTRA_KEY;
 		break;
 	case DEP_TDF:
-		suff[0] = DEP_TDF_KEY;
+		suff[0] = table_key(DEP_TDF);
 		break;
 	case AS_SOURCE:
-		suff[0] = AS_SOURCE_KEY;
+		suff[0] = table_key(AS_SOURCE);
 		break;
 	case BINARY_OBJ:
-		suff[0] = BINARY_OBJ_KEY;
+		suff[0] = table_key(BINARY_OBJ);
 		break;
 	case BINARY_OBJ_AUX:
 		if ((use_sparc_cc == 1) && use_system_cc) {
 			suff[0] = '.';
-			suff[1] = BINARY_OBJ_KEY;
+			suff[1] = table_key(BINARY_OBJ);
 		} else {
-			suff[0] = BINARY_OBJ_AUX_KEY;
+			suff[0] = table_key(BINARY_OBJ_AUX);
 		}
 		break;
 	case PRETTY_TDF:
-		suff[0] = PRETTY_TDF_KEY;
+		suff[0] = table_key(PRETTY_TDF);
 		break;
 	case PL_TDF:
-		suff[0] = PL_TDF_KEY;
+		suff[0] = table_key(PL_TDF);
 		break;
 	case MIPS_G_FILE:
-		suff[0] = MIPS_G_FILE_KEY;
+		suff[0] = table_key(MIPS_G_FILE);
 		break;
 	case MIPS_T_FILE:
-		suff[0] = MIPS_T_FILE_KEY;
+		suff[0] = table_key(MIPS_T_FILE);
 		break;
 	case C_SPEC:
-		suff[0] = C_SPEC_KEY;
+		suff[0] = table_key(C_SPEC);
 		break;
 	case CPP_SPEC:
-		suff[0] = CPP_SPEC_KEY;
+		suff[0] = table_key(CPP_SPEC);
 		break;
 	}
 	if (suff[0]) {

@@ -53,40 +53,47 @@
  *
  */
 
+#include <assert.h>
 #include <stddef.h>
 
+#include "config.h"
 #include "table.h"
 
 struct filetype_table filetype_table[TYPE_ARRAY_SIZE] = {
-	{	C_SOURCE,			FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	PREPROC_C,			FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	CPP_SOURCE,			FTK_FC, FTK_FC, FTK_FC, "cpp" },
-	{	PREPROC_CPP,		FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	INDEP_TDF,			FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	DEP_TDF,			FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	AS_SOURCE,			FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	BINARY_OBJ,			FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	EXECUTABLE,			FTK_TN, FTK_FC, FTK_TN, NULL },
-	{	PRETTY_TDF,			FTK_TC, FTK_FC, FTK_TN, NULL },
-	{	PL_TDF,				FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	TDF_ARCHIVE,		FTK_TN, FTK_FC, FTK_TN, NULL },
-	{	MIPS_G_FILE,		FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	MIPS_T_FILE,		FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	C_SPEC,				FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	CPP_SPEC,			FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	STARTUP_FILE,		FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	UNKNOWN_TYPE,		FTK_FC, FTK_FC, FTK_FC, NULL },
+	{	C_SOURCE,			FTK_FC, FTK_FC, FTK_FC, NULL,  'c',  1, 0 },
+	{	PREPROC_C,			FTK_FC, FTK_FC, FTK_FC, NULL,  'i',  1, 0 },
+	{	CPP_SOURCE,			FTK_FC, FTK_FC, FTK_FC, "cpp", 'C',  1, 0 },
+	{	PREPROC_CPP,		FTK_FC, FTK_FC, FTK_FC, NULL,  'I',  1, 0 },
+	{	INDEP_TDF,			FTK_FC, FTK_FC, FTK_FC, NULL,  'j',  0, 0 },
+	{	DEP_TDF,			FTK_FC, FTK_FC, FTK_FC, NULL,  't',  0, 0 },
+	{	AS_SOURCE,			FTK_FC, FTK_FC, FTK_FC, NULL,  's',  1, 0 },
+	{	BINARY_OBJ,			FTK_FC, FTK_FC, FTK_FC, NULL,  'o',  1, 0 },
+	{	EXECUTABLE,			FTK_TN, FTK_FC, FTK_TN, NULL,  '\0', 0, 0 },
+	{	PRETTY_TDF,			FTK_TC, FTK_FC, FTK_TN, NULL,  'p',  0, 0 },
+	{	PL_TDF,				FTK_FC, FTK_FC, FTK_FC, NULL,  'P',  0, 0 },
+	{	TDF_ARCHIVE,		FTK_TN, FTK_FC, FTK_TN, NULL,  'A',  0, 0 },
+	{	MIPS_G_FILE,		FTK_FC, FTK_FC, FTK_FC, NULL,  'G',  1, 1 },
+	{	MIPS_T_FILE,		FTK_FC, FTK_FC, FTK_FC, NULL,  'T',  1, 1 },
+	{	C_SPEC,				FTK_FC, FTK_FC, FTK_FC, NULL,  'k',  1, 0 },
+	{	CPP_SPEC,			FTK_FC, FTK_FC, FTK_FC, NULL,  'K',  1, 0 },
+	{	STARTUP_FILE,		FTK_FC, FTK_FC, FTK_FC, NULL,  'h',  1, 1 },
+	{	UNKNOWN_TYPE,		FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
 
 		/* Dummy types */
 		/* TODO only keep, keep_aux and stop are used? */
-	{	INDEP_TDF_COMPLEX,	FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	C_SPEC_1,			FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	C_SPEC_2,			FTK_TC, FTK_FC, FTK_FC, NULL },
-	{	CPP_SPEC_1,			FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	CPP_SPEC_2,			FTK_TC, FTK_FC, FTK_FC, NULL },
-	{	INDEP_TDF_AUX,		FTK_FC, FTK_FC, FTK_FC, NULL },
-	{	BINARY_OBJ_AUX,		FTK_FC, FTK_FC, FTK_FC, NULL }
+	{	INDEP_TDF_COMPLEX,	FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
+	{	C_SPEC_1,			FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
+	{	C_SPEC_2,			FTK_TC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
+	{	CPP_SPEC_1,			FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
+	{	CPP_SPEC_2,			FTK_TC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
+	{	INDEP_TDF_AUX,		FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
+	{	BINARY_OBJ_AUX,		FTK_FC, FTK_FC, FTK_FC, NULL,  'b',  0, 0 }
 };
+
+boolean
+table_isdummy(type) {
+	return type > UNKNOWN_TYPE;
+}
 
 int
 table_keep(enum filetype type) {
@@ -102,5 +109,45 @@ const char *
 table_suffix(enum filetype type) {
 	/* TODO I think not for Dummy types */
 	return filetype_table[type].suffix;
+}
+
+char
+table_key(enum filetype type) {
+	assert(filetype_table[type].key != '\0');
+
+	return filetype_table[type].key;
+}
+
+enum filetype
+table_findbykey(char key) {
+	unsigned int i;
+
+	assert(key != '\0');
+
+	for (i = 0; i < TYPE_ARRAY_SIZE; i++) {
+		if (filetype_table[i].key == key) {
+			return filetype_table[i].filetype;
+		}
+	}
+
+	return UNKNOWN_TYPE;
+}
+
+boolean
+table_checker(enum filetype type) {
+	assert(type != UNKNOWN_TYPE);
+	assert(type != EXECUTABLE);
+	assert(!table_isdummy(type));
+
+	return filetype_table[type].checker;
+}
+
+boolean
+table_stage(enum filetype type) {
+	assert(type != UNKNOWN_TYPE);
+	assert(type != EXECUTABLE);
+	assert(!table_isdummy(type));
+
+	return filetype_table[type].stage;
 }
 

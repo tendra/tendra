@@ -765,16 +765,16 @@ lookup_string(const char *s)
 		b = s[1];
 	}
 	if (a == 'N') {
-		switch (b) {
-		case INDEP_TDF_KEY:
+		switch (table_findbykey(b)) {
+		case INDEP_TDF:
 			return (&name_j_file);
-		case C_SPEC_KEY:
+		case C_SPEC:
 			return (&name_k_file);
-		case CPP_SPEC_KEY:
+		case CPP_SPEC:
 			return (&name_K_file);
-		case STARTUP_FILE_KEY:
+		case STARTUP_FILE:
 			return (&name_h_file);
-		case PRETTY_TDF_KEY:
+		case PRETTY_TDF:
 			return (&name_p_file);
 		}
 		error(OPTION, "Unknown output file specifier, '%c'", b);
