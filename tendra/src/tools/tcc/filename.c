@@ -224,17 +224,16 @@ add_filename(filename *p, filename *q)
 
 
 /*
- * CONVERT A KEY LETTER TO A FILE TYPE
+ * CONVERT A SUFFIX KEY LETTER TO A FILE TYPE
  *
- * This routine converts the letter s, which can be a file suffix (if suff is
- * true), or a stage identifier (otherwise), to a file type. This routine
- * needs to be kept in step with Table 1 and Table 2.
+ * This routine converts the letter s, which is a file suffix, to a file type.
+ * This routine needs to be kept in step with Table 1 and Table 2.
  */
-/* TODO split into two functions. Have this search table.h instead */
+/* TODO Have this search table.h instead */
 /* TODO _KEY ought perhaps to be an enum, and thus s not an int */
 
 enum filetype
-find_type(int s, int suff)
+find_type_suffix(char s)
 {
 	switch (s) {
 	case C_SOURCE_KEY:
@@ -264,8 +263,49 @@ find_type(int s, int suff)
 			return (PRETTY_TDF);
 		}
 	}
-	if (suff) {
-		return(DEFAULT_TYPE);
+	return(DEFAULT_TYPE);
+}
+
+
+/*
+ * CONVERT A STAGE IDENTIFIER KEY LETTER TO A FILE TYPE
+ *
+ * This routine converts the letter s, which is a stage identifier, to a file
+ * type. This routine needs to be kept in step with Table 1 and Table 2.
+ */
+/* TODO Have this search table.h instead */
+/* TODO _KEY ought perhaps to be an enum, and thus s not an int */
+
+enum filetype
+find_type_stage(char s)
+{
+	switch (s) {
+	case C_SOURCE_KEY:
+		return (C_SOURCE);
+	case PREPROC_C_KEY:
+		return (PREPROC_C);
+	case CPP_SOURCE_KEY:
+		return (CPP_SOURCE);
+	case PREPROC_CPP_KEY:
+		return (PREPROC_CPP);
+	case AS_SOURCE_KEY:
+		return (AS_SOURCE);
+	case BINARY_OBJ_KEY:
+		return (BINARY_OBJ);
+	case C_SPEC_KEY:
+		return (C_SPEC);
+	case CPP_SPEC_KEY:
+		return (CPP_SPEC);
+	}
+	if (!checker) {
+		switch (s) {
+		case INDEP_TDF_KEY:
+			return (INDEP_TDF);
+		case DEP_TDF_KEY:
+			return (DEP_TDF);
+		case PRETTY_TDF_KEY:
+			return (PRETTY_TDF);
+		}
 	}
 	switch (s) {
 	case MIPS_G_FILE_KEY:
@@ -460,7 +500,7 @@ find_filename(const char *s, enum filetype t)
 				} else {
 					/* Length == 2 */
 					if (e[1] == EXTRA_KEY) {
-						t = find_type(e[0], 1);
+						t = find_type_suffix(e[0]);
 					} else if (streq(e, CPP_1_SUFFIX)) {
 						t = CPP_SOURCE;
 					} else if (streq(e, PREPROC_CPP_1_SUFFIX)) {
@@ -479,7 +519,7 @@ find_filename(const char *s, enum filetype t)
 				}
 			} else {
 				/* Length == 1 */
-				t = find_type(e[0], 1);
+				t = find_type_suffix(e[0]);
 			}
 		} else {
 			/* Length == 0 */

@@ -188,7 +188,8 @@ extern const char *find_fullname(const char *);
 extern filename *add_filename(filename *, filename *);
 extern filename *find_filename(const char *, enum filetype);
 extern filename *make_filename(filename *, enum filetype, int);
-extern enum filetype find_type(int, int);
+extern enum filetype find_type_suffix(char);
+extern enum filetype find_type_stage(char);
 extern int where(enum filetype);
 
 

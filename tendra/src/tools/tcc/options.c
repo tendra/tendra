@@ -795,7 +795,7 @@ lookup_string(const char *s)
 			return (&dev_null);
 		}
 
-		t = find_type(b, 0);
+		t = find_type_stage(b);
 		return (&filetype_table[t].suffix);
 	}
 	if (a == 'A' && b == 'I') return (&api_info);
@@ -1275,7 +1275,7 @@ interpret_cmd(const char *cmd)
 	case 'H': {
 	    /* Halt */
 	    char stage = cmd[1];
-	    set_stage(find_type(stage, 0), STOP_STAGE);
+	    set_stage(find_type_stage(stage), STOP_STAGE);
 	    return;
 	}
 	case 'I': {
@@ -1287,7 +1287,7 @@ interpret_cmd(const char *cmd)
 	    if (stage == '?') {
 		t = UNKNOWN_TYPE;
 	    } else {
-		t = find_type(stage, 0);
+		t = find_type_stage(stage);
 	    }
 	    f = find_filename(name, t);
 	    input_files = add_filename(input_files, f);
@@ -1300,7 +1300,7 @@ interpret_cmd(const char *cmd)
 	    if (stage == '-') {
 		k = DONT_KEEP_STAGE;
 	    } else {
-		set_stage(find_type(stage, 0), k);
+		set_stage(find_type_stage(stage), k);
 		k = KEEP_STAGE;
 	    }
 	    return;
