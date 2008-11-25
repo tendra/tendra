@@ -1761,15 +1761,12 @@ ZRcopyright_Hstmt(zoneP ZIz)
 					goto ZL3;
 				{
 
-	/* TODO can copyright_file be passed in somehow, other than with options as a global? */
-	if(options.copyright_file==NULL) {
-		options.copyright_file=fopen((ZIs),"r");
-		if(!options.copyright_file) {
-			error(ERROR_SERIOUS, "Syntax error: unable to open copright file %s", (ZIs)) ;
-		}
+	FILE *file=fopen((ZIs),"r");
+	if(file) {
+		tree_add_copyright_file((ZIz)->top_level, file, (ZIs));
+	} else {
+		error(ERROR_SERIOUS, "Syntax error: unable to open copright file %s", (ZIs)) ;
 	}
-	else 
-		error(ERROR_SERIOUS, "Syntax error: you can only specify one copyright file") ;
 				}
 			}
 			goto ZL2;

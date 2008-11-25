@@ -186,7 +186,7 @@ type-kw ;
 	      	:STRING, :INSTRUCTIONS_LIST, : BOOL ) -> ( :ZONE );
 <update-zone-type> : (:ZONE, :ZONE) -> ();
 
-<make-copyright> : ( :STRING ) -> () ;
+<make-copyright> : ( :ZONE, :STRING ) -> () ;
 
 <make-type>: (:ZONE, :IDENTIFIER) -> ();
 <init-tuple>: () -> (:TYPETUPLE);
@@ -233,7 +233,7 @@ copyright-stmt : ( z:ZONE ) -> () = {
 	copyright; equal; s = string ;
 	{
 		?=<is-global-zone> (z) ; 
-		<make-copyright> (s) ;
+		<make-copyright> (z, s) ;
 	    ##
 		<E_nonglobalzonecopyright>;
 	};

@@ -46,8 +46,6 @@ typedef struct options_outputfile {
 } options_outputfile;
 
 typedef struct cmd_line_options_tag {
-	FILE* copyright_file;
-
 	/*
 	 * The selected output language. See main.c for the various
 	 * possibilities here.

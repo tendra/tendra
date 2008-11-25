@@ -202,8 +202,15 @@ void dot_output_all(cmd_line_options *opt, lexer_parse_tree *top_level) {
 	assert(opt != NULL);
 	assert(top_level != NULL);
 
-	if (opt->copyright_file) {
-		output_comment_file(OUTPUT_COMMENT_C90, dotout, opt->copyright_file);
+	FILE_list_entry* file_list ;
+
+	for(file_list = tree_get_copyright_list(top_level); 
+            file_list != NULL; 
+            file_list = file_list_next(file_list)) {
+		if (!output_comment_file(OUTPUT_COMMENT_C90, dotout, file_list_crt_file(file_list))) {
+			error(ERROR_SERIOUS,"Copyright file %s contains comment characters",
+			      file_list_crt_filename(file_list));
+		}
 	}
 
 	output_generated_by_lexi(OUTPUT_COMMENT_C90, dotout);

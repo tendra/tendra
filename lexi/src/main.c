@@ -143,7 +143,7 @@ process_lct_file (lexer_parse_tree* parse_tree, char* fn)
 static void
 report_usage(void) {
 	fputs("usage: lexi [-vh] [-a] [-t token-prefix] [-p lexi-prefix] "
-		"[-i interface-prefix] [-l output-language] [-C copyright-notice-file] "
+		"[-i interface-prefix] [-l output-language]  "
 		"input-file [lct-input-file] [output-file ...]\n", stdout);
 }
 
@@ -217,12 +217,6 @@ main(int argc, char **argv)
 
 			break;
 		}
-
-		case 'C':
-			options.copyright_file=fopen(optarg, "r");
-			if ( options.copyright_file == NULL) 
-				error(ERROR_FATAL, "Can't open copyright file, %s", optarg);
-			break;
 
 		case 'v':
 			report_version();
@@ -326,9 +320,9 @@ main(int argc, char **argv)
 			fclose(options.outputfile[i].file);
 		}
 	}
-	if(options.copyright_file) {
-		fclose(options.copyright_file);
-	}
+
+	
+	tree_close_copyright_files(top_level);
 
 	return exit_status;
 }

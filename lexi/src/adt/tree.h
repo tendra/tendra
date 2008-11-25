@@ -74,7 +74,7 @@ struct zone_tag;
 */
 
 typedef struct lexer_parse_tree_tag lexer_parse_tree;
-
+typedef struct FILE_list_entry_tag FILE_list_entry;
 
 extern lexer_parse_tree *init_lexer_parse_tree(void);
 extern int tree_zoneisglobal(lexer_parse_tree *, struct zone_tag *);
@@ -90,6 +90,13 @@ extern int all_groups_empty(lexer_parse_tree *t);
 
 extern int tree_add_generated_key(lexer_parse_tree *t);
 extern void tree_add_group(lexer_parse_tree *t, struct char_group_defn_tag *g);
+
+extern void tree_add_copyright_file(lexer_parse_tree *t, FILE* file, char* filename) ;
+extern FILE_list_entry* tree_get_copyright_list(lexer_parse_tree *t);
+extern void tree_close_copyright_files(lexer_parse_tree *t);
+extern FILE_list_entry* file_list_next(FILE_list_entry* file_list);
+extern FILE* file_list_crt_file(FILE_list_entry* file_entry);
+extern char*file_list_crt_filename(FILE_list_entry* file_entry);
 
 extern void set_predefined_char_lexi_type(struct lexer_parse_tree_tag *, char*, char*);
 extern void set_predefined_string_lexi_type(struct lexer_parse_tree_tag *, char*, char*);

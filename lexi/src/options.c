@@ -37,8 +37,6 @@
 void
 cmd_line_options_init(cmd_line_options* opt) 
 {
-	opt->copyright_file = NULL;
-
 	/* TODO These are language-specific; see options.h */
 	opt->generate_asserts = false;
 	opt->lexi_prefix = "lexi_";
