@@ -164,9 +164,9 @@ error(int e, char *s, ...)
  */
 
 hashtable*
-init_table(int tblsize, int keysize, int (*hashfcn) (const char *, int, int))
+init_table(size_t tblsize, size_t keysize, int (*hashfcn) (const char *, size_t, size_t))
 {
-	int i;
+	size_t i;
 	hashtable* ht;
 	optmap *t;
 
@@ -182,7 +182,7 @@ init_table(int tblsize, int keysize, int (*hashfcn) (const char *, int, int))
 
 	for (t = environ_optmap; t->in != NULL; t++) {
 		/* initialize hash table with tccenv keys */
-		update_table(ht, t->in, NULL, TCCENV, NULL, -1);
+		(void) update_table(ht, t->in, NULL, TCCENV, NULL, -1);
 	}
 
 	return ht;
@@ -217,7 +217,7 @@ lookup_table(hashtable *ht, const char *key)
 static int
 key_match(const char *key, const char *keyfield)
 {
-	int i;
+	size_t i;
 
 	if (!key || !keyfield) {
 		return 0;
@@ -311,9 +311,9 @@ update_table(hashtable *ht, const char *key, const char *val, unsigned int flag,
  * skips over the leading command char, either +, <, >, or ?.
  */
 int
-hash(const char *key, int tblsize, int keysize)
+hash(const char *key, size_t tblsize, size_t keysize)
 {
-	int i = 1;
+	size_t i = 1;
 	int hashval = 0;
 
 	/* skip leading +, <, >, ?, / chars */
@@ -331,9 +331,9 @@ hash(const char *key, int tblsize, int keysize)
 		i++;
 	}
 
-	hashval %= tblsize;
+	hashval %= (int) tblsize;
 	if (hashval < 0) {
-		hashval += tblsize;
+		hashval += (int) tblsize;
 	}
 
 	return hashval;

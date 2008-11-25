@@ -776,9 +776,10 @@ lookup_string(const char *s)
 			return (&name_h_file);
 		case PRETTY_TDF:
 			return (&name_p_file);
+		default:
+			error(OPTION, "Unknown output file specifier, '%c'", b);
+			return (NULL);
 		}
-		error(OPTION, "Unknown output file specifier, '%c'", b);
-		return (NULL);
 	}
 	if (a == 'S') {
 		enum filetype t;

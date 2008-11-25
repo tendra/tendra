@@ -78,11 +78,12 @@ static list *spare_lists = NULL;
  * CREATE A NEW LIST
  *
  * This routine allocates a new list structure.
+ * TODO: optimisation cruft; simplify all instances.
  */
 static list *
 new_list(void)
 {
-	static int no_free = 0;
+	static unsigned int no_free = 0;
 	static list *free_objs = NULL;
 
 	if (spare_lists) {

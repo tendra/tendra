@@ -301,14 +301,14 @@ void
 set_stage(enum filetype t, int k)
 {
 	if (t == ALL_TYPES) {
-		boolean ks = table_keep(STARTUP_FILE);
+		enum filetype_keep ks = table_keep(STARTUP_FILE);
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
 			error(WARNING, "Illegal stop option");
 		} else if (k == KEEP_STAGE) {
 			enum filetype i;
 			/* TODO rework this */
 			for (i = 0; i < array_size(filetype_table); i++) {
-				if (table_keep(i) == FTK_FC) {
+				if (!table_keep(i)) {
 					filetype_table[i].keep = FTK_TC;
 				}
 			}
@@ -316,7 +316,7 @@ set_stage(enum filetype t, int k)
 		} else if (k == DONT_KEEP_STAGE) {
 			enum filetype i;
 			for (i = 0; i < array_size(filetype_table); i++) {
-				if (table_keep(i) == FTK_TC) {
+				if (table_keep(i)) {
 					filetype_table[i].keep = FTK_FC;
 				}
 			}
@@ -328,7 +328,7 @@ set_stage(enum filetype t, int k)
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
 			static int last_stop = UNKNOWN_TYPE;
 			if (table_stop(t) == 0) {
-				filetype_table[t].stop = 1;
+				filetype_table[t].stop = FTK_TC;
 			}
 			if (k == STOP_STAGE && table_keep(t) == FTK_FC) {
 				filetype_table[t].keep = FTK_TC;

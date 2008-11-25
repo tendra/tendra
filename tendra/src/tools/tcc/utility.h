@@ -61,6 +61,9 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <stddef.h>
+
+
 /*
  * TEMPORARY WORK SPACE
  *
@@ -90,9 +93,9 @@ typedef struct _htnode {
 
 typedef struct _hashtable {
 	htnode **node;
-	int tblsize;
-	int keysize; /* max length of key to hash */
-	int (*hashfcn)(const char *, int, int);
+	size_t tblsize;
+	size_t keysize; /* max length of key to hash */
+	int (*hashfcn)(const char *, size_t, size_t);
 } hashtable;
 
 
@@ -106,8 +109,8 @@ typedef struct _hashtable {
 extern void error(int, char *, ...);
 extern void comment(int, char *, ...);
 extern const char* find_path_subst(const char *);
-extern int hash(const char *, int, int);
-extern hashtable *init_table(int, int, int (*fcn)(const char *, int, int));
+extern int hash(const char *, size_t, size_t);
+extern hashtable *init_table(size_t, size_t, int (*fcn)(const char *, size_t, size_t));
 extern htnode *lookup_table(hashtable *, const char *);
 extern void *xalloc(int);
 extern void *xrealloc(void *, int);

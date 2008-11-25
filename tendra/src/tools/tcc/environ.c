@@ -186,13 +186,13 @@ read_env_aux(const char *nm, hashtable *ht)
 	int	 esc_len;    /* number of chars to escape over */
 	const char	*sub;	     /* character substitution for escape sequences */
 	int	 count;      /* counter to stop scan at buffer_size */
-	int	 line_len;   /* length of this buffer */
+	int  line_len;   /* length of this buffer */
 	char	*end = NULL; /* end of line */
 	char	*cmd;	     /* final command string being built */
 	list	 dummy;	     /* final command */
 	htnode	*hn;	     /* wrapper for command storage */
 
-	line_len = strlen(buffer);
+	line_len = (int) strlen(buffer);
 	count = 1;
 	p = buffer;
 	c = *p++;
@@ -289,13 +289,13 @@ read_env_aux(const char *nm, hashtable *ht)
 					  line_num);
 
 		    /* find length of substitution */
-		    sub_len = strlen(sub);
+		    sub_len = (int) strlen(sub);
 
 		    /* do we grow or shrink */
 		    diff = (sub_len - esc_len);
 
 		    /* find the number of characters that must be moved */
-		    shift_max = strlen(esc_end);
+		    shift_max = (int) strlen(esc_end);
 
 		    if (!end) {
 			end = (buffer + line_len);

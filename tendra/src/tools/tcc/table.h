@@ -123,14 +123,15 @@ extern struct filetype_table filetype_table[TYPE_ARRAY_SIZE];
 
 /*
  * Returns true if the given file is to be kept.
- * TODO decide if this ought to return filetype_keep or not.
  */
-int table_keep(enum filetype type);
+enum filetype_keep
+table_keep(enum filetype type);
 
 /*
  * Returns true if the given file is to be stopped.
  */
-int table_stop(enum filetype type);
+enum filetype_keep
+table_stop(enum filetype type);
 
 /*
  * Find the suffix for the given filetype.

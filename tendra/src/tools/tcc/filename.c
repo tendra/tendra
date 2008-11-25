@@ -431,7 +431,7 @@ find_filename(const char *s, enum filetype t)
 		for (i = 0; i < TYPE_ARRAY_SIZE; i++) {
 			if (table_suffix(i)!= NULL && streq(e, table_suffix(i))) {
 				if (checker) {
-					/* TODO perhaps we can categorise checkable and non-checkable types */
+					/* TODO: we have categorised checkable and non-checkable types; use that */
 					if (i == PL_TDF || i == TDF_ARCHIVE) {
 						continue;
 					}

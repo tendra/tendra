@@ -95,12 +95,12 @@ table_isdummy(type) {
 	return type > UNKNOWN_TYPE;
 }
 
-int
+enum filetype_keep
 table_keep(enum filetype type) {
 	return filetype_table[type].keep;
 }
 
-int
+enum filetype_keep
 table_stop(enum filetype type) {
 	return filetype_table[type].stop;
 }
