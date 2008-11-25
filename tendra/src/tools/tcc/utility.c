@@ -168,7 +168,6 @@ init_table(int tblsize, int keysize, int (*hashfcn) (const char *, int, int))
 {
 	int i;
 	hashtable* ht;
-	htnode *hn;
 	optmap *t;
 
 	ht = malloc(sizeof(hashtable));
@@ -183,7 +182,7 @@ init_table(int tblsize, int keysize, int (*hashfcn) (const char *, int, int))
 
 	for (t = environ_optmap; t->in != NULL; t++) {
 		/* initialize hash table with tccenv keys */
-		hn = update_table(ht, t->in, NULL, TCCENV, NULL, -1);
+		update_table(ht, t->in, NULL, TCCENV, NULL, -1);
 	}
 
 	return ht;
@@ -194,7 +193,6 @@ lookup_table(hashtable *ht, const char *key)
 {
 	int  hashval;
 	htnode *hn;
-	const char *v = NULL;
 
 	if (!key) {
 		error(WARNING, "Looking up NULL key in tccenv hashtable");
@@ -204,11 +202,6 @@ lookup_table(hashtable *ht, const char *key)
 
 	hashval = ht->hashfcn(key, ht->tblsize, ht->keysize);
 	hn = ht->node[hashval];
-
-	if (hn) {
-		v = hn->key;
-		/* XXX v is not used? */
-	}
 
 	while (hn != NULL && !key_match(key, hn->key)) {
 		hn = hn->next;
@@ -427,7 +420,7 @@ find_path_subst(const char *var)
 {
 	char *ret;
 	char **subs;
-	int i = 0;
+	int i;
 
 	i = 0;
 	subs = PATH_SUBS;
