@@ -113,6 +113,25 @@ enum filetype {
 
 
 /*
+ * FILE STORAGE TYPES
+ *
+ * The files handled by tcc may be of three basic types, input files, permanent
+ * output files and temporary output files. The first type may also contain
+ * input options which are treated like input files (for example, system
+ * libraries). The second type includes the preserved intermediate files. In
+ * fact PRESERVED_FILE is only used as the input to make_filename.
+ */
+
+enum file_storage {
+	INPUT_FILE,
+	INPUT_OPTION,
+	OUTPUT_FILE,
+	PRESERVED_FILE,
+	TEMP_FILE
+};
+
+
+/*
  * TYPE REPRESENTING A FILE NAME
  *
  * The filename structure is used to represent a tcc input or output file. It
@@ -128,31 +147,13 @@ typedef struct filename_t {
 	const char *bname;
 	int uniq;
 	enum filetype type;
-	int storage;
+	enum file_storage storage;
 	boolean final;
 	struct filename_t *aux;
 	struct filename_t *next;
 } filename;
 
 #define no_filename	(NULL)
-
-
-/*
- * FILE STORAGE TYPES
- *
- * The files handled by tcc may be of three basic types, input files, permanent
- * output files and temporary output files. The first type may also contain
- * input options which are treated like input files (for example, system
- * libraries). The second type includes the preserved intermediate files. In
- * fact PRESERVED_FILE is only used as the input to make_filename.
- */
-/* TODO enum */
-
-#define INPUT_FILE	0
-#define INPUT_OPTION	1
-#define OUTPUT_FILE	2
-#define PRESERVED_FILE	3
-#define TEMP_FILE	4
 
 
 /*

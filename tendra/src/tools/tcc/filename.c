@@ -535,7 +535,7 @@ where(enum filetype t)
 /* TODO have this search table.h instead */
 
 filename *
-make_filename(filename *p, enum filetype t, int s)
+make_filename(filename *p, enum filetype t, enum file_storage s)
 {
 	boolean f = 0;
 	char *e;
@@ -545,7 +545,7 @@ make_filename(filename *p, enum filetype t, int s)
 	filename *q = new_filename();
 
 	/* Examine the storage class */
-	switch (s) {
+	switch (s) EXHAUSTIVE {
 	case INPUT_FILE:
 	case INPUT_OPTION:
 		/* This shouldn't occur */
@@ -584,10 +584,6 @@ make_filename(filename *p, enum filetype t, int s)
 	case TEMP_FILE:
 		/* Temporary files */
 		d = tempdir;
-		break;
-	default:
-		error(INTERNAL, "Illegal storage type");
-		d = NULL;
 		break;
 	}
 
