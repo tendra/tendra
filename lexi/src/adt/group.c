@@ -157,6 +157,7 @@ make_group(zone *z, char *name, char *defn)
 {
 	char_group_name *new;
 	char_group_defn *new_def;
+	char_group_defn *old_def;
 
 	assert(z != NULL);
 	assert(name != NULL);
@@ -182,14 +183,21 @@ make_group(zone *z, char *name, char *defn)
 	z->groups = new;
 
 	new_def = xmalloc(sizeof *new_def);
+
 	if (defn == NULL) {
 		unescape_string(z, new_def->defn, "");
 	} else {
 		unescape_string(z, new_def->defn, defn);
 	}
-	new->def=new_def;
-	tree_add_group(z->top_level, new_def);
-
+	
+	old_def = tree_find_group(z->top_level, new_def);
+	if (old_def) { 
+		xfree(new_def);
+		new->def = old_def;
+	} else { 
+		tree_add_group(z->top_level, new_def);
+		new->def = new_def;
+	}
 	return new;
 }
 

@@ -90,6 +90,7 @@ extern int all_groups_empty(lexer_parse_tree *t);
 
 extern int tree_add_generated_key(lexer_parse_tree *t);
 extern void tree_add_group(lexer_parse_tree *t, struct char_group_defn_tag *g);
+extern struct char_group_defn_tag* tree_find_group(lexer_parse_tree *t, struct char_group_defn_tag *b);
 
 extern void tree_add_copyright_file(lexer_parse_tree *t, FILE* file, char* filename) ;
 extern FILE_list_entry* tree_get_copyright_list(lexer_parse_tree *t);

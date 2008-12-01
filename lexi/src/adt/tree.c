@@ -202,6 +202,23 @@ all_groups_empty(lexer_parse_tree *t)
 	return 1;
 }
 
+
+char_group_defn*
+tree_find_group(lexer_parse_tree *t, char_group_defn *b)
+{
+	char_group_defn *g;
+
+	assert(t != NULL);
+	assert(b != NULL);
+
+	for (g = t->groups_list; g != NULL; g = g->next_in_groups_list) {
+		if (is_group_equal(g,b)) {
+			return g;
+		}
+	}
+	return NULL;
+}
+
 void
 tree_add_group(lexer_parse_tree *t, char_group_defn *g)
 {
