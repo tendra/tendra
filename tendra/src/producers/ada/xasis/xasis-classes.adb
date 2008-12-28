@@ -47,7 +47,7 @@ package body XASIS.Classes is
       while XASIS.Utils.Is_Completion (Result)
       loop
          Temp := XASIS.Utils.Declaration_For_Completion (Result);
-         Kind := Declaration_Kind (Result);
+         Kind := Declaration_Kind (Temp);
 
          exit when Kind = An_Incomplete_Type_Declaration
            or Kind = A_Private_Type_Declaration

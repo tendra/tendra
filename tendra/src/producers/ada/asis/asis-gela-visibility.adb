@@ -136,6 +136,7 @@ package body Asis.Gela.Visibility is
       Needed      : Boolean := False;
       Is_Compl    : Boolean := False;
       Is_Instance : Boolean := False;
+      Skip_Formal : Boolean := False;
       RR_Clause   : Boolean := False;
       Overridden  : Boolean := False;
    begin
@@ -155,6 +156,21 @@ package body Asis.Gela.Visibility is
 
             if Utils.Is_Template (Element) then
                Is_Instance := True;
+            end if;
+
+            if Declaration_Kind (Element) in A_Formal_Declaration and then
+              Is_Part_Of_Instance (Element)
+            then
+               declare
+                  Expr : constant Asis.Expression :=
+                    Element_Utils.Generic_Actual (Element);
+               begin
+                  if Assigned (Expr) and
+                    Expression_Kind (Expr) /= A_Box_Expression
+                  then
+                     Skip_Formal := True;
+                  end if;
+               end;
             end if;
          when Asis.An_Exception_Handler =>
             Needed := True;
@@ -200,7 +216,9 @@ package body Asis.Gela.Visibility is
             null;
       end case;
 
-      Create.Region_Items (Element, Point, Asis.Nil_Element, Overridden);
+      if not Skip_Formal then
+         Create.Region_Items (Element, Point, Asis.Nil_Element, Overridden);
+      end if;
 
       if Overridden then
          Errors.Report (Element, Errors.Error_Name_Redeclaration);
@@ -376,7 +394,7 @@ package body Asis.Gela.Visibility is
       Point :=
         (Item => Point.Item.Part.Parent_Item.Part.Region.Last_Part.Last_Item);
 
-      return Lookup_In_Region (Item, Point);
+      return Lookup_In_Region (Item, Point, Point);
    end Lookup_In_Parent_Region;
 
    ----------------------
@@ -385,6 +403,7 @@ package body Asis.Gela.Visibility is
 
    function Lookup_In_Region
      (Item  : Asis.Element;
+      Reg   : Visibility.Point;
       Point : Visibility.Point)
       return Asis.Defining_Name_List
    is
@@ -394,9 +413,9 @@ package body Asis.Gela.Visibility is
       Unit  : constant Asis.Compilation_Unit :=
         Enclosing_Compilation_Unit (Item);
       First : constant Region_Item_Access :=
-        Utils.Find_Name (Name, Point, No_Parent_Region => True);
+        Utils.Find_Name (Name, Reg, No_Parent_Region => True);
    begin
-      if First = null or else First.Part.Region /= Point.Item.Part.Region then
+      if First = null or else First.Part.Region /= Reg.Item.Part.Region then
          return Asis.Nil_Element_List;
       end if;
 
@@ -417,12 +436,13 @@ package body Asis.Gela.Visibility is
 
    function Lookup_In_Region
      (Item    : Asis.Element;
-      Element : Asis.Element)
+      Element : Asis.Element;
+      Point   : Visibility.Point)
       return Asis.Defining_Name_List
    is
-      Point : constant Visibility.Point := Utils.Find_Region (Element);
+      Reg : constant Visibility.Point := Utils.Find_Region (Element);
    begin
-      return Lookup_In_Region (Item, Point);
+      return Lookup_In_Region (Item, Reg, Point);
    end Lookup_In_Region;
 
    ----------------------
@@ -529,7 +549,7 @@ package body Asis.Gela.Visibility is
             elsif Next.Kind = Use_Package then
                declare
                   Names : constant Asis.Defining_Name_List :=
-                    Lookup_In_Region (Item, Next.Declaration);
+                    Lookup_In_Region (Item, Next.Declaration, Point);
                begin
                   for I in Names'Range loop
                      Check_And_Add (Direct, List, Names (I), Fail);
@@ -1060,7 +1080,7 @@ package body Asis.Gela.Visibility is
 
       if Res.In_Region then
          Element_Utils.Set_Resolved
-           (Element, Lookup_In_Region (Element, Res.Construct));
+           (Element, Lookup_In_Region (Element, Res.Construct, Point));
       else
          Element_Utils.Set_Resolved
            (Element, Lookup (Element, Point));
@@ -1159,7 +1179,7 @@ package body Asis.Gela.Visibility is
       Reg      : constant Region_Access := Item.Part.Region;
       Reg_Name : constant Wide_String := Region_Name (Reg);
       Result   : constant Asis.Defining_Name_List :=
-        Lookup_In_Region (Target, Point);
+        Lookup_In_Region (Target, Point, Point);
    begin
       if Result'Length = 1 then
          return Reg_Name & XASIS.Utils.Direct_Name (Target);

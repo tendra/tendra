@@ -18,55 +18,20 @@ package Asis.Gela.Instances.Utils is
 
    procedure Set_Generic_Element (Item, Source : Asis.Element);
 
-   function Make_Constant
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name;
-
-   function Make_Object
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name;
-
-   function Make_Type
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name;
-
-   function Make_Procedure
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name;
-
-   function Make_Function
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name;
-
-   function Make_Package_Renaming
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name;
+   procedure Set_Generic_Actual
+     (Cloned_Item : Asis.Declaration;
+      Formal_Item : Asis.Declaration;
+      Instance    : Asis.Declaration);
 
    procedure New_Normalized_Association
-     (Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in out Asis.Expression);
+     (Inst     : in     Asis.Declaration;
+      Name     : in     Asis.Defining_Name;
+      Actual   : in out Asis.Expression;
+      With_Box : in     Boolean);
 
    function Clone_Declaration
      (Item   : Asis.Element;
       Parent : Asis.Element) return Asis.Element;
-
-   procedure Clone_Views
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Target : in     Asis.Declaration);
 
 end Asis.Gela.Instances.Utils;
 

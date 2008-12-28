@@ -1,4 +1,5 @@
 with Asis.Elements;
+with Asis.Expressions;
 with Asis.Declarations;
 with Asis.Gela.Lists;
 with Asis.Gela.Elements.Decl;
@@ -118,30 +119,6 @@ package body Asis.Gela.Instances.Utils is
       return Asis.Element (Result);
    end Clone_Procedure;
 
-   -----------------
-   -- Clone_Views --
-   -----------------
-
-   procedure Clone_Views
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Target : in     Asis.Declaration)
-   is
-      use Asis.Gela.Elements.Decl;
-      use Lists.Primary_Declaration_Lists;
-
-      View_List : Asis.Element;
-      Node      : Package_Instantiation_Node'Class
-        renames Package_Instantiation_Node'Class (Inst.all);
-      Result    : Package_Instantiation_Node'Class
-        renames Package_Instantiation_Node'Class (Target.all);
-      Views     : Asis.Element_List :=
-        To_Element_List (List (Parameter_Views_List (Node)).all, False);
-   begin
-      View_List := Deep_Copy (Views, Object, Target);
-      Set_Parameter_Views (Result, View_List);
-   end Clone_Views;
-
    ---------------------
    -- Set_Declaration --
    ---------------------
@@ -158,22 +135,10 @@ package body Asis.Gela.Instances.Utils is
       use Asis.Gela.Elements.Decl;
       use Primary_Defining_Name_Lists;
       Name_List : Asis.Element;
-      View_List : Primary_Declaration_Lists.List;
       Formal    : Asis.Declaration := Enclosing_Element (Name);
       Node      : Package_Instantiation_Node'Class
         renames Package_Instantiation_Node'Class (Inst.all);
    begin
-      if Assigned (Parameter_Views_List (Node)) then
-         View_List :=
-           Primary_Declaration_Lists.List (Parameter_Views_List (Node));
-      else
-         View_List := new Primary_Declaration_Lists.List_Node;
-         Set_Parameter_Views (Node, Asis.Element (View_List));
-      end if;
-
-      Primary_Declaration_Lists.Add
-        (View_List.all, Asis.Element (Result));
-
       Set_Enclosing_Element (Result.all, Inst);
       Set_Enclosing_Compilation_Unit
         (Result.all, Enclosing_Compilation_Unit (Inst.all));
@@ -185,201 +150,6 @@ package body Asis.Gela.Instances.Utils is
       Set_Names (Result.all, Name_List);
       Set_Instance (Asis.Element (Result), Formal);
    end Set_Declaration;
-
-   -------------------
-   -- Make_Constant --
-   -------------------
-
-   function Make_Constant
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression)
-     return Asis.Defining_Name
-   is
-      use Asis.Elements;
-      use Asis.Declarations;
-      use Asis.Gela.Elements.Decl;
-      use Asis.Gela.Elements.Defs;
-
-      Result    : Constant_Declaration_Ptr := new Constant_Declaration_Node;
-      Formal    : Asis.Declaration := Enclosing_Element (Name);
-      Mark      : Asis.Definition := Object_Declaration_Subtype (Formal);
-   begin
-      Set_Declaration (Result, Object, Inst, Name);
-      Set_Trait_Kind (Result.all, An_Ordinary_Trait);
-
-      Mark := Deep_Copy (Cloner => Object,
-                         Source => Mark,
-                         Parent => Asis.Element (Result));
-
-      Set_Object_Declaration_Subtype (Result.all, Mark);
-      Set_Initialization_Expression (Result.all, Actual);
-
-      return Names (Result.all) (1);
-   end Make_Constant;
-
-   ------------------
-   --  Make_Object --
-   ------------------
-
-   function Make_Object
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name
-   is
-      use Asis.Elements;
-      use Asis.Declarations;
-      use Asis.Gela.Elements.Decl;
-      use Asis.Gela.Elements.Defs;
-      Result    : Formal_Object_Declaration_Ptr :=
-        new Formal_Object_Declaration_Node;
-      Formal    : Asis.Declaration := Enclosing_Element (Name);
-      Mark      : Asis.Definition := Object_Declaration_Subtype (Formal);
-   begin
-      Set_Declaration (Result, Object, Inst, Name);
-      Set_Mode_Kind (Result.all, Mode_Kind (Formal));
-      Mark := Deep_Copy (Cloner => Object,
-                         Source => Mark,
-                         Parent => Asis.Element (Result));
-      Set_Object_Declaration_Subtype (Result.all, Asis.Element (Mark));
-      Set_Initialization_Expression (Result.all, Actual);
-      Set_Has_Null_Exclusion (Result.all, Has_Null_Exclusion (Formal));
-
-      return Names (Result.all) (1);
-   end Make_Object;
-
-   ---------------------------
-   -- Make_Package_Renaming --
-   ---------------------------
-
-   function Make_Package_Renaming
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name
-   is
-      use Asis.Elements;
-      use Asis.Declarations;
-      use Asis.Gela.Elements.Decl;
-      Result    : Package_Renaming_Declaration_Ptr :=
-        new Package_Renaming_Declaration_Node;
-   begin
-      Set_Declaration (Result, Object, Inst, Name);
-      Set_Renamed_Entity (Result.all, Actual);
-
-      return Names (Result.all) (1);
-   end Make_Package_Renaming;
-
-   --------------------
-   --  Make_Function --
-   --------------------
-
-   function Make_Function
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name
-   is
-      use Asis.Elements;
-      use Asis.Declarations;
-      use Asis.Gela.Elements.Decl;
-      use Lists.Primary_Parameter_Lists;
-      Profile   : Asis.Element;
-      Formal    : constant Asis.Declaration := Enclosing_Element (Name);
-      Result    : constant Formal_Function_Declaration_Ptr :=
-        new Formal_Function_Declaration_Node;
-      Params    : constant Asis.Element_List := Parameter_Profile (Formal);
-   begin
-      Set_Declaration (Result, Object, Inst, Name);
-
-      Profile := Lists.Primary_Parameter_Lists.Deep_Copy
-        (Params, Object, Asis.Element (Result));
-
-      Set_Parameter_Profile (Result.all, Profile);
-      Set_Default_Kind (Result.all, Default_Kind (Formal));
-      Set_Has_Abstract (Result.all, Has_Abstract (Formal));
-
-      Set_Result_Subtype
-        (Result.all,
-         Deep_Copy (Cloner => Object,
-                    Source => Result_Subtype (Formal),
-                    Parent => Asis.Element (Result)));
-
-      return Names (Result.all) (1);
-   end Make_Function;
-
-   --------------------
-   -- Make_Procedure --
-   --------------------
-
-   function Make_Procedure
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name
-   is
-      use Asis.Elements;
-      use Asis.Declarations;
-      use Asis.Gela.Elements.Decl;
-      use Lists.Primary_Parameter_Lists;
-      Profile   : Asis.Element;
-      Formal    : constant Asis.Declaration := Enclosing_Element (Name);
-      Result    : constant Formal_Procedure_Declaration_Ptr :=
-        new Formal_Procedure_Declaration_Node;
-      Params    : constant Asis.Element_List := Parameter_Profile (Formal);
-   begin
-      Set_Declaration (Result, Object, Inst, Name);
-
-      Profile := Lists.Primary_Parameter_Lists.Deep_Copy
-        (Params, Object, Asis.Element (Result));
-
-      Set_Parameter_Profile (Result.all, Profile);
-      Set_Default_Kind (Result.all, Default_Kind (Formal));
-      Set_Has_Abstract (Result.all, Has_Abstract (Formal));
-
-      return Names (Result.all) (1);
-   end Make_Procedure;
-
-   ---------------
-   -- Make_Type --
-   ---------------
-
-   function Make_Type
-     (Object : in     Cloner_Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in     Asis.Expression) return Asis.Defining_Name
-   is
-      use Asis.Elements;
-      use Asis.Declarations;
-      use Asis.Gela.Elements.Defs;
-      use Asis.Gela.Elements.Decl;
-      Formal : constant Asis.Declaration := Enclosing_Element (Name);
-      Result : constant Formal_Type_Declaration_Ptr :=
-        new Formal_Type_Declaration_Node;
-      Discr  : Asis.Definition;
-      View   : Asis.Definition;
-   begin
-      Set_Declaration (Result, Object, Inst, Name);
-
-      Discr := Deep_Copy (Cloner => Object,
-                          Source => Discriminant_Part (Formal),
-                          Parent => Asis.Element (Result));
-
-      Set_Discriminant_Part (Result.all, Discr);
-
-      View := Deep_Copy (Cloner => Object,
-                         Source => Type_Declaration_View (Formal),
-                         Parent => Asis.Element (Result));
-
-      Set_Type_Declaration_View (Result.all, View);
-
-      Set_Generic_Actual (Result.all, Actual);
-
-      return Names (Result.all) (1);
-   end Make_Type;
 
    ---------------------
    -- New_Direct_Name --
@@ -426,9 +196,10 @@ package body Asis.Gela.Instances.Utils is
    --------------------------------
 
    procedure New_Normalized_Association
-     (Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in out Asis.Expression)
+     (Inst     : in     Asis.Declaration;
+      Name     : in     Asis.Defining_Name;
+      Actual   : in out Asis.Expression;
+      With_Box : in     Boolean)
    is
       use Asis.Elements;
       use Asis.Declarations;
@@ -437,10 +208,20 @@ package body Asis.Gela.Instances.Utils is
 
       Formal : Asis.Declaration := Enclosing_Element (Name);
       Result : Generic_Association_Ptr := new Generic_Association_Node;
-      Node   : Package_Instantiation_Node'Class renames
-        Package_Instantiation_Node'Class (Inst.all);
+      Node   : Formal_Package_Declaration_With_Box_Node'Class renames
+        Formal_Package_Declaration_With_Box_Node'Class (Inst.all);
    begin
-      if not Assigned (Actual) then
+      if Assigned (Actual) then
+         null;
+      elsif With_Box then
+         declare
+            use Asis.Gela.Elements.Expr;
+            Node : constant Box_Expression_Ptr := new Box_Expression_Node;
+         begin
+            Set_Enclosing_Element (Node.all, Asis.Element (Result));
+            Actual := Asis.Element (Node);
+         end;
+      else
          case Declaration_Kind (Formal) is
             when A_Formal_Object_Declaration =>
                Actual := Initialization_Expression (Formal);
@@ -513,6 +294,58 @@ package body Asis.Gela.Instances.Utils is
          end;
       end if;
    end Set_Corresponding_Declaration;
+
+   ------------------------
+   -- Set_Generic_Actual --
+   ------------------------
+
+   procedure Set_Generic_Actual
+     (Cloned_Item : Asis.Declaration;
+      Formal_Item : Asis.Declaration;
+      Instance    : Asis.Declaration)
+   is
+      use Asis.Elements;
+      use Asis.Gela.Elements.Decl;
+      Formal : Asis.Declaration;
+      Actual : Asis.Expression;
+      List   : constant Asis.Element_List :=
+        Normalized_Generic_Actual_Part (Instance.all);
+   begin
+      for J in List'Range loop
+         Formal := Enclosing_Element (Expressions.Formal_Parameter (List (J)));
+
+         if Is_Equal (Formal, Formal_Item) then
+            Actual := Expressions.Actual_Parameter (List (J));
+         end if;
+      end loop;
+
+      if Assigned (Actual) then
+         case Declaration_Kind (Cloned_Item) is
+            when A_Formal_Type_Declaration =>
+               Set_Generic_Actual
+                 (Formal_Type_Declaration_Node (Cloned_Item.all), Actual);
+            when A_Formal_Package_Declaration |
+              A_Formal_Package_Declaration_With_Box
+              =>
+               Set_Generic_Actual
+                 (Formal_Package_Declaration_With_Box_Node'Class
+                  (Cloned_Item.all), Actual);
+            when A_Formal_Procedure_Declaration |
+              A_Formal_Function_Declaration
+              =>
+               Set_Generic_Actual
+                 (Formal_Procedure_Declaration_Node'Class (Cloned_Item.all),
+                  Actual);
+
+            when A_Formal_Object_Declaration =>
+               Set_Generic_Actual
+                 (Formal_Object_Declaration_Node (Cloned_Item.all), Actual);
+
+            when others =>
+               null;
+         end case;
+      end if;
+   end Set_Generic_Actual;
 
    -------------------------
    -- Set_Generic_Element --

@@ -45,20 +45,6 @@ package body Asis.Gela.Instances is
      (Decl     : Asis.Declaration;
       Template : Asis.Declaration);
 
-   procedure Make_Views
-     (Object : Cloner'Class;
-      Decl   : Asis.Declaration;
-      Point  : Visibility.Point;
-      Inner  : Visibility.Point);
-
-   procedure Make_View
-     (Object : in     Cloner'Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in out Asis.Expression;
-      Point  : in     Visibility.Point;
-      Inner  : in     Visibility.Point);
-
    procedure Resolve_Actual
      (Actual : in out Asis.Expression;
       Point  : in     Visibility.Point;
@@ -166,6 +152,22 @@ package body Asis.Gela.Instances is
          end loop;
       end Clone_Inherited;
 
+      procedure Clone_Expanded is
+         use Asis.Declarations;
+         Copy     : Asis.Declaration;
+         Expanded : Asis.Declaration :=
+           Corresponding_Declaration (Item);
+      begin
+         Copy := Deep_Copy (Object, Expanded, Result);
+         Utils.Set_Corresponding_Declaration (Copy, Result);
+         Expanded := Corresponding_Body (Item);
+
+         if Assigned (Expanded) then
+            Copy := Deep_Copy (Object, Expanded, Result);
+            Utils.Set_Corresponding_Body (Copy, Result);
+         end if;
+      end Clone_Expanded;
+
    begin
       if Is_Equal (Item, Object.Template) then
          Result := Utils.Clone_Declaration (Item, Parent);
@@ -254,16 +256,21 @@ package body Asis.Gela.Instances is
          when A_Declaration =>
             case Declaration_Kind (Item) is
                when A_Generic_Instantiation =>
-                  declare
-                     use Asis.Declarations;
-                     Copy     : Asis.Declaration;
-                     Expanded : Asis.Declaration :=
-                       Corresponding_Declaration (Item);
-                  begin
-                     Utils.Clone_Views (Object, Item, Result);
-                     Copy := Deep_Copy (Object, Expanded, Result);
-                     Utils.Set_Corresponding_Declaration (Copy, Result);
-                  end;
+                  Clone_Expanded;
+
+               when A_Formal_Package_Declaration |
+                 A_Formal_Package_Declaration_With_Box
+                 =>
+
+                  Clone_Expanded;
+                  Utils.Set_Generic_Actual (Result, Item, Object.Instance);
+
+               when A_Formal_Type_Declaration |
+                 A_Formal_Procedure_Declaration |
+                 A_Formal_Function_Declaration |
+                 A_Formal_Object_Declaration =>
+
+                  Utils.Set_Generic_Actual (Result, Item, Object.Instance);
 
                when A_Function_Declaration |
                  A_Function_Renaming_Declaration
@@ -435,9 +442,40 @@ package body Asis.Gela.Instances is
          end if;
       end Actual_Part;
 
+      --------------------
+      -- Others_Are_Box --
+      --------------------
+
+      function Others_Are_Box (Actual : Asis.Association_List) return Boolean
+      is
+         use Asis.Expressions;
+         Name : Asis.Definition;
+         Expr : Asis.Expression;
+         Kind : constant Asis.Declaration_Kinds := Declaration_Kind (Decl);
+      begin
+         if Kind = A_Formal_Package_Declaration_With_Box then
+            return True;
+         end if;
+
+         for J in Actual'Range loop
+            Name := Formal_Parameter (Actual (J));
+            Expr := Actual_Parameter (Actual (J));
+
+            if Definition_Kind (Name) = An_Others_Choice and then
+              Expression_Kind (Expr) = A_Box_Expression
+            then
+               return True;
+            end if;
+         end loop;
+
+         return False;
+      end Others_Are_Box;
+
       Index      : Asis.List_Index := 1;
-      Actuals    : Asis.Association_List := Actual_Part (Decl);
-      List       : Asis.Element_List := Generic_Formal_Part (Template);
+      Actuals    : constant Asis.Association_List := Actual_Part (Decl);
+      List       : constant Asis.Element_List :=
+        Generic_Formal_Part (Template);
+      With_Box   : constant Boolean := Others_Are_Box (Actuals);
 
       ------------------
       -- Assoc_Needed --
@@ -487,7 +525,7 @@ package body Asis.Gela.Instances is
          then
             Result := Actual_Parameter (Actuals (Index));
             Index  := Index + 1;
-         elsif Assoc_Needed (Name) then
+         elsif not With_Box and then Assoc_Needed (Name) then
             Report (Decl, Error_No_Association_Found,
                     Defining_Name_Image (Name));
          end if;
@@ -505,7 +543,7 @@ package body Asis.Gela.Instances is
                for J in Def_Names'Range loop
                   Actual := Find_Actual (Def_Names (J));
                   Utils.New_Normalized_Association
-                    (Decl, Def_Names (J), Actual);
+                    (Decl, Def_Names (J), Actual, With_Box);
                end loop;
             end;
          end if;
@@ -689,7 +727,6 @@ package body Asis.Gela.Instances is
       The_Cloner.Map      := Map'Unchecked_Access;
 
       Create_Normalized_Actuals (Decl, Template);
-      Make_Views (The_Cloner, Decl, Point, Inner);
       Copy := Deep_Copy (The_Cloner, Template, Decl);
       Utils.Set_Corresponding_Declaration (Copy, Decl);
       Resolver.Process_Instance (Copy, Point);
@@ -701,97 +738,6 @@ package body Asis.Gela.Instances is
          Utils.Set_Corresponding_Body (Copy, Decl);
       end if;
    end Make_Instance_Declaration;
-
-   ---------------
-   -- Make_View --
-   ---------------
-
-   procedure Make_View
-     (Object : in     Cloner'Class;
-      Inst   : in     Asis.Declaration;
-      Name   : in     Asis.Defining_Name;
-      Actual : in out Asis.Expression;
-      Point  : in     Visibility.Point;
-      Inner  : in     Visibility.Point)
-   is
-      use Asis.Elements;
-      Formal : Asis.Declaration := Enclosing_Element (Name);
-      View   : Asis.Defining_Name;
-   begin
-      case Declaration_Kind (Formal) is
-         when A_Formal_Object_Declaration =>
-
-            View := Utils.Make_Object (Object, Inst, Name, Actual);
-
-            Pair_Lists.Append
-              (Object.Map.all, (Source => Name, Target => View));
-
-         when A_Formal_Type_Declaration =>
-            View := Utils.Make_Type (Object, Inst, Name, Actual);
-            Pair_Lists.Append
-              (Object.Map.all, (Source => Name, Target => View));
-
-            Find_Formal_Implicit_Operators (Formal, Actual, Object.Map, Inst);
-
-            if Formal_Type_Kind (Formal) = A_Formal_Derived_Type_Definition
-            then
-               Find_Inherited_Subprograms (Formal, Actual, Object.Map, Inst);
-            end if;
-
-         when A_Formal_Procedure_Declaration =>
-            View := Utils.Make_Procedure (Object, Inst, Name, Actual);
-            Pair_Lists.Append (Object.Map.all,
-                               (Source => Name, Target => View));
-            Resolve_Actual (Actual, Inner, View, Inst);
-
-         when A_Formal_Function_Declaration =>
-            View := Utils.Make_Function (Object, Inst, Name, Actual);
-            Pair_Lists.Append (Object.Map.all,
-                               (Source => Name, Target => View));
-            Resolve_Actual (Actual, Inner, View, Inst);
-
-         when A_Formal_Package_Declaration
-           | A_Formal_Package_Declaration_With_Box =>
-            View := Utils.Make_Package_Renaming (Object, Inst, Name, Actual);
-            Pair_Lists.Append (Object.Map.all,
-                               (Source => Name, Target => View));
-
-         when others =>
-            null;
-      end case;
-   end Make_View;
-
-   ----------------
-   -- Make_Views --
-   ----------------
-
-   procedure Make_Views
-     (Object : Cloner'Class;
-      Decl   : Asis.Declaration;
-      Point  : Visibility.Point;
-      Inner  : Visibility.Point)
-   is
-      use Asis.Expressions;
-      use Asis.Declarations;
-      --  ASIS prohibits Generic_Actual_Part for
-      --  A_Formal_Package_Declaration_With_Box, so call internal function:
-      Actuals : Asis.Association_List :=
-        Normalized_Generic_Actual_Part (Decl.all);
-      Actual  : Asis.Expression;
-   begin
-      for I in Actuals'Range loop
-         Actual := Actual_Parameter (Actuals (I));
-         Make_View (Object,
-                    Decl,
-                    Formal_Parameter (Actuals (I)),
-                    Actual,
-                    Point,
-                    Inner);
-         if not Is_Equal (Actual, Actual_Parameter (Actuals (I))) then
-            raise Internal_Error;
-         end if;
-      end loop;
-   end Make_Views;
 
    --------------------
    -- Resolve_Actual --

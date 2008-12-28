@@ -79,23 +79,23 @@ Expression_Kind:AN_IDENTIFIER A0001A at a0001.adb [61:16..61:21]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER A0001A at a0001a.ads [1:9..1:14]
 
 Expression_Kind:AN_IDENTIFIER Type_A at a0001.adb [61:23..61:28]
-   Defining_Name_Kind:A_DEFINING_IDENTIFIER Type_A at a0001a.ads [11:9..11:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Type_A at a0001a.ads [4:9..4:14]
 
 Expression_Kind:AN_IDENTIFIER A0001A at a0001.adb [62:13..62:18]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER A0001A at a0001a.ads [1:9..1:14]
 
 Expression_Kind:AN_IDENTIFIER Type_A at a0001.adb [62:20..62:25]
-   Defining_Name_Kind:A_DEFINING_IDENTIFIER Type_A at a0001a.ads [11:9..11:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Type_A at a0001a.ads [4:9..4:14]
 
 Expression_Kind:AN_IDENTIFIER A0001B at a0001.adb [69:16..69:21]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER A0001B at a0001b.ads [1:9..1:14]
 
 Expression_Kind:AN_IDENTIFIER Type_B at a0001.adb [69:23..69:28]
-   Defining_Name_Kind:A_DEFINING_IDENTIFIER Type_B at a0001b.ads [11:9..11:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Type_B at a0001b.ads [4:9..4:14]
 
 Expression_Kind:AN_IDENTIFIER A0001B at a0001.adb [70:13..70:18]
    Defining_Name_Kind:A_DEFINING_IDENTIFIER A0001B at a0001b.ads [1:9..1:14]
 
 Expression_Kind:AN_IDENTIFIER Type_B at a0001.adb [70:20..70:25]
-   Defining_Name_Kind:A_DEFINING_IDENTIFIER Type_B at a0001b.ads [11:9..11:14]
+   Defining_Name_Kind:A_DEFINING_IDENTIFIER Type_B at a0001b.ads [4:9..4:14]
 

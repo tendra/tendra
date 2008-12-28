@@ -248,7 +248,7 @@ package body Asis.Gela.Visibility.Utils is
       use Asis.Gela.Utils;
 
       Possible : Asis.Defining_Name_List :=
-        Visibility.Lookup_In_Region (Completion, Point);
+        Visibility.Lookup_In_Region (Completion, Point, Point);
       Index    : ASIS_Natural := 0;
       Decl     : Asis.Declaration;
    begin

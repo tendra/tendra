@@ -1520,7 +1520,10 @@ package body Asis.Gela.Classes is
               Declaration_Kind (Tipe) = A_Formal_Type_Declaration
             then
                Actual := Element_Utils.Generic_Actual (Tipe);
-               return Type_From_Subtype_Mark (Actual, Place);
+
+               if Expression_Kind (Actual) /= A_Box_Expression then
+                  return Type_From_Subtype_Mark (Actual, Place);
+               end if;
             end if;
 
             Result.Base_Type      := Get_Base_Type (Tipe, Place);

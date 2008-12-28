@@ -281,6 +281,23 @@ package body Asis.Gela.Element_Utils is
       case Declaration_Kind (Decl) is
          when A_Formal_Type_Declaration =>
             return Generic_Actual (Formal_Type_Declaration_Node (Decl.all));
+
+         when A_Formal_Package_Declaration |
+           A_Formal_Package_Declaration_With_Box
+           =>
+            return Generic_Actual
+              (Formal_Package_Declaration_With_Box_Node'Class (Decl.all));
+
+         when A_Formal_Procedure_Declaration |
+           A_Formal_Function_Declaration
+           =>
+            return Generic_Actual
+              (Formal_Procedure_Declaration_Node'Class (Decl.all));
+
+         when A_Formal_Object_Declaration =>
+            return Generic_Actual
+              (Formal_Object_Declaration_Node (Decl.all));
+
          when others =>
             raise Internal_Error;
       end case;

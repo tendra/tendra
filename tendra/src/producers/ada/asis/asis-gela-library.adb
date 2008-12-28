@@ -145,7 +145,11 @@ package body Asis.Gela.Library is
       use Ada.Characters.Handling;
       Lib : constant Wide_String := To_Wide_String (Gela_Lib_Path);
    begin
-      return Ada.Strings.Wide_Fixed.Index (File_Name, Lib) > 0;
+      if Lib = "" then
+         return False;
+      else
+         return Ada.Strings.Wide_Fixed.Index (File_Name, Lib) > 0;
+      end if;
    end Is_Predefined_Unit;
 
    ------------------

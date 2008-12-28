@@ -81,6 +81,9 @@
                 type="Asis.Overriding_Indicator_Kinds"/>
           <attr name="Has_Abstract" type="Boolean"/>
           <attr name="Is_Null_Procedure" type="Boolean"/>
+          <!-- Generic_Formal_Part exists only in copy of generic template -->
+          <attr name="Generic_Formal_Part"
+                type="Primary_Declaration_Lists.List" child="1"/>
           <node name="Function_Declaration_Node">
             <attr name="Result_Subtype" type="Asis.Definition" child="5"/>
             <attr name="Corresponding_Equality_Operator"
@@ -234,6 +237,7 @@
         <attr name="Initialization_Expression"
               type="Asis.Expression" child="4"/>
         <attr name="Has_Null_Exclusion" type="Boolean"/>
+        <attr name="Generic_Actual" type="Asis.Expression" defer="y"/>
         <node name="Parameter_Specification_Node">
           <attr name="Trait_Kind" type="Asis.Trait_Kinds"/>
         </node>
@@ -243,6 +247,9 @@
         <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
         <attr name="Corresponding_Body" type="Asis.Declaration"/>
         <attr name="Is_Private_Present" type="Boolean"/>
+        <!-- Generic_Formal_Part exists only in copy of generic template -->
+        <attr name="Generic_Formal_Part" type="Primary_Declaration_Lists.List"
+              child="1"/>
         <attr name="Visible_Part_Declarative_Items" type="Primary_Declaration_Lists.List" child="3"/>
         <attr name="Private_Part_Declarative_Items" type="Primary_Declaration_Lists.List" child="4"/>
         <attr name="Package_Specification" type="Asis.Element" defer="y"/>
@@ -271,37 +278,38 @@
         <attr name="Generic_Formal_Part" type="Primary_Declaration_Lists.List" child="1"/>
         <attr name="Specification" type="Asis.Element" defer="y"/>
       </node>
-      <node name="Package_Instantiation_Node">
+
+      <node name="Formal_Package_Declaration_With_Box_Node">
         <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
         <attr name="Corresponding_Body" type="Asis.Declaration"/>
         <attr name="Generic_Unit_Name" type="Asis.Expression" child="3"/>
-        <attr name="Generic_Actual_Part" type="Primary_Association_Lists.List" child="4"/>
-        <attr name="Normalized_Generic_Actual_Part" type="Secondary_Association_Lists.List_Node"/>
-        <attr name="Parameter_Views" type="Primary_Declaration_Lists.List" defer="y"/>
-        <node name="Procedure_Instantiation_Node">
-          <attr name="Specification" type="Asis.Element" defer="y"/>
-          <attr name="Overriding_Indicator_Kind"
-                type="Asis.Overriding_Indicator_Kinds"/>
-          <node name="Function_Instantiation_Node"/>
+        <attr name="Normalized_Generic_Actual_Part"
+              type="Secondary_Association_Lists.List_Node"/>
+        <attr name="Generic_Actual" type="Asis.Expression" defer="y"/>
+
+        <node name="Package_Instantiation_Node">
+          <attr name="Generic_Actual_Part"
+                type="Primary_Association_Lists.List" child="4"/>
+          <node name="Procedure_Instantiation_Node">
+            <attr name="Specification" type="Asis.Element" defer="y"/>
+            <attr name="Overriding_Indicator_Kind"
+                  type="Asis.Overriding_Indicator_Kinds"/>
+            <node name="Function_Instantiation_Node"/>
+          </node>
+          <node name="Formal_Package_Declaration_Node"/>
         </node>
-        <node name="Formal_Package_Declaration_Node"/>
       </node>
+
       <node name="Formal_Procedure_Declaration_Node">
         <attr name="Parameter_Profile" type="Primary_Parameter_Lists.List" child="3"/>
         <attr name="Default_Kind" type="Asis.Subprogram_Default_Kinds"/>
         <attr name="Formal_Subprogram_Default" type="Asis.Expression" child="5"/>
         <attr name="Specification" type="Asis.Element" defer="y"/>
         <attr name="Has_Abstract" type="Boolean"/>
+        <attr name="Generic_Actual" type="Asis.Expression" defer="y"/>
         <node name="Formal_Function_Declaration_Node">
           <attr name="Result_Subtype" type="Asis.Definition" child="5"/>
         </node>
-      </node>
-      <node name="Formal_Package_Declaration_With_Box_Node">
-        <attr name="Corresponding_Declaration" type="Asis.Declaration"/>
-        <attr name="Corresponding_Body" type="Asis.Declaration"/>
-        <attr name="Generic_Unit_Name" type="Asis.Expression" child="3"/>
-        <attr name="Normalized_Generic_Actual_Part" type="Secondary_Association_Lists.List_Node"/>
-        <attr name="Parameter_Views" type="Primary_Declaration_Lists.List" defer="y"/>
       </node>
     </node>
     <node name="Definition_Node" abstract="y">

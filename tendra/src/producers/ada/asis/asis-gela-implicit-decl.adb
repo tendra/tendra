@@ -132,7 +132,10 @@ package body Asis.Gela.Implicit.Decl is
 
                when A_Formal_Package_Declaration |
                  A_Formal_Package_Declaration_With_Box =>
-                  Instances.Make_Instance_Declaration (Element, Point, Inner);
+                  if not Is_Part_Of_Instance (Element) then
+                     Instances.Make_Instance_Declaration
+                       (Element, Point, Inner);
+                  end if;
 
                when others =>
                   null;

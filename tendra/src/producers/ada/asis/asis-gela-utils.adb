@@ -4,6 +4,7 @@ with Asis.Statements;
 with Asis.Definitions;
 with Asis.Declarations;
 with Asis.Gela.Classes;
+with Asis.Gela.Element_Utils;
 
 package body Asis.Gela.Utils is
 
@@ -408,6 +409,7 @@ package body Asis.Gela.Utils is
       Parent      : Asis.Declaration := Parent_Declaration (Declaration);
       Parent_Kind : Asis.Declaration_Kinds := Declaration_Kind (Parent);
       Decl_Kind   : Asis.Declaration_Kinds := Declaration_Kind (Declaration);
+      Expr        : Asis.Expression;
    begin
       case Parent_Kind is
          when Asis.A_Procedure_Declaration        |
@@ -438,6 +440,16 @@ package body Asis.Gela.Utils is
               In_List (Visible_Part_Declarative_Items (Parent), Declaration);
 
          when Asis.A_Package_Declaration =>
+
+            if Is_Part_Of_Instance (Parent) then
+               if Decl_Kind in A_Formal_Declaration then
+                  Expr := Element_Utils.Generic_Actual (Declaration);
+
+                  if Expression_Kind (Expr) = A_Box_Expression then
+                     return True;
+                  end if;
+               end if;
+            end if;
 
             return In_List
               (Visible_Part_Declarative_Items (Parent), Declaration);

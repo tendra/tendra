@@ -53,12 +53,15 @@ package Asis.Gela.Visibility is
 
    function Lookup_In_Region
      (Item  : Asis.Element;
+      Reg   : Visibility.Point;
       Point : Visibility.Point) return Asis.Defining_Name_List;
    --  Return names from given region only.
 
    function Lookup_In_Region
      (Item    : Asis.Element;
-      Element : Asis.Element) return Asis.Defining_Name_List;
+      Element : Asis.Element;
+      Point   : Visibility.Point)
+     return Asis.Defining_Name_List;
 
    function Lookup_In_Parent_Region
      (Item    : Asis.Element;
