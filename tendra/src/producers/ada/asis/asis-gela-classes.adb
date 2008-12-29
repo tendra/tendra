@@ -111,7 +111,11 @@ package body Asis.Gela.Classes is
          when An_Incomplete_Type_Declaration =>
             return An_Incomplete;
          when A_Private_Type_Declaration =>
-            return A_Private;
+            if Has_Tagged (Type_Declaration_View (Tipe)) then
+               return A_Tagged;
+            else
+               return A_Private;
+            end if;
          when others =>
             return Type_Class (Type_Declaration_View (Tipe), Place);
       end case;
