@@ -48,7 +48,7 @@ private
 
    type Scanner
      (Classificator : access Classificators.Classificator'Class) is
-      record
+      limited record
          Classes    : Character_Class_Buffers.Character_Class_Buffer;
          Start      : Scanner_Tables.State := Scanner_Tables.Default;
          Input      : Source_Buffers.Cursor;
