@@ -7,23 +7,27 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Decoder for UTF-8 encoding.
+--  Common Character_Class cache for UTF-8/UTF-16 classificators.
 
-package Gela.Decoders.UTF_8 is
+private
+generic
+   with function To_Character_Class
+     (Code : Code_Point)
+     return Character_Class_Buffers.Character_Class;
 
-   type Decoder is new Decoders.Decoder with null record;
+package Gela.Classificators.Cache is
+   pragma Preelaborate;
 
-   procedure Decode
-     (Object : in     Decoder;
-      From   : in     Source_Buffers.Cursor;
-      To     : in     Source_Buffers.Cursor;
-      Result :    out Wide_String;
-      Last   :    out Natural);
+   function Get_Character_Class
+     (Code : Code_Point)
+     return Character_Class_Buffers.Character_Class;
 
-end Gela.Decoders.UTF_8;
+   procedure Initialize;
+
+end Gela.Classificators.Cache;
 
 ------------------------------------------------------------------------------
---  Copyright (c) 2008, Maxim Reznik
+--  Copyright (c) 2009, Maxim Reznik
 --  All rights reserved.
 --
 --  Redistribution and use in source and binary forms, with or without

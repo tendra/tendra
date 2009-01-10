@@ -1,26 +1,53 @@
-------------------------------------------------------------------------------
---                           G E L A   A S I S                              --
---       ASIS implementation for Gela project, a portable Ada compiler      --
---                     http://www.ten15.org/wiki/Ada                        --
---                     - - - - - - - - - - - - - - -                        --
---            Read copyright and license at the end of this file            --
-------------------------------------------------------------------------------
---  $TenDRA$
---  Purpose:
---  Decoder for UTF-8 encoding.
+with Ada.Unchecked_Conversion;
+with Ada.Unchecked_Deallocation;
 
-package Gela.Decoders.UTF_8 is
+package body Gela.Source_Buffers.Wide_Strings is
 
-   type Decoder is new Decoders.Decoder with null record;
+   type Wide_Character_Access is access all Wide_Character;
+   pragma Controlled (Wide_Character_Access);
 
-   procedure Decode
-     (Object : in     Decoder;
-      From   : in     Source_Buffers.Cursor;
-      To     : in     Source_Buffers.Cursor;
-      Result :    out Wide_String;
-      Last   :    out Natural);
+   ------------------
+   -- Buffer_Start --
+   ------------------
 
-end Gela.Decoders.UTF_8;
+   function Buffer_Start (Object : Source_Buffer) return Cursor is
+   begin
+      return Object.Buffer_Start;
+   end Buffer_Start;
+
+   -----------
+   -- Clear --
+   -----------
+
+   procedure Clear (Object : in out Source_Buffer) is
+      procedure Free is new Ada.Unchecked_Deallocation
+        (Wide_String_Buffer, Wide_String_Access);
+   begin
+      if Object.Buffer /= null then
+         Free (Object.Buffer);
+      end if;
+   end Clear;
+
+   ----------------
+   -- Initialize --
+   ----------------
+
+   procedure Initialize
+     (Object : in out Source_Buffer;
+      Text   : in     Wide_String)
+   is
+      function "+" is new Ada.Unchecked_Conversion
+        (Source => Wide_Character_Access, Target => Cursor);
+
+   begin
+      Clear (Object);
+      Object.Buffer := new Wide_String_Buffer (1 .. Text'Length + 1);
+      Object.Buffer.all (Object.Buffer.all'Last) := Wide_Character'Val (0);
+      Object.Buffer.all (1 .. Text'Length) := Wide_String_Buffer (Text);
+      Object.Buffer_Start := +(Object.Buffer.all (1)'Access);
+   end Initialize;
+
+end Gela.Source_Buffers.Wide_Strings;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -46,5 +73,4 @@ end Gela.Decoders.UTF_8;
 --  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
---
 ------------------------------------------------------------------------------

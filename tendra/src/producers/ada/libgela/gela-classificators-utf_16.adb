@@ -1,6 +1,6 @@
 with Gela.Classificators.Cache;
 
-package body Gela.Classificators.UTF_8 is
+package body Gela.Classificators.UTF_16 is
 
    package Cache is new Classificators.Cache (To_Character_Class);
 
@@ -28,71 +28,44 @@ package body Gela.Classificators.UTF_8 is
       Full         : Boolean;
       Code         : Code_Unit;
       Item         : Code_Point;
+      Item_2       : Code_Point;
       Class        : Character_Class;
-      Skip         : Natural range  0 .. 5;
+      Skip         : Boolean;
    begin
       loop
-         Code  := Element (Input);
-         Item  := Code_Unit'Pos (Code);
+         Code := Element (Input);
+         Item := Code_Unit'Pos (Code);
+         Next (Input);
+         Code := Element (Input);
+         Item := Item + 256 * Code_Unit'Pos (Code);
 
-         case Item is
-            when 16#00# .. 16#7F# =>
-               Skip := 0;
-            when 16#80# .. 2#1101_1111# =>
-               Skip := 1;
-               Next (Input);
-               Item := (Item and 2#1_1111#) * 2 ** 6 +
-                 (Code_Unit'Pos (Element (Input)) and 2#11_1111#);
-            when 2#1110_0000# .. 2#1110_1111# =>
-               Skip := 2;
-               Next (Input);
-               Item := (Item and 2#1111#) * 2 ** 6 +
-                 (Code_Unit'Pos (Element (Input)) and 2#11_1111#);
-
-               Next (Input);
-               Item := Item * 2 ** 6 +
-                 (Code_Unit'Pos (Element (Input)) and 2#11_1111#);
-            when 2#1111_0000# .. 2#1111_0111# =>
-               Skip := 3;
-               Next (Input);
-               Item := (Item and 2#111#) * 2 ** 6 +
-                 (Code_Unit'Pos (Element (Input)) and 2#11_1111#);
-
-               Next (Input);
-               Item := Item * 2 ** 6 +
-                 (Code_Unit'Pos (Element (Input)) and 2#11_1111#);
-
-               Next (Input);
-               Item := Item * 2 ** 6 +
-                 (Code_Unit'Pos (Element (Input)) and 2#11_1111#);
-            when 2#1111_1000# .. 2#1111_1011# =>
-               Skip := 4;
-               Item := 16#FFFF#;
-               Next (Input);
-               Next (Input);
-               Next (Input);
-               Next (Input);
-            when others =>
-               Skip := 5;
-               Item := 16#FFFF#;
-               Next (Input);
-               Next (Input);
-               Next (Input);
-               Next (Input);
-               Next (Input);
-         end case;
+         if Item in 16#D800# .. 16#DBFF# then
+            Next (Input);
+            Code := Element (Input);
+            Item_2 := Code_Unit'Pos (Code);
+            Next (Input);
+            Code := Element (Input);
+            Item_2 := Item_2 + 256 * Code_Unit'Pos (Code);
+            Item := (Item - 16#D800#) * 2 ** 10 + (Item_2 - 16#DC00#);
+            Skip := True;
+         else
+            Skip := False;
+         end if;
 
          Class := Cache.Get_Character_Class (Item);
 
          Put (Buffer, Class, Full);
 
-         exit when Code = End_Of_File;
+         exit when Item = 0;
 
          Next (Input);
 
-         for J in 1 .. Skip loop
+         Put (Buffer, Skip_Code, Full);
+
+         if Skip then
             Put (Buffer, Skip_Code, Full);
-         end loop;
+            Put (Buffer, Skip_Code, Full);
+         end if;
 
          if Full then
             Put (Buffer, End_Of_Buffer, Full);
@@ -101,10 +74,10 @@ package body Gela.Classificators.UTF_8 is
       end loop;
    end Read;
 
-end Gela.Classificators.UTF_8;
+end Gela.Classificators.UTF_16;
 
 ------------------------------------------------------------------------------
---  Copyright (c) 2008, Maxim Reznik
+--  Copyright (c) 2009, Maxim Reznik
 --  All rights reserved.
 --
 --  Redistribution and use in source and binary forms, with or without

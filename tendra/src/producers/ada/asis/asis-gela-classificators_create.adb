@@ -1,4 +1,5 @@
 with Asis.Gela.Classificators_Ada_UTF_8;
+with Asis.Gela.Classificators_Ada_UTF_16;
 with Asis.Gela.Classificators_Ada_Fixed_Width_8;
 
 function Asis.Gela.Classificators_Create
@@ -18,6 +19,14 @@ begin
       declare
          Result : Classificators_Ada_UTF_8.Classificator;
       begin
+         Classificators_Ada_UTF_8.Initialize;
+         return Result;
+      end;
+   elsif Encoding = Encodings.UTF_16 then
+      declare
+         Result : Classificators_Ada_UTF_16.Classificator;
+      begin
+         Classificators_Ada_UTF_16.Initialize;
          return Result;
       end;
    else

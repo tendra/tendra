@@ -7,9 +7,9 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Decoder for UTF-8 encoding.
+--  Decoder for UTF-16 encoding.
 
-package Gela.Decoders.UTF_8 is
+package Gela.Decoders.UTF_16 is
 
    type Decoder is new Decoders.Decoder with null record;
 
@@ -20,10 +20,10 @@ package Gela.Decoders.UTF_8 is
       Result :    out Wide_String;
       Last   :    out Natural);
 
-end Gela.Decoders.UTF_8;
+end Gela.Decoders.UTF_16;
 
 ------------------------------------------------------------------------------
---  Copyright (c) 2008, Maxim Reznik
+--  Copyright (c) 2009, Maxim Reznik
 --  All rights reserved.
 --
 --  Redistribution and use in source and binary forms, with or without

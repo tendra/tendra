@@ -7,20 +7,34 @@
 ------------------------------------------------------------------------------
 --  $TenDRA$
 --  Purpose:
---  Decoder for UTF-8 encoding.
+--  Take Wide_String as source buffer.
 
-package Gela.Decoders.UTF_8 is
+package Gela.Source_Buffers.Wide_Strings is
 
-   type Decoder is new Decoders.Decoder with null record;
+   type Source_Buffer is new Source_Buffers.Source_Buffer with private;
 
-   procedure Decode
-     (Object : in     Decoder;
-      From   : in     Source_Buffers.Cursor;
-      To     : in     Source_Buffers.Cursor;
-      Result :    out Wide_String;
-      Last   :    out Natural);
+   function Buffer_Start (Object : Source_Buffer) return Cursor;
 
-end Gela.Decoders.UTF_8;
+   procedure Initialize
+     (Object : in out Source_Buffer;
+      Text   : in     Wide_String);
+
+   procedure Clear (Object : in out Source_Buffer);
+
+private
+
+   type Wide_String_Buffer is array (Positive range <>) of
+     aliased Wide_Character;
+
+   type Wide_String_Access is access all Wide_String_Buffer;
+   pragma Controlled (Wide_String_Access);
+
+   type Source_Buffer is new Source_Buffers.Source_Buffer with record
+      Buffer        : Wide_String_Access;
+      Buffer_Start  : Cursor;
+   end record;
+
+end Gela.Source_Buffers.Wide_Strings;
 
 ------------------------------------------------------------------------------
 --  Copyright (c) 2008, Maxim Reznik
@@ -46,5 +60,4 @@ end Gela.Decoders.UTF_8;
 --  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 --  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 --  POSSIBILITY OF SUCH DAMAGE.
---
 ------------------------------------------------------------------------------
