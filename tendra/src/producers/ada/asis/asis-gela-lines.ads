@@ -4,6 +4,8 @@ with Gela.Containers.Vectors;
 use Gela;
 
 package Asis.Gela.Lines is
+   pragma Preelaborate;
+
    type Line is record
       From, To, Comment : Source_Buffers.Cursor;
    end record;

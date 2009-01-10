@@ -10,6 +10,7 @@
 --  Take string as source buffer.
 
 package Gela.Source_Buffers.Strings is
+   pragma Preelaborate;
 
    type Source_Buffer is new Source_Buffers.Source_Buffer with private;
 

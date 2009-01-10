@@ -16,6 +16,7 @@ generic
      (Code : Code_Point)
      return Character_Class_Buffers.Character_Class;
 package Gela.Classificators.Fixed_Width_8 is
+   pragma Preelaborate;
 
    type Classificator is new Classificators.Classificator with private;
 

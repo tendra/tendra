@@ -18,6 +18,7 @@ generic
 
    Skip_Code : in Character_Class_Buffers.Character_Class;
 package Gela.Classificators.UTF_8 is
+   pragma Preelaborate;
 
    type Classificator is new Classificators.Classificator with private;
 
@@ -25,6 +26,8 @@ package Gela.Classificators.UTF_8 is
      (Object : in out Classificator;
       Input  : in out Source_Buffers.Cursor;
       Buffer : in out Character_Class_Buffers.Character_Class_Buffer);
+
+   procedure Initialize;
 
 private
 

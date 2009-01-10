@@ -15,6 +15,7 @@ with Gela.Source_Buffers;
 with Gela.Character_Class_Buffers;
 
 package Gela.Classificators is
+   pragma Preelaborate;
 
    type Code_Point is mod 16#11_0000#;
 

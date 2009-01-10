@@ -10,9 +10,10 @@
 --  List of supported encodings
 
 package Gela.Encodings is
+   pragma Pure;
 
    type Encoding is
-     (UTF_8,
+     (UTF_8,           UTF_16,
       ISO_8859_1,      ISO_8859_2,
       ISO_8859_3,      ISO_8859_4,
       ISO_8859_5,      ISO_8859_6,

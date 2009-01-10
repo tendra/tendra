@@ -13,6 +13,7 @@
 with Gela.Source_Buffers;
 
 package Gela.Decoders is
+   pragma Preelaborate;
 
    type Decoder is abstract tagged limited null record;
 

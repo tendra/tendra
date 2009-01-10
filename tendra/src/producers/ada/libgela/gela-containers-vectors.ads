@@ -2,6 +2,7 @@ generic
    type Item_Type is private;
    type Index_Type is range <>;
 package Gela.Containers.Vectors is
+   pragma Preelaborate;
 
    type Vector is private;
 

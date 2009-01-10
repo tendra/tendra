@@ -12,6 +12,7 @@
 --  empty.
 
 package Gela.Character_Class_Buffers is
+   pragma Pure;
 
    type Character_Class is mod 256;
    for Character_Class'Size use 8;
@@ -38,16 +39,16 @@ private
 
    type Character_Class_Array is array (Array_Index) of Character_Class;
 
+   End_Of_Buffer : constant Character_Class := 0;
+
    type Character_Class_Buffer is record
       --  Index points to last read character
       Index : Array_Index := Array_Index'Last;
       --  Free points to where next Put will place an item
       Free  : Array_Index := 1;
       Mark  : Array_Index := 0;
-      Data  : Character_Class_Array := (others => End_Of_Buffer);
+      Data  : Character_Class_Array := (Array_Index => End_Of_Buffer);
    end record;
-
-   End_Of_Buffer : constant Character_Class := 0;
 
    pragma Inline (Put);
    pragma Inline (Get);
