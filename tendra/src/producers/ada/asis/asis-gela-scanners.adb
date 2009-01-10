@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA: asis-ada_environments-containers.adb 2455 2006-06-24 19:22:06Z $:
+--  $TenDRA$:
 
 package body Asis.Gela.Scanners is
 
