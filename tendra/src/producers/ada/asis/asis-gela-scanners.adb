@@ -1,3 +1,12 @@
+------------------------------------------------------------------------------
+--                           G E L A   A S I S                              --
+--       ASIS implementation for Gela project, a portable Ada compiler      --
+--                     http://www.ten15.org/wiki/Ada                        --
+--                     - - - - - - - - - - - - - - -                        --
+--            Read copyright and license at the end of this file            --
+------------------------------------------------------------------------------
+--  $TenDRA: asis-ada_environments-containers.adb 2455 2006-06-24 19:22:06Z $:
+
 package body Asis.Gela.Scanners is
 
    -----------

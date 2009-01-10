@@ -1,3 +1,12 @@
+------------------------------------------------------------------------------
+--                           G E L A   A S I S                              --
+--       ASIS implementation for Gela project, a portable Ada compiler      --
+--                     http://www.ten15.org/wiki/Ada                        --
+--                     - - - - - - - - - - - - - - -                        --
+--            Read copyright and license at the end of this file            --
+------------------------------------------------------------------------------
+--  $TenDRA$:
+
 package body Asis.Gela is
    Current_Hash  : Asis.ASIS_Positive := 1;
 

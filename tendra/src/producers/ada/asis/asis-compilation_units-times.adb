@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA$
+--  $TenDRA: asis-compilation_units-times.adb 2455 2006-06-24 19:22:06Z maxr$:
 --  Purpose:
 --  Procedural wrapper over Object-Oriented ASIS implementation
 

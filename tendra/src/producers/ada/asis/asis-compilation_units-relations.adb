@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA$
+--  $TenDRA$:
 --  Purpose:
 --  Procedural wrapper over Object-Oriented ASIS implementation
 

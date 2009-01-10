@@ -1,3 +1,14 @@
+------------------------------------------------------------------------------
+--                           G E L A   A S I S                              --
+--       ASIS implementation for Gela project, a portable Ada compiler      --
+--                     http://www.ten15.org/wiki/Ada                        --
+--                     - - - - - - - - - - - - - - -                        --
+--            Read copyright and license at the end of this file            --
+------------------------------------------------------------------------------
+--  $TenDRA$:
+--  Purpose:
+--  Container for befin, end and comment position for each source line
+
 with Gela.Source_Buffers;
 with Gela.Containers.Vectors;
 

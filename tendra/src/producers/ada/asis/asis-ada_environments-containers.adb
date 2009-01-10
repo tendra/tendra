@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA$
+--  $TenDRA$:
 --  Purpose:
 --  Trivial implementation of ASIS Ada_Environments.Containers
 

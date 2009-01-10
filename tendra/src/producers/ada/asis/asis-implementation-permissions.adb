@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA$
+--  $TenDRA$:
 --  Purpose:
 --  Provide suitable values for permissions
 
