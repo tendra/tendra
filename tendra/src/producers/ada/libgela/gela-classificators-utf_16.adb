@@ -39,7 +39,12 @@ package body Gela.Classificators.UTF_16 is
          Code := Element (Input);
          Item := Item + 256 * Code_Unit'Pos (Code);
 
-         if Item in 16#D800# .. 16#DBFF# then
+         if Item = 0 then
+            Class := Cache.Get_Character_Class (Item);
+            Put (Buffer, Class, Full);
+            Put (Buffer, Class, Full);
+            exit;
+         elsif Item in 16#D800# .. 16#DBFF# then
             Next (Input);
             Code := Element (Input);
             Item_2 := Code_Unit'Pos (Code);
@@ -55,8 +60,6 @@ package body Gela.Classificators.UTF_16 is
          Class := Cache.Get_Character_Class (Item);
 
          Put (Buffer, Class, Full);
-
-         exit when Item = 0;
 
          Next (Input);
 

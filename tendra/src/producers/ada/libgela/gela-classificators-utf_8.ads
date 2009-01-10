@@ -9,8 +9,6 @@
 --  Purpose:
 --  Classificator for any fixed width encoding.
 
-with Gela.Decoders;
-
 generic
    with function To_Character_Class
      (Code : Code_Point)

@@ -86,7 +86,10 @@ package body Gela.Classificators.UTF_8 is
 
          Put (Buffer, Class, Full);
 
-         exit when Code = End_Of_File;
+         if Code = End_Of_File then
+            Put (Buffer, Class, Full);
+            exit;
+         end if;
 
          Next (Input);
 
