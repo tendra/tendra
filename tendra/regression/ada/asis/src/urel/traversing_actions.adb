@@ -49,11 +49,9 @@ package body Traversing_Actions is
       Name  : constant Asis.Program_Text := Image (2 .. Image'Last - 1);
       Unit  : constant Asis.Compilation_Unit :=
         Enclosing_Compilation_Unit (Arg);
-
-      Context : constant Asis.Context :=
-        Compilation_Units.Enclosing_Context (Unit);
    begin
-      return (1 => Compilation_Units.Compilation_Unit_Body (Name, Context));
+      return (1 => Compilation_Units.Compilation_Unit_Body
+                (Name, Compilation_Units.Enclosing_Context (Unit)));
    end Compilation_Unit_Body;
 
    ---------------------------
@@ -97,12 +95,10 @@ package body Traversing_Actions is
       Name  : constant Asis.Program_Text := Image (2 .. Image'Last - 1);
       Unit  : constant Asis.Compilation_Unit :=
         Enclosing_Compilation_Unit (Arg);
-
-      Context : constant Asis.Context :=
-        Compilation_Units.Enclosing_Context (Unit);
    begin
       return
-        (1 => Compilation_Units.Library_Unit_Declaration (Name, Context));
+        (1 => Compilation_Units.Library_Unit_Declaration
+           (Name, Compilation_Units.Enclosing_Context (Unit)));
    end Library_Unit_Declaration;
 
    -----------------
@@ -128,15 +124,13 @@ package body Traversing_Actions is
       State   : in out Traversal_State)
    is
       use Asis;
+      use Asis.Compilation_Units;
       use Asis.Compilation_Units.Relations;
    begin
       if Statement_Kind (Element) = A_Procedure_Call_Statement then
          declare
             Unit    : constant Asis.Compilation_Unit :=
               Enclosing_Compilation_Unit (Element);
-
-            Context : constant Asis.Context :=
-              Asis.Compilation_Units.Enclosing_Context (Unit);
 
             Name    : constant Asis.Expression := Called_Name (Element);
             List    : constant Asis.Association_List :=
@@ -148,12 +142,13 @@ package body Traversing_Actions is
                     (Element,
                      Semantic_Dependence_Order (To_List (List (1)),
                                                 To_List (List (2)),
-                                                Context,
+                                                Enclosing_Context (Unit),
                                                 To_Relation (List (3))));
                elsif Name_Image (Name) = "Elaboration_Order" then
                   Print_Relationship
                     (Element,
-                     Elaboration_Order (To_List (List (1)), Context));
+                     Elaboration_Order (To_List (List (1)),
+                                        Enclosing_Context (Unit)));
                end if;
             end if;
 
