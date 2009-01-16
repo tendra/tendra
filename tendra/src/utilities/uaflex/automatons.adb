@@ -92,7 +92,7 @@ package body Automatons is
          if Automaton = null then
             Temp.First := 1;
          else
-            Temp.First := Automaton.Next.First + 1;
+            Temp.First := Automaton.Last + 1;
          end if;
 
          Temp.Last   := Temp.First - 1;
