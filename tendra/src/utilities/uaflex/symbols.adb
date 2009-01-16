@@ -3,16 +3,58 @@ with Ada.Strings.Unbounded;
 
 package body Symbols is
 
-   function Min (Left, Right : Symbol) return Symbol;
-   function Max (Left, Right : Symbol) return Symbol;
+   function Min (Left, Right : Symbol) return Symbol
+     renames Symbol'Min;
+
+   function Max (Left, Right : Symbol) return Symbol
+     renames Symbol'Max;
 
    ---------
    -- "*" --
    ---------
 
    function "*" (Left, Right  : Symbol_Set) return Boolean is
+      L       : Symbol_Ranges renames Left.Node.Ranges;
+      R       : Symbol_Ranges renames Right.Node.Ranges;
    begin
-      return not Is_Empty (Left and Right);
+      if L'Length > R'Length then
+         return Right * Left;
+      elsif L'Length = 0 then
+         return False;
+      end if;
+
+      declare
+         L_Wide : constant Symbol_Range :=
+           (L (L'First).Lower, L (L'Last).Upper);
+         R_Wide : constant Symbol_Range :=
+           (R (R'First).Lower, R (R'Last).Upper);
+      begin
+         if not (L_Wide * R_Wide) then
+            return False;
+         end if;
+      end;
+
+      for I in L'Range loop
+         declare
+            F : Positive := R'First;
+            T : Natural  := R'Last;
+            J : Natural;
+         begin
+            while F <= T loop
+               J := (F + T) / 2;
+
+               if R (J).Lower > L (I).Upper then
+                  T := J - 1;
+               elsif R (J).Upper < L (I).Lower then
+                  F := J + 1;
+               else
+                  return True;
+               end if;
+            end loop;
+         end;
+      end loop;
+
+      return False;
    end "*";
 
    ---------
@@ -68,8 +110,30 @@ package body Symbols is
       end New_Range;
    begin
       for I in L'Range loop
-         Index := 1;
          Start := L (I).Lower;
+
+         --  Binary search max Index of range less then Start
+         declare
+            F : Positive := R'First;
+            T : Natural  := R'Last;
+            J : Natural;
+         begin
+            while F <= T loop
+               J := (F + T) / 2;
+
+               if R (J).Lower > Start then
+                  T := J - 1;
+               elsif R (J).Upper < Start then
+                  F := J + 1;
+               else
+                  T := J;
+                  exit;
+               end if;
+            end loop;
+
+            Index := Positive'Max (T, R'First);
+         end;
+         --  End of binary search
 
          while Index in R'Range and then R (Index).Lower <= L (I).Upper loop
             if R (Index) * L (I) then
@@ -192,30 +256,44 @@ package body Symbols is
               and then not Is_Empty (Next (J))
               and then Next (I) * Next (J)
             then
-               return Distinct_Symbol_Sets
-                 (Next (Next'First .. I - 1)
-                  & (Next (I) - Next (J))
-                  & Next (I + 1 .. J - 1)
-                  & (Next (J) - Next (I))
-                  & Next (J + 1 .. Next'Last)
-                  & (Next (J) and Next (I)));
+               declare
+                  A : constant Symbol_Set := Next (I) - Next (J);
+                  B : constant Symbol_Set := Next (J) - Next (I);
+                  C : constant Symbol_Set := Next (J) and Next (I);
+                  Index: Natural := 1;
+                  Sets : Symbol_Set_Array (1 .. Next'Length + 1);
+
+                  procedure Append (S : Symbol_Set_Array) is
+                  begin
+                     Sets (Index .. Index + S'Length - 1) := S;
+                     Index := Index + S'Length;
+                  end Append;
+               begin
+                  Append (Next (Next'First .. I - 1));
+
+                  if not Is_Empty (A) then
+                     Append ((1 => A));
+                  end if;
+
+                  Append (Next (I + 1 .. J - 1));
+
+                  if not Is_Empty (B) then
+                     Append ((1 => B));
+                  end if;
+
+                  Append (Next (J + 1 .. Next'Last));
+
+                  Append ((1 => C));
+
+                  Index := Index - 1;
+
+                  return Distinct_Symbol_Sets (Sets (1 .. Index));
+               end;
             end if;
          end loop;
       end loop;
 
-      declare
-         Result : Symbol_Set_Array (Next'Range);
-         Last   : Integer := Result'First - 1;
-      begin
-         for I in Next'Range loop
-            if not Is_Empty (Next (I)) then
-               Last := Last + 1;
-               Result (Last) := Next (I);
-            end if;
-         end loop;
-
-         return Result (Result'First .. Last);
-      end;
+      return Next;
    end Distinct_Symbol_Sets;
 
    --------------
@@ -234,32 +312,6 @@ package body Symbols is
          end if;
       end if;
    end Finalize;
-
-   ---------
-   -- Min --
-   ---------
-
-   function Min (Left, Right : Symbol) return Symbol is
-   begin
-      if Left < Right then
-         return Left;
-      else
-         return Right;
-      end if;
-   end Min;
-
-   ---------
-   -- Max --
-   ---------
-
-   function Max (Left, Right : Symbol) return Symbol is
-   begin
-      if Left > Right then
-         return Left;
-      else
-         return Right;
-      end if;
-   end Max;
 
    --------------
    -- Is_Empty --

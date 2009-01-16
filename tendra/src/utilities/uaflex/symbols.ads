@@ -64,4 +64,8 @@ private
      (0, 2, (others => (Not_A_Symbol, Not_A_Symbol)));
    Empty : constant Symbol_Set := (F.Controlled with Empty_Node'Access);
 
+   pragma Inline ("*");
+   pragma Inline (Is_Empty);
+   pragma Inline (Is_Equal);
+
 end Symbols;
