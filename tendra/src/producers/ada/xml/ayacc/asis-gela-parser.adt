@@ -187,6 +187,8 @@ with Asis.Gela.Parser_Utils;           use Asis.Gela.Parser_Utils;
          end loop;
 
          if Token = Identifier_Token then
+            Scanners.Enter (Scanner, Scanner_Tables.Allow_Keyword);
+         elsif Token = Apostrophe_Token then
             Scanners.Enter (Scanner, Scanner_Tables.Default);
          else
             Scanners.Enter (Scanner, Scanner_Tables.Allow_Char);

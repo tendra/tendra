@@ -1,4 +1,15 @@
+-- In Allow_Char  state character literals are available
+-- In Allow_Keyword state Access/Delta/Digits/Mod keywoards are available
+-- Lexer expected
+--   to enter in Allow_Keyword after identifier
+--      [so no character literal are allowed, example: Character'('Y')]
+--   to enter in Default after apostrophe
+--      [so no keywoards are allowed, example: X'Access]
+--   to enter in Allow_Char after others tokens
+
 %s Allow_Char
+%s Allow_Keyword
+
 
 -- identifier_start ::=
 --     letter_uppercase
@@ -62,7 +73,9 @@ graphic_character [^\p{Cc}\p{Co}\p{Cs}\m{format_effector}\m{fffe}\m{ffff}]
 -- string_element ::= "" | non_quotation_mark_graphic_character
 string_element      ""|[\m{graphic_character}-["]]
 
-x [\p{Format}]*
+new_line    [\m{format_effector}-[\t]]
+end_of_file \u0000
+x           [\p{Format}]*
 
 %%
 Identifier_Token        {identifier_start}({identifier_start}|{identifier_extend})*
@@ -76,7 +89,7 @@ Abort_Token     [Aa]{x}[Bb]{x}[Oo]{x}[Rr]{x}[Tt]{x}
 Abs_Token       [Aa]{x}[Bb]{x}[Ss]{x}
 Abstract_Token  [Aa]{x}[Bb]{x}[Ss]{x}[Tt]{x}[Rr]{x}[Aa]{x}[Cc]{x}[Tt]{x}
 Accept_Token    [Aa]{x}[Cc]{x}[Cc]{x}[Ee]{x}[Pp]{x}[Tt]{x}
-Access_Token    [Aa]{x}[Cc]{x}[Cc]{x}[Ee]{x}[Ss]{x}[Ss]{x}
+<Allow_Keyword,Allow_Char> Access_Token    [Aa]{x}[Cc]{x}[Cc]{x}[Ee]{x}[Ss]{x}[Ss]{x}
 Aliased_Token   [Aa]{x}[Ll]{x}[Ii]{x}[Aa]{x}[Ss]{x}[Ee]{x}[Dd]{x}
 All_Token       [Aa]{x}[Ll]{x}[Ll]{x}
 And_Token       [Aa]{x}[Nn]{x}[Dd]{x}
@@ -88,8 +101,8 @@ Case_Token      [Cc]{x}[Aa]{x}[Ss]{x}[Ee]{x}
 Constant_Token  [Cc]{x}[Oo]{x}[Nn]{x}[Ss]{x}[Tt]{x}[Aa]{x}[Nn]{x}[Tt]{x}
 Declare_Token   [Dd]{x}[Ee]{x}[Cc]{x}[Ll]{x}[Aa]{x}[Rr]{x}[Ee]{x}
 Delay_Token     [Dd]{x}[Ee]{x}[Ll]{x}[Aa]{x}[Yy]{x}
-Delta_Token     [Dd]{x}[Ee]{x}[Ll]{x}[Tt]{x}[Aa]{x}
-Digits_Token    [Dd]{x}[Ii]{x}[Gg]{x}[Ii]{x}[Tt]{x}[Ss]{x}
+<Allow_Keyword,Allow_Char> Delta_Token     [Dd]{x}[Ee]{x}[Ll]{x}[Tt]{x}[Aa]{x}
+<Allow_Keyword,Allow_Char> Digits_Token    [Dd]{x}[Ii]{x}[Gg]{x}[Ii]{x}[Tt]{x}[Ss]{x}
 Do_Token        [Dd]{x}[Oo]{x}
 Else_Token      [Ee]{x}[Ll]{x}[Ss]{x}[Ee]{x}
 Elsif_Token     [Ee]{x}[Ll]{x}[Ss]{x}[Ii]{x}[Ff]{x}
@@ -107,7 +120,7 @@ Interface_Token [Ii]{x}[Nn]{x}[Tt]{x}[Ee]{x}[Rr]{x}[Ff]{x}[Aa]{x}[Cc]{x}[Ee]{x}
 Is_Token        [Ii]{x}[Ss]{x}
 Limited_Token   [Ll]{x}[Ii]{x}[Mm]{x}[Ii]{x}[Tt]{x}[Ee]{x}[Dd]{x}
 Loop_Token      [Ll]{x}[Oo]{x}[Oo]{x}[Pp]{x}
-Mod_Token       [Mm]{x}[Oo]{x}[Dd]{x}
+<Allow_Keyword,Allow_Char> Mod_Token       [Mm]{x}[Oo]{x}[Dd]{x}
 New_Token       [Nn]{x}[Ee]{x}[Ww]{x}
 Not_Token       [Nn]{x}[Oo]{x}[Tt]{x}
 Null_Token      [Nn]{x}[Uu]{x}[Ll]{x}[Ll]{x}
@@ -173,9 +186,9 @@ Semicolon_Token            ;
 Equal_Token                =
 Vertical_Line_Token        \|
 Separator_Token            [ \f\r\t\v]+
-New_Line_Token             [\m{format_effector}-[\t]]
+New_Line_Token             [\m{new_line}]
 
 -- comment ::= --{non_end_of_line_character}
-comment_Token       --[^\m{format_effector}-[\t]]*
+comment_Token       --[^\m{end_of_file}\m{new_line}]*
 
-End_Of_Input \u0000
+End_Of_Input [\m{end_of_file}]

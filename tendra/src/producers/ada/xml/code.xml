@@ -301,18 +301,6 @@
    </seq>
  </rule>
 
- <rule name="attribute_designator">
-   <seq contains_name="identifier" pass-through="y"/>
-   <seq>
-      <wrap node="Identifier">
-         <item name="access" attr="Name_Image"/>
-         <item name="delta" attr="Name_Image"/>
-         <item name="digits" attr="Name_Image"/>
-         <item name="mod" attr="Name_Image"/>
-      </wrap>
-   </seq>
- </rule>
-
  <rule name="range_attribute_reference">
    <seq>
      <wrap node="range_attribute_reference">

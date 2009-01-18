@@ -465,18 +465,18 @@
           </seq>
         </opt>
       </deleted-seq>
-      <seq>
+      <deleted-seq>
         <keyword text="access"/>
-      </seq>
-      <seq>
+      </deleted-seq>
+      <deleted-seq>
         <keyword text="delta"/>
-      </seq>
-      <seq>
+      </deleted-seq>
+      <deleted-seq>
         <keyword text="digits"/>
-      </seq>
-      <seq>
+      </deleted-seq>
+      <deleted-seq>
         <keyword text="mod"/>
-      </seq>
+      </deleted-seq>
     
   </rule>
 
