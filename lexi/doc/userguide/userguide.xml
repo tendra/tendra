@@ -319,16 +319,6 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><xref linkend="conditionalcommands"/></term>
-
-					<listitem>
-						<para>Conditional commands provide a mechanism for
-							optionally omitting features of the specified
-							lexical analyser by way of runtime tests.</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
 					<term><xref linkend="defaultdefinition"/></term>
 
 					<listitem>
