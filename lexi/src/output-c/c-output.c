@@ -1311,8 +1311,10 @@ c_output_all(cmd_line_options *opt, lexer_parse_tree* top_level)
 	fputs("/* MAIN PASS ANALYSERS */\n\n", lex_output);
   	output_zone_pass(opt, tree_get_globalzone(top_level));
 
-	fputs("#endif\n", lex_output_h);
 	output_trailers() ;
+
+	fputs("#endif\n", lex_output_h);
+
 	fputs("\n", lex_output);
 	fputs("\n", lex_output_h);
 
