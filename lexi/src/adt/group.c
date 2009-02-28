@@ -183,6 +183,7 @@ make_group(zone *z, char *name, char *defn)
 	z->groups = new;
 
 	new_def = xmalloc(sizeof *new_def);
+	new_def->next_in_groups_list = NULL;
 
 	if (defn == NULL) {
 		unescape_string(z, new_def->defn, "");
