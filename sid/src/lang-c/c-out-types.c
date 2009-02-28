@@ -449,6 +449,10 @@ c_output_type_decl(COutputInfoT *info, TypeTupleT *inputs, TypeTupleT *outputs)
 
 	write_char(ostream, '(');
 	for (persptr = persistents->head; persptr; persptr = persptr->next) {
+		/*
+		 * TODO: These ought to call c_output_mapped_key(info, persptr->entry
+		 * instead. See persistent.h
+		 */
 		write_cstring(ostream, sep);
 		write_nstring(ostream, &persptr->ctype);
 		sep = ", ";
