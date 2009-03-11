@@ -38,28 +38,28 @@
 	 * produce an LL(1) result. This grammar for RPN has two expressions
 	 * followed by an operator:
 	 *
-     *    expression = {
-     *        n1 = expression;
-     *        n2 = expression;
-     *        { mul || div || add || sub };
-     *    ||
-     *        number;
-     *    };
-     *
-     * This is left-recursive, and hence not LL(1). The usual factoring is:
-     *
-     *    expression = {
-     *        number;
-     *        expression1;
-     *    };
-     *
-     *    expression1 = {
-     *        expression;
-     *        { mul || div || add || sub };
-     *        expression1;
-     *    ||
-     *        $;
-     *    };
+	 *    expression = {
+	 *        n1 = expression;
+	 *        n2 = expression;
+	 *        { mul || div || add || sub };
+	 *    ||
+	 *        number;
+	 *    };
+	 *
+	 * This is left-recursive, and hence not LL(1). The usual factoring is:
+	 *
+	 *    expression = {
+	 *        number;
+	 *        expression1;
+	 *    };
+	 *
+	 *    expression1 = {
+	 *        expression;
+	 *        { mul || div || add || sub };
+	 *        expression1;
+	 *    ||
+	 *        $;
+	 *    };
 	 *
 	 * And this is exactly what SID produces during left-recursion elimination
 	 * (which you can see by running 'sid -d /dev/stdout -l test rpn.sid').
