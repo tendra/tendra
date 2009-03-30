@@ -7,7 +7,7 @@ REMOVE?=	rm -f
 
 EXDSLIBDIR?=
 EXDSINCDIR?=	../../../../libexds/include
-SHRDINCDIR?=	../../../../shared
+SHRDINCDIR?=	../../shared
 
 CPPFLAGS+=	-I${EXDSINCDIR} -I${SHRDINCDIR} -I..
 CFLAGS+=	${CPPFLAGS}
