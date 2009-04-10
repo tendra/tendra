@@ -1810,6 +1810,8 @@ ZR217(zoneP *ZIz)
 			{
 
     (*ZIz)->default_instructions=(ZIinst_Hlist);
+	if((ZIinst_Hlist)->nb_return_terminal)
+		(*ZIz)->type=typezone_general_zone;
 			}
 			ZRexpected__semicolon ();
 			if ((CURRENT_TERMINAL) == 41) {

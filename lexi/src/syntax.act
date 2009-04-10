@@ -666,6 +666,8 @@ arg-ignore : () -> (a:ARG) = @{
 */
 <make-default> : ( z : ZONE, i : INSTRUCTIONS_LIST ) -> () = @{
     @z->default_instructions=@i;
+	if(@i->nb_return_terminal)
+		@z->type=typezone_general_zone;
 @} ;
 
 
