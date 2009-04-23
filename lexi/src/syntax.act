@@ -520,7 +520,28 @@ arg-ignore : () -> (a:ARG) = @{
 						char* s3 = p->is_reference ? "&" : "";
 						char* s4 = nstring_to_cstring(entry_key(q->type));
 						char* s5 = q->is_reference ? "&" : "";
-						error(ERROR_SERIOUS, "In call to action %s, argument \'%s\' has type \'%s%s\' when it should have type %s", s1, p->u.literal, s2, s3, s4, s5);
+						char* s6 = "";
+						char* s7 = "";
+						switch(p->type) {
+						case arg_terminal:
+							s6 = "$"; 
+							s7 = p->u.literal;
+							break;
+						case arg_identifier:
+							s7 = p->u.literal;
+							break;
+						case arg_nb_of_chars:
+							s6 = "#n";
+							break;
+						case arg_char_nb:
+							s6 = "#[number]";
+							/* TODO s7=p->u.digit */;
+							break;
+						case arg_charP:
+							s6 = "#*";
+							break;
+						}
+						error(ERROR_SERIOUS, "In call to action %s, argument \'%s%s\' has type \'%s%s\' when it should have type %s", s1, s6, s7, s2, s3, s4, s5);
 						DEALLOCATE(s1);
 						DEALLOCATE(s2);
 						DEALLOCATE(s4);
