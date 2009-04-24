@@ -264,13 +264,6 @@ upper : () -> ( s : STRING ) =	@{ @s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" ; @} ;
 lower : () -> ( s : STRING ) =	@{ @s = "abcdefghijklmnopqrstuvwxyz" ; @} ;
 digit : () -> ( s : STRING ) =	@{ @s = "0123456789" ; @} ;
 
-/* 
-   ARGS TERMINAL
-*/
-arg-char-list : () -> (a:ARG) = @{
-      @a=add_arg(arg_chars_list,0);
-@};
-
 arg-char-string : () ->(a:ARG) = @{
       @a=add_arg(arg_charP,0);
 @};
@@ -612,7 +605,6 @@ arg-ignore : () -> (a:ARG) = @{
 					/* Error has already been detected */
 				case arg_charP:
 				case arg_char_nb:
-				case arg_chars_list:
 				case arg_terminal:
 				case arg_nb_of_chars:
 					break; /* UNREACHABLE */
@@ -966,11 +958,6 @@ arg-ignore : () -> (a:ARG) = @{
 	error(ERROR_SERIOUS, "String argument in right handside of action call: purposefuly not implemented to avoid confusions. Will be implemented with an alternate meaning once direct function calls are removed from lexi");
 @};
 
-
-<E_sharp_list_in_action_rhs> : () -> () = @{
-	error(ERROR_SERIOUS, "Args of style ## are not implemented in actions right hand side. Whether they will be implemented in the future remains undecided at the moment.");
-/* TODO take a decision.*/
-@};
 
 
 <E_ignore_in_rhs> : () -> () = @{

@@ -506,10 +506,6 @@ lexi_read_token(struct lexi_state *state)
 						return lex_arg_Hnb_Hof_Hchars;
 					}
 
-				case '#': {
-						return lex_arg_Hchar_Hlist;
-					}
-
 				}
 				if (lexi_group(lexi_group_digit, c1)) {
 					/* ACTION <number_buffer_init> */

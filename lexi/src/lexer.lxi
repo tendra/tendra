@@ -104,7 +104,6 @@ TOKEN "\[...)" -> $range-closed-open ;
 TOKEN "$$" -> $nothing-marker ;
 TOKEN ","  -> $comma ;
 TOKEN "\e" -> $eof ;
-TOKEN "##"       -> $arg-char-list ;
 TOKEN "#n"       -> $arg-nb-of-chars ;
 TOKEN "#*"       -> $arg-char-string ;
 

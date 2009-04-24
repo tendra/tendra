@@ -116,38 +116,38 @@ char *token_prefix = "lex_" ;
 static void ZRexpected__semicolon(void);
 static void ZRzone_Hdefn(zoneP);
 static void ZRstring_Hplus(SID_STRING *);
+static void ZR146(void);
 static void ZRtype_Hdefn(zoneP);
-static void ZR148(void);
-static void ZR149(void);
+static void ZR147(void);
 static void ZRaction_Hcall_C_Clhs_Htuple1(args_listP);
 static void ZRtype_Htuple(zoneP, TypeTupleT *);
 static void ZRaction_Hcall_C_Crhs_Htuple1(args_listP *);
-static void ZR170(args_listP *);
+static void ZR168(args_listP *);
 static void ZRinstructions_Hlist(zoneP, instructions_listP *);
 static void ZRtype_Htuple_C_Ctype_Hname(zoneP, TypeTupleT *);
 static void ZRtrigraph_Hdefn(zoneP);
-static void ZR190(SID_STRING *);
-static void ZR192(zoneP *, instructions_listP *);
+static void ZR188(SID_STRING *);
+static void ZR190(zoneP *, instructions_listP *);
 extern void read_lex(zoneP);
 static void ZRaction_Hdecl(zoneP);
 static void ZRinstruction(zoneP, instructionP *);
 static void ZRcommand_Hlist(zoneP);
-static void ZR214(zoneP, instructions_listP, zoneP *, instructions_listP *);
+static void ZR212(zoneP, instructions_listP, zoneP *, instructions_listP *);
+static void ZR214(zoneP *);
+static void ZR215(zoneP *);
 static void ZRkeyword_Hdefn(zoneP);
-static void ZR216(zoneP *);
+static void ZR216(zoneP *, args_listP *, instructionP *);
 static void ZRcopyright_Hstmt(zoneP);
-static void ZR217(zoneP *);
-static void ZR218(zoneP *, args_listP *, instructionP *);
-static void ZR222(zoneP *, args_listP *, SID_STRING *, instructionP *);
-static void ZR223(argP *, args_listP *);
-static void ZR225(zoneP *, TypeTupleT *);
+static void ZR220(zoneP *, args_listP *, SID_STRING *, instructionP *);
+static void ZR221(argP *, args_listP *);
+static void ZR223(zoneP *, TypeTupleT *);
 static void ZRcommand(zoneP);
 static void ZRtype_Htuple_C_Ctype_Htuple1(zoneP, TypeTupleT *);
 static void ZRaction_Hcall_C_Crhs_Htuple(args_listP *);
 static void ZRnon_Hempty_Hchars(SID_STRING *);
 static void ZRaction_Hcall_C_Clhs_Harg(args_listP);
+static void ZR121(void);
 static void ZR123(void);
-static void ZR125(void);
 static void ZRaction_Hcall_C_Crhs_Harg(argP *);
 
 /* BEGINNING OF STATIC VARIABLES */
@@ -159,7 +159,7 @@ static int ZI0;
 static void
 ZRexpected__semicolon(void)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -184,7 +184,7 @@ ZL1:;
 static void
 ZRzone_Hdefn(zoneP ZIz)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -248,8 +248,8 @@ ZRzone_Hdefn(zoneP ZIz)
 			}
 		ZL4:;
 		}
-		ZR190 (&ZIb);
-		ZR192 (&ZIz, &ZIentry_Hinstl);
+		ZR188 (&ZIb);
+		ZR190 (&ZIz, &ZIentry_Hinstl);
 		{
 			switch (CURRENT_TERMINAL) {
 			case 25:
@@ -276,7 +276,7 @@ ZRzone_Hdefn(zoneP ZIz)
 					}
 				}
 				break;
-			case 41:
+			case 40:
 				RESTORE_LEXER;
 				goto ZL7;
 			default:
@@ -295,9 +295,9 @@ ZRzone_Hdefn(zoneP ZIz)
 			}
 		ZL6:;
 		}
-		ZR190 (&ZIe);
-		ZR192 (&ZIz, &ZIleaving_Hinstl);
-		if ((CURRENT_TERMINAL) == 41) {
+		ZR188 (&ZIe);
+		ZR190 (&ZIz, &ZIleaving_Hinstl);
+		if ((CURRENT_TERMINAL) == 40) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
@@ -330,7 +330,7 @@ ZRzone_Hdefn(zoneP ZIz)
 		switch (CURRENT_TERMINAL) {
 		case 17:
 			break;
-		case 41:
+		case 40:
 			RESTORE_LEXER;
 			goto ZL1;
 		default:
@@ -352,7 +352,7 @@ ZRzone_Hdefn(zoneP ZIz)
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
@@ -361,7 +361,7 @@ ZRstring_Hplus(SID_STRING *ZOs)
 {
 	SID_STRING ZIs;
 
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -414,7 +414,7 @@ ZRstring_Hplus(SID_STRING *ZOs)
 
 					ADVANCE_LEXER;
 					ZRstring_Hplus (&ZIb);
-					if ((CURRENT_TERMINAL) == 41) {
+					if ((CURRENT_TERMINAL) == 40) {
 						RESTORE_LEXER;
 						goto ZL1;
 					}
@@ -434,23 +434,48 @@ ZRstring_Hplus(SID_STRING *ZOs)
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOs = ZIs;
 }
 
 static void
+ZR146(void)
+{
+	if ((CURRENT_TERMINAL) == 40) {
+		return;
+	}
+	{
+		switch (CURRENT_TERMINAL) {
+		case 14:
+			break;
+		default:
+			goto ZL1;
+		}
+		ADVANCE_LEXER;
+	}
+	return;
+ZL1:;
+	{
+		{
+
+	error(ERROR_SERIOUS, "Syntax error: expected open \'(\'");
+		}
+	}
+}
+
+static void
 ZRtype_Hdefn(zoneP ZIz)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
 		SID_STRING ZIs;
 
 		switch (CURRENT_TERMINAL) {
-		case 40:
+		case 39:
 			break;
 		default:
 			goto ZL1;
@@ -511,39 +536,14 @@ ZRtype_Hdefn(zoneP ZIz)
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
 static void
-ZR148(void)
+ZR147(void)
 {
-	if ((CURRENT_TERMINAL) == 41) {
-		return;
-	}
-	{
-		switch (CURRENT_TERMINAL) {
-		case 14:
-			break;
-		default:
-			goto ZL1;
-		}
-		ADVANCE_LEXER;
-	}
-	return;
-ZL1:;
-	{
-		{
-
-	error(ERROR_SERIOUS, "Syntax error: expected open \'(\'");
-		}
-	}
-}
-
-static void
-ZR149(void)
-{
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -568,7 +568,7 @@ ZL1:;
 static void
 ZRaction_Hcall_C_Clhs_Htuple1(args_listP ZIl)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 ZL2_action_Hcall_C_Clhs_Htuple1:;
@@ -582,7 +582,7 @@ ZL2_action_Hcall_C_Clhs_Htuple1:;
 					goto ZL2_action_Hcall_C_Clhs_Htuple1;
 				}
 				/*UNREACHED*/
-			case 41:
+			case 40:
 				RESTORE_LEXER;
 				goto ZL1;
 			default:
@@ -592,7 +592,7 @@ ZL2_action_Hcall_C_Clhs_Htuple1:;
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
@@ -601,7 +601,7 @@ ZRtype_Htuple(zoneP ZIz, TypeTupleT *ZOa)
 {
 	TypeTupleT ZIa;
 
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -609,15 +609,15 @@ ZRtype_Htuple(zoneP ZIz, TypeTupleT *ZOa)
 
 	typetuple_init(&(ZIa));
 		}
-		ZR225 (&ZIz, &ZIa);
-		if ((CURRENT_TERMINAL) == 41) {
+		ZR223 (&ZIz, &ZIa);
+		if ((CURRENT_TERMINAL) == 40) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	{
@@ -631,29 +631,29 @@ ZRaction_Hcall_C_Crhs_Htuple1(args_listP *ZOr)
 {
 	args_listP ZIr;
 
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
 		argP ZIa;
 
 		ZRaction_Hcall_C_Crhs_Harg (&ZIa);
-		ZR223 (&ZIa, &ZIr);
-		if ((CURRENT_TERMINAL) == 41) {
+		ZR221 (&ZIa, &ZIr);
+		if ((CURRENT_TERMINAL) == 40) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOr = ZIr;
 }
 
 static void
-ZR170(args_listP *ZOr)
+ZR168(args_listP *ZOr)
 {
 	args_listP ZIr;
 
@@ -661,7 +661,7 @@ ZR170(args_listP *ZOr)
 	case 14:
 		{
 			ZRaction_Hcall_C_Crhs_Htuple (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -675,32 +675,32 @@ ZR170(args_listP *ZOr)
 			}
 		}
 		break;
-	case 41:
+	case 40:
 		return;
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOr = ZIr;
 }
 
 static void
-ZRinstructions_Hlist(zoneP ZI208, instructions_listP *ZO213)
+ZRinstructions_Hlist(zoneP ZI206, instructions_listP *ZO211)
 {
-	instructions_listP ZI213;
+	instructions_listP ZI211;
 
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
 		instructionP ZIinst;
 		instructions_listP ZIinstl;
-		zoneP ZI212;
+		zoneP ZI210;
 
-		ZRinstruction (ZI208, &ZIinst);
-		if ((CURRENT_TERMINAL) == 41) {
+		ZRinstruction (ZI206, &ZIinst);
+		if ((CURRENT_TERMINAL) == 40) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
@@ -742,7 +742,7 @@ ZRinstructions_Hlist(zoneP ZI208, instructions_listP *ZO213)
 					entrytype=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!entrytype) {
-						EntryT* tableentry = table_get_entry(tree_get_table((ZI208)->top_level), &str);
+						EntryT* tableentry = table_get_entry(tree_get_table((ZI206)->top_level), &str);
 						if(!tableentry) {
 							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 							entrytype = NULL;
@@ -762,19 +762,19 @@ ZRinstructions_Hlist(zoneP ZI208, instructions_listP *ZO213)
 					break;
 				case arg_charP:
 					/* TODO assert(lexer_string_type(top_level)) */
-					entrytype = lexer_string_type((ZI208)->top_level);
+					entrytype = lexer_string_type((ZI206)->top_level);
 		 			break;
 				case arg_char_nb:
 					/* TODO assert(lexer_char_type(top_level)) */
-					entrytype = lexer_char_type((ZI208)->top_level);
+					entrytype = lexer_char_type((ZI206)->top_level);
 			 		break;
 				case arg_terminal:
 					/* TODO assert(lexer_terminal_type(top_level)) */
-					entrytype = lexer_terminal_type((ZI208)->top_level);
+					entrytype = lexer_terminal_type((ZI206)->top_level);
 					break;
 				case arg_nb_of_chars:
 					/* TODO assert(lexer_terminal_type(top_level)) */
-					entrytype = lexer_int_type((ZI208)->top_level);
+					entrytype = lexer_int_type((ZI206)->top_level);
 		 			break;
 				case arg_none:
 					break; //Error already detected, do nothing and leave p->lexitype = NULL
@@ -842,7 +842,7 @@ ZRinstructions_Hlist(zoneP ZI208, instructions_listP *ZO213)
 						nstring_copy_cstring(&str, p->u.literal);
 						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
-							EntryT* entry = table_get_entry(tree_get_table((ZI208)->top_level), &str);
+							EntryT* entry = table_get_entry(tree_get_table((ZI206)->top_level), &str);
 							localnames_add_nstring(locals, &str, q->type);
 							if(entry) {
 								nstring_destroy(&str);
@@ -852,7 +852,7 @@ ZRinstructions_Hlist(zoneP ZI208, instructions_listP *ZO213)
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
-								table_add_local_name(tree_get_table((ZI208)->top_level), &str);
+								table_add_local_name(tree_get_table((ZI206)->top_level), &str);
 							}
 							if(p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(entryaction));
@@ -871,7 +871,7 @@ ZRinstructions_Hlist(zoneP ZI208, instructions_listP *ZO213)
 					}
 					break;
 				case arg_return_terminal:
-					entrytype = lexer_terminal_type((ZI208)->top_level);
+					entrytype = lexer_terminal_type((ZI206)->top_level);
 					q->is_reference = false;
 					/* TODO assert(q->is_reference == false) */
 					break;
@@ -886,7 +886,6 @@ ZRinstructions_Hlist(zoneP ZI208, instructions_listP *ZO213)
 					/* Error has already been detected */
 				case arg_charP:
 				case arg_char_nb:
-				case arg_chars_list:
 				case arg_terminal:
 				case arg_nb_of_chars:
 					break; /* UNREACHABLE */
@@ -918,24 +917,24 @@ ZRinstructions_Hlist(zoneP ZI208, instructions_listP *ZO213)
 		++((ZIinstl)->size);
 	}
 		}
-		ZR214 (ZI208, ZIinstl, &ZI212, &ZI213);
-		if ((CURRENT_TERMINAL) == 41) {
+		ZR212 (ZI206, ZIinstl, &ZI210, &ZI211);
+		if ((CURRENT_TERMINAL) == 40) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
-	*ZO213 = ZI213;
+	*ZO211 = ZI211;
 }
 
 static void
 ZRtype_Htuple_C_Ctype_Hname(zoneP ZIz, TypeTupleT *ZIa)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -1025,14 +1024,14 @@ ZRtype_Htuple_C_Ctype_Hname(zoneP ZIz, TypeTupleT *ZIa)
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
 static void
 ZRtrigraph_Hdefn(zoneP ZIz)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -1047,9 +1046,9 @@ ZRtrigraph_Hdefn(zoneP ZIz)
 		}
 		ADVANCE_LEXER;
 		ZRstring_Hplus (&ZIs);
-		ZR125 ();
+		ZR123 ();
 		ZRstring_Hplus (&ZIt);
-		if ((CURRENT_TERMINAL) == 41) {
+		if ((CURRENT_TERMINAL) == 40) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
@@ -1064,21 +1063,21 @@ ZRtrigraph_Hdefn(zoneP ZIz)
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
 static void
-ZR190(SID_STRING *ZOe)
+ZR188(SID_STRING *ZOe)
 {
 	SID_STRING ZIe;
 
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
 		ZRnon_Hempty_Hchars (&ZIe);
-		if ((CURRENT_TERMINAL) == 41) {
+		if ((CURRENT_TERMINAL) == 40) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
@@ -1097,7 +1096,7 @@ ZL0:;
 }
 
 static void
-ZR192(zoneP *ZIz, instructions_listP *ZOleaving_Hinstl)
+ZR190(zoneP *ZIz, instructions_listP *ZOleaving_Hinstl)
 {
 	instructions_listP ZIleaving_Hinstl;
 
@@ -1106,7 +1105,7 @@ ZR192(zoneP *ZIz, instructions_listP *ZOleaving_Hinstl)
 		{
 			ADVANCE_LEXER;
 			ZRinstructions_Hlist (*ZIz, &ZIleaving_Hinstl);
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -1120,12 +1119,12 @@ ZR192(zoneP *ZIz, instructions_listP *ZOleaving_Hinstl)
 			}
 		}
 		break;
-	case 41:
+	case 40:
 		return;
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOleaving_Hinstl = ZIleaving_Hinstl;
@@ -1134,13 +1133,13 @@ ZL0:;
 void
 read_lex(zoneP ZIz)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
 		ZRcommand_Hlist (ZIz);
 		{
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -1166,14 +1165,14 @@ read_lex(zoneP ZIz)
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
 static void
 ZRaction_Hdecl(zoneP ZIz)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -1182,7 +1181,7 @@ ZRaction_Hdecl(zoneP ZIz)
 		TypeTupleT ZIot;
 
 		switch (CURRENT_TERMINAL) {
-		case 37:
+		case 36:
 			break;
 		default:
 			goto ZL1;
@@ -1191,7 +1190,7 @@ ZRaction_Hdecl(zoneP ZIz)
 		{
 			{
 				switch (CURRENT_TERMINAL) {
-				case 38:
+				case 37:
 					break;
 				default:
 					goto ZL3;
@@ -1222,7 +1221,7 @@ ZRaction_Hdecl(zoneP ZIz)
 		{
 			{
 				switch (CURRENT_TERMINAL) {
-				case 39:
+				case 38:
 					break;
 				default:
 					goto ZL5;
@@ -1244,14 +1243,14 @@ ZRaction_Hdecl(zoneP ZIz)
 			case 23:
 				{
 					ADVANCE_LEXER;
-					ZR148 ();
+					ZR146 ();
 					ZRtype_Htuple (ZIz, &ZIit);
-					ZR149 ();
-					ZR125 ();
-					ZR148 ();
+					ZR147 ();
+					ZR123 ();
+					ZR146 ();
 					ZRtype_Htuple (ZIz, &ZIot);
-					ZR149 ();
-					if ((CURRENT_TERMINAL) == 41) {
+					ZR147 ();
+					if ((CURRENT_TERMINAL) == 40) {
 						RESTORE_LEXER;
 						goto ZL1;
 					}
@@ -1296,7 +1295,7 @@ ZRaction_Hdecl(zoneP ZIz)
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
@@ -1305,7 +1304,7 @@ ZRinstruction(zoneP ZIz, instructionP *ZOinst)
 {
 	instructionP ZIinst;
 
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -1315,15 +1314,15 @@ ZRinstruction(zoneP ZIz, instructionP *ZOinst)
 
     (ZIl)=add_args_list();
 		}
-		ZR218 (&ZIz, &ZIl, &ZIinst);
-		if ((CURRENT_TERMINAL) == 41) {
+		ZR216 (&ZIz, &ZIl, &ZIinst);
+		if ((CURRENT_TERMINAL) == 40) {
 			RESTORE_LEXER;
 			goto ZL1;
 		}
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOinst = ZIinst;
@@ -1336,10 +1335,10 @@ ZL2_command_Hlist:;
 	switch (CURRENT_TERMINAL) {
 	case 6: case 7: case 8: case 9:
 	case 10: case 13: case 16: case 22:
-	case 37: case 40:
+	case 36: case 39:
 		{
 			ZRcommand (ZIz);
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			} else {
@@ -1347,7 +1346,7 @@ ZL2_command_Hlist:;
 			}
 		}
 		/*UNREACHED*/
-	case 41:
+	case 40:
 		return;
 	default:
 		break;
@@ -1363,22 +1362,22 @@ ZL1:;
 }
 
 static void
-ZR214(zoneP ZI208, instructions_listP ZI211, zoneP *ZO212, instructions_listP *ZO213)
+ZR212(zoneP ZI206, instructions_listP ZI209, zoneP *ZO210, instructions_listP *ZO211)
 {
-	zoneP ZI212;
-	instructions_listP ZI213;
+	zoneP ZI210;
+	instructions_listP ZI211;
 
-ZL2_214:;
+ZL2_212:;
 	switch (CURRENT_TERMINAL) {
 	case 28:
 		{
 			instructions_listP ZIinstl;
 			instructionP ZIinst;
 
-			ZIinstl = ZI211;
+			ZIinstl = ZI209;
 			ADVANCE_LEXER;
-			ZRinstruction (ZI208, &ZIinst);
-			if ((CURRENT_TERMINAL) == 41) {
+			ZRinstruction (ZI206, &ZIinst);
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -1416,7 +1415,7 @@ ZL2_214:;
 					entrytype=localnames_get_type(locals, &str);
 					nstring_destroy(&str);
 					if(!entrytype) {
-						EntryT* tableentry = table_get_entry(tree_get_table((ZI208)->top_level), &str);
+						EntryT* tableentry = table_get_entry(tree_get_table((ZI206)->top_level), &str);
 						if(!tableentry) {
 							error(ERROR_SERIOUS, "local name %s has not been defined yet", p->u.literal);
 							entrytype = NULL;
@@ -1436,19 +1435,19 @@ ZL2_214:;
 					break;
 				case arg_charP:
 					/* TODO assert(lexer_string_type(top_level)) */
-					entrytype = lexer_string_type((ZI208)->top_level);
+					entrytype = lexer_string_type((ZI206)->top_level);
 		 			break;
 				case arg_char_nb:
 					/* TODO assert(lexer_char_type(top_level)) */
-					entrytype = lexer_char_type((ZI208)->top_level);
+					entrytype = lexer_char_type((ZI206)->top_level);
 			 		break;
 				case arg_terminal:
 					/* TODO assert(lexer_terminal_type(top_level)) */
-					entrytype = lexer_terminal_type((ZI208)->top_level);
+					entrytype = lexer_terminal_type((ZI206)->top_level);
 					break;
 				case arg_nb_of_chars:
 					/* TODO assert(lexer_terminal_type(top_level)) */
-					entrytype = lexer_int_type((ZI208)->top_level);
+					entrytype = lexer_int_type((ZI206)->top_level);
 		 			break;
 				case arg_none:
 					break; //Error already detected, do nothing and leave p->lexitype = NULL
@@ -1516,7 +1515,7 @@ ZL2_214:;
 						nstring_copy_cstring(&str, p->u.literal);
 						entrytype = localnames_get_type(locals, &str);
 						if(!entrytype) {
-							EntryT* entry = table_get_entry(tree_get_table((ZI208)->top_level), &str);
+							EntryT* entry = table_get_entry(tree_get_table((ZI206)->top_level), &str);
 							localnames_add_nstring(locals, &str, q->type);
 							if(entry) {
 								nstring_destroy(&str);
@@ -1526,7 +1525,7 @@ ZL2_214:;
 									error(ERROR_SERIOUS, "In action lhs. Name %s is a type. Hiding globals by local names is not allowed", p->u.literal);									
 								}
 							} else {
-								table_add_local_name(tree_get_table((ZI208)->top_level), &str);
+								table_add_local_name(tree_get_table((ZI206)->top_level), &str);
 							}
 							if(p->is_reference) {
 								char* s = nstring_to_cstring(entry_key(entryaction));
@@ -1545,7 +1544,7 @@ ZL2_214:;
 					}
 					break;
 				case arg_return_terminal:
-					entrytype = lexer_terminal_type((ZI208)->top_level);
+					entrytype = lexer_terminal_type((ZI206)->top_level);
 					q->is_reference = false;
 					/* TODO assert(q->is_reference == false) */
 					break;
@@ -1560,7 +1559,6 @@ ZL2_214:;
 					/* Error has already been detected */
 				case arg_charP:
 				case arg_char_nb:
-				case arg_chars_list:
 				case arg_terminal:
 				case arg_nb_of_chars:
 					break; /* UNREACHABLE */
@@ -1592,32 +1590,183 @@ ZL2_214:;
 		++((ZIinstl)->size);
 	}
 			}
-			ZI211 = ZIinstl;
-			goto ZL2_214;
+			ZI209 = ZIinstl;
+			goto ZL2_212;
 		}
 		/*UNREACHED*/
 	default:
 		{
-			ZI212 = ZI208;
-			ZI213 = ZI211;
+			ZI210 = ZI206;
+			ZI211 = ZI209;
 		}
 		break;
-	case 41:
+	case 40:
 		return;
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
-	*ZO212 = ZI212;
-	*ZO213 = ZI213;
+	*ZO210 = ZI210;
+	*ZO211 = ZI211;
+}
+
+static void
+ZR214(zoneP *ZIz)
+{
+	switch (CURRENT_TERMINAL) {
+	case 0:
+		{
+			SID_STRING ZIi;
+			SID_STRING ZIs;
+
+			{
+
+    ZIi = xstrcpy ( token_buff ) ;
+			}
+			ADVANCE_LEXER;
+			ZR121 ();
+			ZRnon_Hempty_Hchars (&ZIs);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+    make_group ( (*ZIz), (ZIi), (ZIs) ) ;
+			}
+			ZRexpected__semicolon ();
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+		}
+		break;
+	case 11:
+		{
+			SID_STRING ZIs;
+
+			ADVANCE_LEXER;
+			ZR121 ();
+			ZRstring_Hplus (&ZIs);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+    if ( (*ZIz)->white_space) {
+	error ( ERROR_SERIOUS, "White space group already defined" ) ;
+    }
+    (*ZIz)->white_space= make_group((*ZIz),"white",(ZIs)) ;
+			}
+			ZRexpected__semicolon ();
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+		}
+		break;
+	case 40:
+		return;
+	default:
+		goto ZL1;
+	}
+	return;
+ZL1:;
+	SAVE_LEXER (40);
+	return;
+}
+
+static void
+ZR215(zoneP *ZIz)
+{
+	switch (CURRENT_TERMINAL) {
+	case 12:
+		{
+			instructions_listP ZIinst_Hlist;
+
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 18:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZRinstructions_Hlist (*ZIz, &ZIinst_Hlist);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+    (*ZIz)->default_instructions=(ZIinst_Hlist);
+	if((ZIinst_Hlist)->nb_return_terminal)
+		(*ZIz)->type=typezone_general_zone;
+			}
+			ZRexpected__semicolon ();
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+		}
+		break;
+	case 2: case 3: case 4: case 5:
+		{
+			SID_STRING ZIs;
+			instructions_listP ZIinst_Hlist;
+
+			ZRnon_Hempty_Hchars (&ZIs);
+			switch (CURRENT_TERMINAL) {
+			case 18:
+				break;
+			case 40:
+				RESTORE_LEXER;
+				goto ZL1;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZRinstructions_Hlist (*ZIz, &ZIinst_Hlist);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+	if((ZIinst_Hlist)->nb_return_terminal>1)
+		error(ERROR_SERIOUS, "At most one return terminal may be specified per instruction list");
+			}
+			{
+
+	add_mainpass((*ZIz), (ZIs), (ZIinst_Hlist));
+	if((ZIinst_Hlist)->nb_return_terminal)
+		(*ZIz)->type=typezone_general_zone;
+			}
+			ZRexpected__semicolon ();
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+		}
+		break;
+	case 40:
+		return;
+	default:
+		goto ZL1;
+	}
+	return;
+ZL1:;
+	SAVE_LEXER (40);
+	return;
 }
 
 static void
 ZRkeyword_Hdefn(zoneP ZIz)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -1651,7 +1800,7 @@ ZRkeyword_Hdefn(zoneP ZIz)
 		ADVANCE_LEXER;
 		ZRinstruction (ZIz, &ZIinst);
 		{
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -1688,81 +1837,1055 @@ ZRkeyword_Hdefn(zoneP ZIz)
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
 static void
-ZR216(zoneP *ZIz)
+ZR216(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
 {
+	instructionP ZIinst;
+
 	switch (CURRENT_TERMINAL) {
-	case 0:
+	case 32:
 		{
+			argP ZIb;
+			argP ZIa;
 			SID_STRING ZIi;
-			SID_STRING ZIs;
+			args_listP ZIr;
 
 			{
+
+      ZIb=add_arg(arg_char_nb,number_buffer);
+			}
+			ADVANCE_LEXER;
+			{
+
+	(ZIa) = add_none_arg();
+			}
+			{
+
+	error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+			}
+			{
+
+    *(*ZIl)->tail=(ZIa);
+    (*ZIl)->tail=&(ZIa)->next;
+    if((ZIa)->type==arg_return_terminal)
+	(*ZIl)->nb_return_terminal++;
+			}
+			switch (CURRENT_TERMINAL) {
+			case 20:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 37:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
 
     ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
 			}
 			ADVANCE_LEXER;
-			ZR123 ();
-			ZRnon_Hempty_Hchars (&ZIs);
-			if ((CURRENT_TERMINAL) == 41) {
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
 			{
 
-    make_group ( (*ZIz), (ZIi), (ZIs) ) ;
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
 			}
-			ZRexpected__semicolon ();
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
 			}
 		}
 		break;
-	case 11:
+	case 31:
 		{
-			SID_STRING ZIs;
+			argP ZIb;
+			argP ZIa;
+			SID_STRING ZIi;
+			args_listP ZIr;
 
+			{
+
+      ZIb=add_arg(arg_charP,0);
+			}
 			ADVANCE_LEXER;
-			ZR123 ();
-			ZRstring_Hplus (&ZIs);
-			if ((CURRENT_TERMINAL) == 41) {
+			{
+
+	(ZIa) = add_none_arg();
+			}
+			{
+
+	error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+			}
+			{
+
+    *(*ZIl)->tail=(ZIa);
+    (*ZIl)->tail=&(ZIa)->next;
+    if((ZIa)->type==arg_return_terminal)
+	(*ZIl)->nb_return_terminal++;
+			}
+			switch (CURRENT_TERMINAL) {
+			case 20:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 37:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
 			{
 
-    if ( (*ZIz)->white_space) {
-	error ( ERROR_SERIOUS, "White space group already defined" ) ;
-    }
-    (*ZIz)->white_space= make_group((*ZIz),"white",(ZIs)) ;
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
 			}
-			ZRexpected__semicolon ();
-			if ((CURRENT_TERMINAL) == 41) {
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
+			}
+		}
+		break;
+	case 35:
+		{
+			argP ZIa;
+			SID_STRING ZIi;
+			args_listP ZIr;
+
+			{
+
+      ZIa=add_arg(arg_ignore,0);
+			}
+			ADVANCE_LEXER;
+			{
+
+    *(*ZIl)->tail=(ZIa);
+    (*ZIl)->tail=&(ZIa)->next;
+    if((ZIa)->type==arg_return_terminal)
+	(*ZIl)->nb_return_terminal++;
+			}
+			switch (CURRENT_TERMINAL) {
+			case 20:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 37:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
+			}
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
+			}
+		}
+		break;
+	case 33:
+		{
+			argP ZIb;
+			argP ZIa;
+			SID_STRING ZIi;
+			args_listP ZIr;
+
+			{
+
+      ZIb=add_arg(arg_nb_of_chars,0);
+			}
+			ADVANCE_LEXER;
+			{
+
+	(ZIa) = add_none_arg();
+			}
+			{
+
+	error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
+			}
+			{
+
+    *(*ZIl)->tail=(ZIa);
+    (*ZIl)->tail=&(ZIa)->next;
+    if((ZIa)->type==arg_return_terminal)
+	(*ZIl)->nb_return_terminal++;
+			}
+			switch (CURRENT_TERMINAL) {
+			case 20:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 37:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
+			}
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
+			}
+		}
+		break;
+	case 34:
+		{
+			argP ZIa;
+			SID_STRING ZIi;
+			args_listP ZIr;
+
+			{
+
+      ZIa=add_arg(arg_return_terminal,0);
+			}
+			ADVANCE_LEXER;
+			{
+
+    *(*ZIl)->tail=(ZIa);
+    (*ZIl)->tail=&(ZIa)->next;
+    if((ZIa)->type==arg_return_terminal)
+	(*ZIl)->nb_return_terminal++;
+			}
+			switch (CURRENT_TERMINAL) {
+			case 20:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 37:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
+			}
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
+			}
+		}
+		break;
+	case 37:
+		{
+			SID_STRING ZIi;
+			args_listP ZIr;
+
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
+			}
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
+			}
+		}
+		break;
+	case 0:
+		{
+			SID_STRING ZI217;
+			argP ZIa;
+			SID_STRING ZIi;
+			args_listP ZIr;
+
+			{
+
+    ZI217 = xstrcpy ( token_buff ) ;
+			}
+			ADVANCE_LEXER;
+			{
+
+	(ZIa) = add_identifier_arg ((ZI217));
+			}
+			{
+
+    *(*ZIl)->tail=(ZIa);
+    (*ZIl)->tail=&(ZIa)->next;
+    if((ZIa)->type==arg_return_terminal)
+	(*ZIl)->nb_return_terminal++;
+			}
+			switch (CURRENT_TERMINAL) {
+			case 20:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 37:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
+			}
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
+			}
+		}
+		break;
+	case 29:
+		{
+			ADVANCE_LEXER;
+			{
+
+	(ZIinst)=add_instruction_donothing();
+			}
+		}
+		break;
+	case 14:
+		{
+			SID_STRING ZIi;
+			args_listP ZIr;
+
+			ADVANCE_LEXER;
+			ZRaction_Hcall_C_Clhs_Htuple1 (*ZIl);
+			switch (CURRENT_TERMINAL) {
+			case 15:
+				break;
+			case 40:
+				RESTORE_LEXER;
+				goto ZL1;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 20:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 37:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
+			}
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
+			}
+		}
+		break;
+	case 24:
+		{
+			SID_STRING ZI218;
+			argP ZIa;
+			SID_STRING ZIi;
+			args_listP ZIr;
+
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZI218 = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+	(ZIa) = add_reference_arg ((ZI218));
+			}
+			{
+
+    *(*ZIl)->tail=(ZIa);
+    (*ZIl)->tail=&(ZIa)->next;
+    if((ZIa)->type==arg_return_terminal)
+	(*ZIl)->nb_return_terminal++;
+			}
+			switch (CURRENT_TERMINAL) {
+			case 20:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 37:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
+			}
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
+			}
+		}
+		break;
+	case 1:
+		{
+			SID_STRING ZI219;
+
+			{
+
+    int n ;
+    char *s ;
+    char buff [1000] ;
+    strcpy ( buff, token_prefix ) ;
+    n = ( int ) strlen ( buff ) ;
+    for ( s = token_buff ; *s ; s++ ) {
+	if ( *s == '-' ) {
+	    buff [ n++ ] = '_' ;
+	    buff [ n++ ] = 'H' ;
+	} else if ( *s == '_' ) {
+	    buff [ n++ ] = '_' ;
+	    buff [ n++ ] = '_' ;
+	} else {
+	    buff [ n++ ] = *s ;
+	}
+	if ( n >= 900 ) {
+	    error ( ERROR_SERIOUS, "Identifier too long" ) ;
+	    break ;
+	}
+    }
+    buff [n] = 0 ;
+    ZI219 = xstrcpy ( buff ) ;
+			}
+			ADVANCE_LEXER;
+			ZR220 (ZIz, ZIl, &ZI219, &ZIinst);
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
 		}
 		break;
-	case 41:
+	case 2:
+		{
+			SID_STRING ZIb;
+			argP ZIa;
+			SID_STRING ZIi;
+			args_listP ZIr;
+
+			{
+
+    ZIb = xstrcpy ( token_buff ) ;
+			}
+			ADVANCE_LEXER;
+			{
+
+	(ZIa) = add_none_arg();
+			}
+			{
+
+	error(ERROR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
+			}
+			{
+
+    *(*ZIl)->tail=(ZIa);
+    (*ZIl)->tail=&(ZIa)->next;
+    if((ZIa)->type==arg_return_terminal)
+	(*ZIl)->nb_return_terminal++;
+			}
+			switch (CURRENT_TERMINAL) {
+			case 20:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 37:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			switch (CURRENT_TERMINAL) {
+			case 0:
+				{
+
+    ZIi = xstrcpy ( token_buff ) ;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			{
+
+    if((*ZIl)->nb_return_terminal>1)
+	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
+			}
+			switch (CURRENT_TERMINAL) {
+			case 38:
+				break;
+			default:
+				goto ZL1;
+			}
+			ADVANCE_LEXER;
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+
+	NStringT key;
+	nstring_copy_cstring(&key, (ZIi));
+	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
+	if(entry) {
+		if(entry_is_action(entry)) {
+			/* TODO: Inefficient code follows: */
+			/* Checking that a name does not appear twice in an lhs*/
+			arg* p, *q;
+			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
+				if(p->type==arg_identifier) {
+					for(q=p->next; q!=NULL;q=q->next) {
+						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
+							char* s = nstring_to_cstring(entry_key(entry));
+							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
+							break;		   
+						}
+					}
+				}
+			}
+			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
+		 /* END Inefficient code*/
+		} else {
+			(ZIinst)=NULL;
+			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
+		}
+	} else {
+		(ZIinst)=NULL;
+		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
+	}
+	xfree((ZIi));
+			}
+		}
+		break;
+	case 40:
 		return;
 	default:
 		goto ZL1;
 	}
-	return;
+	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
+ZL0:;
+	*ZOinst = ZIinst;
 }
 
 static void
 ZRcopyright_Hstmt(zoneP ZIz)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -1824,1241 +2947,12 @@ ZRcopyright_Hstmt(zoneP ZIz)
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
 static void
-ZR217(zoneP *ZIz)
-{
-	switch (CURRENT_TERMINAL) {
-	case 12:
-		{
-			instructions_listP ZIinst_Hlist;
-
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 18:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZRinstructions_Hlist (*ZIz, &ZIinst_Hlist);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-    (*ZIz)->default_instructions=(ZIinst_Hlist);
-	if((ZIinst_Hlist)->nb_return_terminal)
-		(*ZIz)->type=typezone_general_zone;
-			}
-			ZRexpected__semicolon ();
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-		}
-		break;
-	case 2: case 3: case 4: case 5:
-		{
-			SID_STRING ZIs;
-			instructions_listP ZIinst_Hlist;
-
-			ZRnon_Hempty_Hchars (&ZIs);
-			switch (CURRENT_TERMINAL) {
-			case 18:
-				break;
-			case 41:
-				RESTORE_LEXER;
-				goto ZL1;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZRinstructions_Hlist (*ZIz, &ZIinst_Hlist);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	if((ZIinst_Hlist)->nb_return_terminal>1)
-		error(ERROR_SERIOUS, "At most one return terminal may be specified per instruction list");
-			}
-			{
-
-	add_mainpass((*ZIz), (ZIs), (ZIinst_Hlist));
-	if((ZIinst_Hlist)->nb_return_terminal)
-		(*ZIz)->type=typezone_general_zone;
-			}
-			ZRexpected__semicolon ();
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-		}
-		break;
-	case 41:
-		return;
-	default:
-		goto ZL1;
-	}
-	return;
-ZL1:;
-	SAVE_LEXER (41);
-	return;
-}
-
-static void
-ZR218(zoneP *ZIz, args_listP *ZIl, instructionP *ZOinst)
-{
-	instructionP ZIinst;
-
-	switch (CURRENT_TERMINAL) {
-	case 31:
-		{
-			argP ZIb;
-			argP ZIa;
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			{
-
-      ZIb=add_arg(arg_chars_list,0);
-			}
-			ADVANCE_LEXER;
-			{
-
-	(ZIa) = add_none_arg();
-			}
-			{
-
-	error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
-			}
-			{
-
-    *(*ZIl)->tail=(ZIa);
-    (*ZIl)->tail=&(ZIa)->next;
-    if((ZIa)->type==arg_return_terminal)
-	(*ZIl)->nb_return_terminal++;
-			}
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 33:
-		{
-			argP ZIb;
-			argP ZIa;
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			{
-
-      ZIb=add_arg(arg_char_nb,number_buffer);
-			}
-			ADVANCE_LEXER;
-			{
-
-	(ZIa) = add_none_arg();
-			}
-			{
-
-	error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
-			}
-			{
-
-    *(*ZIl)->tail=(ZIa);
-    (*ZIl)->tail=&(ZIa)->next;
-    if((ZIa)->type==arg_return_terminal)
-	(*ZIl)->nb_return_terminal++;
-			}
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 32:
-		{
-			argP ZIb;
-			argP ZIa;
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			{
-
-      ZIb=add_arg(arg_charP,0);
-			}
-			ADVANCE_LEXER;
-			{
-
-	(ZIa) = add_none_arg();
-			}
-			{
-
-	error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
-			}
-			{
-
-    *(*ZIl)->tail=(ZIa);
-    (*ZIl)->tail=&(ZIa)->next;
-    if((ZIa)->type==arg_return_terminal)
-	(*ZIl)->nb_return_terminal++;
-			}
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 36:
-		{
-			argP ZIa;
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			{
-
-      ZIa=add_arg(arg_ignore,0);
-			}
-			ADVANCE_LEXER;
-			{
-
-    *(*ZIl)->tail=(ZIa);
-    (*ZIl)->tail=&(ZIa)->next;
-    if((ZIa)->type==arg_return_terminal)
-	(*ZIl)->nb_return_terminal++;
-			}
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 34:
-		{
-			argP ZIb;
-			argP ZIa;
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			{
-
-      ZIb=add_arg(arg_nb_of_chars,0);
-			}
-			ADVANCE_LEXER;
-			{
-
-	(ZIa) = add_none_arg();
-			}
-			{
-
-	error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
-			}
-			{
-
-    *(*ZIl)->tail=(ZIa);
-    (*ZIl)->tail=&(ZIa)->next;
-    if((ZIa)->type==arg_return_terminal)
-	(*ZIl)->nb_return_terminal++;
-			}
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 35:
-		{
-			argP ZIa;
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			{
-
-      ZIa=add_arg(arg_return_terminal,0);
-			}
-			ADVANCE_LEXER;
-			{
-
-    *(*ZIl)->tail=(ZIa);
-    (*ZIl)->tail=&(ZIa)->next;
-    if((ZIa)->type==arg_return_terminal)
-	(*ZIl)->nb_return_terminal++;
-			}
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 38:
-		{
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 0:
-		{
-			SID_STRING ZI219;
-			argP ZIa;
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			{
-
-    ZI219 = xstrcpy ( token_buff ) ;
-			}
-			ADVANCE_LEXER;
-			{
-
-	(ZIa) = add_identifier_arg ((ZI219));
-			}
-			{
-
-    *(*ZIl)->tail=(ZIa);
-    (*ZIl)->tail=&(ZIa)->next;
-    if((ZIa)->type==arg_return_terminal)
-	(*ZIl)->nb_return_terminal++;
-			}
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 29:
-		{
-			ADVANCE_LEXER;
-			{
-
-	(ZIinst)=add_instruction_donothing();
-			}
-		}
-		break;
-	case 14:
-		{
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			ADVANCE_LEXER;
-			ZRaction_Hcall_C_Clhs_Htuple1 (*ZIl);
-			switch (CURRENT_TERMINAL) {
-			case 15:
-				break;
-			case 41:
-				RESTORE_LEXER;
-				goto ZL1;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 24:
-		{
-			SID_STRING ZI220;
-			argP ZIa;
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZI220 = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-	(ZIa) = add_reference_arg ((ZI220));
-			}
-			{
-
-    *(*ZIl)->tail=(ZIa);
-    (*ZIl)->tail=&(ZIa)->next;
-    if((ZIa)->type==arg_return_terminal)
-	(*ZIl)->nb_return_terminal++;
-			}
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 1:
-		{
-			SID_STRING ZI221;
-
-			{
-
-    int n ;
-    char *s ;
-    char buff [1000] ;
-    strcpy ( buff, token_prefix ) ;
-    n = ( int ) strlen ( buff ) ;
-    for ( s = token_buff ; *s ; s++ ) {
-	if ( *s == '-' ) {
-	    buff [ n++ ] = '_' ;
-	    buff [ n++ ] = 'H' ;
-	} else if ( *s == '_' ) {
-	    buff [ n++ ] = '_' ;
-	    buff [ n++ ] = '_' ;
-	} else {
-	    buff [ n++ ] = *s ;
-	}
-	if ( n >= 900 ) {
-	    error ( ERROR_SERIOUS, "Identifier too long" ) ;
-	    break ;
-	}
-    }
-    buff [n] = 0 ;
-    ZI221 = xstrcpy ( buff ) ;
-			}
-			ADVANCE_LEXER;
-			ZR222 (ZIz, ZIl, &ZI221, &ZIinst);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-		}
-		break;
-	case 2:
-		{
-			SID_STRING ZIb;
-			argP ZIa;
-			SID_STRING ZIi;
-			args_listP ZIr;
-
-			{
-
-    ZIb = xstrcpy ( token_buff ) ;
-			}
-			ADVANCE_LEXER;
-			{
-
-	(ZIa) = add_none_arg();
-			}
-			{
-
-	error(ERROR_SERIOUS, "Argument of type "" are rvalues and should not appear on a left handside");
-			}
-			{
-
-    *(*ZIl)->tail=(ZIa);
-    (*ZIl)->tail=&(ZIa)->next;
-    if((ZIa)->type==arg_return_terminal)
-	(*ZIl)->nb_return_terminal++;
-			}
-			switch (CURRENT_TERMINAL) {
-			case 20:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 38:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			switch (CURRENT_TERMINAL) {
-			case 0:
-				{
-
-    ZIi = xstrcpy ( token_buff ) ;
-				}
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			{
-
-    if((*ZIl)->nb_return_terminal>1)
-	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
-			}
-			switch (CURRENT_TERMINAL) {
-			case 39:
-				break;
-			default:
-				goto ZL1;
-			}
-			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
-				RESTORE_LEXER;
-				goto ZL1;
-			}
-			{
-
-	NStringT key;
-	nstring_copy_cstring(&key, (ZIi));
-	EntryT* entry = table_get_entry(tree_get_table((*ZIz)->top_level), &key);
-	if(entry) {
-		if(entry_is_action(entry)) {
-			/* TODO: Inefficient code follows: */
-			/* Checking that a name does not appear twice in an lhs*/
-			arg* p, *q;
-			for(p=(*ZIl)->head;p!=NULL;p=p->next) {
-				if(p->type==arg_identifier) {
-					for(q=p->next; q!=NULL;q=q->next) {
-						if(q->type==arg_identifier && !strcmp(p->u.literal, q->u.literal)) {
-							char* s = nstring_to_cstring(entry_key(entry));
-							error(ERROR_SERIOUS, "In call to action %s, the left hand side contain multiple reference to %s",s, p->u.literal);
-							break;		   
-						}
-					}
-				}
-			}
-			(ZIinst)=add_instruction_action(entry,(*ZIl),(ZIr));
-		 /* END Inefficient code*/
-		} else {
-			(ZIinst)=NULL;
-			error(ERROR_SERIOUS, "Name %s is not an action", (ZIi));
-		}
-	} else {
-		(ZIinst)=NULL;
-		error(ERROR_SERIOUS, "Unknown action %s", (ZIi));
-	}
-	xfree((ZIi));
-			}
-		}
-		break;
-	case 41:
-		return;
-	default:
-		goto ZL1;
-	}
-	goto ZL0;
-ZL1:;
-	SAVE_LEXER (41);
-	return;
-ZL0:;
-	*ZOinst = ZIinst;
-}
-
-static void
-ZR222(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI221, instructionP *ZOinst)
+ZR220(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI219, instructionP *ZOinst)
 {
 	instructionP ZIinst;
 
@@ -3067,7 +2961,7 @@ ZR222(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI221, instructionP *ZOinst)
 		{
 			{
 
-        (ZIinst)=add_instruction_return_terminal((*ZI221));
+        (ZIinst)=add_instruction_return_terminal((*ZI219));
 			}
 		}
 		break;
@@ -3094,7 +2988,7 @@ ZR222(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI221, instructionP *ZOinst)
 			}
 			ADVANCE_LEXER;
 			switch (CURRENT_TERMINAL) {
-			case 38:
+			case 37:
 				break;
 			default:
 				goto ZL1;
@@ -3117,14 +3011,14 @@ ZR222(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI221, instructionP *ZOinst)
 	error(ERROR_SERIOUS, "There can only be one return terminal argument per action lhs");
 			}
 			switch (CURRENT_TERMINAL) {
-			case 39:
+			case 38:
 				break;
 			default:
 				goto ZL1;
 			}
 			ADVANCE_LEXER;
-			ZR170 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
+			ZR168 (&ZIr);
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -3163,19 +3057,19 @@ ZR222(zoneP *ZIz, args_listP *ZIl, SID_STRING *ZI221, instructionP *ZOinst)
 			}
 		}
 		break;
-	case 41:
+	case 40:
 		return;
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOinst = ZIinst;
 }
 
 static void
-ZR223(argP *ZIa, args_listP *ZOr)
+ZR221(argP *ZIa, args_listP *ZOr)
 {
 	args_listP ZIr;
 
@@ -3184,7 +3078,7 @@ ZR223(argP *ZIa, args_listP *ZOr)
 		{
 			ADVANCE_LEXER;
 			ZRaction_Hcall_C_Crhs_Htuple1 (&ZIr);
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -3212,38 +3106,38 @@ ZR223(argP *ZIa, args_listP *ZOr)
 			}
 		}
 		break;
-	case 41:
+	case 40:
 		return;
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOr = ZIr;
 }
 
 static void
-ZR225(zoneP *ZIz, TypeTupleT *ZIa)
+ZR223(zoneP *ZIz, TypeTupleT *ZIa)
 {
 	switch (CURRENT_TERMINAL) {
 	case 0: case 23:
 		{
 			ZRtype_Htuple_C_Ctype_Htuple1 (*ZIz, ZIa);
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
 		}
 		break;
-	case 41:
+	case 40:
 		return;
 	default:
 		break;
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
@@ -3254,8 +3148,8 @@ ZRcommand(zoneP ZIz)
 	case 7:
 		{
 			ADVANCE_LEXER;
-			ZR216 (&ZIz);
-			if ((CURRENT_TERMINAL) == 41) {
+			ZR214 (&ZIz);
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -3268,7 +3162,7 @@ ZRcommand(zoneP ZIz)
 			switch (CURRENT_TERMINAL) {
 			case 17:
 				break;
-			case 41:
+			case 40:
 				RESTORE_LEXER;
 				goto ZL1;
 			default:
@@ -3285,18 +3179,18 @@ ZRcommand(zoneP ZIz)
 	case 10:
 		{
 			ADVANCE_LEXER;
-			ZR217 (&ZIz);
-			if ((CURRENT_TERMINAL) == 41) {
+			ZR215 (&ZIz);
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
 		}
 		break;
-	case 37:
+	case 36:
 		{
 			ZRaction_Hdecl (ZIz);
 			ZRexpected__semicolon ();
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -3306,7 +3200,7 @@ ZRcommand(zoneP ZIz)
 		{
 			ZRcopyright_Hstmt (ZIz);
 			ZRexpected__semicolon ();
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -3316,7 +3210,7 @@ ZRcommand(zoneP ZIz)
 		{
 			ZRkeyword_Hdefn (ZIz);
 			ZRexpected__semicolon ();
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -3326,17 +3220,17 @@ ZRcommand(zoneP ZIz)
 		{
 			ZRtrigraph_Hdefn (ZIz);
 			ZRexpected__semicolon ();
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
 		}
 		break;
-	case 40:
+	case 39:
 		{
 			ZRtype_Hdefn (ZIz);
 			ZRexpected__semicolon ();
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -3345,27 +3239,27 @@ ZRcommand(zoneP ZIz)
 	case 13:
 		{
 			ZRzone_Hdefn (ZIz);
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
 		}
 		break;
-	case 41:
+	case 40:
 		return;
 	default:
 		goto ZL1;
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
 static void
 ZRtype_Htuple_C_Ctype_Htuple1(zoneP ZIz, TypeTupleT *ZIa)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 ZL2_type_Htuple_C_Ctype_Htuple1:;
@@ -3379,7 +3273,7 @@ ZL2_type_Htuple_C_Ctype_Htuple1:;
 					goto ZL2_type_Htuple_C_Ctype_Htuple1;
 				}
 				/*UNREACHED*/
-			case 41:
+			case 40:
 				RESTORE_LEXER;
 				goto ZL1;
 			default:
@@ -3389,7 +3283,7 @@ ZL2_type_Htuple_C_Ctype_Htuple1:;
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
@@ -3398,7 +3292,7 @@ ZRaction_Hcall_C_Crhs_Htuple(args_listP *ZOr)
 {
 	args_listP ZIr;
 
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -3413,10 +3307,10 @@ ZRaction_Hcall_C_Crhs_Htuple(args_listP *ZOr)
 			switch (CURRENT_TERMINAL) {
 			case 0: case 1: case 2: case 24:
 			case 31: case 32: case 33: case 34:
-			case 35: case 36:
+			case 35:
 				{
 					ZRaction_Hcall_C_Crhs_Htuple1 (&ZIr);
-					if ((CURRENT_TERMINAL) == 41) {
+					if ((CURRENT_TERMINAL) == 40) {
 						RESTORE_LEXER;
 						goto ZL1;
 					}
@@ -3442,7 +3336,7 @@ ZRaction_Hcall_C_Crhs_Htuple(args_listP *ZOr)
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOr = ZIr;
@@ -3453,13 +3347,13 @@ ZRnon_Hempty_Hchars(SID_STRING *ZOs)
 {
 	SID_STRING ZIs;
 
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
 		ZRstring_Hplus (&ZIs);
 		{
-			if ((CURRENT_TERMINAL) == 41) {
+			if ((CURRENT_TERMINAL) == 40) {
 				RESTORE_LEXER;
 				goto ZL1;
 			}
@@ -3484,7 +3378,7 @@ ZRnon_Hempty_Hchars(SID_STRING *ZOs)
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOs = ZIs;
@@ -3493,7 +3387,7 @@ ZL0:;
 static void
 ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -3501,26 +3395,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 
 		{
 			switch (CURRENT_TERMINAL) {
-			case 31:
-				{
-					argP ZIb;
-
-					{
-
-      ZIb=add_arg(arg_chars_list,0);
-					}
-					ADVANCE_LEXER;
-					{
-
-	(ZIa) = add_none_arg();
-					}
-					{
-
-	error(ERROR_SERIOUS, "Argument of style # are rvalues and should not appear on a left handside");
-					}
-				}
-				break;
-			case 33:
+			case 32:
 				{
 					argP ZIb;
 
@@ -3539,7 +3414,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					}
 				}
 				break;
-			case 32:
+			case 31:
 				{
 					argP ZIb;
 
@@ -3558,7 +3433,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					}
 				}
 				break;
-			case 36:
+			case 35:
 				{
 					{
 
@@ -3567,7 +3442,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					ADVANCE_LEXER;
 				}
 				break;
-			case 34:
+			case 33:
 				{
 					argP ZIb;
 
@@ -3586,7 +3461,7 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 					}
 				}
 				break;
-			case 35:
+			case 34:
 				{
 					{
 
@@ -3705,14 +3580,14 @@ ZRaction_Hcall_C_Clhs_Harg(args_listP ZIl)
 	}
 	return;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 }
 
 static void
-ZR123(void)
+ZR121(void)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -3735,9 +3610,9 @@ ZL1:;
 }
 
 static void
-ZR125(void)
+ZR123(void)
 {
-	if ((CURRENT_TERMINAL) == 41) {
+	if ((CURRENT_TERMINAL) == 40) {
 		return;
 	}
 	{
@@ -3765,27 +3640,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 	argP ZIa;
 
 	switch (CURRENT_TERMINAL) {
-	case 31:
-		{
-			argP ZIb;
-
-			{
-
-      ZIb=add_arg(arg_chars_list,0);
-			}
-			ADVANCE_LEXER;
-			{
-
-	(ZIa) = add_none_arg();
-			}
-			{
-
-	error(ERROR_SERIOUS, "Args of style ## are not implemented in actions right hand side. Whether they will be implemented in the future remains undecided at the moment.");
-/* TODO take a decision.*/
-			}
-		}
-		break;
-	case 33:
+	case 32:
 		{
 			{
 
@@ -3794,7 +3649,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			ADVANCE_LEXER;
 		}
 		break;
-	case 32:
+	case 31:
 		{
 			{
 
@@ -3803,7 +3658,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			ADVANCE_LEXER;
 		}
 		break;
-	case 36:
+	case 35:
 		{
 			argP ZIb;
 
@@ -3822,7 +3677,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			}
 		}
 		break;
-	case 34:
+	case 33:
 		{
 			{
 
@@ -3831,7 +3686,7 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			ADVANCE_LEXER;
 		}
 		break;
-	case 35:
+	case 34:
 		{
 			argP ZIb;
 
@@ -3942,14 +3797,14 @@ ZRaction_Hcall_C_Crhs_Harg(argP *ZOa)
 			}
 		}
 		break;
-	case 41:
+	case 40:
 		return;
 	default:
 		goto ZL1;
 	}
 	goto ZL0;
 ZL1:;
-	SAVE_LEXER (41);
+	SAVE_LEXER (40);
 	return;
 ZL0:;
 	*ZOa = ZIa;

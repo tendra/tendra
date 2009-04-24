@@ -145,6 +145,6 @@ int lexi_read_token(struct lexi_state *state);
 /* Initialise a lexi_state structure */
 void lexi_init(struct lexi_state *state, FILE_P input);
 
-#endif
 
+#endif
 

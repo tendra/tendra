@@ -96,7 +96,6 @@ comma;
 nothing-marker;
 !unknown ;
 
-arg-char-list : () -> (:ARG);
 arg-char-string : () -> (:ARG);
 arg-char-nb : () -> (:ARG);
 arg-nb-of-chars : () -> (:ARG);
@@ -178,7 +177,6 @@ type-kw ;
 <is-non-empty> : ( : STRING ) -> ( : BOOL );
 <E_empty_character_string> : () -> ();
 <E_ignore_in_rhs> : () -> ();
-<E_sharp_list_in_action_rhs> : () -> ();
 
 <syntax-error> : () -> () ;
 
@@ -404,8 +402,7 @@ action-decl : (z:ZONE) -> () = {
 action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 	lhs-arg : (l:ARGS_LIST) -> () = {
 		{
-			b=arg-char-list ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
-		    ||  b=arg-char-string ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
+		        b=arg-char-string ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
 		    ||  b=arg-char-nb ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
 		    ||  b=arg-nb-of-chars ; a=<make_arg_none>; <E_sharp_arg_in_lhs>;
 		    ||  b=string ; a=<make_arg_none>; <E_string_arg_in_lhs>;
@@ -434,8 +431,7 @@ action-call : (z:ZONE) -> (inst:INSTRUCTION) [
 		};
 	};
 	rhs-arg : () -> ( a : ARG ) = {
-		b=arg-char-list ; a=<make_arg_none>; <E_sharp_list_in_action_rhs>;
-	    ||  a=arg-char-string ;
+	        a=arg-char-string ;
 	    ||  a=arg-char-nb ;
 	    ||  a=arg-nb-of-chars ;
 	    ||  b=sid-identifier ; a=<make_arg_terminal>(b); 
