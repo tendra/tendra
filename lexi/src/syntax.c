@@ -778,7 +778,6 @@ ZRinstructions_Hlist(zoneP ZI206, instructions_listP *ZO211)
 		 			break;
 				case arg_none:
 					break; //Error already detected, do nothing and leave p->lexitype = NULL
-				case arg_chars_list:
 				case arg_ignore:
 				case arg_return_terminal:
 					UNREACHED;
@@ -1451,7 +1450,6 @@ ZL2_212:;
 		 			break;
 				case arg_none:
 					break; //Error already detected, do nothing and leave p->lexitype = NULL
-				case arg_chars_list:
 				case arg_ignore:
 				case arg_return_terminal:
 					UNREACHED;

@@ -70,7 +70,7 @@ struct zone_tag;
 
 
 typedef enum arg_type_tag { 
-  arg_charP, arg_char_nb, arg_chars_list, arg_nb_of_chars, 
+  arg_charP, arg_char_nb,  arg_nb_of_chars, 
   arg_identifier, arg_terminal,
   arg_ignore, arg_return_terminal, arg_none /*Just for error recovery*/ 
 } arg_type ;

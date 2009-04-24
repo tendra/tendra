@@ -497,7 +497,6 @@ arg-ignore : () -> (a:ARG) = @{
 		 			break;
 				case arg_none:
 					break; //Error already detected, do nothing and leave p->lexitype = NULL
-				case arg_chars_list:
 				case arg_ignore:
 				case arg_return_terminal:
 					UNREACHED;

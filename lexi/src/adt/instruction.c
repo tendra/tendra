@@ -182,7 +182,6 @@ arg_output(arg* p, bool is_ref, int d, FILE* file)
 		break;
 
 	case arg_none :
-	case arg_chars_list:
 	default:
 		break;
 		/*TODO ASSERT UNREACHABLE*/
