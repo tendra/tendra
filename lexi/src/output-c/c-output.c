@@ -1108,7 +1108,7 @@ output_buffer(cmd_line_options *opt, lexer_parse_tree *top_level)
 		lexi_prefix, lexi_prefix);
 	if (opt->generate_asserts) {
 		fputs("\tassert(state);\n", lex_output);
-		fputs("\tassert(state->buffer_index < sizeof state->buffer / sizeof *state->buffer);\n", lex_output);
+		fputs("\tassert((size_t) state->buffer_index < sizeof state->buffer / sizeof *state->buffer);\n", lex_output);
 	}
 	fputs("\tstate->buffer[state->buffer_index++] = c;\n", lex_output);
 	fputs("}\n\n", lex_output);
