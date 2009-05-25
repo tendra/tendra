@@ -208,17 +208,4 @@ all: _REALWORK
 # Make sure subdirs are walked after real work is done.
 .ORDER: _REALWORK _SUBDIR
 
-# Proceed to subdirs.
-_SUBDIR: .USE
-.if defined(SUBDIR) && !empty(SUBDIR)
-. for entry in ${SUBDIR}
-	@cd ${.CURDIR}/${entry}; ${MAKE} ${.TARGET}
-. endfor
-.endif
-
-# Ensure existence of basic targets.
-.for target in obj all clean install cleanobj cleandir
-${target}: _SUBDIR .PHONY
-.endfor
-
 .endif	# !defined(_TENDRA_BUILD_MK_)

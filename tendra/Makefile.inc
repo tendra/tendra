@@ -16,3 +16,4 @@ BASE_DIR!=	cd ${.CURDIR}/${_BASEDIR_RELATIVE} && pwd
 
 .include <tendra.install.mk>
 .include <tendra.compiler.mk>
+.include <tendra.subdir.mk>
