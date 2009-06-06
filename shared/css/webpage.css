@@ -1,0 +1,231 @@
+/* $Id$ */
+
+/* TODO: move out stuff common to stand-alone documents */
+
+/* banner */
+
+.container {
+	width: 953px;	/* XXX: overflow space for rounding errors */
+}
+
+h1#banner a {
+	color: #555;
+}
+
+h1#banner {
+text-align: center;
+}
+
+h1#banner span.logo {
+	color: #444;
+}
+
+/* /banner */
+
+
+div.head {
+	border-bottom-style: solid;
+	border-bottom-width: 5px;
+	margin-bottom: .75em;
+	margin-top: 1em;
+}
+
+div.foot {
+	margin-top: 1.75em;
+	padding-top: 0.5em;
+	border-top-style: solid;
+	border-top-width: 5px;
+	margin-bottom: 4em;
+}
+
+div.head h1#banner a:hover span.logo {
+	color: #000;
+}
+
+div.head h1#banner a:hover {
+	color: #222;
+}
+
+ul.menu {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+ul.menu li a,
+ul.sections li a {
+	display: block;
+	width: 100%;
+	text-decoration: none;
+	padding: 0.25em 0;
+}
+
+ul.menu li,
+	border-top: dotted 1px #ddd;
+}
+
+ul.menu li:first-child {
+	border-top: none;
+}
+
+ul.menu li a:hover, ul.sections li a:hover {
+	background-color: #eee;
+}
+
+div.head a.menu:hover {
+}
+
+ul li.current a {
+	color: #000;
+}
+
+ul.menu li a:before {
+	content: "\25b8";
+	color: #ddd;
+	padding: 0 0.75em;
+}
+
+ul.menu li.current a:before {
+	color: #888;
+}
+
+div.trail ol {
+	margin: 0;
+	padding: 0;
+	margin-bottom: 1.5em;
+}
+
+div.trail ol li {
+	display: inline;
+}
+
+div.trail ol li:before {
+	content: " > ";
+	color: #aaa;
+}
+
+div.trail ol li:first-child:before {
+	content: "";
+}
+
+div.metanav {
+	float: right;
+}
+
+/* page-specific: */
+div.nav ul {
+	list-style-type: none;
+}
+
+
+
+
+
+input { border: solid 1px #ddd; }
+
+input:active,
+input:hover { border-color: #aaa; }
+
+input:focus { border-color: #000; }
+
+input[type=button],
+input[type=submit] { background-color: #eee; }
+
+input[type=button]:hover,
+input[type=submit]:hover,
+input[type=button]:active,
+input[type=submit]:active { background-color: #ddd; }
+
+
+input {
+	font-size: 80%;
+}
+
+
+form.search input {
+	width: 100%;
+}
+
+form.search {
+	display: block;
+}
+
+
+
+
+
+/* sections menu */
+
+/* adapted from http://www.divitodesign.com/2008/09/how-to-dropdown-css-menu/ */
+
+ul.sections > li {
+	position: relative;
+	float: left;
+}
+
+ul.sections, ul.sections ul {
+	list-style-type: none;
+	z-index: 1;
+}
+
+ul.sections a {
+	padding: 0.3em 0;
+	margin: 0;
+	display: block;
+}
+ul.sections a:before, ul.sections a:after {
+	content: "\2003";	/* XXX: hack for padding */
+}
+
+ul.sections ul li {
+	border-right: solid 1px #ddd;
+	border-left: solid 1px #ddd;
+}
+
+ul.sections li ul {
+	display: none;
+	position: absolute;
+	min-width: 15em;
+	width: 15em;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	border-top: solid 5px;
+	border-bottom: solid 5px;
+}
+
+ul.sections li > ul {
+	top: auto;
+	left: auto;
+}
+
+ul.sections li:hover ul {
+	display: block;
+	background-color: #fff;
+}
+
+
+/* for IE6 */
+/* http://naarvoren.nl/artikel/hover/csshover.htc
+http://www.xs4all.nl/~peterned/csshover.html
+body {   behavior:url(csshover.htc); }
+*/
+
+
+ul.otherformats:before {
+	content: "This page in other formats: ";
+}
+
+div.sidebar h3 {
+	margin-bottom: 0.5em;
+}
+
+ul.sections {
+	padding: 0;
+}
+
+div.head, div.foot {
+	padding: 0 1em;
+}
+

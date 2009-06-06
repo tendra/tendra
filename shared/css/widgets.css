@@ -1,0 +1,53 @@
+/* $Id$ */
+
+ul.pipelist {
+	margin: 0;
+	padding: 0;
+}
+
+ul.pipelist li {
+	display: inline;
+}
+
+ul.pipelist li:before {
+	content: " | ";
+	color: #aaa;
+}
+
+ul.pipelist li:first-child:before {
+	content: "";
+}
+
+
+
+ul.manlist {
+	padding: 0;
+}
+
+ul.manlist li {
+	display: inline;
+}
+
+
+
+/* TODO: a.arrowlink and a.blocklink */
+
+
+
+
+/* general-purpose lists */
+
+div.wiki ul li {
+	list-style-type: none;
+	margin-left: 2em;	/* TODO: do this for menu lis, too */
+}
+
+/* TODO: this is all wrong; bad for wrapping. ditto the other list types (maybe display:block helps) */
+div.wiki ul li:before {
+	content: "\25A0";
+	font-family: verdana, arial, serif;	/* XXX: hacky */
+	color: #ccc;
+	padding: 0 0.75em;
+	margin-left: -2em;
+}
+

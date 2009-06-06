@@ -1,0 +1,40 @@
+/* $Id$ */
+
+body {
+	margin: 2em 4em;
+	max-width: 60em;
+}
+
+h1#banner {
+	text-align: right;
+}
+
+div.toc ol {
+	margin-left: 4em;
+}
+
+div.programlisting div.programlisting-language {
+	display: none;
+}
+
+
+div.table table th {
+	background-color: #f7f7f7;
+}
+
+div.table table, div.informaltable table {
+    border-color: #ddd ! important;
+}
+
+div.table table th, div.table table td,
+div.informaltable table th, div.informaltable table td {
+    border-color: #ddd ! important;
+	padding: 0.5ex 1ex;
+	text-align: left;
+}
+
+div.itemizedlist ul,
+div.orderedlist ol {
+	margin-left: 2em;
+}
+
