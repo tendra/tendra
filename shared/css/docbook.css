@@ -18,7 +18,7 @@ div.programlisting div.programlisting-language {
 }
 
 
-div.table table th {
+div.table table th, table.htmltable th {
 	background-color: #f7f7f7;
 }
 
@@ -27,10 +27,22 @@ div.table table, div.informaltable table {
 }
 
 div.table table th, div.table table td,
-div.informaltable table th, div.informaltable table td {
+div.informaltable table th, div.informaltable table td,
+table.htmltable td, table.htmltable th {
     border-color: #ddd ! important;
 	padding: 0.5ex 1ex;
 	text-align: left;
+	vertical-align: top;
+}
+
+table.htmltable {
+	border: solid 1px #ddd;
+	border-collapse: collapse;
+	margin-bottom: 1em;
+}
+
+table.htmltable td, table.htmltable th {
+	border: solid 1px #ddd;
 }
 
 div.itemizedlist ul,

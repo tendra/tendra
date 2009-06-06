@@ -402,6 +402,8 @@
 		Overriding formal.xsl to introduce the xhtml namespace for <table>.
 		The stylesheets (particularly htmltbl.xsl) copy through these
 		nodes as-is, but omit their namespaces.
+
+		This also adds @class, @cellpadding, @cellspacing and @border.
 	-->
 
 	<xsl:template match="table">
@@ -410,7 +412,7 @@
 				<xsl:call-template name="calsTable"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<table>
+				<table class="htmltable" cellpadding="0" cellspacing="0" border="0">
 					<xsl:copy-of select="@*[not(local-name()='id')]"/>
 					<xsl:attribute name="id">
 						<xsl:call-template name="object.id"/>

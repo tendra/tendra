@@ -7,5 +7,7 @@
 
 	<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"/>
 
+	<!-- TODO: tables. at least say "content missing" -->
+
 </xsl:stylesheet>
 
