@@ -10,11 +10,12 @@
 	interfaces provided, instead.
 -->
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:str="http://exslt.org/strings"
 	xmlns="http://www.w3.org/1999/xhtml"
 	extension-element-prefixes="str"
-	version='1.0'>
+	version="1.0">
 
 	<xsl:import href="../common/common-dtns.xsl"/>
 	<xsl:import href="../common/common-api.xsl"/>
@@ -22,8 +23,9 @@
 	<xsl:import href="common-api.xsl"/>
 	<xsl:import href="docbook-sanitize.xsl"/>
 
-	<xsl:param name="tendra.base"/>	<!-- e.g. 'http://www.tendra.org/' -->
+	<xsl:param name="tendra.base"/>     	<!-- e.g. 'http://www.tendra.org/' -->
 	<xsl:param name="tendra.bodyclass"/>	<!-- e.g. 'single' -->
+	<xsl:param name="tendra.chunk"/>    	<!-- e.g. 'yes' -->
 
 	<xsl:param name="css.decoration"><xsl:text>0</xsl:text></xsl:param>
 	<xsl:param name="paper.type"><xsl:text>A4</xsl:text></xsl:param>
@@ -77,6 +79,10 @@
 			</span>
 			<xsl:text> Project</xsl:text>
 		</h1>
+
+		<xsl:if test="$tendra.chunk">
+			<xsl:call-template name="chunklink"/>
+		</xsl:if>
 	</xsl:template>
 
 <!-- TODO use $Date$ for a footer similar to the website:
