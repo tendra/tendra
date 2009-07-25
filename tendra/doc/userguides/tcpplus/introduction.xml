@@ -117,7 +117,7 @@
 		<figure>
 			<title>Compilation Scheme</title>
 
-			<graphic fileref="compile.png"/>
+			<graphic fileref="images/compile.png"/>
 		</figure>
 
 		<para>Each C++ source file, <code>a.C</code> say, is processed using

@@ -53,7 +53,7 @@
 		<figure id="apibuilding">
 			<title>Files Involved For Building &api;s</title>
 
-			<graphic fileref="apibuilding.png"/>
+			<graphic fileref="images/apibuilding.png"/>
 		</figure>
 
 		<para>An &api; consists of abstract specifications of a set of
@@ -126,7 +126,7 @@
 		<figure id="compilation">
 			<title>Files involved during compilation</title>
 
-			<graphic fileref="compilation.png"/>
+			<graphic fileref="images/compilation.png"/>
 		</figure>
 
 		<para>C is used as an example here, though similar things
