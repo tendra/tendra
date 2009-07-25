@@ -212,7 +212,7 @@ firstly define lexemes
 			<figure id="tokenstream">
 				<title>Forming a Token Stream</title>
 				<graphic align="center" format="PNG"
-					fileref="tokens.png"/>
+					fileref="images/tokens.png"/>
 			</figure>
 
 			<para>In this example, the lexer skips over whitespace characters

@@ -264,7 +264,7 @@ int fputs(const char *s, FILE *f);</programlisting>
 
 			<figure id="trad_scheme">
 				<title>Traditional Compilation Phases</title>
-				<graphic fileref="trad_scheme.png"/>
+				<graphic fileref="images/trad_scheme.png"/>
 			</figure>
 
           <para>So, we write our target independent program (top left),
@@ -1202,7 +1202,7 @@ typedef struct direct dir_entry ;</programlisting>
 
 	<figure id="tdf_link">
 		<title><acronym>TDF</acronym> Capsule Structure</title>
-		<graphic fileref="tdf_link.png"/>
+		<graphic fileref="images/tdf_link.png"/>
 	</figure>
 
     <para>
@@ -1233,7 +1233,7 @@ typedef struct direct dir_entry ;</programlisting>
 
 	<figure id="token">
 		<title><acronym>TDF</acronym> Tokens</title>
-		<graphic fileref="token.png"/>
+		<graphic fileref="images/token.png"/>
 	</figure>
 
     <para>Tokens may also take arguments (see <xref linkend="token_args"/>).
@@ -1242,7 +1242,7 @@ typedef struct direct dir_entry ;</programlisting>
 
 	<figure id="token_args">
 		<title><acronym>TDF</acronym> Tokens (with Arguments)</title>
-		<graphic fileref="token_args.png"/>
+		<graphic fileref="images/token_args.png"/>
 	</figure>
 
     <para>As mentioned above, tokens are one of the types of variable
@@ -1300,7 +1300,7 @@ typedef struct direct dir_entry ;</programlisting>
 
 	<figure id="tdf_scheme">
 		<title><acronym>TDF</acronym> Compilation Phases</title>
-		<graphic fileref="tdf_scheme.png"/>
+		<graphic fileref="images/tdf_scheme.png"/>
 	</figure>
 
     <section id="S27">
@@ -1453,7 +1453,7 @@ int fputs ( const char *, FILE * ) ;</programlisting>
 
 	<figure id="eg_scheme">
 		<title>Example Compilation</title>
-		<graphic fileref="eg_scheme.png"/>
+		<graphic fileref="images/eg_scheme.png"/>
 	</figure>
 
     <para>The program to be translated is simply:
