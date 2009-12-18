@@ -234,8 +234,8 @@ tk: TDFINT
           catenation of constructions of the SORTs given by the SORTNAMEs in
           the <type>tok_params</type> of the TOKEN being expanded.</para>
 
-        <para>Usually one gives a name to a TOKEN_DEFN using to form a TOKDEF
-          using make_tokdef :</para>
+        <para>Usually one gives a name to a TOKEN_DEFN to form a TOKDEF
+          using make_tokdef:</para>
 
         <programlisting>
 tok:       TDFINT
