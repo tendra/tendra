@@ -153,6 +153,7 @@ case "${SYSTEM}.${VERSION}" in
 			echo "uname -r:	${VERSION}"
 			echo "uname -s:	${SYSTEM}"
 			echo
+			SYSTEM_OR_VERSION_IS_UNKNOWN=1
 			;;
 esac
 
@@ -189,8 +190,14 @@ case "$HOSTARCH" in
 			echo
 			echo "uname -m:	${HOSTARCH}"
 			echo
+			HOSTARCH_IS_UNKNOWN=1
 			;;
 esac
+
+if [ -n "$SYSTEM_OR_VERSION_IS_UNKNOWN" -o -n "$HOSTARCH_IS_UNKNOWN" ]; then
+	exit 2
+fi
+
 
 echo "Setting Makefile.defs environment to the following:"
 echo
