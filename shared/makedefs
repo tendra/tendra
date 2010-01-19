@@ -33,6 +33,11 @@
 # This script is inspired by Postfix' makedefs script.
 # The purpose of this script is to determine the host on which we are
 # compiling TenDRA and provide sane compilation defaults.
+#
+# This is flawed in that it assumes the version of the kernel (as reported by
+# uname) is the same as the version of the libraries present in /usr/include
+# (as used for API building), which is not always true. However, for the rare
+# situation where they differ, the user may adjust Makefile.defs accordingly.
 
 HOSTARCH=`/usr/bin/env uname -m`
 SYSTEM=`/usr/bin/env uname -s`
@@ -129,6 +134,11 @@ case "${SYSTEM}.${VERSION}" in
 			#
 			OSFAM="netbsd"
 			OSVER="NETBSD4"
+			;;
+	NetBSD.5*)
+			#
+			OSFAM="netbsd"
+			OSVER="NETBSD5"
 			;;
 	OpenBSD.3*)
 			#
