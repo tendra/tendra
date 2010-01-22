@@ -27,6 +27,7 @@
 	<xsl:param name="tendra.bodyclass"/>	<!-- e.g. 'single' -->
 	<xsl:param name="tendra.chunk"/>    	<!-- e.g. 'yes' -->
 
+	<!-- TODO: i think these can just be select="" -->
 	<xsl:param name="css.decoration"><xsl:text>0</xsl:text></xsl:param>
 	<xsl:param name="paper.type"><xsl:text>A4</xsl:text></xsl:param>
 	<xsl:param name="section.autolabel"><xsl:text>1</xsl:text></xsl:param>
