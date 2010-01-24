@@ -191,7 +191,7 @@ extern filename *find_filename(const char *, enum filetype);
 extern filename *make_filename(filename *, enum filetype, enum file_storage);
 extern enum filetype find_type_suffix(char);
 extern enum filetype find_type_stage(char);
-extern int where(enum filetype);
+extern enum file_storage where(enum filetype);
 
 
 #endif /* FILENAME_H */

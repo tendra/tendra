@@ -83,8 +83,8 @@
  */
 
 static const char **command = NULL;
-static int command_size = 0;
-static int cmd_no = 0;
+static unsigned int command_size = 0;
+static unsigned int cmd_no = 0;
 
 
 /*
@@ -139,7 +139,7 @@ cmd_string(const char *s)
 {
 	if (cmd_no >= command_size) {
 		command_size += 1000;
-		command = realloc_nof(command, char *, command_size);
+		command = realloc_nof(command, char *, (size_t) command_size);
 	}
 	command[cmd_no] = s;
 	if (s == NULL) {

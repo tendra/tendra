@@ -668,8 +668,7 @@ split_archive(const char *arch, filename **ret)
 		filename *qo = q;
 		if (streq(p, "*")) {
 		    /* Old form hidden names */
-		    int k = where(INDEP_TDF);
-		    q = make_filename(no_filename, INDEP_TDF, k);
+		    q = make_filename(no_filename, INDEP_TDF, where(INDEP_TDF));
 		} else if (strneq(p, "*.", 2)) {
 		    /* New form hidden names */
 		    p = string_copy(p);

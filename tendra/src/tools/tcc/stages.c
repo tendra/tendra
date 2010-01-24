@@ -155,7 +155,8 @@ static filename *uniq_tempfile = NULL;
  */
 
 static filename *
-uniq_filename(const char *nm, enum filetype t, int s, filename *input)
+uniq_filename(const char *nm, enum filetype t, enum file_storage s,
+	filename *input)
 {
 	filename *p = find_filename(nm, t);
 	filename *q = make_filename(p, t, s);
@@ -491,7 +492,7 @@ do_tdf_link(filename *input)
 filename *
 do_tdf_build(filename *input)
 {
-	int keep;
+	enum file_storage keep;
 	filename *output;
 	if (input == NULL) {
 		return (input);
@@ -834,7 +835,7 @@ do_dynlink(filename *input)
 filename *
 do_link(filename *input)
 {
-	int keep;
+	enum file_storage keep;
 	filename *output;
 	if (input == NULL || table_stop(BINARY_OBJ)) {
 		return (input);
@@ -863,7 +864,7 @@ do_link(filename *input)
 filename *
 do_notation(filename *input)
 {
-	int keep;
+	enum file_storage keep;
 	filename *output;
 	if (input == NULL) {
 		return (input);
@@ -965,7 +966,7 @@ do_split_arch(filename *input)
 filename *
 do_build_arch(filename *input)
 {
-	int keep;
+	enum file_storage keep;
 	filename *output;
 	if (input == NULL || table_stop(INDEP_TDF)) {
 		return (input);
@@ -1044,7 +1045,7 @@ do_build_file(filename *input, enum filetype t)
 filename *
 do_link_specs(filename *input, enum filetype t)
 {
-	int keep;
+	enum file_storage keep;
 	filename *output, *spec_file;
 	if (input == NULL) {
 		return (input);

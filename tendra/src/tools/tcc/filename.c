@@ -189,11 +189,11 @@ split_name(char *s)
 static filename *
 new_filename(void)
 {
-	static int no_free = 0;
+	static unsigned int no_free = 0;
 	static filename *free_objs = NULL;
 	if (no_free == 0) {
 		no_free = 1000;
-		free_objs = alloc_nof(filename, no_free);
+		free_objs = alloc_nof(filename, (size_t) no_free);
 	}
 	return (free_objs + (--no_free));
 }
@@ -513,7 +513,7 @@ find_filename(const char *s, enum filetype t)
  * to make_filename (which turns it into OUTPUT_FILE).
  */
 /* TODO silly name */
-int
+enum file_storage
 where(enum filetype t)
 {
 	if (!table_keep(t)) {

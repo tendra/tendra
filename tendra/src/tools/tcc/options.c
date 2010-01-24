@@ -468,7 +468,7 @@ lookup_bool(const char *s)
 		break;
 	case 'E':
 		if (b == 'S') return (&no_shuffle);
-		/* TODO fall-through intentional? */
+		break;
 	case 'H':
 		if (b == 'L') return (&use_hp_linker);
 		break;

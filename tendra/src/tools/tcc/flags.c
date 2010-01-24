@@ -427,8 +427,8 @@ void
 initialise_options(void)
 {
 	/* Initialise executables */
-	int sz;
-	int i;
+	size_t sz;
+	size_t i;
 	exec_produce = make_list("builtin/undef C_producer");
 	exec_preproc = make_list("builtin/undef C_preprocessor");
 	exec_cpp_produce = make_list("builtin/undef C++_producer");

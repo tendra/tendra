@@ -370,9 +370,9 @@ comment(int e, char *s, ...)
  */
 
 void *
-xalloc(int sz)
+xalloc(size_t sz)
 {
-	void *p = malloc((size_t)sz);
+	void *p = malloc(sz);
 	if (p == NULL) {
 		error(FATAL, "Memory allocation error");
 	}
@@ -388,7 +388,7 @@ xalloc(int sz)
  */
 
 void *
-xrealloc(void *p, int sz)
+xrealloc(void *p, size_t sz)
 {
     void *q;
     if (p == NULL) {
