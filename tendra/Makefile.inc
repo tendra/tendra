@@ -8,12 +8,7 @@ BASE_DIR!=	cd ${.CURDIR}/${_BASEDIR_RELATIVE} && pwd
 
 .MAKEFLAGS:	-m ${BASE_DIR}/mk -r
 
-.if defined(BOOTSTRAP)
-. include <tendra.bootstrap.mk>
-.else
-. include <tendra.build.mk>
-.endif
-
+.include <tendra.build.mk>
 .include <tendra.install.mk>
 .include <tendra.compiler.mk>
 .include <tendra.subdir.mk>

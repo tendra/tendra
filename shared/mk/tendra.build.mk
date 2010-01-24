@@ -1,6 +1,5 @@
 # TenDRA make build infrastructure
 #
-# Keep tendra.bootstrap.mk and tendra.build.mk in sync!
 # $Id$
 
 .if !defined(_TENDRA_BUILD_MK_)

@@ -1,7 +1,5 @@
 # TenDRA make subdirectory traversal.
 #
-# This is shared for both bootstrap and the build proper.
-#
 # $Id$
 
 .if !defined(_TENDRA_SUBDIR_MK_)

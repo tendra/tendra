@@ -17,7 +17,7 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 
 .cc.o:
 	@${ECHO} "==> Compiling ${PARTIMP}"
-	${TCC} ${TCCOPTS} ${CCOPTS} -Yc++ -c ${.IMPSRC} -o ${.TARGET}
+	${CXX} ${CXXFLAGS} ${CCOPTS} -c ${.IMPSRC} -o ${.TARGET}
 
 .c.j:
 	@${ECHO} "==> Compiling ${PARTIMP}"
@@ -25,7 +25,7 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 
 .cc.j:
 	@${ECHO} "==> Compiling ${PARTIMP}"
-	${TCC} ${TCCOPTS} ${CCOPTS} ${JOPTS} -Yc++ -o ${.TARGET} ${.IMPSRC} -Ymakelib
+	${TCC} ${TXXOPTS} ${CCOPTS} ${JOPTS} -o ${.TARGET} ${.IMPSRC} -Ymakelib
 
 .tpl.j:
 	@${ECHO} "==> Transforming ${PARTIMP}"
