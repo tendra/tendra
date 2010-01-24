@@ -1,0 +1,14 @@
+/* $Id$ */
+
+#ifndef __HACKED_MACHINE__TYPES_H
+#define __HACKED_MACHINE__TYPES_H
+
+#ifdef _OPENBSD4
+#include <sys/cdefs.h>
+#endif
+
+
+#include_next <machine/_types.h>
+
+#endif
+
