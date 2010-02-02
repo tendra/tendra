@@ -2409,10 +2409,8 @@ int main ()
     functionality offered by the <acronym>TDF</acronym> system (see [1]).
     <programlisting language="make">
 produce : hello.j
-	echo "PRODUCTION COMPLETE"
 
 hello.j : hello.c tokens.h
-	echo "PRODUCTION : C-&gt;<acronym>TDF</acronym>"
 	tcc -Fj hello.c</programlisting>
 	The production is run by typing <code>make produce</code>.
   The <acronym>ANSI</acronym> <acronym>API</acronym> is the default, and so does not need to be specified
@@ -2446,19 +2444,15 @@ hello.j : hello.c tokens.h
     following lines to the <code>Makefile</code>:</para>
     <programlisting language="make">
 install : hello
-	echo "INSTALLATION COMPLETE"
 
 hello : hello.j tokens.tl
-	echo "INSTALLATION : <acronym>TDF</acronym>-&gt;TARGET"
 	tcc -o hello -J. -jtokens hello.j
 
 tokens.tl : tokens.j
-	echo "LIBRARY BUILDING : LINKING LIBRARY"
 	tcc -Ymakelib -o tokens.tl tokens.j
 
 tokens.j : tokens.c tokens.h
-	echo "LIBRARY BUILDING : DEFINING TOKENS"
-tcc -Fj -not_ansi tokens.c</programlisting>
+	tcc -Fj -not_ansi tokens.c</programlisting>
 	The complete installation process is run by typing <code>make
   install</code>. Firstly the file <code>tokens.c</code> is compiled
   to give the <acronym>TDF</acronym> capsule <code>tokens.j</code> containing the
