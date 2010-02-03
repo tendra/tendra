@@ -21,8 +21,6 @@ _TENDRA_INSTALL_MK_=1
 . include <tendra.env.mk>
 .elif "${LIB}" != ""
 . include <tendra.lib.mk>
-.elif "${PROG}" != ""
-. include <tendra.prog.mk>
 .elif "${STARTUPSUBDIR}" != ""
 . include <tendra.startup.mk>
 .elif "${MACHSUBDIR}" != ""
@@ -52,6 +50,6 @@ _MANINSTALL: .USE
 .ORDER: _REALINSTALL _MANINSTALL _SUBDIR
 
 # Depending on all not necessary but nice (verify it's not harmful!).
-install: _REALINSTALL _MANINSTALL
+install:: _REALINSTALL _MANINSTALL
 
 .endif	# !defined(_TENDRA_INSTALL_MK_)

@@ -20,8 +20,6 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=	trans
-
 SRCS=	aldefs.c assembler.c basicread.c c_arith_type.c case_opt.c check.c\
 	check_id.c codec.c coder.c complex_eq.c const.c cproc.c decoder.c\
 	dg_aux.c dg_fns.c diag_fns.c diag_info.c diag_out.c dw2_abbrev.c\
@@ -73,3 +71,9 @@ SRCS=	aldefs.c assembler.c basicread.c c_arith_type.c case_opt.c check.c\
 #	${REMOVE} ${TDF_OUT}
 
 .include "Makefile.inc"
+
+
+PROG=	trans
+
+.include <tendra.prog.mk>
+

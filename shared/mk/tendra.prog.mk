@@ -16,9 +16,6 @@ _TENDRA_WORK_PROG_MK_=1
 
 
 
-#
-# Build a program.
-#
 . if !defined(MAN) && exists(${.CURDIR}/${PROG}.1)
 MAN=	${PROG}.1
 . endif
@@ -27,7 +24,6 @@ ${PROG}: ${OBJS}
 	@${ECHO} "==> Linking ${WRKDIR}/${PROG}"
 	${CC} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
 
-_REALWORK: ${PROG} .USE
 . if defined(WRAPPER)
 	@${ECHO} "==> Adjusting paths for ${WRAPPER}"
 	sed -e 1,\$$s%@@MACH_BASE@@%${MACH_BASE}%g \
@@ -43,9 +39,19 @@ _objdir=	${OBJ_SDIR}
 
 
 #
-# Install a program.
+# User-facing targets
 #
-_REALINSTALL: .USE
+
+all:: ${PROG}
+
+
+clean::
+.if "${CLEAN_EXTRA}" != ""
+	${REMOVE} ${CLEAN_EXTRA}
+.endif
+
+
+install::
 	@${ECHO} "==> Installing ${PROG}"
 	${CONDCREATE} "${PUBLIC_BIN}" "${MACH_BASE}/bin"
 	${INSTALL} -m 755 ${PROG} ${MACH_BASE}/bin/${PROG}

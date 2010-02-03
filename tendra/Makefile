@@ -32,7 +32,7 @@ BUILD_OK=	true
 	@${ECHO}
 	@${EXIT} 1;
 .else
-all:
+all::
 . if !exists(${.CURDIR}/obj/_obj_tree_complete)
 .  if "${_objdirs_done}" != "yes"
 	@${ECHO} "==> Starting TenDRA build..."

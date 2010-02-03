@@ -10,7 +10,7 @@ SYS_FILES=basic.j ptr_func.j ptr_mem.j throw.j vtable.j
 
 .PATH:	${SRC}
 
-all: ${SYS_FILES}
+all:: ${SYS_FILES}
 	@${ECHO} all done
 
 basic.j: basic.cc

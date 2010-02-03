@@ -8,7 +8,7 @@ PLTEXT=		c_toks.j dep_toks.j map_toks.j
 
 .include "Makefile.inc"
 
-all: ${TDFLIB}
+all:: ${TDFLIB}
 	@${ECHO} all done
 
 ${TDFLIB}: ${CAPSULES}

@@ -4,7 +4,7 @@ SRC2=	${BASE_DIR}/lib/machines/common/src
 
 #TCCOPTS=-Ysystem
 
-all: dyn_begin.o dyn_end.o
+all:: dyn_begin.o dyn_end.o
 	@${ECHO} all done
 
 pre:

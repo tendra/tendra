@@ -26,7 +26,7 @@ _SUBDIR: .USE
 
 # Ensure existence of basic targets.
 .for target in obj all clean install cleanobj cleandir
-${target}: _SUBDIR .PHONY
+${target}:: _SUBDIR .PHONY
 .endfor
 
 

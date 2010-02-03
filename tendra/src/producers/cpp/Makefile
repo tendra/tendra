@@ -21,8 +21,6 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=	tcpplus
-
 SRCS=	access.c allocate.c assign.c basetype.c buffer.c c_class.c capsule.c\
 	cast.c catalog.c char.c check.c chktype.c class.c compile.c constant.c\
 	construct.c convert.c copy.c debug.c declare.c decode.c derive.c\
@@ -111,3 +109,9 @@ SRCS=	access.c allocate.c assign.c basetype.c buffer.c c_class.c capsule.c\
 #	@${REMOVE} ${TDF_OUT}
 
 .include "Makefile.inc"
+
+
+PROG=	tcpplus
+
+.include <tendra.prog.mk>
+

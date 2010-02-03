@@ -26,8 +26,6 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 . include <tendra.startup.mk>
 .elif "${SYS_FILES}" || "${TDFLIB}" != ""
 . include <tendra.tokdef.mk>
-.elif "${PROG}" != ""
-. include <tendra.prog.mk>
 .elif "${LIB}" != ""
 . include <tendra.lib.mk>
 .else
@@ -40,20 +38,20 @@ _REALWORK:
 # Suppport targets.
 
 # Remove registered garbage.
-clean:
-.if "${CLEAN_EXTRA}" != ""
+clean::
 	@${ECHO} "==> Cleaning ${.CURDIR}"
+.if "${CLEAN_EXTRA}" != ""
 	${REMOVE} ${CLEAN_EXTRA}
 .endif
 
 # Clean objdir blindly.
-cleandir:
+cleandir::
 .if "${_objdir}" != ""
 	${REMOVE} -r ${_objdir}/* 2> /dev/null
 .endif
 
 # Remove obj symlink from curdir.
-cleanobj:
+cleanobj::
 .if "${_objdir}" != ""
 	@if ${TEST} -h ${.CURDIR}/obj ; then \
 		${ECHO} "==> Removing obj link ${WRKDIR}/obj" ; \
@@ -63,7 +61,7 @@ cleanobj:
 .endif
 
 # Create objdir and its symlink.
-obj:
+obj::
 .if "${_objdir}" != ""
 . if !exists(${_objdir})
 	@${ECHO} "==> Creating objdir ${_objdir}"
@@ -75,7 +73,7 @@ obj:
 
 # Glue all the steps together.
 
-all: _REALWORK
+all:: _REALWORK
 
 # Make sure subdirs are walked after real work is done.
 .ORDER: _REALWORK _SUBDIR

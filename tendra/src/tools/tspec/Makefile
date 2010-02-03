@@ -7,9 +7,6 @@ API_DIR=${BASE_DIR}/src/lib/apis
 TCCOPTS=	-Yposix1 -Xs
 CCOPTS=		-I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
 
-PROG=		${.CURDIR:T}
-WRAPPER=	tspec.sh
-
 SRCS=		hash.c index.c lex.c main.c makefile.c name.c object.c print.c\
 		syntax.c type.c utility.c variable.c
 
@@ -38,3 +35,10 @@ SRCS=		hash.c index.c lex.c main.c makefile.c name.c object.c print.c\
 #	${REMOVE} ${SID_OUT} ${LEXI_OUT}
 
 .include "Makefile.inc"
+
+
+PROG=		${.CURDIR:T}
+WRAPPER=	${.CURDIR:T}.sh
+
+.include <tendra.prog.mk>
+

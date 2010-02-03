@@ -21,8 +21,6 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=	tdfc2
-
 SRCS=	access.o allocate.o assign.o basetype.o buffer.o c_class.o capsule.o\
 	cast.o catalog.o char.o check.o chktype.o class.o compile.o\
 	constant.o construct.o convert.o copy.o debug.o declare.o decode.o\
@@ -111,3 +109,9 @@ SRCS=	access.o allocate.o assign.o basetype.o buffer.o c_class.o capsule.o\
 #	@${REMOVE} ${TDF_OUT}
 
 .include "Makefile.inc"
+
+
+PROG=	tdfc2
+
+.include <tendra.prog.mk>
+

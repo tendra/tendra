@@ -1,8 +1,8 @@
 # $Id$
 
-all: efmt
+all:: efmt
 
-clean:
+clean::
 	rm efmt efmt.o
 
 

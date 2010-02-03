@@ -6,7 +6,7 @@ TDFLIB=		target_tok.tl
 CAPSULES=	dep_toks.j map_toks.j except_toks.t var_toks.t
 PLTEXT=		c_toks.j dep_toks.j map_toks.j
 
-all: ${TDFLIB} sys.j
+all:: ${TDFLIB} sys.j
 	@${ECHO} all done
 
 ${TDFLIB}: ${CAPSULES}

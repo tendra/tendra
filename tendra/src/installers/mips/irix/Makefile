@@ -19,8 +19,6 @@ LIBS=
 
 # Dependencies and construction rules
 
-PROG=	trans
-
 SRCS=	aldefs.o basicread.o bstack.o case_opt.o check.o check_id.o\
 	code_here.o comp_eq_exp.o complex_eq.o const.o decoder.o dg_aux.o\
 	dg_fns.o diag_fns.o diag_info.o dump_distr.o eval.o exp.o\
@@ -73,3 +71,9 @@ SRCS=	aldefs.o basicread.o bstack.o case_opt.o check.o check_id.o\
 #	${REMOVE} ${TDF_OUT}
 
 .include "Makefile.inc"
+
+
+PROG=	trans
+
+.include <tendra.prog.mk>
+
