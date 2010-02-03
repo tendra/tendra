@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = tokens
+SUBDIR = tcc tspec
 
 .include <tendra.subdir.mk>
 

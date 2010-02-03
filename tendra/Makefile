@@ -26,8 +26,6 @@ BUILD_OK=	true
 
 # RANDOM BITS 'N PIECES
 
-SUBDIR=		src
-
 .if !exists(Makefile.defs)
 .BEGIN:
 	@${ECHO} "Please run 'makedefs' prior to running (b)make"
@@ -50,3 +48,9 @@ _objdirs_done=yes
 .endif
 
 .include "Makefile.inc"
+
+
+SUBDIR=		src
+
+.include <tendra.subdir.mk>
+

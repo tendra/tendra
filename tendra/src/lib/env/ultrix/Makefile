@@ -3,7 +3,11 @@
 .include "Makefile.inc"
 
 
-SUBDIR = tokens
+SUBDIR= common
+
+.if exsists(${OSVER})
+SUBDIR+= ${OSVER}
+.endif
 
 .include <tendra.subdir.mk>
 

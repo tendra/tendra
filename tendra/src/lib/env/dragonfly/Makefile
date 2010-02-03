@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = tokens
+SUBDIR= common
 
 .include <tendra.subdir.mk>
 

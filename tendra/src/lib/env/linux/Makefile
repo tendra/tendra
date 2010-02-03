@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = tokens
+SUBDIR= ${EXECFORMAT}
 
 .include <tendra.subdir.mk>
 

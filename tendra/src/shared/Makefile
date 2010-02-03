@@ -1,5 +1,9 @@
 # $Id$
 
+.include "Makefile.inc"
+
+
 SUBDIR= error xalloc
 
-.include "Makefile.inc"
+.include <tendra.subdir.mk>
+

@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = tokens
+SUBDIR= ${BLDARCH}
 
 .include <tendra.subdir.mk>
 

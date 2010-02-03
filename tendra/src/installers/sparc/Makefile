@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = tokens
+SUBDIR = ${OSFAM}
 
 .include <tendra.subdir.mk>
 

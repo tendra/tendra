@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = tokens
+SUBDIR=	c cpp
 
 .include <tendra.subdir.mk>
 

@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = tokens
+SUBDIR = env startup apis machines cpp libtdf
 
 .include <tendra.subdir.mk>
 

@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = tokens
+SUBDIR=	shared tools producers installers lib
 
 .include <tendra.subdir.mk>
 
