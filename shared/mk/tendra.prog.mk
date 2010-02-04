@@ -34,9 +34,9 @@ ${PROG}: ${OBJS}
 	@${ECHO} "==> Adjusting paths for ${WRAPPER}"
 	sed -e 1,\$$s%@@MACH_BASE@@%${MACH_BASE}%g \
 		-e 1,\$$s%@@PREFIX@@%${PREFIX}%g \
-		${.CURDIR}/${WRAPPER} > ${WRAPPER}
+		${.CURDIR}/${WRAPPER} > ${_objdir}/${WRAPPER}
 
-CLEAN_EXTRA+=	${WRAPPER}
+CLEAN_EXTRA+=	${_objdir}/${WRAPPER}
 .endif
 
 CLEAN_EXTRA+=	${PROG} ${PROG}.core core ${OBJS}
@@ -62,7 +62,7 @@ install::
 	${CONDCREATE} "${PUBLIC_BIN}" "${MACH_BASE}/bin"
 	${INSTALL} -m 755 ${PROG} ${MACH_BASE}/bin/${PROG}
 .if "${WRAPPER}" != ""
-	${INSTALL} -m 755 ${WRAPPER} ${PUBLIC_BIN}/${PROG}
+	${INSTALL} -m 755 ${_objdir}/${WRAPPER} ${PUBLIC_BIN}/${PROG}
 .endif
 
 
