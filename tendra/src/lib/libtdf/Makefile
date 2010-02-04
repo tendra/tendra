@@ -1,6 +1,5 @@
 # $Id$
 
-LIB=	tdf
 SRCS=	INT64a.o version.o
 
 TPLOPTS=	-I${.CURDIR}
@@ -11,3 +10,9 @@ INT64a.o: INT64a.j INT64b.j abstract.j
 CLEAN_EXTRA+=	INT64a.j INT64b.j abstract.j
 
 .include "Makefile.inc"
+
+
+LIB=	tdf
+
+.include <tendra.lib.mk>
+

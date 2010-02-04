@@ -26,8 +26,6 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 . include <tendra.startup.mk>
 .elif "${SYS_FILES}" || "${TDFLIB}" != ""
 . include <tendra.tokdef.mk>
-.elif "${LIB}" != ""
-. include <tendra.lib.mk>
 .else
 #
 # Nothing to do here.

@@ -22,18 +22,6 @@ _TENDRA_WORK_LIB_MK_=1
 
 
 
-#
-# Build a library
-#
-
-#CC=	${OBJ_DIR}/src/tools/tcc/tcc -Y${OBJ_DIR}/src/lib/env/build -yTENDRA_BASEDIR=${OBJ_DIR}/src
-#CFLAGS=
-#LDFLAGS=
-
-#JOPTS=
-
-_REALWORK: lib${LIB}.a
-
 lib${LIB}.a: ${OBJS}
 	${AR} cr ${.TARGET} ${OBJS}
 	${RANLIB} ${.TARGET}
@@ -44,9 +32,19 @@ _objdir=	${OBJ_SDIR}
 
 
 #
-# Install a library.
+# User-facing targets
 #
-_REALINSTALL: .USE
+
+all:: lib${LIB}.a
+
+
+clean::
+. if "${CLEAN_EXTRA}" != ""
+	${REMOVE} ${CLEAN_EXTRA}
+. endif
+
+
+install::
 	@${ECHO} "==> Installing lib${LIB}.a"
 	${CONDCREATE} "${COMMON_DIR}/sys"
 	${INSTALL} -m 755 lib${LIB}.a ${COMMON_DIR}/sys/lib${LIB}.a

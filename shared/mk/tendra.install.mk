@@ -19,8 +19,6 @@ _TENDRA_INSTALL_MK_=1
 . include <tendra.api.mk>
 .elif "${ENVFILE}" != ""
 . include <tendra.env.mk>
-.elif "${LIB}" != ""
-. include <tendra.lib.mk>
 .elif "${STARTUPSUBDIR}" != ""
 . include <tendra.startup.mk>
 .elif "${MACHSUBDIR}" != ""
