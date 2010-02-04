@@ -18,9 +18,7 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 .endif
 
 # Real workers, mutually exclusive, follow.
-.if "${API}" != ""
-. include <tendra.api.mk>
-.elif "${ENVFILE}" != ""
+.if "${ENVFILE}" != ""
 . include <tendra.env.mk>
 .elif "${STARTUPSUBDIR}" != ""
 . include <tendra.startup.mk>
@@ -31,6 +29,7 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 # Nothing to do here.
 #
 _REALWORK:
+_objdir=	${OBJ_SDIR}
 .endif
 
 # Suppport targets.
@@ -65,8 +64,10 @@ obj::
 	@${ECHO} "==> Creating objdir ${_objdir}"
 	@${MKDIR} -p ${_objdir}
 . endif
+. if "${.CURDIR}/obj" != "${_objdir}"
 	@${REMOVE} ${.CURDIR}/obj
 	@${LN} -sf ${_objdir} ${.CURDIR}/obj
+. endif
 .endif
 
 # Glue all the steps together.

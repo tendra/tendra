@@ -1,7 +1,5 @@
 # $Id$
 
-API=	${.CURDIR:T}
-
 SRC2=${BASE_DIR}/src/lib/cpp/tokens
 SRC3=${BASE_DIR}/src/lib/cpp/src
 
@@ -29,3 +27,9 @@ building/${API}.api/throw.j: ${SRC2}/throw.cc
 building/${API}.api/vtable.j: ${SRC2}/vtable.p
 	@${ECHO} "# Building vtable.j"
 	${TNC} ${SRC2}/vtable.p ${OBJ_DIR}/${APIS}/${.TARGET:H}/vtable.j
+
+
+API=	${.CURDIR:T}
+
+.include <tendra.api.mk>
+

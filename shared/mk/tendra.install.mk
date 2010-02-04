@@ -15,9 +15,7 @@ _TENDRA_INSTALL_MK_=1
 # At the moment, we have to do all the work here, which is *ugly*.
 
 # Real workers, mutually exclusive, follow.
-.if "${API}" != ""
-. include <tendra.api.mk>
-.elif "${ENVFILE}" != ""
+.if "${ENVFILE}" != ""
 . include <tendra.env.mk>
 .elif "${STARTUPSUBDIR}" != ""
 . include <tendra.startup.mk>

@@ -1,5 +1,9 @@
 # $Id$
 
+.include "Makefile.inc"
+
+
 API=	${.CURDIR:T}
 
-.include "Makefile.inc"
+.include <tendra.api.mk>
+

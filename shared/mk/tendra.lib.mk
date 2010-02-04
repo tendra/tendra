@@ -39,9 +39,9 @@ all:: lib${LIB}.a
 
 
 clean::
-. if "${CLEAN_EXTRA}" != ""
+.if "${CLEAN_EXTRA}" != ""
 	${REMOVE} ${CLEAN_EXTRA}
-. endif
+.endif
 
 
 install::
