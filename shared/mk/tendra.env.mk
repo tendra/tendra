@@ -16,8 +16,11 @@ _TENDRA_WORK_ENV_MK_=1
 
 
 
+${OBJ_DIR}/${ENVIRONMENT}:
+	${MKDIR} -p ${.TARGET}
+
 ${OBJ_DIR}/fixenv.sed:
-	@${ECHO} "==> Create ${.TARGET}"
+	@${ECHO} "==> Creating ${.TARGET}"
 	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g"          > ${.TARGET}
 	@${ECHO} "1,\$$s%-BLDARCH-%${BLDARCH}%g"               >> ${.TARGET}
 	@${ECHO} "1,\$$s%-OSFAM-%${OSFAM}%g"                   >> ${.TARGET}
@@ -30,12 +33,13 @@ ${OBJ_DIR}/fixenv.sed:
 	@${ECHO} "1,\$$s%-TMPDIR-%${TMP_DIR}%g"                >> ${.TARGET}
 
 .for entry in ${ENVFILE}
-${OBJ_DIR}/${ENVIRONMENT}/${entry}: ${OBJ_DIR}/fixenv.sed ${entry}
+${OBJ_DIR}/${ENVIRONMENT}/${entry}: ${OBJ_DIR}/${ENVIRONMENT} ${OBJ_DIR}/fixenv.sed ${entry}
 	@${ECHO} "==> Fixing paths for ${WRKDIR}/${entry} environment"
 	sed -f ${OBJ_DIR}/fixenv.sed ${entry} > ${OBJ_DIR}/${ENVIRONMENT}/${entry}
 .endfor
 
-${OBJ_DIR}/${ENVIRONMENT}/_extra: ${OBJ_DIR}/${ENVIRONMENT}/build ${OBJ_DIR}/${ENVIRONMENT}/default
+${OBJ_DIR}/${ENVIRONMENT}/_extra: ${OBJ_DIR}/${ENVIRONMENT} \
+	${OBJ_DIR}/${ENVIRONMENT}/build ${OBJ_DIR}/${ENVIRONMENT}/default
 .if "${ENVEXTRA}" != ""
 	cat ${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/build
 	cat ${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
