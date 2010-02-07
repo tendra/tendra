@@ -22,12 +22,13 @@ _TENDRA_WORK_LIB_MK_=1
 
 
 
-lib${LIB}.a: ${OBJS}
+${OBJ_SDIR}:
+	${MKDIR} -p ${.TARGET}
+
+${OBJ_SDIR}/lib${LIB}.a: ${OBJ_SDIR} ${OBJS}
+	@${ECHO} "==> Archiving ${WRKDIR}/${LIB}"
 	${AR} cr ${.TARGET} ${OBJS}
 	${RANLIB} ${.TARGET}
-
-CLEAN_EXTRA+=	lib${LIB}.a ${OBJS}
-_objdir=	${OBJ_SDIR}
 
 
 
@@ -35,19 +36,17 @@ _objdir=	${OBJ_SDIR}
 # User-facing targets
 #
 
-all:: lib${LIB}.a
+all:: ${OBJ_SDIR}/lib${LIB}.a
 
 
 clean::
-.if "${CLEAN_EXTRA}" != ""
-	${REMOVE} ${CLEAN_EXTRA}
-.endif
+	${REMOVE} ${OBJ_SDIR}/lib${LIB}.a
 
 
-install::
-	@${ECHO} "==> Installing lib${LIB}.a"
+install:: all
+	@${ECHO} "==> Installing ${WRKDIR}/lib${LIB}"
 	${CONDCREATE} "${COMMON_DIR}/sys"
-	${INSTALL} -m 755 lib${LIB}.a ${COMMON_DIR}/sys/lib${LIB}.a
+	${INSTALL} -m 755 ${OBJ_SDIR}/lib${LIB}.a ${COMMON_DIR}/sys/lib${LIB}.a
 
 
 

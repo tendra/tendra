@@ -1,8 +1,11 @@
 # $Id$
 
+.include "Makefile.inc"
+
+
 SRCS = error.c fmt.c
 
-.include "Makefile.inc"
+.include <tendra.obj.mk>
 
 
 LIB = ${.CURDIR:T}

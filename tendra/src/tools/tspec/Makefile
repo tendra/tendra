@@ -4,12 +4,6 @@ DEST=${OBJ_DIR}/src/lib
 #SRC=${BASE}/src/tools/tspec
 API_DIR=${BASE_DIR}/src/lib/apis
 
-TCCOPTS=	-Yposix1 -Xs
-CCOPTS=		-I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
-
-SRCS=		hash.c index.c lex.c main.c makefile.c name.c object.c print.c\
-		syntax.c type.c utility.c variable.c
-
 #LEXI=lexi
 #SID=sid
 #SIDOPTS=-l ossg-c -s no-lines
@@ -35,6 +29,14 @@ SRCS=		hash.c index.c lex.c main.c makefile.c name.c object.c print.c\
 #	${REMOVE} ${SID_OUT} ${LEXI_OUT}
 
 .include "Makefile.inc"
+
+
+TCCOPTS=	-Yposix1 -Xs
+CCOPTS=		-I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
+SRCS=		hash.c index.c lex.c main.c makefile.c name.c object.c print.c\
+		syntax.c type.c utility.c variable.c
+
+.include <tendra.obj.mk>
 
 
 PROG=		${.CURDIR:T}

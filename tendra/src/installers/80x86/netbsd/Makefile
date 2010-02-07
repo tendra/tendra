@@ -10,28 +10,6 @@ SRC5=${SRCC}/reader
 SRC6=${SRCC}/templ
 SPEC=${BASE_DIR}/src/lib/tdf/def_4_1.db
 
-# Standard variables
-
-#TCCOPTS=-Xc -Y32bit -Yansi
-CCOPTS=	-I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCC} -I${SRC1}\
-	-I${SRC2} -I${SRC3} -I${SRC4} -I${SRC5} -I${SRC6}
-LIBS=
-
-# Dependencies and construction rules
-
-SRCS=	aldefs.c assembler.c basicread.c c_arith_type.c case_opt.c check.c\
-	check_id.c codec.c coder.c complex_eq.c const.c cproc.c decoder.c\
-	dg_aux.c dg_fns.c diag_fns.c diag_info.c diag_out.c dw2_extra.c\
-	evaluate.c exp.c f64.c flags.c flpt.c flpt_fns.c foralls.c\
-	global_opt.c glopt.c inl_norm.c inline.c inlinechoice.c install_fns.c\
-	installglob.c instr.c instr386.c is_worth.c label_ops.c li_fns.c\
-	localflags.c machine.c machine_toks.c mark_scope.c me_fns.c misc_c.c\
-	operand.c out.c overlap.c read_fns.c read_sort.c readglob.c\
-	reg_record.c scan2.c spec.c spec_tok.c table_fns.c trans.c translate.c\
-	tv_callees.c unroll.c weights.c xalloc.c
-
-.PATH:	${SRC1} ${SRC2} ${SRC3} ${SRC4} ${SRC5} ${SRC6}
-
 
 #MAKE_TDF=make_tdf
 #
@@ -68,6 +46,80 @@ SRCS=	aldefs.c assembler.c basicread.c c_arith_type.c case_opt.c check.c\
 #	${REMOVE} ${TDF_OUT}
 
 .include "Makefile.inc"
+
+
+#TCCOPTS=-Xc -Y32bit -Yansi
+CCOPTS=	-I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCC} -I${SRC1}\
+	-I${SRC2} -I${SRC3} -I${SRC4} -I${SRC5} -I${SRC6}
+
+SRCS+=	../../common/construct/aldefs.c
+SRCS+=	../../common/construct/case_opt.c
+SRCS+=	../../common/construct/check.c
+SRCS+=	../../common/construct/check_id.c
+SRCS+=	../../common/construct/complex_eq.c
+SRCS+=	../../common/construct/const.c
+SRCS+=	../../common/construct/exp.c
+SRCS+=	../../common/construct/f64.c
+SRCS+=	../../common/construct/flags.c
+SRCS+=	../../common/construct/flpt.c
+SRCS+=	../../common/construct/flpt_fns.c
+SRCS+=	../../common/construct/foralls.c
+SRCS+=	../../common/construct/global_opt.c
+SRCS+=	../../common/construct/inl_norm.c
+SRCS+=	../../common/construct/inline.c
+SRCS+=	../../common/construct/install_fns.c
+SRCS+=	../../common/construct/installglob.c
+SRCS+=	../../common/construct/label_ops.c
+SRCS+=	../../common/construct/me_fns.c
+SRCS+=	../../common/construct/misc_c.c
+SRCS+=	../../common/construct/unroll.c
+
+SRCS+=	../../common/diag/dg_aux.c
+SRCS+=	../../common/diag/dg_fns.c
+SRCS+=	../../common/diag/diag_fns.c
+SRCS+=	../../common/diag/diag_info.c
+SRCS+=	../../common/diag/mark_scope.c
+
+SRCS+=	../../common/linkinfo/li_fns.c
+
+SRCS+=	../../common/reader/basicread.c
+SRCS+=	../../common/reader/decoder.c
+SRCS+=	../../common/reader/read_fns.c
+SRCS+=	../../common/reader/read_sort.c
+SRCS+=	../../common/reader/readglob.c
+SRCS+=	../../common/reader/table_fns.c
+SRCS+=	../../common/reader/xalloc.c
+
+SRCS+=	../common/c_arith_type.c
+SRCS+=	../common/codec.c
+SRCS+=	../common/coder.c
+SRCS+=	../common/cproc.c
+SRCS+=	../common/dw2_extra.c
+SRCS+=	../common/evaluate.c
+SRCS+=	../common/glopt.c
+SRCS+=	../common/inlinechoice.c
+SRCS+=	../common/instr.c
+SRCS+=	../common/instr386.c
+SRCS+=	../common/is_worth.c
+SRCS+=	../common/localflags.c
+SRCS+=	../common/machine_toks.c
+SRCS+=	../common/operand.c
+SRCS+=	../common/out.c
+SRCS+=	../common/overlap.c
+SRCS+=	../common/reg_record.c
+SRCS+=	../common/scan2.c
+SRCS+=	../common/spec.c
+SRCS+=	../common/spec_tok.c
+SRCS+=	../common/trans.c
+SRCS+=	../common/translate.c
+SRCS+=	../common/tv_callees.c
+SRCS+=	../common/weights.c
+
+SRCS+=	assembler.c
+SRCS+=	diag_out.c
+SRCS+=	machine.c
+
+.include <tendra.obj.mk>
 
 
 PROG=	trans

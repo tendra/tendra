@@ -10,30 +10,6 @@ SRC5=${SRCC}/reader
 SRC6=${SRCC}/templ
 SPEC=${BASE}/src/lib/tdf/def_4_1.db
 
-# Standard variables
-
-#TCCOPTS=-Xc -Y32bit -Yansi
-CCOPTS=	-I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCC} -I${SRC1}\
-	-I${SRC2} -I${SRC3} -I${SRC4} -I${SRC5}
-LIBS=
-
-# Dependencies and construction rules
-
-SRCS=	aldefs.c basicread.c bstack.c case_opt.c check.c check_id.c\
-	code_here.c comp_eq_exp.c complex_eq.c const.c decoder.c dg_aux.c\
-	dg_fns.c diag_fns.c diag_info.c dump_distr.c eval.c exp.c\
-	extern_adds.c f64.c flags.c flpt.c flpt_fns.c foralls.c frames.c\
-	getregs.c global_opt.c glopt.c guard.c handle_sregs.c inl_norm.c\
-	inline.c inlinechoice.c inst_fmt.c install_fns.c installglob.c\
-	is_worth.c label_ops.c labels.c li_fns.c locate.c machine.c\
-	machine_toks.c main.c makesymtab.c mark_scope.c me_fns.c mips_ins.c\
-	mipsdiags.c misc_c.c move.c needs_scan.c new_code.c new_symbol.c\
-	oddtest.c operators.c out_ba.c psu_ops.c read_fns.c read_sort.c\
-	readglob.c regable.c regalloc.c regexps.c spec.c spec_tok.c special.c\
-	syms.c table_fns.c tempdecs.c translate.c type_to_aux.c unroll.c\
-	weights.c xalloc.c
-
-.PATH:	${SRC1} ${SRC2} ${SRC3} ${SRC4} ${SRC5} ${SRC6}
 
 #MAKE_TDF=make_tdf
 #REMOVE=rm -f
@@ -71,6 +47,94 @@ SRCS=	aldefs.c basicread.c bstack.c case_opt.c check.c check_id.c\
 #	${REMOVE} ${TDF_OUT}
 
 .include "Makefile.inc"
+
+
+#TCCOPTS=-Xc -Y32bit -Yansi
+CCOPTS=	-I${BASE_DIR}/${INCLUDE} -I${.CURDIR} -I${SRCC} -I${SRC1}\
+	-I${SRC2} -I${SRC3} -I${SRC4} -I${SRC5}
+
+SRCS+=	../../common/construct/aldefs.c
+SRCS+=	../../common/construct/case_opt.c
+SRCS+=	../../common/construct/check.c
+SRCS+=	../../common/construct/check_id.c
+SRCS+=	../../common/construct/complex_eq.c
+SRCS+=	../../common/construct/const.c
+SRCS+=	../../common/construct/exp.c
+SRCS+=	../../common/construct/f64.c
+SRCS+=	../../common/construct/flags.c
+SRCS+=	../../common/construct/flpt.c
+SRCS+=	../../common/construct/flpt_fns.c
+SRCS+=	../../common/construct/foralls.c
+SRCS+=	../../common/construct/global_opt.c
+SRCS+=	../../common/construct/inl_norm.c
+SRCS+=	../../common/construct/inline.c
+SRCS+=	../../common/construct/install_fns.c
+SRCS+=	../../common/construct/installglob.c
+SRCS+=	../../common/construct/label_ops.c
+SRCS+=	../../common/construct/me_fns.c
+SRCS+=	../../common/construct/misc_c.c
+SRCS+=	../../common/construct/unroll.c
+
+SRCS+=	../../common/diag/dg_aux.c
+SRCS+=	../../common/diag/dg_fns.c
+SRCS+=	../../common/diag/diag_fns.c
+SRCS+=	../../common/diag/diag_info.c
+SRCS+=	../../common/diag/mark_scope.c
+
+SRCS+=	../../common/linkinfo/li_fns.c
+
+SRCS+=	../../common/reader/basicread.c
+SRCS+=	../../common/reader/decoder.c
+SRCS+=	../../common/reader/read_fns.c
+SRCS+=	../../common/reader/read_sort.c
+SRCS+=	../../common/reader/readglob.c
+SRCS+=	../../common/reader/table_fns.c
+SRCS+=	../../common/reader/xalloc.c
+
+SRCS+=	../common/bstack.c
+SRCS+=	../common/code_here.c
+SRCS+=	../common/comp_eq_exp.c
+SRCS+=	../common/dump_distr.c
+SRCS+=	../common/eval.c
+SRCS+=	../common/extern_adds.c
+SRCS+=	../common/frames.c
+SRCS+=	../common/getregs.c
+SRCS+=	../common/glopt.c
+SRCS+=	../common/guard.c
+SRCS+=	../common/handle_sregs.c
+SRCS+=	../common/inlinechoice.c
+SRCS+=	../common/inst_fmt.c
+SRCS+=	../common/is_worth.c
+SRCS+=	../common/labels.c
+SRCS+=	../common/locate.c
+SRCS+=	../common/machine.c
+SRCS+=	../common/machine_toks.c
+SRCS+=	../common/makesymtab.c
+SRCS+=	../common/mips_ins.c
+SRCS+=	../common/mipsdiags.c
+SRCS+=	../common/move.c
+SRCS+=	../common/needs_scan.c
+SRCS+=	../common/new_code.c
+SRCS+=	../common/new_symbol.c
+SRCS+=	../common/oddtest.c
+SRCS+=	../common/operators.c
+SRCS+=	../common/psu_ops.c
+SRCS+=	../common/regable.c
+SRCS+=	../common/regalloc.c
+SRCS+=	../common/regexps.c
+SRCS+=	../common/spec.c
+SRCS+=	../common/spec_tok.c
+SRCS+=	../common/special.c
+SRCS+=	../common/syms.c
+SRCS+=	../common/tempdecs.c
+SRCS+=	../common/translate.c
+SRCS+=	../common/type_to_aux.c
+SRCS+=	../common/weights.c
+
+SRCS+=	main.c
+SRCS+=	out_ba.c
+
+.include <tendra.obj.mk>
 
 
 PROG=	trans

@@ -12,30 +12,6 @@ SRC5=${SRC1}/parse
 SRC7=${SRC1}/utility
 SPEC=${.CURDIR}/../../lib/tdf/def_4_1.db
 
-# Standard variables
-
-TCCOPTS=	-Yposix1 -Xs
-CCOPTS=		-I${SRC1} -I${SRC2} -I${SRC3} -I${SRC4} -I${SRC5}\
-		 -I${SRC6} -I${SRC7}
-LIBS=
-
-# Dependencies and construction rules
-
-SRCS=	access.o allocate.o assign.o basetype.o buffer.o c_class.o capsule.o\
-	cast.o catalog.o char.o check.o chktype.o class.o compile.o\
-	constant.o construct.o convert.o copy.o debug.o declare.o decode.o\
-	derive.o destroy.o diag.o diag2.o dump.o encode.o error.o exception.o\
-	exp.o expression.o file.o function.o hash.o identifier.o init.o\
-	initialise.o instance.o inttype.o label.o lex.o literal.o load.o\
-	macro.o main.o mangle.o member.o merge.o namespace.o operator.o\
-	option.o overload.o parse.o pragma.o predict.o preproc.o print.o\
-	printf.o psyntax1.o psyntax2.o psyntax3.o quality.o redeclare.o\
-	rewrite.o save.o shape.o statement.o stmt.o struct.o syntax1.o\
-	syntax2.o syntax3.o system.o table.o template.o throw.o tok.o tokdef.o\
-	token.o typeid.o unmangle.o variable.o virtual.o xalloc.o
-
-.PATH:	${SRC1} ${SRC2} ${SRC2A} ${SRC2B} ${SRC3} ${SRC4} ${SRC5} ${SRC6}\
-	${SRC7} 
 
 #CAT=cat
 #CALCULUS=calculus
@@ -109,6 +85,104 @@ SRCS=	access.o allocate.o assign.o basetype.o buffer.o c_class.o capsule.o\
 #	@${REMOVE} ${TDF_OUT}
 
 .include "Makefile.inc"
+
+
+TCCOPTS=	-Yposix1 -Xs
+CCOPTS=		-I${SRC1} -I${SRC2} -I${SRC3} -I${SRC4} -I${SRC5}\
+		 -I${SRC6} -I${SRC7}
+
+SRCS+=	../common/construct/access.c
+SRCS+=	../common/construct/allocate.c
+SRCS+=	../common/construct/assign.c
+SRCS+=	../common/construct/basetype.c
+SRCS+=	../common/construct/cast.c
+SRCS+=	../common/construct/check.c
+SRCS+=	../common/construct/chktype.c
+SRCS+=	../common/construct/class.c
+SRCS+=	../common/construct/construct.c
+SRCS+=	../common/construct/convert.c
+SRCS+=	../common/construct/copy.c
+SRCS+=	../common/construct/declare.c
+SRCS+=	../common/construct/derive.c
+SRCS+=	../common/construct/destroy.c
+SRCS+=	../common/construct/exception.c
+SRCS+=	../common/construct/expression.c
+SRCS+=	../common/construct/function.c
+SRCS+=	../common/construct/identifier.c
+SRCS+=	../common/construct/initialise.c
+SRCS+=	../common/construct/instance.c
+SRCS+=	../common/construct/inttype.c
+SRCS+=	../common/construct/label.c
+SRCS+=	../common/construct/member.c
+SRCS+=	../common/construct/merge.c
+SRCS+=	../common/construct/namespace.c
+SRCS+=	../common/construct/operator.c
+SRCS+=	../common/construct/overload.c
+SRCS+=	../common/construct/printf.c
+SRCS+=	../common/construct/quality.c
+SRCS+=	../common/construct/redeclare.c
+SRCS+=	../common/construct/rewrite.c
+SRCS+=	../common/construct/statement.c
+SRCS+=	../common/construct/template.c
+SRCS+=	../common/construct/tokdef.c
+SRCS+=	../common/construct/token.c
+SRCS+=	../common/construct/typeid.c
+SRCS+=	../common/construct/variable.c
+SRCS+=	../common/construct/virtual.c
+
+SRCS+=	../common/utility/buffer.c
+SRCS+=	../common/utility/catalog.c
+SRCS+=	../common/utility/debug.c
+SRCS+=	../common/utility/error.c
+SRCS+=	../common/utility/option.c
+SRCS+=	../common/utility/print.c
+SRCS+=	../common/utility/system.c
+SRCS+=	../common/utility/xalloc.c
+
+SRCS+=	../common/obj_c/c_class.c
+
+SRCS+=	../common/output/capsule.c
+SRCS+=	../common/output/compile.c
+SRCS+=	../common/output/decode.c
+SRCS+=	../common/output/diag.c
+SRCS+=	../common/output/diag2.c
+SRCS+=	../common/output/dump.c
+SRCS+=	../common/output/encode.c
+SRCS+=	../common/output/exp.c
+SRCS+=	../common/output/init.c
+SRCS+=	../common/output/load.c
+SRCS+=	../common/output/mangle.c
+SRCS+=	../common/output/save.c
+SRCS+=	../common/output/shape.c
+SRCS+=	../common/output/stmt.c
+SRCS+=	../common/output/struct.c
+SRCS+=	../common/output/throw.c
+SRCS+=	../common/output/tok.c
+SRCS+=	../common/output/unmangle.c
+
+SRCS+=	../common/parse/char.c
+SRCS+=	../common/parse/constant.c
+SRCS+=	../common/parse/file.c
+SRCS+=	../common/parse/hash.c
+SRCS+=	../common/parse/lex.c
+SRCS+=	../common/parse/literal.c
+SRCS+=	../common/parse/macro.c
+SRCS+=	../common/parse/parse.c
+SRCS+=	../common/parse/pragma.c
+SRCS+=	../common/parse/predict.c
+SRCS+=	../common/parse/preproc.c
+SRCS+=	../common/parse/psyntax1.c
+SRCS+=	../common/parse/psyntax2.c
+SRCS+=	../common/parse/psyntax3.c
+SRCS+=	../common/parse/table.c
+
+SRCS+=	../common/main.c
+
+SRCS+=	syntax/syntax1.c
+SRCS+=	syntax/syntax2.c
+SRCS+=	syntax/syntax3.c
+
+.include <tendra.obj.mk>
 
 
 PROG=	tdfc2

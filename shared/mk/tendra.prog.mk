@@ -22,25 +22,24 @@ _TENDRA_WORK_PROG_MK_=1
 
 
 
-.if !defined(MAN) && exists(${.CURDIR}/${PROG}.1)
+.if !defined(MAN) && exists(${PROG}.1)
 MAN=	${PROG}.1
 .endif
 
-${PROG}: ${OBJS}
+${OBJ_SDIR}:
+	${MKDIR} -p ${.TARGET}
+
+${OBJ_SDIR}/${PROG}: ${OBJ_SDIR} ${OBJS} ${LIBS}
 	@${ECHO} "==> Linking ${WRKDIR}/${PROG}"
-	${CC} ${LDOPTS} -o ${PROG} ${OBJS} ${LIBS}
+	${CC} ${LDOPTS} -o ${.TARGET} ${OBJS} ${LIBS}
 
 .if defined(WRAPPER)
-	@${ECHO} "==> Adjusting paths for ${WRAPPER}"
+${OBJ_SDIR}/${WRAPPER}: ${OBJ_SDIR} ${WRAPPER}
+	@${ECHO} "==> Adjusting paths for ${WRKDIR}/${WRAPPER}"
 	sed -e 1,\$$s%@@MACH_BASE@@%${MACH_BASE}%g \
 		-e 1,\$$s%@@PREFIX@@%${PREFIX}%g \
-		${.CURDIR}/${WRAPPER} > ${_objdir}/${WRAPPER}
-
-CLEAN_EXTRA+=	${_objdir}/${WRAPPER}
+		${WRAPPER} > ${.TARGET}
 .endif
-
-CLEAN_EXTRA+=	${PROG} ${PROG}.core core ${OBJS}
-_objdir=	${OBJ_SDIR}
 
 
 
@@ -48,21 +47,25 @@ _objdir=	${OBJ_SDIR}
 # User-facing targets
 #
 
-all:: ${PROG}
-
-
-clean::
-.if "${CLEAN_EXTRA}" != ""
-	${REMOVE} ${CLEAN_EXTRA}
+all:: ${OBJ_SDIR}/${PROG}
+.if "${WRAPPER}" != ""
+all:: ${OBJ_SDIR}/${WRAPPER}
 .endif
 
 
-install::
-	@${ECHO} "==> Installing ${PROG}"
+clean::
+	${REMOVE} ${OBJ_SDIR}/${PROG} ${PROG}.core core
+.if defined(WRAPPER)
+	${REMOVE} ${OBJ_SDIR}/${WRAPPER}
+.endif
+
+
+install:: all
+	@${ECHO} "==> Installing ${WRKDIR}/${PROG}"
 	${CONDCREATE} "${PUBLIC_BIN}" "${MACH_BASE}/bin"
-	${INSTALL} -m 755 ${PROG} ${MACH_BASE}/bin/${PROG}
+	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${MACH_BASE}/bin/${PROG}
 .if "${WRAPPER}" != ""
-	${INSTALL} -m 755 ${_objdir}/${WRAPPER} ${PUBLIC_BIN}/${PROG}
+	${INSTALL} -m 755 ${OBJ_SDIR}/${WRAPPER} ${PUBLIC_BIN}/${PROG}
 .endif
 
 

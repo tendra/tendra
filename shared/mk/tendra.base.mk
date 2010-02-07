@@ -72,8 +72,6 @@ TMP_DIR=	/var/tmp
 # If this file exists then the object tree is complete
 OBJ_DIR_INDICATOR=${OBJ_DIR}/_obj_tree_complete
 
-OBJS=  ${SRCS:S/.cc/.o/:S/.c/.o/}
-
 # Binary paths
 SHELL=		/bin/sh
 
