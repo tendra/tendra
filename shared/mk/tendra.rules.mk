@@ -19,10 +19,6 @@ PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 	@${ECHO} "==> Compiling ${PARTIMP}"
 	${TCC} ${TXXOPTS} ${CCOPTS} ${JOPTS} -o ${.TARGET} ${.IMPSRC} -Ymakelib
 
-.tpl.j:
-	@${ECHO} "==> Transforming ${PARTIMP}"
-	${TPL} ${TPLOPTS} ${.IMPSRC} ${.TARGET}
-
 .sid.c:
 	@${ECHO} "==> Transforming ${PARTIMP} and ${PARTIMP:S/.sid/.act/}"
 	${SID} ${SIDOPTS} ${.IMPSRC} ${.IMPSRC:S/.sid/.act/} ${.TARGET} \

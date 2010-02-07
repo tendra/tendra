@@ -1,0 +1,38 @@
+# $Id$
+
+#${SRC6}/syntax1.c : ${SYNTAX}
+#   ${SID} ${SIDOPTS} ${SYNTAX} ${SRC6}/syntax@.c ${SRC6}/syntax.h
+#
+#${SRC5}/psyntax1.c : ${PSYNTAX}
+#   ${SID} ${SIDOPTS} ${PSYNTAX} ${SRC5}/psyntax@.c ${SRC5}/psyntax.h
+
+
+.include "Makefile.inc"
+
+
+CCOPTS+=	-I ../../common/construct
+CCOPTS+=	-I ../../common/obj_c
+CCOPTS+=	-I ../../common/output
+CCOPTS+=	-I ../../common
+CCOPTS+=	-I ../utility
+
+SRCS+=	char.c
+SRCS+=	constant.c
+SRCS+=	file.c
+SRCS+=	hash.c
+SRCS+=	lex.c
+SRCS+=	literal.c
+SRCS+=	macro.c
+SRCS+=	parse.c
+SRCS+=	pragma.c
+SRCS+=	predict.c
+SRCS+=	preproc.c
+SRCS+=	psyntax1.c
+SRCS+=	psyntax2.c
+SRCS+=	psyntax3.c
+SRCS+=	table.c
+
+.include <tendra.obj.mk>
+
+.include <tendra.partial.mk>
+

@@ -14,26 +14,22 @@ _TENDRA_WORK_OBJ_MK_=1
 	@${EXIT} 1;
 .endif
 
+# TODO: assert SRCS may not contain ../
 
 
 OBJS+=  ${SRCS:S/.cc/.o/:S/.c/.o/:C/^/${OBJ_SDIR}\//}
 
-# TODO: explain that SRCS may be relative paths (since we don't use archives per directory for tendra)
-# TODO: when we have partial linking (ld -r) per directory, these :H rules can be removed
-_uniqdir!=	echo ${SRCS:H} | tr ' ' '\n' | sort | uniq
-.for src in ${_uniqdir}
-${OBJ_SDIR}/${src}:
+${OBJ_SDIR}:
 	${MKDIR} -p ${.TARGET}
-.endfor
 
 .for src in ${SRCS:M*.c}
-${OBJ_SDIR}/${src:S/.c/.o/}: ${OBJ_SDIR}/${src:H} ${src}
+${OBJ_SDIR}/${src:S/.c/.o/}: ${OBJ_SDIR} ${src}
 	@${ECHO} "==> Compiling ${WRKDIR}/${src}"
 	${CC} ${CFLAGS} ${CCOPTS} -c ${src} -o ${.TARGET}
 .endfor
 
 .for src in ${SRCS:M*.cc}
-${OBJ_SDIR}/${src:S/.cc/.o/}: ${OBJ_SDIR}/${src:H} ${src}
+${OBJ_SDIR}/${src:S/.cc/.o/}: ${OBJ_SDIR} ${src}
 	@${ECHO} "==> Compiling ${WRKDIR}/${src}"
 	${CXX} ${CXXFLAGS} ${CCOPTS} -c ${src} -o ${.TARGET}
 .endfor

@@ -65,7 +65,7 @@ MACH_DIR=	${INSTALL_DIR}/machines
 MACH_BASE=	${MACH_DIR}/${OSFAM}/${BLDARCH}
 #MACH_BASE=	${MACH_DIR}/${OSFAM}/${MACH_VERS}/${BLDARCH}
 MAN_DIR=	${PREFIX}/man
-OBJ_DIR=	${BASE_DIR}/obj
+OBJ_DIR?=	${BASE_DIR}/obj
 OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 TMP_DIR=	/var/tmp
 
@@ -84,6 +84,7 @@ EXIT?=		exit
 FIND?=		find
 INSTALL?=	install
 LEXI?=		lexi
+LD?=		ld
 LN?=		ln
 MKDIR?=		mkdir
 MOVE?=		mv

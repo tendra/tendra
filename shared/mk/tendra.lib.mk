@@ -22,9 +22,6 @@ _TENDRA_WORK_LIB_MK_=1
 
 
 
-${OBJ_SDIR}:
-	${MKDIR} -p ${.TARGET}
-
 ${OBJ_SDIR}/lib${LIB}.a: ${OBJ_SDIR} ${OBJS}
 	@${ECHO} "==> Archiving ${WRKDIR}/${LIB}"
 	${AR} cr ${.TARGET} ${OBJS}

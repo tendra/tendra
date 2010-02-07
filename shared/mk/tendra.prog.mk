@@ -26,9 +26,6 @@ _TENDRA_WORK_PROG_MK_=1
 MAN=	${PROG}.1
 .endif
 
-${OBJ_SDIR}:
-	${MKDIR} -p ${.TARGET}
-
 ${OBJ_SDIR}/${PROG}: ${OBJ_SDIR} ${OBJS} ${LIBS}
 	@${ECHO} "==> Linking ${WRKDIR}/${PROG}"
 	${CC} ${LDOPTS} -o ${.TARGET} ${OBJS} ${LIBS}
