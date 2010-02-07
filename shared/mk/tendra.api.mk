@@ -19,6 +19,9 @@ _TENDRA_WORK_API_MK_=1
 
 _objdir=	${OBJ_DIR}/${APIS}
 
+${_objdir}:
+	${MKDIR} -p ${.TARGET}
+
 JOPTS= -Y32bit -I${BASE_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include \
 	-I/usr/include -f${BASE_DIR}/${STARTUP_MACH}/${API}.h -D__BUILDING_LIBS
 
@@ -37,25 +40,21 @@ ${APILIB}: ${APIOBJS}
 	@${ECHO} "==> Linking ${API} API"
 	${TLD} -mc -o ${APILIB} ${APIOBJS}
 
-CLEAN_EXTRA+= ${APILIB} ${APIOBJS} ${APIOBJS:S/.j/.c/} \
-              ${_objdir}/building/${API}.api/Makefile
-
 
 
 #
 # User-facing targets
 #
 
-all::
+all:: ${_objdir}
 	@${ECHO} "==> Creating API source for ${API}"
 	@cd ${_objdir} && ${TSPEC} -v -I${BASE_DIR}/${APIS} -O. -S./building ${API}
 	@cd ${BASE_DIR}/${APIS}/${API}/ && ${.MAKE} makeapi ${.MAKEFLAGS}
 
 
 clean::
-.if "${CLEAN_EXTRA}" != ""
-	${REMOVE} ${CLEAN_EXTRA}
-.endif
+	${REMOVE} ${APILIB} ${APIOBJS} ${APIOBJS:S/.j/.c/} \
+		${_objdir}/building/${API}.api/Makefile
 
 
 # Relative to .OBJDIR.
