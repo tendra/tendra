@@ -16,55 +16,52 @@ _TENDRA_WORK_ENV_MK_=1
 
 
 
-#
-# Build environments.
-#
-fixenv.sed:
+${OBJ_DIR}/fixenv.sed:
 	@${ECHO} "==> Create ${.TARGET}"
-	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g" 		\
-		> ${OBJ_DIR}/${.TARGET}
-	@${ECHO} "1,\$$s%-BLDARCH-%${BLDARCH}%g" 		\
-		>> ${OBJ_DIR}/${.TARGET}
-	@${ECHO} "1,\$$s%-OSFAM-%${OSFAM}%g" 			\
-		>> ${OBJ_DIR}/${.TARGET}
-	@${ECHO} "1,\$$s%-MACHDIR-%${MACH_BASE}%g" 		\
-		>> ${OBJ_DIR}/${.TARGET}
-	@${ECHO} "1,\$$s%-BINDIR-%${MACH_BASE}/bin%g" 		\
-		>> ${OBJ_DIR}/${.TARGET}
-	@${ECHO} "1,\$$s%-ENVDIR-%${MACH_BASE}/env%g" 		\
-		>> ${OBJ_DIR}/${.TARGET}
-	@${ECHO} "1,\$$s%-LIBDIR-%${MACH_BASE}/lib%g" 		\
-		>> ${OBJ_DIR}/${.TARGET}
-	@${ECHO} "1,\$$s%-INCLDIR-%${COMMON_DIR}/include%g" 	\
-		>> ${OBJ_DIR}/${.TARGET}
-	@${ECHO} "1,\$$s%-STARTUPDIR-%${COMMON_DIR}/startup%g" 	\
-		>> ${OBJ_DIR}/${.TARGET}
-	@${ECHO} "1,\$$s%-TMPDIR-%${TMP_DIR}%g" 		\
-		>> ${OBJ_DIR}/${.TARGET}
+	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g"          > ${.TARGET}
+	@${ECHO} "1,\$$s%-BLDARCH-%${BLDARCH}%g"               >> ${.TARGET}
+	@${ECHO} "1,\$$s%-OSFAM-%${OSFAM}%g"                   >> ${.TARGET}
+	@${ECHO} "1,\$$s%-MACHDIR-%${MACH_BASE}%g"             >> ${.TARGET}
+	@${ECHO} "1,\$$s%-BINDIR-%${MACH_BASE}/bin%g"          >> ${.TARGET}
+	@${ECHO} "1,\$$s%-ENVDIR-%${MACH_BASE}/env%g"          >> ${.TARGET}
+	@${ECHO} "1,\$$s%-LIBDIR-%${MACH_BASE}/lib%g"          >> ${.TARGET}
+	@${ECHO} "1,\$$s%-INCLDIR-%${COMMON_DIR}/include%g"    >> ${.TARGET}
+	@${ECHO} "1,\$$s%-STARTUPDIR-%${COMMON_DIR}/startup%g" >> ${.TARGET}
+	@${ECHO} "1,\$$s%-TMPDIR-%${TMP_DIR}%g"                >> ${.TARGET}
 
-_REALWORK: fixenv.sed .USE
-	@${ECHO} "==> Fixing paths for ${ENVFILE} environments"
-. for entry in ${ENVFILE}
-	sed -f ${OBJ_DIR}/fixenv.sed ${.CURDIR}/${entry} > ${OBJ_DIR}/${ENVIRONMENT}/${entry}
-. endfor
-. if "${ENVEXTRA}" != ""
-	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/build
-	cat ${.CURDIR}/${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
-. endif
+.for entry in ${ENVFILE}
+${OBJ_DIR}/${ENVIRONMENT}/${entry}: ${OBJ_DIR}/fixenv.sed ${entry}
+	@${ECHO} "==> Fixing paths for ${WRKDIR}/${entry} environment"
+	sed -f ${OBJ_DIR}/fixenv.sed ${entry} > ${OBJ_DIR}/${ENVIRONMENT}/${entry}
+.endfor
 
-_objdir=	${OBJ_DIR}/${ENVIRONMENT}
+${OBJ_DIR}/${ENVIRONMENT}/_extra: ${OBJ_DIR}/${ENVIRONMENT}/build ${OBJ_DIR}/${ENVIRONMENT}/default
+.if "${ENVEXTRA}" != ""
+	cat ${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/build
+	cat ${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
+.endif
+	@touch ${OBJ_DIR}/${ENVIRONMENT}/_extra
 
 
 
 #
-# Install environment(s).
+# User-facing targets
 #
-_REALINSTALL: .USE
-	@${ECHO} "==> Installing ${ENVFILE} environments"
+
+all:: ${ENVFILE:C/^/${OBJ_DIR}\/${ENVIRONMENT}\//} ${OBJ_DIR}/${ENVIRONMENT}/_extra
+
+
+clean::
+	${REMOVE} ${ENVFILE:C/^/${OBJ_DIR}\/${ENVIRONMENT}\//}
+	${REMOVE} ${OBJ_DIR}/${ENVIRONMENT}/_extra
+
+
+install::
+	@${ECHO} "==> Installing ${WRKDIR}/ ${ENVFILE} environments"
 	${CONDCREATE} "${MACH_BASE}/env" ;
-. for entry in ${ENVFILE}
-	${INSTALL} -m 644 ${.OBJDIR}/${entry} ${MACH_BASE}/env/${entry}
-. endfor
+.for entry in ${ENVFILE}
+	${INSTALL} -m 644 ${OBJ_DIR}/${ENVIRONMENT}/${entry} ${MACH_BASE}/env/${entry}
+.endfor
 
 
 

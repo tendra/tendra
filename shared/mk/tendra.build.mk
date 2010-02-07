@@ -18,9 +18,7 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 .endif
 
 # Real workers, mutually exclusive, follow.
-.if "${ENVFILE}" != ""
-. include <tendra.env.mk>
-.elif "${STARTUPSUBDIR}" != ""
+.if "${STARTUPSUBDIR}" != ""
 . include <tendra.startup.mk>
 .elif "${SYS_FILES}" || "${TDFLIB}" != ""
 . include <tendra.tokdef.mk>

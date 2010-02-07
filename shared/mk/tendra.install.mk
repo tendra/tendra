@@ -15,9 +15,7 @@ _TENDRA_INSTALL_MK_=1
 # At the moment, we have to do all the work here, which is *ugly*.
 
 # Real workers, mutually exclusive, follow.
-.if "${ENVFILE}" != ""
-. include <tendra.env.mk>
-.elif "${STARTUPSUBDIR}" != ""
+.if "${STARTUPSUBDIR}" != ""
 . include <tendra.startup.mk>
 .elif "${MACHSUBDIR}" != ""
 . include <tendra.mach.mk>

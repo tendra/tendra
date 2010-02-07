@@ -1,6 +1,10 @@
 # $Id$
 
+.include "Makefile.inc"
+
+
 ENVFILE=	posix_lib tcc_diag tcc_prof
 ENVEXTRA=	default.extra
 
-.include "Makefile.inc"
+.include <tendra.env.mk>
+
