@@ -1,16 +1,21 @@
 # $Id$
 
-TPLOPTS=	-I${.CURDIR}
-
-INT64a.o: INT64a.j INT64b.j abstract.j
-	${TCC} -c -o ${.TARGET} INT64a.j INT64b.j abstract.j -jtarget_tok -M
-
-CLEAN_EXTRA+=	INT64a.j INT64b.j abstract.j
-
 .include "Makefile.inc"
 
 
-OBJS = INT64a.o
+TPLSRCS=	INT64b.tpl abstract.tpl
+TPLOPTS=	-I${.CURDIR}
+
+.include <tendra.tpl.mk>
+
+
+${OBJ_SDIR}/INT64a.j: INT64a.c
+	${TCC} -Fj ${CFLAGS} ${TCCOPTS} -c -o ${.TARGET} ${.ALLSRC}
+
+${OBJ_SDIR}/INT64a.o: ${OBJ_SDIR}/INT64a.j ${CAPSULES}
+	${TCC} -c -o ${.TARGET} -jtarget_tok -M ${.ALLSRC}
+
+OBJS=	${OBJ_SDIR}/INT64a.o
 
 
 SRCS=	version.c
@@ -21,4 +26,9 @@ SRCS=	version.c
 LIB=	tdf
 
 .include <tendra.lib.mk>
+
+
+
+clean::
+	${REMOVE} ${OBJ_SDIR}/INT64a.o
 
