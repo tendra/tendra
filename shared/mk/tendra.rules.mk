@@ -9,7 +9,7 @@ _TENDRA_RULES_MK_=1
 
 PARTIMP=        ${.IMPSRC:C/^${BASE_DIR}\///1}
 
-.SUFFIXES: .c .cc .sid .j .tpl
+.SUFFIXES: .c .cc .sid .j
 
 .c.j:
 	@${ECHO} "==> Compiling ${PARTIMP}"

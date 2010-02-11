@@ -17,6 +17,23 @@ _TENDRA_WORK_API_MK_=1
 # XXX: assert on APILIB and APIOBJS for target(makeapi)
 
 
+
+#
+# External dependencies
+#
+
+${OBJ_DIR}/${TOKENS_COMMON}/c_toks.j:
+	@cd ${BASE_DIR}/${TOKENS_MACH} && ${MAKE} ${.TARGET}
+
+${OBJ_DIR}/${TOKENS_MACH}/sys.j:
+	@cd ${BASE_DIR}/${TOKENS_MACH} && ${MAKE} ${.TARGET}
+
+
+
+#
+# Rules proper
+#
+
 _objdir=	${OBJ_DIR}/${APIS}
 
 ${_objdir}:
@@ -31,11 +48,28 @@ JOPTS= -Y32bit -I${BASE_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include \
 .endif
 
 # Make tspec-generated paths relative to objdir
+.if "${APIOBJS}" != ""
 APIOBJS:=	${APIOBJS:C/^/${_objdir}\//g}
 APILIB:= 	${APILIB:C/^/${_objdir}\//g}
+.endif
+
+
+# TODO: For the moment, I'm linking sys.j in with each ${API}.tl (per API).
+# However, since sys.j is not specific to each API (rather, it is specific to
+# each producer's language), I think it makes more sense to install this as a
+# separate .tl library, and to have tld explicitly link against it, along with
+# linking against an API. I think this is what was done historically, since
+# lib/machines/README from the 4.1.2 release mentions "This gives a capsule
+# sys.j which defines the producer interface. This capsule is linked into the
+# C producer TDF library, c.tl." Careful to avoid name clashes with APIs;
+# perhaps we should have a directory just for "producer interface" libraries.
+# Is this also used by C++?
+APIOBJS+=	${OBJ_DIR}/${TOKENS_MACH}/sys.j
+
 
 makeapi: ${APILIB}
 
+# built from ${API}.api/Makefile
 ${APILIB}: ${APIOBJS}
 	@${ECHO} "==> Linking ${API} API"
 	${TLD} -mc -o ${APILIB} ${APIOBJS}
@@ -53,8 +87,9 @@ all:: ${_objdir}
 
 
 clean::
-	${REMOVE} ${APILIB} ${APIOBJS} ${APIOBJS:S/.j/.c/} \
-		${_objdir}/building/${API}.api/Makefile
+	@cd ${BASE_DIR}/${TOKENS_MACH} && ${MAKE} clean
+	${REMOVE} ${_objdir}/building/${API}.api/Makefile ${APILIB} \
+		${APIOBJS} ${APIOBJS:S/.j/.c/}
 
 
 # Relative to .OBJDIR.
@@ -76,16 +111,16 @@ install::
 	${CONDCREATE} "${SINSTDIR}"
 .endif
 	${INSTALL} -m 644 ${_objdir}/${API}.tl ${LINSTDIR}
-	@cd ${CAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
-	while read file; do \
-		if ${TEST} -d $${file}; then \
-			${ECHO} ${INSTALL} -m 755 -d ${CINSTDIR}/$${file}; \
-			${INSTALL} -m 755 -d ${CINSTDIR}/$${file} || ${EXIT} $$?; \
-		else \
-			${ECHO} ${INSTALL} -m 644 $${file} ${CINSTDIR}/$${file}; \
-			${INSTALL} -m 644 $${file} ${CINSTDIR}/$${file} || ${EXIT} $$?; \
-		fi; \
-	done
+#	@cd ${CAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
+#	while read file; do \
+#		if ${TEST} -d $${file}; then \
+#			${ECHO} ${INSTALL} -m 755 -d ${CINSTDIR}/$${file}; \
+#			${INSTALL} -m 755 -d ${CINSTDIR}/$${file} || ${EXIT} $$?; \
+#		else \
+#			${ECHO} ${INSTALL} -m 644 $${file} ${CINSTDIR}/$${file}; \
+#			${INSTALL} -m 644 $${file} ${CINSTDIR}/$${file} || ${EXIT} $$?; \
+#		fi; \
+#	done
 	@cd ${HAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
 	while read file; do \
 		if ${TEST} -d $${file}; then \
@@ -96,18 +131,18 @@ install::
 			${INSTALL} -m 644 $${file} ${HINSTDIR}/$${file} || ${EXIT} $$?; \
 		fi; \
 	done
-.if exists(${SAPIDIR}/${API}.api)
-	@cd ${SAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
-	while read file; do \
-		if ${TEST} -d $${file}; then \
-			${ECHO} ${INSTALL} -m 755 -d ${SINSTDIR}/$${file}; \
-			${INSTALL} -m 755 -d ${SINSTDIR}/$${file} || ${EXIT} $$?; \
-		else \
-			${ECHO} ${INSTALL} -m 644 $${file} ${SINSTDIR}/$${file}; \
-			${INSTALL} -m 644 $${file} ${SINSTDIR}/$${file} || ${EXIT} $$?; \
-		fi; \
-	done
-.endif
+#.if exists(${SAPIDIR}/${API}.api)
+#	@cd ${SAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
+#	while read file; do \
+#		if ${TEST} -d $${file}; then \
+#			${ECHO} ${INSTALL} -m 755 -d ${SINSTDIR}/$${file}; \
+#			${INSTALL} -m 755 -d ${SINSTDIR}/$${file} || ${EXIT} $$?; \
+#		else \
+#			${ECHO} ${INSTALL} -m 644 $${file} ${SINSTDIR}/$${file}; \
+#			${INSTALL} -m 644 $${file} ${SINSTDIR}/$${file} || ${EXIT} $$?; \
+#		fi; \
+#	done
+#.endif
 
 
 
