@@ -24,27 +24,12 @@ BUILD_MACHINE=	true
 BUILD_COMMON=	true
 BUILD_OK=	true
 
-# RANDOM BITS 'N PIECES
 
 .if !exists(Makefile.defs)
 .BEGIN:
 	@${ECHO} "Please run 'makedefs' prior to running (b)make"
 	@${ECHO}
 	@${EXIT} 1;
-.else
-all::
-. if !exists(${.CURDIR}/obj/_obj_tree_complete)
-.  if "${_objdirs_done}" != "yes"
-	@${ECHO} "==> Starting TenDRA build..."
-	@${ECHO} "==> Creating object directory and symbolic links"
-	@cd ${BASE_DIR} && ${MAKE} _objdirs_done=yes obj;
-	@${ECHO} "Do not remove this file." > ${OBJ_DIR_INDICATOR};
-	@${ECHO} "==> Object directory created, building"
-	@${ECHO}
-
-_objdirs_done=yes
-.  endif
-. endif
 .endif
 
 .include "Makefile.inc"

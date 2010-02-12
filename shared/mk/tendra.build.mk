@@ -18,45 +18,6 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 .endif
 
 
-# Suppport targets.
-
-# Remove registered garbage.
-clean::
-	@${ECHO} "==> Cleaning ${.CURDIR}"
-.if "${CLEAN_EXTRA}" != ""
-	${REMOVE} ${CLEAN_EXTRA}
-.endif
-
-# Clean objdir blindly.
-cleandir::
-.if "${_objdir}" != ""
-	${REMOVE} -r ${_objdir}/* 2> /dev/null
-.endif
-
-# Remove obj symlink from curdir.
-cleanobj::
-.if "${_objdir}" != ""
-	@if ${TEST} -h ${.CURDIR}/obj ; then \
-		${ECHO} "==> Removing obj link ${WRKDIR}/obj" ; \
-		${REMOVE} ${.CURDIR}/obj ; \
-		${REMOVE} ${OBJ_DIR_INDICATOR} 2> /dev/null ; \
-	fi
-.endif
-
-# Create objdir and its symlink.
-obj::
-.if "${_objdir}" != ""
-. if !exists(${_objdir})
-	@${ECHO} "==> Creating objdir ${_objdir}"
-	@${MKDIR} -p ${_objdir}
-. endif
-. if "${.CURDIR}/obj" != "${_objdir}"
-	@${REMOVE} ${.CURDIR}/obj
-	@${LN} -sf ${_objdir} ${.CURDIR}/obj
-. endif
-.endif
-
-
 # Make sure subdirs are walked after real work is done.
 .ORDER: _REALWORK _SUBDIR
 
