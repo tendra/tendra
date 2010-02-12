@@ -103,7 +103,6 @@ HINSTDIR=${INSTALL_DIR}/lib/include
 CINSTDIR=${INSTALL_DIR}/lib/building
 LINSTDIR=${INSTALL_DIR}/lib
 
-# XXX: not all of these files are required to be installed
 install::
 	@${ECHO} "==> Installing ${API} API"
 	${CONDCREATE} "${HINSTDIR}" "${CINSTDIR}" "${LINSTDIR}"
@@ -111,38 +110,16 @@ install::
 	${CONDCREATE} "${SINSTDIR}"
 .endif
 	${INSTALL} -m 644 ${_objdir}/${API}.tl ${LINSTDIR}
-#	@cd ${CAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
-#	while read file; do \
-#		if ${TEST} -d $${file}; then \
-#			${ECHO} ${INSTALL} -m 755 -d ${CINSTDIR}/$${file}; \
-#			${INSTALL} -m 755 -d ${CINSTDIR}/$${file} || ${EXIT} $$?; \
-#		else \
-#			${ECHO} ${INSTALL} -m 644 $${file} ${CINSTDIR}/$${file}; \
-#			${INSTALL} -m 644 $${file} ${CINSTDIR}/$${file} || ${EXIT} $$?; \
-#		fi; \
-#	done
-	@cd ${HAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
-	while read file; do \
-		if ${TEST} -d $${file}; then \
-			${ECHO} ${INSTALL} -m 755 -d ${HINSTDIR}/$${file}; \
-			${INSTALL} -m 755 -d ${HINSTDIR}/$${file} || ${EXIT} $$?; \
-		else \
-			${ECHO} ${INSTALL} -m 644 $${file} ${HINSTDIR}/$${file}; \
+	@cd ${HAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print |      \
+	while read file; do                                                     \
+		if ${TEST} -d $${file}; then                                        \
+			${ECHO} ${INSTALL} -m 755 -d ${HINSTDIR}/$${file};              \
+			${INSTALL} -m 755 -d ${HINSTDIR}/$${file} || ${EXIT} $$?;       \
+		else                                                                \
+			${ECHO} ${INSTALL} -m 644 $${file} ${HINSTDIR}/$${file};        \
 			${INSTALL} -m 644 $${file} ${HINSTDIR}/$${file} || ${EXIT} $$?; \
-		fi; \
+		fi;                                                                 \
 	done
-#.if exists(${SAPIDIR}/${API}.api)
-#	@cd ${SAPIDIR} && ${FIND} ${API}.api -name '.*' -prune -o -print | \
-#	while read file; do \
-#		if ${TEST} -d $${file}; then \
-#			${ECHO} ${INSTALL} -m 755 -d ${SINSTDIR}/$${file}; \
-#			${INSTALL} -m 755 -d ${SINSTDIR}/$${file} || ${EXIT} $$?; \
-#		else \
-#			${ECHO} ${INSTALL} -m 644 $${file} ${SINSTDIR}/$${file}; \
-#			${INSTALL} -m 644 $${file} ${SINSTDIR}/$${file} || ${EXIT} $$?; \
-#		fi; \
-#	done
-#.endif
 
 
 
