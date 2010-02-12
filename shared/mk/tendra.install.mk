@@ -17,8 +17,6 @@ _TENDRA_INSTALL_MK_=1
 # Real workers, mutually exclusive, follow.
 .if "${MACHSUBDIR}" != ""
 . include <tendra.mach.mk>
-.elif "${TDFLIB}" != ""
-. include <tendra.tokdef.mk>
 .else
 #
 # Nothing to install.
