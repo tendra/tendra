@@ -54,6 +54,13 @@ APILIB:= 	${APILIB:C/^/${_objdir}\//g}
 .endif
 
 
+.for obj in ${APIOBJS}
+${obj}: ${obj:R}.c
+	@${ECHO} "==> Compiling ${API}/${obj:T:R}.c"
+	${TCC} ${TCCOPTS} ${CCOPTS} ${JOPTS} -o ${.TARGET} ${.ALLSRC} -Ymakelib
+.endfor
+
+
 # TODO: For the moment, I'm linking sys.j in with each ${API}.tl (per API).
 # However, since sys.j is not specific to each API (rather, it is specific to
 # each producer's language), I think it makes more sense to install this as a
