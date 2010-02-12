@@ -14,15 +14,6 @@ _TENDRA_INSTALL_MK_=1
 # directory and control should be passed via standard SUBDIR mechanism.
 # At the moment, we have to do all the work here, which is *ugly*.
 
-# Real workers, mutually exclusive, follow.
-.if "${MACHSUBDIR}" != ""
-. include <tendra.mach.mk>
-.else
-#
-# Nothing to install.
-#
-_REALINSTALL: .USE
-.endif
 
 # Install manual pages, if any. See also tendra.build.mk.
 _MANINSTALL: .USE
@@ -34,12 +25,11 @@ _MANINSTALL: .USE
 . endfor
 .endif
 
-# Finally, glue all steps together.
 
 # Make sure subdirs install after we're done.
 .ORDER: _REALINSTALL _MANINSTALL _SUBDIR
 
 # Depending on all not necessary but nice (verify it's not harmful!).
-install:: _REALINSTALL _MANINSTALL
+install:: _MANINSTALL
 
 .endif	# !defined(_TENDRA_INSTALL_MK_)

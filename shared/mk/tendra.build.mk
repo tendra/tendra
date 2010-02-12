@@ -17,16 +17,6 @@ WRKDIR=		${.CURDIR:C/^${BASE_DIR}\///1}
 .MAIN: all
 .endif
 
-# Real workers, mutually exclusive, follow.
-.if "${SYS_FILES}" || "${TDFLIB}" != ""
-. include <tendra.tokdef.mk>
-.else
-#
-# Nothing to do here.
-#
-_REALWORK:
-_objdir=	${OBJ_SDIR}
-.endif
 
 # Suppport targets.
 
@@ -66,9 +56,6 @@ obj::
 . endif
 .endif
 
-# Glue all the steps together.
-
-all:: _REALWORK
 
 # Make sure subdirs are walked after real work is done.
 .ORDER: _REALWORK _SUBDIR
