@@ -56,7 +56,7 @@ MACH_BASE=	${MACH_DIR}/${OSFAM}/${BLDARCH}
 #MACH_BASE=	${MACH_DIR}/${OSFAM}/${MACH_VERS}/${BLDARCH}
 MAN_DIR=	${PREFIX}/man
 OBJ_DIR?=	${BASE_DIR}/obj
-OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
+OBJ_SDIR?=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 TMP_DIR=	/var/tmp
 
 # Do some pretty-printing.

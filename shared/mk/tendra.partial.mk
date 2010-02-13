@@ -37,15 +37,17 @@ OBJS+=	${PARTS:C/^/${OBJ_SDIR}\/_partial\//:C/$/\/_partial.o/}
 # TODO: pass through CFLAGS etc (call these PART_CFLAGS, PART_CCOPTS etc)
 # TODO: directory here is ${OBJ_SDIR}/_partial/installers/80x86/common
 ${OBJ_SDIR}/_partial/${part}/_partial.o:
-	@cd ${BASE_DIR}/${part} && ${MAKE}    \
-	    OBJ_DIR=${OBJ_SDIR}/_partial      \
-	    CFLAGS="${CFLAGS} ${PART_CFLAGS}" \
-	    _partial                          \
+	@cd ${BASE_DIR}/${part} && ${MAKE}        \
+	    OBJ_DIR=${OBJ_SDIR}/_partial          \
+	    OBJ_SDIR=${OBJ_SDIR}/_partial/${part} \
+	    CFLAGS="${CFLAGS} ${PART_CFLAGS}"     \
+	    _partial                              \
 
 clean::
-	@cd ${BASE_DIR}/${part} && ${MAKE}    \
-	    OBJ_DIR=${OBJ_SDIR}/_partial      \
-		clean                             \
+	@cd ${BASE_DIR}/${part} && ${MAKE}        \
+	    OBJ_DIR=${OBJ_SDIR}/_partial          \
+	    OBJ_SDIR=${OBJ_SDIR}/_partial/${part} \
+		clean                                 \
 
 .endfor
 
