@@ -1,7 +1,11 @@
 # $Id$
 
 .if !defined(BASE_DIR)
-BASE_DIR!=	cd ${.CURDIR}/${_BASEDIR_RELATIVE} && pwd
+. if "${_BASEDIR_RELATIVE}" == ""
+BASE_DIR!=	pwd
+. else
+BASE_DIR!=	cd ${_BASEDIR_RELATIVE} && pwd
+. endif
 .endif
 
 .if exists(${BASE_DIR}/Makefile.defs)
