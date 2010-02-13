@@ -23,7 +23,7 @@ _TENDRA_WORK_MACH_MK_=1
 install::
 	@${ECHO} "==> Installing ${WRKDIR} machine directories"
 .for dir in ${MACHSUBDIR}
-	${CONDCREATE} "${MACH_BASE}/${dir}"
+	@${CONDCREATE} "${MACH_BASE}/${dir}"
 .endfor
 	@find ${MACHSUBDIR} -name '.*' -prune -o -print |                        \
 	while read file; do                                                      \

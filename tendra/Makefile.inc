@@ -1,3 +1,5 @@
+# $Id$
+
 .if !defined(BASE_DIR)
 BASE_DIR!=	cd ${.CURDIR}/${_BASEDIR_RELATIVE} && pwd
 .endif
@@ -8,6 +10,5 @@ BASE_DIR!=	cd ${.CURDIR}/${_BASEDIR_RELATIVE} && pwd
 
 .MAKEFLAGS:	-m ${BASE_DIR}/mk -r
 
-.include <tendra.build.mk>
-.include <tendra.install.mk>
 .include <tendra.compiler.mk>
+

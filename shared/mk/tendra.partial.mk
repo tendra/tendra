@@ -6,6 +6,7 @@
 _TENDRA_WORK_PARTIAL_MK_=1
 
 .include <tendra.base.mk>
+.include <tendra.functions.mk>
 
 #
 # This makefile has two modes:
@@ -56,6 +57,7 @@ clean::
 #
 
 ${OBJ_SDIR}/_partial.o: ${OBJS}
+	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Partially linking ${WRKDIR}"
 	${LD} -r -o ${.TARGET} ${OBJS}
 

@@ -6,6 +6,7 @@
 _TENDRA_WORK_TPL_MK_=1
 
 .include <tendra.base.mk>
+.include <tendra.functions.mk>
 
 .if !defined(TPLSRCS)
 .BEGIN:
@@ -18,13 +19,11 @@ _TENDRA_WORK_TPL_MK_=1
 
 CAPSULES+=	${TPLSRCS:S/.tpl/.j/:C/^/${OBJ_SDIR}\//}
 
-${OBJ_SDIR}:
-	${MKDIR} -p ${.TARGET}
-
 .for src in ${TPLSRCS}
-${OBJ_SDIR}/${src:S/.tpl/.j/}: ${OBJ_SDIR} ${src}
+${OBJ_SDIR}/${src:S/.tpl/.j/}: ${src}
+	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${src}"
-	${TPL} ${TPLOPTS} ${src} ${.TARGET}
+	${TPL} ${TPLOPTS} ${.ALLSRC} ${.TARGET}
 .endfor
 
 

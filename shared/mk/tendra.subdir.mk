@@ -25,7 +25,7 @@ _SUBDIR: .USE
 .endif
 
 # Ensure existence of basic targets.
-.for target in obj all clean install
+.for target in all clean install
 ${target}:: _SUBDIR .PHONY
 .endfor
 

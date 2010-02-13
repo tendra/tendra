@@ -19,19 +19,18 @@ _TENDRA_WORK_OBJ_MK_=1
 
 OBJS+=  ${SRCS:S/.cc/.o/:S/.c/.o/:C/^/${OBJ_SDIR}\//}
 
-${OBJ_SDIR}:
-	${MKDIR} -p ${.TARGET}
-
 .for src in ${SRCS:M*.c}
-${OBJ_SDIR}/${src:S/.c/.o/}: ${OBJ_SDIR} ${src}
+${OBJ_SDIR}/${src:S/.c/.o/}: ${src}
+	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Compiling ${WRKDIR}/${src}"
-	${CC} ${CFLAGS} ${CCOPTS} -c ${src} -o ${.TARGET}
+	${CC} ${CFLAGS} ${CCOPTS} -c ${.ALLSRC} -o ${.TARGET}
 .endfor
 
 .for src in ${SRCS:M*.cc}
-${OBJ_SDIR}/${src:S/.cc/.o/}: ${OBJ_SDIR} ${src}
+${OBJ_SDIR}/${src:S/.cc/.o/}: ${src}
+	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Compiling ${WRKDIR}/${src}"
-	${CXX} ${CXXFLAGS} ${CCOPTS} -c ${src} -o ${.TARGET}
+	${CXX} ${CXXFLAGS} ${CCOPTS} -c ${.ALLSRC} -o ${.TARGET}
 .endfor
 
 

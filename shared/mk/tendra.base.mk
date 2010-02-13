@@ -46,7 +46,6 @@
 .if !defined(_TENDRA_BASE_MK_)
 _TENDRA_BASE_MK_=1
 
-.MAKEOVERRIDES:	BASE_DIR
 BASE_DIR?=	${.CURDIR:C/\/(mk|src).*//}
 APIS=		src/lib/apis
 ENVIRONMENT=	src/lib/env
@@ -69,8 +68,8 @@ OBJ_DIR?=	${BASE_DIR}/obj
 OBJ_SDIR=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
 TMP_DIR=	/var/tmp
 
-# If this file exists then the object tree is complete
-OBJ_DIR_INDICATOR=${OBJ_DIR}/_obj_tree_complete
+# Do some pretty-printing.
+WRKDIR=	${.CURDIR:C/^${BASE_DIR}\///1}
 
 # Binary paths
 SHELL=		/bin/sh

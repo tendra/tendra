@@ -22,9 +22,10 @@ _TENDRA_WORK_LIB_MK_=1
 
 
 
-${OBJ_SDIR}/lib${LIB}.a: ${OBJ_SDIR} ${OBJS}
+${OBJ_SDIR}/lib${LIB}.a: ${OBJS}
+	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Archiving ${WRKDIR}/${LIB}"
-	${AR} cr ${.TARGET} ${OBJS}
+	${AR} cr ${.TARGET} ${.ALLSRC}
 	${RANLIB} ${.TARGET}
 
 
@@ -42,7 +43,7 @@ clean::
 
 install:: all
 	@${ECHO} "==> Installing ${WRKDIR}/lib${LIB}"
-	${CONDCREATE} "${COMMON_DIR}/sys"
+	@${CONDCREATE} "${COMMON_DIR}/sys"
 	${INSTALL} -m 755 ${OBJ_SDIR}/lib${LIB}.a ${COMMON_DIR}/sys/lib${LIB}.a
 
 

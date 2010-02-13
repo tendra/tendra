@@ -26,12 +26,14 @@ _TENDRA_WORK_PROG_MK_=1
 MAN=	${PROG}.1
 .endif
 
-${OBJ_SDIR}/${PROG}: ${OBJ_SDIR} ${OBJS} ${LIBS}
+${OBJ_SDIR}/${PROG}: ${OBJS} ${LIBS}
+	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${PROG}"
 	${CC} ${LDOPTS} -o ${.TARGET} ${OBJS} ${LIBS}
 
 .if defined(WRAPPER)
-${OBJ_SDIR}/${WRAPPER}: ${OBJ_SDIR} ${WRAPPER}
+${OBJ_SDIR}/${WRAPPER}: ${WRAPPER}
+	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Adjusting paths for ${WRKDIR}/${WRAPPER}"
 	sed -e 1,\$$s%@@MACH_BASE@@%${MACH_BASE}%g \
 		-e 1,\$$s%@@PREFIX@@%${PREFIX}%g \
@@ -59,7 +61,7 @@ clean::
 
 install:: all
 	@${ECHO} "==> Installing ${WRKDIR}/${PROG}"
-	${CONDCREATE} "${PUBLIC_BIN}" "${MACH_BASE}/bin"
+	@${CONDCREATE} "${PUBLIC_BIN}" "${MACH_BASE}/bin"
 	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${MACH_BASE}/bin/${PROG}
 .if "${WRAPPER}" != ""
 	${INSTALL} -m 755 ${OBJ_SDIR}/${WRAPPER} ${PUBLIC_BIN}/${PROG}

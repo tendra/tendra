@@ -62,7 +62,7 @@ clean::
 
 install::
 	@${ECHO} "==> Installing ${WRKDIR}/ ${ENVFILE} environments"
-	${CONDCREATE} "${MACH_BASE}/env" ;
+	@${CONDCREATE} "${MACH_BASE}/env" ;
 .for entry in ${ENVFILE}
 	${INSTALL} -m 644 ${OBJ_DIR}/${ENVIRONMENT}/${entry} ${MACH_BASE}/env/${entry}
 .endfor
