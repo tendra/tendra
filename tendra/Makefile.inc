@@ -2,7 +2,7 @@
 
 .if !defined(BASE_DIR)
 . if "${_BASEDIR_RELATIVE}" == ""
-BASE_DIR!=	pwd
+BASE_DIR!=	cd ${.CURDIR} && pwd
 . else
 BASE_DIR!=	cd ${_BASEDIR_RELATIVE} && pwd
 . endif
@@ -12,7 +12,8 @@ BASE_DIR!=	cd ${_BASEDIR_RELATIVE} && pwd
 . include "${BASE_DIR}/Makefile.defs"
 .endif
 
-.MAKEFLAGS:	-m ${BASE_DIR}/mk -r
+.MAKEFLAGS:	-m ${BASE_DIR}/mk -m ${BASE_DIR}/mk-local -r
 
 .include <tendra.compiler.mk>
+.include <tendra.srcbase.mk>
 
