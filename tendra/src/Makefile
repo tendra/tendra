@@ -3,7 +3,10 @@
 .include "Makefile.inc"
 
 
-SUBDIR=	shared tools producers installers lib
+SUBDIR=	tools producers installers lib
+
+# See shared/Makefile.inc
+.MAKEFLAGS:	_SHARED_BASEDIR=${.CURDIR}
 
 .include <tendra.subdir.mk>
 
