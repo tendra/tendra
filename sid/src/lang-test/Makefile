@@ -1,17 +1,11 @@
 # $Id$
 
-TARGETS=test-main.o
+.include "Makefile.inc"
 
-REMOVE=rm -f
 
-all: lang-test.a
+SRCS+=	test-main.c
 
-clean:
-	${REMOVE} lang-test.a ${TARGETS}
+.include <tendra.obj.mk>
 
-maintainer-clean:
-
-lang-test.a: ${TARGETS}
-	ar r $@ ${TARGETS}
-	ranlib $@
+.include <tendra.partial.mk>
 

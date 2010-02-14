@@ -1,16 +1,26 @@
 # $Id$
 
-TARGETS=action.o basic.o cstring-list.o entry-list.o entry.o key.o alt.o \
-	name.o non-local.o rstack.o scope.o table.o type.o types.o rule.o item.o
+.include "Makefile.inc"
 
-REMOVE=rm -f
 
-all: adt.a ${TARGETS}
+SRCS+=	action.c
+SRCS+=	basic.c
+SRCS+=	cstring-list.c
+SRCS+=	entry-list.c
+SRCS+=	entry.c
+SRCS+=	key.c
+SRCS+=	alt.c
+SRCS+=	name.c
+SRCS+=	non-local.c
+SRCS+=	rstack.c
+SRCS+=	scope.c
+SRCS+=	table.c
+SRCS+=	type.c
+SRCS+=	types.c
+SRCS+=	rule.c
+SRCS+=	item.c
 
-clean:
-	${REMOVE} adt.a ${TARGETS}
+.include <tendra.obj.mk>
 
-adt.a: ${TARGETS}
-	ar r $@ ${TARGETS}
-	ranlib $@
+.include <tendra.partial.mk>
 

@@ -1,16 +1,18 @@
 # $Id$
 
-TARGETS=rule-check.o rule-firsts.o rule-mutate.o rule-simp.o \
-	rule-factor.o rule-lre.o rule-names.o rule-tail.o
+.include "Makefile.inc"
 
-REMOVE=rm -f
 
-all: rules.a ${TARGETS}
+SRCS+=	rule-check.c
+SRCS+=	rule-firsts.c
+SRCS+=	rule-mutate.c
+SRCS+=	rule-simp.c
+SRCS+=	rule-factor.c
+SRCS+=	rule-lre.c
+SRCS+=	rule-names.c
+SRCS+=	rule-tail.c
 
-clean:
-	${REMOVE} rules.a ${TARGETS}
+.include <tendra.obj.mk>
 
-rules.a: ${TARGETS}
-	ar r $@ ${TARGETS}
-	ranlib $@
+.include <tendra.partial.mk>
 

@@ -1,17 +1,13 @@
 # $Id$
 
-TARGETS=bnf-main.o bnf-output.o bnf-out-info.o
+.include "Makefile.inc"
 
-REMOVE=rm -f
 
-all: lang-bnf.a
+SRCS+=	bnf-main.c
+SRCS+=	bnf-output.c
+SRCS+=	bnf-out-info.c
 
-clean:
-	${REMOVE} lang-bnf.a ${TARGETS}
+.include <tendra.obj.mk>
 
-maintainer-clean:
-
-lang-bnf.a: ${TARGETS}
-	ar r $@ ${TARGETS}
-	ranlib $@
+.include <tendra.partial.mk>
 
