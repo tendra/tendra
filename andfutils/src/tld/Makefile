@@ -1,33 +1,33 @@
 # $Id$
 
-CC?=		cc
-REMOVE?=	rm -f
+.include "Makefile.inc"
 
-EXDSLIBDIR?=	../../../libexds/src
-EXDSINCDIR?=	../../../libexds/include
-SHRDINCDIR?=	../shared
 
-CPPFLAGS+=	-I${EXDSINCDIR} -I${SHRDINCDIR} -I.
-#CFLAGS+=	${CPPFLAGS}  
-LDFLAGS+=	-Ladt -Lfrontend -L${EXDSLIBDIR} -L${SHRDINCDIR}/error  
-LIBS=		-ladt -lfrontend -Wl,-Bstatic -lexds -Wl,-Bdynamic -lerror 
+PARTS+= src/shared/error
+PARTS+= src/shared/xalloc
+PARTS+=	src/tld/adt
+PARTS+=	src/tld/frontend
 
-#TCCOPTS=	-Yansi -Xs # keep for re-integration with tcc
+.include <tendra.partial.mk>
 
-PROG=		tld
-OBJS=		arg-parse.o debug.o file-name.o main.o rename-file.o syntax.o \
-		tdf.o fmt.o adt/capsule.o 
 
-${PROG}: lib-depends ${OBJS}
-	${CC} -o ${PROG} ${LDFLAGS} ${OBJS} ${LIBS}
+CCOPTS+=	-I../shared
+CCOPTS+=	-I.
 
-lib-depends:
-	cd adt && ${MAKE}
-	cd frontend && ${MAKE}
-	cd ${EXDSLIBDIR} && ${MAKE}
+SRCS+=	arg-parse.c
+SRCS+=	debug.c
+SRCS+=	file-name.c
+SRCS+=	fmt.c
+SRCS+=	main.c
+SRCS+=	rename-file.c
+SRCS+=	syntax.c
+SRCS+=	tdf.c
 
-clean:
-	${REMOVE} ${PROG} ${OBJS}
-	cd adt && ${MAKE} clean
-	cd frontend && ${MAKE} clean
-	# cd ${EXDSLIBDIR} && ${MAKE} clean # XXX: clean here as well?
+.include <tendra.obj.mk>
+
+
+PROG=	${.CURDIR:T}
+LIBS=	-lexds
+
+.include <tendra.prog.mk>
+

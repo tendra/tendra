@@ -1,25 +1,16 @@
 # $Id$
 
-AR?=		ar
-CC?=		cc
-RANLIB?=	ranlib
-REMOVE?=	rm -f
+.include "Makefile.inc"
 
-EXDSLIBDIR?=
-EXDSINCDIR?=	../../../../libexds/include
-SHRDINCDIR?=	../../shared
+CCOPTS+=	-I${.CURDIR}/../../shared
+CCOPTS+=	-I${.CURDIR}/..
 
-CPPFLAGS+=	-I${EXDSINCDIR} -I${SHRDINCDIR} -I..
-#CFLAGS+=	${CPPFLAGS} -Lerror
+SRCS+=	builder.c
+SRCS+=	contents.c
+SRCS+=	extract.c
+SRCS+=	linker.c
 
-OBJS=		builder.o contents.o extract.o linker.o
+.include <tendra.obj.mk>
 
-all: libfrontend.a
-
-libfrontend.a: ${OBJS}
-	${AR} r $@ ${OBJS}
-	${RANLIB} $@
-
-clean:
-	${REMOVE} libfrontend.a ${OBJS}
+.include <tendra.partial.mk>
 

@@ -1,26 +1,26 @@
 # $Id$
 
-AR?=		ar
-CC?=		cc
-RANLIB?=	ranlib
-REMOVE?=	rm -f
+.include "Makefile.inc"
 
-EXDSLIBDIR?=
-EXDSINCDIR?=	../../../../libexds/include
-SHRDINCDIR?=	../../shared
+CCOPTS+=	-I${.CURDIR}/../../shared
+CCOPTS+=	-I${.CURDIR}/..
 
-CPPFLAGS+=	-I${EXDSINCDIR} -I${SHRDINCDIR} -I..
-#CFLAGS+=	${CPPFLAGS}
+SRCS+=	arg-data.c
+SRCS+=	map-entry.c
+SRCS+=	name-entry.c
+SRCS+=	name-table.c
+SRCS+=	shape-table.c
+SRCS+=	tdf-write.c
+SRCS+=	unit-table.c
+SRCS+=	capsule.c
+SRCS+=	map-table.c
+SRCS+=	name-key.c
+SRCS+=	shape-entry.c
+SRCS+=	tdf-read.c
+SRCS+=	unit-entry.c
+SRCS+=	library.c
 
-OBJS=		arg-data.o map-entry.o name-entry.o name-table.o shape-table.o \
-		tdf-write.o unit-table.o capsule.o map-table.o name-key.o \
-		shape-entry.o tdf-read.o unit-entry.o library.o
-all: libadt.a
+.include <tendra.obj.mk>
 
-libadt.a: ${OBJS}
-	${AR} r $@ ${OBJS}
-	${RANLIB} $@
-
-clean:
-	${REMOVE} libadt.a ${OBJS}
+.include <tendra.partial.mk>
 
