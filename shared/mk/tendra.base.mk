@@ -46,7 +46,9 @@
 .if !defined(_TENDRA_BASE_MK_)
 _TENDRA_BASE_MK_=1
 
-BASE_DIR?=	${.CURDIR:C/\/(mk|src).*//}
+# Default target
+.MAIN: all
+
 
 PUBLIC_BIN=	${PREFIX}/bin
 INSTALL_DIR=	${PREFIX}/lib/TenDRA
