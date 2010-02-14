@@ -65,7 +65,6 @@
  */
 
 #include "shape-table.h"
-
 #include "solve-cycles.h"
 
 ShapeTableT *

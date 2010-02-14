@@ -66,13 +66,13 @@
  */
 
 #include <stdlib.h>
+#include <errno.h>
+
+#include <exds/common.h>
+#include <exds/error.h>
 
 #include "check/check.h"
-
-#include "exds/common.h"
-#include "exds/error.h"
-
-#include "errors/gen-errors.h"
+#include "error/error.h"
 
 #include "adt/library.h"
 #include "adt/solve-cycles.h"
@@ -89,10 +89,10 @@ extract_main(ArgDataT *arg_data)
     LibraryT * library;
 
     if (extract_all && (num_files > 1)) {
-	E_all_specified_with_capsules();
+	error(ERROR_FATAL,"cannot extract all capsules and named capsules");
 	UNREACHED;
     } else if ((!extract_all) && (num_files == 1)) {
-	E_no_capsules_specified();
+	error(ERROR_FATAL,"no capsules specified to extract");
 	UNREACHED;
     }
     if ((library = library_create_stream_input(files[0])) !=
@@ -107,7 +107,8 @@ extract_main(ArgDataT *arg_data)
 	}
 	library_close(library);
     } else {
-	E_cannot_open_input_file(files[0]);
+	error(ERROR_SERIOUS, "cannot open input file '%s': %s", 
+		files[0], strerror(errno));
     }
     if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
 	exit(EXIT_FAILURE);

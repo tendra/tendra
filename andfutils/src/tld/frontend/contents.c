@@ -66,17 +66,17 @@
  */
 
 #include <stdlib.h>
+#include <errno.h>
+
+#include <exds/common.h>
+#include <exds/error.h>
 
 #include "check/check.h"
-
-#include "errors/gen-errors.h"
+#include "error/error.h"
 
 #include "adt/library.h"
 #include "adt/solve-cycles.h"
 #include "adt/arg-data.h"
-
-#include "exds/common.h"
-#include "exds/error.h"
 
 
 void
@@ -90,7 +90,7 @@ contents_main(ArgDataT *arg_data)
     LibraryT * library;
 
     if (num_files != 1) {
-	E_too_many_library_files();
+	 error(ERROR_FATAL, "too many library files specified (should be one)");
 	UNREACHED;
     }
     if ((library = library_create_stream_input(files[0])) !=
@@ -99,7 +99,8 @@ contents_main(ArgDataT *arg_data)
 			 content_version);
 	library_close(library);
     } else {
-	E_cannot_open_input_file(files[0]);
+	error(ERROR_SERIOUS, "cannot open input file '%s': %s", 
+		files[0], strerror(errno));
     }
     if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
 	exit(EXIT_FAILURE);

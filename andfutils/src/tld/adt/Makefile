@@ -10,7 +10,7 @@ EXDSINCDIR?=	../../../../libexds/include
 SHRDINCDIR?=	../../shared
 
 CPPFLAGS+=	-I${EXDSINCDIR} -I${SHRDINCDIR} -I..
-CFLAGS+=	${CPPFLAGS}
+#CFLAGS+=	${CPPFLAGS}
 
 OBJS=		arg-data.o map-entry.o name-entry.o name-table.o shape-table.o \
 		tdf-write.o unit-table.o capsule.o map-table.o name-key.o \

@@ -68,8 +68,6 @@
 #include "unit-entry.h"
 #include "shape-entry.h"
 #include "solve-cycles.h"
-
-/* from .. */
 #include "debug.h"
 #include "tdf.h"
 

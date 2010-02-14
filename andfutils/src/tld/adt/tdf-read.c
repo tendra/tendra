@@ -67,16 +67,15 @@
 #include <limits.h>
 #include <stdint.h>
 
-#include "check/check.h"
-
-#include "errors/gen-errors.h"
-
-#include "tdf-read.h"
-#include "solve-cycles.h"
-
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>
+
+#include "check/check.h"
+#include "error/error.h"
+
+#include "tdf-read.h"
+#include "solve-cycles.h"
 
 
 ExceptionT *XX_tdf_read_error = EXCEPTION("error reading TDF capsule");
@@ -89,9 +88,10 @@ tdf_read_nibble(TDFReaderT *reader)
 	  case RT_STREAM:
 	    if (bistream_read_byte(& (reader->u.bistream), & (reader->byte))) {
 		reader->new_byte = FALSE;
-		return(((unsigned)reader->byte >> 4) & 0xF);
+		return(((unsigned) reader->byte >> 4) & 0xF);
 	    }
-	    E_unexpected_eof_in_tdf(reader);
+		error(ERROR_SERIOUS, "%s: #%u: unexpected end of file", 
+			tdf_reader_name(reader), tdf_reader_byte(reader));
 	    THROW(XX_tdf_read_error);
 	    UNREACHED;
 	  case RT_STRING:
@@ -99,9 +99,10 @@ tdf_read_nibble(TDFReaderT *reader)
 		reader->byte     = (uint8_t)(*(reader->u.string.current++));
 		reader->new_byte = FALSE;
 		reader->u.string.byte++;
-		return(((unsigned)reader->byte >> 4) & 0xF);
+		return(((unsigned) reader->byte >> 4) & 0xF);
 	    }
-	    E_unexpected_eof_in_tdf(reader);
+	error(ERROR_SERIOUS, "%s: #%u: unexpected end of file", 
+		tdf_reader_name(reader), tdf_reader_byte(reader));
 	    THROW(XX_tdf_read_error);
 	    UNREACHED;
 	}
@@ -171,7 +172,9 @@ tdf_read_int(TDFReaderT *reader)
 	unsigned nibble = tdf_read_nibble(reader);
 
 	if (value > limit) {
-	    E_tdf_integer_too_big_in_tdf(reader);
+		error(ERROR_SERIOUS, "%s: #%u: TDF integer is "
+			"too large for this machine", 
+			tdf_reader_name(reader), tdf_reader_byte(reader));
 	    THROW(XX_tdf_read_error);
 	    UNREACHED;
 	}
@@ -200,14 +203,16 @@ tdf_read_bytes(TDFReaderT *reader,			NStringT *  nstring)
       case RT_STREAM:
 	if (bistream_read_chars(&(reader->u.bistream), length, contents) !=
 	    length) {
-	    E_unexpected_eof_in_tdf(reader);
+	error(ERROR_SERIOUS, "%s: #%u: unexpected end of file", 
+		tdf_reader_name(reader), tdf_reader_byte(reader));
 	    THROW(XX_tdf_read_error);
 	    UNREACHED;
 	}
 	break;
       case RT_STRING:
 	if ((reader->u.string.current + length) > reader->u.string.limit) {
-	    E_unexpected_eof_in_tdf(reader);
+		error(ERROR_SERIOUS, "%s: #%u: unexpected end of file", 
+			tdf_reader_name(reader), tdf_reader_byte(reader));
 	    THROW(XX_tdf_read_error);
 	    UNREACHED;
 	}
@@ -225,7 +230,9 @@ tdf_read_string(TDFReaderT *reader,			 NStringT *  nstring)
     unsigned length;
 
     if (size != 8) {
-	E_unsupported_char_size_in_tdf(reader, size);
+	error(ERROR_SERIOUS, "%s: #%u: string character size %u "
+		"is not supported on this machine", 
+		tdf_reader_name(reader), tdf_reader_byte(reader), size);
 	THROW(XX_tdf_read_error);
 	UNREACHED;
     }
@@ -257,7 +264,8 @@ tdf_read_name(TDFReaderT *reader,		       NameKeyT *  name)
 	}
 	break;
       default:
-	E_bad_name_type_in_tdf(reader, type);
+	error(ERROR_SERIOUS, "%s: #%u: name type %u is unknown", 
+		tdf_reader_name(reader), tdf_reader_byte(reader), type);
 	THROW(XX_tdf_read_error);
 	UNREACHED;
     }
@@ -271,14 +279,16 @@ tdf_read_eof(TDFReaderT *reader)
     switch (reader->type) {
       case RT_STREAM:
 	if (bistream_read_byte(& (reader->u.bistream), &byte)) {
-	    E_expected_eof_in_tdf(reader);
+	error(ERROR_SERIOUS, "%s: #%u: expected end of file", 
+		tdf_reader_name(reader), tdf_reader_byte(reader));
 	    THROW(XX_tdf_read_error);
 	    UNREACHED;
 	}
 	break;
       case RT_STRING:
 	if (reader->u.string.current < reader->u.string.limit) {
-	    E_expected_eof_in_tdf(reader);
+	error(ERROR_SERIOUS, "%s: #%u: expected end of file", 
+		tdf_reader_name(reader), tdf_reader_byte(reader));
 	    THROW(XX_tdf_read_error);
 	    UNREACHED;
 	}

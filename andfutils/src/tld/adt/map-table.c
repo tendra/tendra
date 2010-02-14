@@ -65,7 +65,6 @@
  */
 
 #include "map-table.h"
-
 #include "solve-cycles.h"
 
 MapTableT *

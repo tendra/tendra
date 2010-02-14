@@ -67,14 +67,13 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
-/* from .. */
-#include "debug.h"
+#include <exds/common.h>
+#include <exds/error.h>
 
 #include "check/check.h"
-
-#include "exds/common.h"
-#include "exds/error.h"
+#include "error/error.h"
 
 #include "adt/library.h"
 #include "adt/shape-table.h"
@@ -83,7 +82,7 @@
 #include "adt/capsule.h"
 #include "adt/arg-data.h"
 
-#include "errors/gen-errors.h"
+#include "debug.h"
 
 static LibraryT **
 builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,
@@ -108,7 +107,8 @@ builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,
 	    shape_table_deallocate(lib_shapes);
 	} else {
 	    libraries[i] = NULL;
-	    E_cannot_open_input_file(lib_files[i]);
+		error(ERROR_SERIOUS, "cannot open input file '%s': %s", 
+			lib_files[i], strerror(errno));
 	}
     }
     *num_libs_ref = num_lib_files;
@@ -126,7 +126,9 @@ builder_read_capsule(CapsuleT *capsule, CapsuleT **capsules,
 
     for (i = 0; i < capsule_index; i++) {
 	if (!strcmp(name, capsule_name(capsules[i]))) {
-	    E_duplicate_capsule_name(name);
+	    error(ERROR_SERIOUS, "capsule name '%s' occurs more than "
+		"once in input capsule list", 
+		name);
 	}
     }
     capsule_set_index(capsule, capsule_index);
@@ -184,7 +186,8 @@ builder_read_capsules(ArgDataT *   arg_data,			       UnitTableT * units ,
 				  shapes);
 	    capsule_index++;
 	} else {
-	    E_cannot_open_input_file(input_files[i]);
+		error(ERROR_SERIOUS, "cannot open input file '%s': %s", 
+			input_files[i], strerror(errno));
 	}
     }
     if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {
@@ -261,7 +264,8 @@ builder_write_library(ArgDataT *   arg_data,			       ShapeTableT *shapes ,
 	library_write(library, shapes, num_capsules, capsules);
 	library_close(library);
     } else {
-	E_cannot_open_output_file(output_file);
+	error(ERROR_FATAL, "cannot open output file '%s': %s", 
+		output_file, strerror(errno));
 	UNREACHED;
     }
     if (error_max_reported_severity() >= ERROR_SEVERITY_ERROR) {

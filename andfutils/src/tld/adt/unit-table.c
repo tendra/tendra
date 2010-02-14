@@ -65,7 +65,6 @@
  */
 
 #include "unit-table.h"
-
 #include "solve-cycles.h"
 
 UnitTableT *

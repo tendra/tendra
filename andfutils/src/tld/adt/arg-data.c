@@ -65,13 +65,15 @@
  * command line options that were given to the TDF linker.
  */
 
+#include <errno.h>
+#include <string.h>
+
+#include "error/error.h"
 #include "check/check.h"
 
 #include "arg-data.h"
 #include "capsule.h"
 #include "solve-cycles.h"
-
-#include "errors/gen-errors.h"
 
 
 static void
@@ -110,7 +112,7 @@ shape_control_entry_add_name(ShapeControlEntryT *entry,				      char *         
     if (name_key_parse_cstring(&key, name)) {
 	name_key_list_add(& (entry->names), &key);
     } else {
-	E_illegal_external_name(name);
+	error(ERROR_SERIOUS, "illegal external name '%s'", name);
     }
 }
 
@@ -159,11 +161,13 @@ rename_control_entry_parse_pair(RenameControlEntryT *entry,					 char *         
     NameKeyT to_key;
 
     if (!name_key_parse_cstring(&from_key, from)) {
-	E_illegal_external_name(from);
+	error(ERROR_SERIOUS, "illegal external name '%s'", from);
     } else if (!name_key_parse_cstring(&to_key, to)) {
-	E_illegal_external_name(to);
+	error(ERROR_SERIOUS, "illegal external name '%s'", to);
     } else if (!name_key_pair_list_add(& (entry->names), &from_key, &to_key)) {
-	E_multiply_renamed_name(shape, &from_key);
+	error(ERROR_SERIOUS, "%S '%K' is renamed multiple times",
+		(void *) shape, (void *) &from_key);
+	
 	name_key_destroy(&from_key);
 	name_key_destroy(&to_key);
     }
@@ -327,7 +331,8 @@ arg_data_add_rename(ArgDataT *arg_data,			     NStringT *shape ,
     entry = rename_control_find(& (arg_data->renames), shape);
     names = rename_control_entry_names(entry);
     if (!name_key_pair_list_add(names, from, to)) {
-	E_multiply_renamed_name(shape, from);
+	error(ERROR_SERIOUS, "%S '%K' is renamed multiple times",
+		(void *) shape, (void *) from);
 	name_key_destroy(from);
 	name_key_destroy(to);
     }
@@ -429,11 +434,12 @@ void
 arg_data_set_debug_file(ArgDataT *arg_data,				 char * debug_file)
 {
     if (ostream_is_open(& (arg_data->debug_file))) {
-	E_tld_multiple_debug_files();
+	error(ERROR_FATAL, "more than one debug file specified");
 	UNREACHED;
     }
     if (!ostream_open(& (arg_data->debug_file), debug_file)) {
-	E_tld_cannot_open_debug_file(debug_file);
+	error(ERROR_FATAL, "cannot open debug file '%s': %s", 
+		debug_file, strerror(errno));
 	UNREACHED;
     }
 }
@@ -448,7 +454,7 @@ void
 arg_data_set_output_file(ArgDataT *arg_data,				  char * output_file)
 {
     if (arg_data->output_file) {
-	E_tld_multiple_output_files();
+	error(ERROR_FATAL, "more than one output file specified");
 	UNREACHED;
     }
     arg_data->output_file = output_file;
@@ -531,7 +537,7 @@ void
 arg_data_set_unit_file(ArgDataT *arg_data,				char * unit_file)
 {
     if (arg_data->unit_file) {
-	E_tld_multiple_unit_files();
+	error(ERROR_FATAL, "more than one unit set file specified");
 	UNREACHED;
     }
     arg_data->unit_file = unit_file;

@@ -66,14 +66,12 @@
 
 #include <stdint.h>
 
-#include "tdf-write.h"
-#include "solve-cycles.h"
-
-#include "errors/gen-errors.h"
-
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/ostream.h>
+
+#include "tdf-write.h"
+#include "solve-cycles.h"
 
 
 static void

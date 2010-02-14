@@ -10,7 +10,7 @@ EXDSINCDIR?=	../../../../libexds/include
 SHRDINCDIR?=	../../shared
 
 CPPFLAGS+=	-I${EXDSINCDIR} -I${SHRDINCDIR} -I..
-CFLAGS+=	${CPPFLAGS}
+#CFLAGS+=	${CPPFLAGS} -Lerror
 
 OBJS=		builder.o contents.o extract.o linker.o
 

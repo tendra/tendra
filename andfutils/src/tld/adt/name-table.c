@@ -66,7 +66,6 @@
 
 #include "name-table.h"
 #include "shape-entry.h"
-
 #include "solve-cycles.h"
 
 NameTableT *

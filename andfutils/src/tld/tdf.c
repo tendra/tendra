@@ -64,9 +64,9 @@
  * This file implements various TDF routines used by the TDF linker.
  */
 
-#include "tdf.h"
-
 #include "adt/solve-cycles.h"
+
+#include "tdf.h"
 
 unsigned
 tdf_int_size(unsigned value)

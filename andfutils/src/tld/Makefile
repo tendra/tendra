@@ -8,28 +8,26 @@ EXDSINCDIR?=	../../../libexds/include
 SHRDINCDIR?=	../shared
 
 CPPFLAGS+=	-I${EXDSINCDIR} -I${SHRDINCDIR} -I.
-CFLAGS+=	${CPPFLAGS}
-LDFLAGS+=	-Ladt -Lfrontend -Lerrors -L${EXDSLIBDIR}
-LIBS=		-ladt -lfrontend -lerrors -Wl,-Bstatic -lexds -Wl,-Bdynamic
+#CFLAGS+=	${CPPFLAGS}  
+LDFLAGS+=	-Ladt -Lfrontend -L${EXDSLIBDIR} -L${SHRDINCDIR}/error  
+LIBS=		-ladt -lfrontend -Wl,-Bstatic -lexds -Wl,-Bdynamic -lerror 
 
 #TCCOPTS=	-Yansi -Xs # keep for re-integration with tcc
 
-PROG=		${.CURDIR:T}
+PROG=		tld
 OBJS=		arg-parse.o debug.o file-name.o main.o rename-file.o syntax.o \
-		tdf.o
+		tdf.o fmt.o adt/capsule.o 
 
 ${PROG}: lib-depends ${OBJS}
-	${CC} ${LDFLAGS} -o ${PROG} ${OBJS} ${LIBS}
+	${CC} -o ${PROG} ${LDFLAGS} ${OBJS} ${LIBS}
 
 lib-depends:
-	cd errors && ${MAKE}
 	cd adt && ${MAKE}
 	cd frontend && ${MAKE}
 	cd ${EXDSLIBDIR} && ${MAKE}
 
 clean:
 	${REMOVE} ${PROG} ${OBJS}
-	cd errors && ${MAKE} clean
 	cd adt && ${MAKE} clean
 	cd frontend && ${MAKE} clean
 	# cd ${EXDSLIBDIR} && ${MAKE} clean # XXX: clean here as well?

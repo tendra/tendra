@@ -69,9 +69,10 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "file-name.h"
 #include <exds/common.h>
 #include <exds/cstring.h>
+
+#include "file-name.h"
 
 char *
 file_name_basename(char * path)

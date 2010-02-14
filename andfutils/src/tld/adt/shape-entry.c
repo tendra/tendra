@@ -67,15 +67,12 @@
 
 #include <limits.h>
 
+#include "error/error.h"
 #include "check/check.h"
-
-#include "errors/gen-errors.h"
 
 #include "shape-entry.h"
 #include "unit-table.h"
 #include "solve-cycles.h"
-
-/* from .. */
 #include "debug.h"
 
 ShapeEntryT *
@@ -121,7 +118,7 @@ unsigned
 shape_entry_next_id(ShapeEntryT *entry)
 {
     if (entry->id_count == UINT_MAX) {
-	E_too_many_ids();
+	error(ERROR_FATAL,"too many identifiers for this implementation");
     }
     return(entry->id_count++);
 }

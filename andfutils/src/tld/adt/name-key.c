@@ -74,8 +74,6 @@
 
 #include "name-key.h"
 #include "solve-cycles.h"
-
-/* from .. */
 #include "syntax.h"
 
 

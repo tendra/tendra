@@ -66,27 +66,26 @@
 
 #include <assert.h>
 #include <limits.h>
-
-#include "capsule.h"
-
-#include "check/check.h"
-
-/* from .. */
-#include "debug.h"
-#include "syntax.h"
-#include "tdf.h"
+#include <string.h>
+#include <errno.h>
 
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dstring.h>
 #include <exds/istream.h>
 
-#include "errors/gen-errors.h"
+#include "check/check.h"
+#include "error/error.h"
 
+#include "debug.h"
+#include "syntax.h"
+#include "tdf.h"
+#include "capsule.h"
 #include "name-key.h"
 #include "library.h"
 #include "unit-entry.h"
 #include "solve-cycles.h"
+
 
 typedef struct UnitSetListEntryT {
     struct UnitSetListEntryT   *next;
@@ -183,7 +182,7 @@ capsule_read_unit_set_name(IStreamT *istream,				    DStringT *dstring)
 	}
     } while (syntax_is_white_space(c));
     if (c != '"') {
-	E_unit_set_expected_quote(istream);
+	error(ERROR_FATAL, "Expected double quote to begin unit set name");
 	UNREACHED;
     }
     dstring_init(dstring);
@@ -198,14 +197,18 @@ capsule_read_unit_set_name(IStreamT *istream,				    DStringT *dstring)
 	      case ISTREAM_STAT_NO_CHAR:
 		break;
 	      case ISTREAM_STAT_SYNTAX_ERROR:
-		E_unit_set_illegal_escape(istream);
+		error_posn(ERROR_FATAL, istream_name(istream), 
+			(int) istream_line(istream), 
+			"llegal escape sequence in unit set name");
 		UNREACHED;
 	    }
 	} else {
 	    dstring_append_char(dstring, c);
 	}
     }
-    E_unit_set_eof_in_name(istream);
+	error_posn(ERROR_FATAL, 
+		istream_name(istream), (int) istream_line(istream), 
+		"end of file in unit set name");
     UNREACHED;
 }
 
@@ -231,7 +234,9 @@ capsule_check_unit_sets(IStreamT *istream)
 
 	for (j = 0; j < i; j++) {
 	    if (nstring_equal(name, & (capsule_unit_sets[j].name))) {
-		E_unit_set_duplicate_name(istream_name(istream), name);
+		error(ERROR_FATAL, "%s: unit set name " 
+			"'%S' occurs more than once", 
+			istream_name(istream), (void *) name); 
 		UNREACHED;
 	    }
 	}
@@ -243,7 +248,9 @@ capsule_check_unit_sets(IStreamT *istream)
 	}
     }
     if (!tld_found) {
-	E_unit_set_no_tld_name(istream_name(istream));
+	error(ERROR_FATAL, "%s linker information unit set name 'tld' "
+		"does not occur", 
+		istream_name(istream));
 	UNREACHED;
     }
 }
@@ -328,7 +335,9 @@ capsule_read_header(CapsuleT *capsule)
     nstring_init_length(&magic,(unsigned)4);
     tdf_read_bytes(reader, &magic);
     if (!nstring_equal(&magic, const_magic)) {
-	E_capsule_bad_magic(capsule, &magic, const_magic);
+	error(ERROR_SERIOUS, "%s: #%u: bad magic number '%S' should be '%S'", 
+		capsule_name(capsule), capsule_byte(capsule), 
+		(void *) &magic, (void *) const_magic);
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
@@ -337,14 +346,18 @@ capsule_read_header(CapsuleT *capsule)
     minor = tdf_read_int(reader);
     debug_info_r_versions(major, minor);
     if (major < 4) {
-	E_capsule_bad_version(capsule, major);
+	error(ERROR_SERIOUS, "%s: #%u: illegal major version number %u", 
+		capsule_name(capsule), capsule_byte(capsule), major);
 	THROW(XX_capsule_error);
 	UNREACHED;
     } else if (capsule_major_version == 0) {
 	capsule_major_version = major;
 	capsule_minor_version = minor;
     } else if (capsule_major_version != major) {
-	E_capsule_version_mismatch(capsule, capsule_major_version, major);
+	error(ERROR_SERIOUS, "%s: #%u: major version number mismatch " 
+		"(%u should be %u)", 
+		capsule_name(capsule), capsule_byte(capsule), 
+		capsule_major_version, major);
 	THROW(XX_capsule_error);
 	UNREACHED;
     } else if (capsule_minor_version < minor) {
@@ -379,21 +392,29 @@ capsule_read_unit_set_names(CapsuleT *  capsule,				     UnitTableT *units,
 
 	    for (j = 0; j < i; j++) {
 		if (entry == units_vec[j]) {
-		    E_duplicate_unit_set_name(capsule, &nstring);
+			error(ERROR_SERIOUS, "%s: unit set '%S' "
+				"occurs more than once", 	
+				capsule_name(capsule), (void *) &nstring);
 		    THROW(XX_capsule_error);
 		    UNREACHED;
 		} else if (order < unit_entry_order(units_vec[j])) {
-		    E_out_of_order_unit_set_name(capsule, &nstring);
+			error(ERROR_SERIOUS, "%s:  unit set '%S' "
+				"occurs in wrong order", 	
+				capsule_name(capsule), (void *) &nstring);
 		    THROW(XX_capsule_error);
 		    UNREACHED;
 		}
 	    }
 	    if (entry == tld2_entry) {
-		E_tld2_unit_set_type_obsolete(capsule);
+		error(ERROR_SERIOUS, "%s: #%u: capsule contains 'tld2' "
+			"unit set type which is no longer supported", 
+			capsule_name(capsule), capsule_byte(capsule));
 	    }
 	    if ((entry == tld_entry) || (entry == tld2_entry)) {
 		if (has_tld_unit) {
-		    E_extra_tld_unit_set(capsule);
+			error(ERROR_SERIOUS, "%s: #%u: capsule "
+				"contains both a 'tld' and a 'tld2' unit set", 
+				capsule_name(capsule), capsule_byte(capsule));
 		    THROW(XX_capsule_error);
 		    UNREACHED;
 		}
@@ -401,7 +422,9 @@ capsule_read_unit_set_names(CapsuleT *  capsule,				     UnitTableT *units,
 	    }
 	    units_vec[i] = entry;
 	} else {
-	    E_unknown_unit_set_name(capsule, &nstring);
+		error(ERROR_SERIOUS, "%s: #%u: unit set '%S' is unknown", 
+			capsule_name(capsule), capsule_byte(capsule),
+			(void *) &nstring);
 	    THROW(XX_capsule_error);
 	    UNREACHED;
 	}
@@ -409,7 +432,8 @@ capsule_read_unit_set_names(CapsuleT *  capsule,				     UnitTableT *units,
 	nstring_destroy(&nstring);
     }
     if (!has_tld_unit) {
-	E_missing_tld_unit_set(tdf_reader_name(reader));
+	error(ERROR_WARNING, "capsule '%s' has no linker information unit set", 
+		tdf_reader_name(reader));
     }
     *num_unit_sets_ref = num_unit_sets;
     return(units_vec);
@@ -436,7 +460,9 @@ capsule_read_shapes(CapsuleT *   capsule,			     ShapeTableT *shapes,
 	entry   = shape_table_add(shapes, &nstring);
 	for (j = 0; j < i; j++) {
 	    if (entry == shapes_vec[j].entry) {
-		E_duplicate_shape_name(capsule, &nstring);
+		error(ERROR_SERIOUS, "%s: #%u: shape '%S' occurs more than once", 
+			capsule_name(capsule), capsule_byte(capsule), 
+			(void *) &nstring);
 		THROW(XX_capsule_error);
 		UNREACHED;
 	    }
@@ -476,13 +502,19 @@ capsule_read_external_names_1(CapsuleT *  capsule,				       ShapeDataT *shape,
 
 	tdf_read_name(reader, &name);
 	if (id >= num_ids) {
-	    E_name_id_out_of_range(capsule, key, &name, id, num_ids);
+		error(ERROR_SERIOUS, "%s: #%u: external %S name '%K' "
+			"has out of range identifier %u (greater than %u)", 
+			capsule_name(capsule), capsule_byte(capsule),
+			(void *) key, (void *) &name, id, num_ids);
 	    THROW(XX_capsule_error);
 	    UNREACHED;
 	}
 	name_entry = name_table_add(table, &name, entry);
 	if (id_maps[id]!= UINT_MAX) {
-	    E_name_id_used_multiple_times(capsule, key, &name, id);
+		error(ERROR_SERIOUS, "%s: #%u: external %S name '%K' "
+			"is bound to previously used identifier %u", 
+			capsule_name(capsule), capsule_byte(capsule),
+			(void *) key, (void *) &name, id);
 	    THROW(XX_capsule_error);
 	    UNREACHED;
 	}
@@ -506,7 +538,10 @@ capsule_read_external_names(CapsuleT *  capsule,				     unsigned   num_shapes,
     unsigned   i;
 
     if ((num_names = tdf_read_int(reader)) != num_shapes) {
-	E_shape_and_name_count_mismatch(capsule, num_shapes, num_names);
+	error(ERROR_SERIOUS, "%s: #%u: external name count %u "
+		"does not equal shape count %u", 
+		capsule_name(capsule), capsule_byte(capsule), 
+		num_shapes, num_names);
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
@@ -574,17 +609,26 @@ capsule_read_usage(CapsuleT * capsule,			    NameDataT *entry,
 	NameKeyT *  key        = name_entry_key(name_entry);
 
 	if (use & ~(U_USED | U_DECD | U_DEFD | U_MULT)) {
-	    E_bad_usage(capsule, shape_key, key, use);
+		error(ERROR_SERIOUS, "%s: #%u: external %S '%K' has usage "
+			"%u which has no meaning in this implementation", 
+			capsule_name(capsule), capsule_byte(capsule),
+			(void *) shape_key, (void *) key, use);
 	    THROW(XX_capsule_error);
 	    UNREACHED;
 	} else if (no_mult && (use & U_MULT)) {
-	    E_illegally_multiply_defined(capsule, shape_key, key);
+	error(ERROR_SERIOUS, "%s: #%u: external %S '%K' has the "
+		"multiply defined bit set illegally", 
+		capsule_name(capsule), capsule_byte(capsule),
+		(void *) shape_key, (void *) key);
 	    THROW(XX_capsule_error);
 	    UNREACHED;
 	} else if (need_dec &&
 		  (((use & (U_DEFD | U_DECD)) == U_DEFD) ||
 		   ((use & (U_MULT | U_DECD)) == U_MULT))) {
-	    E_defined_but_not_declared(capsule, shape_key, key);
+		error(ERROR_SERIOUS, "%s: #%u: external %S '%K' "
+			"is defined but not declared", 
+			capsule_name(capsule), capsule_byte(capsule),
+			(void *) shape_key, (void *) key);
 	    THROW(XX_capsule_error);
 	    UNREACHED;
 	}
@@ -592,7 +636,11 @@ capsule_read_usage(CapsuleT * capsule,			    NameDataT *entry,
 	    CapsuleT *definition = name_entry_get_definition(name_entry);
 	    char * prev_name  = capsule_name(definition);
 
-	    E_multiply_defined(capsule, shape_key, key, prev_name);
+	error(ERROR_SERIOUS, "%s: #%u: external %S '%K' is "
+		"defined more than once (previous definition in '%s')", 
+		capsule_name(capsule), capsule_byte(capsule),
+		(void *) shape_key, (void *) key, prev_name);
+
 	} else if ((use & U_MULT) && (name_use & U_MULT) &&
 		  (!(use & U_DEFD)) && (!(name_use & U_DEFD))) {
 	    name_entry_set_definition(name_entry, NULL);
@@ -661,20 +709,26 @@ capsule_read_tld_unit_header(CapsuleT *capsule,				      NStringT *unit_set)
     TDFReaderT *reader = capsule_reader(capsule);
 
     if (tdf_read_int(reader) != 1) {
-	E_too_many_tld_units(capsule);
+	error(ERROR_SERIOUS, "%s: #%u capsule contains wrong number "
+		"of units in linker information unit set (should be one)", 
+		capsule_name(capsule), capsule_byte(capsule));
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
     debug_info_r_start_units(unit_set,(unsigned)1);
     debug_info_r_start_unit(unit_set,(unsigned)1,(unsigned)1);
     if (tdf_read_int(reader) != 0) {
-	E_too_many_tld_unit_counts(capsule);
+	error(ERROR_SERIOUS, "%s: #%u: capsule contains wrong number "
+		"of counts in linker information unit (should be zero)", 
+		capsule_name(capsule), capsule_byte(capsule));
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
     debug_info_r_start_counts((unsigned)0);
     if (tdf_read_int(reader) != 0) {
-	E_too_many_tld_unit_mappings(capsule);
+	error(ERROR_SERIOUS, "%s: #%u: capsule contains wrong number "
+		"of mappings in linker information unit (should be zero)", 
+		capsule_name(capsule), capsule_byte(capsule));
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
@@ -694,7 +748,9 @@ capsule_read_tld_unit_trailer(CapsuleT *capsule)
 
     tdf_read_align(reader);
     if (correct != offset) {
-	E_tld_unit_wrong_size(capsule, correct, offset);
+	error(ERROR_SERIOUS, "%s: #%u: linker information unit contents "
+		"is the wrong size (final offset is %u but should be %u)", 
+		capsule_name(capsule), capsule_byte(capsule), correct, offset);
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
@@ -729,7 +785,10 @@ capsule_read_tld_units(CapsuleT *capsule, ShapeTableT *shapes,
     capsule_read_tld_unit_header(capsule, key);
     unit_type = tdf_read_int(reader);
     if (unit_type >= CAPSULE_TYPE_JUMP_TABLE_SIZE) {
-	E_unknown_tld_unit_type(capsule, unit_type);
+	error(ERROR_SERIOUS, "%s: #%u: linker information unit version number "
+		"%u is not supported in this implementation", 
+		capsule_name(capsule), capsule_byte(capsule), unit_type);
+
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
@@ -745,8 +804,11 @@ capsule_read_unit_counts(CapsuleT *capsule, unsigned num_shapes,
 			 UnitEntryT *unit_entry, UnitT *unit, unsigned unit_num)
 {
     if ((num_counts != 0) && (num_counts != num_shapes)) {
-	E_unit_count_num_mismatch(capsule, num_counts, num_shapes, unit_num,
-				   unit_entry_key(unit_entry));
+	error(ERROR_SERIOUS, "%s: #%u: illegal count number "
+		"%u in %S unit %u (should be 0 or %u)", 
+		capsule_name(capsule), capsule_byte(capsule),
+		num_counts, (void *) unit_entry_key(unit_entry),
+		unit_num, num_shapes);
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
@@ -781,8 +843,11 @@ capsule_read_unit_maps(CapsuleT *capsule, unsigned num_counts,
     unsigned   i;
 
     if (num_link_shapes != num_counts) {
-	E_unit_mapping_num_mismatch(capsule, num_link_shapes, num_counts,
-				     unit_num, unit_entry_key(unit_entry));
+	error(ERROR_SERIOUS, "%s: #%u: illegal mapping number "
+		"%u in %S unit %u (should be %u)", 
+		capsule_name(capsule), capsule_byte(capsule), 
+		num_link_shapes, (void *) unit_entry_key(unit_entry),
+		unit_num, num_counts);
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
@@ -802,8 +867,11 @@ capsule_read_unit_maps(CapsuleT *capsule, unsigned num_counts,
 	    unsigned *id_maps  = shapes_vec[i].id_maps;
 
 	    if (external >= num_ids) {
-		E_id_out_of_range(capsule, external, num_ids, key, unit_num,
-				   unit_entry_key(unit_entry));
+		error(ERROR_SERIOUS, "%s: #%u: %S identifier %u is out of range in "
+			"mapping table of %S unit %u (should be less than %u)", 
+			capsule_name(capsule), capsule_byte(capsule),
+			(void *) key, external,
+			unit_entry_key(unit_entry), unit_num, num_ids);
 		THROW(XX_capsule_error);
 		UNREACHED;
 	    }
@@ -875,7 +943,10 @@ capsule_read_unit_sets(CapsuleT *capsule, unsigned num_unit_sets,
     unsigned   i;
 
     if ((num_units = tdf_read_int(reader)) != num_unit_sets) {
-	E_unit_set_count_mismatch(capsule, num_unit_sets, num_units);
+	error(ERROR_SERIOUS, "%s: #%u: unit count %u does not equal "
+		"unit set count %u", 
+		capsule_name(capsule), capsule_byte(capsule), 
+		num_unit_sets, num_units);
 	THROW(XX_capsule_error);
 	UNREACHED;
     }
@@ -915,7 +986,8 @@ capsule_read_unit_set_file(char * name)
 
     assert(capsule_unit_sets == NULL);
     if (!istream_open(&istream, name)) {
-	E_cannot_open_unit_set_file(name);
+	error(ERROR_FATAL, "cannot open unit set file '%s': %s", 
+		name, strerror(errno));
 	UNREACHED;
     }
     capsule_read_unit_set_file_1(&istream);

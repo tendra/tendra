@@ -68,9 +68,18 @@
  */
 
 #include <stdlib.h>
+#include <errno.h>
+
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/error.h>
+#include <exds/dstring.h>
+#include <exds/istream.h>
 
 #include "check/check.h"
+#include "error/error.h"
 
+#include "adt/name-key.h"
 #include "adt/arg-data.h"
 #include "adt/solve-cycles.h"
 
@@ -79,16 +88,13 @@
 #include "frontend/extract.h"
 #include "frontend/linker.h"
 
-#include <exds/common.h>
-#include <exds/exception.h>
-#include <exds/error.h>
-
-#include "errors/gen-errors.h"
-
 #include "rename-file.h"
 #include "debug.h"
 #include "arg-parse.h"
+#include "fmt.h"
 
+#define PROGNAME "tld"
+#define PROGVER  "4.0#7"
 
 #define USAGE "\
 \tusage:[mode][option ...]file ...\n\
@@ -96,7 +102,7 @@
 \t'-mt'(library table of contents)or '-mx'(extract from library),\n\
 \tand option(for the current mode - default '-ml')is one of:"
 #ifndef VERSION
-#define VERSION "tld version 4.0#7"
+#define VERSION PROGNAME " version " PROGVER
 #endif /* !defined (VERSION) */
 #ifndef RELEASE
 #define RELEASE "LOCAL"
@@ -730,7 +736,6 @@ main_init(int    argc,		   char **argv)
     ArgListT * arg_list      = main_linker_arg_list;
     int       skip;
 
-    error_init(argv[0], gen_errors_init_errors);
     error_intern_strings(main_description_strings);
     argc--;
     argv++;
@@ -764,7 +769,9 @@ main_init(int    argc,		   char **argv)
 	    main_print_version();
 	    goto retry;
 	  default:
-	    E_bad_mode(argv[0][2]);
+		error(ERROR_FATAL, "illegal mode character '%c'; should be "
+			"one of 'c', 'l', 't' or 'x'", 
+		argv[0][2]);
 	    UNREACHED;
 	}
     } else {
@@ -779,7 +786,7 @@ main_init(int    argc,		   char **argv)
 	exit(EXIT_SUCCESS);
 	UNREACHED;
     } else if (argc == 0) {
-	E_missing_files();
+	error(ERROR_FATAL, "no files specified for processing");
 	UNREACHED;
     }
     arg_data_set_files(&main_arg_data, argc, argv);
@@ -791,6 +798,9 @@ main_init(int    argc,		   char **argv)
 int
 main(int    argc,	      char **argv)
 {
+	set_progname(PROGNAME, PROGVER);
+	fmt_init();
+
     HANDLE {
 	istream_setup();
 	ostream_setup();
@@ -812,19 +822,21 @@ main(int    argc,	      char **argv)
 	ExceptionT *exception = EXCEPTION_EXCEPTION();
 
 	if (exception == XX_dalloc_no_memory) {
-	    E_no_memory();
+		error(ERROR_FATAL, "cannot allocate memory");
 	    UNREACHED;
 	} else if ((exception == XX_istream_read_error) ||
 		  (exception == XX_bistream_read_error)) {
 	    char * file = (char *)EXCEPTION_VALUE();
 
-	    E_read_error(file);
+		error(ERROR_FATAL, "error reading from file '%s': %s", 
+			file, strerror(errno));
 	    UNREACHED;
 	} else if ((exception == XX_ostream_write_error) ||
 		  (exception == XX_bostream_write_error)) {
 	    char * file = (char *)EXCEPTION_VALUE();
 
-	    E_write_error(file);
+		error(ERROR_FATAL, "error writing to file '%s': %s", 
+			file, strerror(errno));
 	    UNREACHED;
 	} else {
 	    RETHROW();
