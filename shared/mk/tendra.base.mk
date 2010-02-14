@@ -59,6 +59,7 @@ MACH_BASE=	${MACH_DIR}/${OSFAM}/${BLDARCH}
 MAN_DIR=	${PREFIX}/man
 OBJ_DIR?=	${BASE_DIR}/obj
 OBJ_SDIR?=	${OBJ_DIR}${.CURDIR:C/${BASE_DIR}//}
+OBJ_DDIR?=	${OBJ_DIR}/doc
 TMP_DIR=	/var/tmp
 
 # Do some pretty-printing.
@@ -70,6 +71,8 @@ SHELL=		/bin/sh
 # Keep in alphabetical order
 AR?=		ar
 COPY?=		cp
+DIA?=		dia
+DOT?=		dot
 ECHO?=		echo
 ECHODIR?=	echo
 EXIT?=		exit
@@ -89,5 +92,6 @@ TLD?=		tld
 TNC?=		tnc
 TPL?=		tpl
 TSPEC?=		tspec
+XSLTPROC?=	xsltproc
 
 .endif	# !defined(_TENDRA_BASE_MK_)
