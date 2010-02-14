@@ -32,6 +32,8 @@ SRCS+=	write.c
 
 PROG=	${.CURDIR:T}
 
+.include <tendra.prog.mk>
+
 
 #auto: tdf.c tdf.h check_exp.h
 #
