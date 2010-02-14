@@ -1,18 +1,17 @@
 # $Id$
 
-all:
-	cd doc && ${MAKE} all
-	cd src && ${MAKE} all
+.include "Makefile.inc"
 
-test:
-	cd tests && $(MAKE) test
 
-clean:
-	cd src && ${MAKE} clean
-	cd doc && ${MAKE} clean
+.if !exists(Makefile.defs)
+.BEGIN:
+	@${ECHO} "Please run 'makedefs' prior to running (b)make"
+	@${ECHO}
+	@${EXIT} 1;
+.endif
 
-install:
-	cd src && ${MAKE} install
-	cd doc && ${MAKE} install
-	cd examples && ${MAKE} install
+
+SUBDIR=		src
+
+.include <tendra.subdir.mk>
 

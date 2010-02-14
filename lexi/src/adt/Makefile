@@ -1,19 +1,18 @@
 # $Id$
 
-TARGETS = char.o group.o instruction.o keyword.o tree.o zone.o
+.include "Makefile.inc"
 
-REMOVE = rm -f
-AR = ar
-RANLIB = ranlib
 
-CFLAGS += -I ../shared -I ..
+CCOPTS+=	-I${.CURDIR}/../shared
 
-all: adt.a
+SRCS+=	char.c
+SRCS+=	group.c
+SRCS+=	instruction.c
+SRCS+=	keyword.c
+SRCS+=	tree.c
+SRCS+=	zone.c
 
-clean:
-	${REMOVE} ${TARGETS} adt.a
+.include <tendra.obj.mk>
 
-adt.a: ${TARGETS}
-	${AR} r $@ ${TARGETS}
-	${RANLIB} $@
+.include <tendra.partial.mk>
 

@@ -60,7 +60,7 @@
 #include <assert.h>
 #include <stddef.h>
 
-#include "shared/xalloc/xalloc.h"
+#include "xalloc/xalloc.h"
 
 #include "../adt.h"
 

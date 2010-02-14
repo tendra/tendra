@@ -1,21 +1,14 @@
 # $Id$
 
-TARGETS = dot-output.o
+.include "Makefile.inc"
 
-REMOVE = rm -f
-AR = ar
-RANLIB = ranlib
 
-CFLAGS += -I ../shared -I ..
+CCOPTS+=	-I${.CURDIR}/../shared
+CCOPTS+=	-I${.CURDIR}/..
 
-all: output-dot.a
+SRCS+=	dot-output.c
 
-clean:
-	${REMOVE} ${TARGETS} output-dot.a
+.include <tendra.obj.mk>
 
-output-dot.a: ${TARGETS}
-	${AR} r $@ ${TARGETS}
-	${RANLIB} $@
-
-dot-output.o: dot-output.h
+.include <tendra.partial.mk>
 
