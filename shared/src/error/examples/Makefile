@@ -3,13 +3,8 @@
 all:: efmt
 
 clean::
-	rm efmt efmt.o
+	rm efmt
 
-
-efmt: ../liberror.a efmt.o
-	${CC} -o efmt efmt.o -L.. -lerror
-
-
-../liberror.a:
-	cd .. && ${MAKE} -f makefile.standalone liberror.a
+efmt: efmt.c ../error.c ../fmt.c
+	${CC} -o efmt efmt.c ../error.c ../fmt.c -I..
 

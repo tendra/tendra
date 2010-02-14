@@ -72,8 +72,4 @@ PROG=	calculus
 #
 #obj_c/calculus.o:
 #	cd obj_c && ${MAKE} calculus.o
-#
-#clean:
-#	${REMOVE} ${OBJS} calculus
-#	cd shared && ${MAKE} -f makefile.standalone clean
 
