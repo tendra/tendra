@@ -67,7 +67,7 @@
 #include <stdio.h>
 #include <stddef.h>
 
-#include "shared/check/check.h"
+#include "check/check.h"
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/bistream.h>

@@ -1,16 +1,17 @@
 # $Id$
 
-PREFIX ?= /usr/local
+.include "Makefile.inc"
 
-all:
-	for dir in src include/exds examples; do ( cd $$dir && ${MAKE} all ); done
 
-clean:
-	for dir in src include/exds tests examples; do ( cd $$dir && ${MAKE} clean ); done
+.if !exists(Makefile.defs)
+.BEGIN:
+	@${ECHO} "Please run 'makedefs' prior to running (b)make"
+	@${ECHO}
+	@${EXIT} 1;
+.endif
 
-install:
-	for dir in src include/exds; do ( cd $$dir && ${MAKE} PREFIX=${PREFIX} install ); done
 
-test: all
-	cd tests && ${MAKE} test
+SUBDIR=		src
+
+.include <tendra.subdir.mk>
 
