@@ -49,6 +49,11 @@ _TENDRA_BASE_MK_=1
 # Default target
 .MAIN: all
 
+# Ensure existence of basic targets.
+.for target in all doc clean install
+${target}:: .PHONY
+.endfor
+
 
 PUBLIC_BIN=	${PREFIX}/bin
 INSTALL_DIR=	${PREFIX}/lib/TenDRA
