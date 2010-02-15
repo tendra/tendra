@@ -12,5 +12,5 @@ BASE_DIR!=	cd ${_BASEDIR_RELATIVE} && pwd
 . include "${BASE_DIR}/Makefile.defs"
 .endif
 
-.MAKEFLAGS:	-m ${BASE_DIR}/mk -m ${BASE_DIR}/mk-local -r
+.MAKEFLAGS:	-m ${BASE_DIR}/mk -r
 
