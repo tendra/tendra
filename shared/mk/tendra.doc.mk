@@ -19,8 +19,8 @@ _TENDRA_WORK_DOC_MK_=1
 #
 # Makfile-facing source parameters are:
 #
-#   ${DOC}         - The source document. Typically set to ${.CURDIR:T}
-#   ${DOC_SECTION} - A path for grouping related documents.
+#   ${DOC} - The source document. Typically set to ${.CURDIR:T}
+#   ${MAN} - An optional manpage name and section. For example, "tld.1"
 #
 # Output is chunked into multiple pages if neccessary. Dependencies on images
 # are identified automatically from the document itself.
@@ -30,13 +30,8 @@ _TENDRA_WORK_DOC_MK_=1
 
 
 .if "${MAN}" != ""
-DOC=            ${MAN}
-DOC_SECTION=    man
+DOC=	${MAN}
 .endif # "${MAN}" != ""
-
-.if "${DOC_SECTION}" == ""
-DOC_SECTION=	.
-.endif
 
 . if defined(HTML)
 DOC_EXT=	html
@@ -84,8 +79,8 @@ DOC_CHUNK!=	${XSLTPROC} ${XSLTOPTS} ${XSLT_CHUNK} ${DOC_SRC}
 #
 # (X)HTML output
 #
-${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_INDEX}: ${DOC_SRC}
-	@${CONDCREATE} "${OBJ_DDIR}/${DOC_SECTION}/${DOC}"
+${OBJ_DDIR}/${DOC}/${DOC_INDEX}: ${DOC_SRC}
+	@${CONDCREATE} "${OBJ_DDIR}/${DOC}"
 .if ${DOC_CHUNK}
 	@${ECHO} "==> Transforming ${WRKDIR}/${DOC} (multiple pages)"
 	${XSLTPROC} ${XSLTOPTS} ${XSLTPARAMS} -o ${.TARGET:H}/${DOC_SINGLE} ${XSLT_HTML_SINGLE}  ${.ALLSRC}
@@ -96,8 +91,8 @@ ${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_INDEX}: ${DOC_SRC}
 .endif
 
 .if defined(MAN)
-${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_MAN}: ${DOC_SRC}
-	@${CONDCREATE} "${OBJ_DDIR}/${DOC_SECTION}"
+${OBJ_DDIR}/${DOC}/${DOC_MAN}: ${DOC_SRC}
+	@${CONDCREATE} "${OBJ_DDIR}"
 	@${ECHO} "==> Transforming ${WRKDIR}/${MAN}"
 	${XSLTPROC} ${XSLTOPTS} -o ${.TARGET} ${XSLT_ROFF} ${.ALLSRC}
 .endif
@@ -108,19 +103,19 @@ ${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_MAN}: ${DOC_SRC}
 #
 .for img in ${DOC_IMGDEPS}
 . if exists(${img})
-${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${img}: ${img}
+${OBJ_DDIR}/${DOC}/${img}: ${img}
 	@${ECHO} "==> Copying raster image ${WRKDIR}/${img:T}"
-	@${CONDCREATE} ${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${img:H}
+	@${CONDCREATE} ${OBJ_DDIR}/${DOC}/${img:H}
 	cp ${.ALLSRC} ${.TARGET}
 . elif exists(${img:R}.dia)
-${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${img}: ${img:R}.dia
+${OBJ_DDIR}/${DOC}/${img}: ${img:R}.dia
 	@${ECHO} "==> Rendering vector image ${WRKDIR}/${img:T}"
-	@${CONDCREATE} ${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${img:H}
+	@${CONDCREATE} ${OBJ_DDIR}/${DOC}/${img:H}
 	${DIA} -e ${.TARGET} -t ${img:E} ${.ALLSRC}
 . elif exists(${img:R}.dot)
-${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${img}: ${img:R}.dot
+${OBJ_DDIR}/${DOC}/${img}: ${img:R}.dot
 	@${ECHO} "==> Rendering vector image ${WRKDIR}/${img:T}"
-	@${CONDCREATE} ${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${img:H}
+	@${CONDCREATE} ${OBJ_DDIR}/${DOC}/${img:H}
 	${DOT} -o ${.TARGET} ${.ALLSRC}
 . else
 .BEGIN:
@@ -135,12 +130,12 @@ ${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${img}: ${img:R}.dot
 #
 # TODO: use @${REPLICATE} from functions.mk, find(1) style
 .if !defined(WEBSITE)
-${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_CSS}: ${CSS_DIR}
+${OBJ_DDIR}/${DOC}/${DOC_CSS}: ${CSS_DIR}
 	@${CONDCREATE} "${.TARGET}"
 	@${ECHO} "==> Copying Stylesheets for ${WRKDIR}/${DOC}"
 	cp -rp ${.ALLSRC} ${.TARGET:H}
 
-${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_JS}: ${JS_DIR}
+${OBJ_DDIR}/${DOC}/${DOC_JS}: ${JS_DIR}
 	@${CONDCREATE} "${.TARGET}"
 	@${ECHO} "==> Copying Javascript for ${WRKDIR}/${.ALLSRC:T}"
 	cp -rp ${.ALLSRC} ${.TARGET:H}
@@ -152,19 +147,20 @@ ${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_JS}: ${JS_DIR}
 # User-facing targets
 #
 
-all:: ${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_INDEX} \
-	${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_CSS} \
-	${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_JS}
+all:: ${OBJ_DDIR}/${DOC}/${DOC_INDEX}
+.if !defined(WEBSITE)
+all:: ${OBJ_DDIR}/${DOC}/${DOC_CSS} ${OBJ_DDIR}/${DOC}/${DOC_JS}
+.endif
 .if defined(MAN)
-all:: ${OBJ_DDIR}/${DOC_SECTION}/${DOC}/${DOC_MAN}
+all:: ${OBJ_DDIR}/${DOC}/${DOC_MAN}
 .endif
 .if "${DOC_IMGDEPS}" != ""
-all:: ${DOC_IMGDEPS:C/^/${OBJ_DDIR}\/${DOC_SECTION}\/${DOC}\//}
+all:: ${DOC_IMGDEPS:C/^/${OBJ_DDIR}\/${DOC}\//}
 .endif
 
 
 clean::
-	${REMOVE} -r ${OBJ_DDIR}/${DOC_SECTION}/${DOC}
+	${REMOVE} -r ${OBJ_DDIR}/${DOC}
 
 
 install:: all
