@@ -14,6 +14,5 @@ BASE_DIR!=	cd ${_BASEDIR_RELATIVE} && pwd
 
 .MAKEFLAGS:	-m ${BASE_DIR}/mk -m ${BASE_DIR}/mk-local -r
 
-.include <tendra.compiler.mk>
 .include <tendra.srcbase.mk>
 

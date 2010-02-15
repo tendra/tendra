@@ -7,6 +7,7 @@ _TENDRA_WORK_API_MK_=1
 
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
+.include <tendra.compiler.mk>
 
 .if !defined(API)
 .BEGIN:
