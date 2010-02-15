@@ -27,7 +27,7 @@ TPLSRCS += var_toks.tpl
 .include <tendra.tpl.mk>
 
 
-SRCS=	gen_tokens.c
+SRCS+=	gen_tokens.c
 
 .include <tendra.obj.mk>
 

@@ -4,8 +4,20 @@
 
 
 TCCOPTS=	-Yxpg4 -Xs
-SRCS=		archive.c compile.c environ.c execute.c filename.c flags.c\
-		list.c main.c options.c stages.c startup.c utility.c table.c
+
+SRCS+=	archive.c
+SRCS+=	compile.c
+SRCS+=	environ.c
+SRCS+=	execute.c
+SRCS+=	filename.c
+SRCS+=	flags.c
+SRCS+=	list.c
+SRCS+=	main.c
+SRCS+=	options.c
+SRCS+=	stages.c
+SRCS+=	startup.c
+SRCS+=	utility.c
+SRCS+=	table.c
 
 .include <tendra.obj.mk>
 

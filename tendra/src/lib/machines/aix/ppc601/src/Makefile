@@ -5,11 +5,10 @@ SRC2=	${BASE_DIR}/lib/machines/common/src
 #TCCOPTS=	-Ysystem
 CCOPTS=		-I${SRC2}
 
-SRCS=	dyninit.c
+SRCS+=	dyninit.c
 
 all:: dyninit TDFpower.o
 	./${OBJ_SDIR}/dyninit TDFpower.o
-	@${ECHO} all done
 
 .include "Makefile.inc"
 

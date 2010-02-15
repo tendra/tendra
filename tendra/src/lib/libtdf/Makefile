@@ -15,10 +15,10 @@ ${OBJ_SDIR}/INT64a.j: INT64a.c
 ${OBJ_SDIR}/INT64a.o: ${OBJ_SDIR}/INT64a.j ${CAPSULES}
 	${TCC} -c -o ${.TARGET} -jtarget_tok -M ${.ALLSRC}
 
-OBJS=	${OBJ_SDIR}/INT64a.o
+OBJS+=	${OBJ_SDIR}/INT64a.o
 
 
-SRCS=	version.c
+SRCS+=	version.c
 
 .include <tendra.obj.mk>
 

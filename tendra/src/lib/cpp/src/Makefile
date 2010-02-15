@@ -3,9 +3,24 @@
 .include "Makefile.inc"
 
 
-SRCS=	baseinfo.cc cmath.cc cstring.cc cwchar.cc exception.cc new.cc new1.cc \
-	new2.cc new3.cc new4.cc new5.cc new6.cc new7.cc new8.cc pure.cc \
-	term.cc typeinfo.cc what.cc
+SRCS+=	baseinfo.cc
+SRCS+=	cmath.cc
+SRCS+=	cstring.cc
+SRCS+=	cwchar.cc
+SRCS+=	exception.cc
+SRCS+=	new.cc
+SRCS+=	new1.cc
+SRCS+=	new2.cc
+SRCS+=	new3.cc
+SRCS+=	new4.cc
+SRCS+=	new5.cc
+SRCS+=	new6.cc
+SRCS+=	new7.cc
+SRCS+=	new8.cc
+SRCS+=	pure.cc
+SRCS+=	term.cc
+SRCS+=	typeinfo.cc
+SRCS+=	what.cc
 
 .include <tendra.obj.mk>
 

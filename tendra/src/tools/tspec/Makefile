@@ -33,8 +33,19 @@ API_DIR=${BASE_DIR}/src/lib/apis
 
 TCCOPTS=	-Yposix1 -Xs
 CCOPTS=		-I${BASE_DIR}/${INCLUDE} -I${.CURDIR}
-SRCS=		hash.c index.c lex.c main.c makefile.c name.c object.c print.c\
-		syntax.c type.c utility.c variable.c
+
+SRCS+=	hash.c
+SRCS+=	index.c
+SRCS+=	lex.c
+SRCS+=	main.c
+SRCS+=	makefile.c
+SRCS+=	name.c
+SRCS+=	object.c
+SRCS+=	print.c
+SRCS+=	syntax.c
+SRCS+=	type.c
+SRCS+=	utility.c
+SRCS+=	variable.c
 
 .include <tendra.obj.mk>
 

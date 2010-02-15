@@ -3,7 +3,8 @@
 .include "Makefile.inc"
 
 
-SRCS = error.c fmt.c
+SRCS+=	error.c
+SRCS+=	fmt.c
 
 .include <tendra.obj.mk>
 

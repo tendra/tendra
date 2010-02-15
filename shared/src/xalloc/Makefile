@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SRCS = xalloc.c
+SRCS+=	xalloc.c
 
 .include <tendra.obj.mk>
 

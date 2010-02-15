@@ -9,7 +9,7 @@ CCOPTS+=	-I parse
 CCOPTS+=	-I obj_c
 CCOPTS+=	-I output
 
-SRCS=	main.c
+SRCS+=	main.c
 
 .include <tendra.obj.mk>
 
