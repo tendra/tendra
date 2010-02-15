@@ -17,17 +17,14 @@ _TENDRA_SUBDIR_MK_=1
 
 
 # Proceed to subdirs.
-_SUBDIR: .USE
 .if !empty(SUBDIR)
-. for entry in ${SUBDIR}
+. for target in all doc clean install
+${target}::
+.  for entry in ${SUBDIR}
 	@cd ${.CURDIR}/${entry}; ${MAKE} ${.TARGET}
+.  endfor
 . endfor
 .endif
-
-# Ensure existence of basic targets.
-.for target in all clean install
-${target}:: _SUBDIR .PHONY
-.endfor
 
 
 
