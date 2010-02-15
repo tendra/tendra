@@ -1,8 +1,9 @@
 # $Id$
 
-NAME = diagnostic
+.include "Makefile.inc"
 
-DOCTOOLS_BASE ?= ../../../build
 
-include $(DOCTOOLS_BASE)/docs.mk
+DOC=	${.CURDIR:T}
+
+.include <tendra.doc.mk>
 

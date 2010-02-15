@@ -1,7 +1,10 @@
 # $Id$
 
-SUBDIR = tld tpl
+.include "Makefile.inc"
 
-DOCTOOLS_BASE ?= ../../build
 
-.include "${DOCTOOLS_BASE}/docs.mk"
+SUBDIR+=	tld
+SUBDIR+=	tpl
+
+.include <tendra.subdir.mk>
+

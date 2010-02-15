@@ -1,0 +1,934 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<article>
+  <articleinfo>
+    <title>Style Guide</title>
+
+    <othercredit class="copyeditor">
+      <firstname>Jeroen</firstname>
+      <surname>Ruigrok van der Werven</surname>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
+    <corpauthor>FreeBSD</corpauthor>
+
+    <pubdate>2005</pubdate>
+
+    <copyright>
+      <year>2005</year>
+
+      <holder>The TenDRA Project</holder>
+    </copyright>
+
+	<revhistory>
+		<revision>
+			<date>01 10 2007</date>
+			<revremark>Split off style documentation from the
+				C++ Producer User Guide</revremark>
+			<author><firstname>kate</firstname></author>
+		</revision>
+	</revhistory>
+  </articleinfo>
+
+	<!-- TODO this needs to be less about FreeBSD and more about TenDRA. Also,
+	   - it needs to be more language-neutral; we use more than just C. -->
+
+	<!-- TODO de-OSSG -->
+
+	<!-- TODO mention target platforms, APIs, etc (these are on the website) -->
+
+  <chapter id="introduction">
+    <title>Introduction</title>
+
+  </chapter>
+
+  <chapter id="coding-style">
+    <title>Coding Style</title>
+
+    <programlisting>
+/* Most single-line comments look like this. */</programlisting>
+
+    <programlisting>
+/*
+ * VERY important single-line comments look like this.
+ */</programlisting>
+
+    <programlisting>
+/*
+ * Multi-line comments look like this.  Make them real sentences.  Fill
+ * them so they look like real paragraphs.
+ */</programlisting>
+
+    <para>The copyright header should be a multi-line comment:</para>
+
+    <programlisting>
+/*
+ * Copyright (c) 1984-2025 John Q. Public.  All Rights Reserved.
+ *
+ * Long, boring license goes here, but redacted for brevity
+ */</programlisting>
+
+    <para>After any copyright header, there is a blank line, and the rcsid for
+      source files.  Version control system ID tags should only exist once in
+      a file (unlike in this one).  Non-C/C++ source files follow the example
+      above, while C/C++ source files follow the one below.  All VCS (version
+      control system) revision identification in files obtained from elsewhere
+      should be maintained, including, where applicable, multiple IDs showing
+      a file's history.  In general, do not edit foreign IDs or their
+      infrastructure.  Unless otherwise wrapped (such as #if
+      defined(LIBC_SCCS)), enclose both in #if 0 ...  #endif to hide any
+      uncompilable bits and to keep the IDs out of object files.  Only add
+      From: in front of foreign VCS IDs if the file is renamed.</para>
+
+    <programlisting>
+#if 0
+#ifndef lint
+static char sccsid[] = "@(#)style       1.14 (Berkeley) 4/28/95";
+#endif /* not lint */
+#endif
+
+#include &lt;sys/cdefs.h&gt;
+__FBSDID("$FreeBSD: src/share/man/man9/style.9,v 1.110.2.1 2005/03/01 12:44:49 brueffer Exp $");</programlisting>
+
+    <para>Leave another blank line before the header files.</para>
+
+    <para>Kernel include files (i.e. sys/*.h) come first; normally, include
+      &lt;sys/types.h&gt; OR &lt;sys/param.h&gt; but not both.
+      &lt;sys/types.h&gt; includes &lt;sys/cdefs.h&gt; and it is okay to
+      depend on that.</para>
+
+    <programlisting>
+#include &lt;sys/types.h&gt;  /* Non-local includes in angle brackets. */</programlisting>
+
+    <para>Leave a blank line before the next group, the /usr/include files,
+      which should be sorted alphabetically by name.</para>
+
+     <programlisting>
+#include &lt;stdio.h&gt;</programlisting>
+
+    <para>Global pathnames are defined in &lt;paths.h&gt;.  Pathnames local to
+      the program go in "pathnames.h" in the local directory.</para>
+
+    <programlisting>
+#include &lt;paths.h&gt;</programlisting>
+
+    <para>Leave another blank line before the user include files.</para>
+
+     #include "pathnames.h"          /* Local includes in double quotes. */
+
+    <para>Do not #define or declare names in the implementation namespace
+      except for implementing application interfaces.</para>
+
+    <para>The names of unsafe macros (ones that have side effects), and the
+      names of macros for manifest constants, are all in uppercase.  The
+      expansions of expression-like macros are either a single token or have
+      outer parentheses.  Put a single tab character between the #define and
+      the macro name.  If a macro is an inline expansion of a function, the
+      function name is all in lowercase and the macro has the same name all in
+      uppercase.  Right-justify the backslashes; it makes it easier to read.
+      If the macro encapsulates a compound statement, enclose it in a do loop,
+      so that it can safely be used in if statements.  Any final
+      statement-terminating semicolon should be supplied by the macro
+      invocation rather than the macro, to make parsing easier for
+      pretty-printers and editors.</para>
+
+    <programlisting>
+#define MACRO(x, y) do {                                                \
+        variable = (x) + (y);                                           \
+        (y) += 2;                                                       \
+} while (0)</programlisting>
+
+    <para>When code is conditionally compiled using #ifdef or #if, a comment
+      may be added following the matching #endif or #else to permit the reader
+      to easily discern where conditionally compiled code regions end.  This
+      comment should be used only for (subjectively) long regions, regions
+      greater than 20 lines, or where a series of nested #ifdefs may be
+      confusing to the reader.  Exceptions may be made for cases where code is
+      conditionally not compiled for the purposes of lint(1), even though the
+      uncompiled region may be small.  The comment should be separated from
+      the #endif or #else by a single space.  For short conditionally compiled
+      regions, a closing comment should not be used.</para>
+
+    <para>The comment for #endif should match the expression used in the
+      corresponding #if or #ifdef.  The comment for #else and #elif should
+      match the inverse of the expression(s) used in the preceding #if and/or
+      #elif statements.  In the comments, the subexpression defined(FOO) is
+      abbreviated as FOO.  For the purposes of comments, #ifndef FOO is
+      treated as #if !defined(FOO).</para>
+
+    <programlisting>
+#ifdef KTRACE
+#include &lt;sys/ktrace.h&gt;
+#endif
+
+#ifdef COMPAT_43
+/* A large region here, or other conditional code. */
+#else /* !COMPAT_43 */
+/* Or here. */
+#endif /* COMPAT_43 */
+
+#ifndef COMPAT_43
+/* Yet another large region here, or other conditional code. */
+#else /* COMPAT_43 */
+/* Or here. */
+#endif /* !COMPAT_43 */</programlisting>
+
+    <para>The project is slowly moving to use the ISO/IEC 9899:1999 (ISO
+      C99) unsigned integer identifiers of the form uintXX_t in preference to
+      the older BSD style integer identifiers of the form u_intXX_t.  New code
+      should use the former, and old code should be converted to the new form
+      if other major work is being done in that area and there is no
+      overriding reason to prefer the older BSD style.  Like white space
+      commits, care should be taken in making uintXX_t only commits.</para>
+
+    <para>Enumeration values are all uppercase.</para>
+
+    <programlisting>
+enum enumtype { ONE, TWO } et;</programlisting>
+
+    <para>In declarations, do not put any whitespace between asterisks and
+      adjacent tokens, except for tokens that are identifiers related to
+      types.  (These identifiers are the names of basic types, type
+      qualifiers, and typedef names other than the one being declared.)
+      Separate these identifiers from asterisks using a single space.</para>
+
+    <para>When declaring variables in structures, declare them sorted by use,
+      then by size (largest to smallest), and then in alphabetical order.  The
+      first category normally does not apply, but there are exceptions.  Each
+      one gets its own line.  Try to make the structure readable by aligning
+      the member names using either one or two tabs depending upon your
+      judgment.  You should use one tab only if it suffices to align at least
+      90% of the member names.  Names following extremely long types should be
+      separated by a single space.</para>
+
+    <para>Major structures should be declared at the top of the file in which
+      they are used, or in separate header files if they are used in multiple
+      source files.  Use of the structures should be by separate declarations
+      and should be extern if they are declared in a header file.</para>
+
+    <programlisting>
+struct foo {
+        struct foo      *next;          /* List of active foo. */
+        struct mumble   amumble;        /* Comment for mumble. */
+        int             bar;            /* Try to align the comments. */
+        struct verylongtypename *baz;   /* Won't fit in 2 tabs. */
+};
+struct foo *foohead;                    /* Head of global foo list. */</programlisting>
+
+    <para>Use queue(3) macros rather than rolling your own lists, whenever
+      possible.  Thus, the previous example would be better written:</para>
+
+    <programlisting>
+#include &lt;sys/queue.h&gt;
+
+struct foo {
+        LIST_ENTRY(foo) link;           /* Use queue macros for foo lists. */
+        struct mumble   amumble;        /* Comment for mumble. */
+        int             bar;            /* Try to align the comments. */
+        struct verylongtypename *baz;   /* Won't fit in 2 tabs. */
+};
+LIST_HEAD(, foo) foohead;               /* Head of global foo list. */</programlisting>
+
+    <para>Avoid using typedefs for structure types.  Typedefs are problematic
+      because they do not properly hide their underlying type; for example you
+      need to know if the typedef is the structure itself or a pointer to the
+      structure.  In addition they must be declared exactly once, whereas an
+      incomplete structure type can be mentioned as many times as necessary.
+      Typedefs are difficult to use in stand-alone header files: the header
+      that defines the typedef must be included before the header that uses
+      it, or by the header that uses it (which causes namespace pollution), or
+      there must be a back-door mechanism for obtaining the typedef.</para>
+
+    <para>When convention requires a typedef, make its name match the struct
+      tag.  Avoid typedefs ending in _t, except as specified in Standard C
+      or by POSIX.</para>
+
+    <programlisting>
+/* Make the structure name match the typedef. */
+typedef struct bar {
+        int     level;
+} BAR;
+typedef int             foo;            /* This is foo. */
+typedef const long      baz;            /* This is baz. */</programlisting>
+
+   <para>All functions are prototyped somewhere.</para>
+
+   <para>Function prototypes for private functions (i.e., functions not used
+     elsewhere) go at the top of the first source module.  Functions local
+     to one source module should be declared static.</para>
+
+    <para>Function prototypes should be listed in a logical order, preferably
+      alphabetical unless there is a compelling reason to use a different
+      ordering.</para>
+
+    <para>Functions that are used locally in more than one module go into a
+      separate header file, e.g. "extern.h".</para>
+
+    <para>Do not use the __P macro.</para>
+
+    <para>In general code can be considered new code when it makes up about
+      50% or more of the file(s) involved.  This is enough to break precedents
+      in the existing code and use the current style guidelines.</para>
+
+    <para>In header files visible to userland applications, prototypes that
+      are visible must use either protected names (ones beginning with an
+      underscore) or no names with the types.  It is preferable to use
+      protected names.  E.g., use:</para>
+
+    <programlisting>
+void    function(int);</programlisting>
+
+    <para>or:</para>
+
+    <programlisting>
+void    function(int _fd);</programlisting>
+
+    <para>Prototypes may have an extra space after a tab to enable function
+      names to line up:</para>
+
+    <programlisting>
+static char     *function(int _arg, const char *_arg2, struct foo *_arg3,
+                          struct bar *_arg4);
+static void      usage(void);
+
+/*
+ * All major routines should have a comment briefly describing what
+ * they do.  The comment before the "main" routine should describe
+ * what the program does.
+ */
+int
+main(int argc, char *argv[])
+{
+        char *ep;
+        long num;
+        int ch;</programlisting>
+
+    <para>For consistency, getopt(3) should be used to parse options.  Options
+      should be sorted in the getopt(3) call and the switch statement, unless
+      parts of the switch cascade.  Elements in a switch statement that
+      cascade should have a FALLTHROUGH comment.  Numerical arguments should
+      be checked for accuracy.  Code that cannot be reached should have a
+      NOTREACHED comment.</para>
+
+    <programlisting>
+while ((ch = getopt(argc, argv, "abNn:")) != 1)
+        switch (ch) {           /* Indent the switch. */
+        case a:               /* Don't indent the case. */
+                aflag = 1;
+                /* FALLTHROUGH */
+        case b:
+                bflag = 1;
+                break;
+        case N:
+                Nflag = 1;
+                break;
+        case n:
+                num = strtol(optarg, &amp;ep, 10);
+                if (num &lt;= 0 || *ep != '\0') {
+                        warnx("illegal number, -n argument -- %s",
+                            optarg);
+                        usage();
+                }
+                break;
+        case '?':
+        default:
+                usage();
+                /* NOTREACHED */
+        }
+argc -= optind;
+argv += optind;</programlisting>
+
+    <para>Space after keywords (if, while, for, return, switch).  No braces
+      ({ and }) are used for control statements with zero or only a single
+      statement unless that statement is more than a single line in which case
+      they are permitted.  Forever loops are done with for's, not
+      while's.</para>
+
+    <programlisting>
+for (p = buf; *p != '\0'; ++p)
+        ;       /* nothing */
+for (;;)
+        stmt;
+for (;;) {
+        z = a + really + long + statement + that + needs +
+            two + lines + gets + indented + four + spaces +
+            on + the + second + and + subsequent + lines;
+}
+for (;;) {
+        if (cond)
+                stmt;
+}
+if (val != NULL)
+        val = realloc(val, newsize);</programlisting>
+
+    <para>Parts of a for loop may be left empty.  Do not put declarations
+      inside blocks unless the routine is unusually complicated.</para>
+
+    <programlisting>
+for (; cnt &lt; 15; cnt++) {
+        stmt1;
+        stmt2;
+}</programlisting>
+
+    <para>Indentation is an 8 character tab.  Second level indents are four
+      spaces.  If you have to wrap a long statement, put the operator at the
+      end of the line.</para>
+
+    <programlisting>
+while (cnt &lt; 20 &amp;&amp; this_variable_name_is_too_long &amp;&amp;
+    ep != NULL)
+        z = a + really + long + statement + that + needs +
+            two + lines + gets + indented + four + spaces +
+            on + the + second + and + subsequent + lines;</programlisting>
+
+    <para>Do not add whitespace at the end of a line, and only use tabs
+      followed by spaces to form the indentation.  Do not use more spaces than
+      a tab will produce and do not use spaces in front of tabs.</para>
+
+     <para>Closing and opening braces go on the same line as the else.  Braces
+       that are not necessary may be left out.</para>
+
+    <programlisting>
+if (test)
+        stmt;
+else if (bar) {
+        stmt;
+        stmt;
+} else
+        stmt;</programlisting>
+
+    <para>No spaces after function names.  Commas have a space after them.  No
+      spaces after ( or [ or preceding ] or ) characters.</para>
+
+    <programlisting>
+error = function(a1, a2);
+if (error != 0)
+        exit(error);</programlisting>
+
+    <para>Unary operators do not require spaces, binary operators do.  Do not
+      use parentheses unless they are required for precedence or unless the
+      statement is confusing without them.  Remember that other people may
+      confuse easier than you.  Do YOU understand the following?</para>
+
+    <programlisting>
+a = b-&gt;c[0] + ~d == (e || f) || g &amp;&amp; h ? i : j &gt;&gt; 1;
+k = !(l &amp; FLAGS);</programlisting>
+
+    <para>Exits should be 0 on success, or according to the predefined values
+      in sysexits(3).</para>
+
+    <programlisting>
+        exit(EX_OK);    /*
+                         * Avoid obvious comments such as
+                         * "Exit 0 on success."
+                         */
+}</programlisting>
+
+    <para>The function type should be on a line by itself preceding the
+      function.  The opening brace of the function body should be on a line by
+      itself.</para>
+
+    <programlisting>
+static char *
+function(int a1, int a2, float fl, int a4)
+{</programlisting>
+
+    <para>When declaring variables in functions declare them sorted by size,
+      then in alphabetical order; multiple ones per line are okay.  If a line
+      overflows reuse the type keyword.</para>
+
+     <para>Be careful to not obfuscate the code by initializing variables in
+       the declarations.  Use this feature only thoughtfully.  DO NOT use
+       function calls in initializers.</para>
+
+    <programlisting>
+struct foo one, *two;
+double three;
+int *four, five;
+char *six, seven, eight, nine, ten, eleven, twelve;
+
+four = myfunction();</programlisting>
+
+    <para>Do not declare functions inside other functions; ANSI C says that
+      such declarations have file scope regardless of the nesting of the
+      declaration.  Hiding file declarations in what appears to be a local
+      scope is undesirable and will elicit complaints from a good
+      compiler.</para>
+
+    <para>Casts and sizeof's are not followed by a space.  Note that indent(1)
+      does not understand this rule.  sizeof's are written with parenthesis
+      always.  The redundant parenthesis rules do not apply to sizeof(var)
+      instances.</para>
+
+     <para>NULL is the preferred null pointer constant.  Use NULL instead of
+       (type *)0 or (type *)NULL in contexts where the compiler knows the
+       type, e.g., in assignments.  Use (type *)NULL in other contexts, in
+       particular for all function args.  (Casting is essential for variadic
+       args and is necessary for other args if the function prototype might
+       not be in scope.) Test pointers against NULL, e.g., use:</para>
+
+    <programlisting>
+(p = f()) == NULL</programlisting>
+
+    <para>not:</para>
+
+    <programlisting>
+!(p = f())</programlisting>
+
+    <para>Do not use !! for tests unless it is a boolean, e.g. use:</para>
+
+    <programlisting>
+if (*p == '\0')</programlisting>
+
+    <para>not:</para>
+
+    <programlisting>
+if (!*p)</programlisting>
+
+    <para>Routines returning void * should not have their return values cast
+      to any pointer type.</para>
+
+    <para>Values in rreettuurrnn statements should be enclosed in
+      parentheses.</para>
+
+    <para>Use err(3) or warn(3), do not roll your own.</para>
+
+    <programlisting>
+        if ((four = malloc(sizeof(struct foo))) == NULL)
+                err(1, (char *)NULL);
+        if ((six = (int *)overflow()) == NULL)
+                errx(1, "number overflowed");
+        return (eight);
+}</programlisting>
+
+    <para>Old-style function declarations look like this:</para>
+
+    <programlisting>
+static char *
+function(a1, a2, fl, a4)
+        int a1, a2;     /* Declare ints, too, don't default them. */
+        float fl;       /* Beware double vs. float prototype differences. */
+        int a4;         /* List in order declared. */
+{</programlisting>
+
+    <para>Use ANSI function declarations unless you explicitly need K&amp;R
+      compatibility.  Long parameter lists are wrapped with a normal four
+      space indent.</para>
+
+    <para>Variable numbers of arguments should look like this:</para>
+
+    <programlisting>
+#include &lt;stdarg.h&gt;
+
+void
+vaf(const char *fmt, ...)
+{
+        va_list ap;
+
+        va_start(ap, fmt);
+        STUFF;
+        va_end(ap);
+        /* No return needed for void functions. */
+}
+
+static void
+usage()
+{
+        /* Insert an empty line if the function has no local variables. */</programlisting>
+
+    <para>Use printf(3), not fputs(3), puts(3), putchar(3), whatever; it is
+      faster and usually cleaner, not to mention avoiding stupid bugs.</para>
+
+    <para>Usage statements should look like the manual pages SYNOPSIS.  The
+      usage statement should be structured in the following order:</para>
+
+    <itemizedlist>
+      <listitem>Options without operands come first, in alphabetical order,
+        inside a single set of brackets ([ and ]).</listitem>
+
+      <listitem>Options with operands come next, also in alphabetical order,
+        with each option and its argument inside its own pair of
+        brackets.</listitem>
+
+      <listitem>Required arguments (if any) are next, listed in the order they
+        should be specified on the command line.</listitem>
+
+      <listitem>Finally, any optional arguments should be listed, listed in
+        the order they should be specified, and all inside
+        brackets.</listitem>
+    </itemizedlist>
+
+    <para>A bar (|) separates either - or options/arguments, and multiple
+      options/arguments which are specified together are placed in a single
+      set of brackets.</para>
+
+    <programlisting>
+    "usage: f [-aDde] [-b b_arg] [-m m_arg] req1 req2 [opt1 [opt2]]\n"
+    "usage: f [-a | -b] [-c [-dEe] [-n number]]\n"
+
+        (void)fprintf(stderr, "usage: f [-ab]\n");
+        exit(EX_USAGE);
+}</programlisting>
+
+    <para>Note that the manual page options description should list the
+      options in pure alphabetical order.  That is, without regard to whether
+      an option takes arguments or not.  The alphabetical ordering should take
+      into account the case ordering shown above.</para>
+
+    <para>Stylistic changes (including whitespace changes) are hard on the
+      source repository and are to be avoided without good reason.  Code that
+      is approximately FreeBSD KNF style compliant in the repository must not
+      diverge from compliance.</para>
+
+    <para>Whenever possible, code should be run through a code checker (e.g.,
+      lint(1) or gcc Wall) and produce minimal warnings.</para>
+
+    <para>All makefiles should have an SCM ID at the start of the file,
+      followed by a blank line.</para>
+
+    <programlisting>
+# $FreeBSD$</programlisting>
+
+    <para>.PATH: comes next if needed, and is spelled .PATH: , with a single
+      ASCII space after a colon.  Do not use the VPATH variable.</para>
+
+    <para>Special variables (i.e., LIB, SRCS, MLINKS, etc.) are listed in
+      order of product, then building and installing a binary.  Special
+      variables may also be listed in build order: i.e., ones for the primary
+      program (or library) first.  The general product order is:
+      PROG/[SH]LIB/SCRIPTS FILES LINKS [NO]MAN MLINKS INCS SRCS WARNS CFLAGS
+      DPADD LDADD.  The general build order is: PROG/[SH]LIB/SCRIPTS SRCS
+      WARNS CFLAGS DPADD LDADD INCS FILES LINKS [NO]MAN MLINKS.</para>
+
+    <para>Omit SRCS when using &lt;bsd.prog.mk&gt; and there is a single
+      source file named the same as the PROG.</para>
+
+
+    <para>Omit MAN when using &lt;bsd.prog.mk&gt; and the manual page is
+      named the same as the PROG, and is in section 1.</para>
+
+
+    <para>All variable assignments are spelled VAR==, i.e., no space between
+      the variable name and the ==.  Keep values sorted alphabetically, if
+      possible.</para>
+
+    <para>Do not use ++== to set variables that are only set once (or to set
+      variables for the first time).</para>
+
+    <para>Do not use vertical whitespace in simple makefiles, but do use it to
+      group locally related things in more complex/longer ones.</para>
+
+    <para>WARNS comes before CFLAGS, as it is basically a CFLAGS modifier.  It
+      comes before CFLAGS rather than after CFLAGS so it does not get lost in
+      a sea of CFLAGS statements as WARNS is an important thing.  The usage of
+      WARNS is spelled WARNS?= , so that it may be overridden on the command
+      line or in /etc/make.conf.</para>
+
+    <para>NO_WERROR= yes should not be used, it defeats the purpose of WARNS.
+      It should only be used on the command line and in special circum
+      stances.</para>
+
+    <para>CFLAGS is spelled CFLAGS+= .</para>
+
+    <para>Listing D's before I's in CFLAGS is preferred for alphabetical
+      ordering and to make D's easier to see.  The D's often affect
+      conditional compilation, and I's tend to be quite long.  Split long
+      CFLAGS settings between the D's and I's.</para>
+
+    <para>Do not use GCCisms (such as g and Wall) in CFLAGS.</para>
+
+    <para>Typically, there is one ASCII tab between VAR== and the value in
+      order to start the value in column 9.  An ASCII space is allowed for
+      variable names that extend beyond column 9.  A lack of whitespace is
+      also allowed for very long variable names.</para>
+
+    <para>.include &lt;bsd.*.mk&gt; goes last.</para>
+
+    <para>Do not use anachronisms like $&lt; and $@.  Instead use ${.IMPSRC}
+      or ${.ALLSRC} and ${.TARGET}.</para>
+
+    <para>The desire to express a logical grouping often means not obeying
+      some of the above.</para>
+
+    <para>The simplest program Makefile is:</para>
+
+    <programlisting>
+# $FreeBSD$
+
+PROG=   foo
+
+.include &lt;bsd.prog.mk&gt;</programlisting>
+
+    <para>The simplest library Makefile is:</para>
+
+    <programlisting>
+# $FreeBSD$
+
+LIB=    foo
+SHLIB_MAJOR= 1
+MAN=    libfoo.3
+SRCS=   foo.c
+
+.include &lt;bsd.lib.mk&gt;</programlisting>
+  </chapter>
+
+  <chapter>
+    <title>Source code organisation</title>
+  <para>
+  This section describes the basic organisation of the source code for
+  the C++ producer.  This includes the coding conventions applied, the
+  application programming interface (API) observed and the division
+  of the code into separate modules.
+  </para>
+
+
+  <section id="language">
+    <title>C coding standard</title>
+  <para>
+  The C++ producer is written in a subset of C which is compatible with
+  C++ (it compiles with most C compilers, but also bootstraps itself).
+  It has been written to conform to the local (OSSG)
+  <A HREF="index.html#cstyle">C coding standard</A>; most of the conformance
+  checking being automated by use of a
+  <A HREF="pragma.html#usr">user-defined compilation profile</A>,
+  <code>ossg_std.h</code>.  The standard macros described in the coding
+  standard are defined in the standard header <code>ossg.h</code>. This
+  is included from the header <code>config.h</code> which is included
+  by all source files.  The default definitions for these macros, set
+  according to the value of <code>__STDC__</code> and other compiler-defined
+  macros, should be correct, but they can be overridden by defining
+  the <code>FS_*</code> macros, described in the header, as command-line
+  options.
+  </para>
+  <para>
+  The most important of these macros are those used to handle function
+  prototypes, enabling both ISO and pre-ISO C compilers to be accommodated.
+  Simple function definitions take the form:
+  <programlisting language="C++">
+ret function
+    PROTO_N ( ( p1, p2, ...., pn ) )
+    PROTO_T ( par1 p1 X par2 p2 X .... X parn pn )
+{
+    ....
+}</programlisting>
+  with the <code>PROTO_N</code> macro being used to list the parameter
+  names (note the double bracket) and the <code>PROTO_T</code> macro
+  being used to list the parameter types using <code>X</code> (cartesian
+  product) as a separator.  The corresponding function declaration will
+  have the form:
+  <programlisting language="C++">
+ret function PROTO_S ( ( par1, par2, ...., parn ) ) ;</programlisting>
+  The case where there are no parameter types is defined using:
+  <programlisting language="C++">
+ret function
+    PROTO_Z ()
+{
+    ....
+}</programlisting>
+  and declared as:
+  <programlisting language="C++">
+ret function PROTO_S ( ( void ) ) ;</programlisting>
+  Functions with ellipses are defined using:
+  <programlisting language="C++">
+#if FS_STDARG
+#include &lt;stdarg.h&gt;
+#else
+#include &lt;varargs.h&gt;
+#endif
+
+ret function
+    PROTO_V ( ( par1 p1, par2 p2, ...., parn pn, ... ) )
+{
+    va_list args ;
+    ....
+#if FS_STDARG
+    va_start ( args, pn ) ;
+#else
+    par1 p1 ;
+    par2 p2 ;
+    ....
+    parn pn ;
+    va_start ( args ) ;
+    p1 = va_arg ( args, par1 ) ;
+    p2 = va_arg ( args, par2 ) ;
+    ....
+    pn = va_arg ( args, parn ) ;
+#endif
+    ....
+    va_end ( args ) ;
+    ....
+}</programlisting>
+  and declared as:
+  <programlisting language="C++">
+ret function PROTO_W ( ( par1, par2, ...., parn, ... ) ) ;</programlisting>
+  Note that <code>&lt;varargs.h&gt;</code> does not allow for parameters
+  preceding the <code>va_alist</code>, so the fixed parameters need
+  to be explicitly assigned from <code>args</code>.
+  </para>
+  <para>
+  The following <A HREF="pragma.html#keyword">TenDRA keywords</A> are
+  defined (with suitable default values for non-TenDRA compilers):
+  <programlisting language="C++">
+#pragma TenDRA keyword SET for set
+#pragma TenDRA keyword UNUSED for discard variable
+#pragma TenDRA keyword IGNORE for discard value
+#pragma TenDRA keyword EXHAUSTIVE for exhaustive
+#pragma TenDRA keyword REACHED for set reachable
+#pragma TenDRA keyword UNREACHED for set unreachable
+#pragma TenDRA keyword FALL_THROUGH for fall into case</programlisting>
+  </para>
+  <para>
+  Various flags giving properties of the compiler being used are defined
+  in <code>ossg.h</code>.  Among the most useful are <code>FS_STDARG</code>,
+  which is true if the compiler supports ellipsis functions (see above),
+  and <code>FS_STDC_HASH</code>, which is true if the preprocessor supports
+  the ISO stringising and concatenation operators.  The macros
+  <code>CONST</code> and <code>VOLATILE</code>, to be used in place
+  of
+  <code>const</code> and <code>volatile</code>, are also defined.
+  </para>
+  <para>
+  A policy of rigorous static program checking is enforced.  The TenDRA
+  C producer is applied with the user-defined compilation mode
+  <code>ossg_std.h</code> and intermodule checks enabled.  Checking
+  is applied with both the C and <code>#pragma token</code>
+  <A HREF="../utilities/calc.html"><code>calculus</code> output files</A>.
+  The C++ producer itself is applied with the same checks.  <code>gcc
+  -Wall</code> and various versions of <code>lint</code> are also periodically
+  applied.
+  </para>
+  </section>
+
+  <section id="api">
+    <title>API usage and target dependencies</title>
+  <para>
+  Most of the API features used in the C++ producer are to be found
+  in the ISO C API, with just a couple of extensions from POSIX required.
+  These POSIX features can be disabled with minimal loss of functionality
+  by defining the macro <code>FS_POSIX</code> to be false.
+  </para>
+  <para>
+  The following features are used from the ISO <code>&lt;stdio.h&gt;</code>
+  header:
+	<!-- TODO some sort of compound list -->
+  <programlisting>
+BUFSIZ		EOF		FILE		SEEK_SET
+fclose		fflush		fgetc		fgets
+fopen		fprintf		fputc		fputs
+fread		fseek		fwrite		rewind
+sprintf		stderr		stdin		stdout
+vfprintf</programlisting>
+  from the ISO <code>&lt;stdlib.h&gt;</code> header:
+  <programlisting>
+EXIT_SUCCESS	EXIT_FAILURE	NULL		abort
+exit		free		malloc		realloc
+size_t</programlisting>
+  and from the ISO <code>&lt;string.h&gt;</code> header:
+  <programlisting>
+memcmp		memcpy		strchr		strcmp
+strcpy		strlen		strncmp		strrchr</programlisting>
+  The three headers just mentioned are included in all source files
+  via the
+  <code>ossg_api.h</code> header file (included by <code>config.h</code>).
+  The remaining headers are only included as and when they are needed.
+  The following features are used from the ISO <code>&lt;ctype.h&gt;</code>
+  header:
+  <programlisting>
+isalpha		isprint</programlisting>
+  from the ISO <code>&lt;limits.h&gt;</code> header:
+  <programlisting>
+UCHAR_MAX	UINT_MAX	ULONG_MAX</programlisting>
+  from the ISO <code>&lt;stdarg.h&gt;</code> header:
+  <programlisting>
+va_arg		va_end		va_list		va_start</programlisting>
+  (note that if <code>FS_STDARG</code> is false the XPG3
+  <code>&lt;varargs.h&gt;</code> header is used instead); and from the
+  ISO
+  <code>&lt;time.h&gt;</code> header:
+  <programlisting>
+localtime	time		time_t		struct tm
+tm::tm_hour	tm::tm_mday	tm::tm_min	tm::tm_mon
+tm::tm_sec	tm::tm_year</programlisting>
+  The following features are used from the POSIX
+  <code>&lt;sys/stat.h&gt;</code> header:
+  <programlisting>
+stat		struct stat	stat::st_dev	stat::st_ino
+stat::st_mtime</programlisting>
+  The <code>&lt;sys/types.h&gt;</code> header is also included to provide
+  the necessary types for <code>&lt;sys/stat.h&gt;</code>.
+  </para>
+  <para>
+  There are a couple of target dependencies in the producer which can
+  overridden using command-line options:
+  <itemizedlist>
+  <listitem>It assumes that if a count of the number of characters read from
+  an input file is maintained, then that count value can be used as
+  an argument to <code>fseek</code>.  This may not be true on machines
+  where the end of line marker consists of both a newline and a carriage
+  return.  In this case the <code>-m-f</code> command-line option can
+  be used to switch to a slower, but more portable, algorithm for setting
+  file positions.
+  </listitem>
+  <listitem>It assumes that a file is uniquely determined by the
+  <code>st_dev</code> and <code>st_ino</code> fields of its corresponding
+  <code>stat</code> value.  This is used when processing
+  <code>#include</code> directives to prevent a file being read more
+  than once if this is not necessary.  This assumption may not be true
+  on machines with a small <code>ino_t</code> type which have file systems
+  mounted from machines with a larger <code>ino_t</code> type.  In this
+  case the <code>-m-i</code> command-line option can be used to disable
+  this check.
+  </listitem>
+  </itemizedlist>
+  </para>
+  </section>
+  </chapter>
+
+  <chapter>
+    <title>TDF generation</title>
+  <para>
+  The TDF encoding as a bitstream is expressed as a series of macros
+  generated by the <code>make_tdf</code> tool from the TDF specification
+  database.  Note that the version of the TDF database used contains
+  a couple of corrections from the standard version:
+  <itemizedlist>
+  <listitem>A construct <code>make_token_def</code> has been added to represent
+  a     token definition.
+  </listitem>
+  <listitem>The sort <code>diag_tag</code> has been added to the edge constructors.
+  </listitem>
+  </itemizedlist>
+  The macros generated only handle the encoding of the construct - the
+  construct parameters need to be encoded by hand (the C producer does
+  something similar, but including the construct parameters).  For example,
+  <code>make_tdf</code> generates a macro:
+  <programlisting language="C++">
+void ENC_plus ( BITSTREAM * ) ;</programlisting>
+  which encodes the <code>plus</code> construct (91 as 7 bits in extended
+  format).  A typical use of this macro, for adding the expressions
+  <code>a</code> and <code>b</code> would be:
+  <programlisting language="C++">
+ENC_plus ( bs ) ;
+ENC_impossible ( bs ) ;
+bs = enc_exp ( bs, a ) ;
+bs = enc_exp ( bs, b ) ;</programlisting>
+  </para>
+  <para>
+  Each function or variable is compiled to TDF as its definition is
+  encountered.  For some definitions, such as inline functions, the
+  compilation may be deferred until it is clear whether or not the identifier
+  has been used.  There is a final pass over all identifiers during
+  the variable analysis routines which incorporates this check. Because
+  of the organisation of a TDF capsule it is necessary to store all
+  of the compiled TDF in memory until the end of the program, when the
+  complete capsule, including external tag and token names and linkage
+  information, is written to the output file.
+  </para>
+  </chapter>
+</article>
+

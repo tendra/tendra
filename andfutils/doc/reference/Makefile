@@ -1,7 +1,12 @@
 # $Id$
 
-SUBDIR = diagnostic guide register specification
+.include "Makefile.inc"
 
-DOCTOOLS_BASE ?= ../../build
 
-.include "${DOCTOOLS_BASE}/docs.mk"
+SUBDIR+=	diagnostic
+SUBDIR+=	guide
+SUBDIR+=	register
+SUBDIR+=	specification
+
+.include <tendra.subdir.mk>
+

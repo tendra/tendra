@@ -1,7 +1,13 @@
 # $Id$
 
-SUBDIR = devguides man reference userguides
+.include "Makefile.inc"
 
-DOCTOOLS_BASE ?= ../build
 
-.include "${DOCTOOLS_BASE}/docs.mk"
+#SUBDIR+=	changelog
+SUBDIR+=	devguides
+SUBDIR+=	man
+SUBDIR+=	reference
+SUBDIR+=	userguides
+
+.include <tendra.subdir.mk>
+

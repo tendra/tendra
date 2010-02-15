@@ -1,9 +1,15 @@
 # $Id$
 
-DOCTOOLS_BASE ?= ../../build
+.include "Makefile.inc"
 
-SUBDIR = disp.1 make_tdf.1 make_tdf.5 tld.1 tld.5 tnc.1 tpl.1
 
-DOCTOOLS_BASE ?= ../../build
+SUBDIR+=	disp.1
+SUBDIR+=	make_tdf.1
+SUBDIR+=	make_tdf.5
+SUBDIR+=	tld.1
+SUBDIR+=	tld.5
+SUBDIR+=	tnc.1
+SUBDIR+=	tpl.1
 
-.include "${DOCTOOLS_BASE}/docs.mk"
+.include <tendra.subdir.mk>
+

@@ -1,0 +1,1686 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+    
+<book xmlns:dt="http://xml.water-powered.com/docs">
+  <bookinfo>
+    <title>tspec - An API Specification Tool</title>
+
+    <othercredit class="copyeditor">
+      <firstname>Katherine</firstname>
+      <surname>Flavel</surname>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
+    <othercredit class="copyeditor">
+      <firstname>Jeroen</firstname>
+      <surname>Ruigrok van der Werven</surname>
+      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+    </othercredit>
+    <corpauthor>DERA</corpauthor>
+
+    <pubdate>2004</pubdate>
+
+    <copyright>
+      <year>2004</year>
+      <year>2005</year>
+
+      <holder>The TenDRA Project</holder>
+    </copyright>
+
+    <copyright>
+      <year>1998</year>
+
+      <holder>DERA</holder>
+    </copyright>
+  </bookinfo>
+  
+  <chapter id="Intro">
+    <title>Introduction</title>
+
+      <para>As explained in reference 1, TDF may be regarded as an abstract
+        target machine which can be used to facilitate the separation of
+        target independent and target dependent code which characterises
+        portable programs. An important aspect of this separation is the
+        Application Programming Interface, or API, of the program. Just as,
+        for a conventional machine, the API needs to be implemented on that
+        machine before the program can be ported to it, so for that program to
+        be ported to the abstract TDF machine, an "abstract implementation" of
+        the API needs to be provided.</para>
+    
+      <para>But of course, an "abstract implementation" is precisely what is
+        provided by the API specification - it is an abstraction of all the
+        possible API implementations. Therefore the TDF representation of an
+        API must reflect the API specification. As a consequence, compiling a
+        program to the abstract TDF machine is to check it against the API
+        specification rather than, as with compiling to a conventional
+        machine, against at best a particular implementation of that
+        API.</para>
+    
+      <para>In this document we address the problem of how to translate a
+        standard API specification into its TDF representation, by describing
+        a tool, <command>tspec</command>, which has been developed for
+        this purpose.</para>
+    
+      <para>The low level form which is used to represent APIs to the C to TDF
+        producer is the <code>#pragma token</code> syntax described in
+        reference 3. However this is not a suitable form in which to describe
+        API specifications. The <code>#pragma token</code> syntax is
+        necessarily complex, and can only be checked through extensive testing
+        using the producer. Instead an alternative form, close to C, has been
+        developed for this purpose. API specifications in this form are
+        transformed by <command>tspec</command> into the corresponding
+        <code>#pragma token</code> statements, while it applies various
+        internal checks to the API description.</para>
+    
+      <para>Another reason for introducing <code>tspec</code> is that the
+        <code>#pragma token</code> syntax is currently limited in some areas.
+        For example, at present it has very limited support for expressing
+        constancy of expressions. By allowing the <code>tspec</code> syntax to
+        express this information, the API description will contain all the
+        information which may be needed in future upgrades to the
+        <code>#pragma token</code> syntax. Thus describing an API using
+        <code>tspec</code> is hopefully a one off process, whereas describing
+        it directly to the <code>#pragma token</code> syntax could require
+        periodic reworkings. Improvements in the <code>#pragma token</code>
+        syntax will be reflected in the translations produced by future
+        versions of <command>tspec</command>.</para>
+    
+      <para>The <code>tspec</code> syntax is not designed to be a formal
+        specification language. Instead it is a pragmatic attempt to capture
+        the common specification idioms of standard API specifications. A
+        glance at these specifications shows that they are predominantly C
+        based, but with an added layer of abstraction - instead of saying that
+        <code>t</code> is a specific C type, they say, there exists a type
+        <code>t</code>, and so on. The <code>tspec</code> syntax is designed
+        to reflect this.</para>
+  </chapter>
+  
+  <chapter id="Overview">
+    <title>Overview of tspec</title>
+  
+      <section id="Levels">
+        <title>Specification Levels</title>
+    
+        <para>Let us begin by examining the various levels of specification
+          with which <command>tspec</command> is concerned. At the
+          lowest level it is concerned with objects - the types, expressions,
+          constants etc.  which comprise the API - and indeed most of this
+          document is concerned with how <command>tspec</command>
+          describes these objects. At the highest level,
+          <command>tspec</command> is concerned with APIs. We could
+          just describe an API as being a set of objects, however this is to
+          ignore the internal structure of APIs.</para>
+      
+        <para>At the most obvious level the objects in an API are spread over
+          a number of different system headers. For example, in ANSI, the
+          objects concerned with file input and output are grouped in
+          <code>stdio.h</code>, whereas those concerned with string
+          manipulation are in <code>string.h</code>. But a further level of
+          refinement is also required. For example, ANSI specifies that the
+          type <code>size_t</code> is defined in both <code>stdio.h</code> and
+          <code>string.h</code>. Therefore <code>tspec</code> needs to be able
+          to represent subsets of headers in order to express this
+          intersection relation.</para>
+      
+        <para>To conclude, <code>tspec</code> distinguishes four levels of
+          specification - APIs (which are sets of headers), headers (which are
+          sets of objects), subsets of headers, and objects. It identifies
+          APIs by an identifying name chosen by the person performing the API
+          description. The (purely arbitrary) convention is for short, lower
+          case names, for example:
+      
+          <itemizedlist>
+            <listitem>
+              <para><code>ansi</code> refers to ANSI C (X3.159),</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>posix</code> refers to POSIX 1003.1,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>xpg3</code> refers to X/Open Portability Guide
+                3.</para>
+            </listitem>
+          </itemizedlist></para>
+      
+        <para>In this document, headers are identified by the API they belong
+          to and the header name. Thus <code>ansi:stdio.h</code> refers to the
+          <code>stdio.h</code> header of the ANSI API.  Finally subsets of
+          headers are identified by the header and the subset name. If, for
+          example, the <code>stdio.h</code> header of ANSI has a subset named
+          <code>file</code>, then this is referred to as
+          <code>ansi:stdio.h:file</code>.</para>
+      </section>
+
+      <section id="Input">
+        <title>Input Layout</title>
+  
+        <para>The <code>tspec</code> representation of an API is arranged as a
+          directory with the same name as the API, containing a number of
+          files, one for each API header. For example, the ANSI API is
+          represented by a directory <code>ansi</code> containing files
+          <code>ansi/stdio.h</code>, <code>ansi/string.h</code> etc. In
+          addition each API directory contains a master file (for ANSI it
+          would be called <code>ansi/MASTER</code>) which lists all the
+          headers comprising that API.</para>
+      
+        <para>When <code>tspec</code> needs to find an API directory it does
+          so by searching along its input directory path. This is a colon
+          separated list of directories to be searched. This may be specified
+          in a number of ways. A default search list is built into
+          <code>tspec</code>, however this may be overridden by the system
+          variable <code>TSPEC_INPUT</code>. Directories may be added to the
+          start of the path using the
+          <option>-I</option><filename>dir</filename> command-line option (see
+          <link linkend="Options">section 2.5</link> for a complete list of
+          options). The current working directory is always added to the start
+          of the path.</para>
+      </section>
+
+      <section id="Output">
+        <title>Output Layout</title>
+  
+        <para><code>tspec</code> actually outputs two sets of output files,
+          the include output files, containing the <code>#pragma token</code>
+          directives corresponding to the input API, and the source output
+          files, which provide a rig for TDF library building (see
+          <link linkend="Libraries">section 6.4</link>). These output files and
+          directories are built up under two standard output directories - the
+          include output directory, <filename>incl_dir</filename> say, and the
+          source output directory, <filename>src_dir</filename> say.
+          <code>tspec</code> has default values for these directories built
+          in, but these may be overridden in a number of ways. Firstly, if the
+          system variable <code>TSPEC_OUTPUT</code> is defined to be
+          <filename>dir</filename>, say, then <filename>incl_dir</filename> is
+          <filename>dir/include</filename> and <filename>src_dir</filename> is
+          <filename>dir/src</filename>. Secondly,
+          <filename>incl_dir</filename> and <filename>src_dir</filename> can
+          be set independently using the system variables
+          <code>TSPEC_INCL_OUTPUT</code> and <code>TSPEC_SRC_OUTPUT</code>
+          respectively. Finally, they may also be set using the
+          <option>-O</option><filename>dir</filename> and
+          <option>-S</option><filename>dir</filename> command-line options
+          respectively.</para>
+      
+        <para>As an example of the mapping from input files to output files,
+          the header <code>ansi:stdio.h</code> is mapped to the include output
+          file <filename>incl_dir/ansi.api/stdio.h</filename> and the source
+          output file <filename>src_dir/ansi.api/stdio.c</filename>.  The
+          header subset <code>ansi:stdio.h:file</code> is mapped to its own
+          pair of output files,
+          <filename>incl_dir/shared/ansi.api/file.h</filename> and
+          <filename>src_dir/ansi.api/file.c</filename>.</para>
+      
+        <para>The default output file names can be overridden by means of the
+          <code>INCLNAME</code> and <code>SOURCENAME</code> file properties
+          described in <link linkend="Properties">section 5.4</link>.</para>
+      
+        <para>By default, <code>tspec</code> only creates an output file if
+          the date stamps on all the input files it depends on indicate that
+          it needs updating. In effect, <code>tspec</code> creates an internal
+          makefile from the dependencies it deduces. This behaviour can be
+          overridden by means of the <option>-f</option> command-line option,
+          which forces all output files to be created.</para>
+      
+        <para>In addition, <code>tspec</code> only creates the source output
+          file if it is needed for TDF library building. If the corresponding
+          include output file does not contain any token specifications then
+          the source output file is suppressed (see
+          <link linkend="Libraries">section 6.4</link>).</para>
+      </section>
+
+      <section id="Copyright">
+        <title>Copyright Messages</title>
+  
+        <para><code>tspec</code> will optionally add a copyright message to
+          the start of each include output file. This message is copied from a
+          file which may be specified either using the
+          <code>TSPEC_COPYRIGHT</code> system variable, or by the
+          <option>-C</option><filename>file</filename> command-line
+          option.</para>
+      </section>
+
+      <section id="Options">
+        <title>Command-line Options</title>
+  
+        <para>There are three main forms for invoking <code>tspec</code> on
+          the command-line, depending on whether it is desired to process an
+          entire API, a single header from that API, or only a subset of that
+          header. These are given respectively as:
+
+          <programlisting>
+tspec [options] api
+tspec [options] api header
+tspec [options] api header subset</programlisting></para>
+  
+        <para>The valid options include:
+          <itemizedlist>
+            <listitem>
+              <para>The option <option>-C</option><filename>file</filename>
+                specifies the copyright message file (see
+                <link linkend="Copyright">section 2.4</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para>The option <option>-I</option><filename>dir</filename>
+                adds a directory to the input directory search path (see
+                <link linkend="Input">section 2.2</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para>The option <option>-O</option><filename>dir</filename>
+                specifies the include output directory (see
+                <link linkend="Output">section 2.3</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para>The option <option>-S</option><filename>dir</filename>
+                specifies the source output directory (see
+                <link linkend="Output">section 2.3</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para>The <option>-c</option> option causes <code>tspec</code>
+              to only check the input files and not to generate any output
+              files.</para>
+            </listitem>
+        
+            <listitem>
+              <para>The <option>-e</option> option causes <code>tspec</code>
+                only to run its preprocessor phase, writing the result to the
+                standard output.</para>
+              </listitem>
+        
+            <listitem>
+              <para>The <option>-f</option> option forces <code>tspec</code>
+                to create all output files regardless of date
+                stamps.</para>
+            </listitem>
+        
+            <listitem>
+              <para>The <option>-i</option> option causes <code>tspec</code>
+              to print an index of all the objects in the input files (see
+              <link linkend= "Index">section 6.3</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para>The <option>-p</option> option indicates to
+                <code>tspec</code> that its input has already been
+                preprocessed (i.e. it is the output of a previous
+                <option>-e</option> option).</para>
+            </listitem>
+        
+            <listitem>
+              <para>The <option>-r</option> option causes <code>tspec</code>
+              to only produce output for implemented objects, and not used
+              objects (see <link linkend="Impl">section 3.2</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para>The <option>-s</option> option causes <code>tspec</code>
+              to check all the headers in an API separately rather than, as
+              with the <option>-c</option> option, all at once.</para>
+            </listitem>
+        
+            <listitem>
+              <para>The <option>-u</option> option causes <code>tspec</code>
+              to generate unique token names for the specified objects (see
+              <link linkend="Names">section 4.1.1</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para>The <option>-v</option> option causes <code>tspec</code>
+              to enter verbose mode, in which it reports on the output files
+              it creates. If two <option>-v</option> options are given then
+              <code>tspec</code> enters very verbose mode, in which it gives
+              more information on its activities.</para>
+            </listitem>
+        
+            <listitem>
+              <para>The <option>-V</option> option causes <code>tspec</code>
+              to print its current version number (this document refers to
+              version 2.0).</para>
+            </listitem>
+          </itemizedlist></para>
+  
+        <para>In addition <code>tspec</code> has a local input mode for
+          translating single headers which are not part of an API into the
+          corresponding <code>#pragma token</code> statements. The form:
+
+          <programlisting>
+tspec [options] -l file</programlisting>
+
+          processes the input file <code>file</code>, writing the include
+          output file to the standard output.
+        </para>
+      </section>
+  </chapter>
+  
+  <chapter id="Structure">
+    <title>Specifying API Structure</title>
+  
+      <para>The basic form of the <code>tspec</code> description of an API has
+        already been explained in <link linkend="Input">section 2.2</link> -
+        it is a directory containing a set of files corresponding to the
+        headers in that API. Each file basically consists of a list of the
+        objects declared in that header. Each object specification is part of
+        a <code>tspec</code> construct. These constructs are identified by
+        keywords. These keywords always begin with <code>+</code> to avoid
+        conflict with C identifiers. Comments may be inserted at any point.
+        These are prefixed by <code>#</code> and run to the end of the
+        line.</para>
+  
+      <para>In addition to the basic object specification constructs,
+        <code>tspec</code> also has constructs for imposing structure on the
+        API description. It is these constructs that we consider first.</para>
+  
+      <section id="Subset">
+        <title>+SUBSET</title>
+  
+        <para>A list of <code>tspec</code> constructs within a header can be
+          grouped into a named subset by enclosing them within:
+
+          <programlisting language="Tspec">
++SUBSET "name" := {
+	....
+} ;</programlisting>
+
+          where <code>name</code> is the subset name. These named subsets can
+          be nested, but are still regarded as subsets of the parent
+          header.</para>
+
+		<para>The intended use for nested subsets is to provide a mechanism
+			by which <code>+IMPLEMENT</code> and <code>+USE</code> may
+			reference specific sections of APIs. Consider the following
+			fictional APIs, <quote>Z</quote>, <quote>A</quote> and
+			<quote>C</quote>:</para>
+
+		<para>The <quote>Z</quote> API's <filename>s.h</filename>:</para>
+
+<programlisting>+TYPE (unsigned) w;
++SUBSET "subset1" := {
+    +TYPE (unsigned) x;
+    +TYPE (unsigned) z;
+    +SUBSET "subset2" := {
+        +TYPE (unsigned) y;
+   }
+}</programlisting>
+
+		<para>The <quote>A</quote> API:</para>
+
+<programlisting>+IMPLEMENT "Z", "s.h", "subset1";</programlisting>
+
+		<para>The <quote>B</quote> API:</para>
+<programlisting>+IMPLEMENT "Z", "s.h", "subset2";
+</programlisting>
+
+		<para>Here the <quote>Z</quote> API contains <code>w</code>,
+			<code>x</code>, <code>y</code> and <code>z</code>. The
+			<quote>A</quote> API contains <code>x</code>,
+			<code>y</code> and <code>z</code> from  the <quote>Z</quote>
+			API. The <quote>B</quote> API contains only <code>y</code>.
+			The <code>+IMPLEMENT</code> keyword is discussed in more
+			detail below.<!-- TODO ref --></para>
+
+        <para>Subsets are intended to give a layer of resolution beyond that
+          of the entire header (see <link linkend="Levels">section
+          2.1</link>).  Each subset is mapped onto a separate pair of output
+          files, so unwary use of subsets is discouraged.</para>
+      </section>
+
+      <section id="Impl">
+        <title>+IMPLEMENT and +USE</title>
+  
+        <para><code>tspec</code> has two import constructs which allow one
+          API, or header, or subset of a header to be included in another.
+          The first construct is used to indicate that the given set of
+          objects is also declared in the including header, and takes one of
+          the forms:
+
+          <programlisting language="Tspec">
++IMPLEMENT "api" ;
++IMPLEMENT "api", "header" ;
++IMPLEMENT "api", "header", "subset" ;</programlisting></para>
+
+        <para>The second construct is used to indicate that the objects are
+          only used in the including header, and take one of the forms:
+
+          <programlisting language="Tspec">
++USE "api" ;
++USE "api", "header" ;
++USE "api", "header", "subset" ;</programlisting></para>
+
+        <para>For example, <code>posix:stdio.h</code> is an extension of
+          <code>ansi:stdio.h</code> , so, rather than duplicate all the object
+          specifications from the latter in the former, it is easier and
+          clearer to use the construct:
+
+          <programlisting language="Tspec">
++IMPLEMENT "ansi", "stdio.h" ;</programlisting>
+
+          and just add the extra objects specified by POSIX. Note that this
+          makes the relationship between the APIs <code>ansi</code> and
+          <code>posix</code> absolutely explicit. <code>tspec</code> is as
+          much concerned with the relationships between APIs as their actual
+          contents.</para>
+  
+        <para>Objects which are specified as being declared in more than one
+          header of an API should also be treated using
+          <code>+IMPLEMENT</code>. For example, the type <code>size_t</code>
+          is declared in a number of <code>ansi</code> headers, namely
+          <code>stddef.h</code>, <code>stdio.h</code>, <code>string.h</code>
+          and <code>time.h</code>. This can be handled by declaring
+          <code>size_t</code> as part of a named subset of, say,
+          <code>ansi:stddef.h</code>:
+
+          <programlisting language="Tspec">
++SUBSET "size_t" := {
+	+TYPE (unsigned) size_t ;
+} ;</programlisting>
+
+          and including this in each of the other headers:
+
+          <programlisting language="Tspec">
++IMPLEMENT "ansi", "stddef.h", "size_t" ;</programlisting></para>
+  
+        <para>Another use of <code>+IMPLEMENT</code> is in the
+          <code>MASTER</code> file used to list the headers in an API (see
+          <link linkend="Input">section 2.2</link>). This basically consists
+          of a list of <code>+IMPLEMENT</code> commands, one per header. For
+          example, with <code>ansi</code> it consists of:
+
+          <programlisting language="Tspec">
++IMPLEMENT "ansi", "assert.h" ;
++IMPLEMENT "ansi", "ctype.h" ;
+....
++IMPLEMENT "ansi", "time.h" ;</programlisting></para>
+  
+        <para>To illustrate <code>+USE</code>, <code>posix:sys/stat.h</code>
+          uses some types from <code>posix:sys/types.h</code> but does not
+          define them. To avoid the user having to include both headers it
+          makes sense for the description to include the latter in the former
+          (provided there are no namespace restrictions imposed by the API).
+          This would be done using the construct:
+
+          <programlisting language="Tspec">
++USE "posix", "sys/types.h" ;</programlisting></para>
+  
+        <para>On the command-line <code>tspec</code> is given one set of
+          objects, be it an API, a header, or a subset of a header. This
+          causes it to read that set, which may contain
+          <code>+IMPLEMENT</code> or <code>+USE</code> commands. It then reads
+          the sets indicated by these commands, which again may contain
+          <code>+IMPLEMENT</code> or <code>+USE</code> commands, and so on. It
+          is possible for this process to lead to infinite cycles, but in this
+          case <code>tspec</code> raises an error and aborts. In the legal
+          case, the collection of sets read by <code>tspec</code> is the
+          closure of the set given on the command-line under
+          <code>+IMPLEMENT</code> and <code>+USE</code>.  Some of these sets
+          will be implemented - that it to say, connected to the top level by
+          a chain of <code>+IMPLEMENT</code> commands - others will merely be
+          used. By default <code>tspec</code> produces output for all these
+          sets, but specifying the <option>-r</option> command-line option
+          restricts it to the implemented sets.</para>
+  
+        <para>For further information on the <code>+IMPLEMENT</code> and
+          <code>+USE</code> commands see
+          <link linkend="FineImpl">section 6.1</link>.</para>
+      </section>
+  </chapter>
+  
+  <chapter id="Objects">
+    <title>Specifying Objects</title>
+  
+      <para>The main body of any <code>tspec</code> description of an API
+      consists of a list of object specifications. Most of this section
+      is concerned with the various <code>tspec</code> constructs for
+      specifying objects of various kinds, however we start with a few
+      remarks on object names.</para>
+    
+      <section id="S41">
+        <title>Object Names</title>
+    
+        <section id="Names">
+          <title>Internal and External Names</title>
+    
+          <para>All objects specified using <code>tspec</code> actually have
+            two names. The first is the internal name by which it is
+            identified within the program, the second is the external name by
+            which the TDF construct (actually a token) representing this
+            object is referred to for the purposes of TDF linking. The
+            internal names are normal C identifiers and obey the normal C
+            namespace rules (indeed one of the roles of <code>tspec</code> is
+            to keep track of these namespaces). The external token name is
+            constructed by <code>tspec</code> from the internal name.</para>
+        
+          <para><code>tspec</code> has two strategies for making up these
+            token names. The first, which is default, is to use the internal
+            name as the external name (there is an exception to this simple
+            rule, namely field selectors - see
+            <link linkend="Field">section 4.9</link>). The second, which is preferred
+            for standard APIs, is to construct a "unique name" from the API
+            name, the header and the internal name. For example, under the
+            first strategy, the external name of the type <code>FILE</code>
+            specified in <code>ansi:stdio.h</code> would be <code>FILE</code>,
+            whereas under the second it would be <code>ansi.stdio.FILE</code>.
+            The unique name strategy may be specified by passing the
+            <option>-u</option> command-line option to <code>tspec</code> (see
+            <link linkend="Options">section 2.5</link>) or by setting the
+            <code>UNIQUE</code> property to 1 (see
+            <link linkend="Properties">section 5.4</link>).</para>
+        
+          <para>Both strategies involve flattening the several C namespaces
+            into the single TDF token namespace, which can lead to clashes.
+            For example, in <code>posix:sys/stat.h</code> both a structure,
+            <code>struct stat</code>, and a procedure, <code>stat</code>, are
+            specified. In C the two uses of <code>stat</code> are in different
+            namespaces and so present no difficulty, however they are mapped
+            onto the same name in the TDF token namespace. To work round such
+            difficulties, <code>tspec</code> allows an alternative external
+            form to be specified. When the object is specified the form:
+
+            <programlisting>
+iname | ename</programlisting>
+
+            may be used to specify the internal name <code>iname</code> and
+            the external name <code>ename</code>.</para>
+  
+          <para>For example, in the <code>stat</code> case above we could
+            distinguish between the two uses as follows:
+
+            <programlisting language="Tspec">
++TYPE struct stat | struct_stat ;
++FUNC int stat ( const char *, struct stat * ) ;</programlisting></para>
+
+          <para>With simple token names the token corresponding to the
+            structure would be called <code>struct_stat</code>, whereas that
+            corresponding to the procedure would still be <code>stat</code>.
+            With unique token names the names would be
+            <code>posix.stat.struct_stat</code> and
+            <code>posix.stat.stat</code> respectively.</para>
+  
+          <para>Very occasionally it may be necessary to precisely specify an
+            external token name. This can be done using the form:
+
+            <programlisting>
+iname | "ename"</programlisting>
+
+            which makes the object <code>iname</code> have external name
+            <code>ename</code> regardless of the naming strategy used.</para>
+        </section>
+  
+        <section id="Identifiers">
+          <title>More on Object Names</title>
+  
+          <para>Basically the legal identifiers in <code>tspec</code> (for
+            both internal and external names) are the same as those in C -
+            strings of upper and lower case letters, decimal digits or
+            underscores, which do not begin with a decimal digit. However
+            there is a second class of local identifiers - those consisting of
+            a tilde followed by any number of letters, digits or underscores -
+            which are intended to indicate objects which are local to the API
+            description and should not be visible to any application using the
+            API. For example, to express the specification that <code>t</code>
+            is a pointer type, we could say that there is a locally named type
+            to which <code>t</code> is a pointer:
+
+            <programlisting language="Tspec">
++TYPE ~t ;
++TYPEDEF ~t *t ;</programlisting></para>
+  
+          <para>Finally it is possible to cheat the <code>tspec</code>
+            namespaces. It may actually be legal to have two objects of the
+            same name in an API - they may lie in different branches of a
+            conditional compilation, or not be allowed to coexist. To allow
+            for this, <code>tspec</code> allows version numbers, consisting of
+            a decimal pointer plus a number of digits, to be appended to an
+            identifier name when it is first introduced. These version numbers
+            are purely to tell <code>tspec</code> that this version of the
+            object is different from a previous version with a different
+            version number (or indeed without any version number).  If more
+            than one version of an object is specified then which version is
+            retrieved by <code>tspec</code> in any look-up operation is
+            undefined.</para>
+        </section>
+      </section>
+
+      <section id="Func">
+        <title>+FUNC</title>
+  
+        <para>The simplest form of object to specify is a procedure. This is
+          done by means of:
+
+          <programlisting language="Tspec">
++FUNC prototype ;</programlisting>
+
+          where <code>prototype</code> is the full C prototype of the
+          procedure being declared. For example, <code>ansi:string.h</code>
+          contains:
+
+          <programlisting language="Tspec">
++FUNC char *strcpy ( char *, const char * ) ;
++FUNC int strcmp ( const char *, const char * ) ;
++FUNC size_t strlen ( const char * ) ;</programlisting></para>
+  
+        <para>Strictly speaking, <code>+FUNC</code> means that the procedure
+          may be implemented by a macro, but that there is an underlying
+          library function with the same effect. The exception is for
+          procedures which take a variable number of arguments, such as:
+
+          <programlisting language="Tspec">
++FUNC int fprintf ( FILE *, const char *, ... ) ;</programlisting>
+
+          which cannot be implemented by macros. Occasionally it may be
+          necessary to specify that a procedure is only a library function,
+          and cannot be implemented by a macro. In this case the form:
+
+          <programlisting language="Tspec">
++FUNC (extern) prototype ;</programlisting>
+
+          should be used. Thus:
+
+          <programlisting language="Tspec">
++FUNC (extern) char *strcpy ( char *, const char * ) ;</programlisting>
+
+          would mean that <code>strcpy</code> was only a library function and
+          not a macro.</para>
+  
+        <para>Increasingly standard APIs are using prototypes to express their
+          procedures. However it still may be necessary on occasion to specify
+          procedures declared using old style declarations. In most cases
+          these can be easily transcribed into prototype declarations, however
+          things are not always that simple. For example,
+          <code>xpg3:stdlib.h</code> declares <code>malloc</code> by the old
+          style declaration:
+
+          <programlisting language="C">
+void *malloc ( sz )
+size_t sz ;</programlisting>
+
+          which is in general different from the prototype:
+
+          <programlisting language="C">
+void *malloc ( size_t ) ;</programlisting></para>
+
+        <para>In the first case the argument is passed as the integral
+          promotion of <code>size_t</code>, whereas in the second it is passed
+          as a <code>size_t</code> . In general we only know that
+          <code>size_t</code> is an unsigned integral type, so we cannot
+          assert that it is its own integral promotion. One possible solution
+          would be to use the C to TDF producer's weak prototypes (see
+          reference 3). The form:
+
+          <programlisting language="Tspec">
++FUNC (weak) void *malloc ( size_t ) ;</programlisting>
+
+          means that <code>malloc</code> is a library function returning
+          <code>void *</code> which is declared using an old style declaration
+          with a single argument of type <code>size_t</code>.  (For an
+          alternative approach see
+          <link linkend="Typedef">section 4.8</link>.)</para>
+      </section>
+  
+      <section id="Exp">
+        <title>+EXP and +CONST</title>
+  
+        <para>Expressions correspond to constants, identities and variables.
+          They are specified by:
+
+          <programlisting language="Tspec">
++EXP type exp1, ..., expn ;</programlisting>
+
+          where <code>type</code> is the base type of the expressions
+          <code>expi</code> as in a normal C declaration list. For example, in
+          <code>ansi:stdio.h</code>:
+
+          <programlisting language="Tspec">
++EXP FILE *stdin, *stdout, *stderr ;</programlisting>
+
+          specifies three expressions of type <code>FILE *</code>.</para>
+  
+        <para>By default all expressions are rvalues, that is, values which
+          cannot be assigned to. If an lvalue (assignable) expression is
+          required its type should be qualified using the keyword
+          <code>lvalue</code>. This is an extension to the C type syntax which
+          is used in a similar fashion to <code>const</code>. For example,
+          <code>ansi:errno.h</code> says that <code>errno</code> is an
+          assignable lvalue of type <code>int</code>. This is expressed as
+          follows:
+
+          <programlisting language="Tspec">
++EXP lvalue int errno ;</programlisting></para>
+
+        <para>On the other hand, <code>posix:errno.h</code> states that
+          <code>errno</code> is an external value of type <code>int</code>.
+          As with procedures the <code>(extern)</code> qualifier may be used
+          to express this as:
+
+          <programlisting language="Tspec">
++EXP (extern) int errno ;</programlisting>
+
+          Note that this automatically means that <code>errno</code> is an
+          lvalue, so the <code>lvalue</code> qualifier is optional in this
+          case.</para>
+  
+        <para>If all the expressions are guaranteed to be literal constants
+          then one of the equivalent forms:
+
+          <programlisting language="Tspec">
++EXP (const) type exp1, ..., expn ;
++CONST type exp1, ..., expn ;</programlisting>
+
+          should be used. For example, in <code>ansi:errno.h</code> we have:
+
+          <programlisting language="Tspec">
++CONST int EDOM, ERANGE ;</programlisting></para>
+      </section>
+
+      <section id="Macro">
+        <title>+MACRO</title>
+  
+        <para>The <code>+MACRO</code> construct is similar in form to the
+          <code>+FUNC</code> construct, except that it means that only a macro
+          exists, and no underlying library function. For example, in
+          <code>xpg3:ctype.h</code> we have:
+
+          <programlisting language="Tspec">
++MACRO int _toupper ( int ) ;
++MACRO int _tolower ( int ) ;</programlisting>
+
+          since these are explicitly stated to be macros and not functions. Of
+          course the <code>(extern)</code> qualifier cannot be used with
+          <code>+MACRO</code>.</para>
+  
+        <para>One thing which macros can do which functions cannot is to
+          return assignable values or to assign to their arguments. Thus it is
+          legitimate for <code>+MACRO</code> constructs to have their return
+          type or argument types qualified by <code>lvalue</code>, whereas
+          this is not allowed for <code>+FUNC</code> constructs.  For example,
+          in <code>svid3:curses.h</code>, a macro <code>getyx</code> is
+          specified which takes a pointer to a window and two integer
+          variables and assigns the cursor position of the window to those
+          variables. This may be expressed by:
+
+          <programlisting language="Tspec">
++MACRO void getyx ( WINDOW *win, lvalue int y, lvalue int x ) ;</programlisting></para>
+      </section>
+
+      <section id="Statement">
+        <title>+STATEMENT</title>
+  
+        <para>The <code>+STATEMENT</code> construct is very similar to the
+          <code>+MACRO</code> construct except that, instead of being a C
+          expression, it is a C statement (i.e. something ending in a
+          semicolon). As such it does not have a return type and so takes one
+          of the forms:
+
+          <programlisting language="Tspec">
++STATEMENT stmt ;
++STATEMENT stmt ( arg1, ..., argn ) ;</programlisting>
+
+          depending on whether or not it takes any arguments. (A <code>
+          +MACRO</code> without any arguments is an <code>+EXP</code>, so the
+          no argument form does not exist for <code>+MACRO</code>.) As with
+          <code>+MACRO</code>, the argument types <code>argi</code> can be
+          qualified using <code>lvalue</code>.</para>
+      </section>
+
+      <section id="Define">
+        <title>+DEFINE</title>
+  
+        <para>It is possible to insert macro definitions directly into
+          <code>tspec</code> using the <code>+DEFINE</code> construct. This
+          has two forms depending on whether the macro has arguments:
+
+          <programlisting language="Tspec">
++DEFINE name %% text %% ;
++DEFINE name ( arg1, ..., argn ) %% text %% ;</programlisting></para>
+
+        <para>These translate directly into:
+
+          <programlisting language="C">
+#define name text
+#define name( arg1, ..., argn ) text</programlisting></para>
+  
+        <para>The macro definition, <code>text</code>, consists of any string
+          of characters delimited by double percents. If <code>text</code> is
+          a simple number or a single identifier then the double percents may
+          be omitted. Thus in <code>ansi:stddef.h</code> we have:
+
+          <programlisting language="Tspec">
++DEFINE NULL 0 ;</programlisting></para>
+      </section>
+
+      <section id="Type">
+        <title>+TYPE</title>
+  
+        <para>New types may be specified using the <code>+TYPE</code>
+          construct. This has the form:
+
+          <programlisting language="Tspec">
++TYPE type1, ..., typen ;</programlisting>
+
+          where each <code>typei</code> has one of the forms:
+
+          <itemizedlist>
+            <listitem>
+              <para><code>name</code> for a general type (about which we know
+                nothing more),</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>(struct) name</code> for a structure
+                type,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>(union) name</code> for a union type,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>struct name</code> for a structure tag,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>union name</code> for a union tag,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>(int) name</code> for an integral type,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>(signed) name</code> for a signed integral
+                type,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>(unsigned) name</code> for an unsigned integral
+                type,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>(float) name</code> for a floating type,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>(arith) name</code> for an arithmetic (integral or
+                floating) type,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>(scalar) name</code> for a scalar (arithmetic or
+                pointer) type.</para>
+            </listitem>
+          </itemizedlist></para>
+  
+        <para>To make clear the distinction between structure types and
+          structure tags, if we have in C:
+
+          <programlisting language="C">
+typedef struct tag { int x, y ; } type ;</programlisting>
+
+          then <code>type</code> is a structure type and <code>tag</code> is a
+          structure tag.</para>
+  
+        <para>For example, in <code>ansi</code> we have:
+
+          <programlisting language="Tspec">
++TYPE FILE ;
++TYPE struct lconv ;
++TYPE (struct) div_t ;
++TYPE (signed) ptrdiff_t ;
++TYPE (unsigned) size_t ;
++TYPE (arith) time_t ;
++TYPE (int) wchar_t ;</programlisting></para>
+      </section>
+
+      <section id="Typedef">
+        <title>+TYPEDEF</title>
+
+        <para>It is also possible to define new types in terms of existing
+          types. This is done using the <code>+TYPEDEF</code> construct, which
+          is identical in form to the C <code>typedef</code> construct. This
+          construct can be used to define pointer, procedure and array types,
+          but not compound structure and union types. For these see
+          <link linkend="Field">section 4.9</link> below.</para>
+  
+        <para>For example, in <code>xpg3:search.h</code> we have:
+
+          <programlisting language="Tspec">
++TYPE struct entry ;
++TYPEDEF struct entry ENTRY ;</programlisting></para>
+  
+        <para>There are a couple of special forms. To understand the first,
+          note that C uses <code>void</code> function returns for two
+          purposes.  Firstly to indicate that the function does not return a
+          value, and secondly to indicate that the function does not return at
+          all (<code>exit</code> is an example of this second usage). In TDF
+          terms, in the first case the function returns <code>TOP</code>, in
+          the second it returns <code>BOTTOM</code> .  <code>tspec</code>
+          allows types to be introduced which have the second meaning. For
+          example, we could have:
+
+          <programlisting language="Tspec">
++TYPEDEF ~special ( "bottom" ) ~bottom ;
++FUNC ~bottom exit ( int ) ;</programlisting>
+
+          meaning that the local type <code>~bottom</code> is the
+          <code>BOTTOM</code> form of <code>void</code>. The procedure <code>
+          exit</code>, which never returns, can then be declared to return
+          <code>~bottom</code> rather than <code>void</code>. Other such
+          special types may be added in future.</para>
+  
+        <para>The second special form:
+
+          <programlisting language="Tspec">
++TYPEDEF ~promote ( x ) y ;</programlisting>
+
+          means that <code>y</code> is an integral type which is the integral
+          promotion of <code>x</code>. <code>x</code> must have previously
+          been declared as an integral type. This gives an alternative
+          approach to the old style procedure declaration problem described in
+          <link linkend="Func">section 4.2</link>. Recall that:
+
+          <programlisting language="C">
+void *malloc ( sz )
+size_t sz ;</programlisting>
+
+          means that <code>malloc</code> has one argument which is passed as
+          the integral promotion of <code>size_t</code>. This could be
+          expressed as follows:
+
+          <programlisting language="Tspec">
++TYPEDEF ~promote ( size_t ) ~size_t ;
++FUNC void *malloc ( ~size_t ) ;</programlisting>
+
+          introducing a local type to stand for the integral promotion of
+          <code>size_t</code>.</para>
+      </section>
+
+      <section id="Field">
+        <title>+FIELD</title>
+  
+        <para>Having specified a structure or union type, or a structure or
+          union tag, we may wish to specify certain fields of this structure
+          or union. This is done using the <code>+FIELD</code> construct. This
+          takes the form:
+
+<programlisting language="Tspec">
++FIELD type {
+	ftype field1, ..., fieldn ;
+	....
+} ;</programlisting>
+
+          where <code>type</code> is the structure or union type and
+          <code>field1</code>, ..., <code>fieldn</code> are field selectors
+          derived from the base type <code>ftype</code> as in a normal C
+          structure definition. <code>type</code> may have one of the forms:
+
+          <itemizedlist>
+            <listitem>
+              <para><code>(struct) name</code> for a structure type,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>(union) name</code> for a union type,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>struct name</code> for a structure tag,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>union name</code> for a union tag,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>name</code> for a previously declared structure or
+                union type.</para>
+            </listitem>
+          </itemizedlist></para>
+  
+        <para>Except in the final case (where it is not clear if
+          <code>type</code> is a structure or a union), it is not necessary to
+          have previously introduced <code>type</code> using a
+          <code>+TYPE</code> construct - this declaration is implicit in the
+          <code>+FIELD</code> construct.</para>
+  
+        <para>For example, in <code>ansi:time.h</code> we have:
+
+          <programlisting language="Tspec">
++FIELD struct tm {
+	int tm_sec ;
+	int tm_min ;
+	int tm_hour ;
+	int tm_mday ;
+	int tm_mon ;
+	int tm_year ;
+	int tm_wday ;
+	int tm_yday ;
+	int tm_isdst ;
+} ;</programlisting>
+
+          meaning that there exists a structure with tag <code>tm</code> with
+          various fields of type <code>int</code>. Any implementation must
+          have these corresponding fields, but they need not be in the given
+          order, nor do they have to comprise the whole structure.</para>
+  
+        <para>As was mentioned above (in <link linkend="Names">4.1.1</link>),
+          field selectors form a special case when <code>tspec</code> is
+          making up external token names. For example, in the case above, the
+          token name for the <code>tm_sec</code> field is either
+          <code>tm.tm_sec</code> or <code>ansi.time.tm.tm_sec</code>,
+          depending on whether or not unique token names are used.</para>
+  
+        <para>It is possible to have several <code>+FIELD</code> constructs
+          referring to the same structure or union. For example,
+          <code>posix:dirent.h</code> declares a structure with tag
+          <code>dirent</code> and one field, <code>d_name</code>, of this
+          structure. <code>xpg3:dirent.h</code> extends this by adding another
+          field, <code>d_ino</code>.</para>
+  
+        <para>There is a second form of the <code>+FIELD</code> construct
+          which has more in common with the <code>+TYPEDEF</code> construct.
+          The form:
+
+          <programlisting language="Tspec">
++FIELD type := {
+	ftype field1, ..., fieldn ;
+	....
+} ;</programlisting>
+
+          means that the type <code>type</code> is defined to be exactly the
+          given structure or union type, with precisely the given fields in
+          the given order.</para>
+      </section>
+
+      <section id="Nat">
+        <title>+NAT</title>
+  
+        <para>In the example given in
+          <link linkend="Field">section 4.9</link>,
+          <code>posix:dirent.h</code> specifies that the <code>d_name</code>
+          field of <code>struct dirent</code> is a fixed sized array of
+          characters, but that the size of this array is implementation
+          dependent. We therefore have to introduce a value to stand for the
+          size of this array using the <code>+NAT</code> construct. This has
+          the form:
+
+          <programlisting language="Tspec">
++NAT nat1, ..., natn ;</programlisting>
+
+          where <code>nat1</code>, ..., <code>natn</code> are the array sizes
+          to be declared. The example thus becomes:
+
+          <programlisting language="Tspec">
++NAT ~dirent_d_name_size ;
++FIELD struct dirent {
+	char d_name [ ~dirent_d_name_size ] ;
+} ;</programlisting>
+
+          Note the use of a local variable to stand for a value, namely the
+          array size, which is invisible to the user (see
+          <link linkend="Identifiers">section 4.1.2</link>).</para>
+  
+        <para>As another example, in <code>ansi:setjmp.h</code> we know that
+          <code>jmp_buf</code> is an array type. We therefore introduce
+          objects to stand for the type which it is an array of and for the
+          size of the array, and define <code>jmp_buf</code> by a
+          <code>+TYPEDEF</code> command:
+
+          <programlisting language="Tspec">
++NAT ~jmp_buf_size ;
++TYPE ~jmp_buf_elt ;
++TYPEDEF ~jmp_buf_elt jmp_buf [ ~jmp_buf_size ] ;</programlisting></para>
+
+        <para>Again, local variables have been used for the introduced
+          objects.</para>
+      </section>
+
+      <section id="Enum">
+        <title>+ENUM</title>
+  
+        <para>Currently <code>tspec</code> only has limited support for
+          enumeration types. A <code>+ENUM</code> construct is translated
+          directly into a C definition of an enumeration type. The
+          <code>+ENUM</code> construct has the form:
+
+          <programlisting language="Tspec">
++ENUM etype := {
+	entry,
+	....
+} ;</programlisting>
+
+          where <code>etype</code> is the enumeration type being defined -
+          either a type name or <code>enum etag</code> for some enumeration
+          tag <code>etag</code> - and each <code>entry</code> has one of the
+          forms:
+
+          <programlisting>
+name
+name = number</programlisting>
+
+          as in a C enumeration type. For example, in
+          <code>xpg3:search.h</code> we have:
+
+          <programlisting language="Tspec">
++ENUM ACTION := { FIND, ENTER } ;</programlisting></para>
+      </section>
+
+      <section id="Token">
+        <title>+TOKEN</title>
+  
+        <para>As was mentioned in <link linkend="Intro">section 1</link>, the
+          <code>#pragma token</code> syntax is highly complex, and the token
+          descriptions output by <code>tspec</code> form only a small subset
+          of those possible. It is possible to directly access the full
+          <code>#pragma token</code> syntax from <code>tspec</code> using the
+          construct:
+
+          <programlisting language="Tspec">
++TOKEN name %% text %% ;</programlisting>
+
+          where the token <code>name</code> is defined by the sequence of
+          characters <code>text</code>, which is delimited by double percents.
+          This is turned into the token description:
+
+          <programlisting language="C">
+#pragma token text name #</programlisting></para>
+  
+        <para>No checks are applied to <code>text</code>. A more sophisticated
+          mechanism for defining complex tokens may be introduced in a later
+          version of <code>tspec</code>.</para>
+  
+        <para>For example, in <code>ansi:stdarg.h</code> a token
+          <code>va_arg</code> is defined which takes a variable of type
+          <code>va_list</code> and a type <code>t</code> and returns a value
+          of type <code>t</code>. This is given by:
+
+          <programlisting language="Tspec">
++TOKEN va_arg %% PROC ( EXP lvalue : va_list : e, TYPE t ) EXP rvalue : t : %% ;</programlisting></para>
+
+        <para>See reference 3 for more details on the token syntax.</para>
+      </section>
+  </chapter>
+  
+  <chapter id="Others">
+    <title>Other tspec Constructs</title>
+  
+      <para>Although most <code>tspec</code> constructs are concerned either
+        with specifying new objects or imposing structure upon various sets of
+        objects, there are a few which do not fall into these
+        categories.</para>
+
+      <section id="If">
+        <title>+IF, +ELSE and +ENDIF</title>
+  
+        <para>It is possible to introduce conditional compilation into the API
+          description by means of the constructs:
+
+          <programlisting language="Tspec">
++IF %% text %%
++IFDEF %% text %%
++IFNDEF %% text %%
++ELSE
++ENDIF</programlisting>
+
+          which are translated into:
+
+          <programlisting language="C">
+#if text
+#ifdef text
+#ifndef text
+#else /* text */
+#endif /* text */</programlisting>
+
+          respectively. If <code>text</code> is just a simple number or a
+          single identifier the double percent delimiters may be
+          excluded.</para>
+  
+        <para>A couple of special <code>+IFDEF</code> (and also
+          <code>+IFNDEF</code>) forms are available which are useful on
+          occasion. These are:
+
+          <programlisting language="Tspec">
++IFDEF ~building_libs
++IFDEF ~protect ( "api", "header" )</programlisting>
+
+          The macros in these constructs expand respectively to <code>
+          __BUILDING_LIBS</code> which, by convention is defined if and only
+          if TDF library building is taking place (see
+          <link linkend="Libraries">section 6.4</link>), and the protection
+          macro <code>tspec</code> makes up to protect the file
+          <code>api:header</code> against multiple inclusion (see
+          <link linkend="Protect">section 6.2</link>).</para>
+      </section>
+
+      <section id="Text">
+        <title>Quoted Text</title>
+  
+        <para>It is sometimes desirable to include text in the specification
+          file which will be copied directly into one of the output files -
+          for example, sections of C. This can be done by enclosing the text
+          for copying into the include output file in double percents:
+
+          <programlisting language="Tspec">
+%% text %%</programlisting>
+
+          and text for copying into the source output file in triple percents:
+
+          <programlisting language="Tspec">
+%%% text %%%</programlisting></para>
+  
+        <para>In fact more percents may be used. An even number always
+          indicates text for the include output file, and an odd number the
+          source output file. Note that any <code>#</code> characters in
+          <code>text</code> are copied as normal, and not treated as comments.
+          This also applies to the other cases where percent delimiters are
+          used.</para>
+      </section>
+
+      <section id="Comment">
+        <title>C Comments</title>
+  
+        <para>A special case of quoted text are C style comments:
+
+          <programlisting language="Tspec">
+/* text */</programlisting>
+
+          which are copied directly into the include output file.</para>
+      </section>
+
+      <section id="Properties">
+        <title>File Properties</title>
+  
+        <para>Various properties of individual sets of objects or global
+          properties can be set using file properties. These take the
+          form:
+
+          <programlisting>
+$property = number ;</programlisting>
+
+          for numeric (or boolean) properties, and:
+
+          <programlisting>
+$property = "string" ;</programlisting>
+
+          for string properties.</para>
+  
+        <para>The valid property names are as follows:
+          <itemizedlist>
+            <listitem>
+              <para><code>APINAME</code> is a string property which may be
+                used to override the API name of the current set of
+                objects.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>FILE</code> is a string property which is used by
+                the <code>tspec</code> preprocessor to indicate the current
+                input file name.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>FILENAME</code> is a string property which may be
+                used to override the header name of the current set of
+                objects.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>INCLNAME</code> is a string property which may be
+                used to set the name of the include output file in place of
+                the default name given in
+                <link linkend="Output">section 2.3</link>.  Setting the
+                property to the empty string suppresses the output of this
+                file.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>INTERFACE</code> is a numeric property which may be
+                set to force the creation of the source output file and
+                cleared to suppress it.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>LINE</code> is a numeric property which is used by
+                the <code>tspec</code> preprocessor to indicate the current
+                input file line number.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>METHOD</code> is a string property which may be used
+                to specify alternative construction methods for TDF library
+                building (see
+                <link linkend="Libraries">section 6.4</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>PREFIX</code> is a string property which may be used
+                as a prefix to unique token names in place of the API and
+                header names (see
+                <link linkend="Names">section 4.1.1</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>PROTECT</code> is a string property which may be
+                used to set the macro used by <code>tspec</code> to protect
+                the include output file against multiple inclusions (see
+                <link linkend="Protect">section 6.2</link>). Setting the
+                property to the empty string suppresses this macro.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>SOURCENAME</code> is a string property which may be
+                used to set the name of the source output file in place of the
+                default name given in
+                <link linkend="Output">section 2.3</link>.  Setting the
+                property to the empty string suppresses the output of this
+                file.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>SUBSETNAME</code> is a string property which may be
+                used to override the subset name of the current set of
+                objects.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>UNIQUE</code> is a numeric property which may be
+                used to switch the unique token name flag on and off (see
+                <link linkend="Names">section 4.1.1</link>). For standard APIs
+                it is recommended that this property is set to 1 in the API
+                <code>MASTER</code> file.</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>VERBOSE</code> is a numeric property which may be
+                used to set the level of the verbose option (see
+                <link linkend="Options">section 2.5</link>).</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>VERSION</code> is a string property which may be
+                used to assign a version number or other identification to a
+                <code>tspec</code> description. This information is reproduced
+                in the corresponding include output file.</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+  </chapter>
+  
+  <chapter id="S6">
+    <title>Miscellaneous Topics</title>
+  
+      <para>In this section we round up a few miscellaneous topics.</para>
+  
+      <section id="FineImpl">
+        <title>Fine Control of Included Files</title>
+  
+        <para>The <code>+IMPLEMENT</code> and <code>+USE</code> commands
+          described in <link linkend="Impl">section 3.2</link> are capable of
+          further refinement. Normally each such command is translated into a
+          corresponding inclusion command in both the include and source
+          output files.  Occasionally this is not desirable - in particular
+          the inclusion in the source output file can cause problems during
+          TDF library building. For this reason the <code>tspec</code> syntax
+          has been extended to allow for fine control of the output
+          corresponding to <code>+IMPLEMENT</code> and <code>+USE</code>
+          commands. This takes the forms:
+
+          <programlisting language="Tspec">
++IMPLEMENT "api" (key) ;
++IMPLEMENT "api", "header" (key) ;
++IMPLEMENT "api", "header", "subset" (key) ;</programlisting>
+
+          with corresponding forms for <code>+USE</code>.  <code>key</code>
+          specifies which output files the inclusion commands should appear
+          in. It can be:
+  
+          <itemizedlist>
+            <listitem>
+              <para><code>??</code>, indicating neither output file,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>!?</code>, indicating the include output file
+                only,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>?!</code>, indicating the source output file
+                only,</para>
+            </listitem>
+        
+            <listitem>
+              <para><code>!!</code>, indicating both output files (this is the
+                same as the normal form).</para>
+            </listitem>
+          </itemizedlist></para>
+  
+        <para>The second refinement comes from the fact that APIs fall into
+          two categories - the base APIs, such as <code>ansi</code>,
+          <code>posix</code> and <code>xpg3</code>, and the extension APIs,
+          such as <code>x11</code>, the X Windows API. The latter can be
+          used to extend the former, so that we can form <code>ansi</code>
+          plus <code>x11</code>, <code>posix</code> plus <code>x11</code>,
+          and so on. Base APIs may be distinguished in <code>tspec</code>
+          by including the command:
+
+          <programlisting language="Tspec">
++BASE_API ;</programlisting>
+
+          in their <code>MASTER</code> file. Occasionally, in an extension
+          API, we may wish to include a version of a header from the base API,
+          but, because this base API is not fixed, not be able to use a simple
+          <code>+USE</code> command. Instead the special form:
+
+          <programlisting language="Tspec">
++USE ( "api" ), "header" ;</programlisting>
+
+          is provided for this purpose (this is the only permitted form). It
+          indicates that <code>tspec</code> should use the <code>api</code>
+          version of <code>header</code> for checking purposes, but allow the
+          inclusion of the version from the base API in normal use.</para>
+      </section>
+
+      <section id="Protect">
+        <title>Protection Macros</title>
+  
+        <para>Each include output file is surrounded by a construct of the
+          form:
+
+          <programlisting language="C">
+#ifndef MACRO
+#define MACRO
+....
+#endif /* MACRO */</programlisting>
+
+          to protect it against multiple inclusions. Normally
+          <code>tspec</code> will generate the macro name, <code>MACRO</code>,
+          but it can be set using the <code>PROTECT</code> file property (see
+          <link linkend="Properties">section 5.4</link>). Setting
+          <code>PROTECT</code> to the empty string suppresses the protection
+          construct altogether.  (Also see
+          <link linkend="If">section 5.1</link>.)</para>
+      </section>
+
+      <section id="Index">
+        <title>Index Printing</title>
+
+        <para>If it is invoked with the <option>-i</option> command-line
+          option, instead of creating its output file, <code>tspec</code>
+          prints an index of all the objects it has read to the standard
+          output. This information includes the external token name associated
+          with the object, whether the object is implemented or used, and
+          where in the API description it is defined. It also includes a brief
+          description of the object.  It is intended that these indexes should
+          be usable as quick reference guides to the underlying APIs.</para>
+      </section>
+
+      <section id="Libraries">
+        <title>TDF Library Building</title>
+  
+        <para>As was explained in reference 1, the <code>#pragma token</code>
+          headers output by <code>tspec</code> are used for two purposes -
+          checking applications against the API during normal compilation and
+          checking implementations against the API during TDF library
+          building. This dual use does necessitate some extra work for
+          <code>tspec</code>. It is not always possible to use exactly the
+          same code in the two cases (usually because the C rules on, for
+          example, structure definitions get in the way during library
+          building). <code>tspec</code> uses a standard macro,
+          <code>__BUILDING_LIBS</code>, to distinguish between the two cases.
+          It is assumed to be defined if and only if library building is
+          taking place. <code>tspec</code> descriptions can access this macro
+          directly using <code>~building_libs</code> (see
+          <link linkend="If">section 5.1</link>).</para>
+  
+        <para>The actual library building process consists of compiling the
+          <code>#pragma token</code> descriptions of the objects comprising
+          the API along with the implementation of that API from the system
+          headers (or wherever). This creates the local token definitions for
+          this API, which may be stored in a token library. To facilitate this
+          process <code>tspec</code> creates the source output files for each
+          implemented header <code>api:header</code> containing something
+          like:
+
+          <programlisting language="C">
+#pragma implement interface &lt;../api/header&gt;
+#include &lt;header&gt;</programlisting>
+
+          together with a makefile to compile all these programs to token
+          definitions and to combine these token definitions into a token
+          library. In fact two makefiles are created in the source output
+          directory (see <link linkend="Output">section 2.3</link>). The first
+          is called <code>M_api</code> and is designed for stand-alone library
+          construction. The second is called <code>Makefile</code> and is
+          designed for use with the library building script
+          <code>MAKE_LIBS</code> provided with <code>tspec</code>.</para>
+  
+        <para>There are other methods whereby the source output file may be
+          changed into a set of token definitions. For example, in
+          <code>c:sys.h</code> the <code>METHOD</code> file property (see
+          <link linkend="Properties">section 5.4</link>) is set to
+          <code>TDP</code>, causing the <code>tdp</code> program to be invoked
+          to produce the definitions for the basic C tokens for the system. As
+          another example consider:
+
+          <programlisting language="Tspec">
+$METHOD = "TNC" ;
++MACRO double fl_abs ( double ) ;
+%%%
+    ( make_tokdef fl_abs ( exp x ) exp
+        ( floating_abs impossible x ) )
+%%%</programlisting></para>
+  
+        <para>The include output file will specify a token <code>fl_abs</code>
+          which takes a <code>double</code> and returns a <code>double</code>.
+          The <code>TNC</code> method tells <code>MAKE_LIBS</code> that the
+          source output file, which will just contain the quoted text:
+
+          <programlisting language="TNC">
+( make_tokdef fl_abs ( exp x ) exp
+    ( floating_abs impossible x ) )</programlisting>
+
+          is an input file for the TDF notation compiler, <code>tnc</code>
+          (see reference 2). Thus we have defined a token which directly
+          accesses the TDF <code>floating_abs</code> construct.</para>
+      </section>
+  </chapter>
+  
+  <chapter id="S7">
+    <title>Changes in tspec 2.0</title>
+  
+      <para>This document describes <code>tspec</code> version 2.0.
+        <code>tspec</code> 2.0 contains significant changes from previous
+        releases. For convenience the main changes which are visible to the
+        <code>tspec</code> user are listed here:
+        <itemizedlist>
+          <listitem>
+            <para>The added specification level of named subsets of headers
+              has been introduced (see
+              <link linkend="Levels">section 2.1</link>).  This has been done
+              by introducing the <code>+SUBSET</code> construct and extending
+              the <code>+IMPLEMENT</code> and <code>+USE</code> constructs, as
+              well as the command-line options. The previous method of dealing
+              with such subsets - namely shared headers - is now obsolete and
+              its use is discouraged.</para>
+          </listitem>
+      
+          <listitem>
+            <para>A number of new command-line options have been added, and
+              some of the existing options have been modified slightly (see
+              <link linkend="Options">section 2.5</link>).</para>
+          </listitem>
+      
+          <listitem>
+            <para>The suffix <code>.api</code> has been added to the output
+              directories (see <link linkend="Output">section 2.3</link>) to
+              avoid possible confusion with other include file
+              directories.</para>
+          </listitem>
+      
+          <listitem>
+            <para>The use of identifiers beginning with <code>~</code> as
+              local variables is new (see <link linkend="Identifiers">section
+              4.1.2</link>).</para>
+          </listitem>
+      
+          <listitem>
+            <para>The <code>+STATEMENT</code> and <code>+DEFINE</code>
+              constructs (see <link linkend="Statement">section 4.5</link> and
+              <link linkend="Define">section 4.6</link>) are new.</para>
+          </listitem>
+      
+          <listitem>
+            <para>The <code>(extern)</code>, <code>(weak)</code> and
+              <code>(const)</code> qualifiers for <code>+FUNC</code> and
+              <code>+EXP</code> (see <link linkend="Func">section 4.2</link> and
+              <link linkend="Exp">section 4.3</link>) are new.</para>
+          </listitem>
+      
+          <listitem>
+            <para>The <code>(signed)</code> and <code>(unsigned)</code>
+              qualifiers for <code>+TYPE</code> (see
+              <link linkend="Type">section 4.7</link>) are new.</para>
+          </listitem>
+      
+          <listitem>
+            <para>The <code>~special</code> type constructor (see
+              <link linkend="Typedef">section 4.8</link>) is new.</para>
+          </listitem>
+      
+          <listitem>
+            <para>The <code>~abstract</code> type constructor has been
+              abandoned.</para>
+          </listitem>
+      
+          <listitem>
+            <para>The <code>+BASE_API</code> command described in
+              <link linkend="FineImpl">section 6.1</link> is new.</para>
+          </listitem>
+      
+          <listitem>
+            <para>The indexing routines (see
+              <link linkend="Index">section 6.3</link>) have been greatly
+              improved.</para>
+          </listitem>
+        </itemizedlist></para>
+  </chapter>
+  
+    <chapter id="S8">
+      <title>References</title>
+    
+      <para><dt:doc name="papers/porting"/>, DRA, 1993.</para>
+    
+      <para><remark>"The TDF Notation Compiler"</remark>, DRA, 1993.</para>
+    
+      <para><dt:doc name="user/guides/tdfc"/>, DRA, 1993.</para>
+  </chapter>
+</book>

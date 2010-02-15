@@ -1,10 +1,9 @@
 # $Id$
 
-NAME = tdfc
-DOCTOOLS_BASE = .
-PROJECT_NAME = blah1
-PROJECT_URL = blah2
-THEMENAME = tendra
+.include "Makefile.inc"
 
-include doctools/Mk/docbook.mk
+
+DOC=	${.CURDIR:T}
+
+.include <tendra.doc.mk>
 
