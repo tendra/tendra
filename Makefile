@@ -25,6 +25,14 @@ all:
 	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} all
 .endfor
 
+doc:
+.for proj in ${PROJECTS}
+. if !exists(${.CURDIR}/${proj}/Makefile.defs)
+	cd ${.CURDIR}/${proj} && ./makedefs
+. endif
+	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} doc
+.endfor
+
 clean:
 .for proj in ${PROJECTS}
 . if !exists(${.CURDIR}/${proj}/Makefile.defs)
@@ -42,13 +50,13 @@ install:
 .endfor
 
 # Render documentation for use on the tendra.org website.
-doc:
+doc-www:
 .for proj in ${PROJECTS} tendra-doc
 . if !exists(${.CURDIR}/${proj}/Makefile.defs)
 	cd ${.CURDIR}/${proj} && ./makedefs
 . endif
 . if exists(${.CURDIR}/${proj})
-	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} -DWEBSITE doc
+	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj-www/${proj} -DWEBSITE doc
 . endif
 .endfor
 
