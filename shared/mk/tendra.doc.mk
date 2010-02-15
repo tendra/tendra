@@ -147,15 +147,15 @@ ${OBJ_DDIR}/${DOC}/${DOC_JS}: ${JS_DIR}
 # User-facing targets
 #
 
-all:: ${OBJ_DDIR}/${DOC}/${DOC_INDEX}
+doc:: ${OBJ_DDIR}/${DOC}/${DOC_INDEX}
 .if !defined(WEBSITE)
-all:: ${OBJ_DDIR}/${DOC}/${DOC_CSS} ${OBJ_DDIR}/${DOC}/${DOC_JS}
+doc:: ${OBJ_DDIR}/${DOC}/${DOC_CSS} ${OBJ_DDIR}/${DOC}/${DOC_JS}
 .endif
 .if defined(MAN)
-all:: ${OBJ_DDIR}/${DOC}/${DOC_MAN}
+doc:: ${OBJ_DDIR}/${DOC}/${DOC_MAN}
 .endif
 .if "${DOC_IMGDEPS}" != ""
-all:: ${DOC_IMGDEPS:C/^/${OBJ_DDIR}\/${DOC}\//}
+doc:: ${DOC_IMGDEPS:C/^/${OBJ_DDIR}\/${DOC}\//}
 .endif
 
 
@@ -163,7 +163,7 @@ clean::
 	${REMOVE} -r ${OBJ_DDIR}/${DOC}
 
 
-install:: all
+install:: doc
 
 
 

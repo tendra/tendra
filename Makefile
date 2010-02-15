@@ -19,25 +19,36 @@ PROJECTS+=	tspec
 
 all:
 .for proj in ${PROJECTS}
+. if !exists(${.CURDIR}/${proj}/Makefile.defs)
 	cd ${.CURDIR}/${proj} && ./makedefs
+. endif
 	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} all
 .endfor
 
 clean:
 .for proj in ${PROJECTS}
+. if !exists(${.CURDIR}/${proj}/Makefile.defs)
+	cd ${.CURDIR}/${proj} && ./makedefs
+. endif
 	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} clean
 .endfor
 
 install:
 .for proj in ${PROJECTS}
+. if !exists(${.CURDIR}/${proj}/Makefile.defs)
+	cd ${.CURDIR}/${proj} && ./makedefs
+. endif
 	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} install
 .endfor
 
 # Render documentation for use on the tendra.org website.
 doc:
 .for proj in ${PROJECTS} tendra-doc
-. if exists(${.CURDIR}/${proj}/doc)
-	cd ${.CURDIR}/${proj}/doc && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} -DWEBSITE
+. if !exists(${.CURDIR}/${proj}/Makefile.defs)
+	cd ${.CURDIR}/${proj} && ./makedefs
+. endif
+. if exists(${.CURDIR}/${proj})
+	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} -DWEBSITE doc
 . endif
 .endfor
 
