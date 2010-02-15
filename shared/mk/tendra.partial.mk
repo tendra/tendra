@@ -41,13 +41,13 @@ ${OBJ_SDIR}/_partial/${part}/_partial.o:
 	    OBJ_DIR=${OBJ_SDIR}/_partial          \
 	    OBJ_SDIR=${OBJ_SDIR}/_partial/${part} \
 	    CFLAGS="${CFLAGS} ${PART_CFLAGS}"     \
-	    _partial                              \
+	    _partial
 
 clean::
 	@cd ${BASE_DIR}/${part} && ${MAKE}        \
 	    OBJ_DIR=${OBJ_SDIR}/_partial          \
 	    OBJ_SDIR=${OBJ_SDIR}/_partial/${part} \
-		clean                                 \
+		clean
 
 .endfor
 
