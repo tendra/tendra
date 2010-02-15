@@ -19,17 +19,25 @@ PROJECTS+=	tspec
 
 all:
 .for proj in ${PROJECTS}
-	cd ${proj} && ./makedefs
-	cd ${proj} && ${MAKE} all
+	cd ${.CURDIR}/${proj} && ./makedefs
+	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} all
 .endfor
 
 clean:
 .for proj in ${PROJECTS}
-	cd ${proj} && ${MAKE} clean
+	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} clean
 .endfor
 
 install:
 .for proj in ${PROJECTS}
-	cd ${proj} && ${MAKE} install
+	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} install
+.endfor
+
+# Render documentation for use on the tendra.org website.
+doc:
+.for proj in ${PROJECTS} tendra-doc
+. if exists(${.CURDIR}/${proj}/doc)
+	cd ${.CURDIR}/${proj}/doc && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} -DWEBSITE
+. endif
 .endfor
 
