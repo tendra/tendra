@@ -55,7 +55,6 @@ ${target}:: .PHONY
 .endfor
 
 
-PUBLIC_BIN=	${PREFIX}/bin
 INSTALL_DIR=	${PREFIX}/lib/TenDRA
 COMMON_DIR=	${INSTALL_DIR}/lib
 MACH_DIR=	${INSTALL_DIR}/machines

@@ -20,6 +20,8 @@ PARTS+=	src/installers/power/aix
 .include <tendra.partial.mk>
 
 
+EXEC_BIN=	${MACH_BASE}/bin
+
 PROG=	trans
 
 .include <tendra.prog.mk>
