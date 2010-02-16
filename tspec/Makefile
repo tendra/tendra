@@ -3,6 +3,10 @@
 .include "Makefile.inc"
 
 
+${OBJ_DIR}/src/tspec:
+	cd ${src} && ${MAKE} ${.TARGET}
+
+
 .if !exists(Makefile.defs)
 .BEGIN:
 	@${ECHO} "Please run 'makedefs' prior to running (b)make"
@@ -17,21 +21,33 @@ SUBDIR+=	doc
 .include <tendra.subdir.mk>
 
 
-#TSPEC_FLAGS = -Otspec/TenDRA/include -Stspec/TenDRA/src -a
-# TODO Note posix3 is work in progress and therefore disabled
-#BASE_APIS = ansi iso posix posix1 posix2 unix95 xpg3 xpg4 svid3 svid3
-#EXT_APIS = bsd_extn dummy gcc cpp motif/1_2 \
-#	x5/aw x5 x5/ext x5/lib x5/mit x5/mu x5/proto x5/t
-#
-#	+${MKDIR} tspec
-#	for api in ${BASE_APIS}; do \
-#		src/tspec ${TSPEC_FLAGS} -Ibase $$api; \
-#	done
-#	for api in ${EXT_APIS}; do \
-#		src/tspec ${TSPEC_FLAGS} -Ibase -Iextension $$api; \
-#	done
-#
-#install: tspec
-#	$(INSTALL) -m 755 -d $(SHAREDIR)
-#	$(COPY) -R tspec $(SHAREDIR)/
+TSPEC=	${OBJ_DIR}/src/tspec
+TSPEC_FLAGS+=	-a
+
+BASE_APIS+=	ansi
+BASE_APIS+=	iso
+BASE_APIS+=	posix
+BASE_APIS+=	posix1
+BASE_APIS+=	posix2
+#BASE_APIS+=	posix3
+BASE_APIS+=	unix95
+BASE_APIS+=	xpg3
+BASE_APIS+=	xpg4
+BASE_APIS+=	svid3
+BASE_APIS+=	svid3
+
+EXT_APIS+=	bsd_extn
+EXT_APIS+=	dummy
+EXT_APIS+=	gcc
+EXT_APIS+=	cpp
+EXT_APIS+=	motif/1_2
+EXT_APIS+=	x5/aw
+EXT_APIS+=	x5
+EXT_APIS+=	x5/lib
+EXT_APIS+=	x5/mit
+EXT_APIS+=	x5/mu
+EXT_APIS+=	x5/proto
+EXT_APIS+=	x5/t
+
+.include <tendra.tspec.mk>
 
