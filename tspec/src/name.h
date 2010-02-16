@@ -104,15 +104,6 @@
 
 
 /*
-    OUTPUT MAKEFILES
-
-    This macros gives the location of the output makefile.
-*/
-
-#define MAKEFILE		"%s/%s.api/Makefile"
-
-
-/*
     MISCELLANEOUS FILES
 
     These macros give certain standard file names.

@@ -7,7 +7,6 @@ SRCS+=	hash.c
 SRCS+=	index.c
 SRCS+=	lex.c
 SRCS+=	main.c
-SRCS+=	makefile.c
 SRCS+=	name.c
 SRCS+=	object.c
 SRCS+=	print.c

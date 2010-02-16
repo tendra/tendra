@@ -1548,21 +1548,12 @@ $property = "string" ;</programlisting>
           this API, which may be stored in a token library. To facilitate this
           process <code>tspec</code> creates the source output files for each
           implemented header <code>api:header</code> containing something
-          like:
+          like:</para>
 
           <programlisting language="C">
 #pragma implement interface &lt;../api/header&gt;
 #include &lt;header&gt;</programlisting>
 
-          together with a makefile to compile all these programs to token
-          definitions and to combine these token definitions into a token
-          library. In fact two makefiles are created in the source output
-          directory (see <link linkend="Output">section 2.3</link>). The first
-          is called <code>M_api</code> and is designed for stand-alone library
-          construction. The second is called <code>Makefile</code> and is
-          designed for use with the library building script
-          <code>MAKE_LIBS</code> provided with <code>tspec</code>.</para>
-  
         <para>There are other methods whereby the source output file may be
           changed into a set of token definitions. For example, in
           <code>c:sys.h</code> the <code>METHOD</code> file property (see

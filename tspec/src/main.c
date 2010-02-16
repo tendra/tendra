@@ -64,7 +64,6 @@
 #include "hash.h"
 #include "index.h"
 #include "lex.h"
-#include "makefile.h"
 #include "name.h"
 #include "syntax.h"
 #include "type.h"
@@ -379,10 +378,6 @@ main(int argc, char **argv)
 	    if (show_index == 0) {
 		print_set(commands, 0);
 		print_set(commands, 1);
-		if (file == NULL) {
-		    hash_elem *e = sort_hash(subsets);
-		    print_makefile(api, e);
-		}
 	    } else {
 		if (show_index == 1) {
 		    print_index(commands);
