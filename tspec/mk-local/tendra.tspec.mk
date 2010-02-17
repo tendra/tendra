@@ -20,9 +20,11 @@ TSPEC_FLAGS+=	-S${OBJ_DIR}/share/TenDRA/src
 
 all:: ${TSPEC}
 .for api in ${BASE_APIS}
+	@${ECHO} "==> Creating API source for ${api}"
 	${TSPEC} ${TSPEC_FLAGS} -I${BASE_DIR}/base ${api}
 .endfor
 .for api in ${EXT_APIS}
+	@${ECHO} "==> Creating API source for ${api}"
 	${TSPEC} ${TSPEC_FLAGS} -I${BASE_DIR}/base -I${BASE_DIR}/extension ${api}
 .endfor
 
