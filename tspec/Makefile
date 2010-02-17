@@ -40,14 +40,14 @@ EXT_APIS+=	bsd_extn
 EXT_APIS+=	dummy
 EXT_APIS+=	gcc
 EXT_APIS+=	cpp
-EXT_APIS+=	motif/1_2
-EXT_APIS+=	x5/aw
-EXT_APIS+=	x5
-EXT_APIS+=	x5/lib
-EXT_APIS+=	x5/mit
-EXT_APIS+=	x5/mu
-EXT_APIS+=	x5/proto
-EXT_APIS+=	x5/t
+#EXT_APIS+=	motif/1_2
+#EXT_APIS+=	x5/aw
+#EXT_APIS+=	x5
+#EXT_APIS+=	x5/lib
+#EXT_APIS+=	x5/mit
+#EXT_APIS+=	x5/mu
+#EXT_APIS+=	x5/proto
+#EXT_APIS+=	x5/t
 
 .include <tendra.tspec.mk>
 
