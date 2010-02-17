@@ -16,8 +16,11 @@ _TENDRA_SUBDIR_MK_=1
 
 
 
-# Proceed to subdirs.
 .if !empty(SUBDIR)
+# Just in case there happens to be a target of the same name.
+.PHONY: ${SUBDIR}
+
+# Proceed to subdirs.
 . for target in all doc clean install
 ${target}::
 .  for entry in ${SUBDIR}
