@@ -34,7 +34,6 @@ BASE_APIS+=	unix95
 BASE_APIS+=	xpg3
 BASE_APIS+=	xpg4
 BASE_APIS+=	svid3
-BASE_APIS+=	svid3
 
 EXT_APIS+=	bsd_extn
 EXT_APIS+=	dummy
