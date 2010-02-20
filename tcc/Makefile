@@ -12,7 +12,7 @@
 
 
 SUBDIR+=	src
-SUBDIR+=	lib
+SUBDIR+=	env
 SUBDIR+=	doc
 
 .include <tendra.subdir.mk>

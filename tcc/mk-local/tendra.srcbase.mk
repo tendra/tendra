@@ -6,7 +6,7 @@
 _TENDRA_SRCBASE_MK_=1
 
 
-ENVIRONMENT=  	lib/env
+ENVIRONMENT=  	env
 
 
 .endif	# !defined(_TENDRA_SRCBASE_MK_)
