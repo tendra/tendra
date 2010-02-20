@@ -3,8 +3,6 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	tcc.1
-SUBDIR+=	tccenv.5
 SUBDIR+=	tchk.1
 SUBDIR+=	tcpplus.1
 SUBDIR+=	tdfc2.1

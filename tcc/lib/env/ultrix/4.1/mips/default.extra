@@ -1,0 +1,5 @@
++MACHINE		"ultrix-4.1-mips"
++VERSION		"2.0"
++FLAG			"--1MA"
++AS			"/bin/as -O2"
++AS1			"/usr/lib/cmplrs/as/as1 -O2"

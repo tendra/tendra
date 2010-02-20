@@ -1,0 +1,7 @@
+/* TCC ENVIRONMENT : PROFILING FOR ALPHA */
+
+<SYS_LINK       	"-L/usr/lib/cmplrs/cc/"
++FLAG_TRANS     	"-P"
++CRT0			"/usr/lib/cmplrs/cc/mcrt0.o"
++SYS_LIBC		"-lprof1 -lc"
++LINE_START		"#pragma@preserve@*"

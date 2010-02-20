@@ -6,7 +6,6 @@
 SUBDIR+=	apichecking
 SUBDIR+=	pragmatoken
 SUBDIR+=	symboltable
-#SUBDIR+=	tcc
 SUBDIR+=	tcpplus
 SUBDIR+=	tdfc
 

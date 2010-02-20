@@ -1,0 +1,8 @@
+/* tcc environment for tdp */
++TDFC		"<TENDRA_BINDIR>/tdp"
++TLD		"<TENDRA_BINDIR>/tsimp"
++TNC		"<TENDRA_BINDIR>/tnc -z"
++DISP		"<TENDRA_BINDIR>/tnc -p"
++FLAG		"-no_startup_options"
++FLAG		"-special tnc"
++FLAG		"-special pl_tdf"

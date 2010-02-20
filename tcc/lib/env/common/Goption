@@ -1,0 +1,4 @@
+/* tcc environment implementing -G flag */
++CRT0		""
++SYS_LIBC	""
++FLAG_LD	"-G"

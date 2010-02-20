@@ -3,7 +3,8 @@
 .include "Makefile.inc"
 
 
-TCCOPTS=-Y${OBJ_DIR}/${ENVIRONMENT}/build -yTENDRA_BASEDIR="${OBJ_DIR}/src" -Yc++ -I${SRC}
+#TCCOPTS=-Y${OBJ_DIR}/${ENVIRONMENT}/build -yTENDRA_BASEDIR="${OBJ_DIR}/src" -Yc++ -I${SRC}
+#TCCOPTS=-yTENDRA_BASEDIR="${OBJ_DIR}/src" -Yc++ -I${SRC}
 
 SYS_FILES=basic.j ptr_func.j ptr_mem.j throw.j vtable.j
 

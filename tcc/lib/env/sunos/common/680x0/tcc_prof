@@ -1,0 +1,5 @@
+/* TCC ENVIRONMENT : PROFILING FOR m68k sunos */
+
++SYS_LIBC		"-lc_p"
++FLAG_TRANS		"-P"
++LINE_START		"#pragma@preserve@*"

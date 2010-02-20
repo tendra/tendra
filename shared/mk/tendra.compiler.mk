@@ -114,7 +114,7 @@ CCOPTS+= -D_${OSVER}
 #
 
 . if "${TCC}" == ""
-TCC=	${OBJ_DIR}/src/tools/tcc/tcc	\
+TCC=	tcc	\
 		-Y${OBJ_DIR}/src/lib/env/build	\
 		-yTENDRA_BASEDIR=${OBJ_DIR}/src
 

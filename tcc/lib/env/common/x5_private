@@ -1,0 +1,4 @@
+/* tcc environment for X11R5 private headers */
+
++FLAG		"-D__X11_P_HEADERS"
+<INFO		"X11@Release@5@Private@Headers"

@@ -1,0 +1,2 @@
+/* tcc environment implementing the -E option */
++LINE_START	"#pragma@no@extra@directive"
