@@ -30,19 +30,19 @@ ${OBJ_DIR}/fixenv.sed:
 	@${ECHO} "1,\$$s%-TMPDIR-%${TMP_DIR}%g"                >> ${.TARGET}
 
 .for entry in ${ENVFILE}
-${OBJ_DIR}/${ENVIRONMENT}/${entry}: ${OBJ_DIR}/fixenv.sed ${entry}
-	@${CONDCREATE} "${OBJ_DIR}/${ENVIRONMENT}"
+${OBJ_DIR}/env/${entry}: ${OBJ_DIR}/fixenv.sed ${entry}
+	@${CONDCREATE} "${OBJ_DIR}/env"
 	@${ECHO} "==> Fixing paths for ${WRKDIR}/${entry} environment"
-	sed -f ${OBJ_DIR}/fixenv.sed ${entry} > ${OBJ_DIR}/${ENVIRONMENT}/${entry}
+	sed -f ${OBJ_DIR}/fixenv.sed ${entry} > ${OBJ_DIR}/env/${entry}
 .endfor
 
-${OBJ_DIR}/${ENVIRONMENT}/_extra: ${OBJ_DIR}/${ENVIRONMENT} \
-	${OBJ_DIR}/${ENVIRONMENT}/build ${OBJ_DIR}/${ENVIRONMENT}/default
+${OBJ_DIR}/env/_extra: ${OBJ_DIR}/env \
+	${OBJ_DIR}/env/build ${OBJ_DIR}/env/default
 .if "${ENVEXTRA}" != ""
-	cat ${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/build
-	cat ${ENVEXTRA} >> ${OBJ_DIR}/${ENVIRONMENT}/default
+	cat ${ENVEXTRA} >> ${OBJ_DIR}/env/build
+	cat ${ENVEXTRA} >> ${OBJ_DIR}/env/default
 .endif
-	@touch ${OBJ_DIR}/${ENVIRONMENT}/_extra
+	@touch ${OBJ_DIR}/env/_extra
 
 
 
@@ -50,19 +50,19 @@ ${OBJ_DIR}/${ENVIRONMENT}/_extra: ${OBJ_DIR}/${ENVIRONMENT} \
 # User-facing targets
 #
 
-all:: ${ENVFILE:C/^/${OBJ_DIR}\/${ENVIRONMENT}\//} ${OBJ_DIR}/${ENVIRONMENT}/_extra
+all:: ${ENVFILE:C/^/${OBJ_DIR}\/env\//} ${OBJ_DIR}/env/_extra
 
 
 clean::
-	${REMOVE} ${ENVFILE:C/^/${OBJ_DIR}\/${ENVIRONMENT}\//}
-	${REMOVE} ${OBJ_DIR}/${ENVIRONMENT}/_extra
+	${REMOVE} ${ENVFILE:C/^/${OBJ_DIR}\/env\//}
+	${REMOVE} ${OBJ_DIR}/env/_extra
 
 
 install:: all
 	@${ECHO} "==> Installing ${WRKDIR}/ ${ENVFILE} environments"
 	@${CONDCREATE} "${PREFIX}/lib/tcc/env" ;
 .for entry in ${ENVFILE}
-	${INSTALL} -m 644 ${OBJ_DIR}/${ENVIRONMENT}/${entry} ${PREFIX}/lib/tcc/env/${entry}
+	${INSTALL} -m 644 ${OBJ_DIR}/env/${entry} ${PREFIX}/lib/tcc/env/${entry}
 .endfor
 
 
