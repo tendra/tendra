@@ -3,8 +3,9 @@
 .include "Makefile.inc"
 
 
+SUBDIR+=	devguide
 SUBDIR+=	man
-#SUBDIR+=	userguide
+SUBDIR+=	userguide
 
 .include <tendra.subdir.mk>
 
