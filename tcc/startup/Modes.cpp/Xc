@@ -1,0 +1,27 @@
+/*
+    STANDARD START-UP FILE FOR ISO C++
+
+    This file defines the built-in operators used in ISO C++.
+*/
+
+#line 1 "<start-up>"
+#pragma TenDRA begin
+
+// BUILT-IN MACROS
+#define __ANDF__	1
+#define __TenDRA__	1
+
+// LITERAL AND PROMOTION INFORMATION
+#include "../Literal/ansi.pf"
+#ifdef __ushort_to_int
+#pragma promote unsigned short:int
+#undef __ushort_to_int
+#endif
+
+// BUILT-IN ALLOCATION FUNCTIONS
+#pragma TenDRA keyword __size_t for keyword size_t
+struct __bad_alloc {} ;	// will be replaced by std::bad_alloc
+void *operator new ( __size_t ) throw ( __bad_alloc ) ;
+void *operator new [] ( __size_t ) throw ( __bad_alloc ) ;
+void operator delete ( void * ) throw () ;
+void operator delete [] ( void * ) throw () ;
