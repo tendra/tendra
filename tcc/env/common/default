@@ -1,10 +1,10 @@
 /* default environment for -MACH- */
 
 +TENDRA_MACHDIR		"<TENDRA_BASEDIR>/lib/TenDRA/machines/-MACH-"
-+TENDRA_BINDIR		"<TENDRA_MACHDIR>/bin"
++TENDRA_BINDIR		"<TENDRA_BASEDIR>/bin"
 +TENDRA_ENVDIR		"<TENDRA_BASEDIR>/lib/tcc/env"
 +TENDRA_LIBDIR		"<TENDRA_BASEDIR>/lib/TenDRA/lib"
-+TENDRA_INCLDIR		"<TENDRA_LIBDIR>/include"
++TENDRA_INCLDIR		"<TENDRA_BASEDIR>/share/tspec/TenDRA/include"
 +TENDRA_STARTUPDIR	"<TENDRA_LIBDIR>/startup"
 +TENDRA_TMPDIR		"/tmp"
 
@@ -15,7 +15,7 @@
 +TCPPLUSPP		"<TENDRA_BINDIR>/tcpplus -E"
 +CPP_SPEC_LINK		"<TENDRA_BINDIR>/tcpplus -S"
 +TLD			"/usr/bin/env tld"
-+TRANS			"<TENDRA_BINDIR>/trans"
++TRANS			"<TENDRA_MACHDIR>/bin/trans"
 +DISP			"/usr/bin/env disp"
 +PL_TDF			"/usr/bin/env tpl"
 +TNC			"/usr/bin/env tnc"
