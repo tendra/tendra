@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR=	tools installers lib
+SUBDIR=	installers lib
 
 # See shared/Makefile.inc
 .MAKEFLAGS:	_SHARED_BASEDIR=${.CURDIR}

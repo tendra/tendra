@@ -54,6 +54,8 @@ _TENDRA_BASE_MK_=1
 ${target}:: .PHONY
 .endfor
 
+# Things we expect to be installed on the system.
+TSPEC_PREFIX=	${PREFIX}/share/tspec/TenDRA
 
 INSTALL_DIR=	${PREFIX}/lib/TenDRA
 COMMON_DIR=	${INSTALL_DIR}/lib

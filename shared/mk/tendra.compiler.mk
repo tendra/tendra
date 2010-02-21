@@ -114,9 +114,10 @@ CCOPTS+= -D_${OSVER}
 #
 
 . if "${TCC}" == ""
-TCC=	tcc	\
-		-Y${OBJ_DIR}/src/lib/env/build	\
-		-yTENDRA_BASEDIR=${OBJ_DIR}/src
+TCC=	tcc
+#TCC=	tcc	\
+#		-Y${OBJ_DIR}/src/lib/env/build	\
+#		-yTENDRA_BASEDIR=${OBJ_DIR}/src
 
 # TODO: Our .cc files depend on tccisms. This is mostly for the benefit of
 # src/lib/cpp, and may be better suited to live there.
