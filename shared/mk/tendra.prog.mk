@@ -41,6 +41,7 @@ ${OBJ_SDIR}/${WRAPPER}: ${WRAPPER}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Adjusting paths for ${WRKDIR}/${WRAPPER}"
 	sed -e 1,\$$s%@@MACH_BASE@@%${MACH_BASE}%g \
+	    -e 1,\$$s%@@EXEC_BIN@@%${EXEC_BIN}%g   \
 	    -e 1,\$$s%@@PREFIX@@%${PREFIX}%g       \
 	    ${WRAPPER} > ${.TARGET}
 .endif
