@@ -4,6 +4,8 @@
 
 
 SUBDIR+=	style
+SUBDIR+=	orientation
+SUBDIR+=	porting
 
 .include <tendra.subdir.mk>
 
