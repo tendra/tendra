@@ -1,0 +1,28 @@
+# $Id$
+
+.include "Makefile.inc"
+
+
+#TCCOPTS=-Xc -Y32bit -Yansi
+
+# note power/, not ppc601/
+PART_CFLAGS+=	-I ${BASE_DIR}/src/power/common
+PART_CFLAGS+=	-I ${BASE_DIR}/src/power/aix
+
+# note power/, not ppc601/
+PARTS+=	src/common/construct
+PARTS+=	src/common/diag
+PARTS+=	src/common/linkinfo
+PARTS+=	src/common/reader
+PARTS+=	src/power/common
+PARTS+=	src/power/aix
+
+.include <tendra.partial.mk>
+
+
+EXEC_BIN=	${MACH_BASE}/bin
+
+PROG=	trans
+
+.include <tendra.prog.mk>
+

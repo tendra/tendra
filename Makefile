@@ -7,6 +7,7 @@
 
 PROJECTS+=	andfutils
 PROJECTS+=	calculus
+PROJECTS+=	installers-dra
 PROJECTS+=	lexi
 PROJECTS+=	libexds
 PROJECTS+=	make_err
