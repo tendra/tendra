@@ -58,7 +58,6 @@
 */
 
 #include "config.h"
-#include "release.h"
 #include "common_types.h"
 #include "basicread.h"
 #include "flags.h"
@@ -488,9 +487,5 @@ print_version(void)
 	(void) fprintf(stderr, "system %s: ", target_system);
 #ifdef __DATE__
 	(void) fprintf(stderr, "installer compilation %s", __DATE__);
-#endif
-	(void) fprintf(stderr, "\n");
-#ifdef RELEASE
-	(void) fprintf(stderr, "release: %s\n", RELEASE);
 #endif
 }

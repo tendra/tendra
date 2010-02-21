@@ -7,7 +7,6 @@ _TENDRA_SRCBASE_MK_=1
 
 
 APIS=         	src/lib/apis
-INCLUDE=      	src/include
 STARTUP=      	src/lib/startup
 STARTUP_MACH= 	src/lib/machines/${OSFAM}/${BLDARCH}/startup
 TOKENS_COMMON=	src/lib/machines/common/tokens
