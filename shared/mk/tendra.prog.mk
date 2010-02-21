@@ -39,7 +39,7 @@ ${OBJ_SDIR}/${PROG}: ${OBJS}
 .if defined(WRAPPER)
 ${OBJ_SDIR}/${WRAPPER}: ${WRAPPER}
 	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Adjusting paths for ${WRKDIR}/${WRAPPER}"
+	@${ECHO} "==> Setting paths for ${WRKDIR}/${WRAPPER}"
 	sed -e 1,\$$s%@@MACH_BASE@@%${MACH_BASE}%g \
 	    -e 1,\$$s%@@EXEC_BIN@@%${EXEC_BIN}%g   \
 	    -e 1,\$$s%@@PREFIX@@%${PREFIX}%g       \

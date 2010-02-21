@@ -32,7 +32,7 @@ ${OBJ_DIR}/fixenv.sed:
 .for entry in ${ENVFILE}
 ${OBJ_DIR}/env/${entry}: ${OBJ_DIR}/fixenv.sed ${entry}
 	@${CONDCREATE} "${OBJ_DIR}/env"
-	@${ECHO} "==> Fixing paths for ${WRKDIR}/${entry} environment"
+	@${ECHO} "==> Setting paths for ${WRKDIR}/${entry} environment"
 	sed -f ${OBJ_DIR}/fixenv.sed ${entry} > ${OBJ_DIR}/env/${entry}
 .endfor
 
