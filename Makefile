@@ -5,15 +5,19 @@
 # try it out. It is not intended to be packaged; rather, each project is
 # intended to stand alone, and those ought to be packaged separately.
 
-PROJECTS+=	andfutils
 PROJECTS+=	calculus
+PROJECTS+=	disp
 PROJECTS+=	installers-dra
 PROJECTS+=	lexi
 PROJECTS+=	libexds
+PROJECTS+=	make_tdf
 PROJECTS+=	make_err
 PROJECTS+=	producers-dra
 PROJECTS+=	sid
 PROJECTS+=	tcc
+PROJECTS+=	tld
+PROJECTS+=	tnc
+PROJECTS+=	tpl
 PROJECTS+=	tendra
 #PROJECTS+=	tendra-doc
 #PROJECTS+=	tendra-www

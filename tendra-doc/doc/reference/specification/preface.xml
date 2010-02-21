@@ -1,0 +1,144 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+  $Id$
+-->
+
+<preface>
+  <title>Preface</title>
+
+  <para>
+    This is Issue 4.0 of the TDF Specification. TDF version 4.0 is not bitwise
+    compatible with earlier versions.
+  </para>
+
+  <section>
+    <title>Major changes from issue 3.1</title>
+
+    <para>
+      A new <code>SORT</code> for <code>STRING</code> is introduced having the
+      same relationship to <code>TDFSTRING</code> as <code>BOOL</code> has to
+      <code>TDFBOOL</code>. This is used in place of <code>TDFSTRING</code> in
+      various 3.1 constructions.
+    </para>
+
+    <para>
+      They are also used in modified tag and token definitions and declarations
+      to provide extra consistency checks in the use of these tags or tokens,
+      and also may be used as names external to the TDF system. For example, the
+      signature of <emphasis>make_id_tagdec</emphasis> is now:
+
+      <programlisting language="TDF">
+t_intro:        TDFINT
+acc:            OPTION(ACCESS)
+signature:      OPTION(STRING)
+x:              SHAPE
+          -> TAGDEC</programlisting>
+    </para>
+
+    <para>
+      A new <code>EXP</code> constructor, <emphasis>initial_value</emphasis>, is
+      introduced to allow dynamic initialisation of global tags.
+    </para>
+
+    <para>
+      These changes arise mainly from requirements of C++, but are clearly
+      applicable elsewhere.
+    </para>
+
+    <para>
+      Magic numbers are introduced at the start of files containing TDF
+      bitstream information.
+    </para>
+
+    <para>
+      The version 3.1 constructor <emphasis>set_stack_limit</emphasis> has had
+      to be modified in the light of experience with platforms with ABIs which
+      require upward-growing stacks or use disjoint frame stacks and alloca
+      stacks.
+    </para>
+
+    <para>
+      Various other minor changes have been made to elucidate some rather
+      pathological cases, e.g. <emphasis>make_nof</emphasis> must have at least
+      one element. Also there are some cosmetic changes to improve consistency,
+      e.g. the order of the arguments of <emphasis>token</emphasis> are now
+      consistent with <emphasis>token_definition</emphasis>.
+    </para>
+  </section>
+
+  <section>
+    <title>Notes on revision 1</title>
+    <para>
+      This Revision 1 of Issue 4.0 incorporates a number of corrections which
+      have arisen where inconsistency or impracticability became evident when
+      validating the OSF Research Institute's AVS (ANDF Validation Suite). Apart
+      from minor textual corrections, the changes are:
+
+      <itemizedlist>
+        <listitem>
+          <para>
+            Use of installer-defined <code>TOKEN</code>s for accessing variable
+            parameter lists - see the companion document <ulink
+            url="reference/xhtml/register/">TDF Token Register (Revision
+            1)</ulink>.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            Tolerance of overflow necessary to allow simple implementation of
+            complex multiply and divide.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            Modified constraints on the arguments of
+            <emphasis>shift_left</emphasis>, <emphasis>shift_right</emphasis>,
+            <emphasis>rotate_left</emphasis>, <emphasis>rotate_right</emphasis>,
+            <emphasis>make_dynamic_callees</emphasis>,
+            <emphasis>make_var_tagdec</emphasis>,
+            <emphasis>make_tokdec</emphasis>, <emphasis>make_tokdef</emphasis>,
+            and <emphasis>user_info</emphasis>.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            Modified constant evaluation constraints with respect to
+            <emphasis>env_size</emphasis> and <emphasis>env_offset</emphasis>.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            <emphasis>chain_extern</emphasis> no longer supported.
+          </para>
+        </listitem>
+      </itemizedlist>
+
+      <para>
+        Changes under consideration but not included in Issue 4.0:
+      </para>
+
+      <itemizedlist>
+        <listitem>
+          <para>
+            Tokenisation of the various LIST constructs.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            Inclusion of the specification of run-time diagnostic information in
+            the main specification. This is currently given as an appendix, as
+            it it is less mature than the main specification.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
+</preface>

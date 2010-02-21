@@ -11,7 +11,7 @@
 .endif
 
 
-SUBDIR=		src
+SUBDIR+=	src
 
 .include <tendra.subdir.mk>
 

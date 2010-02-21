@@ -3,7 +3,8 @@
 .include "Makefile.inc"
 
 
-SUBDIR= error xalloc
+SUBDIR+=	error
+SUBDIR+=	xalloc
 
 .include <tendra.subdir.mk>
 
