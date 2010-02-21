@@ -1,0 +1,11 @@
+/*
+ * Diamond inheritance.
+ * $Id$
+ */
+
+digraph G {
+	node [ fontname=verdana, shape=plaintext ];
+
+	D -> { B; C; } -> A;
+}
+

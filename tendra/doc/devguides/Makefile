@@ -5,7 +5,6 @@
 
 SUBDIR+=	orientation
 SUBDIR+=	porting
-SUBDIR+=	tcpplus
 
 .include <tendra.subdir.mk>
 
