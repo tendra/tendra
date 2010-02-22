@@ -29,9 +29,9 @@ _TENDRA_WORK_DOC_MK_=1
 # roff.
 
 
-.if "${MAN}" != ""
+.if defined(MAN)
 DOC=	${MAN}
-.endif # "${MAN}" != ""
+.endif # defined(MAN)
 
 . if defined(HTML)
 DOC_EXT=	html
@@ -154,7 +154,7 @@ doc:: ${OBJ_DDIR}/${DOC}/${DOC_CSS} ${OBJ_DDIR}/${DOC}/${DOC_JS}
 .if defined(MAN)
 doc:: ${OBJ_DDIR}/${DOC}/${DOC_MAN}
 .endif
-.if "${DOC_IMGDEPS}" != ""
+.if defined(DOC_IMGDEPS)
 doc:: ${DOC_IMGDEPS:C/^/${OBJ_DDIR}\/${DOC}\//}
 .endif
 

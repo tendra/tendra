@@ -53,7 +53,7 @@ ${OBJ_SDIR}/${WRAPPER}: ${WRAPPER}
 #
 
 all:: ${OBJ_SDIR}/${PROG}
-.if "${WRAPPER}" != ""
+.if defined(WRAPPER)
 all:: ${OBJ_SDIR}/${WRAPPER}
 .endif
 
@@ -69,7 +69,7 @@ install:: all
 	@${ECHO} "==> Installing ${WRKDIR}/${PROG}"
 	@${CONDCREATE} "${EXEC_BIN}" "${WRAP_BIN}" "${MACH_BASE}/bin"
 	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${EXEC_BIN}/${PROG}
-.if "${WRAPPER}" != ""
+.if defined(WRAPPER)
 	${INSTALL} -m 755 ${OBJ_SDIR}/${WRAPPER} ${WRAP_BIN}/${PROG}
 .endif
 

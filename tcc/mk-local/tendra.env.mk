@@ -38,7 +38,7 @@ ${OBJ_DIR}/env/${entry}: ${OBJ_DIR}/fixenv.sed ${entry}
 
 ${OBJ_DIR}/env/_extra: ${OBJ_DIR}/env \
 	${OBJ_DIR}/env/build ${OBJ_DIR}/env/default
-.if "${ENVEXTRA}" != ""
+.if defined(ENVEXTRA)
 	cat ${ENVEXTRA} >> ${OBJ_DIR}/env/build
 	cat ${ENVEXTRA} >> ${OBJ_DIR}/env/default
 .endif

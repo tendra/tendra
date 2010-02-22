@@ -64,7 +64,7 @@ ${OBJ_SDIR}/${src:S/.tpl/.j/}: ${src}
 _machtok_target+=	${OBJ_SDIR}/${MACHTOK_DEP:R}.j
 _machtok_target+=	${OBJ_SDIR}/${MACHTOK_MAP:R}.j
 _machtok_target+=	${OBJ_SDIR}/${MACHTOK_EXCEPT:R}.t
-.if "${MACHTOK_VAR}" != ""
+.if defined(MACHTOK_VAR)
 _machtok_target+=	${OBJ_SDIR}/${MACHTOK_VAR:R}.t
 .else
 _machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
@@ -101,7 +101,7 @@ clean::
 	${REMOVE} ${OBJ_SDIR}/${MACHTOK_DEP:R}.j
 	${REMOVE} ${OBJ_SDIR}/${MACHTOK_MAP:R}.j
 	${REMOVE} ${OBJ_SDIR}/${MACHTOK_EXCEPT:R}.j ${OBJ_SDIR}/${MACHTOK_EXCEPT:R}.t
-.if "${MACHTOK_VAR}" != ""
+.if defined(MACHTOK_VAR)
 	${REMOVE} ${OBJ_SDIR}/${MACHTOK_VAR:R}.j ${OBJ_SDIR}/${MACHTOK_VAR:R}.t
 .endif
 	${REMOVE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/sys_toks.j ${OBJ_SDIR}/sys.j

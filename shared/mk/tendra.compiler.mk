@@ -47,7 +47,7 @@ _TENDRA_COMPILER_MK_=1
 #
 
 
-. if "${TCC}" != ""
+. if defined(TCC)
 
 #TPPOPTS?=
 TCCOPTS?=
@@ -62,7 +62,7 @@ CFLAGS+=	${TCCOPTS}
 CXXFLAGS+=	${TXXOPTS}
 CCOPTS+=
 
-. elif "${GCC}" != ""
+. elif defined(GCC)
 
 #GPPOPTS?=	-std=c89
 GCCOPTS?=	-std=c89
@@ -89,7 +89,7 @@ CCOPTS+=
 
 
 # Options applicable to all compilers
-. if "${OSVER}" != ""
+. if defined(OSVER)
 CCOPTS+= -D_${OSVER}
 . endif
 
@@ -113,7 +113,7 @@ CCOPTS+= -D_${OSVER}
 #       build .j files
 #
 
-. if "${TCC}" == ""
+. if !defined(TCC)
 TCC=	tcc
 #TCC=	tcc	\
 #		-Y${OBJ_DIR}/src/lib/env/build	\
