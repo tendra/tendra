@@ -37,23 +37,23 @@ MD_EXECFMT!=                            \
         *)         echo unknown;;       \
     esac;
 
-MD_BLDARCH!=                           \
-    case "${HOSTARCH}" in              \
-        alpha)         echo alpha;;    \
-        amd64|x86_64)  echo amd64;;    \
-        i?86|i86pc)    echo 80x86;;    \
-        sparc|sparc64) echo sparc;;    \
-        *)             echo unknown;;  \
+MD_BLDARCH!=                            \
+    case "${HOSTARCH}" in               \
+        alpha)         echo alpha;;     \
+        amd64|x86_64)  echo amd64;;     \
+        i?86|i86pc)    echo 80x86;;     \
+        sparc|sparc64) echo sparc;;     \
+        *)             echo unknown;;   \
     esac;
 
-MD_BLDARCHBITS!=                       \
-    case "${HOSTARCH}" in              \
-        alpha)        echo 64;;        \
-        amd64|x86_64) echo 64;;        \
-        i?86|i86pc)   echo 32;;        \
-        sparc)        echo 32;;        \
-        sparc64)      echo 64;;        \
-        *)            echo unknown;;   \
+MD_BLDARCHBITS!=                        \
+    case "${HOSTARCH}" in               \
+        alpha)        echo 64;;         \
+        amd64|x86_64) echo 64;;         \
+        i?86|i86pc)   echo 32;;         \
+        sparc)        echo 32;;         \
+        sparc64)      echo 64;;         \
+        *)            echo unknown;;    \
     esac;
 
 MD_OSFAM!=                              \
