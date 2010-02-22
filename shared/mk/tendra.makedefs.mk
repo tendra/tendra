@@ -26,67 +26,62 @@ HOSTARCH!=	${UNAME} -m
 SYSTEM!=	${UNAME} -s
 VERSION!=	${UNAME} -r
 
-MD_EXECFMT!= Makedefs_execfmt() {               \
-                case "${SYSTEM}" in             \
-                DragonFly) echo elf;;           \
-                FreeBSD)   echo elf;;           \
-                Linux)     echo elf;;           \
-                NetBSD)    echo elf;;           \
-                OpenBSD)   echo elf;;           \
-                SunOS)     echo elf;;           \
-                *)         echo unknown;;       \
-                esac;                           \
-            }; Makedefs_execfmt
+MD_EXECFMT!=                            \
+    case "${SYSTEM}" in                 \
+        DragonFly) echo elf;;           \
+        FreeBSD)   echo elf;;           \
+        Linux)     echo elf;;           \
+        NetBSD)    echo elf;;           \
+        OpenBSD)   echo elf;;           \
+        SunOS)     echo elf;;           \
+        *)         echo unknown;;       \
+    esac;
 
-MD_BLDARCH!= Makedefs_bldarch() {               \
-                 case "${HOSTARCH}" in          \
-                 alpha)         echo alpha;;    \
-                 amd64|x86_64)  echo amd64;;    \
-                 i?86|i86pc)    echo 80x86;;    \
-                 sparc|sparc64) echo sparc;;    \
-                 *)             echo unknown;;  \
-                 esac;                          \
-             }; Makedefs_bldarch
+MD_BLDARCH!=                           \
+    case "${HOSTARCH}" in              \
+        alpha)         echo alpha;;    \
+        amd64|x86_64)  echo amd64;;    \
+        i?86|i86pc)    echo 80x86;;    \
+        sparc|sparc64) echo sparc;;    \
+        *)             echo unknown;;  \
+    esac;
 
-MD_BLDARCHBITS!= Makedefs_bldarchbits() {       \
-                 case "${HOSTARCH}" in          \
-                 alpha)        echo 64;;        \
-                 amd64|x86_64) echo 64;;        \
-                 i?86|i86pc)   echo 32;;        \
-                 sparc)        echo 32;;        \
-                 sparc64)      echo 64;;        \
-                 *)            echo unknown;;   \
-                 esac;                          \
-             }; Makedefs_bldarchbits
+MD_BLDARCHBITS!=                       \
+    case "${HOSTARCH}" in              \
+        alpha)        echo 64;;        \
+        amd64|x86_64) echo 64;;        \
+        i?86|i86pc)   echo 32;;        \
+        sparc)        echo 32;;        \
+        sparc64)      echo 64;;        \
+        *)            echo unknown;;   \
+    esac;
 
-MD_OSFAM!= Makedefs_osfam() {                   \
-                case "${SYSTEM}" in             \
-                DragonFly) echo dragonfly;;     \
-                FreeBSD)   echo freebsd;;       \
-                Linux)     echo linux;;         \
-                NetBSD)    echo netbsd;;        \
-                OpenBSD)   echo openbsd;;       \
-                SunOS)     echo solaris;;       \
-                *)         echo unknown;;       \
-                esac;                           \
-            }; Makedefs_osfam
+MD_OSFAM!=                              \
+    case "${SYSTEM}" in                 \
+        DragonFly) echo dragonfly;;     \
+        FreeBSD)   echo freebsd;;       \
+        Linux)     echo linux;;         \
+        NetBSD)    echo netbsd;;        \
+        OpenBSD)   echo openbsd;;       \
+        SunOS)     echo solaris;;       \
+        *)         echo unknown;;       \
+    esac;
 
-MD_OSVER!= Makedefs_osver() {                   \
-                case "${SYSTEM}.${VERSION}" in  \
-                DragonFly.1*) echo DRAGONFLY1;; \
-                FreeBSD.4*)   echo FREEBSD4;;   \
-                FreeBSD.5*)   echo FREEBSD5;;   \
-                FreeBSD.6*)   echo FREEBSD6;;   \
-                Linux.2.4*)   echo LINUX24;;    \
-                Linux.2.6*)   echo LINUX26;;    \
-                NetBSD.4*)    echo NETBSD4;;    \
-                NetBSD.5*)    echo NETBSD5;;    \
-                OpenBSD.3*)   echo OPENBSD3;;   \
-                OpenBSD.4*)   echo OPENBSD4;;   \
-                SunOS.5*)     echo SUNOS5;;     \
-                *)            echo unknown;;    \
-                esac;                           \
-            }; Makedefs_osver
+MD_OSVER!=                              \
+    case "${SYSTEM}.${VERSION}" in      \
+        DragonFly.1*) echo DRAGONFLY1;; \
+        FreeBSD.4*)   echo FREEBSD4;;   \
+        FreeBSD.5*)   echo FREEBSD5;;   \
+        FreeBSD.6*)   echo FREEBSD6;;   \
+        Linux.2.4*)   echo LINUX24;;    \
+        Linux.2.6*)   echo LINUX26;;    \
+        NetBSD.4*)    echo NETBSD4;;    \
+        NetBSD.5*)    echo NETBSD5;;    \
+        OpenBSD.3*)   echo OPENBSD3;;   \
+        OpenBSD.4*)   echo OPENBSD4;;   \
+        SunOS.5*)     echo SUNOS5;;     \
+        *)            echo unknown;;    \
+    esac;
 
 
 .endif	# !defined(_TENDRA_MAKEDEFS_MK_)
