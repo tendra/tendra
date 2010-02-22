@@ -4,6 +4,7 @@
 
 
 CFLAGS+=	-Ishared
+CFLAGS+=	-I${BASE_DIR}/include
 
 SRCS+=	bitvec.c
 SRCS+=	cstring.c
