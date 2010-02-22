@@ -46,6 +46,7 @@
 .if !defined(_TENDRA_BASE_MK_)
 _TENDRA_BASE_MK_=1
 
+
 # Default target
 .MAIN: all
 
@@ -53,6 +54,9 @@ _TENDRA_BASE_MK_=1
 .for target in all doc clean install
 ${target}:: .PHONY
 .endfor
+
+
+PREFIX?=	/usr/local
 
 # Things we expect to be installed on the system.
 TSPEC_PREFIX=	${PREFIX}/share/tspec/TenDRA
@@ -77,6 +81,7 @@ SHELL=		/bin/sh
 
 # Keep in alphabetical order
 AR?=		ar
+CC?=    	cc
 COPY?=		cp
 DIA?=		dia
 DOT?=		dot
@@ -99,6 +104,18 @@ TLD?=		tld
 TNC?=		tnc
 TPL?=		tpl
 TSPEC?=		tspec
+UNAME?=		uname
 XSLTPROC?=	xsltproc
+
+
+.include <tendra.makedefs.mk>
+
+# Platform-specific things
+EXECFORMAT?=	${MD_EXECFMT}
+BLDARCH?=    	${MD_BLDARCH}
+BLDARCHBITS?=	${MD_BLDARCHBITS}
+OSFAM?=      	${MD_OSFAM}
+OSVER?=      	${MD_OSVER}
+
 
 .endif	# !defined(_TENDRA_BASE_MK_)
