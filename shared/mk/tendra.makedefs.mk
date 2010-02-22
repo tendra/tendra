@@ -59,7 +59,7 @@ MD_BLDARCHBITS!= Makedefs_bldarchbits() {       \
                  esac;                          \
              }; Makedefs_bldarchbits
 
-MD_OSFAM!=	Makedefs_osfam() {                  \
+MD_OSFAM!= Makedefs_osfam() {                   \
                 case "${SYSTEM}" in             \
                 DragonFly) echo dragonfly;;     \
                 FreeBSD)   echo freebsd;;       \
@@ -71,7 +71,7 @@ MD_OSFAM!=	Makedefs_osfam() {                  \
                 esac;                           \
             }; Makedefs_osfam
 
-MD_OSVER!=	Makedefs_osver() {                  \
+MD_OSVER!= Makedefs_osver() {                   \
                 case "${SYSTEM}.${VERSION}" in  \
                 DragonFly.1*) echo DRAGONFLY1;; \
                 FreeBSD.4*)   echo FREEBSD4;;   \
