@@ -107,23 +107,9 @@
 		<para>which tells <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> to interpret <emphasis remap='B'>text</emphasis> as if it were passed on
 			the command-line.	So, for example, an environment consisting of the lines</para>
 
-		<informaltable pgwide='0' frame='none'>
-			<tgroup cols='2' align='center'>
-				<colspec colname='c1'/>
-				<colspec colname='c2'/>
-				<tbody>
-					<row>
-						<entry align='left'>+FLAG "-Yposix"</entry>
-					</row>
-					<row>
-						<entry align='left'>+FLAG "-Xs"</entry>
-					</row>
-					<row>
-						<entry align='left'>+FLAG "-I/home/user/include"</entry>
-					</row>
-				</tbody>
-			</tgroup>
-		</informaltable>
+		<programlisting language="tccenv"><![CDATA[+FLAG "-Yposix"
++FLAG "-Xs"
++FLAG "-I/home/user/include"]]></programlisting>
 
 		<para>will modify <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> to use the POSIX 1003.1 API with strict checks,
 			and add the directory /home/user/include to the search path for #included
