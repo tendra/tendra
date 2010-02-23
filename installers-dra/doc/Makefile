@@ -3,8 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	src
-#SUBDIR+=	doc
+SUBDIR+=	man
 
 .include <tendra.subdir.mk>
 
