@@ -1,17 +1,29 @@
 # $Id$
 
-PREFIX ?= /usr/local
+.include "Makefile.inc"
 
-TARGETS = bitvec.h cstring.h dalloc.h dstring.h error.h \
-	exception.h istream.h ostream.h common.h \
-	bistream.h bostream.h cstring-list.h nstring-list.h
 
-all:
+HEADERS+=	bistream.h
+HEADERS+=	bitvec.h
+HEADERS+=	bostream.h
+HEADERS+=	common.h
+HEADERS+=	cstring-list.h
+HEADERS+=	cstring.h
+HEADERS+=	dalloc.h
+HEADERS+=	dstring.h
+HEADERS+=	error.h
+HEADERS+=	exception.h
+HEADERS+=	istream.h
+HEADERS+=	nstring-list.h
+HEADERS+=	ostream.h
 
-clean:
+.include <tendra.base.mk>
+.include <tendra.functions.mk>
 
-install: $(TARGETS)
-	install -m 755 -d ${PREFIX}/include
-	install -m 755 -d ${PREFIX}/include/exds
-	install -m 644 $(TARGETS) ${PREFIX}/include/exds
+
+install:: ${HEADERS}
+	@${CONDCREATE} "${INCLUDE_DIR}" "${INCLUDE_DIR}/exds"
+.for header in ${HEADERS}
+	${INSTALL} -m 644 ${header} ${INCLUDE_DIR}/exds/
+.endfor
 
