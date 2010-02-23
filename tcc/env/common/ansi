@@ -2,6 +2,8 @@
 
 +INCL			"-Nansi:<TENDRA_INCLDIR>/ansi.api"
 +LIB			"-lansi"
++FLAG_TDFC		"-ma"
 +FLAG_INSTALL		"-Yansi"
 +API_NAME		"-Aansi"
 +INFO			"ANSI@(X3.159)"
+
