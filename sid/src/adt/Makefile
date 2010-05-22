@@ -5,7 +5,6 @@
 
 SRCS+=	action.c
 SRCS+=	basic.c
-SRCS+=	cstring-list.c
 SRCS+=	entry-list.c
 SRCS+=	entry.c
 SRCS+=	key.c
