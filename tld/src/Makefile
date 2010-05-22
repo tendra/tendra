@@ -20,7 +20,6 @@ SRCS+=	file-name.c
 SRCS+=	fmt.c
 SRCS+=	main.c
 SRCS+=	rename-file.c
-SRCS+=	syntax.c
 SRCS+=	tdf.c
 
 .include <tendra.obj.mk>

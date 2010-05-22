@@ -74,8 +74,26 @@
 
 #include "name-key.h"
 #include "solve-cycles.h"
-#include "syntax.h"
 
+
+#define SYNTAX_NO_VALUE (-1)
+
+/*
+ * This function returns the positive integer digit value that the specified
+ * character should have, or SYNTAX_NO_VALUE if it has no value.
+ */
+static int
+syntax_value(char c)
+{
+	if ((c >= '0') && (c <= '9')) {
+		return(c - '0');
+	} else if ((c >= 'A') && (c <= 'Z')) {
+		return(c - 'A' + 10);
+	} else if ((c >= 'a') && (c <= 'z')) {
+		return(c - 'a' + 10);
+	}
+	return(SYNTAX_NO_VALUE);
+}
 
 static BoolT
 name_key_parse_hex_char(char * name,				 char    *c_ref)
@@ -83,6 +101,8 @@ name_key_parse_hex_char(char * name,				 char    *c_ref)
     char result;
     char c;
     int  value;
+
+	/* TODO: this appears to be equivalent to calling isxdigit() twice */
 
     if ((c = name[0]), ((value = syntax_value(c)) != SYNTAX_NO_VALUE)) {
 	result = (char)((unsigned)value << 4);
