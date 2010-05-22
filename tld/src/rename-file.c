@@ -90,7 +90,6 @@
 #include "adt/solve-cycles.h"
 
 #include "rename-file.h"
-#include "syntax.h"
 
 typedef enum {
     RTOK_SHAPE,

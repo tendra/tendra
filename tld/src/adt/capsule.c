@@ -79,7 +79,6 @@
 #include "error/error.h"
 
 #include "debug.h"
-#include "syntax.h"
 #include "tdf.h"
 #include "capsule.h"
 #include "name-key.h"
