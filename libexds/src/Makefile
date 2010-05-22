@@ -22,6 +22,8 @@ SRCS+=	nstring-list.c
 
 .include <tendra.obj.mk>
 
+.include <tendra.partial.mk>
+
 
 LIB=	exds
 
