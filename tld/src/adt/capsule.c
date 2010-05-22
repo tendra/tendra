@@ -68,6 +68,7 @@
 #include <limits.h>
 #include <string.h>
 #include <errno.h>
+#include <ctype.h>
 
 #include <exds/common.h>
 #include <exds/exception.h>
@@ -180,7 +181,7 @@ capsule_read_unit_set_name(IStreamT *istream,				    DStringT *dstring)
 	if (!istream_read_char(istream, &c)) {
 	    return(FALSE);
 	}
-    } while (syntax_is_white_space(c));
+    } while (isspace(c));
     if (c != '"') {
 	error(ERROR_FATAL, "Expected double quote to begin unit set name");
 	UNREACHED;

@@ -75,6 +75,7 @@
  */
 
 #include <errno.h>
+#include <ctype.h>
 
 #include <exds/common.h>
 #include <exds/exception.h>
@@ -127,7 +128,7 @@ rename_file_skip_white_space(IStreamT *istream,				      char    *c_ref)
 	    comment = TRUE;
 	    break;
 	  default:
-	    if ((!comment) && (!syntax_is_white_space(c))) {
+	    if ((!comment) && (!isspace(c))) {
 		*c_ref = c;
 		return(TRUE);
 	    }
