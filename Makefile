@@ -44,6 +44,11 @@ install:
 	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} install
 .endfor
 
+install-doc:
+.for proj in ${PROJECTS}
+	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} install-doc
+.endfor
+
 # Render documentation for use on the tendra.org website.
 doc-www:
 .for proj in ${PROJECTS} tendra-doc

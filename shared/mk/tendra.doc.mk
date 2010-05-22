@@ -163,7 +163,7 @@ clean::
 	${REMOVE} -r ${OBJ_DDIR}/${DOC}
 
 
-install:: doc
+install-doc:: doc
 
 
 
