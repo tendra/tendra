@@ -62,12 +62,12 @@
  */
 
 #include <exds/dalloc.h>
+#include <exds/cstring-list.h>
 
 #include "test-main.h"
 
 #include "../lang.h"
 #include "../output.h"
-#include "../adt/cstring-list.h"
 #include "../shared/check/check.h"
 #include "../shared/error/error.h"
 

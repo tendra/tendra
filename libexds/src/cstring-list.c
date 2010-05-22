@@ -64,6 +64,11 @@
  * "cstring-list.h".  See that file for more details.
  */
 
+/*
+ * TODO two thoughts: 1. linked lists are a recursive type; this implementation
+ * is not. 2. Lists are common and could be centralised.
+ */
+
 #include <stddef.h>
 #include <string.h>
 

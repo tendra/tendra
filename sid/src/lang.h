@@ -36,9 +36,10 @@
 #ifndef H_LANG
 #define H_LANG
 
+#include <exds/cstring-list.h>
+
 #include "output.h"
 #include "grammar.h"
-#include "adt/cstring-list.h"
 
 /*
  * This structure provides the interface for language-specific implementations;

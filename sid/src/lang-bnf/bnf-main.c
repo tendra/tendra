@@ -64,6 +64,7 @@
 #include <string.h>
 
 #include <exds/dalloc.h>
+#include <exds/cstring-list.h>
 
 #include "bnf-main.h"
 #include "bnf-out-info.h"
@@ -71,7 +72,6 @@
 
 #include "../lang.h"
 #include "../output.h"
-#include "../adt/cstring-list.h"
 #include "../shared/check/check.h"
 #include "../shared/error/error.h"
 

@@ -91,12 +91,12 @@
 #include <exds/error.h>
 #include <exds/istream.h>
 #include <exds/ostream.h>
+#include <exds/cstring-list.h>
 
 #include "shared/check/check.h"
 #include "shared/error/error.h"
 
 #include "adt/rule.h"
-#include "adt/cstring-list.h"
 
 #include "arg-parse.h"
 #include "grammar.h"

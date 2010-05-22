@@ -65,6 +65,7 @@
 
 #include <exds/dalloc.h>
 #include <exds/error.h>
+#include <exds/cstring-list.h>
 
 #include "c-main.h"
 #include "c-out-info.h"
@@ -75,7 +76,6 @@
 
 #include "../lang.h"
 #include "../output.h"
-#include "../adt/cstring-list.h"
 #include "../shared/check/check.h"
 #include "../shared/error/error.h"
 
