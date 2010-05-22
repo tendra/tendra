@@ -6,6 +6,10 @@
 _TENDRA_MAKEDEFS_MK_=1
 
 
+# Please note that blindly adding new OSes here is not enough to port TenDRA to
+# a new system; the guide to porting covers the process in detail.
+
+
 # We use ${UNAME} to tell us about the architecture we're building for. That
 # variable may be overridden for systems with an incompatible (or no) uname(1)
 # output.
