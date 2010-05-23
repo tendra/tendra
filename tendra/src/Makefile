@@ -3,10 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR=	lib
-
-# See shared/Makefile.inc
-.MAKEFLAGS:	_SHARED_BASEDIR=${.CURDIR}
+SUBDIR = apis machines cpp libtdf
 
 .include <tendra.subdir.mk>
 

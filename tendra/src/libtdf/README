@@ -1,0 +1,2 @@
+Libtdf provides basic arithmetic functions for types that the
+target cpu doesn't have straight-forward assembly instructions for.
