@@ -37,8 +37,8 @@ ${TSPEC_TIOUT}/${api}.api ${TSPEC_TSOUT}/${api}.api: ${TSPEC}
 # User-facing targets
 #
 
-all:: ${TSPEC} ${ALL_APIS:C/^/${TSPEC_TIOUT}\//g:C/$/.api/g} \
-               ${ALL_APIS:C/^/${TSPEC_TSOUT}\//g:C/$/.api/g}
+all:: ${TSPEC} ${ALL_APIS:S/^/${TSPEC_TIOUT}\//g:S/$/.api/g} \
+               ${ALL_APIS:S/^/${TSPEC_TSOUT}\//g:S/$/.api/g}
 
 
 clean::
