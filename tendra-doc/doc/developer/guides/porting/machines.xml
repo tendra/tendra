@@ -1,0 +1,597 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+	<!ENTITY tdf    "<acronym>TDF</acronym>">
+	<!ENTITY cpu    "<acronym>CPU</acronym>">
+	<!ENTITY api    "<acronym>API</acronym>">
+	<!ENTITY os     "<acronym>OS</acronym>">
+	<!ENTITY posix  "<acronym>POSIX</acronym>">
+	<!ENTITY tendra "Ten<acronym>DRA</acronym>">
+
+	<!ENTITY os-rep     "<replaceable>&lt;&os;&gt;</replaceable>">
+	<!ENTITY cpu-rep    "<replaceable>&lt;&cpu;&gt;</replaceable>">
+	<!ENTITY api-rep    "<replaceable>&lt;&api;&gt;</replaceable>">
+	<!ENTITY header-rep "<replaceable>&lt;HEADER&gt;</replaceable>">
+]>
+
+<!--
+	$Id$
+-->
+
+<chapter>
+	<title>Indicating &api; Conformance for a New Machine</title>
+
+	<para>TODO: what API conformance is. link to main documents</para>
+
+	<para>TODO: why you need to lay down API conformance stuff for new machines</para>
+
+	<para>This chapter explains how to state to TenDRA which &api;s your system
+		conforms to, and which it does not. This process refers to the database
+		of known &api;s (defined using <application>Tspec</application>),
+		and deals with handling discreprancies between that database and your
+		system.</para>
+
+	<para>It is possible that your system claims conformance to more
+		modern &api;s than the database currently specifies; in this case
+		the database would need that &api; added, first. See the
+		<!-- TODO link --><citetitle>Adding new &api;s with tspec</citetitle>
+		developer guide for details of that process. The rest of this
+		document assumes that the (abstract) &api;s in question are already
+		present in that database.</para>
+
+	<section>
+		<title>Implementation Steps</title>
+
+		<para>TODO: introduce this document first from the perspective of everything
+			going smoothly, then show how to deal with each kind of problem
+			(e.g. not providing an API at all, not providing some bits, hacked
+			includes, hacked includes for building specific APIs, etc)</para>
+
+		<para>Here's what you need to do:</para>
+
+		<orderedlist>
+			<listitem>
+				<para>TODO: add startup headers per API. have them include each
+					other for inheritence.</para>
+
+				<para>TODO: explain where you can find a list of &api;s</para>
+			</listitem>
+
+			<listitem>
+				<para>Find out which &api;s your machine intends to provide.
+					For each start-up header, mark &api; which are not provided
+					as <code>__WRONG_&api-rep;</code>.</para>
+			</listitem>
+
+			<listitem>
+ 				<para>add start-up headers (see src/lib/machines/netbsd/80x86/startup/$api.h)
+					(one per api) put #define __WRONG_&api-rep;_&header-rep;_H
+					here, for standard headers this machine cannot provide</para>
+
+				<para>we need to define POSIX feature-requirement macros (like _POSIX_SOURCE) here, to
+					make the /usr/include headers conform</para>
+			</listitem>
+
+			<listitem>
+				<para>TODO: add hacked includes if neccessary (see src/lib/machines/$os/$arch/include/*.h)
+					add one per screwed-up-/usr/include/ header file</para>
+			</listitem>
+		</orderedlist>
+
+		<para>Special cases for workarounds are discussed in detail below.</para>
+
+		<para>The remainder of this document explains how to undertake these
+			steps, and provides background information which should help them
+			make a little more sense.</para>
+	</section>
+
+	<section>
+		<title>Abstract versus Concrete &api;s</title>
+
+		<para>Is there really a difference between abstract and concrete &api;s?
+			For a specific case an &api; specification may only permit one
+			single possible implementation.
+			However in general, yes, there is a difference: &api;s
+			may permit multiple conformant implementations.
+			Abstract &api;s say things like <quote><code>size_t</code> is an
+			unsigned integer</quote> (example taken from C89), without stating
+			exactly which type of integer that is.
+			Whereas concrete (that is, implementations) of &api;s say things
+			like <quote><code>size_t is unsigned long int</code></quote>.</para>
+
+		<para>So &api; specifications are an abstraction of all possible
+			implementations of that API. <application>Tspec</application>'s
+			language expresses this abstraction, rather than any particular
+			concrete implementation. See the <!-- TODO: link --> Tspec
+			guide for more on this subject.</para>
+
+		<para>This document is concered with indicating which abstract &api;s
+			are conformed to by the concrete implementation for one machine
+			in particular.</para>
+
+		<para>When adding support for a machine, your goal is to squeeze as
+			many &api;s out of it as you can, within the set it intends to
+			implement. TODO: explain why.</para>
+	</section>
+
+	<section>
+		<title>Order of Inclusion</title>
+
+		<para>TODO: mention that start-up headers exist (not to be confused
+			with the other startup/ directory...) and that hacked includes exist.
+			both explained below. <quote>Hacked includes</quote> serve as a
+			thin wrapper over the real /usr/include headers, to provide
+			machine-specific tweaks per &api; header.</para>
+
+		<para>The following sets of files make an apperance:</para>
+
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Purpose</th>
+			</tr>
+			<tr>
+				<td><firstterm>System&nbsp;headers</firstterm></td>
+				<td>Headers provided by the &os;, in
+					<code>/usr/include</code> or equivalent.
+					These are not part of &tendra;.</td>
+			</tr>
+			<tr>
+				<td><firstterm>Hacked&nbsp;includes</firstterm></td>
+				<td>Ad-hoc workarounds to modify system headers.
+					These are typically simply to make the system headers
+					compilable by <application>tcc</application>.
+					Hacked includes are ideally not required at all. If
+					present, there is one per system header which needs
+					wrapping.</td>
+			</tr>
+			<tr>
+				<td><firstterm><application>Tspec</application>-generated&nbsp;
+					Source</firstterm></td>
+				<td><code>#pragma token</code> representations of the &tdf;
+					tokens present in each abstract &api;.
+					These source files provide <code>#ifdef</code> hooks to be
+					able to mark certian &api; subsets as non-conforming from
+					the start-up files.</td>
+			</tr>
+			<tr>
+				<td><firstterm>Start-up&nbsp;headers</firstterm></td>
+				<td>Provision of feature-enabling macros for the
+					underlying system headers, and making of &api; subsets as
+					non-conforming for omission.
+					There is one start-up header per &api; for each
+					machine.</td>
+			</tr>
+			<tr>
+				<td><firstterm>&api;&nbsp;&tdf;&nbsp;tokens</firstterm></td>
+				<td>&tdf; representation of the supported &api;s on a
+					particular &os; and &cpu;.</td>
+			</tr>
+		</table>
+
+		<para>Some understanding of how the system works is useful in trying
+			to work round problems. Rather than presenting system headers
+			directly to TenDRA, relevant headers are cherry-picked per &api;.
+
+		</para>
+
+		<figure id="apibuilding">
+			<title>Files Involved For &api; Building</title>
+
+			<graphic fileref="images/startup.png"/>
+		</figure>
+
+		<para>Headers are included in the following order:</para>
+
+		<orderedlist>
+			<listitem>
+				<para><firstterm><application>Tspec</application>-generated
+					code</firstterm>.
+					<application>Tspec</application> generates &api; headers
+					and <code>.c</code> files from its repository of abstract
+					&api; specifications.
+					These generated files are the entry points for building
+					each &api;, and are responsible for including the
+					<code>machines/</code> headers described in the steps
+					below.</para>
+			</listitem>
+
+			<listitem>
+				<para><firstterm>Start-up headers</firstterm>.
+					These live in:</para>
+
+				<blockquote>
+					<code>src/lib/machines/&os-rep;/&cpu-rep;/startup/&api-rep;.h</code>
+				</blockquote>
+
+				<para>The start-up files contain the macros needed to nagivate
+					the system headers for a particular &api;.
+					Each start-up header corresponds to a single &api;.
+					The start-up headers define any feature-selection macros
+					required to make the underlying system headers present a
+					particular &api;.
+					For example, on many systems a &posix;-compatible
+					interface may be presented by having the start-up headers
+					define a <code>_POSIX_SOURCE</code> macro.</para>
+
+				<para>The start-up headers also serve to state which parts of
+					the abstract &api;s the machine in question does not
+					implement, and therfore that these parts are not to be
+					considered. Ideally as few as possible are elided.</para>
+			</listitem>
+
+			<listitem>
+				<para><firstterm>Hacked includes</firstterm>, if any.
+					A set of replacement system headers, which are checked
+					before the real system headers, are found in:</para>
+
+				<blockquote>
+					<code>src/lib/machines/&os-rep;/&cpu-rep;/include</code>
+				</blockquote>
+
+				<para>These serve to make <quote>almost-conformant</quote>
+					<code>/usr/include</code> headers appear conformant, and to
+					fix any small-but-compatible mistakes.
+					<code>#include_next</code> the system headers from
+					<code>/usr/include</code>. All this ad-hoc hackery should
+					be per &os; version, as per the version define (e.g.
+					<code>-D_NETBSD5</code>) given from the build system.
+					This is discussed in more detail in the versioning section
+					<!-- TODO: link --> of this document.</para>
+
+				<para>Typically the hacked includes go on to
+					<code>#include_next</code> the underlying system
+					headers, but they need not do so.</para>
+
+				<para>These are also used with the <option>-Ysystem</option>
+					option to tcc. In this situation, the hacked includes are
+					directly visible to users' code.</para>
+			</listitem>
+
+			<listitem>
+				 <para><firstterm>System headers</firstterm> from
+					<code>/usr/include</code> (or whatever location is
+					equivalent, for that machine).</para>
+			</listitem>
+		</orderedlist>
+
+		<para>For the above paths, &os-rep; is the
+			operating system name, &cpu-rep; is
+			the &cpu; type, and &api-rep; is the &api; name.</para>
+
+		<para>TODO: see the orientation guide for how it all fits together wrt
+			what generates what</para>
+	</section>
+
+	<section>
+		<title>Versioning (of &os;es and &api;s)</title>
+
+		<para>Unfortunately this area is <emphasis>very</emphasis> operating
+			system dependent. It has been set up so that it works for the
+			operating systems listed under the supported platforms, but this
+			is not a cast iron guarantee that it will work for other versions
+			of the same operating system.</para>
+
+		Hence...
+
+		<para><emphasis>&os; Versions</emphasis> are catered for within one
+			machine/os/arch directory by using version-specific preprocessor guards. TODO:
+		(#ifdef); versioning within an OS - #idef on their version
+		for hacked includes, everything other than #include_next should be made specific to one version of an OS
+		for start-up headers, everything __WRONG should be made specific to one version of an OS</para>
+
+		<para>- explain which of these have #ifdef for __NetBSD_version__ etc
+		(or rather we should use the version macro from makedefs, for consistency with respect to other machines/)</para>
+
+		<para>Notes in adding *just* a new version, for an existing OS: TODO:
+		- just need a new version? don't touch any of the existing version-specific ifdefs!
+		(if there are none, remove them all and start from scratch)</para>
+
+		<para><emphasis>Abstract &api; versions</emphasis> are maintained as
+			entirely distinct &api;s in <application>Tspec</application>'s
+			repository (though perhaps inheriting from their previous
+			equivalents). From the perspective of the <code>machines/</code>
+			headers, these simply appear as separate &api;s.
+			TODO: of the api (separate APIs inheriting). state how it
+			manifests. e.g. workaround for posix2 to have that _max value as
+			255 instead of 256. probably harmless for us to reduce limits
+			in machines/, right?</para>
+	</section>
+
+	<section>
+		<title>Omissions (marking things <code>__WRONG</code>)</title>
+
+		<para>Given a set of well-defined &api;s and an operating system which
+			claims conformance to them, it is required for generating portable
+			&tdf; that omissions from these &api;s be registered. The
+			motivation behind this registration is explained in the <!-- TODO
+			link --><citetitle>&tdf; and Portability</citetitle> paper. This
+			registration process guarentees that &tdf; generated will be
+			portable between systems which implement the same &api;, even if
+			their implementations differ in portions which are not used (as is
+			usually the case).</para>
+
+		<para>Non-portable code (with access to all the system provides) may be
+			generated using the <quote>special</quote> &api; referenced by
+			<code>-Ysystem</code>.
+			This causes &api;-checking to be elided, and brings in tokens from
+			the system-headers as-is.
+			In this case the system headers are still wrapped through the
+			hacked includes (if present).
+			This is the only situation in which the content of the hacked
+			includes is directly visible to users' code (as opposed to
+			presenting the user with &tdf; instead).</para>
+
+		<para>With this in mind, the purpose of this section is to describe the
+			process of registering the various places in which your system
+			omits parts of the &api;s it claims to implement.</para>
+
+		<para>You can use <quote><code>__WRONG_*</code></quote> to mark these
+			invalid when they are not implemented, complete nonsense, or not
+			standard C.
+			Find the (Tspec-generated) source file which is failing to compile.
+			This should contain lines like:</para>
+
+		<programlisting language="C">#define __BUILDING_TDF_&api-rep;_&header-rep;_H
+#ifndef __WRONG_&api-rep;
+#ifndef __WRONG_&api-rep;_&header-rep;_H
+....
+#endif
+#endif</programlisting>
+
+		<para>If you insert the line:</para>
+
+		<programlisting language="C">#define __WRONG_&api-rep;_&header-rep;_H</programlisting>
+
+		<para>in the corresponding API start-up file:</para>
+
+		<blockquote>
+			<code>src/lib/machines/&os-rep;/&cpu-rep;/startup/&api-rep;.h</code>
+		</blockquote>
+
+		<para>then the library builder will ignore this header. There will
+			be a compile-time error (<quote>token not defined</quote>)
+			if one of the features from this header is subsequently attempted
+			to be used.
+			If a machine does not attempt to provide a certian &api;
+			at all, it makes more sense to elide that &api; in this way
+			entirely, rather than marking most of its contents as
+			<code>__WRONG</code> individually.
+			TODO: explain this is a last restort, and mention the user-facing side-effects</para>
+
+		<para>Omissions are specified in start-up headers, and may be one
+			of three kinds:</para>
+
+		<programlisting language="C">#define __WRONG_<replaceable>&lt;SOMETHING&gt;</replaceable></programlisting>
+
+		<itemizedlist>
+			<listitem>
+				$something is a file within an API
+				TODO: example
+			</listitem>
+
+			<listitem>
+				$something is a subset within an API (e.g. for subsets,
+				__WRONG_XPG3_SEARCH_H_SRCH_PROTO coresponds to apis/xpg3/search.h:+ SUBSET "srch_proto" := { })
+			</listitem>
+
+			<listitem>
+				$something is an entire API
+				TODO: example
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title>Splitting off new Subsets</title>
+
+		<para>during the process of adding new APIs, you may find...
+e.g.
+TODO: for netbsd5:
+#ifdef _NOT_AVAILABLE
+#define _POSIX_SAVED_IDS 1
+- this needs to be moved out into its own API subset, so we can mark it __WRONG</para>
+
+
+		<para>TODO: look in machines/ for TODOs for things to move out into subsets</para>
+	</section>
+
+	<section>
+		<title>Workarounds for Deviations</title>
+
+		<para>Workarounds are used to provide a mechanism to modify
+			system headers, where they are non-conformant in minor ways.
+			<!-- TODO link -->portability#2.2.4.3 gives some examples
+			of this. It is important that these workarounds are only applied
+			when the modified system headers would still be a valid interface
+			for the existing system libraries, otherwise incompatibilities
+			would be introduced. Do not use work-arounds for other
+			situations.</para>
+
+		<para>TODO: Workarounds (<quote>hacks</quote>) are intended for when
+			the &api;s are semantically valid, but have inappropiate (but compatible)
+			values, minor syntatic errors, or definitions in the wrong
+			headers and suchlike.</para>
+
+		<para>Ideally, these are not required at all.
+			They provide a pragmatic option for dealing with unforeseable
+			anomalies where the implementor is free to do whatever is
+			neccessary in the most flexible manner possible.
+			Importantly, these strange workarounds are kept isolated
+			from the rest of the system. In particular, they are not
+			visible to a user.</para>
+
+		<para>Conditional macros which are provided:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>_NETBSD</term>
+
+				<listitem>
+					_NETBSD for OS version (architecture and OS name are known
+					empirically from the machines/ directory you're in)
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>__BUILDING_LIBS</term>
+
+				<listitem>
+					<para>Modifications which are specific to library
+					building, should be enclosed in:</para>
+
+					<programlisting language="C">#ifdef __BUILDING_LIBS
+.....
+#endif</programlisting>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>__BUILDING_TDF_API_<replaceable>$header</replaceable></code></term>
+
+				<listitem>
+					<para>__BUILDING_TDF_API_something for working in a header which another
+					header includes, letting you know who is really being built</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para><!-- TODO link -->papers/porting explains the difference, and the
+			rationalle behind it. Several specific examples are given there,
+			and this document will not repeat them unneccessarily.</para>
+
+		<para>See the appendix for examples.</para>
+
+		<para>TODO: mention ABI must not be made incompatible (is that the
+			right term?)</para>
+
+		<para>Good places to look for inspiration on how to customise these
+			files for your particular system include looking to see how
+			things were done under similar circumstances. Often a problem
+			crops up on more than one machine; we may have a workround which
+			works on another platform which you can use for inspiration.</para>
+
+		<para>If you don't intend to re-distribute the TenDRA source code
+			you also have an option which, for copyright reasons, is not
+			available to us. You can copy the system header into the include
+			directory above and make minor corrections directly.
+			TODO: or maintain automatically-applied patches</para>
+
+		<para>TODO: mention trying your best
+			If all else fails you can tell the library building to ignore
+			the header. TODO: See __WRONG above.</para>
+	</section>
+
+	<section>
+		<title>Notes on <code>-Ysystem</code></title>
+
+		<para>Does a user ever have good cause to use <code>-Ysystem</code>?
+			I can't think of a sensible situation.</para>
+
+		<para>Hacked includes are used under <code>-Ysystem</code>, as they are
+			for &api; building.
+			However unlike &api; building (which presents a well-defined &api;
+			of &tdf; tokens to the user), the hacked includes are included
+			directly into the users' code.
+			This is the only situation where hacked includes are visible to the
+			users' code.</para>
+
+		<para>The content of the hacked includes is (mostly) enclosed in &os;
+			version guards on <code>#ifdef _${OSVER}</code>. See the <!-- TODO: link -->
+			section on versioning above. Recall that <code>_${OSVER}</code> is
+			defined by the <application>makedefs</application> script, and is
+			therfore only defined during &api; building, not during normal
+			compilation of a users' program. Hence, the bulk of the hacked
+			includes is not active under <code>-Ysystem</code> use.</para>
+
+		<para>Would you ever want to put anything in hacked includes which is
+			outside of an <code>_${OSVER}</code> guard?
+			I can't think of a situation where this would be appropiate,
+			however the option is there if required.
+			These would be hacks which are not specific to any particular
+			&os; version, and are also visible under <code>-Ysystem</code>.
+			Excersise caution here, since this is visible to user code.
+			Avoid introducing strange effects which might confuse the user when
+			they're expecting the system headers to be used verbatim.</para>
+
+		<para>Here's an example C program, which uses the <code>libpng</code>
+			library:</para>
+
+<programlisting language="C"><![CDATA[#include <png.h>
+
+int main(void) {
+	unsigned char a[8] = { 0 };
+	(void) png_sig_cmp(a, 0, sizeof a);
+	return 0;
+}]]></programlisting>
+
+		<para>Typical use specifies the &api;s used by that library.
+			In this case, <application>libpng</application>'s headers include
+			&posix; headers for its own use, and hence requires
+			<code>-Yposix</code>:</para>
+
+		<blockquote><code><literallayout><![CDATA[clarion% tcc -Yposix -I /usr/pkg/include -L /usr/pkg/lib -lpng a.c
+clarion%]]></literallayout></code></blockquote>
+
+		<para>An alternate approach would be to write a
+			<application>Tspec</application> &api; for that library.
+			Users may write their own <application>Tspec</application> &api;s
+			without needing to reinstall the &tendra; programs.
+			But, they are unlike to actually do this since it's a lot of work
+			and the &api; system is unfamiliar.
+			TODO: see tspec/tccguide for more. Then we needn't think about the library's dependencies at all, right? except maybe just for installation.</para>
+
+		<para>Meanwhile, back in the real world: TODO:</para>
+
+		<blockquote><code><literallayout><![CDATA[clarion% tcc -Ysystem -I/usr/pkg/include -Wc,-mc a.c
+"/usr/include/sys/cdefs.h", line 270: Error:
+    #error "No function renaming possible"!!!!
+  [ISO 6.8.5]: "No function renaming possible".
+
+"/usr/include/sys/bswap.h", line 20: Error:
+    uint16_t bswap16(uint16_t) __RENAME(!!!!__bswap16) __attribute__((__const__));
+  [Syntax]: Parse error before '__RENAME'.
+  [Syntax]: Can't recover from this error.
+
+clarion*]]></literallayout></code></blockquote>
+
+		<para>Here the system headers for NetBSD 5 make use of the
+			(non-portable) <code>__RENAME()</code> facility, which causes
+			a syntax error for <application>tcc</application>.
+			I'm passing the <quote><code>-mc</code></quote> error formating
+			option to the C producer, just so you
+			can see the actual line of code responsible for the
+			<code>__RENAME()</code> syntax error.
+			Our hacked includes work around this with:</para>
+
+		<programlisting language="C"><![CDATA[#ifdef _NETBSD5
+#if defined(__RENAME)
+#undef __RENAME
+#endif
+#define __RENAME(x)     /* empty */
+#endif]]></programlisting>
+
+		<para>which may be seen by sneakily defining the same
+			<code>_${OSVER}</code> macro used during &api; building:</para>
+
+		<blockquote><code><literallayout><![CDATA[clarion% tcc -D_NETBSD5 -Ysystem -I /usr/pkg/include -L /usr/pkg/lib -lpng a.c
+clarion%]]></literallayout></code></blockquote>
+
+		<para>However, actually doing this is dangerous because values defined
+			in the system headers might differ from what the user expects,
+			having looked at their source in <code>/usr/include</code>.
+			This is also inconsistent, since only some system headers are
+			wrapped by hacked includes&mdash;that is, only the ones we needed
+			to hack up for API building. It's not feasible to wrap them all,
+			since the bulk of the system headers are typically system-dependant
+			anyway.</para>
+
+		<para>
+		- surely there is no reason a user would need -Ysystem?
+		-Ysystem is only useful if tcc can read the headers.
+		which may be true on some systems, but not on others
+		</para>
+	</section>
+
+</chapter>
+

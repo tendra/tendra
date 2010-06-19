@@ -7,12 +7,12 @@
 ]>
 
 <!--
-  $Id$
+	$Id$
 -->
 
-<article>
-  <articleinfo>
-    <title>Porting TenDRA to Different Operating Systems</title>
+<book xmlns:xi="http://www.w3.org/2001/XInclude">
+  <bookinfo>
+	<title>Porting TenDRA to Different Operating Systems</title>
 
 	<author>
 		<firstname>Katherine</firstname>
@@ -20,194 +20,108 @@
 		<affiliation><orgname>The TenDRA Project</orgname></affiliation>
 	</author>
 
-	<!-- (to be filled out by whoever writes this...)
-    <author>
-      <firstname>Jeroen</firstname>
-      <surname>Ruigrok van der Werven</surname>
-    </author>
-    <authorinitials>JRvdW</authorinitials>
-    <pubdate>2005</pubdate>
+	<pubdate>2009</pubdate>
 
-    <copyright>
-      <year>2004</year>
-      <year>2005</year>
+	<copyright>
+	  <year>2009</year>
 
-      <holder>The TenDRA Project</holder>
-    </copyright>
+	  <holder>The TenDRA Project</holder>
+	</copyright>
+  </bookinfo>
 
-    <copyright>
-      <year>1998</year>
+	<preface>
+		<title>Introduction</title>
 
-      <holder>DERA</holder>
-    </copyright>
-	-->
-  </articleinfo>
+		<para>This guide presents the process of porting the various parts of
+			TenDRA to a new operating system.</para>
 
-	<!--
-		A guide to the process of porting to a new operating system.
+		<para>Most of the code is portable, however, there are neccessarily
+			some machine-specific areas. We have attempted to cover the
+			common situations which will be encountered, and also to document
+			some of the more unusual situations found through experience.
+			These situations are documented here largely to highlight the
+			existence of their techniques so that code may be more easily found
+			and used for future reference.</para>
 
-		This should be a fairly straightforward guide; for the moment
-		we can leave out writing new installers, and just concentrate
-		on the build system.
+		<para>The process of discovery is ongoing, and this document is
+			intended to be updated with the results of future explorations
+			as new situations are encountered.</para>
+	</preface>
 
-		Unless there are things I'm unaware of, this is as
-		straightforward as simply editing tbe makedefs file, and
-		letting bmake take care of all the platform-specific things?
+	<chapter>
+		<title>The build system</title>
 
-		So this should probably just talk about that, and explain what
-		each field is, and why it's required.
+		<para>The <application>makedefs</application> script identifies which
+			of the supported Operating Systems is being used, and passes this
+			information through to the build system as a normalised set of
+			environment variables. Keeping the names and version numbers
+			normalised to an internal scheme removes special cases elsewhere
+			in the system. For example:</para>
 
-		- kate
-	-->
+		<programlisting language="make">OSFAM=       netbsd
+OSVER=       NETBSD5
+BLDARCH=     80x86
+BLDARCHBITS= 32
+EXECFORMAT=  elf</programlisting>
 
-	<section>
-		<title>Indicating &api; Conformance</title>
+		<para>Update the <application>makedefs</application> script<!-- TODO: link to source? -->
+			so that it is aware of the new platform, and can produce these
+			variables. Take care to keep the form consistent with the existing
+			platforms. In almost all cases these are identified simply by
+			inspecting output from <application>uname</application><!-- TODO: manpage link -->.</para>
 
-		<para>This chapter explains how to state to TenDRA which
-			&api;s your system conforms to, and which
-			it does not. This process refers to the database of known
-			&api;s (defined using
-			<application>Tspec</application>), and deals with handling
-			discreprancies between that database and your system.</para>
+		<para>If the <application>makedefs</application> script needs updating,
+			it will have complained that the platform is unrecognised.</para>
+	</chapter>
 
-		<para>It is possible that your system claims conformance to more
-			modern &api;s than the database currently specifies; in this case
-			the database would need that &api; adding, first. See the
-			<!-- TODO link --><citetitle>Adding new &api;s with tspec</citetitle>
-			developer guide for details of that process. The rest of this
-			document assumes that the &api;s in question are already present in
-			that database.</para>
+	<xi:include href="machines.xml"/>
 
-		<para>Given a set of well-defined &api;s and an operating system which
-			claims conformance to them, it is required for generating portable
-			&tdf; that devations from these &api;s be registered. The
-			motivation behind this registration is explained in the <!-- TODO
-			link --><citetitle>&tdf; and Portability</citetitle> paper. This
-			registration process guarentees that &tdf; generated will be
-			portable between systems which implement the same &api;, even if
-			their implementations differ in portions which are not used (as is
-			usually the case). Non-portable code (with access to all the system
-			provides) may be generated using the <quote>special</quote> &api;
-			referenced by <code>-Ysystem</code>, which uses the system headers
-			as-is.</para>
+	<chapter>
+		<title>Machine-Specific Tokens</title>
 
-		<para>With this in mind, the purpose of this chapter is to describe the
-			process of registering the various places in which your system
-			deviates from the &api;s it claims to implement. Deviations are
-			categorised as one of two types:</para>
+		<para>tokens/ is for os-machine specific definitions of
+			implementation-defined things?  like INT_MAX, sizeof(int), etc
+			(write these in TDFese) these are defined in tpl, which is just a
+			more convenient-to-write TDF. They could just as well be written
+			in TDF directly.  you *could* also use tokens/ to write
+			machine-specific optimised routines</para>
 
-		<itemizedlist>
-			<listitem>
-				<para>Workarounds (hacks) for when the &api;s are semantically
-					valid, but have inappropiate values, minor syntatic errors,
-					or definitions in the wrong headers and suchlike.</para>
-			</listitem>
+		<para>i guess you need to add stuff to src/lib/machines/$os/$arch/tokens, but i
+			don't understand those yet. they're machine-specific implementations of abstract
+			TDF tokens, written in TPL?</para>
+	</chapter>
 
-			<listitem>
-				<para>Marking them invalid (<quote><code>__WRONG_*</code></quote>),
-					for when they are complete nonsense, or not standard C.</para>
-			</listitem>
-		</itemizedlist>
+	<chapter>
+		<title>Installers</title>
 
-		<para><!-- TODO link -->papers/porting explains the difference, and the
-			rationalle behind it. Several specific examples are given there,
-			and this document will not repeat them unneccessarily.</para>
+		<para>asm stuff:</para>
 
-		<!-- TODO
-From the FAQ:
+		<para>add installers/$arch/$os - this provides trans(1). i know nothing
+			about this (probably) not required if you're just adding a new
+			version of an OS and that OS is backwards-compatible to older binaries</para>
+	</chapter>
 
-    2.  QUESTION: I try to build the release, but I am having problems
-        in the API library building phase.
-		-->
+	<appendix>
+		<title>See Also</title>	<!-- TODO: bibliography? -->
 
-        <para>Unfortunately this area is <emphasis>very</emphasis> operating
-			system dependent.  It has been set up so that it works for the
-			operating systems listed under the supported platforms, but this
-			is not a cast iron guarantee that it will work for other versions
-			of the same operating system.</para>
+		<para>see http://predef.sourceforge.net/preos.html#sec26 for handy macros per OS
+			feature-requirement macros are especially relevant to startup headers.</para>
 
-		<section>
-			<title>Workarounds</title>
+		<para>see also: tspec guide
+			"adding new APIs with tspec"
+			papers/porting
+			orientation guide</para>
+	</appendix>
 
-			<para>Workarounds are used to provide a mechanism to modify
-				system headers, where they are non-conformant in minor ways.
-				<!-- TODO link -->portability#2.2.4.3 gives some examples
-				of this. It is important that these workarounds are only applied
-				when the modified system headers would still be a valid interface
-				for the existing system libraries, otherwise incompatibilities
-				would be introduced. Do not use work-arounds for other
-				situations.</para>
+	<appendix>
+		<title>Examples of &api; Workarounds</title>
 
-<!-- TODO
-Versioning:
-1. of the api (separate APIs inheriting). state how it manifests. e.g. workaround for posix2 to have that _max value as 255 instead of 256
-2. of the OS (#ifdef); document elsewhere versioning within an OS - #idef on their version
--->
+		<para>Examples of machine-specific API implementation workarounds</para>
 
-			<para>Some understanding of how the system works is useful in trying
-				to work round problems.  The start-up files describing the
-				macros needed to nagivate the system headers for a particular
-				&api; are found in:</para>
+		<para>TODO: some recosisable frequently-occuring patterns here
+			example of __BUILDING_LIBS
+			example of __BUILDING_TDF_API_...</para>
+	</appendix>
 
-			<programlisting>src/lib/machines/<replaceable>&lt;os&gt;</replaceable>/<replaceable>&lt;cpu&gt;</replaceable>/startup/<replaceable>&lt;api&gt;</replaceable>.h</programlisting>
-
-			<para>where <replaceable>&lt;os&gt;</replaceable> is the operating
-				system name, <replaceable>&lt;cpu&gt;</replaceable> is the &cpu; type,
-				and <replaceable>&lt;api&gt;</replaceable> is the &api; name.
-				A set of replacement system headers, which are checked before
-				the real system headers, are found in:</para>
-
-			<programlisting>src/lib/machines/<replaceable>&lt;os&gt;</replaceable>/<replaceable>&lt;cpu&gt;</replaceable>/include</programlisting>
-
-			<para>These are also used with the <option>-Ysystem</option>
-				option to tcc, modifications which are specific to library
-				building, should be enclosed in:</para>
-
-			<programlisting language="C">
-#ifdef __BUILDING_LIBS
-.....
-#endif</programlisting>
-
-			<para>Good places to look for inspiration on how to customise these
-				files for your particular system include looking to see how
-				things were done under similar circumstances.  Often a problem
-				crops up on more than one machine; we may have a workround which
-				works on another platform which you can use for inspiration.</para>
-
-			<para>If you don't intend to re-distribute the TenDRA source code
-				you also have an option which, for copyright reasons, is not
-				available to us.  You can copy the system header into the include
-				directory above and make minor corrections directly.</para>
-		</section>
-
-		<section>
-			<title><code>__WRONG</code> Headers</title>
-
-			<para>If all else fails you can tell the library building to ignore
-				the header. Find the source file which is failing to compile.
-				This should contain lines like:</para>
-
-			<programlisting language="C">
-#define __BUILDING_TDF_<replaceable>&lt;API&gt;</replaceable>_<replaceable>&lt;HEADER&gt;</replaceable>
-#ifndef __WRONG_<replaceable>&lt;API&gt;</replaceable>
-#ifndef __WRONG_<replaceable>&lt;API&gt;</replaceable>_<replaceable>&lt;HEADER&gt;</replaceable>
-....
-#endif /* __WRONG_<replaceable>&lt;API&gt;</replaceable> */
-#endif /* __WRONG_<replaceable>&lt;API&gt;</replaceable>_<replaceable>&lt;HEADER&gt;</replaceable> */</programlisting>
-
-			<para>If you insert the line:</para>
-
-			<programlisting language="C">#define __WRONG_<replaceable>&lt;API&gt;</replaceable>_<replaceable>&lt;HEADER&gt;</replaceable></programlisting>
-
-			<para>in the corresponding API start-up file:</para>
-
-			<programlisting>src/lib/machines/<replaceable>&lt;os&gt;</replaceable>/<replaceable>&lt;cpu&gt;</replaceable>/startup/<replaceable>&lt;api&gt;</replaceable>.h</programlisting>
-
-			<para>then the library builder will ignore this header.  There will
-				be a compile-time error (<quote>token not defined</quote>)
-				if one of the features from this header is subsequently attempted
-				to be used.</para>
-		</section>
-	</section>
-</article>
+</book>
 
