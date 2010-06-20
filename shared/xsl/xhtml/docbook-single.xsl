@@ -11,13 +11,14 @@
 
 	<xsl:import href="docbook.xsl"/>
 
+	<!-- TODO: select @method based on $tendra.method -->
 	<xsl:output method="xml" version="1.0" encoding="utf-8" indent="yes"/>
 
 	<xsl:param name="tendra.bodyclass"><xsl:text>single</xsl:text></xsl:param>
 
 	<xsl:template name="chunklink">
 		<div class="chunklink">
-			<a href="index.xhtml">
+			<a href="index.{$tendra.ext}">
 				<xsl:text>Multiple pages</xsl:text>
 			</a>
 		</div>

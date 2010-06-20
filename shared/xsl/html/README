@@ -1,0 +1,8 @@
+$Id: README 2275 2009-06-06 18:11:28Z kate $
+
+HTML output. These are just a thin layer over ../xhtml.
+
+Files here are prefixed with the name of their input language:
+
+ docbook-*.xsl HTML output for Docbook
+

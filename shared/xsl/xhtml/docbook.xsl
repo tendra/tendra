@@ -26,6 +26,8 @@
 	<xsl:param name="tendra.base"/>     	<!-- e.g. 'http://www.tendra.org/' -->
 	<xsl:param name="tendra.bodyclass"/>	<!-- e.g. 'single' -->
 	<xsl:param name="tendra.chunk"/>    	<!-- e.g. 'yes' -->
+	<xsl:param name="tendra.method"/>    	<!-- e.g. 'xml' -->
+	<xsl:param name="tendra.ext"/>         	<!-- e.g. 'xhtml' -->
 
 	<!-- TODO: i think these can just be select="" -->
 	<xsl:param name="css.decoration"><xsl:text>0</xsl:text></xsl:param>
