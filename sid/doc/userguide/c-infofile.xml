@@ -249,7 +249,7 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@:</code><token>label</token></term>
+				<term><code>@:<token>label</token></code></term>
 				<listitem>
 					<para>This form marks a label, which will be substituted for in
 						the output code. This is necessary, because an action may be
@@ -264,7 +264,7 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@</code><token>identifier</token></term>
+				<term><code>@<token>identifier</token></code></term>
 				<listitem>
 					<para>This form marks a parameter or result identifier
 						substitution. If parameter and result identifiers are not
@@ -286,7 +286,7 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@&amp;</code><token>identifier</token></term>
+				<term><code>@&amp;<token>identifier</token></code></term>
 				<listitem>
 					<para>This form marks a parameter identifier whose address is to
 						be substituted, but whose contents will not be modified. The
@@ -297,7 +297,7 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@=</code><token>identifier</token></term>
+				<term><code>@=<token>identifier</token></code></term>
 				<listitem>
 					<para>This form marks a parameter identifier that will be
 						modified. For this to be useful, the parameter should be a call
@@ -334,7 +334,7 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@$</code><token>terminal</token></term>
+				<term><code>@$<token>terminal</token></code></term>
 				<listitem>
 					<para>This form introduces a terminal, as would be referenced by
 						the parser itself. This serves two purposes; firstly it acts
