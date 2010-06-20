@@ -53,6 +53,7 @@
 	<xi:include href="grammars.xml"/>
 	<xi:include href="overview.xml"/>
 	<xi:include href="invocation.xml"/>
+	<xi:include href="languages.xml"/>
 	<xi:include href="grammarfile.xml"/>
 	<xi:include href="c-infofile.xml"/>
 	<xi:include href="features.xml"/>

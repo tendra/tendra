@@ -23,5 +23,14 @@
 		Rather than duplicate the minutae of the options here, see
 		the <citetitle>&sid; manual page</citetitle> for details on
 		invocation.</para>
+
+	<para>TODO: explain options have abbreviated names</para>
+
+	<para>TODO: explain that there are language-specific options</para>
+
+	<para>TODO: explain that the number of output files is language-specific</para>
+
+	<para>TODO: give a general form for the above</para>
+
 </chapter>
 

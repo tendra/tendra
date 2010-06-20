@@ -1,0 +1,109 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY sid "<application><acronym>SID</acronym></application>">
+]>
+
+<chapter id="languages">
+	<title>Languages</title>
+
+	<section>
+		<title>C</title>
+
+		<para>TODO: I/O files</para>
+
+		<para>TODO: describe operation and intended use.</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><code>[no-]proto[types]</code></term>
+
+				<listitem>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>[no]-split</code></term>
+
+				<listitem>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>[no-]numeric[-ids]</code></term>
+
+				<listitem>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>[no-]numeric-terminals</code></term>
+				<!-- TODO make numeric-terminal alternative -->
+
+				<listitem>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>[no-]cast[s]</code></term>
+
+				<listitem>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<!-- TODO lack of [no-] option? -->
+				<term><code>unreachable-macro[s]</code></term>
+
+				<listitem>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>unreachable-comment[s]</code></term>
+
+				<listitem>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>[no-]line[s]</code></term>
+
+				<listitem>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>[no-]terminal[s]</code></term>
+
+				<listitem>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</section>
+
+	<section>
+		<title>BNF</title>
+
+		<para>TODO: I/O files</para>
+
+		<para>TODO: describe operation and intended use.</para>
+
+		<para>No options.</para>
+	</section>
+
+
+	<section>
+		<title>Test</title>
+
+		<para>TODO: I/O files</para>
+
+		<para>TODO: describe operation and intended use.</para>
+
+		<para>No options.</para>
+	</section>
+
+
+</chapter>
+
