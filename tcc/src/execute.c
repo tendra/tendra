@@ -83,8 +83,8 @@
  */
 
 static const char **command = NULL;
-static unsigned int command_size = 0;
-static unsigned int cmd_no = 0;
+static int command_size = 0;
+static int cmd_no = 0;
 
 
 /*
@@ -105,14 +105,12 @@ void
 enable_delayed_signal(void)
 {
 	delay_signal_handling = 1;
-	return;
 }
 
 void
 disable_delayed_signal(void)
 {
 	delay_signal_handling = 0;
-	return;
 }
 
 void
@@ -122,7 +120,6 @@ process_delayed_signal(void)
 		last_command = last_signaled_cmd;
 		handler(last_signal);
 	}
-	return;
 }
 
 
@@ -139,7 +136,7 @@ cmd_string(const char *s)
 {
 	if (cmd_no >= command_size) {
 		command_size += 1000;
-		command = realloc_nof(command, char *, (size_t) command_size);
+		command = realloc_nof(command, char *, command_size);
 	}
 	command[cmd_no] = s;
 	if (s == NULL) {
@@ -147,7 +144,6 @@ cmd_string(const char *s)
 	} else if (*s) {
 		cmd_no++;
 	}
-	return;
 }
 
 
@@ -163,7 +159,6 @@ cmd_filename(const filename *p)
 	for (; p != NULL; p = p->next) {
 		cmd_string(p->name);
 	}
-	return;
 }
 
 
@@ -179,7 +174,6 @@ cmd_list(const list *p)
 	for (; p != NULL; p = p->next) {
 		cmd_string(p->item.s);
 	}
-	return;
 }
 
 
@@ -195,7 +189,6 @@ void
 reset_exec_error(void)
 {
 	exec_error = 0;
-	return;
 }
 
 
@@ -234,6 +227,7 @@ kill_stray(void)
 	if (running_pid == -1) {
 		return;
 	}
+
 	IGNORE kill((pid_t)running_pid, SIGTERM);
 	running_pid = -1;
 }
@@ -259,8 +253,9 @@ remove_junk(void)
 {
 	const filename *p;
 
-	if (dry_run || flag_keep_err)
+	if (dry_run || flag_keep_err) {
 		return;
+	}
 
 	for (p = junk; p != NULL; p = p->next) {
 		if (p->storage == OUTPUT_FILE) {
@@ -287,7 +282,6 @@ print_cmd(char *b)
 		IGNORE strcpy(b + 1, *s);
 		b += strlen(b);
 	}
-	return;
 }
 
 

@@ -137,8 +137,8 @@ extern const char *progname;
  * These values give the severity levels for the error reporting routine,
  * error.
  */
-
 /* TODO enum */
+/* TODO: use shared/error instead */
 #define FATAL		0
 #define INTERNAL	1
 #define SERIOUS		2

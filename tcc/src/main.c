@@ -104,7 +104,6 @@ print_version(void)
 	error(INFO, "%s%s, Machine: %s, Release: %s", VERSION_STRING,
 	      (checker ? " (checker)" : ""), machine_name, RELEASE);
 	flag_no_files = 1;
-	return;
 }
 
 
@@ -167,7 +166,6 @@ main_start(char *prog, char **envp)
 	IGNORE signal(SIGTERM, handler);
 
 	initialise_options();
-	return;
 }
 
 
@@ -190,7 +188,6 @@ main_middle(void)
 		error(FATAL, "Can't create temporary directory");
 	}
 	made_tempdir = 1;
-	return;
 }
 
 

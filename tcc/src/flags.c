@@ -301,14 +301,14 @@ void
 set_stage(enum filetype t, int k)
 {
 	if (t == ALL_TYPES) {
-		enum filetype_keep ks = table_keep(STARTUP_FILE);
+		boolean ks = table_keep(STARTUP_FILE);
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
 			error(WARNING, "Illegal stop option");
 		} else if (k == KEEP_STAGE) {
 			enum filetype i;
 			/* TODO rework this */
 			for (i = 0; i < array_size(filetype_table); i++) {
-				if (!table_keep(i)) {
+				if (table_keep(i) == FTK_FC) {
 					filetype_table[i].keep = FTK_TC;
 				}
 			}
@@ -316,7 +316,7 @@ set_stage(enum filetype t, int k)
 		} else if (k == DONT_KEEP_STAGE) {
 			enum filetype i;
 			for (i = 0; i < array_size(filetype_table); i++) {
-				if (table_keep(i)) {
+				if (table_keep(i) == FTK_TC) {
 					filetype_table[i].keep = FTK_FC;
 				}
 			}
@@ -328,7 +328,7 @@ set_stage(enum filetype t, int k)
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
 			static int last_stop = UNKNOWN_TYPE;
 			if (table_stop(t) == 0) {
-				filetype_table[t].stop = FTK_TC;
+				filetype_table[t].stop = 1;
 			}
 			if (k == STOP_STAGE && table_keep(t) == FTK_FC) {
 				filetype_table[t].keep = FTK_TC;
@@ -378,7 +378,6 @@ default_lab:
 			}
 		}
 	}
-	return;
 }
 
 
@@ -412,7 +411,6 @@ set_machine(void)
 		use_assembler = 0;
 	}
 #endif
-	return;
 }
 
 
@@ -428,7 +426,8 @@ initialise_options(void)
 {
 	/* Initialise executables */
 	size_t sz;
-	size_t i;
+	int i;
+
 	exec_produce = make_list("builtin/undef C_producer");
 	exec_preproc = make_list("builtin/undef C_preprocessor");
 	exec_cpp_produce = make_list("builtin/undef C++_producer");
@@ -460,14 +459,13 @@ initialise_options(void)
 	}
 
 	/* allocate space for cmd line env args */
-	sz = (sizeof(PATH_SUBS));
-	env_paths = xalloc (sz * sizeof(char *));
+	sz = sizeof(PATH_SUBS);
+	env_paths = xalloc(sz * sizeof (char *));
 
 	/* Here, we should set these to sane defaults.  For now, just NULL */
 	for (i=0; i < sz; i++) {
 		env_paths[i] = NULL;
 	}
-	return;
 }
 
 
@@ -664,5 +662,5 @@ update_options(void)
 	/* A couple of housekeeping routines */
 	close_startup();
 	find_envpath();
-	return;
 }
+

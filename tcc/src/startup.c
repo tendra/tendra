@@ -115,8 +115,6 @@ add_to_startup(const char *fmt, ...)
 	va_start(ap, fmt);
 	IGNORE vfprintf(startup_file, fmt, ap);
 	va_end(ap);
-
-	return;
 }
 
 
@@ -151,8 +149,6 @@ add_to_endup(const char *fmt, ...)
 	va_start(ap, fmt);
 	IGNORE vfprintf(endup_file, fmt, ap);
 	va_end(ap);
-
-	return;
 }
 
 
@@ -199,8 +195,6 @@ add_to_tokdef(const char *fmt, ...)
 	va_start(ap, fmt);
 	IGNORE vfprintf(tokdef_file, fmt, ap);
 	va_end(ap);
-
-	return;
 }
 
 
@@ -225,7 +219,6 @@ close_startup(void)
 		IGNORE fclose(tokdef_file);
 		tokdef_file = NULL;
 	}
-	return;
 }
 
 
@@ -275,7 +268,6 @@ remove_startup(void)
 			IGNORE execute(no_filename, no_filename);
 		}
 	}
-	return;
 }
 
 
@@ -304,7 +296,6 @@ add_pragma(const char *s)
 
 	/* Write option to startup file */
 	add_to_startup("#pragma TenDRA option \"%s\" %s\n", s, level);
-	return;
 }
 
 
@@ -333,5 +324,4 @@ add_token(const char *s)
 	/* Write definition to token definition file */
 	add_to_tokdef("( make_tokdef %s exp\n", s);
 	add_to_tokdef("  ( make_int ~signed_int %s ) )\n\n", defn);
-	return;
 }

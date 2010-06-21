@@ -81,6 +81,7 @@
  * Most of the file suffixes can be deduced from the table above. This table
  * gives a few other suffixes plus the default names for various output files.
  */
+/* TODO possibly move to NULL-terminated array per type in table.c */
 #define CPP_1_SUFFIX			"cc"
 #define CPP_2_SUFFIX			"cpp"
 #define PREPROC_CPP_1_SUFFIX		"ii"
@@ -107,7 +108,11 @@
  * SINGLE CHARACTER KEYS FOR EXECUTABLES - Table 4
  *
  * Each executable has an associated identifying letter.
+ *
+ * Since these are used to construct strings in the options interpreter,
+ * none of these may have the value '\0'.
  */
+/* TODO: enum */
 #define PRODUCE_ID			'c'
 #define PREPROC_ID			'p'
 #define CPP_PRODUCE_ID			'x'

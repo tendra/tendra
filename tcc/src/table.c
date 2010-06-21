@@ -60,34 +60,34 @@
 #include "table.h"
 
 struct filetype_table filetype_table[TYPE_ARRAY_SIZE] = {
-	{	C_SOURCE,			FTK_FC, FTK_FC, FTK_FC, NULL,  'c',  1, 0 },
-	{	PREPROC_C,			FTK_FC, FTK_FC, FTK_FC, NULL,  'i',  1, 0 },
-	{	CPP_SOURCE,			FTK_FC, FTK_FC, FTK_FC, "cpp", 'C',  1, 0 },
-	{	PREPROC_CPP,		FTK_FC, FTK_FC, FTK_FC, NULL,  'I',  1, 0 },
-	{	INDEP_TDF,			FTK_FC, FTK_FC, FTK_FC, NULL,  'j',  0, 0 },
-	{	DEP_TDF,			FTK_FC, FTK_FC, FTK_FC, NULL,  't',  0, 0 },
-	{	AS_SOURCE,			FTK_FC, FTK_FC, FTK_FC, NULL,  's',  1, 0 },
-	{	BINARY_OBJ,			FTK_FC, FTK_FC, FTK_FC, NULL,  'o',  1, 0 },
-	{	EXECUTABLE,			FTK_TN, FTK_FC, FTK_TN, NULL,  '\0', 0, 0 },
-	{	PRETTY_TDF,			FTK_TC, FTK_FC, FTK_TN, NULL,  'p',  0, 0 },
-	{	PL_TDF,				FTK_FC, FTK_FC, FTK_FC, NULL,  'P',  0, 0 },
-	{	TDF_ARCHIVE,		FTK_TN, FTK_FC, FTK_TN, NULL,  'A',  0, 0 },
-	{	MIPS_G_FILE,		FTK_FC, FTK_FC, FTK_FC, NULL,  'G',  1, 1 },
-	{	MIPS_T_FILE,		FTK_FC, FTK_FC, FTK_FC, NULL,  'T',  1, 1 },
-	{	C_SPEC,				FTK_FC, FTK_FC, FTK_FC, NULL,  'k',  1, 0 },
-	{	CPP_SPEC,			FTK_FC, FTK_FC, FTK_FC, NULL,  'K',  1, 0 },
-	{	STARTUP_FILE,		FTK_FC, FTK_FC, FTK_FC, NULL,  'h',  1, 1 },
-	{	UNKNOWN_TYPE,		FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
+	{ 'c', C_SOURCE,          FTK_FC, FTK_FC, FTK_FC, NULL,  1, 0 },
+	{ 'i', PREPROC_C,         FTK_FC, FTK_FC, FTK_FC, NULL,  1, 0 },
+	{ 'C', CPP_SOURCE,        FTK_FC, FTK_FC, FTK_FC, "cpp", 1, 0 },
+	{ 'I', PREPROC_CPP,       FTK_FC, FTK_FC, FTK_FC, NULL,  1, 0 },
+	{ 'j', INDEP_TDF,         FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 },
+	{ 't', DEP_TDF,           FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 },
+	{ 's', AS_SOURCE,         FTK_FC, FTK_FC, FTK_FC, NULL,  1, 0 },
+	{ 'o', BINARY_OBJ,        FTK_FC, FTK_FC, FTK_FC, NULL,  1, 0 },
+	{  0,  EXECUTABLE,        FTK_TN, FTK_FC, FTK_TN, NULL,  0, 0 },
+	{ 'p', PRETTY_TDF,        FTK_TC, FTK_FC, FTK_TN, NULL,  0, 0 },
+	{ 'P', PL_TDF,            FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 },
+	{ 'A', TDF_ARCHIVE,       FTK_TN, FTK_FC, FTK_TN, NULL,  0, 0 },
+	{ 'G', MIPS_G_FILE,       FTK_FC, FTK_FC, FTK_FC, NULL,  1, 1 },
+	{ 'T', MIPS_T_FILE,       FTK_FC, FTK_FC, FTK_FC, NULL,  1, 1 },
+	{ 'k', C_SPEC,            FTK_FC, FTK_FC, FTK_FC, NULL,  1, 0 },
+	{ 'K', CPP_SPEC,          FTK_FC, FTK_FC, FTK_FC, NULL,  1, 0 },
+	{ 'h', STARTUP_FILE,      FTK_FC, FTK_FC, FTK_FC, NULL,  1, 1 },
+	{  0,  UNKNOWN_TYPE,      FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 },
 
-		/* Dummy types */
-		/* TODO only keep, keep_aux and stop are used? */
-	{	INDEP_TDF_COMPLEX,	FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
-	{	C_SPEC_1,			FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
-	{	C_SPEC_2,			FTK_TC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
-	{	CPP_SPEC_1,			FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
-	{	CPP_SPEC_2,			FTK_TC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
-	{	INDEP_TDF_AUX,		FTK_FC, FTK_FC, FTK_FC, NULL,  '\0', 0, 0 },
-	{	BINARY_OBJ_AUX,		FTK_FC, FTK_FC, FTK_FC, NULL,  'b',  0, 0 }
+	    /* Dummy types */
+	    /* TODO only keep, keep_aux and stop are used? */
+	{  0,  INDEP_TDF_COMPLEX, FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 },
+	{  0,  C_SPEC_1,          FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 },
+	{  0,  C_SPEC_2,          FTK_TC, FTK_FC, FTK_FC, NULL,  0, 0 },
+	{  0,  CPP_SPEC_1,        FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 },
+	{  0,  CPP_SPEC_2,        FTK_TC, FTK_FC, FTK_FC, NULL,  0, 0 },
+	{  0,  INDEP_TDF_AUX,     FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 },
+	{ 'b', BINARY_OBJ_AUX,    FTK_FC, FTK_FC, FTK_FC, NULL,  0, 0 }
 };
 
 boolean

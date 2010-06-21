@@ -111,11 +111,15 @@ static boolean archive_options = 1;
  * returns a nonzero value if an error occurs.
  */
 static int
-read_file(const char *nm, const char *w, long n, FILE *f)
+read_file(const char *nm, const char *w, size_t n, FILE *f)
 {
-	FILE *g = NULL;
-	int ret = 0;
-	size_t m = (size_t)n;
+	int ret;
+	FILE *g;
+	size_t m;
+
+	ret = 0;
+	g   = NULL;
+	m   = n;
 
 	if (dry_run) {
 		if (fseek(f, n, SEEK_CUR)) {
@@ -126,7 +130,7 @@ read_file(const char *nm, const char *w, long n, FILE *f)
 		goto out;
 	}
 
-	if ((g == fopen(nm, w)) == NULL) {
+	if ((g = fopen(nm, w)) == NULL) {
 		error(SERIOUS, "Can't open copy destination file, '%s'", nm);
 		ret = 1;
 		goto out;
@@ -135,10 +139,13 @@ read_file(const char *nm, const char *w, long n, FILE *f)
 	while (m) {
 		size_t r = m;
 		size_t s;
-		void  *p = buffer;
+		void  *p;
 
-		if (r > buffer_size)
+		p = buffer;
+
+		if (r > buffer_size) {
 			r = buffer_size;
+		}
 
 		s = fread(p, sizeof(char), r, f);
 		if (s != r) {
@@ -668,7 +675,8 @@ split_archive(const char *arch, filename **ret)
 		filename *qo = q;
 		if (streq(p, "*")) {
 		    /* Old form hidden names */
-		    q = make_filename(no_filename, INDEP_TDF, where(INDEP_TDF));
+		    int k = where(INDEP_TDF);
+		    q = make_filename(no_filename, INDEP_TDF, k);
 		} else if (strneq(p, "*.", 2)) {
 		    /* New form hidden names */
 		    p = string_copy(p);

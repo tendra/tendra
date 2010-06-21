@@ -90,12 +90,11 @@ int environ_count;		/* how many -Y env loads are attempted */
  *
  * These macros identify various character types.
  */
-
+/* XXX: use ctype.h instead */
 #define is_alphanum(X)		(((X) >= 'A' && (X) <= 'Z') ||\
 				 ((X) >= '0' && (X) <= '9') ||\
 				 ((X) == '_'))
 #define is_whitespace(X)	((X) == ' ' || (X) == '\t')
-#define is_quote(X)		((X) == '"')
 #define is_newline(X)		((X) == '\n')
 
 

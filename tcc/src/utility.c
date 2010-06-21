@@ -61,9 +61,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "config.h"
-#include <stdarg.h>
 #include "list.h"
 #include "environ.h"
 #include "flags.h"
@@ -81,7 +81,6 @@
  * EXIT_SUCCESS or EXIT_FAILURE. The variable progname gives the name of the
  * program, which is used in error reports.
  */
-
 int exit_status = EXIT_SUCCESS;
 const char *progname = PROGNAME_TCC;
 
@@ -89,7 +88,6 @@ const char *progname = PROGNAME_TCC;
 /*
  * Static function prototypes.
  */
-
 static int	key_match(const char *, const char *);
 
 
@@ -99,7 +97,6 @@ static int	key_match(const char *, const char *);
  * This routine prints an error message s (a printf-style string, which may be
  * followed by any number of arguments) of severity e (see utility.h).
  */
-
 void
 error(int e, char *s, ...)
 {
@@ -113,18 +110,22 @@ error(int e, char *s, ...)
 		exit_status = EXIT_FAILURE;
 		errtype = "Fatal";
 		break;
+
 	case INTERNAL:
 		exit_status = EXIT_FAILURE;
 		errtype = "Internal";
 		break;
+
 	case SERIOUS:
 		exit_status = EXIT_FAILURE;
 		errtype = "Error";
 		break;
+
 	case OPTION:
 		exit_status = EXIT_FAILURE;
 		errtype = "Option interpreter";
 		break;
+
 	case WARNING:
 		if (!warnings) {
 			va_end(args);
@@ -132,6 +133,7 @@ error(int e, char *s, ...)
 		}
 		errtype = "Warning";
 		break;
+
 	case INFO:
 		errtype = "Information";
 		break;
@@ -140,6 +142,7 @@ error(int e, char *s, ...)
 	if (checker) {
 		progname = PROGNAME_TCHK;
 	}
+
 	IGNORE fprintf(stderr, "%s: ", progname);
 	if (errtype) {
 		IGNORE fprintf(stderr, "%s: ", errtype);
@@ -147,10 +150,10 @@ error(int e, char *s, ...)
 	IGNORE vfprintf(stderr, s, args);
 	IGNORE fprintf(stderr, ".\n");
 	va_end(args);
+
 	if (e == FATAL) {
 		main_end();
 	}
-	return;
 }
 
 
@@ -162,15 +165,16 @@ error(int e, char *s, ...)
  * environ_optmap[] array, and flaged as tccenv-derived instead of
  * user-created.
  */
-
-hashtable*
-init_table(size_t tblsize, size_t keysize, int (*hashfcn) (const char *, size_t, size_t))
+hashtable *
+init_table(size_t tblsize, size_t keysize, int (*hashfcn)(const char *, size_t, size_t))
 {
 	size_t i;
 	hashtable* ht;
+	htnode *hn;
 	optmap *t;
 
-	ht = malloc(sizeof(hashtable));
+	ht = malloc(sizeof *ht);	/* XXX: check */
+
 	ht->tblsize = tblsize;
 	ht->keysize = keysize;
 	ht->hashfcn = hashfcn;
@@ -182,7 +186,7 @@ init_table(size_t tblsize, size_t keysize, int (*hashfcn) (const char *, size_t,
 
 	for (t = environ_optmap; t->in != NULL; t++) {
 		/* initialize hash table with tccenv keys */
-		(void) update_table(ht, t->in, NULL, TCCENV, NULL, -1);
+		hn = update_table(ht, t->in, NULL, TCCENV, NULL, -1);
 	}
 
 	return ht;
@@ -191,7 +195,7 @@ init_table(size_t tblsize, size_t keysize, int (*hashfcn) (const char *, size_t,
 htnode *
 lookup_table(hashtable *ht, const char *key)
 {
-	int  hashval;
+	int hashval;
 	htnode *hn;
 
 	if (!key) {
@@ -217,18 +221,18 @@ lookup_table(hashtable *ht, const char *key)
 static int
 key_match(const char *key, const char *keyfield)
 {
-	size_t i;
+	int i;
 
 	if (!key || !keyfield) {
 		return 0;
 	}
 
 	/* advance pointers past command chars */
-	while(key && !is_alphanum(*key)) {
+	while (key && !is_alphanum(*key)) {
 		key++;
 	}
 
-	while(keyfield && !is_alphanum(*keyfield)) {
+	while (keyfield && !is_alphanum(*keyfield)) {
 		keyfield++;
 	}
 
@@ -247,6 +251,7 @@ update_table(hashtable *ht, const char *key, const char *val, unsigned int flag,
 {
 	int hashval;
 	htnode *hn;
+
 	hashval = ht->hashfcn(key, ht->tblsize, ht->keysize);
 	hn = ht->node[hashval];
 
@@ -257,7 +262,7 @@ update_table(hashtable *ht, const char *key, const char *val, unsigned int flag,
 
 	/* Case 1.  Node was not found; push */
 	if (hn == NULL) {
-		hn = malloc(sizeof(htnode));
+		hn = malloc(sizeof(htnode));	/* XXX: check */
 		hn->flag = flag;
 		hn->key = key;
 		hn->val = val;
@@ -265,41 +270,47 @@ update_table(hashtable *ht, const char *key, const char *val, unsigned int flag,
 		hn->line_num = line_num;
 		hn->next = ht->node[hashval];
 		ht->node[hashval] = hn;
-	} else {
-		/* Case 2.  Update */
-		if (!val) {
-			hn->val = NULL;
-		} else {
-			switch (*key) {
-			case '+':
-				/* assignment */
-				hn->val = val;
-				break;
-			case '>':
-				/* append */
-				if (hn->val) {
-					hn->val =
-					    string_append(hn->val, val, ' ');
-				}
-				hn->val = val;
-				break;
-			case '<':
-				/* prepend */
-				if (hn->val) {
-					hn->val =
-					    string_append(val, hn->val, ' ');
-				}
-				hn->val = val;
-				break;
-			default:
-				/*
-				 * This should never happen, since read_env_aux
-				 * screens for this.
-				 */
-				error(FATAL, "Attempt to update hashtable with"
-				      " invalid key %s\n", key);
-			}
+		return hn;
+	}
+
+	/* Case 2.  Remove */
+	if (!val) {
+		hn->val = NULL;
+		return hn;
+	}
+
+	/* Case 3.  Update with a value */
+	switch (*key) {
+	case '+':
+		/* assignment */
+		hn->val = val;
+		break;
+
+	case '>':
+		/* append */
+		if (hn->val) {
+			hn->val =
+			    string_append(hn->val, val, ' ');
 		}
+		hn->val = val;
+		break;
+
+	case '<':
+		/* prepend */
+		if (hn->val) {
+			hn->val =
+			    string_append(val, hn->val, ' ');
+		}
+		hn->val = val;
+		break;
+
+	default:
+		/*
+		 * This should never happen, since read_env_aux
+		 * screens for this.
+		 */
+		error(FATAL, "Attempt to update hashtable with"
+		      " invalid key %s\n", key);
 	}
 
 	return hn;
@@ -313,8 +324,11 @@ update_table(hashtable *ht, const char *key, const char *val, unsigned int flag,
 int
 hash(const char *key, size_t tblsize, size_t keysize)
 {
-	size_t i = 1;
-	int hashval = 0;
+	int i;
+	int hashval;
+
+	i = 1;
+	hashval = 0;
 
 	/* skip leading +, <, >, ?, / chars */
 	while (key && !(is_alphanum(*key))) {
@@ -331,9 +345,9 @@ hash(const char *key, size_t tblsize, size_t keysize)
 		i++;
 	}
 
-	hashval %= (int) tblsize;
+	hashval %= tblsize;
 	if (hashval < 0) {
-		hashval += (int) tblsize;
+		hashval += tblsize;
 	}
 
 	return hashval;
@@ -346,7 +360,6 @@ hash(const char *key, size_t tblsize, size_t keysize)
  * This routine prints the comments (a printf-style string, which may be
  * followed by any number of arguments) to the standard output.
  */
-
 void
 comment(int e, char *s, ...)
 {
@@ -359,7 +372,6 @@ comment(int e, char *s, ...)
 	IGNORE vfprintf(f, s, args);
 	IGNORE fflush(f);
 	va_end(args);
-	return;
 }
 
 
@@ -368,15 +380,17 @@ comment(int e, char *s, ...)
  *
  * This routine allocates a block of memory of size sz and returns the result.
  */
-
 void *
 xalloc(size_t sz)
 {
-	void *p = malloc(sz);
+	void *p;
+
+	p = malloc(sz);
 	if (p == NULL) {
 		error(FATAL, "Memory allocation error");
 	}
-	return (p);
+
+	return p;
 }
 
 
@@ -386,19 +400,21 @@ xalloc(size_t sz)
  * This routine reallocates the block of memory p to have size sz.
  * xrealloc(*null, sz) is equivalent to xalloc(sz).
  */
-
 void *
 xrealloc(void *p, size_t sz)
 {
     void *q;
+
     if (p == NULL) {
-	    return (xalloc(sz));
+	    return xalloc(sz);
     }
-    q = realloc(p, (size_t)sz);
+
+    q = realloc(p, sz);
     if (q == NULL) {
 	    error(FATAL, "Memory reallocation error");
     }
-    return (q);
+
+    return q;
 }
 
 
@@ -414,7 +430,6 @@ xrealloc(void *p, size_t sz)
  *   b) environment variables are used next,
  *   c) for a select group of variables, sane defaults are used.
  */
-
 const char *
 find_path_subst(const char *var)
 {
@@ -424,8 +439,8 @@ find_path_subst(const char *var)
 
 	i = 0;
 	subs = PATH_SUBS;
-	while (*subs){
-		if (!strcmp(var, *subs)) {
+	while (*subs) {
+		if (0 == strcmp(var, *subs)) {
 			if (env_paths[i] == NULL){
 				error(FATAL, "The env variable <%s> is NULL.\n"
 				      "Check your environment or edit your env"
@@ -446,6 +461,7 @@ find_path_subst(const char *var)
 	if (!ret) {
 		error(FATAL, "Unknown environment variable %s", var);
 	}
+
 	return ret;
 }
 
@@ -456,7 +472,7 @@ find_path_subst(const char *var)
  * This routine allocates n characters of memory for use in the string memory
  * allocation routines.
  */
-
+/* TODO: this is an unneccessary optimisation */
 static char *
 string_alloc(int n)
 {
@@ -466,8 +482,11 @@ string_alloc(int n)
 		r = alloc_nof(char, n);
 	} else {
 		/* Short strings are allocated space from a buffer */
-		static int no_free = 0;
-		static char *free_chars = NULL;
+		static int no_free;
+		static char *free_chars;
+
+		no_free = 0;
+		free_chars = NULL;
 		if (n >= no_free) {
 			no_free = 4000;
 			free_chars = alloc_nof(char, no_free);
@@ -476,7 +495,8 @@ string_alloc(int n)
 		no_free -= n;
 		free_chars += n;
 	}
-	return (r);
+
+	return r;
 }
 
 
@@ -487,14 +507,17 @@ string_alloc(int n)
  * string into this space. This copy is returned.
  */
 /* TODO rename to xstrdup(), move to shared/ */
-
 char *
 string_copy(const char *s)
 {
-	int n = (int)strlen(s);
-	char *r = string_alloc(n + 1);
+	size_t n;
+	char *r;
+
+	n = strlen(s);
+	r = string_alloc(n + 1);
 	IGNORE strcpy(r, s);
-	return (r);
+
+	return r;
 }
 
 
@@ -505,16 +528,20 @@ string_copy(const char *s)
  * of the string t and concatenates the strings into this space. This copy is
  * returned.
  */
-
 char *
 string_concat(const char *s, const char *t)
 {
-	int n = (int)strlen(s);
-	int m = (int)strlen(t);
-	char *r = string_alloc(n + m + 1);
+	size_t n, m;
+	char *r;
+
+	n = strlen(s);
+	m = strlen(t);
+
+	r = string_alloc(n + m + 1);
 	IGNORE strcpy(r, s);
 	IGNORE strcpy(r + n, t);
-	return (r);
+
+	return r;
 }
 
 
@@ -548,5 +575,5 @@ string_append(const char *s, const char *t, char delimeter)
  * This variable gives a temporary work space of size buffer_size (see
  * utility.h) which is used as a scratch work area.
  */
-
 char *buffer;
+

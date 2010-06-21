@@ -531,7 +531,7 @@ static filename *
 apply_link(filename *input)
 {
 	filename *p = input;
-	enum filetype spec_out = C_SPEC_2;
+	int spec_out = C_SPEC_2;
 	filename *links = NULL, *links_out = NULL;
 	filename *specs = NULL, *specs_out;
 	filename *others = NULL;
@@ -652,7 +652,7 @@ apply_build_arch(filename *input)
 	filename *links = NULL;
 	filename *specs = NULL;
 	filename *others = NULL;
-	enum filetype spec_out = C_SPEC_1;
+	int spec_out = C_SPEC_1;
 	while (p != NULL) {
 		filename *pn = p->next;
 		p->next = NULL;
@@ -693,7 +693,7 @@ apply_build(filename *input)
 	filename *links = NULL;
 	filename *specs = NULL;
 	filename *others = NULL;
-	enum filetype spec_out = C_SPEC_1;
+	int spec_out = C_SPEC_1;
 	while (p != NULL) {
 		filename *pn = p->next;
 		p->next = NULL;

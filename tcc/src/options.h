@@ -71,7 +71,7 @@
  * An option consists of an input pattern, in, an output command, out, and some
  * explanatory text, explain.
  */
-
+/* TODO: this can probably become private */
 typedef struct {
 	char *in;
 	char *out;

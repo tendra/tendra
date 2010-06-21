@@ -62,6 +62,19 @@ enum filetype_keep {
 /* TODO eventually this can become private, and accessed through a suitable API */
 struct filetype_table {
 	/*
+	 * SINGLE CHARACTER KEYS FOR FILE TYPES
+	 *
+	 * Each file type has an associated identifying letter. In most cases this
+	 * corresponds to the file suffix. This is expected to be unique per type.
+	 *
+	 * Unused keys are set to '\0'.
+	 *
+	 * TODO why does this exist?
+	 * TODO: We can probably eliminate this in favour of strings.
+	 */
+	char key;
+
+	/*
 	 * The ID of each entry; this is the primary key for a filetype, by which
 	 * its associated information (such as its keep information) may be found.
 	 */
@@ -90,18 +103,6 @@ struct filetype_table {
 	 */
 	/* TODO who uses this? can we remove the feature? */
 	const char *suffix;
-
-	/*
-	 * SINGLE CHARACTER KEYS FOR FILE TYPES
-	 *
-	 * Each file type has an associated identifying letter. In most cases this
-	 * corresponds to the file suffix. This is expected to be unique per type.
-	 *
-	 * Unused keys are set to '\0'.
-	 *
-	 * TODO: We can probably eliminate this in favour of strings.
-	 */
-	char key;
 
 	/*
 	 * True if this filetype is applicable to the checker. In this case, when
