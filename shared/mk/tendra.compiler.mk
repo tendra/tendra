@@ -16,8 +16,10 @@ _TENDRA_COMPILER_MK_=1
 # The following compilers may be specified by setting their corresponding
 # environment variables when calling make(1):
 #
-#  ${TCC} - TenDRA
-#  ${GCC} - The GNU Compiler Collection
+#  ${TCC}   - TenDRA
+#  ${GCC}   - The GNU Compiler Collection
+#  ${PCC}   - The Portable C Compiler
+#  ${CLANG} - The Clang C compiler
 #
 # If none of the above are set, no compiler-specific default options are used
 # (either globally, or per directory).
@@ -76,6 +78,30 @@ CXX:=		${GCC}
 CFLAGS+=	${GCCOPTS}
 CXXFLAGS+=	${GXXOPTS}
 CCOPTS+=	-pedantic -O2
+
+. elif defined(CLANG)
+
+CLANGOPTS?=	-std=c89
+CLANGXXOPTS?=	-std=c89
+
+CC:=	${CLANG}
+CXX:=	${CLANG}
+
+CFLAGS+=	${CLANGOPTS}
+CXXFLAGS+=	${CLANGXXOPTS}
+CCOPTS+=	-pedantic -O4
+
+. elif defined(PCC)
+
+PCCOPTS?=
+PXXOPTS?=
+
+CC:=	${PCC}
+CXX:=	${PCC}
+
+CFLAGS+=	${PCCOPTS}
+CXXFLAGS+=	${PXXOPTS}
+CCOPTS+=	-O
 
 . else
 
