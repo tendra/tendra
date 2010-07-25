@@ -1,0 +1,31 @@
+#!/usr/bin/awk
+# $Id$
+
+# Convert pmccabe cyclomatic complexity metrics to an XML format.
+# See http://parisc-linux.org/~bame/pmccabe/
+#
+# Usage: pmccabe *.c | awk -f pmccabe2xml | xsltproc ...
+
+BEGIN {
+	print "<?xml version=\"1.0\"?>"
+	print "<pmcc xmlns=\"http://xml.tendra.org/pmcc\">"
+}
+
+{
+	# e.g. "lex.c(94):"
+	sub(/\([0-9]+\):$/, "", $6)
+
+	printf "\t<func mod_mccabe= \"%d\"\n"    \
+	       "\t      trad_mccabe=\"%d\"\n"    \
+	       "\t      statements= \"%d\"\n"    \
+	       "\t      first_line= \"%d\"\n"    \
+	       "\t      lines=      \"%d\"\n"    \
+	       "\t      filename=   \"%s\"\n"    \
+	       "\t      function=   \"%s\"/>\n", \
+		$1, $2, $3, $4, $5, $6, $7
+}
+
+END {
+	print "</pmcc>"
+}
+
