@@ -3,8 +3,11 @@
 .include "Makefile.inc"
 
 
+PART_CFLAGS+=	-I${.CURDIR}/shared
+
 PARTS+=	src/shared/error
 PARTS+=	src/shared/xalloc
+PARTS+=	src/exds
 PARTS+=	src/output-c
 PARTS+=	src/output-dot
 PARTS+=	src/adt
@@ -14,6 +17,8 @@ PARTS+=	src/adt
 
 CCOPTS+=	-Ishared
 CCOPTS+=	-I.
+
+CFLAGS+=	-I${BASE_DIR}/include
 
 SRCS+=	syntax.c
 SRCS+=	lexer.c
@@ -30,7 +35,6 @@ SRCS+=	localnames.c
 
 
 PROG=	lexi
-LIBS=	-lexds
 
 .include <tendra.prog.mk>
 
