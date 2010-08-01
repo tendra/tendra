@@ -1,0 +1,7 @@
++MACHINE	"darwin-*-80x86"
++AS		"/usr/bin/as"
++LD		"/usr/bin/ld"
++CC		"/usr/bin/cc"
++CRT0		""
++CRT1		"/usr/lib/crt1.o"
++CRTN		"/usr/lib/gcc34/crtend.o /usr/lib/gcc34/crtn.o"
