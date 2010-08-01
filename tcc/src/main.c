@@ -276,8 +276,7 @@ main(int argc, char **argv)
 	/* Check for unprocessed files */
 	while (output != NULL) {
 		if (output->storage == INPUT_FILE) {
-			error(WARNING, "Input file '%s' not processed",
-			      output->name);
+			error(WARNING, "Input file '%s' not processed", output->name);
 		}
 		output = output->next;
 	}
