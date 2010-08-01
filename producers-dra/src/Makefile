@@ -3,7 +3,8 @@
 .include "Makefile.inc"
 
 
-SUBDIR=	c cpp
+SUBDIR+=	c
+SUBDIR+=	cpp
 
 .include <tendra.subdir.mk>
 

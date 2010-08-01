@@ -5,6 +5,13 @@
 .include "Makefile.inc"
 
 
+#SUBDIR+=	lpi
+#SUBDIR+=	stdlib
+
+#.include <tendra.subdir.mk>
+
+
+
 # TODO: centralise this
 ${OBJ_SDIR}:
 	${MKDIR} -p ${.TARGET}
