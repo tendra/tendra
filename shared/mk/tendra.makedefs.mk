@@ -17,7 +17,7 @@ _TENDRA_MAKEDEFS_MK_=1
 # This is flawed in that it assumes the version of the kernel (as reported by
 # uname) is the same as the version of the libraries present in /usr/include
 # (as used for API building), which is not always true. However, for the rare
-# situation where they differ, the user may explicitly override variables
+# situations where they differ, the user may explicitly override variables
 # accordingly.
 #
 # The idea here is that these variables are only assigned if required, and that
@@ -62,6 +62,7 @@ MD_BLDARCHBITS!=                        \
 
 MD_OSFAM!=                              \
     case "${SYSTEM}" in                 \
+        Darwin)    echo darwin;;        \
         DragonFly) echo dragonfly;;     \
         FreeBSD)   echo freebsd;;       \
         Linux)     echo linux;;         \
