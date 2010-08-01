@@ -655,7 +655,7 @@ lookup_list(const char *s)
 	assert(s != NULL);
 
 	for (i = 0; i < sizeof t / sizeof *t; i++) {
-		if (t[i].checkeronly && !checker) {
+		if (s[0] == 'Q' && checker && !t[i].checkeronly) {
 			continue;
 		}
 
@@ -668,7 +668,8 @@ lookup_list(const char *s)
 	case 'E':
 	case 'Q':
 	case 'O':
-		error(OPTION, "Unknown compilation stage, '%c'", s[1]);
+		error(OPTION, "Unknown%s compilation stage, '%c'",
+			checker ? "/non-checker" : "", s[1]);
 		return NULL;
 
 	default:
