@@ -29,7 +29,7 @@ clean::
 
 install::
 	@${ECHO} "==> Installing ${WRKDIR}/${STARTUPSUBDIR} startup directories"
-	@${CONDCREATE} ${STARTUPSUBDIR:S/^/${PREFIX}/lib/tcc\/startup\//g}
+	@${CONDCREATE} ${STARTUPSUBDIR:S,^,${PREFIX}/lib/tcc/startup/,g}
 	@${FIND} ${STARTUPSUBDIR} -name '.*' -prune -o -print |                               \
 	while read file; do                                                                   \
 		if ${TEST} -d $${file}; then                                                      \

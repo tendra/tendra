@@ -26,9 +26,9 @@ _TENDRA_WORK_PROG_MK_=1
 EXEC_BIN?=	${PREFIX}/bin
 WRAP_BIN?=	${PREFIX}/bin
 
-.if !empty(LIBS)
-LDOPTS+=	-L${PREFIX}/lib
-.endif
+#.if !empty(LIBS)
+#LDOPTS+=	-L${PREFIX}/lib
+#.endif
 
 ${OBJ_SDIR}/${PROG}: ${OBJS}
 	@${CONDCREATE} "${OBJ_SDIR}"

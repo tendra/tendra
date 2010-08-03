@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = apis cpp libtdf
+SUBDIR+=	machines
 
 .include <tendra.subdir.mk>
 
