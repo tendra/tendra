@@ -4,7 +4,6 @@
 
 
 SUBDIR+=	src
-SUBDIR+=	env
 SUBDIR+=	startup
 SUBDIR+=	doc
 

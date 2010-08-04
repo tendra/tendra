@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = ${BLDARCH}
+SUBDIR+=	${BLDARCH}
 
 .include <tendra.subdir.mk>
 

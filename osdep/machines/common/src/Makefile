@@ -12,8 +12,8 @@ SHELL=/bin/sh
 all : crtp_n.o
 	@${ECHO} all done
 
-crtp_n.o : ${SRC}/crtp_n.pl
-	${CC} -Ypl_tdf -c ${SRC}/crtp_n.pl
+crtp_n.o : ${SRC}/crtp_n.tpl
+	${CC} -Ypl_tdf -c ${SRC}/crtp_n.tpl
 
 clean :
 	${REMOVE} core
