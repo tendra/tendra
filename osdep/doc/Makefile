@@ -3,8 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	style
-SUBDIR+=	orientation
+SUBDIR+=	devguides
 
 .include <tendra.subdir.mk>
 

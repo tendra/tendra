@@ -4,6 +4,7 @@
 
 
 SUBDIR+=	machines
+SUBDIR+=	doc
 
 .include <tendra.subdir.mk>
 
