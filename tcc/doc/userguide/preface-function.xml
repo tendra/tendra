@@ -1,0 +1,47 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY tcc "<application><acronym>TCC</acronym></application>">
+	<!ENTITY cc  "<application><acronym>CC</acronym></application>">
+	<!ENTITY tdf "<acronym>TDF</acronym>">
+]>
+
+
+<!--
+	$Id$
+-->
+
+<preface id="introduction">
+	<title>The Function of &tcc;</title>
+
+	<para>Like most compilation systems, the &tdf; C system consists of a
+		number of components which transform or combine various types
+		of input files into output files.
+		&tcc; is designed to be a compilation manager, coordinating
+		these various components into a coherent compilation scheme.
+		It is also the normal user's interface to the &tdf; system on
+		Unix machines: direct use of the various components of the
+		system is not recommended.
+		Therefore it is worth familiarising oneself with &tcc; before
+		attempting to use the &tdf; system.
+		To aid this familiarisation &tcc; has been designed to have the
+		same look and feel as the system C compiler &cc;, but with added
+		functionality to deal with the additional features of the &tdf;
+		system.
+		This does not mean that &tcc; can be necessarily regarded
+		as a direct replacement for &cc;; the extra portability
+		checks performed by the &tdf; system require the precise
+		compilation environment to be specified to &tcc; in a way that
+		it cannot be to &cc;.</para>
+
+	<para>There are two basic components to this paper.
+		The first describes the &tdf; compilation strategy and how it is
+		implemented by &tcc;.
+		The second is a Quick Reference section at the end of the paper,
+		which is intended to be a &tcc; user's manual.
+		For even quicker reference, &tcc; will print a list of all its
+		command-line options (with a brief description) if invoked with
+		the <userinput>-query</userinput> option.</para>
+</preface>
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY tcc "<application><acronym>TCC</acronym></application>">
+	<!ENTITY cc  "<application><acronym>CC</acronym></application>">
+	<!ENTITY tdf "<acronym>TDF</acronym>">
+]>
+
+
+<!--
+	$Id$
+-->
+
+<chapter id="strategy">
+	<title>The &tdf; Compilation Strategy</title>
+
+	<figure id="trad_scheme">
+		<title>Traditional Compilation Path</title>
+		<graphic align="center" format="PNG"
+			fileref="images/trad_scheme.png"/>
+	</figure>
+
+	<para>Before discussing &tcc; itself in detail, it is necessary to
+		explain the compilation strategy that it is designed to
+		implement.
+		This was discussed at length in [1] and is summarised
+		in Fig. 2<!-- TODO: ref -->, which
+		is taken from that paper. Readers are urged to consult [1].
+		<!-- TODO: footnotes --></para>
+		<!-- TODO: if it's taken from that document, then consolidate the images? -->
+
+	<figure id="tdf_scheme">
+		<title>&tdf; Compilation Path</title>
+		<graphic align="center" format="PNG"
+			fileref="images/tdf_scheme.png"/>
+	</figure>
+</chapter>
+

@@ -1,0 +1,1213 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY tcc    "<application><acronym>TCC</acronym></application>">
+	<!ENTITY cc     "<application><acronym>CC</acronym></application>">
+	<!ENTITY tdf    "<acronym>TDF</acronym>">
+	<!ENTITY api    "<acronym>API</acronym>">
+	<!ENTITY trans  "<application>trans</application>">
+	<!ENTITY disp   "<application>disp</application>">
+	<!ENTITY tnc    "<application><acronym>TNC</acronym></application>">
+	<!ENTITY tpl    "<application><acronym>TPL</acronym></application>">
+	<!ENTITY tld    "<application><acronym>TLD</acronym></application>">
+	<!ENTITY tdfc   "<application><acronym>TDFC</acronym></application>">
+	<!ENTITY tdfcpp "<application><acronym>TDFCPP</acronym></application>">
+	<!ENTITY trans  "<application>trans</application>">
+	<!ENTITY lint   "<application>lint</application>">
+	<!ENTITY ld     "<application>ld</application>">
+	<!ENTITY tchk   "<application>tchk</application>">
+
+	<!ENTITY sparctrans "<application>sparctrans</application>">
+	<!ENTITY mipstrans  "<application>mipstrans</application>">
+	<!ENTITY trans386   "<application>trans386</application>">
+	<!ENTITY hptrans    "<application>hptrans</application>">
+	<!ENTITY nexttrans  "<application>nexttrans</application>">
+]>
+
+
+<!--
+	$Id$
+-->
+
+<chapter id="components">
+	<title>The Component of the &tdf; System</title>
+
+	<section>
+		<title>The C to &tdf; Producer</title>
+
+		<para>We now turn to the individual components of the &tdf;
+			system. Most of the command-line options to &tcc; so far
+			discussed have been concerned with controlling the behaviour
+			of &tcc; itself.
+			Another, even more important, class of options concern the
+			ways in which the behaviour of the components can be specified.
+			The <option>-W<replaceable>tool</replaceable>,&nbsp;<replaceable>opt</replaceable>,&nbsp;...</option>
+			command-line option for communicating directly with the
+			components has already been mentioned.
+			This however is not recommended for normal purposes; the
+			other &tcc; command-line options give a more controlled
+			access to the components.</para>
+
+		<para>The first component to be considered is the C &rarr; &tdf;
+			producer, &tdfc;.
+			This translates an input C source file (a
+			<filename>.c</filename> file or a <filename>.i</filename>
+			file) into a output target independent &tdf; capsule (a
+			<filename>.j</filename> file).</para>
+
+		<section>
+			<title>Include File Directories</title>
+
+			<para>The most important producer options are those which
+				tell it where to search for files included using a
+				<code>#include</code> preprocessing directive.
+				As with &cc;, the user can specify a directory,
+				<replaceable>dir</replaceable>, to search for these
+				files using the <option>-I<replaceable>dir</replaceable></option>
+				command-line option.
+				However, unlike &cc;, the producer does not search
+				<filename>/usr/include</filename> as default.
+				Instead, the default search directories are those
+				containing the target independent headers for the &api;
+				selected, as given by the <code>INCL</code> identifier
+				in the environment describing the &api;.
+				In addition, the directories to search for the default
+				start-up files (see below), as given by the
+				<code>STARTUP_DIR</code> environmental identifier,
+				are also passed to the producer.</para>
+
+			<para>If the <option>-H</option> option is passed to &tcc;
+				then it will cause the producer to print the name of
+				each file it opens.
+				This is often helpful if a multiplicity of
+				<option>-I</option> options leads to confusion.</para>
+		</section>
+
+		<section>
+			<title>Start-up Files and End-up Files</title>
+
+			<para>The producer has a useful feature of start-up and
+				end-up files.
+				The &tcc; command-line option
+				<option>-f<replaceable>file</replaceable></option>
+				is equivalent to inserting the line:</para>
+
+			<programlisting>#include &quot;file&quot;</programlisting>
+
+			<para>at the start of each input C source file.
+				Similarly <option>-e<replaceable>file</replaceable></option>
+				is equivalent to inserting this line at the end of
+				each such file.
+				These included files are searched for along the
+				directories specified by the <option>-I</option>
+				options in the normal manner.</para>
+
+			<para>&tcc; generates a producer start-up file, called
+				<filename>tcc_startup.h</filename>, in order to implement
+				certain command-line options.
+				The &cc;-compatible options:</para>
+
+			<literallayout><option>-D<replaceable>name</replaceable></option>
+<option>-D<replaceable>name</replaceable>=<replaceable>value</replaceable></option>
+<option>-U<replaceable>name</replaceable></option>
+<option>-A<replaceable>str</replaceable></option></literallayout>
+
+			<para>are translated into the lines:</para>
+
+			<literallayout><code>#define name 1
+#define name value
+#undef name
+#assert str</code></literallayout>
+
+			<para>respectively. &tcc; does not check that these lines
+				are valid C preprocessing directives since this will be
+				done by the producer.
+				So any producer error message referring to
+				<filename>tcc_startup.h</filename> is likely actually to
+				refer to the <option>-D</option>, <option>-U</option>
+				and <option>-A</option> command-line options.
+				In case of difficulties, <filename>tcc_startup.h</filename>
+				can be preserved for closer examination using the
+				<option>-Ph</option> option to &tcc;.</para>
+
+			<para>There may be default start-up options specified by the
+				<code>STARTUP</code> environmental identifier.
+				The purpose of these is discussed below.
+				The order the start-up options are passed to the producer
+				is: firstly, the default start-up options; secondly, the
+				start-up option for the &tcc; built-in start-up file,
+				<filename>tcc_startup.h</filename>; thirdly, any
+				command-line start-up options.
+				(For technical reasons, a <option>-no_startup_options</option>
+				command-line option is provided which causes no start-up
+				or end-up options to be passed to &tdfc;.
+				This is not likely to prove useful in normal use.</para>
+		</section>
+
+		<section>
+			<title>Compilation Modes and Portability Tables</title>
+
+			<para>We have already described how one aspect of the
+				compilation environment, the &api;, is specified to
+				the producer by means of the default <option>-I</option>
+				options.
+				But another aspect, the control of the syntax and
+				portability checks applied by the producer, can also
+				be specified in a fairly precise manner.</para>
+
+			<para>The producer accepts a number of <code>#pragma</code>
+				statements which tell it which portability checks to
+				apply and which syntactic extensions to ISO/ANSI C to
+				allow (see [3] and [2]).
+				These can be inserted into the main C source, but the
+				ideal place for them is in a start-up file.
+				This is the purpose of the <code>STARTUP</code>
+				environmental identifier, to give a list of default
+				start-up files containing <code>#pragma</code> statements
+				which specify the default behaviour of the producer.</para>
+
+			<para>In fact not all the information the producer requires
+				is obtained through start-up files.
+				The basic information on the minimum sizes which can be
+				assumed for the basic integer types is passed to the
+				producer by means of another type of file, the
+				portability table.
+				This is specified by means of the <code>PORTABILITY</code>
+				environmental identifier.
+				There are in fact only two portability tables provided,
+				<filename>Ansi_Max.pf</filename>, which specifies the
+				minimum sizes permitted by the ISO/ANSI standard, and
+				<filename>Common.pf</filename>, which specifies the
+				minimum sizes found on most 32-bits machines.
+				The main difference between the two is that in ISO/ANSI
+				it is stated that <code>int</code> is only guaranteed to
+				have 16 bits, whereas on 32-bits machines it has at
+				least 32 bits.</para>
+
+			<para>A number of &tcc; command-line options are concerned
+				with specifying the compilation environment to the producer.
+				The main option for setting the compilation mode is
+				<option>-X<replaceable>mode</replaceable></option>.
+				A number of different modes are available:</para>
+
+			<table>
+				<tr>
+					<th align="center">Mode</th>
+					<th align="left">Environment</th>
+				</tr>
+				<tr>
+					<td align="center"><option>-Xs</option></td>
+					<td>Strict ISO/ANSI C with extra portability checks</td>
+				</tr>
+			
+				<tr>
+					<td align="center"><option>-Xp</option></td>
+					<td>Strict ISO/ANSI C with minimal portability checks</td>
+				</tr>
+			
+				<tr>
+					<td align="center"><option>-Xc</option></td>
+					<td>Strict ISO/ANSI C with no extra portability checks</td>
+				</tr>
+			
+				<tr>
+					<td align="center"><option>-Xa</option></td>
+					<td>ISO/ANSI C with various syntactic extensions</td>
+				</tr>
+			
+				<tr>
+					<td align="center"><option>-Xt</option></td>
+					<td><quote>Traditional</quote> C</td>
+				</tr>
+			</table>
+
+			<para>The default is <option>-Xc</option>.
+				For a precise description of each of these modes, see [3]
+				(&tchk; is just &tcc; in disguise).
+				In addition the command-line options
+				<option>-not_ansi</option> and <option>-nepc</option>
+				can be used to modify the basic compilation modes.
+				<option>-not_ansi</option> specifies that certain
+				non-ANSI syntactic constructions should be allowed.
+				<option>-nepc</option> switches off the producer's
+				extra portability checks (it also suppresses certain
+				constant overflow checks in the &tdf; translators).
+				All these options are implemented by start-up files.</para>
+
+			<para>The portability table to be used is specified
+				separately by means of an environment.
+				The default is the ISO/ANSI portability table, but
+				<option>-Y32bit</option> or <option>-Ycommon</option>
+				can be used to specify 32-bit checking.
+				<option>-Y16bit</option> will restore the portability
+				table to the default.
+				Note that all checks involving the portability table
+				are switched off by the <option>-nepc</option>
+				command-line option, so in this case no portability
+				table is specified to the producer.</para>
+		</section>
+
+		<section>
+			<title>Description of Compilation Modes</title>
+
+			<para>Let us briefly describe the compilation modes
+				introduced in the previous section.
+				The following tables describe some of the main features
+				of each mode.
+				The list of pre-defined macros is complete (other than
+				the built-in macros, <code>__FILE__</code>,
+				<code>__LINE__</code>, <code>__DATE__</code> and
+				<code>__TIME__</code>; because the producer is
+				designed to be target independent it does not define any
+				of the machine name macros which are built into &cc;.
+				The &cc;-compatible option, <option>-A-</option>, which is
+				meant to cause all pre-defined macros (other than those
+				beginning with <code>__</code>) to be undefined, and all
+				pre-assertions to be unasserted, is ignored by &tcc;.
+				In the standard compilation modes there are no such
+				macros and no such assertions.
+				The integer promotion rules are either the arithmetic
+				rules specified by ISO/ANSI or the &quot;traditional&quot;
+				signed promotion rules.
+				The precise set of syntactic relaxations to the ISO/ANSI
+				standard allowed by each mode varies.
+				For a complete list see [3].
+				The <option>-not_ansi</option> command-line option can
+				be used to allow further relaxations.
+				The extra prototype checks cause the producer to construct
+				a prototype for procedures which are actually
+				traditionally defined.
+				This is very useful for getting prototype-like checking
+				without having to use prototypes in function definitions.
+				This, and other portability checks, are switched off by
+				the <option>-nepc</option> option.
+				Finally, the additional checks are &lint;-like checks
+				which are useful in detecting possible portability
+				problems.</para>
+
+			<table>
+				<tr>
+					<th align="center">Mode</th>
+					<th align="center">Pre-defined&nbsp;Macros</th>
+					<th align="left">Integer&nbsp;Promotions</th>
+					<th align="left">Relaxations</th>
+					<th align="left">Extra&nbsp;Checks</th>
+				</tr>
+				<tr>
+					<td align="center"><option>-Xs</option></td>
+					<td align="center"><code>__STDC__&nbsp;=&nbsp;1</code></td>
+					<td>ISO/ANSI</td>
+					<td>none</td>
+					<td>yes *</td>
+				</tr>
+				<tr>
+					<td align="center"><option>-Xp</option></td>
+					<td align="center"><code>__STDC__&nbsp;=&nbsp;1</code></td>
+					<td>ISO/ANSI</td>
+					<td>none</td>
+					<td>some *</td>
+				</tr>
+				<tr>
+					<td align="center"><option>-Xc</option></td>
+					<td align="center"><code>__STDC__&nbsp;=&nbsp;1</code></td>
+					<td>ISO/ANSI</td>
+					<td>none</td>
+					<td>none</td>
+				</tr>
+				<tr>
+					<td align="center"><option>-Xa</option></td>
+					<td align="center"><code>__STDC__&nbsp;=&nbsp;1</code></td>
+					<td>ISO/ANSI</td>
+					<td>syntactic</td>
+					<td>none</td>
+				</tr>
+				<tr>
+					<td align="center"><option>-Xt</option></td>
+					<td align="center"><code>__STDC__&nbsp;=&nbsp;0</code></td>	<!-- XXX: __STDC__ should be undefined -->
+					<td>signed</td>
+					<td>syntactic</td>
+					<td>none</td>
+				</tr>
+			</table>
+
+			<para>* Includes extra prototype checks.</para>
+
+			<para>All the above <option>-X*</option> modes provide the
+				pre-defined macros <code>__ANDF__ = 1</code> and
+				<code>__TenDRA__ = 1</code>.</para>
+
+			<para>The choice of compilation mode very much depends on
+				the level of checking required. <option>-Xa</option>
+				is suitable for general compilation, and
+				<option>-Xc</option>.
+				<option>-Xp</option> and <option>-Xs</option> for serious
+				program checking (although some may find the latter
+				excessive).
+				<option>-Xt</option> is provided for &cc; compatibility
+				only; its use is discouraged.</para>
+
+			<para>The recommended method of proceeding is to define your
+				own compilation mode.
+				In this way any choices about syntax and portability
+				checking are made into conscious decisions.
+				One still needs to select a basic mode to form the basis
+				for this user-defined mode.
+				<option>-Xc</option> is probably best; it is a well-defined
+				mode (the definition being the ISO/ANSI standard) and so
+				forms a suitable baseline.
+				Suppose that, on examining the program to be compiled, we
+				decide that we need to do the following:</para>
+
+			<itemizedlist>
+				<listitem>allow the <code>#ident</code> directive,</listitem>
+
+				<listitem>allow through unknown escape sequences
+					with a warning,</listitem>
+
+				<listitem>warn of uses of undeclared procedures,</listitem>
+
+				<listitem>warn of incorrect uses of simple
+					<code>return</code> statements.</listitem>
+			</itemizedlist>
+
+			<para>The first two of these are syntactic in nature.
+				The third is more interesting.
+				ISO/ANSI says that any undeclared procedures are assumed to
+				return <code>int</code>.
+				However for strict &api; checking we really need to know about
+				these undeclared procedures, because they may be library
+				routines which are not part of the declared &api;.
+				The fourth condition is a simple &lint;-like check that no
+				procedure which is declared to return a value contains a
+				simple <code>return</code> statement (without a return
+				value).</para>
+
+			<para>To tell the producer about these options, it is necessary to
+				have them included in every source file.
+				The easiest way of doing this is by using a start-up file,
+				<filename>check.h</filename> say, containing the lines:</para>
+
+			<programlisting>#pragma TenDRA begin
+#pragma TenDRA directive ident allow
+#pragma TenDRA unknown escape warning
+#pragma TenDRA implicit function declaration warning
+#pragma TenDRA incompatible void return warning</programlisting>
+
+			<para>The second, third, fourth and fifth lines correspond to
+				the statements above (see [3]). The first line indicates
+				that this file is defining a new checking scope.</para>
+
+			<para>Once the compilation mode has been described in this way,
+				it needs to be specified to &tcc; in the form of the
+				command-line options <option>-Xc</option>
+				<option>-f</option><filename>check.h</filename>.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>The &tdf; Linker</title>
+
+		<para>The next component of the system to be considered is the
+			&tdf; linker, &tld;. This is used to combine several &tdf;
+			capsules or &tdf; libraries into a single &tdf; capsule.
+			It is put to two distinct purposes in the &tcc; compilation
+			scheme.
+			Firstly, in the main compilation path, it is used in the
+			installer half to combine a target independent &tdf; capsule
+			(a <filename>.j</filename> file) with the &tdf; libraries
+			representing the &api; implementation on the target machine,
+			to form a target dependent &tdf; capsule
+			(a <filename>.t</filename> file).
+			Secondly, if the <option>-M</option> option is given to &tcc;,
+			it is used in the producer half to combine all the target
+			independent &tdf; capsules (<filename>.j</filename> files)
+			into a single target independent capsule.
+			Let us consider these two cases separately.</para>
+
+		<section>
+			<title>The Linker and &tdf; Libraries</title>
+
+			<para>In the main &tdf; linking phase, combining target
+				independent capsules with &tdf; libraries to form target
+				dependent capsules, two pieces of information need to be
+				specified to &tld;.
+				Firstly, the &tdf; libraries to be linked with, and,
+				secondly, the directories to search for these libraries.
+				For standard &api;s, the location of the &tdf; libraries
+				describing the &api; implementation is given in the
+				environment corresponding to the &api;.
+				The <code>LIB</code> identifier gives the names of the
+				&tdf; libraries, and the <code>LINK</code> identifier
+				the directories to be searched for these libraries.
+				The user can also specify libraries and library directories
+				by means of command-line options to &tcc;.
+				The option <option>-j<replaceable>str</replaceable></option>
+				indicates that the &tdf; library
+				<replaceable>str</replaceable><filename>.tl</filename>
+				should be used for linking (<filename>.tl</filename> is
+				the standard suffix for &tdf; libraries).
+				The option <option>-J<replaceable>dir</replaceable></option>
+				indicates that the directory <replaceable>dir</replaceable>
+				should be added to the &tdf; library search path.
+				Libraries and directories specified by command-line
+				options are searched before those given in the &api;
+				environment.</para>
+
+			<para>There is a potential source of confusion in that the
+				&tld; options specifying the &tdf; library
+				<replaceable>str</replaceable><filename>.tl</filename>
+				and the library directory <replaceable>dir</replaceable>
+				are respectively
+				<option>-l<replaceable>str</replaceable></option> and
+				<option>-L<replaceable>dir</replaceable></option>.
+				&tcc; automatically translates command-line
+				<option>-j</option> options into &tld;
+				<option>-l</option> options, and command-line
+				<option>-J</option> options into &tld;
+				<option>-L</option> options.
+				However the <code>LIB</code> and <code>LINK</code>
+				identifiers are actually lists of &tld; options, so they
+				should use the <option>-l</option> and <option>-L</option>
+				forms.</para>
+		</section>
+
+		<section>
+			<title>Combining &tdf; Capsules</title>
+
+			<para>The second use of &tld; is to combine all the
+				<filename>.j</filename> files in the producer half of
+				the compilation into a single capsule.
+				This is specified by means of the <option>-M</option>
+				(&quot;merge&quot;) command-line option to &tcc;
+				described in section 3.5.4<!-- TODO: link -->.
+				By default, the resultant capsule is called
+				<filename>a.j</filename>.
+				If the <option>-M</option> option is used to merge all
+				the <filename>.j</filename> files from a very large
+				program, the resultant &tdf; capsule can in turn be
+				very large.
+				It may in fact become too large for the installer to
+				handle.
+				Interestingly it is often the system assembler rather
+				than &tdf; translator which has problems.</para>
+
+			<para>The <option>-MA</option> (&quot;merge all&quot;)
+				option is similar to <option>-M</option>, but will in
+				addition &quot;hide&quot; all the external tag and token
+				names in the resultant capsule, except for the token
+				names required for linking with the &tdf; libraries and
+				the tag names required for linking with the system
+				libraries (plus <code>main</code>).
+				In effect, all the names which are internal to the
+				program are removed.
+				This means that the <option>-MA</option> option should
+				only be used to merge complete programs.
+				For details on how to use &tld; for more selective name
+				hiding, see below.</para>
+		</section>
+
+		<section>
+			<title>Constructing &tdf; Libraries</title>
+
+			<para>There is a final use of the &tdf; linker supported by
+				&tcc; which has not so far been mentioned, namely the
+				construction of &tdf; libraries.
+				As has been mentioned, &tdf; libraries are an indexed
+				set of &tdf; capsules. &tld;, in addition to its
+				linking mode, also has routines for constructing and
+				manipulating &tdf; libraries.
+				The library construction mode is supported by &tcc; by
+				means of the <code>makelib</code> environment.
+				This tells &tcc; to merge all the <filename>.j</filename>
+				files and then to stop.
+				But it also passes an option to &tld; which causes the
+				merged file to be, not a &tdf; capsule, but a &tdf;
+				library.
+				Thus the command-line options:</para>
+
+			<programlisting>% tcc -Ymakelib -o a.tl a.j b.j c.j</programlisting>
+
+			<para>cause the &tdf; capsules <filename>a.j</filename>,
+				<filename>b.j</filename> and <filename>c.j</filename>
+				to be combined into a &tdf; library,
+				<filename>a.tl</filename>.</para>
+		</section>
+
+		<section>
+			<title>Useful &tld; Options</title>
+
+			<para>&tld; has a number of options which may be useful to
+				the general user.
+				The <option>-w</option> option, which causes warnings to
+				be printed about undefined tags and tokens, can often
+				provide interesting information; other options are
+				concerned with the hiding of tag and token names.
+				These options can be passed directly to &tld; by means
+				of the <option>-WL,&nbsp;<replaceable>opt</replaceable>,&nbsp;...</option>
+				command-line option to &tcc;.
+				The &tld; options are fully documented on the
+				appropriate manual page.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>The &tdf; to Target Translator</title>
+
+		<para>The next compilation tool to be considered is the &tdf;
+			translator.
+			This translates an input target dependent &tdf; capsule
+			(<filename>.t</filename> file) into an assembly source file
+			(<filename>.s</filename>) file for the appropriate target
+			machine.
+			This is the main code generation phase of the compilation
+			process; most of the optimisation of code which occurs
+			happens in the translator (some machines also have
+			optimising assemblers).</para>
+
+		<para>Although referred to by the generic name of &trans;, the
+			&tdf; translators for different target machines in fact
+			have different names.
+			The main division between translators is in the supported
+			processor.
+			However, operating system dependent features such as the
+			precise form of the assembler input, and the symbolic
+			debugger to be supported, may also cause different versions
+			of the basic translator to be required for different
+			machines of the same processor group.
+			The current generation of translators includes the
+			following:</para>
+
+		<!-- TODO: is this all outdated? just link to the trans' documents? -->
+		<itemizedlist>
+			<listitem>The &tdf; &rarr; i386/i486 translator is called
+				&trans386;.
+				This exists in two versions, one running on SVR4.2 and
+				one on SCO.
+				The two versions differ primarily in the symbolic
+				debugger they support.
+				&trans386; has also been ported to several other
+				i386-based machines, including MS-DOS.</listitem>
+
+			<listitem>The &tdf; &rarr; Sparc (Version 7) translator is
+				called &sparctrans;.
+				This again exists in two versions, one running on SVR4.2
+				and one on SunOS and Solaris 1.
+				These versions again differ primarily in the symbolic debugger supported.</listitem>
+
+			<listitem>The &tdf; &rarr; Mips (R2000/R3000, little-endian)
+				translator is called &mipstrans;.
+				This differs from the other translators in that instead
+				of outputting a single <filename>.s</filename> file, it
+				outputs two files, a binasm file (with a
+				<filename>.G</filename> suffix) and a symbol table file
+				(with a <filename>.T</filename> suffix).
+				This is discussed in more detail below.
+				&mipstrans; runs on Ultrix, but again has two versions.
+				One runs on Ultrix 4.1 and earlier, the other on 4.2 and
+				later.
+				This necessary because of a change in the format of the
+				binasm file between these two releases.</listitem>
+
+			<listitem>The &tdf; &rarr; 68030/68040 translator also exists
+				in two versions.
+				One runs on HP-UX and is called &hptrans;; the other runs
+				on NeXTStep and is called &nexttrans; (however the NeXT
+				is not a supported platform because of its lack of
+				standard &api; coverage).
+				These differ, not only in the symbolic debugger supported,
+				but also in the format of the assembly source
+				output.</listitem>
+		</itemizedlist>
+
+		<para>This list is not intended to be definitive.
+			Development work is proceeding on new translators all the time.
+			Existing translators are also updated to support new operating
+			systems releases when this is necessary.</para>
+
+		<section>
+			<title>&tcc; Options Affecting the Translator</title>
+
+			<para>A number of &tcc; command-line options are aimed at
+				controlling the behaviour of the &tdf; translator.
+				The &cc;-compatible option
+				<option>-K<replaceable>item</replaceable>,&nbsp;...</option>
+				specifies the behaviour indicated by the argument
+				<replaceable>item</replaceable>.
+				Possible values for <replaceable>item</replaceable>,
+				together with the behaviour they specify, include:</para>
+
+			<table>
+				<tr>
+					<th align="left">Value</th>
+					<th align="left">Behaviour</th>
+				</tr>
+				<tr>
+					<td><replaceable>PIC</replaceable></td>
+					<td>Causes position independent code to be produced</td>
+				</tr>
+				<tr>
+					<td><replaceable>ieee</replaceable></td>
+					<td>Causes strict conformance to the IEEE floating point standard</td>
+				</tr>
+				<tr>
+					<td><replaceable>noieee</replaceable></td>
+					<td>Allows non-strict conformance to the IEEE standard</td>
+				</tr>
+				<tr>
+					<td><replaceable>frame</replaceable></td>
+					<td>Specifies that a frame pointer should always be used</td>
+				</tr>
+				<tr>
+					<td><replaceable>no_frame</replaceable></td>
+					<td>Specifies that frame pointers need not always be used</td>
+				</tr>
+				<tr>
+					<td><replaceable>i386</replaceable></td>
+					<td>Causes code generation to be tuned for the i386 processor</td>
+				</tr>
+				<tr>
+					<td><replaceable>i486</replaceable></td>
+					<td>Causes code generation to be tuned for the i486 processor</td>
+				</tr>
+				<tr>
+					<td><replaceable>P5</replaceable></td>
+					<td>Causes code generation to be tuned for the P5 processor</td>
+				</tr>
+			</table>
+
+			<para>Obviously not all of these options are appropriate for
+				all versions of &trans;.
+				Therefore all <option>-K</option> options are implemented
+				by means of environments which translate
+				<replaceable>item</replaceable> into the appropriate
+				&trans; options.
+				If a certain <replaceable>item</replaceable> is not
+				applicable on a particular target machine then the
+				corresponding environment will not exist, and &tcc; will
+				print a warning to this effect.</para>
+
+			<para>The &cc;-compatible
+				<option>-Z<replaceable>str</replaceable></option> option
+				is similarly implemented by means of environments.
+				On those machines which support this option it can be
+				used to specify the packing of structures.
+				If <replaceable>str</replaceable> is <code>p1</code>
+				then they are tightly packed, with no padding.
+				Values of <code>p2</code> and <code>p4</code> specify
+				padding to 2 or 4 byte boundaries when appropriate.</para>
+
+			<para>Finally, the &tcc; command-line option
+				<option>-wsl</option> causes the translator to make all
+				string literals writable.
+				Again, this is implemented by an environment.
+				For many machines this behaviour is default; for others
+				it requires an option to be passed to the translator.</para>
+		</section>
+
+		<section>
+			<title>Useful &trans; Options</title>
+
+			<para>For further specifying the behaviour of &trans; it may
+				be necessary to pass options to it directly.
+				The command-line options implemented by &trans; vary from
+				machine to machine.
+				The following options are however common to all translators
+				and may prove useful:</para>
+
+			<table>
+				<tr>
+					<th align="center">Option</th>
+					<th align="left">Effect</th>
+				</tr>
+				<tr>
+					<td align="center"><option>-E</option></td>
+					<td>Switches off certain constant overflow checks</td>
+				</tr>
+				<tr>
+					<td align="center"><option>-X</option></td>
+					<td>Switches off most optimisations</td>
+				</tr>
+				<tr>
+					<td align="center"><option>-Z</option></td>
+					<td>Prints the version number(s) of the input capsule</td>
+				</tr>
+			</table>
+
+			<para>These options may be passed directly to &trans; by
+				means of the <option>-Wt,&nbsp;<replaceable>opt</replaceable>,&nbsp;...</option>
+				command-line option to &tcc;.
+				The <option>-E</option> option is also automatically
+				invoked when the <option>-nepc</option> command-line
+				option to &tcc; is used.
+				The manual page for the appropriate version of &trans;
+				should be consulted for more details on these and other,
+				machine dependent, options.</para>
+		</section>
+
+		<section>
+			<title>Optimisation in &tdf; Translators</title>
+
+			<para>As has been mentioned, the &tdf; translator is the main
+				optimising phase of the &tdf; compilation scheme.
+				All optimisations are believed to be correct and are
+				switched on by default.
+				Thus the standard &cc; <option>-O</option> option, which
+				is intended to switch optimisations on, has no effect in
+				&tcc; except to cancel any previous <option>-g</option>
+				option.
+				If, due to a translator bug, a certain piece of code is
+				being optimised incorrectly, then the optimisations can
+				be switched off by means of the <option>-Wt,&nbsp;-X</option>
+				option mentioned above.
+				However this should not normally be necessary.</para>
+		</section>
+
+		<section>
+			<title>The Mips Translator and Assembler</title>
+
+			<para>As has been mentioned, the &tdf; &rarr; Mips
+				translator, &mipstrans; is genuinely exceptional in that
+				it outputs a pair of files for each input &tdf; capsule,
+				rather than a single assembly source file.
+				The general scheme is shown in Fig. 5.</para>
+
+			<figure id="mips_files">
+				<title>Mips Compilation Path</title>
+				<graphic align="center" format="GIF"
+					fileref="images/mips_files.gif"/>
+			</figure>
+
+			<para>&mipstrans; translates each input target dependent
+				&tdf; capsule, <filename>a.t</filename>, into a binasm
+				source file, <filename>a.G</filename>, and an assembler
+				symbol table file, <filename>a.T</filename>.
+				It may optionally output an assembly source file,
+				<filename>a.s</filename>, which combines all the
+				information from <filename>a.G</filename> with part of
+				the information from <filename>a.T</filename> (it is the
+				remainder of the information in <filename>a.T </filename>
+				which is the reason why this scheme has to be adopted).
+				The <filename>.s</filename> file is only produced if
+				&tcc; is explicit told to preserve <filename>.s</filename>
+				files by means of one of the command-line options,
+				<option>-Ps</option>, <option>-Pa</option>,
+				<option>-Fs</option> or <option>-S</option>.
+				The two main <filename>mipstrans</filename> output files,
+				<filename>a.G</filename> and <filename>a.T</filename>,
+				are then transformed by the auxiliary Mips assembler,
+				<filename>as1</filename>, into a binary object file,
+				<filename>a.o</filename>.</para>
+
+			<para>Although they can be preserved for examination,
+				the <filename>.G</filename> and <filename>.T</filename>
+				files output by &mipstrans; cannot subsequently be
+				processed using &tcc;.
+				If a break in compilation is required at this stage,
+				a <filename>.s</filename> file should be produced,
+				and then entered as a &tcc; input file in the normal
+				way.
+				The information lost from the symbol table in this
+				process is only important when symbolic debugging
+				information is required.
+				Input <filename>.s</filename> files are translated
+				into binary object files by the main Mips assembler,
+				<filename>.s</filename>, in the normal way.</para>
+
+			<para>So, in addition to the main assembler, which is
+				given by the <code>AS</code> environmental identifier,
+				the location of the auxiliary assembler also needs
+				to be specified to &tcc;.
+				This is done using the <code>AS1</code> environmental
+				identifier, which is normally defined in the
+				<code>default</code> environment.
+				There is a further piece of information required for
+				the compilation scheme to operate correctly:
+				&mipstrans; needs to know the
+				<application>as1</application> version number.
+				This number can be specified by means of the
+				<code>VERSION</code> environmental identifier.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>The System Assembler</title>
+
+		<para>The system assembler is the stage in the &tcc; compilation
+			path which is likely to be of least interest to normal users.
+			The assembler translates an assembly source
+			(or <filename>.s</filename>) file into a binary object
+			(or <filename>.o</filename>) file.
+			(The exception to this is the Mips auxiliary assembler
+			discussed above.)
+			Most assemblers are straight translation phases, although
+			some also offer peephole optimisation and scheduling
+			facilities.
+			No &tcc; command-line options are directly concerned with
+			the assembler, however options can be passed to it directly
+			by means of the
+			<option>-Wa,&nbsp;<replaceable>opt</replaceable>,&nbsp;...</option>
+			command-line option.</para>
+	</section>
+
+	<section>
+		<title>The System Linker</title>
+
+		<para>The final stage in the main &tcc; compilation path is the
+			system linking.
+			The system linker, &ld;, combines all the binary object
+			files with the system libraries to form a final executable
+			image.
+			By default this executable is called <filename>a.out</filename>,
+			although this can be changed using the <option>-o</option>
+			command-line option to &tcc;.
+			In terms of the differences between target machines, the
+			system linker is the most complex of the tools which are
+			controlled by &tcc;.
+			Our discussion can be divided between those aspects of the
+			linker's behaviour which are controlled by &tcc; environments,
+			and those which are controlled by command-line options.</para>
+
+		<section>
+			<title>The System Linker and &tcc; Environments</title>
+
+			<para>The general form of &tcc;'s calls to &ld; are as follows:</para>
+
+			<literallayout>ld&nbsp;<replaceable>(linker&nbsp;options)</replaceable> -o&nbsp;<replaceable>(output&nbsp;file)</replaceable>
+&nbsp;&nbsp;&nbsp;&nbsp;<replaceable>(initial&nbsp;.o&nbsp;files)</replaceable> <replaceable>(binary&nbsp;object&nbsp;files)</replaceable>
+&nbsp;&nbsp;&nbsp;&nbsp;<replaceable>(final&nbsp;.o&nbsp;files)</replaceable> <replaceable>(default&nbsp;system&nbsp;library&nbsp;directories)</replaceable>
+&nbsp;&nbsp;&nbsp;&nbsp;<replaceable>(default&nbsp;system&nbsp;libraries)</replaceable> <replaceable>(default&nbsp;standard&nbsp;libraries)</replaceable></literallayout>
+
+			<para>The linker may require certain default binary object
+				files to be linked into every executable created.
+				These are divided between the initial
+				<filename>.o</filename> files, which come before the main
+				list of binary object files, and the final
+				<filename>.o</filename> files, which come after.
+				For technical reasons, the list of initial
+				<filename>.o</filename> files is split into two; the
+				first list is given by the <code>CRT0</code>
+				environmental identifier, and the second by
+				<code>CRT1</code>.
+				The list of final <filename>.o</filename> files is
+				given by the <code>CRTN</code> environmental
+				identifier.</para>
+
+			<para>The information on the default system libraries the
+				linker requires is given by three environmental
+				identifiers.
+				<code>SYS_LINK</code> gives a list of directories to be
+				searched for system libraries.
+				This will exclude <filename>/lib</filename> and
+				<filename>/usr/lib</filename> which are usually built
+				into &ld;.
+				These directories will be given as a list of options of
+				the form <option>-L<replaceable>dir</replaceable></option>.
+				The default system libraries are divided into two lists.
+				The environmental identifier <code>SYS_LIBC</code> gives
+				the &quot;standard&quot; library options (usually just
+				<option>-lc</option>), and <code>SYS_LIB</code> gives
+				any other default library options.
+				Both of these are given by lists of options of the form
+				<option>-l<replaceable>str</replaceable></option>.
+				This option specifies that the linker should search for
+				the library <filename>lib<replaceable>str</replaceable>.a</filename>
+				if linking statically, or
+				<filename>lib<replaceable>str</replaceable>.so</filename>
+				if linking dynamically.</para>
+
+			<para>So the main target dependencies affecting the system
+				linker are described in these six environmental
+				variables: <code>CRT0</code>, <code>CRT1</code>,
+				<code>CRTN</code>, <code>SYS_LINK</code>,
+				<code>SYS_LIB</code> and <code>SYS_LIBC</code>.
+				For a given machine these will be given once and for all
+				in the <code>default</code> environment.
+				Standard &api; environments may modify
+				<code>SYS_LINK</code> and <code>SYS_LIB</code> to
+				specify the location of the system libraries containing
+				the &api; implementation, although at present this has not
+				been done.</para>
+		</section>
+
+		<section>
+			<title>The Effect of Command-Line Options on the System
+				Linker</title>
+
+			<para>The most important &tcc; command-line options affecting
+				the system linker are those which specify the use of
+				certain system libraries.
+				The option <option>-l<replaceable>str</replaceable></option>
+				indicates that the system libraries
+				<filename>lib<replaceable>str</replaceable>.a</filename>
+				(or <filename>lib<replaceable>str </replaceable>.so</filename>)
+				should be searched for.
+				The option <option>-L<replaceable>dir</replaceable></option>
+				indicates that the directory <replaceable>dir</replaceable>
+				should be added to the list of directories searched for
+				system libraries.
+				Both these options are position dependent.
+				They are passed to the system linker in exactly the same
+				position relative to the input files as they were given
+				on the command-line.
+				Thus normally <option>-l</option> (and to a lesser extent
+				<option>-L</option>) options should be the final
+				command-line options given.</para>
+
+			<para>The following &tcc; command-line options are passed
+				directly to &ld;.
+				A brief description is given of the purpose of each
+				option, however whether or not &ld; supports this option
+				depends on the target machine.
+				The local &ld; manual page should be consulted for
+				details.</para>
+
+			<table>
+				<tr>
+					<th align="left">Option</th>
+					<th align="left">Effect</th>
+				</tr>
+				<tr>
+					<td><option>-B<replaceable>str</replaceable></option></td>
+					<td>sets library type: <replaceable>str</replaceable>
+						can be dynamic or static</td>
+				</tr>
+				<tr>
+					<td><option>-G</option></td>
+					<td>causes a shared object rather than an executable
+						to be produced</td>
+				</tr>
+				<tr>
+					<td><option>-dn</option></td>
+					<td>causes dynamic linking to be switched off</td>
+				</tr>
+				<tr>
+					<td><option>-dy</option></td>
+					<td>causes dynamic linking to be switched on</td>
+				</tr>
+				<tr>
+					<td><option>-h<replaceable>str</replaceable></option></td>
+					<td>causes <replaceable>str</replaceable> to be
+						marked as dynamic in a shared object</td>
+				</tr>
+				<tr>
+					<td><option>-s</option></td>
+					<td>causes the resultant executable to be stripped</td>
+				</tr>
+				<tr>
+					<td><option>-u<replaceable>str</replaceable></option></td>
+					<td>causes <replaceable>str</replaceable> to be
+						marked as undefined</td>
+				</tr>
+				<tr>
+					<td><option>-z<replaceable>str</replaceable></option></td>
+					<td>specifies error behaviour, depending on
+						<replaceable>str</replaceable></td>
+				</tr>
+			</table>
+
+			<para>The position of any
+				<option>-B<replaceable>str</replaceable></option> options
+				on the command-line is significant.
+				These positions are therefore preserved.
+				The position of the other options is not significant.
+				In addition to these options, the <option>-b</option>
+				command-line option causes the default standard system
+				libraries (i.e. those given by the <code>SYS_LIBC</code>
+				environmental identifier) not to be passed to &ld;.</para>
+
+			<para>Other command-line options may affect the system
+				linker indirectly.
+				For example, the <option>-g</option> option may require
+				different default <filename>.o</filename> files and
+				system libraries, the precise details of which are
+				target dependent.
+				Such options will be implemented by means of environments
+				which will change the values of the environmental
+				identifiers controlling the linker.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>The C Preprocessor</title>
+
+		<para>The &tdf; C preprocessor, &tdfcpp;, is invoked only when
+			&tcc; is passed the <option>-E</option> or <option>-P</option>
+			command-line option, as described in section
+			3.5.1<!-- TODO: link -->.
+			These both cause all input <filename>.c</filename> files to
+			be preprocessed, but in the former case the output is send
+			to the standard output, whereas in the latter it is send to
+			the corresponding <filename>.i</filename> files.</para>
+
+		<para>The &tdf; system differs from most C compilation systems
+			in that preprocessing is an integral part of the producer,
+			&tdfc;, rather than a preliminary textual substitution phase.
+			This is because of difficulties involved with trying to
+			perform the preprocessing in a target independent manner.
+			Therefore &tdfcpp; is merely a modified version of &tdfc;
+			which halts after the preprocessing phase and prints what it
+			has read.
+			This means that the &tdfcpp; output, while being equivalent
+			to its input, will not correspond at the textual level to
+			the degree which is normal in C preprocessors.</para>
+	</section>
+
+	<section>
+		<title>The &tdf; Pretty Printer</title>
+
+		<para>The &tdf; pretty printer, &disp;, and the &tdf; notation
+			compiler, &tnc;, have already been discussed in some detail
+			in section 3.5.3<!-- TODO: link -->.
+			The &tdf; decoding command-line options, <option>-disp</option>
+			and <option>-disp_t</option>, cause respectively all
+			<filename>.j</filename> files and all <filename>.t</filename>
+			files to be decoded into <filename>.p</filename> files.
+			This decoding is done using &disp; by default, and with &tnc;
+			<option>-p</option> if the <option>-Ytnc</option> command-line
+			option is specified.
+			The <option>-Ytnc</option> option also causes any input
+			<filename>.p</filename> files to be encoded into
+			<filename>.j</filename> files by &tnc;.</para>
+
+		<para>The pretty printer, &disp;, can be used as a useful check
+			that a given <filename>.j</filename> or <filename>.t</filename>
+			file is a legal &tdf; capsule.
+			The &tdf; decoding routines in the &tdf; linker and the
+			&tdf; translator assume that their input is a legal capsule.
+			The pretty printer performs more checks and has better
+			diagnostics for illegal capsules.
+			By default &disp; only decodes capsule units which belong
+			to &quot;core&quot; &tdf;.
+			Options to decode other unit types can be passed directly to
+			&disp; by means of the
+			<option>-Wd,&nbsp;<replaceable>opt</replaceable>,&nbsp;...</option>
+			command-line option to &tcc;.
+			The potentially useful &disp; options include:</para>
+
+		<table>
+			<tr>
+				<th align="center">Option</th>
+				<th align="left">Effect</th>
+			</tr>
+			<tr>
+				<td align="center"><option>-A</option></td>
+				<td>Causes all known unit types to be decoded</td>
+			</tr>
+			<tr>
+				<td align="center"><option>-g</option></td>
+				<td>Causes diagnostic information units to be decoded</td>
+			</tr>
+			<tr>
+				<td align="center"><option>-D</option></td>
+				<td>Causes a binary dump of the capsule to be printed</td>
+			</tr>
+			<tr>
+				<td align="center"><option>-U</option></td>
+				<td>Causes link information units to be decoded</td>
+			</tr>
+			<tr>
+				<td align="center"><option>-V</option></td>
+				<td>Causes the input not to be rationalised</td>
+			</tr>
+			<tr>
+				<td align="center"><option>-W</option></td>
+				<td>Causes a warning to be printed if a token
+					is used before it is declared</td>
+			</tr>
+		</table>
+
+		<para>The manual page for &disp; should be consulted for more
+			details.</para>
+
+		<para>The &tdf; notation compiler, &tnc;, is fully
+			documented in [4].</para>
+	</section>
+
+	<section>
+		<title>The &tdf; Archiver</title>
+
+		<para>A &tdf; archive is a &tcc;-specific form intended for
+			software distribution.
+			It consists of a set of target independent &tdf; capsules
+			(<filename>.j</filename> files) and a set of &tcc;
+			command-line options.
+			It is intended that a &tdf; archive can be produced on one
+			machine, and distributed to, and installed on, a number of
+			target machines.</para>
+
+		<para>If a &tdf; archive is given as an input file to &tcc;
+			(it will be recognised by its <filename>.ta</filename>
+			suffix), then it is split into its constituent capsules
+			and options.
+			The options are interpreted as if they had been given on
+			the command-line (unless the
+			<option>-WJ,&nbsp;-no_options</option> flag is specified),
+			and the capsules are treated as input files in the normal
+			way.
+			The archive splitting and archive building routines are
+			both built into &tcc;; there is no separate &tdf; archiver
+			tool.
+			Options passed to the archiver using
+			<option>-WJ,&nbsp;<replaceable>opt</replaceable></option>
+			are interpreted by &tcc;.</para>
+
+		<para>In order to specify that a &tdf; archive should be created,
+			the <option>-prod</option> flag should be used.
+			This specifies that all target independent capsules
+			(<filename>.j</filename> files) and all options
+			<replaceable>opt</replaceable> given by a &tcc; option of the form
+			<option>-WI,&nbsp;<replaceable>opt</replaceable>,&nbsp;...</option>
+			should be combined into a &tdf; archive.
+			The compilation process halts after producing this archive.
+			By default the &tdf; archive created is called
+			<filename>a.ta</filename>, but this can be changed using the
+			<option>-o</option> option.
+			Normally the names of the capsules comprising the archive
+			are inserted into the archive, but this may be suppressed by
+			the use of the <option>-WJ,&nbsp;-no_names</option> option.</para>
+
+		<para>As an example of the kind of option that might be included
+			in an archive, suppose that the production has been done
+			using the POSIX &api;.
+			Then the installation should also be done using this same &api;.
+			Alternatively expressed, if a &tdf; archive has been
+			constructed using the <code>posix</code> environment, then
+			the <option>-Yposix</option> flag should be included in the
+			archive to ensure that the installation also takes place in
+			this same environment.
+			In fact the environments describing the standard &api;s have
+			been set up so that this happens automatically.
+			For example, the <code>posix</code> environment contains the
+			line:</para>
+
+		<programlisting>+FLAG &quot;-WI,-Yposix&quot;</programlisting>
+
+		<para>Another kind of option that it might be useful to include
+			in an archive is a <option>-l<replaceable>str</replaceable></option>
+			option. In this way all the information on the install-time
+			options can be specified at produce-time.</para>
+
+		<para>A final example of an option which might be included in an
+			archive is the <option>-message</option> option.
+			The command-line option <option>-message&nbsp;<replaceable>str</replaceable></option>
+			causes &tcc; to print the message <replaceable>str</replaceable>
+			with any <code>@</code> characters in <replaceable>str</replaceable>
+			replaced by spaces (there are problems with escaping spaces).
+			So, by using the command-line option:</para>
+
+		<programlisting>-WI,-message&quot;Installing@TDF@archive@...&quot;</programlisting>
+
+		<para>one can produce an archive which prints a message as it
+			is installed.
+			This option is also useful in environments.
+			By inserting the line:</para>
+
+		<programlisting>+FLAG &quot;-message Reading@tcc@environment@...&quot;</programlisting>
+
+		<para>one can produce an environment which prints a message
+			whenever it is read.</para>
+	</section>
+
+</chapter>
+

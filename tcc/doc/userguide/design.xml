@@ -1,0 +1,691 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY tcc   "<application><acronym>TCC</acronym></application>">
+	<!ENTITY cc    "<application><acronym>CC</acronym></application>">
+	<!ENTITY tdf   "<acronym>TDF</acronym>">
+	<!ENTITY api   "<acronym>API</acronym>">
+	<!ENTITY trans "<application>trans</application>">
+	<!ENTITY disp  "<application>disp</application>">
+	<!ENTITY tnc   "<application><acronym>TNC</acronym></application>">
+	<!ENTITY tpl   "<application><acronym>TPL</acronym></application>">
+	<!ENTITY tld   "<application><acronym>TLD</acronym></application>">
+]>
+
+
+<!--
+	$Id$
+-->
+
+<chapter id="design">
+	<title>The Overall Design of &tcc;</title>
+
+	<para>Having discussed the compilation strategy &tcc; is designed
+		to implement, let us move on to describe the details of this
+		implementation.
+		The basic compilation path is shown in Fig. 3, which corresponds
+		to Fig. 2.</para>
+
+	<figure id="tcc_scheme">
+		<title>&tdf; Compilation Path</title>
+		<graphic align="center" format="PNG"
+			fileref="images/tcc_scheme.gif"/>
+	</figure>
+
+	<section>
+		<title>Specifying the &api;</title>
+
+		<para>As we have seen, the &api; plays a far more concrete role
+			in the &tdf; compilation strategy than in the traditional
+			scheme.
+			Therefore the &api; needs to be explicitly specified to
+			&tcc; before any compilation takes place.
+			As can be seen from Fig. 3, the &api; has three components.
+			Firstly, in the target independent (or production) half of
+			the compilation, there are the target independent headers
+			which describe the API.
+			Secondly in the target dependent (or installation) half,
+			there is the &api; implementation for the particular target
+			machine.
+			This is divided between the &tdf; libraries, derived from
+			the system headers, and the system libraries.
+			Specifying the &api; to &tcc; essentially consists of
+			telling it what target independent headers, &tdf; libraries
+			and system libraries to use.
+			The precise way in which this is done is discussed below
+			(in section 4.3<!-- TODO: link -->).</para>
+	</section>
+
+	<section id="S5">
+		<title>The Main Compilation Path</title>
+
+		<para>Once the &api; has been specified, the actual compilation
+			can begin.
+			The default action of &tcc; is to perform production and
+			installation consecutively on the same machine; any other
+			action needs to be explicitly specified.
+			So let us describe the entire compilation path from C source
+			to executable shown in Fig. 3.</para>
+
+		<orderedlist>
+			<listitem>The first stage is production. The C &rarr; &tdf;
+				producer transforms each input C source file into a
+				target independent &tdf; capsule, using the target
+				independent headers to describe the &api; in abstract
+				terms.
+				These target independent capsules will contain tokens to
+				represent the uses of objects from the &api;, but these
+				tokens will be left undefined.</listitem>
+
+			<listitem>The second stage, which is also the first stage of
+				the installation, is &tdf; linking.
+				Each target independent capsule is combined with the
+				&tdf; library describing the &api; implementation to
+				form a target dependent &tdf; capsule.
+				Recall that the &tdf; libraries contain the local
+				definitions of the tokens left undefined by the producer,
+				so the resultant target dependent capsule will contain
+				both the uses of these tokens and the corresponding
+				token definitions.</listitem>
+
+			<listitem>The third stage of the compilation is for the
+				&tdf; translator to transform each target dependent
+				&tdf; capsule into an assembly source file for the
+				appropriate target machine.
+				Some &tdf; translators output not an assembly source
+				file, but a binary object file.
+				In this case the following assembler stage is
+				redundant and the compilation skips to the system
+				linking.</listitem>
+
+			<listitem>The next stage of the compilation is for each
+				assembly source file to be translated into a binary
+				object file by the system assembler.</listitem>
+
+			<listitem>The final compilation phase is for the system
+				linker to combine all the binary object files with the
+				system libraries to form a single, final executable.
+				Recall that the system libraries are the final
+				constituent of the &api; implementation, so this stage
+				completes the combination of the program with the &api;
+				implementation started in stage 2).</listitem>
+		</orderedlist>
+
+		<para>Let us, for convenience, tabulate these stages, giving the
+			name of each compilation tool (plus the corresponding
+			executable name), a code letter which &tcc; uses to refer to
+			this stage, and the input and output file types for the
+			stage (also see 7.2<!-- TODO: link -->).</para>
+
+		<!-- TODO: this table is unsatisfying. -->
+		<table>
+			<tgroup cols="5">
+				<colspec colname="step"/>
+				<colspec colname="tool"/>
+				<colspec colname="code" align="center"/>
+				<colspec colname="input"/>
+				<colspec colname="output"/>
+
+				<thead>
+					<row>
+						<entry align="center">Stage</entry>
+						<entry align="left">Tool</entry>
+						<entry align="center">Code</entry>
+						<entry align="left">Input</entry>
+						<entry align="left">Output</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry align="center">1.</entry>
+						<entry>C producer (<application>tdfc</application>)</entry>
+						<entry align="center"><code>c</code></entry>
+						<entry>C source</entry>
+						<entry>Target independant &tdf;</entry>
+					</row>
+					<row>
+						<entry align="center">2.</entry>
+						<entry>&tdf; linker (<application>tld</application>)</entry>
+						<entry align="center"><code>L</code></entry>
+						<entry>Target independant &tdf;</entry>
+						<entry>Target dependant &tdf;</entry>
+					</row>
+					<row>
+						<entry align="center">3.</entry>
+						<entry>&tdf; translator (<application>trans</application>)</entry>
+						<entry align="center"><code>t</code></entry>
+						<entry>Target dependant &tdf;</entry>
+						<entry>Assembly source</entry>
+					</row>
+					<row>
+						<entry align="center">4.</entry>
+						<entry>system assembler (<application>as</application>)</entry>
+						<entry align="center"><code>a</code></entry>
+						<entry>Assembly source</entry>
+						<entry>Binary object</entry>
+					</row>
+					<row>
+						<entry align="center">5.</entry>
+						<entry>system linker (<application>ld</application>)</entry>
+						<entry align="center"><code>l</code></entry>
+						<entry>Binary object</entry>
+						<entry>Executable</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<para>The executable name of the &tdf; translator varies,
+			depending on the target machine.
+			It will normally start, or end, however, in &trans;.
+			These stages are documented in more detail in
+			sections 5.1<!-- TODO: link --> to 5.5.</para>
+
+		<para>The code letters for the various compilation stages can
+			be used in the <option>-W<replaceable>tool</replaceable>,
+			<replaceable>opt</replaceable>, ...</option> command-line
+			option to &tcc;. This passes the option(s)
+			<replaceable>opt</replaceable> directly to the executable
+			in the compilation stage identified by the letter
+			<replaceable>tool</replaceable>.
+			For example, <option>-Wl,&nbsp;-x</option> will cause the
+			system linker to be invoked with the <option>-x</option>
+			option.
+			Similarly the
+			<option>-E<replaceable>tool</replaceable>:&nbsp;<replaceable>file</replaceable></option>
+			allows the executable to be invoked at the compilation
+			stage <option>tool</option> to be specified as
+			<replaceable>file</replaceable>.
+			This allows the &tcc; user access to the compilation tools
+			in a very direct manner.</para>
+	</section>
+
+	<section>
+		<title>Input File Types</title>
+
+		<para>This compilation path may be joined at any point, and
+			terminated at any point.
+			The latter possibility is discussed below.
+			For the former, &tcc; determines, for each input file it
+			is given, to which of the file types it knows (C source,
+			target independent &tdf;, etc.) this file belongs.
+			This determines where in the compilation path described
+			this file will start.
+			The method used to determine the type of a file is the
+			normal filename suffix convention:</para>
+
+		<table>
+			<tr>
+				<th align="left">Type</th>
+				<th align="left">Content</th>
+			</tr>
+
+			<tr>
+				<td><filename>*.c</filename></td>
+				<td>C source</td>
+			</tr>
+			<tr>
+				<td><filename>*.j</filename></td>
+				<td>Target independent &tdf; capsules</td>
+			</tr>
+			<tr>
+				<td><filename>*.t</filename></td>
+				<td>Target dependent &tdf; capsules</td>
+			</tr>
+			<tr>
+				<td><filename>*.s</filename></td>
+				<td>Assembly source files</td>
+			</tr>
+			<tr>
+				<td><filename>*.o</filename></td>
+				<td>Binary object files</td>
+			</tr>
+			<tr>
+				<td><filename>*</filename></td>
+				<td>Binary object files</td>
+			</tr>
+		</table>
+
+		<para>Files whose type cannot otherwise be determined are assumed to
+			be binary object files (for a complete list see 7.1<!-- TODO: link -->).</para>
+
+		<para>Thus, for example, we speak of
+			<quote><filename>.j</filename> files</quote> as a shorthand
+			for <quote>target independent &tdf; capsules</quote>.
+			Each file type recognised by &tcc; is assigned an
+			identifying letter. For convenience, this corresponds to the
+			suffix identifying the file type (<code>c</code> for C
+			source files, <code>j</code> for target independent &tdf;
+			capsules etc.).</para>
+
+		<para>There is an alternative method of specifying input files,
+			by means of the
+			<option>-S<replaceable>type</replaceable>,&nbsp;<replaceable>file</replaceable>,&nbsp;...</option>
+			command-line option.
+			This specifies that the file <replaceable>file</replaceable>
+			should be treated as an input file of the type corresponding
+			to the letter <replaceable>type</replaceable>, regardless of
+			its actual suffix.
+			Thus, for example, <option>-Sc,&nbsp;<replaceable>file</replaceable></option>
+			specifies that <replaceable>file</replaceable> should be
+			regarded as a C source (or <filename>.c</filename>)
+			file.</para>
+	</section>
+
+	<section>
+		<title>Intermediate and Output Files</title>
+
+		<para>During the compilation, &tcc; makes up names for the
+			output files of each of the compilation phases.
+			These names are based on the input file name, but with the
+			input file suffix replaced by the output file suffix (unless
+			the <option>-make_up_names</option> command-line option is
+			given, in which case the intermediate files are given names
+			of the form <filename>_tccnnnn.x</filename>, where
+			<filename>nnnn</filename> is a number which is incremented
+			for each intermediate file produced, and
+			<filename>x</filename> is the suffix corresponding to the
+			output file type).
+			Thus if the input file <filename>file.c</filename> is
+			given, this will be transformed into
+			<filename>file.j</filename> by the producer, which in turn
+			will be transformed into <filename>file.t</filename> by the
+			&tdf; linker, and so on.
+			The system linker output file name can not be deduced in
+			the same way since it is the result of linking a number of
+			<filename>.o</filename> files.
+			By default, as with &cc;, this file is called
+			<filename>a.out</filename>.</para>
+
+		<para>For most purposes these intermediate files are not
+			required to be preserved; if we are compiling a single C
+			source file to an executable, then the only output file we
+			are interested in is the executable, not the intermediate
+			files created during the compilation process.
+			For this reason &tcc; creates a temporary directory in
+			which to put these intermediate files, and removes this
+			directory when the compilation is complete.
+			All intermediate files are put into this temporary
+			directory except:</para>
+
+		<itemizedlist>
+			<listitem>those which are an end product of the compilation
+				(such as the executable),</listitem>
+
+			<listitem>those which are explicitly ordered to be preserved
+				by means of command-line options,</listitem>
+
+			<listitem>binary object files, when more than one such file
+				is produced (this is for compatibility with &cc;).</listitem>
+		</itemizedlist>
+
+		<para>&tcc; can be made to preserve intermediate files of
+			various types by means of the
+			<option>-P<replaceable>type</replaceable>...</option>
+			command-line option, which specifies a list of letters
+			corresponding to the file types to be preserved.
+			Thus for example <option>-Pjt</option> specifies that all
+			&tdf; capsules produced, whether target independent or
+			target dependent, (i.e. all <filename>.j</filename> and
+			<filename>.t</filename> files) should be preserved.
+			The special form <option>-Pa</option> specifies that all
+			intermediate files should be preserved.
+			It is also possible to specify that a certain file type
+			should not be preserved by preceding the corresponding
+			letter by <option>-</option> in the <option>-P</option>
+			option.
+			The only really useful application of this is to use
+			<option>-P-o</option> to cancel the &cc; convention
+			on preserving binary object files mentioned above.</para>
+
+		<para>By default, all preserved files are stored in the
+			current working directory.
+			However the
+			<option>-work&nbsp;<replaceable>dir</replaceable></option>
+			command-line option specifies that they should be stored
+			in the directory <replaceable>dir</replaceable>.</para>
+
+		<para>The compilation can also be halted at any stage.
+			The <option>-F<replaceable>type</replaceable></option>
+			option to &tcc; tells it to stop the compilation after
+			creating the files of the type corresponding to the letter
+			<replaceable>type</replaceable>.
+			Because any files of this type which are produced will be
+			an end product of the compilation, they will automatically
+			be preserved.
+			For example, <option>-Fo</option> halts the compilation
+			after the creation of the binary object, or
+			<filename>.o</filename>, files (i.e. just before the system
+			linking), and preserves all such files produced.
+			A number of other &tcc; options are equivalent to options of
+			the form <option>-F</option><replaceable>type</replaceable>:</para>
+
+		<informaltable>
+			<tr><td><option>-i</option> is equivalent to
+				<option>-Fj</option> (i.e. just apply the producer),</td></tr>
+			<tr><td><option>-S</option> is equivalent to
+				<option>-Fs</option> (&cc; compatibility),</td></tr>
+			<tr><td><option>-c</option> is equivalent to
+				<option>-Fo</option> (&cc; compatibility).</td></tr>
+		</informaltable>
+
+		<para>If more than one <option>-F</option> option (including
+			the equivalent options just listed) is given, then &tcc;
+			issues a warning.
+			The stage coming first in the compilation path takes
+			priority.</para>
+
+		<para>If the compilation has precisely one end product output
+			file, then the name of this file can be specified to be
+			<replaceable>file</replaceable> by means of the
+			<option>-o</option> <replaceable>file</replaceable>
+			command-line option.
+			If a <option>-o</option> <replaceable>file</replaceable>
+			option is given when there is more than one end product,
+			then the first such file produced will be called
+			<replaceable>file</replaceable>, and all such files
+			produced subsequently will cause &tcc; to issue
+			a warning.</para>
+
+		<figure id="tcc_files">
+			<title>&tdf; Full Compilation Path</title>
+			<graphic align="center" format="PNG"
+				fileref="images/tcc_files.gif"/>
+		</figure>
+	</section>
+
+	<section>
+		<title>Other Compilation Paths</title>
+
+		<para>So far we have been discussing the main &tcc;
+			compilation path from C source to executable.
+			This is however only part of the picture.
+			The full complexity (almost) of all the possible
+			compilation paths supported by &tcc; is shown in
+			Fig. 4<!-- TODO: link -->.
+			This differs from Fig. 3<!-- TODO: link --> in that
+			it only shows the left hand, or program, half of the
+			main compilation diagram.
+			The solid arrows show the default compilation paths;
+			the shaded arrows are only followed if &tcc; is so
+			instructed by means of command-line options.
+			Let us consider those paths in this diagram which have
+			not so far been mentioned.</para>
+
+		<section>
+			<title>Preprocessing</title>
+
+			<para>The first paths to be considered involve preprocessed
+				C source files.
+				These form a distinct file type which &tcc; recognises
+				by means of the <filename>.i</filename> file suffix.
+				Input <filename>.i</filename> files are treated in
+				exactly the same way as <filename>.c</filename> files;
+				that is, they are fed into the producer.</para>
+
+			<para>&tcc; can be made to preprocess the C source files it
+				is given by means of the <option>-P</option> and
+				<option>-E</option> options.
+				If the <option>-P</option> option is given then each
+				<filename>.c</filename> file is transformed into a
+				corresponding <filename>.i</filename> file by the &tdf;
+				C preprocessor, <application>tdfcpp</application>.
+				If the <option>-E</option> option is given then the
+				output of <filename>tdfcpp</filename> is sent instead
+				to the standard output.
+				In both cases the compilation halts after the
+				preprocessor has been applied.
+				Preprocessing is discussed further in section
+				5.6.<!-- TODO: link --></para>
+		</section>
+
+		<section>
+			<title>&tdf; Archives</title>
+
+			<para>The second new file type introduced in
+				Fig. 4<!-- TODO: link --> is the &tdf; archive.
+				This is recognised by &tcc; by means of the
+				<filename>.ta</filename> file suffix.
+				Basically a &tdf; archive is a set of target
+				independent &tdf; capsules (this is slightly
+				simplified, see section 5.2.3<!-- TODO: link --> for more details).
+				Any input &tdf; archives are automatically split into
+				their constituent target independent capsules.
+				These then join the main compilation path in the normal
+				way.</para>
+
+			<para>In order to create a &tdf; archive, &tcc; must be
+				given the <option>-prod</option> command-line option.
+				It will combine all the target independent &tdf;
+				capsules it has into an archive, and the compilation
+				will then halt.
+				By default this archive is called
+				<filename>a.ta</filename>, but another name may be
+				specified using the <option>-o</option> option.</para>
+
+			<para>The routines for splitting and building &tdf;
+				archives are built into &tcc;, and are not implemented
+				by a separate compilation tool (in particular, &tdf;
+				archives are not <application>ar</application>
+				archives).
+				Really &tdf; archives are a &tcc;-specific construction;
+				they are not part of &tdf; proper.</para>
+		</section>
+
+		<section>
+			<title>&tdf; Notation</title>
+
+			<para>&tdf; has the form of an abstract syntax tree which
+				is encoded as a series of bits.
+				In order to examine the contents of a &tdf; capsule it
+				is necessary to translate it into an equivalent human
+				readable form.
+				Two tools are provided which do this.
+				The &tdf; pretty printer, &disp;, translates &tdf; into
+				text, whereas the &tdf; notation compiler, &tnc;, both
+				translates &tdf; to text and text to &tdf;.
+				The two textual forms of &tdf; are incompatible -
+				&disp; output cannot be used as &tnc; input. &disp; is
+				in many ways the more sophisticated decoder - it
+				understands the &tdf; extensions used to handle
+				diagnostics, for example - but it does not handle the
+				text to &tdf; translation which &tnc; does.
+				By default &tnc; is a text to &tdf; translator, it needs
+				to be passed the <option>-p</option> flag in order to
+				translate &tdf; into text.
+				We refer to the textual form of &tdf; supported by &tnc;
+				as &tdf; notation.</para>
+
+			<para>By default, &tcc; uses &disp;.
+				If it is given the <option>-disp</option> command-line option
+				then all target independent &tdf; capsules
+				(<filename>.j</filename> files) are transformed into
+				text using <application>disp</application>.
+				The <option>-disp_t</option> option causes all target
+				dependent &tdf; capsules (<filename>.t</filename> files)
+				to be transformed into text.
+				In both cases the output files have a
+				<filename>.p</filename> suffix, and the compilation
+				halts after they are produced.</para>
+
+			<para>In order for &tnc; to be used, the
+				<option>-Ytnc</option> flag should be passed to &tcc;.
+				In this case the <option>-disp</option> and the
+				<option>-disp_t</option> option cause, not &disp;, but
+				<option>tnc&nbsp;-p</option>, to be invoked.
+				But this flag also causes &tcc; to recognise files with
+				a <filename>.p</filename> suffix as &tdf; notation source
+				files.
+				These are translated by &tnc; into target independent
+				&tdf; capsules, which join the main compilation path in
+				the normal way.</para>
+
+			<para>Similarly if the <option>-Ypl_tdf</option> flag is
+				passed to &tcc; then it recognises files with a
+				<filename>.tpl</filename> suffix as PL_TDF source files.
+				These are translated by the PL_TDF compiler, &tpl;,
+				into target independent &tdf; capsules.</para>
+
+			<para>&disp; and &tnc; are further discussed in section
+				5.7<!-- TODO: link -->.</para>
+		</section>
+
+		<section>
+			<title>Merging &tdf; Capsules</title>
+
+			<para>The final unexplored path in Fig. 4 is the ability to
+				combine all the target independent &tdf; capsules into
+				a single capsule.
+				This is specified by means of the <option>-M</option>
+				command-line option to &tcc;.
+				The combination of these capsules is performed by the
+				&tdf; linker, &tld;.
+				Whereas in the main compilation path &tld; is used to
+				combine a single target independent &tdf; capsule with
+				the &tdf; libraries to form a target dependent &tdf;
+				capsule, in this case it is used to combine several
+				target independent capsules into a single target
+				independent capsule.
+				By default the combined capsule is called
+				<filename>a.j</filename>.
+				The compilation will continue after the combination
+				phase, with the resultant capsule rejoining the main
+				compilation path.
+				This merging operation is further discussed in section
+				5.2.2<!-- TODO: link -->.</para>
+
+			<para>The only unresolved issue in this case is, if the
+				<option>-M</option> option is given, to what
+				<filename>.j</filename> files do the
+				<option>-Fj</option> and the <option>-Pj</option>
+				options refer?
+				In fact, &tcc; takes them to refer to the merged &tdf;
+				capsule rather than the capsules which are merged to
+				form it.
+				The <option>-Pa</option> option, however, will cause
+				both sets of capsules to be preserved.</para>
+		</section>
+
+		<para>To summarise, &tcc; has an extra three file types, and
+			an extra three compilation tools (not including the
+			&tdf; archive creating and splitting routines which are
+			built into &tcc;). These are:</para>
+
+		<table>
+			<tr>
+				<th align="left">Type</th>
+				<th align="left">Content</th>
+			</tr>
+
+			<tr>
+				<td><filename>*.i</filename></td>
+				<td>Preprocessed C source</td>
+			</tr>
+			<tr>
+				<td><filename>*.ta</filename></td>
+				<td>&tdf; archives</td>
+			</tr>
+			<tr>
+				<td><filename>*.p</filename></td>
+				<td>&tdf; notation source</td>
+			</tr>
+		</table>
+
+		<para>and:</para>
+
+		<table>
+			<tr>
+				<th align="center">Stage</th>
+				<th align="left">Tool</th>
+				<th align="center">Code</th>
+				<th align="left">Input</th>
+				<th align="left">Output</th>
+			</tr>
+
+			<tr>
+				<td align="center">6.</td>
+				<td>C preprocessor (tdfcpp)</td>
+				<td align="center"><code>c</code></td>
+				<td>C source</td>
+				<td>Preprocessed C source</td>
+			</tr>
+			<tr>
+				<td align="center">7a.</td>
+				<td>Pretty printer (disp)</td>
+				<td align="center"><code>d</code></td>
+				<td>&tdf; capsule</td>
+				<td>&tdf; notation</td>
+			</tr>
+			<tr>
+				<td align="center">7b.</td>
+				<td>Reverse notation (tnc&nbsp;-p)</td>
+				<td align="center"><code>d</code></td>
+				<td>&tdf; capsule</td>
+				<td>&tdf; notation</td>
+			</tr>
+			<tr>
+				<td align="center">8.</td>
+				<td>Notation compiler (tnc)</td>
+				<td align="center"><code>d</code></td>
+				<td>&tdf; notation</td>
+				<td>&tdf; capsule</td>
+			</tr>
+		</table>
+
+		<para>(see 7.1<!-- TODO: link --> and 7.2<!-- TODO: link -->
+			for complete lists).</para>
+	</section>
+
+	<section>
+		<title>Finding out what tcc is doing</title>
+
+		<para>With so many different file types and alternative
+			compilation paths, it is often useful to be able to
+			keep track of what &tcc; is doing.
+			There are several command-line options which do this.
+			The simplest is <option>-v</option> which specifies that
+			&tcc; should print each command in the compilation process
+			on the standard output before it is executed.
+			The <option>-vb</option> option is similar, but only causes the
+			name of each input file to be printed as it is processed.
+			Finally the <option>-dry</option> option specifies that the
+			commands should be printed (as with <option>-v</option>) but not
+			actually executed.
+			This can be used to experiment with &tcc; to find out what it
+			would do in various circumstances.</para>
+
+		<para>Occasionally an unclear error message may be printed by one
+			of the compilation tools.
+			In this case the <option>-show_errors</option> option to
+			&tcc; might be useful. It causes &tcc; to print the command
+			it was executing when the error occurred.
+			By default, if an error occurs during the construction of
+			an output file, the file is removed by &tcc;.
+			It can however be preserved for examination using the
+			<option>-keep_errors</option> option.
+			This applies not only to normal errors, but also to
+			exceptional errors such as the user interrupting &tcc; by
+			pressing <userinput>^C</userinput>, or one of the compilation
+			tools crashing.
+			In the latter case, &tcc; will also remove any core file
+			produced, unless the <option>-keep_errors</option> option is
+			specified.</para>
+
+		<para>For purposes of configuration control, the
+			<option>-version</option> flag will cause &tcc; to print its
+			version number.
+			This will typically be of the form:</para>
+
+		<!-- TODO: inappropiate tag -->
+		<programlisting>tcc: Version: 4.0, Revision: 1.5, Machine: hp</programlisting>
+
+		<para>giving the version and revision number, plus the target
+			machine identifier.
+			The <option>-V</option> flag will also cause each compilation
+			tool to print its version number (if appropriate) as it is
+			invoked.</para>
+	</section>
+</chapter>
+

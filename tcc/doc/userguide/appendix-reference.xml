@@ -1,0 +1,1505 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY cc   "<application><acronym>CC</acronym></application>">
+	<!ENTITY tcc  "<application><acronym>TCC</acronym></application>">
+	<!ENTITY tld  "<application><acronym>TLD</acronym></application>">
+	<!ENTITY tdfc "<application><acronym>TDFC</acronym></application>">
+	<!ENTITY tdf  "<acronym>TDF</acronym>">
+	<!ENTITY api  "<acronym>API</acronym>">
+
+	<!ENTITY ntimeso "<replaceable>n</replaceable>&nbsp;&times;&nbsp;<filename>.o</filename>">
+	<!ENTITY ntimesj "<replaceable>n</replaceable>&nbsp;&times;&nbsp;<filename>.j</filename>">
+	<!ENTITY ntimesk "<replaceable>n</replaceable>&nbsp;&times;&nbsp;<filename>.k</filename>">
+	<!ENTITY jplusk  "<filename>.j</filename>&nbsp;+&nbsp;<filename>.k</filename>">
+	<!ENTITY gplust  "<filename>.G</filename>&nbsp;+&nbsp;<filename>.T</filename>">
+
+	<!ENTITY repstring "<replaceable>string</replaceable>">
+	<!ENTITY repletter "<replaceable>string</replaceable>">
+]>
+
+
+<!--
+	$Id$
+-->
+
+<appendix id="miscellaneous">
+	<title>&tcc; Reference Guide</title>
+
+	<section>
+		<title>Input and Output Files</title>
+
+		<para>&tcc; identifies the file type of the input files it is
+			passed by means of their file suffix.
+			The recognised file suffixes are as follows:</para>
+
+		<table>
+			<title>Input File Suffixes</title>
+
+			<tgroup cols="3">
+				<thead>
+					<row>
+						<entry align="left">Suffix</entry>
+						<entry align="left">Code</entry>
+						<entry align="left">Description</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry align="center"><filename>.c</filename></entry>
+						<entry align="center"><code>c</code></entry>
+						<entry>C source file</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.i</filename></entry>
+						<entry align="center"><code>i</code></entry>
+						<entry>Preprocessed C source file</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.j</filename></entry>
+						<entry align="center"><code>j</code></entry>
+						<entry>Target independent &tdf; capsule</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.t</filename></entry>
+						<entry align="center"><code>t</code></entry>
+						<entry>Target dependent &tdf; capsule</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.s</filename></entry>
+						<entry align="center"><code>s</code></entry>
+						<entry>Assembly source file</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.o</filename></entry>
+						<entry align="center"><code>o</code></entry>
+						<entry>Binary object file</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.k</filename></entry>
+						<entry align="center"><code>k</code></entry>
+						<entry>C spec file
+							(only if intermodular checks are enabled)</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.p</filename></entry>
+						<entry align="center"><code>p</code></entry>
+						<entry>&tdf; notation source file
+							(only if <option>-Ytnc</option> is specified)</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.ta</filename></entry>
+						<entry align="center"><code>A</code></entry>
+						<entry>&tdf; archive</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.tpl</filename></entry>
+						<entry align="center"><code>P</code></entry>
+						<entry><acronym>PL_TDF</acronym> source file
+							(only if <option>-Ypl_tdf</option> is specified)</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.G</filename></entry>
+						<entry align="center"><code>G</code></entry>
+						<entry>Binasm source file (Mips only)</entry>
+					</row>
+					<row>
+						<entry align="center"><filename>.T</filename></entry>
+						<entry align="center"><code>T</code></entry>
+						<entry>Assembler source file (Mips only)</entry>
+					</row>
+					<row>
+						<entry align="center">other</entry>
+						<entry align="center" role="na">&ndash;</entry>
+						<entry>Binary object file</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<para>Each file type is assigned an identifying letter, usually
+			corresponding to its file suffix, which may be used in various
+			command-line options.
+			For example, <option>-Fs</option> instructs &tcc; to halt
+			the compilation after creating the assembly source files,
+			and is therefore equivalent to <option>-S</option>.
+			Similarly <option>-Po </option>instructs it to preserve any
+			binary object files it creates.
+			There are a couple of special file type codes which may be
+			used with the <option>-P</option> option.
+			The option <option>-Pa</option> causes all intermediate files
+			to be created, whereas <option>-Ph</option> causes the
+			start-up file, <filename>tcc_startup.h</filename>, used by
+			&tcc; to be preserved.
+			The <option>-P</option> option can also be used to specify
+			that intermediate files of various forms should not be
+			preserved.
+			For example, the option <option> -P-o</option> indicates
+			that binary object files should not be preserved.</para>
+
+		<para>Most output file names are derived from the input file
+			names with a simple substitution of file suffix, however
+			certain output files (and other files) have default names.
+			These are as follows:</para>
+
+		<table>
+			<title>Default Output Filenames</title>
+
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry align="left">Filename</entry>
+						<entry align="left">Description</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry><filename>a.j</filename></entry>
+						<entry>Default merged &tdf; capsule name
+							(with <option>-M</option> option)</entry>
+					</row>
+					<row>
+						<entry><filename>a.out</filename></entry>
+						<entry>Default executable name in binary
+							object linking phase</entry>
+					</row>
+					<row>
+						<entry><filename>a.ta</filename></entry>
+						<entry>Default output &tdf; archive name</entry>
+					</row>
+					<row>
+						<entry><filename>a.k</filename></entry>
+						<entry>Default output file in intermodular
+							checks linking phase</entry>
+					</row>
+					<row>
+						<entry><filename>tcc_startup.h</filename></entry>
+						<entry>Start-up file used by &tcc; for
+							<option>-D</option> and <option>-U</option>
+							options.</entry>
+					</row>
+					<row>
+						<entry><filename>tcc_endup.h</filename></entry>
+						<entry>End-up file used by &tcc;</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<para>If there is a single output file, its name may be specified
+			using the <option>-o</option> option.
+			The default output filenames can also be overridden.
+			For example, <option>-doj&nbsp;b.j</option> sets the default
+			merged TDF capsule name to <filename>b.j</filename>.</para>
+	</section>
+
+	<section>
+		<title>Compilation Phases</title>
+
+		<para>The various compilation phases under the control of &tcc;
+			may be summarised as follows:</para>
+
+		<table>
+			<title>Compilation Phases</title>
+
+			<tgroup cols="5">
+				<colspec/>
+				<colspec/>
+				<colspec colname="input"/>
+				<colspec colname="output"/>
+				<colspec/>
+
+				<thead>
+					<row>
+						<entry align="left">Executable</entry>
+						<entry align="center">Code</entry>
+						<entry align="center" namest="input" nameend="output">Action</entry>
+						<entry align="left">Description</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry morerows="3"><code>tdfc</code></entry>
+						<entry morerows="3" align="center"><code>c</code></entry>
+						<entry role="input norow"><filename>.c</filename></entry>
+						<entry role="output norow"><filename>.j</filename></entry>
+						<entry morerows="1">C to &tdf; producer</entry>
+					</row>
+					<row>
+						<entry role="input"><filename>.i</filename></entry>
+						<entry role="output"><filename>.j</filename></entry>
+					</row>
+					<row>
+						<entry role="input norow"><filename>.c</filename></entry>
+						<entry role="output norow">&jplusk;</entry>
+						<entry morerows="1">(in intermodular checking mode)</entry>
+					</row>
+					<row>
+						<entry role="input"><filename>.i</filename></entry>
+						<entry role="output">&jplusk;</entry>
+					</row>
+					<row>
+						<entry morerows="1"><code>tld</code></entry>
+						<entry morerows="1" align="center"><code>L</code></entry>
+						<entry role="input"><filename>.j</filename></entry>
+						<entry role="output"><filename>.t</filename></entry>
+						<entry>C to &tdf; producer</entry>
+					</row>
+					<row>
+						<entry role="input">&ntimesj;&nbsp;</entry>
+						<entry role="output"><filename>.j</filename></entry>
+						<entry>(in &tdf; merging mode)</entry>
+					</row>
+					<row>
+						<entry><code>trans</code></entry>
+						<entry align="center"><code>t</code></entry>
+						<entry role="input"><filename>.t</filename></entry>
+						<entry role="output"><filename>.s</filename></entry>
+						<entry>&tdf; translator</entry>
+					</row>
+					<row>
+						<entry><code>as</code></entry>
+						<entry align="center"><code>a</code></entry>
+						<entry role="input"><filename>.s</filename></entry>
+						<entry role="output"><filename>.o</filename></entry>
+						<entry>System assembler</entry>
+					</row>
+					<row>
+						<entry><code>ld</code></entry>
+						<entry align="center"><code>l</code></entry>
+						<entry role="input">&ntimeso;&nbsp;</entry>
+						<entry role="output"><filename>exec</filename></entry>
+						<entry>System linker</entry>
+					</row>
+					<row>
+						<entry role="na">&ndash;</entry>
+						<entry align="center"><code>J</code></entry>
+						<entry role="input">&ntimesj;&nbsp;</entry>
+						<entry role="output"><filename>.ta</filename></entry>
+						<entry>Archive builder (built into &tcc;)</entry>
+					</row>
+					<row>
+						<entry role="na">&ndash;</entry>
+						<entry align="center"><code>J</code></entry>
+						<entry role="input"><filename>.ta</filename></entry>
+						<entry role="output">&ntimesj;&nbsp;</entry>
+						<entry>Archive splitter (built into &tcc;)</entry>
+					</row>
+					<row>
+						<entry><code>tdfcpp</code></entry>
+						<entry align="center"><code>p</code></entry>
+						<entry role="input"><filename>.c</filename></entry>
+						<entry role="output"><filename>.i</filename></entry>
+						<entry>C preprocessor</entry>
+					</row>
+					<row>
+						<entry><code>spec_linker</code></entry>
+						<entry align="center"><code>S</code></entry>
+						<entry role="input">&ntimesk;&nbsp;</entry>
+						<entry role="output"><filename>.k</filename></entry>
+						<entry>C spec linker</entry>
+					</row>
+					<row>
+						<entry morerows="1"><code>disp</code></entry>
+						<entry morerows="1" align="center"><code>d</code></entry>
+						<entry role="input norow"><filename>.j</filename></entry>
+						<entry role="output norow"><filename>.p</filename></entry>
+						<entry morerows="1">&tdf; pretty printer</entry>
+					</row>
+					<row>
+						<entry role="input"><filename>.t</filename></entry>
+						<entry role="output"><filename>.p</filename></entry>
+					</row>
+					<row>
+						<entry><code>tnc</code></entry>
+						<entry align="center"><code>n</code></entry>
+						<entry role="input"><filename>.p</filename></entry>
+						<entry role="output"><filename>.j</filename></entry>
+						<entry>&tdf; notation compiler</entry>
+					</row>
+					<row>
+						<entry morerows="1"><code>tnc -p</code></entry>
+						<entry morerows="1" align="center"><code>n</code></entry>
+						<entry role="input norow"><filename>.j</filename></entry>
+						<entry role="output norow"><filename>.p</filename></entry>
+						<entry morerows="1">Reverse &tdf; notation compiler</entry>
+					</row>
+					<row>
+						<entry role="input"><filename>.t</filename></entry>
+						<entry role="output"><filename>.p</filename></entry>
+					</row>
+					<row>
+						<entry><code>tpl</code></entry>
+						<entry align="center"><code>P</code></entry>
+						<entry role="input"><filename>.tpl</filename></entry>
+						<entry role="output"><filename>.j</filename></entry>
+						<entry><acronym>PL_TDF</acronym>
+							compiler</entry>
+					</row>
+					<row>
+						<entry><code>mipstrans</code></entry>
+						<entry align="center"><code>t</code></entry>
+						<entry role="input"><filename>.t</filename></entry>
+						<entry role="output">&gplust;&nbsp;</entry>
+						<entry>&tdf; to Mips translator</entry>
+					</row>
+					<row>
+						<entry><code>asl</code></entry>
+						<entry align="center"><code>A</code></entry>
+						<entry role="input">&gplust;&nbsp;</entry>
+						<entry role="output"><filename>.o</filename></entry>
+						<entry>Auxillary assembler (Mips only)</entry>
+					</row>
+					<row>
+						<entry><code>cc</code></entry>
+						<entry align="center"><code>C</code></entry>
+						<entry align="center" namest="input" nameend="output">(various)</entry>
+						<entry>System C compiler
+							(specified with <option>-cc</option> option)</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<para>Each compilation phase is assigned a code letter which is
+			used to identify that phase in various command-line options.
+			For example, in order to pass the <option>-x</option> option
+			to &tdfc; the <option>-Wc,&nbsp;-x</option> command-line
+			option may be used.
+			Similarly, to set the &tld; executable an option of the form
+			<option>-EL:&nbsp;/usr/local/bin/tld</option> may be
+			used.</para>
+	</section>
+
+	<section>
+		<title>Command-line Options</title>
+
+		<para>The following options are accepted by &tcc;.
+			They can be given by command-line options or the
+			<varname>TCCOPTS</varname> system variable.
+			The spaces in the option descriptions are optional,
+			they show where two-part or multi-part options can be
+			split over more than one command-line argument.</para>
+
+		<table>
+			<thead>
+				<tr>
+					<th align="left">Option</th>
+					<th align="left">Effect</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><option>-o&nbsp;&repstring;</option></td>
+					<td>Specifies output file name</td>
+				</tr>
+				<tr>
+					<td><option>-D&nbsp;&repstring;=&repstring;</option></td>
+					<td>Defines a macro</td>
+				</tr>
+				<tr>
+					<td><option>-D&nbsp;&repstring;</option></td>
+					<td>Defines a macro to be <code>1</code></td>
+				</tr>
+				<tr>
+					<td><option>-F&repletter;</option></td>
+					<td>Halts the compilation at the given stage</td>
+				</tr>
+				<tr>
+					<td><option>-I&nbsp;&repstring;</option></td>
+					<td>Specifies an include file directory</td>
+				</tr>
+				<tr>
+					<td><option>-L&nbsp;&repstring;</option></td>
+					<td>Specifies a system library directory</td>
+				</tr>
+				<tr>
+					<td><option>-N&nbsp;&repstring;: &repstring;</option></td>
+					<td>Specifies an include file directory (with mode)</td>
+				</tr>
+				<tr>
+					<td><option>-O&repstring;</option></td>
+					<td>Switches optimisation level</td>
+				</tr>
+				<tr>
+					<td><option>-P&repletter;...</option></td>
+					<td>Causes intermediate files to be preserved</td>
+				</tr>
+				<tr>
+					<td><option>-S</option></td>
+					<td>Halts compilation after creating <filename>.s</filename> files</td>
+				</tr>
+				<tr>
+					<td><option>-T&nbsp;&repstring;</option></td>
+					<td>Specifies a command-line token</td>
+				</tr>
+				<tr>
+					<td><option>-U&nbsp;&repstring;</option></td>
+					<td>Undefines a macro</td>
+				</tr>
+				<tr>
+					<td><option>-W&repletter;,&nbsp;&repstring;,&nbsp;...</option></td>
+					<td>Passed an option to a compilation tool</td>
+				</tr>
+				<tr>
+					<td><option>-W&repletter;:&nbsp;&repstring;</option></td>
+					<td>Passed an option to a compilation tool</td>
+				</tr>
+				<tr>
+					<td><option>-X:&nbsp;&repstring;,&nbsp;...</option></td>
+					<td>Specifies a compilation option</td>
+				</tr>
+				<tr>
+					<td><option>-X&repstring;</option></td>
+					<td>Specifies a compilation mode</td>
+				</tr>
+				<tr>
+					<td><option>-Y&nbsp;&repstring;</option></td>
+					<td>Reads an environment</td>
+				</tr>
+				<tr>
+					<td><option>-c</option></td>
+					<td>Halts compilation after creating <filename>.o</filename> files</td>
+				</tr>
+				<tr>
+					<td><option>-d</option></td>
+					<td>Halts compilation after creating <filename>.d</filename> files</td>
+				</tr>
+				<tr>
+					<td><option>-dry</option></td>
+					<td>Causes a dry run</td>
+				</tr>
+				<tr>
+					<td><option>-e&nbsp;&repstring;</option></td>
+					<td>Specifies a producer end-up file</td>
+				</tr>
+				<tr>
+					<td><option>-f&nbsp;&repstring;</option></td>
+					<td>Specifies a producer start-up file</td>
+				</tr>
+				<tr>
+					<td><option>-g</option></td>
+					<td>Produces debugging information (default format)</td>
+				</tr>
+				<tr>
+					<td><option>-g1</option></td>
+					<td>Produces debugging information (old format)</td>
+				</tr>
+				<tr>
+					<td><option>-g2</option></td>
+					<td>Produces debugging information (new format)</td>
+				</tr>
+				<tr>
+					<td><option>-g3</option></td>
+					<td>Produces debugging information (new format)</td>
+				</tr>
+				<tr>
+					<td><option>-k</option></td>
+					<td>Halts compilation after creating <filename>.k</filename> and <filename>.K</filename> files</td>
+				</tr>
+				<tr>
+					<td><option>-l&nbsp;&repstring;</option></td>
+					<td>Specifies a system library</td>
+				</tr>
+				<tr>
+					<td><option>-not_ansi</option></td>
+					<td>Allows some non-ANSI C features</td>
+				</tr>
+				<tr>
+					<td><option>-nepc</option></td>
+					<td>Switches off extra portability checks</td>
+				</tr>
+				<tr>
+					<td><option>-sym</option></td>
+					<td>Enables symbol table dump linking</td>
+				</tr>
+				<tr>
+					<td><option>-sym:&repstring;</option></td>
+					<td>Enables symbol table dump linking with flags</td>
+				</tr>
+				<tr>
+					<td><option>-v</option></td>
+					<td>Specifies verbose mode</td>
+				</tr>
+				<tr>
+					<td><option>-vb</option></td>
+					<td>Specifies fairly verbose mode</td>
+				</tr>
+				<tr>
+					<td><option>-vd</option></td>
+					<td>Dump the env information &tcc; got hold of</td>
+				</tr>
+				<tr>
+					<td><option>-ve</option></td>
+					<td>Verbose information about tool chain environment</td>
+				</tr>
+				<tr>
+					<td><option>-vt</option></td>
+					<td>Verbose information about tool chain invocation</td>
+				</tr>
+				<tr>
+					<td><option>-no_shuffle</option></td>
+					<td>Turns off shuffle ranking of cmd line args</td>
+				</tr>
+				<tr>
+					<td><option>-y&nbsp;&repstring;=&repstring;</option></td>
+					<td>Sets an env directory variable</td>
+				</tr>
+				<tr>
+					<td><option>-J&nbsp;&repstring;</option></td>
+					<td>Specifies a &tdf; library directory</td>
+				</tr>
+				<tr>
+					<td><option>-M</option></td>
+					<td>Causes all <filename>.j</filename> files to be merged</td>
+				</tr>
+				<tr>
+					<td><option>-MA</option></td>
+					<td>As <option>-M</option>, but with hiding</td>
+				</tr>
+				<tr>
+					<td><option>-ch</option></td>
+					<td>Invokes checker mode</td>
+				</tr>
+				<tr>
+					<td><option>-disp</option></td>
+					<td>Causes all <filename>.j</filename> files to be pretty printed</td>
+				</tr>
+				<tr>
+					<td><option>-disp_t</option></td>
+					<td>Causes all <filename>.t</filename> files to be pretty printed</td>
+				</tr>
+				<tr>
+					<td><option>-i</option></td>
+					<td>Halts compilation after creating .j files</td>
+				</tr>
+				<tr>
+					<td><option>-im</option></td>
+					<td>Enables intermodular checks</td>
+				</tr>
+				<tr>
+					<td><option>-j&nbsp;&repstring;</option></td>
+					<td>Specifies a &tdf; library</td>
+				</tr>
+				<tr>
+					<td><option>-prod</option></td>
+					<td>Causes a &tdf; archive to be produced</td>
+				</tr>
+				<tr>
+					<td><option>-A -</option></td>
+					<td>Unasserts all built-in predicates</td>
+				</tr>
+				<tr>
+					<td><option>-A&nbsp;&repstring;</option></td>
+					<td>Asserts a predicate</td>
+				</tr>
+				<tr>
+					<td><option>-B&nbsp;&repstring;</option></td>
+					<td>Passed to the system linker</td>
+				</tr>
+				<tr>
+					<td><option>-C</option></td>
+					<td>Preserves comments when preprocessing</td>
+				</tr>
+				<tr>
+					<td><option>-E</option></td>
+					<td>Causes C source files to be preprocessed</td>
+				</tr>
+				<tr>
+					<td><option>-E&repletter;:&nbsp;&repstring;</option></td>
+					<td>Specifies an executable to be used</td>
+				</tr>
+				<tr>
+					<td><option>-H</option></td>
+					<td>Causes included files to be printed</td>
+				</tr>
+				<tr>
+					<td><option>-S&repletter;,&nbsp;&repstring;,&nbsp;...</option></td>
+					<td>Specifies input files</td>
+				</tr>
+				<tr>
+					<td><option>-S&repletter;:&nbsp;&repstring;</option></td>
+					<td>Specifies input files</td>
+				</tr>
+				<tr>
+					<td><option>-V</option></td>
+					<td>Causes all tools to print their version numbers</td>
+				</tr>
+				<tr>
+					<td><option>-cc</option></td>
+					<td>Forces the system compiler to be used</td>
+				</tr>
+				<tr>
+					<td><option>-cc_only</option></td>
+					<td>Forces only the system compiler to be used</td>
+				</tr>
+				<tr>
+					<td><option>-do&repletter;&nbsp;&repstring;</option></td>
+					<td>Sets a default output file name</td>
+				</tr>
+				<tr>
+					<td><option>-dump</option></td>
+					<td>Dumps the current status</td>
+				</tr>
+				<tr>
+					<td><option>-ignore_case</option></td>
+					<td>Ignores case in file names</td>
+				</tr>
+				<tr>
+					<td><option>-im0</option></td>
+					<td>Disables intermodular checks</td>
+				</tr>
+				<tr>
+					<td><option>-info</option></td>
+					<td>Causes &api; information to be printed</td>
+				</tr>
+				<tr>
+					<td><option>-keep_errors</option></td>
+					<td>Causes files to be preserved on errors</td>
+				</tr>
+				<tr>
+					<td><option>-make_up_names</option></td>
+					<td>Makes up names for intermediate files</td>
+				</tr>
+				<tr>
+					<td><option>-message&nbsp;&repstring;</option></td>
+					<td>Causes &tcc; to print a message</td>
+				</tr>
+				<tr>
+					<td><option>-p</option></td>
+					<td>Causes profiling information to be produced</td>
+				</tr>
+				<tr>
+					<td><option>-q</option></td>
+					<td>Specifies quiet mode</td>
+				</tr>
+				<tr>
+					<td><option>-quiet</option></td>
+					<td>Equivalent to <option>-q</option></td>
+				</tr>
+				<tr>
+					<td><option>-query</option></td>
+					<td>Causes a list of options to be printed</td>
+				</tr>
+				<tr>
+					<td><option>-s&repletter;:&nbsp;&repstring;</option></td>
+					<td>Specifies a suffix override</td>
+				</tr>
+				<tr>
+					<td><option>-show_errors</option></td>
+					<td>Causes error producing commands to be shown</td>
+				</tr>
+				<tr>
+					<td><option>-show_env</option></td>
+					<td>Causes the environment path to be printed</td>
+				</tr>
+				<tr>
+					<td><option>-special&nbsp;&repstring;</option></td>
+					<td>Allows various internal options</td>
+				</tr>
+				<tr>
+					<td><option>-startup&nbsp;&repstring;</option></td>
+					<td>Specifies a start-up option</td>
+				</tr>
+				<tr>
+					<td><option>-target&nbsp;&repstring;</option></td>
+					<td>Provided for &cc; compatibility</td>
+				</tr>
+				<tr>
+					<td><option>-temp&nbsp;&repstring;</option></td>
+					<td>Specifies the temporary directory</td>
+				</tr>
+				<tr>
+					<td><option>-tidy</option></td>
+					<td>Causes &tcc; to tidy up as it goes along</td>
+				</tr>
+				<tr>
+					<td><option>-time</option></td>
+					<td>Causes all commands to be timed</td>
+				</tr>
+				<tr>
+					<td><option>-verbose</option></td>
+					<td>Equivalent to <option>-v</option></td>
+				</tr>
+				<tr>
+					<td><option>-version</option></td>
+					<td>Causes &tcc; to print its version number</td>
+				</tr>
+				<tr>
+					<td><option>-w</option></td>
+					<td>Suppresses &tcc; warnings</td>
+				</tr>
+				<tr>
+					<td><option>-work&nbsp;&repstring;</option></td>
+					<td>Specifies the work directory</td>
+				</tr>
+				<tr>
+					<td><option>-G</option></td>
+					<td>Provided for &cc; compatibility</td>
+				</tr>
+				<tr>
+					<td><option>-K&nbsp;&repstring;,&nbsp;...</option></td>
+					<td>Provided for &cc; compatibility</td>
+				</tr>
+				<tr>
+					<td><option>-Z&repstring;</option></td>
+					<td>Provided for &cc; compatibility</td>
+				</tr>
+				<tr>
+					<td><option>-b</option></td>
+					<td>Suppresses <option>-lc</option> in system linking</td>
+				</tr>
+				<tr>
+					<td><option>-dn</option></td>
+					<td>Passed to the system linker</td>
+				</tr>
+				<tr>
+					<td><option>-dy</option></td>
+					<td>Passed to the system linker</td>
+				</tr>
+				<tr>
+					<td><option>-h&nbsp;&repstring;</option></td>
+					<td>Passed to the system linker</td>
+				</tr>
+				<tr>
+					<td><option>-no_startup_options</option></td>
+					<td>Suppresses start-up options</td>
+				</tr>
+				<tr>
+					<td><option>-s</option></td>
+					<td>Passed to the system linker</td>
+				</tr>
+				<tr>
+					<td><option>-u&nbsp;&repstring;</option></td>
+					<td>Passed to the system linker</td>
+				</tr>
+				<tr>
+					<td><option>-wsl</option></td>
+					<td>Causes string literals to be made writable</td>
+				</tr>
+				<tr>
+					<td><option>-z&nbsp;&repstring;</option></td>
+					<td>Passed to the system linker</td>
+				</tr>
+				<tr>
+					<td><option>-#</option></td>
+					<td>Equivalent to <option>-v</option></td>
+				</tr>
+				<tr>
+					<td><option>-##</option></td>
+					<td>Equivalent to <option>-v</option></td>
+				</tr>
+				<tr>
+					<td><option>-###</option></td>
+					<td>Equivalent to <option>-dry</option></td>
+				</tr>
+				<tr>
+					<td><option>--&nbsp;&repstring;,&nbsp;...</option></td>
+					<td>Communicates directly with the option interpreter</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>The following two tables list the producer and archiver
+			options which can be passed using the
+			<option>-Wc,&nbsp;<replaceable>opt</replaceable></option> and
+			<option>-WJ,&nbsp;<replaceable>opt</replaceable></option>
+			options, respectively.</para>
+
+		<table>
+			<title>Producer Options</title>
+
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry align="left">Option</entry>
+						<entry align="left">Description</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry><option>-D&nbsp;<replaceable>macro</replaceable></option></entry>
+						<entry>Defines the macro
+							<replaceable>macro</replaceable> to be
+							<code>1</code></entry>
+					</row>
+					<row>
+						<entry><option>-D&nbsp;<replaceable>macro</replaceable>=<replaceable>defn</replaceable></option></entry>
+						<entry>Defines the macro
+							<replaceable>macro</replaceable> to be
+							<replaceable>defn</replaceable></entry>
+					</row>
+					<row>
+						<entry><option>-E&nbsp;<replaceable>number</replaceable></option></entry>
+						<entry>Sets maximum number of allowed errors
+							(default 20)</entry>
+					</row>
+					<row>
+						<entry><option>-H</option></entry>
+						<entry>Causes <code>#include'd</code> files to be
+							printed as they are processed</entry>
+					</row>
+					<row>
+						<entry><option>-I&nbsp;<replaceable>dir</replaceable></option></entry>
+						<entry>Specifies the additional include file
+							directory <replaceable>dir</replaceable></entry>
+					</row>
+					<row>
+						<entry><option>-U&nbsp;<replaceable>macro</replaceable></option></entry>
+						<entry>Undefines the macro <replaceable>macro</replaceable></entry>
+					</row>
+					<row>
+						<entry><option>-e&nbsp;<replaceable>file</replaceable></option></entry>
+						<entry>Specifies the end-up file <replaceable>file</replaceable></entry>
+					</row>
+					<row>
+						<entry><option>-f&nbsp;<replaceable>file</replaceable></option></entry>
+						<entry>Specifies the start-up file <replaceable>file</replaceable></entry>
+					</row>
+					<row>
+						<entry><option>-nepc</option></entry>
+						<entry>Switches off extra portability,
+							and certian other, checks</entry>
+					</row>
+					<row>
+						<entry><option>-not_ansi</option></entry>
+						<entry>Allows a selection of non-ISO/ANSI C
+							features</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<table>
+			<title>Archiver Options</title>
+
+			<tgroup cols="3">
+				<thead>
+					<row>
+						<entry align="left">Option</entry>
+						<entry align="center">Default</entry>
+						<entry align="left">Description</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry><option>-copy</option> or <option>-c</option></entry>
+						<entry align="center">&cross;</entry>
+						<entry>Copies files into archives</entry>
+					</row>
+					<row>
+						<entry><option>-full</option> or <option>-f</option></entry>
+						<entry align="center">&check;</entry>
+						<entry>Uses full pathnames for archive links</entry>
+					</row>
+					<row>
+						<entry><option>-link</option> or <option>-l</option></entry>
+						<entry align="center">&check;</entry>
+						<entry>Links files into archives</entry>
+					</row>
+					<row>
+						<entry><option>-names</option> or <option>-n</option></entry>
+						<entry align="center">&check;</entry>
+						<entry>Uses real names for copied files</entry>
+					</row>
+					<row>
+						<entry><option>-no_names</option> or <option>-nn</option></entry>
+						<entry align="center">&check;</entry>
+						<entry>Makes up names for copied files</entry>
+					</row>
+					<row>
+						<entry><option>-no_options</option> or <option>-no</option></entry>
+						<entry align="center">&cross;</entry>
+						<entry>Does not interpret any archived options</entry>
+					</row>
+					<row>
+						<entry><option>-options</option> or <option>-o</option></entry>
+						<entry align="center">&check;</entry>
+						<entry>Interprets any archived options</entry>
+					</row>
+					<row>
+						<entry><option>-short</option> or <option>-s</option></entry>
+						<entry align="center">&cross;</entry>
+						<entry>Uses short pathnames for archive links</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+
+	<section>
+		<title>Compilation Modes</title>
+
+		<para>The built-in compilation modes are as follows:</para>
+
+		<table>
+			<tgroup cols="3">
+				<thead>
+					<row>
+						<entry align="center">Mode</entry>
+						<entry align="left">Summary</entry>
+						<entry align="left">Description</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry align="center"><option>Xs</option></entry>
+						<entry><quote>Strict checks</quote></entry>
+						<entry>Strict ISO/ANSI C with most extra checks
+							enabled as warnings</entry>
+					</row>
+					<row>
+						<entry align="center"><option>Xp</option></entry>
+						<entry><quote>Partial checks</quote></entry>
+						<entry>Strict ISO/ANSI C with some extra checks
+							enabled</entry>
+					</row>
+					<row>
+						<entry align="center"><option>Xc</option></entry>
+						<entry><quote>Conformance</quote></entry>
+						<entry>Strict ISO/ANSI C with no extra checks
+							enabled (this is default)</entry>
+					</row>
+					<row>
+						<entry align="center"><option>Xa</option></entry>
+						<entry><quote>ANSI-ish</quote></entry>
+						<entry>ISO/ANSI C with syntactic relaxations
+							and no extra checks</entry>
+					</row>
+					<row>
+						<entry align="center"><option>Xt</option></entry>
+						<entry><quote>Traditional</quote></entry>
+						<entry>Traditional C with no extra checks</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<para>The mode <option>Xs</option> is specified by passing the
+			<option>-Xs</option> command-line option to &tcc;, and so
+			on.</para>
+	</section>
+
+	<section>
+		<title>Supported &api;s</title>
+
+		<para>The following standard &api;s are supported in the form of
+			TenDRA headers:</para>
+
+		<table>
+			<title>Supported &api;s</title>
+
+			<tgroup cols="3">
+				<thead>
+					<row>
+						<entry align="left">&api;&nbsp;Name</entry>
+						<entry align="left">Type</entry>
+						<entry align="left">Description</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry><code>ansi</code></entry>
+						<entry>base&nbsp;(default)</entry>
+						<entry>ANSI X3.159</entry>
+					</row>
+					<row>
+						<entry><code>iso</code></entry>
+						<entry>base</entry>
+						<entry>ISO MSE 9899:1990 (Ammendment 1:1993 (E))</entry>
+					</row>
+					<row>
+						<entry><code>posix</code></entry>
+						<entry>base</entry>
+						<entry>POSIX 1003.1</entry>
+					</row>
+					<row>
+						<entry><code>posix2</code></entry>
+						<entry>base</entry>
+						<entry>POSIX 1003.2</entry>
+					</row>
+					<row>
+						<entry><code>xpg3</code></entry>
+						<entry>base</entry>
+						<entry>X/Open Portability Guide 3</entry>
+					</row>
+					<row>
+						<entry><code>xpg4</code></entry>
+						<entry>base</entry>
+						<entry>X/Open Portability Guide 4</entry>
+					</row>
+					<row>
+						<entry><code>cose</code>
+							<footnote>
+								<para>This &api; description is based on an
+									early version of the COSE 1170
+									specification and may be subject to
+									revision.</para>
+							</footnote></entry>
+						<entry>base</entry>
+						<entry>COSE 1170</entry>
+					</row>
+					<row>
+						<entry><code>svid3</code></entry>
+						<entry>base</entry>
+						<entry>System V Interface Definition 3rd Edition</entry>
+					</row>
+					<row>
+						<entry><code>aes</code></entry>
+						<entry>base</entry>
+						<entry>AES Revision A</entry>
+					</row>
+				</tbody>
+
+				<tbody>
+					<row>
+						<entry><code>bsd_extn</code>
+							<footnote>
+								<para>The BSD extension &api; consists of a
+									pragmatic collection of BSD types and
+									functions which are commonly found on
+									non-BSD machines. It roughly corresponds
+									to the BSD component of COSE (it contains
+									sockets, <function>select</function>,
+									etc.).</para>
+							</footnote></entry>
+						<entry>extension</entry>
+						<entry>BSD-like extension for use with POSIX etc.</entry>
+					</row>
+					<row>
+						<entry><code>x5_lib</code></entry>
+						<entry>extension</entry>
+						<entry>X11 (Release 5) X Library</entry>
+					</row>
+					<row>
+						<entry><code>x5_t</code>
+							<footnote>
+								<para>The X11 private headers are further protected.
+									If the private headers are required the option
+									<option>-Yx5_private</option> should also be
+									given.</para>
+							</footnote></entry>
+						<entry>extension</entry>
+						<entry>X11 (Release 5) Intrinsics Toolkit</entry>
+					</row>
+					<row>
+						<entry><code>x5_mu</code></entry>
+						<entry>extension</entry>
+						<entry>X11 (Release 5) Miscellaneous Utilities</entry>
+					</row>
+					<row>
+						<entry><code>x5_aw</code></entry>
+						<entry>extension</entry>
+						<entry>X11 (Release 5) Athena Widgets</entry>
+					</row>
+					<row>
+						<entry><code>x5_mit</code>
+							<footnote>
+								<para>This &api; is designed to cover some
+									of the commonly used features from
+									MIT-based X11 implementations which are
+									not actually part of the X11
+									specification.</para>
+							</footnote></entry>
+						<entry>extension</entry>
+						<entry>X11 (Release 5) MIT implementation</entry>
+					</row>
+					<row>
+						<entry><code>x5_proto</code></entry>
+						<entry>extension</entry>
+						<entry>X11 (Release 5) Protocol Extension</entry>
+					</row>
+					<row>
+						<entry><code>x5_ext</code></entry>
+						<entry>extension</entry>
+						<entry>X11 (Release 5) Extensions</entry>
+					</row>
+					<row>
+						<entry><code>motif</code></entry>
+						<entry>extension</entry>
+						<entry>Motif 1.1</entry>	<!-- TODO: now 1.2? -->
+					</row>
+				</tbody>
+
+				<tbody>
+					<row>
+						<entry><code>system</code></entry>
+						<entry role="na">&ndash;</entry>
+						<entry>System headers as main &api;</entry>
+					</row>
+					<row>
+						<entry><code>system+</code></entry>
+						<entry role="na">&ndash;</entry>
+						<entry>System headers as last resort extension &api;</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<para>Each &api; is specified to &tcc; by means of an environment
+			with the same name as the &api;.
+			Thus, for example, <option>-Yposix</option> specifies
+			POSIX 1003.1.
+			&api;s are divided into two types, base &api;s, such as
+			POSIX 1003.1, and extension &api;s, such as the
+			X11 (Release 5) Toolkit.
+			A program &api; consists of a base &api; plus an number of
+			extension &api;s, for example, POSIX plus the X11 Toolkit.
+			This example would be specified by means of the options
+			<option>-Yposix&nbsp;-Yx5_t</option>, in that order
+			(base &api;s override the previous &api;, extension &api;s
+			add to it).</para>
+
+		<para>Information on the current &api; may be printed by passing
+			the <option>-info</option> option to &tcc;.</para>
+	</section>
+
+	<section>
+		<title>Environment Identifiers</title>
+
+		<para>The following &tcc; environment identifiers are
+			recognised:</para>
+
+		<table>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry align="left">Identifier</entry>
+						<entry align="left">Description</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry><code>*AS</code></entry>
+						<entry>Modifies the system assembler executable</entry>
+					</row>
+					<row>
+						<entry><code>*AS1</code></entry>
+						<entry>Modifies the auxilliary system assembler
+							executable (Mips only)</entry>
+					</row>
+					<row>
+						<entry><code>*CC</code></entry>
+						<entry>Modifies the system compiler executable</entry>
+					</row>
+					<row>
+						<entry><code>*CRT0</code></entry>
+						<entry>Modifies the first list of initial default
+							<filename>.o</filename> files</entry>
+					</row>
+					<row>
+						<entry><code>*CRT1</code></entry>
+						<entry>Modifies the second list of initial default
+							<filename>.o</filename> files</entry>
+					</row>
+					<row>
+						<entry><code>*CRTN</code></entry>
+						<entry>Modifies the list of final default
+							<filename>.o</filename> files</entry>
+					</row>
+					<row>
+						<entry><code>*DISP</code></entry>
+						<entry>Modifies the &tdf; pretty printer
+							executable</entry>
+					</row>
+					<row>
+						<entry><code>+ENVDIR</code></entry>
+						<entry>Sets the main environment directory</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG</code></entry>
+						<entry>Passes a flag to &tcc;</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_AS</code></entry>
+						<entry>Passes a flag to the assembler</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_CC</code></entry>
+						<entry>Passes a flag to the system compiler</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_DISP</code></entry>
+						<entry>Passes a flag to the &tdf; pretty printer</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_INSTALL</code></entry>
+						<entry>Passes a flag to the &tdf; archive builder</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_LD</code></entry>
+						<entry>Passes a flag to the system linker</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_SPEC_LINK</code></entry>
+						<entry>Passes a flag to the C spec linker</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_TDFC</code></entry>
+						<entry>Passes a flag to the producer</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_TDFCPP</code></entry>
+						<entry>Passes a flag to the preprocessor</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_TLD</code></entry>
+						<entry>Passes a flag to the &tdf; linker</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_TNC</code></entry>
+						<entry>Passes a flag to the &tdf; notation compiler</entry>
+					</row>
+					<row>
+						<entry><code>+FLAG_TRANS</code></entry>
+						<entry>Passes a flag to the &tdf; translator</entry>
+					</row>
+					<row>
+						<entry><code>*INCL</code></entry>
+						<entry>Modifies the list of default include
+							file directories</entry>
+					</row>
+					<row>
+						<entry><code>*INFO</code></entry>
+						<entry>Modifies the list of &api; information</entry>
+					</row>
+					<row>
+						<entry><code>*LD</code></entry>
+						<entry>Modifies the system linker executable</entry>
+					</row>
+					<row>
+						<entry><code>*LIB</code></entry>
+						<entry>Modifies the list of default &tdf;
+							libraries</entry>
+					</row>
+					<row>
+						<entry><code>+LINE_START</code></entry>
+						<entry>Inserts a line in the &tcc; built-in
+							start-up file</entry>
+					</row>
+					<row>
+						<entry><code>+LINE_END</code></entry>
+						<entry>Inserts a line in the &tcc; built-in
+							end-up file</entry>
+					</row>
+					<row>
+						<entry><code>*LINK</code></entry>
+						<entry>Modifies the list of default &tdf; library
+							directories</entry>
+					</row>
+					<row>
+						<entry><code>+MACHINE</code></entry>
+						<entry>Sets the target machine type</entry>
+					</row>
+					<row>
+						<entry><code>+PORTABILITY</code></entry>
+						<entry>Sets the producer portability table</entry>
+					</row>
+					<row>
+						<entry><code>*SPEC_LINK</code></entry>
+						<entry>Modifies the C spec linker executable</entry>
+					</row>
+					<row>
+						<entry><code>*STARTUP</code></entry>
+						<entry>Modifies the list of default producer
+							start-up files</entry>
+					</row>
+					<row>
+						<entry><code>*STARTUP_DIR</code></entry>
+						<entry>Modifies the list of default start-up
+							directories</entry>
+					</row>
+					<row>
+						<entry><code>*SYS_LIB</code></entry>
+						<entry>Modifies the list of default system
+							libraries</entry>
+					</row>
+					<row>
+						<entry><code>*SYS_LIBC</code></entry>
+						<entry>Modifies the list of standard system
+							libraries</entry>
+					</row>
+					<row>
+						<entry><code>*SYS_LINK</code></entry>
+						<entry>Modifies the list of default system library
+							directories</entry>
+					</row>
+					<row>
+						<entry><code>*TDFC</code></entry>
+						<entry>Modifies the producer executable</entry>
+					</row>
+					<row>
+						<entry><code>*TDFCPP</code></entry>
+						<entry>Modifies the preprocessor executable</entry>
+					</row>
+					<row>
+						<entry><code>+TEMP</code></entry>
+						<entry>Sets the temporary directory
+							<footnote>
+								<para>The temporary directory can also be
+									set using the <varname>TMPDIR</varname>
+									system variable on those machines which
+									implement the XPG3
+									<function>tempnam</function> system
+									routine.</para>
+							</footnote></entry>
+					</row>
+					<row>
+						<entry><code>*TLD</code></entry>
+						<entry>Modifies the &tdf; linker executable</entry>
+					</row>
+					<row>
+						<entry><code>*TNC</code></entry>
+						<entry>Modifies the &tdf; notation compiler
+							executable</entry>
+					</row>
+					<row>
+						<entry><code>*TRANS</code></entry>
+						<entry>Modifies the &tdf; translator executable</entry>
+					</row>
+					<row>
+						<entry><code>+VERSION</code></entry>
+						<entry>Sets the target machine version
+							(Mips only)</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<para><code>*</code> stands for any of the allowed environment
+			modifiers <code>+</code>, <code>&lt;</code> or
+			<code>&gt;</code>.</para>
+	</section>
+
+	<section>
+		<title>Standard Environments</title>
+
+		<para>In addition to the environments implementing the supported
+			&api;s (see section 7.5. on page 31<!-- TODO: link -->), the
+			following environments are standard; those which alter the
+			compilation phases:</para>
+
+		<table>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry align="left">Environment</entry>
+						<entry align="left">Description</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry><code>default</code></entry>
+						<entry>Default settings (built into &tcc;)</entry>
+					</row>
+					<row>
+						<entry><code>16bit</code></entry>
+						<entry>Specifies the minimal integer
+							sizes allowed by ANSI</entry>
+					</row>
+					<row>
+						<entry><code>32bit</code></entry>
+						<entry>Specifies the integer sizes found on most
+							32-bit machines</entry>
+					</row>
+					<row>
+						<entry><code>common</code></entry>
+						<entry>Equivalent to <code>32bit</code></entry>
+					</row>
+					<row>
+						<entry><code>makelib</code></entry>
+						<entry>Used to construct &tdf; libraries</entry>
+					</row>
+					<row>
+						<entry><code>pl_tdf</code></entry>
+						<entry>Used to specify the use of the PL_TDF compiler</entry>
+					</row>
+					<row>
+						<entry><code>status</code></entry>
+						<entry>Causes the environment status to be reported</entry>
+					</row>
+					<row>
+						<entry><code>tdp</code></entry>
+						<entry>Used in &tdf; library building</entry>
+					</row>
+					<row>
+						<entry><code>tnc</code></entry>
+						<entry>Used to specify the use of the &tdf;
+							notation compiler</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+		<para>and those which form part of the implementation for
+			command-line options:</para>
+
+		<table>
+			<tgroup cols="2">
+				<thead>
+					<row>
+						<entry align="left">Environment</entry>
+						<entry align="left">Option&nbsp;Implemented</entry>
+					</row>
+				</thead>
+
+				<tbody>
+					<row>
+						<entry><code>tcc_diag</code></entry>
+						<entry><option>-g</option></entry>
+					</row>
+					<row>
+						<entry><code>tcc_pp</code></entry>
+						<entry><option>-E</option> and <option>-P</option></entry>
+					</row>
+					<row>
+						<entry><code>tcc_prof</code></entry>
+						<entry><option>-p</option></entry>
+					</row>
+					<row>
+						<entry><code>tcc_time</code></entry>
+						<entry><option>-time</option></entry>
+					</row>
+					<row>
+						<entry><code>wsl</code></entry>
+						<entry><option>-wsl</option></entry>
+					</row>
+					<row>
+						<entry><code>Goption</code></entry>
+						<entry><option>-G</option></entry>
+					</row>
+					<row>
+						<entry><code>K-<replaceable>item</replaceable></code></entry>
+						<entry><option>-K&nbsp;<replaceable>item</replaceable></option></entry>
+					</row>
+					<row>
+						<entry><code>Versions</code></entry>
+						<entry><option>-V</option></entry>
+					</row>
+					<row>
+						<entry><code>X<replaceable>mode</replaceable></code></entry>
+						<entry><option>-X&nbsp;<replaceable>mode</replaceable></option></entry>
+					</row>
+					<row>
+						<entry><code>Z-<replaceable>str</replaceable></code></entry>
+						<entry><option>-Z&nbsp;<replaceable>str</replaceable></option></entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
+	</section>
+
+</appendix>
+

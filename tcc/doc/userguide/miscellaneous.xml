@@ -1,0 +1,247 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY tcc  "<application><acronym>TCC</acronym></application>">
+	<!ENTITY cc   "<application><acronym>CC</acronym></application>">
+	<!ENTITY tdf  "<acronym>TDF</acronym>">
+	<!ENTITY api  "<acronym>API</acronym>">
+	<!ENTITY tchk "<application>tchk</application>">
+	<!ENTITY prof "<application>prof</application>">
+
+	<!ENTITY spec_linker "<application>spec_linker</application>">
+]>
+
+
+<!--
+	$Id$
+-->
+
+<chapter id="miscellaneous">
+	<title>Miscellaneous Topics</title>
+
+	<para>In this section we draw together a number of miscellaneous
+		topics not so far covered.</para>
+
+	<section>
+		<title>Intermodular Checks</title>
+
+		<para>All of the extra compiler checks described in section
+			5.1.3<!-- TODO: link --> refer to a single C source file,
+			however &tcc; also has support for a number of intermodular
+			checks.
+			These checks are enabled by means of the <option>-im</option>
+			command-line option.
+			This causes the producer to create for each C source file, in
+			addition to its &tdf; capsule output file, a second output
+			file, called a C spec file, containing a description of the C
+			objects declared in that file.
+			This C spec file is kept associated with the target independent
+			&tdf; as it is transformed to a target dependent capsule, an
+			assembly source file, and a binary object file.
+			When these binary object files are linked then the associated
+			C spec files are also linked using the C spec linker,
+			&spec_linker;, into a single C spec file.
+			This file is named <filename>a.k</filename> by default.
+			It is this linking process which constitutes the intermodular
+			checking (in fact &spec_linker; may also be invoked at the
+			&tdf; merging level when the <option>-M</option> option is
+			used).</para>
+
+		<para>When intermodular checks are specified, &tcc; will also
+			recognise input files with a <filename>.k</filename> suffix
+			as C spec files and pass them to the C spec linker.</para>
+
+		<para>The nature of the association between a C spec file and its
+			binary object file needs discussion.
+			While these files are internal to a single call of &tcc; it
+			can keep track of the association, however if the compilation
+			is halted before linking it needs to preserve this association.
+			For example in:</para>
+
+		<programlisting>% tcc -im -c a.c</programlisting>
+
+		<para>the binary object file <filename>a.o</filename> and the C
+			spec file <filename>a.k</filename> need to be kept together.
+			This is done by forming them into a single archive file named
+			<filename>a.o</filename>.
+			When <filename>a.o</filename> is subsequently linked, &tcc;
+			recognises that it is an archive and splits it into its two
+			components, one of which it passes to the system linker, and
+			one to the C spec linker.</para>
+
+		<para>Intermodular checking is described in more detail in [3].
+			In &tchk; intermodular checking is on by default, but may be
+			switched off using <option>-im0</option>.</para>
+	</section>
+
+	<section>
+		<title>Debugging and Profiling</title>
+
+		<para>&tcc; supports options for both symbolic debugging using
+			the target machine's default debugger, and profiling using
+			&prof; on those machines which have it.</para>
+
+		<para>The <option>-g</option> command-line option causes the
+			producer to output extra debugging information in its output
+			&tdf; capsule, and the &tdf; translator to translate this
+			information into the appropriate assembler directives for its
+			supported debugger (for details of which debuggers are
+			supported by which translators, consult the appropriate manual
+			pages).</para>
+
+		<para>For the translator to have all the diagnostic information it
+			requires, not only the &tdf; capsules output by the producer,
+			but also those linked in by the &tdf; linker from the &tdf;
+			libraries, need to contain this debugging information.
+			This is ensured for the standard &tdf; libraries by having two
+			versions of each library, one containing diagnostics and one
+			not.</para>
+
+		<para>By default the environmental identifier
+			<varname>LINK</varname>, which gives the directories which
+			the &tdf; linker should search, is set so that the non-diagnostic
+			versions are found.
+			However the <option>-g</option> option modifies
+			<varname>LINK</varname> so that the diagnostic versions are
+			found first.</para>
+
+		<para>Depending on the target machine, the <option>-g</option>
+			option may also need to modify the behaviour of the system
+			assembler and the system linker.
+			Like all potentially target dependent options,
+			<option>-g</option> is implemented by means of a standard
+			environment, in this case <code>tcc_diag</code>.</para>
+
+		<para>The <option>-p</option> option is likewise implemented by
+			means of a standard environment, <code>tcc_prof</code>.
+			It causes the producer to output extra information on the
+			names of statically declared objects, and the &tdf; translator
+			to output assembler directives which enable &prof; to profile
+			the number of calls to each procedure (including static
+			procedures).
+			The behaviour of the system assembler and system linker
+			may also be modified by <option>-p</option>, depending on the
+			target machine.</para>
+	</section>
+
+	<section>
+		<title>The System Environment</title>
+
+		<para>In section 4.3<!-- TODO: link --> we discussed how &tcc;
+			environments can be used to specify &api;s.
+			There is one &api; environment however which is so
+			exceptional that it needs to be treated separately.
+			This is the <code>system</code> environment, which specifies
+			that &tcc; should emulate &cc; on the machine on which it is
+			being run.</para>
+
+		<para>The <code>system</code> environment specifies that &tcc;
+			should use the system headers directory,
+			<filename>/usr/include</filename>, as its default include
+			file directory, and should define all the machine dependent
+			macros which are built into &cc;.
+			It will also specify the 32-bit portability table on
+			32-bit machines.</para>
+
+		<para>Despite the differences from the normal &api; environments,
+			the <code>system</code> environment is indeed specifying an
+			&api;, namely the system headers and libraries on the host
+			machine.
+			This means that the <filename>.j</filename> files produced
+			when using this environment are only
+			<quote>target independent</quote> in the sense that they can
+			be ported successfully to machines which have the exactly the
+			same system headers and predefined macros.</para>
+
+		<para>Using the system headers is fraught with difficulties.
+			In particular, they tend to be very &cc;-specific.
+			It is often necessary to use the <option>-not_ansi</option>
+			and <option>-nepc</option> options together with
+			<option>-Ysystem</option> merely to negotiate the system
+			headers.
+			Even then, &tcc; may still reject some constructs.
+			Of course, the number of problems encountered will vary
+			considerably between different machines.</para>
+
+		<para>To conclude, the <code>system</code> environment is at
+			best only suitable for experimental compilation.
+			There are also potential problems involved with its use.
+			It should therefore be used with care.</para>
+	</section>
+
+	<section>
+		<title>The Temporary Directory</title>
+
+		<para>As we have said, &tcc; creates a temporary directory in
+			which to put all the intermediate files which are created,
+			but are not to be preserved.
+			By default, these intermediate files are left in the temporary
+			directory until the end of the compilation, when the temporary
+			directory is removed.
+			However, if disk space is short, or a particularly large
+			compilation is taking place, the <option>-tidy</option>
+			command-line option may be appropriate.
+			This causes &tcc; to remove each unwanted intermediate file
+			immediately when it is no longer required.</para>
+
+		<para>The name of the temporary directory created by &tcc;
+			to store the intermediate files is generated by the system
+			library routine <function>tempnam</function>.
+			It takes the form
+			<filename><replaceable>TEMP</replaceable>/tcc<replaceable>????</replaceable></filename>,
+			where <replaceable>TEMP</replaceable> is the main &tcc;
+			temporary directory, and <replaceable>????</replaceable>
+			is an automatically generated unique suffix.
+			There are three methods of specifying
+			<replaceable>TEMP</replaceable>, listed in order of
+			increasing precedence:</para>
+
+		<orderedlist>
+			<listitem>by the <varname>TEMP</varname> environmental
+				identifier (usually in the <code>default</code>
+				environment),</listitem>
+			<listitem>by the <option>-temp&nbsp;<replaceable>dir</replaceable></option>
+				command-line option,</listitem>
+			<listitem>by the <varname>TMPDIR</varname> system
+				variable.</listitem>
+		</orderedlist>
+
+		<para>Normally <replaceable>TEMP</replaceable> will be a normal
+			temporary directory,
+			<filename>/tmp</filename> or <filename>/usr/tmp</filename>
+			for example, but any directory to which the user has write
+			permission may be used.
+			In general, the more spare disk space which is available in
+			<replaceable>TEMP</replaceable>, the better.</para>
+	</section>
+
+	<section>
+		<title>The tcc Option Interpreter</title>
+
+		<para>All &tcc; command-line options and environmental directives
+			are actually processed by the same method, namely the &tcc;
+			option interpreter.
+			A simple pattern matching algorithm is applied to the input
+			and, if a match is found, the corresponding instructions are
+			sent to the low-level option interpreter.
+			The command-line option
+			<option>--<replaceable>str</replaceable>,&nbsp;...</option>
+			causes <replaceable>str</replaceable> to be passed directly
+			to the option interpreter.
+			This is intended primarily to help in debugging &tcc; and not
+			for use by the general user.
+			However, if you are interested, <option>--1DB</option> is a
+			good place to start.</para>
+	</section>
+
+<!-- TODO: bibliography -->
+<literallayout>
+[1]	<replaceable>&tdf; and Portability</replaceable>, DRA, 1994.
+[2]	<replaceable>The C to &tdf; Producer</replaceable>, DRA, 1993.
+[3]	<replaceable>The TenDRA Static Checker</replaceable>, DRA, 1994.
+[4]	<replaceable>The &tdf; Notation Compiler</replaceable>, DRA, 1994.
+</literallayout>
+
+</chapter>
+

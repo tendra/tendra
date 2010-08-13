@@ -4,7 +4,7 @@
 
 
 SUBDIR+=	man
-#SUBDIR+=	userguides
+SUBDIR+=	userguide
 
 .include <tendra.subdir.mk>
 

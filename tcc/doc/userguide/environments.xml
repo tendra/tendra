@@ -1,0 +1,393 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+
+	<!ENTITY tcc   "<application><acronym>TCC</acronym></application>">
+	<!ENTITY tdf   "<acronym>TDF</acronym>">
+	<!ENTITY api   "<acronym>API</acronym>">
+	<!ENTITY ansi  "<acronym>ANSI</acronym>">
+	<!ENTITY tld   "<application><acronym>TLD</acronym></application>">
+	<!ENTITY tdfc  "<application><acronym>TDFC</acronym></application>">
+]>
+
+
+<!--
+	$Id$
+-->
+
+<chapter id="environments">
+	<title>&tcc; Environments</title>
+
+	<para>In addition to command-line options, there is a
+		second method of specifying &tcc;'s behaviour, namely
+		&tcc; environments.</para>
+
+	<para>An environment is just a file consisting of lines of the form:</para>
+
+	<programlisting>*IDENTIFIER &quot;text&quot;</programlisting>
+
+	<para>where <code>*</code> stands for one of the environment prefixes,
+		<code>+</code>, <code>&lt;</code> and <code>&gt;</code>
+		(in fact <code>?</code> is also a valid environment prefix.
+		It is used to query the values represented by environmental identifiers.
+		If &tcc; is invoked with the <option>-Ystatus</option> command-line option it
+		will print the values of all the environmental identifiers it recognises).
+		Any line in the environment not beginning with one of these characters
+		is ignored. <code>IDENTIFIER</code> will be one of the environmental
+		identifiers recognised by &tcc;, the environment prefix
+		will tell &tcc; how to modify the value given by this identifier,
+		and <code>text</code> what to modify it by.</para>
+
+	<para>The simplest environmental identifiers are those which are
+		used to pass flags to &tcc; and the various components of the
+		compilation system. The line:</para>
+
+	<programlisting>+FLAG &quot;text&quot;</programlisting>
+
+	<para>causes <code>text</code> to be interpreted by &tcc; as
+		if it was a command-line option. Similarly:</para>
+
+	<programlisting>+FLAG_TDFC &quot;text&quot;</programlisting>
+
+	<para>causes <code>text</code> to be passed as an option to &tdfc;.
+		There are similar environmental identifiers for each of the
+		components of the compilation system (see 7.6<!-- TODO: link -->
+		for a complete list).</para>
+
+	<para>The second class of environmental identifiers are those
+		corresponding to simple string variables. Only the form:</para>
+
+	<programlisting>+IDENTIFIER &quot;text&quot;</programlisting>
+
+	<para>is allowed. This will set the corresponding variable to
+		<code>text</code>.
+		The permitted environmental identifiers and the
+		corresponding variables are:</para>
+
+	<table>
+		<tr>
+			<th align="left">Variable</th>
+			<th align="left">Content</th>
+		</tr>
+		<tr>
+			<td><code>ENVDIR</code></td>
+			<td>The default environments directory (see section
+				<!-- TODO: link --> 4.1)</td>
+		</tr>
+
+		<tr>
+			<td><code>MACHINE</code></td>
+			<td>The target machine type (see section 4.2)</td>
+		</tr>
+
+		<tr>
+			<td><code>PORTABILITY</code></td>
+			<td>The producer portability table
+				(see section 5.1.3)</td>
+		</tr>
+
+		<tr>
+			<td><code>TEMP</code></td>
+			<td>The default temporary directory
+				(see section 6.4)</td>
+		</tr>
+
+		<tr>
+			<td><code>VERSION</code></td>
+			<td>The target machine version
+				(Mips only, see section 5.3.4)</td>
+		</tr>
+	</table>
+
+	<para>The final class of environmental identifiers are
+		those corresponding to lists of strings. Firstly <code>text</code>
+		is transformed into a list of strings, b say, by splitting at
+		any spaces, then the list corresponding to the identifier,
+		a say, is modified by this value.
+		How this modification is done depends on the environment prefix:</para>
+
+	<table>
+		<tr>
+			<th align="center">Prefix</th>
+			<th align="left">Behaviour</th>
+		</tr>
+		<tr>
+			<td align="center"><code>+</code></td>
+			<td><code>a = b</code></td>
+		</tr>
+		<tr>
+			<td align="center"><code>&gt;</code></td>
+			<td><code>a = a + b</code></td>
+		</tr>
+		<tr>
+			<td align="center"><code>&lt;</code></td>
+			<td><code>a = b + a</code></td>
+		</tr>
+	</table>
+
+	<para>where <code>+</code> denotes concatenation of lists.
+		The lists represented in this way include those giving the
+		pathnames of the executables of the various compilation
+		components (plus default flags).
+		These are given by the identifiers &tdfc;, &tld;, etc.
+		(see 7.6 <!-- TODO: link --> for a complete list).
+		The other lists can be divided between those affecting
+		the producer, the &tdf; linker, and the system linker
+		respectively (see sections 5.1, 5.2 and 5.5 <!-- TODO: link -->
+		for more details):</para>
+
+	<table>
+		<thead>
+			<tr>
+				<th align="left">Variable</th>
+				<th align="left">Content</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td><code>INCL</code></td>
+				<td>list of default producer include file directories
+					(as <option>-I</option> options)</td>
+			</tr>
+			<tr>
+				<td><code>STARTUP</code></td>
+				<td>list of default producer start-up files
+					(as <option>-f</option> options)</td>
+			</tr>
+			<tr>
+				<td><code>STARTUP_DIR</code></td>
+				<td>list of default producer start-up directories
+					(as <option>-I</option> options)</td>
+			</tr>
+		</tbody>
+
+		<tbody>
+			<tr>
+				<td><code>LIB</code></td>
+				<td>list of default &tdf; libraries
+					(as <option>-l</option> options)</td>
+			</tr>
+			<tr>
+				<td><code>LINK</code></td>
+				<td>list of default &tdf; library directories
+					(as <option>-L</option> options)</td>
+			</tr>
+		</tbody>
+
+		<tbody>
+			<tr>
+				<td><code>CRT0</code></td>
+				<td>list of default initial .o files</td>
+			</tr>
+			<tr>
+				<td><code>CRT1</code></td>
+				<td>second list of default initial .o files</td>
+			</tr>
+			<tr>
+				<td><code>CRTN</code></td>
+				<td>list of default final .o files</td>
+			</tr>
+			<tr>
+				<td><code>SYS_LIB</code></td>
+				<td>list of default system libraries
+					(as <option>-l</option> options)</td>
+			</tr>
+			<tr>
+				<td><code>SYS_LIBC</code></td>
+				<td>list of default standard system libraries
+					(as <option>-l</option> options)</td>
+			</tr>
+			<tr>
+				<td><code>SYS_LINK</code></td>
+				<td>list of default system library directories
+					(as <option>-L</option> options)</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<section>
+		<title>The Environment Search Path</title>
+
+		<para>The command-line option
+			<option>-Y<replaceable>env</replaceable></option> tells &tcc;
+			to read the environment <replaceable>env</replaceable>.
+			If <replaceable>env</replaceable> is not a full pathname
+			then it is searched for along the environment search path.
+			This consists of a colon-separated list of directories,
+			the initial segment of which
+			is given by the system variable <code>TCCENV</code>
+			(we use the term <quote>system variable</quote> to describe
+			<code>TCCENV</code> rather than the more normal
+			<quote>environmental variable</quote> to avoid confusion with
+			&tcc; environments) if this is defined,
+			and the final segment of which consists of the default
+			environments directory, which is built into &tcc;
+			at compile-time, and the current working directory.
+			The option <option>-show_env</option>
+			causes &tcc; to print this environment search path.
+			If the environment cannot be found, then a warning is
+			issued.</para>
+	</section>
+
+	<section>
+		<title>The Default Environment: Configuring tcc</title>
+
+		<para>The most important environment is the
+			<code>default</code> environment, which is built into
+			&tcc; at compile-time.
+			This does not mean that the <code>default</code>
+			environment is read every time that &tcc; is invoked,
+			but rather that it is read once (at compile-time) to
+			determine the default configuration of &tcc;.</para>
+			<!-- TODO: is it? -->
+
+		<para>The information included in the <code>default</code>
+			environment includes: the pathnames and default flags of the
+			various components of the compilation system; the target
+			machine type; the default temporary directory; the
+			specification of the target independent headers, &tdf;
+			libraries and system libraries comprising the default
+			&api; (which is always &ansi;); the variables specifying
+			the default compilation mode; the default environments
+			directory (mentioned above).</para>
+
+		<para>The target machine type, defined by the
+			<code>MACHINE</code> environmental identifier, actually
+			plays a very minor role in dealing with the very real
+			target dependency problems in &tcc;.
+			These problems are caused by the fact that &tcc; is
+			designed to work on many different target machines.
+			All the information on where the executables, include files,
+			&tdf; libraries etc. are located on a particular machine
+			is stored in the standard environments, and in particular,
+			the <code>default</code> environment.
+			The interaction with the system assembler and, more
+			importantly, the system linker is also expressed using
+			environments.
+			The only target dependencies for which the machine type
+			needs to be known are genuine aberrations.
+			For example, the &tdf; to Mips translator and the Mips
+			assembler are completely different from most other
+			translator-assembler pairs in that they pass two files,
+			a <filename>.G</filename> and a <filename>.T</filename>
+			file, between them, rather than the more normal single
+			<filename>.s</filename> file.
+			Thus it is important for &tcc; to know that the machine
+			type is Mips in this case (see section 5.3.4<!-- TODO: link -->
+			for more details).</para>
+	</section>
+
+	<section>
+		<title>Using Environments to Specify &api;s</title>
+
+		<para>Another important use of environments concerns their use
+			in specifying &api;s.
+			As was mentioned above, an &api; may be considered to have
+			three components: the target independent headers, giving an
+			abstract description of the &api; to the producer, and the
+			&tdf; libraries and system libraries, giving the details of
+			the &api; implementation to the installer.
+			Environments are an ideal medium for expressing this information.
+			The <code>INCL</code>
+			environmental identifier can be used to specify the location
+			of the target independent headers, <code>LIB</code> and
+			<code>LINK</code> the location of the &tdf; libraries,
+			and <code>SYS_LIB</code> and <code>SYS_LINK</code> the
+			location of the system libraries.  Moreover, all this
+			information can be canned into a single command-line
+			option.</para>
+
+		<para>A number of standard &api;s have been described as target
+			independent headers and are provided with the &tdf; system.
+			A &tcc; environment is provided for each of these &api;s
+			(for example, <code>ansi</code>, <code>posix</code>,
+			<code>xpg3</code> - see 7.5<!-- TODO: link --> for a complete
+			list, also see section 6.3<!-- TODO: link -->).
+			There is an important distinction
+			to be made between base &api;s (for example, POSIX) and
+			extension &api;s (for example, X11 Release 5).
+			The command-line option <option>-Yposix</option> sets the
+			&api; to be precisely POSIX, whereas the option
+			<option>-Yx5_lib</option> sets it to the existing &api; plus
+			the X11 Release 5 basic X library.
+			This is done by using <code>+INCL</code> etc. in the
+			<code>posix</code> environment to set the various variables
+			corresponding to these environmental identifiers to
+			precisely the values for POSIX, but <code>&lt;INCL</code> etc.
+			in the <code>x5_lib</code> environment to extend these
+			variables by the values for X11 Release 5.
+			Thus, to specify the &api; POSIX plus X11 Release 5, the
+			command-line options <option>-Yposix&nbsp;-Yx5_lib</option>
+			are required (in that order).</para>
+
+		<para>All the standard &api; environments provided also contain
+			lines which set, or modify, the <code>INFO</code> environmental
+			identifier.
+			This contains textual information on the API, including &api;
+			names and version numbers.
+			This information can be printed by invoking &tcc;
+			with the <option>-info</option> command-line option.
+			For example, the command-line options:</para>
+
+		<programlisting>% tcc -info -Yposix -Yx5_lib</programlisting>
+
+		<para>cause the message:</para>
+
+		<programlisting>tcc: API is X11 Release 5 Xlib plus POSIX (1003.1).</programlisting>
+
+		<para>to be printed.</para>
+
+		<para>As was mentioned above, the default &api; is &ansi;.
+			Thus invoking &tcc; without specifying an &api; environment
+			is equivalent to giving the <option>-Yansi</option>
+			command-line option.
+			On the basis that, when it comes to portability, explicit
+			decisions are better than implicit ones, the use of
+			<option>-Yansi</option> is recommended.</para>
+	</section>
+
+	<section>
+		<title>Using Environments to Implement tcc Options</title>
+
+		<para>Another use to which environments are put is to
+			implement certain &tcc; command-line options.
+			In particular, some options require different actions
+			depending on the target machine.
+			It is far easier to implement these by means of an
+			environment, which can be defined differently on each
+			target machine, rather than by trying to build all the
+			alternative definitions into &tcc;.</para>
+
+		<para>An important example is the <option>-g</option> flag,
+			which causes the generation of information for symbolic
+			debugging.
+			Depending on the target machine, different flags may need
+			to be passed to the assembler and system linker when
+			<option>-g</option> is specified, or the default
+			<filename>.o</filename> files and libraries used by the
+			linker may need to be changed.
+			For this reason &tcc; uses a standard environment,
+			<code>tcc_diag</code>, to implement the
+			<option>-g</option> option.</para>
+
+		<para>For a complete list of those options which are
+			implemented by means of environments, see 7.7<!-- TODO: link -->.
+			If the given option is not supported on a particular
+			target machine, then the corresponding environment will not
+			exist, and &tcc; will issue a warning to that effect.</para>
+	</section>
+
+	<section>
+		<title>User-Defined Environments</title>
+
+		<para>The &tcc; user can also set up and use environments.
+			It is anticipated that this facility will be used mainly to
+			group a number of &tcc; command-line options into an
+			environment using the <code>FLAG</code> environmental
+			identifier and to set up environments corresponding to
+			user-defined &api;s.</para>
+	</section>
+
+</chapter>
+
