@@ -1,0 +1,181 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+		
+<chapter id="Structure">
+	<title>Specifying API Structure</title>
+
+	<para>The basic form of the <code>tspec</code> description of an API has
+		already been explained in <link linkend="Input">section 2.2</link> -
+		it is a directory containing a set of files corresponding to the
+		headers in that API. Each file basically consists of a list of the
+		objects declared in that header. Each object specification is part of
+		a <code>tspec</code> construct. These constructs are identified by
+		keywords. These keywords always begin with <code>+</code> to avoid
+		conflict with C identifiers. Comments may be inserted at any point.
+		These are prefixed by <code>#</code> and run to the end of the
+		line.</para>
+
+	<para>In addition to the basic object specification constructs,
+		<code>tspec</code> also has constructs for imposing structure on the
+		API description. It is these constructs that we consider first.</para>
+
+	<section id="Subset">
+		<title>+SUBSET</title>
+
+		<para>A list of <code>tspec</code> constructs within a header can be
+			grouped into a named subset by enclosing them within:</para>
+
+		<programlisting language="Tspec">
++SUBSET "name" := {
+....
+} ;</programlisting>
+
+		<para>where <code>name</code> is the subset name.
+			These named subsets can
+			be nested, but are still regarded as subsets of the parent
+			header.</para>
+
+		<para>The intended use for nested subsets is to provide a mechanism
+			by which <code>+IMPLEMENT</code> and <code>+USE</code> may
+			reference specific sections of APIs. Consider the following
+			fictional APIs, <quote>Z</quote>, <quote>A</quote> and
+			<quote>C</quote>:</para>
+
+		<para>The <quote>Z</quote> API's <filename>s.h</filename>:</para>
+
+		<programlisting>+TYPE (unsigned) w;
++SUBSET "subset1" := {
++TYPE (unsigned) x;
++TYPE (unsigned) z;
++SUBSET "subset2" := {
+		+TYPE (unsigned) y;
+ }
+}</programlisting>
+
+		<para>The <quote>A</quote> API:</para>
+
+		<programlisting>+IMPLEMENT "Z", "s.h", "subset1";</programlisting>
+
+		<para>The <quote>B</quote> API:</para>
+
+		<programlisting>+IMPLEMENT "Z", "s.h", "subset2";</programlisting>
+
+		<para>Here the <quote>Z</quote> API contains <code>w</code>,
+			<code>x</code>, <code>y</code> and <code>z</code>. The
+			<quote>A</quote> API contains <code>x</code>,
+			<code>y</code> and <code>z</code> from	the <quote>Z</quote>
+			API. The <quote>B</quote> API contains only <code>y</code>.
+			The <code>+IMPLEMENT</code> keyword is discussed in more
+			detail below.<!-- TODO ref --></para>
+
+		<para>Subsets are intended to give a layer of resolution beyond that
+			of the entire header (see <link linkend="Levels">section
+			2.1</link>).	Each subset is mapped onto a separate pair of output
+			files, so unwary use of subsets is discouraged.</para>
+	</section>
+
+	<section id="Impl">
+		<title>+IMPLEMENT and +USE</title>
+
+		<para><code>tspec</code> has two import constructs which allow one
+			API, or header, or subset of a header to be included in another.
+			The first construct is used to indicate that the given set of
+			objects is also declared in the including header, and takes one of
+			the forms:
+
+			<programlisting language="Tspec">
++IMPLEMENT "api" ;
++IMPLEMENT "api", "header" ;
++IMPLEMENT "api", "header", "subset" ;</programlisting></para>
+
+		<para>The second construct is used to indicate that the objects are
+			only used in the including header, and take one of the forms:
+
+			<programlisting language="Tspec">
++USE "api" ;
++USE "api", "header" ;
++USE "api", "header", "subset" ;</programlisting></para>
+
+		<para>For example, <code>posix:stdio.h</code> is an extension of
+			<code>ansi:stdio.h</code> , so, rather than duplicate all the object
+			specifications from the latter in the former, it is easier and
+			clearer to use the construct:
+
+			<programlisting language="Tspec">
++IMPLEMENT "ansi", "stdio.h" ;</programlisting>
+
+			and just add the extra objects specified by POSIX. Note that this
+			makes the relationship between the APIs <code>ansi</code> and
+			<code>posix</code> absolutely explicit. <code>tspec</code> is as
+			much concerned with the relationships between APIs as their actual
+			contents.</para>
+
+		<para>Objects which are specified as being declared in more than one
+			header of an API should also be treated using
+			<code>+IMPLEMENT</code>. For example, the type <code>size_t</code>
+			is declared in a number of <code>ansi</code> headers, namely
+			<code>stddef.h</code>, <code>stdio.h</code>, <code>string.h</code>
+			and <code>time.h</code>. This can be handled by declaring
+			<code>size_t</code> as part of a named subset of, say,
+			<code>ansi:stddef.h</code>:
+
+			<programlisting language="Tspec">
++SUBSET "size_t" := {
+	+TYPE (unsigned) size_t ;
+} ;</programlisting>
+
+			and including this in each of the other headers:
+
+			<programlisting language="Tspec">
++IMPLEMENT "ansi", "stddef.h", "size_t" ;</programlisting></para>
+
+		<para>Another use of <code>+IMPLEMENT</code> is in the
+			<code>MASTER</code> file used to list the headers in an API (see
+			<link linkend="Input">section 2.2</link>). This basically consists
+			of a list of <code>+IMPLEMENT</code> commands, one per header. For
+			example, with <code>ansi</code> it consists of:
+
+			<programlisting language="Tspec">
++IMPLEMENT "ansi", "assert.h" ;
++IMPLEMENT "ansi", "ctype.h" ;
+....
++IMPLEMENT "ansi", "time.h" ;</programlisting></para>
+
+		<para>To illustrate <code>+USE</code>, <code>posix:sys/stat.h</code>
+			uses some types from <code>posix:sys/types.h</code> but does not
+			define them. To avoid the user having to include both headers it
+			makes sense for the description to include the latter in the former
+			(provided there are no namespace restrictions imposed by the API).
+			This would be done using the construct:
+
+			<programlisting language="Tspec">
++USE "posix", "sys/types.h" ;</programlisting></para>
+
+		<para>On the command-line <code>tspec</code> is given one set of
+			objects, be it an API, a header, or a subset of a header. This
+			causes it to read that set, which may contain
+			<code>+IMPLEMENT</code> or <code>+USE</code> commands. It then reads
+			the sets indicated by these commands, which again may contain
+			<code>+IMPLEMENT</code> or <code>+USE</code> commands, and so on. It
+			is possible for this process to lead to infinite cycles, but in this
+			case <code>tspec</code> raises an error and aborts. In the legal
+			case, the collection of sets read by <code>tspec</code> is the
+			closure of the set given on the command-line under
+			<code>+IMPLEMENT</code> and <code>+USE</code>.	Some of these sets
+			will be implemented - that it to say, connected to the top level by
+			a chain of <code>+IMPLEMENT</code> commands - others will merely be
+			used. By default <code>tspec</code> produces output for all these
+			sets, but specifying the <option>-r</option> command-line option
+			restricts it to the implemented sets.</para>
+
+		<para>For further information on the <code>+IMPLEMENT</code> and
+			<code>+USE</code> commands see
+			<link linkend="FineImpl">section 6.1</link>.</para>
+	</section>
+</chapter>
+	

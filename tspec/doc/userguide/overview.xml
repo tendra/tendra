@@ -1,0 +1,271 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+		
+<chapter id="Overview">
+	<title>Overview of tspec</title>
+
+	<section id="Levels">
+		<title>Specification Levels</title>
+
+		<para>Let us begin by examining the various levels of specification
+			with which <command>tspec</command> is concerned. At the
+			lowest level it is concerned with objects - the types, expressions,
+			constants etc.	which comprise the API - and indeed most of this
+			document is concerned with how <command>tspec</command>
+			describes these objects. At the highest level,
+			<command>tspec</command> is concerned with APIs. We could
+			just describe an API as being a set of objects, however this is to
+			ignore the internal structure of APIs.</para>
+	
+		<para>At the most obvious level the objects in an API are spread over
+			a number of different system headers. For example, in ANSI, the
+			objects concerned with file input and output are grouped in
+			<code>stdio.h</code>, whereas those concerned with string
+			manipulation are in <code>string.h</code>. But a further level of
+			refinement is also required. For example, ANSI specifies that the
+			type <code>size_t</code> is defined in both <code>stdio.h</code> and
+			<code>string.h</code>. Therefore <code>tspec</code> needs to be able
+			to represent subsets of headers in order to express this
+			intersection relation.</para>
+	
+		<para>To conclude, <code>tspec</code> distinguishes four levels of
+			specification - APIs (which are sets of headers), headers (which are
+			sets of objects), subsets of headers, and objects. It identifies
+			APIs by an identifying name chosen by the person performing the API
+			description. The (purely arbitrary) convention is for short, lower
+			case names, for example:</para>
+	
+		<itemizedlist>
+			<listitem>
+				<para><code>ansi</code> refers to ANSI C (X3.159),</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>posix</code> refers to POSIX 1003.1,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>xpg3</code> refers to X/Open Portability Guide
+					3.</para>
+			</listitem>
+		</itemizedlist>
+	
+		<para>In this document, headers are identified by the API they belong
+			to and the header name. Thus <code>ansi:stdio.h</code> refers to the
+			<code>stdio.h</code> header of the ANSI API.	Finally subsets of
+			headers are identified by the header and the subset name. If, for
+			example, the <code>stdio.h</code> header of ANSI has a subset named
+			<code>file</code>, then this is referred to as
+			<code>ansi:stdio.h:file</code>.</para>
+	</section>
+
+	<section id="Input">
+		<title>Input Layout</title>
+
+		<para>The <code>tspec</code> representation of an API is arranged as a
+			directory with the same name as the API, containing a number of
+			files, one for each API header. For example, the ANSI API is
+			represented by a directory <code>ansi</code> containing files
+			<code>ansi/stdio.h</code>, <code>ansi/string.h</code> etc. In
+			addition each API directory contains a master file (for ANSI it
+			would be called <code>ansi/MASTER</code>) which lists all the
+			headers comprising that API.</para>
+<!-- TODO: update for .tspec files -->
+	
+		<para>When <code>tspec</code> needs to find an API directory it does
+			so by searching along its input directory path. This is a colon
+			separated list of directories to be searched. This may be specified
+			in a number of ways. A default search list is built into
+			<code>tspec</code>, however this may be overridden by the system
+			variable <code>TSPEC_INPUT</code>. Directories may be added to the
+			start of the path using the
+			<option>-I</option><filename>dir</filename> command-line option (see
+			<link linkend="Options">section 2.5</link> for a complete list of
+			options). The current working directory is always added to the start
+			of the path.</para>
+	</section>
+
+	<section id="Output">
+		<title>Output Layout</title>
+
+		<para><code>tspec</code> actually outputs two sets of output files,
+			the include output files, containing the <code>#pragma token</code>
+			directives corresponding to the input API, and the source output
+			files, which provide a rig for TDF library building (see
+			<link linkend="Libraries">section 6.4</link>). These output files and
+			directories are built up under two standard output directories - the
+			include output directory, <filename>incl_dir</filename> say, and the
+			source output directory, <filename>src_dir</filename> say.
+			<code>tspec</code> has default values for these directories built
+			in, but these may be overridden in a number of ways. Firstly, if the
+			system variable <code>TSPEC_OUTPUT</code> is defined to be
+			<filename>dir</filename>, say, then <filename>incl_dir</filename> is
+			<filename>dir/include</filename> and <filename>src_dir</filename> is
+			<filename>dir/src</filename>. Secondly,
+			<filename>incl_dir</filename> and <filename>src_dir</filename> can
+			be set independently using the system variables
+			<code>TSPEC_INCL_OUTPUT</code> and <code>TSPEC_SRC_OUTPUT</code>
+			respectively. Finally, they may also be set using the
+			<option>-O</option><filename>dir</filename> and
+			<option>-S</option><filename>dir</filename> command-line options
+			respectively.</para>
+	
+		<para>As an example of the mapping from input files to output files,
+			the header <code>ansi:stdio.h</code> is mapped to the include output
+			file <filename>incl_dir/ansi.api/stdio.h</filename> and the source
+			output file <filename>src_dir/ansi.api/stdio.c</filename>.	The
+			header subset <code>ansi:stdio.h:file</code> is mapped to its own
+			pair of output files,
+			<filename>incl_dir/shared/ansi.api/file.h</filename> and
+			<filename>src_dir/ansi.api/file.c</filename>.</para>
+	
+		<para>The default output file names can be overridden by means of the
+			<code>INCLNAME</code> and <code>SOURCENAME</code> file properties
+			described in <link linkend="Properties">section 5.4</link>.</para>
+	
+		<para>By default, <code>tspec</code> only creates an output file if
+			the date stamps on all the input files it depends on indicate that
+			it needs updating. In effect, <code>tspec</code> creates an internal
+			makefile from the dependencies it deduces. This behaviour can be
+			overridden by means of the <option>-f</option> command-line option,
+			which forces all output files to be created.</para>
+	
+		<para>In addition, <code>tspec</code> only creates the source output
+			file if it is needed for TDF library building. If the corresponding
+			include output file does not contain any token specifications then
+			the source output file is suppressed (see
+			<link linkend="Libraries">section 6.4</link>).</para>
+	</section>
+
+	<section id="Copyright">
+		<title>Copyright Messages</title>
+
+		<para><code>tspec</code> will optionally add a copyright message to
+			the start of each include output file. This message is copied from a
+			file which may be specified either using the
+			<code>TSPEC_COPYRIGHT</code> system variable, or by the
+			<option>-C</option><filename>file</filename> command-line
+			option.</para>
+	</section>
+
+	<section id="Options">
+		<title>Command-line Options</title>
+
+		<para>There are three main forms for invoking <code>tspec</code> on
+			the command-line, depending on whether it is desired to process an
+			entire API, a single header from that API, or only a subset of that
+			header. These are given respectively as:</para>
+
+		<programlisting>
+tspec [options] api
+tspec [options] api header
+tspec [options] api header subset</programlisting>
+
+		<para>The valid options include:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>The option <option>-C</option><filename>file</filename>
+					specifies the copyright message file (see
+					<link linkend="Copyright">section 2.4</link>).</para>
+			</listitem>
+	
+			<listitem>
+				<para>The option <option>-I</option><filename>dir</filename>
+					adds a directory to the input directory search path (see
+					<link linkend="Input">section 2.2</link>).</para>
+			</listitem>
+	
+			<listitem>
+				<para>The option <option>-O</option><filename>dir</filename>
+					specifies the include output directory (see
+					<link linkend="Output">section 2.3</link>).</para>
+			</listitem>
+	
+			<listitem>
+				<para>The option <option>-S</option><filename>dir</filename>
+					specifies the source output directory (see
+					<link linkend="Output">section 2.3</link>).</para>
+			</listitem>
+	
+			<listitem>
+				<para>The <option>-c</option> option causes <code>tspec</code>
+				to only check the input files and not to generate any output
+				files.</para>
+			</listitem>
+	
+			<listitem>
+				<para>The <option>-e</option> option causes <code>tspec</code>
+					only to run its preprocessor phase, writing the result to the
+					standard output.</para>
+				</listitem>
+	
+			<listitem>
+				<para>The <option>-f</option> option forces <code>tspec</code>
+					to create all output files regardless of date
+					stamps.</para>
+			</listitem>
+	
+			<listitem>
+				<para>The <option>-i</option> option causes <code>tspec</code>
+				to print an index of all the objects in the input files (see
+				<link linkend= "Index">section 6.3</link>).</para>
+			</listitem>
+	
+			<listitem>
+				<para>The <option>-p</option> option indicates to
+					<code>tspec</code> that its input has already been
+					preprocessed (i.e. it is the output of a previous
+					<option>-e</option> option).</para>
+			</listitem>
+	
+			<listitem>
+				<para>The <option>-r</option> option causes <code>tspec</code>
+				to only produce output for implemented objects, and not used
+				objects (see <link linkend="Impl">section 3.2</link>).</para>
+			</listitem>
+	
+			<listitem>
+				<para>The <option>-s</option> option causes <code>tspec</code>
+				to check all the headers in an API separately rather than, as
+				with the <option>-c</option> option, all at once.</para>
+			</listitem>
+	
+			<listitem>
+				<para>The <option>-u</option> option causes <code>tspec</code>
+				to generate unique token names for the specified objects (see
+				<link linkend="Names">section 4.1.1</link>).</para>
+			</listitem>
+	
+			<listitem>
+				<para>The <option>-v</option> option causes <code>tspec</code>
+				to enter verbose mode, in which it reports on the output files
+				it creates. If two <option>-v</option> options are given then
+				<code>tspec</code> enters very verbose mode, in which it gives
+				more information on its activities.</para>
+			</listitem>
+	
+			<listitem>
+				<para>The <option>-V</option> option causes <code>tspec</code>
+				to print its current version number (this document refers to
+				version 2.0).</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>In addition <code>tspec</code> has a local input mode for
+			translating single headers which are not part of an API into the
+			corresponding <code>#pragma token</code> statements.
+			The form:</para>
+
+		<programlisting>tspec [options] -l file</programlisting>
+
+		<para>processes the input file <code>file</code>, writing the include
+			output file to the standard output.</para>
+	</section>
+</chapter>
+

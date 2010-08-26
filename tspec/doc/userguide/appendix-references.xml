@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+
+<appendix id="S8">
+	<title>References</title>
+		
+	<para><doc name="papers/porting"/>, DRA, 1993.</para>
+	
+	<para><remark>"The TDF Notation Compiler"</remark>, DRA, 1993.</para>
+	
+	<para><doc name="user/guides/tdfc"/>, DRA, 1993.</para>
+
+</appendix>
+

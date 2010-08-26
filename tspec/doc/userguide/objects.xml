@@ -1,0 +1,683 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+		
+<chapter id="Objects">
+	<title>Specifying Objects</title>
+
+	<para>The main body of any <code>tspec</code> description of an API
+		consists of a list of object specifications. Most of this section
+		is concerned with the various <code>tspec</code> constructs for
+		specifying objects of various kinds, however we start with a few
+		remarks on object names.</para>
+	
+	<section id="S41">
+		<title>Object Names</title>
+	
+		<section id="Names">
+			<title>Internal and External Names</title>
+	
+			<para>All objects specified using <code>tspec</code> actually have
+				two names. The first is the internal name by which it is
+				identified within the program, the second is the external name by
+				which the TDF construct (actually a token) representing this
+				object is referred to for the purposes of TDF linking. The
+				internal names are normal C identifiers and obey the normal C
+				namespace rules (indeed one of the roles of <code>tspec</code> is
+				to keep track of these namespaces). The external token name is
+				constructed by <code>tspec</code> from the internal name.</para>
+		
+			<para><code>tspec</code> has two strategies for making up these
+				token names. The first, which is default, is to use the internal
+				name as the external name (there is an exception to this simple
+				rule, namely field selectors - see
+				<link linkend="Field">section 4.9</link>). The second, which is preferred
+				for standard APIs, is to construct a "unique name" from the API
+				name, the header and the internal name. For example, under the
+				first strategy, the external name of the type <code>FILE</code>
+				specified in <code>ansi:stdio.h</code> would be <code>FILE</code>,
+				whereas under the second it would be <code>ansi.stdio.FILE</code>.
+				The unique name strategy may be specified by passing the
+				<option>-u</option> command-line option to <code>tspec</code> (see
+				<link linkend="Options">section 2.5</link>) or by setting the
+				<code>UNIQUE</code> property to 1 (see
+				<link linkend="Properties">section 5.4</link>).</para>
+			
+			<para>Both strategies involve flattening the several C namespaces
+				into the single TDF token namespace, which can lead to clashes.
+				For example, in <code>posix:sys/stat.h</code> both a structure,
+				<code>struct stat</code>, and a procedure, <code>stat</code>, are
+				specified. In C the two uses of <code>stat</code> are in different
+				namespaces and so present no difficulty, however they are mapped
+				onto the same name in the TDF token namespace. To work round such
+				difficulties, <code>tspec</code> allows an alternative external
+				form to be specified. When the object is specified the form:</para>
+
+			<programlisting>iname | ename</programlisting>
+
+			<para>may be used to specify the internal name <code>iname</code> and
+				the external name <code>ename</code>.</para>
+
+			<para>For example, in the <code>stat</code> case above we could
+				distinguish between the two uses as follows:</para>
+
+			<programlisting language="Tspec">
++TYPE struct stat | struct_stat ;
++FUNC int stat ( const char *, struct stat * ) ;</programlisting>
+
+			<para>With simple token names the token corresponding to the
+				structure would be called <code>struct_stat</code>, whereas that
+				corresponding to the procedure would still be <code>stat</code>.
+				With unique token names the names would be
+				<code>posix.stat.struct_stat</code> and
+				<code>posix.stat.stat</code> respectively.</para>
+
+			<para>Very occasionally it may be necessary to precisely specify an
+				external token name. This can be done using the form:</para>
+
+			<programlisting>iname | "ename"</programlisting>
+
+			<para>which makes the object <code>iname</code> have external name
+				<code>ename</code> regardless of the naming strategy used.</para>
+		</section>
+
+		<section id="Identifiers">
+			<title>More on Object Names</title>
+
+			<para>Basically the legal identifiers in <code>tspec</code> (for
+				both internal and external names) are the same as those in C -
+				strings of upper and lower case letters, decimal digits or
+				underscores, which do not begin with a decimal digit. However
+				there is a second class of local identifiers - those consisting of
+				a tilde followed by any number of letters, digits or underscores -
+				which are intended to indicate objects which are local to the API
+				description and should not be visible to any application using the
+				API. For example, to express the specification that <code>t</code>
+				is a pointer type, we could say that there is a locally named type
+				to which <code>t</code> is a pointer:</para>
+
+				<programlisting language="Tspec">
++TYPE ~t ;
++TYPEDEF ~t *t ;</programlisting>
+
+			<para>Finally it is possible to cheat the <code>tspec</code>
+				namespaces. It may actually be legal to have two objects of the
+				same name in an API - they may lie in different branches of a
+				conditional compilation, or not be allowed to coexist. To allow
+				for this, <code>tspec</code> allows version numbers, consisting of
+				a decimal pointer plus a number of digits, to be appended to an
+				identifier name when it is first introduced. These version numbers
+				are purely to tell <code>tspec</code> that this version of the
+				object is different from a previous version with a different
+				version number (or indeed without any version number).	If more
+				than one version of an object is specified then which version is
+				retrieved by <code>tspec</code> in any look-up operation is
+				undefined.</para>
+		</section>
+	</section>
+
+	<section id="Func">
+		<title>+FUNC</title>
+
+		<para>The simplest form of object to specify is a procedure. This is
+			done by means of:</para>
+
+			<programlisting language="Tspec">
++FUNC prototype ;</programlisting>
+
+		<para>where <code>prototype</code> is the full C prototype of the
+			procedure being declared. For example, <code>ansi:string.h</code>
+			contains:</para>
+
+		<programlisting language="Tspec">
++FUNC char *strcpy ( char *, const char * ) ;
++FUNC int strcmp ( const char *, const char * ) ;
++FUNC size_t strlen ( const char * ) ;</programlisting>
+
+		<para>Strictly speaking, <code>+FUNC</code> means that the procedure
+			may be implemented by a macro, but that there is an underlying
+			library function with the same effect. The exception is for
+			procedures which take a variable number of arguments, such as:</para>
+
+		<programlisting language="Tspec">
++FUNC int fprintf ( FILE *, const char *, ... ) ;</programlisting>
+
+		<para>which cannot be implemented by macros. Occasionally it may be
+			necessary to specify that a procedure is only a library function,
+			and cannot be implemented by a macro. In this case the form:</para>
+
+		<programlisting language="Tspec">
++FUNC (extern) prototype ;</programlisting>
+
+		<para>should be used. Thus:</para>
+
+		<programlisting language="Tspec">
++FUNC (extern) char *strcpy ( char *, const char * ) ;</programlisting>
+
+		<para>would mean that <code>strcpy</code> was only a library function and
+			not a macro.</para>
+
+		<para>Increasingly standard APIs are using prototypes to express their
+			procedures. However it still may be necessary on occasion to specify
+			procedures declared using old style declarations. In most cases
+			these can be easily transcribed into prototype declarations, however
+			things are not always that simple. For example,
+			<code>xpg3:stdlib.h</code> declares <code>malloc</code> by the old
+			style declaration:</para>
+
+		<programlisting language="C">
+void *malloc ( sz )
+size_t sz ;</programlisting>
+
+		<para>which is in general different from the prototype:</para>
+
+		<programlisting language="C">
+void *malloc ( size_t ) ;</programlisting>
+
+		<para>In the first case the argument is passed as the integral
+			promotion of <code>size_t</code>, whereas in the second it is passed
+			as a <code>size_t</code> . In general we only know that
+			<code>size_t</code> is an unsigned integral type, so we cannot
+			assert that it is its own integral promotion. One possible solution
+			would be to use the C to TDF producer's weak prototypes (see
+			reference 3). The form:</para>
+
+		<programlisting language="Tspec">
++FUNC (weak) void *malloc ( size_t ) ;</programlisting>
+
+		<para>means that <code>malloc</code> is a library function returning
+			<code>void *</code> which is declared using an old style declaration
+			with a single argument of type <code>size_t</code>.	(For an
+			alternative approach see
+			<link linkend="Typedef">section 4.8</link>.)</para>
+	</section>
+
+	<section id="Exp">
+		<title>+EXP and +CONST</title>
+
+		<para>Expressions correspond to constants, identities and variables.
+			They are specified by:</para>
+
+		<programlisting language="Tspec">
++EXP type exp1, ..., expn ;</programlisting>
+
+		<para>where <code>type</code> is the base type of the expressions
+			<code>expi</code> as in a normal C declaration list. For example, in
+			<code>ansi:stdio.h</code>:</para>
+
+		<programlisting language="Tspec">
++EXP FILE *stdin, *stdout, *stderr ;</programlisting>
+
+		<para>specifies three expressions of type <code>FILE *</code>.</para>
+
+		<para>By default all expressions are rvalues, that is, values which
+			cannot be assigned to. If an lvalue (assignable) expression is
+			required its type should be qualified using the keyword
+			<code>lvalue</code>. This is an extension to the C type syntax which
+			is used in a similar fashion to <code>const</code>. For example,
+			<code>ansi:errno.h</code> says that <code>errno</code> is an
+			assignable lvalue of type <code>int</code>. This is expressed as
+			follows:</para>
+
+		<programlisting language="Tspec">
++EXP lvalue int errno ;</programlisting>
+
+		<para>On the other hand, <code>posix:errno.h</code> states that
+			<code>errno</code> is an external value of type <code>int</code>.
+			As with procedures the <code>(extern)</code> qualifier may be used
+			to express this as:</para>
+
+		<programlisting language="Tspec">
++EXP (extern) int errno ;</programlisting>
+
+		<para>Note that this automatically means that <code>errno</code> is an
+			lvalue, so the <code>lvalue</code> qualifier is optional in this
+			case.</para>
+
+		<para>If all the expressions are guaranteed to be literal constants
+			then one of the equivalent forms:</para>
+
+		<programlisting language="Tspec">
++EXP (const) type exp1, ..., expn ;
++CONST type exp1, ..., expn ;</programlisting>
+
+		<para>should be used. For example, in <code>ansi:errno.h</code> we have:</para>
+
+		<programlisting language="Tspec">
++CONST int EDOM, ERANGE ;</programlisting>
+	</section>
+
+	<section id="Macro">
+		<title>+MACRO</title>
+
+		<para>The <code>+MACRO</code> construct is similar in form to the
+			<code>+FUNC</code> construct, except that it means that only a macro
+			exists, and no underlying library function. For example, in
+			<code>xpg3:ctype.h</code> we have:</para>
+
+		<programlisting language="Tspec">
++MACRO int _toupper ( int ) ;
++MACRO int _tolower ( int ) ;</programlisting>
+
+		<para>since these are explicitly stated to be macros and not functions. Of
+			course the <code>(extern)</code> qualifier cannot be used with
+			<code>+MACRO</code>.</para>
+
+		<para>One thing which macros can do which functions cannot is to
+			return assignable values or to assign to their arguments. Thus it is
+			legitimate for <code>+MACRO</code> constructs to have their return
+			type or argument types qualified by <code>lvalue</code>, whereas
+			this is not allowed for <code>+FUNC</code> constructs.	For example,
+			in <code>svid3:curses.h</code>, a macro <code>getyx</code> is
+			specified which takes a pointer to a window and two integer
+			variables and assigns the cursor position of the window to those
+			variables. This may be expressed by:</para>
+
+		<programlisting language="Tspec">
++MACRO void getyx ( WINDOW *win, lvalue int y, lvalue int x ) ;</programlisting>
+	</section>
+
+	<section id="Statement">
+		<title>+STATEMENT</title>
+
+		<para>The <code>+STATEMENT</code> construct is very similar to the
+			<code>+MACRO</code> construct except that, instead of being a C
+			expression, it is a C statement (i.e. something ending in a
+			semicolon). As such it does not have a return type and so takes one
+			of the forms:</para>
+
+		<programlisting language="Tspec">
++STATEMENT stmt ;
++STATEMENT stmt ( arg1, ..., argn ) ;</programlisting>
+
+		<para>depending on whether or not it takes any arguments. (A <code>
+			+MACRO</code> without any arguments is an <code>+EXP</code>, so the
+			no argument form does not exist for <code>+MACRO</code>.) As with
+			<code>+MACRO</code>, the argument types <code>argi</code> can be
+			qualified using <code>lvalue</code>.</para>
+	</section>
+
+	<section id="Define">
+		<title>+DEFINE</title>
+
+		<para>It is possible to insert macro definitions directly into
+			<code>tspec</code> using the <code>+DEFINE</code> construct. This
+			has two forms depending on whether the macro has arguments:</para>
+
+		<programlisting language="Tspec">
++DEFINE name %% text %% ;
++DEFINE name ( arg1, ..., argn ) %% text %% ;</programlisting>
+
+		<para>These translate directly into:</para>
+
+		<programlisting language="C">
+#define name text
+#define name( arg1, ..., argn ) text</programlisting>
+
+		<para>The macro definition, <code>text</code>, consists of any string
+			of characters delimited by double percents. If <code>text</code> is
+			a simple number or a single identifier then the double percents may
+			be omitted. Thus in <code>ansi:stddef.h</code> we have:</para>
+
+		<programlisting language="Tspec">
++DEFINE NULL 0 ;</programlisting>
+	</section>
+
+	<section id="Type">
+		<title>+TYPE</title>
+
+		<para>New types may be specified using the <code>+TYPE</code>
+			construct. This has the form:</para>
+
+		<programlisting language="Tspec">
++TYPE type1, ..., typen ;</programlisting>
+
+		<para>where each <code>typei</code> has one of the forms:</para>
+
+		<!-- TODO: DL or table -->
+		<itemizedlist>
+			<listitem>
+				<para><code>name</code> for a general type (about which we know
+					nothing more),</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>(struct) name</code> for a structure type,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>(union) name</code> for a union type,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>struct name</code> for a structure tag,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>union name</code> for a union tag,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>(int) name</code> for an integral type,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>(signed) name</code> for a signed integral
+					type,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>(unsigned) name</code> for an unsigned integral
+					type,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>(float) name</code> for a floating type,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>(arith) name</code> for an arithmetic (integral or
+					floating) type,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>(scalar) name</code> for a scalar (arithmetic or
+					pointer) type.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>To make clear the distinction between structure types and
+			structure tags, if we have in C:</para>
+
+		<programlisting language="C">
+typedef struct tag { int x, y ; } type ;</programlisting>
+
+		<para>then <code>type</code> is a structure type and <code>tag</code> is a
+			structure tag.</para>
+
+		<para>For example, in <code>ansi</code> we have:</para>
+
+		<programlisting language="Tspec">
++TYPE FILE ;
++TYPE struct lconv ;
++TYPE (struct) div_t ;
++TYPE (signed) ptrdiff_t ;
++TYPE (unsigned) size_t ;
++TYPE (arith) time_t ;
++TYPE (int) wchar_t ;</programlisting>
+	</section>
+
+	<section id="Typedef">
+		<title>+TYPEDEF</title>
+
+		<para>It is also possible to define new types in terms of existing
+			types. This is done using the <code>+TYPEDEF</code> construct, which
+			is identical in form to the C <code>typedef</code> construct. This
+			construct can be used to define pointer, procedure and array types,
+			but not compound structure and union types. For these see
+			<link linkend="Field">section 4.9</link> below.</para>
+
+		<para>For example, in <code>xpg3:search.h</code> we have:</para>
+
+		<programlisting language="Tspec">
++TYPE struct entry ;
++TYPEDEF struct entry ENTRY ;</programlisting>
+
+		<para>There are a couple of special forms. To understand the first,
+			note that C uses <code>void</code> function returns for two
+			purposes.	Firstly to indicate that the function does not return a
+			value, and secondly to indicate that the function does not return at
+			all (<code>exit</code> is an example of this second usage). In TDF
+			terms, in the first case the function returns <code>TOP</code>, in
+			the second it returns <code>BOTTOM</code> .	<code>tspec</code>
+			allows types to be introduced which have the second meaning. For
+			example, we could have:</para>
+
+		<programlisting language="Tspec">
++TYPEDEF ~special ( "bottom" ) ~bottom ;
++FUNC ~bottom exit ( int ) ;</programlisting>
+
+		<para>meaning that the local type <code>~bottom</code> is the
+			<code>BOTTOM</code> form of <code>void</code>. The procedure <code>
+			exit</code>, which never returns, can then be declared to return
+			<code>~bottom</code> rather than <code>void</code>. Other such
+			special types may be added in future.</para>
+
+		<para>The second special form:</para>
+
+		<programlisting language="Tspec">
++TYPEDEF ~promote ( x ) y ;</programlisting>
+
+		<para>means that <code>y</code> is an integral type which is the integral
+			promotion of <code>x</code>. <code>x</code> must have previously
+			been declared as an integral type. This gives an alternative
+			approach to the old style procedure declaration problem described in
+			<link linkend="Func">section 4.2</link>. Recall that:</para>
+
+		<programlisting language="C">
+void *malloc ( sz )
+size_t sz ;</programlisting>
+
+		<para>means that <code>malloc</code> has one argument which is passed as
+			the integral promotion of <code>size_t</code>. This could be
+			expressed as follows:</para>
+
+		<programlisting language="Tspec">
++TYPEDEF ~promote ( size_t ) ~size_t ;
++FUNC void *malloc ( ~size_t ) ;</programlisting>
+
+		<para>introducing a local type to stand for the integral promotion of
+			<code>size_t</code>.</para>
+	</section>
+
+	<section id="Field">
+		<title>+FIELD</title>
+
+		<para>Having specified a structure or union type, or a structure or
+			union tag, we may wish to specify certain fields of this structure
+			or union. This is done using the <code>+FIELD</code> construct. This
+			takes the form:</para>
+
+<programlisting language="Tspec">
++FIELD type {
+ftype field1, ..., fieldn ;
+....
+} ;</programlisting>
+
+		<para>where <code>type</code> is the structure or union type and
+			<code>field1</code>, ..., <code>fieldn</code> are field selectors
+			derived from the base type <code>ftype</code> as in a normal C
+			structure definition. <code>type</code> may have one of the forms:</para>
+
+		<!-- TODO: DL or table -->
+		<itemizedlist>
+			<listitem>
+				<para><code>(struct) name</code> for a structure type,</para>
+			</listitem>
+	
+			<listitem>
+				<para><code>(union) name</code> for a union type,</para>
+			</listitem>
+			
+			<listitem>
+				<para><code>struct name</code> for a structure tag,</para>
+			</listitem>
+			
+			<listitem>
+				<para><code>union name</code> for a union tag,</para>
+			</listitem>
+			
+			<listitem>
+				<para><code>name</code> for a previously declared structure or
+					union type.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>Except in the final case (where it is not clear if
+			<code>type</code> is a structure or a union), it is not necessary to
+			have previously introduced <code>type</code> using a
+			<code>+TYPE</code> construct - this declaration is implicit in the
+			<code>+FIELD</code> construct.</para>
+
+		<para>For example, in <code>ansi:time.h</code> we have:</para>
+
+		<programlisting language="Tspec">
++FIELD struct tm {
+int tm_sec ;
+int tm_min ;
+int tm_hour ;
+int tm_mday ;
+int tm_mon ;
+int tm_year ;
+int tm_wday ;
+int tm_yday ;
+int tm_isdst ;
+} ;</programlisting>
+
+		<para>meaning that there exists a structure with tag <code>tm</code> with
+			various fields of type <code>int</code>. Any implementation must
+			have these corresponding fields, but they need not be in the given
+			order, nor do they have to comprise the whole structure.</para>
+
+		<para>As was mentioned above (in <link linkend="Names">4.1.1</link>),
+			field selectors form a special case when <code>tspec</code> is
+			making up external token names. For example, in the case above, the
+			token name for the <code>tm_sec</code> field is either
+			<code>tm.tm_sec</code> or <code>ansi.time.tm.tm_sec</code>,
+			depending on whether or not unique token names are used.</para>
+
+		<para>It is possible to have several <code>+FIELD</code> constructs
+			referring to the same structure or union. For example,
+			<code>posix:dirent.h</code> declares a structure with tag
+			<code>dirent</code> and one field, <code>d_name</code>, of this
+			structure. <code>xpg3:dirent.h</code> extends this by adding another
+			field, <code>d_ino</code>.</para>
+
+		<para>There is a second form of the <code>+FIELD</code> construct
+			which has more in common with the <code>+TYPEDEF</code> construct.
+			The form:</para>
+
+		<programlisting language="Tspec">
++FIELD type := {
+ftype field1, ..., fieldn ;
+....
+} ;</programlisting>
+
+		<para>means that the type <code>type</code> is defined to be exactly the
+			given structure or union type, with precisely the given fields in
+			the given order.</para>
+	</section>
+
+	<section id="Nat">
+		<title>+NAT</title>
+
+		<para>In the example given in
+			<link linkend="Field">section 4.9</link>,
+			<code>posix:dirent.h</code> specifies that the <code>d_name</code>
+			field of <code>struct dirent</code> is a fixed sized array of
+			characters, but that the size of this array is implementation
+			dependent. We therefore have to introduce a value to stand for the
+			size of this array using the <code>+NAT</code> construct. This has
+			the form:</para>
+
+		<programlisting language="Tspec">
++NAT nat1, ..., natn ;</programlisting>
+
+		<para>where <code>nat1</code>, ..., <code>natn</code> are the array sizes
+			to be declared. The example thus becomes:</para>
+
+		<programlisting language="Tspec">
++NAT ~dirent_d_name_size ;
++FIELD struct dirent {
+char d_name [ ~dirent_d_name_size ] ;
+} ;</programlisting>
+
+		<para>Note the use of a local variable to stand for a value, namely the
+			array size, which is invisible to the user (see
+			<link linkend="Identifiers">section 4.1.2</link>).</para>
+
+		<para>As another example, in <code>ansi:setjmp.h</code> we know that
+			<code>jmp_buf</code> is an array type. We therefore introduce
+			objects to stand for the type which it is an array of and for the
+			size of the array, and define <code>jmp_buf</code> by a
+			<code>+TYPEDEF</code> command:</para>
+
+		<programlisting language="Tspec">
++NAT ~jmp_buf_size ;
++TYPE ~jmp_buf_elt ;
++TYPEDEF ~jmp_buf_elt jmp_buf [ ~jmp_buf_size ] ;</programlisting>
+
+		<para>Again, local variables have been used for the introduced
+			objects.</para>
+	</section>
+
+	<section id="Enum">
+		<title>+ENUM</title>
+
+		<para>Currently <code>tspec</code> only has limited support for
+			enumeration types. A <code>+ENUM</code> construct is translated
+			directly into a C definition of an enumeration type. The
+			<code>+ENUM</code> construct has the form:</para>
+
+		<programlisting language="Tspec">
++ENUM etype := {
+entry,
+....
+} ;</programlisting>
+
+		<para>where <code>etype</code> is the enumeration type being defined -
+			either a type name or <code>enum etag</code> for some enumeration
+			tag <code>etag</code> - and each <code>entry</code> has one of the
+			forms:</para>
+
+		<programlisting>
+name
+name = number</programlisting>
+
+		<para>as in a C enumeration type. For example, in
+			<code>xpg3:search.h</code> we have:</para>
+
+		<programlisting language="Tspec">
++ENUM ACTION := { FIND, ENTER } ;</programlisting>
+	</section>
+
+	<section id="Token">
+		<title>+TOKEN</title>
+
+		<para>As was mentioned in <link linkend="Intro">section 1</link>, the
+			<code>#pragma token</code> syntax is highly complex, and the token
+			descriptions output by <code>tspec</code> form only a small subset
+			of those possible. It is possible to directly access the full
+			<code>#pragma token</code> syntax from <code>tspec</code> using the
+			construct:</para>
+
+			<programlisting language="Tspec">
++TOKEN name %% text %% ;</programlisting>
+
+		<para>where the token <code>name</code> is defined by the sequence of
+			characters <code>text</code>, which is delimited by double percents.
+			This is turned into the token description:</para>
+
+		<programlisting language="C">
+#pragma token text name #</programlisting>
+
+		<para>No checks are applied to <code>text</code>. A more sophisticated
+			mechanism for defining complex tokens may be introduced in a later
+			version of <code>tspec</code>.</para>
+
+		<para>For example, in <code>ansi:stdarg.h</code> a token
+			<code>va_arg</code> is defined which takes a variable of type
+			<code>va_list</code> and a type <code>t</code> and returns a value
+			of type <code>t</code>. This is given by:</para>
+
+			<programlisting language="Tspec">
++TOKEN va_arg %% PROC ( EXP lvalue : va_list : e, TYPE t ) EXP rvalue : t : %% ;</programlisting>
+
+		<para>See reference 3 for more details on the token syntax.</para>
+	</section>
+</chapter>
+
