@@ -1,0 +1,36 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+	<!ENTITY tdf "<acronym>TDF</acronym>">
+]>
+
+<chapter id="S6">
+	<title>Limitations</title>
+
+	<para>The main limitations in the current version of <code>tnc</code> are
+		as follows:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>There is no error recovery,</para>
+		</listitem>
+
+		<listitem>
+			<para>There is no support for foreign sorts,</para>
+		</listitem>
+
+		<listitem>
+			<para>The support for tokenised tokens is limited and undocumented.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>In addition, far more of the checks (scopes, shape checking, checking
+		of consistency of declarations and definitions etc.) are implemented
+		for <emphasis>read</emphasis> mode rather than <emphasis>decode</emphasis> mode. To shape check
+		a &tdf; capsule, it will almost certainly be more effective to translate
+		it into text and check that.</para>
+
+	<para>Another limitation is that the scoping rules for local tags do not
+		allow such tags to be accessed outside their scopes using <code>env_offset</code>.</para>
+</chapter>
+

@@ -1,0 +1,250 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+	<!ENTITY tdf "<acronym>TDF</acronym>">
+]>
+
+<chapter id="S35">
+	<title>Outer level syntax</title>
+
+	<para>At the outer level <code>tnc</code> is expecting a sequence of constructs
+		of the following forms:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>an included file,</para>
+		</listitem>
+
+		<listitem>
+			<para>a token declaration,</para>
+		</listitem>
+
+		<listitem>
+			<para>a token definition,</para>
+		</listitem>
+
+		<listitem>
+			<para>an alignment tag declaration,</para>
+		</listitem>
+
+		<listitem>
+			<para>an alignment tag definition,</para>
+		</listitem>
+
+		<listitem>
+			<para>a tag declaration,</para>
+		</listitem>
+
+		<listitem>
+			<para>a tag definition.</para>
+		</listitem>
+	</itemizedlist>
+
+	<section id="S36">
+		<title>Included files</title>
+
+		<para>Included files may be of three types - text, &tdf; capsule or &tdf; library.
+			For &tdf; capsules and libraries there are two include modes. The first
+			just decodes the given capsule or set of capsules. The second scans
+			through them to extract token declaration information. These declarations
+			appear in the output file only if they are used elsewhere.</para>
+
+		<para>The syntax for an included text file is:</para>
+
+		<programlisting>( include string )</programlisting>
+
+		<para>where <code>string</code> is a string giving the pathname of the file
+			to be included. <code>tnc</code> applies <emphasis>read</emphasis> to this sub-file
+			before continuing with the present file.</para>
+
+		<para>Similarly, the syntaxes for included &tdf; capsules and libraries are:</para>
+
+<programlisting>
+( code string )
+( lib string )</programlisting>
+
+		<para>respectively. <code>tnc</code> applies <emphasis>decode</emphasis> to this capsule
+			or set of capsules (provided this mode is available) before continuing
+			with the present file.</para>
+
+		<para>The syntaxes for extracting the token declaration information from
+			a &tdf; capsule or library are:</para>
+
+<programlisting>
+( use_code string )
+( use_lib string )</programlisting>
+
+		<para>Again, these rely on the <emphasis>decode</emphasis> mode being available.</para>
+	</section>
+
+	<section id="S37">
+		<title>Internal and external names</title>
+
+		<para>All tokens, tags and alignment tags have an internal name, namely
+			the associated identifier, but this name does not necessarily appear
+			in the corresponding &tdf; capsule. There must firstly be an associated
+			declaration or definition at the outer level - tags internal to a
+			piece of &tdf; do not have external names. Even then we may not wish
+			this name to appear at the outer level, because it is local to this
+			file and is not required for linking purposes. Alternatively we may
+			wish a different external name to be associated with it in the &tdf;
+			capsule.</para>
+
+		<para>As an example of how <code>tnc</code> allows for this, consider token
+			declarations (although similar remarks apply to token definitions,
+			alignment tag definitions etc.). The basic form of the token declaration
+			is:</para>
+
+		<programlisting>( make_tokdec token_id ... )</programlisting>
+
+		<para>This creates a token with both internal and external names equal to
+			<code>token_id</code>. Alternatively:</para>
+
+		<programlisting>( local make_tokdec token_id ... )</programlisting>
+
+		<para>creates a token with internal name <code>token_id</code> but no external
+			name. This allows the creation of tokens local to the current file.
+			Again:</para>
+
+		<programlisting>( make_tokdec ( string_extern string ) token_id ... )</programlisting>
+
+		<para>creates a token with internal name <code>token_id</code> and external
+			name given by the string <code>string</code>. For example, to create
+			a token whose external name is not a valid identifier, it would be
+			necessary to use this construct. Finally:</para>
+
+		<programlisting>( make_tokdec ( unique_extern string1 ... stringn ) token_id ... )</programlisting>
+
+		<para>creates a token with internal name <code>token_id</code> and external
+			name given by the unique name consisting of the strings <code>string1</code>,
+			..., <code>stringn</code>.</para>
+
+		<para>The <code>local</code> quantifier should be used consistently on all
+			declarations and definitions of the token, tag or alignment tag. The
+			alternative external name should only be given on the first occasion
+			however. Thereafter the object is identified by its internal name.</para>
+	</section>
+
+	<section id="S38">
+		<title>Token declarations</title>
+
+		<para>The basic form of a token declaration is:</para>
+
+		<programlisting>( make_tokdec token_id ( arg1 ... argn ) res )</programlisting>
+
+		<para>where the token <code>token_id</code> is declared to take argument
+			sorts <code>arg1</code>, ..., <code>argn</code> and deliver the result
+			sort <code>res</code>. These sorts are given by their sort names,
+			<code>al_tag</code>, <code>alignment</code>, <code>bitfield_variety</code>
+			etc. For a token with no arguments the declaration may be given in
+			the form:</para>
+
+<programlisting>( make_tokdec token_id res )</programlisting>
+
+		<para>A token may be declared any number of times, provided the declarations
+			are consistent.</para>
+
+		<para>This basic declaration may be modified in the ways outlined above
+			to specify the external token name.</para>
+	</section>
+
+	<section id="S39">
+		<title>Token definitions</title>
+
+		<para>The basic form of a token definition is:</para>
+
+		<programlisting>( make_tokdef token_id ( arg1 id1 ... argn idn ) res def )</programlisting>
+
+		<para>where the token <code>token_id</code> is defined to take formal arguments
+			<code>id1</code>, ..., <code>idn</code> of sorts <code>arg1</code>,
+			..., <code>argn</code> respectively and have the value <code>def</code>,
+			which is a construct of sort <code>res</code>. The scope of the tokens
+			<code>id1</code>, ..., <code>idn</code> is <code>def</code>.</para>
+
+		<para>For a token with no arguments the definition may be given in the form:</para>
+
+		<programlisting>( make_tokdef token_id res def )</programlisting>
+
+		<para>A token may be defined more than once. All definitions must be consistent
+			with any previous declarations and definitions (the renaming of formal
+			arguments is allowed however).</para>
+
+		<para>This basic definition may be modified in the ways outlined above to
+			specify the external token name.</para>
+	</section>
+
+	<section id="S310">
+		<title>Alignment tag declarations</title>
+
+		<para>The basic form of an alignment tag declaration is:</para>
+
+		<programlisting>( make_al_tagdec al_tag_id )</programlisting>
+
+		<para>where the alignment tag <code>al_tag_id</code> is declared to exist.</para>
+
+		<para>This basic declaration may be modified in the ways outlined above
+			to specify the external alignment tag name.</para>
+	</section>
+
+	<section id="S311">
+		<title>Alignment tag definitions</title>
+
+		<para>The basic form of an alignment tag definition is:</para>
+
+		<programlisting>( make_al_tagdef al_tag_id def )</programlisting>
+
+		<para>where the alignment tag <code>al_tag_id</code> is defined to be <code>def</code>,
+			which is a construct of sort <code>alignment</code>. An alignment
+			tag may be declared or defined more than once, provided the definitions
+			are consistent.</para>
+
+		<para>This basic definition may be modified in the ways outlined above to
+			specify the external alignment tag name.</para>
+	</section>
+
+	<section id="S312">
+		<title>Tag declarations</title>
+
+		<para>The basic forms of a tag declaration are:</para>
+
+<programlisting>
+( make_id_tagdec tag_id info dec )
+( make_var_tagdec tag_id info dec )
+( common_tagdec tag_id info dec )</programlisting>
+
+		<para>where the tag <code>tag_id</code> is declared to be an identity, variable
+			or common tag with access information <code>info</code>, which is
+			an optional construct of sort <code>access</code>, and shape <code>dec</code>,
+			which is a construct of sort <code>shape</code>. A tag may be declared
+			more than once, provided all declarations and definitions are consistent
+			(including agreement of whether the tag is an identity, a variable
+			or common).</para>
+
+		<para>These basic declarations may be modified in the ways outlined above
+			to specify the external tag name.</para>
+	</section>
+
+	<section id="S313">
+		<title>Tag definitions</title>
+
+		<para>The basic forms of a tag definition are:</para>
+
+<programlisting>
+( make_id_tagdef tag_id def )
+( make_var_tagdef tag_id info def )
+( common_tagdef tag_id info def )</programlisting>
+
+		<para>where the tag <code>tag_id</code> is defined to be an identity, variable
+			or common tag with value <code>def</code>, which is a construct of
+			sort <code>exp</code>. Non-identity tag definitions also have an optional
+			<code>access</code> construct, <code>info</code>. A tag must have
+			been declared before it is defined, but may be defined any number
+			of times. All declarations and definitions must be consistent (except
+			that common tags may be defined inconsistently) and agree on whether
+			the tag is an identity, a variable, or common.</para>
+
+		<para>These basic definitions may be modified in the ways outlined above
+			to specify the external tag name.</para>
+	</section>
+</chapter>
+

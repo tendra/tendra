@@ -1,0 +1,94 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+	<!ENTITY tdf "<acronym>TDF</acronym>">
+]>
+
+<chapter id="S1">
+	<title>Introduction</title>
+
+	<para>The &tdf; notation compiler, <code>tnc</code>, is a tool for translating
+		&tdf; capsules to and from text. This paper gives a brief introduction
+		to how to use this utility and the syntax of the textual form of &tdf;.
+		The version here described is that supporting version 3.1 of the &tdf;
+		specification.</para>
+
+	<para><code>tnc</code> has four modes, two input modes and two output modes.
+		These are as follows:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para><emphasis>decode</emphasis> - translate an input &tdf; capsule into the <code>tnc</code>
+				internal representation,</para>
+		</listitem>
+
+		<listitem>
+			<para><emphasis>read</emphasis> - translate an input text file into the internal representation,</para>
+		</listitem>
+
+		<listitem>
+			<para><emphasis>encode</emphasis> - translate the internal representation into an
+				output &tdf; capsule,</para>
+		</listitem>
+
+		<listitem>
+			<para><emphasis>write</emphasis> - translate the internal representation into an output
+				text file.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>Due to the modular nature of the program it is possible to form versions
+		of <code>tnc</code> in which not all the modes are available. Passing
+		the <emphasis>-version</emphasis> flag to <code>tnc</code> causes it to report which
+		modes it has implemented.</para>
+
+	<para>Any application of <code>tnc</code> consists of the composite of an
+		input mode and an output mode. The default action is <emphasis>read</emphasis>-<emphasis>encode</emphasis>,
+		i.e. translate an input test file into an output &tdf; capsule. Other
+		modes may be specified by passing the following command line options
+		to <code>tnc</code>:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para><emphasis>-decode</emphasis> or <emphasis>-d</emphasis>,</para>
+		</listitem>
+
+		<listitem>
+			<para><emphasis>-read</emphasis> or <emphasis>-r</emphasis>,</para>
+		</listitem>
+
+		<listitem>
+			<para><emphasis>-encode</emphasis> or <emphasis>-e</emphasis>,</para>
+		</listitem>
+
+		<listitem>
+			<para><emphasis>-write</emphasis> or <emphasis>-w</emphasis>.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>The only other really useful action is <emphasis>decode</emphasis>-<emphasis>write</emphasis>,
+		i.e. translate an input &tdf; capsule into an output text file. This
+		may also be specified by the <emphasis>-print</emphasis> or <emphasis>-p</emphasis> option. The
+		actions <emphasis>decode</emphasis>-<emphasis>encode</emphasis> and <emphasis>read</emphasis>-<emphasis>write</emphasis> are
+		not precise identities, they do however give equivalent input and
+		output files.</para>
+
+	<para>In addition, the <emphasis>decode</emphasis> mode may be modified to accept a &tdf;
+		library as input rather than a &tdf; capsule by passing the addition
+		flag:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para><emphasis>-lib</emphasis> or <emphasis>-l</emphasis>,</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>to <code>tnc</code>.</para>
+
+	<para>The overall syntax for <code>tnc</code> is as follows:
+
+<programlisting>tnc [ options ... ] input_file [ output_file ]</programlisting>
+
+		If the output file is not specified, the standard output is used.</para>
+</chapter>
+

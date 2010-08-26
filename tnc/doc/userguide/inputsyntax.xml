@@ -1,0 +1,202 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+	<!ENTITY tdf "<acronym>TDF</acronym>">
+]>
+
+<chapter id="S3">
+	<title>Input syntax</title>
+
+	<section id="S31">
+		<title>Basic syntax</title>
+
+		<para>The basic input syntax is very simple. A construct consists of an
+			identifier followed by a list of arguments, all enclosed in brackets
+			in a Lisp-like fashion. Each argument can be an identifier, a number,
+			a string, a blank, a bar, or another construct. There are further
+			restrictions on this basic syntax, described below.</para>
+
+<programlisting language="BNF">
+construct	: ( identifier arglist )
+
+argument	: construct
+		| identifier
+		| number
+		| string
+		| blank
+		| bar
+
+arglist		: (empty)
+		| argument arglist</programlisting>
+
+		<para>The construct <code>( identifier )</code>, with an empty argument
+			list, is equivalent to the identifier argument <code>identifier</code>.
+			The two may be used interchangeably.</para>
+	</section>
+
+	<section id="S32">
+		<title>Sorts</title>
+
+		<para>Except at the outermost level, which forms a special case discussed
+			below, every construct and argument has an associated sort. This is
+			one of the basic &tdf; sorts: <code>access</code>, <code>al_tag</code>,
+			<code>alignment</code>, <code>bitfield_variety</code>, <code>bool</code>,
+			<code>callees</code>, <code>error_code</code>, <code>error_treatment</code>,
+			<code>exp</code>, <code>floating_variety</code>, <code>label</code>,
+			<code>nat</code>, <code>ntest</code>, <code>procprops</code>, <code>rounding_mode</code>,
+			<code>shape</code>, <code>signed_nat</code>, <code>string</code>,
+			<code>tag</code>, <code>transfer_mode</code>, <code>variety</code>,
+			<code>tdfint</code> or <code>tdfstring</code>.</para>
+
+		<para>Ignoring for the moment the shorthands discussed below, the ways of
+			creating constructs of sort <code>exp</code> say, correspond to the
+			&tdf; constructs delivering an <code>exp</code>. For example, <code>contents
+			</code> takes a <code>shape</code> and an <code>exp</code> and delivers
+			an <code>exp</code>. Thus:</para>
+
+		<programlisting>( contents arg1 arg2 )</programlisting>
+
+		<para>where <code>arg1</code> is an argument of sort <code>shape</code>
+			and <code>arg2</code> is an argument of sort <code>exp</code>, is
+			a sort-correct construct. Only constructs which are sort correct in
+			this sense are allowed.</para>
+
+		<para>As another example, because of the rule concerning constructs with
+			no arguments, both</para>
+
+		<programlisting>( true )</programlisting>
+
+		<para>and</para>
+
+		<programlisting>false</programlisting>
+
+		<para>are valid constructs of sort <code>bool</code>.</para>
+
+		<para>&tdf; constructs which take lists of arguments are easily dealt with.
+			For example:</para>
+
+		<programlisting>( make_nof arg1 ... argn )</programlisting>
+
+		<para>where <code>arg1</code>, ..., <code>argn</code> are all arguments
+			of sort <code>exp</code>, is valid. A vertical bar may be used to
+			indicate the end of a sequence of repeated arguments.</para>
+
+		<para>Optional arguments should be entered normally if they are present.
+			Their absence may be indicated by means of a blank (minus sign), or
+			by simply omitting the argument.</para>
+
+		<para>The vertical bar and blank should be used whenever the input is potentially
+			ambiguous. Particular care should be taken with <code>apply_proc</code>
+			(which is genuinely ambiguous) and <code>labelled</code>.</para>
+
+		<para>The &tdf; specification should be consulted for a full list of valid
+			&tdf; constructs and their argument sorts. Alternatively the <code>tnc</code>
+			help facility may be used. The command:</para>
+
+		<programlisting>tnc -help cmd1 ... cmdn</programlisting>
+
+		<para>prints sort information on the constructs or sorts <code>cmd1</code>,
+			..., <code>cmdn</code>. Alternatively:</para>
+
+		<programlisting>tnc -help</programlisting>
+
+		<para>prints this information for all constructs. (To obtain help on the
+			sort <code>alignment</code> as opposed to the construct <code>alignment</code>
+			use <code>alignment_sort</code>. This confusion cannot occur elsewhere.)</para>
+	</section>
+
+	<section id="S33">
+		<title>Numbers and strings</title>
+
+		<para>Numbers can occur in two contexts, as the argument to the &tdf; constructs
+			<code>make_nat</code> and <code>make_signed_nat</code>. In the former
+			case the number must be positive. The following shorthands are understood
+			by <code>tnc</code>:</para>
+
+<programlisting>
+number <emphasis>for</emphasis> ( make_nat number )
+number <emphasis>for</emphasis> ( make_signed_nat number )
+</programlisting>
+
+		<para>depending on whether a construct of sort <code>nat</code> or
+			<code>signed_nat</code> is expected.</para>
+
+		<para>Strings are nominally of sort <code>tdfstring</code>. They are taken
+			to be simple strings (8 bits per character). Multibyte strings (those
+			with other than 8 bits per character) may be represented by means
+			of the <code>multi_string</code> construct. This takes the form:</para>
+
+		<programlisting>( multi_string b c1 ... cn )</programlisting>
+
+		<para>where <code>b</code> is the number of bits per character and <code>c1</code>,
+			...,<code>cn</code> are the codes of the characters comprising the
+			string. These multibyte strings cannot be used as external names.</para>
+
+		<para>In addition, a simple (8 bit) string can be used as a shorthand for
+			a &tdf; construct of sort <code>string</code>, as follows:</para>
+
+		<programlisting>string <emphasis>for</emphasis> ( make_string string )</programlisting>
+	</section>
+
+	<section id="S34">
+		<title>Tokens, tags, alignment tags and labels</title>
+
+		<para>In &tdf; simple tokens, tags, alignment tags and labels are represented
+			by numbers which may, or may not, be associated with external names.
+			In <code>tnc</code> however they are represented by identifiers. This
+			brings the problem of scoping which does not occur in &tdf;. The rules
+			are that all tokens, tags, alignment tags and labels must be declared
+			before they are used. Externally defined objects have global scope,
+			and the scope of a formal argument in a token definition is the definition
+			body. For those constructs which introduce a local tag or label -
+			for example, <code>identify</code>, <code>make_proc</code>,
+			<code>make_general_proc</code> and <code>variable</code> for tags and <code>conditional</code>,
+			<code>labelled</code> and <code>repeat</code> for labels - the scope
+			of the object is as set out in the &tdf; specification.</para>
+
+		<para>The following shorthands are understood by <code>tnc</code>, according
+			to the argument sort expected:</para>
+
+<programlisting>tag_id <emphasis>for</emphasis> ( make_tag tag_id )
+al_tag_id <emphasis>for</emphasis> ( make_al_tag al_tag_id )
+label_id <emphasis>for</emphasis> ( make_label label_id )</programlisting>
+
+		<para>The syntax for token applications is as follows:</para>
+
+<programlisting>( apply_construct ( token_id arg1 ... argn ) )</programlisting>
+
+		<para>where <code>apply_construct</code> is the appropriate &tdf; token application
+			construct, for example, <code>exp_apply_token</code> for tokens declared
+			to deliver <code>exp</code>'s. The token arguments <code>arg1</code>,
+			..., <code>argn</code> must be of the sorts indicated in the token
+			declaration or definition. For tokens without any arguments the alternative
+			form:</para>
+
+		<programlisting>( apply_construct token_id )</programlisting>
+
+		<para>is allowed.</para>
+
+		<para>The token application above may be abbreviated to:</para>
+
+		<programlisting>( token_id arg1 ... argn )</programlisting>
+
+		<para>the result sort being known from the token declaration. This in turn
+			may be abbreviated to:</para>
+
+		<programlisting>token_id</programlisting>
+
+		<para>when there are no token arguments.</para>
+
+		<para>Care needs to be taken with these shorthands, as they can lead to
+			confusion, particularly when, due to optional arguments or lists of
+			arguments, <code>tnc</code> is not sure what sort is coming next.
+			The five categories of objects represented by identifiers - &tdf; constructs,
+			tokens, tags, alignment tags and labels - occupy separate name spaces,
+			but it is a good idea to try to avoid duplication of names.</para>
+
+		<para>By default all these shorthands are used by <code>tnc</code> in <emphasis>write</emphasis>
+			mode. If this causes problems, the <emphasis>-V</emphasis> flag should be passed
+			to <code>tnc</code>.</para>
+	</section>
+</chapter>
+

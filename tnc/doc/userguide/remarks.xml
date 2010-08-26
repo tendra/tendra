@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+	<!ENTITY tdf "<acronym>TDF</acronym>">
+]>
+
+<chapter id="S5">
+	<title>Remarks</title>
+
+	<para>The target independent &tdf; capsules produced by the C to &tdf; compiler,
+		<code>tcc</code>, do not contain declarations or definitions for all
+		the tokens they use. Thus <code>tnc</code> cannot fully decode them
+		as they stand. However the necessary token declaration information
+		may be made available to <code>tnc</code> by using the <emphasis>use_lib</emphasis>
+		construct. The commands:</para>
+
+<programlisting>
+( use_lib library )
+( code capsule )
+</programlisting>
+
+	<para>will decode the &tdf; capsule <code>capsule</code> which uses tokens
+		defined in the &tdf; library <code>library</code>.</para>
+</chapter>
+

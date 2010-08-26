@@ -1,0 +1,100 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+	<!ENTITY tdf "<acronym>TDF</acronym>">
+]>
+
+<chapter id="S2">
+	<title>Input classes</title>
+
+	<para>The rest of this paper is concerned with the form required of the
+		input text file. The input can be divided into eight classes.</para>
+
+	<!-- XXX variablelist instead -->
+	<section id="S21">
+		<title>Delimiters</title>
+
+		<para>The characters <code>(</code> and <code>)</code> are used as delimiters
+			to impose a syntactic structure on the input.</para>
+	</section>
+
+	<section id="S22">
+		<title>White space</title>
+
+		<para>White space comprises sequences of space, tab and newline characters,
+			together with comments (see below). It is not significant to the output
+			(&tdf; notation is completely free-form), and serves only to separate
+			syntactic units. Every identifier, number etc. must be terminated
+			by a white space or a delimiter.</para>
+	</section>
+
+	<section id="S23">
+		<title>Comments</title>
+
+		<para>Comments may be inserted in the input at any point. They begin with
+			a <code>#</code> character and run to the end of the line.</para>
+	</section>
+
+	<section id="S24">
+		<title>Identifiers</title>
+
+		<para>An identifier consists of any sequence of characters drawn from the
+			following set: upper case letters, lower case letters, decimal digits,
+			underscore (<code>_</code>), dot (<code>.</code>), and tilde (<code>~</code>),
+			which does not begin with a decimal digit. <code>tnc</code> generates
+			names beginning with double tilde (<code>~~</code>) for unnamed objects
+			when in <emphasis>decode</emphasis> mode, so the use of such identifiers is not
+			recommended.</para>
+	</section>
+
+	<section id="S25">
+		<title>Numbers</title>
+
+		<para>Numbers can be given in octal (prefixed by <code>0</code>), decimal,
+			or hexadecimal (prefixed by <code>0x</code> or <code>0X</code>). Both
+			upper and lower case letters can be used for hex digits. A number
+			can be preceded by any number of <code>+</code> or <code>-</code>
+			signs.</para>
+	</section>
+
+	<section id="S26">
+		<title>Strings</title>
+
+		<para>A string consists of a sequence of characters enclosed in double quotes
+			(<code>&quot;</code>). The following escape sequences are recognised:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para><code>\n</code> represents a newline character,</para>
+		</listitem>
+
+		<listitem>
+			<para><code>\t</code> represents a tab character,</para>
+		</listitem>
+
+		<listitem>
+			<para><code>\xxx</code>, where <code>xxx</code> consists of three octal
+				digits, represents the character with ASCII code <code>xxx</code>.</para>
+		</listitem>
+	</itemizedlist>
+
+		<para>Newlines are not allowed in strings unless they are escaped. For all
+			other escaped characters, <code>\x</code> represents <code>x</code>.</para>
+	</section>
+
+	<section id="S27">
+		<title>Blanks</title>
+
+		<para>A single minus character (<code>-</code>) has a special meaning. It
+			may be used to indicate the absence of an optional argument or optional
+			group of arguments.</para>
+	</section>
+
+	<section id="S28">
+		<title>Bars</title>
+
+		<para>A single vertical bar (<code>|</code>) has a special meaning. It may
+			be used to indicate the end of a sequence of repeated arguments.</para>
+	</section>
+</chapter>
+

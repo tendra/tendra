@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter id="S4">
+	<title>Shape checking</title>
+
+	<para>The input in <emphasis>read</emphasis> (and to a lesser extent <emphasis>decode</emphasis>) mode
+		is checked for shape correctness if the <emphasis>-check</emphasis> or <emphasis>-c</emphasis>
+		flag is passed to <code>tnc</code>. This is not guaranteed to pick
+		up all shape errors, but is better than nothing.</para>
+
+	<para>When in <emphasis>write</emphasis> mode the results of the shape checking may be
+		viewed by passing the <emphasis>-cv</emphasis> flag to <code>tnc</code>. Each expression
+		is associated with its shape by means of the:</para>
+
+	<programlisting>( exp_with_shape exp shape ) -&gt; exp</programlisting>
+
+	<para>pseudo-construct. Unknown shapes are indicated by <code>....</code></para>
+</chapter>
+
