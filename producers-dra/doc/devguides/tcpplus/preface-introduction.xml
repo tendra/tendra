@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+
+<preface>
+    <title>Introduction</title>
+
+	<!-- TODO -->
+    <para>
+    The warning sign:
+
+    <warning/>
+
+    is used within the document to indicate areas where the implementation
+    is currently incomplete or incorrect.
+    </para>
+</preface>
+
