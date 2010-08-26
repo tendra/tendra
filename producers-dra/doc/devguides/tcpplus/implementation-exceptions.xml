@@ -1,0 +1,292 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter>
+    <title>Exceptions</title>
+
+  <para>
+  Conceptually, exception handling can be described in terms of the
+  following diagram:
+
+	<figure>
+		<title>Try Stack</title>
+
+		<graphic fileref="images/try.png"/>
+	</figure>
+
+  At any point in the execution of the program there is a stack of currently
+  active <code>try</code> blocks and currently active local variables.
+  A
+  <code>try</code> block is pushed onto the stack as it is entered and
+  popped from the stack when it is left (whether directly or via a jump).
+  A local variable with a non-trivial destructor is pushed onto the
+  stack just after its constructor has been called at the start of its
+  scope, and popped from the stack just before its destructor is called
+  at the end of its scope (including before jumps out of its scope).
+  Each element of an array is considered a separate object.  Each <code>try</code>
+  block has an associated list of handlers.  Each local variable has
+  an associated destructor.
+  </para>
+  <para>
+  Provided no exception is thrown this stack grows and shrinks in a
+  well-behaved manner as execution proceeds.  When an exception is thrown
+  an exception manager is invoked to find a matching exception handler.
+  The exception manager proceeds to execute a loop to unwind the stack
+  as follows.  If the stack is empty then the exception cannot be caught
+  and
+  <code>std::terminate</code> is called.  Otherwise the top element
+  is popped from the stack.  If this is a local variable then the associated
+  destructor is called for the variable.  If the top element is a
+  <code>try</code> block then the current exception is compared in turn
+  to each of the associated handlers.  If a match is found then execution
+  jumps to the handler body, otherwise the exception manager continues
+  to the next element of the stack.
+  </para>
+  <para>
+  Note that this description is purely conceptual.  There is no need
+  for exception handling to be implemented by a stack in this way (although
+  the default implementation uses a similar technique).  It does however
+  serve to illustrate the various stages which must exist in any implementation.
+  </para>
+
+<section>
+	<title>Try blocks</title>
+  <para>
+  At the start of a <code>try</code> block a variable of shape:
+  <programlisting language="TDF">
+~cpp.try.type : () -&gt; SHAPE</programlisting>
+  is declared corresponding to the stack element for this block.  This
+  is then initialised using the token:
+  <programlisting language="TDF">
+~cpp.try.begin : ( EXP ptb, EXP POINTER fa, EXP POINTER ca ) -&gt; EXP TOP</programlisting>
+  </para>
+  where the first argument is a pointer to this variable, the second
+  argument is the TDF <code>current_env</code> construct, and the third
+  argument is the result of the TDF <code>make_local_lv</code> construct
+  on the label which is used to mark the first handler associated with
+  the block.  Note that the last two arguments enable a TDF
+  <code>long_jump</code> construct to be applied to transfer control
+  to the first handler.
+  <para>
+  When control exits from a <code>try</code> block, whether by reaching
+  the end of the block or jumping out of it, the block is removed from
+  the stack using the token:
+  <programlisting language="TDF">
+~cpp.try.end : ( EXP ptb ) -&gt; EXP TOP</programlisting>
+  where the argument is a pointer to the <code>try</code> block variable.
+  </para>
+</section>
+
+<section>
+  <title>Local variables</title>
+  <para>
+  The technique used to add a local variable with a non-trivial destructor
+  to the stack is similar to that used in the dynamic initialisation
+  of global variables.  A local variable of shape <code>~cpp.destr.type</code>
+  is declared at the start of the variable scope.  This is initialised
+  just after the constructor for the variable is called using the token:
+  <programlisting language="TDF">
+~cpp.destr.local : ( EXP pd, EXP POINTER c, EXP PROC ) -&gt; EXP TOP</programlisting>
+  where the first argument is a pointer to the variable being initialised,
+  the  second is a pointer to the local variable to be destroyed, and
+  the third is the destructor to be called.  At the end of the variable
+  scope, just before its destructor is called, the token:
+  <programlisting language="TDF">
+~cpp.destr.end : ( EXP pd ) -&gt; EXP TOP</programlisting>
+  where the argument is a pointer to destructor variable, is called
+  to remove the local variable destructor from the stack.  Note that
+  partially constructed objects are destroyed within their constructors
+  (see
+  <link linkend="partial">above</link>) so that only completely constructed
+  objects need to be considered.
+  </para>
+  <para>
+  In cases where the local variable may be conditionally initialised
+  (for example a temporary variable in the second operand of a <code>||</code>
+  operation) the local variable of shape <code>~cpp.destr.type</code>
+  is initialised to the value given by the token:
+  <programlisting language="TDF">
+~cpp.destr.null : () -&gt; EXP d</programlisting>
+  (normally it is  left uninitialised).  Before the destructor for this
+  variable is called the value of the token:
+  <programlisting language="TDF">
+~cpp.destr.ptr : ( EXP pd ) -&gt; EXP POINTER c</programlisting>
+  is tested.  If <code>~cpp.destr.local</code> has been called for this
+  variable then this token returns a pointer to the variable, otherwise
+  it returns a null pointer.  The token <code>~cpp.destr.end</code>
+  and the destructor are only called if this token indicates that the
+  variable has been initialised.
+  </para>
+</section>
+
+<section>
+  <title>Throwing an exception</title>
+  <para>
+  When a <code>throw</code> expression with an argument is encountered
+  a number of steps performed.  Firstly, space is allocated to hold
+  the exception value using the token:
+  <programlisting language="TDF">
+~cpp.except.alloc : ( EXP VARIETY size_t ) -&gt; EXP pv</programlisting>
+  the argument of which gives the size of the value.  The space allocated
+  is returned as an expression of type <code>void *</code>.  Secondly,
+  the exception value is copied into the space allocated, using a copy
+  constructor if appropriate.  Finally the exception is raised using
+  the token:
+  <programlisting language="TDF">
+~cpp.except.throw : ( EXP pv, EXP pti, EXP PROC ) -&gt; EXP BOTTOM</programlisting>
+  The first argument gives the pointer to the exception value, returned
+  by
+  <code>~cpp.except.alloc</code>, the second argument gives a pointer
+  to the run-time type information for the exception type, and the third
+  argument gives the destructor to be called to destroy the exception
+  value (if any). This token sets the current exception to the given
+  values and invokes the exception manager as above.
+  </para>
+  <para>
+  A <code>throw</code> expression without an argument results in a call
+  to the token:
+  <programlisting language="TDF">
+~cpp.except.rethrow : () -&gt; EXP BOTTOM</programlisting>
+  which re-invokes the exception manager with the current exception.
+  If there is no current exception then the implementation should call
+  <code>std::terminate</code>.
+  </para>
+</section>
+
+<section>
+  <title>Handling an exception</title>
+  <para>
+  The exception manager proceeds to find an exception in the manner
+  described above, unwinding the stack and calling destructors for local
+  variables.  When a <code>try</code> block is popped from the stack
+  a TDF <code>long_jump</code> is applied to transfer control to its
+  list of handlers.  For each handler in turn it is checked whether
+  the handler can catch the current exception.  For <code>...</code>
+  handlers this is always true; for other handlers it is checked using
+  the token:
+  <programlisting language="TDF">
+~cpp.except.catch : ( EXP pti ) -&gt; EXP VARIETY int</programlisting>
+  where the argument is a pointer to the run-time type information for
+  the handler type.  This token gives 1 if the exception is caught by
+  this handler, and 0 otherwise.  If the exception is not caught by
+  the handler then the next handler is checked, until there are no more
+  handlers associated with the <code>try</code> block.  In this case
+  control is passed back to the exception manager by re-throwing the
+  current exception using <code>~cpp.except.rethrow</code>.
+  </para>
+  <para>
+  If an exception is caught by a handler then a number of steps are
+  performed. Firstly, if appropriate, the handler variable is initialised
+  by copying the current exception value.  A pointer to the current
+  exception value can be obtained using the token:
+  <programlisting language="TDF">
+~cpp.except.value : () -&gt; EXP pv</programlisting>
+  Once this initialisation is complete the token:
+  <programlisting language="TDF">
+~cpp.except.caught : () -&gt; EXP TOP</programlisting>
+  is called to indicate that the exception has been caught.  The handler
+  body is then executed.  When control exits from the handler, whether
+  by reaching the end of the handler or by jumping out of it, the token:
+  <programlisting language="TDF">
+~cpp.except.end : () -&gt; EXP TOP</programlisting>
+  is called to indicate that the exception has been completed.  Note
+  that the implementation should call the destructor for the current
+  exception and free the space allocated by <code>~cpp.except.alloc</code>
+  at this point. Execution then continues with the statement following
+  the handler.
+  </para>
+  <para>
+  To conclude, the TDF generated for a <code>try</code> block and its
+  associated list of handlers has the form:
+  <programlisting language="TDF">
+variable (
+    long_jump_access,
+    stack_tag,
+    make_value ( ~cpp.try.type ),
+    conditional (
+	handler_label,
+	sequence (
+	    ~cpp.try.begin (
+		obtain_tag ( stack_tag ),
+		current_env,
+		make_local_lv ( handler_label ) ),
+		<emphasis>try-block-body</emphasis>,
+		~cpp.try.end ),
+	    conditional (
+		catch_label_1,
+		sequence (
+		    integer_test (
+			not_equal,
+			catch_label_1,
+			~cpp.except.catch (
+			    <emphasis>handler-1-typeid</emphasis> ) )
+		    variable (
+			handler_tag_1,
+			<emphasis>handler-1-init</emphasis> (
+			    ~cpp.except.value ),
+			sequence (
+			    ~cpp.except.caught,
+			    <emphasis>handler-1-body</emphasis> ) )
+		    ~cpp.except.end )
+		conditional (
+		    catch_label_2,
+		    <emphasis>further-handlers</emphasis>,
+		    ~cpp.except.rethrow ) ) ) )</programlisting>
+  </para>
+  <para>
+  Note that for a local variable to maintain its previous value when
+  an  exception is caught in this way it is necessary to declare it
+  using the TDF <code>long_jump_access</code> construct.  Any local
+  variable which contains a <code>try</code> block in its scope is declared
+  in this way.
+  </para>
+  <para>
+  To aid implementations in the writing of exception managers the following
+  standard tokens are provided:
+  <programlisting language="TDF">
+~cpp.ptr.code : () -&gt; SHAPE POINTER ca
+~cpp.ptr.frame : () -&gt; SHAPE POINTER fa
+~cpp.except.jump : ( EXP POINTER fa, EXP POINTER ca ) -&gt; EXP BOTTOM</programlisting>
+  These give the shape of the TDF <code>make_local_lv</code> construct,
+  the shape of the TDF <code>current_env</code> construct, and direct
+  access to the TDF <code>long_jump</code> access.  The exception manager
+  in the default implementation is a function called <code>__TCPPLUS_throw</code>.
+  </para>
+</section>
+
+<section>
+  <title>Exception specifications</title>
+  <para>
+  If a function is declared with an exception specification then extra
+  code needs to be generated in the function definition to catch any
+  unexpected exceptions thrown by the function and to call <code>std::unexpected
+  </code>. Since this is a potentially high overhead for small functions,
+  this extra code is not generated if it can be proved that such unexpected
+  exceptions can never be thrown (the analysis is essentially the same
+  as that in the
+  <A HREF="pragma.html#exception">exception analysis</A> check).
+  </para>
+  <para>
+  The implementation of exception specification is to enclose the entire
+  function definition in a <code>try</code> block.  The handler for
+  this block uses <code>~cpp.except.catch</code> to check whether the
+  current exception can be caught by any of the types listed in the
+  exception specification.  If so the current exception is re-thrown.
+  If none of these types catch the current exception then the token:
+  <programlisting language="TDF">
+~cpp.except.bad : ( SIGNED_NAT ) -&gt; EXP TOP</programlisting>
+  is called.  The argument is 1 if the exception specification includes
+  the special type <code>std::bad_exception</code>, and 0 otherwise.
+  The implementation should call <code>std::unexpected</code>, but how
+  any exceptions thrown during this call are to be handled depends on
+  the value of the argument.
+  </para>
+  </section>
+
+</chapter>
+

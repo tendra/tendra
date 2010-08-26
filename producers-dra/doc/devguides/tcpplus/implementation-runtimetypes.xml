@@ -1,0 +1,299 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter>
+    <title>Run-time type information</title>
+  <para>
+  Each C++ type can be associated with a run-time type information structure
+  giving information about that type.  These type information structures
+  have shape given by the token:
+  <programlisting language="TDF">
+~cpp.typeid.type : () -&gt; SHAPE</programlisting>
+  which corresponds to the representation for the standard type
+  <code>std::type_info</code> declared in the header
+  <code>&lt;typeinfo&gt;</code>.  Each type information structure consists
+  of a tag number, giving information on the kind of type represented,
+  a string literal, giving the name of the type, and a pointer to a
+  list of base type information structures.  These are combined to give
+  a type information structure using the token:
+  <programlisting language="TDF">
+~cpp.typeid.make : ( SIGNED_NAT, EXP, EXP ) -&gt; EXP ti</programlisting>
+  Each base type information structure has shape given by the token:
+  <programlisting language="TDF">
+~cpp.baseid.type : () -&gt; SHAPE</programlisting>
+  It consists of a pointer to a type information structure, an expression
+  used to describe the offset of a base class, a pointer to the next
+  base type information structure in the list, and two integers giving
+  information on type qualifiers etc.  These are combined to give a
+  base type information structure using the token:
+  <programlisting language="TDF">
+~cpp.baseid.make : ( EXP, EXP, EXP, SIGNED_NAT, SIGNED_NAT ) -&gt; EXP bi</programlisting>
+  </para>
+  <para>
+  The following table gives the various tag numbers used in type information
+  structures plus a list of the base type information structures associated
+  with each type.  Macros giving these tag numbers are provided in the
+  default implementation in a header, <code>interface.h</code>, which
+  is shared by the C++ producer.
+  </para>
+  <para>
+
+  <table>
+  <tr><th>Type</th>
+  <th>Form</th>
+  <th>Tag</th>
+  <th>Base information</th>
+  </tr>
+  <tr><td>integer</td>
+  <td>-</td>
+  <td>0</td>
+  <td>-</td>
+  </tr>
+  <tr><td>floating point</td>
+  <td>-</td>
+  <td>1</td>
+  <td>-</td>
+  </tr>
+  <tr><td>void</td>
+  <td>-</td>
+  <td>2</td>
+  <td>-</td>
+  </tr>
+  <tr><td>class or struct</td>
+  <td>class T</td>
+  <td>3</td>
+  <td>[base,access,virtual], ....</td>
+  </tr>
+  <tr><td>union</td>
+  <td>union T</td>
+  <td>4</td>
+  <td>-</td>
+  </tr>
+  <tr><td>enumeration</td>
+  <td>enum T</td>
+  <td>5</td>
+  <td>-</td>
+  </tr>
+  <tr><td>pointer</td>
+  <td>cv T *</td>
+  <td>6</td>
+  <td>[T,cv,0]</td>
+  </tr>
+  <tr><td>reference</td>
+  <td>cv T &amp;</td>
+  <td>7</td>
+  <td>[T,cv,0]</td>
+  </tr>
+  <tr><td>pointer to member</td>
+  <td>cv T S::*</td>
+  <td>8</td>
+  <td>[S,0,0], [T,cv,0]</td>
+  </tr>
+  <tr><td>array</td>
+  <td>cv T [n]</td>
+  <td>9</td>
+  <td>[T,cv,n]</td>
+  </tr>
+  <tr><td>bitfield</td>
+  <td>cv T : n</td>
+  <td>10</td>
+  <td>[T,cv,n]</td>
+  </tr>
+  <tr><td>C++ function</td>
+  <td>cv T ( S1, ...., Sn )</td>
+  <td>11</td>
+  <td>[T,cv,0], [S1,0,0], ...., [Sn,0,0]</td>
+  </tr>
+  <tr><td>C function</td>
+  <td>cv T ( S1, ...., Sn )</td>
+  <td>12</td>
+  <td>[T,cv,0], [S1,0,0], ...., [Sn,0,0]</td>
+  </tr>
+  </table>
+
+  </para>
+  <para>
+  In the form column <code>cv T</code> is used to denote not only the
+  normal cv-qualifiers but, when <code>T</code> is a function type,
+  the member function cv-qualifiers.  Arrays with an unspecified bound
+  are treated as if their bound was zero.  Functions with ellipsis are
+  treated as if they had an extra parameter of a dummy type named
+  <code>...</code> (see below).  Note the distinction between C++ and
+  C function types.
+  </para>
+  <para>
+  Each base type information structure is described as a triple consisting
+  of a type and two integers.  One of these integers may be used to
+  encode a type qualifier, <code>cv</code>, as follows:
+  </para>
+  <para>
+
+  <table>
+  <tr><th>Qualifier</th>   <th>Encoding</th>
+  </tr>
+  <tr><td>none</td>  <td>0</td>
+  </tr>
+  <tr><td>const</td>  <td>1</td>
+  </tr>
+  <tr><td>volatile</td> <td>2</td>
+  </tr>
+  <tr><td>const volatile</td><td>3</td>
+  </tr>
+  </table>
+
+  </para>
+  <para>
+  The base type information for a class consists of information on each
+  of its direct base classes.  The includes the offset of this base
+  within the class (for a virtual base class this is the offset of the
+  corresponding
+  <emphasis>ptr</emphasis> field), whether the base is virtual (1) or not (0), and
+  the base class access, encoded as follows:
+  </para>
+  <para>
+
+  <table>
+  <tr><th>Access</th>   <th>Encoding</th>
+  </tr>
+  <tr><td>public</td> <td>0</td>
+  </tr>
+  <tr><td>protected</td> <td>1</td>
+  </tr>
+  <tr><td>private</td> <td>2</td>
+  </tr>
+  </table>
+
+  </para>
+  <para>
+  For example, the run-time type information structures for the classes
+  declared in the <link linkend="diamond">diamond lattice</link> above can be
+  represented as follows:
+
+	<figure>
+		<title>Type ID D</title>
+
+		<graphic fileref="images/rttiD.png"/>
+	</figure>
+
+  </para>
+
+<section>
+	<title>Defining run-time type information structures</title>
+  <para>
+  For built-in types, the run-time type information structure may be
+  referenced by the token:
+  <programlisting language="TDF">
+~cpp.typeid.basic : ( SIGNED_NAT ) -&gt; EXP pti</programlisting>
+  where the argument gives the encoding of the type as given in the
+  following table:
+  </para>
+
+  <table>
+  <tr><th>Type</th>   <th>Encoding</th>
+  <th>Type</th>   <th>Encoding</th>
+  </tr>
+  <tr><td>char</td>  <td>0</td>
+  <td>unsigned long</td> <td>11</td>
+  </tr>
+  <tr><td>(error)</td> <td>1</td>
+  <td>float</td>  <td>12</td>
+  </tr>
+  <tr><td>void</td>  <td>2</td>
+  <td>double</td> <td>13</td>
+  </tr>
+  <tr><td>(bottom)</td> <td>3</td>
+  <td>long double</td> <td>14</td>
+  </tr>
+  <tr><td>signed char</td> <td>4</td>
+  <td>wchar_t</td> <td>16</td>
+  </tr>
+  <tr><td>signed short</td> <td>5</td>
+  <td>bool</td>  <td>17</td>
+  </tr>
+  <tr><td>signed int</td> <td>6</td>
+  <td>(ptrdiff_t)</td> <td>18</td>
+  </tr>
+  <tr><td>signed long</td> <td>7</td>
+  <td>(size_t)</td> <td>19</td>
+  </tr>
+  <tr><td>unsigned char</td> <td>8</td>
+  <td>(...)</td>  <td>20</td>
+  </tr>
+  <tr><td>unsigned short</td><td>9</td>
+  <td>signed long long</td>
+  <td>23</td>
+  </tr>
+  <tr><td>unsigned int</td> <td>10</td>
+  <td>unsigned long long</td>
+  <td>27</td>
+  </tr>
+  </table>
+
+  <para>
+  Note that the encoding for the basic integral types is the same as
+  that
+  <link linkend="arith">given above</link>.  The other types are assigned to
+  unused values.  Note that the encodings for <code>ptrdiff_t</code>
+  and
+  <code>size_t</code> are not used, instead that for their implementation
+  is used (using the standard tokens <code>ptrdiff_t</code> and
+  <code>size_t</code>).  The encodings for <code>bool</code> and
+  <code>wchar_t</code> are used because they are conceptually distinct
+  types even though they are implemented as one of the basic integral
+  types.  The type labelled <code>...</code> is the dummy used in the
+  representation of ellipsis functions.  The default implementation
+  uses an array of type information structures, <code>__TCPPLUS_typeid</code>,
+  to implement <code>~cpp.typeid.basic</code>.
+  </para>
+  <para>
+  The run-time type information structures for classes are defined in
+  the same place as their <link linkend="vtable">virtual function tables</link>.
+  Other run-time type information structures are defined in whatever
+  modules require them.  In the former case the type information structure
+  will have an <link linkend="other">external tag name</link>; in the latter
+  case it will be an internal tag.
+  </para>
+</section>
+
+<section>
+	<title>Accessing run-time type information</title>
+  <para>
+  The primary means of accessing the run-time type information for an
+  object is using the <code>typeid</code> construct.  In cases where
+  the operand type can be determined statically, the address of the
+  corresponding type information structure is returned.  In other cases
+  the token:
+  <programlisting language="TDF">
+~cpp.typeid.ref : ( EXP ppvt ) -&gt; EXP pti</programlisting>
+  is used, where the argument gives a reference to the <emphasis>vptr</emphasis> field
+  of the object being checked.  From this information it is trivial
+  to trace the corresponding type information.
+  </para>
+  <para>
+  Another means of querying the run-time type information for an object
+  is using the <code>dynamic_cast</code> construct.  When the result
+  cannot be determined statically, this is implemented using the token:
+  <programlisting language="TDF">
+~cpp.dynam.cast : ( EXP ppvt, EXP pti ) -&gt; EXP pv</programlisting>
+  where the first expression gives a reference to the <emphasis>vptr</emphasis> field
+  of the object being cast and the second gives the run-time type information
+  for the type being cast to.  In the default implementation this token
+  is implemented by the procedure <code>__TCPPLUS_dynamic_cast</code>.
+  The key point to note is that the virtual function table contains
+  the offset, <emphasis>voff</emphasis>, of the <emphasis>vptr</emphasis> field from the start of
+  the most complete object.  Thus it is possible to find the address
+  of the most complete object.  The run-time type information contains
+  enough information to determine whether this object has a sub-object
+  of the type being cast to, and if so, how to find the address of this
+  sub-object.  The result is returned as a <code>void *</code>, with
+  the null pointer indicating that the conversion is not possible.
+  </para>
+  </section>
+
+</chapter>
+

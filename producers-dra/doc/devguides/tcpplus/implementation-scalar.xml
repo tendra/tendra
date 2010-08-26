@@ -1,0 +1,284 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter>
+    <title>Scalar types</title>
+
+  <section id="arith">
+    <title>Arithmetic types</title>
+  <para>
+  The representations of the basic arithmetic types are target dependent,
+  so, for example, an <code>int</code> may contain 16, 32, 64 or some
+  other number of bits.  Thus it is necessary to introduce a token to
+  stand for each of the built-in arithmetic types (including the
+  <A HREF="pragma.html#longlong"><code>long long</code> types</A>).
+  Each integral type is represented by a <code>VARIETY</code> token
+  as follows: </para>
+
+  <table>
+  <tr><th>Type</th>
+  <th>Token</th>
+  <th>Encoding</th>
+  </tr>
+  <tr><td>char</td>
+  <td>~char</td>
+  <td>0</td>
+  </tr>
+  <tr><td>signed char</td>
+  <td>~signed_char</td>
+  <td>0 | 4 = 4</td>
+  </tr>
+  <tr><td>unsigned char</td>
+  <td>~unsigned_char</td>
+  <td>0 | 8 = 8</td>
+  </tr>
+  <tr><td>signed short</td>
+  <td>~signed_short</td>
+  <td>1 | 4 = 5</td>
+  </tr>
+  <tr><td>unsigned short</td>
+  <td>~unsigned_short</td>
+  <td>1 | 8 = 9</td>
+  </tr>
+  <tr><td>signed int</td>
+  <td>~signed_int</td>
+  <td>2 | 4 = 6</td>
+  </tr>
+  <tr><td>unsigned int</td>
+  <td>~unsigned_int</td>
+  <td>2 | 8 = 10</td>
+  </tr>
+  <tr><td>signed long</td>
+  <td>~signed_long</td>
+  <td>3 | 4 = 7</td>
+  </tr>
+  <tr><td>unsigned long</td>
+  <td>~unsigned_long</td>
+  <td>3 | 8 = 11</td>
+  </tr>
+  <tr><td>signed long long</td>
+  <td>~signed_longlong</td>
+  <td>3 | 4 | 16 = 23 </td>
+  </tr>
+  <tr><td>unsigned long long</td>
+  <td>~unsigned_longlong</td>
+  <td>3 | 8 | 16 = 27</td>
+  </tr>
+  </table>
+
+  <para>
+  Similarly each floating point type is represent by a
+  <code>FLOATING_VARIETY</code> token:
+  </para>
+
+  <table>
+  <tr><th>Type</th>   <th>Token</th>
+  </tr>
+  <tr><td>float</td>  <td>~float</td>
+  </tr>
+  <tr><td>double</td> <td>~double</td>
+  </tr>
+  <tr><td>long double</td> <td>~long_double</td>
+  </tr>
+  </table>
+
+  <para>
+  Each integral type also has an encoding as a <code>SIGNED_NAT</code>
+  as shown above.  This number is a bit pattern built up from the following
+  values:
+  </para>
+
+  <table>
+  <tr><th>Type</th>   <th>Encoding</th>
+  </tr>
+  <tr><td>char</td>  <td>0</td>
+  </tr>
+  <tr><td>short</td>  <td>1</td>
+  </tr>
+  <tr><td>int</td>  <td>2</td>
+  </tr>
+  <tr><td>long</td>  <td>3</td>
+  </tr>
+  <tr><td>signed</td> <td>4</td>
+  </tr>
+  <tr><td>unsigned</td> <td>8</td>
+  </tr>
+  <tr><td>long long</td> <td>16</td>
+  </tr>
+  </table>
+
+  <para>
+  Any target dependent integral type can be represented by a
+  <code>SIGNED_NAT</code> token using this encoding.  This representation,
+  rather than one based on <code>VARIETY</code>s, is used for ease of
+  manipulation.  The token:
+  <programlisting language="TDF">
+~convert : ( SIGNED_NAT ) -&gt; VARIETY</programlisting>
+  gives the mapping from the integral encoding to the representing variety.
+  For example, it will map <code>6</code> to <code>~signed_int</code>.
+  </para>
+  <para>
+  The token:
+  <programlisting language="TDF">
+~promote : ( SIGNED_NAT ) -&gt; SIGNED_NAT</programlisting>
+  describes how to form the promotion of an integral type according
+  to the ISO C/C++ value preserving rules, and is used by the producer
+  to represent target dependent promotion types.  For example, the promotion
+  of <code>unsigned short</code> may be <code>int</code> or <code>unsigned
+  int</code> depending on the representation of these types; that is
+  to say, <code>~promote ( 9 )</code> will be <code>6</code> on some
+  machines and <code>10</code> on others.  Although <code>~promote</code>
+  is used by default, a program may specify another token with the same
+  sort signature to be used in its place by means of the directive:
+  <programlisting language="C++">
+#pragma TenDRA compute promote <emphasis>identifier</emphasis></programlisting>
+  For example, a standard token <code>~sign_promote</code> is defined
+  which gives the older C sign preserving promotion rules.  In addition,
+  the promotion of an individual type can be specified using:
+  <programlisting language="C++">
+#pragma TenDRA promoted <emphasis>type-id</emphasis> : <emphasis>promoted-type-id</emphasis></programlisting>
+  </para>
+  <para>
+  The token:
+  <programlisting language="TDF">
+~arith_type : ( SIGNED_NAT, SIGNED_NAT ) -&gt; SIGNED_NAT</programlisting>
+  similarly describes how to form the usual arithmetic result type from
+  two promoted integral operand types.  For example, the arithmetic
+  type of <code>long</code> and <code>unsigned int</code> may be
+  <code>long</code> or <code>unsigned long</code> depending on the representation
+  of these types; that is to say,
+  <code>~arith_type ( 7, 10 )</code> will be <code>7</code> on some
+  machines and <code>11</code> on others.
+  </para>
+  <para>
+  Any tokenised type declared using:
+  <programlisting language="C++">
+#pragma token VARIETY v # tv</programlisting>
+  will be represented by a <code>SIGNED_NAT</code> token with external
+  name
+  <code>tv</code> corresponding to the encoding of <code>v</code>.
+  Special cases of this are the implementation dependent integral types
+  which arise naturally within the language.  The external token names
+  for these types are given below:
+  </para>
+
+  <table>
+  <tr><th>Type</th>   <th>Token</th>
+  </tr>
+  <tr><td>bool</td>  <td>~cpp.bool</td>
+  </tr>
+  <tr><td>ptrdiff_t</td> <td>ptrdiff_t</td>
+  </tr>
+  <tr><td>size_t</td> <td>size_t</td>
+  </tr>
+  <tr><td>wchar_t</td> <td>wchar_t</td>
+  </tr>
+  </table>
+
+  <para>
+  So, for example, a <code>sizeof</code> expression has shape
+  <code>~convert ( size_t )</code>.  The token <code>~cpp.bool</code>
+  is defined in the default implementation, but the other tokens are
+  defined according to their definitions on the target machine in the
+  normal API library building mechanism.
+  </para>
+  </section>
+
+  <section id="literal">
+    <title>Integer literal types</title>
+  <para>
+  The <A HREF="pragma.html#int">type of an integer literal</A> is defined
+  in terms of the first in a list of possible integral types.  The first
+  type in which the literal value can be represented gives the type
+  of the literal.  For small literals it is possible to work out the
+  type exactly, however for larger literals the result is target dependent.
+  For example, the literal <code>50000</code> will have type <code>int</code>
+  on machines in which <code>50000</code> fits into an <code>int</code>,
+  and
+  <code>long</code> otherwise.  This target dependent mapping is given
+  by a series of tokens of the form:
+  <programlisting language="TDF">
+~lit_* : ( SIGNED_NAT ) -&gt; SIGNED_NAT</programlisting>
+  which map a literal value to the representation of an integral type.
+  The token used depends on the list of possible types, which in turn
+  depends on the base used to represent the literal and the integer
+  suffix used, as given in the following table:
+  </para>
+
+  <table>
+  <tr><th>Base</th>
+  <th>Suffix</th>
+  <th>Token</th>
+  <th>Types</th>
+  </tr>
+  <tr><td>decimal</td>
+  <td>none</td>
+  <td>~lit_int</td>
+  <td>int, long, unsigned long</td>
+  </tr>
+  <tr><td>octal</td>
+  <td>none</td>
+  <td>~lit_hex</td>
+  <td>int, unsigned int, long, unsigned long</td>
+  </tr>
+  <tr><td>hexadecimal</td>
+  <td>none</td>
+  <td>~lit_hex</td>
+  <td>int, unsigned int, long, unsigned long</td>
+  </tr>
+  <tr><td>any</td>
+  <td>U</td>
+  <td>~lit_unsigned</td>
+  <td>unsigned int, unsigned long</td>
+  </tr>
+  <tr><td>any</td>
+  <td>L</td>
+  <td>~lit_long</td>
+  <td>long, unsigned long</td>
+  </tr>
+  <tr><td>any</td>
+  <td>UL</td>
+  <td>~lit_ulong</td>
+  <td>unsigned long</td>
+  </tr>
+  <tr><td>any</td>
+  <td>LL</td>
+  <td>~lit_longlong</td>
+  <td>long long, unsigned long long</td>
+  </tr>
+  <tr><td>any</td>
+  <td>ULL</td>
+  <td>~lit_ulonglong</td>
+  <td>unsigned long long</td>
+  </tr>
+  </table>
+
+  <para>
+  Thus, for example, the shape of the integer literal 50000 is:
+  <programlisting language="TDF">
+~convert ( ~lit_int ( 50000 ) )</programlisting>
+  </para>
+  </section>
+
+  <section id="bitfield">
+    <title>Bitfield types</title>
+  <para>
+  The sign of a plain bitfield type, declared without using
+  <code>signed</code> or <code>unsigned</code>, is left unspecified
+  in C and C++.  The token:
+  <programlisting language="TDF">
+~cpp.bitf_sign : ( SIGNED_NAT ) -&gt; BOOL</programlisting>
+  is used to give a mapping from integral types to the sign of a plain
+  bitfield of that type, in a form suitable for use in the TDF
+  <code>bfvar_bits</code> construct.  (Note that <code>~cpp.bitf_sign</code>
+  should have been a standard C token but was omitted.)
+  </para>
+  </section>
+
+</chapter>
+

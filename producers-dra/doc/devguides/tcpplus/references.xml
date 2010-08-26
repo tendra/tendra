@@ -7,18 +7,22 @@
 -->
 
 <!-- TODO: bibliography -->
-<chapter id="reference">
-    <title>References</title>
-    <itemizedlist>
-      <listitem><dt:doc name="reference/specification"/>:
-      <A HREF="../tdf/spec1.html">attached</A>.
-      </listitem>
-      <listitem><A id="tdfc"><code>C Checker Reference Manual</code></A>:
-      <A HREF="../tdfc/tdfc1.html">attached</A>.
-      </listitem>
-      <listitem><dt:doc name="papers/porting"/>:
-      <A HREF="../port/port1.html">attached</A>.
-      </listitem>
-    </itemizedlist>
+<chapter id="reference"
+	xmlns:dt="http://xml.water-powered.com/docs">
+
+	<title>References</title>
+
+	<itemizedlist>
+		<listitem><dt:doc name="reference/specification"/>:
+			<A HREF="../tdf/spec1.html">attached</A>.
+		</listitem>
+		<listitem><A id="tdfc"><code>C Checker Reference Manual</code></A>:
+			<A HREF="../tdfc/tdfc1.html">attached</A>.
+		</listitem>
+		<listitem><dt:doc name="papers/porting"/>:
+			<A HREF="../port/port1.html">attached</A>.
+		</listitem>
+	</itemizedlist>
+
 </chapter>
 

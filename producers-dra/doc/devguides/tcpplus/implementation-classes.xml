@@ -1,0 +1,532 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter>
+    <title>Classes</title>
+
+  <section id="class">
+    <title>Class layout</title>
+  <para>
+  Consider a class with no base classes:
+  <programlisting language="C++">
+class A {
+    // A's members
+} ;</programlisting>
+  Each object of class <emphasis>A</emphasis> needs its own copy of the non-static
+  data members of <emphasis>A</emphasis> and, for polymorphic types, a means of referencing
+  the virtual function table and run-time type information for <emphasis>A</emphasis>.
+  This is accomplished using a layout of the form:
+
+	<figure>
+		<title>Class A</title>
+
+		<graphic fileref="images/class.png"/>
+	</figure>
+
+  where the <emphasis>A</emphasis> component consists of the non-static data members
+  and
+  <emphasis>vptr A</emphasis> is a pointer to the virtual function table for <emphasis>A</emphasis>.
+  For non-polymorphic classes the <emphasis>vptr A</emphasis> field is omitted; otherwise
+  space for <emphasis>vptr A</emphasis> needs to be allocated within the class and
+  the pointer needs to be initialised in each constructor for <emphasis>A</emphasis>.
+  The precise layout of the <link linkend="vtable">virtual function table</link>
+  and the <link linkend="rtti">run-time type information</link> is given below.
+  </para>
+  <para>
+  Two alternative ways of laying out the non-static data members within
+  the class are implemented.  The first, which is default, gives them
+  in the order in which they are declared in the class definition.
+  The second lays out the <code>public</code>, the <code>protected</code>,
+  and the <code>private</code> members in three distinct sections, the
+  members within each section being given in the order in which they
+  are declared. The latter can be enabled using the <code>-jo</code>
+  command-line option.
+  </para>
+  <para>
+  The offset of each member within the class (including <emphasis>vptr A</emphasis>)
+  can be calculated in terms of the offset of the previous member.
+  The first member has offset zero.  The offset of any other member
+  is given by the offset of the previous member plus the size of the
+  previous member, rounded up to the alignment of the current member.
+  The overall size of the class is given by the offset of the last member
+  plus the size of the last member, rounded up using the token:
+  <programlisting language="TDF">
+~comp_off : ( EXP OFFSET ) -&gt; EXP OFFSET</programlisting>
+  which allows for any target dependent padding at the end of the class.
+  The shape of the class is then a <code>compound</code> shape with
+  this offset.
+  </para>
+  <para>
+  Classes with no members need to be treated slightly differently.
+  The shape of such a class is given by the token:
+  <programlisting language="TDF">
+~cpp.empty.shape : () -&gt; SHAPE</programlisting>
+  (recall that an empty class still has a nonzero size).  The token:
+  <programlisting language="TDF">
+~cpp.empty.offset : () -&gt; EXP OFFSET</programlisting>
+  is used to represent the offset required for an empty class when it
+  is used as a base class.  This may be a zero offset.
+  </para>
+  <para>
+  Bitfield members provide a slight complication to the picture above.
+  The offset of a bitfield is additionally padded using the token:
+  <programlisting language="TDF">
+~pad : ( EXP OFFSET, SHAPE, SHAPE ) -&gt; EXP OFFSET</programlisting>
+  where the two shapes give the type underlying the bitfield and the
+  bitfield itself.
+  </para>
+  <para>
+  The layout of unions is similar to that of classes except that all
+  members have zero offset, and the size of the union is the maximum
+  of the sizes of its members, suitably padded.  Of course unions cannot
+  be polymorphic and cannot have base classes.
+  </para>
+  <para>
+  Pointers to incomplete classes are represented by means of the alignment:
+  <programlisting language="TDF">
+~cpp.empty.align : () -&gt; ALIGNMENT</programlisting>
+  This token is also used for the alignment of a complete class if that
+  class is never used in the generated TDF in a manner which requires
+  it to be complete.  This can lead to savings on the size of the generated
+  code by preventing the need to define all the member offset tokens
+  in order to find the shape of the class.
+  </para>
+  </section>
+
+  <section id="derive">
+    <title>Derived class layout</title>
+  <para>
+  The description of the implementation of derived classes will be given
+  in terms of the example class hierarchy given by:
+  <programlisting language="C++">
+class A {
+    // A's members
+} ;
+
+class B : public A {
+    // B's members
+} ;
+
+class C : public A {
+    // C's members
+} ;
+
+class D : public B, public C {
+    // D's members
+} ;</programlisting>
+  or, as a directed acyclic graph:
+  </para>
+
+	<figure>
+		<title>Class D</title>
+
+		<graphic fileref="images/graph.png"/>
+	</figure>
+
+
+<section>
+	<title>Single inheritance</title>
+  <para>
+  The layout of class <emphasis>A</emphasis> is given by:
+
+	<figure>
+		<title>Class A</title>
+
+		<graphic fileref="images/classA.png"/>
+	</figure>
+
+  as above.  Class <emphasis>B</emphasis> inherits all the members of class <emphasis>A</emphasis>
+  plus those members explicitly declared within class <emphasis>B</emphasis>.  In
+  addition, class <emphasis>B</emphasis> inherits all the virtual member functions
+  of <emphasis>A</emphasis>, some of which may be overridden in <emphasis>B</emphasis>, extended
+  by any additional virtual functions declared in <emphasis>B</emphasis>.  This may
+  be represented as follows:
+
+	<figure>
+		<title>Class B</title>
+
+		<graphic fileref="images/classB.png"/>
+	</figure>
+
+  where <emphasis>A</emphasis> denotes those members inherited from the base class
+  and
+  <emphasis>B</emphasis> denotes those members added in the derived class.  Note that
+  an object of class <emphasis>B</emphasis> contains a sub-object of class <emphasis>A</emphasis>.
+  The fact that this sub-object is located at the start of <emphasis>B</emphasis>
+  means that the base class conversion from <emphasis>B</emphasis> to <emphasis>A</emphasis> is
+  trivial.  Any base class with this property is called a
+  <A id="primary">primary base class</A>.
+  </para>
+  <para>
+  Note that in theory two virtual function tables are required, the
+  normal virtual function table for <emphasis>B</emphasis>, denoted by <emphasis>vtbl B</emphasis>,
+  and a modified virtual function table for <emphasis>A</emphasis>, denoted by <emphasis>vtbl
+  B::A</emphasis>, taking into account any overriding virtual functions within
+  <emphasis>B</emphasis>, and pointing to <emphasis>B</emphasis>'s run-time type information.  This
+  latter means that the dynamic type information for the <emphasis>A</emphasis> sub-object
+  relates to
+  <emphasis>B</emphasis> rather than <emphasis>A</emphasis>.  However these two tables can usually
+  be combined - if the virtual functions added in <emphasis>B</emphasis> are listed
+  in the virtual function table after those inherited from <emphasis>A</emphasis>
+  and the form of the overriding is <link linkend="override">suitably well
+  behaved</link>
+  (in the sense defined below) then <emphasis>vptr B::A</emphasis> is an initial segment
+  of <emphasis>vptr B</emphasis>.  It is also possible to remove the <emphasis>vptr B</emphasis>
+  field and use <emphasis>vptr B::A</emphasis> in its place in this case (it has to
+  be this way round to preserve the <emphasis>A</emphasis> sub-object).  Thus the
+  items shaded in the diagram can be removed.
+  </para>
+  <para>
+  The class <emphasis>C</emphasis> is similarly given by:
+
+	<figure>
+		<title>Class C</title>
+
+		<graphic fileref="images/classC.png"/>
+	</figure>
+
+  </para>
+</section>
+
+<section>
+	<title>Multiple inheritance</title>
+  <para>
+  Class <emphasis>D</emphasis> is more complex because of the presence of multiple
+  inheritance.  <emphasis>D</emphasis> inherits all the members of <emphasis>B</emphasis>, including
+  those which <emphasis>B</emphasis> inherits from <emphasis>A</emphasis>, plus all the members
+  of
+  <emphasis>C</emphasis>, including those which <emphasis>C</emphasis> inherits from <emphasis>A</emphasis>.
+  It also inherits all of the virtual member functions from <emphasis>B</emphasis>
+  and
+  <emphasis>C</emphasis>, some of which may be overridden in <emphasis>D</emphasis>, extended by
+  any additional virtual functions declared in <emphasis>D</emphasis>.  This may be
+  represented as follows:
+
+	<figure>
+		<title>Class D</title>
+
+		<graphic fileref="images/classD.png"/>
+	</figure>
+
+  Note that there are two copies of <emphasis>A</emphasis> in <emphasis>D</emphasis> because virtual
+  inheritance has not been used.
+  </para>
+  <para>
+  The <emphasis>B</emphasis> base class of <emphasis>D</emphasis> is essentially similar to the
+  single inheritance case already discussed; the <emphasis>C</emphasis> base class
+  is different however.  Note firstly that the <emphasis>C</emphasis> sub-object of
+  <emphasis>D</emphasis> is located at a non-zero offset, <emphasis>delta D::C</emphasis>, from
+  the start of the object. This means that the base class conversion
+  from <emphasis>D</emphasis> to <emphasis>C</emphasis>
+  consists of adding this offset (for pointer conversions things are
+  further complicated by the need to allow for null pointers).  Also
+  <emphasis>vtbl D::C</emphasis> is not an initial segment of <emphasis>vtbl D</emphasis> because
+  this contains the virtual functions inherited from <emphasis>B</emphasis> first,
+  followed by those inherited from <emphasis>C</emphasis>, followed by those first
+  declared in <emphasis>D</emphasis> (there are <link linkend="override">other reasons</link>
+  as well).  Thus <emphasis>vtbl D::C</emphasis> cannot be eliminated.
+  </para>
+</section>
+
+<section>
+	<title>Virtual inheritance</title>
+  <para>
+  Virtual inheritance introduces a further complication.  Now consider
+  the class hierarchy given by:
+  <programlisting language="C++">
+class A {
+    // A's members
+} ;
+
+class B : virtual public A {
+    // B's members
+} ;
+
+class C : virtual public A {
+    // C's members
+} ;
+
+class D : public B, public C {
+    // D's members
+} ;</programlisting>
+  or, as a <A id="diamond">directed acyclic graph</A>:
+
+	<figure>
+		<title>Class D</title>
+
+		<graphic fileref="images/diamond.png"/>
+	</figure>
+
+  As before <emphasis>A</emphasis> is given by:
+
+	<figure>
+		<title>Class A</title>
+
+		<graphic fileref="images/classA.png"/>
+	</figure>
+
+  but now <emphasis>B</emphasis> is given by:
+
+	<figure>
+		<title>Class B</title>
+
+		<graphic fileref="images/virtualB.png"/>
+	</figure>
+
+  Rather than having the sub-object of class <emphasis>A</emphasis> directly as part
+  of
+  <emphasis>B</emphasis>, the class now contains a pointer, <emphasis>ptr A</emphasis>, to this
+  sub-object.  The virtual sub-objects are always located at the end
+  of a class layout; their offset may therefore vary for different objects,
+  however the offset for <emphasis>ptr A</emphasis> is always fixed.  The <emphasis>ptr A</emphasis>
+  field is initialised in each constructor for <emphasis>B</emphasis>.  In order to
+  perform the base class conversion from <emphasis>B</emphasis> to <emphasis>A</emphasis>, the contents
+  of <emphasis>ptr A</emphasis> are taken (again provision needs to be made for null
+  pointers in pointer conversions).  In cases when the dynamic type
+  of the <emphasis>B</emphasis> object can be determined statically it is possible
+  to access the <emphasis>A</emphasis> sub-object directly by adding a suitable offset.
+  Because this conversion is non-trivial (see <link linkend="override">below</link>)
+  the virtual function table <emphasis>vtbl B::A</emphasis> is not an initial segment
+  of
+  <emphasis>vtbl B</emphasis> and cannot be eliminated.
+  </para>
+  <para>
+  The class <emphasis>C</emphasis> is similarly given by:
+
+	<figure>
+		<title>Class C</title>
+
+		<graphic fileref="images/virtualC.png"/>
+	</figure>
+
+  Now the class <emphasis>D</emphasis> is given by:
+
+	<figure>
+		<title>Class D</title>
+
+		<graphic fileref="images/virtualD.png"/>
+	</figure>
+
+  Note that there is a single <emphasis>A</emphasis> sub-object of <emphasis>D</emphasis> referenced
+  by the <emphasis>ptr A</emphasis> fields in both the <emphasis>B</emphasis> and <emphasis>C</emphasis> sub-objects.
+  The elimination of <emphasis>vtbl D::B</emphasis> is as above.
+  </para>
+</section>
+  </section>
+
+  <section id="constr">
+    <title>Constructors and destructors</title>
+  <para>
+  The implementation of constructors and destructors, whether explicitly
+  or implicitly defined, is slightly more complex than that of other
+  member functions.  For example, the constructors need to set up the
+  internal <emphasis>vptr</emphasis> and <emphasis>ptr</emphasis> fields mentioned above.
+  </para>
+  <para>
+  The order of initialisation in a constructor is as follows:
+  <itemizedlist>
+  <listitem>The internal <emphasis>ptr</emphasis> fields giving the locations of the virtual
+  base classes are initialised.
+  </listitem>
+  <listitem>The constructors for the virtual base classes are called.
+  </listitem>
+  <listitem>The constructors for the non-virtual direct base classes are called.
+  </listitem>
+  <listitem>The internal <emphasis>vptr</emphasis> fields giving the locations of the virtual
+  function tables are initialised.
+  </listitem>
+  <listitem>The constructors for the members of the class are called.
+  </listitem>
+  <listitem>The main constructor body is executed.
+  </listitem>
+  </itemizedlist>
+  To ensure that each virtual base is only initialised once, if a class
+  has a virtual base class then all its constructors have an implicit
+  extra parameter of type <code>int</code>.  The first two steps above
+  are then only applied if this flag is nonzero.  In normal applications
+  of the constructor this argument will be 1, however in base class
+  initialisations such as those in the third and fourth steps above,
+  it will be 0.
+  </para>
+  <para>
+  Note that similar steps to protect virtual base classes are not taken
+  in an implicitly declared <code>operator=</code> function.  The order
+  of assignment in this case is as follows:
+  <itemizedlist>
+  <listitem>The assignment operators for the direct base classes (both virtual
+  and non-virtual) are called.
+  </listitem>
+  <listitem>The assignment operators for the members of the class are called.
+  </listitem>
+  <listitem>A reference to the object assigned to (i.e. <code>*this</code>)
+  is     returned.
+  </listitem>
+  </itemizedlist>
+  </para>
+  <para>
+  The order of destruction in a destructor is essentially the reverse
+  of the order of construction:
+  <itemizedlist>
+  <listitem>The main destructor body is executed.
+  </listitem>
+  <listitem>The destructor for the members of the class are called.
+  </listitem>
+  <listitem>The internal <emphasis>vptr</emphasis> fields giving the locations of the virtual
+  function tables are re-initialised.
+  </listitem>
+  <listitem>The destructors for the non-virtual direct base classes are called.
+  </listitem>
+  <listitem>The destructors for the virtual base classes are called.
+  </listitem>
+  <listitem>If necessary the space occupied by the object is deallocated.
+  </listitem>
+  </itemizedlist>
+  All destructors have an extra parameter of type <code>int</code>.
+  The virtual base classes are only destroyed if this flag is nonzero
+  when and-ed with 2.  The space occupied by the object is only deallocated
+  if this flag is nonzero when and-ed with 1.  This deallocation is
+  equivalent to inserting:
+  <programlisting language="C++">
+delete this ;</programlisting>
+  in the destructor.  The <code>operator delete</code> function is called
+  via the destructor in this way in order to implement the pseudo-virtual
+  nature of these deallocation functions.  Thus for normal destructor
+  calls the extra argument is 2, for base class destructor calls it
+  is 0, and for calls arising from a <code>delete</code> expression
+  it is 3.
+  </para>
+  <para>
+  The point at which the virtual function tables are initialised in
+  the constructor, and the fact that they are re-initialised in the
+  destructor, is to ensure that virtual functions called from base class
+  initialisers are handled correctly (see ISO C++ 12.7).
+  </para>
+  <para>
+  A further complication arises from the need to destroy
+  <A id="partial">partially constructed objects</A> if an exception
+  is thrown in a constructor.  A count is maintained of the number of
+  base classes and members constructed within a constructor.  If an
+  exception is thrown then it is caught in the constructor, the constructed
+  base classes and members are destroyed, and the exception is re-thrown.
+  The count variable is used to determine which bases and members need
+  to be destroyed.
+  </para>
+	<warning>
+  <para>These partial destructors
+  currently do not interact correctly with any exception specification
+  on the constructor.  Exceptions thrown within destructors are not
+  correctly handled either.</para>
+	</warning>
+  </section>
+
+  <section id="vtable">
+    <title>Virtual function tables</title>
+  <para>
+  The virtual functions in a polymorphic class are given in its virtual
+  function table in the following order: firstly those virtual functions
+  inherited from its direct base classes (which may be overridden in
+  the derived class) followed by those first declared in the derived
+  class in the order in which they are declared.  Note that this can
+  result in virtual functions inherited from virtual base classes appearing
+  more than once.  The virtual functions are numbered from 1 (this is
+  slightly more convenient than numbering from 0 in the default implementation).
+  </para>
+  <para>
+  The virtual function table for this class has shape:
+  <programlisting language="TDF">
+~cpp.vtab.type : ( NAT ) -&gt; SHAPE</programlisting>
+  the argument being <emphasis>n + 1</emphasis> where <emphasis>n</emphasis> is the number of virtual
+  functions in the class (there is also a token:
+  <programlisting language="TDF">
+~cpp.vtab.diag : () -&gt; SHAPE</programlisting>
+  which is used in the diagnostic output for a generic virtual function
+  table).  The table is created using the token:
+  <programlisting language="TDF">
+~cpp.vtab.make : ( EXP pti, EXP OFFSET, NAT, EXP NOF ) -&gt; EXP vt</programlisting>
+  where the first expression gives the address of the <link linkend="rtti">run-time
+  type information structure</link> for the class, the second expression
+  gives the offset of the <emphasis>vptr</emphasis> field within the class (i.e. <emphasis>voff</emphasis>),
+  the integer constant is <emphasis>n + 1</emphasis>, and the final expression is
+  a
+  <code>make_nof</code> construct giving information on each of the
+  <emphasis>n</emphasis>
+  virtual functions.
+  </para>
+  <para>
+  The information given on each virtual function in this table has the
+  form of a <link linkend="ptr_mem_func">pointer to function member</link> formed
+  using the token:
+  <programlisting language="TDF">
+~cpp.pmf.make : ( EXP PROC, EXP OFFSET, EXP OFFSET ) -&gt; EXP pmf</programlisting>
+  as above, except that the third argument gives the offset of the base
+  class in virtual function tables such as <emphasis>vtbl B::A</emphasis>.  For pure
+  virtual functions the function pointer in this token is given by:
+  <programlisting language="TDF">
+~cpp.vtab.pure : () -&gt; EXP PROC</programlisting>
+  In the default implementation this gives a function
+  <code>__TCPPLUS_pure</code> which just calls <code>abort</code>.
+  </para>
+  <para>
+  To avoid duplicate copies of virtual function tables and run-time
+  type information structures being created, the ARM algorithm is used.
+  The virtual function table and run-time type information structure
+  for a class are defined in the module containing the definition of
+  the first non-inline, non-pure virtual function declared in that class.
+  If such a function does not exist then duplicate copies are created
+  in every module which requires them.  In the former case the virtual
+  function table will have an <link linkend="other">external tag name</link>;
+  in the latter case it will be an internal tag.  This scheme can be
+  overridden using the <code>-jv</code> command-line option, which causes
+  local virtual function tables to be output for all classes.
+  </para>
+  <para>
+  Note that the discussion above applies to both simple virtual function
+  tables, such as <emphasis>vtbl B</emphasis> above, and to those arising from base
+  classes, such as <emphasis>vtbl B::A</emphasis>.  <A id="override">We are now
+  in a position to precisely determine when <emphasis>vtbl B::A</emphasis> is an initial
+  segment of <emphasis>vtbl B</emphasis> and hence can be eliminated</A>.  Firstly,
+  <emphasis>A</emphasis> must be the first direct base class of <emphasis>B</emphasis> and cannot
+  be virtual.  This is to ensure both that there are no virtual functions
+  in <emphasis>vtbl B</emphasis> before those inherited from <emphasis>A</emphasis>, and that the
+  corresponding base class conversion is trivial so that the pointers
+  to function members of <emphasis>B</emphasis> comprising the virtual function table
+  can be equally regarded as pointers to function members of <emphasis>A</emphasis>.
+  The second requirement is that if a virtual function for <emphasis>A</emphasis>,
+  <emphasis>f</emphasis>, is overridden in <emphasis>B</emphasis> then the return type for <emphasis>B::f</emphasis>
+  cannot differ from the return type for <emphasis>A::f</emphasis> by a non-trivial
+  conversion (recall that ISO C++ allows the return types to differ
+  by a base class conversion).  In the non-trivial conversion case the
+  function entered in <emphasis>vtbl B::A</emphasis> needs to be, not <emphasis>B::f</emphasis>
+  as in <emphasis>vtbl B</emphasis>, but a stub function which calls <emphasis>B::f</emphasis> and
+  converts its return value to the return type of <emphasis>A::f</emphasis>.
+  </para>
+
+<section>
+	<title>Calling virtual functions</title>
+  <para>
+  The virtual function call mechanism is implemented using the token:
+  <programlisting language="TDF">
+~cpp.vtab.func : ( EXP ppvt, SIGNED_NAT ) -&gt; EXP ppmf</programlisting>
+  which has as its arguments a reference to the <emphasis>vptr</emphasis> field of
+  the object the function is to be called for, and the number of the
+  virtual function to be called.  It returns a reference to the corresponding
+  pointer to function member within the object's virtual function table.
+  The function is then called by extracting the base class offset to
+  be added, and the function to be called, from this reference using
+  the tokens:
+  <programlisting language="TDF">
+~cpp.pmf.delta : ( ALIGNMENT a, EXP ppmf ) -&gt; EXP OFFSET ( a, a )
+~cpp.pmf.func : ( EXP ppmf ) -&gt; EXP PROC</programlisting>
+  described as part of the <link linkend="ptr_mem_func">pointer to function
+  member call mechanism</link> above.
+  </para>
+</section>
+  </section>
+
+</chapter>
+

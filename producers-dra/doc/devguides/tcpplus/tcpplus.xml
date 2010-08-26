@@ -11,7 +11,7 @@
 	xmlns:xi="http://www.w3.org/2001/XInclude">
 
 	<bookinfo>
-		<title>C++ Producer Component Developer Guide</title>
+		<title>C++ Producer Implementation Details</title>
 
 		<othercredit class="copyeditor">
 			<firstname>Katherine</firstname>
@@ -56,6 +56,13 @@
 
 	<!-- Chapters -->
 	<xi:include href="overview.xml"/>
+	<xi:include href="implementation-scalar.xml"/>
+	<xi:include href="implementation-pointers.xml"/>
+	<xi:include href="implementation-calling.xml"/>
+	<xi:include href="implementation-classes.xml"/>
+	<xi:include href="implementation-exceptions.xml"/>
+	<xi:include href="implementation-runtimetypes.xml"/>
+	<xi:include href="implementation-mangling.xml"/>
 	<xi:include href="implementation.xml"/>
 	<xi:include href="styleguide.xml"/>
 	<xi:include href="references.xml"/>

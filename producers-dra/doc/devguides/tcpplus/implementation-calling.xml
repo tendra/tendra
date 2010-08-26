@@ -1,0 +1,74 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter>
+    <title>Calling conventions</title>
+
+  <para>
+  The function calling conventions used by the C++ producer are essentially
+  the same as those used by the C producer with one exception.  That
+  is to say, all types except arrays are passed by value (note that
+  individual installers may modify these conventions to conform to their
+  own ABIs).
+  </para>
+  <para>
+  The exception concerns classes with a non-trivial constructor, destructor
+  or assignment operator.  These classes are passed as function arguments
+  by taking a reference to a copy of the object (although it is often
+  possible to eliminate the copy and pass a reference to the object
+  directly).  They are passed as function return values by adding an
+  extra parameter to the start of the function parameters giving a reference
+  to a location into which the return value should be copied.
+  </para>
+
+<section>
+	<title>Member functions</title>
+  <para>
+  Non-static member functions are implemented in the obvious fashion,
+  by passing a pointer to the object the method is being applied to
+  as the first argument (or the second argument if the method has an
+  extra argument for its return value).
+  </para>
+</section>
+
+<section id="ellipsis-funcs">
+	<title>Ellipsis functions</title>
+  <para>
+  Calls to functions declared with ellipses are via the
+  <code>apply_proc</code> TDF construct, with all the arguments being
+  treated as non-variable.  However the definition of such a function
+  uses the <code>make_proc</code> construct with a variable parameter.
+  This parameter can be referred to within the program using the
+  <A HREF="pragma.html#ellipsis"><code>...</code> expression</A>.  The
+  type of this expression is given by the built-in token:
+  <programlisting language="TDF">
+~__va_t : () -&gt; SHAPE</programlisting>
+  The <code>va_start</code> macro declared in the
+  <code>&lt;stdarg.h&gt;</code> header then describes how the variable
+  parameter (expressed as <code>...</code>) can be converted to an expression
+  of type <code>va_list</code> suitable for use in the
+  <code>va_arg</code> macro.
+  </para>
+  <para>
+  Note that the variable parameter is in effect only being used to determine
+  where the first optional parameter is defined.  The assumption is
+  that all such parameters are located contiguously on the stack, however
+  the fact that calls to such functions do not use the variable parameter
+  mechanism means that this is not automatically the case.  Strictly
+  speaking this means that the implementation of ellipsis functions
+  uses undefined behaviour in TDF, however given the non-type-safe function
+  calling rules in C this is unavoidable and installers need to make
+  provision for such calls (by dumping any parameters from registers
+  to the stack if necessary).  Given the theoretically type-safe nature
+  of C++ it would be possible to avoid such undefined behaviour, but
+  the need for C-compatible calling conventions prevents this.
+  </para>
+</section>
+
+</chapter>
+
