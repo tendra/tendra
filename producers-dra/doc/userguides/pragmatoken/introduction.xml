@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title>Introduction</title>
+
+	<!-- TODO merge in tcpplus's token syntax description -->
+	<!-- TODO if we do, s/Chapter// -->
+
+	<para>The token syntax is used to introduce references to program
+		constructs such as types, expressions etc. that can be defined in
+		other compilation modules. This can be thought of as a generalisation
+		of function prototyping which is used to introduce references to
+		functions defined elsewhere. The references introduced by the token
+		syntax are called tokens because they are tokens for the program
+		constructs that they reference. The token syntax is said to specify a
+		token interface.</para>
+
+	<para>It is expected that the general user will have little direct
+		contact with the token syntax, instead using the asbstract standard
+		headers provided or using the tspec tool [Ref. 5] to generate their
+		own token interface header files automatically. However, it may
+		occasionally be necessary to use the raw power of the token syntax
+		directly.</para>
+
+	<para>As an example of the power of the token syntax consider the
+		program below:</para>
+
+	<programlisting language="C">
+#pragma token TYPE FILE#
+#pragma token EXP rvalue:FILE *:stderr#
+int fprintf(FILE *, const char *, ...);
+void f(void) {
+	fprintf(stderr,"hello world\n");
+}</programlisting>
+
+	<para>The first line of the program introduces a token, <code>FILE</code>,
+		for a type. By using its identification, <code>FILE</code>, this token
+		can be used wherever a type could have been used throughout the rest of
+		the program. The compiler can then compile this program to TDF (the
+		abstract TenDRA machine) even though it contains an undefined type.
+		This is fundamental to the construction of portable software, where the
+		developer cannot assume the definitions of various types as they may be
+		different on different machines.</para>
+
+	<para>The second line of the example, which introduces a token for an
+		expression, is somewhat more complicated. In order to make use of
+		an expression, it is necessary to know its type and whether or not
+		it is an lvalue (i.e. whether or not it can be assigned to). As can
+		be seen from the example however, it is not necessary to know the
+		exact type of the expression because a token can be used to
+		represent its type.</para>
+
+	<para>The TenDRA compiler makes no assumptions about the possible
+		definitions of tokens and will raise an error if a program requires
+		information about an undefined token. In this way many errors
+		resulting from inadvertent use of a definition present on the
+		developer's system can be detected. For example, developers often
+		assume that the type FILE will be implemented by a structure type
+		when in fact the ISO C standard permits the implementation of FILE
+		by any type. In the program above, any attempt to access members of
+		stderr would cause the compiler to raise an error.</para>
+</chapter>
+

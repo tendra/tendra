@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title id="19">Selector tokens</title>
+
+	<para>The use of selector tokens is the primary method of adding member
+		selectors to compound type tokens. (The only other method is to
+		define the compound type token to be a particular structure or union
+		type.) The introduction of new selector tokens can occur at any
+		point in a program and they can thus be used to add new member
+		selectors to existing compound types.</para>
+
+	<para>The syntax for introducing member selector tokens as
+		follows:</para>
+
+	<programlisting language="BNF">
+selector-token:
+	MEMBER <replaceable>selector-type-name</replaceable> : <replaceable>type-name</replaceable> :
+
+selector-type-name:
+	<replaceable>type-name</replaceable><replaceable>type-name</replaceable> % <replaceable>constant-expression</replaceable></programlisting>
+
+	<para>The <replaceable>selector-type-name</replaceable> specifies the type of
+		the object selected by the selector token. If the
+		<replaceable>selector-type-name</replaceable> is a plain
+		<replaceable>type-name</replaceable>, the member selector token has that
+		type. If the <replaceable>selector-type-name</replaceable> consists of a
+		<replaceable>type-name</replaceable> and a
+		<replaceable>constant-expression</replaceable> separated by a
+		<code>%</code> sign, the member selector token refers to a bitfield
+		of type <replaceable>type-name</replaceable> and width
+		<replaceable>constant-expression</replaceable>. The second
+		<replaceable>type-name</replaceable> gives the compound type to which the
+		member selector belongs. For example:</para>
+
+	<programlisting language="C">
+#pragma token STRUCT TAG s_t#
+#pragma token MEMBER char*: struct s_t:s_t_mem#</programlisting>
+
+	<para>introduces a compound token type, <code>s_t</code>, which has a
+		member selector, <code>s_t_mem</code>, which selects an object of
+		type <code>char *</code>.</para>
+
+	<para>Internal identifiers of member selector tokens can only reside
+		in the member name space of the compound type to which they belong.
+		Clearly this is also the default name space for such
+		identifiers.</para>
+
+	<para>When structure or union types are declared, according to the ISO
+		C standard there is an implied ordering on the member selectors. In
+		particular this means that:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>during initialisation with an initialiser-list the identified
+				members of a structure are initialised in the order in which they
+				were declared. The first identified member of a union is
+				initialised;</para>
+		</listitem>
+		<listitem>
+			<para>the addresses of structure members will increase in the order
+				in which they were declared.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>The member selectors introduced as selector tokens are not
+		related to any other member selectors until they are defined. There
+		is thus no ordering on the undefined tokenised member selectors of
+		a compound type. If a compound type has only undefined token
+		selectors, it cannot be initialised with an initialiser-list. There
+		will be an ordering on the defined members of a compound type and
+		in this case, the compound type can be initialised
+		automatically.</para>
+
+	<para>The decision to allow unordered member selectors has been taken
+		deliberately in order to separate the decision of which members
+		belong to a structure from that of where such member components lie
+		within the structure. This makes it possible to represent
+		extensions to APIs which require extra member selectors to be added
+		to existing compound types.</para>
+
+	<para>As an example of the use of token member selectors, consider the
+		structure <code>lconv</code> specified in the ISO C Standard library (section
+		7.4.3.1). The standard does not specify all the members of <code>struct
+		lconv</code> or the order in which they appear. This type cannot be
+		represented naturally by existing C types, but can be described by
+		the token syntax.</para>
+
+	<para>There are two methods for defining selector tokens, one explicit
+		and one implicit. As selector token identifiers do not reside in
+		the macro name space they cannot be defined using #define
+		statements.</para>
+
+	<para>Suppose <code>A</code> is an undefined compound token type and
+		<code>mem</code> is an undefined selector token for <code>A</code>.
+		If <code>A</code> is later defined to be the compound type <code>B</code>
+		and <code>B</code> has a member selector with identifier
+		<code>mem</code> then <code>A.mem</code> is defined to be
+		<code>B.mem</code> providing the type of <code>A.mem</code> can
+		be resolved to the type of <code>B.mem</code>. This is known as
+		implicit selector token definition.</para>
+
+	<para>In the program shown below the redefinition of the compound type
+		<code>s_t</code> causes the token for the selector <code>mem_x</code> to be
+		implicitly defined to be the second member of struct
+		<code>s_tag</code>. The consequential type resolution leads to the
+		token type <code>t_t</code> being defined to be int.</para>
+
+	<programlisting language="C">
+#pragma token TYPE t_t#
+#pragma token STRUCT s_t#
+#pragma token MEMBER t_t : s_t : mem_x#
+#pragma token MEMBER t_t : s_t : mem_y#
+struct s_tag { int a, mem_x, b; }
+typedef struct s_tag s_t;</programlisting>
+
+	<para>Explicit selector token definition takes place using the pragma:</para>
+
+	<programlisting language="BNF">#pragma DEFINE MEMBER<replaceable> type-name</replaceable><replaceable>identifier</replaceable> : <replaceable>member-designator</replaceable>
+
+member-designator:
+	<replaceable>identifier</replaceable>
+	<replaceable>identifier . member-designator</replaceable></programlisting>
+
+	<para>The <replaceable>type-name</replaceable> specifies the compound type to
+		which the selector belongs.</para>
+
+	<para>The <replaceable>identifier</replaceable> provides the identification of the
+		member selector within that compound type.</para>
+
+	<para>The <replaceable>member-designator</replaceable> provides the definition of the
+		selector token. It must identify a selector of a compound type.</para>
+
+	<para>If the <replaceable>member-designator</replaceable> is an identifier, then the
+		identifier must be a member of the compound type specified by the
+		<replaceable>type-name</replaceable>. If the <replaceable>member-designator</replaceable> is an
+		identifier, <replaceable>id</replaceable> say, followed by a further
+		member-designator, M say, then:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>the identifier id must be a member identifying a selector of
+				the compound type specified by <replaceable>type-name</replaceable>;</para>
+		</listitem>
+		<listitem>
+			<para>the type of the selector identified by id must have compound
+				type, C say;</para>
+		</listitem>
+		<listitem>
+			<para>the <code>member-designator</code> M must identify a member
+				selector of the compound type C.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>As with implicit selector token definitions, the type of the
+		selector token must be resolved to the type of the selector
+		identified by the <replaceable>member-designator</replaceable>.</para>
+
+	<para>In the example shown below, the selector token mem is defined to
+		be the second member of struct <replaceable>s</replaceable> which in turn is the
+		second member of struct <replaceable>s_t</replaceable>.</para>
+
+	<programlisting language="C">
+#pragma token STRUCT s_t#
+#pragma token MEMBER int : s_t : mem#
+typedef struct {int x; struct {char y; int z;} s; } s_t;
+#pragma DEFINE MEMBER s_t : mem s.z</programlisting>
+</chapter>
+

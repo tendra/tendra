@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title id="wbS145">Program construction using TDF</title>
+
+	<para>Traditional program construction using the C language has two
+		phases: compilation and linking.</para>
+
+	<para>In the compilation phase the source text written in the C
+		language is mapped to an object code format. This object code is
+		generally not complete in itself and must be linked with other
+		program segments such as definitions from the system libraries.</para>
+
+	<para>When tokens are involved there is an extra stage in the
+		construction process where undefined tokens in one program segment
+		are linked with their definitions in another program segment. To
+		summarise, program construction using TDF and the TenDRA tools has
+		four basic operations:</para>
+
+	<orderedlist>
+		<listitem>
+			<para>Source file compilation to TDF. The TDF produced may be
+				incomplete in the sense that it may contain undefined tokens;</para>
+		</listitem>
+		<listitem>
+			<para>TDF linking. The undefined tokens represented in TDF are linked
+				to their definitions in other compilation modules or libraries.
+				During linking, tokens with the same identifier are treated as the
+				same token;</para>
+		</listitem>
+		<listitem>
+			<para>TDF translation. This is the conversion of TDF into standard
+				object file format for a particular machine system. The program is
+				still incomplete at this stage in the sense that it may contain
+				undefined library functions;</para>
+		</listitem>
+		<listitem>
+			<para>Object file linking. This corresponds directly to standard
+				object file linking.</para>
+		</listitem>
+	</orderedlist>
+</chapter>
+

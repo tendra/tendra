@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title id="wbS163">Tokens and APIs</title>
+
+	<para>In Chapter 1 we mentioned that one of the main problems in
+		writing portable software is the lack of separation between
+		specification and implementation of APIs. The TenDRA technology
+		uses the token syntax described in the previous sections to provide
+		an abstract description of an API specification. Collections of
+		tokens representing APIs are called <quote>interfaces</quote>.
+		Tchk can compile programs with these interfaces in order to check
+		applications against API specifications independently of any
+		particular implementation that may be present on the developer's
+		machine.</para>
+
+	<para>In order to produce executable code, definitions of the
+		interface tokens must be provided on all target machines. This is
+		done by compiling the interfaces with the system headers and
+		libraries.</para>
+
+	<para>When developing applications, programmers must ensure that they
+		do not accidentally define a token expressing an API. Implementers
+		of APIs, however, do not want to inadvertently fail to define a
+		token expressing that API. Token definition states have been
+		introduced to enable programmers to instruct the compiler to check
+		that tokens are defined when and only when they wish them to be.
+		This is fundamental to the separation of programs into portable and
+		unportable parts.</para>
+
+	<para>When tokens are first introduced, they are in the free state.
+		This means that the token can be defined or left undefined and if
+		the token is defined during compilation, its definition will be
+		output as TDF.</para>
+
+	<para>Once a token has been given a valid definition, its definition
+		state moves to defined. Tokens may only be defined once. Any
+		attempt to define a token in the defined state is flagged as an
+		error.</para>
+
+	<para>There are three more token definition states which may be set by
+		the programmer. These are as follows:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Indefinable - the token is not defined and must not be defined.
+				Any attempt to define the token will cause an error. When compiling
+				applications, interface tokens should be in the indefinable state.
+				It is not possible for a token to move from the state of defined to
+				indefinable;</para>
+		</listitem>
+		<listitem>
+			<para>Committed - the token must be defined during the compilation.
+				If no definition is found the compiler will raise an error.
+				Interface tokens should be in the committed state when being
+				compiled with the system headers and libraries to provide
+				definitions;</para>
+		</listitem>
+		<listitem>
+			<para>Ignored - any definition of the token that is assigned during
+				the compilation of the program will not be output as TDF;</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>These token definition states are set using the pragmas:</para>
+
+	<programlisting language="BNF">
+#pragma <replaceable>token-op token-id-list</replaceable><subscript><replaceable>opt</replaceable></subscript>
+
+token-op:
+	define
+	no_def
+	ignore
+	interface
+
+token-id-list:	
+	TAG<subscript><replaceable>opt</replaceable></subscript><replaceable>identifier</replaceable><replaceable>dot-list</replaceable><subscript><replaceable>opt</replaceable></subscript><replaceable>token-id-list</replaceable><subscript><replaceable>opt</replaceable></subscript>
+
+dot-list:
+	. <replaceable>member-designator</replaceable></programlisting>
+
+	<para>The <replaceable>token-id-list</replaceable>  is the list of tokens to
+		which the definition state applies. The tokens in the
+		<replaceable>token-id-list</replaceable> are identified by an identifier,
+		optionally preceded by <code>TAG</code>. If <code>TAG</code> is
+		present, the identifier refers to the tag name space, otherwise the
+		macro and ordinary name spaces are searched for the identifier. If
+		there is no <replaceable>dot-list</replaceable> present, the identifier
+		must refer to a token. If the <replaceable>dot-list</replaceable>is
+		present, the identifier must refer to a compound type and the
+		member-designator must identify a member selector token of that
+		compound type.</para>
+
+	<para>The <replaceable>token-op</replaceable> specifies the definition state to be
+		associated with the tokens in the <code>token-id-list</code>. There
+		are three literal operators and one context dependent operator, as
+		follows:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para><code>no_def</code> causes the token state to move to
+				indefinable.</para>
+		</listitem>
+		<listitem>
+			<para><code>define</code> causes the token state to move to
+				committed;</para>
+		</listitem>
+		<listitem>
+			<para><code>ignore</code> causes the token state to move to
+				ignored;</para>
+		</listitem>
+		<listitem>
+			<para><code>interface</code> is the context dependent operator and is
+				used when describing extensions to existing APIs.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>As an example of an extension API, consider the POSIX
+		<code>stdio.h</code>. This is an extension of the ANSI
+		<code>stdio.h</code> and uses the same tokens to represent the
+		common part of the interface. When compiling applications, nothing
+		can be assumed about the implementation of the ANSI tokens accessed
+		via the POSIX API so they should be in the indefinable state. When
+		the POSIX tokens are being implemented, however, the ANSI
+		implementations can be assumed. The ANSI tokens are then in the
+		ignored state. (Since the definitions of these tokens will have been
+		output already during the definition of the ANSI interface, they
+		should not be output again.)</para>
+
+	<para>The <code>interface</code> operator has a variable
+		interpretation to allow the correct definition state to be
+		associated with these `base-API tokens'. The compiler associates a
+		compilation state with each file it processes. These compilation
+		states determine the interpretation of the interface operator
+		within that file.</para>
+
+	<para>The default compilation state is the standard state. In this
+		state the <code>interface</code> operator is interpreted as the
+		<code>no_def</code> operator. This is the standard state for
+		compiling applications in the presence of APIs;</para>
+
+	<para>Files included using:</para>
+
+	<programlisting language="BNF">#include <replaceable>header</replaceable></programlisting>
+
+	<para>have the same compilation state as the file from which they were included.</para>
+
+	<para>The implementation compilation state is associated with files
+		included using:</para>
+
+	<programlisting language="C">#pragma implement interface <replaceable>header</replaceable></programlisting>
+
+	<para>In this context the <code>interface</code> operator is interpreted
+		as the <code>define</code> operator.</para>
+
+	<para>Including a file using:</para>
+
+	<programlisting language="C">#pragma extend interface <replaceable>header</replaceable></programlisting>
+
+	<para>causes the compilation state to be extension unless the file
+		from which it was included was in the standard state, in which
+		case the compilation state is the standard state. In the extension
+		state the <code>interface</code> operator is interpreted as the
+		<code>ignore</code> operator.</para>
+</chapter>
+

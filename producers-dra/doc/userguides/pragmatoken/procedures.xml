@@ -1,0 +1,299 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title id="21">Procedure tokens</title>
+
+	<para>Consider the macro <code>SWAP</code> defined below:</para>
+
+	<programlisting language="C">
+#define SWAP(T, A, B) { \
+	T x; \
+	x=B; \
+	B=A; \
+	A=x; \
+}</programlisting>
+
+	<para><code>SWAP</code> can be thought of as a statement that is
+		parameterised by a type and two expressions.</para>
+
+	<para>Procedure tokens are based on this concept of parameterisation.
+			Procedure tokens reference program constructs that are
+		parameterised by other program constructs.</para>
+
+	<para>There are three methods of introducing procedure tokens. These
+		are described in the sections below.</para>
+
+	<section>
+		<title id="22">General procedure tokens</title>
+
+		<para>The syntax for introducing a general procedure token
+			is:</para>
+
+		<programlisting language="BNF">
+general procedure:
+	PROC {<replaceable> bound-toks</replaceable><subscript><replaceable>opt</replaceable></subscript> | <replaceable>prog-pars</replaceable><subscript><replaceable>opt</replaceable></subscript> } <replaceable>token-introduction</replaceable>
+
+simple procedure:
+	PROC ( <replaceable>bound-toks</replaceable><subscript><replaceable>opt</replaceable></subscript> ) <replaceable>token-introduction</replaceable>
+
+bound-toks:
+	<replaceable>bound-token</replaceable>
+	<replaceable>bound-token</replaceable>, <replaceable>bound-toks</replaceable>
+
+bound-token:
+	<replaceable>token-introduction name-space</replaceable><subscript><replaceable>opt</replaceable></subscript><replaceable>identifier</replaceable>
+
+prog-pars:
+	<replaceable>program-parameter</replaceable><replaceable>program-parameter</replaceable>, <replaceable>prog-pars</replaceable>
+
+program parameter:
+	EXP<replaceable> identifier</replaceable>
+	STATEMENT<replaceable> identifier</replaceable>
+	TYPE <replaceable>type-name-identifier</replaceable>
+	MEMBER <replaceable>type-name-identifier</replaceable> : <replaceable>identifier</replaceable></programlisting>
+
+		<para>The final <replaceable>token-introduction</replaceable> specifies
+			the kind of program construct being parameterised. In the
+			current implementation of the compiler, only expressions and
+			statements may be parameterised. The internal procedure token
+			identifier is placed in the default name space of the program
+			construct which it parameterises. For example, the internal
+			identifier of a procedure token parameterising an expression
+			would be placed in the macro name space.</para>
+
+		<para>The <code>bound-toks</code> are the bound token dependencies
+			which describe the program constructs upon which the procedure
+			token depends. These should not be confused with the parameters of
+			the token. The procedure token introduced in:</para>
+
+		<programlisting language="C">#pragma token PROC {TYPE t,EXP rvalue:t**:e|EXP e} EXP:rvalue:t:dderef#</programlisting>
+
+		<para>is intended to represent a double dereference and depends
+			upon the type of the expression to be dereferenced and upon the
+			expression itself but takes only one argument, namely the
+			expression, from which both dependencies can be deduced.</para>
+
+		<para>The bound token dependencies are introduced in exactly the same
+			way as the tokens described in the previous sections with the
+			identifier corresponding to the internal identification of the
+			token. No external identification is allowed. The scope of these
+			local identifiers terminates at the end of the procedure token
+			introduction, and whilst in scope, they hide all other identifiers
+			in the same name space. Such tokens are referred to as
+			<quote>bound</quote> because they are local to the procedure
+			token.</para>
+
+		<para>Once a bound token dependency has been introduced, it can be
+			used throughout the rest of the procedure token introduction in the
+			construction of other components.</para>
+
+		<para>The <replaceable>prog-pars</replaceable> are the program parameters. They
+			describe the parameters with which the procedure token is called.
+			The bound token dependencies are deduced from these program
+			parameters.</para>
+
+		<para>Each program parameter is introduced with a keyword expressing
+			the kind of program construct that it represents. The keywords are
+			as follows:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para><code>EXP</code>. The parameter is an expression and the identifier
+					following <code>EXP</code> must be the identification of a bound token for an
+					expression. When the procedure token is called, the corresponding
+					parameter must be an assignment-expression and is treated as the
+					definition of the bound token, thereby providing definitions for
+					all dependencies relating to that token. For example, the call of
+					the procedure token dderef, introduced above, in the code below:</para>
+
+				<programlisting language="C">
+char f(char **c_ptr_ptr)
+{
+	return dderef(c_ptr_ptr);
+}</programlisting>
+
+				<para>causes the expression, e, to be defined to be <code>c_ptr_ptr</code> thus
+					resolving the type <code>t**</code> to be <code>char **</code>.
+					The type <code>t</code> is hence defined to be <code>char</code>, also
+					providing the type of the expression obtained by
+					the application of the procedure token <code>dderef</code>;</para>
+			</listitem>
+			<listitem>
+				<para><code>STATEMENT</code>. The parameter is a statement. Its semantics
+					correspond directly to those of <code>EXP</code>;</para>
+			</listitem>
+			<listitem>
+				<para><code>TYPE</code>. The parameter is a type. When the procedure token is
+					applied, the corresponding argument must be a
+					<code>type-name</code>. The parameter type is resolved to the
+					argument type in order to define any related dependencies;</para>
+			</listitem>
+			<listitem>
+				<para><code>MEMBER</code>. The parameter is a member selector. The
+					<code>type-name</code> specifies the composite type to which the
+					member selector belongs and the identifier is the identification of
+					the member selector. When the procedure token is applied, the
+					corresponding argument must be a <replaceable>member-designator</replaceable> of the
+					compound type.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>Currently <code>PROC</code> tokens cannot be passed as
+			program parameters.</para>	<!-- TODO still true? -->
+	</section>
+
+	<section>
+		<title id="S160">Simple procedure tokens</title>
+
+		<para>In cases where there is a direct, one-to-one correspondence
+			between the bound token dependencies and the program parameters a
+			simpler form of procedure token introduction is available.</para>
+
+		<para>Consider the two procedure token introductions below,
+			corresponding to the macro <code>SWAP</code> described earlier.</para>
+
+		<programlisting language="C">
+/* General procedure introduction */
+#pragma token PROC{TYPE t,EXP lvalue:t:e1,EXP lvalue:t:e2 | \
+	TYPE t,EXP e1,EXP e2 } STATEMENT SWAP#
+/* Simple procedure introduction */
+#pragma token PROC(TYPE t,EXP lvalue:t:,EXP lvalue:t: ) STATEMENT SWAP#</programlisting>
+
+		<para>The <replaceable>simple-token</replaceable> syntax is similar to
+			the <replaceable>bound-token</replaceable> syntax, but it also
+			introduces a program parameter for each bound token. The bound
+			token introduced by the <replaceable>simple-token</replaceable>
+			syntax is defined as though it had been introduced with the
+			<replaceable>bound-token</replaceable> syntax. If the final identifier
+			is omitted, then no name space can be specified, the bound token
+			is not identified and in effect there is a local hidden
+			identifier.</para>
+	</section>
+
+	<section>
+		<title id="24">Function procedure tokens</title>
+
+		<para>One of the commonest uses of simple procedure tokens is to
+			represent function in-lining. In this case, the procedure token
+			represents the in-lining of the function, with the function
+			parameters being the program arguments of the procedure token
+			call, and the program construct resulting from the call of the
+			procedure token being the corresponding in-lining of the
+			function. This is a direct parallel to the use of macros to
+			represent functions.</para>
+
+		<para>The syntax for introducing function procedure tokens is:</para>
+
+		<programlisting language="BNF">
+function-procedure:
+	FUNC <replaceable>type-name</replaceable> :</programlisting>
+
+		<para>The <replaceable>type-name</replaceable> must be a prototyped
+			function type. The pragma results in the declaration of a
+			function of that type with external linkage and the
+			introduction of a procedure token suitable for an in-lining of
+			the function. (If an ellipsis is present in the prototyped
+			function type, it is used in the function declaration but not
+			in the procedure token introduction.) Every parameter type
+			and result type is mapped onto the token introduction:</para>
+
+		<programlisting language="BNF">EXP rvalue:</programlisting>
+
+		<para>The example below:</para>
+
+		<programlisting language="C">#pragma token FUNC int(int): putchar#</programlisting>
+
+		<para>declares a function, <code>putchar</code>, which returns an
+			<code>int</code> and takes an <code>int</code> as its
+			argument, and introduces a procedure token suitable for
+			in-lining putchar. Note that:</para>
+
+		<programlisting language="C">#undef putchar</programlisting>
+
+		<para>will remove the procedure token but not the underlying
+			function.</para>
+	</section>
+
+	<section>
+		<title id="S162">Defining procedure tokens</title>
+
+		<para>All procedure tokens are defined by the same mechanism.
+			Since simple and function procedure tokens can be transformed
+			into general procedure tokens, the definition will be
+			explained in terms of general procedure tokens.</para>
+
+		<para>The syntax for defining procedure tokens is given below and is
+			based upon the standard parameterised macro definition. However, as
+			in the definitions of expressions and statements, the
+			<code>#defines</code> of procedure token identifiers are evaluated
+			in phase 7 of translation as described in the ISO C standard.</para>
+
+		<programlisting language="BNF">
+#define <replaceable>identifier</replaceable> ( <replaceable>id-list</replaceable><subscript><replaceable>opt</replaceable></subscript> ) <replaceable>assignment-expression</replaceable>
+
+#define<replaceable> identifier</replaceable> (<replaceable> id-list</replaceable><subscript><replaceable>opt</replaceable></subscript> ) <replaceable>statement</replaceable>
+
+id-list:
+	<replaceable>identifier</replaceable><replaceable>identifer</replaceable>, <replaceable>id-list</replaceable></programlisting>
+
+		<para>The <replaceable>id-list</replaceable> must correspond directly
+			to the program parameters of the procedure token introduction.
+			There must be precisely one identifier for each program
+			parameter. These identifiers are used to identify the program
+			parameters of the procedure token being defined and have a
+			scope that terminates at the end of the procedure token
+			definition. They are placed in the default name spaces for the
+			kinds of program constructs which they identify.</para>
+
+		<para>None of the bound token dependencies can be defined during the
+			evaluation of the definition of the procedure token since they are
+			effectively provided by the arguments of the procedure token each
+			time it is called. To illustrate this, consider the example below
+			based on the dderef token used earlier.</para>
+
+		<programlisting language="C">
+#pragma token PROC{TYPE t, EXP rvalue:t**:e|EXP e}EXP rvalue:t:dderef#
+#define dderef (A) (**(A))</programlisting>
+
+		<para>The identifiers <code>t</code> and <code>e</code> are not in
+			scope during the definition, being merely local identifiers for
+			use in the procedure token introduction. The only identifier in
+			scope is <code>A</code>. <code>A</code> identifies an expression
+			token which is an rvalue whose type is a pointer to a pointer to
+			a type token. The expression token and the type token are
+			provided by the arguments at the time of calling the procedure
+			token.</para>
+
+		<para>Again, the presence of a procedure token introduction can alter
+			the semantics of a program. Consider the program below.</para>
+
+		<programlisting language="C">
+#pragma token PROC {TYPE t, EXP lvalue:t:,EXP lvalue:t:}STATEMENT SWAP#
+#define SWAP(T, A, B) { \
+	T x; \
+	x = B; \
+	B = A; \
+	A = x; \
+}
+
+void f(int x, int y)
+{
+	SWAP(int, x, y)
+}</programlisting>
+
+		<para>Function procedure tokens are introduced with tentative implicit
+			definitions, defining them to be direct calls of the functions they
+			reference and effectively removing the in-lining capability. If a
+			genuine definition is found later in the compilation, it overrides
+			the tentative definition. An example of a tentative definition is
+			shown below:</para>
+
+		<programlisting language="C">
+#pragma token FUNC int(int, long) : func#
+#define func(A, B) (func) (A, B)</programlisting>
+	</section>
+
+</chapter>
+

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title id="wb">Token identification</title>
+
+	<para>The syntax for the token-identification is as follows:</para>
+
+	<programlisting language="BNF">
+token identification:
+	<replaceable>name-space</replaceable><subscript><replaceable>opt</replaceable></subscript><replaceable>identifier</replaceable> # <replaceable>external-identifier</replaceable><subscript><replaceable>opt</replaceable></subscript>
+
+name-space:
+	TAG</programlisting>
+
+	<para>There is a default name space associated with each kind of token
+		and internal identifiers for tokens generally reside in these
+		default name spaces. The ISO C standard describes the five name
+		spaces as being:</para>
+
+	<orderedlist>
+		<listitem>
+			<para>The label space, in which all label identifiers reside;</para>
+		</listitem>
+		<listitem>
+			<para>The tag space, in which structure, union and enumeration tags
+				reside;</para>
+		</listitem>
+		<listitem>
+			<para>The member name space, in which structure and union member
+				selectors reside;</para>
+		</listitem>
+		<listitem>
+			<para>The macro name space, in which all macro definitions reside.
+				Token identifiers in the macro name space have no definition and so
+				are not expanded. However, they behave as macros in all other
+				respects;</para>
+		</listitem>
+		<listitem>
+			<para>The ordinary name space in which all other identifiers
+				reside.</para>
+		</listitem>
+	</orderedlist>
+
+	<para>The exception is compound type-token identifiers (see F.7.4
+		Compound type tokens) which by default reside in the ordinary name
+		space but can be forced to reside in the tag name space by setting
+		the optional <replaceable>name-space</replaceable> to be <code>TAG</code>.</para>
+
+	<para>The first identifier of the <replaceable>token-identification</replaceable>
+		provides the internal identification of the token. This is the name
+		used to identify the token within the program. It must be followed
+		by a <code>#</code>.</para>
+
+	<para>All further preprocessing tokens until the end of the line are
+		treated as part of the <replaceable>external-identifier</replaceable>
+		with non-empty white space sequences being replaced by a single space.
+		The <replaceable>external-identifier</replaceable> specifies the external
+		identification of the token which is used for TDF linking.
+		External token identifications reside in their own name space which
+		is distinct from the external name space for functions and objects.
+		This means that it is possible to have both a function and a token
+		with the same external identification.
+		If the external-identifier is omitted it is assumed that the internal
+		and external identifications are the same.</para>
+</chapter>
+
