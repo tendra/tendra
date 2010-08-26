@@ -3,6 +3,7 @@
 .include "Makefile.inc"
 
 
+#SUBDIR+=	api
 #SUBDIR+=	tspec.1
 SUBDIR+=	userguide
 
