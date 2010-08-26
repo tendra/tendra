@@ -1,0 +1,115 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter>
+	<title>Notation</title>
+
+	<section id="S3">
+		<title>Syntax description</title>
+
+		<para>Words enclosed in angle brackets, &lt; &gt;, form non-terminal
+			symbols. Other symbols and words stand for themselves as terminal
+			symbols. An expansion of a non-terminal is indicated using ::= with
+			its expansion given as a sequence (possibly empty) of terminals and
+			non-terminals. For example:
+			<programlisting>
+&lt;Exp&gt; ::= * &lt;ident&gt;</programlisting>
+			is a possible expansion of an EXP SORT. If the word for the
+			non-terminal starts with a capital letter then it will be totally
+			described by a set of such expansions; otherwise the expansion of
+			the non-terminal will be given by other methods in the text.</para>
+
+		<para>The post-fix -Opt on a non terminal is an abreviation allowing
+			an empty expansion. For example:
+			<programlisting>
+&lt;Access&gt;-Opt</programlisting>
+			is equivalent to the use of another non-terminal
+			&lt;AccessOption&gt; whose expansions are:
+			<programlisting>
+&lt;AccessOption&gt; ::=
+&lt;AccessOption&gt; ::= &lt;Access&gt;</programlisting>
+			The post-fix -List on a non terminal is an abreviation for lists of
+			objects seperated by the ,-symbol. For example:
+			<programlisting>
+&lt;Exp&gt;-List</programlisting>
+			is equivalent to the use of another non-terminal &lt;ExpList&gt;
+			whose expansions are:
+			<programlisting>
+&lt;ExpList&gt; ::= &lt;Exp&gt;
+&lt;ExpList&gt; ::= &lt;ExpList&gt; , &lt;Exp&gt;</programlisting>
+			Both of these post-fix notations are also used with sequences of
+			terminals and non-terminals within the angle brackets with the same
+			kind of expansion. In these cases, the expansion within the angle
+			brackets form an anonymous non-terminal.</para>
+	</section>
+
+	<section id="S4">
+		<title>Lexical Units</title>
+
+		<para>The terminal symbols ( ), [ ], and { } always occur as
+			parenthetic pairs and never form part of other terminal
+			symbols.</para>
+
+		<para>The terminal symbols , ; and : are similarly terminators for
+			other terminal symbols.</para>
+
+		<para>White space is a terminator for other terminal symbols but is
+			otherwise ignored except in strings.</para>
+
+		<para>All other terminal symbols are sequences of ACSII symbols not
+			including the above. These are divided into seven classes: keywords,
+			TDF constructors, operators, &lt;integer_denotation&gt;s,
+			&lt;floating_denotation&gt;s, &lt;string&gt;s and
+			&lt;ident&gt;s.</para>
+
+		<para>The keywords and operators are expressed directly in the syntax
+			description. The TDF constructors are those given in the TDF
+			specification which have first-class SORTs as parameters and
+			results.</para>
+
+		<para>An &lt;integer_denotatation&gt; allows one to express an integer
+			in any base less than 16, with the default being 10.
+			<programlisting>
+&lt;integer_denotation&gt; ::= &lt;digit&gt;
+&lt;integer_denotation&gt; ::= &lt;integer_denotation&gt; &lt;digit&gt;
+&lt;integer_denotation&gt; ::= &lt;base&gt; &lt;integer_denotation&gt;
+
+&lt;base&gt; ::= &lt;integer_denotation&gt; r</programlisting>
+			Examples are 31, 16r1f, 8r37, 2r11111 - all giving the same
+			value.</para>
+
+		<para>A &lt;floating_denotation&gt; is an &lt;integer_denotation&gt;
+			followed by the . symbol and a sequence of digits. The radix of the
+			&lt;floating_denotation&gt; is given by the base of its component
+			&lt;integer_denotation&gt;</para>
+
+		<para>A &lt;string&gt; is the same as a C string - any sequence of
+			characters within " ". The same C conventions hold for \ within
+			strings for single characters.</para>
+
+		<para>A &lt;character&gt; is an string character within ` `. The same
+			\ conventions hold.</para>
+
+		<para>An &lt;ident&gt; is any other sequence of characters. They will
+			be used to form names for TAGs, TOKENs, AL_TAGs and LABELs.</para>
+	</section>
+
+	<section id="S5">
+		<title>Pre-processing</title>
+		
+		<para>At the moment there is only one pre-processing directive. A line
+			starting with #include will textually include the following file
+			(named within string quotes), using the same path conventions as
+			C.</para>
+
+		<para>Comments may be included in the text using the /* ... */
+			notation; this differs slightly from the C convention in that
+			comments may be nested.</para>
+	</section>
+</chapter>
+
