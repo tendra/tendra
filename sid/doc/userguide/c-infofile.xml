@@ -277,7 +277,7 @@
 
 					<para>Result identifiers may be assigned to using this form of
 						identifier substitution, but parameter identifiers may not be
-						(nor may there address be taken - they are immutable). To try
+						(nor may their address be taken - they are immutable). To try
 						to prevent this, parameters that are substituted may be cast
 						to their own type, which makes them unmodifiable in ISO C (see
 						the notes on the <link linkend="casts"><code>casts</code>
