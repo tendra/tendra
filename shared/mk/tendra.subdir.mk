@@ -21,6 +21,13 @@ _TENDRA_SUBDIR_MK_=1
 	@${EXIT} 1;
 .endif
 
+.if !exists(SUBDIR)
+.BEGIN:
+	@${ECHO} '$${SUBDIR} was not found; possibly you have an unsupported system.'
+	@${ECHO} 'See shared/mk/tendra.makedefs.mk for supported systems.'
+	@${EXIT} 1;
+.endif
+
 
 .if !empty(SUBDIR)
 # Just in case there happens to be a target of the same name.
