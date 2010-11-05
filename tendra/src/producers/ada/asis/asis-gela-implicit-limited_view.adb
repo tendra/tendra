@@ -5,7 +5,7 @@
 --                     - - - - - - - - - - - - - - -                        --
 --            Read copyright and license at the end of this file            --
 ------------------------------------------------------------------------------
---  $TenDRA$:
+--  $TenDRA: asis-gela-implicit-limited_view.adb 2678 2009-01-10 11:54:22Z maxr $:
 
 with Asis.Iterator;
 with Asis.Elements;
@@ -16,6 +16,8 @@ with Asis.Gela.Unit_Utils;
 with Asis.Gela.Elements.Decl;
 with Asis.Gela.Elements.Defs;
 with Asis.Gela.Element_Utils;
+
+with XASIS.Utils;
 
 package body Asis.Gela.Implicit.Limited_View is
 
@@ -143,6 +145,31 @@ package body Asis.Gela.Implicit.Limited_View is
          end case;
       end Is_Tagged;
 
+      ----------------------
+      -- Is_Redeclaration --
+      ----------------------
+
+      function Is_Redeclaration (Decl : Asis.Declaration) return Boolean is
+         use XASIS.Utils;
+         use Asis.Elements;
+         Name   : constant Program_Text := Declaration_Direct_Name (Decl);
+         Parent : constant Asis.Declaration := Enclosing_Element (Decl);
+         List   : constant Asis.Declarative_Item_List :=
+           Visible_Part_Declarative_Items (Parent);
+      begin
+         for J in List'Range loop
+            if Is_Equal (Decl, List (J)) then
+               return False;
+            elsif Element_Kind (List (J)) = A_Declaration and then
+              Has_Defining_Name (List (J), Name)
+            then
+               return True;
+            end if;
+         end loop;
+
+         return False;
+      end Is_Redeclaration;
+
    begin
       if Asis.Elements.Element_Kind (Element) = A_Declaration and
         Assigned (State.Pkg)
@@ -161,6 +188,12 @@ package body Asis.Gela.Implicit.Limited_View is
            A_Private_Type_Declaration |
            A_Private_Extension_Declaration
            =>
+
+            if Is_Redeclaration (Element) then
+               Control := Abandon_Children;
+               return;
+            end if;
+
             declare
                Node : Incomplete_Type_Declaration_Ptr :=
                  new Incomplete_Type_Declaration_Node;

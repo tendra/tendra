@@ -19,12 +19,15 @@ package body Gela.Source_Buffers is
    -- Next --
    ----------
 
-   procedure Next (Object : in out Cursor) renames Increment;
+   procedure Next (Object : in out Cursor) is
+   begin
+     Increment (Object);
+   end Next;
 
 end Gela.Source_Buffers;
 
 ------------------------------------------------------------------------------
---  Copyright (c) 2008, Maxim Reznik
+--  Copyright (c) 2008-2010, Maxim Reznik
 --  All rights reserved.
 --
 --  Redistribution and use in source and binary forms, with or without
