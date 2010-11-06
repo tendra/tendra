@@ -72,7 +72,7 @@ extern const char* progname;
 /*
  * Custom error function for xalloc to prevent a dependency on
  * the error library. All errors in this library are fatal and
- * result in the application returning 1.
+ * result in the application exiting with EXIT_FAILURE.
  */
 static void
 xalloc_fatal(const char *s, ...)
