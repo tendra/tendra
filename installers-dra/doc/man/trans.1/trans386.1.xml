@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<refentry xmlns="" id="trans1"><!--
+				Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+				All rights reserved.
+
+				Redistribution and use in source and binary forms, with or without
+				modification, are permitted provided that the following conditions are met:
+
+				1. Redistributions of source code must retain the above copyright notice,
+				   this list of conditions and the following disclaimer.
+				2. Redistributions in binary form must reproduce the above copyright notice,
+				   this list of conditions and the following disclaimer in the documentation
+				   and/or other materials provided with the distribution.
+				3. Neither the name of The TenDRA Project nor the names of its contributors
+				   may be used to endorse or promote products derived from this software
+				   without specific, prior written permission.
+
+				THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+				IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+				THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+				PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+				CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+				EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+				PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+				OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+				WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+				OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+				ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+			--><refmeta><refentrytitle>trans</refentrytitle><manvolnum>1</manvolnum></refmeta><refnamediv id="name"><refname>trans386</refname><refpurpose>DRA TDF to 80386, 80486 and Pentium translator</refpurpose></refnamediv><refsynopsisdiv id="synopsis"><cmdsynopsis sepchar=" "><command moreinfo="none">trans386</command><arg choice="opt" rep="norepeat"><replaceable>options</replaceable></arg><arg choice="plain" rep="norepeat"><replaceable>input-file</replaceable></arg><arg choice="plain" rep="norepeat"><replaceable>output-file</replaceable></arg></cmdsynopsis></refsynopsisdiv><refsection><title>Description</title><para>The code production portion of the TDF compiler is under the
+					control of a TDF translator, which translates a TDF capsule into
+					assembly.</para><para>There are separate TDF translators for each target
+					architecture.</para><para>The various different translators are referred to
+					collectively as <command moreinfo="none">trans</command>.</para><para>It is recommended that <command moreinfo="none">trans</command> should not be
+					invoked directly, but via the user interface
+					<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
+					The file <option>-</option><replaceable>opt</replaceable> can
+					be passed to <command moreinfo="none">trans</command> by passing the option
+					<option>-Wt,-</option><replaceable>opt</replaceable> to
+					<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para></refsection><refsection><title>Options</title><para>The options denoted by a capital letter are common to
+					the TDF installers for all the architectures, although the
+					defaults vary for each translator.</para><para>Lowercase options are specific to each translator.</para><para>The option <option>-a</option> is specific to
+						<command moreinfo="none">trans386</command>.</para><para><emphasis remap="I">switch</emphasis> stands for either
+					<literal moreinfo="none">0</literal>, to switch an option off,
+					or <literal moreinfo="none">1</literal>, to switch it on.</para></refsection>
+
+TODO: now go through and find undocumented options...
+
+			<refsection><title>Optimisation-specific common options</title><para>The common options pertaining to optimisation are:</para><variablelist><varlistentry><term><option>-A</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+								should inline calls to <emphasis remap="I">alloca</emphasis>.</para><para>For trans386,
+								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-C</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+								should apply the "constants out of loops"
+								optimisation.</para><para>For trans386,
+								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-F</option><replaceable>switch</replaceable></term><listitem><para>For <command moreinfo="none">trans386</command>, this option determines
+									whether <command moreinfo="none">trans386</command> should apply the
+									"strength reduction" optimisation.</para><para>For <command moreinfo="none">trans386</command>,
+										this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-I</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+								should apply the "inlining" optimisation.</para><para>For trans386,
+								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-K</option><replaceable>str</replaceable></term><listitem><para>Causes <command moreinfo="none">trans</command> to optimise its
+								code for a particular processor model, determined by
+								<emphasis remap="I">str</emphasis>.</para><para>For <command moreinfo="none">trans386</command>, the available values
+									of <emphasis remap="I">str</emphasis> are:</para><table><thead><tr><th>Option</th><th>Processor</th></tr></thead><tbody><tr><td><code>-K3</code></td><td>80386</td></tr><tr><td><code>-K4</code> (default)</td><td>80486</td></tr><tr><td><code>-K5</code></td><td>Pentium</td></tr></tbody></table></listitem></varlistentry><varlistentry><term><option>-M</option><replaceable>switch</replaceable></term><listitem><para>If this option is on, <command moreinfo="none">trans</command>
+								preserves division by a floating point number rather
+								than replacing it by multiplication by the reciprocal
+								of the number.
+								While the latter produces faster code, it may lead to
+								rounding errors.</para><para>For trans386, by default, division by
+								constants is preserved.</para></listitem></varlistentry><varlistentry><term><option>-R</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+								should immediately round every floating point operation
+								to its appropriate range.
+								This produces slower code, but is necessary for strict
+								IEEE conformance.</para><para>For <command moreinfo="none">trans386</command>,
+										this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-U</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+								should apply the "loop unrolling" optimisation.</para><para>For trans386,
+								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-X</option></term><listitem><para>This option disables all optimisations.
+								All <command moreinfo="none">trans</command>' optimisations
+								are believed to be valid, so that any error in
+								optimisation is a genuine bug.</para><para>Various optimisations are performed by default for
+								trans386.</para></listitem></varlistentry></variablelist></refsection><refsection><title>Other common options</title><para>Common options not related to optimisation are:</para><variablelist><varlistentry><term><option>-B</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+								should report floating point
+								constants which exceed their range.</para><para>For trans386,
+								this is done by default.</para><para>If this option is switched off such constants are
+								replaced by infinity.</para></listitem></varlistentry><varlistentry><term><option>-D</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether
+								<command moreinfo="none">trans</command> should produce Position
+								Independent Code (PIC).</para><para>For <command moreinfo="none">trans386</command>,
+									this is not done by default.</para><para>For <command moreinfo="none">trans386</command>, this
+									option is not supported on the SCO or
+									DragonFly platforms, and on the Linux
+									platform it is supported only for
+									ELF binary format.</para></listitem></varlistentry><varlistentry><term><option>-E</option></term><listitem><para>This option disables <command moreinfo="none">trans</command>'
+								constant overflow checks.</para><para>For trans386,
+								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-H</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to output
+								debugging information in its output file.
+								This will only work if the input TDF capsule contains
+								debugging information.</para><para>For <command moreinfo="none">trans386</command>, on the SCO platform
+									the format used by <emphasis remap="B">dbxtra</emphasis>
+									and <emphasis remap="B">codeview</emphasis> is supported.
+									On the SVR4.2 platform Dwarf 1 is supported,
+									which is used by <emphasis remap="B">debug</emphasis>.
+									On the Solaris, DragonFly, and Linux platforms,
+									<emphasis remap="B">stabs</emphasis> is supported.
+									The GNU debugger <emphasis remap="B">gdb</emphasis> may
+									be used on all platforms.</para><para>Debugging information is not output by default
+								for trans386.</para></listitem></varlistentry><varlistentry><term><option>-P</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to
+								output profiling information suitable for use with
+								<citerefentry><refentrytitle>prof</refentrytitle><manvolnum>1</manvolnum></citerefentry>
+								or a similar tool (see individual manual pages for
+								details).</para><para>On <command moreinfo="none">trans386</command>, this option is
+									currently not supported on the Solaris platform.</para><para>Profiling information is not output by default
+								for trans386.</para></listitem></varlistentry><varlistentry><term><option>-Q</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to quit
+								before processing its input files.
+								This is particularly useful in conjunction with
+								<option>-V</option>.</para><para>For <command moreinfo="none">trans386</command>,
+								this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-V</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to print
+								its version number and the version of the TDF
+								specification it supports.</para><para>For trans386,
+								this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-W</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether
+								<command moreinfo="none">trans</command> should make string literals
+								writable.
+								At present the C producer does not make use of this
+								facility.</para><para>For trans386,
+								at present all string literals
+								are writable, and this cannot be altered.</para></listitem></varlistentry><varlistentry><term><option>-Z</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to print
+								the version number of all the TDF capsules
+								it decodes.</para><para>For trans386,
+								this is not done by default.</para></listitem></varlistentry></variablelist></refsection><refsection><title>Translator-specific options</title><para>The following options are specific to <command moreinfo="none">trans386</command>:</para><variablelist><varlistentry><term><option>-a</option></term><listitem><para>Always use a frame pointer.
+									The default is to avoid using a frame pointer whenever possible.
+									The default results in better performance, but in special
+									cases where the stack is to be processed it may be necessary
+									to enforce the use of a frame pointer.</para></listitem></varlistentry><varlistentry><term><option>-h</option></term><listitem><para>Do not use the .bss segment, always put data into the
+									.data segment even if it is zero.
+									This should very rarely be needed.
+									The default is to use the .bss segment.</para></listitem></varlistentry><varlistentry><term><option>-k</option><replaceable>switch</replaceable></term><listitem><para>This option is applicable to DragonFly and Linux
+									platforms only.
+									If this option is on, <command moreinfo="none">trans386</command>
+									will produce output for an ELF binary format assembler,
+									otherwise a.out binary format is assumed.
+									By default this option is on, as appropriate for
+									later versions of Linux.</para></listitem></varlistentry></variablelist></refsection><refsection><title>See Also</title><para><citerefentry><refentrytitle>trans-all</refentrytitle><manvolnum>1</manvolnum></citerefentry></para><para><citerefentry><refentrytitle>as</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+					<citerefentry><refentrytitle>prof</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+					<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para></refsection></refentry>
