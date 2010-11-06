@@ -14,8 +14,7 @@
 		may be made available to <code>tnc</code> by using the <emphasis>use_lib</emphasis>
 		construct. The commands:</para>
 
-<programlisting>
-( use_lib library )
+<programlisting>( use_lib library )
 ( code capsule )
 </programlisting>
 

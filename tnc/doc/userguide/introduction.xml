@@ -16,26 +16,36 @@
 	<para><code>tnc</code> has four modes, two input modes and two output modes.
 		These are as follows:</para>
 
-	<itemizedlist>
-		<listitem>
-			<para><emphasis>decode</emphasis> - translate an input &tdf; capsule into the <code>tnc</code>
-				internal representation,</para>
-		</listitem>
+	<table>
+		<col align="left"/>
+		<col align="left"/>
 
-		<listitem>
-			<para><emphasis>read</emphasis> - translate an input text file into the internal representation,</para>
-		</listitem>
+		<thead>
+			<tr>
+				<th>Mode</th>
+				<th>Description</th>
+			</tr>
+		</thead>
 
-		<listitem>
-			<para><emphasis>encode</emphasis> - translate the internal representation into an
-				output &tdf; capsule,</para>
-		</listitem>
-
-		<listitem>
-			<para><emphasis>write</emphasis> - translate the internal representation into an output
-				text file.</para>
-		</listitem>
-	</itemizedlist>
+		<tbody>
+			<tr>
+				<td><emphasis>decode</emphasis></td>
+				<td>Translate an input &tdf; capsule into the <code>tnc</code> internal representation.</td>
+			</tr>
+			<tr>
+				<td><emphasis>read</emphasis></td>
+				<td>Translate an input text file into the internal representation.</td>
+			</tr>
+			<tr>
+				<td><emphasis>encode</emphasis></td>
+				<td>Translate the internal representation into an output &tdf; capsule.</td>
+			</tr>
+			<tr>
+				<td><emphasis>write</emphasis></td>
+				<td>Translate the internal representation into an output text file.</td>
+			</tr>
+		</tbody>
+	</table>
 
 	<para>Due to the modular nature of the program it is possible to form versions
 		of <code>tnc</code> in which not all the modes are available. Passing
@@ -48,23 +58,10 @@
 		modes may be specified by passing the following command line options
 		to <code>tnc</code>:</para>
 
-	<itemizedlist>
-		<listitem>
-			<para><emphasis>-decode</emphasis> or <emphasis>-d</emphasis>,</para>
-		</listitem>
-
-		<listitem>
-			<para><emphasis>-read</emphasis> or <emphasis>-r</emphasis>,</para>
-		</listitem>
-
-		<listitem>
-			<para><emphasis>-encode</emphasis> or <emphasis>-e</emphasis>,</para>
-		</listitem>
-
-		<listitem>
-			<para><emphasis>-write</emphasis> or <emphasis>-w</emphasis>.</para>
-		</listitem>
-	</itemizedlist>
+	<literallayout><emphasis>-decode</emphasis> or <emphasis>-d</emphasis>
+		<emphasis>-read</emphasis> or <emphasis>-r</emphasis>
+		<emphasis>-encode</emphasis> or <emphasis>-e</emphasis>
+		<emphasis>-write</emphasis> or <emphasis>-w</emphasis></literallayout>
 
 	<para>The only other really useful action is <emphasis>decode</emphasis>-<emphasis>write</emphasis>,
 		i.e. translate an input &tdf; capsule into an output text file. This
@@ -74,14 +71,10 @@
 		output files.</para>
 
 	<para>In addition, the <emphasis>decode</emphasis> mode may be modified to accept a &tdf;
-		library as input rather than a &tdf; capsule by passing the addition
+		library as input rather than a &tdf; capsule by passing the additional
 		flag:</para>
 
-	<itemizedlist>
-		<listitem>
-			<para><emphasis>-lib</emphasis> or <emphasis>-l</emphasis>,</para>
-		</listitem>
-	</itemizedlist>
+	<literallayout><emphasis>-lib</emphasis> or <emphasis>-l</emphasis></literallayout>
 
 	<para>to <code>tnc</code>.</para>
 

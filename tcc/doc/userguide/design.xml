@@ -18,7 +18,7 @@
 	$Id$
 -->
 
-<chapter id="design">
+<chapter>
 	<title>The Overall Design of &tcc;</title>
 
 	<para>Having discussed the compilation strategy &tcc; is designed
@@ -27,9 +27,9 @@
 		The basic compilation path is shown in Fig. 3, which corresponds
 		to Fig. 2.</para>
 
-	<figure id="tcc_scheme">
+	<figure>
 		<title>&tdf; Compilation Path</title>
-		<graphic align="center" format="PNG"
+		<graphic align="center"
 			fileref="images/tcc_scheme.gif"/>
 	</figure>
 
@@ -57,7 +57,7 @@
 			(in section 4.3<!-- TODO: link -->).</para>
 	</section>
 
-	<section id="S5">
+	<section>
 		<title>The Main Compilation Path</title>
 
 		<para>Once the &api; has been specified, the actual compilation
@@ -120,61 +120,59 @@
 
 		<!-- TODO: this table is unsatisfying. -->
 		<table>
-			<tgroup cols="5">
-				<colspec colname="step"/>
-				<colspec colname="tool"/>
-				<colspec colname="code" align="center"/>
-				<colspec colname="input"/>
-				<colspec colname="output"/>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="left"/>
 
-				<thead>
-					<row>
-						<entry align="center">Stage</entry>
-						<entry align="left">Tool</entry>
-						<entry align="center">Code</entry>
-						<entry align="left">Input</entry>
-						<entry align="left">Output</entry>
-					</row>
-				</thead>
+			<thead>
+				<tr>
+					<th>Stage</th>
+					<th>Tool</th>
+					<th>Code</th>
+					<th>Input</th>
+					<th>Output</th>
+				</tr>
+			</thead>
 
-				<tbody>
-					<row>
-						<entry align="center">1.</entry>
-						<entry>C producer (<application>tdfc</application>)</entry>
-						<entry align="center"><code>c</code></entry>
-						<entry>C source</entry>
-						<entry>Target independant &tdf;</entry>
-					</row>
-					<row>
-						<entry align="center">2.</entry>
-						<entry>&tdf; linker (<application>tld</application>)</entry>
-						<entry align="center"><code>L</code></entry>
-						<entry>Target independant &tdf;</entry>
-						<entry>Target dependant &tdf;</entry>
-					</row>
-					<row>
-						<entry align="center">3.</entry>
-						<entry>&tdf; translator (<application>trans</application>)</entry>
-						<entry align="center"><code>t</code></entry>
-						<entry>Target dependant &tdf;</entry>
-						<entry>Assembly source</entry>
-					</row>
-					<row>
-						<entry align="center">4.</entry>
-						<entry>system assembler (<application>as</application>)</entry>
-						<entry align="center"><code>a</code></entry>
-						<entry>Assembly source</entry>
-						<entry>Binary object</entry>
-					</row>
-					<row>
-						<entry align="center">5.</entry>
-						<entry>system linker (<application>ld</application>)</entry>
-						<entry align="center"><code>l</code></entry>
-						<entry>Binary object</entry>
-						<entry>Executable</entry>
-					</row>
-				</tbody>
-			</tgroup>
+			<tbody>
+				<tr>
+					<td>1.</td>
+					<td>C producer (<application>tdfc</application>)</td>
+					<td><code>c</code></td>
+					<td>C source</td>
+					<td>Target independant &tdf;</td>
+				</tr>
+				<tr>
+					<td>2.</td>
+					<td>&tdf; linker (<application>tld</application>)</td>
+					<td><code>L</code></td>
+					<td>Target independant &tdf;</td>
+					<td>Target dependant &tdf;</td>
+				</tr>
+				<tr>
+					<td>3.</td>
+					<td>&tdf; translator (<application>trans</application>)</td>
+					<td><code>t</code></td>
+					<td>Target dependant &tdf;</td>
+					<td>Assembly source</td>
+				</tr>
+				<tr>
+					<td>4.</td>
+					<td>system assembler (<application>as</application>)</td>
+					<td><code>a</code></td>
+					<td>Assembly source</td>
+					<td>Binary object</td>
+				</tr>
+				<tr>
+					<td>5.</td>
+					<td>system linker (<application>ld</application>)</td>
+					<td><code>l</code></td>
+					<td>Binary object</td>
+					<td>Executable</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<para>The executable name of the &tdf; translator varies,
@@ -217,35 +215,42 @@
 			normal filename suffix convention:</para>
 
 		<table>
-			<tr>
-				<th align="left">Type</th>
-				<th align="left">Content</th>
-			</tr>
+			<col align="left"/>
+			<col align="left"/>
 
-			<tr>
-				<td><filename>*.c</filename></td>
-				<td>C source</td>
-			</tr>
-			<tr>
-				<td><filename>*.j</filename></td>
-				<td>Target independent &tdf; capsules</td>
-			</tr>
-			<tr>
-				<td><filename>*.t</filename></td>
-				<td>Target dependent &tdf; capsules</td>
-			</tr>
-			<tr>
-				<td><filename>*.s</filename></td>
-				<td>Assembly source files</td>
-			</tr>
-			<tr>
-				<td><filename>*.o</filename></td>
-				<td>Binary object files</td>
-			</tr>
-			<tr>
-				<td><filename>*</filename></td>
-				<td>Binary object files</td>
-			</tr>
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Content</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><filename>*.c</filename></td>
+					<td>C source</td>
+				</tr>
+				<tr>
+					<td><filename>*.j</filename></td>
+					<td>Target independent &tdf; capsules</td>
+				</tr>
+				<tr>
+					<td><filename>*.t</filename></td>
+					<td>Target dependent &tdf; capsules</td>
+				</tr>
+				<tr>
+					<td><filename>*.s</filename></td>
+					<td>Assembly source files</td>
+				</tr>
+				<tr>
+					<td><filename>*.o</filename></td>
+					<td>Binary object files</td>
+				</tr>
+				<tr>
+					<td><filename>*</filename></td>
+					<td>Binary object files</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<para>Files whose type cannot otherwise be determined are assumed to
@@ -389,9 +394,9 @@
 			produced subsequently will cause &tcc; to issue
 			a warning.</para>
 
-		<figure id="tcc_files">
+		<figure>
 			<title>&tdf; Full Compilation Path</title>
-			<graphic align="center" format="PNG"
+			<graphic align="center"
 				fileref="images/tcc_files.gif"/>
 		</figure>
 	</section>
@@ -574,64 +579,81 @@
 			built into &tcc;). These are:</para>
 
 		<table>
-			<tr>
-				<th align="left">Type</th>
-				<th align="left">Content</th>
-			</tr>
+			<col align="center"/>
+			<col align="left"/>
 
-			<tr>
-				<td><filename>*.i</filename></td>
-				<td>Preprocessed C source</td>
-			</tr>
-			<tr>
-				<td><filename>*.ta</filename></td>
-				<td>&tdf; archives</td>
-			</tr>
-			<tr>
-				<td><filename>*.p</filename></td>
-				<td>&tdf; notation source</td>
-			</tr>
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Content</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><filename>*.i</filename></td>
+					<td>Preprocessed C source</td>
+				</tr>
+				<tr>
+					<td><filename>*.ta</filename></td>
+					<td>&tdf; archives</td>
+				</tr>
+				<tr>
+					<td><filename>*.p</filename></td>
+					<td>&tdf; notation source</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<para>and:</para>
 
 		<table>
-			<tr>
-				<th align="center">Stage</th>
-				<th align="left">Tool</th>
-				<th align="center">Code</th>
-				<th align="left">Input</th>
-				<th align="left">Output</th>
-			</tr>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="left"/>
 
-			<tr>
-				<td align="center">6.</td>
-				<td>C preprocessor (tdfcpp)</td>
-				<td align="center"><code>c</code></td>
-				<td>C source</td>
-				<td>Preprocessed C source</td>
-			</tr>
-			<tr>
-				<td align="center">7a.</td>
-				<td>Pretty printer (disp)</td>
-				<td align="center"><code>d</code></td>
-				<td>&tdf; capsule</td>
-				<td>&tdf; notation</td>
-			</tr>
-			<tr>
-				<td align="center">7b.</td>
-				<td>Reverse notation (tnc&nbsp;-p)</td>
-				<td align="center"><code>d</code></td>
-				<td>&tdf; capsule</td>
-				<td>&tdf; notation</td>
-			</tr>
-			<tr>
-				<td align="center">8.</td>
-				<td>Notation compiler (tnc)</td>
-				<td align="center"><code>d</code></td>
-				<td>&tdf; notation</td>
-				<td>&tdf; capsule</td>
-			</tr>
+			<thead>
+				<tr>
+					<th>Stage</th>
+					<th>Tool</th>
+					<th>Code</th>
+					<th>Input</th>
+					<th>Output</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>6.</td>
+					<td>C preprocessor (tdfcpp)</td>
+					<td><code>c</code></td>
+					<td>C source</td>
+					<td>Preprocessed C source</td>
+				</tr>
+				<tr>
+					<td>7a.</td>
+					<td>Pretty printer (disp)</td>
+					<td><code>d</code></td>
+					<td>&tdf; capsule</td>
+					<td>&tdf; notation</td>
+				</tr>
+				<tr>
+					<td>7b.</td>
+					<td>Reverse notation (tnc&nbsp;-p)</td>
+					<td><code>d</code></td>
+					<td>&tdf; capsule</td>
+					<td>&tdf; notation</td>
+				</tr>
+				<tr>
+					<td>8.</td>
+					<td>Notation compiler (tnc)</td>
+					<td><code>d</code></td>
+					<td>&tdf; notation</td>
+					<td>&tdf; capsule</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<para>(see 7.1<!-- TODO: link --> and 7.2<!-- TODO: link -->
@@ -678,8 +700,7 @@
 			version number.
 			This will typically be of the form:</para>
 
-		<!-- TODO: inappropiate tag -->
-		<programlisting>tcc: Version: 4.0, Revision: 1.5, Machine: hp</programlisting>
+		<screen>tcc: Version: 4.0, Revision: 1.5, Machine: hp</screen>
 
 		<para>giving the version and revision number, plus the target
 			machine identifier.

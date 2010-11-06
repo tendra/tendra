@@ -15,7 +15,7 @@
 	$Id$
 -->
 
-<chapter id="environments">
+<chapter>
 	<title>&tcc; Environments</title>
 
 	<para>In addition to command-line options, there is a
@@ -24,30 +24,32 @@
 
 	<para>An environment is just a file consisting of lines of the form:</para>
 
-	<programlisting>*IDENTIFIER &quot;text&quot;</programlisting>
+	<programlisting language="env"><replaceable>*</replaceable><replaceable>IDENTIFIER</replaceable> &quot;<replaceable>text</replaceable>&quot;</programlisting>
 
-	<para>where <code>*</code> stands for one of the environment prefixes,
-		<code>+</code>, <code>&lt;</code> and <code>&gt;</code>
-		(in fact <code>?</code> is also a valid environment prefix.
+	<para>where <replaceable>*</replaceable> stands for one of the
+		environment prefixes, <code>+</code>, <code>&lt;</code> and
+		<code>&gt;</code> (in fact <code>?</code> is also a valid
+		environment prefix.
 		It is used to query the values represented by environmental identifiers.
 		If &tcc; is invoked with the <option>-Ystatus</option> command-line option it
 		will print the values of all the environmental identifiers it recognises).
 		Any line in the environment not beginning with one of these characters
-		is ignored. <code>IDENTIFIER</code> will be one of the environmental
+		is ignored.
+		<replaceable>IDENTIFIER</replaceable> will be one of the environmental
 		identifiers recognised by &tcc;, the environment prefix
 		will tell &tcc; how to modify the value given by this identifier,
-		and <code>text</code> what to modify it by.</para>
+		and <replaceable>text</replaceable> what to modify it by.</para>
 
 	<para>The simplest environmental identifiers are those which are
 		used to pass flags to &tcc; and the various components of the
 		compilation system. The line:</para>
 
-	<programlisting>+FLAG &quot;text&quot;</programlisting>
+	<programlisting language="env">+FLAG &quot;text&quot;</programlisting>
 
 	<para>causes <code>text</code> to be interpreted by &tcc; as
 		if it was a command-line option. Similarly:</para>
 
-	<programlisting>+FLAG_TDFC &quot;text&quot;</programlisting>
+	<programlisting language="env">+FLAG_TDFC &quot;text&quot;</programlisting>
 
 	<para>causes <code>text</code> to be passed as an option to &tdfc;.
 		There are similar environmental identifiers for each of the
@@ -57,7 +59,7 @@
 	<para>The second class of environmental identifiers are those
 		corresponding to simple string variables. Only the form:</para>
 
-	<programlisting>+IDENTIFIER &quot;text&quot;</programlisting>
+	<programlisting language="env">+IDENTIFIER &quot;text&quot;</programlisting>
 
 	<para>is allowed. This will set the corresponding variable to
 		<code>text</code>.
@@ -65,38 +67,42 @@
 		corresponding variables are:</para>
 
 	<table>
-		<tr>
-			<th align="left">Variable</th>
-			<th align="left">Content</th>
-		</tr>
-		<tr>
-			<td><code>ENVDIR</code></td>
-			<td>The default environments directory (see section
-				<!-- TODO: link --> 4.1)</td>
-		</tr>
+		<col align="left"/>
+		<col align="left"/>
 
-		<tr>
-			<td><code>MACHINE</code></td>
-			<td>The target machine type (see section 4.2)</td>
-		</tr>
+		<thead>
+			<tr>
+				<th>Variable</th>
+				<th>Content</th>
+			</tr>
+		</thead>
 
-		<tr>
-			<td><code>PORTABILITY</code></td>
-			<td>The producer portability table
-				(see section 5.1.3)</td>
-		</tr>
-
-		<tr>
-			<td><code>TEMP</code></td>
-			<td>The default temporary directory
-				(see section 6.4)</td>
-		</tr>
-
-		<tr>
-			<td><code>VERSION</code></td>
-			<td>The target machine version
-				(Mips only, see section 5.3.4)</td>
-		</tr>
+		<tbody>
+			<tr>
+				<td><code>ENVDIR</code></td>
+				<td>The default environments directory (see section
+					<!-- TODO: link --> 4.1)</td>
+			</tr>
+			<tr>
+				<td><code>MACHINE</code></td>
+				<td>The target machine type (see section 4.2)</td>
+			</tr>
+			<tr>
+				<td><code>PORTABILITY</code></td>
+				<td>The producer portability table
+					(see section 5.1.3)</td>
+			</tr>
+			<tr>
+				<td><code>TEMP</code></td>
+				<td>The default temporary directory
+					(see section 6.4)</td>
+			</tr>
+			<tr>
+				<td><code>VERSION</code></td>
+				<td>The target machine version
+					(Mips only, see section 5.3.4)</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<para>The final class of environmental identifiers are
@@ -107,22 +113,30 @@
 		How this modification is done depends on the environment prefix:</para>
 
 	<table>
-		<tr>
-			<th align="center">Prefix</th>
-			<th align="left">Behaviour</th>
-		</tr>
-		<tr>
-			<td align="center"><code>+</code></td>
-			<td><code>a = b</code></td>
-		</tr>
-		<tr>
-			<td align="center"><code>&gt;</code></td>
-			<td><code>a = a + b</code></td>
-		</tr>
-		<tr>
-			<td align="center"><code>&lt;</code></td>
-			<td><code>a = b + a</code></td>
-		</tr>
+		<col align="center"/>
+		<col align="left"/>
+
+		<thead>
+			<tr>
+				<th>Prefix</th>
+				<th>Behaviour</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td><code>+</code></td>
+				<td><code>a = b</code></td>
+			</tr>
+			<tr>
+				<td><code>&gt;</code></td>
+				<td><code>a = a + b</code></td>
+			</tr>
+			<tr>
+				<td><code>&lt;</code></td>
+				<td><code>a = b + a</code></td>
+			</tr>
+		</tbody>
 	</table>
 
 	<para>where <code>+</code> denotes concatenation of lists.
@@ -137,10 +151,13 @@
 		for more details):</para>
 
 	<table>
+		<col align="left"/>
+		<col align="left"/>
+
 		<thead>
 			<tr>
-				<th align="left">Variable</th>
-				<th align="left">Content</th>
+				<th>Variable</th>
+				<th>Content</th>
 			</tr>
 		</thead>
 
@@ -330,11 +347,11 @@
 			with the <option>-info</option> command-line option.
 			For example, the command-line options:</para>
 
-		<programlisting>% tcc -info -Yposix -Yx5_lib</programlisting>
+		<screen>% tcc -info -Yposix -Yx5_lib</screen>
 
 		<para>cause the message:</para>
 
-		<programlisting>tcc: API is X11 Release 5 Xlib plus POSIX (1003.1).</programlisting>
+		<screen>tcc: API is X11 Release 5 Xlib plus POSIX (1003.1).</screen>
 
 		<para>to be printed.</para>
 

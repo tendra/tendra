@@ -15,13 +15,21 @@
 	<bookinfo>
 		<title>The &tcc; Users' Guide</title>
 
-		<othercredit class="copyeditor">
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</othercredit>
+		<authorgroup>
+			<editor>
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</editor>
 
-		<corpauthor>DERA</corpauthor>
+			<othercredit class="copyeditor">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
+
+			<corpauthor>DERA</corpauthor>
+		</authorgroup>
 
 		<pubdate>January 1998</pubdate>
 

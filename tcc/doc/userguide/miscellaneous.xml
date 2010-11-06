@@ -17,7 +17,7 @@
 	$Id$
 -->
 
-<chapter id="miscellaneous">
+<chapter>
 	<title>Miscellaneous Topics</title>
 
 	<para>In this section we draw together a number of miscellaneous
@@ -59,7 +59,7 @@
 			is halted before linking it needs to preserve this association.
 			For example in:</para>
 
-		<programlisting>% tcc -im -c a.c</programlisting>
+		<screen>% tcc -im -c a.c</screen>
 
 		<para>the binary object file <filename>a.o</filename> and the C
 			spec file <filename>a.k</filename> need to be kept together.

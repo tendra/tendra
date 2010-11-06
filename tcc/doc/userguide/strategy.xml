@@ -12,12 +12,12 @@
 	$Id$
 -->
 
-<chapter id="strategy">
+<chapter>
 	<title>The &tdf; Compilation Strategy</title>
 
-	<figure id="trad_scheme">
+	<figure>
 		<title>Traditional Compilation Path</title>
-		<graphic align="center" format="PNG"
+		<graphic align="center"
 			fileref="images/trad_scheme.png"/>
 	</figure>
 
@@ -30,9 +30,9 @@
 		<!-- TODO: footnotes --></para>
 		<!-- TODO: if it's taken from that document, then consolidate the images? -->
 
-	<figure id="tdf_scheme">
+	<figure>
 		<title>&tdf; Compilation Path</title>
-		<graphic align="center" format="PNG"
+		<graphic align="center"
 			fileref="images/tdf_scheme.png"/>
 	</figure>
 </chapter>

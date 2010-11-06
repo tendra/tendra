@@ -16,8 +16,7 @@
 			a string, a blank, a bar, or another construct. There are further
 			restrictions on this basic syntax, described below.</para>
 
-<programlisting language="BNF">
-construct	: ( identifier arglist )
+<programlisting language="BNF">construct	: ( identifier arglist )
 
 argument	: construct
 		| identifier
@@ -113,8 +112,7 @@ arglist		: (empty)
 			case the number must be positive. The following shorthands are understood
 			by <code>tnc</code>:</para>
 
-<programlisting>
-number <emphasis>for</emphasis> ( make_nat number )
+<programlisting>number <emphasis>for</emphasis> ( make_nat number )
 number <emphasis>for</emphasis> ( make_signed_nat number )
 </programlisting>
 

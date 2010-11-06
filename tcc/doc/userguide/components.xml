@@ -30,7 +30,7 @@
 	$Id$
 -->
 
-<chapter id="components">
+<chapter>
 	<title>The Component of the &tdf; System</title>
 
 	<section>
@@ -93,7 +93,7 @@
 				<option>-f<replaceable>file</replaceable></option>
 				is equivalent to inserting the line:</para>
 
-			<programlisting>#include &quot;file&quot;</programlisting>
+			<programlisting language="c">#include &quot;file&quot;</programlisting>
 
 			<para>at the start of each input C source file.
 				Similarly <option>-e<replaceable>file</replaceable></option>
@@ -192,34 +192,38 @@
 				A number of different modes are available:</para>
 
 			<table>
-				<tr>
-					<th align="center">Mode</th>
-					<th align="left">Environment</th>
-				</tr>
-				<tr>
-					<td align="center"><option>-Xs</option></td>
-					<td>Strict ISO/ANSI C with extra portability checks</td>
-				</tr>
-			
-				<tr>
-					<td align="center"><option>-Xp</option></td>
-					<td>Strict ISO/ANSI C with minimal portability checks</td>
-				</tr>
-			
-				<tr>
-					<td align="center"><option>-Xc</option></td>
-					<td>Strict ISO/ANSI C with no extra portability checks</td>
-				</tr>
-			
-				<tr>
-					<td align="center"><option>-Xa</option></td>
-					<td>ISO/ANSI C with various syntactic extensions</td>
-				</tr>
-			
-				<tr>
-					<td align="center"><option>-Xt</option></td>
-					<td><quote>Traditional</quote> C</td>
-				</tr>
+				<col align="center"/>
+				<col align="left"/>
+
+				<thead>
+					<tr>
+						<th>Mode</th>
+						<th>Environment</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><option>-Xs</option></td>
+						<td>Strict ISO/ANSI C with extra portability checks</td>
+					</tr>
+					<tr>
+						<td><option>-Xp</option></td>
+						<td>Strict ISO/ANSI C with minimal portability checks</td>
+					</tr>
+					<tr>
+						<td><option>-Xc</option></td>
+						<td>Strict ISO/ANSI C with no extra portability checks</td>
+					</tr>
+					<tr>
+						<td><option>-Xa</option></td>
+						<td>ISO/ANSI C with various syntactic extensions</td>
+					</tr>
+					<tr>
+						<td><option>-Xt</option></td>
+						<td><quote>Traditional</quote> C</td>
+					</tr>
+				</tbody>
 			</table>
 
 			<para>The default is <option>-Xc</option>.
@@ -287,48 +291,59 @@
 				problems.</para>
 
 			<table>
-				<tr>
-					<th align="center">Mode</th>
-					<th align="center">Pre-defined&nbsp;Macros</th>
-					<th align="left">Integer&nbsp;Promotions</th>
-					<th align="left">Relaxations</th>
-					<th align="left">Extra&nbsp;Checks</th>
-				</tr>
-				<tr>
-					<td align="center"><option>-Xs</option></td>
-					<td align="center"><code>__STDC__&nbsp;=&nbsp;1</code></td>
-					<td>ISO/ANSI</td>
-					<td>none</td>
-					<td>yes *</td>
-				</tr>
-				<tr>
-					<td align="center"><option>-Xp</option></td>
-					<td align="center"><code>__STDC__&nbsp;=&nbsp;1</code></td>
-					<td>ISO/ANSI</td>
-					<td>none</td>
-					<td>some *</td>
-				</tr>
-				<tr>
-					<td align="center"><option>-Xc</option></td>
-					<td align="center"><code>__STDC__&nbsp;=&nbsp;1</code></td>
-					<td>ISO/ANSI</td>
-					<td>none</td>
-					<td>none</td>
-				</tr>
-				<tr>
-					<td align="center"><option>-Xa</option></td>
-					<td align="center"><code>__STDC__&nbsp;=&nbsp;1</code></td>
-					<td>ISO/ANSI</td>
-					<td>syntactic</td>
-					<td>none</td>
-				</tr>
-				<tr>
-					<td align="center"><option>-Xt</option></td>
-					<td align="center"><code>__STDC__&nbsp;=&nbsp;0</code></td>	<!-- XXX: __STDC__ should be undefined -->
-					<td>signed</td>
-					<td>syntactic</td>
-					<td>none</td>
-				</tr>
+				<col align="center"/>
+				<col align="center"/>
+				<col align="left"/>
+				<col align="left"/>
+				<col align="left"/>
+
+				<thead>
+					<tr>
+						<th>Mode</th>
+						<th>Pre-defined&nbsp;Macros</th>
+						<th>Integer&nbsp;Promotions</th>
+						<th>Relaxations</th>
+						<th>Extra&nbsp;Checks</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><option>-Xs</option></td>
+						<td><code>__STDC__&nbsp;=&nbsp;1</code></td>
+						<td>ISO/ANSI</td>
+						<td>none</td>
+						<td>yes *</td>
+					</tr>
+					<tr>
+						<td><option>-Xp</option></td>
+						<td><code>__STDC__&nbsp;=&nbsp;1</code></td>
+						<td>ISO/ANSI</td>
+						<td>none</td>
+						<td>some *</td>
+					</tr>
+					<tr>
+						<td><option>-Xc</option></td>
+						<td><code>__STDC__&nbsp;=&nbsp;1</code></td>
+						<td>ISO/ANSI</td>
+						<td>none</td>
+						<td>none</td>
+					</tr>
+					<tr>
+						<td><option>-Xa</option></td>
+						<td><code>__STDC__&nbsp;=&nbsp;1</code></td>
+						<td>ISO/ANSI</td>
+						<td>syntactic</td>
+						<td>none</td>
+					</tr>
+					<tr>
+						<td><option>-Xt</option></td>
+						<td><code>__STDC__&nbsp;=&nbsp;0</code></td>	<!-- XXX: __STDC__ should be undefined -->
+						<td>signed</td>
+						<td>syntactic</td>
+						<td>none</td>
+					</tr>
+				</tbody>
 			</table>
 
 			<para>* Includes extra prototype checks.</para>
@@ -388,7 +403,7 @@
 				The easiest way of doing this is by using a start-up file,
 				<filename>check.h</filename> say, containing the lines:</para>
 
-			<programlisting>#pragma TenDRA begin
+			<programlisting language="c">#pragma TenDRA begin
 #pragma TenDRA directive ident allow
 #pragma TenDRA unknown escape warning
 #pragma TenDRA implicit function declaration warning
@@ -526,7 +541,7 @@
 				library.
 				Thus the command-line options:</para>
 
-			<programlisting>% tcc -Ymakelib -o a.tl a.j b.j c.j</programlisting>
+			<screen>% tcc -Ymakelib -o a.tl a.j b.j c.j</screen>
 
 			<para>cause the &tdf; capsules <filename>a.j</filename>,
 				<filename>b.j</filename> and <filename>c.j</filename>
@@ -638,42 +653,50 @@
 				together with the behaviour they specify, include:</para>
 
 			<table>
-				<tr>
-					<th align="left">Value</th>
-					<th align="left">Behaviour</th>
-				</tr>
-				<tr>
-					<td><replaceable>PIC</replaceable></td>
-					<td>Causes position independent code to be produced</td>
-				</tr>
-				<tr>
-					<td><replaceable>ieee</replaceable></td>
-					<td>Causes strict conformance to the IEEE floating point standard</td>
-				</tr>
-				<tr>
-					<td><replaceable>noieee</replaceable></td>
-					<td>Allows non-strict conformance to the IEEE standard</td>
-				</tr>
-				<tr>
-					<td><replaceable>frame</replaceable></td>
-					<td>Specifies that a frame pointer should always be used</td>
-				</tr>
-				<tr>
-					<td><replaceable>no_frame</replaceable></td>
-					<td>Specifies that frame pointers need not always be used</td>
-				</tr>
-				<tr>
-					<td><replaceable>i386</replaceable></td>
-					<td>Causes code generation to be tuned for the i386 processor</td>
-				</tr>
-				<tr>
-					<td><replaceable>i486</replaceable></td>
-					<td>Causes code generation to be tuned for the i486 processor</td>
-				</tr>
-				<tr>
-					<td><replaceable>P5</replaceable></td>
-					<td>Causes code generation to be tuned for the P5 processor</td>
-				</tr>
+				<col align="left"/>
+				<col align="left"/>
+
+				<thead>
+					<tr>
+						<th>Value</th>
+						<th>Behaviour</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><code>PIC</code></td>
+						<td>Causes position independent code to be produced</td>
+					</tr>
+					<tr>
+						<td><code>ieee</code></td>
+						<td>Causes strict conformance to the IEEE floating point standard</td>
+					</tr>
+					<tr>
+						<td><code>noieee</code></td>
+						<td>Allows non-strict conformance to the IEEE standard</td>
+					</tr>
+					<tr>
+						<td><code>frame</code></td>
+						<td>Specifies that a frame pointer should always be used</td>
+					</tr>
+					<tr>
+						<td><code>no_frame</code></td>
+						<td>Specifies that frame pointers need not always be used</td>
+					</tr>
+					<tr>
+						<td><code>i386</code></td>
+						<td>Causes code generation to be tuned for the i386 processor</td>
+					</tr>
+					<tr>
+						<td><code>i486</code></td>
+						<td>Causes code generation to be tuned for the i486 processor</td>
+					</tr>
+					<tr>
+						<td><code>P5</code></td>
+						<td>Causes code generation to be tuned for the P5 processor</td>
+					</tr>
+				</tbody>
 			</table>
 
 			<para>Obviously not all of these options are appropriate for
@@ -716,22 +739,30 @@
 				and may prove useful:</para>
 
 			<table>
-				<tr>
-					<th align="center">Option</th>
-					<th align="left">Effect</th>
-				</tr>
-				<tr>
-					<td align="center"><option>-E</option></td>
-					<td>Switches off certain constant overflow checks</td>
-				</tr>
-				<tr>
-					<td align="center"><option>-X</option></td>
-					<td>Switches off most optimisations</td>
-				</tr>
-				<tr>
-					<td align="center"><option>-Z</option></td>
-					<td>Prints the version number(s) of the input capsule</td>
-				</tr>
+				<col align="center"/>
+				<col align="left"/>
+
+				<thead>
+					<tr>
+						<th>Option</th>
+						<th>Effect</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><option>-E</option></td>
+						<td>Switches off certain constant overflow checks</td>
+					</tr>
+					<tr>
+						<td><option>-X</option></td>
+						<td>Switches off most optimisations</td>
+					</tr>
+					<tr>
+						<td><option>-Z</option></td>
+						<td>Prints the version number(s) of the input capsule</td>
+					</tr>
+				</tbody>
 			</table>
 
 			<para>These options may be passed directly to &trans; by
@@ -772,9 +803,9 @@
 				rather than a single assembly source file.
 				The general scheme is shown in Fig. 5.</para>
 
-			<figure id="mips_files">
+			<figure>
 				<title>Mips Compilation Path</title>
-				<graphic align="center" format="GIF"
+				<graphic align="center"
 					fileref="images/mips_files.gif"/>
 			</figure>
 
@@ -873,10 +904,9 @@
 
 			<para>The general form of &tcc;'s calls to &ld; are as follows:</para>
 
-			<literallayout>ld&nbsp;<replaceable>(linker&nbsp;options)</replaceable> -o&nbsp;<replaceable>(output&nbsp;file)</replaceable>
-&nbsp;&nbsp;&nbsp;&nbsp;<replaceable>(initial&nbsp;.o&nbsp;files)</replaceable> <replaceable>(binary&nbsp;object&nbsp;files)</replaceable>
-&nbsp;&nbsp;&nbsp;&nbsp;<replaceable>(final&nbsp;.o&nbsp;files)</replaceable> <replaceable>(default&nbsp;system&nbsp;library&nbsp;directories)</replaceable>
-&nbsp;&nbsp;&nbsp;&nbsp;<replaceable>(default&nbsp;system&nbsp;libraries)</replaceable> <replaceable>(default&nbsp;standard&nbsp;libraries)</replaceable></literallayout>
+			<literallayout>ld&nbsp;<replaceable>(linker&nbsp;options)</replaceable>&nbsp;-o&nbsp;<replaceable>(output&nbsp;file)</replaceable>
+&nbsp;&nbsp;&nbsp;&nbsp;<replaceable>(initial&nbsp;.o&nbsp;files)</replaceable>&nbsp;<replaceable>(binary&nbsp;object&nbsp;files)</replaceable>&nbsp;<replaceable>(final&nbsp;.o&nbsp;files)</replaceable>
+&nbsp;&nbsp;&nbsp;&nbsp;<replaceable>(default&nbsp;system&nbsp;library&nbsp;directories)</replaceable>&nbsp;<replaceable>(default&nbsp;system&nbsp;libraries)</replaceable> <replaceable>(default&nbsp;standard&nbsp;libraries)</replaceable></literallayout>
 
 			<para>The linker may require certain default binary object
 				files to be linked into every executable created.
@@ -963,47 +993,55 @@
 				details.</para>
 
 			<table>
-				<tr>
-					<th align="left">Option</th>
-					<th align="left">Effect</th>
-				</tr>
-				<tr>
-					<td><option>-B<replaceable>str</replaceable></option></td>
-					<td>sets library type: <replaceable>str</replaceable>
-						can be dynamic or static</td>
-				</tr>
-				<tr>
-					<td><option>-G</option></td>
-					<td>causes a shared object rather than an executable
-						to be produced</td>
-				</tr>
-				<tr>
-					<td><option>-dn</option></td>
-					<td>causes dynamic linking to be switched off</td>
-				</tr>
-				<tr>
-					<td><option>-dy</option></td>
-					<td>causes dynamic linking to be switched on</td>
-				</tr>
-				<tr>
-					<td><option>-h<replaceable>str</replaceable></option></td>
-					<td>causes <replaceable>str</replaceable> to be
-						marked as dynamic in a shared object</td>
-				</tr>
-				<tr>
-					<td><option>-s</option></td>
-					<td>causes the resultant executable to be stripped</td>
-				</tr>
-				<tr>
-					<td><option>-u<replaceable>str</replaceable></option></td>
-					<td>causes <replaceable>str</replaceable> to be
-						marked as undefined</td>
-				</tr>
-				<tr>
-					<td><option>-z<replaceable>str</replaceable></option></td>
-					<td>specifies error behaviour, depending on
-						<replaceable>str</replaceable></td>
-				</tr>
+				<col align="left"/>
+				<col align="left"/>
+
+				<thead>
+					<tr>
+						<th>Option</th>
+						<th>Effect</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><option>-B<replaceable>str</replaceable></option></td>
+						<td>sets library type: <replaceable>str</replaceable>
+							can be dynamic or static</td>
+					</tr>
+					<tr>
+						<td><option>-G</option></td>
+						<td>causes a shared object rather than an executable
+							to be produced</td>
+					</tr>
+					<tr>
+						<td><option>-dn</option></td>
+						<td>causes dynamic linking to be switched off</td>
+					</tr>
+					<tr>
+						<td><option>-dy</option></td>
+						<td>causes dynamic linking to be switched on</td>
+					</tr>
+					<tr>
+						<td><option>-h<replaceable>str</replaceable></option></td>
+						<td>causes <replaceable>str</replaceable> to be
+							marked as dynamic in a shared object</td>
+					</tr>
+					<tr>
+						<td><option>-s</option></td>
+						<td>causes the resultant executable to be stripped</td>
+					</tr>
+					<tr>
+						<td><option>-u<replaceable>str</replaceable></option></td>
+						<td>causes <replaceable>str</replaceable> to be
+							marked as undefined</td>
+					</tr>
+					<tr>
+						<td><option>-z<replaceable>str</replaceable></option></td>
+						<td>specifies error behaviour, depending on
+							<replaceable>str</replaceable></td>
+					</tr>
+				</tbody>
 			</table>
 
 			<para>The position of any
@@ -1086,35 +1124,43 @@
 			The potentially useful &disp; options include:</para>
 
 		<table>
-			<tr>
-				<th align="center">Option</th>
-				<th align="left">Effect</th>
-			</tr>
-			<tr>
-				<td align="center"><option>-A</option></td>
-				<td>Causes all known unit types to be decoded</td>
-			</tr>
-			<tr>
-				<td align="center"><option>-g</option></td>
-				<td>Causes diagnostic information units to be decoded</td>
-			</tr>
-			<tr>
-				<td align="center"><option>-D</option></td>
-				<td>Causes a binary dump of the capsule to be printed</td>
-			</tr>
-			<tr>
-				<td align="center"><option>-U</option></td>
-				<td>Causes link information units to be decoded</td>
-			</tr>
-			<tr>
-				<td align="center"><option>-V</option></td>
-				<td>Causes the input not to be rationalised</td>
-			</tr>
-			<tr>
-				<td align="center"><option>-W</option></td>
-				<td>Causes a warning to be printed if a token
-					is used before it is declared</td>
-			</tr>
+			<col align="center"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Option</th>
+					<th>Effect</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><option>-A</option></td>
+					<td>Causes all known unit types to be decoded</td>
+				</tr>
+				<tr>
+					<td><option>-g</option></td>
+					<td>Causes diagnostic information units to be decoded</td>
+				</tr>
+				<tr>
+					<td><option>-D</option></td>
+					<td>Causes a binary dump of the capsule to be printed</td>
+				</tr>
+				<tr>
+					<td><option>-U</option></td>
+					<td>Causes link information units to be decoded</td>
+				</tr>
+				<tr>
+					<td><option>-V</option></td>
+					<td>Causes the input not to be rationalised</td>
+				</tr>
+				<tr>
+					<td><option>-W</option></td>
+					<td>Causes a warning to be printed if a token
+						is used before it is declared</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<para>The manual page for &disp; should be consulted for more
@@ -1181,7 +1227,7 @@
 			For example, the <code>posix</code> environment contains the
 			line:</para>
 
-		<programlisting>+FLAG &quot;-WI,-Yposix&quot;</programlisting>
+		<programlisting language="env">+FLAG &quot;-WI,-Yposix&quot;</programlisting>
 
 		<para>Another kind of option that it might be useful to include
 			in an archive is a <option>-l<replaceable>str</replaceable></option>
@@ -1196,14 +1242,14 @@
 			replaced by spaces (there are problems with escaping spaces).
 			So, by using the command-line option:</para>
 
-		<programlisting>-WI,-message&quot;Installing@TDF@archive@...&quot;</programlisting>
+		<screen>-WI,-message&quot;Installing@TDF@archive@...&quot;</screen>
 
 		<para>one can produce an archive which prints a message as it
 			is installed.
 			This option is also useful in environments.
 			By inserting the line:</para>
 
-		<programlisting>+FLAG &quot;-message Reading@tcc@environment@...&quot;</programlisting>
+		<programlisting language="env">+FLAG &quot;-message Reading@tcc@environment@...&quot;</programlisting>
 
 		<para>one can produce an environment which prints a message
 			whenever it is read.</para>

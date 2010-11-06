@@ -11,17 +11,9 @@
 		as follows:</para>
 
 	<itemizedlist>
-		<listitem>
-			<para>There is no error recovery,</para>
-		</listitem>
-
-		<listitem>
-			<para>There is no support for foreign sorts,</para>
-		</listitem>
-
-		<listitem>
-			<para>The support for tokenised tokens is limited and undocumented.</para>
-		</listitem>
+		<listitem>There is no error recovery,</listitem>
+		<listitem>There is no support for foreign sorts,</listitem>
+		<listitem>The support for tokenised tokens is limited and undocumented.</listitem>
 	</itemizedlist>
 
 	<para>In addition, far more of the checks (scopes, shape checking, checking

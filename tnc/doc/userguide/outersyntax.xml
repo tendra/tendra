@@ -11,39 +11,19 @@
 		of the following forms:</para>
 
 	<itemizedlist>
-		<listitem>
-			<para>an included file,</para>
-		</listitem>
-
-		<listitem>
-			<para>a token declaration,</para>
-		</listitem>
-
-		<listitem>
-			<para>a token definition,</para>
-		</listitem>
-
-		<listitem>
-			<para>an alignment tag declaration,</para>
-		</listitem>
-
-		<listitem>
-			<para>an alignment tag definition,</para>
-		</listitem>
-
-		<listitem>
-			<para>a tag declaration,</para>
-		</listitem>
-
-		<listitem>
-			<para>a tag definition.</para>
-		</listitem>
+		<listitem>an included file,</listitem>
+		<listitem>a token declaration,</listitem>
+		<listitem>a token definition,</listitem>
+		<listitem>an alignment tag declaration,</listitem>
+		<listitem>an alignment tag definition,</listitem>
+		<listitem>a tag declaration,</listitem>
+		<listitem>a tag definition.</listitem>
 	</itemizedlist>
 
 	<section id="S36">
 		<title>Included files</title>
 
-		<para>Included files may be of three types - text, &tdf; capsule or &tdf; library.
+		<para>Included files may be of three types&mdash;text, &tdf; capsule or &tdf; library.
 			For &tdf; capsules and libraries there are two include modes. The first
 			just decodes the given capsule or set of capsules. The second scans
 			through them to extract token declaration information. These declarations
@@ -207,8 +187,7 @@
 
 		<para>The basic forms of a tag declaration are:</para>
 
-<programlisting>
-( make_id_tagdec tag_id info dec )
+<programlisting>( make_id_tagdec tag_id info dec )
 ( make_var_tagdec tag_id info dec )
 ( common_tagdec tag_id info dec )</programlisting>
 
@@ -229,8 +208,7 @@
 
 		<para>The basic forms of a tag definition are:</para>
 
-<programlisting>
-( make_id_tagdef tag_id def )
+<programlisting>( make_id_tagdef tag_id def )
 ( make_var_tagdef tag_id info def )
 ( common_tagdef tag_id info def )</programlisting>
 
