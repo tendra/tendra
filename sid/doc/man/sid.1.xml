@@ -33,7 +33,7 @@
 -->
 <!--
 			 Crown Copyright (c) 1997
-	
+
 	This TenDRA(r) Manual Page is subject to Copyright
 	owned by the United Kingdom Secretary of State for Defence
 	acting through the Defence Evaluation and Research Agency
@@ -42,18 +42,18 @@
 	to other parties and amendment for any purpose not excluding
 	product development provided that any such use et cetera
 	shall be deemed to be acceptance of the following conditions:\-
-	
+
 			(1) Its Recipients shall ensure that this Notice is
 			reproduced upon any copies or amended versions of it;
-	
+
 			(2) Any amended version of it shall be clearly marked to
 			show both the nature of and the organisation responsible
 			for the relevant amendment or amendments;
-	
+
 			(3) Its onward transfer from a recipient to another
 			party shall be deemed to be that party's acceptance of
 			these conditions;
-	
+
 			(4) DERA gives no warranty or assurance as to its
 			quality or suitability for any purpose and DERA accepts
 			no liability whatsoever in relation to any use to which
@@ -201,48 +201,42 @@
 							to the format of the grammar specification, with the following
 							exceptions:</para>
 
-        <itemizedlist>
-          <listitem>
-            <para>Predicates are written with the predicate result replaced
-              by the predicate identifier (this will always be zero), and
-              the result is followed by a <code>?</code> to indicate that it
-              was a predicate. As an example, the predicate:
+						<itemizedlist>
+							<listitem>
+								<para>Predicates are written with the predicate result replaced
+									by the predicate identifier (this will always be zero), and
+									the result is followed by a <code>?</code> to indicate that it
+									was a predicate. As an example, the predicate:</para>
 
-            <programlisting language="SID Grammar">
-( b, ? ) = &lt;pred&gt; ( a )</programlisting>
+								<programlisting language="SID Grammar">( b, ? ) = &lt;pred&gt; ( a )</programlisting>
 
-            would be printed out as:
+								<para>would be printed out as:</para>
 
-            <programlisting language="SID Grammar">
-( b : Type1T, 0 : Type2T ) ? = &lt;pred&gt; ( a : Type3T )</programlisting></para>
-          </listitem>
+								<programlisting language="SID Grammar">( b : Type1T, 0 : Type2T ) ? = &lt;pred&gt; ( a : Type3T )</programlisting>
+							</listitem>
 
-          <listitem>
-            <para>Items that are considered to be inlinable are prefixed by
-              a <code>+</code>. Items that are tail calls which will be
-              eliminated are prefixed by a <code>*</code>.</para>
-          </listitem>
+							<listitem>
+								<para>Items that are considered to be inlinable are prefixed by
+									a <code>+</code>. Items that are tail calls which will be
+									eliminated are prefixed by a <code>*</code>.</para>
+							</listitem>
 
-          <listitem>
-            <para>Nested rules are written at the outer level, with names of
-              the form
-              <code>outer-rule::....::inner-rule</code>.</para>
-          </listitem>
+							<listitem>
+								<para>Nested rules are written at the outer level, with names of
+									the form <code><replaceable>outer-rule</replaceable>::<replaceable>....</replaceable>::<replaceable>inner-rule</replaceable></code>.</para>
+							</listitem>
 
-          <listitem>
-            <para>Types are provided on call parameter and result
-              tuples.</para>
-          </listitem>
+							<listitem>
+								<para>Types are provided on call parameter and result
+									tuples.</para>
+							</listitem>
 
-          <listitem>
-            <para>Inline rules are given a generated name, and are written
-              out as a call to the generated rule (and a definition
-              elsewhere).</para>
-          </listitem>
-        </itemizedlist>
-
-
-
+							<listitem>
+								<para>Inline rules are given a generated name, and are written
+									out as a call to the generated rule (and a definition
+									elsewhere).</para>
+							</listitem>
+						</itemizedlist>
 					</listitem>
 				</varlistentry>
 
@@ -368,130 +362,72 @@
 					<term><option>-l</option> <envar>LANGUAGE</envar></term>
 					<listitem>
 						<para>This option specifies the output language.
-							Currently this should be either <quote>ansi-c</quote>,
-							<quote>pre-ansi-c</quote>, <quote>test</quote>, or
-							<quote>bnf</quote>.
-							The default is <quote>ansi-c</quote>.</para>
+							Currently this should be one of the following:</para>
 
-						<para>The <quote>ansi-c</quote> and <quote>pre-ansi-c</quote>
+						<table>
+							<col align="left"/>
+							<col align="left"/>
+							<col align="left"/>
+							<col align="left"/>
+
+							<thead>
+								<tr>
+									<th>Language</th>
+									<th>Input&nbsp;files</th>
+									<th>Output&nbsp;files</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td><code>ansi-c</code></td>
+									<td><filename>.sid</filename>, <filename>.act</filename></td>
+									<td><filename>.c</filename>, <filename>.h</filename></td>
+									<td>Generated parser in ANSI standard C.</td>
+								</tr>
+								<tr>
+									<td><code>pre-ansi-c</code></td>
+									<td><filename>.sid</filename>, <filename>.act</filename></td>
+									<td><filename>.c</filename>, <filename>.h</filename></td>
+									<td>Same as <code>ansi-c</code>, sans prototypes.</td>
+								</tr>
+								<tr>
+									<td><code>test</code></td>
+									<td><filename>.sid</filename></td>
+									<td role="na" align="center">&ndash;</td>
+									<td>For testing grammars.</td>
+								</tr>
+								<tr>
+									<td><code>bnf</code></td>
+									<td><filename>.sid</filename></td>
+									<td><filename>.bnf</filename></td>
+									<td>BNF grammar output.</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<para>The default is <code>ansi-c</code>.</para>
+
+						<para>The <code>ansi-c</code> and <code>pre-ansi-c</code>
 							languages are basically the same.	The only
-							difference is that <quote>ansi-c</quote> initially
-							uses function prototypes, and <quote>pre-ansi-c</quote>
+							difference is that <code>ansi-c</code> initially
+							uses function prototypes, and <code>pre-ansi-c</code>
 							doesn't.	Each language takes two input files, a
 							grammar file and an actions file, and produces two
 							output files, a C source file containing the
 							generated parser and a C header file containing
-							the external declarations for the parser.
-							The C language specific options are:
+							the external declarations for the parser.</para>
 
-							<!-- TODO possibly we could move these to a seperate
-								section, and save on some indenting -->
-							<variablelist>
-								<varlistentry>
-									<term><option>prototypes</option></term>
-									<term><option>proto</option></term>
-									<term><option>no-prototypes</option></term>
-									<term><option>no-proto</option></term>
-									<listitem>
-										<para>These enable or disable the use of function
-											prototypes. By default this is enabled for <code>ansi-c</code> and
-											disabled for <code>pre-ansi-c</code>.</para>
-									</listitem>
-								</varlistentry>
-
-								<varlistentry>
-									<term><option>split split=<literal>NUMBER</literal></option></term>
-									<term><option>no-split</option></term>
-									<listitem>
-										<para>These enable or disable the output file
-											split option.	The generated files can be
-											very large even without inlining.	This option
-											splits the main output file into a number of
-											components containing about <literal>NUMBER</literal>
-											lines each (the default being 50000).
-											These components are distinguished by successively
-											substituting 1, 2, 3, ... for the character
-											<literal>@</literal> in the output file name.</para>
-										<!-- That's an especially inspired option -->
-									</listitem>
-								</varlistentry>
-
-								<varlistentry>
-									<term><option>numeric-ids</option></term>
-									<term><option>numeric</option></term>
-									<term><option>no-numeric-ids</option></term>
-									<term><option>no-numeric</option></term>
-									<listitem>
-										<para>These enable or disable the use of numeric
-											identifiers.	Numeric identifiers replace the
-											identifier name with a number, which is mainly
-											of use in stopping identifier names getting too
-											long.	The disadvantage is that the code becomes
-											less readable, and more difficult to debug.
-											Numeric identifiers are not used by default
-											and are never used for terminal numbers.</para>
-									</listitem>
-								</varlistentry>
-
-								<varlistentry>
-									<term><option>casts</option></term>
-									<term><option>no-casts</option></term>
-									<term><option>no-cast</option></term>
-									<listitem>
-										<para>These enable or disable casting of action
-											and assignment operator immutable parameters.
-											If enabled, a parameter is cast to its own type
-											when it is substituted into the action.	This
-											will cause some compilers to complain about
-											attempts to modify the parameter (which can help pick
-											out attempts at mutating parameters that should
-											not be mutated).	The disadvantage is that not
-											all compilers will reject attempts at mutation,
-											and that <acronym>ANSI</acronym> doesn't allow casting to
-											structure and union types, which
-											means that some code may be illegal.
-											Parameter casting is disabled by default.</para>
-									</listitem>
-								</varlistentry>
-
-								<varlistentry>
-									<term><option>unreachable-macros</option></term>
-									<term><option>unreachable-macro</option></term>
-									<term><option>unreachable-comments</option></term>
-									<term><option>unreachable-comment</option></term>
-									<listitem>
-										<para>These choose whether unreachable code is marked by
-											a macro or a comment.  The default is to mark
-											unreachable code with a comment <code>/*UNREACHED*/</code>,
-											however a macro <code>UNREACHED;</code> may be used
-											instead, if desired.</para>
-									</listitem>
-								</varlistentry>
-
-								<varlistentry>
-									<term><option>lines</option></term>
-									<term><option>line</option></term>
-									<term><option>no-lines</option></term>
-									<term><option>no-line</option></term>
-									<listitem>
-										<para>These determine whether <code>#line</code>
-											directives should be output to relate the
-											output file to the actions file.
-											These are generated by default.</para>
-									</listitem>
-								</varlistentry>
-							</variablelist>
-						</para>
-
-						<para>The <quote>test</quote> language only takes one
+						<para>The <code>test</code> language only takes one
 							input file, and produces no output file.
 							It may be used to check that a grammar is valid.
 							In conjunction with the dump file, it may be used
 							to check the transformations that would be applied
 							to the grammar.	There are no language specific options
-							for the <quote>test</quote> language.</para>
+							for the <code>test</code> language.</para>
 
-						<para>The <quote>bnf</quote> language takes one input
+						<para>The <code>bnf</code> language takes one input
 							file (the grammar) and produced one output file.
 							It is intended to provide a convenient means to
 							convert SID grammars into other formats, or to
@@ -531,6 +467,115 @@
 				</varlistentry>
 			</variablelist>
 		</para>
+	</refsection>
+
+	<refsection>
+		<title>Language-specific options for C</title>
+
+		<para>The following language-specific options apply for the
+			<code>ansi-c</code> and <code>pre-ansi-c</code> languages:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>prototypes</option></term>
+				<term><option>proto</option></term>
+				<term><option>no-prototypes</option></term>
+				<term><option>no-proto</option></term>
+
+				<listitem>
+					<para>These enable or disable the use of function
+						prototypes. By default this is enabled for <code>ansi-c</code> and
+						disabled for <code>pre-ansi-c</code>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>split split=<literal>NUMBER</literal></option></term>
+				<term><option>no-split</option></term>
+
+				<listitem>
+					<para>These enable or disable the output file
+						split option.	The generated files can be
+						very large even without inlining.	This option
+						splits the main output file into a number of
+						components containing about <literal>NUMBER</literal>
+						lines each (the default being 50000).
+						These components are distinguished by successively
+						substituting 1, 2, 3, ... for the character
+						<literal>@</literal> in the output file name.</para>
+					<!-- That's an especially inspired option -->
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>numeric-ids</option></term>
+				<term><option>numeric</option></term>
+				<term><option>no-numeric-ids</option></term>
+				<term><option>no-numeric</option></term>
+
+				<listitem>
+					<para>These enable or disable the use of numeric
+						identifiers.	Numeric identifiers replace the
+						identifier name with a number, which is mainly
+						of use in stopping identifier names getting too
+						long.	The disadvantage is that the code becomes
+						less readable, and more difficult to debug.
+						Numeric identifiers are not used by default
+						and are never used for terminal numbers.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>casts</option></term>
+				<term><option>no-casts</option></term>
+				<term><option>no-cast</option></term>
+
+				<listitem>
+					<para>These enable or disable casting of action
+						and assignment operator immutable parameters.
+						If enabled, a parameter is cast to its own type
+						when it is substituted into the action.	This
+						will cause some compilers to complain about
+						attempts to modify the parameter (which can help pick
+						out attempts at mutating parameters that should
+						not be mutated).	The disadvantage is that not
+						all compilers will reject attempts at mutation,
+						and that <acronym>ANSI</acronym> doesn't allow casting to
+						structure and union types, which
+						means that some code may be illegal.
+						Parameter casting is disabled by default.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>unreachable-macros</option></term>
+				<term><option>unreachable-macro</option></term>
+				<term><option>unreachable-comments</option></term>
+				<term><option>unreachable-comment</option></term>
+
+				<listitem>
+					<para>These choose whether unreachable code is marked by
+						a macro or a comment.  The default is to mark
+						unreachable code with a comment <code>/*UNREACHED*/</code>,
+						however a macro <code>UNREACHED;</code> may be used
+						instead, if desired.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>lines</option></term>
+				<term><option>line</option></term>
+				<term><option>no-lines</option></term>
+				<term><option>no-line</option></term>
+
+				<listitem>
+					<para>These determine whether <code>#line</code>
+						directives should be output to relate the
+						output file to the actions file.
+						These are generated by default.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsection>
 
 	<refsection id="see_also">

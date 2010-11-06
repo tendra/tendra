@@ -3,7 +3,7 @@
                    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
 <!-- $Id -->
-<refentry id='tpl1'>
+<refentry id='disp1'>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -111,160 +111,134 @@
 	</refsection>
 
 	<refsection id='options'>
-		<title>Option</title>
+		<title>Options</title>
 
 		<variablelist remap='IP'>
 			<varlistentry>
 				<term><option>-g</option></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> print any
-						diagnostic information units within the
-						<acronym>TDF</acronym> capsule.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> print any
+					diagnostic information units within the
+					<acronym>TDF</acronym> capsule.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-n</option><replaceable>columns</replaceable></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> try to
-						format its output to fit into a page width
-						of <emphasis remap='I'>columns</emphasis>.
-						The default page width is 80.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> try to
+					format its output to fit into a page width
+					of <emphasis remap='I'>columns</emphasis>.
+					The default page width is 80.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-q</option></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> ignore the
-						specified page width and print its output
-						with the minimum possible indentation.  This
-						makes it run faster, but does not make the
-						best use of the available page width.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> ignore the
+					specified page width and print its output
+					with the minimum possible indentation.  This
+					makes it run faster, but does not make the
+					best use of the available page width.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-r</option></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> continue after
-						any errors.  The use of this flag is
-						not recommended since anything read after an
-						error is likely to be of very little value.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> continue after
+					any errors.  The use of this flag is
+					not recommended since anything read after an
+					error is likely to be of very little value.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-v</option></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> print its
-						version number and the version of the
-						<acronym>TDF</acronym> specification it
-						supports.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> print its
+					version number and the version of the
+					<acronym>TDF</acronym> specification it
+					supports.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-A</option></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> decode
-						all the units it recognises (including
-						diagnostic and linking units) within the
-						<acronym>TDF</acronym> capsule.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> decode
+					all the units it recognises (including
+					diagnostic and linking units) within the
+					<acronym>TDF</acronym> capsule.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-D</option></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> print
-						a simple binary dump of the input file.
-						This is intended for debugging purposes.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> print
+					a simple binary dump of the input file.
+					This is intended for debugging purposes.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-E</option></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> report
-						such information as the number of external
-						tags and tokens which it usually omits.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> report
+					such information as the number of external
+					tags and tokens which it usually omits.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-S</option></term>
 
-				<listitem>
-					<para>Because tokens may be defined in terms of
-						other tokens and do not need to be declared
-						before they are defined, <command>disp</command>
-						makes two passes of all the token definition units.
-						In the first pass it extracts only the
-						declaration information, stepping over the main
-						body of the definition.  On the second pass all
-						the information is read.  The <option>-S</option>
-						option makes <command>disp</command> skip the
-						first pass.</para>
-				</listitem>
+				<listitem>Because tokens may be defined in terms of
+					other tokens and do not need to be declared
+					before they are defined, <command>disp</command>
+					makes two passes of all the token definition units.
+					In the first pass it extracts only the
+					declaration information, stepping over the main
+					body of the definition.  On the second pass all
+					the information is read.  The <option>-S</option>
+					option makes <command>disp</command> skip the first
+					pass.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-T</option></term>
 
-				<listitem>
-					<para>The skip pass described under the
-						<option>-S</option> option is usual done
-						silently, without printing any information.
-						This is changed by the <option>-T</option>
-						option.</para>
-				</listitem>
+				<listitem>The skip pass described under the
+					<option>-S</option> option is usual done
+					silently, without printing any information.
+					This is changed by the <option>-T</option>
+					option.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-U</option></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> print the
-						usage information associated with the external
-						tokens and tags and also any linkage
-						information units within the capsule.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> print the
+					usage information associated with the external
+					tokens and tags and also any linkage
+					information units within the capsule.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-V</option></term>
 
-				<listitem>
-					<para>By default <command>disp</command> attempts
-						to rationalise the <acronym>TDF</acronym> it reads.  In
-						particular it uses the external token and tag
-						names whenever possible, following the token
-						and tag bindings to find these, and makes up
-						names for those tokens and tags which do not
-						have external names.  The <option>-V</option>
-						option makes it not attempt any such
-						rationalisation, but instead to output exactly
-						what it reads.</para>
-				</listitem>
+				<listitem>By default <command>disp</command> attempts
+					to rationalise the <acronym>TDF</acronym> it reads.  In
+					particular it uses the external token and tag
+					names whenever possible, following the token
+					and tag bindings to find these, and makes up
+					names for those tokens and tags which do not
+					have external names.  The <option>-V</option>
+					option makes it not attempt any such
+					rationalisation, but instead to output exactly
+					what it reads.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-W</option></term>
 
-				<listitem>
-					<para>Makes <command>disp</command> issue a
-						warning about every token which is used before
-						it is declared.</para>
-				</listitem>
+				<listitem>Makes <command>disp</command> issue a
+					warning about every token which is used before
+					it is declared.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
                    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<!-- TODO: entities for common things -->
+<!-- TODO we can put our andfutil manpages in (1andf)? -->
+
 <!-- lifted from troff+man by doclifter, additional editing by hand -->
 <!-- $Id -->
 <refentry id='tnc1'>
@@ -85,20 +88,88 @@
 		<para><command>tnc</command> translates TDF capsules to and from text.
 			It has two input modes, <emphasis>read</emphasis> and
 			<emphasis>decode</emphasis>.  In the first, which is default,
-			<emphasis>input-file</emphasis> is a file containing TDF text.
-			In the second <emphasis>input-file</emphasis> is a TDF capsule.
-			There are also two output mode, <emphasis>encode</emphasis> and
-			<emphasis>write</emphasis>.  In the first, which is default, a
-			TDF capsule is written to <emphasis>output-file</emphasis>
-			In the second, TDF text is written to <emphasis>output-file</emphasis>.
-			If the <emphasis>output-file</emphasis> argument is absent, the
+			<replaceable>input-file</replaceable> is a file containing TDF text.
+			In the second <replaceable>input-file</replaceable> is a TDF capsule.</para>
+
+		<para>There are also two output mode, <emphasis>encode</emphasis> and
+			<emphasis>write</emphasis>.
+			In the first, which is default, a
+			TDF capsule is written to <replaceable>output-file</replaceable>
+			In the second, TDF text is written to <replaceable>output-file</replaceable>.
+			If the <replaceable>output-file</replaceable> argument is absent, the
 			standard output is used
 		instead.</para>
 
 		<para>Combination of these modes give four actions: text to TDF (which
 			is default), TDF to text, text to text, and TDF to TDF.  The last
 			two actions are not precise identities, but they do give equivalent
-			files.  The TDF pretty-printer, <citerefentry>
+			files. These actions are summarised below:</para>
+
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+			<col align="left"/>
+			<col align="right"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Options</th>
+					<th>Input&nbsp;mode</th>
+					<th>Output&nbsp;mode</th>
+					<th align="center" colspan="2">Action</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td></td>
+					<td><emphasis>read</emphasis>&nbsp;(default)</td>
+					<td><emphasis>encode</emphasis>&nbsp;(default)</td>
+					<td role="input"><filename>.p</filename></td>
+					<td role="output"><filename>.j</filename>/<filename>.t</filename>&nbsp;(default)</td>
+				</tr>
+				<tr>
+					<td><option>-w</option>/<option>-p</option></td>
+					<td><emphasis>read</emphasis>&nbsp;(default)</td>
+					<td><emphasis>write</emphasis></td>
+					<td role="input"><filename>.p</filename></td>
+					<td role="output"><filename>.p</filename>&nbsp;(pretty-printer)</td>
+				</tr>
+				<tr>
+					<td><option>-d</option></td>
+					<td><emphasis>decode</emphasis></td>
+					<td><emphasis>encode</emphasis>&nbsp;(default)</td>
+					<td role="input"><filename>.j</filename>/<filename>.t</filename></td>
+					<td role="output"><filename>.p</filename></td>
+				</tr>
+				<tr>
+					<td><option>-dw</option></td>
+					<td><emphasis>decode</emphasis></td>
+					<td><emphasis>write</emphasis></td>
+					<td role="input">c<filename>.j</filename>/<filename>.t</filename></td>
+					<td role="output"><filename>.p</filename></td>
+				</tr>
+				<tr>
+					<td><option>-dl</option></td>
+					<td><emphasis>decode</emphasis></td>
+					<td><emphasis>encode</emphasis>&nbsp;(default)</td>
+					<td role="input"><filename>.tl</filename></td>
+					<td role="output"><filename>.p</filename></td>
+				</tr>
+				<tr>
+					<td><option>-dwl</option></td>
+					<td><emphasis>decode</emphasis></td>
+					<td><emphasis>write</emphasis></td>
+					<td role="input">c<filename>.tl</filename></td>
+					<td role="output"><filename>.j</filename>/<filename>.t</filename></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>The
+			<!-- TODO: use entity references for this. centralise those under shared/ -->
+			TDF pretty-printer, <citerefentry>
 				<refentrytitle>disp</refentrytitle>
 				<manvolnum>1</manvolnum>
 			</citerefentry>, provides a more sophisticated TDF to text
@@ -115,32 +186,37 @@
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-c</option>&nbsp;or&nbsp;<option>-cv</option>&nbsp;or&nbsp;<option>-check</option></term>
+				<term><option>-c</option></term>
+				<term><option>-cv</option></term>
+				<term><option>-check</option></term>
 
 				<listitem>
-					<para>Specifies that <command>tnc</command> should apply extra checks to <emphasis>input-file</emphasis>.
+					<para>Specifies that <command>tnc</command> should apply extra checks to <replaceable>input-file</replaceable>.
 						For example, simple shape checking is applied.  These checks are more
 						efficient in <emphasis>read</emphasis> mode than in <emphasis>decode</emphasis> mode.  If the <option>-cv</option>
 						option is used in <emphasis>write</emphasis> mode, all the information gleaned from the
-						shape checking appears in <emphasis>output-file</emphasis>.</para>
+						shape checking appears in <replaceable>output-file</replaceable>.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-d</option>&nbsp;or&nbsp;<option>-decode</option></term>
+				<term><option>-d</option></term>
+				<term><option>-decode</option></term>
 
 				<listitem>
 					<para>Specifies that <command>tnc</command> should be in <emphasis>decode</emphasis> mode.  That is,
-						that <emphasis>input-file</emphasis> is a TDF capsule.</para>
+						that <replaceable>input-file</replaceable> is a TDF capsule.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-e</option>&nbsp;or&nbsp;<option>-encode</option></term>
+				<term><option>-e</option></term>
+				<term><option>-encode</option></term>
 
 				<listitem>
 					<para>Specifies that <command>tnc</command> should be in <emphasis>encode</emphasis> mode.  That is,
-						that <emphasis>output-file</emphasis> is a TDF capsule.</para>
+						that <replaceable>output-file</replaceable> is a TDF capsule.
+						This is the default output mode.</para>
 				</listitem>
 			</varlistentry>
 
@@ -163,7 +239,8 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-f</option>&nbsp;or&nbsp;<option>-func</option></term>
+				<term><option>-f</option></term>
+				<term><option>-func</option></term>
 
 				<listitem>
 					<para>Causes <command>tnc</command> to use its alternative, functional, form for both input
@@ -186,16 +263,17 @@
 				<term><option>-I</option><replaceable>dir</replaceable></term>
 
 				<listitem>
-					<para>Adds the directory <emphasis>dir</emphasis> to the search path used by <command>tnc</command> to
+					<para>Adds the directory <replaceable>dir</replaceable> to the search path used by <command>tnc</command> to
 						find included files in <emphasis>read</emphasis> mode.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-l</option>&nbsp;or&nbsp;<option>-lib</option></term>
+				<term><option>-l</option></term>
+				<term><option>-lib</option></term>
 
 				<listitem>
-					<para>In <emphasis>decode</emphasis> mode, specifies that <emphasis>input-file</emphasis> is not a TDF
+					<para>In <emphasis>decode</emphasis> mode, specifies that <replaceable>input-file</replaceable> is not a TDF
 						capsule, but a TDF library.  All the capsules comprising the library
 						are decoded.</para>
 				</listitem>
@@ -206,12 +284,12 @@
 
 				<listitem>
 					<para>Causes <command>tnc</command> to treat any external identifiers starting with
-						<emphasis>prefix</emphasis> to be treated as if they were declare <emphasis>local</emphasis>.</para>
+						<replaceable>prefix</replaceable> to be treated as if they were declare <code>local</code>.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-o</option>&nbsp;<emphasis>output-file</emphasis></term>
+				<term><option>-o</option>&nbsp;<replaceable>output-file</replaceable></term>
 
 				<listitem>
 					<para>Gives an alternative method of specifying the output file.</para>
@@ -219,11 +297,12 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-p</option>&nbsp;or&nbsp;<option>-print</option></term>
+				<term><option>-p</option></term>
+				<term><option>-print</option></term>
 
 				<listitem>
 					<para>Specifies that <command>tnc</command> should be in <emphasis>decode</emphasis> and <emphasis>write</emphasis> modes.
-						That is, that <emphasis>input-file</emphasis> is a TDF capsule and <emphasis>output-file</emphasis>
+						That is, that <replaceable>input-file</replaceable> is a TDF capsule and <replaceable>output-file</replaceable>
 						should consist of TDF text.  This option makes <command>tnc</command> into a TDF
 						pretty-printer.</para>
 				</listitem>
@@ -239,16 +318,19 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-r</option>&nbsp;or&nbsp;<option>-read</option></term>
+				<term><option>-r</option></term>
+				<term><option>-read</option></term>
 
 				<listitem>
 					<para>Specifies that <command>tnc</command> should be in <emphasis>read</emphasis> mode.  That is,
-						that <emphasis>input-file</emphasis> should consist of TDF text.</para>
+						that <replaceable>input-file</replaceable> should consist of TDF text.
+						This is the default input mode.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-t</option>&nbsp;or&nbsp;<option>-tsimp</option></term>
+				<term><option>-t</option></term>
+				<term><option>-tsimp</option></term>
 
 				<listitem>
 					<para>Specifies that <command>tnc</command> should expand its input by replacing all
@@ -277,11 +359,12 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-w</option>&nbsp;or&nbsp;<option>-write</option></term>
+				<term><option>-w</option></term>
+				<term><option>-write</option></term>
 
 				<listitem>
 					<para>Specifies that <command>tnc</command> should be in <emphasis>write</emphasis> mode.  That is,
-						that <emphasis>output-file</emphasis> should consist of TDF text.</para>
+						that <replaceable>output-file</replaceable> should consist of TDF text.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>

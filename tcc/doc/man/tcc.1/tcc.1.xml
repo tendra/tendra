@@ -86,100 +86,92 @@
 		<para><command>tcc</command> is the user interface to the TDF system.	It is more fully
 			documented in the <emphasis remap='I'>tcc User's Guide</emphasis>.</para>
 
-		<para><command>tcc</command> accepts several types of arguments as <emphasis remap='I'>files</emphasis>:</para>
+		<para><command>tcc</command> accepts several types of arguments as
+			<emphasis remap='I'>files</emphasis>. The formats of these files
+			are automatically inferred from their names:</para>
 
-		<variablelist remap='IP'>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.c</markup> are understood to be C source files.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.i</markup> are understood to be preprocessed
-						C source files.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.C</markup> are understood to be C++ source
-						files (only if <option>-Yc++</option> is specified).</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.I</markup> are understood to be preprocessed
-						C++ source files (only if <option>-Yc++</option> is specified).</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.j</markup> are understood to be target
-						independent TDF capsules.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.ta</markup> are understood to be archives of
-						target independent TDF capsules.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.t</markup> are understood to be target
-						dependent TDF capsules.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.s</markup> are understood to be assembly
-						source files.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.d</markup> are understood to be TenDRA dump
-						files.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.K</markup> are understood to be C++ spec files
-						(only if <option>-Yc++</option> is specified).</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.p</markup> are understood to be TDF notation
-						source files (only if <option>-Ytnc</option> is specified).</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>Arguments whose names end in <markup>.tpl</markup> are understood to be PL_TDF source
-						files (only if <option>-Ypl_tdf</option> is specified).</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>-</term>
-				<listitem>
-					<para>All other arguments (but particularly those whose names end in <markup>.o</markup>
-						and <markup>.a</markup>) are understood to be binary object files.</para>
-				</listitem>
-			</varlistentry>
-		</variablelist>
+		<table>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Suffix</th>
+					<th>Context</th>
+					<th>Format</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><filename>.c</filename></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>C source files</td>
+				</tr>
+				<tr>
+					<td><filename>.i</filename></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>Preprocessed C source files</td>
+				</tr>
+				<tr>
+					<td><filename>.C</filename></td>
+					<td><option>-Yc++</option> only</td>
+					<td>C++ source files</td>
+				</tr>
+				<tr>
+					<td><filename>.I</filename></td>
+					<td><option>-Yc++</option> only</td>
+					<td>Preprocessed C++ source files</td>
+				</tr>
+				<tr>
+					<td><filename>.j</filename></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>Target-independent TDF capsules</td>
+				</tr>
+				<tr>
+					<td><filename>.ta</filename></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>Archives of target-independent TDF capsules</td>
+				</tr>
+				<tr>
+					<td><filename>.t</filename></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>Target-dependent TDF capsules</td>
+				</tr>
+				<tr>
+					<td><filename>.s</filename></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>Assembly source files</td>
+				</tr>
+				<tr>
+					<td><filename>.d</filename></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>TenDRA dump files</td>
+				</tr>
+				<tr>
+					<td><filename>.K</filename></td>
+					<td><option>-Yc++</option> only</td>
+					<td>C++ spec files</td>
+				</tr>
+				<tr>
+					<td><filename>.p</filename></td>
+					<td><option>-Ytnc</option> only</td>
+					<td>TDF notation source files (AKA <quote>TDF text</quote>)</td>
+				</tr>
+				<tr>
+					<td><filename>.tpl</filename></td>
+					<td><option>-Ypl_tdf</option> only</td>
+					<td>PL_TDF source files</td>
+				</tr>
+				<tr>
+					<td>other</td>
+					<td role="na" align="center">&ndash;</td>
+					<td>Binary object files (typically <filename>*.o</filename>
+						and <filename>*.a</filename></td>
+				</tr>
+			</tbody>
+		</table>
 
 		<para>The compilation process is as follows.	Depending on the options given,
 			it may halt at any stage:</para>
@@ -216,89 +208,91 @@
 		<para>With the exception of binary object files, intermediate files are not
 			preserved unless explicitly instructed.</para>
 
-		<para>The standard file suffixes <emphasis remap='B'>c</emphasis>, <emphasis remap='B'>i</emphasis>,
-			<emphasis remap='B'>C</emphasis>, <emphasis remap='B'>I</emphasis>, <emphasis remap='B'>j</emphasis>,
-			<emphasis remap='B'>t</emphasis>, <emphasis remap='B'>s</emphasis>, <emphasis remap='B'>o</emphasis>,
-			<emphasis remap='B'>d</emphasis>, <emphasis remap='B'>k</emphasis>, and <emphasis remap='B'>K</emphasis>, together with
-			<emphasis remap='B'>p</emphasis> (pretty-printed TDF capsule) and <emphasis remap='B'>pl</emphasis> (PL_TDF source file),
+		<para>The standard file suffixes <filename>.c</filename>, <filename>.i</filename>,
+			<filename>.C</filename>, <filename>.I</filename>, <filename>.j</filename>,
+			<filename>.t</filename>, <filename>.s</filename>, <filename>.o</filename>,
+			<filename>.d</filename>, <filename>.k</filename>, and <filename>.K</filename>, together with
+			<filename>.p</filename> (pretty-printed TDF capsule) and <filename>.pl</filename> (PL_TDF source file),
 			are used to indicate file types in some options.	Also the various
 			compilation phases are identified by letters in some options.
 			These are:</para>
 
-		<variablelist remap='IP'>
-			<varlistentry>
-				<term><emphasis remap='B'>c</emphasis></term>
-				<listitem>
-								<para>C to TDF producer</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>p</emphasis></term>
-				<listitem>
-								<para>C preprocessor</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>x</emphasis></term>
-				<listitem>
-					<para>C++ to TDF producer (only if <option>-Yc++</option> is specified)</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>g</emphasis></term>
-				<listitem>
-					<para>C++ preprocessor (only if <option>-Yc++</option> is specified)</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>L</emphasis></term>
-				<listitem>
-					<para>TDF linker (or builder)</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>t</emphasis></term>
-				<listitem>
-					<para>TDF translator</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>a</emphasis></term>
-				<listitem>
-					<para>System assembler</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>l</emphasis></term>
-				<listitem>
-					<para>System linker</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>S</emphasis></term>
-				<listitem>
-					<para>C++ spec linker</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>e</emphasis></term>
-				<listitem>
-					<para>Compact-output error reporter (only if <option>-Ycompact</option> is specified)</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>u</emphasis></term>
-				<listitem>
-					<para>TenDRA dump file linker</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><emphasis remap='B'>d</emphasis></term>
-				<listitem>
-					<para>TDF pretty-printer</para>
-				</listitem>
-			</varlistentry>
-		</variablelist>
+		<table>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Code</th>
+					<th>Context</th>
+					<th>Phase</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><emphasis remap='B'>c</emphasis></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>C to TDF producer</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>p</emphasis></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>C preprocessor</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>x</emphasis></td>
+					<td><option>-Yc++</option> only</td>
+					<td>C++ to TDF producer</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>g</emphasis></td>
+					<td><option>-Yc++</option> only</td>
+					<td>C++ preprocessor</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>L</emphasis></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>TDF linker (or builder)</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>t</emphasis></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>TDF translator</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>a</emphasis></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>System assembler</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>l</emphasis></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>System linker</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>S</emphasis></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>C++ spec linker</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>e</emphasis></td>
+					<td><option>-Ycompact</option> only</td>
+					<td>Compact-output error reporter</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>u</emphasis></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>TenDRA dump file linker</td>
+				</tr>
+				<tr>
+					<td><emphasis remap='B'>d</emphasis></td>
+					<td role="na" align="center">&ndash;</td>
+					<td>TDF pretty-printer</td>
+				</tr>
+			</tbody>
+		</table>
 	</refsection>
 
 	<refsection id='options'>
@@ -343,9 +337,9 @@
 				<term><option>-E</option></term>
 				<listitem>
 					<para>Invokes the C preprocessor only, putting the result into a file with
-						a <markup>.i</markup> suffix if other options indicate that preprocessed C files
+						a <filename>.i</filename> suffix if other options indicate that preprocessed C files
 						are to be preserved, or onto the standard output otherwise.	Similarly,
-						C++ source files are preprocessed and put into files with <markup>.I</markup> suffixes.</para>
+						C++ source files are preprocessed and put into files with <filename>.I</filename> suffixes.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -444,8 +438,8 @@
 				<term><option>-P</option></term>
 				<listitem>
 					<para>Invokes the C preprocessor only, putting the result into a file with
-						a <markup>.i</markup> suffix.	The C++ preprocessor is similarly invoked for C++
-						source files, putting the result into a file with a <markup>.I</markup> suffix.</para>
+						a <filename>.i</filename> suffix.	The C++ preprocessor is similarly invoked for C++
+						source files, putting the result into a file with a <filename>.I</filename> suffix.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -610,7 +604,7 @@
 				<term><option>-disp</option></term>
 				<listitem>
 					<para>Runs the TDF pretty-printer on all files at stage 2 or 3 and then
-						terminates.	The results are put into files with <markup>.p</markup> suffixes.</para>
+						terminates.	The results are put into files with <filename>.p</filename> suffixes.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -619,7 +613,7 @@
 					<para>Runs the pretty-printer on all files at stage 3 and then terminates.
 						This differs from the previous option in that it displays the TDF
 						after linking with the target-dependent TDF libraries rather than
-						before.	The output is put into a file with a <markup>.p</markup> suffix.</para>
+						before.	The output is put into a file with a <filename>.p</filename> suffix.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -706,7 +700,7 @@
 			<varlistentry>
 				<term><option>-j</option><replaceable>string</replaceable></term>
 				<listitem>
-					<para>Tells the TDF linker to use the TDF library <emphasis remap='I'>string</emphasis><markup>.tl</markup>.</para>
+					<para>Tells the TDF linker to use the TDF library <emphasis remap='I'>string</emphasis><filename>.tl</filename>.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -726,7 +720,7 @@
 			<varlistentry>
 				<term><option>-l</option><replaceable>string</replaceable></term>
 				<listitem>
-					<para>Tells the system linker to use the library <emphasis remap='B'>lib</emphasis><emphasis remap='I'>string</emphasis><markup>.a</markup>.</para>
+					<para>Tells the system linker to use the library <emphasis remap='B'>lib</emphasis><emphasis remap='I'>string</emphasis><filename>.a</filename>.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -1091,7 +1085,7 @@
 		</variablelist>
 	</refsection>
 
-	<refsection id='see_also'><title>SEE ALSO</title>
+	<refsection id='see_also'><title>See Also</title>
 		<para><citerefentry><refentrytitle>as</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
 			<citerefentry><refentrytitle>cc</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
 			<citerefentry><refentrytitle>disp</refentrytitle><manvolnum>1</manvolnum></citerefentry>,

@@ -74,13 +74,11 @@
 		<refpurpose>TDF linking and library manipulation utility</refpurpose>
 	</refnamediv>
 
-	<refsection id='syntax'>
-		<title>Syntax</title>
-
+	<refsynopsisdiv>
 		<para><command>tld</command>
 			[<emphasis>mode</emphasis>] [<emphasis>option</emphasis>]...
 			<emphasis>file</emphasis>...</para>
-	</refsection>
+	</refsynopsisdiv>
 
 	<refsection id='description'>
 		<title>Description</title>
@@ -165,7 +163,7 @@
 			hex.</para>
 	</refsection>
 
-	<refsection id='linking'><title>LINKING</title>
+	<refsection id='linking'><title>Linking</title>
 		<para>In the default mode, <command>tld</command>
 			tries to link together the TDF capsules specified on the command line.  This
 			consists of the following stages:</para>
@@ -216,131 +214,160 @@
 					<emphasis>capsule.j</emphasis>.</para>
 			  </listitem>
 		</orderedlist>
-	</refsection>
 
-	<refsection id='switches2'><title>Switches</title>
 		<para><command>tld</command>
 			accepts the following switches in link mode:</para>
 
-		<para><option>--all-hide-defined</option>
-			<!-- .br -->
-			<option>-a</option></para>
+		<variablelist>
+			<varlistentry>
+				<term><option>--all-hide-defined</option></term>
+				<term><option>-a</option></term>
 
-		<para>Hide all external names (of any shape) that are defined.</para>
+				<listitem>Hide all external names (of any shape) that are defined.</listitem>
+			</varlistentry>
 
-		<para><option>--debug-file</option> <replaceable>FILE</replaceable>
-			<!-- .br -->
-			<option>-d</option> <replaceable>FILE</replaceable></para>
+			<varlistentry>
+				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-d</option> <replaceable>FILE</replaceable></term>
 
-		<para>Produce a diagnostic trace of the linking process in
-			<emphasis>FILE</emphasis>.</para>
+				<listitem>Produce a diagnostic trace of the linking process in
+					<emphasis>FILE</emphasis>.</listitem>
+			</varlistentry>
 
-		<para><option>--help</option>
-			<!-- .br -->
-			<option>-?</option></para>
+			<varlistentry>
+				<term><option>--help</option></term>
+				<term><option>-?</option></term>
 
-		<para>Write an option summary to the standard error.</para>
+				<listitem>Write an option summary to the standard error.</listitem>
+			</varlistentry>
 
-		<para><option>--hide</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis>
-			<!-- .br -->
-			<option>-h</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></para>
+			<varlistentry>
+				<term><option>--hide</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>-h</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 
-		<para>Cause the external <emphasis>SHAPE</emphasis> name
-			<emphasis>NAME</emphasis> to be hidden.  An error is
-		reported if the name is not defined.</para>
+				<listitem>Cause the external <emphasis>SHAPE</emphasis> name
+					<emphasis>NAME</emphasis> to be hidden.
+					An error is reported if the name is not defined.</listitem>
+			</varlistentry>
 
-		<para><option>--hide-defined</option> <replaceable>SHAPE</replaceable>
-		<!-- .br -->
-		<option>-H</option> <replaceable>SHAPE</replaceable></para>
+			<varlistentry>
+				<term><option>--hide-defined</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>-H</option> <replaceable>SHAPE</replaceable></term>
 
-		<para>Cause the all external <emphasis>SHAPE</emphasis> names that are defined to be hidden.</para>
+				<listitem>Cause the all external <emphasis>SHAPE</emphasis>
+					names that are defined to be hidden.</listitem>
+			</varlistentry>
 
-		<para><option>--keep</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis>
-		<!-- .br -->
-		<option>-k</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></para>
+			<varlistentry>
+				<term><option>--keep</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>-k</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 
-		<para>Cause the external <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis> to be kept.</para>
+				<listitem>Cause the external <emphasis>SHAPE</emphasis> name
+					<emphasis>NAME</emphasis> to be kept.</listitem>
+			</varlistentry>
 
-		<para><option>--keep-all</option> <replaceable>SHAPE</replaceable>
-		<!-- .br -->
-		<option>-K</option> <replaceable>SHAPE</replaceable></para>
+			<varlistentry>
+				<term><option>--keep-all</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>-K</option> <replaceable>SHAPE</replaceable></term>
 
-		<para>Cause the all external <emphasis>SHAPE</emphasis> names to be kept.</para>
+				<listitem>Cause the all external <emphasis>SHAPE</emphasis>
+					names to be kept.</listitem>
+			</varlistentry>
 
-		<para><option>--library</option> <replaceable>FILE</replaceable>
-		<!-- .br -->
-		<option>-l</option><replaceable>FILE</replaceable></para>
+			<varlistentry>
+				<term><option>--library</option> <replaceable>FILE</replaceable></term>
+				<term><option>-l</option><replaceable>FILE</replaceable></term>
 
-		<para>Use the file <filename>FILE</filename> as a TDF library.  If the file name contains a '/',
-		then it is used as specified; if not, the library search path is searched
-		for a file named '<emphasis>FILE</emphasis>.tl'.  Duplicate entries for the same library
-		are ignored.</para>
+				<listitem>Use the file <filename>FILE</filename> as a TDF library.
+					If the file name contains a '/', then it is used as specified;
+					if not, the library search path is searched for a file named
+					'<emphasis>FILE</emphasis>.tl'.
+					Duplicate entries for the same library are ignored.</listitem>
+			</varlistentry>
 
-		<para><option>--output-file</option> <replaceable>FILE</replaceable>
-		<!-- .br -->
-		<option>-o</option> <replaceable>FILE</replaceable></para>
+			<varlistentry>
+				<term><option>--output-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-o</option> <replaceable>FILE</replaceable></term>
 
-		<para>Write the output capsule to the file <filename>FILE</filename>.  If this switch is not
-		specified, then the output is written to the file 'capsule.j' instead.</para>
+				<listitem>Write the output capsule to the file <filename>FILE</filename>.
+					If this switch is not specified, then the output is written
+					to the file 'capsule.j' instead.</listitem>
+			</varlistentry>
 
-		<para><option>--path</option> <replaceable>DIRECTORY</replaceable>
-		<!-- .br -->
-		<option>-L</option><replaceable>DIRECTORY</replaceable></para>
+			<varlistentry>
+				<term><option>--path</option> <replaceable>DIRECTORY</replaceable></term>
+				<term><option>-L</option><replaceable>DIRECTORY</replaceable></term>
 
-		<para>Append the directory <emphasis>DIRECTORY</emphasis> to the library search path.</para>
+				<listitem>Append the directory <emphasis>DIRECTORY</emphasis> to
+					the library search path.</listitem>
+			</varlistentry>
 
-		<para><option>--rename</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis>
-		<!-- .br -->
-		<option>-r</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></para>
+			<varlistentry>
+				<term><option>--rename</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></term>
+				<term><option>-r</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></term>
 
-		<para>Rename the external <emphasis>SHAPE</emphasis> name <emphasis>FROM</emphasis> to <emphasis>TO</emphasis>.</para>
+				<listitem>Rename the external <emphasis>SHAPE</emphasis> name
+					<emphasis>FROM</emphasis> to <emphasis>TO</emphasis>.</listitem>
+			</varlistentry>
 
-		<para><option>--rename-file</option> <replaceable>FILE</replaceable>
-		<!-- .br -->
-		<option>-R</option> <replaceable>FILE</replaceable></para>
+			<varlistentry>
+				<term><option>--rename-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-R</option> <replaceable>FILE</replaceable></term>
 
-		<para>Read the contents of the file <filename>FILE</filename> as a series of renaming
-		specifications.  The format of the file is described above.</para>
+				<listitem>Read the contents of the file <filename>FILE</filename> as a series of renaming
+					specifications.  The format of the file is described above.</listitem>
+			</varlistentry>
 
-		<para><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis>
-		<!-- .br -->
-		<option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></para>
+			<varlistentry>
+				<term><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 
-		<para>Do not try to find a definition for the external <emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
+				<listitem>Do not try to find a definition for the external
+					<emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</listitem>
+			</varlistentry>
 
-		<para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>
-			<!-- .br -->
-			<option>-S</option> <replaceable>SHAPE</replaceable></para>
+			<varlistentry>
+				<term><option>--suppress-all</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>-S</option> <replaceable>SHAPE</replaceable></term>
 
-		<para>Do not try to find a definition for any external <emphasis>SHAPE</emphasis> name.</para>
+				<listitem>Do not try to find a definition for any external
+					<emphasis>SHAPE</emphasis> name.</listitem>
+			</varlistentry>
 
-		<para><option>--suppress-mult</option>
-			<!-- .br -->
-			<option>-M</option></para>
+			<varlistentry>
+				<term><option>--suppress-mult</option></term>
+				<term><option>-M</option></term>
 
-		<para>Do not use non-unique definitions in libraries as definitions for external
-			names.</para>
+				<listitem>Do not use non-unique definitions in libraries as definitions for external
+					names.</listitem>
+			</varlistentry>
 
-		<para><option>--unit-file</option> <replaceable>FILE</replaceable>
-			<!-- .br -->
-			<option>-u</option> <replaceable>FILE</replaceable></para>
+			<varlistentry>
+				<term><option>--unit-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-u</option> <replaceable>FILE</replaceable></term>
 
-		<para>Parse <emphasis>FILE</emphasis> to get a new unit set name list.  By default, all of the
-			standard (as specified in the version 4.0 TDF specification) unit set names
-			are known.</para>
+				<listitem>Parse <emphasis>FILE</emphasis> to get a new unit set name list.
+					By default, all of the standard (as specified in the version 4.0 TDF
+					specification) unit set names are known.</listitem>
+			</varlistentry>
 
-		<para><option>--version</option>
-			<!-- .br -->
-			<option>-v</option></para>
+			<varlistentry>
+				<term><option>--version</option></term>
+				<term><option>-v</option></term>
 
-		<para>Write the version number of the program to the standard error stream.</para>
+				<listitem>Write the version number of the program to the standard
+					error stream.</listitem>
+			</varlistentry>
 
-		<para><option>--warnings</option>
-			<!-- .br -->
-			<option>-w</option></para>
+			<varlistentry>
+				<term><option>--warnings</option></term>
+				<term><option>-w</option></term>
 
-		<para>Enable/disable the printing of warning messages.  Warnings are generated for
-			things like obsolete linker information units, and undefined external names.</para>
+				<listitem>Enable/disable the printing of warning messages.
+					Warnings are generated for things like obsolete linker
+					information units, and undefined external names.</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsection>
 
 	<refsection id='library_construction'>
@@ -353,75 +380,89 @@
 			produces a library consisting of the TDF capsules specified on the command
 			line.  The library is written to the file <filename>library.tl</filename>, unless the
 			<option>--output-file</option> switch is used.</para>
-	</refsection>
-
-	<refsection id='switches3'>
-		<title>Switches</title>
 
 		<para><command>tld</command>
 			accepts the following switches in library construction mode:</para>
 
-		<para><option>--debug-file</option> <replaceable>FILE</replaceable>
-			<!-- .br -->
-			<option>-d</option> <replaceable>FILE</replaceable></para>
+		<variablelist>
+			<varlistentry>
+				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-d</option> <replaceable>FILE</replaceable></term>
 
-		<para>Produce a diagnostic trace of the library construction process in <emphasis>FILE</emphasis>.</para>
+				<listitem>Produce a diagnostic trace of the library construction
+					process in <emphasis>FILE</emphasis>.</listitem>
+			</varlistentry>
 
-		<para><option>--help</option>
-			<!-- .br -->
-			<option>-?</option></para>
+			<varlistentry>
+				<term><option>--help</option></term>
+				<term><option>-?</option></term>
 
-		<para>Write an option summary to the standard error.</para>
+				<listitem>Write an option summary to the standard error.</listitem>
+			</varlistentry>
 
-		<para><option>--include-library</option> <replaceable>FILE</replaceable>
-			<!-- .br -->
-			<option>-i</option> <replaceable>FILE</replaceable></para>
+			<varlistentry>
+				<term><option>--include-library</option> <replaceable>FILE</replaceable></term>
+				<term><option>-i</option> <replaceable>FILE</replaceable></term>
 
-		<para>Include all of the capsules in the TDF library <emphasis>FILE</emphasis> in the library
-			being constructed.  The library name should be a proper file name, not a
-			library abbreviation like the <option>--library</option> switch used by the linking
-			mode.</para>
+				<listitem>Include all of the capsules in the TDF library
+					<emphasis>FILE</emphasis> in the library being constructed.
+					The library name should be a proper file name, not a library
+					abbreviation like the <option>--library</option> switch used
+					by the linking mode.</listitem>
+			</varlistentry>
 
-		<para><option>--output-file</option> <replaceable>FILE</replaceable>
-			<!-- .br -->
-			<option>-o</option> <replaceable>FILE</replaceable></para>
+			<varlistentry>
+				<term><option>--output-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-o</option> <replaceable>FILE</replaceable></term>
 
-		<para>Write the output library to the file <filename>FILE</filename>.  If this switch is not
-			specified, then the output is written to the file 'library.tl' instead.</para>
+				<listitem>Write the output library to the file
+					<filename>FILE</filename>. If this switch is not specified,
+					then the output is written to the file 'library.tl' instead.</listitem>
+			</varlistentry>
 
-		<para><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis>
-			<!-- .br -->
-			<option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></para>
+			<!-- TODO: use XML entities for these common replaceables -->
+			<varlistentry>
+				<term><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 
-		<para>Do not try to find a definition for the external
-			<emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</para>
+				<listitem>Do not try to find a definition for the external
+					<emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</listitem>
+			</varlistentry>
 
-		<para><option>--suppress-all</option> <replaceable>SHAPE</replaceable>
-			<!-- .br -->
-			<option>-S</option> <replaceable>SHAPE</replaceable></para>
+			<varlistentry>
+				<term><option>--suppress-all</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>-S</option> <replaceable>SHAPE</replaceable></term>
 
-		<para>Do not try to find a definition for any external <emphasis>SHAPE</emphasis> name.</para>
+				<listitem>Do not try to find a definition for any external
+					<emphasis>SHAPE</emphasis> name.</listitem>
+			</varlistentry>
 
-		<para><option>--suppress-mult</option>
-			<!-- .br -->
-			<option>-M</option></para>
+			<varlistentry>
+				<term><option>--suppress-mult</option></term>
+				<term><option>-M</option></term>
 
-		<para>Do not use non-unique definitions in libraries as definitions for external
-			names.</para>
+				<listitem>Do not use non-unique definitions in libraries as
+					definitions for external names.</listitem>
+			</varlistentry>
 
-		<para><option>--unit-file</option> <replaceable>FILE</replaceable>
-			<!-- .br -->
-			<option>-u</option> <replaceable>FILE</replaceable></para>
+			<varlistentry>
+				<term><option>--unit-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-u</option> <replaceable>FILE</replaceable></term>
 
-		<para>Parse <emphasis>FILE</emphasis> to get a new unit set name list.  By default, all of the
-			standard (as specified in the version 4.0 TDF specification) unit set names
-			are known.</para>
+				<listitem>Parse <emphasis>FILE</emphasis> to get a new unit
+					set name list.  By default, all of the standard (as
+					specified in the version 4.0 TDF specification) unit set
+					names are known.</listitem>
+			</varlistentry>
 
-		<para><option>--version</option>
-			<!-- .br -->
-			<option>-v</option></para>
+			<varlistentry>
+				<term><option>--version</option></term>
+				<term><option>-v</option></term>
 
-		<para>Write the version number of the program to the standard error stream.</para>
+				<listitem>Write the version number of the program to the
+					standard error stream.</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsection>
 
 	<refsection id='library_contents'>
@@ -431,49 +472,58 @@
 			<command>tld</command>
 			produces a listing of the contents of the TDF library specified on the
 			command line.</para>
-	</refsection>
-
-	<refsection id='switches4'>
-		<title>Switches</title>
 
 		<para><command>tld</command>
 			accepts the following switches in library contents mode:</para>
 
-		<para><option>--debug-file</option> <replaceable>FILE</replaceable>
-			<!-- .br -->
-			<option>-d</option> <replaceable>FILE</replaceable></para>
+		<variablelist>
+			<varlistentry>
+				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-d</option> <replaceable>FILE</replaceable></term>
 
-		<para>Produce a diagnostic trace of the library contents process in <emphasis>FILE</emphasis>.</para>
+				<listitem>Produce a diagnostic trace of the library contents
+					process in <emphasis>FILE</emphasis>.</listitem>
+			</varlistentry>
 
-		<para><option>--help</option>
-			<!-- .br -->
-			<option>-?</option></para>
+			<varlistentry>
+				<term><option>--help</option></term>
+				<term><option>-?</option></term>
 
-		<para>Write an option summary to the standard error.</para>
+				<listitem>Write an option summary to the standard
+					error.</listitem>
+			</varlistentry>
 
-		<para><option>--index</option>
-			<!-- .br -->
-			<option>-i</option></para>
+			<varlistentry>
+				<term><option>--index</option></term>
+				<term><option>-i</option></term>
 
-		<para>Enable/disable the printing of the index of the library.  If printing of the
-			index is enabled, the index of the library will be printed.  The order of
-			the shapes and external names in the printed index is not necessarily the
-			same as the order of the index in the library itself.  If the order is
-			important, use the --debug-file option and look at the output that is
-			produced.</para>
+				<listitem>Enable/disable the printing of the index of the library.
+					If printing of the index is enabled, the index of the library
+					will be printed.  The order of the shapes and external names
+					in the printed index is not necessarily the same as the order
+					of the index in the library itself.
+					If the order is important, use the --debug-file option and
+					look at the output that is produced.</listitem>
+			</varlistentry>
 
-		<para><option>--size</option>
-			<!-- .br -->
-			<option>-s</option></para>
+			<varlistentry>
+				<term><option>--size</option></term>
+				<term><option>-s</option></term>
 
-		<para>Enable/disable the printing of the size of each capsule in the library.  If
-			enabled, the size of each capsule in bytes is printed after its name.</para>
+				<listitem>Enable/disable the printing of the size of each
+					capsule in the library.
+					If enabled, the size of each capsule in bytes is printed
+					after its name.</listitem>
+			</varlistentry>
 
-		<para><option>--version</option>
-			<!-- .br -->
-			<option>-v</option></para>
+			<varlistentry>
+				<term><option>--version</option></term>
+				<term><option>-v</option></term>
 
-		<para>Write the version number of the program to the standard error stream.</para>
+				<listitem>Write the version number of the program to the
+					standard error stream.</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsection>
 
 	<refsection id='library_extraction'>
@@ -491,64 +541,73 @@
 			supported, in which case the directories will need to be created manually
 			before extraction).  The extracted capsules will overwrite existing files of
 			the same name.</para>
-	</refsection>
-
-	<refsection id='switches5'>
-		<title>Switches</title>
 
 		<para><command>tld</command>
 			accepts the following switches in library extraction mode:</para>
 
-		<para><option>--all</option>
-			<!-- .br -->
-			<option>-a</option></para>
+		<variablelist>
+			<varlistentry>
+				<term><option>--all</option></term>
+				<term><option>-a</option></term>
 
-		<para>Enable/disable the extraction of all capsules.  If all capsules are to be
-			extracted, no capsule names should be specified on the command line.</para>
+				<listitem>Enable/disable the extraction of all capsules.
+					If all capsules are to be extracted, no capsule names
+					should be specified on the command line.</listitem>
+			</varlistentry>
 
-		<para><option>--basename</option>
-			<!-- .br -->
-			<option>-b</option></para>
+			<varlistentry>
+				<term><option>--basename</option></term>
+				<term><option>-b</option></term>
 
-		<para>Enable/disable the use of the basename of each capsule when extracting.  If
-			this is enabled, then extracted capsules are extracted into the current
-			directory, using just their basename.  This may cause some of the capsules
-			to be written on top of each other.</para>
+				<listitem>Enable/disable the use of the basename of each capsule
+					when extracting.  If this is enabled, then extracted capsules
+					are extracted into the current directory, using just their
+					basename.  This may cause some of the capsules to be written
+					on top of each other.</listitem>
+			</varlistentry>
 
-		<para><option>--debug-file</option> <replaceable>FILE</replaceable>
-		<!-- .br -->
-		<option>-d</option> <replaceable>FILE</replaceable></para>
+			<varlistentry>
+				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-d</option> <replaceable>FILE</replaceable></term>
 
-		<para>Produce a diagnostic trace of the library extraction process in
-			<emphasis>FILE</emphasis>.</para>
+				<listitem>Produce a diagnostic trace of the library
+					extraction process in <emphasis>FILE</emphasis>.</listitem>
+			</varlistentry>
 
-		<para><option>--help</option>
-			<!-- .br -->
-			<option>-?</option></para>
+			<varlistentry>
+				<term><option>--help</option></term>
+				<term><option>-?</option></term>
 
-		<para>Write an option summary to the standard error.</para>
+				<listitem>Write an option summary to the standard error.</listitem>
+			</varlistentry>
 
-		<para><option>--info</option>
-			<!-- .br -->
-			<option>-i</option></para>
+			<varlistentry>
+				<term><option>--info</option></term>
+				<term><option>-i</option></term>
 
-		<para>Enable/disable informational messages.  These say which capsules are being
-			extracted.</para>
+				<listitem>Enable/disable informational messages.
+					These say which capsules are being extracted.</listitem>
+			</varlistentry>
 
-		<para><option>--match-basename</option>
-			<!-- .br -->
-			<option>-m</option></para>
+			<varlistentry>
+				<term><option>--match-basename</option></term>
+				<term><option>-m</option></term>
 
-		<para>Enable/disable matching of capsule names by basename.  If enabled, then the
-			basename of each library capsule is also matched against the file names
-			specified.  This may result in more than one capsule being extracted for one
-			file name.</para>
+				<listitem>Enable/disable matching of capsule names by basename.
+					If enabled, then the basename of each library capsule is
+					also matched against the file names specified.
+					This may result in more than one capsule being extracted
+					for one file name.</listitem>
+			</varlistentry>
 
-		<para><option>--version</option>
-			<!-- .br -->
-			<option>-v</option></para>
+			<varlistentry>
+				<term><option>--version</option></term>
+				<term><option>-v</option></term>
 
-		<para>Write the version number of the program to the standard error stream.</para>
+				<listitem>Write the version number of the program to the standard
+					error stream.</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsection>
 
 	<refsection id='see_also'>
