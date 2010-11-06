@@ -3,7 +3,7 @@
 	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 
 <article>
-	<title id="wbS165">API checking</title>
+	<title>API checking</title>
 
 	<!-- TODO this document can become a guide to using the API checking mechanisms
 		in general, drawing from various other documents -->
@@ -29,11 +29,11 @@
 		<code>stdio.h</code>.</para>
 
 	<section>
-		<title id="wbS165">Specifying APIs to tcc</title>
+		<title>Specifying APIs to tcc</title>
 
 		<para>The API against which a program is to be checked is
 			specified to tchk by means of a command-line option of the form
-			<code>-Yapi</code> where <emphasis>api</emphasis> is the API
+			<code>-Y<replaceable>api</replaceable></code> where <replaceable>api</replaceable> is the API
 			name. For example, ANSI X3.159 is specified by <code>-Yansi</code>
 			(this is the default API) and POSIX 1003.1 is specified by
 			<code>-Yposix</code> (for a full list of the supported APIs
@@ -57,7 +57,7 @@
 	</section>
 
 	<section>
-		<title id="wbS167">API Checking Examples</title>
+		<title>API Checking Examples</title>
 
 		<para>As an example of the TenDRA compiler's API checking capacities,
 			consider the following program which prints the names and inode
@@ -198,7 +198,7 @@ int main ()
 	</section>
 
 	<section>
-		<title id="wbS168">Defining Objects in APIs</title>
+		<title>Defining Objects in APIs</title>
 
 		<para>Since the program API is meant to define the interface between
 			what the program defines and what the target machine defines, the
@@ -300,7 +300,7 @@ struct lconv {
 	</section>
 
 	<section>
-		<title id="wbS168">Stepping Outside an API</title>
+		<title>Stepping Outside an API</title>
 
 		<para>Using the TenDRA compiler to check a program against a
 			standard API will only be effective if the appropriate API
@@ -372,7 +372,7 @@ typedef struct {
 	</section>
 
 	<section>
-		<title id="wbS168">Using the System Headers</title>
+		<title>Using the System Headers</title>
 
 		<para>One possibility if a program API is not supported by the
 			TenDRA compiler is to use the set of system headers on the

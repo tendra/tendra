@@ -40,7 +40,7 @@
 	   - served as a helpful comparison.
 	  -->
 
-	<chapter id="introduction">
+	<preface id="introduction">
 		<title>Introduction</title>
 
 		<para><application>Lexi</application> translates a description of a lexical
@@ -166,7 +166,7 @@
 
 			</para>
 		</section>
-	</chapter>
+	</preface>
 
 	<chapter id="lexing">
 		<title>Lexical Analysis</title>
@@ -637,7 +637,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 	</chapter>
 -->
 
-	<chapter id="appendix">
+	<appendix id="appendix">
 		<title id="appendix.title">Appendix</title>
 
 		<!-- TODO maybe not in the guide: in an examples/ directory
@@ -790,10 +790,10 @@ TOKEN "[white]ab" -> $neverscanned ;</programlisting>
 				-->
 			</section>
 		</section>
-	</chapter>
+	</appendix>
 
 	<!-- TODO include this in the global glossary as a per-project section. In a future version.
-	<chapter id="glossary">
+	<appendix id="glossary">
 		<title>Glossary</title>
 
 Token
@@ -803,7 +803,7 @@ List
 Keyword
 String
 Range
-	</chapter>
+	</appendix>
  -->
 </book>
 

@@ -36,7 +36,7 @@
     </copyright>
   </bookinfo>
 
-  <chapter id="introduction">
+  <preface id="introduction">
     <title>Introduction</title>
 
     <para><acronym>TDF</acronym> is the name of the technology developed at DRA which has been
@@ -61,7 +61,7 @@
       intention is not only to catalogue what these problems are, but to
       introduce ways of looking at them which will be important in the second
       section. This deals with the <acronym>TDF</acronym> approach to portability.</para>
-  </chapter>
+  </preface>
 
   <chapter id="portability">
       <title>Portability</title>

@@ -78,7 +78,7 @@
     <para>
       The order is as follows:
 
-      <itemizedlist>
+      <orderedlist>
         <listitem>
           <para>
             <emphasis>tld</emphasis> unit. Every capsule has exactly one tld
@@ -158,7 +158,7 @@
             about the linking of objects.
           </para>
         </listitem>
-      </itemizedlist>
+      </orderedlist>
 
       This organisation is imposed to help installers, by ensuring that the
       information needed to process a unit has been provided before that unit

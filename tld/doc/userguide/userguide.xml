@@ -205,25 +205,49 @@ described in this document.</para>
 			<para>Each of the integers is interpreted as a series of bits, with the bits
 				having the following meanings:</para>
 
-	BIT		MEANING IF SET
+			<table>
+				<col align="center"/>
+				<col align="left"/>
 
-	0		The name is used within this capsule.
+				<thead>
+					<tr>
+						<th>Bit</th>
+						<th>Meaning if set</th>
+					</tr>
+				</thead>
 
-	1		The name is declared within this capsule.
+				<tbody>
+					<tr>
+						<td>0</td>
+						<td>The name is used within this capsule.</td>
+					</tr>
 
-	2		The name is uniquely defined within this capsule.  If
-			this bit is set for a tag, then the declared bit
-			must also be set.  It is illegal to have a name
-			uniquely defined in more than one capsule.  If this
-			occurs, the linker will report an error.
+					<tr>
+						<td>1</td>
+						<td>The name is declared within this capsule.</td>
+					</tr>
 
-	3		The name is defined in this capsule, but may have
-			other definitions provided by other capsules.  This
-			bit may not be set for tokens.  If a tag has this
-			bit set, the declared bit must also be set.  It is
-			possible for a name to provide a unique definition,
-			but still allow other non-unique definitions to be
-			linked in from other capsules.
+					<tr>
+						<td>2</td>
+						<td>The name is uniquely defined within this capsule.  If
+							this bit is set for a tag, then the declared bit
+							must also be set.  It is illegal to have a name
+							uniquely defined in more than one capsule.  If this
+							occurs, the linker will report an error.</td>
+					</tr>
+
+					<tr>
+						<td>3</td>
+						<td>The name is defined in this capsule, but may have
+							other definitions provided by other capsules.  This
+							bit may not be set for tokens.  If a tag has this
+							bit set, the declared bit must also be set.  It is
+							possible for a name to provide a unique definition,
+							but still allow other non-unique definitions to be
+							linked in from other capsules.</td>
+					</tr>
+				</tbody>
+			</table>
 
 		<para>All of the other bits in the integer are reserved.  The linker uses the
 			information provided by this unit to check that names do not have multiple
