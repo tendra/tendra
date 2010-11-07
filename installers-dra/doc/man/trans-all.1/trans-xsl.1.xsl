@@ -20,7 +20,7 @@
 
 	<xsl:output method="xml" indent="yes" encoding="utf-8"/>
 
-	<xsl:param name="trans"     select="'all'"/>
+	<xsl:param name="trans" select="'all'"/>
 
 	<xsl:template name="synopsis">
 		<xsl:param name="trans"/>
@@ -107,7 +107,7 @@
 				<refname>
 					<xsl:choose>
 						<xsl:when test="$trans = 'all'">
-							<xsl:text>trans</xsl:text>
+							<xsl:text>trans-all</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="$trans"/>
@@ -503,25 +503,34 @@ TODO: now go through and find undocumented options...
 						<listitem>
 							<xsl:if test="$trans = 'trans386' or $trans = 'all'">
 								<para>For <command>trans386</command>, this option determines
-									whether <command>trans386</command> should apply the
-									"strength reduction" optimisation.</para>
+									whether the "strength reduction" optimisation
+									should be applied.</para>
 							</xsl:if>
 
 							<xsl:if test="$trans = 'alphatrans' or $trans = 'all'">
 								<para>For <command>alphatrans</command>, this option
-									determines whether or not <command>alphatrans</command>
-									applies the "for all" optimisation.</para>
+									determines whether or not the "for all"
+									optimisation should be applied.</para>
 							</xsl:if>
 
-							<xsl:if test="$trans = 'hppatrans'
-							           or $trans = 'mipstrans'
-							           or $trans = 'sparctrans'
-							           or $trans = 'all'">
-								<para>For <command>hppatrans</command>, <command>mipstrans</command>
-									and <command>sparctrans</command>, this option determines
-									whether <command>mipstrans</command> should apply
-									the "for all" optimisation.</para>
-							</xsl:if>
+							<xsl:choose>
+								<xsl:when test="$trans = 'all'">
+									<para>For <command>hppatrans</command>,
+										<command>mipstrans</command>
+										and <command>sparctrans</command>, this
+										option determines whether the "for all"
+										optimisation should be applied.</para>
+									</para>
+								</xsl:when>
+
+								<xsl:when test="$trans = 'hppatrans'
+							                 or $trans = 'mipstrans'
+							                 or $trans = 'sparctrans'">
+									<para>For <command><xsl:value-of select="$trans"/></command>,
+										this option determines whether the
+										"for all" optimisation should be applied.</para>
+								</xsl:when>
+							</xsl:choose>
 
 							<xsl:choose>
 								<xsl:when test="$trans = 'alphatrans'">
