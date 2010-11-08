@@ -76,9 +76,65 @@
 
 	<refsynopsisdiv id='synopsis'>
 		<cmdsynopsis>
-		  <command>tnc</command>    <arg choice='opt'><replaceable>options</replaceable></arg>
-			<arg choice='plain'><replaceable>input-file</replaceable></arg>
-			<arg choice='opt'><replaceable>output-file</replaceable></arg>
+			<command>tnc</command>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-c</option></arg>
+				<arg choice="plain"><option>-cv</option></arg>
+				<arg choice="plain"><option>-check</option></arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain"><option>-r</option></arg>
+				<arg choice="plain"><option>-read</option></arg>
+				<arg choice="plain"><option>-d</option></arg>
+				<arg choice="plain"><option>-decode</option></arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain"><option>-w</option></arg>
+				<arg choice="plain"><option>-write</option></arg>
+				<arg choice="plain"><option>-e</option></arg>
+				<arg choice="plain"><option>-encode</option></arg>
+			</group>
+			<arg choice="opt"><option>-eval</option></arg>
+			<arg choice="opt"><option>-expand</option></arg>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-f</option></arg>
+				<arg choice="plain"><option>-func</option></arg>
+			</group>
+			<arg choice="opt"><option>-I</option><replaceable>dir</replaceable></arg>
+			<group choice="opt">
+				<arg choice="plain"><option>-l</option></arg>
+				<arg choice="plain"><option>-lib</option></arg>
+			</group>
+			<arg choice="opt"><option>-L</option><replaceable>prefix</replaceable></arg>
+			<arg choice="opt"><option>-o</option>&nbsp;<replaceable>output-file</replaceable></arg>
+			<group choice="opt">
+				<arg choice="plain"><option>-p</option></arg>
+				<arg choice="plain"><option>-print</option></arg>
+			</group>
+			<arg choice="opt"><option>-q</option></arg>
+			<group choice="opt">
+				<arg choice="plain"><option>-t</option></arg>
+				<arg choice="plain"><option>-tsimp</option></arg>
+			</group>
+			<arg choice="opt"><option>-V</option></arg>
+
+			<sbr/>
+
+			<arg choice="plain"><replaceable>input-file</replaceable></arg>
+			<arg choice="opt"><replaceable>output-file</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tnc</command>
+
+			<group choice="req">
+				<arg choice="plain"><option>-help&nbsp;</option><replaceable>subject</replaceable>&nbsp;...</arg>
+				<arg choice="plain"><option>-version</option></arg>
+			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
@@ -190,73 +246,74 @@
 				<term><option>-cv</option></term>
 				<term><option>-check</option></term>
 
-				<listitem>
-					<para>Specifies that <command>tnc</command> should apply extra checks to <replaceable>input-file</replaceable>.
-						For example, simple shape checking is applied.  These checks are more
-						efficient in <emphasis>read</emphasis> mode than in <emphasis>decode</emphasis> mode.  If the <option>-cv</option>
-						option is used in <emphasis>write</emphasis> mode, all the information gleaned from the
-						shape checking appears in <replaceable>output-file</replaceable>.</para>
-				</listitem>
+				<listitem>Specifies that <command>tnc</command> should apply
+					extra checks to <replaceable>input-file</replaceable>.
+					For example, simple shape checking is applied.
+					These checks are more efficient in
+					<emphasis>read</emphasis> mode than in
+					<emphasis>decode</emphasis> mode.
+					If the <option>-cv</option> option is used in
+					<emphasis>write</emphasis> mode, all the information
+					gleaned from the shape checking appears in
+					<replaceable>output-file</replaceable>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-d</option></term>
 				<term><option>-decode</option></term>
 
-				<listitem>
-					<para>Specifies that <command>tnc</command> should be in <emphasis>decode</emphasis> mode.  That is,
-						that <replaceable>input-file</replaceable> is a TDF capsule.</para>
-				</listitem>
+				<listitem>Specifies that <command>tnc</command> should be in
+					<emphasis>decode</emphasis> mode.
+					That is, that <replaceable>input-file</replaceable> is a
+					TDF capsule.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-e</option></term>
 				<term><option>-encode</option></term>
 
-				<listitem>
-					<para>Specifies that <command>tnc</command> should be in <emphasis>encode</emphasis> mode.  That is,
-						that <replaceable>output-file</replaceable> is a TDF capsule.
-						This is the default output mode.</para>
-				</listitem>
+				<listitem>Specifies that <command>tnc</command> should be in
+					<emphasis>encode</emphasis> mode.
+					That is, that <replaceable>output-file</replaceable> is
+					a TDF capsule.
+					This is the default output mode.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-eval</option></term>
 
-				<listitem>
-					<para>Specifies that <command>tnc</command> should simplify its input by evaluating
-						constant expressions as far as possible.</para>
-				</listitem>
+				<listitem>Specifies that <command>tnc</command> should simplify
+					its input by evaluating constant expressions as far as
+					possible.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-expand</option></term>
 
-				<listitem>
-					<para>Specifies that <command>tnc</command> should expand its input by replacing all
-						applications of defined tokens by the token definition.</para>
-				</listitem>
+				<listitem>Specifies that <command>tnc</command> should expand
+					its input by replacing all applications of defined tokens
+					by the token definition.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-f</option></term>
 				<term><option>-func</option></term>
 
-				<listitem>
-					<para>Causes <command>tnc</command> to use its alternative, functional, form for both input
-						and output.  The options <option>-func_in</option> and <option>-func_out</option> may be used
-						to change the input and the output independently.</para>
-				</listitem>
+				<listitem>Causes <command>tnc</command> to use its alternative,
+					functional, form for both input and output.
+					The options <option>-func_in</option> and
+					<option>-func_out</option> may be used to change the input
+					and the output independently.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-help&nbsp;</option><replaceable>subject</replaceable>&nbsp;...</term>
 
-				<listitem>
-					<para>Makes <command>tnc</command> print its help message on the given subject(s).  If no
-						subject is given, or the subject is <emphasis>all</emphasis>, all the help messages are
-						printed.</para>
-				</listitem>
+				<listitem>Makes <command>tnc</command> print its help message
+					on the given subject(s).
+					If no subject is given, or the subject is
+					<emphasis>all</emphasis>, all the help messages are
+					printed.</listitem>
 			</varlistentry>
 
 			<varlistentry>

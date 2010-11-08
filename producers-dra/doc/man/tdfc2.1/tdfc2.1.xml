@@ -62,6 +62,8 @@
 			it may be put.
 -->
 
+	<!-- TODO: possibly merge this into tcppplus.1 -->
+
 	<refmeta>
 		<refentrytitle>tdfc2</refentrytitle>
 		<manvolnum>1</manvolnum>
@@ -69,302 +71,461 @@
 
 	<refnamediv id="name">
 		<refname>tdfc2</refname>
-		<refpurpose>C to TDF/ANDF producer</refpurpose>
+		<refpurpose>DRA C to TDF/ANDF producer</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv id="synopsis">
 		<cmdsynopsis>
 			<command>tdfc2</command>
-			<arg choice="opt"><replaceable>options</replaceable></arg>
+
+			<arg choice="opt"><option>-A</option><replaceable>predicate</replaceable><emphasis remap="B">(</emphasis><emphasis remap="I">tokens</emphasis><emphasis remap="B">)</emphasis></arg>
+			<arg choice="opt"><option>-D</option><replaceable>macro</replaceable></arg>
+			<arg choice="opt"><option>-D</option><replaceable>macro</replaceable><emphasis remap="B">=</emphasis><emphasis remap="I">tokens</emphasis></arg>
+			<arg choice="opt"><option>-E</option></arg>
+			<arg choice="opt"><option>-F</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-H</option></arg>
+			<arg choice="opt"><option>-I</option><replaceable>directory</replaceable></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-N</option><replaceable>name</replaceable><emphasis remap="B">:</emphasis><emphasis remap="I">directory</emphasis></arg>
+			<arg choice="opt"><option>-S</option></arg>
+			<arg choice="opt"><option>-U</option><replaceable>macro</replaceable></arg>
+			<arg choice="opt"><option>-V</option></arg>
+			<arg choice="opt"><option>-W</option><replaceable>option</replaceable></arg>
+			<arg choice="opt"><option>-X</option></arg>
+			<arg choice="opt"><option>-Z</option><replaceable>number</replaceable></arg>
+			<arg choice="opt"><option>-a</option></arg>
+			<arg choice="opt"><option>-c</option></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-d</option><replaceable>opt</replaceable><emphasis remap="B">=</emphasis><emphasis remap="I">dump-file</emphasis></arg>
+			<arg choice="opt"><option>-e</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-f</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-g</option></arg>
+			<arg choice="opt"><option>-j</option><replaceable>opt</replaceable></arg>
+			<arg choice="opt"><option>-m</option><replaceable>opt</replaceable></arg>
+			<arg choice="opt"><option>-n</option><replaceable>port-table</replaceable></arg>
+			<arg choice="opt"><option>-o</option><replaceable>output-file</replaceable></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-q</option></arg>
+			<arg choice="opt"><option>-s</option><replaceable>spec-file</replaceable></arg>
+			<arg choice="opt"><option>-t</option></arg>
+			<arg choice="opt"><option>-u</option><replaceable>&nbsp;name&nbsp;...&nbsp;name</replaceable></arg>
+			<arg choice="opt"><option>-w</option></arg>
+			<arg choice="opt"><option>-z</option></arg>
+
+			<sbr/>
+
 			<arg choice="opt"><replaceable>input-file</replaceable></arg>
 			<arg choice="opt"><replaceable>output-file</replaceable></arg>
 		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tdfc2</command>
+
+			<group choice="req">
+				<arg choice="plain"><option>-h</option></arg>
+				<arg choice="plain"><option>-v</option></arg>
+			</group>
+		</cmdsynopsis>
 	</refsynopsisdiv>
 
-
-	<refsect1 id="description">
+	<refsection id="description">
 		<title>Description</title>
 
-		<para>In its default action, <command>tdfc2</command> translates the input C source
-			file, <emphasis remap="I">input-file</emphasis>, into a TDF/ANDF capsule, <emphasis remap="I">output-file</emphasis>.	If
-			the output file name is omitted or is <emphasis remap="B">-</emphasis>, the standard output is used.
-			If the input file name is omitted or is <emphasis remap="B">-</emphasis>, the standard input is
-			used.</para>
+		<para>In its default action, <command>tdfc2</command> translates
+			the input C source file, <emphasis remap="I">input-file</emphasis>,
+			into a TDF/ANDF capsule, <emphasis remap="I">output-file</emphasis>.
+			If the output file name is omitted or is
+			<emphasis remap="B">-</emphasis>, the standard output is used.
+			If the input file name is omitted or is <emphasis remap="B">-</emphasis>,
+			the standard input is used.</para>
 
-		<para>By use of the <option>-s</option><replaceable>spec-file</replaceable> option, <command>tdfc2</command> can additionally
-			be made to output a C spec file which contains information enabling
-			intermodule analysis to be performed.	Alternatively usage and error
-			information suitable for processing by other tools can be output using
-			the <option>-d</option><replaceable>opt</replaceable><emphasis remap="B">=</emphasis><emphasis remap="I">dump-file</emphasis> option.</para>
+		<para>By use of the <option>-s</option><replaceable>spec-file</replaceable>
+			option, <command>tdfc2</command> can additionally be made to
+			output a C spec file which contains information enabling
+			intermodule analysis to be performed.
+			Alternatively usage and error information suitable for processing
+			by other tools can be output using the
+			<option>-d</option><replaceable>opt</replaceable><emphasis remap="B">=</emphasis><emphasis remap="I">dump-file</emphasis> option.</para>
 
-		<para><command>tdfc2</command> also has a preprocessing action, when invoked with the
-			<option>-E</option> option, in which the input C source file, <emphasis remap="I">input-file</emphasis>,
-			is preprocessed to an output file, <emphasis remap="I">ouput-file</emphasis>.</para>
+		<para><command>tdfc2</command> also has a preprocessing action, when
+			invoked with the <option>-E</option> option, in which the input
+			C source file, <emphasis remap="I">input-file</emphasis>, is
+			preprocessed to an output file,
+			<emphasis remap="I">ouput-file</emphasis>.</para>
 
-		<para>Finally <command>tdfc2</command> has a spec linker action, when invoked with the
-			<option>-S</option> option, in which any number of spec input files, <emphasis remap="I">input-file</emphasis>,
-			are combined into a spec output file, which may be specified using the
-			<option>-s</option> option.	Any extra code generation resulting from this linking
-			phase is written to the TDF capsule, <emphasis remap="I">output-file</emphasis>.</para>
+		<para>Finally <command>tdfc2</command> has a spec linker action,
+			when invoked with the <option>-S</option> option, in which any
+			number of spec input files,
+			<emphasis remap="I">input-file</emphasis>, are combined into a
+			spec output file, which may be specified using the
+			<option>-s</option> option.	Any extra code generation resulting
+			from this linking phase is written to the TDF capsule,
+			<emphasis remap="I">output-file</emphasis>.</para>
 
-		<para>It is recommended that <command>tdfc2</command> is invoked via <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
-			The <option>-Yc++</option> option is required to enable the C++ capabilities.
-			Files with a <markup>.c</markup> suffix are recognised as C source files.
-			Options can be passed directly to <command>tdfc2</command> using the
-			<option>-Wc,</option><replaceable>opt</replaceable> option to <emphasis remap="I">tcc</emphasis>.</para>
-	</refsect1>
+		<para>It is recommended that <command>tdfc2</command> is invoked via
+			<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
+			The <option>-Yc++</option> option is required to enable the C++
+			capabilities.
+			Files with a <markup>.c</markup> suffix are recognised as C
+			source files.
+			Options can be passed directly to <command>tdfc2</command>
+			using the <option>-Wc,</option><replaceable>opt</replaceable>
+			option to <emphasis remap="I">tcc</emphasis>.</para>
+	</refsection>
 
-	<refsect1 id="options">
+	<refsection id="options">
 		<title>Options</title>
 
-		<para>The command-line options can appear in any order and can be interspersed
-			with the input and output files.	All the multi-part options can be
-			given either as one or two command-line arguments, so that <option>-I</option><replaceable>dir</replaceable>
-			and <option>-I</option> <replaceable>dir</replaceable> are equivalent.	Most of the option handling
-			required is handled by <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry> when this is being used, but
-			options may be passed directly to <command>tdfc2</command> using the <option>-Wc,</option><replaceable>opt</replaceable>
-			option.</para>
+		<para>The command-line options can appear in any order and can be
+			interspersed with the input and output files.
+			All the multi-part options can be given either as one or two
+			command-line arguments, so that
+			<option>-I</option><replaceable>dir</replaceable> and
+			<option>-I</option> <replaceable>dir</replaceable> are equivalent.
+			Most of the option handling required is handled by
+			<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>
+			when this is being used, but options may be passed directly to
+			<command>tdfc2</command> using the
+			<option>-Wc,</option><replaceable>opt</replaceable> option.</para>
 
-		<variablelist remap="IP">
+		<variablelist>
 			<varlistentry>
-					<term><option>-A</option><replaceable>predicate</replaceable><emphasis remap="B">(</emphasis><emphasis remap="I">tokens</emphasis><emphasis remap="B">)</emphasis></term>
-				<listitem>
-					<para>Asserts that the given predicate is true.	The special case <option>-A-</option>
-					undefines all the built-in predicates (of which there are none).</para>
-				</listitem>
+				<term><option>-A</option><replaceable>predicate</replaceable><emphasis remap="B">(</emphasis><emphasis remap="I">tokens</emphasis><emphasis remap="B">)</emphasis></term>
+
+				<listitem>Asserts that the given predicate is true.
+					The special case <option>-A-</option> undefines all the
+					built-in predicates (of which there are none).</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-D</option><replaceable>macro</replaceable></term>
-				<listitem>
-					<para>Defines the given macro to be 1.</para>
-				</listitem>
+
+				<listitem>Defines the given macro to be 1.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-D</option><replaceable>macro</replaceable><emphasis remap="B">=</emphasis><emphasis remap="I">tokens</emphasis></term>
-				<listitem>
-					<para>Defines the given macro to be the given sequence of preprocessing tokens.</para>
-				</listitem>
+
+				<listitem>Defines the given macro to be the given sequence
+					of preprocessing tokens.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-E</option></term>
-				<listitem>
-					<para>Enables preprocessing mode in which the input C source file is
-						preprocessed into the output file.</para>
-				</listitem>
+
+				<listitem>Enables preprocessing mode in which the input C
+					source file is preprocessed into the output file.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-F</option><replaceable>file</replaceable></term>
-				<listitem>
-					<para>Causes a list of options to be read from <emphasis remap="I">file</emphasis>.</para>
-				</listitem>
+
+				<listitem>Causes a list of options to be read from
+					<emphasis remap="I">file</emphasis>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-H</option></term>
-				<listitem>
-					<para>Enables verbose inclusion mode in which warnings are printed at the
-						start and the end of each included source file.</para>
-				</listitem>
+
+				<listitem>Enables verbose inclusion mode in which warnings
+					are printed at the start and the end of each included
+					source file.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-I</option><replaceable>directory</replaceable></term>
-				<listitem>
-					<para>Adds the given directory to the list searched by <command>tdfc2</command> for
-						included source files.	No such directories are built into <command>tdfc2</command>.</para>
-				</listitem>
+
+				<listitem>Adds the given directory to the list searched by
+					<command>tdfc2</command> for included source files.
+					No such directories are built into
+					<command>tdfc2</command>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-N</option><replaceable>name</replaceable><emphasis remap="B">:</emphasis><emphasis remap="I">directory</emphasis></term>
-				<listitem>
-					<para>Is identical to <option>-I</option><replaceable>directory</replaceable> except that it also associates the
-						given identifier with the directory.</para>
-				</listitem>
+
+				<listitem>>Is identical to
+					<option>-I</option><replaceable>directory</replaceable>
+					except that it also associates the given identifier with
+					the directory.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-S</option></term>
-				<listitem>
-					<para>Enables spec linker mode in which any number of C spec input files are
-						linked into a single C spec output file.</para>
-				</listitem>
+
+				<listitem>Enables spec linker mode in which any number of
+					C spec input files are linked into a single C spec
+					output file.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-U</option><replaceable>macro</replaceable></term>
-				<listitem>
-					<para>Undefines the given macro.	The special case <option>-U-</option> undefines all the
-						built-in macros.	These are <emphasis remap="B">__FILE__</emphasis>, <emphasis remap="B">__LINE__</emphasis>,
-						<emphasis remap="B">__TIME__</emphasis>, <emphasis remap="B">__DATE__</emphasis>, <emphasis remap="B">__STDC__</emphasis> and <emphasis remap="B">__STDC_VERSION__</emphasis>.</para>
-				</listitem>
+
+				<listitem>Undefines the given macro.
+					The special case <option>-U-</option> undefines all the
+					built-in macros.
+					These are <emphasis remap="B">__FILE__</emphasis>,
+					<emphasis remap="B">__LINE__</emphasis>,
+					<emphasis remap="B">__TIME__</emphasis>,
+					<emphasis remap="B">__DATE__</emphasis>,
+					<emphasis remap="B">__STDC__</emphasis> and
+					<emphasis remap="B">__STDC_VERSION__</emphasis>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-V</option></term>
-				<listitem>
-					<para>Causes <command>tdfc2</command> to print the name of each function to the standard
-						output as it is compiled.</para>
-				</listitem>
+
+				<listitem>Causes <command>tdfc2</command> to print the name
+					of each function to the standard output as it is
+					compiled.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-W</option><replaceable>option</replaceable></term>
-				<listitem>
-					<para>Causes <command>tdfc2</command> to print a warning in the circumstances described
-						by <emphasis remap="I">option</emphasis>.	The special case <option>-Wall</option> enables a wide range of
-						warnings.</para>
-				</listitem>
+
+				<listitem>Causes <command>tdfc2</command> to print a
+					warning in the circumstances described by
+					<emphasis remap="I">option</emphasis>.
+					The special case <option>-Wall</option> enables a
+					wide range of warnings.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-X</option></term>
-				<listitem>
-					<para>Disables exception handling.	The current implementation can be a large
-						run-time overhead if not required.	The effect of linking any module
-						compiled with this option with a module which throws an exception is
-						undefined.	This is equivalent to <option>-j-e</option>.</para>
-				</listitem>
+
+				<listitem>Disables exception handling.
+					The current implementation can be a large run-time
+					overhead if not required.
+					The effect of linking any module compiled with this option
+					with a module which throws an exception is undefined.
+					This is equivalent to <option>-j-e</option>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-Z</option><replaceable>number</replaceable></term>
-				<listitem>
-					<para>Sets the maximum number of errors printed by <command>tdfc2</command> before
-						bailing out to be <emphasis remap="I">number</emphasis>.	The default is 32.</para>
-				</listitem>
+
+				<listitem>Sets the maximum number of errors printed by
+					<command>tdfc2</command> before bailing out to be
+					<emphasis remap="I">number</emphasis>.
+					The default is 32.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-a</option></term>
-				<listitem>
-					<para>Causes <command>tdfc2</command> to apply complete program analysis to its input
-						files.	That is it assumes that no other translation units need to be
-						linked in order for the program to execute.</para>
-				</listitem>
+
+				<listitem>Causes <command>tdfc2</command> to apply complete
+					program analysis to its input files.
+					That is it assumes that no other translation units need to
+					be linked in order for the program to execute.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-c</option></term>
-				<listitem>
-					<para>Disables TDF output.	The output file will still be a valid TDF capsule,
-						only it will contain no information.	This is equivalent to <option>-j-c</option>.</para>
-				</listitem>
+
+				<listitem>Disables TDF output.
+					The output file will still be a valid TDF capsule,
+					only it will contain no information.
+					This is equivalent to <option>-j-c</option>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-d</option><replaceable>opt</replaceable><emphasis remap="B">=</emphasis><emphasis remap="I">dump-file</emphasis></term>
+
 				<listitem>
-					<para>Causes <command>tdfc2</command> to dump information about its input file into
-						<emphasis remap="I">dump-file</emphasis>.	<emphasis remap="I">opt</emphasis> is a series of characters describing the
-						information to be dumped; <emphasis remap="B">c</emphasis> for string literals, <emphasis remap="B">e</emphasis> for errors,
-						<emphasis remap="B">h</emphasis> for header files, <emphasis remap="B">k</emphasis> for keywords, <emphasis remap="B">l</emphasis> for local variables,
-						<emphasis remap="B">m</emphasis> for macros, <emphasis remap="B">s</emphasis> for scopes, and <emphasis remap="B">u</emphasis> for usage.	<emphasis remap="B">a</emphasis> is
-						equivalent to <emphasis remap="B">ehlmu</emphasis>.</para>
+					<para>Causes <command>tdfc2</command> to dump information
+						about its input file into
+						<emphasis remap="I">dump-file</emphasis>.
+						<emphasis remap="I">opt</emphasis> is a series of
+						characters describing the information to be dumped,
+						as follows:</para>
+
+					<table>
+						<col align="center"/>
+						<col align="left"/>
+
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td><code>a</code> (<quote>all</quote>)</td>
+								<td>equivalent to <code>ehlmu</code></td>
+							</tr>
+							<tr>
+								<td><code>c</code></td>
+								<td>dump string literals</td>
+							</tr>
+							<tr>
+								<td><code>e</code></td>
+								<td>dump error messages</td>
+							</tr>
+							<tr>
+								<td><code>h</code></td>
+								<td>dump header information</td>
+							</tr>
+							<tr>
+								<td><code>k</code></td>
+								<td>dump keyword identifiers</td>
+							</tr>
+							<tr>
+								<td><code>l</code></td>
+								<td>dump local variables</td>
+							</tr>
+							<tr>
+								<td><code>m</code></td>
+								<td>dump macro identifiers</td>
+							</tr>
+							<tr>
+								<td><code>s</code></td>
+								<td>dump scope information</td>
+							</tr>
+							<tr>
+								<td><code>u</code></td>
+								<td>dump identifier usage information</td>
+							</tr>
+						</tbody>
+					</table>
 				</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-e</option><replaceable>file</replaceable></term>
-				<listitem>
-					<para>Specifies the given file as an end-up file.	This is equivalent to
-						adding a <emphasis remap="B">#include</emphasis> directive for this file at the end of the input
-						source file.</para>
-				</listitem>
+
+				<listitem>Specifies the given file as an end-up file.
+					This is equivalent to adding a <emphasis remap="B">#include</emphasis>
+					directive for this file at the end of the input
+					source file.</listitem>
 			</varlistentry>
+
 			<varlistentry>
-			<term><option>-f</option><replaceable>file</replaceable></term>
-			<listitem>
-					<para>Specifies the given file as a start-up file.	This is equivalent to
-						adding a <emphasis remap="B">#include</emphasis> directive for this file at the start of the input
-						source file.</para>
-				</listitem>
+				<term><option>-f</option><replaceable>file</replaceable></term>
+
+				<listitem>Specifies the given file as a start-up file.
+					This is equivalent to adding a <emphasis remap="B">#include</emphasis>
+					directive for this file at the start of the input source file.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-g</option></term>
-				<listitem>
-					<para>Specifies that the output TDF capsule should also contain information
-						to allow for the generation of run-time debugging directives.	This
-						is equivalent to <option>-jg</option>.</para>
-				</listitem>
+
+				<listitem>Specifies that the output TDF capsule should also
+					contain information to allow for the generation of run-time
+					debugging directives.
+					This is equivalent to <option>-jg</option>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-h</option></term>
-				<listitem>
-					<para>Causes <command>tdfc2</command> to print a full list of its available command-line
-						options.	This includes a number not documented here which are unlikely
-						to prove useful to the normal user.</para>
-				</listitem>
+
+				<listitem>Causes <command>tdfc2</command> to print a full
+					list of its available command-line options.
+					This includes a number not documented here which are
+					unlikely to prove useful to the normal user.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-j</option><replaceable>opt</replaceable></term>
-				<listitem>
-					<para>Sets the TDF output options given by <emphasis remap="I">opt</emphasis>.</para>
-				</listitem>
+
+				<listitem>Sets the TDF output options given by
+					<emphasis remap="I">opt</emphasis>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-m</option><replaceable>opt</replaceable></term>
-				<listitem>
-					<para>Sets the error formatting options given by <emphasis remap="I">opt</emphasis>.</para>
-				</listitem>
+
+				<listitem>Sets the error formatting options given by
+					<emphasis remap="I">opt</emphasis>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-n</option><replaceable>port-table</replaceable></term>
-				<listitem>
-					<para>Specifies that the given portability table should be used to specify
-						the basic configuration parameters.</para>
-				</listitem>
+
+				<listitem>Specifies that the given portability table
+					should be used to specify the basic configuration
+					parameters.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-o</option><replaceable>output-file</replaceable></term>
-				<listitem>
-					<para>Gives an alternative method of specifying the output file.</para>
-				</listitem>
+
+				<listitem>Gives an alternative method of specifying the
+					output file.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-q</option></term>
-				<listitem>
-					<para>Causes <command>tdfc2</command> to quit immediately without processing its input
-						file.	This is useful primarily in version and option queries.</para>
-				</listitem>
+
+				<listitem>Causes <command>tdfc2</command> to quit immediately
+					without processing its input file.
+					This is useful primarily in version and option queries.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-s</option><replaceable>spec-file</replaceable></term>
-				<listitem>
-					<para>Causes <command>tdfc2</command> to write a C spec file describing the input source
-						file to <emphasis remap="I">spec-file</emphasis>.</para>
-				</listitem>
+
+				<listitem>Causes <command>tdfc2</command> to write a C spec
+					file describing the input source file to
+					<emphasis remap="I">spec-file</emphasis>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-t</option></term>
-				<listitem>
-					<para>Specifies that <command>tdfc2</command> should include token declarations in its
-						output TDF capsule.	While these are strictly unnecessary, they help when
-						pretty-printing the output.	This is equivalent to <option>-jt</option>.</para>
-				</listitem>
+
+				<listitem>Specifies that <command>tdfc2</command> should
+					include token declarations in its output TDF capsule.
+					While these are strictly unnecessary, they help when
+					pretty-printing the output.
+					This is equivalent to <option>-jt</option>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-u</option><replaceable>&nbsp;name&nbsp;...&nbsp;name</replaceable></term>
-				<listitem>
-					<para>Causes <command>tdfc2</command> to print the unmangle forms of the given mangled
-						identifier names.</para>
-				</listitem>
+
+				<listitem>Causes <command>tdfc2</command> to print the
+					unmangle forms of the given mangled identifier names.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-v</option></term>
-				<listitem>
-					<para>Causes <command>tdfc2</command> to print its version number.</para>
-				</listitem>
+
+				<listitem>Causes <command>tdfc2</command> to print its version
+					number.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-w</option></term>
-				<listitem>
-					<para>Disables all warning messages.	This is equivalent to <option>-mw</option>.</para>
-				</listitem>
+
+				<listitem>Disables all warning messages.
+					This is equivalent to <option>-mw</option>.</listitem>
 			</varlistentry>
+
 			<varlistentry>
 				<term><option>-z</option></term>
-				<listitem>
-					<para>Forces <command>tdfc2</command> to produce an output file even if compilation errors
-						occur.	The effect of installing a TDF capsule produced using this option
-						is undefined.	This is equivalent to <option>-mz</option>.</para>
-				</listitem>
+
+				<listitem>Forces <command>tdfc2</command> to produce an
+					output file even if compilation errors occur.
+					The effect of installing a TDF capsule produced using
+					this option is undefined.
+					This is equivalent to <option>-mz</option>.</listitem>
 			</varlistentry>
 		</variablelist>
-	</refsect1>
+	</refsection>
 
-	<refsect1 id="see_also">
+	<refsection id="see_also">
 		<title>See Also</title>
 
 		<para><citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
 			<citerefentry><refentrytitle>tcpplus</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para>
-	</refsect1>
+	</refsection>
 </refentry>
 

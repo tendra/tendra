@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
+<!-- $Id -->
+<refentry id='calculus1xml'>
+<!--
+        Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+        All rights reserved.
+
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+
+        1. Redistributions of source code must retain the above copyright notice,
+           this list of conditions and the following disclaimer.
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        3. Neither the name of The TenDRA Project nor the names of its contributors
+           may be used to endorse or promote products derived from this software
+           without specific, prior written permission.
+
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+        IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+        CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+        EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+        OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+        WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+        OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!--  		 Crown Copyright (c) 1997 -->
+<!--   -->
+<!--  This TenDRA(r) Manual Page is subject to Copyright -->
+<!--  owned by the United Kingdom Secretary of State for Defence -->
+<!--  acting through the Defence Evaluation and Research Agency -->
+<!--  (DERA).  It is made available to Recipients with a -->
+<!--  royalty\-free licence for its use, reproduction, transfer -->
+<!--  to other parties and amendment for any purpose not excluding -->
+<!--  product development provided that any such use et cetera -->
+<!--  shall be deemed to be acceptance of the following conditions:\- -->
+<!--   -->
+<!--      (1) Its Recipients shall ensure that this Notice is -->
+<!--      reproduced upon any copies or amended versions of it; -->
+<!--   -->
+<!--      (2) Any amended version of it shall be clearly marked to -->
+<!--      show both the nature of and the organisation responsible -->
+<!--      for the relevant amendment or amendments; -->
+<!--   -->
+<!--      (3) Its onward transfer from a recipient to another -->
+<!--      party shall be deemed to be that party's acceptance of -->
+<!--      these conditions; -->
+<!--   -->
+<!--      (4) DERA gives no warranty or assurance as to its -->
+<!--      quality or suitability for any purpose and DERA accepts -->
+<!--      no liability whatsoever in relation to any use to which -->
+<!--      it may be put. -->
+
+	<refmeta>
+		<refentrytitle>calculus</refentrytitle>
+		<manvolnum>1</manvolnum>
+	</refmeta>
+
+	<refnamediv id='name'>
+		<refname>calculus</refname>
+		<refpurpose>algebraic type system tool</refpurpose>
+	</refnamediv>
+
+	<refsynopsisdiv id='synopsis'>
+		<cmdsynopsis>
+			<command>calculus</command>
+
+			<arg choice="opt"><option>-A</option><replaceable>name</replaceable></arg>
+			<arg choice="opt"><option>-E</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-T</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-a</option></arg>
+			<arg choice="opt"><option>-d</option></arg>
+			<arg choice="opt"><option>-i</option></arg>
+			<arg choice="opt"><option>-o</option></arg>
+			<arg choice="opt"><option>-p</option></arg>
+			<arg choice="opt"><option>-r</option></arg>
+			<arg choice="opt"><option>-t</option></arg>
+			<arg choice="opt"><option>-w</option></arg>
+			<arg choice="opt"><option>-x</option></arg>
+
+			<sbr/>
+
+			<arg choice='plain' rep='repeat'><replaceable>input-file</replaceable></arg>
+			<arg choice='opt'><replaceable>output</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>calculus</command>
+
+			<group choice="req">
+				<arg choice="plain"><option>-v</option></arg>
+			</group>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+
+	<refsection id='description'><title>Description</title>
+		<para><application>Calculus</application> translates a specification of
+			an algebraic type system, <replaceable>input-file</replaceable>,
+			into code representing that system.
+			This takes the form of a number of files which are generated in the
+			output directory, <replaceable>output</replaceable>.
+			If no output directory is specified then the current working
+			directory is used.</para>
+
+		<para>Input files and command-line options may be given in any order.
+			Options always relate to the input files immediately following.</para>
+
+		<para>By default, C code implementing the type system is generated,
+			however this may be changed by means of command-line options.</para>
+	</refsection>
+
+	<refsection id='options'>
+		<title>Options</title>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-A</option><replaceable>name</replaceable></term>
+				<listitem>Specifies that the algebra named
+					<replaceable>name</replaceable> should be used by the
+					output routines.
+					Unless otherwise specified the last algebra input is
+					used for output.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-E</option><replaceable>file</replaceable></term>
+				<listitem>Specifies a file containing a list of extra types to
+					<application>Calculus</application>.
+					These are used, for example, to generate extra disk reading
+					and writing routines in conjunction with the
+					<option>-d</option> option.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-T</option><replaceable>file</replaceable></term>
+			<listitem>Specifies a template file which is used to generate an
+				output file <replaceable>output</replaceable>.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-a</option></term>
+			<listitem>Causes <application>Calculus</application> to generate
+				extra statements in its C code which includes assertions about
+				null pointers etc. and other code to help in writing programs
+				using the tool.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-d</option></term>
+			<listitem>Causes <application>Calculus</application> to generate
+				disk reading and writing routines designed to add persistence
+				to the generated type system.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-i</option></term>
+			<listitem>Indicates to <application>Calculus</application> that
+				<replaceable>input</replaceable> is a simple input file.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-o</option></term>
+			<listitem>Causes <application>Calculus</application> to output a
+				pretty-print of the input algebra into
+				<replaceable>output</replaceable>, which in this instance in an
+				output file.  If no output file is given then the standard
+				output is used.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-p</option></term>
+			<listitem>Causes <application>Calculus</application> to generate
+				printing routines designed for use in the debugging of programs
+				written using the type system.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-r</option></term>
+			<listitem>Indicates to <application>Calculus</application> that
+				<replaceable>input</replaceable> is the output of a previous
+				<option>-w</option> option.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-t</option></term>
+			<listitem>Causes <application>Calculus</application> to generate
+				<code>#pragma token</code> commands describing the type system.
+				These are designed so that
+				<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>
+				can apply extremely rigorous type checking to programs written
+				using the type system.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-v</option></term>
+			<listitem>Causes <application>Calculus</application> print
+				its version number.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-w</option></term>
+			<listitem>Causes <application>Calculus</application> to output a
+				dump of the input algebra into <replaceable>output</replaceable>,
+				which in this instance is an output file.</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><option>-x</option></term>
+				<listitem>Causes <application>Calculus</application> to
+					suppress the vector and vector pointer constructs in its
+					output.</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsection>
+
+	<refsection id='see_also'><title>See Also</title>
+		<para><citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para>
+	</refsection>
+</refentry>
+

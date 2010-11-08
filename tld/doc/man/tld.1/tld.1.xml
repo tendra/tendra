@@ -75,31 +75,263 @@
 	</refnamediv>
 
 	<refsynopsisdiv>
-		<para><command>tld</command>
-			[<emphasis>mode</emphasis>] [<emphasis>option</emphasis>]...
-			<emphasis>file</emphasis>...</para>
+		<cmdsynopsis>
+			<command>tld</command>
+			<arg choice="opt"><option>-ml</option></arg>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-o</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--output-file</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-d</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--debug-file</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-a</option></arg>
+				<arg choice="plain"><option>--all-hide-defined</option></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-l</option><replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--library</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-L</option><replaceable>DIRECTORY</replaceable></arg>
+				<arg choice="plain"><option>--path</option> <replaceable>DIRECTORY</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-h</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+				<arg choice="plain"><option>--hide</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-H</option> <replaceable>SHAPE</replaceable></arg>
+				<arg choice="plain"><option>--hide-defined</option> <replaceable>SHAPE</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-k</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+				<arg choice="plain"><option>--keep</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-K</option> <replaceable>SHAPE</replaceable></arg>
+				<arg choice="plain"><option>--keep-all</option> <replaceable>SHAPE</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-r</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></arg>
+				<arg choice="plain"><option>--rename</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-R</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--rename-file</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+				<arg choice="plain"><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-S</option> <replaceable>SHAPE</replaceable></arg>
+				<arg choice="plain"><option>--suppress-all</option> <replaceable>SHAPE</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-M</option></arg>
+				<arg choice="plain"><option>--suppress-mult</option></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-u</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--unit-file</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-w</option></arg>
+				<arg choice="plain"><option>--warnings</option></arg>
+			</group>
+
+			<sbr/>
+
+			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tld</command>
+			<arg choice="plain"><option>-mc</option></arg>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-o</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--output-file</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-d</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--debug-file</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-i</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--include-library</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+				<arg choice="plain"><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-S</option> <replaceable>SHAPE</replaceable></arg>
+				<arg choice="plain"><option>--suppress-all</option> <replaceable>SHAPE</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-M</option></arg>
+				<arg choice="plain"><option>--suppress-mult</option></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-u</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--unit-file</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tld</command>
+			<arg choice="plain"><option>-mt</option></arg>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-d</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--debug-file</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-i</option></arg>
+				<arg choice="plain"><option>--index</option></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-s</option></arg>
+				<arg choice="plain"><option>--size</option></arg>
+			</group>
+
+			<sbr/>
+
+			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tld</command>
+			<arg choice="plain"><option>-mx</option></arg>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-d</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>--debug-file</option> <replaceable>FILE</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-a</option></arg>
+				<arg choice="plain"><option>--all</option></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-b</option></arg>
+				<arg choice="plain"><option>--basename</option></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-i</option></arg>
+				<arg choice="plain"><option>--info</option></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-m</option></arg>
+				<arg choice="plain"><option>--match-basename</option></arg>
+			</group>
+
+			<sbr/>
+
+			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tld</command>
+			<group choice="opt">
+				<arg choice="plain"><option>-ml</option></arg>
+				<arg choice="plain"><option>-mc</option></arg>
+				<arg choice="plain"><option>-mt</option></arg>
+				<arg choice="plain"><option>-mx</option></arg>
+			</group>
+			<group choice="req">
+				<group choice="plain">
+					<arg choice="plain"><option>-?</option></arg>
+					<arg choice="plain"><option>--help</option></arg>
+				</group>
+				<group choice="plain">
+					<arg choice="plain"><option>-v</option></arg>
+					<arg choice="plain"><option>--version</option></arg>
+				</group>
+			</group>
+		</cmdsynopsis>
 	</refsynopsisdiv>
 
 	<refsection id='description'>
 		<title>Description</title>
 
-		<para>The <command>tld</command>
-			command is used to create and manipulate TDF libraries, and to link together
-			TDF capsules.  It has four modes, selected by one of the <option>-ml</option> (link TDF
-			capsules), <option>-mc</option> (create TDF library), <option>-mt</option> (list TDF library
-			contents) or <option>-mx</option> (extract capsules from TDF library) switches.  If
-			provided, the switch must be the first on the command line.  If one is not
-			provided, the <option>-ml</option> switch is assumed.</para>
+		<para>The <command>tld</command> command is used to create and
+			manipulate TDF libraries, and to link together TDF capsules.
+			It has four modes, selected by one of the
+			<option>-ml</option> (link TDF capsules),
+			<option>-mc</option> (create TDF library),
+			<option>-mt</option> (list TDF library contents) or
+			<option>-mx</option> (extract capsules from TDF library) switches.
+			If provided, the switch must be the first on the command line.
+			If one is not provided, the <option>-ml</option> switch is
+			assumed.</para>
 
-		<para>The different modes are described below.  In the description, external name
-			definitions are referred to as unique and multiple.  A unique definition is
-			a definition where the defined attribute is set; a multiple definition is
-			one where the multiple attribute is set (i.e. more than one definition is
-			allowed).  A definition may be both multiple and unique (if both bits are
+		<para>The different modes are described below.
+			In the description, external name definitions are referred to as
+			unique and multiple.
+			A unique definition is a definition where the defined attribute is
+			set; a multiple definition is one where the multiple attribute is
+			set (i.e. more than one definition is allowed).
+			A definition may be both multiple and unique (if both bits are
 			set - this means that there is more than definition, but one of them is
-			unique).  It is an error for there to be more than one unique definition of
-			any given name.  It is an error for token external names to have the
-			multiple attribute set.</para>
+			unique).
+			It is an error for there to be more than one unique definition of
+			any given name.
+			It is an error for token external names to have the multiple
+			attribute set.</para>
 	</refsection>
 
 	<refsection id='switches'>
@@ -144,6 +376,25 @@
 			switch, and the '+' or '++' switch prefixes reset (disable) the switch.
 			This is probably back to front, but is in keeping with other programs. The
 			switches '--' or '++' by themselves terminate option parsing.</para>
+
+		<para>The following options are common to all modes:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-?</option></term>
+				<term><option>--help</option></term>
+
+				<listitem>Write an option summary to the standard error.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-v</option></term>
+				<term><option>--version</option></term>
+
+				<listitem>Write the version number of the program to the standard
+					error stream.</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsection>
 
 	<refsection id='external_names'>
@@ -220,30 +471,23 @@
 
 		<variablelist>
 			<varlistentry>
-				<term><option>--all-hide-defined</option></term>
 				<term><option>-a</option></term>
+				<term><option>--all-hide-defined</option></term>
 
 				<listitem>Hide all external names (of any shape) that are defined.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
 				<term><option>-d</option> <replaceable>FILE</replaceable></term>
+				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Produce a diagnostic trace of the linking process in
 					<emphasis>FILE</emphasis>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--help</option></term>
-				<term><option>-?</option></term>
-
-				<listitem>Write an option summary to the standard error.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>--hide</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 				<term><option>-h</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>--hide</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 
 				<listitem>Cause the external <emphasis>SHAPE</emphasis> name
 					<emphasis>NAME</emphasis> to be hidden.
@@ -251,32 +495,32 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--hide-defined</option> <replaceable>SHAPE</replaceable></term>
 				<term><option>-H</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>--hide-defined</option> <replaceable>SHAPE</replaceable></term>
 
 				<listitem>Cause the all external <emphasis>SHAPE</emphasis>
 					names that are defined to be hidden.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--keep</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 				<term><option>-k</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>--keep</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 
 				<listitem>Cause the external <emphasis>SHAPE</emphasis> name
 					<emphasis>NAME</emphasis> to be kept.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--keep-all</option> <replaceable>SHAPE</replaceable></term>
 				<term><option>-K</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>--keep-all</option> <replaceable>SHAPE</replaceable></term>
 
 				<listitem>Cause the all external <emphasis>SHAPE</emphasis>
 					names to be kept.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--library</option> <replaceable>FILE</replaceable></term>
 				<term><option>-l</option><replaceable>FILE</replaceable></term>
+				<term><option>--library</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Use the file <filename>FILE</filename> as a TDF library.
 					If the file name contains a '/', then it is used as specified;
@@ -286,8 +530,8 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--output-file</option> <replaceable>FILE</replaceable></term>
 				<term><option>-o</option> <replaceable>FILE</replaceable></term>
+				<term><option>--output-file</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Write the output capsule to the file <filename>FILE</filename>.
 					If this switch is not specified, then the output is written
@@ -295,56 +539,56 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--path</option> <replaceable>DIRECTORY</replaceable></term>
 				<term><option>-L</option><replaceable>DIRECTORY</replaceable></term>
+				<term><option>--path</option> <replaceable>DIRECTORY</replaceable></term>
 
 				<listitem>Append the directory <emphasis>DIRECTORY</emphasis> to
 					the library search path.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--rename</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></term>
 				<term><option>-r</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></term>
+				<term><option>--rename</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></term>
 
 				<listitem>Rename the external <emphasis>SHAPE</emphasis> name
 					<emphasis>FROM</emphasis> to <emphasis>TO</emphasis>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--rename-file</option> <replaceable>FILE</replaceable></term>
 				<term><option>-R</option> <replaceable>FILE</replaceable></term>
+				<term><option>--rename-file</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Read the contents of the file <filename>FILE</filename> as a series of renaming
 					specifications.  The format of the file is described above.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 				<term><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 
 				<listitem>Do not try to find a definition for the external
 					<emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--suppress-all</option> <replaceable>SHAPE</replaceable></term>
 				<term><option>-S</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>--suppress-all</option> <replaceable>SHAPE</replaceable></term>
 
 				<listitem>Do not try to find a definition for any external
 					<emphasis>SHAPE</emphasis> name.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--suppress-mult</option></term>
 				<term><option>-M</option></term>
+				<term><option>--suppress-mult</option></term>
 
 				<listitem>Do not use non-unique definitions in libraries as definitions for external
 					names.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--unit-file</option> <replaceable>FILE</replaceable></term>
 				<term><option>-u</option> <replaceable>FILE</replaceable></term>
+				<term><option>--unit-file</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Parse <emphasis>FILE</emphasis> to get a new unit set name list.
 					By default, all of the standard (as specified in the version 4.0 TDF
@@ -352,16 +596,8 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--version</option></term>
-				<term><option>-v</option></term>
-
-				<listitem>Write the version number of the program to the standard
-					error stream.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>--warnings</option></term>
 				<term><option>-w</option></term>
+				<term><option>--warnings</option></term>
 
 				<listitem>Enable/disable the printing of warning messages.
 					Warnings are generated for things like obsolete linker
@@ -386,23 +622,16 @@
 
 		<variablelist>
 			<varlistentry>
-				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
 				<term><option>-d</option> <replaceable>FILE</replaceable></term>
+				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Produce a diagnostic trace of the library construction
 					process in <emphasis>FILE</emphasis>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--help</option></term>
-				<term><option>-?</option></term>
-
-				<listitem>Write an option summary to the standard error.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>--include-library</option> <replaceable>FILE</replaceable></term>
 				<term><option>-i</option> <replaceable>FILE</replaceable></term>
+				<term><option>--include-library</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Include all of the capsules in the TDF library
 					<emphasis>FILE</emphasis> in the library being constructed.
@@ -412,8 +641,8 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--output-file</option> <replaceable>FILE</replaceable></term>
 				<term><option>-o</option> <replaceable>FILE</replaceable></term>
+				<term><option>--output-file</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Write the output library to the file
 					<filename>FILE</filename>. If this switch is not specified,
@@ -422,45 +651,37 @@
 
 			<!-- TODO: use XML entities for these common replaceables -->
 			<varlistentry>
-				<term><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 				<term><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
 
 				<listitem>Do not try to find a definition for the external
 					<emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--suppress-all</option> <replaceable>SHAPE</replaceable></term>
 				<term><option>-S</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>--suppress-all</option> <replaceable>SHAPE</replaceable></term>
 
 				<listitem>Do not try to find a definition for any external
 					<emphasis>SHAPE</emphasis> name.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--suppress-mult</option></term>
 				<term><option>-M</option></term>
+				<term><option>--suppress-mult</option></term>
 
 				<listitem>Do not use non-unique definitions in libraries as
 					definitions for external names.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--unit-file</option> <replaceable>FILE</replaceable></term>
 				<term><option>-u</option> <replaceable>FILE</replaceable></term>
+				<term><option>--unit-file</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Parse <emphasis>FILE</emphasis> to get a new unit
 					set name list.  By default, all of the standard (as
 					specified in the version 4.0 TDF specification) unit set
 					names are known.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>--version</option></term>
-				<term><option>-v</option></term>
-
-				<listitem>Write the version number of the program to the
-					standard error stream.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
@@ -478,24 +699,16 @@
 
 		<variablelist>
 			<varlistentry>
-				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
 				<term><option>-d</option> <replaceable>FILE</replaceable></term>
+				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Produce a diagnostic trace of the library contents
 					process in <emphasis>FILE</emphasis>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--help</option></term>
-				<term><option>-?</option></term>
-
-				<listitem>Write an option summary to the standard
-					error.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>--index</option></term>
 				<term><option>-i</option></term>
+				<term><option>--index</option></term>
 
 				<listitem>Enable/disable the printing of the index of the library.
 					If printing of the index is enabled, the index of the library
@@ -507,21 +720,13 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--size</option></term>
 				<term><option>-s</option></term>
+				<term><option>--size</option></term>
 
 				<listitem>Enable/disable the printing of the size of each
 					capsule in the library.
 					If enabled, the size of each capsule in bytes is printed
 					after its name.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>--version</option></term>
-				<term><option>-v</option></term>
-
-				<listitem>Write the version number of the program to the
-					standard error stream.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
@@ -547,8 +752,8 @@
 
 		<variablelist>
 			<varlistentry>
-				<term><option>--all</option></term>
 				<term><option>-a</option></term>
+				<term><option>--all</option></term>
 
 				<listitem>Enable/disable the extraction of all capsules.
 					If all capsules are to be extracted, no capsule names
@@ -556,8 +761,8 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--basename</option></term>
 				<term><option>-b</option></term>
+				<term><option>--basename</option></term>
 
 				<listitem>Enable/disable the use of the basename of each capsule
 					when extracting.  If this is enabled, then extracted capsules
@@ -567,45 +772,30 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
 				<term><option>-d</option> <replaceable>FILE</replaceable></term>
+				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
 
 				<listitem>Produce a diagnostic trace of the library
 					extraction process in <emphasis>FILE</emphasis>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--help</option></term>
-				<term><option>-?</option></term>
-
-				<listitem>Write an option summary to the standard error.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>--info</option></term>
 				<term><option>-i</option></term>
+				<term><option>--info</option></term>
 
 				<listitem>Enable/disable informational messages.
 					These say which capsules are being extracted.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>--match-basename</option></term>
 				<term><option>-m</option></term>
+				<term><option>--match-basename</option></term>
 
 				<listitem>Enable/disable matching of capsule names by basename.
 					If enabled, then the basename of each library capsule is
 					also matched against the file names specified.
 					This may result in more than one capsule being extracted
 					for one file name.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>--version</option></term>
-				<term><option>-v</option></term>
-
-				<listitem>Write the version number of the program to the standard
-					error stream.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

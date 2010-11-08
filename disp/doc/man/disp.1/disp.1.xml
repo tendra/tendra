@@ -74,9 +74,33 @@
 	<refsynopsisdiv id='synopsis'>
 		<cmdsynopsis>
 			<command>disp</command>
-			<arg choice='opt'><replaceable>options</replaceable></arg>
-			<arg choice='plain'><replaceable>input-file</replaceable></arg>
-			<arg choice='opt'><replaceable>output-file</replaceable></arg>
+
+			<arg choice="opt"><option>-g</option></arg>
+			<arg choice="opt"><option>-n</option><replaceable>columns</replaceable></arg>
+			<arg choice="opt"><option>-q</option></arg>
+			<arg choice="opt"><option>-r</option></arg>
+			<arg choice="opt"><option>-v</option></arg>
+			<arg choice="opt"><option>-A</option></arg>
+			<arg choice="opt"><option>-D</option></arg>
+			<arg choice="opt"><option>-E</option></arg>
+			<arg choice="opt"><option>-S</option></arg>
+			<arg choice="opt"><option>-T</option></arg>
+			<arg choice="opt"><option>-U</option></arg>
+			<arg choice="opt"><option>-V</option></arg>
+			<arg choice="opt"><option>-W</option></arg>
+
+			<sbr/>
+
+			<arg choice="plain"><replaceable>input-file</replaceable></arg>
+			<arg choice="opt"><replaceable>output-file</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>disp</command>
+
+			<group choice="req">
+				<arg choice="plain">-v</arg>
+			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 

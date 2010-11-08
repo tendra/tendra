@@ -75,8 +75,145 @@
 	<refsynopsisdiv id='synopsis'>
 		<cmdsynopsis>
 			<command>tcc</command>
-			<arg choice='opt'><replaceable>options</replaceable></arg>
-			<arg choice='plain'><replaceable>files</replaceable></arg>
+			<arg choice="opt"><option>-A</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-B</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-C</option></arg>
+			<arg choice="opt"><option>-D</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-E</option></arg>
+			<arg choice="opt"><option>-E</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-F</option><replaceable>letter</replaceable></arg>
+			<arg choice="opt"><option>-G</option></arg>
+			<arg choice="opt"><option>-H</option></arg>
+			<arg choice="opt"><option>-I</option><replaceable>string</replaceable></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-J</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-K</option><replaceable>string</replaceable><literal>,...</literal></arg>
+			<arg choice="opt"><option>-L</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-M</option></arg>
+			<arg choice="opt"><option>-MA</option></arg>
+			<arg choice="opt"><option>-N</option><replaceable>identifier</replaceable><literal>:</literal><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-O</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-P</option></arg>
+			<arg choice="opt"><option>-P</option><replaceable>letter</replaceable>...</arg>
+					<literal>tcc_startup.h</literal> using <option>-Ph</option>.	All intermediate files can be
+
+			<sbr/>
+
+			<arg choice="opt"><option>-S</option></arg>
+			<arg choice="opt"><option>-S</option><replaceable>letter</replaceable><literal>,</literal><replaceable>string</replaceable><literal>,</literal>...</arg>
+			<arg choice="opt"><option>-S</option><replaceable>letter</replaceable><literal>:</literal><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-U</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-W</option><replaceable>letter</replaceable><literal>,</literal><replaceable>string</replaceable><literal>,</literal>...</arg>
+			<arg choice="opt"><option>-W</option><replaceable>letter</replaceable><literal>:</literal><replaceable>string</replaceable></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-X</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-X:</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-Y</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-Z</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-api_check</option></arg>
+			<arg choice="opt"><option>-api_check_out&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-b</option></arg>
+			<arg choice="opt"><option>-c</option></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-cc</option></arg>
+			<arg choice="opt"><option>-cc_only</option></arg>
+			<arg choice="opt"><option>-ch</option></arg>
+			<arg choice="opt"><option>-d</option></arg>
+			<arg choice="opt"><option>-disp</option></arg>
+			<arg choice="opt"><option>-disp_t</option></arg>
+			<group choice="opt">
+				<arg choice="plain"><option>-dn</option></arg>
+				<arg choice="plain"><option>-dy</option></arg>
+			</group>
+			<arg choice="opt"><option>-do</option><replaceable>letter</replaceable>&nbsp;<replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-dry</option></arg>
+			<arg choice="opt"><option>-dump</option></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-e</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-f</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-g</option></arg>
+			<arg choice="opt"><option>-h</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-i</option></arg>
+			<arg choice="opt"><option>-im</option></arg>
+			<arg choice="opt"><option>-im0</option></arg>
+			<arg choice="opt"><option>-info</option></arg>
+			<arg choice="opt"><option>-j</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-k</option></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-keep_errors</option></arg>
+			<arg choice="opt"><option>-l</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-make_up_names</option></arg>
+			<arg choice="opt"><option>-message&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-nepc</option></arg>
+			<arg choice="opt"><option>-not_ansi</option></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-no_startup_options</option></arg>
+			<arg choice="opt"><option>-o&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-p</option></arg>
+			<arg choice="opt"><option>-prod</option></arg>
+			<group choice="opt">
+				<arg choice="plain"><option>-q</option></arg>
+				<arg choice="plain"><option>-quiet</option></arg>
+			</group>
+			<arg choice="opt"><option>-s</option></arg>
+			<arg choice="opt"><option>-s</option><replaceable>letter</replaceable><literal>:</literal><replaceable>suffix</replaceable></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-show_errors</option></arg>
+			<arg choice="opt"><option>-special&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-startup&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-sym</option></arg>
+			<arg choice="opt"><option>-sym:&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-target&nbsp;</option><replaceable>string</replaceable></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-temp&nbsp;</option><replaceable>dir</replaceable></arg>
+			<arg choice="opt"><option>-tidy</option></arg>
+			<arg choice="opt"><option>-time</option></arg>
+			<arg choice="opt"><option>-u</option><replaceable>string</replaceable></arg>
+			<group choice="opt">
+				<arg choice="plain"><option>-v</option></arg>
+				<arg choice="plain"><option>-verbose</option></arg>
+			</group>
+			<arg choice="opt"><option>-vb</option></arg>
+			<arg choice="opt"><option>-vd</option></arg>
+			<arg choice="opt"><option>-ve</option></arg>
+			<arg choice="opt"><option>-vt</option></arg>
+			<arg choice="opt"><option>-w</option></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-work&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-wsl</option></arg>
+			<arg choice="opt"><option>-z</option><replaceable>string</replaceable></arg>
+
+			<sbr/>
+
+			<arg choice="plain" rep="repeat"><replaceable>files</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tcc</command>
+			<group choice="req">
+				<arg choice="plain"><option>-show_env</option></arg>
+				<arg choice="plain"><option>-query</option></arg>
+				<arg choice="plain"><option>-version</option></arg>
+				<arg choice="plain"><option>-V</option></arg>
+			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
@@ -617,7 +754,8 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><option>-dn</option>&nbsp;or&nbsp;<option>-dy</option></term>
+				<term><option>-dn</option></term>
+				<term><option>-dy</option></term>
 				<listitem>
 					<para>Passed to the system linker.</para>
 				</listitem>
@@ -779,7 +917,8 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><option>-q</option>&nbsp;or&nbsp;<option>-quiet</option></term>
+				<term><option>-q</option></term>
+				<term><option>-quiet</option></term>
 				<listitem>
 					<para>Specifies that <command>tcc</command> should work silently.	This is the default.</para>
 				</listitem>
@@ -880,7 +1019,8 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><option>-v</option>&nbsp;or&nbsp;<option>-verbose</option></term>
+				<term><option>-v</option></term>
+				<term><option>-verbose</option></term>
 				<listitem>
 					<para>Specifies that <command>tcc</command> should work in verbose mode, sending information
 						on what system commands it is executing to the standard output.</para>

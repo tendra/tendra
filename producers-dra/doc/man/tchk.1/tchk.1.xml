@@ -74,7 +74,8 @@
 
 	<refsynopsisdiv id='synopsis'>
 		<cmdsynopsis>
-			<command>tchk</command>    <arg choice='opt'><replaceable>options</replaceable></arg>
+			<command>tchk</command>
+			<arg choice='opt'><replaceable>options</replaceable></arg>
 			<arg choice='plain'><replaceable>files</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
@@ -83,12 +84,17 @@
 	<refsection id='description'>
 		<title>Description</title>
 
-		<para><command>tchk</command> is the stand-alone TenDRA Static Program Checker.  It is more
-			fully documented in the <userinput>TCheck - The TenDRA Static Checker</userinput>.</para>
+		<para><command>tchk</command> is the stand-alone TenDRA Static
+			Program Checker.
+			It is more fully documented in the <userinput>TCheck - The TenDRA
+			Static Checker</userinput>.</para>
 
-		<para><command>tchk</command> is equivalent to <emphasis remap='I'>tcc</emphasis> <option>-ch</option> except that it does not
-			allow all the options allowed by <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.  A complete list of the
-			options allowed can be printed using the <option>-query</option> option.</para>
+		<para><command>tchk</command> is equivalent to
+			<emphasis remap='I'>tcc</emphasis> <option>-ch</option> except that it does not
+			allow all the options allowed by
+			<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
+			A complete list of the options allowed can be printed using the
+			<option>-query</option> option.</para>
 	</refsection>
 
 	<refsection id='see_also'>

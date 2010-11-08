@@ -63,14 +63,14 @@
 			it may be put.
 -->
 
-<refmeta>
-	<refentrytitle>make_tdf</refentrytitle>
-	<manvolnum>1</manvolnum>
+	<refmeta>
+		<refentrytitle>make_tdf</refentrytitle>
+		<manvolnum>1</manvolnum>
 	</refmeta>
 
 	<refnamediv id="name">
 		<refname>make_tdf</refname>
-		<refpurpose>... creation tool</refpurpose>
+		<refpurpose>TDF I/O generator</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv id="synopsis">
@@ -82,22 +82,22 @@
 				<arg choice="plain"><replaceable>output-file</replaceable></arg>
 				<arg choice="plain">-</arg>
 			</group>
-			<arg choice="plain"><replaceable>make_tdf</replaceable></arg>
-			<arg choice="plain">-v </arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>make_tdf</command>
+			<group choice="req">
+				<arg choice="plain">-v</arg>
+			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
-	<refsect1 id="description">
-		<title>Description</title>
+	<!-- TODO -->
 
-		<para><command>make_tdf</command> does something, now to see what it
-			is.</para>
-	</refsect1>
-
-	<refsect1 id="options">
+	<refsection id="options">
 		<title>Options</title>
 
-		<variablelist remap="IP">
+		<variablelist>
 			<varlistentry>
 				<term><option>-v</option></term>
 				<listitem>
@@ -106,15 +106,15 @@
 				</listitem>
 			</varlistentry>
 		</variablelist>
-	</refsect1>
+	</refsection>
 
-	<refsect1 id="see_also">
+	<refsection id="see_also">
 		<title>See Also</title>
 
 		<para><citerefentry>
 			<refentrytitle>tcc</refentrytitle>
 			<manvolnum>1</manvolnum>
 		</citerefentry>.</para>
-	</refsect1>
+	</refsection>
 </refentry>
 

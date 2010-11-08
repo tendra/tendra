@@ -75,46 +75,59 @@
 			<command>sid</command>
 
 			<group>
-				<arg choice="plain">-d <replaceable>FILE</replaceable></arg>
-				<arg choice="plain">--dump-file <replaceable>FILE</replaceable></arg>
+				<arg choice="plain">-d&nbsp;<replaceable>FILE</replaceable></arg>
+				<arg choice="plain">--dump-file&nbsp;<replaceable>FILE</replaceable></arg>
 			</group>
 
 			<group>
-				<arg choice="plain">-f <replaceable>LIMIT</replaceable></arg>
-				<arg choice="plain">--factor-limit<replaceable>LIMIT</replaceable></arg>
+				<arg choice="plain">-f&nbsp;<replaceable>LIMIT</replaceable></arg>
+				<arg choice="plain">--factor-limit&nbsp;<replaceable>LIMIT</replaceable></arg>
 			</group>
 
 			<group>
-				<arg choice="plain">-i <replaceable>INLINES</replaceable></arg>
-				<arg choice="plain">--inline <replaceable>INLINES</replaceable></arg>
+				<arg choice="plain">-i&nbsp;<replaceable>INLINES</replaceable></arg>
+				<arg choice="plain">--inline&nbsp;<replaceable>INLINES</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<group>
+				<arg choice="plain">-l&nbsp;<replaceable>LANGUAGE</replaceable></arg>
+				<arg choice="plain">--language&nbsp;<replaceable>LANGUAGE</replaceable></arg>
 			</group>
 
 			<group>
-				<arg choice="plain">-l <replaceable>LANGUAGE</replaceable></arg>
-				<arg choice="plain">--language <replaceable>LANGUAGE</replaceable></arg>
+				<arg choice="plain">-s&nbsp;<replaceable>OPTION</replaceable></arg>
+				<arg choice="plain">--switch&nbsp;<replaceable>OPTION</replaceable></arg>
 			</group>
+
+			<sbr/>
 
 			<group>
-				<arg choice="plain">-s <replaceable>OPTION</replaceable></arg>
-				<arg choice="plain">--switch <replaceable>OPTION</replaceable></arg>
+				<arg choice="plain">-t&nbsp;<replaceable>NUMBER</replaceable></arg>
+				<arg choice="plain">--tab-width&nbsp;<replaceable>NUMBER</replaceable></arg>
 			</group>
 
-			<group>
-				<arg choice="plain">-t <replaceable>NUMBER</replaceable></arg>
-				<arg choice="plain">--tab-width <replaceable>NUMBER</replaceable></arg>
-			</group>
+			<sbr/>
 
-			<group>
-				<arg choice="plain">-h</arg>
-				<arg choice="plain">--help</arg>
-			</group>
+			<arg rep="repeat" choice="plain"><replaceable>input-file</replaceable></arg>
+			<arg rep="repeat" choice="opt"><replaceable>output-file</replaceable></arg>
+		</cmdsynopsis>
 
-			<group>
-				<arg choice="plain">-v</arg>
-				<arg choice="plain">--version</arg>
-			</group>
+		<cmdsynopsis>
+			<command>sid</command>
 
-			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+			<group choice="req">
+				<group choice="plain">
+					<arg choice="plain">-h</arg>
+					<arg choice="plain">--help</arg>
+				</group>
+
+				<group choice="plain">
+					<arg choice="plain">-v</arg>
+					<arg choice="plain">--version</arg>
+				</group>
+			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
@@ -527,6 +540,7 @@
 
 			<varlistentry>
 				<term><option>casts</option></term>
+				<term><option>cast</option></term>
 				<term><option>no-casts</option></term>
 				<term><option>no-cast</option></term>
 

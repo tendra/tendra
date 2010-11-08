@@ -73,11 +73,13 @@
 	<refsynopsisdiv id='synopsis'>
 		<cmdsynopsis>
 			<command>tpl</command>
-			<arg choice='opt'>-V </arg>
-			<arg choice='opt' rep='repeat'>-I <replaceable>path</replaceable></arg>
-			<arg choice='opt'>-v </arg>
-			<arg choice='plain'><replaceable>infile.tpl</replaceable></arg>
-			<arg choice='plain'><replaceable>outfile.j</replaceable></arg>
+
+			<arg choice="opt">-V</arg>
+			<arg choice="opt" rep="repeat">-I <replaceable>path</replaceable></arg>
+			<arg choice="opt">-v</arg>
+
+			<arg choice="plain"><replaceable>infile.tpl</replaceable></arg>
+			<arg choice="plain"><replaceable>outfile.j</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
@@ -96,32 +98,29 @@
 	<refsection id='options'>
 		<title>Options</title>
 
-		<variablelist remap='IP'>
+		<variablelist>
 			<varlistentry>
 				<term><option>-V</option></term>
-				<listitem>
-					<para>This option produces a <quote>pretty print</quote>
-						of the <acronym>TDF</acronym> capsule on the standard 
-						output.</para>
-				</listitem>
+
+				<listitem>This option produces a <quote>pretty print</quote>
+					of the <acronym>TDF</acronym> capsule on the standard 
+					output.</listitem>
   			</varlistentry>
 
 			<varlistentry>
 				<term><option>-I&nbsp;path</option></term>
-				<listitem>
-					<para>Gives the search path for any
-						<literal>#include</literal> files in the PL_TDF
-						text.</para>
-				</listitem>
+
+				<listitem>Gives the search path for any
+					<literal>#include</literal> files in the PL_TDF
+					text.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-v</option></term>
-				<listitem>
-					<para>This option causes <command>tpl</command> to print
-						its version number and the version of the TDF
-						specification it supports.</para>
-				</listitem>
+
+				<listitem>This option causes <command>tpl</command> to print
+					its version number and the version of the TDF
+					specification it supports.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
