@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-MAN=	lexi.1
+MAN=	tspec.1
 
 .include <tendra.doc.mk>
 

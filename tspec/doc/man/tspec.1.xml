@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<!-- Initially lifted from troff+man by doclifter; further editing by hand -->
+<!--  $Id$ -->
+<refentry id='tspec1'
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<!--
+	Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+	All rights reserved.
+
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+
+	1. Redistributions of source code must retain the above copyright notice,
+	   this list of conditions and the following disclaimer.
+	2. Redistributions in binary form must reproduce the above copyright notice,
+	   this list of conditions and the following disclaimer in the documentation
+	   and/or other materials provided with the distribution.
+	3. Neither the name of The TenDRA Project nor the names of its contributors
+	   may be used to endorse or promote products derived from this software
+	   without specific, prior written permission.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+	IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+	THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+	PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+	CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+	EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+	OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+	WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+	OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!--			 Crown Copyright (c) 1997
+	
+	This TenDRA(r) Manual Page is subject to Copyright
+	owned by the United Kingdom Secretary of State for Defence
+	acting through the Defence Evaluation and Research Agency
+	(DERA).	It is made available to Recipients with a
+	royalty\-free licence for its use, reproduction, transfer
+	to other parties and amendment for any purpose not excluding
+	product development provided that any such use et cetera
+	shall be deemed to be acceptance of the following conditions:\-
+	
+			(1) Its Recipients shall ensure that this Notice is
+			reproduced upon any copies or amended versions of it;
+	
+			(2) Any amended version of it shall be clearly marked to
+			show both the nature of and the organisation responsible
+			for the relevant amendment or amendments;
+	
+			(3) Its onward transfer from a recipient to another
+			party shall be deemed to be that party's acceptance of
+			these conditions;
+	
+			(4) DERA gives no warranty or assurance as to its
+			quality or suitability for any purpose and DERA accepts
+			no liability whatsoever in relation to any use to which
+			it may be put.
+-->
+
+	<refmeta>
+		<refentrytitle>tspec</refentrytitle>
+		<manvolnum>1</manvolnum>
+	</refmeta>
+
+	<refnamediv id='name'>
+		<refname>tspec</refname>
+		<refpurpose>An API specification tool</refpurpose>
+	</refnamediv>
+
+	<refsynopsisdiv id='synopsis'>
+		<cmdsynopsis>
+			<command>tspec</command>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options-out']/*)"/>
+
+			<sbr/>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+
+			<sbr/>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'input-api']/*)"/>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tspec</command>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options-noout']/*)"/>
+
+			<sbr/>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+
+			<sbr/>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'input-api']/*)"/>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tspec</command>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options-out']/*)"/>
+
+			<sbr/>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+
+			<sbr/>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'input-local']/*)"/>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tspec</command>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options-noout']/*)"/>
+
+			<sbr/>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+
+			<sbr/>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'input-local']/*)"/>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tspec</command>
+
+			<group choice="req">
+				<arg choice="plain"><option>-V</option></arg>
+			</group>
+		</cmdsynopsis>
+
+
+		<synopfragment id="options">
+			<arg choice="opt"><option>-C</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-p</option></arg>
+			<arg choice="opt"><option>-r</option></arg>
+			<arg choice="opt"><option>-t</option></arg>
+			<arg choice="opt"><option>-u</option></arg>
+			<arg choice="opt"><option>-v</option></arg>
+		</synopfragment>
+
+		<synopfragment id="options-out">
+			<group choice="opt">
+				<arg choice="plain"><option>-O</option><replaceable>dir</replaceable></arg>
+				<arg choice="plain"><option>-S</option><replaceable>dir</replaceable></arg>
+				<group choice="opt">
+					<arg choice="plain"><option>-f</option></arg>
+					<arg choice="plain"><option>-n</option></arg>
+				</group>
+			</group>
+		</synopfragment>
+
+		<synopfragment id="options-noout">
+			<group choice="req">
+				<arg choice="plain"><option>-c</option></arg>
+				<arg choice="plain"><option>-e</option></arg>
+				<arg choice="plain"><option>-i</option></arg>
+				<arg choice="plain"><option>-m</option></arg>
+			</group>
+		</synopfragment>
+
+		<synopfragment id="input-api">
+			<arg choice="opt"><option>-I</option><replaceable>dir</replaceable></arg>
+			<group choice="opt">
+				<arg choice="plain"><option>-a</option></arg>
+				<arg choice="plain"><option>-s</option></arg>
+			</group>
+			<group choice="plain">
+				<group choice="req">
+					<arg choice="plain"><replaceable>api</replaceable></arg>
+				</group>
+				<group choice="req">
+					<arg choice="plain"><replaceable>api</replaceable></arg>
+					<arg choice="plain"><replaceable>header</replaceable></arg>
+				</group>
+				<group choice="req">
+					<arg choice="plain"><replaceable>api</replaceable></arg>
+					<arg choice="plain"><replaceable>header</replaceable></arg>
+					<arg choice="plain"><replaceable>subset</replaceable></arg>
+				</group>
+			</group>
+		</synopfragment>
+
+		<synopfragment id="input-local">
+			<arg choice="plain">-l</arg>
+			<arg choice="plain"><replaceable>file</replaceable></arg>
+		</synopfragment>
+	</refsynopsisdiv>
+
+	<refsection id='description'>
+		<title>Description</title>
+
+		<para><command>tspec</command> is a tool for translating a form of API
+			(Application Programming Interface) description into the
+			<code>#pragma</code> headers used by
+			<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>
+			to represent such APIs.  It is more fully documented in
+			<citetitle>tspec - An API Specification Tool</citetitle>.</para>
+
+		<para>There are two basic forms of command-line.
+			The first specifies that <command>tspec</command> should process the
+			whole of the API description <replaceable>api</replaceable>,
+			or just one header from it, <replaceable>header</replaceable>,
+			or just a subset of that header,
+			<replaceable>subset</replaceable>, writing its output to the
+			standard output directory.
+			The second (using the <option>-l</option> option) specifies that
+			it should process a single file, writing the output to the standard
+			output.</para>
+	</refsection>
+
+	<refsection id='options'>
+		<title>Options</title>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-C</option><replaceable>file</replaceable></term>
+
+				<listitem>Causes <command>tspec</command> to insert the
+					contents of <emphasis remap='I'>file</emphasis> as a
+					copyright message at the start of each output file.
+					This can also be specified using the
+					<emphasis remap='B'>TSPEC_COPYRIGHT</emphasis>
+					environmental variable.  The order of precedence for this
+					and other similar options is, built-in values lowest,
+					environmental variables next, and command-line options
+					highest.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-I</option><replaceable>dir</replaceable></term>
+
+				<listitem>Add the colon-separated list of directories
+					<replaceable>dir</replaceable> to the list of directories
+					searched for input files.   Input directories can also be
+					specified using the
+					<emphasis remap='B'>TSPEC_INPUT</emphasis> environmental variable.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-O</option><replaceable>dir</replaceable></term>
+
+				<listitem>Specifies that the directory
+					<replaceable>dir</replaceable> should be used as a base for
+					the include output files.  This can also be specified using
+					the <emphasis remap='B'>TSPEC_INCL_OUTPUT</emphasis> or the
+					<emphasis remap='B'>TSPEC_OUTPUT</emphasis> environmental
+					variable.  In the latter case it is given by
+					<emphasis remap='B'>${TSPEC_OUTPUT}/include</emphasis>.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-S</option><replaceable>dir</replaceable></term>
+
+				<listitem>Specifies that the directory
+					<replaceable>dir</replaceable> should be used as a base for
+					the source output files.  This can also be specified using
+					the <emphasis remap='B'>TSPEC_SRC_OUTPUT</emphasis> or the
+					<emphasis remap='B'>TSPEC_OUTPUT</emphasis> environmental
+					variable.  In the latter case it is given by
+					<emphasis remap='B'>${TSPEC_OUTPUT}/src</emphasis>.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-V</option></term>
+
+				<listitem>Causes <command>tspec</command> to print the
+					program's version, as well as the TenDRA release.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-a</option></term>
+
+				<listitem>Causes <command>tspec</command> to check all headers
+					in an API at once, as opposed to separately (as with the
+					<option>-s</option> option).</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-c</option></term>
+
+				<listitem>Causes <command>tspec</command> to only check the
+					input files, not to generate any output files.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-e</option></term>
+
+				<listitem>Causes <command>tspec</command> to only run its
+					preprocessor phase, writing the output to the standard
+					output.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-f</option></term>
+
+				<listitem>Causes <command>tspec</command> to ignore date
+					stamps when deciding whether it is necessary to update
+					an output file, and to force it to be updated.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-i</option></term>
+
+				<listitem>Causes <command>tspec</command> to print an index
+					of all the objects specified in the input files to the
+					standard output.
+					This index is designed to be used as a quick guide to the
+					contents of an API.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-l</option></term>
+
+				<listitem>Specifies local input mode (see above).</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-m</option></term>
+
+				<listitem>Causes <command>tspec</command> to print an index
+					intended for machine processing of all the objects
+					specified in the input files to the standard output.
+					This index is suitable for processing with text processing
+					tools such as
+					<citerefentry><refentrytitle>awk</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-n</option></term>
+
+				<listitem>Causes <command>tspec</command> to update any output
+					files which are younger than the <command>tspec</command>
+					executable.  This is useful primarily in development work
+					on <command>tspec</command> itself.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-p</option></term>
+
+				<listitem>Indicates to <command>tspec</command> that its input
+					has already been preprocessed (i.e. that it is the output
+					of a previous <option>-e</option> option).</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-r</option></term>
+
+				<listitem>Causes <command>tspec</command> to only produce output
+					for implemented, as opposed to used, objects.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-s</option></term>
+
+				<listitem>Causes <command>tspec</command> to check each header
+					in an API separately, as opposed to all at once
+					(as with the <option>-a</option> option).</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-t</option></term>
+
+				<listitem>Causes <command>tspec</command> to allow
+					<code>long long</code> type specifiers.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-u</option></term>
+
+				<listitem>Causes <command>tspec</command> to generate unique
+					token names for the objects in its input files.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-v</option></term>
+
+				<listitem>Causes <command>tspec</command> to enter verbose
+					mode, in which it reports on the output files it creates.
+					If two <option>-v</option> options are given then
+					<command>tspec</command> enters very verbose mode, in which
+					it gives more information on its activities.</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsection>
+
+	<refsection id='see_also'>
+		<title>See Also</title>
+
+		<para><citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+			<citerefentry><refentrytitle>tdfc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para>
+	</refsection>
+</refentry>
+

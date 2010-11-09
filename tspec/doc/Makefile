@@ -4,7 +4,7 @@
 
 
 #SUBDIR+=	api
-#SUBDIR+=	tspec.1
+SUBDIR+=	man
 SUBDIR+=	userguide
 
 .include <tendra.subdir.mk>
