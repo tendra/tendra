@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+
+<!--  $Id$ -->
+<!-- Initially lifted from troff+man by doclifter; further editing by hand -->
+<refentry id='make_err1'>
+
+<!--
+	Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+	All rights reserved.
+
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+
+	1. Redistributions of source code must retain the above copyright notice,
+	   this list of conditions and the following disclaimer.
+	2. Redistributions in binary form must reproduce the above copyright notice,
+	   this list of conditions and the following disclaimer in the documentation
+	   and/or other materials provided with the distribution.
+	3. Neither the name of The TenDRA Project nor the names of its contributors
+	   may be used to endorse or promote products derived from this software
+	   without specific, prior written permission.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+	IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+	THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+	PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+	CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+	EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+	OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+	WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+	OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+	<refmeta>
+		<refentrytitle>make_err</refentrytitle>
+		<manvolnum>1</manvolnum>
+	</refmeta>
+
+	<refnamediv id='name'>
+		<refname>make_err</refname>
+		<refpurpose>error catalogue creation tool</refpurpose>
+	</refnamediv>
+
+	<refsynopsisdiv id='synopsis'>
+		<cmdsynopsis>
+			<command>make_err</command>
+
+			<group choice="opt">
+				<arg choice="plain">-d</arg>
+				<arg choice="plain">-n</arg>
+				<arg choice="plain">-u</arg>
+			</group>
+			<arg choice="opt"><replaceable>input-file</replaceable></arg>
+			<arg choice="opt"><replaceable>output-file</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>make_err</command>
+
+			<arg choice="plain">-v</arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+
+	<refsection id='description'>
+		<title>Descriptions</title>
+
+		<para><command>make_err</command> generates error catalogues.
+			<command>make_err</command> reads data from standard input and prints
+			the results to standard output unless <replaceable>input-file</replaceable>
+			or <replaceable>output-file</replaceable> are specified.
+			By default <command>make_err</command> runs in declaration mode.</para>
+	</refsection>
+
+	<refsection id='options'>
+		<title>Options</title>
+
+		<variablelist>
+			<varlistentry>
+				<term><option>-d</option></term>
+
+				<listitem>Causes <command>make_err</command> to output all
+					error definitions to the output-file.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-n</option></term>
+
+				<listitem>Causes <command>make_err</command> to output all
+					error declarations to the output-file.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-u</option></term>
+
+				<listitem>Causes <command>make_err</command> to output all
+					usages to the output-file.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>-v</option></term>
+
+				<listitem>Causes <command>make_err</command> print its version
+					number.</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsection>
+
+	<refsection id='see_also'>
+		<title>See Also</title>
+
+		<para><citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para>
+	</refsection>
+</refentry>
+
