@@ -79,14 +79,14 @@
 			<command>tld</command>
 			<arg choice="opt"><option>-ml</option></arg>
 
-			<group choice="opt">
-				<arg choice="plain"><option>-o</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--output-file</option> <replaceable>FILE</replaceable></arg>
-			</group>
+			<synopfragmentref choice="opt" linkend="common-options">common-options</synopfragmentref>
+			<synopfragmentref choice="opt" linkend="tdf-options">tdf-options</synopfragmentref>
+
+			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-d</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--debug-file</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>-o</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain"><option>--output-file</option> <replaceable>file</replaceable></arg>
 			</group>
 
 			<group choice="opt">
@@ -97,74 +97,52 @@
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-l</option><replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--library</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>-l</option><replaceable>file</replaceable></arg>
+				<arg choice="plain"><option>--library</option> <replaceable>file</replaceable></arg>
 			</group>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-L</option><replaceable>DIRECTORY</replaceable></arg>
-				<arg choice="plain"><option>--path</option> <replaceable>DIRECTORY</replaceable></arg>
+				<arg choice="plain"><option>-L</option><replaceable>dir</replaceable></arg>
+				<arg choice="plain"><option>--path</option> <replaceable>dir</replaceable></arg>
 			</group>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-h</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
-				<arg choice="plain"><option>--hide</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+				<arg choice="plain"><option>-h</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
+				<arg choice="plain"><option>--hide</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
 			</group>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-H</option> <replaceable>SHAPE</replaceable></arg>
-				<arg choice="plain"><option>--hide-defined</option> <replaceable>SHAPE</replaceable></arg>
+				<arg choice="plain"><option>-H</option> <replaceable>shape</replaceable></arg>
+				<arg choice="plain"><option>--hide-defined</option> <replaceable>shape</replaceable></arg>
 			</group>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-k</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
-				<arg choice="plain"><option>--keep</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+				<arg choice="plain"><option>-k</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
+				<arg choice="plain"><option>--keep</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
 			</group>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-K</option> <replaceable>SHAPE</replaceable></arg>
-				<arg choice="plain"><option>--keep-all</option> <replaceable>SHAPE</replaceable></arg>
+				<arg choice="plain"><option>-K</option> <replaceable>shape</replaceable></arg>
+				<arg choice="plain"><option>--keep-all</option> <replaceable>shape</replaceable></arg>
 			</group>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-r</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></arg>
-				<arg choice="plain"><option>--rename</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></arg>
+				<arg choice="plain"><option>-r</option> <replaceable>shape</replaceable> <replaceable>from</replaceable> <replaceable>to</replaceable></arg>
+				<arg choice="plain"><option>--rename</option> <replaceable>shape</replaceable> <replaceable>from</replaceable> <replaceable>to</replaceable></arg>
 			</group>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-R</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--rename-file</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>-R</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain"><option>--rename-file</option> <replaceable>file</replaceable></arg>
 			</group>
 
 			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
-				<arg choice="plain"><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-S</option> <replaceable>SHAPE</replaceable></arg>
-				<arg choice="plain"><option>--suppress-all</option> <replaceable>SHAPE</replaceable></arg>
-			</group>
-
-			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-M</option></arg>
-				<arg choice="plain"><option>--suppress-mult</option></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-u</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--unit-file</option> <replaceable>FILE</replaceable></arg>
-			</group>
 
 			<group choice="opt">
 				<arg choice="plain"><option>-w</option></arg>
@@ -180,43 +158,19 @@
 			<command>tld</command>
 			<arg choice="plain"><option>-mc</option></arg>
 
-			<group choice="opt">
-				<arg choice="plain"><option>-o</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--output-file</option> <replaceable>FILE</replaceable></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-d</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--debug-file</option> <replaceable>FILE</replaceable></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-i</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--include-library</option> <replaceable>FILE</replaceable></arg>
-			</group>
+			<synopfragmentref choice="opt" linkend="common-options">common-options</synopfragmentref>
+			<synopfragmentref choice="opt" linkend="tdf-options">tdf-options</synopfragmentref>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
-				<arg choice="plain"><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></arg>
+				<arg choice="plain"><option>-o</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain"><option>--output-file</option> <replaceable>file</replaceable></arg>
 			</group>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-S</option> <replaceable>SHAPE</replaceable></arg>
-				<arg choice="plain"><option>--suppress-all</option> <replaceable>SHAPE</replaceable></arg>
-			</group>
-
-			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-M</option></arg>
-				<arg choice="plain"><option>--suppress-mult</option></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-u</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--unit-file</option> <replaceable>FILE</replaceable></arg>
+				<arg choice="plain"><option>-i</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain"><option>--include-library</option> <replaceable>file</replaceable></arg>
 			</group>
 
 			<sbr/>
@@ -228,10 +182,9 @@
 			<command>tld</command>
 			<arg choice="plain"><option>-mt</option></arg>
 
-			<group choice="opt">
-				<arg choice="plain"><option>-d</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--debug-file</option> <replaceable>FILE</replaceable></arg>
-			</group>
+			<synopfragmentref choice="opt" linkend="common-options">common-options</synopfragmentref>
+
+			<sbr/>
 
 			<group choice="opt">
 				<arg choice="plain"><option>-i</option></arg>
@@ -252,10 +205,9 @@
 			<command>tld</command>
 			<arg choice="plain"><option>-mx</option></arg>
 
-			<group choice="opt">
-				<arg choice="plain"><option>-d</option> <replaceable>FILE</replaceable></arg>
-				<arg choice="plain"><option>--debug-file</option> <replaceable>FILE</replaceable></arg>
-			</group>
+			<synopfragmentref choice="opt" linkend="common-options">common-options</synopfragmentref>
+
+			<sbr/>
 
 			<group choice="opt">
 				<arg choice="plain"><option>-a</option></arg>
@@ -286,6 +238,7 @@
 
 		<cmdsynopsis>
 			<command>tld</command>
+
 			<group choice="opt">
 				<arg choice="plain"><option>-ml</option></arg>
 				<arg choice="plain"><option>-mc</option></arg>
@@ -303,6 +256,38 @@
 				</group>
 			</group>
 		</cmdsynopsis>
+
+		<synopfragment id="common-options">
+			<group choice="opt">
+				<arg choice="plain"><option>-d</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain"><option>--debug-file</option> <replaceable>file</replaceable></arg>
+			</group>
+		</synopfragment>
+
+		<synopfragment id="tdf-options">
+			<group choice="opt">
+				<arg choice="plain"><option>-s</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
+				<arg choice="plain"><option>--suppress</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-S</option> <replaceable>shape</replaceable></arg>
+				<arg choice="plain"><option>--suppress-all</option> <replaceable>shape</replaceable></arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-M</option></arg>
+				<arg choice="plain"><option>--suppress-mult</option></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-u</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain"><option>--unit-file</option> <replaceable>file</replaceable></arg>
+			</group>
+
+		</synopfragment>
 	</refsynopsisdiv>
 
 	<refsection id='description'>
@@ -310,12 +295,40 @@
 
 		<para>The <command>tld</command> command is used to create and
 			manipulate TDF libraries, and to link together TDF capsules.
-			It has four modes, selected by one of the
-			<option>-ml</option> (link TDF capsules),
-			<option>-mc</option> (create TDF library),
-			<option>-mt</option> (list TDF library contents) or
-			<option>-mx</option> (extract capsules from TDF library) switches.
-			If provided, the switch must be the first on the command line.
+			It has four modes:</para>
+
+			<table>
+				<col align="center"/>
+				<col align="left"/>
+
+				<thead>
+					<tr>
+						<th>Option</th>
+						<th>Mode</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><option>-ml</option></td>
+						<td>Link TDF capsules</td>
+					</tr>
+					<tr>
+						<td><option>-mc</option></td>
+						<td>Create TDF library</td>
+					</tr>
+					<tr>
+						<td><option>-mt</option></td>
+						<td>List TDF library contents</td>
+					</tr>
+					<tr>
+						<td><option>-mx</option></td>
+						<td>extract capsules from TDF library</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<para>If provided, the switch must be the first on the command line.
 			If one is not provided, the <option>-ml</option> switch is
 			assumed.</para>
 
@@ -478,60 +491,60 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-d</option> <replaceable>FILE</replaceable></term>
-				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-d</option> <replaceable>file</replaceable></term>
+				<term><option>--debug-file</option> <replaceable>file</replaceable></term>
 
 				<listitem>Produce a diagnostic trace of the linking process in
-					<emphasis>FILE</emphasis>.</listitem>
+					<replaceable>file</replaceable>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-h</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
-				<term><option>--hide</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>-h</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
+				<term><option>--hide</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
 
-				<listitem>Cause the external <emphasis>SHAPE</emphasis> name
-					<emphasis>NAME</emphasis> to be hidden.
+				<listitem>Cause the external <replaceable>shape</replaceable> name
+					<replaceable>name</replaceable> to be hidden.
 					An error is reported if the name is not defined.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-H</option> <replaceable>SHAPE</replaceable></term>
-				<term><option>--hide-defined</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>-H</option> <replaceable>shape</replaceable></term>
+				<term><option>--hide-defined</option> <replaceable>shape</replaceable></term>
 
-				<listitem>Cause the all external <emphasis>SHAPE</emphasis>
+				<listitem>Cause the all external <replaceable>shape</replaceable>
 					names that are defined to be hidden.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-k</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
-				<term><option>--keep</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>-k</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
+				<term><option>--keep</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
 
-				<listitem>Cause the external <emphasis>SHAPE</emphasis> name
-					<emphasis>NAME</emphasis> to be kept.</listitem>
+				<listitem>Cause the external <replaceable>shape</replaceable> name
+					<replaceable>name</replaceable> to be kept.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-K</option> <replaceable>SHAPE</replaceable></term>
-				<term><option>--keep-all</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>-K</option> <replaceable>shape</replaceable></term>
+				<term><option>--keep-all</option> <replaceable>shape</replaceable></term>
 
-				<listitem>Cause the all external <emphasis>SHAPE</emphasis>
+				<listitem>Cause the all external <replaceable>shape</replaceable>
 					names to be kept.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-l</option><replaceable>FILE</replaceable></term>
-				<term><option>--library</option> <replaceable>FILE</replaceable></term>
+				<term><option>-l</option><replaceable>file</replaceable></term>
+				<term><option>--library</option> <replaceable>file</replaceable></term>
 
 				<listitem>Use the file <filename>FILE</filename> as a TDF library.
 					If the file name contains a '/', then it is used as specified;
 					if not, the library search path is searched for a file named
-					'<emphasis>FILE</emphasis>.tl'.
+					'<replaceable>file</replaceable>.tl'.
 					Duplicate entries for the same library are ignored.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-o</option> <replaceable>FILE</replaceable></term>
-				<term><option>--output-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-o</option> <replaceable>file</replaceable></term>
+				<term><option>--output-file</option> <replaceable>file</replaceable></term>
 
 				<listitem>Write the output capsule to the file <filename>FILE</filename>.
 					If this switch is not specified, then the output is written
@@ -539,43 +552,43 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-L</option><replaceable>DIRECTORY</replaceable></term>
-				<term><option>--path</option> <replaceable>DIRECTORY</replaceable></term>
+				<term><option>-L</option><replaceable>dir</replaceable></term>
+				<term><option>--path</option> <replaceable>dir</replaceable></term>
 
-				<listitem>Append the directory <emphasis>DIRECTORY</emphasis> to
+				<listitem>Append the directory <replaceable>dir</replaceable> to
 					the library search path.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-r</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></term>
-				<term><option>--rename</option> <replaceable>SHAPE</replaceable> <emphasis>FROM</emphasis> <emphasis>TO</emphasis></term>
+				<term><option>-r</option> <replaceable>shape</replaceable> <replaceable>from</replaceable> <replaceable>to</replaceable></term>
+				<term><option>--rename</option> <replaceable>shape</replaceable> <replaceable>from</replaceable> <replaceable>to</replaceable></term>
 
-				<listitem>Rename the external <emphasis>SHAPE</emphasis> name
-					<emphasis>FROM</emphasis> to <emphasis>TO</emphasis>.</listitem>
+				<listitem>Rename the external <replaceable>shape</replaceable> name
+					<replaceable>from</replaceable> to <replaceable>to</replaceable>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-R</option> <replaceable>FILE</replaceable></term>
-				<term><option>--rename-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-R</option> <replaceable>file</replaceable></term>
+				<term><option>--rename-file</option> <replaceable>file</replaceable></term>
 
 				<listitem>Read the contents of the file <filename>FILE</filename> as a series of renaming
 					specifications.  The format of the file is described above.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
-				<term><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>-s</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
+				<term><option>--suppress</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
 
 				<listitem>Do not try to find a definition for the external
-					<emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</listitem>
+					<replaceable>shape</replaceable> name <replaceable>name</replaceable>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-S</option> <replaceable>SHAPE</replaceable></term>
-				<term><option>--suppress-all</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>-S</option> <replaceable>shape</replaceable></term>
+				<term><option>--suppress-all</option> <replaceable>shape</replaceable></term>
 
 				<listitem>Do not try to find a definition for any external
-					<emphasis>SHAPE</emphasis> name.</listitem>
+					<replaceable>shape</replaceable> name.</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -587,10 +600,10 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-u</option> <replaceable>FILE</replaceable></term>
-				<term><option>--unit-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-u</option> <replaceable>file</replaceable></term>
+				<term><option>--unit-file</option> <replaceable>file</replaceable></term>
 
-				<listitem>Parse <emphasis>FILE</emphasis> to get a new unit set name list.
+				<listitem>Parse <replaceable>file</replaceable> to get a new unit set name list.
 					By default, all of the standard (as specified in the version 4.0 TDF
 					specification) unit set names are known.</listitem>
 			</varlistentry>
@@ -622,27 +635,27 @@
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-d</option> <replaceable>FILE</replaceable></term>
-				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-d</option> <replaceable>file</replaceable></term>
+				<term><option>--debug-file</option> <replaceable>file</replaceable></term>
 
 				<listitem>Produce a diagnostic trace of the library construction
-					process in <emphasis>FILE</emphasis>.</listitem>
+					process in <replaceable>file</replaceable>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-i</option> <replaceable>FILE</replaceable></term>
-				<term><option>--include-library</option> <replaceable>FILE</replaceable></term>
+				<term><option>-i</option> <replaceable>file</replaceable></term>
+				<term><option>--include-library</option> <replaceable>file</replaceable></term>
 
 				<listitem>Include all of the capsules in the TDF library
-					<emphasis>FILE</emphasis> in the library being constructed.
+					<replaceable>file</replaceable> in the library being constructed.
 					The library name should be a proper file name, not a library
 					abbreviation like the <option>--library</option> switch used
 					by the linking mode.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-o</option> <replaceable>FILE</replaceable></term>
-				<term><option>--output-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-o</option> <replaceable>file</replaceable></term>
+				<term><option>--output-file</option> <replaceable>file</replaceable></term>
 
 				<listitem>Write the output library to the file
 					<filename>FILE</filename>. If this switch is not specified,
@@ -651,19 +664,19 @@
 
 			<!-- TODO: use XML entities for these common replaceables -->
 			<varlistentry>
-				<term><option>-s</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
-				<term><option>--suppress</option> <replaceable>SHAPE</replaceable> <emphasis>NAME</emphasis></term>
+				<term><option>-s</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
+				<term><option>--suppress</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
 
 				<listitem>Do not try to find a definition for the external
-					<emphasis>SHAPE</emphasis> name <emphasis>NAME</emphasis>.</listitem>
+					<replaceable>shape</replaceable> name <replaceable>name</replaceable>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-S</option> <replaceable>SHAPE</replaceable></term>
-				<term><option>--suppress-all</option> <replaceable>SHAPE</replaceable></term>
+				<term><option>-S</option> <replaceable>shape</replaceable></term>
+				<term><option>--suppress-all</option> <replaceable>shape</replaceable></term>
 
 				<listitem>Do not try to find a definition for any external
-					<emphasis>SHAPE</emphasis> name.</listitem>
+					<replaceable>shape</replaceable> name.</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -675,10 +688,10 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-u</option> <replaceable>FILE</replaceable></term>
-				<term><option>--unit-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-u</option> <replaceable>file</replaceable></term>
+				<term><option>--unit-file</option> <replaceable>file</replaceable></term>
 
-				<listitem>Parse <emphasis>FILE</emphasis> to get a new unit
+				<listitem>Parse <replaceable>file</replaceable> to get a new unit
 					set name list.  By default, all of the standard (as
 					specified in the version 4.0 TDF specification) unit set
 					names are known.</listitem>
@@ -699,11 +712,11 @@
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-d</option> <replaceable>FILE</replaceable></term>
-				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-d</option> <replaceable>file</replaceable></term>
+				<term><option>--debug-file</option> <replaceable>file</replaceable></term>
 
 				<listitem>Produce a diagnostic trace of the library contents
-					process in <emphasis>FILE</emphasis>.</listitem>
+					process in <replaceable>file</replaceable>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -772,11 +785,11 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-d</option> <replaceable>FILE</replaceable></term>
-				<term><option>--debug-file</option> <replaceable>FILE</replaceable></term>
+				<term><option>-d</option> <replaceable>file</replaceable></term>
+				<term><option>--debug-file</option> <replaceable>file</replaceable></term>
 
 				<listitem>Produce a diagnostic trace of the library
-					extraction process in <emphasis>FILE</emphasis>.</listitem>
+					extraction process in <replaceable>file</replaceable>.</listitem>
 			</varlistentry>
 
 			<varlistentry>

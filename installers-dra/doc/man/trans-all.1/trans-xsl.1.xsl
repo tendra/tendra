@@ -24,29 +24,25 @@
 
 	<xsl:template name="synopsis">
 		<xsl:param name="trans"/>
+		<xsl:param name="options" select="/.."/>
+		<xsl:param name="output">
+			<arg choice='plain'><replaceable>output-file</replaceable></arg>
+		</xsl:param>
+
+		<xsl:variable name="spaces" select="'         '"/>
 
 		<cmdsynopsis>
 			<command>
 				<xsl:value-of select="$trans"/>
+				<xsl:value-of select="substring(translate($spaces, ' ', '&#xA0;'), string-length($trans))"/>
 			</command>
- 			<arg choice='opt'><replaceable>options</replaceable></arg>
-   			<arg choice='plain'><replaceable>input-file</replaceable></arg>
+ 			<synopfragmentref choice="opt" linkend="options">options</synopfragmentref>
 
-			<xsl:choose>
-				<xsl:when test="$trans = 'alphatrans'">
-					<arg choice='plain'><replaceable>binary-assembler-file</replaceable></arg>
-					<arg choice='plain'><replaceable>symbol-table-file</replaceable></arg>
-					<arg choice='opt'><replaceable>symbolic-assembler-file</replaceable></arg>
-				</xsl:when>
-				<xsl:when test="$trans = 'mipstrans'">
-					<arg choice='plain'><replaceable>op.G</replaceable></arg>
-					<arg choice='plain'><replaceable>op.H</replaceable></arg>
-					<arg choice='opt'><replaceable>op.s</replaceable></arg>
-				</xsl:when>
-				<xsl:otherwise>
-					<arg choice='plain'><replaceable>output-file</replaceable></arg>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:copy-of select="$options"/>
+
+   			<arg choice="plain"><replaceable>input-file</replaceable></arg>
+
+			<xsl:copy-of select="$output"/>
 		</cmdsynopsis>
 	</xsl:template>
 
@@ -152,24 +148,76 @@
 					<xsl:otherwise>
 						<xsl:call-template name="synopsis">
 							<xsl:with-param name="trans" select="'trans386'"/>
+							<xsl:with-param name="options">
+								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+								<arg choice="opt"><option>-a</option></arg>
+								<arg choice="opt"><option>-h</option></arg>
+								<arg choice="opt"><option>-k</option><replaceable>switch</replaceable></arg>
+							</xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
 							<xsl:with-param name="trans" select="'alphatrans'"/>
+							<xsl:with-param name="options">
+								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+								<arg choice="opt"><option>-S</option></arg>
+							</xsl:with-param>
+							<xsl:with-param name="output">
+								<arg choice='plain'><replaceable>binary-assembler-file</replaceable></arg>
+								<arg choice='plain'><replaceable>symbol-table-file</replaceable></arg>
+								<sbr/>
+								<arg choice='opt'><replaceable>symbolic-assembler-file</replaceable></arg>
+							</xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
 							<xsl:with-param name="trans" select="'hppatrans'"/>
+							<xsl:with-param name="options">
+								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+								<arg choice="opt"><option>-h</option></arg>
+							</xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
 							<xsl:with-param name="trans" select="'mipstrans'"/>
+							<xsl:with-param name="options">
+								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+								<arg choice="opt"><option>-S</option></arg>
+							</xsl:with-param>
+							<xsl:with-param name="output">
+								<arg choice='plain'><replaceable>op.G</replaceable></arg>
+								<arg choice='plain'><replaceable>op.H</replaceable></arg>
+								<arg choice='opt'><replaceable>op.s</replaceable></arg>
+							</xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
 							<xsl:with-param name="trans" select="'powertrans'"/>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
 							<xsl:with-param name="trans" select="'sparctrans'"/>
+							<xsl:with-param name="options">
+								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+							</xsl:with-param>
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
+
+				<synopfragment id="options">
+					<arg choice="opt"><option>-A</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-C</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-F</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-I</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-K</option><replaceable>str</replaceable></arg>
+					<arg choice="opt"><option>-M</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-R</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-U</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-X</option></arg>
+					<arg choice="opt"><option>-B</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-E</option></arg>
+					<arg choice="opt"><option>-H</option></arg>
+					<arg choice="opt"><option>-P</option></arg>
+					<arg choice="opt"><option>-Q</option></arg>
+					<arg choice="opt"><option>-V</option></arg>
+					<arg choice="opt"><option>-W</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-Z</option></arg>
+				</synopfragment>
 			</refsynopsisdiv>
 
 			<refsection>
@@ -520,7 +568,6 @@ TODO: now go through and find undocumented options...
 										and <command>sparctrans</command>, this
 										option determines whether the "for all"
 										optimisation should be applied.</para>
-									</para>
 								</xsl:when>
 
 								<xsl:when test="$trans = 'hppatrans'
