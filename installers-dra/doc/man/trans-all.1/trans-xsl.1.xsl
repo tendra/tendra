@@ -6,6 +6,7 @@
 
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
 	xmlns="">
 
 	<!--
@@ -22,23 +23,86 @@
 
 	<xsl:param name="trans" select="'all'"/>
 
-	<xsl:template name="synopsis">
-		<xsl:param name="trans"/>
-		<xsl:param name="options" select="/.."/>
-		<xsl:param name="output">
-			<arg choice='plain'><replaceable>output-file</replaceable></arg>
-		</xsl:param>
+	<xsl:template name="pad-command">
+		<xsl:param name="command" select="''"/>
 
-		<xsl:variable name="spaces" select="'         '"/>
+		<xsl:variable name="spaces">
+			<xsl:if test="$trans = 'all'">
+				<xsl:value-of select="'         '"/>
+			</xsl:if>
+		</xsl:variable>
+
+		<command>
+			<xsl:value-of select="$command"/>
+			<xsl:value-of select="substring(translate($spaces, ' ', '&#xA0;'), string-length($command))"/>
+		</command>
+	</xsl:template>
+
+	<xsl:template name="synopsis">
+		<xsl:param name="command"/>
+
+		<xsl:variable name="options">
+			<xsl:choose>
+				<xsl:when test="$command = 'trans386'">
+					<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-a</option></arg>
+					<arg choice="opt"><option>-h</option></arg>
+					<arg choice="opt"><option>-k</option><replaceable>switch</replaceable></arg>
+				</xsl:when>
+				<xsl:when test="$command = 'alphatrans'">
+					<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-S</option></arg>
+				</xsl:when>
+				<xsl:when test="$command = 'hppatrans'">
+					<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-h</option></arg>
+				</xsl:when>
+				<xsl:when test="$command = 'mipstrans'">
+					<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+					<arg choice="opt"><option>-S</option></arg>
+				</xsl:when>
+				<xsl:when test="$command = 'sparctrans'">
+					<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable name="output">
+			<xsl:choose>
+				<xsl:when test="$command = 'alphatrans'">
+					<arg choice='plain'><replaceable>binary-assembler-file</replaceable></arg>
+					<arg choice='plain'><replaceable>symbol-table-file</replaceable></arg>
+					<arg choice='opt'><replaceable>symbolic-assembler-file</replaceable></arg>
+				</xsl:when>
+				<xsl:when test="$command = 'mipstrans'">
+					<arg choice='plain'><replaceable>op.G</replaceable></arg>
+					<arg choice='plain'><replaceable>op.H</replaceable></arg>
+					<arg choice='opt'><replaceable>op.s</replaceable></arg>
+				</xsl:when>
+				<xsl:otherwise>
+					<arg choice='plain'><replaceable>output-file</replaceable></arg>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 
 		<cmdsynopsis>
-			<command>
-				<xsl:value-of select="$trans"/>
-				<xsl:value-of select="substring(translate($spaces, ' ', '&#xA0;'), string-length($trans))"/>
-			</command>
- 			<synopfragmentref choice="opt" linkend="options">options</synopfragmentref>
+			<xsl:call-template name="pad-command">
+				<xsl:with-param name="command" select="$command"/>
+			</xsl:call-template>
 
-			<xsl:copy-of select="$options"/>
+			<xsl:if test="$trans != 'all'">
+				<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+			</xsl:if>
+
+			<xsl:if test="$options != ''">
+				<xsl:copy-of select="$options"/>
+
+				<sbr/>
+			</xsl:if>
+
+			<xsl:if test="$trans != 'all' and $options = ''">
+				<sbr/>
+			</xsl:if>
 
    			<arg choice="plain"><replaceable>input-file</replaceable></arg>
 
@@ -142,62 +206,42 @@
 				<xsl:choose>
 					<xsl:when test="$trans != 'all'">
 						<xsl:call-template name="synopsis">
-							<xsl:with-param name="trans" select="$trans"/>
+							<xsl:with-param name="command" select="$trans"/>
 						</xsl:call-template>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:call-template name="synopsis">
-							<xsl:with-param name="trans" select="'trans386'"/>
-							<xsl:with-param name="options">
-								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
-								<arg choice="opt"><option>-a</option></arg>
-								<arg choice="opt"><option>-h</option></arg>
-								<arg choice="opt"><option>-k</option><replaceable>switch</replaceable></arg>
-							</xsl:with-param>
+							<xsl:with-param name="command" select="'trans386'"/>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
-							<xsl:with-param name="trans" select="'alphatrans'"/>
-							<xsl:with-param name="options">
-								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
-								<arg choice="opt"><option>-S</option></arg>
-							</xsl:with-param>
-							<xsl:with-param name="output">
-								<arg choice='plain'><replaceable>binary-assembler-file</replaceable></arg>
-								<arg choice='plain'><replaceable>symbol-table-file</replaceable></arg>
-								<sbr/>
-								<arg choice='opt'><replaceable>symbolic-assembler-file</replaceable></arg>
-							</xsl:with-param>
+							<xsl:with-param name="command" select="'alphatrans'"/>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
-							<xsl:with-param name="trans" select="'hppatrans'"/>
-							<xsl:with-param name="options">
-								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
-								<arg choice="opt"><option>-h</option></arg>
-							</xsl:with-param>
+							<xsl:with-param name="command" select="'hppatrans'"/>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
-							<xsl:with-param name="trans" select="'mipstrans'"/>
-							<xsl:with-param name="options">
-								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
-								<arg choice="opt"><option>-S</option></arg>
-							</xsl:with-param>
-							<xsl:with-param name="output">
-								<arg choice='plain'><replaceable>op.G</replaceable></arg>
-								<arg choice='plain'><replaceable>op.H</replaceable></arg>
-								<arg choice='opt'><replaceable>op.s</replaceable></arg>
-							</xsl:with-param>
+							<xsl:with-param name="command" select="'mipstrans'"/>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
-							<xsl:with-param name="trans" select="'powertrans'"/>
+							<xsl:with-param name="command" select="'powertrans'"/>
 						</xsl:call-template>
 						<xsl:call-template name="synopsis">
-							<xsl:with-param name="trans" select="'sparctrans'"/>
-							<xsl:with-param name="options">
-								<arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg>
-							</xsl:with-param>
+							<xsl:with-param name="command" select="'sparctrans'"/>
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
+
+				<xsl:if test="$trans = 'all'">
+					<para>Most options are common to all translators.
+						For brevity, these are not repeated above:</para>
+
+					<cmdsynopsis>
+						<xsl:call-template name="pad-command"/>
+
+						<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+					</cmdsynopsis>
+				</xsl:if>
+
 
 				<synopfragment id="options">
 					<arg choice="opt"><option>-A</option><replaceable>switch</replaceable></arg>
@@ -209,6 +253,9 @@
 					<arg choice="opt"><option>-R</option><replaceable>switch</replaceable></arg>
 					<arg choice="opt"><option>-U</option><replaceable>switch</replaceable></arg>
 					<arg choice="opt"><option>-X</option></arg>
+
+					<sbr/>
+
 					<arg choice="opt"><option>-B</option><replaceable>switch</replaceable></arg>
 					<arg choice="opt"><option>-E</option></arg>
 					<arg choice="opt"><option>-H</option></arg>

@@ -6,7 +6,9 @@
 
 <!-- lifted from troff+man by doclifter, additional editing by hand -->
 <!-- $Id -->
-<refentry id='tnc1'>
+<refentry id='tnc1'
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -79,11 +81,6 @@
 			<command>tnc</command>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-c</option></arg>
-				<arg choice="plain"><option>-cv</option></arg>
-				<arg choice="plain"><option>-check</option></arg>
-			</group>
-			<group choice="opt">
 				<arg choice="plain"><option>-r</option></arg>
 				<arg choice="plain"><option>-read</option></arg>
 				<arg choice="plain"><option>-d</option></arg>
@@ -95,32 +92,29 @@
 				<arg choice="plain"><option>-e</option></arg>
 				<arg choice="plain"><option>-encode</option></arg>
 			</group>
-			<arg choice="opt"><option>-eval</option></arg>
-			<arg choice="opt"><option>-expand</option></arg>
+			<arg choice="opt"><option>-I</option><replaceable>dir</replaceable></arg>
 
 			<sbr/>
 
-			<group choice="opt">
-				<arg choice="plain"><option>-f</option></arg>
-				<arg choice="plain"><option>-func</option></arg>
-			</group>
-			<arg choice="opt"><option>-I</option><replaceable>dir</replaceable></arg>
-			<group choice="opt">
-				<arg choice="plain"><option>-l</option></arg>
-				<arg choice="plain"><option>-lib</option></arg>
-			</group>
-			<arg choice="opt"><option>-L</option><replaceable>prefix</replaceable></arg>
-			<arg choice="opt"><option>-o</option>&nbsp;<replaceable>output-file</replaceable></arg>
-			<group choice="opt">
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+
+			<sbr/>
+
+			<arg choice="plain"><replaceable>input-file</replaceable></arg>
+			<arg choice="opt"><replaceable>output-file</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tnc</command>
+
+			<group choice="req">
 				<arg choice="plain"><option>-p</option></arg>
 				<arg choice="plain"><option>-print</option></arg>
 			</group>
-			<arg choice="opt"><option>-q</option></arg>
-			<group choice="opt">
-				<arg choice="plain"><option>-t</option></arg>
-				<arg choice="plain"><option>-tsimp</option></arg>
-			</group>
-			<arg choice="opt"><option>-V</option></arg>
+
+			<sbr/>
+
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
 
 			<sbr/>
 
@@ -136,6 +130,35 @@
 				<arg choice="plain"><option>-version</option></arg>
 			</group>
 		</cmdsynopsis>
+
+		<synopfragment id="options">
+			<group choice="opt">
+				<arg choice="plain"><option>-c</option></arg>
+				<arg choice="plain"><option>-cv</option></arg>
+				<arg choice="plain"><option>-check</option></arg>
+			</group>
+			<arg choice="opt"><option>-eval</option></arg>
+			<arg choice="opt"><option>-expand</option></arg>
+			<group choice="opt">
+				<arg choice="plain"><option>-f</option></arg>
+				<arg choice="plain"><option>-func</option></arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain"><option>-l</option></arg>
+				<arg choice="plain"><option>-lib</option></arg>
+			</group>
+			<arg choice="opt"><option>-L</option><replaceable>prefix</replaceable></arg>
+			<arg choice="opt"><option>-o</option>&nbsp;<replaceable>output-file</replaceable></arg>
+			<arg choice="opt"><option>-q</option></arg>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-t</option></arg>
+				<arg choice="plain"><option>-tsimp</option></arg>
+			</group>
+			<arg choice="opt"><option>-V</option></arg>
+		</synopfragment>
 	</refsynopsisdiv>
 
 	<refsection id='description'>
@@ -147,7 +170,7 @@
 			<replaceable>input-file</replaceable> is a file containing TDF text.
 			In the second <replaceable>input-file</replaceable> is a TDF capsule.</para>
 
-		<para>There are also two output mode, <emphasis>encode</emphasis> and
+		<para>There are also two output modes, <emphasis>encode</emphasis> and
 			<emphasis>write</emphasis>.
 			In the first, which is default, a
 			TDF capsule is written to <replaceable>output-file</replaceable>
@@ -183,14 +206,14 @@
 					<td><emphasis>read</emphasis>&nbsp;(default)</td>
 					<td><emphasis>encode</emphasis>&nbsp;(default)</td>
 					<td role="input"><filename>.p</filename></td>
-					<td role="output"><filename>.j</filename>/<filename>.t</filename>&nbsp;(default)</td>
+					<td role="output"><filename>.j</filename>/<filename>.t</filename></td>
 				</tr>
 				<tr>
-					<td><option>-w</option>/<option>-p</option></td>
+					<td><option>-w</option></td>
 					<td><emphasis>read</emphasis>&nbsp;(default)</td>
 					<td><emphasis>write</emphasis></td>
 					<td role="input"><filename>.p</filename></td>
-					<td role="output"><filename>.p</filename>&nbsp;(pretty-printer)</td>
+					<td role="output"><filename>.p</filename></td>
 				</tr>
 				<tr>
 					<td><option>-d</option></td>
@@ -200,10 +223,10 @@
 					<td role="output"><filename>.p</filename></td>
 				</tr>
 				<tr>
-					<td><option>-dw</option></td>
+					<td><option>-dw</option>/<option>-p</option></td>
 					<td><emphasis>decode</emphasis></td>
 					<td><emphasis>write</emphasis></td>
-					<td role="input">c<filename>.j</filename>/<filename>.t</filename></td>
+					<td role="input"><filename>.j</filename>/<filename>.t</filename></td>
 					<td role="output"><filename>.p</filename></td>
 				</tr>
 				<tr>
@@ -217,7 +240,7 @@
 					<td><option>-dwl</option></td>
 					<td><emphasis>decode</emphasis></td>
 					<td><emphasis>write</emphasis></td>
-					<td role="input">c<filename>.tl</filename></td>
+					<td role="input"><filename>.tl</filename></td>
 					<td role="output"><filename>.j</filename>/<filename>.t</filename></td>
 				</tr>
 			</tbody>

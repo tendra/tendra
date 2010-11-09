@@ -6,7 +6,9 @@
 
 <!-- $Id$ -->
 
-<refentry id='tld1xml'>
+<refentry id='tld1xml'
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -79,8 +81,8 @@
 			<command>tld</command>
 			<arg choice="opt"><option>-ml</option></arg>
 
-			<synopfragmentref choice="opt" linkend="common-options">common-options</synopfragmentref>
-			<synopfragmentref choice="opt" linkend="tdf-options">tdf-options</synopfragmentref>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'tdf-options']/*)"/>
 
 			<sbr/>
 
@@ -92,18 +94,6 @@
 			<group choice="opt">
 				<arg choice="plain"><option>-a</option></arg>
 				<arg choice="plain"><option>--all-hide-defined</option></arg>
-			</group>
-
-			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-l</option><replaceable>file</replaceable></arg>
-				<arg choice="plain"><option>--library</option> <replaceable>file</replaceable></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-L</option><replaceable>dir</replaceable></arg>
-				<arg choice="plain"><option>--path</option> <replaceable>dir</replaceable></arg>
 			</group>
 
 			<sbr/>
@@ -149,6 +139,16 @@
 				<arg choice="plain"><option>--warnings</option></arg>
 			</group>
 
+			<group choice="opt">
+				<arg choice="plain"><option>-l</option><replaceable>file</replaceable></arg>
+				<arg choice="plain"><option>--library</option> <replaceable>file</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-L</option><replaceable>dir</replaceable></arg>
+				<arg choice="plain"><option>--path</option> <replaceable>dir</replaceable></arg>
+			</group>
+
 			<sbr/>
 
 			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
@@ -158,8 +158,8 @@
 			<command>tld</command>
 			<arg choice="plain"><option>-mc</option></arg>
 
-			<synopfragmentref choice="opt" linkend="common-options">common-options</synopfragmentref>
-			<synopfragmentref choice="opt" linkend="tdf-options">tdf-options</synopfragmentref>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'tdf-options']/*)"/>
 
 			<sbr/>
 
@@ -182,7 +182,7 @@
 			<command>tld</command>
 			<arg choice="plain"><option>-mt</option></arg>
 
-			<synopfragmentref choice="opt" linkend="common-options">common-options</synopfragmentref>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
 
 			<sbr/>
 
@@ -205,8 +205,7 @@
 			<command>tld</command>
 			<arg choice="plain"><option>-mx</option></arg>
 
-			<synopfragmentref choice="opt" linkend="common-options">common-options</synopfragmentref>
-
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
 			<sbr/>
 
 			<group choice="opt">
@@ -266,18 +265,6 @@
 
 		<synopfragment id="tdf-options">
 			<group choice="opt">
-				<arg choice="plain"><option>-s</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
-				<arg choice="plain"><option>--suppress</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-S</option> <replaceable>shape</replaceable></arg>
-				<arg choice="plain"><option>--suppress-all</option> <replaceable>shape</replaceable></arg>
-			</group>
-
-			<sbr/>
-
-			<group choice="opt">
 				<arg choice="plain"><option>-M</option></arg>
 				<arg choice="plain"><option>--suppress-mult</option></arg>
 			</group>
@@ -287,6 +274,17 @@
 				<arg choice="plain"><option>--unit-file</option> <replaceable>file</replaceable></arg>
 			</group>
 
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-s</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
+				<arg choice="plain"><option>--suppress</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
+			</group>
+
+			<group choice="opt">
+				<arg choice="plain"><option>-S</option> <replaceable>shape</replaceable></arg>
+				<arg choice="plain"><option>--suppress-all</option> <replaceable>shape</replaceable></arg>
+			</group>
 		</synopfragment>
 	</refsynopsisdiv>
 
@@ -303,7 +301,7 @@
 
 				<thead>
 					<tr>
-						<th>Option</th>
+						<th>Switch</th>
 						<th>Mode</th>
 					</tr>
 				</thead>
@@ -311,7 +309,7 @@
 				<tbody>
 					<tr>
 						<td><option>-ml</option></td>
-						<td>Link TDF capsules</td>
+						<td>Link TDF capsules (default)</td>
 					</tr>
 					<tr>
 						<td><option>-mc</option></td>
@@ -323,7 +321,7 @@
 					</tr>
 					<tr>
 						<td><option>-mx</option></td>
-						<td>extract capsules from TDF library</td>
+						<td>Extract capsules from TDF library</td>
 					</tr>
 				</tbody>
 			</table>
@@ -397,7 +395,10 @@
 				<term><option>-?</option></term>
 				<term><option>--help</option></term>
 
-				<listitem>Write an option summary to the standard error.</listitem>
+				<listitem>Write an option summary to the standard error.
+					The exact options written out are specific to the
+					particular mode under which <command>tld</command> is
+					running.</listitem>
 			</varlistentry>
 
 			<varlistentry>

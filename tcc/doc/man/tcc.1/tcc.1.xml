@@ -3,7 +3,8 @@
 	"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
 <!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
 
-<refentry id="tcc1">
+<refentry id="tcc1"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
 
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
@@ -76,71 +77,35 @@
 		<cmdsynopsis>
 			<command>tcc</command>
 
-			<synopfragmentref choice="opt" linkend="tchk-options">tchk-options</synopfragmentref>
-			<synopfragmentref choice="opt" linkend="halt-options">halt-options</synopfragmentref>
-			<synopfragmentref choice="opt" linkend="print-options">print-options</synopfragmentref>
-			<synopfragmentref choice="opt" linkend="dir-options">dir-options</synopfragmentref>
-			<synopfragmentref choice="opt" linkend="code-options">code-options</synopfragmentref>
-
-			<sbr/>
-
-			<arg choice="opt"><option>-B</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-E</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-G</option></arg>
-			<arg choice="opt"><option>-K</option><replaceable>string</replaceable><literal>,...</literal></arg>
-			<arg choice="opt"><option>-M</option></arg>
-			<arg choice="opt"><option>-MA</option></arg>
-			<arg choice="opt"><option>-O</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-P</option><replaceable>letter</replaceable>...</arg>
-			<arg choice="opt"><option>-S</option><replaceable>letter</replaceable><literal>,</literal><replaceable>file</replaceable><literal>,</literal>...</arg>
-
-			<sbr/>
-
-			<arg choice="opt"><option>-S</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-W</option><replaceable>letter</replaceable><literal>,</literal><replaceable>string</replaceable><literal>,</literal>...</arg>
-
-			<arg choice="opt"><option>-W</option><replaceable>letter</replaceable><literal>:</literal><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-X</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-X:</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-Y</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-Z</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-b</option></arg>
-
-			<sbr/>
-
-			<arg choice="opt"><option>-cc</option></arg>
-			<arg choice="opt"><option>-cc_only</option></arg>
 			<group choice="opt">
-				<arg choice="plain"><option>-dn</option></arg>
-				<arg choice="plain"><option>-dy</option></arg>
+				<arg choice="plain"><option>-E</option></arg>
+				<arg choice="plain"><option>-F</option><replaceable>letter</replaceable></arg>
+				<arg choice="plain"><option>-P</option></arg>
+				<arg choice="plain"><option>-S</option></arg>
+				<arg choice="plain"><option>-c</option></arg>
+				<arg choice="plain"><option>-d</option></arg>
+				<arg choice="plain"><option>-disp</option></arg>
+				<arg choice="plain"><option>-disp_t</option></arg>
+				<arg choice="plain"><option>-dry</option></arg>
+				<arg choice="plain"><option>-i</option></arg>
+				<arg choice="plain"><option>-k</option></arg>
+				<arg choice="plain"><option>-prod</option></arg>
 			</group>
-			<arg choice="opt"><option>-do</option><replaceable>letter</replaceable>&nbsp;<replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-g</option></arg>
-			<arg choice="opt"><option>-h</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-j</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-keep_errors</option></arg>
 
 			<sbr/>
 
-			<arg choice="opt"><option>-l</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-make_up_names</option></arg>
-			<arg choice="opt"><option>-nepc</option></arg>
-			<arg choice="opt"><option>-not_ansi</option></arg>
-			<arg choice="opt"><option>-o&nbsp;</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-p</option></arg>
-			<arg choice="opt"><option>-s</option></arg>
-			<arg choice="opt"><option>-s</option><replaceable>letter</replaceable><literal>:</literal><replaceable>suffix</replaceable></arg>
+			<arg choice="plain" rep="repeat"><replaceable>files</replaceable></arg>
+		</cmdsynopsis>
 
-			<sbr/>
+		<cmdsynopsis>
+			<command>tcc</command>
 
-			<arg choice="opt"><option>-special&nbsp;</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-sym</option></arg>
-			<arg choice="opt"><option>-sym:&nbsp;</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-target&nbsp;</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-tidy</option></arg>
-			<arg choice="opt"><option>-u</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-wsl</option></arg>
-			<arg choice="opt"><option>-z</option><replaceable>string</replaceable></arg>
+			<arg choice="plain"><option>-ch</option></arg>
+
+			<arg choice="opt"><option>-api_check</option></arg>
+			<arg choice="opt"><option>-api_check_out&nbsp;</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-im</option></arg>
+			<arg choice="opt"><option>-im0</option></arg>
 
 			<sbr/>
 
@@ -156,33 +121,33 @@
 			</group>
 		</cmdsynopsis>
 
-		<synopfragment id="tchk-options">
-			<arg choice="plain"><option>-ch</option></arg>
+		<para>Most options are common to both <option>-ch</option> and to normal
+			use. For brevity, these are not repeated above:</para>
 
-			<arg choice="opt"><option>-api_check</option></arg>
-			<arg choice="opt"><option>-api_check_out&nbsp;</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-im</option></arg>
-			<arg choice="opt"><option>-im0</option></arg>
-		</synopfragment>
+		<cmdsynopsis>
+			<command>&nbsp;&nbsp;&nbsp;</command>
 
-		<synopfragment id="halt-options">
-			<group choice="req">
-				<arg choice="plain"><option>-E</option></arg>
-				<arg choice="plain"><option>-F</option><replaceable>letter</replaceable></arg>
-				<arg choice="plain"><option>-P</option></arg>
-				<arg choice="plain"><option>-S</option></arg>
-				<arg choice="plain"><option>-c</option></arg>
-				<arg choice="plain"><option>-d</option></arg>
-				<arg choice="plain"><option>-disp</option></arg>
-				<arg choice="plain"><option>-disp_t</option></arg>
-				<arg choice="plain"><option>-dry</option></arg>
-				<arg choice="plain"><option>-i</option></arg>
-				<arg choice="plain"><option>-k</option></arg>
-				<arg choice="plain"><option>-prod</option></arg>
-			</group>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'code-options']/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'print-options']/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'dir-options']/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'misc-options']/*)"/>
+		</cmdsynopsis>
+
+
+		<synopfragment id="code-options">
+			<arg choice="opt"><option>-A</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-C</option></arg>
+			<arg choice="opt"><option>-D</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-U</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-e</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-f</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-startup&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-no_startup_options</option></arg>
 		</synopfragment>
 
 		<synopfragment id="print-options">
+			<sbr/>
+
 			<arg choice="opt"><option>-H</option></arg>
 			<arg choice="opt"><option>-dump</option></arg>
 			<arg choice="opt"><option>-info</option></arg>
@@ -213,22 +178,74 @@
 			<arg choice="opt"><option>-J</option><replaceable>dir</replaceable></arg>
 			<arg choice="opt"><option>-L</option><replaceable>dir</replaceable></arg>
 			<arg choice="opt"><option>-N</option><replaceable>identifier</replaceable><literal>:</literal><replaceable>dir</replaceable></arg>
+
+			<sbr/>
+
 			<arg choice="opt"><option>-temp&nbsp;</option><replaceable>dir</replaceable></arg>
 			<arg choice="opt"><option>-work&nbsp;</option><replaceable>dir</replaceable></arg>
 		</synopfragment>
 
-		<synopfragment id="code-options">
-			<arg choice="opt"><option>-A</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-C</option></arg>
-			<arg choice="opt"><option>-D</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-U</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-e</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-f</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-startup&nbsp;</option><replaceable>string</replaceable></arg>
+		<synopfragment id="misc-options">
+			<arg choice="opt"><option>-B</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-E</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-G</option></arg>
+			<arg choice="opt"><option>-K</option><replaceable>string</replaceable><literal>,...</literal></arg>
+			<arg choice="opt"><option>-M</option></arg>
+			<arg choice="opt"><option>-MA</option></arg>
+			<arg choice="opt"><option>-O</option><replaceable>string</replaceable></arg>
 
 			<sbr/>
 
-			<arg choice="opt"><option>-no_startup_options</option></arg>
+			<arg choice="opt"><option>-P</option><replaceable>letter</replaceable>...</arg>
+			<arg choice="opt"><option>-S</option><replaceable>letter</replaceable><literal>,</literal><replaceable>file</replaceable><literal>,</literal>...</arg>
+			<arg choice="opt"><option>-S</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-W</option><replaceable>letter</replaceable><literal>,</literal><replaceable>string</replaceable><literal>,</literal>...</arg>
+
+			<arg choice="opt"><option>-W</option><replaceable>letter</replaceable><literal>:</literal><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-X</option><replaceable>string</replaceable></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-X:</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-Y</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-Z</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-b</option></arg>
+			<arg choice="opt"><option>-cc</option></arg>
+			<arg choice="opt"><option>-cc_only</option></arg>
+			<group choice="opt">
+				<arg choice="plain"><option>-dn</option></arg>
+				<arg choice="plain"><option>-dy</option></arg>
+			</group>
+			<arg choice="opt"><option>-do</option><replaceable>letter</replaceable>&nbsp;<replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-g</option></arg>
+			<arg choice="opt"><option>-h</option><replaceable>string</replaceable></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-j</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-keep_errors</option></arg>
+			<arg choice="opt"><option>-l</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-make_up_names</option></arg>
+			<arg choice="opt"><option>-nepc</option></arg>
+			<arg choice="opt"><option>-not_ansi</option></arg>
+			<arg choice="opt"><option>-o&nbsp;</option><replaceable>file</replaceable></arg>
+			<arg choice="opt"><option>-p</option></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-s</option></arg>
+			<arg choice="opt"><option>-s</option><replaceable>letter</replaceable><literal>:</literal><replaceable>suffix</replaceable></arg>
+			<arg choice="opt"><option>-special&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-sym</option></arg>
+			<arg choice="opt"><option>-sym:&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-target&nbsp;</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-tidy</option></arg>
+
+			<sbr/>
+
+			<arg choice="opt"><option>-u</option><replaceable>string</replaceable></arg>
+			<arg choice="opt"><option>-wsl</option></arg>
+			<arg choice="opt"><option>-z</option><replaceable>string</replaceable></arg>
 		</synopfragment>
 	</refsynopsisdiv>
 
