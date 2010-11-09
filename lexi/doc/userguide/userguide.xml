@@ -370,41 +370,6 @@ firstly define lexemes
 			<para>TODO see section on performance.</para>
 		</section>
 -->
-
-		<section id="invocation">
-			<title>Invocation</title>
-
-			<para><application>Lexi</application> is invoked with the form:</para>
-
-			<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
-				href="../cmdsynopsis.xml"/>
-
-			<para>The <replaceable>output-file</replaceable> written is
-				either an implementation of the
-				lexical analyser specified, or if <option>-k</option> is
-				given, a set of calls to define the keywords used.</para>
-
-			<para>The <replaceable>input-file</replaceable> is the
-				specification of the lexical analyser to generate.
-				See <xref linkend="specification"/> for details of the
-				format of this file.</para>
-
-			<para>The <option>-l</option> specifies the output language.
-			At the moment, only C90 and C99 are supported. </para>
-
-			<para>The <option>-p</option> parameter specifies a prefix
-				to all the function provided by the API. This defaults to
-				<literal>lexi_</literal>. This prefix is also used for
-			        calling function that must be provided by the user:
-			        i.e. <programlisting language="C">lexi_readchar</programlisting></para>
-
-			<para>The <option>-t</option> parameter specifies a prefix
-				to the identifiers of tokens returned; this defaults to
-				<literal>lex_</literal>.</para>
-
-			<para>For details of the options available, see the
-				<application>Lexi</application> manpage.</para>
-		</section>
 	</chapter>
 
 	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
