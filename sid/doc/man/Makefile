@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-MAN=	sid.1
+SUBDIR+=	sid.1
 
-.include <tendra.doc.mk>
+.include <tendra.subdir.mk>
 

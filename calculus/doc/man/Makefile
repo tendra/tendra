@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-MAN=	calculus.1
+SUBDIR+=	calculus.1
 
-.include <tendra.doc.mk>
+.include <tendra.subdir.mk>
 

@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-MAN=	make_err.1
+SUBDIR+=	make_err.1
 
-.include <tendra.doc.mk>
+.include <tendra.subdir.mk>
 

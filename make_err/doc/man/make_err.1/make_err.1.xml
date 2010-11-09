@@ -61,7 +61,9 @@
 		<cmdsynopsis>
 			<command>make_err</command>
 
-			<arg choice="plain">-v</arg>
+			<group choice="req">
+				<arg choice="plain">-v</arg>
+			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 

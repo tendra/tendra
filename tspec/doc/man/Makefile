@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-MAN=	tspec.1
+SUBDIR+=	tspec.1
 
-.include <tendra.doc.mk>
+.include <tendra.subdir.mk>
 
