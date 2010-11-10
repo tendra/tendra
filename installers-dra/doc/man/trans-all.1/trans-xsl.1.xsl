@@ -231,6 +231,27 @@
 					</xsl:otherwise>
 				</xsl:choose>
 
+				<cmdsynopsis>
+					<xsl:call-template name="pad-command">
+						<xsl:with-param name="command">
+							<xsl:choose>
+								<xsl:when test="$trans = 'all'">
+									<replaceable>
+										<xsl:text>trans</xsl:text>
+									</replaceable>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$trans"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:with-param>
+					</xsl:call-template>
+
+					<group choice="req">
+						<arg choice="plain"><option>-V</option></arg>
+					</group>
+				</cmdsynopsis>
+
 				<xsl:if test="$trans = 'all'">
 					<para>Most options are common to all translators.
 						For brevity, these are not repeated above:</para>
@@ -261,7 +282,6 @@
 					<arg choice="opt"><option>-H</option></arg>
 					<arg choice="opt"><option>-P</option></arg>
 					<arg choice="opt"><option>-Q</option></arg>
-					<arg choice="opt"><option>-V</option></arg>
 					<arg choice="opt"><option>-W</option><replaceable>switch</replaceable></arg>
 					<arg choice="opt"><option>-Z</option></arg>
 				</synopfragment>

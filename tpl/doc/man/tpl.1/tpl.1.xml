@@ -76,10 +76,17 @@
 
 			<arg choice="opt">-V</arg>
 			<arg choice="opt" rep="repeat">-I <replaceable>path</replaceable></arg>
-			<arg choice="opt">-v</arg>
 
 			<arg choice="plain"><replaceable>infile.tpl</replaceable></arg>
 			<arg choice="plain"><replaceable>outfile.j</replaceable></arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tpl</command>
+
+			<group choice="req">
+				<arg choice="plain">-v</arg>
+			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
