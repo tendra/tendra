@@ -32,6 +32,7 @@ VERSION!=	${UNAME} -r
 
 MD_EXECFMT!=                            \
     case "${SYSTEM}" in                 \
+        Darwin)    echo mach;;          \
         DragonFly) echo elf;;           \
         FreeBSD)   echo elf;;           \
         Linux)     echo elf;;           \
@@ -72,20 +73,21 @@ MD_OSFAM!=                              \
         *)         echo unknown;;       \
     esac;
 
-MD_OSVER!=                              \
-    case "${SYSTEM}.${VERSION}" in      \
-        DragonFly.1*) echo DRAGONFLY1;; \
-        FreeBSD.4*)   echo FREEBSD4;;   \
-        FreeBSD.5*)   echo FREEBSD5;;   \
-        FreeBSD.6*)   echo FREEBSD6;;   \
-        Linux.2.4*)   echo LINUX24;;    \
-        Linux.2.6*)   echo LINUX26;;    \
-        NetBSD.4*)    echo NETBSD4;;    \
-        NetBSD.5*)    echo NETBSD5;;    \
-        OpenBSD.3*)   echo OPENBSD3;;   \
-        OpenBSD.4*)   echo OPENBSD4;;   \
-        SunOS.5*)     echo SUNOS5;;     \
-        *)            echo unknown;;    \
+MD_OSVER!=                               \
+    case "${SYSTEM}.${VERSION}" in       \
+        Darwin.10.3.*) echo DARWIN103;;  \
+        DragonFly.1*)  echo DRAGONFLY1;; \
+        FreeBSD.4*)    echo FREEBSD4;;   \
+        FreeBSD.5*)    echo FREEBSD5;;   \
+        FreeBSD.6*)    echo FREEBSD6;;   \
+        Linux.2.4*)    echo LINUX24;;    \
+        Linux.2.6*)    echo LINUX26;;    \
+        NetBSD.4*)     echo NETBSD4;;    \
+        NetBSD.5*)     echo NETBSD5;;    \
+        OpenBSD.3*)    echo OPENBSD3;;   \
+        OpenBSD.4*)    echo OPENBSD4;;   \
+        SunOS.5*)      echo SUNOS5;;     \
+        *)             echo unknown;;    \
     esac;
 
 
