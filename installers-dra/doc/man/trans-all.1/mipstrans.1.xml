@@ -5,10 +5,10 @@
 <refentry xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="" id="trans1"><!--
 				Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
 				All rights reserved.
-
+	
 				Redistribution and use in source and binary forms, with or without
 				modification, are permitted provided that the following conditions are met:
-
+	
 				1. Redistributions of source code must retain the above copyright notice,
 				   this list of conditions and the following disclaimer.
 				2. Redistributions in binary form must reproduce the above copyright notice,
@@ -17,7 +17,7 @@
 				3. Neither the name of The TenDRA Project nor the names of its contributors
 				   may be used to endorse or promote products derived from this software
 				   without specific, prior written permission.
-
+	
 				THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
 				IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
 				THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
@@ -29,100 +29,123 @@
 				WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 				OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 				ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-			--><refmeta><refentrytitle>trans</refentrytitle><manvolnum>1</manvolnum></refmeta><refnamediv id="name"><refname>mipstrans</refname><refpurpose>DRA TDF to MIPS translator</refpurpose></refnamediv><refsynopsisdiv id="synopsis"><cmdsynopsis sepchar=" "><command moreinfo="none">mipstrans</command><xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/><arg choice="opt" rep="norepeat"><option>-D</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-S</option></arg><sbr/><arg choice="plain" rep="norepeat"><replaceable>input-file</replaceable></arg><arg choice="plain" rep="norepeat"><replaceable>op.G</replaceable></arg><arg choice="plain" rep="norepeat"><replaceable>op.H</replaceable></arg><arg choice="opt" rep="norepeat"><replaceable>op.s</replaceable></arg></cmdsynopsis><cmdsynopsis sepchar=" "><command moreinfo="none">mipstrans</command><group choice="req" rep="norepeat"><arg choice="plain" rep="norepeat"><option>-V</option></arg></group></cmdsynopsis><synopfragment id="options"><arg choice="opt" rep="norepeat"><option>-A</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-C</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-F</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-I</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-K</option><replaceable>str</replaceable></arg><arg choice="opt" rep="norepeat"><option>-M</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-R</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-U</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-X</option></arg><sbr/><arg choice="opt" rep="norepeat"><option>-B</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-E</option></arg><arg choice="opt" rep="norepeat"><option>-H</option></arg><arg choice="opt" rep="norepeat"><option>-P</option></arg><arg choice="opt" rep="norepeat"><option>-Q</option></arg><arg choice="opt" rep="norepeat"><option>-W</option><replaceable>switch</replaceable></arg><arg choice="opt" rep="norepeat"><option>-Z</option></arg></synopfragment></refsynopsisdiv><refsection><title>Description</title><para>The code production portion of the TDF compiler is under the
-					control of a TDF translator, which translates a TDF capsule into
-					assembly.</para><para>There are separate TDF translators for each target
-					architecture.</para><para><command moreinfo="none">mipstrans</command> produces MIPS code.
-						There are two versions, one for IRIX, and one for ULTRIX.
-						Both produce .G and .H files required by as1, but may also
-						optionally give .s assembly files using <option>-S</option>.
+			--><!--
+							 Crown Copyright (c) 1997
+				
+				This TenDRA(r) Manual Page is subject to Copyright
+				owned by the United Kingdom Secretary of State for Defence
+				acting through the Defence Evaluation and Research Agency
+				(DERA).	It is made available to Recipients with a
+				royalty\-free licence for its use, reproduction, transfer
+				to other parties and amendment for any purpose not excluding
+				product development provided that any such use et cetera
+				shall be deemed to be acceptance of the following conditions:\-
+				
+						(1) Its Recipients shall ensure that this Notice is
+						reproduced upon any copies or amended versions of it;
+				
+						(2) Any amended version of it shall be clearly marked to
+						show both the nature of and the organisation responsible
+						for the relevant amendment or amendments;
+				
+						(3) Its onward transfer from a recipient to another
+						party shall be deemed to be that party's acceptance of
+						these conditions;
+				
+						(4) DERA gives no warranty or assurance as to its
+						quality or suitability for any purpose and DERA accepts
+						no liability whatsoever in relation to any use to which
+						it may be put.
+			--><refmeta><refentrytitle>mipstrans</refentrytitle><manvolnum>1</manvolnum></refmeta><refnamediv id="name"><refname>mipstrans</refname><refpurpose><acronym role="Defence Research Agency">DRA</acronym> <acronym role="TenDRA Distribution Format">TDF</acronym> to <acronym>MIPS</acronym> translator</refpurpose></refnamediv><refsynopsisdiv id="synopsis"><cmdsynopsis><command>mipstrans</command><xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/><arg choice="opt"><option>-D</option><replaceable>switch</replaceable></arg><arg choice="opt"><option>-S</option></arg><sbr/><arg choice="plain"><replaceable>input-file</replaceable></arg><arg choice="plain"><replaceable>op.G</replaceable></arg><arg choice="plain"><replaceable>op.H</replaceable></arg><arg choice="opt"><replaceable>op.s</replaceable></arg></cmdsynopsis><cmdsynopsis><command>mipstrans</command><group choice="req"><arg choice="plain"><option>-V</option></arg></group></cmdsynopsis><synopfragment id="options"><arg choice="opt"><option>-A</option><replaceable>switch</replaceable></arg><arg choice="opt"><option>-C</option><replaceable>switch</replaceable></arg><arg choice="opt"><option>-F</option><replaceable>switch</replaceable></arg><arg choice="opt"><option>-I</option><replaceable>switch</replaceable></arg><arg choice="opt"><option>-K</option><replaceable>str</replaceable></arg><arg choice="opt"><option>-M</option><replaceable>switch</replaceable></arg><arg choice="opt"><option>-R</option><replaceable>switch</replaceable></arg><arg choice="opt"><option>-U</option><replaceable>switch</replaceable></arg><sbr/><arg choice="opt"><option>-X</option></arg><arg choice="opt"><option>-B</option><replaceable>switch</replaceable></arg><arg choice="opt"><option>-E</option></arg><arg choice="opt"><option>-H</option></arg><arg choice="opt"><option>-P</option></arg><arg choice="opt"><option>-Q</option></arg><arg choice="opt"><option>-W</option><replaceable>switch</replaceable></arg><arg choice="opt"><option>-Z</option></arg></synopfragment></refsynopsisdiv><refsection><title>Description</title><para>The code production portion of the <acronym role="TenDRA Distribution Format">TDF</acronym> compiler is under the
+					control of a <acronym role="TenDRA Distribution Format">TDF</acronym> translator, which translates a <acronym role="TenDRA Distribution Format">TDF</acronym> capsule into
+					assembly.</para><para>There are separate <acronym role="TenDRA Distribution Format">TDF</acronym> translators for each target
+					architecture.</para><para><citerefentry><refentrytitle>mipstrans</refentrytitle><manvolnum>1</manvolnum></citerefentry> produces <acronym>MIPS</acronym> code.
+						There are two versions, one for <acronym>IRIX</acronym>, and one for <acronym>ULTRIX</acronym>.
+						Both produce <filename>.G</filename> and <filename>.H</filename> files required by
+						<command>as1</command>, but may also optionally give
+						<filename>.s</filename> assembly files using <option>-S</option>.
 						Note that full run-time diagnostic information cannot be
-						transmitted through the MIPS assembler, as(1).</para><para>The various different translators are referred to
-					collectively as <command moreinfo="none">trans</command>.</para><para>It is recommended that <command moreinfo="none">trans</command> should not be
-					invoked directly, but via the user interface
-					<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
+						transmitted through the <acronym>MIPS</acronym> assembler, <command>as</command>(1).</para><para>The various different translators are referred to
+					collectively as <command>trans</command>.</para><para>It is recommended that <command>trans</command> should not be
+					invoked directly, but via the user interface <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
 					The file <option>-</option><replaceable>opt</replaceable> can
-					be passed to <command moreinfo="none">trans</command> by passing the option
-					<option>-Wt,-</option><replaceable>opt</replaceable> to
+					be passed to <command>trans</command> by passing the option
+					<option>-W</option><literal>t,-</literal><replaceable>opt</replaceable> to
 					<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para></refsection><refsection><title>Options</title><para>The options denoted by a capital letter are common to
-					the TDF installers for all the architectures, although the
-					defaults vary for each translator.</para><para>Lowercase options are specific to each translator.</para><para><emphasis remap="I">switch</emphasis> stands for either
-					<literal moreinfo="none">0</literal>, to switch an option off,
-					or <literal moreinfo="none">1</literal>, to switch it on.</para></refsection>
+					the <acronym role="TenDRA Distribution Format">TDF</acronym> installers for all the architectures, although the
+					defaults vary for each translator.</para><para>Lowercase options are specific to each translator.</para><para><replaceable>switch</replaceable> stands for either <literal>0</literal>,
+					to switch an option off, or <literal>1</literal>,
+					to switch it on.</para></refsection>
 
 TODO: now go through and find undocumented options...
 
-			<refsection><title>Optimisation-specific common options</title><para>The common options pertaining to optimisation are:</para><variablelist><varlistentry><term><option>-A</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
-								should inline calls to <emphasis remap="I">alloca</emphasis>.</para><para>For mipstrans,
-								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-C</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+			<refsection><title>Optimisation-specific common options</title><para>The common options pertaining to optimisation are:</para><variablelist><varlistentry><term><option>-A</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command>trans</command>
+								should inline calls to <code>alloca</code>.</para><para>For mipstrans,
+								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-C</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command>trans</command>
 								should apply the "constants out of loops"
 								optimisation.</para><para>For mipstrans,
-								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-F</option><replaceable>switch</replaceable></term><listitem><para>For <command moreinfo="none">mipstrans</command>,
+								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-F</option><replaceable>switch</replaceable></term><listitem><para>For <command>mipstrans</command>,
 										this option determines whether the
-										"for all" optimisation should be applied.</para><para>For <command moreinfo="none">mipstrans</command>,
-										this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-I</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+										"for all" optimisation should be applied.</para><para>For <command>mipstrans</command>,
+										this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-I</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command>trans</command>
 								should apply the "inlining" optimisation.</para><para>For mipstrans,
-								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-K</option><replaceable>str</replaceable></term><listitem><para>Causes <command moreinfo="none">trans</command> to optimise its
-								code for a particular processor model, determined by
-								<emphasis remap="I">str</emphasis>.</para><para>For <command moreinfo="none">mipstrans</command>,
+								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-K</option><replaceable>str</replaceable></term><listitem><para>Causes <command>trans</command> to optimise its code for a
+								particular processor model, determined by
+								<replaceable>str</replaceable>.</para><para>For <command>mipstrans</command>,
 										at present there are no valid values for
-										<emphasis remap="I">str</emphasis>.</para></listitem></varlistentry><varlistentry><term><option>-M</option><replaceable>switch</replaceable></term><listitem><para>If this option is on, <command moreinfo="none">trans</command>
-								preserves division by a floating point number rather
-								than replacing it by multiplication by the reciprocal
-								of the number.
-								While the latter produces faster code, it may lead to
-								rounding errors.</para><para>For mipstrans, by default, division by
-								constants is preserved.</para></listitem></varlistentry><varlistentry><term><option>-R</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+										<replaceable>str</replaceable>.</para></listitem></varlistentry><varlistentry><term><option>-M</option><replaceable>switch</replaceable></term><listitem><para>If this option is on, <command>trans</command> preserves
+								division by a floating point number rather
+								than replacing it by multiplication by the
+								reciprocal of the number.
+								While the latter produces faster code, it may
+								lead to rounding errors.</para><para>For mipstrans, by
+								default, division by constants is preserved.</para></listitem></varlistentry><varlistentry><term><option>-R</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command>trans</command>
 								should immediately round every floating point operation
 								to its appropriate range.
 								This produces slower code, but is necessary for strict
-								IEEE conformance.</para><para>For <command moreinfo="none">mipstrans</command>,
-										this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-U</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
+								<acronym role="Institute of Electrical and Electronics Engineers">IEEE</acronym> conformance.</para><para>For <command>mipstrans</command>,
+										this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-U</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command>trans</command>
 								should apply the "loop unrolling" optimisation.</para><para>For mipstrans,
 								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-X</option></term><listitem><para>This option disables all optimisations.
-								All <command moreinfo="none">trans</command>' optimisations
-								are believed to be valid, so that any error in
-								optimisation is a genuine bug.</para><para>Various optimisations are performed by default for
-								mipstrans.</para></listitem></varlistentry></variablelist></refsection><refsection><title>Other common options</title><para>Common options not related to optimisation are:</para><variablelist><varlistentry><term><option>-B</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command moreinfo="none">trans</command>
-								should report floating point
-								constants which exceed their range.</para><para>For mipstrans,
+								All <command>trans</command>' optimisations are believed to be
+								valid, so that any error in optimisation is a
+								genuine bug.</para><para>Various optimisations are performed by default for
+								mipstrans.</para></listitem></varlistentry></variablelist></refsection><refsection><title>Other common options</title><para>Common options not related to optimisation are:</para><variablelist><varlistentry><term><option>-B</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command>trans</command> should
+								report floating point constants which exceed
+								their range.</para><para>For mipstrans,
 								this is done by default.</para><para>If this option is switched off such constants are
-								replaced by infinity.</para></listitem></varlistentry><varlistentry><term><option>-D</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether
-								<command moreinfo="none">trans</command> should produce Position
-								Independent Code (PIC).</para><para>For <command moreinfo="none">mipstrans</command>, this is done
-									by default in the IRIX version and not at all in
-									the ULTRIX version.</para></listitem></varlistentry><varlistentry><term><option>-E</option></term><listitem><para>This option disables <command moreinfo="none">trans</command>'
-								constant overflow checks.</para><para>For mipstrans,
-								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-H</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to output
+								replaced by infinity.</para></listitem></varlistentry><varlistentry><term><option>-D</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command>trans</command> should
+								produce Position Independent Code
+								(<acronym>PIC</acronym>).</para><para>For <citerefentry><refentrytitle>mipstrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>, this is done by default
+									in the <acronym>IRIX</acronym> version and not at all in
+									the <acronym>ULTRIX</acronym> version.</para></listitem></varlistentry><varlistentry><term><option>-E</option></term><listitem><para>This option disables <command>trans</command>' constant
+								overflow checks.</para><para>For mipstrans,
+								this is done by default.</para></listitem></varlistentry><varlistentry><term><option>-H</option></term><listitem><para>This option causes <command>trans</command> to output
 								debugging information in its output file.
-								This will only work if the input TDF capsule contains
-								debugging information.</para><para>For <command moreinfo="none">mipstrans</command> the diagnostic
-									format used is  as used by the native compilers.</para><para>Debugging information is not output by default
-								for mipstrans.</para></listitem></varlistentry><varlistentry><term><option>-P</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to
-								output profiling information suitable for use with
-								<citerefentry><refentrytitle>prof</refentrytitle><manvolnum>1</manvolnum></citerefentry>
-								or a similar tool (see individual manual pages for
-								details).</para><para>On <command moreinfo="none">mipstrans</command>, this option is
-									untested at present, and should not be used.</para><para>Profiling information is not output by default
-								for mipstrans.</para></listitem></varlistentry><varlistentry><term><option>-Q</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to quit
-								before processing its input files.
+								This will only work if the input <acronym role="TenDRA Distribution Format">TDF</acronym> capsule contains
+								debugging information.</para><para>For <citerefentry><refentrytitle>mipstrans</refentrytitle><manvolnum>1</manvolnum></citerefentry> the diagnostic format used is
+									as used by the native compilers.</para><para>Debugging information is not output by default
+								for mipstrans.</para></listitem></varlistentry><varlistentry><term><option>-P</option></term><listitem><para>This option causes <command>trans</command> to output profiling
+								information suitable for use with <command>prof/gprof</command>(1) or a
+								similar tool (see individual manual pages for
+								details).</para><para>On <citerefentry><refentrytitle>mipstrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>, this option is untested
+									at present, and should not be used.</para><para>Profiling information is not output by default
+								for mipstrans.</para></listitem></varlistentry><varlistentry><term><option>-Q</option></term><listitem><para>This option causes <command>trans</command> to quit before
+								processing its input files.
 								This is particularly useful in conjunction with
-								<option>-V</option>.</para><para>For <command moreinfo="none">mipstrans</command>,
-								this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-S</option></term><listitem><para>For <command moreinfo="none">mipstrans</command>, this option will
-									produce assembly code in the optional .s file.</para><para>For <command moreinfo="none">mipstrans</command>,
-											this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-V</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to print
-								its version number and the version of the TDF
+								<option>-V</option>.</para><para>For mipstrans,
+								this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-S</option></term><listitem><para>For <citerefentry><refentrytitle>mipstrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>, this option will produce
+									assembly code in the optional <filename>.s</filename> file.</para><para>For <command>mipstrans</command>,
+											this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-V</option></term><listitem><para>This option causes <command>trans</command> to print its
+								version number and the version of the <acronym role="TenDRA Distribution Format">TDF</acronym>
 								specification it supports.</para><para>For mipstrans,
-								this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-W</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether
-								<command moreinfo="none">trans</command> should make string literals
-								writable.
+								this is not done by default.</para></listitem></varlistentry><varlistentry><term><option>-W</option><replaceable>switch</replaceable></term><listitem><para>This option determines whether <command>trans</command> should
+								make string literals writable.
 								At present the C producer does not make use of this
 								facility.</para><para>For mipstrans,
 								at present all string literals
-								are writable, and this cannot be altered.</para></listitem></varlistentry><varlistentry><term><option>-Z</option></term><listitem><para>This option causes <command moreinfo="none">trans</command> to print
-								the version number of all the TDF capsules
+								are writable, and this cannot be altered.</para></listitem></varlistentry><varlistentry><term><option>-Z</option></term><listitem><para>This option causes <command>trans</command> to print the
+								version number of all the <acronym role="TenDRA Distribution Format">TDF</acronym> capsules
 								it decodes.</para><para>For mipstrans,
 								this is not done by default.</para></listitem></varlistentry></variablelist></refsection><refsection><title>Translator-specific options</title><para>There are no translator-specific options for
-						<command moreinfo="none">mipstrans</command>.</para></refsection><refsection><title>See Also</title><para><citerefentry><refentrytitle>trans-all</refentrytitle><manvolnum>1</manvolnum></citerefentry></para><para><citerefentry><refentrytitle>as</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-					<citerefentry><refentrytitle>prof</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-					<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para></refsection></refentry>
+						<command>mipstrans</command>.</para></refsection><refsection><title>See Also</title><para><citerefentry><refentrytitle>trans-all</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para><para><command>as</command>(1), <command>prof/gprof</command>(1), <citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para></refsection></refentry>

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
-<!-- $Id -->
-<refentry id='tpl1'>
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+	<!ENTITY V.opt "<option>-V</option>">
+	<!ENTITY I.opt "<option>-I&nbsp;path</option>">
+	<!ENTITY v.opt "<option>-v</option>">
+]>
+
+<!-- $Id$ -->
+<refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -65,89 +68,87 @@
 		<refentrytitle>tpl</refentrytitle>
 		<manvolnum>1</manvolnum>
 	</refmeta>
-	<refnamediv id='name'>
+
+	<refnamediv>
 		<refname>tpl</refname>
-		<refpurpose>PL_TDF compiler producing TDF</refpurpose>
+		<refpurpose>&pl_tdf; compiler producing &tdf;</refpurpose>
 	</refnamediv>
 
-	<refsynopsisdiv id='synopsis'>
+	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>tpl</command>
 
-			<arg choice="opt">-V</arg>
-			<arg choice="opt" rep="repeat">-I <replaceable>path</replaceable></arg>
+			<arg choice="opt">&V.opt;</arg>
+			<arg choice="opt" rep="repeat">&I.opt;</arg>
 
-			<arg choice="plain"><replaceable>infile.tpl</replaceable></arg>
-			<arg choice="plain"><replaceable>outfile.j</replaceable></arg>
+			<sbr/>
+
+			<arg choice="plain">&in-file.arg;</arg>
+			<arg choice="plain">&out-file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tpl</command>
 
 			<group choice="req">
-				<arg choice="plain">-v</arg>
+				<arg choice="plain">&v.opt;</arg>
 			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
-	<refsection id='description'>
+	<refsection>
 		<title>Description</title>
 
-		<para>The action of <command>tpl</command> is to compile a
-			PL_TDF text in <emphasis remap='I'>infile.tpl</emphasis>
-			to a <acronym>TDF</acronym> capsule in
-			<emphasis remap='I'>outfile.j</emphasis>. (See
-			<emphasis>PL_TDF Definition</emphasis>). The
-			resulting .j file is suitable for linking and translation
-			by <command>tcc</command>.</para> 
+		<para>The action of &tpl; is to compile a &pl_tdf; text in &in-file.arg;
+			to a &tdf; capsule in &out-file.arg;. (See &pl_tdf.doc;).
+			The resulting &j.ext; file is suitable for linking and translation
+			by &tcc;.</para> 
 	</refsection>
 
-	<refsection id='options'>
+	<refsection>
 		<title>Options</title>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-V</option></term>
+				<term>&V.opt;</term>
 
 				<listitem>This option produces a <quote>pretty print</quote>
-					of the <acronym>TDF</acronym> capsule on the standard 
-					output.</listitem>
+					of the &tdf; capsule on the standard output.</listitem>
   			</varlistentry>
 
 			<varlistentry>
-				<term><option>-I&nbsp;path</option></term>
+				<term>&I.opt;</term>
 
 				<listitem>Gives the search path for any
-					<literal>#include</literal> files in the PL_TDF
+					<literal>#include</literal> files in the &pl_tdf;
 					text.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-v</option></term>
+				<term>&v.opt;</term>
 
-				<listitem>This option causes <command>tpl</command> to print
-					its version number and the version of the TDF
-					specification it supports.</listitem>
+				<listitem>This option causes &tpl; to print its version number
+					and the version of the &tdf; specification it
+					supports.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
 
-	<refsection id='see_also'>
+	<refsection>
 		<title>See Also</title>
 
-		<para><citerefentry>
-			<refentrytitle>tcc</refentrytitle>
-			<manvolnum>1</manvolnum>
-		</citerefentry>.</para>
+		<para>&tcc;.</para>
+
+		<para>&pl_tdf.doc;.</para>
 	</refsection>
 
-	<refsection id="history">
+	<refsection>
 		<title>History</title>
 
-		<para>Historically, the source files to <command>tpl</command> (and
-			indeed <command>tpl</command> itself) were named just
-			<quote>pl</quote>. After the TenDRA 4.1.2 release, these were
-			renamed to avoid confusion with Perl.</para>
+		<para>Historically, the source files to &tpl; (and &tpl; itself)
+			were named just <literal>.pl</literal>.
+			After the TenDRA 4.1.2 release, these were renamed to avoid
+			confusion with Perl.</para>
 	</refsection>
 </refentry>
 

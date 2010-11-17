@@ -1,8 +1,25 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<!-- Initially lifted from troff+man by doclifter; further editing by hand -->
+<?xml version="1.0"?>
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+	<!ENTITY t-prefix.arg "<replaceable>t-prefix</replaceable>">
+	<!ENTITY p-prefix.arg "<replaceable>p-prefix</replaceable>">
+	<!ENTITY i-prefix.arg "<replaceable>i-prefix</replaceable>">
+
+	<!ENTITY a.opt "<option>-a</option>">
+	<!ENTITY t.opt "<option>-t</option> &t-prefix.arg;">
+	<!ENTITY p.opt "<option>-p</option> &p-prefix.arg;">
+	<!ENTITY i.opt "<option>-i</option> &i-prefix.arg;">
+	<!ENTITY l.opt "<option>-l</option> &lang.arg;">
+	<!ENTITY h.opt "<option>-h</option>">
+	<!ENTITY v.opt "<option>-v</option>">
+
+	<!ENTITY C99.lit  "<literal>C99</literal>">
+	<!ENTITY C90.lit  "<literal>C90</literal>">
+	<!ENTITY dot.lit  "<literal>dot</literal>">
+	<!ENTITY test.lit "<literal>test</literal>">
+]>
+
 <!-- $Id$ -->
-<refentry id="lexi1">
+<refentry>
 <!--
 	Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
 	All rights reserved.
@@ -64,136 +81,137 @@
 		<manvolnum>1</manvolnum>
 	</refmeta>
 
-	<refnamediv id="name">
+	<refnamediv>
 		<refname>lexi</refname>
 		<refpurpose>Lexical analyser tool</refpurpose>
 	</refnamediv>
 
-	<refsynopsisdiv id="synopsis">
+	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>lexi</command>
 
-			<arg choice="opt"><option>-a</option></arg>
-			<arg choice="opt"><option>-t</option> <replaceable>token-prefix</replaceable></arg>
-			<arg choice="opt"><option>-p</option> <replaceable>token-prefix</replaceable></arg>
-			<arg choice="opt"><option>-i</option> <replaceable>interface-prefix</replaceable></arg>
-			<arg choice="opt"><option>-l</option> <replaceable>lang</replaceable></arg>
+			<arg choice="opt">&a.opt;</arg>
+			<arg choice="opt">&t.opt;</arg>
+			<arg choice="opt">&p.opt;</arg>
+			<arg choice="opt">&i.opt;</arg>
+			<arg choice="opt">&l.opt;</arg>
 
 			<sbr/>
 
-			<arg choice="plain" rep="repeat"><replaceable>input-file</replaceable></arg>
-			<arg choice="opt"   rep="repeat"><replaceable>output-file</replaceable></arg>
+			<arg choice="plain" rep="repeat">&in-file.arg;</arg>
+			<arg choice="opt"   rep="repeat">&out-file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>lexi</command>
 
 			<group choice="req">
-				<arg choice="plain">-h</arg>
-				<arg choice="plain">-v</arg>
+				<arg choice="plain">&h.opt;</arg>
+				<arg choice="plain">&v.opt;</arg>
 			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
-	<refsection id="description">
+	<refsection>
 		<title>Description</title>
 
-		<para><application>Lexi</application> translates a description of a
-			lexical analyser, <emphasis>input-file</emphasis>,
-			into code implementing that analyser.
-			This is output into the
-			<filename>output-file</filename> argument, if present,
-			or the standard output otherwise.</para>
+		<para>&lexi; translates a description of a lexical analyser,
+			&in-file.arg;, into code implementing that analyser.
+			This is output into the &out-file.arg; argument, if present,
+			or to standard output otherwise.</para>
 
-		<para>Both <replaceable>input-file</replaceable> and
-			<replaceable>output-file</replaceable> may be given as
-			<quote>-</quote> for standard input and standard output
-			respectivley.
-			These are language-specific (see the <option>-l</option>
-			option), and may represent multiple files.</para>
+		<para>Both &in-file.arg; and &out-file.arg; may be given as
+			&hyphen.lit; for standard input and standard output respectivley.
+			These are language-specific (see the <option>-l</option> option),
+			and may represent multiple files.</para>
+
+		<para>Lexer specifications for &lexi; are conventionally named with
+			the extension &lxi.ext;, and actions &lct.ext;.</para>
 	</refsection>
 
-	<refsection id="options">
+	<refsection>
 		<title>Options</title>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-a</option></term>
+				<term>&a.opt;</term>
+
 				<listitem>Disables assertions in the output code.
 					These are enabled by default.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-t</option> <replaceable>token-prefix</replaceable></term>
-				<listitem>Causes <command>lexi</command> to use
-						<replaceable>string</replaceable> as a prefix
-						for its generated lexical tokens. The default is
-						<literal>lex_</literal>.</listitem>
+				<term>&t.opt;</term>
+
+				<listitem>Causes &lexi; to use &t-prefix.arg; as a prefix for
+					its generated lexical tokens.
+					The default is <literal>lex_</literal>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-p</option> <replaceable>lexi-prefix</replaceable></term>
-				<listitem>Causes <command>lexi</command> to use
-						<replaceable>string</replaceable> as a prefix
-						for its generated internal symbols. The default is
-						<literal>lexi_</literal>.</listitem>
+				<term>&p.opt;</term>
+
+				<listitem>Causes &lexi; to use &p-prefix.arg; as a prefix
+					for its generated internal symbols.
+					The default is <literal>lexi_</literal>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-i</option> <replaceable>interface-prefix</replaceable></term>
-				<listitem>Causes <command>lexi</command> to use
-						<replaceable>string</replaceable> as a prefix
-						for its generated interface. The default is
-						<literal>lexi_</literal>.</listitem>
+				<term>&i.opt;</term>
+
+				<listitem>Causes &lexi; to use &i-prefix.arg; as a prefix
+					for its generated interface.
+					The default is <literal>lexi_</literal>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-l</option> <replaceable>lang</replaceable></term>
+				<term>&l.opt;</term>
+
 				<listitem>
 					<para>The <option>-l</option> specifies the output language
 						for the generated lexer.
-						The <replaceable>input-file</replaceable>s
-						and <replaceable>output-file</replaceable>s
-						are specific to each language.
+						The input files and output files are specific to each
+						language.
 						The language is currently one of:</para>
 
 					<table>
 						<col align="left"/>
-						<col align="right"/>
+						<col align="left"/>
 						<col align="left"/>
 						<col align="left"/>
 
 						<thead>
 							<tr>
 								<th>Language</th>
-								<th colspan="2" align="center">Action</th>
+								<th>Input files</th>
+								<th>Output files</th>
 								<th>Description</th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<tr>
-								<td><literal>C90</literal> (default)</td>
-								<td role="input"><filename>.lxi</filename>, <filename>.lct</filename></td>
-								<td role="output"><filename>.c</filename>,   <filename>.h</filename></td>
-								<td>ISO C90</td>
+								<td>&C90.lit; (default)</td>
+								<td>&lxi.ext;, &lct.ext;</td>
+								<td>&c.ext;,  &h.ext;</td>
+								<td>&iso; C90</td>
 							</tr>
 							<tr>
-								<td><literal>C99</literal></td>
-								<td role="input"><filename>.lxi</filename>, <filename>.lct</filename></td>
-								<td role="output"><filename>.c</filename>,   <filename>.h</filename></td>
-								<td>ISO C99</td>
+								<td>&C99.lit;</td>
+								<td>&lxi.ext;, &lct.ext;</td>
+								<td>&c.ext;,  &h.ext;</td>
+								<td>&iso; C99</td>
 							</tr>
 							<tr>
-								<td><literal>dot</literal></td>
-								<td role="input"><filename>.lxi</filename></td>
-								<td role="output"><filename>.dot</filename></td>
-								<td>Graphviz <filename>.dot</filename> format</td>
+								<td>&dot.lit;</td>
+								<td>&lxi.ext;</td>
+								<td>&dot.ext;</td>
+								<td>Graphviz &dot.ext; format</td>
 							</tr>
 							<tr>
-								<td><literal>test</literal></td>
-								<td role="input"><filename>.lxi</filename></td>
-								<td role="output na" align="center">&ndash;</td>
+								<td>&test.lit;</td>
+								<td>&lxi.ext;</td>
+								<td role="na" align="center">&ndash;</td>
 								<td>For testing lexers</td>
 							</tr>
 						</tbody>
@@ -204,22 +222,18 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term>
-					<option>-v</option>
-				</term>
+				<term>&v.opt;</term>
+
 				<listitem>
-					<para>Causes <application>Lexi</application> to print its
-						version number.</para>
+					<para>Causes &lexi; to print its version number.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term>
-					<option>-h</option>
-				</term>
+				<term>&h.opt;</term>
+
 				<listitem>
-					<para>Causes <application>Lexi</application> to print
-						command-line usage help.</para>
+					<para>Causes &lexi; to print command-line usage help.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
@@ -231,27 +245,21 @@
 		<!-- TODO the guide can also go under lexi(7) -->
 	</refsection>
 
-	<refsection id="see_also">
+	<refsection>
 		<title>See Also</title>
 
-		<para><citerefentry>
-				<refentrytitle>sid</refentrytitle>
-				<manvolnum>1</manvolnum>
-			</citerefentry>,
-			<citetitle pubwork="article">The Lexi users' Guide</citetitle>.</para>
+		<para>&sid;, &lexi-userguide.doc;.</para>
 	</refsection>
 
-	<refsection id="bugs">
+	<refsection>
 		<title>Bugs</title>
 
-		<para><application>Lexi</application> currently silently permits
-			several semantically nonsensical but syntactically valid
-			constructs which result in undefined behaviour. These are
-			described in
-			<citetitle pubwork="article">The Lexi users' Guide</citetitle>.
-			It is expected that in future versions of
-			<application>Lexi</application> these will produce errors
-			during compilation.</para>
+		<para>&lexi; currently silently permits several semantically
+			nonsensical but syntactically valid constructs which result in
+			undefined behaviour.
+			These are described in &lexi-userguide.doc;.
+			It is expected that in future versions of &lexi; these will produce
+			errors during compilation.</para>
 	</refsection>
 </refentry>
 

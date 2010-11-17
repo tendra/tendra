@@ -1,11 +1,108 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-	"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+	<!ENTITY P.opt "<option>-P</option>">
+	<!ENTITY c.opt "<option>-c</option>">
+	<!ENTITY d.opt "<option>-d</option>">
+	<!ENTITY i.opt "<option>-i</option>">
+	<!ENTITY H.opt "<option>-H</option>">
+	<!ENTITY w.opt "<option>-w</option>">
+	<!ENTITY p.opt "<option>-p</option>">
+	<!ENTITY M.opt "<option>-M</option>">
+	<!ENTITY C.opt "<option>-C</option>">
+	<!ENTITY G.opt "<option>-G</option>">
+	<!ENTITY b.opt "<option>-b</option>">
+	<!ENTITY g.opt "<option>-g</option>">
+	<!ENTITY q.opt "<option>-q</option>">
+	<!ENTITY v.opt "<option>-v</option>">
+	<!ENTITY k.opt "<option>-k</option>">
+	<!ENTITY V.opt "<option>-V</option>">
+	<!ENTITY A.opt "<option>-A</option>&str.arg;">
+	<!ENTITY Z.opt "<option>-Z</option>&str.arg;">
+	<!ENTITY z.opt "<option>-z</option>&str.arg;">
+	<!ENTITY u.opt "<option>-u</option>&str.arg;">
+	<!ENTITY h.opt "<option>-h</option>&str.arg;">
+	<!ENTITY B.opt "<option>-B</option>&str.arg;">
+	<!ENTITY j.opt "<option>-j</option>&str.arg;">
+	<!ENTITY l.opt "<option>-l</option>&str.arg;">
+	<!ENTITY U.opt "<option>-U</option>&str.arg;">
+	<!ENTITY O.opt "<option>-O</option>&str.arg;">
+	<!ENTITY I.opt "<option>-I</option>&dir.arg;">
+	<!ENTITY J.opt "<option>-J</option>&dir.arg;">
+	<!ENTITY L.opt "<option>-L</option>&dir.arg;">
+	<!ENTITY e.opt "<option>-e</option>&file.arg;">
+	<!ENTITY f.opt "<option>-f</option>&file.arg;">
+	<!ENTITY Y.opt "<option>-Y</option>&file.arg;">
+	<!ENTITY F.opt "<option>-F</option>&letter.arg;">
+	<!ENTITY P.opt "<option>-P</option>&letter.arg;&ellipsis.lit;">
+	<!ENTITY o.opt "<option>-o</option>&nbsp;&file.arg;">
+	<!ENTITY N.opt "<option>-N</option>&ident.arg;&colon.lit;&dir.arg;">
+	<!ENTITY K.opt "<option>-K</option>&str.arg;&comma.lit;&ellipsis.lit;">
 
-<refentry id="tcc1"
-	xmlns:xi="http://www.w3.org/2001/XInclude">
+	<!ENTITY s1.opt "<option>-s</option>">
+	<!ENTITY s2.opt "<option>-s</option>&letter.arg;&colon.lit;&suffix.arg;">
+	<!ENTITY X1.opt "<option>-X</option>&str.arg;">
+	<!ENTITY X2.opt "<option>-X:</option>&str.arg;">
+	<!ENTITY D1.opt "<option>-D</option>&macro.arg;">
+	<!ENTITY D2.opt "<option>-D</option>&macro.arg;&equal.lit;<replaceable>defn</replaceable>">
+	<!ENTITY E1.opt "<option>-E</option>">
+	<!ENTITY E2.opt "<option>-E</option>&letter.arg;&colon.lit;&file.arg;">
+	<!ENTITY S1.opt "<option>-S</option>">
+	<!ENTITY S2.opt "<option>-S</option>&letter.arg;&comma.lit;&file.arg;&comma.lit;&ellipsis.lit;">
+	<!ENTITY S3.opt "<option>-S</option>&letter.arg;&colon.lit;&file.arg;">
+	<!ENTITY W1.opt "<option>-W</option>&letter.arg;&comma.lit;&str.arg;&comma.lit;&ellipsis.lit;">
+	<!ENTITY W2.opt "<option>-W</option>&letter.arg;&colon.lit;&str.arg;">
 
+	<!ENTITY MA.opt "<option>-MA</option>">
+	<!ENTITY dn.opt "<option>-dn</option>">
+	<!ENTITY dy.opt "<option>-dy</option>">
+	<!ENTITY cc.opt "<option>-cc</option>">
+	<!ENTITY vb.opt "<option>-vb</option>">
+	<!ENTITY vd.opt "<option>-vd</option>">
+	<!ENTITY ve.opt "<option>-ve</option>">
+	<!ENTITY vt.opt "<option>-vt</option>">
+	<!ENTITY ch.opt "<option>-ch</option>">
+	<!ENTITY do.opt "<option>-do</option>&letter.arg;&nbsp;&file.arg;">
+	<!ENTITY im.opt "<option>-im</option>">
+
+	<!ENTITY dry.opt  "<option>-dry</option>">
+	<!ENTITY wsl.opt  "<option>-wsl</option>">
+	<!ENTITY im0.opt  "<option>-im0</option>">
+	<!ENTITY sym1.opt "<option>-sym</option>">
+	<!ENTITY sym2.opt "<option>-sym</option>&colon.lit;&nbsp;&str.arg;">
+	<!ENTITY tidy.opt "<option>-tidy</option>">
+	<!ENTITY prod.opt "<option>-prod</option>">
+	<!ENTITY disp.opt "<option>-disp</option>">
+	<!ENTITY dump.opt "<option>-dump</option>">
+	<!ENTITY info.opt "<option>-info</option>">
+	<!ENTITY nepc.opt "<option>-nepc</option>">
+	<!ENTITY time.opt "<option>-time</option>">
+	<!ENTITY temp.opt "<option>-temp</option>&nbsp;&dir.arg;">
+	<!ENTITY work.opt "<option>-work</option>&nbsp;&dir.arg;">
+
+	<!ENTITY query.opt   "<option>-query</option>">
+	<!ENTITY quiet.opt   "<option>-quiet</option>">
+	<!ENTITY target.opt  "<option>-target</option>&nbsp;&str.arg;">
+	<!ENTITY disp_t.opt  "<option>-disp_t</option>">
+	<!ENTITY version.opt "<option>-version</option>">
+	<!ENTITY startup.opt "<option>-startup</option>&nbsp;&str.arg;">
+	<!ENTITY special.opt "<option>-special</option>&nbsp;&str.arg;">
+	<!ENTITY message.opt "<option>-message</option>&nbsp;&str.arg;">
+	<!ENTITY verbose.opt "<option>-verbose</option>">
+	<!ENTITY cc_only.opt "<option>-cc_only</option>">
+
+	<!ENTITY not_ansi.opt      "<option>-not_ansi</option>">
+	<!ENTITY show_env.opt      "<option>-show_env</option>">
+	<!ENTITY api_check.opt     "<option>-api_check</option>">
+	<!ENTITY keep_errors.opt   "<option>-keep_errors</option>">
+	<!ENTITY show_errors.opt   "<option>-show_errors</option>">
+	<!ENTITY make_up_names.opt "<option>-make_up_names</option>">
+	<!ENTITY api_check_out.opt "<option>-api_check_out</option>&nbsp;&file.arg;">
+
+	<!ENTITY no_startup_options.opt "<option>-no_startup_options</option>">
+]>
+
+<!-- $Id$ -->
+<refentry xmlns:xi="http://www.w3.org/2001/XInclude">
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -68,196 +165,205 @@
 		<manvolnum>1</manvolnum>
 	</refmeta>
 
-	<refnamediv id='name'>
+	<refnamediv>
 		<refname>tcc</refname>
-		<refpurpose>User interface to the TDF system</refpurpose>
+		<refpurpose>User interface to the &tdf; system</refpurpose>
 	</refnamediv>
 
-	<refsynopsisdiv id='synopsis'>
+	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>tcc</command>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-E</option></arg>
-				<arg choice="plain"><option>-F</option><replaceable>letter</replaceable></arg>
-				<arg choice="plain"><option>-P</option></arg>
-				<arg choice="plain"><option>-S</option></arg>
-				<arg choice="plain"><option>-c</option></arg>
-				<arg choice="plain"><option>-d</option></arg>
-				<arg choice="plain"><option>-disp</option></arg>
-				<arg choice="plain"><option>-disp_t</option></arg>
-				<arg choice="plain"><option>-dry</option></arg>
-				<arg choice="plain"><option>-i</option></arg>
-				<arg choice="plain"><option>-k</option></arg>
-				<arg choice="plain"><option>-prod</option></arg>
+				<arg choice="plain">&E1.opt;</arg>
+				<arg choice="plain">&F.opt;</arg>
+				<arg choice="plain">&P.opt;</arg>
+				<arg choice="plain">&S1.opt;</arg>
+				<arg choice="plain">&c.opt;</arg>
+				<arg choice="plain">&d.opt;</arg>
+				<arg choice="plain">&disp.opt;</arg>
+				<arg choice="plain">&disp_t.opt;</arg>
+				<arg choice="plain">&dry.opt;</arg>
+				<arg choice="plain">&i.opt;</arg>
+				<arg choice="plain">&k.opt;</arg>
+				<arg choice="plain">&prod.opt;</arg>
 			</group>
 
 			<sbr/>
 
-			<arg choice="plain" rep="repeat"><replaceable>files</replaceable></arg>
+			<arg choice="plain" rep="repeat">&file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tcc</command>
 
-			<arg choice="plain"><option>-ch</option></arg>
+			<arg choice="plain">&ch.opt;</arg>
 
-			<arg choice="opt"><option>-api_check</option></arg>
-			<arg choice="opt"><option>-api_check_out&nbsp;</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-im</option></arg>
-			<arg choice="opt"><option>-im0</option></arg>
+			<arg choice="opt">&api_check.opt;</arg>
+			<arg choice="opt">&api_check_out.opt;</arg>
+			<arg choice="opt">&im.opt;</arg>
+			<arg choice="opt">&im0.opt;</arg>
+
+			<!-- TODO: -im etc make sense for non-tchk use, too. need to test all these combinations... -->
 
 			<sbr/>
 
-			<arg choice="plain" rep="repeat"><replaceable>files</replaceable></arg>
+			<arg choice="plain" rep="repeat">&file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tcc</command>
+
 			<group choice="req">
-				<arg choice="plain"><option>-query</option></arg>
-				<arg choice="plain"><option>-version</option></arg>
-				<arg choice="plain"><option>-V</option></arg>
+				<arg choice="plain">&query.opt;</arg>
+				<arg choice="plain">&version.opt;</arg>
+				<arg choice="plain">&V.opt;</arg>
 			</group>
 		</cmdsynopsis>
 
-		<para>Most options are common to both <option>-ch</option> and to normal
-			use. For brevity, these are not repeated above:</para>
+		<para>Most options are common to both &ch.opt; and to normal use.
+			For brevity, these are not repeated above:</para>
 
 		<cmdsynopsis>
 			<command>&nbsp;&nbsp;&nbsp;</command>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'code-options']/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'code-options' ]/*)"/>
 			<xi:include xpointer="xpointer(//synopfragment[@id = 'print-options']/*)"/>
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'dir-options']/*)"/>
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'misc-options']/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'dir-options'  ]/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'misc-options' ]/*)"/>
 		</cmdsynopsis>
 
 
 		<synopfragment id="code-options">
-			<arg choice="opt"><option>-A</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-C</option></arg>
-			<arg choice="opt"><option>-D</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-U</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-e</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-f</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-startup&nbsp;</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-no_startup_options</option></arg>
+			<arg choice="opt">&A.opt;</arg>
+			<arg choice="opt">&C.opt;</arg>
+			<group choice="opt">
+				<arg choice="plain">&D1.opt;</arg>
+				<arg choice="plain">&D2.opt;</arg>
+			</group>
+			<arg choice="opt">&U.opt;</arg>
+			<arg choice="opt">&e.opt;</arg>
+			<arg choice="opt">&f.opt;</arg>
+			<arg choice="opt">&no_startup_options.opt;</arg>
+
+			<sbr/>
+
+			<arg choice="opt">&startup.opt;</arg>
 		</synopfragment>
 
 		<synopfragment id="print-options">
+			<arg choice="opt">&H.opt;</arg>
+			<arg choice="opt">&w.opt;</arg>
+			<arg choice="opt">&dump.opt;</arg>
+			<arg choice="opt">&info.opt;</arg>
+			<arg choice="opt">&message.opt;</arg>
+			<group choice="opt">
+				<arg choice="plain">&q.opt;</arg>
+				<arg choice="plain">&quiet.opt;</arg>
+			</group>
+			<arg choice="opt">&time.opt;</arg>
+			<group choice="opt">
+				<arg choice="plain">&v.opt;</arg>
+				<arg choice="plain">&verbose.opt;</arg>
+			</group>
+
 			<sbr/>
 
-			<arg choice="opt"><option>-H</option></arg>
-			<arg choice="opt"><option>-dump</option></arg>
-			<arg choice="opt"><option>-info</option></arg>
-			<arg choice="opt"><option>-message&nbsp;</option><replaceable>string</replaceable></arg>
-			<group choice="opt">
-				<arg choice="plain"><option>-q</option></arg>
-				<arg choice="plain"><option>-quiet</option></arg>
-			</group>
-			<arg choice="opt"><option>-show_env</option></arg>
-			<arg choice="opt"><option>-show_errors</option></arg>
-			<arg choice="opt"><option>-time</option></arg>
-
-			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-v</option></arg>
-				<arg choice="plain"><option>-verbose</option></arg>
-			</group>
-			<arg choice="opt"><option>-vb</option></arg>
-			<arg choice="opt"><option>-vd</option></arg>
-			<arg choice="opt"><option>-ve</option></arg>
-			<arg choice="opt"><option>-vt</option></arg>
-			<arg choice="opt"><option>-w</option></arg>
+			<arg choice="opt">&show_env.opt;</arg>
+			<arg choice="opt">&show_errors.opt;</arg>
+			<arg choice="opt">&vb.opt;</arg>
+			<arg choice="opt">&vd.opt;</arg>
+			<arg choice="opt">&ve.opt;</arg>
+			<arg choice="opt">&vt.opt;</arg>
 		</synopfragment>
 
 		<synopfragment id="dir-options">
-			<arg choice="opt"><option>-I</option><replaceable>dir</replaceable></arg>
-			<arg choice="opt"><option>-J</option><replaceable>dir</replaceable></arg>
-			<arg choice="opt"><option>-L</option><replaceable>dir</replaceable></arg>
-			<arg choice="opt"><option>-N</option><replaceable>identifier</replaceable><literal>:</literal><replaceable>dir</replaceable></arg>
+			<arg choice="opt">&I.opt;</arg>
+			<arg choice="opt">&J.opt;</arg>
+			<arg choice="opt">&L.opt;</arg>
+			<arg choice="opt">&N.opt;</arg>
 
 			<sbr/>
 
-			<arg choice="opt"><option>-temp&nbsp;</option><replaceable>dir</replaceable></arg>
-			<arg choice="opt"><option>-work&nbsp;</option><replaceable>dir</replaceable></arg>
+			<arg choice="opt">&temp.opt;</arg>
+			<arg choice="opt">&work.opt;</arg>
 		</synopfragment>
 
 		<synopfragment id="misc-options">
-			<arg choice="opt"><option>-B</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-E</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-G</option></arg>
-			<arg choice="opt"><option>-K</option><replaceable>string</replaceable><literal>,...</literal></arg>
-			<arg choice="opt"><option>-M</option></arg>
-			<arg choice="opt"><option>-MA</option></arg>
-			<arg choice="opt"><option>-O</option><replaceable>string</replaceable></arg>
-
-			<sbr/>
-
-			<arg choice="opt"><option>-P</option><replaceable>letter</replaceable>...</arg>
-			<arg choice="opt"><option>-S</option><replaceable>letter</replaceable><literal>,</literal><replaceable>file</replaceable><literal>,</literal>...</arg>
-			<arg choice="opt"><option>-S</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-W</option><replaceable>letter</replaceable><literal>,</literal><replaceable>string</replaceable><literal>,</literal>...</arg>
-
-			<arg choice="opt"><option>-W</option><replaceable>letter</replaceable><literal>:</literal><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-X</option><replaceable>string</replaceable></arg>
-
-			<sbr/>
-
-			<arg choice="opt"><option>-X:</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-Y</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-Z</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-b</option></arg>
-			<arg choice="opt"><option>-cc</option></arg>
-			<arg choice="opt"><option>-cc_only</option></arg>
+			<arg choice="opt">&B.opt;</arg>
+			<arg choice="opt">&E2.opt;</arg>
+			<arg choice="opt">&G.opt;</arg>
+			<arg choice="opt">&K.opt;</arg>
 			<group choice="opt">
-				<arg choice="plain"><option>-dn</option></arg>
-				<arg choice="plain"><option>-dy</option></arg>
+				<arg choice="plain">&M.opt;</arg>
+				<arg choice="plain">&MA.opt;</arg>
 			</group>
-			<arg choice="opt"><option>-do</option><replaceable>letter</replaceable>&nbsp;<replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-g</option></arg>
-			<arg choice="opt"><option>-h</option><replaceable>string</replaceable></arg>
+			<arg choice="opt">&O.opt;</arg>
+			<arg choice="opt">&P.opt;</arg>
+			<arg choice="opt">&Y.opt;</arg>
 
 			<sbr/>
 
-			<arg choice="opt"><option>-j</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-keep_errors</option></arg>
-			<arg choice="opt"><option>-l</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-make_up_names</option></arg>
-			<arg choice="opt"><option>-nepc</option></arg>
-			<arg choice="opt"><option>-not_ansi</option></arg>
-			<arg choice="opt"><option>-o&nbsp;</option><replaceable>file</replaceable></arg>
-			<arg choice="opt"><option>-p</option></arg>
+			<arg choice="opt">&S2.opt;</arg>
+			<group choice="opt">
+				<arg choice="plain">&S1.opt;</arg>
+				<arg choice="plain">&W1.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&W2.opt;</arg>
+				<arg choice="plain">&X1.opt;</arg>
+			</group>
+			<arg choice="opt">&X2.opt;</arg>
+			<arg choice="opt">&Z.opt;</arg>
+			<arg choice="opt">&b.opt;</arg>
+			<arg choice="opt">&g.opt;</arg>
+			<arg choice="opt">&p.opt;</arg>
 
 			<sbr/>
 
-			<arg choice="opt"><option>-s</option></arg>
-			<arg choice="opt"><option>-s</option><replaceable>letter</replaceable><literal>:</literal><replaceable>suffix</replaceable></arg>
-			<arg choice="opt"><option>-special&nbsp;</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-sym</option></arg>
-			<arg choice="opt"><option>-sym:&nbsp;</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-target&nbsp;</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-tidy</option></arg>
+			<group choice="opt">
+				<arg choice="plain">&dn.opt;</arg>
+				<arg choice="plain">&dy.opt;</arg>
+			</group>
+			<arg choice="opt">&cc.opt;</arg>
+			<arg choice="opt">&cc_only.opt;</arg>
+			<arg choice="opt">&do.opt;</arg>
+			<arg choice="opt">&h.opt;</arg>
+			<arg choice="opt">&j.opt;</arg>
+			<arg choice="opt">&keep_errors.opt;</arg>
+			<arg choice="opt">&make_up_names.opt;</arg>
 
 			<sbr/>
 
-			<arg choice="opt"><option>-u</option><replaceable>string</replaceable></arg>
-			<arg choice="opt"><option>-wsl</option></arg>
-			<arg choice="opt"><option>-z</option><replaceable>string</replaceable></arg>
+			<arg choice="opt">&l.opt;</arg>
+			<arg choice="opt">&nepc.opt;</arg>
+			<arg choice="opt">&not_ansi.opt;</arg>
+			<arg choice="opt">&o.opt;</arg>
+			<arg choice="opt">&s1.opt;</arg>
+			<arg choice="opt">&s2.opt;</arg>
+			<arg choice="opt">&special.opt;</arg>
+			<arg choice="opt">&sym1.opt;</arg>
+			<arg choice="opt">&sym2.opt;</arg>
+
+			<sbr/>
+
+			<arg choice="opt">&wsl.opt;</arg>
+			<arg choice="opt">&target.opt;</arg>
+			<arg choice="opt">&tidy.opt;</arg>
+			<arg choice="opt">&u.opt;</arg>
+			<arg choice="opt">&z.opt;</arg>
 		</synopfragment>
 	</refsynopsisdiv>
 
-	<refsection id='description'>
+	<refsection>
 		<title>Description</title>
 
-		<para><command>tcc</command> is the user interface to the TDF system.	It is more fully
-			documented in the <emphasis remap='I'>tcc User's Guide</emphasis>.</para>
+		<para>&tcc; is the user interface to the &tdf; system.
+			It is more fully documented in the &tcc-userguide.doc;.</para>
 
-		<para><command>tcc</command> accepts several types of arguments as
-			<replaceable>files</replaceable>. The formats of these files
-			are automatically inferred from their names:</para>
+		<para>&tcc; accepts several types of arguments as &file.arg;.
+			The formats of these files are automatically inferred from their
+			names:</para>
 
 		<table>
 			<col align="center"/>
@@ -274,64 +380,65 @@
 
 			<tbody>
 				<tr>
-					<td><filename>.c</filename></td>
+					<td>&c.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>C source files</td>
 				</tr>
 				<tr>
-					<td><filename>.i</filename></td>
+					<td>&i.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>Preprocessed C source files</td>
 				</tr>
 				<tr>
-					<td><filename>.C</filename></td>
-					<td><option>-Yc++</option> only</td>
+					<td>&C.ext;</td>
+					<td><option>-Y</option><literal>c++</literal> only</td>
 					<td>C++ source files</td>
 				</tr>
 				<tr>
-					<td><filename>.I</filename></td>
-					<td><option>-Yc++</option> only</td>
+					<td>&I.ext;</td>
+					<td><option>-Y</option><literal>c++</literal> only</td>
 					<td>Preprocessed C++ source files</td>
 				</tr>
 				<tr>
-					<td><filename>.j</filename></td>
+					<td>&j.ext;</td>
 					<td role="na" align="center">&ndash;</td>
-					<td>Target-independent TDF capsules</td>
+					<td>Target-independent &tdf; capsules</td>
 				</tr>
 				<tr>
-					<td><filename>.ta</filename></td>
+					<td>&ta.ext;</td>
 					<td role="na" align="center">&ndash;</td>
-					<td>Archives of target-independent TDF capsules</td>
+					<td>Archives of target-independent &tdf; capsules</td>
 				</tr>
 				<tr>
-					<td><filename>.t</filename></td>
+					<td>&t.ext;</td>
 					<td role="na" align="center">&ndash;</td>
-					<td>Target-dependent TDF capsules</td>
+					<td>Target-dependent &tdf; capsules</td>
 				</tr>
 				<tr>
-					<td><filename>.s</filename></td>
+					<td>&s.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>Assembly source files</td>
 				</tr>
 				<tr>
-					<td><filename>.d</filename></td>
+					<td>&d.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>TenDRA dump files</td>
 				</tr>
 				<tr>
-					<td><filename>.K</filename></td>
-					<td><option>-Yc++</option> only</td>
+					<td>&K.ext;</td>
+					<td><option>-Y</option><literal>c++</literal> only</td>
 					<td>C++ spec files</td>
 				</tr>
 				<tr>
-					<td><filename>.p</filename></td>
-					<td><option>-Ytnc</option> only</td>
-					<td>TDF notation source files (AKA <quote>TDF text</quote>)</td>
+					<td>&p.ext;</td>
+					<td><option>-Y</option><literal>tnc</literal> only</td>
+					<td>&tdf; notation source files (<acronym>AKA</acronym>
+						<quote>&tdf; text</quote>)</td>
 				</tr>
 				<tr>
-					<td><filename>.tpl</filename></td>
-					<td><option>-Ypl_tdf</option> only</td>
-					<td>PL_TDF source files</td>
+					<td>&tpl.ext;</td>
+					<td><option>-Y</option><literal>pl_tdf</literal> only</td>
+					<td>&pl_tdf; source files</td>
 				</tr>
 				<tr>
 					<td>other</td>
@@ -342,52 +449,59 @@
 			</tbody>
 		</table>
 
-		<para>The compilation process is as follows.
-			Depending on the options given, it may halt at any stage:</para>
+		<para>&tcc;'s purpose is to provide a convenient interface through which
+			these files may be converted from one format to another. This is a
+			broad function, and encompasses many situations; the exact details
+			of each of these situations are beyond the scope of this manual.
+			These are covered in depth in the &tcc-userguide.doc;.</para>
+
+		<para>&tcc; is configured almost entirely at runtime&mdash;many of the
+			options passed on the command line (in particular the
+			<option>-Y</option> and <option>-X</option> options) draw their
+			configurations from files on the filesystem.
+			Alternate files may be specified, to provide a mechanism for
+			user-specific customisation. This is discussed in &tccenv.5;.</para>
+	</refsection>
+
+	<refsection>
+		<title>Stages of Compilation</title>
+
+		<para>The compilation process is as follows.</para>
 
 		<orderedlist>
-			<listitem>TDF archives are split into their constituent target
+			<listitem>&tdf; archives are split into their constituent target
 				independent capsules.</listitem>
 
 			<listitem>C source files (including preprocessed C) are compiled
-				into target independent TDF capsules using
-				<citerefentry><refentrytitle>tdfc2</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
-				(<citerefentry><refentrytitle>tcpplus</refentrytitle><manvolnum>1</manvolnum></citerefentry>
-				does the same for C++ source files when <option>-Yc++</option>
-				is specified.)</listitem>
+				into target independent &tdf; capsules using &tdfc2;.
+				(&tcpplus; does the same for C++ source files when
+				<option>-Y</option><literal>c++</literal> is specified.)</listitem>
 
-			<listitem>Target independent TDF capsules are linked, using
-				<citerefentry><refentrytitle>tld</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-				with the TDF libraries to produce target dependent TDF
+			<listitem>Target independent &tdf; capsules are linked, using &tld;,
+				with the &tdf; libraries to produce target dependent &tdf;
 				capsules.</listitem>
 
-			<listitem>Target dependent TDF capsules are translated into
-				assembly source files using one of
-				<citerefentry><refentrytitle>mipstrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>
-				(q.v.&mdash;things are not quite so simple in this case),
-				<citerefentry><refentrytitle>trans386</refentrytitle><manvolnum>1</manvolnum></citerefentry>
+			<listitem>Target dependent &tdf; capsules are translated into
+				assembly source files using one of &mipstrans;
+				(q.v.&mdash;things are not quite so simple in this case), &trans386;
 				etc.</listitem>
 
 			<listitem>Assembly source files are compiled into binary
-				object files using
-				<citerefentry><refentrytitle>as</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</listitem>
+				object files using &as;.</listitem>
 
 			<listitem>Binary object files are linked with the precompiled
-				libraries, using
-				<citerefentry><refentrytitle>ld</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-				to produce a final executable.</listitem>
+				libraries, using &ld;, to produce a final executable.</listitem>
 		</orderedlist>
 
 		<para>With the exception of binary object files, intermediate files are not
 			preserved unless explicitly instructed.</para>
 
-		<para>The standard file suffixes <filename>.c</filename>, <filename>.i</filename>,
-			<filename>.C</filename>, <filename>.I</filename>, <filename>.j</filename>,
-			<filename>.t</filename>, <filename>.s</filename>, <filename>.o</filename>,
-			<filename>.d</filename>, <filename>.k</filename>, and <filename>.K</filename>, together with
-			<filename>.p</filename> (pretty-printed TDF capsule) and <filename>.pl</filename>
-			(PL_TDF source file), are used to indicate file types in some options.
-			Also the various compilation phases are identified by letters in some options.
+		<para>The standard file suffixes &c.ext;, &i.ext;, &C.ext;, &I.ext;,
+			&j.ext;, &t.ext;, &s.ext;, &o.ext;, &d.ext;, &k.ext;, and &K.ext;,
+			together with &p.ext; (pretty-printed &tdf; capsule) and &tpl.ext;
+			(&pl_tdf; source file), are used to indicate file types in some
+			options. Also the various compilation phases are identified by
+			letters in some options.
 			These are:</para>
 
 		<table>
@@ -407,7 +521,7 @@
 				<tr>
 					<td><code>c</code></td>
 					<td role="na" align="center">&ndash;</td>
-					<td>C to TDF producer</td>
+					<td>C to &tdf; producer</td>
 				</tr>
 				<tr>
 					<td><code>p</code></td>
@@ -416,23 +530,23 @@
 				</tr>
 				<tr>
 					<td><code>x</code></td>
-					<td><option>-Yc++</option> only</td>
-					<td>C++ to TDF producer</td>
+					<td><option>-Y</option><literal>c++</literal> only</td>
+					<td>C++ to &tdf; producer</td>
 				</tr>
 				<tr>
 					<td><code>g</code></td>
-					<td><option>-Yc++</option> only</td>
+					<td><option>-Y</option><literal>c++</literal> only</td>
 					<td>C++ preprocessor</td>
 				</tr>
 				<tr>
 					<td><code>L</code></td>
 					<td role="na" align="center">&ndash;</td>
-					<td>TDF linker (or builder)</td>
+					<td>&tdf; linker (or builder)</td>
 				</tr>
 				<tr>
 					<td><code>t</code></td>
 					<td role="na" align="center">&ndash;</td>
-					<td>TDF translator</td>
+					<td>&tdf; translator</td>
 				</tr>
 				<tr>
 					<td><code>a</code></td>
@@ -451,7 +565,7 @@
 				</tr>
 				<tr>
 					<td><code>e</code></td>
-					<td><option>-Ycompact</option> only</td>
+					<td><option>-Y</option><literal>compact</literal> only</td>
 					<td>Compact-output error reporter</td>
 				</tr>
 				<tr>
@@ -462,275 +576,325 @@
 				<tr>
 					<td><code>d</code></td>
 					<td role="na" align="center">&ndash;</td>
-					<td>TDF pretty-printer</td>
+					<td>&tdf; pretty-printer</td>
 				</tr>
 			</tbody>
 		</table>
+
+		<para>Depending on the options given, compilation may halt at any stage.
+			The options which effect halting are:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>&E1.opt;</term>
+
+				<listitem>Invokes the C preprocessor only, putting the result
+					into a file with a &i.ext; suffix if other
+					options indicate that preprocessed C files are to be
+					preserved, or onto the standard output otherwise.
+					Similarly, C++ source files are preprocessed and put into
+					files with &I.ext; suffixes.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&F.opt;</term>
+
+				<listitem>Tells &tcc; to stop after producing the files
+					indicated by &letter.arg;, and to preserve these files.
+					&letter.arg; is a single character corresponding to the
+					suffix of the files to be preserved.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&P.opt;</term>
+
+				<listitem>Invokes the C preprocessor only, putting the result
+					into a file with a &i.ext; suffix.
+					The C++ preprocessor is similarly invoked for C++ source
+					files, putting the result into a file with a
+					&I.ext; suffix.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&S1.opt;</term>
+
+				<listitem>Tells &tcc; to stop after producing an assembly source
+					file.
+					This is equivalent to <option>-Fs</option>.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&c.opt;</term>
+
+				<listitem>Tells &tcc; to stop after producing
+					the binary object files.
+					This is equivalent to <option>-Fo</option>.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&d.opt;</term>
+
+				<listitem>Halts the compilation after the creation of the
+					dump files.	This is equivalent to
+					<option>-Fd</option>.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&disp.opt;</term>
+
+				<listitem>Runs the &tdf; pretty-printer on all files at
+					stage 2 or 3 and then terminates.
+					The results are put into files with &p.ext;
+					suffixes.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&disp_t.opt;</term>
+
+				<listitem>Runs the pretty-printer on all files at stage 3 and
+					then terminates.
+					This differs from the <option>-disp</option> option in that
+					it displays the &tdf; after linking with the target-dependent
+					&tdf; libraries rather than before.
+					The output is put into a file with a &p.ext; suffix.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&i.opt;</term>
+
+				<listitem>Tells &tcc; to stop after producing the target
+					independent &tdf; capsules.
+				 	This is equivalent to <option>-Fj</option>.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&k.opt;</term>
+
+				<listitem>In intermodular checking mode, halts the
+					compilation after the creation of the C++ spec files.
+					This is equivalent to <option>-FK</option>.</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&prod.opt;</term>
+
+				<listitem>Specifies that &tcc; should stop after producing the
+					target independent &tdf; capsules and combine them into a
+					&tdf; archive.
+					The default archive name is <filename>a.ta</filename>.</listitem>
+				<!-- TODO: emphasise why this is useful. it's the main TDF distribution mechanism -->
+			</varlistentry>
+		</variablelist>
 	</refsection>
 
-	<refsection id='options'>
+	<refsection>
 		<title>Options</title>
 
-		<para>The following options are supported by <command>tcc</command>.
+		<para>The following options are supported by &tcc;.
 			All options are scanned before input files are dealt with.
-			The system variable <emphasis remap='B'>TCCOPTS</emphasis>
+			The system variable <varname>TCCOPTS</varname>
 			may be used to specify a list of options which are processed before the
 			first command-line option.</para>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-A</option><replaceable>string</replaceable></term>
+				<term>&A.opt;</term>
 
-				<listitem>Asserts the predicate <replaceable>string</replaceable>.</listitem>
+				<listitem>Asserts the predicate &str.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-B</option><replaceable>string</replaceable></term>
+				<term>&B.opt;</term>
 
 				<listitem>Passed to the system linker.	The valid values of
-					<replaceable>string</replaceable> are target dependent.</listitem>
+					&str.arg; are target dependent.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-C</option></term>
+				<term>&C.opt;</term>
 
-				<listitem>Not implemented and provided for
-					<citerefentry><refentrytitle>cc</refentrytitle><manvolnum>1</manvolnum></citerefentry>
-					compatibility only.
+				<listitem>Not implemented and provided for &cc; compatibility only.
 					It is meant to preserve comments when preprocessing.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-D</option><replaceable>string</replaceable></term>
+				<term>&D1.opt;</term>
+				<term>&D2.opt;</term>
 
-				<listitem>Where <replaceable>string</replaceable> is of the form
-					<replaceable>macro</replaceable> or <replaceable>macro=defn</replaceable>,
+				<!-- TODO: centralise shared options with tcppplus manpage somehow? -->
+				<listitem>Where &str.arg; is of the form &macro.arg; or
+					&macro.arg;&equal.lit;<replaceable>defn</replaceable>,
 					is equivalent to inserting the preprocessor directives
-					"#define <replaceable>macro</replaceable> 1" or
-					"#define <replaceable>macro defn</replaceable>" at the
+					<code>#define &macro.arg; 1</code> or
+					<code>#define &macro.arg; <replaceable>defn</replaceable></code> at the
 					start of each C source file.
-					This is implemented by <command>tcc</command> writing this
+					This is implemented by &tcc; writing this
 					directive into a start-up file.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-E</option></term>
+				<term>&E2.opt;</term>
 
-				<listitem>Invokes the C preprocessor only, putting the result
-					into a file with a <filename>.i</filename> suffix if other
-					options indicate that preprocessed C files are to be
-					preserved, or onto the standard output otherwise.
-					Similarly, C++ source files are preprocessed and put into
-					files with <filename>.I</filename> suffixes.</listitem>
+				<listitem>Causes &file.arg; to be invoked as the executable for
+					the compilation stage given by &letter.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-E</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable></term>
+				<term>&G.opt;</term>
 
-				<listitem>Causes <replaceable>file</replaceable> to be
-					invoked as the executable for the compilation stage
-					given by <replaceable>letter</replaceable>.</listitem>
+				<listitem>Provided for &cc; compatibility.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-F</option><replaceable>letter</replaceable></term>
-
-				<listitem>Tells <command>tcc</command> to stop after
-					producing the files indicated by
-					<replaceable>letter</replaceable>,
-					and to preserve these files.
-					<replaceable>letter</replaceable> is a single character
-					corresponding to the suffix of the files to be
-					preserved.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-G</option></term>
-
-				<listitem>Provided for <emphasis remap='I'>cc</emphasis>
-					compatibility.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-H</option></term>
+				<term>&H.opt;</term>
 
 				<listitem>Causes the names of files included by a
-					'#include' directive to be printed.</listitem>
+					<code>#include</code> directive to be printed.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-I</option><replaceable>dir</replaceable></term>
+				<term>&I.opt;</term>
 
 				<listitem>Tells the producers and preprocessors to search
-					the directory <replaceable>dir</replaceable> for
-					included files.	The directories are searched in the order given,
+					the directory &dir.arg; for included files.
+					The directories are searched in the order given,
 					followed by the system default directories.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-J</option><replaceable>dir</replaceable></term>
+				<term>&J.opt;</term>
 
-				<listitem>Tells the TDF linker to search the directory
-					<replaceable>dir</replaceable> for TDF libraries.
+				<listitem>Tells the &tdf; linker to search the directory
+					&dir.arg; for &tdf; libraries.
 					The linker searches the directories in the order given,
 					followed by the system default directories.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-K</option><replaceable>string</replaceable><literal>,...</literal></term>
+				<term>&K.opt;</term>
 
-				<listitem>Provided for <emphasis remap='I'>cc</emphasis>
-					compatibility. Specifies various installer options.</listitem>
+				<listitem>Provided for &cc; compatibility.
+					Specifies various installer options.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-L</option><replaceable>dir</replaceable></term>
+				<term>&L.opt;</term>
 
 				<listitem>Tells the system linker to search the directory
-					<replaceable>dir</replaceable> for libraries.
+					&dir.arg; for libraries.
 					It searches the directories in the order given, followed
 					by the system default directories.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-M</option></term>
+				<term>&M.opt;</term>
+				<term>&MA.opt;</term>
 
-				<listitem>Specifies that the TDF linker should link all the
-					given target independent TDF capsules into one.
-					This is done between stages 2 and 3 above.
-					The default name for the produced capsule is
-					<filename>a.j</filename>.</listitem>
+				<listitem>
+					<para>Specifies that the &tdf; linker should link all the
+						given target independent &tdf; capsules into one.
+						This is done between stages 2 and 3 above.
+						The default name for the produced capsule is
+						<filename>a.j</filename>.</para>
+
+					<para>The &MA.opt; form additionally hides all the defined
+						tag and token names from the resultant &tdf;, except
+						the tag "main".
+						&MA.opt; should only be used to compile complete
+						programs.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-MA</option></term>
+				<term>&N.opt;</term>
 
-				<listitem>Specifies that the TDF linker should link all the
-					given target independent TDF capsules into one and also
-					hide all the defined tag and token names from the resultant
-					TDF (except the tag "main").
-					This should only be used to compile complete programs.
-					The default name for the resulting capsule is
-					<filename>a.j</filename>.</listitem>
+				<listitem>As &I.opt; except that the identifier &ident.arg; is
+					associated with the directory &dir.arg; in the producer.</listitem>
+				<!-- TODO: explain what this means... -->
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-N</option><replaceable>identifier</replaceable>:<replaceable>dir</replaceable></term>
-
-				<listitem>As <option>-I</option><replaceable>dir</replaceable>
-					except that the identifier
-					<replaceable>identifier</replaceable> is associated with
-					the directory <replaceable>dir</replaceable> in the
-					producer.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-O</option><replaceable>string</replaceable></term>
+				<term>&O.opt;</term>
 
 				<listitem>This flag has no effect other than to cancel any
 					previous diagnostics flag and is included only for
-					compatibility with other compilers.	All TDF optimisations
-					are on by default.	All optimisations are believed to be
-					correct, any bug which occurs in the fully-optimised state
+					compatibility with other compilers.
+					All &tdf; optimisations are on by default.
+					<!-- TODO: "diagnostics flag"? really? -->
+					All optimisations are believed to be correct; any bug which
+					occurs in the fully-optimised state
 					is a genuine bug.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-P</option></term>
+				<term>&P.opt;</term>
 
-				<listitem>Invokes the C preprocessor only, putting the result
-					into a file with a <filename>.i</filename> suffix.
-					The C++ preprocessor is similarly invoked for C++ source
-					files, putting the result into a file with a
-					<filename>.I</filename> suffix.</listitem>
+				<listitem>Tells &tcc; to preserve those files indicated by
+					&letter.arg;.
+					Each &letter.arg; is a single character corresponding to the
+					suffix of the files to be preserved.
+					The &tcc; startup-file can be preserved as
+					<filename>tcc_startup.h</filename> using <option>-Ph</option>.
+					All intermediate files can be preserved using
+					<option>-Pa</option>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-P</option><replaceable>letter</replaceable>...</term>
-
-				<listitem>Tells <command>tcc</command> to preserve those
-					files indicated by <replaceable>letter</replaceable>.
-					Each <replaceable>letter</replaceable> is a single
-					character corresponding to the suffix of the files to be
-					preserved.	The <command>tcc</command> startup-file can
-					be preserved as <filename>tcc_startup.h</filename> using
-					<option>-Ph</option>.	All intermediate files can be
-					preserved using <option>-Pa</option>.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-S</option></term>
-
-				<listitem>Tells <command>tcc</command> to stop after producing
-					an assembly source file. This is equivalent to
-					<option>-Fs</option>.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-S</option><replaceable>letter</replaceable><literal>,</literal><replaceable>file</replaceable><literal>,</literal>...</term>
-				<term><option>-S</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable></term>
+				<term>&S2.opt;</term>
+				<term>&S3.opt;</term>
 
 				<listitem>
-					<para>The specifies that the list of input files
-						<replaceable>file</replaceable> all have type
-						<replaceable>letter</replaceable>, where
-						<replaceable>letter</replaceable> is a single
+					<para>The specifies that the list of input files &file.arg;
+						all have type &letter.arg;, where &letter.arg; is a single
 						character giving the normal suffix of the file type.
 						This gives an alternative method of passing input files
-						to <command>tcc</command>, one which does not depend on
-						it having to recognise suffixes to find the type of
-						a file.</para>
+						to &tcc;, one which does not depend on it having to
+						recognise suffixes to find the type of a file.</para>
 
-					<para>The <option>-S</option><replaceable>letter</replaceable><literal>:</literal><replaceable>file</replaceable>
-						form is similar to the option above, but specifies
-						a single input file, <replaceable>file</replaceable>
+					<para>The &S3.opt; form is similar to the option above, but
+						specifies a single input file, &file.arg;
 						(which may contain a comma).</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-U</option><replaceable>string</replaceable></term>
+				<term>&U.opt;</term>
 
 				<listitem>Is equivalent to inserting the preprocessor directive
-					"#undef <replaceable>string</replaceable>" at the start of
-					each C source file.	This is implemented by
-					<command>tcc</command> writing this directive into a
-					start-up file.	The only macros built into the C to
-					TDF producer are
-					<code>__LINE__</code>,
-					<code>__FILE__</code>,
-					<code>__DATE__</code>,
-					<code>__TIME__</code>,
-					<code>__STDC__</code>,
-					<code>__ANDF__</code> and <code>__TenDRA__</code>.</listitem>
+					<code>#undef &str.arg;</code> at the start of each C source
+					file.
+					This is implemented by &tcc; writing this directive into a
+					start-up file.
+					The only macros built into the C to &tdf; producer are
+					<code>__LINE__</code>, <code>__FILE__</code>,
+					<code>__DATE__</code>, <code>__TIME__</code>,
+					<code>__STDC__</code>, <code>__ANDF__</code> and
+					<code>__TenDRA__</code>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-V</option></term>
+				<term>&V.opt;</term>
 
-				<listitem>Causes all tools invoked by <command>tcc</command>
+				<listitem>Causes all tools invoked by &tcc;
 					to print their version numbers.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-W</option><replaceable>letter</replaceable><literal>,</literal><replaceable>string</replaceable><literal>,</literal>...</term>
-				<term><option>-W</option><replaceable>letter</replaceable><literal>:</literal><replaceable>string</replaceable></term>
+				<term>&W1.opt;</term>
+				<term>&W2.opt;</term>
 
 				<listitem>
-					<para>This passes the list of options
-						<replaceable>string</replaceable> to the compilation
-						phase indicated by
-						<replaceable>letter</replaceable>.</para>
+					<para>This passes the list of options &str.arg; to the
+						compilation phase indicated by &letter.arg;.</para>
 
-					<para>The <option>-W</option><replaceable>letter</replaceable><literal>:</literal><replaceable>string</replaceable>
-						form is similar to the option above, but specifies a
-						single file <option>string</option> (which may
-						contain a comma).</para>
+					<para>The &W2.opt; form is similar to the option above, but
+						specifies a single file &str.arg;
+						(which may contain a comma).</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-X</option><replaceable>string</replaceable></term>
+				<term>&X1.opt;</term>
 
 				<listitem>
 					<para>Specifies a compilation mode. The mode may be one of
@@ -750,23 +914,23 @@
 						<tbody>
 							<tr>
 								<td><code>a</code></td>
-								<td>Lenient ANSI</td>
+								<td>Lenient &ansi;</td>
 							</tr>
 							<tr>
 								<td><code>c</code></td>
-								<td>String ANSI (default)</td>
+								<td>String &ansi; (default)</td>
 							</tr>
 							<tr>
 								<td><code>p</code></td>
-								<td>Strict ANSI with some extra checks</td>
+								<td>Strict &ansi; with some extra checks</td>
 							</tr>
 							<tr>
 								<td><code>s</code></td>
-								<td>Strict ANSI with many extra checks</td>
+								<td>Strict &ansi; with many extra checks</td>
 							</tr>
 							<tr>
 								<td><code>t</code></td>
-								<td>Traditional</td>
+								<td>Traditional (pre-&ansi;) C</td>
 							</tr>
 						</tbody>
 					</table>
@@ -774,515 +938,432 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-X:</option><replaceable>string</replaceable></term>
+				<term>&X2.opt;</term>
 
 				<listitem>Specifies an individual compilation option.
-					See the <emphasis remap='I'>tcc User's Guide</emphasis>
-					for details.</listitem>
+					See the &tcc-userguide.doc; for details.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-Y</option><replaceable>file</replaceable></term>
+				<term>&Y.opt;</term>
 
 				<listitem>
 					<para>Specifies the environment to use.	An environment is
-						a file telling <command>tcc</command> to modify its
-						defaults.
-						If the full pathname of <replaceable>env</replaceable> is
+						a file telling &tcc; to modify its defaults.
+						If the full pathname of &env.arg; is
 						not given, the file is searched for along the
-						<command>tcc</command> environments path which is a list of
-						directories separated by colons.
+						&tcc; environments path which is a list of directories
+						separated by colons.
 						This search path can be printed using
 						<option>-show_env</option>.</para>
 
 					<para>There are certain standard environments, for example,
-						<literal>ansi</literal>, representing the ANSI API (this is
-						the default API environment), <literal>posix</literal>
-						represents the POSIX API, <literal>xpg3</literal> the
-						XPG3 API, and so on.
+						<literal>ansi</literal>, representing the &ansi; &api; (this is
+						the default &api; environment), <literal>posix</literal>
+						represents the &posix; &api;, <literal>xpg3</literal> the
+						&xpg3; &api;, and so on.
 						The <literal>system</literal> environment allows
-						<command>tcc</command> to behave like
-						<citerefentry><refentrytitle>cc</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+						&tcc; to behave like &cc;,
 						using the system header files etc.
-						See the <emphasis remap='I'>tcc User's Guide</emphasis>
-						and <citerefentry><refentrytitle>tccenv</refentrytitle><manvolnum>5</manvolnum></citerefentry>
+						See the &tcc-userguide.doc; and &tccenv.5;
 						manual page for more details about environments.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-Z</option><replaceable>string</replaceable></term>
+				<term>&Z.opt;</term>
 
-				<listitem>Provided for
-					<citerefentry><refentrytitle>cc</refentrytitle><manvolnum>1</manvolnum></citerefentry>
-					compatibility.	Specifies various installer options.</listitem>
+				<listitem>Provided for &cc; compatibility.
+					Specifies various installer options.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-api_check</option></term>
+				<term>&api_check.opt;</term>
 
-				<listitem>Causes <emphasis remap='B'>tchk</emphasis> to create
-					an API usage analysis file, with default name
-					<filename>a.api</filename>.</listitem>
+				<listitem>Causes &tchk; to create an &api; usage analysis file,
+					with default name <filename>a.api</filename>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-api_check_out&nbsp;</option><replaceable>file</replaceable></term>
+				<term>&api_check_out.opt;</term>
 
-				<listitem>If an API usage analysis file is produced, call it
-					<replaceable>file</replaceable>.</listitem>
+				<listitem>If an &api; usage analysis file is produced, call it
+					&file.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-b</option></term>
+				<term>&b.opt;</term>
 
 				<listitem>Stops the library <filename>libc.a</filename> being
 					used by the linker by default.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-c</option></term>
+				<term>&cc.opt;</term>
 
-				<listitem>Tells <command>tcc</command> to stop after producing
-					the binary object files.
-					This is equivalent to <option>-Fo</option>.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-cc</option></term>
-
-				<listitem>Causes <command>tcc</command> to invoke
-					<citerefentry><refentrytitle>cc</refentrytitle><manvolnum>1</manvolnum></citerefentry>
-					for its code production, using the C to TDF producer as
-					a checking front-end to <emphasis remap='I'>cc</emphasis>.
+				<listitem>Causes &tcc; to invoke &cc; for its code production,
+					using the C to &tdf; producer as a checking front-end to &cc;.
 					This allows the checking capabilities of the front-end
-					of the TDF compiler to be exploited on machines where no
-					TDF back-end is available.</listitem>
+					of the &tdf; compiler to be exploited on machines where no
+					&tdf; back-end is available.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-cc_only</option></term>
+				<term>&cc_only.opt;</term>
 
-				<listitem>Causes <command>tcc</command> to invoke
-					<citerefentry><refentrytitle>cc</refentrytitle><manvolnum>1</manvolnum></citerefentry>
-					only.</listitem>
+				<listitem>Causes &tcc; to invoke &cc; only.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-ch</option></term>
+				<term>&ch.opt;</term>
 
-				<listitem>Causes <command>tcc</command> to emulate the
-					stand-alone static checker,
-					<citerefentry><refentrytitle>tchk</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
+				<listitem>Causes &tcc; to emulate the stand-alone static
+					checker, &tchk;.
 					Intermodular checks are enabled in this mode.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-d</option></term>
-
-				<listitem>Halts the compilation after the creation of the
-					dump files.	This is equivalent to
-					<option>-Fd</option>.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-disp</option></term>
-
-				<listitem>Runs the TDF pretty-printer on all files at
-					stage 2 or 3 and then terminates.
-					The results are put into files with
-					<filename>.p</filename> suffixes.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-disp_t</option></term>
-
-				<listitem>Runs the pretty-printer on all files at
-					stage 3 and then terminates. This differs from the previous
-					option in that it displays the TDF after linking with the
-					target-dependent TDF libraries rather than before.
-					The output is put into a file with a
-					<filename>.p</filename> suffix.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-dn</option></term>
-				<term><option>-dy</option></term>
+				<term>&dn.opt;</term>
+				<term>&dy.opt;</term>
 
 				<listitem>Passed to the system linker.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-do</option><replaceable>letter</replaceable>&nbsp;<replaceable>file</replaceable></term>
+				<term>&do.opt;</term>
 
 				<listitem>Sets the name of the default output file of type
-					<replaceable>letter</replaceable> to
-					<replaceable>file</replaceable>.
+					&letter.arg; to &file.arg;.
 					For example, <option>-doh</option> can be used to set
 					the name of the preserved start-up file.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-dry</option></term>
+				<term>&dry.opt;</term>
 
-				<listitem>Makes <command>tcc</command> print information on
-					what system commands it would execute with the given
-					files and options (as in verbose mode) but not actually
-					perform them.</listitem>
+				<listitem>Makes &tcc; print information on what system commands
+					it would execute with the given files and options (as in
+					verbose mode) but not actually perform them.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-dump</option></term>
+				<term>&dump.opt;</term>
 
-				<listitem>Causes <command>tcc</command> to dump its current
-					status.	This option is only used during the actual
-					compilation of <command>tcc</command>.</listitem>
+				<listitem>Causes &tcc; to dump its current status.
+					This option is only used during the actual compilation of
+					&tcc;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-e</option><replaceable>file</replaceable></term>
+				<term>&e.opt;</term>
 
 				<listitem>Is equivalent to inserting the preprocessor directive
-					"#include "<replaceable>file</replaceable>"" at the
-					end of each C source file.</listitem>
+					<code>#include "&file.arg;"</code> at the end of each C
+					source file.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-f</option><replaceable>file</replaceable></term>
+				<term>&f.opt;</term>
 
 				<listitem>Is equivalent to inserting the preprocessor directive
-					"#include "<replaceable>file</replaceable>"" at the
-					start of each C source file.</listitem>
+					<code>#include "&file.arg;"</code> at the start of each C
+					source file.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-g</option></term>
+				<term>&g.opt;</term>
 
-				<listitem>Tells <command>tcc</command> to produce diagnostic
-					information compatible with the system debugger.</listitem>
+				<listitem>Tells &tcc; to produce diagnostic information
+					compatible with the system debugger.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-h</option><replaceable>string</replaceable></term>
+				<term>&h.opt;</term>
 
 				<listitem>Passed to the system linker.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-i</option></term>
-
-				<listitem>Tells <command>tcc</command> to stop after producing
-					the target independent TDF capsules.  This is equivalent
-					to <option>-Fj</option>.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-im</option></term>
+				<term>&im.opt;</term>
 
 				<listitem>Enables intermodular checks.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-im0</option></term>
+				<term>&im0.opt;</term>
 
 				<listitem>Disables intermodular checks.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-info</option></term>
+				<term>&info.opt;</term>
 
-				<listitem>Causes <command>tcc</command> to print information
-					on the current API.</listitem>
+				<listitem>Causes &tcc; to print information
+					on the current &api;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-j</option><replaceable>string</replaceable></term>
+				<term>&j.opt;</term>
 
-				<listitem>Tells the TDF linker to use the TDF library
-					<replaceable>string</replaceable><filename>.tl</filename>.</listitem>
+				<listitem>Tells the &tdf; linker to use the &tdf; library
+					&str.arg;&tl.ext;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-k</option></term>
-
-				<listitem>In intermodular checking mode, halts the
-					compilation after the creation of the C++ spec files.
-					This is equivalent to <option>-FK</option>.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-keep_errors</option></term>
+				<term>&keep_errors.opt;</term>
 
 				<listitem>By default, if an error occurs during the production
-					of a file, <command>tcc</command> will remove it.
+					of a file, &tcc; will remove it.
 					This option will preserve such files.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-l</option><replaceable>string</replaceable></term>
+				<term>&l.opt;</term>
 
 				<listitem>Tells the system linker to use the library
-					<literal>lib</literal><replaceable>string</replaceable><filename>.a</filename>.</listitem>
+					<filename><literal>lib</literal>&str.arg;<literal>.a</literal></filename>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-make_up_names</option></term>
+				<term>&make_up_names.opt;</term>
 
-				<listitem>Causes <command>tcc</command> to make up names for
-					all intermediate files rather than forming them from the
-					basenames of the input files.</listitem>
+				<listitem>Causes &tcc; to make up names for all intermediate
+					files rather than forming them from the basenames of the
+					input files.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-message&nbsp;</option><replaceable>string</replaceable></term>
+				<term>&message.opt;</term>
 
-				<listitem>Causes <command>tcc</command> to print the message
-					<replaceable>string</replaceable>.</listitem>
+				<listitem>Causes &tcc; to print the message &str.arg;.</listitem>
+				<!-- TODO: explain rationalle (in distributable TDF archives as per -prod) -->
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-nepc</option></term>
+				<term>&nepc.opt;</term>
 
-				<listitem>Tells the C to TDF producer to allow certain
+				<listitem>Tells the C to &tdf; producer to allow certain
 					non-portable constructs through.</listitem>
+				<!-- TODO: such as...? -->
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-not_ansi</option></term>
+				<term>&not_ansi.opt;</term>
 
-				<listitem>Tells the C to TDF producer to allow certain
-					non-ANSI features through.</listitem>
+				<listitem>Tells the C to &tdf; producer to allow certain
+					non-&ansi; features through.</listitem>
+				<!-- TODO: such as ...? -->
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-no_startup_options</option></term>
+				<term>&no_startup_options.opt;</term>
 
-				<listitem>Ensures that no start-up or end-up options
-					are passed to the C to TDF producer
-					(unlikely to be useful).</listitem>
+				<listitem>Ensures that no start-up or end-up options are passed
+					to the C to &tdf; producer (unlikely to be useful).</listitem>
+				<!-- TODO: remove this? -->
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-o&nbsp;</option><replaceable>file</replaceable></term>
+				<term>&o.opt;</term>
 
 				<listitem>If a final executable is produced, call it
-					<replaceable>file</replaceable> (the default is
-					<filename>a.out</filename>).
+					&file.arg; (the default is <filename>a.out</filename>).
 					Otherwise, if only one file is preserved, call it
-					<replaceable>file</replaceable>.</listitem>
+					&file.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-p</option></term>
+				<term>&p.opt;</term>
 
-				<listitem>Produces profiling data for use with
-					<citerefentry><refentrytitle>prof</refentrytitle><manvolnum>1</manvolnum></citerefentry>
-					on those machines for which this command is
-					available.</listitem>
+				<listitem>Produces profiling data for use with &prof; on those
+					machines for which this command is available.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-prod</option></term>
+				<term>&q.opt;</term>
+				<term>&quiet.opt;</term>
 
-				<listitem>Specifies that <command>tcc</command> should stop
-					after producing the target independent TDF capsules and
-					combine them into a TDF archive.	The default archive
-					name is <filename>a.ta</filename>.</listitem>
+				<listitem>Specifies that &tcc; should work silently.
+					This is the default.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-q</option></term>
-				<term><option>-quiet</option></term>
+				<term>&query.opt;</term>
 
-				<listitem>Specifies that <command>tcc</command> should work
-					silently.	This is the default.</listitem>
+				<listitem>Causes &tcc; to print a list of all the options it
+					recognises, together with a brief description of each.
+					Since this list is automatically generated it is likely to
+					be more accurate than this manual page.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-query</option></term>
-
-				<listitem>Causes <command>tcc</command> to print a list of
-					all the options it recognises, together with a brief
-					description of each.	Since this list is automatically
-					generated it is likely to be more accurate than this
-					manual page.</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-s</option></term>
+				<term>&s1.opt;</term>
 
 				<listitem>Passed to the system linker.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-s</option><replaceable>letter</replaceable><literal>:</literal><replaceable>suffix</replaceable></term>
+				<term>&s2.opt;</term>
 
-				<listitem>Specifies that files with suffix
-					<replaceable>suffix</replaceable> are interpreted as
-					having type indicated by
-					<replaceable>letter</replaceable>.</listitem>
+				<listitem>Specifies that files with suffix &suffix.arg; are
+					interpreted as having type indicated by
+					&letter.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-show_env</option></term>
+				<term>&show_env.opt;</term>
 
-				<listitem>Prints the <command>tcc</command> environments path.
+				<listitem>Prints the &tcc; environments path.
 					This is a list of directories separated by colons.
 					The first element of the list is always the system default
 					environments directory and the last element is always the
 					current working directory.
 					The other elements may be specified by the user by means of
-					the <emphasis remap='B'>TCCENV</emphasis> system variable.</listitem>
+					the <varname>TCCENV</varname> system variable.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-show_errors</option></term>
+				<term>&show_errors.opt;</term>
 
-				<listitem>Makes <command>tcc</command> report on the command
-					it was executing when an error occurred.</listitem>
+				<listitem>Makes &tcc; report on the command it was executing
+					when an error occurred.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-special&nbsp;</option><replaceable>string</replaceable></term>
+				<term>&special.opt;</term>
 
 				<listitem>Allows various internal options to be
 					specified.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-startup&nbsp;</option><replaceable>string</replaceable></term>
+				<term>&startup.opt;</term>
 
-				<listitem>Causes <replaceable>string</replaceable> to be
-					printed to the <command>tcc</command> built-in start-up
-					file.</listitem>
+				<listitem>Causes &str.arg; to be printed to the &tcc; built-in
+					start-up file.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-sym</option></term>
+				<term>&sym1.opt;</term>
+				<term>&sym2.opt;</term>
 
-				<listitem>Enables dump-linking.</listitem>
+				<listitem>
+					<para>Enables dump-linking (with mode specified by options
+						in &str.arg;, if present).</para>
+					<!-- TODO: document options for str -->
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-sym:&nbsp;</option><replaceable>string</replaceable></term>
+				<term>&target.opt;</term>
 
-				<listitem>Enables dump-linking (with mode specified by
-					options in <replaceable>string</replaceable>).</listitem>
-			</varlistentry>
-
-			<varlistentry>
-				<term><option>-target&nbsp;</option><replaceable>string</replaceable></term>
-
-				<listitem>No effect (allowed for compatibility with
-					<citerefentry><refentrytitle>cc</refentrytitle><manvolnum>1</manvolnum></citerefentry>
+				<listitem>No effect (allowed for compatibility with &cc;
 					on some systems).</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-temp&nbsp;</option><replaceable>dir</replaceable></term>
+				<term>&temp.opt;</term>
 
-				<listitem>Specifies that <command>tcc</command> should use
-					<replaceable>dir</replaceable> as its temporary directory.</listitem>
+				<listitem>Specifies that &tcc; should use &dir.arg; as its
+					temporary directory.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-tidy</option></term>
+				<term>&tidy.opt;</term>
 
-				<listitem>Causes <command>tcc</command> to remove its
-					intermediate files when they are no longer required rather
-					than waiting to the end of the compilation.</listitem>
+				<listitem>Causes &tcc; to remove its intermediate files when
+					they are no longer required rather than waiting to the end
+					of the compilation.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-time</option></term>
+				<term>&time.opt;</term>
 
-				<listitem>Makes <command>tcc</command> print information on
-					what system commands it is executing (as with verbose
-					mode) followed by the time taken for each.</listitem>
+				<listitem>Makes &tcc; print information on what system commands
+					it is executing (as with verbose mode) followed by the time
+					taken for each.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-u</option><replaceable>string</replaceable></term>
+				<term>&u.opt;</term>
 
 				<listitem>Passed to the system linker.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-v</option></term>
-				<term><option>-verbose</option></term>
+				<term>&v.opt;</term>
+				<term>&verbose.opt;</term>
 
-				<listitem>Specifies that <command>tcc</command> should work
-					in verbose mode, sending information on what system
-					commands it is executing to the standard output.</listitem>
+				<listitem>Specifies that &tcc; should work in verbose mode,
+					sending information on what system commands it is executing
+					to the standard output.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-vb</option></term>
+				<term>&vb.opt;</term>
 
 				<listitem>Causes the name of each input file to be printed
 					as it is processed.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-vd</option></term>
+				<term>&vd.opt;</term>
 
 				<listitem>Causes a dump of the environment information tcc
 					got hold of.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-ve</option></term>
+				<term>&ve.opt;</term>
 
 				<listitem>Causes verbose information about tool chain
 					environment to be printed.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-vt</option></term>
+				<term>&vt.opt;</term>
 
 				<listitem>Causes verbose information about tool chain
 					invocation to be printed.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-version</option></term>
+				<term>&version.opt;</term>
 
-				<listitem>Makes <command>tcc</command> report its
-					version number.</listitem>
+				<listitem>Makes &tcc; report its version number.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-w</option></term>
+				<term>&w.opt;</term>
 
-				<listitem>Suppresses all <command>tcc</command> warning
-					messages.</listitem>
+				<listitem>Suppresses all &tcc; warning messages.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-work&nbsp;</option><replaceable>dir</replaceable></term>
+				<term>&work.opt;</term>
 
 				<listitem>Specifies that all preserved intermediate files
-					are placed in the directory <replaceable>dir</replaceable>
+					are placed in the directory &dir.arg;
 					rather than where they are placed by default,
 					in the current working directory.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-wsl</option></term>
+				<term>&wsl.opt;</term>
 
-				<listitem>Tells the TDF translator to make all string
+				<listitem>Tells the &tdf; translator to make all string
 					literals writable.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-z</option><replaceable>string</replaceable></term>
+				<term>&z.opt;</term>
 
 				<listitem>Passed to the system linker.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
 
-	<refsection id='files'>
+	<refsection>
 		<title>Files</title>
 
 		<variablelist>
@@ -1302,26 +1383,28 @@
 				<term><filename>file.C</filename></term>
 
 				<listitem>C++ source file
-					(only if <option>-Yc++</option> is specified)</listitem>
+					(only if <option>-Y</option><literal>c++</literal>
+					is specified)</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.I</filename></term>
 
 				<listitem>Preprocessed C++ source file
-					(only if <option>-Yc++</option> is specified)</listitem>
+					(only if <option>-Y</option><literal>c++</literal>
+					is specified)</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.j</filename></term>
 
-				<listitem>Target independent TDF capsule</listitem>
+				<listitem>Target independent &tdf; capsule</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.t</filename></term>
 
-				<listitem>Target dependent TDF capsule</listitem>
+				<listitem>Target dependent &tdf; capsule</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -1346,26 +1429,28 @@
 				<term><filename>file.K</filename></term>
 
 				<listitem>C++ spec file
-					(only if <option>-Yc++</option> is specified)</listitem>
+					(only if <option>-Y</option><literal>c++</literal>
+					is specified)</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.p</filename></term>
 
-				<listitem>Pretty-printed TDF capsule</listitem>
+				<listitem>Pretty-printed &tdf; capsule</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.tpl</filename></term>
 
-				<listitem>PL_TDF source file
-					(only if <option>-Ypl_tdf</option> is specified)</listitem>
+				<listitem>&pl_tdf; source file
+					(only if <option>-Y</option><literal>pl_tdf</literal>
+					is specified)</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.ta</filename></term>
 
-				<listitem>TDF archive</listitem>
+				<listitem>&tdf; archive</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -1391,7 +1476,7 @@
 			<varlistentry>
 				<term><filename>a.ta</filename></term>
 
-				<listitem>Default TDF archive name</listitem>
+				<listitem>Default &tdf; archive name</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -1403,50 +1488,39 @@
 			<varlistentry>
 				<term><filename>a.api</filename></term>
 
-				<listitem>Default API usage analysis file name</listitem>
+				<listitem>Default &api; usage analysis file name</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>a.j</filename></term>
 
-				<listitem>Default output file for merge-TDF-capsules
+				<listitem>Default output file for merge-&tdf;-capsules
 					option</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>tcc_startup.h</filename></term>
 
-				<listitem>Name of preserved <command>tcc</command>
-					start-up file</listitem>
+				<listitem>Name of preserved &tcc; start-up file</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>/tmp/tcc*</filename></term>
 
 				<listitem>Temporary directory (this may be changed using
-					the <envar>TMPDIR</envar> system variable, see
-					<citerefentry><refentrytitle>tempnam</refentrytitle><manvolnum>3</manvolnum></citerefentry>).</listitem>
+					the <varname>TMPDIR</varname> system variable, see
+					&tempnam.3;).</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
 
-	<refsection id='see_also'><title>See Also</title>
-		<para><citerefentry><refentrytitle>as</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>cc</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>disp</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>ld</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>prof</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>tchk</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>tdfc2</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>tcpplus</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>tot_o</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>tld</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>trans386</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>alphatrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>hppatrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>mipstrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>sparctrans</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
-			<citerefentry><refentrytitle>tccenv</refentrytitle><manvolnum>5</manvolnum></citerefentry>.</para>
+	<refsection>
+		<title>See Also</title>
+
+		<para>&as;, &cc;, &ld;, &prof;, &disp;, &tchk;, &tdfc2;, &tcpplus;,
+			&tld;, &trans-all; &tccenv.5;.</para>
+
+		<para>&tcc-userguide.doc;.</para>
 	</refsection>
 </refentry>
 

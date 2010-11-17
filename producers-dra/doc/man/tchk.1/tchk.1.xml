@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-	"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
+<?xml version="1.0"?>
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+]>
 
-<refentry id="tchk1xml">
-
+<!-- $Id$ -->
+<refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -67,40 +66,38 @@
 		<manvolnum>1</manvolnum>
 	</refmeta>
 
-	<refnamediv id='name'>
+	<refnamediv>
 		<refname>tchk</refname>
 		<refpurpose>TenDRA static checker</refpurpose>
 	</refnamediv>
 
-	<refsynopsisdiv id='synopsis'>
+	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>tchk</command>
-			<arg choice='opt'><replaceable>options</replaceable></arg>
-			<arg choice='plain'><replaceable>files</replaceable></arg>
+
+			<arg choice="opt"><replaceable>options</replaceable></arg>
+			<arg choice="plain"><replaceable>files</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
-
-	<refsection id='description'>
+	<refsection>
 		<title>Description</title>
 
-		<para><command>tchk</command> is the stand-alone TenDRA Static
-			Program Checker.
-			It is more fully documented in the <userinput>TCheck - The TenDRA
-			Static Checker</userinput>.</para>
+		<para>&tchk; is the stand-alone TenDRA Static Program Checker.
+			It is more fully documented in &tchk.doc;.</para>
 
-		<para><command>tchk</command> is equivalent to
-			<emphasis remap='I'>tcc</emphasis> <option>-ch</option> except that it does not
-			allow all the options allowed by
-			<citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.
+		<para>&tchk; is equivalent to <command>tcc -ch</command> except that it
+			does not allow all the options allowed by &tcc;.
 			A complete list of the options allowed can be printed using the
 			<option>-query</option> option.</para>
 	</refsection>
 
-	<refsection id='see_also'>
+	<!-- TODO -->
+
+	<refsection>
 		<title>See Also</title>
 
-		<para><citerefentry><refentrytitle>tcc</refentrytitle><manvolnum>1</manvolnum></citerefentry>.</para>
+		<para>&tcc;, &tchk.doc;.</para>
 	</refsection>
 </refentry>
 

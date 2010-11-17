@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+	<!ENTITY v.opt "<option>-v</option>">
+]>
 
 <!-- $Id -->
-<refentry id="make_tdf1">
-
+<refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -68,53 +67,52 @@
 		<manvolnum>1</manvolnum>
 	</refmeta>
 
-	<refnamediv id="name">
+	<refnamediv>
 		<refname>make_tdf</refname>
-		<refpurpose>TDF I/O generator</refpurpose>
+		<refpurpose>&tdf; I/O generator</refpurpose>
 	</refnamediv>
 
-	<refsynopsisdiv id="synopsis">
+	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>make_tdf</command>
-			<arg choice="plain"><replaceable>input-file</replaceable></arg>
-			<arg choice="plain"><replaceable>template-file</replaceable></arg>
+
+			<arg choice="plain">&in-file.arg;</arg>
+			<arg choice="plain">&temp-file.arg;</arg>
 			<group choice="opt">
-				<arg choice="plain"><replaceable>output-file</replaceable></arg>
+				<arg choice="plain">&out-file.arg;</arg>
 				<arg choice="plain">-</arg>
 			</group>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>make_tdf</command>
+
 			<group choice="req">
-				<arg choice="plain">-v</arg>
+				<arg choice="plain">&v.opt;</arg>
 			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
 	<!-- TODO -->
 
-	<refsection id="options">
+	<refsection>
 		<title>Options</title>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-v</option></term>
+				<term>&v.opt;</term>
+
 				<listitem>
-					<para>Causes <command>make_tdf</command> print its
-						version number.</para>
+					<para>Causes &make_tdf; print its version number.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
 
-	<refsection id="see_also">
+	<refsection>
 		<title>See Also</title>
 
-		<para><citerefentry>
-			<refentrytitle>tcc</refentrytitle>
-			<manvolnum>1</manvolnum>
-		</citerefentry>.</para>
+		<para>&tcc;.</para>
 	</refsection>
 </refentry>
 

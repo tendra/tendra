@@ -1,14 +1,47 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<!-- TODO: entities for common things -->
-<!-- TODO we can put our andfutil manpages in (1andf)? -->
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+	<!ENTITY decode.mode "<literal>decode</literal>">
+	<!ENTITY encode.mode "<literal>decode</literal>">
+	<!ENTITY read.mode   "<literal>read</literal>">
+	<!ENTITY write.mode  "<literal>write</literal>">
 
-<!-- lifted from troff+man by doclifter, additional editing by hand -->
+	<!ENTITY prefix.arg "<replaceable>prefix</replaceable>">
+
+	<!ENTITY h.opt "<option>-help&nbsp;</option><replaceable>subject</replaceable>&nbsp;...">
+	<!ENTITY L.opt "<option>-L</option>&prefix.arg;">
+	<!ENTITY o.opt "<option>-o</option>&nbsp;&out-file.arg;">
+	<!ENTITY help.opt "<option>-help</option>&nbsp;<replaceable>subject</replaceable>&nbsp;&ellipsis.lit;">
+
+	<!ENTITY c.opt "<option>-c</option>">
+	<!ENTITY d.opt "<option>-d</option>">
+	<!ENTITY e.opt "<option>-e</option>">
+	<!ENTITY f.opt "<option>-f</option>">
+	<!ENTITY I.opt "<option>-I</option>&dir.arg;">
+	<!ENTITY l.opt "<option>-l</option>">
+	<!ENTITY p.opt "<option>-p</option>">
+	<!ENTITY q.opt "<option>-q</option>">
+	<!ENTITY r.opt "<option>-r</option>">
+	<!ENTITY t.opt "<option>-t</option>">
+	<!ENTITY V.opt "<option>-V</option>">
+	<!ENTITY w.opt "<option>-w</option>">
+
+	<!ENTITY cv.opt      "<option>-cv</option>">
+	<!ENTITY lib.opt     "<option>-lib</option>">
+	<!ENTITY read.opt    "<option>-read</option>">
+	<!ENTITY func.opt    "<option>-func</option>">
+	<!ENTITY eval.opt    "<option>-eval</option>">
+	<!ENTITY check.opt   "<option>-check</option>">
+	<!ENTITY write.opt   "<option>-write</option>">
+	<!ENTITY tsimp.opt   "<option>-tsimp</option>">
+	<!ENTITY print.opt   "<option>-print</option>">
+	<!ENTITY decode.opt  "<option>-decode</option>">
+	<!ENTITY encode.opt  "<option>-encode</option>">
+	<!ENTITY expand.opt  "<option>-expand</option>">
+	<!ENTITY version.opt "<option>-version</option>">
+]>
+
 <!-- $Id -->
-<refentry id='tnc1'
-	xmlns:xi="http://www.w3.org/2001/XInclude">
-
+<refentry xmlns:xi="http://www.w3.org/2001/XInclude">
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -71,28 +104,28 @@
 		<manvolnum>1</manvolnum>
 	</refmeta>
 
-	<refnamediv id='name'>
+	<refnamediv>
 		<refname>tnc</refname>
-		<refpurpose>TDF notation compiler</refpurpose>
+		<refpurpose>&tdf; notation compiler</refpurpose>
 	</refnamediv>
 
-	<refsynopsisdiv id='synopsis'>
+	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>tnc</command>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-r</option></arg>
-				<arg choice="plain"><option>-read</option></arg>
-				<arg choice="plain"><option>-d</option></arg>
-				<arg choice="plain"><option>-decode</option></arg>
+				<arg choice="plain">&r.opt;</arg>
+				<arg choice="plain">&read.opt;</arg>
+				<arg choice="plain">&d.opt;</arg>
+				<arg choice="plain">&decode.opt;</arg>
 			</group>
 			<group choice="opt">
-				<arg choice="plain"><option>-w</option></arg>
-				<arg choice="plain"><option>-write</option></arg>
-				<arg choice="plain"><option>-e</option></arg>
-				<arg choice="plain"><option>-encode</option></arg>
+				<arg choice="plain">&w.opt;</arg>
+				<arg choice="plain">&write.opt;</arg>
+				<arg choice="plain">&e.opt;</arg>
+				<arg choice="plain">&encode.opt;</arg>
 			</group>
-			<arg choice="opt"><option>-I</option><replaceable>dir</replaceable></arg>
+			<arg choice="opt">&I.opt;</arg>
 
 			<sbr/>
 
@@ -100,16 +133,16 @@
 
 			<sbr/>
 
-			<arg choice="plain"><replaceable>input-file</replaceable></arg>
-			<arg choice="opt"><replaceable>output-file</replaceable></arg>
+			<arg choice="plain">&in-file.arg;</arg>
+			<arg choice="opt">&out-file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tnc</command>
 
 			<group choice="req">
-				<arg choice="plain"><option>-p</option></arg>
-				<arg choice="plain"><option>-print</option></arg>
+				<arg choice="plain">&p.opt;</arg>
+				<arg choice="plain">&print.opt;</arg>
 			</group>
 
 			<sbr/>
@@ -118,69 +151,67 @@
 
 			<sbr/>
 
-			<arg choice="plain"><replaceable>input-file</replaceable></arg>
-			<arg choice="opt"><replaceable>output-file</replaceable></arg>
+			<arg choice="plain">&in-file.arg;</arg>
+			<arg choice="opt">&out-file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tnc</command>
 
 			<group choice="req">
-				<arg choice="plain"><option>-help&nbsp;</option><replaceable>subject</replaceable>&nbsp;...</arg>
-				<arg choice="plain"><option>-version</option></arg>
+				<arg choice="plain">&help.opt;</arg>
+				<arg choice="plain">&version.opt;</arg>
 			</group>
 		</cmdsynopsis>
 
 		<synopfragment id="options">
 			<group choice="opt">
-				<arg choice="plain"><option>-c</option></arg>
-				<arg choice="plain"><option>-cv</option></arg>
-				<arg choice="plain"><option>-check</option></arg>
+				<arg choice="plain">&c.opt;</arg>
+				<arg choice="plain">&cv.opt;</arg>
+				<arg choice="plain">&check.opt;</arg>
 			</group>
-			<arg choice="opt"><option>-eval</option></arg>
-			<arg choice="opt"><option>-expand</option></arg>
+			<arg choice="opt">&eval.opt;</arg>
+			<arg choice="opt">&expand.opt;</arg>
 			<group choice="opt">
-				<arg choice="plain"><option>-f</option></arg>
-				<arg choice="plain"><option>-func</option></arg>
+				<arg choice="plain">&f.opt;</arg>
+				<arg choice="plain">&func.opt;</arg>
 			</group>
 			<group choice="opt">
-				<arg choice="plain"><option>-l</option></arg>
-				<arg choice="plain"><option>-lib</option></arg>
+				<arg choice="plain">&l.opt;</arg>
+				<arg choice="plain">&lib.opt;</arg>
 			</group>
-			<arg choice="opt"><option>-L</option><replaceable>prefix</replaceable></arg>
-			<arg choice="opt"><option>-o</option>&nbsp;<replaceable>output-file</replaceable></arg>
-			<arg choice="opt"><option>-q</option></arg>
+			<arg choice="opt">&L.opt;</arg>
+			<arg choice="opt">&o.opt;</arg>
+			<arg choice="opt">&q.opt;</arg>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-t</option></arg>
-				<arg choice="plain"><option>-tsimp</option></arg>
+				<arg choice="plain">&t.opt;</arg>
+				<arg choice="plain">&tsimp.opt;</arg>
 			</group>
-			<arg choice="opt"><option>-V</option></arg>
+			<arg choice="opt">&V.opt;</arg>
 		</synopfragment>
 	</refsynopsisdiv>
 
-	<refsection id='description'>
+	<refsection>
 		<title>Description</title>
 
-		<para><command>tnc</command> translates TDF capsules to and from text.
-			It has two input modes, <emphasis>read</emphasis> and
-			<emphasis>decode</emphasis>.  In the first, which is default,
-			<replaceable>input-file</replaceable> is a file containing TDF text.
-			In the second <replaceable>input-file</replaceable> is a TDF capsule.</para>
+		<para>&tnc; translates &tdf; capsules to and from text.
+			It has two input modes, &read.mode; and &decode.mode;.
+			In the first, which is default, &in-file.arg; is a file containing
+			&tdf; text.
+			In the second &in-file.arg; is a &tdf; capsule.</para>
 
-		<para>There are also two output modes, <emphasis>encode</emphasis> and
-			<emphasis>write</emphasis>.
-			In the first, which is default, a
-			TDF capsule is written to <replaceable>output-file</replaceable>
-			In the second, TDF text is written to <replaceable>output-file</replaceable>.
-			If the <replaceable>output-file</replaceable> argument is absent, the
-			standard output is used
-		instead.</para>
+		<para>There are also two output modes, &encode.mode; and &write.mode;.
+			In the first, which is default, a &tdf; capsule is written to
+			&out-file.arg;
+			In the second, &tdf; text is written to &out-file.arg;.
+			If the &out-file.arg; argument is absent, the standard output is
+			used instead.</para>
 
-		<para>Combination of these modes give four actions: text to TDF (which
-			is default), TDF to text, text to text, and TDF to TDF.  The last
+		<para>Combination of these modes give four actions: text to &tdf; (which
+			is default), &tdf; to text, text to text, and &tdf; to &tdf;.  The last
 			two actions are not precise identities, but they do give equivalent
 			files. These actions are summarised below:</para>
 
@@ -188,7 +219,7 @@
 			<col align="left"/>
 			<col align="left"/>
 			<col align="left"/>
-			<col align="right"/>
+			<col align="left"/>
 			<col align="left"/>
 
 			<thead>
@@ -196,270 +227,238 @@
 					<th>Options</th>
 					<th>Input&nbsp;mode</th>
 					<th>Output&nbsp;mode</th>
-					<th align="center" colspan="2">Action</th>
+					<th>Input&nbsp;files</th>
+					<th>Output&nbsp;files</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<tr>
 					<td></td>
-					<td><emphasis>read</emphasis>&nbsp;(default)</td>
-					<td><emphasis>encode</emphasis>&nbsp;(default)</td>
-					<td role="input"><filename>.p</filename></td>
-					<td role="output"><filename>.j</filename>/<filename>.t</filename></td>
+					<td>&read.mode;&nbsp;(default)</td>
+					<td>&encode.mode;&nbsp;(default)</td>
+					<td>&p.ext;</td>
+					<td>&j.ext;/&t.ext;</td>
 				</tr>
 				<tr>
-					<td><option>-w</option></td>
-					<td><emphasis>read</emphasis>&nbsp;(default)</td>
-					<td><emphasis>write</emphasis></td>
-					<td role="input"><filename>.p</filename></td>
-					<td role="output"><filename>.p</filename></td>
+					<td>&w.opt;</td>
+					<td>&read.mode;&nbsp;(default)</td>
+					<td>&write.mode;</td>
+					<td>&p.ext;</td>
+					<td>&p.ext;</td>
 				</tr>
 				<tr>
-					<td><option>-d</option></td>
-					<td><emphasis>decode</emphasis></td>
-					<td><emphasis>encode</emphasis>&nbsp;(default)</td>
-					<td role="input"><filename>.j</filename>/<filename>.t</filename></td>
-					<td role="output"><filename>.p</filename></td>
+					<td>&d.opt;</td>
+					<td>&decode.mode;</td>
+					<td>&encode.mode;&nbsp;(default)</td>
+					<td>&j.ext;/&t.ext;</td>
+					<td>&p.ext;</td>
 				</tr>
 				<tr>
-					<td><option>-dw</option>/<option>-p</option></td>
-					<td><emphasis>decode</emphasis></td>
-					<td><emphasis>write</emphasis></td>
-					<td role="input"><filename>.j</filename>/<filename>.t</filename></td>
-					<td role="output"><filename>.p</filename></td>
+					<td><option>-dw</option>/&p.opt;</td>
+					<td>&decode.mode;</td>
+					<td>&write.mode;</td>
+					<td>&j.ext;/&t.ext;</td>
+					<td>&p.ext;</td>
 				</tr>
 				<tr>
 					<td><option>-dl</option></td>
-					<td><emphasis>decode</emphasis></td>
-					<td><emphasis>encode</emphasis>&nbsp;(default)</td>
-					<td role="input"><filename>.tl</filename></td>
-					<td role="output"><filename>.p</filename></td>
+					<td>&decode.mode;</td>
+					<td>&encode.mode;&nbsp;(default)</td>
+					<td>&tl.ext;</td>
+					<td>&p.ext;</td>
 				</tr>
 				<tr>
 					<td><option>-dwl</option></td>
-					<td><emphasis>decode</emphasis></td>
-					<td><emphasis>write</emphasis></td>
-					<td role="input"><filename>.tl</filename></td>
-					<td role="output"><filename>.j</filename>/<filename>.t</filename></td>
+					<td>&decode.mode;</td>
+					<td>&write.mode;</td>
+					<td>&tl.ext;</td>
+					<td>&j.ext;/&t.ext;</td>
 				</tr>
 			</tbody>
 		</table>
 
-		<para>The
-			<!-- TODO: use entity references for this. centralise those under shared/ -->
-			TDF pretty-printer, <citerefentry>
-				<refentrytitle>disp</refentrytitle>
-				<manvolnum>1</manvolnum>
-			</citerefentry>, provides a more sophisticated TDF to text
-			translator, although its output cannot be used as the input to
-			<command>tnc</command>.</para>
+		<para>The &tdf; pretty-printer, &disp;, provides a more sophisticated
+			&tdf; to text translator, although its output cannot be used as the
+			input to &tnc;.</para>
 
-		<para>The form of the TDF text format and more information about
-			<command>tnc</command> can be found in the document <emphasis>The
-			TDF Notation Compiler</emphasis>.</para>
+		<para>The form of the &tdf; text format and more information about
+			&tnc; can be found in the document &tnc-userguide.doc;.</para>
 	</refsection>
 
-	<refsection id='options'>
+	<refsection>
 		<title>Options</title>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-c</option></term>
-				<term><option>-cv</option></term>
-				<term><option>-check</option></term>
+				<term>&c.opt;</term>
+				<term>&cv.opt;</term>
+				<term>&check.opt;</term>
 
-				<listitem>Specifies that <command>tnc</command> should apply
-					extra checks to <replaceable>input-file</replaceable>.
-					For example, simple shape checking is applied.
-					These checks are more efficient in
-					<emphasis>read</emphasis> mode than in
-					<emphasis>decode</emphasis> mode.
-					If the <option>-cv</option> option is used in
-					<emphasis>write</emphasis> mode, all the information
-					gleaned from the shape checking appears in
-					<replaceable>output-file</replaceable>.</listitem>
+				<listitem>Specifies that &tnc; should apply extra checks to
+					&in-file.arg;.  For example, simple shape checking is
+					applied.  These checks are more efficient in &read.mode;
+					mode than in &decode.mode; mode.
+					If the &cv.opt; option is used in &write.mode; mode,
+					all the information gleaned from the shape checking
+					appears in &out-file.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-d</option></term>
-				<term><option>-decode</option></term>
+				<term>&d.opt;</term>
+				<term>&decode.opt;</term>
 
-				<listitem>Specifies that <command>tnc</command> should be in
-					<emphasis>decode</emphasis> mode.
-					That is, that <replaceable>input-file</replaceable> is a
-					TDF capsule.</listitem>
+				<listitem>Specifies that &tnc; should be in &decode.mode; mode.
+					That is, that &in-file.arg; is a &tdf; capsule.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-e</option></term>
-				<term><option>-encode</option></term>
+				<term>&e.opt;</term>
+				<term>&encode.opt;</term>
 
-				<listitem>Specifies that <command>tnc</command> should be in
-					<emphasis>encode</emphasis> mode.
-					That is, that <replaceable>output-file</replaceable> is
-					a TDF capsule.
+				<listitem>Specifies that &tnc; should be in &encode.mode;
+					mode.  That is, that &out-file.arg; is a &tdf; capsule.
 					This is the default output mode.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-eval</option></term>
+				<term>&eval.opt;</term>
 
-				<listitem>Specifies that <command>tnc</command> should simplify
-					its input by evaluating constant expressions as far as
+				<listitem>Specifies that &tnc; should simplify its input by
+					evaluating constant expressions as far as
 					possible.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-expand</option></term>
+				<term>&expand.opt;</term>
 
-				<listitem>Specifies that <command>tnc</command> should expand
-					its input by replacing all applications of defined tokens
-					by the token definition.</listitem>
+				<listitem>Specifies that &tnc; should expand its input by
+					replacing all applications of defined tokens by the token
+					definition.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-f</option></term>
-				<term><option>-func</option></term>
+				<term>&f.opt;</term>
+				<term>&func.opt;</term>
 
-				<listitem>Causes <command>tnc</command> to use its alternative,
-					functional, form for both input and output.
+				<listitem>Causes &tnc; to use its alternative, functional, form
+					for both input and output.
 					The options <option>-func_in</option> and
 					<option>-func_out</option> may be used to change the input
 					and the output independently.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-help&nbsp;</option><replaceable>subject</replaceable>&nbsp;...</term>
+				<term>&help.opt;</term>
 
-				<listitem>Makes <command>tnc</command> print its help message
-					on the given subject(s).
-					If no subject is given, or the subject is
-					<emphasis>all</emphasis>, all the help messages are
+				<listitem>Makes &tnc; print its help message on the given
+					subject(s). If no subject is given, or the subject is
+					<literal>all</literal>, all the help messages are
 					printed.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-I</option><replaceable>dir</replaceable></term>
+				<term>&I.opt;</term>
 
-				<listitem>
-					<para>Adds the directory <replaceable>dir</replaceable> to the search path used by <command>tnc</command> to
-						find included files in <emphasis>read</emphasis> mode.</para>
-				</listitem>
+				<listitem>Adds the directory &dir.arg; to the search path used
+					by &tnc; to find included files in &read.mode;
+					mode.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-l</option></term>
-				<term><option>-lib</option></term>
+				<term>&l.opt;</term>
+				<term>&lib.opt;</term>
 
-				<listitem>
-					<para>In <emphasis>decode</emphasis> mode, specifies that <replaceable>input-file</replaceable> is not a TDF
-						capsule, but a TDF library.  All the capsules comprising the library
-						are decoded.</para>
-				</listitem>
+				<listitem>In &decode.mode; mode, specifies that &in-file.arg;
+					is not a &tdf; capsule, but a &tdf; library.
+					All the capsules comprising the library are decoded.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-L</option><replaceable>prefix</replaceable></term>
+				<term>&L.opt;</term>
 
-				<listitem>
-					<para>Causes <command>tnc</command> to treat any external identifiers starting with
-						<replaceable>prefix</replaceable> to be treated as if they were declare <code>local</code>.</para>
-				</listitem>
+				<listitem>Causes &tnc; to treat any external identifiers
+					starting with &prefix.arg; to be treated as if they were
+					declared <code>local</code>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-o</option>&nbsp;<replaceable>output-file</replaceable></term>
+				<term>&o.opt;</term>
 
-				<listitem>
-					<para>Gives an alternative method of specifying the output file.</para>
-				</listitem>
+				<listitem>Gives an alternative method of specifying the output
+					file.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-p</option></term>
-				<term><option>-print</option></term>
+				<term>&p.opt;</term>
+				<term>&print.opt;</term>
 
-				<listitem>
-					<para>Specifies that <command>tnc</command> should be in <emphasis>decode</emphasis> and <emphasis>write</emphasis> modes.
-						That is, that <replaceable>input-file</replaceable> is a TDF capsule and <replaceable>output-file</replaceable>
-						should consist of TDF text.  This option makes <command>tnc</command> into a TDF
-						pretty-printer.</para>
-				</listitem>
+				<listitem>Specifies that &tnc; should be in &decode.mode; and
+					&write.mode; modes.  That is, that &in-file.arg; is a &tdf;
+					capsule and &out-file.arg; should consist of &tdf; text.
+					This option makes &tnc; into a &tdf;
+					pretty-printer.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-q</option></term>
+				<term>&q.opt;</term>
 
-				<listitem>
-					<para>Causes <command>tnc</command> not to check the consistency of multiple tag or token
-						definitions.</para>
-				</listitem>
+				<listitem>Causes &tnc; not to check the consistency of multiple
+					tag or token definitions.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-r</option></term>
-				<term><option>-read</option></term>
+				<term>&r.opt;</term>
+				<term>&read.opt;</term>
 
-				<listitem>
-					<para>Specifies that <command>tnc</command> should be in <emphasis>read</emphasis> mode.  That is,
-						that <replaceable>input-file</replaceable> should consist of TDF text.
-						This is the default input mode.</para>
-				</listitem>
+				<listitem>Specifies that &tnc; should be in &read.mode; mode.
+					That is, that &in-file.arg; should consist of &tdf; text.
+					This is the default input mode.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-t</option></term>
-				<term><option>-tsimp</option></term>
+				<term>&t.opt;</term>
+				<term>&tsimp.opt;</term>
 
-				<listitem>
-					<para>Specifies that <command>tnc</command> should expand its input by replacing all
-						applications of defined tokens by the token definition and by evaluating
-						constant expressions as far as possible.  This is equivalent to
-						<option>-expand -eval</option>.</para>
-				</listitem>
+				<listitem>Specifies that &tnc; should expand its input by
+					replacing all applications of defined tokens by the token
+					definition and by evaluating constant expressions as far as
+					possible. This is equivalent to
+					<option>-expand -eval</option>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-V</option></term>
+				<term>&V.opt;</term>
 
-				<listitem>
-					<para>In <emphasis>write</emphasis> mode, specifies that the output should be in the "verbose"
-						form, with no shorthand forms.</para>
-				</listitem>
+				<listitem>In &write.mode; mode, specifies that the output
+					should be in the "verbose" form, with no shorthand
+					forms.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-version</option></term>
+				<term>&version.opt;</term>
 
-				<listitem>
-					<para>Makes <command>tnc</command> print its version number and the version of the TDF
-						specification it supports.</para>
-				</listitem>
+				<listitem>Makes &tnc; print its version number and the version
+					of the &tdf; specification it supports.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-w</option></term>
-				<term><option>-write</option></term>
+				<term>&w.opt;</term>
+				<term>&write.opt;</term>
 
-				<listitem>
-					<para>Specifies that <command>tnc</command> should be in <emphasis>write</emphasis> mode.  That is,
-						that <replaceable>output-file</replaceable> should consist of TDF text.</para>
-				</listitem>
+				<listitem>Specifies that &tnc; should be in &write.mode; mode.
+					That is, that &out-file.arg; should consist of &tdf;
+					text.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
 
-	<refsection id='see_also'>
+	<refsection>
 		<title>See Also</title>
 
-		<para><citerefentry>
-				<refentrytitle>disp</refentrytitle>
-				<manvolnum>1</manvolnum>
-			</citerefentry>, <citerefentry>
-				<refentrytitle>tcc</refentrytitle>
-				<manvolnum>1</manvolnum>
-			</citerefentry>.</para>
+		<para>&disp;, &tcc;.</para>
+
+		<para>&tnc-userguide.doc;.</para>
 	</refsection>
 </refentry>
 

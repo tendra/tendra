@@ -1,14 +1,70 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+	<!ENTITY shape.arg "<replaceable>shape</replaceable>">
+	<!ENTITY from.arg  "<replaceable>from</replaceable>">
+	<!ENTITY to.arg    "<replaceable>to</replaceable>">
 
-<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
+	<!ENTITY s1.opt "<option>-s</option>">
+	<!ENTITY s2.opt "<option>-s</option>&nbsp;&shape.arg;&nbsp;&name.arg;">
+
+	<!ENTITY a.opt "<option>-a</option>">
+	<!ENTITY b.opt "<option>-b</option>">
+	<!ENTITY d.opt "<option>-d</option>&nbsp;&file.arg;">
+	<!ENTITY h.opt "<option>-h</option>&nbsp;&shape.arg;&nbsp;&name.arg;">
+	<!ENTITY i.opt "<option>-i</option>&nbsp;&file.arg;">
+	<!ENTITY i.opt "<option>-i</option>">
+	<!ENTITY k.opt "<option>-k</option>&nbsp;&shape.arg;&nbsp;&name.arg;">
+	<!ENTITY l.opt "<option>-l</option>&file.arg;">
+	<!ENTITY m.opt "<option>-m</option>">
+	<!ENTITY o.opt "<option>-o</option>&nbsp;&file.arg;">
+	<!ENTITY r.opt "<option>-r</option>&nbsp;&shape.arg;&nbsp;&from.arg;&nbsp;&to.arg;">
+	<!ENTITY u.opt "<option>-u</option>&nbsp;&file.arg;">
+	<!ENTITY v.opt "<option>-v</option>">
+	<!ENTITY w.opt "<option>-w</option>">
+
+	<!ENTITY H.opt "<option>-H</option>&nbsp;&shape.arg;">
+	<!ENTITY K.opt "<option>-K</option>&nbsp;&shape.arg;">
+	<!ENTITY L.opt "<option>-L</option>&dir.arg;">
+	<!ENTITY M.opt "<option>-M</option>">
+	<!ENTITY R.opt "<option>-R</option>&nbsp;&file.arg;">
+	<!ENTITY S.opt "<option>-S</option>&nbsp;&shape.arg;">
+
+	<!ENTITY ml.opt "<option>-ml</option>">
+	<!ENTITY mc.opt "<option>-mc</option>">
+	<!ENTITY mt.opt "<option>-mt</option>">
+	<!ENTITY mx.opt "<option>-mx</option>">
+
+	<!ENTITY all.opt       "<option>--all</option>">
+	<!ENTITY help.opt      "<option>--help</option>">
+	<!ENTITY hide.opt      "<option>--hide</option>&nbsp;&shape.arg;&nbsp;&name.arg;">
+	<!ENTITY index.opt     "<option>--index</option>">
+	<!ENTITY info.opt      "<option>--info</option>">
+	<!ENTITY keep.opt      "<option>--keep</option>&nbsp;&shape.arg;&nbsp;&name.arg;">
+	<!ENTITY path.opt      "<option>--path</option>&nbsp;&dir.arg;">
+	<!ENTITY keep-all.opt  "<option>--keep-all</option>&nbsp;&shape.arg;">
+	<!ENTITY library.opt   "<option>--library</option>&nbsp;&file.arg;">
+	<!ENTITY qmark.opt     "<option>-?</option>">
+	<!ENTITY size.opt      "<option>--size</option>">
+	<!ENTITY rename.opt    "<option>--rename</option>&nbsp;&shape.arg;&nbsp;&from.arg;&nbsp;&to.arg;">
+	<!ENTITY suppress.opt  "<option>--suppress</option>&nbsp;&shape.arg;&nbsp;&name.arg;">
+	<!ENTITY unit-file.opt "<option>--unit-file</option>&nbsp;&file.arg;">
+	<!ENTITY version.opt   "<option>--version</option>">
+	<!ENTITY warnings.opt  "<option>--warnings</option>">
+	<!ENTITY basename.opt  "<option>--basename</option>">
+
+	<!ENTITY include-library.opt  "<option>--include-library</option>&nbsp;&file.arg;">
+	<!ENTITY all-hide-defined.opt "<option>--all-hide-defined</option>">
+	<!ENTITY match-basename.opt   "<option>--match-basename</option>">
+	<!ENTITY hide-defined.opt     "<option>--hide-defined</option>&nbsp;&shape.arg;">
+	<!ENTITY rename-file.opt      "<option>--rename-file</option>&nbsp;&file.arg;">
+	<!ENTITY debug-file.opt       "<option>--debug-file</option>&nbsp;&file.arg;">
+	<!ENTITY output-file.opt      "<option>--output-file</option>&nbsp;&file.arg;">
+	<!ENTITY suppress-all.opt     "<option>--suppress-all</option>&nbsp;&shape.arg;">
+	<!ENTITY suppress-mult.opt    "<option>--suppress-mult</option>">
+]>
 
 <!-- $Id$ -->
-
-<refentry id='tld1xml'
-	xmlns:xi="http://www.w3.org/2001/XInclude">
-
+<refentry xmlns:xi="http://www.w3.org/2001/XInclude">
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -73,226 +129,219 @@
 
 	<refnamediv id='name'>
 		<refname>tld</refname>
-		<refpurpose>TDF linking and library manipulation utility</refpurpose>
+		<refpurpose>&tdf; linking and library manipulation utility</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>tld</command>
-			<arg choice="opt"><option>-ml</option></arg>
+
+			<arg choice="opt">&ml.opt;</arg>
 
 			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'tdf-options']/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'tdf-options'   ]/*)"/>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-o</option> <replaceable>file</replaceable></arg>
-				<arg choice="plain"><option>--output-file</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain">&o.opt;</arg>
+				<arg choice="plain">&output-file.opt;</arg>
 			</group>
-
 			<group choice="opt">
-				<arg choice="plain"><option>-a</option></arg>
-				<arg choice="plain"><option>--all-hide-defined</option></arg>
-			</group>
-
-			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-h</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
-				<arg choice="plain"><option>--hide</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-H</option> <replaceable>shape</replaceable></arg>
-				<arg choice="plain"><option>--hide-defined</option> <replaceable>shape</replaceable></arg>
+				<arg choice="plain">&a.opt;</arg>
+				<arg choice="plain">&all-hide-defined.opt;</arg>
 			</group>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-k</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
-				<arg choice="plain"><option>--keep</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
+				<arg choice="plain">&h.opt;</arg>
+				<arg choice="plain">&hide.opt;</arg>
 			</group>
-
 			<group choice="opt">
-				<arg choice="plain"><option>-K</option> <replaceable>shape</replaceable></arg>
-				<arg choice="plain"><option>--keep-all</option> <replaceable>shape</replaceable></arg>
+				<arg choice="plain">&H.opt;</arg>
+				<arg choice="plain">&hide-defined.opt;</arg>
 			</group>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-r</option> <replaceable>shape</replaceable> <replaceable>from</replaceable> <replaceable>to</replaceable></arg>
-				<arg choice="plain"><option>--rename</option> <replaceable>shape</replaceable> <replaceable>from</replaceable> <replaceable>to</replaceable></arg>
+				<arg choice="plain">&k.opt;</arg>
+				<arg choice="plain">&keep.opt;</arg>
 			</group>
-
 			<group choice="opt">
-				<arg choice="plain"><option>-R</option> <replaceable>file</replaceable></arg>
-				<arg choice="plain"><option>--rename-file</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain">&K.opt;</arg>
+				<arg choice="plain">&keep-all.opt;</arg>
 			</group>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-w</option></arg>
-				<arg choice="plain"><option>--warnings</option></arg>
+				<arg choice="plain">&r.opt;</arg>
+				<arg choice="plain">&rename.opt;</arg>
 			</group>
-
 			<group choice="opt">
-				<arg choice="plain"><option>-l</option><replaceable>file</replaceable></arg>
-				<arg choice="plain"><option>--library</option> <replaceable>file</replaceable></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-L</option><replaceable>dir</replaceable></arg>
-				<arg choice="plain"><option>--path</option> <replaceable>dir</replaceable></arg>
+				<arg choice="plain">&R.opt;</arg>
+				<arg choice="plain">&rename-file.opt;</arg>
 			</group>
 
 			<sbr/>
 
-			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+			<group choice="opt">
+				<arg choice="plain">&w.opt;</arg>
+				<arg choice="plain">&warnings.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&l.opt;</arg>
+				<arg choice="plain">&library.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&L.opt;</arg>
+				<arg choice="plain">&path.opt;</arg>
+			</group>
+
+			<sbr/>
+
+			<arg rep="repeat" choice="plain">&file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tld</command>
-			<arg choice="plain"><option>-mc</option></arg>
+
+			<arg choice="plain">&mc.opt;</arg>
 
 			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'tdf-options']/*)"/>
+			<xi:include xpointer="xpointer(//synopfragment[@id = 'tdf-options'   ]/*)"/>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-o</option> <replaceable>file</replaceable></arg>
-				<arg choice="plain"><option>--output-file</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain">&o.opt;</arg>
+				<arg choice="plain">&output-file.opt;</arg>
 			</group>
-
 			<group choice="opt">
-				<arg choice="plain"><option>-i</option> <replaceable>file</replaceable></arg>
-				<arg choice="plain"><option>--include-library</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain">&i.opt;</arg>
+				<arg choice="plain">&include-library.opt;</arg>
 			</group>
 
 			<sbr/>
 
-			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+			<arg rep="repeat" choice="plain">&file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tld</command>
-			<arg choice="plain"><option>-mt</option></arg>
+
+			<arg choice="plain">&mt.opt;</arg>
 
 			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-i</option></arg>
-				<arg choice="plain"><option>--index</option></arg>
+				<arg choice="plain">&i.opt;</arg>
+				<arg choice="plain">&index.opt;</arg>
 			</group>
-
 			<group choice="opt">
-				<arg choice="plain"><option>-s</option></arg>
-				<arg choice="plain"><option>--size</option></arg>
+				<arg choice="plain">&s1.opt;</arg>
+				<arg choice="plain">&size.opt;</arg>
 			</group>
 
 			<sbr/>
 
-			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+			<arg rep="repeat" choice="plain">&file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tld</command>
-			<arg choice="plain"><option>-mx</option></arg>
+
+			<arg choice="plain">&mx.opt;</arg>
 
 			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
-			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-a</option></arg>
-				<arg choice="plain"><option>--all</option></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-b</option></arg>
-				<arg choice="plain"><option>--basename</option></arg>
-			</group>
-
-			<group choice="opt">
-				<arg choice="plain"><option>-i</option></arg>
-				<arg choice="plain"><option>--info</option></arg>
-			</group>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-m</option></arg>
-				<arg choice="plain"><option>--match-basename</option></arg>
+				<arg choice="plain">&a.opt;</arg>
+				<arg choice="plain">&all.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&b.opt;</arg>
+				<arg choice="plain">&basename.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&i.opt;</arg>
+				<arg choice="plain">&info.opt;</arg>
 			</group>
 
 			<sbr/>
 
-			<arg rep="repeat" choice="plain"><replaceable>file</replaceable></arg>
+			<group choice="opt">
+				<arg choice="plain">&m.opt;</arg>
+				<arg choice="plain">&match-basename.opt;</arg>
+			</group>
+
+			<sbr/>
+
+			<arg rep="repeat" choice="plain">&file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tld</command>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-ml</option></arg>
-				<arg choice="plain"><option>-mc</option></arg>
-				<arg choice="plain"><option>-mt</option></arg>
-				<arg choice="plain"><option>-mx</option></arg>
+				<arg choice="plain">&ml.opt;</arg>
+				<arg choice="plain">&mc.opt;</arg>
+				<arg choice="plain">&mt.opt;</arg>
+				<arg choice="plain">&mx.opt;</arg>
 			</group>
 			<group choice="req">
 				<group choice="plain">
-					<arg choice="plain"><option>-?</option></arg>
-					<arg choice="plain"><option>--help</option></arg>
+					<arg choice="plain">&qmark.opt;</arg>
+					<arg choice="plain">&help.opt;</arg>
 				</group>
 				<group choice="plain">
-					<arg choice="plain"><option>-v</option></arg>
-					<arg choice="plain"><option>--version</option></arg>
+					<arg choice="plain">&v.opt;</arg>
+					<arg choice="plain">&version.opt;</arg>
 				</group>
 			</group>
 		</cmdsynopsis>
 
 		<synopfragment id="common-options">
 			<group choice="opt">
-				<arg choice="plain"><option>-d</option> <replaceable>file</replaceable></arg>
-				<arg choice="plain"><option>--debug-file</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain">&d.opt;</arg>
+				<arg choice="plain">&debug-file.opt;</arg>
 			</group>
 		</synopfragment>
 
 		<synopfragment id="tdf-options">
 			<group choice="opt">
-				<arg choice="plain"><option>-M</option></arg>
-				<arg choice="plain"><option>--suppress-mult</option></arg>
+				<arg choice="plain">&M.opt;</arg>
+				<arg choice="plain">&suppress-mult.opt;</arg>
 			</group>
-
 			<group choice="opt">
-				<arg choice="plain"><option>-u</option> <replaceable>file</replaceable></arg>
-				<arg choice="plain"><option>--unit-file</option> <replaceable>file</replaceable></arg>
+				<arg choice="plain">&u.opt;</arg>
+				<arg choice="plain">&unit-file.opt;</arg>
 			</group>
 
 			<sbr/>
 
 			<group choice="opt">
-				<arg choice="plain"><option>-s</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
-				<arg choice="plain"><option>--suppress</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></arg>
+				<arg choice="plain">&s2.opt;</arg>
+				<arg choice="plain">&suppress.opt;</arg>
 			</group>
-
 			<group choice="opt">
-				<arg choice="plain"><option>-S</option> <replaceable>shape</replaceable></arg>
-				<arg choice="plain"><option>--suppress-all</option> <replaceable>shape</replaceable></arg>
+				<arg choice="plain">&S.opt;</arg>
+				<arg choice="plain">&suppress-all.opt;</arg>
 			</group>
 		</synopfragment>
 	</refsynopsisdiv>
 
-	<refsection id='description'>
+	<refsection>
 		<title>Description</title>
 
-		<para>The <command>tld</command> command is used to create and
-			manipulate TDF libraries, and to link together TDF capsules.
+		<para>The &tld; command is used to create and manipulate &tdf;
+			libraries, and to link together &tdf; capsules.
 			It has four modes:</para>
 
 			<table>
@@ -308,27 +357,26 @@
 
 				<tbody>
 					<tr>
-						<td><option>-ml</option></td>
-						<td>Link TDF capsules (default)</td>
+						<td>&ml.opt;</td>
+						<td>Link &tdf; capsules (default)</td>
 					</tr>
 					<tr>
-						<td><option>-mc</option></td>
-						<td>Create TDF library</td>
+						<td>&mc.opt;</td>
+						<td>Create &tdf; library</td>
 					</tr>
 					<tr>
-						<td><option>-mt</option></td>
-						<td>List TDF library contents</td>
+						<td>&mt.opt;</td>
+						<td>List &tdf; library contents</td>
 					</tr>
 					<tr>
-						<td><option>-mx</option></td>
-						<td>Extract capsules from TDF library</td>
+						<td>&mx.opt;</td>
+						<td>Extract capsules from &tdf; library</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<para>If provided, the switch must be the first on the command line.
-			If one is not provided, the <option>-ml</option> switch is
-			assumed.</para>
+		<para>If provided, the switch must be the first on the command line.
+			If one is not provided, the &ml.opt; switch is assumed.</para>
 
 		<para>The different modes are described below.
 			In the description, external name definitions are referred to as
@@ -345,32 +393,29 @@
 			attribute set.</para>
 	</refsection>
 
-	<refsection id='switches'>
+	<refsection>
 		<title>Switches</title>
 
-		<para>This version of <command>tld</command>
-			accepts both short form and long form command line switches.</para>
+		<para>This version of &tld; accepts both short form and long form
+			command line switches.</para>
 
-		<para>Short form switches are single characters, and begin with a '-' or '+'
-			character.  They can be concatenated into a single command line word, e.g.:</para>
+		<para>Short form switches are single characters, and begin with a
+			&hyphen.lit; or &plus.lit; character.
+			They can be concatenated into a single command line word, e.g.:</para>
 
-		<para><option>-vor</option> <replaceable>output-file</replaceable>
-			<emphasis>rename-shape</emphasis> <emphasis>rename-from</emphasis>
-			<emphasis>rename-to</emphasis></para>
+		<screen><option>-vor</option> &out-file.arg; &shape.arg; &from.arg; &to.arg;</screen>
 
 		<para>which contains three different switches (<option>-v</option>, which takes no
-			arguments; <option>-o</option>, which takes one argument: <emphasis>output-file</emphasis>; and
-			<option>-r</option>, which takes three arguments: <emphasis>rename-shape</emphasis>,
-			<emphasis>rename-from</emphasis>, and <emphasis>rename-to</emphasis>).</para>
+			arguments; <option>-o</option>, which takes one argument: &out-file.arg;; and
+			<option>-r</option>, which takes three arguments: &shape.arg;,
+			&from.arg;, and &to.arg;).</para>
 
-		<para>Long form switches are strings, and begin with '--' or '++'.  With long
-			form switches, only the shortest unique prefix need be entered.  The long
-			form of the above example would be:</para>
+		<para>Long form switches are strings, and begin with
+			<literal>--</literal> or <literal>++</literal>.
+			With long form switches, only the shortest unique prefix need be entered.
+			The long form of the above example would be:</para>
 
-		<para><option>--version</option> <option>--output-file</option>
-			<replaceable>output-file</replaceable> <option>--rename</option>
-			<replaceable>rename-shape</replaceable> <emphasis>rename-from</emphasis>
-			<emphasis>rename-to</emphasis></para>
+		<screen>&version.opt; <option>--output-file</option> &out-file.arg; <option>--rename</option> &shape.arg; &from.arg; &to.arg;</screen>
 
 		<para>In most cases the arguments to the switch should follow the switch as a
 			separate word.  In the case of short form switches, the arguments to the
@@ -383,72 +428,119 @@
 			be treated as its argument, or it would be the end of the word, and its
 			argument would follow as normal).</para>
 
-		<para>For binary switches, the '-' or '--' switch prefixes set (enable) the
-			switch, and the '+' or '++' switch prefixes reset (disable) the switch.
-			This is probably back to front, but is in keeping with other programs. The
-			switches '--' or '++' by themselves terminate option parsing.</para>
+		<para>For binary switches, the &hyphen.lit; or <literal>--</literal>
+			switch prefixes set (enable) the switch, and the &plus.lit; or
+			<literal>++</literal> switch prefixes reset (disable) the switch.
+			This is probably back to front, but is in keeping with other programs.
+			The switches <literal>--</literal> or <literal>++</literal> by
+			themselves terminate option parsing.</para>
 
 		<para>The following options are common to all modes:</para>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-?</option></term>
-				<term><option>--help</option></term>
+				<term>&qmark.opt;</term>
+				<term>&help.opt;</term>
 
 				<listitem>Write an option summary to the standard error.
 					The exact options written out are specific to the
-					particular mode under which <command>tld</command> is
-					running.</listitem>
+					particular mode under which &tld; is running.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-v</option></term>
-				<term><option>--version</option></term>
+				<term>&v.opt;</term>
+				<term>&version.opt;</term>
 
-				<listitem>Write the version number of the program to the standard
-					error stream.</listitem>
+				<listitem>Write the version number of the program to the
+					standard error stream.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
 
-	<refsection id='external_names'>
+	<refsection>
 		<title>External Names</title>
 
-		<para>An external name may be either a string or a unique.  A unique is written as</para>
+		<para>An external name may be either a string or a unique.
+			A unique is written as</para>
 
-		<para><emphasis>[</emphasis><emphasis>component1</emphasis><literal>.</literal><emphasis>component2</emphasis><literal>.</literal>...<literal>.</literal><emphasis>componentN</emphasis><emphasis>]</emphasis></para>
+		<screen>&open-s.lit;<replaceable>component<subscript>1</subscript></replaceable>&dot.lit;<replaceable>component<subscript>2</subscript></replaceable>&dot.lit;&ellipsis.lit;&dot.lit;<replaceable>component<subscript>n</subscript></replaceable>&close-s.lit;</screen>
 
-		<para>Each component of a unique is a string.  A string consists of any sequence
-			of characters, although some special characters must be preceded by a
-			backslash character to stop them being treated specially.  These characters
-			are '<emphasis>\\fR', '[</emphasis>', '<emphasis>]</emphasis>' and '<literal>.</literal>'.  In addition,
-			the following character sequences are treated the same as they would be in
-			C: '<emphasis>\n</emphasis>', '<emphasis>\r</emphasis>', '<emphasis>\t</emphasis>', '<emphasis>\&numsp;</emphasis>'.  Finally, the
-			sequence '<emphasis>\x</emphasis><emphasis>NN</emphasis>' represents the character with code <emphasis>NN</emphasis> in
-			hex.</para>
+		<para>Each component of a unique is a string.
+			A string consists of any sequence of characters, although some
+			special characters must be preceded by a backslash character to
+			stop them being treated specially.
+			These characters are:</para>
+
+			<table>
+				<col align="center"/>
+				<col align="left"/>
+
+				<thead>
+					<tr>
+						<th>Sequence</th>
+						<th>Meaning</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><literal>\[</literal></td>
+						<td>Literal <literal>[</literal></td>
+					</tr>
+					<tr>
+						<td><literal>\]</literal></td>
+						<td>Literal <literal>]</literal></td>
+					</tr>
+					<tr>
+						<td><literal>\.</literal></td>
+						<td>Literal <literal>.</literal></td>
+					</tr>
+					<tr>
+						<td><literal>\n</literal></td>
+						<td>Newline</td>
+					</tr>
+					<tr>
+						<td><literal>\r</literal></td>
+						<td>Carriage return</td>
+					</tr>
+					<tr>
+						<td><literal>\t</literal></td>
+						<td>Tab</td>
+					</tr>
+					<tr>
+						<td><literal>\ </literal></td>
+						<td>Space</td>
+					</tr>
+					<tr>
+						<td><literal>\x</literal><replaceable>AB</replaceable></td>
+						<td>&ascii; character <replaceable>AB</replaceable>
+							(in hex)</td>
+					</tr>
+				</tbody>
+			</table>
 	</refsection>
 
-	<refsection id='linking'><title>Linking</title>
-		<para>In the default mode, <command>tld</command>
-			tries to link together the TDF capsules specified on the command line.  This
-			consists of the following stages:</para>
+	<refsection>
+		<title>Linking</title>
+
+		<para>In the default mode, &tld; tries to link together the &tdf;
+			capsules specified on the command line.
+			This consists of the following stages:</para>
 
 		<orderedlist>
-			  <listitem>
-				<para>All of the external names specified for renaming on the command line are
-					added to the name tables as indirections to their new names.</para>
-			  </listitem>
+			<listitem>All of the external names specified for renaming on the
+				command line are added to the name tables as indirections to
+				their new names.</listitem>
 
-			  <listitem>
-				<para>All of the capsules specified on the command line are loaded, and their
-					identifiers are mapped into a per shape namespace.  In these namespaces, all
-					external names of the same shape and with the same name will be mapped to
-					the same identifier.  <command>tld</command>
-					will report errors about any attempt to link together more than one capsule
-					providing a unique definition for any external name.</para>
-			  </listitem>
+			<listitem>All of the capsules specified on the command line are
+				loaded, and their identifiers are mapped into a per shape
+				namespace. In these namespaces, all external names of the
+				same shape and with the same name will be mapped to the
+				same identifier. &tld; will report errors about any attempt
+				to link together more than one capsule providing a unique
+				definition for any external name.</listitem>
 
-			  <listitem>
+			<listitem>
 				<para>If any libraries were specified on the command line, then the libraries are
 					loaded to see what definitions they provide.  After loading the libraries,
 					the external names specified for link suppression on the command line are
@@ -462,156 +554,154 @@
 					case of all non-token shapes, this may be either one non-unique definition,
 					or one unique definition with zero or more non-unique definitions; if a
 					unique definition exists, then the non-unique definitions are ignored).</para>
-			  </listitem>
+			</listitem>
 
-			  <listitem>
-				<para>If any external names require hiding or keeping (specified by command line
-					switches), then they are hidden at this point.  Hiding means removing the
-					external name from the external name list.  It is illegal to hide undefined
-					external names.  Keeping means keeping an external name in the external name
-					tables.  Keeping a name overrides any attempt to hide that name.</para>
-			  </listitem>
+			<listitem>If any external names require hiding or keeping (specified by command line
+				switches), then they are hidden at this point.  Hiding means removing the
+				external name from the external name list.  It is illegal to hide undefined
+				external names.  Keeping means keeping an external name in the external name
+				tables.  Keeping a name overrides any attempt to hide that name.</listitem>
 
-			  <listitem>
-				<para>A new TDF capsule is created, consisting of all of the input capsules and
-					the necessary library capsules.  Unless specified with the
-					<option>--output-file</option> switch, the output file will be called
-					<emphasis>capsule.j</emphasis>.</para>
-			  </listitem>
+			<listitem>A new &tdf; capsule is created, consisting of all of the
+				input capsules and the necessary library capsules.
+				Unless specified with the <option>--output-file</option>
+				switch, the output file will be called
+				<filename>capsule.j</filename>.</listitem>
 		</orderedlist>
 
-		<para><command>tld</command>
-			accepts the following switches in link mode:</para>
+		<para>&tld; accepts the following switches in link mode:</para>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-a</option></term>
-				<term><option>--all-hide-defined</option></term>
+				<term>&a.opt;</term>
+				<term>&all-hide-defined.opt;</term>
 
 				<listitem>Hide all external names (of any shape) that are defined.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-d</option> <replaceable>file</replaceable></term>
-				<term><option>--debug-file</option> <replaceable>file</replaceable></term>
+				<term>&d.opt;</term>
+				<term>&debug-file.opt;</term>
 
 				<listitem>Produce a diagnostic trace of the linking process in
-					<replaceable>file</replaceable>.</listitem>
+					&file.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-h</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
-				<term><option>--hide</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
+				<term>&h.opt;</term>
+				<term>&hide.opt;</term>
 
-				<listitem>Cause the external <replaceable>shape</replaceable> name
-					<replaceable>name</replaceable> to be hidden.
+				<listitem>Cause the external &shape.arg; name &name.arg; to be
+					hidden.
 					An error is reported if the name is not defined.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-H</option> <replaceable>shape</replaceable></term>
-				<term><option>--hide-defined</option> <replaceable>shape</replaceable></term>
+				<term>&H.opt;</term>
+				<term>&hide-defined.opt;</term>
 
-				<listitem>Cause the all external <replaceable>shape</replaceable>
-					names that are defined to be hidden.</listitem>
+				<listitem>Cause the all external &shape.arg; names that are
+					defined to be hidden.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-k</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
-				<term><option>--keep</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
+				<term>&k.opt;</term>
+				<term>&keep.opt;</term>
 
-				<listitem>Cause the external <replaceable>shape</replaceable> name
-					<replaceable>name</replaceable> to be kept.</listitem>
+				<listitem>Cause the external &shape.arg; name &name.arg; to be
+					kept.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-K</option> <replaceable>shape</replaceable></term>
-				<term><option>--keep-all</option> <replaceable>shape</replaceable></term>
+				<term>&K.opt;</term>
+				<term>&keep-all.opt;</term>
 
-				<listitem>Cause the all external <replaceable>shape</replaceable>
+				<listitem>Cause the all external &shape.arg;
 					names to be kept.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-l</option><replaceable>file</replaceable></term>
-				<term><option>--library</option> <replaceable>file</replaceable></term>
+				<term>&l.opt;</term>
+				<term>&library.opt;</term>
 
-				<listitem>Use the file <filename>FILE</filename> as a TDF library.
+				<listitem>Use the file &file.arg; as a &tdf; library.
 					If the file name contains a '/', then it is used as specified;
 					if not, the library search path is searched for a file named
-					'<replaceable>file</replaceable>.tl'.
+					'&file.arg;.tl'.
 					Duplicate entries for the same library are ignored.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-o</option> <replaceable>file</replaceable></term>
-				<term><option>--output-file</option> <replaceable>file</replaceable></term>
+				<term>&o.opt;</term>
+				<term>&output-file.opt;</term>
 
-				<listitem>Write the output capsule to the file <filename>FILE</filename>.
+				<listitem>Write the output capsule to the file &file.arg;.
 					If this switch is not specified, then the output is written
 					to the file 'capsule.j' instead.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-L</option><replaceable>dir</replaceable></term>
-				<term><option>--path</option> <replaceable>dir</replaceable></term>
+				<term>&L.opt;</term>
+				<term>&path.opt;</term>
 
-				<listitem>Append the directory <replaceable>dir</replaceable> to
-					the library search path.</listitem>
+				<listitem>Append the directory &dir.arg; to the library search
+					path.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-r</option> <replaceable>shape</replaceable> <replaceable>from</replaceable> <replaceable>to</replaceable></term>
-				<term><option>--rename</option> <replaceable>shape</replaceable> <replaceable>from</replaceable> <replaceable>to</replaceable></term>
+				<term>&r.opt;</term>
+				<term>&rename.opt;</term>
 
-				<listitem>Rename the external <replaceable>shape</replaceable> name
-					<replaceable>from</replaceable> to <replaceable>to</replaceable>.</listitem>
+				<listitem>Rename the external &shape.arg; name &from.arg;
+					to &to.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-R</option> <replaceable>file</replaceable></term>
-				<term><option>--rename-file</option> <replaceable>file</replaceable></term>
+				<term>&R.opt;</term>
+				<term>&rename-file.opt;</term>
 
-				<listitem>Read the contents of the file <filename>FILE</filename> as a series of renaming
-					specifications.  The format of the file is described above.</listitem>
+				<listitem>Read the contents of the file &file.arg; as a series
+					of renaming specifications.
+					The format of the file is described above.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-s</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
-				<term><option>--suppress</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
+				<term>&s2.opt;</term>
+				<term>&suppress.opt;</term>
 
 				<listitem>Do not try to find a definition for the external
-					<replaceable>shape</replaceable> name <replaceable>name</replaceable>.</listitem>
+					&shape.arg; name &name.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-S</option> <replaceable>shape</replaceable></term>
-				<term><option>--suppress-all</option> <replaceable>shape</replaceable></term>
+				<term>&S.opt;</term>
+				<term>&suppress-all.opt;</term>
 
 				<listitem>Do not try to find a definition for any external
-					<replaceable>shape</replaceable> name.</listitem>
+					&shape.arg; name.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-M</option></term>
-				<term><option>--suppress-mult</option></term>
+				<term>&M.opt;</term>
+				<term>&suppress-mult.opt;</term>
 
-				<listitem>Do not use non-unique definitions in libraries as definitions for external
-					names.</listitem>
+				<listitem>Do not use non-unique definitions in libraries as
+					definitions for external names.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-u</option> <replaceable>file</replaceable></term>
-				<term><option>--unit-file</option> <replaceable>file</replaceable></term>
+				<term>&u.opt;</term>
+				<term>&unit-file.opt;</term>
 
-				<listitem>Parse <replaceable>file</replaceable> to get a new unit set name list.
-					By default, all of the standard (as specified in the version 4.0 TDF
-					specification) unit set names are known.</listitem>
+				<listitem>Parse &file.arg; to get a new unit set name list.
+					By default, all of the standard (as specified in the
+					version 4.0 &tdf-spec.doc;) unit set names are
+					known.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-w</option></term>
-				<term><option>--warnings</option></term>
+				<term>&w.opt;</term>
+				<term>&warnings.opt;</term>
 
 				<listitem>Enable/disable the printing of warning messages.
 					Warnings are generated for things like obsolete linker
@@ -620,122 +710,119 @@
 		</variablelist>
 	</refsection>
 
-	<refsection id='library_construction'>
+	<refsection>
 		<title>Library Construction</title>
 
-		<para>A TDF library is a sequence of named capsules, with an index.  The index
+		<para>A &tdf; library is a sequence of named capsules, with an index.  The index
 			indicates which external names are defined by the capsules in the library,
-			and which capsules provide the definitions.  When invoked with the
-			<option>-mc</option> switch, <command>tld</command>
-			produces a library consisting of the TDF capsules specified on the command
-			line.  The library is written to the file <filename>library.tl</filename>, unless the
-			<option>--output-file</option> switch is used.</para>
+			and which capsules provide the definitions.
+			When invoked with the &mc.opt; switch, &tld; produces a library
+			consisting of the &tdf; capsules specified on the command line.
+			The library is written to the file <filename>library.tl</filename>,
+			unless the <option>--output-file</option> switch is used.</para>
 
-		<para><command>tld</command>
-			accepts the following switches in library construction mode:</para>
+		<para>&tld; accepts the following switches in library construction mode:</para>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-d</option> <replaceable>file</replaceable></term>
-				<term><option>--debug-file</option> <replaceable>file</replaceable></term>
+				<term>&d.opt;</term>
+				<term>&debug-file.opt;</term>
 
 				<listitem>Produce a diagnostic trace of the library construction
-					process in <replaceable>file</replaceable>.</listitem>
+					process in &file.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-i</option> <replaceable>file</replaceable></term>
-				<term><option>--include-library</option> <replaceable>file</replaceable></term>
+				<term>&i.opt;</term>
+				<term>&include-library.opt;</term>
 
-				<listitem>Include all of the capsules in the TDF library
-					<replaceable>file</replaceable> in the library being constructed.
+				<listitem>Include all of the capsules in the &tdf; library
+					&file.arg; in the library being constructed.
 					The library name should be a proper file name, not a library
 					abbreviation like the <option>--library</option> switch used
 					by the linking mode.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-o</option> <replaceable>file</replaceable></term>
-				<term><option>--output-file</option> <replaceable>file</replaceable></term>
+				<term>&o.opt;</term>
+				<term>&output-file.opt;</term>
 
-				<listitem>Write the output library to the file
-					<filename>FILE</filename>. If this switch is not specified,
-					then the output is written to the file 'library.tl' instead.</listitem>
+				<listitem>Write the output library to the file &file.arg;.
+					If this switch is not specified, then the output is written
+					to the file <filename>library.tl</filename> instead.</listitem>
 			</varlistentry>
 
-			<!-- TODO: use XML entities for these common replaceables -->
 			<varlistentry>
-				<term><option>-s</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
-				<term><option>--suppress</option> <replaceable>shape</replaceable> <replaceable>name</replaceable></term>
+				<term>&s2.opt;</term>
+				<term>&suppress.opt;</term>
 
 				<listitem>Do not try to find a definition for the external
-					<replaceable>shape</replaceable> name <replaceable>name</replaceable>.</listitem>
+					&shape.arg; name &name.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-S</option> <replaceable>shape</replaceable></term>
-				<term><option>--suppress-all</option> <replaceable>shape</replaceable></term>
+				<term>&S.opt;</term>
+				<term>&suppress-all.opt;</term>
 
 				<listitem>Do not try to find a definition for any external
-					<replaceable>shape</replaceable> name.</listitem>
+					&shape.arg; name.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-M</option></term>
-				<term><option>--suppress-mult</option></term>
+				<term>&M.opt;</term>
+				<term>&suppress-mult.opt;</term>
 
 				<listitem>Do not use non-unique definitions in libraries as
 					definitions for external names.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-u</option> <replaceable>file</replaceable></term>
-				<term><option>--unit-file</option> <replaceable>file</replaceable></term>
+				<term>&u.opt;</term>
+				<term>&unit-file.opt;</term>
 
-				<listitem>Parse <replaceable>file</replaceable> to get a new unit
-					set name list.  By default, all of the standard (as
-					specified in the version 4.0 TDF specification) unit set
-					names are known.</listitem>
+				<listitem>Parse &file.arg; to get a new unit set name list.
+					By default, all of the standard (as specified in the
+					version 4.0 &tdf-spec.doc;) unit set names are
+					known.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
 
-	<refsection id='library_contents'>
+	<refsection>
 		<title>Library Contents</title>
 
 		<para>When invoked with the <option>-mt</option> switch,
-			<command>tld</command>
-			produces a listing of the contents of the TDF library specified on the
-			command line.</para>
+			&tld; produces a listing of the contents of the &tdf;
+			library specified on the command line.</para>
 
-		<para><command>tld</command>
-			accepts the following switches in library contents mode:</para>
+		<para>&tld; accepts the following switches in library contents mode:</para>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-d</option> <replaceable>file</replaceable></term>
-				<term><option>--debug-file</option> <replaceable>file</replaceable></term>
+				<term>&d.opt;</term>
+				<term>&debug-file.opt;</term>
 
 				<listitem>Produce a diagnostic trace of the library contents
-					process in <replaceable>file</replaceable>.</listitem>
+					process in &file.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-i</option></term>
-				<term><option>--index</option></term>
+				<term>&i.opt;</term>
+				<term>&index.opt;</term>
 
 				<listitem>Enable/disable the printing of the index of the library.
 					If printing of the index is enabled, the index of the library
 					will be printed.  The order of the shapes and external names
 					in the printed index is not necessarily the same as the order
 					of the index in the library itself.
-					If the order is important, use the --debug-file option and
+					If the order is important, use the
+					<option>--debug-file</option> option and
 					look at the output that is produced.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-s</option></term>
-				<term><option>--size</option></term>
+				<term>&s1.opt;</term>
+				<term>&size.opt;</term>
 
 				<listitem>Enable/disable the printing of the size of each
 					capsule in the library.
@@ -745,29 +832,32 @@
 		</variablelist>
 	</refsection>
 
-	<refsection id='library_extraction'>
+	<refsection>
 		<title>Library Extraction</title>
 
-		<para>When invoked with the <option>-mx</option> switch, <command>tld</command>
-			extracts capsules from the TDF library specified as the first file on the
-			command line.  The names of the capsules to extract should follow the
-			library name.  If capsule names are specified, they must match exactly the
-			names of the capsules in the library (use the <option>-mt</option> mode switch to find
-			out what the exact names are).  The capsules are normally extracted relative
-			to the current directory, using the name of the capsule as the output file
-			name.  The linker will try to create any directories on the extracted
-			capsule's path name (in some implementations of the linker this may not be
-			supported, in which case the directories will need to be created manually
-			before extraction).  The extracted capsules will overwrite existing files of
+		<para>When invoked with the <option>-mx</option> switch, &tld;
+			extracts capsules from the &tdf; library specified as the first
+			file on the command line.
+			The names of the capsules to extract should follow the library name.
+			If capsule names are specified, they must match exactly the names
+			of the capsules in the library (use the <option>-mt</option> mode
+			switch to find out what the exact names are).
+			The capsules are normally extracted relative to the current
+			directory, using the name of the capsule as the output file name.
+			The linker will try to create any directories on the extracted
+			capsule's path name (in some implementations of the linker this may
+			not be supported, in which case the directories will need to be
+			created manually before extraction).
+			The extracted capsules will overwrite existing files of
 			the same name.</para>
 
-		<para><command>tld</command>
-			accepts the following switches in library extraction mode:</para>
+		<para>&tld; accepts the following switches in library extraction
+			mode:</para>
 
 		<variablelist>
 			<varlistentry>
-				<term><option>-a</option></term>
-				<term><option>--all</option></term>
+				<term>&a.opt;</term>
+				<term>&all.opt;</term>
 
 				<listitem>Enable/disable the extraction of all capsules.
 					If all capsules are to be extracted, no capsule names
@@ -775,8 +865,8 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-b</option></term>
-				<term><option>--basename</option></term>
+				<term>&b.opt;</term>
+				<term>&basename.opt;</term>
 
 				<listitem>Enable/disable the use of the basename of each capsule
 					when extracting.  If this is enabled, then extracted capsules
@@ -786,24 +876,24 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-d</option> <replaceable>file</replaceable></term>
-				<term><option>--debug-file</option> <replaceable>file</replaceable></term>
+				<term>&d.opt;</term>
+				<term>&debug-file.opt;</term>
 
-				<listitem>Produce a diagnostic trace of the library
-					extraction process in <replaceable>file</replaceable>.</listitem>
+				<listitem>Produce a diagnostic trace of the library extraction
+					process in &file.arg;.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-i</option></term>
-				<term><option>--info</option></term>
+				<term>&i.opt;</term>
+				<term>&info.opt;</term>
 
 				<listitem>Enable/disable informational messages.
 					These say which capsules are being extracted.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-m</option></term>
-				<term><option>--match-basename</option></term>
+				<term>&m.opt;</term>
+				<term>&match-basename.opt;</term>
 
 				<listitem>Enable/disable matching of capsule names by basename.
 					If enabled, then the basename of each library capsule is
@@ -814,16 +904,12 @@
 		</variablelist>
 	</refsection>
 
-	<refsection id='see_also'>
+	<refsection>
 		<title>See Also</title>
 
-		<para><citerefentry>
-				<refentrytitle>tcc</refentrytitle>
-				<manvolnum>1</manvolnum>
-			</citerefentry>, <citerefentry>
-				<refentrytitle>tld</refentrytitle>
-				<manvolnum>5</manvolnum>
-			</citerefentry>.</para>
+		<para>&tcc;, &tld.5;.</para>
+
+		<para>&tdf-spec.doc;.</para>
 	</refsection>
 </refentry>
 

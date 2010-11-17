@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-	"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd">
 
-<refentry id="tdfcdump5">
-
+<!-- $Id$ -->
+<refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -62,7 +61,7 @@
 -->
 
 	<refmeta>
-		<refentrytitle>tdfc dump format specification</refentrytitle>
+		<refentrytitle>&tdfc2; dump format specification</refentrytitle>
 		<manvolnum>5</manvolnum>
 	</refmeta>
 
@@ -74,13 +73,13 @@
 		<programlisting language="BNF">
 digit : one of 0 1 2 3 4 5 6 7 8 9
 digit-sequence :
-<emphasis>        digit</emphasis><emphasis>        digit-sequence</emphasis>
+<replaceable>        digit</replaceable><replaceable>        digit-sequence</replaceable>
 number :
-<emphasis>        digit-sequence</emphasis>
+<replaceable>        digit-sequence</replaceable>
 string :
-<emphasis>        &lt;characters&gt;</emphasis><emphasis>        &amp;digit-sequence&lt;characters&gt;</emphasis>
+<replaceable>        &lt;characters&gt;</replaceable><replaceable>        &amp;digit-sequence&lt;characters&gt;</replaceable>
 location :
-<emphasis>        number number number string string</emphasis><emphasis>        number number number string *</emphasis><emphasis>        number number number *</emphasis><emphasis>        number number *</emphasis><emphasis>        number *</emphasis><emphasis>        *</emphasis></programlisting>
+<replaceable>        number number number string string</replaceable><replaceable>        number number number string *</replaceable><replaceable>        number number number *</replaceable><replaceable>        number number *</replaceable><replaceable>        number *</replaceable><replaceable>        *</replaceable></programlisting>
 	</refsection>
 
 	<refsection>
@@ -88,11 +87,11 @@ location :
 
 		<programlisting language="BNF">
 dump-file :
-                <emphasis>command-list</emphasis><emphasis>opt</emphasis>
+                <replaceable>command-list</replaceable><replaceable>opt</replaceable>
 command-list :
-<emphasis>        command</emphasis><emphasis>        command command-list</emphasis>
+<replaceable>        command</replaceable><replaceable>        command command-list</replaceable>
 command :
-<emphasis>        B base-definition             </emphasis><emphasis>base class graph</emphasis><emphasis>        error-command</emphasis><emphasis>        file-command</emphasis><emphasis>        I identifier-command        </emphasis><emphasis>implicit declarations etc.</emphasis><emphasis>        identifier-command</emphasis><emphasis>        scope-command</emphasis><emphasis>        O identifier identifier </emphasis><emphasis>overriding virtual function</emphasis><emphasis>        P type : type     </emphasis><emphasis>promotion type specifier</emphasis><emphasis>        string-command</emphasis><emphasis>        V number number string    </emphasis><emphasis>version number</emphasis><emphasis>        X api-info            </emphasis><emphasis>external token name</emphasis><emphasis>        Z template-info</emphasis><emphasis>template instance</emphasis></programlisting>
+<replaceable>        B base-definition             </replaceable><replaceable>base class graph</replaceable><replaceable>        error-command</replaceable><replaceable>        file-command</replaceable><replaceable>        I identifier-command        </replaceable><replaceable>implicit declarations etc.</replaceable><replaceable>        identifier-command</replaceable><replaceable>        scope-command</replaceable><replaceable>        O identifier identifier </replaceable><replaceable>overriding virtual function</replaceable><replaceable>        P type : type     </replaceable><replaceable>promotion type specifier</replaceable><replaceable>        string-command</replaceable><replaceable>        V number number string    </replaceable><replaceable>version number</replaceable><replaceable>        X api-info            </replaceable><replaceable>external token name</replaceable><replaceable>        Z template-info</replaceable><replaceable>template instance</replaceable></programlisting>
 	</refsection>
 
 	<refsection>
@@ -100,7 +99,7 @@ command :
 
 		<programlisting language="BNF">
 api-info :
-<emphasis>        identifier key identifier string</emphasis></programlisting>
+<replaceable>        identifier key identifier string</replaceable></programlisting>
 	</refsection>
 
 	<refsection>
@@ -108,18 +107,18 @@ api-info :
 
 		<programlisting language="BNF">
 virtual :
-<emphasis>        V</emphasis>
+<replaceable>        V</replaceable>
 base-class :
-<emphasis>        number = virtual</emphasis><emphasis>opt</emphasis><emphasis> access</emphasis><emphasis>opt</emphasis><emphasis> type-name
-</emphasis><emphasis>        number :</emphasis>
+<replaceable>        number = virtual</replaceable><replaceable>opt</replaceable><replaceable> access</replaceable><replaceable>opt</replaceable><replaceable> type-name
+</replaceable><replaceable>        number :</replaceable>
 base-list :
-<emphasis>        base-graph</emphasis><emphasis>        base-graph base-list</emphasis>
+<replaceable>        base-graph</replaceable><replaceable>        base-graph base-list</replaceable>
 base-graph :
-<emphasis>        base-class</emphasis><emphasis>        base-class ( base-list )</emphasis>
+<replaceable>        base-class</replaceable><replaceable>        base-class ( base-list )</replaceable>
 base-definition :
-<emphasis>        identifier-key number base-graph</emphasis>
+<replaceable>        identifier-key number base-graph</replaceable>
 base-number :
-<emphasis>        number : type-name</emphasis></programlisting>
+<replaceable>        number : type-name</replaceable></programlisting>
 	</refsection>
 
 	<refsection>
@@ -127,13 +126,13 @@ base-number :
 
 		<programlisting language="BNF">
 error-command :
-<emphasis>        EA error-argument             </emphasis><emphasis>error argument</emphasis><emphasis>        EC error-info     </emphasis><emphasis>continuation error</emphasis><emphasis>        EF location error-info    </emphasis><emphasis>fatal error</emphasis><emphasis>        EI location error-info    </emphasis><emphasis>internal error</emphasis><emphasis>        ES location error-info    </emphasis><emphasis>serious error</emphasis><emphasis>        EW location error-info    </emphasis><emphasis>warning</emphasis>
+<replaceable>        EA error-argument             </replaceable><replaceable>error argument</replaceable><replaceable>        EC error-info     </replaceable><replaceable>continuation error</replaceable><replaceable>        EF location error-info    </replaceable><replaceable>fatal error</replaceable><replaceable>        EI location error-info    </replaceable><replaceable>internal error</replaceable><replaceable>        ES location error-info    </replaceable><replaceable>serious error</replaceable><replaceable>        EW location error-info    </replaceable><replaceable>warning</replaceable>
 error-info :
-<emphasis>        error-name number number</emphasis>
+<replaceable>        error-name number number</replaceable>
 error-name :
-<emphasis>        number = string</emphasis><emphasis>        number</emphasis>
+<replaceable>        number = string</replaceable><replaceable>        number</replaceable>
 error-argument :
-<emphasis>        B base-number</emphasis><emphasis>        C scope-identifier</emphasis><emphasis>        E exp</emphasis><emphasis>        H hashid</emphasis><emphasis>        I identifier</emphasis><emphasis>        L location</emphasis><emphasis>        N nat</emphasis><emphasis>        S string</emphasis><emphasis>        T type</emphasis><emphasis>        V number</emphasis><emphasis>        V -number</emphasis></programlisting>
+<replaceable>        B base-number</replaceable><replaceable>        C scope-identifier</replaceable><replaceable>        E exp</replaceable><replaceable>        H hashid</replaceable><replaceable>        I identifier</replaceable><replaceable>        L location</replaceable><replaceable>        N nat</replaceable><replaceable>        S string</replaceable><replaceable>        T type</replaceable><replaceable>        V number</replaceable><replaceable>        V -number</replaceable></programlisting>
 		</refsection>
 
 		<refsection>
@@ -141,10 +140,10 @@ error-argument :
 
 			<programlisting language="BNF">
 file-command :
-<emphasis>        FD number = string stringopt        </emphasis><emphasis>inclusion directory</emphasis><emphasis>        FE location         </emphasis><emphasis>file end</emphasis><emphasis>        FIA location string         </emphasis><emphasis>file include with &lt;&gt;</emphasis><emphasis>        FIE location string         </emphasis><emphasis>include end-up</emphasis><emphasis>        FIN location string         </emphasis><emphasis>file include with []</emphasis><emphasis>        FIQ location string</emphasis><emphasis>file include with ""</emphasis>
-                FIR location        <emphasis>resume file</emphasis>
-                FIS location string         <emphasis>include startup</emphasis>
-                FS location directory     <emphasis>file start</emphasis>
+<replaceable>        FD number = string stringopt        </replaceable><replaceable>inclusion directory</replaceable><replaceable>        FE location         </replaceable><replaceable>file end</replaceable><replaceable>        FIA location string         </replaceable><replaceable>file include with &lt;&gt;</replaceable><replaceable>        FIE location string         </replaceable><replaceable>include end-up</replaceable><replaceable>        FIN location string         </replaceable><replaceable>file include with []</replaceable><replaceable>        FIQ location string</replaceable><replaceable>file include with ""</replaceable>
+                FIR location        <replaceable>resume file</replaceable>
+                FIS location string         <replaceable>include startup</replaceable>
+                FS location directory     <replaceable>file start</replaceable>
 directory :
                 number
                 *</programlisting>
@@ -155,63 +154,63 @@ directory :
 
 		<programlisting language="BNF">
 identifier-command :
-                C identifier-info             <emphasis>call identifier</emphasis>
-                D identifier-info type-info         <emphasis>define identifier</emphasis>
-                L identifier-info             <emphasis>use identifier</emphasis>
-                M identifier-info type-info         <emphasis>declare identifier</emphasis>
-                Q identifier-info             <emphasis>end identifier definition</emphasis>
-                T identifier-info type-info         <emphasis>tentatively define identifier</emphasis>
-                U identifier-info             <emphasis>undefine identifier</emphasis>
-                W identifier-info type-info         <emphasis>weak prototype</emphasis>
+                C identifier-info             <replaceable>call identifier</replaceable>
+                D identifier-info type-info         <replaceable>define identifier</replaceable>
+                L identifier-info             <replaceable>use identifier</replaceable>
+                M identifier-info type-info         <replaceable>declare identifier</replaceable>
+                Q identifier-info             <replaceable>end identifier definition</replaceable>
+                T identifier-info type-info         <replaceable>tentatively define identifier</replaceable>
+                U identifier-info             <replaceable>undefine identifier</replaceable>
+                W identifier-info type-info         <replaceable>weak prototype</replaceable>
 identifier-info :
                 identifier-key location identifier
 identifier-key :
-                CD            <emphasis>static data member</emphasis>
-                CF function-key <emphasis>member function</emphasis>
-                CM            <emphasis>data member</emphasis>
-                CS function-key <emphasis>static member function</emphasis>
-                CV function-key <emphasis>virtual member function</emphasis>
-                E             <emphasis>enumerator</emphasis>
-                FB function-key <emphasis>builtin function</emphasis>
-                FE function key <emphasis>external function</emphasis>
-                FS function-key <emphasis>static function</emphasis>
-                K             <emphasis>keyword</emphasis>
-                L             <emphasis>label</emphasis>
-                MB            <emphasis>built-in macro</emphasis>
-                MF            <emphasis>function-like macro</emphasis>
-                MO            <emphasis>object-like macro</emphasis>
-                NA            <emphasis>namespace alias</emphasis>
-                NN            <emphasis>namespace name</emphasis>
-                TA            <emphasis>type alias</emphasis>
-                TC            <emphasis>class tag</emphasis>
-                TE            <emphasis>enum tag</emphasis>
-                TS            <emphasis>struct tag</emphasis>
-                TU            <emphasis>union tag</emphasis>
-                VA            <emphasis>automatic variable</emphasis>
-                VE            <emphasis>extern variable</emphasis>
-                VP            <emphasis>function parameter</emphasis>
-                VS            <emphasis>static variable</emphasis>
-                XF            <emphasis>procedure token</emphasis>
-                XO            <emphasis>object token</emphasis>
-                XP            <emphasis>token parameter</emphasis>
-                XT            <emphasis>template parameter</emphasis>
+                CD            <replaceable>static data member</replaceable>
+                CF function-key <replaceable>member function</replaceable>
+                CM            <replaceable>data member</replaceable>
+                CS function-key <replaceable>static member function</replaceable>
+                CV function-key <replaceable>virtual member function</replaceable>
+                E             <replaceable>enumerator</replaceable>
+                FB function-key <replaceable>builtin function</replaceable>
+                FE function key <replaceable>external function</replaceable>
+                FS function-key <replaceable>static function</replaceable>
+                K             <replaceable>keyword</replaceable>
+                L             <replaceable>label</replaceable>
+                MB            <replaceable>built-in macro</replaceable>
+                MF            <replaceable>function-like macro</replaceable>
+                MO            <replaceable>object-like macro</replaceable>
+                NA            <replaceable>namespace alias</replaceable>
+                NN            <replaceable>namespace name</replaceable>
+                TA            <replaceable>type alias</replaceable>
+                TC            <replaceable>class tag</replaceable>
+                TE            <replaceable>enum tag</replaceable>
+                TS            <replaceable>struct tag</replaceable>
+                TU            <replaceable>union tag</replaceable>
+                VA            <replaceable>automatic variable</replaceable>
+                VE            <replaceable>extern variable</replaceable>
+                VP            <replaceable>function parameter</replaceable>
+                VS            <replaceable>static variable</replaceable>
+                XF            <replaceable>procedure token</replaceable>
+                XO            <replaceable>object token</replaceable>
+                XP            <replaceable>token parameter</replaceable>
+                XT            <replaceable>template parameter</replaceable>
 function-key :
                 empty
-                C function-key    <emphasis>C linkage</emphasis>
-                I function-key    <emphasis>inline</emphasis>
+                C function-key    <replaceable>C linkage</replaceable>
+                I function-key    <replaceable>inline</replaceable>
 identifier :
                 number = hashid accessopt scope-identifier
                 number
 hashid :
-                string    <emphasis>simple name</emphasis>
-                C type    <emphasis>constructor</emphasis>
-                D type    <emphasis>destructor</emphasis>
-                O string                <emphasis>operator</emphasis>
-                T type    <emphasis>conversion</emphasis>
+                string    <replaceable>simple name</replaceable>
+                C type    <replaceable>constructor</replaceable>
+                D type    <replaceable>destructor</replaceable>
+                O string                <replaceable>operator</replaceable>
+                T type    <replaceable>conversion</replaceable>
 access :
-                B             <emphasis>protected</emphasis>
-                N             <emphasis>public</emphasis>
-                P             <emphasis>private</emphasis></programlisting>
+                B             <replaceable>protected</replaceable>
+                N             <replaceable>public</replaceable>
+                P             <replaceable>private</replaceable></programlisting>
 	</refsection>
 
 	<refsection>
@@ -219,17 +218,17 @@ access :
 
 		<programlisting language="BNF">
 scope-command :
-                SE scope-key location identifier                <emphasis>end scope</emphasis>
-                SS scope-key location identifier                <emphasis>start scope</emphasis>
+                SE scope-key location identifier                <replaceable>end scope</replaceable>
+                SS scope-key location identifier                <replaceable>start scope</replaceable>
 scope-key :
-                B             <emphasis>block scope</emphasis>
-                CC            <emphasis>conditional scope</emphasis>
-                N             <emphasis>namespace scope</emphasis>
-                CF            <emphasis>false conditional scope</emphasis>
-                CT            <emphasis>true conditional scope</emphasis>
-                D             <emphasis>other declarative scope</emphasis>
-                H             <emphasis>header scope</emphasis>
-                S             <emphasis>class scope</emphasis>
+                B             <replaceable>block scope</replaceable>
+                CC            <replaceable>conditional scope</replaceable>
+                N             <replaceable>namespace scope</replaceable>
+                CF            <replaceable>false conditional scope</replaceable>
+                CT            <replaceable>true conditional scope</replaceable>
+                D             <replaceable>other declarative scope</replaceable>
+                H             <replaceable>header scope</replaceable>
+                S             <replaceable>class scope</replaceable>
 scope-identifier :
                 identifier
                 *</programlisting>
@@ -240,10 +239,10 @@ scope-identifier :
 
 		<programlisting language="BNF">
 string-command :
-                A location string             <emphasis>string literal</emphasis>
-                AC location string            <emphasis>character literal</emphasis>
-                ACL location string         <emphasis>wide character literal</emphasis>
-                AL location string            <emphasis>wide string literal</emphasis></programlisting>
+                A location string             <replaceable>string literal</replaceable>
+                AC location string            <replaceable>character literal</replaceable>
+                ACL location string         <replaceable>wide character literal</replaceable>
+                AL location string            <replaceable>wide string literal</replaceable></programlisting>
 	</refsection>
 
 	<refsection>
@@ -262,28 +261,28 @@ template-info :
 
 		<programlisting language="BNF">
 sort :
-                ZEC type-info     <emphasis>constant expression</emphasis>
-                ZEL type-info     <emphasis>lvalue expression</emphasis>
-                ZER type-info     <emphasis>rvalue expression</emphasis>
-                ZF type-info        <emphasis>function</emphasis>
-                ZM type-info : type-name                <emphasis>member</emphasis>
-                ZN            <emphasis>integral constant</emphasis>
-                ZPS parameter-list-opt : sort     <emphasis>procedure type ()</emphasis>
+                ZEC type-info     <replaceable>constant expression</replaceable>
+                ZEL type-info     <replaceable>lvalue expression</replaceable>
+                ZER type-info     <replaceable>rvalue expression</replaceable>
+                ZF type-info        <replaceable>function</replaceable>
+                ZM type-info : type-name                <replaceable>member</replaceable>
+                ZN            <replaceable>integral constant</replaceable>
+                ZPS parameter-list-opt : sort     <replaceable>procedure type ()</replaceable>
                 ZPG parameter-list-opt ; parameter-list-opt:sort 
-<emphasis>                        procedure type {}</emphasis>
-                ZS            <emphasis>statement</emphasis>
-                ZTA         <emphasis>arithmetic type</emphasis>
-                ZTF         <emphasis>floating type</emphasis>
-                ZTI         <emphasis>integral type</emphasis>
-                ZTO         <emphasis>opaque type</emphasis>
-                ZTP         <emphasis>scalar type</emphasis>
-                ZTS         <emphasis>structure type</emphasis>
-                ZTt parameter-list-opt :                <emphasis>template type</emphasis>
-                ZTTS        <emphasis>structure tag </emphasis>
-                ZTTU        <emphasis>union tag</emphasis>
-                ZTU         <emphasis>union type</emphasis>
-                ZUF number            <emphasis>function macro</emphasis>
-                ZUO         <emphasis>object macro</emphasis>
+<replaceable>                        procedure type {}</replaceable>
+                ZS            <replaceable>statement</replaceable>
+                ZTA         <replaceable>arithmetic type</replaceable>
+                ZTF         <replaceable>floating type</replaceable>
+                ZTI         <replaceable>integral type</replaceable>
+                ZTO         <replaceable>opaque type</replaceable>
+                ZTP         <replaceable>scalar type</replaceable>
+                ZTS         <replaceable>structure type</replaceable>
+                ZTt parameter-list-opt :                <replaceable>template type</replaceable>
+                ZTTS        <replaceable>structure tag </replaceable>
+                ZTTU        <replaceable>union tag</replaceable>
+                ZTU         <replaceable>union type</replaceable>
+                ZUF number            <replaceable>function macro</replaceable>
+                ZUO         <replaceable>object macro</replaceable>
 exp :
                 nat
 member :
@@ -292,13 +291,13 @@ member :
 statement :
                 exp
 token-argument :
-                C identifier        <emphasis>template argument</emphasis>
-                E exp     <emphasis>expression argument</emphasis>
-                F identifier        <emphasis>function argument</emphasis>
-                M member                <emphasis>member argument</emphasis>
-                N nat     <emphasis>integer constant argument</emphasis>
-                S statement         <emphasis>statement argument</emphasis>
-                T type-info         <emphasis>type argument</emphasis>
+                C identifier        <replaceable>template argument</replaceable>
+                E exp     <replaceable>expression argument</replaceable>
+                F identifier        <replaceable>function argument</replaceable>
+                M member                <replaceable>member argument</replaceable>
+                N nat     <replaceable>integer constant argument</replaceable>
+                S statement         <replaceable>statement argument</replaceable>
+                T type-info         <replaceable>type argument</replaceable>
 token-argument-list :
                 token-argument
                 token-argument , token-argument-list
@@ -311,56 +310,56 @@ token-application :
 
 			<programlisting language="BNF">
 type-info :
-                scope-identifier                <emphasis>for namespace alias</emphasis>
-                sort        <emphasis>for token, macro etc.</emphasis>
-                type        <emphasis>for variable etc.</emphasis>
-                type identifier-opt         <emphasis>for overloaded function</emphasis>
+                scope-identifier                <replaceable>for namespace alias</replaceable>
+                sort        <replaceable>for token, macro etc.</replaceable>
+                type        <replaceable>for variable etc.</replaceable>
+                type identifier-opt         <replaceable>for overloaded function</replaceable>
 type :
                 qualifieropt unqualified-type
 qualifier :
-                C             <emphasis>const</emphasis>
-                V             <emphasis>volatile</emphasis>
-                CV            <emphasis>const volatile</emphasis>
+                C             <replaceable>const</replaceable>
+                V             <replaceable>volatile</replaceable>
+                CV            <replaceable>const volatile</replaceable>
 unqualified-type :
                 type-name
                 token-application
-                c             <emphasis>char</emphasis>
-                s             <emphasis>short</emphasis>
-                i             <emphasis>int</emphasis>
-                l             <emphasis>long</emphasis>
-                x             <emphasis>long long</emphasis>
-                f             <emphasis>float</emphasis>
-                d             <emphasis>double</emphasis>
-                r             <emphasis>long double</emphasis>
-                v             <emphasis>void</emphasis>
-                b             <emphasis>bool</emphasis>
-                w             <emphasis>wchar_t</emphasis>
-                Sc            <emphasis>signed char</emphasis>
-                Uc            <emphasis>unsigned char</emphasis>
-                Us            <emphasis>unsigned short</emphasis>
-                Ui            <emphasis>unsigned int</emphasis>
-                Ul            <emphasis>unsigned long</emphasis>
-                Ux            <emphasis>unsigned long long</emphasis>
-                u             <emphasis>bottom</emphasis>
-                y             <emphasis>ptrdiff_t</emphasis>
-                z             <emphasis>size_t</emphasis>
-                a type : type     <emphasis>arithmetic type</emphasis>
-                n nat     <emphasis>literal type</emphasis>
-                p type    <emphasis>promoted type</emphasis>
-                t parameter-listopt : type            <emphasis>template type</emphasis>
-                A natopt : type <emphasis>array type</emphasis>
-                B nat : type        <emphasis>bitfield type</emphasis>
-                F type parameter-types    <emphasis>function type</emphasis>
-                M type-name : type            <emphasis>pointer to member type</emphasis>
-                P type    <emphasis>pointer type</emphasis>
-                R type    <emphasis>reference type</emphasis>
-                W type parameter-types    <emphasis>weak function type</emphasis>
-                Q string                <emphasis>quoted type</emphasis>
-                *             <emphasis>unknown type</emphasis>
+                c             <replaceable>char</replaceable>
+                s             <replaceable>short</replaceable>
+                i             <replaceable>int</replaceable>
+                l             <replaceable>long</replaceable>
+                x             <replaceable>long long</replaceable>
+                f             <replaceable>float</replaceable>
+                d             <replaceable>double</replaceable>
+                r             <replaceable>long double</replaceable>
+                v             <replaceable>void</replaceable>
+                b             <replaceable>bool</replaceable>
+                w             <replaceable>wchar_t</replaceable>
+                Sc            <replaceable>signed char</replaceable>
+                Uc            <replaceable>unsigned char</replaceable>
+                Us            <replaceable>unsigned short</replaceable>
+                Ui            <replaceable>unsigned int</replaceable>
+                Ul            <replaceable>unsigned long</replaceable>
+                Ux            <replaceable>unsigned long long</replaceable>
+                u             <replaceable>bottom</replaceable>
+                y             <replaceable>ptrdiff_t</replaceable>
+                z             <replaceable>size_t</replaceable>
+                a type : type     <replaceable>arithmetic type</replaceable>
+                n nat     <replaceable>literal type</replaceable>
+                p type    <replaceable>promoted type</replaceable>
+                t parameter-listopt : type            <replaceable>template type</replaceable>
+                A natopt : type <replaceable>array type</replaceable>
+                B nat : type        <replaceable>bitfield type</replaceable>
+                F type parameter-types    <replaceable>function type</replaceable>
+                M type-name : type            <replaceable>pointer to member type</replaceable>
+                P type    <replaceable>pointer type</replaceable>
+                R type    <replaceable>reference type</replaceable>
+                W type parameter-types    <replaceable>weak function type</replaceable>
+                Q string                <replaceable>quoted type</replaceable>
+                *             <replaceable>unknown type</replaceable>
 parameter-types :
-                : exceptionopt qualifieropt :     <emphasis>no parameters</emphasis>
-                . exceptionopt qualifieropt :     <emphasis>ellipsis</emphasis>
-                . exceptionopt qualifieropt .     <emphasis>unknown</emphasis>
+                : exceptionopt qualifieropt :     <replaceable>no parameters</replaceable>
+                . exceptionopt qualifieropt :     <replaceable>ellipsis</replaceable>
+                . exceptionopt qualifieropt .     <replaceable>unknown</replaceable>
                 , type parameter-types
 exception :
                 ( exception-listopt )
@@ -387,75 +386,75 @@ nat :
   The following gives a summary of the syntax for the
   <A HREF="dump.html">symbol table dump file</A> (version 1.1):
   <programlisting language="BNF">
-<emphasis>dump-file</emphasis> :
-	<emphasis>command-list<subscript>opt</subscript></emphasis>
+<replaceable>dump-file</replaceable> :
+	<replaceable>command-list<subscript>opt</subscript></replaceable>
 
-<emphasis>command-list</emphasis> :
-	<emphasis>command command-list<subscript>opt</subscript></emphasis>
+<replaceable>command-list</replaceable> :
+	<replaceable>command command-list<subscript>opt</subscript></replaceable>
 
-<emphasis>command</emphasis> :
-	<emphasis>version-command</emphasis>
-	<emphasis>identifier-command</emphasis>
-	<emphasis>scope-command</emphasis>
-	<emphasis>override-command</emphasis>
-	<emphasis>base-command</emphasis>
-	<emphasis>api-command</emphasis>
-	<emphasis>template-command</emphasis>
-	<emphasis>promotion-command</emphasis>
-	<emphasis>error-command</emphasis>
-	<emphasis>path-command</emphasis>
-	<emphasis>file-command</emphasis>
-	<emphasis>include-command</emphasis>
-	<emphasis>string-command</emphasis>
+<replaceable>command</replaceable> :
+	<replaceable>version-command</replaceable>
+	<replaceable>identifier-command</replaceable>
+	<replaceable>scope-command</replaceable>
+	<replaceable>override-command</replaceable>
+	<replaceable>base-command</replaceable>
+	<replaceable>api-command</replaceable>
+	<replaceable>template-command</replaceable>
+	<replaceable>promotion-command</replaceable>
+	<replaceable>error-command</replaceable>
+	<replaceable>path-command</replaceable>
+	<replaceable>file-command</replaceable>
+	<replaceable>include-command</replaceable>
+	<replaceable>string-command</replaceable>
 
-<emphasis>version-command</emphasis> :
-	V <emphasis>number number string</emphasis>
+<replaceable>version-command</replaceable> :
+	V <replaceable>number number string</replaceable>
 
 
-<emphasis>location</emphasis> :
-	<emphasis>number number number string string</emphasis>
-	<emphasis>number number number string</emphasis> *
-	<emphasis>number number number</emphasis> *
-	<emphasis>number number</emphasis> *
-	<emphasis>number</emphasis> *
+<replaceable>location</replaceable> :
+	<replaceable>number number number string string</replaceable>
+	<replaceable>number number number string</replaceable> *
+	<replaceable>number number number</replaceable> *
+	<replaceable>number number</replaceable> *
+	<replaceable>number</replaceable> *
 	*
 
 
-<emphasis>identifier</emphasis> :
-	<emphasis>number</emphasis> = <emphasis>identifier-name access<subscript>opt</subscript> scope-identifier</emphasis>
-	<emphasis>number</emphasis>
+<replaceable>identifier</replaceable> :
+	<replaceable>number</replaceable> = <replaceable>identifier-name access<subscript>opt</subscript> scope-identifier</replaceable>
+	<replaceable>number</replaceable>
 
-<emphasis>identifier-name</emphasis> :
-	<emphasis>string</emphasis>
-	C <emphasis>type</emphasis>
-	D <emphasis>type</emphasis>
-	O <emphasis>string</emphasis>
-	T <emphasis>type</emphasis>
+<replaceable>identifier-name</replaceable> :
+	<replaceable>string</replaceable>
+	C <replaceable>type</replaceable>
+	D <replaceable>type</replaceable>
+	O <replaceable>string</replaceable>
+	T <replaceable>type</replaceable>
 
-<emphasis>access</emphasis> :
+<replaceable>access</replaceable> :
 	N
 	B
 	P
 
-<emphasis>scope-identifier</emphasis> :
-	<emphasis>identifier</emphasis>
+<replaceable>scope-identifier</replaceable> :
+	<replaceable>identifier</replaceable>
 	*
 
-<emphasis>identifier-command</emphasis> :
-	D <emphasis>identifier-info type-info</emphasis>
-	M <emphasis>identifier-info type-info</emphasis>
-	T <emphasis>identifier-info type-info</emphasis>
-	Q <emphasis>identifier-info</emphasis>
-	U <emphasis>identifier-info</emphasis>
-	L <emphasis>identifier-info</emphasis>
-	C <emphasis>identifier-info</emphasis>
-	W <emphasis>identifier-info type-info</emphasis>
-	I <emphasis>identifier-command</emphasis>
+<replaceable>identifier-command</replaceable> :
+	D <replaceable>identifier-info type-info</replaceable>
+	M <replaceable>identifier-info type-info</replaceable>
+	T <replaceable>identifier-info type-info</replaceable>
+	Q <replaceable>identifier-info</replaceable>
+	U <replaceable>identifier-info</replaceable>
+	L <replaceable>identifier-info</replaceable>
+	C <replaceable>identifier-info</replaceable>
+	W <replaceable>identifier-info type-info</replaceable>
+	I <replaceable>identifier-command</replaceable>
 
-<emphasis>identifier-info</emphasis> :
-	<emphasis>identifier-key location identifier</emphasis>
+<replaceable>identifier-info</replaceable> :
+	<replaceable>identifier-key location identifier</replaceable>
 
-<emphasis>identifier-key</emphasis> :
+<replaceable>identifier-key</replaceable> :
 	K
 	MO
 	MF
@@ -471,12 +470,12 @@ nat :
 	VP
 	VE
 	VS
-	FE <emphasis>function-key<subscript>opt</subscript></emphasis>
-	FS <emphasis>function-key<subscript>opt</subscript></emphasis>
-	FB <emphasis>function-key<subscript>opt</subscript></emphasis>
-	CF <emphasis>function-key<subscript>opt</subscript></emphasis>
-	CS <emphasis>function-key<subscript>opt</subscript></emphasis>
-	CV <emphasis>function-key<subscript>opt</subscript></emphasis>
+	FE <replaceable>function-key<subscript>opt</subscript></replaceable>
+	FS <replaceable>function-key<subscript>opt</subscript></replaceable>
+	FB <replaceable>function-key<subscript>opt</subscript></replaceable>
+	CF <replaceable>function-key<subscript>opt</subscript></replaceable>
+	CS <replaceable>function-key<subscript>opt</subscript></replaceable>
+	CV <replaceable>function-key<subscript>opt</subscript></replaceable>
 	CM
 	CD
 	E
@@ -486,22 +485,22 @@ nat :
 	XP
 	XT
 
-<emphasis>function-key</emphasis> :
-	C <emphasis>function-key<subscript>opt</subscript></emphasis>
-	I <emphasis>function-key<subscript>opt</subscript></emphasis>
+<replaceable>function-key</replaceable> :
+	C <replaceable>function-key<subscript>opt</subscript></replaceable>
+	I <replaceable>function-key<subscript>opt</subscript></replaceable>
 
-<emphasis>type-info</emphasis> :
-	<emphasis>type identifier<subscript>opt</subscript></emphasis>
-	<emphasis>sort</emphasis>
-	<emphasis>scope-identifier</emphasis>
+<replaceable>type-info</replaceable> :
+	<replaceable>type identifier<subscript>opt</subscript></replaceable>
+	<replaceable>sort</replaceable>
+	<replaceable>scope-identifier</replaceable>
 	*
 
 
-<emphasis>scope-command</emphasis> :
-	SS <emphasis>scope-key location identifier</emphasis>
-	SE <emphasis>scope-key location identifier</emphasis>
+<replaceable>scope-command</replaceable> :
+	SS <replaceable>scope-key location identifier</replaceable>
+	SE <replaceable>scope-key location identifier</replaceable>
 
-<emphasis>scope-key</emphasis> :
+<replaceable>scope-key</replaceable> :
 	N
 	S
 	B
@@ -512,43 +511,43 @@ nat :
 	CC
 
 
-<emphasis>override-command</emphasis> :
-	O <emphasis>identifier identifier</emphasis>
+<replaceable>override-command</replaceable> :
+	O <replaceable>identifier identifier</replaceable>
 
 
-<emphasis>base-command</emphasis> :
-	B <emphasis>identifier-key identifier base-graph</emphasis>
+<replaceable>base-command</replaceable> :
+	B <replaceable>identifier-key identifier base-graph</replaceable>
 
-<emphasis>base-graph</emphasis> :
-	<emphasis>base-class</emphasis>
-	<emphasis>base-class</emphasis> ( <emphasis>base-list</emphasis> )
+<replaceable>base-graph</replaceable> :
+	<replaceable>base-class</replaceable>
+	<replaceable>base-class</replaceable> ( <replaceable>base-list</replaceable> )
 
-<emphasis>base-class</emphasis> :
-	<emphasis>number</emphasis> = V<emphasis><subscript>opt</subscript> access<subscript>opt</subscript> type-name</emphasis>
-	<emphasis>number</emphasis> :
+<replaceable>base-class</replaceable> :
+	<replaceable>number</replaceable> = V<replaceable><subscript>opt</subscript> access<subscript>opt</subscript> type-name</replaceable>
+	<replaceable>number</replaceable> :
 
-<emphasis>base-list</emphasis> :
-	<emphasis>base-graph base-list<subscript>opt</subscript></emphasis>
+<replaceable>base-list</replaceable> :
+	<replaceable>base-graph base-list<subscript>opt</subscript></replaceable>
 
-<emphasis>base-number</emphasis> :
-	<emphasis>number</emphasis> : <emphasis>type-name</emphasis>
-
-
-<emphasis>api-command</emphasis> :
-	X <emphasis>identifier-key identifier string</emphasis>
+<replaceable>base-number</replaceable> :
+	<replaceable>number</replaceable> : <replaceable>type-name</replaceable>
 
 
-<emphasis>template-command</emphasis> :
-	Z <emphasis>identifier-key identifier token-application specialise-info</emphasis>
+<replaceable>api-command</replaceable> :
+	X <replaceable>identifier-key identifier string</replaceable>
 
-<emphasis>specialise-info</emphasis> :
-	<emphasis>identifier</emphasis>
-	<emphasis>token-application</emphasis>
+
+<replaceable>template-command</replaceable> :
+	Z <replaceable>identifier-key identifier token-application specialise-info</replaceable>
+
+<replaceable>specialise-info</replaceable> :
+	<replaceable>identifier</replaceable>
+	<replaceable>token-application</replaceable>
 	*
 
 
-<emphasis>type</emphasis> :
-	<emphasis>type-name</emphasis>
+<replaceable>type</replaceable> :
+	<replaceable>type-name</replaceable>
 	c
 	s
 	i
@@ -569,60 +568,60 @@ nat :
 	Ui
 	Ul
 	Ux
-	C <emphasis>type</emphasis>
-	V <emphasis>type</emphasis>
-	P <emphasis>type</emphasis>
-	R <emphasis>type</emphasis>
-	M <emphasis>type-name</emphasis> : <emphasis>type</emphasis>
-	F <emphasis>type parameter-types</emphasis>
-	A <emphasis>nat<subscript>opt</subscript></emphasis> : <emphasis>type</emphasis>
-	B <emphasis>nat</emphasis> : <emphasis>type</emphasis>
-	t <emphasis>parameter-list<subscript>opt</subscript></emphasis> : <emphasis>type</emphasis>
-	p <emphasis>type</emphasis>
-	a <emphasis>type</emphasis> : <emphasis>type</emphasis>
-	n <emphasis>lit-base<subscript>opt</subscript> lit-suffix<subscript>opt</subscript></emphasis>
-	W <emphasis>type parameter-types</emphasis>
-	q <emphasis>type</emphasis>
-	Q <emphasis>string</emphasis>
+	C <replaceable>type</replaceable>
+	V <replaceable>type</replaceable>
+	P <replaceable>type</replaceable>
+	R <replaceable>type</replaceable>
+	M <replaceable>type-name</replaceable> : <replaceable>type</replaceable>
+	F <replaceable>type parameter-types</replaceable>
+	A <replaceable>nat<subscript>opt</subscript></replaceable> : <replaceable>type</replaceable>
+	B <replaceable>nat</replaceable> : <replaceable>type</replaceable>
+	t <replaceable>parameter-list<subscript>opt</subscript></replaceable> : <replaceable>type</replaceable>
+	p <replaceable>type</replaceable>
+	a <replaceable>type</replaceable> : <replaceable>type</replaceable>
+	n <replaceable>lit-base<subscript>opt</subscript> lit-suffix<subscript>opt</subscript></replaceable>
+	W <replaceable>type parameter-types</replaceable>
+	q <replaceable>type</replaceable>
+	Q <replaceable>string</replaceable>
 	*
 
-<emphasis>type-name</emphasis> :
-	<emphasis>identifier</emphasis>
-	<emphasis>token-application</emphasis>
+<replaceable>type-name</replaceable> :
+	<replaceable>identifier</replaceable>
+	<replaceable>token-application</replaceable>
 
-<emphasis>parameter-types</emphasis> :
-	: <emphasis>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></emphasis> :
-	. <emphasis>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></emphasis> :
-	. <emphasis>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></emphasis> .
-	, <emphasis>type parameter-types</emphasis>
+<replaceable>parameter-types</replaceable> :
+	: <replaceable>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></replaceable> :
+	. <replaceable>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></replaceable> :
+	. <replaceable>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></replaceable> .
+	, <replaceable>type parameter-types</replaceable>
 
-<emphasis>func-qualifier</emphasis> :
-	C <emphasis>func-qualifier<subscript>opt</subscript></emphasis>
-	V <emphasis>func-qualifier<subscript>opt</subscript></emphasis>
+<replaceable>func-qualifier</replaceable> :
+	C <replaceable>func-qualifier<subscript>opt</subscript></replaceable>
+	V <replaceable>func-qualifier<subscript>opt</subscript></replaceable>
 
-<emphasis>exception-spec</emphasis> :
-	( <emphasis>exception-list<subscript>opt</subscript></emphasis> )
+<replaceable>exception-spec</replaceable> :
+	( <replaceable>exception-list<subscript>opt</subscript></replaceable> )
 
-<emphasis>exception-list</emphasis> :
-	<emphasis>type</emphasis>
-	<emphasis>type</emphasis> , <emphasis>exception-list</emphasis>
+<replaceable>exception-list</replaceable> :
+	<replaceable>type</replaceable>
+	<replaceable>type</replaceable> , <replaceable>exception-list</replaceable>
 
-<emphasis>nat</emphasis> :
-	+ <emphasis>number</emphasis>
-	- <emphasis>number</emphasis>
-	<emphasis>identifier</emphasis>
-	<emphasis>token-application</emphasis>
-	<emphasis>string</emphasis>
+<replaceable>nat</replaceable> :
+	+ <replaceable>number</replaceable>
+	- <replaceable>number</replaceable>
+	<replaceable>identifier</replaceable>
+	<replaceable>token-application</replaceable>
+	<replaceable>string</replaceable>
 
-<emphasis>parameter-list</emphasis> :
-	<emphasis>identifier</emphasis>
-	<emphasis>identifier</emphasis> , <emphasis>parameter-list</emphasis>
+<replaceable>parameter-list</replaceable> :
+	<replaceable>identifier</replaceable>
+	<replaceable>identifier</replaceable> , <replaceable>parameter-list</replaceable>
 
-<emphasis>lit-base</emphasis> :
+<replaceable>lit-base</replaceable> :
 	O
 	X
 
-<emphasis>lit-suffix</emphasis> :
+<replaceable>lit-suffix</replaceable> :
 	U
 	l
 	Ul
@@ -630,31 +629,31 @@ nat :
 	Ux
 
 
-<emphasis>promotion-command</emphasis> :
-	P <emphasis>type</emphasis> : <emphasis>type</emphasis>
+<replaceable>promotion-command</replaceable> :
+	P <replaceable>type</replaceable> : <replaceable>type</replaceable>
 
 
-<emphasis>sort</emphasis> :
-	<emphasis>expression-sort</emphasis>
-	<emphasis>statement-sort</emphasis>
-	<emphasis>type-sort</emphasis>
-	<emphasis>tag-type-sort</emphasis>
-	<emphasis>member-sort</emphasis>
-	<emphasis>proc-sort</emphasis>
-	<emphasis>func-sort</emphasis>
-	<emphasis>template-sort</emphasis>
-	<emphasis>macro-sort</emphasis>
+<replaceable>sort</replaceable> :
+	<replaceable>expression-sort</replaceable>
+	<replaceable>statement-sort</replaceable>
+	<replaceable>type-sort</replaceable>
+	<replaceable>tag-type-sort</replaceable>
+	<replaceable>member-sort</replaceable>
+	<replaceable>proc-sort</replaceable>
+	<replaceable>func-sort</replaceable>
+	<replaceable>template-sort</replaceable>
+	<replaceable>macro-sort</replaceable>
 
-<emphasis>expression-sort</emphasis> :
-	ZEL <emphasis>type</emphasis>
-	ZER <emphasis>type</emphasis>
-	ZEC <emphasis>type</emphasis>
+<replaceable>expression-sort</replaceable> :
+	ZEL <replaceable>type</replaceable>
+	ZER <replaceable>type</replaceable>
+	ZEC <replaceable>type</replaceable>
 	ZN
 
-<emphasis>statement-sort</emphasis> :
+<replaceable>statement-sort</replaceable> :
 	ZS
 
-<emphasis>type-sort</emphasis> :
+<replaceable>type-sort</replaceable> :
 	ZTO
 	ZTI
 	ZTF
@@ -663,108 +662,108 @@ nat :
 	ZTS
 	ZTU
 
-<emphasis>tag-type-sort</emphasis> :
+<replaceable>tag-type-sort</replaceable> :
 	ZTTS
 	ZTTU
 
-<emphasis>member-sort</emphasis> :
-	ZM <emphasis>type</emphasis> : <emphasis>type-name</emphasis>
+<replaceable>member-sort</replaceable> :
+	ZM <replaceable>type</replaceable> : <replaceable>type-name</replaceable>
 
-<emphasis>proc-sort</emphasis> :
-	ZPG <emphasis>parameter-list<subscript>opt</subscript></emphasis> ; <emphasis>parameter-list<subscript>opt</subscript></emphasis> : <emphasis>sort</emphasis>
-	ZPS <emphasis>parameter-list<subscript>opt</subscript></emphasis> : <emphasis>sort</emphasis>
+<replaceable>proc-sort</replaceable> :
+	ZPG <replaceable>parameter-list<subscript>opt</subscript></replaceable> ; <replaceable>parameter-list<subscript>opt</subscript></replaceable> : <replaceable>sort</replaceable>
+	ZPS <replaceable>parameter-list<subscript>opt</subscript></replaceable> : <replaceable>sort</replaceable>
 
-<emphasis>func-sort</emphasis> :
-	ZF <emphasis>type</emphasis>
+<replaceable>func-sort</replaceable> :
+	ZF <replaceable>type</replaceable>
 
-<emphasis>template-sort</emphasis> :
-	ZTt <emphasis>parameter-list<subscript>opt</subscript></emphasis> :
+<replaceable>template-sort</replaceable> :
+	ZTt <replaceable>parameter-list<subscript>opt</subscript></replaceable> :
 
-<emphasis>macro-sort</emphasis> :
+<replaceable>macro-sort</replaceable> :
 	ZUO
-	ZUF <emphasis>number</emphasis>
+	ZUF <replaceable>number</replaceable>
 
-<emphasis>token-application</emphasis> :
-	T <emphasis>identifier</emphasis> , <emphasis>token-argument-list</emphasis> :
+<replaceable>token-application</replaceable> :
+	T <replaceable>identifier</replaceable> , <replaceable>token-argument-list</replaceable> :
 
-<emphasis>token-argument-list</emphasis> :
-	<emphasis>token-argument</emphasis>
-	<emphasis>token-argument</emphasis> , <emphasis>token-argument-list</emphasis>
+<replaceable>token-argument-list</replaceable> :
+	<replaceable>token-argument</replaceable>
+	<replaceable>token-argument</replaceable> , <replaceable>token-argument-list</replaceable>
 
-<emphasis>token-argument</emphasis> :
-	E <emphasis>expression</emphasis>
-	N <emphasis>nat</emphasis>
-	S <emphasis>statement</emphasis>
-	T <emphasis>type</emphasis>
-	M <emphasis>member</emphasis>
-	F <emphasis>identifier</emphasis>
-	C <emphasis>identifier</emphasis>
+<replaceable>token-argument</replaceable> :
+	E <replaceable>expression</replaceable>
+	N <replaceable>nat</replaceable>
+	S <replaceable>statement</replaceable>
+	T <replaceable>type</replaceable>
+	M <replaceable>member</replaceable>
+	F <replaceable>identifier</replaceable>
+	C <replaceable>identifier</replaceable>
 
-<emphasis>expression</emphasis> :
-	<emphasis>nat</emphasis>
+<replaceable>expression</replaceable> :
+	<replaceable>nat</replaceable>
 
-<emphasis>statement</emphasis> :
-	<emphasis>expression</emphasis>
+<replaceable>statement</replaceable> :
+	<replaceable>expression</replaceable>
 
-<emphasis>member</emphasis> :
-	<emphasis>identifier</emphasis>
-	<emphasis>string</emphasis>
-
-
-<emphasis>error-name</emphasis> :
-	<emphasis>number</emphasis> = <emphasis>string</emphasis>
-	<emphasis>number</emphasis>
-
-<emphasis>error-command</emphasis> :
-	ES <emphasis>location error-info</emphasis>
-	EW <emphasis>location error-info</emphasis>
-	EI <emphasis>location error-info</emphasis>
-	EF <emphasis>location error-info</emphasis>
-	EC <emphasis>error-info</emphasis>
-	EA <emphasis>error-argument</emphasis>
-
-<emphasis>error-info</emphasis> :
-	<emphasis>error-name number number</emphasis>
-
-<emphasis>error-argument</emphasis> :
-	B <emphasis>base-number</emphasis>
-	C <emphasis>scope-identifier</emphasis>
-	E <emphasis>expression</emphasis>
-	H <emphasis>identifier-name</emphasis>
-	I <emphasis>identifier</emphasis>
-	L <emphasis>location</emphasis>
-	N <emphasis>nat</emphasis>
-	S <emphasis>string</emphasis>
-	T <emphasis>type</emphasis>
-	V <emphasis>number</emphasis>
-	V - <emphasis>number</emphasis>
+<replaceable>member</replaceable> :
+	<replaceable>identifier</replaceable>
+	<replaceable>string</replaceable>
 
 
-<emphasis>path-command</emphasis> :
-	FD <emphasis>number</emphasis> = <emphasis>string string<subscript>opt</subscript></emphasis>
+<replaceable>error-name</replaceable> :
+	<replaceable>number</replaceable> = <replaceable>string</replaceable>
+	<replaceable>number</replaceable>
 
-<emphasis>directory</emphasis> :
-	<emphasis>number</emphasis>
+<replaceable>error-command</replaceable> :
+	ES <replaceable>location error-info</replaceable>
+	EW <replaceable>location error-info</replaceable>
+	EI <replaceable>location error-info</replaceable>
+	EF <replaceable>location error-info</replaceable>
+	EC <replaceable>error-info</replaceable>
+	EA <replaceable>error-argument</replaceable>
+
+<replaceable>error-info</replaceable> :
+	<replaceable>error-name number number</replaceable>
+
+<replaceable>error-argument</replaceable> :
+	B <replaceable>base-number</replaceable>
+	C <replaceable>scope-identifier</replaceable>
+	E <replaceable>expression</replaceable>
+	H <replaceable>identifier-name</replaceable>
+	I <replaceable>identifier</replaceable>
+	L <replaceable>location</replaceable>
+	N <replaceable>nat</replaceable>
+	S <replaceable>string</replaceable>
+	T <replaceable>type</replaceable>
+	V <replaceable>number</replaceable>
+	V - <replaceable>number</replaceable>
+
+
+<replaceable>path-command</replaceable> :
+	FD <replaceable>number</replaceable> = <replaceable>string string<subscript>opt</subscript></replaceable>
+
+<replaceable>directory</replaceable> :
+	<replaceable>number</replaceable>
 	*
 
-<emphasis>file-command</emphasis> :
-	FS <emphasis>location directory</emphasis>
-	FE <emphasis>location</emphasis>
+<replaceable>file-command</replaceable> :
+	FS <replaceable>location directory</replaceable>
+	FE <replaceable>location</replaceable>
 
-<emphasis>include-command</emphasis> :
-	FIA <emphasis>location string</emphasis>
-	FIQ <emphasis>location string</emphasis>
-	FIN <emphasis>location string</emphasis>
-	FIS <emphasis>location string</emphasis>
-	FIE <emphasis>location string</emphasis>
-	FIR <emphasis>location</emphasis>
+<replaceable>include-command</replaceable> :
+	FIA <replaceable>location string</replaceable>
+	FIQ <replaceable>location string</replaceable>
+	FIN <replaceable>location string</replaceable>
+	FIS <replaceable>location string</replaceable>
+	FIE <replaceable>location string</replaceable>
+	FIR <replaceable>location</replaceable>
 
 
-<emphasis>string-command</emphasis> :
-	A <emphasis>location string</emphasis>
-	AC <emphasis>location string</emphasis>
-	AL <emphasis>location string</emphasis>
-	ACL <emphasis>location string</emphasis></programlisting>
+<replaceable>string-command</replaceable> :
+	A <replaceable>location string</replaceable>
+	AC <replaceable>location string</replaceable>
+	AL <replaceable>location string</replaceable>
+	ACL <replaceable>location string</replaceable></programlisting>
   </para>
 	</refsection>
 </refentry>

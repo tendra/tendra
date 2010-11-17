@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd">
 
-<!-- $Id -->
-<refentry id="tld5">
+<!-- $Id$ -->
+<refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -66,99 +65,90 @@
 		<manvolnum>5</manvolnum>
 	</refmeta>
 
-	<refnamediv id='name'>
+	<refnamediv>
 		<refname>tld</refname>
-		<refpurpose>The TDF Linker - File Formats</refpurpose>
+		<refpurpose>The &tdf; Linker - File Formats</refpurpose>
 	</refnamediv>
 
 	<refsection id="introduction">
 		<title>Introduction</title>
 
-		<para>This document describes the formats of the files used by the TDF linker.
-			There are two file formats: the capsule format and the library format.  It
-			also describes the format of the linker information units within capsules.
-			The capsule format is described in more detail in the TDF specification.</para>
+		<para>This document describes the formats of the files used by the &tdf;
+			linker, &tld;. There are two file formats: the capsule format and
+			the library format. It also describes the format of the linker
+			information units within capsules. The capsule format is described
+			in more detail in the &tdf; specification.</para>
 	</refsection>
 
 	<refsection id="structures">
-		<title>Basic TDF Structures</title>
+		<title>Basic &tdf; Structures</title>
 
-		<para>The structure of a TDF capsule is defined properly in the TDF specification.
-			This section describes the basic components of the TDF format that the
-			linker uses, and the remaining sections describe the format of a TDF
-			capsule, a TDF library and a linker information unit in terms of these
-			components.  The basic components are:</para>
+		<para>The structure of a &tdf; capsule is defined properly in the
+			&tdf-spec.doc;.
+			This section describes the basic components of the &tdf; format that
+			the linker uses, and the remaining sections describe the format of a
+			&tdf; capsule, a &tdf; library and a linker information unit in
+			terms of these components.
+			The basic components are:</para>
 
 		<variablelist>
 			<varlistentry>
 				<term>ALIGN</term>
 
-				<listitem>
-					<para>This is a byte alignment.  It forces the next object to
-						begin on an eight bit boundary.</para>
-				</listitem>
+				<listitem>This is a byte alignment.  It forces the next object to
+					begin on an eight bit boundary.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>TDFINT</term>
 
-				<listitem>
-					<para>This is an unsigned number of unbounded size.  Its
-						representation is described properly in the TDF
-						specification.  It is a series of nibbles (four bits), with
-						the high bit used as a terminator and the low three bits
-						used as an octal digit.  The terminator bit is set on the
-						final octal digit.  As an example, the number ten would be
-						represented (in binary) as: <code>0001 1010</code>.</para>
-				</listitem>
+				<listitem>This is an unsigned number of unbounded size.
+					Its representation is described properly in the &tdf;
+					specification.  It is a series of nibbles (four bits), with
+					the high bit used as a terminator and the low three bits
+					used as an octal digit.  The terminator bit is set on the
+					final octal digit.  As an example, the number ten would be
+					represented (in binary) as: <code>0001 1010</code>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>BYTE</term>
 
-				<listitem>
-					<para>This is an eight bit quantity.  BYTEs are always aligned on
-						an eight bit boundary.</para>
-				</listitem>
+				<listitem>This is an eight bit quantity.
+					BYTEs are always aligned on an eight bit boundary.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>TDFIDENT</term>
 
-				<listitem>
-					<para>A TDFIDENT is a sequence of characters.  It is possible to
-						change the size of the characters, although the current
-						implementation will produce an error for TDFIDENTs with
-						character sizes other than eight bits.  A TDFIDENT is
-						represented by two TDFINTs (the size of the characters in
-						bits and the number of characters in the TDFIDENT), and a
-						sequence of BYTEs.</para>
-				</listitem>
+				<listitem>A TDFIDENT is a sequence of characters.  It is possible to
+					change the size of the characters, although the current
+					implementation will produce an error for TDFIDENTs with
+					character sizes other than eight bits.  A TDFIDENT is
+					represented by two TDFINTs (the size of the characters in
+					bits and the number of characters in the TDFIDENT), and a
+					sequence of BYTEs.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>UNIQUE</term>
 
-				<listitem>
-					<para>A UNIQUE is a list of TDFIDENTs.  It is represented as a
-						TDFINT specifying the number of TDFIDENTs in the UNIQUE,
-						followed by that many TDFIDENTs.</para>
-				</listitem>
+				<listitem>A UNIQUE is a list of TDFIDENTs.  It is represented as a
+					TDFINT specifying the number of TDFIDENTs in the UNIQUE,
+					followed by that many TDFIDENTs.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>EXTERNAL</term>
 
-				<listitem>
-					<para>An EXTERNAL is a mechanism for identifying external
-						identifiers.  It is represented as a discriminating tag,
-						followed by a byte ALIGNment, followed by either a TDFIDENT
-						or a UNIQUE.  The tag is a two bit number, where one
-						represents a TDFIDENT, two represents a UNIQUE, and zero and
-						three are currently illegal.  UNIQUEs are only used as part
-						of an EXTERNAL; TDFIDENTs are used as entities in their own
-						right, as well as in EXTERNALs.</para>
-				</listitem>
+				<listitem>An EXTERNAL is a mechanism for identifying external
+					identifiers.  It is represented as a discriminating tag,
+					followed by a byte ALIGNment, followed by either a TDFIDENT
+					or a UNIQUE.  The tag is a two bit number, where one
+					represents a TDFIDENT, two represents a UNIQUE, and zero and
+					three are currently illegal.  UNIQUEs are only used as part
+					of an EXTERNAL; TDFIDENTs are used as entities in their own
+					right, as well as in EXTERNALs.</listitem>
 			</varlistentry>
 		</variablelist>
 
@@ -171,47 +161,42 @@
 			<varlistentry>
 				<term>&lt;basic_type&gt;</term>
 
-				<listitem>
-					<para>This represents one of the basic types listed above.</para>
-				</listitem>
+				<listitem>This represents one of the basic types listed
+					above.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&lt;type&gt; * &lt;integer&gt;</term>
 
-				<listitem>
-					<para>This represents a sequence of objects of the specified
-						type.  The &lt;integer&gt; may be either an integer literal, or a
-						name that has been previously mentioned and is a TDFINT
-						object.</para>
-				</listitem>
+				<listitem>This represents a sequence of objects of the specified type.
+					The &lt;integer&gt; may be either an integer literal, or a
+					name that has been previously mentioned and is a TDFINT
+					object.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>{ &lt;name1&gt;: &lt;type1&gt; ... &lt;nameN&gt;: &lt;typeN&gt; }</term>
 
-				<listitem>
-					<para>This represents a structure composed of the elements
-						"&lt;name1&gt;: &lt;type1&gt;" to "&lt;nameN&gt;: &lt;typeN&gt;".  It is used for
-						sequences of objects where the objects are not of basic
-						types.</para></listitem>
+				<listitem>This represents a structure composed of the elements
+					"&lt;name1&gt;: &lt;type1&gt;" to "&lt;nameN&gt;: &lt;typeN&gt;".
+					It is used for sequences of objects where the objects are not of basic
+					types.</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&lt;type&gt; = ( &lt;value1&gt; | ... | &lt;valueN&gt; )</term>
 
-				<listitem>
-					<para>This represents a type with a constraint imposed upon it.
-						The object value must be one of &lt;value1&gt; to &lt;valueN&gt;.</para>
-				</listitem>
+				<listitem>This represents a type with a constraint imposed upon it.
+					The object value must be one of &lt;value1&gt;
+					to &lt;valueN&gt;.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
 
 	<refsection id="structure">
-		<title>Structure of a TDF Capsule</title>
+		<title>Structure of a &tdf; Capsule</title>
 
-		<para>A TDF capsule has the following structure:</para>
+		<para>A &tdf; capsule has the following structure:</para>
 
 		<programlisting language="BNF">magic				BYTE * 4 = "TDFC"
 major_version			TDFINT
@@ -253,9 +238,11 @@ units:				{
 
 		<para>The rest of this section describes the format of a capsule.</para>
 
+		<!-- TODO: this needs a little markup for replaceables, literals etc -->
+
 		<para>The capsule begins with a header that contains a four byte magic number
 			("&lt;magic&gt;": "TDFC"), followed by the major ("&lt;major_version&gt;") and minor
-			("&lt;minor_version&gt;") version numbers of the TDF in the capsule.  This is then
+			("&lt;minor_version&gt;") version numbers of the &tdf; in the capsule.  This is then
 			followed by a byte alignment and then the the capsule body.</para>
 
 		<para>The first part of a capsule tells the linker how many types of unit groups
@@ -274,8 +261,8 @@ units:				{
 		<para>The second part of the capsule tells the linker how many linkable entities
 			it should be linking on ("&lt;num_linkable_entities&gt;"), the name of each
 			linkable entity ("&lt;name&gt;"), and the number of identifiers of each linkable
-			entity at capsule scope ("&lt;num_capsule_scope_identifiers&gt;").  Identifiers at
-			capsule scope should be numbers from zero to one less than
+			entity at capsule scope ("&lt;num_capsule_scope_identifiers&gt;").
+			Identifiers at capsule scope should be numbers from zero to one less than
 			"&lt;num_capsule_scope_identifiers&gt;".  The identifier allocation may be sparse,
 			but the linker is optimized for continuous identifier allocation.</para>
 
@@ -310,7 +297,7 @@ units:				{
 			"&lt;external&gt;" TDFINT is the capsule scope identifier.</para>
 
 		<para>After the mapping tables there is a length ("&lt;num_bytes_tdf&gt;"), and that many
-			bytes of TDF data ("&lt;tdf&gt;").</para>
+			bytes of &tdf; data ("&lt;tdf&gt;").</para>
 	</refsection>
 
 	<refsection id="unitgroups">
@@ -385,11 +372,11 @@ units:				{
 	</refsection>
 
 	<refsection id="library">
-		<title>Structure of a TDF Library</title>
+		<title>Structure of a &tdf; Library</title>
 
-		<para>A TDF library begins with a header, followed by a TDFINT, that is the type
-			of the library.  At present only type zero libraries are supported.  The
-			format of a type zero library is as follows:</para>
+		<para>A &tdf; library begins with a header, followed by a TDFINT, that is the type
+			of the library.  At present only type zero libraries are supported.
+			The format of a type zero library is as follows:</para>
 
 		<programlisting language="BNF">magic:				BYTE * 4 = "TDFL"
 major_version:			TDFINT
@@ -415,7 +402,7 @@ this_linkable_entity_names:	{
 
 		<para>The library begins with a four byte magic number ("&lt;magic&gt;": "TDFL"),
 			followed by the major ("&lt;major_version&gt;") and minor ("&lt;minor_version&gt;")
-			versions of the TDF in the library (the major version must be the same for
+			versions of the &tdf; in the library (the major version must be the same for
 			each capsule in the library; the minor version is the highest of the minor
 			version numbers of all of the the capsules contained in the library).  This
 			is followed by a byte alignment, the type of the library ("&lt;type&gt;": 0), and
@@ -446,42 +433,76 @@ this_linkable_entity_names:	{
 			capsule is zero.</para>
 	</refsection>
 
-	<refsection id='rename_file_syntax'>
+	<refsection>
 		<title>Rename File Syntax</title>
 
-		<para>Renaming may be specified either on the command line, or in a file.  The files
-			that specify the renamings to be performed have the following syntax.  The
-			file consists of a number of sections.  Each section begins with a shape
+		<para>Renaming may be specified either on the command line, or in a file.
+			The files that specify the renamings to be performed have the following syntax.
+			The file consists of a number of sections.  Each section begins with a shape
 			name, followed by zero or more pairs of external names (each pair is
 			terminated by a semi-colon).  Shape names are written as a sequence of
 			characters surrounded by single quotes.  Unique names have the same syntax
 			as described above.  String names are a sequence of characters surrounded by
-			double quotes.  The normal backslash escape sequences are supported.  The
-			hash character acts as a comment to end of line character (if this is
+			double quotes.
+			The normal backslash escape sequences are supported.
+			The hash character acts as a comment to end of line character (if this is
 			necessary).</para>
 	</refsection>
 
-	<refsection id='unit_set_file_syntax'>
+	<refsection>
 		<title>Unit Set File Syntax</title>
 
 		<para>The file should consist of a sequence of strings enclosed in double quotes.
 			The backslash character can be used to escape characters.  The following C
-			style escape sequences are recognized: '<emphasis>\n</emphasis>', '<emphasis>\r</emphasis>',
-			'<emphasis>\t</emphasis>', '<emphasis>\&numsp;</emphasis>'.  Also, the
-			sequence '<emphasis>\x</emphasis><emphasis>NN</emphasis>'
-			represents the character with code <emphasis>NN</emphasis> in hex.  The order of the
-			strings is important, as it specifies the order that the unit sets should be
-			in when read from capsules.  It is necessary to specify the <emphasis>tld</emphasis> unit
-			set name.</para>
+			style escape sequences are recognized:</para>
+
+		<table>
+			<col align="center"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Sequence</th>
+					<th>Meaning</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><literal>\n</literal></td>
+					<td>Newline</td>
+				</tr>
+				<tr>
+					<td><literal>\r</literal></td>
+					<td>Carriage return</td>
+				</tr>
+				<tr>
+					<td><literal>\t</literal></td>
+					<td>Tab</td>
+				</tr>
+				<tr>
+					<td><literal>\ </literal></td>
+					<td>Space</td>
+				</tr>
+				<tr>
+					<td><literal>\x</literal><replaceable>AB</replaceable></td>
+					<td>&ascii; character <replaceable>AB</replaceable>
+						(in hex)</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>The order of the strings is important, as it specifies the order
+			that the unit sets should be in when read from capsules.
+			It is necessary to specify the &tld; unit set name.</para>
 	</refsection>
 
-	<refsection id='see_also'>
+	<refsection>
 		<title>See Also</title>
 
-		<para><citerefentry>
-				<refentrytitle>tld</refentrytitle>
-				<manvolnum>1</manvolnum>
-			</citerefentry>.</para>
+		<para>&tld;.</para>
+
+		<para>&tdf-spec.doc;.</para>
 	</refsection>
 
 </refentry>

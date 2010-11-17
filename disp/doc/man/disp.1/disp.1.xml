@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
-<!-- Initially lifted from troff+man by doclifter, additional editing by hand -->
-<!-- $Id -->
-<refentry id='disp1'>
+<!DOCTYPE refentry SYSTEM "minidocbook.dtd" [
+	<!ENTITY cols.arg     "<replaceable>columns</replaceable>">
+
+	<!ENTITY g.opt "<option>-g</option>">
+	<!ENTITY n.opt "<option>-n</option>&cols.arg;">
+	<!ENTITY q.opt "<option>-q</option>">
+	<!ENTITY r.opt "<option>-r</option>">
+	<!ENTITY A.opt "<option>-A</option>">
+	<!ENTITY D.opt "<option>-D</option>">
+	<!ENTITY E.opt "<option>-E</option>">
+	<!ENTITY S.opt "<option>-S</option>">
+	<!ENTITY T.opt "<option>-T</option>">
+	<!ENTITY U.opt "<option>-U</option>">
+	<!ENTITY V.opt "<option>-V</option>">
+	<!ENTITY W.opt "<option>-W</option>">
+	<!ENTITY v.opt "<option>-v</option>">
+]>
+
+<!-- $Id$ -->
+<refentry>
 <!--
-        Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
-        All rights reserved.
+	Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
+	All rights reserved.
 
-        Redistribution and use in source and binary forms, with or without
-        modification, are permitted provided that the following conditions are met:
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
 
-        1. Redistributions of source code must retain the above copyright notice,
-           this list of conditions and the following disclaimer.
-        2. Redistributions in binary form must reproduce the above copyright notice,
-           this list of conditions and the following disclaimer in the documentation
-           and/or other materials provided with the distribution.
-        3. Neither the name of The TenDRA Project nor the names of its contributors
-           may be used to endorse or promote products derived from this software
-           without specific, prior written permission.
+	1. Redistributions of source code must retain the above copyright notice,
+	   this list of conditions and the following disclaimer.
+	2. Redistributions in binary form must reproduce the above copyright notice,
+	   this list of conditions and the following disclaimer in the documentation
+	   and/or other materials provided with the distribution.
+	3. Neither the name of The TenDRA Project nor the names of its contributors
+	   may be used to endorse or promote products derived from this software
+	   without specific, prior written permission.
 
-        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
-        IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-        THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-        PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
-        CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-        EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
-        OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-        WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-        OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-        ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS
+	IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+	THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+	PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR
+	CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+	EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+	PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+	OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+	WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+	OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<!--
-			 Crown Copyright (c) 1997
+<!--			 Crown Copyright (c) 1997
 	
 	This TenDRA(r) Manual Page is subject to Copyright
 	owned by the United Kingdom Secretary of State for Defence
@@ -66,33 +80,32 @@
 		<manvolnum>1</manvolnum>
 	</refmeta>
 
-	<refnamediv id='name'>
-		<refname>disp</refname>
-		<refpurpose>TDF pretty printer</refpurpose>
+	<refnamediv>
+		<refname>&disp;</refname>
+		<refpurpose>&tdf; pretty printer</refpurpose>
 	</refnamediv>
 
-	<refsynopsisdiv id='synopsis'>
+	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>disp</command>
 
-			<arg choice="opt"><option>-g</option></arg>
-			<arg choice="opt"><option>-n</option><replaceable>columns</replaceable></arg>
-			<arg choice="opt"><option>-q</option></arg>
-			<arg choice="opt"><option>-r</option></arg>
-			<arg choice="opt"><option>-v</option></arg>
-			<arg choice="opt"><option>-A</option></arg>
-			<arg choice="opt"><option>-D</option></arg>
-			<arg choice="opt"><option>-E</option></arg>
-			<arg choice="opt"><option>-S</option></arg>
-			<arg choice="opt"><option>-T</option></arg>
-			<arg choice="opt"><option>-U</option></arg>
-			<arg choice="opt"><option>-V</option></arg>
-			<arg choice="opt"><option>-W</option></arg>
+			<arg choice="opt">&g.opt;</arg>
+			<arg choice="opt">&n.opt;</arg>
+			<arg choice="opt">&q.opt;</arg>
+			<arg choice="opt">&r.opt;</arg>
+			<arg choice="opt">&A.opt;</arg>
+			<arg choice="opt">&D.opt;</arg>
+			<arg choice="opt">&E.opt;</arg>
+			<arg choice="opt">&S.opt;</arg>
+			<arg choice="opt">&T.opt;</arg>
+			<arg choice="opt">&U.opt;</arg>
+			<arg choice="opt">&V.opt;</arg>
+			<arg choice="opt">&W.opt;</arg>
 
 			<sbr/>
 
-			<arg choice="plain"><replaceable>input-file</replaceable></arg>
-			<arg choice="opt"><replaceable>output-file</replaceable></arg>
+			<arg choice="plain">&in-file.arg;</arg>
+			<arg choice="opt">&out-file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
@@ -104,187 +117,172 @@
 		</cmdsynopsis>
 	</refsynopsisdiv>
 
-	<refsection id='description'>
+	<refsection>
 		<title>Description</title>
 
-		<para><command>disp</command> translates the input
-			<acronym>TDF</acronym> capsule,
-			<emphasis remap='I'>input-file</emphasis> into a
-			human-readable form, the layout of which reflects the
-			structure of the underlying <acronym>TDF</acronym> tree.
-			If the <emphasis remap='I'>output-file</emphasis> argument
-			is present, this is used for output; otherwise the
-			standard output is used.</para>
+		<para>&disp; translates the input &tdf; capsule, &in-file.arg; into a
+			human-readable form, the layout of which reflects the structure of
+			the underlying &tdf; tree.
+			If the &out-file.arg; argument is present, this is used for output;
+			otherwise the standard output is used.</para>
 
-		<para>Whenever possible the output of <command>disp</command>
-			matches the <acronym>TDF</acronym> specification.
+		<para>Whenever possible the output of &disp; matches the &tdf;
+			specification.
 			The most important exception is the use of asterisks after
 			a token name to indicate an application of that token.
 			Also a dash is used to indicate the absense of an optional
-			argument and an ellipsis (...) is used to indicate that a
-			token's arguments have been skipped rather than decoded
-			(since the token was undeclared).</para>
+			argument and an ellipsis (<literal>...</literal>) is used to
+			indicate that a token's arguments have been skipped rather than
+			decoded (since the token was undeclared).</para>
 
-		<para>It is recommended that <command>disp</command> is
-			invoked via <command>tcc</command> using the
-			<option>-disp</option> or the <option>-disp_t</option>
-			option.  The <option>-opt</option> flag can
-			be passed to <command>disp</command> by passing the flag
-			<option>-Wd,-</option><replaceable>opt</replaceable> to
-			<command>tcc</command>.</para>
+		<para>It is recommended that &disp; is invoked via &tcc; using the
+			<option>-disp</option> or the <option>-disp_t</option> option.
+			The <option>-opt</option> flag can be passed to &disp; by passing
+			the flag <option>-W</option><literal>d,-</literal><replaceable>opt</replaceable> to
+			&tcc;.</para>
 	</refsection>
 
-	<refsection id='options'>
+	<refsection>
 		<title>Options</title>
 
-		<variablelist remap='IP'>
+		<variablelist>
 			<varlistentry>
-				<term><option>-g</option></term>
+				<term>&g.opt;</term>
 
-				<listitem>Makes <command>disp</command> print any
-					diagnostic information units within the
-					<acronym>TDF</acronym> capsule.</listitem>
+				<listitem>Makes &disp; print any diagnostic information units
+					within the &tdf; capsule.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-n</option><replaceable>columns</replaceable></term>
+				<term>&n.opt;</term>
 
-				<listitem>Makes <command>disp</command> try to
-					format its output to fit into a page width
-					of <emphasis remap='I'>columns</emphasis>.
-					The default page width is 80.</listitem>
+				<listitem>Makes &disp; try to format its output to fit into a
+					page width of &cols.arg;.
+					The default page width is <literal>80</literal>.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-q</option></term>
+				<term>&q.opt;</term>
 
-				<listitem>Makes <command>disp</command> ignore the
-					specified page width and print its output
-					with the minimum possible indentation.  This
-					makes it run faster, but does not make the
-					best use of the available page width.</listitem>
+				<listitem>Makes &disp; ignore the specified page width and
+					print its output with the minimum possible indentation.
+					This makes it run faster, but does not make the best use
+					of the available page width.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-r</option></term>
+				<term>&r.opt;</term>
 
-				<listitem>Makes <command>disp</command> continue after
-					any errors.  The use of this flag is
-					not recommended since anything read after an
-					error is likely to be of very little value.</listitem>
+				<listitem>Makes &disp; continue after any errors.
+					The use of this flag is not recommended since anything read
+					after an error is likely to be of very little
+					value.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-v</option></term>
+				<term>&v.opt;</term>
 
-				<listitem>Makes <command>disp</command> print its
-					version number and the version of the
-					<acronym>TDF</acronym> specification it
-					supports.</listitem>
+				<listitem>Makes &disp; print its version number and the version
+					of the &tdf; specification it supports.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-A</option></term>
+				<term>&A.opt;</term>
 
-				<listitem>Makes <command>disp</command> decode
-					all the units it recognises (including
-					diagnostic and linking units) within the
-					<acronym>TDF</acronym> capsule.</listitem>
+				<listitem>Makes &disp; decode all the units it recognises
+					(including diagnostic and linking units) within the &tdf;
+					capsule.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-D</option></term>
+				<term>&D.opt;</term>
 
-				<listitem>Makes <command>disp</command> print
-					a simple binary dump of the input file.
-					This is intended for debugging purposes.</listitem>
+				<listitem>Makes &disp; print a simple binary dump of the input
+					file. This is intended for debugging purposes.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-E</option></term>
+				<term>&E.opt;</term>
 
-				<listitem>Makes <command>disp</command> report
-					such information as the number of external
-					tags and tokens which it usually omits.</listitem>
+				<listitem>Makes &disp; report such information as the number of
+					external tags and tokens which it usually omits.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-S</option></term>
+				<term>&S.opt;</term>
 
-				<listitem>Because tokens may be defined in terms of
-					other tokens and do not need to be declared
-					before they are defined, <command>disp</command>
-					makes two passes of all the token definition units.
-					In the first pass it extracts only the
-					declaration information, stepping over the main
-					body of the definition.  On the second pass all
-					the information is read.  The <option>-S</option>
-					option makes <command>disp</command> skip the first
-					pass.</listitem>
+				<listitem>
+					<para>Because tokens may be defined in terms of other
+						tokens and do not need to be declared before they are
+						defined, &disp; makes two passes of all the token
+						definition units.
+						In the first pass it extracts only the declaration
+						information, stepping over the main body of the
+						definition.
+						On the second pass all the information is read.</para>
+
+					<para>The &S.opt; option makes &disp; skip the first
+						pass.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-T</option></term>
+				<term>&T.opt;</term>
 
-				<listitem>The skip pass described under the
-					<option>-S</option> option is usual done
-					silently, without printing any information.
-					This is changed by the <option>-T</option>
-					option.</listitem>
+				<listitem>The skip pass described under the &S.opt; option is
+					usually done silently, without printing any information.
+					This is changed by the &T.opt; option, which causes output
+					to be printed.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-U</option></term>
+				<term>&U.opt;</term>
 
-				<listitem>Makes <command>disp</command> print the
-					usage information associated with the external
-					tokens and tags and also any linkage
+				<listitem>Makes &disp; print the usage information associated
+					with the external tokens and tags and also any linkage
 					information units within the capsule.</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-V</option></term>
+				<term>&V.opt;</term>
 
-				<listitem>By default <command>disp</command> attempts
-					to rationalise the <acronym>TDF</acronym> it reads.  In
-					particular it uses the external token and tag
-					names whenever possible, following the token
-					and tag bindings to find these, and makes up
-					names for those tokens and tags which do not
-					have external names.  The <option>-V</option>
-					option makes it not attempt any such
-					rationalisation, but instead to output exactly
-					what it reads.</listitem>
+				<listitem>
+					<para>By default &disp; attempts to rationalise the &tdf;
+						it reads.
+						In particular it uses the external token and tag names
+						whenever possible, following the token and tag bindings
+						to find these, and makes up names for those tokens and
+						tags which do not have external names.</para>
+
+					<para>The &V.opt; option makes it not attempt any such
+						rationalisation, but instead to output exactly what it
+						reads.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>-W</option></term>
+				<term>&W.opt;</term>
 
-				<listitem>Makes <command>disp</command> issue a
-					warning about every token which is used before
-					it is declared.</listitem>
+				<listitem>Makes &disp; issue a warning about every token which
+					is used before it is declared.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
 
-	<refsection id='diagnostics'>
+	<refsection>
 		<title>Diagnostics</title>
 
-		<para>The error reports if the input file is not a legal
-			<acronym>TDF</acronym> capsule are intended to aid
-			developers writing programs which produce <acronym>TDF</acronym>.
-			Thus they try to give all the information that may be
-			required, including the position within the input file
-			that the error occurred.</para>
+		<para>The error reports if the input file is not a legal &tdf; capsule
+			are intended to aid developers writing programs which produce &tdf;.
+			Thus they try to give all the information that may be required,
+			including the position within the input file at which the error
+			occurred.</para>
 	</refsection>
 
-	<refsection id='see_also'>
+	<refsection>
 		<title>See Also</title>
 
-		<para><citerefentry>
-			<refentrytitle>tcc</refentrytitle>
-			<manvolnum>1</manvolnum>
-		</citerefentry>.</para>
+		<para>&tcc;.</para>
 	</refsection>
 </refentry>
 
