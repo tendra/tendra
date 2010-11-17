@@ -1,0 +1,33 @@
+<!-- $Id$ -->
+
+<!ENTITY alg.ext "<filename>.alg</filename>">
+<!ENTITY act.ext "<filename>.act</filename>">
+<!ENTITY bnf.ext "<filename>.bnf</filename>">
+<!ENTITY dot.ext "<filename>.dot</filename>">
+<!ENTITY lxi.ext "<filename>.lxi</filename>">
+<!ENTITY lct.ext "<filename>.lct</filename>">
+<!ENTITY sid.ext "<filename>.sid</filename>">
+<!ENTITY tpl.ext "<filename>.tpl</filename>">
+
+<!ENTITY cc.ext "<filename>.cc</filename>">
+<!ENTITY ta.ext "<filename>.ta</filename>">
+<!ENTITY tl.ext "<filename>.tl</filename>">
+
+<!ENTITY a.ext "<filename>.a</filename>">
+<!ENTITY c.ext "<filename>.c</filename>">
+<!ENTITY d.ext "<filename>.d</filename>">
+<!ENTITY h.ext "<filename>.h</filename>">
+<!ENTITY i.ext "<filename>.i</filename>">
+<!ENTITY j.ext "<filename>.j</filename>">
+<!ENTITY k.ext "<filename>.k</filename>">
+<!ENTITY o.ext "<filename>.o</filename>">
+<!ENTITY p.ext "<filename>.p</filename>">
+<!ENTITY s.ext "<filename>.s</filename>">
+<!ENTITY t.ext "<filename>.t</filename>">
+
+<!ENTITY C.ext "<filename>.C</filename>">
+<!ENTITY G.ext "<filename>.G</filename>">
+<!ENTITY H.ext "<filename>.H</filename>">
+<!ENTITY I.ext "<filename>.I</filename>">
+<!ENTITY K.ext "<filename>.K</filename>">
+

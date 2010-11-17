@@ -1,0 +1,67 @@
+<!-- $Id$ -->
+
+<!ENTITY % vol.1 "<manvolnum>1</manvolnum>">
+<!ENTITY % vol.5 "<manvolnum>5</manvolnum>">
+
+
+<!-- Other Section 1 -->
+<!ENTITY as     "<command>as</command>(1)">
+<!ENTITY ld     "<command>ld</command>(1)">
+<!ENTITY lex    "<command>lex</command>(1)">
+<!ENTITY awk    "<command>awk</command>(1)">
+<!ENTITY flex   "<command>flex</command>(1)">
+<!ENTITY yacc   "<command>yacc</command>(1)">
+<!ENTITY bison  "<command>bison</command>(1)">
+<!ENTITY cc     "<command>cc</command>(1)">
+<!ENTITY gdb    "<command>gdb</command>(1)">
+<!ENTITY xdb    "<command>xdb</command>(1)">
+<!ENTITY prof   "<command>prof/gprof</command>(1)">
+<!ENTITY dbxtra "<command>dbxtra</command>(1)">
+<!ENTITY debug  "<command>debug</command>(1)">
+
+<!-- Other section 3 -->
+<!ENTITY tempnam.3 "<function>tempnam</function>(1)">
+
+<!-- TenDRA section 1 -->
+<!ENTITY tcc        "<citerefentry><refentrytitle>tcc</refentrytitle>       %vol.1;</citerefentry>">
+<!ENTITY tnc        "<citerefentry><refentrytitle>tnc</refentrytitle>       %vol.1;</citerefentry>">
+<!ENTITY tld        "<citerefentry><refentrytitle>tld</refentrytitle>       %vol.1;</citerefentry>">
+<!ENTITY tpl        "<citerefentry><refentrytitle>tpl</refentrytitle>       %vol.1;</citerefentry>">
+<!ENTITY sid        "<citerefentry><refentrytitle>sid</refentrytitle>       %vol.1;</citerefentry>">
+<!ENTITY disp       "<citerefentry><refentrytitle>disp</refentrytitle>      %vol.1;</citerefentry>">
+<!ENTITY lexi       "<citerefentry><refentrytitle>lexi</refentrytitle>      %vol.1;</citerefentry>">
+<!ENTITY tchk       "<citerefentry><refentrytitle>tchk</refentrytitle>      %vol.1;</citerefentry>">
+<!ENTITY tdfc2      "<citerefentry><refentrytitle>tdfc2</refentrytitle>     %vol.1;</citerefentry>">
+<!ENTITY tspec      "<citerefentry><refentrytitle>tspec</refentrytitle>     %vol.1;</citerefentry>">
+<!ENTITY tcpplus    "<citerefentry><refentrytitle>tcpplus</refentrytitle>   %vol.1;</citerefentry>">
+<!ENTITY calculus   "<citerefentry><refentrytitle>calculus</refentrytitle>  %vol.1;</citerefentry>">
+<!ENTITY make_err   "<citerefentry><refentrytitle>make_err</refentrytitle>  %vol.1;</citerefentry>">
+<!ENTITY make_tdf   "<citerefentry><refentrytitle>make_tdf</refentrytitle>  %vol.1;</citerefentry>">
+
+<!ENTITY trans      "<command>trans</command>">
+<!ENTITY trans-all  "<citerefentry><refentrytitle>trans-all</refentrytitle> %vol.1;</citerefentry>">
+<!ENTITY alphatrans "<citerefentry><refentrytitle>alphatrans</refentrytitle>%vol.1;</citerefentry>">
+<!ENTITY mipstrans  "<citerefentry><refentrytitle>mipstrans</refentrytitle> %vol.1;</citerefentry>">
+<!ENTITY sparctrans "<citerefentry><refentrytitle>sparctrans</refentrytitle>%vol.1;</citerefentry>">
+<!ENTITY trans386   "<citerefentry><refentrytitle>trans386</refentrytitle>  %vol.1;</citerefentry>">
+<!ENTITY hppatrans  "<citerefentry><refentrytitle>hppatrans</refentrytitle> %vol.1;</citerefentry>">
+<!ENTITY powertrans "<citerefentry><refentrytitle>powertrans</refentrytitle>%vol.1;</citerefentry>">
+
+
+<!-- TenDRA Section 5 -->
+<!ENTITY tdfcdump.5   "<citerefentry><refentrytitle>tdfcdump</refentrytitle>%vol.5;</citerefentry>">
+<!ENTITY tdfcpragma.5 "<citerefentry><refentrytitle>tdfcdump</refentrytitle>%vol.5;</citerefentry>">
+<!ENTITY tccenv.5     "<citerefentry><refentrytitle>tccenv</refentrytitle>  %vol.5;</citerefentry>">
+<!ENTITY tld.5        "<citerefentry><refentrytitle>tld</refentrytitle>     %vol.5;</citerefentry>">
+
+
+<!-- Documents -->
+<!ENTITY tcc-userguide.doc "<ulink url='http://docs.tendra.org/tcc-userguide/'><citetitle><acronym>TCC</acronym> Users' Guide</citetitle></ulink>">
+<!ENTITY sid-userguide.doc "<ulink url='http://docs.tendra.org/sid-userguide/'><citetitle><acronym>SID</acronym> Users' Guide</citetitle></ulink>">
+<!ENTITY tnc-userguide.doc "<ulink url='http://docs.tendra.org/tnc-userguide/'><citetitle>The &tdf; Notation Compiler</citetitle></ulink>">
+<!ENTITY lexi-userguide.doc "<ulink url='http://docs.tendra.org/lexi-userguide/'><citetitle>Lexi Users' Guide</citetitle></ulink>">
+<!ENTITY tchk.doc "<ulink url='http://docs.tendra.org/tchk/'><citetitle>TCheck - The TenDRA Static Checker</citetitle></ulink>">
+<!ENTITY tdf-spec.doc "<ulink url='http://docs.tendra.org/tdf-spec/'><citetitle>&tdf; Specification</citetitle></ulink>">
+<!ENTITY pl_tdf.doc "<ulink url='http://docs.tendra.org/pl_tdf/'><citetitle>&pl_tdf; Definition</citetitle></ulink>">
+<!ENTITY tspec.doc "<ulink url='http://docs.tendra.org/pl_tdf/'><citetitle>tspec - An &api; Specification Tool</citetitle></ulink>">
+

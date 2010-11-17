@@ -1,0 +1,11 @@
+<!-- $Id$ -->
+
+<!ENTITY nbsp   "&#160;">
+<!ENTITY hellip "&#133;">
+<!ENTITY ndash  "&#8211;">
+<!ENTITY mdash  "&#8212;">
+<!ENTITY larr   "&#8592;">
+<!ENTITY rarr   "&#8594;">
+<!ENTITY cross  "&#x2717;">
+<!ENTITY check  "&#x2713;">
+

@@ -1,0 +1,24 @@
+<!-- $Id$ -->
+
+<!ENTITY dra    "<acronym role='Defence Research Agency'>DRA</acronym>">
+<!ENTITY tdf    "<acronym role='TenDRA Distribution Format'>TDF</acronym>">
+
+<!ENTITY ieee   "<acronym role='Institute of Electrical and Electronics Engineers'>IEEE</acronym>">
+<!ENTITY posix  "<acronym role='Portable Operating System Interface [for UNIX]'>POSIX</acronym>">
+<!ENTITY ansi   "<acronym role='American National Standards Institute'>ANSI</acronym>">
+<!ENTITY iso    "<acronym role='International Organization for Standardization'>ISO</acronym>">
+<!ENTITY elf    "<acronym role='Executable and Linkable Format'>ELF</acronym>">
+<!ENTITY api    "<acronym role='Application Programing Interface'>API</acronym>">
+<!ENTITY xpg3   "<acronym role='X/Open Portability Guide Version 3'>XPG3</acronym>">
+<!ENTITY bnf    "<acronym role='Backus-Naur Form'>BNF</acronym>">
+<!ENTITY bsd    "<acronym role='Berkeley Software Distribution'>BSD</acronym>">
+<!ENTITY ascii  "<acronym role='American Standard Code for Information Interchange'>ASCII</acronym>">
+
+<!ENTITY pl_tdf "<acronym>PL_TDF</acronym>">
+
+<!ENTITY unix   "<acronym>UNIX</acronym>">
+<!ENTITY mips   "<acronym>MIPS</acronym>">
+<!ENTITY sparc  "<acronym>SPARC</acronym>">
+<!ENTITY ultrix "<acronym>ULTRIX</acronym>">
+<!ENTITY irix   "<acronym>IRIX</acronym>">
+
