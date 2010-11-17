@@ -10,7 +10,12 @@
  */
 
 h1#banner a {
-	text-decoration: none ! important;
+	text-decoration: none;
+}
+
+h1#banner a:hover {
+	text-decoration: underline;
+	color: #000;
 }
 
 h1#banner {
@@ -55,7 +60,14 @@ ul.sections > li:hover > a:hover {
 
 /* accents */
 
-a { color: #111; }
+a tt {
+	color: inherit;
+}
+
+a acronym.title:hover {
+	color: inherit;
+	border-bottom-color: #88f;
+}
 
 h2, h3, h4, h5, h6, h7, h8, h9 { color: #aaa; }
 ul.sections > li:hover > a {
@@ -63,7 +75,7 @@ ul.sections > li:hover > a {
 }
 
 h1 {
-	color #222;
+	color: #222;
 }
 
 ul.sections li:hover ul a {
@@ -76,14 +88,6 @@ ul.sections li > a:hover {
 
 div.timeline dt a em {
 	color: #222;
-}
-
-div.code .code-lang, div.code .code-prep, div.code .code-type {
-	color: #000 ! important;
-}
-
-div.code .code-string {
-	color: #666 ! important;
 }
 
 
@@ -115,13 +119,18 @@ h3 {
 	font-size: 12pt;
 }
 
+h3, h4, h5, h6, h7, h8, h9 {
+	margin-top: 1.5em;
+	font-size: 11pt;
+}
+
 a {
-	text-decoration: none;
+	text-decoration: underline;
+	color: #000;
 }
 
 a:hover {
-	text-decoration: underline;
-	color: #000;
+	color: blue;
 }
 
 body {
@@ -160,7 +169,7 @@ pre {
 	padding: 1ex 1.75em;
 	margin: 1.25em 0;
 	border: solid 1px #ddd;
-	x-overflow: auto;
+	overflow-x: auto;
 }
 
 pre div.lines {
@@ -221,7 +230,56 @@ ul.sections li.current ul {
 	font-weight: normal;
 }
 
-p, div.table td {
+p, dd {
 	text-align: justify;
+}
+
+
+
+/* TODO: sort this out... sortable tables stuff */
+table th.table-sortable:hover {
+	cursor: pointer;
+	background-color: #eee;
+}
+
+table th.table-sortable:hover:after {
+	color: #ccc;
+}
+
+table th.table-notype {
+	border-color: darkred;
+	background-color: pink;
+}
+
+table th.table-descending:after {
+	content: "\25B2";
+}
+
+table th.table-ascending:after {
+	content: "\25BC";
+}
+
+table th.table-sorted:after {
+	min-width: 1em;
+	text-align: right;
+	padding-left: 1em;
+	color: #ddd;
+	display: block;
+	float: right;
+	cursor: pointer;
+}
+
+acronym.title {
+	border-bottom: dotted 1px #888;
+}
+
+acronym.title:hover {
+	border-bottom-color: #000;
+	color: #000;
+	cursor: help;
+}
+
+i.replaceable {
+	font-family: monospace;
 }
 

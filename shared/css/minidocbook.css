@@ -1,0 +1,180 @@
+/* $Id$ */
+
+body {
+	margin: 2em 4em;
+	max-width: 60em;
+}
+
+h1#banner {
+	text-align: right;
+}
+
+div.footer {
+	margin: 1em 0;
+}
+
+div.footer div.bottomright {
+	float: right;
+}
+
+div.navigation {
+	color: #aaa;
+}
+
+div.navigation.bottom {
+	margin-top: 3em;
+}
+
+div.navigation div.pages {
+	float: right;
+}
+
+ol.toc {
+	margin-left: 1em;
+	list-style-type: none;
+}
+
+ol.toc ol {
+	margin-left: 2em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	list-style-type: none;
+}
+
+table th {
+	background-color: #f7f7f7;
+}
+
+table {
+    border-color: #ddd;
+	border: solid 1px #ddd;
+	border-collapse: collapse;
+	margin-bottom: 1em;
+}
+
+table.informal, table.informal td {
+	border: none;
+}
+
+table th, table td {
+	padding: 0.5ex 1ex;
+	vertical-align: top;
+	border: solid 1px #ddd;
+}
+
+ul, ol {
+	margin-left: 2em;
+}
+
+div.figure, div.table {
+	margin: 2em;
+}
+
+div.figure img {
+	display: block;
+}
+
+div.figure b {
+	margin-top: 1em;
+	display: block;
+}
+
+blockquote.literallayout {
+	white-space: pre-line;
+}
+
+ol.footnotes {
+	list-style-type: none;
+	margin-left: 3em;
+	margin-top: 3em;
+}
+
+ol.footnotes sup.footnote-number {
+	position: absolute;
+	width: 2em;
+	margin-left: -2.5em;
+}
+
+div.table ol.footnotes {
+	margin-top: 2em;
+}
+
+pre.screen div.lines {
+	display: none;
+}
+
+pre.screen {
+	padding: 1ex 1em;
+}
+
+
+p.cmdsynopsis {
+	clear: left;
+	margin-bottom: 1ex;
+}
+
+p.cmdsynopsis span.cmd {
+	display: inline-block;
+	vertical-align: top;
+}
+
+p.cmdsynopsis div.args {
+	display: inline-block;
+}
+
+dl dd {
+	margin-bottom: 1em;
+}
+
+
+
+/* TODO: hacks: move to tcc userguide-specific CSS */
+table td.input {
+	border-right: none ! important;
+	padding-right: 0 ! important;
+}
+
+table td.input:after {
+	content: "\A0\2192";
+}
+
+table td.output {
+	border-left: none ! important;
+}
+
+table td.norow {
+	border-bottom: solid 1px transparent ! important;
+	padding-bottom: 0;
+}
+
+table td.na {
+	color: #bbb;
+}
+
+table tbody.sep {
+}
+
+table tbody:last-child {
+	border-bottom: inherit;
+}
+
+a i.citetitle {
+	font-style: normal;
+}
+
+sup.footnote-number a {
+	text-decoration: none;
+}
+
+p.cmdsynopsis div.args a {
+	text-decoration: none;
+}
+
+p.cmdsynopsis div.args a:hover {
+	text-decoration: underline;
+}
+
+p.cmdsynopsis div.args {
+	color: #444;
+}
+
