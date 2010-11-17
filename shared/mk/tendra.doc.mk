@@ -1,4 +1,4 @@
-# TenDRA make documentation infrastructure
+
 #
 # $Id$
 
@@ -46,34 +46,33 @@ DOC_BASE=	.
 . endif	# defined(WEBSITE)
 
 XSLTOPTS+=	--xinclude --nomkdir --nonet
+XSLTOPTS+=	--path '${BASE_DIR}/doc/dtd'
+
+XMLLINTOPTS+=	--xinclude
 
 XSLTPARAMS+=	--stringparam tendra.base   '${DOC_BASE}'
-XSLTPARAMS+=	--stringparam tendra.chunk  '${DOC_CHUNK}'
-XSLTPARAMS+=	--stringparam tendra.method '${DOC_EXT:S/xhtml/xml/}'
 XSLTPARAMS+=	--stringparam tendra.ext    '${DOC_EXT}'
 
 XSLT_DIR=	${BASE_DIR}/doc/xsl
 CSS_DIR=	${BASE_DIR}/doc/css
 JS_DIR= 	${BASE_DIR}/doc/js
+DTD_DIR= 	${BASE_DIR}/doc/dtd
 
-XSLT_HTML_SINGLE= 	${XSLT_DIR}/${DOC_EXT}/docbook-single.xsl
-XSLT_HTML_CHUNKED=	${XSLT_DIR}/${DOC_EXT}/docbook-chunked.xsl
-XSLT_ROFF=         	${XSLT_DIR}/roff/docbook.xsl
+XMLLINT_DTD=	${DTD_DIR}/minidocbook.dtd
 
-XSLT_EXT=	${XSLT_DIR}/support/xslt-fileext.xsl
+XSLT_ROFF=	${XSLT_DIR}/roff/docbook.xsl
+XSLT_HTML=	${XSLT_DIR}/${DOC_EXT}/minidocbook/minidocbook.xsl
+
 XSLT_IMGS=	${XSLT_DIR}/support/docbook-images.xsl
-XSLT_CHUNK=	${XSLT_DIR}/support/docbook-needschunking.xsl
 
 DOC_MAN=	${MAN}
 DOC_SRC=	${DOC}.xml
 DOC_INDEX=	index.${DOC_EXT}
-DOC_SINGLE=	single.${DOC_EXT}
 DOC_CSS=	css
 DOC_JS= 	js
 DOC_IMAGES= 	images
 
 DOC_IMGDEPS!=	${XSLTPROC} ${XSLTOPTS} ${XSLT_IMGS}  ${DOC_SRC}
-DOC_CHUNK!=	${XSLTPROC} ${XSLTOPTS} ${XSLT_CHUNK} ${DOC_SRC}
 
 
 #
@@ -81,14 +80,8 @@ DOC_CHUNK!=	${XSLTPROC} ${XSLTOPTS} ${XSLT_CHUNK} ${DOC_SRC}
 #
 ${OBJ_DDIR}/${DOC}/${DOC_INDEX}: ${DOC_SRC}
 	@${CONDCREATE} "${OBJ_DDIR}/${DOC}"
-.if ${DOC_CHUNK}
-	@${ECHO} "==> Transforming ${WRKDIR}/${DOC} (multiple pages)"
-	${XSLTPROC} ${XSLTOPTS} ${XSLTPARAMS} -o ${.TARGET:H}/${DOC_SINGLE} ${XSLT_HTML_SINGLE}  ${.ALLSRC}
-	${XSLTPROC} ${XSLTOPTS} ${XSLTPARAMS} -o ${.TARGET:H}/              ${XSLT_HTML_CHUNKED} ${.ALLSRC}
-.else
-	@${ECHO} "==> Transforming ${WRKDIR}/${DOC} (single page)"
-	${XSLTPROC} ${XSLTOPTS} ${XSLTPARAMS} -o ${.TARGET}                 ${XSLT_HTML_SINGLE}  ${.ALLSRC}
-.endif
+	@${ECHO} "==> Transforming ${WRKDIR}/${DOC}"
+	${XSLTPROC} ${XSLTOPTS} ${XSLTPARAMS} -o ${.TARGET:H}/ ${XSLT_HTML} ${.ALLSRC}
 
 .if defined(MAN)
 ${OBJ_DDIR}/${DOC}/${DOC_MAN}: ${DOC_SRC}
@@ -133,12 +126,12 @@ ${OBJ_DDIR}/${DOC}/${img}: ${img:R}.dot
 ${OBJ_DDIR}/${DOC}/${DOC_CSS}: ${CSS_DIR}
 	@${CONDCREATE} "${.TARGET}"
 	@${ECHO} "==> Copying Stylesheets for ${WRKDIR}/${DOC}"
-	cp -rp ${.ALLSRC} ${.TARGET:H}
+	cp ${CSS_DIR}/*.css ${.TARGET}
 
 ${OBJ_DDIR}/${DOC}/${DOC_JS}: ${JS_DIR}
 	@${CONDCREATE} "${.TARGET}"
 	@${ECHO} "==> Copying Javascript for ${WRKDIR}/${.ALLSRC:T}"
-	cp -rp ${.ALLSRC} ${.TARGET:H}
+	cp ${JS_DIR}/*.js ${.TARGET}
 .endif	# !defined(WEBSITE)
 
 
@@ -165,6 +158,9 @@ clean::
 
 install-doc:: doc
 
+
+test:: ${DOC_SRC}
+	${XMLLINT} ${XMLLINTOPTS} --noout --dtdvalid ${XMLLINT_DTD} ${.ALLSRC}
 
 
 .endif	# !defined(_TENDRA_WORK_DOC_MK_)

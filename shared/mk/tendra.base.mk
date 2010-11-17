@@ -108,6 +108,7 @@ TPL?=		tpl
 TSPEC?=		tspec
 UNAME?=		uname
 XSLTPROC?=	xsltproc
+XMLLINT?=	xmllint
 
 
 .include <tendra.makedefs.mk>
