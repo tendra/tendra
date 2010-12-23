@@ -51,7 +51,7 @@ produce the required behaviour.
 **		abstract.pl
 **
 **  This file contains PL_TDF token definitions which
-**  are declare in the PL_TDF file abstract.ph.
+**  are declared in the PL_TDF file abstract.ph.
 */
 
 
