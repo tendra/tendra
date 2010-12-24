@@ -52,20 +52,22 @@ JOPTS${api}+=	-f${STARTUP_MACH}/${api}.h
 APISRCS${api}!=	find ${TSPEC_PREFIX}/src/${api}.api -name '*.c'
 APISRCS${api}:=	${APISRCS${api}:T}
 
+# TODO: depend on ${OBJ_DIR}/env
 . for src in ${APISRCS${api}}
-${OBJ_DIR}/${APIS}/${api}.api/${src:R}.j: ${TSPEC_PREFIX}/src/${api}.api/${src}
+${OBJ_SDIR}/apis/${api}.api/${src:R}.j: ${TSPEC_PREFIX}/src/${api}.api/${src}
 	@${CONDCREATE} "${.TARGET:H}"
 	@${ECHO} "==> Compiling ${api}.api/${src}"
-	${TCC} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
-		-I${TSPEC_PREFIX}/include/${api}.api \
-		-o ${.TARGET} ${.ALLSRC} -Ymakelib
+	TCCENV=${OBJ_DIR}/env \
+		${TCC} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
+			-I${TSPEC_PREFIX}/include/${api}.api \
+			-o ${.TARGET} ${.ALLSRC} -Ymakelib
 
-APIOBJS${api}+=	${OBJ_DIR}/${APIS}/${api}.api/${src:R}.j
+APIOBJS${api}+=	${OBJ_SDIR}/apis/${api}.api/${src:R}.j
 . endfor
 
 
-${OBJ_DIR}/${APIS}/${api}.tl: ${APIOBJS${api}}
-	@${CONDCREATE} "${OBJ_DIR}/${APIS}"
+${OBJ_SDIR}/apis/${api}.tl: ${APIOBJS${api}}
+	@${CONDCREATE} "${OBJ_SDIR}/apis"
 	@${ECHO} "==> Linking ${api} API"
 	${TLD} -mc -o ${.TARGET} ${.ALLSRC}
 
@@ -75,17 +77,17 @@ ${OBJ_DIR}/${APIS}/${api}.tl: ${APIOBJS${api}}
 # User-facing targets
 #
 
-all:: ${OBJ_DIR}/${APIS}/${api}.tl
+all:: ${OBJ_SDIR}/apis/${api}.tl
 
 
 clean::
-	${REMOVE} ${OBJ_DIR}/${APIS}/${api}.tl ${APIOBJS${api}}
+	${REMOVE} ${OBJ_SDIR}/apis/${api}.tl ${APIOBJS${api}}
 
 
-install:: ${OBJ_DIR}/${APIS}/${api}.tl
-	@${ECHO} "==> Installing ${API} API"
-	@${CONDCREATE} "${INSTALL_DIR}/lib"
-	${INSTALL} -m 644 ${OBJ_DIR}/${APIS}/${api}.tl "${INSTALL_DIR}/lib"
+install:: ${OBJ_SDIR}/apis/${api}.tl
+	@${ECHO} "==> Installing ${api} API"
+	@${CONDCREATE} "${LIB_DIR}/tcc/api"
+	${INSTALL} -m 644 ${OBJ_SDIR}/apis/${api}.tl "${LIB_DIR}/tcc/api/${api}.tl"
 
 .endfor
 

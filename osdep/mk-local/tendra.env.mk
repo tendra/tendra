@@ -17,6 +17,7 @@ _TENDRA_WORK_ENV_MK_=1
 
 
 ${OBJ_DIR}/fixenv.sed:
+	@${CONDCREATE} "${OBJ_DIR}"
 	@${ECHO} "==> Creating ${.TARGET}"
 	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g"          > ${.TARGET}
 	@${ECHO} "1,\$$s%-BLDARCH-%${BLDARCH}%g"               >> ${.TARGET}
@@ -60,9 +61,9 @@ clean::
 
 install:: all
 	@${ECHO} "==> Installing ${WRKDIR}/ ${ENVFILE} environments"
-	@${CONDCREATE} "${PREFIX}/lib/tcc/env" ;
+	@${CONDCREATE} "${LIB_DIR}/tcc/env"
 .for entry in ${ENVFILE}
-	${INSTALL} -m 644 ${OBJ_DIR}/env/${entry} ${PREFIX}/lib/tcc/env/${entry}
+	${INSTALL} -m 644 ${OBJ_DIR}/env/${entry} ${LIB_DIR}/tcc/env/${entry}
 .endfor
 
 
