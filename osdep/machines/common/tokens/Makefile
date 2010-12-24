@@ -7,9 +7,6 @@
 # directly (that is, its 'all' target is not used). Outputs built are:
 #  var_toks.t
 #  c_toks.j
-#
-# gen_tokens is just a little helper utility, and is not installed anywhere;
-# It's intended to be used by developers who are adding new machines.
 
 
 ${OBJ_SDIR}/var_toks.t: ${OBJ_SDIR}/var_toks.j var_toks
@@ -27,12 +24,19 @@ TPLSRCS += var_toks.tpl
 .include <tendra.tpl.mk>
 
 
+# gen_tokens is just a little helper utility, and is not installed anywhere;
+# It's intended to be used by developers who are adding new machines. It's
+# only built if -DGENTOKENS is specified to make.
+.if defined(GENTOKENS)
+
 SRCS+=	gen_tokens.c
 
-.include <tendra.obj.mk>
+. include <tendra.obj.mk>
 
 
 PROG=	gen_tokens
 
-.include <tendra.prog.mk>
+. include <tendra.prog.mk>
+
+.endif
 
