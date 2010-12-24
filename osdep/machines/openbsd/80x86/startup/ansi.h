@@ -22,3 +22,16 @@
 #define __i386__	1
 #define __OpenBSD__	2
 
+
+/*
+ * XXX: this ought to be done properly, but I can't quite find a way to get it
+ * to work using the hacked includes mechanism.
+ * The problem is machine/_types.h:45 typedef __signed char __int8_t;
+ * Where __signed is not defined. This happens just because <math.h> includes
+ * <sys/_types.h> before <sys/cdefs.h>. So, instead of having a hacked include
+ * for math.h to do that, we do it here.
+ */
+#ifdef _OPENBSD4
+#include <sys/cdefs.h>
+#endif
+
