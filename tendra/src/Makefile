@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR = cpp libtdf
+SUBDIR = libtdf
 
 .include <tendra.subdir.mk>
 
