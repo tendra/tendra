@@ -19,7 +19,6 @@ PROJECTS+=	tcc
 PROJECTS+=	tld
 PROJECTS+=	tnc
 PROJECTS+=	tpl
-PROJECTS+=	tendra
 #PROJECTS+=	tendra-doc
 #PROJECTS+=	tendra-www
 PROJECTS+=	tspec

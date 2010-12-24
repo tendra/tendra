@@ -1,9 +1,0 @@
-# $Id$
-
-.include "Makefile.inc"
-
-
-SUBDIR =
-
-.include <tendra.subdir.mk>
-
