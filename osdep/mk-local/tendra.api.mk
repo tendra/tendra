@@ -16,7 +16,7 @@ _TENDRA_WORK_API_MK_=1
 .endif
 
 # TODO: simplify this away
-STARTUP_MACH=	${.CURDIR}/startup
+STARTUP_MACH=	${.CURDIR}/../startup
 
 .if !exists(${STARTUP_MACH})
 .BEGIN:
