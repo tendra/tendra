@@ -24,7 +24,8 @@ PARTS+=	src/c/syntax
 .include <tendra.partial.mk>
 
 
-PROG=	tdfc2
+PROG=    	tdfc2
+EXEC_BIN=	${LIBEXEC_DIR}
 
 .include <tendra.prog.mk>
 

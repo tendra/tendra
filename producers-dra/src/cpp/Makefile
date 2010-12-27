@@ -31,7 +31,8 @@ PARTS+=	src/cpp/syntax
 .include <tendra.partial.mk>
 
 
-PROG=	tcpplus
+PROG=    	tcpplus
+EXEC_BIN=	${LIBEXEC_DIR}
 
 .include <tendra.prog.mk>
 
