@@ -55,7 +55,7 @@ ${OBJ_SDIR}/dep_toks.j: ${MACHTOK_DEP}
 ${OBJ_SDIR}/c.tl: ${OBJ_SDIR}/sys.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
-	${TLD} ${TLDOPTS} -o ${.TARGET} ${.ALLSRC}
+	${TLD} -mc ${TLDOPTS} -o ${.TARGET} ${.ALLSRC}
 
 ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -76,7 +76,7 @@ ${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/map_toks.j \
 	@rm -f ${.TARGET}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
-	${TLD} -mc -o ${.TARGET} ${.ALLSRC}
+	${TLD} -mc ${TLDOPTS} -o ${.TARGET} ${.ALLSRC}
 
 ${OBJ_SDIR}/except_toks.t: ${OBJ_SDIR}/except_toks.j \
 		${BASE_DIR}/${TOKENS_COMMON}/except_toks
