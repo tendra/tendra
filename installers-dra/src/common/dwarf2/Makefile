@@ -19,7 +19,6 @@ SRCS+=	dw2_lines.c
 SRCS+=	dw2_locdata.c
 SRCS+=	dw2_types.c
 
-
 .include <tendra.obj.mk>
 
 .include <tendra.partial.mk>

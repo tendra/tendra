@@ -22,8 +22,6 @@ SRCS+=	out_ba.c
 .include <tendra.obj.mk>
 
 
-EXEC_BIN=	${MACH_BASE}/bin
-
 PROG=	trans
 
 .include <tendra.prog.mk>
