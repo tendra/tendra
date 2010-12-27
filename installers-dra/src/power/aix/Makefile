@@ -22,7 +22,8 @@ SRCS+=	powertrans.c
 .include <tendra.obj.mk>
 
 
-PROG=	trans
+PROG=    	trans.${BLDARCH}
+EXEC_BIN=	${LIBEXEC_DIR}
 
 .include <tendra.prog.mk>
 
