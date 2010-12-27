@@ -9,6 +9,7 @@ _TENDRA_WORK_MACHTOK_MK_=1
 .include <tendra.functions.mk>
 .include <tendra.compiler.mk>
 
+
 .if !defined(MACHTOK_DEP)
 .BEGIN:
 	@${ECHO} '$${MACHTOK_DEP} must be set'
@@ -28,16 +29,21 @@ _TENDRA_WORK_MACHTOK_MK_=1
 .endif
 
 
+TOKENS_COMMON?=	machines/common/tokens
 
-#
-# External dependencies
-#
+.if !defined(MACHTOK_VAR)
+_machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
+.endif
 
-${OBJ_DIR}/${TOKENS_COMMON}/var_toks.t:
-	@cd ${BASE_DIR}/${TOKENS_COMMON} && ${MAKE} ${.TARGET}
 
-${OBJ_DIR}/${TOKENS_COMMON}/c_toks.j:
-	@cd ${BASE_DIR}/${TOKENS_COMMON} && ${MAKE} ${.TARGET}
+${OBJ_SDIR}/c_toks.j: ${BASE_DIR}/${TOKENS_COMMON}/c_toks.tpl
+	@${CONDCREATE} "${OBJ_SDIR}"
+	${TPL} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/dep_toks.j: ${MACHTOK_DEP}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
 
 
 
@@ -45,48 +51,69 @@ ${OBJ_DIR}/${TOKENS_COMMON}/c_toks.j:
 # Rules proper
 #
 
-.for src in ${MACHTOK_EXCEPT} ${MACHTOK_VAR}
-${OBJ_SDIR}/${src:R}.t: ${OBJ_SDIR}/${src:R}.j \
-	${BASE_DIR}/${TOKENS_COMMON}/${src:R}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
-	${TCC} ${TCCOPTS} -Y${BASE_DIR}/${TOKENS_COMMON}/${src:R} \
-	    -Ft -o ${.TARGET} ${OBJ_SDIR}/${src:R}.j
-.endfor
-
-.for src in ${MACHTOK_DEP} ${MACHTOK_MAP} ${MACHTOK_VAR} ${MACHTOK_EXCEPT}
-${OBJ_SDIR}/${src:S/.tpl/.j/}: ${src}
-	@${CONDCREATE} "${OBJ_SDIR}"
-	@${ECHO} "==> Translating ${WRKDIR}/${src}"
-	${TPL} ${TPLOPTS} ${src} ${.TARGET}
-.endfor
-
-_machtok_target+=	${OBJ_SDIR}/${MACHTOK_DEP:R}.j
-_machtok_target+=	${OBJ_SDIR}/${MACHTOK_MAP:R}.j
-_machtok_target+=	${OBJ_SDIR}/${MACHTOK_EXCEPT:R}.t
-.if defined(MACHTOK_VAR)
-_machtok_target+=	${OBJ_SDIR}/${MACHTOK_VAR:R}.t
-.else
-_machtok_target+=	${OBJ_SDIR}/${TOKENS_COMMON}/var_toks.t
-.endif
-
-# depended on as ${TDFLIB} by tendra.tokdef.mk
-${OBJ_SDIR}/target_tok.tl: ${_machtok_target}
+# C Producer LPI library
+${OBJ_SDIR}/c.tl: ${OBJ_SDIR}/sys.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} ${TLDOPTS} -o ${.TARGET} ${.ALLSRC}
 
-# depended on by tendra.api.mk
 ${OBJ_SDIR}/sys.j: ${OBJ_SDIR}/sys_toks.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Rewriting ${WRKDIR}/${.TARGET:T}"
-	${TNC} -o ${.TARGET} -t -d -L'.~' ${.ALLSRC}
+	${TNC} -t -d -L'.~' ${.ALLSRC} ${.TARGET}
 
-${OBJ_SDIR}/sys_toks.j: ${OBJ_DIR}/${TOKENS_COMMON}/c_toks.j \
-	${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/map_toks.j
+${OBJ_SDIR}/sys_toks.j: ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/dep_toks.j \
+	${OBJ_SDIR}/map_toks.j
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
 	${TLD} -o ${.TARGET} ${.ALLSRC}
+
+
+
+# Target-dependent token library
+${OBJ_SDIR}/target_tok.tl: ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/map_toks.j \
+		${OBJ_SDIR}/except_toks.t ${OBJ_SDIR}/var_toks.t
+	@rm -f ${.TARGET}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
+	${TLD} -mc -o ${.TARGET} ${.ALLSRC}
+
+${OBJ_SDIR}/except_toks.t: ${OBJ_SDIR}/except_toks.j \
+		${BASE_DIR}/${TOKENS_COMMON}/except_toks
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
+	${TCC} -o ${.TARGET} -Ft -Y${BASE_DIR}/${TOKENS_COMMON}/except_toks \
+		${OBJ_SDIR}/except_toks.j
+
+${OBJ_SDIR}/var_toks.t: ${OBJ_SDIR}/var_toks.j \
+		${BASE_DIR}/${TOKENS_COMMON}/var_toks
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.TARGET}"
+	${TCC} -o ${.TARGET} -Ft -Y${BASE_DIR}/${TOKENS_COMMON}/var_toks \
+		${OBJ_SDIR}/var_toks.j
+
+.if defined(MACHTOK_VAR)
+${OBJ_SDIR}/var_toks.j: ${MACHTOK_VAR}
+.else
+${OBJ_SDIR}/var_toks.j: ${BASE_DIR}/${TOKENS_COMMON}/var_toks.tpl
+.endif
+	@${CONDCREATE} "${OBJ_SDIR}"
+.if defined(MACHTOK_VAR)
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+.else
+	@${ECHO} "==> Translating ${TOKENS_COMMON}/var_toks.tpl"
+.endif
+	${TPL} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/map_toks.j: ${MACHTOK_MAP}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
+
+${OBJ_SDIR}/except_toks.j: ${MACHTOK_EXCEPT}
+	@${CONDCREATE} "${OBJ_SDIR}"
+	@${ECHO} "==> Translating ${WRKDIR}/${.ALLSRC}"
+	${TPL} ${.ALLSRC} ${.TARGET}
 
 
 
@@ -94,21 +121,22 @@ ${OBJ_SDIR}/sys_toks.j: ${OBJ_DIR}/${TOKENS_COMMON}/c_toks.j \
 # User-facing targets
 #
 
-all::
+all:: ${OBJ_SDIR}/target_tok.tl ${OBJ_SDIR}/c.tl
 
 
 clean::
-	${REMOVE} ${OBJ_SDIR}/${MACHTOK_DEP:R}.j
-	${REMOVE} ${OBJ_SDIR}/${MACHTOK_MAP:R}.j
-	${REMOVE} ${OBJ_SDIR}/${MACHTOK_EXCEPT:R}.j ${OBJ_SDIR}/${MACHTOK_EXCEPT:R}.t
-.if defined(MACHTOK_VAR)
-	${REMOVE} ${OBJ_SDIR}/${MACHTOK_VAR:R}.j ${OBJ_SDIR}/${MACHTOK_VAR:R}.t
-.endif
-	${REMOVE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/sys_toks.j ${OBJ_SDIR}/sys.j
-	@cd ${BASE_DIR}/${TOKENS_COMMON} && ${MAKE} clean
+	${REMOVE} ${OBJ_SDIR}/c.tl ${OBJ_SDIR}/target_tok.tl
+	${REMOVE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/map_toks.j
+	${REMOVE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
+	${REMOVE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
+	${REMOVE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
 
 
-install::
+install:: ${OBJ_SDIR}/target_tok.tl ${OBJ_SDIR}/c.tl
+	@${ECHO} "==> Installing target-dependent token interfaces"
+	@${CONDCREATE} "${LIB_DIR}/tcc/lpi"
+	${INSTALL} -m 644 ${OBJ_SDIR}/target_tok.tl "${LIB_DIR}/tcc/lpi/target_tok.tl"
+	${INSTALL} -m 644 ${OBJ_SDIR}/c.tl "${LIB_DIR}/tcc/lpi/c.tl"
 
 
 
