@@ -918,7 +918,7 @@
 							</tr>
 							<tr>
 								<td><code>c</code></td>
-								<td>String &ansi; (default)</td>
+								<td>Strict &ansi; (default)</td>
 							</tr>
 							<tr>
 								<td><code>p</code></td>
