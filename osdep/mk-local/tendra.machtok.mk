@@ -118,10 +118,26 @@ ${OBJ_SDIR}/except_toks.j: ${MACHTOK_EXCEPT}
 
 
 #
+# Internal targets (for use by libtsl)
+#
+
+${OBJ_DIR}/src/target_tok.tl: ${OBJ_SDIR}/target_tok.tl
+	@${ECHO} "==> Symlinking for libtsl use"
+	@${CONDCREATE} "${OBJ_DIR}/src"
+	${LN} -s ${.ALLSRC} ${.TARGET}
+
+${OBJ_DIR}/src/c.tl: ${OBJ_SDIR}/c.tl
+	@${ECHO} "==> Symlinking for libtsl use"
+	@${CONDCREATE} "${OBJ_DIR}/src"
+	${LN} -s ${.ALLSRC} ${.TARGET}
+
+
+
+#
 # User-facing targets
 #
 
-all:: ${OBJ_SDIR}/target_tok.tl ${OBJ_SDIR}/c.tl
+all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
 
 
 clean::
@@ -132,7 +148,7 @@ clean::
 	${REMOVE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
 
 
-install:: ${OBJ_SDIR}/target_tok.tl ${OBJ_SDIR}/c.tl
+install:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
 	@${ECHO} "==> Installing target-dependent token interfaces"
 	@${CONDCREATE} "${LIB_DIR}/tcc/lpi"
 	${INSTALL} -m 644 ${OBJ_SDIR}/target_tok.tl "${LIB_DIR}/tcc/lpi/target_tok.tl"

@@ -10,7 +10,6 @@ PROJECTS+=	disp
 PROJECTS+=	installers-dra
 PROJECTS+=	lexi
 PROJECTS+=	libexds
-PROJECTS+=	libtsl
 PROJECTS+=	make_tdf
 PROJECTS+=	make_err
 PROJECTS+=	producers-dra
