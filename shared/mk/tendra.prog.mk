@@ -65,8 +65,11 @@ clean::
 
 
 install:: all
+	@${CONDCREATE} "${EXEC_BIN}"
+.if defined(WRAPPER)
+	@${CONDCREATE} "${WRAP_BIN}"
+.endif
 	@${ECHO} "==> Installing ${WRKDIR}/${PROG}"
-	@${CONDCREATE} "${EXEC_BIN}" "${WRAP_BIN}" "${MACH_BASE}/bin"
 	${INSTALL} -m 755 ${OBJ_SDIR}/${PROG} ${EXEC_BIN}/${PROG}
 .if defined(WRAPPER)
 	${INSTALL} -m 755 ${OBJ_SDIR}/${WRAPPER} ${WRAP_BIN}/${PROG}
