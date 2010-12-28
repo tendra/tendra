@@ -20,5 +20,8 @@ ENVFILE+=	tcc_prof
 
 ENVEXTRA+=	default.extra
 
+ENVCOMMON+=	machines/common/env
+ENVCOMMON+=	machines/${OSFAM}/common/env
+
 .include <tendra.env.mk>
 

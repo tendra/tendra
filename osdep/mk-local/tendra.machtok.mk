@@ -28,6 +28,9 @@ _TENDRA_WORK_MACHTOK_MK_=1
 	@${EXIT} 1;
 .endif
 
+# Environments are not yet installed, so we use them in-situ.
+TCCENVOPTS+=	--SED${OBJ_DIR}/env --CFE
+
 
 TOKENS_COMMON?=	machines/common/tokens
 
@@ -82,15 +85,15 @@ ${OBJ_SDIR}/except_toks.t: ${OBJ_SDIR}/except_toks.j \
 		${BASE_DIR}/${TOKENS_COMMON}/except_toks
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Linking ${WRKDIR}/${.TARGET:T}"
-	${TCC} -o ${.TARGET} -Ft -Y${BASE_DIR}/${TOKENS_COMMON}/except_toks \
-		${OBJ_SDIR}/except_toks.j
+	${TCC} -o ${.TARGET} ${TCCENVOPTS} -Ft \
+		-Y${BASE_DIR}/${TOKENS_COMMON}/except_toks ${OBJ_SDIR}/except_toks.j
 
 ${OBJ_SDIR}/var_toks.t: ${OBJ_SDIR}/var_toks.j \
 		${BASE_DIR}/${TOKENS_COMMON}/var_toks
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Translating ${WRKDIR}/${.TARGET}"
-	${TCC} -o ${.TARGET} -Ft -Y${BASE_DIR}/${TOKENS_COMMON}/var_toks \
-		${OBJ_SDIR}/var_toks.j
+	${TCC} -o ${.TARGET} ${TCCENVOPTS} -Ft \
+		-Y${BASE_DIR}/${TOKENS_COMMON}/var_toks ${OBJ_SDIR}/var_toks.j
 
 .if defined(MACHTOK_VAR)
 ${OBJ_SDIR}/var_toks.j: ${MACHTOK_VAR}

@@ -16,6 +16,9 @@ TPLOPTS=	-I${.CURDIR}
 .include <tendra.tpl.mk>
 
 
+# Environments are not yet installed, so we use them in-situ.
+TCCOPTS+=	--SED${OBJ_DIR}/env --CFE
+
 # TODO: i'm adding c.tl because of use of undefined token, ~comp_off
 # but I don't think it belongs here. (INT64a.c uses it)
 ${OBJ_SDIR}/INT64.o: INT64a.c ${CAPSULES}

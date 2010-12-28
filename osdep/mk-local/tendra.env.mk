@@ -8,9 +8,9 @@ _TENDRA_WORK_ENV_MK_=1
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
 
-.if !defined(ENVFILE)
+.if !defined(ENVFILE) && !defined(ENVEXTRA)
 .BEGIN:
-	@${ECHO} '$${ENVFILE} must be set'
+	@${ECHO} '$${ENVFILE} or ${{ENVEXTRA} must be set'
 	@${EXIT} 1;
 .endif
 
@@ -30,20 +30,27 @@ ${OBJ_DIR}/fixenv.sed:
 	@${ECHO} "1,\$$s%-STARTUPDIR-%${COMMON_DIR}/startup%g" >> ${.TARGET}
 	@${ECHO} "1,\$$s%-TMPDIR-%${TMP_DIR}%g"                >> ${.TARGET}
 
-.for entry in ${ENVFILE}
-${OBJ_DIR}/env/${entry}: ${OBJ_DIR}/fixenv.sed ${entry}
-	@${CONDCREATE} "${OBJ_DIR}/env"
-	@${ECHO} "==> Setting paths for ${WRKDIR}/${entry} environment"
-	sed -f ${OBJ_DIR}/fixenv.sed ${entry} > ${OBJ_DIR}/env/${entry}
-.endfor
 
-${OBJ_DIR}/env/_extra: ${OBJ_DIR}/env \
-	${OBJ_DIR}/env/build ${OBJ_DIR}/env/default
-.if defined(ENVEXTRA)
-	cat ${ENVEXTRA} >> ${OBJ_DIR}/env/build
-	cat ${ENVEXTRA} >> ${OBJ_DIR}/env/default
+${OBJ_SDIR}/env: ${OBJ_DIR}/fixenv.sed
+	@${CONDCREATE} "${OBJ_DIR}/env"
+	@${CONDCREATE} "${OBJ_SDIR}"
+.for dir in ${ENVCOMMON}
+	cd ${BASE_DIR}/${dir}; ${MAKE} ${OBJ_DIR}/${dir}/env
+.endfor
+.if defined(ENVFILE)
+	@${ECHO} "==> Setting paths for ${WRKDIR} environments"
 .endif
-	@touch ${OBJ_DIR}/env/_extra
+.for env in ${ENVFILE}
+	sed -f ${OBJ_DIR}/fixenv.sed ${env} > ${OBJ_DIR}/env/${env}
+.endfor
+.for env in ${ENVEXTRA}
+	# TODO: show 'extra' comment here
+	${ECHO} '/* ${WRKDIR}/${env}: */'   >> ${OBJ_DIR}/env/${env:R}
+	${ECHO}                             >> ${OBJ_DIR}/env/${env:R}
+	sed -f ${OBJ_DIR}/fixenv.sed ${env} >> ${OBJ_DIR}/env/${env:R}
+	${ECHO}                             >> ${OBJ_DIR}/env/${env:R}
+.endfor
+	@${ECHO} done > ${.TARGET}
 
 
 
@@ -51,19 +58,21 @@ ${OBJ_DIR}/env/_extra: ${OBJ_DIR}/env \
 # User-facing targets
 #
 
-all:: ${ENVFILE:C/^/${OBJ_DIR}\/env\//} ${OBJ_DIR}/env/_extra
+all:: ${OBJ_SDIR}/env
 
 
 clean::
-	${REMOVE} ${ENVFILE:C/^/${OBJ_DIR}\/env\//}
-	${REMOVE} ${OBJ_DIR}/env/_extra
+.for dir in ${ENVCOMMON}
+	cd ${BASE_DIR}/${dir}; ${MAKE} clean
+.endfor
+	${REMOVE} ${ENVFILE:C/^/${OBJ_DIR}\/env\//} ${ENVEXTRA:R:C/^/${OBJ_DIR}\/env\//}
 
 
-install:: all
-	@${ECHO} "==> Installing ${WRKDIR}/ ${ENVFILE} environments"
+install:: ${OBJ_SDIR}/env
+	@${ECHO} "==> Installing ${WRKDIR} environments"
 	@${CONDCREATE} "${LIB_DIR}/tcc/env"
-.for entry in ${ENVFILE}
-	${INSTALL} -m 644 ${OBJ_DIR}/env/${entry} ${LIB_DIR}/tcc/env/${entry}
+.for env in ${ENVFILE}
+	${INSTALL} -m 644 ${OBJ_DIR}/env/${env} ${LIB_DIR}/tcc/env/${env}
 .endfor
 
 

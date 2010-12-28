@@ -4,6 +4,9 @@ SRC2=	${BASE_DIR}/lib/machines/common/src
 
 #TCCOPTS=	-Ysystem
 
+# Environments are not yet installed, so we use them in-situ.
+TCCOPTS+=	--SED${OBJ_DIR}/env --CFE
+
 all:: crt1.o crti.o crtn.o dwarf.o
 	@${ECHO} all done
 

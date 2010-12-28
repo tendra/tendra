@@ -9,6 +9,9 @@ COPY=cp
 ECHO=echo
 SHELL=/bin/sh
 
+# Environments are not yet installed, so we use them in-situ.
+TCCOPTS+=	--SED${OBJ_DIR}/env --CFE
+
 all : crtp_n.o
 	@${ECHO} all done
 

@@ -3,8 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	${OSFAM}
-SUBDIR+=	common
+SUBDIR+=	env
 
 .include <tendra.subdir.mk>
 
