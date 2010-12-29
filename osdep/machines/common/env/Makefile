@@ -7,7 +7,6 @@ ENVFILE+=	common
 ENVFILE+=	default
 ENVFILE+=	system
 ENVFILE+=	system+
-ENVFILE+=	build
 ENVFILE+=	building
 ENVFILE+=	Versions
 ENVFILE+=	status
