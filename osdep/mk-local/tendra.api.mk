@@ -8,6 +8,7 @@ _TENDRA_WORK_API_MK_=1
 .include <tendra.base.mk>
 .include <tendra.functions.mk>
 .include <tendra.compiler.mk>
+.include <tendra.situ.mk>
 
 .if !exists(${TSPEC_PREFIX})
 .BEGIN:
@@ -52,15 +53,13 @@ JOPTS${api}+=	-f${STARTUP_MACH}/${api}.h
 APISRCS${api}!=	find ${TSPEC_PREFIX}/src/${api}.api -name '*.c'
 APISRCS${api}:=	${APISRCS${api}:T}
 
-# TODO: depend on ${OBJ_DIR}/env
 . for src in ${APISRCS${api}}
 ${OBJ_SDIR}/apis/${api}.api/${src:R}.j: ${TSPEC_PREFIX}/src/${api}.api/${src}
 	@${CONDCREATE} "${.TARGET:H}"
 	@${ECHO} "==> Compiling ${api}.api/${src}"
-	TCCENV=${OBJ_DIR}/env \
-		${TCC} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
-			-I${TSPEC_PREFIX}/include/${api}.api \
-			-o ${.TARGET} ${.ALLSRC} -Ymakelib
+	${TCC_IN_SITU} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
+		-I${TSPEC_PREFIX}/include/${api}.api \
+		-o ${.TARGET} ${.ALLSRC} -Ymakelib
 
 APIOBJS${api}+=	${OBJ_SDIR}/apis/${api}.api/${src:R}.j
 . endfor
