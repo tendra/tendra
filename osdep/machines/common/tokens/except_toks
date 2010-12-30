@@ -1,10 +1,16 @@
 /* $Id$ */
 
 /*
- * tcc environment implementing keep list for except_toks.j
+ * tcc environment implementing the keep list for except_toks.j
  */
 
-+FLAG		"-Yposix"
+/*
+ * The -Yposix environment brings in c.tl, which is what this is used to build.
+ * So, after loading -Yposix, +LIB is overridden here to remove -lc.
+ */
++FLAG "-Yposix"
++LIB  "-lposix -lansi"
+
 +FLAG_TLD	"-H token"
 +FLAG_TLD	"-k token ~Set_signal_handler"
 +FLAG_TLD	"-k token ~Sync_handler"

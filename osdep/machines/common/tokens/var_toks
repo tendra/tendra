@@ -1,10 +1,16 @@
 /* $Id$ */
 
 /*
- * tcc environment implementing keep list for var_toks.j
+ * tcc environment implementing the keep list for var_toks.j
  */
 
-+FLAG		"-Yansi"
+/*
+ * The -Yansi environment brings in c.tl, which is what this is used to build.
+ * So, after loading -Yansi, +LIB is overridden here to remove -lc.
+ */
++FLAG "-Yansi"
++LIB  "-lansi"
+
 +FLAG_TLD	"-H token"
 +FLAG_TLD	"-k token ~va_list"
 +FLAG_TLD	"-k token ~__va_start"
