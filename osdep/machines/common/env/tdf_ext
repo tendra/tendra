@@ -2,6 +2,6 @@
 
 <SYS_LINK		"-L<PREFIX_LIB>/sys"
 <LIB			"-ltarget_tok"
-<SYS_LIB        	"-ltdf"
+<SYS_LIB        	"-ltsl"
 +FLAG_INSTALL		"-Ytdf_ext"
 >INFO			"XANDF@Preliminary@Specification@(DRA-005@proposal)"
