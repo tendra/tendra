@@ -26,13 +26,13 @@ ${OBJ_SDIR}/env:
 	@${ECHO} "==> Setting paths for ${WRKDIR} environments"
 .endif
 .for env in ${ENVFILE}
-	${SUBSTVARS} ${env} > ${OBJ_DIR}/env/${env}
+	${COPY} ${env} ${OBJ_DIR}/env/${env}
 .endfor
 .for env in ${ENVEXTRA}
 	# TODO: show 'extra' comment here
 	${ECHO} '/* ${WRKDIR}/${env}: */' >> ${OBJ_DIR}/env/${env:R}
 	${ECHO}                           >> ${OBJ_DIR}/env/${env:R}
-	${SUBSTVARS} ${env}               >> ${OBJ_DIR}/env/${env:R}
+	${CAT} ${env}                     >> ${OBJ_DIR}/env/${env:R}
 	${ECHO}                           >> ${OBJ_DIR}/env/${env:R}
 .endfor
 	@${ECHO} done > ${.TARGET}

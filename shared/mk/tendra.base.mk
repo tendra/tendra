@@ -42,6 +42,7 @@ WRKDIR=	${.CURDIR:C/^${BASE_DIR}\///1}
 
 # Keep in alphabetical order
 AR?=		ar
+CAT?=		cat
 CC?=    	cc
 COPY?=		cp
 DIA?=		dia
