@@ -423,7 +423,7 @@ xrealloc(void *p, size_t sz)
  * corresponding value. This routine is used by the env substitution function
  * (see format_path) to map variables to paths.
  *
- * For example, input is "<TCCDIR_BASE>", and return value is
+ * For example, input is "<PREFIX_SHARE>", and return value is
  * "/usr/local/share/". Variable lookup is prioritized:
  *
  *   a) command line args have highest priority,

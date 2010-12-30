@@ -377,15 +377,16 @@ read_env_aux(const char *nm, hashtable *ht)
 /*
  * Lookup value for tccenv(5) variables. This function takes in an escape
  * sequence from an env file, and attempts to find a definition. For example,
- * <TENDRA_BASEDIR> may be passed in, and be mapped to the value supplied
- * previously by -y arguments.
+ * <PREFIX> may be passed in, and be mapped to the value supplied previously
+ * by -y arguments.
  *
- * The function looks up TENDRA_* variables first, since they are so common.
- * The TENDRA_* variable resolution also consults the shell environment, if no
- * -y argument or +TENDRA_* declaration was given in an env file. Failing that,
- * the function consults the hash table of tccenv key/value mappings. This
- * function performs all error handling; it will return a valid char *, or
- * fail.
+ * The function looks up PREFIX_* variables first, since they are so common.
+ * The PREFIX_* variable resolution also consults the shell environment, if no
+ * -y argument or +PREFIX_* declaration was given in an env file. Failing that,
+ * the function consults the hash table of tccenv key/value mappings.
+ *
+ * This function performs all error handling; it will return a valid char *,
+ * or fail.
  */
 const char *
 dereference_var(const char *esc_start, char *esc_end, hashtable *ht, const char *nm,
@@ -398,14 +399,18 @@ dereference_var(const char *esc_start, char *esc_end, hashtable *ht, const char 
 	*esc_end = '\0';
 
 	/*
-	 * Attempt to match TENDRA_* env arguments, which are most likely to
+	 * Attempt to match PREFIX_* env arguments, which are most likely to
 	 * occur.
 	 */
-	if (!strncmp("TENDRA", esc_start, 6)) {
+	if (0 == strncmp("PREFIX_", esc_start, 7)) {
 		sub = find_path_subst(esc_start);
 	}
 
-	/* If we fail to find a TENDRA_* env match, look
+	if (0 == strncmp("MD_", esc_start, 3)) {
+		sub = find_path_subst(esc_start);
+	}
+
+	/* If we fail to find a PREFIX_* env match, look
 	   up in hashtable */
 	if (!sub) {
 		hn = lookup_table(ht, esc_start);

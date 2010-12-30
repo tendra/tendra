@@ -314,17 +314,27 @@ optmap environ_optmap[] = {
 
 	/*
 	 * Set special env file variables.
-	 * These must be kept in sync with Table 5 in utility.h
+	 * These must be kept in sync with Table 5 in path_subs.h
 	 */
-	{ "$TENDRA_MACHDIR $",     "SSV0$2", NULL, 0 },
-	{ "$TENDRA_BINDIR $",      "SSV1$2", NULL, 0 },
-	{ "$TENDRA_ENVDIR $",      "SSV2$2", NULL, 0 },
-	{ "$TENDRA_LIBDIR $",      "SSV3$2", NULL, 0 },
-	{ "$TENDRA_INCLDIR $",     "SSV4$2", NULL, 0 },
-	{ "$TENDRA_STARTUPDIR $",  "SSV5$2", NULL, 0 },
-	{ "$TENDRA_TMPDIR $",      "SSV6$2", NULL, 0 },
-	{ "$TENDRA_BASEDIR $",     "SSV7$2", NULL, 0 },
-	{ "$TENDRA_SRCDIR $",      "SSV8$2", NULL, 0 },
+	{ "$PREFIX $",         "SSV0$2",  NULL, 0 },
+	{ "$PREFIX_BIN $",     "SSV1$2",  NULL, 0 },
+	{ "$PREFIX_LIB $",     "SSV2$2",  NULL, 0 },
+	{ "$PREFIX_LIBEXEC $", "SSV3$2",  NULL, 0 },
+	{ "$PREFIX_SHARE $",   "SSV4$2",  NULL, 0 },
+	{ "$PREFIX_INCLUDE $", "SSV5$2",  NULL, 0 },
+	{ "$PREFIX_MAN $",     "SSV6$2",  NULL, 0 },
+	{ "$PREFIX_TSPEC $",   "SSV7$2",  NULL, 0 },
+	{ "$PREFIX_STARTUP $", "SSV8$2",  NULL, 0 },
+	{ "$PREFIX_ENV $",     "SSV9$2",  NULL, 0 },
+	{ "$PREFIX_API $",     "SSV10$2", NULL, 0 },
+	{ "$PREFIX_LPI $",     "SSV11$2", NULL, 0 },
+	{ "$PREFIX_TMP $",     "SSV12$2", NULL, 0 },
+
+	{ "$MD_EXECFORMAT $",  "SSV13$2", NULL, 0 },
+	{ "$MD_BLDARCH $",     "SSV14$2", NULL, 0 },
+	{ "$MD_BLDARCHBITS $", "SSV15$2", NULL, 0 },
+	{ "$MD_OSFAM $",       "SSV16$2", NULL, 0 },
+	{ "$MD_OSVER $",       "SSV17$2", NULL, 0 },
 
 	/* Flags */
 	{ "?API $",                "",       NULL, 0 },
@@ -1249,7 +1259,6 @@ interpret_cmd(const char *cmd)
 		char c1;
 		char **subs;
 		int i;
-		struct stat sb;
 
 		if (*(cmd + 1) != '?') {
 			read_env(cmd + 1);
@@ -1277,16 +1286,24 @@ interpret_cmd(const char *cmd)
 		*r++ ='\0';
 
 		/*
-		 * Additional error checking for those platforms supporting stat().
+		 * Additional error checking for those platforms supporting stat() for
+		 * variables which represent paths on the filesystem.
+		 * TODO: this probably also ought to check
 		 */
-		if (stat(val, &sb) == -1) {
-			error(SERIOUS, "interpret_cmd: %s %s", val, strerror(errno));
+		if (0 == strncmp(var, "PREFIX_", 7) && strlen(val) > 0) {
+			struct stat sb;
+	
+			if (stat(val, &sb) == -1) {
+				error(SERIOUS, "interpret_cmd: %s %s", val, strerror(errno));
+			}
+
+			/* TODO: check sb S_IFDIR */
 		}
 
 		i = 0;
 		subs = PATH_SUBS;
 		while (*subs) {
-			if (!strcmp(*subs, var)) {
+			if (0 == strcmp(*subs, var)) {
 				env_paths[i] = string_copy(val);
 				break;
 			}
