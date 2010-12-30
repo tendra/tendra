@@ -16,17 +16,7 @@ _TENDRA_WORK_ENV_MK_=1
 
 
 
-${OBJ_DIR}/fixenv.sed:
-	@${CONDCREATE} "${OBJ_DIR}"
-	@${ECHO} "==> Creating ${.TARGET}"
-	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g"  > ${.TARGET}
-	@${ECHO} "1,\$$s%-BLDARCH-%${BLDARCH}%g"       >> ${.TARGET}
-	@${ECHO} "1,\$$s%-OSFAM-%${OSFAM}%g"           >> ${.TARGET}
-	@${ECHO} "1,\$$s%-ENVDIR-%${PREFIX_ENV}%g"     >> ${.TARGET}
-	@${ECHO} "1,\$$s%-TMPDIR-%${PREFIX_TMP}%g"     >> ${.TARGET}
-
-
-${OBJ_SDIR}/env: ${OBJ_DIR}/fixenv.sed
+${OBJ_SDIR}/env:
 	@${CONDCREATE} "${OBJ_DIR}/env"
 	@${CONDCREATE} "${OBJ_SDIR}"
 .for dir in ${ENVCOMMON}
@@ -36,14 +26,14 @@ ${OBJ_SDIR}/env: ${OBJ_DIR}/fixenv.sed
 	@${ECHO} "==> Setting paths for ${WRKDIR} environments"
 .endif
 .for env in ${ENVFILE}
-	sed -f ${OBJ_DIR}/fixenv.sed ${env} > ${OBJ_DIR}/env/${env}
+	${SUBSTVARS} ${env} > ${OBJ_DIR}/env/${env}
 .endfor
 .for env in ${ENVEXTRA}
 	# TODO: show 'extra' comment here
-	${ECHO} '/* ${WRKDIR}/${env}: */'   >> ${OBJ_DIR}/env/${env:R}
-	${ECHO}                             >> ${OBJ_DIR}/env/${env:R}
-	sed -f ${OBJ_DIR}/fixenv.sed ${env} >> ${OBJ_DIR}/env/${env:R}
-	${ECHO}                             >> ${OBJ_DIR}/env/${env:R}
+	${ECHO} '/* ${WRKDIR}/${env}: */' >> ${OBJ_DIR}/env/${env:R}
+	${ECHO}                           >> ${OBJ_DIR}/env/${env:R}
+	${SUBSTVARS} ${env}               >> ${OBJ_DIR}/env/${env:R}
+	${ECHO}                           >> ${OBJ_DIR}/env/${env:R}
 .endfor
 	@${ECHO} done > ${.TARGET}
 

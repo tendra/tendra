@@ -58,6 +58,7 @@ MKDIR?=		mkdir
 MOVE?=		mv
 RANLIB?=	ranlib
 REMOVE?=	rm -f
+SED?=		sed
 SID?=		sid
 SORT?=		sort
 SHELL=		/bin/sh

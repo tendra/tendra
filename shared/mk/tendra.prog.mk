@@ -39,8 +39,7 @@ ${OBJ_SDIR}/${PROG}: ${OBJS}
 ${OBJ_SDIR}/${WRAPPER}: ${WRAPPER}
 	@${CONDCREATE} "${OBJ_SDIR}"
 	@${ECHO} "==> Setting paths for ${WRKDIR}/${WRAPPER}"
-	sed -e 1,\$$s%@@PREFIX@@%${PREFIX}%g \
-	    ${WRAPPER} > ${.TARGET}
+	${SUBSTVARS} ${WRAPPER} > ${.TARGET}
 .endif
 
 

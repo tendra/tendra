@@ -1,5 +1,5 @@
 #!/bin/sh
 
-exec @@PREFIX@@/libexec/tcc -yTENDRA_BASEDIR=@@PREFIX@@ \
-	--SED@@PREFIX@@/lib/tcc/env --CFE -Ydefault ${@+"$@"}
+exec -PREFIX_LIBEXEC-/tcc -yTENDRA_BASEDIR=-PREFIX- \
+	--SED-PREFIX_ENV- --CFE -Ydefault ${@+"$@"}
 
