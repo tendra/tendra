@@ -28,10 +28,8 @@
 +STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/Bounds.ansi -I<PREFIX_STARTUP>/Modes.cpp"
 +STARTUP_CPP		"-f<PREFIX_STARTUP>/Modes.cpp/Xc"
 +PORTABILITY		"<PREFIX_STARTUP>/Bounds.ansi/default.pf"
-+LINK			"-L<PREFIX_LPI>"
-+LIB			"-lc"
->LINK			"-L<PREFIX_API>"
->LIB			"-lansi"
++LINK			"-L<PREFIX_API> -L<PREFIX_LPI>"
++LIB			"-lansi -lc"
 
 +CRT0			"/usr/lib/crt0.o"
 +CRT1			""

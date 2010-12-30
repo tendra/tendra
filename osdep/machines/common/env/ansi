@@ -1,7 +1,7 @@
 /* tcc environment for ansi */
 
 +INCL			"-Nansi:<PREFIX_TSPEC>/TenDRA/include/ansi.api"
-+LIB			"-lansi"
++LIB			"-lansi -lc"
 +FLAG_TDFC		"-ma"
 +FLAG_INSTALL		"-Yansi"
 +API_NAME		"-Aansi"
