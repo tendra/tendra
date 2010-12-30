@@ -21,7 +21,7 @@ PARTS+=	src/power/aix
 
 
 PROG=    	trans.${BLDARCH}
-EXEC_BIN=	${LIBEXEC_DIR}
+EXEC_BIN=	${PREFIX_LIBEXEC}
 
 .include <tendra.prog.mk>
 

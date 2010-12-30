@@ -2,47 +2,6 @@
 #
 # $Id$
 
-# STANDARD DIRECTORIES
-#
-# These directories are used to configure where the release is to be
-# installed:
-#
-#       BASE_DIR        gives the directory in which the source has been
-#                       installed (i.e. the directory containing this script).
-#
-#	PREFIX		gives the base directory prefix in which binaries and
-#			helper files will be installed.
-#
-#       PUBLIC_BIN      gives the directory in which the public executables
-#                       (tcc, tchk and tspec) are to be installed.  If
-#                       PUBLIC_BIN is left blank then the public executables
-#                       will be installed in the private executables
-#                       directory.
-#
-#       INSTALL_DIR     gives the directory in which the configuration files,
-#                       include files, private executables, libraries etc.
-#                       are to be installed.
-#
-#       COMMON_DIR      gives the sub-directory of INSTALL_DIR in which the
-#                       target independent components are to be installed.
-#
-#       MACH_DIR        gives the sub-directory of INSTALL_DIR in which the
-#                       target dependent components are to be installed.
-#
-#       MAN_DIR         gives the directory in which the manual pages are
-#                       to be installed.
-#
-#       OBJ_DIR         gives the working directory in which binary object
-#                       files etc. created during the build process will
-#                       be stored.
-#
-#	OBJ_SDIR	gives the full path to the working directory and the
-#			sub-directory of the current source directory.
-#
-#       TMP_DIR         gives a temporary directory, used both by this
-#                       script and by tcc (so make sure that there is
-#                       plenty of free space).
-
 .if !defined(_TENDRA_BASE_MK_)
 _TENDRA_BASE_MK_=1
 
@@ -56,31 +15,30 @@ ${target}:: .PHONY
 .endfor
 
 
-PREFIX?=	/usr/local
+# Please override locations as best suits your system.
+PREFIX?=         /usr/local
+PREFIX_BIN?=     ${PREFIX}/bin
+PREFIX_LIB?=     ${PREFIX}/lib
+PREFIX_LIBEXEC?= ${PREFIX}/libexec # should not be in $PATH
+PREFIX_SHARE?=   ${PREFIX}/share
+PREFIX_INCLUDE?= ${PREFIX}/include
+PREFIX_MAN?=     ${PREFIX}/man
+PREFIX_TSPEC?=   ${PREFIX_SHARE}/tspec
+PREFIX_STARTUP?= ${PREFIX_LIB}/tcc/startup
+PREFIX_ENV?=     ${PREFIX_LIB}/tcc/env
+PREFIX_API?=     ${PREFIX_LIB}/tcc/api
+PREFIX_LPI?=     ${PREFIX_LIB}/tcc/lpi
+PREFIX_TMP?=     /var/tmp
 
-# Things we expect to be installed on the system.
-TSPEC_PREFIX=	${PREFIX}/share/tspec/TenDRA
 
-INSTALL_DIR=	${PREFIX}/lib/TenDRA
-COMMON_DIR=	${INSTALL_DIR}/lib
-MACH_DIR=	${INSTALL_DIR}/machines
-MACH_BASE=	${MACH_DIR}/${OSFAM}/${BLDARCH}
-#MACH_BASE=	${MACH_DIR}/${OSFAM}/${MACH_VERS}/${BLDARCH}
-INCLUDE_DIR=	${PREFIX}/include
-MAN_DIR=	${PREFIX}/man
-LIB_DIR=	${PREFIX}/lib
-LIBEXEC_DIR=	${PREFIX}/libexec
-SHARE_DIR?=	${PREFIX}/share
+# If you just want to have all build work undertaken in a specific directory
+# (i.e. a read-only source tree), then OBJ_DIR is what you're looking for.
 OBJ_DIR?=	${BASE_DIR}/obj
 OBJ_SDIR?=	${OBJ_DIR}/${.CURDIR:C/^${BASE_DIR}\///}
 OBJ_DDIR?=	${OBJ_SDIR:H}
-TMP_DIR=	/var/tmp
 
 # Do some pretty-printing.
 WRKDIR=	${.CURDIR:C/^${BASE_DIR}\///1}
-
-# Binary paths
-SHELL=		/bin/sh
 
 # Keep in alphabetical order
 AR?=		ar
@@ -102,6 +60,7 @@ RANLIB?=	ranlib
 REMOVE?=	rm -f
 SID?=		sid
 SORT?=		sort
+SHELL=		/bin/sh
 TEST?=		test
 TLD?=		tld
 TNC?=		tnc

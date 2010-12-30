@@ -25,7 +25,7 @@ PARTS+=	src/c/syntax
 
 
 PROG=    	tdfc2
-EXEC_BIN=	${LIBEXEC_DIR}
+EXEC_BIN=	${PREFIX_LIBEXEC}
 
 .include <tendra.prog.mk>
 

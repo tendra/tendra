@@ -13,7 +13,7 @@
 CXXFLAGS+=   -Ex:${OBJ_SDIR:H}/tcpplus
 
 # Tell the -Yc++ environment where to find the C++ tspec API
-CXXFLAGS+=   -yTENDRA_INCLDIR=${TSPEC_PREFIX}/TenDRA/include
+CXXFLAGS+=   -yTENDRA_INCLDIR=${PREFIX_TSPEC}/TenDRA/include
 
 
 SRCS+=	baseinfo.cc

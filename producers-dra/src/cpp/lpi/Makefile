@@ -7,7 +7,7 @@
 
 
 # TODO: figure out where to install LPI token libraries.
-# Maybe install as ${PREFIX}/libexec/producers-dra/lpi/cpp.tl
+# Maybe install as ${PREFIX_LPI}/cpp.tl
 
 
 SYS_FILES+=	basic.j
@@ -30,7 +30,7 @@ TXXOPTS+=	-I${.CURDIR:H}/stdlib
 TXXOPTS+=	-Ex:${OBJ_SDIR:H}/tcpplus
 
 # Tell the -Yc++ environment where to find the C++ tspec API
-TXXOPTS+=	-yTENDRA_INCLDIR=${TSPEC_PREFIX}/TenDRA/include
+TXXOPTS+=	-yTENDRA_INCLDIR=${PREFIX_TSPEC}/TenDRA/include
 
 ${OBJ_SDIR}/basic.j: basic.cc
 	@${CONDCREATE} "${OBJ_SDIR}"

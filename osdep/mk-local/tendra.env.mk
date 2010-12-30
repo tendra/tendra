@@ -19,16 +19,11 @@ _TENDRA_WORK_ENV_MK_=1
 ${OBJ_DIR}/fixenv.sed:
 	@${CONDCREATE} "${OBJ_DIR}"
 	@${ECHO} "==> Creating ${.TARGET}"
-	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g"          > ${.TARGET}
-	@${ECHO} "1,\$$s%-BLDARCH-%${BLDARCH}%g"               >> ${.TARGET}
-	@${ECHO} "1,\$$s%-OSFAM-%${OSFAM}%g"                   >> ${.TARGET}
-	@${ECHO} "1,\$$s%-MACHDIR-%${MACH_BASE}%g"             >> ${.TARGET}
-	@${ECHO} "1,\$$s%-BINDIR-%${MACH_BASE}/bin%g"          >> ${.TARGET}
-	@${ECHO} "1,\$$s%-ENVDIR-%${PREFIX}/lib/tcc/env%g"     >> ${.TARGET}
-	@${ECHO} "1,\$$s%-LIBDIR-%${MACH_BASE}/lib%g"          >> ${.TARGET}
-	@${ECHO} "1,\$$s%-INCLDIR-%${COMMON_DIR}/include%g"    >> ${.TARGET}
-	@${ECHO} "1,\$$s%-STARTUPDIR-%${COMMON_DIR}/startup%g" >> ${.TARGET}
-	@${ECHO} "1,\$$s%-TMPDIR-%${TMP_DIR}%g"                >> ${.TARGET}
+	@${ECHO} "1,\$$s%-MACH-%${OSFAM}/${BLDARCH}%g"  > ${.TARGET}
+	@${ECHO} "1,\$$s%-BLDARCH-%${BLDARCH}%g"       >> ${.TARGET}
+	@${ECHO} "1,\$$s%-OSFAM-%${OSFAM}%g"           >> ${.TARGET}
+	@${ECHO} "1,\$$s%-ENVDIR-%${PREFIX_ENV}%g"     >> ${.TARGET}
+	@${ECHO} "1,\$$s%-TMPDIR-%${PREFIX_TMP}%g"     >> ${.TARGET}
 
 
 ${OBJ_SDIR}/env: ${OBJ_DIR}/fixenv.sed
@@ -70,9 +65,9 @@ clean::
 
 install:: ${OBJ_SDIR}/env
 	@${ECHO} "==> Installing ${WRKDIR} environments"
-	@${CONDCREATE} "${LIB_DIR}/tcc/env"
+	@${CONDCREATE} "${PREFIX_ENV}"
 .for env in ${ENVFILE}
-	${INSTALL} -m 644 ${OBJ_DIR}/env/${env} ${LIB_DIR}/tcc/env/${env}
+	${INSTALL} -m 644 ${OBJ_DIR}/env/${env} ${PREFIX_ENV}/${env}
 .endfor
 
 

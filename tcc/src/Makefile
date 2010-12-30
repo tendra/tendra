@@ -24,7 +24,7 @@ SRCS+=	table.c
 
 PROG=		tcc
 WRAPPER=	tcc.sh
-EXEC_BIN=	${LIBEXEC_DIR}
+EXEC_BIN=	${PREFIX_LIBEXEC}
 
 .include <tendra.prog.mk>
 

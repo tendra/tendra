@@ -32,7 +32,7 @@ PARTS+=	src/cpp/syntax
 
 
 PROG=    	tcpplus
-EXEC_BIN=	${LIBEXEC_DIR}
+EXEC_BIN=	${PREFIX_LIBEXEC}
 
 .include <tendra.prog.mk>
 

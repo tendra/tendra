@@ -22,8 +22,8 @@ HEADERS+=	ostream.h
 
 
 install:: ${HEADERS}
-	@${CONDCREATE} "${INCLUDE_DIR}" "${INCLUDE_DIR}/exds"
+	@${CONDCREATE} "${PREFIX_INCLUDE}" "${PREFIX_INCLUDE}/exds"
 .for header in ${HEADERS}
-	${INSTALL} -m 644 ${header} ${INCLUDE_DIR}/exds/
+	${INSTALL} -m 644 ${header} ${PREFIX_INCLUDE}/exds/
 .endfor
 

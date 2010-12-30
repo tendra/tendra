@@ -151,8 +151,8 @@ clean::
 
 install:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
 	@${ECHO} "==> Installing target-dependent C LPI"
-	@${CONDCREATE} "${LIB_DIR}/tcc/lpi"
-	${INSTALL} -m 644 ${OBJ_SDIR}/c.tl "${LIB_DIR}/tcc/lpi/c.tl"
+	@${CONDCREATE} "${PREFIX_LPI}"
+	${INSTALL} -m 644 ${OBJ_SDIR}/c.tl "${PREFIX_LPI}/c.tl"
 
 
 

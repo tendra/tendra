@@ -29,16 +29,16 @@ clean::
 
 install::
 	@${ECHO} "==> Installing ${WRKDIR}/${STARTUPSUBDIR} startup directories"
-	@${CONDCREATE} ${STARTUPSUBDIR:S,^,${PREFIX}/lib/tcc/startup/,g}
-	@${FIND} ${STARTUPSUBDIR} -name '.*' -prune -o -print |                               \
-	while read file; do                                                                   \
-		if ${TEST} -d $${file}; then                                                      \
-			${ECHO} ${INSTALL} -m 755 -d ${PREFIX}/lib/tcc/startup/$${file};              \
-			${INSTALL} -m 755 -d ${PREFIX}/lib/tcc/startup/$${file} || ${EXIT} $$?;       \
-		else                                                                              \
-			${ECHO} ${INSTALL} -m 644 $${file} ${PREFIX}/lib/tcc/startup/$${file};        \
-			${INSTALL} -m 644 $${file} ${PREFIX}/lib/tcc/startup/$${file} || ${EXIT} $$?; \
-		fi;                                                                               \
+	@${CONDCREATE} ${STARTUPSUBDIR:S,^,${PREFIX_STARTUP}/,g}
+	@${FIND} ${STARTUPSUBDIR} -name '.*' -prune -o -print |                       \
+	while read file; do                                                           \
+		if ${TEST} -d $${file}; then                                              \
+			${ECHO} ${INSTALL} -m 755 -d ${PREFIX_STARTUP}/$${file};              \
+			${INSTALL} -m 755 -d ${PREFIX_STARTUP}/$${file} || ${EXIT} $$?;       \
+		else                                                                      \
+			${ECHO} ${INSTALL} -m 644 $${file} ${PREFIX_STARTUP}/$${file};        \
+			${INSTALL} -m 644 $${file} ${PREFIX_STARTUP}/$${file} || ${EXIT} $$?; \
+		fi;                                                                       \
 	done
 
 

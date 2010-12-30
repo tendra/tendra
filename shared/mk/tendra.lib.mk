@@ -43,7 +43,8 @@ clean::
 
 install:: all
 	@${ECHO} "==> Installing ${WRKDIR}/lib${LIB}"
-	${INSTALL} -m 755 ${OBJ_SDIR}/lib${LIB}.a ${LIB_DIR}/lib${LIB}.a
+	@${CONDCREATE} "${PREFIX_LIB}"
+	${INSTALL} -m 755 ${OBJ_SDIR}/lib${LIB}.a ${PREFIX_LIB}/lib${LIB}.a
 
 
 

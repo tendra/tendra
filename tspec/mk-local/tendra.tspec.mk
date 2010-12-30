@@ -45,9 +45,9 @@ clean::
 
 
 install:: all
-	@${CONDCREATE} "${SHARE_DIR}/tspec"
-	${INSTALL} -m 755 -d ${SHARE_DIR}/tspec
-	${COPY} -R ${OBJ_DIR}/share/TenDRA ${SHARE_DIR}/tspec
+	@${CONDCREATE} "${PREFIX_SHARE}/tspec"
+	${INSTALL} -m 755 -d ${PREFIX_SHARE}/tspec
+	${COPY} -R ${OBJ_DIR}/share/TenDRA ${PREFIX_SHARE}/tspec
 
 
 
