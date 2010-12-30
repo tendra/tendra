@@ -1,6 +1,6 @@
 /* tcc environment for x5_ext */
 
-<INCL			"-Nx5_ext:<TENDRA_INCLDIR>/x5/ext.api"
+<INCL			"-Nx5_ext:<PREFIX_TSPEC>/TenDRA/include/x5/ext.api"
 +FLAG_INSTALL		"-Yx5_ext"
 <LIB			"-lx5_ext"
 <API_NAME		"-Ax5_ext"

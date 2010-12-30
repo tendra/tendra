@@ -1,5 +1,5 @@
 /* ENVIRONMENT FOR -Xt ON sol_i386 */
 
-+STARTUP		"-f<TENDRA_STARTUPDIR>/Modes/Xt"
-+STARTUP_CPP		"-f<TENDRA_STARTUPDIR>/Modes.cpp/Xt"
++STARTUP		"-f<PREFIX_STARTUP>/Modes/Xt"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/Modes.cpp/Xt"
 +CRT1			"/usr/ccs/lib/values-Xt.o"

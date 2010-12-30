@@ -2,4 +2,4 @@
 
 +AS		"/bin/as"
 +AS1		"/usr/lib/cmplrs/as/as1 -O1 -g2"
-<LINK		"-L<TENDRA_LIBDIR>/diag"
+<LINK		"-L<PREFIX_LIB>/diag"

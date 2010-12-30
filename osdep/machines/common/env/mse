@@ -1,6 +1,6 @@
 /* tcc environment for mse */
 
-+INCL			"-Nmse:<TENDRA_INCLDIR>/mse.api"
++INCL			"-Nmse:<PREFIX_TSPEC>/TenDRA/include/mse.api"
 +LIB			"-lmse -lansi"
 +FLAG_INSTALL		"-Ymse"
 +API_NAME		"-Amse"

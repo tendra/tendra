@@ -3,4 +3,4 @@
 +AS			"/bin/as"
 +LD			"/bin/ld -dc -dp -X"
 >SYS_LIB		"-lg"
-<LINK			"-L<TENDRA_LIBDIR>/diag"
+<LINK			"-L<PREFIX_LIB>/diag"

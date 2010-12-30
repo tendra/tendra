@@ -1,6 +1,6 @@
 /* tcc environment for iso */
 
-+INCL			"-Niso:<TENDRA_INCLDIR>/iso.api"
++INCL			"-Niso:<PREFIX_TSPEC>/TenDRA/include/iso.api"
 +LIB			"-liso -lansi"
 +FLAG_INSTALL		"-Yiso"
 +FLAG_TDFC		"-ms"

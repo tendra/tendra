@@ -6,4 +6,4 @@
 +CRT1		"/usr/lib/crti.o /usr/lib/crtbegin.o"
 +CRTN		"/usr/lib/crtend.o /usr/lib/crtn.o"
 +SYS_LIB        "-ltdf"
-+SYS_LINK       "-L<TENDRA_LIBDIR>/sys"
++SYS_LINK       "-L<PREFIX_LIB>/sys"

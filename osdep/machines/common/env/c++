@@ -1,8 +1,8 @@
 /* tcc environment for the C++ to TDF producer */
 
-+INCL_CPP		"-Ncpp:<TENDRA_INCLDIR>/cpp.api"
++INCL_CPP		"-Ncpp:<PREFIX_TSPEC>/TenDRA/include/cpp.api"
 +FLAG			"-jcpp"
->SYS_LIB		"<TENDRA_LIBDIR>/sys/libcpp.a"
+>SYS_LIB		"<PREFIX_LIB>/libcpp.a"
 +FLAG_INSTALL		"-Yc++"
 +API_NAME		"-Acpp"
 +FLAG			"-special cpp"

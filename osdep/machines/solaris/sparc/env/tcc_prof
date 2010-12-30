@@ -2,8 +2,8 @@
 
 /*	Not supported at present	*/
 
-/*	+CRT0		"<TENDRA_LIBDIR>/sys/mcrt1.o <TENDRA_LIBDIR>/sys/crti.o"	*/
-/*	+CRTN		"<TENDRA_LIBDIR>/sys/crtn.o"	*/
+/*	+CRT0		"<PREFIX_LIB>/sys/mcrt1.o <PREFIX_LIB>/sys/crti.o"	*/
+/*	+CRTN		"<PREFIX_LIB>/sys/crtn.o"	*/
 /*	<SYS_LINK	"-Y P,/usr/ccs/lib/libp:/usr/lib/libp:/usr/ccs/lib:/usr/lib -Qy"	*/
 /*	+FLAG_TRANS	"-P"	*/
 /*	+LINE_START	"#pragma@preserve@*"	*/

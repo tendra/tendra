@@ -1,6 +1,6 @@
 /* tcc environment for the TDF Spec 4.0 extensions on hp_pa */
 
-<SYS_LINK		"-L<TENDRA_LIBDIR>/sys"
+<SYS_LINK		"-L<PREFIX_LIB>/sys"
 <LIB			"-ltarget_tok"
 <SYS_LIB        	"-ltdf"
 +FLAG_INSTALL		"-Ytdf_ext"

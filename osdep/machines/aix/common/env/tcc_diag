@@ -1,4 +1,4 @@
 /* TCC ENVIRONMENT : DIAGNOSTICS FOR IBM POWER */
 
 >SYS_LIB        "-lg -bexport:/usr/lib/libg.exp"
-<LINK		"-L<TENDRA_LIBDIR>/diag"
+<LINK		"-L<PREFIX_LIB>/diag"

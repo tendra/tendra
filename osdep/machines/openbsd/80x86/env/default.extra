@@ -4,5 +4,3 @@
 
 +LD		"/usr/bin/ld -m elf_i386_obsd"
 
-+TRANS	"<TENDRA_BASEDIR>/libexec/trans.80x86"
-

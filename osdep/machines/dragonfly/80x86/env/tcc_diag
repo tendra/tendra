@@ -1,5 +1,5 @@
 /* TCC ENVIRONMENT : DIAGNOSTICS FOR DragonFly */
 
 +CRT0		"/usr/lib/crt1.o"
-<LINK		"-L<TENDRA_LIBDIR>/diag"
+<LINK		"-L<PREFIX_LIB>/diag"
 >SYS_LIB	"-static -lg"
