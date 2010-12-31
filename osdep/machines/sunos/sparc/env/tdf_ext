@@ -1,7 +1,7 @@
 /* tcc environment for the TDF Spec 4.0 extensions on Sparc SunOS */
 
 +FLAG                   "--3DL"
-<SYS_LINK		"-L<PREFIX_LIB>/sys"
+<SYS_LINK		"-L<PREFIX_SYS>"
 <LIB			"-ltarget_tok"
 <SYS_LIB        	"-ltsl"
 +FLAG_INSTALL		"-Ytdf_ext"

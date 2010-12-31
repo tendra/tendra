@@ -1,4 +1,4 @@
 /* tcc environment for code production on PROMs */
 
 +FLAG_TRANS			"-N"
-+CRTP_N				"<PREFIX_LIB>/sys/crtp_n.o"
++CRTP_N				"<PREFIX_SYS>/crtp_n.o"

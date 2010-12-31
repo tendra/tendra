@@ -8,5 +8,5 @@
 +CRTN		"/usr/lib/crtend.o"
 
 +SYS_LIB	"-ltsl"
-+SYS_LINK	"-L<PREFIX_LIB>"
++SYS_LINK	"-L<PREFIX_SYS>"
 

@@ -1,5 +1,5 @@
 /* TCC ENVIRONMENT : DIAGNOSTICS for sol_sparc */
 
 <LINK		"-L<PREFIX_LIB>/diag"
-<CRTN		"<PREFIX_LIB>/sys/dwarf.o"
+<CRTN		"<PREFIX_SYS>/dwarf.o"
 +FLAG_AS	"-s"

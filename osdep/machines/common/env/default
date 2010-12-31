@@ -19,7 +19,7 @@
 +AS			"/usr/bin/env as"
 +AS1			"/usr/bin/env as"
 +LD			"/usr/bin/env ld"
-+DYN_LINK		"<PREFIX_LIB>/sys/dyninit"
++DYN_LINK		"<PREFIX_SYS>/dyninit"
 +CC			"/usr/bin/env cc"
 
 +INCL			"-Nansi:<PREFIX_TSPEC>/TenDRA/include/ansi.api"

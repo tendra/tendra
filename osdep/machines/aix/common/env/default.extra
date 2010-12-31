@@ -1,4 +1,4 @@
 +MACHINE		"aix-*-*"
 +FLAG			"--2DL"
 +LD			"/bin/ld -H512 -T512 -bhalt:4"
-+CRT1			"<PREFIX_LIB>/sys/TDFpower.o"
++CRT1			"<PREFIX_SYS>/TDFpower.o"

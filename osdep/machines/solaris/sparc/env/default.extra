@@ -1,6 +1,6 @@
 +MACHINE		"solaris-*-sparc"
 +AS			"/usr/ccs/bin/as"
 +LD			"/usr/ccs/bin/ld"
-+CRT0			"<PREFIX_LIB>/sys/crt1.o <PREFIX_LIB>/sys/crti.o"
++CRT0			"<PREFIX_SYS>/crt1.o <PREFIX_SYS>/crti.o"
 +CRT1			"/usr/ccs/lib/values-Xc.o"
-+CRTN			"<PREFIX_LIB>/sys/crtn.o"
++CRTN			"<PREFIX_SYS>/crtn.o"

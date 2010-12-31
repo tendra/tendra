@@ -1,5 +1,5 @@
 /* TCC ENVIRONMENT : DIAGNOSTICS FOR HP */
 
 +LD			"/bin/ld"
-+CRT1			"<PREFIX_LIB>/sys/dyn_begin.o /usr/lib/end.o"
++CRT1			"<PREFIX_SYS>/dyn_begin.o /usr/lib/end.o"
 <LINK			"-L<PREFIX_LIB>/diag"
