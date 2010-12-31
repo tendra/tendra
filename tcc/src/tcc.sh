@@ -13,6 +13,7 @@ exec -PREFIX_LIBEXEC-/tcc                \
     -yPREFIX_ENV=${TCCENV:--PREFIX_ENV-} \
     -yPREFIX_API=-PREFIX_API-            \
     -yPREFIX_LPI=-PREFIX_LPI-            \
+    -yPREFIX_SYS=-PREFIX_SYS-            \
     -yPREFIX_TMP=-PREFIX_TMP-            \
                                          \
     -yMD_EXECFORMAT=-EXECFORMAT-         \

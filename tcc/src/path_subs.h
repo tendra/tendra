@@ -22,6 +22,7 @@ static char *PATH_SUBS[] = {
 	"PREFIX_ENV",
 	"PREFIX_API",
 	"PREFIX_LPI",
+	"PREFIX_SYS",
 	"PREFIX_TMP",
 
 	"MD_EXECFORMAT",

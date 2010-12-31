@@ -37,7 +37,8 @@ OBJS+=	${OBJ_SDIR}/INT64.o
 OBJS+=	${OBJ_SDIR}/version.o
 
 
-LIB=	tsl
+LIB=		tsl
+EXEC_LIB=	${PREFIX_SYS}
 
 .include <tendra.lib.mk>
 

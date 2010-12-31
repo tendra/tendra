@@ -30,6 +30,7 @@ SUBSTVARS=	                                     \
         s,-PREFIX_ENV-,${PREFIX_ENV},g;          \
         s,-PREFIX_API-,${PREFIX_API},g;          \
         s,-PREFIX_LPI-,${PREFIX_LPI},g;          \
+        s,-PREFIX_SYS-,${PREFIX_SYS},g;          \
         s,-PREFIX_TMP-,${PREFIX_TMP},g;          \
                                                  \
         s,-EXECFORMAT-,${EXECFORMAT},g;          \

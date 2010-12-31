@@ -328,7 +328,8 @@ optmap environ_optmap[] = {
 	{ "$PREFIX_ENV $",     "SSV9$2",  NULL, 0 },
 	{ "$PREFIX_API $",     "SSV10$2", NULL, 0 },
 	{ "$PREFIX_LPI $",     "SSV11$2", NULL, 0 },
-	{ "$PREFIX_TMP $",     "SSV12$2", NULL, 0 },
+	{ "$PREFIX_SYS $",     "SSV12$2", NULL, 0 },
+	{ "$PREFIX_TMP $",     "SSV13$2", NULL, 0 },
 
 	{ "$MD_EXECFORMAT $",  "SSV13$2", NULL, 0 },
 	{ "$MD_BLDARCH $",     "SSV14$2", NULL, 0 },
