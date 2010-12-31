@@ -29,7 +29,7 @@ PREFIX_ENV?=     ${PREFIX_LIB}/tcc/env
 PREFIX_API?=     ${PREFIX_LIB}/tcc/api
 PREFIX_LPI?=     ${PREFIX_LIB}/tcc/lpi
 PREFIX_SYS?=     ${PREFIX_LIB}/tcc/sys
-PREFIX_TMP?=     /var/tmp
+PREFIX_TMP?=     /tmp
 
 
 # If you just want to have all build work undertaken in a specific directory
