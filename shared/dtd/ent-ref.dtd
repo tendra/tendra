@@ -9,6 +9,7 @@
 <!ENTITY ld     "<command>ld</command>(1)">
 <!ENTITY lex    "<command>lex</command>(1)">
 <!ENTITY awk    "<command>awk</command>(1)">
+<!ENTITY man    "<command>man</command>(1)">
 <!ENTITY flex   "<command>flex</command>(1)">
 <!ENTITY yacc   "<command>yacc</command>(1)">
 <!ENTITY bison  "<command>bison</command>(1)">
@@ -21,6 +22,9 @@
 
 <!-- Other section 3 -->
 <!ENTITY tempnam.3 "<function>tempnam</function>(1)">
+
+<!-- Other section 8 -->
+<!ENTITY ldconfig "<command>ldconfig</command>(8)">
 
 <!-- TenDRA section 1 -->
 <!ENTITY tcc        "<citerefentry><refentrytitle>tcc</refentrytitle>       %vol.1;</citerefentry>">

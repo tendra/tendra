@@ -9,6 +9,7 @@
 <!ENTITY iso    "<acronym role='International Organization for Standardization'>ISO</acronym>">
 <!ENTITY elf    "<acronym role='Executable and Linkable Format'>ELF</acronym>">
 <!ENTITY api    "<acronym role='Application Programing Interface'>API</acronym>">
+<!ENTITY lpi    "<acronym role='Language Programing Interface'>LPI</acronym>">
 <!ENTITY xpg3   "<acronym role='X/Open Portability Guide Version 3'>XPG3</acronym>">
 <!ENTITY bnf    "<acronym role='Backus-Naur Form'>BNF</acronym>">
 <!ENTITY bsd    "<acronym role='Berkeley Software Distribution'>BSD</acronym>">
