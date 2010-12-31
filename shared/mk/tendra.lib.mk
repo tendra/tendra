@@ -21,6 +21,8 @@ _TENDRA_WORK_LIB_MK_=1
 .endif
 
 
+EXEC_LIB?=	${PREFIX_LIB}
+
 
 ${OBJ_SDIR}/lib${LIB}.a: ${OBJS}
 	@${CONDCREATE} "${OBJ_SDIR}"
@@ -43,8 +45,8 @@ clean::
 
 install:: all
 	@${ECHO} "==> Installing ${WRKDIR}/lib${LIB}"
-	@${CONDCREATE} "${PREFIX_LIB}"
-	${INSTALL} -m 755 ${OBJ_SDIR}/lib${LIB}.a ${PREFIX_LIB}/lib${LIB}.a
+	@${CONDCREATE} "${EXEC_LIB}"
+	${INSTALL} -m 755 ${OBJ_SDIR}/lib${LIB}.a ${EXEC_LIB}/lib${LIB}.a
 
 
 
