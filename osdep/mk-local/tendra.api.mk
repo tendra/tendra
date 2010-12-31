@@ -26,6 +26,10 @@ STARTUP_MACH=	${.CURDIR}/../startup
 .endif
 
 
+. if defined(OSVER)
+CCOPTS+= -D_${OSVER}
+. endif
+
 
 
 #

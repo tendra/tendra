@@ -114,12 +114,6 @@ CCOPTS+=
 . endif
 
 
-# Options applicable to all compilers
-. if defined(OSVER)
-CCOPTS+= -D_${OSVER}
-. endif
-
-
 
 #
 # In lieu of bootstrapping here in the makefiles (as was previously done by
