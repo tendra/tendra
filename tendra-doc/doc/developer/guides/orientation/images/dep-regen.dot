@@ -1,0 +1,55 @@
+/* $Id$ */
+
+/*
+ * Dependencies for regeneration.
+ * TODO: consider showing build dependencies on the same graph, in a different colour.
+ */
+digraph G {
+	node [ shape = box ];
+	rankdir = BT;
+
+	calculus -> calculus;
+	sid      -> calculus;
+	lexi     -> calculus;
+
+	sid     -> sid;
+	lexi    -> sid;
+
+	lexi -> lexi;
+	sid  -> lexi;
+
+	make_tdf -> disp;
+
+	make_tdf -> installers_dra;
+
+	libexds;
+
+	lexi     -> make_err;
+	sid      -> make_err;
+	calculus -> make_err;
+
+	sid      -> make_tdf;
+	lexi     -> make_tdf;
+	calculus -> make_tdf;
+
+	osdep;
+
+	sid -> producers_dra;
+	calculus -> producers_dra;
+	make_tdf -> producers_dra;
+	make_err -> producers_dra;
+
+	tcc;
+
+	tld;
+
+	make_tdf -> tnc;
+
+	sid -> tpl;
+	make_tdf -> tpl;
+
+	sid -> tspec;
+	lexi -> tspec;
+
+}
+

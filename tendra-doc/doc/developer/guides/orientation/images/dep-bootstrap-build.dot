@@ -1,0 +1,32 @@
+/* $Id$ */
+
+/*
+ * Dependencies for building, bootstrapped by the system compiler.
+ */
+digraph G {
+	node [ shape = box ];
+	rankdir = BT;
+
+	tspec -> osdep;
+	tpl   -> osdep;
+	tnc   -> osdep;
+	tld   -> osdep;
+	tcc   -> osdep;
+
+	producers_dra  -> osdep;
+	installers_dra -> osdep;
+	dirs -> osdep;
+
+	cc -> installers_dra;
+	cc -> producers_dra;
+	cc -> tcc;
+	cc -> tld;
+	cc -> tnc;
+	cc -> tpl;
+	cc -> tspec;
+
+	producers_dra  [ label = "tdfc\n(producers-dra)"     ];
+	installers_dra [ label = "trans\n(installers-dra)"   ];
+	dirs           [ label = "Skeletal tcc\ndirectories" ];
+}
+

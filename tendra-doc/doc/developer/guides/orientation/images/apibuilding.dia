@@ -62,7 +62,7 @@
       </dia:composite>
     </dia:attribute>
   </dia:diagramdata>
-  <dia:layer name="Background" visible="true">
+  <dia:layer name="Background" visible="true" active="true">
     <dia:object type="Standard - Box" version="0" id="O0">
       <dia:attribute name="obj_pos">
         <dia:point val="26,64"/>
@@ -146,7 +146,7 @@
         <dia:point val="29,33"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="28.5,32.95;29.5,49.05"/>
+        <dia:rectangle val="28.6382,32.95;29.3618,49.1118"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="29,33"/>
@@ -196,12 +196,12 @@
         <dia:point val="7,17"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="7,16.4404;12.6571,17.4316"/>
+        <dia:rectangle val="7,16.3863;18.7037,17.1899"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#src/lib/apis/$api/*.h#</dia:string>
+            <dia:string>#tspec/{base,extension}/$api/*.tspec#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -229,7 +229,7 @@
         <dia:point val="7,16"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="7,15.4404;17.7021,16.4316"/>
+        <dia:rectangle val="7,15.405;18.6925,16.1525"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -285,7 +285,7 @@
         <dia:point val="49.5,61"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="47.9513,60.53;51.0487,61.47"/>
+        <dia:rectangle val="47.8025,60.6262;51.1975,61.3738"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -299,7 +299,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="49.5,61.0725"/>
+            <dia:point val="49.5,61.2212"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
@@ -347,7 +347,7 @@
         <dia:point val="49.5,58"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="48.4975,57.53;50.5025,58.47"/>
+        <dia:rectangle val="48.4012,57.6262;50.5987,58.3738"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -361,7 +361,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="49.5,58.0725"/>
+            <dia:point val="49.5,58.2212"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
@@ -383,7 +383,7 @@
         <dia:point val="13,20"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="12.95,19.95;21.5,25.05"/>
+        <dia:rectangle val="12.95,19.95;21.3618,25"/>
       </dia:attribute>
       <dia:attribute name="bez_points">
         <dia:point val="13,20"/>
@@ -410,7 +410,7 @@
         <dia:point val="13,20"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="4.5,19.95;13.05,25.05"/>
+        <dia:rectangle val="4.6382,19.95;13.05,25"/>
       </dia:attribute>
       <dia:attribute name="bez_points">
         <dia:point val="13,20"/>
@@ -463,7 +463,7 @@
         <dia:point val="49.5,63.5"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="48.255,63.03;50.745,63.97"/>
+        <dia:rectangle val="48.135,63.1262;50.865,63.8738"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -477,7 +477,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="49.5,63.5725"/>
+            <dia:point val="49.5,63.7212"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
@@ -525,7 +525,7 @@
         <dia:point val="13,21"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="12.2088,20.5044;13.8083,21.4956"/>
+        <dia:rectangle val="12.1312,20.6262;13.8688,21.3737"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -539,7 +539,7 @@
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="13,21.064"/>
+            <dia:point val="13,21.2212"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
@@ -602,12 +602,12 @@
         <dia:point val="16,27"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="16,26.4404;25.2296,27.4316"/>
+        <dia:rectangle val="16,26.3863;27.4912,27.1899"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#obj/src/lib/apis/building/$api/*.c#</dia:string>
+            <dia:string>#$PREFIX_TSPEC/TenDRA/src/$api/*.c#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -635,7 +635,7 @@
         <dia:point val="16,26"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="16,25.4404;26.5721,26.4316"/>
+        <dia:rectangle val="16,25.405;27.5775,26.1525"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -691,12 +691,12 @@
         <dia:point val="-1,27"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="-1,26.4404;5.74456,27.4316"/>
+        <dia:rectangle val="-1,26.3863;11.9237,27.1899"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#obj/src/lib/apis/$api/*.h#</dia:string>
+            <dia:string>#$PREFIX_TSPEC/TenDRA/include/$api/*.h#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -724,7 +724,7 @@
         <dia:point val="-1,26"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="-1,25.4404;10.1321,26.4316"/>
+        <dia:rectangle val="-1,25.405;11.1875,26.1525"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -783,12 +783,12 @@
         <dia:point val="35,27"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="34.982,26.487;50.5325,29.1678"/>
+        <dia:rectangle val="35,26.3863;52.0387,28.7899"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#src/lib/machines/$os/$cpu/include/*.h
+            <dia:string>#osdep/machines/$os/$cpu/include/*.h
 
 These go on to include /usr/include by #include_next#</dia:string>
           </dia:attribute>
@@ -818,7 +818,7 @@ These go on to include /usr/include by #include_next#</dia:string>
         <dia:point val="35,26"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35,25.4575;41.7225,26.3975"/>
+        <dia:rectangle val="35,25.405;42.3775,26.1525"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -877,12 +877,12 @@ These go on to include /usr/include by #include_next#</dia:string>
         <dia:point val="35,34"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="34.982,33.487;49.865,36.1677"/>
+        <dia:rectangle val="35,33.3863;51.3162,35.7899"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#src/lib/machines/$os/$cpu/startup/$api.h
+            <dia:string>#osdep/machines/$os/$cpu/startup/$api.h
 
 These set various pragmas and define __$os__ etc #</dia:string>
           </dia:attribute>
@@ -912,7 +912,7 @@ These set various pragmas and define __$os__ etc #</dia:string>
         <dia:point val="35,33"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35,32.4575;41.72,33.3975"/>
+        <dia:rectangle val="35,32.405;42.3675,33.1525"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -971,7 +971,7 @@ These set various pragmas and define __$os__ etc #</dia:string>
         <dia:point val="35,41"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35,40.487;50.773,43.1677"/>
+        <dia:rectangle val="35,40.405;52.2675,42.7525"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1006,7 +1006,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="35,40"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="35,39.4575;41.6575,40.3975"/>
+        <dia:rectangle val="35,39.405;42.295,40.1525"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1065,7 +1065,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="29,46.5"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="28.5663,46.03;29.4337,46.97"/>
+        <dia:rectangle val="28.5225,46.1262;29.4775,46.8738"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1079,7 +1079,7 @@ These are included after the hacks and after startups #</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="29,46.5725"/>
+            <dia:point val="29,46.7212"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
@@ -1196,12 +1196,12 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="25,51"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="25,50.4404;34.0721,51.4316"/>
+        <dia:rectangle val="25,50.3863;39.6887,51.1899"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#obj/src/lib/apis/building/$api/*.j#</dia:string>
+            <dia:string>#osdep/obj/machine/$machine/api/apis/$api/*.j#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -1229,7 +1229,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="25,50"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="25,49.4575;31.1925,50.3975"/>
+        <dia:rectangle val="25,49.405;31.79,50.1525"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1262,7 +1262,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="29,53"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="28.5,52.95;29.5,58.05"/>
+        <dia:rectangle val="28.6382,52.95;29.3618,58.1118"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="29,53"/>
@@ -1312,7 +1312,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="29,55.5"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="28.62,55.03;29.38,55.97"/>
+        <dia:rectangle val="28.5837,55.1262;29.4162,55.8738"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1326,7 +1326,7 @@ These are included after the hacks and after startups #</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="29,55.5725"/>
+            <dia:point val="29,55.7212"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
@@ -1371,12 +1371,12 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="25,60"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="25,59.4404;31.2746,60.4316"/>
+        <dia:rectangle val="25,59.3863;31.2112,60.1899"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#obj/src/lib/apis/$api.tl#</dia:string>
+            <dia:string>#$PREFIX_API/$api.tl#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="sans" style="0" name="Helvetica"/>
@@ -1404,7 +1404,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="25,59"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="25,58.4575;34.2275,59.3975"/>
+        <dia:rectangle val="25,58.405;35.115,59.1525"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1437,7 +1437,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="29,65.5"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="28.5338,65.03;29.4663,65.97"/>
+        <dia:rectangle val="28.4875,65.1262;29.5125,65.8738"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1451,7 +1451,7 @@ These are included after the hacks and after startups #</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="29,65.5725"/>
+            <dia:point val="29,65.7212"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
@@ -1473,7 +1473,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="5,30"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="4.5,29.95;5.5,33.05"/>
+        <dia:rectangle val="4.6382,29.95;5.3618,33.1118"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="5,30"/>
@@ -1501,7 +1501,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="29,62"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="28.5,61.95;29.5,64.05"/>
+        <dia:rectangle val="28.6382,61.95;29.3618,64.1118"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="29,62"/>
@@ -1528,7 +1528,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="5,34.5"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="4.50625,34.03;5.49375,34.97"/>
+        <dia:rectangle val="4.45875,34.1262;5.54125,34.8738"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1542,7 +1542,7 @@ These are included after the hacks and after startups #</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="5,34.5725"/>
+            <dia:point val="5,34.7212"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
@@ -1564,7 +1564,7 @@ These are included after the hacks and after startups #</dia:string>
         <dia:point val="49.5,66"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="48.2563,65.53;50.7437,66.47"/>
+        <dia:rectangle val="48.1388,65.6262;50.8612,66.3738"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -1578,7 +1578,7 @@ These are included after the hacks and after startups #</dia:string>
             <dia:real val="0.80000000000000004"/>
           </dia:attribute>
           <dia:attribute name="pos">
-            <dia:point val="49.5,66.0725"/>
+            <dia:point val="49.5,66.2212"/>
           </dia:attribute>
           <dia:attribute name="color">
             <dia:color val="#000000"/>
