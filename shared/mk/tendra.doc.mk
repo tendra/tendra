@@ -109,7 +109,7 @@ ${OBJ_DDIR}/${DOC}/${img}: ${img:R}.dia
 ${OBJ_DDIR}/${DOC}/${img}: ${img:R}.dot
 	@${ECHO} "==> Rendering vector image ${WRKDIR}/${img:T}"
 	@${CONDCREATE} ${OBJ_DDIR}/${DOC}/${img:H}
-	${DOT} -o ${.TARGET} ${.ALLSRC}
+	${DOT} -T${img:E} -o ${.TARGET} ${.ALLSRC}
 . else
 .BEGIN:
 	@${ECHO} 'unrecognised image dependency: ${WRKDIR}/${img:T}'
