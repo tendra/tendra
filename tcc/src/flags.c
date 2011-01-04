@@ -66,7 +66,6 @@
 #include "startup.h"
 #include "suffix.h"
 #include "utility.h"
-#include "path_subs.h"
 #include "table.h"
 
 
@@ -89,11 +88,10 @@ const char *name_j_file = TDF_COMPLEX_NAME;
 const char *name_k_file = C_SPEC_COMPLEX_NAME;
 const char *name_K_file = CPP_SPEC_COMPLEX_NAME;
 const char *name_p_file = TOKDEF_NAME;
-const char *temporary_dir = "/usr/tmp";	/* XXX strange default */
+const char *temporary_dir = "/tmp";	/* TODO: use PREFIX_TMP instead */
 const char *tokdef_output = NULL;
 const char *version_flag = "";
 const char *dev_null = NULL;
-const char **env_paths = NULL;
 
 
 /*
@@ -424,10 +422,6 @@ set_machine(void)
 void
 initialise_options(void)
 {
-	/* Initialise executables */
-	size_t sz;
-	int i;
-
 	exec_produce = make_list("builtin/undef C_producer");
 	exec_preproc = make_list("builtin/undef C_preprocessor");
 	exec_cpp_produce = make_list("builtin/undef C++_producer");
@@ -456,15 +450,6 @@ initialise_options(void)
 	find_envpath();
 	if (checker) {
 		allow_specs = 1;
-	}
-
-	/* allocate space for cmd line env args */
-	sz = sizeof PATH_SUBS / sizeof *PATH_SUBS;
-	env_paths = xalloc(sz * sizeof (char *));
-
-	/* Here, we should set these to sane defaults.  For now, just NULL */
-	for (i=0; i < sz; i++) {
-		env_paths[i] = NULL;
 	}
 }
 

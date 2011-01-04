@@ -58,11 +58,7 @@
 */
 
 
-#include <sys/types.h>
-#include <sys/stat.h>
-
 #include <assert.h>
-#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -77,8 +73,8 @@
 #include "startup.h"
 #include "suffix.h"
 #include "utility.h"
-#include "path_subs.h"
 #include "table.h"
+#include "hash.h"
 
 
 /*
@@ -116,7 +112,7 @@ filename *input_files = NULL;
  * evaluated first. (Option rankings can be disabled with the -no_shuffle
  * option.)
  */
-optmap main_optmap[] = {
+struct optmap main_optmap[] = {
 	/* Common options */
 	{ "^-$",         "I?$0",              "specifies an input file",                     1000 },
 	{ "-o+$",        "SFN$1",             "specifies output file name",                   100 },
@@ -255,8 +251,10 @@ optmap main_optmap[] = {
  *
  * This table gives all the environment options. It needs to be kept in line
  * with Table 4.
+ *
+ * The fourth field, .explain, is used to optionally carry a default value.
  */
-optmap environ_optmap[] = {
+struct optmap environ_optmap[] = {
 	/* Options */
 	{ "\\+FLAG $",               "=$1",   NULL, 0 },
 	{ "\\+FLAG_TDFC $",          "AOc$1", NULL, 0 },
@@ -314,28 +312,28 @@ optmap environ_optmap[] = {
 
 	/*
 	 * Set special env file variables.
-	 * These must be kept in sync with Table 5 in path_subs.h
+	 * These must be kept in sync with the table in envvar.c
 	 */
-	{ "$PREFIX $",         "SSV0$2",  NULL, 0 },
-	{ "$PREFIX_BIN $",     "SSV1$2",  NULL, 0 },
-	{ "$PREFIX_LIB $",     "SSV2$2",  NULL, 0 },
-	{ "$PREFIX_LIBEXEC $", "SSV3$2",  NULL, 0 },
-	{ "$PREFIX_SHARE $",   "SSV4$2",  NULL, 0 },
-	{ "$PREFIX_INCLUDE $", "SSV5$2",  NULL, 0 },
-	{ "$PREFIX_MAN $",     "SSV6$2",  NULL, 0 },
-	{ "$PREFIX_TSPEC $",   "SSV7$2",  NULL, 0 },
-	{ "$PREFIX_STARTUP $", "SSV8$2",  NULL, 0 },
-	{ "$PREFIX_ENV $",     "SSV9$2",  NULL, 0 },
-	{ "$PREFIX_API $",     "SSV10$2", NULL, 0 },
-	{ "$PREFIX_LPI $",     "SSV11$2", NULL, 0 },
-	{ "$PREFIX_SYS $",     "SSV12$2", NULL, 0 },
-	{ "$PREFIX_TMP $",     "SSV13$2", NULL, 0 },
+	{ "$PREFIX $",         "SSV$0", PREFIX,         0 },
+	{ "$PREFIX_BIN $",     "SSV$0", PREFIX_BIN,     0 },
+	{ "$PREFIX_LIB $",     "SSV$0", PREFIX_LIB,     0 },
+	{ "$PREFIX_LIBEXEC $", "SSV$0", PREFIX_LIBEXEC, 0 },
+	{ "$PREFIX_SHARE $",   "SSV$0", PREFIX_SHARE,   0 },
+	{ "$PREFIX_INCLUDE $", "SSV$0", PREFIX_INCLUDE, 0 },
+	{ "$PREFIX_MAN $",     "SSV$0", PREFIX_MAN,     0 },
+	{ "$PREFIX_TSPEC $",   "SSV$0", PREFIX_TSPEC,   0 },
+	{ "$PREFIX_STARTUP $", "SSV$0", PREFIX_STARTUP, 0 },
+	{ "$PREFIX_ENV $",     "SSV$0", PREFIX_ENV,     0 },
+	{ "$PREFIX_API $",     "SSV$0", PREFIX_API,     0 },
+	{ "$PREFIX_LPI $",     "SSV$0", PREFIX_LPI,     0 },
+	{ "$PREFIX_SYS $",     "SSV$0", PREFIX_SYS,     0 },
+	{ "$PREFIX_TMP $",     "SSV$0", PREFIX_TMP,     0 },
 
-	{ "$MD_EXECFORMAT $",  "SSV13$2", NULL, 0 },
-	{ "$MD_BLDARCH $",     "SSV14$2", NULL, 0 },
-	{ "$MD_BLDARCHBITS $", "SSV15$2", NULL, 0 },
-	{ "$MD_OSFAM $",       "SSV16$2", NULL, 0 },
-	{ "$MD_OSVER $",       "SSV17$2", NULL, 0 },
+	{ "$MD_EXECFORMAT $",  "SSV$0", EXECFORMAT,     0 },
+	{ "$MD_BLDARCH $",     "SSV$0", BLDARCH,        0 },
+	{ "$MD_BLDARCHBITS $", "SSV$0", BLDARCHBITS,    0 },
+	{ "$MD_OSFAM $",       "SSV$0", OSFAM,          0 },
+	{ "$MD_OSVER $",       "SSV$0", OSVER,          0 },
 
 	/* Flags */
 	{ "?API $",                "",       NULL, 0 },
@@ -419,8 +417,6 @@ special_option(void)
 	boolean b = 1;
 	const char *s = xx_string;
 
-	assert(xx_string != NULL);
-
 	struct {
 		boolean notchecker;
 		boolean dump;
@@ -435,6 +431,8 @@ special_option(void)
 		{ 0, 1, "dump",     &allow_specs    },
 		{ 0, 1, "cpp_dump", &allow_specs    }
 	};
+
+	assert(xx_string != NULL);
 
 	if (strneq(s, "no_", 3)) {
 		b = 0;
@@ -474,7 +472,6 @@ lookup_bool(const char *s)
 {
 	size_t i;
 
-	/* TODO: with all of these as arrays, see if we can merge into one table */
 	struct {
 		char *s;
 		boolean *b;
@@ -737,16 +734,11 @@ lookup_string(const char *s)
 	}
 
 	if (0 == strncmp(s, "SV", 2)) {
-		const char *p1;
-		int i;
+		const char *q;
 
-		i = s[2] - '0';
-		p1 = (s + 3);
+		q = s + 3 + strcspn(s + 3, " ");
 
-		/* change the path, if it was not set at cmd line */
-		if (env_paths[i] == NULL) {
-			env_paths[i] = p1;
-		}
+		envvar_set(&envvars, s + 3, q + 1, *(s + 2), HASH_DEFAULT);
 
 		/* XXX: hack */
 		return &dev_null;
@@ -826,7 +818,6 @@ lookup_proc(const char *s)
 
 	assert(s != NULL);
 
-	/* TODO: ensure all these functions are passed strings, if possible, and use strcmp */
 	for (i = 0; i < sizeof t / sizeof *t; i++) {
 		if (0 == strncmp(t[i].s, s, 2)) {
 			return t[i].f;
@@ -1114,7 +1105,7 @@ match_option(char *in, char *out, const char *opt, args_out *res)
  * INTERPRET AN OPTION COMMAND
  */
 static void
-interpret_cmd(const char *cmd)
+interpret_cmd(const char *cmd, enum hash_precedence precedence)
 {
 	char c = *cmd;
 
@@ -1190,7 +1181,7 @@ interpret_cmd(const char *cmd)
 	/* Deal with equivalences */
 	if (c == '=') {
 		list *p = make_list(cmd + 1);
-		process_options(p, main_optmap, 1);
+		process_options(p, main_optmap, 1, precedence);
 		free_list(p);
 		return;
 	}
@@ -1258,8 +1249,6 @@ interpret_cmd(const char *cmd)
 		char *q, *r;
 		const char *p;
 		char c1;
-		char **subs;
-		int i;
 
 		if (*(cmd + 1) != '?') {
 			read_env(cmd + 1);
@@ -1286,35 +1275,7 @@ interpret_cmd(const char *cmd)
 		}
 		*r++ ='\0';
 
-		/*
-		 * Additional error checking for those platforms supporting stat() for
-		 * variables which represent paths on the filesystem.
-		 * TODO: this probably also ought to check
-		 */
-		if (0 == strncmp(var, "PREFIX_", 7) && strlen(val) > 0) {
-			struct stat sb;
-	
-			if (stat(val, &sb) == -1) {
-				error(SERIOUS, "interpret_cmd: %s %s", val, strerror(errno));
-			}
-
-			/* TODO: check sb S_IFDIR */
-		}
-
-		i = 0;
-		subs = PATH_SUBS;
-		while (*subs) {
-			if (0 == strcmp(*subs, var)) {
-				env_paths[i] = string_copy(val);
-				break;
-			}
-			i++;
-			subs++;
-		}
-
-		if (!*subs) {
-			error(WARNING, "Ignoring non-standard env assignment: %s=%s", var, val);
-		}
+		envvar_set(&envvars, var, val, HASH_ASSIGN, precedence);
 		return;
 	}
 
@@ -1362,7 +1323,7 @@ interpret_cmd(const char *cmd)
 	/* Query */
 	case 'Q': {
 		char *s;
-		optmap *t;
+		struct optmap *t;
 
 		error(INFO, "List of recognised options");
 
@@ -1468,9 +1429,10 @@ interpret_cmd(const char *cmd)
  * tab.
  */
 void
-process_options(list *opt, optmap *tab, int fast)
+process_options(list *opt, struct optmap *tab, int fast,
+	enum hash_precedence precedence)
 {
-	optmap *t;
+	struct optmap *t;
 	list *p;
 	list *accum = NULL;
 	const char *arg = NULL;
@@ -1497,7 +1459,7 @@ process_options(list *opt, optmap *tab, int fast)
 				/* Complete option - interpret result */
 				for (a = 0; a < res.argc; a++) {
 					if (no_shuffle != 0 || fast == 1) {
-						interpret_cmd(res.argv[a]);
+						interpret_cmd(res.argv[a], precedence);
 					} else {
 						ordered_node *dn = xalloc(sizeof(ordered_node));
 						dn->rank = t->rank;
@@ -1550,9 +1512,30 @@ end_search:
 		while (accum) {
 			ordered_node* dn;
 			dn = accum->item.on;
-			interpret_cmd(dn->cmd);
+			interpret_cmd(dn->cmd, precedence);
 			accum = accum->next;
 		}
 	}
+}
+
+boolean option_istccopt(const char *name) {
+	struct optmap *t;
+	size_t l;
+
+	assert(name != NULL);
+
+	l = strlen(name);
+
+	for (t = environ_optmap; t->in != NULL; t++) {
+		const char *p;
+
+		p = t->in + strspn(t->in, "\\+$?");
+
+		if (0 == strncmp(name, p, l) && p[l] == ' ') {
+			return 1;
+		}
+	}
+
+	return 0;
 }
 

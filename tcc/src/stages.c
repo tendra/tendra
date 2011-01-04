@@ -185,6 +185,9 @@ uniq_filename(const char *nm, enum filetype t, int s, filename *input)
 				case EXECUTABLE:
 					m = "executable";
 					break;
+
+				default:
+					break;
 				}
 				error(WARNING,
 				      "Renaming %s '%s' to '%s' to avoid clash with input",

@@ -58,6 +58,7 @@
 */
 
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -70,6 +71,7 @@
 #include "options.h"
 #include "suffix.h"
 #include "utility.h"
+#include "hash.h"
 
 
 /*
@@ -80,6 +82,15 @@
  */
 
 static char *envpath = ".";
+
+/*
+ * ENVIRONMENT
+ *
+ * This list carries the associative array of environment variables set through
+ * environment files, and -y flags.
+ */
+struct hash *envvars;
+int environ_count;
 
 
 /*
@@ -141,13 +152,16 @@ show_envpath(void)
  * memory.
 */
 
-int
-read_env_aux(const char *nm, hashtable *ht)
+static int
+read_env_aux(const char *nm, struct hash **h)
 {
     /* Find the environment */
     FILE *f;
     char *ep, *q;
     int   line_num;
+
+	assert(nm != NULL);
+	assert(h != NULL);
 
     if (*nm == 0) {
 	return (1);
@@ -188,7 +202,7 @@ read_env_aux(const char *nm, hashtable *ht)
 	char	*end = NULL; /* end of line */
 	char	*cmd;	     /* final command string being built */
 	list	 dummy;	     /* final command */
-	htnode	*hn;	     /* wrapper for command storage */
+	enum hash_order order;
 
 	line_len = strlen(buffer);
 	count = 1;
@@ -283,8 +297,7 @@ read_env_aux(const char *nm, hashtable *ht)
 		    /*
 		     * find a substitution; all error handling done in function
 		     */
-		    sub = dereference_var(esc_start + 1, esc_end, ht, nm,
-					  line_num);
+		    sub = envvar_dereference(*h, esc_start + 1, esc_end, nm, line_num);
 
 		    /* find length of substitution */
 		    sub_len = strlen(sub);
@@ -350,129 +363,30 @@ read_env_aux(const char *nm, hashtable *ht)
 
 	    /* build the command string */
 	    cmd = string_append(key_start, val_start, ' ');
-	    key_start = string_copy(key_start);
-	    val_start = (cmd + key_length + 2);
+
+		order = *key_start;
+	    key_start++;
+	    val_start = cmd + key_length + 1 + 1;
 
 	    /*
 	     * If the key/value pair is a tccenv variable, it's a finished
 	     * command, and should be executed.
 	     */
-	    hn = lookup_table(ht, key_start);
-	    if (hn && (hn->flag & TCCENV)) {
+	    if (~envvar_flags(*h, key_start) & HASH_USR) {
 		/* process the command */
 		dummy.item.s = cmd;
 		dummy.next = NULL;
-		process_options(&dummy, environ_optmap, 1);
+		process_options(&dummy, environ_optmap, 1, HASH_TCCENV);
 	    }
 
-	    /* update hashtable with new key/value pair*/
-	    hn = update_table(ht, key_start, val_start, USR, nm, line_num);
+	    /* update envvars with new key/value pair*/
+	    envvar_set(h, key_start, val_start, order, HASH_TCCENV);
 	} /* if the line is a +, >, < env action command */
     } /* for each line in the env file */
 
     return (0);
 } /* read_env_aux() */
 
-
-/*
- * Lookup value for tccenv(5) variables. This function takes in an escape
- * sequence from an env file, and attempts to find a definition. For example,
- * <PREFIX> may be passed in, and be mapped to the value supplied previously
- * by -y arguments.
- *
- * The function looks up PREFIX_* variables first, since they are so common.
- * The PREFIX_* variable resolution also consults the shell environment, if no
- * -y argument or +PREFIX_* declaration was given in an env file. Failing that,
- * the function consults the hash table of tccenv key/value mappings.
- *
- * This function performs all error handling; it will return a valid char *,
- * or fail.
- */
-const char *
-dereference_var(const char *esc_start, char *esc_end, hashtable *ht, const char *nm,
-		int line_num)
-{
-	htnode* hn;
-	const char *sub = NULL;
-	/* temporarily replace '>' with '\0' to facilitate lookup */
-	char tmp = *esc_end;
-	*esc_end = '\0';
-
-	/*
-	 * Attempt to match PREFIX_* env arguments, which are most likely to
-	 * occur.
-	 */
-	if (0 == strncmp("PREFIX_", esc_start, 7)) {
-		sub = find_path_subst(esc_start);
-	}
-
-	if (0 == strncmp("MD_", esc_start, 3)) {
-		sub = find_path_subst(esc_start);
-	}
-
-	/* If we fail to find a PREFIX_* env match, look
-	   up in hashtable */
-	if (!sub) {
-		hn = lookup_table(ht, esc_start);
-		if (hn == NULL) {
-			*esc_end = tmp;
-			error(FATAL, "Undefined variable <%s> in %s line %d",
-			      esc_start, nm, line_num);
-		}
-		sub = hn->val;
-	}
-
-	*esc_end = tmp;
-	return sub;
-}
-
-
-/*
- * Reconcile the table of user-defined env options. At present this function
- * just makes sure that non-tccenv(5) variables declared by the user were used
- * in the env files. If not, it's likely a subtle bug or typo, and a warning
- * issues if the version -v switch is used.
- *
- * Future revisions may also attempt to supply definitions to hash keys that
- * were not found during the O(N) initial pass through the env files. (That is,
- * the env reading would be O(2N), and attempt to finding all possible
- * definitions, including those out of order.)
- */
-void
-reconcile_envopts(void)
-{
-	int i;
-	htnode *hn;
-
-	/*
-	 * If no -Y args were given whatsoever, give a warning even without
-	 * verbose being set.
-	 */
-	if (environ_count == 0)
-		error(WARNING, "not invoked with any -Y env arguments");
-
-	/*
-	 * If the global env table is NULL, no -Y args succeeded, or none were
-	 * given.
-	 */
-	if (environ_hashtable == NULL)
-		error(FATAL, "failed to load any environment files");
-
-	if (!verbose) {
-		return;
-	}
-
-	for (i = 0; i < TCC_TBLSIZE; i++) {
-		hn = environ_hashtable->node[i];
-
-		if (hn && (hn->flag & USR) && !(hn->flag & READ)) {
-			error(WARNING,
-			    "%s, line %d: environment option %s declared"
-			    " but never used", hn->file, hn->line_num,
-			    hn->key);
-		}
-	}
-}
 
 /*
  * READ AN ENVIRONMENT
@@ -485,39 +399,13 @@ void
 read_env(const char *nm)
 {
 	int e;
-	static hashtable *ht;
 
 	/* note attempt to load -Y env file */
 	environ_count++;
 
-	if (ht == NULL) {
-		ht = init_table(TCC_TBLSIZE, TCC_KEYSIZE, &hash);
-		environ_hashtable = ht; /* hack */
-	}
-
-	e = read_env_aux(nm, ht);
+	e = read_env_aux(nm, &envvars);
 	if (e == 1) {
 		error(WARNING, "Can't find environment, '%s'", nm);
 	}
 }
 
-void
-dump_env(void)
-{
-	htnode *hn;
-	int i;
-
-	if (environ_hashtable == NULL) {
-		error(FATAL, "No environment information found\n");
-	}
-
-	IGNORE printf("Environment dump:\n");
-	/* Traverse the hash tree and print all data in it */
-	for (i = 0; i < TCC_TBLSIZE; i++) {
-		hn = environ_hashtable->node[i];
-
-		if (hn) {
-			IGNORE printf("\t%s = %s\n", hn->key, hn->val);
-		}
-	}
-}

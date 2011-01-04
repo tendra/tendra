@@ -75,31 +75,6 @@ extern char *buffer;
 
 
 /*
- * Hash implementation
- */
-
-typedef struct _htnode {
-	struct _htnode *next;
-	const char *val;
-	const char *key;
-	unsigned int  flag;
-	const char *file;
-	int  line_num;
-} htnode;
-
-#define TCCENV	0x01U
-#define USR	0x02U
-#define READ	0x04U
-
-typedef struct _hashtable {
-	htnode **node;
-	size_t tblsize;
-	size_t keysize; /* max length of key to hash */
-	int (*hashfcn)(const char *, size_t, size_t);
-} hashtable;
-
-
-/*
  * PROCEDURE DECLARATIONS
  *
  * These routines are concerned with error reporting and memory allocation.
@@ -108,17 +83,11 @@ typedef struct _hashtable {
 
 extern void error(int, char *, ...);
 extern void comment(int, char *, ...);
-extern const char* find_path_subst(const char *);
-extern int hash(const char *, size_t, size_t);
-extern hashtable *init_table(size_t, size_t, int (*fcn)(const char *, size_t, size_t));
-extern htnode *lookup_table(hashtable *, const char *);
 extern void *xalloc(size_t);
 extern void *xrealloc(void *, size_t);
 extern char *string_append(const char *, const char *, char);
 extern char *string_copy(const char *);
 extern char *string_concat(const char *, const char *);
-extern htnode *update_table(hashtable *, const char *, const char *,
-	unsigned int, const char *, int);
 
 
 /*

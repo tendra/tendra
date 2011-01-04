@@ -456,25 +456,8 @@ execute(filename *input, filename *output)
 				}
 			}
 
-			/* print environment values sent to execv */
-			if (tool_chain_environ) {
-				char **curr = environment;
-				IGNORE printf ("\n\tEnvironment dump");
-
-				if (!tool_chain) {
-					IGNORE printf (" for cmd %s", cmd);
-				}
-
-				IGNORE printf ("\n");
-
-				while (*curr) {
-					IGNORE printf ("\t%s\n", *curr);
-					curr++;
-				}
-			}
-
 			/* XXX The cast to void * is to const-ness. Perhaps copy first */
-			IGNORE execve(cmd, (void *) command, environment);
+			IGNORE execv(cmd, (void *) command);
 			running_pid = -1;
 			error(SERIOUS, "Can't execute '%s'", cmd);
 			exit(2);

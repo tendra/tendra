@@ -60,6 +60,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "config.h"
 #include "external.h"
@@ -108,16 +109,6 @@ print_version(void)
 
 
 /*
- * ENVIRONMENT
- *
- * This variable given the array of environmental variables which is passed as
- * the third argument to main.
- */
-
-char **environment = NULL;
-
-
-/*
  * SIGNAL HANDLER
  *
  * This routine is the main signal handler. It reports any interesting signals
@@ -157,13 +148,29 @@ static boolean made_tempdir = 0;
  */
 
 static void
-main_start(char *prog, char **envp)
+main_start(char *prog)
 {
-	environment = envp;
+	const struct optmap *t;
+
 	buffer = alloc_nof(char, buffer_size);
 	progname = find_basename(prog);
 	IGNORE signal(SIGINT, handler);
 	IGNORE signal(SIGTERM, handler);
+
+    /* initialize hash table with tccenv keys */
+	for (t = environ_optmap; t->in != NULL; t++) {
+		char *name;
+
+		if (t->explain == NULL) {
+			continue;
+		}
+
+		name = string_copy(t->in + 1);
+		name[strcspn(name, " ")] = '\0';
+
+		envvar_set(&envvars, name, t->explain,
+			HASH_ASSIGN, HASH_DEFAULT);
+	}
 
 	initialise_options();
 }
@@ -234,13 +241,13 @@ main(int argc, char **argv)
 	list *opts = NULL;
 
 	/* Initialisation */
-	main_start(PROGNAME_TCC, environ);
+	main_start(PROGNAME_TCC);
 
 	/* Check TCCOPTS options */
 	s = getenv(TCCOPT_VAR);
 	if (s != NULL) {
 		opts = make_list(s);
-		process_options(opts, main_optmap, 0);
+		process_options(opts, main_optmap, 0, HASH_SYSENV);
 		free_list(opts);
 		opts = NULL;
 	}
@@ -249,14 +256,14 @@ main(int argc, char **argv)
 	for (a = argc - 1; a >= 1; a--) {
 		opts = insert_item(argv[a], opts);
 	}
-	process_options(opts, main_optmap, 0);
+	process_options(opts, main_optmap, 0, HASH_CLI);
 	update_options();
-	reconcile_envopts();
+	reconcile_envopts(envvars);
 	free_list(opts);
 
 	/* Dump env information ? XXX: Where should this really be? */
 	if (env_dump) {
-		dump_env();
+		dump_env(envvars);
 		/* main_end(); XXX */
 		return (0);
 	}

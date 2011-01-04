@@ -62,6 +62,7 @@
 #define FLAGS_H
 
 #include "table.h"
+#include "list.h"
 
 /*
  * PROCEDURE DECLARATIONS

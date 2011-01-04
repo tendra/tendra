@@ -539,7 +539,7 @@ make_filename(filename *p, enum filetype t, enum file_storage s)
 {
 	boolean f = 0;
 	char *e;
-	const char *d;
+	const char *d = NULL;
 	const char *b = NULL;
 	const char *nm = NULL;
 	filename *q = new_filename();

@@ -790,7 +790,7 @@ archive_error:
     }
     *ret = output;
     if (opts) {
-	    process_options(opts, main_optmap, 0);
+	    process_options(opts, main_optmap, 0, HASH_CLI);
 	    opt_archive = add_list(opt_archive, opts);
     }
     if (emsg) {

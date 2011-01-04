@@ -3,7 +3,30 @@
 .include "Makefile.inc"
 
 
-TCCOPTS=	-Yxpg4 -Xs
+#TCCOPTS=	-Yxpg4 -Xs
+TCCOPTS=	-Yxpg3 -Xs
+
+CCOPTS=                                    \
+	-DPREFIX='"${PREFIX}"'                 \
+	-DPREFIX_BIN='"${PREFIX_BIN}"'         \
+	-DPREFIX_LIB='"${PREFIX_LIB}"'         \
+	-DPREFIX_LIBEXEC='"${PREFIX_LIBEXEC}"' \
+	-DPREFIX_SHARE='"${PREFIX_SHARE}"'     \
+	-DPREFIX_INCLUDE='"${PREFIX_INCLUDE}"' \
+	-DPREFIX_MAN='"${PREFIX_MAN}"'         \
+	-DPREFIX_TSPEC='"${PREFIX_TSPEC}"'     \
+	-DPREFIX_STARTUP='"${PREFIX_STARTUP}"' \
+	-DPREFIX_ENV='"${PREFIX_ENV}"'         \
+	-DPREFIX_API='"${PREFIX_API}"'         \
+	-DPREFIX_LPI='"${PREFIX_LPI}"'         \
+	-DPREFIX_SYS='"${PREFIX_SYS}"'         \
+	-DPREFIX_TMP='"${PREFIX_TMP}"'         \
+	                                       \
+	-DEXECFORMAT='"${EXECFORMAT}"'         \
+	-DBLDARCH='"${BLDARCH}"'               \
+	-DBLDARCHBITS='"${BLDARCHBITS}"'       \
+	-DOSFAM='"${OSFAM}"'                   \
+	-DOSVER='"${OSVER}"'
 
 SRCS+=	archive.c
 SRCS+=	compile.c
@@ -18,6 +41,7 @@ SRCS+=	stages.c
 SRCS+=	startup.c
 SRCS+=	utility.c
 SRCS+=	table.c
+SRCS+=	hash.c
 
 .include <tendra.obj.mk>
 

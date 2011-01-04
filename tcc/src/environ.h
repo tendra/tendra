@@ -62,6 +62,7 @@
 #define ENVIRON_H
 
 #include "utility.h"
+#include "hash.h"
 
 /*
  * PROCEDURE DECLARATIONS
@@ -69,20 +70,16 @@
  * These routines are concerned with reading tcc environments.
  */
 
-extern void	dump_env(void);
 extern void	read_env(const char *);
-extern int	read_env_aux(const char *, hashtable *);
-extern const char	*dereference_var(const char *, char *, hashtable *, const char *, int);
 extern void	find_envpath(void);
-extern void	reconcile_envopts(void);
 extern void	show_envpath(void);
 
 
 #define TCC_TBLSIZE 119
 #define TCC_KEYSIZE  27
 
-hashtable *environ_hashtable;	/* global set of env keys/values */
-int environ_count;		/* how many -Y env loads are attempted */
+extern struct hash *envvars;	/* global set of env keys/values */
+extern int environ_count;		/* how many -Y env loads are attempted */
 
 
 /*
@@ -97,10 +94,5 @@ int environ_count;		/* how many -Y env loads are attempted */
 #define is_whitespace(X)	((X) == ' ' || (X) == '\t')
 #define is_newline(X)		((X) == '\n')
 
-
-/*
- * Use variable substitution for each env line read in.
- */
-#define ENVIRONSUB
 
 #endif /* ENVIRON_H */

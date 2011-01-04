@@ -58,25 +58,52 @@
 */
 
 
-#ifndef EXTERNAL_H
-#define EXTERNAL_H
+#ifndef HASH_H
+#define HASH_H
+
+#include <stddef.h>
 
 
 /*
- * EXTERNAL INTERFACE SPECIFICATION
- *
- * This header describes the non-ANSI component of the program API. The
- * various components are controlled by the FS_* macros defined in config.h.
+ * Hash implementation
  */
 
-#include <sys/wait.h>
+enum hash_flag {
+	HASH_USR    = 1 << 0,
+	HASH_READ   = 1 << 1
+	/* TODO: possibly add a flag saying the value is just a default */
+};
 
-typedef int wait_type;
-#define process_wait(X)		wait((X))
-#define process_return(X, Y)	((X) = (Y))
-#define process_exited(X)	WIFEXITED((X))
-#define process_signaled(X)	WIFSIGNALED((X))
-#define process_exit_value(X)	WEXITSTATUS((X))
-#define process_signal_value(X)	WTERMSIG((X))
+/* TODO: explain */
+enum hash_precedence {
+	HASH_DEFAULT = 0,
+	HASH_SYSENV  = 1,
+	HASH_TCCENV  = 2,
+	HASH_CLI     = 3
+};
 
-#endif /* EXTERNAL_H */
+enum hash_order {
+	HASH_ASSIGN  = '+',
+	HASH_APPEND  = '>',
+	HASH_PREPEND = '<'
+};
+
+struct hash;
+
+
+extern void reconcile_envopts(const struct hash *);
+extern void dump_env(const struct hash *);
+void
+envvar_set(struct hash **, const char *, const char *,
+	enum hash_order, enum hash_precedence);
+extern unsigned int
+envvar_flags(const struct hash *, const char *);
+extern const char *
+envvar_dereference(struct hash *, const char *, char *, const char *, int);
+
+extern int
+envvar_hash(const char *, size_t, size_t);
+
+
+
+#endif /* HASH_H */

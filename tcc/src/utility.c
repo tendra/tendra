@@ -58,6 +58,7 @@
 */
 
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -71,7 +72,6 @@
 #include "options.h"
 #include "suffix.h"
 #include "utility.h"
-#include "path_subs.h"
 
 
 /*
@@ -83,12 +83,6 @@
  */
 int exit_status = EXIT_SUCCESS;
 const char *progname = PROGNAME_TCC;
-
-
-/*
- * Static function prototypes.
- */
-static int	key_match(const char *, const char *);
 
 
 /*
@@ -158,203 +152,6 @@ error(int e, char *s, ...)
 
 
 /*
- * HASH TABLE
- *
- * These functions provide access to a hash table of tccenv(5) keys and values.
- * When created, the hash table is populated with tccenv keys taken from the
- * environ_optmap[] array, and flaged as tccenv-derived instead of
- * user-created.
- */
-hashtable *
-init_table(size_t tblsize, size_t keysize, int (*hashfcn)(const char *, size_t, size_t))
-{
-	size_t i;
-	hashtable* ht;
-	htnode *hn;
-	optmap *t;
-
-	ht = malloc(sizeof *ht);	/* XXX: check */
-
-	ht->tblsize = tblsize;
-	ht->keysize = keysize;
-	ht->hashfcn = hashfcn;
-	ht->node = malloc(sizeof(htnode*) * tblsize);
-
-	for (i = 0; i < tblsize; i++) {
-		ht->node[i] = NULL;
-	}
-
-	for (t = environ_optmap; t->in != NULL; t++) {
-		/* initialize hash table with tccenv keys */
-		hn = update_table(ht, t->in, NULL, TCCENV, NULL, -1);
-	}
-
-	return ht;
-}
-
-htnode *
-lookup_table(hashtable *ht, const char *key)
-{
-	int hashval;
-	htnode *hn;
-
-	if (!key) {
-		error(WARNING, "Looking up NULL key in tccenv hashtable");
-
-		return NULL;
-	}
-
-	hashval = ht->hashfcn(key, ht->tblsize, ht->keysize);
-	hn = ht->node[hashval];
-
-	while (hn != NULL && !key_match(key, hn->key)) {
-		hn = hn->next;
-	}
-
-	if (hn) {
-		hn->flag |= READ;
-	}
-
-	return hn;
-}
-
-static int
-key_match(const char *key, const char *keyfield)
-{
-	int i;
-
-	if (!key || !keyfield) {
-		return 0;
-	}
-
-	/* advance pointers past command chars */
-	while (key && !is_alphanum(*key)) {
-		key++;
-	}
-
-	while (keyfield && !is_alphanum(*keyfield)) {
-		keyfield++;
-	}
-
-	for (i = 0; i < strlen(key); i++) {
-		if (key[i] != keyfield[i]) {
-			return 0;
-		}
-	}
-
-	return 1;
-}
-
-htnode *
-update_table(hashtable *ht, const char *key, const char *val, unsigned int flag,
-	     const char *file, int line_num)
-{
-	int hashval;
-	htnode *hn;
-
-	hashval = ht->hashfcn(key, ht->tblsize, ht->keysize);
-	hn = ht->node[hashval];
-
-	/* locate matching node */
-	while (hn != NULL && !key_match(key, hn->key)) {
-		hn = hn->next;
-	}
-
-	/* Case 1.  Node was not found; push */
-	if (hn == NULL) {
-		hn = malloc(sizeof(htnode));	/* XXX: check */
-		hn->flag = flag;
-		hn->key = key;
-		hn->val = val;
-		hn->file = file;
-		hn->line_num = line_num;
-		hn->next = ht->node[hashval];
-		ht->node[hashval] = hn;
-		return hn;
-	}
-
-	/* Case 2.  Remove */
-	if (!val) {
-		hn->val = NULL;
-		return hn;
-	}
-
-	/* Case 3.  Update with a value */
-	switch (*key) {
-	case '+':
-		/* assignment */
-		hn->val = val;
-		break;
-
-	case '>':
-		/* append */
-		if (hn->val) {
-			hn->val =
-			    string_append(hn->val, val, ' ');
-		}
-		hn->val = val;
-		break;
-
-	case '<':
-		/* prepend */
-		if (hn->val) {
-			hn->val =
-			    string_append(val, hn->val, ' ');
-		}
-		hn->val = val;
-		break;
-
-	default:
-		/*
-		 * This should never happen, since read_env_aux
-		 * screens for this.
-		 */
-		error(FATAL, "Attempt to update hashtable with"
-		      " invalid key %s\n", key);
-	}
-
-	return hn;
-}
-
-/*
- * Hash function. The function takes in a char * to a key, presumed to be in
- * the form of <cmd><tccenv_var>, e.g., "+AS /usr/bin/as". The hash calculated
- * skips over the leading command char, either +, <, >, or ?.
- */
-int
-hash(const char *key, size_t tblsize, size_t keysize)
-{
-	int i;
-	int hashval;
-
-	i = 1;
-	hashval = 0;
-
-	/* skip leading +, <, >, ?, / chars */
-	while (key && !(is_alphanum(*key))) {
-		key++;
-	}
-
-	if (!key) {
-		error(FATAL, "hash operation requested on empty key");
-	}
-
-	while (*key && !is_whitespace(*key) && i < keysize) {
-		hashval += (hashval * 37) + (int) *key;
-		key++;
-		i++;
-	}
-
-	hashval %= tblsize;
-	if (hashval < 0) {
-		hashval += tblsize;
-	}
-
-	return hashval;
-}
-
-
-/*
  * PRINT A COMMENT
  *
  * This routine prints the comments (a printf-style string, which may be
@@ -415,54 +212,6 @@ xrealloc(void *p, size_t sz)
     }
 
     return q;
-}
-
-
-/*
- * Takes in a substitution variable as an argument, and returns its
- * corresponding value. This routine is used by the env substitution function
- * (see format_path) to map variables to paths.
- *
- * For example, input is "<PREFIX_SHARE>", and return value is
- * "/usr/local/share/". Variable lookup is prioritized:
- *
- *   a) command line args have highest priority,
- *   b) environment variables are used next,
- *   c) for a select group of variables, sane defaults are used.
- */
-const char *
-find_path_subst(const char *var)
-{
-	char *ret;
-	char **subs;
-	int i;
-
-	i = 0;
-	subs = PATH_SUBS;
-	while (*subs) {
-		if (0 == strcmp(var, *subs)) {
-			if (env_paths[i] == NULL){
-				error(FATAL, "The env variable <%s> is NULL.\n"
-				      "Check your environment or edit your env"
-				      " files", PATH_SUBS[i]);
-			}
-			return env_paths[i];
-		}
-		i++;
-		subs++;
-	}
-	if (!*subs) {
-		error(WARNING, "Expected command line option -y%s=[value]; "
-		      "trying environment", var);
-	}
-	ret = getenv(var);
-
-	/* XXX: Perhaps this should not be fatal? */
-	if (!ret) {
-		error(FATAL, "Unknown environment variable %s", var);
-	}
-
-	return ret;
 }
 
 

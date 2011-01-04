@@ -64,20 +64,23 @@
 
 #include "filename.h"
 #include "list.h"
+#include "hash.h"
 
 /*
  * TYPE REPRESENTING AN OPTION
  *
  * An option consists of an input pattern, in, an output command, out, and some
- * explanatory text, explain.
+ * explanatory text, explain. For options which do not form part of the command
+ * line interface (i.e. those used for environment files), the "explain" field
+ * carries a default value, instead.
  */
 /* TODO: this can probably become private */
-typedef struct {
+struct optmap {
 	char *in;
 	char *out;
 	char *explain;
 	int   rank;
-} optmap;
+};
 
 
 /*
@@ -87,8 +90,8 @@ typedef struct {
  * environment options.
  */
 
-extern optmap main_optmap[];
-extern optmap environ_optmap[];
+extern struct optmap main_optmap[];
+extern struct optmap environ_optmap[];
 
 
 /*
@@ -98,7 +101,7 @@ extern optmap environ_optmap[];
  * files.
  */
 
-extern void process_options(list *, optmap *, int);
+extern void process_options(list *, struct optmap *, int, enum hash_precedence);
 
 
 /*
@@ -108,6 +111,13 @@ extern void process_options(list *, optmap *, int);
  */
 
 extern filename *input_files;
+
+
+/*
+ * FIND IF A VARIABLE IS A TCCENV VARIABLE
+ */
+
+extern boolean option_istccopt(const char *name);
 
 
 #endif /* OPTIONS_H */
