@@ -77,7 +77,7 @@ CXX:=		${GCC}
 #CPPFLAGS+=	${GPPOPTS}
 CFLAGS+=	${GCCOPTS}
 CXXFLAGS+=	${GXXOPTS}
-CCOPTS+=	-pedantic -O2
+CCOPTS+=	-pedantic -O2 -Wall
 
 . elif defined(CLANG)
 
