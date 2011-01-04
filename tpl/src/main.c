@@ -149,7 +149,7 @@ main(int argc, char **argv)
 					ok = 0;
 				}
 				IGNORE fprintf(stderr, pl_version, va, vb);
-				return;
+				return 0;
 			}
 			default: {
 				ok = 0;
