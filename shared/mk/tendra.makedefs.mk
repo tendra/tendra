@@ -46,6 +46,7 @@ MD_BLDARCH!=                            \
     case "${HOSTARCH}" in               \
         alpha)         echo alpha;;     \
         amd64|x86_64)  echo amd64;;     \
+        BePC)          echo 80x86;;     \
         i?86|i86pc)    echo 80x86;;     \
         sparc|sparc64) echo sparc;;     \
         *)             echo unknown;;   \
@@ -55,6 +56,7 @@ MD_BLDARCHBITS!=                        \
     case "${HOSTARCH}" in               \
         alpha)        echo 64;;         \
         amd64|x86_64) echo 64;;         \
+        BePC)         echo 32;;         \
         i?86|i86pc)   echo 32;;         \
         sparc)        echo 32;;         \
         sparc64)      echo 64;;         \
@@ -70,6 +72,7 @@ MD_OSFAM!=                              \
         NetBSD)    echo netbsd;;        \
         OpenBSD)   echo openbsd;;       \
         SunOS)     echo solaris;;       \
+        Haiku)     echo haiku;;         \
         *)         echo unknown;;       \
     esac;
 
@@ -87,6 +90,7 @@ MD_OSVER!=                               \
         OpenBSD.3*)    echo OPENBSD3;;   \
         OpenBSD.4*)    echo OPENBSD4;;   \
         SunOS.5*)      echo SUNOS5;;     \
+        Haiku.1*)      echo HAIKU1;;     \
         *)             echo unknown;;    \
     esac;
 
