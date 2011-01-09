@@ -36,9 +36,8 @@ CCOPTS+= -D_${OSVER}
 # Rules proper
 #
 
-# XXX: don't hardcode /usr/include. have it appended per machines/ instead
-JOPTS= -Y32bit -I${BASE_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include \
-	-I/usr/include -D__BUILDING_LIBS
+JOPTS+= -Y32bit -I${BASE_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include \
+	-D__BUILDING_LIBS
 
 
 .for api in ${APIS:R}

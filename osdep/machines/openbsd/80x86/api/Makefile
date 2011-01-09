@@ -3,6 +3,8 @@
 .include "Makefile.inc"
 
 
+JOPTS+=	-I/usr/include
+
 APIS+=  ansi
 #APIS+=	iso
 #APIS+=	cpp
