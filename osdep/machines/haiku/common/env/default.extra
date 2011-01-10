@@ -1,0 +1,10 @@
+/* $Id$ */
+
++AS		"/boot/develop/tools/gnupro/bin/as"
++CC		"/bin/cc"
+
++SYS_LIB	"-ltsl"
++SYS_LINK	"-L<PREFIX_SYS>"
+
++SYS_LIBC	"-L/boot/system/lib -lroot"
+
