@@ -10,3 +10,5 @@
 +SYS_LIB	"-ltsl"
 +SYS_LINK	"-L<PREFIX_SYS>"
 
++SYS_LIBC	"-lc"
+

@@ -31,11 +31,11 @@
 +LINK			"-L<PREFIX_API> -L<PREFIX_LPI>"
 +LIB			"-lansi -lc"
 
-+CRT0			"/usr/lib/crt0.o"
++CRT0			""
 +CRT1			""
 +CRTN			""
 +SYS_LIB		""
-+SYS_LIBC		"-lc"
++SYS_LIBC		""
 +LINK_ENTRY		""
 
 +API_NAME		"-Aansi"
