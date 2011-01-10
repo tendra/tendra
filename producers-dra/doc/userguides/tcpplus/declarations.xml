@@ -1,0 +1,103 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title>Configuration for declarations</title>
+
+	<section id="empty">
+		<title>Empty source files</title>
+
+		<para>ISO C requires that a translation unit should contain at least one
+			declaration.	C++ and older dialects of C allow translation units
+			which contain no declarations.	This behaviour can be controlled using
+			the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA no external declaration <emphasis>allow</emphasis></programlisting>
+	</section>
+
+	<section id="decl_none">
+		<title>Empty declarations</title>
+
+		<para>ISO C++ requires every declaration or member declaration to introduce
+			one or more names into the program.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA unknown struct/union <emphasis>allow</emphasis></programlisting>
+
+		<para>can be used to relax one particular instance of this rule, by allowing
+			anonymous class definitions (recall that anonymous unions are objects,
+			not types, in C++ and so are not covered by this rule).	The C++ grammar
+			also allows a solitary semicolon as a declaration or member declaration;
+			however such a declaration does not introduce a name and so contravenes
+			the rule above.	The rule can be relaxed in this case using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA extra ; <emphasis>allow</emphasis></programlisting>
+
+		<para>Note that the C++ grammar explicitly allows for an extra semicolon
+			following an inline member function definition, but that semicolons
+			following other function definitions are actually empty declarations
+			of the form above.	A solitary semicolon in a statement is interpreted
+			as an empty expression statement rather than an empty declaration
+			statement.</para>
+	</section>
+
+	<section id="implicit">
+		<title>Implicit <code>int</code></title>
+
+		<para>The C &quot;implicit <code>int</code>&quot; rule, whereby a type of
+			<code>int</code>
+			is inferred in a list of type or declaration specifiers which does
+			not contain a type name, has been removed in ISO C++, although it
+			was supported in older dialects of C++.	This check is controlled
+			by the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ implicit int type <emphasis>allow</emphasis></programlisting>
+
+		<para>Partial relaxations of this rules are allowed.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ implicit int type for const/volatile <emphasis>allow</emphasis></programlisting>
+
+			<para>will allow for implicit <code>int</code> when the list of type specifiers
+			contains a cv-qualifier.	Similarly the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA implicit int type for function return <emphasis>allow</emphasis></programlisting>
+
+			<para>will allow for implicit <code>int</code> in the return type of a function
+			definition (this excludes constructors, destructors and conversion
+			functions, where special rules apply).	A function definition is the
+			only kind of declaration in ISO C where a declaration specifier is
+			not required. Older dialects of C allowed declaration specifiers to
+			be omitted in other cases.	Support for this behaviour can be enabled
+			using:</para>
+
+		<programlisting language="C++">#pragma TenDRA implicit int type for external declaration <emphasis>allow</emphasis></programlisting>
+
+			<para>The four cases can be demonstrated in the following example:</para>
+
+		<programlisting language="C++">
+extern a ;	// implicit int
+const b = 1 ;	// implicit const int
+
+f ()	// implicit function return
+{
+	return 2 ;
+}
+
+c = 3 ;	// error: not allowed in C++</programlisting>
+	</section>
+
+	<section id="impl_func">
+		<title>Implicit function declarations</title>
+
+		<para>C, but not C++, allows calls to undeclared functions, the function
+			being declared implicitly.	It is possible to enable support for implicit
+			function declarations using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA implicit function declaration <emphasis>on</emphasis></programlisting>
+
+			<para>Such implicitly declared functions have C linkage and type
+			<code>int ( ... )</code>.</para>
+	</section>
+
+</chapter>
+

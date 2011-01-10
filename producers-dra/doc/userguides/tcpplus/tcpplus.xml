@@ -11,7 +11,7 @@
 	xmlns:xi="http://www.w3.org/2001/XInclude">
 
 	<bookinfo>
-		<title>C++ Producer User Guide</title>
+		<title>C/C++ Producer Configuration Guide</title>
 
 		<othercredit class="copyeditor">
 		  <firstname>Katherine</firstname>
@@ -54,9 +54,20 @@
 	</bookinfo>
 
 	<xi:include href="introduction.xml"/>
+	<xi:include href="configuration.xml"/>
 
 	<!-- Chapters -->
-	<xi:include href="configuration.xml"/>
+	<xi:include href="limits.xml"/>
+	<xi:include href="lexing.xml"/>
+	<xi:include href="preprocessor.xml"/>
+	<xi:include href="literals.xml"/>
+	<xi:include href="types.xml"/>
+	<xi:include href="declarations.xml"/>
+	<xi:include href="expressions.xml"/>
+	<xi:include href="statements.xml"/>
+	<xi:include href="functions.xml"/>
+	<xi:include href="analysis.xml"/>
+	<xi:include href="miscellaneous.xml"/>
 
 	<!-- Appendicies -->
 	<xi:include href="stdlib.xml"/>

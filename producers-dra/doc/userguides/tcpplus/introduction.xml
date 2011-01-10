@@ -49,16 +49,12 @@
 		is used within the document to indicate areas where the implementation
 		is currently incomplete or incorrect.</para>
 
-    <section id="update">
-		<title>Updated introduction</title>
-
-		<para>Since this document was originally written, the old C producer,
-			<emphasis>tdfc</emphasis>, has been replaced by a new C producer, <emphasis>tdfc2</emphasis>,
-			which is just a modified version of the C++ producer, <emphasis>tcpplus</emphasis>.
-			All C producer documentation continues to apply to the new C producer,
-			but the new C producer also has many of the features described in this
-			document as only applying to the C++ producer.</para>
-    </section>
+	<para>Since this document was originally written, the old C producer,
+		<emphasis>tdfc</emphasis>, has been replaced by a new C producer, <emphasis>tdfc2</emphasis>,
+		which is just a modified version of the C++ producer, <emphasis>tcpplus</emphasis>.
+		All C producer documentation continues to apply to the new C producer,
+		but the new C producer also has many of the features described in this
+		document as only applying to the C++ producer.</para>
 
 	<section id="interface">
 		<title>Interface descriptions</title>
@@ -149,5 +145,6 @@
 			except that it disables TDF output and has intermodule analysis enabled
 			by default.</para>
 	</section>
+
 </preface>
 

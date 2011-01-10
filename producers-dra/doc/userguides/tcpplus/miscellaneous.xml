@@ -1,0 +1,202 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title>Miscellaneous configuration</title>
+
+	<section id="std">
+		<title>The <code>std</code> namespace</title>
+
+		<para>Several classes declared in the <code>std</code> namespace arise naturally
+			as part of the C++ language specification.	These are as follows:</para>
+
+		<!-- TODO table? -->
+		<programlisting>
+std::type_info		// type of typeid construct
+std::bad_cast		// thrown by dynamic_cast construct
+std::bad_typeid		// thrown by typeid construct
+std::bad_alloc		// thrown by new construct
+std::bad_exception	// used in exception specifications</programlisting>
+
+		<para>The definitions of these classes are found, when needed, by looking
+			up the appropriate class name in the <code>std</code> namespace.
+			Depending on the context, an error may be reported if the class is
+			not found. It is possible to modify the namespace which is searched
+			for these classes using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ set std namespace : <emphasis>scope-name</emphasis></programlisting>
+
+		<para>where <emphasis>scope-name</emphasis> can be an identifier giving a namespace name
+			or <code>::</code>, indicating the global namespace.</para>
+	</section>
+
+	<section id="linkage">
+		<title>Object linkage</title>
+
+		<para>If an object is declared with both external and internal linkage in
+			the same translation unit then, by default, an error is given.	This
+			behaviour can be changed using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA incompatible linkage <emphasis>allow</emphasis></programlisting>
+
+		<para>When incompatible linkages are allowed, whether the resultant identifier
+			has external or internal linkage can be set using one of the directives:</para>
+
+		<programlisting language="C++">
+#pragma TenDRA linkage resolution : off
+#pragma TenDRA linkage resolution : (external) <emphasis>on</emphasis>
+#pragma TenDRA linkage resolution : (internal) <emphasis>on</emphasis></programlisting>
+
+		<para>It is possible to declare objects with external linkage in a block.
+			C leaves it undefined whether declarations of the same object in different
+			blocks, such as:</para>
+
+		<programlisting language="C">
+void f ()
+{
+	extern int a ;
+	....
+}
+
+void g ()
+{
+	extern double a ;
+	....
+}</programlisting>
+
+		<para>are checked for compatibility.	However in C++ the one definition
+			rule implies that such declarations are indeed checked for compatibility.
+			The status of this check can be set using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA unify external linkage <emphasis>on</emphasis></programlisting>
+
+		<para>Note that it is not possible in ISO C or C++ to declare objects or
+			functions with internal linkage in a block.	While <code>static</code>
+			object definitions in a block have a specific meaning, there is no
+			real reason why <code>static</code> functions should not be declared
+			in a block.	This behaviour can be enabled using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA block function static <emphasis>allow</emphasis></programlisting>
+
+		<para>Inline functions have external linkage by default in ISO C++, but
+			internal linkage in older dialects.	The default linkage can be set
+			using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ inline linkage <emphasis>linkage-spec</emphasis></programlisting>
+
+		<para>where <emphasis>linkage-spec</emphasis> can be <code>external</code> or
+			<code>internal</code>.	Similarly <code>const</code> objects have
+			internal linkage by default in C++, but external linkage in C.	The
+			default linkage can be set using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ const linkage <emphasis>linkage-spec</emphasis></programlisting>
+
+		<para>Older dialects of C treated all identifiers with external linkage
+			as if they had been declared <code>volatile</code> (i.e. by being
+			conservative in optimising such values).	This behaviour can be enabled
+			using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA external volatile_t</programlisting>
+
+		<para>It is possible to set the default language linkage using the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ external linkage <emphasis>string-literal</emphasis></programlisting>
+
+		<para>This is equivalent to enclosing the rest of the current checking scope
+			in:</para>
+
+		<programlisting language="C++">
+extern <emphasis>string-literal</emphasis> {
+	....
+}</programlisting>
+
+		<para>It is unspecified what happens if such a directive is used within
+			an explicit linkage specification and does not nest correctly.	This
+			directive is particularly useful when used in a <link linkend="scope">named
+			environment</link> associated with an include directory.	For example,
+			it can be used to express the fact that all the objects declared in
+			headers included from that directory have C linkage.</para>
+
+		<para>A change in ISO C++ relative to older dialects is that the language
+			linkage of a function now forms part of the function type.	For example:</para>
+
+		<programlisting language="C++">
+extern &quot;C&quot; int f ( int ) ;
+int ( *pf ) ( int ) = f ;		// error</programlisting>
+
+		<para>The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ external function linkage <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to control whether function types with differing language
+			linkages, but which are otherwise compatible, are considered compatible
+			or not.</para>
+	</section>
+
+	<section id="static">
+		<title>Static identifiers</title>
+
+		<para>By default, objects and functions with internal linkage are mapped
+			to tags without external names in the output TDF capsule.	Thus such
+			names are not available to the installer and it needs to make up internal
+			names to represent such objects in its output.	This is not desirable
+			in such operations as profiling, where a meaningful internal name
+			is needed to make sense of the output.	The directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA preserve <emphasis>identifier-list</emphasis></programlisting>
+
+		<para>can be used to preserve the names of the given list of identifiers
+			with internal linkage.	This is done using the <code>static_name_def</code>
+			TDF construct.	The form:</para>
+
+		<programlisting language="C++">#pragma TenDRA preserve *</programlisting>
+
+		<para>will preserve the names of all identifiers with internal linkage in
+			this way.</para>
+	</section>
+
+	<section id="template">
+		<title>Template compilation</title>
+
+		<para>The C++ producer makes the distinction between exported templates,
+			which may be used in one module and defined in another, and non-exported
+			templates, which must be defined in every module in which they are
+			used. As in the ISO C++ standard, the <code>export</code> keyword
+			is used to distinguish between the two cases.	In the past, different
+			compilers have had different template compilation models; either all
+			templates were exported or no templates were exported.	The latter
+			is easily emulated - if the <code>export</code> keyword is not used
+			then no templates will be exported.	To emulate the former behaviour
+			the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ implicit export template <emphasis>on</emphasis></programlisting>
+
+		<para>can be used to treat all templates as if they had been declared using
+			the <code>export</code> keyword.</para>
+
+		<warning>
+			<para>The automatic instantiation of exported templates has not yet been
+				implemented correctly.	It is intended that such instantiations will
+				be generated during <A HREF="link.html">intermodule analysis</A>
+				(where they conceptually belong).	At present it is necessary to work
+				round this using explicit instantiations.</para>
+		</warning>
+	</section>
+
+	<section id="catch_all">
+		<title>Other checks</title>
+
+		<para>Several checks of varying utility have been implemented in the C++
+			producer but do not as yet have individual directives controlling
+			their use.	These can be enabled <emphasis>en masse</emphasis> using the directive:</para>
+
+			<programlisting language="C++">#pragma TenDRA++ catch all <emphasis>allow</emphasis></programlisting>
+
+		<para>It is intended that this directive will be phased out as these checks
+			are assigned controlling directives.	It is possible to achieve finer
+			control over these checks by enabling their individual error messages
+			<link linkend="low">as described above</link>.</para>
+	</section>
+</chapter>
+

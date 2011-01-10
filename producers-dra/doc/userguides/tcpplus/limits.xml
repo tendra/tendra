@@ -1,0 +1,279 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+
+<chapter>
+	<title>Implementation limits</title>
+
+	<para>This table gives the default implementation limits imposed by the
+		C++ producer for the various implementation quantities listed in Annex
+		B of the ISO C++ standard, together with the minimum limits allowed
+		in ISO C and C++.	A default limit of <emphasis>none</emphasis> means that the quantity
+		is limited only by the size of the host machine (either <code>ULONG_MAX</code>
+		or until it runs out of memory).	A limit of <emphasis>target</emphasis> means that
+		while no limits is imposed by the C++ front-end, particular target
+		machines may impose such limits.</para>
+
+	<table>
+		<col align="left"/>
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+
+		<thead>
+			<tr>
+				<th>Quantity identifier</th>
+				<th>Min C limit</th>
+				<th>Min C++ limit</th>
+				<th>Default limit</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>statement_depth</td>
+				<td>15</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>hash_if_depth</td>
+				<td>8</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>declarator_max</td>
+				<td>12</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>paren_depth</td>
+				<td>32</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>name_limit</td>
+				<td>31</td>
+				<td>1024</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>extern_name_limit</td>
+				<td>6</td>
+				<td>1024</td>
+				<td>target</td>
+			</tr>
+			<tr>
+				<td>external_ids</td>
+				<td>511</td>
+				<td>65536</td>
+				<td>target</td>
+			</tr>
+			<tr>
+				<td>block_ids</td>
+				<td>127</td>
+				<td>1024</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>macro_ids</td>
+				<td>1024</td>
+				<td>65536</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>func_pars</td>
+				<td>31</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>func_args</td>
+				<td>31</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>macro_pars</td>
+				<td>31</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>macro_args</td>
+				<td>31</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>line_length</td>
+				<td>509</td>
+				<td>65536</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>string_length</td>
+				<td>509</td>
+				<td>65536</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>sizeof_object</td>
+				<td>32767</td>
+				<td>262144</td>
+				<td>target</td>
+			</tr>
+			<tr>
+				<td>include_depth</td>
+				<td>8</td>
+				<td>256</td>
+				<td>256</td>
+			</tr>
+			<tr>
+				<td>switch_cases</td>
+				<td>257</td>
+				<td>16384</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>data_members</td>
+				<td>127</td>
+				<td>16384</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>enum_consts</td>
+				<td>127</td>
+				<td>4096</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>nested_class</td>
+				<td>15</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>atexit_funcs</td>
+				<td>32</td>
+				<td>32</td>
+				<td>target</td>
+			</tr>
+			<tr>
+				<td>base_classes</td>
+				<td role="na">N/A</td>
+				<td>16384</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>direct_bases</td>
+				<td role="na">N/A</td>
+				<td>1024</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>class_members</td>
+				<td role="na">N/A</td>
+				<td>4096</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>virtual_funcs</td>
+				<td role="na">N/A</td>
+				<td>16384</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>virtual_bases</td>
+				<td role="na">N/A</td>
+				<td>1024</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>static_members</td>
+				<td role="na">N/A</td>
+				<td>1024</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>friends</td>
+				<td role="na">N/A</td>
+				<td>4096</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>access_declarations</td>
+				<td role="na">N/A</td>
+				<td>4096</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>ctor_initializers</td>
+				<td role="na">N/A</td>
+				<td>6144</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>scope_qualifiers</td>
+				<td role="na">N/A</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>external_specs</td>
+				<td role="na">N/A</td>
+				<td>1024</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>template_pars</td>
+				<td role="na">N/A</td>
+				<td>1024</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>instance_depth</td>
+				<td role="na">N/A</td>
+				<td>17</td>
+				<td>17</td>
+			</tr>
+			<tr>
+				<td>exception_handlers</td>
+				<td role="na">N/A</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+			<tr>
+				<td>exception_specs</td>
+				<td role="na">N/A</td>
+				<td>256</td>
+				<td role="na">none</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<para>It is possible to impose lower limits on most of the quantities listed
+		above by means of the directive:</para>
+
+		<programlisting language="C++">#pragma TenDRA++ option value <emphasis>string-literal integer-literal</emphasis></programlisting>
+
+	<para>where <emphasis>string-literal</emphasis> gives one of the quantity identifiers
+		listed above and <emphasis>integer-literal</emphasis> gives the limit to be imposed.
+		An error is reported if the quantity exceeds this limit (note however
+		that checks have not yet been implemented for all of the quantities
+		listed).	Note that the <link linkend="identifier"><code>name_limit</code></link>
+		and <link linkend="include"><code>include_depth</code></link> implementation limits
+		can be set using dedicated directives.</para>
+
+	<para>The maximum number of errors allowed before the producer bails out
+		can be set using the directive:</para>
+
+	<programlisting language="C++">#pragma TenDRA++ set error limit <emphasis>integer-literal</emphasis></programlisting>
+
+	<para>The default value is 32.</para>
+
+</chapter>
+
