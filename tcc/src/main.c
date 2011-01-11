@@ -61,6 +61,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "config.h"
 #include "external.h"
@@ -76,6 +77,7 @@
 #include "startup.h"
 #include "suffix.h"
 #include "utility.h"
+#include "temp.h"
 
 
 /*
@@ -157,6 +159,8 @@ main_start(char *prog)
 	IGNORE signal(SIGINT, handler);
 	IGNORE signal(SIGTERM, handler);
 
+	srand(time(NULL));
+
     /* initialize hash table with tccenv keys */
 	for (t = environ_optmap; t->in != NULL; t++) {
 		char *name;
@@ -186,14 +190,11 @@ main_start(char *prog)
 static void
 main_middle(void)
 {
-	char *s = tempnam(temporary_dir, progname);
-	tempdir = string_copy(s);
-	cmd_list(exec_mkdir);
-	cmd_string(tempdir);
-	IGNORE execute(no_filename, no_filename);
-	if (last_return) {
+	tempdir = temp_mkdir(temporary_dir, progname);
+	if (tempdir == NULL) {
 		error(FATAL, "Can't create temporary directory");
 	}
+
 	made_tempdir = 1;
 }
 

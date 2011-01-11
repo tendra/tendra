@@ -3,8 +3,7 @@
 .include "Makefile.inc"
 
 
-#TCCOPTS=	-Yxpg4 -Xs
-TCCOPTS=	-Yxpg3 -Xs
+TCCOPTS=	-Yposix -Xs
 
 CCOPTS=                                    \
 	-DPREFIX='"${PREFIX}"'                 \
@@ -42,6 +41,7 @@ SRCS+=	startup.c
 SRCS+=	utility.c
 SRCS+=	table.c
 SRCS+=	hash.c
+SRCS+=	temp.c
 
 .include <tendra.obj.mk>
 

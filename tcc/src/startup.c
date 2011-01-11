@@ -58,6 +58,7 @@
 */
 
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
@@ -70,6 +71,7 @@
 #include "startup.h"
 #include "utility.h"
 #include "table.h"
+#include "temp.h"
 
 
 /*
@@ -85,6 +87,46 @@ char *startup_opt = NULL, *endup_opt = NULL;
 
 
 /*
+ * THE TOKEN DEFINITION FILE
+ *
+ * This file is used to hold TDF notation for the definition of the
+ * command-line tokens.
+ */
+
+static FILE *tokdef_file = NULL;
+char *tokdef_name = NULL;
+
+
+static void
+add_to_file(FILE **file, char **name, const char *prefix)
+{
+	assert(file != NULL);
+	assert(name != NULL);
+	assert(prefix != NULL);
+
+	/*
+	 * Note that we cannot use tempdir here, because add_to_file may be called
+	 * before the temporary directory is set (e.g. by an environment).
+	 * TODO: if the options shuffling doesn't solve this, then what is it for?
+	 */
+	if (*name == NULL) {
+		*file = temp_fopen(&startup_name, temporary_dir, prefix);
+		if (*file == NULL) {
+			return;
+		}
+	}
+
+	assert(*name != NULL);
+	assert(*file != NULL || dry_run);
+
+	if (dry_run) {
+		*file = NULL;
+		return;
+	}
+}
+
+
+/*
  * ADD A MESSAGE TO THE STARTUP FILE
  *
  * This routine prints the message s to the tcc startup file.
@@ -95,22 +137,15 @@ add_to_startup(const char *fmt, ...)
 {
 	va_list ap;
 
-	if (startup_name == NULL) {
-		startup_name = tempnam(temporary_dir, "ts");
-		startup_opt = string_concat("-f", startup_name);
-	}
-	if (dry_run) {
+	add_to_file(&startup_file, &startup_name, "ts");
+
+	startup_opt = string_concat("-f", startup_name);
+
+	if (startup_file == NULL) {
 		return;
 	}
-	if (startup_file == NULL) {
-		startup_file = fopen(startup_name, "a");
-		if (startup_file == NULL) {
-			error(SERIOUS, "Can't open startup file, '%s'",
-			      startup_name);
-			return;
-		}
-		IGNORE fprintf(startup_file, "#line 1 \"%s\"\n", name_h_file);
-	}
+
+	IGNORE fprintf(startup_file, "#line 1 \"%s\"\n", name_h_file);
 
 	va_start(ap, fmt);
 	IGNORE vfprintf(startup_file, fmt, ap);
@@ -129,38 +164,20 @@ add_to_endup(const char *fmt, ...)
 {
 	va_list ap;
 
-	if (endup_name == NULL) {
-		endup_name = tempnam(temporary_dir, "te");
-		startup_opt = string_concat("-e", endup_name);
-	}
-	if (dry_run) {
+	add_to_file(&endup_file, &endup_name, "te");
+
+	startup_opt = string_concat("-f", endup_name);
+
+	if (endup_file == NULL) {
 		return;
 	}
-	if (endup_file == NULL) {
-		endup_file = fopen(endup_name, "a");
-		if (endup_file == NULL) {
-			error(SERIOUS, "Can't open endup file, '%s'",
-			      endup_name);
-			return;
-		}
-		IGNORE fprintf(endup_file, "#line 1 \"%s\"\n", name_E_file);
-	}
+
+	IGNORE fprintf(endup_file, "#line 1 \"%s\"\n", name_E_file);
 
 	va_start(ap, fmt);
 	IGNORE vfprintf(endup_file, fmt, ap);
 	va_end(ap);
 }
-
-
-/*
- * THE TOKEN DEFINITION FILE
- *
- * This file is used to hold TDF notation for the definition of the
- * command-line tokens.
- */
-
-static FILE *tokdef_file = NULL;
-char *tokdef_name = NULL;
 
 
 /*
@@ -174,23 +191,14 @@ add_to_tokdef(const char *fmt, ...)
 {
 	va_list ap;
 
-	if (tokdef_name == NULL) {
-		tokdef_name = tempnam(temporary_dir, "td");
-	}
-	if (dry_run) {
+	add_to_file(&tokdef_file, &tokdef_name, "td");
+
+	if (tokdef_file == NULL) {
 		return;
 	}
-	if (tokdef_file == NULL) {
-		tokdef_file = fopen(tokdef_name, "a");
-		if (tokdef_file == NULL) {
-			error(SERIOUS, "Can't open token definition file, '%s'",
-			      tokdef_name);
-			return;
-		}
-		IGNORE fputs("( make_tokdec ~char variety )\n", tokdef_file);
-		IGNORE fputs("( make_tokdec ~signed_int variety )\n\n",
-			     tokdef_file);
-	}
+
+	IGNORE fputs("( make_tokdec ~char variety )\n", tokdef_file);
+	IGNORE fputs("( make_tokdec ~signed_int variety )\n\n", tokdef_file);
 
 	va_start(ap, fmt);
 	IGNORE vfprintf(tokdef_file, fmt, ap);
