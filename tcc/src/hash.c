@@ -135,7 +135,7 @@ reconcile_envopts(const struct hash *h)
 				return;
 			}
 
-			if (~sb.st_mode & S_IFDIR) {
+			if (!S_ISDIR(sb.st_mode)) {
 				error(SERIOUS, "%s expected to be a directory");
 				return;
 			}
