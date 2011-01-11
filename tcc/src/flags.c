@@ -324,7 +324,7 @@ set_stage(enum filetype t, int k)
 		filetype_table[STARTUP_FILE].keep = ks;
 	} else {
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
-			static int last_stop = UNKNOWN_TYPE;
+			static enum filetype last_stop = UNKNOWN_TYPE;
 			if (table_stop(t) == 0) {
 				filetype_table[t].stop = 1;
 			}

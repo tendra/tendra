@@ -97,7 +97,7 @@
  * These flags control the output of the file names and options in the output
  * TDF archive.
  */
-int archive_type = TDF_ARCHIVE; /* XXX: global */
+enum filetype archive_type = TDF_ARCHIVE; /* XXX: global */
 static boolean archive_full = 1;
 static boolean archive_links = 0;
 static boolean archive_names = 1;

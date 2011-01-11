@@ -78,7 +78,7 @@
  * These flags control the inclusion of certain information in the archives.
  */
 
-extern int	archive_type;
+extern enum filetype archive_type;
 extern void	process_archive_opt(void);
 
 

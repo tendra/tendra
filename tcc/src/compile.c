@@ -75,7 +75,7 @@
 #include "utility.h"
 #include "table.h"
 
-static filename *apply_unjoin(filename *, int);
+static filename *apply_unjoin(filename *, enum filetype);
 
 
 /*
@@ -793,7 +793,7 @@ apply_pretty(filename *input)
  */
 
 static filename *
-apply_unjoin(filename *input, int t)
+apply_unjoin(filename *input, enum filetype t)
 {
 	filename *p = input;
 	filename *output = NULL;

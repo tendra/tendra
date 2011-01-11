@@ -91,7 +91,7 @@ struct filetype_table filetype_table[TYPE_ARRAY_SIZE] = {
 };
 
 boolean
-table_isdummy(type) {
+table_isdummy(enum filetype type) {
 	return type > UNKNOWN_TYPE;
 }
 
