@@ -130,8 +130,8 @@ reconcile_envopts(const struct hash *h)
 		if (0 == strncmp(n->name, "PREFIX_", 7) && strlen(n->value) > 0) {
 			struct stat sb;
 
-			if (stat(n->name, &sb) == -1) {
-				error(SERIOUS, "%s %s", n->value, strerror(errno));
+			if (stat(n->value, &sb) == -1) {
+				error(SERIOUS, "%s: %s", n->value, strerror(errno));
 				return;
 			}
 
