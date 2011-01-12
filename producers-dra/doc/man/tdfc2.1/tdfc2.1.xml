@@ -274,7 +274,7 @@
 			<varlistentry>
 				<term>&N.opt;</term>
 
-				<listitem>>Is identical to &I.opt; except that it also
+				<listitem>Is identical to &I.opt; except that it also
 					associates the given identifier with the
 					directory.</listitem>
 			</varlistentry>
