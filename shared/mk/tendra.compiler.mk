@@ -115,33 +115,4 @@ CCOPTS+=
 
 
 
-#
-# In lieu of bootstrapping here in the makefiles (as was previously done by
-# passing -DBOOTSTRAP), the build is now simply re-executed with ${TCC} set to
-# some version of tcc - either a temporary version built for bootstrapping, or
-# a previously installed "real" version.
-#
-# However, some parts of the build (particularly for API building) rely on
-# compiling source to TDF, and tcc is required for this. In situations where
-# we're building using a compiler other than tcc, the (empty) ${TCC} variable
-# is set to reference the version just built in ${OBJ_DIR}, for this use only.
-#
-# This will eventually go away, when tcc, and the producers and installers are
-# all moved out separately.
-#
-# TODO: maybe just call the producer directly, since this is only ever used to
-#       build .j files
-#
-
-. if !defined(TCC)
-TCC=	tcc
-
-# TODO: Our .cc files depend on tccisms. This is mostly for the benefit of
-# src/lib/cpp, and may be better suited to live there.
-CXX:=		${TCC}
-CXXFLAGS:=	-Yc++
-. endif
-
-
-
 .endif	# !defined(_TENDRA_COMPILER_MK_)
