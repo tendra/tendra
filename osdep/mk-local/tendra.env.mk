@@ -29,7 +29,6 @@ ${OBJ_SDIR}/env:
 	${COPY} ${env} ${OBJ_DIR}/env/${env}
 .endfor
 .for env in ${ENVEXTRA}
-	# TODO: show 'extra' comment here
 	${ECHO} '/* ${WRKDIR}/${env}: */' >> ${OBJ_DIR}/env/${env:R}
 	${ECHO}                           >> ${OBJ_DIR}/env/${env:R}
 	${CAT} ${env}                     >> ${OBJ_DIR}/env/${env:R}
