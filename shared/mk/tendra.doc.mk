@@ -72,7 +72,9 @@ DOC_CSS=	css
 DOC_JS= 	js
 DOC_IMAGES= 	images
 
+.if (${.TARGETS:Mdoc} != "" || ${.TARGETS:Minstall-doc} != "")
 DOC_IMGDEPS!=	${XSLTPROC} ${XSLTOPTS} ${XSLT_IMGS}  ${DOC_SRC}
+.endif
 
 
 #
