@@ -649,7 +649,7 @@ print_token(FILE *output, object *p, char *tnm)
 	    /* Macro definitions */
 	    char *s = p->u.u_str;
 	    OUT(output, "#if defined(%s) && %s < %s\n", nm, nm, s);
-	    OUT(output, "/* Should probably me an #error */\n");
+	    OUT(output, "/* Should probably be an #error */\n");
 	    OUT(output, "#define %s%s\n", nm, s);
 	    OUT(output, "#elif !defined(%s)\n", nm);
 	    OUT(output, "#define %s%s\n", nm, s);
