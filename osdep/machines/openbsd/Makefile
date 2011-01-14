@@ -3,8 +3,8 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	${BLDARCH}
 SUBDIR+=	common
+SUBDIR+=	${BLDARCH}
 
 .include <tendra.subdir.mk>
 
