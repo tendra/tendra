@@ -30,21 +30,12 @@
 #define __linux__	1
 #define __i486__	1
 
-#ifdef __LINUX_USE_ELF
-#define __ELF__		1
-#define _I386_BYTEORDER_H
+#ifdef _GLIBC2_12
+#define __STRICT_ANSI__
 #endif
 
-/* macros to match GNU C extensions used in headers */
-
-#ifndef __inline__
-#pragma TenDRA keyword __inline__ for inline
+#ifdef _GLIBC2_12
+#define __WRONG_ANSI_STDIO_H	/* i don't know what to do about va_list */
+#define __WRONG_ANSI_STDARG_H_VA_ARGS	/* i don't know what to do about va_list */
 #endif
 
-#ifndef __signed__
-#define __signed__	signed
-#endif
-
-#ifndef __attribute__
-#define __attribute__(xyz)
-#endif

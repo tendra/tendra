@@ -6,8 +6,6 @@
 ENVFILE+=	K-P5
 ENVFILE+=	K-aout
 ENVFILE+=	K-frame
-ENVFILE+=	K-i386
-ENVFILE+=	K-i486
 ENVFILE+=	K-noframe
 
 ENVFILE+=	Z-p
