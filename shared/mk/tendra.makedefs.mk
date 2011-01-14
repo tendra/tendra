@@ -20,6 +20,9 @@ _TENDRA_MAKEDEFS_MK_=1
 # situations where they differ, the user may explicitly override variables
 # accordingly.
 #
+# In Linux's case, instead of the kernel version, we attempt to find the libc
+# version; the same caveat applies.
+#
 # The idea here is that these variables are only assigned if required, and that
 # the majority of projects do not use them (as they typically do not require
 # knowledge of any particular machine). In this way we attempt to avoid
@@ -30,50 +33,61 @@ HOSTARCH!=	${UNAME} -m
 SYSTEM!=	${UNAME} -s
 VERSION!=	${UNAME} -r
 
-MD_EXECFMT!=                            \
-    case "${SYSTEM}" in                 \
-        Darwin)    echo mach;;          \
-        DragonFly) echo elf;;           \
-        FreeBSD)   echo elf;;           \
-        Linux)     echo elf;;           \
-        NetBSD)    echo elf;;           \
-        OpenBSD)   echo elf;;           \
-        SunOS)     echo elf;;           \
-        *)         echo unknown;;       \
+
+.if ${SYSTEM} == Linux
+. if (exists(/lib/libc.so.6))
+GLIBC_VER!=	/lib/libc.so.6 | sed -n 's/^.* version \(.*\), .*$$/\1/p' | tr . _
+. else
+GLIBC_VER!=	ldd --version | sed -n 's/^ldd (GNU libc) //p' | tr . _
+. endif
+
+LIBC_VER?=	GLIBC_${GLIBC_VER}
+.endif
+
+MD_EXECFMT!=                             \
+    case "${SYSTEM}" in                  \
+        Darwin)    echo mach;;           \
+        DragonFly) echo elf;;            \
+        FreeBSD)   echo elf;;            \
+        Linux)     echo elf;;            \
+        NetBSD)    echo elf;;            \
+        OpenBSD)   echo elf;;            \
+        SunOS)     echo elf;;            \
+        *)         echo unknown;;        \
     esac;
 
-MD_BLDARCH!=                            \
-    case "${HOSTARCH}" in               \
-        alpha)         echo alpha;;     \
-        amd64|x86_64)  echo amd64;;     \
-        BePC)          echo 80x86;;     \
-        i?86|i86pc)    echo 80x86;;     \
-        sparc|sparc64) echo sparc;;     \
-        *)             echo unknown;;   \
+MD_BLDARCH!=                             \
+    case "${HOSTARCH}" in                \
+        alpha)         echo alpha;;      \
+        amd64|x86_64)  echo amd64;;      \
+        BePC)          echo 80x86;;      \
+        i?86|i86pc)    echo 80x86;;      \
+        sparc|sparc64) echo sparc;;      \
+        *)             echo unknown;;    \
     esac;
 
-MD_BLDARCHBITS!=                        \
-    case "${HOSTARCH}" in               \
-        alpha)        echo 64;;         \
-        amd64|x86_64) echo 64;;         \
-        BePC)         echo 32;;         \
-        i?86|i86pc)   echo 32;;         \
-        sparc)        echo 32;;         \
-        sparc64)      echo 64;;         \
-        *)            echo unknown;;    \
+MD_BLDARCHBITS!=                         \
+    case "${HOSTARCH}" in                \
+        alpha)        echo 64;;          \
+        amd64|x86_64) echo 64;;          \
+        BePC)         echo 32;;          \
+        i?86|i86pc)   echo 32;;          \
+        sparc)        echo 32;;          \
+        sparc64)      echo 64;;          \
+        *)            echo unknown;;     \
     esac;
 
-MD_OSFAM!=                              \
-    case "${SYSTEM}" in                 \
-        Darwin)    echo darwin;;        \
-        DragonFly) echo dragonfly;;     \
-        FreeBSD)   echo freebsd;;       \
-        Linux)     echo linux;;         \
-        NetBSD)    echo netbsd;;        \
-        OpenBSD)   echo openbsd;;       \
-        SunOS)     echo solaris;;       \
-        Haiku)     echo haiku;;         \
-        *)         echo unknown;;       \
+MD_OSFAM!=                               \
+    case "${SYSTEM}" in                  \
+        Darwin)    echo darwin;;         \
+        DragonFly) echo dragonfly;;      \
+        FreeBSD)   echo freebsd;;        \
+        Linux)     echo linux;;          \
+        NetBSD)    echo netbsd;;         \
+        OpenBSD)   echo openbsd;;        \
+        SunOS)     echo solaris;;        \
+        Haiku)     echo haiku;;          \
+        *)         echo unknown;;        \
     esac;
 
 MD_OSVER!=                               \
@@ -94,5 +108,10 @@ MD_OSVER!=                               \
         *)             echo unknown;;    \
     esac;
 
+MD_LIBCVER!=                             \
+    case "${LIBC_VER}" in                \
+        GLIBC_2_12_*) echo GLIBC2_12;;   \
+        *)            echo unknown;;     \
+    esac;
 
 .endif	# !defined(_TENDRA_MAKEDEFS_MK_)

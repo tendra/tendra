@@ -77,11 +77,12 @@ XMLLINT?=	xmllint
 .include <tendra.makedefs.mk>
 
 # Platform-specific things
-EXECFORMAT?=	${MD_EXECFMT}
+EXECFMT?=    	${MD_EXECFMT}
 BLDARCH?=    	${MD_BLDARCH}
 BLDARCHBITS?=	${MD_BLDARCHBITS}
 OSFAM?=      	${MD_OSFAM}
 OSVER?=      	${MD_OSVER}
+LIBCVER?=     	${MD_LIBCVER}
 
 
 .endif	# !defined(_TENDRA_BASE_MK_)
