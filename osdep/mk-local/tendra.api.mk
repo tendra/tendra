@@ -30,14 +30,19 @@ STARTUP_MACH=	${.CURDIR}/../startup
 CCOPTS+= -D_${OSVER}
 . endif
 
+. if defined(LIBCVER)
+CCOPTS+= -D_${LIBCVER}
+. endif
+
 
 
 #
 # Rules proper
 #
 
-JOPTS+= -Y32bit -I${BASE_DIR}/src/lib/machines/${OSFAM}/${BLDARCH}/include \
-	-D__BUILDING_LIBS
+JOPTS+= -Y32bit -D__BUILDING_LIBS
+
+HACKS+=	-I${BASE_DIR}/machines/${OSFAM}/${BLDARCH}/include
 
 
 .for api in ${APIS:R}
@@ -60,7 +65,7 @@ APISRCS${api}:=	${APISRCS${api}:T}
 ${OBJ_SDIR}/apis/${api}.api/${src:R}.j: ${PREFIX_TSPEC}/TenDRA/src/${api}.api/${src}
 	@${CONDCREATE} "${.TARGET:H}"
 	@${ECHO} "==> Compiling ${api}.api/${src}"
-	${TCC_IN_SITU} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
+	${TCC_IN_SITU} ${HACKS} ${TCCOPTS} ${CCOPTS} ${JOPTS} ${JOPTS${api}} \
 		-I${PREFIX_TSPEC}/include/${api}.api \
 		-o ${.TARGET} ${.ALLSRC} -Ymakelib
 
