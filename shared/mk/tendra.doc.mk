@@ -33,6 +33,22 @@ _TENDRA_WORK_DOC_MK_=1
 DOC=	${MAN}
 .endif # defined(MAN)
 
+.if defined(MAN)
+_PREFIX_HTML=	${PREFIX_HTMLMAN}
+.else
+_PREFIX_HTML=	${PREFIX_HTMLDOC}
+.endif # defined(MAN)
+
+.if !defined(WEBSITE)
+_PREFIX_HTML:=	"${_PREFIX_HTML}/${BASE_DIR:T}"
+.endif
+
+.if defined(WEBSITE) && !defined(MAN)
+DOC_OUT:=	${BASE_DIR:T}-${DOC}
+.else
+DOC_OUT:=	${DOC}
+.endif
+
 . if defined(HTML)
 DOC_EXT=	html
 . else
@@ -159,6 +175,20 @@ clean::
 
 
 install-doc:: doc
+	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}"
+.if !defined(WEBSITE)
+	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_JS}"
+	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_CSS}"
+	cp ${OBJ_DDIR}/${DOC}/${DOC_JS}/*.js   "${_PREFIX_HTML}/${DOC_OUT}/${DOC_JS}/"
+	cp ${OBJ_DDIR}/${DOC}/${DOC_CSS}/*.css "${_PREFIX_HTML}/${DOC_OUT}/${DOC_CSS}/"
+.endif
+.if !empty(DOC_IMGDEPS)
+	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_IMAGES}"
+.endif
+.for img in ${DOC_IMGDEPS}
+	cp ${OBJ_DDIR}/${DOC}/${DOC_IMAGES}/${img:T} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_IMAGES}/"
+.endfor
+	cp ${OBJ_DDIR}/${DOC}/*.${DOC_EXT} "${_PREFIX_HTML}/${DOC_OUT}/"
 
 
 test:: ${DOC_SRC}

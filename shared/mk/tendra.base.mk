@@ -30,6 +30,8 @@ PREFIX_API?=     ${PREFIX_LIB}/tcc/api
 PREFIX_LPI?=     ${PREFIX_LIB}/tcc/lpi
 PREFIX_SYS?=     ${PREFIX_LIB}/tcc/sys
 PREFIX_TMP?=     /tmp
+PREFIX_HTMLDOC?= ${PREFIX_SHARE}/doc
+PREFIX_HTMLMAN?= ${PREFIX_SHARE}/doc
 
 
 # If you just want to have all build work undertaken in a specific directory
