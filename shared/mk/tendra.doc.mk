@@ -1,4 +1,4 @@
-
+# TenDRA make build infrastructure
 #
 # $Id$
 
@@ -43,8 +43,10 @@ _PREFIX_HTML=	${PREFIX_HTMLDOC}
 _PREFIX_HTML:=	"${_PREFIX_HTML}/${BASE_DIR:T}"
 .endif
 
+DOC_PREFIX?=	${BASE_DIR:T}
+
 .if defined(WEBSITE) && !defined(MAN)
-DOC_OUT:=	${BASE_DIR:T}-${DOC}
+DOC_OUT:=	${DOC_PREFIX}-${DOC}
 .else
 DOC_OUT:=	${DOC}
 .endif
