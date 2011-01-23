@@ -3,10 +3,16 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	developer
 SUBDIR+=	papers
 SUBDIR+=	reference
 SUBDIR+=	user
+
+# The developer documentation is relevant for the website, but not appropriate
+# for installation on a users' system. It may be enabled conditionally, by
+# specifying -DDEVELOPER to make.
+.if defined(DEVELOPER)
+SUBDIR+=	developer
+.endif
 
 .include <tendra.subdir.mk>
 
