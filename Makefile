@@ -19,7 +19,6 @@ PROJECTS+=	tld
 PROJECTS+=	tnc
 PROJECTS+=	tpl
 #PROJECTS+=	tendra-doc
-#PROJECTS+=	tendra-www
 PROJECTS+=	tspec
 
 
@@ -46,13 +45,5 @@ install:
 install-doc:
 .for proj in ${PROJECTS}
 	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj/${proj} install-doc
-.endfor
-
-# Render documentation for use on the tendra.org website.
-doc-www:
-.for proj in ${PROJECTS} tendra-doc
-. if exists(${.CURDIR}/${proj})
-	cd ${.CURDIR}/${proj} && ${MAKE} OBJ_DIR=${.CURDIR}/obj-www/${proj} -DWEBSITE doc
-. endif
 .endfor
 
