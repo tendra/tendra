@@ -16,19 +16,11 @@ TSPEC_TSOUT=	${OBJ_DIR}/share/TenDRA/src
 TSPEC_FLAGS+=	-O${TSPEC_TIOUT}
 TSPEC_FLAGS+=	-S${TSPEC_TSOUT}
 
-ALL_APIS=	${BASE_APIS} ${EXT_APIS}
 
-
-.for api in ${BASE_APIS}
+.for api in ${APIS}
 ${TSPEC_TIOUT}/${api}.api ${TSPEC_TSOUT}/${api}.api: ${TSPEC}
 	@${ECHO} "==> Creating base API source for ${api}"
 	${TSPEC} ${TSPEC_FLAGS} -I${BASE_DIR}/base ${api}
-.endfor
-
-.for api in ${EXT_APIS}
-${TSPEC_TIOUT}/${api}.api ${TSPEC_TSOUT}/${api}.api: ${TSPEC}
-	@${ECHO} "==> Creating extension API source for ${api}"
-	${TSPEC} ${TSPEC_FLAGS} -I${BASE_DIR}/base -I${BASE_DIR}/extension ${api}
 .endfor
 
 
@@ -37,8 +29,8 @@ ${TSPEC_TIOUT}/${api}.api ${TSPEC_TSOUT}/${api}.api: ${TSPEC}
 # User-facing targets
 #
 
-all:: ${TSPEC} ${ALL_APIS:S/^/${TSPEC_TIOUT}\//g:S/$/.api/g} \
-               ${ALL_APIS:S/^/${TSPEC_TSOUT}\//g:S/$/.api/g}
+all:: ${TSPEC} ${APIS:S/^/${TSPEC_TIOUT}\//g:S/$/.api/g} \
+               ${APIS:S/^/${TSPEC_TSOUT}\//g:S/$/.api/g}
 
 
 clean::
