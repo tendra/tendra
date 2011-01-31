@@ -70,7 +70,7 @@
 					<xsl:text>text/html</xsl:text>
 				</xsl:when>
 			</xsl:choose>
-        </xsl:variable>
+		</xsl:variable>
 
 		<xsl:variable name="doctype-public">
 			<xsl:choose>
@@ -81,7 +81,7 @@
 					<xsl:text>TODO</xsl:text>
 				</xsl:when>
 			</xsl:choose>
-        </xsl:variable>
+		</xsl:variable>
 
 		<xsl:variable name="doctype-system">
 			<xsl:choose>
@@ -92,7 +92,7 @@
 					<xsl:text>TODO</xsl:text>
 				</xsl:when>
 			</xsl:choose>
-        </xsl:variable>
+		</xsl:variable>
 
 		<xsl:message>
 			<xsl:text>Outputting </xsl:text>
