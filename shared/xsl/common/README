@@ -1,7 +1,0 @@
-$Id$
-
-Herein lie XSLT stylesheets which are common to multiple output formats.
-The only likely such stylesheets are those which perform "logic" choices,
-and call other templates for individual output.
-
-The intention here is for these to reduce duplication between formats.
