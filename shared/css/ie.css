@@ -1,0 +1,36 @@
+/* -----------------------------------------------------------------------
+
+
+ Blueprint CSS Framework 1.0
+ http://blueprintcss.org
+
+   * Copyright (c) 2007-Present. See LICENSE for more info.
+   * See README for instructions on how to use Blueprint.
+   * For credits and origins, see AUTHORS.
+   * This is a compressed file. See the sources in the 'src' directory.
+
+----------------------------------------------------------------------- */
+
+/* ie.css */
+body {text-align:center;}
+.bp-container {text-align:left;}
+* html .bp-column, * html .bp-span-1, * html .bp-span-2, * html .bp-span-3, * html .bp-span-4, * html .bp-span-5, * html .bp-span-6, * html .bp-span-7, * html .bp-span-8, * html .bp-span-9, * html .bp-span-10, * html .bp-span-11, * html .bp-span-12, * html .bp-span-13, * html .bp-span-14, * html .bp-span-15, * html .bp-span-16, * html .bp-span-17, * html .bp-span-18, * html .bp-span-19, * html .bp-span-20, * html .bp-span-21, * html .bp-span-22, * html .bp-span-23, * html .bp-span-24 {display:inline;overflow-x:hidden;}
+* html legend {margin:0px -8px 16px 0;padding:0;}
+sup {vertical-align:text-top;}
+sub {vertical-align:text-bottom;}
+html>body p code {*white-space:normal;}
+hr {margin:-8px auto 11px;}
+img {-ms-interpolation-mode:bicubic;}
+.bp-clearfix, .bp-container {display:inline-block;}
+* html .bp-clearfix, * html .bp-container {height:1%;}
+fieldset {padding-top:0;}
+legend {margin-top:-0.2em;margin-bottom:1em;margin-left:-0.5em;}
+textarea {overflow:auto;}
+label {vertical-align:middle;position:relative;top:-0.25em;}
+input.bp-text, input.bp-title, textarea {background-color:#fff;border:1px solid #bbb;}
+input.bp-text:focus, input.bp-title:focus {border-color:#666;}
+input.bp-text, input.bp-title, textarea, select {margin:0.5em 0;}
+input.bp-checkbox, input.bp-radio {position:relative;top:.25em;}
+form.bp-inline div, form.bp-inline p {vertical-align:middle;}
+form.bp-inline input.bp-checkbox, form.bp-inline input.bp-radio, form.bp-inline input.bp-button, form.bp-inline button {margin:0.5em 0;}
+button, input.bp-button {position:relative;top:0.25em;}
