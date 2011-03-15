@@ -58,12 +58,8 @@ ${OBJ_BOOT}/hello.cc:
 
 
 bootstrap: ${BOOTSTRAP_DEPS}
-	# XXX: a temporary workaround until an outstanding issue is resolved
 	mkdir -p "${OBJ_BPREFIX}/bin"
-.if exists(${.CURDIR}/tld-good)
-	ln -fs ${.CURDIR}/tld-good ${OBJ_BPREFIX}/bin/tld
-.endif
-.for project in tspec tpl tnc producers-dra installers-dra
+.for project in installers-dra producers-dra tld tnc tpl tspec
 	@echo "===> bootstrapping ${project} into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/${project} && ${MAKE} \
 	    OBJ_DIR=${OBJ_BOOT}/${project}  \
