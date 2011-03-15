@@ -184,7 +184,7 @@ install-doc:: doc
 	cp ${OBJ_DDIR}/${DOC}/${DOC_JS}/*.js   "${_PREFIX_HTML}/${DOC_OUT}/${DOC_JS}/"
 	cp ${OBJ_DDIR}/${DOC}/${DOC_CSS}/*.css "${_PREFIX_HTML}/${DOC_OUT}/${DOC_CSS}/"
 .endif
-.if !empty(DOC_IMGDEPS)
+.if "${DOC_IMGDEPS}" != ""
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_IMAGES}"
 .endif
 .for img in ${DOC_IMGDEPS}
