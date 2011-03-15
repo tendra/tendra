@@ -452,7 +452,7 @@ name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table,
 	    }
 	}
     }
-	error(ERROR_SERIOUS,"no definition found for %S '%K'",
+	error(ERROR_WARNING,"no definition found for %S '%K'",
 		(void *) shape_key,(void *) key);
     debug_info_l_not_found(key, shape_key, use);
     return(FALSE);
