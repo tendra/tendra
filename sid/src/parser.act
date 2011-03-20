@@ -1791,19 +1791,19 @@
 
 	<expected-begin-action> = @{
 		if (!sid_propagating_error) {
-			err_expected("expected '<'");
+			err_expected("'<'");
 		}
 	@};
 
 	<expected-end-action> = @{
 		if (!sid_propagating_error) {
-			err_expected("expected '>'");
+			err_expected("'>'");
 		}
 	@};
 
 	<expected-end-scope> = @{
 		if (!sid_propagating_error) {
-			err_expected("expected ']'");
+			err_expected("']'");
 		}
 	@};
 
