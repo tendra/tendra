@@ -99,20 +99,6 @@
 #endif
 
 
-/* FS_PROTOTYPES indicates whether the compiler has prototypes */
-
-#ifndef FS_PROTOTYPES
-#define FS_PROTOTYPES		FS_STDC
-#endif
-
-
-/* FS_WEAK_PROTOTYPES indicates whether the compiler has weak prototypes */
-
-#ifndef FS_WEAK_PROTOTYPES
-#define FS_WEAK_PROTOTYPES	( FS_TENDRA && !FS_CPLUSPLUS )
-#endif
-
-
 /* Definitions of TenDRA keywords */
 
 #if FS_TENDRA
