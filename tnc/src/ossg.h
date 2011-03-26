@@ -188,13 +188,6 @@
 #endif
 
 
-/* FS_STDC_HASH indicates whether # and ## are supported */
-
-#ifndef FS_STDC_HASH
-#define FS_STDC_HASH		FS_STDC
-#endif
-
-
 /* FS_STDC_IDENTIFIERS indicates __FILE__ etc. are defined */
 
 #ifndef FS_STDC_IDENTIFIERS

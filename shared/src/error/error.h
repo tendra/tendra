@@ -104,13 +104,8 @@ extern const char *crt_file_name;
 
 #ifdef ASSERTS
 extern void assertion(const char *, const char *, int);
-#if FS_STDC_HASH
 #define ASSERT(A)	if (!(A))assertion(#A, __FILE__, __LINE__)
 #define FAIL(A)	assertion(#A, __FILE__, __LINE__)
-#else
-#define ASSERT(A)	if (!(A))assertion("A", __FILE__, __LINE__)
-#define FAIL(A)	assertion("A", __FILE__, __LINE__)
-#endif
 #else
 #define ASSERT(A)	((void)0)
 #define FAIL(A)	((void)0)

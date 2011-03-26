@@ -79,13 +79,8 @@ $Log: myassert.h,v $
 
 #include "comment.h"
 
-#if FS_STDC_HASH
 #define FAIL_ASSERT(e_str,file)	fail("assertion failure: ASSERT(" e_str ")")
 #define ASSERT(e)	((void)( (e) ? 0 : (FAIL_ASSERT(#e,__FILE__) , 0) ))
-#else
-#define FAIL_ASSERT(e_str,file)	fail(e_str)
-#define ASSERT(e)	((void)( (e) ? 0 : (FAIL_ASSERT("e",__FILE__) , 0) ))
-#endif
 
 #else
 

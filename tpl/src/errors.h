@@ -90,11 +90,7 @@ extern void assert_sort_or_empty(unsigned int);
 #define ASSERT_SORT(x)		assert_sort((unsigned int)x)
 #define ASSERT_SORT_OR_EMPTY(x)	assert_sort_or_empty((unsigned int)x)
 
-#if FS_STDC_HASH
 #define Assert(x) if (!(x)) {fail("Assertion %s failed", #x);}
-#else
-#define Assert(x) if (!(x)) {fail("Assertion %s failed", "x");}
-#endif
 
 
 #endif

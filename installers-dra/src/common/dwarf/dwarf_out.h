@@ -105,19 +105,11 @@ extern void out_dwarf_bytesize_attr(shape t);
 
 #define OUT_DWARF_LOC_BLK(x)		out_dwarf_thing((int)x, "loc blk")
 
-#if FS_STDC_HASH
 #define OUT_DWARF_TAG(x)		out_dwarf_thing(x, #x)
 #define OUT_DWARF_TAG_NAMED(x, y)	out_dwarf_thing(x, y)
 #define OUT_DWARF_ATTR(x)		out_dwarf_thing(x, #x)
 #define dwarf2c(x)			out_dwarf_thing(x, #x)
 #define dwarf1(x)			out_dwarfone(x, #x)
-#else
-#define OUT_DWARF_TAG(x)		out_dwarf_thing(x, "x")
-#define OUT_DWARF_TAG_NAMED(x, y)	out_dwarf_thing(x, y)
-#define OUT_DWARF_ATTR(x)		out_dwarf_thing(x, "x")
-#define dwarf2c(x)			out_dwarf_thing(x, "x")
-#define dwarf1(x)			out_dwarfone(x, "x")
-#endif
 
 #define enter_dwarf_entry(lb)		enter_dwarf_blk(1, 0, lb)
 #define leave_dwarf_blk()		leave_dwarf_blk1(1)
@@ -129,13 +121,8 @@ extern void cont_sib_chain1(int d_tag, char *tag_name);
 extern void end_sib_chain(void);
 extern void make_next_new_chain(void);
 
-#if FS_STDC_HASH
 #define start_sib_chain(x)	start_sib_chain1(x, #x)
 #define cont_sib_chain(x)	cont_sib_chain1(x, #x)
-#else
-#define start_sib_chain(x)	start_sib_chain1(x, "x")
-#define cont_sib_chain(x)	cont_sib_chain1(x, "x")
-#endif
 
 
 extern void out_dwarf_lab(H_dwarf_lab *l);

@@ -153,9 +153,8 @@ ret function PROTO_W ( ( par1, par2, ...., parn, ... ) ) ;</programlisting>
   <para>
   Various flags giving properties of the compiler being used are defined
   in <code>ossg.h</code>.  Among the most useful are <code>FS_STDARG</code>,
-  which is true if the compiler supports ellipsis functions (see above),
-  and <code>FS_STDC_HASH</code>, which is true if the preprocessor supports
-  the ISO stringising and concatenation operators.  The macros
+  which is true if the compiler supports ellipsis functions (see above).
+  The macros
   <code>CONST</code> and <code>VOLATILE</code>, to be used in place
   of
   <code>const</code> and <code>volatile</code>, are also defined.

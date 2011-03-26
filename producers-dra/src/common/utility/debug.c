@@ -1645,11 +1645,7 @@ DEBUG(c_class *p)
     and in syntax.sid.
 */
 
-#if FS_STDC_HASH
 #define LEX_TOKEN(A, B, C)	print_terminal((A), #A, m);
-#else
-#define LEX_TOKEN(A, B, C)	print_terminal((A), "A", m);
-#endif
 
 
 /*
