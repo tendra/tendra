@@ -59,11 +59,7 @@
 
 
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include "types.h"
 #include "file.h"
 #include "pretty.h"
@@ -110,13 +106,7 @@ void
 fatal_error(char *s, ...) /* VARARGS */
 {
     va_list args;
-#if FS_STDARG
     va_start(args, s);
-#else
-    char *s;
-    va_start(args);
-    s = va_arg(args, char *);
-#endif
     if (progname)IGNORE fprintf(stderr, "%s: ", progname);
     IGNORE fprintf(stderr, "Error: ");
     IGNORE vfprintf(stderr, s, args);
@@ -140,13 +130,7 @@ input_error(char *s, ...) /* VARARGS */
 {
     va_list args;
     long b = here.byte;
-#if FS_STDARG
     va_start(args, s);
-#else
-    char *s;
-    va_start(args);
-    s = va_arg(args, char *);
-#endif
     if (progname)IGNORE fprintf(stderr, "%s: ", progname);
     IGNORE fprintf(stderr, "Error: ");
     IGNORE vfprintf(stderr, s, args);

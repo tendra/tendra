@@ -77,11 +77,7 @@ $Log: errors.c,v $
  *
 ***********************************************************************/
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include "util.h"
 #include "streams.h"
 #include "errors.h"
@@ -95,13 +91,7 @@ fail(char *s, ...)
 	char c;
 	va_list args;
 	FILE *f = stderr;
-#if FS_STDARG
 	va_start(args, s);
-#else
-	char *s;
-	va_start(args);
-	s = va_arg(args, char *);
-#endif
 	IGNORE fprintf(f, "Error: ");
 	IGNORE vfprintf(f, s, args);
 	c = buff[bind];

@@ -59,11 +59,7 @@
 
 
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include <limits.h>
 #include "system.h"
 #include "version.h"
@@ -627,13 +623,7 @@ make_error(int n, ...) /* VARARGS */
 	va_list args;
 	ERR_DATA *msg;
 	CONST char *s;
-#if FS_STDARG
 	va_start(args, n);
-#else
-	int n;
-	va_start(args);
-	n = va_arg(args, int);
-#endif
 
 	/* Check severity level */
 	msg = ERR_CATALOG + n;
@@ -1304,15 +1294,7 @@ void
 error(int sev, CONST char *s, ...) /* VARARGS */
 {
 	va_list args;
-#if FS_STDARG
 	va_start(args, s);
-#else
-	int sev;
-	CONST char *s;
-	va_start(args);
-	sev = va_arg(args, int);
-	s = va_arg(args, CONST char *);
-#endif
 	if (sev > error_threshold) {
 		FILE *f = error_file;
 		print_error_start(f, NIL(LOCATION), sev);

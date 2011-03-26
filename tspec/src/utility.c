@@ -59,11 +59,7 @@
 
 
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include <sys/types.h>
 #include <errno.h>
 #include <sys/stat.h>
@@ -121,15 +117,7 @@ error(int e, char *s, ...) /* VARARGS */
     va_list args;
     char *errtype = NULL;
     boolean show_line = 1;
-#if FS_STDARG
     va_start(args, s);
-#else
-    int e;
-    char *s;
-    va_start(args);
-    e = va_arg(args, int);
-    s = va_arg(args, char *);
-#endif
     switch (e) {
 	case ERR_FATAL: {
 	    exit_status = EXIT_FAILURE;
@@ -287,13 +275,7 @@ char *
 string_printf(char *s, ...) /* VARARGS */
 {
     va_list args;
-#if FS_STDARG
     va_start(args, s);
-#else
-    char *s;
-    va_start(args);
-    s = va_arg(args, char *);
-#endif
     IGNORE vsprintf(buffer, s, args);
     va_end(args);
     return(string_copy(buffer));

@@ -77,13 +77,6 @@
 #endif
 
 
-/* FS_STDARG indicates whether the compiler has <stdarg.h> */
-
-#ifndef FS_STDARG
-#define FS_STDARG		FS_STDC
-#endif
-
-
 /* Definitions of TenDRA keywords */
 
 #if FS_TENDRA

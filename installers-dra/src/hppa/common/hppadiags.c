@@ -196,11 +196,7 @@ d (section number). -ve values used to control
 
 #define HPPATRANS_CODE
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include "addrtypes.h"
 #include "frames.h"
 #include "exptypes.h"
@@ -533,13 +529,7 @@ DNTTPOINTER make_DNTTP_IMMEDIATE
 {
    DNTTPOINTER p;
    va_list ap;
-#if FS_STDARG
    va_start(ap,type);
-#else
-   BASETYPE type;
-   va_start(ap);
-   type = va_arg(ap, BASETYPE);
-#endif
    p.dntti.extension = 1;
    p.dntti.immediate = 1;
    p.dntti.global = 0;
@@ -607,13 +597,7 @@ void make_sltentry
 {
    va_list ap;
    union sltentry e;
-#if FS_STDARG
    va_start(ap,sltdesc);
-#else
-   SLTTYPE sltdesc;
-   va_start(ap);
-   sltdesc = va_arg(ap, SLTTYPE);
-#endif
    e.sgeneric.word[0] = 0;
    e.sgeneric.word[1] = 0;
    switch (sltdesc)
@@ -664,13 +648,7 @@ DNTTPOINTER make_dnttentry
    va_list ap;
    union dnttentry e;
    DNTTPOINTER dnttpointer;
-#if FS_STDARG
    va_start(ap,kind);
-#else
-   KINDTYPE kind;
-   va_start(ap);
-   kind = va_arg(ap, KINDTYPE);
-#endif
    e.dsfile.extension = 0;
    e.dsfile.kind = K_SRCFILE;
    e.dsfile.language = 0;

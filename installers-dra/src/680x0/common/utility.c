@@ -100,11 +100,7 @@ Imported from DRA
 
 
 #include "config.h"
-#if FS_STDARG
 #include <stdarg.h>
-#else
-#include <varargs.h>
-#endif
 #include "common_types.h"
 #include "basicread.h"
 #include "instrs.h"
@@ -237,13 +233,8 @@ error(char *s, ...)
 	char c;
 	char *p;
 	va_list args;
-#if FS_STDARG
 	va_start(args, s);
 	p = s;
-#else
-	va_start(args);
-	p = va_arg(args, char *);
-#endif
 	if (progname) {
 		fprintf(stderr, "%s : ", progname);
 	}
@@ -300,13 +291,8 @@ warning(char *s, ...)
 	char c;
 	char *p;
 	va_list args;
-#if FS_STDARG
 	va_start(args, s);
 	p = s;
-#else
-	va_start(args);
-	p = va_arg(args, char *);
-#endif
 	if (progname) {
 		(void)fprintf(stderr, "%s : ", progname);
 	}
