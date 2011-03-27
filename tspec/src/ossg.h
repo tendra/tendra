@@ -116,39 +116,4 @@
 #endif
 
 
-/* FS_WIDE_STRING indicates whether wide strings are supported */
-
-#ifndef FS_WIDE_STRING
-#define FS_WIDE_STRING		FS_STDC
-#endif
-
-
-/* FS_NUMBER_SUFFIX indicates whether the L, U, F suffixes are supported */
-
-#ifndef FS_NUMBER_SUFFIX
-#define FS_NUMBER_SUFFIX	FS_STDC
-#endif
-
-
-/* FS_CONCAT_STRING indicates whether string concatenation is supported */
-
-#ifndef FS_CONCAT_STRING
-#define FS_CONCAT_STRING	FS_STDC
-#endif
-
-
-/* FS_SIGNED indicates whether signed is supported */
-
-#ifndef FS_SIGNED
-#define FS_SIGNED		FS_STDC
-#endif
-
-
-/* FS_LONG_DOUBLE indicates whether long double is supported */
-
-#ifndef FS_LONG_DOUBLE
-#define FS_LONG_DOUBLE		FS_STDC
-#endif
-
-
 #endif

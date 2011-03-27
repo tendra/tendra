@@ -468,7 +468,6 @@ out_dwarf_user_type(diag_type t)
 #endif
 #endif
 
-#if FS_CONCAT_STRING
 #if (is80x86)
 #define SET_F	"\t"DOT_SET"\t%s , %s"
 #else
@@ -476,18 +475,6 @@ out_dwarf_user_type(diag_type t)
 #define SET_F	"\t%s = %s"
 #else
 		error need set format str
-#endif
-#endif
-#else
-#if (issparc)
-/* KEEP this in step..... */
-#define SET_F	"\t%s = %s"
-#else
-#if (is80x86)
-#define SET_F	"\t.set\t %s , %s"
-#else
-		error write this
-#endif
 #endif
 #endif
 

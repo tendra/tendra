@@ -80,8 +80,6 @@ $Log: dwarf_mc.h,v $
 /* DWARF is now defined in config.h */
 #include "dwarf_vsn.h"
 
-#if FS_CONCAT_STRING
-
 #if (is80x86)
 #define COMMENT_2(x, y)	x "#" y
 #else
@@ -92,8 +90,3 @@ error what is the comment to eol char ?
 #endif
 #endif
 
-#else
-
-#define COMMENT_2(x, y)x
-
-#endif

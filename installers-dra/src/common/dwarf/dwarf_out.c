@@ -223,8 +223,6 @@ error need elf section swapping code
 #endif
 #endif
 
-#if FS_CONCAT_STRING
-
 #define BYTE4_F		"\t"BYTE4S"\t%s"
 #define BYTE2_CMT_F	"\t"BYTE2S COMMENT_2("\t%#x\t", "%s")
 #define BYTE2_F		"\t"BYTE2S"\t%s"
@@ -232,34 +230,6 @@ error need elf section swapping code
 #define STRING_M	"\t"STRING"\t"
 #define STRING_F	STRING_M"\"%s\""
 #define END_UNIT	"\t"END_UNIT_ALIGN
-
-#else
-
-#if (issparc)
-/* KEEP these in step.......... */
-#define BYTE4_F		"\t.uaword\t%s"
-#define BYTE2_CMT_F	"\t.uahalf\t%#x\t!%s"
-#define BYTE2_F		"\t.uahalf\t%s"
-#define BYTE_CMT_F	"\t.byte\t%#x\t!%s"
-#define STRING_M	"\t.asciz\t"
-#define STRING_F	"\t.asciz\t\"%s\""
-#define END_UNIT	"\t.align 4"
-
-#else
-
-#if (is80x86)
-#define BYTE4_F		"\t.4byte\t%s"
-#define BYTE2_CMT_F	"\t.2byte\t%#x\t!%s"
-#define BYTE2_F		"\t.2byte\t%s"
-#define BYTE_CMT_F	"\t.byte\t%#x\t!%s"
-#define STRING_M	"\t.string\t"
-#define STRING_F	"\t.string\t\"%s\""
-#define END_UNIT	"\t.align 4"
-#else
-error not yet written
-#endif
-#endif
-#endif
 
 
 void
