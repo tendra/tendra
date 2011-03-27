@@ -142,13 +142,6 @@
 #endif
 
 
-/* FS_TRIGRAPH indicates whether trigraphs are supported */
-
-#ifndef FS_TRIGRAPH
-#define FS_TRIGRAPH		FS_STDC
-#endif
-
-
 /* FS_WIDE_STRING indicates whether wide strings are supported */
 
 #ifndef FS_WIDE_STRING
