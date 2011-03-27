@@ -43,29 +43,6 @@
 */
 
 
-/* FS_CPLUSPLUS indicates a C++ compiler */
-
-#ifndef FS_CPLUSPLUS
-#ifdef __cplusplus
-#define FS_CPLUSPLUS		1
-#define FS_STDC			1
-#else
-#define FS_CPLUSPLUS		0
-#endif
-#endif
-
-
-/* FS_STDC indicates an ISO C compliant compiler */
-
-#ifndef FS_STDC
-#ifdef __STDC__
-#define FS_STDC			1
-#else
-#define FS_STDC			0
-#endif
-#endif
-
-
 /* FS_TENDRA indicates the TenDRA C compiler */
 
 #ifndef FS_TENDRA
