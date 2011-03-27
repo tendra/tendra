@@ -138,22 +138,6 @@
 #endif
 
 
-/* FS_VOLATILE indicates whether volatile is supported */
-
-#ifndef FS_VOLATILE
-#define FS_VOLATILE		FS_STDC
-#endif
-
-
-/* VOLATILE is used in place of volatile */
-
-#if FS_VOLATILE
-#define VOLATILE		volatile
-#else
-#define VOLATILE
-#endif
-
-
 /* FS_STDC_IDENTIFIERS indicates __FILE__ etc. are defined */
 
 #ifndef FS_STDC_IDENTIFIERS
