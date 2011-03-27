@@ -201,28 +201,28 @@ Imported from DRA
 #define asm_simple_instrs		/* instructions are movl etc */
 #define asm_simple_regs			/* registers are d0 etc */
 
-#undef 	sm_data_first			/* false */
-#define sm_nprefix			outc('#')
-#define sm_fprefix			outs("0r")
-#define sm_ind_before			/* empty */
-#define sm_ind_middle			outc('@')
-#define sm_ind_after			/* empty */
-#define sm_predec_before		/* empty */
-#define sm_predec_after			outs("@ - ")
-#define sm_postinc_before		/* empty */
-#define sm_postinc_after		outs("@ + ")
-#define sm_scale_before			/* empty */
-#define sm_scale			outs(":l:")
-#define sm_scale_1			outs(":l")
-#define sm_mem_before			/* empty */
-#define sm_mem_second			outc('@')
-#define sm_mem_third			outc('@')
-#define sm_mem_after			/* empty */
-#define sm_bf_before			outc('{')
-#define sm_bf_middle			outc(':')
-#define sm_bf_after			outc('}')
-#define sm_rpair_sep			outc(':')
-#define sm_comment			outc('#')
+#undef 	asm_data_first			/* false */
+#define asm_nprefix			outc('#')
+#define asm_fprefix			outs("0r")
+#define asm_ind_before			/* empty */
+#define asm_ind_middle			outc('@')
+#define asm_ind_after			/* empty */
+#define asm_predec_before		/* empty */
+#define asm_predec_after			outs("@ - ")
+#define asm_postinc_before		/* empty */
+#define asm_postinc_after		outs("@ + ")
+#define asm_scale_before			/* empty */
+#define asm_scale			outs(":l:")
+#define asm_scale_1			outs(":l")
+#define asm_mem_before			/* empty */
+#define asm_mem_second			outc('@')
+#define asm_mem_third			outc('@')
+#define asm_mem_after			/* empty */
+#define asm_bf_before			outc('{')
+#define asm_bf_middle			outc(':')
+#define asm_bf_after			outc('}')
+#define asm_rpair_sep			outc(':')
+#define asm_comment			outc('#')
 
 #define asm_does_jump_lens		/* calculates jump lengths */
 #define asm_uses_equals			/* uses = rather than set */
