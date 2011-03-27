@@ -75,7 +75,7 @@ extern void output_buffer(BUFFER *, int);
 extern string extend_buffer(BUFFER *, string);
 extern string stretch_buffer(BUFFER *, string, gen_size);
 extern gen_size bfread(BUFFER *, string, gen_size);
-extern void bfprintf(BUFFER *, CONST char *, ...);
+extern void bfprintf(BUFFER *, const char *, ...);
 extern void bfputs(BUFFER *, string);
 extern void bfputc(BUFFER *, int);
 

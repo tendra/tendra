@@ -135,26 +135,10 @@
 #endif
 
 
-/* FS_CONST indicates whether const is supported */
-
-#ifndef FS_CONST
-#define FS_CONST		FS_STDC
-#endif
-
-
 /* FS_VOLATILE indicates whether volatile is supported */
 
 #ifndef FS_VOLATILE
 #define FS_VOLATILE		FS_STDC
-#endif
-
-
-/* CONST is used in place of const */
-
-#if FS_CONST
-#define CONST			const
-#else
-#define CONST
 #endif
 
 

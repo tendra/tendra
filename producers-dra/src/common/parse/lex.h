@@ -99,7 +99,7 @@ extern void set_character(EXP, EXP);
 
 extern BUFFER token_buff;
 extern HASHID token_hashid;
-extern CONST char *token_names[];
+extern const char *token_names[];
 
 
 /*

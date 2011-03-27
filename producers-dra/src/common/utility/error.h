@@ -86,8 +86,8 @@
 */
 
 extern ERROR make_error(int, ...);
-extern void error(int, CONST char *, ...);
-extern void set_progname(CONST char *, CONST char *);
+extern void error(int, const char *, ...);
+extern void set_progname(const char *, const char *);
 extern string report_version(int);
 extern void error_option(string);
 extern void print_error(LOCATION *, ERROR);
@@ -113,8 +113,8 @@ extern void restore_prefix(ERROR);
     routines.
 */
 
-extern CONST char *progname;
-extern CONST char *progvers;
+extern const char *progname;
+extern const char *progvers;
 extern int exit_status;
 extern unsigned long number_errors;
 extern unsigned long number_warnings;
@@ -142,7 +142,7 @@ extern FILE *error_file;
 
 #ifdef ASSERTS
 extern int is_true(int);
-extern void assertion(CONST char *, CONST char *, int);
+extern void assertion(const char *, const char *, int);
 #define ASSERT(A)	if (is_true(!(A)))\
 			    assertion(#A, __FILE__, __LINE__)
 #define FAIL(A)		assertion(#A, __FILE__, __LINE__)

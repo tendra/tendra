@@ -161,7 +161,7 @@ find_linkage(EXP e)
 string
 linkage_string(DECL_SPEC ds, CV_SPEC cv)
 {
-	CONST char *str;
+	const char *str;
 	if ((ds & dspec_c) || (cv & cv_c)) {
 		str = "C";
 	} else {

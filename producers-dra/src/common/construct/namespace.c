@@ -157,7 +157,7 @@ int old_cache_lookup = 1;
 */
 
 NAMESPACE
-make_global_nspace(CONST char *s, int sz)
+make_global_nspace(const char *s, int sz)
 {
 	IDENTIFIER id;
 	string u = ustrlit(s);

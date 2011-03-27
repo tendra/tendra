@@ -90,7 +90,6 @@
 
 typedef unsigned char character;
 #define ulong ulong_type
-#define CONST_S CONST
 
 
 /*

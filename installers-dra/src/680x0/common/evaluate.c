@@ -151,7 +151,7 @@ Imported from DRA
 extern int is_comm(exp);
 extern char *get_pointer_name(void *);
 extern int flpt_const_overflow_fail;
-extern double atof(CONST char *);
+extern double atof(const char *);
 extern double frexp(double, int *);
 
 

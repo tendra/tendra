@@ -259,7 +259,7 @@ bool regremoved
  *   logical operation, lop, with operands immediate, i, and register, r
  */
 void logical_op
-(CONST char *lop, long i, int r, int d)
+(const char *lop, long i, int r, int d)
 {
    int t;
    if (r==d)
@@ -478,7 +478,7 @@ void do_comm
     else
     {
        exp sq = seq;
-       CONST char *ins = rins;
+       const char *ins = rins;
 
        a2 = reg_operand(sq, nsp);
        /* evaluate next operand */
@@ -504,7 +504,7 @@ void do_comm
 int comm_op
 (exp e, space sp, where d, ins_p rrins)
 {
-  CONST char *rins = rrins;
+  const char *rins = rrins;
 
   switch (discrim(d.answhere))
   {
@@ -598,7 +598,7 @@ int non_comm_op
    int a1 = reg_operand(l, sp);
    space nsp;
    int a2;
-   CONST char *ins;
+   const char *ins;
    ins=rins;
    nsp = guardreg(a1, sp);
    a2 = reg_operand(r, nsp);
@@ -726,7 +726,7 @@ static void quad_addr
 */
 
 static struct {
-		  CONST char proc_name[32];
+		  const char proc_name[32];
 		  bool called;
 	      } long_double_lib[14] =
 	      {

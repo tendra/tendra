@@ -740,7 +740,7 @@ load_reg ( exp e, int reg, space sp )
   7 = "!>"		E = "!comp"
 */
 
-static CONST ins_p usbranch_tab [] = {
+static const ins_p usbranch_tab [] = {
     /* 0 */ I_NIL,
     /* 1 */ i_bleu,
     /* 2 */ i_blu,
@@ -765,7 +765,7 @@ static CONST ins_p usbranch_tab [] = {
     TABLE OF SIGNED JUMPS
 */
 
-static CONST ins_p sbranch_tab [] = {
+static const ins_p sbranch_tab [] = {
     /* 0 */ I_NIL,
     /* 1 */ i_ble,
     /* 2 */ i_bl,
@@ -790,7 +790,7 @@ static CONST ins_p sbranch_tab [] = {
   TABLE OF FLOATING JUMPS
 */
 
-static CONST ins_p fbranch_tab [] = {
+static const ins_p fbranch_tab [] = {
     /* 0 */ I_NIL,
     /* 1 */ i_fble,
     /* 2 */ i_fbl,

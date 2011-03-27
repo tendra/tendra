@@ -69,8 +69,8 @@
     tokens used in the TDF output.
 */
 
-extern TOKEN make_sort(CONST char *, int);
-extern IDENTIFIER resolve_token(IDENTIFIER, CONST char *, int);
+extern TOKEN make_sort(const char *, int);
+extern IDENTIFIER resolve_token(IDENTIFIER, const char *, int);
 extern IDENTIFIER get_special(int, int);
 extern string special_name(int);
 extern void set_special(int, IDENTIFIER);

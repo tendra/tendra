@@ -151,7 +151,7 @@ stack, (this is obviously always available for parameters).
 
 
 
-static CONST weights zeroweights =
+static const weights zeroweights =
 {
   { 0.0	/* , ... */ },
   { 0.0	/* , ... */ }

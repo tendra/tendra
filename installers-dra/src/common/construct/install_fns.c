@@ -2826,7 +2826,7 @@ f_long_jump(exp arg1, exp arg2)
 
 
 static int
-comp_compare(CONST void *a, CONST void *b)
+comp_compare(const void *a, const void *b)
 {
 	return no(*((exp *)a)) - no(*((exp *)b));
 }

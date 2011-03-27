@@ -168,7 +168,7 @@ $Log: inst_fmt.c,v $
     ARRAY OF REGISTER NAMES
 */
 
-static CONST char reg_name_tab [66][5] = {
+static const char reg_name_tab [66][5] = {
     "%g0", "%g1", "%g2", "%g3", "%g4", "%g5", "%g6", "%g7",
     "%o0", "%o1", "%o2", "%o3", "%o4", "%o5", "%sp", "%o7",
     "%l0", "%l1", "%l2", "%l3", "%l4", "%l5", "%l6", "%l7",
@@ -223,8 +223,8 @@ ld_ro_ins ( ins_p ins, baseoff a, int dest )
     clear_reg ( dest ) ;
     if ( SIMM13_SIZE ( off ) ) {
 	/* Small offset */
-	CONST char *ra = RN ( a.base ) ;
-	CONST char *rd = RN ( dest ) ;
+	const char *ra = RN ( a.base ) ;
+	const char *rd = RN ( dest ) ;
 	if ( off == 0 ) {
 	    fprintf ( as_file, "\t%s\t[%s],%s\n", ins, ra, rd ) ;
 	} else if ( off > 0 ) {
@@ -344,8 +344,8 @@ st_ro_ins ( ins_p ins, int src, baseoff a )
 
     if ( SIMM13_SIZE ( off ) ) {
 	/* Small offset */
-	CONST char *rs = RN ( src ) ;
-	CONST char *ra = RN ( a.base ) ;
+	const char *rs = RN ( src ) ;
+	const char *ra = RN ( a.base ) ;
 	if ( off == 0 ) {
 	    fprintf ( as_file, "\t%s\t%s,[%s]\n", ins, rs, ra ) ;
 	} else if ( off > 0 ) {
@@ -763,7 +763,7 @@ void extj_ins_without_delay
 */
 
 void 
-extj_special_ins ( ins_p ins, CONST char * CONST ext, int param_regs_used ){
+extj_special_ins ( ins_p ins, const char * const ext, int param_regs_used ){
   if ( param_regs_used >= 0 ) {
     /* print number of parameter registers if known */
     assert ( param_regs_used <= 6 ) ;	/* %o0..%o5 */
@@ -784,7 +784,7 @@ extj_special_ins ( ins_p ins, CONST char * CONST ext, int param_regs_used ){
 /* as above, but with allowing the calling function to fill in the
    delay slot. */
 void 
-extj_special_ins_no_delay ( ins_p ins, CONST char * CONST ext, int param_regs_used ){
+extj_special_ins_no_delay ( ins_p ins, const char * const ext, int param_regs_used ){
   if ( param_regs_used >= 0 ) {
     /* print number of parameter registers if known */
     assert ( param_regs_used <= 6 ) ;	/* %o0..%o5 */
@@ -1049,7 +1049,7 @@ ldf_ro_ins ( ins_p ins, baseoff a, int dest ){
   clear_freg ( dest ) ;
   if ( SIMM13_SIZE ( off ) ) {
     /* Small offset */
-    CONST char *rn = RN ( a.base ) ;
+    const char *rn = RN ( a.base ) ;
     if ( off == 0 ) {
       fprintf ( as_file, "\t%s\t[%s],%s\n", ins, rn, FRN(dest) ) ;
     } 
@@ -1129,7 +1129,7 @@ stf_ro_ins ( ins_p ins, int src, baseoff a ){
   }
   if ( SIMM13_SIZE ( off ) ) {
     /* Small offset */
-    CONST char *rn = RN ( a.base ) ;
+    const char *rn = RN ( a.base ) ;
     if ( off == 0 ) {
       fprintf ( as_file, "\t%s\t%s,[%s]\n", ins, FRN(src), rn ) ;
     } 

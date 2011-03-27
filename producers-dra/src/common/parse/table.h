@@ -70,7 +70,7 @@
 */
 
 typedef struct {
-	CONST char *name;
+	const char *name;
 	int set;
 	unsigned value;
 	BASE_TYPE type;

@@ -119,7 +119,7 @@ extern int diag_override;
 
 #if (default_diag == DIAG_UNKNOWN)
 #define dynamic_test
-extern double atof(CONST char *);
+extern double atof(const char *);
 #include <sys/utsname.h>
 #else
 #undef dynamic_test

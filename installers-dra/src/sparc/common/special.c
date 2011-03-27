@@ -226,10 +226,10 @@ special_call_name ( int i )
     These indicate respectively needs of zero, one and two fixed register.
 */
 
-static CONST needs zeroneeds = { 0, 0, 0, 0 } ;
+static const needs zeroneeds = { 0, 0, 0, 0 } ;
 #if 0
-static CONST needs onefixneeds = { 1, 0, 0, 0 } ;
-static CONST needs twofixneeds = { 2, 0, 0, 0 } ;
+static const needs onefixneeds = { 1, 0, 0, 0 } ;
+static const needs twofixneeds = { 2, 0, 0, 0 } ;
 #endif
 
 

@@ -218,7 +218,7 @@ int inlinechoice
   int max_complexity;
 
   int nparam;
-  CONST  int CONST_BONUS_UNIT = 16;
+  const int CONST_BONUS_UNIT = 16;
   int const_param_bonus;
   int adjusted_max_complexity;
 

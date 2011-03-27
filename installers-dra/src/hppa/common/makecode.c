@@ -449,7 +449,7 @@ void setnovolatile
 }
 
 /* unsigned branch table */
-static CONST char *(usbranch_tab[]) =
+static const char *(usbranch_tab[]) =
 {
    c_,  /* never branch (shouldn't be used) */
    c_gequ,
@@ -465,7 +465,7 @@ static CONST char *(usbranch_tab[]) =
 #define usbranches(i)(usbranch_tab[i])
 
 /* signed branch table */
-CONST char *(sbranch_tab[]) =
+const char *(sbranch_tab[]) =
 {
    c_,  /* never branch (shouldn't be used) */
    c_geq,
@@ -479,7 +479,7 @@ CONST char *(sbranch_tab[]) =
 
 #define sbranches(i)(sbranch_tab[i])
 
-static CONST char *(fbranch_tab[]) =
+static const char *(fbranch_tab[]) =
 {
    c_,  /* never branch (shouldn't (be used) */
    c_g,
@@ -2144,7 +2144,7 @@ makeans make_code
      int lab = (ptno(e) < 0)? -ptno(e): no(son(pt(e)));
      /* see frig in cond_tag */
      shape shl = sh(l);
-     CONST char *branch;
+     const char *branch;
      int n = (int) test_number(e);	/* could have Rev bit in props */
 
 #if use_long_double
@@ -2161,7 +2161,7 @@ makeans make_code
 	/* float test */
 	bool dble = ((name(shl) ==shrealhd)? 0 : 1);
 	int a1;
-	CONST char *branch = fbranches(n);
+	const char *branch = fbranches(n);
 	/* choose branch and compare instructions */
 	int a2;
 	space nsp;
@@ -4512,7 +4512,7 @@ makeans make_code
 	       {
 		  space nsp;
 		  int lhs,rhs;
-		  CONST char *cmplt;
+		  const char *cmplt;
 		  if (son(sone) ->commuted)
 		  {
 		     lhs = reg_operand(son(o),sp);

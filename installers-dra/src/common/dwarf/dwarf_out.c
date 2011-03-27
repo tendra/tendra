@@ -156,7 +156,7 @@ out_dwarf_lab(H_dwarf_lab *l)
 
 
 static void
-mk_dwarf_label(dwarf_label *p, CONST char *x)
+mk_dwarf_label(dwarf_label *p, const char *x)
 {
 	sprintf(LAB2CHAR(p->beg), "%s%s%s", local_prefix, DWARF_NAME, x);
 	OUT_FLAG(p->beg) = 0;
@@ -263,7 +263,7 @@ error not yet written
 
 
 void
-dwarf4(CONST char *t)
+dwarf4(const char *t)
 {
 	char outbuf[100];
 
@@ -300,7 +300,7 @@ out_dwarf_thing(int t, char *cmt)
 
 
 void
-out_dwarf_string(CONST char * CONST s)
+out_dwarf_string(const char * const s)
 {
 	/* s = null term'ed in core and to be in asm file */
 	char outbuf[100];
@@ -464,7 +464,7 @@ out_diagnose_postlude(void)
 static filename main_filename;
 
 void
-out_dwarf_sourcemark(CONST sourcemark * CONST x)
+out_dwarf_sourcemark(const sourcemark * const x)
 {
 	dwarf_label lb;
 
@@ -719,7 +719,7 @@ leave_dwarf_comp_unit(void)
 
 
 void
-out_dwarf_name_attr(CONST char * CONST s)
+out_dwarf_name_attr(const char * const s)
 {
 	if (*s == 0) {
 		outs(COMMENT_2("\t", " no source name"));

@@ -1826,7 +1826,7 @@ compile_base(GRAPH gr, int ptr)
 		return (n);
 	}
 	if (output_all) {
-		CONST char *pre = "~cpp.base.";
+		const char *pre = "~cpp.base.";
 		if ((acc & dspec_mutable) && !ptr) {
 			pre = "~cpp.virt.";
 		}

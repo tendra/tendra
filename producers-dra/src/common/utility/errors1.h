@@ -36,23 +36,19 @@
 
 /* Error data structure */
 
-#ifndef ERR_CONST
-#define ERR_CONST
-#endif
-
 typedef unsigned ERR_PROPS ;
 
 typedef struct {
-    ERR_CONST char *name ;
-    ERR_CONST char *signature ;
+    const char *name ;
+    const char *signature ;
     int usage ;
     ERR_PROPS props ;
-    ERR_CONST char *key_ISO ;
-    ERR_CONST char *key_STD ;
+    const char *key_ISO ;
+    const char *key_STD ;
 } ERR_DATA ;
 
 extern ERR_DATA ERR_CATALOG [] ;
-extern ERR_CONST char *ERR_NAME ;
+extern const char *ERR_NAME ;
 
 
 /* Error type keys */

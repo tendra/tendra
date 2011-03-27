@@ -127,7 +127,7 @@ extern char reg_name_tab[32][5];
 typedef ins_p ins_sgn_pair[2 /* FALSE..TRUE */ ];
 
 
-static CONST ins_sgn_pair st_ins_sz[] =
+static const ins_sgn_pair st_ins_sz[] =
 {
    /* 0 */ {I_NIL, I_NIL},
    /* 8 */ {i_stb, i_stb},

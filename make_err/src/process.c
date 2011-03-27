@@ -223,12 +223,12 @@ output_defn(FILE *f)
 	/* Print each catalogue entry */
 	(void) fprintf ( f, "/* Error catalogue */\n\n" ) ;
 	if (!strcmp(d1, d2)) {
-		(void) fprintf(f, "%sCONST char *%sNAME = \"%s\" ;\n", pre, pre, d1);
+		(void) fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d1);
 	} else {
 		(void) fprintf(f, "#ifndef %sALTERNATE\n", pre);
-		(void) fprintf(f, "%sCONST char *%sNAME = \"%s\" ;\n", pre, pre, d1);
+		(void) fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d1);
 		(void) fprintf(f, "#else\n");
-		(void) fprintf(f, "%sCONST char *%sNAME = \"%s\" ;\n", pre, pre, d2);
+		(void) fprintf(f, "const char *%sNAME = \"%s\" ;\n", pre, d2);
 		(void) fprintf(f, "#endif\n");
 	}
 	(void) fprintf(f, "\n%sDATA %sCATALOG [] = {\n", pre, pre);
@@ -363,29 +363,25 @@ output_decl(FILE *f)
 	LIST(NAME) p = all_keys;
 	(void) fprintf(f, "#ifndef %sINCLUDED\n", pre);
 	(void) fprintf(f, "#define %sINCLUDED\n\n\n", pre);
-	(void) fprintf(f, "/* Error data structure */\n\n");
-	(void) fprintf(f, "#ifndef %sCONST\n", pre);
-	(void) fprintf(f, "#define %sCONST\n", pre);
-	(void) fprintf(f, "#endif\n\n");
 	if (LENGTH_list(all_props) < 16) {
 		(void) fprintf(f, "typedef unsigned %sPROPS ;\n\n", pre);
 	} else {
 		(void) fprintf(f, "typedef unsigned long %sPROPS ;\n\n", pre);
 	}
 	(void) fprintf(f, "typedef struct {\n");
-	(void) fprintf(f, "    %sCONST char *name ;\n", pre);
-	(void) fprintf(f, "    %sCONST char *signature ;\n", pre);
+	(void) fprintf(f, "    const char *name ;\n");
+	(void) fprintf(f, "    const char *signature ;\n");
 	(void) fprintf(f, "    int usage ;\n");
 	(void) fprintf(f, "    %sPROPS props ;\n", pre);
 	while (!IS_NULL_list(p)) {
 		NAME t = DEREF_name(HEAD_list(p));
 		string tn = DEREF_string(name_id(t));
-		(void) fprintf(f, "    %sCONST char *key_%s ;\n", pre, tn);
+		(void) fprintf(f, "    const char *key_%s ;\n", tn);
 		p = TAIL_list(p);
 	}
 	(void) fprintf(f, "} %sDATA ;\n\n", pre);
 	(void) fprintf(f, "extern %sDATA %sCATALOG [] ;\n", pre, pre);
-	(void) fprintf(f, "extern %sCONST char *%sNAME ;\n\n\n", pre, pre);
+	(void) fprintf(f, "extern const char *%sNAME ;\n\n\n", pre);
 
 	/* Print type keys */
 	p = all_types;

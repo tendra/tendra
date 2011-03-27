@@ -194,7 +194,7 @@ print_access(DECL_SPEC n, BUFFER *bf, int sp)
     This table gives the names of the built-in types.
 */
 
-CONST char *ntype_name[ORDER_ntype] = {
+const char *ntype_name[ORDER_ntype] = {
 	"<error>",		/* ntype_none */
 	"char",			/* ntype_char */
 	"signed char",		/* ntype_schar */
@@ -680,7 +680,7 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 		TYPE f = NULL_type;
 		TOKEN tok = NULL_tok;
 		GRAPH gr = NULL_graph;
-		CONST char *desc = NULL;
+		const char *desc = NULL;
 		int full = print_id_desc;
 		NAMESPACE pns = NULL_nspace;
 		LIST(TYPE)p = NULL_list(TYPE);
@@ -1224,7 +1224,7 @@ print_nat(NAT n, int paren, BUFFER *bf, int sp)
 				/* Print large literals by scanning through
 				 * digits */
 				char buff[50];
-				CONST char *fmt = "0x%x";
+				const char *fmt = "0x%x";
 				LIST(unsigned)q;
 				p = REVERSE_list(p);
 				q = p;
@@ -1365,7 +1365,7 @@ print_char(unsigned long c, int ch, int q, BUFFER *bf)
 		}
 		}
 	} else {
-		CONST char *fmt;
+		const char *fmt;
 		switch (ch) {
 		case CHAR_OCTAL:
 			fmt = "\\%03lo";
@@ -2669,14 +2669,14 @@ find_buffer_loc(string fn, unsigned long ln, unsigned long n)
 */
 
 void
-print_source(LOCATION *loc, int lines, int full, CONST char *pre, FILE *f)
+print_source(LOCATION *loc, int lines, int full, const char *pre, FILE *f)
 {
 	PTR(POSITION)pn = loc->posn;
 	if (lines > 0 && !IS_NULL_ptr(pn)) {
 		string p;
 		int nl = 0;
 		FILE *g = NULL;
-		CONST char *mark = "!!!!";
+		const char *mark = "!!!!";
 		unsigned long n = (unsigned long)lines;
 		unsigned long b = n / 2;
 		string fn = DEREF_string(posn_input(pn));

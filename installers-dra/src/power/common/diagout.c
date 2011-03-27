@@ -199,11 +199,11 @@ $Log: diagout.c,v $
  * Params for stab_relativeline().
  */
 
-static CONST char line_stab[] = ".line";	/* line number */
-static CONST char bf_stab[] = ".bf";	/* begin function */
-static CONST char ef_stab[] = ".ef";	/* end function */
-static CONST char bb_stab[] = ".bb";	/* begin block */
-static CONST char eb_stab[] = ".eb";	/* end block */
+static const char line_stab[] = ".line";	/* line number */
+static const char bf_stab[] = ".bf";	/* begin function */
+static const char ef_stab[] = ".ef";	/* end function */
+static const char bb_stab[] = ".bb";	/* begin block */
+static const char eb_stab[] = ".eb";	/* end block */
 
 
 /*
@@ -257,7 +257,7 @@ static shape tokensh;		/* shape for TDF tokenised type */
 
 static diag_descriptor *find_dd(exp);
 static int find_file(char *);
-static void stab_relativeline(CONST char *);
+static void stab_relativeline(const char *);
 static void stab_begin_block(void);
 static void stab_end_block(void);
 static void stabn(int, int);
@@ -767,7 +767,7 @@ static int find_file(char *f)
 /*
  * output directive using proc start relative linenos
  */
-static void stab_relativeline(CONST char *directive)
+static void stab_relativeline(const char *directive)
 {
   int lineinproc = current_lineno - current_procstart_lineno;
 

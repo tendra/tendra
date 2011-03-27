@@ -166,7 +166,7 @@ int last_line;
 char last_symb[128];
 int last_o;
 
-static CONST char reg_name_tab[32][6] =
+static const char reg_name_tab[32][6] =
 { "%r0"  ,
   "%r1"  ,
   "%r2"  ,
@@ -200,7 +200,7 @@ static CONST char reg_name_tab[32][6] =
   "%r17" ,
   "%r18"    };
 
-static CONST char float_reg_name_tab[32][3][7] =
+static const char float_reg_name_tab[32][3][7] =
 {
   { "%fr0L", "%fr0", "%fr0R" },
   { "%fr1L", "%fr1", "%fr1R" },
@@ -236,7 +236,7 @@ static CONST char float_reg_name_tab[32][3][7] =
   { "%fr31L", "%fr31", "%fr31R" }
 };
 
-static CONST char space_reg_name_tab[8][5] =
+static const char space_reg_name_tab[8][5] =
 { "%sr0" ,
   "%sr1" ,
   "%sr2" ,
@@ -256,7 +256,7 @@ static CONST char space_reg_name_tab[8][5] =
 ins_p NOCOND=0;
 
 
-CONST char *reg_name
+const char *reg_name
     PROTO_N ( (r) )
     PROTO_T ( int r )
 {
@@ -264,7 +264,7 @@ CONST char *reg_name
   return reg_name_tab[r];
 }
 
-static CONST char *float_reg_name
+static const char *float_reg_name
     PROTO_N ( (reg) )
     PROTO_T ( int reg )
 {
@@ -607,7 +607,7 @@ void iiir_ins
  */
 void ir_ins
     PROTO_N ( (ins,fs,ltrl,l,d) )
-    PROTO_T ( ins_p ins X ins_p fs X CONST char *ltrl X long l X int d )
+    PROTO_T ( ins_p ins X ins_p fs X const char *ltrl X long l X int d )
 {
     char I[128];
 
@@ -690,7 +690,7 @@ void riir_ins
 
 void ld_ir_ins
     PROTO_N ( (ins,cmplt,fs,ltrl,l,b,d) )
-    PROTO_T ( ins_p ins X ins_p cmplt X ins_p fs X CONST char *ltrl X long l X int b X int d )
+    PROTO_T ( ins_p ins X ins_p cmplt X ins_p fs X const char *ltrl X long l X int b X int d )
 {
     char O[128];
     if (d==GR0)
@@ -837,7 +837,7 @@ void ld_ins
 {
    /* ins must be one of i_lb, i_lh, i_lo, i_lwm or i_lw */
    long o=a.offset;
-   CONST char *i_ld;
+   const char *i_ld;
    if (d==GR0)
       return;
    clear_reg(d);
@@ -912,7 +912,7 @@ void ld_ins
 
 void st_ir_ins
     PROTO_N ( (ins,cmplt,s,fs,ltrl,l,b) )
-    PROTO_T ( ins_p ins X ins_p cmplt X int s X ins_p fs X CONST char *ltrl X long l X int b )
+    PROTO_T ( ins_p ins X ins_p cmplt X int s X ins_p fs X const char *ltrl X long l X int b )
 {
     char O[128];
 
@@ -938,7 +938,7 @@ void st_ins
 {
    /* ins must be one of i_sb, i_sh or i_sw */
    long o=a.offset;
-   CONST char *i_st;
+   const char *i_st;
 
    if (IS_FIXREG(a.base))
    {
@@ -1029,7 +1029,7 @@ Branch instructions. These have labels as destination.
  */
 void ub_ins
     PROTO_N ( ( cmplt, lab ) )
-    PROTO_T ( CONST char *cmplt X int lab )
+    PROTO_T ( const char *cmplt X int lab )
 {
     if (OPTIM)
     {
@@ -1119,7 +1119,7 @@ void call_ins
  */
 void extj_special_ins
     PROTO_N ( (nm,r,stub,import) )
-    PROTO_T ( CONST char *nm X int r X char stub[128] X int import )
+    PROTO_T ( const char *nm X int r X char stub[128] X int import )
 {
    if (import)
    {
@@ -1180,7 +1180,7 @@ void addib_in
  */
 void comb_ins
     PROTO_N ( (cond,l,r,lab) )
-    PROTO_T ( CONST char *cond X int l X int r X int lab )
+    PROTO_T ( const char *cond X int l X int r X int lab )
 {
    int ops[4];
    ops[0]=l;
@@ -1213,7 +1213,7 @@ void comib_ins
 
 void cj_ins
     PROTO_N ( (cond,l,r,lab) )
-    PROTO_T ( CONST char *cond X int l X int r X int lab )
+    PROTO_T ( const char *cond X int l X int r X int lab )
 {
    int ops[4];
    ops[0]=l;
@@ -1236,7 +1236,7 @@ void cj_ins
  */
 void cij_ins
     PROTO_N ( (cond,l,r,lab) )
-    PROTO_T ( CONST char *cond X long l X int r X int lab )
+    PROTO_T ( const char *cond X long l X int r X int lab )
 {
    int ops[4];
    ops[0]=l;
@@ -1322,7 +1322,7 @@ void ldf_ins
     PROTO_T ( ins_p ins X baseoff a X int d )
 {
    /* ins must be either i_fldw or i_fldd */
-   CONST char *i_fld = ( ins==i_fldw ? i_fldws : i_fldds );
+   const char *i_fld = ( ins==i_fldw ? i_fldws : i_fldds );
    if (IS_FIXREG(a.base))
    {
       if (SIMM5(a.offset))
@@ -1376,7 +1376,7 @@ void stf_ins
    /* ins must be either i_fstw or i_fstd */
 
 
-   CONST char *i_fst = ( ins==i_fstw ? i_fstws : i_fstds );
+   const char *i_fst = ( ins==i_fstw ? i_fstws : i_fstds );
    if (IS_FIXREG(a.base))
    {
       if (SIMM5(a.offset))
@@ -1439,7 +1439,7 @@ void rrrf_ins
  */
 void out_directive
     PROTO_N ( (d,params) )
-    PROTO_T ( CONST char *d X CONST char *params )
+    PROTO_T ( const char *d X const char *params )
 {
   /* directive, parameters */
    outp(directive,NOCOND,zops,NA);

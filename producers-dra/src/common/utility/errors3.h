@@ -32,7 +32,7 @@
 
 /* Error catalogue */
 
-ERR_CONST char *ERR_NAME = "cpp" ;
+const char *ERR_NAME = "cpp" ;
 
 ERR_DATA ERR_CATALOG [] = {
     {

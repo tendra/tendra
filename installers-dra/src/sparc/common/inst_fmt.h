@@ -159,8 +159,8 @@ extern void lngjmp(int,int,int);
 extern void extj_ins(ins_p, baseoff, int);
 extern void extj_ins_without_delay(ins_p, baseoff, int);
 
-extern void extj_special_ins(ins_p, CONST char * CONST, int);
-extern void extj_special_ins_no_delay(ins_p, CONST char * CONST, int);
+extern void extj_special_ins(ins_p, const char * const, int);
+extern void extj_special_ins_no_delay(ins_p, const char * const, int);
 extern void extj_reg_ins(ins_p, int, int);
 extern void extj_reg_ins_no_delay(ins_p, int, int);
 

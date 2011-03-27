@@ -74,7 +74,7 @@ $Log: dwarf_out.h,v $
  *
 **********************************************************************/
 
-extern void dwarf4(CONST char *t);
+extern void dwarf4(const char *t);
 extern void dwarf4n(int x);
 extern void dwarf2(char *c);
 extern void out_dwarf_thing(int t,char *cmt);
@@ -96,10 +96,10 @@ extern dwarf_type_label *next_dwarf_type_lab(void);
 extern char *current_label_name(void);
 
 #include "dwarf_gbl.h"
-extern void out_dwarf_name_attr(CONST char * CONST s);
+extern void out_dwarf_name_attr(const char * const s);
 #define TDFSTRING2CHAR(x)	(&(((x).ints.chars)[0]))
-extern void out_dwarf_string(CONST char * CONST s);
-extern void out_dwarf_sourcemark(CONST sourcemark * CONST x);
+extern void out_dwarf_string(const char * const s);
+extern void out_dwarf_sourcemark(const sourcemark * const x);
 
 extern void out_dwarf_bytesize_attr(shape t);
 

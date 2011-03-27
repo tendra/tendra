@@ -104,7 +104,7 @@
     with run-time type information.
 */
 
-static CONST char *std_name = "std";
+static const char *std_name = "std";
 static NAMESPACE std_namespace = NULL_nspace;
 
 
@@ -172,7 +172,7 @@ set_std_namespace(IDENTIFIER id)
 */
 
 TYPE
-find_std_type(CONST char *s, int type, int err)
+find_std_type(const char *s, int type, int err)
 {
 	string us = ustrlit(s);
 	unsigned long h = hash(us);
@@ -281,7 +281,7 @@ get_type_info(int op, TYPE t, int err)
 */
 
 static EXP
-throw_bad_op(CONST char *s, TYPE *pr)
+throw_bad_op(const char *s, TYPE *pr)
 {
 	EXP e;
 	TYPE r = *pr;

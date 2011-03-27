@@ -212,7 +212,7 @@ bfputs(BUFFER *bf, string s)
 */
 
 void
-bfprintf(BUFFER *bf, CONST char *s, ...) /* VARARGS */
+bfprintf(BUFFER *bf, const char *s, ...) /* VARARGS */
 {
 	char c;
 	string p;

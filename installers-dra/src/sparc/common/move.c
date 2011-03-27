@@ -165,7 +165,7 @@ typedef ins_p ins_sgn_pair [2] ;
   ARRAY OF LOAD INSTRUCTIONS
 */
 
-static CONST ins_sgn_pair ld_ins_sz [] = {
+static const ins_sgn_pair ld_ins_sz [] = {
   { I_NIL, I_NIL },
   { i_ldub, i_ldsb },
   { i_lduh, i_ldsh },
@@ -182,7 +182,7 @@ static CONST ins_sgn_pair ld_ins_sz [] = {
   ARRAY OF STORE INSTRUCTIONS
 */
 
-static CONST ins_sgn_pair st_ins_sz [] = {
+static const ins_sgn_pair st_ins_sz [] = {
   { I_NIL, I_NIL },
   { i_stb, i_stb },
   { i_sth, i_sth },

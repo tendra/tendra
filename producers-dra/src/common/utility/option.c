@@ -193,7 +193,7 @@ OPT_VALUE_DATA OPT_VALUE_CATALOG[] = {
 */
 
 typedef struct {
-	CONST char *name;
+	const char *name;
 	int number;
 } OPT_TYPE_DATA;
 

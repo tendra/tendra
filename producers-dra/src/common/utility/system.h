@@ -105,14 +105,14 @@ typedef struct {
     operating system.
 */
 
-extern CONST char *find_date(CONST char *);
-extern CONST char *find_time(CONST char *);
+extern const char *find_date(const char *);
+extern const char *find_time(const char *);
 extern STAT_TYPE *stat_func(char *, STAT_TYPE *);
 extern unsigned long stat_date(STAT_TYPE *);
 extern int stat_equal(STAT_TYPE *, STAT_TYPE *);
 extern int file_seek(FILE *, long);
-extern CONST char *find_cwd(void);
-extern CONST char *find_machine(void);
+extern const char *find_cwd(void);
+extern const char *find_machine(void);
 
 extern unsigned long crt_time;
 extern char uniq_string[];

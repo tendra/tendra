@@ -230,7 +230,7 @@ int inlinechoice
   int max_complexity;
 
   int nparam;
-  CONST unsigned int CONST_BONUS_UNIT = 16;
+  const unsigned int CONST_BONUS_UNIT = 16;
   int const_param_bonus;
   int adjusted_max_complexity;
   shape shdef = pt(def);

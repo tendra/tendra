@@ -151,7 +151,7 @@ static struct tm *
 get_crt_time(void)
 {
 	if (!have_crt_time) {
-		CONST char *s1, *s2;
+		const char *s1, *s2;
 		time_t t = time(NIL(time_t));
 		if (t == (time_t) -1) {
 			/* Use a (seemingly) random date if time fails */
@@ -184,17 +184,17 @@ get_crt_time(void)
     given by fmt.  This is used in the __DATE__ built-in macro.
 */
 
-CONST char *
-find_date(CONST char *fmt)
+const char *
+find_date(const char *fmt)
 {
 	static char buff[20];
-	static CONST char *month_name[12] = {
+	static const char *month_name[12] = {
 		"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 	};
 	struct tm *st = get_crt_time();
 	int day = st->tm_mday;
-	CONST char *month = month_name[st->tm_mon];
+	const char *month = month_name[st->tm_mon];
 	int year = 1900 + st->tm_year;
 	sprintf_v(buff, fmt, month, day, year);
 	return (buff);
@@ -208,8 +208,8 @@ find_date(CONST char *fmt)
     given by fmt.  This is used in the __TIME__ built-in macro.
 */
 
-CONST char *
-find_time(CONST char *fmt)
+const char *
+find_time(const char *fmt)
 {
 	static char buff[20];
 	struct tm *st = get_crt_time();
@@ -289,10 +289,10 @@ stat_equal(STAT_TYPE *fs, STAT_TYPE *gs)
     this cannot be found.
 */
 
-CONST char *
+const char *
 find_cwd(void)
 {
-	static CONST char *crt_directory = NULL;
+	static const char *crt_directory = NULL;
 	if (crt_directory == NULL) {
 #if FS_POSIX
 		char buff[1024];
@@ -320,10 +320,10 @@ find_cwd(void)
     running, returning the empty string if this cannot be found.
 */
 
-CONST char *
+const char *
 find_machine(void)
 {
-	static CONST char *machine_name = NULL;
+	static const char *machine_name = NULL;
 	if (machine_name == NULL) {
 #if FS_UTSNAME
 		struct utsname un;

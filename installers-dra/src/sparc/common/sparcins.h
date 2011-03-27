@@ -68,8 +68,8 @@ $Log: sparcins.h,v $
     TYPES REPRESENTING INSTRUCTIONS
 */
 
-typedef CONST char ins_t [] ;
-typedef CONST char *ins_p ;
+typedef const char ins_t [] ;
+typedef const char *ins_p ;
 typedef char * instruction;
 
 /*

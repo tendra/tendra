@@ -45,13 +45,6 @@
 #endif
 
 
-/* Prototype macros */
-
-#ifndef CONST_S
-#define CONST_S
-#endif
-
-
 /* Primitive types */
 
 typedef character * string;

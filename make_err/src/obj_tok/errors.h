@@ -1,6 +1,6 @@
 /*
     		 Crown Copyright (c) 1997
-    
+
     This TenDRA(r) Computer Program is subject to Copyright
     owned by the United Kingdom Secretary of State for Defence
     acting through the Defence Evaluation and Research Agency
@@ -9,18 +9,18 @@
     to other parties and amendment for any purpose not excluding
     product development provided that any such use et cetera
     shall be deemed to be acceptance of the following conditions:-
-    
+
         (1) Its Recipients shall ensure that this Notice is
         reproduced upon any copies or amended versions of it;
-    
+
         (2) Any amended version of it shall be clearly marked to
         show both the nature of and the organisation responsible
         for the relevant amendment or amendments;
-    
+
         (3) Its onward transfer from a recipient to another
         party shall be deemed to be that party's acceptance of
         these conditions;
-    
+
         (4) DERA gives no warranty or assurance as to its
         quality or suitability for any purpose and DERA accepts
         no liability whatsoever in relation to any use to which
@@ -28,18 +28,18 @@
 */
 
 /*
-    AUTOMATICALLY GENERATED FROM ALGEBRA tdf (VERSION 1.0)
+    AUTOMATICALLY GENERATED FROM ALGEBRA errors (VERSION 1.0)
     BY calculus (VERSION 1.3)
 */
 
-#ifndef TDF_H_TOK_INCLUDED
-#define TDF_H_TOK_INCLUDED
+#ifndef ERRORS_H_TOK_INCLUDED
+#define ERRORS_H_TOK_INCLUDED
 
-#ifndef tdf_NAME
-#define tdf_NAME			"tdf"
-#define tdf_VERSION			"1.0"
-#define tdf_SPECIFICATION		1
-#define tdf_IMPLEMENTATION		0
+#ifndef errors_NAME
+#define errors_NAME			"errors"
+#define errors_VERSION			"1.0"
+#define errors_SPECIFICATION		1
+#define errors_IMPLEMENTATION		0
 #endif
 
 
@@ -50,8 +50,8 @@ typedef char * string;
 
 /* Basic types */
 
-#ifndef tdf_DESTR_DEFINED
-#define tdf_DESTR_DEFINED
+#ifndef errors_DESTR_DEFINED
+#define errors_DESTR_DEFINED
 typedef void (*DESTROYER)();
 #endif
 
@@ -69,20 +69,16 @@ typedef void (*DESTROYER)();
 
 /* Union type definitions */
 
-#pragma token TYPE PARAMETER #
-#pragma interface PARAMETER
-#pragma token TYPE CONSTRUCT #
-#pragma interface CONSTRUCT
-#pragma token TYPE SORT_INFO #
-#pragma interface SORT_INFO
-#pragma token TYPE SORT #
-#pragma interface SORT
-#pragma token TYPE LINKAGE #
-#pragma interface LINKAGE
-#pragma token TYPE SPECIFICATION #
-#pragma interface SPECIFICATION
-#pragma token TYPE COMMAND #
-#pragma interface COMMAND
+#pragma token TYPE NAME #
+#pragma interface NAME
+#pragma token TYPE MESSAGE #
+#pragma interface MESSAGE
+#pragma token TYPE MAP #
+#pragma interface MAP
+#pragma token TYPE PARAM #
+#pragma interface PARAM
+#pragma token TYPE ENTRY #
+#pragma interface ENTRY
 
 
 /* Structure declarations */
@@ -91,23 +87,27 @@ typedef void (*DESTROYER)();
 
 /* Identity type definitions */
 
+typedef NAME KEY;
+typedef NAME PROPERTY;
+typedef NAME TYPE;
+typedef NAME USAGE;
 
 
 /* Structure definitions */
 
-#ifndef tdf_STRUCT_DEFINED
-#define tdf_STRUCT_DEFINED
+#ifndef errors_STRUCT_DEFINED
+#define errors_STRUCT_DEFINED
 
-#endif /* tdf_STRUCT_DEFINED */
+#endif /* errors_STRUCT_DEFINED */
 
 
 /* Function declarations */
 
-extern void destroy_tdf();
-extern void dummy_destroy_tdf();
-#ifdef tdf_IO_ROUTINES
-extern unsigned crt_tdf_alias;
-extern void clear_tdf_alias(void);
+extern void destroy_errors();
+extern void dummy_destroy_errors();
+#ifdef errors_IO_ROUTINES
+extern unsigned crt_errors_alias;
+extern void clear_errors_alias(void);
 #endif
 
 
@@ -154,7 +154,7 @@ extern void clear_tdf_alias(void);
 #pragma interface STEP_ptr NULL_ptr IS_NULL_ptr EQ_ptr
 #pragma interface MAKE_ptr DESTROY_ptr
 
-#ifdef tdf_IO_ROUTINES
+#ifdef errors_IO_ROUTINES
 #pragma token PROC {\
 	TYPE t, EXP : PTR(t) : e |\
 	EXP e\
@@ -286,7 +286,7 @@ extern void clear_tdf_alias(void);
 #pragma interface NULL_list IS_NULL_list EQ_list
 #pragma interface UNIQ_list DESTROY_UNIQ_list DESTROY_list
 
-#ifdef tdf_IO_ROUTINES
+#ifdef errors_IO_ROUTINES
 #pragma token PROC {\
 	TYPE t, EXP : LIST(t) : e |\
 	EXP e\
@@ -483,53 +483,6 @@ extern void clear_tdf_alias(void);
 #pragma interface PUSH_int POP_int
 
 
-/* Definitions for primitive unsigned */
-
-#pragma token EXP const : SIZE(unsigned) : SIZE_unsigned #
-
-#pragma token PROC(\
-	EXP : PTR(unsigned) :,\
-	EXP : unsigned :\
-    ) EXP : void : COPY_unsigned #
-
-#pragma token PROC(\
-	EXP : PTR(unsigned) :\
-    ) EXP : unsigned : DEREF_unsigned #
-
-#pragma token PROC(\
-	EXP : unsigned :,\
-	EXP : LIST(unsigned) :,\
-	EXP lvalue : LIST(unsigned) :\
-    ) STATEMENT CONS_unsigned #
-
-#pragma token PROC(\
-	EXP lvalue : unsigned :,\
-	EXP lvalue : LIST(unsigned) :,\
-	EXP : LIST(unsigned) :\
-    ) STATEMENT UN_CONS_unsigned #
-
-#pragma token PROC(\
-	EXP : DESTROYER :,\
-	EXP lvalue : unsigned :,\
-	EXP lvalue : LIST(unsigned) :,\
-	EXP : LIST(unsigned) :\
-    ) STATEMENT DESTROY_CONS_unsigned #
-
-#pragma token PROC(\
-	EXP : unsigned :,\
-	EXP lvalue : STACK(unsigned) :\
-    ) STATEMENT PUSH_unsigned #
-
-#pragma token PROC(\
-	EXP lvalue : unsigned :,\
-	EXP lvalue : STACK(unsigned) :\
-    ) STATEMENT POP_unsigned #
-
-#pragma interface SIZE_unsigned COPY_unsigned DEREF_unsigned
-#pragma interface CONS_unsigned UN_CONS_unsigned DESTROY_CONS_unsigned
-#pragma interface PUSH_unsigned POP_unsigned
-
-
 /* Definitions for primitive string */
 
 #pragma token EXP const : SIZE(string) : SIZE_string #
@@ -577,375 +530,269 @@ extern void clear_tdf_alias(void);
 #pragma interface PUSH_string POP_string
 
 
-/* Definitions for union PARAMETER */
+/* Definitions for union NAME */
 
-#define ORDER_par ((unsigned)1)
-#pragma token EXP const : PARAMETER : NULL_par #
-#pragma token PROC(EXP : PARAMETER :) EXP : int : IS_NULL_par #
-#pragma token PROC(EXP : PARAMETER :, EXP : PARAMETER :) EXP : int : EQ_par #
-#pragma interface NULL_par IS_NULL_par EQ_par
+#define ORDER_name ((unsigned)1)
+#pragma token EXP const : NAME : NULL_name #
+#pragma token PROC(EXP : NAME :) EXP : int : IS_NULL_name #
+#pragma token PROC(EXP : NAME :, EXP : NAME :) EXP : int : EQ_name #
+#pragma interface NULL_name IS_NULL_name EQ_name
 
-#pragma token EXP const : SIZE(PARAMETER) : SIZE_par #
-
-#pragma token PROC(\
-	EXP : PTR(PARAMETER) :,\
-	EXP : PARAMETER :\
-    ) EXP : void : COPY_par #
+#pragma token EXP const : SIZE(NAME) : SIZE_name #
 
 #pragma token PROC(\
-	EXP : PTR(PARAMETER) :\
-    ) EXP : PARAMETER : DEREF_par #
+	EXP : PTR(NAME) :,\
+	EXP : NAME :\
+    ) EXP : void : COPY_name #
 
 #pragma token PROC(\
-	EXP : PARAMETER :,\
-	EXP : LIST(PARAMETER) :,\
-	EXP lvalue : LIST(PARAMETER) :\
-    ) STATEMENT CONS_par #
+	EXP : PTR(NAME) :\
+    ) EXP : NAME : DEREF_name #
 
 #pragma token PROC(\
-	EXP lvalue : PARAMETER :,\
-	EXP lvalue : LIST(PARAMETER) :,\
-	EXP : LIST(PARAMETER) :\
-    ) STATEMENT UN_CONS_par #
+	EXP : NAME :,\
+	EXP : LIST(NAME) :,\
+	EXP lvalue : LIST(NAME) :\
+    ) STATEMENT CONS_name #
 
 #pragma token PROC(\
-	EXP : DESTROYER :,\
-	EXP lvalue : PARAMETER :,\
-	EXP lvalue : LIST(PARAMETER) :,\
-	EXP : LIST(PARAMETER) :\
-    ) STATEMENT DESTROY_CONS_par #
-
-#pragma token PROC(\
-	EXP : PARAMETER :,\
-	EXP lvalue : STACK(PARAMETER) :\
-    ) STATEMENT PUSH_par #
-
-#pragma token PROC(\
-	EXP lvalue : PARAMETER :,\
-	EXP lvalue : STACK(PARAMETER) :\
-    ) STATEMENT POP_par #
-
-#pragma interface SIZE_par COPY_par DEREF_par
-#pragma interface CONS_par UN_CONS_par DESTROY_CONS_par
-#pragma interface PUSH_par POP_par
-
-
-/* Definitions for union CONSTRUCT */
-
-#define ORDER_cons ((unsigned)1)
-#pragma token EXP const : CONSTRUCT : NULL_cons #
-#pragma token PROC(EXP : CONSTRUCT :) EXP : int : IS_NULL_cons #
-#pragma token PROC(EXP : CONSTRUCT :, EXP : CONSTRUCT :) EXP : int : EQ_cons #
-#pragma interface NULL_cons IS_NULL_cons EQ_cons
-
-#pragma token EXP const : SIZE(CONSTRUCT) : SIZE_cons #
-
-#pragma token PROC(\
-	EXP : PTR(CONSTRUCT) :,\
-	EXP : CONSTRUCT :\
-    ) EXP : void : COPY_cons #
-
-#pragma token PROC(\
-	EXP : PTR(CONSTRUCT) :\
-    ) EXP : CONSTRUCT : DEREF_cons #
-
-#pragma token PROC(\
-	EXP : CONSTRUCT :,\
-	EXP : LIST(CONSTRUCT) :,\
-	EXP lvalue : LIST(CONSTRUCT) :\
-    ) STATEMENT CONS_cons #
-
-#pragma token PROC(\
-	EXP lvalue : CONSTRUCT :,\
-	EXP lvalue : LIST(CONSTRUCT) :,\
-	EXP : LIST(CONSTRUCT) :\
-    ) STATEMENT UN_CONS_cons #
+	EXP lvalue : NAME :,\
+	EXP lvalue : LIST(NAME) :,\
+	EXP : LIST(NAME) :\
+    ) STATEMENT UN_CONS_name #
 
 #pragma token PROC(\
 	EXP : DESTROYER :,\
-	EXP lvalue : CONSTRUCT :,\
-	EXP lvalue : LIST(CONSTRUCT) :,\
-	EXP : LIST(CONSTRUCT) :\
-    ) STATEMENT DESTROY_CONS_cons #
+	EXP lvalue : NAME :,\
+	EXP lvalue : LIST(NAME) :,\
+	EXP : LIST(NAME) :\
+    ) STATEMENT DESTROY_CONS_name #
 
 #pragma token PROC(\
-	EXP : CONSTRUCT :,\
-	EXP lvalue : STACK(CONSTRUCT) :\
-    ) STATEMENT PUSH_cons #
+	EXP : NAME :,\
+	EXP lvalue : STACK(NAME) :\
+    ) STATEMENT PUSH_name #
 
 #pragma token PROC(\
-	EXP lvalue : CONSTRUCT :,\
-	EXP lvalue : STACK(CONSTRUCT) :\
-    ) STATEMENT POP_cons #
+	EXP lvalue : NAME :,\
+	EXP lvalue : STACK(NAME) :\
+    ) STATEMENT POP_name #
 
-#pragma interface SIZE_cons COPY_cons DEREF_cons
-#pragma interface CONS_cons UN_CONS_cons DESTROY_CONS_cons
-#pragma interface PUSH_cons POP_cons
+#pragma interface SIZE_name COPY_name DEREF_name
+#pragma interface CONS_name UN_CONS_name DESTROY_CONS_name
+#pragma interface PUSH_name POP_name
 
 
-/* Definitions for union SORT_INFO */
+/* Definitions for union MESSAGE */
 
-#define ORDER_info ((unsigned)6)
-#pragma token EXP const : SORT_INFO : NULL_info #
-#pragma token PROC(EXP : SORT_INFO :) EXP : int : IS_NULL_info #
-#pragma token PROC(EXP : SORT_INFO :, EXP : SORT_INFO :) EXP : int : EQ_info #
-#pragma interface NULL_info IS_NULL_info EQ_info
+#define ORDER_msg ((unsigned)2)
+#pragma token EXP const : MESSAGE : NULL_msg #
+#pragma token PROC(EXP : MESSAGE :) EXP : int : IS_NULL_msg #
+#pragma token PROC(EXP : MESSAGE :, EXP : MESSAGE :) EXP : int : EQ_msg #
+#pragma interface NULL_msg IS_NULL_msg EQ_msg
 
-#pragma token EXP const : SIZE(SORT_INFO) : SIZE_info #
-
-#pragma token PROC(\
-	EXP : PTR(SORT_INFO) :,\
-	EXP : SORT_INFO :\
-    ) EXP : void : COPY_info #
+#pragma token EXP const : SIZE(MESSAGE) : SIZE_msg #
 
 #pragma token PROC(\
-	EXP : PTR(SORT_INFO) :\
-    ) EXP : SORT_INFO : DEREF_info #
+	EXP : PTR(MESSAGE) :,\
+	EXP : MESSAGE :\
+    ) EXP : void : COPY_msg #
 
 #pragma token PROC(\
-	EXP : SORT_INFO :,\
-	EXP : LIST(SORT_INFO) :,\
-	EXP lvalue : LIST(SORT_INFO) :\
-    ) STATEMENT CONS_info #
+	EXP : PTR(MESSAGE) :\
+    ) EXP : MESSAGE : DEREF_msg #
 
 #pragma token PROC(\
-	EXP lvalue : SORT_INFO :,\
-	EXP lvalue : LIST(SORT_INFO) :,\
-	EXP : LIST(SORT_INFO) :\
-    ) STATEMENT UN_CONS_info #
+	EXP : MESSAGE :,\
+	EXP : LIST(MESSAGE) :,\
+	EXP lvalue : LIST(MESSAGE) :\
+    ) STATEMENT CONS_msg #
 
 #pragma token PROC(\
-	EXP : DESTROYER :,\
-	EXP lvalue : SORT_INFO :,\
-	EXP lvalue : LIST(SORT_INFO) :,\
-	EXP : LIST(SORT_INFO) :\
-    ) STATEMENT DESTROY_CONS_info #
-
-#pragma token PROC(\
-	EXP : SORT_INFO :,\
-	EXP lvalue : STACK(SORT_INFO) :\
-    ) STATEMENT PUSH_info #
-
-#pragma token PROC(\
-	EXP lvalue : SORT_INFO :,\
-	EXP lvalue : STACK(SORT_INFO) :\
-    ) STATEMENT POP_info #
-
-#pragma interface SIZE_info COPY_info DEREF_info
-#pragma interface CONS_info UN_CONS_info DESTROY_CONS_info
-#pragma interface PUSH_info POP_info
-
-
-/* Definitions for union SORT */
-
-#define ORDER_sort ((unsigned)1)
-#pragma token EXP const : SORT : NULL_sort #
-#pragma token PROC(EXP : SORT :) EXP : int : IS_NULL_sort #
-#pragma token PROC(EXP : SORT :, EXP : SORT :) EXP : int : EQ_sort #
-#pragma interface NULL_sort IS_NULL_sort EQ_sort
-
-#pragma token EXP const : SIZE(SORT) : SIZE_sort #
-
-#pragma token PROC(\
-	EXP : PTR(SORT) :,\
-	EXP : SORT :\
-    ) EXP : void : COPY_sort #
-
-#pragma token PROC(\
-	EXP : PTR(SORT) :\
-    ) EXP : SORT : DEREF_sort #
-
-#pragma token PROC(\
-	EXP : SORT :,\
-	EXP : LIST(SORT) :,\
-	EXP lvalue : LIST(SORT) :\
-    ) STATEMENT CONS_sort #
-
-#pragma token PROC(\
-	EXP lvalue : SORT :,\
-	EXP lvalue : LIST(SORT) :,\
-	EXP : LIST(SORT) :\
-    ) STATEMENT UN_CONS_sort #
+	EXP lvalue : MESSAGE :,\
+	EXP lvalue : LIST(MESSAGE) :,\
+	EXP : LIST(MESSAGE) :\
+    ) STATEMENT UN_CONS_msg #
 
 #pragma token PROC(\
 	EXP : DESTROYER :,\
-	EXP lvalue : SORT :,\
-	EXP lvalue : LIST(SORT) :,\
-	EXP : LIST(SORT) :\
-    ) STATEMENT DESTROY_CONS_sort #
+	EXP lvalue : MESSAGE :,\
+	EXP lvalue : LIST(MESSAGE) :,\
+	EXP : LIST(MESSAGE) :\
+    ) STATEMENT DESTROY_CONS_msg #
 
 #pragma token PROC(\
-	EXP : SORT :,\
-	EXP lvalue : STACK(SORT) :\
-    ) STATEMENT PUSH_sort #
+	EXP : MESSAGE :,\
+	EXP lvalue : STACK(MESSAGE) :\
+    ) STATEMENT PUSH_msg #
 
 #pragma token PROC(\
-	EXP lvalue : SORT :,\
-	EXP lvalue : STACK(SORT) :\
-    ) STATEMENT POP_sort #
+	EXP lvalue : MESSAGE :,\
+	EXP lvalue : STACK(MESSAGE) :\
+    ) STATEMENT POP_msg #
 
-#pragma interface SIZE_sort COPY_sort DEREF_sort
-#pragma interface CONS_sort UN_CONS_sort DESTROY_CONS_sort
-#pragma interface PUSH_sort POP_sort
+#pragma interface SIZE_msg COPY_msg DEREF_msg
+#pragma interface CONS_msg UN_CONS_msg DESTROY_CONS_msg
+#pragma interface PUSH_msg POP_msg
 
 
-/* Definitions for union LINKAGE */
+/* Definitions for union MAP */
 
-#define ORDER_link ((unsigned)1)
-#pragma token EXP const : LINKAGE : NULL_link #
-#pragma token PROC(EXP : LINKAGE :) EXP : int : IS_NULL_link #
-#pragma token PROC(EXP : LINKAGE :, EXP : LINKAGE :) EXP : int : EQ_link #
-#pragma interface NULL_link IS_NULL_link EQ_link
+#define ORDER_map ((unsigned)1)
+#pragma token EXP const : MAP : NULL_map #
+#pragma token PROC(EXP : MAP :) EXP : int : IS_NULL_map #
+#pragma token PROC(EXP : MAP :, EXP : MAP :) EXP : int : EQ_map #
+#pragma interface NULL_map IS_NULL_map EQ_map
 
-#pragma token EXP const : SIZE(LINKAGE) : SIZE_link #
-
-#pragma token PROC(\
-	EXP : PTR(LINKAGE) :,\
-	EXP : LINKAGE :\
-    ) EXP : void : COPY_link #
+#pragma token EXP const : SIZE(MAP) : SIZE_map #
 
 #pragma token PROC(\
-	EXP : PTR(LINKAGE) :\
-    ) EXP : LINKAGE : DEREF_link #
+	EXP : PTR(MAP) :,\
+	EXP : MAP :\
+    ) EXP : void : COPY_map #
 
 #pragma token PROC(\
-	EXP : LINKAGE :,\
-	EXP : LIST(LINKAGE) :,\
-	EXP lvalue : LIST(LINKAGE) :\
-    ) STATEMENT CONS_link #
+	EXP : PTR(MAP) :\
+    ) EXP : MAP : DEREF_map #
 
 #pragma token PROC(\
-	EXP lvalue : LINKAGE :,\
-	EXP lvalue : LIST(LINKAGE) :,\
-	EXP : LIST(LINKAGE) :\
-    ) STATEMENT UN_CONS_link #
+	EXP : MAP :,\
+	EXP : LIST(MAP) :,\
+	EXP lvalue : LIST(MAP) :\
+    ) STATEMENT CONS_map #
 
 #pragma token PROC(\
-	EXP : DESTROYER :,\
-	EXP lvalue : LINKAGE :,\
-	EXP lvalue : LIST(LINKAGE) :,\
-	EXP : LIST(LINKAGE) :\
-    ) STATEMENT DESTROY_CONS_link #
-
-#pragma token PROC(\
-	EXP : LINKAGE :,\
-	EXP lvalue : STACK(LINKAGE) :\
-    ) STATEMENT PUSH_link #
-
-#pragma token PROC(\
-	EXP lvalue : LINKAGE :,\
-	EXP lvalue : STACK(LINKAGE) :\
-    ) STATEMENT POP_link #
-
-#pragma interface SIZE_link COPY_link DEREF_link
-#pragma interface CONS_link UN_CONS_link DESTROY_CONS_link
-#pragma interface PUSH_link POP_link
-
-
-/* Definitions for union SPECIFICATION */
-
-#define ORDER_spec ((unsigned)1)
-#pragma token EXP const : SPECIFICATION : NULL_spec #
-#pragma token PROC(EXP : SPECIFICATION :) EXP : int : IS_NULL_spec #
-#pragma token PROC(EXP : SPECIFICATION :, EXP : SPECIFICATION :) EXP : int : EQ_spec #
-#pragma interface NULL_spec IS_NULL_spec EQ_spec
-
-#pragma token EXP const : SIZE(SPECIFICATION) : SIZE_spec #
-
-#pragma token PROC(\
-	EXP : PTR(SPECIFICATION) :,\
-	EXP : SPECIFICATION :\
-    ) EXP : void : COPY_spec #
-
-#pragma token PROC(\
-	EXP : PTR(SPECIFICATION) :\
-    ) EXP : SPECIFICATION : DEREF_spec #
-
-#pragma token PROC(\
-	EXP : SPECIFICATION :,\
-	EXP : LIST(SPECIFICATION) :,\
-	EXP lvalue : LIST(SPECIFICATION) :\
-    ) STATEMENT CONS_spec #
-
-#pragma token PROC(\
-	EXP lvalue : SPECIFICATION :,\
-	EXP lvalue : LIST(SPECIFICATION) :,\
-	EXP : LIST(SPECIFICATION) :\
-    ) STATEMENT UN_CONS_spec #
+	EXP lvalue : MAP :,\
+	EXP lvalue : LIST(MAP) :,\
+	EXP : LIST(MAP) :\
+    ) STATEMENT UN_CONS_map #
 
 #pragma token PROC(\
 	EXP : DESTROYER :,\
-	EXP lvalue : SPECIFICATION :,\
-	EXP lvalue : LIST(SPECIFICATION) :,\
-	EXP : LIST(SPECIFICATION) :\
-    ) STATEMENT DESTROY_CONS_spec #
+	EXP lvalue : MAP :,\
+	EXP lvalue : LIST(MAP) :,\
+	EXP : LIST(MAP) :\
+    ) STATEMENT DESTROY_CONS_map #
 
 #pragma token PROC(\
-	EXP : SPECIFICATION :,\
-	EXP lvalue : STACK(SPECIFICATION) :\
-    ) STATEMENT PUSH_spec #
+	EXP : MAP :,\
+	EXP lvalue : STACK(MAP) :\
+    ) STATEMENT PUSH_map #
 
 #pragma token PROC(\
-	EXP lvalue : SPECIFICATION :,\
-	EXP lvalue : STACK(SPECIFICATION) :\
-    ) STATEMENT POP_spec #
+	EXP lvalue : MAP :,\
+	EXP lvalue : STACK(MAP) :\
+    ) STATEMENT POP_map #
 
-#pragma interface SIZE_spec COPY_spec DEREF_spec
-#pragma interface CONS_spec UN_CONS_spec DESTROY_CONS_spec
-#pragma interface PUSH_spec POP_spec
+#pragma interface SIZE_map COPY_map DEREF_map
+#pragma interface CONS_map UN_CONS_map DESTROY_CONS_map
+#pragma interface PUSH_map POP_map
 
 
-/* Definitions for union COMMAND */
+/* Definitions for union PARAM */
 
-#define ORDER_cmd ((unsigned)6)
-#pragma token EXP const : COMMAND : NULL_cmd #
-#pragma token PROC(EXP : COMMAND :) EXP : int : IS_NULL_cmd #
-#pragma token PROC(EXP : COMMAND :, EXP : COMMAND :) EXP : int : EQ_cmd #
-#pragma interface NULL_cmd IS_NULL_cmd EQ_cmd
+#define ORDER_param ((unsigned)1)
+#pragma token EXP const : PARAM : NULL_param #
+#pragma token PROC(EXP : PARAM :) EXP : int : IS_NULL_param #
+#pragma token PROC(EXP : PARAM :, EXP : PARAM :) EXP : int : EQ_param #
+#pragma interface NULL_param IS_NULL_param EQ_param
 
-#pragma token EXP const : SIZE(COMMAND) : SIZE_cmd #
-
-#pragma token PROC(\
-	EXP : PTR(COMMAND) :,\
-	EXP : COMMAND :\
-    ) EXP : void : COPY_cmd #
+#pragma token EXP const : SIZE(PARAM) : SIZE_param #
 
 #pragma token PROC(\
-	EXP : PTR(COMMAND) :\
-    ) EXP : COMMAND : DEREF_cmd #
+	EXP : PTR(PARAM) :,\
+	EXP : PARAM :\
+    ) EXP : void : COPY_param #
 
 #pragma token PROC(\
-	EXP : COMMAND :,\
-	EXP : LIST(COMMAND) :,\
-	EXP lvalue : LIST(COMMAND) :\
-    ) STATEMENT CONS_cmd #
+	EXP : PTR(PARAM) :\
+    ) EXP : PARAM : DEREF_param #
 
 #pragma token PROC(\
-	EXP lvalue : COMMAND :,\
-	EXP lvalue : LIST(COMMAND) :,\
-	EXP : LIST(COMMAND) :\
-    ) STATEMENT UN_CONS_cmd #
+	EXP : PARAM :,\
+	EXP : LIST(PARAM) :,\
+	EXP lvalue : LIST(PARAM) :\
+    ) STATEMENT CONS_param #
+
+#pragma token PROC(\
+	EXP lvalue : PARAM :,\
+	EXP lvalue : LIST(PARAM) :,\
+	EXP : LIST(PARAM) :\
+    ) STATEMENT UN_CONS_param #
 
 #pragma token PROC(\
 	EXP : DESTROYER :,\
-	EXP lvalue : COMMAND :,\
-	EXP lvalue : LIST(COMMAND) :,\
-	EXP : LIST(COMMAND) :\
-    ) STATEMENT DESTROY_CONS_cmd #
+	EXP lvalue : PARAM :,\
+	EXP lvalue : LIST(PARAM) :,\
+	EXP : LIST(PARAM) :\
+    ) STATEMENT DESTROY_CONS_param #
 
 #pragma token PROC(\
-	EXP : COMMAND :,\
-	EXP lvalue : STACK(COMMAND) :\
-    ) STATEMENT PUSH_cmd #
+	EXP : PARAM :,\
+	EXP lvalue : STACK(PARAM) :\
+    ) STATEMENT PUSH_param #
 
 #pragma token PROC(\
-	EXP lvalue : COMMAND :,\
-	EXP lvalue : STACK(COMMAND) :\
-    ) STATEMENT POP_cmd #
+	EXP lvalue : PARAM :,\
+	EXP lvalue : STACK(PARAM) :\
+    ) STATEMENT POP_param #
 
-#pragma interface SIZE_cmd COPY_cmd DEREF_cmd
-#pragma interface CONS_cmd UN_CONS_cmd DESTROY_CONS_cmd
-#pragma interface PUSH_cmd POP_cmd
+#pragma interface SIZE_param COPY_param DEREF_param
+#pragma interface CONS_param UN_CONS_param DESTROY_CONS_param
+#pragma interface PUSH_param POP_param
+
+
+/* Definitions for union ENTRY */
+
+#define ORDER_entry ((unsigned)1)
+#pragma token EXP const : ENTRY : NULL_entry #
+#pragma token PROC(EXP : ENTRY :) EXP : int : IS_NULL_entry #
+#pragma token PROC(EXP : ENTRY :, EXP : ENTRY :) EXP : int : EQ_entry #
+#pragma interface NULL_entry IS_NULL_entry EQ_entry
+
+#pragma token EXP const : SIZE(ENTRY) : SIZE_entry #
+
+#pragma token PROC(\
+	EXP : PTR(ENTRY) :,\
+	EXP : ENTRY :\
+    ) EXP : void : COPY_entry #
+
+#pragma token PROC(\
+	EXP : PTR(ENTRY) :\
+    ) EXP : ENTRY : DEREF_entry #
+
+#pragma token PROC(\
+	EXP : ENTRY :,\
+	EXP : LIST(ENTRY) :,\
+	EXP lvalue : LIST(ENTRY) :\
+    ) STATEMENT CONS_entry #
+
+#pragma token PROC(\
+	EXP lvalue : ENTRY :,\
+	EXP lvalue : LIST(ENTRY) :,\
+	EXP : LIST(ENTRY) :\
+    ) STATEMENT UN_CONS_entry #
+
+#pragma token PROC(\
+	EXP : DESTROYER :,\
+	EXP lvalue : ENTRY :,\
+	EXP lvalue : LIST(ENTRY) :,\
+	EXP : LIST(ENTRY) :\
+    ) STATEMENT DESTROY_CONS_entry #
+
+#pragma token PROC(\
+	EXP : ENTRY :,\
+	EXP lvalue : STACK(ENTRY) :\
+    ) STATEMENT PUSH_entry #
+
+#pragma token PROC(\
+	EXP lvalue : ENTRY :,\
+	EXP lvalue : STACK(ENTRY) :\
+    ) STATEMENT POP_entry #
+
+#pragma interface SIZE_entry COPY_entry DEREF_entry
+#pragma interface CONS_entry UN_CONS_entry DESTROY_CONS_entry
+#pragma interface PUSH_entry POP_entry
 
 
 #endif
