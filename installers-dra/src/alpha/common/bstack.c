@@ -57,9 +57,8 @@ $Log: bstack.c,v $
 #include "xalloc.h"
 #include "bstack.h"
 
-void push
-    PROTO_N ( ( symval,strval,stack ) )
-    PROTO_T ( long symval X long strval X BSTACK *stack )
+void
+push(long symval, long strval, BSTACK *stack)
 {
   while (stack->nextspace!=0) {stack=stack->nextspace;}
   if (stack->pos < STACKSIZE){
@@ -77,9 +76,8 @@ void push
 }
 
 
-SYMSTR pop
-    PROTO_N ( ( stack ) )
-    PROTO_T ( BSTACK *stack )
+SYMSTR
+pop(BSTACK *stack)
 {
   SYMSTR retval;
   BSTACK* oldstack=(BSTACK*)xcalloc(1,sizeof(BSTACK));

@@ -94,9 +94,8 @@ extern shape f_off32_32;
    This function returns a component at offset 'align' from the
    compound given in e.
 */
-exp get_component
-    PROTO_N ( ( e,shc,align,size,nm,offshape,offset ) )
-    PROTO_T ( exp e X alignment shc X alignment align X int size X int nm X shape offshape X int offset )
+exp
+get_component(exp e, alignment shc, alignment align, int size, int nm, shape offshape, int offset)
 {
 
   exp offsetexp /* offset in compound for required component */
@@ -109,9 +108,8 @@ exp get_component
 }
 
 
-tokval special_token
-    PROTO_N ( ( t, pars, sortcode, done ) )
-    PROTO_T ( token t X bitstream pars X int sortcode X int *done )
+tokval
+special_token(token t, bitstream pars, int sortcode, int *done)
 {
   tokval tkv;
   UNUSED(sortcode);

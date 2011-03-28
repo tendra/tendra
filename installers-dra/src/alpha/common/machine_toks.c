@@ -41,9 +41,8 @@ static char vcid[] = "$Id: machine_toks.c,v 1.1.1.1 1998/01/17 15:56:00 release 
 
 #include "config.h"
 
-int machine_toks
-    PROTO_N ( ( s ) )
-    PROTO_T ( char *s )
+int
+machine_toks(char *s)
 {
   
   if(!strcmp(s,"__builtin_isfloat")){

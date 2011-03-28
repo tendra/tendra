@@ -143,9 +143,8 @@ INT64 one_64 = {0,1};
 /*
   Returns TRUE if the data is aligned properly, false otherwise.
 */
-static bool aligned
-    PROTO_N ( ( address,al ) )
-    PROTO_T ( baseoff address X int al )
+static bool
+aligned(baseoff address, int al)
 {
   if((address.base<0) || (address.base > 31))
     return 1;
@@ -156,9 +155,8 @@ static bool aligned
 /*
   produces a unary representation for the number in
 */
-static int unary
-    PROTO_N ( ( in ) )
-    PROTO_T ( int in )
+static int
+unary(int in)
 {
   int result=0;
   int loop;
@@ -182,9 +180,8 @@ static int unary
 #endif
 
 
-int choose_block_size
-    PROTO_N ( ( dest,al,size ) )
-    PROTO_T ( where dest X int al )
+int
+choose_block_size(where dest, int al)
 {
   int bsize;
   if(!(insalt(dest.answhere).b.offset%8)){
@@ -212,9 +209,8 @@ int choose_block_size
   freeregs:	registers available for use 
   sgned:	TRUE if data is signed, FALSE otherwise
 */
-int move
-    PROTO_N ( ( src,dest,freeregs,sgned ) )
-    PROTO_T ( ans src X where dest X space freeregs X bool sgned )
+int
+move(ans src, where dest, space freeregs, bool sgned)
 {
   int al=dest.ashwhere.ashalign;
   int size=dest.ashwhere.ashsize;

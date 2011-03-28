@@ -34,6 +34,9 @@
 
 #ifndef MAIN
 #define MAIN
+
+#include <stdio.h>
+
 #include "common_types.h"
 
 extern int use_umulh_for_div;

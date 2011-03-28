@@ -67,6 +67,5 @@
 
 extern  needs specialneeds(int i);
 extern int  specialfn(exp fn);
-extern int  specialmake PROTO_S((int n, exp par, space sp, where dest, int
-exitlab));
+extern int  specialmake(int n, exp par, space sp, where dest, int exitlab);
 

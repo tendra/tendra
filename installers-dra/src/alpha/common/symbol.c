@@ -98,6 +98,8 @@ $Log: symbol.c,v $
 */
 
 
+#include <string.h>
+
 #include "config.h"
 #include "symtab.h" 	/* type definitions for translator
 			   produced debugging information

@@ -96,9 +96,8 @@ int   no_temps = 0;
 /* 
    produce a symbolno for global given by ex in file filen 
 */
-int symnoforext
-    PROTO_N ( ( ex,filen ) )
-    PROTO_T ( dec *ex X int filen )
+int
+symnoforext(dec *ex, int filen)
 {
   exp tg = ex -> dec_u.dec_val.dec_exp;
   shape s = ex -> dec_u.dec_val.dec_shape;
@@ -166,9 +165,8 @@ int symnoforext
 /* 
    output symbolno for start of proc 
 */
-int symnoforstart
-    PROTO_N ( ( i,filen ) )
-    PROTO_T ( int i X int filen )
+int
+symnoforstart(int i, int filen)
 {
   dec * ex = main_globals[i];
   short   symtype = (ex -> dec_u.dec_val.extnamed) ? stProc : stStaticProc;
@@ -188,9 +186,8 @@ int symnoforstart
 
 
 /* output symbolno for end of proc */
-int symnoforend
-    PROTO_N ( ( ex,filen ) )
-    PROTO_T ( dec *ex X int filen )
+int
+symnoforend(dec *ex, int filen)
 {
   char *id = ex -> dec_u.dec_val.dec_id;
   diag_type dt = (diag_type)0;  
@@ -210,9 +207,8 @@ int symnoforend
 /* 
    output symbol number for data_lab and remember it in tempsnos 
 */
-int symnofordata
-    PROTO_N ( ( data_lab ) )
-    PROTO_T ( int data_lab )
+int
+symnofordata(int data_lab)
 {
   int   a = data_lab - 32;
   if (a >= no_temps) {

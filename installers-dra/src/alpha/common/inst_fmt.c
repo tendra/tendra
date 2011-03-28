@@ -152,9 +152,8 @@ static char *reg_name[]=
   If the instruction ins has an equivalent which causes the OS to
   successfully handle a trap then return it, otherwise return ins.
 */
-instruction trap_ins
-    PROTO_N ( ( ins,traps ) )
-    PROTO_T ( instruction ins X bool *traps )
+instruction
+trap_ins(instruction ins, bool *traps)
 {
   *traps = TRUE;
   if (ins_equal(ins,i_adds))
@@ -178,8 +177,8 @@ instruction trap_ins
 }
 
 #if DO_SCHEDULE
-Instruction get_new_instruction
-    PROTO_Z ()
+Instruction
+get_new_instruction(void)
 {
   Instruction new_ins = getinst();
   if(in_noat_block) setuses(new_ins,resource_noat,class_null);
@@ -192,9 +191,8 @@ Instruction get_new_instruction
   to the scheduler.
 */
 #if DO_SCHEDULE
-void output_instruction
-    PROTO_N ( ( cl,ins_text,ins_bindata ) )
-    PROTO_T ( Class cl X char *ins_text X char *ins_bindata )
+void
+output_instruction(Class cl, char *ins_text, char *ins_bindata)
 {
   Instruction new_ins = getinst();
   Instruction_data ins_dat = get_new_ins_data();
@@ -214,9 +212,8 @@ void output_instruction
 }
 
 #if SEPARATE_DATA
-void output_data
-    PROTO_N ( ( data_txt,data_binasm ) )
-    PROTO_T ( char *data_txt X char * data_binasm )
+void
+output_data(char *data_txt, char * data_binasm)
 {
   Instruction_data ins_d = get_new_ins_data();
   set_instruction_binasm(ins_d,data_binasm);
@@ -225,9 +222,8 @@ void output_data
   return;
 }
 #else
-void output_data
-    PROTO_N ( ( data_txt,data_binasm ) )
-    PROTO_T ( char *data_txt X char *data_binasm )
+void
+output_data(char *data_txt, char *data_binasm)
 {
   output_instruction(class_null,data_txt,data_binasm);
   return;
@@ -238,17 +234,16 @@ void output_data
 #endif
 
 #if DO_SCHEDULE
-static String *init_String
-    PROTO_Z ()
+static String *
+init_String(void)
 {
   String *res = (String*)xcalloc(1,sizeof(String));
   res->head = res->tail = (StringData*)NULL;
   return res;
 }
 
-static void add_char_to_string
-    PROTO_N ( ( ch,dest ) )
-    PROTO_T ( char ch X String **dest )
+static void
+add_char_to_string(char ch, String **dest)
 {
 
   StringData *new = (StringData*)xcalloc(1,sizeof(StringData));
@@ -266,9 +261,8 @@ static void add_char_to_string
 
 
 
-static void add_to_string
-    PROTO_N ( ( str,dest ) )
-    PROTO_T ( char *str X String **dest )
+static void
+add_to_string(char *str, String **dest)
 {
   int i = 0;
   if(*dest == (String*)NULL){
@@ -281,9 +275,8 @@ static void add_to_string
   return;
 }
 
-static char *copy_from_string
-    PROTO_N ( ( src ) )
-    PROTO_T ( String *src )
+static char *
+copy_from_string(String *src)
 {
   StringData *trav = src->head;
   int str_size=0,element=0;
@@ -302,9 +295,8 @@ static char *copy_from_string
   return result;
 }
 
-static void free_string
-    PROTO_N ( ( str ) )
-    PROTO_T ( String **str )
+static void
+free_string(String **str)
 {
   StringData *trav = (*str)->head;
   StringData *old;
@@ -324,9 +316,8 @@ static void free_string
   accumulate strings for output.  If the input is NULL then return 
   the current string and reset, otherwise return NULL.
 */
-char * outass
-    PROTO_N ( ( str ) )
-    PROTO_T ( char *str )
+char *
+outass(char *str)
 {
   static String *res;
   char * tmp;
@@ -359,9 +350,8 @@ char * outass
   the count.
 */
 #if DO_SCHEDULE
-void add_instruction
-    PROTO_N ( ( ins ) )
-    PROTO_T ( Instruction ins )
+void
+add_instruction(Instruction ins)
 {
   process_instruction(ins);
   ++instruction_number;
@@ -372,8 +362,8 @@ void add_instruction
   return;
 }
 
-Instruction_data get_new_ins_data
-    PROTO_Z ()
+Instruction_data
+get_new_ins_data(void)
 {
   Instruction_data a;
   a.text = (char*)NULL;
@@ -387,9 +377,8 @@ Instruction_data get_new_ins_data
 /*
   This function performs a load store operation.  
 */
-void load_store
-    PROTO_N ( ( ins,reg,a ) )
-    PROTO_T ( instruction ins X int reg X baseoff a )
+void
+load_store(instruction ins, int reg, baseoff a)
 {
   char *reg_str,*base_reg_str;
   char *ins_name = ins_symbolic_name(ins);
@@ -588,9 +577,8 @@ void load_store
 
 
 
-void load_store_immediate
-    PROTO_N ( ( ins,reg,val ) )
-    PROTO_T ( instruction ins X int reg X INT64 val )
+void
+load_store_immediate(instruction ins, int reg, INT64 val)
 {
 #if DO_SCHEDULE
   Instruction new_ins = get_new_instruction();
@@ -626,9 +614,8 @@ void load_store_immediate
 }
 
 
-void load_store_label
-    PROTO_N ( ( ins,reg,lab ) )
-    PROTO_T ( instruction ins X int reg X int lab )
+void
+load_store_label(instruction ins, int reg, int lab)
 {
 #if DO_SCHEDULE
   Instruction new_ins = get_new_instruction();
@@ -670,9 +657,8 @@ void load_store_label
 /*
    These functions output assembler for integer control instructions
 */
-void integer_branch
-    PROTO_N ( ( ins,reg,dest ) )
-    PROTO_T ( instruction ins X int reg X int dest )
+void
+integer_branch(instruction ins, int reg, int dest)
 {
 #if DO_SCHEDULE
   Instruction new_ins = get_new_instruction();
@@ -711,9 +697,8 @@ void integer_branch
 }
 
 
-void integer_jump
-    PROTO_N ( ( ins,dest_reg,source_reg,hint ) )
-    PROTO_T ( instruction ins X int dest_reg X int source_reg X int hint )
+void
+integer_jump(instruction ins, int dest_reg, int source_reg, int hint)
 {
 #if DO_SCHEDULE
   Instruction new_ins = get_new_instruction();
@@ -762,9 +747,8 @@ void integer_jump
 }
 
 
-void integer_jump_fn
-    PROTO_N ( ( ins,ra,fn,sp ) )
-    PROTO_T ( instruction ins X int ra X exp fn X space sp )
+void
+integer_jump_fn(instruction ins, int ra, exp fn, space sp)
 {
   baseoff b = boff(fn);
   if(b.base<0) {
@@ -787,9 +771,8 @@ void integer_jump_fn
 
 
 
-void integer_jump_external
-    PROTO_N ( ( ins,ra,b ) )
-    PROTO_T ( instruction ins X int ra X baseoff b )
+void
+integer_jump_external(instruction ins, int ra, baseoff b)
 {
   char *extname = main_globals[-b.base-1]->dec_u.dec_val.dec_id;
   char *binasm_data;
@@ -843,9 +826,8 @@ void integer_jump_external
   3 register operations : instr $src1, [$src2|#src2], dest.
   integer arithmetic, logic and shift, byte manipulation.
 */
-void operate_fmt
-    PROTO_N ( ( ins,src1,src2,dest ) )
-    PROTO_T ( instruction ins X int src1 X int src2 X int dest )
+void
+operate_fmt(instruction ins, int src1, int src2, int dest)
 {
   char *binasm_data;
 #if DO_SCHEDULE
@@ -892,9 +874,8 @@ void operate_fmt
   value.  If the immediate value is larger than 8 bits then it 
   needs to be loaded into a register 
 */
-void operate_fmt_immediate
-    PROTO_N ( ( ins,src1,src2,dest ) )
-    PROTO_T ( instruction ins X int src1 X int src2 X int dest )
+void
+operate_fmt_immediate(instruction ins, int src1, int src2, int dest)
 {
   char *binasm_data;
 #if DO_SCHEDULE
@@ -945,9 +926,8 @@ void operate_fmt_immediate
   return;
 }
 
-void operate_fmt_big_immediate
-    PROTO_N ( ( ins,src1,src2,dest ) )
-    PROTO_T ( instruction ins X int src1 X INT64 src2 X int dest )
+void
+operate_fmt_big_immediate(instruction ins, int src1, INT64 src2, int dest)
 {
   char * binasm_data;
 #if DO_SCHEDULE
@@ -985,9 +965,8 @@ void operate_fmt_big_immediate
 /*
    floating point load/store
 */
-void float_load_store
-    PROTO_N ( ( ins,reg,a ) )
-    PROTO_T ( instruction ins X int reg X baseoff a )
+void
+float_load_store(instruction ins, int reg, baseoff a)
 {
   char * ins_name = ins_symbolic_name(ins);
   char * binasm_data;
@@ -1107,9 +1086,8 @@ void float_load_store
    floating point constants are passed as strings, with the 
    formatting being done elsewhere.
 */
-void float_load_store_immediate
-    PROTO_N ( ( ins,reg,val ) )
-    PROTO_T ( instruction ins X int reg X char* val )
+void
+float_load_store_immediate(instruction ins, int reg, char* val)
 {
 #if DO_SCHEDULE
   char *outline = (char*)xcalloc(80,sizeof(char));
@@ -1134,9 +1112,8 @@ void float_load_store_immediate
 /*
    floating point branch
 */
-void float_branch
-    PROTO_N ( ( ins,reg,dest ) )
-    PROTO_T ( instruction ins X int reg X int dest )
+void
+float_branch(instruction ins, int reg, int dest)
 {
   char * binasm_data;
 #if DO_SCHEDULE
@@ -1172,9 +1149,8 @@ void float_branch
 /*
   floating point operations (except conversions).
 */
-void float_op
-    PROTO_N ( ( ins,src1,src2,dest ) )
-    PROTO_T ( instruction ins X int src1 X int src2 X int dest )
+void
+float_op(instruction ins, int src1, int src2, int dest)
 {
   char * binasm_data;
   bool special_trap_ins = FALSE;
@@ -1215,9 +1191,8 @@ void float_op
 
 
 #if 0
-void float_op_immediate
-    PROTO_N ( ( ins,src1,imm,dest ) )
-    PROTO_T ( instruction ins X int src1 X double imm X int dest )
+void
+float_op_immediate(instruction ins, int src1, double imm, int dest)
 {
   Instruction new_ins = get_new_instruction();
   char *outline = (char*)xcalloc(80,sizeof(char));
@@ -1241,9 +1216,8 @@ void float_op_immediate
 /*
   floating point conversions.
 */
-void float_convert
-    PROTO_N ( ( ins,src,dest ) )
-    PROTO_T ( instruction ins X int src X int dest )
+void
+float_convert(instruction ins, int src, int dest)
 {
   char * binasm_data;
 #if DO_SCHEDULE
@@ -1279,9 +1253,8 @@ void float_convert
 /*
   miscellaneous instructions
 */
-void call_pal
-    PROTO_N ( ( ins,pal_ins ) )
-    PROTO_T ( instruction ins X instruction pal_ins )
+void
+call_pal(instruction ins, instruction pal_ins)
 {
   if(as_file){
     (void)fprintf(as_file,"\t%s\t%s\n",ins_symbolic_name(ins),
@@ -1290,9 +1263,8 @@ void call_pal
   return;
 }
 
-void fetch
-    PROTO_N ( ( ins,a ) )
-    PROTO_T ( instruction ins X baseoff a )
+void
+fetch(instruction ins, baseoff a)
 {
 #if DO_SCHEDULE
   Instruction new_ins = get_new_instruction();
@@ -1313,9 +1285,8 @@ void fetch
   return;
 }
 
-void no_parameter_instructions
-    PROTO_N ( ( ins ) )
-    PROTO_T ( instruction ins )
+void
+no_parameter_instructions(instruction ins)
 {
 #if DO_SCHEDULE
   Instruction new_ins = get_new_instruction();
@@ -1344,9 +1315,8 @@ void no_parameter_instructions
 }
 
 #if DO_SCHEDULE
-static void out_as_string
-    PROTO_N ( ( fp,str ) )
-    PROTO_T ( FILE *fp X char *str )
+static void
+out_as_string(FILE *fp, char *str)
 {
   int i;
   int slen = strlen(str);
@@ -1359,9 +1329,8 @@ static void out_as_string
     
       
 #if DO_SCHEDULE
-void out_code
-    PROTO_N ( ( ins_data ) )
-    PROTO_T ( Instruction_data ins_data )
+void
+out_code(Instruction_data ins_data)
 {
   int i;
   char * bdata = instruction_binasm(ins_data);

@@ -248,6 +248,9 @@ $Log: coder.c,v $
    coder.c
    This is the principal code producing module
 */
+
+#include <stdlib.h>
+
 #include "config.h"
 #include "coder.h"
 #include "common_types.h"
@@ -303,7 +306,7 @@ $Log: coder.c,v $
 extern  FILE * as_file;
 int fscopefile;	/* file of current proc */
 
-/*extern void add_odd_bits PROTO_S ((outofline*));*/
+/*extern void add_odd_bits(outofline*);*/
 
 ans procans;
 int rscope_level;
@@ -1037,9 +1040,8 @@ static instruction condmove
   return i_cmovle;
 }
 /*
-static instruction fcondmove
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+static instruction
+fcondmove(int i)
 {
   switch(i){
    case 1:
@@ -1116,9 +1118,8 @@ static bool compares
 }
 
 /*
-static instruction fbranches
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+static instruction
+fbranches(int i)
 {
   switch (i) {
     case  1:
@@ -1138,9 +1139,8 @@ static instruction fbranches
   }
 }
 
-static instruction fdbranches
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+static instruction
+fdbranches(int i)
 {
   switch (i) {
    case  1:

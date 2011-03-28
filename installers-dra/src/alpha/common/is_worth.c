@@ -46,9 +46,8 @@ static char vcid[] = "$Id: is_worth.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp 
 #define true 1
 #define false 0
 
-int is_worth
-    PROTO_N ( ( c ) )
-    PROTO_T ( exp c )
+int
+is_worth(exp c)
 {
   /* decide if constant c is worth declaring
      separately */

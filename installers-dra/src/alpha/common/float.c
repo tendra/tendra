@@ -49,9 +49,8 @@
   the flptnos[] array in the correct format.
 */
 #if (FBASE == 10)
-char * floating_value
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+char *
+floating_value(exp e)
 {
   int ref = no(e);
   unsigned char *frac = (flptnos[ref].mant);
@@ -83,9 +82,8 @@ char * floating_value
   make_floating construct is an IEEE denormal.  Denormals are 
   identified by having a non-zero fraction and a zero exponent.
 */
-bool is_denormal
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+is_denormal(exp e)
 {
   int fraction;
   int exponent;

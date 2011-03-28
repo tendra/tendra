@@ -66,13 +66,15 @@ $Log: fail.c,v $
    alpha translator.
 */
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "config.h"
 #include "fail.h"
 #include "pseudo.h"
 #define USEAGE_STRING "alphatrans -[ABCDEFHIKMPQRSUXVWZu] file.t file.G file.T [file.s]"
-void alphafail
-    PROTO_N ( ( reason,message,extra_info ) )
-    PROTO_T ( fail_conditions reason X char *message X char *extra_info )
+void
+alphafail(fail_conditions reason, char *message, char *extra_info)
 {
   int fatal=0;
   static int warnings=0;

@@ -92,9 +92,8 @@ $Log: operators.c,v $
 #include "operators.h"
 bool testover = 0;		/* always 0 for C */
 
-void tidyshort
-    PROTO_N ( ( r, s ) )
-    PROTO_T ( int r X shape s )
+void
+tidyshort(int r, shape s)
 {
   /* corrects possible overflows of chars
      and shorts in reg r */
@@ -114,9 +113,8 @@ void tidyshort
    register reg, removes that exp from seq
    and delivers 1; otherwise delivers 0 
 */
-bool regremoved
-    PROTO_N ( ( seq, reg ) )
-    PROTO_T ( exp *seq X int reg )
+bool
+regremoved(exp *seq, int reg)
 {
   exp s = *seq;
   exp t = bro (s);
@@ -140,9 +138,8 @@ bool regremoved
 }
 
 
-void do_comm
-    PROTO_N ( ( seq, sp, final, rins ) )
-    PROTO_T ( exp seq X space sp X int final X instruction rins )
+void
+do_comm(exp seq, space sp, int final, instruction rins)
 {
   int   r = 0;
   space nsp;
@@ -206,9 +203,8 @@ void do_comm
    evaluate commutative operation rrins given by e into d, using 
    sp to get t-regs 
 */
-int comm_op
-    PROTO_N ( ( e, sp, d, rrins ) )
-    PROTO_T ( exp e X space sp X where d X instruction rrins )
+int
+comm_op(exp e, space sp, where d, instruction rrins)
 {
   instruction rins = rrins;
   switch (d.answhere.discrim) {
@@ -267,9 +263,8 @@ int comm_op
 
 
 
-int non_comm_op
-    PROTO_N ( ( e, sp, dest, rins ) )
-    PROTO_T ( exp e X space sp X where dest X instruction rins )
+int
+non_comm_op(exp e, space sp, where dest, instruction rins)
 {
   /* evalate binary operation e with rins
      into dest */
@@ -307,9 +302,8 @@ int non_comm_op
 
 
 /* evaluate floating dyadic operation e using ins into dest */
-int fop
-    PROTO_N ( ( e, sp, dest, ins ) )
-    PROTO_T ( exp e X space sp X where dest X instruction ins )
+int
+fop(exp e, space sp, where dest, instruction ins)
 {
   exp l = son (e);
   exp r = bro (l);

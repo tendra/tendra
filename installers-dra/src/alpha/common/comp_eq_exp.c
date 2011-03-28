@@ -41,9 +41,8 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 #include "exp.h"
 #include "comp_eq_exp.h"
 
-bool comp_eq_explist
-    PROTO_N ( ( a, b, laba, labb ) )
-    PROTO_T ( exp a X exp b X exp laba X exp labb )
+bool
+comp_eq_explist(exp a, exp b, exp laba, exp labb)
 {
   if (a==nilexp) return (b==nilexp);
   if (b==nilexp || !comp_eq_exp(a,b,laba,labb) ) return 0;
@@ -53,9 +52,8 @@ bool comp_eq_explist
 }
 	
 
-bool comp_eq_exp
-    PROTO_N ( ( a, b, laba, labb ) )
-    PROTO_T ( exp a X exp b X exp laba X exp labb )
+bool
+comp_eq_exp(exp a, exp b, exp laba, exp labb)
 {
   if (name(a) != name(b) || !eq_shape(sh(a), sh(b))) return 0;
   if (name(a) == seq_tag) {

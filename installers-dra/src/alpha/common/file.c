@@ -66,9 +66,8 @@ $Log: file.c,v $
 /*
    Opens the file 'fname' with mode 'mode'.
 */
-FILE *open_file
-    PROTO_N ( ( fname,mode ) )
-    PROTO_T ( char *fname X FileMode mode )
+FILE *
+open_file(char *fname, FileMode mode)
 {
   char *options;
   FILE *fp;
@@ -87,9 +86,8 @@ FILE *open_file
   return (FILE*)NULL;
 }
 
-void close_file
-    PROTO_N ( ( fp ) )
-    PROTO_T ( FILE *fp )
+void
+close_file(FILE *fp)
 {
   fclose(fp);
   return;

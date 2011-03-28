@@ -83,6 +83,8 @@ $Log: out_ba.h,v $
  *
 */
 
+#include <stdio.h>
+
 #include "ibinasm.h"
 #include "cross.h"
 
@@ -99,10 +101,8 @@ extern void out_alias(asmsym,unsigned,asmreg,asmreg);
 extern char *out_rinst(asmsym,int,asmreg,asmreg,asmformat,asmreg);
 extern char *out_linst(asmsym,int,asmreg,asmreg,asmformat,asmint);
 extern char *out_data(char *,int);
-extern char *out_iinst PROTO_S((asmsym,int,asmreg,asmreg,asmformat,
-			      unsigned int, int));
-extern char *out_biinst PROTO_S((asmsym,int,asmreg,asmreg,asmformat,
-			      unsigned int, INT64));
+extern char *out_iinst(asmsym,int,asmreg,asmreg,asmformat, unsigned int, int);
+extern char *out_biinst(asmsym,int,asmreg,asmreg,asmformat, unsigned int, INT64);
 extern  FILE * ba_file;
 
 

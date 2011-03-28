@@ -55,9 +55,8 @@ static char vcid[] = "$Id: guard.c,v 1.1.1.1 1998/01/17 15:56:00 release Exp $";
   register is guarded by setting its corresponding bit in the 
   space variable to 1.
 */
-space guardreg
-    PROTO_N ( ( r,sp ) )
-    PROTO_T ( int r X space sp )
+space
+guardreg(int r, space sp)
 {
   if ((r >= 0 && r <= 8) || (r>=16 && r<=21)||(r >= 22 && r <= 26)||(r==27)) {
 				/* r is a fixed point t reg */
@@ -66,9 +65,8 @@ space guardreg
   return sp;
 }
 
-space guardfreg
-    PROTO_N ( ( r, sp ) )
-    PROTO_T ( int r X space sp )
+space
+guardfreg(int r, space sp)
 {
   if((r==0)||(r>=10 && r<=21)||(r>=22 && r<=30))
     sp.flt |= (1<<r);
@@ -82,9 +80,8 @@ space guardfreg
    is in store the register can be obtained from the base part 
    of the address.
 */
-space guard
-    PROTO_N ( ( w,sp ) )
-    PROTO_T ( where w X space sp )
+space
+guard(where w, space sp)
 {
   switch (w.answhere.discrim) {
     case inreg : {

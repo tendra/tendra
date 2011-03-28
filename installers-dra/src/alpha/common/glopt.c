@@ -49,9 +49,8 @@
 */
 
 
-void glopt
-    PROTO_N ( ( dp ) )
-    PROTO_T ( dec *dp )
+void
+glopt(dec *dp)
 {
 #if 0
   if (!strcmp(dp -> dec_u.dec_val.dec_id, "strcpy"))

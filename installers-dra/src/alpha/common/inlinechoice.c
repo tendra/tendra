@@ -211,7 +211,7 @@ static int complexity
 }
 
 #define MASK 3
-#define REJ_ONCE(1)
+#define REJ_ONCE (1)
 #define OK_ONCE (2)
 
 int inlinechoice

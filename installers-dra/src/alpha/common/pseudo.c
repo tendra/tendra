@@ -91,9 +91,8 @@ $Log: pseudo.c,v $
 extern  FILE * as_file;
 extern bool in_noat_block;
 
-void setprologue
-    PROTO_N ( ( lvl ) )
-    PROTO_T ( int lvl )
+void
+setprologue(int lvl)
 {
 #if DO_SCHEDULE
   char * outline = (char*)xcalloc(20,sizeof(char));
@@ -112,8 +111,8 @@ void setprologue
 }
 
 
-void setnoreorder
-    PROTO_Z ()
+void
+setnoreorder(void)
 {
 #if DO_SCHEDULE
   char * outline = (char*)xcalloc(20,sizeof(char));
@@ -131,8 +130,8 @@ void setnoreorder
   return;
 }
 
-void setreorder
-    PROTO_Z ()
+void
+setreorder(void)
 {
 #if DO_SCHEDULE
   char * outline = (char*)xcalloc(20,sizeof(char));
@@ -150,8 +149,8 @@ void setreorder
   return;
 }
 
-void setnomove
-    PROTO_Z ()
+void
+setnomove(void)
 {
 #if DO_SCHEDULE
   char * outline = (char*)xcalloc(20,sizeof(char));
@@ -168,8 +167,8 @@ void setnomove
   return;
 }
 
-void setmove
-    PROTO_Z ()
+void
+setmove(void)
 {
 #if DO_SCHEDULE
   char * outline = (char*)xcalloc(20,sizeof(char));
@@ -187,23 +186,23 @@ void setmove
 }
 
 #if 0
-void setvolatile
-    PROTO_Z ()
+void
+setvolatile(void)
 {
 /*    fprintf (as_file, "\t.set\tvolatile\n");*/
   return;
 }
 
-void setnovolatile
-    PROTO_Z ()
+void
+setnovolatile(void)
 {
   fprintf (as_file, "\t.set\tnovolatile\n");
   return;
 }
 #endif
 
-void setnoat
-    PROTO_Z ()
+void
+setnoat(void)
 {
   char *outline;
   if (in_noat_block == TRUE) {
@@ -224,8 +223,8 @@ void setnoat
   return;
 }
 
-void setat
-    PROTO_Z ()
+void
+setat(void)
 {
   char *outline;
   if (in_noat_block == FALSE) {
@@ -246,9 +245,8 @@ void setat
   return;
 }
 
-void comment
-    PROTO_N ( ( mess ) )
-    PROTO_T ( char *mess )
+void
+comment(char *mess)
 {
   if(as_file){
     fprintf (as_file, " # %s\n", mess);
@@ -256,9 +254,8 @@ void comment
   return;
 }
 
-void setframe
-    PROTO_N ( ( st,loc ) )
-    PROTO_T ( int32 st X int32 loc )
+void
+setframe(int32 st, int32 loc)
 {
 #if DO_SCHEDULE
   char * outline = (char*)xcalloc(80,sizeof(char));
@@ -286,8 +283,8 @@ void setframe
   return;
 }
 
-void set_text_section
-    PROTO_Z ()
+void
+set_text_section(void)
 {
   if(as_file){
 #if !DO_SCHEDULE
@@ -303,9 +300,8 @@ void set_text_section
   return;
 }
 
-void setmask
-    PROTO_N ( ( mask,disp ) )
-    PROTO_T ( int32 mask X int32 disp )
+void
+setmask(int32 mask, int32 disp)
 {
 #if DO_SCHEDULE
   char * outline = (char*)xcalloc(20,sizeof(char));
@@ -322,9 +318,8 @@ void setmask
 }
 
 
-void setfmask
-    PROTO_N ( ( mask, disp ) )
-    PROTO_T ( int32 mask X int32 disp )
+void
+setfmask(int32 mask, int32 disp)
 {
 #if DO_SCHEDULE
   char * outline = (char*)xcalloc(20,sizeof(char));
@@ -342,9 +337,8 @@ void setfmask
 
 
 
-void set_file
-    PROTO_N ( ( fname,fno ) )
-    PROTO_T ( char *fname X int fno )
+void
+set_file(char *fname, int fno)
 {
   if(as_file){
 #if !DO_SCHEDULE
@@ -355,9 +349,8 @@ void set_file
 }
 
 
-void set_lineno
-    PROTO_N ( ( lineno,fileno ) )
-    PROTO_T ( int lineno X int fileno )
+void
+set_lineno(int lineno, int fileno)
 {
   if(as_file){
 #if DO_SCHEDULE
@@ -374,9 +367,8 @@ void set_lineno
   This function outputs an appropriate .align directive 
   depending on the value of al.
 */
-void set_align
-    PROTO_N ( ( al ) )
-    PROTO_T ( int al )
+void
+set_align(int al)
 {
   extern int current_alignment;
 #if DO_SCHEDULE

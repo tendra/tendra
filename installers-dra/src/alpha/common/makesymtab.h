@@ -60,5 +60,5 @@
 
 /* procedure to make a symbol table using the stored tables from routines in symbol.c */
 
-extern void makesymtab PROTO_S((STRINGS*, ESYMS*, DENSETAB*, pSYMFDR,
-	int, char*, int, int, int, int, int, int, PROCSYM*, int));
+extern void makesymtab(STRINGS*, ESYMS*, DENSETAB*, pSYMFDR,
+	int, char*, int, int, int, int, int, int, PROCSYM*, int);

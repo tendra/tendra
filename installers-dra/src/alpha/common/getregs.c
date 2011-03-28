@@ -116,9 +116,8 @@ static int   maxfloat = 31;	/* dubious */
    on how the proc treats its parameters; if they are destined for
    store or s-registers we can use some of the parameter registers 
 */
-void settempregs
-    PROTO_N ( ( tg ) )
-    PROTO_T ( exp tg )
+void
+settempregs(exp tg)
 {
   procrec * pr = &procrecs[no(tg)];
   bool leaf = ((pr->needsproc).propsneeds & anyproccall)==0;
@@ -154,9 +153,8 @@ void settempregs
   Gets a free temporary fixed point register.  The int fixed masks 
   out registers which are not available.
 */
-int getreg
-    PROTO_N ( ( fixed ) )
-    PROTO_T ( int32 fixed )
+int
+getreg(int32 fixed)
 {
   int reg=-1;
   int start = choosefix;
@@ -186,9 +184,8 @@ int getreg
 /*
   Get a free temporary floating point register.
 */
-int getfreg
-    PROTO_N ( ( fl ) )
-    PROTO_T ( int fl )
+int
+getfreg(int fl)
 {
   int freg=-1;
   int start = choosefloat;

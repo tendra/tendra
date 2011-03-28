@@ -94,6 +94,8 @@ $Log: locate.c,v $
  *
 */
 
+#include <stdio.h>
+
 #include "config.h"
 #include "addresstypes.h"
 #include "expmacs.h"

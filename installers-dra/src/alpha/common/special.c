@@ -82,9 +82,8 @@ $Log: special.c,v $
 #include "special.h"
 
 
-int   specno
-    PROTO_N ( (n) )
-    PROTO_T ( char *n )
+int
+specno( char *n)
 {
 	/* these are the procs I could do
 				   something about */
@@ -107,9 +106,8 @@ static  needs strcmpneeds = {
   2, 0, 0, 0
 };
 
-needs specialneeds
-    PROTO_N ( (i) )
-    PROTO_T ( int i )
+needs
+specialneeds(int i)
 {
     /* these are the needs for their expansion */
   switch (i) {
@@ -125,9 +123,8 @@ needs specialneeds
   return strcpyneeds;
 }
 
-int   specialfn
-    PROTO_N ( (fn) )
-    PROTO_T ( exp fn )
+int
+specialfn(exp fn)
 {
     /* could I treat this function load specially ? */
   if (name (fn) == name_tag && name (son (fn)) == ident_tag &&
@@ -139,9 +136,8 @@ int   specialfn
 }
 
 
-int   specialmake
-    PROTO_N ( (n, par, sp, dest, exitlab) )
-    PROTO_T ( int n X exp par X space sp X where dest X int exitlab )
+int
+specialmake(int n, exp par, space sp, where dest, int exitlab)
 {
   switch (n) {
     case  2: 		/* translate strlen in the obvious manner 

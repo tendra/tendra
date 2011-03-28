@@ -34,11 +34,15 @@
 static char vcid[] = "$Id: makesymtab.c,v 1.2 1998/02/04 10:43:31 release Exp $";
 #endif /* lint */
 
+#include <stdint.h>
+#include <stdio.h>
+
 #include "config.h"
 #include "symtab.h"	
 #include "makesymtab.h"	
 #include "xalloc.h"
 #include "cross_config.h"
+
 /* type definitions for translator produced debugging 
    information to be incorporated into a .T file  */
 
@@ -77,9 +81,8 @@ $Log: makesymtab.c,v $
 extern char diagnose;
 
 
-long count_syms
-    PROTO_N ( ( symlist ) )
-    PROTO_T ( LSYMS *symlist )
+long
+count_syms(LSYMS *symlist)
 {
   long symindex = symlist->noofsyms;
   while (symlist->nextsyms!=0){  
@@ -90,9 +93,8 @@ long count_syms
 }
 
 
-long count_strings
-    PROTO_N ( ( list ) )
-    PROTO_T ( STRINGS *list )
+long
+count_strings(STRINGS *list)
 {
   long stringind=list->usage;
   while (list->overspill!=0){
@@ -103,9 +105,8 @@ long count_strings
 }
 
 
-long count_aux
-    PROTO_N ( ( auxdata ) )
-    PROTO_T ( AUXTAB *auxdata )
+long
+count_aux(AUXTAB *auxdata)
 {
   long auxcount=auxdata->num;
   while (auxdata->moreaux!=0){
@@ -125,15 +126,12 @@ long count_aux
    from new_symbol.c using output_symtab(name of .T file). )
    by R.R.R  3/12/90  
 */
-void makesymtab
-    PROTO_N ( ( extstrings,extsymbols,densenos,filedescs,numfiles,
-		symtabname,noextsyms,nosyms,extstringsize,stringsize,
-		noaux,densind,procinds,noprocs ) )
-    PROTO_T ( STRINGS *extstrings X ESYMS* extsymbols X DENSETAB* densenos X
-	      pSYMFDR filedescs X int numfiles X char* symtabname X
-	      int noextsyms X int nosyms X int extstringsize X
-	      int stringsize X int noaux X int densind X
-	      PROCSYM* procinds X int noprocs )
+void
+makesymtab(STRINGS *extstrings, ESYMS* extsymbols, DENSETAB* densenos,
+	      pSYMFDR filedescs, int numfiles, char* symtabname,
+	      int noextsyms, int nosyms, int extstringsize,
+	      int stringsize, int noaux, int densind,
+	      PROCSYM* procinds, int noprocs)
 {
   
 

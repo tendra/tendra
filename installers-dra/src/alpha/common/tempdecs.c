@@ -60,9 +60,8 @@ static bool useinpar;
    terminates with 0 on applications or jumps terminates with 2 
    on assignment to id otherwise delivers 1
 */
-int trace_uses
-    PROTO_N ( ( e, id ) )
-    PROTO_T ( exp e X exp id )
+int
+trace_uses(exp e, exp id)
 {
   Assert(e!=(exp)0);
   Assert(id!=(exp)0);
@@ -173,9 +172,8 @@ int trace_uses
 }
 
 
-void after_a
-    PROTO_N ( ( a, id ) )
-    PROTO_T ( exp a X exp id )
+void
+after_a(exp a, exp id)
 {
   /* apply trace_uses to dynamic successors of a */
   exp dad ;
@@ -203,9 +201,8 @@ void after_a
 
 
 
-bool simple_seq
-    PROTO_N ( ( e, id ) )
-    PROTO_T ( exp e X exp id )
+bool
+simple_seq(exp e, exp id)
 {
   exp dad = father(e);
   for(;;) {
@@ -219,9 +216,8 @@ bool simple_seq
 bool tempdecopt = 0;		/* flag to allow this optimisation; -Tt
 				   sets to 0 */
 
-bool tempdec
-    PROTO_N ( ( e, enoughs ) )
-    PROTO_T ( exp e X bool enoughs )
+bool
+tempdec(exp e, bool enoughs)
 {
   /* e is a local declaration; 'enoughs'
      is a misnomer to say whether there are

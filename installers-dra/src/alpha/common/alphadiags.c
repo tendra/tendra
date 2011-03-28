@@ -90,6 +90,10 @@ alphadiags.c,v
  * Minor portability improvements
  *
 */
+
+#include <stdlib.h>
+#include <string.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "exptypes.h"
@@ -114,12 +118,7 @@ alphadiags.c,v
 #include "cross.h"
 #include "symbol.h"
 #include "cross_config.h"
-
-#ifndef CROSS_INCLUDE
-#include <symconst.h>
-#else
-#include CROSS_INCLUDE/symconst.h>
-#endif
+#include "symconst.h"
 
 extern FILE * as_file;
 extern bool last_param(exp e);

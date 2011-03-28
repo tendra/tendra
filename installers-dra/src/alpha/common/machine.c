@@ -34,9 +34,8 @@
 #include "shapemacs.h"
 
 
-int reg_result
-    PROTO_N ( ( sha ) )
-    PROTO_T ( shape sha )
+int
+reg_result(shape sha)
 {
   /* is the result of a procedure delivering
      this shape produced in registers. */

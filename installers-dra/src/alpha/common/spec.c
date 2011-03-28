@@ -51,9 +51,8 @@
 #include "spec.h"
 
 
-speci special_fn
-    PROTO_N ( (a1, a2, s) )
-    PROTO_T ( exp a1 X exp a2 X shape s )
+speci
+special_fn(exp a1, exp a2, shape s)
 {
   /* look for special functions */
   speci spr;
