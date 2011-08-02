@@ -4,3 +4,7 @@
 +CRT0			"<PREFIX_SYS>/crt1.o <PREFIX_SYS>/crti.o"
 +CRT1			"/usr/ccs/lib/values-Xc.o"
 +CRTN			"<PREFIX_SYS>/crtn.o"
+
+# use sparc cc
++FLAG           "--2SC"
+

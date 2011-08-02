@@ -31,6 +31,7 @@
 #define _STDARG_H
 
 
+#ifdef _SUNOS511
 #ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
 
 
@@ -105,6 +106,7 @@ typedef char *va_list ;
 
 
 #endif /* __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS */
+#endif
 
 
 #endif /* _STDARG_H */
