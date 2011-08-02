@@ -15,6 +15,11 @@ ${target}:: .PHONY
 .endfor
 
 
+UNAME?= uname
+
+.include <tendra.makedefs.mk>
+
+
 # Please override locations as best suits your system.
 PREFIX?=         /usr/local
 PREFIX_BIN?=     ${PREFIX}/bin
@@ -54,7 +59,11 @@ ECHO?=		echo
 ECHODIR?=	echo
 EXIT?=		exit
 FIND?=		find
+.if ${SYSTEM} == "SunOS"
+INSTALL?=	ginstall
+.else
 INSTALL?=	install
+.endif
 LEXI?=		lexi
 LD?=		ld
 LN?=		ln
@@ -71,12 +80,9 @@ TLD?=		tld
 TNC?=		tnc
 TPL?=		tpl
 TSPEC?=		tspec
-UNAME?=		uname
 XSLTPROC?=	xsltproc
 XMLLINT?=	xmllint
 
-
-.include <tendra.makedefs.mk>
 
 # Platform-specific things
 EXECFMT?=    	${MD_EXECFMT}
