@@ -29,11 +29,11 @@
 
 
 /*
-**		abstract.ph
+**		abstract.tph
 **
 **  This file contains PL_TDF token declarations which
 **  act as the interface to the tokens defined in the
-**  file abstract.pl.
+**  file abstract.tpl.
 */
 
 

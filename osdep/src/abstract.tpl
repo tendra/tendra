@@ -28,7 +28,7 @@
 */
 
 /*
-		abstract.pl
+		abstract.tpl
 		===========
 
 This file assumes that the parameters to the functions defined here are
@@ -51,7 +51,7 @@ produce the required behaviour.
 **		abstract.pl
 **
 **  This file contains PL_TDF token definitions which
-**  are declared in the PL_TDF file abstract.ph.
+**  are declared in the PL_TDF file abstract.tph.
 */
 
 
