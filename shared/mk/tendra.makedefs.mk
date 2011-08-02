@@ -103,7 +103,7 @@ MD_OSVER!=                               \
         NetBSD.5*)     echo NETBSD5;;    \
         OpenBSD.3*)    echo OPENBSD3;;   \
         OpenBSD.4*)    echo OPENBSD4;;   \
-        SunOS.5*)      echo SUNOS5;;     \
+        SunOS.5.11*)   echo SUNOS511;;   \
         Haiku.1*)      echo HAIKU1;;     \
         *)             echo unknown;;    \
     esac;
