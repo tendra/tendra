@@ -3,6 +3,8 @@
 .include "Makefile.inc"
 
 
+ENVFILE+=	default
+
 ENVFILE+=	K-P5
 ENVFILE+=	K-PIC
 ENVFILE+=	K-frame
@@ -17,8 +19,6 @@ ENVFILE+=	Z-p4
 
 ENVFILE+=	tcc_diag
 ENVFILE+=	tcc_prof
-
-ENVEXTRA+=	default.extra
 
 ENVCOMMON+=	machines/common/env
 ENVCOMMON+=	machines/${OSFAM}/common/env

@@ -45,3 +45,5 @@
 +TEMP			"<PREFIX_TMP>"
 +VERSION		""
 
++MACHINE		"*-*-*"
+

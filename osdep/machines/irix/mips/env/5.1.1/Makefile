@@ -3,10 +3,14 @@
 .include "Makefile.inc"
 
 
+ENVFILE+=	default
+
 ENVFILE+=	tcc_diag
 ENVFILE+=	tcc_prof
 
-ENVEXTRA+=	default.extra
+ENVCOMMON+=	machines/common/env
+#ENVCOMMON+=	machines/${OSFAM}/common/env
+ENVCOMMON+=	machines/${OSFAM}/${BLDARCH}/env/common
 
 .include <tendra.env.mk>
 

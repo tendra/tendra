@@ -3,6 +3,8 @@
 .include "Makefile.inc"
 
 
+ENVFILE+=	default
+
 ENVFILE+=	K-P5
 ENVFILE+=	K-aout
 ENVFILE+=	K-frame
@@ -18,7 +20,9 @@ ENVFILE+=	system+
 ENVFILE+=	tcc_prof
 ENVFILE+=	tdf_ext
 
-ENVEXTRA+=	default.extra
+ENVCOMMON+=	machines/common/env
+ENVCOMMON+=	machines/${OSFAM}/common/env
+#ENVCOMMON+= machines/${OSFAM}/${BLDARCH}/env/common
 
 .include <tendra.env.mk>
 

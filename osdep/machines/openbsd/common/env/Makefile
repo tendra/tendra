@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-ENVEXTRA+=	default.extra
+ENVFILE+=	default
 
 .include <tendra.env.mk>
 

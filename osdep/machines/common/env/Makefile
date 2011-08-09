@@ -76,7 +76,5 @@ ENVFILE+=	tcc_time
 ENVFILE+=	tdf_ext
 ENVFILE+=	wsl
 
-ENVEXTRA+=	default.extra
-
 .include <tendra.env.mk>
 

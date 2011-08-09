@@ -3,7 +3,7 @@
 .include "Makefile.inc"
 
 
-ENVEXTRA+=	default.extra
+ENVFILE+=	default
 
 ENVCOMMON+=	machines/common/env
 ENVCOMMON+=	machines/${OSFAM}/common/env
