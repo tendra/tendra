@@ -3,9 +3,7 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	arch
 SUBDIR+=	env
-#SUBDIR+=	src
 
 .include <tendra.subdir.mk>
 

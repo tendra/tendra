@@ -1,3 +1,2 @@
 /* environment for powerpc specific code */
 +FLAG_AS		"-m pwr"
-+FLAG_TRANS		"-KR"

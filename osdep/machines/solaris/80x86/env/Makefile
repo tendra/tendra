@@ -6,11 +6,6 @@
 ENVFILE+=	default
 
 ENVFILE+=	Goption
-ENVFILE+=	K-P5
-ENVFILE+=	K-frame
-ENVFILE+=	K-i386
-ENVFILE+=	K-i486
-ENVFILE+=	K-noframe
 
 ENVFILE+=	Xa
 ENVFILE+=	Xc
@@ -28,6 +23,7 @@ ENVFILE+=	tcc_diag
 ENVFILE+=	tcc_prof
 
 ENVCOMMON+=	machines/common/env
+ENVCOMMON+=	machines/common/arch/${BLDARCH}/env
 ENVCOMMON+=	machines/${OSFAM}/common/env
 
 .include <tendra.env.mk>

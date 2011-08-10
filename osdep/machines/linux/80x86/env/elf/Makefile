@@ -5,10 +5,7 @@
 
 ENVFILE+=	default
 
-ENVFILE+=	K-P5
 ENVFILE+=	K-aout
-ENVFILE+=	K-frame
-ENVFILE+=	K-noframe
 
 ENVFILE+=	Z-p
 ENVFILE+=	Z-p1
@@ -21,6 +18,7 @@ ENVFILE+=	tcc_prof
 ENVFILE+=	tdf_ext
 
 ENVCOMMON+=	machines/common/env
+ENVCOMMON+=	machines/common/arch/${BLDARCH}/env
 ENVCOMMON+=	machines/${OSFAM}/common/env
 #ENVCOMMON+= machines/${OSFAM}/${BLDARCH}/env/common
 
