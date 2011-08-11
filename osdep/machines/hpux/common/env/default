@@ -1,0 +1,7 @@
+/* $Id$ */
+
++FLAG	"--1HL"
++LD		"/bin/ld"
+
++FLAG_LD		"-x -u main"
+

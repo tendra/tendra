@@ -4,8 +4,3 @@
 +CRT1	"/usr/ccs/lib/values-Xc.o"
 +CRTN	"/usr/lib/crtn.o"
 
-+SYS_LIB	"-ltsl"
-+SYS_LINK	"-L<PREFIX_SYS>"
-
-+SYS_LIBC	"-lc"
-

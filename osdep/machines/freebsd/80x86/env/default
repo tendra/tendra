@@ -1,9 +1,4 @@
+/* $Id$ */
+
 +MACHINE	"freebsd-*-80x86"
-+AS		"/usr/bin/as"
-+LD		"/usr/bin/ld -e _start -d"
-+CC		"/usr/bin/cc"
-+CRT0		"-dynamic-linker /libexec/ld-elf.so.1"
-+CRT1		"/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtbegin.o"
-+CRTN		"/usr/lib/crtend.o /usr/lib/crtn.o"
-+SYS_LIB        "-ltsl"
-+SYS_LINK       "-L<PREFIX_SYS>"
+

@@ -1,5 +1,7 @@
+/* $Id$ */
+
 +MACHINE		"hpux-*-hppa"
-+FLAG			"--1HL"
-+LD			"/bin/ld -x -u main"
+
 +CRT1			"<PREFIX_SYS>/dyn_begin.o"
 +CRTN			"<PREFIX_SYS>/dyn_end.o"
+

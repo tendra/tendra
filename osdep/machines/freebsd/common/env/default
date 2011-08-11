@@ -1,0 +1,8 @@
+/* $Id$ */
+
++FLAG_LD	"-e _start -d"
+
++CRT0		"-dynamic-linker /libexec/ld-elf.so.1"
++CRT1		"/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/crtbegin.o"
++CRTN		"/usr/lib/crtend.o /usr/lib/crtn.o"
+

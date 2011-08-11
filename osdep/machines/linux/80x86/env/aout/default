@@ -1,6 +1,9 @@
+/* $Id$ */
+
 +MACHINE		"linux-1.2.8-80x86"
-+TRANS			"<TENDRA_MACHDIR>/bin/trans -k0"
-+AS			"/usr/bin/as"
-+LD			"/usr/bin/ld -m486"
-+CC			"/usr/bin/cc"
+
++FLAG_TRANS			"-k0"
++FLAG_LD			"-m486"
+
 +CRT0			"/usr/lib/crt0.o"
+

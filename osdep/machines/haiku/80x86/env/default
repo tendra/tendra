@@ -1,6 +1,8 @@
-/* $Id: default.extra 2498 2010-12-30 06:55:26Z kate $ */
+/* $Id$ */
 
 +MACHINE	"haiku-*-80x86"
 
-+LD		"/boot/develop/tools/gnupro/bin/ld -m elf_i386_haiku"
++LD			"/boot/develop/tools/gnupro/bin/ld"
+
++FLAG_LD	"-m elf_i386_haiku"
 

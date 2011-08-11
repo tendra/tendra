@@ -1,0 +1,5 @@
+/* $Id$ */
+
++AS		"/bin/as -O2"
++AS1	"/usr/lib/cmplrs/as/as1 -O2"
+

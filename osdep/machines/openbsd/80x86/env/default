@@ -2,5 +2,5 @@
 
 +MACHINE	"openbsd-*-80x86"
 
-+LD		"/usr/bin/ld -m elf_i386_obsd"
++FLAG_LD		"-m elf_i386_obsd"
 

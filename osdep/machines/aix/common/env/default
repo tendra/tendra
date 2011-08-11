@@ -1,4 +1,10 @@
+/* $Id$ */
+
 +MACHINE		"aix-*-*"
+
++LD			"/bin/ld"
+
 +FLAG			"--2DL"
-+LD			"/bin/ld -H512 -T512 -bhalt:4"
++FLAG_LD	"-H512 -T512 -bhalt:4"
 +CRT1			"<PREFIX_SYS>/TDFpower.o"
+
