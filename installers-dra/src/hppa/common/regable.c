@@ -83,9 +83,8 @@ $Log: regable.c,v $
     DOES A VALUE OF SHAPE s FIT INTO A FIXED REGISTER?
 */
 
-bool valregable 
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s )
+bool
+valregable(shape s)
 {
     int n = name(s);
     if ( is_floating(n) )
@@ -119,9 +118,8 @@ bool valregable
     DOES THE EXPRESSION e FIT INTO A FIXED REGISTER?
 */
 
-bool fixregable 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+fixregable(exp e)
 {
     if ( !isvis ( e ) && !isoutpar( e ) && !isglob ( e ) && !isenvoff(e)
 		      && (name(son(e))!=caller_name_tag) ) {
@@ -136,9 +134,8 @@ bool fixregable
     DOES THE EXPRESSION e FIT INTO A FLOATING POINT REGISTER?
 */
 
-bool floatregable 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+floatregable(exp e)
 {
     if ( !isvis ( e ) && !isoutpar( e ) && !isglob ( e ) && !isenvoff(e)
 		      && (name(son(e))!=caller_name_tag) ) {

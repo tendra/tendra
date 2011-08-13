@@ -105,6 +105,8 @@ $Log: translat.h,v $
 #ifndef TRANSLATDECS_H
 #define TRANSLATDECS_H
 
+#include <stdio.h>
+
 #include "codegen.h"
 extern dec * diag_def;
 

@@ -115,7 +115,7 @@ The largest of the two stack sizes is returned as the stack of the result.
 
 *****************************************************************/
 
-spacereq maxspace PROTO_N ((a,b)) PROTO_T (spacereq a X spacereq b)
+spacereq maxspace(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
   a.fltdump |= b.fltdump;
@@ -126,7 +126,7 @@ spacereq maxspace PROTO_N ((a,b)) PROTO_T (spacereq a X spacereq b)
 
 /* maxspace2 is used by seq tags and ident_tags since the result of these tags
    could be the result of one of the brothers */
-spacereq maxspace2 PROTO_N ((a,b)) PROTO_T (spacereq a X spacereq b)
+spacereq maxspace2(spacereq a, spacereq b)
 {
   a.fixdump |= b.fixdump;
   a.fltdump |= b.fltdump;
@@ -144,7 +144,7 @@ fltdump fields for fixed and float regs.
 
 ******************************************************************/
 
-spacereq regalloc PROTO_N ((e,freefixed,freefloat,stack)) PROTO_T (exp e X int freefixed X int freefloat X long stack)
+spacereq regalloc(exp e, int freefixed, int freefloat, long stack)
 /*
  * e is a proc body.
  * freefixed and freefloat are the number of fixed and floating s regs

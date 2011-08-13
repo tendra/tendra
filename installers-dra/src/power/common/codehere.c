@@ -86,7 +86,7 @@ $Log: codehere.c,v $
 /* regofval returns R_NO_REG unlesss e is a name tag
    which is obtaining something which is inreg */
 
-int regofval PROTO_N ((e)) PROTO_T (exp e)
+int regofval(exp e)
 {
   exp dc = son(e);
 
@@ -120,7 +120,7 @@ int regofval PROTO_N ((e)) PROTO_T (exp e)
   }
 }
 /* fregofval same as regofval, but used for float regs */
-int fregofval PROTO_N ((e)) PROTO_T (exp e)
+int fregofval(exp e)
 {
   exp dc = son(e);
 
@@ -153,7 +153,7 @@ int fregofval PROTO_N ((e)) PROTO_T (exp e)
    fact that it is an ident in a register,
    or that it has been tracked in the register tracking
    mechanism. */
-static int is_reg_operand PROTO_N ((e)) PROTO_T (exp e)
+static int is_reg_operand(exp e)
 {
   int x = regofval(e);  
 
@@ -205,7 +205,7 @@ static int is_reg_operand PROTO_N ((e)) PROTO_T (exp e)
  * make_code_here
  * Calls make_code and tie up any internal exit labels 
  */
-static int make_code_here PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X where dest)
+static int make_code_here(exp e, space sp, where dest)
 {
   makeans mka;
 
@@ -224,7 +224,7 @@ static int make_code_here PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X wher
    and returns that register. is_reg_operand is used
    in order to activate the register tracking scheme,
    or to see if the exp is something simple. */
-int reg_operand PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
+int reg_operand(exp e, space sp)
 {
   int reg;
   
@@ -266,7 +266,7 @@ int reg_operand PROTO_N ((e,sp)) PROTO_T (exp e X space sp)
 
 /* like reg_operand, but to specified reg 
  */
-void reg_operand_here PROTO_N ((e,sp,this_reg)) PROTO_T (exp e X space sp X int this_reg)
+void reg_operand_here(exp e, space sp, int this_reg)
 {
   int reg;
 
@@ -310,7 +310,7 @@ void reg_operand_here PROTO_N ((e,sp,this_reg)) PROTO_T (exp e X space sp X int 
 }
 
 
-int freg_operand PROTO_N ((e,sp,reg)) PROTO_T (exp e X space sp X int reg)
+int freg_operand(exp e, space sp, int reg)
 {
   int x = fregofval(e);
   ans aa;
@@ -373,7 +373,7 @@ int freg_operand PROTO_N ((e,sp,reg)) PROTO_T (exp e X space sp X int reg)
  * any internal exit labels are tied up after the call.
  * Optimises the case where the value of 'e' is in a register.
  */
-int code_here PROTO_N ((e,sp,dest)) PROTO_T (exp e X space sp X where dest)
+int code_here(exp e, space sp, where dest)
 {
   int reg;
 

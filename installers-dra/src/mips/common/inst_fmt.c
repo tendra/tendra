@@ -93,9 +93,8 @@ long  andop = 0;
 
 
 
-void ls_ins
-    PROTO_N ( (ins, reg, a) )
-    PROTO_T ( char *ins X int reg X baseoff a )
+void
+ls_ins(char *ins, int reg, baseoff a)
 {
 				/* load and store instructions */
 
@@ -173,9 +172,8 @@ void ls_ins
 e.g move, neg, abs
 ************************************************************/
 
-void mon_ins
-    PROTO_N ( (ins, dest, src) )
-    PROTO_T ( char *ins X int dest X int src )
+void
+mon_ins(char *ins, int dest, int src)
 {
   clear_reg (dest);
   andpeep = 0;
@@ -190,9 +188,8 @@ void mon_ins
 
 /* 3 register operand instructions:- destination, source1, source2 */
 
-void rrr_ins
-    PROTO_N ( (ins,dest,src1,src2) )
-    PROTO_T ( char *ins X int dest X int src1 X int src2 )
+void
+rrr_ins(char *ins, int dest, int src1, int src2)
 {
   int ex = (ins == i_add || ins == i_sub);
 	/* scheduling wrong for exceptional instructions */
@@ -210,9 +207,8 @@ void rrr_ins
 
 /* register, register, immediate instructions */
 
-void rri_ins
-    PROTO_N ( (ins, dest, src1, imm) )
-    PROTO_T ( char *ins X int dest X int src1 X long imm )
+void
+rri_ins(char *ins, int dest, int src1, long imm)
 {
   int ex = (ins == i_add || ins == i_sub);
 	/* scheduling wrong for exceptional instructions */
@@ -238,9 +234,8 @@ void rri_ins
 
 /* register, immediate instructions */
 
-void ri_ins
-    PROTO_N ( (ins, dest, imm) )
-    PROTO_T ( char *ins X int dest X long imm )
+void
+ri_ins(char *ins, int dest, long imm)
 {
   clear_reg (dest);
   andpeep = 0;
@@ -256,9 +251,8 @@ Branch instructions. These have labels as destination.
 
 /* unconditional */
 
-void uncond_ins
-    PROTO_N ( (ins, lab) )
-    PROTO_T ( char *ins X int lab )
+void
+uncond_ins(char *ins, int lab)
 {
   clear_all ();
   andpeep = 0;
@@ -273,9 +267,8 @@ void uncond_ins
 /*conditional */
 
 /* register comparisons */
-void condrr_ins
-    PROTO_N ( (ins, src1, src2, lab) )
-    PROTO_T ( char *ins X int src1 X int src2 X int lab )
+void
+condrr_ins(char *ins, int src1, int src2, int lab)
 {
   if (as_file)
     fprintf (as_file, "\t%s\t$%d, $%d, $%d\n", ins + 1, src1, src2, lab);
@@ -284,9 +277,8 @@ void condrr_ins
 }
 
 /* register, immediate comparison */
-void condri_ins
-    PROTO_N ( (ins, src1, imm, lab) )
-    PROTO_T ( char *ins X int src1 X long imm X int lab )
+void
+condri_ins(char *ins, int src1, long imm, int lab)
 {
   if (imm == 0 && ins[4] == 0) {/* optimise branch on zero test */
     if (as_file)
@@ -302,9 +294,8 @@ void condri_ins
 }
 
 /* register comparison with zero*/
-void condr_ins
-    PROTO_N ( (ins, src1, lab) )
-    PROTO_T ( char *ins X int src1 X int lab )
+void
+condr_ins(char *ins, int src1, int lab)
 {
   if (as_file)
     fprintf (as_file, "\t%s\t$%d, $%d\n", ins + 1, src1, lab);
@@ -316,9 +307,8 @@ void condr_ins
 coprocessor instructions
 *******************************************************************************/
 
-void cop_ins
-    PROTO_N ( (ins, gr, fr) )
-    PROTO_T ( char *ins X int gr X int fr )
+void
+cop_ins(char *ins, int gr, int fr)
 {
   clear_reg (gr);
   andpeep = 0;
@@ -337,9 +327,8 @@ void cop_ins
 
 /* floating point instructions */
 
-void lsfp_ins
-    PROTO_N ( (ins, reg, a) )
-    PROTO_T ( char *ins X int reg X baseoff a )
+void
+lsfp_ins(char *ins, int reg, baseoff a)
 {
   clear_reg ((reg >> 1) + 32);
   if (a.base == 0) {
@@ -397,9 +386,8 @@ void lsfp_ins
 }
 
 
-void rrfp_ins
-    PROTO_N ( (ins, dest, src) )
-    PROTO_T ( char *ins X int dest X int src )
+void
+rrfp_ins(char *ins, int dest, int src)
 {
   clear_reg ((dest >> 1) + 32);
   if (as_file)
@@ -408,9 +396,8 @@ void rrfp_ins
       xnoreg);
 }
 
-void rrfpcond_ins
-    PROTO_N ( (ins, dest, src) )
-    PROTO_T ( char *ins X int dest X int src )
+void
+rrfpcond_ins(char *ins, int dest, int src)
 {
 
   if (as_file)
@@ -419,9 +406,8 @@ void rrfpcond_ins
       xnoreg);
 }
 
-void rrrfp_ins
-    PROTO_N ( (ins, dest, src1, src2) )
-    PROTO_T ( char *ins X int dest X int src1 X int src2 )
+void
+rrrfp_ins(char *ins, int dest, int src1, int src2)
 {
   clear_reg ((dest >> 1) + 32);
   if (as_file)
@@ -435,9 +421,8 @@ void rrrfp_ins
 jump to address given by register parameter dest
 *******************************************************************************/
 
-void br_ins
-    PROTO_N ( (ins, dest) )
-    PROTO_T ( char *ins X int dest )
+void
+br_ins(char *ins, int dest)
 {
    /* clear_all (); shouldnt be necessary*/
   andpeep = 0;
@@ -451,9 +436,8 @@ void br_ins
 
 
 /* jump to external identifier */
-void extj_ins
-    PROTO_N ( (ins, b) )
-    PROTO_T ( char *ins X baseoff b )
+void
+extj_ins(char *ins, baseoff b)
 {
   char *extname = main_globals[-b.base - 1] -> dec_u.dec_val.dec_id;
   clear_all ();
@@ -463,9 +447,8 @@ void extj_ins
   out_iinst (symnos[-b.base - 1], ins[0] - 1, xnoreg, xnoreg, forma, 0);
 }
 
-void tround_ins
-    PROTO_N ( (ins, dfr, sfr, gpr) )
-    PROTO_T ( char *ins X int dfr X int sfr X int gpr )
+void
+tround_ins(char *ins, int dfr, int sfr, int gpr)
 {
 				/* round and truncate */
   clear_reg (gpr);
@@ -478,9 +461,8 @@ void tround_ins
 }
 
 /* hi lo register manipulation */
-void hilo_ins
-    PROTO_N ( (ins, dest) )
-    PROTO_T ( char * ins X int dest )
+void
+hilo_ins(char * ins, int dest)
 {
   clear_reg(dest);
   andpeep = 0;
@@ -491,9 +473,8 @@ void hilo_ins
 }
 
 /* mult & div instructions operating on hilo */
-void multdiv_ins
-    PROTO_N ( (ins, r1, r2) )
-    PROTO_T ( char *ins X int r1 X int r2 )
+void
+multdiv_ins(char *ins, int r1, int r2)
 {
 	andpeep=0;
 	if (as_file)

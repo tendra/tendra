@@ -127,6 +127,9 @@ signature bug
 */
 
 
+#include <string.h>
+#include <stdio.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "basicread.h"

@@ -102,7 +102,7 @@ $Log: frames.c,v $
 #include "readglob.h"
 #include "stack.h"
 #include "frames.h"
-long frame_offset PROTO_N ((id)) PROTO_T (exp id)
+long frame_offset(exp id)
 {
   exp init_exp = son(id);
   exp p;
@@ -142,7 +142,7 @@ long frame_offset PROTO_N ((id)) PROTO_T (exp id)
 }
 
 
-void set_up_frame_pointer PROTO_N ((pr,e)) PROTO_T (procrec * pr X exp e )
+void set_up_frame_pointer(procrec * pr, exp e)
 {
   long pprops = pr->needsproc.propsneeds;
   /* Initialize a few of the fields */
@@ -215,7 +215,7 @@ void set_up_frame_pointer PROTO_N ((pr,e)) PROTO_T (procrec * pr X exp e )
   return;
 }
 
-void set_up_frame_info PROTO_N ((pr,e)) PROTO_T (procrec * pr X exp e )
+void set_up_frame_info(procrec * pr, exp e)
 {
   int r;
   long maxargs;

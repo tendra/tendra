@@ -446,9 +446,8 @@ char * branches
 }
 
 /*
-char *ussets
-    PROTO_N ( (i) )
-    PROTO_T ( int i )
+char *
+ussets(int i)
 {
   switch (i) {
     case  1:
@@ -466,9 +465,8 @@ char *ussets
   }
 }
 
-char *ssets
-    PROTO_N ( (i) )
-    PROTO_T ( int i )
+char *
+ssets(int i)
 {
   switch (i) {
     case  1:

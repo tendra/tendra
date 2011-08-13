@@ -101,7 +101,7 @@ $Log: record_bit.c,v $
 #define CASE_RECORD_BIT and_tag:case plus_tag:case shr_tag
 
 
-void try_record_bit PROTO_N ((e)) PROTO_T (exp e)
+void try_record_bit(exp e)
 {
   /* Tries to see if record bit can be used in this test_tag*/
   exp l = son(e);
@@ -127,7 +127,7 @@ void try_record_bit PROTO_N ((e)) PROTO_T (exp e)
   return;
 }
 
-bool record_bit_set PROTO_N ((e)) PROTO_T (exp e)
+bool record_bit_set(exp e)
 {
   switch(name(e))
   {

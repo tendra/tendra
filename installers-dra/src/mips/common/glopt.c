@@ -69,9 +69,8 @@ $Log: glopt.c,v $
 #include "glopt.h"
 
 
-void glopt
-    PROTO_N ( (dp) )
-    PROTO_T ( dec * dp )
+void
+glopt(dec * dp)
 {
   if (!strcmp(dp -> dec_u.dec_val.dec_id, "strcpy"))
    {

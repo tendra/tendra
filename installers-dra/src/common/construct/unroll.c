@@ -74,6 +74,8 @@ $Log: unroll.c,v $
  *
 ***********************************************************************/
 
+#include <stddef.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "basicread.h"

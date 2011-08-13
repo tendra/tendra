@@ -80,15 +80,13 @@ $Log: dw2_config.c,v $
 
 long dwarf_lab_num = 0;
 
-void out8 
-    PROTO_Z ()
+void out8(void)
 {
   outs ( "\t.byte " ) ;
   return;
 }
 
-void out16 
-    PROTO_Z ()
+void out16(void)
 {
 #ifdef NEEDS_DEBUG_ALIGN
   dot_align(2);
@@ -97,8 +95,7 @@ void out16
   return;
 }
 
-void out32 
-    PROTO_Z ()
+void out32(void)
 {
 #ifdef NEEDS_DEBUG_ALIGN
   dot_align(4);
@@ -107,9 +104,7 @@ void out32
   return;
 }
 
-void dot_align 
-    PROTO_N ( ( n ) )
-    PROTO_T ( long n )
+void dot_align(long n)
 {
   outs ( "\t.align " ) ;
   outn (n);
@@ -117,9 +112,7 @@ void dot_align
   return;
 }
 
-void out_string 
-    PROTO_N ( ( s ) )
-    PROTO_T ( char * s )
+void out_string(char *s)
 {
   outs ("\t.asciz \"");
   outs (s);
@@ -128,26 +121,21 @@ void out_string
   return;
 }
 
-void start_string
-    PROTO_N ( (s) )
-    PROTO_T ( char * s )
+void start_string(char *s)
 {
   outs ("\t.asciz \"");
   outs (s);
   return;
 }
 
-void end_string
-    PROTO_Z ()
+void end_string(void)
 {
   outs ("\"");
   d_outnl ();
   return;
 }
 
-void enter_section 
-    PROTO_N ( ( s ) )
-    PROTO_T ( char * s )
+void enter_section(char *s)
 {
   outs ("\t.section \".");
   outs (s);
@@ -156,8 +144,7 @@ void enter_section
   return;
 }
 
-void exit_section 
-    PROTO_Z ()
+void exit_section(void)
 {
   enum section old = current_section;
   current_section = no_section;
@@ -165,9 +152,7 @@ void exit_section
   return;
 }
 
-void outnl_comment 
-    PROTO_N ( ( s ) )
-    PROTO_T ( char * s )
+void outnl_comment(char *s)
 {
   outs ("\t!");
   outs (s);
@@ -175,9 +160,7 @@ void outnl_comment
   return;
 }
 
-void outnl_comment_i 
-    PROTO_N ( ( s, i ) )
-    PROTO_T ( char * s X long i )
+void outnl_comment_i(char *s, long i)
 {
   outs ("\t!");
   outs (s);
@@ -187,9 +170,7 @@ void outnl_comment_i
   return;
 }
 
-void out_dwf_label 
-    PROTO_N ( ( l, set ) )
-    PROTO_T ( long l X int set )
+void out_dwf_label(long l, int set)
 {
   if (!l)
     failer ("unknown label");
@@ -202,27 +183,21 @@ void out_dwf_label
   return;
 }
 
-void out_code_label
-    PROTO_N ( ( l ) )
-    PROTO_T ( long l )
+void out_code_label(long l)
 {
   outs (lab_prefix);
   outn (l);
   return;
 }
 
-void out_dwf_dist_to_label 
-    PROTO_N ( ( l ) )
-    PROTO_T ( long l )
+void out_dwf_dist_to_label(long l)
 {
   out_dwf_label (l, 0);
   outs (" - . - 4");
   return;
 }
 
-void out_dwf_labdiff 
-    PROTO_N ( ( lo, hi ) )
-    PROTO_T ( long lo X long hi )
+void out_dwf_labdiff(long lo, long hi)
 {
   if (hi == lo)
     outn ((long)0);
@@ -234,9 +209,7 @@ void out_dwf_labdiff
   return;
 }
 
-void out_ext_label
-    PROTO_N ( ( s ) )
-    PROTO_T ( char * s )
+void out_ext_label(char *s)
 {
   outs ("\t.global\t");
   outs (s);
@@ -247,9 +220,7 @@ void out_ext_label
   return;
 }
 
-void out_producer 
-    PROTO_N ( ( s ) )
-    PROTO_T ( char * s )
+void out_producer(char *s)
 {
   outs ("\t.asciz \"");
   outs (s);
@@ -266,9 +237,7 @@ void out_producer
 static int first_data = 0;
 static int first_ro = 0;
 
-void note_data 
-    PROTO_N ( ( ll, ro ) )
-    PROTO_T ( int ll X bool ro )
+void note_data(int ll, bool ro)
 {
   if (ro) {
     if (!first_ro)
@@ -281,8 +250,7 @@ void note_data
   return;
 }
 
-void dw2_data_aranges 
-    PROTO_Z ()
+void dw2_data_aranges(void)
 {
   long lab_data, lab_ro;
   if (first_data) {

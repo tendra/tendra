@@ -163,7 +163,7 @@ long p_no_of_returns =0;
 -----> 0|--------------|<=====R_SP                 ^
           STACK_TEMP
 */
-void initialise_procedure PROTO_N ((pr)) PROTO_T ( procrec *pr )
+void initialise_procedure(procrec *pr)
 {
   p_sreg_first_save= pr->sreg_first_save;
   p_sfreg_first_save = pr->sfreg_first_save;
@@ -191,7 +191,7 @@ void initialise_procedure PROTO_N ((pr)) PROTO_T ( procrec *pr )
 }
 
 
-void generate_procedure_prologue PROTO_Z ()
+void generate_procedure_prologue(void)
 {
   int r;
   baseoff stackpos;
@@ -319,7 +319,7 @@ void generate_procedure_prologue PROTO_Z ()
 }
 
 
-void generate_procedure_epilogue PROTO_Z ()
+void generate_procedure_epilogue(void)
 {
   baseoff saved_lr;
   
@@ -367,7 +367,7 @@ void generate_procedure_epilogue PROTO_Z ()
   z_ins(i_br);
   return;
 }
-void generate_untidy_procedure_epilogue PROTO_Z ()
+void generate_untidy_procedure_epilogue(void)
 {
   baseoff saved_lr;
   
@@ -421,7 +421,7 @@ void generate_untidy_procedure_epilogue PROTO_Z ()
 
 	      
   
-void save_sp_on_stack PROTO_Z ()
+void save_sp_on_stack(void)
 {
   baseoff saved_sp;
   
@@ -433,7 +433,7 @@ void save_sp_on_stack PROTO_Z ()
   st_ro_ins(i_st,R_SP,saved_sp);comment("save sp on stack");
   return;
 }
-void get_sp_from_stack PROTO_Z ()
+void get_sp_from_stack(void)
 {
   baseoff saved_sp;
   
@@ -445,7 +445,7 @@ void get_sp_from_stack PROTO_Z ()
   ld_ro_ins(i_l,saved_sp,R_SP);comment("get SP of stack");
   return;
 }
-void save_back_chain_using_frame_pointer PROTO_Z ()
+void save_back_chain_using_frame_pointer(void)
 {
   /* saves back chain using frame pointer */
   baseoff back_chain;
@@ -456,7 +456,7 @@ void save_back_chain_using_frame_pointer PROTO_Z ()
   return;
 }
 
-void restore_sregs PROTO_N ((start_base,start_offset)) PROTO_T (int start_base X int start_offset)
+void restore_sregs(int start_base, int start_offset)
 {
   baseoff stackpos;
   int r;
@@ -503,7 +503,7 @@ void restore_sregs PROTO_N ((start_base,start_offset)) PROTO_T (int start_base X
   }
   return;
 }
-void restore_link_register PROTO_Z ()
+void restore_link_register(void)
 {
   /* this function is only used by tail_call */
   baseoff saved_lr;

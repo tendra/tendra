@@ -109,10 +109,10 @@ $Log: diagout.c,v $
 #include "cross_config.h"
 #include <time.h>
 
-#ifdef CROSS_INCLUDE
+#if defined(CROSS_INCLUDE)
 #include CROSS_INCLUDE/dbxstclass.h>
 #include CROSS_INCLUDE/sys/debug.h>
-#else
+#elif defined(__AIX)
 #include <dbxstclass.h>
 #include <sys/debug.h>
 #endif
@@ -431,6 +431,7 @@ void OUTPUT_GLOBALS_TAB(void)
 
 static void number_and_stab_basicshapes(void)
 {
+#if defined(__AIX) || defined(CROSS_INCLUDE)
   /* NOTE: char is unsigned char */
   stab_basicshape(scharsh ,"signed char"   , TYPEID_SCHAR , TP_SCHAR);
   stab_basicshape(ucharsh ,"char"          , TYPEID_UCHAR , TP_CHAR);
@@ -465,6 +466,7 @@ static void number_and_stab_basicshapes(void)
     fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
   }
 #endif
+#endif
 }
 
 static void number_structs_and_unions(void)
@@ -491,6 +493,7 @@ static void number_typedefs(void)
 
 static void stab_structs_and_unions(void)
 {
+#if defined(__AIX) || defined(CROSS_INCLUDE)
   int i;
 
   for (i = 0; i < no_of_sus; ++i)
@@ -528,9 +531,11 @@ static void stab_structs_and_unions(void)
 
     fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
   }
+#endif
 }
 static void stab_typedefs(void)
 {
+#if defined(__AIX) || defined(CROSS_INCLUDE)
   int i;
   for (i=0;i<no_of_typedefs;i++)
   {
@@ -548,6 +553,7 @@ static void stab_typedefs(void)
 
     fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
   }
+#endif
 }
 
 /*
@@ -1590,6 +1596,7 @@ void stab_es(char *sectname)
  */
 void stab_global(exp global, char *id, bool ext)
 {
+#if defined(__AIX) || defined(CROSS_INCLUDE)
   diag_descriptor *dd = find_dd(global);
 
   if (dd == (diag_descriptor *)0)
@@ -1613,6 +1620,7 @@ void stab_global(exp global, char *id, bool ext)
 	  id,
 	 (ext ? C_GSYM : C_STSYM),
 	  0);
+#endif
 }
 
 
@@ -1697,7 +1705,9 @@ void stab_proc2(exp proc, char *id, bool ext)
     }
   }
 
+#if defined(__AIX) || defined(CROSS_INCLUDE)
   fprintf(as_file, "\",.%s,%d,%d\n", id, C_FUN, 0);
+#endif
 
 #if 1
 
@@ -1734,6 +1744,7 @@ void stab_endproc(exp proc, char *id, bool ext)
   current_procstart_lineno = NOT_IN_PROC;
 
   /* output AIX traceback table, see header file sys/debug.h */
+#if defined(__AIX) || defined(CROSS_INCLUDE)
   {
     static struct tbtable_short zero_tbtable_short;
     struct tbtable_short tbtable_sht;
@@ -1811,6 +1822,7 @@ void stab_endproc(exp proc, char *id, bool ext)
     /* keep program area [PR] word aligned */
     fprintf(as_file, "\t.align\t2\n");
   }
+#endif
 }
 
 
@@ -1824,6 +1836,7 @@ void stab_endproc(exp proc, char *id, bool ext)
  */
 void stab_local(char *nm, diag_type dt, exp id, int disp, int findex)
 {
+#if defined(__AIX) || defined(CROSS_INCLUDE)
   FULLCOMMENT3("stab_local: %s disp=%d boff(id).offset=%d",(long)nm, disp, boff(id).offset);
   disp += boff(id).offset;
 again:
@@ -1881,6 +1894,7 @@ again:
       }
     }
   }
+#endif
 }
 
 
@@ -1939,7 +1953,9 @@ static void stab_internal_types(diag_type dt, bool stabthislevel)
 	fprintf(as_file, "T%d=", non);
 	out_dt_TypeDef_no_recurse(dt);
 
+#if defined(__AIX) || defined(CROSS_INCLUDE)
 	fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
+#endif
       }
 
       break;
@@ -1979,12 +1995,14 @@ static void stab_internal_types(diag_type dt, bool stabthislevel)
 static void stab_basicshape
 (shape sha, char *typename, int tdf_typeidnum, int ibm_typeidnum)
 {
+#if defined(__AIX) || defined(CROSS_INCLUDE)
   int n = next_typen();
 
   ASSERT(tdf_typeidnum == n);
 
   fprintf(as_file, "\t.stabx\t\"%s:t%d=%d", typename, tdf_typeidnum, ibm_typeidnum);
   fprintf(as_file, "\",%d,%d,%d\n", 0, C_DECL, 0);
+#endif
 }
 
 

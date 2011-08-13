@@ -86,9 +86,8 @@ extern long mainfile;
 
 int field=0;
 
-long set_tq
-    PROTO_N ( (qual, type, ind) )
-    PROTO_T ( int qual X TIR *type X long ind )
+long
+set_tq(int qual, TIR *type, long ind)
 {
     AUXU retaux;
     long index=0;
@@ -126,9 +125,8 @@ long set_tq
     return -1;
 }
 
-long type_size
-    PROTO_N ( (dt) )
-    PROTO_T ( diag_type dt )
+long
+type_size(diag_type dt)
 {
     switch(dt->key) {
 	case DIAG_TYPE_VARIETY: {
@@ -151,9 +149,8 @@ long type_size
     }
 }
 
-long add_type_to_aux
-    PROTO_N ( (dt, ind) )
-    PROTO_T ( diag_type dt X long ind )
+long
+add_type_to_aux(diag_type dt, long ind)
 {
     TIR* type=(TIR*)xcalloc(1,sizeof(TIR));
     long firstind= -1;

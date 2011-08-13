@@ -153,9 +153,8 @@ static mm uswmm = {0xffffffff, 0, "\t.WORD\t%ld\n"};
 
 
 
-mm maxmin 
-    PROTO_N ( ( s ) )
-    PROTO_T ( shape s )
+mm
+maxmin(shape s)
 {
   switch (name(s))
   {
@@ -179,15 +178,15 @@ mm maxmin
 
 }
 
-int next_data_lab 
-    PROTO_Z ()
+int
+next_data_lab(void)
 {
   static int n = 100;
   return ++n;
 }
 
-int next_PIC_pcrel_lab 
-    PROTO_Z ()
+int
+next_PIC_pcrel_lab(void)
 {
   static int n = 100;
   return ++n;
@@ -199,9 +198,8 @@ int next_PIC_pcrel_lab
   less than or equal to 31 as it represent the number of bits
   in a bitfield which does not occupy a whole machine word.
 */
-long unary 
-    PROTO_N ( ( val ) )
-    PROTO_T ( int val )
+long
+unary(int val)
 {
    int loop;
    long result=0;
@@ -262,9 +260,8 @@ flpt f;
     it cannot convert the number sufficiently accurately.
 */
 
-long *realrep 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+long *
+realrep(exp e)
 {
     int i, ex ;
     char bits [128] ;
@@ -361,9 +358,8 @@ long *realrep
 }
 
 
-long evalexp 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+long
+evalexp(exp e)
 {
   switch (name(e))
   {
@@ -515,9 +511,8 @@ long evalexp
   /* NOTREACHED */
 }
 
-void oneval 
-    PROTO_N ( ( val, al, rep ) )
-    PROTO_T ( int val X int al X int rep )
+void
+oneval(int val, int al, int rep)
 {
     assert ( rep == 1 ) ;     
     outs( (al<9 ? "\t.BYTE\t" : ( al<17 ? "\t.HALF\t" : "\t.WORD\t")) );
@@ -529,9 +524,8 @@ void oneval
 /*
  * Output as ascii for the human reader (48 bytes to the line).
  */
-static void outascii 
-    PROTO_N ( ( str, strsize ) )
-    PROTO_T ( char * str X int strsize )
+static void
+outascii(char * str, int strsize)
 {
     while ( strsize > 0 ) {
 	int i ;
@@ -608,9 +602,8 @@ struct concbittypet
 typedef struct concbittypet concbittype;
 
 
-static concbittype emptyconcbit 
-    PROTO_N ( ( bitposn ) )
-    PROTO_T ( int bitposn )
+static concbittype
+emptyconcbit(int bitposn)
 {
   concbittype start;
 
@@ -622,9 +615,8 @@ static concbittype emptyconcbit
 }
 
 
-static void outconcbit 
-    PROTO_N ( ( c ) )
-    PROTO_T ( concbittype c )
+static void
+outconcbit(concbittype c)
 {
   unsigned long w = c.value;
   int bytes = (c.value_size + 7) / 8;
@@ -662,9 +654,8 @@ static void outconcbit
 /*
     ADD A VALUE TO A BIT PATTERN
 */
-static concbittype addconcbitaux
-    PROTO_N ( (w,sz,before) )
-    PROTO_T ( unsigned long w X int sz X concbittype before )
+static concbittype
+addconcbitaux(unsigned long w, int sz, concbittype before)
 {
    int wordpos;  /* bit position in word */
 
@@ -715,9 +706,8 @@ static concbittype addconcbitaux
 }
 
 
-static concbittype evalconcbitaux 
-    PROTO_N ( ( e, before ) )
-    PROTO_T ( exp e X concbittype before )
+static concbittype
+evalconcbitaux(exp e, concbittype before)
 {
   switch (name(e))
   {
@@ -739,9 +729,8 @@ static concbittype evalconcbitaux
 }
 
 
-static void evalconcbit 
-    PROTO_N ( ( e, bitposn ) )
-    PROTO_T ( exp e X int bitposn )
+static void
+evalconcbit(exp e, int bitposn)
 {
   concbittype start ;
   start = emptyconcbit(bitposn);
@@ -756,9 +745,8 @@ static void evalconcbit
  */
 
 #if 0
-bool is_zero 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+bool
+is_zero(exp e)
 {
   if (e == nilexp)
     return 1;
@@ -811,9 +799,8 @@ bool is_zero
 }
 #endif
 
-void set_align 
-    PROTO_N ( ( al ) )
-    PROTO_T ( int al )
+void
+set_align(int al)
 {
     assert ( al >= 8 && al <= 64 ) ;
     if ( al > 8 ) {
@@ -828,9 +815,8 @@ void set_align
 This procedure outputs all expressions.
 ***************************************************************/
 
-void evalone 
-    PROTO_N ( ( e, bitposn ) )
-    PROTO_T ( exp e X int bitposn )
+void
+evalone(exp e, int bitposn)
 {
   ash a;
 /*  long al = ( long ) shape_align ( sh ( e ) ) ; gcc complains */
@@ -1278,9 +1264,8 @@ void evalone
  * The result is the instore "address" of the constant.
  * A negative l implies that this is the initialisation of a global variable.
  */
-instore evaluated 
-    PROTO_N ( ( e, l ) )
-    PROTO_T ( exp e X long l )
+instore
+evaluated(exp e, long l)
 {
   int lab = (l == 0) ? next_data_lab() : (l < 0) ? l : -l;
   int lab0 = lab;

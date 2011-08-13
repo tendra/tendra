@@ -99,6 +99,8 @@ $Log: comment.h,v $
 #ifndef COMMENT_INCLUDED
 #define COMMENT_INCLUDED
 
+#include <stdio.h>
+
 #include "exptypes.h"
 #include "codetypes.h"
 #include "installtypes.h"

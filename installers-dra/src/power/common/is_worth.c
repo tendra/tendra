@@ -103,7 +103,7 @@ $Log: is_worth.c,v $
  * 'c' is the son of the top cont_tag.
  * Allowing anything causes a bug when compiling SPECINT92 085.gcc.
  */
-static bool is_worth_cont_aux PROTO_N ((c)) PROTO_T (exp c)
+static bool is_worth_cont_aux(exp c)
 {
   switch(name(c))
   {
@@ -130,7 +130,7 @@ static bool is_worth_cont_aux PROTO_N ((c)) PROTO_T (exp c)
  * We have to balance the value of this against likely register pressure
  * impact.
  */
-int is_worth PROTO_N ((c)) PROTO_T (exp c) /* used only in mc_list */
+int is_worth(exp c) /* used only in mc_list */
 {				/* decide if constant c is worth declaring
 				 * separately */
   int cnam = name(c);

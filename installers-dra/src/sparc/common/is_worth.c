@@ -82,6 +82,8 @@ $Log: is_worth.c,v $
 */
 
 
+#include <stdlib.h>
+
 #define SPARCTRANS_CODE
 #include "config.h"
 #include "common_types.h"

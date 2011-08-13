@@ -76,17 +76,15 @@ static  space zsp = {
   0, 0
 };				/* long fixed, long flt */
 
-void maxsp
-    PROTO_N ( (a, b) )
-    PROTO_T ( space * a X space b )
+void
+maxsp(space * a, space b)
 {
   a -> fixed |= b.fixed;
   a -> flt |= b.flt;
 }
 
-space suses
-    PROTO_N ( (e, pars, incpars) )
-    PROTO_T ( exp e X space * pars X int incpars )
+space
+suses(exp e, space * pars, int incpars)
 {
   /* accumulate s regs used in e; pars gives bits indicating which s-regs
      are used for the parameters of current proc; incpars says dont ignore
@@ -192,18 +190,16 @@ space suses
   return ans;
 }
 
-bool sameregs
-    PROTO_N ( (a, b) )
-    PROTO_T ( space * a X space * b )
+bool
+sameregs(space * a, space * b)
 {
   /*  regs a <= regs b */
   return ((a -> fixed | b -> fixed) == b -> fixed && (a -> flt | b -> flt) == b -> flt);
 
 }
 
-space remd
-    PROTO_N ( (tobd, dmpd) )
-    PROTO_T ( space * tobd X space * dmpd )
+space
+remd(space * tobd, space * dmpd)
 {
   /* any regs left out of tobd after dmpd has been done */
   space ans;
@@ -212,9 +208,8 @@ space remd
   return ans;
 }
 
-bool placedump
-    PROTO_N ( (pe, dmpd, tobd, nds) )
-    PROTO_T ( exp * pe X space * dmpd X space * tobd X space * nds )
+bool
+placedump(exp * pe, space * dmpd, space * tobd, space * nds)
 {
   /* replace exp in pe by new dump with props = fixeds and no = flts to be
      dumped ; thread different dumps to same rsc via pt; delivers bool to
@@ -234,9 +229,8 @@ bool placedump
 
 
 
-exp goodcond
-    PROTO_N ( (first, second, beforeb, pars) )
-    PROTO_T ( exp first X exp second X space * beforeb X space * pars )
+exp
+goodcond(exp first, exp second, space * beforeb, space * pars)
 {
   /* delivers last exp in seq first after all tests (to second) ;
      beforeb is space upto end of tests; second only use beforeb;
@@ -268,9 +262,8 @@ exp goodcond
   return nilexp;
 }
 
-bool alljumps
-    PROTO_N ( (e, slv, nol) )
-    PROTO_T ( exp e X exp slv X int * nol )
+bool
+alljumps(exp e, exp slv, int * nol)
 {
 	/* all all branches to labsts of slove_tag slv in e ? */
      recurse:
@@ -306,9 +299,8 @@ bool alljumps
 	}
 }
 
-bool goodsolve
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+bool
+goodsolve(exp e)
 {
 	exp m = bro(son(e));
 	int nol;
@@ -325,9 +317,8 @@ static int  notfregs;
  /* use to make sure of enough t-regs which are not par regs; I reuse any
     par registers whose pars are put in s-regs as t-regs  */
 
-void pushdumps
-    PROTO_N ( (pe, dmpd, tobd, pars) )
-    PROTO_T ( exp * pe X space * dmpd X space * tobd X space * pars )
+void
+pushdumps(exp * pe, space * dmpd, space * tobd, space * pars)
 {
 
   /* tries to delay the dumps of the s-regs as late as possible
@@ -524,9 +515,8 @@ void pushdumps
 }
 
 
-void dump_opt
-    PROTO_N ( (rscope, tobd, pars) )
-    PROTO_T ( exp rscope X space * tobd X space * pars )
+void
+dump_opt(exp rscope, space * tobd, space * pars)
 {
   /* rscope is proc-tag exp;  tobd is set of s-regs to be dumped; pars is
      subset of tobd which will be used as  parameters of proc */

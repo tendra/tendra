@@ -632,7 +632,7 @@ static void evalone(exp e, int bitposn)
 
 	if (c >= 32 && c < 127)
 	{
-	  fprintf(as_file,
+	  fprintf(as_file, "\t.byte\t\"");
 	  for (i = 0; strsize > 0 && i < 48 && c >= 32 && c < 127; i++)
 	  {
 	    if (c != '"')

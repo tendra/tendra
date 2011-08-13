@@ -62,9 +62,8 @@ static  binasm ba;
 #define  OUT out_one(  ba.data)
 #define C(x)  ba.x.symno = symno; ba.x.fill0a =0;ba.x.asmtype = asmtype
 
-void out_one
-    PROTO_N ( (d) )
-    PROTO_T ( char *d )
+void
+out_one(char *d)
 {	/* output one binasm record */
   int   i;
   for (i = 0; i < 16; i++) {
@@ -74,9 +73,8 @@ void out_one
   return ;
 }
 
-void out_data
-    PROTO_N ( (s, size) )
-    PROTO_T ( char *s X int size )
+void
+out_data(char *s, int size)
 {
 				/* output string as set of binasm records
 				*/
@@ -93,18 +91,16 @@ void out_data
 
 
 
-void out_common
-    PROTO_N ( (symno, asmtype) )
-    PROTO_T ( asmsym symno X unsigned asmtype )
+void
+out_common(asmsym symno, unsigned asmtype)
 {
 				/* things like label settings */
   C (common);
   OUT;
 }
 
-void out_ent
-    PROTO_N ( (symno, asmtype, lexlev) )
-    PROTO_T ( asmsym symno X unsigned asmtype X unsigned lexlev )
+void
+out_ent(asmsym symno, unsigned asmtype, unsigned lexlev)
 {
 				/* output enter binasm record */
   C (ent);
@@ -112,9 +108,8 @@ void out_ent
   OUT;
 }
 
-void out_frame
-    PROTO_N ( (symno,asmtype, frameoffset, framereg, pcreg) )
-    PROTO_T ( asmsym symno X unsigned asmtype X asmint frameoffset X asmreg framereg X asmreg pcreg )
+void
+out_frame(asmsym symno, unsigned asmtype, asmint frameoffset, asmreg framereg, asmreg pcreg)
 {/* output frame binasm record */
   C (frame);
   ba.frame.frameoffset = frameoffset;
@@ -123,9 +118,8 @@ void out_frame
   OUT;
 }
 
-void out_mask
-    PROTO_N ( (symno, asmtype, regmask, regoffset) )
-    PROTO_T ( asmsym symno X unsigned asmtype X unsigned regmask X asmint regoffset )
+void
+out_mask(asmsym symno, unsigned asmtype, unsigned regmask, asmint regoffset)
 {		/* output mask binasm record */
   C (mask);
   ba.mask.regmask = regmask;
@@ -134,9 +128,8 @@ void out_mask
 }
 
 
-void out_verstamp
-    PROTO_N ( ( majornumber, minornumber) )
-    PROTO_T ( int majornumber X int minornumber )
+void
+out_verstamp(int majornumber, int minornumber)
 {
 				/* output version stamp binasm record */
   ba.verstamp.symno = 0;
@@ -147,9 +140,8 @@ void out_verstamp
   OUT;
 }
 
-void out_loc
-    PROTO_N ( (filenumber, linenumber) )
-    PROTO_T ( unsigned filenumber X unsigned linenumber )
+void
+out_loc(unsigned filenumber, unsigned linenumber)
 {
 				/* output line-no binasm record */
   ba.loc.symno = 0;
@@ -161,9 +153,8 @@ void out_loc
   fflush (ba_file);
 }
 
-void out_chars
-    PROTO_N ( (symno, asmtype, expression, repeat) )
-    PROTO_T ( asmsym symno X unsigned asmtype X asmint expression X unsigned short repeat )
+void
+out_chars(asmsym symno, unsigned asmtype, asmint expression, unsigned short repeat)
 {	/* output some data directive binasm
 				   record */
   C (value);
@@ -172,9 +163,8 @@ void out_chars
   OUT;
 }
 
-void out_option
-    PROTO_N ( (optype, opint) )
-    PROTO_T ( int optype X int opint )
+void
+out_option(int optype, int opint)
 {
 				/* output option binasm record */
   ba.option.symno = 0;
@@ -185,9 +175,8 @@ void out_option
   OUT;
 }
 
-void out_value
-    PROTO_N ( ( symno, asmtype, expression, repeat) )
-    PROTO_T ( asmsym symno X unsigned asmtype X asmint expression X unsigned long repeat )
+void
+out_value(asmsym symno, unsigned asmtype, asmint expression, unsigned long repeat)
 {	/* output some data directive binasm
   				   record */
     C (value);
@@ -197,9 +186,8 @@ void out_value
     if (repeat>0xffff) out_value(symno, asmtype, expression, repeat-0xffff);
 }
 
-void out_alias
-    PROTO_N ( ( symno, asmtype, basereg1, basereg2) )
-    PROTO_T ( asmsym symno X unsigned asmtype X asmreg basereg1 X asmreg basereg2 )
+void
+out_alias(asmsym symno, unsigned asmtype, asmreg basereg1, asmreg basereg2)
 {		/* output alias binasm record */
   C (alias);
   ba.alias.basereg1 = basereg1;
@@ -207,9 +195,8 @@ void out_alias
   OUT;
 }
 
-void out_rinst
-    PROTO_N ( ( symno, opcode, reg1, reg2, form, reg3) )
-    PROTO_T ( asmsym symno X unsigned char opcode X asmreg reg1 X asmreg reg2 X asmformat form X asmreg reg3 )
+void
+out_rinst(asmsym symno, unsigned char opcode, asmreg reg1, asmreg reg2, asmformat form, asmreg reg3)
 {/* output binasm for instruction with no
 				   immediate operand */
   ba.rinst.symno = symno;
@@ -224,9 +211,8 @@ void out_rinst
   OUT;
 }
 
-void out_iinst
-    PROTO_N ( ( symno, opcode, reg1, reg2, form, immediate) )
-    PROTO_T ( asmsym symno X unsigned char opcode X asmreg reg1 X asmreg reg2 X asmformat form X asmint immediate )
+void
+out_iinst(asmsym symno, unsigned char opcode, asmreg reg1, asmreg reg2, asmformat form, asmint immediate)
 {
 				/* output binasm for instruction with
 				   immediate operand */
@@ -243,9 +229,8 @@ void out_iinst
 }
 
 
-void out_cpload
-    PROTO_N ( (symno, reg) )
-    PROTO_T ( asmsym symno X asmreg reg )
+void
+out_cpload(asmsym symno, asmreg reg)
 { /* This is not called - here to retain same souces for bigenian */
 	;
 }

@@ -510,7 +510,6 @@ out_mach_op(mach_op *ptr)
 		error("Illegal addressing mode");
 		outs("error");
 		return;
-	}
 	case MACH_DEC:
 		/* Register indirect with predecrement */
 		asm_predec_before;

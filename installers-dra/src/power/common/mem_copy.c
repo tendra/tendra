@@ -82,7 +82,7 @@ $Log: mem_copy.c,v $
 
 #define MAX_BYTE_COPY 80
 
-void static_memory_copy PROTO_N ((reg_from,reg_to,number_of_bytes)) PROTO_T ( int reg_from X int reg_to X int number_of_bytes)
+void static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
 {
   baseoff from;
   baseoff to;
@@ -165,7 +165,7 @@ void static_memory_copy PROTO_N ((reg_from,reg_to,number_of_bytes)) PROTO_T ( in
   }
   return;
 }
-void reverse_static_memory_copy PROTO_N ((reg_from,reg_to,number_of_bytes)) PROTO_T (int reg_from X int reg_to X int number_of_bytes)
+void reverse_static_memory_copy(int reg_from, int reg_to, int number_of_bytes)
 {
   int bytes;
   int words;
@@ -203,7 +203,7 @@ void reverse_static_memory_copy PROTO_N ((reg_from,reg_to,number_of_bytes)) PROT
   return;
 }
 
-void dynamic_byte_memory_copy PROTO_N ((reg_from,reg_to,reg_size)) PROTO_T (int reg_from X int reg_to X int reg_size)
+void dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
 {
   /* reg_size contains the number of bytes to copy */
   int zero = new_label();
@@ -238,7 +238,7 @@ void dynamic_byte_memory_copy PROTO_N ((reg_from,reg_to,reg_size)) PROTO_T (int 
   /* reg_to goes to reg_to + reg_size */
   return;
 }
-void reverse_dynamic_byte_memory_copy PROTO_N ((reg_from,reg_to,reg_size)) PROTO_T (int reg_from X int reg_to X int reg_size )
+void reverse_dynamic_byte_memory_copy(int reg_from, int reg_to, int reg_size)
 {
   /* reg_size contains the number of bytes to copy */
   int zero = new_label();
@@ -266,7 +266,7 @@ void reverse_dynamic_byte_memory_copy PROTO_N ((reg_from,reg_to,reg_size)) PROTO
   return;
 }
 
-void dynamic_word_memory_copy PROTO_N ((reg_from,reg_to,reg_size)) PROTO_T (int reg_from X int reg_to X int reg_size)
+void dynamic_word_memory_copy(int reg_from, int reg_to, int reg_size)
 {
   /* reg_size contains the number of bytes to copy */
   /* however in this case we do it word at a time */
@@ -302,7 +302,7 @@ void dynamic_word_memory_copy PROTO_N ((reg_from,reg_to,reg_size)) PROTO_T (int 
   /* reg_to goes to reg_to + reg_size */
   return;
 }
-void reverse_dynamic_word_memory_copy PROTO_N ((reg_from,reg_to,reg_size)) PROTO_T (int reg_from X int reg_to X int reg_size )
+void reverse_dynamic_word_memory_copy(int reg_from, int reg_to, int reg_size)
 {
   int zero = new_label();
   int loop = new_label();

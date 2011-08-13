@@ -120,9 +120,8 @@ static bool useinpar ;
     assignment to id, otherwise delivers 1.
 */
 
-int trace_uses 
-    PROTO_N ( ( e, id ) )
-    PROTO_T ( exp e X exp id )
+int
+trace_uses(exp e, exp id)
 {
     if ( APPLYLIKE ( e ) ) {
 	int u = nouses ;
@@ -234,9 +233,8 @@ int trace_uses
     APPLY TRACE_USES TO DYNAMIC SUCCESSORS OF a
 */
 
-void after_a 
-    PROTO_N ( ( a, id ) )
-    PROTO_T ( exp a X exp id )
+void
+after_a(exp a, exp id)
 {
     char n ;
     exp dad ;
@@ -269,9 +267,8 @@ void after_a
 }
 
 
-bool simple_seq 
-    PROTO_N ( ( e, id ) )
-    PROTO_T ( exp e X exp id )
+bool
+simple_seq(exp e, exp id)
 {
     exp dad = father ( e ) ;
     for ( ; ; ) {
@@ -287,9 +284,8 @@ bool simple_seq
 }
 
 
-bool tempdec 
-    PROTO_N ( ( e, enoughs ) )
-    PROTO_T ( exp e X bool enoughs )
+bool
+tempdec(exp e, bool enoughs)
 {
     /*
  * e is a local declaration ; 'enoughs' is a misnomer to say whether there

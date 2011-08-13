@@ -92,9 +92,8 @@ $Log: is_worth.c,v $
     This is called from mc_list.
 */
 
-int is_worth
-    PROTO_N ( ( c ) )
-    PROTO_T ( exp c )
+int
+is_worth(exp c)
 {
     unsigned char cnam = name ( c ) ;
     bool isflt = ( bool ) is_floating ( name ( sh ( c ) ) ) ;

@@ -93,8 +93,8 @@ int firstlab=50, labno;
     It is called at the start of each procedure to aid readability.
 */
 
-void seed_label 
-    PROTO_Z ()
+void
+seed_label(void)
 {
     firstlab = ( ( firstlab + labno + 100 ) / 100 ) * 100 ;
     assert ( firstlab >= old_labno ) ;
@@ -107,8 +107,8 @@ void seed_label
     CALCULATE NEXT LABEL NUMBER
 */
 
-int new_label 
-    PROTO_Z ()
+int
+new_label(void)
 {
     labno++ ;
     return ( firstlab+labno ) ;

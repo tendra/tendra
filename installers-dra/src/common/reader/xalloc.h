@@ -73,6 +73,9 @@ $Log: xalloc.h,v $
 #ifndef xalloc_key
 #define xalloc_key 1
 
+#include <stddef.h>
+
+
 typedef void *voidstar;
 
 extern  voidstar xcalloc(int n, size_t s);

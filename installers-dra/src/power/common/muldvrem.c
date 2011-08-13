@@ -705,7 +705,7 @@ static int do_rem(exp seq, space sp, int final_reg, bool sgned)
 
 /* choose regs and generate code using do_fn */
 static int find_reg_and_apply
-(exp e, space sp, where dest, bool sgned,	     int(*do_fn)PROTO_S((exp, space, int, bool)))
+(exp e, space sp, where dest, bool sgned,	     int(*do_fn)(exp, space, int, bool))
 {
   exp seq = son(e);
   ans a;

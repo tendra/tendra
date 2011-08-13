@@ -79,7 +79,7 @@ bool do_comment;			/* set in powertrans.c */
 
 #ifdef DO_COMMENT
 
-void COMMENT PROTO_N ((mess)) PROTO_T (char *mess)
+void COMMENT(char *mess)
 {
   if (do_comment)
   {
@@ -87,7 +87,7 @@ void COMMENT PROTO_N ((mess)) PROTO_T (char *mess)
   }
 }
 
-void COMMENT1 PROTO_N ((mess,p1)) PROTO_T (char *mess X long p1)
+void COMMENT1(char *mess, long p1)
 {
   if (do_comment)
   {
@@ -97,7 +97,7 @@ void COMMENT1 PROTO_N ((mess,p1)) PROTO_T (char *mess X long p1)
   }
 }
 
-void COMMENT2 PROTO_N ((mess,p1,p2)) PROTO_T (char *mess X long p1 X long p2)
+void COMMENT2(char *mess, long p1, long p2)
 {
   if (do_comment)
   {
@@ -107,7 +107,7 @@ void COMMENT2 PROTO_N ((mess,p1,p2)) PROTO_T (char *mess X long p1 X long p2)
   }
 }
 
-void COMMENT3 PROTO_N ((mess,p1,p2,p3)) PROTO_T (char *mess X long p1 X long p2 X long p3)
+void COMMENT3(char *mess, long p1, long p2, long p3)
 {
   if (do_comment)
   {
@@ -117,7 +117,7 @@ void COMMENT3 PROTO_N ((mess,p1,p2,p3)) PROTO_T (char *mess X long p1 X long p2 
   }
 }
 
-void COMMENT4 PROTO_N ((mess,p1,p2,p3,p4)) PROTO_T (char *mess X long p1 X long p2 X long p3 X long p4)
+void COMMENT4(char *mess, long p1, long p2, long p3, long p4)
 {
   if (do_comment)
   {
@@ -134,7 +134,7 @@ void COMMENT4 PROTO_N ((mess,p1,p2,p3,p4)) PROTO_T (char *mess X long p1 X long 
 #endif				/* DO_COMMENT */
 
 
-void fail PROTO_N ((mess)) PROTO_T (char *mess)
+void fail(char *mess)
 {
   COMMENT1("TRANSLATION FAILED: %s", (long) mess);
   fflush(as_file);

@@ -85,6 +85,8 @@ $Log: label_ops.c,v $
 
 
 
+#include <stddef.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "expmacs.h"

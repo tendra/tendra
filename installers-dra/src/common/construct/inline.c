@@ -92,6 +92,8 @@ Initial revision
 
 ***********************************************************************/
 
+#include <stddef.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "exp.h"

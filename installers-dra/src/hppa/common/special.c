@@ -114,9 +114,8 @@ $Log: special.c,v $
 #include "flags.h"
 #include "special.h"
 
-speci special_fn 
-    PROTO_N ( ( a1, a2, s ) )
-    PROTO_T ( exp a1 X exp a2 X shape s )
+speci
+special_fn(exp a1, exp a2, shape s)
 {				/* look for special functions */
   speci spr;
 
@@ -128,9 +127,8 @@ speci special_fn
 }
 
 /* these are the procs I could do something about */
-static int specno 
-    PROTO_N ( ( n ) )
-    PROTO_T ( char * n )
+static int
+specno(char * n)
 {
 
   /*
@@ -162,9 +160,8 @@ static int specno
 
 
 /* what name to use with call instruction for specials */
-char *special_call_name 
-    PROTO_N ( ( i ) )
-    PROTO_T ( int i )
+char *
+special_call_name(int i)
 {
   switch (i)
   {
@@ -192,9 +189,8 @@ static const needs twofixneeds = {2, 0, 0, 0};	/* two fix reg needs */
 
 
 /* these are the needs for their expansion */
-needs specialneeds 
-    PROTO_N ( ( i, application, pars ) )
-    PROTO_T ( int i X exp application X exp pars )
+needs
+specialneeds(int i, exp application, exp pars)
 {
   FULLCOMMENT1("specialneeds(%d,...)", i);
 
@@ -218,9 +214,8 @@ needs specialneeds
 
 
 /* could I treat this function load specially ? */
-int specialfn 
-    PROTO_N ( ( fn ) )
-    PROTO_T ( exp fn )
+int
+specialfn(exp fn)
 {
   if (name(fn) == name_tag && name(son(fn)) == ident_tag &&
       isglob(son(fn)) && son(son(fn)) == nilexp)
@@ -233,9 +228,8 @@ int specialfn
 }
 
 /* Is a call to this function reason to prohibit optmisation of caller? */
-int specialopt 
-    PROTO_N ( ( fn ) )
-    PROTO_T ( exp fn )
+int
+specialopt(exp fn)
 {
   if (name(fn) == name_tag && name(son(fn)) == ident_tag &&
       isglob(son(fn)) && son(son(fn)) == nilexp)
@@ -263,9 +257,8 @@ int specialopt
 }
 
 
-int specialmake 
-    PROTO_N ( ( i, par, sp, dest, exitlab ) )
-    PROTO_T ( int i X exp par X space sp X where dest X int exitlab )
+int
+specialmake(int i, exp par, space sp, where dest, int exitlab)
 {
   switch (i)
   {
@@ -404,9 +397,8 @@ static struct {
     OUTPUT A MILLICODE LIBRARY CALL
 */
 
-void call_millicode
-    PROTO_N ( ( n, r, stub, restore_linkage_ptr_reg ) )
-    PROTO_T ( int n X int r X char *stub X bool restore_linkage_ptr_reg )
+void
+call_millicode(int n, int r, char *stub, bool restore_linkage_ptr_reg)
 {
     const char *nm = millicode_lib[n].proc_name ;
     millicode_lib[n].called = 1 ;
@@ -417,8 +409,8 @@ void call_millicode
 
 }
 
-void import_millicode
-    PROTO_Z ()
+void
+import_millicode(void)
 {
    int n;
    for(n=0; n<sz_millicode_lib; n++)

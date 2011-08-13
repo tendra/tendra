@@ -85,9 +85,8 @@ int   no_temps = 0;
 
 
 
-int   symnoforext
-    PROTO_N ( (ex, filen) )
-    PROTO_T ( dec * ex X int filen )
+int
+symnoforext(dec * ex, int filen)
 {
 				/* produce a symbolno for global given by
 				   ex in file filen */
@@ -155,9 +154,8 @@ int   symnoforext
   }
 }
 
-int   symnoforstart
-    PROTO_N ( (i, filen) )
-    PROTO_T ( int i X int filen )
+int
+symnoforstart(int i, int filen)
 {
 				/* output symbolno for start of proc */
   dec * ex = main_globals[i];
@@ -176,9 +174,8 @@ int   symnoforstart
   return new_lsym (id, symnos[i], symtype, scText, dt, filen);
 }
 
-int   symnoforend
-    PROTO_N ( (ex, filen) )
-    PROTO_T ( dec * ex X int filen )
+int
+symnoforend(dec * ex, int filen)
 {
 				/* output symbolno for end of proc */
   char *id = ex -> dec_u.dec_val.dec_id;
@@ -195,9 +192,8 @@ int   symnoforend
   return new_lsym_d (id, 0, stEnd, scText, dt, filen);
 }
 
-int   symnofordata
-    PROTO_N ( (data_lab) )
-    PROTO_T ( int data_lab )
+int
+symnofordata(int data_lab)
 {
 				/* output symbol number for data_lab and
 				   remember it in tempsnos */

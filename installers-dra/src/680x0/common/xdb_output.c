@@ -348,7 +348,8 @@ void diag_string
 	    }
 	}
     } else {
-	fprintf(file,    }
+	fprintf(file, "\"%s\"", s);
+    }
     return;
 }
 
@@ -513,7 +514,8 @@ void diag_source_file
 	int n = strlen(nm) + 3;
 	char *qnm = alloc_nof(char, n);
 	mach_op *op = make_extern_data("Ltext", 0);
-	sprintf(qnm,	make_stabs(qnm,(have_module ? 132 : 100), L0, op);
+	sprintf(qnm, "\"%s\"", nm);
+	make_stabs(qnm,(have_module ? 132 : 100), L0, op);
 	if (!have_module) {
 	    make_external_label("Ltext");
 	    init_stab_types();

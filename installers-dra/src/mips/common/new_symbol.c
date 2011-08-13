@@ -117,9 +117,8 @@ long esymindex = 0;
 long extind=0;
 
 
-void init_table_space
-    PROTO_N ( (noofiles, noprocs) )
-    PROTO_T ( long noofiles X long noprocs )
+void
+init_table_space(long noofiles, long noprocs)
 {
 	int ind=0;
 	AUXU nilaux;
@@ -179,9 +178,8 @@ void init_table_space
 }
 
 
-void add_proc
-    PROTO_N ( (sympos, filenum) )
-    PROTO_T ( long sympos X long filenum )
+void
+add_proc(long sympos, long filenum)
 {
 	static long symcount=0;
 	pSYMFDR fdrlist=file_desc_table+filenum;
@@ -197,9 +195,8 @@ void add_proc
 /*********************  STRING procedures  ********************/
 
 
-long add_string
-    PROTO_N ( (str, list) )
-    PROTO_T ( char* str X STRINGS* list )
+long
+add_string(char* str, STRINGS* list)
 {
 	long stringind=list->usage;
 	int length = strlen(str)+1;
@@ -221,9 +218,8 @@ long add_string
 }
 
 
-long add_to_loc_strings
-    PROTO_N ( (locstr,index) )
-    PROTO_T ( char* locstr X int index )
+long
+add_to_loc_strings(char* locstr, int index)
 {
 	stringsize+=strlen(locstr)+1;
 	nostrings++;
@@ -232,9 +228,8 @@ long add_to_loc_strings
 
 
 
-long add_to_ext_strings
-    PROTO_N ( (extstr) )
-    PROTO_T ( char* extstr )
+long
+add_to_ext_strings(char* extstr)
 {
 	long posind=extind;
 	add_string(extstr, extstrings);
@@ -247,9 +242,8 @@ long add_to_ext_strings
 
 
 
-long add_dense_no
-    PROTO_N ( (rfd, index) )
-    PROTO_T ( long rfd X long index )
+long
+add_dense_no(long rfd, long index)
 {
 	DNR* curr_dense;
 	DENSETAB* denseptr= densenos;
@@ -272,9 +266,8 @@ long add_dense_no
 	return (densind-1);
 }
 
-DNR* get_dense_ptr
-    PROTO_N ( (densind) )
-    PROTO_T ( long densind )
+DNR*
+get_dense_ptr(long densind)
 {
 	DENSETAB* denseptr = densenos;
 	long densecount=denseptr->num;
@@ -288,9 +281,8 @@ DNR* get_dense_ptr
 
 /********************  SYMBOL PROCEDURES  ********************/
 
-long get_sym_index
-    PROTO_N ( (ind) )
-    PROTO_T ( long ind )
+long
+get_sym_index(long ind)
 {
 	LSYMS* lsymlist=local_symbols+ind;
 	long lsymindex = lsymlist->noofsyms;
@@ -302,9 +294,8 @@ long get_sym_index
 }
 
 
-SYMR* get_sym_ptr
-    PROTO_N ( (ind, symind) )
-    PROTO_T ( long ind X long symind )
+SYMR*
+get_sym_ptr(long ind, long symind)
 {
 	LSYMS* lsymlist=local_symbols+ind;
 	long symcount=lsymlist->noofsyms;
@@ -318,9 +309,8 @@ SYMR* get_sym_ptr
 
 
 
-long add_lsym
-    PROTO_N ( (ind, newsym) )
-    PROTO_T ( long ind X SYMR* newsym )
+long
+add_lsym(long ind, SYMR* newsym)
 {
 	LSYMS* lsymlist=local_symbols+ind;
 	long lsymindex = lsymlist->noofsyms;
@@ -343,9 +333,8 @@ long add_lsym
 
 
 
-long add_esym
-    PROTO_N ( (ind, newsym) )
-    PROTO_T ( long ind X SYMR* newsym )
+long
+add_esym(long ind, SYMR* newsym)
 {
 	if (esymlist->noofsyms==SYMTABSIZE)
 	     {   esymlist->nextsyms=(ESYMS*)xcalloc(1,sizeof(ESYMS));
@@ -363,9 +352,8 @@ long add_esym
 
 }
 
-long new_lsym
-    PROTO_N ( (str, value, symtype,symclass, s, filenum) )
-    PROTO_T ( char* str X long value X short symtype X short symclass X diag_type s X long filenum )
+long
+new_lsym(char* str, long value, short symtype, short symclass, diag_type s, long filenum)
 {
 	SYMR newsym;
 	AUXU nilaux;
@@ -465,18 +453,16 @@ long new_lsym
 }
 
 
-long new_lsym_d
-    PROTO_N ( (str, value, symtype, symclass, s, filenum) )
-    PROTO_T ( char* str X long value X short symtype X short symclass X diag_type s X long filenum )
+long
+new_lsym_d(char* str, long value, short symtype, short symclass, diag_type s, long filenum)
 {
 	return(add_dense_no(filenum,new_lsym (str, value, symtype, symclass,s, filenum)));
 }
 
 
 
-long new_esym
-    PROTO_N ( (str,value, symtype, symclass, s, filenum) )
-    PROTO_T ( char* str X long value X short symtype X short symclass X diag_type s X long filenum )
+long
+new_esym(char* str, long value, short symtype, short symclass, diag_type s, long filenum)
 {
    SYMR newsym;
    long strind=add_to_ext_strings(str);
@@ -496,9 +482,8 @@ long new_esym
 }
 
 
-long new_esym_d
-    PROTO_N ( (str, value, symtype, symclass, s, filenum) )
-    PROTO_T ( char* str X long value X short symtype X short symclass X diag_type s X long filenum )
+long
+new_esym_d(char* str, long value, short symtype, short symclass, diag_type s, long filenum)
 {
 	return(add_dense_no(0x7fffffff,new_esym(str, value, symtype, symclass, s, filenum)));
 }
@@ -506,9 +491,8 @@ long new_esym_d
 
 /********************* Auxillary information  ********************/
 
-AUXU* get_aux_ptr
-    PROTO_N ( (index, auxind) )
-    PROTO_T ( long index X long auxind )
+AUXU*
+get_aux_ptr(long index, long auxind)
 {
 	AUXTAB* auxdata;
 	long auxcount;
@@ -522,9 +506,8 @@ AUXU* get_aux_ptr
 }
 
 
-long add_aux
-    PROTO_N ( (auxent, index) )
-    PROTO_T ( AUXU auxent X long index )
+long
+add_aux(AUXU auxent, long index)
 {
 	AUXTAB* auxdata;
 	long auxind;
@@ -549,9 +532,8 @@ long add_aux
 }
 
 
-long add_st_aux
-    PROTO_N ( (ind) )
-    PROTO_T ( long ind )
+long
+add_st_aux(long ind)
 {
    AUXU straux;
    AUXU maxaux;
@@ -565,9 +547,8 @@ long add_st_aux
 }
 
 
-long add_un_aux
-    PROTO_N ( (ind) )
-    PROTO_T ( long ind )
+long
+add_un_aux(long ind)
 {
    AUXU uniaux;
    AUXU maxaux;
@@ -581,9 +562,8 @@ long add_un_aux
 }
 
 
-void output_symtab
-    PROTO_N ( (symfilename) )
-    PROTO_T ( char* symfilename )
+void
+output_symtab(char* symfilename)
 {
    /* end all the files */
    int i;

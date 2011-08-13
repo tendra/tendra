@@ -71,9 +71,8 @@ the shape number is in the range for floating point shapes.
 ****************************************************************/
 
 
-bool valregable
-    PROTO_N ( (s) )
-    PROTO_T ( shape s )
+bool
+valregable(shape s)
 {
   int n = name(s);
   if (is_floating (n)) {	/* check shape to see if floating point */
@@ -89,9 +88,8 @@ bool valregable
   }
 }
 
-bool fixregable
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+bool
+fixregable(exp e)
 {
   if (!isvis (e) && !isoutpar(e) && !isglob (e)
 		&& name(son(e)) != caller_name_tag) {
@@ -110,9 +108,8 @@ determines whether the exp e can fit in a floating point register, single
 or double.
 ***************************************************************/
 
-bool floatregable
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+bool
+floatregable(exp e)
 {
   if (!isvis (e) && !isoutpar(e) && !isglob (e)
 	&& name(son(e)) != caller_name_tag) {

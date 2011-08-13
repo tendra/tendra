@@ -52,107 +52,103 @@ $Log: psu_ops.c,v $
 extern  FILE * as_file;
 
 
-void setnoreorder
-    PROTO_Z ()
+void
+setnoreorder(void)
 {
   if (as_file)
     fprintf (as_file, "\t.set\tnoreorder\n");
   out_value (0, iset, set_noreorder, 0);
 }
 
-void setreorder
-    PROTO_Z ()
+void
+setreorder(void)
 {
   if (as_file)
     fprintf (as_file, "\t.set\treorder\n");
   out_value (0, iset, set_reorder, 0);
 }
 
-void setnomove
-    PROTO_Z ()
+void
+setnomove(void)
 {
   if (as_file)
     fprintf (as_file, "\t.set\tnomove\n");
   out_value (0, iset, set_nomove, 0);
 }
 
-void setmove
-    PROTO_Z ()
+void
+setmove(void)
 {
   if (as_file)
     fprintf (as_file, "\t.set\tmove\n");
   out_value (0, iset, set_move, 0);
 }
 
-void setvolatile
-    PROTO_Z ()
+void
+setvolatile(void)
 {
   if (as_file)
     fprintf (as_file, "\t.set\tvolatile\n");
   out_value (0, iset, set_volatile, 0);
 }
 
-void setnovolatile
-    PROTO_Z ()
+void
+setnovolatile(void)
 {
   if (as_file)
     fprintf (as_file, "\t.set\tnovolatile\n");
   out_value (0, iset, set_novolatile, 0);
 }
 
-void setnoat
-    PROTO_Z ()
+void
+setnoat(void)
 {
   if (as_file)
     fprintf (as_file, "\t.set\tnoat\n");
   out_value (0, iset, set_noat, 0);
 }
 
-void setat
-    PROTO_Z ()
+void
+setat(void)
 {
   if (as_file)
     fprintf (as_file, "\t.set\tat\n");
   out_value (0, iset, set_at, 0);
 }
 
-void comment
-    PROTO_N ( (mess) )
-    PROTO_T ( char *mess )
+void
+comment(char *mess)
 {
   if (as_file)
     fprintf (as_file, " ## %s\n", mess);
 }
 
-void setframe
-    PROTO_N ( (st) )
-    PROTO_T ( long st )
+void
+setframe(long st)
 {
   if (as_file)
     fprintf (as_file, "\t.frame\t$sp, %ld, $31\n", st);
   out_frame (0, iframe, st, 29, 31);
 }
 
-void settext
-    PROTO_Z ()
+void
+settext(void)
 {
   if (as_file)
     fprintf (as_file, "\t.text\n");
   out_common (0, itext);
 }
 
-void setmask
-    PROTO_N ( (mask, disp) )
-    PROTO_T ( long mask X long disp )
+void
+setmask(long mask, long disp)
 {
   if (as_file)
     fprintf (as_file, "\t.mask\t0x%lx,%ld\n", mask, disp);
   out_mask (0, imask, mask, disp);
 }
 
-void setfmask
-    PROTO_N ( (mask, disp) )
-    PROTO_T ( long mask X long disp )
+void
+setfmask(long mask, long disp)
 {
   if (as_file)
     fprintf (as_file, "\t.fmask\t0x%lx,%ld\n", mask, disp);

@@ -130,9 +130,8 @@ regofval
 The procedure regofval checks to see if an exp is a load_tag
 that has been allocated into a fixpnt register and if so return it or else R_NO_REG.
 *********************************************************************/
-int regofval 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+int
+regofval(exp e)
 {
   exp dc = son(e);
 
@@ -162,9 +161,8 @@ int regofval
   }
 }
 
-int fregofval 
-    PROTO_N ( ( e ) )
-    PROTO_T ( exp e )
+int
+fregofval(exp e)
 {
   exp dc = son(e);
 
@@ -184,9 +182,8 @@ int fregofval
 
 
 /* calls make_code and tie up any internal exit labels */
-static int make_code_here 
-    PROTO_N ( ( e, sp, dest ) )
-    PROTO_T ( exp e X space sp X where dest )
+static int
+make_code_here(exp e, space sp, where dest)
 {
   makeans mka;
 
@@ -201,9 +198,8 @@ static int make_code_here
 
 
 /* return reg if 'e' e can easily go to one reg only */
-static int is_reg_operand 
-    PROTO_N ( ( e, sp ) )
-    PROTO_T ( exp e X space sp )
+static int
+is_reg_operand(exp e, space sp)
 {
   int x = regofval(e);
   ans aa;
@@ -245,9 +241,8 @@ static int is_reg_operand
 }
 
 
-int reg_operand 
-    PROTO_N ( ( e, sp ) )
-    PROTO_T ( exp e X space sp )
+int
+reg_operand(exp e, space sp)
 {
   int reg;
 
@@ -277,9 +272,8 @@ int reg_operand
 }
 
 /* like reg_operand(), but to specified reg */
-void reg_operand_here 
-    PROTO_N ( ( e, sp, this_reg ) )
-    PROTO_T ( exp e X space sp X int this_reg )
+void
+reg_operand_here(exp e, space sp, int this_reg)
 {
   int reg;
 
@@ -311,9 +305,8 @@ void reg_operand_here
 }
 
 
-int freg_operand 
-    PROTO_N ( ( e, sp, reg ) )
-    PROTO_T ( exp e X space sp X int reg )
+int
+freg_operand(exp e, space sp, int reg)
 {
   int x = fregofval(e);
   ans aa;
@@ -369,9 +362,8 @@ int freg_operand
  * any internal exit labels are tied up after the call.
  * Optimises the case where the value of 'e' is in a register.
  */
-int code_here 
-    PROTO_N ( ( e, sp, dest ) )
-    PROTO_T ( exp e X space sp X where dest )
+int
+code_here(exp e, space sp, where dest)
 {
   int reg;
 

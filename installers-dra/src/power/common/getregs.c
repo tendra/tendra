@@ -105,7 +105,7 @@ static long choosefloat;
 
 
 /* reset getreg() and getfreg() back to start of sequence for proc 'tg' */
-void settempregs PROTO_N ((tg)) PROTO_T (exp tg)
+void settempregs(exp tg)
 
 {
   currentfix = R_LAST_PARAM+1;/* R_11 it must be for parameters*/
@@ -118,7 +118,7 @@ void settempregs PROTO_N ((tg)) PROTO_T (exp tg)
 
 
 /* count how many free regs there are */
-int freeregs PROTO_N ((rmask)) PROTO_T (long rmask)
+int freeregs(long rmask)
 {
   /* Free reg marked by 0 bit, count them */
   unsigned long bit = 1;
@@ -135,7 +135,7 @@ int freeregs PROTO_N ((rmask)) PROTO_T (long rmask)
 
 
 /* get a free temporary fixed pt reg */
-int getreg PROTO_N ((fixed)) PROTO_T (long fixed)
+int getreg(long fixed)
 {
   /*
    * Choose reg from set 'fixed'. Chosen in a cyclic order, to give good
@@ -190,7 +190,7 @@ int getreg PROTO_N ((fixed)) PROTO_T (long fixed)
 
 
 /* get a free temporary floating reg */
-int getfreg PROTO_N ((fl)) PROTO_T (long fl)
+int getfreg(long fl)
 {
   /*
    * Choose reg from set 'fl'. Chosen in a cyclic order, to give good chance
@@ -244,7 +244,7 @@ int getfreg PROTO_N ((fl)) PROTO_T (long fl)
 
 
 /* return next branch unit cr reg to use */
-int next_creg PROTO_Z ()
+int next_creg(void)
 {
   /*
    * Cycle around cr 0,1,6,7.	+++ allocate as regs

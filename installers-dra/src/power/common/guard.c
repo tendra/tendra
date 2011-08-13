@@ -105,7 +105,7 @@ registers a factor of 2 is involved. The corresponding bit in the appropriate fi
 space i.e fixed or float, is therefore set.
 ********************************************************************/
 
-space guardreg PROTO_N ((r,sp)) PROTO_T (int r X space sp)
+space guardreg(int r, space sp)
 {
   if (IS_TREG(r))
   {
@@ -114,7 +114,7 @@ space guardreg PROTO_N ((r,sp)) PROTO_T (int r X space sp)
   return sp;
 }
 
-space guardfreg PROTO_N ((r,sp)) PROTO_T (int r X space sp)
+space guardfreg(int r, space sp)
 {
   if (IS_FLT_TREG(r))		/* r is a floating point t reg */
   {
@@ -130,7 +130,7 @@ space guardfreg PROTO_N ((r,sp)) PROTO_T (int r X space sp)
  * Used, eg, when claiming regs that will be damaged, as in a call.
  */
 
-space needreg PROTO_N ((r,sp)) PROTO_T (int r X space sp)
+space needreg(int r, space sp)
 {
   /* tempdec() can allocate t regs if dead over calls, so dont fail */
   if (!(tempdecopt && IS_TREG(r)) && (sp.fixed&RMASK(r))!=0)
@@ -141,7 +141,7 @@ space needreg PROTO_N ((r,sp)) PROTO_T (int r X space sp)
   return guardreg(r, sp);
 }
 
-space needfreg PROTO_N ((r,sp)) PROTO_T (int r X space sp)
+space needfreg(int r, space sp)
 {
   /* tempdec() can allocate t regs if dead over calls, so dont fail */
   if (!(tempdecopt && IS_FLT_TREG(r)) && (sp.flt&RMASK(r))!=0)
@@ -161,7 +161,7 @@ register involved in the addressing can be deduced from the base field of the
 instore value. These types are defined in addresstypes.h.
 *********************************************************************/
 
-space guard PROTO_N ((w,sp)) PROTO_T (where w X space sp)
+space guard(where w, space sp)
 {
   switch (w.answhere.discrim)
   {

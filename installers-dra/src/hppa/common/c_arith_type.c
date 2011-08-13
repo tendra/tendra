@@ -80,9 +80,8 @@ $Log: c_arith_type.c,v $
 
 /* PROCEDURES */
 
-int arith_type
-    PROTO_N ( (a,b) )
-    PROTO_T ( int a X int b )
+int
+arith_type(int a, int b)
 {
  if(a==(t_long|t_unsigned))return a;
  if(b==(t_long|t_unsigned))return a;
@@ -99,25 +98,22 @@ int arith_type
  return (t_int|t_signed);
 }
 
-int promote
-    PROTO_N ( (a) )
-    PROTO_T ( int a )
+int
+promote(int a)
 {
  if((a&variety_filter)<t_int)return(t_int|t_signed);
  return a;
 }
 
-int sign_promote
-    PROTO_N ( (a) )
-    PROTO_T ( int a )
+int
+sign_promote(int a)
 {
  if((a&variety_filter)<t_int)a=((a&~variety_filter)|t_int);
  return a;
 }
 
-variety convert
-    PROTO_N ( (a) )
-    PROTO_T ( unsigned a )
+variety
+convert(unsigned a)
 {
  switch(a){
    case (t_char|t_none): return scharsh;

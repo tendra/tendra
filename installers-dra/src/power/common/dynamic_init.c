@@ -91,18 +91,18 @@ $Log: dynamic_init.c,v $
 #include "installglob.h"
 #include "dynamic_init.h"
 
-void do__main_extern PROTO_Z ()
+void do__main_extern(void)
 {
   fprintf(as_file,"\t.extern\t__main\n");
   fprintf(as_file,"\t.extern\t.__main\n");
 }
 
-void call__main PROTO_Z ()
+void call__main(void)
 {
   fprintf(as_file,"\tbl\t.__main\n");
   fprintf(as_file,"\tcror\t15,15,15\n");
 }
-int proc_is_main PROTO_N ((e)) PROTO_T (exp e)
+int proc_is_main(exp e)
 {
   baseoff b;
   char *ext;

@@ -76,9 +76,8 @@ Delivers register used if 1-word destination is instore; otherwise NOREG.
 #include "move.h"
 
 
-int   move
-    PROTO_N ( (a, dest, freeregs, sgned) )
-    PROTO_T ( ans a X where dest X space freeregs X bool sgned )
+int
+move(ans a, where dest, space freeregs, bool sgned)
 {
   long regs = freeregs.fixed;
   long fregs = freeregs.flt;

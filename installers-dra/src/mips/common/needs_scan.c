@@ -173,9 +173,8 @@ is used to stop a procedure requiring more than the available number of
 registers.
 ****************************************************************/
 
-void cca
-    PROTO_N ( (to, x) )
-    PROTO_T ( exp ** to X exp * x )
+void
+cca(exp ** to, exp * x)
 {
   if (x == (*to)) {
     exp def = * (x);
@@ -235,9 +234,8 @@ needs zeroneeds = {
   0, 0, 0, 0
 };				/* has no needs */
 
-bool subvar_use
-    PROTO_N ( (uses) )
-    PROTO_T ( exp uses )
+bool
+subvar_use(exp uses)
 { /* check to see if any uses of id is initialiser to subvar dec */
 	for(;uses != nilexp; uses=pt(uses)) {
 	     if (last(uses) && name(bro(uses))==cont_tag) {
@@ -252,9 +250,8 @@ bool subvar_use
 }
 
 
-needs shapeneeds
-    PROTO_N ( (s) )
-    PROTO_T ( shape s )
+needs
+shapeneeds(shape s)
 {	/* this gives the needs for manipulating a
 				   value of shape s */
   if (is_floating (name (s)))
@@ -284,9 +281,8 @@ needs shapeneeds
   }
 }
 
-bool complex
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+bool
+complex(exp e)
 {		/* these are basically the expressions
 				   which cannot be accessed by a simple
 				   load or store instruction */
@@ -301,9 +297,8 @@ bool complex
   }
 }
 
-int scan_cond
-    PROTO_N ( (e, outer_id) )
-    PROTO_T ( exp * e X exp outer_id )
+int
+scan_cond(exp * e, exp outer_id)
 {
 
 	exp ste = *e;
@@ -441,9 +436,8 @@ int scan_cond
 
 
 
-needs likeplus
-    PROTO_N ( (e, at) )
-    PROTO_T ( exp * e X exp ** at )
+needs
+likeplus(exp * e, exp ** at)
 {
 				/* does the scan on commutative and
 				   associative operations and may perform
@@ -531,9 +525,8 @@ needs likeplus
   return a1;
 }
 
-needs likediv
-    PROTO_N ( (e, at) )
-    PROTO_T ( exp * e X exp ** at )
+needs
+likediv(exp * e, exp ** at)
 {
 				/* scan non-commutative fix pt operation
 				*/
@@ -567,9 +560,8 @@ needs likediv
   return l;
 }
 
-needs fpop
-    PROTO_N ( (e, at) )
-    PROTO_T ( exp * e X exp ** at )
+needs
+fpop(exp * e, exp ** at)
 {
 				/* scans diadic floating point operation  */
   needs l;
@@ -621,9 +613,8 @@ Calculates a needs value. Each element of which is the maximum of the
 corresponding elements in the two parameter needs
 **********************************************************************/
 
-needs maxneeds
-    PROTO_N ( (a, b) )
-    PROTO_T ( needs a X needs b )
+needs
+maxneeds(needs a, needs b)
 {
   needs an;
   an.fixneeds = max (a.fixneeds, b.fixneeds);
@@ -638,9 +629,8 @@ needs maxneeds
 
 **********************************************************************/
 
-needs maxtup
-    PROTO_N ( (e, at) )
-    PROTO_T ( exp e X exp ** at )
+needs
+maxtup(exp e, exp ** at)
 {	/* calculates the needs of a tuple of
 				   expressions; any new declarations
 				   required by a component expression will
@@ -656,9 +646,8 @@ needs maxtup
   return an;
 }
 
-bool unchanged
-    PROTO_N ( (usedname, ident) )
-    PROTO_T ( exp usedname X exp ident )
+bool
+unchanged(exp usedname, exp ident)
 {
 				/* finds if usedname is only used in cont
 				   operation or as result of ident i.e.
@@ -685,9 +674,8 @@ bool unchanged
 
 
 
-exp absbool
-    PROTO_N ( (id) )
-    PROTO_T ( exp id /* declaration */ )
+exp
+absbool(exp id /* declaration */ )
 {			/* check if e  is (let a = 0 in
                                cond(inttest(L)=result; a=1 | L:top); a
                                ni ) This will be compiled later using
@@ -729,9 +717,8 @@ exp absbool
   return 0;
 }
 
-exp * ptr_position
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+exp *
+ptr_position(exp e)
 {
 	exp * a;
 	exp dad = father(e);
@@ -746,9 +733,8 @@ exp * ptr_position
 	return a;
 }
 
-void change_to_var
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void
+change_to_var(exp e)
 {	/* change identity to variable definition */
 	exp p = pt(e);
 	shape ns;
@@ -767,9 +753,8 @@ void change_to_var
 	}
 }
 
-void change_names
-    PROTO_N ( (f, t, except) )
-    PROTO_T ( exp f X exp t X exp except )
+void
+change_names(exp f, exp t, exp except)
 {	/* replace uses of ident f (!= except) to uses of t */
 	exp py = pt(f);
 	Assert(name(f)==ident_tag && name(t)==ident_tag && name(except)==name_tag);
@@ -786,9 +771,8 @@ void change_names
 }
 
 
-void tidy_ident
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void
+tidy_ident(exp e)
 {
 	/* replace Var/Id x = Var y = e1 in { e2; contents(y)} in e3;
 	   by Var x = e1 in { e2/(y=>x); e3}
@@ -905,9 +889,8 @@ void tidy_ident
 }
 
 
-bool chase
-    PROTO_N ( (sel, e) )
-    PROTO_T ( exp sel X exp * e )
+bool
+chase(exp sel, exp * e)
 {
 	/* distribute selection throughout compound expressions */
       bool b = 0;
@@ -958,9 +941,8 @@ bool chase
       return b;
 }
 
-bool use_not_rep
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+bool
+use_not_rep(exp e)
 {
 	exp u ;
 	if (no(e) !=1) return 0;
@@ -1005,9 +987,8 @@ bool use_not_rep
 ********************************************************************/
 
 
-needs scan
-    PROTO_N ( (e, at) )
-    PROTO_T ( exp * e X exp ** at )
+needs
+scan(exp * e, exp ** at)
 {
 				/*  e is the expression to be scanned, at
 				   is the place to put any new decs . NB order of recursive

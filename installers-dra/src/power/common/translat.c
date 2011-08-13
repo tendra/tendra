@@ -195,7 +195,7 @@ bool done_scan = 0;
 /* 
  * Translate the TDF 
  */
-int translate PROTO_N ((infname,outfname)) PROTO_T (char *infname X char *outfname)
+int translate(char *infname, char *outfname)
 {
   /*
    * Open files.
@@ -278,7 +278,7 @@ int translate PROTO_N ((infname,outfname)) PROTO_T (char *infname X char *outfna
 /*
  * Translate a TDF capsule 
  */
-void translate_capsule PROTO_Z ()
+void translate_capsule(void)
 {
   int noprocs, noglobals;
   int procno, globalno;
@@ -851,7 +851,7 @@ void translate_capsule PROTO_Z ()
 
 
 /* translate a TDF unit */
-void translate_unit PROTO_Z ()
+void translate_unit(void)
 {
   if (separate_units)
   {
@@ -876,12 +876,12 @@ void translate_unit PROTO_Z ()
 
 
 /* output an identification of two names */
-void out_rename PROTO_N ((old_nm,nm)) PROTO_T (char *old_nm X char *nm)
+void out_rename(char *old_nm, char *nm)
 {
   /* all link information is known by code production time, so no need to do anything */
 }
 
-baseoff find_tg PROTO_N ((n)) PROTO_T (char *n)
+baseoff find_tg(char *n)
 {
   int i;
   exp tg;

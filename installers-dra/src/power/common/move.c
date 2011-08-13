@@ -141,7 +141,7 @@ static /* const */ ins_sgn_pair st_ins_sz[] =
 
 
 /* the ld instruction for object sized bits, and sgned or not */
-Instruction_P i_ld_sz PROTO_N ((bits,sgned)) PROTO_T (int bits X int sgned)
+Instruction_P i_ld_sz(int bits, int sgned)
 {
   ASSERT((bits&7)==0);
   ASSERT(bits<=64);
@@ -151,7 +151,7 @@ Instruction_P i_ld_sz PROTO_N ((bits,sgned)) PROTO_T (int bits X int sgned)
 
 
 /* the st instruction for object sized bits */
-Instruction_P i_st_sz PROTO_N ((bits)) PROTO_T (int bits)
+Instruction_P i_st_sz(int bits)
 {
   ASSERT((bits&7)==0);
   ASSERT(bits<=64);
@@ -161,7 +161,7 @@ Instruction_P i_st_sz PROTO_N ((bits)) PROTO_T (int bits)
 
 
 /* load address represented by is into reg */
-void ld_addr PROTO_N ((is,reg)) PROTO_T (instore is X int reg)
+void ld_addr(instore is, int reg)
 {
   COMMENT1("ld_addr: adval=%d", is.adval);
 
@@ -184,7 +184,7 @@ void ld_addr PROTO_N ((is,reg)) PROTO_T (instore is X int reg)
 
 
 /* get address represented by is into a reg */
-int addr_reg PROTO_N ((is,regs)) PROTO_T (instore is X long regs)
+int addr_reg(instore is, long regs)
 {
   int r;
 
@@ -204,7 +204,7 @@ int addr_reg PROTO_N ((is,regs)) PROTO_T (instore is X long regs)
 
 
 /* store, sorting out temp reg required */
-static void store PROTO_N ((st,r,is,regs)) PROTO_T (Instruction_P st X int r X instore is X long regs)
+static void store(Instruction_P st, int r, instore is, long regs)
 {
   if (is.adval)		/* is the value an address? */
   {
@@ -272,9 +272,8 @@ static void store PROTO_N ((st,r,is,regs)) PROTO_T (Instruction_P st X int r X i
  * Compact code, but slower than loopmove2() so no longer used.
  */
 static void loopmove1
-    PROTO_N ((iss,isd,bytes_per_step,no_steps,ld,st,regs))
-    PROTO_T (instore iss X instore isd X int bytes_per_step X int no_steps X
-	     Instruction_P ld X Instruction_P st X long regs)
+    (instore iss, instore isd, int bytes_per_step, int no_steps,
+	     Instruction_P ld, Instruction_P st, long regs)
 {
   /*
    * Copy with loop.
@@ -339,9 +338,8 @@ static void loopmove1
  * Copy a large inmem object with a loop, using only 2 regs and R_TMP.
  */
 static void loopmove2
-    PROTO_N ((iss,isd,bytes_per_step,no_steps,ld,st,regs))
-    PROTO_T (instore iss X instore isd X int bytes_per_step X int no_steps X
-	     Instruction_P ld X Instruction_P st X long regs)
+    (instore iss, instore isd, int bytes_per_step, int no_steps,
+	     Instruction_P ld, Instruction_P st, long regs)
 {
   /*
    * Copy with loop, need 2 regs and R_TMP.
@@ -429,9 +427,8 @@ static void loopmove2
  * Copy a large inmem object with unrolled loop, using 3 regs and R_TMP.
  */
 static void loopmove3
-    PROTO_N ((iss,isd,bytes_per_step,no_steps,ld,st,regs))
-    PROTO_T (instore iss X instore isd X int bytes_per_step X int no_steps X
-	     Instruction_P ld X Instruction_P st X long regs)
+    (instore iss, instore isd, int bytes_per_step, int no_steps,
+	     Instruction_P ld, Instruction_P st, long regs)
 {
   /*
    * Copy with unrolled loop, need 3 regs and R_TMP.
@@ -564,7 +561,7 @@ static void loopmove3
  * Memory to memory move.
  * If copy of object left in a fixed point reg, return reg, otherwise NOREG.
  */
-static int moveinstore PROTO_N ((iss,isd,size,al,regs,sgned)) PROTO_T (instore iss X instore isd X int size X int al X long regs X bool sgned)
+static int moveinstore(instore iss, instore isd, int size, int al, long regs, bool sgned)
 {
   int bits;
   int bits_per_step;
@@ -832,7 +829,7 @@ static int moveinstore PROTO_N ((iss,isd,size,al,regs,sgned)) PROTO_T (instore i
  *
  * regs is a long with the bits masked out for which registers you cannot use
  */
-int move PROTO_N ((a,dest,regs,sgned)) PROTO_T (ans a X where dest X long regs X bool sgned)
+int move(ans a, where dest, long regs, bool sgned)
 {
   int al = dest.ashwhere.ashalign; /* al is the alignment of the destination */
   int size = dest.ashwhere.ashsize;

@@ -68,9 +68,8 @@ extern bool BIGEND;
 int MAJOR_VERSION_as = 3;
 int MINOR_VERSION_as = 12;
 
-long count_syms
-    PROTO_N ( (symlist) )
-    PROTO_T ( LSYMS* symlist )
+long
+count_syms(LSYMS* symlist)
 {
 	long symindex = symlist->noofsyms;
 	while (symlist->nextsyms!=0)
@@ -81,9 +80,8 @@ long count_syms
 }
 
 
-long count_strings
-    PROTO_N ( (list) )
-    PROTO_T ( STRINGS* list )
+long
+count_strings(STRINGS* list)
 {
 	long stringind=list->usage;
 	while (list->overspill!=0)
@@ -94,9 +92,8 @@ long count_strings
 }
 
 
-long count_aux
-    PROTO_N ( (auxdata) )
-    PROTO_T ( AUXTAB* auxdata )
+long
+count_aux(AUXTAB* auxdata)
 {
 	long auxcount=auxdata->num;
 	while (auxdata->moreaux!=0)
@@ -114,15 +111,12 @@ long count_aux
    by R.R.R  3/12/90  */
 
 
-void makesymtab
-    PROTO_N ((extstrings, extsymbols, densenos, filedescs, numfiles,
-	      symtabname, noextsyms, nosyms, extstringsize, stringsize,
-	      noaux, densind, procinds, noprocs))
-    PROTO_T ( STRINGS* extstrings X ESYMS* extsymbols X DENSETAB* densenos X
-	      pSYMFDR filedescs X long numfiles X char* symtabname X
-	      long noextsyms X long nosyms X long extstringsize X
-	      long stringsize X long noaux X long densind X
-	      PROCSYM* procinds X long noprocs )
+void
+makesymtab(STRINGS* extstrings, ESYMS* extsymbols, DENSETAB* densenos,
+	      pSYMFDR filedescs, long numfiles, char* symtabname,
+	      long noextsyms, long nosyms, long extstringsize,
+	      long stringsize, long noaux, long densind,
+	      PROCSYM* procinds, long noprocs )
 {
 
 /* function to produce a symbol table (.T file), from information supplied

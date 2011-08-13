@@ -225,6 +225,8 @@ parameter alignment in make_cmpd
  *********************************************************************/
 
 
+#include <stdlib.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "xalloc.h"

@@ -78,9 +78,8 @@ registers a factor of 2 is involved. The corresponding bit in the appropriate fi
 space i.e fixed or float, is therefore set.
 ********************************************************************/
 
-space guardreg
-    PROTO_N ( (r, sp) )
-    PROTO_T ( int r X space sp )
+space
+guardreg(int r, space sp)
 {
   if ((r >= 2 && r <= 15) || (r >= 24 && r <= 25) || r==31) {
 				/* r is a fixed point t reg */
@@ -89,9 +88,8 @@ space guardreg
   return sp;
 }
 
-space guardfreg
-    PROTO_N ( (r, sp) )
-    PROTO_T ( int r X space sp )
+space
+guardfreg(int r, space sp)
 {
   if (r<=9) {
 				/* r is a floating point t reg */
@@ -109,9 +107,8 @@ register involved in the addressing can be deduced from the base field of the
 instore value. These types are defined in addressingtypes.h.
 *********************************************************************/
 
-space guard
-    PROTO_N ( (w, sp) )
-    PROTO_T ( where w X space sp )
+space
+guard(where w, space sp)
 {
   switch (w.answhere.discrim) {
     case inreg:

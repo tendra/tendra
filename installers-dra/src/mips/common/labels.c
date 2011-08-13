@@ -56,16 +56,15 @@ extern  FILE * as_file;
 
 int   last_label = 31;
 
-int new_label
-    PROTO_Z ()
+int
+new_label(void)
 {
         last_label++;
   return last_label;
 }
 
-void set_label
-    PROTO_N ( (l) )
-    PROTO_T ( int l )
+void
+set_label(int l)
 {
   clear_all ();
   if (as_file)
@@ -74,9 +73,8 @@ void set_label
 
 }
 
-void set_label_no_clear
-    PROTO_N ( (l) )
-    PROTO_T ( int l )
+void
+set_label_no_clear(int l)
 {
   if (as_file)
     fprintf (as_file, "$%d:\n", l);

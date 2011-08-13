@@ -101,6 +101,8 @@ $Log: diag_fns.c,v $
 
 
 
+#include <stdlib.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "readglob.h"

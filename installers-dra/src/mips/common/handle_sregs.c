@@ -79,9 +79,8 @@ long  fltdone;			/* the floats which have already been
 
 /* dump_sreg, dump_sfreg & recover .. etc not used at present!! */
 
-baseoff dump_baseoff
-    PROTO_N ( (ds) )
-    PROTO_T ( long ds )
+baseoff
+dump_baseoff(long ds)
 {	baseoff b;
 	b.base = (Has_vcallees)?local_reg:(29+Has_fp);
 	b.offset = (Has_vcallees)?(ds - (frame_size>>3)):
@@ -89,9 +88,8 @@ baseoff dump_baseoff
         return b;
 }
 
-void dump_sreg
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+void
+dump_sreg(int n)
 {
    unsigned long maskn = 1 << n;
    unsigned long mask = 1 << 31;
@@ -111,9 +109,8 @@ void dump_sreg
    }
 }
 
-void dump_sfreg
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+void
+dump_sfreg(int n)
 {
    unsigned long maskn = 3 << n;
    unsigned long mask = 3 << 30;
@@ -133,9 +130,8 @@ void dump_sfreg
    }
 }
 
-void recover_sreg
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+void
+recover_sreg(int n)
 {
    unsigned long maskn = 1 << n;
    unsigned long mask = 1 << 31;
@@ -155,9 +151,8 @@ void recover_sreg
    }
 }
 
-void recover_sfreg
-    PROTO_N ( (n) )
-    PROTO_T ( int n )
+void
+recover_sfreg(int n)
 {
    unsigned long maskn = 3 << n;
    unsigned long mask = 3 << 30;
@@ -177,9 +172,8 @@ void recover_sfreg
    }
 }
 
-void dump_sregs
-    PROTO_N ( (fdi, fldi) )
-    PROTO_T ( long fdi X long fldi )
+void
+dump_sregs(long fdi, long fldi)
 {
   unsigned long mask = 1 << 31;
   long fd = fdi;
@@ -217,9 +211,8 @@ void dump_sregs
 
 
 
-void restore_sregs
-    PROTO_N ( (fd, fld) )
-    PROTO_T ( long fd X long fld )
+void
+restore_sregs(long fd, long fld)
 {
   unsigned long mask = 1 << 31;
   baseoff b;
@@ -251,8 +244,8 @@ void restore_sregs
   }
 }
 
-void dump_all_sregs
-    PROTO_Z ()
+void
+dump_all_sregs(void)
 {
   unsigned long mask = 1 << 31;
   long fd = fixdump;

@@ -59,9 +59,8 @@ where f is any sequence of unary operators including identity
 #include "oddtest.h"
 
 
-int oddunary
-    PROTO_N ( (x, y, v) )
-    PROTO_T ( exp x X exp y X exp *v )
+int
+oddunary(exp x, exp y, exp *v)
 {
   exp z;
   *v = x;
@@ -80,9 +79,8 @@ int oddunary
   flab0: return 0;
 }
 
-int oddtest
-    PROTO_N ( (x, t, f, v) )
-    PROTO_T ( exp x X exp *t X exp *f X exp *v )
+int
+oddtest(exp x, exp *t, exp *f, exp *v)
 {
   exp l, z, g;
   if (name(x) != cond_tag) goto flab0;
@@ -119,9 +117,8 @@ int oddtest
 }
 
 /* last_statement finds the last obeyed statement of x and puts it in f */
-int last_statement
-    PROTO_N ( (x, f) )
-    PROTO_T ( exp x X exp *f )
+int
+last_statement(exp x, exp *f)
 {
   exp z;
   if (name(x) != ident_tag) goto flab1;
@@ -155,9 +152,8 @@ int last_statement
 	(a ~ b) ? a: b
 	puts test in t - can make use of delay-slot
 */
-int is_maxlike
-    PROTO_N ( (x, t) )
-    PROTO_T ( exp x X exp *t )
+int
+is_maxlike(exp x, exp *t)
 {
   exp op1, op2, z, l, w;
   if (name(x) != cond_tag) goto flab0;
@@ -206,9 +202,8 @@ int is_maxlike
 	(a ~ b) ? b: a
 	puts test in t - can make use of delay-slot
 */
-int is_minlike
-    PROTO_N ( (x, t) )
-    PROTO_T ( exp x X exp *t )
+int
+is_minlike(exp x, exp *t)
 {
   exp op1, op2, z, l, w;
   if (name(x) != cond_tag) goto flab0;
@@ -256,9 +251,8 @@ int is_minlike
 /* looks for things like
 	(a~0) ? a:-a
 */
-int is_abslike
-    PROTO_N ( (x,t) )
-    PROTO_T ( exp x X exp *t )
+int
+is_abslike(exp x, exp *t)
 {
   exp op, l, z, w;
   if (name(x) != cond_tag) goto flab0;
@@ -306,9 +300,8 @@ int is_abslike
   flab0: return 0;
 }
 
-int is_fabs
-    PROTO_N ( (x, t) )
-    PROTO_T ( exp x X exp *t )
+int
+is_fabs(exp x, exp *t)
 {
   exp op, l, z, w;
   if (name(x) != cond_tag) goto flab0;

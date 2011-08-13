@@ -109,9 +109,8 @@ filename * fds;
 int nofds = 0;
 int szfds = 0;
 
-void collect_files
-    PROTO_N ( (f) )
-    PROTO_T ( filename f )
+void
+collect_files(filename f)
 {
 	if (nofds>=szfds) {
 		fds = (filename*)xrealloc(fds, (szfds+=5)*sizeof(filename));
@@ -119,9 +118,8 @@ void collect_files
 	fds[nofds++] = f;
 }
 
-int find_file
-    PROTO_N ( (f) )
-    PROTO_T ( char * f )
+int
+find_file(char * f)
 {
    int i;
    for(i=0; i<nofds; i++) {
@@ -130,8 +128,8 @@ int find_file
    return 0;
 }
 
-void symnosforfiles
-    PROTO_Z ()
+void
+symnosforfiles(void)
 {	/* produce symnos for all text files in compilation */
   int   i;
   file_dnos = (int *) xcalloc (nofds, sizeof (int));
@@ -141,9 +139,8 @@ void symnosforfiles
 
 }
 
-static void x
-    PROTO_N ( (i) )
-    PROTO_T ( int i )
+static void
+x(int i)
 {
   if (i == EOF) {
     failer ("can't output");
@@ -152,9 +149,8 @@ static void x
   return;
 }
 
-void stab_file
-    PROTO_N ( (i) )
-    PROTO_T ( int i )
+void
+stab_file(int i)
 {	/* output .file directive for file i */
   int   l;
   if (currentfile == i)
@@ -184,9 +180,8 @@ long  findex,
 
 static char *lexlev = "0";	/* historic !!! */
 
-void diagbr_open
-    PROTO_N ( (findex) )
-    PROTO_T ( long findex )
+void
+diagbr_open(long findex)
 {/* block begin directive */
   int   symno;
   stab_file (findex);
@@ -198,9 +193,8 @@ void diagbr_open
   out_ent (symno, ibgnb, 0);
 }
 
-void diagbr_close
-    PROTO_N ( (findex) )
-    PROTO_T ( long findex )
+void
+diagbr_close(long findex)
 {/* block end directive */
   int   symno;
   stab_file (findex);
@@ -213,9 +207,8 @@ void diagbr_close
 }
 
 
-void stab_local
-    PROTO_N ( (nm, dt, ldid, disp, findex) )
-    PROTO_T ( char *nm X diag_type dt X exp ldid X long disp X long findex )
+void
+stab_local(char *nm, diag_type dt, exp ldid, long disp, long findex)
 {
                             /* output appropriate rubbish to symbol
                                table to indicate the declaration of a
@@ -290,9 +283,8 @@ again:
 
 }
 
-void output_diag
-    PROTO_N ( (d, proc_no, e) )
-    PROTO_T ( diag_info *d X int proc_no X exp e )
+void
+output_diag(diag_info *d, int proc_no, exp e)
 {
     exp x;
     if (d->key == DIAG_INFO_SOURCE) {
@@ -320,9 +312,8 @@ void output_diag
 
 }
 
-void output_end_scope
-    PROTO_N ( (d, e) )
-    PROTO_T ( diag_info *d X exp e )
+void
+output_end_scope(diag_info *d, exp e)
 {
     if (d->key == DIAG_INFO_SOURCE) {
     	sourcemark * s = & d->data.source.end;
@@ -356,9 +347,8 @@ static  tsym * ats = (tsym *) 0;
  /* used to accumulate all the type reprs arising from shapes in the
     program by calling addtsym .... */
 
-void addtsym
-    PROTO_N ( (n ,v, st, sc, s) )
-    PROTO_T ( char *n X long v X int st X int sc X diag_type s )
+void
+addtsym(char *n, long v, int st, int sc, diag_type s)
 {
   tsym * a;
   if (nexttsym >= notsyms) {
@@ -384,9 +374,8 @@ shauxt * shaux = (shauxt *) 0;
  /* used to remember all the indexes into the auxilliary symbol table for
     all the shapes in the program */
 
-bool eq_sutype
-    PROTO_N ( (a, b) )
-    PROTO_T ( diag_type a X diag_type b )
+bool
+eq_sutype(diag_type a, diag_type b)
 {
    diag_field_list  fa;
    diag_field_list  fb;
@@ -408,9 +397,8 @@ bool eq_sutype
    return eq_shape(a->data.t_struct.tdf_shape, b->data.t_struct.tdf_shape);
 }
 
-long  find_aux
-    PROTO_N ( (s) )
-    PROTO_T ( diag_type s /* struct or union shape */ )
+long
+find_aux(diag_type s /* struct or union shape */ )
 {
 				/* finds the index into the auxilliary
 				   table for type s */
@@ -422,9 +410,8 @@ long  find_aux
   return - 1;
 }
 
-static  void addaux
-    PROTO_N ( (s, ind) )
-    PROTO_T ( diag_type s X int ind )
+static void
+addaux(diag_type s, int ind)
 {
 				/* remembers ind as index into aux table
 				   for shape s */
@@ -442,8 +429,8 @@ static diag_tagdef ** su_diags = (diag_tagdef**)0;
 static long no_of_sus = 0;
 static long leng_sus = 0;
 
-void OUTPUT_DIAG_TAGS
-    PROTO_Z ()
+void
+OUTPUT_DIAG_TAGS(void)
 {
   diag_tagdef ** di = unit_ind_diagtags;
   unsigned long n = unit_no_of_diagtags;
@@ -476,8 +463,8 @@ void OUTPUT_DIAG_TAGS
 }
 
 
-void stab_types
-    PROTO_Z ()
+void
+stab_types(void)
 {		/* outputs symbol table info for all
 		   struct & union  in program */
   int   i;

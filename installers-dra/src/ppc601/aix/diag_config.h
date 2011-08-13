@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2006 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,32 @@
  *
  * $Id$
  */
+/*
+    Copyright (c) 1993 Open Software Foundation, Inc.
+
+
+    All Rights Reserved
+
+
+    Permission to use, copy, modify, and distribute this software
+    and its documentation for any purpose and without fee is hereby
+    granted, provided that the above copyright notice appears in all
+    copies and that both the copyright notice and this permission
+    notice appear in supporting documentation.
+
+
+    OSF DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
+    ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE.
+
+
+    IN NO EVENT SHALL OSF BE LIABLE FOR ANY SPECIAL, INDIRECT, OR
+    CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN ACTION OF CONTRACT,
+    NEGLIGENCE, OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+    WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+
 /*
     		 Crown Copyright (c) 1997
 
@@ -58,72 +84,40 @@
 */
 
 
+
 /**********************************************************************
 $Author: release $
-$Date: 1998/01/17 15:55:46 $
-$Revision: 1.1.1.1 $
-$Log: complex_eq.c,v $
- * Revision 1.1.1.1  1998/01/17  15:55:46  release
+$Date: 1998/02/04 15:48:34 $
+$Revision: 1.2 $
+$Log: diag_config.h,v $
+ * Revision 1.2  1998/02/04  15:48:34  release
+ * Added OSF copyright message.
+ *
+ * Revision 1.1.1.1  1998/01/17  15:55:58  release
  * First version to be checked into rolling release.
  *
- * Revision 1.1  1995/04/06  10:44:05  currie
- * Initial revision
+ * Revision 1.2  1996/10/04  16:00:06  pwe
+ * add banners and mod for PWE ownership
  *
-***********************************************************************/
+**********************************************************************/
 
 
-/* a rather more complicated equivalence of expressions - allows sequences and
-conditionals with tests which only jump to nearest conditional outlab;
-initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
+#ifndef DIAG_CONFIG_H
+#define DIAG_CONFIG_H
 
-#include <stddef.h>
-
-#include "config.h"
-#include "common_types.h"
-#include "tags.h"
-#include "expmacs.h"
-#include "shapemacs.h"
-#include "exp.h"
-#include "complex_eq.h"
+/* NULL must be convertable to an OUTPUT_REC, make sure it is not a pointer */
+#undef	NULL
+#define	NULL			0
 
 
-static int
-complex_eq_explist(exp a, exp b, exp laba, exp labb)
-{
-	if (a == nilexp) return(b == nilexp);
-	if (b == nilexp || !complex_eq_exp(a,b,laba,labb)) return 0;
-	if (last(a)) return(last(b));
-	if (last(b)) return 0;
-	return complex_eq_explist(bro(a), bro(b), laba, labb);
-}
+typedef void *OUTPUT_REC;			/* stabstring TypeNo */
+typedef diag_descriptor diag_global;
 
 
-int
-complex_eq_exp(exp a, exp b, exp laba, exp labb)
-{
-	if (name(a) != name(b) || !eq_shape(sh(a), sh(b))) {
-		return 0;
-	}
-	if (name(a) == seq_tag) {
-		return(complex_eq_explist(son(son(a)), son(son(b)), laba,
-					  labb) &&
-		       complex_eq_exp(bro(son(a)), bro(son(b)),laba,labb));
-	}
-	if (name(a) == cond_tag) {
-		exp fa = son(a);
-		exp fb = son(b);
-		return(complex_eq_exp(fa,fb, bro(fa), bro(fb)) &&
-		       complex_eq_exp(bro(son(bro(fa))), bro(son(bro(fb))),
-				      laba, labb));
-	}
-	if (name(a) ==test_tag) {
-		return(pt(a) ==laba && pt(b) ==labb && props(a) ==props(b) &&
-		       complex_eq_explist(son(a),son(b), laba, labb));
-	}
-	if (name(a) ==name_tag) {
-		return(son(a) ==son(b) && no(a) ==no(b));
-	}
+extern void INSPECT_FILENAME(filename);
+extern void OUTPUT_GLOBALS_TAB(void);
+extern void OUTPUT_DIAG_TAGS(void);
+#define NEW_DIAG_GLOBAL(x)		(x)
 
-	return(is_a(name(a)) && no(a) ==no(b) &&
-	       complex_eq_explist(son(a), son(b), laba, labb));
-}
+
+#endif

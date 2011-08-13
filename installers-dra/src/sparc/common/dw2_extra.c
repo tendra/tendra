@@ -153,16 +153,13 @@ typedef struct {
 
 
 
-static void outsep
-    PROTO_Z ()
+static void outsep(void)
 {
   outs (", ");
 }
 
 
-int dw_is_const
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+int dw_is_const(exp e)
 {
   switch (name(e)) {
     case val_tag:
@@ -189,9 +186,7 @@ int dw_is_const
   }
 }
 
-exp dw_has_location
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+exp dw_has_location(exp e)
 {			/* return ident or nilexp */
   switch (name(e)) {
     case name_tag: {
@@ -216,9 +211,7 @@ exp dw_has_location
 }
 
 
-static loc_s find_in_store
-    PROTO_N ( (dc, off) )
-    PROTO_T ( exp dc X long off )
+static loc_s find_in_store(exp dc, long off)
 {
   loc_s l;
   baseoff b;
@@ -231,9 +224,7 @@ static loc_s find_in_store
 }
 
 
-static loc_s find_loc
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static loc_s find_loc(exp e)
 {
   loc_s l;
   switch ( name ( e ) ) {
@@ -373,9 +364,7 @@ static loc_s find_loc
   return l;
 }
 
-static int inreg_length
-    PROTO_N ( (r, more) )
-    PROTO_T ( int r X int more )
+static int inreg_length(int r, int more)
 {
   int ans = 1 + more;
   if (r >= 32)
@@ -383,9 +372,7 @@ static int inreg_length
   return ans;
 }
 
-static void out_inreg
-    PROTO_N ( (r, more) )
-    PROTO_T ( int r X int more )
+static void out_inreg(int r, int more)
 {
   if (!more) {
     if (r < 32)
@@ -405,26 +392,20 @@ static void out_inreg
   return;
 }
 
-static int regoff_length
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static int regoff_length(loc_s l)
 {
   assert (l.reg >= 0 && l.reg < 32);
   return (1 + sleb128_length (l.off));
 }
 
-static void out_regoff
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static void out_regoff(loc_s l)
 {
   outn ((long)(l.reg == R_FP ? DW_OP_fbreg : DW_OP_breg0 + l.reg)); outsep();
   sleb128 (l.off);
   return;
 }
 
-static int split_length
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static int split_length(loc_s l)
 {
   int ans = inreg_length (l.reg + R_O0, 0) +4;
   if (l.reg == last_param_reg) {
@@ -438,9 +419,7 @@ static int split_length
   return ans;
 }
 
-static void out_split
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static void out_split(loc_s l)
 {
   out_inreg (l.reg + R_O0, 0);
   outsep(); outn ((long)DW_OP_piece);
@@ -458,9 +437,7 @@ static void out_split
   return;
 }
 
-static int glob_length
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static int glob_length(loc_s l)
 {
 #ifdef NEEDS_DEBUG_ALIGN
   calc_length = 0;
@@ -468,9 +445,7 @@ static int glob_length
   return 5;
 }
 
-static void out_glob
-    PROTO_N ( (l) )
-    PROTO_T ( loc_s l )
+static void out_glob(loc_s l)
 {
   outn ((long)DW_OP_addr); d_outnl ();
   out32 (); outlab (l.reg);
@@ -481,9 +456,7 @@ static void out_glob
   return;
 }
 
-static int indirect_length
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static int indirect_length(exp e)
 {
   int length;
   loc_s l;
@@ -539,9 +512,7 @@ static int indirect_length
   return length;
 }
 
-static void out_indirect
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static void out_indirect(exp e)
 {
   loc_s l;
   if (name(e) == name_tag) {
@@ -599,9 +570,7 @@ static void out_indirect
 }
 
 
-void dw2_locate_exp
-    PROTO_N ( (e, locate_const, cx) )
-    PROTO_T ( exp e X int locate_const X int cx )
+void dw2_locate_exp(exp e, int locate_const, int cx)
 {
   loc_s l;
   int length;
@@ -705,9 +674,7 @@ void dw2_locate_exp
 
 static long current_pprops;
 
-void dw2_prepare_locate
-    PROTO_N ( (id) )
-    PROTO_T ( exp id )
+void dw2_prepare_locate(exp id)
 {
 			/* set local proc conditions for local locations */
   exp e = son(id);	/* proc or general proc */
@@ -738,9 +705,7 @@ void dw2_prepare_locate
 }
 
 
-void dw2_locate_result
-    PROTO_N ( (sha) )
-    PROTO_T ( shape sha )
+void dw2_locate_result(shape sha)
 {
   out8 ();
   if ( !valregable (sha) && name (sha) != tophd &&
@@ -774,8 +739,7 @@ void dw2_locate_result
   return;
 }
 
-void dw_at_procdetails
-    PROTO_Z ()
+void dw_at_procdetails(void)
 {			/* return address and frame base */
   out8(); outn((long)2); outsep();
   outn((long)DW_OP_breg0 + R_I7); outsep();
@@ -786,9 +750,7 @@ void dw_at_procdetails
 }
 
 
-void dw2_locate_val
-    PROTO_N ( (v) )
-    PROTO_T ( dg_where v )
+void dw2_locate_val(dg_where v)
 {
 #ifdef NEEDS_DEBUG_ALIGN
   long over_lab;
@@ -844,9 +806,7 @@ void dw2_locate_val
 }
 
 
-static int dw_eval_exp
-    PROTO_N ( (e, line_started) )
-    PROTO_T ( exp e X int line_started )
+static int dw_eval_exp(exp e, int line_started)
 {
   if (line_started)
     outsep();
@@ -996,9 +956,7 @@ static int dw_eval_exp
 }
 
 
-void dw2_offset_exp
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void dw2_offset_exp(exp e)
 {
   long block_end = next_dwarf_label ();
   if (name(sh(e)) != offsethd)
@@ -1016,8 +974,7 @@ void dw2_offset_exp
 }
 
 
-void dw2_cie
-    PROTO_Z ()
+void dw2_cie(void)
 {
   long cie_end;
   int i;
@@ -1051,9 +1008,7 @@ void dw2_cie
 }
 
 
-void dw2_start_fde
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void dw2_start_fde(exp e)
 {
   long proc_start = next_dwarf_label();
   fde_end = next_dwarf_label();
@@ -1080,9 +1035,7 @@ void dw2_start_fde
   return;
 }
 
-static void fde_advance
-    PROTO_N ( (here) )
-    PROTO_T ( long here )
+static void fde_advance(long here)
 {
   if (fde_count < 0) {
     out8 (); outn ((long)DW_CFA_set_loc); d_outnl ();
@@ -1111,8 +1064,7 @@ static void fde_advance
   return;
 }
 
-void dw2_fde_save
-    PROTO_Z ()
+void dw2_fde_save(void)
 {
   long here = 0;
   if (fde_count < 0)
@@ -1126,8 +1078,7 @@ void dw2_fde_save
   return;
 }
 
-void dw2_fde_restore
-    PROTO_Z ()
+void dw2_fde_restore(void)
 {
   long here = 0;
   if (fde_count < 0)
@@ -1141,8 +1092,7 @@ void dw2_fde_restore
   return;
 }
 
-void dw2_complete_fde
-    PROTO_Z ()
+void dw2_complete_fde(void)
 {
   out_dwf_label (proc_end, 1);
   enter_section ("debug_frame");
@@ -1155,9 +1105,7 @@ void dw2_complete_fde
 
 static exp lab_mark_list;
 
-static void mark_lab
-    PROTO_N ( (labst) )
-    PROTO_T ( exp labst )
+static void mark_lab(exp labst)
 {
   if (!dg_labmark (labst)) {
     set_dg_labmark (labst);
@@ -1169,9 +1117,7 @@ static void mark_lab
   return;
 }
 
-static void trace_branch_aux
-    PROTO_N ( (whole, e) )
-    PROTO_T ( exp whole X exp e )
+static void trace_branch_aux(exp whole, exp e)
 {
   exp t;
   switch (name(e)) {
@@ -1207,9 +1153,7 @@ static void trace_branch_aux
   return;
 }
 
-void trace_dw_branch_exits
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+void trace_dw_branch_exits(exp e)
 {
   lab_mark_list = nilexp;
   trace_branch_aux (e, e);
@@ -1225,9 +1169,7 @@ void trace_dw_branch_exits
 }
 
 
-int dw_loc_equivalence
-    PROTO_N ( (a, b) )
-    PROTO_T ( exp a X exp b )
+int dw_loc_equivalence(exp a, exp b)
 {
   return (int)sim_exp (a, b);
 }
@@ -1246,9 +1188,7 @@ typedef struct
 static dw_regdata regassns [TRACKREGS];
 
 
-void dw_allocated
-    PROTO_N ( (nm, id) )
-    PROTO_T ( dg_name nm X exp id )
+void dw_allocated(dg_name nm, exp id)
 {
   int reg = no(id), i;
   exp x = son(nm->data.n_obj.obtain_val);
@@ -1271,9 +1211,7 @@ void dw_allocated
   return;
 }
 
-void dw_deallocated
-    PROTO_N ( (nm) )
-    PROTO_T ( dg_name nm )
+void dw_deallocated(dg_name nm)
 {
   int i;
   for (i=0; i<TRACKREGS; i++) {
@@ -1286,8 +1224,7 @@ void dw_deallocated
   return;
 }
 
-void dw_all_deallocated		/* initialisation */
-    PROTO_Z ()
+void dw_all_deallocated(void)		/* initialisation */
 {
   int i;
   for (i=0; i<TRACKREGS; i++) {
@@ -1299,9 +1236,7 @@ void dw_all_deallocated		/* initialisation */
 }
 
 
-void dw_init_regassn
-    PROTO_N ( (reg) )
-    PROTO_T ( int reg )
+void dw_init_regassn(int reg)
 {
   if (reg < TRACKREGS) {
     dg_name nm = find_equiv_object (regexps[reg].keptexp,
@@ -1315,18 +1250,14 @@ void dw_init_regassn
   return;
 }
 
-void dw_used_regassn
-    PROTO_N ( (reg) )
-    PROTO_T ( int reg )
+void dw_used_regassn(int reg)
 {
   if (reg < TRACKREGS && regassns[reg].start)
     regassns[reg].end = set_dw_text_label ();
   return;
 }
 
-void dw_close_regassn
-    PROTO_N ( (reg) )
-    PROTO_T ( int reg )
+void dw_close_regassn(int reg)
 {
   if (reg >= TRACKREGS)
     return;

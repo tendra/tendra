@@ -256,25 +256,22 @@ static const char space_reg_name_tab[8][5] =
 ins_p NOCOND=0;
 
 
-const char *reg_name
-    PROTO_N ( (r) )
-    PROTO_T ( int r )
+const char *
+reg_name(int r)
 {
   assert(IS_FIXREG(r));
   return reg_name_tab[r];
 }
 
-static const char *float_reg_name
-    PROTO_N ( (reg) )
-    PROTO_T ( int reg )
+static const char *
+float_reg_name(int reg)
 {
    return float_reg_name_tab[0][0]+(7*reg);
 }
 
 
-int outp
-    PROTO_N ( (ins,cc,ops,lab) )
-    PROTO_T ( ins_p ins X ins_p cc X int *ops X int lab )
+int
+outp(ins_p ins, ins_p cc, int *ops, int lab)
 {
    if (!OPTIM)
    {
@@ -449,9 +446,8 @@ int outp
 }
 
 
-char *ext_name
-    PROTO_N ( (id) )
-    PROTO_T ( long id )
+char *
+ext_name(long id)
 {
   static char *sp;
   static int sizeof_space = 0;
@@ -492,9 +488,8 @@ char *ext_name
 /*
 *   3 register instructions
  */
-void rrr_ins
-    PROTO_N ( (ins,cond,a,b,c) )
-    PROTO_T ( ins_p ins X ins_p cond X int a X int b X int c )
+void
+rrr_ins(ins_p ins, ins_p cond, int a, int b, int c)
 {
   int p;
   int ops[4];
@@ -525,9 +520,8 @@ void rrr_ins
 /*
 *   1 register pseudo instructions
  */
-void r_ins
-    PROTO_N ( (ins,a) )
-    PROTO_T ( ins_p ins X int a )
+void
+r_ins(ins_p ins, int a)
 {
    outp(ins,NOCOND,zops,NA);
    fprintf(outf,"\t%s\t%s\n",ins,RN(a));
@@ -538,9 +532,8 @@ void r_ins
  /*
 *    non-store register, immediate, destination register instructions
  */
-void rir_ins
-    PROTO_N ( (ins,cc,a,imm,d) )
-    PROTO_T ( ins_p ins X ins_p cc X int a X long imm X int d )
+void
+rir_ins(ins_p ins, ins_p cc, int a, long imm, int d)
 {
    clear_reg(d);
    outp(ins,cc,zops,NA);
@@ -553,9 +546,8 @@ void rir_ins
 /*
 *   register to register pseudo instructions
  */
-void rr_ins
-    PROTO_N ( (ins,s,d) )
-    PROTO_T ( ins_p ins X int s X int d )
+void
+rr_ins(ins_p ins, int s, int d)
 {
   clear_reg(d);
   outp(ins,NOCOND,zops,NA);
@@ -566,9 +558,8 @@ void rr_ins
 /*
 *   non-load immediate, register, register instructions
  */
-void irr_ins
-    PROTO_N ( (ins,cc,fs,i,a,d) )
-    PROTO_T ( ins_p ins X ins_p cc X ins_p fs X long i X int a X int d )
+void
+irr_ins(ins_p ins, ins_p cc, ins_p fs, long i, int a, int d)
 {
    clear_reg(d);
    outp(ins,cc,zops,NA);
@@ -579,9 +570,8 @@ void irr_ins
 /*
 *   immediate, immediate, register instructions
  */
-void iir_ins
-    PROTO_N ( (ins,cc,a,b,d) )
-    PROTO_T ( ins_p ins X ins_p cc X int a X int b X int d )
+void
+iir_ins(ins_p ins, ins_p cc, int a, int b, int d)
 {
    clear_reg(d);
    outp(ins,cc,zops,NA);
@@ -592,9 +582,8 @@ void iir_ins
 /*
 *   immediate, immediate, immediate, register instructions
  */
-void iiir_ins
-    PROTO_N ( (ins,cond,a,b,c,d) )
-    PROTO_T ( ins_p ins X ins_p cond X int a X int b X int c X int d )
+void
+iiir_ins(ins_p ins, ins_p cond, int a, int b, int c, int d)
 {
    clear_reg(d);
    outp(ins,cond,zops,NA);
@@ -605,9 +594,8 @@ void iiir_ins
 /*
 *   immediate (i.e. field selector literal+long) to register instructions
  */
-void ir_ins
-    PROTO_N ( (ins,fs,ltrl,l,d) )
-    PROTO_T ( ins_p ins X ins_p fs X const char *ltrl X long l X int d )
+void
+ir_ins(ins_p ins, ins_p fs, const char *ltrl, long l, int d)
 {
     char I[128];
 
@@ -634,9 +622,8 @@ void ir_ins
 /*
 *   register, register, immediate, register instructions
  */
-void rrir_ins
-    PROTO_N ( (ins,cc,a,b,i,d) )
-    PROTO_T ( ins_p ins X ins_p cc X int a X int b X long i X int d )
+void
+rrir_ins(ins_p ins, ins_p cc, int a, int b, long i, int d)
 {
    int ops[4];
    if (ins==i_shd && b==0 && i>28)
@@ -659,9 +646,8 @@ void rrir_ins
 /*
 *   zeroadic pseudo instruction, not a branch
  */
-void z_ins
-    PROTO_N ( (ins) )
-    PROTO_T ( ins_p ins )
+void
+z_ins(ins_p ins)
 {
    int b;
    b=outp(ins,NOCOND,zops,NA);
@@ -674,9 +660,8 @@ void z_ins
 /*
 *   register, immediate, immediate, register instructions
  */
-void riir_ins
-    PROTO_N ( (ins,cc,s,a,b,d) )
-    PROTO_T ( ins_p ins X ins_p cc X int s X long a X long b X int d )
+void
+riir_ins(ins_p ins, ins_p cc, int s, long a, long b, int d)
 {
    clear_reg(d);
    outp(ins,cc,zops,NA);
@@ -688,9 +673,8 @@ void riir_ins
 *   fixed point load instructions
  */
 
-void ld_ir_ins
-    PROTO_N ( (ins,cmplt,fs,ltrl,l,b,d) )
-    PROTO_T ( ins_p ins X ins_p cmplt X ins_p fs X const char *ltrl X long l X int b X int d )
+void
+ld_ir_ins(ins_p ins, ins_p cmplt, ins_p fs, const char *ltrl, long l, int b, int d)
 {
     char O[128];
     if (d==GR0)
@@ -715,9 +699,8 @@ void ld_ir_ins
 /*
 *   loads a long, l, into a register, d, in at most two instructions
  */
-void imm_to_r
-    PROTO_N ( (l,d) )
-    PROTO_T ( long l X int d )
+void
+imm_to_r(long l, int d)
 {
    if (d==GR0)
       return;
@@ -749,9 +732,8 @@ void imm_to_r
 }
 
 
-void set_ins
-    PROTO_N ( (e, a, d) )
-    PROTO_T ( char *e X baseoff a X int d )
+void
+set_ins(char *e, baseoff a, int d)
 {
    char *extname;
    long o;
@@ -820,9 +802,8 @@ void set_ins
 }
 
 
-void ld_rr_ins
-    PROTO_N ( (ins,cmplt,a,b,d) )
-    PROTO_T ( ins_p ins X ins_p cmplt X int a X int b X int d )
+void
+ld_rr_ins(ins_p ins, ins_p cmplt, int a, int b, int d)
 {
    if (d==GR0)
       return;
@@ -831,9 +812,8 @@ void ld_rr_ins
    fprintf(outf,"\t%s%s\t%s(0,%s),%s\n",ins,cmplt,RN(a),RN(b),RN(d));
 }
 
-void ld_ins
-    PROTO_N ( (ins,sgnd,a,d) )
-    PROTO_T ( ins_p ins X int sgnd X baseoff a X int d )
+void
+ld_ins(ins_p ins, int sgnd, baseoff a, int d)
 {
    /* ins must be one of i_lb, i_lh, i_lo, i_lwm or i_lw */
    long o=a.offset;
@@ -910,9 +890,8 @@ void ld_ins
 *   fixed point store instructions
  */
 
-void st_ir_ins
-    PROTO_N ( (ins,cmplt,s,fs,ltrl,l,b) )
-    PROTO_T ( ins_p ins X ins_p cmplt X int s X ins_p fs X const char *ltrl X long l X int b )
+void
+st_ir_ins(ins_p ins, ins_p cmplt, int s, ins_p fs, const char *ltrl, long l, int b)
 {
     char O[128];
 
@@ -932,9 +911,8 @@ void st_ir_ins
     fprintf(outf,"\t%s%s\t%s,%s(%s)\n",ins,cmplt,RN(s),O,RN(b));
 }
 
-void st_ins
-    PROTO_N ( (ins,s,a) )
-    PROTO_T ( ins_p ins X int s X baseoff a )
+void
+st_ins(ins_p ins, int s, baseoff a)
 {
    /* ins must be one of i_sb, i_sh or i_sw */
    long o=a.offset;
@@ -1001,9 +979,8 @@ void st_ins
 }
 
 
-void ldsid_in
-    PROTO_N ( ( s, b, t ) )
-    PROTO_T ( int s X int b X int t )
+void
+ldsid_in(int s, int b, int t)
 {
    clear_reg(t);
    outp(i_ldsid,NOCOND,zops,NA);
@@ -1011,9 +988,8 @@ void ldsid_in
 }
 
 
-void mtsp_in
-    PROTO_N ( ( r, sr ) )
-    PROTO_T ( int r X int sr )
+void
+mtsp_in(int r, int sr)
 {
    outp(i_mtsp,NOCOND,zops,NA);
    fprintf(outf,"\tmtsp\t%s,%s\n",RN(r),SN(sr));
@@ -1027,9 +1003,8 @@ Branch instructions. These have labels as destination.
 /*
 *   Unconditional branch.
  */
-void ub_ins
-    PROTO_N ( ( cmplt, lab ) )
-    PROTO_T ( const char *cmplt X int lab )
+void
+ub_ins(const char *cmplt, int lab)
 {
     if (OPTIM)
     {
@@ -1049,25 +1024,22 @@ void ub_ins
 /*
 *   Call instructions
  */
-void bl_in
-    PROTO_N ( (n,target,t) )
-    PROTO_T ( ins_p n X char *target X int t )
+void
+bl_in(ins_p n, char *target, int t)
 {
    outp(i_bl,NOCOND,zops,NA);
    fprintf(outf,"\tbl%s\t%s,%s\n",n,target,(t==RP ? "%rp" : RN(t)) );
 }
 
-void ble_in
-    PROTO_N ( (n,wd,sr,b) )
-    PROTO_T ( ins_p n X char* wd X int sr X int b )
+void
+ble_in(ins_p n, char* wd, int sr, int b)
 {
    outp(i_ble,NOCOND,zops,NA);
    fprintf(outf,"\tble%s\t%s(%s,%s)\n",n,wd,SN(sr),RN(b));
 }
 
-void call_ins
-    PROTO_N ( (n,target,t,stub) )
-    PROTO_T ( ins_p n X char *target X int t X char stub[128] )
+void
+call_ins(ins_p n, char *target, int t, char stub[128])
 {
    if (nexps<40872 /*62327*/)
    {
@@ -1117,9 +1089,8 @@ void call_ins
 /*
 *   jump/call to compiler generated external identifier, eg .mulI
  */
-void extj_special_ins
-    PROTO_N ( (nm,r,stub,import) )
-    PROTO_T ( const char *nm X int r X char stub[128] X int import )
+void
+extj_special_ins(const char *nm, int r, char stub[128], int import)
 {
    if (import)
    {
@@ -1136,9 +1107,8 @@ void extj_special_ins
 /*
 *   jump/call to value of reg
  */
-void extj_reg_ins
-    PROTO_N ( (ins,reg) )
-    PROTO_T ( ins_p ins X int reg )
+void
+extj_reg_ins(ins_p ins, int reg)
 {
    outp(i_bv,NOCOND,zops,NA);
    fprintf(outf,"\tbv\t%%r0(%s)\n",RN(reg));
@@ -1149,9 +1119,8 @@ void extj_reg_ins
 *   Conditional pseudo instructions.
  */
 
-void addb_in
-    PROTO_N ( (cond,l,d,lab) )
-    PROTO_T ( char *cond X int l X int d X int lab )
+void
+addb_in(char *cond, int l, int d, int lab)
 {
    int ops[4];
    ops[0]=l;
@@ -1162,9 +1131,8 @@ void addb_in
 }
 
 
-void addib_in
-    PROTO_N ( (cond,i,d,lab) )
-    PROTO_T ( char *cond X int i X int d X int lab )
+void
+addib_in(char *cond, int i, int d, int lab)
 {
    int ops[4];
    ops[0]=i;
@@ -1178,9 +1146,8 @@ void addib_in
 /*
 *   register comparisons
  */
-void comb_ins
-    PROTO_N ( (cond,l,r,lab) )
-    PROTO_T ( const char *cond X int l X int r X int lab )
+void
+comb_ins(const char *cond, int l, int r, int lab)
 {
    int ops[4];
    ops[0]=l;
@@ -1196,9 +1163,8 @@ void comb_ins
 /*
 *   constant/register comparison
  */
-void comib_ins
-    PROTO_N ( (cond,l,r,lab) )
-    PROTO_T ( ins_p cond X int l X int r X int lab )
+void
+comib_ins(ins_p cond, int l, int r, int lab)
 {
    int ops[4];
    ops[0]=l;
@@ -1211,9 +1177,8 @@ void comib_ins
 }
 
 
-void cj_ins
-    PROTO_N ( (cond,l,r,lab) )
-    PROTO_T ( const char *cond X int l X int r X int lab )
+void
+cj_ins(const char *cond, int l, int r, int lab)
 {
    int ops[4];
    ops[0]=l;
@@ -1234,9 +1199,8 @@ void cj_ins
 /*
 *   register, immediate comparison
  */
-void cij_ins
-    PROTO_N ( (cond,l,r,lab) )
-    PROTO_T ( const char *cond X long l X int r X int lab )
+void
+cij_ins(const char *cond, long l, int r, int lab)
 {
    int ops[4];
    ops[0]=l;
@@ -1280,9 +1244,8 @@ void cij_ins
 /*
 *   Branch on bit.
  */
-void bb_in
-    PROTO_N ( (cond,r,b,lab) )
-    PROTO_T ( ins_p cond X int r X int b X int lab )
+void
+bb_in(ins_p cond, int r, int b, int lab)
 {
    int ops[4];
    ops[0]=r;
@@ -1297,9 +1260,8 @@ void bb_in
  */
 
 
-void ldf_ir_ins
-    PROTO_N ( (ins, o, b, d) )
-    PROTO_T ( ins_p ins X int o X int b X int d )
+void
+ldf_ir_ins(ins_p ins, int o, int b, int d)
 {
    clear_freg(d);
    outp(ins,NOCOND,zops,NA);
@@ -1307,9 +1269,8 @@ void ldf_ir_ins
 }
 
 
-void ldf_rr_ins
-    PROTO_N ( (ins, cmplt, a, b, d) )
-    PROTO_T ( ins_p ins X ins_p cmplt X int a X int b X int d )
+void
+ldf_rr_ins(ins_p ins, ins_p cmplt, int a, int b, int d)
 {
    clear_freg(d);
    outp(ins,NOCOND,zops,NA);
@@ -1317,9 +1278,8 @@ void ldf_rr_ins
 }
 
 
-void ldf_ins
-    PROTO_N ( (ins, a, d) )
-    PROTO_T ( ins_p ins X baseoff a X int d )
+void
+ldf_ins(ins_p ins, baseoff a, int d)
 {
    /* ins must be either i_fldw or i_fldd */
    const char *i_fld = ( ins==i_fldw ? i_fldws : i_fldds );
@@ -1351,27 +1311,24 @@ void ldf_ins
 }
 
 
-void stf_ir_ins
-    PROTO_N ( (ins, s, o, b) )
-    PROTO_T ( ins_p ins X int s X int o X int b )
+void
+stf_ir_ins(ins_p ins, int s, int o, int b)
 {
    outp(ins,NOCOND,zops,NA);
    fprintf(outf,"\t%s\t%s,%d(%s)\n",ins,FN(s),o,RN(b));
 }
 
 
-void stf_rr_ins
-    PROTO_N ( (ins, s, a, b) )
-    PROTO_T ( ins_p ins X int s X int a X int b )
+void
+stf_rr_ins(ins_p ins, int s, int a, int b)
 {
    outp(ins,NOCOND,zops,NA);
    fprintf(outf,"\t%s\t%s,%s(%s)\n",ins,FN(s),RN(a),RN(b));
 }
 
 
-void stf_ins
-    PROTO_N ( (ins, s, a) )
-    PROTO_T ( ins_p ins X int s X baseoff a )
+void
+stf_ins(ins_p ins, int s, baseoff a)
 {
    /* ins must be either i_fstw or i_fstd */
 
@@ -1405,26 +1362,23 @@ void stf_ins
 }
 
 
-void cmp_rrf_ins
-    PROTO_N ( (ins, fmt, cond, a, b) )
-    PROTO_T ( ins_p ins X ins_p fmt X ins_p cond X int a X int b )
+void
+cmp_rrf_ins(ins_p ins, ins_p fmt, ins_p cond, int a, int b)
 {
    outp(ins,NOCOND,zops,NA);
    fprintf(outf,"\t%s%s%s\t%s,%s\n",ins,fmt,cond,FN(a),FN(b));
 }
 
-void rrf_ins
-    PROTO_N ( (ins, from_fmt, to_fmt, a, b) )
-    PROTO_T ( ins_p ins X ins_p from_fmt X ins_p to_fmt X int a X int b )
+void
+rrf_ins(ins_p ins, ins_p from_fmt, ins_p to_fmt, int a, int b)
 {
    outp(ins,NOCOND,zops,NA);
    fprintf(outf,"\t%s%s%s\t%s,%s\n",ins,from_fmt,to_fmt,FN(a),FN(b));
 }
 
 
-void rrrf_ins
-    PROTO_N ( (ins, fmt, a, b, dest) )
-    PROTO_T ( ins_p ins X ins_p fmt X int a X int b X int dest )
+void
+rrrf_ins(ins_p ins, ins_p fmt, int a, int b, int dest)
 {
    clear_freg(dest);
    fprintf(outf, "\t%s%s\t%s,%s,%s\n",ins,fmt,FN(a),FN(b),FN(dest));
@@ -1437,9 +1391,8 @@ void rrrf_ins
 /*
 *   Directives
  */
-void out_directive
-    PROTO_N ( (d,params) )
-    PROTO_T ( const char *d X const char *params )
+void
+out_directive(const char *d, const char *params)
 {
   /* directive, parameters */
    outp(directive,NOCOND,zops,NA);
@@ -1451,9 +1404,8 @@ void out_directive
 /*
 *   Print a label
  */
-void outlab
-    PROTO_N ( ( prefix, n ) )
-    PROTO_T ( char *prefix X int n )
+void
+outlab(char *prefix, int n)
 {
     if (prefix[0]=='L' && prefix[1]=='$')
        outp(i_lab,NOCOND,zops,n);

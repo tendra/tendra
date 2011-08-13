@@ -536,7 +536,7 @@ void keepreg(exp e, int reg)
 bool couldeffect(exp , exp);
 
 /* could 'e' be 'lhs' */
-bool couldbe PROTO_N ((e,lhs)) PROTO_T (exp e X exp lhs )/* is var name_tag exp or 0 meaning cont */
+bool couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
 {
   int ne = name(e);
   exp s = son(e);
@@ -580,7 +580,7 @@ bool couldbe PROTO_N ((e,lhs)) PROTO_T (exp e X exp lhs )/* is var name_tag exp 
 
 
 /* could alteration to z effect e? */
-bool couldeffect PROTO_N ((e,z)) PROTO_T (exp e X exp z )/* a name or zero */
+bool couldeffect(exp e, exp z)/* a name or zero */
 {
   int ne = name(e);
 

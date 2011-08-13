@@ -494,9 +494,8 @@ bool couldbe
 }
 
 /* could alteration to z effect e? */
-bool couldeffect
-    PROTO_N ( ( e, z /* a name or zero */ ) )
-    PROTO_T ( exp e X exp z /* a name or zero */ )
+bool
+couldeffect(exp e, exp z /* a name or zero */)
 {
   int ne = name(e);
   if (ne == cont_tag)

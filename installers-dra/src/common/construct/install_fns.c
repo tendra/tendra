@@ -336,6 +336,8 @@ $Log: install_fns.c,v $
 
 
 #include "config.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <time.h>
 #include "common_types.h"

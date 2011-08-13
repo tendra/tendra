@@ -147,8 +147,8 @@ bool cr0_set;
 where nowhere;	/* no particular destination, init in translat.c */
 
 /* Function declarations */
-void move_dlts PROTO_S ((int,int,int,int));/* Used by movecont_tag */
-void move_dgts PROTO_S ((int,int,int,int));/* Used by movecont_tag */
+void move_dlts(int,int,int,int);/* Used by movecont_tag */
+void move_dgts(int,int,int,int);/* Used by movecont_tag */
 int regfrmdest(where *,space);
 freg fregfrmdest(bool,where *,space);
 

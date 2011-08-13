@@ -105,7 +105,7 @@ $Log: spec_tok.c,v $
 
 /* intercepts specially defined tokens */
 
-tokval special_token PROTO_N ((t, pars, sortcode, done)) PROTO_T (token t X bitstream pars X int sortcode X int * done)
+tokval special_token(token t, bitstream pars, int sortcode, int *done)
 {
   tokval tkv;
   UNUSED(sortcode);

@@ -68,9 +68,8 @@ $Log: extern_adds.c,v $
 
 exp * usages;
 
-static bool enter_parents
-    PROTO_N ( (e) )
-    PROTO_T ( exp e )
+static bool
+enter_parents(exp e)
 {
 	exp dad =e;
 	bool inloop = 0;
@@ -110,9 +109,8 @@ static bool enter_parents
 
 
 
-void global_usages
-    PROTO_N ( (id, nop) )
-    PROTO_T ( exp id X int nop )
+void
+global_usages(exp id, int nop)
 {
 	exp plist, nextpl;
 	int i;

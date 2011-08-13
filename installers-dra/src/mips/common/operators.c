@@ -73,9 +73,8 @@ $Log: operators.c,v $
 
 bool testover = 0;		/* always 0 for C */
 
-static void tidyshort
-    PROTO_N ( (r, s, ins) )
-    PROTO_T ( int r X shape s X char* ins )
+static void
+tidyshort(int r, shape s, char* ins)
 {/* corrects possible overflows of chars
 				   and shorts in reg r */
   int sz = shape_size(s);
@@ -90,9 +89,8 @@ static void tidyshort
   }
 }
 
-bool regremoved
-    PROTO_N ( (seq, reg) )
-    PROTO_T ( exp * seq X int reg )
+bool
+regremoved(exp * seq, int reg)
 {
 				/* given a list of expressions seq which
 				   contains one whose value is in
@@ -119,9 +117,8 @@ bool regremoved
   }
 }
 
-void do_comm
-    PROTO_N ( (seq, sp, final, rins) )
-    PROTO_T ( exp seq X space sp X int final X char *rins )
+void
+do_comm(exp seq, space sp, int final, char *rins)
 {
 				/* evaluates the fixed operation seq1 rins
 				   seq 2 rins...., into reg final, using
@@ -167,9 +164,8 @@ void do_comm
 }
 
 
-int   comm_op
-    PROTO_N ( (e, sp, d, rrins) )
-    PROTO_T ( exp e X space sp X where d X char *rrins )
+int
+comm_op(exp e, space sp, where d, char *rrins)
 {
 				/* evaluate commutative operation rrins
 				   given by e into d, using sp to get
@@ -234,9 +230,8 @@ int   comm_op
   }				/* end switch */
 }
 
-int   non_comm_op
-    PROTO_N ( (e, sp, dest, rins) )
-    PROTO_T ( exp e X space sp X where dest X char *rins )
+int
+non_comm_op(exp e, space sp, where dest, char *rins)
 {
 				/* evalate binary operation e with rins
 				   into dest */
@@ -277,9 +272,8 @@ int   non_comm_op
   }
 }
 
-int   monop
-    PROTO_N ( (e, sp, dest, ins) )
-    PROTO_T ( exp e X space sp X where dest X char *ins )
+int
+monop(exp e, space sp, where dest, char *ins)
 {
 				/* evaluate fixed monadic operation e
 				   using ins into dest */
@@ -312,9 +306,8 @@ int   monop
   }
 }
 
-int   fop
-    PROTO_N ( (e, sp, dest, ins) )
-    PROTO_T ( exp e X space sp X where dest X char *ins )
+int
+fop(exp e, space sp, where dest, char *ins)
 {
 				/* evaluate floating dyadic operation e
 				   using ins into dest */
@@ -360,9 +353,8 @@ int   fop
   return ((fr.dble) ? -(fr.fr + 32) : (fr.fr + 32));
 }
 
-int   fmop
-    PROTO_N ( (e, sp, dest, ins) )
-    PROTO_T ( exp e X space sp X where dest X char *ins )
+int
+fmop(exp e, space sp, where dest, char *ins)
 {
 				/* evaluate floating monadic operation e
 				   using ins into dest */

@@ -75,7 +75,7 @@ $Log: mask.c,v $
 #include "config.h"
 #include "mask.h"
 
-int right_of_mask PROTO_N ((m)) PROTO_T (unsigned int m)
+int right_of_mask(unsigned int m)
 {
   int r;
   unsigned int mask = 1;
@@ -90,7 +90,7 @@ int right_of_mask PROTO_N ((m)) PROTO_T (unsigned int m)
   return 0;
 }
 
-int left_of_mask PROTO_N ((m)) PROTO_T (unsigned int m)
+int left_of_mask(unsigned int m)
 {
   int r;
   unsigned int mask =0x80000000;
@@ -105,7 +105,7 @@ int left_of_mask PROTO_N ((m)) PROTO_T (unsigned int m)
   return 0;
 }
 
-int is_a_mask PROTO_N ((m)) PROTO_T (unsigned int m)
+int is_a_mask(unsigned int m)
 {
   unsigned int j,k;
   /* If m is a mask then one is returned */

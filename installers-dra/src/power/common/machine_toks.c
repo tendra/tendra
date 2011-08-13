@@ -74,7 +74,7 @@ $Log: machine_toks.c,v $
 
 #include "config.h"
 
-int machine_toks PROTO_N ((s)) PROTO_T (char * s)
+int machine_toks(char *s)
 {
   if (!strcmp(s, "~div"))
     return 1;

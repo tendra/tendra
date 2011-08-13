@@ -142,7 +142,6 @@ Imported from DRA
 #include "weights.h"
 #include "instrs.h"
 #include "installglob.h"
-#include "expmacs.h"
 #include "exp.h"
 #include "externs.h"
 #include "flags.h"
@@ -348,7 +347,7 @@ int main
 	    } else if (s[1]) {
 		bool b = 1;
 		if (strncmp(s, "no_", 3) == 0) {
-		    s + = 3;
+		    s += 3;
 		    b = 0;
 		}
 		for (i = 0; !found && i < n; i++) {

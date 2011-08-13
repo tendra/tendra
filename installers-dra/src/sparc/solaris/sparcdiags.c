@@ -500,7 +500,7 @@ void stabd
 */
 
 void code_diag_info
-(dg_info d, void(*mcode)PROTO_S((void *)), void * args)
+(dg_info d, void(*mcode)(void *), void * args)
 {
   if (d == nildiag) {
    (*mcode)(args);
@@ -1194,7 +1194,8 @@ static void out_dt_shape
 	if (depth_now >= max_depth) {
 	  depth_now = 0;
 	  fprintf(dg_file, "\\\\\",0x80,0,%d,%d\n",0,0);
-	  fprintf(dg_file,	}
+	  fprintf(dg_file,	"\t.stabs\t\"");
+	}
 	depth_now++;
 	fprintf(dg_file, "%s:", el[i].d.cm_f.fnam);
 	out_dt_shape(el[i].d.cm_f.f_typ);

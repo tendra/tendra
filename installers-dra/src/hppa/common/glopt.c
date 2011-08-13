@@ -85,9 +85,8 @@ $Log: glopt.c,v $
     GLOBAL OPTIMISATIONS
 */
 
-void glopt
-    PROTO_N ( ( dp ) )
-    PROTO_T ( dec *dp )
+void
+glopt(dec *dp)
 {
     /* +++ add any HPPA-specific optimisations here */
     return ;

@@ -60,6 +60,8 @@ $Log: out.h,v $
 #ifndef OUTDECS_INCLUDED
 #define OUTDECS_INCLUDED
 
+#include <stdio.h>
+
 extern FILE *as_file ;
 
 #define fpout		as_file

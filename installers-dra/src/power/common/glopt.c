@@ -90,7 +90,7 @@ $Log: glopt.c,v $
 #define MAX_STRCPY_INLINE_LEN	4
 
 
-void glopt PROTO_N ((dp)) PROTO_T (dec * dp)
+void glopt(dec *dp)
 {
   char *id = dp -> dec_u.dec_val.dec_id;
 

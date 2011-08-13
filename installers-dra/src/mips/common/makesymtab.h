@@ -76,5 +76,5 @@ $Log: makesymtab.h,v $
 /* procedure to make a symbol table using the stored tables from
    routines in new_symbol.c */
 
-extern void makesymtab PROTO_S((STRINGS*, ESYMS*, DENSETAB*, pSYMFDR,
-    long, char*, long, long, long, long, long, long, PROCSYM*, long));
+extern void makesymtab(STRINGS*, ESYMS*, DENSETAB*, pSYMFDR,
+    long, char*, long, long, long, long, long, long, PROCSYM*, long);

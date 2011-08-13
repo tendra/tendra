@@ -81,7 +81,7 @@ $Log: labels.c,v $
 static int last_label = 50;	/* >32 to avoid possible confusion with regs */
 
 
-void seed_label PROTO_Z ()
+void seed_label(void)
 {
   /*
    * Round label numbering up to next 100. Normally called at function start.
@@ -97,14 +97,14 @@ void seed_label PROTO_Z ()
 }
 
 
-int new_label PROTO_Z ()
+int new_label(void)
 {
   last_label++;
   return last_label;
 }
 
 
-void set_label PROTO_N ((l)) PROTO_T (int l)
+void set_label(int l)
 {
   fprintf(as_file, "L.%d:\n", l);
 }

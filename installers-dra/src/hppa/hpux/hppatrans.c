@@ -136,7 +136,7 @@ $Log: hppatrans.c,v $
 
 
 #define HPPATRANS_CODE
-#include "config.h"		/* for PROTO_S () */
+#include "config.h"
 #include "flags.h"		/* for option flags */
 #include "tempdecs.h"		/* for tempdecopt */
 #include "comment.h"		/* for do_comment */
@@ -168,7 +168,7 @@ extern int good_trans;
 int OPTIM=1;
 int gdb,xdb,gcc_assembler;
 
-#define GET_0_1((arg[2] =='0')? 0 : 1)
+#define GET_0_1 (arg[2] == '0' ? 0 : 1)
 
 char *local_prefix, *name_prefix;
 
@@ -179,7 +179,7 @@ bool do_tlrecursion = 0;	/* eventually to be moved to flagsdescs.h */
 /* only advertise options in manual page, other debugging options available as well */
 static char usage_mess[] = "usage ( s = 0|1 ): trans [-As] [-Bs] [-Cs] [-D] [-d] [-Es] [-Fs] [-Gs] [-H] [-h] [-Is] [-K] [-Ms] [-O] [-P] [-Q] [-Rs] [-T] [-Us] [-V] [-v] [-W] [-X] [-Z] TDF-capsule output-as-file\n";
 
-static int init_trans PROTO_S ( ( char *, char * ) ) ; /* forward reference */
+static int init_trans(char *, char *) ; /* forward reference */
 
 int main
 (int argc, char ** argv)

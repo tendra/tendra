@@ -89,7 +89,7 @@ $Log: oprators.c,v $
 #include "makecode.h"
 #include "error.h"
 
-void tidyshort PROTO_N ((r,e)) PROTO_T (int r X exp e)
+void tidyshort(int r, exp e)
 {
   shape s = sh(e);
   switch(name(e))
@@ -123,7 +123,7 @@ void tidyshort PROTO_N ((r,e)) PROTO_T (int r X exp e)
   * given a list of expressions seq which contains one whose value is in
   * register reg, removes that exp from seq and delivers 1; otherwise delivers 0
   */
-bool regremoved PROTO_N ((seq,reg)) PROTO_T (exp * seq X int reg)
+bool regremoved(exp * seq, int reg)
 {
   exp s = *seq;
   exp t = bro(s);
@@ -156,7 +156,7 @@ bool regremoved PROTO_N ((seq,reg)) PROTO_T (exp * seq X int reg)
   * evaluates the fixed operation seq1 rins seq 2 rins...., into reg final,
   * using sp as free t-regs
   */
-void do_comm PROTO_N ((seq,sp,final,rins)) PROTO_T (exp seq X space sp X int final X Instruction_P rins)
+void do_comm(exp seq, space sp, int final, Instruction_P rins)
 {
   int r = 0;
   space nsp;
@@ -215,7 +215,7 @@ void do_comm PROTO_N ((seq,sp,final,rins)) PROTO_T (exp seq X space sp X int fin
  * Evaluate commutative operation rrins given by e into d,
  * using sp to get t-regs 
  */
-int comm_op PROTO_N ((e,sp,d,rrins)) PROTO_T (exp e X space sp X where d X Instruction_P rrins)
+int comm_op(exp e, space sp, where d, Instruction_P rrins)
 {
   Instruction_P rins = rrins;
 
@@ -286,7 +286,7 @@ int comm_op PROTO_N ((e,sp,d,rrins)) PROTO_T (exp e X space sp X where d X Instr
 }
 
 /* evalate binary operation e with ins into dest */
-int non_comm_op PROTO_N ((e,sp,dest,ins)) PROTO_T (exp e X space sp X where dest X Instruction_P ins)
+int non_comm_op(exp e, space sp, where dest, Instruction_P ins)
 {
   exp l = son(e);
   exp r = bro(l);
@@ -346,7 +346,7 @@ int non_comm_op PROTO_N ((e,sp,dest,ins)) PROTO_T (exp e X space sp X where dest
 }
 
 /* evaluate floating dyadic operation e using ins into dest */
-int fop PROTO_N ((e,sp,dest,ins)) PROTO_T (exp e X space sp X where dest X Instruction_P ins)
+int fop(exp e, space sp, where dest, Instruction_P ins)
 {
   exp l = son(e);
   exp r = bro(l);
@@ -416,7 +416,7 @@ int fop PROTO_N ((e,sp,dest,ins)) PROTO_T (exp e X space sp X where dest X Instr
 }
 
 /* evaluate floating monadic operation e using ins into dest */
-int fmop PROTO_N ((e,sp,dest,ins)) PROTO_T (exp e X space sp X where dest X Instruction_P ins)
+int fmop(exp e, space sp, where dest, Instruction_P ins)
 {
   int a1 = freg_operand(son(e), sp, getfreg(sp.flt));
 

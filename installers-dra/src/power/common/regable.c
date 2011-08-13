@@ -101,7 +101,7 @@ by the contents operator or as the left hand side of an assignment. The
 procedure also uses the macro is_floating from shapemacs.h which checks
 the shape number is in the range for floating point shapes.
 ****************************************************************/
-bool valregable PROTO_N ((s)) PROTO_T (shape s)
+bool valregable(shape s)
 {
   int n = name(s);
 
@@ -116,7 +116,7 @@ bool valregable PROTO_N ((s)) PROTO_T (shape s)
   }
 }
 
-bool fixregable PROTO_N ((e)) PROTO_T (exp e)
+bool fixregable(exp e)
 {
   if (!isvis(e) && !isoutpar(e) && !isglob(e) )
   {
@@ -137,7 +137,7 @@ determines whether the exp e can fit in a floating point register, single
 or double.
 ***************************************************************/
 
-bool floatregable PROTO_N ((e)) PROTO_T (exp e)
+bool floatregable(exp e)
 {
   if (!isvis(e) && !isoutpar(e) && !isglob(e) )
   {

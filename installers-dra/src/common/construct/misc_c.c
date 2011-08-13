@@ -71,6 +71,8 @@ $Log: misc_c.c,v $
  *
 ***********************************************************************/
 
+#include <stddef.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "exp.h"

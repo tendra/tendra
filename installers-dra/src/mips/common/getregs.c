@@ -90,9 +90,8 @@ static int minfixed;
 static long formin;
 
 
-void settempregs
-    PROTO_N ( (tg) )
-    PROTO_T ( exp tg )
+void
+settempregs(exp tg)
 {
 				/* tg is a proc; sets up useable_fixed etc
 				   depending on how the proc treats its
@@ -144,9 +143,8 @@ void settempregs
 
 }
 
-int   getreg
-    PROTO_N ( (fixed) )
-    PROTO_T ( long fixed )
+int
+getreg(long fixed)
 {	/* get a free temporary fixed pt reg */
   int   reg = -1;
   long  start = choosefix;
@@ -180,9 +178,8 @@ int   getreg
 }
 
 
-int   getfreg
-    PROTO_N ( (fl) )
-    PROTO_T ( long fl )
+int
+getfreg(long fl)
 {	/* get a free temporary floating reg */
   int   reg = -1;
   long  start = choosefloat;

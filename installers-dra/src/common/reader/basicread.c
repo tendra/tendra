@@ -83,6 +83,9 @@ MAGIC NO
  *
 ***********************************************************************/
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "xalloc.h"

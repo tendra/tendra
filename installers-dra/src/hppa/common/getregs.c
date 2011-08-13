@@ -106,9 +106,8 @@ static long choosefloat = RMASK(R_FLT_FIRST);
 
 /* reset getreg() and getfreg() back to start of sequence for proc 'tg' */
 /* (help register numbers be backward compatible). */
-void settempregs 
-    PROTO_N ( ( tg ) )
-    PROTO_T ( exp tg )
+void
+settempregs(exp tg)
 {
   /*ARGSUSED*/
   currentfix = GR2;
@@ -120,9 +119,8 @@ void settempregs
 }
 
 /* get a free temporary fixed pt reg */
-int getreg
-    PROTO_N ( ( fixed ) )
-    PROTO_T ( long fixed )
+int
+getreg(long fixed)
 {
 
   /*
@@ -178,9 +176,8 @@ int getreg
 }
 
 
-int getfreg 
-    PROTO_N ( ( fl ) )
-    PROTO_T ( long fl ) /* get a free temporary floating reg */
+int
+getfreg(long fl) /* get a free temporary floating reg */
 {
 
   /*

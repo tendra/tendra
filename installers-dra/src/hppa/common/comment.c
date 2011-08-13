@@ -98,9 +98,8 @@ bool do_comment ;
 
 #ifdef DO_COMMENT
 
-void comment 
-    PROTO_N ( ( mess ) )
-    PROTO_T ( char * mess )
+void
+comment(char * mess)
 {
     if ( do_comment ) {
 	fprintf(outf, "!! " ) ;
@@ -109,9 +108,8 @@ void comment
     return ;
 }
 
-void comment1 
-    PROTO_N ( ( mess, p1 ) )
-    PROTO_T ( char * mess X long p1 )
+void
+comment1(char * mess, long p1)
 {
     if ( do_comment ) {
 	fprintf(outf, "!! " ) ;
@@ -121,9 +119,8 @@ void comment1
     return ;
 }
 
-void comment2 
-    PROTO_N ( ( mess, p1, p2 ) )
-    PROTO_T ( char * mess X long p1 X long p2 )
+void
+comment2(char * mess, long p1, long p2)
 {
     if ( do_comment ) {
 	fprintf(outf, "!! " ) ;
@@ -133,9 +130,8 @@ void comment2
     return ;
 }
 
-void comment3 
-    PROTO_N ( ( mess, p1, p2, p3 ) )
-    PROTO_T ( char * mess X long p1 X long p2 X long p3 )
+void
+comment3(char * mess, long p1, long p2, long p3)
 {
     if ( do_comment ) {
 	fprintf(outf, "!! " ) ;
@@ -145,9 +141,8 @@ void comment3
     return ;
 }
 
-void comment4 
-    PROTO_N ( ( mess, p1, p2, p3, p4 ) )
-    PROTO_T ( char * mess X long p1 X long p2 X long p3 X long p4 )
+void
+comment4(char * mess, long p1, long p2, long p3, long p4)
 {
     if ( do_comment ) {
 	fprintf(outf, "!! " ) ;
@@ -164,9 +159,8 @@ void comment4
     ERROR REPORTING ROUTINE
 */
 
-void fail 
-    PROTO_N ( ( mess ) )
-    PROTO_T ( char * mess )
+void
+fail(char * mess)
 {
     if ( do_comment ) {
 	fprintf(outf, "!! TRANSLATION FAILED : " ) ;

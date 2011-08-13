@@ -84,6 +84,8 @@ NEW DIAG STRUCTURE
    done.
 */
 
+#include <stdio.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "installglob.h"

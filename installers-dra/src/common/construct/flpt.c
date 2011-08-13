@@ -90,6 +90,7 @@ $Log: flpt.c,v $
  ***********************************************************************/
 #include "config.h"
 #include <limits.h>
+#include <stdlib.h>
 #include "common_types.h"
 #include "flpttypes.h"
 #include "exp.h"
