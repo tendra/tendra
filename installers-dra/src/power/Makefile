@@ -3,7 +3,11 @@
 .include "Makefile.inc"
 
 
-SUBDIR = ${OSFAM}
+.if !defined(ALLARCH)
+SUBDIR+=	${OSFAM}
+.else
+SUBDIR+=	aix
+.endif
 
 .include <tendra.subdir.mk>
 

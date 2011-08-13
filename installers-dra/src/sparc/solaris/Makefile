@@ -18,13 +18,20 @@ PARTS+=	src/sparc/common
 .include <tendra.partial.mk>
 
 
+CFLAGS+=	-I ../../common/construct
+CFLAGS+=	-I ../../common/diag
+CFLAGS+=	-I ../../common/linkinfo
+CFLAGS+=	-I ../../common/reader
+CFLAGS+=	-I ../common
+CFLAGS+=	-I .
+
 SRCS+=	dw2_config.c
 SRCS+=	sparcdiags.c
 
 .include <tendra.obj.mk>
 
 
-PROG=    	trans.${BLDARCH}
+PROG=    	trans.${.CURDIR:H:T}.${.CURDIR:T}
 EXEC_BIN=	${PREFIX_LIBEXEC}
 
 .include <tendra.prog.mk>

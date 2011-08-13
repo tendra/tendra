@@ -3,8 +3,18 @@
 .include "Makefile.inc"
 
 
-#SUBDIR = 680x0 80x86 alpha hppa mips power ppc601 sparc
-SUBDIR = ${BLDARCH}
+.if !defined(ALLARCH)
+SUBDIR+=	${BLDARCH}
+.else
+SUBDIR+=	680x0
+SUBDIR+=	80x86
+SUBDIR+=	alpha
+SUBDIR+=	hppa
+SUBDIR+=	mips
+SUBDIR+=	power
+SUBDIR+=	ppc601
+SUBDIR+=	sparc
+.endif
 
 .include <tendra.subdir.mk>
 

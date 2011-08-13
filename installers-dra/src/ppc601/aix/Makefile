@@ -15,12 +15,23 @@ PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo
 PARTS+=	src/common/reader
 PARTS+=	src/power/common
-PARTS+=	src/power/aix
 
 .include <tendra.partial.mk>
 
 
-PROG=    	trans.${BLDARCH}
+CFLAGS+=	-I ../../common/construct
+CFLAGS+=	-I ../../common/diag
+CFLAGS+=	-I ../../common/linkinfo
+CFLAGS+=	-I ../../common/reader
+CFLAGS+=	-I ../../power/common
+CFLAGS+=	-I .
+
+SRCS+=  powertrans.c
+
+.include <tendra.obj.mk>
+
+
+PROG=    	trans.${.CURDIR:H:T}.${.CURDIR:T}
 EXEC_BIN=	${PREFIX_LIBEXEC}
 
 .include <tendra.prog.mk>

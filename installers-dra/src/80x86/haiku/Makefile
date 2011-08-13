@@ -5,8 +5,8 @@
 
 #TCCOPTS=	-Xc -Y32bit -Yansi
 
-PART_CFLAGS+=	-I ${BASE_DIR}/src/${BLDARCH}/common
-PART_CFLAGS+=	-I ${BASE_DIR}/src/${BLDARCH}/${OSFAM}
+PART_CFLAGS+=	-I ${BASE_DIR}/src/80x86/common
+PART_CFLAGS+=	-I ${BASE_DIR}/src/80x86/haiku
 
 PARTS+= src/common/construct
 PARTS+= src/common/diag
@@ -31,7 +31,7 @@ SRCS+=	machine.c
 .include <tendra.obj.mk>
 
 
-PROG=    	trans.${BLDARCH}
+PROG=    	trans.${.CURDIR:H:T}.${.CURDIR:T}
 EXEC_BIN=	${PREFIX_LIBEXEC}
 
 .include <tendra.prog.mk>
