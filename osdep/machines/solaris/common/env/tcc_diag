@@ -1,0 +1,6 @@
+/* $Id$ */
+
+<LINK		"-L<PREFIX_LIB>/diag"
+<CRTN		"<PREFIX_SYS>/dwarf.o"
++FLAG_AS	"-s"
+

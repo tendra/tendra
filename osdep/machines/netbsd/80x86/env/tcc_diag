@@ -1,3 +1,0 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR NetBSD */
-
-+CRT0		"--dynamic-linker /usr/libexec/ld.elf_so /usr/lib/crt0.o"

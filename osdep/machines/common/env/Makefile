@@ -69,7 +69,6 @@ ENVFILE+=	longlong
 ENVFILE+=	motif_private
 ENVFILE+=	mse
 ENVFILE+=	target_tok
-ENVFILE+=	tcc_diag
 ENVFILE+=	tcc_pp
 ENVFILE+=	tcc_prof
 ENVFILE+=	tcc_time

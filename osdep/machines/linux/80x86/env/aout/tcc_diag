@@ -1,5 +1,4 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR Linux I386 */
+/* $Id$ */
 
-+CRT0		"/usr/lib/crt0.o"
-<LINK		"-L<TENDRA_LIBDIR>/diag"
->SYS_LIB	"-static -lg"
+>SYS_LIB	"-static"
+

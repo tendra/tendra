@@ -1,5 +1,4 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR MIPS 1.31 */
+/* $Id$ */
 
-+AS		"/bin/as"
 +AS1		"/usr/lib/as11.31 -O1 -g2"
-<LINK		"-L<TENDRA_LIBDIR>/diag"
+

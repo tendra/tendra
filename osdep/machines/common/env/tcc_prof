@@ -1,3 +1,4 @@
-/* tcc environment for profiling on unknown machine */
-+FLAG_TRANS	"-P"
+/* $Id$ */
+
 +LINE_START	"#pragma@preserve@*"
+

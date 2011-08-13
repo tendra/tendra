@@ -1,0 +1,6 @@
+/* $Id$ */
+
++CRT0		"/usr/lib/crt0.o"
+<LINK		"-L<TENDRA_LIBDIR>/diag"
+>SYS_LIB	"-lg"
+

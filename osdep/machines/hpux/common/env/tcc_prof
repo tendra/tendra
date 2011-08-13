@@ -1,0 +1,5 @@
+/* $Id$ */
+
++CRT0			"/lib/mcrt0.o"
+<SYS_LINK		"-L /lib/libp"
+

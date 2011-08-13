@@ -1,5 +1,0 @@
-/* TCC ENVIRONMENT : DIAGNOSTICS FOR sol_i386 */
-
-<LINK		"-L<PREFIX_LIB>/diag"
-<CRTN		"<PREFIX_SYS>/dwarf.o"
-+FLAG_AS	"-s"

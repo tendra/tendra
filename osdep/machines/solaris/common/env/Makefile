@@ -5,6 +5,9 @@
 
 ENVFILE+=	default
 
+ENVFILE+=	tcc_diag
+ENVFILE+=	tcc_prof
+
 ENVFILE+=	Xa
 ENVFILE+=	Xc
 ENVFILE+=	Xp

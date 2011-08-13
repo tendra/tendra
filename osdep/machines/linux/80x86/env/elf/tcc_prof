@@ -1,6 +1,4 @@
-/* TCC ENVIRONMENT : PROFILING FOR Linux I386 */
+/* $Id$ */
 
 +CRT0		"-dynamic-linker /lib/ld-linux.so.1 /usr/lib/gcrt1.o"
-<SYS_LINK	"-lgmon"
-+FLAG_TRANS	"-P"
-+LINE_START	"#pragma@preserve@*"
+

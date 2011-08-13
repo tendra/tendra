@@ -3,7 +3,9 @@
 .include "Makefile.inc"
 
 
-ENVFILE+=	K-TODO
+ENVFILE+=	K-ppc601
+
+ENVFILE+=	tcc_prof
 
 .include <tendra.env.mk>
 

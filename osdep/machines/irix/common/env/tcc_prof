@@ -1,0 +1,5 @@
+/* $Id$ */
+
++CRT1		"/usr/lib/mcrt1.o <TENDRA_LIBDIR>/sys/dyn_begin.o"
++SYS_LIBC	"-lprof -lc"
+

@@ -1,0 +1,5 @@
+/* $Id$ */
+
+>SYS_LIB		"-lg"
+<LINK			"-L<PREFIX_LIB>/diag"
+

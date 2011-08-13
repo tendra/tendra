@@ -1,0 +1,5 @@
+/* $Id$ */
+
+<SYS_LINK       	"-L/usr/lib/cmplrs/cc/"
++SYS_LIBC		"-lprof1 -lc"
+

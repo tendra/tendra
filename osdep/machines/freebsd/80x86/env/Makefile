@@ -5,7 +5,6 @@
 
 ENVFILE+=	default
 
-ENVFILE+=	tcc_diag
 ENVFILE+=	tcc_prof
 
 ENVCOMMON+=	machines/common/env

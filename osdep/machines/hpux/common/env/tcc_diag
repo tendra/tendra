@@ -1,0 +1,5 @@
+/* $Id$ */
+
++CRT1			"<PREFIX_SYS>/dyn_begin.o /usr/lib/end.o"
+<LINK			"-L<PREFIX_LIB>/diag"
+
