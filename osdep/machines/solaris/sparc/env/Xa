@@ -1,5 +1,0 @@
-/* ENVIRONMENT FOR -Xa ON sol_sparc */
-
-+STARTUP		"-f<PREFIX_STARTUP>/Modes/Xa"
-+STARTUP_CPP		"-f<PREFIX_STARTUP>/Modes.cpp/Xa"
-+CRT1			"/usr/ccs/lib/values-Xa.o"
