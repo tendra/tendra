@@ -40,8 +40,8 @@
 #endif
 #endif
 
-#ifndef __LANGUAGE_C
-#define __LANGUAGE_C	1
+#ifndef __LANGUAGE_C__
+#define __LANGUAGE_C__	1
 #endif
 
 #ifndef __mips

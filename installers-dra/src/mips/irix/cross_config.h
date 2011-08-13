@@ -31,8 +31,8 @@
 #ifndef __CROSS_CONFIG_INCLUDED
 #define __CROSS_CONFIG_INCLUDED
 
-#ifndef _LANGUAGE_C
-#define _LANGUAGE_C	1
+#ifndef __LANGUAGE_C__
+#define __LANGUAGE_C__	1
 #endif
 
 #ifndef __mips
