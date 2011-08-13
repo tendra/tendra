@@ -7,11 +7,6 @@ ENVFILE+=	default
 
 ENVFILE+=	K-aout
 
-ENVFILE+=	Z-p
-ENVFILE+=	Z-p1
-ENVFILE+=	Z-p2
-ENVFILE+=	Z-p4
-
 ENVFILE+=	system
 ENVFILE+=	system+
 ENVFILE+=	tcc_prof

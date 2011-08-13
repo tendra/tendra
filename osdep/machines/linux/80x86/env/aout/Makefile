@@ -5,11 +5,6 @@
 
 ENVFILE+=	default
 
-ENVFILE+=	Z-p
-ENVFILE+=	Z-p1
-ENVFILE+=	Z-p2
-ENVFILE+=	Z-p4
-
 ENVFILE+=	tcc_diag
 ENVFILE+=	tcc_prof
 
