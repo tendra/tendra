@@ -52,11 +52,8 @@ Type definitions for the MIPS TDF translator to produce a .T , file (symbol tabl
 */
 
 #include "cross_config.h"
-#ifndef CROSS_INCLUDE
-#include <sym.h>
-#else
-#include CROSS_INCLUDE/sym.h>
-#endif
+
+#include "sym.h"
 
 /********************************************************************
 The following types store the symbolic information for each table
