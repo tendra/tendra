@@ -24,7 +24,7 @@ CFLAGS+=		-I ../../common/reader
 CFLAGS+=		-I ../common
 CFLAGS+=		-I .
 
-SRCS+=	driver.c
+SRCS+=	main.c
 
 .include <tendra.obj.mk>
 

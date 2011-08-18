@@ -6,7 +6,7 @@ SRC2=	${BASE_DIR}/lib/machines/common/src
 
 #TCCOPTS=-Ysystem
 
-SRCS+=	dyninit.c
+SRCS+=	main.c
 
 .include "Makefile.inc"
 

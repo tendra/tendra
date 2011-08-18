@@ -7,7 +7,7 @@ SRC2=	${BASE_DIR}/lib/machines/common/src
 #TCCOPTS=	-Ysystem
 CCOPTS=		-I${SRC2}
 
-SRCS+=	dyninit.c
+SRCS+=	main.c
 
 all:: dyninit TDFpower.o
 	./${OBJ_SDIR}/dyninit TDFpower.o
