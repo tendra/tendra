@@ -6,6 +6,7 @@
 .if !defined(ALLARCH)
 SUBDIR+=	${OSFAM}
 .else
+SUBDIR+=	openbsd
 SUBDIR+=	solaris
 SUBDIR+=	sunos
 .endif
