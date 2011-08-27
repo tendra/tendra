@@ -5,9 +5,11 @@
 
 #TCCOPTS=	-Xc -Y32bit -Yansi
 
+PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared/error
 PART_CFLAGS+=	-I ${BASE_DIR}/src/80x86/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/80x86/netbsd
 
+PARTS+=	src/common/shared/error
 PARTS+=	src/common/construct
 PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo
@@ -17,6 +19,7 @@ PARTS+=	src/80x86/common
 .include <tendra.partial.mk>
 
 
+CFLAGS+=	-I ../../common/shared/error
 CFLAGS+=	-I ../../common/construct
 CFLAGS+=	-I ../../common/diag
 CFLAGS+=	-I ../../common/linkinfo

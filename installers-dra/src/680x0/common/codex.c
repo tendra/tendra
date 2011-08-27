@@ -112,6 +112,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "assembler.h"
@@ -172,7 +174,7 @@ int ins
     if (sz <= 8) return(opb);
     if (sz <= 16) return(opw);
     if (sz <= 32) return(opl);
-    error("Illegal instruction size");
+    error(ERROR_SERIOUS, "Illegal instruction size");
     return(opl);
 }
 
@@ -189,7 +191,7 @@ int insf
 {
     if (sz == 32) return(ops);
     if (sz == 64) return(opd);
-    error("Illegal instruction size");
+    error(ERROR_SERIOUS, "Illegal instruction size");
     return(opx);
 }
 

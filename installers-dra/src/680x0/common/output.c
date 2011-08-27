@@ -105,6 +105,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "assembler.h"
@@ -139,7 +141,7 @@ open_output(char *nm)
 	} else {
 		fpout = fopen(nm, "w");
 		if (fpout == null) {
-			error("Can't open output file, %s", nm);
+			error(ERROR_SERIOUS, "Can't open output file, %s", nm);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -357,7 +359,7 @@ out_float(flt *f)
 	}
 	outn(f->exp);
 #else
-	error("Illegal floating point constant");
+	error(ERROR_SERIOUS, "Illegal floating point constant");
 #endif
 	return;
 }
@@ -440,7 +442,7 @@ out_mach_op(mach_op *ptr)
 			}
 			if (q1 && q1->type == MACH_SCALE) {
 				if (p2) {
-					error("Illegal addressing mode");
+					error(ERROR_SERIOUS, "Illegal addressing mode");
 					outs("error");
 					return;
 				}
@@ -507,7 +509,7 @@ out_mach_op(mach_op *ptr)
 			out_data(p);
 			return;
 		}
-		error("Illegal addressing mode");
+		error(ERROR_SERIOUS, "Illegal addressing mode");
 		outs("error");
 		return;
 	case MACH_DEC:
@@ -560,7 +562,7 @@ out_mach_op(mach_op *ptr)
 		outh(p->def.num);
 		return;
 	}
-	error("Illegal addressing mode");
+	error(ERROR_SERIOUS, "Illegal addressing mode");
 	outs("error");
 	return;
 }
@@ -760,7 +762,7 @@ outnl(void)
 	outc('\n');
 	line_no++;
 	if (seek_line && line_no == seek_line_no) {
-		warning("Line %d reached", line_no);
+		error(ERROR_WARNING, "Line %d reached", line_no);
 		breakpoint();
 	}
 	return;

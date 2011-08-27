@@ -121,6 +121,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "exp.h"
@@ -155,7 +157,7 @@ extname(exp e)
 	dec *d = brog(e);
 #if 0
 	if (d->dec_u.dec_val.external_register) {
-		error("External registers not yet implemented");
+		error(ERROR_SERIOUS, "External registers not yet implemented");
 		return ("????");
 	}
 #endif
@@ -186,7 +188,7 @@ index_opnd(where w1, where w2, int sf)
 {
 	mach_op *op1, *op2;
 	if (name(w2.wh_exp) != name_tag) {
-		error("Illegal index operand");
+		error(ERROR_SERIOUS, "Illegal index operand");
 		return (null);
 	}
 	op1 = operand(L32, w1);
@@ -256,7 +258,7 @@ operand(long sz, where wh)
 		case reg_pl:
 			return (make_register(reg(no(w))));
 		default:
-			error(illegal_operand, 0);
+			error(ERROR_SERIOUS, illegal_operand, 0);
 			return (null);
 		}
 	case name_tag: {
@@ -291,7 +293,7 @@ operand(long sz, where wh)
 		case reg_pl:
 			return (make_register(reg(d2)));
 		default:
-			error(illegal_operand, 1);
+			error(ERROR_SERIOUS, illegal_operand, 1);
 			return (null);
 		}
 	}
@@ -306,8 +308,7 @@ operand(long sz, where wh)
 					int ra;
 					if (name(sh(w)) == prokhd) {
 						if (off) {
-							error(illegal_operand,
-							      2);
+							error(ERROR_SERIOUS, illegal_operand, 2);
 						}
 						return (make_ext_ind(id, no(r)));
 					}
@@ -337,7 +338,7 @@ operand(long sz, where wh)
 				case reg_pl:
 					return (make_ind(no(id), off));
 				default:
-					error(illegal_operand, 4);
+					error(ERROR_SERIOUS, illegal_operand, 4);
 					return (null);
 				}
 			} else {
@@ -359,7 +360,7 @@ operand(long sz, where wh)
 				exp id = son(rr);
 #if 0
 				if (!isvar(id)) {
-					error(illegal_operand, 5);
+					error(ERROR_SERIOUS, illegal_operand, 5);
 					return (null);
 				}
 #endif
@@ -391,12 +392,12 @@ operand(long sz, where wh)
 				case reg_pl:
 					return (make_ind(no(id), off));
 				default:
-					error(illegal_operand, 6);
+					error(ERROR_SERIOUS, illegal_operand, 6);
 					return (null);
 				}
 			}
 			default:
-				error(illegal_operand, 7);
+				error(ERROR_SERIOUS, illegal_operand, 7);
 				return (null);
 			}
 		}
@@ -438,7 +439,7 @@ operand(long sz, where wh)
 					return (make_indirect(ra, d / 8));
 				}
 				default:
-					error(illegal_operand, 8);
+					error(ERROR_SERIOUS, illegal_operand, 8);
 					return (null);
 				}
 			}
@@ -459,7 +460,7 @@ operand(long sz, where wh)
 					d = no(r) + off;
 					return (make_indirect(ra, d / 8));
 				}
-				error(illegal_operand, 9);
+				error(ERROR_SERIOUS, illegal_operand, 9);
 				return (null);
 			}
 			case addptr_tag: {
@@ -469,7 +470,7 @@ operand(long sz, where wh)
 				return (operand(sz, new_w));
 			}
 			default:
-				error(illegal_operand, 10);
+				error(ERROR_SERIOUS, illegal_operand, 10);
 				return (null);
 			}
 		}
@@ -495,16 +496,16 @@ operand(long sz, where wh)
 					wb.wh_off = 0;
 					return (index_opnd(wc, wb,(int)k));
 				}
-				error(illegal_operand, 11);
+				error(ERROR_SERIOUS, illegal_operand, 11);
 				return (null);
 			}
 			default:
-				error(illegal_operand, 12);
+				error(ERROR_SERIOUS, illegal_operand, 12);
 				return (null);
 			}
 		}
 		default:
-			error(illegal_operand, 14);
+			error(ERROR_SERIOUS, illegal_operand, 14);
 			return (null);
 		}
 	}
@@ -528,7 +529,7 @@ operand(long sz, where wh)
 				return (make_indirect(ra, d / 8));
 			}
 			default:
-				error(illegal_operand, 15);
+				error(ERROR_SERIOUS, illegal_operand, 15);
 				return (null);
 			}
 		case name_tag: {
@@ -550,7 +551,7 @@ operand(long sz, where wh)
 				return (make_indirect(ra, d / 8));
 			}
 			default:
-				error(illegal_operand, 16);
+				error(ERROR_SERIOUS, illegal_operand, 16);
 				return (null);
 			}
 		}
@@ -575,7 +576,7 @@ operand(long sz, where wh)
 				return (make_indirect(ra, d / 8));
 			}
 			default:
-				error(illegal_operand, 17);
+				error(ERROR_SERIOUS, illegal_operand, 17);
 				return (null);
 			}
 		}
@@ -586,7 +587,7 @@ operand(long sz, where wh)
 			return (operand(sz, new_w));
 		}
 		default:
-			error(illegal_operand, 18);
+			error(ERROR_SERIOUS, illegal_operand, 18);
 			return (null);
 		}
 	}
@@ -617,7 +618,7 @@ operand(long sz, where wh)
 				d = no(id);
 				return (make_register(reg(d)));
 			default:
-				error(illegal_operand, 19);
+				error(ERROR_SERIOUS, illegal_operand, 19);
 				return (null);
 			}
 		}
@@ -652,7 +653,7 @@ operand(long sz, where wh)
 				return (make_register(ra));
 			}
 			default:
-				error(illegal_operand, 20);
+				error(ERROR_SERIOUS, illegal_operand, 20);
 				return (null);
 			}
 		}
@@ -664,7 +665,7 @@ operand(long sz, where wh)
 			return (operand(sz, new_w));
 		}
 		default:
-			error(illegal_operand, 21);
+			error(ERROR_SERIOUS, illegal_operand, 21);
 			return (null);
 		}
 	}
@@ -690,7 +691,7 @@ operand(long sz, where wh)
 			return (index_opnd(wc, wb,(int)k));
 		}
 		default:
-			error(illegal_operand, 22);
+			error(ERROR_SERIOUS, illegal_operand, 22);
 			return (null);
 		}
 	}
@@ -756,7 +757,7 @@ operand(long sz, where wh)
 			}
 			return (make_value(d / 8));
 		}
-		error(illegal_operand, 23);
+		error(ERROR_SERIOUS, illegal_operand, 23);
 		return (null);
 	}
 #endif
@@ -767,7 +768,7 @@ operand(long sz, where wh)
 	case internal_tag:
 		return (make_lab_ind(no(w), off / 8));
 	default:
-		error(illegal_operand, 24);
+		error(ERROR_SERIOUS, illegal_operand, 24);
 		return (null);
 	}
 }
@@ -893,7 +894,7 @@ void
 save_stack(void)
 {
 	if (extra_stack || stack_dec) {
-		error("unclean stack");
+		error(ERROR_SERIOUS, "unclean stack");
 	}
 	make_comment("Save stack pointer");
 	ins2(m_movl, 32, 32, SP, firstlocal, 1);
@@ -903,7 +904,7 @@ void
 restore_stack(void)
 {
 	if (extra_stack || stack_dec) {
-		error("unclean stack");
+		error(ERROR_SERIOUS, "unclean stack");
 	}
 	make_comment("Restore stack pointer");
 	ins2(m_movl, 32, 32, firstlocal, SP, 1);

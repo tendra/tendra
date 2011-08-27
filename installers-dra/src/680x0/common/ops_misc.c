@@ -128,6 +128,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "assembler.h"
@@ -288,7 +290,7 @@ test_overflow(overflow_type typ)
 		instr = m_bne;
 		break;
 	default:
-		error("invalid overflow test");
+		error(ERROR_SERIOUS, "invalid overflow test");
 		return;
 	}
 
@@ -987,7 +989,7 @@ move_from_freg(long sz, where from, where to)
 	case RegPair: {
 		exp te = to.wh_exp;
 		if (sz != 64) {
-			error("Wrong floating variety");
+			error(ERROR_SERIOUS, "Wrong floating variety");
 		}
 		push_float(sz, from);
 		pop(slongsh, L32, zw(son(te)));
@@ -1031,7 +1033,7 @@ move_to_freg(long sz, where from, where to)
 	case RegPair: {
 		exp fe = from.wh_exp;
 		if (sz != 64) {
-			error("Wrong floating variety");
+			error(ERROR_SERIOUS, "Wrong floating variety");
 		}
 		push(slongsh, L32, zw(bro(fe)));
 		push(slongsh, L32, zw(son(fe)));
@@ -1352,7 +1354,7 @@ move(shape sha, where from, where to)
 		}
 		if (whfrom == RegPair) {
 			if (sz != 64) {
-				error("Wrong floating variety");
+				error(ERROR_SERIOUS, "Wrong floating variety");
 			}
 			ins2(m_movl, L32, L32, zw(bro(fe)),
 			     mw(te, tof + 32), 1);
@@ -1362,7 +1364,7 @@ move(shape sha, where from, where to)
 		}
 		if (whto == RegPair) {
 			if (sz != 64) {
-				error("Wrong floating variety");
+				error(ERROR_SERIOUS, "Wrong floating variety");
 			}
 			ins2(m_movl, L32, L32, from, zw(son(te)), 1);
 			ins2(m_movl, L32, L32, mw(fe, fof + 32),
@@ -1953,7 +1955,7 @@ branch_ins(long test_no, int sw, int sg, int sf)
 		}
 		return (sg ? m_bgt : m_bhi);
 	}
-	error("Illegal test");
+	error(ERROR_SERIOUS, "Illegal test");
 	return (m_dont_know);
 }
 

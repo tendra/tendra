@@ -138,6 +138,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "assembler.h"
@@ -1382,7 +1384,7 @@ static void euclid
 	switch (v) {
 
 	    case 0: {
-		warning("Division by zero");
+		error(ERROR_WARNING, "Division by zero");
                 if (have_overflow()) {
                    test_overflow(UNCONDITIONAL);
                 }

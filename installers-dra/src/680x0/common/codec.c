@@ -122,6 +122,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "exp.h"
@@ -238,7 +240,7 @@ bop(void(*op)(shape, where, where, where), shape sha, exp a, exp b, where dest,
 		 */
 		if (nob) {
 			/* a and b cannot both not be operands */
-			error("Illegal binary operation");
+			error(ERROR_SERIOUS, "Illegal binary operation");
 		}
 		t = zw(b);
 		if (whereis(dest) == Dreg && !interfere(dest, t)) {
@@ -480,7 +482,7 @@ void
 codec(where dest, ash stack, exp e)
 {
 	if (e == nilexp) {
-		error("Internal coding error");
+		error(ERROR_SERIOUS, "Internal coding error");
 		return;
 	}
 
@@ -831,7 +833,7 @@ codec(where dest, ash stack, exp e)
 		return;
 	case absbool_tag:
 		/* The setcc instruction is not used */
-		error("Not implemented");
+		error(ERROR_SERIOUS, "Not implemented");
 		return;
 	case fplus_tag: {
 		/* Floating addition is similar to integer addition */
@@ -1107,7 +1109,7 @@ TDF libraries.  If this was right sh ( e ) would be slongsh.
 				s = sim_exp(sh(e), D0);
 			} else {
 				if (whereis(dest) == Dreg) {
-					/* error("Untested optimization"); */
+					/* error(ERROR_SERIOUS, "Untested optimization"); */
 					s = sim_exp(sh(e), dest);
 				} else {
 					regsinproc |= regmsk(REG_D1);

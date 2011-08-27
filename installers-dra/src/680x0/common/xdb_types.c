@@ -97,6 +97,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include <time.h>
 #include "common_types.h"
@@ -209,12 +211,12 @@ fill_gap(FILE *file, long fp, posn_t t)
 {
 	long fp_old = ftell(file);
 	if (fseek(file, fp, SEEK_SET) == -1) {
-		error("Internal file seek error");
+		error(ERROR_SERIOUS, "Internal file seek error");
 		return;
 	}
 	fprintf(file, "0x%x", (unsigned int)t);
 	if (fseek(file, fp_old, SEEK_SET) == -1) {
-		error("Internal file seek error");
+		error(ERROR_SERIOUS, "Internal file seek error");
 	}
 	return;
 }

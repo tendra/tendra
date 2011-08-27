@@ -90,6 +90,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "utility.h"
 #define failer failer_reject
@@ -112,15 +114,13 @@ open_input(char *nm)
 	if (strcmp(nm, "-")) {
 		fpin = fopen(nm, "r");
 		if (fpin == null) {
-			error("Can't open input file, %s", nm);
-			exit(EXIT_FAILURE);
+			error(ERROR_FATAL, "Can't open input file, %s", nm);
 		}
 	} else {
 		int c;
 		fpin = tmpfile();
 		if (fpin == null) {
-			error("Can't open temporary file");
-			exit(EXIT_FAILURE);
+			error(ERROR_FATAL, "Can't open temporary file");
 		}
 		while (c = fgetc(stdin), c != EOF) {
 			fputc(c, fpin);

@@ -133,6 +133,8 @@ Imported from DRA
 --------------------------------------------------------------------------
 */
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "assembler.h"
@@ -170,8 +172,7 @@ extern int max_errors;
     PROGRAM NAME AND VERSION NUMBER
 */
 
-char *progname = "hptrans";
-static char *version_str = "Version: 0.6";
+static char *version_str = "0.6";
 static char *revision = REVISION_STRING;
 static char *revdate = DATE_STRING;
 int normal_version = 1;
@@ -191,7 +192,7 @@ int optimize = 0;
 #else
 static int optimize = 1;
 #endif
-static int report_version = 0;
+static int report_trans_version = 0;
 static int report_tdf_versions = 0;
 static int show_options = 0;
 static int dummy_option = 0;
@@ -278,7 +279,7 @@ struct {
     {"pic", 0, 0, 'D', &do_pic, null},
     {"profile", 'P', 0, 0, &do_profile, null},
     {"quit", 'Q', 0, 0, &do_quit, null},
-    {"report_version", 'Z', 0, 0, &report_tdf_versions, null},
+    {"report_trans_version", 'Z', 0, 0, &report_tdf_versions, null},
     {"round", 'r', 0, 'R', &round_after_flop, null},
     {"separate_units", 'U', 0, 0, &do_sep_units, null},
     {"special_fns", 0, 0, 0, &do_special_fns, null},
@@ -289,7 +290,7 @@ struct {
     {"test", 'l', 0, 0, &do_test, null},
 #endif
     {"unroll", 0, 0, 'U', &do_unroll, null},
-    {"version", 'V', 0, 0, &report_version, null},
+    {"version", 'V', 0, 0, &report_trans_version, null},
     {"write_strings", 0, 0, 'W', &dummy_option, null}
 };
 
@@ -311,7 +312,7 @@ int main
     char *output = null;
 
     /* Set up program name */
-    progname = basename(argv[0]);
+    set_progname(argv[0], version_str);
 
     /* Set default options */
     diagnose = 0;
@@ -370,7 +371,7 @@ int main
 		}
 	    }
 	    if (!found) {
-		    warning("Unknown option, %s", argv[a]);
+		    error(ERROR_WARNING, "Unknown option, %s", argv[a]);
 	    }
 	} else {
 	    /* Set up input and output files */
@@ -379,8 +380,7 @@ int main
 	    } else if (output == null) {
 		output = argv[a];
 	    } else {
-		error("Too many arguments");
-		exit(EXIT_FAILURE);
+		error(ERROR_FATAL, "Too many arguments");
 	    }
 	}
     }
@@ -397,7 +397,7 @@ int main
 #endif
 
     /* Report version if required */
-    if (report_version) {
+    if (report_trans_version) {
 #ifdef NEXT
 	char *machine = "NeXT";
 #else
@@ -430,7 +430,7 @@ int main
 
     /* Check on diagnostics */
     if (!have_diagnostics && diagnose) {
-	error("Diagnostics not supported");
+	error(ERROR_SERIOUS, "Diagnostics not supported");
 	diagnose = 0;
     }
 
@@ -495,8 +495,7 @@ int main
 
     /* Open input file */
     if (input == null) {
-	error("Not enough arguments");
-	exit(EXIT_FAILURE);
+	error(ERROR_FATAL, "Not enough arguments");
     }
     if (!initreader(input)) {
 	exit(EXIT_FAILURE);
@@ -522,7 +521,8 @@ int main
     open_output(output);
     asm_comment;
     outs(" TDF to 680x0, ");
-    outs(version_str);
+    outs("Version: ");
+	outs(version_str);
     outs(", ");
     outs(revision);
     outnl();
@@ -547,7 +547,7 @@ int main
     }
     outnl();
 #endif
-    if (errors && !ignore_errors) {
+    if (number_errors != 0 && !ignore_errors) {
 	    exit(EXIT_FAILURE);
     }
     return(0);

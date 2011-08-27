@@ -96,6 +96,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "instrs.h"
@@ -1014,7 +1016,7 @@ make_index_op(mach_op *op1, mach_op *op2, int sf)
 	mach_op *p1, *p2 = new_mach_op();
 
 	if (op1->type != MACH_CONT) {
-		error("Illegal indexing operand");
+		error(ERROR_SERIOUS, "Illegal indexing operand");
 		return (null);
 	}
 

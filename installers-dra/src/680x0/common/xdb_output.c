@@ -94,6 +94,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "assembler.h"
@@ -222,7 +224,7 @@ void init_diag
 	}
 
 	case DIAG_UNKNOWN: {
-	    warning("Unknown diagnostics format");
+	    error(ERROR_WARNING, "Unknown diagnostics format");
 	    diag_format = DIAG_XDB_NEW;
 	    /* Fall through */
 	}
@@ -232,8 +234,7 @@ void init_diag
 	    diagfp2 = tmpfile();
 	    diagfp3 = tmpfile();
 	    if (diagfp1 == null || diagfp2 == null || diagfp3 == null) {
-		error("Can't open temporary diagnostics file");
-		exit(EXIT_FAILURE);
+		error(ERROR_FATAL, "Can't open temporary diagnostics file");
 	    }
 	    fprintf(diagfp1, "%s\n", instr_names[m_as_data]);
 	    fprintf(diagfp1, "%s\n", instr_names[m_dd_vt]);
@@ -245,8 +246,7 @@ void init_diag
 	case DIAG_XDB_OLD: {
 	    diagfp2 = tmpfile();
 	    if (diagfp2 == null) {
-		error("Can't open temporary diagnostics file");
-		exit(EXIT_FAILURE);
+		error(ERROR_FATAL, "Can't open temporary diagnostics file");
 	    }
 	    fprintf(diagfp2, "%s\n", instr_names[m_as_data]);
 	    fprintf(diagfp2, "%s\n", instr_names[m_dd_start]);
@@ -589,7 +589,7 @@ void diag_proc_main
 
     /* Analyse result sort */
     if (dt->key != DIAG_TYPE_PROC) {
-	error("Illegal procedure type");
+	error(ERROR_SERIOUS, "Illegal procedure type");
 	return;
     }
     dtl = dt->data.proc.result_type;

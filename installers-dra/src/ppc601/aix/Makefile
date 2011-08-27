@@ -6,10 +6,12 @@
 #TCCOPTS=-Xc -Y32bit -Yansi
 
 # note power/, not ppc601/
+PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared/error
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/aix
 
 # note power/, not ppc601/
+PARTS+=	src/common/shared/error
 PARTS+=	src/common/construct
 PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo
@@ -19,6 +21,7 @@ PARTS+=	src/power/common
 .include <tendra.partial.mk>
 
 
+CFLAGS+=	-I ../../common/shared/error
 CFLAGS+=	-I ../../common/construct
 CFLAGS+=	-I ../../common/diag
 CFLAGS+=	-I ../../common/linkinfo

@@ -113,6 +113,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "instrs.h"
@@ -317,7 +319,7 @@ make_label(long n)
 	have_cond = 0;
 #ifdef EBUG
 	if (seek_label && n == (long)seek_label_no) {
-		warning("Label %ld used", n);
+		error(ERROR_WARNING, "Label %ld used", n);
 		breakpoint();
 	}
 #endif
@@ -357,7 +359,7 @@ make_external_label(char *nm)
 	have_cond = 0;
 #ifdef EBUG
 	if (seek_extern && eq(nm, seek_extern_id)) {
-		warning("Label %s used", nm);
+		error(ERROR_WARNING, "Label %s used", nm);
 		breakpoint();
 	}
 #endif

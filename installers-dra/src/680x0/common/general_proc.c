@@ -98,6 +98,8 @@ Checking in before merging with Input Baseline changes.
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include <limits.h>
 #include "common_types.h"
@@ -478,7 +480,7 @@ void restore_regs_output
             make_comment("exit with long jump => Don't restore A6 or SP");
             break;
          default:
-            error("wrong restore type");
+            error(ERROR_SERIOUS, "wrong restore type");
          }
       }
    }
@@ -1671,7 +1673,7 @@ static void code_postlude
          n--;
       }
       if (name(a)!= caller_tag)
-      error("Bad postlude");
+      error(ERROR_SERIOUS, "Bad postlude");
 
       ptno(postlude) = par3_pl;
       no(postlude) = no(a) + stack_dec + post_offset;

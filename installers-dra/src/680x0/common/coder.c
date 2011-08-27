@@ -139,6 +139,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include <limits.h>
 #include "common_types.h"
@@ -256,7 +258,7 @@ alloc_reg(shape sha, int br, bool big)
 		end = REG_FP2;
 		rev = 1;
 	} else {
-		error("Illegal register type");
+		error(ERROR_SERIOUS, "Illegal register type");
 		return (0);
 	}
 
@@ -947,7 +949,7 @@ coder(where dest, ash stack, exp e)
 	bool sw;
 
 	if (e == nilexp) {
-		error("Internal coding error");
+		error(ERROR_SERIOUS, "Internal coding error");
 		return;
 	}
 
@@ -2100,7 +2102,7 @@ coder(where dest, ash stack, exp e)
 		return;
 	default:
 		if (!is_a(name(e))) {
-			error("Bad operation");
+			error(ERROR_SERIOUS, "Bad operation");
 			return;
 		}
 		if (name(dest.wh_exp) != val_tag) {

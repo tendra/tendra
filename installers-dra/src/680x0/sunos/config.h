@@ -158,17 +158,8 @@ typedef unsigned long bitpattern;
 #define NO_ALLOCA
 
 
-/*
-    DECLARE ERROR REPORTING FUNCTIONS
-
-    These functions are defined in utility.c.
-*/
-
-extern void error(char *, ...);
-extern void warning(char *, ...);
-
 #ifdef EBUG
-#define debug_warning(X)	warning(X)
+#define debug_warning(X)	error(ERROR_WARNING, X)
 #else
 #define debug_warning(X)
 #endif

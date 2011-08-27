@@ -108,6 +108,8 @@ Merged with Input Baseline changes.
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "assembler.h"
@@ -228,7 +230,7 @@ void fl_binop
 	    break;
 	}
 	default : {
-	    error("Illegal floating operation");
+	    error(ERROR_SERIOUS, "Illegal floating operation");
 	    return;
 	}
     }
@@ -563,7 +565,7 @@ static void check_float_round_overflow
      check_limit(from, get_max_limit(sha,0),tst_gr);
      break;
   default:
-     error("check_float_round_overflow: wrong rounding mode");
+     error(ERROR_SERIOUS, "check_float_round_overflow: wrong rounding mode");
   }
 
   make_comment("check_float_round_overflow done");
@@ -620,7 +622,7 @@ void set_round_mode
       ins2n(m_bclr,5,32,D0,1);
       break;
    default:
-      error("wrong rounding mode");
+      error(ERROR_SERIOUS, "wrong rounding mode");
    }
    ins2(m_fmovel,32,32,D0,RW[REG_FPCR],1);
 }

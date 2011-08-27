@@ -121,6 +121,8 @@ Imported from DRA
 */
 
 
+#include "error.h"
+
 #include "config.h"
 #if FS_NO_ANSI_ENVIRON
 #include <floatingpoint.h>
@@ -359,7 +361,7 @@ long  evalexp
        long n = evalexp(bro(son(e)));
        if (n == 0) {
           n++;
-          error("evalexp: divide by zero");
+          error(ERROR_SERIOUS, "evalexp: divide by zero");
        }
        return(evalexp(son(e)) / n);
     }
@@ -386,7 +388,7 @@ long  evalexp
        break;
     }
    }
-   error("Illegal constant expression in %s", ext_eval_name);
+   error(ERROR_SERIOUS, "Illegal constant expression in %s", ext_eval_name);
    return(0);
 }
 
@@ -453,7 +455,7 @@ static void evalno
 	return;
       }
     }
-    error("Illegal integer value in %s", ext_eval_name);
+    error(ERROR_SERIOUS, "Illegal integer value in %s", ext_eval_name);
     return;
 }
 
@@ -516,7 +518,7 @@ long *realrep
 	    d = (double)fd;
 	}
     } else {
-	error("Illegal floating-point constant");
+	error(ERROR_SERIOUS, "Illegal floating-point constant");
 	return(NULL);
     }
 
@@ -593,7 +595,7 @@ long *realrep
 	}
 
     } else {
-	error("Illegal floating-point constant");
+	error(ERROR_SERIOUS, "Illegal floating-point constant");
 	return(NULL);
     }
 
@@ -603,7 +605,7 @@ long *realrep
     ex += (1 << (exp_bits - 1)) - 1;
     if (ex <= 0 || ex >= (1 << exp_bits) - 1) {
 	if (flpt_const_overflow_fail) {
-	    error("Floating point constant out of range");
+	    error(ERROR_SERIOUS, "Floating point constant out of range");
 	}
 	if (sz == 32) {
 	    if (bits[0])longs[0] = 0x80000000;
@@ -756,7 +758,7 @@ void evalaux
 		}
 
 		if (off < crt_off) {
-		    error("Compound constants out of order in %s",
+		    error(ERROR_SERIOUS, "Compound constants out of order in %s",
 			    ext_eval_name);
 		}
 
@@ -881,7 +883,7 @@ void evalaux
 		}
 
 		default : {
-		    error("Illegal string size in %s", ext_eval_name);
+		    error(ERROR_SERIOUS, "Illegal string size in %s", ext_eval_name);
 		    break;
 		}
 	    }
@@ -948,7 +950,7 @@ void evalaux
 		evalaux(son(e), isconst, al);
 		return;
 	    }
-	    error("Illegal change variety constant in %s", ext_eval_name);
+	    error(ERROR_SERIOUS, "Illegal change variety constant in %s", ext_eval_name);
 	    return;
 	}
 
@@ -959,7 +961,7 @@ void evalaux
 		evalaux(son(e), isconst, al);
 		return;
 	    }
-	    error("Illegal change floating variety constant in %s",
+	    error(ERROR_SERIOUS, "Illegal change floating variety constant in %s",
 		    ext_eval_name);
 	    return;
 	}
