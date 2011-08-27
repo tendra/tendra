@@ -83,7 +83,4 @@ extern  voidstar xrealloc(voidstar p, size_t s);
 extern  void xfree(voidstar p);
 extern  voidstar xmalloc(size_t s);
 
-#define CH	(voidstar)
-#define TOSZ	(size_t)
-
 #endif

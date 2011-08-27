@@ -185,8 +185,7 @@ next_typen(void)
 {
     if (typeno >= total_type_sizes) {
 	int i, n = total_type_sizes, m = n + 100;
-	type_sizes = (long *)xrealloc((void*)(CH type_sizes),
-				      m * sizeof(long));
+	type_sizes = xrealloc(type_sizes, m * sizeof *type_sizes);
 	for (i = n; i < m; i++) {
 		type_sizes[i] = 0;
 	}
@@ -214,10 +213,10 @@ stab_collect_files(filename f)
 {
     if (fds == NULL) {
 	szfds += 10;
-	fds = (filename *)xmalloc(szfds * sizeof(filename));
+	fds = xmalloc(szfds * sizeof *fds);
     } else if (nofds >= szfds) {
 	szfds += 10;
-	fds = (filename *)xrealloc((void*)(CH fds), szfds * sizeof(filename));
+	fds = xrealloc(fds, szfds * sizeof *fds);
     }
     fds[nofds++] = f;
     return;
