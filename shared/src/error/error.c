@@ -76,7 +76,7 @@ const char *progname = NULL;
 const char *progvers = NULL;
 int exit_status = EXIT_SUCCESS;
 int maximum_errors = 20;
-static int number_errors = 0;
+int number_errors = 0;
 
 int crt_line_no = 1;
 const char *crt_file_name = NULL;
