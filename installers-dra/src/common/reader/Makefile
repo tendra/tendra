@@ -43,7 +43,6 @@ SRCS+=	read_fns.c
 SRCS+=	read_sort.c
 SRCS+=	readglob.c
 SRCS+=	table_fns.c
-SRCS+=	xalloc.c
 
 .include <tendra.obj.mk>
 

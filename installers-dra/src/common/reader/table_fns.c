@@ -78,10 +78,11 @@ $Log: table_fns.c,v $
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../shared/xalloc/xalloc.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "readglob.h"
-#include "xalloc.h"
 #include "basicread.h"
 #include "sortmacs.h"
 #include "exp.h"

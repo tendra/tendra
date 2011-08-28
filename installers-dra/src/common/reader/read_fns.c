@@ -130,6 +130,8 @@ signature bug
 #include <string.h>
 #include <stdio.h>
 
+#include "../shared/xalloc/xalloc.h"
+
 #include "config.h"
 #include "common_types.h"
 #include "basicread.h"
@@ -145,7 +147,6 @@ signature bug
 #include "table_fns.h"
 #include "flpttypes.h"
 #include "flpt.h"
-#include "xalloc.h"
 #include "shapemacs.h"
 #include "read_fns.h"
 #include "sortmacs.h"

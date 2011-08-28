@@ -86,9 +86,10 @@ MAGIC NO
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../shared/xalloc/xalloc.h"
+
 #include "config.h"
 #include "common_types.h"
-#include "xalloc.h"
 #include "flags.h"
 #include "messages_r.h"
 #include "natmacs.h"

@@ -6,10 +6,12 @@
 #TCCOPTS=-Xc -Y32bit -Yansi
 
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared/error
+PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared/xalloc
 PART_CFLAGS+=	-I ${BASE_DIR}/src/alpha/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/alpha/osf1
 
 PARTS+=	src/common/shared/error
+PARTS+=	src/common/shared/xalloc
 PARTS+=	src/common/construct
 PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo
@@ -20,6 +22,7 @@ PARTS+=	src/alpha/common
 
 
 CFLAGS+=		-I ../../common/shared/error
+CFLAGS+=		-I ../../common/shared/xalloc
 CFLAGS+=		-I ../../common/construct
 CFLAGS+=		-I ../../common/diag
 CFLAGS+=		-I ../../common/linkinfo

@@ -7,11 +7,13 @@
 
 # note power/, not ppc601/
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared/error
+PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared/xalloc
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/aix
 
 # note power/, not ppc601/
 PARTS+=	src/common/shared/error
+PARTS+=	src/common/shared/xalloc
 PARTS+=	src/common/construct
 PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo
@@ -22,6 +24,7 @@ PARTS+=	src/power/common
 
 
 CFLAGS+=	-I ../../common/shared/error
+CFLAGS+=	-I ../../common/shared/xalloc
 CFLAGS+=	-I ../../common/construct
 CFLAGS+=	-I ../../common/diag
 CFLAGS+=	-I ../../common/linkinfo
