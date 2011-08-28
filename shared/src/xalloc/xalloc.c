@@ -57,12 +57,13 @@
         it may be put.
 */
 
+#include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
-/* XXX: #include <stdint.h> for SIZE_MAX, requires C99 api support in TenDRA */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 
 /* XXX: needed for xmalloc_nof and other macros */
 #include "xalloc.h"
@@ -73,6 +74,8 @@ extern const char* progname;
  * Custom error function for xalloc to prevent a dependency on
  * the error library. All errors in this library are fatal and
  * result in the application exiting with EXIT_FAILURE.
+ *
+ * XXX: but we depend on error/ for progname anyway, so this makes no sense.
  */
 static void
 xalloc_fatal(const char *s, ...)
@@ -102,7 +105,11 @@ xalloc_fatal(const char *s, ...)
 void *
 xmalloc(size_t sz)
 {
-	void *p = malloc(sz);
+	void *p;
+
+	assert(sz != 0);
+
+	p = malloc(sz);
 
 	if (p == NULL)
 		xalloc_fatal("malloc: %s", strerror(errno));
@@ -122,11 +129,11 @@ xcalloc(size_t n, size_t sz)
 {
 	void *p;
 
-	if (n == 0 || sz == 0)
-		xalloc_fatal("xcalloc: zero size allocation");
+	assert(n != 0);
+	assert(sz != 0);
 
-	/* XXX: if (SIZE_MAX / n < sz)
-		xalloc_fatal("xcalloc: size_t overflow"); */
+	if (SIZE_MAX / n < sz)
+		xalloc_fatal("xcalloc: size_t overflow");
 
 	if ((p = calloc(sz, n)) == NULL)
 		xalloc_fatal("calloc: %s", strerror(errno));
@@ -147,12 +154,10 @@ xrealloc(void *p, size_t sz)
 {
 	void *q;
 
-	if (p == NULL && sz == 0)
-		xalloc_fatal("xrealloc: both arguments zero is unspecified");
+	assert(p != NULL || sz != 0);
 
-	/* This is legal and frees p, but confusing */
-	if (sz == 0)
-		xalloc_fatal("xrealloc: size is zero, use xfree()");
+	/* This is legal and frees p, but confusing; use xfree() instead */
+	assert(sz != 0);
 
 	if ((q = realloc(p, sz)) == NULL)
 		xalloc_fatal("realloc: %s", strerror(errno));
