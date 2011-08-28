@@ -3072,7 +3072,12 @@ f_make_nof_int(variety v, string s)
 
 
 	if (elem_sz == 64) {
-		int *ss = (int *)xcalloc(s.number, sizeof(int));
+		int *ss;
+		if (s.number == 0) {
+			ss = NULL;
+		} else {
+			ss = (int *)xcalloc(s.number, sizeof(int));
+		}
 		for (i = 0; i < s.number; ++i) {
 			flt64 x;
 			flpt f;
@@ -3111,7 +3116,12 @@ f_make_nof_int(variety v, string s)
 			nostr(res) = (char *)s.ints.chars;
 			return res;
 		case 16: {
-			short *ss = (short *)xcalloc(s.number, sizeof(short));
+			short *ss;
+			if (s.number == 0) {
+				ss = NULL;
+			} else {
+				ss = (short *)xcalloc(s.number, sizeof(short));
+			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (short)(unsigned char)s.ints.chars[i];
 			}
@@ -3119,7 +3129,12 @@ f_make_nof_int(variety v, string s)
 			return res;
 		}
 		case 32: {
-			int *ss = (int *)xcalloc(s.number, sizeof(int));
+			int *ss;
+			if (s.number == 0) {
+				ss = NULL;
+			} else {
+				ss = (int *)xcalloc(s.number, sizeof(int));
+			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (int)(unsigned char)s.ints.chars[i];
 			}
@@ -3130,7 +3145,12 @@ f_make_nof_int(variety v, string s)
 	case 16:
 		switch (elem_sz) {
 		case 8: {
-			char *ss = (char *)xcalloc(s.number, sizeof(char));
+			char *ss;
+			if (s.number == 0) {
+				ss = NULL;
+			} else {
+				ss = (char *)xcalloc(s.number, sizeof(char));
+			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (char)(unsigned short)s.ints.shorts[i];
 			}
@@ -3141,7 +3161,12 @@ f_make_nof_int(variety v, string s)
 			nostr(res) = (char *)(void *)s.ints.shorts;
 			return res;
 		case 32: {
-			int *ss = (int *)xcalloc(s.number, sizeof(int));
+			int *ss;
+			if (s.number == 0) {
+				ss = NULL;
+			} else {
+				ss = (int *)xcalloc(s.number, sizeof(int));
+			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (int)(unsigned short)s.ints.shorts[i];
 			}
@@ -3152,7 +3177,12 @@ f_make_nof_int(variety v, string s)
 	case 32:
 		switch (elem_sz) {
 		case 8: {
-			char *ss = (char *)xcalloc(s.number, sizeof(char));
+			char *ss;
+			if (s.number == 0) {
+				ss = NULL;
+			} else {
+				ss = (char *)xcalloc(s.number, sizeof(char));
+			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (char)(unsigned long)s.ints.longs[i];
 			}
@@ -3160,7 +3190,12 @@ f_make_nof_int(variety v, string s)
 			return res;
 		}
 		case 16: {
-			short *ss = (short *)xcalloc(s.number, sizeof(short));
+			short *ss;
+			if (s.number == 0) {
+				ss = NULL;
+			} else {
+				ss = (short *)xcalloc(s.number, sizeof(short));
+			}
 			for (i = 0; i < s.number; ++i) {
 				ss[i] = (short)(unsigned long)s.ints.longs[i];
 			}

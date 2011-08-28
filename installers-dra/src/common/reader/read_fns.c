@@ -213,6 +213,23 @@ static int no_of_local_tokens;
 
 /* PROCEDURES */
 
+/*
+ * This is a workaround for shared/xcalloc asserting count is non-zero, but the
+ * code here relying on being able to do that. I believe it's just this code
+ * which wants to calloc zero sizes (and expects a NULL), so I'm keeping this
+ * here, rather than also permitting that elsewhere. However, I think most of
+ * these instances probably oughn't to use calloc at all.
+ */
+static void *
+rf_xcalloc(size_t count, size_t size)
+{
+	if (count == 0) {
+		return NULL;
+	}
+
+	return xcalloc(count, size);
+}
+
   /* translates the name of a group of units into  its code */
 int
 group_type(char *s)
@@ -636,14 +653,14 @@ start_make_capsule
   i = find_index("dgtag");		/* NEW DIAGS */
   capsule_no_of_dgtags = (i == -1) ? 0 : natint((capsule_linking.members[i]).n);
 
-  capsule_toktab = (tok_define *)xcalloc(capsule_no_of_tokens,
+  capsule_toktab = (tok_define *)rf_xcalloc(capsule_no_of_tokens,
 					 sizeof(tok_define));
-  capsule_tagtab = (dec *)xcalloc(capsule_no_of_tags, sizeof(dec));
-  capsule_altab = (aldef *)xcalloc(capsule_no_of_als, sizeof(aldef));
-  capsule_diag_tagtab = (diag_tagdef *)xcalloc(capsule_no_of_diagtags,
+  capsule_tagtab = (dec *)rf_xcalloc(capsule_no_of_tags, sizeof(dec));
+  capsule_altab = (aldef *)rf_xcalloc(capsule_no_of_als, sizeof(aldef));
+  capsule_diag_tagtab = (diag_tagdef *)rf_xcalloc(capsule_no_of_diagtags,
 					       sizeof(diag_tagdef));	 
   /* OLD DIAGS */
-  capsule_dgtab = (dgtag_struct *)xcalloc(capsule_no_of_dgtags,
+  capsule_dgtab = (dgtag_struct *)rf_xcalloc(capsule_no_of_dgtags,
 					 sizeof(dgtag_struct));	/* NEW DIAGS */
 
   for (i = 0; i < capsule_no_of_tokens; ++i) {
@@ -1689,33 +1706,33 @@ start_make_tokdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+  unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
     unit_ind_tokens[i] = (tok_define *)0;
   }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
     unit_ind_tags[i] = (dec *)0;
   }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
     unit_ind_als[i] = (aldef *)0;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+  unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+  unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
@@ -1747,33 +1764,33 @@ start_make_tokdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+  unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
     unit_ind_tokens[i] = (tok_define *)0;
   }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
     unit_ind_tags[i] = (dec *)0;
   }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
     unit_ind_als[i] = (aldef *)0;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+  unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+  unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
@@ -1814,7 +1831,7 @@ f_make_tokdef_unit(void)
   start_bytestream();
   no_of_labels = small_dtdfint();
   unit_no_of_labels = no_of_labels;
-  unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+  unit_labtab = (exp *)rf_xcalloc(unit_no_of_labels, sizeof(exp));
   IGNORE d_tokdef_list();
   end_bytestream();
 
@@ -1830,33 +1847,33 @@ start_make_tagdec_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+  unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
     unit_ind_tokens[i] = (tok_define *)0;
   }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
     unit_ind_tags[i] = (dec *)0;
   }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
     unit_ind_als[i] = (aldef *)0;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+  unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+  unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
@@ -1897,7 +1914,7 @@ f_make_tagdec_unit(void)
   start_bytestream();
   no_of_labels = small_dtdfint();
   unit_no_of_labels = no_of_labels;
-  unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+  unit_labtab = (exp *)rf_xcalloc(unit_no_of_labels, sizeof(exp));
   IGNORE d_tagdec_list();
   end_bytestream();
 
@@ -1918,33 +1935,33 @@ start_make_versions_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+  unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
     unit_ind_tokens[i] = (tok_define *)0;
   }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
     unit_ind_tags[i] = (dec *)0;
   }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
     unit_ind_als[i] = (aldef *)0;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+  unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+  unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
@@ -2001,33 +2018,33 @@ start_make_tagdef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   }
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+  unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
     unit_ind_tokens[i] = (tok_define *)0;
   }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
     unit_ind_tags[i] = (dec *)0;
   }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
     unit_ind_als[i] = (aldef *)0;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+  unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+  unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
@@ -2071,7 +2088,7 @@ f_make_tagdef_unit(void)
   start_bytestream();
   no_of_labels = small_dtdfint();
   unit_no_of_labels = no_of_labels;
-  unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+  unit_labtab = (exp *)rf_xcalloc(unit_no_of_labels, sizeof(exp));
   IGNORE d_tagdef_list();
   tidy_initial_values();
   translate_unit();
@@ -2095,33 +2112,33 @@ start_make_aldef_unit(int no_of_tokens, int no_of_tags, int no_of_als,
   int i;
 
   unit_no_of_tokens = no_of_tokens;
-  unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+  unit_ind_tokens = (tok_define **)rf_xcalloc(unit_no_of_tokens,
 					   sizeof(tok_define *));
   for (i = 0; i < unit_no_of_tokens; ++i) {
     unit_ind_tokens[i] = (tok_define *)0;
   }
 
   unit_no_of_tags = no_of_tags;
-  unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+  unit_ind_tags = (dec **)rf_xcalloc(unit_no_of_tags, sizeof(dec *));
   for (i = 0; i < unit_no_of_tags; ++i) {
     unit_ind_tags[i] = (dec *)0;
   }
 
   unit_no_of_als = no_of_als;
-  unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+  unit_ind_als = (aldef **)rf_xcalloc(unit_no_of_als, sizeof(aldef *));
   for (i = 0; i < unit_no_of_als; ++i) {
     unit_ind_als[i] = (aldef *)0;
   }
 
   unit_no_of_diagtags = no_of_diagtags;		/* OLD DIAGS */
-  unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+  unit_ind_diagtags = (diag_tagdef **)rf_xcalloc(unit_no_of_diagtags,
 					      sizeof(diag_tagdef *));
   for (i = 0; i < unit_no_of_diagtags; ++i) {
     unit_ind_diagtags[i] = (diag_tagdef *)0;
   }
 
   unit_no_of_dgtags = no_of_dgtags;		/* NEW DIAGS */
-  unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+  unit_ind_dgtags = (dgtag_struct **)rf_xcalloc(unit_no_of_dgtags,
 					     sizeof(dgtag_struct *));
   for (i = 0; i < unit_no_of_dgtags; ++i) {
     unit_ind_dgtags[i] = (dgtag_struct *)0;
@@ -2150,7 +2167,7 @@ f_make_aldef_unit(void)
   start_bytestream();
   no_of_labels = small_dtdfint();
   unit_no_of_labels = no_of_labels;
-  unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+  unit_labtab = (exp *)rf_xcalloc(unit_no_of_labels, sizeof(exp));
   IGNORE d_al_tagdef_list();
   end_bytestream();
 
@@ -2385,7 +2402,7 @@ new_sortname_list(int n)
 {
   sortname_list res;
   res.number = n;
-  res.elems = (sortname *)xcalloc(n, sizeof(sortname));
+  res.elems = (sortname *)rf_xcalloc(n, sizeof(sortname));
   return res;
 }
 
@@ -2401,8 +2418,8 @@ new_tokformals_list(int n)
 {
   tokformals_list res;
   res.number = n;
-  res.par_sorts = (sortname *)xcalloc(n, sizeof(sortname));
-  res.par_names = (int *)xcalloc(n, sizeof(int));
+  res.par_sorts = (sortname *)rf_xcalloc(n, sizeof(sortname));
+  res.par_names = (int *)rf_xcalloc(n, sizeof(int));
   return res;
 }
 
@@ -2576,7 +2593,7 @@ tdfident_list
 new_tdfident_list(int n)
 {
   tdfstring_list res;
-  res.elems = (tdfstring *)xcalloc(n, sizeof(tdfstring));
+  res.elems = (tdfstring *)rf_xcalloc(n, sizeof(tdfstring));
   res.number = n;
   return res;
 }
@@ -2592,7 +2609,7 @@ tdfint_list
 new_tdfint_list(int n)
 {
   tdfint_list res;
-  res.members = (tdfint *)xcalloc(n, sizeof(tdfint));
+  res.members = (tdfint *)rf_xcalloc(n, sizeof(tdfint));
   res.number = n;
   return res;
 }
@@ -2670,7 +2687,7 @@ capsule_link_list
 new_capsule_link_list(int n)
 {
   capsule_link_list res;
-  res.members = (capsule_link *)xcalloc(n, sizeof(capsule_link));
+  res.members = (capsule_link *)rf_xcalloc(n, sizeof(capsule_link));
   res.number = n;
   return res;
 }
@@ -2707,7 +2724,7 @@ new_link_list(int n)
        /* initialise the table */
      case TOK_TYPE:
        no_of_local_tokens = unit_no_of_tokens - n;
-       unit_toktab = (tok_define *)xcalloc(no_of_local_tokens,
+       unit_toktab = (tok_define *)rf_xcalloc(no_of_local_tokens,
 					   sizeof(tok_define));
        for (i = 0; i < no_of_local_tokens; ++i) {
          tok_define *tp = &unit_toktab[i];
@@ -2721,7 +2738,7 @@ new_link_list(int n)
        }
        return 0;
      case TAG_TYPE:
-       unit_tagtab = (dec *)xcalloc(unit_no_of_tags - n, sizeof(dec));
+       unit_tagtab = (dec *)rf_xcalloc(unit_no_of_tags - n, sizeof(dec));
        for (i = 0; i < unit_no_of_tags - n; ++i) {
          dec *dp = &unit_tagtab[i];
          dp->dec_u.dec_val.dec_outermost = 0;
@@ -2736,7 +2753,7 @@ new_link_list(int n)
        }
        return 0;
      case AL_TYPE:
-       unit_altab = (aldef *)xcalloc(unit_no_of_als - n, sizeof(aldef));
+       unit_altab = (aldef *)rf_xcalloc(unit_no_of_als - n, sizeof(aldef));
        for (i = 0; i < unit_no_of_als - n; ++i) {
          aldef *ap = &unit_altab[i];
          ap->al.al_n = 0;

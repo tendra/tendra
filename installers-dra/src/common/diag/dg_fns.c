@@ -124,12 +124,28 @@ dg_compilation all_comp_units = (dg_compilation)0;
 
 
 
+/*
+ * This is a workaround for shared/xcalloc asserting count is non-zero, but the
+ * code here possibly being able to do that. I'm unsure if it actually does or
+ * not. However, I think most of these instances probably oughn't to use calloc
+ * at all.
+ */
+static void *
+dg_xcalloc(size_t count, size_t size)
+{
+	if (count == 0) {
+		return NULL;
+	}
+
+	return xcalloc(count, size);
+}
+
 string_list
 new_string_list(int n)
 {
 	string_list ans;
 	ans.len = n;
-	ans.array = (char **)xcalloc(n, sizeof(char *));
+	ans.array = (char **)dg_xcalloc(n, sizeof(char *));
 	return ans;
 }
 
@@ -2377,7 +2393,7 @@ new_dg_tag_list(int n)
 {
 	dg_tag_list ans;
 	ans.len = n;
-	ans.array = (dg_tag *)xcalloc(n, sizeof(dg_tag));
+	ans.array = (dg_tag *)dg_xcalloc(n, sizeof(dg_tag));
 	return ans;
 }
 
@@ -2395,7 +2411,7 @@ new_dg_type_list(int n)
 {
 	dg_type_list ans;
 	ans.len = n;
-	ans.array = (dg_type *)xcalloc(n, sizeof(dg_type));
+	ans.array = (dg_type *)dg_xcalloc(n, sizeof(dg_type));
 	return ans;
 }
 
@@ -2413,7 +2429,7 @@ new_dg_param_list(int n)
 {
 	dg_param_list ans;
 	ans.len = n;
-	ans.array = (dg_param *)xcalloc(n, sizeof(dg_param));
+	ans.array = (dg_param *)dg_xcalloc(n, sizeof(dg_param));
 	return ans;
 }
 
@@ -2431,7 +2447,7 @@ new_dg_dim_list(int n)
 {
 	dg_dim_list ans;
 	ans.len = n;
-	ans.array = (dg_dim *)xcalloc(n, sizeof(dg_dim));
+	ans.array = (dg_dim *)dg_xcalloc(n, sizeof(dg_dim));
 	return ans;
 }
 
@@ -2449,7 +2465,7 @@ new_dg_enum_list(int n)
 {
 	dg_enum_list ans;
 	ans.len = n;
-	ans.array = (dg_enum *)xcalloc(n, sizeof(dg_enum));
+	ans.array = (dg_enum *)dg_xcalloc(n, sizeof(dg_enum));
 	return ans;
 }
 
@@ -2467,7 +2483,7 @@ new_dg_class_base_list(int n)
 {
 	dg_class_base_list ans;
 	ans.len = n;
-	ans.array = (dg_class_base *)xcalloc(n, sizeof(dg_class_base));
+	ans.array = (dg_class_base *)dg_xcalloc(n, sizeof(dg_class_base));
 	return ans;
 }
 
@@ -2485,7 +2501,7 @@ new_dg_classmem_list(int n)
 {
 	dg_classmem_list ans;
 	ans.len = n;
-	ans.array = (dg_classmem *)xcalloc(n, sizeof(dg_classmem));
+	ans.array = (dg_classmem *)dg_xcalloc(n, sizeof(dg_classmem));
 	return ans;
 }
 
@@ -2503,7 +2519,7 @@ new_dg_variant_list(int n)
 {
 	dg_variant_list ans;
 	ans.len = n;
-	ans.array = (dg_variant *)xcalloc(n, sizeof(dg_variant));
+	ans.array = (dg_variant *)dg_xcalloc(n, sizeof(dg_variant));
 	return ans;
 }
 
@@ -2521,7 +2537,7 @@ new_dg_discrim_list(int n)
 {
 	dg_discrim_list ans;
 	ans.len = n;
-	ans.array = (dg_discrim *)xcalloc(n, sizeof(dg_discrim));
+	ans.array = (dg_discrim *)dg_xcalloc(n, sizeof(dg_discrim));
 	return ans;
 }
 
@@ -2626,7 +2642,7 @@ new_dg_macro_list(int n)
 {
 	dg_macro_list ans;
 	ans.len = n;
-	ans.array = (dg_macro *)xcalloc(n, sizeof(dg_macro));
+	ans.array = (dg_macro *)dg_xcalloc(n, sizeof(dg_macro));
 	return ans;
 }
 
@@ -2910,7 +2926,7 @@ init_unit_dgtags(int n)
 
 	int i;
 
-	unit_dgtagtab = (dgtag_struct *)xcalloc(unit_no_of_dgtags - n,
+	unit_dgtagtab = (dgtag_struct *)dg_xcalloc(unit_no_of_dgtags - n,
 						sizeof(dgtag_struct));
 
 	for (i = 0; i < unit_no_of_dgtags - n; ++i) {
@@ -2926,26 +2942,26 @@ start_make_dg_comp_unit(int toks, int tags, int als, int dgnames)
 	int i;
 
 	unit_no_of_tokens = toks;
-	unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+	unit_ind_tokens = (tok_define **)dg_xcalloc(unit_no_of_tokens,
 						 sizeof(tok_define *));
 	for (i = 0; i < unit_no_of_tokens; ++i) {
 		unit_ind_tokens[i] = (tok_define *)0;
 	}
 
 	unit_no_of_tags = tags;
-	unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+	unit_ind_tags = (dec **)dg_xcalloc(unit_no_of_tags, sizeof(dec *));
 	for (i = 0; i < unit_no_of_tags; ++i) {
 		unit_ind_tags[i] = (dec *)0;
 	}
 
 	unit_no_of_als = als;
-	unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+	unit_ind_als = (aldef **)dg_xcalloc(unit_no_of_als, sizeof(aldef *));
 	for (i = 0; i < unit_no_of_als; ++i) {
 		unit_ind_als[i] = (aldef *)0;
 	}
 
 	unit_no_of_dgtags = dgnames;
-	unit_ind_dgtags = (dgtag_struct **)xcalloc(unit_no_of_dgtags,
+	unit_ind_dgtags = (dgtag_struct **)dg_xcalloc(unit_no_of_dgtags,
 						   sizeof(dgtag_struct *));
 	for (i = 0; i < unit_no_of_dgtags; ++i) {
 		unit_ind_dgtags[i] = (dgtag_struct *)0;
@@ -3003,7 +3019,7 @@ f_make_dg_comp_unit(void)
 		start_bytestream();
 		no_of_labels = small_dtdfint();
 		unit_no_of_labels = no_of_labels;
-		unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+		unit_labtab = (exp *)dg_xcalloc(unit_no_of_labels, sizeof(exp));
 		(*comp_unit_ptr) = d_dg_compilation();
 		IGNORE d_dg_append_list();
 		end_bytestream();

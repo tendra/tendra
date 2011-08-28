@@ -191,12 +191,19 @@ normalised_inlining(void)
      a vector, order, of the procedure numbers (+1) ordered
   */
 
-  uses = (char *)xcalloc(proc_count * proc_count, sizeof(char));
-  to_dec = (dec **)xcalloc(proc_count, sizeof(dec *));
-  consider = (char *)xcalloc(proc_count, sizeof(char));
-    /* assumes calloc clears consider */
-  order = (int *)xcalloc(proc_count, sizeof(int));
-    /* assumes calloc clears order */
+  if (proc_count == 0) {
+    uses     = NULL;
+    to_dec   = NULL;
+    consider = NULL;
+    order    = NULL;
+  } else {
+    uses     = (char *)xcalloc(proc_count * proc_count, sizeof(char));
+    to_dec   = (dec **)xcalloc(proc_count, sizeof(dec *));
+    consider = (char *)xcalloc(proc_count, sizeof(char));
+      /* assumes calloc clears consider */
+    order    = (int *) xcalloc(proc_count, sizeof(int));
+      /* assumes calloc clears order */
+  }
 
 
   /* form the to_dec vector and set index in each proc dec.

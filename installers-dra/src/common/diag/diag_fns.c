@@ -118,6 +118,22 @@ $Log: diag_fns.c,v $
 #include "diag_fns.h"
 #include "xalloc.h"
 
+/*
+ * This is a workaround for shared/xcalloc asserting count is non-zero, but the
+ * code here possibly being able to do that. I'm unsure if it actually does or
+ * not. However, I think most of these instances probably oughn't to use calloc
+ * at all.
+ */
+static void *
+dg_xcalloc(size_t count, size_t size)
+{
+	if (count == 0) {
+		return NULL;
+	}
+
+	return xcalloc(count, size);
+}
+
 
 #ifdef NEWDIAGS
 
@@ -259,26 +275,26 @@ start_make_diagdef_unit(int toks, int tags, int als, int diagtags)
 	}
 
 	unit_no_of_tokens = toks;
-	unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+	unit_ind_tokens = (tok_define **)dg_xcalloc(unit_no_of_tokens,
 						 sizeof(tok_define *));
 	for (i = 0; i < unit_no_of_tokens; ++i) {
 		unit_ind_tokens[i] = (tok_define *)0;
 	}
 
 	unit_no_of_tags = tags;
-	unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+	unit_ind_tags = (dec **)dg_xcalloc(unit_no_of_tags, sizeof(dec *));
 	for (i = 0; i < unit_no_of_tags; ++i) {
 		unit_ind_tags[i] = (dec *)0;
 	}
 
 	unit_no_of_als = als;
-	unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+	unit_ind_als = (aldef **)dg_xcalloc(unit_no_of_als, sizeof(aldef *));
 	for (i = 0; i < unit_no_of_als; ++i) {
 		unit_ind_als[i] = (aldef *)0;
 	}
 
 	unit_no_of_diagtags = diagtags;
-	unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+	unit_ind_diagtags = (diag_tagdef **)dg_xcalloc(unit_no_of_diagtags,
 						    sizeof(diag_tagdef *));
 	for (i = 0; i < unit_no_of_diagtags; ++i)
 		unit_ind_diagtags[i] = (diag_tagdef *)0;
@@ -362,7 +378,7 @@ f_make_diagdef_unit(void)
 		start_bytestream();
 		no_of_labels = small_dtdfint();
 		unit_no_of_labels = no_of_labels;
-		unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+		unit_labtab = (exp*)dg_xcalloc(unit_no_of_labels, sizeof(exp));
 		desc_list = d_diag_descriptor_list();
 		end_bytestream();
 		if (!primary_file) {
@@ -870,26 +886,26 @@ start_make_diagtype_unit(int toks, int tags, int als, int diags)
 	}
 
 	unit_no_of_tokens = toks;
-	unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+	unit_ind_tokens = (tok_define **)dg_xcalloc(unit_no_of_tokens,
 						 sizeof(tok_define *));
 	for (i = 0; i < unit_no_of_tokens; ++i) {
 		unit_ind_tokens[i] = (tok_define *)0;
 	}
 
 	unit_no_of_tags = tags;
-	unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+	unit_ind_tags = (dec **)dg_xcalloc(unit_no_of_tags, sizeof(dec *));
 	for (i = 0; i < unit_no_of_tags; ++i) {
 		unit_ind_tags[i] = (dec *)0;
 	}
 
 	unit_no_of_als = als;
-	unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+	unit_ind_als = (aldef **)dg_xcalloc(unit_no_of_als, sizeof(aldef *));
 	for (i = 0; i < unit_no_of_als; ++i) {
 		unit_ind_als[i] = (aldef*)0;
 	}
 
 	unit_no_of_diagtags = diags;
-	unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+	unit_ind_diagtags = (diag_tagdef **)dg_xcalloc(unit_no_of_diagtags,
 						    sizeof(diag_tagdef *));
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
 		unit_ind_diagtags[i] = (diag_tagdef *)0;
@@ -905,7 +921,7 @@ init_unit_diagtags(int n)
 
 	int i;
 
-	unit_diag_tagdeftab = (diag_tagdef *)xcalloc(unit_no_of_diagtags - n,
+	unit_diag_tagdeftab = (diag_tagdef *)dg_xcalloc(unit_no_of_diagtags - n,
 						     sizeof(diag_tagdef));
 
 	for (i = 0; i < unit_no_of_diagtags - n; ++i) {
@@ -953,7 +969,7 @@ f_make_diagtype_unit(void)
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp*)xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_labtab = (exp*)dg_xcalloc(unit_no_of_labels, sizeof(exp));
 	IGNORE d_diag_tagdef_list();
 	end_bytestream();
 	if (s_tags) {
@@ -1103,26 +1119,26 @@ start_make_diagdef_unit(int toks, int tags, int als, int diagtags)
 	int i;
 
 	unit_no_of_tokens = toks;
-	unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+	unit_ind_tokens = (tok_define **)dg_xcalloc(unit_no_of_tokens,
 						 sizeof(tok_define *));
 	for (i = 0; i < unit_no_of_tokens; ++i) {
 		unit_ind_tokens[i] = (tok_define *)0;
 	}
 
 	unit_no_of_tags = tags;
-	unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+	unit_ind_tags = (dec **)dg_xcalloc(unit_no_of_tags, sizeof(dec *));
 	for (i = 0; i < unit_no_of_tags; ++i) {
 		unit_ind_tags[i] = (dec *)0;
 	}
 
 	unit_no_of_als = als;
-	unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+	unit_ind_als = (aldef **)dg_xcalloc(unit_no_of_als, sizeof(aldef *));
 	for (i = 0; i < unit_no_of_als; ++i) {
 		unit_ind_als[i] = (aldef *)0;
 	}
 
 	unit_no_of_diagtags = diagtags;
-	unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+	unit_ind_diagtags = (diag_tagdef **)dg_xcalloc(unit_no_of_diagtags,
 						    sizeof(diag_tagdef *));
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
 		unit_ind_diagtags[i] = (diag_tagdef *)0;
@@ -1195,7 +1211,7 @@ f_make_diagdef_unit(void)
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_labtab = (exp *)dg_xcalloc(unit_no_of_labels, sizeof(exp));
 	unit_diagvar_tab = d_diag_descriptor_list();
 	end_bytestream();
 	OUTPUT_GLOBALS_TAB();
@@ -1276,7 +1292,7 @@ new_diag_descriptor_list(int n)
 
 	new.len = n;
 	new.lastused = 0;
-	new.array = (diag_descriptor *)xcalloc(n, sizeof(diag_descriptor));
+	new.array = (diag_descriptor *)dg_xcalloc(n, sizeof(diag_descriptor));
 	last_diag_desc = new.array;
 	return new;
 }
@@ -1522,7 +1538,7 @@ new_enum_values_list(int n)
 
 	new->len = n;
 	new->lastused = 0;
-	new->array = (enum_values *)xcalloc(n, sizeof(enum_values));
+	new->array = (enum_values *)dg_xcalloc(n, sizeof(enum_values));
 	return new;
 }
 
@@ -1566,7 +1582,7 @@ new_diag_field_list(int n)
 
 	new->len = n;
 	new->lastused = 0;
-	new->array = (diag_field *)xcalloc(n, sizeof(diag_field));
+	new->array = (diag_field *)dg_xcalloc(n, sizeof(diag_field));
 	return new;
 }
 
@@ -1590,7 +1606,7 @@ new_diag_type_list(int n)
 
 	new->len = n;
 	new->lastused = 0;
-	new->array = (diag_type *)xcalloc(n, sizeof(diag_type));
+	new->array = (diag_type *)dg_xcalloc(n, sizeof(diag_type));
 	return new;
 }
 
@@ -1709,26 +1725,26 @@ start_make_diagtype_unit(int toks, int tags, int als, int diags)
 	int i;
 
 	unit_no_of_tokens = toks;
-	unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+	unit_ind_tokens = (tok_define **)dg_xcalloc(unit_no_of_tokens,
 						 sizeof(tok_define *));
 	for (i = 0; i < unit_no_of_tokens; ++i) {
 		unit_ind_tokens[i] = (tok_define *)0;
 	}
 
 	unit_no_of_tags = tags;
-	unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+	unit_ind_tags = (dec **)dg_xcalloc(unit_no_of_tags, sizeof(dec *));
 	for (i = 0; i < unit_no_of_tags; ++i) {
 		unit_ind_tags[i] = (dec *)0;
 	}
 
 	unit_no_of_als = als;
-	unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+	unit_ind_als = (aldef **)dg_xcalloc(unit_no_of_als, sizeof(aldef *));
 	for (i = 0; i < unit_no_of_als; ++i) {
 		unit_ind_als[i] = (aldef *)0;
 	}
 
 	unit_no_of_diagtags = diags;
-	unit_ind_diagtags = (diag_tagdef **)xcalloc(unit_no_of_diagtags,
+	unit_ind_diagtags = (diag_tagdef **)dg_xcalloc(unit_no_of_diagtags,
 						    sizeof(diag_tagdef *));
 	for (i = 0; i < unit_no_of_diagtags; ++i) {
 		unit_ind_diagtags[i] = (diag_tagdef *)0;
@@ -1742,7 +1758,7 @@ init_unit_diagtags(int n)
 {
 	int i;
 
-	unit_diag_tagdeftab = (diag_tagdef *)xcalloc(unit_no_of_diagtags - n,
+	unit_diag_tagdeftab = (diag_tagdef *)dg_xcalloc(unit_no_of_diagtags - n,
 						     sizeof(diag_tagdef));
 
 	for (i = 0; i < unit_no_of_diagtags - n; ++i) {
@@ -1791,7 +1807,7 @@ f_make_diagtype_unit(void)
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+	unit_labtab = (exp *)dg_xcalloc(unit_no_of_labels, sizeof(exp));
 	IGNORE d_diag_tagdef_list();
 	end_bytestream();
 	OUTPUT_DIAG_TAGS();

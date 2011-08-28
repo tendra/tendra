@@ -1064,7 +1064,11 @@ init_flpt(void)
   int i;
   flt *fzr;
   flt *forf;
-  flptnos = (flt *)xcalloc(initial_flpts, sizeof(flt));
+  if (initial_flpts == 0) {
+    flptnos = NULL;
+  } else {
+    flptnos = (flt *)xcalloc(initial_flpts, sizeof(flt));
+  }
   tot_flpts = initial_flpts;
   for (i = 1; i < tot_flpts; ++i) {
     flptnos[i].exp = i - 1;

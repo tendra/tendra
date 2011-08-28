@@ -234,14 +234,22 @@ start_make_linkinfo_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 	UNUSED(no_of_diagtypes);
 
 	unit_no_of_tokens = no_of_tokens;
-	unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
-						 sizeof(tok_define *));
+	if (unit_no_of_tokens == 0) {
+		unit_ind_tokens = NULL;
+	} else {
+		unit_ind_tokens = (tok_define **)xcalloc(unit_no_of_tokens,
+							 sizeof(tok_define *));
+	}
 	for (i = 0; i < unit_no_of_tokens; ++i) {
 		unit_ind_tokens[i] = (tok_define *)0;
 	}
 
 	unit_no_of_tags = no_of_tags;
-	unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+	if (unit_no_of_tags == 0) {
+		unit_ind_tags = NULL;
+	} else {
+		unit_ind_tags = (dec **)xcalloc(unit_no_of_tags, sizeof(dec *));
+	}
 	for (i = 0; i < unit_no_of_tags; ++i) {
 		unit_ind_tags[i] = (dec *)0;
 	}
@@ -279,7 +287,11 @@ f_make_linkinfo_unit(void)
 	start_bytestream();
 	no_of_labels = small_dtdfint();
 	unit_no_of_labels = no_of_labels;
-	unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+	if (unit_no_of_labels == 0) {
+		unit_labtab = NULL;
+	} else {
+		unit_labtab = (exp *)xcalloc(unit_no_of_labels, sizeof(exp));
+	}
 	IGNORE d_linkinfo_list();
 	end_bytestream();
 

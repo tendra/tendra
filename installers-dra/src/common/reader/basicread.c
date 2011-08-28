@@ -436,7 +436,11 @@ new_place(int bn)
     if (getcode_bitposn > 0) {
       crt_ptr -= 4;
     }
-    mem = (char *)xcalloc(no_chars, sizeof(char));
+    if (no_chars == 0) {
+        mem = NULL;
+    } else {
+        mem = (char *)xcalloc(no_chars, sizeof(char));
+    }
     for (i = 0; i < no_chars; ++i) {
       if (crt_ptr == end_ptr) {
         read_line(1);

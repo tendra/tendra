@@ -5301,7 +5301,11 @@ check(exp e, exp scope)
 			shape newsh;
 			sz1 = shape_size(sh(son(e))) / 8;
 			sz2 = shape_size(sh(bro(son(e)))) / 8;
-			newstr = (char *)xcalloc((sz1 + sz2), sizeof(char));
+			if (sz1 + sz2 == 0) {
+				newstr = NULL;
+			} else {
+				newstr = (char *)xcalloc((sz1 + sz2), sizeof(char));
+			}
 			p2 = &newstr[sz1];
 			nat_issmall(n) = 1;
 			natint(n) = sz1 + sz2;

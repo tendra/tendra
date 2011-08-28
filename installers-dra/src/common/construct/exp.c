@@ -702,7 +702,11 @@ clean_labelled(exp main, label_list placelabs)
     setcrtsolve (t);		/* defined in expmacs = props(t) = 1 */
   }
   crt_no = 0;
-  ord = (int *)xcalloc(n, sizeof(int));
+  if (n == 0) {
+    ord = NULL;
+  } else {
+    ord = (int *)xcalloc(n, sizeof(int));
+  }
   ord_no = 0;
   scan_solve (main);		/* mark the labels used by the initiator */
 

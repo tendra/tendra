@@ -1051,7 +1051,12 @@ unwind(exp loop, exp contset, exp incr, int incval)
 	exp z = contset;
 	int n = no(contset);
 	int insts = 0;
-	struct en *s = (struct en *)xcalloc(n, sizeof(struct en));
+	struct en *s;
+	if (n == 0) {
+		s = NULL;
+	} else {
+		struct en *s = (struct en *)xcalloc(n, sizeof(struct en));
+	}
 	for (i=0; i<n; i++) {
 	    /* sort cont([reff (disp) cont(X)) into s */
 	    exp c = son(z);

@@ -78,6 +78,8 @@ $Log: case_opt.c,v $
   Author: mjg
 ************************************************************/
 
+#include <assert.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "installglob.h"
@@ -269,6 +271,8 @@ case_optimisation(exp body, exp id, shape shape_of_case, exp control_expression)
 	kill_exp(control_expression, control_expression);
 	UNUSED(jump_table_present);
 #endif
+
+	assert(no_of_nodes > 0);
 
 	/* Set up the node_start_flag and node_end_flag arrays */
 	node_start_flag =
