@@ -616,7 +616,11 @@ translate_capsule (void){
   }
   
   /* allocate memory for procedures */
-  procrecs = ( procrec * ) xcalloc ( noprocs, sizeof ( procrec ) ) ;
+  if (noprocs == 0) {
+    procrecs = NULL;
+  } else {
+    procrecs = ( procrec * ) xcalloc ( noprocs, sizeof ( procrec ) ) ;
+  }
   
   /* number procedure definitions */
   procno = 0 ;
