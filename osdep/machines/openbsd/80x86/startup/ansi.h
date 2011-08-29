@@ -31,7 +31,11 @@
  * <sys/_types.h> before <sys/cdefs.h>. So, instead of having a hacked include
  * for math.h to do that, we do it here.
  */
-#ifdef _OPENBSD4
+#if defined(_OPENBSD4) || defined(_OPENBSD5)
 #include <sys/cdefs.h>
+#endif
+
+#ifdef _OPENBSD5
+#define __WRONG_ANSI_STDARG_H_VA_ARGS	/* parse error in va_arg, to investigate later */
 #endif
 
