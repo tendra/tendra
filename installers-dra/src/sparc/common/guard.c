@@ -104,7 +104,7 @@ space
 guardreg ( int r, space sp )
 {
     if ( IS_TREG ( r ) ) sp.fixed |= RMASK ( r ) ;
-    return ( sp ) ;
+    return sp;
 }
 
 
@@ -116,7 +116,7 @@ space
 guardfreg ( int r, space sp )
 {
     if ( IS_FLT_TREG ( r ) ) sp.flt |= RMASK ( r ) ;
-    return ( sp ) ;
+    return sp;
 }
 
 
@@ -135,7 +135,7 @@ needreg ( int r, space sp )
 	fail ( "needreg : fixed register already in use" ) ;
     }
 #endif
-    return ( guardreg ( r, sp ) ) ;
+    return guardreg ( r, sp ) ;
 }
 
 
@@ -154,7 +154,7 @@ needfreg ( int r, space sp )
 	fail ( "needfreg : float register already in use" ) ;
     }
 #endif
-    return ( guardfreg ( r, sp ) ) ;
+    return guardfreg ( r, sp ) ;
 }
 
 
@@ -169,27 +169,27 @@ guard ( where w, space sp ){
       /* guard fixed registers */
       int r = regalt ( w.answhere ) ;
       if ( IS_TREG ( r ) ) sp.fixed |= RMASK ( r ) ;
-      return ( sp ) ;
+      return sp;
     }
     case infreg : {
       /* guard floating registers */
       int r = fregalt ( w.answhere ).fr ;
       if ( IS_FLT_TREG ( r ) ) sp.flt |= RMASK ( r ) ;
-      return ( sp ) ;
+      return sp;
     }
     /*	case bitad :*/
     case notinreg : {
       /* guard base register */
       int r = insalt ( w.answhere ).b.base ;
       if ( IS_TREG ( r ) ) sp.fixed |= RMASK ( r ) ;
-      return ( sp ) ;
+      return sp;
     }
     default: {
       /* fall through to fail */
     }	
   }
   fail ( "Bad guard register" ) ;
-  return ( sp ) ;
+  return sp;
 }	
 
 

@@ -140,7 +140,7 @@ de_access(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -167,7 +167,7 @@ de_al_tag(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -182,7 +182,7 @@ de_al_tagdef(void)
 	input_error("Illegal AL_TAGDEF value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -248,7 +248,7 @@ de_alignment(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -278,7 +278,7 @@ de_bitfield_variety(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -312,7 +312,7 @@ de_bool(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -342,7 +342,7 @@ de_callees(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -497,7 +497,7 @@ de_dg(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -531,7 +531,7 @@ de_dg_accessibility(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -553,7 +553,7 @@ de_dg_append(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -583,7 +583,7 @@ de_dg_bound(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -605,7 +605,7 @@ de_dg_class_base(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -643,7 +643,7 @@ de_dg_classmem(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -669,7 +669,7 @@ de_dg_compilation(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -695,7 +695,7 @@ de_dg_constraint(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -717,7 +717,7 @@ de_dg_default(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -760,7 +760,7 @@ de_dg_dim(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -782,7 +782,7 @@ de_dg_discrim(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -812,7 +812,7 @@ de_dg_enum(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -839,7 +839,7 @@ de_dg_filename(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -882,7 +882,7 @@ de_dg_idname(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -916,7 +916,7 @@ de_dg_macro(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1003,7 +1003,7 @@ de_dg_name(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1029,7 +1029,7 @@ de_dg_namelist(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1055,7 +1055,7 @@ de_dg_param(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1085,7 +1085,7 @@ de_dg_param_mode(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1123,7 +1123,7 @@ de_dg_qualifier(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1161,7 +1161,7 @@ de_dg_sourcepos(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1184,7 +1184,7 @@ de_dg_tag(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1343,7 +1343,7 @@ de_dg_type(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1365,7 +1365,7 @@ de_dg_variant(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1395,7 +1395,7 @@ de_dg_varpart(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1421,7 +1421,7 @@ de_dg_virtuality(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1451,7 +1451,7 @@ de_diag_descriptor(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1474,7 +1474,7 @@ de_diag_tag(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1489,7 +1489,7 @@ de_diag_tagdef(void)
 	input_error("Illegal DIAG_TAGDEF value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -1519,7 +1519,7 @@ de_diag_tq(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1590,7 +1590,7 @@ de_diag_type(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1620,7 +1620,7 @@ de_error_code(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -1666,7 +1666,7 @@ de_error_treatment(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2152,7 +2152,7 @@ de_exp(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2167,7 +2167,7 @@ de_external(void)
 	input_error("Illegal EXTERNAL value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -2194,7 +2194,7 @@ de_filename(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2236,7 +2236,7 @@ de_floating_variety(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2263,7 +2263,7 @@ de_label(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2297,7 +2297,7 @@ de_linkinfo(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2336,7 +2336,7 @@ de_nat(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2418,7 +2418,7 @@ de_ntest(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2472,7 +2472,7 @@ de_procprops(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2518,7 +2518,7 @@ de_rounding_mode(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2584,7 +2584,7 @@ de_shape(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2623,7 +2623,7 @@ de_signed_nat(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2638,7 +2638,7 @@ de_sortname(void)
 	input_error("Illegal SORTNAME value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -2660,7 +2660,7 @@ de_sourcemark(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2695,7 +2695,7 @@ de_string(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2722,7 +2722,7 @@ de_tag(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2737,7 +2737,7 @@ de_tagdec(void)
 	input_error("Illegal TAGDEC value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -2752,7 +2752,7 @@ de_tagdef(void)
 	input_error("Illegal TAGDEF value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -2767,7 +2767,7 @@ de_tokdec(void)
 	input_error("Illegal TOKDEC value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -2782,7 +2782,7 @@ de_tokdef(void)
 	input_error("Illegal TOKDEF value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -2797,7 +2797,7 @@ de_token(void)
 	input_error("Illegal TOKEN value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -2812,7 +2812,7 @@ de_token_defn(void)
 	input_error("Illegal TOKEN_DEFN value, %ld", n);
 	n = -1;
     }
-    return(n);
+    return n;
 }
 
 
@@ -2862,7 +2862,7 @@ de_transfer_mode(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2896,7 +2896,7 @@ de_variety(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2923,7 +2923,7 @@ de_version(void)
 	    break;
 	}
     }
-    return(n);
+    return n;
 }
 
 
@@ -2943,13 +2943,13 @@ skip_sub(char *s)
 	while (c = *(s++), c != 0) {
 	    if (c == '[')n++;
 	    if (c == ']') {
-		if (n == 0) return(s);
+		if (n == 0) return s;
 		n--;
 	    }
 	}
     }
     input_error("Illegal decoding string");
-    return("");
+    return "";
 }
 
 
@@ -3249,7 +3249,7 @@ find_sort(sortname n)
     }
     s.res = n;
     s.args = null;
-    return(s);
+    return s;
 }
 
 
@@ -3266,34 +3266,34 @@ find_sortname(int c)
 {
     long i;
     switch (c) {
-	case 'u': return(sort_access);
-	case 'A': return(sort_al_tag);
-	case 'a': return(sort_alignment);
-	case 'B': return(sort_bitfield_variety);
-	case 'b': return(sort_bool);
-	case 'e': return(sort_error_treatment);
-	case 'x': return(sort_exp);
-	case 'f': return(sort_floating_variety);
-	case 'l': return(sort_label);
-	case 'n': return(sort_nat);
-	case 'N': return(sort_ntest);
-	case 'P': return(sort_procprops);
-	case 'r': return(sort_rounding_mode);
-	case 'S': return(sort_shape);
-	case 's': return(sort_signed_nat);
-	case 'X': return(sort_string);
-	case 't': return(sort_tag);
-	case 'm': return(sort_transfer_mode);
-	case 'v': return(sort_variety);
-	case 'T': return(sort_token);
-	case 'F': return(sort_foreign);
+	case 'u': return sort_access;
+	case 'A': return sort_al_tag;
+	case 'a': return sort_alignment;
+	case 'B': return sort_bitfield_variety;
+	case 'b': return sort_bool;
+	case 'e': return sort_error_treatment;
+	case 'x': return sort_exp;
+	case 'f': return sort_floating_variety;
+	case 'l': return sort_label;
+	case 'n': return sort_nat;
+	case 'N': return sort_ntest;
+	case 'P': return sort_procprops;
+	case 'r': return sort_rounding_mode;
+	case 'S': return sort_shape;
+	case 's': return sort_signed_nat;
+	case 'X': return sort_string;
+	case 't': return sort_tag;
+	case 'm': return sort_transfer_mode;
+	case 'v': return sort_variety;
+	case 'T': return sort_token;
+	case 'F': return sort_foreign;
     }
     for (i = 0; i < no_foreign_sorts; i++) {
 	if (c == foreign_sorts[i].decode) {
-	    return((sortname)(extra_sorts + i));
+	    return (sortname)(extra_sorts + i);
 	}
     }
-    return(sort_unknown);
+    return sort_unknown;
 }
 
 
@@ -3344,25 +3344,25 @@ find_variable(string s, long n)
 {
     if (streq(s, "alignment")) {
 	var_al_tag = n;
-	return('A');
+	return 'A';
     }
     if (streq(s, "dgtag")) {
 	var_dg_tag = n;
-	return('J');
+	return 'J';
     }
     if (streq(s, "diagtag")) {
 	var_diag_tag = n;
-	return('I');
+	return 'I';
     }
     if (streq(s, "tag")) {
 	var_tag = n;
-	return('t');
+	return 't';
     }
     if (streq(s, "token")) {
 	var_token = n;
-	return('T');
+	return 'T';
     }
-    return('F');
+    return 'F';
 }
 
 
@@ -3380,62 +3380,62 @@ find_equation(string s, string *pt, int *po)
     if (streq(s, "aldef")) {
 	*pt = MSG_al_tagdef_props;
 	*po = OPT_al_tagdef_props;
-	return(de_al_tagdef_props);
+	return de_al_tagdef_props;
     }
     if (streq(s, "dgcompunit")) {
 	*pt = MSG_dg_comp_props;
 	*po = OPT_dg_comp_props;
-	return(de_dg_comp_props);
+	return de_dg_comp_props;
     }
     if (streq(s, "diagtype")) {
 	*pt = MSG_diag_type_unit;
 	*po = OPT_diag_type_unit;
-	return(de_diag_type_unit);
+	return de_diag_type_unit;
     }
     if (streq(s, "diagdef")) {
 	*pt = MSG_diag_unit;
 	*po = OPT_diag_unit;
-	return(de_diag_unit);
+	return de_diag_unit;
     }
     if (streq(s, "linkinfo")) {
 	*pt = MSG_linkinfo_props;
 	*po = OPT_linkinfo_props;
-	return(de_linkinfo_props);
+	return de_linkinfo_props;
     }
     if (streq(s, "tagdec")) {
 	*pt = MSG_tagdec_props;
 	*po = OPT_tagdec_props;
-	return(de_tagdec_props);
+	return de_tagdec_props;
     }
     if (streq(s, "tagdef")) {
 	*pt = MSG_tagdef_props;
 	*po = OPT_tagdef_props;
-	return(de_tagdef_props);
+	return de_tagdef_props;
     }
     if (streq(s, "tokdec")) {
 	*pt = MSG_tokdec_props;
 	*po = OPT_tokdec_props;
-	return(de_tokdec_props);
+	return de_tokdec_props;
     }
     if (streq(s, "tokdef")) {
 	*pt = MSG_tokdef_props;
 	*po = OPT_tokdef_props;
-	return(de_tokdef_props);
+	return de_tokdef_props;
     }
     if (streq(s, "versions")) {
 	*pt = MSG_version_props;
 	*po = OPT_version_props;
-	return(de_version_props);
+	return de_version_props;
     }
     if (streq(s, "tld")) {
 	*pt = MSG_tld_unit;
 	*po = OPT_tld_unit;
-	return(de_tld_unit);
+	return de_tld_unit;
     }
     if (streq(s, "tld2")) {
 	*pt = MSG_tld2_unit;
 	*po = OPT_tld2_unit;
-	return(de_tld2_unit);
+	return de_tld2_unit;
     }
-    return(NULL);
+    return NULL;
 }

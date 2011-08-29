@@ -147,7 +147,7 @@ ll_root(dg_name nm)
 {
 	exp x = nm->data.n_obj.obtain_val;
 	exp * ref = & (pt(x));
-	return(ll_item *)((void *)ref);
+	return (ll_item *)((void *)ref);
 }
 
 static ll_item
@@ -173,7 +173,7 @@ dw_new_regshare(dg_name nm, int reg)
 	ans->items = (regshare_item)0;
 	ans->next = all_regshares;
 	all_regshares = ans;
-	return (void *)ans;		/* actual type local to this file */
+	return (void *) ans;		/* actual type local to this file */
 }
 
 
@@ -323,7 +323,7 @@ find_equiv_object(exp e, int isc)
 		}
 		obl = obl->next;
 	}
-	return(dg_name)0;
+	return (dg_name) 0;
 }
 
 
@@ -357,7 +357,7 @@ find_simple_object(exp e)
 		}
 		obl = obl->next;
 	}
-	return(dg_name)0;
+	return (dg_name) 0;
 }
 
 

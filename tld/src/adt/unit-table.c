@@ -76,7 +76,7 @@ unit_table_create(void)
     for (i = 0; i < UNIT_TABLE_SIZE; i++) {
 	table->contents[i] = NULL;
     }
-    return(table);
+    return table;
 }
 
 UnitEntryT *
@@ -88,7 +88,7 @@ unit_table_add(UnitTableT *table,			NStringT *  key ,
     UnitEntryT *entry      = unit_entry_create(key, next, order);
 
     table->contents[hash_value] = entry;
-    return(entry);
+    return entry;
 }
 
 UnitEntryT *
@@ -100,7 +100,7 @@ unit_table_get(UnitTableT *table,			NStringT *  key)
     while (entry && (!nstring_equal(key, unit_entry_key(entry)))) {
 	entry = unit_entry_next(entry);
     }
-    return(entry);
+    return entry;
 }
 
 void

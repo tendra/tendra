@@ -89,7 +89,7 @@ copy_string(char *s)
 		res[i] = s[i];
 	}
 	res[ls] = 0;
-	return(res);
+	return res;
 }
 
 char *
@@ -106,7 +106,7 @@ append_string(char *a, char *b)
 		res[i + la] = b[i];
 	}
 	res[la + lb] = 0;
-	return(res);
+	return res;
 }
 
 Pointer
@@ -116,7 +116,7 @@ xmalloc(unsigned n)
 	if (p == NULL) {
 		fail("Memory allocation error");
 	}
-	return(p);
+	return p;
 }
 
 Pointer
@@ -126,5 +126,5 @@ xcalloc(unsigned n, unsigned m)
     if (p == NULL) {
 	    fail("Memory allocation error");
     }
-    return(p);
+    return p;
 }

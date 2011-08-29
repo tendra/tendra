@@ -1272,7 +1272,7 @@ static bool rem_power2_1
     exp jloop, jend, jtst;
     bool s = is_signed(sha);
 
-    if (s && (eq_where(top, D0) || eq_where(top, D1))) return(0);
+    if (s && (eq_where(top, D0) || eq_where(top, D1))) return 0;
 
     if (whereis(dest) == Dreg) {
 	d1 = dest;
@@ -1327,7 +1327,7 @@ static bool rem_power2_1
     }
     have_cond = 0;
     move(sha, d1, dest);
-    return(1);
+    return 1;
 }
 
 

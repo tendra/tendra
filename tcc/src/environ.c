@@ -164,7 +164,7 @@ read_env_aux(const char *nm, struct hash **h)
 	assert(h != NULL);
 
     if (*nm == 0) {
-	return (1);
+	return 1;
     } else if (*nm == '/') {
 	f = fopen(nm, "r");
     } else {
@@ -178,7 +178,7 @@ read_env_aux(const char *nm, struct hash **h)
 	} while (f == NULL && *(ep++));
     }
     if (f == NULL) {
-	    return (1);
+	    return 1;
     }
 
     /*
@@ -384,7 +384,7 @@ read_env_aux(const char *nm, struct hash **h)
 	} /* if the line is a +, >, < env action command */
     } /* for each line in the env file */
 
-    return (0);
+    return 0;
 } /* read_env_aux() */
 
 

@@ -142,10 +142,10 @@ is_bottom(EXP e)
 {
 	TYPE t;
 	if (IS_NULL_exp(e)) {
-		return (0);
+		return 0;
 	}
 	t = DEREF_type(exp_type(e));
-	return (IS_type_bottom(t));
+	return IS_type_bottom(t);
 }
 
 
@@ -222,7 +222,7 @@ parent_stmt(EXP e)
 		}
 		}
 	}
-	return (ptr);
+	return ptr;
 }
 
 
@@ -242,7 +242,7 @@ get_parent_stmt(EXP e)
 			p = DEREF_exp(ptr);
 		}
 	}
-	return (p);
+	return p;
 }
 
 
@@ -450,7 +450,7 @@ begin_compound_stmt(int scope)
 	CONS_exp(e, NULL_list(EXP), stmts);
 	MAKE_exp_sequence(t, stmts, stmts, ns, 0, e);
 	COPY_exp(exp_sequence_parent(e), e);
-	return (e);
+	return e;
 }
 
 
@@ -498,7 +498,7 @@ extend_compound_stmt(EXP prev, EXP stmt, int loc)
 
 	/* Allow for null statements */
 	if (IS_NULL_exp(stmt)) {
-		return (prev);
+		return prev;
 	}
 
 	/* Add statement to list */
@@ -559,7 +559,7 @@ extend_compound_stmt(EXP prev, EXP stmt, int loc)
 	if (is_bottom(stmt)) {
 		COPY_type(exp_type(prev), type_bottom);
 	}
-	return (prev);
+	return prev;
 }
 
 
@@ -628,7 +628,7 @@ add_compound_stmt(EXP prev, EXP stmt)
 	COPY_exp(exp_sequence_parent(prev), parent);
     }
     adjusted_line = 0;
-    return (prev);
+    return prev;
 }
 
 
@@ -657,7 +657,7 @@ end_compound_stmt(EXP prev)
 		IGNORE pop_namespace();
 	}
 	COPY_exp(exp_sequence_parent(prev), NULL_exp);
-	return (prev);
+	return prev;
 }
 
 
@@ -697,7 +697,7 @@ make_temp_decl(MEMBER p, MEMBER q, EXP e)
 		}
 		r = DEREF_member(member_next(r));
 	}
-	return (e);
+	return e;
 }
 
 
@@ -812,7 +812,7 @@ make_decl_stmt(MEMBER p, MEMBER q, int *vars)
 	    unreached_last = 1;
 	}
     }
-    return (e);
+    return e;
 }
 
 
@@ -844,7 +844,7 @@ bind_temporary(EXP e)
 			e = make_paren_exp(e);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -939,7 +939,7 @@ default_lab: {
 			break;
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -958,18 +958,18 @@ check_discard_exp(EXP e)
 		case exp_indir_tag: {
 			/* Ignore indirection expressions */
 			EXP a = DEREF_exp(exp_indir_ptr(e));
-			return (check_discard_exp(a));
+			return check_discard_exp(a);
 		}
 		case exp_contents_tag: {
 			/* Ignore contents expressions */
 			EXP a = DEREF_exp(exp_contents_ptr(e));
-			return (check_discard_exp(a));
+			return check_discard_exp(a);
 		}
 		case exp_comma_tag: {
 			/* Examine final component of comma expression */
 			LIST(EXP) p = DEREF_list(exp_comma_args(e));
 			EXP a = DEREF_exp(HEAD_list(END_list(p)));
-			return (check_discard_exp(a));
+			return check_discard_exp(a);
 		}
 		case exp_postinc_tag:
 			/* Discard postincrement expressions */
@@ -1008,10 +1008,10 @@ assign_lab:
 		default:
 			/* Discarded value */
 			report(crt_loc, ERR_stmt_expr_discard_val());
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1031,7 +1031,7 @@ make_exp_stmt(EXP e)
 
 	/* Perform operand conversion */
 	if (IS_NULL_exp(e)) {
-		return (e);
+		return e;
 	}
 	e = convert_reference(e, REF_NORMAL);
 	made_temporary = NULL_id;
@@ -1043,16 +1043,16 @@ make_exp_stmt(EXP e)
 	case type_bottom_tag:
 		/* Unreached code */
 		unreached_code = 1;
-		return (e);
+		return e;
 	case type_top_tag:
 	case type_error_tag:
 		/* No effect */
-		return (e);
+		return e;
 	case type_token_tag:
 		/* Check for template types */
 		if (is_templ_type(t)) {
 			MAKE_exp_op(t, lex_discard, e, NULL_exp, e);
-			return (e);
+			return e;
 		}
 		break;
 	}
@@ -1061,7 +1061,7 @@ make_exp_stmt(EXP e)
 	if (check_discard_exp(e)) {
 		MAKE_exp_cast(type_void, CONV_ELLIPSIS, e, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1108,7 +1108,7 @@ check_cond(EXP cond, EXP *pd, int op)
 			TYPE t = DEREF_type(exp_type(c));
 			MAKE_exp_location(t, crt_loc, c, c);
 		}
-		return (c);
+		return c;
 	}
 
 	/* Check for condition declarations */
@@ -1243,7 +1243,7 @@ check_cond(EXP cond, EXP *pd, int op)
 		TYPE t = DEREF_type(exp_type(c));
 		MAKE_exp_location(t, crt_loc, c, c);
 	}
-	return (c);
+	return c;
 }
 
 
@@ -1317,7 +1317,7 @@ make_cond_decl(EXP d, EXP e, int tmp)
 		e = convert_lvalue(e);
 		d = join_exp(d, e);
 	}
-	return (d);
+	return d;
 }
 
 
@@ -1346,7 +1346,7 @@ find_cond_stmt(EXP e)
 			tag = TAG_exp(e);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1379,7 +1379,7 @@ begin_if_stmt(EXP cond)
 	if (!IS_NULL_exp(d)) {
 		e = make_cond_decl(d, e, 0);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1406,7 +1406,7 @@ cont_if_stmt(EXP prev, EXP right)
 	e = find_cond_stmt(prev);
 	COPY_exp(exp_if_stmt_true_code(e), right);
 	set_parent_stmt(right, e);
-	return (prev);
+	return prev;
 }
 
 
@@ -1455,7 +1455,7 @@ end_if_stmt(EXP prev, EXP wrong)
 	/* Copy the wrong code into the conditional */
 	COPY_exp(exp_if_stmt_false_code(e), wrong);
 	set_parent_stmt(wrong, e);
-	return (prev);
+	return prev;
 }
 
 
@@ -1497,7 +1497,7 @@ begin_do_stmt(void)
 
 	/* Add statement to loop stack */
 	PUSH_exp(e, crt_loop_stack);
-	return (e);
+	return e;
 }
 
 
@@ -1562,7 +1562,7 @@ end_do_stmt(EXP prev, EXP body, EXP cond)
 	COPY_exp(exp_do_stmt_cond(prev), cond);
 	COPY_exp(exp_do_stmt_body(prev), body);
 	set_parent_stmt(body, prev);
-	return (prev);
+	return prev;
 }
 
 
@@ -1602,7 +1602,7 @@ begin_for_stmt(void)
 		scope = 1;
 	}
 	e = begin_compound_stmt(scope);
-	return (e);
+	return e;
 }
 
 
@@ -1649,7 +1649,7 @@ init_for_stmt(EXP prev, EXP *init)
 		prev = extend_compound_stmt(prev, stmt, 1);
 	}
 	adjusted_line = 0;
-	return (prev);
+	return prev;
 }
 
 
@@ -1722,7 +1722,7 @@ cond_for_stmt(EXP prev, EXP cond, EXP step)
 		e = d;
 	}
 	e = add_compound_stmt(prev, e);
-	return (e);
+	return e;
 }
 
 
@@ -1769,7 +1769,7 @@ end_for_stmt(EXP prev, EXP body)
 			p = DEREF_member(member_next(p));
 		}
 	}
-	return (prev);
+	return prev;
 }
 
 
@@ -1823,7 +1823,7 @@ begin_while_stmt(EXP cond)
 		d = make_cond_decl(d, e, 0);
 		e = d;
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1881,7 +1881,7 @@ end_while_stmt(EXP prev, EXP body)
 	/* Copy the body into the result */
 	COPY_exp(exp_while_stmt_body(e), body);
 	set_parent_stmt(body, e);
-	return (prev);
+	return prev;
 }
 
 
@@ -1908,10 +1908,10 @@ make_break_stmt(void)
 		} else {
 			lab = DEREF_id(exp_switch_stmt_break_lab(stmt));
 		}
-		return (make_jump_stmt(lab, stmt));
+		return make_jump_stmt(lab, stmt);
 	}
 	report(crt_loc, ERR_stmt_break_bad());
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1941,12 +1941,12 @@ make_continue_stmt(void)
 			} else {
 				lab = DEREF_id(exp_do_stmt_cont_lab(stmt));
 			}
-			return (make_jump_stmt(lab, stmt));
+			return make_jump_stmt(lab, stmt);
 		}
 		st = TAIL_list(st);
 	}
 	report(crt_loc, ERR_stmt_cont_bad());
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1976,7 +1976,7 @@ check_return_exp(EXP a, int op)
 	    }
 	}
     }
-    return (a);
+    return a;
 }
 
 
@@ -2089,7 +2089,7 @@ default_lab:
 			a = check_return_exp(a, lex_return);
 		}
 	}
-	return (a);
+	return a;
 }
 
 
@@ -2114,7 +2114,7 @@ make_return_stmt(EXP a, int op)
 	}
 	unreached_code = 1;
 	unreached_last = 0;
-	return (e);
+	return e;
 }
 
 
@@ -2135,7 +2135,7 @@ fall_return_stmt(void)
 			e = make_return_stmt(NULL_exp, lex_fall);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -2224,7 +2224,7 @@ check_control(EXP cont, EXP *pd, EXP *pb)
 			MAKE_exp_location(t, crt_loc, cont, cont);
 		}
 	}
-	return (cont);
+	return cont;
 }
 
 
@@ -2260,7 +2260,7 @@ begin_switch_stmt(EXP cont)
 	unreached_code = 1;
 	unreached_last = 0;
 	unreached_fall = 1;
-	return (e);
+	return e;
 }
 
 
@@ -2279,12 +2279,12 @@ find_case(LIST(NAT) p, LIST(IDENTIFIER) q, NAT n)
 		NAT m = DEREF_nat(HEAD_list(p));
 		if (EQ_nat(n, m) || eq_nat(n, m)) {
 			IDENTIFIER lab = DEREF_id(HEAD_list(q));
-			return (lab);
+			return lab;
 		}
 		q = TAIL_list(q);
 		p = TAIL_list(p);
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -2409,7 +2409,7 @@ end_switch_stmt(EXP prev, EXP body, int exhaust)
 		}
 	}
 	COPY_int(exp_switch_stmt_exhaust(stmt), exhaust);
-	return (prev);
+	return prev;
 }
 
 
@@ -2501,7 +2501,7 @@ begin_case_stmt(EXP val, int jump)
 				COPY_list(exp_switch_stmt_cases(stmt), cases);
 			}
 			if (jump) {
-				return (e);
+				return e;
 			}
 
 			/* Check enumeration switches */
@@ -2541,14 +2541,14 @@ begin_case_stmt(EXP val, int jump)
 				report(crt_loc, ERR_stmt_label_fall(lex_case));
 			}
 			suppress_fall = 0;
-			return (e);
+			return e;
 		}
 
 		/* Iteration statements are ignored for cases */
 		st = TAIL_list(st);
 	}
 	report(crt_loc, ERR_stmt_label_case());
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -2562,7 +2562,7 @@ begin_case_stmt(EXP val, int jump)
 EXP
 end_case_stmt(EXP prev, EXP body)
 {
-	return (end_label_stmt(prev, body));
+	return end_label_stmt(prev, body);
 }
 
 
@@ -2625,14 +2625,14 @@ begin_default_stmt(int jump)
 				}
 				suppress_fall = 0;
 			}
-			return (e);
+			return e;
 		}
 
 		/* Iteration statements are ignored for defaults */
 		st = TAIL_list(st);
 	}
 	report(crt_loc, ERR_stmt_label_default());
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -2646,7 +2646,7 @@ begin_default_stmt(int jump)
 EXP
 end_default_stmt(EXP prev, EXP body)
 {
-	return (end_label_stmt(prev, body));
+	return end_label_stmt(prev, body);
 }
 
 
@@ -2675,7 +2675,7 @@ make_if_cond(EXP a, EXP b)
 	if (!IS_NULL_exp(b)) {
 		MAKE_exp_log_and(type_bool, b, a, a);
 	}
-	return (a);
+	return a;
 }
 
 
@@ -2699,7 +2699,7 @@ make_else_cond(EXP a)
 			MAKE_exp_not(type_bool, a, a);
 		}
 	}
-	return (a);
+	return a;
 }
 
 
@@ -2728,7 +2728,7 @@ begin_hash_if_stmt(EXP cond, EXP right)
 	}
 	/* Next branch is reached */
 	unreached_code = unreached_prev;
-	return (e);
+	return e;
 }
 
 
@@ -2762,7 +2762,7 @@ cont_hash_if_stmt(EXP prev, EXP cond, EXP right)
 	}
 	/* Next branch is reached */
 	unreached_code = unreached_prev;
-	return (prev);
+	return prev;
 }
 
 
@@ -2795,7 +2795,7 @@ end_hash_if_stmt(EXP prev, EXP wrong)
 		COPY_type(exp_type(prev), type_void);
 		unreached_code = unreached_prev;
 	}
-	return (prev);
+	return prev;
 }
 
 
@@ -2818,7 +2818,7 @@ make_reach_stmt(EXP body, int reach)
 		unsigned tag = TAG_exp(body);
 		if (tag == exp_decl_stmt_tag || tag == exp_label_stmt_tag) {
 			/* Don't bother in these cases */
-			return (body);
+			return body;
 		}
 		t = DEREF_type(exp_type(body));
 	}
@@ -2828,7 +2828,7 @@ make_reach_stmt(EXP body, int reach)
 		MAKE_exp_unreach(t, body, e);
 	}
 	set_parent_stmt(body, e);
-	return (e);
+	return e;
 }
 
 
@@ -2864,7 +2864,7 @@ make_cond_type(TYPE t)
 		MAKE_type_ptr(cv_none, t, t);
 		break;
 	}
-	return (t);
+	return t;
 }
 
 
@@ -2900,7 +2900,7 @@ end_cond(void)
 	NAMESPACE ns = pop_namespace();
 	MEMBER p = DEREF_member(nspace_last(ns));
 	EXP cond = make_decl_stmt(p, NULL_member, &vars);
-	return (cond);
+	return cond;
 }
 
 
@@ -2923,7 +2923,7 @@ inject_cond(EXP prev, EXP cond)
 			cond = DEREF_exp(exp_decl_stmt_body(cond));
 		}
 	}
-	return (prev);
+	return prev;
 }
 
 
@@ -2945,5 +2945,5 @@ make_asm(EXP e, LIST(EXP) args)
 	}
 	MAKE_exp_assembler(type_void, s, args, e);
 	report(crt_loc, ERR_dcl_asm_ti());
-	return (e);
+	return e;
 }

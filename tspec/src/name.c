@@ -99,7 +99,7 @@ basename(char *nm)
     for (; *nm; nm++) {
 	if (*nm == '/')b = nm + 1;
     }
-    return(b);
+    return b;
 }
 
 
@@ -159,9 +159,9 @@ dirname(char *nm)
     for (p = dir; *p; p++) {
 	if (*p == '/')end = p;
     }
-    if (end == NULL || end == dir) return(NULL);
+    if (end == NULL || end == dir) return NULL;
     *end = 0;
-    return(dir);
+    return dir;
 }
 
 
@@ -176,8 +176,8 @@ char *
 relative(char *from, char *to, int n)
 {
     char *s = buffer;
-    if (from == NULL) return(to);
-    if (to == NULL) return(from);
+    if (from == NULL) return to;
+    if (to == NULL) return from;
     for (from = from + n; *from; from++) {
 	if (*from == '/') {
 	    IGNORE strcpy(s, "../");
@@ -185,7 +185,7 @@ relative(char *from, char *to, int n)
 	}
     }
     IGNORE strcpy(s, to + n);
-    return(buffer);
+    return buffer;
 }
 
 
@@ -217,7 +217,7 @@ hack_name(char *nm, char *key)
 	    *q = key [0];
 	}
     }
-    return(p);
+    return p;
 }
 
 
@@ -242,9 +242,9 @@ token_name(char *nm)
 	    pfx = token_prefix(i->api, i->file, i->subset);
 	    i->prefix = pfx;
 	}
-	if (*pfx) return(string_printf("%s.%s", pfx, nm));
+	if (*pfx) return string_printf("%s.%s", pfx, nm);
     }
-    return(nm);
+    return nm;
 }
 
 
@@ -260,13 +260,13 @@ token_prefix(char *api, char *file, char *subset)
     UNUSED(subset);
     if (unique_names) {
 	int n;
-	if (file == NULL) return(api);
+	if (file == NULL) return api;
 	IGNORE sprintf(buffer, "%s.%s", api, strip_extension(basename(file)));
 	n = (int)strlen(buffer) - 2;
 	if (n >= 0 && buffer [n] == '.')buffer [n] = 0;
-	return(hack_name(buffer, "_Aa0."));
+	return hack_name(buffer, "_Aa0.");
     }
-    return(NULL);
+    return NULL;
 }
 
 
@@ -289,7 +289,7 @@ subset_name(char *api, char *file, char *subset)
     } else {
 	sn = string_printf("%s", api);
     }
-    return(sn);
+    return sn;
 }
 
 
@@ -314,7 +314,7 @@ include_name(char *dir, char *api, char *file, char *subset)
     } else {
 	nm = string_printf(OUTPUT_API, dir, api);
     }
-    return(nm);
+    return nm;
 }
 
 
@@ -344,7 +344,7 @@ src_name(char *dir, char *api, char *file, char *subset)
     } else {
 	nm = string_printf(SOURCE_API, dir, api);
     }
-    return(nm);
+    return nm;
 }
 
 
@@ -366,7 +366,7 @@ macro_name(char *pfx, char *api, char *file, char *subset)
     } else {
 	IGNORE sprintf(buffer, "%s_%s", pfx, api);
     }
-    return(hack_name(buffer, "_AA0"));
+    return hack_name(buffer, "_AA0");
 }
 
 
@@ -391,5 +391,5 @@ block_name(char *api, char *file, char *subset)
     } else {
 	IGNORE sprintf(buffer, "%s__%s", pfx, api);
     }
-    return(hack_name(buffer, "_Aa0"));
+    return hack_name(buffer, "_Aa0");
 }

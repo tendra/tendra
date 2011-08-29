@@ -175,9 +175,9 @@ long  evalexp
     case top_tag:
       {
 	if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) {
-		return(no(e) >>3);
+		return no(e) >> 3;
 	}
-        return(no(e));
+        return no(e);
       }
     case bitf_to_int_tag:
       {
@@ -196,35 +196,35 @@ long  evalexp
       }
     case not_tag:
       {
-	return(~evalexp(son(e)));
+	return ~evalexp(son(e));
       }
     case and_tag:
       {
-	return(evalexp(son(e)) & evalexp(bro(son(e))));
+	return evalexp(son(e)) & evalexp(bro(son(e)));
       }
     case or_tag:
       {
-	return(evalexp(son(e)) | evalexp(bro(son(e))));
+	return evalexp(son(e)) | evalexp(bro(son(e)));
       }
     case xor_tag:
       {
-	return(evalexp(son(e))^ evalexp(bro(son(e))));
+	return evalexp(son(e))^ evalexp(bro(son(e)));
       }
 
     case shr_tag:
       {
-	return(evalexp(son(e)) >> evalexp(bro(son(e))));
+	return evalexp(son(e)) >> evalexp(bro(son(e)));
       }
 
     case shl_tag:
       {
-	return(evalexp(son(e)) << evalexp(bro(son(e))));
+	return evalexp(son(e)) << evalexp(bro(son(e)));
       }
 
     case concatnof_tag:
       {
 	long  wd = evalexp(son(e));
-	return(wd | (evalexp(bro(son(e))) << shape_size(sh(son(e)))));
+	return wd | (evalexp(bro(son(e))) << shape_size(sh(son(e))));
       }
 
     case clear_tag:
@@ -236,51 +236,51 @@ long  evalexp
     case env_offset_tag:
       {
 	if (name(son(e)) == 0)
-   	  return(no(son(e)) / 8);
+   	  return no(son(e)) / 8;
 	break;
       }
     case env_size_tag:
       {
 	dec * et = brog(son(son(e)));
 	if (et -> dec_u.dec_val.processed)
-	  return(et -> dec_u.dec_val.index);
+	  return et -> dec_u.dec_val.index;
 	break;
       }
     case offset_add_tag:
       {
-    	return(evalexp(son(e)) +evalexp(bro(son(e))));
+    	return evalexp(son(e)) +evalexp(bro(son(e)));
       }
     case offset_max_tag:
       {
 	long a = evalexp(son(e));
 	long b = evalexp(bro(son(e)));
-    	return(a > b ? a : b);
+    	return a > b ? a : b;
       }
     case offset_pad_tag:
       {
-	return(rounder(evalexp(son(e)), shape_align(sh(e)) / 8));
+	return rounder(evalexp(son(e)), shape_align(sh(e)) / 8);
       }
     case offset_mult_tag:
       {
-    	return(evalexp(son(e))*evalexp(bro(son(e))));
+    	return evalexp(son(e))*evalexp(bro(son(e)));
       }
     case offset_div_tag:
     case offset_div_by_int_tag:
       {
-    	return(evalexp(son(e)) /evalexp(bro(son(e))));
+    	return evalexp(son(e)) /evalexp(bro(son(e)));
       }
     case offset_subtract_tag:
       {
-    	return(evalexp(son(e)) -evalexp(bro(son(e))));
+    	return evalexp(son(e)) -evalexp(bro(son(e)));
       }
     case offset_negate_tag:
       {
-	return(- evalexp(son(e)));
+	return -evalexp(son(e));
       }
     case seq_tag:
       {
 	if (name(son(son(e))) == prof_tag && last(son(son(e))))
-	   return(evalexp(bro(son(e))));
+	   return evalexp(bro(son(e)));
 	break;
       }
     case cont_tag:
@@ -288,12 +288,12 @@ long  evalexp
 	if (PIC_code && name(son(e)) == name_tag && isglob(son(son(e)))
 		&& son(son(son(e)))!= nilexp
 		&& !(brog(son(son(e))) -> dec_u.dec_val.dec_var))
-	   return(evalexp(son(son(son(e)))));
+	   return evalexp(son(son(son(e))));
 	break;
       }
   }
   failer(BAD_VAL);
-  return(0);
+  return 0;
 }
 
 

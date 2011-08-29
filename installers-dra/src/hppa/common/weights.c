@@ -177,7 +177,7 @@ weights add_weights
   {
    (r.floating)[i] = (w1->floating)[i] + (w2->floating)[i];
   };
-  return(r);
+  return r;
 }
 
 wp max_weights
@@ -319,7 +319,7 @@ weights mult_weights
   {
     r[i] = w[i]* m;
   };
-  return(res);
+  return res;
 }
 
 weights add_wlist
@@ -334,7 +334,7 @@ weights add_wlist
   }
   else if (last(r))
   {
-    return(weightsv(scale, r));
+    return weightsv(scale, r);
   }
   else
   {
@@ -543,7 +543,7 @@ weights weightsv
 	e = son(e);
 	goto tailrecurse;
       }
-      return(add_wlist(scale, son(e)));
+      return add_wlist(scale, son(e));
     }
   }
 }

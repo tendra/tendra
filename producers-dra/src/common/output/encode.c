@@ -127,7 +127,7 @@ start_bitstream(FILE *f, gen_ptr lnk)
 	bs->file = f;
 	bs->link = lnk;
 	bs->prev = NULL;
-	return (bs);
+	return bs;
 }
 
 
@@ -175,7 +175,7 @@ extend_bitstream(BITSTREAM *bs)
 		ps->prev = bs;
 		bs = ps;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -226,7 +226,7 @@ enc_bits(BITSTREAM *bs, unsigned n, unsigned d)
 		bs->bytes = bytes;
 		bs->bits = bits;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -245,7 +245,7 @@ enc_long_bits(BITSTREAM *bs, unsigned n, unsigned long d)
 		n = 16;
 	}
 	bs = enc_bits(bs, n,(unsigned)d);
-	return (bs);
+	return bs;
 }
 
 
@@ -282,7 +282,7 @@ enc_bytes(BITSTREAM *bs, unsigned long n, string s)
 		}
 		bs->bytes = bytes;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -329,7 +329,7 @@ enc_ascii(BITSTREAM *bs, unsigned long n, string s)
 			bs->bytes = bytes;
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -356,7 +356,7 @@ copy_bitstream(BITSTREAM *fs, BITSTREAM *bs)
 		c >>= (BYTE_SIZE - bits);
 		fs = enc_bits(fs, bits, c);
 	}
-	return (fs);
+	return fs;
 }
 
 
@@ -373,10 +373,10 @@ join_bitstreams(BITSTREAM *fs, BITSTREAM *bs)
 	FILE *f;
 	BITSTREAM *ps;
 	if (bs == NULL) {
-		return (fs);
+		return fs;
 	}
 	if (fs == NULL) {
-		return (bs);
+		return bs;
 	}
 	if (fs->link == NULL) {
 		fs->link = bs->link;
@@ -402,14 +402,14 @@ join_bitstreams(BITSTREAM *fs, BITSTREAM *bs)
 		if (ps == NULL) {
 			end_bitstream(bs, 0);
 		}
-		return (fs);
+		return fs;
 	}
 
 	/* Copy small bitstreams */
 	if (ps == NULL && bs->bytes < CHUNK_COPY) {
 		fs = copy_bitstream(fs, bs);
 		end_bitstream(bs, 0);
-		return (fs);
+		return fs;
 	}
 
 	/* Link larger bitstreams */
@@ -418,7 +418,7 @@ join_bitstreams(BITSTREAM *fs, BITSTREAM *bs)
 		ps = ps->prev;
 	}
 	ps->prev = fs;
-	return (bs);
+	return bs;
 }
 
 
@@ -436,7 +436,7 @@ length_bitstream(BITSTREAM *bs)
 		n += (BYTE_SIZE * bs->bytes + bs->bits);
 		bs = bs->prev;
 	}
-	return (n);
+	return n;
 }
 
 
@@ -456,7 +456,7 @@ enc_boundary(BITSTREAM *bs)
 		/* Add extra bits if necessary */
 		bs = enc_bits(bs, BYTE_SIZE - r,(unsigned)0);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -478,7 +478,7 @@ enc_extn(BITSTREAM *bs, unsigned n, unsigned d)
 	}
 	/* Encode the remainder */
 	bs = enc_bits(bs, n, d);
-	return (bs);
+	return bs;
 }
 
 
@@ -498,7 +498,7 @@ enc_int_aux(BITSTREAM *bs, unsigned long n)
 	}
 	m = (unsigned)(n & 0x7);
 	bs = enc_bits(bs,(unsigned)4, m);
-	return (bs);
+	return bs;
 }
 
 
@@ -516,7 +516,7 @@ enc_int(BITSTREAM *bs, unsigned long n)
 	if (n >= 8)bs = enc_int_aux(bs, n >> 3);
 	m = (unsigned)((n & 0x7) | 0x8);
 	bs = enc_bits(bs,(unsigned)4, m);
-	return (bs);
+	return bs;
 }
 
 
@@ -536,7 +536,7 @@ enc_ident(BITSTREAM *bs, string s, unsigned long n)
 	bs = enc_int(bs, n);
 	bs = enc_boundary(bs);
 	bs = enc_ascii(bs, n, s);
-	return (bs);
+	return bs;
 }
 
 
@@ -552,7 +552,7 @@ enc_tdfstring(BITSTREAM *bs, unsigned long n, string s)
 	bs = enc_int(bs,(unsigned long)BYTE_SIZE);
 	bs = enc_int(bs, n);
 	bs = enc_ascii(bs, n, s);
-	return (bs);
+	return bs;
 }
 
 
@@ -570,7 +570,7 @@ enc_ustring(BITSTREAM *bs, string s)
 	bs = enc_int(bs,(unsigned long)BYTE_SIZE);
 	bs = enc_int(bs, n);
 	bs = enc_ascii(bs, n, s);
-	return (bs);
+	return bs;
 }
 
 
@@ -587,5 +587,5 @@ enc_bitstream(BITSTREAM *bs, BITSTREAM *ps)
 	unsigned n = length_bitstream(ps);
 	bs = enc_int(bs,(unsigned long)n);
 	bs = join_bitstreams(bs, ps);
-	return (bs);
+	return bs;
 }

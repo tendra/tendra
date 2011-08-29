@@ -62,17 +62,17 @@ static void action_set_outputs(ActionT* action, TypeTupleT* tuple)
 
 TypeTupleT* action_get_inputs(ActionT* action)
 {
-	return(&action->inputs) ;
+	return &action->inputs;
 }
 
 TypeTupleT* action_get_outputs(ActionT* action)
 {
-	return(&action->outputs) ;
+	return &action->outputs;
 }
 
 CcodeT* action_get_code(ActionT* action)
 {
-	return(&action->code) ;
+	return &action->code;
 }
 
 void action_set_code(ActionT* action, CcodeT* code)
@@ -87,7 +87,7 @@ void action_set_define(ActionT* action)
 
 int action_is_defined(ActionT* action)
 {
-	return (action->defined) ;
+	return action->defined;
 }
 
 NStringT* entry_key(EntryT* entry) 
@@ -97,20 +97,17 @@ NStringT* entry_key(EntryT* entry)
 
 int entry_is_type(EntryT* entry) 
 {
-  return(entry->entry_kind==entry_type);
+  return entry->entry_kind==entry_type;
 }
 
 int entry_is_action (EntryT* entry) 
 {
-  return (entry->entry_kind==entry_action);
+  return entry->entry_kind==entry_action;
 }
 
 int entry_is_localname(EntryT* entry) 
 {
-	if(entry->entry_kind==entry_local_name)
-		return 1;
-	else
-		return 0;
+	return entry->entry_kind==entry_local_name;
 }
 
 

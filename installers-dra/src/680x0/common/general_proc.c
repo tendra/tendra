@@ -887,7 +887,7 @@ static bool postlude_has_code
    while (name(postlude) == ident_tag && name(son(postlude)) == caller_name_tag) {
       postlude = bro(son(postlude));
    }
-   return(name(postlude)!= top_tag);
+   return name(postlude) != top_tag;
 }
 
 

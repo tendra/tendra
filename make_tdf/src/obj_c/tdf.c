@@ -98,7 +98,7 @@ gen_tdf(size_t sz)
 	p = free_tdf_array[n];
 	if (p) {
 	    free_tdf_array[n] = TAIL_list(p);
-	    return(p);
+	    return p;
 	}
     }
 
@@ -110,7 +110,7 @@ gen_tdf(size_t sz)
     p = free_tdf;
     free_tdf += sz;
     free_tdf_left -= sz;
-    return(p);
+    return p;
 }
 
 
@@ -186,7 +186,7 @@ length_tdf_list(tdf *p)
     for (q = p; q != NULL; q = TAIL_list(q)) {
 	n++;
     }
-    return(n);
+    return n;
 }
 
 
@@ -207,7 +207,7 @@ reverse_tdf_list(tdf *p)
 	r = q;
 	q = nq;
     }
-    return(r);
+    return r;
 }
 
 
@@ -222,13 +222,13 @@ append_tdf_list(tdf *p, tdf *q)
 {
     tdf *r = p;
     if (r == NULL) {
-	return(q);
+	return q;
     }
     while (TAIL_list(r)) {
 	r = TAIL_list(r);
     }
     TAIL_list(r) = q;
-    return(p);
+    return p;
 }
 
 
@@ -243,10 +243,10 @@ end_tdf_list(tdf *p)
 {
     tdf *r = p;
     if (r == NULL) {
-	return(NULL);
+	return NULL;
     }
     while (TAIL_list(r))r = TAIL_list(r);
-    return(r);
+    return r;
 }
 
 

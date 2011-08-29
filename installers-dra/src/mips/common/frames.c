@@ -207,11 +207,11 @@ long frame_offset
 
 
 	if (b==29 || b == 30) {
-		return(((x - b) >> 4) +lo - (fs+cs));
+		return ((x - b) >> 4) +lo - (fs+cs);
 	}
 	else
 	if (b==local_reg) {
-	 	return(((x - b) >> 4) +lo -fs);
+	 	return ((x - b) >> 4) +lo -fs;
 	}
 	else {
 		/* may not be allocated yet */
@@ -224,7 +224,7 @@ long frame_offset
            }
            else
 	   if (isparam(id) && name(son(id)) ==formal_callee_tag) {
-           	return ((Has_vcallees)? n:(cs-n));
+           	return (Has_vcallees)? n:(cs-n);
            }
            else { failer("Wrong env_offset"); return 0; }
        }

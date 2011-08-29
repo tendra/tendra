@@ -393,7 +393,7 @@ int
 is_complex(shape s)
 {
 #if substitute_complex
-	return(name(s) == cpdhd);
+	return name(s) == cpdhd;
 #else
 	return name(s) >= shcomplexhd && name(s) <= complexdoublehd;
 #endif

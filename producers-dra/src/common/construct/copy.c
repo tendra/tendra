@@ -128,15 +128,15 @@ implicit_cast_exp(EXP e)
 			int op = DEREF_int(exp_op_lex(e));
 			if (op == lex_implicit) {
 				EXP a = DEREF_exp(exp_op_arg1(e));
-				return (a);
+				return a;
 			}
 		}
 		if (tag == exp_aggregate_tag || tag == exp_nof_tag) {
 			/* Check for aggregate initialisers */
-			return (e);
+			return e;
 		}
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -198,7 +198,7 @@ IDENTIFIER copy_local(IDENTIFIER id)
 		EXP e = DEREF_exp(id_variable_init(cid));
 		copy_variable(cid, e);
 	}
-	return (cid);
+	return cid;
 }
 
 
@@ -220,7 +220,7 @@ copy_type_offset(TYPE t, int op)
 			report(crt_loc, err);
 		}
 	}
-	return (s);
+	return s;
 }
 
 
@@ -234,7 +234,7 @@ OFFSET
 copy_offset(OFFSET off, int op)
 {
 	if (IS_NULL_off(off)) {
-		return (NULL_off);
+		return NULL_off;
 	}
 	ASSERT(ORDER_off == 13);
 	switch (TAG_off(off)) {
@@ -349,7 +349,7 @@ copy_offset(OFFSET off, int op)
 		break;
 	}
 	}
-	return (off);
+	return off;
 }
 
 
@@ -369,7 +369,7 @@ copy_off_list(LIST(OFFSET) p)
 		CONS_off(off, q, q);
 		p = TAIL_list(p);
 	}
-	return (REVERSE_list(q));
+	return REVERSE_list(q);
 }
 
 
@@ -389,7 +389,7 @@ copy_exp_list(LIST(EXP) p, TYPE t1, TYPE t2)
 		CONS_exp(e, q, q);
 		p = TAIL_list(p);
 	}
-	return (REVERSE_list(q));
+	return REVERSE_list(q);
 }
 
 
@@ -477,7 +477,7 @@ copy_func_exp(EXP e, TYPE t1, TYPE t2)
 		}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -519,7 +519,7 @@ copy_func_args(LIST(EXP)p, IDENTIFIER id)
 		n++;
 		p = TAIL_list(p);
 	}
-	return (REVERSE_list(q));
+	return REVERSE_list(q);
 }
 
 
@@ -575,7 +575,7 @@ copy_label(IDENTIFIER lab, int def)
 			DEREF_loc(id_loc(lab), crt_loc);
 		}
 	}
-	return (nlab);
+	return nlab;
 }
 
 
@@ -667,7 +667,7 @@ copy_switch_stmt(EXP e, TYPE t1, TYPE t2)
 		COPY_id(exp_switch_stmt_default_lab(e), dlab);
 	}
 	e = solve_switch (e);
-	return (e);
+	return e;
 }
 
 
@@ -722,7 +722,7 @@ copy_try_stmt(EXP e, TYPE t1, TYPE t2)
 		empty = 0;
 	}
 	e = end_try_stmt(e, empty);
-	return (e);
+	return e;
 }
 
 #endif
@@ -866,7 +866,7 @@ copy_compound_stmt(EXP e, TYPE t1, TYPE t2)
 		COPY_member(nspace_prev(ns), mem);
 		COPY_list(exp_sequence_last(e), q);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -914,7 +914,7 @@ restore_dummy_exp(void)
 		/* Do a straight copy if not copied already */
 		b = copy_exp(a, NULL_type, NULL_type);
 	}
-	return (b);
+	return b;
 }
 
 
@@ -949,7 +949,7 @@ copy_dummy_exp(EXP e, TYPE t1, TYPE t2)
 		q = TAIL_list(q);
 		p = TAIL_list(p);
 	}
-	return (f);
+	return f;
 }
 
 
@@ -968,7 +968,7 @@ copy_exp(EXP e, TYPE t1, TYPE t2)
 	TYPE t;
 	unsigned tag;
 	if (IS_NULL_exp(e)) {
-		return (NULL_exp);
+		return NULL_exp;
 	}
 	t = DEREF_type(exp_type(e));
 	if (!EQ_type(t, t1)) {
@@ -1692,7 +1692,7 @@ copy_exp(EXP e, TYPE t1, TYPE t2)
 		break;
 	}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1709,7 +1709,7 @@ eval_exp(EXP e, int ch)
 {
 	unsigned tag;
 	if (IS_NULL_exp(e)) {
-		return (NULL_exp);
+		return NULL_exp;
 	}
 	ASSERT(ORDER_exp == 88);
 	tag = TAG_exp(e);
@@ -1884,7 +1884,7 @@ eval_exp(EXP e, int ch)
 		break;
 	}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1978,7 +1978,7 @@ reported_nspace(NAMESPACE ns, TYPE t)
 		if (EQ_nspace(pns, ns)) {
 			TYPE pt = DEREF_type(HEAD_list(p));
 			if (eq_type(pt, t)) {
-				return (1);
+				return 1;
 			}
 		}
 		p = TAIL_list(p);
@@ -1986,7 +1986,7 @@ reported_nspace(NAMESPACE ns, TYPE t)
 	}
 	CONS_type(t, types, types);
 	CONS_nspace(ns, nspaces, nspaces);
-	return (0);
+	return 0;
 }
 
 
@@ -2037,7 +2037,7 @@ rescan_nspace(NAMESPACE ns)
 			}
 		}
 	}
-	return (ns);
+	return ns;
 }
 
 
@@ -2071,7 +2071,7 @@ rescan_id(IDENTIFIER id, QUALIFIER qual, int type)
 			}
 			args = expand_args(args, 1, 1);
 			rid = apply_template(tid, args, 0, force);
-			return (rid);
+			return rid;
 		}
 	}
 
@@ -2090,7 +2090,7 @@ rescan_id(IDENTIFIER id, QUALIFIER qual, int type)
 					    DEREF_list(type_token_args(form));
 					args = expand_args(args, 1, 1);
 					rid = apply_template(tid, args, 0, 0);
-					return (rid);
+					return rid;
 				}
 			}
 		}
@@ -2130,7 +2130,7 @@ rescan_id(IDENTIFIER id, QUALIFIER qual, int type)
 		/* Simple name look-up */
 		rid = find_id(nm);
 	}
-	return (rid);
+	return rid;
 }
 
 
@@ -2182,7 +2182,7 @@ rescan_func_id(IDENTIFIER id, QUALIFIER qual)
 			MAKE_id_ambig(nm, ds, ns, loc, pids, 1, pid);
 		}
 	}
-	return (pid);
+	return pid;
 }
 
 
@@ -2250,5 +2250,5 @@ rescan_member(IDENTIFIER id)
 		ds |= dspec_used;
 		COPY_dspec(id_storage(lid), ds);
 	}
-	return (id);
+	return id;
 }

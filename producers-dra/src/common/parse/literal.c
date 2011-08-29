@@ -195,7 +195,7 @@ check_digits(string s, unsigned base)
 		}
 		s++;
 	}
-	return(s);
+	return s;
 }
 
 
@@ -229,7 +229,7 @@ eval_digits(string s, string t, unsigned base)
 		n = make_nat_literal(n, base, d);
 		r++;
 	}
-	return(n);
+	return n;
 }
 
 
@@ -258,7 +258,7 @@ eval_char_digits(string s, string t, unsigned base)
 	if (overflow) {
 		report(crt_loc, ERR_lex_ccon_large());
 	}
-	return(n);
+	return n;
 }
 
 
@@ -289,7 +289,7 @@ eval_line_digits(string s, unsigned *err)
 		}
 	}
 	*err = e;
-	return(n);
+	return n;
 }
 
 
@@ -674,16 +674,16 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 	case nat_neg_tag:
 		lit = DEREF_nat(nat_neg_arg(lit));
 		t = find_literal_type(lit, base, suff, num, fit);
-		return(t);
+		return t;
 	case nat_token_tag:
 		t = type_sint;
 		*fit = 1;
-		return(t);
+		return t;
 	case nat_calc_tag: {
 		EXP e = DEREF_exp(nat_calc_value(lit));
 		t = DEREF_type(exp_type(e));
 		*fit = 1;
-		return(t);
+		return t;
 	}
 	}
 
@@ -730,7 +730,7 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 			/* lit definitely fits into bound */
 			if (!IS_NULL_type(s) && IS_NULL_list(qt)) {
 				/* No previous fit */
-				return(s);
+				return s;
 			}
 		}
 		if (ch <= 2) {
@@ -795,12 +795,12 @@ find_literal_type(NAT lit, int base, int suff, string num, int *fit)
 		/* Only one possible case */
 		t = DEREF_type(HEAD_list(qt));
 		DESTROY_list(qt, SIZE_type);
-		return(t);
+		return t;
 	}
 	tok = int_lit_tok[base][suff].tok;
 	MAKE_itype_literal(NULL_type, qt, lit, tok, base, suff, tid, it);
 	t = promote_itype(it, it);
-	return(t);
+	return t;
 }
 
 
@@ -846,7 +846,7 @@ make_literal_exp(string str, int *ptok, int force)
 		}
 		MAKE_exp_int_lit(type_sint, lit, etag, e);
 		*ptok = lex_integer_Hexp;
-		return(e);
+		return e;
 	}
 
 	if (c1 == char_zero && (c2 == char_x || c2 == char_X)) {
@@ -881,7 +881,7 @@ make_literal_exp(string str, int *ptok, int force)
 						e = make_uminus_exp(lex_minus,
 								    e);
 					}
-					return(e);
+					return e;
 				}
 				err = 1;
 			}
@@ -1098,7 +1098,7 @@ make_literal_exp(string str, int *ptok, int force)
 		}
 		*ptok = lex_integer_Hexp;
 	}
-	return(e);
+	return e;
 }
 
 
@@ -1116,16 +1116,16 @@ is_zero_float(FLOAT f)
 	s = DEREF_string(flt_simple_int_part(f));
 	while (c = *(s++), c != 0) {
 		if (c != char_zero) {
-			return(0);
+			return 0;
 		}
 	}
 	s = DEREF_string(flt_simple_frac_part(f));
 	while (c = *(s++), c != 0) {
 		if (c != char_zero) {
-			return(0);
+			return 0;
 		}
 	}
-	return(1);
+	return 1;
 }
 
 
@@ -1145,18 +1145,18 @@ eq_float_lit(FLOAT f, FLOAT g)
 	string af, ag;
 	string bf, bg;
 	if (EQ_flt(f, g)) {
-		return(1);
+		return 1;
 	}
 	DECONS_flt_simple(nf, af, bf, ef, f);
 	DECONS_flt_simple(ng, ag, bg, eg, g);
 	if (!ustreq(af, ag)) {
-		return(0);
+		return 0;
 	}
 	if (!ustreq(bf, bg)) {
-		return(0);
+		return 0;
 	}
 	if (compare_nat(ef, eg)!= 0) {
-		return(0);
+		return 0;
 	}
 	if (nf == LINK_NONE) {
 		COPY_ulong(flt_tok(f), ng);
@@ -1164,7 +1164,7 @@ eq_float_lit(FLOAT f, FLOAT g)
 	if (ng == LINK_NONE) {
 		COPY_ulong(flt_tok(g), nf);
 	}
-	return(1);
+	return 1;
 }
 
 
@@ -1245,19 +1245,19 @@ round_float_lit(FLOAT f, RMODE mode)
 		if (frac_part[0] == 0) {
 			/* Zero floating literal */
 			res = small_nat[0];
-			return(res);
+			return res;
 		}
 	}
 
 	/* Extreme values are target dependent */
 	if (pre_len > 6) {
-		return(NULL_nat);
+		return NULL_nat;
 	}
 	if (res_len > 6) {
-		return(NULL_nat);
+		return NULL_nat;
 	}
 	if (exp_val == EXTENDED_MAX) {
-		return(NULL_nat);
+		return NULL_nat;
 	}
 
 	/* Construct integer string */
@@ -1289,7 +1289,7 @@ round_float_lit(FLOAT f, RMODE mode)
 	/* Calculate the result */
 	res = eval_digits(result, result + res_len, base);
 	UNUSED(mode);
-	return(res);
+	return res;
 }
 
 
@@ -1325,7 +1325,7 @@ eval_unicode(int c, unsigned n, int *pc, string *ps, ERROR *err)
 			*pc = CHAR_UNI4;
 		}
 	}
-	return(u);
+	return u;
 }
 
 
@@ -1345,7 +1345,7 @@ get_multi_char(string s, int *pc)
 		n = (n << 8) + (unsigned long)s[i];
 	}
 	*pc = (int)s[0];
-	return(n);
+	return n;
 }
 
 
@@ -1431,7 +1431,7 @@ get_multibyte(string s, string se, unsigned long *pc)
 		report(crt_loc, ERR_lex_ccon_multibyte());
 		*pc = (unsigned long)*(s++);
 	}
-	return(s);
+	return s;
 }
 
 #endif
@@ -1669,7 +1669,7 @@ illegal_lab: {
 		UNUSED(v);
 		res = prev;
 	}
-	return(res);
+	return res;
 }
 
 
@@ -1686,7 +1686,7 @@ eq_string_lit(STRING s, STRING t)
 	unsigned ks, kt;
 	unsigned long ns, nt;
 	if (EQ_str(s, t)) {
-		return(1);
+		return 1;
 	}
 	ks = DEREF_unsigned(str_simple_kind(s));
 	kt = DEREF_unsigned(str_simple_kind(t));
@@ -1696,16 +1696,16 @@ eq_string_lit(STRING s, STRING t)
 		as = DEREF_string(str_simple_text(s));
 		at = DEREF_string(str_simple_text(t));
 		if (as == at) {
-			return(1);
+			return 1;
 		}
 		if (ks & STRING_MULTI) {
 			ns *= MULTI_WIDTH;
 		}
 		if (xumemcmp(as, at, (gen_size)ns) == 0) {
-			return(1);
+			return 1;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -1733,10 +1733,10 @@ concat_string_lit(STRING s, STRING t)
 
 	/* Form the result literal */
 	if (na == 0) {
-		return(t);
+		return t;
 	}
 	if (nb == 0) {
-		return(s);
+		return s;
 	}
 	nc = na + nb;
 	if (nc < na || nc < nb) {
@@ -1777,7 +1777,7 @@ concat_string_lit(STRING s, STRING t)
 		UNUSED(v);
 		res = prev;
 	}
-	return(res);
+	return res;
 }
 
 
@@ -1798,13 +1798,13 @@ share_string_lit(STRING s)
 	STRING t = p;
 	while (!IS_NULL_str(t)) {
 		if (eq_string_lit(t, s)) {
-			return(t);
+			return t;
 		}
 		t = DEREF_str(str_next(t));
 	}
 	COPY_str(str_next(s), p);
 	string_hash_table[h] = s;
-	return(s);
+	return s;
 }
 
 
@@ -1836,7 +1836,7 @@ get_string_char(STRING s, int *pc)
 		*pc = CHAR_NONE;
 	}
 	COPY_ulong(str_simple_tok(s), i + 1);
-	return(c);
+	return c;
 }
 
 
@@ -1881,7 +1881,7 @@ get_char_value(EXP e)
 			}
 		}
 	}
-	return(c);
+	return c;
 }
 
 
@@ -1939,7 +1939,7 @@ eval_char_lit(STRING str)
 		/* Use stored value */
 		n = make_nat_value(v);
 	}
-	return(n);
+	return n;
 }
 
 
@@ -1958,7 +1958,7 @@ find_char_type(NAT n)
 	int fit = 0;
 	string str = NULL_string;
 	t = find_literal_type(n, BASE_OCTAL, SUFFIX_NONE, str, &fit);
-	return(t);
+	return t;
 }
 
 
@@ -2086,7 +2086,7 @@ make_string_exp(STRING s)
 		MAKE_type_array(cv_lvalue, t, n, t);
 		MAKE_exp_string_lit(t, s, e);
 	}
-	return(e);
+	return e;
 }
 
 
@@ -2104,7 +2104,7 @@ make_bool_exp(unsigned b, unsigned tag)
 	EXP e;
 	NAT n = small_nat[b];
 	MAKE_exp_int_lit(type_bool, n, tag, e);
-	return(e);
+	return e;
 }
 
 
@@ -2123,11 +2123,11 @@ test_bool_exp(EXP e)
 	if (IS_nat_small(n)) {
 		unsigned b = DEREF_unsigned(nat_small_value(n));
 		if (b == BOOL_FALSE) {
-			return(BOOL_FALSE);
+			return BOOL_FALSE;
 		}
 		if (b == BOOL_TRUE) {
-			return(BOOL_TRUE);
+			return BOOL_TRUE;
 		}
 	}
-	return(BOOL_UNKNOWN);
+	return BOOL_UNKNOWN;
 }

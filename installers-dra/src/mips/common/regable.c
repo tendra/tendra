@@ -83,7 +83,7 @@ valregable(shape s)
     a = ashof (s);		/* get ash corresponding to shape of e */
 
 /* ALTERATION #1 */
-    return (a.ashsize <=32  && n!=cpdhd && n!= nofhd && n!=tophd);
+    return a.ashsize <=32  && n!=cpdhd && n!= nofhd && n!=tophd;
 
   }
 }

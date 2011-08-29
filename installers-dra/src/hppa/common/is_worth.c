@@ -100,44 +100,44 @@ is_worth(exp c)
 
     if ( name ( sh ( c ) ) == ptrhd && al1 ( sh ( c ) ) == 1 ) {
 	/* Pointers to bits aren't */
-	return ( false ) ;
+	return false;
     }
 
 #if 0
     if (cnam==name_tag && name(father(c))==addptr_tag && isglob(son(c)))
-       return(true);
+       return true;
 #endif
 
     if ( cnam == real_tag ) {
 	/* Real constants are */
-	return ( true ) ;
+	return true;
     }
 
     if ( cnam == goto_tag ) {
 	/* Extracting gotos messes things up */
-	return ( false ) ;
+	return false;
     }
 
     if ( cnam == cont_tag ) {
 	exp s = son ( c ) ;
 	if ( isflt && ( name ( s ) != name_tag || isglob ( son ( s ) ) ) ) {
-	    return ( true ) ;
+	    return true;
 	}
 	if ( name ( s ) == reff_tag && no ( s ) == 0 ) s = son ( s ) ;
 	if ( name ( s ) == name_tag && isglob ( son ( s ) ) ) {
-	    return ( true ) ;
+	    return true;
 	}
 	if ( name ( s ) == cont_tag ) {
 	   exp ss = son ( s ) ;
 	   if ( name ( ss ) == reff_tag && no ( ss ) == 0 ) ss = son ( ss ) ;
-	   if ( name ( ss ) == name_tag ) return ( true ) ;
+	   if ( name ( ss ) == name_tag ) return true;
 	}
-	return ( false ) ;
+	return false;
     }
 
 #if 0
     if ( name ( sh ( c ) ) == ptrhd && isglob(son(c)) ) {
-	return ( true ) ;
+	return true;
     }
 #endif
 
@@ -146,14 +146,14 @@ is_worth(exp c)
 	exp dad ;
 	long n = no ( c ) ;
 	if ( n==0  )
-	   return (false) ;
+	   return false;
 	if ( shape_size(sh(c))==64 )
-	   return (false) ; /* Cannot put 64 bit integers in registers! */
+	   return false; /* Cannot put 64 bit integers in registers! */
 	dad = father ( c ) ;
 	if (dad==nilexp)
 	{
-	   if (SIMM13(n)) return (false);
-	   return (true);
+	   if (SIMM13(n)) return false;
+	   return true;
 	}
 
 	switch ( name ( dad ) ) {
@@ -167,7 +167,7 @@ is_worth(exp c)
 		     || ( name ( son ( grandad ) ) == val_tag
 		     && no ( son ( grandad ) ) == 0 ) ) {
 			/* a & 2^n == 0 is transformed into a shift */
-			return ( false ) ;
+			return false;
 		}
 		/* FALL THROUGH */
 		if (((n+1)&n) ==0)
@@ -179,19 +179,19 @@ is_worth(exp c)
 	    case xor_tag :
 	    case test_tag : {
 		/* Large or negative constants are worth extracting */
-		return ( ( bool ) ( n<0 || !SIMM5( n ) ) ) ;
+		return ( bool ) ( n<0 || !SIMM5( n ) );
 	    }
 
 	    case mult_tag :
 	    case offset_mult_tag : {
 #if 0
 		/* Is this necessarily true? */
-		if ( SIMM13( n ) ) return ( false ) ;
+		if ( SIMM13( n ) ) return false;
 		return ( ( bool ) ( ( n & ( n - 1 ) ) != 0 &&
 				    ( n & ( n + 1 ) ) != 0 &&
 				    ( ( n - 1 ) & ( n - 2 ) ) != 0 ) ) ;
 #endif
-		return ( false ) ;
+		return false;
 	    }
 
 	    case div1_tag :
@@ -199,20 +199,20 @@ is_worth(exp c)
 	    case rem2_tag : {
 #if 0
 		/* Is this necessarily true? */
-		if ( SIMM13( n ) ) return ( false ) ;
+		if ( SIMM13( n ) ) return false;
 #endif
-		return ( ( bool ) ( ( n & ( n - 1 ) ) != 0 ) ) ; /* LINT */
+		return ( bool ) ( ( n & ( n - 1 ) ) != 0 ) ; /* LINT */
 	    }
 
 	    default : {
 		/* Extract large constants */
-		if ( SIMM13( n ) ) return ( false ) ;
-		return ( true ) ;
+		if ( SIMM13( n ) ) return false;
+		return true;
 	    }
 	}
     }
 
-    if ( is_o ( cnam ) || cnam == clear_tag ) return ( false ) ;
-    return ( true ) ;
+    if ( is_o ( cnam ) || cnam == clear_tag ) return false;
+    return true;
 }
 

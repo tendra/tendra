@@ -85,7 +85,7 @@ BoolT
 bistream_open(BIStreamT *bistream, const char *name)
 {
 	if ((bistream->file = fopen(name, "r")) == NULL) {
-		return(FALSE);
+		return FALSE;
 	}
 
 	bistream->bytes = 0;
@@ -121,7 +121,7 @@ bistream_read_chars(BIStreamT *bistream, unsigned length, char *chars)
 	}
 
 	bistream->bytes += bytes_read;
-	return(bytes_read);
+	return bytes_read;
 }
 
 unsigned
@@ -137,7 +137,7 @@ bistream_read_bytes(BIStreamT *bistream, unsigned  length, ByteT *bytes)
 		UNREACHED;
     }
     bistream->bytes += bytes_read;
-    return(bytes_read);
+    return bytes_read;
 }
 
 BoolT
@@ -152,7 +152,7 @@ bistream_read_byte(BIStreamT *bistream, ByteT *byte_ref)
 			THROW_VALUE(XX_bistream_read_error, name);
 			UNREACHED;
 		} else if (feof(bistream->file)) {
-			return(FALSE);
+			return FALSE;
 		}
 	}
 

@@ -155,13 +155,13 @@ print_lex(int t, BUFFER *bf, int sp)
 {
 	string s = token_name(t);
 	if (s == NULL) {
-		return (sp);
+		return sp;
 	}
 	if (sp) {
 		bfputc(bf, ' ');
 	}
 	bfputs(bf, s);
-	return (1);
+	return 1;
 }
 
 
@@ -184,7 +184,7 @@ print_access(DECL_SPEC n, BUFFER *bf, int sp)
 		t = lex_public;
 	}
 	sp = print_lex(t, bf, sp);
-	return (sp);
+	return sp;
 }
 
 
@@ -233,7 +233,7 @@ print_ntype(BUILTIN_TYPE n, BUFFER *bf, int sp)
 		bfputc(bf, ' ');
 	}
 	bfputs(bf, ustrlit(ntype_name[n]));
-	return (1);
+	return 1;
 }
 
 
@@ -318,7 +318,7 @@ print_btype(BASE_TYPE n, BUFFER *bf, int sp)
 			sp = print_lex(lex_star, bf, sp);
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -339,7 +339,7 @@ print_cv(CV_SPEC n, BUFFER *bf, int sp)
 			sp = print_lex(lex_volatile, bf, sp);
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -387,7 +387,7 @@ print_dspec(DECL_SPEC n, BUFFER *bf, int sp)
 			sp = print_lex(lex_virtual, bf, sp);
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -411,7 +411,7 @@ print_linkage(CV_SPEC n, BUFFER *bf, int sp)
 			sp = 1;
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -463,7 +463,7 @@ print_loc(LOCATION *p, LOCATION *q, BUFFER *bf, int sp)
 	} else {
 		bfprintf(bf, "line %lu", ln);
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -479,7 +479,7 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 {
 	unsigned tag;
 	if (IS_NULL_hashid(p)) {
-		return (sp);
+		return sp;
 	}
 	tag = TAG_hashid(p);
 	ASSERT(ORDER_hashid == 7);
@@ -578,7 +578,7 @@ print_hashid(HASHID p, int sep, int anon, BUFFER *bf, int sp)
 		break;
 	}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -660,7 +660,7 @@ print_id_short(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 		}
 		sp = 1;
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -848,7 +848,7 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 						NAT n = find_case_nat(id);
 						sp = print_nat(n, 0, bf, sp);
 					}
-					return (sp);
+					return sp;
 				}
 				desc = "label";
 			}
@@ -908,7 +908,7 @@ print_id_long(IDENTIFIER id, QUALIFIER qual, BUFFER *bf, int sp)
 			sp = print_nspace(pns, qual_none, 0, bf, sp);
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -993,7 +993,7 @@ print_nspace(NAMESPACE ns, QUALIFIER qual, int pre, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -1024,7 +1024,7 @@ print_graph(GRAPH gr, int sep, BUFFER *bf, int sp)
 			bfprintf(bf, "::");
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -1179,7 +1179,7 @@ string_label: {
 		break;
 	}
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -1268,7 +1268,7 @@ print_nat(NAT n, int paren, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -1295,7 +1295,7 @@ print_flt(FLOAT n, BUFFER *bf, int sp)
 		}
 		sp = 1;
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -1402,7 +1402,7 @@ print_str(STRING s, BUFFER *bf, int sp)
 	unsigned long i, len;
 
 	if (IS_NULL_str(s)) {
-		return (sp);
+		return sp;
 	}
 
 	/* Print the opening quote */
@@ -1437,7 +1437,7 @@ print_str(STRING s, BUFFER *bf, int sp)
 		}
 	}
 	bfputc(bf, q);
-	return (1);
+	return 1;
 }
 
 
@@ -1520,7 +1520,7 @@ print_exp(EXP e, int paren, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -1575,7 +1575,7 @@ print_tok_value(TOKEN tok, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -1633,7 +1633,7 @@ print_token(IDENTIFIER id, QUALIFIER qual, LIST(TOKEN)args, BUFFER *bf, int sp)
 		bfputc(bf, close_bracket);
 		sp = 1;
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -1648,7 +1648,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 {
 	unsigned tag;
 	if (IS_NULL_tok(tok)) {
-		return (sp);
+		return sp;
 	}
 	tag = TAG_tok(tok);
 	ASSERT(ORDER_tok == 10);
@@ -1896,7 +1896,7 @@ print_sort(TOKEN tok, int arg, BUFFER *bf, int sp)
 		break;
 	}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -1986,7 +1986,7 @@ print_itype(INT_TYPE t, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -2040,7 +2040,7 @@ print_ftype(FLOAT_TYPE t, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -2068,7 +2068,7 @@ print_ctype(CLASS_TYPE ct, QUALIFIER qual, int key, BUFFER *bf, int sp)
 			sp = print_id_short(id, qual, bf, sp);
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -2088,7 +2088,7 @@ print_etype(ENUM_TYPE et, int key, BUFFER *bf, int sp)
 		}
 		sp = print_id_short(id, qual_none, bf, sp);
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -2109,16 +2109,16 @@ is_tailed_type(TYPE t)
 			case type_func_tag:
 			case type_array_tag:
 			case type_bitfield_tag: {
-				return (1);
+				return 1;
 			}
 			case type_templ_tag: {
 				TYPE s = DEREF_type(type_templ_defn(t));
-				return (is_tailed_type(s));
+				return is_tailed_type(s);
 			}
 			}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2153,7 +2153,7 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 					sp = print_cv(qual, bf, sp);
 					sp = print_id_short(tid, qual_none, bf,
 							    sp);
-					return (sp);
+					return sp;
 				}
 				break;
 			}
@@ -2326,7 +2326,7 @@ print_head(TYPE t, int key, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -2343,7 +2343,7 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 	if (!IS_NULL_type(t)) {
 		IDENTIFIER tid = DEREF_id(type_name(t));
 		if (!IS_NULL_id(tid) && print_type_alias) {
-			return (sp);
+			return sp;
 		}
 		switch (TAG_type(t)) {
 		case type_ptr_tag:
@@ -2477,7 +2477,7 @@ print_tail(TYPE t, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -2495,7 +2495,7 @@ print_type(TYPE t, BUFFER *bf, int sp)
 {
 	sp = print_head(t, print_c_style, bf, sp);
 	sp = print_tail(t, bf, sp);
-	return (sp);
+	return sp;
 }
 
 
@@ -2524,7 +2524,7 @@ print_type_list(LIST(TYPE)p, BUFFER *bf, int sp)
 		bfputc(bf, ' ');
 	}
 	bfputc(bf, ')');
-	return (1);
+	return 1;
 }
 
 
@@ -2578,7 +2578,7 @@ print_offset(OFFSET off, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -2600,31 +2600,31 @@ find_buffer_line(unsigned long n, unsigned long m)
 			character c = *(p--);
 			if (c == char_newline) {
 				if (n == m) {
-					return (p + 2);
+					return p + 2;
 				}
 				m--;
 			}
 		}
 		if (m == 1) {
 			/* Allow falling off start */
-			return (input_start);
+			return input_start;
 		}
 	} else {
 		while (p < input_end) {
 			character c = *(p++);
 			if (c == char_newline) {
 				if (n == m) {
-					return (p);
+					return p;
 				}
 				m++;
 			}
 		}
 		if (p == input_eof) {
 			/* Allow falling off end */
-			return (p);
+			return p;
 		}
 	}
-	return (NULL);
+	return NULL;
 }
 
 
@@ -2650,13 +2650,13 @@ find_buffer_loc(string fn, unsigned long ln, unsigned long n)
 				if (p) {
 					string q = find_buffer_line(ln + n, lm);
 					if (q) {
-						return (p);
+						return p;
 					}
 				}
 			}
 		}
 	}
-	return (NULL);
+	return NULL;
 }
 
 

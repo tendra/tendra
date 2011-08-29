@@ -439,7 +439,7 @@ rule_build_root_list(EntryT *entry, void *gclosure)
 RuleT *
 rule_get_next_in_dfs(RuleT *rule)
 {
-	return(rule->next_in_dfs);
+	return rule->next_in_dfs;
 }
 
 void
@@ -530,7 +530,7 @@ rule_no_cycles(RuleT *rule)
 unsigned
 rule_get_cycle_index(RuleT *rule)
 {
-	return(rule->cycle_index);
+	return rule->cycle_index;
 }
 
 void

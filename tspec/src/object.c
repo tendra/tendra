@@ -83,7 +83,7 @@ make_object(char *nm, int t)
     p->next = NULL;
     p->filename = filename;
     p->line_no = line_no;
-    return(p);
+    return p;
 }
 
 
@@ -97,11 +97,11 @@ object *
 join_object(object *p, object *q)
 {
     object *r = p;
-    if (p == NULL) return(q);
-    if (q == NULL) return(p);
+    if (p == NULL) return q;
+    if (q == NULL) return p;
     while (r->next)r = r->next;
     r->next = q;
-    return(p);
+    return p;
 }
 
 
@@ -137,7 +137,7 @@ make_subset(char *nm)
 	p->u.u_info->age = (time_t)0;
 	IGNORE add_hash(subsets, p, no_version);
     }
-    return(p);
+    return p;
 }
 
 
@@ -169,7 +169,7 @@ make_info(char *api, char *file, char *subset)
     p->tokens = 0;
     p->implemented = 0;
     p->elements = NULL;
-    return(p);
+    return p;
 }
 
 
@@ -218,7 +218,7 @@ make_token(char *nm, int vers, object *p, int objtype)
 	    }
 	}
     }
-    return(r);
+    return r;
 }
 
 
@@ -235,5 +235,5 @@ make_exp(char *nm, int vers, int t)
     object *r = make_object(nm, t);
     IGNORE add_hash(exps, r, vers);
     r->u.u_type = NULL ;
-    return(r);
+    return r;
 }

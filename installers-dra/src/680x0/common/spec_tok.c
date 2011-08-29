@@ -117,7 +117,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 	if (t->tok_name == NULL) {
 		/* call looks at done to see if result is meaningful */
 		SET(tkv);
-		return (tkv);
+		return tkv;
 	}
 
 	/* alloca */
@@ -132,7 +132,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 					      arg1, alloca_tag));
 		*done = 1;
 		has_alloca = 1;
-		return (tkv);
+		return tkv;
 	}
 
 	/* diagnostic tokens */
@@ -147,7 +147,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 		*done = 1;
 		if (!diagnose) {
 			set_place(old_place);
-			return (tkv);
+			return tkv;
 		}
 		if (!strcmp(t->tok_name, "~exp_to_source")) {
 			exp r;
@@ -161,7 +161,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 			set_place(old_place);
-			return (tkv);
+			return tkv;
 		}
 		if (!strcmp(t->tok_name, "~diag_id_scope")) {
 			exp r;
@@ -172,7 +172,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 			set_place(old_place);
-			return (tkv);
+			return tkv;
 		}
 		if (!strcmp(t->tok_name, "~diag_type_scope")) {
 			exp r;
@@ -183,7 +183,7 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 			set_place(old_place);
-			return (tkv);
+			return tkv;
 		}
 		if (!strcmp(t->tok_name, "~diag_tag_scope")) {
 			exp r;
@@ -194,13 +194,13 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 			dno(r) = di;
 			tkv.tk_exp = r;
 			set_place(old_place);
-			return (tkv);
+			return tkv;
 		}
 	}
 
 	/* call looks at done to see if result is meaningful */
 	SET(tkv);
-	return (tkv);
+	return tkv;
 }
 
 
@@ -211,5 +211,5 @@ special_token(token t, bitstream pars, int sortcode, int *done)
 int
 machine_toks(char *s)
 {
-	return (0);
+	return 0;
 }

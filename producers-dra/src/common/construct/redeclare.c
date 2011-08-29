@@ -138,16 +138,16 @@ find_linkage(EXP e)
 		char *t = strlit(DEREF_string(str_simple_text(s)));
 		unsigned long len = DEREF_ulong(str_simple_len(s));
 		if (len == 1 && streq(t, "C")) {
-			return (dspec_c);
+			return dspec_c;
 		}
 		if (len == 3 && streq(t, "C++")) {
-			return (dspec_cpp);
+			return dspec_cpp;
 		}
 	}
 
 	/* Report unknown strings */
 	report(crt_loc, ERR_dcl_link_unknown(s));
-	return (crt_linkage);
+	return crt_linkage;
 }
 
 
@@ -167,7 +167,7 @@ linkage_string(DECL_SPEC ds, CV_SPEC cv)
 	} else {
 		str = "C++";
 	}
-	return (ustrlit(str));
+	return ustrlit(str);
 }
 
 
@@ -196,7 +196,7 @@ adjust_linkage(DECL_SPEC ds, int mem)
 			rs |= dspec_cpp;
 		}
 	}
-	return (rs);
+	return rs;
 }
 
 
@@ -295,10 +295,10 @@ find_previous(TYPE t, IDENTIFIER id)
 				LIST(IDENTIFIER) pids = NULL_list(IDENTIFIER);
 				pid = resolve_func(pid, t, 0, 0, pids, &eq);
 				if (IS_NULL_id(pid)) {
-					return (NULL_id);
+					return NULL_id;
 				}
 				if (!IS_id_function(pid)) {
-					return (NULL_id);
+					return NULL_id;
 				}
 #endif
 				s = DEREF_type(id_function_type(pid));
@@ -306,19 +306,19 @@ find_previous(TYPE t, IDENTIFIER id)
 			}
 			default:
 				/* Nothing else can be redeclared */
-				return (NULL_id);
+				return NULL_id;
 			}
 			st = DEREF_dspec(id_storage(pid));
 			if (st & dspec_linkage) {
 				/* Previous declaration must have linkage */
 				s = type_composite(s, t, 0, 0, KILL_err, 0);
 				if (!IS_NULL_type(s)) {
-					return (pid);
+					return pid;
 				}
 			}
 		}
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -404,7 +404,7 @@ unify_extern(IDENTIFIER id, TYPE t, NAMESPACE ns, LIST(IDENTIFIER) p)
 			crt_linkage = cl;
 		}
 	}
-	return (pid);
+	return pid;
 }
 
 
@@ -461,7 +461,7 @@ unify_previous(IDENTIFIER id, TYPE t, IDENTIFIER pid, int def)
 		pid = DEREF_id(id_alias(pid));
 		COPY_id(id_alias(id), pid);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -494,7 +494,7 @@ unify_subsequent(IDENTIFIER id, TYPE t, int def)
 			}
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -515,14 +515,14 @@ is_tagged_type(IDENTIFIER id)
 	case id_class_name_tag:
 	case id_enum_name_tag:
 		/* Original class and enumeration names */
-		return (1);
+		return 1;
 	case id_class_alias_tag:
 	case id_enum_alias_tag:
 	case id_type_alias_tag:
 		/* Type aliases */
-		return (0);
+		return 0;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -560,7 +560,7 @@ overload_error(IDENTIFIER id, ERROR err, int reason)
 		sev = DEREF_int(err_severity(err));
 		report(decl_loc, err);
 	}
-	return (sev);
+	return sev;
 }
 
 
@@ -612,18 +612,18 @@ redecl_id(DECL_SPEC ds, TYPE t, IDENTIFIER id, int reason, int def)
 		if (!is_tagged_type(id)) {
 			loc = id_loc(id);
 			report(decl_loc, ERR_basic_odr_diff(id, loc));
-			return (NULL_id);
+			return NULL_id;
 		}
 		if (crt_id_qualifier == qual_none) {
 			/* Check for templates */
 			ds_old = DEREF_dspec(id_storage(id));
 			if (!(ds_old & dspec_template)) {
-				return (NULL_id);
+				return NULL_id;
 			}
 		}
 		loc = id_loc(id);
 		report(decl_loc, ERR_basic_odr_diff(id, loc));
-		return (NULL_id);
+		return NULL_id;
 	}
 	case id_stat_member_tag:
 		/* Members may be defined outside their class */
@@ -650,14 +650,14 @@ redecl_id(DECL_SPEC ds, TYPE t, IDENTIFIER id, int reason, int def)
 			goto error_lab;
 		}
 		report(decl_loc, ERR_class_mem_def(id));
-		return (NULL_id);
+		return NULL_id;
 	case id_token_tag:
 		/* Allow for token definitions */
-		return (NULL_id);
+		return NULL_id;
 	case id_undef_tag:
 	case id_ambig_tag:
 		/* Allow for error propagation */
-		return (NULL_id);
+		return NULL_id;
 	default:
 error_lab:
 		/* No other identifiers can be redeclared */
@@ -669,7 +669,7 @@ error_lab:
 			err = ERR_basic_odr_decl(id, id_loc(id));
 		}
 		IGNORE overload_error(id, err, reason);
-		return (NULL_id);
+		return NULL_id;
 	}
 
 	/* Check declaration specifiers */
@@ -703,17 +703,17 @@ error_lab:
 			err = set_severity(err, OPT_interf_incompat, -1);
 		}
 		if (overload_error(id, err, reason) == ERROR_SERIOUS) {
-			return (NULL_id);
+			return NULL_id;
 		}
 	}
 	if (is_function) {
 		/* Sanity check for error types */
 		if (type_tag(s) != type_func_tag) {
-			return (NULL_id);
+			return NULL_id;
 		}
 	} else {
 		if (type_tag(s) == type_func_tag) {
-			return (NULL_id);
+			return NULL_id;
 		}
 	}
 	if (def >= 0) {
@@ -796,7 +796,7 @@ error_lab:
 	if (changed) {
 		update_tag(id, 0);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -863,7 +863,7 @@ redecl_func(DECL_SPEC ds, TYPE t, IDENTIFIER id, unsigned tag,
 				/* Must have match with template
 				 * specialisation */
 				report(decl_loc, ERR_temp_spec_type(t, id));
-				return (NULL_id);
+				return NULL_id;
 			}
 			if (crt_id_qualifier != qual_none) {
 				/* Must have match with qualified identifier */
@@ -874,10 +874,10 @@ redecl_func(DECL_SPEC ds, TYPE t, IDENTIFIER id, unsigned tag,
 					report(decl_loc,
 					       ERR_basic_link_unmatch(t, id));
 				}
-				return (NULL_id);
+				return NULL_id;
 			}
 			if (reason == 0) {
-				return (NULL_id);
+				return NULL_id;
 			}
 			fid = id;
 		}
@@ -889,12 +889,12 @@ redecl_func(DECL_SPEC ds, TYPE t, IDENTIFIER id, unsigned tag,
 				/* Matches implicitly declared member
 				 * function */
 				report(decl_loc, ERR_class_special_decl(fid));
-				return (NULL_id);
+				return NULL_id;
 			}
 		}
 		if (ds_old & dspec_inherit) {
 			/* Inherited functions (including aliases) are hidden */
-			return (NULL_id);
+			return NULL_id;
 		}
 		/* *over = NULL_id ; */
 	}
@@ -932,7 +932,7 @@ redecl_func(DECL_SPEC ds, TYPE t, IDENTIFIER id, unsigned tag,
 			}
 		}
 	}
-	return (fid);
+	return fid;
 }
 
 
@@ -955,12 +955,12 @@ redecl_inherit(IDENTIFIER id, QUALIFIER qual, int mem, int fn)
 		if (ds & dspec_alias) {
 			if (fn && IS_id_function_etc(id)) {
 				/* Everything is a function */
-				return (id);
+				return id;
 			}
 			if (mem && IS_id_class_name(id)) {
 				/* Allow for injected type names */
 				if (ds & dspec_implicit) {
-					return (id);
+					return id;
 				}
 			}
 			if (qual == qual_none) {
@@ -968,20 +968,20 @@ redecl_inherit(IDENTIFIER id, QUALIFIER qual, int mem, int fn)
 				PTR(LOCATION) loc = id_loc(id);
 				report(decl_loc,
 				       ERR_dcl_nspace_udecl_multi(id, loc));
-				return (NULL_id);
+				return NULL_id;
 			}
 		}
 		if (ds & dspec_inherit) {
 			NAMESPACE ns;
 			if (mem) {
-				return (NULL_id);
+				return NULL_id;
 			}
 			ns = DEREF_nspace(id_parent(id));
 			id = DEREF_id(id_alias(id));
 			report(decl_loc, ERR_lookup_qual_decl(id, ns));
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1009,7 +1009,7 @@ copy_id(IDENTIFIER id, int type)
 
 	/* Examine various cases */
 	if (IS_NULL_id(cid)) {
-		return (NULL_id);
+		return NULL_id;
 	}
 	tag = TAG_id(cid);
 	switch (tag) {
@@ -1165,7 +1165,7 @@ copy_id(IDENTIFIER id, int type)
 	}
 	default:
 		/* Don't copy other identifiers */
-		return (cid);
+		return cid;
 	}
 
 	if (type != 2) {
@@ -1173,7 +1173,7 @@ copy_id(IDENTIFIER id, int type)
 		COPY_ulong(id_no(cid), no);
 		COPY_ulong(id_dump(cid), dno);
 	}
-	return (cid);
+	return cid;
 }
 
 
@@ -1218,7 +1218,7 @@ alias_id(IDENTIFIER id, NAMESPACE ns, IDENTIFIER fn, int rec)
 			COPY_id(id_function_etc_over(cid), over);
 		}
 	}
-	return (cid);
+	return cid;
 }
 
 
@@ -1252,7 +1252,7 @@ remove_functions(IDENTIFIER id)
 			COPY_id(id_function_etc_over(id), over);
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1273,16 +1273,16 @@ compare_functions(IDENTIFIER id, IDENTIFIER over, int mem)
 	if (eq) {
 		/* Equal parameter types */
 		if (mem) {
-			return (1);
+			return 1;
 		}
 	}
 	if (eq >= 2) {
 		/* Equal types */
 		PTR(LOCATION)loc = id_loc(over);
 		report(crt_loc, ERR_dcl_nspace_udecl_multi(over, loc));
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1340,7 +1340,7 @@ mark_functions(IDENTIFIER id, int mem)
 	    over = DEREF_id(id_function_etc_over(over));
 	}
     }
-    return (ret);
+    return ret;
 }
 
 
@@ -1377,7 +1377,7 @@ hide_functions(IDENTIFIER id, IDENTIFIER over, int mem)
 			pid = DEREF_id(id_function_etc_over(pid));
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1396,7 +1396,7 @@ using_visible(IDENTIFIER id, IDENTIFIER pid)
 	while (!IS_NULL_id(pid)) {
 		IDENTIFIER qid = DEREF_id(id_alias(pid));
 		if (EQ_id(qid, id)) {
-			return (1);
+			return 1;
 		}
 		switch (TAG_id(pid)) {
 		case id_function_tag:
@@ -1412,18 +1412,18 @@ using_visible(IDENTIFIER id, IDENTIFIER pid)
 			while (!IS_NULL_list(pids)) {
 				pid = DEREF_id(HEAD_list(pids));
 				if (using_visible(id, pid)) {
-					return (1);
+					return 1;
 				}
 				pids = TAIL_list(pids);
 			}
-			return (0);
+			return 0;
 		}
 		default:
 			/* Other identifiers */
-			return (0);
+			return 0;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1449,14 +1449,14 @@ using_member(IDENTIFIER id, int type)
 		/* id is not a member of a base class */
 		CLASS_TYPE ct = crt_class;
 		report(crt_loc, ERR_dcl_nspace_udecl_base(id, ct));
-		return (NULL_id);
+		return NULL_id;
 	} else {
 		GRAPH gu = DEREF_graph(graph_up(gr));
 		GRAPH gt = DEREF_graph(graph_top(gr));
 		if (EQ_graph(gt, gr)) {
 			/* id is a member of the current class */
 			report(crt_loc, ERR_dcl_nspace_udecl_mem(id));
-			return (id);
+			return id;
 		}
 		if (!EQ_graph(gt, gu)) {
 			/* Not a member of a direct base class */
@@ -1517,7 +1517,7 @@ using_member(IDENTIFIER id, int type)
 					report(crt_loc, err);
 				}
 				adjust_access(pid, crt_access, 1);
-				return (pid);
+				return pid;
 			}
 			if (IS_id_function_etc(id) && IS_id_function_etc(pid)) {
 				/* Both new and old meanings are functions */
@@ -1528,7 +1528,7 @@ using_member(IDENTIFIER id, int type)
 				ERROR err =
 				    ERR_dcl_nspace_udecl_multi(pid, loc);
 				report(crt_loc, err);
-				return (NULL_id);
+				return NULL_id;
 			}
 		}
 	}
@@ -1546,7 +1546,7 @@ using_member(IDENTIFIER id, int type)
 	} else {
 		set_member(mem, aid);
 	}
-	return (aid);
+	return aid;
 }
 
 
@@ -1577,7 +1577,7 @@ using_name(IDENTIFIER id)
 		case id_mem_func_tag:
 		case id_stat_mem_func_tag:
 			/* Don't even try in these cases */
-			return (NULL_id);
+			return NULL_id;
 		}
 	}
 
@@ -1611,7 +1611,7 @@ using_name(IDENTIFIER id)
 			if (EQ_id(id, pid)) {
 				report(crt_loc, ERR_dcl_nspace_udecl_mem(id));
 			}
-			return (pid);
+			return pid;
 		}
 		if (IS_id_function_etc(id) && IS_id_function_etc(pid)) {
 			/* Both new and old meanings are functions */
@@ -1636,7 +1636,7 @@ using_name(IDENTIFIER id)
 	} else {
 		set_member(mem, id);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1661,7 +1661,7 @@ using_identifier(IDENTIFIER id)
 	unm = DEREF_hashid(id_name(uid));
 	if (crt_id_qualifier == qual_none) {
 		report(crt_loc, ERR_dcl_nspace_udecl_unqual());
-		return (uid);
+		return uid;
 	}
 
 	/* Report undefined and ambiguous identifiers */
@@ -1675,12 +1675,12 @@ using_identifier(IDENTIFIER id)
 			pids = TAIL_list(pids);
 		}
 		uid = find_qual_id(crt_namespace, unm, 0, 0);
-		return (uid);
+		return uid;
 	}
 	case id_undef_tag:
 		/* Report undeclared identifiers */
 		report(crt_loc, ERR_lookup_qual_undef(unm, uns));
-		return (uid);
+		return uid;
 	}
 
 	/* Can have constructors or destructors */
@@ -1688,7 +1688,7 @@ using_identifier(IDENTIFIER id)
 	case hashid_constr_tag:
 	case hashid_destr_tag:
 		report(crt_loc, ERR_dcl_nspace_udecl_constr(uid));
-		return (uid);
+		return uid;
 	}
 
 	/* Check for hidden type names */
@@ -1725,7 +1725,7 @@ using_identifier(IDENTIFIER id)
 			}
 		}
 	}
-	return (uid);
+	return uid;
 }
 
 
@@ -1775,7 +1775,7 @@ redeclare_id(NAMESPACE ns, IDENTIFIER id)
 	ds |= dspec_reserve;
 	COPY_dspec(id_storage(id), ds);
 	COPY_nspace(id_parent(id), ns);
-	return (id);
+	return id;
 }
 
 
@@ -1797,12 +1797,12 @@ is_anon_member(IDENTIFIER id)
 			if (IS_type_compound(s)) {
 				TYPE t = DEREF_type(id_variable_etc_type(id));
 				if (!eq_type(s, t)) {
-					return (1);
+					return 1;
 				}
 			}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1875,7 +1875,7 @@ redecl_anon_member(IDENTIFIER id, CLASS_TYPE ct, DECL_SPEC ds, IDENTIFIER obj)
 		}
 		}
 	}
-	return (pid);
+	return pid;
 }
 
 
@@ -1922,5 +1922,5 @@ redecl_anon_union(CLASS_TYPE ct, DECL_SPEC ds, IDENTIFIER obj)
 	}
 	crt_loc = old_loc;
 	bad_crt_loc--;
-	return (ok);
+	return ok;
 }

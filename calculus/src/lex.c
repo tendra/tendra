@@ -93,7 +93,7 @@ check_stack(int t)
 	error(ERROR_SERIOUS, "Stack operations have been suppressed");
 	allow_stack = 1;
     }
-    return(t);
+    return t;
 }
 
 
@@ -111,7 +111,7 @@ check_vec(int t)
 	error(ERROR_SERIOUS, "Vector operations have been suppressed");
 	allow_vec = 1;
     }
-    return(t);
+    return t;
 }
 
 
@@ -190,10 +190,10 @@ read_char(void)
     } else {
 	c = fgetc(lex_input);
 	if (c == '\n')crt_line_no++;
-	if (c == EOF) return(LEX_EOF);
+	if (c == EOF) return LEX_EOF;
 	c &= 0xff;
     }
-    return(c);
+    return c;
 }
 
 
@@ -237,9 +237,9 @@ read_identifier(int a)
     /* Check for keywords */
     t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-    if (!strcmp(t,(A))) return(B);
+    if (!strcmp(t,(A))) return B;
 #include "keyword.h"
-    return(lex_identifier);
+    return lex_identifier;
 }
 
 
@@ -263,7 +263,7 @@ read_number(int a)
     } while (is_digit(cl));
     unread_char(c);
     token_value = n;
-    return(lex_number);
+    return lex_number;
 }
 
 
@@ -295,7 +295,7 @@ read_hex(int a)
     } while (is_hexdigit(cl));
     unread_char(c);
     token_value = n;
-    return(lex_number);
+    return lex_number;
 }
 
 
@@ -322,7 +322,7 @@ read_string(void)
 	}
     }
     *t = 0;
-    return(lex_string);
+    return lex_string;
 }
 
 
@@ -345,7 +345,7 @@ read_comment(void)
 	int c = read_char();
 	if (c == LEX_EOF) {
 	    error(ERROR_SERIOUS, "End of file in comment");
-	    return(lex_eof);
+	    return lex_eof;
 	}
 	if (c == '*') {
 	    state = 1;
@@ -363,7 +363,7 @@ read_comment(void)
     if (first_comment == NULL) {
 	    first_comment = xstrcpy(token_buff);
     }
-    return(read_token());
+    return read_token();
 }
 
 

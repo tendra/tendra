@@ -108,7 +108,7 @@ new_high_sort(high_sort *q)
 	p->no_args = q->no_args;
 	p->args = q->args;
 
-	return (p);
+	return p;
 }
 
 
@@ -170,7 +170,7 @@ unique_high_sort(high_sort *h)
 			boolean ok = 1;
 
 			if (p == h)
-				return (h);
+				return h;
 
 			for (j = 0; j < p->no_args && ok; j++)
 				if (p->args[j]!= h->args[j])
@@ -178,12 +178,12 @@ unique_high_sort(high_sort *h)
 
 			if (ok) {
 				h->id = SORT_unknown;
-				return(p);
+				return p;
 			}
 		}
 	}
 
-	return (h);
+	return h;
 }
 
 
@@ -207,17 +207,17 @@ find_high_sort(char *nm)
 			input_error("Illegal sort name, %s", nm);
 		}
 
-		return ((sortname)q->encoding);
+		return (sortname)q->encoding;
 	}
 
 	for (i = 0; i < crt_high_sort; i++) {
 		high_sort *p = high_sorts + i;
 
 		if (strcmp(nm, p->name) == 0)
-			return (p->id);
+			return p->id;
 	}
 
-	return (SORT_unknown);
+	return SORT_unknown;
 }
 
 
@@ -237,7 +237,7 @@ find_decode_string(high_sort *p)
 	char *a = abuff;
 
 	if (n == 0)
-		return (NULL);
+		return NULL;
 
 	for (i = 0; i < n; i++) {
 		sortname s = p->args[i];
@@ -252,7 +252,7 @@ find_decode_string(high_sort *p)
 
 	*a = 0;
 
-	return (string_copy_aux(abuff));
+	return string_copy_aux(abuff);
 }
 
 
@@ -285,5 +285,5 @@ find_sortname(char *p, sortname *q)
 	if (q)
 		*q = s;
 
-	return (p);
+	return p;
 }

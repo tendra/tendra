@@ -134,7 +134,7 @@ make_small_nat(int v)
 			small_neg_nat[v] = n;
 		}
 	}
-	return(n);
+	return n;
 }
 
 
@@ -165,7 +165,7 @@ digit_list(unsigned n)
 		CONS_unsigned(0, p, p);
 		n--;
 	}
-	return(p);
+	return p;
 }
 
 
@@ -192,7 +192,7 @@ make_nat_value(unsigned long v)
 	} else {
 		MAKE_nat_small(lo, n);
 	}
-	return(n);
+	return n;
 }
 
 
@@ -211,18 +211,18 @@ get_nat_value(NAT n)
 		unsigned tag = TAG_nat(n);
 		if (tag == nat_small_tag) {
 			unsigned val = DEREF_unsigned(nat_small_value(n));
-			return(EXTEND_VALUE(val));
+			return EXTEND_VALUE(val);
 		} else if (tag == nat_large_tag) {
 			LIST(unsigned)p = DEREF_list(nat_large_values(n));
 			if (LENGTH_list(p) == 2) {
 				unsigned v1, v2;
 				v1 = DEREF_unsigned(HEAD_list(p));
 				v2 = DEREF_unsigned(HEAD_list(TAIL_list(p)));
-				return(COMBINE_VALUES(v1, v2));
+				return COMBINE_VALUES(v1, v2);
 			}
 		}
 	}
-	return(EXTENDED_MAX);
+	return EXTENDED_MAX;
 }
 
 
@@ -264,7 +264,7 @@ make_large_nat(LIST(unsigned)p)
 		DESTROY_list(q, SIZE_unsigned);
 		MAKE_nat_large(p, n);
 	}
-	return(n);
+	return n;
 }
 
 
@@ -348,7 +348,7 @@ make_nat_literal(NAT n, unsigned b, unsigned d)
 		}
 		res = n;
 	}
-	return(res);
+	return res;
 }
 
 
@@ -363,10 +363,10 @@ is_zero_nat(NAT n)
 {
 	unsigned val;
 	if (!IS_nat_small(n)) {
-		return(0);
+		return 0;
 	}
 	val = DEREF_unsigned(nat_small_value(n));
-	return(val ? 0 : 1);
+	return val ? 0 : 1;
 }
 
 
@@ -379,7 +379,7 @@ is_zero_nat(NAT n)
 int
 is_negative_nat(NAT n)
 {
-	return(IS_nat_neg(n));
+	return IS_nat_neg(n);
 }
 
 
@@ -396,9 +396,9 @@ is_error_nat(NAT n)
 	if (IS_nat_calc(n)) {
 		EXP e = DEREF_exp(nat_calc_value(n));
 		TYPE t = DEREF_type(exp_type(e));
-		return(IS_type_error(t));
+		return IS_type_error(t);
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -418,9 +418,9 @@ is_calc_nat(NAT n)
 		tag = TAG_nat(n);
 	}
 	if (tag == nat_calc_tag || tag == nat_token_tag) {
-		return(1);
+		return 1;
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -447,7 +447,7 @@ calc_nat_value(NAT n, TYPE t)
 	if (!EQ_type(s, t)) {
 		e = make_cast_nat(t, e, KILL_err, CAST_STATIC);
 	}
-	return(e);
+	return e;
 }
 
 
@@ -471,7 +471,7 @@ calc_exp_value(EXP e)
 			e = DEREF_exp(nat_calc_value(n));
 		}
 	}
-	return(e);
+	return e;
 }
 
 
@@ -514,7 +514,7 @@ default_lab:
 			break;
 		}
 	}
-	return(n);
+	return n;
 }
 
 
@@ -535,13 +535,13 @@ compare_nat(NAT n, NAT m)
 
 	/* Check for obvious equality */
 	if (EQ_nat(n, m)) {
-		return(0);
+		return 0;
 	}
 	if (IS_NULL_nat(n)) {
-		return(2);
+		return 2;
 	}
 	if (IS_NULL_nat(m)) {
-		return(-2);
+		return -2;
 	}
 	tn = TAG_nat(n);
 	tm = TAG_nat(m);
@@ -554,13 +554,13 @@ compare_nat(NAT n, NAT m)
 			LIST(TOKEN)pn = DEREF_list(nat_token_args(n));
 			LIST(TOKEN)pm = DEREF_list(nat_token_args(m));
 			if (eq_token_args(in, im, pn, pm)) {
-				return(0);
+				return 0;
 			}
 		}
-		return(2);
+		return 2;
 	}
 	if (tm == nat_token_tag) {
-		return(2);
+		return 2;
 	}
 
 	/* Check for calculated values */
@@ -569,13 +569,13 @@ compare_nat(NAT n, NAT m)
 			EXP en = DEREF_exp(nat_calc_value(n));
 			EXP em = DEREF_exp(nat_calc_value(m));
 			if (eq_exp(en, em, 1)) {
-				return(0);
+				return 0;
 			}
 		}
-		return(2);
+		return 2;
 	}
 	if (tm == nat_calc_tag) {
-		return(2);
+		return 2;
 	}
 
 	/* Deal with negation operations */
@@ -586,14 +586,14 @@ compare_nat(NAT n, NAT m)
 			n = DEREF_nat(nat_neg_arg(n));
 			m = DEREF_nat(nat_neg_arg(m));
 			c = compare_nat(n, m);
-			return(-c);
+			return -c;
 		}
 		/* n negative, m positive */
-		return(-1);
+		return -1;
 	}
 	if (tm == nat_neg_tag) {
 		/* m negative, n positive */
-		return(1);
+		return 1;
 	}
 
 	/* Now deal with small integers */
@@ -603,17 +603,17 @@ compare_nat(NAT n, NAT m)
 			vn = DEREF_unsigned(nat_small_value(n));
 			vm = DEREF_unsigned(nat_small_value(m));
 			if (vn == vm) {
-				return(0);
+				return 0;
 			}
-			return(vn > vm ? 1 : -1);
+			return vn > vm ? 1 : -1;
 		} else {
 			/* n small, m large */
-			return(-1);
+			return -1;
 		}
 	}
 	if (tm == nat_small_tag) {
 		/* m small, n large */
-		return(1);
+		return 1;
 	}
 
 	/* Now deal with large integers */
@@ -635,10 +635,10 @@ compare_nat(NAT n, NAT m)
 			lm = TAIL_list(lm);
 		}
 		/* c is set to the most significant difference */
-		return(c);
+		return c;
 	}
 	/* Different lengths */
-	return(vn > vm ? 1 : -1);
+	return vn > vm ? 1 : -1;
 }
 
 
@@ -663,20 +663,20 @@ unify_nat(NAT n, NAT m)
 	case nat_calc_tag: {
 		EXP e = DEREF_exp(nat_calc_value(n));
 		if (!IS_exp_token(e)) {
-			return(0);
+			return 0;
 		}
 		id = DEREF_id(exp_token_tok(e));
 		args = DEREF_list(exp_token_args(e));
 		break;
 	}
 	default: {
-		return(0);
+		return 0;
 	}
 	}
 	if (IS_NULL_list(args) && defining_token(id)) {
-		return(define_nat_token(id, m));
+		return define_nat_token(id, m);
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -690,23 +690,23 @@ int
 eq_nat(NAT n, NAT m)
 {
 	if (EQ_nat(n, m)) {
-		return(1);
+		return 1;
 	}
 	if (IS_NULL_nat(n) || IS_NULL_nat(m)) {
-		return(0);
+		return 0;
 	}
 	if (compare_nat(n, m) == 0) {
-		return(1);
+		return 1;
 	}
 	if (force_tokdef || force_template || expand_tokdef) {
 		if (unify_nat(n, m)) {
-			return(1);
+			return 1;
 		}
 		if (unify_nat(m, n)) {
-			return(1);
+			return 1;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -733,10 +733,10 @@ binary_nat_op(unsigned tag, NAT a, NAT b)
 
 	/* Decompose n */
 	if (IS_NULL_nat(n)) {
-		return(NULL_nat);
+		return NULL_nat;
 	}
 	if (IS_NULL_nat(m)) {
-		return(NULL_nat);
+		return NULL_nat;
 	}
 	if (IS_nat_neg(n)) {
 		n = DEREF_nat(nat_neg_arg(n));
@@ -751,17 +751,17 @@ binary_nat_op(unsigned tag, NAT a, NAT b)
 			case exp_or_tag:
 			case exp_xor_tag:
 				/* 0 op b = b */
-				return(b);
+				return b;
 			case exp_minus_tag:
 				/* 0 - b = -b */
 				res = negate_nat(b);
-				return(res);
+				return res;
 			case exp_mult_tag:
 			case exp_lshift_tag:
 			case exp_rshift_tag:
 			case exp_and_tag:
 				/* 0 op b = 0 */
-				return(a);
+				return a;
 			}
 		}
 		pn = small_nat_1;
@@ -790,15 +790,15 @@ binary_nat_op(unsigned tag, NAT a, NAT b)
 			case exp_or_tag:
 			case exp_xor_tag:
 				/* a op 0 = a */
-				return(a);
+				return a;
 			case exp_mult_tag:
 			case exp_and_tag:
 				/* a op 0 = 0 */
-				return(b);
+				return b;
 			case exp_div_tag:
 			case exp_rem_tag:
 				/* a op 0 undefined */
-				return(NULL_nat);
+				return NULL_nat;
 			}
 		}
 		pm = small_nat_2;
@@ -1205,7 +1205,7 @@ exp_minus_label:
 		break;
 	}
 	}
-	return(res);
+	return res;
 }
 
 
@@ -1233,7 +1233,7 @@ make_nat_exp(EXP e, ERROR *err)
 	/* The result should now be an integer constant */
 	if (tag == exp_int_lit_tag) {
 		n = DEREF_nat(exp_int_lit_nat(e));
-		return(n);
+		return n;
 	}
 
 	/* Check expression type */
@@ -1268,14 +1268,14 @@ default_lab:
 			FLOAT f = DEREF_flt(exp_float_lit_flt(e));
 			n = round_float_lit(f, crt_round_mode);
 			if (!IS_NULL_nat(n)) {
-				return(n);
+				return n;
 			}
 		}
 		e = make_error_exp(0);
 		break;
 	}
 	MAKE_nat_calc(e, n);
-	return(n);
+	return n;
 }
 
 
@@ -1307,7 +1307,7 @@ no_bits(unsigned n)
 		}
 	}
 	bits += (unsigned)small_bits[n];
-	return(bits);
+	return bits;
 }
 
 
@@ -1341,7 +1341,7 @@ get_nat_bits(NAT n, int *eq)
 		if (val & (val - 1))*eq = 0;
 		bits += no_bits(val);
 	}
-	return(bits);
+	return bits;
 }
 
 
@@ -1382,59 +1382,59 @@ check_nat_range(TYPE t, NAT n)
 		neg = 1;
 	}
 	if (tag == nat_calc_tag || tag == nat_token_tag) {
-		return(1 + u);
+		return 1 + u;
 	}
 
 	/* Find the number of bits in the representation of n */
 	bits = get_nat_bits(n, &eq);
 	if (bits > basetype_info[ntype_ellipsis].max_bits) {
-		return(5 + u);
+		return 5 + u;
 	}
 
 	/* Check the type range */
 	if (sign == btype_unsigned) {
 		/* Unsigned types (eg [0-255]) */
 		if (neg) {
-			return(4);
+			return 4;
 		}
 		if (bits <= sz) {
-			return(0);
+			return 0;
 		}
 		if (bits > msz) {
-			return(4);
+			return 4;
 		}
 	} else if (sign == btype_signed) {
 		/* Symmetric signed types (eg [-127, 127]) */
 		if (bits < sz) {
-			return(0);
+			return 0;
 		}
 		if (bits >= msz) {
-			return(3);
+			return 3;
 		}
 	} else if (sign == (btype_signed | btype_long)) {
 		/* Asymmetric signed types (eg [-128, 127]) */
 		if (bits < sz) {
-			return(0);
+			return 0;
 		}
 		if (bits == sz && neg && eq) {
-			return(0);
+			return 0;
 		}
 		if (bits >= msz) {
-			return(3);
+			return 3;
 		}
 	} else {
 		/* Unspecified types */
 		if (neg) {
-			return(3);
+			return 3;
 		}
 		if (bits < sz) {
-			return(0);
+			return 0;
 		}
 		if (bits >= msz) {
-			return(3);
+			return 3;
 		}
 	}
-	return(1 + u);
+	return 1 + u;
 }
 
 
@@ -1460,23 +1460,23 @@ check_type_size(TYPE t, NAT n)
 	case nat_calc_tag:
 	case nat_token_tag:
 		/* Negative and calculated values are alright */
-		return(-1);
+		return -1;
 	}
 	sn = get_nat_value(n);
 	if (sn == EXTENDED_MAX) {
-		return(1);
+		return 1;
 	}
 	sz = find_type_size(t, &msz, &sign);
 	UNUSED(sign);
 	UNUSED(msz);
 	st = EXTEND_VALUE(sz);
 	if (sn < st) {
-		return(-1);
+		return -1;
 	}
 	if (sn == st) {
-		return(0);
+		return 0;
 	}
-	return(1);
+	return 1;
 }
 
 
@@ -1525,7 +1525,7 @@ max_type_value(TYPE t, int neg)
 			if (neg)n = negate_nat(n);
 		}
 	}
-	return(n);
+	return n;
 }
 
 
@@ -1609,7 +1609,7 @@ make_int_exp(TYPE t, unsigned tag, NAT n)
 
 		MAKE_exp_int_lit(t, n, tag, e);
 	}
-	return(e);
+	return e;
 }
 
 
@@ -1716,7 +1716,7 @@ make_cast_nat(TYPE t, EXP a, ERROR *err, unsigned cast)
 	}
 	MAKE_exp_int_lit(t, n, etag, e);
 	UNUSED(err);
-	return(e);
+	return e;
 }
 
 
@@ -1746,13 +1746,13 @@ make_unary_nat(unsigned tag, EXP a)
 				break;
 			}
 			e = make_bool_exp(BOOL_NEGATE(p), tag);
-			return(e);
+			return e;
 		}
 		case exp_abs_tag: {
 			/* Deal with 'abs ( a )' */
 			int c = compare_nat(n, small_nat[0]);
 			if (c == 0 || c == 1) {
-				return(a);
+				return a;
 			}
 			if (c == -1) {
 				goto negate_lab;
@@ -1765,7 +1765,7 @@ negate_lab:
 			n = negate_nat(n);
 			e = make_int_exp(t, tag, n);
 			if (!IS_NULL_exp(e))  {
-				return(e);
+				return e;
 			}
 			break;
 		case exp_compl_tag: {
@@ -1775,7 +1775,7 @@ negate_lab:
 				/* ~0 is known => ~n == ~0 - n */
 				n = binary_nat_op(exp_minus_tag, c, n);
 				e = make_int_exp(t, tag, n);
-				return (e);
+				return e;
 			}
 			break;
 		}
@@ -1787,7 +1787,7 @@ negate_lab:
 	MAKE_exp_negate_etc(tag, t, a, e);
 	MAKE_nat_calc(e, n);
 	MAKE_exp_int_lit(t, n, tag, e);
-	return(e);
+	return e;
 }
 
 
@@ -1815,13 +1815,13 @@ eval_char_nat(EXP a, unsigned *k)
 		int d = DEREF_int(exp_char_lit_digit(a));
 		STRING str = DEREF_str(exp_char_lit_str(a));
 		*k = DEREF_unsigned(str_simple_kind(str));
-		return(d);
+		return d;
 	}
 	if (tag == exp_cast_tag) {
 		a = DEREF_exp(exp_cast_arg(a));
-		return(eval_char_nat(a, k));
+		return eval_char_nat(a, k);
 	}
-	return(-1);
+	return -1;
 }
 
 
@@ -1868,11 +1868,11 @@ make_char_nat(TYPE t, unsigned tag, int d, unsigned kind, NAT n)
 				if (!IS_NULL_err(err)) {
 					report(crt_loc, err);
 				}
-				return(e);
+				return e;
 			}
 		}
 	}
-	return(NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1913,7 +1913,7 @@ make_binary_nat(unsigned tag, EXP a, EXP b)
 			res = small_nat[0];
 		} else if (is_zero_nat(n)) {
 			e = make_unary_nat(exp_negate_tag, b);
-			return(e);
+			return e;
 		} else if (is_zero_nat(m)) {
 			res = n;
 		}
@@ -1969,7 +1969,7 @@ make_binary_nat(unsigned tag, EXP a, EXP b)
 			break;
 		}
 		e = make_bool_exp(p, tag);
-		return(e);
+		return e;
 	}
 	case exp_log_or_tag: {
 		/* Deal with 'a || b' */
@@ -1986,14 +1986,14 @@ make_binary_nat(unsigned tag, EXP a, EXP b)
 			break;
 		}
 		e = make_bool_exp(p, tag);
-		return(e);
+		return e;
 	}
 	}
 
 	/* Return result if known (either n, m or 0) */
 	if (!IS_NULL_nat(res)) {
 		MAKE_exp_int_lit(t, res, tag, e);
-		return(e);
+		return e;
 	}
 
 	/* Can only evaluate result if n and m are not calculated */
@@ -2002,7 +2002,7 @@ make_binary_nat(unsigned tag, EXP a, EXP b)
 		if (!IS_NULL_nat(res)) {
 			e = make_int_exp(t, tag, res);
 			if (!IS_NULL_exp(e)) {
-				return(e);
+				return e;
 			}
 		}
 	}
@@ -2018,20 +2018,20 @@ make_binary_nat(unsigned tag, EXP a, EXP b)
 				res = make_small_nat(da - db);
 				e = make_int_exp(t, tag, res);
 				if (!IS_NULL_exp(e)) {
-					return(e);
+					return e;
 				}
 			} else {
 				/* Digit plus or minus value */
 				e = make_char_nat(t, tag, da, ka, m);
 				if (!IS_NULL_exp(e)) {
-					return(e);
+					return e;
 				}
 			}
 		} else if (db >= 0 && tag == exp_plus_tag) {
 			/* Digit plus value */
 			e = make_char_nat(t, tag, db, kb, n);
 			if (!IS_NULL_exp(e)) {
-				return(e);
+				return e;
 			}
 		}
 	}
@@ -2042,7 +2042,7 @@ make_binary_nat(unsigned tag, EXP a, EXP b)
 	MAKE_exp_plus_etc(tag, t, a, b, e);
 	MAKE_nat_calc(e, res);
 	MAKE_exp_int_lit(t, res, tag, e);
-	return(e);
+	return e;
 }
 
 
@@ -2075,7 +2075,7 @@ make_test_nat(EXP a)
 			MAKE_exp_int_lit(type_bool, n, exp_test_tag, e);
 		}
 	}
-	return(e);
+	return e;
 }
 
 
@@ -2107,7 +2107,7 @@ make_compare_nat(NTEST op, EXP a, EXP b)
 				break;
 			}
 			e = make_bool_exp(cond, exp_compare_tag);
-			return(e);
+			return e;
 		}
 	} else if (c == 1) {
 		/* n is definitely greater than m */
@@ -2121,7 +2121,7 @@ make_compare_nat(NTEST op, EXP a, EXP b)
 				break;
 			}
 			e = make_bool_exp(cond, exp_compare_tag);
-			return(e);
+			return e;
 		}
 	} else if (c == -1) {
 		/* n is definitely less than m */
@@ -2135,7 +2135,7 @@ make_compare_nat(NTEST op, EXP a, EXP b)
 				break;
 			}
 			e = make_bool_exp(cond, exp_compare_tag);
-			return(e);
+			return e;
 		}
 	}
 
@@ -2145,7 +2145,7 @@ make_compare_nat(NTEST op, EXP a, EXP b)
 	MAKE_exp_compare(type_bool, op, a, b, e);
 	MAKE_nat_calc(e, n);
 	MAKE_exp_int_lit(type_bool, n, exp_compare_tag, e);
-	return(e);
+	return e;
 }
 
 
@@ -2178,7 +2178,7 @@ make_cond_nat(EXP a, EXP b, EXP c)
 		MAKE_nat_calc(e, n);
 	}
 	MAKE_exp_int_lit(t, n, exp_if_stmt_tag, e);
-	return(e);
+	return e;
 }
 
 
@@ -2205,16 +2205,16 @@ divides_nat(EXP a, EXP b)
 		vn = get_nat_value(n);
 		vm = get_nat_value(m);
 		if (vm == 0) {
-			return(1);
+			return 1;
 		}
 		if (vn == EXTENDED_MAX || vm == EXTENDED_MAX) {
-			return(0);
+			return 0;
 		}
 		if ((vn % vm) == 0) {
-			return(1);
+			return 1;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -2235,19 +2235,19 @@ eval_const_cond(EXP e)
 		case exp_int_lit_tag: {
 			/* Boolean constants */
 			unsigned b = test_bool_exp(e);
-			return(b);
+			return b;
 		}
 		case exp_not_tag: {
 			/* Logical negation */
 			EXP a = DEREF_exp(exp_not_arg(e));
 			unsigned b = eval_const_cond(a);
 			if (b == BOOL_FALSE) {
-				return(BOOL_TRUE);
+				return BOOL_TRUE;
 			}
 			if (b == BOOL_TRUE) {
-				return(BOOL_FALSE);
+				return BOOL_FALSE;
 			}
-			return(b);
+			return b;
 		}
 		case exp_log_and_tag: {
 			/* Logical and */
@@ -2256,18 +2256,18 @@ eval_const_cond(EXP e)
 			unsigned b1 = eval_const_cond(a1);
 			unsigned b2 = eval_const_cond(a2);
 			if (b1 == BOOL_FALSE || b2 == BOOL_FALSE) {
-				return(BOOL_FALSE);
+				return BOOL_FALSE;
 			}
 			if (b1 == BOOL_TRUE && b2 == BOOL_TRUE) {
-				return(BOOL_TRUE);
+				return BOOL_TRUE;
 			}
 			if (b1 == BOOL_INVALID) {
-				return(BOOL_INVALID);
+				return BOOL_INVALID;
 			}
 			if (b2 == BOOL_INVALID) {
-				return(BOOL_INVALID);
+				return BOOL_INVALID;
 			}
-			return(BOOL_UNKNOWN);
+			return BOOL_UNKNOWN;
 		}
 		case exp_log_or_tag: {
 			/* Logical or */
@@ -2276,18 +2276,18 @@ eval_const_cond(EXP e)
 			unsigned b1 = eval_const_cond(a1);
 			unsigned b2 = eval_const_cond(a2);
 			if (b1 == BOOL_TRUE || b2 == BOOL_TRUE) {
-				return(BOOL_TRUE);
+				return BOOL_TRUE;
 			}
 			if (b1 == BOOL_FALSE && b2 == BOOL_FALSE) {
-				return(BOOL_FALSE);
+				return BOOL_FALSE;
 			}
 			if (b1 == BOOL_INVALID) {
-				return(BOOL_INVALID);
+				return BOOL_INVALID;
 			}
 			if (b2 == BOOL_INVALID) {
-				return(BOOL_INVALID);
+				return BOOL_INVALID;
 			}
-			return(BOOL_UNKNOWN);
+			return BOOL_UNKNOWN;
 		}
 		case exp_test_tag: {
 			/* Test against zero */
@@ -2296,10 +2296,10 @@ eval_const_cond(EXP e)
 			if (IS_exp_null(a)) {
 				/* Null pointers */
 				if (op == ntest_eq) {
-					return(BOOL_TRUE);
+					return BOOL_TRUE;
 				}
 				if (op == ntest_not_eq) {
-					return(BOOL_FALSE);
+					return BOOL_FALSE;
 				}
 			}
 			break;
@@ -2307,14 +2307,14 @@ eval_const_cond(EXP e)
 		case exp_location_tag: {
 			/* Conditions can contain locations */
 			EXP a = DEREF_exp(exp_location_arg(e));
-			return(eval_const_cond(a));
+			return eval_const_cond(a);
 		}
 		}
 		if (is_const_exp(e, -1)) {
-			return(BOOL_UNKNOWN);
+			return BOOL_UNKNOWN;
 		}
 	}
-	return(BOOL_INVALID);
+	return BOOL_INVALID;
 }
 
 
@@ -2331,9 +2331,9 @@ is_zero_exp(EXP a)
 {
 	if (!IS_NULL_exp(a) && IS_exp_int_lit(a)) {
 		NAT n = DEREF_nat(exp_int_lit_nat(a));
-		return(is_zero_nat(n));
+		return is_zero_nat(n);
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -2352,16 +2352,16 @@ is_literal(EXP a)
 	if (IS_exp_int_lit(a)) {
 		unsigned etag = DEREF_unsigned(exp_int_lit_etag(a));
 		if (etag == exp_int_lit_tag) {
-			return(1);
+			return 1;
 		}
 		if (etag == exp_null_tag) {
-			return(2);
+			return 2;
 		}
 		if (etag == exp_identifier_tag) {
-			return(1);
+			return 1;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -2380,12 +2380,12 @@ get_float(TYPE t, int n)
 	while (!IS_NULL_list(fp)) {
 		if (n == 0) {
 			FLOAT flt = DEREF_flt(HEAD_list(fp));
-			return(flt);
+			return flt;
 		}
 		n--;
 		fp = TAIL_list(fp);
 	}
-	return(NULL_flt);
+	return NULL_flt;
 }
 
 

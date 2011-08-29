@@ -121,7 +121,7 @@ read_external(sortname s, boolean local)
 	    read_word();
 	    if (word_type != INPUT_WORD) {
 		input_error("External expected");
-		return(null);
+		return null;
 	    }
 	    if (strcmp(word, MAKE_STRING_EXTERN) == 0) {
 		estate = 1;
@@ -131,7 +131,7 @@ read_external(sortname s, boolean local)
 		estate = 3;
 	    } else {
 		input_error("Illegal external, %s", word);
-		return(null);
+		return null;
 	    }
 	}
     }
@@ -205,7 +205,7 @@ read_external(sortname s, boolean local)
 	}
     }
     allow_multibyte = 1;
-    return(p);
+    return p;
 }
 
 
@@ -370,7 +370,7 @@ read_sortname(void)
     if (word_type != INPUT_WORD) {
 	is_fatal = 0;
 	input_error("Sort name expected");
-	return(SORT_unknown);
+	return SORT_unknown;
     }
     s = find_high_sort(word);
     if (s == SORT_unknown) {
@@ -382,7 +382,7 @@ read_sortname(void)
 	    input_error("Bad sort name, %s", word);
 	}
     }
-    return(s);
+    return s;
 }
 
 

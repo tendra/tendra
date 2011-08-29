@@ -96,7 +96,7 @@ clear_buffer(BUFFER *bf, FILE *f)
 {
 	bf->posn = bf->start;
 	bf->file = f;
-	return (bf);
+	return bf;
 }
 
 
@@ -143,7 +143,7 @@ extend_buffer(BUFFER *bf, string s)
 	p = xrealloc_nof(p, character, n + 12);
 	bf->start = p;
 	bf->end = p + n;
-	return (p + m);
+	return p + m;
 }
 
 
@@ -163,7 +163,7 @@ stretch_buffer(BUFFER *bf, string s, gen_size m)
 		s = extend_buffer(bf, s);
 		n = (gen_size)(bf->end - s);
 	}
-	return (s);
+	return s;
 }
 
 
@@ -329,5 +329,5 @@ bfread(BUFFER *bf, string s, gen_size n)
 		xumemcpy(s, p, m);
 		bf->posn = p + m;
 	}
-	return (m);
+	return m;
 }

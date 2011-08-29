@@ -136,12 +136,12 @@ read_char(void)
     if (c == LEX_EOF) {
 	c = fgetc(input_file);
 	if (c == '\n')line_no++;
-	if (c == EOF) return(LEX_EOF);
+	if (c == EOF) return LEX_EOF;
 	c &= 0xff;
     } else {
 	input_pending = LEX_EOF;
     }
-    return(c);
+    return c;
 }
 
 
@@ -213,24 +213,24 @@ read_identifier(int a, int b, int pp)
     unread_char(c);
     s [i] = 0;
     p = search_hash(keywords, s, no_version);
-    if (p) return(p->u.u_num);
+    if (p) return p->u.u_num;
     token_value = s;
     if (a == 0) {
 	if (!pp)token_value = string_copy(s);
-	return(lex_name);
+	return lex_name;
     }
     if (a == '$') {
 	if (!pp)token_value = string_copy(s);
-	return(lex_variable);
+	return lex_variable;
     }
     if (a == '+') {
 	/* Commands */
 	if (!pp)token_value = string_copy(s);
 	error(ERR_SERIOUS, "Unknown command, '%s'", s);
-	return(lex_name);
+	return lex_name;
     }
     token_value = string_concat(HIDDEN_NAME, s + 1);
-    return(lex_name);
+    return lex_name;
 }
 
 
@@ -264,7 +264,7 @@ read_number(int a, int pp)
     } else {
 	token_value = string_copy(s);
     }
-    return(lex_number);
+    return lex_number;
 }
 
 
@@ -307,7 +307,7 @@ read_string(int pp)
 	    new_line : {
 		error(ERR_SERIOUS, "New line in string");
 		s [i] = 0;
-		return(lex_string);
+		return lex_string;
 	    }
 	}
 	s [i] = (char)c;
@@ -322,7 +322,7 @@ read_string(int pp)
     } else {
 	token_value = string_copy(s);
     }
-    return(lex_string);
+    return lex_string;
 }
 
 
@@ -361,7 +361,7 @@ read_insert(int pp)
 	} else {
 	    if (c == LEX_EOF) {
 		error(ERR_SERIOUS, "End of file in quoted text");
-		return(lex_eof);
+		return lex_eof;
 	    }
 	    p = 0;
 	}
@@ -394,7 +394,7 @@ read_insert(int pp)
 	}
 	token_value = string_copy(s + i);
     }
-    return(percents % 2 ? lex_build_Hinsert : lex_insert);
+    return percents % 2 ? lex_build_Hinsert : lex_insert;
 }
 
 
@@ -426,7 +426,7 @@ read_c_comment(int pp)
 	}
 	if (c == LEX_EOF) {
 	    error(ERR_SERIOUS, "End of file in comment");
-	    return(lex_eof);
+	    return lex_eof;
 	}
 	s [i] = (char)c;
 	if (++i >= buffsize) {
@@ -440,7 +440,7 @@ read_c_comment(int pp)
     } else {
 	token_value = string_copy(s);
     }
-    return(lex_comment);
+    return lex_comment;
 }
 
 
@@ -459,11 +459,11 @@ read_comment(int pp)
     while (c = read_char(), c != '\n') {
 	if (c == LEX_EOF) {
 	    error(ERR_SERIOUS, "End of file in comment");
-	    return(lex_eof);
+	    return lex_eof;
 	}
     }
-    if (pp) return(lex_unknown);
-    return(read_token());
+    if (pp) return lex_unknown;
+    return read_token();
 }
 
 
@@ -485,31 +485,31 @@ read_pptoken(int w)
     } while (w && is_white(lookup_char(c)));
     switch (c) {
 	case '"': {
-	    return(read_string(1));
+	    return read_string(1);
 	}
 	case '#': {
 	    IGNORE read_comment(1);
-	    if (w) return(read_pptoken(w));
+	    if (w) return read_pptoken(w);
 	    c = '\n';
 	    break;
 	}
 	case '%': {
 	    int a = read_char();
-	    if (a == '%') return(read_insert(1));
+	    if (a == '%') return read_insert(1);
 	    unread_char(a);
 	    break;
 	}
 	case '+': {
 	    int a = read_char();
 	    if (is_alpha(lookup_char(a))) {
-		return(read_identifier(c, a, 1));
+		return read_identifier(c, a, 1);
 	    }
 	    unread_char(a);
 	    break;
 	}
 	case '/': {
 	    int a = read_char();
-	    if (a == '*') return(read_c_comment(1));
+	    if (a == '*') return read_c_comment(1);
 	    unread_char(a);
 	    break;
 	}
@@ -519,7 +519,7 @@ read_pptoken(int w)
 		buffer [0] = (char)c;
 		buffer [1] = (char)a;
 		buffer [2] = 0;
-		return(lex_assign);
+		return lex_assign;
 	    }
 	    unread_char(a);
 	    break;
@@ -534,7 +534,7 @@ read_pptoken(int w)
     }
     buffer [0] = (char)c;
     buffer [1] = 0;
-    return(t);
+    return t;
 }
 
 
@@ -557,7 +557,7 @@ read_pp_string(char **str, int *b)
     if (c != lex_string) {
 	error(ERR_SERIOUS, "Syntax error - string expected");
 	*str = "???";
-	return(c);
+	return c;
     }
     *str = string_copy(buffer);
     c = read_pptoken(1);
@@ -567,7 +567,7 @@ read_pp_string(char **str, int *b)
 	}
 	c = read_pptoken(1);
     }
-    return(c);
+    return c;
 }
 
 

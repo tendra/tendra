@@ -538,7 +538,7 @@ skip_words(void)
 			break;
 		case INPUT_EOF:
 			input_error("Unexpected end of file");
-			return (n);
+			return n;
 		}
 
 		if (level == 1)
@@ -547,7 +547,7 @@ skip_words(void)
 
 	really_analyse = 1;
 
-	return(n);
+	return n;
 }
 
 

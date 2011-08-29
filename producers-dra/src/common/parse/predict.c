@@ -222,12 +222,12 @@ skip_brackets(void)
 		case lex_close_Hbrace_H1:
 			/* Close bracket */
 			if (--brackets == 0) {
-				return(n);
+				return n;
 			}
 			break;
 		case lex_eof:
 			/* Premature end of file */
-			return(n);
+			return n;
 		}
 	}
 	/* NOTREACHED */
@@ -278,7 +278,7 @@ skip_operator(void)
 			if (c != TOK_TYPE) {
 				crt_lookup = np;
 				crt_token = p;
-				return(t);
+				return t;
 			}
 			have_type = 1;
 			break;
@@ -308,12 +308,12 @@ skip_operator(void)
 				case lex_template_Htype:
 					break;
 				default:
-					return(t);
+					return t;
 				}
 				break;
 			default:
 				/* Other characters */
-				return(t);
+				return t;
 			}
 			have_type = 1;
 			break;
@@ -344,7 +344,7 @@ skip_operator(void)
 				break;
 			}
 		} while (go);
-		return(t);
+		return t;
 	}
 
 	/* Check for overloaded operator function names */
@@ -387,7 +387,7 @@ skip_operator(void)
 		}
 		break;
 	}
-	return(t);
+	return t;
 }
 
 #endif
@@ -417,16 +417,16 @@ predict_func_params(int t, int empty, int depth)
 	case TOK_TYPE_KEY:
 	case TOK_TYPE_SPEC:
 		/* These are all obviously parameter declarations */
-		return(1);
+		return 1;
 	case TOK_SIMPLE_TYPE:
 	case TOK_TYPE:
 		/* These are simple-type-specifiers */
 		t = next_token();
 		if (t == lex_open_Hround) {
 			t = next_token();
-			return(predict_func_params(t, 1, 1));
+			return predict_func_params(t, 1, 1);
 		}
-		return(1);
+		return 1;
 	case TOK_NESTED_NAME:
 	case TOK_FULL_NAME:
 		/* Look for nested type-names */
@@ -436,38 +436,38 @@ predict_func_params(int t, int empty, int depth)
 			t = next_token();
 			if (t == lex_open_Hround) {
 				t = next_token();
-				return(predict_func_params(t, 1, 1));
+				return predict_func_params(t, 1, 1);
 			}
-			return(1);
+			return 1;
 		}
-		return(0);
+		return 0;
 	}
 	if (t == lex_ellipsis) {
-		return(1);
+		return 1;
 	}
 	if (t == lex_ellipsis_Hexp) {
-		return(1);
+		return 1;
 	}
 	if (t == lex_close_Hround) {
 		/* Empty pair of brackets */
-		return(empty);
+		return empty;
 	}
 	if (depth) {
 		int d = predict_declarator(t, 2, 1);
 		if (d == 0) {
-			return(0);
+			return 0;
 		}
 		if (d == 2) {
 			/* Comma - check next parameter */
 			t = next_token();
-			return(predict_func_params(t, 1, 0));
+			return predict_func_params(t, 1, 0);
 		}
 		if (d == 3) {
-			return(2);
+			return 2;
 		}
-		return(1);
+		return 1;
 	}
-	return(0);
+	return 0;
 }
 
 #endif
@@ -506,13 +506,13 @@ predict_declarator(int t, int loc, int depth)
 			t = next_token();
 			if (t == lex_const || t == lex_volatile) {
 				/* This is definitely a pointer operation */
-				return(1);
+				return 1;
 			}
 			break;
 		case lex_full_Hname_Hstar:
 		case lex_nested_Hname_Hstar:
 			/* Definitely a pointer to member */
-			return(1);
+			return 1;
 		case lex_open_Hround:
 			/* Nested declarator brackets */
 			depth++;
@@ -554,7 +554,7 @@ predict_declarator(int t, int loc, int depth)
 		default:
 			/* Anything else isn't a declarator-id */
 			if (loc == 0 || !IS_NULL_nspace(ns)) {
-				return(0);
+				return 0;
 			}
 			break;
 		}
@@ -738,7 +738,7 @@ predict_declarator(int t, int loc, int depth)
 	if (!IS_NULL_nspace(ns)) {
 		IGNORE remove_nested_nspace(ns);
 	}
-	return(res);
+	return res;
 }
 
 #endif
@@ -768,7 +768,7 @@ predict_decl(void)
 	case TOK_TYPE_KEY:
 	case TOK_TYPE_SPEC:
 		/* These are all obviously declarations */
-		return(1);
+		return 1;
 	case TOK_SIMPLE_TYPE:
 	case TOK_TYPE: {
 		/* These are simple-type-specifiers */
@@ -791,7 +791,7 @@ predict_decl(void)
 			}
 		crt_lookup = np;
 		crt_token = p;
-		return(d);
+		return d;
 	}
 #if LANGUAGE_CPP
 	case TOK_NESTED_NAME:
@@ -813,12 +813,12 @@ predict_decl(void)
 		}
 		crt_lookup = np;
 		crt_token = p;
-		return(d);
+		return d;
 	}
 #endif
 	}
 	/* Nothing else is a declaration */
-	return(0);
+	return 0;
 }
 
 
@@ -891,10 +891,10 @@ predict_undecl_type(int t, int force)
 		}
 		crt_lookup = np;
 		crt_token = p;
-		return(d);
+		return d;
 	}
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -1017,7 +1017,7 @@ predict_dspec(int force)
 		}
 		break;
 	}
-	return(d);
+	return d;
 }
 
 
@@ -1070,7 +1070,7 @@ predict_tspec(int force)
 		}
 		break;
 	}
-	return(d);
+	return d;
 }
 
 
@@ -1145,7 +1145,7 @@ predict_qual(int t, int e)
 		}
 		break;
 	}
-	return(e);
+	return e;
 }
 
 #endif
@@ -1171,7 +1171,7 @@ predict_typeid(int e)
 	case TOK_TYPE_KEY:
 	case TOK_TYPE_SPEC:
 		/* These are type-specifiers */
-		return(1);
+		return 1;
 	case TOK_SIMPLE_TYPE:
 	case TOK_TYPE: {
 		/* These are simple-type-specifiers */
@@ -1204,7 +1204,7 @@ predict_typeid(int e)
 #else
 		UNUSED(e);
 #endif
-		return(d);
+		return d;
 	}
 #if LANGUAGE_CPP
 	case TOK_NESTED_NAME:
@@ -1240,11 +1240,11 @@ predict_typeid(int e)
 		}
 		crt_lookup = np;
 		crt_token = p;
-		return(d);
+		return d;
 	}
 #endif
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -1286,7 +1286,7 @@ predict_typename(void)
 		crt_token = p;
 	}
 #endif
-	return(d);
+	return d;
 }
 
 
@@ -1318,7 +1318,7 @@ predict_init(void)
 			crt_lex_token = t;
 			p->tok = t;
 		}
-		return(1);
+		return 1;
 	}
 	if (t == lex_ellipsis_Hexp) {
 		t = lex_ellipsis;
@@ -1326,7 +1326,7 @@ predict_init(void)
 		p->tok = t;
 	}
 #endif
-	return(0);
+	return 0;
 }
 
 
@@ -1393,10 +1393,10 @@ predict_destr(NAMESPACE ns)
 		break;
 	}
 	}
-	return(d);
+	return d;
 #else
 	UNUSED(ns);
-	return(0);
+	return 0;
 #endif
 }
 
@@ -1421,12 +1421,12 @@ predict_param(void)
 	case lex_template_Hid:
 	case lex_operator:
 		/* These are all unqualified-ids */
-		return(1);
+		return 1;
 	case lex_type_Hname:
 	case lex_template_Htype:
 		/* Check for type names */
 		if (last_lex_token != lex_open_Hround) {
-			return(1);
+			return 1;
 		}
 		break;
 #if LANGUAGE_CPP
@@ -1442,11 +1442,11 @@ predict_param(void)
 		crt_lex_token = t;
 		crt_lookup = np;
 		crt_token = p;
-		return(d);
+		return d;
 	}
 #endif
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -1504,7 +1504,7 @@ predict_class(int col)
 			/* Invalid name */
 			crt_lookup = np;
 			crt_token = p;
-			return(0);
+			return 0;
 		}
 		break;
 	}
@@ -1513,12 +1513,12 @@ predict_class(int col)
 
 	/* Examine the token following the name */
 	if (t == lex_open_Hbrace_H1) {
-		return(1);
+		return 1;
 	}
 	if (t == lex_colon && !in_token_decl) {
-		return(col);
+		return col;
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -1537,17 +1537,17 @@ predict_func_defn(void)
 {
 	int t = crt_lex_token;
 	if (t == lex_open_Hbrace_H1) {
-		return(1);
+		return 1;
 	}
 #if LANGUAGE_CPP
 	if (t == lex_try) {
-		return(1);
+		return 1;
 	}
 	if (t == lex_colon && !in_token_decl) {
-		return(1);
+		return 1;
 	}
 #endif
-	return(0);
+	return 0;
 }
 
 
@@ -1564,14 +1564,14 @@ predict_obj_defn(void)
 {
 	int t = crt_lex_token;
 	if (t == lex_assign) {
-		return(1);
+		return 1;
 	}
 #if LANGUAGE_CPP
 	if (t == lex_open_Hround) {
-		return(1);
+		return 1;
 	}
 #endif
-	return(0);
+	return 0;
 }
 
 
@@ -1590,19 +1590,19 @@ predict_ptr(int ref)
 {
 	int t = crt_lex_token;
 	if (t == lex_star) {
-		return(1);
+		return 1;
 	}
 #if LANGUAGE_CPP
 	if (t == lex_full_Hname_Hstar || t == lex_nested_Hname_Hstar) {
-		return(1);
+		return 1;
 	}
 	if (t == lex_and_H1) {
-		return(ref);
+		return ref;
 	}
 #else
 	UNUSED(ref);
 #endif
-	return(0);
+	return 0;
 }
 
 
@@ -1619,10 +1619,10 @@ predict_operator(void)
 #if LANGUAGE_CPP
 	int t = crt_lex_token;
 	if (t == lex_operator) {
-		return(1);
+		return 1;
 	}
 #endif
-	return(0);
+	return 0;
 }
 
 
@@ -1642,7 +1642,7 @@ predict_array(void)
 	NAMESPACE np;
 	int t = crt_lex_token;
 	if (t != lex_open_Hsquare_H1) {
-		return(0);
+		return 0;
 	}
 	p = crt_token;
 	np = crt_lookup;
@@ -1650,9 +1650,9 @@ predict_array(void)
 	crt_lookup = np;
 	crt_token = p;
 	if (t != lex_close_Hsquare_H1) {
-		return(0);
+		return 0;
 	}
-	return(1);
+	return 1;
 }
 
 
@@ -1697,5 +1697,5 @@ predict_template(void)
 	} else if (t == lex_template) {
 		d = 1;
 	}
-	return(d);
+	return d;
 }

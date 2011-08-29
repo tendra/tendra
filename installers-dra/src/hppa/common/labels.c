@@ -111,7 +111,7 @@ int
 new_label(void)
 {
     labno++ ;
-    return ( firstlab+labno ) ;
+    return firstlab+labno;
 }
 
 

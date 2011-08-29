@@ -295,13 +295,13 @@ static boolean
 is_known(node *p)
 {
 	if (p == NULL)
-		return (0);
+		return 0;
 
 	while (p) {
 		sortname s = p->cons->sortnum;
 
 		if (s == SORT_unknown)
-			return (0);
+			return 0;
 
 		if (!text_output && s == SORT_exp)
 			switch (p->cons->encoding) {
@@ -311,16 +311,16 @@ is_known(node *p)
 			case ENC_make_proc:
 			case ENC_repeat:
 			case ENC_variable:
-				return (0);
+				return 0;
 			}
 
 		if (p->son && !is_known(p->son))
-			return (0);
+			return 0;
 
 		p = p->bro;
 	}
 
-	return (1);
+	return 1;
 }
 
 

@@ -80,9 +80,9 @@ file_name_basename(char * path)
     char * last = strrchr(path, '/');
 
     if (last) {
-	return(cstring_duplicate(last + 1));
+	return cstring_duplicate(last + 1);
     } else {
-	return(cstring_duplicate(path));
+	return cstring_duplicate(path);
     }
 }
 
@@ -92,9 +92,9 @@ file_name_dirname(char * path)
     char * last = strrchr(path, '/');
 
     if (last) {
-	return(cstring_duplicate_prefix(path,(unsigned)(last - path)));
+	return cstring_duplicate_prefix(path,(unsigned)(last - path));
     } else {
-	return(cstring_duplicate(path));
+	return cstring_duplicate(path);
     }
 }
 
@@ -136,19 +136,19 @@ file_name_expand(const char * dir,			  const char * name,
 	tmp += suf_length;
     }
     tmp[0] = '\0';
-    return(path);
+    return path;
 }
 
 BoolT
 file_name_is_basename(const char * path)
 {
-    return(!strchr(path, '/'));
+    return !strchr(path, '/');
 }
 
 BoolT
 file_name_is_absolute(char * path)
 {
-    return(path[0] == '/');
+    return path[0] == '/';
 }
 
 void

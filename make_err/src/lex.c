@@ -138,11 +138,11 @@ read_char(void)
 			crt_line_no++;
 		}
 		if (c == EOF) {
-			return (LEX_EOF);
+			return LEX_EOF;
 		}
 		c &= 0xff;
 	}
-	return (c);
+	return c;
 }
 
 
@@ -184,9 +184,9 @@ read_identifier(int a)
 	/* Deal with keywords */
 	t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-	if (!strcmp(t, (A))) return (B);
+	if (!strcmp(t, (A))) return B;
 #include "keyword.h"
-	return (lex_identifier);
+	return lex_identifier;
 }
 
 
@@ -221,7 +221,7 @@ read_string(void)
 		}
 	}
 	*t = 0;
-	return (lex_string);
+	return lex_string;
 }
 
 
@@ -244,7 +244,7 @@ read_comment(void)
 		int c = read_char();
 		if (c == LEX_EOF) {
 			error(ERROR_SERIOUS, "End of file in comment");
-			return (lex_eof);
+			return lex_eof;
 		}
 		if (c == '*') {
 			state = 1;
@@ -261,7 +261,7 @@ read_comment(void)
 	if (first_comment == NULL) {
 		first_comment = xstrcpy(token_buff);
 	}
-	return (read_token());
+	return read_token();
 }
 
 

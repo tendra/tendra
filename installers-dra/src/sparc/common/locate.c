@@ -232,7 +232,7 @@ boff ( exp e ){
   else {
     fail ( "not a baseoff in boff" ) ;
   }
-  return ( an ) ;
+  return an;
 }
 
 int 
@@ -276,7 +276,7 @@ boff_env_offset ( exp e ){
     assert ( offset < 0 ) ;
     assert ( offset >= -(BITS2BYTES(locals_space))) ;
   }
-  return ( offset ) ;
+  return offset;
 }	
 
 
@@ -361,7 +361,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       }
       wans.answhere = aa ;
       wans.ashwhere = a ;
-      return ( wans ) ;
+      return wans;
     }
     case addptr_tag : {
       exp sum = son ( e ) ;
@@ -410,7 +410,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	
 	    /* ...and use it as base a literal base-offset result */
 	    keepexp ( e, aa ) ;
-	    return ( wans ) ;
+	    return wans;
 	  } 
           else {
 	    /* wsum represents an actual pointer in store ... */
@@ -449,7 +449,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       wans.ashwhere = a ;
       /* ... and deliver literal base_offset */
       keepexp ( e, aa ) ;
-      return ( wans ) ;
+      return wans;
     }
     case subptr_tag : {
       /* shouldn't occur */
@@ -474,7 +474,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       wans.answhere = aa ;
       wans.ashwhere = a ;
       keepexp ( e, aa ) ;
-      return ( wans ) ;
+      return wans;
     }
     case reff_tag : {
       /* answer is going to be wans displaced by no ( e ) */
@@ -513,7 +513,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	}
       }
       wans.ashwhere = a ;
-      return ( wans ) ;
+      return wans;
     }
     case cont_tag :
     case contvol_tag : {
@@ -570,14 +570,14 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       breakson :
 	wans.answhere = aa ;
       wans.ashwhere = a ;
-      return ( wans ) ;
+      return wans;
     }
     case top_tag : {
       /* does this ever happen? */
       setregalt ( aa, 0 ) ;
       wans.answhere = aa ;
       wans.ashwhere = a ;
-      return ( wans ) ;
+      return wans;
     }
     case field_tag : {
       /* answer is wans displace literally by no ( e ) ; it should
@@ -596,7 +596,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
 	}
       }
       wans.ashwhere = a ;
-      return ( wans ) ;
+      return wans;
     }
     default : {
       /* general catch all ; evaluate e into register and deliver
@@ -615,7 +615,7 @@ locate1 ( exp e, space sp, shape s, int dreg ){
       setinsalt ( aa, is ) ;
       wans.answhere = aa ;
       wans.ashwhere = a ;
-      return ( wans ) ;
+      return wans;
     }
   }
 }
@@ -640,7 +640,7 @@ locate ( exp e, space sp, shape s, int dreg ){
     w.answhere = ak ;
     w.ashwhere = ashof ( s ) ;
   }
-  return ( w ) ;
+  return w;
 }
 
 

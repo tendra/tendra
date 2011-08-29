@@ -190,7 +190,7 @@ primary_form(int t)
 		u = lex_xor_Heq_H1;
 		break;
 	}
-	return(u);
+	return u;
 }
 
 
@@ -208,7 +208,7 @@ get_digraph(int t)
 		update_column();
 		report(crt_loc, ERR_lex_digraph_replace(t, u));
 	}
-	return(u);
+	return u;
 }
 
 
@@ -255,7 +255,7 @@ make_keyword(HASHID nm, int key, IDENTIFIER id)
 		case id_reserved_tag:
 			COPY_id(id_alias(id), pid);
 			COPY_id(ptr, id);
-			return(id);
+			return id;
 		}
 		ptr = id_alias(pid);
 	}
@@ -383,17 +383,17 @@ adjust_trigraph(void)
 				/* Not a trigraph */
 				unread_char(c);
 				unread_char(char_question);
-				return(char_question);
+				return char_question;
 			}
 			update_column();
 			report(crt_loc, ERR_lex_trigraph_replace(c, d));
-			return(d);
+			return d;
 		} else {
 			/* Not a trigraph */
 			unread_char(c);
 		}
 	}
-	return(char_question);
+	return char_question;
 }
 
 
@@ -413,11 +413,11 @@ read_newline(void)
 			c = refill_char();
 		}
 		if (c == char_newline) {
-			return(c);
+			return c;
 		}
 		unread_char(c);
 	}
-	return(char_return);
+	return char_return;
 }
 
 
@@ -437,11 +437,11 @@ read_eof(void)
 			c = refill_char();
 		}
 		if (c == char_eof) {
-			return(c);
+			return c;
 		}
 		unread_char(c);
 	}
-	return(char_sub);
+	return char_sub;
 }
 
 
@@ -466,7 +466,7 @@ read_char(void)
 		}
 		if (c != char_backslash) {
 			/* Not an escaped newline */
-			return(c);
+			return c;
 		}
 		c = next_char();
 		if (c == char_end) {
@@ -478,7 +478,7 @@ read_char(void)
 		if (c != char_newline) {
 			/* Not an escaped newline */
 			unread_char(c);
-			return(char_backslash);
+			return char_backslash;
 		}
 		crt_loc.line++;
 		crt_loc.column = 0;
@@ -627,10 +627,10 @@ is_white_char(unsigned long a)
 {
 	int t;
 	if (a >= NO_CHAR) {
-		return(0);
+		return 0;
 	}
 	t = lookup_char(a);
-	return(is_white(t) || is_newline(t));
+	return is_white(t) || is_newline(t);
 }
 
 
@@ -645,9 +645,9 @@ int
 is_alpha_char(unsigned long a)
 {
 	if (a >= NO_CHAR) {
-		return(0);
+		return 0;
 	}
-	return(is_alpha(lookup_char(a)));
+	return is_alpha(lookup_char(a));
 }
 
 
@@ -661,9 +661,9 @@ int
 is_legal_char(unsigned long a)
 {
 	if (a >= NO_CHAR) {
-		return(0);
+		return 0;
 	}
-	return(is_legal(lookup_char(a)));
+	return is_legal(lookup_char(a));
 }
 
 
@@ -682,11 +682,11 @@ peek_char(int a, int *legal)
 	int c = read_char();
 	ASSERT(a != char_newline);
 	if (c == a) {
-		return(1);
+		return 1;
 	}
 	*legal = is_legal_char((unsigned long)c);
 	unread_char(c);
-	return(0);
+	return 0;
 }
 
 
@@ -761,7 +761,7 @@ skip_string(int q)
 			if (nl) {
 				report(loc, ERR_lex_string_nl(nl, nl));
 			}
-			return(lex_string_Hlit);
+			return lex_string_Hlit;
 		}
 		if (c == char_newline) {
 			if (allow_nl) {
@@ -800,7 +800,7 @@ skip_string(int q)
 		/* Don't bother with error recovery */
 		/* EMPTY */
 	}
-	return(lex_eof);
+	return lex_eof;
 }
 
 
@@ -852,7 +852,7 @@ read_string(int q, int esc)
 			}
 			token_buff.posn = s;
 			*s = 0;
-			return(lex_string_Hlit);
+			return lex_string_Hlit;
 		}
 		if (c == char_newline) {
 			if (allow_nl) {
@@ -912,7 +912,7 @@ read_string(int q, int esc)
 	}
 	token_buff.posn = s;
 	*s = 0;
-	return(lex_eof);
+	return lex_eof;
 }
 
 
@@ -985,7 +985,7 @@ read_label:
 				token_buff.posn = s;
 				*s = 0;
 			}
-			return(lex_eof);
+			return lex_eof;
 		} else if (c == char_asterix && lastc == char_slash) {
 			/* Nested comments */
 			update_column();
@@ -1005,7 +1005,7 @@ read_label:
 		*s = 0;
 	}
 	crt_spaces++;
-	return(lex_ignore_token);
+	return lex_ignore_token;
 }
 
 
@@ -1068,7 +1068,7 @@ read_label:
 				token_buff.posn = s;
 				*s = 0;
 			}
-			return(lex_eof);
+			return lex_eof;
 		}
 		if (s) {
 			*s = (character)c;
@@ -1086,7 +1086,7 @@ read_label:
 	}
 	crt_line_changed = 1;
 	crt_spaces = 0;
-	return(lex_ignore_token);
+	return lex_ignore_token;
 }
 
 
@@ -1171,16 +1171,16 @@ skip_white(int nl)
 						sp |= WHITE_SPACE;
 						b = skip_comment(0);
 						if (b == lex_eof)  {
-							return(sp);
+							return sp;
 						}
 					} else if (START_CPP_COMMENT(b)) {
 						sp |= WHITE_SPACE;
 						b = skip_cpp_comment(0);
 						if (b == lex_eof) {
-							return(sp);
+							return sp;
 						}
 						if (!nl) {
-							return(sp);
+							return sp;
 						}
 					} else {
 						unread_char(b);
@@ -1211,7 +1211,7 @@ skip_white(int nl)
 		}
 	}
 	unread_char(c);
-	return(sp);
+	return sp;
 }
 
 
@@ -1305,13 +1305,13 @@ read_label:
 			input_crt = input_posn;
 			crt_line_changed = 1;
 			crt_spaces = 0;
-			return(res);
+			return res;
 		} else if (START_STRING(c)) {
 			/* String literals */
 			res = 1;
 			c = skip_string(c);
 			if (c == lex_eof) {
-				return(res);
+				return res;
 			}
 		} else if (c == char_eof) {
 			/* End of file characters */
@@ -1323,7 +1323,7 @@ read_label:
 	update_column();
 	report(crt_loc, ERR_lex_phases_eof());
 	good_eof = 1;
-	return(res);
+	return res;
 }
 
 
@@ -1354,7 +1354,7 @@ read_unicode(int c, int *pc)
 	} else {
 		unread_char(c);
 		*pc = CHAR_NONE;
-		return(0);
+		return 0;
 	}
 	for (i = 0; i < n; i++) {
 		int t;
@@ -1381,7 +1381,7 @@ read_unicode(int c, int *pc)
 		update_column();
 		report(crt_loc, err);
 	}
-	return(u);
+	return u;
 }
 
 
@@ -1432,7 +1432,7 @@ read_extended_id(unsigned long u, int ch)
 	s = bf->start;
 	h = hash(s);
 	nm = lookup_name(s, h, 1, lex_unknown);
-	return(nm);
+	return nm;
 }
 
 
@@ -1494,7 +1494,7 @@ process_label:
 		case char_question: {
 			/* Deal with '?' and trigraphs */
 			c = adjust_trigraph();
-			if (c == char_question) return(lex_question);
+			if (c == char_question) return lex_question;
 			goto restart_label;
 		}
 
@@ -1518,22 +1518,22 @@ process_label:
 			if (ch != CHAR_NONE) {
 				token_buff.posn = token_buff.start;
 				token_hashid = read_extended_id(u, ch);
-				return(lex_identifier);
+				return lex_identifier;
 			}
-			return(lex_backslash);
+			return lex_backslash;
 		}
 
 		case char_hash:
 			/* Deal with '#' and '##' */
 			c = read_char();
 			if (c == char_hash) {
-				return(lex_hash_Hhash_H1);
+				return lex_hash_Hhash_H1;
 			}
 			unread_char(c);
 
 			/* Return with '#' if not at start of line */
 			if (column < 0 || no_preproc_dir) {
-				return(lex_hash_H1);
+				return lex_hash_H1;
 			}
 
 			/* Deal with preprocessing directives */
@@ -1553,17 +1553,17 @@ preproc_label:	{
 			unread_char(char_newline);
 			crt_loc.line--;
 			crt_loc.column = 0;
-			return(preproc);
+			return preproc;
 		}
 
 		case char_percent:
 			/* Deal with '%', '%=', '%>', '%:' and '%:%:' */
 			c = read_char();
 			if (c == char_equal) {
-				return(lex_rem_Heq);
+				return lex_rem_Heq;
 			}
 			if (c == char_greater && allow_digraphs) {
-				return(lex_close_Hbrace_H2);
+				return lex_close_Hbrace_H2;
 			}
 			if (c == char_colon && allow_digraphs) {
 				/* Check for '%:' and '%:%:' */
@@ -1571,7 +1571,7 @@ preproc_label:	{
 				if (c == char_percent) {
 					int nextc = read_char();
 					if (nextc == char_colon) {
-						return(lex_hash_Hhash_H2);
+						return lex_hash_Hhash_H2;
 					}
 					unread_char(nextc);
 				}
@@ -1579,7 +1579,7 @@ preproc_label:	{
 
 				/* Return with '%:' if not at start of line */
 				if (column < 0 || no_preproc_dir) {
-					return(lex_hash_H2);
+					return lex_hash_H2;
 				}
 
 				/* Otherwise this is a preprocessing
@@ -1588,85 +1588,85 @@ preproc_label:	{
 				goto preproc_label;
 			}
 			unread_char(c);
-			return(lex_rem);
+			return lex_rem;
 
 		case char_quote:
 			/* Deal with string literals */
 			IGNORE read_string(c, 1);
-			return(lex_string_Hlit);
+			return lex_string_Hlit;
 
 		case char_single_quote:
 			/* Deal with character literals */
 			IGNORE read_string(c, 1);
-			return(lex_char_Hlit);
+			return lex_char_Hlit;
 
 		case char_exclaim:
 			/* Deal with '!' and '!=' */
 			c = read_char();
 			if (c == char_equal) {
-				return(lex_not_Heq_H1);
+				return lex_not_Heq_H1;
 			}
 			unread_char(c);
-			return(lex_not_H1);
+			return lex_not_H1;
 
 		case char_ampersand:
 			/* Deal with '&', '&&' and '&=' */
 			c = read_char();
 			if (c == char_ampersand) {
-				return(lex_logical_Hand_H1);
+				return lex_logical_Hand_H1;
 			}
 			if (c == char_equal) {
-				return(lex_and_Heq_H1);
+				return lex_and_Heq_H1;
 			}
 			unread_char(c);
-			return(lex_and_H1);
+			return lex_and_H1;
 
 		case char_asterix:
 			/* Deal with '*' and '*=' */
 			c = read_char();
 			if (c == char_equal) {
-				return(lex_star_Heq);
+				return lex_star_Heq;
 			}
 			unread_char(c);
-			return(lex_star);
+			return lex_star;
 
 		case char_plus:
 			/* Deal with '+', '++' and '+=' */
 			c = read_char();
 			if (c == char_plus) {
-				return(lex_plus_Hplus);
+				return lex_plus_Hplus;
 			}
 			if (c == char_equal) {
-				return(lex_plus_Heq);
+				return lex_plus_Heq;
 			}
 			if (c == char_question && allow_extra_symbols) {
-				return(lex_abs);
+				return lex_abs;
 			}
 			unread_char(c);
-			return(lex_plus);
+			return lex_plus;
 
 		case char_minus:
 			/* Deal with '-', '--', '-=', '->' and '->*' */
 			c = read_char();
 			if (c == char_minus) {
-				return(lex_minus_Hminus);
+				return lex_minus_Hminus;
 			}
 			if (c == char_equal) {
-				return(lex_minus_Heq);
+				return lex_minus_Heq;
 			}
 			if (c == char_greater) {
 #if LANGUAGE_CPP
 				/* '->*' is only allowed in C++ */
 				c = read_char();
 				if (c == char_asterix) {
-					return(lex_arrow_Hstar);
+					return lex_arrow_Hstar;
 				}
 				unread_char(c);
 #endif
-				return(lex_arrow);
+				return lex_arrow;
 			}
 			unread_char(c);
-			return(lex_minus);
+			return lex_minus;
 
 		case char_dot:
 			/* Deal with '.', '...', '.*' and numbers */
@@ -1674,22 +1674,22 @@ preproc_label:	{
 			if (c == char_dot) {
 				c = read_char();
 				if (c == char_dot) {
-					return(lex_ellipsis);
+					return lex_ellipsis;
 				}
 				unread_char(c);
 				unread_char(char_dot);
-				return(lex_dot);
+				return lex_dot;
 			}
 #if LANGUAGE_CPP
 			/* '.*' is only allowed in C++ */
 			if (c == char_asterix) {
-				return(lex_dot_Hstar);
+				return lex_dot_Hstar;
 			}
 #endif
 #if FS_EXTENDED_CHAR
 			if (IS_EXTENDED(c)) {
 				unread_char(c);
-				return(lex_dot);
+				return lex_dot;
 			}
 #endif
 			t = lookup_char(c);
@@ -1699,7 +1699,7 @@ preproc_label:	{
 				goto number_label;
 			}
 			unread_char(c);
-			return(lex_dot);
+			return lex_dot;
 
 		case char_slash:
 			/* Deal with '/', '/=' and comments */
@@ -1712,7 +1712,7 @@ preproc_label:	{
 				}
 				if (a) {
 					c = lint_comment();
-					if (c >= 0) return(c);
+					if (c >= 0) return c;
 				}
 				if (column == 0) {
 					column = 1;
@@ -1728,17 +1728,17 @@ preproc_label:	{
 				if (a) {
 					c = lint_comment();
 					if (c >= 0) {
-						return(c);
+						return c;
 					}
 				}
 				IGNORE read_char();
 				goto newline_label;
 			}
 			if (c == char_equal) {
-				return(lex_div_Heq);
+				return lex_div_Heq;
 			}
 			unread_char(c);
-			return(lex_div);
+			return lex_div;
 
 		case char_colon:
 			/* Deal with ':', '::' and ':>' */
@@ -1746,47 +1746,47 @@ preproc_label:	{
 #if LANGUAGE_CPP
 			/* '::' is only allowed in C++ */
 			if (c == char_colon) {
-				return(lex_colon_Hcolon);
+				return lex_colon_Hcolon;
 			}
 #endif
 			if (c == char_greater && allow_digraphs) {
-				return(lex_close_Hsquare_H2);
+				return lex_close_Hsquare_H2;
 			}
 			unread_char(c);
-			return(lex_colon);
+			return lex_colon;
 
 		case char_less:
 			/* Deal with '<', '<=', '<<', '<<=', '<%', '<:' */
 			c = read_char();
 			if (c == char_equal) {
-				return(lex_less_Heq);
+				return lex_less_Heq;
 			}
 			if (c == char_less) {
 				c = read_char();
 				if (c == char_equal) {
-					return(lex_lshift_Heq);
+					return lex_lshift_Heq;
 				}
 				unread_char(c);
-				return(lex_lshift);
+				return lex_lshift;
 			}
 			if (c == char_percent && allow_digraphs) {
-				return(lex_open_Hbrace_H2);
+				return lex_open_Hbrace_H2;
 			}
 			if (c == char_colon && allow_digraphs) {
-				return(lex_open_Hsquare_H2);
+				return lex_open_Hsquare_H2;
 			}
 			if (c == char_question && allow_extra_symbols) {
-				return(lex_min);
+				return lex_min;
 			}
 			unread_char(c);
-			return(lex_less);
+			return lex_less;
 
 		case char_equal:
 			/* Deal with '=' and '==' */
 			c = read_char();
 			switch (c) {
 			case char_equal:
-				return(lex_eq);
+				return lex_eq;
 			case char_ampersand:
 			case char_asterix:
 			case char_minus:
@@ -1796,84 +1796,84 @@ preproc_label:	{
 				break;
 			}
 			unread_char(c);
-			return(lex_assign);
+			return lex_assign;
 
 		case char_greater:
 			/* Deal with '>', '>=', '>>' and '>>=' */
 			c = read_char();
 			if (c == char_equal) {
-				return(lex_greater_Heq);
+				return lex_greater_Heq;
 			}
 			if (c == char_greater) {
 				c = read_char();
 				if (c == char_equal) {
-					return(lex_rshift_Heq);
+					return lex_rshift_Heq;
 				}
 				unread_char(c);
-				return(lex_rshift);
+				return lex_rshift;
 			}
 			if (c == char_question && allow_extra_symbols) {
-				return(lex_max);
+				return lex_max;
 			}
 			unread_char(c);
-			return(lex_greater);
+			return lex_greater;
 
 		case char_circum:
 			/* Deal with '^' and '^=' */
 			c = read_char();
 			if (c == char_equal) {
-				return(lex_xor_Heq_H1);
+				return lex_xor_Heq_H1;
 			}
 			unread_char(c);
-			return(lex_xor_H1);
+			return lex_xor_H1;
 
 		case char_bar:
 			/* Deal with '|', '||' and '|=' */
 			c = read_char();
 			if (c == char_bar) {
-				return(lex_logical_Hor_H1);
+				return lex_logical_Hor_H1;
 			}
 			if (c == char_equal) {
-				return(lex_or_Heq_H1);
+				return lex_or_Heq_H1;
 			}
 			unread_char(c);
-			return(lex_or_H1);
+			return lex_or_H1;
 
 		case char_open_round:
 			/* Deal with '(' */
-			return(lex_open_Hround);
+			return lex_open_Hround;
 
 		case char_close_round:
 			/* Deal with ')' */
-			return(lex_close_Hround);
+			return lex_close_Hround;
 
 		case char_comma:
 			/* Deal with ',' */
-			return(lex_comma);
+			return lex_comma;
 
 		case char_semicolon:
 			/* Deal with ';' */
-			return(lex_semicolon);
+			return lex_semicolon;
 
 		case char_open_square:
 			/* Deal with '[' */
-			return(lex_open_Hsquare_H1);
+			return lex_open_Hsquare_H1;
 
 		case char_close_square:
 			/* Deal with ']' */
-			return(lex_close_Hsquare_H1);
+			return lex_close_Hsquare_H1;
 
 		case char_open_brace:
 			/* Deal with '{' */
-			return(lex_open_Hbrace_H1);
+			return lex_open_Hbrace_H1;
 
 		case char_close_brace:
 			/* Deal with '}' */
-			return(lex_close_Hbrace_H1);
+			return lex_close_Hbrace_H1;
 
 		case char_tilde:
 			/* Deal with '~' */
-			return(lex_compl_H1);
+			return lex_compl_H1;
 
 		default:
 			/* Anything else is an unknown character */
@@ -1922,11 +1922,11 @@ preproc_label:	{
 			if (h == char_L && is_symbol(t)) {
 				if (c == char_quote) {
 					IGNORE read_string(c, 1);
-					return(lex_wstring_Hlit);
+					return lex_wstring_Hlit;
 				}
 				if (c == char_single_quote) {
 					IGNORE read_string(c, 1);
-					return(lex_wchar_Hlit);
+					return lex_wchar_Hlit;
 				}
 			}
 			/* Identifier of length one */
@@ -1960,7 +1960,7 @@ identifier_label:
 			COPY_loc(id_loc(id), loc);
 		}
 		token_hashid = nm;
-		return(lex_identifier);
+		return lex_identifier;
 	}
 
 	/* Read the first token in a line */
@@ -1977,7 +1977,7 @@ newline_label:
 		crt_spaces = 0;
 		if (in_preproc_dir == 1) {
 			in_preproc_dir = 0;
-			return(lex_newline);
+			return lex_newline;
 		}
 start_line_label:
 		/* Re-entry point after preprocessing directives */
@@ -2088,7 +2088,7 @@ next_digit_label:
 			*s = 0;
 			unread_char(c);
 		}
-		return(lex_integer_Hlit);
+		return lex_integer_Hlit;
 	}
 
 	/* End of file marker */
@@ -2098,7 +2098,7 @@ next_digit_label:
 	if (c == char_eof) {
 eof_label:
 		if (in_preproc_dir != 0) {
-			return(lex_eof);
+			return lex_eof;
 		}
 		if (!good_eof) {
 			update_column();
@@ -2112,7 +2112,7 @@ eof_label:
 			goto start_line_label;
 		}
 		/* End of main file */
-		return(lex_eof);
+		return lex_eof;
 	}
 
 	/* Unknown characters */
@@ -2120,7 +2120,7 @@ unknown_label:
 	{
 		string s = token_buff.start;
 		add_multi_char(s, (unsigned long)c, CHAR_SIMPLE);
-		return(lex_unknown);
+		return lex_unknown;
 	}
 }
 

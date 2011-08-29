@@ -1263,8 +1263,8 @@ __TDFUssshorten(INT64 param_a)
 	  OVERFLOW_ERROR;
     }
 
-    return ((((INT32)lo_32(a)) & ((INT32)0x7fffffff)) |
-	    (hi_32(a) & ((INT32)((UINT32)0x80000000))));
+    return (((INT32)lo_32(a)) & ((INT32)0x7fffffff)) |
+	    (hi_32(a) & ((INT32)((UINT32)0x80000000)));
 
 }
 

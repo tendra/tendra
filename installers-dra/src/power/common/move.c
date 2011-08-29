@@ -1025,7 +1025,7 @@ start:
 	    stf_ro_ins(st, fr.fr, b);
 	  };
 
-	  return ((fr.dble) ? -(fr.fr + 32) : (fr.fr + 32));
+	  return (fr.dble) ? -(fr.fr + 32) : (fr.fr + 32);
 	}			/* end notinreg dest */
        default:
 	break;

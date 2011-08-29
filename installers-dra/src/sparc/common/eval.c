@@ -193,14 +193,14 @@ static mm uswmm = { 0xffffffff, 0, "\t.word\t%ld\n" } ;
 mm 
 maxmin ( shape s ){
   switch ( name ( s ) ) {
-    case scharhd : return ( scmm ) ;
-    case ucharhd : return ( uscmm ) ;
-    case swordhd : return ( shmm ) ;
-    case uwordhd : return ( ushmm ) ;
-    case slonghd : return ( swmm ) ;
-    case ulonghd : return ( uswmm ) ;
+    case scharhd : return scmm;
+    case ucharhd : return uscmm;
+    case swordhd : return shmm;
+    case uwordhd : return ushmm;
+    case slonghd : return swmm;
+    case ulonghd : return uswmm;
   }
-  return ( uswmm ) ;
+  return uswmm;
 }
 
 
@@ -211,7 +211,7 @@ maxmin ( shape s ){
 int 
 next_data_lab (){
   static int data_lab = 100 ;
-  return ( ++data_lab ) ;
+  return ++data_lab;
 }
 
 
@@ -278,7 +278,7 @@ evalexp ( exp e ){
 	return no(e)>>3;
       }
       else {
-	return ( no ( e ) ) ;
+	return no ( e ) ;
       }
     }	
     case general_env_offset_tag :
@@ -305,30 +305,30 @@ evalexp ( exp e ){
     }
         
     case offset_add_tag : {
-      return (evalexp(son(e)) + evalexp(bro(son(e))));
+      return evalexp(son(e)) + evalexp(bro(son(e)));
     }
     case offset_max_tag : {
-      return (max(evalexp(son(e)),evalexp(bro(son(e)))));
+      return max(evalexp(son(e)),evalexp(bro(son(e))));
     }
     case offset_pad_tag : {
-      return (rounder(evalexp(son(e)),shape_align(sh(e))));
+      return rounder(evalexp(son(e)),shape_align(sh(e)));
     }
     case offset_mult_tag : {
-      return (evalexp(son(e))*evalexp(bro(son(e))));
+      return evalexp(son(e))*evalexp(bro(son(e)));
     }
     case offset_div_tag :
     case offset_div_by_int_tag : {
-      return (evalexp(son(e))/evalexp(bro(son(e))));
+      return evalexp(son(e))/evalexp(bro(son(e)));
     }
     case offset_subtract_tag : {
-      return (evalexp(son(e))-evalexp(bro(son(e))));
+      return evalexp(son(e))-evalexp(bro(son(e)));
     }
     case offset_negate_tag : {
-      return (- evalexp(son(e)));
+      return -evalexp(son(e));
     }
 
     case bitf_to_int_tag : {
-      return ( evalexp ( son ( e ) ) ) ;
+      return evalexp ( son ( e ) ) ;
     }
     
     case int_to_bitf_tag : {
@@ -342,30 +342,30 @@ evalexp ( exp e ){
 				 if ( a.ashsize != 32 ) {
 				   w &= ( ( 1 << a.ashsize ) - 1 ) ;
 				 }
-				 return ( ( long ) w ) ;
+				 return ( long ) w ;
     }
     
     case not_tag : {
       long a1 = evalexp ( son ( e ) ) ;
-      return ( ~a1 ) ;
+      return ~a1;
     }
     
     case and_tag : {
       long a1 = evalexp ( son ( e ) ) ;
       long a2 = evalexp ( bro ( son ( e ) ) ) ;
-      return ( a1 & a2 ) ;
+      return a1 & a2;
     }
     
     case or_tag : {
       long a1 = evalexp ( son ( e ) ) ;
       long a2 = evalexp ( bro ( son ( e ) ) ) ;
-      return ( a1 | a2 ) ;
+      return a1 | a2;
     }
 
     case xor_tag : {
       long a1 = evalexp ( son ( e ) ) ;
       long a2 = evalexp ( bro ( son ( e ) ) ) ;
-      return ( a1 ^ a2 ) ;
+      return a1 ^ a2;
     }
 
     case shr_tag : {
@@ -373,18 +373,18 @@ evalexp ( exp e ){
       long a1 = evalexp ( son ( e ) ) ;
       long a2 = evalexp ( bro ( son ( e ) ) ) ;
       if ( sgned ) {
-	return ( a1 >> a2 ) ;
+	return a1 >> a2;
       } 
       else {
 	unsigned long b1 = ( unsigned long ) a1 ;
-	return ( ( long ) ( b1 >> a2 ) ) ;
+	return ( long ) ( b1 >> a2 );
       }
     }
     
     case shl_tag : {
       long a1 = evalexp ( son ( e ) ) ;
       long a2 = evalexp ( bro ( son ( e ) ) ) ;
-      return ( a1 << a2 ) ;
+      return a1 << a2;
     }
     
     case concatnof_tag : {
@@ -402,17 +402,17 @@ evalexp ( exp e ){
       if ( s2.ashsize == 32 ) {
 	/* avoid illegal shift by 32 */
 	assert ( a1 == 0 ) ;
-	return ( ( long ) a2 ) ;
+	return ( long ) a2;
       }
-      return ( ( long ) ( ( a1 << s2.ashsize ) | a2 ) ) ;
+      return ( long ) ( ( a1 << s2.ashsize ) | a2 );
     }
     
     case clear_tag : {
-      return ( 0 ) ;
+      return 0;
     }
   }
   fail ( "Illegal integer constant" ) ;
-  return ( 0 ) ;
+  return 0;
 }
 
 
@@ -497,7 +497,7 @@ emptyconcbit ( int bitposn ){
   start.bitposn = bitposn ;
   start.value_size = 0 ;
   start.value = 0 ;
-  return ( start ) ;
+  return start;
 }	
 
 
@@ -588,7 +588,7 @@ addconcbitaux ( unsigned long w, int size, concbittype b4, bool ro ){
     b4.value = 0 ;
     assert ( ( b4.bitposn & 31 ) == 0 ) ;
   }
-  if ( size == 0 ) return ( b4 ) ;
+  if ( size == 0 ) return b4;
   /* add to b4 */
   if ( size == 32 ) {
     b4.value = w ;
@@ -603,7 +603,7 @@ addconcbitaux ( unsigned long w, int size, concbittype b4, bool ro ){
   b4.bitposn += size ;
   b4.value_size += size ;
   assert ( b4.value_size <= 32 ) ;
-  return ( b4 ) ;
+  return b4;
 }	
 
 
@@ -617,13 +617,13 @@ evalconcbitaux ( exp e, concbittype b4, bool ro ){
       concbittype lhs, rhs ;
       lhs = evalconcbitaux ( son ( e ), b4, ro ) ;
       rhs = evalconcbitaux ( bro ( son ( e ) ), lhs, ro ) ;
-      return ( rhs ) ;
+      return rhs;
     }
     default : {
       int size = shape_size ( sh ( e ) ) ;
       unsigned ev = ( unsigned ) evalexp ( e ) ;
       assert ( shape_align ( sh ( e ) ) == 1 ) ;
-      return ( addconcbitaux ( ev, size, b4, ro ) ) ;
+      return addconcbitaux ( ev, size, b4, ro ) ;
     }
   }
 }
@@ -653,19 +653,19 @@ evalconcbit ( exp e, int bitposn, bool ro ){
 
 bool 
 is_zero ( exp e ){
-  if ( e == nilexp ) return ( 1 );
+  if ( e == nilexp ) return 1;
   switch ( name ( e ) ) {
-    case null_tag : return ( 1 ) ;
-    case val_tag : return ( no ( e ) == 0 ? 1 : 0 ) ;
+    case null_tag : return 1;
+    case val_tag : return no ( e ) == 0 ? 1 : 0 ;
     case ncopies_tag :
     case int_to_bitf_tag : {
-      return ( is_zero ( son ( e ) ) ) ;
+      return is_zero ( son ( e ) ) ;
     }
     case compound_tag : {
       e = bro ( son ( e ) ) ;
       while ( 1 ) {
-	if ( is_zero ( e ) == 0 ) return ( 0 ) ;
-	if ( last ( e ) ) return ( 1 ) ;
+	if ( is_zero ( e ) == 0 ) return 0;
+	if ( last ( e ) ) return 1;
 	e = bro ( bro ( e ) ) ;
       }
       /* NOT REACHED */
@@ -676,14 +676,14 @@ is_zero ( exp e ){
       if ( f.exp == 0 ) {
 	int i ;
 	for ( i = 0 ; i < MANT_SIZE ; i++ ) {
-	  if ( f.mant [i] != 0 ) return ( 0 ) ;
+	  if ( f.mant [i] != 0 ) return 0;
 	}
-	return ( 1 ) ;	 /* all zero */
+	return 1;	 /* all zero */
       }
-      return ( 0 ) ;
+      return 0;
     }
   }
-  return ( 0 ) ;
+  return 0;
 }
 
 #endif
@@ -1163,5 +1163,5 @@ evaluated ( exp e, long ll, bool ro ){
     /* return to .text for local values */
     if ( ll >= 0 ) insection ( text_section ) ;
   }
-  return ( isa ) ;
+  return isa;
 }

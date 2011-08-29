@@ -99,18 +99,18 @@ al_shape(node *p)
 	sortname s;
 
 	if (p == NULL)
-		return (NULL);
+		return NULL;
 
 	s = p->cons->sortnum;
 
 	if (s == SORT_alignment) {
 		switch (p->cons->encoding) {
 		case ENC_alignment:
-			return (al_shape(p->son));
+			return al_shape(p->son);
 		case ENC_alignment_apply_token:
-			return (al_shape(expand_tok(p)));
+			return al_shape(expand_tok(p));
 		}
-		return (copy_node(p));
+		return copy_node(p);
 	}
 
 	if (s == SORT_shape) {
@@ -119,19 +119,19 @@ al_shape(node *p)
 			is_fatal = 0;
 			input_error("Can't have alignment of bottom in %s",
 			    checking);
-			return (NULL);
+			return NULL;
 		case ENC_offset:
-			return (copy_node(al_offset));
+			return copy_node(al_offset);
 		case ENC_pointer:
-			return (copy_node(al_pointer));
+			return copy_node(al_pointer);
 		case ENC_proc:
-			return (copy_node(al_proc));
+			return copy_node(al_proc);
 		case ENC_top:
-			return (copy_node(al_top));
+			return copy_node(al_top);
 		case ENC_nof:
-			return (al_shape(p->son->bro));
+			return al_shape(p->son->bro);
 		case ENC_shape_apply_token:
-			return (al_shape(expand_tok(p)));
+			return al_shape(expand_tok(p));
 		}
 	}
 
@@ -139,7 +139,7 @@ al_shape(node *p)
 	q->cons = cons_no(SORT_alignment, ENC_alignment);
 	q->son = copy_node(p);
 
-	return (NULL);
+	return NULL;
 }
 
 
@@ -155,9 +155,9 @@ ptr_to(node *p)
 	p = expand_tok(p);
 
 	if (p && p->cons == cons_no(SORT_shape, ENC_pointer))
-		return(p->son);
+		return p->son;
 
-	return (NULL);
+	return NULL;
 }
 
 
@@ -173,9 +173,9 @@ offset_from(node *p)
 	p = expand_tok(p);
 
 	if (p && p->cons == cons_no(SORT_shape, ENC_offset))
-		return (p->son);
+		return p->son;
 
-	return (NULL);
+	return NULL;
 }
 
 
@@ -191,9 +191,9 @@ offset_to(node *p)
 	p = expand_tok(p);
 
 	if (p && p->cons == cons_no(SORT_shape, ENC_offset))
-		return(p->son->bro);
+		return p->son->bro;
 
-	return(NULL);
+	return NULL;
 }
 
 
@@ -235,20 +235,20 @@ node *
 al_union(node *p, node *q)
 {
 	if (p == NULL || p->cons->sortnum != SORT_alignment)
-		return (NULL);
+		return NULL;
 
 	if (q == NULL || q->cons->sortnum != SORT_alignment)
-		return (NULL);
+		return NULL;
 
 	if (p->cons->encoding == ENC_alignment &&
 	    p->son->cons == cons_no(SORT_shape, ENC_top))
-		return (q);
+		return q;
 
 	if (q->cons->encoding == ENC_alignment &&
 	    q->son->cons == cons_no(SORT_shape, ENC_top))
-		return (p);
+		return p;
 
-	return (NULL);
+	return NULL;
 }
 
 

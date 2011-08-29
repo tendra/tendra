@@ -199,9 +199,9 @@ static int const_ready
 {
   unsigned char  n = name(e);
   if (n == env_size_tag)
-    return(brog(son(son(e))) -> dec_u.dec_val.processed);
+    return brog(son(son(e))) -> dec_u.dec_val.processed;
   if (n == env_offset_tag)
-    return(name(son(e)) == 0);
+    return name(son(e)) == 0;
   if (n == name_tag || son(e) == nilexp)
     return 1;
   e = son(e);
@@ -210,7 +210,7 @@ static int const_ready
       return 0;
     e = bro(e);
   }
-  return(const_ready(e));
+  return const_ready(e);
 }
 
 static void eval_if_ready

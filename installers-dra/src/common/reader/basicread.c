@@ -229,7 +229,7 @@ initreader(char *n)
   fpin = fopen(n, "rb");
   if (fpin == (FILE *)0) {
     failer(CANT_OPEN_FILE);
-    return(0);
+    return 0;
   }
 
   pkt_index = -1;
@@ -242,7 +242,7 @@ initreader(char *n)
   crt_ptr = crt_line;
   end_ptr = crt_line + cppkt;
   check_magic_no();
-  return(1);
+  return 1;
 }
 
 void
@@ -269,7 +269,7 @@ getcode(int np)
     }
     if (p >= 0) {
       getcode_bitposn = p;
-      return(int)((crt_bits.intc >> p) & m);
+      return (int)((crt_bits.intc >> p) & m);
     }
   }
 
@@ -318,7 +318,7 @@ get_big_code(int n)
      if (t == 0) {
        res += (int)(mask[n]);
      } else {
-       return(res + t);
+       return res + t;
      }
   }
 }
@@ -341,7 +341,7 @@ keep_place(void)
   if (!table_flag) {
     new_pl.bits_on += pkt_index * bppkt;
   }
-  return(new_pl);
+  return new_pl;
 }
 
 /********************************************************************
@@ -399,7 +399,7 @@ add_place(place pl, int n)
   new_pl.bits_on = pl.bits_on + n;
   new_pl.pl_mem = pl.pl_mem;
   new_pl.flag = pl.flag;
-  return(new_pl);
+  return new_pl;
 }
 
 /**********************************************************************
@@ -451,7 +451,7 @@ new_place(int bn)
     }
     pl.pl_mem = mem;
     add_capsule_frees((void*)mem);
-    return(pl);
+    return pl;
   }
 
   pl.bits_on = (int)(crt_ptr - crt_line)* 8 - getcode_bitposn;
@@ -474,7 +474,7 @@ small_dtdfint(void)
   while (digit = getcode(4), digit < 8) {
     total = 8 * total + digit;
   }
-  return(8 * total + (digit - 8));
+  return 8 * total + (digit - 8);
 }
 
  /* step the input stream on to the next byte boundary */
@@ -647,7 +647,7 @@ tdfbool
 d_tdfbool(void)
 {
   /* reads a tdfbool from the input stream */
-  return (tdfbool)getcode(1);
+  return (tdfbool) getcode(1);
 }
 
 

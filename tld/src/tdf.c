@@ -76,7 +76,7 @@ tdf_int_size(unsigned value)
     while (value >>= 3) {
 	size++;
     }
-    return(size);
+    return size;
 }
 
 void

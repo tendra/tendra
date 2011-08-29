@@ -183,7 +183,7 @@ restore_parser(void)
 	POP_int(crt_lex_token, token_stack);
 	crt_lookup_depth = 0;
 	ASSERT(first_token != NULL);
-	return(p);
+	return p;
 }
 
 
@@ -233,7 +233,7 @@ patch_tokens(int n)
 		crt_token->next = p;
 		n--;
 	}
-	return(crt_token->next);
+	return crt_token->next;
 }
 
 
@@ -406,7 +406,7 @@ read_loc_tokens(PPTOKEN *p)
 			if (sp)crt_loc.column = sp;
 		}
 	}
-	return(p);
+	return p;
 }
 
 
@@ -442,9 +442,9 @@ find_destr_id(IDENTIFIER cid)
 		HASHID nm = DEREF_hashid(id_name(tid));
 		tid = DEREF_id(hashid_id(nm));
 		set_hashid_loc(tid, cid);
-		return(tid);
+		return tid;
 	}
-	return(NULL_id);
+	return NULL_id;
 }
 
 #endif
@@ -639,7 +639,7 @@ expand_label:
 			this_tok->pp_data.id.use = id;
 			t = (int)DEREF_ulong(id_no(id));
 			this_tok->tok = t;
-			return(t);
+			return t;
 
 		case id_iso_keyword_tag:
 			/* Check on ISO keywords */
@@ -656,7 +656,7 @@ expand_label:
 #if LANGUAGE_CPP
 				if (t == lex_compl_H1)goto compl_label;
 #endif
-				return(t);
+				return t;
 			}
 			break;
 
@@ -827,13 +827,13 @@ class_template_lab:	{
 					if (tt == lex_template_Htype) {
 						this_tok->tok = tt;
 						t = lex_destructor_Hname;
-						return(t);
+						return t;
 					}
 					tid = find_destr_id(cid);
 					if (!IS_NULL_id(tid)) {
 						this_tok->pp_data.id.use = tid;
 						t = lex_destructor_Hname;
-						return(t);
+						return t;
 					}
 					level = 0;
 					break;
@@ -875,13 +875,13 @@ class_template_lab:	{
 							this_tok->tok =
 							    lex_ignore_token;
 							crt_token->tok = t;
-							return(t);
+							return t;
 						case lex_full_Hname_Hstar:
 							t = lex_nested_Hname_Hstar;
 							this_tok->tok =
 							    lex_ignore_token;
 							crt_token->tok = t;
-							return(t);
+							return t;
 						}
 						crt_token = this_tok;
 					}
@@ -972,7 +972,7 @@ class_template_lab:	{
 		unsigned long depth;
 		if (store == EXPAND_CHECK_COLON) {
 			/* Look ahead for '::' */
-			return(t);
+			return t;
 		} else if (IS_NULL_nspace(ns)) {
 			/* Initial '::' */
 			ns = global_namespace;
@@ -982,7 +982,7 @@ class_template_lab:	{
 			depth = crt_lookup_depth + 1;
 		} else {
 			/* Badly placed '::' */
-			return(t);
+			return t;
 		}
 
 		/* Look ahead to further tokens */
@@ -994,7 +994,7 @@ class_template_lab:	{
 			nt = lex_full_Hname;
 			this_tok->tok = lex_ignore_token;
 			crt_token->tok = nt;
-			return(nt);
+			return nt;
 		}
 		if (nt == lex_nested_Hname_Hstar) {
 			if (crt_token == this_tok->next) {
@@ -1004,7 +1004,7 @@ class_template_lab:	{
 			nt = lex_full_Hname_Hstar;
 			this_tok->tok = lex_ignore_token;
 			crt_token->tok = nt;
-			return(nt);
+			return nt;
 		}
 		IGNORE check_value(OPT_VAL_scope_qualifiers, depth);
 		this_tok->pp_data.ns = ns;
@@ -1027,13 +1027,13 @@ class_template_lab:	{
 		if (nt == lex_nested_Hname) {
 			this_tok->tok = lex_ignore_token;
 			crt_token->tok = t;
-			return(nt);
+			return nt;
 		}
 		if (nt == lex_nested_Hname_Hstar) {
 			if (t == lex_full_Hname)nt = lex_full_Hname_Hstar;
 			this_tok->tok = lex_ignore_token;
 			crt_token->tok = nt;
-			return(nt);
+			return nt;
 		}
 		crt_lookup = ns;
 		crt_token = this_tok;
@@ -1090,7 +1090,7 @@ compl_label:
 						check_destr_id(id, nm, d);
 					}
 					this_tok->tok = nt;
-					return(nt);
+					return nt;
 				}
 			}
 			crt_token = this_tok;
@@ -1259,7 +1259,7 @@ compl_label:
 		break;
 	}
 	}
-	return(t);
+	return t;
 }
 
 
@@ -1378,7 +1378,7 @@ expand_label:
 		}
 		this_tok->pp_data.id.use = id;
 	}
-	return(t);
+	return t;
 }
 
 

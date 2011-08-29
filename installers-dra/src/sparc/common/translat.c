@@ -336,7 +336,7 @@ ashof ( shape s ){
   ash a ;
   a.ashsize =  shape_size ( s ) ;
   a.ashalign = shape_align ( s ) ;
-  return ( a ) ;
+  return a;
 }
 
 

@@ -291,7 +291,7 @@ internal_to(exp whole, exp part)
     q = bro(q);
   }
   /* ascend from part until we reach either whole or top of tree */
-  return(f && q == whole);
+  return f && q == whole;
 }
 
 
@@ -475,9 +475,9 @@ lub_shape(shape a, shape b)
    return a;
   }
   if (asz == bsz && shape_align(a) == shape_align(b)) {
-    return(a);
+    return a;
   }
-  return(f_top);
+  return f_top;
 }
 
   /* true if the shapes are equal */
@@ -494,7 +494,7 @@ eq_shape(shape a, shape b)
   if (name(a) == nofhd) {
     return 1;
   } else {
-    return(al2(a) ==al2(b));
+    return al2(a) == al2(b);
   }
 }
 
@@ -526,7 +526,7 @@ intchars(int n)
     --ind;
   }
 
-  return(ind + 1);
+  return ind + 1;
 }
 
 
@@ -750,7 +750,7 @@ clean_labelled(exp main, label_list placelabs)
   son(crt_repeat) = r;
   crt_repeat = bro(crt_repeat);
   setfather(r, q);
-  return(r);
+  return r;
 }
 
 
@@ -763,7 +763,7 @@ refto(exp f, exp e)
   while (*x != e) {
     x = &bro(*x);
   }
-  return(x);
+  return x;
 }
 
 
@@ -773,12 +773,12 @@ exp
 father(exp e)
 {
   if (e == nilexp) {
-    return(e);
+    return e;
   }
   while (!last(e)) {
     e = bro(e);
   }
-  return(bro(e));
+  return bro(e);
 }
 
 
@@ -867,7 +867,7 @@ undo_labst(exp e)
   exp r = pt(e);
   pt(e) = pt(son(r));
   clearcopy(e);
-  return(r);
+  return r;
 }
 
 
@@ -921,7 +921,7 @@ exp copy_cpd(exp e, exp new_record, exp var, exp lab)
   n = bro(n);
   setlast(n);
   bro(n) = t;
-  return(t);
+  return t;
 }
 
 
@@ -935,7 +935,7 @@ exp
 copy_res(exp e, exp var, exp lab)
 {
   if (e == nilexp) {
-    return(e);
+    return e;
 #ifdef NEWDIAGS
   } else if (dgf(e) != nildiag) {
     return copy_res_diag(e, dgf(e), var, lab);
@@ -965,7 +965,7 @@ copy_res(exp e, exp var, exp lab)
 	/* in case bro(son(t)) is a tuple */
 	sh (t) = sh(bro(son(t)));
       }
-      return(t);
+      return t;
     }
 
     if (n == name_tag) {
@@ -986,7 +986,7 @@ copy_res(exp e, exp var, exp lab)
 	  proc_externs = 1;
 	}
       }
-      return(r);
+      return r;
     }
 
     if (n == env_offset_tag || n == general_env_offset_tag) {
@@ -996,12 +996,12 @@ copy_res(exp e, exp var, exp lab)
       exp r = copyexp(e);
       son(r) = tp;		/* add this use onto the correct usage
 				   list */
-      return(r);
+      return r;
     }
 
     if (n == cond_tag) {
       exp z = copy_cpd(e, nilexp, var, lab);
-      return(z);
+      return z;
     }
 
     if (n == rep_tag || n == solve_tag) {
@@ -1032,7 +1032,7 @@ copy_res(exp e, exp var, exp lab)
       } else {
 	z = copy_cpd(e, nilexp, var, lab);
       }
-      return(z);
+      return z;
     }
 
     if (n == case_tag) {
@@ -1058,7 +1058,7 @@ copy_res(exp e, exp var, exp lab)
       if (PIC_code) {
 	proc_externs = 1;
       }
-      return(z);
+      return z;
     }
 
     if (n == real_tag || (n == val_tag && isbigval(e))) {
@@ -1069,7 +1069,7 @@ copy_res(exp e, exp var, exp lab)
       if (PIC_code) {
 	proc_externs =1;
       }
-      return(z);
+      return z;
     }
 
    if (n == string_tag) {
@@ -1077,7 +1077,7 @@ copy_res(exp e, exp var, exp lab)
       if (PIC_code) {
 	proc_externs =1;
       }
-      return(r);
+      return r;
     }
 
     if (n == res_tag) {
@@ -1173,7 +1173,7 @@ copy_res(exp e, exp var, exp lab)
       }
 
       if (son(e) == nilexp) {
-	return(z);
+	return z;
       }
       {
 	exp t = son(e);
@@ -1194,7 +1194,7 @@ copy_res(exp e, exp var, exp lab)
 	  sh(z) = sh(bro(son(z)));
 	}
 
-	return(z);
+	return z;
       }
     }
   }
@@ -1217,41 +1217,41 @@ is_comm(exp e)
   switch (name(e)) {
 
   case val_tag:
-    return(no(e) ? 0 : 1);
+    return no(e) ? 0 : 1;
 
   case int_to_bitf_tag:
   case chvar_tag:
-    return(is_comm(son(e)));
+    return is_comm(son(e));
 
   case real_tag: {
     flpt f = no(e);
-    return(flptnos[f].sign ? 0 : 1);
+    return flptnos[f].sign ? 0 : 1;
   }
 
   case compound_tag: {
     exp t = son(e);
     if (t == nilexp) {
-      return(1);
+      return 1;
     }
     while (1) {
       t = bro(t);
       if (name(sh(t)) != bitfhd) {
 	if (!is_comm(t)) {
-	  return(0);
+	  return 0;
 	}
       } else {
 	if (name(t) == val_tag) {
 	  if (no(t)) {
-	    return(0);
+	    return 0;
 	  }
 	} else {
 	  if (no(son(t))) {
-	    return(0);
+	    return 0;
 	  }
 	}
       }
       if (last(t)) {
-	return(1);
+	return 1;
       }
       t = bro(t);
     }
@@ -1259,7 +1259,7 @@ is_comm(exp e)
   }
 
   case ncopies_tag:
-    return(is_comm(son(e)));
+    return is_comm(son(e));
 
   case nof_tag: {
     exp t = son(e);
@@ -1268,10 +1268,10 @@ is_comm(exp e)
     }
     while (1) {
       if (!is_comm(t)) {
-	return(0);
+	return 0;
       }
       if (last(t)) {
-	return(1);
+	return 1;
       }
       t = bro(t);
     }
@@ -1280,15 +1280,15 @@ is_comm(exp e)
 
   case concatnof_tag: {
     exp t = son(e);
-    return(is_comm(t) && is_comm(bro(t)));
+    return is_comm(t) && is_comm(bro(t));
   }
 
   case clear_tag:
   case res_tag:
-    return(1);
+    return 1;
 
   case null_tag:
-    return(no(e) == 0);
+    return no(e) == 0;
   }
-  return(0);
+  return 0;
 }

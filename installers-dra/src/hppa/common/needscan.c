@@ -900,7 +900,7 @@ needs fpop
 	l.floatneeds = MAX_OF(l.floatneeds, r.floatneeds);
 	l.maxargs = MAX_OF(l.maxargs, r.maxargs);
 	pnset(l,hasproccall);
-	return(l);
+	return l;
     }
 #endif
 
@@ -2621,7 +2621,7 @@ ptr is labelled exp
 	      }
 	    }
 #endif
-      return(nds);
+      return nds;
     };
 
   case cont_tag:
@@ -2658,7 +2658,7 @@ ptr is labelled exp
 		    clearlast(op1);
 		}
 		*e = op1;
-		return(scan(e, at));
+		return scan(e, at);
 	    }
 	    if (nstare == offset_mult_tag)goto mult_tag_case;
 	    /* FALL THROUGH */
@@ -2678,7 +2678,7 @@ ptr is labelled exp
 	 bro(op1) = bro(*e);
 	 if (last(*e)) { setlast(op1); } else {clearlast(op1); }
 	 *e = op1;
-	 return(scan(e, at));
+	 return scan(e, at);
        }
        else
 	 if (name(*e) == offset_mult_tag && n > 1 && (n& (n-1)) == 0)
@@ -2714,7 +2714,7 @@ ptr is labelled exp
 		   clearlast(op1);
 		 }
 		 *e = op1;
-		 return(scan(e, at));
+		 return scan(e, at);
 	       }
 	     }
 	   }
@@ -2733,7 +2733,7 @@ ptr is labelled exp
     case div2_tag:
     case offset_div_by_int_tag:
     {
-	return(divneeds(e, at));
+	return divneeds(e, at);
     }
 
     case offset_add_tag:
@@ -2748,7 +2748,7 @@ ptr is labelled exp
     case offset_subtract_tag:
     case component_tag:
     {
-	return(likediv(e, at));
+	return likediv(e, at);
     }
 
     case make_stack_limit_tag:
@@ -2768,7 +2768,7 @@ ptr is labelled exp
     case rem0_tag:
     case rem2_tag:
     {
-	return(remneeds(e, at));
+	return remneeds(e, at);
     }
 
     case div1_tag:
@@ -2862,7 +2862,7 @@ ptr is labelled exp
 	bro(ss) = bro(stare);
 	sh(ss) = sh(stare);
 	*e = ss;
-	return(scan(e, at));
+	return scan(e, at);
       }
       str = scan(arg, at);
       return maxneeds(str, shapeneeds(sh(*(e))));
@@ -2926,7 +2926,7 @@ number is number of proc (useful for indexing)
     if (nds.fixneeds < 2)
 	nds.fixneeds = 2;
     builtin|= (1<<5);
-    return(nds);
+    return nds;
   }
 
 

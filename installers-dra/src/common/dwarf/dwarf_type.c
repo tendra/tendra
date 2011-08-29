@@ -284,7 +284,7 @@ dequalify(diag_type t)
 	switch (t->key) {
 	case DIAG_TYPE_LOC:
 		out_quals(t->data.loc.qualifier);
-		return(dequalify(t->data.loc.object));
+		return dequalify(t->data.loc.object);
 	case DIAG_TYPE_PTR:
 		if (t->data.ptr.object->key == DIAG_TYPE_NULL) {
 			/* NOT a plain diag_type, fudge for void * */
@@ -293,7 +293,7 @@ dequalify(diag_type t)
 		dwarf1(MOD_pointer_to);
 		out_quals(t->data.ptr.qualifier);
 		/* qualifiers to the thing being pointed to */
-		return(dequalify(t->data.ptr.object));
+		return dequalify(t->data.ptr.object);
 	default:
 		return t;
 	}
@@ -305,9 +305,9 @@ base_type(diag_type t)
 {
 	switch (t->key) {
 	case DIAG_TYPE_LOC:
-		return(base_type(t->data.loc.object));
+		return base_type(t->data.loc.object);
 	case DIAG_TYPE_PTR:
-		return(base_type(t->data.ptr.object));
+		return base_type(t->data.ptr.object);
 	default:
 		return t;
 	}

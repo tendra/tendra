@@ -363,7 +363,7 @@ static bool is_fzero
 {
   int i;
   for (i=0;(i<MANT_SIZE) && (fnum.mant[i] ==0);++i);
-  return(i==MANT_SIZE);
+  return i==MANT_SIZE;
 }
 
 
@@ -1384,7 +1384,7 @@ static exp testlast
 (exp e, exp second)
 {
   if (name(e) == test_tag && pt(e) == second) {
-    return(e);
+    return e;
   }
   if (name(e) == seq_tag) {
     if (name(bro(son(e))) == test_tag && pt(bro(son(e))) == second) {

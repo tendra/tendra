@@ -172,7 +172,7 @@ new_binding(void)
 	long n = no_var;
 
 	if (n == 0)
-		return (NULL);
+		return NULL;
 
 	if (spare_binding) {
 		b = spare_binding;
@@ -181,7 +181,7 @@ new_binding(void)
 		for (i = 0; i < n; i++)
 			b[i].max_no = 0;
 
-		return (b);
+		return b;
 	}
 
 	b = alloc_nof(binding, n);
@@ -192,7 +192,7 @@ new_binding(void)
 		b[i].table = NULL;
 	}
 
-	return (b);
+	return b;
 }
 
 
@@ -332,16 +332,16 @@ find_binding(binding *bt, long v, long n)
 
 	if (v < 0 || v >= no_var) {
 		input_error("Illegal binding sort");
-		return (NULL);
+		return NULL;
 	}
 
 	b = bt + v;
 	if (n >= b->max_no || n < 0) {
 		input_error("Object number %ld (%s) too big", n, vars[v].name);
-		return (NULL);
+		return NULL;
 	}
 
-	return (b->table[n]);
+	return b->table[n];
 }
 
 
@@ -372,7 +372,7 @@ de_aligned_string(void)
 	p[n] = 0;
 	byte_align();
 
-	return (p);
+	return p;
 }
 
 

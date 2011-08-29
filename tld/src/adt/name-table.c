@@ -77,7 +77,7 @@ name_table_create(void)
     for (i = 0; i < NAME_TABLE_SIZE; i++) {
 	table->contents[i] = NULL;
     }
-    return(table);
+    return table;
 }
 
 void
@@ -143,13 +143,13 @@ name_table_add(NameTableT * table,			NameKeyT *   key,
 	    if (name_entry_is_place(entry)) {
 		name_entry_make_direct(entry, shape_entry);
 	    }
-	    return(entry);
+	    return entry;
 	}
 	entryp = name_entry_next_ref(entry);
     }
     entry   = name_entry_create_direct(key, shape_entry);
     *entryp = entry;
-    return(entry);
+    return entry;
 }
 
 NameEntryT *
@@ -164,13 +164,13 @@ name_table_get(NameTableT *table,			NameKeyT *  key)
 		entry = name_entry_get_indirect(entry);
 	    }
 	    if (name_entry_is_place(entry)) {
-		return(NULL);
+		return NULL;
 	    }
-	    return(entry);
+	    return entry;
 	}
 	entry = name_entry_next(entry);
     }
-    return(NULL);
+    return NULL;
 }
 
 void

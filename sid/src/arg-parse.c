@@ -99,7 +99,7 @@ arg_parse_arguments(ArgListT *arg_list, EStringT *usage, int argc, char **argv)
 		if (((c == '-' && option[1] == '-')
 				|| (c == '+' && option[1] == '+'))
 			&& option[2] == '\0') {
-			return(argc - tmp_argc + 1);
+			return argc - tmp_argc + 1;
 		} else if ((c == '-' && option[1] == '-')
 			|| (c == '+' && option[1] == '+')) {
 

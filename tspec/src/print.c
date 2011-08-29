@@ -128,11 +128,11 @@ is_tailed_type(type *t)
 	    case TYPE_ARRAY:
 	    case TYPE_BITFIELD:
 	    case TYPE_PROC: {
-		return(1);
+		return 1;
 	    }
 	}
     }
-    return(0);
+    return 0;
 }
 
 
@@ -146,7 +146,7 @@ is_tailed_type(type *t)
 static int
 print_head(FILE *output, type *t, int sp, int tok)
 {
-    if (t == NULL) return(sp);
+    if (t == NULL) return sp;
     switch (t->id) {
 	case TYPE_VOID:
 	case TYPE_INT:
@@ -229,7 +229,7 @@ print_head(FILE *output, type *t, int sp, int tok)
 	    break;
 	}
     }
-    return(sp);
+    return sp;
 }
 
 

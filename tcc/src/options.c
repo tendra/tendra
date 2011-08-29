@@ -729,7 +729,7 @@ lookup_string(const char *s)
 
 		default:
 			error(OPTION, "Unknown output file specifier, '%c'", s[1]);
-			return (NULL);
+			return NULL;
 		}
 	}
 

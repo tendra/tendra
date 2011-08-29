@@ -209,7 +209,7 @@ add_shape_to_stack(ash p, shape s)
 	res.astoff = round(p, param_align);
 	res.astadj = adj;
 	res.astash = round(res.astoff + sz, param_align);
-	return (res);
+	return res;
 }
 
 
@@ -250,7 +250,7 @@ alloc_reg(shape sha, int br, bool big)
 		}
 	} else if (r == Freg) {
 		if (round_after_flop) {
-			return (0);
+			return 0;
 		}
 		rg = bits_in(~rs & 0xfc0000);
 		mask = regmsk(REG_FP7);
@@ -259,11 +259,11 @@ alloc_reg(shape sha, int br, bool big)
 		rev = 1;
 	} else {
 		error(ERROR_SERIOUS, "Illegal register type");
-		return (0);
+		return 0;
 	}
 
 	if (rg < br || rg == 0) {
-		return (0);
+		return 0;
 	}
 
 	i = start;
@@ -276,7 +276,7 @@ alloc_reg(shape sha, int br, bool big)
 				}
 			}
 			regsinproc |= mask;
-			return (mask);
+			return mask;
 		}
 		if (i == end) {
 			go = 0;
@@ -290,7 +290,7 @@ alloc_reg(shape sha, int br, bool big)
 			}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -306,13 +306,13 @@ reuse_check(exp e)
 {
 	exp id;
 	if (name(e) != name_tag) {
-		return (0);
+		return 0;
 	}
 	id = son(e);
 	if (isglob(id) || pt(id) != reg_pl) {
-		return (0);
+		return 0;
 	}
-	return (reuseables & no(id));
+	return reuseables & no(id);
 }
 
 
@@ -329,7 +329,7 @@ reuse(exp def)
 {
 	switch (name(def)) {
 	case name_tag:
-		return (reuse_check(def));
+		return reuse_check(def);
 	case plus_tag:
 	case and_tag:
 	case or_tag:
@@ -339,18 +339,18 @@ reuse(exp def)
 		exp arg1 = son(def);
 		exp arg2 = bro(arg1);
 		if (last(arg1)) {
-			return (reuse_check(arg1));
+			return reuse_check(arg1);
 		}
 		if (last(arg2)) {
-			return (reuse_check(arg1) || reuse_check(arg2));
+			return reuse_check(arg1) || reuse_check(arg2);
 		}
-		return (0);
+		return 0;
 	}
 	case chvar_tag:
 	case neg_tag:
 	case not_tag:
 		/* Check one argument */
-		return (reuse_check(son(def)));
+		return reuse_check(son(def));
 	case minus_tag:
 	case subptr_tag:
 	case minptr_tag:
@@ -359,10 +359,10 @@ reuse(exp def)
 		/* Check two arguments */
 		exp arg1 = son(def);
 		exp arg2 = bro(arg1);
-		return (reuse_check(arg1) || reuse_check(arg2));
+		return reuse_check(arg1) || reuse_check(arg2);
 	}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -377,9 +377,9 @@ nouse(exp e)
 {
 	char n = name(e);
 	if (n == test_tag) {
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -419,7 +419,7 @@ alloc_variable(exp e, exp def, ash stack)
 	if (name(sh(def)) == tophd && !isvis(e)) {
 		dc.place = nowhere_pl;
 		dc.num = 0;
-		return (dc);
+		return dc;
 	}
 
 	if (n == name_tag) {
@@ -469,7 +469,7 @@ alloc_variable(exp e, exp def, ash stack)
 		if (dc.place == reg_pl) {
 			/* If the old one was in registers, reuse it */
 			dc.is_new = 0;
-			return (dc);
+			return dc;
 		}
 
 		if (!force_reg) {
@@ -478,7 +478,7 @@ alloc_variable(exp e, exp def, ash stack)
 				if (ru) {
 					dc.place = reg_pl;
 					dc.num = ru;
-					return (dc);
+					return dc;
 				}
 			}
 			if (isglob(s)) {
@@ -490,11 +490,11 @@ alloc_variable(exp e, exp def, ash stack)
 				} else {
 					dc.num = locast.astash;
 				}
-				return (dc);
+				return dc;
 			}
 			/* If there was not room, reuse the old dec */
 			dc.is_new = 0;
-			return (dc);
+			return dc;
 		}
 
 		if (regable(e)) {
@@ -502,7 +502,7 @@ alloc_variable(exp e, exp def, ash stack)
 			if (ru) {
 				dc.place = reg_pl;
 				dc.num = ru;
-				return (dc);
+				return dc;
 			}
 			if (isglob(s)) {
 				locast = add_shape_to_stack(stack, sh(def));
@@ -513,12 +513,12 @@ alloc_variable(exp e, exp def, ash stack)
 				} else {
 					dc.num = locast.astash;
 				}
-				return (dc);
+				return dc;
 			}
 			dc.is_new = 0;
-			return (dc);
+			return dc;
 		}
-		return (dc);
+		return dc;
 	}
 
 	if (n == apply_tag || n == apply_general_tag || n == tail_call_tag) {
@@ -532,7 +532,7 @@ alloc_variable(exp e, exp def, ash stack)
 		    nouse(bro(def))) {
 			dc.place = reg_pl;
 			dc.num = regmsk(REG_D0);
-			return (dc);
+			return dc;
 		}
 		if (is_a(n)) {
 			long rg = reuse(def) & 0x3cfc;
@@ -540,14 +540,14 @@ alloc_variable(exp e, exp def, ash stack)
 				reuseables &= ~rg;
 				dc.place = reg_pl;
 				dc.num = rg;
-				return (dc);
+				return dc;
 			}
 		}
 		ru = alloc_reg(sh(def), br, big);
 		if (ru) {
 			dc.place = reg_pl;
 			dc.num = ru;
-			return (dc);
+			return dc;
 		}
 	}
 
@@ -560,7 +560,7 @@ alloc_variable(exp e, exp def, ash stack)
 	} else {
 		dc.num = locast.astash;
 	}
-	return (dc);
+	return dc;
 }
 
 
@@ -737,7 +737,7 @@ caser(exp arg, long already)
 		a = caser(arg, already);
 
 		/* Code the second half */
-		return (caser(new, a));
+		return caser(new, a);
 	}
 
 	if (worth > 2) {
@@ -816,7 +816,7 @@ caser(exp arg, long already)
 		make_label(rlab);
 
 		/* Return the total number deducted from D1 */
-		return (lowest);
+		return lowest;
 	}
 
 	/* If 'high' is not always equal to 'low', restore value of D1 */
@@ -859,7 +859,7 @@ caser(exp arg, long already)
 	}
 	/* Return what has been subtracted from D1 */
 	have_cond = 0;
-	return (already);
+	return already;
 }
 
 /*
@@ -907,9 +907,9 @@ static bool
 red_jump(exp e, exp la)
 {
 	if (!last(la) && pt(e) == bro(la)) {
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -923,13 +923,13 @@ stack_room(ash stack, where dest, long off)
 	exp e = dest.wh_exp;
 	if (name(e) == ident_tag) {
 		if (ptno(e) != var_pl) {
-			return (stack);
+			return stack;
 		}
 		if (no(e) + off > stack) {
 			stack = no(e) + off;
 		}
 	}
-	return (stack);
+	return stack;
 }
 
 

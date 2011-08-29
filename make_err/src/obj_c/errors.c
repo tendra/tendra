@@ -98,7 +98,7 @@ gen_errors(size_t sz)
 	p = free_errors_array[n];
 	if (p) {
 	    free_errors_array[n] = TAIL_list(p);
-	    return(p);
+	    return p;
 	}
     }
 
@@ -110,7 +110,7 @@ gen_errors(size_t sz)
     p = free_errors;
     free_errors += sz;
     free_errors_left -= sz;
-    return(p);
+    return p;
 }
 
 
@@ -186,7 +186,7 @@ length_errors_list(errors *p)
     for (q = p; q != NULL; q = TAIL_list(q)) {
 	n++;
     }
-    return(n);
+    return n;
 }
 
 
@@ -207,7 +207,7 @@ reverse_errors_list(errors *p)
 	r = q;
 	q = nq;
     }
-    return(r);
+    return r;
 }
 
 
@@ -222,13 +222,13 @@ append_errors_list(errors *p, errors *q)
 {
     errors *r = p;
     if (r == NULL) {
-	return(q);
+	return q;
     }
     while (TAIL_list(r)) {
 	r = TAIL_list(r);
     }
     TAIL_list(r) = q;
-    return(p);
+    return p;
 }
 
 
@@ -243,12 +243,12 @@ end_errors_list(errors *p)
 {
     errors *r = p;
     if (r == NULL) {
-	return(NULL);
+	return NULL;
     }
     while (TAIL_list(r)) {
 	r = TAIL_list(r);
     }
-    return(r);
+    return r;
 }
 
 

@@ -112,11 +112,11 @@ enc_destr_func(BITSTREAM *bs, EXP d)
 			n = unit_no(bs, fn, VAR_tag, 0);
 			ENC_obtain_tag(bs);
 			ENC_make_tag(bs, n);
-			return (bs);
+			return bs;
 		}
 	}
 	ENC_make_null_proc(bs);
-	return (bs);
+	return bs;
 }
 
 
@@ -162,7 +162,7 @@ enc_catch(BITSTREAM *bs, TYPE t, ulong lab, unsigned seq)
 	ts = enc_rtti_type(ts, t, lex_typeid);
 	bs = enc_bitstream(bs, ts);
 	bs = enc_make_int(bs, type_sint, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -209,7 +209,7 @@ enc_try_start(BITSTREAM *bs, ulong *pn, unsigned seq)
 	ENC_make_local_lv(ts);
 	ENC_make_label(ts, lab);
 	bs = enc_bitstream(bs, ts);
-	return (bs);
+	return bs;
 }
 
 
@@ -228,7 +228,7 @@ enc_try_end(BITSTREAM *bs, ulong n)
 	ENC_obtain_tag(ts);
 	ENC_make_tag(ts, n);
 	bs = enc_bitstream(bs, ts);
-	return (bs);
+	return bs;
 }
 
 
@@ -252,7 +252,7 @@ enc_try(BITSTREAM *bs, EXP e)
 	/* Ignore handlers if exception handling disabled */
 	if (!output_except) {
 		bs = enc_stmt(bs, a);
-		return (bs);
+		return bs;
 	}
 
 	/* Encode the try block */
@@ -314,7 +314,7 @@ enc_try(BITSTREAM *bs, EXP e)
 	}
 	unreached_code = uc;
 	no_destructors--;
-	return (bs);
+	return bs;
 }
 
 
@@ -337,7 +337,7 @@ enc_rethrow(BITSTREAM *bs)
 		bs = enc_bitstream(bs, ts);
 	}
 	unreached_code = 1;
-	return (bs);
+	return bs;
 }
 
 
@@ -395,7 +395,7 @@ enc_throw(BITSTREAM *bs, EXP a, EXP b, EXP d)
 		/* Rethrow the current exception */
 		bs = enc_rethrow(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -415,7 +415,7 @@ enc_thrown(BITSTREAM *bs, TYPE t)
 	ts = enc_alignment(ts, t);
 	ts = enc_special(ts, TOK_except_value);
 	bs = enc_bitstream(bs, ts);
-	return (bs);
+	return bs;
 }
 
 
@@ -455,7 +455,7 @@ enc_try_func(BITSTREAM *bs, EXP a)
 	in_exception_spec++;
 	ENC_SEQ_SMALL(bs, 1);
 	bs = enc_try_start(bs, last_params + DUMMY_catch,(unsigned)1);
-	return (bs);
+	return bs;
 }
 
 
@@ -546,7 +546,7 @@ enc_catch_func(BITSTREAM *bs, LIST(TYPE)p, EXP a)
 	in_exception_spec--;
 	no_destructors--;
 	UNUSED(a);
-	return (bs);
+	return bs;
 }
 
 

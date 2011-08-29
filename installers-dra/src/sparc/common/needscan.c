@@ -344,7 +344,7 @@ exp
     }	
     res = &bro ( sib ) ;
   }
-  return ( res ) ;
+  return res;
 }
 
 
@@ -448,12 +448,12 @@ subvar_use ( exp uses )
 	exp id = bro ( bro ( c ) ) ;
 	if ( ( props ( id ) & subvar ) != 0 &&
 	     ( props ( id ) & inanyreg ) != 0 ) {
-	  return ( 1 ) ;
+	  return 1;
 	}
       }
     }
   }
-  return ( 0 ) ;
+  return 0;
 }
 
 #endif
@@ -466,16 +466,16 @@ subvar_use ( exp uses )
 needs 
 shapeneeds ( shape s ){
   if ( is_floating ( name ( s ) ) ) {
-    return ( onefloat ) ;
+    return onefloat;
   } 
   else {
     if ( valregable ( s ) ) {
-      return ( onefix ) ;
+      return onefix;
     } 
     else {
       /* if the shape does not fit into a reg, needs two fixed
 	 regs for moving */
-      return ( twofix ) ;
+      return twofix;
     }
   }
   /* NOT REACHED */
@@ -521,10 +521,10 @@ complex ( exp e ){
        ( name ( e ) == cont_tag && name ( son ( e ) ) == name_tag &&
 	 isvar ( son ( son ( e ) ) ) ) ||
        name(e) == val_tag || name(e) == real_tag || name(e) == null_tag ) {
-    return ( 0 ) ;
+    return 0;
   } 
   else {
-    return ( 1 ) ;
+    return 1;
   }
   /* NOT REACHED */
 }
@@ -734,7 +734,7 @@ likeplus ( exp * e, exp ** at ){
     if ( a1.fixneeds < 4 ) a1.fixneeds = 4 ;
   }
 #endif
-  return ( a1 ) ;
+  return a1;
 }
 
 
@@ -777,7 +777,7 @@ likediv ( exp * e, exp ** at ){
     if ( l.fixneeds < 4 ) l.fixneeds = 4 ;
   }
 #endif
-  return ( l ) ;
+  return l;
 }
 
 
@@ -811,7 +811,7 @@ fpop ( exp * e, exp ** at ){
     l.floatneeds = MAX_OF ( l.floatneeds, r.floatneeds ) ;
     l.maxargs = MAX_OF ( l.maxargs, r.maxargs ) ;
     pnset ( l, hasproccall ) ;
-    return ( l ) ;
+    return l;
   }
 #endif
 
@@ -842,7 +842,7 @@ fpop ( exp * e, exp ** at ){
     pnset ( l, morefloat | ( pcr << 1 ) ) ;
     l.maxargs = MAX_OF ( l.maxargs, r.maxargs ) ;
   }
-  return ( l ) ;
+  return l;
 }
 
 
@@ -858,7 +858,7 @@ maxneeds ( needs a, needs b ){
   an.maxargs = MAX_OF ( a.maxargs, b.maxargs ) ;
   an.callee_size = MAX_OF(a.callee_size,b.callee_size);
   an.prps = ( prop ) ( a.prps | b.prps ) ;
-  return ( an ) ;
+  return an;
 }
 
 
@@ -899,7 +899,7 @@ unchanged ( exp usedname, exp ident ){
 	while ( z != ident ) {
 	  if ( !last ( z ) || ( name ( bro ( z ) ) != seq_tag &&
 				name ( bro ( z ) ) != ident_tag ) ) {
-	    return ( 0 ) ;
+	    return 0;
 	  }
 	  z = bro ( z ) ;
 	}
@@ -907,7 +907,7 @@ unchanged ( exp usedname, exp ident ){
     }
     uses = pt ( uses ) ;
   }
-  return ( 1 ) ;
+  return 1;
 }
 
 
@@ -957,7 +957,7 @@ chase ( exp sel, exp * e ){
 	bro ( ss ) = bro ( stare ) ;
 	sh ( ss ) = sh ( stare ) ;
 	*e = ss ;
-	return ( chase ( sel, e ) ) ;
+	return chase ( sel, e ) ;
       }
       /* FALL THROUGH */
     }
@@ -978,7 +978,7 @@ chase ( exp sel, exp * e ){
     }
   }
   if ( b ) sh ( *e ) = sh ( sel ) ;
-  return ( b ) ;
+  return b;
 }
 
 
@@ -995,7 +995,7 @@ need_result_space ( exp e ) {
     case ident_tag:
       if (e == son (dad))
 	return nilexp;
-      return (need_result_space (dad));
+      return need_result_space (dad);
     case rep_tag:
       if (e == son (dad))
 	return dad;
@@ -1007,7 +1007,7 @@ need_result_space ( exp e ) {
 #ifndef NEWDIAGS
     case diagnose_tag:
 #endif
-      return (need_result_space (dad));
+      return need_result_space (dad);
     default:
       return nilexp;
   }
@@ -1059,8 +1059,8 @@ is_asm_opnd ( exp e, int ext )
     id_in_asm (son(son(e)));
     return 1;
   }
-  return (n == val_tag || n == real_tag || n == null_tag ||
-	(n == reff_tag && name(son(e)) == name_tag));
+  return n == val_tag || n == real_tag || n == null_tag ||
+	(n == reff_tag && name(son(e)) == name_tag);
 }
 
 static int 
@@ -1155,11 +1155,11 @@ scan ( exp * e, exp ** at ){
   switch ( nstare ) {
 
     case 0 : {
-      return ( zeroneeds ) ;
+      return zeroneeds;
     }
 #if 0
     case compound_tag : {
-      return ( maxtup ( ste, at ) ) ;
+      return maxtup ( ste, at ) ;
     }
 #else
     case compound_tag :
@@ -1218,7 +1218,7 @@ scan ( exp * e, exp ** at ){
       }
 
       if ( nl.fixneeds < 2 ) nl.fixneeds = 2 ;
-      return ( nl ) ;
+      return nl;
     }
 
     case cond_tag : {
@@ -1249,7 +1249,7 @@ scan ( exp * e, exp ** at ){
       if ( pntst ( an, usesproccall ) != 0 ) {
 	pnset ( an, hasproccall ) ;
       }
-      return ( an ) ;
+      return an;
     }
 
     case ident_tag : {
@@ -1487,7 +1487,7 @@ scan ( exp * e, exp ** at ){
       if ( pntst ( bdy, usesproccall ) != 0 ) {
 	pnset ( bdy, hasproccall ) ;
       }
-      return ( bdy ) ;
+      return bdy;
     }
 
     case seq_tag : {
@@ -1507,7 +1507,7 @@ scan ( exp * e, exp ** at ){
 	  if ( pntst ( an, usesproccall ) != 0 ) {
 	    pnset ( an, hasproccall ) ;
 	  }
-	  return ( an ) ;
+	  return an;
 	}
 	stat = &bro ( *stat ) ;
 	arg = stat ;
@@ -1521,7 +1521,7 @@ scan ( exp * e, exp ** at ){
       if (!sysV_assembler && spin_lab (pt(*e))) {
 	pnset ( nr, dont_optimise ) ;		/* otherwise the SunOS assembler spins */
       }
-      return ( nr ) ;
+      return nr;
     }
     case ass_tag :
     case assvol_tag : {
@@ -1548,7 +1548,7 @@ scan ( exp * e, exp ** at ){
 	     ( pntst ( nr, hasproccall | morefix ) == 0 &&
 	       nr.fixneeds < maxfix ) ) ) {
 	/* simple destination */
-	return ( nr ) ;
+	return nr;
       } 
       else {
 	needs nl ;
@@ -1569,7 +1569,7 @@ scan ( exp * e, exp ** at ){
 	  pnset ( nl, prpx ) ;
 	}
 	nr.fixneeds += 1 ;
-	return ( maxneeds ( nl, nr ) ) ;
+	return maxneeds ( nl, nr ) ;
       }
     }
     case untidy_return_tag :
@@ -1634,7 +1634,7 @@ scan ( exp * e, exp ** at ){
 	}
       }
 #endif
-      return ( x ) ;
+      return x;
     }
     case apply_general_tag : {
       exp application = *(e);
@@ -1868,7 +1868,7 @@ scan ( exp * e, exp ** at ){
 #if 0
 	nds = maxneeds ( specialneeds ( i ), nds ) ;
 #endif
-	return ( nds ) ;
+	return nds;
       } 
       else if ( i == -1 ) {
 	/* call of strcpy ... (removed) */
@@ -1903,7 +1903,7 @@ scan ( exp * e, exp ** at ){
       nds.maxargs = MAX_OF ( nds.maxargs, parsize ) ;
       /* clobber %o0..%o5,%o7 */
       nds.fixneeds = MAX_OF ( nds.fixneeds, 8 ) ;
-      return ( nds ) ;
+      return nds;
 
     }
     case movecont_tag : {	/* Only whilst it aways generates memmove */
@@ -1958,7 +1958,7 @@ scan ( exp * e, exp ** at ){
       nds.maxargs = MAX_OF ( nds.maxargs, parsize ) ;
       /* clobber %o0..%o5,%o7 */
       nds.fixneeds = MAX_OF ( nds.fixneeds, 7 ) ;
-      return ( nds ) ;
+      return nds;
     }
 
     case val_tag : {
@@ -1978,7 +1978,7 @@ scan ( exp * e, exp ** at ){
     case current_env_tag :
     case make_lv_tag : 
     case last_local_tag : {
-      return ( shapeneeds ( sh ( *e ) ) ) ;
+      return shapeneeds ( sh ( *e ) ) ;
     }
     case name_tag : {
       needs nds;
@@ -1988,18 +1988,18 @@ scan ( exp * e, exp ** at ){
 	if (boff < -4096 || boff > 4095)
 	  nds.fixneeds += 1 ;
       }
-      return ( nds ) ;
+      return nds;
     }
     case give_stack_limit_tag : {
       specialext = 1;
-      return ( shapeneeds ( sh ( *e ) ) ) ;
+      return shapeneeds ( sh ( *e ) ) ;
     }
     case formal_callee_tag :
     case clear_tag :
     case top_tag :
     case prof_tag :
     case local_free_all_tag : {
-      return ( zeroneeds ) ;
+      return zeroneeds;
     }
     case local_free_tag: {
       needs nds;
@@ -2040,13 +2040,13 @@ scan ( exp * e, exp ** at ){
 #endif
       sn = scan ( s, &s ) ;
       rscope_level-- ;
-      return ( sn ) ;
+      return sn;
     }
 #endif
     case set_stack_limit_tag : {
       exp *arg = &son ( *e ) ;
       specialext = 1;
-      return ( scan ( arg, at ) ) ;
+      return scan ( arg, at ) ;
     }
 #ifdef return_to_label_tag
     case return_to_label_tag :
@@ -2062,7 +2062,7 @@ scan ( exp * e, exp ** at ){
       exp *arg = &son ( *e ) ;
       if (error_treatment_is_trap ( *e ))
 	specialext = 1;
-      return ( scan ( arg, at ) ) ;
+      return scan ( arg, at ) ;
     }
     case case_tag :
     { 
@@ -2102,7 +2102,7 @@ scan ( exp * e, exp ** at ){
 	}
       }
 #endif
-      return ( nds ) ;
+      return nds;
     }
 
     case bitf_to_int_tag : {
@@ -2147,12 +2147,12 @@ scan ( exp * e, exp ** at ){
 	sh ( stararg ) = ns ;
 	setname ( stare, chvar_tag ) ;
       }
-      return ( nds ) ;
+      return nds;
     }
 
     case int_to_bitf_tag : {
       exp *arg = &son ( *e ) ;
-      return ( scan ( arg, at ) ) ;
+      return scan ( arg, at ) ;
     }
     case round_tag : {
       needs s ;
@@ -2184,7 +2184,7 @@ scan ( exp * e, exp ** at ){
 	}
       }
 #endif
-      return ( s ) ;
+      return s;
     }
 
     case shl_tag :
@@ -2210,7 +2210,7 @@ scan ( exp * e, exp ** at ){
       }
       nr.fixneeds += 1 ;
       nr.fixneeds += 1 ;	/* why? */
-      return ( maxneeds ( nl, nr ) ) ;
+      return maxneeds ( nl, nr ) ;
     }
 
     case test_tag : {
@@ -2297,7 +2297,7 @@ scan ( exp * e, exp ** at ){
 	}
       } 
       else if ( is_floating ( name ( sh ( l ) ) ) ) {
-	return ( fpop ( e, at ) ) ;
+	return fpop ( e, at ) ;
       } 
       else if ( name ( r ) == val_tag && no ( r ) == 1 &&
 		  ( props ( stare ) == 3 || props ( stare ) == 2 ) ) {
@@ -2311,7 +2311,7 @@ scan ( exp * e, exp ** at ){
 	  props ( stare ) = 1 ;
 	}
       }
-      return ( likediv ( e, at ) ) ;
+      return likediv ( e, at ) ;
     }
 
     case plus_tag : {
@@ -2430,7 +2430,7 @@ scan ( exp * e, exp ** at ){
 	  *e = newsum ;
 
 	}
-	return ( scan ( e, at ) ) ;
+	return scan ( e, at ) ;
 
       }
       /* FALL THROUGH */
@@ -2439,7 +2439,7 @@ scan ( exp * e, exp ** at ){
     case and_tag :
     case or_tag :
     case xor_tag : {
-      return ( likeplus ( e, at ) ) ;
+      return likeplus ( e, at ) ;
     }
 #ifdef make_stack_limit_tag
     case make_stack_limit_tag :
@@ -2449,7 +2449,7 @@ scan ( exp * e, exp ** at ){
     case minptr_tag : {
       if (error_treatment_is_trap ( *e ))
 	specialext = 1;
-      return ( likediv ( e, at ) ) ;
+      return likediv ( e, at ) ;
     }
     case addptr_tag :
     {
@@ -2503,7 +2503,7 @@ scan ( exp * e, exp ** at ){
 	}
       }
 #endif
-      return ( nds ) ;
+      return nds;
     }
 
     case cont_tag :
@@ -2512,14 +2512,14 @@ scan ( exp * e, exp ** at ){
       needs nds ;
       nds = maxneeds ( scan ( arg, at ), shapeneeds ( sh ( *e ) ) ) ;
       nds.fixneeds = MAX_OF ( nds.fixneeds, 2 ) ;
-      return ( nds ) ;
+      return nds;
     }
 
     case mult_tag :
     mult_tag_case : {
       if (error_treatment_is_trap ( *e ))
 	specialext = 1;
-      return ( multneeds ( e, at ) ) ;
+      return multneeds ( e, at ) ;
     }
 
     case offset_mult_tag :
@@ -2541,9 +2541,9 @@ scan ( exp * e, exp ** at ){
 	sh(op1) = sh(*e);
 	*e = op1 ;
 	if (name(*e) == val_tag)
-	  return ( shapeneeds ( sh ( *e ) ) ) ;	/* disps already in bytes */
+	  return shapeneeds ( sh ( *e ) ) ;	/* disps already in bytes */
 	else
-	  return ( scan ( e, at ) ) ;
+	  return scan ( e, at ) ;
       }
 
       if ( nstare == offset_mult_tag ) goto mult_tag_case ;
@@ -2556,7 +2556,7 @@ scan ( exp * e, exp ** at ){
     case offset_div_by_int_tag : {
       if (error_treatment_is_trap ( *e ))
 	specialext = 1;
-      return ( divneeds ( e, at ) ) ;
+      return divneeds ( e, at ) ;
     }
 
     case offset_add_tag :
@@ -2570,7 +2570,7 @@ scan ( exp * e, exp ** at ){
     }
       /* FALL_THROUGH */
     case component_tag : {
-      return ( likediv ( e, at ) ) ;
+      return likediv ( e, at ) ;
     }
     case offset_max_tag: case max_tag: case min_tag:
     { needs nd;
@@ -2584,7 +2584,7 @@ scan ( exp * e, exp ** at ){
     case rem2_tag : {
       if (error_treatment_is_trap ( *e ))
 	specialext = 1;
-      return ( remneeds ( e, at ) ) ;
+      return remneeds ( e, at ) ;
     }
 
     case fdiv_tag :
@@ -2635,9 +2635,9 @@ scan ( exp * e, exp ** at ){
 	while ( !last ( a2 ) ) a2 = bro ( a2 ) ;
 	bro ( a2 ) = opn ;
 	*e = nd ;
-	return ( scan ( e, at ) ) ;
+	return scan ( e, at ) ;
       }
-      return ( fpop ( e, at ) ) ;
+      return fpop ( e, at ) ;
     }
 
     case fmax_tag : {
@@ -2655,10 +2655,10 @@ scan ( exp * e, exp ** at ){
 	bro ( ss ) = bro ( stare ) ;
 	sh ( ss ) = sh ( stare ) ;
 	*e = ss ;
-	return ( scan ( e, at ) ) ;
+	return scan ( e, at ) ;
       }
       str = scan ( arg, at ) ;
-      return ( maxneeds ( str, shapeneeds ( sh ( *e ) ) ) ) ;
+      return maxneeds ( str, shapeneeds ( sh ( *e ) ) ) ;
     }
     case general_proc_tag :
     case proc_tag : {
@@ -2704,7 +2704,7 @@ scan ( exp * e, exp ** at ){
 	callee_size += 4 * PTR_SZ;
       }
       /* should never require this in reg in C */
-      return ( body ) ;
+      return body;
     }
 
     case alloca_tag : {
@@ -2713,7 +2713,7 @@ scan ( exp * e, exp ** at ){
 	specialext = 1;
       nds = scan ( &son ( *e ), at ) ;
       if ( nds.fixneeds < 2 ) nds.fixneeds = 2 ;
-      return ( nds ) ;
+      return nds;
     }
     case trap_tag :{
       specialext = 1;
@@ -2732,11 +2732,11 @@ scan ( exp * e, exp ** at ){
       /* clobber %o0..%o5,%o7 */
       nds.fixneeds = MAX_OF ( nds.fixneeds, 8 ) ;
       pnset ( nds, hasproccall ) ;
-      return ( nds ) ;
+      return nds;
     };
     default : {
       fail ( "Case not covered in needs scan" ) ;
-      return ( zeroneeds ) ;
+      return zeroneeds;
     }
   }
   /* NOT REACHED */

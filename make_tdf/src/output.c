@@ -249,7 +249,7 @@ output_sort(SORT sort, int intro)
 	    }
 	}
     }
-    return(c);
+    return c;
 }
 
 
@@ -564,7 +564,7 @@ eval_cond(string s)
 
     if (s[0] == '!') {
 	/* Negate condition */
-	return(!eval_cond(s + 1));
+	return !eval_cond(s + 1);
     }
 
     if (strneq(s, "sort.", 5)) {
@@ -573,53 +573,53 @@ eval_cond(string s)
 	sort_label : {
 	    unsigned tag = 100;
 	    if (!IS_NULL_info(ci)) tag = TAG_info(ci);
-	    if (!strcmp(s, "builtin")) return(tag == info_builtin_tag);
-	    if (!strcmp(s, "basic")) return(tag == info_basic_tag);
-	    if (!strcmp(s, "dummy")) return(tag == info_dummy_tag);
-	    if (!strcmp(s, "list")) return(tag == info_clist_tag);
-	    if (!strcmp(s, "slist")) return(tag == info_slist_tag);
-	    if (!strcmp(s, "option")) return(tag == info_option_tag);
+	    if (!strcmp(s, "builtin")) return tag == info_builtin_tag;
+	    if (!strcmp(s, "basic")) return tag == info_basic_tag;
+	    if (!strcmp(s, "dummy")) return tag == info_dummy_tag;
+	    if (!strcmp(s, "list")) return tag == info_clist_tag;
+	    if (!strcmp(s, "slist")) return tag == info_slist_tag;
+	    if (!strcmp(s, "option")) return tag == info_option_tag;
 	    if (!strcmp(s, "simple")) {
-		return(tag == info_basic_tag || tag == info_dummy_tag);
+		return tag == info_basic_tag || tag == info_dummy_tag;
 	    }
 	    if (!strcmp(s, "compound")) {
-		if (tag == info_option_tag) return(1);
-		return(tag == info_clist_tag || tag == info_slist_tag);
+		if (tag == info_option_tag) return 1;
+		return tag == info_clist_tag || tag == info_slist_tag;
 	    }
 	    if (!strcmp(s, "extends")) {
 		if (tag == info_basic_tag) {
 		    unsigned a = DEREF_unsigned(info_basic_extend(ci));
-		    if (a) return(1);
+		    if (a) return 1;
 		}
-		return(0);
+		return 0;
 	    }
 	    if (!strcmp(s, "special")) {
 		int a = 0;
 		if (!IS_NULL_sort(cs)) {
 		    a = DEREF_int(sort_special(cs));
 		}
-		return(a);
+		return a;
 	    }
 	    if (!strcmp(s, "edge")) {
 		int a = 0;
 		if (!IS_NULL_sort(cs)) {
 		    a = DEREF_int(sort_edge(cs));
 		}
-		return(a);
+		return a;
 	    }
 	    if (!strcmp(s, "link")) {
 		if (!IS_NULL_sort(cs)) {
 		    string nm = DEREF_string(sort_link(cs));
-		    if (nm) return(1);
+		    if (nm) return 1;
 		}
-		return(0);
+		return 0;
 	    }
 	    if (!strcmp(s, "unit")) {
 		if (!IS_NULL_sort(cs)) {
 		    string nm = DEREF_string(sort_unit(cs));
-		    if (nm) return(1);
+		    if (nm) return 1;
 		}
-		return(0);
+		return 0;
 	    }
 	    if (strneq(s, "name.", 5)) {
 		if (tag == info_basic_tag) {
@@ -642,9 +642,9 @@ eval_cond(string s)
 		s += 3;
 		if (!IS_NULL_sort(cs)) {
 		    string nm = DEREF_string(sort_name(cs));
-		    if (!strcmp(nm, s)) return(1);
+		    if (!strcmp(nm, s)) return 1;
 		}
-		return(0);
+		return 0;
 	    }
 	}
 
@@ -664,18 +664,18 @@ eval_cond(string s)
 	    if (!IS_NULL_cons(cc)) {
 		kind = DEREF_unsigned(cons_kind(cc));
 	    }
-	    if (!strcmp(s, "simple")) return(kind == KIND_simple);
-	    if (!strcmp(s, "token")) return(kind == KIND_token);
-	    if (!strcmp(s, "cond")) return(kind == KIND_cond);
-	    if (!strcmp(s, "edge")) return(kind == KIND_edge);
-	    if (!strcmp(s, "foreign")) return(kind == KIND_foreign);
-	    if (!strcmp(s, "special")) return(kind == KIND_special);
+	    if (!strcmp(s, "simple")) return kind == KIND_simple;
+	    if (!strcmp(s, "token")) return kind == KIND_token;
+	    if (!strcmp(s, "cond")) return kind == KIND_cond;
+	    if (!strcmp(s, "edge")) return kind == KIND_edge;
+	    if (!strcmp(s, "foreign")) return kind == KIND_foreign;
+	    if (!strcmp(s, "special")) return kind == KIND_special;
 	    if (!strcmp(s, "params")) {
 		if (!IS_NULL_cons(cc)) {
 		    LIST(PARAMETER)p = DEREF_list(cons_pars(cc));
-		    if (!IS_NULL_list(p)) return(1);
+		    if (!IS_NULL_list(p)) return 1;
 		}
-		return(0);
+		return 0;
 	    }
 	    if (!strcmp(s, "extends")) {
 		if (!IS_NULL_cons(cc)) {
@@ -683,18 +683,18 @@ eval_cond(string s)
 			unsigned b, e;
 			b = DEREF_unsigned(info_basic_bits(ci));
 			e = DEREF_unsigned(cons_encode(cc));
-			if (e >= ((unsigned)1 << b)) return(1);
+			if (e >= ((unsigned)1 << b)) return 1;
 		    }
 		}
-		return(0);
+		return 0;
 	    }
 	    if (strneq(s, "eq.", 3)) {
 		s += 3;
 		if (!IS_NULL_cons(cc)) {
 		    string nm = DEREF_string(cons_name(cc));
-		    if (!strcmp(nm, s)) return(1);
+		    if (!strcmp(nm, s)) return 1;
 		}
-		return(0);
+		return 0;
 	    }
 	}
 
@@ -715,41 +715,41 @@ eval_cond(string s)
 	if (!strcmp(s, "align")) {
 	    int a = 0;
 	    if (!IS_NULL_par(cp)) a = DEREF_int(par_align(cp));
-	    return(a);
+	    return a;
 	}
 	if (!strcmp(s, "break")) {
 	    int a = 0;
 	    if (!IS_NULL_par(cp)) a = DEREF_int(par_brk(cp));
-	    return(a);
+	    return a;
 	}
 	if (!strcmp(s, "intro")) {
 	    int a = 0;
 	    if (!IS_NULL_par(cp)) a = DEREF_int(par_intro(cp));
-	    return(a);
+	    return a;
 	}
 	if (!strcmp(s, "first")) {
-	    return(crt_param_no == 0);
+	    return crt_param_no == 0;
 	}
 	if (!strcmp(s, "last")) {
-	    return(crt_param_no == last_param_no);
+	    return crt_param_no == last_param_no;
 	}
 	if (strneq(s, "eq.", 3)) {
 	    s += 3;
 	    if (!IS_NULL_par(cp)) {
 		string nm = DEREF_string(par_name(cp));
-		if (!strcmp(nm, s)) return(1);
+		if (!strcmp(nm, s)) return 1;
 	    }
-	    return(0);
+	    return 0;
 	}
 
     } else {
 	/* Other conditions */
-	if (!strcmp(s, "uniq")) return(crt_unique);
-	if (!strcmp(s, "true")) return(1);
-	if (!strcmp(s, "false")) return(0);
+	if (!strcmp(s, "uniq")) return crt_unique;
+	if (!strcmp(s, "true")) return 1;
+	if (!strcmp(s, "false")) return 0;
     }
     error(ERROR_SERIOUS, "Unknown condition, '%s'", s0);
-    return(0);
+    return 0;
 }
 
 

@@ -103,7 +103,7 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 
 	if ((((c == '-') && (option[1] == '-')) ||
 	    ((c == '+') && (option[1] == '+'))) && (option[2] == '\0')) {
-	    return(argc - tmp_argc + 1);
+	    return argc - tmp_argc + 1;
 	} else if (((c == '-') && (option[1] == '-')) ||
 		  ((c == '+') && (option[1] == '+'))) {
 	    ArgListT *tmp_list  = arg_list;
@@ -340,12 +340,12 @@ arg_parse_arguments(ArgListT *arg_list,			     EStringT *usage ,
 		}
 	    }
 	} else {
-	    return(argc - tmp_argc);
+	    return argc - tmp_argc;
 	}
 	tmp_argv++;
 	tmp_argc--;
     }
-    return(argc);
+    return argc;
 }
 
 void

@@ -89,14 +89,14 @@ static TDFReaderT *
 library_reader(LibraryT *library)
 {
     assert(library->type == LT_INPUT);
-    return(& (library->u.reader));
+    return &library->u.reader;
 }
 
 static TDFWriterT *
 library_writer(LibraryT *library)
 {
     assert(library->type == LT_OUTPUT);
-    return(& (library->u.writer));
+    return &library->u.writer;
 }
 
 static void
@@ -184,7 +184,7 @@ library_read_version_0_capsules(LibraryT *library)
 	debug_info_r_capsule(&nstring, length);
 	nstring_destroy(&nstring);
     }
-    return(num_capsules);
+    return num_capsules;
 }
 
 static void
@@ -290,7 +290,7 @@ library_magic(void)
 	nstring_copy_cstring(&const_magic, "TDFL");
 	inited = TRUE;
     }
-    return(&const_magic);
+    return &const_magic;
 }
 
 static void
@@ -351,7 +351,7 @@ library_write_header(LibraryT *library)
 char *
 lib_capsule_name(LibCapsuleT *capsule)
 {
-    return(capsule->name);
+    return capsule->name;
 }
 
 char *
@@ -373,19 +373,19 @@ lib_capsule_full_name(LibCapsuleT *capsule)
     *tmp = ')';
     tmp++;
     *tmp = '\0';
-    return(full_name);
+    return full_name;
 }
 
 NStringT *
 lib_capsule_contents(LibCapsuleT *capsule)
 {
-    return(& (capsule->contents));
+    return &capsule->contents;
 }
 
 BoolT
 lib_capsule_is_loaded(LibCapsuleT *capsule)
 {
-    return(capsule->loaded);
+    return capsule->loaded;
 }
 
 void
@@ -411,11 +411,11 @@ library_create_stream_input(const char * name)
     library->type = LT_INPUT;
     if (!tdf_reader_open(library_reader(library), name)) {
 	DEALLOCATE(library);
-	return(NULL);
+	return NULL;
     }
     library->name     = name;
     library->complete = FALSE;
-    return(library);
+    return library;
 }
 
 LibraryT *
@@ -426,36 +426,36 @@ library_create_stream_output(char * name)
     library->type = LT_OUTPUT;
     if (!tdf_writer_open(library_writer(library), name)) {
 	DEALLOCATE(library);
-	return(NULL);
+	return NULL;
     }
     library->name     = name;
     library->complete = FALSE;
-    return(library);
+    return library;
 }
 
 const char *
 library_name(LibraryT *library)
 {
-    return(library->name);
+    return library->name;
 }
 
 unsigned
 library_num_capsules(LibraryT *library)
 {
-    return(library->num_capsules);
+    return library->num_capsules;
 }
 
 LibCapsuleT *
 library_get_capsule(LibraryT *library,			     unsigned capsule_index)
 {
     assert(capsule_index < library->num_capsules);
-    return(& (library->capsules[capsule_index]));
+    return &library->capsules[capsule_index];
 }
 
 unsigned
 library_byte(LibraryT *library)
 {
-    return(tdf_reader_byte(library_reader(library)));
+    return tdf_reader_byte(library_reader(library));
 }
 
 void

@@ -156,7 +156,7 @@ xalloc(int n)
 {
     pointer ptr = (pointer)malloc((size_t)n);
     if (ptr == null)fatal_error("Memory allocation error");
-    return(ptr);
+    return ptr;
 }
 
 
@@ -170,8 +170,8 @@ pointer
 xrealloc(pointer p, int n)
 {
     pointer ptr;
-    if (p == null) return(xalloc(n));
+    if (p == null) return xalloc(n);
     ptr = (pointer)realloc(p,(size_t)n);
     if (ptr == null)fatal_error("Memory allocation error");
-    return(ptr);
+    return ptr;
 }

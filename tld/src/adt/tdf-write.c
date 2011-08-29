@@ -92,15 +92,15 @@ tdf_writer_open(TDFWriterT *writer,			 char *   name)
 {
     writer->new_byte = TRUE;
     if (!bostream_open(& (writer->bostream), name)) {
-	return(FALSE);
+	return FALSE;
     }
-    return(TRUE);
+    return TRUE;
 }
 
 const char *
 tdf_writer_name(TDFWriterT *writer)
 {
-    return(bostream_name(& (writer->bostream)));
+    return bostream_name(&writer->bostream);
 }
 
 void

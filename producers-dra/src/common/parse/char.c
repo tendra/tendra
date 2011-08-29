@@ -110,7 +110,7 @@ to_ascii(unsigned long c, int *ch)
 		c = (unsigned long)to_ascii_tab[c];
 		*ch = CHAR_ASCII;
 	}
-	return(c);
+	return c;
 }
 
 
@@ -128,7 +128,7 @@ from_ascii(unsigned long c, int *ch)
 		c = (unsigned long)from_ascii_tab[c];
 		*ch = CHAR_SIMPLE;
 	}
-	return(c);
+	return c;
 }
 
 
@@ -339,8 +339,8 @@ unicode_alpha(unsigned long c)
 			i = k + 1;
 		} else {
 			/* Match found */
-			return(1);
+			return 1;
 		}
 	} while (i <= j);
-	return(0);
+	return 0;
 }

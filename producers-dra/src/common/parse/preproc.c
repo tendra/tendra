@@ -142,15 +142,15 @@ static unsigned
 negate_cond(unsigned cond)
 {
 	if (cond == PP_TRUE) {
-		return(PP_FALSE);
+		return PP_FALSE;
 	}
 	if (cond == PP_FALSE) {
-		return(PP_TRUE);
+		return PP_TRUE;
 	}
 	if (cond == PP_PAST) {
-		return(PP_FALSE);
+		return PP_FALSE;
 	}
-	return(cond);
+	return cond;
 }
 
 
@@ -225,7 +225,7 @@ clear_preproc_if(void)
 		preproc_depth--;
 		ok = 0;
 	}
-	return(ok);
+	return ok;
 }
 
 
@@ -257,7 +257,7 @@ check_macro(HASHID macro, int used)
 	IDENTIFIER id;
 	if (IS_NULL_hashid(macro)) {
 		/* Special case for protection macros */
-		return(PP_TRUE);
+		return PP_TRUE;
 	}
 	id = DEREF_id(hashid_id(macro));
 	switch (TAG_id(id)) {
@@ -271,7 +271,7 @@ check_macro(HASHID macro, int used)
 				dump_use(id, &preproc_loc, 1);
 			}
 		}
-		return(PP_TRUE);
+		return PP_TRUE;
 	case id_iso_keyword_tag:
 		if (used) {
 			report(preproc_loc, ERR_lex_key_iso(macro));
@@ -286,7 +286,7 @@ check_macro(HASHID macro, int used)
 		if (ds & dspec_token) {
 			/* May be a token */
 			token_macro = id;
-			return(PP_TOKEN | PP_UNRESOLVED);
+			return PP_TOKEN | PP_UNRESOLVED;
 		}
 
 	} else {
@@ -316,10 +316,9 @@ check_macro(HASHID macro, int used)
 						ds = DEREF_dspec(id_storage(tid));
 						if (ds & (dspec_pure |
 							  dspec_defn)) {
-							return(PP_TOKEN |
-							       PP_TRUE);
+							return PP_TOKEN | PP_TRUE;
 						}
-						return(PP_TOKEN | PP_FALSE);
+						return PP_TOKEN | PP_FALSE;
 					}
 				}
 			}
@@ -329,7 +328,7 @@ check_macro(HASHID macro, int used)
 			id = DEREF_id(id_function_etc_over(id));
 		}
 	}
-	return(PP_FALSE);
+	return PP_FALSE;
 }
 
 
@@ -620,7 +619,7 @@ read_if_exp(int act, int dir)
 	if (in_preproc_dir) {
 		IGNORE skip_to_end();
 	}
-	return(cond);
+	return cond;
 }
 
 
@@ -665,7 +664,7 @@ read_if_def(int act, int dir, int prev)
 	if (in_preproc_dir) {
 		IGNORE skip_to_end();
 	}
-	return(cond);
+	return cond;
 }
 
 
@@ -859,7 +858,7 @@ read_if(int dir, unsigned c, int prev)
 						       ERR_cpp_indent_dir());
 					}
 					in_preproc_dir = 0;
-					return(p);
+					return p;
 				}
 				}
 			} else if (t == lex_eof) {
@@ -873,7 +872,7 @@ read_if(int dir, unsigned c, int prev)
 		}
 	}
 	in_preproc_dir = 0;
-	return(ret);
+	return ret;
 }
 
 
@@ -919,13 +918,13 @@ patch_cond(int t, int dir)
 			t = lex_close_Hbrace_H1;
 			break;
 		}
-		return(t);
+		return t;
 	}
 
 	/* Preprocessing action */
 	id = token_macro;
 	if (IS_NULL_id(id)) {
-		return(t);
+		return t;
 	}
 	nm = DEREF_hashid(id_name(id));
 	switch (t) {
@@ -1004,7 +1003,7 @@ patch_cond(int t, int dir)
 		p->next->pp_data.id.use = id;
 		break;
 	}
-	return(t);
+	return t;
 }
 
 
@@ -1133,7 +1132,7 @@ read_include(int act, int dir)
 		/* Ignore rest of line */
 		if (in_preproc_dir)IGNORE skip_to_end();
 	}
-	return(ret);
+	return ret;
 }
 
 
@@ -1153,7 +1152,7 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 		int t1 = p->tok;
 		int t2 = q->tok;
 		if (t1 != t2) {
-			return(0);
+			return 0;
 		}
 		if (p->pp_space != q->pp_space) {
 			eq = 1;
@@ -1164,7 +1163,7 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			HASHID n1 = p->pp_data.id.hash;
 			HASHID n2 = q->pp_data.id.hash;
 			if (!EQ_hashid(n1, n2)) {
-				return(0);
+				return 0;
 			}
 			break;
 		}
@@ -1173,7 +1172,7 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			string s1 = p->pp_data.text;
 			string s2 = q->pp_data.text;
 			if (!ustreq(s1, s2)) {
-				return(0);
+				return 0;
 			}
 			break;
 		}
@@ -1187,10 +1186,10 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			gen_size n1 = (gen_size)(p->pp_data.str.end - s1);
 			gen_size n2 = (gen_size)(q->pp_data.str.end - s2);
 			if (n1 != n2) {
-				return(0);
+				return 0;
 			}
 			if (xumemcmp(s1, s2, n1)!= 0) {
-				return(0);
+				return 0;
 			}
 			break;
 		}
@@ -1200,7 +1199,7 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			string s2 = q->pp_data.buff;
 			gen_size n1 = MULTI_WIDTH;
 			if (xumemcmp(s1, s2, n1)!= 0) {
-				return(0);
+				return 0;
 			}
 			break;
 		}
@@ -1209,7 +1208,7 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 			unsigned long m1 = p->pp_data.par.no;
 			unsigned long m2 = q->pp_data.par.no;
 			if (m1 != m2) {
-				return(0);
+				return 0;
 			}
 			break;
 		}
@@ -1218,9 +1217,9 @@ eq_pptok(PPTOKEN *p, PPTOKEN *q)
 		q = q->next;
 	}
 	if (p || q) {
-		return(0);
+		return 0;
 	}
-	return(eq);
+	return eq;
 }
 
 
@@ -1255,7 +1254,7 @@ check_macro_redef(IDENTIFIER id_new, IDENTIFIER id_old)
 	if (tag_new != tag_old) {
 		ERROR e = ERR_cpp_replace_redef_bad(id_old, loc_old);
 		err = concat_error(err, e);
-		return(err);
+		return err;
 	}
 
 	if (tag_new == id_obj_macro_tag) {
@@ -1276,7 +1275,7 @@ check_macro_redef(IDENTIFIER id_new, IDENTIFIER id_old)
 			/* Number of parameters must match */
 			ERROR e = ERR_cpp_replace_redef_bad(id_old, loc_old);
 			err = concat_error(err, e);
-			return(err);
+			return err;
 		}
 
 		while (!IS_NULL_list(pars_new)) {
@@ -1303,7 +1302,7 @@ check_macro_redef(IDENTIFIER id_new, IDENTIFIER id_old)
 		/* Inconsistent redefinition */
 		ERROR e = ERR_cpp_replace_redef_bad(id_old, loc_old);
 		err = concat_error(err, e);
-		return(err);
+		return err;
 	} else if (defn_ok == 1) {
 		/* Consistent redefinition up to white space */
 		ERROR e = ERR_cpp_replace_redef_space(id_old, loc_old);
@@ -1323,7 +1322,7 @@ check_macro_redef(IDENTIFIER id_new, IDENTIFIER id_old)
 		e = set_severity(e, OPT_macro_redef, -1);
 		err = concat_error(err, e);
 	}
-	return(err);
+	return err;
 }
 
 
@@ -1347,7 +1346,7 @@ free_macro_defn(IDENTIFIER id)
 		COPY_pptok(id_func_macro_defn(id), NULL);
 	}
 	free_tok_list(defn);
-	return(prev);
+	return prev;
 }
 
 
@@ -1387,7 +1386,7 @@ read_define(void)
 	}
 	if (t != lex_identifier) {
 		report(preproc_loc, ERR_cpp_replace_id(lex_define));
-		return(ret);
+		return ret;
 	}
 	macro = token_hashid;
 	if (EQ_KEYWORD(macro, lex_defined)) {
@@ -1600,7 +1599,7 @@ read_define(void)
 			if (tokdef) {
 				IGNORE free_macro_defn(id);
 				no_declarations++;
-				return(ret);
+				return ret;
 			}
 			prev_def = PP_FALSE;
 		}
@@ -1630,7 +1629,7 @@ read_define(void)
 	} else {
 		IGNORE incr_value(OPT_VAL_macro_ids);
 	}
-	return(ret);
+	return ret;
 }
 
 
@@ -1656,7 +1655,7 @@ read_undef(void)
 	}
 	if (t != lex_identifier) {
 		report(preproc_loc, ERR_cpp_scope_id(lex_undef));
-		return(ret);
+		return ret;
 	}
 	macro = token_hashid;
 	if (EQ_KEYWORD(macro, lex_defined)) {
@@ -1726,7 +1725,7 @@ read_undef(void)
 	if (in_preproc_dir && skip_to_end()) {
 		report(preproc_loc, ERR_cpp_end(lex_undef));
 	}
-	return(ret);
+	return ret;
 }
 
 
@@ -1879,7 +1878,7 @@ make_assert(HASHID pred, int key)
 		COPY_ulong(id_no(id), (unsigned long)key);
 		COPY_id(member_id(mem), id);
 	}
-	return(id);
+	return id;
 }
 
 
@@ -1921,7 +1920,7 @@ skip_predicate(PPTOKEN **p, int dir)
 				r = q->next;
 				q->next = free_tokens;
 				free_tokens = q;
-				return(r);
+				return r;
 			}
 		} else if (t == lex_newline) {
 			/* Terminate if a newline is reached */
@@ -1933,13 +1932,13 @@ skip_predicate(PPTOKEN **p, int dir)
 				       ERR_pragma_assert_empty(dir));
 				*p = NULL;
 			}
-			return(q);
+			return q;
 		}
 		r = q;
 		q = q->next;
 	}
 	report(preproc_loc, ERR_pragma_assert_paren(dir));
-	return(NULL);
+	return NULL;
 }
 
 
@@ -1960,13 +1959,13 @@ check_assert(HASHID pred, PPTOKEN *p, int def)
 	if (def) {
 		/* Check for any predicate */
 		if (!IS_NULL_list(s)) {
-			return(1);
+			return 1;
 		}
 	} else {
 		while (!IS_NULL_list(s)) {
 			PPTOKEN *q = DEREF_pptok(HEAD_list(s));
 			if (eq_pptok(p, q) == 2) {
-				return(1);
+				return 1;
 			}
 			s = TAIL_list(s);
 		}
@@ -1974,24 +1973,24 @@ check_assert(HASHID pred, PPTOKEN *p, int def)
 	if (key == lex_include) {
 		/* '#include' checks for included files */
 		if (def) {
-			return(1);
+			return 1;
 		}
 		IGNORE quote_tok_list(p, 0, char_quote);
-		return(start_include(token_buff.start, char_quote, 4, 0));
+		return start_include(token_buff.start, char_quote, 4, 0);
 	}
 	if (key == lex_keyword) {
 		/* '#keyword' checks for keywords */
 		if (def) {
-			return(1);
+			return 1;
 		}
 		if (p && p->next == NULL) {
 			if (p->tok == lex_identifier) {
 				IDENTIFIER pid = p->pp_data.id.use;
 				if (IS_id_keyword(pid)) {
-					return(1);
+					return 1;
 				}
 				if (IS_id_iso_keyword(pid)) {
-					return(1);
+					return 1;
 				}
 			}
 		}
@@ -2003,7 +2002,7 @@ check_assert(HASHID pred, PPTOKEN *p, int def)
 		string sb;
 		static STRING str = NULL_str;
 		if (def) {
-			return(1);
+			return 1;
 		}
 		IGNORE quote_tok_list(p, 0, char_quote);
 		sb = token_buff.start;
@@ -2016,10 +2015,10 @@ check_assert(HASHID pred, PPTOKEN *p, int def)
 		}
 		n = find_option_no(str, 0);
 		if (n != -1 && option(n)) {
-			return(1);
+			return 1;
 		}
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -2193,7 +2192,7 @@ find_weak_id(HASHID nm)
 			if (!(ds & dspec_auto)) {
 				ds |= dspec_used;
 				COPY_dspec(id_storage(id), ds);
-				return(id);
+				return id;
 			}
 			break;
 		}
@@ -2204,7 +2203,7 @@ find_weak_id(HASHID nm)
 				DECL_SPEC ds = DEREF_dspec(id_storage(id));
 				ds |= dspec_used;
 				COPY_dspec(id_storage(id), ds);
-				return(id);
+				return id;
 			}
 			break;
 		}
@@ -2212,7 +2211,7 @@ find_weak_id(HASHID nm)
 		err = ERR_pragma_preserve_undecl(lex_weak, id);
 		report(preproc_loc, err);
 	}
-	return(NULL_id);
+	return NULL_id;
 }
 
 
@@ -2349,7 +2348,7 @@ read_preproc_dir(int act, int prev)
 		}
 		pp = read_if(t, PP_FALSE, lex_ignore_token);
 		if (act && pp >= 0)pp = patch_cond(pp, t);
-		return(pp);
+		return pp;
 
 	case lex_elif:
 		/* Deal with '#elif' (expression is read in read_if) */
@@ -2358,7 +2357,7 @@ read_preproc_dir(int act, int prev)
 		if (act && pp >= 0) {
 			pp = patch_cond(pp, t);
 		}
-		return(pp);
+		return pp;
 
 	case lex_error:
 		/* Deal with '#error' */
@@ -2371,14 +2370,14 @@ read_preproc_dir(int act, int prev)
 	case lex_include:
 		/* Deal with '#include' */
 		pp = read_include(act, t);
-		return(pp);
+		return pp;
 
 	case lex_if: {
 		/* Deal with '#if' */
 		unsigned cond = read_if_exp(act, t);
 		pp = read_if (t, cond, lex_ignore_token);
 		if (act && pp >= 0)pp = patch_cond(pp, t);
-		return(pp);
+		return pp;
 	}
 
 	case lex_ifdef: {
@@ -2386,7 +2385,7 @@ read_preproc_dir(int act, int prev)
 		unsigned cond = read_if_def(act, t, prev);
 		pp = read_if (t, cond, prev);
 		if (act && pp >= 0)pp = patch_cond(pp, t);
-		return(pp);
+		return pp;
 	}
 
 	case lex_ifndef: {
@@ -2394,7 +2393,7 @@ read_preproc_dir(int act, int prev)
 		unsigned cond = read_if_def(act, t, prev);
 		pp = read_if (t, negate_cond(cond), prev);
 		if (act && pp >= 0)pp = patch_cond(pp, t);
-		return(pp);
+		return pp;
 	}
 
 	case lex_line:
@@ -2493,7 +2492,7 @@ read_preproc_dir(int act, int prev)
 			}
 			if (!option(OPT_ppdir_import_ignore)) {
 				pp = read_include(act, t);
-				return(pp);
+				return pp;
 			}
 			goto end_label;
 		}
@@ -2558,7 +2557,7 @@ end_label:
 	if (in_preproc_dir) {
 		IGNORE skip_to_end();
 	}
-	return(pp);
+	return pp;
 }
 
 

@@ -252,7 +252,7 @@ start:
 		lsfp_ins (st, fr.fr << 1, b);
 	      };
 
-	      return ((fr.dble) ? -(fr.fr + 32) : (fr.fr + 32));
+	      return (fr.dble) ? -(fr.fr + 32) : (fr.fr + 32);
 	    }			/* end notinreg dest */
 	}			/* end switch dest */
       }				/* end infreg a */

@@ -127,14 +127,14 @@ int line_no_tok = -1;
 int
 next_label(void)
 {
-	return(units[current_Unit].no_labs++);
+	return units[current_Unit].no_labs++;
 }
 
 
 int
 next_unit_name(int ent)
 {
-	return((units[current_Unit].no_entity)[ent]++);
+	return (units[current_Unit].no_entity)[ent]++;
 }
 
 
@@ -151,7 +151,7 @@ next_name(int ent)
 int
 next_capsule_name(int ent)
 {
-	return(capsule_names[ent]++);
+	return capsule_names[ent]++;
 }
 
 

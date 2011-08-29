@@ -1993,7 +1993,7 @@ ptr is labelled exp
 	 bro(op1) = bro(*e);
 	 if (last(*e)) { setlast(op1); } else {clearlast(op1); }
 	 *e = op1;
-	 return(scan(e, at));
+	 return scan(e, at);
        }
        else
 	 if (name(*e) == offset_mult_tag && n > 1 && (n& (n-1)) == 0)
@@ -2029,7 +2029,7 @@ ptr is labelled exp
 		   clearlast(op1);
 		 }
 		 *e = op1;
-		 return(scan(e, at));
+		 return scan(e, at);
 	       }
 	     }
 	   }
@@ -2147,7 +2147,7 @@ ptr is labelled exp
 	bro(ss) = bro(stare);
 	sh(ss) = sh(stare);
 	*e = ss;
-	return(scan(e, at));
+	return scan(e, at);
       }
       str = scan(arg, at);
       return maxneeds(str, shapeneeds(sh(*(e))));

@@ -160,7 +160,7 @@ static int
 SREG_TO_REALREG ( int n ){
   int m = ( avoid_L7 ? 7 : 8 ) ;
   int par_reg_max;
-  if ( n <= m ) return ( R_L0 + ( n - 1 ) ) ;
+  if ( n <= m ) return R_L0 + ( n - 1 ) ;
 #ifdef GENCOMPAT
   if (May_have_callees) {
 #else
@@ -177,7 +177,7 @@ SREG_TO_REALREG ( int n ){
     par_reg_max = R_I5;
   }
   return par_reg_max-(n-m-1);
-  /*return ( (Has_vcallees)?(R_I4-(n-m-1)):(R_I5 - ( n - m - 1 )) ) ;*/
+  /*return (Has_vcallees)?(R_I4-(n-m-1)):(R_I5 - ( n - m - 1 )) ;*/
 }
 
 
@@ -206,7 +206,7 @@ maxspace ( spacereq a, spacereq b ){
   a.fixdump |= b.fixdump ;
   a.fltdump |= b.fltdump ;
   a.stack = MAX_OF ( a.stack, b.stack ) ;
-  return ( a ) ;
+  return a;
 }
 
 
@@ -347,11 +347,11 @@ regalloc ( exp e, int freefixed, int freefloat, long stack ){
       }
     }	
     body = regalloc ( bro ( s ), ffix, ffloat, st ) ;
-    return ( maxspace ( body, def ) ) ;
+    return maxspace ( body, def ) ;
   } 
   else if ( n == case_tag ) {
     /* recurse on all expressions in tree */
-    return ( regalloc ( s, freefixed, freefloat, stack ) ) ;
+    return regalloc ( s, freefixed, freefloat, stack ) ;
   } 
   else if ( n != name_tag && n != env_offset_tag && n!= general_env_offset_tag 
 	    && s != nilexp ) {
@@ -363,12 +363,12 @@ regalloc ( exp e, int freefixed, int freefloat, long stack ){
       sdef = regalloc ( s, freefixed, freefloat, stack ) ;
       def = maxspace ( def, sdef ) ;
     }
-    return ( def ) ;
+    return def;
   } 
   else {
     def = zerospace ;
     def.stack = stack ;
-    return ( def ) ;
+    return def;
   }
   /* NOT REACHED */
 }

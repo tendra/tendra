@@ -82,7 +82,7 @@
 @loop cons.param
     UNUSED(%PN);
 @end
-    return(f_dummy_%SN);
+    return f_dummy_%SN;
 }
 @else
 
@@ -100,7 +100,7 @@
 yes_%SN(%SSN elem)
 {
     UNUSED(elem);
-    return(f_dummy_%SN);
+    return f_dummy_%SN;
 }
 @else
 
@@ -108,7 +108,7 @@ yes_%SN(%SSN elem)
 new_%SN(int n)
 {
     UNUSED(n);
-    return(f_dummy_%SN);
+    return f_dummy_%SN;
 }
 
 %SN
@@ -117,7 +117,7 @@ add_%SN(%SN list, %SSN elem, int index)
     UNUSED(list);
     UNUSED(elem);
     UNUSED(index);
-    return(f_dummy_%SN);
+    return f_dummy_%SN;
 }
 @endif
 @endif

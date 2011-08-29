@@ -92,7 +92,7 @@ shape_control_find(ShapeControlT *control,			    char *      shape)
     for (entry = control->head; entry; entry = entry->next) {
 	if (nstring_equal(&nstring, & (entry->shape))) {
 	    nstring_destroy(&nstring);
-	    return(entry);
+	    return entry;
 	}
     }
     entry             = ALLOCATE(ShapeControlEntryT);
@@ -101,7 +101,7 @@ shape_control_find(ShapeControlT *control,			    char *      shape)
     entry->all        = FALSE;
     name_key_list_init(& (entry->names));
     control->head     = entry;
-    return(entry);
+    return entry;
 }
 
 static void
@@ -135,7 +135,7 @@ rename_control_find(RenameControlT *control,			     NStringT *      shape)
 
     for (entry = control->head; entry; entry = entry->next) {
 	if (nstring_equal(shape, & (entry->shape))) {
-	    return(entry);
+	    return entry;
 	}
     }
     entry             = ALLOCATE(RenameControlEntryT);
@@ -143,13 +143,13 @@ rename_control_find(RenameControlT *control,			     NStringT *      shape)
     nstring_copy(& (entry->shape), shape);
     name_key_pair_list_init(& (entry->names));
     control->head     = entry;
-    return(entry);
+    return entry;
 }
 
 static NameKeyPairListT *
 rename_control_entry_names(RenameControlEntryT *entry)
 {
-    return(& (entry->names));
+    return &entry->names;
 }
 
 static void
@@ -234,7 +234,7 @@ arg_data_set_all_hide_defd(ArgDataT *arg_data,				    BoolT    enable)
 BoolT
 arg_data_get_all_hide_defd(ArgDataT *arg_data)
 {
-    return(arg_data->all_hide_defined);
+    return arg_data->all_hide_defined;
 }
 
 void
@@ -246,7 +246,7 @@ arg_data_set_suppress_mult(ArgDataT *arg_data,				    BoolT    enable)
 BoolT
 arg_data_get_suppress_mult(ArgDataT *arg_data)
 {
-    return(arg_data->suppress_mult);
+    return arg_data->suppress_mult;
 }
 
 void
@@ -269,7 +269,7 @@ arg_data_add_hide_defined(ArgDataT *arg_data,				   char * shape)
 ShapeControlT *
 arg_data_get_hides(ArgDataT *arg_data)
 {
-    return(& (arg_data->hides));
+    return &arg_data->hides;
 }
 
 void
@@ -292,7 +292,7 @@ arg_data_add_keep_all(ArgDataT *arg_data,			       char * shape)
 ShapeControlT *
 arg_data_get_keeps(ArgDataT *arg_data)
 {
-    return(& (arg_data->keeps));
+    return &arg_data->keeps;
 }
 
 void
@@ -317,7 +317,7 @@ arg_data_add_suppress_all(ArgDataT *arg_data,				   char * shape)
 ShapeControlT *
 arg_data_get_suppresses(ArgDataT *arg_data)
 {
-    return(& (arg_data->suppresses));
+    return &arg_data->suppresses;
 }
 
 void
@@ -355,7 +355,7 @@ arg_data_parse_rename(ArgDataT *arg_data,			       char * shape ,
 RenameControlT *
 arg_data_get_renames(ArgDataT *arg_data)
 {
-    return(& (arg_data->renames));
+    return &arg_data->renames;
 }
 
 void
@@ -367,7 +367,7 @@ arg_data_set_extract_all(ArgDataT *arg_data,				  BoolT    enable)
 BoolT
 arg_data_get_extract_all(ArgDataT *arg_data)
 {
-    return(arg_data->extract_all);
+    return arg_data->extract_all;
 }
 
 void
@@ -379,7 +379,7 @@ arg_data_set_extract_basename(ArgDataT *arg_data,				       BoolT    enable)
 BoolT
 arg_data_get_extract_basename(ArgDataT *arg_data)
 {
-    return(arg_data->extract_basename);
+    return arg_data->extract_basename;
 }
 
 void
@@ -391,7 +391,7 @@ arg_data_set_extract_match_base(ArgDataT *arg_data,					 BoolT    enable)
 BoolT
 arg_data_get_extract_match_base(ArgDataT *arg_data)
 {
-    return(arg_data->extract_match_base);
+    return arg_data->extract_match_base;
 }
 
 void
@@ -403,7 +403,7 @@ arg_data_set_content_index(ArgDataT *arg_data,				    BoolT    enable)
 BoolT
 arg_data_get_content_index(ArgDataT *arg_data)
 {
-    return(arg_data->content_index);
+    return arg_data->content_index;
 }
 
 void
@@ -415,7 +415,7 @@ arg_data_set_content_size(ArgDataT *arg_data,				   BoolT    enable)
 BoolT
 arg_data_get_content_size(ArgDataT *arg_data)
 {
-    return(arg_data->content_size);
+    return arg_data->content_size;
 }
 
 void
@@ -427,7 +427,7 @@ arg_data_set_content_version(ArgDataT *arg_data,				      BoolT    enable)
 BoolT
 arg_data_get_content_version(ArgDataT *arg_data)
 {
-    return(arg_data->content_version);
+    return arg_data->content_version;
 }
 
 void
@@ -447,7 +447,7 @@ arg_data_set_debug_file(ArgDataT *arg_data,				 char * debug_file)
 OStreamT *
 arg_data_get_debug_file(ArgDataT *arg_data)
 {
-    return(& (arg_data->debug_file));
+    return &arg_data->debug_file;
 }
 
 void
@@ -464,9 +464,9 @@ char *
 arg_data_get_output_file(ArgDataT *arg_data)
 {
     if (arg_data->output_file) {
-	return(arg_data->output_file);
+	return arg_data->output_file;
     } else {
-	return(arg_data->default_output_file);
+	return arg_data->default_output_file;
     }
 }
 
@@ -512,25 +512,25 @@ arg_data_vector_libraries(ArgDataT *arg_data)
 unsigned
 arg_data_num_library_files(ArgDataT *arg_data)
 {
-    return(arg_data->num_library_files);
+    return arg_data->num_library_files;
 }
 
 unsigned
 arg_data_num_library_paths(ArgDataT *arg_data)
 {
-    return(arg_data->num_library_paths);
+    return arg_data->num_library_paths;
 }
 
 const char * *
 arg_data_library_files(ArgDataT *arg_data)
 {
-    return(arg_data->library.vector.file);
+    return arg_data->library.vector.file;
 }
 
 const char * *
 arg_data_library_paths(ArgDataT *arg_data)
 {
-    return(arg_data->library.vector.path);
+    return arg_data->library.vector.path;
 }
 
 void
@@ -555,12 +555,12 @@ arg_data_set_files(ArgDataT * arg_data,			    int       num_files ,
 unsigned
 arg_data_get_num_files(ArgDataT *arg_data)
 {
-    return(arg_data->num_files);
+    return arg_data->num_files;
 }
 
 char * *
 arg_data_get_files(ArgDataT *arg_data)
 {
-    return(arg_data->files);
+    return arg_data->files;
 }
 

@@ -347,10 +347,10 @@ cmp_dec(dec *x, dec *y)
 	diag_global *dx = x->dec_u.dec_val.diag_info;
 	diag_global *dy = y->dec_u.dec_val.diag_info;
 	if (dy == null || dy->key != DIAG_ID_KEY) {
-		return (0);
+		return 0;
 	}
 	if (dx == null || dx->key != DIAG_ID_KEY) {
-		return (1);
+		return 1;
 	}
 	sx = & (dx->data.id.whence);
 	fx = sx->file->file.ints.chars;
@@ -360,12 +360,12 @@ cmp_dec(dec *x, dec *y)
 	ly = sy->line_no.nat_val.small_nat;
 	c = strcmp((char *)sx, (char *)sy);
 	if (c < 0) {
-		return (0);
+		return 0;
 	}
 	if (c > 0) {
-		return (1);
+		return 1;
 	}
-	return (lx > ly ? 1 : 0);
+	return lx > ly ? 1 : 0;
 }
 
 
@@ -396,5 +396,5 @@ sort_decs(dec *p)
 		}
 		x = nextx;
 	}
-	return (res);
+	return res;
 }

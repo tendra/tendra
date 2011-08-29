@@ -122,7 +122,7 @@ d_access(int n)
 		fail("Bad access value, 0", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -135,7 +135,7 @@ d_access_option(int n)
 	if (nl) {
 		IGNORE d_access(n);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -159,7 +159,7 @@ d_al_tag(int n)
 		fail("Bad al_tag value, 1", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -179,7 +179,7 @@ d_al_tagdef(int n)
 		fail("Bad al_tagdef value, 2", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -192,7 +192,7 @@ d_al_tagdef_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_al_tagdef(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -204,7 +204,7 @@ d_al_tagdef_props(int n)
 	    consname("make_al_tagdefs", n);
 	    IGNORE d_tdfint(n + 1);
 	    IGNORE d_al_tagdef_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -267,7 +267,7 @@ d_alignment(int n)
 		fail("Bad alignment value, 3", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -298,7 +298,7 @@ d_bitfield_variety(int n)
 		fail("Bad bitfield_variety value, 4", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -330,7 +330,7 @@ d_bool(int n)
 		fail("Bad bool value, 5", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -357,7 +357,7 @@ d_callees(int n)
 		fail("Bad callees value, 6", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -371,7 +371,7 @@ d_capsule(int n)
 	    IGNORE d_capsule_link_list(n + 1);
 	    IGNORE d_extern_link_list(n + 1);
 	    IGNORE d_group_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -383,7 +383,7 @@ d_capsule_link(int n)
 	    consname("make_capsule_link", n);
 	    IGNORE d_tdfident(n + 1);
 	    IGNORE d_tdfint(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -396,7 +396,7 @@ d_capsule_link_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_capsule_link(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -409,7 +409,7 @@ d_caselim(int n)
 	    IGNORE d_label(n + 1);
 	    IGNORE d_signed_nat(n + 1);
 	    IGNORE d_signed_nat(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -424,7 +424,7 @@ d_caselim_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_caselim(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -458,7 +458,7 @@ d_diag_descriptor(int n)
 		fail("Bad diag_descriptor value, 7", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -471,7 +471,7 @@ d_diag_descriptor_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_diag_descriptor(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -484,7 +484,7 @@ d_diag_field(int n)
 	    IGNORE d_tdfstring(n + 1);
 	    IGNORE d_exp(n + 1);
 	    IGNORE d_diag_type(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -499,7 +499,7 @@ d_diag_field_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_diag_field(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -518,7 +518,7 @@ d_diag_tag(int n)
 		fail("Bad diag_tag value, 8", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -538,7 +538,7 @@ d_diag_tagdef(int n)
 		fail("Bad diag_tagdef value, 9", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -551,7 +551,7 @@ d_diag_tagdef_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_diag_tagdef(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -577,7 +577,7 @@ d_diag_tq(int n)
 		fail("Bad diag_tq value, 10", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -659,7 +659,7 @@ d_diag_type(int n)
 		fail("Bad diag_type value, 11", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -674,7 +674,7 @@ d_diag_type_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_diag_type(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -686,7 +686,7 @@ d_diag_type_unit(int n)
 	    consname("build_diagtype_unit", n);
 	    IGNORE d_tdfint(n + 1);
 	    IGNORE d_diag_tagdef_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -698,7 +698,7 @@ d_diag_unit(int n)
 	    consname("build_diag_unit", n);
 	    IGNORE d_tdfint(n + 1);
 	    IGNORE d_diag_descriptor_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -710,7 +710,7 @@ d_enum_values(int n)
 	    consname("make_enum_values", n);
 	    IGNORE d_exp(n + 1);
 	    IGNORE d_tdfstring(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -725,7 +725,7 @@ d_enum_values_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_enum_values(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -749,7 +749,7 @@ d_error_code(int n)
 		fail("Bad error_code value, 12", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -764,7 +764,7 @@ d_error_code_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_error_code(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -807,7 +807,7 @@ d_error_treatment(int n)
 		fail("Bad error_treatment value, 13", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -1449,7 +1449,7 @@ d_exp(int n)
 		fail("Bad exp value, 14", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -1464,7 +1464,7 @@ d_exp_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_exp(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1477,7 +1477,7 @@ d_exp_option(int n)
 	if (nl) {
 		IGNORE d_exp(n);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1488,7 +1488,7 @@ d_extern_link(int n)
 {
 	    consname("make_extern_link", n);
 	    IGNORE d_linkextern_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -1501,7 +1501,7 @@ d_extern_link_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_extern_link(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1529,7 +1529,7 @@ d_external(int n)
 		fail("Bad external value, 15", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -1555,7 +1555,7 @@ d_filename(int n)
 		fail("Bad filename value, 16", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -1603,7 +1603,7 @@ d_floating_variety(int n)
 		fail("Bad floating_variety value, 17", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -1614,7 +1614,7 @@ d_group(int n)
 {
 	    consname("make_group", n);
 	    IGNORE d_unit_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -1627,7 +1627,7 @@ d_group_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_group(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1651,7 +1651,7 @@ d_label(int n)
 		fail("Bad label value, 18", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -1666,7 +1666,7 @@ d_label_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_label(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1678,7 +1678,7 @@ d_link(int n)
 	    consname("make_link", n);
 	    IGNORE d_tdfint(n + 1);
 	    IGNORE d_tdfint(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -1691,7 +1691,7 @@ d_link_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_link(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1703,7 +1703,7 @@ d_linkextern(int n)
 	    consname("make_linkextern", n);
 	    IGNORE d_tdfint(n + 1);
 	    IGNORE d_external(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -1716,7 +1716,7 @@ d_linkextern_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_linkextern(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1750,7 +1750,7 @@ d_linkinfo(int n)
 		fail("Bad linkinfo value, 19", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -1763,7 +1763,7 @@ d_linkinfo_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_linkinfo(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1775,7 +1775,7 @@ d_linkinfo_props(int n)
 	    consname("make_linkinfos", n);
 	    IGNORE d_tdfint(n + 1);
 	    IGNORE d_linkinfo_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -1786,7 +1786,7 @@ d_links(int n)
 {
 	    consname("make_links", n);
 	    IGNORE d_link_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -1799,7 +1799,7 @@ d_links_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_links(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1837,7 +1837,7 @@ d_nat(int n)
 		fail("Bad nat value, 20", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -1850,7 +1850,7 @@ d_nat_option(int n)
 	if (nl) {
 		IGNORE d_nat(n);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1918,7 +1918,7 @@ d_ntest(int n)
 		fail("Bad ntest value, 21", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -1930,7 +1930,7 @@ d_otagexp(int n)
 	    consname("make_otagexp", n);
 	    IGNORE d_tag_option(n + 1);
 	    IGNORE d_exp(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -1945,7 +1945,7 @@ d_otagexp_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_otagexp(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -1994,7 +1994,7 @@ d_procprops(int n)
 		fail("Bad procprops value, 22", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2007,7 +2007,7 @@ d_procprops_option(int n)
 	if (nl) {
 		IGNORE d_procprops(n);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2048,7 +2048,7 @@ d_rounding_mode(int n)
 		fail("Bad rounding_mode value, 23", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2113,7 +2113,7 @@ d_shape(int n)
 		fail("Bad shape value, 24", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2153,7 +2153,7 @@ d_signed_nat(int n)
 		fail("Bad signed_nat value, 25", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2234,7 +2234,7 @@ d_sortname(int n)
 		fail("Bad sortname value, 26", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2249,7 +2249,7 @@ d_sortname_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_sortname(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2270,7 +2270,7 @@ d_sourcemark(int n)
 		fail("Bad sourcemark value, 27", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2305,7 +2305,7 @@ d_string(int n)
 		fail("Bad string value, 28", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2318,7 +2318,7 @@ d_string_option(int n)
 	if (nl) {
 		IGNORE d_string(n);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2342,7 +2342,7 @@ d_tag(int n)
 		fail("Bad tag value, 29", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2355,7 +2355,7 @@ d_tag_option(int n)
 	if (nl) {
 		IGNORE d_tag(n);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2367,7 +2367,7 @@ d_tagacc(int n)
 	    consname("make_tagacc", n);
 	    IGNORE d_tag(n + 1);
 	    IGNORE d_access_option(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -2380,7 +2380,7 @@ d_tagacc_option(int n)
 	if (nl) {
 		IGNORE d_tagacc(n);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2416,7 +2416,7 @@ d_tagdec(int n)
 		fail("Bad tagdec value, 30", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2429,7 +2429,7 @@ d_tagdec_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_tagdec(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2441,7 +2441,7 @@ d_tagdec_props(int n)
 	    consname("make_tagdecs", n);
 	    IGNORE d_tdfint(n + 1);
 	    IGNORE d_tagdec_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -2476,7 +2476,7 @@ d_tagdef(int n)
 		fail("Bad tagdef value, 31", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2489,7 +2489,7 @@ d_tagdef_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_tagdef(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2501,7 +2501,7 @@ d_tagdef_props(int n)
 	    consname("make_tagdefs", n);
 	    IGNORE d_tdfint(n + 1);
 	    IGNORE d_tagdef_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -2514,7 +2514,7 @@ d_tagshacc(int n)
 	    IGNORE d_shape(n + 1);
 	    IGNORE d_access_option(n + 1);
 	    IGNORE d_tag(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -2529,7 +2529,7 @@ d_tagshacc_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_tagshacc(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2542,7 +2542,7 @@ d_tdfident_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_tdfident(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2555,7 +2555,7 @@ d_tdfint_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_tdfint(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2576,7 +2576,7 @@ d_tokdec(int n)
 		fail("Bad tokdec value, 32", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2589,7 +2589,7 @@ d_tokdec_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_tokdec(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2600,7 +2600,7 @@ d_tokdec_props(int n)
 {
 	    consname("make_tokdecs", n);
 	    IGNORE d_tokdec_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -2621,7 +2621,7 @@ d_tokdef(int n)
 		fail("Bad tokdef value, 33", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2634,7 +2634,7 @@ d_tokdef_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_tokdef(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2646,7 +2646,7 @@ d_tokdef_props(int n)
 	    consname("make_tokdefs", n);
 	    IGNORE d_tdfint(n + 1);
 	    IGNORE d_tokdef_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -2674,7 +2674,7 @@ d_token(int n)
 		fail("Bad token value, 34", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2694,7 +2694,7 @@ d_token_defn(int n)
 		fail("Bad token_defn value, 35", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2706,7 +2706,7 @@ d_tokformals(int n)
 	    consname("make_tokformals", n);
 	    IGNORE d_sortname(n + 1);
 	    IGNORE d_tdfint(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -2721,7 +2721,7 @@ d_tokformals_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_tokformals(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2767,7 +2767,7 @@ d_transfer_mode(int n)
 		fail("Bad transfer_mode value, 36", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2778,7 +2778,7 @@ d_unique(int n)
 {
 	    consname("make_unique", n);
 	    IGNORE d_tdfident_list(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -2791,7 +2791,7 @@ d_unit(int n)
 	    IGNORE d_tdfint_list(n + 1);
 	    IGNORE d_links_list(n + 1);
 	    IGNORE d_bytestream(n + 1);
-	    return(0);
+	    return 0;
 }
 
 
@@ -2804,7 +2804,7 @@ d_unit_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_unit(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2840,7 +2840,7 @@ d_variety(int n)
 		fail("Bad variety value, 37", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2864,7 +2864,7 @@ d_version(int n)
 		fail("Bad version value, 38", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 
 
@@ -2877,7 +2877,7 @@ d_version_list(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_version(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 
 
@@ -2888,5 +2888,5 @@ d_version_props(int n)
 {
 	    consname("make_versions", n);
 	    IGNORE d_version_list(n + 1);
-	    return(0);
+	    return 0;
 }

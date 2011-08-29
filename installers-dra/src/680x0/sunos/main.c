@@ -550,5 +550,5 @@ int main
     if (number_errors != 0 && !ignore_errors) {
 	    exit(EXIT_FAILURE);
     }
-    return(0);
+    return 0;
 }

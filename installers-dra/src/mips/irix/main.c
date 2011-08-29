@@ -290,13 +290,13 @@ int   main
   ba_file = fopen(nm, "w");
   if (ba_file == (FILE *)0) {
     printf("install: can't open output file %s\n", nm);
-    return(1);
+    return 1;
   }
 
 
   if (!initreader(argv[argc - 3])) {
     failer("cant read .t file");
-    return(1);
+    return 1;
   };
 
   init_flpt();
@@ -320,6 +320,6 @@ int   main
     fclose (as_file);		/* close the .s file */
   fclose (ba_file);		/* close the .G file */
   output_symtab (dname);	/* construct the .T file */
-  return (good_trans);		/* return 1 for error, 0 for good */
+  return good_trans;		/* return 1 for error, 0 for good */
 }
 

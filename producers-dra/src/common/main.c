@@ -245,7 +245,7 @@ set_machine(const char *mach)
 	binary_mode = 1;
 	file_sep = '\\';
 	drive_sep = ':';
-	return(1);
+	return 1;
     }
     if (streq(mach, "unix")) {
 	allow_dos_newline = 0;
@@ -253,9 +253,9 @@ set_machine(const char *mach)
 	binary_mode = 0;
 	file_sep = '/';
 	drive_sep = 0;
-	return(1);
+	return 1;
     }
-    return(0);
+    return 0;
 }
 
 
@@ -292,7 +292,7 @@ read_arg(FILE *f, char *s, int n)
 	    if (q) *q = 0;
 	}
     }
-    return(p);
+    return p;
 }
 
 
@@ -757,7 +757,7 @@ process_args(int argc, char **argv)
 	output_last = 1;
     }
     files = REVERSE_list(files);
-    return(files);
+    return files;
 }
 
 
@@ -1027,5 +1027,5 @@ main(int argc, char **argv)
 	    term_error(0);
 	}
     }
-    return(exit_status);
+    return exit_status;
 }

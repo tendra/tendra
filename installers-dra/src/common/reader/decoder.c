@@ -94,7 +94,7 @@ d_access(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_access_apply_token(p0, p1));
+	    return f_access_apply_token(p0, p1);
 	}
 	case e_access_cond: {
 	    exp p0;
@@ -103,48 +103,48 @@ d_access(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_access_cond(p0, p1, p2));
+	    return f_access_cond(p0, p1, p2);
 	}
 	case e_add_accesses: {
 	    access p0;
 	    access p1;
 	    p0 = d_access();
 	    p1 = d_access();
-	    return(f_add_accesses(p0, p1));
+	    return f_add_accesses(p0, p1);
 	}
 	case e_constant: {
-	    return(f_constant);
+	    return f_constant;
 	}
 	case e_long_jump_access: {
-	    return(f_long_jump_access);
+	    return f_long_jump_access;
 	}
 	case e_no_other_read: {
-	    return(f_no_other_read);
+	    return f_no_other_read;
 	}
 	case e_no_other_write: {
-	    return(f_no_other_write);
+	    return f_no_other_write;
 	}
 	case e_out_par: {
-	    return(f_out_par);
+	    return f_out_par;
 	}
 	case e_preserve: {
-	    return(f_preserve);
+	    return f_preserve;
 	}
 	case e_register: {
-	    return(f_register);
+	    return f_register;
 	}
 	case e_standard_access: {
-	    return(f_standard_access);
+	    return f_standard_access;
 	}
 	case e_used_as_volatile: {
-	    return(f_used_as_volatile);
+	    return f_used_as_volatile;
 	}
 	case e_visible: {
-	    return(f_visible);
+	    return f_visible;
 	}
     }
     decode_error(ILLEGAL_CODE_access);
-    return(f_dummy_access);
+    return f_dummy_access;
 }
 
 
@@ -156,9 +156,9 @@ d_access_option(void)
     if (getcode(1)) {
 	access e;
 	e = d_access();
-	return(yes_access_option(e));
+	return yes_access_option(e);
     }
-    return(no_access_option);
+    return no_access_option;
 }
 
 
@@ -174,16 +174,16 @@ d_al_tag(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_al_tag_apply_token(p0, p1));
+	    return f_al_tag_apply_token(p0, p1);
 	}
 	case e_make_al_tag: {
 	    tdfint p0;
 	    p0 = d_tdfint();
-	    return(f_make_al_tag(p0));
+	    return f_make_al_tag(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_al_tag);
-    return(f_dummy_al_tag);
+    return f_dummy_al_tag;
 }
 
 
@@ -199,11 +199,11 @@ d_al_tagdef(void)
 	    alignment p1;
 	    p0 = d_tdfint();
 	    p1 = d_alignment();
-	    return(f_make_al_tagdef(p0, p1));
+	    return f_make_al_tagdef(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_al_tagdef);
-    return(f_dummy_al_tagdef);
+    return f_dummy_al_tagdef;
 }
 
 
@@ -221,7 +221,7 @@ d_al_tagdef_list(void)
 	e = d_al_tagdef();
 	temp = add_al_tagdef_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -234,7 +234,7 @@ d_al_tagdef_props(void)
     al_tagdef_list p1;
     p0 = d_tdfint();
     p1 = d_al_tagdef_list();
-    return(f_make_al_tagdefs(p0, p1));
+    return f_make_al_tagdefs(p0, p1);
 }
 
 
@@ -250,7 +250,7 @@ d_alignment(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_alignment_apply_token(p0, p1));
+	    return f_alignment_apply_token(p0, p1);
 	}
 	case e_alignment_cond: {
 	    exp p0;
@@ -259,55 +259,55 @@ d_alignment(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_alignment_cond(p0, p1, p2));
+	    return f_alignment_cond(p0, p1, p2);
 	}
 	case e_alignment: {
 	    shape p0;
 	    p0 = d_shape();
-	    return(f_alignment(p0));
+	    return f_alignment(p0);
 	}
 	case e_alloca_alignment: {
-	    return(f_alloca_alignment);
+	    return f_alloca_alignment;
 	}
 	case e_callees_alignment: {
 	    bool p0;
 	    p0 = d_bool();
-	    return(f_callees_alignment(p0));
+	    return f_callees_alignment(p0);
 	}
 	case e_callers_alignment: {
 	    bool p0;
 	    p0 = d_bool();
-	    return(f_callers_alignment(p0));
+	    return f_callers_alignment(p0);
 	}
 	case e_code_alignment: {
-	    return(f_code_alignment);
+	    return f_code_alignment;
 	}
 	case e_locals_alignment: {
-	    return(f_locals_alignment);
+	    return f_locals_alignment;
 	}
 	case e_obtain_al_tag: {
 	    al_tag p0;
 	    p0 = d_al_tag();
-	    return(f_obtain_al_tag(p0));
+	    return f_obtain_al_tag(p0);
 	}
 	case e_parameter_alignment: {
 	    shape p0;
 	    p0 = d_shape();
-	    return(f_parameter_alignment(p0));
+	    return f_parameter_alignment(p0);
 	}
 	case e_unite_alignments: {
 	    alignment p0;
 	    alignment p1;
 	    p0 = d_alignment();
 	    p1 = d_alignment();
-	    return(f_unite_alignments(p0, p1));
+	    return f_unite_alignments(p0, p1);
 	}
 	case e_var_param_alignment: {
-	    return(f_var_param_alignment);
+	    return f_var_param_alignment;
 	}
     }
     decode_error(ILLEGAL_CODE_alignment);
-    return(f_dummy_alignment);
+    return f_dummy_alignment;
 }
 
 
@@ -323,7 +323,7 @@ d_bitfield_variety(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_bfvar_apply_token(p0, p1));
+	    return f_bfvar_apply_token(p0, p1);
 	}
 	case e_bfvar_cond: {
 	    exp p0;
@@ -332,18 +332,18 @@ d_bitfield_variety(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_bfvar_cond(p0, p1, p2));
+	    return f_bfvar_cond(p0, p1, p2);
 	}
 	case e_bfvar_bits: {
 	    bool p0;
 	    nat p1;
 	    p0 = d_bool();
 	    p1 = d_nat();
-	    return(f_bfvar_bits(p0, p1));
+	    return f_bfvar_bits(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_bitfield_variety);
-    return(f_dummy_bitfield_variety);
+    return f_dummy_bitfield_variety;
 }
 
 
@@ -359,7 +359,7 @@ d_bool(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_bool_apply_token(p0, p1));
+	    return f_bool_apply_token(p0, p1);
 	}
 	case e_bool_cond: {
 	    exp p0;
@@ -368,17 +368,17 @@ d_bool(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_bool_cond(p0, p1, p2));
+	    return f_bool_cond(p0, p1, p2);
 	}
 	case e_false: {
-	    return(f_false);
+	    return f_false;
 	}
 	case e_true: {
-	    return(f_true);
+	    return f_true;
 	}
     }
     decode_error(ILLEGAL_CODE_bool);
-    return(f_dummy_bool);
+    return f_dummy_bool;
 }
 
 
@@ -390,9 +390,9 @@ d_bool_option(void)
     if (getcode(1)) {
 	bool e;
 	e = d_bool();
-	return(yes_bool_option(e));
+	return yes_bool_option(e);
     }
-    return(no_bool_option);
+    return no_bool_option;
 }
 
 
@@ -406,21 +406,21 @@ d_callees(void)
 	case e_make_callee_list: {
 	    exp_list p0;
 	    p0 = d_exp_list();
-	    return(f_make_callee_list(p0));
+	    return f_make_callee_list(p0);
 	}
 	case e_make_dynamic_callees: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_make_dynamic_callees(p0, p1));
+	    return f_make_dynamic_callees(p0, p1);
 	}
 	case e_same_callees: {
-	    return(f_same_callees);
+	    return f_same_callees;
 	}
     }
     decode_error(ILLEGAL_CODE_callees);
-    return(f_dummy_callees);
+    return f_dummy_callees;
 }
 
 
@@ -438,7 +438,7 @@ d_capsule(void)
     start_make_capsule(p0, p1);
     p2 = d_extern_link_list();
     p3 = d_group_list();
-    return(f_make_capsule(p0, p1, p2, p3));
+    return f_make_capsule(p0, p1, p2, p3);
 }
 
 
@@ -451,7 +451,7 @@ d_capsule_link(void)
     tdfint p1;
     p0 = d_tdfident();
     p1 = d_tdfint();
-    return(f_make_capsule_link(p0, p1));
+    return f_make_capsule_link(p0, p1);
 }
 
 
@@ -469,7 +469,7 @@ d_capsule_link_list(void)
 	e = d_capsule_link();
 	temp = add_capsule_link_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -484,7 +484,7 @@ d_caselim(void)
     p0 = d_label();
     p1 = d_signed_nat();
     p2 = d_signed_nat();
-    return(f_make_caselim(p0, p1, p2));
+    return f_make_caselim(p0, p1, p2);
 }
 
 
@@ -503,7 +503,7 @@ d_caselim_list(void)
 	e = d_caselim();
 	temp = add_caselim_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -519,21 +519,21 @@ d_dg(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_dg_apply_token(p0, p1));
+	    return f_dg_apply_token(p0, p1);
 	}
 	case e_make_tag_dg: {
 	    dg_tag p0;
 	    dg p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg();
-	    return(f_make_tag_dg(p0, p1));
+	    return f_make_tag_dg(p0, p1);
 	}
 	case e_abortable_part_dg: {
 	    dg_sourcepos p0;
 	    bool p1;
 	    p0 = d_dg_sourcepos();
 	    p1 = d_bool();
-	    return(f_abortable_part_dg(p0, p1));
+	    return f_abortable_part_dg(p0, p1);
 	}
 	case e_accept_dg: {
 	    dg_sourcepos p0;
@@ -546,19 +546,19 @@ d_dg(void)
 	    p2 = d_dg_name_list();
 	    p3 = d_bool();
 	    p4 = d_dg_tag_option();
-	    return(f_accept_dg(p0, p1, p2, p3, p4));
+	    return f_accept_dg(p0, p1, p2, p3, p4);
 	}
 	case e_barrier_dg: {
 	    dg_sourcepos p0;
 	    dg_tag p1;
 	    p0 = d_dg_sourcepos();
 	    p1 = d_dg_tag();
-	    return(f_barrier_dg(p0, p1));
+	    return f_barrier_dg(p0, p1);
 	}
 	case e_branch_dg: {
 	    dg_sourcepos p0;
 	    p0 = d_dg_sourcepos();
-	    return(f_branch_dg(p0));
+	    return f_branch_dg(p0);
 	}
 	case e_call_dg: {
 	    dg_idname_option p0;
@@ -571,29 +571,29 @@ d_dg(void)
 	    p2 = d_nat_option();
 	    p3 = d_dg_tag_option();
 	    p4 = d_dg_tag_option();
-	    return(f_call_dg(p0, p1, p2, p3, p4));
+	    return f_call_dg(p0, p1, p2, p3, p4);
 	}
 	case e_compilation_dg: {
 	    dg_tag p0;
 	    p0 = d_dg_tag();
-	    return(f_compilation_dg(p0));
+	    return f_compilation_dg(p0);
 	}
 	case e_destructor_dg: {
 	    dg_sourcepos p0;
 	    exp_option p1;
 	    p0 = d_dg_sourcepos();
 	    p1 = d_exp_option();
-	    return(f_destructor_dg(p0, p1));
+	    return f_destructor_dg(p0, p1);
 	}
 	case e_exception_handler_dg: {
 	    dg_name_option p0;
 	    p0 = d_dg_name_option();
-	    return(f_exception_handler_dg(p0));
+	    return f_exception_handler_dg(p0);
 	}
 	case e_exception_scope_dg: {
 	    dg_tag_list p0;
 	    p0 = d_dg_tag_list();
-	    return(f_exception_scope_dg(p0));
+	    return f_exception_scope_dg(p0);
 	}
 	case e_inline_call_dg: {
 	    dg_tag p0;
@@ -602,60 +602,60 @@ d_dg(void)
 	    p0 = d_dg_tag();
 	    p1 = d_dg_name_list();
 	    p2 = d_nat_option();
-	    return(f_inline_call_dg(p0, p1, p2));
+	    return f_inline_call_dg(p0, p1, p2);
 	}
 	case e_inline_result_dg: {
 	    dg_tag p0;
 	    p0 = d_dg_tag();
-	    return(f_inline_result_dg(p0));
+	    return f_inline_result_dg(p0);
 	}
 	case e_inlined_dg: {
 	    dg p0;
 	    dg_tag p1;
 	    p0 = d_dg();
 	    p1 = d_dg_tag();
-	    return(f_inlined_dg(p0, p1));
+	    return f_inlined_dg(p0, p1);
 	}
 	case e_jump_dg: {
 	    dg_sourcepos p0;
 	    p0 = d_dg_sourcepos();
-	    return(f_jump_dg(p0));
+	    return f_jump_dg(p0);
 	}
 	case e_label_dg: {
 	    dg_idname p0;
 	    dg_sourcepos p1;
 	    p0 = d_dg_idname();
 	    p1 = d_dg_sourcepos();
-	    return(f_label_dg(p0, p1));
+	    return f_label_dg(p0, p1);
 	}
 	case e_lexical_block_dg: {
 	    dg_idname_option p0;
 	    dg_sourcepos p1;
 	    p0 = d_dg_idname_option();
 	    p1 = d_dg_sourcepos();
-	    return(f_lexical_block_dg(p0, p1));
+	    return f_lexical_block_dg(p0, p1);
 	}
 	case e_list_dg: {
 	    dg_list p0;
 	    p0 = d_dg_list();
-	    return(f_list_dg(p0));
+	    return f_list_dg(p0);
 	}
 	case e_long_jump_dg: {
 	    dg_sourcepos p0;
 	    p0 = d_dg_sourcepos();
-	    return(f_long_jump_dg(p0));
+	    return f_long_jump_dg(p0);
 	}
 	case e_name_decl_dg: {
 	    dg_name p0;
 	    p0 = d_dg_name();
-	    return(f_name_decl_dg(p0));
+	    return f_name_decl_dg(p0);
 	}
 	case e_params_dg: {
 	    dg_name_list p0;
 	    exp_option p1;
 	    p0 = d_dg_name_list();
 	    p1 = d_exp_option();
-	    return(f_params_dg(p0, p1));
+	    return f_params_dg(p0, p1);
 	}
 	case e_raise_dg: {
 	    dg_sourcepos p0;
@@ -664,7 +664,7 @@ d_dg(void)
 	    p0 = d_dg_sourcepos();
 	    p1 = d_dg_type_option();
 	    p2 = d_exp_option();
-	    return(f_raise_dg(p0, p1, p2));
+	    return f_raise_dg(p0, p1, p2);
 	}
 	case e_requeue_dg: {
 	    dg_sourcepos p0;
@@ -673,7 +673,7 @@ d_dg(void)
 	    p0 = d_dg_sourcepos();
 	    p1 = d_dg_tag();
 	    p2 = d_bool();
-	    return(f_requeue_dg(p0, p1, p2));
+	    return f_requeue_dg(p0, p1, p2);
 	}
 	case e_rts_call_dg: {
 	    dg_sourcepos p0;
@@ -684,14 +684,14 @@ d_dg(void)
 	    p1 = d_nat();
 	    p2 = d_dg_tag_option();
 	    p3 = d_dg_tag_option();
-	    return(f_rts_call_dg(p0, p1, p2, p3));
+	    return f_rts_call_dg(p0, p1, p2, p3);
 	}
 	case e_select_dg: {
 	    dg_sourcepos p0;
 	    bool p1;
 	    p0 = d_dg_sourcepos();
 	    p1 = d_bool();
-	    return(f_select_dg(p0, p1));
+	    return f_select_dg(p0, p1);
 	}
 	case e_select_alternative_dg: {
 	    dg_sourcepos p0;
@@ -702,41 +702,41 @@ d_dg(void)
 	    p1 = d_nat();
 	    p2 = d_bool();
 	    p3 = hold_check(d_exp());
-	    return(f_select_alternative_dg(p0, p1, p2, p3));
+	    return f_select_alternative_dg(p0, p1, p2, p3);
 	}
 	case e_select_guard_dg: {
 	    dg_sourcepos p0;
 	    dg_tag p1;
 	    p0 = d_dg_sourcepos();
 	    p1 = d_dg_tag();
-	    return(f_select_guard_dg(p0, p1));
+	    return f_select_guard_dg(p0, p1);
 	}
 	case e_singlestep_dg: {
 	    dg_sourcepos p0;
 	    p0 = d_dg_sourcepos();
-	    return(f_singlestep_dg(p0));
+	    return f_singlestep_dg(p0);
 	}
 	case e_source_language_dg: {
 	    nat p0;
 	    p0 = d_nat();
-	    return(f_source_language_dg(p0));
+	    return f_source_language_dg(p0);
 	}
 	case e_sourcepos_dg: {
 	    dg_sourcepos p0;
 	    p0 = d_dg_sourcepos();
-	    return(f_sourcepos_dg(p0));
+	    return f_sourcepos_dg(p0);
 	}
 	case e_statement_part_dg: {
 	    dg_tag p0;
 	    p0 = d_dg_tag();
-	    return(f_statement_part_dg(p0));
+	    return f_statement_part_dg(p0);
 	}
 	case e_test_dg: {
 	    dg_sourcepos p0;
 	    bool p1;
 	    p0 = d_dg_sourcepos();
 	    p1 = d_bool();
-	    return(f_test_dg(p0, p1));
+	    return f_test_dg(p0, p1);
 	}
 	case e_triggering_alternative_dg: {
 	    dg_sourcepos p0;
@@ -745,18 +745,18 @@ d_dg(void)
 	    p0 = d_dg_sourcepos();
 	    p1 = d_nat();
 	    p2 = d_bool();
-	    return(f_triggering_alternative_dg(p0, p1, p2));
+	    return f_triggering_alternative_dg(p0, p1, p2);
 	}
 	case e_with_dg: {
 	    dg_type p0;
 	    exp p1;
 	    p0 = d_dg_type();
 	    p1 = hold_check(d_exp());
-	    return(f_with_dg(p0, p1));
+	    return f_with_dg(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_dg);
-    return(f_dummy_dg);
+    return f_dummy_dg;
 }
 
 
@@ -768,20 +768,20 @@ d_dg_accessibility(void)
     int code = get_big_code(2);
     switch (code) {
 	case e_dg_local_accessibility: {
-	    return(f_dg_local_accessibility);
+	    return f_dg_local_accessibility;
 	}
 	case e_dg_private_accessibility: {
-	    return(f_dg_private_accessibility);
+	    return f_dg_private_accessibility;
 	}
 	case e_dg_protected_accessibility: {
-	    return(f_dg_protected_accessibility);
+	    return f_dg_protected_accessibility;
 	}
 	case e_dg_public_accessibility: {
-	    return(f_dg_public_accessibility);
+	    return f_dg_public_accessibility;
 	}
     }
     decode_error(ILLEGAL_CODE_dg_accessibility);
-    return(f_dummy_dg_accessibility);
+    return f_dummy_dg_accessibility;
 }
 
 
@@ -793,9 +793,9 @@ d_dg_accessibility_option(void)
     if (getcode(1)) {
 	dg_accessibility e;
 	e = d_dg_accessibility();
-	return(yes_dg_accessibility_option(e));
+	return yes_dg_accessibility_option(e);
     }
-    return(no_dg_accessibility_option);
+    return no_dg_accessibility_option;
 }
 
 
@@ -811,11 +811,11 @@ d_dg_append(void)
 	    dg_name p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_name();
-	    return(f_dg_name_append(p0, p1));
+	    return f_dg_name_append(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_append);
-    return(f_dummy_dg_append);
+    return f_dummy_dg_append;
 }
 
 
@@ -833,7 +833,7 @@ d_dg_append_list(void)
 	e = d_dg_append();
 	temp = add_dg_append_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -849,21 +849,21 @@ d_dg_bound(void)
 	    shape p1;
 	    p0 = d_dg_tag();
 	    p1 = d_shape();
-	    return(f_dg_dynamic_bound(p0, p1));
+	    return f_dg_dynamic_bound(p0, p1);
 	}
 	case e_dg_static_bound: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_dg_static_bound(p0));
+	    return f_dg_static_bound(p0);
 	}
 	case e_dg_unknown_bound: {
 	    shape p0;
 	    p0 = d_shape();
-	    return(f_dg_unknown_bound(p0));
+	    return f_dg_unknown_bound(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_bound);
-    return(f_dummy_dg_bound);
+    return f_dummy_dg_bound;
 }
 
 
@@ -885,11 +885,11 @@ d_dg_class_base(void)
 	    p2 = d_token_option();
 	    p3 = d_dg_accessibility_option();
 	    p4 = d_dg_virtuality_option();
-	    return(f_make_dg_class_base(p0, p1, p2, p3, p4));
+	    return f_make_dg_class_base(p0, p1, p2, p3, p4);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_class_base);
-    return(f_dummy_dg_class_base);
+    return f_dummy_dg_class_base;
 }
 
 
@@ -908,7 +908,7 @@ d_dg_class_base_list(void)
 	e = d_dg_class_base();
 	temp = add_dg_class_base_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -924,7 +924,7 @@ d_dg_classmem(void)
 	    dg_classmem p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_classmem();
-	    return(f_dg_tag_classmem(p0, p1));
+	    return f_dg_tag_classmem(p0, p1);
 	}
 	case e_dg_field_classmem: {
 	    dg_idname p0;
@@ -941,14 +941,14 @@ d_dg_classmem(void)
 	    p4 = d_dg_accessibility_option();
 	    p5 = d_bool_option();
 	    p6 = d_dg_default_option();
-	    return(f_dg_field_classmem(p0, p1, p2, p3, p4, p5, p6));
+	    return f_dg_field_classmem(p0, p1, p2, p3, p4, p5, p6);
 	}
 	case e_dg_function_classmem: {
 	    dg_name p0;
 	    exp_option p1;
 	    p0 = d_dg_name();
 	    p1 = d_exp_option();
-	    return(f_dg_function_classmem(p0, p1));
+	    return f_dg_function_classmem(p0, p1);
 	}
 	case e_dg_indirect_classmem: {
 	    dg_idname p0;
@@ -959,16 +959,16 @@ d_dg_classmem(void)
 	    p1 = d_dg_sourcepos();
 	    p2 = d_token();
 	    p3 = d_dg_type();
-	    return(f_dg_indirect_classmem(p0, p1, p2, p3));
+	    return f_dg_indirect_classmem(p0, p1, p2, p3);
 	}
 	case e_dg_name_classmem: {
 	    dg_name p0;
 	    p0 = d_dg_name();
-	    return(f_dg_name_classmem(p0));
+	    return f_dg_name_classmem(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_classmem);
-    return(f_dummy_dg_classmem);
+    return f_dummy_dg_classmem;
 }
 
 
@@ -987,7 +987,7 @@ d_dg_classmem_list(void)
 	e = d_dg_classmem();
 	temp = add_dg_classmem_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1002,7 +1002,7 @@ d_dg_comp_props(void)
     p0 = d_tdfint();
     p1 = d_dg_compilation();
     p2 = d_dg_append_list();
-    return(f_make_dg_compunit(p0, p1, p2));
+    return f_make_dg_compunit(p0, p1, p2);
 }
 
 
@@ -1018,7 +1018,7 @@ d_dg_compilation(void)
 	    dg_compilation p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_compilation();
-	    return(f_dg_tag_compilation(p0, p1));
+	    return f_dg_tag_compilation(p0, p1);
 	}
 	case e_make_dg_compilation: {
 	    dg_filename p0;
@@ -1041,11 +1041,11 @@ d_dg_compilation(void)
 	    p7 = d_string();
 	    p8 = d_string_list();
 	    p9 = d_dg_namelist();
-	    return(f_make_dg_compilation(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9));
+	    return f_make_dg_compilation(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_compilation);
-    return(f_dummy_dg_compilation);
+    return f_dummy_dg_compilation;
 }
 
 
@@ -1061,18 +1061,18 @@ d_dg_constraint(void)
 	    dg_type p1;
 	    p0 = d_dg_tag_option();
 	    p1 = d_dg_type();
-	    return(f_dg_type_constraint(p0, p1));
+	    return f_dg_type_constraint(p0, p1);
 	}
 	case e_dg_value_constraint: {
 	    dg_tag_option p0;
 	    exp p1;
 	    p0 = d_dg_tag_option();
 	    p1 = hold_check(d_exp());
-	    return(f_dg_value_constraint(p0, p1));
+	    return f_dg_value_constraint(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_constraint);
-    return(f_dummy_dg_constraint);
+    return f_dummy_dg_constraint;
 }
 
 
@@ -1091,7 +1091,7 @@ d_dg_constraint_list(void)
 	e = d_dg_constraint();
 	temp = add_dg_constraint_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1103,9 +1103,9 @@ d_dg_constraint_list_option(void)
     if (getcode(1)) {
 	dg_constraint_list e;
 	e = d_dg_constraint_list();
-	return(yes_dg_constraint_list_option(e));
+	return yes_dg_constraint_list_option(e);
     }
-    return(no_dg_constraint_list_option);
+    return no_dg_constraint_list_option;
 }
 
 
@@ -1121,11 +1121,11 @@ d_dg_default(void)
 	    dg_sourcepos_option p1;
 	    p0 = d_exp_option();
 	    p1 = d_dg_sourcepos_option();
-	    return(f_make_dg_default(p0, p1));
+	    return f_make_dg_default(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_default);
-    return(f_dummy_dg_default);
+    return f_dummy_dg_default;
 }
 
 
@@ -1137,9 +1137,9 @@ d_dg_default_option(void)
     if (getcode(1)) {
 	dg_default e;
 	e = d_dg_default();
-	return(yes_dg_default_option(e));
+	return yes_dg_default_option(e);
     }
-    return(no_dg_default_option);
+    return no_dg_default_option;
 }
 
 
@@ -1155,14 +1155,14 @@ d_dg_dim(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_dg_dim_apply_token(p0, p1));
+	    return f_dg_dim_apply_token(p0, p1);
 	}
 	case e_dg_tag_dim: {
 	    dg_tag p0;
 	    dg_dim p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_dim();
-	    return(f_dg_tag_dim(p0, p1));
+	    return f_dg_tag_dim(p0, p1);
 	}
 	case e_dg_bounds_dim: {
 	    dg_bound p0;
@@ -1171,7 +1171,7 @@ d_dg_dim(void)
 	    p0 = d_dg_bound();
 	    p1 = d_dg_bound();
 	    p2 = d_dg_type();
-	    return(f_dg_bounds_dim(p0, p1, p2));
+	    return f_dg_bounds_dim(p0, p1, p2);
 	}
 	case e_dg_count_dim: {
 	    dg_bound p0;
@@ -1180,21 +1180,21 @@ d_dg_dim(void)
 	    p0 = d_dg_bound();
 	    p1 = d_dg_bound();
 	    p2 = d_dg_type();
-	    return(f_dg_count_dim(p0, p1, p2));
+	    return f_dg_count_dim(p0, p1, p2);
 	}
 	case e_dg_type_dim: {
 	    dg_type p0;
 	    nat_option p1;
 	    p0 = d_dg_type();
 	    p1 = d_nat_option();
-	    return(f_dg_type_dim(p0, p1));
+	    return f_dg_type_dim(p0, p1);
 	}
 	case e_dg_unspecified_dim: {
-	    return(f_dg_unspecified_dim);
+	    return f_dg_unspecified_dim;
 	}
     }
     decode_error(ILLEGAL_CODE_dg_dim);
-    return(f_dummy_dg_dim);
+    return f_dummy_dg_dim;
 }
 
 
@@ -1213,7 +1213,7 @@ d_dg_dim_list(void)
 	e = d_dg_dim();
 	temp = add_dg_dim_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1225,9 +1225,9 @@ d_dg_dim_option(void)
     if (getcode(1)) {
 	dg_dim e;
 	e = d_dg_dim();
-	return(yes_dg_dim_option(e));
+	return yes_dg_dim_option(e);
     }
-    return(no_dg_dim_option);
+    return no_dg_dim_option;
 }
 
 
@@ -1243,11 +1243,11 @@ d_dg_discrim(void)
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_make_dg_discrim(p0, p1));
+	    return f_make_dg_discrim(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_discrim);
-    return(f_dummy_dg_discrim);
+    return f_dummy_dg_discrim;
 }
 
 
@@ -1266,7 +1266,7 @@ d_dg_discrim_list(void)
 	e = d_dg_discrim();
 	temp = add_dg_discrim_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1282,7 +1282,7 @@ d_dg_enum(void)
 	    dg_enum p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_enum();
-	    return(f_dg_tag_enum(p0, p1));
+	    return f_dg_tag_enum(p0, p1);
 	}
 	case e_make_dg_enum: {
 	    exp p0;
@@ -1291,7 +1291,7 @@ d_dg_enum(void)
 	    p0 = hold_check(d_exp());
 	    p1 = d_dg_idname();
 	    p2 = d_dg_sourcepos();
-	    return(f_make_dg_enum(p0, p1, p2));
+	    return f_make_dg_enum(p0, p1, p2);
 	}
 	case e_dg_char_enum: {
 	    exp p0;
@@ -1300,11 +1300,11 @@ d_dg_enum(void)
 	    p0 = hold_check(d_exp());
 	    p1 = d_nat();
 	    p2 = d_dg_sourcepos();
-	    return(f_dg_char_enum(p0, p1, p2));
+	    return f_dg_char_enum(p0, p1, p2);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_enum);
-    return(f_dummy_dg_enum);
+    return f_dummy_dg_enum;
 }
 
 
@@ -1323,7 +1323,7 @@ d_dg_enum_list(void)
 	e = d_dg_enum();
 	temp = add_dg_enum_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1339,7 +1339,7 @@ d_dg_filename(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_dg_filename_apply_token(p0, p1));
+	    return f_dg_filename_apply_token(p0, p1);
 	}
 	case e_make_dg_filename: {
 	    nat p0;
@@ -1350,11 +1350,11 @@ d_dg_filename(void)
 	    p1 = d_string();
 	    p2 = d_string();
 	    p3 = d_string();
-	    return(f_make_dg_filename(p0, p1, p2, p3));
+	    return f_make_dg_filename(p0, p1, p2, p3);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_filename);
-    return(f_dummy_dg_filename);
+    return f_dummy_dg_filename;
 }
 
 
@@ -1366,9 +1366,9 @@ d_dg_filename_option(void)
     if (getcode(1)) {
 	dg_filename e;
 	e = d_dg_filename();
-	return(yes_dg_filename_option(e));
+	return yes_dg_filename_option(e);
     }
-    return(no_dg_filename_option);
+    return no_dg_filename_option;
 }
 
 
@@ -1384,22 +1384,22 @@ d_dg_idname(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_dg_idname_apply_token(p0, p1));
+	    return f_dg_idname_apply_token(p0, p1);
 	}
 	case e_dg_anonymous_idname: {
 	    string_option p0;
 	    p0 = d_string_option();
-	    return(f_dg_anonymous_idname(p0));
+	    return f_dg_anonymous_idname(p0);
 	}
 	case e_dg_artificial_idname: {
 	    string_option p0;
 	    p0 = d_string_option();
-	    return(f_dg_artificial_idname(p0));
+	    return f_dg_artificial_idname(p0);
 	}
 	case e_dg_external_idname: {
 	    string p0;
 	    p0 = d_string();
-	    return(f_dg_external_idname(p0));
+	    return f_dg_external_idname(p0);
 	}
 	case e_dg_instance_idname: {
 	    dg_idname_option p0;
@@ -1410,16 +1410,16 @@ d_dg_idname(void)
 	    p1 = d_dg_idname();
 	    p2 = d_dg_sourcepos();
 	    p3 = d_dg_name_list();
-	    return(f_dg_instance_idname(p0, p1, p2, p3));
+	    return f_dg_instance_idname(p0, p1, p2, p3);
 	}
 	case e_dg_sourcestring_idname: {
 	    string p0;
 	    p0 = d_string();
-	    return(f_dg_sourcestring_idname(p0));
+	    return f_dg_sourcestring_idname(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_idname);
-    return(f_dummy_dg_idname);
+    return f_dummy_dg_idname;
 }
 
 
@@ -1438,7 +1438,7 @@ d_dg_idname_list(void)
 	e = d_dg_idname();
 	temp = add_dg_idname_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1450,9 +1450,9 @@ d_dg_idname_option(void)
     if (getcode(1)) {
 	dg_idname e;
 	e = d_dg_idname();
-	return(yes_dg_idname_option(e));
+	return yes_dg_idname_option(e);
     }
-    return(no_dg_idname_option);
+    return no_dg_idname_option;
 }
 
 
@@ -1471,7 +1471,7 @@ d_dg_list(void)
 	e = d_dg();
 	temp = add_dg_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1491,7 +1491,7 @@ d_dg_macro(void)
 	    p1 = d_dg_idname();
 	    p2 = d_dg_idname_list();
 	    p3 = d_string();
-	    return(f_dg_function_macro(p0, p1, p2, p3));
+	    return f_dg_function_macro(p0, p1, p2, p3);
 	}
 	case e_dg_include_macro: {
 	    dg_sourcepos p0;
@@ -1500,7 +1500,7 @@ d_dg_macro(void)
 	    p0 = d_dg_sourcepos();
 	    p1 = d_dg_filename();
 	    p2 = d_dg_macro_list();
-	    return(f_dg_include_macro(p0, p1, p2));
+	    return f_dg_include_macro(p0, p1, p2);
 	}
 	case e_dg_object_macro: {
 	    dg_sourcepos p0;
@@ -1509,18 +1509,18 @@ d_dg_macro(void)
 	    p0 = d_dg_sourcepos();
 	    p1 = d_dg_idname();
 	    p2 = d_string();
-	    return(f_dg_object_macro(p0, p1, p2));
+	    return f_dg_object_macro(p0, p1, p2);
 	}
 	case e_dg_undef_macro: {
 	    dg_sourcepos p0;
 	    dg_idname p1;
 	    p0 = d_dg_sourcepos();
 	    p1 = d_dg_idname();
-	    return(f_dg_undef_macro(p0, p1));
+	    return f_dg_undef_macro(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_macro);
-    return(f_dummy_dg_macro);
+    return f_dummy_dg_macro;
 }
 
 
@@ -1539,7 +1539,7 @@ d_dg_macro_list(void)
 	e = d_dg_macro();
 	temp = add_dg_macro_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1555,26 +1555,26 @@ d_dg_name(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_dg_name_apply_token(p0, p1));
+	    return f_dg_name_apply_token(p0, p1);
 	}
 	case e_dg_tag_name: {
 	    dg_tag p0;
 	    dg_name p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_name();
-	    return(f_dg_tag_name(p0, p1));
+	    return f_dg_tag_name(p0, p1);
 	}
 	case e_dg_constant_name: {
 	    dg_name p0;
 	    p0 = d_dg_name();
-	    return(f_dg_constant_name(p0));
+	    return f_dg_constant_name(p0);
 	}
 	case e_dg_entry_family_name: {
 	    dg_name p0;
 	    dg_dim p1;
 	    p0 = d_dg_name();
 	    p1 = d_dg_dim();
-	    return(f_dg_entry_family_name(p0, p1));
+	    return f_dg_entry_family_name(p0, p1);
 	}
 	case e_dg_entry_name: {
 	    dg_idname p0;
@@ -1587,21 +1587,21 @@ d_dg_name(void)
 	    p2 = d_dg_type();
 	    p3 = d_dg_accessibility_option();
 	    p4 = d_dg_dim_option();
-	    return(f_dg_entry_name(p0, p1, p2, p3, p4));
+	    return f_dg_entry_name(p0, p1, p2, p3, p4);
 	}
 	case e_dg_inlined_name: {
 	    dg_name p0;
 	    dg_tag p1;
 	    p0 = d_dg_name();
 	    p1 = d_dg_tag();
-	    return(f_dg_inlined_name(p0, p1));
+	    return f_dg_inlined_name(p0, p1);
 	}
 	case e_dg_is_spec_name: {
 	    dg_name p0;
 	    bool_option p1;
 	    p0 = d_dg_name();
 	    p1 = d_bool_option();
-	    return(f_dg_is_spec_name(p0, p1));
+	    return f_dg_is_spec_name(p0, p1);
 	}
 	case e_dg_module_name: {
 	    dg_idname p0;
@@ -1614,7 +1614,7 @@ d_dg_name(void)
 	    p2 = d_dg_namelist();
 	    p3 = d_exp_option();
 	    p4 = d_dg_tag_option();
-	    return(f_dg_module_name(p0, p1, p2, p3, p4));
+	    return f_dg_module_name(p0, p1, p2, p3, p4);
 	}
 	case e_dg_namespace_name: {
 	    dg_idname p0;
@@ -1623,7 +1623,7 @@ d_dg_name(void)
 	    p0 = d_dg_idname();
 	    p1 = d_dg_sourcepos();
 	    p2 = d_dg_namelist();
-	    return(f_dg_namespace_name(p0, p1, p2));
+	    return f_dg_namespace_name(p0, p1, p2);
 	}
 	case e_dg_object_name: {
 	    dg_idname p0;
@@ -1636,7 +1636,7 @@ d_dg_name(void)
 	    p2 = d_dg_type();
 	    p3 = d_exp_option();
 	    p4 = d_dg_accessibility_option();
-	    return(f_dg_object_name(p0, p1, p2, p3, p4));
+	    return f_dg_object_name(p0, p1, p2, p3, p4);
 	}
 	case e_dg_proc_name: {
 	    dg_idname p0;
@@ -1657,7 +1657,7 @@ d_dg_name(void)
 	    p6 = d_bool();
 	    p7 = d_dg_type_list_option();
 	    p8 = d_dg_tag_option();
-	    return(f_dg_proc_name(p0, p1, p2, p3, p4, p5, p6, p7, p8));
+	    return f_dg_proc_name(p0, p1, p2, p3, p4, p5, p6, p7, p8);
 	}
 	case e_dg_program_name: {
 	    dg_idname p0;
@@ -1666,21 +1666,21 @@ d_dg_name(void)
 	    p0 = d_dg_idname();
 	    p1 = d_dg_sourcepos();
 	    p2 = hold_check(d_exp());
-	    return(f_dg_program_name(p0, p1, p2));
+	    return f_dg_program_name(p0, p1, p2);
 	}
 	case e_dg_rep_clause_name: {
 	    dg_name p0;
 	    exp p1;
 	    p0 = d_dg_name();
 	    p1 = hold_check(d_exp());
-	    return(f_dg_rep_clause_name(p0, p1));
+	    return f_dg_rep_clause_name(p0, p1);
 	}
 	case e_dg_spec_ref_name: {
 	    dg_tag p0;
 	    dg_name p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_name();
-	    return(f_dg_spec_ref_name(p0, p1));
+	    return f_dg_spec_ref_name(p0, p1);
 	}
 	case e_dg_subunit_name: {
 	    dg_tag p0;
@@ -1691,7 +1691,7 @@ d_dg_name(void)
 	    p1 = d_dg_name();
 	    p2 = d_nat();
 	    p3 = d_dg_accessibility_option();
-	    return(f_dg_subunit_name(p0, p1, p2, p3));
+	    return f_dg_subunit_name(p0, p1, p2, p3);
 	}
 	case e_dg_type_name: {
 	    dg_idname_option p0;
@@ -1708,7 +1708,7 @@ d_dg_name(void)
 	    p4 = d_bool();
 	    p5 = d_bool_option();
 	    p6 = d_dg_constraint_list_option();
-	    return(f_dg_type_name(p0, p1, p2, p3, p4, p5, p6));
+	    return f_dg_type_name(p0, p1, p2, p3, p4, p5, p6);
 	}
 	case e_dg_visibility_name: {
 	    dg_tag p0;
@@ -1723,11 +1723,11 @@ d_dg_name(void)
 	    p3 = d_dg_sourcepos_option();
 	    p4 = d_dg_accessibility_option();
 	    p5 = d_dg_type_option();
-	    return(f_dg_visibility_name(p0, p1, p2, p3, p4, p5));
+	    return f_dg_visibility_name(p0, p1, p2, p3, p4, p5);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_name);
-    return(f_dummy_dg_name);
+    return f_dummy_dg_name;
 }
 
 
@@ -1746,7 +1746,7 @@ d_dg_name_list(void)
 	e = d_dg_name();
 	temp = add_dg_name_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1758,9 +1758,9 @@ d_dg_name_option(void)
     if (getcode(1)) {
 	dg_name e;
 	e = d_dg_name();
-	return(yes_dg_name_option(e));
+	return yes_dg_name_option(e);
     }
-    return(no_dg_name_option);
+    return no_dg_name_option;
 }
 
 
@@ -1776,16 +1776,16 @@ d_dg_namelist(void)
 	    dg_namelist p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_namelist();
-	    return(f_dg_tag_namelist(p0, p1));
+	    return f_dg_tag_namelist(p0, p1);
 	}
 	case e_make_dg_namelist: {
 	    dg_name_list p0;
 	    p0 = d_dg_name_list();
-	    return(f_make_dg_namelist(p0));
+	    return f_make_dg_namelist(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_namelist);
-    return(f_dummy_dg_namelist);
+    return f_dummy_dg_namelist;
 }
 
 
@@ -1807,7 +1807,7 @@ d_dg_param(void)
 	    p2 = d_dg_param_mode_option();
 	    p3 = d_dg_type();
 	    p4 = d_dg_default_option();
-	    return(f_dg_object_param(p0, p1, p2, p3, p4));
+	    return f_dg_object_param(p0, p1, p2, p3, p4);
 	}
 	case e_dg_type_param: {
 	    dg_idname_option p0;
@@ -1816,11 +1816,11 @@ d_dg_param(void)
 	    p0 = d_dg_idname_option();
 	    p1 = d_dg_sourcepos_option();
 	    p2 = d_dg_param_list();
-	    return(f_dg_type_param(p0, p1, p2));
+	    return f_dg_type_param(p0, p1, p2);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_param);
-    return(f_dummy_dg_param);
+    return f_dummy_dg_param;
 }
 
 
@@ -1839,7 +1839,7 @@ d_dg_param_list(void)
 	e = d_dg_param();
 	temp = add_dg_param_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -1851,17 +1851,17 @@ d_dg_param_mode(void)
     int code = get_big_code(2);
     switch (code) {
 	case e_dg_in_mode: {
-	    return(f_dg_in_mode);
+	    return f_dg_in_mode;
 	}
 	case e_dg_inout_mode: {
-	    return(f_dg_inout_mode);
+	    return f_dg_inout_mode;
 	}
 	case e_dg_out_mode: {
-	    return(f_dg_out_mode);
+	    return f_dg_out_mode;
 	}
     }
     decode_error(ILLEGAL_CODE_dg_param_mode);
-    return(f_dummy_dg_param_mode);
+    return f_dummy_dg_param_mode;
 }
 
 
@@ -1873,9 +1873,9 @@ d_dg_param_mode_option(void)
     if (getcode(1)) {
 	dg_param_mode e;
 	e = d_dg_param_mode();
-	return(yes_dg_param_mode_option(e));
+	return yes_dg_param_mode_option(e);
     }
-    return(no_dg_param_mode_option);
+    return no_dg_param_mode_option;
 }
 
 
@@ -1887,23 +1887,23 @@ d_dg_qualifier(void)
     int code = get_big_code(3);
     switch (code) {
 	case e_dg_aliased_qualifier: {
-	    return(f_dg_aliased_qualifier);
+	    return f_dg_aliased_qualifier;
 	}
 	case e_dg_class_wide_qualifier: {
-	    return(f_dg_class_wide_qualifier);
+	    return f_dg_class_wide_qualifier;
 	}
 	case e_dg_const_qualifier: {
-	    return(f_dg_const_qualifier);
+	    return f_dg_const_qualifier;
 	}
 	case e_dg_limited_qualifier: {
-	    return(f_dg_limited_qualifier);
+	    return f_dg_limited_qualifier;
 	}
 	case e_dg_volatile_qualifier: {
-	    return(f_dg_volatile_qualifier);
+	    return f_dg_volatile_qualifier;
 	}
     }
     decode_error(ILLEGAL_CODE_dg_qualifier);
-    return(f_dummy_dg_qualifier);
+    return f_dummy_dg_qualifier;
 }
 
 
@@ -1917,10 +1917,10 @@ d_dg_sourcepos(void)
 	case e_dg_file_sourcepos: {
 	    dg_filename p0;
 	    p0 = d_dg_filename();
-	    return(f_dg_file_sourcepos(p0));
+	    return f_dg_file_sourcepos(p0);
 	}
 	case e_dg_global_sourcepos: {
-	    return(f_dg_global_sourcepos);
+	    return f_dg_global_sourcepos;
 	}
 	case e_dg_mark_sourcepos: {
 	    dg_filename p0;
@@ -1929,10 +1929,10 @@ d_dg_sourcepos(void)
 	    p0 = d_dg_filename();
 	    p1 = d_nat();
 	    p2 = d_nat();
-	    return(f_dg_mark_sourcepos(p0, p1, p2));
+	    return f_dg_mark_sourcepos(p0, p1, p2);
 	}
 	case e_dg_null_sourcepos: {
-	    return(f_dg_null_sourcepos);
+	    return f_dg_null_sourcepos;
 	}
 	case e_dg_span_sourcepos: {
 	    dg_filename p0;
@@ -1947,11 +1947,11 @@ d_dg_sourcepos(void)
 	    p3 = d_dg_filename_option();
 	    p4 = d_nat();
 	    p5 = d_nat();
-	    return(f_dg_span_sourcepos(p0, p1, p2, p3, p4, p5));
+	    return f_dg_span_sourcepos(p0, p1, p2, p3, p4, p5);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_sourcepos);
-    return(f_dummy_dg_sourcepos);
+    return f_dummy_dg_sourcepos;
 }
 
 
@@ -1963,9 +1963,9 @@ d_dg_sourcepos_option(void)
     if (getcode(1)) {
 	dg_sourcepos e;
 	e = d_dg_sourcepos();
-	return(yes_dg_sourcepos_option(e));
+	return yes_dg_sourcepos_option(e);
     }
-    return(no_dg_sourcepos_option);
+    return no_dg_sourcepos_option;
 }
 
 
@@ -1979,11 +1979,11 @@ d_dg_tag(void)
 	case e_make_dg_tag: {
 	    tdfint p0;
 	    p0 = d_tdfint();
-	    return(f_make_dg_tag(p0));
+	    return f_make_dg_tag(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_tag);
-    return(f_dummy_dg_tag);
+    return f_dummy_dg_tag;
 }
 
 
@@ -2002,7 +2002,7 @@ d_dg_tag_list(void)
 	e = d_dg_tag();
 	temp = add_dg_tag_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -2014,9 +2014,9 @@ d_dg_tag_option(void)
     if (getcode(1)) {
 	dg_tag e;
 	e = d_dg_tag();
-	return(yes_dg_tag_option(e));
+	return yes_dg_tag_option(e);
     }
-    return(no_dg_tag_option);
+    return no_dg_tag_option;
 }
 
 
@@ -2032,21 +2032,21 @@ d_dg_type(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_dg_type_apply_token(p0, p1));
+	    return f_dg_type_apply_token(p0, p1);
 	}
 	case e_dg_tag_type: {
 	    dg_tag p0;
 	    dg_type p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_type();
-	    return(f_dg_tag_type(p0, p1));
+	    return f_dg_tag_type(p0, p1);
 	}
 	case e_dg_address_type: {
 	    dg_idname p0;
 	    shape p1;
 	    p0 = d_dg_idname();
 	    p1 = d_shape();
-	    return(f_dg_address_type(p0, p1));
+	    return f_dg_address_type(p0, p1);
 	}
 	case e_dg_array_type: {
 	    dg_type p0;
@@ -2057,7 +2057,7 @@ d_dg_type(void)
 	    p1 = hold_check(d_exp());
 	    p2 = d_bool_option();
 	    p3 = d_dg_dim_list();
-	    return(f_dg_array_type(p0, p1, p2, p3));
+	    return f_dg_array_type(p0, p1, p2, p3);
 	}
 	case e_dg_bitfield_type: {
 	    dg_type p0;
@@ -2066,21 +2066,21 @@ d_dg_type(void)
 	    p0 = d_dg_type();
 	    p1 = d_bitfield_variety();
 	    p2 = d_shape();
-	    return(f_dg_bitfield_type(p0, p1, p2));
+	    return f_dg_bitfield_type(p0, p1, p2);
 	}
 	case e_dg_boolean_type: {
 	    dg_idname p0;
 	    variety p1;
 	    p0 = d_dg_idname();
 	    p1 = d_variety();
-	    return(f_dg_boolean_type(p0, p1));
+	    return f_dg_boolean_type(p0, p1);
 	}
 	case e_dg_char_type: {
 	    dg_idname p0;
 	    variety p1;
 	    p0 = d_dg_idname();
 	    p1 = d_variety();
-	    return(f_dg_char_type(p0, p1));
+	    return f_dg_char_type(p0, p1);
 	}
 	case e_dg_class_type: {
 	    dg_class_base_list p0;
@@ -2111,14 +2111,14 @@ d_dg_type(void)
 	    p11 = d_dg_tag_option();
 	    p12 = d_bool();
 	    p13 = d_bool_option();
-	    return(f_dg_class_type(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13));
+	    return f_dg_class_type(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13);
 	}
 	case e_dg_complex_float_type: {
 	    dg_idname p0;
 	    floating_variety p1;
 	    p0 = d_dg_idname();
 	    p1 = d_floating_variety();
-	    return(f_dg_complex_float_type(p0, p1));
+	    return f_dg_complex_float_type(p0, p1);
 	}
 	case e_dg_enum_type: {
 	    dg_enum_list p0;
@@ -2131,14 +2131,14 @@ d_dg_type(void)
 	    p2 = d_dg_sourcepos_option();
 	    p3 = d_shape();
 	    p4 = d_bool();
-	    return(f_dg_enum_type(p0, p1, p2, p3, p4));
+	    return f_dg_enum_type(p0, p1, p2, p3, p4);
 	}
 	case e_dg_file_type: {
 	    dg_type p0;
 	    shape p1;
 	    p0 = d_dg_type();
 	    p1 = d_shape();
-	    return(f_dg_file_type(p0, p1));
+	    return f_dg_file_type(p0, p1);
 	}
 	case e_dg_fixed_point_type: {
 	    dg_type p0;
@@ -2149,66 +2149,66 @@ d_dg_type(void)
 	    p1 = hold_check(d_exp());
 	    p2 = d_exp_option();
 	    p3 = d_exp_option();
-	    return(f_dg_fixed_point_type(p0, p1, p2, p3));
+	    return f_dg_fixed_point_type(p0, p1, p2, p3);
 	}
 	case e_dg_float_type: {
 	    dg_idname p0;
 	    floating_variety p1;
 	    p0 = d_dg_idname();
 	    p1 = d_floating_variety();
-	    return(f_dg_float_type(p0, p1));
+	    return f_dg_float_type(p0, p1);
 	}
 	case e_dg_floating_digits_type: {
 	    dg_type p0;
 	    exp p1;
 	    p0 = d_dg_type();
 	    p1 = hold_check(d_exp());
-	    return(f_dg_floating_digits_type(p0, p1));
+	    return f_dg_floating_digits_type(p0, p1);
 	}
 	case e_dg_inlined_type: {
 	    dg_type p0;
 	    dg_tag p1;
 	    p0 = d_dg_type();
 	    p1 = d_dg_tag();
-	    return(f_dg_inlined_type(p0, p1));
+	    return f_dg_inlined_type(p0, p1);
 	}
 	case e_dg_integer_type: {
 	    dg_idname p0;
 	    variety p1;
 	    p0 = d_dg_idname();
 	    p1 = d_variety();
-	    return(f_dg_integer_type(p0, p1));
+	    return f_dg_integer_type(p0, p1);
 	}
 	case e_dg_is_spec_type: {
 	    dg_type p0;
 	    p0 = d_dg_type();
-	    return(f_dg_is_spec_type(p0));
+	    return f_dg_is_spec_type(p0);
 	}
 	case e_dg_modular_type: {
 	    dg_type p0;
 	    exp p1;
 	    p0 = d_dg_type();
 	    p1 = hold_check(d_exp());
-	    return(f_dg_modular_type(p0, p1));
+	    return f_dg_modular_type(p0, p1);
 	}
 	case e_dg_named_type: {
 	    dg_tag p0;
 	    p0 = d_dg_tag();
-	    return(f_dg_named_type(p0));
+	    return f_dg_named_type(p0);
 	}
 	case e_dg_packed_type: {
 	    dg_type p0;
 	    shape p1;
 	    p0 = d_dg_type();
 	    p1 = d_shape();
-	    return(f_dg_packed_type(p0, p1));
+	    return f_dg_packed_type(p0, p1);
 	}
 	case e_dg_pointer_type: {
 	    dg_type p0;
 	    bool_option p1;
 	    p0 = d_dg_type();
 	    p1 = d_bool_option();
-	    return(f_dg_pointer_type(p0, p1));
+	    return f_dg_pointer_type(p0, p1);
 	}
 	case e_dg_proc_type: {
 	    dg_param_list p0;
@@ -2223,7 +2223,7 @@ d_dg_type(void)
 	    p3 = d_nat_option();
 	    p4 = d_nat_option();
 	    p5 = d_procprops_option();
-	    return(f_dg_proc_type(p0, p1, p2, p3, p4, p5));
+	    return f_dg_proc_type(p0, p1, p2, p3, p4, p5);
 	}
 	case e_dg_ptr_memdata_type: {
 	    dg_tag p0;
@@ -2234,7 +2234,7 @@ d_dg_type(void)
 	    p1 = d_dg_type();
 	    p2 = d_shape();
 	    p3 = d_dg_tag_option();
-	    return(f_dg_ptr_memdata_type(p0, p1, p2, p3));
+	    return f_dg_ptr_memdata_type(p0, p1, p2, p3);
 	}
 	case e_dg_ptr_memfn_type: {
 	    dg_tag p0;
@@ -2245,33 +2245,33 @@ d_dg_type(void)
 	    p1 = d_dg_type();
 	    p2 = d_shape();
 	    p3 = d_dg_tag_option();
-	    return(f_dg_ptr_memfn_type(p0, p1, p2, p3));
+	    return f_dg_ptr_memfn_type(p0, p1, p2, p3);
 	}
 	case e_dg_qualified_type: {
 	    dg_qualifier p0;
 	    dg_type p1;
 	    p0 = d_dg_qualifier();
 	    p1 = d_dg_type();
-	    return(f_dg_qualified_type(p0, p1));
+	    return f_dg_qualified_type(p0, p1);
 	}
 	case e_dg_reference_type: {
 	    dg_type p0;
 	    p0 = d_dg_type();
-	    return(f_dg_reference_type(p0));
+	    return f_dg_reference_type(p0);
 	}
 	case e_dg_set_type: {
 	    dg_type p0;
 	    shape p1;
 	    p0 = d_dg_type();
 	    p1 = d_shape();
-	    return(f_dg_set_type(p0, p1));
+	    return f_dg_set_type(p0, p1);
 	}
 	case e_dg_spec_ref_type: {
 	    dg_tag p0;
 	    dg_type p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_type();
-	    return(f_dg_spec_ref_type(p0, p1));
+	    return f_dg_spec_ref_type(p0, p1);
 	}
 	case e_dg_string_type: {
 	    dg_tag p0;
@@ -2280,7 +2280,7 @@ d_dg_type(void)
 	    p0 = d_dg_tag();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_dg_string_type(p0, p1, p2));
+	    return f_dg_string_type(p0, p1, p2);
 	}
 	case e_dg_struct_type: {
 	    dg_classmem_list p0;
@@ -2297,7 +2297,7 @@ d_dg_type(void)
 	    p4 = d_dg_varpart_option();
 	    p5 = d_bool();
 	    p6 = d_bool();
-	    return(f_dg_struct_type(p0, p1, p2, p3, p4, p5, p6));
+	    return f_dg_struct_type(p0, p1, p2, p3, p4, p5, p6);
 	}
 	case e_dg_subrange_type: {
 	    dg_type p0;
@@ -2306,7 +2306,7 @@ d_dg_type(void)
 	    p0 = d_dg_type();
 	    p1 = d_dg_bound();
 	    p2 = d_dg_bound();
-	    return(f_dg_subrange_type(p0, p1, p2));
+	    return f_dg_subrange_type(p0, p1, p2);
 	}
 	case e_dg_synchronous_type: {
 	    dg_idname p0;
@@ -2327,7 +2327,7 @@ d_dg_type(void)
 	    p6 = d_shape_option();
 	    p7 = d_bool();
 	    p8 = d_dg_tag_option();
-	    return(f_dg_synchronous_type(p0, p1, p2, p3, p4, p5, p6, p7, p8));
+	    return f_dg_synchronous_type(p0, p1, p2, p3, p4, p5, p6, p7, p8);
 	}
 	case e_dg_task_type: {
 	    dg_idname p0;
@@ -2350,19 +2350,19 @@ d_dg_type(void)
 	    p7 = d_shape_option();
 	    p8 = d_bool();
 	    p9 = d_dg_tag_option();
-	    return(f_dg_task_type(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9));
+	    return f_dg_task_type(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9);
 	}
 	case e_dg_unknown_type: {
 	    shape p0;
 	    p0 = d_shape();
-	    return(f_dg_unknown_type(p0));
+	    return f_dg_unknown_type(p0);
 	}
 	case e_dg_void_type: {
-	    return(f_dg_void_type);
+	    return f_dg_void_type;
 	}
     }
     decode_error(ILLEGAL_CODE_dg_type);
-    return(f_dummy_dg_type);
+    return f_dummy_dg_type;
 }
 
 
@@ -2381,7 +2381,7 @@ d_dg_type_list(void)
 	e = d_dg_type();
 	temp = add_dg_type_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -2393,9 +2393,9 @@ d_dg_type_list_option(void)
     if (getcode(1)) {
 	dg_type_list e;
 	e = d_dg_type_list();
-	return(yes_dg_type_list_option(e));
+	return yes_dg_type_list_option(e);
     }
-    return(no_dg_type_list_option);
+    return no_dg_type_list_option;
 }
 
 
@@ -2407,9 +2407,9 @@ d_dg_type_option(void)
     if (getcode(1)) {
 	dg_type e;
 	e = d_dg_type();
-	return(yes_dg_type_option(e));
+	return yes_dg_type_option(e);
     }
-    return(no_dg_type_option);
+    return no_dg_type_option;
 }
 
 
@@ -2425,11 +2425,11 @@ d_dg_variant(void)
 	    dg_classmem_list p1;
 	    p0 = d_dg_discrim_list();
 	    p1 = d_dg_classmem_list();
-	    return(f_make_dg_variant(p0, p1));
+	    return f_make_dg_variant(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_variant);
-    return(f_dummy_dg_variant);
+    return f_dummy_dg_variant;
 }
 
 
@@ -2448,7 +2448,7 @@ d_dg_variant_list(void)
 	e = d_dg_variant();
 	temp = add_dg_variant_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -2464,25 +2464,25 @@ d_dg_varpart(void)
 	    dg_variant_list p1;
 	    p0 = d_dg_classmem();
 	    p1 = d_dg_variant_list();
-	    return(f_dg_discrim_varpart(p0, p1));
+	    return f_dg_discrim_varpart(p0, p1);
 	}
 	case e_dg_sibl_discrim_varpart: {
 	    dg_tag p0;
 	    dg_variant_list p1;
 	    p0 = d_dg_tag();
 	    p1 = d_dg_variant_list();
-	    return(f_dg_sibl_discrim_varpart(p0, p1));
+	    return f_dg_sibl_discrim_varpart(p0, p1);
 	}
 	case e_dg_undiscrim_varpart: {
 	    dg_type p0;
 	    dg_variant_list p1;
 	    p0 = d_dg_type();
 	    p1 = d_dg_variant_list();
-	    return(f_dg_undiscrim_varpart(p0, p1));
+	    return f_dg_undiscrim_varpart(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_dg_varpart);
-    return(f_dummy_dg_varpart);
+    return f_dummy_dg_varpart;
 }
 
 
@@ -2494,9 +2494,9 @@ d_dg_varpart_option(void)
     if (getcode(1)) {
 	dg_varpart e;
 	e = d_dg_varpart();
-	return(yes_dg_varpart_option(e));
+	return yes_dg_varpart_option(e);
     }
-    return(no_dg_varpart_option);
+    return no_dg_varpart_option;
 }
 
 
@@ -2508,14 +2508,14 @@ d_dg_virtuality(void)
     int code = get_big_code(2);
     switch (code) {
 	case e_dg_abstract_virtuality: {
-	    return(f_dg_abstract_virtuality);
+	    return f_dg_abstract_virtuality;
 	}
 	case e_dg_virtual_virtuality: {
-	    return(f_dg_virtual_virtuality);
+	    return f_dg_virtual_virtuality;
 	}
     }
     decode_error(ILLEGAL_CODE_dg_virtuality);
-    return(f_dummy_dg_virtuality);
+    return f_dummy_dg_virtuality;
 }
 
 
@@ -2527,9 +2527,9 @@ d_dg_virtuality_option(void)
     if (getcode(1)) {
 	dg_virtuality e;
 	e = d_dg_virtuality();
-	return(yes_dg_virtuality_option(e));
+	return yes_dg_virtuality_option(e);
     }
-    return(no_dg_virtuality_option);
+    return no_dg_virtuality_option;
 }
 
 
@@ -2549,7 +2549,7 @@ d_diag_descriptor(void)
 	    p1 = d_sourcemark();
 	    p2 = hold_check(d_exp());
 	    p3 = d_diag_type();
-	    return(f_diag_desc_id(p0, p1, p2, p3));
+	    return f_diag_desc_id(p0, p1, p2, p3);
 	}
 	case e_diag_desc_struct: {
 	    tdfstring p0;
@@ -2558,7 +2558,7 @@ d_diag_descriptor(void)
 	    p0 = d_tdfstring();
 	    p1 = d_sourcemark();
 	    p2 = d_diag_type();
-	    return(f_diag_desc_struct(p0, p1, p2));
+	    return f_diag_desc_struct(p0, p1, p2);
 	}
 	case e_diag_desc_typedef: {
 	    tdfstring p0;
@@ -2567,11 +2567,11 @@ d_diag_descriptor(void)
 	    p0 = d_tdfstring();
 	    p1 = d_sourcemark();
 	    p2 = d_diag_type();
-	    return(f_diag_desc_typedef(p0, p1, p2));
+	    return f_diag_desc_typedef(p0, p1, p2);
 	}
     }
     decode_error(ILLEGAL_CODE_diag_descriptor);
-    return(f_dummy_diag_descriptor);
+    return f_dummy_diag_descriptor;
 }
 
 
@@ -2589,7 +2589,7 @@ d_diag_descriptor_list(void)
 	e = d_diag_descriptor();
 	temp = add_diag_descriptor_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -2604,7 +2604,7 @@ d_diag_field(void)
     p0 = d_tdfstring();
     p1 = hold_check(d_exp());
     p2 = d_diag_type();
-    return(f_make_diag_field(p0, p1, p2));
+    return f_make_diag_field(p0, p1, p2);
 }
 
 
@@ -2623,7 +2623,7 @@ d_diag_field_list(void)
 	e = d_diag_field();
 	temp = add_diag_field_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -2637,11 +2637,11 @@ d_diag_tag(void)
 	case e_make_diag_tag: {
 	    tdfint p0;
 	    p0 = d_tdfint();
-	    return(f_make_diag_tag(p0));
+	    return f_make_diag_tag(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_diag_tag);
-    return(f_dummy_diag_tag);
+    return f_dummy_diag_tag;
 }
 
 
@@ -2657,11 +2657,11 @@ d_diag_tagdef(void)
 	    diag_type p1;
 	    p0 = d_tdfint();
 	    p1 = d_diag_type();
-	    return(f_make_diag_tagdef(p0, p1));
+	    return f_make_diag_tagdef(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_diag_tagdef);
-    return(f_dummy_diag_tagdef);
+    return f_dummy_diag_tagdef;
 }
 
 
@@ -2679,7 +2679,7 @@ d_diag_tagdef_list(void)
 	e = d_diag_tagdef();
 	temp = add_diag_tagdef_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -2693,19 +2693,19 @@ d_diag_tq(void)
 	case e_add_diag_const: {
 	    diag_tq p0;
 	    p0 = d_diag_tq();
-	    return(f_add_diag_const(p0));
+	    return f_add_diag_const(p0);
 	}
 	case e_add_diag_volatile: {
 	    diag_tq p0;
 	    p0 = d_diag_tq();
-	    return(f_add_diag_volatile(p0));
+	    return f_add_diag_volatile(p0);
 	}
 	case e_diag_tq_null: {
-	    return(f_diag_tq_null);
+	    return f_diag_tq_null;
 	}
     }
     decode_error(ILLEGAL_CODE_diag_tq);
-    return(f_dummy_diag_tq);
+    return f_dummy_diag_tq;
 }
 
 
@@ -2721,7 +2721,7 @@ d_diag_type(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_diag_type_apply_token(p0, p1));
+	    return f_diag_type_apply_token(p0, p1);
 	}
 	case e_diag_array: {
 	    diag_type p0;
@@ -2734,14 +2734,14 @@ d_diag_type(void)
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
 	    p4 = d_diag_type();
-	    return(f_diag_array(p0, p1, p2, p3, p4));
+	    return f_diag_array(p0, p1, p2, p3, p4);
 	}
 	case e_diag_bitfield: {
 	    diag_type p0;
 	    nat p1;
 	    p0 = d_diag_type();
 	    p1 = d_nat();
-	    return(f_diag_bitfield(p0, p1));
+	    return f_diag_bitfield(p0, p1);
 	}
 	case e_diag_enum: {
 	    diag_type p0;
@@ -2750,19 +2750,19 @@ d_diag_type(void)
 	    p0 = d_diag_type();
 	    p1 = d_tdfstring();
 	    p2 = d_enum_values_list();
-	    return(f_diag_enum(p0, p1, p2));
+	    return f_diag_enum(p0, p1, p2);
 	}
 	case e_diag_floating_variety: {
 	    floating_variety p0;
 	    p0 = d_floating_variety();
-	    return(f_diag_floating_variety(p0));
+	    return f_diag_floating_variety(p0);
 	}
 	case e_diag_loc: {
 	    diag_type p0;
 	    diag_tq p1;
 	    p0 = d_diag_type();
 	    p1 = d_diag_tq();
-	    return(f_diag_loc(p0, p1));
+	    return f_diag_loc(p0, p1);
 	}
 	case e_diag_proc: {
 	    diag_type_list p0;
@@ -2771,14 +2771,14 @@ d_diag_type(void)
 	    p0 = d_diag_type_list();
 	    p1 = d_bool();
 	    p2 = d_diag_type();
-	    return(f_diag_proc(p0, p1, p2));
+	    return f_diag_proc(p0, p1, p2);
 	}
 	case e_diag_ptr: {
 	    diag_type p0;
 	    diag_tq p1;
 	    p0 = d_diag_type();
 	    p1 = d_diag_tq();
-	    return(f_diag_ptr(p0, p1));
+	    return f_diag_ptr(p0, p1);
 	}
 	case e_diag_struct: {
 	    shape p0;
@@ -2787,10 +2787,10 @@ d_diag_type(void)
 	    p0 = d_shape();
 	    p1 = d_tdfstring();
 	    p2 = d_diag_field_list();
-	    return(f_diag_struct(p0, p1, p2));
+	    return f_diag_struct(p0, p1, p2);
 	}
 	case e_diag_type_null: {
-	    return(f_diag_type_null);
+	    return f_diag_type_null;
 	}
 	case e_diag_union: {
 	    shape p0;
@@ -2799,21 +2799,21 @@ d_diag_type(void)
 	    p0 = d_shape();
 	    p1 = d_tdfstring();
 	    p2 = d_diag_field_list();
-	    return(f_diag_union(p0, p1, p2));
+	    return f_diag_union(p0, p1, p2);
 	}
 	case e_diag_variety: {
 	    variety p0;
 	    p0 = d_variety();
-	    return(f_diag_variety(p0));
+	    return f_diag_variety(p0);
 	}
 	case e_use_diag_tag: {
 	    diag_tag p0;
 	    p0 = d_diag_tag();
-	    return(f_use_diag_tag(p0));
+	    return f_use_diag_tag(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_diag_type);
-    return(f_dummy_diag_type);
+    return f_dummy_diag_type;
 }
 
 
@@ -2832,7 +2832,7 @@ d_diag_type_list(void)
 	e = d_diag_type();
 	temp = add_diag_type_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -2845,7 +2845,7 @@ d_diag_type_unit(void)
     diag_tagdef_list p1;
     p0 = d_tdfint();
     p1 = d_diag_tagdef_list();
-    return(f_build_diagtype_unit(p0, p1));
+    return f_build_diagtype_unit(p0, p1);
 }
 
 
@@ -2858,7 +2858,7 @@ d_diag_unit(void)
     diag_descriptor_list p1;
     p0 = d_tdfint();
     p1 = d_diag_descriptor_list();
-    return(f_build_diag_unit(p0, p1));
+    return f_build_diag_unit(p0, p1);
 }
 
 
@@ -2871,7 +2871,7 @@ d_enum_values(void)
     tdfstring p1;
     p0 = hold_check(d_exp());
     p1 = d_tdfstring();
-    return(f_make_enum_values(p0, p1));
+    return f_make_enum_values(p0, p1);
 }
 
 
@@ -2890,7 +2890,7 @@ d_enum_values_list(void)
 	e = d_enum_values();
 	temp = add_enum_values_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -2902,17 +2902,17 @@ d_error_code(void)
     int code = get_big_code(2);
     switch (code) {
 	case e_nil_access: {
-	    return(f_nil_access);
+	    return f_nil_access;
 	}
 	case e_overflow: {
-	    return(f_overflow);
+	    return f_overflow;
 	}
 	case e_stack_overflow: {
-	    return(f_stack_overflow);
+	    return f_stack_overflow;
 	}
     }
     decode_error(ILLEGAL_CODE_error_code);
-    return(f_dummy_error_code);
+    return f_dummy_error_code;
 }
 
 
@@ -2931,7 +2931,7 @@ d_error_code_list(void)
 	e = d_error_code();
 	temp = add_error_code_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -2947,7 +2947,7 @@ d_error_treatment(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_errt_apply_token(p0, p1));
+	    return f_errt_apply_token(p0, p1);
 	}
 	case e_errt_cond: {
 	    exp p0;
@@ -2956,30 +2956,30 @@ d_error_treatment(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_errt_cond(p0, p1, p2));
+	    return f_errt_cond(p0, p1, p2);
 	}
 	case e_continue: {
-	    return(f_continue);
+	    return f_continue;
 	}
 	case e_error_jump: {
 	    label p0;
 	    p0 = d_label();
-	    return(f_error_jump(p0));
+	    return f_error_jump(p0);
 	}
 	case e_trap: {
 	    error_code_list p0;
 	    p0 = d_error_code_list();
-	    return(f_trap(p0));
+	    return f_trap(p0);
 	}
 	case e_wrap: {
-	    return(f_wrap);
+	    return f_wrap;
 	}
 	case e_impossible: {
-	    return(f_impossible);
+	    return f_impossible;
 	}
     }
     decode_error(ILLEGAL_CODE_error_treatment);
-    return(f_dummy_error_treatment);
+    return f_dummy_error_treatment;
 }
 
 
@@ -2995,7 +2995,7 @@ d_exp(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_exp_apply_token(p0, p1));
+	    return f_exp_apply_token(p0, p1);
 	}
 	case e_exp_cond: {
 	    exp p0;
@@ -3004,28 +3004,28 @@ d_exp(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_exp_cond(p0, p1, p2));
+	    return f_exp_cond(p0, p1, p2);
 	}
 	case e_abs: {
 	    error_treatment p0;
 	    exp p1;
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
-	    return(f_abs(p0, p1));
+	    return f_abs(p0, p1);
 	}
 	case e_add_to_ptr: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_add_to_ptr(p0, p1));
+	    return f_add_to_ptr(p0, p1);
 	}
 	case e_and: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_and(p0, p1));
+	    return f_and(p0, p1);
 	}
 	case e_apply_proc: {
 	    shape p0;
@@ -3036,7 +3036,7 @@ d_exp(void)
 	    p1 = hold_check(d_exp());
 	    p2 = d_exp_list();
 	    p3 = d_exp_option();
-	    return(f_apply_proc(p0, p1, p2, p3));
+	    return f_apply_proc(p0, p1, p2, p3);
 	}
 	case e_apply_general_proc: {
 	    shape p0;
@@ -3052,14 +3052,14 @@ d_exp(void)
 	    p4 = d_callees();
 	    start_apply_general_proc(p0, p1, p2, p3, p4);
 	    p5 = hold_check(d_exp());
-	    return(f_apply_general_proc(p0, p1, p2, p3, p4, p5));
+	    return f_apply_general_proc(p0, p1, p2, p3, p4, p5);
 	}
 	case e_assign: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_assign(p0, p1));
+	    return f_assign(p0, p1);
 	}
 	case e_assign_with_mode: {
 	    transfer_mode p0;
@@ -3068,7 +3068,7 @@ d_exp(void)
 	    p0 = d_transfer_mode();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_assign_with_mode(p0, p1, p2));
+	    return f_assign_with_mode(p0, p1, p2);
 	}
 	case e_bitfield_assign: {
 	    exp p0;
@@ -3077,7 +3077,7 @@ d_exp(void)
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_bitfield_assign(p0, p1, p2));
+	    return f_bitfield_assign(p0, p1, p2);
 	}
 	case e_bitfield_assign_with_mode: {
 	    transfer_mode p0;
@@ -3088,7 +3088,7 @@ d_exp(void)
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
-	    return(f_bitfield_assign_with_mode(p0, p1, p2, p3));
+	    return f_bitfield_assign_with_mode(p0, p1, p2, p3);
 	}
 	case e_bitfield_contents: {
 	    bitfield_variety p0;
@@ -3097,7 +3097,7 @@ d_exp(void)
 	    p0 = d_bitfield_variety();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_bitfield_contents(p0, p1, p2));
+	    return f_bitfield_contents(p0, p1, p2);
 	}
 	case e_bitfield_contents_with_mode: {
 	    transfer_mode p0;
@@ -3108,7 +3108,7 @@ d_exp(void)
 	    p1 = d_bitfield_variety();
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
-	    return(f_bitfield_contents_with_mode(p0, p1, p2, p3));
+	    return f_bitfield_contents_with_mode(p0, p1, p2, p3);
 	}
 	case e_case: {
 	    bool p0;
@@ -3117,14 +3117,14 @@ d_exp(void)
 	    p0 = d_bool();
 	    p1 = hold_check(d_exp());
 	    p2 = d_caselim_list();
-	    return(f_case(p0, p1, p2));
+	    return f_case(p0, p1, p2);
 	}
 	case e_change_bitfield_to_int: {
 	    variety p0;
 	    exp p1;
 	    p0 = d_variety();
 	    p1 = hold_check(d_exp());
-	    return(f_change_bitfield_to_int(p0, p1));
+	    return f_change_bitfield_to_int(p0, p1);
 	}
 	case e_change_floating_variety: {
 	    error_treatment p0;
@@ -3133,7 +3133,7 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = d_floating_variety();
 	    p2 = hold_check(d_exp());
-	    return(f_change_floating_variety(p0, p1, p2));
+	    return f_change_floating_variety(p0, p1, p2);
 	}
 	case e_change_variety: {
 	    error_treatment p0;
@@ -3142,19 +3142,19 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = d_variety();
 	    p2 = hold_check(d_exp());
-	    return(f_change_variety(p0, p1, p2));
+	    return f_change_variety(p0, p1, p2);
 	}
 	case e_change_int_to_bitfield: {
 	    bitfield_variety p0;
 	    exp p1;
 	    p0 = d_bitfield_variety();
 	    p1 = hold_check(d_exp());
-	    return(f_change_int_to_bitfield(p0, p1));
+	    return f_change_int_to_bitfield(p0, p1);
 	}
 	case e_complex_conjugate: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_complex_conjugate(p0));
+	    return f_complex_conjugate(p0);
 	}
 	case e_component: {
 	    shape p0;
@@ -3163,14 +3163,14 @@ d_exp(void)
 	    p0 = d_shape();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_component(p0, p1, p2));
+	    return f_component(p0, p1, p2);
 	}
 	case e_concat_nof: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_concat_nof(p0, p1));
+	    return f_concat_nof(p0, p1);
 	}
 	case e_conditional: {
 	    label p0;
@@ -3180,14 +3180,14 @@ d_exp(void)
 	    start_conditional(p0);
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_conditional(p0, p1, p2));
+	    return f_conditional(p0, p1, p2);
 	}
 	case e_contents: {
 	    shape p0;
 	    exp p1;
 	    p0 = d_shape();
 	    p1 = hold_check(d_exp());
-	    return(f_contents(p0, p1));
+	    return f_contents(p0, p1);
 	}
 	case e_contents_with_mode: {
 	    transfer_mode p0;
@@ -3196,10 +3196,10 @@ d_exp(void)
 	    p0 = d_transfer_mode();
 	    p1 = d_shape();
 	    p2 = hold_check(d_exp());
-	    return(f_contents_with_mode(p0, p1, p2));
+	    return f_contents_with_mode(p0, p1, p2);
 	}
 	case e_current_env: {
-	    return(f_current_env());
+	    return f_current_env();
 	}
 	case e_div0: {
 	    error_treatment p0;
@@ -3210,7 +3210,7 @@ d_exp(void)
 	    p1 = d_error_treatment();
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
-	    return(f_div0(p0, p1, p2, p3));
+	    return f_div0(p0, p1, p2, p3);
 	}
 	case e_div1: {
 	    error_treatment p0;
@@ -3221,7 +3221,7 @@ d_exp(void)
 	    p1 = d_error_treatment();
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
-	    return(f_div1(p0, p1, p2, p3));
+	    return f_div1(p0, p1, p2, p3);
 	}
 	case e_div2: {
 	    error_treatment p0;
@@ -3232,7 +3232,7 @@ d_exp(void)
 	    p1 = d_error_treatment();
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
-	    return(f_div2(p0, p1, p2, p3));
+	    return f_div2(p0, p1, p2, p3);
 	}
 	case e_env_offset: {
 	    alignment p0;
@@ -3241,17 +3241,17 @@ d_exp(void)
 	    p0 = d_alignment();
 	    p1 = d_alignment();
 	    p2 = d_tag();
-	    return(f_env_offset(p0, p1, p2));
+	    return f_env_offset(p0, p1, p2);
 	}
 	case e_env_size: {
 	    tag p0;
 	    p0 = d_tag();
-	    return(f_env_size(p0));
+	    return f_env_size(p0);
 	}
 	case e_fail_installer: {
 	    string p0;
 	    p0 = d_string();
-	    return(f_fail_installer(p0));
+	    return f_fail_installer(p0);
 	}
 	case e_float_int: {
 	    error_treatment p0;
@@ -3260,14 +3260,14 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = d_floating_variety();
 	    p2 = hold_check(d_exp());
-	    return(f_float_int(p0, p1, p2));
+	    return f_float_int(p0, p1, p2);
 	}
 	case e_floating_abs: {
 	    error_treatment p0;
 	    exp p1;
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
-	    return(f_floating_abs(p0, p1));
+	    return f_floating_abs(p0, p1);
 	}
 	case e_floating_div: {
 	    error_treatment p0;
@@ -3276,7 +3276,7 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_floating_div(p0, p1, p2));
+	    return f_floating_div(p0, p1, p2);
 	}
 	case e_floating_minus: {
 	    error_treatment p0;
@@ -3285,7 +3285,7 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_floating_minus(p0, p1, p2));
+	    return f_floating_minus(p0, p1, p2);
 	}
 	case e_floating_maximum: {
 	    error_treatment p0;
@@ -3294,7 +3294,7 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_floating_maximum(p0, p1, p2));
+	    return f_floating_maximum(p0, p1, p2);
 	}
 	case e_floating_minimum: {
 	    error_treatment p0;
@@ -3303,28 +3303,28 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_floating_minimum(p0, p1, p2));
+	    return f_floating_minimum(p0, p1, p2);
 	}
 	case e_floating_mult: {
 	    error_treatment p0;
 	    exp_list p1;
 	    p0 = d_error_treatment();
 	    p1 = d_exp_list();
-	    return(f_floating_mult(p0, p1));
+	    return f_floating_mult(p0, p1);
 	}
 	case e_floating_negate: {
 	    error_treatment p0;
 	    exp p1;
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
-	    return(f_floating_negate(p0, p1));
+	    return f_floating_negate(p0, p1);
 	}
 	case e_floating_plus: {
 	    error_treatment p0;
 	    exp_list p1;
 	    p0 = d_error_treatment();
 	    p1 = d_exp_list();
-	    return(f_floating_plus(p0, p1));
+	    return f_floating_plus(p0, p1);
 	}
 	case e_floating_power: {
 	    error_treatment p0;
@@ -3333,7 +3333,7 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_floating_power(p0, p1, p2));
+	    return f_floating_power(p0, p1, p2);
 	}
 	case e_floating_test: {
 	    nat_option p0;
@@ -3348,17 +3348,17 @@ d_exp(void)
 	    p3 = d_label();
 	    p4 = hold_check(d_exp());
 	    p5 = hold_check(d_exp());
-	    return(f_floating_test(p0, p1, p2, p3, p4, p5));
+	    return f_floating_test(p0, p1, p2, p3, p4, p5);
 	}
 	case e_goto: {
 	    label p0;
 	    p0 = d_label();
-	    return(f_goto(p0));
+	    return f_goto(p0);
 	}
 	case e_goto_local_lv: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_goto_local_lv(p0));
+	    return f_goto_local_lv(p0);
 	}
 	case e_identify: {
 	    access_option p0;
@@ -3370,23 +3370,23 @@ d_exp(void)
 	    p2 = hold_check(d_exp());
 	    start_identify(p0, p1, p2);
 	    p3 = hold_check(d_exp());
-	    return(f_identify(p0, p1, p2, p3));
+	    return f_identify(p0, p1, p2, p3);
 	}
 	case e_ignorable: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_ignorable(p0));
+	    return f_ignorable(p0);
 	}
 	case e_imaginary_part: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_imaginary_part(p0));
+	    return f_imaginary_part(p0);
 	}
 	case e_initial_value: {
 	    exp p0;
 	    start_initial_value();
 	    p0 = hold_check(d_exp());
-	    return(f_initial_value(p0));
+	    return f_initial_value(p0);
 	}
 	case e_integer_test: {
 	    nat_option p0;
@@ -3399,7 +3399,7 @@ d_exp(void)
 	    p2 = d_label();
 	    p3 = hold_check(d_exp());
 	    p4 = hold_check(d_exp());
-	    return(f_integer_test(p0, p1, p2, p3, p4));
+	    return f_integer_test(p0, p1, p2, p3, p4);
 	}
 	case e_labelled: {
 	    label_list p0;
@@ -3409,39 +3409,39 @@ d_exp(void)
 	    start_labelled(p0);
 	    p1 = hold_check(d_exp());
 	    p2 = d_exp_list();
-	    return(f_labelled(p0, p1, p2));
+	    return f_labelled(p0, p1, p2);
 	}
 	case e_last_local: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_last_local(p0));
+	    return f_last_local(p0);
 	}
 	case e_local_alloc: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_local_alloc(p0));
+	    return f_local_alloc(p0);
 	}
 	case e_local_alloc_check: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_local_alloc_check(p0));
+	    return f_local_alloc_check(p0);
 	}
 	case e_local_free: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_local_free(p0, p1));
+	    return f_local_free(p0, p1);
 	}
 	case e_local_free_all: {
-	    return(f_local_free_all());
+	    return f_local_free_all();
 	}
 	case e_long_jump: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_long_jump(p0, p1));
+	    return f_long_jump(p0, p1);
 	}
 	case e_make_complex: {
 	    floating_variety p0;
@@ -3450,14 +3450,14 @@ d_exp(void)
 	    p0 = d_floating_variety();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_make_complex(p0, p1, p2));
+	    return f_make_complex(p0, p1, p2);
 	}
 	case e_make_compound: {
 	    exp p0;
 	    exp_list p1;
 	    p0 = hold_check(d_exp());
 	    p1 = d_exp_list();
-	    return(f_make_compound(p0, p1));
+	    return f_make_compound(p0, p1);
 	}
 	case e_make_floating: {
 	    floating_variety p0;
@@ -3472,7 +3472,7 @@ d_exp(void)
 	    p3 = d_string();
 	    p4 = d_nat();
 	    p5 = d_signed_nat();
-	    return(f_make_floating(p0, p1, p2, p3, p4, p5));
+	    return f_make_floating(p0, p1, p2, p3, p4, p5);
 	}
 	case e_make_general_proc: {
 	    shape p0;
@@ -3486,42 +3486,42 @@ d_exp(void)
 	    p3 = d_tagshacc_list();
 	    start_make_general_proc(p0, p1, p2, p3);
 	    p4 = hold_check(d_exp());
-	    return(f_make_general_proc(p0, p1, p2, p3, p4));
+	    return f_make_general_proc(p0, p1, p2, p3, p4);
 	}
 	case e_make_int: {
 	    variety p0;
 	    signed_nat p1;
 	    p0 = d_variety();
 	    p1 = d_signed_nat();
-	    return(f_make_int(p0, p1));
+	    return f_make_int(p0, p1);
 	}
 	case e_make_local_lv: {
 	    label p0;
 	    p0 = d_label();
-	    return(f_make_local_lv(p0));
+	    return f_make_local_lv(p0);
 	}
 	case e_make_nof: {
 	    exp_list p0;
 	    p0 = d_exp_list();
-	    return(f_make_nof(p0));
+	    return f_make_nof(p0);
 	}
 	case e_make_nof_int: {
 	    variety p0;
 	    string p1;
 	    p0 = d_variety();
 	    p1 = d_string();
-	    return(f_make_nof_int(p0, p1));
+	    return f_make_nof_int(p0, p1);
 	}
 	case e_make_null_local_lv: {
-	    return(f_make_null_local_lv());
+	    return f_make_null_local_lv();
 	}
 	case e_make_null_proc: {
-	    return(f_make_null_proc());
+	    return f_make_null_proc();
 	}
 	case e_make_null_ptr: {
 	    alignment p0;
 	    p0 = d_alignment();
-	    return(f_make_null_ptr(p0));
+	    return f_make_null_ptr(p0);
 	}
 	case e_make_proc: {
 	    shape p0;
@@ -3533,7 +3533,7 @@ d_exp(void)
 	    p2 = d_tagacc_option();
 	    start_make_proc(p0, p1, p2);
 	    p3 = hold_check(d_exp());
-	    return(f_make_proc(p0, p1, p2, p3));
+	    return f_make_proc(p0, p1, p2, p3);
 	}
 	case e_make_stack_limit: {
 	    exp p0;
@@ -3542,29 +3542,29 @@ d_exp(void)
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_make_stack_limit(p0, p1, p2));
+	    return f_make_stack_limit(p0, p1, p2);
 	}
 	case e_make_top: {
-	    return(f_make_top());
+	    return f_make_top();
 	}
 	case e_make_value: {
 	    shape p0;
 	    p0 = d_shape();
-	    return(f_make_value(p0));
+	    return f_make_value(p0);
 	}
 	case e_maximum: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_maximum(p0, p1));
+	    return f_maximum(p0, p1);
 	}
 	case e_minimum: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_minimum(p0, p1));
+	    return f_minimum(p0, p1);
 	}
 	case e_minus: {
 	    error_treatment p0;
@@ -3573,7 +3573,7 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_minus(p0, p1, p2));
+	    return f_minus(p0, p1, p2);
 	}
 	case e_move_some: {
 	    transfer_mode p0;
@@ -3584,7 +3584,7 @@ d_exp(void)
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
-	    return(f_move_some(p0, p1, p2, p3));
+	    return f_move_some(p0, p1, p2, p3);
 	}
 	case e_mult: {
 	    error_treatment p0;
@@ -3593,38 +3593,38 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_mult(p0, p1, p2));
+	    return f_mult(p0, p1, p2);
 	}
 	case e_n_copies: {
 	    nat p0;
 	    exp p1;
 	    p0 = d_nat();
 	    p1 = hold_check(d_exp());
-	    return(f_n_copies(p0, p1));
+	    return f_n_copies(p0, p1);
 	}
 	case e_negate: {
 	    error_treatment p0;
 	    exp p1;
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
-	    return(f_negate(p0, p1));
+	    return f_negate(p0, p1);
 	}
 	case e_not: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_not(p0));
+	    return f_not(p0);
 	}
 	case e_obtain_tag: {
 	    tag p0;
 	    p0 = d_tag();
-	    return(f_obtain_tag(p0));
+	    return f_obtain_tag(p0);
 	}
 	case e_offset_add: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_offset_add(p0, p1));
+	    return f_offset_add(p0, p1);
 	}
 	case e_offset_div: {
 	    variety p0;
@@ -3633,47 +3633,47 @@ d_exp(void)
 	    p0 = d_variety();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_offset_div(p0, p1, p2));
+	    return f_offset_div(p0, p1, p2);
 	}
 	case e_offset_div_by_int: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_offset_div_by_int(p0, p1));
+	    return f_offset_div_by_int(p0, p1);
 	}
 	case e_offset_max: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_offset_max(p0, p1));
+	    return f_offset_max(p0, p1);
 	}
 	case e_offset_mult: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_offset_mult(p0, p1));
+	    return f_offset_mult(p0, p1);
 	}
 	case e_offset_negate: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_offset_negate(p0));
+	    return f_offset_negate(p0);
 	}
 	case e_offset_pad: {
 	    alignment p0;
 	    exp p1;
 	    p0 = d_alignment();
 	    p1 = hold_check(d_exp());
-	    return(f_offset_pad(p0, p1));
+	    return f_offset_pad(p0, p1);
 	}
 	case e_offset_subtract: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_offset_subtract(p0, p1));
+	    return f_offset_subtract(p0, p1);
 	}
 	case e_offset_test: {
 	    nat_option p0;
@@ -3686,19 +3686,19 @@ d_exp(void)
 	    p2 = d_label();
 	    p3 = hold_check(d_exp());
 	    p4 = hold_check(d_exp());
-	    return(f_offset_test(p0, p1, p2, p3, p4));
+	    return f_offset_test(p0, p1, p2, p3, p4);
 	}
 	case e_offset_zero: {
 	    alignment p0;
 	    p0 = d_alignment();
-	    return(f_offset_zero(p0));
+	    return f_offset_zero(p0);
 	}
 	case e_or: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_or(p0, p1));
+	    return f_or(p0, p1);
 	}
 	case e_plus: {
 	    error_treatment p0;
@@ -3707,7 +3707,7 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_plus(p0, p1, p2));
+	    return f_plus(p0, p1, p2);
 	}
 	case e_pointer_test: {
 	    nat_option p0;
@@ -3720,7 +3720,7 @@ d_exp(void)
 	    p2 = d_label();
 	    p3 = hold_check(d_exp());
 	    p4 = hold_check(d_exp());
-	    return(f_pointer_test(p0, p1, p2, p3, p4));
+	    return f_pointer_test(p0, p1, p2, p3, p4);
 	}
 	case e_power: {
 	    error_treatment p0;
@@ -3729,7 +3729,7 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_power(p0, p1, p2));
+	    return f_power(p0, p1, p2);
 	}
 	case e_proc_test: {
 	    nat_option p0;
@@ -3742,17 +3742,17 @@ d_exp(void)
 	    p2 = d_label();
 	    p3 = hold_check(d_exp());
 	    p4 = hold_check(d_exp());
-	    return(f_proc_test(p0, p1, p2, p3, p4));
+	    return f_proc_test(p0, p1, p2, p3, p4);
 	}
 	case e_profile: {
 	    nat p0;
 	    p0 = d_nat();
-	    return(f_profile(p0));
+	    return f_profile(p0);
 	}
 	case e_real_part: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_real_part(p0));
+	    return f_real_part(p0);
 	}
 	case e_rem0: {
 	    error_treatment p0;
@@ -3763,7 +3763,7 @@ d_exp(void)
 	    p1 = d_error_treatment();
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
-	    return(f_rem0(p0, p1, p2, p3));
+	    return f_rem0(p0, p1, p2, p3);
 	}
 	case e_rem1: {
 	    error_treatment p0;
@@ -3774,7 +3774,7 @@ d_exp(void)
 	    p1 = d_error_treatment();
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
-	    return(f_rem1(p0, p1, p2, p3));
+	    return f_rem1(p0, p1, p2, p3);
 	}
 	case e_rem2: {
 	    error_treatment p0;
@@ -3785,7 +3785,7 @@ d_exp(void)
 	    p1 = d_error_treatment();
 	    p2 = hold_check(d_exp());
 	    p3 = hold_check(d_exp());
-	    return(f_rem2(p0, p1, p2, p3));
+	    return f_rem2(p0, p1, p2, p3);
 	}
 	case e_repeat: {
 	    label p0;
@@ -3795,17 +3795,17 @@ d_exp(void)
 	    start_repeat(p0);
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_repeat(p0, p1, p2));
+	    return f_repeat(p0, p1, p2);
 	}
 	case e_return: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_return(p0));
+	    return f_return(p0);
 	}
 	case e_return_to_label: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_return_to_label(p0));
+	    return f_return_to_label(p0);
 	}
 	case e_round_with_mode: {
 	    error_treatment p0;
@@ -3816,38 +3816,38 @@ d_exp(void)
 	    p1 = d_rounding_mode();
 	    p2 = d_variety();
 	    p3 = hold_check(d_exp());
-	    return(f_round_with_mode(p0, p1, p2, p3));
+	    return f_round_with_mode(p0, p1, p2, p3);
 	}
 	case e_rotate_left: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_rotate_left(p0, p1));
+	    return f_rotate_left(p0, p1);
 	}
 	case e_rotate_right: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_rotate_right(p0, p1));
+	    return f_rotate_right(p0, p1);
 	}
 	case e_sequence: {
 	    exp_list p0;
 	    exp p1;
 	    p0 = d_exp_list();
 	    p1 = hold_check(d_exp());
-	    return(f_sequence(p0, p1));
+	    return f_sequence(p0, p1);
 	}
 	case e_set_stack_limit: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_set_stack_limit(p0));
+	    return f_set_stack_limit(p0);
 	}
 	case e_shape_offset: {
 	    shape p0;
 	    p0 = d_shape();
-	    return(f_shape_offset(p0));
+	    return f_shape_offset(p0);
 	}
 	case e_shift_left: {
 	    error_treatment p0;
@@ -3856,21 +3856,21 @@ d_exp(void)
 	    p0 = d_error_treatment();
 	    p1 = hold_check(d_exp());
 	    p2 = hold_check(d_exp());
-	    return(f_shift_left(p0, p1, p2));
+	    return f_shift_left(p0, p1, p2);
 	}
 	case e_shift_right: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_shift_right(p0, p1));
+	    return f_shift_right(p0, p1);
 	}
 	case e_subtract_ptrs: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_subtract_ptrs(p0, p1));
+	    return f_subtract_ptrs(p0, p1);
 	}
 	case e_tail_call: {
 	    procprops_option p0;
@@ -3879,12 +3879,12 @@ d_exp(void)
 	    p0 = d_procprops_option();
 	    p1 = hold_check(d_exp());
 	    p2 = d_callees();
-	    return(f_tail_call(p0, p1, p2));
+	    return f_tail_call(p0, p1, p2);
 	}
 	case e_untidy_return: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_untidy_return(p0));
+	    return f_untidy_return(p0);
 	}
 	case e_variable: {
 	    access_option p0;
@@ -3896,18 +3896,18 @@ d_exp(void)
 	    p2 = hold_check(d_exp());
 	    start_variable(p0, p1, p2);
 	    p3 = hold_check(d_exp());
-	    return(f_variable(p0, p1, p2, p3));
+	    return f_variable(p0, p1, p2, p3);
 	}
 	case e_xor: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_xor(p0, p1));
+	    return f_xor(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_exp);
-    return(f_dummy_exp);
+    return f_dummy_exp;
 }
 
 
@@ -3926,7 +3926,7 @@ d_exp_list(void)
 	e = hold_check(d_exp());
 	temp = add_exp_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -3938,9 +3938,9 @@ d_exp_option(void)
     if (getcode(1)) {
 	exp e;
 	e = hold_check(d_exp());
-	return(yes_exp_option(e));
+	return yes_exp_option(e);
     }
-    return(no_exp_option);
+    return no_exp_option;
 }
 
 
@@ -3951,7 +3951,7 @@ d_extern_link(void)
 {
     linkextern_list p0;
     p0 = d_linkextern_list();
-    return(f_make_extern_link(p0));
+    return f_make_extern_link(p0);
 }
 
 
@@ -3969,7 +3969,7 @@ d_extern_link_list(void)
 	e = d_extern_link();
 	temp = add_extern_link_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -3984,13 +3984,13 @@ d_external(void)
 	    tdfident p0;
 	    to_boundary();
 	    p0 = d_tdfident();
-	    return(f_string_extern(p0));
+	    return f_string_extern(p0);
 	}
 	case e_unique_extern: {
 	    unique p0;
 	    to_boundary();
 	    p0 = d_unique();
-	    return(f_unique_extern(p0));
+	    return f_unique_extern(p0);
 	}
 	case e_chain_extern: {
 	    tdfident p0;
@@ -3998,11 +3998,11 @@ d_external(void)
 	    to_boundary();
 	    p0 = d_tdfident();
 	    p1 = d_tdfint();
-	    return(f_chain_extern(p0, p1));
+	    return f_chain_extern(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_external);
-    return(f_dummy_external);
+    return f_dummy_external;
 }
 
 
@@ -4018,7 +4018,7 @@ d_filename(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_filename_apply_token(p0, p1));
+	    return f_filename_apply_token(p0, p1);
 	}
 	case e_make_filename: {
 	    nat p0;
@@ -4027,11 +4027,11 @@ d_filename(void)
 	    p0 = d_nat();
 	    p1 = d_tdfstring();
 	    p2 = d_tdfstring();
-	    return(f_make_filename(p0, p1, p2));
+	    return f_make_filename(p0, p1, p2);
 	}
     }
     decode_error(ILLEGAL_CODE_filename);
-    return(f_dummy_filename);
+    return f_dummy_filename;
 }
 
 
@@ -4047,7 +4047,7 @@ d_floating_variety(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_flvar_apply_token(p0, p1));
+	    return f_flvar_apply_token(p0, p1);
 	}
 	case e_flvar_cond: {
 	    exp p0;
@@ -4056,7 +4056,7 @@ d_floating_variety(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_flvar_cond(p0, p1, p2));
+	    return f_flvar_cond(p0, p1, p2);
 	}
 	case e_flvar_parms: {
 	    nat p0;
@@ -4067,7 +4067,7 @@ d_floating_variety(void)
 	    p1 = d_nat();
 	    p2 = d_nat();
 	    p3 = d_nat();
-	    return(f_flvar_parms(p0, p1, p2, p3));
+	    return f_flvar_parms(p0, p1, p2, p3);
 	}
 	case e_complex_parms: {
 	    nat p0;
@@ -4078,21 +4078,21 @@ d_floating_variety(void)
 	    p1 = d_nat();
 	    p2 = d_nat();
 	    p3 = d_nat();
-	    return(f_complex_parms(p0, p1, p2, p3));
+	    return f_complex_parms(p0, p1, p2, p3);
 	}
 	case e_float_of_complex: {
 	    shape p0;
 	    p0 = d_shape();
-	    return(f_float_of_complex(p0));
+	    return f_float_of_complex(p0);
 	}
 	case e_complex_of_float: {
 	    shape p0;
 	    p0 = d_shape();
-	    return(f_complex_of_float(p0));
+	    return f_complex_of_float(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_floating_variety);
-    return(f_dummy_floating_variety);
+    return f_dummy_floating_variety;
 }
 
 
@@ -4103,7 +4103,7 @@ d_group(void)
 {
     unit_list p0;
     p0 = d_unit_list();
-    return(f_make_group(p0));
+    return f_make_group(p0);
 }
 
 
@@ -4121,7 +4121,7 @@ d_group_list(void)
 	e = d_group();
 	temp = add_group_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -4137,16 +4137,16 @@ d_label(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_label_apply_token(p0, p1));
+	    return f_label_apply_token(p0, p1);
 	}
 	case e_make_label: {
 	    tdfint p0;
 	    p0 = d_tdfint();
-	    return(f_make_label(p0));
+	    return f_make_label(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_label);
-    return(f_dummy_label);
+    return f_dummy_label;
 }
 
 
@@ -4165,7 +4165,7 @@ d_label_list(void)
 	e = d_label();
 	temp = add_label_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -4178,7 +4178,7 @@ d_link(void)
     tdfint p1;
     p0 = d_tdfint();
     p1 = d_tdfint();
-    return(f_make_link(p0, p1));
+    return f_make_link(p0, p1);
 }
 
 
@@ -4196,7 +4196,7 @@ d_link_list(void)
 	e = d_link();
 	temp = add_link_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -4209,7 +4209,7 @@ d_linkextern(void)
     external p1;
     p0 = d_tdfint();
     p1 = d_external();
-    return(f_make_linkextern(p0, p1));
+    return f_make_linkextern(p0, p1);
 }
 
 
@@ -4227,7 +4227,7 @@ d_linkextern_list(void)
 	e = d_linkextern();
 	temp = add_linkextern_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -4243,30 +4243,30 @@ d_linkinfo(void)
 	    tdfstring p1;
 	    p0 = hold_check(d_exp());
 	    p1 = d_tdfstring();
-	    return(f_static_name_def(p0, p1));
+	    return f_static_name_def(p0, p1);
 	}
 	case e_make_comment: {
 	    tdfstring p0;
 	    p0 = d_tdfstring();
-	    return(f_make_comment(p0));
+	    return f_make_comment(p0);
 	}
 	case e_make_weak_defn: {
 	    exp p0;
 	    exp p1;
 	    p0 = hold_check(d_exp());
 	    p1 = hold_check(d_exp());
-	    return(f_make_weak_defn(p0, p1));
+	    return f_make_weak_defn(p0, p1);
 	}
 	case e_make_weak_symbol: {
 	    tdfstring p0;
 	    exp p1;
 	    p0 = d_tdfstring();
 	    p1 = hold_check(d_exp());
-	    return(f_make_weak_symbol(p0, p1));
+	    return f_make_weak_symbol(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_linkinfo);
-    return(f_dummy_linkinfo);
+    return f_dummy_linkinfo;
 }
 
 
@@ -4284,7 +4284,7 @@ d_linkinfo_list(void)
 	e = d_linkinfo();
 	temp = add_linkinfo_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -4297,7 +4297,7 @@ d_linkinfo_props(void)
     linkinfo_list p1;
     p0 = d_tdfint();
     p1 = d_linkinfo_list();
-    return(f_make_linkinfos(p0, p1));
+    return f_make_linkinfos(p0, p1);
 }
 
 
@@ -4308,7 +4308,7 @@ d_links(void)
 {
     link_list p0;
     p0 = d_link_list();
-    return(f_make_links(p0));
+    return f_make_links(p0);
 }
 
 
@@ -4326,7 +4326,7 @@ d_links_list(void)
 	e = d_links();
 	temp = add_links_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -4342,7 +4342,7 @@ d_nat(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_nat_apply_token(p0, p1));
+	    return f_nat_apply_token(p0, p1);
 	}
 	case e_nat_cond: {
 	    exp p0;
@@ -4351,26 +4351,26 @@ d_nat(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_nat_cond(p0, p1, p2));
+	    return f_nat_cond(p0, p1, p2);
 	}
 	case e_computed_nat: {
 	    exp p0;
 	    p0 = hold_const_check(d_exp());
-	    return(f_computed_nat(p0));
+	    return f_computed_nat(p0);
 	}
 	case e_error_val: {
 	    error_code p0;
 	    p0 = d_error_code();
-	    return(f_error_val(p0));
+	    return f_error_val(p0);
 	}
 	case e_make_nat: {
 	    tdfint p0;
 	    p0 = d_tdfint();
-	    return(f_make_nat(p0));
+	    return f_make_nat(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_nat);
-    return(f_dummy_nat);
+    return f_dummy_nat;
 }
 
 
@@ -4382,9 +4382,9 @@ d_nat_option(void)
     if (getcode(1)) {
 	nat e;
 	e = d_nat();
-	return(yes_nat_option(e));
+	return yes_nat_option(e);
     }
-    return(no_nat_option);
+    return no_nat_option;
 }
 
 
@@ -4400,7 +4400,7 @@ d_ntest(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_ntest_apply_token(p0, p1));
+	    return f_ntest_apply_token(p0, p1);
 	}
 	case e_ntest_cond: {
 	    exp p0;
@@ -4409,53 +4409,53 @@ d_ntest(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_ntest_cond(p0, p1, p2));
+	    return f_ntest_cond(p0, p1, p2);
 	}
 	case e_equal: {
-	    return(f_equal);
+	    return f_equal;
 	}
 	case e_greater_than: {
-	    return(f_greater_than);
+	    return f_greater_than;
 	}
 	case e_greater_than_or_equal: {
-	    return(f_greater_than_or_equal);
+	    return f_greater_than_or_equal;
 	}
 	case e_less_than: {
-	    return(f_less_than);
+	    return f_less_than;
 	}
 	case e_less_than_or_equal: {
-	    return(f_less_than_or_equal);
+	    return f_less_than_or_equal;
 	}
 	case e_not_equal: {
-	    return(f_not_equal);
+	    return f_not_equal;
 	}
 	case e_not_greater_than: {
-	    return(f_not_greater_than);
+	    return f_not_greater_than;
 	}
 	case e_not_greater_than_or_equal: {
-	    return(f_not_greater_than_or_equal);
+	    return f_not_greater_than_or_equal;
 	}
 	case e_not_less_than: {
-	    return(f_not_less_than);
+	    return f_not_less_than;
 	}
 	case e_not_less_than_or_equal: {
-	    return(f_not_less_than_or_equal);
+	    return f_not_less_than_or_equal;
 	}
 	case e_less_than_or_greater_than: {
-	    return(f_less_than_or_greater_than);
+	    return f_less_than_or_greater_than;
 	}
 	case e_not_less_than_and_not_greater_than: {
-	    return(f_not_less_than_and_not_greater_than);
+	    return f_not_less_than_and_not_greater_than;
 	}
 	case e_comparable: {
-	    return(f_comparable);
+	    return f_comparable;
 	}
 	case e_not_comparable: {
-	    return(f_not_comparable);
+	    return f_not_comparable;
 	}
     }
     decode_error(ILLEGAL_CODE_ntest);
-    return(f_dummy_ntest);
+    return f_dummy_ntest;
 }
 
 
@@ -4468,7 +4468,7 @@ d_otagexp(void)
     exp p1;
     p0 = d_tag_option();
     p1 = hold_check(d_exp());
-    return(f_make_otagexp(p0, p1));
+    return f_make_otagexp(p0, p1);
 }
 
 
@@ -4487,7 +4487,7 @@ d_otagexp_list(void)
 	e = d_otagexp();
 	temp = add_otagexp_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -4503,7 +4503,7 @@ d_procprops(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_procprops_apply_token(p0, p1));
+	    return f_procprops_apply_token(p0, p1);
 	}
 	case e_procprops_cond: {
 	    exp p0;
@@ -4512,36 +4512,36 @@ d_procprops(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_procprops_cond(p0, p1, p2));
+	    return f_procprops_cond(p0, p1, p2);
 	}
 	case e_add_procprops: {
 	    procprops p0;
 	    procprops p1;
 	    p0 = d_procprops();
 	    p1 = d_procprops();
-	    return(f_add_procprops(p0, p1));
+	    return f_add_procprops(p0, p1);
 	}
 	case e_check_stack: {
-	    return(f_check_stack);
+	    return f_check_stack;
 	}
 	case e_inline: {
-	    return(f_inline);
+	    return f_inline;
 	}
 	case e_no_long_jump_dest: {
-	    return(f_no_long_jump_dest);
+	    return f_no_long_jump_dest;
 	}
 	case e_untidy: {
-	    return(f_untidy);
+	    return f_untidy;
 	}
 	case e_var_callees: {
-	    return(f_var_callees);
+	    return f_var_callees;
 	}
 	case e_var_callers: {
-	    return(f_var_callers);
+	    return f_var_callers;
 	}
     }
     decode_error(ILLEGAL_CODE_procprops);
-    return(f_dummy_procprops);
+    return f_dummy_procprops;
 }
 
 
@@ -4553,9 +4553,9 @@ d_procprops_option(void)
     if (getcode(1)) {
 	procprops e;
 	e = d_procprops();
-	return(yes_procprops_option(e));
+	return yes_procprops_option(e);
     }
-    return(no_procprops_option);
+    return no_procprops_option;
 }
 
 
@@ -4571,7 +4571,7 @@ d_rounding_mode(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_rounding_mode_apply_token(p0, p1));
+	    return f_rounding_mode_apply_token(p0, p1);
 	}
 	case e_rounding_mode_cond: {
 	    exp p0;
@@ -4580,26 +4580,26 @@ d_rounding_mode(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_rounding_mode_cond(p0, p1, p2));
+	    return f_rounding_mode_cond(p0, p1, p2);
 	}
 	case e_round_as_state: {
-	    return(f_round_as_state);
+	    return f_round_as_state;
 	}
 	case e_to_nearest: {
-	    return(f_to_nearest);
+	    return f_to_nearest;
 	}
 	case e_toward_larger: {
-	    return(f_toward_larger);
+	    return f_toward_larger;
 	}
 	case e_toward_smaller: {
-	    return(f_toward_smaller);
+	    return f_toward_smaller;
 	}
 	case e_toward_zero: {
-	    return(f_toward_zero);
+	    return f_toward_zero;
 	}
     }
     decode_error(ILLEGAL_CODE_rounding_mode);
-    return(f_dummy_rounding_mode);
+    return f_dummy_rounding_mode;
 }
 
 
@@ -4615,7 +4615,7 @@ d_shape(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_shape_apply_token(p0, p1));
+	    return f_shape_apply_token(p0, p1);
 	}
 	case e_shape_cond: {
 	    exp p0;
@@ -4624,59 +4624,59 @@ d_shape(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_shape_cond(p0, p1, p2));
+	    return f_shape_cond(p0, p1, p2);
 	}
 	case e_bitfield: {
 	    bitfield_variety p0;
 	    p0 = d_bitfield_variety();
-	    return(f_bitfield(p0));
+	    return f_bitfield(p0);
 	}
 	case e_bottom: {
-	    return(f_bottom);
+	    return f_bottom;
 	}
 	case e_compound: {
 	    exp p0;
 	    p0 = hold_check(d_exp());
-	    return(f_compound(p0));
+	    return f_compound(p0);
 	}
 	case e_floating: {
 	    floating_variety p0;
 	    p0 = d_floating_variety();
-	    return(f_floating(p0));
+	    return f_floating(p0);
 	}
 	case e_integer: {
 	    variety p0;
 	    p0 = d_variety();
-	    return(f_integer(p0));
+	    return f_integer(p0);
 	}
 	case e_nof: {
 	    nat p0;
 	    shape p1;
 	    p0 = d_nat();
 	    p1 = d_shape();
-	    return(f_nof(p0, p1));
+	    return f_nof(p0, p1);
 	}
 	case e_offset: {
 	    alignment p0;
 	    alignment p1;
 	    p0 = d_alignment();
 	    p1 = d_alignment();
-	    return(f_offset(p0, p1));
+	    return f_offset(p0, p1);
 	}
 	case e_pointer: {
 	    alignment p0;
 	    p0 = d_alignment();
-	    return(f_pointer(p0));
+	    return f_pointer(p0);
 	}
 	case e_proc: {
-	    return(f_proc);
+	    return f_proc;
 	}
 	case e_top: {
-	    return(f_top);
+	    return f_top;
 	}
     }
     decode_error(ILLEGAL_CODE_shape);
-    return(f_dummy_shape);
+    return f_dummy_shape;
 }
 
 
@@ -4688,9 +4688,9 @@ d_shape_option(void)
     if (getcode(1)) {
 	shape e;
 	e = d_shape();
-	return(yes_shape_option(e));
+	return yes_shape_option(e);
     }
-    return(no_shape_option);
+    return no_shape_option;
 }
 
 
@@ -4706,7 +4706,7 @@ d_signed_nat(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_signed_nat_apply_token(p0, p1));
+	    return f_signed_nat_apply_token(p0, p1);
 	}
 	case e_signed_nat_cond: {
 	    exp p0;
@@ -4715,30 +4715,30 @@ d_signed_nat(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_signed_nat_cond(p0, p1, p2));
+	    return f_signed_nat_cond(p0, p1, p2);
 	}
 	case e_computed_signed_nat: {
 	    exp p0;
 	    p0 = hold_const_check(d_exp());
-	    return(f_computed_signed_nat(p0));
+	    return f_computed_signed_nat(p0);
 	}
 	case e_make_signed_nat: {
 	    tdfbool p0;
 	    tdfint p1;
 	    p0 = d_tdfbool();
 	    p1 = d_tdfint();
-	    return(f_make_signed_nat(p0, p1));
+	    return f_make_signed_nat(p0, p1);
 	}
 	case e_snat_from_nat: {
 	    bool p0;
 	    nat p1;
 	    p0 = d_bool();
 	    p1 = d_nat();
-	    return(f_snat_from_nat(p0, p1));
+	    return f_snat_from_nat(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_signed_nat);
-    return(f_dummy_signed_nat);
+    return f_dummy_signed_nat;
 }
 
 
@@ -4750,77 +4750,77 @@ d_sortname(void)
     int code = get_big_code(5);
     switch (code) {
 	case e_access: {
-	    return(f_access);
+	    return f_access;
 	}
 	case e_al_tag: {
-	    return(f_al_tag);
+	    return f_al_tag;
 	}
 	case e_alignment_sort: {
-	    return(f_alignment_sort);
+	    return f_alignment_sort;
 	}
 	case e_bitfield_variety: {
-	    return(f_bitfield_variety);
+	    return f_bitfield_variety;
 	}
 	case e_bool: {
-	    return(f_bool);
+	    return f_bool;
 	}
 	case e_error_treatment: {
-	    return(f_error_treatment);
+	    return f_error_treatment;
 	}
 	case e_exp: {
-	    return(f_exp);
+	    return f_exp;
 	}
 	case e_floating_variety: {
-	    return(f_floating_variety);
+	    return f_floating_variety;
 	}
 	case e_foreign_sort: {
 	    string p0;
 	    p0 = d_string();
-	    return(f_foreign_sort(p0));
+	    return f_foreign_sort(p0);
 	}
 	case e_label: {
-	    return(f_label);
+	    return f_label;
 	}
 	case e_nat: {
-	    return(f_nat);
+	    return f_nat;
 	}
 	case e_ntest: {
-	    return(f_ntest);
+	    return f_ntest;
 	}
 	case e_procprops: {
-	    return(f_procprops);
+	    return f_procprops;
 	}
 	case e_rounding_mode: {
-	    return(f_rounding_mode);
+	    return f_rounding_mode;
 	}
 	case e_shape: {
-	    return(f_shape);
+	    return f_shape;
 	}
 	case e_signed_nat: {
-	    return(f_signed_nat);
+	    return f_signed_nat;
 	}
 	case e_string: {
-	    return(f_string);
+	    return f_string;
 	}
 	case e_tag: {
-	    return(f_tag);
+	    return f_tag;
 	}
 	case e_transfer_mode: {
-	    return(f_transfer_mode);
+	    return f_transfer_mode;
 	}
 	case e_token: {
 	    sortname p0;
 	    sortname_list p1;
 	    p0 = d_sortname();
 	    p1 = d_sortname_list();
-	    return(f_token(p0, p1));
+	    return f_token(p0, p1);
 	}
 	case e_variety: {
-	    return(f_variety);
+	    return f_variety;
 	}
     }
     decode_error(ILLEGAL_CODE_sortname);
-    return(f_dummy_sortname);
+    return f_dummy_sortname;
 }
 
 
@@ -4839,7 +4839,7 @@ d_sortname_list(void)
 	e = d_sortname();
 	temp = add_sortname_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -4857,11 +4857,11 @@ d_sourcemark(void)
 	    p0 = d_filename();
 	    p1 = d_nat();
 	    p2 = d_nat();
-	    return(f_make_sourcemark(p0, p1, p2));
+	    return f_make_sourcemark(p0, p1, p2);
 	}
     }
     decode_error(ILLEGAL_CODE_sourcemark);
-    return(f_dummy_sourcemark);
+    return f_dummy_sourcemark;
 }
 
 
@@ -4877,7 +4877,7 @@ d_string(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_string_apply_token(p0, p1));
+	    return f_string_apply_token(p0, p1);
 	}
 	case e_string_cond: {
 	    exp p0;
@@ -4886,23 +4886,23 @@ d_string(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_string_cond(p0, p1, p2));
+	    return f_string_cond(p0, p1, p2);
 	}
 	case e_concat_string: {
 	    string p0;
 	    string p1;
 	    p0 = d_string();
 	    p1 = d_string();
-	    return(f_concat_string(p0, p1));
+	    return f_concat_string(p0, p1);
 	}
 	case e_make_string: {
 	    tdfstring p0;
 	    p0 = d_tdfstring();
-	    return(f_make_string(p0));
+	    return f_make_string(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_string);
-    return(f_dummy_string);
+    return f_dummy_string;
 }
 
 
@@ -4921,7 +4921,7 @@ d_string_list(void)
 	e = d_string();
 	temp = add_string_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -4933,9 +4933,9 @@ d_string_option(void)
     if (getcode(1)) {
 	string e;
 	e = d_string();
-	return(yes_string_option(e));
+	return yes_string_option(e);
     }
-    return(no_string_option);
+    return no_string_option;
 }
 
 
@@ -4951,16 +4951,16 @@ d_tag(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_tag_apply_token(p0, p1));
+	    return f_tag_apply_token(p0, p1);
 	}
 	case e_make_tag: {
 	    tdfint p0;
 	    p0 = d_tdfint();
-	    return(f_make_tag(p0));
+	    return f_make_tag(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_tag);
-    return(f_dummy_tag);
+    return f_dummy_tag;
 }
 
 
@@ -4972,9 +4972,9 @@ d_tag_option(void)
     if (getcode(1)) {
 	tag e;
 	e = d_tag();
-	return(yes_tag_option(e));
+	return yes_tag_option(e);
     }
-    return(no_tag_option);
+    return no_tag_option;
 }
 
 
@@ -4987,7 +4987,7 @@ d_tagacc(void)
     access_option p1;
     p0 = d_tag();
     p1 = d_access_option();
-    return(f_make_tagacc(p0, p1));
+    return f_make_tagacc(p0, p1);
 }
 
 
@@ -4999,9 +4999,9 @@ d_tagacc_option(void)
     if (getcode(1)) {
 	tagacc e;
 	e = d_tagacc();
-	return(yes_tagacc_option(e));
+	return yes_tagacc_option(e);
     }
-    return(no_tagacc_option);
+    return no_tagacc_option;
 }
 
 
@@ -5021,7 +5021,7 @@ d_tagdec(void)
 	    p1 = d_access_option();
 	    p2 = d_string_option();
 	    p3 = d_shape();
-	    return(f_make_id_tagdec(p0, p1, p2, p3));
+	    return f_make_id_tagdec(p0, p1, p2, p3);
 	}
 	case e_make_var_tagdec: {
 	    tdfint p0;
@@ -5032,7 +5032,7 @@ d_tagdec(void)
 	    p1 = d_access_option();
 	    p2 = d_string_option();
 	    p3 = d_shape();
-	    return(f_make_var_tagdec(p0, p1, p2, p3));
+	    return f_make_var_tagdec(p0, p1, p2, p3);
 	}
 	case e_common_tagdec: {
 	    tdfint p0;
@@ -5043,11 +5043,11 @@ d_tagdec(void)
 	    p1 = d_access_option();
 	    p2 = d_string_option();
 	    p3 = d_shape();
-	    return(f_common_tagdec(p0, p1, p2, p3));
+	    return f_common_tagdec(p0, p1, p2, p3);
 	}
     }
     decode_error(ILLEGAL_CODE_tagdec);
-    return(f_dummy_tagdec);
+    return f_dummy_tagdec;
 }
 
 
@@ -5065,7 +5065,7 @@ d_tagdec_list(void)
 	e = d_tagdec();
 	temp = add_tagdec_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5078,7 +5078,7 @@ d_tagdec_props(void)
     tagdec_list p1;
     p0 = d_tdfint();
     p1 = d_tagdec_list();
-    return(f_make_tagdecs(p0, p1));
+    return f_make_tagdecs(p0, p1);
 }
 
 
@@ -5097,7 +5097,7 @@ d_tagdef(void)
 	    start_make_id_tagdef(p0);
 	    p1 = d_string_option();
 	    p2 = hold_check(d_exp());
-	    return(f_make_id_tagdef(p0, p1, p2));
+	    return f_make_id_tagdef(p0, p1, p2);
 	}
 	case e_make_var_tagdef: {
 	    tdfint p0;
@@ -5109,7 +5109,7 @@ d_tagdef(void)
 	    p1 = d_access_option();
 	    p2 = d_string_option();
 	    p3 = hold_const_check(d_exp());
-	    return(f_make_var_tagdef(p0, p1, p2, p3));
+	    return f_make_var_tagdef(p0, p1, p2, p3);
 	}
 	case e_common_tagdef: {
 	    tdfint p0;
@@ -5121,11 +5121,11 @@ d_tagdef(void)
 	    p1 = d_access_option();
 	    p2 = d_string_option();
 	    p3 = hold_const_check(d_exp());
-	    return(f_common_tagdef(p0, p1, p2, p3));
+	    return f_common_tagdef(p0, p1, p2, p3);
 	}
     }
     decode_error(ILLEGAL_CODE_tagdef);
-    return(f_dummy_tagdef);
+    return f_dummy_tagdef;
 }
 
 
@@ -5143,7 +5143,7 @@ d_tagdef_list(void)
 	e = d_tagdef();
 	temp = add_tagdef_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5156,7 +5156,7 @@ d_tagdef_props(void)
     tagdef_list p1;
     p0 = d_tdfint();
     p1 = d_tagdef_list();
-    return(f_make_tagdefs(p0, p1));
+    return f_make_tagdefs(p0, p1);
 }
 
 
@@ -5171,7 +5171,7 @@ d_tagshacc(void)
     p0 = d_shape();
     p1 = d_access_option();
     p2 = d_tag();
-    return(f_make_tagshacc(p0, p1, p2));
+    return f_make_tagshacc(p0, p1, p2);
 }
 
 
@@ -5190,7 +5190,7 @@ d_tagshacc_list(void)
 	e = d_tagshacc();
 	temp = add_tagshacc_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5208,7 +5208,7 @@ d_tdfident_list(void)
 	e = d_tdfident();
 	temp = add_tdfident_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5226,7 +5226,7 @@ d_tdfint_list(void)
 	e = d_tdfint();
 	temp = add_tdfint_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5244,11 +5244,11 @@ d_tokdec(void)
 	    p0 = d_tdfint();
 	    p1 = d_string_option();
 	    p2 = d_sortname();
-	    return(f_make_tokdec(p0, p1, p2));
+	    return f_make_tokdec(p0, p1, p2);
 	}
     }
     decode_error(ILLEGAL_CODE_tokdec);
-    return(f_dummy_tokdec);
+    return f_dummy_tokdec;
 }
 
 
@@ -5266,7 +5266,7 @@ d_tokdec_list(void)
 	e = d_tokdec();
 	temp = add_tokdec_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5277,7 +5277,7 @@ d_tokdec_props(void)
 {
     tokdec_list p0;
     p0 = d_tokdec_list();
-    return(f_make_tokdecs(p0));
+    return f_make_tokdecs(p0);
 }
 
 
@@ -5295,11 +5295,11 @@ d_tokdef(void)
 	    p0 = d_tdfint();
 	    p1 = d_string_option();
 	    p2 = d_bitstream();
-	    return(f_make_tokdef(p0, p1, p2));
+	    return f_make_tokdef(p0, p1, p2);
 	}
     }
     decode_error(ILLEGAL_CODE_tokdef);
-    return(f_dummy_tokdef);
+    return f_dummy_tokdef;
 }
 
 
@@ -5317,7 +5317,7 @@ d_tokdef_list(void)
 	e = d_tokdef();
 	temp = add_tokdef_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5330,7 +5330,7 @@ d_tokdef_props(void)
     tokdef_list p1;
     p0 = d_tdfint();
     p1 = d_tokdef_list();
-    return(f_make_tokdefs(p0, p1));
+    return f_make_tokdefs(p0, p1);
 }
 
 
@@ -5346,21 +5346,21 @@ d_token(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_token_apply_token(p0, p1));
+	    return f_token_apply_token(p0, p1);
 	}
 	case e_make_tok: {
 	    tdfint p0;
 	    p0 = d_tdfint();
-	    return(f_make_tok(p0));
+	    return f_make_tok(p0);
 	}
 	case e_use_tokdef: {
 	    bitstream p0;
 	    p0 = d_bitstream();
-	    return(f_use_tokdef(p0));
+	    return f_use_tokdef(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_token);
-    return(f_dummy_token);
+    return f_dummy_token;
 }
 
 
@@ -5376,11 +5376,11 @@ d_token_defn(void)
 	    tokformals_list p1;
 	    p0 = d_sortname();
 	    p1 = d_tokformals_list();
-	    return(f_token_definition(p0, p1));
+	    return f_token_definition(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_token_defn);
-    return(f_dummy_token_defn);
+    return f_dummy_token_defn;
 }
 
 
@@ -5392,9 +5392,9 @@ d_token_option(void)
     if (getcode(1)) {
 	token e;
 	e = d_token();
-	return(yes_token_option(e));
+	return yes_token_option(e);
     }
-    return(no_token_option);
+    return no_token_option;
 }
 
 
@@ -5407,7 +5407,7 @@ d_tokformals(void)
     tdfint p1;
     p0 = d_sortname();
     p1 = d_tdfint();
-    return(f_make_tokformals(p0, p1));
+    return f_make_tokformals(p0, p1);
 }
 
 
@@ -5426,7 +5426,7 @@ d_tokformals_list(void)
 	e = d_tokformals();
 	temp = add_tokformals_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5442,7 +5442,7 @@ d_transfer_mode(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_transfer_mode_apply_token(p0, p1));
+	    return f_transfer_mode_apply_token(p0, p1);
 	}
 	case e_transfer_mode_cond: {
 	    exp p0;
@@ -5451,33 +5451,33 @@ d_transfer_mode(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_transfer_mode_cond(p0, p1, p2));
+	    return f_transfer_mode_cond(p0, p1, p2);
 	}
 	case e_add_modes: {
 	    transfer_mode p0;
 	    transfer_mode p1;
 	    p0 = d_transfer_mode();
 	    p1 = d_transfer_mode();
-	    return(f_add_modes(p0, p1));
+	    return f_add_modes(p0, p1);
 	}
 	case e_overlap: {
-	    return(f_overlap);
+	    return f_overlap;
 	}
 	case e_standard_transfer_mode: {
-	    return(f_standard_transfer_mode);
+	    return f_standard_transfer_mode;
 	}
 	case e_trap_on_nil: {
-	    return(f_trap_on_nil);
+	    return f_trap_on_nil;
 	}
 	case e_volatile: {
-	    return(f_volatile);
+	    return f_volatile;
 	}
 	case e_complete: {
-	    return(f_complete);
+	    return f_complete;
 	}
     }
     decode_error(ILLEGAL_CODE_transfer_mode);
-    return(f_dummy_transfer_mode);
+    return f_dummy_transfer_mode;
 }
 
 
@@ -5488,7 +5488,7 @@ d_unique(void)
 {
     tdfident_list p0;
     p0 = d_tdfident_list();
-    return(f_make_unique(p0));
+    return f_make_unique(p0);
 }
 
 
@@ -5504,7 +5504,7 @@ d_unit(void)
     start_make_unit(p0);
     p1 = d_links_list();
     p2 = d_bytestream();
-    return(f_make_unit(p0, p1, p2));
+    return f_make_unit(p0, p1, p2);
 }
 
 
@@ -5522,7 +5522,7 @@ d_unit_list(void)
 	e = d_unit();
 	temp = add_unit_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5538,7 +5538,7 @@ d_variety(void)
 	    bitstream p1;
 	    p0 = d_token();
 	    p1 = d_bitstream();
-	    return(f_var_apply_token(p0, p1));
+	    return f_var_apply_token(p0, p1);
 	}
 	case e_var_cond: {
 	    exp p0;
@@ -5547,25 +5547,25 @@ d_variety(void)
 	    p0 = hold_const_check(d_exp());
 	    p1 = d_bitstream();
 	    p2 = d_bitstream();
-	    return(f_var_cond(p0, p1, p2));
+	    return f_var_cond(p0, p1, p2);
 	}
 	case e_var_limits: {
 	    signed_nat p0;
 	    signed_nat p1;
 	    p0 = d_signed_nat();
 	    p1 = d_signed_nat();
-	    return(f_var_limits(p0, p1));
+	    return f_var_limits(p0, p1);
 	}
 	case e_var_width: {
 	    bool p0;
 	    nat p1;
 	    p0 = d_bool();
 	    p1 = d_nat();
-	    return(f_var_width(p0, p1));
+	    return f_var_width(p0, p1);
 	}
     }
     decode_error(ILLEGAL_CODE_variety);
-    return(f_dummy_variety);
+    return f_dummy_variety;
 }
 
 
@@ -5581,16 +5581,16 @@ d_version(void)
 	    tdfint p1;
 	    p0 = d_tdfint();
 	    p1 = d_tdfint();
-	    return(f_make_version(p0, p1));
+	    return f_make_version(p0, p1);
 	}
 	case e_user_info: {
 	    string p0;
 	    p0 = d_string();
-	    return(f_user_info(p0));
+	    return f_user_info(p0);
 	}
     }
     decode_error(ILLEGAL_CODE_version);
-    return(f_dummy_version);
+    return f_dummy_version;
 }
 
 
@@ -5608,7 +5608,7 @@ d_version_list(void)
 	e = d_version();
 	temp = add_version_list(temp, e, i);
     }
-    return(temp);
+    return temp;
 }
 
 
@@ -5619,5 +5619,5 @@ d_version_props(void)
 {
     version_list p0;
     p0 = d_version_list();
-    return(f_make_versions(p0));
+    return f_make_versions(p0);
 }

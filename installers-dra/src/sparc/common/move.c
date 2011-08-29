@@ -201,7 +201,7 @@ static const ins_sgn_pair st_ins_sz [] = {
 
 ins_p 
 i_ld_sz ( int bits, int sgned ){
-  return ( ld_ins_sz [ bits / 8 ] [ sgned ] ) ;
+  return ld_ins_sz [ bits / 8 ] [ sgned ] ;
 }
 
 
@@ -211,7 +211,7 @@ i_ld_sz ( int bits, int sgned ){
 
 ins_p 
 i_st_sz ( int bits ){
-  return ( st_ins_sz [ bits / 8 ] [0] ) ;
+  return st_ins_sz [ bits / 8 ] [0] ;
 }
 
 
@@ -243,11 +243,11 @@ int
 addr_reg ( instore is, long regs ){
   int r ;
   if ( is.adval && IS_FIXREG ( is.b.base ) && is.b.offset == 0 ) {
-    return ( is.b.base ) ;
+    return is.b.base ;
   }
   r = getreg ( regs ) ;
   ld_addr ( is, r ) ;
-  return ( r ) ;
+  return r;
 }
 
 
@@ -259,7 +259,7 @@ addr_reg ( instore is, long regs ){
 int move 
     ( ans a, where dest, long regs, bool sgned ){
   int al = ( int ) dest.ashwhere.ashalign ;
-  if ( dest.ashwhere.ashsize == 0 ) return ( NOREG ) ;
+  if ( dest.ashwhere.ashsize == 0 ) return NOREG;
 
   if ( PIC_code && discrim ( dest.answhere ) == notinreg ) {
     instore iss;
@@ -283,7 +283,7 @@ int move
   case insomefreg : {
     /* Source is in some register */
     fail ( "move : source register not specified" ) ;
-    return ( NOREG ) ;
+    return NOREG;
   }
   case inreg : {
     /* Source in fixed point register */
@@ -297,7 +297,7 @@ int move
       if ( rd != R_G0 && rd != r ) {
 	rr_ins ( i_mov, r, rd ) ;
       }
-      return ( NOREG ) ;
+      return NOREG;
     }
 
     case insomereg : {
@@ -305,7 +305,7 @@ int move
       int *sr = someregalt ( dest.answhere ) ;
       if ( *sr != -1 ) fail ( "Illegal register" ) ;
       *sr = r ;
-      return ( NOREG ) ;
+      return NOREG;
     }
 
     case infreg : {
@@ -319,7 +319,7 @@ int move
 	ldf_ro_ins ( i_ld, mem_temp ( 4 ),
 		     ( fr.fr << 1 ) + 1 ) ;
       }
-      return ( NOREG ) ;
+      return NOREG;
     }
 
     case notinreg : {
@@ -344,7 +344,7 @@ int move
 	ld_ins ( i_ld, is.b, b.base ) ;
 	st_ins ( st, r, b ) ;
       }
-      return ( r ) ;
+      return r;
     }
     default:
       fail("fixed -> wrong dest");
@@ -371,7 +371,7 @@ int move
 	  ld_ro_ins ( i_ld, mem_temp ( 4 ), rd + 1 ) ;
 	}
       }
-      return ( NOREG ) ;
+      return NOREG;
     }
     case insomereg : {
       /* Floating register to some register move */
@@ -394,7 +394,7 @@ int move
 		    ( frd.fr << 1 ) + 1 ) ;
 	}
       }
-      return ( NOREG ) ;
+      return NOREG;
     }
     case notinreg : {
       /* Floating register to store move */
@@ -430,7 +430,7 @@ int move
 	stf_ro_ins ( st, fr.fr << 1, b ) ;
       }
 
-      return ( fr.dble ? -( fr.fr + 32 ) : ( fr.fr + 32 ) ) ;
+      return fr.dble ? -( fr.fr + 32 ) : ( fr.fr + 32 ) ;
     }
     default:
       fail("Float to wrong dest");
@@ -492,7 +492,7 @@ int move
 	  ld_ins ( i_ld_sz ( al, sgned ), iss.b, rd ) ;
 	}
       }
-      return ( NOREG ) ;
+      return NOREG;
     }
     case infreg : {
       /* Move store to floating register */
@@ -515,7 +515,7 @@ int move
 	/* single precision */
 	ldf_ins ( i_ld, iss.b, frd.fr << 1 ) ;
       }
-      return ( NOREG ) ;
+      return NOREG;
     }
     case notinreg : {
       /* Move store to store address */
@@ -540,7 +540,7 @@ int move
 
       if ( ( al % 8 ) != 0 || ( bits % 8 ) != 0 ) {
 	fail ( "move : misaligned store" ) ;
-	return ( NOREG ) ;
+	return NOREG;
       }
       assert ( ( bits % al ) == 0 ) ;
       assert ( bytes_per_step > 0 && bytes_per_step <= 4 ) ;
@@ -580,7 +580,7 @@ int move
 	    isd.b.offset = 0 ;
 	  }
 	  st_ins ( st, r, isd.b ) ;
-	  return ( unalign ? NOREG : r ) ;
+	  return unalign ? NOREG : r ;
 	} else {
 	  /* use two registers, ensuring load delay
 	     slot is not occupied */
@@ -666,7 +666,7 @@ int move
 	    }
 	  }
 	  assert ( ld_steps == 0 ) ;
-	  return ( NOREG ) ;
+	  return NOREG;
 	}
       } else {
 	/* large number of steps - use a loop */
@@ -705,7 +705,7 @@ int move
 	ld_rr_ins ( ld, srcptr_reg, cnt_reg, copy_reg ) ;
 	st_rr_ins ( st, copy_reg, destptr_reg, cnt_reg ) ;
 	br_ins ( i_bne, loop ) ;
-	return ( NOREG ) ;
+	return NOREG;
       }
     }
     default:
@@ -716,6 +716,6 @@ int move
   }
   }
   fail ( "Illegal move" ) ;
-  return ( NOREG ) ;
+  return NOREG;
 }
 

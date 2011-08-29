@@ -87,31 +87,31 @@ shape_entry_create(NStringT *key)
     entry->non_empty = FALSE;
     entry->head      = NULL;
     entry->tail      = & (entry->head);
-    return(entry);
+    return entry;
 }
 
 ShapeEntryT *
 shape_entry_next(ShapeEntryT *entry)
 {
-    return(entry->next);
+    return entry->next;
 }
 
 ShapeEntryT **
 shape_entry_next_ref(ShapeEntryT *entry)
 {
-    return(& (entry->next));
+    return &entry->next;
 }
 
 NStringT *
 shape_entry_key(ShapeEntryT *entry)
 {
-    return(& (entry->key));
+    return &entry->key;
 }
 
 NameTableT *
 shape_entry_name_table(ShapeEntryT *entry)
 {
-    return(entry->names);
+    return entry->names;
 }
 
 unsigned
@@ -120,7 +120,7 @@ shape_entry_next_id(ShapeEntryT *entry)
     if (entry->id_count == UINT_MAX) {
 	error(ERROR_FATAL,"too many identifiers for this implementation");
     }
-    return(entry->id_count++);
+    return entry->id_count++;
 }
 
 void
@@ -132,7 +132,7 @@ shape_entry_set_non_empty(ShapeEntryT *entry)
 BoolT
 shape_entry_get_non_empty(ShapeEntryT *entry)
 {
-    return(entry->non_empty);
+    return entry->non_empty;
 }
 
 void
@@ -153,7 +153,7 @@ shape_entry_get_from_list(ShapeEntryT *entry)
 	    entry->tail = (&entry->head);
 	}
     }
-    return(name_entry);
+    return name_entry;
 }
 
 ShapeEntryT *
@@ -164,7 +164,7 @@ shape_entry_deallocate(ShapeEntryT *entry)
     nstring_destroy(shape_entry_key(entry));
     name_table_deallocate(shape_entry_name_table(entry));
     DEALLOCATE(entry);
-    return(next);
+    return next;
 }
 
 void

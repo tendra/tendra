@@ -194,5 +194,5 @@ main(int argc, char **argv)
 	read_program();
 	IGNORE fclose(in_file);
 	IGNORE fclose(out_file);
-	return(0);
+	return 0;
 }

@@ -202,7 +202,7 @@ enc_dg_filename(BITSTREAM *bs, PTR(POSITION)posn)
 	n = link_no(bs, n, VAR_token);
 	ENC_make_tok(bs, n);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -251,7 +251,7 @@ enc_dg_loc(BITSTREAM *bs, PTR(LOCATION)p, PTR(LOCATION)q)
 			ENC_INT(bs, cq);
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -283,7 +283,7 @@ PTR(LOCATION)block_loc(EXP e, int end)
 			}
 		}
 	}
-	return (loc);
+	return loc;
 }
 
 
@@ -308,7 +308,7 @@ enc_dg_namelist(BITSTREAM *bs, NAMESPACE ns)
 	ENC_make_dg_tag(bs, n);
 	ENC_make_dg_namelist(bs);
 	ENC_LIST_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -337,7 +337,7 @@ enc_dg_options(BITSTREAM *bs)
 		bs = enc_ustring(bs, bf->start);
 		d = d->next;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -397,7 +397,7 @@ enc_dg_compilation(BITSTREAM *bs)
 			IGNORE enc_dg_basetype(t, 1);
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -421,7 +421,7 @@ enc_dg_access(BITSTREAM *bs, DECL_SPEC ds)
 	} else {
 		ENC_OFF(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -445,7 +445,7 @@ enc_dg_virtual(BITSTREAM *bs, DECL_SPEC ds)
 	} else {
 		ENC_OFF(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -517,7 +517,7 @@ enc_dg_token_arg(BITSTREAM *bs, TOKEN tok)
 		}
 		ENC_OFF(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -534,7 +534,7 @@ enc_dg_artificial(BITSTREAM *bs, const char *s)
 	ENC_ON(bs);
 	ENC_make_string(bs);
 	bs = enc_ustring(bs, ustrlit(s));
-	return (bs);
+	return bs;
 }
 
 
@@ -562,7 +562,7 @@ enc_dg_name(BITSTREAM *bs, IDENTIFIER id, TYPE form)
 				bs = enc_dg_token_arg(bs, arg);
 				args = TAIL_list(args);
 			}
-			return (bs);
+			return bs;
 		}
 	}
 	if (!IS_NULL_id(id)) {
@@ -578,7 +578,7 @@ enc_dg_name(BITSTREAM *bs, IDENTIFIER id, TYPE form)
 			/* Extended case */
 			if (EQ_KEYWORD(nm, lex_this_Hname)) {
 				bs = enc_dg_artificial(bs, "this");
-				return (bs);
+				return bs;
 			}
 			s = DEREF_string(hashid_ename_text(nm));
 			break;
@@ -587,7 +587,7 @@ enc_dg_name(BITSTREAM *bs, IDENTIFIER id, TYPE form)
 			/* Anonymous case */
 			ENC_dg_anonymous_idname(bs);
 			ENC_OFF(bs);
-			return (bs);
+			return bs;
 		}
 		default : {
 			/* Other cases */
@@ -609,7 +609,7 @@ enc_dg_name(BITSTREAM *bs, IDENTIFIER id, TYPE form)
 		ENC_dg_anonymous_idname(bs);
 		ENC_OFF(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -809,7 +809,7 @@ enc_dg_decl(BITSTREAM *bs, IDENTIFIER id, ulong n, unsigned use)
 	if (spec) {
 		ENC_OFF(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -862,7 +862,7 @@ enc_dg_pending(void)
 			changed = 1;
 		}
 	}
-	return (changed);
+	return changed;
 }
 
 
@@ -893,16 +893,16 @@ find_dg_usage(IDENTIFIER id, ulong *pn, int def)
 			NAMESPACE ns;
 			string s = NULL;
 			if (def == 0) {
-				return (USAGE_NONE);
+				return USAGE_NONE;
 			}
 			t = DEREF_type(id_class_name_etc_defn(id));
 			if (IS_type_top_etc(t)) {
 				/* Ignore 'void' types */
-				return (USAGE_NONE);
+				return USAGE_NONE;
 			}
 			ns = DEREF_nspace(id_parent(id));
 			if (is_local_nspace(ns) == 2) {
-				return (USAGE_NONE);
+				return USAGE_NONE;
 			}
 			if (output_all) {
 				s = mangle_tname("__dg__", t);
@@ -971,7 +971,7 @@ find_dg_usage(IDENTIFIER id, ulong *pn, int def)
 		break;
 	}
 	}
-	return (use);
+	return use;
 }
 
 
@@ -1165,7 +1165,7 @@ enc_dg_basetype(TYPE t, int def)
 		count_item(bs);
 		diagcomp_unit = join_bitstreams(diagcomp_unit, bs);
 	}
-	return (n);
+	return n;
 }
 
 
@@ -1189,7 +1189,7 @@ enc_dg_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 	}
 	n = link_no(bs, n, VAR_dgtag);
 	ENC_make_dg_tag(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -1233,7 +1233,7 @@ enc_dg_offset(BITSTREAM *bs, OFFSET off, ulong tok, int spec)
 	enc_tokdef_end(n, ts);
 	n = link_no(bs, n, VAR_token);
 	ENC_make_tok(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -1267,7 +1267,7 @@ enc_dg_bases(BITSTREAM *bs, LIST(GRAPH)br)
 		bs = enc_dg_virtual(bs, acc);
 		br = TAIL_list(br);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1296,7 +1296,7 @@ enc_dg_member(BITSTREAM *bs, IDENTIFIER id, unsigned *pm, CLASS_TYPE ct,
 	}
 	if (ds & (dspec_alias | dspec_inherit | dspec_token)) {
 		/* Ignore inherited members */
-		return (bs);
+		return bs;
 	}
 	if (ds & dspec_defn) {
 		def = 1;
@@ -1387,7 +1387,7 @@ enc_dg_member(BITSTREAM *bs, IDENTIFIER id, unsigned *pm, CLASS_TYPE ct,
 	}
 	}
 	*pm += done;
-	return (bs);
+	return bs;
 }
 
 
@@ -1421,7 +1421,7 @@ enc_dg_namespace(BITSTREAM *bs, NAMESPACE ns, unsigned *pm, CLASS_TYPE ct)
 		}
 		mem = DEREF_member(member_next(mem));
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1535,7 +1535,7 @@ enc_dg_vtable(BITSTREAM *bs, TYPE t, ulong *vtags)
 	/* Clear slot type */
 	COPY_ulong(id_no(tid), LINK_NONE);
 	COPY_id(type_name(pv), NULL_id);
-	return (bs);
+	return bs;
 }
 
 #endif
@@ -1562,7 +1562,7 @@ enc_dg_class(BITSTREAM *bs, TYPE t, int force)
 	if (force == 0) {
 		ENC_dg_unknown_type(bs);
 		bs = enc_shape(bs, t);
-		return (bs);
+		return bs;
 	}
 	if ((ci & cinfo_complete) && (ci & cinfo_defined)) {
 		/* Complete class */
@@ -1673,7 +1673,7 @@ enc_dg_class(BITSTREAM *bs, TYPE t, int force)
 	if (!IS_NULL_ctype(cs)) {
 		ENC_OFF(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1694,7 +1694,7 @@ enc_dg_etype(BITSTREAM *bs, TYPE t, int force)
 	if (!(ei & cinfo_complete) || force == 0) {
 		t = DEREF_type(etype_rep(et));
 		bs = enc_dg_type(bs, t, 0);
-		return (bs);
+		return bs;
 	}
 	ENC_dg_enum_type(bs);
 	ENC_LIST(bs, LENGTH_list(p));
@@ -1719,7 +1719,7 @@ enc_dg_etype(BITSTREAM *bs, TYPE t, int force)
 	}
 	bs = enc_shape(bs, t);
 	bs = enc_bool(bs, LANGUAGE_CPP);
-	return (bs);
+	return bs;
 }
 
 
@@ -1737,7 +1737,7 @@ enc_dg_type(BITSTREAM *bs, TYPE t, int force)
 	CV_SPEC cv;
 	if (IS_NULL_type(t)) {
 		ENC_dg_void_type(bs);
-		return (bs);
+		return bs;
 	}
 	cv = DEREF_cv(type_qual(t));
 	if (cv & cv_const) {
@@ -1767,7 +1767,7 @@ enc_dg_type(BITSTREAM *bs, TYPE t, int force)
 			ENC_dg_named_type(bs);
 			n = link_no(bs, n, VAR_dgtag);
 			ENC_make_dg_tag(bs, n);
-			return (bs);
+			return bs;
 		}
 	}
 
@@ -1968,7 +1968,7 @@ basetype_lab: {
 		    }
 		    }
 	    }
-	    return (bs);
+	    return bs;
 }
 
 
@@ -1986,7 +1986,7 @@ enc_dg_local(BITSTREAM *bs, IDENTIFIER id, BITSTREAM *ts)
 	ENC_name_decl_dg(ts);
 	ts = enc_dg_decl(ts, id, LINK_NONE, USAGE_DEFN);
 	bs = enc_bitstream(bs, ts);
-	return (bs);
+	return bs;
 }
 
 
@@ -2013,7 +2013,7 @@ enc_dg_params(BITSTREAM *bs, LIST(IDENTIFIER)p, BITSTREAM *ts, EXP e)
 	ENC_OFF(ts);
 	ts = enc_dg_stmt(ts, e, 1);
 	bs = enc_bitstream(bs, ts);
-	return (bs);
+	return bs;
 }
 
 
@@ -2053,14 +2053,14 @@ enc_dg_stmt(BITSTREAM *bs, EXP e, int stmt)
 					bs = enc_dg_loc(bs, start_loc, loc);
 				}
 				bs = join_bitstreams(bs, ts);
-				return (bs);
+				return bs;
 			}
 			break;
 		}
 		case exp_solve_stmt_tag: {
 			EXP a = DEREF_exp(exp_solve_stmt_body(e));
 			bs = enc_dg_stmt(bs, a, stmt);
-			return (bs);
+			return bs;
 		}
 		case exp_decl_stmt_tag: {
 			IDENTIFIER id = DEREF_id(exp_decl_stmt_id(e));
@@ -2076,7 +2076,7 @@ enc_dg_stmt(BITSTREAM *bs, EXP e, int stmt)
 				ENC_label_dg(bs);
 				bs = enc_dg_name(bs, id, NULL_type);
 				bs = enc_dg_loc(bs, loc, loc);
-				return (bs);
+				return bs;
 			}
 			break;
 		}
@@ -2112,7 +2112,7 @@ enc_dg_stmt(BITSTREAM *bs, EXP e, int stmt)
 			}
 			e = DEREF_exp(exp_try_block_body(e));
 			bs = enc_dg_stmt(bs, e, stmt);
-			return (bs);
+			return bs;
 		}
 		case exp_handler_tag: {
 			/* Exception handler */
@@ -2133,7 +2133,7 @@ enc_dg_stmt(BITSTREAM *bs, EXP e, int stmt)
 			}
 			e = DEREF_exp(exp_handler_body(e));
 			bs = enc_dg_stmt(bs, e, stmt);
-			return (bs);
+			return bs;
 		}
 #endif
 		}
@@ -2147,7 +2147,7 @@ enc_dg_stmt(BITSTREAM *bs, EXP e, int stmt)
 	}
 	ENC_singlestep_dg(bs);
 	bs = enc_dg_loc(bs, loc, loc);
-	return (bs);
+	return bs;
 }
 
 

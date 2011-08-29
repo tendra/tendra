@@ -200,7 +200,7 @@ octval(node *p)
 {
     long n = (long)octal_to_ulong(p->bro->cons->name);
     if (p->cons->encoding)n = -n;
-    return(n);
+    return n;
 }
 
 
@@ -480,7 +480,7 @@ enc_tagdef(bitstream *b, construct *p)
 	d = d->bro;
 	n++;
     }
-    return(n);
+    return n;
 }
 
 
@@ -497,7 +497,7 @@ no_formals(char *args)
 	args++;
 	n = n + 1;
     }
-    return(n);
+    return n;
 }
 
 

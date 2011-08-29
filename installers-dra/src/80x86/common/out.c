@@ -84,7 +84,7 @@ int
 outinit(char *intermed)
 {
 	fpout = fopen(intermed, "w");
-	return (fpout != NULL);
+	return fpout != NULL;
 }
 
 void
@@ -200,7 +200,7 @@ out_tell_pos(void)
 		exit(EXIT_FAILURE);
 	}
 
-	return (p);
+	return p;
 }
 
 /*

@@ -166,11 +166,11 @@ long type_size
       return shape_size(dt->data.t_struct.tdf_shape);
     }
     case DIAG_TYPE_FLOAT: {
-      return((dt->data.f_var)?64:32);
+      return (dt->data.f_var)?64:32;
     }
     case DIAG_TYPE_ARRAY: {
       long is = type_size(dt->data.array.element_type);
-      return(is *(dt->data.array.upper_b-dt->data.array.lower_b+1));
+      return is *(dt->data.array.upper_b-dt->data.array.lower_b+1);
     }
     case DIAG_TYPE_ENUM: {
       return type_size(dt->data.t_enum.base_type);

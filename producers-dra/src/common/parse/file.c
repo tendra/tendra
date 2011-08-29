@@ -210,13 +210,13 @@ is_full_pathname(string nm)
 	character c = nm[0];
 	character q = (character)drive_sep;
 	if (c == char_slash) {
-		return(1);
+		return 1;
 	}
 	if (c && q && nm[1] == q) {
 		/* Allow for DOS drive letters */
-		return(is_alpha_char((unsigned long)c));
+		return is_alpha_char((unsigned long)c);
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -240,7 +240,7 @@ make_pathname(string nm)
 			}
 		}
 	}
-	return(nm);
+	return nm;
 }
 
 
@@ -306,7 +306,7 @@ normalise_pathname(string s)
 	if (changed) {
 		s = xustrcpy(bf->start);
 	}
-	return(s);
+	return s;
 }
 
 
@@ -336,7 +336,7 @@ set_crt_loc(string nm, int special)
 		date = stat_date(fs);
 	}
 	CREATE_loc(nm, en, nm, NULL, NULL_ptr(LOCATION), date, crt_loc);
-	return(nm);
+	return nm;
 }
 
 
@@ -369,7 +369,7 @@ open_input(int bin)
 		}
 		input_name = nm;
 		if (input_file == NULL) {
-			return(0);
+			return 0;
 		}
 		if (!started_buff) {
 			unsigned i;
@@ -383,7 +383,7 @@ open_input(int bin)
 		crt_line_changed = 1;
 		crt_spaces = 0;
 	}
-	return(1);
+	return 1;
 }
 
 
@@ -431,7 +431,7 @@ open_output(int n, int bin)
 			output_name[n] = nm;
 			output_file[n] = stdout;
 			if (bin) {
-				return(0);
+				return 0;
 			}
 		} else {
 			const char *mode = (bin ? "wb" : "w");
@@ -439,11 +439,11 @@ open_output(int n, int bin)
 			output_name[n] = nm;
 			output_file[n] = fopen(strlit(nm), mode);
 			if (output_file[n] == NULL) {
-				return(0);
+				return 0;
 			}
 		}
 	}
-	return(1);
+	return 1;
 }
 
 
@@ -529,7 +529,7 @@ fill_buffer(void)
 	if (n == 0) {
 		p = NULL;
 	}
-	return(p);
+	return p;
 }
 
 
@@ -546,7 +546,7 @@ init_buffer(unsigned long i)
 	crt_buff_no = i;
 	input_start = input_buff[i].buff + PENDING_SZ;
 	input_bytes = 0;
-	return(fill_buffer());
+	return fill_buffer();
 }
 
 
@@ -591,7 +591,7 @@ tell_buffer(unsigned long i)
 	if (bytes_left < 0) {
 		bytes_left = 0;
 	}
-	return(input_bytes - bytes_left);
+	return input_bytes - bytes_left;
 }
 
 
@@ -694,17 +694,17 @@ refill_char(void)
 	do {
 		string p = input_posn;
 		if (p <= input_end) {
-			return(char_end);
+			return char_end;
 		}
 		if (p > input_eof) {
-			return(char_eof);
+			return char_eof;
 		}
 		crt_loc.column += (unsigned long)(p - input_crt);
 		IGNORE fill_buffer();
 		c = next_char();
 	} while (c == char_end);
 	input_crt = input_posn;
-	return(c);
+	return c;
 }
 
 
@@ -737,11 +737,11 @@ find_directory(string nm)
 	while (p != NULL) {
 		string s = p->name;
 		if (s && ustreq(s, nm)) {
-			return(p);
+			return p;
 		}
 		p = p->next;
 	}
-	return(NULL);
+	return NULL;
 }
 
 
@@ -991,13 +991,13 @@ already_included(string nm, STAT_TYPE *fs, int st)
 			/* Check matching file */
 			if (st == 4) {
 				/* Simple enquiry */
-				return(1);
+				return 1;
 			}
 			crt_included_file = p;
 			if (st == 1) {
 				/* Imported file */
 				if (p->imported == 1) {
-					return(1);
+					return 1;
 				}
 				p->imported = 1;
 			}
@@ -1006,10 +1006,10 @@ already_included(string nm, STAT_TYPE *fs, int st)
 				unsigned def = check_macro(p->macro, 0);
 				def &= PP_COND_MASK;
 				if (def == p->test) {
-					return(1);
+					return 1;
 				}
 			}
-			return(0);
+			return 0;
 		}
 		p = p->next;
 	}
@@ -1034,7 +1034,7 @@ already_included(string nm, STAT_TYPE *fs, int st)
 	}
 	p->next = included_files;
 	included_files = p;
-	return(0);
+	return 0;
 }
 
 
@@ -1118,15 +1118,15 @@ add_pathname(string d, string f, int up)
 			/* Remove file component */
 			string s = ustrrchr(bf->start, char_slash);
 			if (s == NULL) {
-				return(f);
+				return f;
 			}
 			bf->posn = s;
 		}
 		bfputc(bf, char_slash);
 		bfputs(bf, f);
-		return(bf->start);
+		return bf->start;
 	}
-	return(f);
+	return f;
 }
 
 
@@ -1162,7 +1162,7 @@ start_include(string nm, int q, int st, int next)
 	/* Check for empty file name */
 	if (nm[0] == 0) {
 		report(preproc_loc, ERR_cpp_include_empty());
-		return(0);
+		return 0;
 	}
 
 	/* Search for included file */
@@ -1216,18 +1216,18 @@ start_include(string nm, int q, int st, int next)
 	if (st == 4) {
 		/* Just testing ... */
 		if (f == NULL) {
-			return(0);
+			return 0;
 		}
 		if (!special) {
 			fclose_v(f);
 		}
-		return(1);
+		return 1;
 	}
 
 	/* Report unfound files */
 	if (f == NULL) {
 		report(preproc_loc, ERR_cpp_include_unknown(nm));
-		return(0);
+		return 0;
 	}
 
 	/* Check for multiple inclusions */
@@ -1243,7 +1243,7 @@ start_include(string nm, int q, int st, int next)
 			report(preproc_loc, ERR_cpp_include_dup(nm, from));
 			crt_included_file = incl;
 			fclose_v(f);
-			return(0);
+			return 0;
 		}
 		date = stat_date(fs);
 	}
@@ -1254,7 +1254,7 @@ start_include(string nm, int q, int st, int next)
 		/* Include depth too great */
 		crt_option_value(OPT_VAL_include_depth) = c;
 		crt_included_file = incl;
-		return(0);
+		return 0;
 	}
 	g = input_file;
 	position[c].name = input_name;
@@ -1321,7 +1321,7 @@ start_include(string nm, int q, int st, int next)
 	crt_file_changed = 2;
 	crt_line_changed = 1;
 	crt_spaces = 0;
-	return(1);
+	return 1;
 }
 
 
@@ -1378,11 +1378,11 @@ end_include(int prev)
 			preproc_loc = crt_loc;
 			crt_file_type = 1;
 			if (start_include(fn, char_quote, 3, 0)) {
-				return(1);
+				return 1;
 			}
 		}
 		crt_file_type = 0;
-		return(0);
+		return 0;
 	}
 	decr_value(OPT_VAL_include_depth);
 	c--;
@@ -1416,7 +1416,7 @@ end_include(int prev)
 				crt_loc.line++;
 				crt_loc.column = 0;
 				input_crt = input_posn;
-				return(end_include(lex_ignore_token));
+				return end_include(lex_ignore_token);
 			}
 			seek_buffer(LAST_BUFFER_NO, position[c].offset, 0);
 		}
@@ -1444,5 +1444,5 @@ end_include(int prev)
 	if (c == 0) {
 		open_startup();
 	}
-	return(1);
+	return 1;
 }

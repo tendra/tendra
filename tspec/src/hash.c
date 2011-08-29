@@ -120,7 +120,7 @@ hash(char *nm)
     char *s;
     int n = 0;
     for (s = nm; *s; s++)n += *s;
-    return(n % hash_size);
+    return n % hash_size;
 }
 
 
@@ -137,7 +137,7 @@ make_hash_table(char *nm)
     hash_table *t = alloc_nof(hash_table, 1);
     t->name = nm;
     for (i = 0; i < hash_size; i++)t->array [i] = NULL;
-    return(t);
+    return t;
 }
 
 
@@ -155,11 +155,11 @@ lookup_hash(hash_table *t, char *nm, int v, int h)
     hash_elem *e = t->array [h];
     while (e) {
 	if (strcmp(nm, e->obj->name) == 0) {
-	    if (v == e->vers || v == any_version) return(e->obj);
+	    if (v == e->vers || v == any_version) return e->obj;
 	}
 	e = e->next;
     }
-    return(NULL);
+    return NULL;
 }
 
 
@@ -186,14 +186,14 @@ add_hash(hash_table *t, object *p, int v)
 	} else {
 	    error(ERR_SERIOUS, "%s '%s' already defined", t->name, nm);
 	}
-	return(q);
+	return q;
     }
     alloc_variable(e, hash_elem, 1000);
     e->obj = p;
     e->vers = v;
     e->next = t->array [h];
     t->array [h] = e;
-    return(p);
+    return p;
 }
 
 
@@ -209,7 +209,7 @@ object *
 search_hash(hash_table *t, char *nm, int v)
 {
     int h = hash(nm);
-    return(lookup_hash(t, nm, v, h));
+    return lookup_hash(t, nm, v, h);
 }
 
 
@@ -245,5 +245,5 @@ sort_hash(hash_table *t)
 	    p = pn;
 	}
     }
-    return(r);
+    return r;
 }

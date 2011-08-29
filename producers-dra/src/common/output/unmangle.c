@@ -480,7 +480,7 @@ unmangle_op(string *ps)
 	if (t != lex_unknown) {
 		*ps = s;
 	}
-	return (t);
+	return t;
 }
 
 
@@ -506,7 +506,7 @@ unmangle_no(string *ps, int e)
 		s--;
 	}
 	*ps = s;
-	return (n);
+	return n;
 }
 
 
@@ -533,7 +533,7 @@ unmangle_digit(string *ps)
 		s--;
 	}
 	*ps = s;
-	return (n);
+	return n;
 }
 
 
@@ -627,7 +627,7 @@ unmangle_exp(string *ps, TYPE t)
 		}
 	}
 	*ps = s;
-	return (e);
+	return e;
 }
 
 
@@ -670,7 +670,7 @@ unmangle_nat(string *ps)
 		}
 	}
 	*ps = s;
-	return (n);
+	return n;
 }
 
 
@@ -773,7 +773,7 @@ unmangle_nspace(string *ps, NAMESPACE ns, int var)
 		}
 	}
 	*ps = s;
-	return (id);
+	return id;
 }
 
 
@@ -830,7 +830,7 @@ unmangle_token_arg(string *ps)
 	}
 	}
 	*ps = s;
-	return (tok);
+	return tok;
 }
 
 
@@ -859,7 +859,7 @@ unmangle_token_args(string *ps)
 	}
 	args = REVERSE_list(args);
 	*ps = s;
-	return (args);
+	return args;
 }
 
 
@@ -879,12 +879,12 @@ find_token_arg(string *ps)
 		if (n == 0) {
 			/* Token argument found */
 			TOKEN arg = DEREF_tok(HEAD_list(args));
-			return (arg);
+			return arg;
 		}
 		n--;
 		args = TAIL_list(args);
 	}
-	return (NULL_tok);
+	return NULL_tok;
 }
 
 
@@ -905,13 +905,13 @@ unmangle_param(unsigned m, unsigned n, MEMBER mem)
 			if (m == n) {
 				/* Parameter type found */
 				TYPE t = DEREF_type(id_parameter_type(id));
-				return (t);
+				return t;
 			}
 			m++;
 		}
 		mem = DEREF_member(member_next(mem));
 	}
-	return (type_error);
+	return type_error;
 }
 
 
@@ -1010,7 +1010,7 @@ unmangle_func(string *ps, CV_SPEC cv, int ret)
 		}
 	}
 	*ps = s;
-	return (t);
+	return t;
 }
 
 
@@ -1273,7 +1273,7 @@ unmangle_type(string *ps, CV_SPEC cv, BASE_TYPE bt, int ret)
 		t = qualify_type(t, cv, 0);
 	}
 	*ps = s;
-	return (t);
+	return t;
 }
 
 
@@ -1302,7 +1302,7 @@ unmangle_name(string s, BUFFER *bf)
 			}
 #endif
 			bfputs(bf, s);
-			return (NULL);
+			return NULL;
 		}
 		s = s0;
 	}
@@ -1358,12 +1358,12 @@ unmangle_name(string s, BUFFER *bf)
 	case lex_auto: {
 		/* Anonymous identifier */
 		bfprintf(bf, "<anon>");
-		return (NULL);
+		return NULL;
 	}
 	case lex_static: {
 		/* Local static variable */
 		bfprintf(bf, "<static>");
-		return (NULL);
+		return NULL;
 	}
 	case lex_typeof: {
 		/* Run-time type information */
@@ -1371,7 +1371,7 @@ unmangle_name(string s, BUFFER *bf)
 		bfprintf(bf, "typeid ( ");
 		IGNORE print_type(t, bf, 0);
 		bfprintf(bf, " )");
-		return (s);
+		return s;
 	}
 	case lex_virtual: {
 		/* Virtual function table */
@@ -1392,7 +1392,7 @@ unmangle_name(string s, BUFFER *bf)
 			bfprintf(bf, "<error>");
 		}
 		bfprintf(bf, " )");
-		return (s);
+		return s;
 	}
 
 	default: {
@@ -1484,7 +1484,7 @@ unmangle_name(string s, BUFFER *bf)
 		IGNORE print_id_long(id, qual_none, bf, 0);
 		print_id_desc--;
 	}
-	return (s);
+	return s;
 }
 
 

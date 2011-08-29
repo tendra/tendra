@@ -117,7 +117,7 @@ make_label(HASHID nm, DECL_SPEC info, int op)
 	IDENTIFIER lab;
 	NAMESPACE ns = label_namespace;
 	MAKE_id_label(nm, info, ns, crt_loc, op, lab);
-	return (lab);
+	return lab;
 }
 
 
@@ -192,7 +192,7 @@ begin_label_stmt(IDENTIFIER lab, int op)
 			IDENTIFIER fn = crt_func_id;
 			PTR(LOCATION) loc = id_loc(lab);
 			report(crt_loc, ERR_stmt_label_redef(lab, fn, loc));
-			return (NULL_exp);
+			return NULL_exp;
 		}
 		/* Already used */
 		info |= def_info;
@@ -214,7 +214,7 @@ begin_label_stmt(IDENTIFIER lab, int op)
 	COPY_exp(id_label_stmt(lab), e);
 	unreached_code = 0;
 	unreached_last = 0;
-	return (e);
+	return e;
 }
 
 
@@ -235,7 +235,7 @@ end_label_stmt(EXP prev, EXP body)
 	IDENTIFIER lab;
 	DECL_SPEC info;
 	if (IS_NULL_exp(prev)) {
-		return (body);
+		return body;
 	}
 
 	/* Mark end of label scope */
@@ -256,7 +256,7 @@ end_label_stmt(EXP prev, EXP body)
 	seq = DEREF_exp(exp_label_stmt_body(prev));
 	seq = add_compound_stmt(seq, body);
 	COPY_exp(exp_label_stmt_body(prev), seq);
-	return (prev);
+	return prev;
 }
 
 
@@ -291,7 +291,7 @@ make_jump_stmt(IDENTIFIER lab, EXP join)
 	COPY_exp(id_label_gotos(lab), e);
 	unreached_code = 1;
 	unreached_last = 0;
-	return (e);
+	return e;
 }
 
 
@@ -334,7 +334,7 @@ make_goto_stmt(IDENTIFIER lab)
 		dump_use(lab, &crt_loc, 1);
 	}
 	e = make_jump_stmt(lab, NULL_exp);
-	return (e);
+	return e;
 }
 
 
@@ -369,7 +369,7 @@ postlude_label(void)
 		postlude_name = nm;
 	}
 	lab = DEREF_id(hashid_id(nm));
-	return (lab);
+	return lab;
 }
 
 
@@ -388,10 +388,10 @@ find_postlude_label(void)
 		MEMBER mem = search_member(label_namespace, nm, 0);
 		if (!IS_NULL_member(mem)) {
 			IDENTIFIER lab = DEREF_id(member_id(mem));
-			return (lab);
+			return lab;
 		}
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -409,12 +409,12 @@ used_label(IDENTIFIER lab)
 {
 	DECL_SPEC info = DEREF_dspec(id_storage(lab));
 	if (info & dspec_reached) {
-		return (1);
+		return 1;
 	}
 	if (info & dspec_fall_thru) {
-		return (2);
+		return 2;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -486,7 +486,7 @@ check_labels(void)
 	/* Check next label */
 	mem = DEREF_member(member_next(mem));
     }
-    return (no_labs);
+    return no_labs;
 }
 
 
@@ -509,13 +509,13 @@ find_case_nat(IDENTIFIER lab)
 			IDENTIFIER id = DEREF_id(HEAD_list(q));
 			if (EQ_id(id, lab)) {
 				NAT n = DEREF_nat(HEAD_list(p));
-				return (n);
+				return n;
 			}
 			p = TAIL_list(p);
 			q = TAIL_list(q);
 		}
 	}
-	return (NULL_nat);
+	return NULL_nat;
 }
 
 
@@ -670,7 +670,7 @@ jump_over_stmt(LIST(IDENTIFIER) ids, EXP e, IDENTIFIER lab, int force)
 		}
 		break;
 	}
-	return (ids);
+	return ids;
 }
 
 
@@ -688,12 +688,12 @@ add_id(IDENTIFIER id, LIST(IDENTIFIER) p)
 	while (!IS_NULL_list(q)) {
 		IDENTIFIER qid = DEREF_id(HEAD_list(q));
 		if (EQ_id(id, qid)) {
-			return (p);
+			return p;
 		}
 		q = TAIL_list(q);
 	}
 	CONS_id(id, p, p);
-	return (p);
+	return p;
 }
 
 
@@ -826,7 +826,7 @@ solve_labels(EXP e)
 	}
 	mem = DEREF_member(member_next(mem));
     }
-    return (e);
+    return e;
 }
 
 
@@ -885,7 +885,7 @@ solve_case(EXP e, IDENTIFIER lab, EXP prev)
 		IGNORE end_label_stmt(a, b);
 		unreached_code = uc;
 	}
-	return (prev);
+	return prev;
 }
 
 
@@ -914,7 +914,7 @@ solve_switch(EXP e)
 		/* Check any default statement */
 		IGNORE solve_case(e, lab, prev);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -936,7 +936,7 @@ follow_label(EXP e, LIST(EXP) p)
 	LIST(EXP) r;
 	LIST(EXP) q = TAIL_list(p);
 	if (IS_NULL_list(q)) {
-		return (NULL_id);
+		return NULL_id;
 	}
 
 	/* Examine following statement */
@@ -951,7 +951,7 @@ follow_label(EXP e, LIST(EXP) p)
 			if (tag == exp_label_stmt_tag) {
 				/* Statement is already labelled */
 				lab = DEREF_id(exp_label_stmt_label(a));
-				return (lab);
+				return lab;
 			}
 		}
 	}
@@ -975,7 +975,7 @@ follow_label(EXP e, LIST(EXP) p)
 	ds = DEREF_dspec(id_storage(lab));
 	ds |= (dspec_goto | dspec_used);
 	COPY_dspec(id_storage(lab), ds);
-	return (lab);
+	return lab;
 }
 
 
@@ -999,12 +999,12 @@ end_solve_branch(IDENTIFIER lab, EXP e)
 	case lex_for:
 	case lex_do:
 	    /* Don't bother in these cases */
-	    return (NULL_id);
+	    return NULL_id;
     }
     a = DEREF_exp(id_label_stmt(lab));
     if (IS_NULL_exp(a)) {
 	/* Ignore undefined labels */
-	return (NULL_id);
+	return NULL_id;
     }
     nlab = DEREF_id(exp_label_stmt_next(a));
     if (IS_NULL_id(nlab)) {
@@ -1088,7 +1088,7 @@ end_solve_branch(IDENTIFIER lab, EXP e)
 	}
     }
     COPY_id(exp_label_stmt_next(a), nlab);
-    return (nlab);
+    return nlab;
 }
 
 

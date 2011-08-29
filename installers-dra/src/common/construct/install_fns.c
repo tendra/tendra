@@ -442,7 +442,7 @@ static proc_props initial_value_pp;
 procprops
 f_add_procprops(procprops t, procprops e)
 {
-	return (t | e);
+	return t | e;
 }
 
 
@@ -470,7 +470,7 @@ error_code_list
 add_error_code_list(error_code_list t, error_code e, int i)
 {
 	UNUSED(i);
-	return (t | e);
+	return t | e;
 }
 
 
@@ -490,17 +490,17 @@ containedshape(int a, int s)
 	switch ((a + 7) & ~7) {
 	case 8:
 	case 0:
-		return ((s) ? scharsh : ucharsh);
+		return s ? scharsh : ucharsh;
 	case 16:
-		return ((s) ? swordsh : uwordsh);
+		return s ? swordsh : uwordsh;
 	case 32:
 	case 24:
-		return ((s) ? slongsh : ulongsh);
+		return s ? slongsh : ulongsh;
 	case 64:
 	case 40:
 	case 48:
 	case 56:
-		return ((s) ? s64sh : u64sh);
+		return s ? s64sh : u64sh;
 	default:
 		failer("Illegal pointer for bitfield operations");
 		return scharsh;
@@ -885,14 +885,14 @@ f_trap(error_code_list ec)
 alignment
 f_callers_alignment(bool var)
 {
-	return ((var) ? var_callers_alignment : nv_callers_alignment);
+	return var ? var_callers_alignment : nv_callers_alignment;
 }
 
 
 alignment
 f_callees_alignment(bool var)
 {
-	return ((var) ? var_callees_alignment : nv_callees_alignment);
+	return var ? var_callees_alignment : nv_callees_alignment;
 }
 
 
@@ -1102,8 +1102,8 @@ f_unite_alignments(alignment a1, alignment a2)
 		} else if (a2->al.al_val.al_frame == 0) {
 			return a1;
 		} else {
-			return (&frame_als[(a1->al.al_val.al_frame |
-					    a2->al.al_val.al_frame) -1]);
+			return &frame_als[(a1->al.al_val.al_frame |
+					    a2->al.al_val.al_frame) -1];
 		}
 	}
 
@@ -1403,7 +1403,7 @@ f_add_to_ptr(exp arg1, exp arg2)
 		return f_contents(sh(arg1), z);
 	}
 
-	return (me_b3(f_pointer(al2_of(sh(arg2))), arg1, arg2, addptr_tag));
+	return me_b3(f_pointer(al2_of(sh(arg2))), arg1, arg2, addptr_tag);
 }
 
 
@@ -1911,7 +1911,7 @@ f_bitfield_contents(bitfield_variety bf, exp p, exp off)
 			bro(sh2) = idby; setlast(sh2);
 			bro(off) = idby; clearlast(off);
 			bro(idby) = idoff; setlast(idby);
-			return (f_change_int_to_bitfield(bf, idoff));
+			return f_change_int_to_bitfield(bf, idoff);
 		}
 	}
 }
@@ -2048,7 +2048,7 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 	}
 #endif
 
-	return (hold_check(id));
+	return hold_check(id);
 }
 
 #else /* do_case_transforms */
@@ -2119,7 +2119,7 @@ f_case(bool exhaustive, exp control, caselim_list branches)
 	}
 #endif
 
-	return (r);
+	return r;
 }
 #endif /* do_case_transforms */
 
@@ -2383,8 +2383,8 @@ f_current_env(void)
 int
 eq_et(error_treatment a, error_treatment b)
 {
-	return (a.err_code == b.err_code &&
-		(a.err_code != 4 || a.jmp_dest == b.jmp_dest));
+	return a.err_code == b.err_code &&
+		(a.err_code != 4 || a.jmp_dest == b.jmp_dest);
 }
 
 
@@ -2566,7 +2566,7 @@ f_fail_installer(string message)
 	m[message.number] = 0;
 	failer(m);
 	exit(EXIT_FAILURE);
-	return (nilexp);
+	return nilexp;
 }
 
 
@@ -2707,7 +2707,7 @@ f_labelled(label_list placelabs_intro, exp starter, exp_list places)
 		}
 		f = b;
 	}
-	return (clean_labelled(starter, placelabs_intro));
+	return clean_labelled(starter, placelabs_intro);
 }
 
 
@@ -4175,7 +4175,7 @@ f_untidy_return(exp arg)
 alignment
 f_parameter_align(alignment a)
 {
-	return (f_var_param_alignment);
+	return f_var_param_alignment;
 
 }
 
@@ -4514,7 +4514,7 @@ f_obtain_tag(tag t)
 	r = getexp(s, nilexp, 0, tg, pt(tg), 0, 0, name_tag);
 	pt(tg) = r;
 	no(tg) = no(tg) +1;
-	return (r);
+	return r;
 }
 
 
@@ -4739,7 +4739,7 @@ f_offset_pad(alignment a, exp arg1)
 			       a);
 	}
 
-	return (me_u3(sha, arg1, offset_pad_tag));
+	return me_u3(sha, arg1, offset_pad_tag);
 }
 
 
@@ -6619,7 +6619,7 @@ init_NAME(char *good_name)
 	}
 	res[i] = 0;
 	dynamic_init_proc = res;
-	return (res);
+	return res;
 }
 
 

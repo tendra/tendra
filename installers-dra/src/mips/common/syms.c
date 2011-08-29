@@ -203,5 +203,5 @@ symnofordata(int data_lab)
     no_temps = a + 100;
   }
 
-  return (tempsnos[a] = add_dense_no (currentfile, 1048575 /* ???? */ ));
+  return tempsnos[a] = add_dense_no (currentfile, 1048575 /* ???? */ );
 }

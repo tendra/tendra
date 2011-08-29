@@ -86,22 +86,22 @@ arith_type(int a, int b)
  if(a==(t_long|t_unsigned))return a;
  if(b==(t_long|t_unsigned))return a;
  if(a==(t_long|t_signed)){
-   if(b==(t_int|t_unsigned))return (t_long|t_unsigned);
+   if(b==(t_int|t_unsigned))return t_long|t_unsigned;
    return a;
    }
  if(b==(t_long|t_signed)){
-   if(a==(t_int|t_unsigned))return (t_long|t_unsigned);
+   if(a==(t_int|t_unsigned))return t_long|t_unsigned;
    return b;
    }
  if(a==(t_int|t_unsigned))return a;
  if(b==(t_int|t_unsigned))return b;
- return (t_int|t_signed);
+ return t_int|t_signed;
 }
 
 int
 promote(int a)
 {
- if((a&variety_filter)<t_int)return(t_int|t_signed);
+ if((a&variety_filter)<t_int)return t_int|t_signed;
  return a;
 }
 

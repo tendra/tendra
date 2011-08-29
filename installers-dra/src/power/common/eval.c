@@ -205,7 +205,7 @@ long evalexp(exp e)
        is not bits */
       if (name(sh(e)) == offsethd && al2(sh(e)) >= 8)
       {
-	return(no(e) >>3);
+	return no(e) >>3;
       }
       return no(e);
     }
@@ -213,29 +213,29 @@ long evalexp(exp e)
     {
       exp tg = son(son(e));
       procrec *pr = &procrecs[no(son(tg))];
-      return((pr->frame_size) >>3) + pr->max_callee_bytes;
+      return ((pr->frame_size) >>3) + pr->max_callee_bytes;
     }
     case offset_add_tag: {
-      return(evalexp(son(e)) + evalexp(bro(son(e))));
+      return evalexp(son(e)) + evalexp(bro(son(e)));
     }
     case offset_max_tag: {
-      return(max(evalexp(son(e)),evalexp(bro(son(e)))));
+      return max(evalexp(son(e)),evalexp(bro(son(e))));
     }
     case offset_pad_tag: {
-      return(rounder(evalexp(son(e)),shape_align(sh(e))));
+      return rounder(evalexp(son(e)),shape_align(sh(e)));
     }
     case offset_mult_tag: {
-      return(evalexp(son(e))*evalexp(bro(son(e))));
+      return evalexp(son(e))*evalexp(bro(son(e)));
     }
     case offset_div_tag:
     case offset_div_by_int_tag: {
-      return(evalexp(son(e)) /evalexp(bro(son(e))));
+      return evalexp(son(e)) /evalexp(bro(son(e)));
     }
     case offset_subtract_tag: {
-      return(evalexp(son(e)) -evalexp(bro(son(e))));
+      return evalexp(son(e)) -evalexp(bro(son(e)));
     }
     case offset_negate_tag: {
-      return(- evalexp(son(e)));
+      return -evalexp(son(e));
     }
 
 
@@ -271,17 +271,17 @@ long evalexp(exp e)
 
    case and_tag:
     {
-      return(evalexp(son(e)) & evalexp(bro(son(e))));
+      return evalexp(son(e)) & evalexp(bro(son(e)));
     }
 
    case or_tag:
     {
-      return(evalexp(son(e)) | evalexp(bro(son(e))));
+      return evalexp(son(e)) | evalexp(bro(son(e)));
     }
 
    case xor_tag:
     {
-      return(evalexp(son(e))^ evalexp(bro(son(e))));
+      return evalexp(son(e)) ^ evalexp(bro(son(e)));
     }
 
    case shr_tag:
@@ -292,12 +292,12 @@ long evalexp(exp e)
       if (sgned)
       {
 	sl = (long)correct_shape(evalexp(son(e)),name(sh(e)));
-	return(sl >> evalexp(bro(son(e))));
+	return sl >> evalexp(bro(son(e)));
       }
       else
       {
 	ul = (unsigned long)correct_shape(evalexp(son(e)),name(sh(e)));
-	return(ul >> evalexp(bro(son(e))));
+	return ul >> evalexp(bro(son(e)));
       }
     }
 
@@ -327,7 +327,7 @@ long evalexp(exp e)
 	ASSERT(w_lhs==0);
 	return w_rhs;
       }
-      return(w_lhs << ash_rhs.ashsize) | w_rhs;
+      return (w_lhs << ash_rhs.ashsize) | w_rhs;
     }
 
   case clear_tag:

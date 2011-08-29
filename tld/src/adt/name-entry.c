@@ -99,7 +99,7 @@ name_entry_create_direct(NameKeyT *   key,				  ShapeEntryT *shape_entry)
     entry->u.direct.definition     = NULL;
     entry->u.direct.lib_definition = NULL;
     shape_entry_add_to_list(shape_entry, entry);
-    return(entry);
+    return entry;
 }
 
 NameEntryT *
@@ -111,7 +111,7 @@ name_entry_create_indirect(NameKeyT *  key,				    NameEntryT *indirect)
     name_key_copy(& (entry->key), key);
     entry->type       = NT_INDIRECT;
     entry->u.indirect = indirect;
-    return(entry);
+    return entry;
 }
 
 NameEntryT *
@@ -122,7 +122,7 @@ name_entry_create_place(NameKeyT *key)
     entry->next       = NULL;
     name_key_copy(& (entry->key), key);
     entry->type       = NT_PLACEHOLDER;
-    return(entry);
+    return entry;
 }
 
 void
@@ -152,21 +152,21 @@ name_entry_resolve_renames(NameEntryT *entry,				    NStringT *  shape,
     switch (entry->type) {
       case NT_PLACEHOLDER:
       case NT_DIRECT:
-	return(entry);
+	return entry;
       case NT_INDIRECT_DONE:
-	return(name_entry_get_indirect(entry));
+	return name_entry_get_indirect(entry);
       case NT_INDIRECT_CYCLING:
 	if (report) {
 		error(ERROR_SERIOUS,"cycle in %S renaming including name '%K'",
 			(void *) shape, (void *) name_entry_key(entry));
 	}
-	return(NULL);
+	return NULL;
       case NT_INDIRECT:
 	entry->type = NT_INDIRECT_CYCLING;
 	entry->u.indirect = name_entry_resolve_renames(entry->u.indirect,
 							shape, report);
 	entry->type = NT_INDIRECT_DONE;
-	return(name_entry_get_indirect(entry));
+	return name_entry_get_indirect(entry);
     }
     UNREACHED;
 }
@@ -174,46 +174,46 @@ name_entry_resolve_renames(NameEntryT *entry,				    NStringT *  shape,
 NameKeyT *
 name_entry_key(NameEntryT *entry)
 {
-    return(& (entry->key));
+    return &entry->key;
 }
 
 NameEntryT *
 name_entry_next(NameEntryT *entry)
 {
-    return(entry->next);
+    return entry->next;
 }
 
 NameEntryT **
 name_entry_next_ref(NameEntryT *entry)
 {
-    return(& (entry->next));
+    return &entry->next;
 }
 
 BoolT
 name_entry_is_direct(NameEntryT *entry)
 {
-    return(entry->type == NT_DIRECT);
+    return entry->type == NT_DIRECT;
 }
 
 BoolT
 name_entry_is_indirect(NameEntryT *entry)
 {
-    return((entry->type == NT_INDIRECT) ||
-	   (entry->type == NT_INDIRECT_CYCLING) ||
-	   (entry->type == NT_INDIRECT_DONE));
+    return entry->type == NT_INDIRECT ||
+	   entry->type == NT_INDIRECT_CYCLING ||
+	   entry->type == NT_INDIRECT_DONE;
 }
 
 BoolT
 name_entry_is_place(NameEntryT *entry)
 {
-    return(entry->type == NT_PLACEHOLDER);
+    return entry->type == NT_PLACEHOLDER;
 }
 
 unsigned
 name_entry_id(NameEntryT *entry)
 {
     assert(name_entry_is_direct(entry));
-    return(entry->u.direct.id);
+    return entry->u.direct.id;
 }
 
 void
@@ -227,7 +227,7 @@ unsigned
 name_entry_get_use(NameEntryT *entry)
 {
     assert(name_entry_is_direct(entry));
-    return(entry->u.direct.use & (U_DEFD | U_DECD | U_MULT | U_USED));
+    return entry->u.direct.use & (U_DEFD | U_DECD | U_MULT | U_USED);
 }
 
 void
@@ -248,7 +248,7 @@ BoolT
 name_entry_is_hidden(NameEntryT *entry)
 {
     assert(name_entry_is_direct(entry));
-    return((entry->u.direct.use & U_HIDE) == U_HIDE);
+    return (entry->u.direct.use & U_HIDE) == U_HIDE;
 }
 
 void
@@ -262,7 +262,7 @@ CapsuleT *
 name_entry_get_definition(NameEntryT *entry)
 {
     assert(name_entry_is_direct(entry));
-    return(entry->u.direct.definition);
+    return entry->u.direct.definition;
 }
 
 void
@@ -276,28 +276,28 @@ LibCapsuleT *
 name_entry_get_lib_definition(NameEntryT *entry)
 {
     assert(name_entry_is_direct(entry));
-    return(entry->u.direct.lib_definition);
+    return entry->u.direct.lib_definition;
 }
 
 NameEntryT *
 name_entry_list_next(NameEntryT *entry)
 {
     assert(name_entry_is_direct(entry));
-    return(entry->u.direct.list_next);
+    return entry->u.direct.list_next;
 }
 
 NameEntryT **
 name_entry_list_next_ref(NameEntryT *entry)
 {
     assert(name_entry_is_direct(entry));
-    return(& (entry->u.direct.list_next));
+    return &entry->u.direct.list_next;
 }
 
 NameEntryT *
 name_entry_get_indirect(NameEntryT *entry)
 {
     assert(name_entry_is_indirect(entry));
-    return(entry->u.indirect);
+    return entry->u.indirect;
 }
 
 NameEntryT *
@@ -307,7 +307,7 @@ name_entry_deallocate(NameEntryT *entry)
 
     name_key_destroy(name_entry_key(entry));
     DEALLOCATE(entry);
-    return(next);
+    return next;
 }
 
 void
@@ -429,7 +429,7 @@ name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table,
 
     if ((use & U_DEFD) || (!(use & U_USED))) {
 	debug_info_l_not_needed(key, shape_key, use);
-	return(FALSE);
+	return FALSE;
     } else if (table) {
 	NameEntryT *lib_entry = name_table_get(table, key);
 
@@ -448,14 +448,14 @@ name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table,
 		capsule_read(capsule, units, shapes);
 		capsule_close(capsule);
 		lib_capsule_loaded(lib_def);
-		return(TRUE);
+		return TRUE;
 	    }
 	}
     }
 	error(ERROR_WARNING,"no definition found for %S '%K'",
 		(void *) shape_key,(void *) key);
     debug_info_l_not_found(key, shape_key, use);
-    return(FALSE);
+    return FALSE;
 }
 
 void

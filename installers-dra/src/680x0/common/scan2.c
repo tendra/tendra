@@ -283,8 +283,8 @@ is_opnd(exp e)
 	switch (name(e)) {
 	case name_tag: {
 		exp s = son(e);
-		return (!isvar(s) && (son(son(e)) != nilexp) &&
-			!isparam(son(son(e))));
+		return !isvar(s) && (son(son(e)) != nilexp) &&
+			!isparam(son(son(e)));
 	}
 
 	case val_tag:
@@ -295,9 +295,9 @@ is_opnd(exp e)
 	case cont_tag:
 	case string_tag:
 	case null_tag:
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -427,7 +427,7 @@ cont_arg(bool sto, exp to, exp e, shape sa)
 static bool
 notopnd(exp t, int i)
 {
-	return (i >= 0 && !is_opnd(t));
+	return i >= 0 && !is_opnd(t);
 }
 
 #ifndef tdf3
@@ -480,7 +480,7 @@ static bool
 no_alloca(exp t, int i)
 {
 	UNUSED(i);
-	return (scan_for_alloca(t));
+	return scan_for_alloca(t);
 }
 
 #endif
@@ -528,14 +528,14 @@ is_assable(exp e)
 	long sz;
 	unsigned char n = name(e);
 	if (is_a(n)) {
-		return (1);
+		return 1;
 	}
 	if (n != apply_tag && n != apply_general_tag) {
-		return (0);
+		return 0;
 	}
 	n = name(sh(e));
 	sz = shape_size(sh(e));
-	return (n <= ulonghd || (n == ptrhd && sz == 32));
+	return n <= ulonghd || (n == ptrhd && sz == 32);
 }
 
 
@@ -546,7 +546,7 @@ is_assable(exp e)
 static bool
 notass(exp t, int i)
 {
-	return (i >= 0 && !is_assable(t));
+	return i >= 0 && !is_assable(t);
 }
 
 
@@ -570,9 +570,9 @@ static bool
 is_direct(exp e)
 {
     unsigned char s = name(e);
-    return ((s == name_tag && !isglob(son(e)) && !isvar(son(e))) ||
+    return (s == name_tag && !isglob(son(e)) && !isvar(son(e))) ||
 	    (s == cont_tag && name(son(e)) == name_tag &&
-	     !isglob(son(son(e))) && isvar(son(son(e)))));
+	     !isglob(son(son(e))) && isvar(son(son(e))));
 }
 
 
@@ -585,18 +585,18 @@ is_indable(exp e)
 {
 	unsigned char s = name(e);
 	if (s == name_tag) {
-		return (1);
+		return 1;
 	}
 
 	if (s == cont_tag) {
 		unsigned char t = name(son(e));
-		return ((t == name_tag && isvar(son(son(e)))) ||
+		return (t == name_tag && isvar(son(son(e)))) ||
 			(t == cont_tag && name(son(son(e))) == name_tag &&
 			 isvar(son(son(son(e))))) ||
-			(t == reff_tag && is_direct(son(son(e)))));
+			(t == reff_tag && is_direct(son(son(e))));
 	}
 
-	return ((s == reff_tag && is_direct(son(e))) || s == addptr_tag);
+	return (s == reff_tag && is_direct(son(e))) || s == addptr_tag;
 }
 
 #ifndef tdf3
@@ -648,9 +648,9 @@ apdo(exp t, int i)
 {
 	/* The first argument needs special treatment */
 	if (i == 1) {
-		return (!is_indable(t));
+		return !is_indable(t);
 	}
-	return (0);
+	return 0;
 }
 #endif
 
@@ -664,13 +664,13 @@ plusdo(exp t, int i)
 {
 	/* Can't negate first argument */
 	if (i == 1) {
-		return (!is_opnd(t));
+		return !is_opnd(t);
 	}
 	/* But can negate the rest */
 	if (name(t) == neg_tag) {
-		return (0);
+		return 0;
 	}
-	return (!is_opnd(t));
+	return !is_opnd(t);
 }
 
 
@@ -681,7 +681,7 @@ plusdo(exp t, int i)
 static bool
 multdo(exp t, int i)
 {
-	return (i >= 0 && !is_o(name(t)));
+	return i >= 0 && !is_o(name(t));
 }
 
 
@@ -695,14 +695,14 @@ anddo(exp t, int i)
 #if 0
 	/* Can't negate first argument */
 	if (i == 1) {
-		return (!is_o(name(t)));
+		return !is_o(name(t));
 	}
 	/* But can negate the rest */
 	if (name(t) == not_tag) {
-		return (0);
+		return 0;
 	}
 #endif
-	return (!is_o(name(t)));
+	return !is_o(name(t));
 }
 
 
@@ -713,7 +713,7 @@ anddo(exp t, int i)
 static bool
 notado(exp t, int i)
 {
-	return (i >= 0 && !is_o(name(t)));
+	return i >= 0 && !is_o(name(t));
 }
 
 

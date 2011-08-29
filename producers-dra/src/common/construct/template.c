@@ -213,7 +213,7 @@ skip_template(IDENTIFIER id)
 	} while (angles);
 	q->tok = lex_close_Htemplate;
 	snip_tokens(p, q);
-	return (p);
+	return p;
 }
 
 
@@ -251,7 +251,7 @@ skip_template_args(IDENTIFIER id, int started)
 		/* Advance to following token */
 		ADVANCE_LEXER;
 	}
-	return (q);
+	return q;
 }
 
 
@@ -270,7 +270,7 @@ parse_template_args(PPTOKEN *p)
 	PARSE_STATE st;
 	LIST(TOKEN) args = NULL_list(TOKEN);
 	if (p == NULL) {
-		return (args);
+		return args;
 	}
 
 	/* Initialise parser */
@@ -335,7 +335,7 @@ parse_template_args(PPTOKEN *p)
 
 	/* Return result */
 	args = REVERSE_list(args);
-	return (args);
+	return args;
 }
 
 
@@ -514,7 +514,7 @@ define_templ_param(IDENTIFIER id, TOKEN arg, IDENTIFIER tid, int def)
 	COPY_id(tok_class_value(sort), sid);
 
     }
-    return (ok);
+    return ok;
 }
 
 
@@ -550,7 +550,7 @@ check_templ_args(TOKEN tok, LIST(TOKEN) args, IDENTIFIER tid)
 		/* Be extra careful in this case */
 		tok = expand_sort(tok, 1, 1);
 		args = check_templ_args(tok, args, tid);
-		return (args);
+		return args;
 	}
 	s = save_token_args(qids, NULL_list(TOKEN));
 	if (!allow_templ_dargs)d = NULL_list(TOKEN);
@@ -605,7 +605,7 @@ check_templ_args(TOKEN tok, LIST(TOKEN) args, IDENTIFIER tid)
 		args = APPEND_list(args, b);
 	}
 	restore_token_args(qids, s);
-	return (args);
+	return args;
 }
 
 
@@ -647,16 +647,16 @@ match_template_args(TOKEN tok, LIST(TOKEN) args)
 		TOKEN arg = DEREF_tok(HEAD_list(args));
 		if (TAG_tok(arg)!= TAG_tok(sort)) {
 			/* Argument sorts do not match */
-			return (0);
+			return 0;
 		}
 		args = TAIL_list(args);
 		pids = TAIL_list(pids);
 	}
 	if (!IS_NULL_list(args)) {
 		/* Too many arguments */
-		return (0);
+		return 0;
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -705,7 +705,7 @@ apply_func_templ(IDENTIFIER id, LIST(TOKEN) args, int def)
 			force = 1;
 		}
 	} while (IS_NULL_id(tid));
-	return (tid);
+	return tid;
 }
 
 
@@ -744,7 +744,7 @@ apply_typedef_templ(IDENTIFIER id, LIST(TOKEN) args)
 		report(crt_loc, ERR_temp_names_not(id));
 		t = copy_typedef(id, t, cv_none);
 	}
-	return (t);
+	return t;
 }
 
 
@@ -792,7 +792,7 @@ apply_type_templ(IDENTIFIER id, LIST(TOKEN) args, int def)
 			id = make_typedef(ns, nm, t, dspec_none);
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -825,7 +825,7 @@ apply_template(IDENTIFIER id, LIST(TOKEN) args, int def, int force)
 			report(crt_loc, ERR_temp_names_not(id));
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -842,7 +842,7 @@ parse_id_template(IDENTIFIER id, PPTOKEN *p, int def)
 {
 	LIST(TOKEN) args = parse_template_args(p);
 	id = apply_template(id, args, def, 1);
-	return (id);
+	return id;
 }
 
 
@@ -858,7 +858,7 @@ parse_type_template(IDENTIFIER id, PPTOKEN *p, int def)
 {
 	LIST(TOKEN) args = parse_template_args(p);
 	id = apply_type_templ(id, args, def);
-	return (id);
+	return id;
 }
 
 
@@ -874,7 +874,7 @@ parse_typedef_templ(IDENTIFIER id, PPTOKEN *p)
 {
 	LIST(TOKEN) args = parse_template_args(p);
 	TYPE t = apply_typedef_templ(id, args);
-	return (t);
+	return t;
 }
 
 
@@ -901,12 +901,12 @@ deduce_type_template(IDENTIFIER id, int used)
 			CLASS_TYPE cs = DEREF_ctype(type_compound_defn(s));
 			if (defining_class(cs)) {
 				/* In class definition */
-				return (s);
+				return s;
 			}
 		}
 		report(crt_loc, ERR_temp_local_not(t));
 	}
-	return (t);
+	return t;
 }
 
 
@@ -968,7 +968,7 @@ template_params(int ex)
 	if (crt_lex_token != lex_less) {
 		/* Explicit instantiation */
 		MAKE_tok_templ(use, NULL_nspace, tok);
-		return (tok);
+		return tok;
 	}
 
 	/* Start template parameter namespace */
@@ -1127,7 +1127,7 @@ template_params(int ex)
 		set_proc_token(pids);
 		templ_namespace = ns;
 	}
-	return (tok);
+	return tok;
 }
 
 
@@ -1179,7 +1179,7 @@ make_template_type(TOKEN tok, TYPE t)
 		}
 		s = inject_pre_type(t, s, 0);
 	}
-	return (s);
+	return s;
 }
 
 
@@ -1269,7 +1269,7 @@ export_instances(TYPE t, int def)
 		}
 		t = DEREF_type(type_templ_defn(t));
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1363,7 +1363,7 @@ is_exported(IDENTIFIER id)
 	int def = 0;
 	DECL_SPEC ds = DEREF_dspec(id_storage(id));
 	if (ds & dspec_typedef) {
-		return (1);
+		return 1;
 	}
 	form = find_form(id, &def);
 	if (!IS_NULL_type(form) && IS_type_instance(form)) {
@@ -1371,10 +1371,10 @@ is_exported(IDENTIFIER id)
 		ds = DEREF_dspec(id_storage(tid));
 		if (ds & dspec_typedef) {
 			export_template(id, 0);
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1395,7 +1395,7 @@ make_primary_args(LIST(IDENTIFIER) pids)
 		CONS_tok(arg, args, args);
 		pids = TAIL_list(pids);
 	}
-	return (REVERSE_list(args));
+	return REVERSE_list(args);
 }
 
 
@@ -1467,7 +1467,7 @@ check_templ_params(TYPE t, IDENTIFIER id)
 		/* More than one level of templates */
 		report(decl_loc, ERR_temp_decl_bad());
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1486,12 +1486,12 @@ check_templ_dargs(TYPE t)
 		while (!IS_NULL_list(dargs)) {
 			TOKEN darg = DEREF_tok(HEAD_list(dargs));
 			if (!IS_NULL_tok(darg)) {
-				return (1);
+				return 1;
 			}
 			dargs = TAIL_list(dargs);
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1521,12 +1521,12 @@ find_template(IDENTIFIER id, int force)
 			if (!IS_NULL_type(t) && IS_type_token(t)) {
 				IDENTIFIER tid = DEREF_id(type_token_tok(t));
 				if (!IS_id_token(tid)) {
-					return (tid);
+					return tid;
 				}
 			}
 			if (templ && force) {
 				/* Primary template class */
-				return (id);
+				return id;
 			}
 			break;
 		}
@@ -1538,14 +1538,14 @@ find_template(IDENTIFIER id, int force)
 			if (!IS_NULL_type(t) && IS_type_token(t)) {
 				IDENTIFIER tid = DEREF_id(type_token_tok(t));
 				if (!IS_id_token(tid)) {
-					return (tid);
+					return tid;
 				}
 			}
 			if (force) {
 				t = DEREF_type(id_function_etc_type(id));
 				if (IS_type_templ(t)) {
 					/* Primary template function */
-					return (id);
+					return id;
 				}
 			}
 			break;
@@ -1564,18 +1564,18 @@ find_template(IDENTIFIER id, int force)
 						pid = DEREF_id(HEAD_list(pids));
 						sid = find_template(pid, force);
 						if (!EQ_id(sid, tid)) {
-							return (NULL_id);
+							return NULL_id;
 						}
 						pids = TAIL_list(pids);
 					}
-					return (tid);
+					return tid;
 				}
 			}
 			break;
 		}
 		}
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -1597,7 +1597,7 @@ redecl_templ_param(IDENTIFIER id)
 		nm = lookup_anon();
 		id = DEREF_id(hashid_id(nm));
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1614,7 +1614,7 @@ make_type_param(IDENTIFIER id)
 	MAKE_tok_type(btype_template, NULL_type, tok);
 	id = redecl_templ_param(id);
 	id = make_token_decl(tok, 0, id, NULL_id);
-	return (id);
+	return id;
 }
 
 
@@ -1650,7 +1650,7 @@ make_exp_param(TYPE t, IDENTIFIER id)
 	t = rvalue_type(t);
 	MAKE_tok_exp(t, 1, NULL_exp, tok);
 	id = make_token_decl(tok, 0, id, NULL_id);
-	return (id);
+	return id;
 }
 
 
@@ -1685,7 +1685,7 @@ make_template_param(TYPE t, IDENTIFIER id)
 	MAKE_tok_class(t, NULL_id, tok);
 	id = redecl_templ_param(id);
 	id = make_token_decl(tok, 0, id, NULL_id);
-	return (id);
+	return id;
 }
 
 
@@ -1762,7 +1762,7 @@ make_dummy_type(NAMESPACE ns, IDENTIFIER id, BASE_TYPE bt, LIST(TOKEN) args)
 		CONS_id(id, dummy_types, dummy_types);
 	}
 	MAKE_type_token(cv_none, id, args, t);
-	return (t);
+	return t;
 }
 
 
@@ -1781,11 +1781,11 @@ is_templ_spec(TYPE t)
 		TOKEN sort = DEREF_tok(type_templ_sort(t));
 		pids = DEREF_list(tok_templ_pids(sort));
 		if (IS_NULL_list(pids)) {
-			return (1);
+			return 1;
 		}
 		t = DEREF_type(type_templ_defn(t));
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1802,10 +1802,10 @@ is_templ_type(TYPE t)
 	if (!IS_NULL_type(t) && IS_type_token(t)) {
 		IDENTIFIER id = DEREF_id(type_token_tok(t));
 		if (is_templ_param(id)) {
-			return (in_template_decl);
+			return in_template_decl;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1821,9 +1821,9 @@ is_templ_depend(TYPE t)
 {
 	if (in_template_decl) {
 		/* Only need to check in a template declaration */
-		return (depends_on(t, any_templ_param));
+		return depends_on(t, any_templ_param);
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1839,9 +1839,9 @@ is_templ_param(IDENTIFIER id)
 {
 	DECL_SPEC ds = DEREF_dspec(id_storage(id));
 	if ((ds & dspec_template) && (ds & dspec_auto)) {
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1869,10 +1869,10 @@ is_templ_alias(IDENTIFIER id)
 	if (tag == id_token_tag && is_templ_param(id)) {
 		DECL_SPEC ds = DEREF_dspec(id_storage(id));
 		if (!(ds & dspec_implicit)) {
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1891,7 +1891,7 @@ is_templ_decl(IDENTIFIER id, TYPE t)
 		/* Declaration is a template-id */
 		IDENTIFIER tid = find_template(id, 0);
 		if (!IS_NULL_id(tid)) {
-			return (1);
+			return 1;
 		}
 	}
 	if (!IS_NULL_type(t) && crt_id_qualifier != qual_none) {
@@ -1902,11 +1902,11 @@ is_templ_decl(IDENTIFIER id, TYPE t)
 		if (!IS_NULL_id(pid)) {
 			IDENTIFIER tid = find_template(pid, 0);
 			if (!IS_NULL_id(tid)) {
-				return (1);
+				return 1;
 			}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1929,11 +1929,11 @@ is_templ_nspace(NAMESPACE ns)
 		}
 		tid = find_template(id, 1);
 		if (!IS_NULL_id(tid)) {
-			return (1);
+			return 1;
 		}
 		ns = DEREF_nspace(id_parent(id));
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2000,7 +2000,7 @@ check_typename(NAMESPACE ns, IDENTIFIER id, BASE_TYPE key)
 			}
 		}
 	}
-	return (s);
+	return s;
 }
 
 
@@ -2045,7 +2045,7 @@ make_typename(NAMESPACE ns, IDENTIFIER id)
 			s = type_error;
 		}
 	}
-	return (s);
+	return s;
 }
 
 
@@ -2093,7 +2093,7 @@ find_typename(IDENTIFIER id, LIST(TOKEN) args, BASE_TYPE bt, int type)
 			t = copy_typedef(tid, t, cv_none);
 			COPY_id(type_name(t), tid);
 			use_id(tid, 0);
-			return (t);
+			return t;
 		}
 
 		/* Check for template parameters */
@@ -2106,7 +2106,7 @@ find_typename(IDENTIFIER id, LIST(TOKEN) args, BASE_TYPE bt, int type)
 				}
 				if (is_templ_depend(t)) {
 					t = make_dummy_type(cns, id, bt, args);
-					return (t);
+					return t;
 				}
 			}
 		}
@@ -2131,7 +2131,7 @@ find_typename(IDENTIFIER id, LIST(TOKEN) args, BASE_TYPE bt, int type)
 			report(crt_loc, ERR_temp_res_type(cns, nm));
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -2153,10 +2153,10 @@ eq_templ_params(LIST(IDENTIFIER) ps, LIST(IDENTIFIER) pt)
 			TOKEN ns, nt;
 			unsigned vs, vt;
 			if (IS_NULL_id(is)) {
-				return (0);
+				return 0;
 			}
 			if (IS_NULL_id(it)) {
-				return (0);
+				return 0;
 			}
 			ns = DEREF_tok(id_token_sort(is));
 			nt = DEREF_tok(id_token_sort(it));
@@ -2196,7 +2196,7 @@ eq_templ_params(LIST(IDENTIFIER) ps, LIST(IDENTIFIER) pt)
 	if (!EQ_list(ps, pt)) {
 		ok = 0;
 	}
-	return (ok);
+	return ok;
 }
 
 
@@ -2246,7 +2246,7 @@ eq_template(TYPE s, TYPE t, int def, int mq, int rf)
 		force_template = ft;
 	}
 	restore_templ_params(ps);
-	return (eq);
+	return eq;
 }
 
 
@@ -2274,7 +2274,7 @@ rename_templ_params(TOKEN sort, TYPE t, int rec)
 		restore_token_args(pids, d);
 	}
 	MAKE_type_templ(cv_none, sort, t, 1, t);
-	return (t);
+	return t;
 }
 
 
@@ -2310,7 +2310,7 @@ deduce_template(TYPE s, TYPE t, int qu)
 		restore_token_args(pids, d);
 		force_template--;
 	}
-	return (eq);
+	return eq;
 }
 
 
@@ -2418,27 +2418,27 @@ depends_on_param(IDENTIFIER id, LIST(IDENTIFIER) pids)
 				 * parameters */
 				if ((ds & dspec_template) &&
 				    (ds & dspec_auto)) {
-					return (1);
+					return 1;
 				}
-				return (0);
+				return 0;
 			}
 			if (EQ_list(pids, any_token_param)) {
 				/* Short-cut for list of all token parameters */
 				if (ds & dspec_auto) {
-					return (1);
+					return 1;
 				}
-				return (0);
+				return 0;
 			}
 			while (!IS_NULL_list(pids)) {
 				IDENTIFIER pid = DEREF_id(HEAD_list(pids));
 				if (EQ_id(pid, id)) {
-					return (1);
+					return 1;
 				}
 				pids = TAIL_list(pids);
 			}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2469,7 +2469,7 @@ depends_on_id(IDENTIFIER id, LIST(IDENTIFIER) pids, int use)
 			form = DEREF_type(ctype_form(ct));
 			if (!IS_NULL_type(form)) {
 				if (depends_on(form, pids)) {
-					return (1);
+					return 1;
 				}
 			}
 			break;
@@ -2482,7 +2482,7 @@ depends_on_id(IDENTIFIER id, LIST(IDENTIFIER) pids, int use)
 			if (!IS_NULL_type(form)) {
 				/* Check function form */
 				if (depends_on(form, pids)) {
-					return (1);
+					return 1;
 				}
 			}
 			if (use) {
@@ -2493,7 +2493,7 @@ depends_on_id(IDENTIFIER id, LIST(IDENTIFIER) pids, int use)
 		case id_token_tag: {
 			/* Check for template parameters */
 			if (depends_on_param(id, pids)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2504,7 +2504,7 @@ depends_on_id(IDENTIFIER id, LIST(IDENTIFIER) pids, int use)
 			while (!IS_NULL_list(qids)) {
 				IDENTIFIER qid = DEREF_id(HEAD_list(qids));
 				if (depends_on_id(qid, pids, use)) {
-					return (1);
+					return 1;
 				}
 				qids = TAIL_list(qids);
 			}
@@ -2522,10 +2522,10 @@ depends_on_id(IDENTIFIER id, LIST(IDENTIFIER) pids, int use)
 		if (!IS_NULL_nspace(ns)) {
 			/* Check enclosing namespace */
 			IDENTIFIER cid = DEREF_id(nspace_name(ns));
-			return (depends_on_id(cid, pids, 0));
+			return depends_on_id(cid, pids, 0);
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2556,14 +2556,14 @@ depends_on_args(LIST(TOKEN) args, LIST(IDENTIFIER) pids, int use, int next)
 			case tok_exp_tag: {
 				EXP e = DEREF_exp(tok_exp_value(tok));
 				if (depends_on_exp(e, pids, use)) {
-					return (1);
+					return 1;
 				}
 				break;
 			}
 			case tok_stmt_tag: {
 				EXP e = DEREF_exp(tok_stmt_value(tok));
 				if (depends_on_exp(e, pids, use)) {
-					return (1);
+					return 1;
 				}
 				break;
 			}
@@ -2571,21 +2571,21 @@ depends_on_args(LIST(TOKEN) args, LIST(IDENTIFIER) pids, int use, int next)
 			case tok_snat_tag: {
 				NAT n = DEREF_nat(tok_nat_etc_value(tok));
 				if (depends_on_nat(n, pids, use)) {
-					return (1);
+					return 1;
 				}
 				break;
 			}
 			case tok_type_tag: {
 				TYPE t = DEREF_type(tok_type_value(tok));
 				if (depends_on(t, pids)) {
-					return (1);
+					return 1;
 				}
 				break;
 			}
 			case tok_member_tag: {
 				OFFSET off = DEREF_off(tok_member_value(tok));
 				if (depends_on_off(off, pids, use)) {
-					return (1);
+					return 1;
 				}
 				break;
 			}
@@ -2596,7 +2596,7 @@ depends_on_args(LIST(TOKEN) args, LIST(IDENTIFIER) pids, int use, int next)
 		}
 		args = TAIL_list(args);
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2614,22 +2614,22 @@ depends_on_nat(NAT n, LIST(IDENTIFIER) pids, int use)
 		switch (TAG_nat(n)) {
 		case nat_calc_tag: {
 			EXP e = DEREF_exp(nat_calc_value(n));
-			return (depends_on_exp(e, pids, use));
+			return depends_on_exp(e, pids, use);
 		}
 		case nat_token_tag: {
 			IDENTIFIER tid = DEREF_id(nat_token_tok(n));
 			LIST(TOKEN) args = DEREF_list(nat_token_args(n));
 			if (depends_on_param(tid, pids)) {
-				return (2);
+				return 2;
 			}
 			if (depends_on_args(args, pids, use, 0)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2646,11 +2646,11 @@ depends_on_exp_list(LIST(EXP) p, LIST(IDENTIFIER) pids, int use)
 	while (!IS_NULL_list(p)) {
 		EXP a = DEREF_exp(HEAD_list(p));
 		if (depends_on_exp(a, pids, use)) {
-			return (1);
+			return 1;
 		}
 		p = TAIL_list(p);
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2673,14 +2673,14 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			IDENTIFIER tid = DEREF_id(exp_token_tok(e));
 			LIST(TOKEN) args = DEREF_list(exp_token_args(e));
 			if (depends_on_param(tid, pids)) {
-				return (2);
+				return 2;
 			}
 			if (depends_on_args(args, pids, use, 0)) {
-				return (1);
+				return 1;
 			}
 		}
 		if (depends_on(t, pids)) {
-			return (1);
+			return 1;
 		}
 		ASSERT(ORDER_exp == 88);
 		switch (tag) {
@@ -2690,27 +2690,27 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 		case exp_undeclared_tag: {
 			IDENTIFIER id = DEREF_id(exp_identifier_etc_id(e));
 			if (depends_on_id(id, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_int_lit_tag: {
 			NAT n = DEREF_nat(exp_int_lit_nat(e));
-			return (depends_on_nat(n, pids, use));
+			return depends_on_nat(n, pids, use);
 		}
 		case exp_paren_tag:
 		case exp_copy_tag: {
 			EXP a = DEREF_exp(exp_paren_etc_arg(e));
-			return (depends_on_exp(a, pids, use));
+			return depends_on_exp(a, pids, use);
 		}
 		case exp_assign_tag: {
 			EXP a = DEREF_exp(exp_assign_ref(e));
 			EXP b = DEREF_exp(exp_assign_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2718,52 +2718,52 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			IDENTIFIER id = DEREF_id(exp_init_id(e));
 			EXP a = DEREF_exp(exp_init_arg(e));
 			if (depends_on_id(id, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_preinc_tag: {
 			EXP a = DEREF_exp(exp_preinc_op(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_postinc_tag: {
 			EXP a = DEREF_exp(exp_postinc_op(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_indir_tag: {
 			EXP a = DEREF_exp(exp_indir_ptr(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_contents_tag: {
 			EXP a = DEREF_exp(exp_contents_ptr(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_address_tag: {
 			EXP a = DEREF_exp(exp_address_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_address_mem_tag: {
 			EXP a = DEREF_exp(exp_address_mem_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2771,10 +2771,10 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(exp_func_fn(e));
 			LIST(EXP) p = DEREF_list(exp_func_args(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp_list(p, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2782,10 +2782,10 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			IDENTIFIER id = DEREF_id(exp_func_id_id(e));
 			LIST(EXP) p = DEREF_list(exp_func_id_args(e));
 			if (depends_on_id(id, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp_list(p, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2793,10 +2793,10 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(exp_call_ptr(e));
 			EXP b = DEREF_exp(exp_call_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2806,7 +2806,7 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 		case exp_abs_tag: {
 			EXP a = DEREF_exp(exp_negate_etc_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2827,17 +2827,17 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(exp_plus_etc_arg1(e));
 			EXP b = DEREF_exp(exp_plus_etc_arg2(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_test_tag: {
 			EXP a = DEREF_exp(exp_test_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2845,31 +2845,31 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(exp_compare_arg1(e));
 			EXP b = DEREF_exp(exp_compare_arg2(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_cast_tag: {
 			EXP a = DEREF_exp(exp_cast_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_base_cast_tag: {
 			EXP a = DEREF_exp(exp_base_cast_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_dyn_cast_tag: {
 			EXP a = DEREF_exp(exp_dyn_cast_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2877,10 +2877,10 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(exp_add_ptr_ptr(e));
 			OFFSET off = DEREF_off(exp_add_ptr_off(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_off(off, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2888,24 +2888,24 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			OFFSET off = DEREF_off(exp_offset_size_off(e));
 			TYPE s = DEREF_type(exp_offset_size_step(e));
 			if (depends_on_off(off, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on(s, pids)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_constr_tag: {
 			EXP a = DEREF_exp(exp_constr_call(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_destr_tag: {
 			EXP a = DEREF_exp(exp_destr_call(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2913,10 +2913,10 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(exp_alloc_call(e));
 			EXP b = DEREF_exp(exp_alloc_init(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2924,52 +2924,52 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(exp_dealloc_term(e));
 			EXP b = DEREF_exp(exp_dealloc_call(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_rtti_tag: {
 			EXP a = DEREF_exp(exp_rtti_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_rtti_type_tag: {
 			TYPE s = DEREF_type(exp_rtti_type_arg(e));
 			if (depends_on(s, pids)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_rtti_no_tag: {
 			TYPE s = DEREF_type(exp_rtti_no_arg(e));
 			if (depends_on(s, pids)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_dynamic_tag: {
 			EXP a = DEREF_exp(exp_dynamic_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_aggregate_tag: {
 			LIST(EXP)p = DEREF_list(exp_aggregate_args(e));
 			if (depends_on_exp_list(p, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_initialiser_tag: {
 			LIST(EXP)p = DEREF_list(exp_initialiser_args(e));
 			if (depends_on_exp_list(p, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -2978,41 +2978,41 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP b = DEREF_exp(exp_nof_pad(e));
 			EXP c = DEREF_exp(exp_nof_end(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(c, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_comma_tag: {
 			LIST(EXP) p = DEREF_list(exp_comma_args(e));
 			if (depends_on_exp_list(p, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_set_tag: {
 			EXP a = DEREF_exp(exp_set_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_unused_tag: {
 			EXP a = DEREF_exp(exp_unused_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_sequence_tag: {
 			LIST(EXP)p = DEREF_list(exp_sequence_first(e));
 			if (depends_on_exp_list(p, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -3021,27 +3021,27 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(exp_if_stmt_true_code(e));
 			EXP b = DEREF_exp(exp_if_stmt_false_code(e));
 			if (depends_on_exp(c, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_try_block_tag: {
 			EXP a = DEREF_exp(exp_try_block_body(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_exception_tag: {
 			EXP a = DEREF_exp(exp_exception_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -3049,37 +3049,37 @@ depends_on_exp(EXP e, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(exp_op_arg1(e));
 			EXP b = DEREF_exp(exp_op_arg2(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_opn_tag: {
 			LIST(EXP) p = DEREF_list(exp_opn_args(e));
 			if (depends_on_exp_list(p, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_location_tag: {
 			EXP a = DEREF_exp(exp_location_arg(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case exp_dummy_tag: {
 			EXP a = DEREF_exp(exp_dummy_value(e));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -3099,28 +3099,28 @@ depends_on_off(OFFSET off, LIST(IDENTIFIER) pids, int use)
 		case off_zero_tag: {
 			TYPE t = DEREF_type(off_zero_type(off));
 			if (depends_on(t, pids)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case off_type_tag: {
 			TYPE t = DEREF_type(off_type_type(off));
 			if (depends_on(t, pids)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case off_array_tag: {
 			TYPE t = DEREF_type(off_array_type(off));
 			if (depends_on(t, pids)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case off_extra_tag: {
 			TYPE t = DEREF_type(off_extra_type(off));
 			if (depends_on(t, pids)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -3143,14 +3143,14 @@ depends_on_off(OFFSET off, LIST(IDENTIFIER) pids, int use)
 		case off_ptr_mem_tag: {
 			EXP a = DEREF_exp(off_ptr_mem_arg(off));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		case off_negate_tag: {
 			OFFSET a = DEREF_off(off_negate_arg(off));
 			if (depends_on_off(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -3158,10 +3158,10 @@ depends_on_off(OFFSET off, LIST(IDENTIFIER) pids, int use)
 			OFFSET a = DEREF_off(off_plus_arg1(off));
 			OFFSET b = DEREF_off(off_plus_arg2(off));
 			if (depends_on_off(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_off(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -3169,10 +3169,10 @@ depends_on_off(OFFSET off, LIST(IDENTIFIER) pids, int use)
 			OFFSET a = DEREF_off(off_mult_arg1(off));
 			EXP b = DEREF_exp(off_mult_arg2(off));
 			if (depends_on_off(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -3180,10 +3180,10 @@ depends_on_off(OFFSET off, LIST(IDENTIFIER) pids, int use)
 			EXP a = DEREF_exp(off_ptr_diff_ptr1(off));
 			EXP b = DEREF_exp(off_ptr_diff_ptr2(off));
 			if (depends_on_exp(a, pids, use)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_exp(b, pids, use)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -3191,16 +3191,16 @@ depends_on_off(OFFSET off, LIST(IDENTIFIER) pids, int use)
 			IDENTIFIER tid = DEREF_id(off_token_tok(off));
 			LIST(TOKEN) args = DEREF_list(off_token_args(off));
 			if (depends_on_param(tid, pids)) {
-				return (2);
+				return 2;
 			}
 			if (depends_on_args(args, pids, use, 0)) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -3220,27 +3220,27 @@ depends_on(TYPE t, LIST(IDENTIFIER) pids)
 		case type_ptr_tag:
 		case type_ref_tag: {
 			TYPE s = DEREF_type(type_ptr_etc_sub(t));
-			return (depends_on(s, pids));
+			return depends_on(s, pids);
 		}
 		case type_ptr_mem_tag: {
 			TYPE s = DEREF_type(type_ptr_mem_sub(t));
 			CLASS_TYPE cr = DEREF_ctype(type_ptr_mem_of(t));
 			TYPE r = DEREF_type(ctype_form(cr));
 			if (depends_on(s, pids)) {
-				return (1);
+				return 1;
 			}
-			return (depends_on(r, pids));
+			return depends_on(r, pids);
 		}
 		case type_func_tag: {
 			TYPE r = DEREF_type(type_func_ret(t));
 			LIST(TYPE) p = DEREF_list(type_func_mtypes(t));
 			if (depends_on(r, pids)) {
-				return (1);
+				return 1;
 			}
 			while (!IS_NULL_list(p)) {
 				TYPE s = DEREF_type(HEAD_list(p));
 				if (depends_on(s, pids)) {
-					return (1);
+					return 1;
 				}
 				p = TAIL_list(p);
 			}
@@ -3250,37 +3250,37 @@ depends_on(TYPE t, LIST(IDENTIFIER) pids)
 			TYPE s = DEREF_type(type_array_sub(t));
 			NAT n = DEREF_nat(type_array_size(t));
 			if (depends_on(s, pids)) {
-				return (1);
+				return 1;
 			}
-			return (depends_on_nat(n, pids, 0));
+			return depends_on_nat(n, pids, 0);
 		}
 		case type_bitfield_tag: {
 			INT_TYPE it = DEREF_itype(type_bitfield_defn(t));
 			TYPE s = DEREF_type(itype_bitfield_sub(it));
 			NAT n = DEREF_nat(itype_bitfield_size(it));
 			if (depends_on(s, pids)) {
-				return (1);
+				return 1;
 			}
-			return (depends_on_nat(n, pids, 0));
+			return depends_on_nat(n, pids, 0);
 		}
 		case type_compound_tag: {
 			CLASS_TYPE cs = DEREF_ctype(type_compound_defn(t));
 			IDENTIFIER cid = DEREF_id(ctype_name(cs));
-			return (depends_on_id(cid, pids, 0));
+			return depends_on_id(cid, pids, 0);
 		}
 		case type_enumerate_tag: {
 			ENUM_TYPE et = DEREF_etype(type_enumerate_defn(t));
 			IDENTIFIER eid = DEREF_id(etype_name(et));
-			return (depends_on_id(eid, pids, 0));
+			return depends_on_id(eid, pids, 0);
 		}
 		case type_token_tag: {
 			IDENTIFIER tid = DEREF_id(type_token_tok(t));
 			LIST(TOKEN) args = DEREF_list(type_token_args(t));
 			if (depends_on_param(tid, pids)) {
-				return (1);
+				return 1;
 			}
 			if (depends_on_args(args, pids, 0, 0)) {
-				return (1);
+				return 1;
 			}
 			if (IS_id_token(tid)) {
 				TOKEN sort = DEREF_tok(id_token_sort(tid));
@@ -3289,8 +3289,7 @@ depends_on(TYPE t, LIST(IDENTIFIER) pids)
 					bt = DEREF_btype(tok_type_kind(sort));
 					if (bt & btype_typename) {
 						/* Allow for typename */
-						return (depends_on_id(tid, pids,
-								      0));
+						return depends_on_id(tid, pids, 0);
 					}
 				}
 			}
@@ -3320,11 +3319,11 @@ depends_on(TYPE t, LIST(IDENTIFIER) pids)
 				COPY_dspec(id_storage(qid), ds);
 				qids = TAIL_list(qids);
 			}
-			return (dep);
+			return dep;
 		}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -3342,13 +3341,13 @@ dependent_call(IDENTIFIER id, LIST(EXP) args)
 		/* Only check in a template declaration */
 		LIST(IDENTIFIER) pids = any_templ_param;
 		if (depends_on_id(id, pids, 0)) {
-			return (1);
+			return 1;
 		}
 		if (IS_id_function_etc(id)) {
 			while (!IS_NULL_id(id)) {
 				TYPE t = DEREF_type(id_function_etc_type(id));
 				if (depends_on(t, pids)) {
-					return (1);
+					return 1;
 				}
 				id = DEREF_id(id_function_etc_over(id));
 			}
@@ -3359,13 +3358,13 @@ dependent_call(IDENTIFIER id, LIST(EXP) args)
 				/* Check argument type */
 				TYPE t = DEREF_type(exp_type(a));
 				if (depends_on(t, pids)) {
-					return (1);
+					return 1;
 				}
 			}
 			args = TAIL_list(args);
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -3383,13 +3382,13 @@ dependent_cast(IDENTIFIER id, TYPE t)
 		/* Only check in a template declaration */
 		LIST(IDENTIFIER) pids = any_templ_param;
 		if (depends_on_id(id, pids, 0)) {
-			return (1);
+			return 1;
 		}
 		if (depends_on(t, pids)) {
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -3407,7 +3406,7 @@ dependent_conv(TYPE t, LIST(EXP) args)
 		/* Only check in a template declaration */
 		LIST(IDENTIFIER) pids = any_templ_param;
 		if (depends_on(t, pids)) {
-			return (1);
+			return 1;
 		}
 		while (!IS_NULL_list(args)) {
 			EXP a = DEREF_exp(HEAD_list(args));
@@ -3415,13 +3414,13 @@ dependent_conv(TYPE t, LIST(EXP) args)
 				/* Check argument type */
 				TYPE s = DEREF_type(exp_type(a));
 				if (depends_on(s, pids)) {
-					return (1);
+					return 1;
 				}
 			}
 			args = TAIL_list(args);
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -3439,10 +3438,10 @@ dependent_id(IDENTIFIER id)
 		/* Only check in a template declaration */
 		LIST(IDENTIFIER) pids = any_templ_param;
 		if (depends_on_id(id, pids, 0)) {
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -3510,7 +3509,7 @@ injected_type(TYPE t, int rec)
 		}
 		lns = TAIL_list(lns);
 	}
-	return (t);
+	return t;
 }
 
 

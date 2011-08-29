@@ -121,13 +121,13 @@ bool
 eq_sze ( shape as, shape bs )
 {
     if ( is_floating ( name ( as ) ) ) {
-	return ( ( bool ) ( name ( as ) == name ( bs ) ) ) ;
+	return ( bool ) ( name ( as ) == name ( bs ) ) ;
     }
     if ( is_floating ( name ( bs ) ) ) {
-	return ( 0 ) ;
+	return 0;
     }
-    return ( ( bool ) ( shape_size ( as ) == shape_size ( bs ) &&
-			shape_align ( as ) == shape_align ( bs ) ) ) ;
+    return ( bool ) ( shape_size ( as ) == shape_size ( bs ) &&
+			shape_align ( as ) == shape_align ( bs ) ) ;
 }
 
 
@@ -138,12 +138,12 @@ eq_sze ( shape as, shape bs )
 bool 
 sim_explist ( exp al, exp bl )
 {
-    if ( al == nilexp && bl == nilexp ) return ( 1 ) ;
-    if ( al == nilexp || bl == nilexp ) return ( 0 ) ;
-    if ( !sim_exp ( al, bl ) ) return ( 0 ) ;
-    if ( last ( al ) && last ( bl ) ) return ( 1 ) ;
-    if ( last ( al ) || last ( bl ) ) return ( 0 ) ;
-    return ( sim_explist ( bro ( al ), bro ( bl ) ) ) ;
+    if ( al == nilexp && bl == nilexp ) return 1;
+    if ( al == nilexp || bl == nilexp ) return 0;
+    if ( !sim_exp ( al, bl ) ) return 0;
+    if ( last ( al ) && last ( bl ) ) return 1;
+    if ( last ( al ) || last ( bl ) ) return 0;
+    return sim_explist ( bro ( al ), bro ( bl ) ) ;
 }
 
 
@@ -159,19 +159,19 @@ sim_exp ( exp a, exp b )
 {
     if ( name ( a ) == name ( b ) ) {
 	if ( name ( a ) == name_tag ) {
-	    return ( ( bool ) ( son ( a ) == son ( b ) &&
+	    return ( bool ) ( son ( a ) == son ( b ) &&
 				no ( a ) == no ( b ) &&
-				eq_sze ( sh ( a ), sh ( b ) ) ) ) ;
+				eq_sze ( sh ( a ), sh ( b ) ) ) ;
 	}
 	if ( !is_a ( name ( a ) ) || !eq_sze ( sh ( a ), sh ( b ) ) ) {
-	    return ( 0 ) ;
+	    return 0;
 	}
-	return ( ( bool ) ( no ( a ) == no ( b ) &&
+	return ( bool ) ( no ( a ) == no ( b ) &&
 			    sim_explist ( son ( a ), son ( b ) ) 
 			    && ((name(a) != current_env_tag) || 
-				(props(a) == props(b)))));
+				(props(a) == props(b))));
     }
-    return ( 0 ) ;
+    return 0;
 }
 
 
@@ -227,12 +227,12 @@ iskept ( exp e )
 
 #ifdef NO_KEPT_OPTS
     /* no register tracking */
-    return ( nilans ) ;
+    return nilans;
 #endif
 
     if ( name ( sh ( e ) ) == cpdhd ) {
 	/* Tracking of unions is unsafe */
-	return ( nilans ) ;
+	return nilans;
     }
 
     for ( i = 0 ; i < 48 ; i++ ) {
@@ -265,7 +265,7 @@ iskept ( exp e )
 			if (dwarf2)
 			  dw_used_regassn (i);
 #endif
-			return ( aa ) ;
+			return aa;
 		    }
 		}
 	    } else if ( name ( ke ) == cont_tag && !isc ) {
@@ -286,7 +286,7 @@ iskept ( exp e )
 #endif
 			is.adval = 1 ;
 			setinsalt ( aq, is ) ;
-			return ( aq ) ;
+			return aq;
 		    }
 		}
 	    } else if ( name ( ke ) == reff_tag && !isc ) {
@@ -307,13 +307,13 @@ iskept ( exp e )
 			is.adval = 1 ;
 			is.b.offset = 0 ;
 			setinsalt ( aq, is ) ;
-			return ( aq ) ;
+			return aq;
 		    }
 		}
 	    }
 	}
     }
-    return ( nilans ) ;
+    return nilans;
 }
 
 
@@ -440,30 +440,30 @@ couldbe ( exp e, exp lhs )
     exp s = son ( e ) ;
 
     if ( ne == name_tag ) {
-	if ( lhs != 0 && s == son ( lhs ) ) return ( 1 ) ;
+	if ( lhs != 0 && s == son ( lhs ) ) return 1;
 	if ( isvar ( s ) ) 
-	  return ( ( bool ) ( lhs == 0 && 
-			     (isvis ( s ) || isglob(s)))) ;
-	if ( name ( s ) == proc_tag ) return ( ( bool ) ( lhs == 0 ) ) ;
-	if ( son ( s ) == nilexp ) return ( 1 ) ;
-	return ( couldbe ( son ( s ), lhs ) ) ;
+	  return ( bool ) ( lhs == 0 && 
+			     (isvis ( s ) || isglob(s)));
+	if ( name ( s ) == proc_tag ) return ( bool ) ( lhs == 0 ) ;
+	if ( son ( s ) == nilexp ) return 1;
+	return couldbe ( son ( s ), lhs ) ;
     }
     if ( ne == cont_tag ) {
 	if ( lhs != 0 && name ( s ) == name_tag && son ( s ) != nilexp ) {
-	    return ( ( bool ) ( son ( s ) == son ( lhs ) ||
+	    return ( bool ) ( son ( s ) == son ( lhs ) ||
 				isvis ( son ( lhs ) ) ||
-				isvis ( son ( s ) ) ) ) ;
+				isvis ( son ( s ) ) ) ;
 	}
-	return ( 1 ) ;
+	return 1;
     }
     if ( ne == reff_tag || ne == field_tag ) {
-	return ( couldbe ( s, lhs ) ) ;
+	return couldbe ( s, lhs ) ;
     }
     if ( ne == addptr_tag || ne == subptr_tag ) {
-	return ( ( bool ) ( couldbe ( s, lhs ) ||
-			    couldeffect ( bro ( s ), lhs ) ) ) ;
+	return ( bool ) ( couldbe ( s, lhs ) ||
+			    couldeffect ( bro ( s ), lhs ) ) ;
     }
-    return ( 1 ) ;
+    return 1;
 
 }
 
@@ -476,25 +476,25 @@ couldeffect ( exp e, exp z )
 {
     unsigned char ne = name ( e ) ;
 
-    if ( ne == cont_tag ) return ( couldbe ( son ( e ), z ) ) ;
+    if ( ne == cont_tag ) return couldbe ( son ( e ), z ) ;
     if ( ne == name_tag ) {
 	if ( isvar ( son ( e ) ) ) {
-	    return ( ( bool ) ( z == 0 && isvis ( son ( e ) ) ) ) ;
+	    return ( bool ) ( z == 0 && isvis ( son ( e ) ) ) ;
 	}
-	if ( name ( son ( e ) ) == proc_tag ) return ( 0 ) ;
-	if ( son ( son ( e ) ) == nilexp ) return ( 1 ) ;
-	return ( couldeffect ( son ( son ( e ) ), z ) ) ;
+	if ( name ( son ( e ) ) == proc_tag ) return 0;
+	if ( son ( son ( e ) ) == nilexp ) return 1;
+	return couldeffect ( son ( son ( e ) ), z ) ;
 
     }
-    if ( ne < plus_tag || ne == contvol_tag ) return ( 1 ) ;
+    if ( ne < plus_tag || ne == contvol_tag ) return 1;
 
     e = son ( e ) ;
     while ( e != nilexp ) {
-	if ( couldeffect ( e, z ) ) return ( 1 ) ;
-	if ( last ( e ) ) return ( 0 ) ;
+	if ( couldeffect ( e, z ) ) return 1;
+	if ( last ( e ) ) return 0;
 	e = bro ( e ) ;
     }
-    return ( 0 ) ;
+    return 0;
 }
 
 
@@ -514,7 +514,7 @@ dependson ( exp e, bool isc, exp z )
 	    z = son ( z ) ;
 	}
 	if ( name ( z ) != name_tag ) {
-	    if ( name ( z ) != cont_tag ) return ( 1 ) ;
+	    if ( name ( z ) != cont_tag ) return 1;
 	    z = 0 ;
 	    break ;
 	}
@@ -526,13 +526,13 @@ dependson ( exp e, bool isc, exp z )
 	}
 	if ( son ( son ( z ) ) == nilexp ) {
 	    /* can it happen? */
-	    return ( 1 ) ;
+	    return 1;
 	}
 	z = son ( son ( z ) ) ;
     }
 
     /* z is now unambiguous variable name or 0 (meaning some contents) */
-    return ( ( bool ) ( isc ? couldbe ( e, z ) : couldeffect ( e, z ) ) ) ;
+    return ( bool ) ( isc ? couldbe ( e, z ) : couldeffect ( e, z ) ) ;
 }
 
 

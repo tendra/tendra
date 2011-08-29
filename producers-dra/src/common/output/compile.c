@@ -190,7 +190,7 @@ enc_access(BITSTREAM *bs, DECL_SPEC ds)
 	} else {
 		ENC_OFF(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -209,7 +209,7 @@ enc_signature(BITSTREAM *bs, IDENTIFIER id)
 	ENC_OFF(bs);
 #endif
 	UNUSED(id);
-	return (bs);
+	return bs;
 }
 
 
@@ -233,11 +233,11 @@ is_common_tag(IDENTIFIER id, string *ps)
 			string s = mangle_name(pid, VAR_tag, 1);
 			if (s) {
 				*ps = s;
-				return (2);
+				return 2;
 			}
 		}
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -363,7 +363,7 @@ enc_static_var(BITSTREAM *bs, IDENTIFIER id)
 			term_static_func = ts;
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -386,7 +386,7 @@ enc_variable(BITSTREAM *bs, IDENTIFIER id, int var, EXP *d, EXP e)
 	IDENTIFIER lid = DEREF_id(id_alias(id));
 	DECL_SPEC ds = DEREF_dspec(id_storage(lid));
 	if (ds & dspec_done) {
-		return (bs);
+		return bs;
 	}
 	ds |= dspec_done;
 
@@ -442,7 +442,7 @@ enc_variable(BITSTREAM *bs, IDENTIFIER id, int var, EXP *d, EXP e)
 			bs = enc_static_var(bs, id);
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -686,7 +686,7 @@ enc_func_defn(BITSTREAM *bs, IDENTIFIER id, EXP e)
 	}
 	crt_func_access = dspec_none;
 	clear_params();
-	return (bs);
+	return bs;
 }
 
 
@@ -718,7 +718,7 @@ enc_tagdec_start(IDENTIFIER id, ulong n, TYPE t, int var)
 	bs = enc_signature(bs, id);
 	record_usage(n, VAR_tag, use);
 	UNUSED(t);
-	return (bs);
+	return bs;
 }
 
 
@@ -787,7 +787,7 @@ enc_tagdef_start(IDENTIFIER id, ulong n, TYPE t, int var)
 	bs = enc_signature(bs, id);
 	record_usage(n, VAR_tag, use);
 	UNUSED(t);
-	return (bs);
+	return bs;
 }
 
 
@@ -908,7 +908,7 @@ make_tagdef(IDENTIFIER id, TYPE t, EXP e, EXP d, int var)
 	}
 	crt_loc = loc;
 	bad_crt_loc--;
-	return (n);
+	return n;
 }
 
 
@@ -1118,7 +1118,7 @@ enc_tokdef_start(ulong n, const char *sorts, ulong *pars, int d)
 		ENC_INT(bs, r);
 		pars[i] = r;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1170,7 +1170,7 @@ enc_tokdef(IDENTIFIER id, int def)
 		/* Token parameter */
 		LOCATION loc;
 		if (ds & dspec_register) {
-			return (r);
+			return r;
 		}
 		DEREF_loc(id_loc(id), loc);
 		report(loc, ERR_token_scope(id));
@@ -1184,14 +1184,14 @@ enc_tokdef(IDENTIFIER id, int def)
 	dec = capsule_id(id, VAR_token);
 	if (def) {
 		if (ds & dspec_done) {
-			return (r);
+			return r;
 		}
 	} else if (dec) {
 		if (tokdec_unit == NULL) {
-			return (r);
+			return r;
 		}
 	} else {
-		return (r);
+		return r;
 	}
 
 	/* Construct token sort */
@@ -1204,7 +1204,7 @@ enc_tokdef(IDENTIFIER id, int def)
 		tag = TAG_tok(tok);
 		if (tag != tok_proc_tag) {
 			/* Ellipsis function */
-			return (r);
+			return r;
 		}
 	}
 	if (tag == tok_proc_tag) {
@@ -1289,7 +1289,7 @@ enc_tokdef(IDENTIFIER id, int def)
 			xfree_nof(pars);
 		}
 	}
-	return (r);
+	return r;
 }
 
 
@@ -1308,41 +1308,41 @@ need_variable(DECL_SPEC ds, TYPE t, EXP e, ulong n)
 	if (ds & dspec_temp) {
 		/* Temporary variables */
 		if (ds & dspec_ignore) {
-			return (0);
+			return 0;
 		}
 		if (ds & dspec_explicit) {
-			return (2);
+			return 2;
 		}
 	}
 	if (ds & dspec_defn) {
 		/* Output defined variables */
 		if (ds & dspec_extern) {
-			return (1);
+			return 1;
 		}
 		if (n == LINK_NONE) {
 #if LANGUAGE_CPP
 			CV_SPEC qual = DEREF_cv(type_qual(t));
 			if (qual == (cv_lvalue | cv_const)) {
 				/* Defer literal constants */
-				return (2);
+				return 2;
 			}
 #else
 			UNUSED(t);
 #endif
 			if (!output_unused) {
-				return (2);
+				return 2;
 			}
 			if (!overflow_exp(e)) {
-				return (2);
+				return 2;
 			}
 		}
-		return (1);
+		return 1;
 	}
 	if (ds & dspec_used) {
 		/* Defer used variables */
-		return (2);
+		return 2;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1533,25 +1533,25 @@ need_function(DECL_SPEC ds, ulong n)
 	if (ds & (dspec_inline | dspec_implicit | dspec_token)) {
 		/* Defer inline functions */
 		if ((ds & dspec_defn) && n != LINK_NONE) {
-			return (1);
+			return 1;
 		}
-		return (2);
+		return 2;
 	}
 	if (ds & dspec_defn) {
 		/* Output defined functions */
 		if ((ds & dspec_extern) || output_unused) {
-			return (1);
+			return 1;
 		}
 		if (n != LINK_NONE) {
-			return (1);
+			return 1;
 		}
-		return (2);
+		return 2;
 	}
 	if (ds & (dspec_used | dspec_called | dspec_virtual)) {
 		/* Defer called functions */
-		return (2);
+		return 2;
 	}
-	return (0);
+	return 0;
 }
 
 

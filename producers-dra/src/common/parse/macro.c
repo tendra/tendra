@@ -120,7 +120,7 @@ new_pptok(void)
 	}
 	free_tokens = p->next;
 	p->pp_opts = real_opts;
-	return(p);
+	return p;
 }
 
 
@@ -295,7 +295,7 @@ clean_tok_list(PPTOKEN *toks)
 		}
 		p = q;
 	}
-	return(p0.next);
+	return p0.next;
 }
 
 
@@ -347,7 +347,7 @@ read_line(int t1, int tn)
 	if (in_preproc_dir) {
 		IGNORE skip_to_end();
 	}
-	return(dummy_tok.next);
+	return dummy_tok.next;
 }
 
 
@@ -372,7 +372,7 @@ copy_tok_list(PPTOKEN *toks)
 		}
 	}
 	this_tok->next = NULL;
-	return(dummy_tok.next);
+	return dummy_tok.next;
 }
 
 
@@ -528,7 +528,7 @@ string_label:
 	if (escaped) {
 		res = 0;
 	}
-	return(res);
+	return res;
 }
 
 
@@ -563,40 +563,40 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 					p->tok = c;
 					if (c >= FIRST_C_SYMBOL &&
 					    c <= LAST_C_SYMBOL) {
-						return(1);
+						return 1;
 					}
 #if LANGUAGE_CPP
 					if (c >= FIRST_CPP_SYMBOL &&
 					    c <= LAST_CPP_SYMBOL) {
-						return(1);
+						return 1;
 					}
 #endif
 					if (c >= FIRST_EXTRA_SYMBOL &&
 					    c <= LAST_EXTRA_SYMBOL) {
 						if (allow_extra_symbols) {
-							return(1);
+							return 1;
 						}
 					}
 					if (c >= FIRST_DIGRAPH &&
 					    c <= LAST_DIGRAPH) {
 						if (allow_digraphs) {
-							return(1);
+							return 1;
 						}
 					}
 					p->tok = a;
 				}
 			}
-			return(0);
+			return 0;
 
 		} else if (a == lex_dot && b == lex_integer_Hlit) {
 			/* A dot may start a number */
 			string s = q->pp_data.text;
 			if (s[0] == char_dot) {
-				return(0);
+				return 0;
 			}
 			p->tok = lex_integer_Hlit;
 			p->pp_data.text = xustrcat(token_name(a), s);
-			return(1);
+			return 1;
 
 		} else if (a == lex_backslash && b == lex_identifier) {
 			/* A backslash may start a universal character */
@@ -615,7 +615,7 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 			nm = lookup_name(s, hash(s), 2, lex_identifier);
 			p->pp_data.id.hash = nm;
 			p->pp_data.id.use = DEREF_id(hashid_id(nm));
-			return(1);
+			return 1;
 
 		} else if (b == lex_integer_Hlit) {
 			/* An identifier and a number may give an identifier */
@@ -626,14 +626,14 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 				    c == char_minus) {
 					/* The number must be entirely
 					 * alphanumeric */
-					return(0);
+					return 0;
 				}
 			}
 			s = xustrcat(s, q->pp_data.text);
 			nm = lookup_name(s, hash(s), 2, lex_identifier);
 			p->pp_data.id.hash = nm;
 			p->pp_data.id.use = DEREF_id(hashid_id(nm));
-			return(1);
+			return 1;
 
 		} else if (s[0] == char_L && s[1] == 0) {
 			/* An L may start a wide character or string */
@@ -641,12 +641,12 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 				p->tok = lex_wchar_Hlit;
 				p->pp_data.str.start = q->pp_data.str.start;
 				p->pp_data.str.end = q->pp_data.str.end;
-				return(1);
+				return 1;
 			} else if (b == lex_string_Hlit) {
 				p->tok = lex_wstring_Hlit;
 				p->pp_data.str.start = q->pp_data.str.start;
 				p->pp_data.str.end = q->pp_data.str.end;
-				return(1);
+				return 1;
 			}
 		}
 
@@ -657,30 +657,30 @@ concat_pptoks(PPTOKEN *p, PPTOKEN *q)
 			HASHID nm = q->pp_data.id.hash;
 			string s2 = DEREF_string(hashid_name_etc_text(nm));
 			p->pp_data.text = xustrcat(s, s2);
-			return(1);
+			return 1;
 
 		} else if (b == lex_integer_Hlit) {
 			/* Two numbers form another number */
 			string s2 = q->pp_data.text;
 			p->pp_data.text = xustrcat(s, s2);
-			return(1);
+			return 1;
 
 		} else if (b == lex_dot || b == lex_ellipsis) {
 			/* A number followed by a sequence of dots is a
 			 * number */
 			p->pp_data.text = xustrcat(s, token_name(b));
-			return(1);
+			return 1;
 
 		} else if (b == lex_plus || b == lex_minus) {
 			/* A sign may terminate a number after e or E */
 			unsigned n = (unsigned)ustrlen(s) - 1;
 			if (s[n] == char_e || s[n] == char_E) {
 				p->pp_data.text = xustrcat(s, token_name(b));
-				return(1);
+				return 1;
 			}
 		}
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -822,7 +822,7 @@ recognise_strings(PPTOKEN *defn, HASHID macro, int act)
 		last_tok = this_tok;
 		this_tok = this_tok->next;
 	}
-	return(defn);
+	return defn;
 }
 
 
@@ -874,7 +874,7 @@ process_concat(PPTOKEN *defn, HASHID macro)
 			this_tok = next_tok;
 		}
 	}
-	return(defn);
+	return defn;
 }
 
 
@@ -960,7 +960,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 		/* Object-like macros */
 		defn = DEREF_pptok(id_obj_macro_defn(id));
 		if (defn == NULL) {
-			return(NULL);
+			return NULL;
 		}
 
 		if (ds & dspec_builtin) {
@@ -978,7 +978,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 				this_tok->pp_opts = NULL;
 				this_tok->pp_space = 0;
 				token_parts(lex_integer_Hlit, this_tok);
-				return(this_tok);
+				return this_tok;
 			}
 
 			if (t == lex_builtin_Hfile) {
@@ -1003,7 +1003,7 @@ expand_macro(HASHID macro, TOKEN_LOC *locs, int complete)
 				this_tok->pp_opts = NULL;
 				this_tok->pp_space = 0;
 				token_parts(lex_string_Hlit, this_tok);
-				return(this_tok);
+				return this_tok;
 			}
 		}
 
@@ -1069,7 +1069,7 @@ incomplete_macro:
 			this_tok->pp_space = 0;
 			this_tok->pp_data.id.hash = macro;
 			this_tok->pp_data.id.use = id;
-			return(this_tok);
+			return this_tok;
 		}
 
 		/* Check argument array size */
@@ -1342,7 +1342,7 @@ incomplete_macro:
 	}
 
 	/* Return the result */
-	return(defn);
+	return defn;
 }
 
 
@@ -1419,7 +1419,7 @@ expand_toks(PPTOKEN *toks, TOKEN_LOC *locs, int complete)
 		}
 	}
 	this_tok->next = NULL;
-	return(dummy_tok.next);
+	return dummy_tok.next;
 }
 
 
@@ -1433,7 +1433,7 @@ expand_toks(PPTOKEN *toks, TOKEN_LOC *locs, int complete)
 PPTOKEN *
 expand_tok_list(PPTOKEN *toks)
 {
-	return(expand_toks(toks, NIL(TOKEN_LOC), 1));
+	return expand_toks(toks, NIL(TOKEN_LOC), 1);
 }
 
 

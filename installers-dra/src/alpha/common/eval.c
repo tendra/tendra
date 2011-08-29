@@ -388,31 +388,31 @@ evalexp(exp e)
       return w;
     }
     case not_tag: {
-      return (INT64_not(evalexp (son (e))));
+      return INT64_not(evalexp (son (e)));
     }	
     case and_tag: {
-      return (INT64_and(evalexp(son(e)),evalexp(bro(son(e)))));
+      return INT64_and(evalexp(son(e)),evalexp(bro(son(e))));
     }
     case or_tag: {
-      return (INT64_or(evalexp(son(e)),evalexp(bro(son(e)))));
+      return INT64_or(evalexp(son(e)),evalexp(bro(son(e))));
     }
     case xor_tag: {
-      return (INT64_xor(evalexp(son(e)),evalexp(bro(son(e)))));
+      return INT64_xor(evalexp(son(e)),evalexp(bro(son(e))));
     }
     case shr_tag: {
-      return (INT64_shift_right(evalexp(son(e)),
-				low_INT64(evalexp(bro(son(e)))),1));
+      return INT64_shift_right(evalexp(son(e)),
+				low_INT64(evalexp(bro(son(e)))),1);
     }
     case shl_tag: {
-      return (INT64_shift_left(evalexp(son(e)),
-			       low_INT64(evalexp(bro(son(e)))),1));
+      return INT64_shift_left(evalexp(son(e)),
+			       low_INT64(evalexp(bro(son(e)))),1);
     }
     case concatnof_tag: {
       ash a;
       INT64 wd = evalexp (son (e));
       a = ashof (sh (son (e)));
-      return (INT64_or(wd,
-		       INT64_shift_left(evalexp(bro(son(e))),a.ashsize,1)));
+      return INT64_or(wd,
+		       INT64_shift_left(evalexp(bro(son(e))),a.ashsize,1));
     }
     case clear_tag: {
       ash a;
@@ -431,7 +431,7 @@ evalexp(exp e)
       return (pr->frame_size+pr->callee_size)>>3;
     }
     case offset_add_tag : {
-      return (evalexp(son(e)) + evalexp(bro(son(e))));
+      return evalexp(son(e)) + evalexp(bro(son(e)));
     }
     case offset_max_tag : {
       return max(evalexp(son(e)),evalexp(bro(son(e))));

@@ -387,7 +387,7 @@ static int push_arg
   if (is_floating(n) || n == cpdhd || n == nofhd)
     return 0;
 
-  return(1);
+  return 1;
 }
 
 static void code_push
@@ -511,9 +511,9 @@ static int push_cees
       ins2(leal, 32, 32, mw(ind_sp.where_exp, longs), reg0);
       ins0(pusheax);
       stack_dec -= 32;
-      return(32);
+      return 32;
     }
-    return(0);
+    return 0;
   }
   if (longs < 0) {
     must_use_bp = 1;	/* scan2 must ensure !no_frame */
@@ -623,7 +623,7 @@ static regu alloc_reg_big
 
   if ((reg_left) < (br)) {	/* can't allocate */
     ru.can_do = 0;
-    return(ru);
+    return ru;
   };
 
   switch (nr) {			/* number of registers needed
@@ -657,7 +657,7 @@ static regu alloc_reg_big
   else
     ru.can_do = 0;
 
-  return(ru);
+  return ru;
 }
 
 /* allocate registers ecx edx ebx esi edi
@@ -682,7 +682,7 @@ static regu alloc_reg_small
 
   if ((reg_left) < (br)) {	/* can't allocate */
     ru.can_do = 0;
-    return(ru);
+    return ru;
   };
 
   switch (nr) {			/* number of registers needed
@@ -712,7 +712,7 @@ static regu alloc_reg_small
     ru.can_do = 1;
     ru.ru_regs = mask;
     ru.ru_reg_free = rs | mask;
-    return(ru);
+    return ru;
   }
   else
     return alloc_reg_big(rs, sha, br, byteuse);
@@ -735,7 +735,7 @@ static regu alloc_fl_small
 
   if ((reg_left) < (br)) {	/* can't allocate */
     ru.can_do = 0;
-    return(ru);
+    return ru;
   };
 
   mask = smallflmask;
@@ -754,7 +754,7 @@ static regu alloc_fl_small
   else
     ru.can_do = 0;		/* can't allocate */
 
-  return(ru);
+  return ru;
 }
 
 /* allocate all registers */
@@ -770,15 +770,15 @@ static regu alloc_reg
 	(is80586 && isvar(e))) {
       regu ru;
       ru.can_do = 0;
-      return(ru);
+      return ru;
     }
     else
-      return(alloc_fl_small(rs, br));
+      return alloc_fl_small(rs, br);
   };
   if (big_reg)
-    return(alloc_reg_big(rs, sha, br, isbyteuse(e)));
+    return alloc_reg_big(rs, sha, br, isbyteuse(e));
   else
-    return(alloc_reg_small(rs, sha, br, isbyteuse(e)));
+    return alloc_reg_small(rs, sha, br, isbyteuse(e));
 }
 
 
@@ -819,7 +819,7 @@ static dcl alloc_regable
 	  dc.dcl_pl = reg_pl;
 	  dc.dcl_n = mask;
 	  dc.dcl_new = 0;
-	  return(dc);
+	  return dc;
 	};
       };
     };
@@ -835,17 +835,17 @@ static dcl alloc_regable
 	   (defsize > 8 || mask < 0x10)) {
 	  dc.dcl_pl = reg_pl;
 	  dc.dcl_n = mask;
-	  return(dc);
+	  return dc;
 	};
       };
     };
 
     dc.dcl_pl = reg_pl;
     dc.dcl_n = ru.ru_regs;
-    return(dc);
+    return dc;
   };
   dc.dcl_pl = 0;
-  return(dc);
+  return dc;
 }
 
 static dcl def_where
@@ -862,7 +862,7 @@ static dcl def_where
   if (name(sh(def)) == tophd && !isvis(e)) {
     dc.dcl_pl = nowhere_pl;
     dc.dcl_n = 0;
-    return(dc);
+    return dc;
   };
 
   if (name(def) == name_tag && !isvar(son(def)) &&
@@ -872,7 +872,7 @@ static dcl def_where
 	dcl ndc;
 	ndc = alloc_regable(dc, def, e, big_reg);
 	if (ndc.dcl_pl != 0)		/* local copy of arg in register */
-	  return(ndc);
+	  return ndc;
     };
     dc.dcl_pl = ptno(son(def));
     dc.dcl_n = no(son(def));
@@ -906,19 +906,19 @@ static dcl def_where
     if (dc.dcl_pl == reg_pl) {	/* if the old one was in registers, reuse
 				   it. */
       dc.dcl_new = 0;
-      return(dc);
+      return dc;
     };
 
     if (regable(e)) {
 	dcl ndc;
 	ndc = alloc_regable(dc, def, e, big_reg);
 	if (ndc.dcl_pl != 0)
-	  return(ndc);
+	  return ndc;
     };
 
     dc.dcl_new = 0;		/* if there was not room, reuse the old
 				   dec */
-    return(dc);
+    return dc;
 
   };
 
@@ -928,7 +928,7 @@ static dcl def_where
     dcl ndc;
     ndc = alloc_regable(dc, def, e, big_reg);
     if (ndc.dcl_pl != 0)
-      return(ndc);
+      return ndc;
   };
 
 
@@ -948,7 +948,7 @@ static dcl def_where
 
     dc.dcl_place = locash;
     dc.dcl_pl = local_pl;
-    return(dc);
+    return dc;
   };
 
 }
@@ -2333,7 +2333,7 @@ void coder
 		if (shape_size(sh(son(e))) > 32 && !with_fl_reg)
 		  regsinuse |= 0x2;	/* %edx used for return value */
 		if (stack_dec != 0)
-		  stack_return(- stack_dec);
+		  stack_return(-stack_dec);
 		regsinuse = old_regsinuse;
 		outs(" pushl ");
 		rel_ap (0, 1);	/* push return address for return after pops */
@@ -2536,7 +2536,7 @@ static dg_where dg_where_dest
     return w;
   }
   if (ptno(e) < 0 || ptno(e) > 10)	/* contop case */
-    return(dg_where_dest(son(e)));
+    return dg_where_dest(son(e));
   switch (ptno(e)) {
     case local_pl: {
       w.k = WH_REGOFF;
@@ -2565,7 +2565,7 @@ static dg_where dg_where_dest
 static dg_where contop_where
 (exp id)
 {
-  return(dg_where_dest(bro(son(id))));
+  return dg_where_dest(bro(son(id)));
 }
 
 

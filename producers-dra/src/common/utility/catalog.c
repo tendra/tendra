@@ -169,7 +169,7 @@ find_error_no(STRING s, int n)
 			string nm = ustrlit(ERR_CATALOG[n].name);
 			if (nm && ustreq(text, nm)) {
 				if (len == (ulong)ustrlen(nm)) {
-					return (n);
+					return n;
 				}
 			}
 		}
@@ -182,12 +182,12 @@ find_error_no(STRING s, int n)
 			string nm = ustrlit(err->entry->name);
 			if (nm && ustreq(text, nm)) {
 				if (len == (ulong)ustrlen(nm)) {
-					return (err->number);
+					return err->number;
 				}
 			}
 		}
 	}
-	return (-1);
+	return -1;
 }
 
 
@@ -226,7 +226,7 @@ find_vocab(int t)
 		s = "struct/union"; break;
 	}
 #endif
-	return (ustrlit(s));
+	return ustrlit(s);
 }
 
 

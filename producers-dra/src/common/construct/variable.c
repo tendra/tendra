@@ -381,7 +381,7 @@ define_tentative(IDENTIFIER id, int anon)
 		bad_crt_loc--;
 		def = 1;
 	}
-	return (def);
+	return def;
 }
 
 
@@ -591,7 +591,7 @@ type_label:
 		/* Don't check these (yet) */
 		break;
 	}
-	return (n);
+	return n;
 }
 
 
@@ -659,7 +659,7 @@ check_namespace(NAMESPACE ns, EXP blk, int anon, int chk)
 	if (spec_unit) {
 		spec_unit = save_end(spec_unit, ns);
 	}
-	return (n);
+	return n;
 }
 
 
@@ -773,7 +773,7 @@ check_global(int complete)
 	n = check_namespace(ns, NULL_exp, anon, 1);
 	end_spec();
 	check_token();
-	return (n);
+	return n;
 }
 
 
@@ -790,7 +790,7 @@ make_set_exp(EXP a)
 	a = convert_reference(a, REF_NORMAL);
 	a = convert_lvalue(a);
 	MAKE_exp_set(type_void, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -807,7 +807,7 @@ make_unused_exp(EXP a)
 	a = convert_reference(a, REF_NORMAL);
 	a = convert_lvalue(a);
 	MAKE_exp_unused(type_void, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -971,24 +971,24 @@ ignore_variable(IDENTIFIER id)
 {
 	HASHID nm = DEREF_hashid(id_name(id));
 	if (IS_hashid_anon(nm)) {
-		return (1);
+		return 1;
 	}
 	if (IS_id_variable(id)) {
 		TYPE t = DEREF_type(id_variable_type(id));
 		CV_SPEC cv = find_cv_qual(t);
 		if (cv & cv_volatile) {
 			/* Ignore volatile variables */
-			return (1);
+			return 1;
 		}
 		if (cv == (cv_const | cv_lvalue)) {
 			/* Check for const variables */
 			EXP e = DEREF_exp(id_variable_init(id));
 			if (!IS_NULL_exp(e)) {
 				if (IS_exp_int_lit(e)) {
-					return (1);
+					return 1;
 				}
 				if (IS_exp_null(e)) {
-					return (1);
+					return 1;
 				}
 			}
 		}
@@ -997,10 +997,10 @@ ignore_variable(IDENTIFIER id)
 		CV_SPEC cv = find_cv_qual(t);
 		if (cv & cv_volatile) {
 			/* Ignore volatile members */
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1030,7 +1030,7 @@ end_usage(IDENTIFIER id, VAR_INFO ds, int ret)
 		}
 		ds |= va_used_this;
 	}
-	return (ds);
+	return ds;
 }
 
 
@@ -1194,7 +1194,7 @@ merge_usage(VAR_INFO dp, VAR_INFO dq, int u)
 		break;
 	}
 	ds = ((ds & ~va_filter) | (dt & va_filter));
-	return (ds);
+	return ds;
 }
 
 
@@ -1214,18 +1214,18 @@ search_vars(VAR_LIST p, VAR_LIST q, IDENTIFIER id)
 		PTR(VARIABLE) ptr = HEAD_list(q);
 		IDENTIFIER pid = DEREF_id(var_id(ptr));
 		if (EQ_id(pid, id)) {
-			return (ptr);
+			return ptr;
 		}
 	}
 	while (!IS_NULL_list(p)) {
 		PTR(VARIABLE) ptr = HEAD_list(p);
 		IDENTIFIER pid = DEREF_id(var_id(ptr));
 		if (EQ_id(pid, id)) {
-			return (ptr);
+			return ptr;
 		}
 		p = TAIL_list(p);
 	}
-	return (NULL_ptr(VARIABLE));
+	return NULL_ptr(VARIABLE);
 }
 
 
@@ -1269,7 +1269,7 @@ save_vars(VAR_LIST va, int cond)
 	if (IS_NULL_list(vc)) {
 		va = REVERSE_list(va);
 	}
-	return (va);
+	return va;
 }
 
 
@@ -1371,7 +1371,7 @@ flow_goto_stmt(IDENTIFIER lab, VAR_INFO use, int cond)
 		COPY_dspec(id_storage(lab), ds);
 		use |= va_unreached;
 	}
-	return (use);
+	return use;
 }
 
 
@@ -1409,7 +1409,7 @@ flow_label_stmt(IDENTIFIER lab, VAR_INFO use, int flow)
 		e = DEREF_exp(exp_label_stmt_body(e));
 		use = flow_stmt(e, use, flow);
 	}
-	return (use);
+	return use;
 }
 
 
@@ -1461,7 +1461,7 @@ flow_terminate(VAR_INFO use, int ret)
 	}
 	UNUSED(ret);
 	use |= va_unreached;
-	return (use);
+	return use;
 }
 
 
@@ -1505,7 +1505,7 @@ flow_if_exp(EXP c, EXP a, EXP b, VAR_INFO use, int flow)
 	load_vars(va, unreached);
 	DESTROY_list(va, SIZE_var);
 	use = (ua & ub);
-	return (use);
+	return use;
 }
 
 
@@ -1553,7 +1553,7 @@ flow_set(EXP e, VAR_INFO use, VAR_INFO act)
 			}
 		}
 	}
-	return (use);
+	return use;
 }
 
 
@@ -1592,7 +1592,7 @@ flow_token_list(LIST(TOKEN) p, VAR_INFO use)
 		}
 		p = TAIL_list(p);
 	}
-	return (use);
+	return use;
 }
 
 
@@ -1608,7 +1608,7 @@ flow_offset(OFFSET off, VAR_INFO use, int mem)
 {
 	DECL_SPEC ua = (use & ~va_mask);
 	if (IS_NULL_off(off)) {
-		return (ua);
+		return ua;
 	}
 	ASSERT(ORDER_off == 13);
 	switch (TAG_off(off)) {
@@ -1666,7 +1666,7 @@ flow_offset(OFFSET off, VAR_INFO use, int mem)
 	}
 	}
 	ua &= ~va_mask;
-	return (ua);
+	return ua;
 }
 
 
@@ -1694,7 +1694,7 @@ flow_exp_list(LIST(EXP) p, VAR_INFO use, int fn)
 		}
 		p = TAIL_list(p);
 	}
-	return (use);
+	return use;
 }
 
 
@@ -1730,7 +1730,7 @@ flow_alias_exp(EXP e, VAR_INFO use)
 		}
 	}
 	ua = flow_exp(e, ua);
-	return (ua);
+	return ua;
 }
 
 
@@ -1745,7 +1745,7 @@ flow_exp(EXP e, VAR_INFO use)
 {
 	VAR_INFO ua = (use & ~va_mask);
 	if (IS_NULL_exp(e)) {
-		return (ua);
+		return ua;
 	}
 	ASSERT(ORDER_exp == 88);
 	switch (TAG_exp(e)) {
@@ -2227,7 +2227,7 @@ flow_exp(EXP e, VAR_INFO use)
 		break;
 	}
 	ua &= ~va_mask;
-	return (ua);
+	return ua;
 }
 
 
@@ -2303,7 +2303,7 @@ flow_while_stmt(EXP e, VAR_INFO use, int flow)
 	}
 	mark_vars(crt_flow_vars, va_used_this);
 	use = flow_label_stmt(blab,(use | va_unreached), flow);
-	return (use);
+	return use;
 }
 
 
@@ -2332,7 +2332,7 @@ flow_do_stmt(EXP e, VAR_INFO use, int flow)
 		use |= va_unreached;
 	}
 	use = flow_label_stmt(blab, use, flow);
-	return (use);
+	return use;
 }
 
 
@@ -2354,13 +2354,13 @@ flow_solve_stmt(EXP e, LIST(IDENTIFIER) p, VAR_INFO use, int flow)
 			start_variable(id, ds, va_none);
 			use = flow_solve_stmt(e, TAIL_list(p), use, flow);
 			end_variable(flow, 0);
-			return (use);
+			return use;
 		}
 		use = flow_solve_stmt(e, TAIL_list(p), use, flow);
-		return (use);
+		return use;
 	}
 	use = flow_stmt(e, use, flow);
-	return (use);
+	return use;
 }
 
 
@@ -2407,7 +2407,7 @@ flow_switch_stmt(EXP e, VAR_INFO use, int flow)
 	}
 	use = flow_stmt(a,(use | va_unreached), flow);
 	use = flow_label_stmt(blab, use, flow);
-	return (use);
+	return use;
 }
 
 
@@ -2432,7 +2432,7 @@ flow_try_block(EXP e, VAR_INFO use, int flow)
 		p = TAIL_list(p);
 	}
 	IGNORE flow_stmt(c, ua, flow);
-	return (use);
+	return use;
 }
 
 
@@ -2479,11 +2479,11 @@ flow_decl_stmt(EXP e, VAR_INFO use, int flow)
 			if (!IS_NULL_exp(d)) {
 				no_destructors--;
 			}
-			return (use);
+			return use;
 		}
 	}
 	use = flow_stmt(a, use, flow);
-	return (use);
+	return use;
 }
 
 
@@ -2499,7 +2499,7 @@ flow_stmt(EXP e, VAR_INFO use, int flow)
 	/* Deal with statements */
 	VAR_INFO ua = (use & ~va_mask);
 	if (IS_NULL_exp(e)) {
-		return (ua);
+		return ua;
 	}
 	ASSERT(ORDER_exp == 88);
 	switch (TAG_exp(e)) {
@@ -2626,7 +2626,7 @@ flow_stmt(EXP e, VAR_INFO use, int flow)
 		break;
 	}
 	ua &= ~va_mask;
-	return (ua);
+	return ua;
 }
 
 

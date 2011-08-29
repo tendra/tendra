@@ -196,7 +196,7 @@ load_lex(BITSTREAM *bs)
 		t = lex_unknown;
 		SPEC_ERROR();
 	}
-	return (t);
+	return t;
 }
 
 
@@ -212,7 +212,7 @@ load_pptoks(BITSTREAM *bs)
 {
 	/* NOT YET IMPLEMENTED */
 	UNUSED(bs);
-	return (NULL);
+	return NULL;
 }
 
 
@@ -362,7 +362,7 @@ load_hashid(BITSTREAM *bs, NAMESPACE ns)
 			SPEC_ERROR();
 		}
 	}
-	return (nm);
+	return nm;
 }
 
 
@@ -385,7 +385,7 @@ load_hashid_list(BITSTREAM *bs, NAMESPACE ns)
 		CONS_hashid(nm, p, p);
 	}
 	p = REVERSE_list(p);
-	return (p);
+	return p;
 }
 
 
@@ -423,7 +423,7 @@ id_lookup(ulong d)
 		id_table_size = n;
 		id_table = p;
 	}
-	return (p + d);
+	return p + d;
 }
 
 
@@ -443,7 +443,7 @@ load_use(BITSTREAM *bs, unsigned tag)
 	ulong d = DE_INT(bs);
 	if (d == 0) {
 		/* Null identifier */
-		return (NULL_id);
+		return NULL_id;
 	}
 	pid = id_lookup(d);
 	id = *pid;
@@ -456,7 +456,7 @@ load_use(BITSTREAM *bs, unsigned tag)
 		ids_pending++;
 		*pid = id;
 	}
-	return (id);
+	return id;
 }
 
 
@@ -478,7 +478,7 @@ load_use_list(BITSTREAM *bs)
 		CONS_id(id, p, p);
 	}
 	p = REVERSE_list(p);
-	return (p);
+	return p;
 }
 
 
@@ -501,7 +501,7 @@ load_tok_list(BITSTREAM *bs, int def)
 		CONS_tok(tok, p, p);
 	}
 	p = REVERSE_list(p);
-	return (p);
+	return p;
 }
 
 
@@ -518,11 +518,11 @@ load_nat(BITSTREAM *bs)
 	unsigned n = DE_BITS(bs, BITS_nat);
 	if (n == 0) {
 		/* Null constants */
-		return (m);
+		return m;
 	}
 	if (n > ORDER_nat) {
 		SPEC_ERROR();
-		return (m);
+		return m;
 	}
 	ASSERT(ORDER_nat == 5);
 	switch (n - 1) {
@@ -579,7 +579,7 @@ load_nat(BITSTREAM *bs)
 		break;
 	}
 	}
-	return (m);
+	return m;
 }
 
 
@@ -594,7 +594,7 @@ load_off(BITSTREAM *bs)
 {
 	/* NOT YET IMPLEMENTED */
 	UNUSED(bs);
-	return (NULL_off);
+	return NULL_off;
 }
 
 
@@ -612,11 +612,11 @@ load_exp(BITSTREAM *bs, TYPE t)
 	unsigned n = DE_BITS(bs, BITS_exp);
 	if (n == 0) {
 		/* Null expressions */
-		return (e);
+		return e;
 	}
 	if (n > ORDER_exp) {
 		SPEC_ERROR();
-		return (e);
+		return e;
 	}
 	tag = n - 1;
 	switch (tag) {
@@ -648,7 +648,7 @@ load_exp(BITSTREAM *bs, TYPE t)
 		break;
 	}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -666,7 +666,7 @@ load_ntype(BITSTREAM *bs)
 		nt = ntype_none;
 		SPEC_ERROR();
 	}
-	return (nt);
+	return nt;
 }
 
 
@@ -684,11 +684,11 @@ load_itype(BITSTREAM *bs, CV_SPEC cv, unsigned tag)
 	unsigned n = DE_BITS(bs, BITS_itype);
 	if (n == 0) {
 		/* Null types */
-		return (t);
+		return t;
 	}
 	if (n > ORDER_itype) {
 		SPEC_ERROR();
-		return (t);
+		return t;
 	}
 	switch (n - 1) {
 	case itype_basic_tag: {
@@ -769,7 +769,7 @@ load_itype(BITSTREAM *bs, CV_SPEC cv, unsigned tag)
 			SPEC_ERROR();
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -787,11 +787,11 @@ load_ftype(BITSTREAM *bs, CV_SPEC cv)
 	unsigned n = DE_BITS(bs, BITS_ftype);
 	if (n == 0) {
 		/* Null types */
-		return (t);
+		return t;
 	}
 	if (n > ORDER_ftype) {
 		SPEC_ERROR();
-		return (t);
+		return t;
 	}
 	ASSERT(ORDER_ftype == 4);
 	switch (n - 1) {
@@ -839,7 +839,7 @@ load_ftype(BITSTREAM *bs, CV_SPEC cv)
 			t = NULL_type;
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -867,7 +867,7 @@ load_graph(BITSTREAM *bs, GRAPH gu, GRAPH gt)
 			MAKE_graph_basic(ct, acc, gr);
 		} else {
 			SPEC_ERROR();
-			return (NULL_graph);
+			return NULL_graph;
 		}
 	}
 	while (DE_BOOL(bs)) {
@@ -882,7 +882,7 @@ load_graph(BITSTREAM *bs, GRAPH gu, GRAPH gt)
 	COPY_list(graph_tails(gr), br);
 	COPY_graph(graph_top(gr), gt);
 	COPY_graph(graph_up(gr), gu);
-	return (gr);
+	return gr;
 }
 
 
@@ -963,7 +963,7 @@ load_ctype(BITSTREAM *bs, IDENTIFIER def, CLASS_TYPE *pct)
 			SPEC_ERROR();
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1018,7 +1018,7 @@ load_etype(BITSTREAM *bs, IDENTIFIER def, ENUM_TYPE *pet)
 			SPEC_ERROR();
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1047,7 +1047,7 @@ load_param_list(BITSTREAM *bs, NAMESPACE ns, unsigned tag)
 		CONS_id(pid, pids, pids);
 	}
 	pids = REVERSE_list(pids);
-	return (pids);
+	return pids;
 }
 
 
@@ -1074,18 +1074,18 @@ load_type(BITSTREAM *bs, IDENTIFIER def)
 		if (cv) {
 			t = qualify_type(t, cv, 0);
 		}
-		return (t);
+		return t;
 	}
 
 	/* Read type independent fields */
 	n = DE_BITS(bs, BITS_type);
 	if (n == 0) {
 		/* Null types */
-		return (t);
+		return t;
 	}
 	if (n > ORDER_type) {
 		SPEC_ERROR();
-		return (NULL_type);
+		return NULL_type;
 	}
 	tag = n - 1;
 	cv = load_cv(bs);
@@ -1289,7 +1289,7 @@ load_type(BITSTREAM *bs, IDENTIFIER def)
 		break;
 	}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1311,7 +1311,7 @@ load_type_list(BITSTREAM *bs)
 		CONS_type(t, p, p);
 	}
 	p = REVERSE_list(p);
-	return (p);
+	return p;
 }
 
 
@@ -1329,11 +1329,11 @@ load_tok(BITSTREAM *bs, int def)
 	TOKEN tok = NULL_tok;
 	unsigned n = DE_BITS(bs, BITS_tok);
 	if (n == 0) {
-		return (tok);
+		return tok;
 	}
 	if (n > ORDER_tok) {
 		SPEC_ERROR();
-		return (tok);
+		return tok;
 	}
 	ASSERT(ORDER_tok == 10);
 	tag = n - 1;
@@ -1473,7 +1473,7 @@ load_tok(BITSTREAM *bs, int def)
 		break;
 	}
 	}
-	return (tok);
+	return tok;
 }
 
 
@@ -1500,18 +1500,18 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 	d = DE_INT(bs);
 	if (d == 0) {
 		/* Null identifiers */
-		return (id);
+		return id;
 	}
 
 	/* Read identifier tag */
 	n = DE_BITS(bs, BITS_id);
 	if (n == 0) {
 		/* Null identifiers */
-		return (id);
+		return id;
 	}
 	if (n > ORDER_id) {
 		SPEC_ERROR();
-		return (id);
+		return id;
 	}
 
 	/* Check previous look-up */
@@ -1528,7 +1528,7 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 	nm = load_hashid(bs, ns);
 	if (IS_NULL_hashid(nm)) {
 		SPEC_ERROR();
-		return (id);
+		return id;
 	}
 	tag = n - 1;
 	ds = load_dspec(bs);
@@ -1770,7 +1770,7 @@ load_id(BITSTREAM *bs, NAMESPACE ns)
 		}
 		*pid = id;
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1976,5 +1976,5 @@ read_spec(void)
 	if (!IS_NULL_nspace(gns)) {
 		merge_namespaces(global_namespace, gns);
 	}
-	return (e);
+	return e;
 }

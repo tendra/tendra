@@ -224,7 +224,7 @@ static exp testlast(exp e, exp second)
 {
   if (name(e) == test_tag && pt(e) == second)
   {
-    return(e);
+    return e;
   }
   if (name(e) == seq_tag)
   {

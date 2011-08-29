@@ -128,7 +128,7 @@ new_bitstream(void)
 	p->next = NULL;
 	p->end = p;
 
-	return (p);
+	return p;
 }
 
 
@@ -220,7 +220,7 @@ bitstream_length(bitstream *p)
 	for (; p; p = p->next)
 		n += (CHAR_BIT * p->bytes) + p->bits;
 
-	return ((long)n);
+	return (long)n;
 }
 
 

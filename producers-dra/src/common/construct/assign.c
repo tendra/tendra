@@ -95,7 +95,7 @@ EXP
 convert_assign(TYPE t, EXP a, ERROR *err)
 {
 	EXP e = cast_exp(t, a, err, CAST_IMPLICIT);
-	return (e);
+	return e;
 }
 
 
@@ -115,11 +115,11 @@ convert_class(TYPE t, EXP a, ERROR *err)
 	if (IS_type_compound(s)) {
 		e = cast_class_class(t, a, err, CAST_IMPLICIT, 0);
 		if (!IS_NULL_exp(e)) {
-			return (e);
+			return e;
 		}
 	}
 	e = convert_conv(t, a, err, CAST_IMPLICIT);
-	return (e);
+	return e;
 }
 
 
@@ -154,7 +154,7 @@ make_postfix_exp(int op, EXP a)
 			/* Overloads as 'operator op ( a, 0 )' */
 			EXP b = make_null_exp(type_sint);
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 		if (IS_TYPE_CLASS(ca)) {
 			goto error_lab;
@@ -227,7 +227,7 @@ make_postfix_exp(int op, EXP a)
 			}
 		}
 		MAKE_exp_postinc(tb, a, b, e, e);
-		return (e);
+		return e;
 	}
 
 	/* ... or pointer ... */
@@ -257,7 +257,7 @@ make_postfix_exp(int op, EXP a)
 		}
 		e = make_add_ptr(ta, b, off);
 		MAKE_exp_postinc(ta, a, b, e, e);
-		return (e);
+		return e;
 	}
 
 	/* ... and nothing else */
@@ -266,7 +266,7 @@ error_lab:
 		report(crt_loc, ERR_expr_post_incr_op(op, ta));
 	}
 	e = make_error_exp(0);
-	return (e);
+	return e;
 }
 
 
@@ -315,7 +315,7 @@ make_preinc_exp(TYPE t, EXP a, EXP b, OFFSET off, int op)
 #if LANGUAGE_C
 	MAKE_exp_contents(t, e, e);
 #endif
-	return (e);
+	return e;
 }
 
 
@@ -348,7 +348,7 @@ make_prefix_exp(int op, EXP a)
 		if (overload_depth == 0) {
 			/* Overloads as 'operator op ( a )' */
 			e = unary_overload(op, a);
-			return (e);
+			return e;
 		}
 		if (IS_TYPE_CLASS(ca)) {
 			goto error_lab;
@@ -387,7 +387,7 @@ make_prefix_exp(int op, EXP a)
 			}
 			c = make_bool_exp(v, exp_int_lit_tag);
 			e = make_preinc_exp(ta, a, c, NULL_off, lex_assign);
-			return (e);
+			return e;
 		}
 
 		/* Allow for bitfields */
@@ -413,7 +413,7 @@ make_prefix_exp(int op, EXP a)
 			report(crt_loc, err);
 		}
 		e = make_preinc_exp(ta, a, e, off, op);
-		return (e);
+		return e;
 	}
 
 	/* ... or pointer ... */
@@ -441,7 +441,7 @@ make_prefix_exp(int op, EXP a)
 		}
 		e = make_add_ptr(ta, e, off);
 		e = make_preinc_exp(ta, a, e, NULL_off, op);
-		return (e);
+		return e;
 	}
 
 	/* ... and nothing else */
@@ -450,7 +450,7 @@ error_lab:
 		report(crt_loc, ERR_expr_pre_incr_op(op, ta));
 	}
 	e = make_error_exp(LANGUAGE_CPP);
-	return (e);
+	return e;
 }
 
 
@@ -491,7 +491,7 @@ make_assign_exp(EXP a, EXP b, int c)
 	if (IS_TYPE_TEMPL(ca) || IS_TYPE_TEMPL(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -502,7 +502,7 @@ make_assign_exp(EXP a, EXP b, int c)
 		if (c == 0) {
 			if (overload_depth == 0) {
 				e = binary_overload(op, a, b);
-				return (e);
+				return e;
 			}
 			if (!IS_TYPE_ERROR(cb)) {
 				/* Find reason for failure */
@@ -520,7 +520,7 @@ make_assign_exp(EXP a, EXP b, int c)
 				report(crt_loc, err);
 			}
 			e = make_error_exp(LANGUAGE_CPP);
-			return (e);
+			return e;
 		}
 #else
 		UNUSED(c);
@@ -556,7 +556,7 @@ make_assign_exp(EXP a, EXP b, int c)
 		MAKE_exp_dummy(ta, a, LINK_NONE, off, 0, a);
 	}
 	e = make_preinc_exp(ta, a, b, off, op);
-	return (e);
+	return e;
 }
 
 
@@ -598,7 +598,7 @@ make_become_exp(int op, EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 		if (IS_TYPE_CLASS(ca)) {
 			goto error_lab;
@@ -641,7 +641,7 @@ make_become_exp(int op, EXP a, EXP b)
 	if (IS_TYPE_INT(ca) && check_int_type(ta, btype_bool)) {
 		report(crt_loc, ERR_expr_ass_op(op, ta, tb));
 		e = make_error_exp(LANGUAGE_CPP);
-		return (e);
+		return e;
 	}
 
 	/* Find the operation type */
@@ -696,7 +696,7 @@ integral_lab:
 			report(crt_loc, err);
 		}
 		e = make_preinc_exp(td, d, e, off, op);
-		return (e);
+		return e;
 	}
 	goto error_lab;
 
@@ -716,7 +716,7 @@ arithmetic_lab:
 			report(crt_loc, err);
 		}
 		e = make_preinc_exp(td, d, e, off, op);
-		return (e);
+		return e;
 	}
 	goto error_lab;
 
@@ -735,7 +735,7 @@ shift_lab:
 			report(crt_loc, err);
 		}
 		e = make_preinc_exp(td, d, e, off, op);
-		return (e);
+		return e;
 	}
 	goto error_lab;
 
@@ -755,7 +755,7 @@ pointer_lab:
 		off1 = make_off_mult(t, b, neg);
 		e = make_add_ptr(ta, a, off1);
 		e = make_preinc_exp(td, d, e, NULL_off, op);
-		return (e);
+		return e;
 	}
 	goto arithmetic_lab;
 
@@ -765,5 +765,5 @@ error_lab:
 		report(crt_loc, ERR_expr_ass_op(op, ta, tb));
 	}
 	e = make_error_exp(LANGUAGE_CPP);
-	return (e);
+	return e;
 }

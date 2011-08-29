@@ -89,7 +89,7 @@ fetch_extn(int n)
 	while (s = fetch(n), s == 0)
 		r += ((1 << n) - 1);
 
-	return (r + s);
+	return r + s;
 }
 
 
@@ -109,7 +109,7 @@ tdf_int(void)
 		n = 8 * n + (d & 7);
 	} while (!(d & 8));
 
-	return (n);
+	return n;
 }
 
 
@@ -170,7 +170,7 @@ de_token(node *p, sortname s)
 			p->son->son = new_node();
 			p->son->son->cons = &token_cons;
 		}
-		return (NULL);
+		return NULL;
 	}
 
 	/* Find the length of the arguments */
@@ -200,7 +200,7 @@ de_token(node *p, sortname s)
 			bits -= tell_posn();
 			if (bits < 0) {
 				input_error("Token %s, arguments length wrong", t->name);
-				return (t);
+				return t;
 			}
 			input_skip(bits);
 		} else {
@@ -225,13 +225,13 @@ de_token(node *p, sortname s)
 			p->son->son = de_node(info->args);
 			if (tell_posn() != end_posn) {
 				input_error("Token %s, arguments length wrong", t->name);
-				return (t);
+				return t;
 			}
 		} else {
 			/* No arguments */
 			if (bits) {
 				input_error("Token %s, arguments length wrong", t->name);
-				return (t);
+				return t;
 			}
 		}
 		info->dec = 1;
@@ -241,7 +241,7 @@ de_token(node *p, sortname s)
 	if (info->dec)
 		adjust_token(t);
 
-	return(t);
+	return t;
 }
 
 
@@ -259,7 +259,7 @@ de_var_sort(long v)
 	node *p = new_node();
 	p->cons = find_binding(crt_binding, v, n);
 
-	return (p);
+	return p;
 }
 
 
@@ -511,5 +511,5 @@ de_node(char *str)
 		str++;
 	}
 
-	return (q);
+	return q;
 }

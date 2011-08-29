@@ -266,7 +266,7 @@ main(int argc, char **argv)
 	if (env_dump) {
 		dump_env(envvars);
 		/* main_end(); XXX */
-		return (0);
+		return 0;
 	}
 
 	/* Check for input files */
@@ -291,5 +291,5 @@ main(int argc, char **argv)
 
 	/* Exit from program */
 	main_end();
-	return (0);
+	return 0;
 }

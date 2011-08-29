@@ -90,9 +90,9 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 static int
 complex_eq_explist(exp a, exp b, exp laba, exp labb)
 {
-	if (a == nilexp) return(b == nilexp);
+	if (a == nilexp) return b == nilexp;
 	if (b == nilexp || !complex_eq_exp(a,b,laba,labb)) return 0;
-	if (last(a)) return(last(b));
+	if (last(a)) return last(b);
 	if (last(b)) return 0;
 	return complex_eq_explist(bro(a), bro(b), laba, labb);
 }
@@ -121,9 +121,9 @@ complex_eq_exp(exp a, exp b, exp laba, exp labb)
 		       complex_eq_explist(son(a),son(b), laba, labb));
 	}
 	if (name(a) ==name_tag) {
-		return(son(a) ==son(b) && no(a) ==no(b));
+		return son(a) == son(b) && no(a) == no(b);
 	}
 
-	return(is_a(name(a)) && no(a) ==no(b) &&
-	       complex_eq_explist(son(a), son(b), laba, labb));
+	return is_a(name(a)) && no(a) ==no(b) &&
+	       complex_eq_explist(son(a), son(b), laba, labb);
 }

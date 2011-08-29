@@ -238,7 +238,7 @@ xalloc(int n)
 	void *ptr;
 
 	if (n == 0)
-		return (NULL);
+		return NULL;
 
 	ptr = malloc(n);
 	if (ptr == NULL) {
@@ -248,7 +248,7 @@ xalloc(int n)
 		fatal_error("Memory allocation error");
 	}
 
-	return (ptr);
+	return ptr;
 }
 
 
@@ -264,16 +264,16 @@ xrealloc(void *p, int n)
 	void *ptr;
 
 	if (n == 0)
-		return (NULL);
+		return NULL;
 
 	if (p == NULL)
-		return (xalloc(n));
+		return xalloc(n);
 
 	ptr = realloc(p, n);
 	if (ptr == NULL)
 		fatal_error("Memory allocation error");
 
-	return (ptr);
+	return ptr;
 }
 
 
@@ -293,7 +293,7 @@ string_copy(char *s, int n)
 	(void) strncpy(p, s, n);
 	p[n] = '\0';
 
-	return(p);
+	return p;
 }
 
 
@@ -317,7 +317,7 @@ temp_copy(char *s)
 
 	(void) strcpy(buff, s);
 
-	return (buff);
+	return buff;
 }
 
 
@@ -334,7 +334,7 @@ ulong_to_octal(unsigned long n)
 	char buff[100];
 
 	if (n == 0)
-		return ("0");
+		return "0";
 
 	buff[i] = 0;
 	while (n) {
@@ -342,7 +342,7 @@ ulong_to_octal(unsigned long n)
 		n >>= 3;
 	}
 
-	return(string_copy(buff + i, 99 - i));
+	return string_copy(buff + i, 99 - i);
 }
 
 
@@ -360,7 +360,7 @@ octal_to_ulong(char *num)
 	for (; *num; num++)
 		n = (n << 3) + (unsigned long)(*num - '0');
 
-	return (n);
+	return n;
 }
 
 
@@ -386,7 +386,7 @@ fits_ulong(char *num, int sz)
 	}
 
 	if (n <= m)
-		return (1);
+		return 1;
 
-	return (0);
+	return 0;
 }

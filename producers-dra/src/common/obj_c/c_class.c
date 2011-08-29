@@ -118,12 +118,12 @@ gen_c_class(unsigned sz)
 	if (n < SMALL_BLOCK) {
 		/* Allocate from small block array */
 		if (n == 0) {
-			return(NULL);
+			return NULL;
 		}
 		p = free_c_class_array[n];
 		if (p) {
 			free_c_class_array[n] = TAIL_list(p);
-			return(p);
+			return p;
 		}
 	}
 	if (n > free_c_classes_left) {
@@ -138,7 +138,7 @@ gen_c_class(unsigned sz)
 	p = free_c_classes;
 	free_c_classes += n;
 	free_c_classes_left -= n;
-	return(p);
+	return p;
 }
 
 
@@ -180,14 +180,14 @@ debug_c_class(unsigned sz, unsigned t)
 	if (n < SMALL_BLOCK) {
 		/* Allocate from small block array */
 		if (n == 0) {
-			return(NULL);
+			return NULL;
 		}
 		p = free_c_class_array[n];
 		if (p) {
 			free_c_class_array[n] = TAIL_list(p);
 			ASSERT(TYPEID(p) == TYPEID_free);
 			TYPEID(p) = t;
-			return(p);
+			return p;
 		}
 	}
 	n += 1;
@@ -204,7 +204,7 @@ debug_c_class(unsigned sz, unsigned t)
 	TYPEID(p) = t;
 	free_c_classes += n;
 	free_c_classes_left -= n;
-	return(p);
+	return p;
 }
 
 #endif /* RUNTIME */
@@ -292,7 +292,7 @@ length_c_class_list(c_class *p)
 		n++;
 		q = TAIL_list(q);
 	}
-	return(n);
+	return n;
 }
 
 
@@ -313,7 +313,7 @@ reverse_c_class_list(c_class *p)
 		r = q;
 		q = nq;
 	}
-	return(r);
+	return r;
 }
 
 
@@ -328,13 +328,13 @@ append_c_class_list(c_class *p, c_class *q)
 {
 	c_class *r = p;
 	if (r == NULL) {
-		return(q);
+		return q;
 	}
 	while (TAIL_list(r)) {
 		r = TAIL_list(r);
 	}
 	TAIL_list(r) = q;
-	return(p);
+	return p;
 }
 
 
@@ -349,12 +349,12 @@ end_c_class_list(c_class *p)
 {
 	c_class *r = p;
 	if (r == NULL) {
-		return(NULL);
+		return NULL;
 	}
 	while (TAIL_list(r)) {
 		r = TAIL_list(r);
 	}
-	return(r);
+	return r;
 }
 
 
@@ -417,12 +417,12 @@ find_c_class_alias(unsigned n)
 	while (p) {
 		c_class *q = HEAD_list(p) ->ag_ptr;
 		if (q->ag_tag == n) {
-			return (q);
+			return q;
 		}
 		p = TAIL_list(p);
 	}
 	error(ERROR_INTERNAL, "Can't find alias %u", n);
-	return (NULL);
+	return NULL;
 }
 
 

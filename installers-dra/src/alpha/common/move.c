@@ -488,7 +488,7 @@ move(ans src, where dest, space freeregs, bool sgned)
 	    load_store(i_ldq,bo.base,is.b);
 	    float_load_store(st,fr.fr,bo);
 	  }
-	  return ((fr.type == IEEE_double)?-(fr.fr+32):(fr.fr+32));
+	  return (fr.type == IEEE_double)?-(fr.fr+32):(fr.fr+32);
 	}
       }
       break;

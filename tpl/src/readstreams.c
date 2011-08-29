@@ -94,7 +94,7 @@ get_bit(void)
 		curin->byte_pos = 0;
 		curin->bit_pos = 0;
 	}
-	return(x & 1);
+	return x & 1;
 }
 
 
@@ -107,7 +107,7 @@ get_basic_int(int bts, Bool e)
 		ans = (ans << 1) + get_bit();
 	}
 	if (e && ans==0) {
-		return(get_basic_int(bts,e) + (UI(1) <<bts) - 1);
+		return get_basic_int(bts,e) + (UI(1) <<bts) - 1;
 	}
 	return ans;
 }
@@ -121,7 +121,7 @@ get_tdfint(void)
 	while ((x = get_basic_int(4, 0)) <= 7) {
 		ans = (ans << 3) + x;
 	}
-	return ((ans << 3) + (x - 8));
+	return (ans << 3) + (x - 8);
 }
 
 

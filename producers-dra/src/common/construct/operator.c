@@ -131,7 +131,7 @@ ntest_token(NTEST ntst, int lex)
 		lex = lex_greater_Heq;
 		break;
 	}
-	return (lex);
+	return lex;
 }
 
 
@@ -223,7 +223,7 @@ op_token(EXP e, int lex)
 		}
 		}
 	}
-	return (lex);
+	return lex;
 }
 
 
@@ -419,7 +419,7 @@ apply_unary(int op, EXP a, TYPE t1, TYPE t2, int cpy)
 		break;
 	}
 	suppress_quality--;
-	return (e);
+	return e;
 }
 
 
@@ -553,7 +553,7 @@ apply_binary(int op, EXP a, EXP b, TYPE t1, TYPE t2, int cpy)
 		break;
 	}
 	suppress_quality--;
-	return (e);
+	return e;
 }
 
 
@@ -669,7 +669,7 @@ apply_nary(int op, LIST(EXP)p, TYPE t1, TYPE t2, int cpy)
 		break;
 	}
 	suppress_quality--;
-	return (e);
+	return e;
 }
 
 
@@ -694,7 +694,7 @@ convert_builtin(TYPE t, EXP a, int op, unsigned n)
 		err = concat_error(err, ERR_expr_convert_op(n, op));
 		report(crt_loc, err);
 	}
-	return (a);
+	return a;
 }
 
 
@@ -724,7 +724,7 @@ apply_builtin(IDENTIFIER id, LIST(EXP) args)
 	/* Shouldn't have no arguments */
 	if (IS_NULL_list(args)) {
 		e = make_error_exp(0);
-		return (e);
+		return e;
 	}
 
 	/* Convert first argument */
@@ -737,7 +737,7 @@ apply_builtin(IDENTIFIER id, LIST(EXP) args)
 		overload_depth++;
 		e = make_func_exp(a, args, 0);
 		overload_depth--;
-		return (e);
+		return e;
 	}
 
 	/* Allow for unary operators */
@@ -745,7 +745,7 @@ apply_builtin(IDENTIFIER id, LIST(EXP) args)
 		overload_depth++;
 		e = apply_unary(op, a, NULL_type, NULL_type, 0);
 		overload_depth--;
-		return (e);
+		return e;
 	}
 
 	/* Convert second argument */
@@ -758,13 +758,13 @@ apply_builtin(IDENTIFIER id, LIST(EXP) args)
 		overload_depth++;
 		e = apply_binary(op, a, b, NULL_type, NULL_type, 0);
 		overload_depth--;
-		return (e);
+		return e;
 	}
 
 	/* Shouldn't have more than two arguments */
 	DESTROY_list(args, SIZE_exp);
 	e = make_error_exp(0);
-	return (e);
+	return e;
 }
 
 
@@ -817,7 +817,7 @@ check_operator(TYPE t, IDENTIFIER id, int mem, int *alloc)
 		TYPE s = DEREF_type(type_templ_defn(t));
 		s = check_operator(s, id, mem, alloc);
 		COPY_type(type_templ_defn(t), s);
-		return (t);
+		return t;
 	}
 
 	/* Find the operator */
@@ -829,13 +829,13 @@ check_operator(TYPE t, IDENTIFIER id, int mem, int *alloc)
 		/* Check for allocation operators */
 		*alloc = 1;
 		t = check_allocator(t, id, mem, 0);
-		return (t);
+		return t;
 	case lex_delete:
 	case lex_delete_Harray:
 		/* Check for deallocation operators */
 		*alloc = 2;
 		t = check_allocator(t, id, mem, 0);
-		return (t);
+		return t;
 	default:
 		*alloc = 0;
 		break;
@@ -982,7 +982,7 @@ check_operator(TYPE t, IDENTIFIER id, int mem, int *alloc)
 	if (!dargs && check_func_dargs(t, 0, 0)) {
 		report(crt_loc, ERR_over_oper_default(nm));
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1028,7 +1028,7 @@ unary_builtin(HASHID nm, TYPE a, TYPE r)
 		COPY_type(HEAD_list(p), a);
 		unary_free = DEREF_id(id_alias(id));
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1062,7 +1062,7 @@ binary_builtin(HASHID nm, TYPE a, TYPE b, TYPE r)
 		COPY_type(HEAD_list(p), b);
 		binary_free = DEREF_id(id_alias(id));
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1094,7 +1094,7 @@ nary_builtin(HASHID nm, TYPE a, LIST(TYPE) p, TYPE r)
 		COPY_list(PTR_TAIL_list(q), p);
 		nary_free = DEREF_id(id_alias(id));
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1147,7 +1147,7 @@ overload_candidates(CANDIDATE_LIST *p, int op, TYPE t, TYPE s)
 			add_candidates(p, id, 1, KIND_MEM_OP);
 		}
 	}
-	return (nm);
+	return nm;
 }
 
 
@@ -1168,7 +1168,7 @@ add_int_types(LIST(TYPE) res)
 	res = cons_type_set(res, type_slong);
 	res = cons_type_set(res, type_uint);
 	res = cons_type_set(res, type_sint);
-	return (res);
+	return res;
 }
 
 
@@ -1184,7 +1184,7 @@ add_float_types(LIST(TYPE) res)
 	res = cons_type_set(res, type_ldouble);
 	res = cons_type_set(res, type_double);
 	res = cons_type_set(res, type_float);
-	return (res);
+	return res;
 }
 
 
@@ -1414,7 +1414,7 @@ find_type_convs(TYPE t, EXP a, unsigned kind)
 		res = cons_type_set(res, t);
 	}
 	UNUSED(a);
-	return (res);
+	return res;
 }
 
 
@@ -1551,7 +1551,7 @@ find_builtin_ret(TYPE ta, TYPE tb, int rtype, TYPE tc)
 		tc = type_ptrdiff_t;
 		break;
 	}
-	return (tc);
+	return tc;
 }
 
 
@@ -1593,13 +1593,13 @@ check_builtin_args(TYPE ta, TYPE tb, int otype, TYPE *pt)
 		if (IS_type_ref(ta)) {
 			ta = DEREF_type(type_ref_sub(ta));
 		}
-		return (check_builtin_args(ta, tb, OTYPE_PTR, pt));
+		return check_builtin_args(ta, tb, OTYPE_PTR, pt);
 	case OTYPE_REF_MEM:
 		/* Allow equal pointer member types */
 		if (IS_type_ref(ta)) {
 			ta = DEREF_type(type_ref_sub(ta));
 		}
-		return (check_builtin_args(ta, tb, OTYPE_PTR_MEM, pt));
+		return check_builtin_args(ta, tb, OTYPE_PTR_MEM, pt);
 	case OTYPE_SELECT: {
 		/* Allow pointer member selection */
 		TYPE sa = DEREF_type(type_ptr_sub(ta));
@@ -1643,7 +1643,7 @@ check_builtin_args(TYPE ta, TYPE tb, int otype, TYPE *pt)
 		break;
 	}
 	}
-	return (ok);
+	return ok;
 }
 
 
@@ -1743,7 +1743,7 @@ unary_overload(int op, EXP a)
 	TYPE t = DEREF_type(exp_type(a));
 	if (is_templ_type(t)) {
 		MAKE_exp_op(t, op, a, NULL_exp, e);
-		return (e);
+		return e;
 	}
 
 	/* Construct candidate list */
@@ -1861,7 +1861,7 @@ unary_overload(int op, EXP a)
 						  args);
 			}
 			overload_warn = ow;
-			return (e);
+			return e;
 		}
 		DESTROY_list(args, SIZE_exp);
 	}
@@ -1875,7 +1875,7 @@ unary_overload(int op, EXP a)
 		e = apply_unary(op, a, NULL_type, NULL_type, 0);
 		overload_depth--;
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1901,11 +1901,11 @@ binary_overload(int op, EXP a, EXP b)
 	TYPE s = DEREF_type(exp_type(b));
 	if (is_templ_type(t)) {
 		MAKE_exp_op(t, op, a, b, e);
-		return (e);
+		return e;
 	}
 	if (is_templ_type(s)) {
 		MAKE_exp_op(s, op, a, b, e);
-		return (e);
+		return e;
 	}
 
 	/* Construct candidate list */
@@ -2160,7 +2160,7 @@ relation_op_lab:
 						  args);
 			}
 			overload_warn = ow;
-			return (e);
+			return e;
 		}
 		DESTROY_list(args, SIZE_exp);
 	}
@@ -2174,7 +2174,7 @@ relation_op_lab:
 		e = apply_binary(op, a, b, NULL_type, NULL_type, 0);
 		overload_depth--;
 	}
-	return (e);
+	return e;
 }
 
 
@@ -2292,7 +2292,7 @@ function_overload(EXP a, LIST(EXP)args)
 						  args);
 			}
 			overload_warn = ow;
-			return (e);
+			return e;
 		}
 		DESTROY_CONS_exp(destroy, a, args, args);
 	}
@@ -2301,7 +2301,7 @@ function_overload(EXP a, LIST(EXP)args)
 	overload_depth++;
 	e = make_func_exp(a, args, 0);
 	overload_depth--;
-	return (e);
+	return e;
 }
 
 

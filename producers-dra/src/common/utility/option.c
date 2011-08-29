@@ -302,7 +302,7 @@ find_option_no(STRING s, int n)
 			string nm = ustrlit(OPT_CATALOG[n].name);
 			if (nm && ustreq(text, nm)) {
 				if (len == (ulong)ustrlen(nm)) {
-					return (n);
+					return n;
 				}
 			}
 		}
@@ -315,12 +315,12 @@ find_option_no(STRING s, int n)
 			string nm = ustrlit(opt->entry->name);
 			if (nm && ustreq(text, nm)) {
 				if (len == (ulong)ustrlen(nm)) {
-					return (opt->number);
+					return opt->number;
 				}
 			}
 		}
 	}
-	return (-1);
+	return -1;
 }
 
 
@@ -346,7 +346,7 @@ find_value_no(STRING s, int n)
 			string nm = ustrlit(p[n].name);
 			if (nm && ustreq(text, nm)) {
 				if (len == (ulong)ustrlen(nm)) {
-					return (n);
+					return n;
 				}
 			}
 		}
@@ -354,13 +354,13 @@ find_value_no(STRING s, int n)
 			string nm = ustrlit(p->name);
 			if (nm && ustreq(text, nm)) {
 				if (len == (ulong)ustrlen(nm)) {
-					return (i);
+					return i;
 				}
 			}
 			p++;
 		}
 	}
-	return (-1);
+	return -1;
 }
 
 
@@ -386,13 +386,13 @@ find_type_no(STRING s)
 			string nm = ustrlit(p->name);
 			if (nm && ustreq(text, nm)) {
 				if (len == (ulong)ustrlen(nm)) {
-					return (p->number);
+					return p->number;
 				}
 			}
 			p++;
 		}
 	}
-	return (-1);
+	return -1;
 }
 
 
@@ -449,7 +449,7 @@ set_severity(ERROR err, int n, int set)
 			COPY_int(err_severity(err), e);
 		}
 	}
-	return (err);
+	return err;
 }
 
 
@@ -827,7 +827,7 @@ check_value(int n, unsigned long v, ...) /* VARARGS */
 			}
 		}
 		va_end(args);
-		return (0);
+		return 0;
 	}
 
 	/* Check against minimum implementation limit */
@@ -842,7 +842,7 @@ check_value(int n, unsigned long v, ...) /* VARARGS */
 		}
 	}
 	va_end(args);
-	return (1);
+	return 1;
 }
 
 
@@ -859,7 +859,7 @@ incr_value(int n)
 	OPT_VALUE_DATA *p = OPT_VALUE_CATALOG + n;
 	unsigned long v = ++(p->crt_value);
 	ASSERT(p->incr);
-	return (check_value(n, v));
+	return check_value(n, v);
 }
 
 
@@ -931,10 +931,10 @@ find_option(HASHID nm)
 	OPTIONS *p;
 	for (p = all_opts; p != NULL; p = p->next) {
 		if (EQ_hashid(nm, p->name)) {
-			return (p);
+			return p;
 		}
 	}
-	return (NULL);
+	return NULL;
 }
 
 
@@ -990,7 +990,7 @@ new_option(HASHID nm, OPTIONS *q, int n)
 			cat++;
 		}
 	}
-	return (p);
+	return p;
 }
 
 

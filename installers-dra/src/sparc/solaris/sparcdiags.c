@@ -378,7 +378,7 @@ static long next_typen
     for (i = n; i < m; i++)type_sizes[i] = 0;
     total_type_sizes = m;
   }
-  return(typeno++);
+  return typeno++;
 }
 
 
@@ -422,9 +422,9 @@ static long find_file
 {
   long i;
   for (i = 0; i < nofds; i++) {
-    if (strcmp(f, fds[i] ->file.ints.chars) == 0) return(i);
+    if (strcmp(f, fds[i] ->file.ints.chars) == 0) return i;
   }
-  return(0);
+  return 0;
 }
 
 #endif
@@ -636,19 +636,19 @@ static long out_sh_type
 {
   last_type_sz = shape_size(s);
   switch (name(s)) {
-    case scharhd: return(STAB_SCHAR);
-    case ucharhd: return(STAB_UCHAR);
-    case swordhd: return(STAB_SSHRT);
-    case uwordhd: return(STAB_USHRT);
-    case slonghd: return(strstr(nm, "long")? STAB_SLONG : STAB_SINT);
-    case ulonghd: return(strstr(nm, "long")? STAB_ULONG : STAB_UINT);
-    case s64hd: return(STAB_S64);
-    case u64hd: return(STAB_U64);
-    case shrealhd: return(STAB_FLOAT);
-    case realhd: return(STAB_DBL);
-    case doublehd: return(STAB_LDBL);
+    case scharhd: return STAB_SCHAR;
+    case ucharhd: return STAB_UCHAR;
+    case swordhd: return STAB_SSHRT;
+    case uwordhd: return STAB_USHRT;
+    case slonghd: return strstr(nm, "long")? STAB_SLONG : STAB_SINT;
+    case ulonghd: return strstr(nm, "long")? STAB_ULONG : STAB_UINT;
+    case s64hd: return STAB_S64;
+    case u64hd: return STAB_U64;
+    case shrealhd: return STAB_FLOAT;
+    case realhd: return STAB_DBL;
+    case doublehd: return STAB_LDBL;
   }
-  return(STAB_VOID);
+  return STAB_VOID;
 }
 
 static long find_basic_type
@@ -656,23 +656,23 @@ static long find_basic_type
 {
   char* x;
   if (strstr(s, "char"))
-    return(strstr(s, "unsigned")? STAB_UCHAR : STAB_SCHAR);
+    return strstr(s, "unsigned")? STAB_UCHAR : STAB_SCHAR;
   if (strstr(s, "double"))
-    return(strstr(s, "long")? STAB_LDBL : STAB_DBL);
+    return strstr(s, "long")? STAB_LDBL : STAB_DBL;
   if (strstr(s, "float"))
-    return(STAB_FLOAT);
+    return STAB_FLOAT;
   if (strstr(s, "short"))
-    return(strstr(s, "unsigned")? STAB_USHRT : STAB_SSHRT);
+    return strstr(s, "unsigned")? STAB_USHRT : STAB_SSHRT;
   if ((x = strstr(s, "long"))) {
     if (strstr(x+1, "long"))
-      return(strstr(s, "unsigned")? STAB_U64 : STAB_S64);
-    return(strstr(s, "unsigned")? STAB_ULONG : STAB_SLONG);
+      return strstr(s, "unsigned")? STAB_U64 : STAB_S64;
+    return strstr(s, "unsigned")? STAB_ULONG : STAB_SLONG;
   }
   if (strstr(s, "int"))
-    return(strstr(s, "unsigned")? STAB_UINT : STAB_SINT);
+    return strstr(s, "unsigned")? STAB_UINT : STAB_SINT;
   if (strstr(s, "void_star"))
-    return(STAB_VS);
-  return(STAB_VOID);
+    return STAB_VS;
+  return STAB_VOID;
 }
 
 #else
@@ -682,19 +682,19 @@ static long out_sh_type
 {
   last_type_sz = shape_size(s);
   switch (name(s)) {
-    case scharhd: return(STAB_SCHAR);
-    case ucharhd: return(STAB_UCHAR);
-    case swordhd: return(STAB_SSHRT);
-    case uwordhd: return(STAB_USHRT);
-    case slonghd: return(STAB_SINT);
-    case ulonghd: return(STAB_UINT);
-    case s64hd: return(STAB_S64);
-    case u64hd: return(STAB_U64);
-    case shrealhd: return(STAB_FLOAT);
-    case realhd: return(STAB_DBL);
-    case doublehd: return(STAB_LDBL);
+    case scharhd: return STAB_SCHAR;
+    case ucharhd: return STAB_UCHAR;
+    case swordhd: return STAB_SSHRT;
+    case uwordhd: return STAB_USHRT;
+    case slonghd: return STAB_SINT;
+    case ulonghd: return STAB_UINT;
+    case s64hd: return STAB_S64;
+    case u64hd: return STAB_U64;
+    case shrealhd: return STAB_FLOAT;
+    case realhd: return STAB_DBL;
+    case doublehd: return STAB_LDBL;
   }
-  return(STAB_VOID);
+  return STAB_VOID;
 }
 
 #endif
@@ -814,7 +814,7 @@ static struct delay_stab * next_del_stab
 	}
 	c_del_index = 0;
     }
-    return((c_del_array -> a) + (c_del_index ++));
+    return (c_del_array -> a) + (c_del_index ++);
 }
 
 static long open_label = 0;
@@ -994,7 +994,7 @@ static long type_size
 	  long lwb = no(son(x.lower.x));
 	  long upb = no(son(x.upper.x));
 	  long stride = no(son(dt->data.t_arr.stride));
-	  return(stride *(upb - lwb + 1));
+	  return stride *(upb - lwb + 1);
 
 	}
       }

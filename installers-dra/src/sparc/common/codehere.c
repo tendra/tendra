@@ -128,17 +128,17 @@ regofval ( exp e )
   exp dc = son ( e ) ;
   if ( name ( e ) == name_tag && name ( dc ) == ident_tag ) {
     if ( ( props ( dc ) & defer_bit ) != 0 ) {
-      return ( regofval ( son ( dc ) ) ) ;
+      return regofval ( son ( dc ) ) ;
     }
     if ( ( props ( dc ) & inreg_bits ) != 0 ) {
-      return ( ( isvar ( dc ) ) ? ( -no ( dc ) ) : ( no ( dc ) ) ) ;
+      return isvar ( dc ) ? ( -no ( dc ) ) : ( no ( dc ) ) ;
     }
-    return ( R_NO_REG ) ;
+    return R_NO_REG;
   } 
   else if ( name ( e ) == val_tag && no ( e ) == 0 ) {
-    return ( R_G0 ) ;
+    return R_G0;
   }
-  return ( R_NO_REG ) ;
+  return R_NO_REG;
 }
 
 
@@ -155,11 +155,11 @@ fregofval ( exp e )
   exp dc = son ( e ) ;
   if ( name ( e ) == name_tag && name ( dc ) == ident_tag ) {
     if ( ( props ( dc ) & infreg_bits ) != 0 ) {
-      return ( no ( dc ) ) ;
+      return no ( dc ) ;
     }
-    return ( R_NO_REG ) ;
+    return R_NO_REG;
   }
-  return ( R_NO_REG ) ;
+  return R_NO_REG;
 }
 
 
@@ -179,7 +179,7 @@ make_code_here ( exp e, space sp, where dest )
     START_BB ();
 #endif
   }
-  return ( mka.regmove ) ;
+  return mka.regmove;
 }
 
 
@@ -193,24 +193,24 @@ is_reg_operand ( exp e )
 {
   ans aa ;
   int x = regofval ( e ) ;
-  if ( x >= 0 && x < R_NO_REG ) return ( x ) ;
+  if ( x >= 0 && x < R_NO_REG ) return x;
   if ( name ( e ) == cont_tag ) {
     x = regofval ( son ( e ) ) ;
-    if ( x < 0 ) return ( -x ) ;
+    if ( x < 0 ) return -x;
   }
   aa = iskept ( e ) ;
   if ( discrim ( aa ) == inreg && regalt ( aa ) != 0 ) {
-    return ( regalt ( aa ) ) ;
+    return regalt ( aa ) ;
   }
   if ( discrim ( aa ) == notinreg ) {
     instore is ;
     is = insalt ( aa ) ;
     if ( is.adval && is.b.offset == 0 ) {
       int r = is.b.base ;
-      return ( r ) ;
+      return r;
     }
   }
-  return ( R_NO_REG ) ;
+  return R_NO_REG;
 }
 
 
@@ -235,12 +235,12 @@ reg_operand ( exp e, space sp )
     ( void ) make_code_here ( e, sp, w ) ;
     assert (reg != -1);
     keepreg ( e, reg ) ;
-    return ( reg ) ;
+    return reg;
   } 
   else {
     /* e was found easily in a register */
     assert ( IS_FIXREG ( reg ) ) ;
-    return ( reg ) ;
+    return reg;
   }
 }
 
@@ -283,12 +283,12 @@ freg_operand ( exp e, space sp, int reg )
   where w ;
   freg fr ;
   int x = fregofval ( e ) ;
-  if ( x >= 0 && x < R_NO_REG ) return ( x ) ;
+  if ( x >= 0 && x < R_NO_REG ) return x;
   w.ashwhere = ashof ( sh ( e ) ) ;
   fr.dble = ( bool ) ( ( w.ashwhere.ashsize == 64 ) ? 1 : 0 ) ;
   if ( name ( e ) == cont_tag ) {
     x = fregofval ( son ( e ) ) ;
-    if ( x < R_NO_REG ) return ( x ) ;
+    if ( x < R_NO_REG ) return x;
   } 
   else if ( name ( e ) == apply_tag || name(e) == apply_general_tag) {
     fr.fr = 0 ;
@@ -297,19 +297,19 @@ freg_operand ( exp e, space sp, int reg )
     /* w.ashwhere already correctly set up above */
     make_code ( e, sp, w, 0 ) ;
     /* floating point procedures give their result in %f0 */
-    return ( 0 ) ;
+    return 0;
   }
   aa = iskept ( e ) ;
   if ( discrim ( aa ) == infreg ) {
     /* e already evaluated in fl reg */
-    return ( regalt ( aa ) ) /* cheat */ ;
+    return regalt ( aa ) /* cheat */ ;
   }
   fr.fr = reg ;
   setfregalt ( aa, fr ) ;
   w.answhere = aa ;
   ( void ) make_code_here ( e, sp, w ) ;
   keepexp ( e, aa ) ;
-  return ( reg ) ;
+  return reg;
 }
 
 
@@ -325,7 +325,7 @@ code_here ( exp e, space sp, where dest )
 {
   int reg = is_reg_operand ( e ) ;
   if ( reg == R_NO_REG || reg == R_G0 ) {
-    return ( make_code_here ( e, sp, dest ) ) ;
+    return make_code_here ( e, sp, dest ) ;
   } 
   else {
     /* e was found easily in a register */
@@ -338,6 +338,6 @@ code_here ( exp e, space sp, where dest )
     if (dgf(e))
       diag_arg (e, sp, dest);
 #endif
-    return ( reg ) ;
+    return reg;
   }
 }

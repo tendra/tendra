@@ -195,14 +195,14 @@ read_token_name(sortname s)
     read_word();
     if (word_type != INPUT_WORD) {
 	input_error("Token identifier expected");
-	return(null);
+	return null;
     }
 
     /* Look up token */
     v = search_var_hash(word, SORT_token);
     if (v == null) {
 	input_error("Token %s not declared", word);
-	return(null);
+	return null;
     }
     info = get_tok_info(v);
 
@@ -230,7 +230,7 @@ read_token_name(sortname s)
 	p->son = new_node();
 	p->son->cons = &token_cons;
     }
-    return(p);
+    return p;
 }
 
 
@@ -250,7 +250,7 @@ make_obj(sortname s)
 	case SORT_label: mk = ENC_make_label; break;
 	case SORT_tag: mk = ENC_make_tag; break;
     }
-    return(mk);
+    return mk;
 }
 
 
@@ -305,7 +305,7 @@ search_var_sort(char *nm, sortname s)
 	    IGNORE add_to_var_hash(v, s);
 	}
     }
-    return(v);
+    return v;
 }
 
 
@@ -327,7 +327,7 @@ read_var_sort(sortname s)
     v = search_var_sort(word, s);
     p = new_node();
     p->cons = v;
-    return(p);
+    return p;
 }
 
 
@@ -427,13 +427,13 @@ read_node_aux(char *str, int strict)
     /* Check for blanks */
     if (word_type == INPUT_BLANK && !strict) {
 	word_type = INPUT_BLANK_FIRST;
-	return(null);
+	return null;
     }
 
     /* Check for bars */
     if (word_type == INPUT_BAR && !strict) {
 	word_type = INPUT_BAR_FIRST;
-	return(null);
+	return null;
     }
 
     /* Deal with strings */
@@ -445,7 +445,7 @@ read_node_aux(char *str, int strict)
 	    p->cons->encoding = word_length;
 	    p->cons->name = string_copy(word,(int)word_length);
 	    p->cons->next = null;
-	    return(p);
+	    return p;
 	} else {
 	    boolean is_multibyte = 0;
 	    if (func_input) {
@@ -475,11 +475,11 @@ read_node_aux(char *str, int strict)
 		if (word_type != INPUT_CLOSE) {
 		    input_error("End of multibyte string expected");
 		}
-		return(p);
+		return p;
 	    }
 	}
 	if (strict)input_error("String expected");
-	return(null);
+	return null;
     }
 
     /* Deal with numbers */
@@ -505,13 +505,13 @@ read_node_aux(char *str, int strict)
 		    is_fatal = 0;
 		    input_error("Negative nat");
 		}
-		return(p);
+		return p;
 	    }
 	    case SORT_tdfbool: {
 		node *q = new_node();
 		q->cons = (negate ? &true_cons : &false_cons);
 		q->bro = p;
-		return(q);
+		return q;
 	    }
 	    case SORT_nat: {
 		node *q = new_node();
@@ -521,7 +521,7 @@ read_node_aux(char *str, int strict)
 		}
 		q->cons = cons_no(SORT_nat, ENC_make_nat);
 		q->son = p;
-		return(q);
+		return q;
 	    }
 	    case SORT_signed_nat: {
 		node *q = new_node();
@@ -529,11 +529,11 @@ read_node_aux(char *str, int strict)
 		q->son = new_node();
 		q->son->cons = (negate ? &true_cons : &false_cons);
 		q->son->bro = p;
-		return(q);
+		return q;
 	    }
 	    default : {
 		if (strict)input_error("%s expected", sort_name(s));
-		return(null);
+		return null;
 	    }
 	}
     }
@@ -551,14 +551,14 @@ read_node_aux(char *str, int strict)
 	    q = new_node();
 	    q->cons = cons_no(SORT_string, ENC_make_string);
 	    q->son = p;
-	    return(q);
+	    return q;
 	}
     }
 
     /* That was the last chance for numbers */
     if (fn == null) {
 	if (strict)input_error("Number expected");
-	return(null);
+	return null;
     }
 
     /* Check for brackets (1) */
@@ -570,7 +570,7 @@ read_node_aux(char *str, int strict)
     /* The next word should be the identifier */
     if (word_type != INPUT_WORD) {
 	if (strict)input_error("%s expected", sort_name(s));
-	return(null);
+	return null;
     }
 
     /* Check for brackets (2) */
@@ -598,7 +598,7 @@ read_node_aux(char *str, int strict)
 	q = new_node();
 	q->cons = cons_no(SORT_string, ENC_make_string);
 	q->son = p;
-	return(q);
+	return q;
     }
 
     /* Look up construct */
@@ -629,7 +629,7 @@ read_node_aux(char *str, int strict)
 	    }
 	    if (rs != s) {
 		if (do_check_tag)goto check_lab;
-		if (!strict) return(null);
+		if (!strict) return null;
 		input_error("Token %s returns %s, not %s", wtemp,
 			      sort_name(rs), sort_name(s));
 	    }
@@ -660,7 +660,7 @@ read_node_aux(char *str, int strict)
 		if (strict) {
 		    input_error("Illegal %s, %s", sort_name(s), wtemp);
 		}
-		return(null);
+		return null;
 	    }
 	}
     }
@@ -679,7 +679,7 @@ read_node_aux(char *str, int strict)
 	    input_error("%s construct should be in brackets", cons->name);
 	}
     }
-    return(p);
+    return p;
 }
 
 
@@ -973,5 +973,5 @@ read_node(char *str)
 	}
 	str++;
     }
-    return(q);
+    return q;
 }

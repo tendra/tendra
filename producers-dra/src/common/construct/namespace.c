@@ -167,7 +167,7 @@ make_global_nspace(const char *s, int sz)
 	MAKE_id_nspace_name(nm, ds, NULL_nspace, crt_loc, ns, id);
 	ns = make_namespace(id, nspace_global_tag, sz);
 	COPY_nspace(id_nspace_name_defn(id), ns);
-	return (ns);
+	return ns;
 }
 
 
@@ -206,15 +206,15 @@ int
 is_subnspace(NAMESPACE ns, NAMESPACE pns)
 {
 	if (EQ_nspace(ns, pns)) {
-		return (1);
+		return 1;
 	}
 	while (!IS_NULL_nspace(pns)) {
 		pns = DEREF_nspace(nspace_parent(pns));
 		if (EQ_nspace(ns, pns)) {
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -233,21 +233,21 @@ join_namespace(NAMESPACE ns, NAMESPACE nt)
 {
 	while (!EQ_nspace(ns, nt)) {
 		if (IS_NULL_nspace(ns)) {
-			return (NULL_nspace);
+			return NULL_nspace;
 		}
 		if (IS_NULL_nspace(nt)) {
-			return (NULL_nspace);
+			return NULL_nspace;
 		}
 		if (is_subnspace(ns, nt)) {
-			return (ns);
+			return ns;
 		}
 		if (is_subnspace(nt, ns)) {
-			return (nt);
+			return nt;
 		}
 		ns = DEREF_nspace(nspace_parent(ns));
 		nt = DEREF_nspace(nspace_parent(nt));
 	}
-	return (ns);
+	return ns;
 }
 
 
@@ -418,7 +418,7 @@ nonclass_namespace_lab:
 		}
 	}
 	POP_nspace(crt_namespace, crt_nspace_stack);
-	return (ns);
+	return ns;
 }
 
 
@@ -450,7 +450,7 @@ pop_namespace(void)
 {
 	NAMESPACE ns = restore_namespace();
 	remove_namespace();
-	return (ns);
+	return ns;
 }
 
 
@@ -512,7 +512,7 @@ make_namespace(IDENTIFIER id, unsigned tag, int sz)
 			ptr = STEP_ptr(ptr, SIZE_member);
 		}
 	}
-	return (ns);
+	return ns;
 }
 
 
@@ -534,7 +534,7 @@ use_namespace(NAMESPACE ns, NAMESPACE cns, NAMESPACE nt)
 		while (!IS_NULL_list(q)) {
 			NAMESPACE qns = DEREF_nspace(HEAD_list(q));
 			if (EQ_nspace(qns, ns)) {
-				return (0);
+				return 0;
 			}
 			q = TAIL_list(q);
 		}
@@ -542,9 +542,9 @@ use_namespace(NAMESPACE ns, NAMESPACE cns, NAMESPACE nt)
 		COPY_list(nspace_join(cns), r);
 		CONS_nspace(ns, p, p);
 		COPY_list(nspace_use(cns), p);
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -816,7 +816,7 @@ end_decl_block(IDENTIFIER id, int force)
 			res = 1;
 		}
 	}
-	return (res);
+	return res;
 }
 
 
@@ -875,7 +875,7 @@ find_namespace(IDENTIFIER id)
 		}
 		}
 	}
-	return (ns);
+	return ns;
 }
 
 
@@ -912,11 +912,11 @@ find_nspace_id(IDENTIFIER id)
 		if (IS_NULL_nspace(ns)) {
 			/* Invalid namespace identifier */
 			report(crt_loc, ERR_dcl_nspace_undef(id));
-			return (NULL_nspace);
+			return NULL_nspace;
 		}
 	}
 	use_id(id, 0);
-	return (ns);
+	return ns;
 }
 
 
@@ -1061,7 +1061,7 @@ add_nested_nspace(NAMESPACE ns)
 		}
 		}
 	}
-	return (res);
+	return res;
 }
 
 
@@ -1094,7 +1094,7 @@ remove_nested_nspace(NAMESPACE ns)
 		}
 		}
 	}
-	return (res);
+	return res;
 }
 
 
@@ -1313,7 +1313,7 @@ search_member(NAMESPACE ns, HASHID nm, int create)
 			if (!IS_NULL_id(mid)) {
 				HASHID mnm = DEREF_hashid(id_name(mid));
 				if (EQ_hashid(nm, mnm)) {
-					return (mem);
+					return mem;
 				}
 #if LANGUAGE_C
 			} else {
@@ -1323,7 +1323,7 @@ search_member(NAMESPACE ns, HASHID nm, int create)
 				if (!IS_NULL_id(mid)) {
 					HASHID mnm = DEREF_hashid(id_name(mid));
 					if (EQ_hashid(nm, mnm)) {
-						return (mem);
+						return mem;
 					}
 				}
 #endif
@@ -1351,7 +1351,7 @@ search_member(NAMESPACE ns, HASHID nm, int create)
 			if (!IS_NULL_id(mid)) {
 				HASHID mnm = DEREF_hashid(id_name(mid));
 				if (EQ_hashid(nm, mnm)) {
-					return (mem);
+					return mem;
 				}
 #if LANGUAGE_C
 			} else {
@@ -1361,7 +1361,7 @@ search_member(NAMESPACE ns, HASHID nm, int create)
 				if (!IS_NULL_id(mid)) {
 					HASHID mnm = DEREF_hashid(id_name(mid));
 					if (EQ_hashid(nm, mnm)) {
-						return (mem);
+						return mem;
 					}
 				}
 #endif
@@ -1384,7 +1384,7 @@ search_member(NAMESPACE ns, HASHID nm, int create)
 			COPY_member(nspace_last(ns), mem);
 		}
 	}
-	return (mem);
+	return mem;
 }
 
 
@@ -1421,7 +1421,7 @@ update_member(NAMESPACE ns, MEMBER mem)
 	}
 	COPY_id(member_id(mem), id);
 	COPY_id(member_alt(mem), alt);
-	return (mem);
+	return mem;
 }
 
 
@@ -1441,7 +1441,7 @@ select_type_id(IDENTIFIER id, int type)
 		case id_class_name_tag:
 		case id_enum_name_tag:
 			if (type & 1) {
-				return (id);
+				return id;
 			}
 			break;
 #if LANGUAGE_CPP
@@ -1449,19 +1449,19 @@ select_type_id(IDENTIFIER id, int type)
 		case id_enum_alias_tag:
 		case id_type_alias_tag:
 			if (type & 1) {
-				return (id);
+				return id;
 			}
 			break;
 		case id_nspace_name_tag:
 		case id_nspace_alias_tag:
 			if (type & 2) {
-				return (id);
+				return id;
 			}
 			break;
 #endif
 		}
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -1492,7 +1492,7 @@ type_member(MEMBER mem, int type)
 		id = select_type_id(id, type);
 #endif
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1511,14 +1511,14 @@ already_found_id(IDENTIFIER id, IDENTIFIER pid, LIST(IDENTIFIER) pids)
 {
 	if (IS_id_function_etc(id)) {
 		/* Exclude functions */
-		return (0);
+		return 0;
 	}
 	if (!IS_NULL_id(pid)) {
 		if (IS_id_ambig(pid)) {
 			/* Check ambiguous identifiers */
 			LIST(IDENTIFIER) qids = DEREF_list(id_ambig_ids(pid));
 			if (already_found_id(id, NULL_id, qids)) {
-				return (1);
+				return 1;
 			}
 		} else {
 			/* Check simple identifiers */
@@ -1526,7 +1526,7 @@ already_found_id(IDENTIFIER id, IDENTIFIER pid, LIST(IDENTIFIER) pids)
 				id = DEREF_id(id_alias(id));
 				pid = DEREF_id(id_alias(pid));
 				if (EQ_id(id, pid)) {
-					return (1);
+					return 1;
 				}
 			}
 		}
@@ -1535,9 +1535,9 @@ already_found_id(IDENTIFIER id, IDENTIFIER pid, LIST(IDENTIFIER) pids)
 		/* Check identifier lists */
 		IDENTIFIER qid = DEREF_id(HEAD_list(pids));
 		pids = TAIL_list(pids);
-		return (already_found_id(id, qid, pids));
+		return already_found_id(id, qid, pids);
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1561,7 +1561,7 @@ search_id(NAMESPACE ns, HASHID nm, int create, int type)
 	} else {
 		id = NULL_id;
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1587,14 +1587,14 @@ search_nspace(NAMESPACE ns, HASHID nm, NAMESPACE rns, int qual, int create,
 	/* Allow for class namespaces */
 	if (IS_nspace_ctype(ns)) {
 		id = search_field(ns, nm, create, type);
-		return (id);
+		return id;
 	}
 
 	/* Search main namespace */
 	id = search_id(ns, nm, create, type);
 	if (!IS_NULL_id(id) && qual) {
 		/* Return found identifier */
-		return (id);
+		return id;
 	}
 
 	/* Search used namespaces */
@@ -1648,7 +1648,7 @@ search_nspace(NAMESPACE ns, HASHID nm, NAMESPACE rns, int qual, int create,
 	if (IS_NULL_id(id) && create) {
 		MAKE_id_undef(nm, dspec_none, ns, crt_loc, id);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1681,7 +1681,7 @@ find_extern_id(HASHID nm, NAMESPACE pns, int type)
 	if (!IS_NULL_list(join_nspaces)) {
 		clear_join_nspaces();
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1715,7 +1715,7 @@ find_id(HASHID nm)
 			id = DEREF_id(hashid_id(nm));
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1743,7 +1743,7 @@ find_qual_id(NAMESPACE ns, HASHID nm, int create, int type)
 		/* Qualified name look-up */
 		id = search_nspace(ns, nm, ns, 1, create, type);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1764,11 +1764,11 @@ find_type_id(HASHID nm, int type)
 		id = DEREF_id(hashid_cache(nm));
 		id = select_type_id(id, type);
 		if (!IS_NULL_id(id)) {
-			return (id);
+			return id;
 		}
 	}
 	id = find_extern_id(nm, NULL_nspace, type);
-	return (id);
+	return id;
 }
 
 
@@ -1792,7 +1792,7 @@ find_op_id(HASHID nm)
 		if (!IS_NULL_id(id)) {
 			NAMESPACE ns = DEREF_nspace(id_parent(id));
 			if (IS_NULL_nspace(ns) || !IS_nspace_ctype(ns)) {
-				return (id);
+				return id;
 			}
 			cache = 0;
 		}
@@ -1811,7 +1811,7 @@ find_op_id(HASHID nm)
 				if (cache) {
 					COPY_id(hashid_cache(nm), id);
 				}
-				return (id);
+				return id;
 			}
 		} else {
 			cache = 0;
@@ -1825,7 +1825,7 @@ find_op_id(HASHID nm)
 	if (cache) {
 		COPY_id(hashid_cache(nm), id);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1855,7 +1855,7 @@ check_id(NAMESPACE ns, IDENTIFIER id, int templ)
 		}
 		UNUSED(templ);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1879,7 +1879,7 @@ remove_func(IDENTIFIER fid, IDENTIFIER id)
 			COPY_id(id_function_etc_over(fid), pid);
 		}
 	}
-	return (fid);
+	return fid;
 }
 
 
@@ -1936,16 +1936,16 @@ has_linkage(IDENTIFIER id)
 		NAMESPACE ns = DEREF_nspace(id_parent(id));
 		DECL_SPEC ds = DEREF_dspec(id_storage(id));
 		if (IS_hashid_anon(nm)) {
-			return (0);
+			return 0;
 		}
 		if (!(ds & dspec_extern)) {
-			return (0);
+			return 0;
 		}
 		if ((ds & dspec_c) && !anon_c_linkage) {
-			return (1);
+			return 1;
 		}
 		if (IS_NULL_nspace(ns)) {
-			return (0);
+			return 0;
 		}
 		switch (TAG_nspace(ns)) {
 		case nspace_named_tag:
@@ -1953,13 +1953,13 @@ has_linkage(IDENTIFIER id)
 		case nspace_ctype_tag:
 			break;
 		case nspace_global_tag:
-			return (1);
+			return 1;
 		default:
-			return (0);
+			return 0;
 		}
 		id = DEREF_id(nspace_name(ns));
 	}
-	return (0);
+	return 0;
 }
 
 

@@ -218,7 +218,7 @@ static int bit_no
   unsigned long m;
   assert(IS_POW2(c));
   for (m = 1, n = 0; m != (unsigned long)c; m = m << 1)n++;
-  return(n);
+  return n;
 }
 
 
@@ -326,7 +326,7 @@ int call_muldivrem
   call_special_routine(proc);
   clear_sun_call_divrem_regs(sp);
   /* result left in R_O0 */
-  return(R_O0);
+  return R_O0;
 }
 
 
@@ -504,21 +504,21 @@ static int offset_mul_const_simple
     }
     else {
       /* very rare case */
-      return(NOT_MUL_CONST_SIMPLE);
+      return NOT_MUL_CONST_SIMPLE;
     }
   }
   for (i = 0; i <= MAX_MUL_POW2_OFFSET; i++) {
     long c ;	/* power of two close to constval */
     /* check for add offsets, avoiding overflow confusion */
     c = constval - i;
-    if (IS_POW2(c) && c + i == constval) return(i);
+    if (IS_POW2(c) && c + i == constval) return i;
     /* check for sub offset of 1 only, avoiding overflow confusion */
     if (i == 1) {
       c = constval + i;
-      if (IS_POW2(c) && c - i == constval) return(-i);
+      if (IS_POW2(c) && c - i == constval) return -i;
     }
   }
-  return(NOT_MUL_CONST_SIMPLE);
+  return NOT_MUL_CONST_SIMPLE;
 }
 
 
@@ -642,7 +642,7 @@ static int do_mul_comm
       sp = guardreg(final_reg, sp);
     }
     mul_const(lhs_reg,(long)no(arg2), final_reg, sp, sgned);
-    return(final_reg);
+    return final_reg;
   }
   /* need to call .mul/.umul */
   mul_proc = (sgned ? SPECIAL_MUL : SPECIAL_UMUL);
@@ -685,7 +685,7 @@ static int do_mul_comm
       }
     }
   }
-  return(final_reg);
+  return final_reg;
 }
 
 
@@ -729,13 +729,13 @@ static int do_div
     if (constval == 1) {
       /* result always lhs */
       rr_ins(i_mov, lhs_reg, final_reg);
-      return(final_reg);
+      return final_reg;
     }
 
     if (!sgned) {
 				/* unsigned, easy, just shift */
       rcr_ins(i_srl, lhs_reg, shift_const, final_reg);
-      return(final_reg);
+      return final_reg;
     }
 
     if (name(bro(rhs)) == div2_tag) /* shift and fix up for sgned div2 */
@@ -751,11 +751,11 @@ static int do_div
       }
       rrr_ins(i_add, lhs_reg, tmp_reg, tmp_reg);
       rcr_ins(i_sra, tmp_reg, shift_const, final_reg);
-      return(final_reg);
+      return final_reg;
     }
 				/* must be signed div1, a simple shift */
     rcr_ins(i_sra, lhs_reg, shift_const, final_reg);
-    return(final_reg);
+    return final_reg;
   }
   if(0 /*has_error_treatment*/) {
     ins_p dop;
@@ -796,7 +796,7 @@ static int do_div
   else {
     et = 0;
   }
-  return(call_muldivrem(lhs, rhs, sp, p, et));
+  return call_muldivrem(lhs, rhs, sp, p, et);
 }
 
 
@@ -866,7 +866,7 @@ static int do_rem
   else {
     p = (sgned ? SPECIAL_REM2 : SPECIAL_UREM2);
   }
-  return(call_muldivrem(lhs, rhs, sp, p, 0));
+  return call_muldivrem(lhs, rhs, sp, p, 0);
 }
 
 
@@ -898,7 +898,7 @@ static int find_reg_and_apply
       int *dr = someregalt(dest.answhere);
       *dr = (*do_fn)(seq, sp, R_NO_REG, sgned);
       /* no need for move */
-      return(*dr);
+      return *dr;
     }
     default : {
       /* leave ( *do_fn ) () to allocate reg */
@@ -910,7 +910,7 @@ static int find_reg_and_apply
   setregalt(a, dest_reg);
   sp = guardreg(dest_reg, sp);
  (void)move(a, dest, sp.fixed, sgned);
-  return(dest_reg);
+  return dest_reg;
 }
 
 
@@ -920,7 +920,7 @@ static int find_reg_and_apply
 
 int do_mul_comm_op
 (exp e, space sp, where dest, bool sgned) {
-  return(find_reg_and_apply(e, sp, dest, sgned, do_mul_comm));
+  return find_reg_and_apply(e, sp, dest, sgned, do_mul_comm);
 }
 
 
@@ -931,7 +931,7 @@ int do_mul_comm_op
 int do_div_op
 (exp e, space sp, where dest, bool sgned) {
 /*    other_div = ( bool ) ( ( name ( e ) == div1_tag && sgned ) ? 1 : 0 ) ;*/
-  return(find_reg_and_apply(e, sp, dest, sgned, do_div));
+  return find_reg_and_apply(e, sp, dest, sgned, do_div);
 }
 
 
@@ -942,7 +942,7 @@ int do_div_op
 int do_rem_op
 (exp e, space sp, where dest, bool sgned) {
 /*    other_div = ( bool ) ( ( name ( e ) == mod_tag && sgned ) ? 1 : 0 ) ;*/
-  return(find_reg_and_apply(e, sp, dest, sgned, do_rem));
+  return find_reg_and_apply(e, sp, dest, sgned, do_rem);
 }
 
 
@@ -962,7 +962,7 @@ bool is_muldivrem_call
     case chfl_tag:
     case round_tag: {
       exp s = son(e);
-      if (name(sh(s)) == doublehd) return(1);
+      if (name(sh(s)) == doublehd) return 1;
       /* FALL THROUGH */
     }
     case fplus_tag:
@@ -972,8 +972,8 @@ bool is_muldivrem_call
     case fneg_tag:
     case fabs_tag:
     case float_tag: {
-      if (name(sh(e)) == doublehd) return(1);
-      return(0);
+      if (name(sh(e)) == doublehd) return 1;
+      return 0;
     }
 #endif
 
@@ -982,9 +982,9 @@ bool is_muldivrem_call
       /*multneeds - simple cases don't need a call */
       exp arg2 = bro(son(e));
       if (last(arg2) && name(arg2) == val_tag && optop(e)) {
-	return(0);
+	return 0;
       }
-      return(1);
+      return 1;
     }
     case div0_tag:
     case rem0_tag:
@@ -999,14 +999,14 @@ bool is_muldivrem_call
       if (last(arg2) && name(arg2) == val_tag && optop(e)) {
 	long constval = no(arg2);
 	if (constval > 0 && IS_POW2(constval))
-	  return(0);
+	  return 0;
       }
-      return(1);
+      return 1;
     }
     case movecont_tag:
     return 1;			/* at present */
     default: {
-      return(0);
+      return 0;
     }
   }
 }
@@ -1028,12 +1028,12 @@ needs multneeds
   if (last(arg2) && name(arg2) == val_tag && optop(*e)) {
     /* const optim, additional reg only needed where src and dest are
        same reg, in which case it has already been allowed for */
-    return(n);
+    return n;
   }
   /* default, call .mul */
   n.fixneeds = maxfix;
   pnset(n, hasproccall);
-  return(n);
+  return n;
 }
 
 
@@ -1053,13 +1053,13 @@ needs divneeds
     long constval = no(rhs);
     if (constval > 0 && IS_POW2(constval)) {
       /* const optim, replace div by shift */
-      return(n);
+      return n;
     }
   }
   /* default, call .div */
   n.fixneeds = maxfix;
   pnset(n, hasproccall);
-  return(n);
+  return n;
 }
 
 
@@ -1077,11 +1077,11 @@ needs remneeds
     long constval = no(rhs);
     if (constval > 0 && IS_POW2(constval)) {
       /* const optim of rem by positive, non-zero, 2**n */
-      return(n);
+      return n;
     }
   }
   /* default, call .rem */
   n.fixneeds = maxfix;
   pnset(n, hasproccall);
-  return(n);
+  return n;
 }

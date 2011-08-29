@@ -144,7 +144,7 @@ type_token_key(BASE_TYPE bt)
 	} else if (bt == btype_union) {
 		key = lex_union_Hcap;
 	}
-	return (key);
+	return key;
 }
 
 
@@ -159,7 +159,7 @@ make_type_token(BASE_TYPE bt)
 {
 	TOKEN tok;
 	MAKE_tok_type(bt, NULL_type, tok);
-	return (tok);
+	return tok;
 }
 
 
@@ -180,7 +180,7 @@ make_exp_token(TYPE t, int lv, int c)
 	}
 	object_type(t, id_token_tag);
 	MAKE_tok_exp(t, c, NULL_exp, tok);
-	return (tok);
+	return tok;
 }
 
 
@@ -198,7 +198,7 @@ make_func_token(TYPE t)
 	if (!IS_type_func(t)) {
 		report(preproc_loc, ERR_token_func(t));
 		tok = make_exp_token(t, 0, 0);
-		return (tok);
+		return tok;
 	}
 	ell = DEREF_int(type_func_ellipsis(t));
 	if (ell & FUNC_NO_PARAMS) {
@@ -206,7 +206,7 @@ make_func_token(TYPE t)
 		COPY_int(type_func_ellipsis(t), FUNC_NONE);
 	}
 	MAKE_tok_func(t, tok);
-	return (tok);
+	return tok;
 }
 
 
@@ -224,7 +224,7 @@ make_member_token(TYPE t, TYPE s, DECL_SPEC acc)
 	if (!IS_type_compound(s)) {
 		report(preproc_loc, ERR_token_mem(s));
 		tok = make_exp_token(t, 0, 0);
-		return (tok);
+		return tok;
 	}
 #if LANGUAGE_CPP
 	crt_access = acc;
@@ -232,7 +232,7 @@ make_member_token(TYPE t, TYPE s, DECL_SPEC acc)
 	UNUSED(acc);
 #endif
 	MAKE_tok_member(s, t, NULL_off, tok);
-	return (tok);
+	return tok;
 }
 
 
@@ -255,7 +255,7 @@ check_param_sort(TOKEN tok)
 			tok = DEREF_tok(tok_proc_res(tok));
 		}
 	}
-	return (tok);
+	return tok;
 }
 
 
@@ -271,7 +271,7 @@ begin_proc_token(void)
 	TOKEN tok;
 	begin_param(NULL_id);
 	MAKE_tok_proc(NULL_tok, crt_namespace, lex_identifier, tok);
-	return (tok);
+	return tok;
 }
 
 
@@ -338,7 +338,7 @@ cont_proc_token(TOKEN prev, LIST(IDENTIFIER) p, LIST(IDENTIFIER) q)
 		n = LENGTH_list(q);
 		IGNORE check_value(OPT_VAL_macro_pars,(ulong)n);
 	}
-	return (prev);
+	return prev;
 }
 
 
@@ -357,7 +357,7 @@ end_proc_token(TOKEN prev, TOKEN res)
 		COPY_tok(tok_proc_res(prev), res);
 	}
 	end_param();
-	return (prev);
+	return prev;
 }
 
 
@@ -380,7 +380,7 @@ make_tok_param(TOKEN tok, int tag, IDENTIFIER id)
 	if (do_dump) {
 		dump_token_param(id);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -416,10 +416,10 @@ tok_member(IDENTIFIER id, TYPE t, int force)
 				fid = DEREF_id(id_token_alt(fid));
 			}
 		}
-		return (fid);
+		return fid;
 	}
 	report(preproc_loc, ERR_token_mem(t));
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -440,7 +440,7 @@ prog_tok_param(IDENTIFIER id, TYPE t, unsigned tt, LIST(IDENTIFIER) p)
 	if (tt == tok_member_tag) {
 		tid = tok_member(tid, t, 1);
 		if (IS_NULL_id(tid)) {
-			return (NULL_id);
+			return NULL_id;
 		}
 	}
 
@@ -469,7 +469,7 @@ prog_tok_param(IDENTIFIER id, TYPE t, unsigned tt, LIST(IDENTIFIER) p)
 					report(preproc_loc,
 					       ERR_token_arg_sort(pid));
 				}
-				return (pid);
+				return pid;
 			}
 		}
 		p = TAIL_list(p);
@@ -486,10 +486,10 @@ prog_tok_param(IDENTIFIER id, TYPE t, unsigned tt, LIST(IDENTIFIER) p)
 		tid = make_object_decl(dspec_typedef, t, tid, 0);
 		crt_templ_qualifier = tq;
 		crt_id_qualifier = cq;
-		return (tid);
+		return tid;
 	}
 	report(preproc_loc, ERR_token_arg_bad(tid));
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -505,7 +505,7 @@ func_proc_token(TOKEN tok)
 {
 	TOKEN res;
 	if (!IS_tok_func(tok)) {
-		return (tok);
+		return tok;
 	}
 	res = DEREF_tok(tok_func_proc(tok));
 	if (IS_NULL_tok(res)) {
@@ -556,7 +556,7 @@ func_proc_token(TOKEN tok)
 		}
 		COPY_tok(tok_func_proc(tok), res);
 	}
-	return (res);
+	return res;
 }
 
 
@@ -690,7 +690,7 @@ expand_sort(TOKEN tok, int rec, int force)
 		}
 		}
 	}
-	return (tok);
+	return tok;
 }
 
 
@@ -719,10 +719,10 @@ expand_args(LIST(TOKEN) p, int rec, int force)
 	if (!changed) {
 		/* No effect */
 		DESTROY_list(q, SIZE_tok);
-		return (NULL_list(TOKEN));
+		return NULL_list(TOKEN);
 	}
 	q = REVERSE_list(q);
-	return (q);
+	return q;
 }
 
 
@@ -763,7 +763,7 @@ expand_templ_sort(TOKEN sort, int rec)
 	}
 	if (IS_NULL_list(q)) {
 		/* All parameters are bound */
-		return (NULL_tok);
+		return NULL_tok;
 	}
 	if (changed) {
 		/* Get unbound parameters into order */
@@ -786,7 +786,7 @@ expand_templ_sort(TOKEN sort, int rec)
 	MAKE_tok_templ(ex, ns, sort);
 	COPY_list(tok_templ_pids(sort), q);
 	COPY_list(tok_templ_dargs(sort), dargs);
-	return (sort);
+	return sort;
 }
 
 
@@ -819,10 +819,10 @@ expand_exp(EXP e, int rec, int stmt)
 {
 	unsigned etag;
 	if (rec < 0) {
-		return (e);
+		return e;
 	}
 	if (IS_NULL_exp(e)) {
-		return (NULL_exp);
+		return NULL_exp;
 	}
 	etag = TAG_exp(e);
 	if (etag == exp_token_tag) {
@@ -854,7 +854,7 @@ expand_exp(EXP e, int rec, int stmt)
 		if (ds & dspec_temp) {
 			/* Check for recursive token expansions */
 			report(crt_loc, ERR_token_recursive(id));
-			return (make_error_exp(0));
+			return make_error_exp(0);
 		}
 		COPY_dspec(id_storage(id), (ds | dspec_temp));
 		if (tag == tok_exp_tag) {
@@ -899,7 +899,7 @@ expand_exp(EXP e, int rec, int stmt)
 			e = copy_exp(e, NULL_type, NULL_type);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -914,10 +914,10 @@ NAT
 expand_nat(NAT n, int rec, int ch, ERROR *err)
 {
 	if (rec < 0) {
-		return (n);
+		return n;
 	}
 	if (IS_NULL_nat(n)) {
-		return (NULL_nat);
+		return NULL_nat;
 	}
 	switch (TAG_nat(n)) {
 	case nat_calc_tag: {
@@ -971,7 +971,7 @@ expand_nat(NAT n, int rec, int ch, ERROR *err)
 		if (ds & dspec_temp) {
 			/* Check for recursive token expansions */
 			report(crt_loc, ERR_token_recursive(id));
-			return (small_nat[1]);
+			return small_nat[1];
 		}
 		COPY_dspec(id_storage(id), (ds | dspec_temp));
 		if (tag == tok_nat_tag || tag == tok_snat_tag) {
@@ -988,7 +988,7 @@ expand_nat(NAT n, int rec, int ch, ERROR *err)
 		break;
 	}
 	}
-	return (n);
+	return n;
 }
 
 
@@ -1005,7 +1005,7 @@ expand_offset(OFFSET off, int rec)
 	if (rec > 0) {
 		off = copy_offset(off, lex_plus);
 	}
-	return (off);
+	return off;
 }
 
 
@@ -1038,7 +1038,7 @@ expand_templ_type(TYPE t, int rec)
 		MAKE_type_templ(cv, sort, s, 1, t);
 	}
 	reset_templ_sort(sort);
-	return (t);
+	return t;
 }
 
 
@@ -1070,7 +1070,7 @@ expand_exceptions(LIST(TYPE) p, int rec, int *changed)
 		}
 		q = REVERSE_list(q);
 	}
-	return (q);
+	return q;
 }
 
 
@@ -1197,7 +1197,7 @@ expand_func_type(TYPE t, int rec)
 			DESTROY_list(e2, SIZE_type);
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1214,7 +1214,7 @@ rescan_class(CLASS_TYPE ct)
 {
 	IDENTIFIER cid = DEREF_id(ctype_name(ct));
 	TYPE t = find_typename(cid, NULL_list(TOKEN), btype_none, 1);
-	return (t);
+	return t;
 }
 
 
@@ -1231,7 +1231,7 @@ rescan_enum(ENUM_TYPE et)
 {
 	IDENTIFIER eid = DEREF_id(etype_name(et));
 	TYPE t = find_typename(eid, NULL_list(TOKEN), btype_none, 1);
-	return (t);
+	return t;
 }
 
 
@@ -1270,13 +1270,13 @@ expand_ctype(CLASS_TYPE ct, int rec, TYPE *pt)
 				}
 				if (EQ_type(s, t)) {
 					/* No expansion possible */
-					return (ct);
+					return ct;
 				}
 			} else if (IS_type_instance(t)) {
 				s = rescan_class(ct);
 				if (EQ_type(s, t)) {
 					/* No expansion possible */
-					return (ct);
+					return ct;
 				}
 			} else {
 				/* Recursive template classes */
@@ -1301,7 +1301,7 @@ expand_ctype(CLASS_TYPE ct, int rec, TYPE *pt)
 			}
 		}
 	}
-	return (ct);
+	return ct;
 }
 
 
@@ -1331,10 +1331,10 @@ expand_type(TYPE t, int rec)
 	IDENTIFIER id;
 	LIST(TOKEN) p;
 	if (rec < 0) {
-		return (t);
+		return t;
 	}
 	if (IS_NULL_type(t)) {
-		return (NULL_type);
+		return NULL_type;
 	}
 	cv = DEREF_cv(type_qual(t));
 	ASSERT(ORDER_type == 18);
@@ -1630,7 +1630,7 @@ expand_label: {
 		      if (ds & dspec_temp) {
 			      /* Check for recursive token expansions */
 			      report(crt_loc, ERR_token_recursive(id));
-			      return (type_error);
+			      return type_error;
 		      }
 		      COPY_dspec(id_storage(id), (ds | dspec_temp));
 		      if (tag == tok_type_tag) {
@@ -1687,7 +1687,7 @@ expand_label: {
 		t = expand_templ_type(t, rec);
 		break;
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1774,7 +1774,7 @@ apply_exp_token(IDENTIFIER id, LIST(TOKEN) args, int rec)
 		e = NULL_exp;
 		break;
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1799,7 +1799,7 @@ apply_nat_token(IDENTIFIER id, LIST(TOKEN) args)
 	} else {
 		n = NULL_nat;
 	}
-	return (n);
+	return n;
 }
 
 
@@ -1844,7 +1844,7 @@ key_type_token(int lex, LIST(TOKEN) args)
 		break;
 	}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1867,7 +1867,7 @@ apply_type_token(IDENTIFIER id, LIST(TOKEN) args, IDENTIFIER tid)
 		if (lex != lex_identifier) {
 			t = key_type_token(lex, args);
 			if (!IS_NULL_type(t)) {
-				return (t);
+				return t;
 			}
 		}
 		tok = DEREF_tok(tok_proc_res(tok));
@@ -1933,7 +1933,7 @@ apply_type_token(IDENTIFIER id, LIST(TOKEN) args, IDENTIFIER tid)
 		t = expand_type(t, 2);
 		in_proc_token = pt;
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1948,7 +1948,7 @@ apply_mem_token(IDENTIFIER id, LIST(TOKEN) args)
 {
 	OFFSET off;
 	MAKE_off_token(id, args, off);
-	return (off);
+	return off;
 }
 
 
@@ -2007,7 +2007,7 @@ apply_token(IDENTIFIER id, LIST(TOKEN) args)
 		break;
 	}
 	}
-	return (tok);
+	return tok;
 }
 
 
@@ -2023,20 +2023,20 @@ eq_tok(TOKEN a, TOKEN b)
 	/* Check for obvious equality */
 	unsigned na, nb;
 	if (EQ_tok(a, b)) {
-		return (1);
+		return 1;
 	}
 	if (IS_NULL_tok(a)) {
-		return (0);
+		return 0;
 	}
 	if (IS_NULL_tok(b)) {
-		return (0);
+		return 0;
 	}
 
 	/* Compare tags */
 	na = TAG_tok(a);
 	nb = TAG_tok(b);
 	if (na != nb) {
-		return (0);
+		return 0;
 	}
 
 	/* Compare token components */
@@ -2050,7 +2050,7 @@ eq_tok(TOKEN a, TOKEN b)
 		CV_SPEC qb = DEREF_cv(type_qual(tb));
 		int ca = DEREF_int(tok_exp_constant(a));
 		int cb = DEREF_int(tok_exp_constant(b));
-		return (ca == cb && qa == qb && eq_type(ta, tb));
+		return ca == cb && qa == qb && eq_type(ta, tb);
 	}
 	case tok_nat_tag:
 	case tok_snat_tag:
@@ -2061,7 +2061,7 @@ eq_tok(TOKEN a, TOKEN b)
 		/* Function tokens */
 		TYPE ta = DEREF_type(tok_func_type(a));
 		TYPE tb = DEREF_type(tok_func_type(b));
-		return (eq_type(ta, tb));
+		return eq_type(ta, tb);
 	}
 	case tok_member_tag: {
 		/* Member tokens */
@@ -2069,7 +2069,7 @@ eq_tok(TOKEN a, TOKEN b)
 		TYPE sb = DEREF_type(tok_member_of(b));
 		TYPE ta = DEREF_type(tok_member_type(a));
 		TYPE tb = DEREF_type(tok_member_type(b));
-		return (eq_type(sa, sb) && eq_type(ta, tb));
+		return eq_type(sa, sb) && eq_type(ta, tb);
 	}
 	case tok_proc_tag: {
 		/* Procedure tokens */
@@ -2077,28 +2077,28 @@ eq_tok(TOKEN a, TOKEN b)
 		TOKEN ra = DEREF_tok(tok_proc_res(a));
 		TOKEN rb = DEREF_tok(tok_proc_res(b));
 		if (!eq_tok(ra, rb)) {
-			return (0);
+			return 0;
 		}
 
 		/* Compare program parameters */
 		pa = DEREF_list(tok_proc_pids(a));
 		pb = DEREF_list(tok_proc_pids(b));
 		if (LENGTH_list(pa)!= LENGTH_list(pb)) {
-			return (0);
+			return 0;
 		}
 		while (!IS_NULL_list(pa) && !IS_NULL_list(pb)) {
 			IDENTIFIER u = DEREF_id(HEAD_list(pa));
 			IDENTIFIER v = DEREF_id(HEAD_list(pb));
 			if (IS_NULL_id(u) || !IS_id_token(u)) {
-				return (0);
+				return 0;
 			}
 			if (IS_NULL_id(v) || !IS_id_token(v)) {
-				return (0);
+				return 0;
 			}
 			ra = DEREF_tok(id_token_sort(u));
 			rb = DEREF_tok(id_token_sort(v));
 			if (!eq_tok(ra, rb)) {
-				return (0);
+				return 0;
 			}
 			pa = TAIL_list(pa);
 			pb = TAIL_list(pb);
@@ -2108,21 +2108,21 @@ eq_tok(TOKEN a, TOKEN b)
 		pa = DEREF_list(tok_proc_bids(a));
 		pb = DEREF_list(tok_proc_bids(b));
 		if (LENGTH_list(pa) != LENGTH_list(pb)) {
-			return (0);
+			return 0;
 		}
 		while (!IS_NULL_list(pa) && !IS_NULL_list(pb)) {
 			IDENTIFIER u = DEREF_id(HEAD_list(pa));
 			IDENTIFIER v = DEREF_id(HEAD_list(pb));
 			if (IS_NULL_id(u) || !IS_id_token(u)) {
-				return (0);
+				return 0;
 			}
 			if (IS_NULL_id(v) || !IS_id_token(v)) {
-				return (0);
+				return 0;
 			}
 			ra = DEREF_tok(id_token_sort(u));
 			rb = DEREF_tok(id_token_sort(v));
 			if (!eq_tok(ra, rb)) {
-				return (0);
+				return 0;
 			}
 			pa = TAIL_list(pa);
 			pb = TAIL_list(pb);
@@ -2135,7 +2135,7 @@ eq_tok(TOKEN a, TOKEN b)
 		BASE_TYPE ta = DEREF_btype(tok_type_kind(a));
 		BASE_TYPE tb = DEREF_btype(tok_type_kind(b));
 		if (ta != tb) {
-			return (0);
+			return 0;
 		}
 		break;
 	}
@@ -2145,17 +2145,17 @@ eq_tok(TOKEN a, TOKEN b)
 		TYPE ta = DEREF_type(tok_class_type(a));
 		TYPE tb = DEREF_type(tok_class_type(b));
 		if (eq_type(ta, tb) == 1) {
-			return (1);
+			return 1;
 		}
-		return (0);
+		return 0;
 	}
 
 	case tok_templ_tag:
 		/* Templates */
 		/* NOT YET IMPLEMENTED */
-		return (0);
+		return 0;
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -2185,7 +2185,7 @@ declare_token(IDENTIFIER id, TOKEN tok, NAMESPACE ns, IDENTIFIER ext)
 				/* Allow for redeclarations */
 				IDENTIFIER tid = DEREF_id(id_token_alt(id));
 				if (EQ_id(tid, ext)) {
-					return (id);
+					return id;
 				}
 			}
 			if (IS_id_function(id) && IS_tok_proc(tok)) {
@@ -2200,7 +2200,7 @@ declare_token(IDENTIFIER id, TOKEN tok, NAMESPACE ns, IDENTIFIER ext)
 						if (eq_tok(ptok, tok)) {
 							/* Procedure token
 							 * matches function */
-							return (pid);
+							return pid;
 						}
 					}
 					pid = DEREF_id(id_function_over(pid));
@@ -2212,7 +2212,7 @@ declare_token(IDENTIFIER id, TOKEN tok, NAMESPACE ns, IDENTIFIER ext)
 	/* Declare the token */
 	MAKE_id_token(nm, dspec_token, ns, preproc_loc, tok, ext, id);
 	set_member(mem, id);
-	return (id);
+	return id;
 }
 
 
@@ -2243,7 +2243,7 @@ make_token_decl(TOKEN tok, int tag, IDENTIFIER id, IDENTIFIER ext)
 
 	/* Ignore illegal tokens */
 	if (IS_NULL_tok(tok)) {
-		return (NULL_id);
+		return NULL_id;
 	}
 
 	/* Find token name */
@@ -2480,7 +2480,7 @@ make_token_decl(TOKEN tok, int tag, IDENTIFIER id, IDENTIFIER ext)
 		}
 		}
 	}
-	return (ext);
+	return ext;
 }
 
 
@@ -2504,7 +2504,7 @@ find_token_aux(IDENTIFIER id)
 			t = DEREF_type(ctype_form(ct));
 			if (!IS_NULL_type(t) && IS_type_token(t)) {
 				id = DEREF_id(type_token_tok(t));
-				return (id);
+				return id;
 			}
 		}
 		break;
@@ -2514,7 +2514,7 @@ find_token_aux(IDENTIFIER id)
 		TYPE t = DEREF_type(id_type_alias_defn(id));
 		if (IS_type_token(t)) {
 			id = DEREF_id(type_token_tok(t));
-			return (id);
+			return id;
 		}
 		break;
 	}
@@ -2526,17 +2526,17 @@ find_token_aux(IDENTIFIER id)
 		if (!IS_NULL_type(form) && IS_type_token(form)) {
 			IDENTIFIER ext = DEREF_id(type_token_tok(form));
 			if (!IS_NULL_id(ext)) {
-				return (ext);
+				return ext;
 			}
 		}
-		return (id);
+		return id;
 	}
 	case id_member_tag: {
 		/* Members */
 		OFFSET off = DEREF_off(id_member_off(id));
 		if (IS_off_token(off)) {
 			id = DEREF_id(off_token_tok(off));
-			return (id);
+			return id;
 		}
 		break;
 	}
@@ -2544,12 +2544,12 @@ find_token_aux(IDENTIFIER id)
 		/* Tokens */
 		IDENTIFIER alt = DEREF_id(id_token_alt(id));
 		if (IS_id_token(alt)) {
-			return (alt);
+			return alt;
 		}
-		return (id);
+		return id;
 	}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -2579,7 +2579,7 @@ find_token(IDENTIFIER id)
 		if (IS_id_token(tid)) {
 			ds = DEREF_dspec(id_storage(tid));
 			if (!(ds & dspec_auto)) {
-				return (tid);
+				return tid;
 			}
 		}
 	}
@@ -2591,11 +2591,11 @@ find_token(IDENTIFIER id)
 		tid = DEREF_id(member_alt(mem));
 		if (EQ_id(tid, id)) {
 			tid = DEREF_id(member_id(mem));
-			return (tid);
+			return tid;
 		}
 		mem = DEREF_member(member_next(mem));
 	}
-	return (id);
+	return id;
 }
 
 
@@ -2609,7 +2609,7 @@ IDENTIFIER
 find_tag_token(IDENTIFIER id)
 {
 	id = find_elaborate_type(id, btype_any, NULL_type, dspec_used);
-	return (id);
+	return id;
 }
 
 
@@ -2626,12 +2626,12 @@ find_mem_token(IDENTIFIER cid, IDENTIFIER mid)
 		TYPE t = DEREF_type(id_class_name_etc_defn(cid));
 		IDENTIFIER fid = tok_member(mid, t, 1);
 		if (!IS_NULL_id(fid)) {
-			return (fid);
+			return fid;
 		}
-		return (mid);
+		return mid;
 	}
 	report(preproc_loc, ERR_dcl_type_simple_undef(cid));
-	return (mid);
+	return mid;
 }
 
 
@@ -2649,7 +2649,7 @@ find_ext_token(IDENTIFIER id)
 	if (IS_NULL_id(id)) {
 		id = DEREF_id(hashid_id(nm));
 	}
-	return (id);
+	return id;
 }
 
 
@@ -2701,9 +2701,9 @@ find_func_token(IDENTIFIER id, unsigned n)
 	if (no > 1) {
 		report(preproc_loc, ERR_token_def_ambig(id));
 	}
-	return (tid);
+	return tid;
     }
-    return (find_token(id));
+    return find_token(id);
 }
 
 

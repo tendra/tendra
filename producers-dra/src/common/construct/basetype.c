@@ -107,7 +107,7 @@ qualify_type(TYPE t, CV_SPEC cv, int force)
 	/* Just return t if it is correctly qualified */
 	CV_SPEC qual = DEREF_cv(type_qual(t));
 	if (qual == cv && !force) {
-		return (t);
+		return t;
 	}
 
 	/* Copy the type otherwise */
@@ -286,7 +286,7 @@ qualify_type(TYPE t, CV_SPEC cv, int force)
 	}
 	COPY_id(type_name(r), tid);
 	UNUSED(qual);
-	return (r);
+	return r;
 }
 
 
@@ -446,7 +446,7 @@ default_lab:
 		}
 		break;
 	}
-	return (t);
+	return t;
 }
 
 
@@ -462,10 +462,10 @@ lvalue_type(TYPE t)
 {
 	CV_SPEC qual = DEREF_cv(type_qual(t));
 	if (qual & cv_lvalue) {
-		return (t);
+		return t;
 	}
 	qual |= cv_lvalue;
-	return (qualify_type(t, qual, 0));
+	return qualify_type(t, qual, 0);
 }
 
 
@@ -481,10 +481,10 @@ rvalue_type(TYPE t)
 {
 	CV_SPEC qual = DEREF_cv(type_qual(t));
 	if (!(qual & cv_lvalue)) {
-		return (t);
+		return t;
 	}
 	qual &= ~cv_lvalue;
-	return (qualify_type(t, qual, 0));
+	return qualify_type(t, qual, 0);
 }
 
 
@@ -508,12 +508,12 @@ join_pre_types(BASE_TYPE b1, BASE_TYPE b2)
 			if (!(bt & btype_long2)) {
 				/* Allow 'long long' */
 				bt |= btype_long2;
-				return (bt);
+				return bt;
 			}
 		}
 		report(crt_loc, ERR_dcl_type_simple_dup(bs));
 	}
-	return (bt);
+	return bt;
 }
 
 
@@ -536,10 +536,10 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 	TYPE q = p;
 	unsigned long n = 0;
 	if (IS_NULL_type(q)) {
-		return (t);
+		return t;
 	}
 	if (IS_NULL_type(t)) {
-		return (q);
+		return q;
 	}
 
 	/* Map 'ptr template' to 'template ptr' etc */
@@ -554,7 +554,7 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 			s = inject_pre_type(q, s, chk);
 			MAKE_type_templ(cv, tok, s, fix, t);
 			COPY_id(type_name(t), tid);
-			return (t);
+			return t;
 		}
 	}
 
@@ -847,7 +847,7 @@ inject_pre_type(TYPE p, TYPE t, int chk)
 	if (chk) {
 		IGNORE check_value(OPT_VAL_declarator_max, n);
 	}
-	return (p);
+	return p;
 }
 
 
@@ -865,23 +865,23 @@ int
 is_type_inferred(TYPE t)
 {
 	if (EQ_type(t, type_inferred)) {
-		return (INFERRED_EMPTY);
+		return INFERRED_EMPTY;
 	}
 	while (!IS_NULL_type(t)) {
 		switch (TAG_type(t)) {
 		case type_integer_tag: {
 			/* Check integer types */
 			if (EQ_type(t, type_inferred)) {
-				return (INFERRED_SPEC);
+				return INFERRED_SPEC;
 			} else {
 				INT_TYPE it = DEREF_itype(type_integer_rep(t));
 				t = DEREF_type(itype_prom(it));
 				if (EQ_type(t, type_inferred)) {
 					/* Qualified inferred type */
-					return (INFERRED_QUAL);
+					return INFERRED_QUAL;
 				}
 			}
-			return (INFERRED_NOT);
+			return INFERRED_NOT;
 		}
 		case type_ptr_tag:
 		case type_ref_tag: {
@@ -918,11 +918,11 @@ is_type_inferred(TYPE t)
 		}
 		default : {
 			/* Other types are not inferred */
-			return (INFERRED_NOT);
+			return INFERRED_NOT;
 		}
 		}
 	}
-	return (INFERRED_QUAL);
+	return INFERRED_QUAL;
 }
 
 
@@ -1023,7 +1023,7 @@ clean_inferred_type(TYPE t)
 		break;
 	}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1048,7 +1048,7 @@ report_inferred_type(TYPE t, int infer)
 		break;
 	}
 	err = concat_error(err, ERR_dcl_type_infer(t));
-	return (err);
+	return err;
 }
 
 
@@ -1259,7 +1259,7 @@ make_base_type(BASE_TYPE bt)
 		/* Report non-standard type specifiers */
 		report(crt_loc, ERR_dcl_type_simple_bad(bt, bo));
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1330,7 +1330,7 @@ complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 		} else {
 			t = copy_typedef(NULL_id, t, cv);
 		}
-		return (t);
+		return t;
 	}
 
 	/* Deal with type specifiers */
@@ -1352,7 +1352,7 @@ complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 			report(crt_loc, err);
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1382,7 +1382,7 @@ empty_complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 			}
 			COPY_cv(type_qual(t), cv);
 			COPY_btype(type_pre_rep(t), key);
-			return (t);
+			return t;
 		}
 		}
 	}
@@ -1391,7 +1391,7 @@ empty_complete_pre_type(BASE_TYPE bt, TYPE t, CV_SPEC cv, int infer)
 	use_type_name = 0;
 	t = complete_pre_type(bt, t, cv, infer);
 	use_type_name = 1;
-	return (t);
+	return t;
 }
 
 
@@ -1406,7 +1406,7 @@ find_bitfield_type(TYPE t)
 {
 	INT_TYPE it = DEREF_itype(type_bitfield_defn(t));
 	t = DEREF_type(itype_bitfield_sub(it));
-	return (t);
+	return t;
 }
 
 
@@ -1444,7 +1444,7 @@ get_bitfield_rep(TYPE t, BASE_TYPE bt)
 			bt = br;
 		}
 	}
-	return (bt);
+	return bt;
 }
 
 
@@ -1504,16 +1504,16 @@ check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt, NAT n, int zero)
 			break;
 		}
 		report(crt_loc, ERR_class_bit_base(t));
-		return (t);
+		return t;
 	}
 	case type_error_tag: {
 		/* Ignore error types */
-		return (t);
+		return t;
 	}
 	default: {
 		/* Other types are not allowed */
 		report(crt_loc, ERR_class_bit_base(t));
-		return (t);
+		return t;
 	}
 	}
 
@@ -1558,7 +1558,7 @@ check_bitfield_type(CV_SPEC cv, TYPE t, BASE_TYPE bt, NAT n, int zero)
 	}
 	MAKE_itype_bitfield(p, NULL_list(TYPE), t, bt, n, info, bf);
 	MAKE_type_bitfield(cv, bf, t);
-	return (t);
+	return t;
 }
 
 
@@ -1579,7 +1579,7 @@ make_bitfield_type(TYPE t, BASE_TYPE bt, EXP e, int zero)
 		report(crt_loc, err);
 	}
 	t = check_bitfield_type(cv_none, t, bt, n, zero);
-	return (t);
+	return t;
 }
 
 
@@ -1601,7 +1601,7 @@ check_array_dim(NAT n)
 			n = negate_nat(n);
 		}
 	}
-	return (n);
+	return n;
 }
 
 
@@ -1624,9 +1624,9 @@ make_array_dim(EXP e)
 			report(crt_loc, err);
 		}
 		n = check_array_dim(n);
-		return (n);
+		return n;
 	}
-	return (NULL_nat);
+	return NULL_nat;
 }
 
 
@@ -1647,7 +1647,7 @@ check_int_type(TYPE t, BASE_TYPE m)
 		case itype_basic_tag: {
 			BASE_TYPE bt = DEREF_btype(itype_basic_rep(it));
 			if ((bt & m) == m) {
-				return (1);
+				return 1;
 			}
 			break;
 		}
@@ -1661,14 +1661,14 @@ check_int_type(TYPE t, BASE_TYPE m)
 			if (IS_tok_type(tok)) {
 				BASE_TYPE bt = DEREF_btype(tok_type_kind(tok));
 				if ((bt & m) == m) {
-					return (1);
+					return 1;
 				}
 			}
 			break;
 		}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1723,12 +1723,12 @@ TYPE find_arg_type(TYPE t)
 		r = type_composite(t, r, 0, 1, KILL_err, 0);
 		if (!IS_NULL_type(r)) {
 			r = DEREF_type(HEAD_list(q));
-			return (r);
+			return r;
 		}
 		q = TAIL_list(q);
 		p = TAIL_list(p);
 	}
-	return (NULL_type);
+	return NULL_type;
 }
 
 
@@ -1817,10 +1817,10 @@ eq_argument(TYPE t, TYPE s, int eq)
 	TYPE ps = find_arg_type(s);
 	if (EQ_type(pt, ps)) {
 		if (!IS_NULL_type(pt)) {
-			return (pt);
+			return pt;
 		}
 		if (eq) {
-			return (NULL_type);
+			return NULL_type;
 		}
 	}
 	if (IS_NULL_type(pt)) {
@@ -1830,7 +1830,7 @@ eq_argument(TYPE t, TYPE s, int eq)
 		ps = s;
 	}
 	pt = type_composite(pt, ps, 0, 1, KILL_err, 1);
-	return (pt);
+	return pt;
 }
 
 
@@ -1849,11 +1849,11 @@ eq_ellipsis(TYPE t)
 		TYPE r = DEREF_type(HEAD_list(p));
 		TYPE s = eq_argument(t, r, 0);
 		if (!IS_NULL_type(s)) {
-			return (s);
+			return s;
 		}
 		p = TAIL_list(p);
 	}
-	return (NULL_type);
+	return NULL_type;
 }
 
 

@@ -2083,7 +2083,7 @@ needs scan
 	bro(op1) = bro(*e);
 	if (last(*e)) { setlast(op1); } else {clearlast(op1); }
 	*e = op1;
-	return(scan(e, at));
+	return scan(e, at);
       }
       /*... else continue */
     }
@@ -2197,7 +2197,7 @@ needs scan
 	bro(ss) = bro(stare);
 	sh(ss) = sh(stare);
 	*e = ss;
-	return(scan(e, at));
+	return scan(e, at);
       }
       str = scan(arg, at);
       return maxneeds(str, shapeneeds(sh(*(e))));

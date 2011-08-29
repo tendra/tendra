@@ -130,7 +130,7 @@ unique_id(void)
 		time_t t = time((time_t *)NULL);
 		u = (unsigned)t;
 	}
-	return (u);
+	return u;
 }
 
 
@@ -158,7 +158,7 @@ out_dd(FILE *file, int n, int loc)
 	} else {
 		dtposn_globl = p + sz;
 	}
-	return (p);
+	return p;
 }
 
 
@@ -181,7 +181,7 @@ new_table_posn(posn_t n, long sz)
 	p->is_lab = 0;
 	p->posn = n;
 	p->size = sz;
-	return (p);
+	return p;
 }
 
 
@@ -257,7 +257,7 @@ analyse_diag_shape(FILE *file, shape sha)
 		t = FLOATING_POSN + sz;
 		break;
 	}
-	return (new_table_posn(t, sz));
+	return new_table_posn(t, sz);
 }
 
 
@@ -270,7 +270,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 {
 	table_posn *res;
 	if (dt->been_outed) {
-		return ((table_posn *)dt->been_outed);
+		return (table_posn *)dt->been_outed;
 	}
 
 	switch (dt->key) {
@@ -572,7 +572,7 @@ analyse_diag_type(FILE *file, diag_type dt, int loc)
 	}
 
 	dt->been_outed = (OUTPUT_REC)res;
-	return (res);
+	return res;
 }
 
 
@@ -613,8 +613,8 @@ pop_dscope(void)
 {
 	int n = no_dscope;
 	if (n == 0) {
-		return (null);
+		return null;
 	}
 	no_dscope = (--n);
-	return (dscope_stack + n);
+	return dscope_stack + n;
 }

@@ -153,7 +153,7 @@ special_fn ( exp a1, exp a2, shape s )
     speci spr ;
     spr.is_special = 0 ;
     spr.special_exp = nilexp ;
-    return ( spr ) ;
+    return spr;
 }
 
 
@@ -170,26 +170,26 @@ specno ( char * n )
 {
     if ( strcmp ( n, "___builtin_strcpy" ) == 0 ||
 	 strcmp ( n, "___TDF_builtin_strcpy" ) == 0 ) {
-	return ( -1 ) ;
+	return -1;
     }
 
     if ( strcmp ( n, "___builtin_asm" ) == 0 ||
 	 strcmp ( n, "___TDF_builtin_asm" ) == 0 ) {
-	return ( 4 ) ;
+	return 4;
     }
 
     if ( strcmp ( n, "___builtin_alloca" ) == 0 ||
 	 strcmp ( n, "___TDF_builtin_alloca" ) == 0 ) {
-	return ( 5 ) ;
+	return 5;
     }
 
 #if 0
     /* Could be made special */
-    if ( strcmp ( n, "strlen" ) == 0 ) return ( 2 ) ;
-    if ( strcmp ( n, "strcmp" ) == 0 ) return ( -3 ) ;
+    if ( strcmp ( n, "strlen" ) == 0 ) return 2;
+    if ( strcmp ( n, "strcmp" ) == 0 ) return -3;
 #endif
 
-    return ( 0 ) ;
+    return 0;
 }
 
 
@@ -204,16 +204,16 @@ special_call_name ( int i )
 
 	case -1 :
 	case 1 : {
-	    return ( sysV_assembler ? "strcpy" : "_strcpy" ) ;
+	    return sysV_assembler ? "strcpy" : "_strcpy";
 	}
 
 	case 5 : {
-	    return ( sysV_assembler ? "alloca" : "_alloca" ) ;
+	    return sysV_assembler ? "alloca" : "_alloca";
 	}
 
 	default : {
 	    fail ( "Attempting external call to builtin" ) ;
-	    return ( "" ) ;
+	    return "";
 	}
     }
     /* NOT REACHED */
@@ -273,20 +273,20 @@ specialneeds ( int i, exp application, exp pars )
 		/* shape of eval_tag from ptrhd to nofhd */
 		sh ( par2 ) = sh ( son ( par2 ) ) ;
 
-		return ( twofixneeds ) ;
+		return twofixneeds;
 	    }
 
 	    /* otherwise leave TDF so strcpy is called */
-	    return ( zeroneeds ) ;
+	    return zeroneeds;
 	}
 #endif
 
-	case 4 : return ( zeroneeds ) ;	 /* asm */
-	case 5 : return ( zeroneeds ) ;	 /* alloca */
+	case 4 : return zeroneeds;	 /* asm */
+	case 5 : return zeroneeds;	 /* alloca */
 
 	default : {
 	    fail ( "Unimplemented builtin" ) ;
-	    return ( zeroneeds ) ;
+	    return zeroneeds;
 	}
     }
     /* NOT REACHED */
@@ -303,9 +303,9 @@ specialfn ( exp fn )
     if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
 	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == nilexp ) {
 	char *extname = brog ( son ( fn ) )->dec_u.dec_val.dec_id ;
-	return ( specno ( extname ) ) ;
+	return specno ( extname ) ;
     }
-    return ( 0 ) ;
+    return 0;
 }
 
 /*
@@ -321,7 +321,7 @@ specialopt ( exp fn )
     if ( name ( fn ) == name_tag && name ( son ( fn ) ) == ident_tag &&
 	 isglob ( son ( fn ) ) && son ( son ( fn ) ) == nilexp ) {
 	char *extname = brog ( son ( fn ) )->dec_u.dec_val.dec_id ;
-	if ( extname == NULL ) return ( 0 ) ;
+	if ( extname == NULL ) return 0;
 	extname += strlen ( name_prefix ) ;	/* get rid of any prefix */
 
 	/* The following list corresponds to #pragma unknown_control_flow
@@ -330,10 +330,10 @@ specialopt ( exp fn )
 	     ( strcmp ( extname, "setjmp" ) == 0 ) ||
 	     ( strcmp ( extname, "_setjmp" ) == 0 ) ||
 	     ( strcmp ( extname, "sigsetjmp" ) == 0 ) ) {
-	    return ( 1 ) ;
+	    return 1;
 	}
     }
-    return ( 0 ) ;
+    return 0;
 }
 extern int stackerr_lab;
 extern int local_stackerr_lab;
@@ -352,7 +352,7 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
       e = son ( son ( par ) ) ;
       if ( name ( e ) != string_tag ) {
 	fail ( "asm argument is not a string" ) ;
-	return ( 0 ) ;
+	return 0;
       }
       s = nostr ( e ) ;
       /* asm is dangerous : zap register tracking */
@@ -436,10 +436,10 @@ specialmake ( int i, exp par, space sp, where dest, int exitlab ){
     
     default : {
       fail ( "Unimplemented builtin" ) ;
-      return ( 0 ) ;
+      return 0;
     }
   }
-  return ( exitlab ) ;
+  return exitlab;
 }
 
 

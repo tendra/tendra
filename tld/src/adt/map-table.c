@@ -76,7 +76,7 @@ map_table_create(void)
     for (i = 0; i < MAP_TABLE_SIZE; i++) {
 	table->contents[i] = NULL;
     }
-    return(table);
+    return table;
 }
 
 MapEntryT *
@@ -88,7 +88,7 @@ map_table_add(MapTableT *table,		       NStringT * key,
     MapEntryT *entry      = map_entry_create(key, next, count);
 
     table->contents[hash_value] = entry;
-    return(entry);
+    return entry;
 }
 
 MapEntryT *
@@ -99,11 +99,11 @@ map_table_get(MapTableT *table,		       NStringT * key)
 
     while (entry) {
 	if (nstring_equal(key, map_entry_key(entry))) {
-	    return(entry);
+	    return entry;
 	}
 	entry = map_entry_next(entry);
     }
-    return(NULL);
+    return NULL;
 }
 
 void

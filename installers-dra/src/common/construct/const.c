@@ -290,7 +290,7 @@ maxconst mc_list(exp whole, exp e, int ass_ok, int good)
 
   if (result.self) {
     ret_constlist(result.cont);
-    return(self_const);
+    return self_const;
   }
   return result;
 }
@@ -436,10 +436,10 @@ not_assigned_to(exp vardec, exp body)
       ptr->next = *pp;
       *pp = ptr;
     }
-    return(ptr->res);
+    return ptr->res;
   } else {
     /* default case - identifier not heavily used */
-    return(not_ass2(vardec, body));
+    return not_ass2(vardec, body);
   }
 }
 
@@ -1023,7 +1023,7 @@ safe_arg(exp e, exp esc)
   clearlast(e);
   s = hc(s, v2);
 
-  return(hc(decl, s));
+  return hc(decl, s);
 }
 
 
@@ -1156,14 +1156,14 @@ safe_eval(exp e, exp escape_route)
 
   arg_is_reff = (name(e) == reff_tag);
   if (escape_route != nilexp) {
-    return (res);		/* this was an inner call */
+    return res;		/* this was an inner call */
   }
 
   if (no(son(esc_lab)) == 0) {
     /* the escape route is not used - inherently safe */
     retcell(son(esc_lab));
     retcell(esc_lab);
-    return(res);
+    return res;
   } else {
     /* the escape route was used - construct conditional */
     exp cond = getexp(sh(e), nilexp, 0, res, nilexp,
@@ -1176,7 +1176,7 @@ safe_eval(exp e, exp escape_route)
     setbro(res, esc_lab);
     clearlast(res);
     IGNORE hc(cond, esc_lab);
-    return(cond);
+    return cond;
   }
 }
 
@@ -1361,7 +1361,7 @@ extract_consts(int issn, exp rf, exp list_head)
   retcell(t);
 
   retcell(list_head);
-  return(changed);
+  return changed;
 }
 
 
@@ -1417,25 +1417,25 @@ assigns_alias(exp e)
 
       if (!named_dest(son(e))) {
 	/* LHS may be aliassed */
-	return(true);
+	return true;
       } else {
 	/* check RHS for assignments */
-	return(assigns_alias(bro(dest)));
+	return assigns_alias(bro(dest));
       }
     }
 
   case name_tag:
   case env_offset_tag:
   case general_env_offset_tag:
-    return(false);
+    return false;
 
   case case_tag:
-    return(assigns_alias(son(e)));
+    return assigns_alias(son(e));
     /* NB - must only look at first son */
 
   case bfass_tag:
   case apply_tag:
-    return (true);		/* pessimist! */
+    return true;		/* pessimist! */
 
   default: {
       int aa = false;
@@ -1449,7 +1449,7 @@ assigns_alias(exp e)
 	  s = bro(s);
       }
 
-      return(aa);
+      return aa;
   }
   }
 }
@@ -1468,12 +1468,12 @@ scan_for_lv(exp e)
 {
   switch (name(e)) {
   case make_lv_tag:
-    return(true);
+    return true;
 
   case name_tag:
   case env_offset_tag:
   case general_env_offset_tag:
-    return(false);
+    return false;
 
   default: {
       int aa = false;
@@ -1488,7 +1488,7 @@ scan_for_lv(exp e)
 	}
       }
 
-      return(aa);
+      return aa;
   }
   }
 }
@@ -1602,7 +1602,7 @@ get_repeats(void)
       reps = pt(reps);
     }
   }
-  return(repeat_list);
+  return repeat_list;
 }
 
 

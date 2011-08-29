@@ -145,7 +145,7 @@ enc_diag_file(BITSTREAM *bs, PTR(POSITION)posn)
 	n = link_no(bs, n, VAR_token);
 	ENC_make_tok(bs, n);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -176,7 +176,7 @@ enc_diag_loc(BITSTREAM *bs, PTR(LOCATION)loc)
 	ENC_INT(bs, ln);
 	ENC_make_nat(bs);
 	ENC_INT(bs, cn);
-	return (bs);
+	return bs;
 }
 
 
@@ -192,7 +192,7 @@ enc_diag_name(BITSTREAM *bs, IDENTIFIER id, int q)
 {
 	string s = mangle_diag(id, q);
 	bs = enc_ustring(bs, s);
-	return (bs);
+	return bs;
 }
 
 
@@ -212,7 +212,7 @@ enc_diag_tagdef_start(ulong n)
 	ENC_make_diag_tagdef(bs);
 	n = link_no(bs, n, VAR_diagtag);
 	ENC_INT(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -260,7 +260,7 @@ enc_diag_bases(BITSTREAM *bs, LIST(GRAPH)br, unsigned *pm)
 		}
 		(*pm)++;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -286,7 +286,7 @@ enc_diag_mems(BITSTREAM *bs, MEMBER mem, unsigned *pm)
 		bs = enc_diag_type(bs, s, 0);
 		(*pm)++;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -318,7 +318,7 @@ enc_diag_vtable(BITSTREAM *bs, VIRTUAL vt, unsigned *pm)
 		}
 		vt = DEREF_virt(virt_next(vt));
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -397,7 +397,7 @@ enc_diag_class(CLASS_TYPE ct, int def)
 	} else {
 		CONS_ctype(ct, diag_classes, diag_classes);
 	}
-	return (n);
+	return n;
 }
 
 
@@ -417,7 +417,7 @@ enc_diag_pending(void)
 #if TDF_NEW_DIAG
 		if (output_new_diag) {
 			changed = enc_dg_pending();
-			return (changed);
+			return changed;
 		}
 #endif
 		while (p = diag_classes, !IS_NULL_list(p)) {
@@ -430,7 +430,7 @@ enc_diag_pending(void)
 			}
 		}
 	}
-	return (changed);
+	return changed;
 }
 
 
@@ -452,14 +452,14 @@ enc_diag_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 			/* Allow for tokenised types */
 			TYPE t = DEREF_type(ctype_form(ct));
 			bs = enc_diag_type(bs, t, 0);
-			return (bs);
+			return bs;
 		}
 		n = enc_diag_class(ct, 0);
 	}
 	n = link_no(bs, n, VAR_diagtag);
 	ENC_use_diag_tag(bs);
 	ENC_make_diag_tag(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -483,7 +483,7 @@ enc_diag_etype(BITSTREAM *bs, ENUM_TYPE et)
 		CLASS_INFO ei = DEREF_cinfo(etype_info(et));
 		if (!(ei & cinfo_complete)) {
 			bs = enc_diag_type(bs, t, 0);
-			return (bs);
+			return bs;
 		}
 
 		/* Encode diagnostic tag definition */
@@ -509,7 +509,7 @@ enc_diag_etype(BITSTREAM *bs, ENUM_TYPE et)
 	n = link_no(bs, n, VAR_diagtag);
 	ENC_use_diag_tag(bs);
 	ENC_make_diag_tag(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -538,7 +538,7 @@ enc_diag_tok_type(BITSTREAM *bs, IDENTIFIER id, LIST(TOKEN)args)
 		/* NOT YET IMPLEMENTED */
 		ENC_diag_type_null(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -558,7 +558,7 @@ enc_diag_type_qual(BITSTREAM *bs, CV_SPEC cv)
 		ENC_add_diag_volatile(bs);
 	}
 	ENC_diag_tq_null(bs);
-	return (bs);
+	return bs;
 }
 
 
@@ -574,7 +574,7 @@ enc_diag_type(BITSTREAM *bs, TYPE t, int qual)
 {
 	if (IS_NULL_type(t)) {
 		ENC_diag_type_null(bs);
-		return (bs);
+		return bs;
 	}
 	if (qual) {
 		/* Output type qualifier */
@@ -583,7 +583,7 @@ enc_diag_type(BITSTREAM *bs, TYPE t, int qual)
 			ENC_diag_loc(bs);
 			bs = enc_diag_type(bs, t, 0);
 			bs = enc_diag_type_qual(bs, cv);
-			return (bs);
+			return bs;
 		}
 	}
 	ASSERT(ORDER_type == 18);
@@ -704,7 +704,7 @@ enc_diag_type(BITSTREAM *bs, TYPE t, int qual)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -880,7 +880,7 @@ enc_diag_local(BITSTREAM *bs, IDENTIFIER id, BITSTREAM *ts)
 #if TDF_NEW_DIAG
 	if (output_new_diag) {
 		bs = enc_dg_local(bs, id, ts);
-		return (bs);
+		return bs;
 	}
 #endif
 	n = diag_id_scope_tok;
@@ -903,7 +903,7 @@ enc_diag_local(BITSTREAM *bs, IDENTIFIER id, BITSTREAM *ts)
 	n = link_no(bs, n, VAR_token);
 	ENC_make_tok(bs, n);
 	bs = enc_bitstream(bs, ts);
-	return (bs);
+	return bs;
 }
 
 
@@ -920,7 +920,7 @@ enc_diag_params(BITSTREAM *bs, LIST(IDENTIFIER)p, BITSTREAM *ts, EXP e)
 #if TDF_NEW_DIAG
 	if (output_new_diag) {
 		bs = enc_dg_params(bs, p, ts, e);
-		return (bs);
+		return bs;
 	}
 #endif
 	if (IS_NULL_list(p)) {
@@ -931,7 +931,7 @@ enc_diag_params(BITSTREAM *bs, LIST(IDENTIFIER)p, BITSTREAM *ts, EXP e)
 		us = enc_diag_params(us, TAIL_list(p), ts, e);
 		bs = enc_diag_local(bs, pid, us);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -960,7 +960,7 @@ enc_diag_start(BITSTREAM *bs)
 	n = link_no(bs, n, VAR_token);
 	ENC_exp_apply_token(bs);
 	ENC_make_tok(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -981,7 +981,7 @@ enc_diag_begin(BITSTREAM **pbs)
 		*pbs = bs;
 		bs = start_bitstream(NIL(FILE), bs->link);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1002,9 +1002,9 @@ is_diag_stmt(EXP e)
 			/* Lexical blocks */
 			if (output_new_diag) {
 				int blk = DEREF_int(exp_sequence_block(e));
-				return (blk);
+				return blk;
 			}
-			return (0);
+			return 0;
 		}
 		case exp_label_stmt_tag: {
 			/* Labelled statements */
@@ -1013,20 +1013,20 @@ is_diag_stmt(EXP e)
 				    DEREF_id(exp_label_stmt_label(e));
 				HASHID nm = DEREF_hashid(id_name(lab));
 				if (!IS_hashid_anon(nm)) {
-					return (1);
+					return 1;
 				}
 			}
-			return (0);
+			return 0;
 		}
 		case exp_if_stmt_tag: {
 			/* If statements and expressions */
 			if (output_diag) {
 				IDENTIFIER lab = DEREF_id(exp_if_stmt_label(e));
 				if (IS_NULL_id(lab)) {
-					return (1);
+					return 1;
 				}
 			}
-			return (0);
+			return 0;
 		}
 		case exp_decl_stmt_tag:
 		case exp_while_stmt_tag:
@@ -1036,11 +1036,11 @@ is_diag_stmt(EXP e)
 		case exp_try_block_tag:
 		case exp_handler_tag: {
 			/* Control statements */
-			return (0);
+			return 0;
 		}
 		}
 	}
-	return (output_diag);
+	return output_diag;
 }
 
 
@@ -1058,7 +1058,7 @@ enc_diag_stmt(BITSTREAM *bs, EXP e, int stmt)
 #if TDF_NEW_DIAG
 	if (output_new_diag) {
 		bs = enc_dg_stmt(bs, e, stmt);
-		return (bs);
+		return bs;
 	}
 #endif
 	loc = crt_enc_loc;
@@ -1079,7 +1079,7 @@ enc_diag_stmt(BITSTREAM *bs, EXP e, int stmt)
 	bs = enc_diag_loc(bs, loc);
 	bs = enc_diag_loc(bs, loc);
 	UNUSED(stmt);
-	return (bs);
+	return bs;
 }
 
 
@@ -1097,7 +1097,7 @@ enc_diag_end(BITSTREAM *bs, BITSTREAM *ts, EXP e, int stmt)
 		ts = enc_diag_stmt(ts, e, stmt);
 		ts = enc_bitstream(bs, ts);
 	}
-	return (ts);
+	return ts;
 }
 
 

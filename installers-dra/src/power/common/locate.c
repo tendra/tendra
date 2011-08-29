@@ -284,7 +284,7 @@ int ENCODE_FOR_BOFF(int off, int type)
    default:
     fail("Unknown encodeing for ENCODE_FOR_BOFF");
   }
-  return(encode_offset<<6) + encode_base;
+  return (encode_offset<<6) + encode_base;
 }
 
 

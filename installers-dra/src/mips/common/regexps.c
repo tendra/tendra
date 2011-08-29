@@ -118,25 +118,25 @@ bool sim_exp(exp a, exp b);
 bool eq_sze
 (shape as, shape bs)
 {
-  if (is_floating(name(as))) return(name(as) ==name(bs));
+  if (is_floating(name(as))) return name(as) ==name(bs);
   if (is_floating(name(bs))) return 0;
-  return(shape_size(as) == shape_size(bs) && shape_align(as) ==shape_align(bs));
+  return shape_size(as) == shape_size(bs) && shape_align(as) ==shape_align(bs);
 }
 
 bool sim_explist
 (exp al, exp bl)
 {
   if (al == nilexp && bl == nilexp)
-    return(1);
+    return 1;
   if (al == nilexp || bl == nilexp)
-    return(0);
+    return 0;
   if (!sim_exp(al, bl))
-    return(0);
+    return 0;
   if (last(al) && last(bl))
-    return(1);
+    return 1;
   if (last(al) || last(bl))
-    return(0);
-  return(sim_explist(bro(al), bro(bl)));
+    return 0;
+  return sim_explist(bro(al), bro(bl));
 }
 
 bool sim_exp
@@ -146,20 +146,20 @@ bool sim_exp
 				   and alignments */
   if (name(a) == name(b)) {
     if (name(a) == name_tag)
-      return(son(a) == son(b) && no(a) == no(b) &&
-	  eq_sze(sh(a), sh(b)));
+      return son(a) == son(b) && no(a) == no(b) &&
+	  eq_sze(sh(a), sh(b));
     if (name(a) ==maxlike_tag || name(a) ==minlike_tag || name(a) ==abslike_tag) {
-    	return(props(son(a)) ==props(son(b)) &&
+    	return props(son(a)) ==props(son(b)) &&
 		shape_size(sh(a)) ==shape_size(sh(b)) &&
-    			sim_explist(son(son(a)),son(son(b))));
+    			sim_explist(son(son(a)),son(son(b)));
     }
     if (!is_a(name(a)) || !eq_sze(sh(a), sh(b)))
-      return(0);
+      return 0;
     if (name(a) == float_tag) return eq_exp(son(a), son(b));
-    return(no(a) == no(b) &&
-	sim_explist(son(a), son(b)));
+    return no(a) == no(b) &&
+	sim_explist(son(a), son(b));
   };
-  return(0);
+  return 0;
 }
 
 void clear_all
@@ -355,10 +355,10 @@ static bool couldbe
 	return 1;
     }
     if (isvar(s)) {
-      return(lhs == 0 && (isvis(s) || isglob(s)));
+      return lhs == 0 && (isvis(s) || isglob(s));
     }
     if (name(s) == proc_tag)
-      return(lhs == 0);
+      return lhs == 0;
     if (son(s) == nilexp)
       return 1;
     if (count > 5) return 1; /* pathological */
@@ -366,7 +366,7 @@ static bool couldbe
   }
   if (ne == cont_tag) {
     if (lhs != 0 && name(s) == name_tag && son(s)!= nilexp) {
-      return(son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s)));
+      return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
     }
     return 1;
   }
@@ -374,7 +374,7 @@ static bool couldbe
     return couldbe(s, lhs, count);
   }
   if (ne == addptr_tag || ne == subptr_tag) {
-    return(couldbe(s, lhs, count) || couldeffect(bro(s), lhs, count));
+    return couldbe(s, lhs, count) || couldeffect(bro(s), lhs, count);
   }
 
   return 1;
@@ -391,7 +391,7 @@ static bool couldeffect
   }
   if (ne == name_tag) {
     if (isvar(son(e)))
-      return(z == 0 && isvis(son(e)));
+      return z == 0 && isvis(son(e));
     if (name(son(e)) == proc_tag)
       return 0;
     if (son(son(e)) == nilexp)
@@ -447,7 +447,7 @@ bool dependson
 
   /* z is now unambiguous variable name or 0 meaning some contents */
 
-  return((isc)? couldbe(e, z, 0): couldeffect(e, z, 0));
+  return (isc)? couldbe(e, z, 0): couldeffect(e, z, 0);
 }
 
 

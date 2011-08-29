@@ -125,7 +125,7 @@ read_width(STRING str, unsigned long c, int *pc, unsigned *pn)
 		n = UINT_MAX;
 	}
 	*pn = n;
-	return (c);
+	return c;
 }
 
 
@@ -161,11 +161,11 @@ read_arg_no(STRING str, unsigned margs)
 				report(crt_loc, ERR_printf_arg_zero());
 				n = 1;
 			}
-			return (n);
+			return n;
 		}
 	}
 	COPY_ulong(str_simple_tok(str), tok);
-	return (0);
+	return 0;
 }
 
 
@@ -271,7 +271,7 @@ check_format(string s, BUILTIN_TYPE n, BUILTIN_TYPE m, unsigned flags)
 			report(crt_loc, ERR_printf_precision(s));
 		}
 	}
-	return (n);
+	return n;
 }
 
 
@@ -334,7 +334,7 @@ set_printf_arg(LIST(TYPE) p, unsigned n, TYPE t, int *state)
 			COPY_type(HEAD_list(q), t);
 		}
 	}
-	return (p);
+	return p;
 }
 
 
@@ -381,7 +381,7 @@ add_printf_arg(STRING str, LIST(TYPE) p, unsigned margs, int *state)
 			if (c == char_percent && flags == PRINTF_NONE &&
 			    arg == 0) {
 				/* Have precisely '%%' */
-				return (p);
+				return p;
 			}
 			switch (c) {
 			case char_single_quote:
@@ -558,7 +558,7 @@ wint_lab:
 		t = arg_promote_type(t, KILL_err);
 		p = set_printf_arg(p, arg, t, state);
 	}
-	return (p);
+	return p;
 }
 
 
@@ -590,7 +590,7 @@ add_scanf_arg(STRING str, LIST(TYPE) p, unsigned margs, int *state)
 	if (ch == CHAR_SIMPLE) {
 		if (c == char_percent && arg == 0) {
 			/* Have precisely '%%' */
-			return (p);
+			return p;
 		}
 		if (c == char_asterix) {
 			c = get_string_char(str, &ch);
@@ -699,7 +699,7 @@ add_scanf_arg(STRING str, LIST(TYPE) p, unsigned margs, int *state)
 	if (!IS_NULL_type(t) && !ignore) {
 		p = set_printf_arg(p, arg, t, state);
 	}
-	return (p);
+	return p;
 }
 
 
@@ -751,7 +751,7 @@ find_printf_args(STRING str, unsigned margs, int pf)
 	}
 	COPY_ulong(str_simple_tok(str), tok);
 	p = REVERSE_list(p);
-	return (p);
+	return p;
 }
 
 
@@ -784,20 +784,20 @@ is_printf_type(TYPE t)
 		TYPE s = DEREF_type(id_class_name_etc_defn(tid));
 		if (IS_type_ptr(s)) {
 			if (EQ_type(s, type_printf)) {
-				return (1);
+				return 1;
 			}
 			if (EQ_type(s, type_scanf)) {
-				return (2);
+				return 2;
 			}
 			if (EQ_type(s, type_wprintf)) {
-				return (3);
+				return 3;
 			}
 			if (EQ_type(s, type_wscanf)) {
-				return (4);
+				return 4;
 			}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 

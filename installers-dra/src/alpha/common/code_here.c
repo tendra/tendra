@@ -93,7 +93,7 @@ regofval(exp e)
       return regofval (son (decx));
     }
     if ((props (decx) & inreg_bits) != 0) {
-      return ((isvar (decx)) ? (-no (decx)) : (no (decx)));
+      return isvar(decx) ? (-no (decx)) : (no (decx));
     }
     return 100;
   }
@@ -120,7 +120,7 @@ fregofval(exp e)
     }
 #if 0
     if((props(decx) & infreg_bits) != 0){
-      return ((isvar(decx))?(-no(decx)):(no(decx)));
+      return isvar(decx) ? (-no(decx)) : (no(decx));
     }
 #endif
     return 100;
@@ -184,7 +184,7 @@ reg_operand(exp e, space sp)
   if (name (e) == cont_tag) {
     x = regofval (son (e));
     if (x < 0) {
-      return (-x);
+      return -x;
     }
   }
   else
@@ -244,7 +244,7 @@ freg_operand(exp e, space sp)
   if (name (e) == cont_tag) {
     x = fregofval (son (e));
     if (x < 100) {
-      return (x);
+      return x;
     }
   }
   else

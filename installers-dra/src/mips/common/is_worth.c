@@ -99,7 +99,7 @@ is_worth(exp c)
       case xor_tag:
 
 	{
-	  return (n < 0 || n >= 0xffff);/* short literal operands */
+	  return n < 0 || n >= 0xffff;/* short literal operands */
 	}
 
       case test_tag: return 1;
@@ -109,7 +109,7 @@ is_worth(exp c)
 	    return 0;		/* short literal operands */
 	  /* a*2^n and a*2^(n+-1) are transformed later to shifts and adds
 	     */
-	  return ((n & (n - 1)) != 0 && (n & (n + 1)) != 0 && ((n - 1) & (n - 2)) != 0);
+	  return (n & (n - 1)) != 0 && (n & (n + 1)) != 0 && ((n - 1) & (n - 2)) != 0;
 	}
       case div1_tag:
       case div2_tag:
@@ -118,12 +118,12 @@ is_worth(exp c)
 	  if (n <= 0x7fff && n > -0x8000)
 	    return 0 /* short literal operands */ ;
 	  /* a/2^n transformed later to shift */
-	  return ((n & (n - 1)) != 0);
+	  return (n & (n - 1)) != 0;
 	}
 
       default:
 	{
-	  return (n > 0x7fff || n < -0x8000) /* short literal operands */ ;
+	  return n > 0x7fff || n < -0x8000 /* short literal operands */ ;
 	}
     }				/* end sw */
 

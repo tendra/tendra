@@ -270,7 +270,7 @@ realrep(exp e)
     long sz = shape_size ( sh ( e ) ) ;
 
 #if ( FBASE == 10 )
-    return ( NULL ) ;
+    return NULL;
 #else
 
     /* Find size of exponent and mantissa */
@@ -292,7 +292,7 @@ realrep(exp e)
 	/* Deal with 0 */
 	if ( f->sign == 0 ) {
 	    for ( i = 0 ; i < sz / 32 ; i++ ) longs [i] = 0 ;
-	    return ( longs ) ;
+	    return longs;
 	}
 
 	/* Fill in sign */
@@ -326,7 +326,7 @@ realrep(exp e)
 
     } else {
 	fail ( "Illegal floating-point constant" ) ;
-	return ( NULL ) ;
+	return NULL;
     }
 
     /* Fill in exponent */
@@ -353,7 +353,7 @@ realrep(exp e)
 	longs [i] = ( b0 << 24 ) + ( b1 << 16 ) + ( b2 << 8 ) + b3 ;
 #endif
     }
-    return ( longs ) ;
+    return longs;
 #endif
 }
 
@@ -369,7 +369,7 @@ evalexp(exp e)
   {
      if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) 
      {
-	return (no(e)>>3);
+	return no(e)>>3;
      }
      else
 	return no(e);
@@ -396,19 +396,19 @@ evalexp(exp e)
     }
   case not_tag:
     {
-      return (evalexp(son(e)));
+      return evalexp(son(e));
     }
   case and_tag:
     {
-      return (evalexp(son(e)) & evalexp(bro(son(e))));
+      return evalexp(son(e)) & evalexp(bro(son(e)));
     }
   case or_tag:
     {
-      return (evalexp(son(e)) | evalexp(bro(son(e))));
+      return evalexp(son(e)) | evalexp(bro(son(e)));
     }
   case xor_tag:
     {
-      return (evalexp(son(e)) ^ evalexp(bro(son(e))));
+      return evalexp(son(e)) ^ evalexp(bro(son(e)));
     }
 
   case shr_tag:
@@ -417,14 +417,14 @@ evalexp(exp e)
 
       FULLCOMMENT1("evalexp() shr_tag: sgned=%d", sgned);
       if (sgned)
-	return (((long) evalexp(son(e))) >> evalexp(bro(son(e))));
+	return ((long) evalexp(son(e))) >> evalexp(bro(son(e)));
       else
-	return (((unsigned long) evalexp(son(e))) >> evalexp(bro(son(e))));
+	return ((unsigned long) evalexp(son(e))) >> evalexp(bro(son(e)));
     }
 
   case shl_tag:
     {
-      return (evalexp(son(e)) << evalexp(bro(son(e))));
+      return evalexp(son(e)) << evalexp(bro(son(e)));
     }
 
   case concatnof_tag:
@@ -460,36 +460,36 @@ evalexp(exp e)
   {
      exp tg = son(son(e));
      procrec * pr = &procrecs[no(son(tg))];
-     return((pr->frame_sz+0) >> 3);
+     return (pr->frame_sz+0) >> 3;
   }
 
    case offset_add_tag:
    {
-    	return(evalexp(son(e))+evalexp(bro(son(e))));
+    	return evalexp(son(e))+evalexp(bro(son(e)));
    }
    case offset_max_tag:
    {
-    	return(MAX_OF(evalexp(son(e)),evalexp(bro(son(e)))));
+    	return MAX_OF(evalexp(son(e)),evalexp(bro(son(e))));
    }   
    case offset_pad_tag:
    {
-	return( rounder(evalexp(son(e)), shape_align(sh(e))));
+	return rounder(evalexp(son(e)), shape_align(sh(e)));
    }
    case offset_mult_tag:
    {
-    	return(evalexp(son(e))*evalexp(bro(son(e))));
+    	return evalexp(son(e))*evalexp(bro(son(e)));
    }
    case offset_div_tag:case offset_div_by_int_tag:
    {
-    	return(evalexp(son(e))/evalexp(bro(son(e))));
+    	return evalexp(son(e))/evalexp(bro(son(e)));
    }
    case offset_subtract_tag:
    {
-    	return(evalexp(son(e))-evalexp(bro(son(e))));
+    	return evalexp(son(e))-evalexp(bro(son(e)));
    }
    case offset_negate_tag: 
    {
-	return(-evalexp(son(e)));
+	return -evalexp(son(e));
    }     
 
   case clear_tag:
@@ -757,7 +757,7 @@ is_zero(exp e)
   case null_tag:
     return 1;
   case val_tag:
-    return (no(e) == 0 ? 1 : 0);
+    return no(e) == 0 ? 1 : 0;
   case ncopies_tag:
   case int_to_bitf_tag:
     return is_zero(son(e));

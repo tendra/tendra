@@ -337,7 +337,7 @@ stack_if(object *p)
 static object *
 unstack_if(void)
 {
-    return(if_stack [ --if_stack_index ]);
+    return if_stack [ --if_stack_index ];
 }
 
 

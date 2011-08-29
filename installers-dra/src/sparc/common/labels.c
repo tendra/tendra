@@ -120,7 +120,7 @@ seed_label (void){
 int 
 new_label (void) {
   last_label++ ;
-  return ( last_label ) ;
+  return last_label;
 }	
 
 

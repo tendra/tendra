@@ -192,11 +192,11 @@ ident_depth(IDENTIFIER id)
 			NAMESPACE ns = DEREF_nspace(id_parent(id));
 			int n = nspace_depth(ns);
 			if (n >= 0) {
-				return (n + 1);
+				return n + 1;
 			}
 		}
 	}
-	return (-1);
+	return -1;
 }
 
 
@@ -218,11 +218,11 @@ nspace_depth(NAMESPACE ns)
 			/* Named and class namespaces */
 			IDENTIFIER id = DEREF_id(nspace_name(ns));
 			int n = ident_depth(id);
-			return (n);
+			return n;
 		}
 		case nspace_global_tag: {
 			/* The global namespace */
-			return (0);
+			return 0;
 		}
 		case nspace_unnamed_tag: {
 			/* Unnamed namespaces */
@@ -231,14 +231,14 @@ nspace_depth(NAMESPACE ns)
 				NAMESPACE pns = DEREF_nspace(id_parent(id));
 				int n = nspace_depth(pns);
 				if (n >= 0) {
-					return (n + 1);
+					return n + 1;
 				}
 			}
 			break;
 		}
 		}
 	}
-	return (-1);
+	return -1;
 }
 
 
@@ -678,7 +678,7 @@ mangle_literal(INT_TYPE it)
 		*(s++) = MANGLE_llong;
 	}
 	*s = 0;
-	return (buff);
+	return buff;
 }
 
 
@@ -1437,7 +1437,7 @@ mangle_op(int op)
 		s = mangle_ntype[0];
 		break;
 	}
-	return (ustrlit(s));
+	return ustrlit(s);
 }
 
 
@@ -1471,7 +1471,7 @@ mangle_ename(BUFFER *bf, string s)
 			bfputc(bf,(int)c);
 		}
 	}
-	return (u);
+	return u;
 }
 
 
@@ -1541,7 +1541,7 @@ mangle_hashid(HASHID nm, int *pcopy, int force)
 		break;
 	}
 	}
-	return (s);
+	return s;
 }
 
 
@@ -1573,20 +1573,20 @@ mangle_name(IDENTIFIER id, int v, int ext)
 	if (!(ds & dspec_extern)) {
 		if (ds & dspec_static) {
 			if (!output_all) {
-				return (NULL);
+				return NULL;
 			}
 		} else if (IS_id_enumerator(id)) {
 			if (!output_all) {
-				return (NULL);
+				return NULL;
 			}
 		} else {
-			return (NULL);
+			return NULL;
 		}
 	}
 	if ((ds & dspec_instance) && !is_exported(id)) {
 		/* Non-exported templates */
 		if (!output_all) {
-			return (NULL);
+			return NULL;
 		}
 	}
 	if (output_all)ext = 1;
@@ -1596,7 +1596,7 @@ mangle_name(IDENTIFIER id, int v, int ext)
 	nm = DEREF_hashid(id_name(id));
 	s = mangle_hashid(nm, &copy, 0);
 	if (s == NULL) {
-		return (NULL);
+		return NULL;
 	}
 
 	/* Find the namespace depth */
@@ -1679,16 +1679,16 @@ mangle_name(IDENTIFIER id, int v, int ext)
 
 	/* Check for the simple cases */
 	if (d < 0) {
-		return (NULL);
+		return NULL;
 	}
 	if (d == 0 && IS_NULL_type(t) && pre == NULL) {
 		if (copy) {
 			if (ustrchr(s, MANGLE_error)) {
-				return (NULL);
+				return NULL;
 			}
 			s = xustrcpy(s);
 		}
-		return (s);
+		return s;
 	}
 
 	/* Deal with the complex case */
@@ -1740,10 +1740,10 @@ mangle_name(IDENTIFIER id, int v, int ext)
 	/* Check for illegal names */
 	s = bf->start;
 	if (ustrchr(s, MANGLE_error)) {
-		return (NULL);
+		return NULL;
 	}
 	s = xustrcpy(s);
-	return (s);
+	return s;
 }
 
 
@@ -1784,11 +1784,11 @@ mangle_common(string s, IDENTIFIER id)
 		bfputs(bf, s);
 		t = bf->start;
 		if (ustrchr(t, MANGLE_error)) {
-			return (NULL);
+			return NULL;
 		}
 		t = xustrcpy(t);
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1810,10 +1810,10 @@ mangle_vtable(const char *pre, GRAPH gr)
 	bfputc(bf, 0);
 	s = bf->start;
 	if (ustrchr(s, MANGLE_error)) {
-		return (NULL);
+		return NULL;
 	}
 	s = xustrcpy(s);
-	return (s);
+	return s;
 }
 
 
@@ -1835,10 +1835,10 @@ mangle_typeid(const char *pre, CLASS_TYPE ct)
 	bfputc(bf, 0);
 	s = bf->start;
 	if (ustrchr(s, MANGLE_error)) {
-		return (NULL);
+		return NULL;
 	}
 	s = xustrcpy(s);
-	return (s);
+	return s;
 }
 
 
@@ -1860,10 +1860,10 @@ mangle_tname(const char *pre, TYPE t)
 	bfputc(bf, 0);
 	s = bf->start;
 	if (ustrchr(s, MANGLE_error)) {
-		return (NULL);
+		return NULL;
 	}
 	s = xustrcpy(s);
-	return (s);
+	return s;
 }
 
 
@@ -1879,12 +1879,12 @@ string
 mangle_init(void)
 {
 #if (TDF_major >= 4)
-	return (NULL);
+	return NULL;
 #else
 	char buff[50];
 	output_init = 1;
 	sprintf_v(buff, "_GLOBAL_$I$%s", uniq_string);
-	return (xustrcpy(ustrlit(buff)));
+	return xustrcpy(ustrlit(buff));
 #endif
 }
 
@@ -1902,7 +1902,7 @@ mangle_anon(void)
 	char buff[50];
 	static unsigned long anon_no = 0;
 	sprintf_v(buff, "__%lu_%s", anon_no++, uniq_string);
-	return (xustrcpy(ustrlit(buff)));
+	return xustrcpy(ustrlit(buff));
 }
 
 
@@ -2032,5 +2032,5 @@ mangle_diag(IDENTIFIER id, int q)
 		mangle_type(bf, t, fn, 0);
 	}
 	bfputc(bf, 0);
-	return (bf->start);
+	return bf->start;
 }

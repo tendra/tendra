@@ -582,7 +582,7 @@ int comm_op
       nsp = guardreg(r, sp);
       move(a, d, nsp.fixed, 1);
       /* ... and move into a */
-      return((rok)?r:NOREG);
+      return (rok)?r:NOREG;
     }				/* notinreg */
   }				/* end switch */
 }
@@ -1114,7 +1114,7 @@ int fop
    {
       /* i.e. quads */
       quad_op(e, sp, dest);
-      return(NOREG);
+      return NOREG;
    }
 #endif
 
@@ -1154,5 +1154,5 @@ int fop
    }
    if ((discrim(dest.answhere))!= infreg)
       move(aa, dest, sp.fixed, 1);
-   return(dble ? - (fr.fr + 32):(fr.fr + 32));
+   return dble ? - (fr.fr + 32):(fr.fr + 32);
 }

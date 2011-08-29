@@ -517,15 +517,15 @@ static int use_pop_ass
   if (name(ln) == cont_tag)
     ln = son(ln);
   if (name(ln)!= name_tag)
-    return(0);
+    return 0;
   id = son(ln);
   while (n != id && last(n) &&
 	(is_a(name(n)) || name(n) == ident_tag ||
 		name(n) == ass_tag))
     n = bro(n);
   if (n == id)
-    return(get_reg_no(no(id)) - fstack_pos + 2);
-  return(0);
+    return get_reg_no(no(id)) - fstack_pos + 2;
+  return 0;
 }
 
 
@@ -536,19 +536,19 @@ static int   use_pop
   if (name(ln) == cont_tag)
     ln = son(ln);
   if (name(ln)!= name_tag)
-    return(0);
+    return 0;
   id = son(ln);
   while (n != id && last(n))
     n = bro(n);
   if (n == id)
-    return(get_reg_no(no(id)) - fstack_pos + 2);
-  return(0);
+    return get_reg_no(no(id)) - fstack_pos + 2;
+  return 0;
 }
 
 int  count_regs
 (int mask)
 {
-  return(bits_in[mask & 0xf] + bits_in[(mask >> 4) & 0x3]);
+  return bits_in[mask & 0xf] + bits_in[(mask >> 4) & 0x3];
 }
 
 static void cmp64_contop
@@ -1085,16 +1085,16 @@ int flinmem
 #endif
 
   if (!recog)
-    return(1);
+    return 1;
   else {
     SET(id);
   };
 
   if (ptno(id) == reg_pl &&
       (name (sh (son (id))) > ucharhd || no (id) < 0x10))/* 0x10 is edi */
-    return (0);  /* there are no char versions of edi, esi */
+    return 0;  /* there are no char versions of edi, esi */
 
-  return(1);
+  return 1;
 }
 
 
@@ -1106,8 +1106,8 @@ int inmem
   unsigned char  n = name(w.where_exp);
   if (n == val_tag ||
 	n == null_tag || n == current_env_tag)
-    return(0);
-  return(flinmem(w));
+    return 0;
+  return flinmem(w);
 }
 
 int w_islastuse
@@ -2096,25 +2096,25 @@ int  in_fl_reg
   unsigned char  ne = name(e);
   if (ne == name_tag && ptno(son(e)) == reg_pl) {
     int  n = no(son(e));
-    return((n > 0x80)? n : 0);
+    return (n > 0x80)? n : 0;
   };
   if (ne == cont_tag && name(son(e)) == name_tag &&
       isvar(son(son(e))) &&
       ptno(son(son(e))) == reg_pl) {
     int  n = no(son(son(e)));
-    return((n > 0x80)? n : 0);
+    return (n > 0x80)? n : 0;
   };
   if (ne == ass_tag && name(son(e)) == name_tag &&
       isvar(son(son(e))) &&
       ptno(son(son(e))) == reg_pl) {
     int  n = no(son(son(e)));
-    return((n > 0x80)? n : 0);
+    return (n > 0x80)? n : 0;
   };
   if (ne == ident_tag && ptno(e) == reg_pl) {
     int  n = no(e);
-    return((n > 0x80)? n : 0);
+    return (n > 0x80)? n : 0;
   };
-  return(0);
+  return 0;
 }
 
 
@@ -2124,7 +2124,7 @@ int in_fstack
 {
   int  f = in_fl_reg(e);
   int  fpos = (f)? get_reg_no(f): 0;
-  return(fpos == fstack_pos);
+  return fpos == fstack_pos;
 }
 
 
@@ -2138,7 +2138,7 @@ int  in_reg
     int  n = no(son(e));
     if (!iscaonly(son(e)) && isvar(son(e)))
       n = (n | (int)0x80000000);
-    return(n);
+    return n;
   };
   if (ne == cont_tag && name(son(e)) == name_tag &&
       isvar(son(son(e))) &&
@@ -2146,7 +2146,7 @@ int  in_reg
     int  n = no(son(son(e)));
     if (!iscaonly(son(son(e))) && isvar(son(son(e))))
       n = (n | (int)0x80000000);
-    return(n);
+    return n;
   };
   if (ne == ass_tag && name(son(e)) == name_tag &&
       isvar(son(son(e))) &&
@@ -2154,17 +2154,17 @@ int  in_reg
     int  n = no(son(son(e)));
     if (!iscaonly(son(son(e))) && isvar(son(son(e))))
       n = (n | (int)0x80000000);
-    return(n);
+    return n;
   };
   if (ne == ident_tag && ptno(e) == reg_pl) {
     int  n = no(e);
     if (!iscaonly(e) && isvar(e))
       n = (n | (int)0x80000000);
-    return(n);
+    return n;
   };
   if (ne == current_env_tag)
-    return(0x40);
-  return(0);
+    return 0x40;
+  return 0;
 }
 
 static int all_in_regs
@@ -2177,14 +2177,14 @@ static int all_in_regs
       && name(son(e)) == ident_tag) {
     id1 = son(e);
     if (ptno(son(son(id1)))!= reg_pl)
-      return(0);
+      return 0;
     id2 = bro(son(id1));
     if (name(id2)!= ident_tag)
-      return(1);
-    return(ptno(son(son(id2))) == reg_pl);
+      return 1;
+    return ptno(son(son(id2))) == reg_pl;
   };
 
-  return(1);
+  return 1;
 }
 
 int two_contops
@@ -2192,10 +2192,10 @@ int two_contops
 {
   int   nr = count_regs((~regsinuse) & 0x3e);
   if (nr >= 2)
-    return(1);
+    return 1;
   if (nr == 1)
-    return(all_in_regs(fe) || all_in_regs(te));
-  return(all_in_regs(fe) && all_in_regs(te));
+    return all_in_regs(fe) || all_in_regs(te);
+  return all_in_regs(fe) && all_in_regs(te);
 }
 
 
@@ -3602,8 +3602,8 @@ int cmp
 int bad_from_reg
 (where from)
 {
-    return(!inmem(from) && name(from.where_exp)!= val_tag &&
-	(in_reg(from.where_exp) & 0x70));
+    return !inmem(from) && name(from.where_exp)!= val_tag &&
+	(in_reg(from.where_exp) & 0x70);
 }
 
 /* change variety from (which has shape
@@ -5973,7 +5973,7 @@ int   adjust_pos
   UNUSED(nbits);
   pos = no(e)% 8;
   no(e) -= pos;
-  return(pos);
+  return pos;
 }
 
 /* find bit position of bitfield defined
@@ -5984,11 +5984,11 @@ int   bit_pos_cont
 {
   if (name(e) == reff_tag ||
       name(e) == name_tag)
-    return(adjust_pos(e, nbits));
+    return adjust_pos(e, nbits);
 
   if (name(e) == ident_tag) {
     if (name(bro(son(e))) == reff_tag)
-      return(adjust_pos(bro(son(e)), nbits));
+      return adjust_pos(bro(son(e)), nbits);
 
     if (name(bro(son(e))) == ident_tag)
       return bit_pos_cont(bro(son(e)), nbits);
@@ -5996,16 +5996,16 @@ int   bit_pos_cont
     if (name(bro(son(e))) == name_tag &&
 	son(bro(son(e))) == e &&
 	name(son(e)) == name_tag)
-      return(bit_pos_cont(son(son(e)), nbits));
+      return bit_pos_cont(son(son(e)), nbits);
 
     if (name(son(e)) == name_tag)
-      return(adjust_pos(son(e), nbits));
+      return adjust_pos(son(e), nbits);
 
-    return(0);
+    return 0;
   };
 
   failer(BAD_BIT_OPND);
-  return(0);
+  return 0;
 
 }
 
@@ -6018,16 +6018,16 @@ int   bit_pos
 (exp e, int nbits)
 {
   if (name(e) == name_tag)
-    return(adjust_pos(e, nbits));
+    return adjust_pos(e, nbits);
 
   if (name(e) == cont_tag || name(e) == ass_tag)
-    return(bit_pos_cont(son(e), nbits));
+    return bit_pos_cont(son(e), nbits);
 
   if (name(e) == ident_tag)
-    return(0);
+    return 0;
 
   failer(BAD_BIT_OPND);
-  return(0);
+  return 0;
 }
 
 void mem_to_bits
@@ -7060,7 +7060,7 @@ void test_fl_ovfl
 exp find_stlim_var
 (void)
 {
-  return(make_extn("__trans386_stack_limit", ulongsh, 1));
+  return make_extn("__trans386_stack_limit", ulongsh, 1);
 }
 
 void checkalloc_stack

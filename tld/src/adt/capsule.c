@@ -178,7 +178,7 @@ capsule_read_unit_set_name(IStreamT *istream,				    DStringT *dstring)
 
     do {
 	if (!istream_read_char(istream, &c)) {
-	    return(FALSE);
+	    return FALSE;
 	}
     } while (isspace(c));
     if (c != '"') {
@@ -188,7 +188,7 @@ capsule_read_unit_set_name(IStreamT *istream,				    DStringT *dstring)
     dstring_init(dstring);
     while (istream_read_char(istream, &c)) {
 	if (c == '"') {
-	    return(TRUE);
+	    return TRUE;
 	} else if (c == '\\') {
 	    switch (istream_read_escaped_char(istream, &c)) {
 	      case ISTREAM_STAT_READ_CHAR:
@@ -300,14 +300,14 @@ static TDFReaderT *
 capsule_reader(CapsuleT *capsule)
 {
     assert(capsule->type == CT_INPUT);
-    return(& (capsule->u.reader));
+    return &capsule->u.reader;
 }
 
 static TDFWriterT *
 capsule_writer(CapsuleT *capsule)
 {
     assert(capsule->type == CT_OUTPUT);
-    return(& (capsule->u.writer));
+    return &capsule->u.writer;
 }
 
 static NStringT *
@@ -320,7 +320,7 @@ capsule_magic(void)
 	nstring_copy_cstring(&const_magic, "TDFC");
 	inited = TRUE;
     }
-    return(&const_magic);
+    return &const_magic;
 }
 
 static void
@@ -436,7 +436,7 @@ capsule_read_unit_set_names(CapsuleT *  capsule,				     UnitTableT *units,
 		tdf_reader_name(reader));
     }
     *num_unit_sets_ref = num_unit_sets;
-    return(units_vec);
+    return units_vec;
 }
 
 static ShapeDataT *
@@ -477,7 +477,7 @@ capsule_read_shapes(CapsuleT *   capsule,			     ShapeTableT *shapes,
 	}
     }
     *num_shapes_ref = num_shapes;
-    return(shapes_vec);
+    return shapes_vec;
 }
 
 static NameEntryT **
@@ -525,7 +525,7 @@ capsule_read_external_names_1(CapsuleT *  capsule,				       ShapeDataT *shape,
 	name_key_destroy(&name);
     }
     *num_ref = num_this_shape;
-    return(names_vec);
+    return names_vec;
 }
 
 static NameDataT *
@@ -557,7 +557,7 @@ capsule_read_external_names(CapsuleT *  capsule,				     unsigned   num_shapes,
 	names_vec_vec[i].names_vec = names_vec;
 	names_vec_vec[i].num_names = num_this_shape;
     }
-    return(names_vec_vec);
+    return names_vec_vec;
 }
 
 static unsigned
@@ -569,10 +569,10 @@ capsule_get_token_index(ShapeTableT *shapes,				 unsigned    num_shapes,
 
     for (i = 0; i < num_shapes; i++) {
 	if (shapes_vec[i].entry == token_entry) {
-	    return(i);
+	    return i;
 	}
     }
-    return(UINT_MAX);
+    return UINT_MAX;
 }
 
 static unsigned
@@ -584,10 +584,10 @@ capsule_get_tag_index(ShapeTableT *shapes,			       unsigned    num_shapes,
 
     for (i = 0; i < num_shapes; i++) {
 	if (shapes_vec[i].entry == tag_entry) {
-	    return(i);
+	    return i;
 	}
     }
-    return(UINT_MAX);
+    return UINT_MAX;
 }
 
 static void
@@ -827,9 +827,9 @@ capsule_read_unit_counts(CapsuleT *capsule, unsigned num_shapes,
 	    debug_info_r_count(count, key);
 	    entries[i] = entry;
 	}
-	return(entries);
+	return entries;
     } else {
-	return(NULL);
+	return NULL;
     }
 }
 
@@ -1002,11 +1002,11 @@ capsule_create_stream_input(char * name)
     capsule->type = CT_INPUT;
     if (!tdf_reader_open(capsule_reader(capsule), name)) {
 	DEALLOCATE(capsule);
-	return(NULL);
+	return NULL;
     }
     capsule->name     = name;
     capsule->complete = FALSE;
-    return(capsule);
+    return capsule;
 }
 
 CapsuleT *
@@ -1018,7 +1018,7 @@ capsule_create_string_input(char * name,				     NStringT *contents)
     tdf_reader_open_string(capsule_reader(capsule), name, contents);
     capsule->name     = name;
     capsule->complete = FALSE;
-    return(capsule);
+    return capsule;
 }
 
 CapsuleT *
@@ -1029,22 +1029,22 @@ capsule_create_stream_output(char * name)
     capsule->type = CT_OUTPUT;
     if (!tdf_writer_open(capsule_writer(capsule), name)) {
 	DEALLOCATE(capsule);
-	return(NULL);
+	return NULL;
     }
     capsule->name = name;
-    return(capsule);
+    return capsule;
 }
 
 char *
 capsule_name(CapsuleT *capsule)
 {
-    return(capsule->name);
+    return capsule->name;
 }
 
 unsigned
 capsule_byte(CapsuleT *capsule)
 {
-    return(tdf_reader_byte(capsule_reader(capsule)));
+    return tdf_reader_byte(capsule_reader(capsule));
 }
 
 void
@@ -1108,7 +1108,7 @@ capsule_store_contents(CapsuleT *capsule)
 NStringT *
 capsule_contents(CapsuleT *capsule)
 {
-    return(& (capsule->contents));
+    return &capsule->contents;
 }
 
 void
@@ -1120,7 +1120,7 @@ capsule_set_index(CapsuleT *capsule,			   unsigned i)
 unsigned
 capsule_get_index(CapsuleT *capsule)
 {
-    return(capsule->capsule_index);
+    return capsule->capsule_index;
 }
 
 void
@@ -1182,7 +1182,7 @@ capsule_close(CapsuleT *capsule)
 unsigned
 capsule_get_major_version(void)
 {
-    return(capsule_major_version);
+    return capsule_major_version;
 }
 
 void
@@ -1194,6 +1194,6 @@ capsule_set_major_version(unsigned major)
 unsigned
 capsule_get_minor_version(void)
 {
-    return(capsule_minor_version);
+    return capsule_minor_version;
 }
 

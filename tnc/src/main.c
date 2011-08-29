@@ -113,7 +113,7 @@ output_option(char *arg, boolean t)
 		p = &show_tagdefs;
 
 	if (p == NULL)
-		return (0);
+		return 0;
 
 	if (t) {
 		show_tokdecs = 0;
@@ -125,7 +125,7 @@ output_option(char *arg, boolean t)
 
 	*p = t;
 
-	return (1);
+	return 1;
 }
 
 
@@ -374,5 +374,5 @@ main(int argc, char **argv)
 		(*output_fn)();
 	}
 
-	return(exit_status);
+	return exit_status;
 }

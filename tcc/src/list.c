@@ -89,7 +89,7 @@ new_list(void)
 		list *p = spare_lists;
 		spare_lists = p->next;
 
-		return (p);
+		return p;
 	}
 
 	if (no_free == 0) {
@@ -97,7 +97,7 @@ new_list(void)
 		free_objs = alloc_nof(list, no_free);
 	}
 
-	return (free_objs + (--no_free));
+	return free_objs + (--no_free);
 }
 
 
@@ -124,16 +124,16 @@ add_list(list *p, list *q)
 	list *r;
 
 	if (p == NULL)
-		return (q);
+		return q;
 
 	if (q == NULL)
-		return (p);
+		return p;
 
 	for (r = p; r->next != NULL; r = r->next)
 		;
 
 	r->next = q;
-	return (p);
+	return p;
 }
 
 
@@ -153,7 +153,7 @@ add_item(list *p, const char *s)
 	q->item.s = s;
 	q->next = NULL;
 
-	return (add_list(p, q));
+	return add_list(p, q);
 }
 
 
@@ -174,7 +174,7 @@ insert_item(const char *s, list *p)
 	q->item.s = s;
 	q->next = NULL;
 
-	return (add_list(q, p));
+	return add_list(q, p);
 }
 
 
@@ -194,11 +194,11 @@ insert_inorder(ordered_node* indata, list *inlst)
 	newlst->next = NULL;
 
 	if (inlst == NULL)
-	        return (newlst);
+	        return newlst;
 
 	if (indata->rank < curr->item.on->rank) {
 	        newlst->next = inlst;
-	        return (newlst);
+	        return newlst;
 	}
 
 	while (curr != NULL &&
@@ -210,7 +210,7 @@ insert_inorder(ordered_node* indata, list *inlst)
 	prev->next = newlst;
 	newlst->next = curr;
 
-	return (head);
+	return head;
 }
 
 
@@ -239,5 +239,5 @@ make_list(const char *s)
 			p++;
 	}
 
-	return (r);
+	return r;
 }

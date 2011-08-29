@@ -520,7 +520,7 @@ rule_factor_4(RuleT *rule, AltT *old_alt, AltT *new_alt, TableT *table,
 		/* TODO: XOR might read more nicely here! */
 		if ((item == NULL && old_item != NULL) || (item != NULL && old_item == NULL)) {
 			*items_equal_ref = FALSE;
-			return(TRUE);
+			return TRUE;
 		} else if (item == NULL && old_item == NULL) {
 			/*NOTHING*/
 		} else if ((item_entry(old_item) == item_entry(item)
@@ -538,7 +538,7 @@ rule_factor_4(RuleT *rule, AltT *old_alt, AltT *new_alt, TableT *table,
 			}
 		} else {
 			*items_equal_ref = FALSE;
-			return(TRUE);
+			return TRUE;
 		}
 	}
 

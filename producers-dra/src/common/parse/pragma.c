@@ -120,7 +120,7 @@ get_token(void)
 	if (t <= LAST_COMPLEX_TOKEN) {
 		token_parts(t, p);
 	}
-	return(p);
+	return p;
 }
 
 
@@ -140,7 +140,7 @@ find_keyword(IDENTIFIER id)
 	if (t == lex_identifier) {
 		report(preproc_loc, ERR_pragma_keyword_bad(nm));
 	}
-	return(t);
+	return t;
 }
 
 
@@ -386,7 +386,7 @@ parse_pragma(PPTOKEN *p, int tendra)
 	}
 	restore_state(&s);
 	crt_linkage = new_linkage;
-	return(tok);
+	return tok;
 }
 
 
@@ -404,11 +404,11 @@ skip_to_colon(PPTOKEN *p)
 	while (p) {
 		PPTOKEN *q = p->next;
 		if (p->tok == lex_colon) {
-			return(q);
+			return q;
 		}
 		p = q;
 	}
-	return(NULL);
+	return NULL;
 }
 
 
@@ -467,12 +467,12 @@ mark_tdf_param(PPTOKEN *p, int n, int macro)
 			}
 			p->pp_data.id.use = NULL_id;
 		}
-		return(p->next);
+		return p->next;
 	}
 	if (n) {
-		return(NULL);
+		return NULL;
 	}
-	return(p);
+	return p;
 }
 
 
@@ -500,7 +500,7 @@ mark_prog_param(PPTOKEN *p)
 			if (p) {
 				p = p->next;
 			}
-			return(p);
+			return p;
 		case lex_type_Hcap: {
 			/* Have the form 'TYPE t' */
 			int depth = 0;
@@ -522,12 +522,12 @@ mark_prog_param(PPTOKEN *p)
 					break;
 				case lex_comma:
 					if (depth == 0) {
-						return(p);
+						return p;
 					}
 					break;
 				case lex_close_Hbrace_H1:
 				case lex_close_Hbrace_H2:
-					return(p);
+					return p;
 				}
 				p = p->next;
 			}
@@ -540,10 +540,10 @@ mark_prog_param(PPTOKEN *p)
 			if (p) {
 				p = p->next;
 			}
-			return(p);
+			return p;
 		}
 	}
-	return(NULL);
+	return NULL;
 }
 
 
@@ -562,7 +562,7 @@ static PPTOKEN *
 mark_tdf_token(PPTOKEN *p, int *macro)
 {
 	if (p == NULL) {
-		return(NULL);
+		return NULL;
 	}
 	if (p->tok == lex_identifier) {
 		int t = find_hashid(p->pp_data.id.hash);
@@ -585,14 +585,14 @@ mark_tdf_token(PPTOKEN *p, int *macro)
 				/* Step over type name */
 				p = skip_to_colon(p->next);
 			}
-			return(p);
+			return p;
 
 		case lex_func_Hcap:
 			/* Function token specifiers */
 			*macro = 1;
 			p->tok = t;
 			p = skip_to_colon(p->next);
-			return(p);
+			return p;
 
 		case lex_member_Hcap:
 			/* Member token specifiers */
@@ -609,7 +609,7 @@ mark_tdf_token(PPTOKEN *p, int *macro)
 			}
 			p = skip_to_colon(p);
 			p = skip_to_colon(p);
-			return(p);
+			return p;
 
 		case lex_proc_Hcap:
 			/* Procedure token specifiers */
@@ -617,7 +617,7 @@ mark_tdf_token(PPTOKEN *p, int *macro)
 			p->tok = t;
 			p = p->next;
 			if (p == NULL) {
-				return(NULL);
+				return NULL;
 			}
 			t = p->tok;
 			if (t == lex_open_Hbrace_H1 ||
@@ -679,7 +679,7 @@ mark_tdf_token(PPTOKEN *p, int *macro)
 				}
 			}
 			p = mark_tdf_token(p, macro);
-			return(p);
+			return p;
 
 		case lex_variety_Hcap:
 			/* Integral type token specifiers */
@@ -693,7 +693,7 @@ mark_tdf_token(PPTOKEN *p, int *macro)
 					p = p->next;
 				}
 			}
-			return(p);
+			return p;
 
 		case lex_nat_Hcap:
 		case lex_int_Hcap:
@@ -701,7 +701,7 @@ mark_tdf_token(PPTOKEN *p, int *macro)
 			/* Simple token specifiers */
 			*macro = 1;
 			p->tok = t;
-			return(p->next);
+			return p->next;
 
 		case lex_arith_Hcap:
 		case lex_class_Hcap:
@@ -712,10 +712,10 @@ mark_tdf_token(PPTOKEN *p, int *macro)
 		case lex_union_Hcap:
 			/* Type token specifiers */
 			p->tok = t;
-			return(p->next);
+			return p->next;
 		}
 	}
-	return(p->next);
+	return p->next;
 }
 
 
@@ -755,7 +755,7 @@ quote_token_name(PPTOKEN *p)
 		p->next = q;
 		p = q;
 	}
-	return(p);
+	return p;
 }
 
 
@@ -809,7 +809,7 @@ read_tdf_token(PPTOKEN *p, int tendra)
 	decl_loc = preproc_loc;
 	t = parse_pragma(q, tendra);
 	in_token_decl = 0;
-	return(t);
+	return t;
 }
 
 
@@ -850,7 +850,7 @@ read_tendra(PPTOKEN *p, int tendra)
 	}
 
 	/* Parse the line */
-	return(parse_pragma(p, tendra));
+	return parse_pragma(p, tendra);
 }
 
 
@@ -904,7 +904,7 @@ read_interface(PPTOKEN *p, int tendra)
 
 	/* Parse the line */
 	tok = parse_pragma(p, tendra);
-	return(tok);
+	return tok;
 }
 
 
@@ -942,7 +942,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 		case lex_token:
 			/* Token syntax */
 			p->tok = t;
-			return(read_tdf_token(p, tendra));
+			return read_tdf_token(p, tendra);
 
 		case lex_extend:
 		case lex_implement: {
@@ -970,7 +970,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 					}
 				}
 			}
-			return(pp);
+			return pp;
 		}
 
 		case lex_define:
@@ -978,13 +978,13 @@ read_non_tendra(PPTOKEN *p, int tendra)
 		case lex_interface:
 			/* Interface listing */
 			p->tok = t;
-			return(read_interface(p, tendra));
+			return read_interface(p, tendra);
 
 		case lex_reject:
 			/* Interface listing (TenDRA form) */
 			if (tendra) {
 				p->tok = t;
-				return(read_interface(p, tendra));
+				return read_interface(p, tendra);
 			}
 			break;
 
@@ -992,7 +992,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 			/* Interface listing (non-TenDRA form) */
 			if (!tendra) {
 				p->tok = lex_reject;
-				return(read_interface(p, tendra));
+				return read_interface(p, tendra);
 			}
 			break;
 
@@ -1005,7 +1005,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 				if (s == lex_token) {
 					p->tok = t;
 					q->tok = s;
-					return(read_interface(p, tendra));
+					return read_interface(p, tendra);
 				}
 			}
 			break;
@@ -1015,7 +1015,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 			/* Promotion specification (non-TenDRA form) */
 			if (!tendra) {
 				set_token(p, lex_promoted);
-				return(read_tendra(p, tendra));
+				return read_tendra(p, tendra);
 			}
 			break;
 
@@ -1023,7 +1023,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 			/* Promotion specification (TenDRA form) */
 			if (tendra) {
 				set_token(p, lex_promoted);
-				return(read_tendra(p, tendra));
+				return read_tendra(p, tendra);
 			}
 			break;
 
@@ -1036,7 +1036,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 				if (s == lex_promote) {
 					set_token(p, t);
 					set_token(q, s);
-					return(read_tendra(p, tendra));
+					return read_tendra(p, tendra);
 				}
 			}
 			break;
@@ -1051,7 +1051,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 				if (s == lex_lit) {
 					set_token(p, t);
 					set_token(q, s);
-					return(read_tendra(p, tendra));
+					return read_tendra(p, tendra);
 				}
 			}
 			break;
@@ -1067,7 +1067,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 					if (s == lex_member_Hcap) {
 						set_token(p, lex_member);
 						set_token(q, lex_definition);
-						return(read_tendra(p, tendra));
+						return read_tendra(p, tendra);
 					}
 				}
 			}
@@ -1083,7 +1083,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 					if (s == lex_definition) {
 						set_token(p, lex_member);
 						set_token(q, lex_definition);
-						return(read_tendra(p, tendra));
+						return read_tendra(p, tendra);
 					}
 				}
 			}
@@ -1095,12 +1095,12 @@ read_non_tendra(PPTOKEN *p, int tendra)
 				PPTOKEN *q = get_token();
 				p->next = q;
 				if (q->tok == lex_ellipsis) {
-					return(read_tendra(p, tendra));
+					return read_tendra(p, tendra);
 				}
 				if (q->tok == lex_identifier) {
 					int s = find_hashid(q->pp_data.id.hash);
 					if (s == lex_conversion) {
-						return(read_tendra(p, tendra));
+						return read_tendra(p, tendra);
 					}
 				}
 			}
@@ -1114,7 +1114,7 @@ read_non_tendra(PPTOKEN *p, int tendra)
 				if (q->tok == lex_identifier) {
 					int s = find_hashid(q->pp_data.id.hash);
 					if (s == lex_volatile) {
-						return(read_tendra(p, tendra));
+						return read_tendra(p, tendra);
 					}
 				}
 			}
@@ -1122,10 +1122,10 @@ read_non_tendra(PPTOKEN *p, int tendra)
 
 		case lex_preserve:
 			/* Preserve statics (non-TenDRA form) */
-			return(read_tendra(p, tendra));
+			return read_tendra(p, tendra);
 		}
 	}
-	return(lex_unknown);
+	return lex_unknown;
 }
 
 
@@ -1162,19 +1162,19 @@ read_pragma(void)
 				p = get_token();
 				tendra = 2;
 #else
-				return(lex_ignore_token);
+				return lex_ignore_token;
 #endif
 			}
 
 			/* Allow for optional TenDRA pragmas */
 			t = read_non_tendra(p, tendra);
 			if (t != lex_unknown) {
-				return(t);
+				return t;
 			}
 
 			/* Deal with TenDRA pragmas */
 			t = read_tendra(p, tendra);
-			return(t);
+			return t;
 		}
 
 		case lex_ident:
@@ -1182,27 +1182,27 @@ read_pragma(void)
 			if (!option(OPT_ppdir_ident_ignore)) {
 				read_ident(lex_pragma);
 			}
-			return(lex_ignore_token);
+			return lex_ignore_token;
 
 		case lex_weak:
 			/* Deal with '#pragma weak' */
 			if (!option(OPT_ppdir_weak_ignore)) {
 				read_weak(lex_pragma);
 			}
-			return(lex_ignore_token);
+			return lex_ignore_token;
 		}
 	}
 
 	/* Deal with non-TenDRA pragmas */
 	t = read_non_tendra(p, 0);
 	if (t != lex_unknown) {
-		return(t);
+		return t;
 	}
 
 	/* Report unknown pragmas */
 	free_tok_list(p);
 	report(preproc_loc, ERR_cpp_pragma_unknown(lex_pragma));
-	return(lex_ignore_token);
+	return lex_ignore_token;
 }
 
 
@@ -1261,5 +1261,5 @@ lint_comment(void)
 	}
 
 	/* Rest of comment is ignored */
-	return(lex_ignore_token);
+	return lex_ignore_token;
 }

@@ -114,7 +114,7 @@ hash(string s)
 	while (c = *(s++), c != 0) {
 		h = HASH_POWER * h + (unsigned long)c;
 	}
-	return(h % HASH_SIZE);
+	return h % HASH_SIZE;
 }
 
 
@@ -201,7 +201,7 @@ hash_type(TYPE t)
 		}
 		h += (64 * sub + 4 * tag + (unsigned long)qual);
 	}
-	return(h % HASH_TYPE_SIZE);
+	return h % HASH_TYPE_SIZE;
 }
 
 
@@ -249,7 +249,7 @@ lookup_name(string s, unsigned long h, int ext, int tok)
 		int c = ustrcmp(t, s);
 		if (c == 0) {
 			/* Name matches */
-			return(nm);
+			return nm;
 		}
 		if (c > 0) {
 			break;
@@ -291,7 +291,7 @@ lookup_name(string s, unsigned long h, int ext, int tok)
 		/* Check name length */
 		IGNORE check_value(OPT_VAL_name_limit, len, nm);
 	}
-	return(nm);
+	return nm;
 }
 
 
@@ -315,7 +315,7 @@ lookup_special(TYPE t, IDENTIFIER id, unsigned tag)
 			TYPE s = DEREF_type(hashid_constr_etc_type(nm));
 			if (eq_type(s, t)) {
 				COPY_id(hashid_constr_etc_tid(nm), id);
-				return(nm);
+				return nm;
 			}
 		}
 		nm = DEREF_hashid(hashid_next(nm));
@@ -326,7 +326,7 @@ lookup_special(TYPE t, IDENTIFIER id, unsigned tag)
 	MAKE_hashid_constr_etc(tag, prev, h, t, id, nm);
 	init_hashid(nm, lex_identifier);
 	hash_type_table[h] = nm;
-	return(nm);
+	return nm;
 }
 
 
@@ -359,7 +359,7 @@ lookup_constr(TYPE t, IDENTIFIER id)
 	} else {
 		nm = lookup_special(t, id, hashid_constr_tag);
 	}
-	return(nm);
+	return nm;
 }
 
 
@@ -392,7 +392,7 @@ lookup_destr(TYPE t, IDENTIFIER id)
 	} else {
 		nm = lookup_special(t, id, hashid_destr_tag);
 	}
-	return(nm);
+	return nm;
 }
 
 
@@ -407,7 +407,7 @@ HASHID
 lookup_conv(TYPE t)
 {
 	HASHID nm = lookup_special(t, NULL_id, hashid_conv_tag);
-	return(nm);
+	return nm;
 }
 
 
@@ -437,7 +437,7 @@ make_op(int t)
 	unsigned long h = (unsigned long)t;
 	MAKE_hashid_op(NULL_hashid, (h % HASH_SIZE), t, nm);
 	init_hashid(nm, lex_identifier);
-	return(nm);
+	return nm;
 }
 
 
@@ -456,7 +456,7 @@ lookup_anon(void)
 	unsigned long a = anon_no++;
 	MAKE_hashid_anon(NULL_hashid, (a % HASH_SIZE), a, nm);
 	init_hashid(nm, lex_identifier);
-	return(nm);
+	return nm;
 }
 
 
@@ -509,7 +509,7 @@ expand_name(HASHID nm, CLASS_TYPE ct)
 		break;
 	}
 	}
-	return(nm);
+	return nm;
 }
 
 
@@ -535,12 +535,12 @@ next_expand_name(HASHID nm)
 				started = 1;
 			} else if (started && IS_hashid_conv(pnm)) {
 				TYPE s = DEREF_type(hashid_conv_type(pnm));
-				if (eq_type(s, t)) return(pnm);
+				if (eq_type(s, t)) return pnm;
 			}
 			pnm = DEREF_hashid(hashid_next(pnm));
 		}
 	}
-	return(NULL_hashid);
+	return NULL_hashid;
 }
 
 
@@ -562,7 +562,7 @@ find_hashid(HASHID nm)
 		id = DEREF_id(id_alias(id));
 	}
 	lex = DEREF_ulong(id_no(id));
-	return((int)lex);
+	return (int)lex;
 }
 
 
@@ -581,7 +581,7 @@ underlying_id(IDENTIFIER id)
 		/* Scan to last hidden value */
 		id = DEREF_id(id_alias(id));
 	}
-	return(id);
+	return id;
 }
 
 

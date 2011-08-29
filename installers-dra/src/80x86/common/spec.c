@@ -126,7 +126,7 @@ speci special_fn
   char *id = dp -> dec_u.dec_val.dec_id;
   spr.is_special = 0;
   if (id == (char *)0)
-    return(spr);
+    return spr;
   id += prefix_length;
 
   if (a2 != nilexp && last(a2) && !strcmp(id, "__trans386_special")) {
@@ -134,7 +134,7 @@ speci special_fn
     setbuiltin(r);	/* dummy proc, so ignore state of do_special_fns */
     spr.is_special = 1;
     spr.special_exp = r;
-    return(spr);
+    return spr;
   };
 
   if (!strcmp(id, "setjmp")) {
@@ -173,22 +173,22 @@ speci special_fn
     spr.is_special = 1;
     spr.special_exp = r;
     kill_exp(a1, a1);
-    return(spr);
+    return spr;
   };
 
   if (a2 != nilexp && last(a2) && !strcmp(id, "exit")) {
     exp r = me_b3(f_bottom, a1, a2, apply_tag);
     spr.is_special = 1;
     spr.special_exp = r;
-    return(spr);
+    return spr;
   };
 
   if (a2 == nilexp && !strcmp(id, "abort")) {
     exp r = me_u3(f_bottom, a1, apply_tag);
     spr.is_special = 1;
     spr.special_exp = r;
-    return(spr);
+    return spr;
   };
 
-  return(spr);
+  return spr;
 }

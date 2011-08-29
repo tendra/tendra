@@ -158,15 +158,15 @@ getreg ( long fixed ){
       assert ( IS_TREG ( reg ) ) ;
       assert ( reg != R_G0 ) ;	/* %g0 is always 0 */
       assert ( reg != R_G1 ) ;	/* %g1 is used for other purposes */
-      return ( reg ) ;
+      return reg;
     }
     if ( choosefix == start ) {
       /* Back where we started */
       if ( (fixed & RMASK (R_O7)) == 0 ) {
-	return (R_O7);
+	return R_O7;
       }
       fail ( "Can't allocate temporary register" ) ;
-      return ( R_G1 ) ;
+      return R_G1;
     }
   }
   /* NOT REACHED */
@@ -200,11 +200,11 @@ getfreg ( long fl ){
     if ( reg != -1 ) {
       /* Register found */
       assert ( IS_FLT_TREG ( reg ) ) ;
-      return ( reg ) ;
+      return reg;
     }
     if ( choosefloat == start ) {
       fail ( "Can't allocate temporary floating register" ) ;
-      return ( 0 ) ;
+      return 0;
     }
   }
   /* NOT REACHED */

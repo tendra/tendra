@@ -194,7 +194,7 @@ de_token_aux(sortname s, char *nm)
 	} else {
 	    IGNORE new_word(SIMPLE);
 	}
-	return(obj);
+	return obj;
     }
 
     /* Read length of token arguments */
@@ -220,7 +220,7 @@ de_token_aux(sortname s, char *nm)
 	} else {
 	    IGNORE new_word(SIMPLE);
 	}
-	return(obj);
+	return obj;
     }
 
     /* Deal with tokens with arguments */
@@ -246,7 +246,7 @@ de_token_aux(sortname s, char *nm)
 	    } else {
 		IGNORE new_word(SIMPLE);
 	    }
-	    return(obj);
+	    return obj;
 	}
     } else {
 	/* Unknown token - step over arguments */
@@ -256,7 +256,7 @@ de_token_aux(sortname s, char *nm)
     }
     SET(w);
     end_word(w);
-    return(obj);
+    return obj;
 }
 
 

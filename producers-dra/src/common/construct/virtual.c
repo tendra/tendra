@@ -106,7 +106,7 @@ inherit_duplicate(VIRTUAL vp, VIRTUAL vq)
 		UNUSED(n);
 		UNUSED(gr);
 		UNUSED(vq);
-		return (vp);
+		return vp;
 	}
 	if (IS_virt_inherit(vp)) {
 		DESTROY_virt_inherit(destroy, fn, n, gr, vp, vp);
@@ -114,15 +114,15 @@ inherit_duplicate(VIRTUAL vp, VIRTUAL vq)
 		UNUSED(n);
 		UNUSED(gr);
 		UNUSED(vp);
-		return (vq);
+		return vq;
 	}
 	fn = DEREF_id(virt_func(vp));
 	gn = DEREF_id(virt_func(vq));
 	if (EQ_id(fn, gn)) {
-		return (vp);
+		return vp;
 	}
 	COPY_virt(virt_next(vq), vp);
-	return (vq);
+	return vq;
 }
 
 
@@ -145,7 +145,7 @@ inherit_virtual(VIRTUAL vq, GRAPH gs, LIST(VIRTUAL) p)
 	case virt_simple_tag:
 		/* Simple inheritance */
 		MAKE_virt_inherit(fn, 0, gs, vp);
-		return (vp);
+		return vp;
 	case virt_override_tag: {
 		/* Override inheritance */
 		IDENTIFIER bn = DEREF_id(virt_override_orig(vq));
@@ -183,11 +183,11 @@ inherit_virtual(VIRTUAL vq, GRAPH gs, LIST(VIRTUAL) p)
 		PTR(VIRTUAL)pv = DEREF_ptr(virt_link_to(vq));
 		vq = DEREF_virt(pv);
 		vp = inherit_virtual(vq, gs, p);
-		return (vp);
+		return vp;
 	}
 	default:
 		/* Shouldn't occur */
-		return (vp);
+		return vp;
 	}
 
 	/* Check previous cases */
@@ -207,7 +207,7 @@ inherit_virtual(VIRTUAL vq, GRAPH gs, LIST(VIRTUAL) p)
 					COPY_virt(HEAD_list(p), vp);
 					MAKE_virt_link(bn, n, gr, HEAD_list(p),
 						       vp);
-					return (vp);
+					return vp;
 				}
 				break;
 			}
@@ -223,7 +223,7 @@ inherit_virtual(VIRTUAL vq, GRAPH gs, LIST(VIRTUAL) p)
 					COPY_virt(HEAD_list(p), vp);
 					MAKE_virt_link(bn, n, gr, HEAD_list(p),
 						       vp);
-					return (vp);
+					return vp;
 				}
 				break;
 			}
@@ -231,7 +231,7 @@ inherit_virtual(VIRTUAL vq, GRAPH gs, LIST(VIRTUAL) p)
 			p = TAIL_list(p);
 		}
 	}
-	return (vp);
+	return vp;
 }
 
 
@@ -263,14 +263,14 @@ inherit_table(VIRTUAL vs, VIRTUAL vt, GRAPH gt)
 			if (eq_graph(gp, gr)) {
 				COPY_off(virt_table_off(vp), off);
 				COPY_graph(virt_base(vp), gr);
-				return (vt);
+				return vt;
 			}
 			vp = DEREF_virt(virt_next(vp));
 		}
 		MAKE_virt_table(id, 0, gr, off, vt);
 		COPY_virt(virt_next(vt), vr);
 	}
-	return (vt);
+	return vt;
 }
 
 
@@ -290,9 +290,9 @@ inherit_base_tables(LIST(GRAPH) br)
 		CLASS_TYPE cs = DEREF_ctype(graph_head(gs));
 		VIRTUAL vs = DEREF_virt(ctype_virt(cs));
 		vt = inherit_table(vs, vt, gs);
-		return (vt);
+		return vt;
 	}
-	return (NULL_virt);
+	return NULL_virt;
 }
 
 
@@ -337,7 +337,7 @@ make_virt_table(CLASS_TYPE ct, CLASS_INFO cj, int bases)
 	}
 	COPY_virt(ctype_virt(ct), vt);
 	COPY_cinfo(ctype_info(ct), (ci | cj));
-	return (vt);
+	return vt;
 }
 
 
@@ -491,7 +491,7 @@ virtual_return(TYPE s, TYPE t, GRAPH *pgr)
 	unsigned nq = TAG_type(q);
 	if (np == nq) {
 	    if (eq_type(p, q)) {
-		    return (1);
+		    return 1;
 	    }
 	    if (np == type_ptr_tag || nq == type_ref_tag) {
 		p = DEREF_type(type_ptr_etc_sub(p));
@@ -512,7 +512,7 @@ virtual_return(TYPE s, TYPE t, GRAPH *pgr)
 			    if (cv == cv_none) {
 				/* Qualification conversion */
 				*pgr = gr;
-				return (1);
+				return 1;
 			    }
 			}
 		    }
@@ -522,16 +522,16 @@ virtual_return(TYPE s, TYPE t, GRAPH *pgr)
 
 	/* Allow for template types */
 	if (np == type_token_tag && is_templ_type(p)) {
-		return (1);
+		return 1;
 	}
 	if (nq == type_token_tag && is_templ_type(q)) {
-		return (1);
+		return 1;
 	}
 	if (np == type_error_tag || nq == type_error_tag) {
-		return (1);
+		return 1;
 	}
     }
-    return (0);
+    return 0;
 }
 
 
@@ -585,7 +585,7 @@ overrides_virtual(CLASS_TYPE ct, HASHID nm, TYPE t, IDENTIFIER *pid)
 		}
 		res = REVERSE_list(res);
 	}
-	return (res);
+	return res;
 }
 
 
@@ -618,7 +618,7 @@ find_overrider(CLASS_TYPE ct, IDENTIFIER id, GRAPH gr, GRAPH *pgr)
 					    DEREF_id(virt_func(vf));
 					if (EQ_id(fid, id)) {
 						/* Identical functions */
-						return (vf);
+						return vf;
 					}
 					fnm = DEREF_hashid(id_name(fid));
 					if (EQ_hashid(fnm, nm)) {
@@ -629,13 +629,13 @@ find_overrider(CLASS_TYPE ct, IDENTIFIER id, GRAPH gr, GRAPH *pgr)
 							/* Types basically
 							 * match */
 							IGNORE virtual_return(s, t, pgr);
-							return (vf);
+							return vf;
 						}
 					} else if (nt == hashid_destr_tag) {
 						/* Check for virtual
 						 * destructors */
 						if (IS_hashid_destr(fnm)) {
-							return (vf);
+							return vf;
 						}
 					}
 				}
@@ -643,7 +643,7 @@ find_overrider(CLASS_TYPE ct, IDENTIFIER id, GRAPH gr, GRAPH *pgr)
 			p = TAIL_list(p);
 		}
 	}
-	return (NULL_virt);
+	return NULL_virt;
 }
 
 
@@ -668,7 +668,7 @@ virtual_start(GRAPH gr)
 				CLASS_TYPE cs;
 				GRAPH gs = DEREF_graph(HEAD_list(br));
 				if (eq_graph(gs, gr)) {
-					return (n);
+					return n;
 				}
 				cs = DEREF_ctype(graph_head(gs));
 				vs = DEREF_virt(ctype_virt(cs));
@@ -680,10 +680,10 @@ virtual_start(GRAPH gr)
 				}
 				br = TAIL_list(br);
 			}
-			return (n);
+			return n;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -746,7 +746,7 @@ override_virtual(IDENTIFIER id, VIRTUAL vq, GRAPH gs)
 	if (do_dump) {
 		dump_override(id, fn);
 	}
-	return (vp);
+	return vp;
 }
 
 
@@ -826,10 +826,10 @@ find_pure_function(CLASS_TYPE ct)
 			IDENTIFIER id = DEREF_id(virt_func(vf));
 			DECL_SPEC ds = DEREF_dspec(id_storage(id));
 			if (ds & dspec_pure) {
-				return (id);
+				return id;
 			}
 			p = TAIL_list(p);
 		}
 	}
-	return (NULL_id);
+	return NULL_id;
 }

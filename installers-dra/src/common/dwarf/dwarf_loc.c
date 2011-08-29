@@ -211,19 +211,19 @@ dwarf_reg_str(int x)
 {
 	switch (x) {
 	case 1:
-		return("0\t#\teax");
+		return "0\t#\teax";
 	case 2:
-		return("2\t#\tedx");
+		return "2\t#\tedx";
 	case 4:
-		return("1\t#\tecx");
+		return "1\t#\tecx";
 	case 8:
-		return("3\t#\tebx");	/* 4 is esp */
+		return "3\t#\tebx";	/* 4 is esp */
 	case 0x10:
-		return("7\t#\tedi");
+		return "7\t#\tedi";
 	case 0x20:
-		return("6\t#\tesi");
+		return "6\t#\tesi";
 	case 0x40:
-		return("5\t#\tebp");
+		return "5\t#\tebp";
 		/* 8 eip 9 eflags 10 fpsw 11 fpcw
 		   12 fpip 13 fpdp 14 st0....*/
 	default:
@@ -248,7 +248,7 @@ dwarf_reg_str(long x)
 		x >>= 1;
 	}
 	failer("Illegal register number in dwarf_reg_str");
-	return("???");
+	return "???";
 }
 
 #else

@@ -110,7 +110,7 @@ int regofval(exp e)
       /* HACK: The no(dc) is a register number 0-31 i.e positive
        * so by negating it if it isvar we can pass back more info
        */
-      return ((isvar(dc)) ? (-no(dc)) : (no(dc)));
+      return (isvar(dc)) ? (-no(dc)) : (no(dc));
     }
     return R_NO_REG;
   }
@@ -194,7 +194,7 @@ static int is_reg_operand(exp e)
       /*        | ident |  isvar=1     */
       /*        ~~~~|~~~~  inreg       */
       /*********************************/
-      return (-x);
+      return -x;
     }
   }
   return ans_reg(iskept_reg(e));

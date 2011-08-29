@@ -404,7 +404,7 @@ get_special(int t, int force)
 			}
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -417,7 +417,7 @@ get_special(int t, int force)
 string
 special_name(int t)
 {
-	return (ustrlit(special_token[t].name));
+	return ustrlit(special_token[t].name);
 }
 
 
@@ -437,28 +437,28 @@ token_code(TOKEN tok)
 		case tok_stmt_tag:
 		case tok_func_tag:
 		case tok_member_tag: {
-			return ('E');
+			return 'E';
 		}
 		case tok_nat_tag: {
-			return ('N');
+			return 'N';
 		}
 		case tok_snat_tag: {
-			return ('Z');
+			return 'Z';
 		}
 		case tok_type_tag: {
 			BASE_TYPE bt = DEREF_btype(tok_type_kind(tok));
 			if (bt & btype_scalar) {
-				return ('Z');
+				return 'Z';
 			}
-			return ('S');
+			return 'S';
 		}
 		case tok_proc_tag: {
 			TOKEN res = DEREF_tok(tok_proc_res(tok));
-			return (token_code(res));
+			return token_code(res);
 		}
 		}
 	}
-	return ('?');
+	return '?';
 }
 
 
@@ -514,7 +514,7 @@ make_sort(const char *s, int proc)
 		}
 		}
 	}
-	return (tok);
+	return tok;
 }
 
 
@@ -542,7 +542,7 @@ check_sort(TOKEN tok, const char *s, int prog)
 		TOKEN res = DEREF_tok(tok_proc_res(tok));
 		char c = (char)token_code(res);
 		if (c != r) {
-			return (0);
+			return 0;
 		}
 		r = *(s++);
 		if (prog) {
@@ -559,7 +559,7 @@ check_sort(TOKEN tok, const char *s, int prog)
 				c = '?';
 			}
 			if (c != r) {
-				return (0);
+				return 0;
 			}
 			c = *s;
 			if (c == '*') {
@@ -576,14 +576,14 @@ check_sort(TOKEN tok, const char *s, int prog)
 		/* Other tokens */
 		char c = (char)token_code(tok);
 		if (c != r) {
-			return (0);
+			return 0;
 		}
 		r = *s;
 	}
 	if (r) {
-		return (0);
+		return 0;
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -625,7 +625,7 @@ resolve_token(IDENTIFIER id, const char *s, int prog)
 		/* Token not found */
 		report(preproc_loc, ERR_token_undecl(id));
 	}
-	return (rid);
+	return rid;
 }
 
 
@@ -645,7 +645,7 @@ builtin_token(IDENTIFIER id)
 	string s;
 	HASHID nm = DEREF_hashid(id_name(id));
 	if (!IS_hashid_name_etc(nm)) {
-		return (-1);
+		return -1;
 	}
 	s = DEREF_string(hashid_name_etc_text(nm));
 	if (s[0]!= '~') {
@@ -664,7 +664,7 @@ builtin_token(IDENTIFIER id)
 			t = TOK_wchar_t;
 			break;
 		default:
-			return (-1);
+			return -1;
 		}
 	}
 	while (t < TOK_no) {
@@ -680,7 +680,7 @@ builtin_token(IDENTIFIER id)
 					    DEREF_id(id_token_alt(id));
 					report(crt_loc,
 					       ERR_pragma_token_sort(tid));
-					return (-1);
+					return -1;
 				}
 				set_special(t, id);
 				if (b) {
@@ -691,12 +691,12 @@ builtin_token(IDENTIFIER id)
 					ds |= (dspec_defn | dspec_done);
 					COPY_dspec(id_storage(id), ds);
 				}
-				return (t);
+				return t;
 			}
 		}
 		t++;
 	}
-	return (-1);
+	return -1;
 }
 
 
@@ -722,7 +722,7 @@ enc_foreign_sort(BITSTREAM *bs, const char *s)
 	ENC_foreign_sort(bs);
 	ENC_make_string(bs);
 	bs = enc_ustring(bs, ustrlit(s));
-	return (bs);
+	return bs;
 }
 
 
@@ -788,7 +788,7 @@ enc_sort(BITSTREAM *bs, int s)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -851,7 +851,7 @@ enc_apply_token(BITSTREAM *bs, int s)
 		FAIL(Unknown sort);
 		break;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -874,7 +874,7 @@ special_no(int t)
 			n = DEREF_ulong(id_no(id));
 			if (n != LINK_NONE) {
 				special_token[t].no = n;
-				return (n);
+				return n;
 			}
 			IGNORE capsule_id(id, VAR_token);
 			n = DEREF_ulong(id_no(id));
@@ -897,7 +897,7 @@ special_no(int t)
 			define_special(t);
 		}
 	}
-	return (n);
+	return n;
 }
 
 
@@ -925,7 +925,7 @@ enc_special(BITSTREAM *bs, int t)
 	} else {
 		ENC_LEN_SMALL(bs, 0);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -951,12 +951,12 @@ enc_diag_special(BITSTREAM *bs, int t, int v)
 	if (v == VAR_dgtag) {
 		ENC_dg_named_type(bs);
 		ENC_make_dg_tag(bs, n);
-		return (bs);
+		return bs;
 	}
 #endif
 	ENC_use_diag_tag(bs);
 	ENC_make_diag_tag(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -973,7 +973,7 @@ enc_param(BITSTREAM *bs, int n, const char *sorts, ulong *pars)
 	bs = enc_apply_token(bs,(int)sorts[n + 1]);
 	ENC_make_tok(bs, pars[n]);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -1285,7 +1285,7 @@ undefined_token: {
 		}
 		unreached_code = uc;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1314,7 +1314,7 @@ enc_token(BITSTREAM *bs, IDENTIFIER id, LIST(TOKEN)args)
 		}
 		bs = enc_bitstream(bs, ts);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1341,7 +1341,7 @@ enc_asm(BITSTREAM *bs, EXP e)
 	} else {
 		ENC_make_top(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 

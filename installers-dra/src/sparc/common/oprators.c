@@ -159,15 +159,15 @@ regremoved ( exp * seq, int reg ){
   exp t = bro ( s ) ;
   if ( ABS_OF ( regofval ( s ) ) == reg ) {
     ( *seq ) = t ;
-    return ( 1 ) ;
+    return 1;
   }
   for ( ; ; ) {
     if ( ABS_OF ( regofval ( t ) ) == reg ) {
       bro ( s ) = bro ( t ) ;
       if ( last ( t ) ) setlast ( s ) ;
-      return ( 1 ) ;
+      return 1;
     }
-    if ( last ( t ) ) return ( 0 ) ;
+    if ( last ( t ) ) return 0;
     s = t ;
     t = bro ( t ) ;
   }
@@ -253,7 +253,7 @@ comm_op ( exp e, space sp, where d, ins_p rrins ){
 	  rrr_ins ( rins, dest, reg_operand ( seq, sp ), dest ) ;
 	}
 	if(optop(e)) tidyshort ( dest, sh ( e ) ) ;
-	return ( dest ) ;
+	return dest;
       } 
       else if ( usesdest ) {
 	/* dest used, use temp */
@@ -261,13 +261,13 @@ comm_op ( exp e, space sp, where d, ins_p rrins ){
 	do_comm ( seq, sp, r, rins ) ;
 	rrr_ins ( rins, dest, r, dest ) ;
 	if (optop(e)) tidyshort ( dest, sh ( e ) ) ;
-	return ( dest ) ;
+	return dest;
       } 
       else {
 	/* dest not used, evaluate into dest */
 	do_comm ( seq, sp, dest, rins ) ;
 	if (optop(e)) tidyshort ( dest, sh ( e ) ) ;
-	return ( dest ) ;
+	return dest;
       }
     }
     default : {
@@ -281,7 +281,7 @@ comm_op ( exp e, space sp, where d, ins_p rrins ){
       nsp = guardreg ( r, sp ) ;
       /* ... and move into a */
       ( void ) move ( a, d, nsp.fixed, 1 ) ;
-      return ( r ) ;
+      return r;
     }
   }
   /* NOT REACHED */
@@ -309,7 +309,7 @@ non_comm_op ( exp e, space sp, where dest, ins_p rins ){
       }
       rrr_ins ( rins, a1, a2, d ) ;
       if(optop(e)) tidyshort ( d, sh ( e ) ) ;
-      return ( d ) ;
+      return d;
     }
     default : {
       ans a ;
@@ -319,7 +319,7 @@ non_comm_op ( exp e, space sp, where dest, ins_p rins ){
       if(optop(e)) tidyshort ( r1, sh ( e ) ) ;
       nsp = guardreg ( r1, sp ) ;
       ( void ) move ( a, dest, nsp.fixed, 1 ) ;
-      return ( r1 ) ;
+      return r1;
     }
   }
   /* NOT REACHED */
@@ -341,7 +341,7 @@ monop ( exp e, space sp, where dest, ins_p ins ){
       if (d == R_G0) d = getreg(sp.fixed);
       rr_ins ( ins, a1, d ) ;
       if(optop(e)) tidyshort ( d, sh ( e ) ) ;
-      return ( d ) ;
+      return d;
     }
     default : {
       ans a ;
@@ -351,7 +351,7 @@ monop ( exp e, space sp, where dest, ins_p ins ){
       if(optop(e)) tidyshort ( r1, sh ( e ) ) ;
       nsp = guardreg ( r1, sp ) ;
       ( void ) move ( a, dest, nsp.fixed, 1 ) ;
-      return ( r1 ) ;
+      return r1;
     }
   }
   /* NOT REACHED */
@@ -384,7 +384,7 @@ absop ( exp e, space sp, where dest ){
       rr_ins( i_mov, R_TMP, d);
       set_label(lab);
       if(optop(e)) tidyshort ( d, sh ( e ) ) ;
-      return ( d ) ;
+      return d;
     }
     default : {
       ans a ;
@@ -398,7 +398,7 @@ absop ( exp e, space sp, where dest ){
       if(optop(e)) tidyshort ( r1, sh ( e ) ) ;
       nsp = guardreg ( r1, sp ) ;
       ( void ) move ( a, dest, nsp.fixed, 1 ) ;
-      return ( r1 ) ;
+      return r1;
     }
   }
   /* NOT REACHED */
@@ -585,7 +585,7 @@ fop ( exp e, space sp, where dest, ins_p ins ){
     else {
       quad_op ( l, r, sp, dest, ( int ) name ( e ) ) ;
     }
-    return ( NOREG ) ;
+    return NOREG;
   }
 #endif
   if ( IsRev ( e ) ) {
@@ -604,7 +604,7 @@ fop ( exp e, space sp, where dest, ins_p ins ){
       freg fr ;
       fr = fregalt ( dest.answhere ) ;
       rrrf_ins ( ins, a1 << 1, a2 << 1, fr.fr << 1 ) ;
-      return ( ( fr.dble ) ? -( fr.fr + 32 ) : ( fr.fr + 32 ) ) ;
+      return ( fr.dble ) ? -( fr.fr + 32 ) : ( fr.fr + 32 ) ;
     }
     default : {
       ans a ;
@@ -615,7 +615,7 @@ fop ( exp e, space sp, where dest, ins_p ins ){
       setfregalt ( a, fr ) ;
       rrrf_ins ( ins, a1 << 1, a2 << 1, r1 << 1 ) ;
       ( void ) move ( a, dest, sp.fixed, 1 ) ;
-      return ( ( fr.dble ) ? -( fr.fr + 32 ) : ( fr.fr + 32 ) ) ;
+      return ( fr.dble ) ? -( fr.fr + 32 ) : ( fr.fr + 32 ) ;
     }
   }
     /* NOT REACHED */

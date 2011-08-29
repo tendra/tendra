@@ -272,7 +272,7 @@ int add_to_loc_strings
 {
   stringsize+=strlen(locstr) +1;
   nostrings++;
-  return(add_string(locstr, local_strings+index));
+  return add_string(locstr, local_strings+index);
 }
 
 
@@ -283,7 +283,7 @@ int add_to_ext_strings
   int posind=extind;
   add_string(extstr, extstrings);
   extind+=strlen(extstr) +1;
-  return(posind);
+  return posind;
 }
 
 
@@ -310,7 +310,7 @@ int add_dense_no
   curr_dense->index = index;
   denseptr->num+=1;
   densind++;
-  return(densind-1);
+  return densind-1;
 }
 
 DNR * get_dense_ptr
@@ -322,7 +322,7 @@ DNR * get_dense_ptr
     denseptr=denseptr->moredensenos;
     densecount+=denseptr->num;
   }
-  return(denseptr->densenolist+ (denseptr->num- (densecount-densind)));
+  return denseptr->densenolist+ (denseptr->num- (densecount-densind));
 }
 
 
@@ -337,7 +337,7 @@ int get_sym_index
     lsymlist=lsymlist->nextsyms;
     lsymindex+=lsymlist->noofsyms;
   }
-  return(lsymindex);
+  return lsymindex;
 }
 
 SYMR * get_sym_ptr
@@ -349,7 +349,7 @@ SYMR * get_sym_ptr
     lsymlist=lsymlist->nextsyms;
     symcount+=lsymlist->noofsyms;
   }
-  return(lsymlist->symlist+ (lsymlist->noofsyms- (symcount-symind)));
+  return lsymlist->symlist+ (lsymlist->noofsyms- (symcount-symind));
 }
 
 
@@ -373,7 +373,7 @@ int add_lsym
   }
   *(lsymlist->symlist+lsymlist->noofsyms) = (*newsym);
   lsymlist->noofsyms += 1;
-  return(lsymindex);
+  return lsymindex;
 }
 
 
@@ -391,7 +391,7 @@ int add_esym
  (esymlist->symlist+esymlist->noofsyms) ->asym= (*newsym);
   esymlist->noofsyms += 1;
   esymindex++;
-  return(esymindex-1);
+  return esymindex-1;
 }
 
 AUXU* get_aux_ptr(int, int);
@@ -488,15 +488,15 @@ int new_lsym
     newsym.iss = add_to_loc_strings(chars,filenum);
     newsym.index = add_type_to_aux(s, filenum);
   }
-  return(add_lsym(filenum, &newsym));
+  return add_lsym(filenum, &newsym);
 }
 
 
 int new_lsym_d
 (char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
 {
-  return(add_dense_no(filenum,new_lsym(chars, value, symtype, symclass,s,
-					filenum)));
+  return add_dense_no(filenum,new_lsym(chars, value, symtype, symclass,s,
+					filenum));
 
 }
 
@@ -528,8 +528,8 @@ int new_esym
 int new_esym_d
 (char *chars, int value, int symtype, int symclass, diag_type s, int filenum)
 {
-  return(add_dense_no(0x7fffffff,new_esym(chars, value, symtype, symclass, s
-					  , filenum)));
+  return add_dense_no(0x7fffffff,new_esym(chars, value, symtype, symclass, s
+					  , filenum));
 }
 
 
@@ -546,7 +546,7 @@ AUXU * get_aux_ptr
     auxdata=auxdata->moreaux;
     auxcount+=auxdata->num;
   }
-  return(auxdata->auxinfo+ (auxdata->num- (auxcount-auxind)));
+  return auxdata->auxinfo+ (auxdata->num- (auxcount-auxind));
 }
 
 
@@ -572,7 +572,7 @@ int add_aux
   *((auxdata->auxinfo) +auxdata->num) = auxent;
   auxdata->num+=1;
   auxind++;
-  return(auxind-1);
+  return auxind-1;
 }
 
 

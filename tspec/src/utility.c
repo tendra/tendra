@@ -176,7 +176,7 @@ xalloc(size_t sz)
 {
     void *p = malloc(sz);
     if (p == NULL)error(ERR_FATAL, "Memory allocation error");
-    return(p);
+    return p;
 }
 
 
@@ -192,10 +192,10 @@ void *
 xrealloc(void *p, size_t sz)
 {
     void *q;
-    if (p == NULL) return(xalloc(sz));
+    if (p == NULL) return xalloc(sz);
     q = realloc(p, sz);
     if (q == NULL)error(ERR_FATAL, "Memory reallocation error");
-    return(q);
+    return q;
 }
 
 
@@ -224,7 +224,7 @@ string_alloc(int n)
 	no_free -= n;
 	free_chars += n;
     }
-    return(r);
+    return r;
 }
 
 
@@ -241,7 +241,7 @@ string_copy(char *s)
     int n = (int)strlen(s);
     char *r = string_alloc(n + 1);
     IGNORE strcpy(r, s);
-    return(r);
+    return r;
 }
 
 
@@ -260,7 +260,7 @@ string_concat(char *s, char *t)
     char *r = string_alloc(n + m + 1);
     IGNORE strcpy(r, s);
     IGNORE strcpy(r + n, t);
-    return(r);
+    return r;
 }
 
 
@@ -278,7 +278,7 @@ string_printf(char *s, ...) /* VARARGS */
     va_start(args, s);
     IGNORE vsprintf(buffer, s, args);
     va_end(args);
-    return(string_copy(buffer));
+    return string_copy(buffer);
 }
 
 
@@ -370,6 +370,6 @@ time_t
 date_stamp(char *nm)
 {
     struct stat st;
-    if (nm && stat(nm, &st) == 0) return(st.st_mtime);
-    return((time_t)0);
+    if (nm && stat(nm, &st) == 0) return st.st_mtime;
+    return (time_t)0;
 }

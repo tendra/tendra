@@ -158,7 +158,7 @@ de_%SN(void)
 	}
     }
 @endif
-    return(n);
+    return n;
 }
 @endif
 @end
@@ -180,13 +180,13 @@ skip_sub(char *s)
 	while (c = *(s++), c != 0) {
 	    if (c == '[')n++;
 	    if (c == ']') {
-		if (n == 0) return(s);
+		if (n == 0) return s;
 		n--;
 	    }
 	}
     }
     input_error("Illegal decoding string");
-    return("");
+    return "";
 }
 
 
@@ -354,7 +354,7 @@ find_sort(sortname n)
     }
     s.res = n;
     s.args = null;
-    return(s);
+    return s;
 }
 
 
@@ -374,19 +374,19 @@ find_sortname(int c)
 @loop sort
 @if sort.name.simple
 @if !sort.special
-	case '%SX': return(sort_%20SN);
+	case '%SX': return sort_%20SN;
 @endif
 @endif
 @end
-	case 'T': return(sort_token);
-	case 'F': return(sort_foreign);
+	case 'T': return sort_token;
+	case 'F': return sort_foreign;
     }
     for (i = 0; i < no_foreign_sorts; i++) {
 	if (c == foreign_sorts[i].decode) {
-	    return((sortname)(extra_sorts + i));
+	    return (sortname)(extra_sorts + i);
 	}
     }
-    return(sort_unknown);
+    return sort_unknown;
 }
 
 
@@ -436,11 +436,11 @@ find_variable(string s, long n)
 @if sort.link
     if (streq(s, "%SL")) {
 	var_%SN = n;
-	return('%SX');
+	return '%SX';
     }
 @endif
 @end
-    return('F');
+    return 'F';
 }
 
 
@@ -460,19 +460,19 @@ find_equation(string s, string *pt, int *po)
     if (streq(s, "%SU")) {
 	*pt = MSG_%SN;
 	*po = OPT_%SN;
-	return(de_%SN);
+	return de_%SN;
     }
 @endif
 @end
     if (streq(s, "tld")) {
 	*pt = MSG_tld_unit;
 	*po = OPT_tld_unit;
-	return(de_tld_unit);
+	return de_tld_unit;
     }
     if (streq(s, "tld2")) {
 	*pt = MSG_tld2_unit;
 	*po = OPT_tld2_unit;
-	return(de_tld2_unit);
+	return de_tld2_unit;
     }
-    return(NULL);
+    return NULL;
 }

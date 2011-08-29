@@ -121,7 +121,7 @@ member_address(EXP e)
 	}
 	MAKE_type_ptr(cv_none, t, t);
 	MAKE_exp_address(t, e, e);
-	return (e);
+	return e;
 }
 
 
@@ -166,7 +166,7 @@ begin_field_exp(int op, EXP a, TYPE *pt, NAMESPACE *pns)
 				cache_lookup = 0;
 				*pns = NULL_nspace;
 				*pt = t;
-				return (e);
+				return e;
 			}
 			if (IS_TYPE_OVERLOAD(c)) {
 				EXP e = unary_overload(lex_arrow, a);
@@ -221,7 +221,7 @@ begin_field_exp(int op, EXP a, TYPE *pt, NAMESPACE *pns)
 			cache_lookup = 0;
 			*pns = NULL_nspace;
 			*pt = t;
-			return (e);
+			return e;
 		}
 #endif
 	}
@@ -243,7 +243,7 @@ begin_field_exp(int op, EXP a, TYPE *pt, NAMESPACE *pns)
 				cache_lookup = 0;
 				*pns = NULL_nspace;
 				*pt = s;
-				return (e);
+				return e;
 			}
 			s = expand_type(s, 0);
 			tag = TAG_type(s);
@@ -308,7 +308,7 @@ begin_field_exp(int op, EXP a, TYPE *pt, NAMESPACE *pns)
 		*pns = NULL_nspace;
 		*pt = s;
 	}
-	return (a);
+	return a;
 }
 
 
@@ -361,7 +361,7 @@ apply_field_op(int op, EXP a, NAMESPACE ns, IDENTIFIER fld, int templ)
 			/* Static data members */
 			e = make_id_exp(fld);
 			e = join_exp(a, e);
-			return (e);
+			return e;
 		case id_mem_func_tag:
 		case id_stat_mem_func_tag:
 			/* Member functions */
@@ -385,7 +385,7 @@ apply_field_op(int op, EXP a, NAMESPACE ns, IDENTIFIER fld, int templ)
 			e = make_id_exp(fld);
 			t = DEREF_type(exp_type(e));
 			MAKE_exp_call(t, e, a, gr, e);
-			return (e);
+			return e;
 		case id_member_tag: {
 			/* Non-static data members */
 			TYPE p;
@@ -447,7 +447,7 @@ apply_field_op(int op, EXP a, NAMESPACE ns, IDENTIFIER fld, int templ)
 			} else {
 				MAKE_exp_contents(t, e, e);
 			}
-			return (e);
+			return e;
 		}
 		case id_enumerator_tag: {
 			/* Enumerator members */
@@ -458,14 +458,14 @@ apply_field_op(int op, EXP a, NAMESPACE ns, IDENTIFIER fld, int templ)
 			DECONS_exp_int_lit(t, n, etag, e);
 			MAKE_exp_int_lit(t, n, etag, e);
 			e = join_exp(a, e);
-			return (e);
+			return e;
 		}
 		case id_ambig_tag:
 			/* Ambiguous members */
 			IGNORE report_ambiguous(fld, 0, 1, 0);
 			e = make_error_exp(1);
 			e = join_exp(a, e);
-			return (e);
+			return e;
 		case id_class_name_tag:
 		case id_class_alias_tag:
 		case id_enum_name_tag:
@@ -487,7 +487,7 @@ apply_field_op(int op, EXP a, NAMESPACE ns, IDENTIFIER fld, int templ)
 	if (IS_hashid_destr(nm)) {
 		/* Pseudo-destructor call */
 		destroy_error(err, 1);
-		return (NULL_exp);
+		return NULL_exp;
 	}
 	key = find_vocab(lex_class);
 	if (IS_NULL_err(err)) {
@@ -497,7 +497,7 @@ apply_field_op(int op, EXP a, NAMESPACE ns, IDENTIFIER fld, int templ)
 	report(crt_loc, err);
 	e = make_error_exp(1);
 	e = join_exp(a, e);
-	return (e);
+	return e;
 }
 
 
@@ -529,7 +529,7 @@ end_field_exp(int op, EXP a, TYPE t, NAMESPACE ns, IDENTIFIER fld, int templ)
 		}
 		e = apply_field_op(op, a, ns, fld, templ);
 		if (!IS_NULL_exp(e)) {
-			return (e);
+			return e;
 		}
 	} else {
 		cache_lookup = old_cache_lookup;
@@ -585,7 +585,7 @@ end_field_exp(int op, EXP a, TYPE t, NAMESPACE ns, IDENTIFIER fld, int templ)
 			e = make_error_exp(1);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -614,7 +614,7 @@ make_field_exp(int op, EXP a, EXP b)
 	}
 	e = end_field_exp(op, e, t, ns, fld, 1);
 	crt_id_qualifier = cq;
-	return (e);
+	return e;
 }
 
 
@@ -654,14 +654,14 @@ make_member_exp(int op, EXP a, EXP b)
 		if (IS_TYPE_OVERLOAD(sa) || IS_TYPE_OVERLOAD(sb)) {
 			if (overload_depth == 0) {
 				e = binary_overload(op, a, b);
-				return (e);
+				return e;
 			}
 		}
 	} else {
 		if (IS_TYPE_TEMPL(sa) || IS_TYPE_TEMPL(sb)) {
 			if (overload_depth == 0) {
 				e = binary_overload(op, a, b);
-				return (e);
+				return e;
 			}
 		}
 	}
@@ -678,7 +678,7 @@ make_member_exp(int op, EXP a, EXP b)
 			report(crt_loc, ERR_expr_mptr_oper_op2(op, tb));
 		}
 		e = make_error_exp(1);
-		return (e);
+		return e;
 	}
 	cb = DEREF_ctype(type_ptr_mem_of(tb));
 	tbr = DEREF_type(type_ptr_mem_sub(tb));
@@ -687,7 +687,7 @@ make_member_exp(int op, EXP a, EXP b)
 		TYPE fb = DEREF_type(ctype_form(cb));
 		if (is_templ_type(fb)) {
 			MAKE_exp_op(fb, op, a, b, e);
-			return (e);
+			return e;
 		}
 	}
 
@@ -760,7 +760,7 @@ error_lab: {
 	   }
 		}
 		e = make_error_exp(1);
-		return (e);
+		return e;
 	}
 
 	/* Correct base type */
@@ -814,7 +814,7 @@ error_lab: {
 			MAKE_exp_contents(tbr, e, e);
 		}
 	}
-	return (e);
+	return e;
 }
 
 #endif
@@ -853,12 +853,12 @@ make_this_field(IDENTIFIER fld)
 				t = DEREF_type(exp_type(e));
 				MAKE_exp_copy(t, e, e);
 				e = apply_field_op(lex_arrow, e, ns, fld, 1);
-				return (e);
+				return e;
 			}
 			}
 		}
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -880,7 +880,7 @@ decons_bitf_off(OFFSET *off)
 	} else {
 		*off = NULL_off;
 	}
-	return (off1);
+	return off1;
 }
 
 
@@ -965,7 +965,7 @@ decons_bitf_exp(EXP *e)
 		break;
 	}
 	}
-	return (off);
+	return off;
 }
 
 
@@ -990,7 +990,7 @@ offset_nspace(TYPE t)
 		ns = NULL_nspace;
 		cache_lookup = 0;
 	}
-	return (ns);
+	return ns;
 }
 
 
@@ -1030,7 +1030,7 @@ offset_member(TYPE t, IDENTIFIER id, TYPE *pt, NAMESPACE ns, int adjust)
 				}
 				use_id(fld, 0);
 				*pt = s;
-				return (off);
+				return off;
 			}
 			case id_ambig_tag:
 				/* Ambiguous members */
@@ -1064,7 +1064,7 @@ default_lab: {
 		cache_lookup = old_cache_lookup;
 	}
 	*pt = type_error;
-	return (NULL_off);
+	return NULL_off;
 }
 
 
@@ -1092,7 +1092,7 @@ offset_index(TYPE t, EXP e, TYPE *pt)
 		check_bounds(lex_array_Hop, t, e);
 		off = make_off_mult(s, e, 0);
 		*pt = s;
-		return (off);
+		return off;
 	}
 	if (!IS_type_error(t)) {
 		ERROR err = ERR_expr_const_off_array(t);
@@ -1100,7 +1100,7 @@ offset_index(TYPE t, EXP e, TYPE *pt)
 		report(crt_loc, err);
 	}
 	*pt = type_error;
-	return (NULL_off);
+	return NULL_off;
 }
 
 
@@ -1116,11 +1116,11 @@ offset_add(OFFSET a, OFFSET b)
 {
 	OFFSET off;
 	if (is_zero_offset(a)) {
-		return (b);
+		return b;
 	}
 	if (is_zero_offset(b)) {
-		return (a);
+		return a;
 	}
 	MAKE_off_plus(a, b, off);
-	return (off);
+	return off;
 }

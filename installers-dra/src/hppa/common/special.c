@@ -167,10 +167,10 @@ special_call_name(int i)
   {
     case -1:
     case 1:
-    return ("_strcpy");
+    return "_strcpy";
 
   case 5:
-    return ("_alloca");
+    return "_alloca";
 
   default:
     fail("attempting external call to builtin");

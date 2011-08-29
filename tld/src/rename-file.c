@@ -129,13 +129,13 @@ rename_file_skip_white_space(IStreamT *istream,				      char    *c_ref)
 	  default:
 	    if ((!comment) && (!isspace(c))) {
 		*c_ref = c;
-		return(TRUE);
+		return TRUE;
 	    }
 	    break;
 	}
     }
   eof:
-    return(FALSE);
+    return FALSE;
 }
 
 static void

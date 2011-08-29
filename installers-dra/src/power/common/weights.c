@@ -175,7 +175,7 @@ weights add_weights(weights * w1, weights * w2)
   {
    (r.floating)[i] = (w1->floating)[i] + (w2->floating)[i];
   }
-  return(r);
+  return r;
 }
 
 
@@ -309,7 +309,7 @@ weights mult_weights(double m, weights * ws)
   {
     r[i] = w[i]* m;
   }
-  return(res);
+  return res;
 }
 
 weights add_wlist(double scale, exp re)
@@ -323,7 +323,7 @@ weights add_wlist(double scale, exp re)
   }
   else if (last(r))
   {
-    return(weightsv(scale, r));
+    return weightsv(scale, r);
   }
   else
   {
@@ -537,7 +537,7 @@ tailrecurse:
 	e = son(e);
 	goto tailrecurse;
       }
-      return(add_wlist(scale, son(e)));
+      return add_wlist(scale, son(e));
     }
   }
 }

@@ -187,14 +187,14 @@ int is_worth(exp c) /* used only in mc_list */
 	/*
 	 * a*2^n and a*2^(n+-1) are transformed later to shifts and adds
 	 */
-	return (!IMM_SIZE(n) && (n & (n - 1)) != 0 && (n & (n + 1)) != 0 && ((n - 1) & (n - 2)) != 0);
+	return !IMM_SIZE(n) && (n & (n - 1)) != 0 && (n & (n + 1)) != 0 && ((n - 1) & (n - 2)) != 0;
       }
     case div1_tag:
     case div2_tag:
     case rem2_tag:
       {
 	/* a/2^n transformed later to shift */
-	return (!IMM_SIZE(n) && (n & (n - 1)) != 0);
+	return !IMM_SIZE(n) && (n & (n - 1)) != 0;
       }
 
     case ass_tag:
@@ -209,7 +209,7 @@ int is_worth(exp c) /* used only in mc_list */
 	  if (INMEMIDENT(son(lhs)))
 	    return true;		/* inmem */
 	  else
-	    return (!IMM_SIZE(n) && !IMMLOGU_SIZE(n));
+	    return !IMM_SIZE(n) && !IMMLOGU_SIZE(n);
 					/* big const */
 	}
 	else
@@ -221,7 +221,7 @@ int is_worth(exp c) /* used only in mc_list */
 
     default:
       {
-	return (!IMM_SIZE(n)) /* short literal operands */ ;
+	return !IMM_SIZE(n) /* short literal operands */ ;
       }
     }				/* end sw */
 

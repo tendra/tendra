@@ -435,7 +435,7 @@ rule_left_cycle_special_case(RuleT *rule, TableT *table)
 	ItemT *item;
 
 	if (!rule_has_empty_alt(rule)) {
-		return(rule_left_cycle_special_case_1(rule, table));
+		return rule_left_cycle_special_case_1(rule, table);
 	}
 
 	alt = rule_alt_head(rule);

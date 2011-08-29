@@ -326,7 +326,7 @@ fop(exp e, space sp, where dest, instruction ins)
       freg fr;
       fr = fregalt (dest.answhere);
       float_op(ins,a1,a2,fr.fr);
-      return((fr.type==IEEE_double)?-(fr.fr+32):(fr.fr+32));
+      return (fr.type==IEEE_double)?-(fr.fr+32):(fr.fr+32);
     }
     default:{ 			/* destination elsewhere */
       ans a;
@@ -351,7 +351,7 @@ fop(exp e, space sp, where dest, instruction ins)
 #if 1
       }
 #endif
-      return ((fr.type==IEEE_double)?-(fr.fr+32):(fr.fr+32));
+      return (fr.type==IEEE_double)?-(fr.fr+32):(fr.fr+32);
     }
   }
 }

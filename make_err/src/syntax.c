@@ -91,10 +91,10 @@ static NAME find_name
     while ( !IS_NULL_list ( p ) ) {
 	NAME a = DEREF_name ( HEAD_list ( p ) ) ;
 	string nm = DEREF_string ( name_id ( a ) ) ;
-	if ( !strcmp ( nm, id ) ) return ( a ) ;
+	if ( !strcmp ( nm, id ) ) return a;
 	p = TAIL_list ( p ) ;
     }
-    return ( NULL_name ) ;
+    return NULL_name;
 }
 
 
@@ -111,10 +111,10 @@ static PARAM find_param
     while ( !IS_NULL_list ( p ) ) {
 	PARAM a = DEREF_param ( HEAD_list ( p ) ) ;
 	string nm = DEREF_string ( param_name ( a ) ) ;
-	if ( !strcmp ( nm, id ) ) return ( a ) ;
+	if ( !strcmp ( nm, id ) ) return a;
 	p = TAIL_list ( p ) ;
     }
-    return ( NULL_param ) ;
+    return NULL_param;
 }
 
 

@@ -113,7 +113,7 @@ eq_graph(GRAPH gr, GRAPH gs)
 		hs = gs;
 		gs = DEREF_graph(graph_equal(gs));
 	}
-	return (EQ_graph(hr, hs));
+	return EQ_graph(hr, hs);
 }
 
 
@@ -134,7 +134,7 @@ search_graph(GRAPH gr, CLASS_TYPE ct)
 	/* Check the head of gr */
 	CLASS_TYPE cr = DEREF_ctype(graph_head(gr));
 	if (eq_ctype(cr, ct)) {
-		return (gr);
+		return gr;
 	}
 
 	/* Only search first instance */
@@ -146,12 +146,12 @@ search_graph(GRAPH gr, CLASS_TYPE ct)
 			GRAPH gs = DEREF_graph(HEAD_list(br));
 			gs = search_graph(gs, ct);
 			if (!IS_NULL_graph(gs)) {
-				return (gs);
+				return gs;
 			}
 			br = TAIL_list(br);
 		}
 	}
-	return (NULL_graph);
+	return NULL_graph;
 }
 
 
@@ -168,7 +168,7 @@ is_subgraph(GRAPH gr, GRAPH gs)
 	unsigned nt, ns;
 	CLASS_TYPE ct, cs;
 	if (EQ_graph(gr, gs)) {
-		return (1);
+		return 1;
 	}
 	ct = DEREF_ctype(graph_head(gr));
 	cs = DEREF_ctype(graph_head(gs));
@@ -176,7 +176,7 @@ is_subgraph(GRAPH gr, GRAPH gs)
 	ns = DEREF_unsigned(ctype_no_bases(cs));
 	if (nt == ns) {
 		/* Graphs are the same size */
-		return (eq_graph(gr, gs));
+		return eq_graph(gr, gs);
 	}
 	if (nt > ns) {
 		/* gr is bigger than gs */
@@ -184,12 +184,12 @@ is_subgraph(GRAPH gr, GRAPH gs)
 		while (!IS_NULL_list(br)) {
 			GRAPH gt = DEREF_graph(HEAD_list(br));
 			if (is_subgraph(gt, gs)) {
-				return (1);
+				return 1;
 			}
 			br = TAIL_list(br);
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -272,7 +272,7 @@ copy_graph(GRAPH gr, OFFSET off, DECL_SPEC acc, int virt, int indir, int templ)
 		COPY_graph(graph_up(gt), gs);
 		bs = TAIL_list(bs);
 	}
-	return (gs);
+	return gs;
 }
 
 
@@ -297,7 +297,7 @@ GRAPH
 find_subgraph(GRAPH gr, GRAPH gs, GRAPH hs)
 {
 	if (EQ_graph(gs, hs)) {
-		return (gr);
+		return gr;
 	}
 	if (!IS_NULL_graph(gr)) {
 		LIST(GRAPH)br = DEREF_list(graph_tails(gr));
@@ -307,13 +307,13 @@ find_subgraph(GRAPH gr, GRAPH gs, GRAPH hs)
 			GRAPH as = DEREF_graph(HEAD_list(bs));
 			GRAPH hr = find_subgraph(ar, as, hs);
 			if (!IS_NULL_graph(hr)) {
-				return (hr);
+				return hr;
 			}
 			br = TAIL_list(br);
 			bs = TAIL_list(bs);
 		}
 	}
-	return (NULL_graph);
+	return NULL_graph;
 }
 
 
@@ -408,7 +408,7 @@ fold_graph(GRAPH gr, LIST(GRAPH)br)
 				}
 				acc |= dspec_done;
 				COPY_dspec(graph_access(gr), acc);
-				return (br);
+				return br;
 			}
 			/* Ambiguous base */
 			base_info |= cinfo_ambiguous;
@@ -437,7 +437,7 @@ fold_graph(GRAPH gr, LIST(GRAPH)br)
 		base_info |= cinfo_virtual_base;
 		CONS_graph(gr, virtual_bases, virtual_bases);
 	}
-	return (br);
+	return br;
 }
 
 
@@ -460,10 +460,10 @@ find_first_base(GRAPH gr)
 		GRAPH gs = DEREF_graph(HEAD_list(br));
 		DECL_SPEC acc = DEREF_dspec(graph_access(gs));
 		if (!(acc & dspec_virtual)) {
-			return (gs);
+			return gs;
 		}
 	}
-	return (NULL_graph);
+	return NULL_graph;
 }
 
 
@@ -721,10 +721,10 @@ find_base_class(CLASS_TYPE ct, CLASS_TYPE cs, int def)
 	if (nt >= ns) {
 		/* ct is bigger than cs */
 		GRAPH gr = DEREF_graph(ctype_base(ct));
-		return (search_graph(gr, cs));
+		return search_graph(gr, cs);
 	}
 	UNUSED(def);
-	return (NULL_graph);
+	return NULL_graph;
 }
 
 
@@ -751,18 +751,18 @@ compare_base_class(CLASS_TYPE ct, CLASS_TYPE cs, int def)
 		GRAPH gr = DEREF_graph(ctype_base(ct));
 		gr = search_graph(gr, cs);
 		if (!IS_NULL_graph(gr)) {
-			return (cs);
+			return cs;
 		}
 	} else {
 		/* ct is smaller than cs */
 		GRAPH gr = DEREF_graph(ctype_base(cs));
 		gr = search_graph(gr, ct);
 		if (!IS_NULL_graph(gr)) {
-			return (ct);
+			return ct;
 		}
 	}
 	UNUSED(def);
-	return (NULL_ctype);
+	return NULL_ctype;
 }
 
 
@@ -784,10 +784,10 @@ check_ambig_base(GRAPH gr)
 	    CLASS_TYPE ct = DEREF_ctype(graph_head(gt));
 	    CLASS_TYPE cs = DEREF_ctype(graph_head(gr));
 	    ERROR err = ERR_class_member_lookup_ambig(cs, ct);
-	    return (err);
+	    return err;
 	}
     }
-    return (NULL_err);
+    return NULL_err;
 }
 
 
@@ -810,10 +810,10 @@ check_virt_base(GRAPH gr)
 			CLASS_TYPE ct = DEREF_ctype(graph_head(gt));
 			CLASS_TYPE cs = DEREF_ctype(graph_head(gr));
 			ERROR err = ERR_class_derived_virt(cs, ct);
-			return (err);
+			return err;
 		}
 	}
-	return (NULL_err);
+	return NULL_err;
 }
 
 
@@ -832,10 +832,10 @@ uniq_base_class(CLASS_TYPE ct, ERROR *err)
 	LIST(GRAPH)br = DEREF_list(graph_tails(gr));
 	if (LENGTH_list(br) == 1) {
 		GRAPH gs = DEREF_graph(HEAD_list(br));
-		return (gs);
+		return gs;
 	}
 	add_error(err, ERR_class_base_init_uniq(ct));
-	return (NULL_graph);
+	return NULL_graph;
 }
 
 
@@ -870,7 +870,7 @@ min_base_class(GRAPH gr)
 		}
 		gs = DEREF_graph(graph_equal(gs));
 	}
-	return (gr);
+	return gr;
 }
 
 
@@ -923,7 +923,7 @@ direct_base_class(CLASS_TYPE ct, CLASS_TYPE cs, ERROR *err)
 		/* Neither a direct nor a virtual base */
 		add_error(err, ERR_class_base_init_base(cs));
 	}
-	return (gt);
+	return gt;
 }
 
 
@@ -941,7 +941,7 @@ find_ambig_base(GRAPH gr)
 	DECL_SPEC acc = DEREF_dspec(graph_access(gr));
 	if (acc & dspec_alias) {
 		/* Ambiguous classes are marked */
-		return (gr);
+		return gr;
 	}
 	if (acc & dspec_defn) {
 		/* Only search the first occurrence of each class */
@@ -950,12 +950,12 @@ find_ambig_base(GRAPH gr)
 			GRAPH gs = DEREF_graph(HEAD_list(br));
 			gs = find_ambig_base(gs);
 			if (!IS_NULL_graph(gs)) {
-				return (gs);
+				return gs;
 			}
 			br = TAIL_list(br);
 		}
 	}
-	return (NULL_graph);
+	return NULL_graph;
 }
 
 
@@ -977,15 +977,15 @@ expand_graph(GRAPH gr, int rec)
 		CLASS_TYPE cs = DEREF_ctype(graph_head(gr));
 		ct = expand_ctype(ct, rec, &t);
 		if (IS_NULL_ctype(ct)) {
-			return (NULL_graph);
+			return NULL_graph;
 		}
 		cs = expand_ctype(cs, rec, &t);
 		if (IS_NULL_ctype(cs)) {
-			return (NULL_graph);
+			return NULL_graph;
 		}
 		gr = find_base_class(ct, cs, 1);
 	}
-	return (gr);
+	return gr;
 }
 
 
@@ -1009,11 +1009,11 @@ inherit_id(NAMESPACE ns, GRAPH gr, OFFSET off, IDENTIFIER id, int prev)
 
 	/* Check for trivial inheritance */
 	if (IS_NULL_id(id)) {
-		return (NULL_id);
+		return NULL_id;
 	}
 	pns = DEREF_nspace(id_parent(id));
 	if (EQ_nspace(pns, ns)) {
-		return (id);
+		return id;
 	}
 
 	/* Check for previous declarations */
@@ -1028,7 +1028,7 @@ inherit_id(NAMESPACE ns, GRAPH gr, OFFSET off, IDENTIFIER id, int prev)
 			HASHID qnm = DEREF_hashid(id_name(qid));
 			if (EQ_hashid(qnm, nm) && tag == TAG_id(qid)) {
 				/* Already have inherited member */
-				return (qid);
+				return qid;
 			}
 			q = TAIL_list(q);
 		}
@@ -1102,7 +1102,7 @@ inherit_id(NAMESPACE ns, GRAPH gr, OFFSET off, IDENTIFIER id, int prev)
 		CONS_id(cid, p, p);
 		COPY_list(graph_member(gr), p);
 	}
-	return (cid);
+	return cid;
 }
 
 
@@ -1140,7 +1140,7 @@ resolve_member(NAMESPACE ns, HASHID nm, MEMBER_LOOKUP *mems, TYPE form,
 
 	/* Check for empty lists */
 	if (IS_NULL_list(pids)) {
-		return (NULL_id);
+		return NULL_id;
 	}
 
 	/* Scan through various look-ups */
@@ -1232,7 +1232,7 @@ resolve_member(NAMESPACE ns, HASHID nm, MEMBER_LOOKUP *mems, TYPE form,
 	/* Destroy lists */
 	DESTROY_list(mems->ids, SIZE_id);
 	DESTROY_list(mems->bases, SIZE_graph);
-	return (id);
+	return id;
 }
 
 
@@ -1326,7 +1326,7 @@ search_base_field(NAMESPACE ns, HASHID nm, int type, int dominate)
 	gr = DEREF_graph(ctype_base(ct));
 	search_base(gr, nm, &mems, NULL_ctype, type, 0);
 	id = resolve_member(ns, nm, &mems, NULL_type, dominate);
-	return (id);
+	return id;
 }
 
 
@@ -1383,7 +1383,7 @@ search_field(NAMESPACE ns, HASHID nm, int create, int type)
 			}
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1404,10 +1404,10 @@ is_subfield(NAMESPACE ns, IDENTIFIER id)
 		if (!IS_NULL_nspace(cns) && IS_nspace_ctype(cns)) {
 			CLASS_TYPE cs = namespace_class(cns);
 			GRAPH gr = find_base_class(ct, cs, 0);
-			return (gr);
+			return gr;
 		}
 	}
-	return (NULL_graph);
+	return NULL_graph;
 }
 
 
@@ -1442,7 +1442,7 @@ search_subfield(NAMESPACE ns, GRAPH gr, IDENTIFIER id)
 			id = pid;
 		}
 	}
-	return (id);
+	return id;
 }
 
 

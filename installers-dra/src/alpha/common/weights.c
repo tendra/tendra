@@ -162,7 +162,7 @@ weights add_weights
   for (i = 0; i < wfloatno; ++i) {
    (r.floating)[i] = (w1->floating)[i] + (w2->floating)[i];
   };
-  return(r);
+  return r;
 }
 
 
@@ -279,7 +279,7 @@ weights mult_weights
   for (i = 0; i < wfloatno; ++i) {
       r[i] = w[i]* m;
   };
-  return(res);
+  return res;
 }
 
 weights add_wlist
@@ -292,7 +292,7 @@ weights add_wlist
   }
   else
     if (last(r)) {
-      return(weightsv(scale, r));
+      return weightsv(scale, r);
     }
     else {
       w = weightsv(scale, r);
@@ -387,7 +387,7 @@ weights weightsv
 	       restore of s-reg
 	    */
 	    no(e) = p.fix_break;
-	    return(add_weights(&wdef, &p.wp_weights));
+	    return add_weights(&wdef, &p.wp_weights);
 	  }
 	  else if ((props(e) & infreg_bits) == 0 && floatregable(e)) {
 	    wp p;
@@ -395,7 +395,7 @@ weights weightsv
 	    /* usage decreased by 4(on mips) because of dump
 	       and restore of double s-reg */
 	    no(e) = p.float_break;
-	    return(add_weights(&wdef, &p.wp_weights));
+	    return add_weights(&wdef, &p.wp_weights);
 	  }
 	  else {
 	    no (e) = noe /* restore to value given by scan */ ;
@@ -455,7 +455,7 @@ weights weightsv
 	 e = son(e);
 	 goto tailrecurse;
        }
-       return(add_wlist(scale, son(e)));
+       return add_wlist(scale, son(e));
      }
     }
 }

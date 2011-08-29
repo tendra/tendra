@@ -114,7 +114,7 @@ xmalloc(size_t sz)
 	if (p == NULL)
 		xalloc_fatal("malloc: %s", strerror(errno));
 
-	return (p);
+	return p;
 }
 
 
@@ -138,7 +138,7 @@ xcalloc(size_t n, size_t sz)
 	if ((p = calloc(sz, n)) == NULL)
 		xalloc_fatal("calloc: %s", strerror(errno));
 
-	return (p);
+	return p;
 }
 
 
@@ -162,7 +162,7 @@ xrealloc(void *p, size_t sz)
 	if ((q = realloc(p, sz)) == NULL)
 		xalloc_fatal("realloc: %s", strerror(errno));
 
-	return (q);
+	return q;
 }
 
 
@@ -192,7 +192,7 @@ xstrdup(const char *s1)
 	s2 = xmalloc(len);
 	(void) strcpy(s2, s1);
 
-	return (s2);
+	return s2;
 }
 
 
@@ -221,7 +221,7 @@ xstr(size_t n)
 	chars_free += n;
 	chars_left -= n;
     }
-    return(r);
+    return r;
 }
 
 
@@ -234,7 +234,7 @@ xstr(size_t n)
 char *
 xstrcpy(const char *s)
 {
-    return(xstrdup(s));
+    return xstrdup(s);
 }
 
 
@@ -251,13 +251,13 @@ xstrcat(const char *s, const char *t)
     char *r;
     size_t n, m;
 
-    if (s == NULL) return(xstrcpy(t));
-    if (t == NULL) return(xstrcpy(s));
+    if (s == NULL) return xstrcpy(t);
+    if (t == NULL) return xstrcpy(s);
 
     n = strlen(s);
     m = n + strlen(t) + 1;
     r = xstr(m);
     (void) strcpy(r, s);
     (void) strcpy(r + n, t);
-    return(r);
+    return r;
 }

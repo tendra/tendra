@@ -518,7 +518,7 @@ static exp testlast
 {
   if (name(e) == test_tag && pt(e) == second)
   {
-    return(e);
+    return e;
   }
   if (name(e) == seq_tag)
   {
@@ -600,7 +600,7 @@ static int has_bitfield
       }
       /* NOTREACHED */
   default:
-      return (ashof(sh(e)).ashalign == 1);	/* found bitfield */
+      return ashof(sh(e)).ashalign == 1;	/* found bitfield */
     }
     /* NOTREACHED */
   }
@@ -2152,7 +2152,7 @@ makeans make_code
      {
 	quad_op(e, sp, dest);
 	cj_ins(c_eq,0,RET0,lab);
-	return(mka);
+	return mka;
      }
 #endif
 
@@ -2523,7 +2523,7 @@ makeans make_code
 	      else
 	      if (!dependson(lhs,0,lhs))
 		 keepcont(lhs,contreg);
-	      return(mka);
+	      return mka;
 	   }
 	   clear_dep_reg(lhs);
 	   /* forget register dependencies on destination */
@@ -2820,7 +2820,7 @@ makeans make_code
        stab_begin(d,0,e);
        mka = make_code(son(e),sp,dest,exitlab);
        stab_end(d,e);
-       return(mka);
+       return mka;
     }
     /*  ENDS diagnose_tag  */
 
@@ -4090,7 +4090,7 @@ makeans make_code
      if (name(sh(e)) == doublehd)
      {
 	quad_op(e, sp, dest);
-	return(mka);
+	return mka;
      }
 #endif
 
@@ -4155,7 +4155,7 @@ makeans make_code
       if (name(sh(e)) == doublehd)
       {
 	 quad_op(e, sp, dest);
-	 return(mka);
+	 return mka;
       }
 #endif
 
@@ -4241,7 +4241,7 @@ makeans make_code
       if (name(sh(e)) ==doublehd)
       {
 	 quad_op(e, sp, dest);
-	 return(mka);
+	 return mka;
       }
 #endif
 
@@ -4321,10 +4321,10 @@ makeans make_code
 	 if (from==doublehd)
 	 {
 	    /* no change in representation */
-	    return(make_code(son(e),sp,dest,exitlab));
+	    return make_code(son(e),sp,dest,exitlab);
 	 }
 	 quad_op(e, sp, dest);
-	 return(mka);
+	 return mka;
       }
       else
       if (from==doublehd)
@@ -4334,7 +4334,7 @@ makeans make_code
 	 frg.dble = dto;
 	 setfregalt(aa,frg);
        	(void)move(aa,dest,sp.fixed,1);
-	 return(mka);
+	 return mka;
       }
 #endif
       if (!dto && !dfrom)
@@ -5301,7 +5301,7 @@ null_tag_case:
 	b.offset = -maxargbytes -4;
 	st_ins(i_sw,r,b);
      }
-     return(mka);
+     return mka;
   }
 
   case movecont_tag:

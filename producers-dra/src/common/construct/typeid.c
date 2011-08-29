@@ -135,7 +135,7 @@ find_std_namespace(void)
 		}
 		std_namespace = ns;
 	}
-	return (ns);
+	return ns;
 }
 
 
@@ -182,14 +182,14 @@ find_std_type(const char *s, int type, int err)
 		IDENTIFIER id = search_id(ns, nm, 0, type);
 		if (!IS_NULL_id(id) && IS_id_class_name_etc(id)) {
 			TYPE t = DEREF_type(id_class_name_etc_defn(id));
-			return (t);
+			return t;
 		}
 	}
 	if (err) {
 		us = ustrlit(std_name);
 		report(crt_loc, ERR_lib_builtin(us, nm));
 	}
-	return (NULL_type);
+	return NULL_type;
 }
 
 
@@ -268,7 +268,7 @@ get_type_info(int op, TYPE t, int err)
 			report(crt_loc, ERR_expr_typeid_vtable(op));
 		}
 	}
-	return (r);
+	return r;
 }
 
 
@@ -288,13 +288,13 @@ throw_bad_op(const char *s, TYPE *pr)
 	if (IS_NULL_type(r)) {
 		r = find_std_type(s, 1, 1);
 		if (IS_NULL_type(r)) {
-			return (NULL_exp);
+			return NULL_exp;
 		}
 		*pr = r;
 	}
 	e = make_func_cast_exp(r, NULL_list(EXP));
 	e = make_throw_exp(e, 0);
-	return (e);
+	return e;
 }
 
 
@@ -329,7 +329,7 @@ typeid_arg(int op, EXP a)
 		MAKE_type_ptr(cv_none, t, t);
 		MAKE_exp_address(t, a, a);
 	}
-	return (a);
+	return a;
 }
 
 
@@ -358,7 +358,7 @@ make_typeid_exp(int op, EXP a, int n)
 		/* Allow for template types */
 		TYPE r = get_type_info(op, t, 1);
 		MAKE_exp_op(r, op, a, NULL_exp, e);
-		return (e);
+		return e;
 	}
 	cv = DEREF_cv(type_qual(t));
 	if ((cv & cv_lvalue) && IS_type_compound(t)) {
@@ -381,7 +381,7 @@ make_typeid_exp(int op, EXP a, int n)
 				MAKE_exp_dummy(t, a, LINK_NONE, NULL_off, 1, a);
 				MAKE_exp_rtti(r, a, b, op, e);
 				suppress_usage = use;
-				return (e);
+				return e;
 			}
 			suppress_usage = use;
 		}
@@ -391,7 +391,7 @@ make_typeid_exp(int op, EXP a, int n)
 	}
 	free_exp(a, 2);
 	e = make_typeid_type(op, t, 0);
-	return (e);
+	return e;
 }
 
 
@@ -425,7 +425,7 @@ make_typeid_type(int op, TYPE t, int n)
 	t = qualify_type(t, cv_none, 0);
 	r = get_type_info(op, t, 1);
 	MAKE_exp_rtti_type(r, t, op, e);
-	return (e);
+	return e;
 }
 
 
@@ -441,7 +441,7 @@ dynamic_cast_templ(TYPE t, EXP a)
 {
 	EXP e;
 	MAKE_exp_op(t, lex_dynamic_Hcast, a, NULL_exp, e);
-	return (e);
+	return e;
 }
 
 
@@ -480,7 +480,7 @@ make_dynamic_cast_exp(TYPE t, EXP a, int n)
 	if (IS_type_token(t)) {
 		if (is_templ_type(t)) {
 			e = dynamic_cast_templ(t, a);
-			return (e);
+			return e;
 		}
 		t = expand_type(t, 1);
 	}
@@ -490,7 +490,7 @@ make_dynamic_cast_exp(TYPE t, EXP a, int n)
 		if (IS_type_token(p)) {
 			if (is_templ_type(p)) {
 				e = dynamic_cast_templ(t, a);
-				return (e);
+				return e;
 			}
 			p = expand_type(p, 1);
 		}
@@ -512,7 +512,7 @@ make_dynamic_cast_exp(TYPE t, EXP a, int n)
 		if (IS_type_token(p)) {
 			if (is_templ_type(p)) {
 				e = dynamic_cast_templ(t, a);
-				return (e);
+				return e;
 			}
 			p = expand_type(p, 1);
 		}
@@ -534,13 +534,13 @@ make_dynamic_cast_exp(TYPE t, EXP a, int n)
 		err = concat_error(err, ERR_expr_cast_dynam_type(t));
 		report(crt_loc, err);
 		e = make_error_exp(0);
-		return (e);
+		return e;
 	}
 
 	/* Check operand type */
 	if (is_templ_type(s)) {
 		e = dynamic_cast_templ(t, a);
-		return (e);
+		return e;
 	}
 	if (ptr) {
 		if (cv & cv_lvalue) {
@@ -555,7 +555,7 @@ make_dynamic_cast_exp(TYPE t, EXP a, int n)
 			if (IS_type_token(q)) {
 				if (is_templ_type(q)) {
 					e = dynamic_cast_templ(t, a);
-					return (e);
+					return e;
 				}
 				q = expand_type(q, 1);
 			}
@@ -575,7 +575,7 @@ make_dynamic_cast_exp(TYPE t, EXP a, int n)
 			err = concat_error(err, ERR_expr_cast_dynam_ptr(s));
 			report(crt_loc, err);
 			e = make_error_exp(0);
-			return (e);
+			return e;
 		}
 	} else {
 		/* Reference types */
@@ -601,7 +601,7 @@ make_dynamic_cast_exp(TYPE t, EXP a, int n)
 			err = concat_error(err, ERR_expr_cast_dynam_ref(s));
 			report(crt_loc, err);
 			e = make_error_exp(1);
-			return (e);
+			return e;
 		}
 
 		/* Convert to pointers */
@@ -670,7 +670,7 @@ make_dynamic_cast_exp(TYPE t, EXP a, int n)
 					err = ERR_expr_cast_dynam_poly(cs);
 					report(crt_loc, err);
 					e = make_error_exp(0);
-					return (e);
+					return e;
 				}
 			}
 		}
@@ -690,7 +690,7 @@ make_dynamic_cast_exp(TYPE t, EXP a, int n)
 		/* Take indirection for references */
 		MAKE_exp_indir(p, e, e);
 	}
-	return (e);
+	return e;
 }
 
 

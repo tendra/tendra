@@ -538,6 +538,6 @@ main ( int argc, char ** argv )
     /* success */
     exit ( EXIT_SUCCESS ) ;
 #ifdef lint
-    return ( 0 ) ;
+    return 0;
 #endif
 }

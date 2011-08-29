@@ -1111,7 +1111,7 @@ bool is_muldivrem_call
      {
 	 exp s = son(e);
 	 if (name(sh(s)) ==doublehd)
-	    return(1);
+	    return 1;
 	 /* FALL THROUGH */
      }
 
@@ -1124,9 +1124,9 @@ bool is_muldivrem_call
      case float_tag:
      {
 	if (name(sh(e)) ==doublehd)
-	   return(1);
+	   return 1;
 	else
-	   return(0);
+	   return 0;
      }
 #endif
 #if 0

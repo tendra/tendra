@@ -119,7 +119,7 @@ exp_tag (EXP e)
 		/* Allow for evaluated constants */
 		tag = DEREF_unsigned(exp_int_lit_etag(e));
 	}
-	return (tag);
+	return tag;
 }
 
 

@@ -166,24 +166,24 @@ static  int inval
 {
   if ((d == nilexp || name(d) == cont_tag) &&
      (name(r) == cont_tag || (name(r) == name_tag && isglob(son(r)))))
-    return(1);
+    return 1;
   if ((name(r) == name_tag && !isvar(son(r))) ||
 	name(r) == cont_tag)
-    return(eq_where(mw(d, 0), mw(r, 0)));
+    return eq_where(mw(d, 0), mw(r, 0));
 
   if (name(r) == reff_tag)
-    return(inval(d, son(r)));
+    return inval(d, son(r));
 
   if (name(r) == addptr_tag) {
     if (name(bro(son(r))) == offset_mult_tag)
-      return(inval(d, son(r)) || inval(d, son(bro(son(r)))));
-    return(inval(d, son(r)) || inval(d, bro(son(r))));
+      return inval(d, son(r)) || inval(d, son(bro(son(r))));
+    return inval(d, son(r)) || inval(d, bro(son(r)));
   };
 
   if (name(r) == ident_tag)
-    return(inval(d, son(r)) || inval(d, bro(son(r))));
+    return inval(d, son(r)) || inval(d, bro(son(r)));
 
-  return(0);
+  return 0;
 }
 
 /* true if changing d invalidates r */
@@ -191,8 +191,8 @@ int invalidates
 (exp d, exp r)
 {
   if (name(r) == cont_tag || name(r) == ass_tag)
-    return(inval(d, son(r)));
-  return(0);
+    return inval(d, son(r));
+  return 0;
 }
 
 /* convert register mask to register number */
@@ -203,7 +203,7 @@ static int  get_regno
   int   res;
   for (res = 0; res < no_fixed_regs && (mask & m) == 0; res++)
     m = m + m;
-  return(res);
+  return res;
 }
 
 /* if there is a register holding the same
@@ -218,7 +218,7 @@ where equiv_reg
   res.where_exp = nilexp;
 
   if (w.where_off != 0)
-    return(res);
+    return res;
   for (i = 0; i < no_fixed_regs; i++) {
     regcell * p = &crt_reg_record[i];
     if ((p -> regcell_key & 1) &&
@@ -228,7 +228,7 @@ where equiv_reg
       if (dwarf2)
 	dw_used_regassn(i, 0);
 #endif
-      return(reg_wheres[i]);
+      return reg_wheres[i];
     }
     if ((p -> regcell_key & 2) &&
 	(sz == 0 || sz == p -> second_size) &&
@@ -237,11 +237,11 @@ where equiv_reg
       if (dwarf2)
 	dw_used_regassn(i, 1);
 #endif
-      return(reg_wheres[i]);
+      return reg_wheres[i];
     }
   };
   res.where_exp = nilexp;
-  return(res);
+  return res;
 }
 
 static int is_aliased
@@ -251,13 +251,13 @@ static int is_aliased
     return 0;
   if (name(dest)!= cont_tag &&
       name(dest)!= ass_tag)
-    return(0);
+    return 0;
 
   if (name(son(dest)) == name_tag &&
       isvar(son(son(dest))) &&
       iscaonly(son(son(dest))))
-    return(0);
-  return(1);
+    return 0;
+  return 1;
 }
 
 static  int shape_overlap
@@ -266,10 +266,10 @@ static  int shape_overlap
   shape s1 = sh(e1);
   shape s2 = sh(e2);
   if (name(s1) <= doublehd && name(s1) > tophd && name(s2) == ptrhd)
-    return(0);
+    return 0;
   if (name(s2) <= doublehd && name(s2) > tophd && name(s1) == ptrhd)
-    return(0);
-  return(1);
+    return 0;
+  return 1;
 }
 
 

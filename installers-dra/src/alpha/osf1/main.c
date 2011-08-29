@@ -364,7 +364,7 @@ main(int argc, char *argv[])
 #endif
   close_file(as_file);
   close_file(ba_file);
-  return (SUCCESS);
+  return SUCCESS;
 }
 
 

@@ -201,7 +201,7 @@ int frame_offset
       return n;
     }
     else if (isparam(id) && name(son(id)) == formal_callee_tag) {
-      return((Has_vcallees)?n:((pr->callee_size>>3) - n));
+      return (Has_vcallees)?n:((pr->callee_size>>3) - n);
     }
     else{
       failer("Illegal frame offset");

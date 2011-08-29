@@ -119,15 +119,15 @@ static int
 code_letter(int n)
 {
 	if (n < 10) {
-		return ('0' + n);
+		return '0' + n;
 	}
 	if (n < 36) {
-		return ('A' + (n - 10));
+		return 'A' + (n - 10);
 	}
 	if (n < 72) {
-		return ('a' + (n - 36));
+		return 'a' + (n - 36);
 	}
-	return (n + 128);
+	return n + 128;
 }
 
 
@@ -147,12 +147,12 @@ find_map(LIST(MAP)p, string s)
 		if (!IS_NULL_name(n)) {
 			string t = DEREF_string(name_id(n));
 			if (!strcmp(s, t)) {
-				return (m);
+				return m;
 			}
 		}
 		p = TAIL_list(p);
 	}
-	return (NULL_map);
+	return NULL_map;
 }
 
 

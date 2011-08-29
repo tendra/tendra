@@ -359,7 +359,7 @@ density(exp *ELEMENTS, int start, int end, int sgn)
 			}
 		}
 	}
-	return((int)(100.0 * (numerator / denominator)));
+	return (int)(100.0 * (numerator / denominator));
 }
 
 

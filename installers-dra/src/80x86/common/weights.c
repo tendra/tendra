@@ -219,9 +219,9 @@ static int no_side_aux
 int no_side
 (exp e)
 {
-  return((is_a(name(e)) || name(e) == test_tag || name(e) == ass_tag ||
+  return (is_a(name(e)) || name(e) == test_tag || name(e) == ass_tag ||
 	   name(e) == testbit_tag || name(e) == ident_tag)
-	&& no_side_aux(e));
+	&& no_side_aux(e);
 }
 
 /* add two weight vectors */
@@ -239,7 +239,7 @@ weights add_weights
   };
   r.booked = max(w1.booked, w2.booked);
   r.flbooked = max(w1.flbooked, w2.flbooked);
-  return(r);
+  return r;
 }
 
 void init_weights
@@ -362,7 +362,7 @@ wp max_weights
 
 
   res.wp_break = bk;
-  return(res);
+  return res;
 }
 
 
@@ -373,10 +373,10 @@ weights try_mc3
   int  sz = shape_size(sh(e));
 
   if (sz <= 128)
-    return(ws);
+    return ws;
 
   markmove(el);
-  return(add_weights(ws, moveregs));
+  return add_weights(ws, moveregs);
 }
 
 /* work out the weights for a list of exp.
@@ -386,7 +386,7 @@ weights add_wlist
 {
   weights wl1, wl2;
   if (re == nilexp)
-    return(zeros);
+    return zeros;
 
   wl1 = weightsv(re, el);
   if (usemc3)
@@ -400,7 +400,7 @@ weights add_wlist
     else
       wl1 = add_weights(wl1, wl2);
   };
-  return(wl1);
+  return wl1;
 }
 
 
@@ -413,17 +413,17 @@ int regable
   shape sha = sh(son(e));
   n = name(sha);
   if (isvis(e) || n == cpdhd || n == nofhd || n == s64hd || n == u64hd)
-    return(0);
+    return 0;
   if (all_variables_visible && isvar(e))
     return 0;
-  return(1);
+  return 1;
 }
 
 int isflsh
 (shape s)
 {
   unsigned char  n = name(s);
-  return(n >= shrealhd && n <= doublehd);
+  return n >= shrealhd && n <= doublehd;
 }
 
 
@@ -448,7 +448,7 @@ weights weightsv
 	if (!isglob(son(e)))
 	  fno (son (e)) += scale;/* add number of uses to the no field of
 				   the declaration */
-	return(zeros);
+	return zeros;
       };
     case make_lv_tag:
         return zeros;
@@ -518,7 +518,7 @@ weights weightsv
               scale = old_scale;
 	    };
 	    no (e) = p.wp_break;/* set the break point */
-	    return(add_weights(wdef, p.wp_weights));
+	    return add_weights(wdef, p.wp_weights);
 	  };
 
 	  if (name(sh(def)) == nofhd && ptno(sh(def)) == realhd &&
@@ -533,9 +533,9 @@ weights weightsv
 	      wdef = try_mc3(def, wdef, el);
 	  };
 	  no(e) = 16;
-	  return(add_weights(wdef, wbody));
+	  return add_weights(wdef, wbody);
 	};
-	return(zeros);
+	return zeros;
       };
     case labst_tag: {
 	explist nel;
@@ -545,7 +545,7 @@ weights weightsv
 	old_scale = scale;
 	wbody = weightsv(bro(son(e)), &nel);
 	scale = old_scale;
-	return(wbody);
+	return wbody;
       };
     case rep_tag: {
 	swl = weightsv(son(e), el);
@@ -558,7 +558,7 @@ weights weightsv
 	bwl = weightsv(bro(son(e)), el);
         scale = old_scale;
 
-	return(add_weights(swl, bwl));
+	return add_weights(swl, bwl);
       };
     case cond_tag:  {
         old_scale = scale;
@@ -569,18 +569,18 @@ weights weightsv
 
         scale = old_scale;
 
-	return(add_weights(swl, bwl));
+	return add_weights(swl, bwl);
       };
     case case_tag:
-      return(weightsv(son(e), el));
+      return weightsv(son(e), el);
 
     case compound_tag:
-      return(add_wlist(son(e), 1, el));
+      return add_wlist(son(e), 1, el);
       /* may use movc3 for component */
 
     case res_tag:
     case untidy_return_tag:
-      return(weightsv(son(e), el));
+      return weightsv(son(e), el);
 
     case asm_tag:
     case apply_tag:
@@ -589,8 +589,8 @@ weights weightsv
       {
         if (name(sh(e))!= bothd && !builtinproc(e))
 	  markcall(el);
-	return(add_weights(add_wlist(son(e), 0, el),
-	      applyregs));
+	return add_weights(add_wlist(son(e), 0, el),
+	      applyregs);
       };
 
     case ass_tag:
@@ -601,34 +601,32 @@ weights weightsv
       temp = weightsv(bro(son(e)), el);
       if (shn == u64hd || shn == s64hd)
 	markreg1(el);
-      return(add_weights(weightsv(son(e), el),
-	    try_mc3(bro(son(e)), temp, el)
-	 )
-	);
+      return add_weights(weightsv(son(e), el),
+	    try_mc3(bro(son(e)), temp, el));
       };
     case proc_tag:
     case general_proc_tag: {
 	IGNORE weightsv(son(e), (explist *)0);
-	return(zeros);
+	return zeros;
       };
     case movecont_tag:
       if (isnooverlap(e))
-        return(add_weights(add_wlist(son(e), 0, el), moveregs));
+        return add_weights(add_wlist(son(e), 0, el), moveregs);
       else {
         markcall(el);
-        return(add_wlist(son(e), 0, el));
+        return add_wlist(son(e), 0, el);
       };
     case val_tag:
     case real_tag:
     case env_offset_tag:
-      return(zeros);
+      return zeros;
 
     case test_tag:
      {weights wlarg;
       if (name(sh(son(e))) == s64hd || name(sh(son(e))) == u64hd)
 	markreg1 (el);				/* use of reg0 can include reg1 */
       wlarg = add_wlist(son(e), 0, el);
-      return(wlarg);
+      return wlarg;
      };
     case prof_tag:
       scale = no(e);
@@ -637,14 +635,14 @@ weights weightsv
     case alloca_tag:
      {if (checkalloc(e))
 	markreg1(el);
-      return(add_wlist(son(e), 0, el));
+      return add_wlist(son(e), 0, el);
      };
 
     default:
       if (sh(e)!= nilexp &&
 		(name(sh(e)) == s64hd || name(sh(e)) == u64hd))
 	markreg1 (el);				/* use of reg0 can include reg1 */
-      return(add_wlist(son(e), 1, el));
+      return add_wlist(son(e), 1, el);
   };
 }
 

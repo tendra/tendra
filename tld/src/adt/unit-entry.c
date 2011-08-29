@@ -113,7 +113,7 @@ unit_set_contents(UnitT *   unit,			   NStringT *nstring)
 MapTableT *
 unit_map_table(UnitT *unit)
 {
-    return(unit->map_table);
+    return unit->map_table;
 }
 
 UnitEntryT *
@@ -127,25 +127,25 @@ unit_entry_create(NStringT *  key,			   UnitEntryT *next ,
     nstring_copy(& (entry->key), key);
     entry->head  = NULL;
     entry->tail  = & (entry->head);
-    return(entry);
+    return entry;
 }
 
 UnitEntryT *
 unit_entry_next(UnitEntryT *entry)
 {
-    return(entry->next);
+    return entry->next;
 }
 
 NStringT *
 unit_entry_key(UnitEntryT *entry)
 {
-    return(& (entry->key));
+    return &entry->key;
 }
 
 unsigned
 unit_entry_order(UnitEntryT *entry)
 {
-    return(entry->order);
+    return entry->order;
 }
 
 UnitT *
@@ -158,7 +158,7 @@ unit_entry_add_unit(UnitEntryT *entry,			     unsigned   num_counts)
 		       map_table_create(): NULL);
     *(entry->tail) = unit;
     entry->tail     = & (unit->next);
-    return(unit);
+    return unit;
 }
 
 void

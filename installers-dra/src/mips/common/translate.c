@@ -173,24 +173,24 @@ bool not_reserved
 {
   /* various identifier reserved by MIPS */
   if (!strcmp(id, "edata"))
-    return(0);
+    return 0;
   if (!strcmp(id, "etext"))
-    return(0);
+    return 0;
   if (!strcmp(id, "end"))
-    return(0);
+    return 0;
   if (!strcmp(id, "_ftext"))
-    return(0);
+    return 0;
   if (!strcmp(id, "_fdata"))
-    return(0);
+    return 0;
   if (!strcmp(id, "_fbss"))
-    return(0);
+    return 0;
   if (!strcmp(id, "_gp"))
-    return(0);
+    return 0;
   if (!strcmp(id, "_procedure_table"))
-    return(0);
+    return 0;
   if (!strcmp(id, "_procedure_string_table"))
-    return(0);
-  return(1);
+    return 0;
+  return 1;
 }
 
 
@@ -200,7 +200,7 @@ bool not_reserved
 char varsize
 (shape sha)
 {
-  return(name(sha) ==nofhd);
+  return name(sha) ==nofhd;
 }
 
 int current_symno;

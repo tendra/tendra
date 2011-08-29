@@ -102,14 +102,14 @@ assign_component(TYPE_P t, int p, char *nm, int depth)
     if (depth > MAX_TYPE_DEPTH) {
 	error(ERROR_SERIOUS, "Cyclic type definition involving %s",
 		name_type(t));
-	return(p);
+	return p;
     }
 
     if (IS_type_ident(t0)) {
 	/* Use identity definition */
 	IDENTITY_P id = DEREF_ptr(type_ident_id(t0));
 	TYPE_P s = DEREF_ptr(ident_defn(id));
-	return(assign_component(s, p, nm, depth + 1));
+	return assign_component(s, p, nm, depth + 1);
 
     } else if (IS_type_structure(t0)) {
 	/* Deal with structures componentwise */
@@ -132,12 +132,12 @@ assign_component(TYPE_P t, int p, char *nm, int depth)
 	    p = assign_component(c_type, p, buff, depth + 1);
 	    c = TAIL_list(c);
 	}
-	return(p);
+	return p;
     }
 
     /* Other types are simple */
     output("\tCOPY_%TM(x%u_ + %d, %e);\\\n", t, p, nm);
-    return(p + size_type(t, 0));
+    return p + size_type(t, 0);
 }
 
 
@@ -157,14 +157,14 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
     if (depth > MAX_TYPE_DEPTH) {
 	error(ERROR_SERIOUS, "Cyclic type definition involving %s",
 		name_type(t));
-	return(p);
+	return p;
     }
 
     if (IS_type_ident(t0)) {
 	/* Use identity definition */
 	IDENTITY_P id = DEREF_ptr(type_ident_id(t0));
 	TYPE_P s = DEREF_ptr(ident_defn(id));
-	return(deref_component(s, p, nm, depth + 1));
+	return deref_component(s, p, nm, depth + 1);
 
     } else if (IS_type_structure(t0)) {
 	/* Deal with structures componentwise */
@@ -187,7 +187,7 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
 	    p = deref_component(c_type, p, buff, depth + 1);
 	    c = TAIL_list(c);
 	}
-	return(p);
+	return p;
     }
 
     /* Other types are simple */
@@ -196,7 +196,7 @@ deref_component(TYPE_P t, int p, char *nm, int depth)
     } else {
 	output("\t%e = DEREF_%TM(x%u_ + %d);\\\n", nm, t, p);
     }
-    return(p + size_type(t, 0));
+    return p + size_type(t, 0);
 }
 
 
@@ -321,7 +321,7 @@ print_assert_fns(void)
     output("{\n");
     output("    if (p == NULL) ");
     output("assert_%X(\"Null pointer\", fn, ln);\n");
-    output("    return(p);\n");
+    output("    return p;\n");
     output("}\n\n");
 
     /* Union tag check */
@@ -332,7 +332,7 @@ print_assert_fns(void)
     output("    p = check_null_%X(p, fn, ln);\n");
     output("    if (p->ag_tag != t) ");
     output("assert_%X(\"Union tag\", fn, ln);\n");
-    output("    return(p);\n");
+    output("    return p;\n");
     output("}\n\n");
 
     /* Union tag range check */
@@ -345,7 +345,7 @@ print_assert_fns(void)
     output("    if (p->ag_tag < tl || p->ag_tag >= tb) {\n");
     output("\tassert_%X(\"Union tag\", fn, ln);\n");
     output("    }\n");
-    output("    return(p);\n");
+    output("    return p;\n");
     output("}\n\n");
 
     /* Vector trim range check */
@@ -355,7 +355,7 @@ print_assert_fns(void)
     output("(int n, int m, char *fn, int ln)\n");
     output("{\n");
     output("    if (n > m) assert_%X(\"Vector bound\", fn, ln);\n");
-    output("    return(n);\n");
+    output("    return n;\n");
     output("}\n\n");
     return;
 }
@@ -384,7 +384,7 @@ gen(int n, char *nm)
     static char gbuff[100];
     sprintf(gbuff, "GEN_%%X(%d, TYPEID_%s)", n, nm);
     if (n > gen_max)gen_max = n;
-    return(gbuff);
+    return gbuff;
 }
 
 
@@ -1520,13 +1520,13 @@ field_not_empty(void)
     LIST(COMPONENT_P)c;
     c = DEREF_list(un_s_defn(CRT_UNION));
     if (!IS_NULL_list(c)) {
-	    return(1);
+	    return 1;
     }
     c = DEREF_list(fld_defn(CRT_FIELD));
     if (!IS_NULL_list(c)) {
-	    return(1);
+	    return 1;
     }
-    return(0);
+    return 0;
 }
 
 

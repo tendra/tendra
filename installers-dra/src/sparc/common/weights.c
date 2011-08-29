@@ -157,7 +157,7 @@ add_weights ( weights * w1, weights * w2 ){
   for ( i = 0 ; i < wfloatno ; ++i ) {
     ( r.floating ) [i] = ( w1->floating ) [i] + ( w2->floating ) [i] ;
   }
-  return ( r ) ;
+  return r;
 }
 
 
@@ -254,7 +254,7 @@ max_weights ( double loc, weights * ws, bool fix ){
     }
   }
   res.float_break = bk ;
-  return ( res ) ;
+  return res;
 }
 
 
@@ -275,7 +275,7 @@ mult_weights ( double m, weights * ws ){
   for ( i = 0 ; i < wfloatno ; ++i ) {
     r [i] = w [i] * m ;
   }
-  return ( res ) ;
+  return res;
 }
 
 
@@ -287,10 +287,10 @@ add_wlist ( double scale, exp re ){
   exp r = re ;
   weights w, w1 ;
   if ( r == nilexp ) {
-    return ( zeroweights ) ;
+    return zeroweights;
   } 
   else if ( last ( r ) ) {
-    return ( weightsv ( scale, r ) ) ;
+    return weightsv ( scale, r ) ;
   } 
   else {
     w = weightsv ( scale, r ) ;
@@ -299,7 +299,7 @@ add_wlist ( double scale, exp re ){
       w1 = weightsv ( scale, r ) ;
       w = add_weights ( &w, &w1 ) ;
     } while ( !last ( r ) ) ;
-    return ( w ) ;
+    return w;
   }
 }
 
@@ -334,7 +334,7 @@ tailrecurse :
       }
     }
 	    /* usage of tag stored in number of son of load_name (decl) */
-    return ( zeroweights ) ;
+    return zeroweights;
   }
   case ident_tag : {
     if ( son ( e ) != nilexp ) {
@@ -371,7 +371,7 @@ tailrecurse :
 	if ( ( name ( t ) == val_tag ) ||
 	     ( name ( t ) == real_tag ) ) {
 	  /* string_tag too? */
-	  return ( wbody ) ;
+	  return wbody;
 	}
 	while ( name ( t ) != name_tag ) {
 	  t = son ( t ) ;
@@ -383,7 +383,7 @@ tailrecurse :
 	if ( name ( s ) == ident_tag && !isglob ( t ) ) {
 	  fno ( s ) += fno ( e ) ;
 	}
-	return ( wbody ) ;
+	return wbody;
       }
       if ( ( props ( e ) & inreg_bits ) == 0 && fixregable ( e ) ) {
 	/* NO decrease decrease in scale as reg windows
@@ -391,7 +391,7 @@ tailrecurse :
 	wp p ;
 	p = max_weights ( fno ( e ), &wbody, 1 ) ;
 	no ( e ) = ( int ) p.fix_break ;
-	return ( add_weights ( &wdef, &p.wp_weights ) ) ;
+	return add_weights ( &wdef, &p.wp_weights ) ;
       } else if ( ( props ( e ) & infreg_bits ) == 0 &&
 		  floatregable ( e ) ) {
 	/* usage decreased by 3 because of dump and restore of
@@ -399,15 +399,15 @@ tailrecurse :
 	wp p ;
 	p = max_weights ( fno ( e ) - 3.0 * scale, &wbody, 0 ) ;
 	no ( e ) = (int)p.float_break;
-	return ( add_weights ( &wdef, &p.wp_weights ) ) ;
+	return add_weights ( &wdef, &p.wp_weights ) ;
       } 
       else{
 	no ( e ) = noe ;/* restore to value given by scan */
-	return ( add_weights ( &wdef, &wbody ) ) ;
+	return add_weights ( &wdef, &wbody ) ;
       }
     } 
     else {
-      return ( zeroweights ) ;
+      return zeroweights;
     }
   }
   case rep_tag : {
@@ -424,7 +424,7 @@ tailrecurse :
     goto tailrecurse ;
   }
   case val_tag : {
-    return ( zeroweights ) ;
+    return zeroweights;
   }
   case ncopies_tag : {
     scale = no ( e ) * scale ;
@@ -433,13 +433,13 @@ tailrecurse :
   }
   default : {
     if ( son ( e ) == nilexp || n == env_offset_tag ) {
-      return ( zeroweights ) ;
+      return zeroweights;
     }
     if ( last ( son ( e ) ) ) {
       e = son ( e ) ;
       goto tailrecurse ;
     }
-    return ( add_wlist ( scale, son ( e ) ) ) ;
+    return add_wlist ( scale, son ( e ) ) ;
   }
   }
 }

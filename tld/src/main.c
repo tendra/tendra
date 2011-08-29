@@ -792,7 +792,7 @@ main_init(int    argc,		   char **argv)
     arg_data_set_files(&main_arg_data, argc, argv);
     arg_data_vector_libraries(&main_arg_data);
     debug_set_file(arg_data_get_debug_file(&main_arg_data));
-    return(mode);
+    return mode;
 }
 
 int

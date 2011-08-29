@@ -198,11 +198,11 @@ int dw_is_const
     case real_tag:
       return 1;
     case name_tag:
-      return(!isdiscarded(e) && isvar(son(e)));
+      return !isdiscarded(e) && isvar(son(e));
 #if 0
     case cont_tag:
-      return(name(son(e)) == name_tag && !isdiscarded(son(e)) &&
-		!isvar(son(son(e))) && !isparam(son(son(e))));
+      return name(son(e)) == name_tag && !isdiscarded(son(e)) &&
+		!isvar(son(son(e))) && !isparam(son(son(e)));
 #endif
     case reff_tag:
       return 1;
@@ -218,7 +218,7 @@ exp dw_has_location
     case name_tag: {
       if (isdiscarded(e) || isvar(son(e)))
 	return nilexp;
-      return(son(e));
+      return son(e);
     }
     case cont_tag: {
       do {
@@ -428,7 +428,7 @@ static void out_inreg
 static int regoff_length
 (loc_s l)
 {
-  return(1 + sleb128_length(l.off));
+  return 1 + sleb128_length(l.off);
 }
 
 static void out_regoff

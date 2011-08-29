@@ -116,9 +116,9 @@ static int sbl
 (exp e, int count, int newdecs)
 {
     int c = complexity(e, count, newdecs);
-    if (c < 0) return(c);
-    if (last(e)) return(c);
-    return(sbl(bro(e), c, newdecs));
+    if (c < 0) return c;
+    if (last(e)) return c;
+    return sbl(bro(e), c, newdecs);
 }
 
 
@@ -130,55 +130,55 @@ static int complexity
 (exp e, int count, int newdecs)
 {
     unsigned char n = name(e);
-    if (count < 0 || newdecs >= decs_allowed) return(-1);
-    if (son(e) == nilexp) return(count);
+    if (count < 0 || newdecs >= decs_allowed) return -1;
+    if (son(e) == nilexp) return count;
 
     switch (n) {
 
 	case apply_tag: {
-	    if (newdecs > decs_with_apply) return(-1);
-	    return(sbl(son(e), count - 1, newdecs));
+	    if (newdecs > decs_with_apply) return -1;
+	    return sbl(son(e), count - 1, newdecs);
 	}
 
 	case res_tag: {
-	    return(complexity(son(e), count - 1, newdecs));
+	    return complexity(son(e), count - 1, newdecs);
 	}
 
 	case ident_tag: {
 	    if (isloadparam(son(e))) {
-		return(sbl(son(e), count - 1, newdecs));
+		return sbl(son(e), count - 1, newdecs);
 	    } else {
-		return(sbl(son(e), count - 1, newdecs + 1));
+		return sbl(son(e), count - 1, newdecs + 1);
 	    }
 	}
 
 	case top_tag:
 	case clear_tag:
 	case prof_tag: {
-	    return(count);
+	    return count;
 	}
 
 	case case_tag: {
-	    return(complexity(son(e), count - 1, newdecs));
+	    return complexity(son(e), count - 1, newdecs);
 	}
 
 	case name_tag:
 	case string_tag:
 	case env_offset_tag: {
-	    return(count - 1);
+	    return count - 1;
 	}
 
 	case labst_tag: {
-	    return(complexity(bro(son(e)), count, newdecs));
+	    return complexity(bro(son(e)), count, newdecs);
 	}
 
 	case solve_tag:
 	case seq_tag: {
-	    return(sbl(son(e), count, newdecs));
+	    return sbl(son(e), count, newdecs);
 	}
 
 	default : {
-	    return(sbl(son(e), count - 1, newdecs));
+	    return sbl(son(e), count - 1, newdecs);
 	}
     }
 }
@@ -234,13 +234,13 @@ int inlinechoice
     /* newdecs is now the number of declarations (which will not be
        optimised out) arising from actual parameters */
 #if is80x86
-    if (!last(bro(t))) return(0);
+    if (!last(bro(t))) return 0;
 #endif
 
     if (complexity(fpars, crit_inline, newdecs) >= 0) {
-	return(2);
+	return 2;
     } else if (newdecs == 0) {
-	return(0);
+	return 0;
     }
-    return(1);
+    return 1;
 }

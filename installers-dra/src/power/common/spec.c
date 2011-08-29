@@ -95,7 +95,7 @@ speci special_fn(exp a1, exp a2, shape s)
   char *id = dp -> dec_u.dec_val.dec_id;
   spr.is_special = 0;
   if (id == (char *) 0)
-    return (spr);
+    return spr;
   /* at present the detection of special cases is done on the identifiers,
      but it really ought to be on special tokens, as for diagnostics */
 
@@ -120,8 +120,8 @@ speci special_fn(exp a1, exp a2, shape s)
     spr.is_special = 1;
     spr.special_exp = r;
     kill_exp (a1, a1);
-    return (spr);
+    return spr;
   };
 
-  return (spr);
+  return spr;
 }

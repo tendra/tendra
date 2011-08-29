@@ -138,7 +138,7 @@ enc_tdfint(BITSTREAM *bs, NAT n, int e)
 		}
 		bs = enc_bits(bs,(unsigned)4, u);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -157,7 +157,7 @@ enc_bool(BITSTREAM *bs, int n)
 	} else {
 		ENC_false(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -196,7 +196,7 @@ enc_calc(BITSTREAM *bs, NAT n, int sgn, int intro, int sort)
 					}
 					bs = enc_snat(bs, n, sgn, 0);
 				}
-				return (bs);
+				return bs;
 			}
 		}
 	}
@@ -275,7 +275,7 @@ enc_calc(BITSTREAM *bs, NAT n, int sgn, int intro, int sort)
 		}
 	}
 	suppress_calc--;
-	return (bs);
+	return bs;
 }
 
 
@@ -335,7 +335,7 @@ enc_nat(BITSTREAM *bs, NAT n, int intro)
 		}
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -410,7 +410,7 @@ enc_snat(BITSTREAM *bs, NAT n, int sgn, int intro)
 		}
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -439,7 +439,7 @@ enc_int_lit(BITSTREAM *bs, NAT n, TYPE t, unsigned etag)
 		bs = enc_variety(bs, t);
 		bs = enc_snat(bs, n, 0, 0);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -506,7 +506,7 @@ enc_float(BITSTREAM *bs, FLOAT flt, TYPE t)
 	ENC_exp_apply_token(bs);
 	ENC_make_tok(bs, n);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -536,7 +536,7 @@ enc_float_int(BITSTREAM *bs, int v, TYPE t)
 		ENC_INT(bs, 10);
 		bs = enc_snat(bs, NULL_nat, 0, 0);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -560,7 +560,7 @@ enc_string(BITSTREAM *bs, STRING str, TYPE t)
 	if (n == 0) {
 		/* Allow for empty strings */
 		bs = enc_null_exp(bs, t);
-		return (bs);
+		return bs;
 	}
 	if (IS_type_array(t)) {
 		/* Find array size */
@@ -653,7 +653,7 @@ enc_string(BITSTREAM *bs, STRING str, TYPE t)
 		ENC_INT(bs, d);
 		bs = enc_make_int(bs, t, 0);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -686,7 +686,7 @@ enc_strlit(BITSTREAM *bs, STRING str)
 	} else {
 		bs = enc_ascii(bs, n, s);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -713,13 +713,13 @@ enc_char(BITSTREAM *bs, STRING str, TYPE t, TYPE u)
 		if (v < 128) {
 			/* Small values are easy */
 			bs = enc_make_int(bs, t,(int)v);
-			return (bs);
+			return bs;
 		}
 	} else {
 		if (v < 128) {
 			/* Small values are easy */
 			bs = enc_make_int(bs, t,(int)v);
-			return (bs);
+			return bs;
 		}
 		n = make_nat_value(v);
 	}
@@ -756,7 +756,7 @@ enc_char(BITSTREAM *bs, STRING str, TYPE t, TYPE u)
 	ENC_make_signed_nat(bs);
 	ENC_OFF(bs);
 	bs = enc_tdfint(bs, n, 1);
-	return (bs);
+	return bs;
 }
 
 
@@ -785,7 +785,7 @@ find_itype(TYPE t)
 		}
 		it = DEREF_itype(type_integer_rep(t));
 	}
-	return (it);
+	return it;
 }
 
 
@@ -813,7 +813,7 @@ enc_var_no(BITSTREAM *bs, INT_TYPE it, int alt)
 		if (m != ARITH_none) {
 			/* Basic types are easy */
 			bs = enc_make_snat(bs,(int)m);
-			return (bs);
+			return bs;
 		}
 		break;
 	}
@@ -822,14 +822,14 @@ enc_var_no(BITSTREAM *bs, INT_TYPE it, int alt)
 		TYPE s = DEREF_type(itype_bitfield_sub(it));
 		INT_TYPE is = find_itype(s);
 		bs = enc_var_no(bs, is, alt);
-		return (bs);
+		return bs;
 	}
 	case itype_token_tag: {
 		/* Tokenised types */
 		IDENTIFIER tk = DEREF_id(itype_token_tok(it));
 		LIST(TOKEN)args = DEREF_list(itype_token_args(it));
 		bs = enc_token(bs, tk, args);
-		return (bs);
+		return bs;
 	}
 	}
 
@@ -901,7 +901,7 @@ enc_var_no(BITSTREAM *bs, INT_TYPE it, int alt)
 	ENC_signed_nat_apply_token(bs);
 	ENC_make_tok(bs, tok);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -945,7 +945,7 @@ enc_variety(BITSTREAM *bs, TYPE t)
 				ts = start_bitstream(NIL(FILE), bs->link);
 				ts = enc_var_no(ts, it, 0);
 				bs = enc_bitstream(bs, ts);
-				return (bs);
+				return bs;
 			}
 			break;
 		}
@@ -1003,7 +1003,7 @@ enc_variety(BITSTREAM *bs, TYPE t)
 	}
 	ENC_make_tok(bs, tok);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -1028,7 +1028,7 @@ enc_flvar_no(BITSTREAM *bs, FLOAT_TYPE ft)
 		if (m != ARITH_none) {
 			/* Basic types are easy */
 			bs = enc_make_snat(bs,(int)m);
-			return (bs);
+			return bs;
 		}
 		break;
 	}
@@ -1037,7 +1037,7 @@ enc_flvar_no(BITSTREAM *bs, FLOAT_TYPE ft)
 		IDENTIFIER tk = DEREF_id(ftype_token_tok(ft));
 		LIST(TOKEN)args = DEREF_list(ftype_token_args(ft));
 		bs = enc_token(bs, tk, args);
-		return (bs);
+		return bs;
 	}
 	}
 
@@ -1093,7 +1093,7 @@ enc_flvar_no(BITSTREAM *bs, FLOAT_TYPE ft)
 	ENC_signed_nat_apply_token(bs);
 	ENC_make_tok(bs, tok);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -1139,7 +1139,7 @@ enc_flvar(BITSTREAM *bs, TYPE t)
 				ts = start_bitstream(NIL(FILE), bs->link);
 				ts = enc_flvar_no(ts, ft);
 				bs = enc_bitstream(bs, ts);
-				return (bs);
+				return bs;
 			}
 		}
 		if (tok == LINK_NONE) {
@@ -1166,7 +1166,7 @@ enc_flvar(BITSTREAM *bs, TYPE t)
 	ENC_flvar_apply_token(bs);
 	ENC_make_tok(bs, tok);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -1200,7 +1200,7 @@ enc_bfvar(BITSTREAM *bs, TYPE t)
 		}
 	}
 	bs = enc_variety(bs, t);
-	return (bs);
+	return bs;
 }
 
 
@@ -1223,19 +1223,19 @@ enc_arith(BITSTREAM *bs, TYPE t, int alt)
 			/* Integral and enumeration types */
 			INT_TYPE it = find_itype(t);
 			bs = enc_var_no(bs, it, alt);
-			return (bs);
+			return bs;
 		}
 		case type_floating_tag: {
 			/* Floating point types */
 			FLOAT_TYPE ft = DEREF_ftype(type_floating_rep(t));
 			bs = enc_flvar_no(bs, ft);
-			return (bs);
+			return bs;
 		}
 		case type_ptr_tag:
 		case type_ref_tag: {
 			/* Pointer types */
 			bs = enc_special(bs, TOK_ptr_rep);
-			return (bs);
+			return bs;
 		}
 		}
 	}
@@ -1246,7 +1246,7 @@ enc_arith(BITSTREAM *bs, TYPE t, int alt)
 		n = base_token[bt].no;
 	}
 	bs = enc_make_snat(bs,(int)n);
-	return (bs);
+	return bs;
 }
 
 
@@ -1262,10 +1262,10 @@ is_tokenised_class(TYPE t)
 	if (!IS_NULL_type(t) && IS_type_token(t)) {
 		IDENTIFIER id = DEREF_id(type_token_tok(t));
 		if (IS_id_token(id)) {
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1351,7 +1351,7 @@ enc_alignment(BITSTREAM *bs, TYPE t)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1370,7 +1370,7 @@ simple_alignment(TYPE t)
 		case type_array_tag: {
 			/* Array types */
 			TYPE s = DEREF_type(type_array_sub(t));
-			return (simple_alignment(s));
+			return simple_alignment(s);
 		}
 		case type_compound_tag: {
 			/* Compound types */
@@ -1379,13 +1379,13 @@ simple_alignment(TYPE t)
 			if (!is_tokenised_class(s)) {
 				CLASS_INFO ci = DEREF_cinfo(ctype_info(ct));
 				if (!(ci & cinfo_complete)) {
-					return (0);
+					return 0;
 				}
 				if (!(ci & cinfo_defined)) {
-					return (0);
+					return 0;
 				}
 				if (ci & cinfo_recursive) {
-					return (0);
+					return 0;
 				}
 			}
 			break;
@@ -1395,13 +1395,13 @@ simple_alignment(TYPE t)
 			IDENTIFIER id = DEREF_id(type_token_tok(t));
 			ulong n = DEREF_ulong(id_no(id));
 			if (n == LINK_TOKDEF) {
-				return (0);
+				return 0;
 			}
 			break;
 		}
 		}
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -1423,7 +1423,7 @@ enc_shape_offset(BITSTREAM *bs, TYPE t)
 			ENC_offset_mult(bs);
 			bs = enc_shape_offset(bs, s);
 			bs = enc_exp(bs, e);
-			return (bs);
+			return bs;
 		}
 	}
 	if (simple_alignment(t)) {
@@ -1443,7 +1443,7 @@ enc_shape_offset(BITSTREAM *bs, TYPE t)
 		ENC_shape_offset(bs);
 		bs = enc_shape(bs, t);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1459,7 +1459,7 @@ enc_offset(BITSTREAM *bs, OFFSET off)
 	if (IS_NULL_off(off)) {
 		ENC_offset_zero(bs);
 		bs = enc_alignment(bs, type_sint);
-		return (bs);
+		return bs;
 	}
 	ASSERT(ORDER_off == 13);
 	switch (TAG_off(off)) {
@@ -1584,7 +1584,7 @@ enc_offset(BITSTREAM *bs, OFFSET off)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1619,7 +1619,7 @@ enc_extra_offset(BITSTREAM *bs, TYPE t, OFFSET off, int n)
 			bs = enc_make_int(bs, type_sint, n);
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1642,7 +1642,7 @@ enc_add_ptr(BITSTREAM *bs, EXP a, ulong n, OFFSET off, int virt)
 			ENC_make_tok(bs, n);
 			ENC_LEN_SMALL(bs, 0);
 		}
-		return (bs);
+		return bs;
 	}
 	ASSERT(ORDER_off == 13);
 	switch (TAG_off(off)) {
@@ -1655,12 +1655,12 @@ enc_add_ptr(BITSTREAM *bs, EXP a, ulong n, OFFSET off, int virt)
 			bs = enc_add_base(bs, off, NULL_off);
 			bs = enc_add_ptr(bs, a, n, NULL_off, 0);
 			bs = enc_end_base(bs, off, NULL_off);
-			return (bs);
+			return bs;
 		}
 		if (acc & dspec_ignore) {
 			/* Null base offset */
 			bs = enc_add_ptr(bs, a, n, NULL_off, 0);
-			return (bs);
+			return bs;
 		}
 		break;
 	}
@@ -1683,12 +1683,12 @@ enc_add_ptr(BITSTREAM *bs, EXP a, ulong n, OFFSET off, int virt)
 			bs = enc_add_base(bs, off1, off2);
 			bs = enc_add_ptr(bs, a, n, NULL_off, 0);
 			bs = enc_end_base(bs, off1, off2);
-			return (bs);
+			return bs;
 		}
 		if (acc & dspec_ignore) {
 			/* Null base offset */
 			bs = enc_add_ptr(bs, a, n, NULL_off, 0);
-			return (bs);
+			return bs;
 		}
 		break;
 	}
@@ -1703,7 +1703,7 @@ enc_add_ptr(BITSTREAM *bs, EXP a, ulong n, OFFSET off, int virt)
 			bs = enc_add_ptr(bs, a, n, off1, virt);
 			bs = enc_offset(bs, off2);
 		}
-		return (bs);
+		return bs;
 	}
 	}
 
@@ -1715,7 +1715,7 @@ enc_add_ptr(BITSTREAM *bs, EXP a, ulong n, OFFSET off, int virt)
 		bs = enc_add_ptr(bs, a, n, NULL_off, 0);
 		bs = enc_offset(bs, off);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1859,7 +1859,7 @@ enc_shape(BITSTREAM *bs, TYPE t)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1875,10 +1875,10 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 {
 	unsigned ns, nt;
 	if (EQ_type(s, t)) {
-		return (1);
+		return 1;
 	}
 	if (IS_NULL_type(s) || IS_NULL_type(t)) {
-		return (0);
+		return 0;
 	}
 	ns = TAG_type(s);
 	nt = TAG_type(t);
@@ -1889,11 +1889,11 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 	case type_bottom_tag: {
 		/* Top and bottom types */
 		if (nt == ns) {
-			return (1);
+			return 1;
 		}
 		if (nt == type_top_tag || nt == type_bottom_tag) {
 			/* alignment ( top ) == alignment ( bottom ) */
-			return (ptr);
+			return ptr;
 		}
 		break;
 	}
@@ -1904,11 +1904,11 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 			TYPE ps, pt;
 			if (ptr) {
 				/* alignment ( pointer ( s ) ) is constant */
-				return (1);
+				return 1;
 			}
 			ps = DEREF_type(type_ptr_etc_sub(s));
 			pt = DEREF_type(type_ptr_etc_sub(t));
-			return (eq_type_rep(ps, pt, 1));
+			return eq_type_rep(ps, pt, 1);
 		}
 		break;
 	}
@@ -1920,12 +1920,12 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 			if (IS_type_func(ps)) {
 				if (IS_type_func(pt)) {
 					/* Pointers to member functions */
-					return (1);
+					return 1;
 				}
 			} else {
 				if (!IS_type_func(pt)) {
 					/* Pointers to data members */
-					return (1);
+					return 1;
 				}
 			}
 		}
@@ -1935,7 +1935,7 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 		/* Function types */
 		if (nt == type_func_tag) {
 			/* All functions have the same representation */
-			return (1);
+			return 1;
 		}
 		break;
 	}
@@ -1944,7 +1944,7 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 		if (ptr) {
 			/* alignment ( nof ( n, s ) ) == alignment ( s ) */
 			TYPE ps = DEREF_type(type_array_sub(s));
-			return (eq_type_rep(ps, t, 1));
+			return eq_type_rep(ps, t, 1);
 		}
 		if (nt == type_array_tag) {
 			NAT ms = DEREF_nat(type_array_size(s));
@@ -1952,7 +1952,7 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 			if (EQ_nat(ms, mt) || eq_nat(ms, mt)) {
 				TYPE ps = DEREF_type(type_array_sub(s));
 				TYPE pt = DEREF_type(type_array_sub(t));
-				return (eq_type_rep(ps, pt, 0));
+				return eq_type_rep(ps, pt, 0);
 			}
 		}
 		break;
@@ -1961,7 +1961,7 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 		/* Enumeration types */
 		ENUM_TYPE es = DEREF_etype(type_enumerate_defn(s));
 		TYPE ps = DEREF_type(etype_rep(es));
-		return (eq_type_rep(ps, t, ptr));
+		return eq_type_rep(ps, t, ptr);
 	}
 	}
 
@@ -1972,7 +1972,7 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 		if (ptr) {
 			/* alignment ( nof ( n, t ) ) == alignment ( t ) */
 			TYPE pt = DEREF_type(type_array_sub(t));
-			return (eq_type_rep(s, pt, 1));
+			return eq_type_rep(s, pt, 1);
 		}
 		break;
 	}
@@ -1980,18 +1980,18 @@ eq_type_rep(TYPE s, TYPE t, int ptr)
 		/* Enumeration types */
 		ENUM_TYPE et = DEREF_etype(type_enumerate_defn(t));
 		TYPE pt = DEREF_type(etype_rep(et));
-		return (eq_type_rep(s, pt, ptr));
+		return eq_type_rep(s, pt, ptr);
 	}
 	}
 
 	/* Compare the types */
 	if (ns == nt) {
 		if (ptr) {
-			return (eq_type_offset(s, t));
+			return eq_type_offset(s, t);
 		}
-		return (eq_type_unqual(s, t));
+		return eq_type_unqual(s, t);
 	}
-	return (0);
+	return 0;
 }
 
 

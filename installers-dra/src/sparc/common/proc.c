@@ -429,7 +429,7 @@ baseoff mem_temp
   /* only 2 words of temp allocated */
   assert(byte_offset >= 0 && byte_offset < 8);
   b.offset += byte_offset;
-  return(b);
+  return b;
 }
 
 
@@ -872,7 +872,7 @@ makeans make_proc_tag_code
       dw2_complete_fde();
 #endif
     proc_state = old_proc_state;
-    return(mka);
+    return mka;
 }
 
 
@@ -1003,7 +1003,7 @@ makeans make_res_tag_code
   }
   /* regs invalid after return (what about inlining?) */
   clear_all();
-  return(mka);
+  return mka;
 }
 
 
@@ -1044,7 +1044,7 @@ makeans make_apply_tag_code
   if ((special = specialfn(fn)) > 0) {
     /* eg function is strlen */
     mka.lab = specialmake(special, list, sp, dest, exitlab);
-    return(mka);
+    return mka;
   }
 
   ansash = ashof(sh(e));
@@ -1289,7 +1289,7 @@ makeans make_apply_tag_code
   else {
     /* not register result */
   }
-  return(mka);
+  return mka;
 }
 
 

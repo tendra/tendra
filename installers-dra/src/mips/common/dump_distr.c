@@ -194,7 +194,7 @@ bool
 sameregs(space * a, space * b)
 {
   /*  regs a <= regs b */
-  return ((a -> fixed | b -> fixed) == b -> fixed && (a -> flt | b -> flt) == b -> flt);
+  return (a -> fixed | b -> fixed) == b -> fixed && (a -> flt | b -> flt) == b -> flt;
 
 }
 

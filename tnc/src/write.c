@@ -352,7 +352,7 @@ default_label:
 		}
 	}
 
-	return (newline);
+	return newline;
 }
 
 

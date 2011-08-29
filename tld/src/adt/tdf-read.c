@@ -88,7 +88,7 @@ tdf_read_nibble(TDFReaderT *reader)
 	  case RT_STREAM:
 	    if (bistream_read_byte(& (reader->u.bistream), & (reader->byte))) {
 		reader->new_byte = FALSE;
-		return(((unsigned) reader->byte >> 4) & 0xF);
+		return ((unsigned) reader->byte >> 4) & 0xF;
 	    }
 		error(ERROR_SERIOUS, "%s: #%u: unexpected end of file", 
 			tdf_reader_name(reader), tdf_reader_byte(reader));
@@ -99,7 +99,7 @@ tdf_read_nibble(TDFReaderT *reader)
 		reader->byte     = (uint8_t)(*(reader->u.string.current++));
 		reader->new_byte = FALSE;
 		reader->u.string.byte++;
-		return(((unsigned) reader->byte >> 4) & 0xF);
+		return ((unsigned) reader->byte >> 4) & 0xF;
 	    }
 	error(ERROR_SERIOUS, "%s: #%u: unexpected end of file", 
 		tdf_reader_name(reader), tdf_reader_byte(reader));
@@ -108,7 +108,7 @@ tdf_read_nibble(TDFReaderT *reader)
 	}
     }
     reader->new_byte = TRUE;
-    return(reader->byte & 0xF);
+    return reader->byte & 0xF;
 }
 
 BoolT
@@ -117,9 +117,9 @@ tdf_reader_open(TDFReaderT *reader,			 const char *   name)
     reader->type     = RT_STREAM;
     reader->new_byte = TRUE;
     if (!bistream_open(& (reader->u.bistream), name)) {
-	return(FALSE);
+	return FALSE;
     }
-    return(TRUE);
+    return TRUE;
 }
 
 void
@@ -143,9 +143,9 @@ tdf_reader_name(TDFReaderT *reader)
 {
     switch (reader->type) {
       case RT_STREAM:
-	return(bistream_name(& (reader->u.bistream)));
+	return bistream_name(&reader->u.bistream);
       case RT_STRING:
-	return(reader->u.string.name);
+	return reader->u.string.name;
     }
     UNREACHED;
 }
@@ -155,9 +155,9 @@ tdf_reader_byte(TDFReaderT *reader)
 {
     switch (reader->type) {
       case RT_STREAM:
-	return(bistream_byte(& (reader->u.bistream)));
+	return bistream_byte(&reader->u.bistream);
       case RT_STRING:
-	return(reader->u.string.byte);
+	return reader->u.string.byte;
     }
     UNREACHED;
 }
@@ -181,7 +181,7 @@ tdf_read_int(TDFReaderT *reader)
 	value <<= 3;
 	value |= (nibble & 0x7);
 	if (nibble & 0x8) {
-	    return(value);
+	    return value;
 	}
     }
 }

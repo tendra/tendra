@@ -112,7 +112,7 @@ make_lit_exp(EXP a)
 	EXP e;
 	MAKE_nat_calc(a, n);
 	MAKE_exp_int_lit(t, n, exp_cast_tag, e);
-	return (e);
+	return e;
 }
 
 
@@ -136,7 +136,7 @@ cast_exact(TYPE t, EXP a)
 		}
 	}
 	MAKE_exp_cast(t, CONV_EXACT, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -159,7 +159,7 @@ rank_int_int(TYPE t, TYPE s)
 	/* Find the semantic conversion */
 	if (!EQ_itype(it, ir)) {
 		if (eq_itype(it, is)) {
-			return (0);
+			return 0;
 		}
 		if (IS_itype_basic(ir) && IS_itype_basic(is)) {
 			BUILTIN_TYPE bt = DEREF_ntype(itype_basic_no(it));
@@ -174,7 +174,7 @@ rank_int_int(TYPE t, TYPE s)
 		ir = DEREF_itype(itype_promote_arg(ir));
 	}
 	if (eq_itype(ir, is)) {
-		return (0);
+		return 0;
 	}
 	if (IS_itype_basic(ir) && IS_itype_basic(is)) {
 		BUILTIN_TYPE br = DEREF_ntype(itype_basic_no(ir));
@@ -183,12 +183,12 @@ rank_int_int(TYPE t, TYPE s)
 	} else {
 		TYPE ps = promote_type(s);
 		if (eq_type(ps, t)) {
-			return (0);
+			return 0;
 		}
 	}
 
 	/* Return the better conversion */
-	return (cr < ct ? cr : ct);
+	return cr < ct ? cr : ct;
 }
 
 
@@ -217,11 +217,11 @@ rank_float_float(TYPE t, TYPE s)
 		} else {
 			TYPE ps = promote_type(s);
 			if (eq_type(ps, t)) {
-				return (0);
+				return 0;
 			}
 		}
 	}
-	return (ct);
+	return ct;
 }
 
 
@@ -278,7 +278,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 		if (EQ_exp(e, a)) {
 			MAKE_exp_cast(t, CONV_INT_INT, e, e);
 		}
-		return (e);
+		return e;
 	}
 	if (nt == type_bitfield_tag) {
 		TYPE r = find_bitfield_type(t);
@@ -289,7 +289,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 			MAKE_exp_cast(r, CONV_INT_INT, e, e);
 		}
 		MAKE_exp_cast(t,(CONV_BITFIELD | CONV_REVERSE), e, e);
-		return (e);
+		return e;
 	}
 
 	/* Deal with identity casts */
@@ -299,12 +299,12 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 				NAT n = DEREF_nat(exp_int_lit_nat(a));
 				MAKE_exp_int_lit(t, n, exp_cast_tag, a);
 			}
-			return (a);
+			return a;
 		}
 		if (eq_type(t, s)) {
 			if (cast == CAST_IMPLICIT) {
 				/* Preserve semantics for implicit casts */
-				return (a);
+				return a;
 			}
 			if (cast != CAST_REINTERP) {
 				/* Override semantics for other casts */
@@ -314,7 +314,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 				} else {
 					MAKE_exp_cast(t, CONV_INT_INT, a, e);
 				}
-				return (e);
+				return e;
 			}
 		}
 	}
@@ -337,7 +337,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 			unsigned tag = DEREF_unsigned(exp_int_lit_etag(a));
 			if (tag == exp_identifier_tag) {
 				e = make_cast_nat(t, a, err, cast);
-				return (e);
+				return e;
 			}
 		}
 #endif
@@ -355,7 +355,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 		if (!IS_NULL_err(err2)) {
 			e = cast_token(t, a, err, err2, cast);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 	} else if (opt == OPT_error) {
@@ -364,7 +364,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 		if (!IS_NULL_err(err2)) {
 			e = cast_token(t, a, err, err2, cast);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 		opt = OPT_none;
@@ -373,7 +373,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 	/* Deal with integral constants */
 	if (IS_exp_int_lit(a)) {
 		e = make_cast_nat(t, a, err, cast);
-		return (e);
+		return e;
 	}
 
 	/* Check integer to integer conversions */
@@ -388,7 +388,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 				if (!IS_NULL_err(err2)) {
 					e = cast_token(t, a, err, err2, cast);
 					if (!IS_NULL_exp(e)) {
-						return (e);
+						return e;
 					}
 				}
 			}
@@ -397,7 +397,7 @@ cast_int_int(TYPE t, EXP a, ERROR *err, unsigned cast, int rank)
 
 	/* Construct the result */
 	MAKE_exp_cast(t, CONV_INT_INT, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -429,14 +429,14 @@ cast_int_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 		if (!IS_NULL_err(err2)) {
 			e = cast_token(t, a, err, err2, cast);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 	}
 
 	/* Construct the result */
 	MAKE_exp_cast(t, CONV_INT_FLT, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -475,7 +475,7 @@ cast_float_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 		if (!IS_NULL_err(err2)) {
 			e = cast_token(t, a, err, err2, cast);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 	}
@@ -490,13 +490,13 @@ cast_float_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 		if (!IS_NULL_nat(n)) {
 			EXP c = make_int_exp(t, exp_cast_tag, n);
 			if (!IS_NULL_exp(c)) {
-				return (c);
+				return c;
 			}
 		}
 		MAKE_nat_calc(e, n);
 		MAKE_exp_int_lit(t, n, exp_cast_tag, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -531,7 +531,7 @@ cast_float_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 	/* Deal with identity casts */
 	if (eq_type(t, s)) {
 		if (cast != CAST_REINTERP) {
-			return (a);
+			return a;
 		}
 	}
 
@@ -551,7 +551,7 @@ cast_float_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 			if (!IS_NULL_err(err2)) {
 				e = cast_token(t, a, err, err2, cast);
 				if (!IS_NULL_exp(e)) {
-					return (e);
+					return e;
 				}
 			}
 		}
@@ -559,7 +559,7 @@ cast_float_float(TYPE t, EXP a, ERROR *err, unsigned cast)
 
 	/* Construct the result */
 	MAKE_exp_cast(t, CONV_FLT_FLT, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -595,7 +595,7 @@ cast_templ_type(TYPE t, EXP a, unsigned cast)
 	}
 	t = rvalue_type(t);
 	MAKE_exp_op(t, op, a, NULL_exp, e);
-	return (e);
+	return e;
 }
 
 
@@ -655,7 +655,7 @@ make_base_cast(TYPE t, EXP a, OFFSET off)
 		MAKE_exp_dummy(s, a, LINK_NONE, NULL_off, 1, a);
 		MAKE_exp_base_cast(t, CONV_PTR_BASE, a, off, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -705,7 +705,7 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 		if (cast != CAST_IMPLICIT) {
 			a = cast_exact(t, a);
 		}
-		return (a);
+		return a;
 	}
 	if (qual == QUAL_EQ_FUNC) {
 		/* Allow for equality of function types */
@@ -713,12 +713,12 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 			add_error(err, ERR_except_spec_assign());
 		}
 		e = cast_exact(t, a);
-		return (e);
+		return e;
 	}
 	if (qual & QUAL_TEMPL) {
 		/* Conversion depends on template parameter */
 		e = cast_templ_type(t, a, cast);
-		return (e);
+		return e;
 	}
 	if (!(qual & QUAL_CONST)) {
 		/* Check for string literal conversions */
@@ -732,7 +732,7 @@ cast_ptr_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int safe, int force)
 				}
 				a = convert_array(b, str, err);
 				e = cast_ptr_ptr(t, a, err, cast, safe, force);
-				return (e);
+				return e;
 			}
 		}
 	}
@@ -763,7 +763,7 @@ generic_lab:
 				if (!IS_NULL_err(err2)) {
 					e = cast_token(t, a, err, err2, cast);
 					if (!IS_NULL_exp(e)) {
-						return (e);
+						return e;
 					}
 				}
 			}
@@ -815,7 +815,7 @@ generic_lab:
 						e = cast_token(t, a, err, err2,
 							       cast);
 						if (!IS_NULL_exp(e)) {
-							return (e);
+							return e;
 						}
 						add_error(err, ERR_conv_ptr_ambiguous());
 					}
@@ -839,7 +839,7 @@ generic_lab:
 							/* Can't be ambiguous */
 							e = cast_token(t, a, err, err2, cast);
 							if (!IS_NULL_exp(e)) {
-								return (e);
+								return e;
 							}
 							add_error(err, ERR_conv_ptr_ambiguous());
 						}
@@ -848,7 +848,7 @@ generic_lab:
 							/* Can't be virtual */
 							e = cast_token(t, a, err, err2, cast);
 							if (!IS_NULL_exp(e)) {
-								return (e);
+								return e;
 							}
 							add_error(err, ERR_expr_cast_stat_virt());
 						}
@@ -873,7 +873,7 @@ generic_lab:
 				if (!IS_NULL_err(err2)) {
 					e = cast_token(t, a, err, err2, cast);
 					if (!IS_NULL_exp(e)) {
-						return (e);
+						return e;
 					}
 				}
 				goto object_lab;
@@ -904,7 +904,7 @@ default_lab:
 				if (!IS_NULL_err(err2)) {
 					e = cast_token(t, a, err, err2, cast);
 					if (!IS_NULL_exp(e)) {
-						return (e);
+						return e;
 					}
 				}
 			}
@@ -982,7 +982,7 @@ object_lab: {
 		if (!IS_NULL_err(err2)) {
 			e = cast_token(t, a, err, err2, cast);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 	}
@@ -1026,7 +1026,7 @@ object_lab: {
 		}
 		MAKE_exp_cast(t, conv, a, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1046,7 +1046,7 @@ cast_int_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 		/* Deal with null pointers */
 		EXP b = make_null_ptr(a, t);
 		if (!IS_NULL_exp(b)) {
-			return (b);
+			return b;
 		}
 	}
 	if (cast & CAST_REINTERP) {
@@ -1061,12 +1061,12 @@ cast_int_ptr(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 		if (!IS_NULL_err(err2)) {
 			e = cast_token(t, a, err, err2, cast);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 	}
 	MAKE_exp_cast(t, CONV_INT_PTR, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -1085,7 +1085,7 @@ cast_ptr_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 	if (IS_exp_null(a)) {
 		if (cast & CAST_STATIC) {
 			MAKE_exp_cast(t, CONV_NULL, a, e);
-			return (e);
+			return e;
 		}
 	}
 	if (cast & CAST_REINTERP) {
@@ -1099,12 +1099,12 @@ cast_ptr_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 		if (!IS_NULL_err(err2)) {
 			e = cast_token(t, a, err, err2, cast);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 	}
 	MAKE_exp_cast(t, CONV_PTR_INT, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -1138,7 +1138,7 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 					/* Can't be ambiguous */
 					e = cast_token(t, a, err, err2, cast);
 					if (!IS_NULL_exp(e)) {
-						return (e);
+						return e;
 					}
 					add_error(err, ERR_conv_mem_ambiguous());
 				}
@@ -1147,7 +1147,7 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 					/* Can't be virtual */
 					e = cast_token(t, a, err, err2, cast);
 					if (!IS_NULL_exp(e)) {
-						return (e);
+						return e;
 					}
 					add_error(err, ERR_conv_mem_virtual());
 				}
@@ -1169,7 +1169,7 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 							/* Can't be ambiguous */
 							e = cast_token(t, a, err, err2, cast);
 							if (!IS_NULL_exp(e)) {
-								return (e);
+								return e;
 							}
 							add_error(err, ERR_conv_mem_ambiguous());
 						}
@@ -1178,7 +1178,7 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 							/* Can't be virtual */
 							e = cast_token(t, a, err, err2, cast);
 							if (!IS_NULL_exp(e)) {
-								return (e);
+								return e;
 							}
 							add_error(err, ERR_conv_mem_virtual());
 						}
@@ -1227,7 +1227,7 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 					if (cast != CAST_IMPLICIT) {
 						a = cast_exact(t, a);
 					}
-					return (a);
+					return a;
 				}
 				qual = QUAL_OK;
 			} else if (qual == QUAL_EQ_FUNC) {
@@ -1240,14 +1240,14 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 				}
 				if (ok == 2) {
 					e = cast_exact(t, a);
-					return (e);
+					return e;
 				}
 				qual = QUAL_OK;
 			}
 			if ((qual & QUAL_TEMPL) || ok == -1) {
 				/* Conversion depends on template parameter */
 				e = cast_templ_type(t, a, cast);
-				return (e);
+				return e;
 			}
 			if (qual & QUAL_SIMILAR) {
 				/* Check for casting away const-ness */
@@ -1261,7 +1261,7 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 					MAKE_exp_base_cast(t, conv, a, off, e);
 					UNUSED(force);
 				}
-				return (e);
+				return e;
 			}
 			ok = 0;
 		}
@@ -1292,12 +1292,12 @@ cast_ptr_mem_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int safe,
 		if (!IS_NULL_err(err2)) {
 			e = cast_token(t, a, err, err2, cast);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 	}
 	MAKE_exp_cast(t, conv, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -1318,7 +1318,7 @@ cast_int_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 		/* Deal with null pointers */
 		EXP b = make_null_ptr(a, t);
 		if (!IS_NULL_exp(b)) {
-			return (b);
+			return b;
 		}
 	}
 	s = DEREF_type(exp_type(a));
@@ -1326,11 +1326,11 @@ cast_int_ptr_mem(TYPE t, EXP a, ERROR *err, unsigned cast, int nptr)
 	if (!IS_NULL_err(err2)) {
 		e = cast_token(t, a, err, err2, cast);
 		if (!IS_NULL_exp(e)) {
-			return (e);
+			return e;
 		}
 	}
 	MAKE_exp_cast(t, CONV_NONE, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -1349,11 +1349,11 @@ cast_ptr_mem_int(TYPE t, EXP a, ERROR *err, unsigned cast)
 		if (cast & CAST_STATIC) {
 			EXP e;
 			MAKE_exp_cast(t, CONV_NULL, a, e);
-			return (e);
+			return e;
 		}
 	}
 	UNUSED(err);
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1379,14 +1379,14 @@ cast_ptr_mem_ptr(TYPE t, EXP a, ERROR *err, unsigned cast)
 			if (!IS_NULL_err(err2)) {
 				e = cast_token(t, a, err, err2, cast);
 				if (!IS_NULL_exp(e)) {
-					return (e);
+					return e;
 				}
 			}
 			MAKE_exp_cast(t, CONV_PTR_MEM_FUNC, a, e);
-			return (e);
+			return e;
 		}
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1418,7 +1418,7 @@ cast_class_class(TYPE t, EXP a, ERROR *err, unsigned cast, int ref)
 			if (!IS_NULL_err(err2)) {
 				e = cast_token(t, a, err, err2, cast);
 				if (!IS_NULL_exp(e)) {
-					return (e);
+					return e;
 				}
 				add_error(err, ERR_dcl_init_ref_ambig());
 			}
@@ -1450,7 +1450,7 @@ cast_class_class(TYPE t, EXP a, ERROR *err, unsigned cast, int ref)
 			*err = concat_error(ERR_expr_cast_expl_scalar(t), *err);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1476,7 +1476,7 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 	if (nt == type_token_tag) {
 		if (is_templ_type(t)) {
 			e = cast_templ_type(t, a, cast);
-			return (e);
+			return e;
 		}
 		t = expand_type(t, 0);
 		nt = TAG_type(t);
@@ -1489,7 +1489,7 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 		TYPE p = DEREF_type(type_ref_sub(t));
 		if (is_templ_type(p)) {
 			e = cast_templ_type(t, a, cast);
-			return (e);
+			return e;
 		}
 		p = rvalue_type(p);
 		MAKE_type_ptr(cv_none, p, p);
@@ -1507,7 +1507,7 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 			add_error(err, ERR_expr_cast_ref(t, p));
 		}
 		e = cast_exact(t, e);
-		return (e);
+		return e;
 	}
 
 	/* Check user-defined conversion status */
@@ -1524,7 +1524,7 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 		if (cast & CAST_STATIC) {
 			a = make_discard_exp(a);
 			MAKE_exp_cast(t, CONV_ELLIPSIS, a, e);
-			return (e);
+			return e;
 		}
 	}
 
@@ -1535,7 +1535,7 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 	/* Check for template types */
 	if (ns == type_token_tag && is_templ_type(s)) {
 		e = cast_templ_type(t, a, cast);
-		return (e);
+		return e;
 	}
 
 	/* Deal with user-defined conversions */
@@ -1548,7 +1548,7 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 					add_error(err, err2);
 					add_error(err, ERR_expr_cast_invalid(s, t));
 					e = make_null_exp(t);
-					return (e);
+					return e;
 				}
 				if (cast != CAST_IMPLICIT) {
 					err2 = check_abstract(t);
@@ -1559,13 +1559,13 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 					}
 				}
 				e = init_direct(t, a, err);
-				return (e);
+				return e;
 			}
 		}
 		if (ns == type_compound_tag) {
 			if (cast == CAST_IMPLICIT || (cast & CAST_STATIC)) {
 				e = convert_conv(t, a, err, cast);
-				return (e);
+				return e;
 			}
 		}
 	}
@@ -1578,7 +1578,7 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 				add_error(err, ERR_expr_cast_stat_func(t));
 				t = lvalue_type(t);
 				MAKE_exp_cast(t, CONV_FUNC, a, e);
-				return (e);
+				return e;
 			}
 		}
 	}
@@ -1616,10 +1616,10 @@ cast_exp(TYPE t, EXP a, ERROR *err, unsigned cast)
 		} else {
 			if (cast == CAST_IMPLICIT || (cast & CAST_STATIC)) {
 				e = convert_boolean(a, exp_paren_tag, err);
-				return (e);
+				return e;
 			}
 			if (cast == CAST_CONST && eq_type(s, t)) {
-				return (a);
+				return a;
 			}
 			ns = null_tag;
 		}
@@ -1781,14 +1781,14 @@ integer_label:
 				if (!IS_NULL_err(err2)) {
 					e = cast_token(t, a, err, err2, cast);
 					if (!IS_NULL_exp(e)) {
-						return (e);
+						return e;
 					}
 				}
 				MAKE_exp_cast(t, CONV_NONE, a, e);
 			}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1815,7 +1815,7 @@ make_cast_exp(TYPE t, EXP a, int n)
 		err = concat_warning(err, ERR_expr_cast_expl_bad());
 		report(crt_loc, err);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1840,7 +1840,7 @@ make_static_cast_exp(TYPE t, EXP a, int n)
 		err = concat_warning(err, ERR_expr_cast_stat_bad());
 		report(crt_loc, err);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1865,7 +1865,7 @@ make_reinterp_cast_exp(TYPE t, EXP a, int n)
 		err = concat_warning(err, ERR_expr_cast_reint_bad());
 		report(crt_loc, err);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1890,7 +1890,7 @@ make_const_cast_exp(TYPE t, EXP a, int n)
 		err = concat_warning(err, ERR_expr_cast_const_bad());
 		report(crt_loc, err);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1929,7 +1929,7 @@ make_new_cast_exp(int op, TYPE t, EXP a, int n)
 		break;
 	}
 	}
-	return (e);
+	return e;
 }
 
 #endif
@@ -1958,7 +1958,7 @@ make_func_cast_exp(TYPE t, LIST(EXP)args)
 	/* Check for template types */
 	if (tag == type_token_tag && is_templ_type(t)) {
 		MAKE_exp_opn(t, lex_cast, args, e);
-		return (e);
+		return e;
 	}
 
 	/* Check for class type with more than one argument */
@@ -1980,7 +1980,7 @@ make_func_cast_exp(TYPE t, LIST(EXP)args)
 			err = concat_warning(err, ERR_expr_type_conv_bad());
 			report(crt_loc, err);
 		}
-		return (e);
+		return e;
 	}
 
 	if (len == 0) {
@@ -2010,7 +2010,7 @@ make_func_cast_exp(TYPE t, LIST(EXP)args)
 				report(crt_loc, err);
 			}
 		}
-		return (e);
+		return e;
 	}
 
 	/* Now check constructor conversions */
@@ -2018,7 +2018,7 @@ make_func_cast_exp(TYPE t, LIST(EXP)args)
 	if (!IS_NULL_err(err)) {
 		report(crt_loc, err);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -2126,5 +2126,5 @@ cast_token(TYPE t, EXP a, ERROR *err, ERROR err2, unsigned cast)
 		force_tokdef--;
 	}
 	add_error(err, err2);
-	return (e);
+	return e;
 }

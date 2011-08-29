@@ -112,7 +112,7 @@ make_extn(char* n, shape s, int v)
 	g -> dec_u.dec_val.dec_exp = id;
 	g -> dec_u.dec_val.dec_id = n;
 	g -> dec_u.dec_val.extnamed = 1;
-	return (nme);
+	return nme;
 }
 
 /************************************************************************
@@ -122,7 +122,7 @@ make_extn(char* n, shape s, int v)
 exp
 get_dummy_double_dest(void)
 {
-	return (make_extn("___m68k_dummy_double", doublesh, 1));
+	return make_extn("___m68k_dummy_double", doublesh, 1);
 }
 
 

@@ -97,11 +97,11 @@ static filename *
 do_move(filename *from, filename *to)
 {
 	if (from == NULL) {
-		return (from);
+		return from;
 	}
 	if (to) {
 		if (strcmp(from->name, to->name) == 0) {
-			return (to);
+			return to;
 		}
 		cmd_list(exec_move);
 		cmd_filename(from);
@@ -110,7 +110,7 @@ do_move(filename *from, filename *to)
 		cmd_list(exec_cat);
 		cmd_filename(from);
 	}
-	return (execute(from, to));
+	return execute(from, to);
 }
 
 
@@ -130,9 +130,9 @@ do_keep(filename *p)
 		cmd_filename(p);
 		cmd_filename(q);
 		IGNORE execute(no_filename, no_filename);
-		return (q);
+		return q;
 	}
-	return (p);
+	return p;
 }
 
 
@@ -193,10 +193,10 @@ uniq_filename(const char *nm, enum filetype t, int s, filename *input)
 				      "Renaming %s '%s' to '%s' to avoid clash with input",
 				      m, p->name, q->name);
 			}
-			return (q);
+			return q;
 		}
 	}
-	return (q);
+	return q;
 }
 
 
@@ -279,7 +279,7 @@ do_produce(filename *input)
 	filename *spec = NULL;
 
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	output = make_filename(input, INDEP_TDF, where(INDEP_TDF));
 	cmd_list(exec_produce);
@@ -316,7 +316,7 @@ do_produce(filename *input)
 		spec = execute(no_filename, spec);
 		output = add_filename(output, spec);
 	}
-	return (output);
+	return output;
 }
 
 
@@ -333,10 +333,10 @@ do_preproc(filename *input)
 {
 	filename *output;
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	if (checker && !use_system_cc) {
-		return (input);
+		return input;
 	}
 	if (table_keep(PREPROC_C)) {
 		output = make_filename(input, PREPROC_C, where(PREPROC_C));
@@ -351,7 +351,7 @@ do_preproc(filename *input)
 		cmd_filename(output);
 	}
 	output = execute(input, output);
-	return (output);
+	return output;
 }
 
 
@@ -368,7 +368,7 @@ do_cpp_produce(filename *input)
 	filename *spec = NULL;
 	filename *output, *producer_output;
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	output = make_filename(input, INDEP_TDF, where(INDEP_TDF));
 	cmd_list(exec_cpp_produce);
@@ -409,7 +409,7 @@ do_cpp_produce(filename *input)
 		spec = execute(no_filename, spec);
 		output = add_filename(output, spec);
 	}
-	return (output);
+	return output;
 }
 
 
@@ -426,10 +426,10 @@ do_cpp_preproc(filename *input)
 {
 	filename *output;
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	if (checker && !use_system_cc) {
-		return (input);
+		return input;
 	}
 	if (table_keep(PREPROC_CPP)) {
 		output = make_filename(input, PREPROC_CPP, where(PREPROC_CPP));
@@ -444,7 +444,7 @@ do_cpp_preproc(filename *input)
 		cmd_filename(output);
 	}
 	output = execute(input, output);
-	return (output);
+	return output;
 }
 
 
@@ -461,7 +461,7 @@ do_tdf_link(filename *input)
 {
 	filename *output;
 	if (input == NULL || table_stop(INDEP_TDF)) {
-		return (input);
+		return input;
 	}
 	output = make_filename(input, DEP_TDF, where(DEP_TDF));
 	cmd_list(exec_tdf_link);
@@ -476,7 +476,7 @@ do_tdf_link(filename *input)
 	if (tokdef_output) {
 		cmd_string(tokdef_output);
 	}
-	return (execute(input, output));
+	return execute(input, output);
 }
 
 
@@ -496,10 +496,10 @@ do_tdf_build(filename *input)
 	int keep;
 	filename *output;
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	if (exec_error) {
-		return (NULL);
+		return NULL;
 	}
 	keep = where(INDEP_TDF_COMPLEX);
 	output = uniq_filename(name_j_file, INDEP_TDF, keep, input);
@@ -514,7 +514,7 @@ do_tdf_build(filename *input)
 	cmd_string("-o");
 	cmd_filename(uniq_tempfile);
 	cmd_filename(input);
-	return (do_move(execute(input, uniq_tempfile), output));
+	return do_move(execute(input, uniq_tempfile), output);
 }
 
 
@@ -534,7 +534,7 @@ do_translate(filename *input)
 	enum filetype t;
 	filename *output;
 	if (input == NULL || table_stop(DEP_TDF)) {
-		return (input);
+		return input;
 	}
 	if (use_assembler) {
 		t = AS_SOURCE;
@@ -603,7 +603,7 @@ do_translate(filename *input)
 			cmd_filename(output);
 		}
 	}
-	return (execute(input, output));
+	return execute(input, output);
 }
 
 
@@ -621,7 +621,7 @@ do_assemble(filename *input)
 	filename *output;
 	enum filetype t = binary_obj_type;
 	if (input == NULL || table_stop(AS_SOURCE)) {
-		return (input);
+		return input;
 	}
 	output = make_filename(input, t, where(t));
 	output->type = BINARY_OBJ;
@@ -643,7 +643,7 @@ do_assemble(filename *input)
 		cmd_filename(output);
 		cmd_filename(input);
 	}
-	return (execute(input, output));
+	return execute(input, output);
 }
 
 
@@ -788,10 +788,10 @@ do_dynlink(filename *input)
 {
 	filename *linked_ofiles, *extra_sfile, *output = NULL;
 	if (input == NULL || table_stop(BINARY_OBJ)) {
-		return (input);
+		return input;
 	}
 	if (checker && !use_system_cc) {
-		return (input);
+		return input;
 	}
 	if (!exec_error) {
 		linked_ofiles = make_filename(no_filename, binary_obj_type,
@@ -811,15 +811,15 @@ do_dynlink(filename *input)
 	}
 	if (exec_error) {
 		last_return = 1;
-		return (NULL);
+		return NULL;
 	}
 	SET(linked_ofiles);
 	SET(extra_sfile);
 	output = do_assemble(extra_sfile);
 	if (use_dynlink == 3) {
-		return (add_filename(output, input));
+		return add_filename(output, input);
 	}
-	return (add_filename(output, linked_ofiles));
+	return add_filename(output, linked_ofiles);
 }
 
 
@@ -838,19 +838,19 @@ do_link(filename *input)
 	int keep;
 	filename *output;
 	if (input == NULL || table_stop(BINARY_OBJ)) {
-		return (input);
+		return input;
 	}
 	if (checker && !use_system_cc) {
-		return (input);
+		return input;
 	}
 	if (exec_error) {
 		last_return = 1;
-		return (NULL);
+		return NULL;
 	}
 	keep = where(EXECUTABLE);
 	output = uniq_filename(EXECUTABLE_NAME, EXECUTABLE, keep, no_filename);
 	linker_options(input, output);
-	return (execute(input, output));
+	return execute(input, output);
 }
 
 
@@ -867,7 +867,7 @@ do_notation(filename *input)
 	int keep;
 	filename *output;
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	keep = where(INDEP_TDF);
 	if (tokdef_name && strcmp(input->name, tokdef_name) == 0) {
@@ -879,7 +879,7 @@ do_notation(filename *input)
 	cmd_list(usr_prod_incldirs);
 	cmd_filename(input);
 	cmd_filename(output);
-	return (execute(input, output));
+	return execute(input, output);
 }
 
 
@@ -895,7 +895,7 @@ do_pl_tdf(filename *input)
 {
 	filename *output;
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	output = make_filename(input, INDEP_TDF, where(INDEP_TDF));
 	cmd_list(exec_pl_tdf);
@@ -906,7 +906,7 @@ do_pl_tdf(filename *input)
 	}
 	cmd_filename(input);
 	cmd_filename(output);
-	return (execute(input, output));
+	return execute(input, output);
 }
 
 
@@ -922,7 +922,7 @@ do_pretty(filename *input)
 {
 	filename *output;
 	if (input == NULL || table_stop(DEP_TDF)) {
-		return (input);
+		return input;
 	}
 	output = make_filename(input, PRETTY_TDF, where(PRETTY_TDF));
 	cmd_list(exec_pretty);
@@ -932,7 +932,7 @@ do_pretty(filename *input)
 	cmd_list(opt_pretty);
 	cmd_filename(input);
 	cmd_filename(output);
-	return (execute(input, output));
+	return execute(input, output);
 }
 
 
@@ -946,11 +946,11 @@ filename *
 do_split_arch(filename *input)
 {
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	cmd_list(exec_split_arch);
 	cmd_filename(input);
-	return (execute(input, no_filename));
+	return execute(input, no_filename);
 }
 
 
@@ -969,10 +969,10 @@ do_build_arch(filename *input)
 	int keep;
 	filename *output;
 	if (input == NULL || table_stop(INDEP_TDF)) {
-		return (input);
+		return input;
 	}
 	if (exec_error) {
-		return (NULL);
+		return NULL;
 	}
 	archive_type = TDF_ARCHIVE;
 	keep = where(TDF_ARCHIVE);
@@ -989,7 +989,7 @@ do_build_arch(filename *input)
 	if (output) {
 		output->aux = input;
 	}
-	return (output);
+	return output;
 }
 
 
@@ -1007,10 +1007,10 @@ do_build_file(filename *input, enum filetype t)
 	enum filetype s;
 	filename *output;
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	if (!(table_keep(t) || filetype_table[t].keep_aux == FTK_TC)) {	/* TODO not also FTK_TN? */
-		return (input);
+		return input;
 	}
 	archive_type = t;
 	s = input->type;
@@ -1028,7 +1028,7 @@ do_build_file(filename *input, enum filetype t)
 	if (output) {
 		output->aux = input;
 	}
-	return (output);
+	return output;
 }
 
 
@@ -1048,17 +1048,17 @@ do_link_specs(filename *input, enum filetype t)
 	int keep;
 	filename *output, *spec_file;
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	if (t == C_SPEC_2 || t == CPP_SPEC_2) {
 		/* Don't link in these cases */
 		if (table_stop(BINARY_OBJ)) {
-			return (input);
+			return input;
 		}
 	}
 	if (exec_error && !checker) {
 		last_return = 1;
-		return (NULL);
+		return NULL;
 	}
 	keep = where(t);
 	if (allow_specs == 1 && dump_opts == NULL) {
@@ -1111,7 +1111,7 @@ do_link_specs(filename *input, enum filetype t)
 			output = execute(no_filename, output);
 		}
 	}
-	return (output);
+	return output;
 }
 
 
@@ -1129,7 +1129,7 @@ do_cc(filename *input, enum filetype t)
 	char *flag;
 	filename *output;
 	if (input == NULL) {
-		return (input);
+		return input;
 	}
 	output = make_filename(input, t, where(t));
 	if (t == PREPROC_C) {
@@ -1158,13 +1158,13 @@ do_cc(filename *input, enum filetype t)
 		real_output->name = find_basename(real_output->name);
 		cmd_filename(input);
 		real_output = execute(input, real_output);
-		return (do_move(real_output, output));
+		return do_move(real_output, output);
 	} else {
 		if (output) {
 			cmd_string("-o");
 			cmd_filename(output);
 		}
 		cmd_filename(input);
-		return (execute(input, output));
+		return execute(input, output);
 	}
 }

@@ -249,7 +249,7 @@ as_source_lab:
 		}
 		p = pn;
 	}
-	return (output);
+	return output;
 }
 
 
@@ -264,7 +264,7 @@ apply_tdf_link(filename *p)
 {
 	static boolean tried = 0;
 	if (p == NULL || table_stop(INDEP_TDF)) {
-		return (p);
+		return p;
 	}
 	if (tokdef_name && tokdef_output == NULL && !tried) {
 		filename *q;
@@ -278,7 +278,7 @@ apply_tdf_link(filename *p)
 		}
 		tried = 1;
 	}
-	return (do_tdf_link(p));
+	return do_tdf_link(p);
 }
 
 
@@ -297,7 +297,7 @@ apply_compile(filename *input, int produce)
 	filename *p = input;
 	filename *output = NULL;
 	if (use_system_cc) {
-		return (apply_cc(input));
+		return apply_cc(input);
 	}
 	while (p != NULL) {
 		filename *pc = p;
@@ -488,7 +488,7 @@ apply_compile(filename *input, int produce)
 		output = add_filename(output, p);
 		p = pn;
 	}
-	return (output);
+	return output;
 }
 
 
@@ -516,7 +516,7 @@ filter_ofiles(filename *input)
 		}
 		p = pn;
 	}
-	return (links);
+	return links;
 }
 
 
@@ -602,7 +602,7 @@ apply_link(filename *input)
 			q = qa;
 		}
 	}
-	return (p);
+	return p;
 }
 
 
@@ -634,7 +634,7 @@ apply_split_arch(filename *input)
 		output = add_filename(output, p);
 		p = pn;
 	}
-	return (output);
+	return output;
 }
 
 
@@ -675,7 +675,7 @@ apply_build_arch(filename *input)
 	}
 	p = add_filename(links, specs);
 	p = add_filename(p, others);
-	return (p);
+	return p;
 }
 
 
@@ -716,7 +716,7 @@ apply_build(filename *input)
 	}
 	p = add_filename(links, specs);
 	p = add_filename(p, others);
-	return (p);
+	return p;
 }
 
 
@@ -733,7 +733,7 @@ apply_preproc(filename *input)
 	filename *p = input;
 	filename *output = NULL;
 	if (use_system_cc) {
-		return (apply_cc(input));
+		return apply_cc(input);
 	}
 	while (p != NULL) {
 		filename *pn = p->next;
@@ -746,7 +746,7 @@ apply_preproc(filename *input)
 		output = add_filename(output, p);
 		p = pn;
 	}
-	return (output);
+	return output;
 }
 
 
@@ -780,7 +780,7 @@ apply_pretty(filename *input)
 		output = add_filename(output, p);
 		p = pn;
 	}
-	return (output);
+	return output;
 }
 
 
@@ -813,7 +813,7 @@ apply_unjoin(filename *input, enum filetype t)
 		output = add_filename(output, p);
 		p = pn;
 	}
-	return (output);
+	return output;
 }
 
 
@@ -836,7 +836,7 @@ apply_all(filename *input)
 
 	/* Preprocessing is a special case */
 	if (make_preproc) {
-		return (apply_preproc(p));
+		return apply_preproc(p);
 	}
 
 	/* Any TDF archives are split immediately */
@@ -848,7 +848,7 @@ apply_all(filename *input)
 		if (make_complex) {
 			p = apply_build(p);
 		}
-		return (apply_build_arch(p));
+		return apply_build_arch(p);
 	}
 
 	/* Deal with pretty printing case */
@@ -857,7 +857,7 @@ apply_all(filename *input)
 		if (make_complex) {
 			p = apply_build(p);
 		}
-		return (apply_pretty(p));
+		return apply_pretty(p);
 	}
 
 	/* Deal with building TDF complex */
@@ -872,5 +872,5 @@ apply_all(filename *input)
 		p = apply_unjoin(p, BINARY_OBJ);
 	}
 	p = apply_link(p);
-	return (p);
+	return p;
 }

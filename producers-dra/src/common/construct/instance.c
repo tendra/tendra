@@ -127,7 +127,7 @@ add_template_args(LIST(TOKEN) p, LIST(TOKEN) q)
 		q = add_template_args(p, q);
 		CONS_tok(tok, q, q);
 	}
-	return (q);
+	return q;
 }
 
 
@@ -159,12 +159,12 @@ inst_func_deduce(IDENTIFIER id, LIST(IDENTIFIER) pids, LIST(TOKEN) args, int d)
 			pids = DEREF_list(tok_templ_pids(sort));
 			d = save_token_args(pids, args);
 			fid = inst_func_deduce(fid, pids, args, d);
-			return (fid);
+			return fid;
 		}
 	}
 	fid = instance_func(fid, args, 1, 0);
 	restore_token_args(pids, d);
-	return (fid);
+	return fid;
 }
 
 
@@ -215,7 +215,7 @@ deduce_graph(GRAPH gr, CLASS_TYPE ct, LIST(IDENTIFIER) pids)
 			br = TAIL_list(br);
 		}
 	}
-	return (pr);
+	return pr;
 }
 
 
@@ -251,15 +251,15 @@ deduce_derive(TYPE t, TYPE s, LIST(IDENTIFIER) pids)
 					    DEREF_id(type_token_tok(fs));
 					if (!IS_id_token(fid)) {
 						/* cs is a template class */
-						return (eq_ctype(ct, cs));
+						return eq_ctype(ct, cs);
 					}
 				}
-				return (0);
+				return 0;
 			}
 			DESTROY_list(ps, SIZE_graph);
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -288,7 +288,7 @@ deduce_param(TYPE t, TYPE s, LIST(IDENTIFIER) pids)
 		if (qt != qs) {
 			/* Allow for qualification conversions */
 			if ((qs & ~qt) || !all_const) {
-				return (eq_type(t, s));
+				return eq_type(t, s);
 			}
 		}
 		if (depth && !(qt & cv_const)) {
@@ -309,7 +309,7 @@ deduce_param(TYPE t, TYPE s, LIST(IDENTIFIER) pids)
 				CLASS_TYPE ct = DEREF_ctype(type_ptr_mem_of(t));
 				CLASS_TYPE cs = DEREF_ctype(type_ptr_mem_of(s));
 				if (!eq_ctype(ct, cs)) {
-					return (0);
+					return 0;
 				}
 				t = DEREF_type(type_ptr_mem_sub(t));
 				s = DEREF_type(type_ptr_mem_sub(s));
@@ -319,7 +319,7 @@ deduce_param(TYPE t, TYPE s, LIST(IDENTIFIER) pids)
 			case type_compound_tag: {
 				/* Allow derived template classes */
 				if (depth < 2 && deduce_derive(t, s, pids)) {
-					return (1);
+					return 1;
 				}
 				go = 0;
 				break;
@@ -334,7 +334,7 @@ deduce_param(TYPE t, TYPE s, LIST(IDENTIFIER) pids)
 			go = 0;
 		}
 	} while (go);
-	return (eq_type_unqual(t, s));
+	return eq_type_unqual(t, s);
 }
 
 
@@ -473,7 +473,7 @@ deduce_args(IDENTIFIER id, LIST(EXP) args, int qual, int force, int create,
 					rid = inst_func_deduce(id, pids, targs,
 							       d);
 					force_template--;
-					return (rid);
+					return rid;
 				}
 				rid = id;
 			}
@@ -483,7 +483,7 @@ deduce_args(IDENTIFIER id, LIST(EXP) args, int qual, int force, int create,
 		force_template--;
 	}
 	UNUSED(qual);
-	return (rid);
+	return rid;
 }
 
 
@@ -525,7 +525,7 @@ deduce_func(IDENTIFIER id, TYPE t, int *peq)
 				rid = inst_func_deduce(id, pids, args, d);
 				force_template--;
 				*peq = eq;
-				return (rid);
+				return rid;
 			}
 			destroy_error(err, 1);
 		}
@@ -536,11 +536,11 @@ deduce_func(IDENTIFIER id, TYPE t, int *peq)
 		int eq = eq_func_type(s, t, 1, 0);
 		if (eq >= 2) {
 			*peq = eq;
-			return (id);
+			return id;
 		}
 	}
 	*peq = 0;
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -584,7 +584,7 @@ deduce_conv(TYPE t, TYPE r)
 			t = NULL_type;
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -633,7 +633,7 @@ find_form(IDENTIFIER id, int *pi)
 		}
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -656,7 +656,7 @@ find_templ_apps(IDENTIFIER tid)
 	}
 	sort = DEREF_tok(type_templ_sort(s));
 	apps = DEREF_inst(tok_templ_apps(sort));
-	return (apps);
+	return apps;
 }
 
 
@@ -698,14 +698,14 @@ find_instance(IDENTIFIER tid, TOKEN tok, LIST(TOKEN) args, int def)
 				}
 				force_template = ft;
 				force_tokdef = fs;
-				return (id);
+				return id;
 			}
 		}
 		apps = DEREF_inst(inst_next(apps));
 	}
 	force_template = ft;
 	force_tokdef = fs;
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -781,23 +781,23 @@ best_match_aux(LIST(INSTANCE)apps)
 	TYPE t, s;
 	INSTANCE a, b;
 	if (IS_NULL_list(apps)) {
-		return (NULL_inst);
+		return NULL_inst;
 	}
 	a = DEREF_inst(HEAD_list(apps));
 	b = best_match_aux(TAIL_list(apps));
 	if (IS_NULL_inst(b)) {
-		return (a);
+		return a;
 	}
 	t = DEREF_type(inst_form(a));
 	s = DEREF_type(inst_form(b));
 	cmp = eq_type(t, s);
 	if (cmp == 2) {
-		return (b);
+		return b;
 	}
 	if (cmp == 3) {
-		return (a);
+		return a;
 	}
-	return (NULL_inst);
+	return NULL_inst;
 }
 
 
@@ -829,7 +829,7 @@ best_match(LIST(INSTANCE)apps)
 			apps = TAIL_list(apps);
 		}
 	}
-	return (a);
+	return a;
 }
 
 
@@ -848,12 +848,12 @@ specialise_member(INSTANCE app, IDENTIFIER mid)
 		while (!IS_NULL_list(mems)) {
 			IDENTIFIER nid = DEREF_id(HEAD_list(mems));
 			if (EQ_id(nid, mid)) {
-				return (1);
+				return 1;
 			}
 			mems = TAIL_list(mems);
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -901,7 +901,7 @@ match_form(INSTANCE app, TYPE form, IDENTIFIER mid)
 		DESTROY_list(match, SIZE_inst);
 	}
 	force_template--;
-	return (best);
+	return best;
 }
 
 
@@ -944,7 +944,7 @@ specialise_args(INSTANCE spec, TYPE form)
 		IDENTIFIER id = DEREF_id(inst_templ_id(spec));
 		MAKE_type_token(cv_none, id, NULL_list(TOKEN), form);
 	}
-	return (form);
+	return form;
 }
 
 
@@ -996,7 +996,7 @@ specialise_form(TYPE form, IDENTIFIER mid)
 	    }
 	}
     }
-    return (form);
+    return form;
 }
 
 
@@ -1019,11 +1019,11 @@ find_copied_member(IDENTIFIER cid, IDENTIFIER id, int res, int type)
 			LIST(TOKEN)args = DEREF_list(type_token_args(form));
 			tid = find_copied(cid, tid, 1);
 			id = apply_template(tid, args, 0, 0);
-			return (id);
+			return id;
 		}
 	}
 	id = find_copied(cid, id, res);
-	return (id);
+	return id;
 }
 
 
@@ -1065,7 +1065,7 @@ match_specialise(IDENTIFIER id, IDENTIFIER pid)
 			}
 		}
 	}
-	return (tid);
+	return tid;
 }
 
 
@@ -1087,7 +1087,7 @@ set_templ_args(TYPE form)
 		LIST(TOKEN) args = DEREF_list(type_token_args(form));
 		d = save_token_args(pids, args);
 	}
-	return (d);
+	return d;
 }
 
 
@@ -1249,7 +1249,7 @@ instance_func(IDENTIFIER id, LIST(TOKEN) args, int func, int def)
 	} else {
 		restore_token_args(pids, d);
 	}
-	return (tid);
+	return tid;
 }
 
 
@@ -1402,7 +1402,7 @@ instance_type(IDENTIFIER id, LIST(TOKEN) args, int type, int def)
 	} else {
 		restore_token_args(pids, d);
 	}
-	return (tid);
+	return tid;
 }
 
 
@@ -1592,7 +1592,7 @@ check_specialise(IDENTIFIER tid, INSTANCE spec, int type)
 	}
 	eq = spec;
     }
-    return (eq);
+    return eq;
 }
 
 
@@ -1746,7 +1746,7 @@ bind_templ_spec(IDENTIFIER *pid, TYPE t, TYPE form, int type, int expl)
 	    report(decl_loc, ERR_temp_class_spec_darg());
 	}
     }
-    return (def);
+    return def;
 }
 
 
@@ -1988,7 +1988,7 @@ bind_specialise(IDENTIFIER *pid, TYPE t, DECL_SPEC ds, int type, int force,
 	    }
 	}
     }
-    return (t);
+    return t;
 }
 
 
@@ -2020,7 +2020,7 @@ synthesise_args(IDENTIFIER id)
 		CONS_exp(a, args, args);
 		pars = TAIL_list(pars);
 	}
-	return (REVERSE_list(args));
+	return REVERSE_list(args);
 }
 
 
@@ -2050,15 +2050,15 @@ compare_specs(IDENTIFIER tid, IDENTIFIER sid)
 		}
 		if (!IS_NULL_id(ds)) {
 			if (IS_NULL_id(dt)) {
-				return (2);
+				return 2;
 			}
 		} else {
 			if (!IS_NULL_id(dt)) {
-				return (1);
+				return 1;
 			}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2339,7 +2339,7 @@ bind_template(IDENTIFIER tid, IDENTIFIER id, IDENTIFIER sid, EXP e, int bound)
 	    bound = bind_template(pid, id, qid, e, bound);
 	}
     }
-    return (bound);
+    return bound;
 }
 
 
@@ -2381,7 +2381,7 @@ define_templ_member(IDENTIFIER id, IDENTIFIER tid, TYPE form, EXP e)
 	restore_prefix(perr);
 	DESTROY_ptr(ploc, SIZE_loc);
 	dump_template--;
-	return (ds);
+	return ds;
 }
 
 

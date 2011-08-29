@@ -135,23 +135,23 @@ d_%SN(void)
 	    p%PE = d_%PSN();
 @endif
 @end
-	    return(f_%CN(%
+	    return f_%CN(%
 @loop cons.param
  p%PE,%
 @end
-%b));
+%b);
 @else
 @if sort.special
-	    return(f_%CN());
+	    return f_%CN();
 @else
-	    return(f_%CN);
+	    return f_%CN;
 @endif
 @endif
 	}
 @end
     }
     decode_error(ILLEGAL_CODE_%SN);
-    return(f_dummy_%SN);
+    return f_dummy_%SN;
 @else
 @if sort.dummy
 @loop sort.cons
@@ -175,11 +175,11 @@ d_%SN(void)
     p%PE = d_%PSN();
 @endif
 @end
-    return(f_%CN(%
+    return f_%CN(%
 @loop cons.param
  p%PE,%
 @end
-%b));
+%b);
 @end
 @else
 @if sort.option
@@ -190,9 +190,9 @@ d_%SN(void)
 @else
 	e = d_%SSN();
 @endif
-	return(yes_%SN(e));
+	return yes_%SN(e);
     }
-    return(no_%SN);
+    return no_%SN;
 @else
     int i, n;
     %SN temp;
@@ -210,7 +210,7 @@ d_%SN(void)
 @endif
 	temp = add_%SN(temp, e, i);
     }
-    return(temp);
+    return temp;
 @endif
 @endif
 @endif

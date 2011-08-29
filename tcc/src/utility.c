@@ -314,7 +314,7 @@ string_append(const char *s, const char *t, char delimeter)
 	IGNORE strcpy(r, s);	
 	*(r + n) = delimeter;	
 	IGNORE strcpy(r + n + 1, t);	
-	return (r);
+	return r;
 }
 
 

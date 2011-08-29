@@ -78,7 +78,7 @@ trace_uses(exp e, exp id)
      switch(name(e)) {
 	case name_tag: {
 	    nouses -=(son(e)==id);
-	    return (1);
+	    return 1;
 	}
 	case apply_tag: case apply_general_tag:{
 	    int u = nouses;

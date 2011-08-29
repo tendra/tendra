@@ -387,5 +387,5 @@ main(int argc, char **argv)
 	    }
 	}
     }
-    return(exit_status);
+    return exit_status;
 }

@@ -205,7 +205,7 @@ enc_init_array(BITSTREAM *bs, EXP e, NAT n, TYPE t)
 				}
 			}
 			DESTROY_list(vs, SIZE_unsigned);
-			return (bs);
+			return bs;
 		}
 		DESTROY_list(vs, SIZE_unsigned);
 	}
@@ -221,7 +221,7 @@ enc_init_array(BITSTREAM *bs, EXP e, NAT n, TYPE t)
 		bs = enc_nat(bs, n, 1);
 		bs = enc_null_exp(bs, s);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -259,7 +259,7 @@ enc_init_class(BITSTREAM *bs, EXP e, CLASS_TYPE ct)
 			p = TAIL_list(p);
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -301,7 +301,7 @@ enc_loop_decl(BITSTREAM *bs, ulong n, ulong m, TYPE s, int cnt, OFFSET off,
 		bs = enc_dummy_exp(bs, s, m, off, cnt, 0);
 		bs = enc_shape_offset(bs, t);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -334,7 +334,7 @@ enc_loop_test(BITSTREAM *bs, ulong n, ulong m, TYPE t, ulong lab, NTEST tst)
 		ENC_obtain_tag(bs);
 		ENC_make_tag(bs, m);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -371,7 +371,7 @@ enc_flag_test(BITSTREAM *bs, ulong n, unsigned s, int a, NTEST tst)
 		bs = enc_make_int(bs, type_sint, a);
 	}
 	bs = enc_make_int(bs, type_sint, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -398,7 +398,7 @@ enc_loop_incr(BITSTREAM *bs, ulong n, TYPE t, int neg)
 		ENC_offset_negate(bs);
 	}
 	bs = enc_shape_offset(bs, t);
-	return (bs);
+	return bs;
 }
 
 
@@ -422,7 +422,7 @@ find_count_type(TYPE t)
 			t = dummy_count;
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -453,7 +453,7 @@ enc_count_decl(BITSTREAM *bs, EXP d, TYPE s, ulong *pm)
 			}
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -493,11 +493,11 @@ enc_count_incr(BITSTREAM *bs, EXP d, int neg, TYPE t)
 		if (!IS_NULL_exp(c)) {
 			ulong n = DEREF_ulong(exp_dummy_no(c));
 			bs = enc_loop_incr(bs, n, dummy_count, neg);
-			return (bs);
+			return bs;
 		}
 	}
 	ENC_make_top(bs);
-	return (bs);
+	return bs;
 }
 
 
@@ -519,7 +519,7 @@ enc_term_type(BITSTREAM *bs, TYPE t)
 		t = DEREF_type(type_array_sub(t));
 	}
 	bs = enc_special(bs, TOK_destr_type);
-	return (bs);
+	return bs;
 }
 
 
@@ -603,7 +603,7 @@ make_term_local(BITSTREAM *bs, TYPE t, EXP *pd, int var)
 		COPY_exp(exp_destr_count(d), a);
 		*pd = d;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -635,7 +635,7 @@ enc_destr_count(BITSTREAM *bs, TYPE t, int n)
 	} else {
 		bs = enc_make_int(bs, s, n);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -687,7 +687,7 @@ destr_lab: {
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1041,7 +1041,7 @@ default_lab: {
 			bs = enc_term_start(bs, n, off, cnt, t, d, context);
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1060,10 +1060,10 @@ make_dummy_init(TYPE t)
 		TYPE s = DEREF_type(type_array_sub(t));
 		EXP b = make_dummy_init(s);
 		MAKE_exp_nof(t, NULL_exp, n, b, NULL_exp, a);
-		return (a);
+		return a;
 	}
 	MAKE_exp_value(t, a);
-	return (a);
+	return a;
 }
 
 
@@ -1119,7 +1119,7 @@ enc_init_global(BITSTREAM *bs, EXP e, EXP d, ulong n, TYPE t)
 	unreached_code = uc;
 	in_dynamic_init = j;
 	in_static_init = i;
-	return (bs);
+	return bs;
 }
 
 
@@ -1150,7 +1150,7 @@ enc_assign_local(BITSTREAM *bs, EXP a, EXP d, ulong n, TYPE t, EXP e)
 		ENC_SEQ_SMALL(bs, seq);
 		bs = enc_init_tag(bs, n, NULL_off, 0, t, a, d, 1);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1175,7 +1175,7 @@ dynamic_label: {
 		       ENC_make_value(bs);
 		       bs = enc_shape(bs, t);
 		       bs = enc_assign_local(bs, a, d, n, t, e);
-		       return (bs);
+		       return bs;
 	       }
 		case exp_aggregate_tag:
 		case exp_nof_tag: {
@@ -1190,7 +1190,7 @@ dynamic_label: {
 			/* Parenthesised expressions */
 			a = DEREF_exp(exp_paren_etc_arg(a));
 			bs = enc_init_local(bs, a, d, n, t, e);
-			return (bs);
+			return bs;
 		}
 		default : {
 			if (!IS_NULL_exp(d)) {
@@ -1207,7 +1207,7 @@ dynamic_label: {
 	} else {
 		bs = enc_exp(bs, a);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1229,15 +1229,15 @@ is_init_complex(EXP a)
 	case exp_string_lit_tag:
 	case exp_nof_tag: {
 		/* These are the complex cases */
-		return (1);
+		return 1;
 	}
 	case exp_paren_tag:
 	case exp_copy_tag: {
 		a = DEREF_exp(exp_paren_etc_arg(a));
-		return (is_init_complex(a));
+		return is_init_complex(a);
 	}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1274,7 +1274,7 @@ enc_term_global(BITSTREAM *ts, ulong n, TYPE t, EXP e, ulong m)
 		ts = join_bitstreams(bs, ts);
 		unreached_code = uc;
 	}
-	return (ts);
+	return ts;
 }
 
 
@@ -1371,7 +1371,7 @@ enc_term_local(BITSTREAM *bs, ulong n, OFFSET off, int cnt, TYPE t, EXP e,
 			ENC_make_top(bs);
 			tops--;
 		}
-		return (bs);
+		return bs;
 	}
 
 	/* Simple destructor calls */
@@ -1440,7 +1440,7 @@ enc_term_local(BITSTREAM *bs, ulong n, OFFSET off, int cnt, TYPE t, EXP e,
 		ENC_make_top(bs);
 		tops--;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1529,7 +1529,7 @@ enc_init_new(BITSTREAM *bs, ulong n, EXP a, EXP d)
 		alloc_counter = prev;
 		unreached_code = uc;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1667,7 +1667,7 @@ enc_alloc(BITSTREAM *bs, EXP e)
 		}
 		ASSERT(bf == 0);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1800,7 +1800,7 @@ enc_dealloc(BITSTREAM *bs, EXP e, ulong n)
 		}
 	}
 	COPY_exp(exp_dummy_value(d), d1);
-	return (bs);
+	return bs;
 }
 
 

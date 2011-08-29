@@ -143,7 +143,7 @@ regofval(exp e)
     }
     if ((props(dc) & inreg_bits) != 0)
     {
-      return ((isvar(dc)) ? (-no(dc)) : (no(dc)));
+      return isvar(dc) ? (-no(dc)) : (no(dc));
     }
     return R_NO_REG;
   }
@@ -211,7 +211,7 @@ is_reg_operand(exp e, space sp)
   {
     x = regofval(son(e));
     if (x < 0)
-      return (-x);
+      return -x;
   }
 
   aa = iskept(e);
@@ -326,7 +326,7 @@ freg_operand(exp e, space sp, int reg)
     x = fregofval(son(e));
     if (x < R_NO_REG)
     {
-      return (x);
+      return x;
     }
   }
   else if (name(e) == apply_tag)

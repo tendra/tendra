@@ -213,7 +213,7 @@ tokforintsh(Bool issigned)
 	int cu = current_Unit;
 	Name **t = (issigned) ? &intshtok : &uintshtok;
 	if ((*t) != (Name *)0) {
-		return(*t);
+		return *t;
 	}
 	(*t) = MALLOC(Name);
 	select_tokdef_unit();
@@ -224,7 +224,7 @@ tokforintsh(Bool issigned)
 	INC_LIST;
 	current_Unit = cu;
 	RESET_TDF(place);
-	return(*t);
+	return *t;
 }
 
 
@@ -235,7 +235,7 @@ tokforlongsh(Bool issigned)
 	int cu = current_Unit;
 	Name **t = (issigned) ? &longshtok : &ulongshtok;
 	if ((*t) != (Name *)0) {
-		return(*t);
+		return *t;
 	}
 	(*t) = MALLOC(Name);
 	select_tokdef_unit();
@@ -246,7 +246,7 @@ tokforlongsh(Bool issigned)
 	INC_LIST;
 	current_Unit = cu;
 	RESET_TDF(place);
-	return(*t);
+	return *t;
 }
 
 
@@ -257,7 +257,7 @@ tokforshortsh(Bool issigned)
 	int cu = current_Unit;
 	Name **t = (issigned) ? &shortshtok : &ushortshtok;
 	if ((*t) != (Name *)0) {
-		return(*t);
+		return *t;
 	}
 	(*t) = MALLOC(Name);
 	select_tokdef_unit();
@@ -268,7 +268,7 @@ tokforshortsh(Bool issigned)
 	INC_LIST;
 	current_Unit = cu;
 	RESET_TDF(place);
-	return(*t);
+	return *t;
 }
 
 
@@ -279,7 +279,7 @@ tokforcharsh(Bool issigned)
 	int cu = current_Unit;
 	Name **t = (issigned) ? &charshtok : &ucharshtok;
 	if ((*t) != (Name *)0) {
-		return(*t);
+		return *t;
 	}
 	(*t) = MALLOC(Name);
 	select_tokdef_unit();
@@ -290,7 +290,7 @@ tokforcharsh(Bool issigned)
 	INC_LIST;
 	current_Unit = cu;
 	RESET_TDF(place);
-	return(*t);
+	return *t;
 }
 
 
@@ -301,7 +301,7 @@ tokforfloatsh(void)
 	int cu = current_Unit;
 	Name ** t = &floatshtok;
 	if ((*t) != (Name *)0) {
-		return(*t);
+		return *t;
 	}
 	(*t) = MALLOC(Name);
 	select_tokdef_unit();
@@ -312,7 +312,7 @@ tokforfloatsh(void)
 	INC_LIST;
 	current_Unit = cu;
 	RESET_TDF(place);
-	return(*t);
+	return *t;
 }
 
 
@@ -323,7 +323,7 @@ tokfordoublesh(void)
 	int cu = current_Unit;
 	Name **t = &doubleshtok;
 	if ((*t) != (Name *)0) {
-		return(*t);
+		return *t;
 	}
 	(*t) = MALLOC(Name);
 	select_tokdef_unit();
@@ -334,5 +334,5 @@ tokfordoublesh(void)
 	INC_LIST;
 	current_Unit = cu;
 	RESET_TDF(place);
-	return(*t);
+	return *t;
 }

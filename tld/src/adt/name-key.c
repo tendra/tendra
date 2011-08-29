@@ -86,13 +86,13 @@ static int
 syntax_value(char c)
 {
 	if ((c >= '0') && (c <= '9')) {
-		return(c - '0');
+		return c - '0';
 	} else if ((c >= 'A') && (c <= 'Z')) {
-		return(c - 'A' + 10);
+		return c - 'A' + 10;
 	} else if ((c >= 'a') && (c <= 'z')) {
-		return(c - 'a' + 10);
+		return c - 'a' + 10;
 	}
-	return(SYNTAX_NO_VALUE);
+	return SYNTAX_NO_VALUE;
 }
 
 static BoolT
@@ -107,15 +107,15 @@ name_key_parse_hex_char(char * name,				 char    *c_ref)
     if ((c = name[0]), ((value = syntax_value(c)) != SYNTAX_NO_VALUE)) {
 	result = (char)((unsigned)value << 4);
     } else {
-	return(FALSE);
+	return FALSE;
     }
     if ((c = name[1]), ((value = syntax_value(c)) != SYNTAX_NO_VALUE)) {
 	result |= (char)value;
     } else {
-	return(FALSE);
+	return FALSE;
     }
     *c_ref = result;
-    return(TRUE);
+    return TRUE;
 }
 
 static BoolT
@@ -126,7 +126,7 @@ name_key_parse_escaped(char * *name_ref,				char     *c_ref)
     switch ((*++name)) {
       case 'x': case 'X':
 	if (!name_key_parse_hex_char(name, c_ref)) {
-	    return(FALSE);
+	    return FALSE;
 	}
 	name += 3;
 	break;
@@ -150,10 +150,10 @@ name_key_parse_escaped(char * *name_ref,				char     *c_ref)
 	*c_ref = *name++;
 	break;
       default:
-	return(FALSE);
+	return FALSE;
     }
     *name_ref = name;
-    return(TRUE);
+    return TRUE;
 }
 
 static BoolT
@@ -204,14 +204,14 @@ name_key_parse_cstring_unique(NameKeyT *key,				       char * name)
 	    nstring_destroy(& (components[i]));
 	}
 	DEALLOCATE(components);
-	return(FALSE);
+	return FALSE;
     }
     name_key_init_unique(key, length);
     for (i = 0; i < length; i++) {
 	name_key_set_component(key, i, & (components[i]));
     }
     DEALLOCATE(components);
-    return(TRUE);
+    return TRUE;
 }
 
 static BoolT
@@ -224,7 +224,7 @@ name_key_parse_cstring_string(NameKeyT *key,				       char * name)
     while (*name) {
 	if ((*name == '[') || (*name == ']') || (*name == '.')) {
 	    dstring_destroy(&dstring);
-	    return(FALSE);
+	    return FALSE;
 	} else if (*name == '\\') {
 	    char c;
 
@@ -232,7 +232,7 @@ name_key_parse_cstring_string(NameKeyT *key,				       char * name)
 		dstring_append_char(&dstring, c);
 	    } else {
 		dstring_destroy(&dstring);
-		return(FALSE);
+		return FALSE;
 	    }
 	} else {
 	    dstring_append_char(&dstring, *name++);
@@ -240,7 +240,7 @@ name_key_parse_cstring_string(NameKeyT *key,				       char * name)
     }
     dstring_to_nstring(&dstring, &nstring);
     name_key_init_string(key, &nstring);
-    return(TRUE);
+    return TRUE;
 }
 
 static void
@@ -280,9 +280,9 @@ BoolT
 name_key_parse_cstring(NameKeyT *key,				char * name)
 {
     if (*name == '[') {
-	return(name_key_parse_cstring_unique(key, name));
+	return name_key_parse_cstring_unique(key, name);
     } else {
-	return(name_key_parse_cstring_string(key, name));
+	return name_key_parse_cstring_string(key, name);
     }
 }
 
@@ -297,28 +297,28 @@ name_key_set_component(NameKeyT *key,				unsigned component,
 NameKeyTypeT
 name_key_type(NameKeyT *key)
 {
-    return(key->type);
+    return key->type;
 }
 
 NStringT *
 name_key_string(NameKeyT *key)
 {
     assert(key->type == KT_STRING);
-    return(& (key->u.string));
+    return &key->u.string;
 }
 
 unsigned
 name_key_components(NameKeyT *key)
 {
     assert(key->type == KT_UNIQUE);
-    return(key->u.unique.length);
+    return key->u.unique.length;
 }
 
 NStringT *
 name_key_get_component(NameKeyT *key,				unsigned component)
 {
     assert((key->type == KT_UNIQUE) && (component < key->u.unique.length));
-    return(& (key->u.unique.components[component]));
+    return &key->u.unique.components[component];
 }
 
 unsigned
@@ -344,7 +344,7 @@ name_key_hash_value(NameKeyT *key)
 	}
 	break;
     }
-    return(hash_value);
+    return hash_value;
 }
 
 BoolT
@@ -354,24 +354,24 @@ name_key_equal(NameKeyT *key1,			NameKeyT *key2)
     unsigned i;
 
     if (key1->type != key2->type) {
-	return(FALSE);
+	return FALSE;
     }
     switch (key1->type) {
       case KT_STRING:
-	return(nstring_equal(& (key1->u.string), & (key2->u.string)));
+	return nstring_equal(&key1->u.string, &key2->u.string);
       case KT_UNIQUE:
 	if ((components = key1->u.unique.length) != key2->u.unique.length) {
-	    return(FALSE);
+	    return FALSE;
 	}
 	for (i = 0; i < components; i++) {
 	    if (!nstring_equal(& (key1->u.unique.components[i]),
 				& (key2->u.unique.components[i]))) {
-		return(FALSE);
+		return FALSE;
 	    }
 	}
 	break;
     }
-    return(TRUE);
+    return TRUE;
 }
 
 void
@@ -481,19 +481,19 @@ name_key_list_add(NameKeyListT *list,			   NameKeyT *    key)
 NameKeyListEntryT *
 name_key_list_head(NameKeyListT *list)
 {
-    return(list->head);
+    return list->head;
 }
 
 NameKeyT *
 name_key_list_entry_key(NameKeyListEntryT *entry)
 {
-    return(& (entry->key));
+    return &entry->key;
 }
 
 NameKeyListEntryT *
 name_key_list_entry_next(NameKeyListEntryT *entry)
 {
-    return(entry->next);
+    return entry->next;
 }
 
 void
@@ -511,7 +511,7 @@ name_key_pair_list_add(NameKeyPairListT *list,				NameKeyT *        from,
     for (entry = name_key_pair_list_head(list); entry;
 	 entry = name_key_pair_list_entry_next(entry)) {
 	if (name_key_equal(from, & (entry->from))) {
-	    return(FALSE);
+	    return FALSE;
 	}
     }
     entry       = ALLOCATE(NameKeyPairListEntryT);
@@ -519,30 +519,30 @@ name_key_pair_list_add(NameKeyPairListT *list,				NameKeyT *        from,
     name_key_assign(& (entry->from), from);
     name_key_assign(& (entry->to), to);
     list->head  = entry;
-    return(TRUE);
+    return TRUE;
 }
 
 NameKeyPairListEntryT *
 name_key_pair_list_head(NameKeyPairListT *list)
 {
-    return(list->head);
+    return list->head;
 }
 
 NameKeyT *
 name_key_pair_list_entry_from(NameKeyPairListEntryT *entry)
 {
-    return(& (entry->from));
+    return &entry->from;
 }
 
 NameKeyT *
 name_key_pair_list_entry_to(NameKeyPairListEntryT *entry)
 {
-    return(& (entry->to));
+    return &entry->to;
 }
 
 NameKeyPairListEntryT *
 name_key_pair_list_entry_next(NameKeyPairListEntryT *entry)
 {
-    return(entry->next);
+    return entry->next;
 }
 

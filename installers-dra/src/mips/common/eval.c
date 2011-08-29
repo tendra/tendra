@@ -244,9 +244,9 @@ long  evalexp
   switch (name(e)) {
     case  val_tag: case null_tag: case top_tag:{
 	if (name(sh(e)) == offsethd && al2(sh(e)) >= 8) {
-		return(no(e) >>3);
+		return no(e) >> 3;
 	}
-        return(no(e));
+        return no(e);
     }
     case bitf_to_int_tag:
       {
@@ -267,29 +267,29 @@ long  evalexp
       }
     case not_tag:
       {
-	return(~evalexp(son(e)));
+	return ~evalexp(son(e));
       }
     case and_tag:
       {
-	return(evalexp(son(e)) & evalexp(bro(son(e))));
+	return evalexp(son(e)) & evalexp(bro(son(e)));
       }
     case or_tag:
       {
-	return(evalexp(son(e)) | evalexp(bro(son(e))));
+	return evalexp(son(e)) | evalexp(bro(son(e)));
       }
     case xor_tag:
       {
-	return(evalexp(son(e))^ evalexp(bro(son(e))));
+	return evalexp(son(e))^ evalexp(bro(son(e)));
       }
 
     case shr_tag:
       {
-	return(evalexp(son(e)) >> evalexp(bro(son(e))));
+	return evalexp(son(e)) >> evalexp(bro(son(e)));
       }
 
     case shl_tag:
       {
-	return(evalexp(son(e)) << evalexp(bro(son(e))));
+	return evalexp(son(e)) << evalexp(bro(son(e)));
       }
 
     case concatnof_tag:
@@ -297,7 +297,7 @@ long  evalexp
 	ash a;
 	long  wd = evalexp(son(e));
 	a = ashof(sh(son(e)));
-	return(wd | (evalexp(bro(son(e))) << a.ashsize));
+	return wd | (evalexp(bro(son(e))) << a.ashsize);
       }
 
     case clear_tag:
@@ -315,28 +315,28 @@ long  evalexp
    case env_size_tag: {
 	exp tg = son(son(e));
 	procrec * pr = &procrecs[no(son(tg))];
-	return((pr->frame_size+pr->callee_size) >> 3);
+	return (pr->frame_size+pr->callee_size) >> 3;
    }
    case offset_add_tag:{
-    	return(evalexp(son(e)) +evalexp(bro(son(e))));
+    	return evalexp(son(e)) +evalexp(bro(son(e)));
    }
    case offset_max_tag:{
-    	return(max(evalexp(son(e)),evalexp(bro(son(e)))));
+    	return max(evalexp(son(e)),evalexp(bro(son(e))));
    }
    case offset_pad_tag:{
-	return(rounder(evalexp(son(e)), shape_align(sh(e))));
+	return rounder(evalexp(son(e)), shape_align(sh(e)));
    }
    case offset_mult_tag:{
-    	return(evalexp(son(e))*evalexp(bro(son(e))));
+    	return evalexp(son(e))*evalexp(bro(son(e)));
    }
    case offset_div_tag:case offset_div_by_int_tag:{
-    	return(evalexp(son(e)) /evalexp(bro(son(e))));
+    	return evalexp(son(e)) /evalexp(bro(son(e)));
    }
    case offset_subtract_tag:{
-    	return(evalexp(son(e)) -evalexp(bro(son(e))));
+    	return evalexp(son(e)) -evalexp(bro(son(e)));
    }
    case offset_negate_tag: {
-	return(- evalexp(son(e)));
+	return - evalexp(son(e));
    }
     default:
       failer("tag not in evalexp");

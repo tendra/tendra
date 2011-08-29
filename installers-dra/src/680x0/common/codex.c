@@ -171,11 +171,11 @@ extern ast add_shape_to_stack(ash, shape);
 int ins
 (long sz, int opb, int opw, int opl)
 {
-    if (sz <= 8) return(opb);
-    if (sz <= 16) return(opw);
-    if (sz <= 32) return(opl);
+    if (sz <= 8) return opb;
+    if (sz <= 16) return opw;
+    if (sz <= 32) return opl;
     error(ERROR_SERIOUS, "Illegal instruction size");
-    return(opl);
+    return opl;
 }
 
 
@@ -189,10 +189,10 @@ int ins
 int insf
 (long sz, int ops, int opd, int opx)
 {
-    if (sz == 32) return(ops);
-    if (sz == 64) return(opd);
+    if (sz == 32) return ops;
+    if (sz == 64) return opd;
     error(ERROR_SERIOUS, "Illegal instruction size");
-    return(opx);
+    return opx;
 }
 
 
@@ -241,9 +241,9 @@ bool reserved
 	"_edata", "_etext", "_end", "__edata", "__etext", "__end"
     };
     for (i = 0; i < array_size(rn); i++) {
-	if (eq(nm, rn[i])) return(1);
+	if (eq(nm, rn[i])) return 1;
     }
-    return(0);
+    return 0;
 }
 
 
@@ -264,12 +264,12 @@ speci special_fn
     char *id = d->dec_u.dec_val.dec_id;
     spec_fn.is_special = 0;
 
-    if (id == null) return(spec_fn);
+    if (id == null) return spec_fn;
 
     if (eq(id, "_setjmp"))has_setjmp = 1;
     if (eq(id, "_longjmp"))has_setjmp = 1;
 
-    if (!do_alloca) return(spec_fn);
+    if (!do_alloca) return spec_fn;
 
     if ( ( /* eq ( id, "_alloca" ) || */ eq ( id, "___builtin_alloca" ) ) &&
 	 a2 != nilexp && last(a2)) {
@@ -279,10 +279,10 @@ speci special_fn
 	spec_fn.is_special = 1;
 	spec_fn.special_exp = r;
 	kill_exp(a1, a1);
-	return(spec_fn);
+	return spec_fn;
     }
 
-    return(spec_fn);
+    return spec_fn;
 }
 
 

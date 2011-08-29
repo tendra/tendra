@@ -112,8 +112,8 @@ int
 invariant_to_apply(exp e)
 {
 	if (name(e) == cont_tag) {
-		return(name(son(e)) == name_tag && isvar(son(son(e))) &&
-		       iscaonly(son(son(e))) && !isglob(son(son(e))));
+		return name(son(e)) == name_tag && isvar(son(son(e))) &&
+		       iscaonly(son(son(e))) && !isglob(son(son(e)));
 	}
 
 	if (name(e) == seq_tag || name(e) == ident_tag ||

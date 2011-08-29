@@ -1478,7 +1478,7 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
     failer(BIG_FLPT);
   }
 
-  return(getexp(f_floating(fv), nilexp, 0, nilexp, nilexp, 0, f, real_tag));
+  return getexp(f_floating(fv), nilexp, 0, nilexp, nilexp, 0, f, real_tag);
 
 }
 
@@ -1553,7 +1553,7 @@ f_make_floating(floating_variety fv, rounding_mode rm, bool sign,
 
   flptnos[f] = fr;
 
-  return(getexp(f_floating(fv), nilexp, 0, nilexp, nilexp, 0, f, real_tag));
+  return getexp(f_floating(fv), nilexp, 0, nilexp, nilexp, 0, f, real_tag);
 }
 
 #endif
@@ -1627,7 +1627,7 @@ f_round_with_mode(error_treatment flpt_err, rounding_mode mode, variety r,
 			fn = (s) ? "__TDFUs_ASSTATE" : "__TDFUu_R2ASSTATE";
 		}
 		e = TDFcallaux(flpt_err, arg1, fn, r);
-		return(hold_check(e));
+		return hold_check(e);
 	}
 #endif
 #if ismips
@@ -1793,17 +1793,17 @@ f_flvar_parms(nat base, nat mantissa_digits, nat minimum_exponent,
   }
 
 	if (mantdig <= 24 && neg_minexp <= 126 && maxexp <= 127) {
-	  return(0);
+	  return 0;
 	}
 	if (mantdig <= 53 && neg_minexp <= 1022 && maxexp <= 1023) {
-	  return(1);
+	  return 1;
 	}
 
 #if use_long_double
 	if (mantdig <= 64 && neg_minexp <= 16382 && maxexp <= 16383) {
-	  return(2);
+	  return 2;
 	}
-	return(2);
+	return 2;
 #else
         return 1;
 #endif
@@ -2121,7 +2121,7 @@ optimise_with_wrap(exp arg, shape shape1, shape shape2)
     return f_change_variety(f_wrap, shape2, arg);
   }
 
-  return(arg);
+  return arg;
 }
 
 static exp

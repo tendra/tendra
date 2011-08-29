@@ -473,7 +473,7 @@ int dnt_end
 (void)
 {
     dscope *d = pop_dscope();
-    if (d == null) return(0);
+    if (d == null) return 0;
     if (diag_format == DIAG_STAB) {
 	long lab1 = (long)d->posn;
 	long lab2 = next_lab();
@@ -489,7 +489,7 @@ int dnt_end
 		 (unsigned int)d->posn);
 	slt_special(6, p);
     }
-    return(1);
+    return 1;
 }
 
 

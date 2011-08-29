@@ -131,16 +131,16 @@ stmt_length(EXP e)
 				}
 				p = TAIL_list(p);
 			}
-			return (n);
+			return n;
 		}
 		case exp_location_tag: {
 			/* Location statements */
 			EXP a = DEREF_exp(exp_location_arg(e));
 			if (!IS_NULL_exp(a)) {
 				if (is_diag_stmt(a)) {
-					return (1);
+					return 1;
 				}
-				return (stmt_length(a));
+				return stmt_length(a);
 			}
 			break;
 		}
@@ -148,7 +148,7 @@ stmt_length(EXP e)
 		case exp_unreach_tag: {
 			/* Flow control statement */
 			EXP a = DEREF_exp(exp_reach_etc_body(e));
-			return (stmt_length(a));
+			return stmt_length(a);
 		}
 		case exp_set_tag:
 		case exp_unused_tag: {
@@ -157,11 +157,11 @@ stmt_length(EXP e)
 		}
 		default : {
 			/* Other statements */
-			return (1);
+			return 1;
 		}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -223,7 +223,7 @@ enc_compound_stmt(BITSTREAM *bs, EXP e)
 		}
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -307,7 +307,7 @@ enc_destructors(BITSTREAM *bs, EXP e, EXP d)
 		}
 		bs = join_bitstreams(bs, ts);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -341,7 +341,7 @@ enc_while_destr(BITSTREAM *bs, LIST(IDENTIFIER)ids)
 		}
 		ids = TAIL_list(ids);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -384,7 +384,7 @@ enc_label_stmt(BITSTREAM *bs, EXP e)
 		/* Label alias */
 		bs = enc_stmt(bs, a);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -407,7 +407,7 @@ add_label(BITSTREAM *bs, IDENTIFIER lab, LIST(IDENTIFIER)q)
 			CONS_id(flab, q, q);
 		}
 	}
-	return (q);
+	return q;
 }
 
 
@@ -426,7 +426,7 @@ add_labels(BITSTREAM *bs, LIST(IDENTIFIER)p, LIST(IDENTIFIER)q)
 		q = add_label(bs, lab, q);
 		p = TAIL_list(p);
 	}
-	return (q);
+	return q;
 }
 
 
@@ -481,7 +481,7 @@ enc_labelled_start(BITSTREAM *bs, LIST(IDENTIFIER)lbs,
 			lbs = TAIL_list(lbs);
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -585,7 +585,7 @@ enc_labelled_branch(BITSTREAM *bs, IDENTIFIER lab, EXP d)
 		ENC_goto(bs);
 		ENC_make_label(bs, n);
 		unreached_code = 1;
-		return (bs);
+		return bs;
 	}
 
 	default : {
@@ -652,7 +652,7 @@ enc_labelled_branch(BITSTREAM *bs, IDENTIFIER lab, EXP d)
 		ENC_make_label(bs, n);
 		unreached_code = 1;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -712,7 +712,7 @@ enc_labelled_end(BITSTREAM *bs, LIST(IDENTIFIER)lbs, LIST(IDENTIFIER)vars,
 		vars = TAIL_list(vars);
 	}
 	unreached_code = uc;
-	return (bs);
+	return bs;
 }
 
 
@@ -836,7 +836,7 @@ enc_decl_stmt(BITSTREAM *bs, EXP e)
 		/* Take variable out of scope */
 		clear_no(id);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -857,7 +857,7 @@ enc_body_stmt(BITSTREAM *bs, EXP e)
 	} else {
 		bs = enc_stmt(bs, e);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -873,7 +873,7 @@ enc_stmt(BITSTREAM *bs, EXP e)
 	if (IS_NULL_exp(e)) {
 		/* Deal with null expressions */
 		ENC_make_top(bs);
-		return (bs);
+		return bs;
 	}
 
 	/* Examine expression cases */
@@ -1263,7 +1263,7 @@ enc_stmt(BITSTREAM *bs, EXP e)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1280,7 +1280,7 @@ enc_stmt_exp(BITSTREAM *bs, EXP e, TYPE t, int use)
 	if (IS_NULL_exp(e)) {
 		/* Deal with null expressions */
 		ENC_make_top(bs);
-		return (bs);
+		return bs;
 	}
 
 	/* Examine expression cases */
@@ -1454,7 +1454,7 @@ default_lab: {
 		      break;
 	      }
 	}
-	return (bs);
+	return bs;
 }
 
 

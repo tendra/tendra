@@ -198,12 +198,12 @@ int is_crc
 		/* make sure (is_o && is_crc -> !is_opnd) */
   if (name(e) == name_tag) {
     if (isvar(son(e)))
-      return(!isglob(son(e)) || PIC_code);
+      return !isglob(son(e)) || PIC_code;
     /* else */
-      return(son(son(e)) == nilexp ||
+      return son(son(e)) == nilexp ||
 	(isglob(son(e)) && PIC_code && name(sh(son(e))) == prokhd &&
 			!(brog(son(e)) -> dec_u.dec_val.extnamed)) ||
-	(name(son(son(e))) == ident_tag && isparam(son(son(e)))));
+	(name(son(son(e))) == ident_tag && isparam(son(son(e))));
   }
 
   if (name(e) == reff_tag || name(e) == field_tag)

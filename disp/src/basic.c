@@ -82,7 +82,7 @@ fetch_extn(int n)
 {
     long r = 0, s;
     while (s = fetch(n), s == 0)r += ((1 << n) - 1);
-    return(r + s);
+    return r + s;
 }
 
 
@@ -101,12 +101,12 @@ tdf_int(void)
 {
     long dig;
     long num = 0;
-    if (read_error) return(0);
+    if (read_error) return 0;
     do {
 	dig = fetch(4);
 	num = 8 * num + (dig & 7);
     } while (!(dig & 8));
-    return(num);
+    return num;
 }
 
 
@@ -138,7 +138,7 @@ tdf_int_str(void)
     if (read_error) {
 	/* allow for recovery */
 	tdf_int_digits = 1;
-	return("0");
+	return "0";
     }
     do {
 	dig = fetch(4);
@@ -152,7 +152,7 @@ tdf_int_str(void)
     } while (!(dig & 8));
     tdf_int_buff[i] = 0;
     tdf_int_digits = i;
-    return(tdf_int_buff);
+    return tdf_int_buff;
 }
 
 
@@ -193,7 +193,7 @@ get_string(long n, long sz)
     n = (int)(p - buff);
     s = alloc_nof(char, n);
     IGNORE memcpy(s, buff,(size_t)n);
-    return(s);
+    return s;
 }
 
 
@@ -218,7 +218,7 @@ de_tdfstring(void)
 	skip_bits((long)(n * sz));
 	s = "<UNPRINTABLE>";
     }
-    return(s);
+    return s;
 }
 
 
@@ -243,7 +243,7 @@ de_tdfstring_align(void)
 	s = "<UNPRINTABLE>";
     }
     byte_align();
-    return(s);
+    return s;
 }
 
 
@@ -263,7 +263,7 @@ de_unique(void)
     u = alloc_nof(string, n + 1);
     for (i = 0; i < n; i++)u[i] = de_tdfstring_align();
     u[n] = null;
-    return(u);
+    return u;
 }
 
 
@@ -303,7 +303,7 @@ de_extern_name(void)
 	    break;
 	}
     }
-    return(e);
+    return e;
 }
 
 
@@ -393,7 +393,7 @@ sortid de_complex_sort(sortname sn)
 	/* Non-token sorts are simple */
 	cs = find_sort(sn);
     }
-    return(cs);
+    return cs;
 }
 
 
@@ -410,7 +410,7 @@ de_sort_name(int expand)
 {
     sortname sn = (sortname)de_sortname();
     if (sn == sort_token && expand) {
-	return(de_complex_sort(sn));
+	return de_complex_sort(sn);
     }
     if (sn == sort_foreign) {
 	long i;
@@ -426,11 +426,11 @@ de_sort_name(int expand)
 	nm = de_tdfstring();
 	for (i = 0; i < no_foreign_sorts; i++) {
 	    if (streq(nm, foreign_sorts[i].fname)) {
-		return(foreign_sorts[i]);
+		return foreign_sorts[i];
 	    }
 	}
 	add_foreign_sort(nm, nm, 'F');
-	return(foreign_sorts[i]);
+	return foreign_sorts[i];
     }
-    return(find_sort(sn));
+    return find_sort(sn);
 }

@@ -216,7 +216,7 @@ int trace_uses(exp e, exp id)
    case name_tag:
     {
       nouses -= (son(e) == id);
-      return(1);
+      return 1;
     }
 
    case ident_tag:

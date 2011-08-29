@@ -87,7 +87,7 @@ xmalloc(gen_size sz)
 		error(ERROR_INTERNAL, "Memory allocation error");
 		term_error(1);
 	}
-	return (p);
+	return p;
 }
 
 
@@ -115,7 +115,7 @@ xrealloc(gen_ptr p, gen_size sz)
 		error(ERROR_INTERNAL, "Memory allocation error");
 		term_error(1);
 	}
-	return (q);
+	return q;
 }
 
 
@@ -170,7 +170,7 @@ xustr(gen_size n)
 		/* Large strings */
 		r = xmalloc_nof(character, n);
 	}
-	return (r);
+	return r;
 }
 
 
@@ -220,13 +220,13 @@ xustrncpy(string s, gen_size n)
 			r = buff[c];
 			r[0] = (character)c;
 			r[1] = 0;
-			return (r);
+			return r;
 		}
 	}
 	/* Large strings */
 	r = xustr(n + 1);
 	ustrcpy_v(r, s);
-	return (r);
+	return r;
 }
 
 
@@ -241,10 +241,10 @@ xustrcpy(string s)
 {
 	gen_size n;
 	if (s == NULL) {
-		return (NULL);
+		return NULL;
 	}
 	n = (gen_size)ustrlen(s);
-	return (xustrncpy(s, n));
+	return xustrncpy(s, n);
 }
 
 
@@ -261,17 +261,17 @@ xustrcat(string s, string t)
 	string r;
 	gen_size n, m;
 	if (s == NULL) {
-		return (xustrcpy(t));
+		return xustrcpy(t);
 	}
 	if (t == NULL) {
-		return (xustrcpy(s));
+		return xustrcpy(s);
 	}
 	n = (gen_size)ustrlen(s);
 	m = n + (gen_size)ustrlen(t) + 1;
 	r = xustr(m);
 	ustrcpy_v(r, s);
 	ustrcpy_v(r + n, t);
-	return (r);
+	return r;
 }
 
 
@@ -301,7 +301,7 @@ int
 xumemcmp(string s, string t, gen_size n)
 {
 	if (s == t || n == 0) {
-		return (0);
+		return 0;
 	}
-	return (memcmp((gen_ptr)s,(gen_ptr)t,(size_t)n));
+	return memcmp((gen_ptr)s,(gen_ptr)t,(size_t)n);
 }

@@ -162,7 +162,7 @@ find_sort(char c)
 	    break;
 	}
     }
-    return(s);
+    return s;
 }
 @loop sort
 @if sort.basic
@@ -187,7 +187,7 @@ de_%SN(void)
     if (n < %u || n > %SM) {
 	input_error("Illegal %SN value, %%ld", n);
     }
-    return(n);
+    return n;
 @else
     char *args;
     node *p = new_node();
@@ -255,7 +255,7 @@ de_%SN(void)
 #ifdef check_%SN
     check_%SN(p);
 #endif
-    return(p);
+    return p;
 @endif
 }
 @endif
@@ -376,7 +376,7 @@ read_%SN(long n)
 #ifdef check_%SN
     check_%SN(p);
 #endif
-    return(p);
+    return p;
 }
 @endif
 @endif

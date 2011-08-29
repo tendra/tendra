@@ -83,7 +83,7 @@ make_nat(long n)
     p->son = new_node();
     p->son->cons = make_construct(SORT_small_tdfint);
     p->son->cons->encoding = n;
-    return(p);
+    return p;
 }
 
 
@@ -107,7 +107,7 @@ make_int(long n)
     p->bro = new_node();
     p->bro->cons = make_construct(SORT_small_tdfint);
     p->bro->cons->encoding = n;
-    return(p);
+    return p;
 }
 
 
@@ -123,7 +123,7 @@ make_signed_nat(long n)
     node *p = new_node();
     p->cons = cons_no(SORT_signed_nat, ENC_make_signed_nat);
     p->son = make_int(n);
-    return(p);
+    return p;
 }
 
 
@@ -148,7 +148,7 @@ make_int_exp(node *sh, long n, char *val)
 	r->cons->name = val;
     }
     p->shape = sh;
-    return(p);
+    return p;
 }
 
 
@@ -186,20 +186,20 @@ is_constant(node *p, long *pn)
 	    /* Allow boolean literals */
 	    if (n == ENC_false) {
 		*pn = 0;
-		return(1);
+		return 1;
 	    }
 	    if (n == ENC_true) {
 		*pn = 1;
-		return(1);
+		return 1;
 	    }
 	}
 	if (s == SORT_small_tdfint) {
 	    /* Small constant found */
 	    *pn = n;
-	    return(1);
+	    return 1;
 	}
     }
-    return(0);
+    return 0;
 }
 
 
@@ -229,12 +229,12 @@ is_var_width(node *sh, long *pn, long *pm)
 	    node *q = sh->son->son;
 	    if (is_constant(q, pn)) {
 		if (is_constant(q->bro, pm)) {
-		    return(1);
+		    return 1;
 		}
 	    }
 	}
     }
-    return(0);
+    return 0;
 }
 
 
@@ -257,7 +257,7 @@ shift_one(long n)
     for (i = 0; i < n / 3; i++) {
 	buff[i + 1] = '0';
     }
-    return(string_copy(buff,(int)(i + 1)));
+    return string_copy(buff,(int)(i + 1));
 }
 
 
@@ -282,7 +282,7 @@ minus_one(char *val)
 	res[i] = '7';
     }
     if (res[0] == '0')res++;
-    return(res);
+    return res;
 }
 
 
@@ -304,9 +304,9 @@ eval_exp(long op, long err, node *sh, long a, long b)
     char *val = null;
 
     /* Check result shape */
-    if (!is_var_width(sh, &sgn, &sz)) return(null);
-    if (!sgn && (a < 0 || b < 0)) return(null);
-    if (sz < 1) return(null);
+    if (!is_var_width(sh, &sgn, &sz)) return null;
+    if (!sgn && (a < 0 || b < 0)) return null;
+    if (sz < 1) return null;
     if (sz > var_max) {
 	if (sz < 256) {
 	    /* Evaluate some special cases */
@@ -323,9 +323,9 @@ eval_exp(long op, long err, node *sh, long a, long b)
 		    val = minus_one(val);
 		}
 	    }
-	    if (val) return(make_int_exp(sh, c, val));
+	    if (val) return make_int_exp(sh, c, val);
 	}
-	return(null);
+	return null;
     }
 
     /* Evaluate result */
@@ -336,7 +336,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	    break;
 	}
 	case ENC_and: {
-	    if (a < 0 || b < 0) return(null);
+	    if (a < 0 || b < 0) return null;
 	    c = (a & b);
 	    break;
 	}
@@ -347,7 +347,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	case ENC_div0:
 	case ENC_div1:
 	case ENC_div2: {
-	    if (a < 0 || b <= 0) return(null);
+	    if (a < 0 || b <= 0) return null;
 	    c = a / b;
 	    break;
 	}
@@ -372,12 +372,12 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	    break;
 	}
 	case ENC_not: {
-	    if (sgn || err != ENC_wrap) return(null);
+	    if (sgn || err != ENC_wrap) return null;
 	    c = ~a;
 	    break;
 	}
 	case ENC_or: {
-	    if (a < 0 || b < 0) return(null);
+	    if (a < 0 || b < 0) return null;
 	    c = (a | b);
 	    break;
 	}
@@ -388,12 +388,12 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	case ENC_rem0:
 	case ENC_rem1:
 	case ENC_rem2: {
-	    if (a < 0 || b <= 0) return(null);
+	    if (a < 0 || b <= 0) return null;
 	    c = a % b;
 	    break;
 	}
 	case ENC_shift_left: {
-	    if (sgn || err != ENC_wrap) return(null);
+	    if (sgn || err != ENC_wrap) return null;
 	    if (b < var_max) {
 		unsigned long ua = (unsigned long)a;
 		unsigned long ub = (unsigned long)b;
@@ -404,7 +404,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	    break;
 	}
 	case ENC_shift_right: {
-	    if (sgn || err != ENC_wrap) return(null);
+	    if (sgn || err != ENC_wrap) return null;
 	    if (b < var_max) {
 		unsigned long ua = (unsigned long)a;
 		unsigned long ub = (unsigned long)b;
@@ -415,7 +415,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	    break;
 	}
 	case ENC_xor: {
-	    if (a < 0 || b < 0) return(null);
+	    if (a < 0 || b < 0) return null;
 	    c = (a ^ b);
 	    break;
 	}
@@ -424,19 +424,19 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	case ENC_rotate_right:
 	default : {
 	    /* NOT YET IMPLEMENTED */
-	    return(null);
+	    return null;
 	}
     }
 
     /* Check for overflow */
     if (sgn) {
 	long v = (long)var_mask[sz - 1];
-	if (c < - (v + 1) || c > v) return(null);
+	if (c < - (v + 1) || c > v) return null;
     } else {
 	unsigned long uc;
 	unsigned long uv = var_mask[sz];
 	if (c < 0) {
-	    if (err != ENC_wrap) return(null);
+	    if (err != ENC_wrap) return null;
 	    uc = (unsigned long) -c;
 	    uc = ((uv - uc + 1) & uv);
 	    if (uc > var_mask[var_max - 1]) {
@@ -446,7 +446,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
 	} else {
 	    uc = (unsigned long)c;
 	    if (uc > uv) {
-		if (err != ENC_wrap) return(null);
+		if (err != ENC_wrap) return null;
 		uc &= uv;
 	    }
 	}
@@ -454,7 +454,7 @@ eval_exp(long op, long err, node *sh, long a, long b)
     }
 
     /* Create the result */
-    return(make_int_exp(sh, c, val));
+    return make_int_exp(sh, c, val);
 }
 
 
@@ -506,7 +506,7 @@ eval_test(long tst, long a, long b)
 	    break;
 	}
     }
-    return(res);
+    return res;
 }
 
 
@@ -534,12 +534,12 @@ eval_decr(node *p)
 			c = (long)octal_to_ulong(val);
 			val = null;
 		    }
-		    return(make_int_exp(sh, c, val));
+		    return make_int_exp(sh, c, val);
 		}
 	    }
 	}
     }
-    return(null);
+    return null;
 }
 
 
@@ -560,7 +560,7 @@ eval_node(node *p)
 	if (is_constant(p->son, &m)) {
 	    p = p->son->bro;
 	    if (m == 0)p = p->bro;
-	    return(p->son);
+	    return p->son;
 	}
     }
     if (s == SORT_exp) {
@@ -593,12 +593,12 @@ eval_node(node *p)
 			    node *q = new_node();
 			    q->cons = cons_no(SORT_exp, ENC_goto);
 			    q->son = copy_node(p->son->bro->bro);
-			    return(q);
+			    return q;
 			}
 			if (res == 1) {
 			    node *q = new_node();
 			    q->cons = cons_no(SORT_exp, ENC_make_top);
-			    return(q);
+			    return q;
 			}
 		    }
 		}
@@ -610,12 +610,12 @@ eval_node(node *p)
 		if (is_constant(r->bro, &m2)) {
 		    if (is_constant(r, &m1)) {
 			/* First branch terminates */
-			return(copy_node(r));
+			return copy_node(r);
 		    }
 		    if (r->cons->encoding == ENC_goto) {
 			if (eq_node(p->son, r->son)) {
 			    /* First branch is a jump */
-			    return(copy_node(r->bro));
+			    return copy_node(r->bro);
 			}
 		    }
 		}
@@ -635,7 +635,7 @@ eval_node(node *p)
 		    } else if (r->cons->encoding == ENC_make_top) {
 			if (reached)q = r;
 		    } else {
-			return(p);
+			return p;
 		    }
 		    r = r->bro;
 		}
@@ -647,10 +647,10 @@ eval_node(node *p)
 		} else if (r->cons->encoding == ENC_make_top) {
 		    if (reached)q = r;
 		} else {
-		    return(p);
+		    return p;
 		}
 		q = copy_node(q);
-		return(q);
+		return q;
 	    }
 	    case ENC_not: {
 		/* Unary operations */
@@ -733,29 +733,29 @@ eval_node(node *p)
 	if (n == ENC_computed_nat) {
 	    long m = 0;
 	    if (is_constant(p->son, &m)) {
-		if (m >= 0) return(make_nat(m));
+		if (m >= 0) return make_nat(m);
 	    }
 	}
     } else if (s == SORT_signed_nat) {
 	if (n == ENC_computed_signed_nat) {
 	    long m = 0;
 	    if (is_constant(p->son, &m)) {
-		return(make_signed_nat(m));
+		return make_signed_nat(m);
 	    }
 	    if (p->son->cons->encoding == ENC_make_int) {
-		return(copy_node(p->son->son->bro));
+		return copy_node(p->son->son->bro);
 	    }
 	} else if (n == ENC_snat_from_nat) {
 	    long m1 = 0, m2 = 0;
 	    if (is_constant(p->son, &m1)) {
 		if (is_constant(p->son->bro, &m2)) {
 		    if (m1)m2 = -m2;
-		    return(make_signed_nat(m2));
+		    return make_signed_nat(m2);
 		}
 	    }
 	}
     }
-    return(p);
+    return p;
 }
 
 
@@ -775,7 +775,7 @@ eval_fully(node *p)
 	p = eval_node(p);
 	p->bro = eval_fully(q);
     }
-    return(p);
+    return p;
 }
 
 

@@ -434,8 +434,8 @@ int  get_reg_no
 
   fr = first_reg(regs);
   if (regs == 0x10000 || fr.fr_no == (fstack_pos))
-    return(fstack_pos);
-  return (fr.fr_no);		/* this is the register number */
+    return fstack_pos;
+  return fr.fr_no;		/* this is the register number */
 }
 
 /* output a register address, regs is a
@@ -917,46 +917,46 @@ static char *out_branch
   if (shnm >= shrealhd && shnm <= doublehd) {
     switch (test_no) {
       case 1:
-	return(jne);
+	return jne;
 
       case 2:
-	return(jne);
+	return jne;
 
       case 3:
-	return(jpe);
+	return jpe;
 
       case 4:
-	return(jpe);
+	return jpe;
 
       case 5:
-	return(jpe);
+	return jpe;
 
       case 6:
-	return(jpo);
+	return jpo;
 
       case 7:
-	return(jpo);
+	return jpo;
 
       case 8:
-	return(jpo);
+	return jpo;
 
       case 9:
-	return(je);
+	return je;
 
       case 10:
-	return(je);
+	return je;
 
       case 11:
-	return(jne);
+	return jne;
 
       case 12:
-	return(je);
+	return je;
 
       case 13:
-	return(jne);
+	return jne;
 
       case 14:
-	return(je);
+	return je;
 
       default:
 	failer(BAD_TESTNO);
@@ -966,21 +966,21 @@ static char *out_branch
   if (sg) {
     switch (test_no) {
       case 1:
-	return(sg<0 ? xse : jle);
+	return sg < 0 ? xse : jle;
       case 2:
-	return(sg<0 ? js : jl);
+	return sg < 0 ? js : jl;
 
       case 3:
-	return(sg<0 ? jns : jge);
+	return sg < 0 ? jns : jge;
 
       case 4:
-	return(sg<0 ? xnse : jg);
+	return sg < 0 ? xnse : jg;
 
       case 5:
-	return(jne);
+	return jne;
 
       case 6:
-	return(je);
+	return je;
 
       default:
 	failer(BAD_TESTNO);
@@ -989,28 +989,28 @@ static char *out_branch
   else {
     switch (test_no) {
       case 1:
-	return(jbe);
+	return jbe;
 
       case 2:
-	return(jb);
+	return jb;
 
       case 3:
-	return(jae);
+	return jae;
 
       case 4:
-	return(ja);
+	return ja;
 
       case 5:
-	return(jne);
+	return jne;
 
       case 6:
-	return(je);
+	return je;
 
       default:
 	failer(BAD_TESTNO);
     };
   };
-  return((char *)0);
+  return (char *)0;
 }
 
 void simple_branch
@@ -1437,7 +1437,7 @@ exp make_extn
   g -> dec_u.dec_val.dec_exp = id;
   g -> dec_u.dec_val.dec_id = n;
   g -> dec_u.dec_val.extnamed = 1;
-  return(nme);
+  return nme;
 }
 
 

@@ -152,7 +152,7 @@ parse_table(void)
 			t = read_token();
 			update_column();
 			if (t != lex_integer_Hlit) {
-				return(t);
+				return t;
 			}
 			us = token_buff.start;
 			n = (unsigned)eval_line_digits(us, &err);
@@ -167,7 +167,7 @@ parse_table(void)
 			t = read_token();
 			update_column();
 			if (t != lex_identifier) {
-				return(t);
+				return t;
 			}
 			nm = token_hashid;
 			us = DEREF_string(hashid_name_etc_text(nm));
@@ -176,7 +176,7 @@ parse_table(void)
 			} else if (ustrseq(us, "symmetric")) {
 				bt = btype_signed;
 			} else {
-				return(t);
+				return t;
 			}
 			break;
 
@@ -185,7 +185,7 @@ parse_table(void)
 			t = read_token();
 			update_column();
 			if (t != lex_identifier) {
-				return(t);
+				return t;
 			}
 			nm = token_hashid;
 			us = DEREF_string(hashid_name_etc_text(nm));
@@ -196,7 +196,7 @@ parse_table(void)
 			} else if (ustrseq(us, "either")) {
 				bt = btype_none;
 			} else {
-				return(t);
+				return t;
 			}
 			break;
 
@@ -205,7 +205,7 @@ parse_table(void)
 			t = read_token();
 			update_column();
 			if (t != lex_identifier) {
-				return(t);
+				return t;
 			}
 			nm = token_hashid;
 			us = DEREF_string(hashid_name_etc_text(nm));
@@ -220,7 +220,7 @@ parse_table(void)
 			} else if (ustrseq(us, "none")) {
 				bt = btype_none;
 			} else {
-				return(t);
+				return t;
 			}
 			break;
 
@@ -231,7 +231,7 @@ parse_table(void)
 			t = read_token();
 			update_column();
 			if (t != lex_identifier) {
-				return(t);
+				return t;
 			}
 			nm = token_hashid;
 			us = DEREF_string(hashid_name_etc_text(nm));
@@ -240,18 +240,18 @@ parse_table(void)
 			} else if (ustrseq(us, "yes")) {
 				n = 1;
 			} else {
-				return(t);
+				return t;
 			}
 			break;
 
 		default:
 			/* Unknown entry identifier */
-			return(t);
+			return t;
 		}
 		p[i].value = n;
 		p[i].type = bt;
 	}
-	return(t);
+	return t;
 }
 
 

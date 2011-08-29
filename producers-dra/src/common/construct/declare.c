@@ -166,7 +166,7 @@ complete_dspec(DECL_SPEC ds, BASE_TYPE bt, TYPE t, CV_SPEC cv)
 	} else {
 		ds |= dspec_empty;
 	}
-	return (ds);
+	return ds;
 }
 
 
@@ -213,7 +213,7 @@ check_inferred_type(DECL_SPEC ds, TYPE *p, int mem)
 	if (!IS_NULL_err(err)) {
 		report(crt_loc, err);
 	}
-	return (ds);
+	return ds;
 }
 
 
@@ -269,7 +269,7 @@ check_func_type(DECL_SPEC ds, TYPE t, int def, int chk, int mem)
 	if (!IS_NULL_err(err)) {
 		report(crt_loc, err);
 	}
-	return (ds);
+	return ds;
 }
 
 
@@ -429,7 +429,7 @@ bad_auto_lab:
 		goto switch_label;
 	}
 	}
-	return (st);
+	return st;
 }
 
 
@@ -490,7 +490,7 @@ check_func_spec(DECL_SPEC ds, int loc)
 	if (loc == CONTEXT_FUNCTION || loc == CONTEXT_FUNC_MEMBER) {
 		fn |= dspec_ignore;
 	}
-	return (fn);
+	return fn;
 }
 
 
@@ -553,7 +553,7 @@ make_type_decl(NAMESPACE ns, DECL_SPEC ds, TYPE t, MEMBER mem, IDENTIFIER id)
 		DECL_SPEC ods = DEREF_dspec(id_storage(id));
 		if ((ds | ods) & dspec_reserve) {
 			report(crt_loc, ERR_basic_odr_decl(id, loc));
-			return (id);
+			return id;
 		}
 
 		/* Check type compatibility */
@@ -586,7 +586,7 @@ make_type_decl(NAMESPACE ns, DECL_SPEC ds, TYPE t, MEMBER mem, IDENTIFIER id)
 			}
 			COPY_type(id_class_name_etc_defn(id), s);
 			adjust_access(id, crt_access, 0);
-			return (id);
+			return id;
 		}
 
 		/* Incompatible redefinition */
@@ -616,7 +616,7 @@ make_type_decl(NAMESPACE ns, DECL_SPEC ds, TYPE t, MEMBER mem, IDENTIFIER id)
 		IGNORE check_templ_params(t, id);
 		report(crt_loc, ERR_temp_decl_bad());
 	}
-	return (id);
+	return id;
 }
 
 
@@ -686,7 +686,7 @@ find_storage(IDENTIFIER id, DECL_SPEC st, TYPE t)
 				id = resolve_func(id, t, 0, 0, pids, &eq);
 				if (IS_NULL_id(id) ||
 				    !IS_id_function_etc(id)) {
-					return (st);
+					return st;
 				}
 			}
 #else
@@ -698,7 +698,7 @@ find_storage(IDENTIFIER id, DECL_SPEC st, TYPE t)
 		}
 		}
 	}
-	return (st);
+	return st;
 }
 
 
@@ -861,7 +861,7 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 				t = DEREF_type(type_templ_defn(t));
 			}
 			id = make_object_decl(ds, t, id, def);
-			return (id);
+			return id;
 		}
 		ns = DEREF_nspace(id_parent(id));
 		check_decl_nspace(id, ns, 0, crt_namespace);
@@ -931,7 +931,7 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 	/* Deal with type definitions */
 	if (ds & dspec_typedef) {
 		id = make_type_decl(ns, ds, t, mem, id);
-		return (id);
+		return id;
 	}
 
 	/* Check on function specifiers */
@@ -1047,7 +1047,7 @@ make_object_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 	}
 #endif
 	check_obj_decl(ds, t, id, tentative);
-	return (id);
+	return id;
 }
 
 
@@ -1092,7 +1092,7 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 				t = DEREF_type(type_templ_defn(t));
 			}
 			id = make_func_decl(ds, t, id, def);
-			return (id);
+			return id;
 		}
 		ns = DEREF_nspace(id_parent(id));
 		check_decl_nspace(id, ns, def, crt_namespace);
@@ -1242,7 +1242,7 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 				}
 			}
 			id = make_type_decl(ns, ds, t, mem, id);
-			return (id);
+			return id;
 		}
 		report(crt_loc, ERR_dcl_typedef_func());
 	}
@@ -1349,7 +1349,7 @@ make_func_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 	if (main_func) {
 		recheck_main(id);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1495,7 +1495,7 @@ make_param_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int loc)
 	}
 	check_par_decl(t, id, loc);
 	is_redeclared = 0;
-	return (id);
+	return id;
 }
 
 
@@ -1520,7 +1520,7 @@ weak_param_decl(IDENTIFIER id)
 	MAKE_id_weak_param(nm, dspec_none, ns, decl_loc, id);
 	set_member(mem, id);
 	is_redeclared = 0;
-	return (id);
+	return id;
 }
 
 
@@ -1615,7 +1615,7 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 		if (!IS_NULL_id(id)) {
 			report(crt_loc, ERR_temp_spec_member(id));
 		}
-		return (id);
+		return id;
 	}
 
 	/* Find previous declaration */
@@ -1641,7 +1641,7 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 		if ((ds & dspec_empty) && sm) {
 			/* Spot access declarations */
 			id = access_decl(id);
-			return (id);
+			return id;
 		}
 		ns = DEREF_nspace(id_parent(id));
 		if (EQ_nspace(ns, crt_namespace)) {
@@ -1651,7 +1651,7 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 		} else {
 			/* Qualifier indicates some other namespace */
 			id = make_object_decl(ds, t, id, 0);
-			return (id);
+			return id;
 		}
 	}
 
@@ -1698,7 +1698,7 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 		id = make_type_decl(ns, ds, t, mem, id);
 		CONS_id(id, ft, ft);
 		COPY_list(ctype_nest(ct), ft);
-		return (id);
+		return id;
 	}
 
 	/* Check on function specifiers */
@@ -1807,7 +1807,7 @@ make_member_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int sm)
 		ci &= ~cinfo_empty;
 	}
 	COPY_cinfo(ctype_info(ct), ci);
-	return (id);
+	return id;
 }
 
 
@@ -1904,7 +1904,7 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 		if (!IS_NULL_id(id)) {
 			report(crt_loc, ERR_temp_spec_member(id));
 		}
-		return (id);
+		return id;
 	}
 
 	/* Find previous declaration */
@@ -1924,7 +1924,7 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 		} else {
 			/* Qualifier indicates some other namespace */
 			id = make_func_decl(ds, t, id, def);
-			return (id);
+			return id;
 		}
 	}
 
@@ -1992,7 +1992,7 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 				}
 			}
 			id = make_type_decl(ns, ds, t, mem, id);
-			return (id);
+			return id;
 		}
 		report(crt_loc, ERR_dcl_typedef_func());
 	}
@@ -2157,7 +2157,7 @@ make_func_mem_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def)
 		ds &= ~dspec_ignore;
 		COPY_dspec(id_storage(id), ds);
 	}
-	return (id);
+	return id;
 }
 
 #endif
@@ -2203,7 +2203,7 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 			}
 			id = deduce_func(tid, t, &eq);
 			if (IS_NULL_id(id)) {
-				return (tid);
+				return tid;
 			}
 			crt_templ_qualifier = 1;
 		}
@@ -2219,7 +2219,7 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 				t = DEREF_type(type_templ_defn(t));
 			}
 			id = make_friend_decl(ds, t, id, def, chum);
-			return (id);
+			return id;
 		}
 		ns = DEREF_nspace(id_parent(id));
 		ens = ns;
@@ -2233,7 +2233,7 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 		/* Deal with typedef immediately */
 		if ((ds & dspec_typedef) && !def) {
 			id = make_func_mem_decl(ds, t, id, def);
-			return (id);
+			return id;
 		}
 
 		/* Check on identifier name */
@@ -2432,7 +2432,7 @@ make_friend_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int def, int chum)
 	if (allocator) {
 		recheck_allocator(id, allocator);
 	}
-	return (id);
+	return id;
 }
 
 #endif
@@ -2555,7 +2555,7 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 				if (!redecl_anon_union(ct, ds, id)) {
 					report(crt_loc, ERR_dcl_dcl_empty());
 				}
-				return (id);
+				return id;
 			}
 		}
 	}
@@ -2594,7 +2594,7 @@ empty_object_decl(DECL_SPEC ds, TYPE q, TYPE t)
 		break;
 	}
 	}
-	return (tid);
+	return tid;
 }
 
 
@@ -2698,7 +2698,7 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 				if (!redecl_anon_union(ct, dspec_none, id)) {
 					report(crt_loc, ERR_class_mem_empty());
 				}
-				return (id);
+				return id;
 			}
 		}
 	}
@@ -2758,7 +2758,7 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 				report(crt_loc, ERR_dcl_type_cv_unused(qual));
 			}
 			friend_class(cs, tid, 1);
-			return (tid);
+			return tid;
 		}
 	}
 
@@ -2783,7 +2783,7 @@ empty_member_decl(DECL_SPEC ds, TYPE q, TYPE t)
 		break;
 	}
 	}
-	return (tid);
+	return tid;
 }
 
 
@@ -2821,7 +2821,7 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 					report(crt_loc,
 					       ERR_dcl_dcl_semicolon());
 				}
-				return (NULL_id);
+				return NULL_id;
 			}
 			if (have_type_declaration == TYPE_DECL_NONE) {
 				/* No type specifier in declaration */
@@ -2843,7 +2843,7 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 			crt_id_qualifier = qual_none;
 			crt_templ_qualifier = 0;
 			id = make_object_decl(ds, t, id, 0);
-			return (id);
+			return id;
 		}
 	}
 
@@ -2856,7 +2856,7 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 				QUALIFIER qual = DEREF_qual(type_pre_nqual(t));
 				if (qual && !IS_NULL_id(tid)) {
 					id = access_decl(tid);
-					return (id);
+					return id;
 				}
 			}
 		}
@@ -2873,7 +2873,7 @@ empty_decl(DECL_SPEC ds, TYPE q, BASE_TYPE bt, TYPE t, CV_SPEC cv, int tok,
 		/* Shouldn't happen in parameter declaration lists */
 		report(crt_loc, ERR_dcl_fct_par_none());
 	}
-	return (id);
+	return id;
 }
 
 

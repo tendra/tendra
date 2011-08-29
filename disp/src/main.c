@@ -195,5 +195,5 @@ main(int argc, char **argv)
     initialize_tree();
     de_capsule();
     pretty_tree();
-    return(exit_status);
+    return exit_status;
 }

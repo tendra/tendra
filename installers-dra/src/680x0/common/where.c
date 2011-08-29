@@ -157,10 +157,10 @@ int shtype
 (shape sha)
 {
     char n = name(sha);
-    if (n >= scharhd && n <= ulonghd) return(Dreg);
-    if (n >= shrealhd && n <= doublehd) return(Freg);
-    if (n != bitfhd && n != nofhd && n != cpdhd) return(Areg);
-    return(shape_size(sha) <= 32 ? Dreg : Areg);
+    if (n >= scharhd && n <= ulonghd) return Dreg;
+    if (n >= shrealhd && n <= doublehd) return Freg;
+    if (n != bitfhd && n != nofhd && n != cpdhd) return Areg;
+    return shape_size(sha) <= 32 ? Dreg : Areg;
 }
 
 
@@ -188,8 +188,8 @@ static int find_reg_ind
     bitpattern rgs = (bitpattern)r;
     where_regmsk |= rgs;
     /* If rgs corresponds to an A register, we have an effective address */
-    if (rgs & areg_msk) return(RegInd);
-    return(Other);
+    if (rgs & areg_msk) return RegInd;
+    return Other;
 }
 
 
@@ -205,9 +205,9 @@ static int find_ind
 {
     int f1 = find_where(e1);
     int f2 = find_where(e2);
-    if (f1 == Other) return(Other);
-    if (f2 == Dreg || f2 == Areg) return(EffAddr);
-    return(Other);
+    if (f1 == Other) return Other;
+    if (f2 == Dreg || f2 == Areg) return EffAddr;
+    return Other;
 }
 
 
@@ -227,23 +227,23 @@ static int find_where
 
 	case val_tag:
 	case null_tag:
-	    return(Value);
+	    return Value;
 
 	case real_tag:
 	case string_tag:
 	case res_tag:
-	    return(External);
+	    return External;
 
 	case regpair_tag:
-	    return(RegPair);
+	    return RegPair;
 
 	case apply_general_tag:
 	case tail_call_tag:
 	case apply_tag:
-	    return(EffAddr);
+	    return EffAddr;
 
 	case field_tag:
-	    return(find_where(son(e)));
+	    return find_where(son(e));
 
 	case ident_tag:
 	case labst_tag: {
@@ -253,15 +253,15 @@ static int find_where
                 case par3_pl:
 #endif
 
-		case par_pl: return(Parameter);
-		case var_pl: return(Variable);
+		case par_pl: return Parameter;
+		case var_pl: return Variable;
 		case reg_pl: {
 		    rm = (bitpattern)no(e);
 		    where_regmsk |= rm;
 		    /* A register, but what type? */
-		    if (rm & dreg_msk) return(Dreg);
-		    if (rm & areg_msk) return(Areg);
-		    return(Freg);
+		    if (rm & dreg_msk) return Dreg;
+		    if (rm & areg_msk) return Areg;
+		    return Freg;
 		}
 	    }
 	    break;
@@ -283,7 +283,7 @@ static int find_where
 	    }
 #endif
 
-	    if (isglob(id)) return(External);
+	    if (isglob(id)) return External;
 	    switch (ptno(id)) {
 #ifndef tdf3
 		case par2_pl:
@@ -291,14 +291,14 @@ static int find_where
 #endif
 
 		case par_pl:
-		case var_pl: return(EffAddr);
+		case var_pl: return EffAddr;
 		case reg_pl: {
 		    rm = (bitpattern)no(id);
 		    where_regmsk |= rm;
 		    /* A register, but what type? */
-		    if (rm & dreg_msk) return(Dreg);
-		    if (rm & areg_msk) return(Areg);
-		    return(Freg);
+		    if (rm & dreg_msk) return Dreg;
+		    if (rm & areg_msk) return Areg;
+		    return Freg;
 		}
 	    }
 	    break;
@@ -312,10 +312,10 @@ static int find_where
 		case name_tag: {
 		    exp id = son(r);
 		    long pt_id = ptno(id);
-		    if (isvar(id)) return(find_where(r));
+		    if (isvar(id)) return find_where(r);
 		    if (isglob(id)) {
-			if (name(sh(e)) == prokhd) return(External);
-			return(Other);
+			if (name(sh(e)) == prokhd) return External;
+			return Other;
 		    }
 		    switch (pt_id) {
 #ifndef tdf3
@@ -324,8 +324,8 @@ static int find_where
 #endif
 
 			case par_pl:
-			case var_pl: return(EffAddr);
-			case reg_pl: return(find_reg_ind(no(id)));
+			case var_pl: return EffAddr;
+			case reg_pl: return find_reg_ind(no(id));
 		    }
 		    break;
 		}
@@ -335,7 +335,7 @@ static int find_where
 		    if (name(rr) == name_tag) {
 			exp id = son(rr);
 			if (!isvar(id))break;
-			if (isglob(id)) return(Other);
+			if (isglob(id)) return Other;
 			switch (ptno(id)) {
 #ifndef tdf3
                             case par2_pl:
@@ -343,9 +343,9 @@ static int find_where
 #endif
 
 			    case par_pl:
-			    case var_pl: return(EffAddr);
+			    case var_pl: return EffAddr;
 			    case reg_pl: {
-				return(find_reg_ind(no(id)));
+				return find_reg_ind(no(id));
 			    }
 			}
 		    }
@@ -359,20 +359,20 @@ static int find_where
 			case name_tag: {
 			    exp id = son(rr);
 			    if (ptno(id) == reg_pl) {
-				return(find_reg_ind(no(id)));
+				return find_reg_ind(no(id));
 			    }
-			    return(Other);
+			    return Other;
 			}
 
 			case cont_tag: {
 			    exp id = son(son(rr));
 			    if (ptno(id) == reg_pl) {
-				return(find_reg_ind(no(id)));
+				return find_reg_ind(no(id));
 			    }
-			    return(Other);
+			    return Other;
 			}
 
-			case addptr_tag: return(find_where(rr));
+			case addptr_tag: return find_where(rr);
 		    }
 		    break;
 		}
@@ -384,9 +384,9 @@ static int find_where
 		    son(ec) = rr;
 		    switch (name(eb)) {
 			case name_tag:
-			case cont_tag: return(find_ind(eb, ec));
+			case cont_tag: return find_ind(eb, ec);
 			case offset_mult_tag: {
-			    return(find_ind(son(eb), ec));
+			    return find_ind(son(eb), ec);
 			}
 		    }
 		    break;
@@ -402,16 +402,16 @@ static int find_where
 
 		case ident_tag: {
 		    if (ptno(r) == reg_pl) {
-			return(find_reg_ind(no(r)));
+			return find_reg_ind(no(r));
 		    }
 		    break;
 		}
 
 		case name_tag: {
 		    exp id = son(r);
-		    if (isglob(id)) return(External);
+		    if (isglob(id)) return External;
 		    if (ptno(r) == reg_pl) {
-			return(find_reg_ind(no(id)));
+			return find_reg_ind(no(id));
 		    }
 		    break;
 		}
@@ -419,14 +419,14 @@ static int find_where
 		case cont_tag:
 		case ass_tag: {
 		    exp id = son(son(r));
-		    if (isglob(id)) return(External);
+		    if (isglob(id)) return External;
 		    if (ptno(r) == reg_pl) {
-			return(find_reg_ind(no(id)));
+			return find_reg_ind(no(id));
 		    }
 		    break;
 		}
 
-		case addptr_tag: return(find_where(r));
+		case addptr_tag: return find_where(r);
 	    }
 	    break;
 	}
@@ -438,9 +438,9 @@ static int find_where
 	    son(ec) = r;
 	    switch (name(eb)) {
 		case name_tag:
-		case cont_tag: return(find_ind(eb, ec));
+		case cont_tag: return find_ind(eb, ec);
 		case offset_mult_tag: {
-		    return(find_ind(son(eb), ec));
+		    return find_ind(son(eb), ec);
 		}
 	    }
 	    break;
@@ -448,11 +448,11 @@ static int find_where
 
 	case diagnose_tag: {
 	    exp r = son(e);
-	    return(find_where(r));
+	    return find_where(r);
 	}
     }
     /* Allow all other operands through */
-    return(Other);
+    return Other;
 }
 
 
@@ -482,7 +482,7 @@ where mw
   where_regmsk = 0;
   w.wh_is = find_where(e);
   w.wh_regs = where_regmsk;
-  return(w);
+  return w;
 }
 
 
@@ -500,7 +500,7 @@ where mnw
     w.wh_off = d;
     w.wh_is = Value;
     w.wh_regs = 0;
-    return(w);
+    return w;
 }
 
 
@@ -545,7 +545,7 @@ where mfw
     w.wh_off = 0;
     w.wh_is = Value;
     w.wh_regs = 0;
-    return(w);
+    return w;
 }
 
 
@@ -570,7 +570,7 @@ where regpair
 	error(ERROR_SERIOUS, "Illegal register pair");
     }
     w.wh_regs = where_regmsk;
-    return(w);
+    return w;
 }
 
 
@@ -674,31 +674,31 @@ bool eq_where_a
     char na = name(a);
     char nb = name(b);
 
-    if (wa.wh_off != wb.wh_off) return(0);
-    if (a == b) return(1);
+    if (wa.wh_off != wb.wh_off) return 0;
+    if (a == b) return 1;
 
     if (na == nb) {
 
 	switch (na) {
 
 	    case val_tag: {
-		return(no(a) == no(b)? 1 : 0);
+		return no(a) == no(b)? 1 : 0;
 	    }
 
 	    case ident_tag: {
-		if (no(a)!= no(b)) return(0);
-		return(ptno(a) == ptno(b)? 1 : 0);
+		if (no(a)!= no(b)) return 0;
+		return ptno(a) == ptno(b)? 1 : 0;
 	    }
 
 	    case name_tag:
 	    case field_tag:
 	    case reff_tag: {
-		if (no(a)!= no(b)) return(0);
+		if (no(a)!= no(b)) return 0;
 		sa.wh_exp = son(a);
 		sa.wh_off = 0;
 		sb.wh_exp = son(b);
 		sb.wh_off = 0;
-		return(eq_where_a(sa, sb, 0));
+		return eq_where_a(sa, sb, 0);
 	    }
 
 	    case cont_tag: {
@@ -706,7 +706,7 @@ bool eq_where_a
 		sa.wh_off = 0;
 		sb.wh_exp = son(b);
 		sb.wh_off = 0;
-		return(eq_where_a(sa, sb, 0));
+		return eq_where_a(sa, sb, 0);
 	    }
 
 	    case real_tag: {
@@ -717,51 +717,51 @@ bool eq_where_a
 		fb = flptnos[no(b)];
 
 		for (i = 0; i < MANT_SIZE; i++) {
-		    if (fa.mant[i]!= fb.mant[i]) return(0);
+		    if (fa.mant[i]!= fb.mant[i]) return 0;
 		    if (fa.mant[i])z = 0;
 		}
 
-		if (z) return(1);
-		if (fa.exp != fb.exp) return(0);
-		if (fa.sign != fb.sign) return(0);
-		return(1);
+		if (z) return 1;
+		if (fa.exp != fb.exp) return 0;
+		if (fa.sign != fb.sign) return 0;
+		return 1;
 	    }
 	}
-	return(0);
+	return 0;
     }
 
     if (first && na == name_tag && nb == ident_tag) {
-	if (no(a)) return(0);
+	if (no(a)) return 0;
 	sa.wh_exp = son(a);
 	sa.wh_off = 0;
-	return(eq_where_a(sa, wb, 0));
+	return eq_where_a(sa, wb, 0);
     }
 
     if (first && nb == name_tag && na == ident_tag) {
-	if (no(b)) return(0);
+	if (no(b)) return 0;
 	sb.wh_exp = son(b);
 	sb.wh_off = 0;
-	return(eq_where_a(wa, sb, 0));
+	return eq_where_a(wa, sb, 0);
     }
 
     if ((na == cont_tag || na == ass_tag) &&
 	 name(son(a)) == name_tag &&
 	 isvar(son(son(a))) &&
 	(nb == ident_tag || nb == name_tag)) {
-	if (no(son(a))) return(0);
+	if (no(son(a))) return 0;
 	sa.wh_exp = son(son(a));
 	sa.wh_off = 0;
-	return(eq_where_a(sa, wb, 0));
+	return eq_where_a(sa, wb, 0);
     }
 
     if ((nb == cont_tag || nb == ass_tag) &&
 	 name(son(b)) == name_tag &&
 	 isvar(son(son(b))) &&
 	(na == ident_tag || na == name_tag)) {
-	if (no(son(b))) return(0);
+	if (no(son(b))) return 0;
 	sb.wh_exp = son(son(b));
 	sb.wh_off = 0;
-	return(eq_where_a(wa, sb, 0));
+	return eq_where_a(wa, sb, 0);
     }
 
 
@@ -771,8 +771,8 @@ bool eq_where_a
 	sa.wh_off = 0;
 	sb.wh_exp = son(b);
 	sb.wh_off = 0;
-	return(eq_where_a(sa, sb, 0));
+	return eq_where_a(sa, sb, 0);
     }
 
-    return(0);
+    return 0;
 }

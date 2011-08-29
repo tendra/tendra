@@ -89,7 +89,7 @@ valregable(shape s)
     int n = name(s);
     if ( is_floating(n) )
     {
-	return 0 ; /* floats don't go in fixed point registers */
+	return 0; /* floats don't go in fixed point registers */
     } 
     else
     {
@@ -97,19 +97,19 @@ valregable(shape s)
 	a = ashof(s) ;
 	if ( a.ashsize > 32 )
 	{
-	    return (0) ; /* too big for a 32 bit register */
+	    return 0; /* too big for a 32 bit register */
 	} 
 	else if ( n==cpdhd || n==nofhd )
 	{
-	    return 0 ; /* Compound shapes are not put in registers */
+	    return 0; /* Compound shapes are not put in registers */
 	}
 	else if ( n==tophd )
 	{
-	    return 0 ;
+	    return 0;
 	}
 	else
 	{
-	    return 1 ;
+	    return 1;
 	}
     }
 }
@@ -124,9 +124,9 @@ fixregable(exp e)
     if ( !isvis ( e ) && !isoutpar( e ) && !isglob ( e ) && !isenvoff(e)
 		      && (name(son(e))!=caller_name_tag) ) {
 	shape s = sh ( son ( e ) ) ;
-	return ( valregable ( s ) ) ;
+	return valregable ( s );
     }
-    return ( 0 ) ;
+    return 0;
 }
 
 
@@ -144,13 +144,13 @@ floatregable(exp e)
 #if use_long_double
 	   if ( shape_size ( s ) > 64 )
 	   {
-	      return ( 0 ) ;
+	      return 0;
 	   }
 #endif
-	   return ( 1 ) ;
+	   return 1;
 	} else {
-	    return ( 0 ) ;
+	    return 0;
 	}
     }
-    return (0) ;
+    return 0;
 }

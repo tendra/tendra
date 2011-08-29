@@ -138,10 +138,10 @@ inferred_return(TYPE t, IDENTIFIER id)
 				break;
 			}
 			}
-			return (r);
+			return r;
 		}
 	}
-	return (NULL_type);
+	return NULL_type;
 }
 
 
@@ -181,7 +181,7 @@ check_copy_constr(TYPE fn, CLASS_TYPE ct)
 				pid = DEREF_id(HEAD_list(pids));
 				e = DEREF_exp(id_parameter_init(pid));
 				if (IS_NULL_exp(e)) {
-					return (0);
+					return 0;
 				}
 			}
 
@@ -214,7 +214,7 @@ check_copy_constr(TYPE fn, CLASS_TYPE ct)
 			}
 		}
 	}
-	return (c);
+	return c;
 }
 
 
@@ -265,7 +265,7 @@ check_constr(TYPE t, IDENTIFIER id, NAMESPACE ns)
 			report(crt_loc, ERR_class_ctor_qual(nm, cv));
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -321,7 +321,7 @@ check_destr(TYPE t, IDENTIFIER id, NAMESPACE ns)
 			report(crt_loc, ERR_class_dtor_qual(nm, cv));
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -377,7 +377,7 @@ check_conv(TYPE t, IDENTIFIER id)
 			report(crt_loc, ERR_class_conv_fct_void(nm));
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -394,7 +394,7 @@ find_operator(CLASS_TYPE ct, int op)
 	HASHID nm = lookup_op(op);
 	NAMESPACE cns = DEREF_nspace(ctype_member(ct));
 	IDENTIFIER id = search_field(cns, nm, 0, 0);
-	return (id);
+	return id;
 }
 
 
@@ -422,7 +422,7 @@ find_constr(CLASS_TYPE ct, int n, ERROR *err)
 	complete_class(ct, 1);
 	ci = DEREF_cinfo(ctype_info(ct));
 	if (!(ci & cinfo_complete)) {
-		return (NULL_id);
+		return NULL_id;
 	}
 
 	/* Find the basic identifier */
@@ -497,7 +497,7 @@ find_constr(CLASS_TYPE ct, int n, ERROR *err)
 		}
 	} else {
 		/* This can only happen for dummy classes */
-		return (NULL_id);
+		return NULL_id;
 	}
 
 	/* Deal with ambiguous cases */
@@ -588,7 +588,7 @@ find_constr(CLASS_TYPE ct, int n, ERROR *err)
 		}
 		}
 	}
-	return (qid);
+	return qid;
 }
 
 
@@ -617,14 +617,14 @@ extra_constr_args(IDENTIFIER id, CLASS_TYPE ct)
 			/* Constructors */
 			CLASS_INFO ci = DEREF_cinfo(ctype_info(ct));
 			if (ci & cinfo_virtual_base) {
-				return (1);
+				return 1;
 			}
 		} else if (tag == hashid_destr_tag) {
 			/* Destructors */
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -671,7 +671,7 @@ add_constr_args(EXP e, CLASS_TYPE ct, int v)
 			COPY_list(exp_func_id_args(e), args);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -733,7 +733,7 @@ call_constr(IDENTIFIER id, EXP *pb, int n, int v, CLASS_TYPE ct)
 		t = make_class_type(ct);
 		MAKE_exp_constr(t, e, a, b, n, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -768,7 +768,7 @@ init_default(TYPE t, EXP *pa, int n, int v, ERROR *err)
 				}
 			}
 		}
-		return (e);
+		return e;
 	}
 
 	/* Deal with arrays */
@@ -780,22 +780,22 @@ init_default(TYPE t, EXP *pa, int n, int v, ERROR *err)
 			/* Apply to each array element */
 			MAKE_exp_nof(t, NULL_exp, m, e, NULL_exp, e);
 		}
-		return (e);
+		return e;
 	}
 
 	/* Everything else is alright in these cases */
 	if (n == DEFAULT_COPY || n == DEFAULT_DESTR || n == DEFAULT_DELETE) {
-		return (NULL_exp);
+		return NULL_exp;
 	}
 
 	/* Deal with references */
 	if (tag == type_ref_tag) {
 		add_error(err, ERR_dcl_init_ref_none());
 		if (n == DEFAULT_ASSIGN) {
-			return (NULL_exp);
+			return NULL_exp;
 		}
 		MAKE_exp_null(t, e);
-		return (e);
+		return e;
 	}
 
 	/* Deal with const objects */
@@ -803,7 +803,7 @@ init_default(TYPE t, EXP *pa, int n, int v, ERROR *err)
 	if (cv & cv_const) {
 		add_error(err, ERR_dcl_init_const());
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -866,7 +866,7 @@ init_empty_base(GRAPH gr, IDENTIFIER fn, int n, int m)
 		IDENTIFIER id = DEREF_id(ctype_name(ct));
 		constr_error(err, id, fn, n);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -902,7 +902,7 @@ init_empty_mem(IDENTIFIER id, IDENTIFIER fn, int n, int m)
 	if (!IS_NULL_err(err)) {
 		constr_error(err, id, fn, n);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -963,12 +963,12 @@ find_base_init(GRAPH gr)
 		if (eq_graph(gs, gr)) {
 			/* Found graph - return corresponding expression */
 			EXP e = DEREF_exp(HEAD_list(q));
-			return (e);
+			return e;
 		}
 		q = TAIL_list(q);
 		p = TAIL_list(p);
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -991,12 +991,12 @@ find_mem_init(IDENTIFIER id)
 		if (EQ_id(mid, id)) {
 			/* Found identifier - return corresponding expression */
 			EXP e = DEREF_exp(HEAD_list(q));
-			return (e);
+			return e;
 		}
 		q = TAIL_list(q);
 		p = TAIL_list(p);
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1030,7 +1030,7 @@ destr_init(TYPE t, EXP e)
 			}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1202,14 +1202,14 @@ make_constr(NAMESPACE cns, IDENTIFIER fn, int n, int m)
 	if (IS_NULL_list(p)) {
 		DECL_SPEC ds = DEREF_dspec(id_storage(fn));
 		if (ds & dspec_trivial) {
-			return (NULL_exp);
+			return NULL_exp;
 		}
 		if (m != DEFAULT_DESTR && !templ) {
 			if (ci & (cinfo_virtual_base | cinfo_polymorphic)) {
 				/* These require an initialiser */
 				/* EMPTY */
 			} else {
-				return (NULL_exp);
+				return NULL_exp;
 			}
 		}
 	}
@@ -1219,7 +1219,7 @@ make_constr(NAMESPACE cns, IDENTIFIER fn, int n, int m)
 		q = REVERSE_list(q);
 	}
 	MAKE_exp_initialiser(type_void, p, q, m, nv, nb, r);
-	return (r);
+	return r;
 }
 
 
@@ -1246,7 +1246,7 @@ make_destr_prelude(NAMESPACE cns)
 				     NULL_list(OFFSET), DEFAULT_PRELUDE, 0, 0,
 				     r);
 	}
-	return (r);
+	return r;
 }
 
 
@@ -1316,7 +1316,7 @@ copy_ctor(EXP e, int m)
 	}
 	e = make_constr(cns, fn, DEFAULT_USR, m);
 	destroy_ctor_lists();
-	return (e);
+	return e;
 }
 
 
@@ -1339,11 +1339,11 @@ ctor_begin(void)
 		if (IS_type_compound(t)) {
 			CLASS_TYPE ct = DEREF_ctype(type_compound_defn(t));
 			NAMESPACE cns = DEREF_nspace(ctype_member(ct));
-			return (cns);
+			return cns;
 		}
 	}
 	report(crt_loc, ERR_class_base_init_bad(id));
-	return (NULL_nspace);
+	return NULL_nspace;
 }
 
 
@@ -1374,7 +1374,7 @@ ctor_end(NAMESPACE cns, EXP e, int elem)
 		}
 		destroy_ctor_lists();
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1426,7 +1426,7 @@ ctor_none(EXP e, EXP *p)
 		}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1460,7 +1460,7 @@ ctor_postlude(EXP e, EXP d)
 			e = add_compound_stmt(e, r);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1497,7 +1497,7 @@ except_postlude(IDENTIFIER id)
 						if (!IS_NULL_exp(a)) {
 							TYPE s = DEREF_type(exp_type(a));
 							if (!IS_type_array(s)) {
-								return (e);
+								return e;
 							}
 						}
 					}
@@ -1517,7 +1517,7 @@ except_postlude(IDENTIFIER id)
 			}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1536,7 +1536,7 @@ compare_base(GRAPH gr, GRAPH gs)
 	DECL_SPEC ar, as;
 	LIST(GRAPH)br;
 	if (eq_graph(gr, gs)) {
-		return (0);
+		return 0;
 	}
 	ar = DEREF_dspec(graph_access(gr));
 	as = DEREF_dspec(graph_access(gs));
@@ -1546,11 +1546,11 @@ compare_base(GRAPH gr, GRAPH gs)
 			CLASS_TYPE ct = DEREF_ctype(graph_head(gt));
 			br = DEREF_list(ctype_vbase(ct));
 		} else {
-			return (1);
+			return 1;
 		}
 	} else {
 		if (as & dspec_virtual) {
-			return (-1);
+			return -1;
 		} else {
 			GRAPH gt = DEREF_graph(graph_top(gr));
 			br = DEREF_list(graph_tails(gt));
@@ -1559,14 +1559,14 @@ compare_base(GRAPH gr, GRAPH gs)
 	while (!IS_NULL_list(br)) {
 		GRAPH gt = DEREF_graph(HEAD_list(br));
 		if (eq_graph(gt, gr)) {
-			return (1);
+			return 1;
 		}
 		if (eq_graph(gt, gs)) {
-			return (-1);
+			return -1;
 		}
 		br = TAIL_list(br);
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1583,20 +1583,20 @@ compare_mem(NAMESPACE ns, IDENTIFIER mid, IDENTIFIER pid)
 {
 	MEMBER mem;
 	if (EQ_id(mid, pid)) {
-		return (0);
+		return 0;
 	}
 	mem = DEREF_member(nspace_ctype_first(ns));
 	while (!IS_NULL_member(mem)) {
 		IDENTIFIER id = DEREF_id(member_id(mem));
 		if (EQ_id(id, mid)) {
-			return (1);
+			return 1;
 		}
 		if (EQ_id(id, pid)) {
-			return (-1);
+			return -1;
 		}
 		mem = DEREF_member(member_next(mem));
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1739,7 +1739,7 @@ ctor_field(NAMESPACE cns, IDENTIFIER id, GRAPH *pgr)
 		/* Invalid class namespace */
 		id = NULL_id;
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1943,7 +1943,7 @@ make_pseudo_destr(IDENTIFIER id1, BASE_TYPE b1, IDENTIFIER id2, BASE_TYPE b2)
 	}
 	nm = lookup_destr(t2, id2);
 	id2 = DEREF_id(hashid_id(nm));
-	return (id2);
+	return id2;
 }
 
 
@@ -1975,7 +1975,7 @@ add_constr_except(LIST(TYPE)p, CLASS_TYPE ct, int n)
 			p = union_type_set(p, q);
 		}
 	}
-	return (p);
+	return p;
 }
 
 
@@ -2003,7 +2003,7 @@ constr_except(CLASS_TYPE ct, int n)
 			CLASS_TYPE cs = DEREF_ctype(graph_head(gs));
 			res = add_constr_except(res, cs, n);
 			if (EQ_list(res, univ_type_set)) {
-				return (res);
+				return res;
 			}
 			bv = TAIL_list(bv);
 		}
@@ -2017,7 +2017,7 @@ constr_except(CLASS_TYPE ct, int n)
 			CLASS_TYPE cs = DEREF_ctype(graph_head(gs));
 			res = add_constr_except(res, cs, n);
 			if (EQ_list(res, univ_type_set)) {
-				return (res);
+				return res;
 			}
 		}
 		br = TAIL_list(br);
@@ -2035,13 +2035,13 @@ constr_except(CLASS_TYPE ct, int n)
 			CLASS_TYPE cs = DEREF_ctype(type_compound_defn(s));
 			res = add_constr_except(res, cs, n);
 			if (EQ_list(res, univ_type_set)) {
-				return (res);
+				return res;
 			}
 		}
 		mem = DEREF_member(member_next(mem));
 		mem = next_data_member(mem, 2);
 	}
-	return (res);
+	return res;
 }
 
 
@@ -2248,7 +2248,7 @@ implicit_decl(CLASS_TYPE ct, CLASS_INFO ci, DECL_SPEC cds)
 			report(crt_loc, ERR_class_dtor_private(ct));
 		}
 	}
-	return (ci);
+	return ci;
 }
 
 
@@ -2284,7 +2284,7 @@ constr_kind(IDENTIFIER id, TYPE t)
 		break;
 	}
 	}
-	return (n);
+	return n;
 }
 
 
@@ -2451,7 +2451,7 @@ constr_candidates(CANDIDATE_LIST *p, TYPE t, unsigned cast)
 		/* Can happen for incomplete types and in C */
 		cid = NULL_id;
 	}
-	return (cid);
+	return cid;
 }
 
 
@@ -2512,7 +2512,7 @@ conv_candidates(CANDIDATE_LIST *p, TYPE t, TYPE s, unsigned cast)
 			conv = TAIL_list(conv);
 		}
 	}
-	return (cid);
+	return cid;
 }
 
 
@@ -2567,7 +2567,7 @@ trivial_destr(EXP a)
 {
 	EXP e = make_discard_exp(a);
 	MAKE_exp_cast(type_void, CONV_ELLIPSIS, e, e);
-	return (e);
+	return e;
 }
 
 
@@ -2630,7 +2630,7 @@ apply_trivial_func(IDENTIFIER id, LIST(EXP)args)
 		break;
 	}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -2659,7 +2659,7 @@ apply_constr(IDENTIFIER id, LIST(EXP)args)
 		e = apply_trivial_func(id, args);
 		if (!IS_NULL_exp(e)) {
 			DESTROY_list(args, SIZE_exp);
-			return (e);
+			return e;
 		}
 	}
 
@@ -2684,7 +2684,7 @@ apply_constr(IDENTIFIER id, LIST(EXP)args)
 		t = make_class_type(ct);
 		MAKE_exp_constr(t, e, a, a, n, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -2707,7 +2707,7 @@ convert_constr(TYPE t, LIST(EXP)args, ERROR *err, unsigned cast)
 	/* Check for template parameters */
 	if (dependent_conv(t, args)) {
 		MAKE_exp_opn(t, lex_static_Hcast, args, e);
-		return (e);
+		return e;
 	}
 
 	/* Construct list of candidates */
@@ -2768,7 +2768,7 @@ convert_constr(TYPE t, LIST(EXP)args, ERROR *err, unsigned cast)
 				e = convert_lvalue(e);
 			}
 		}
-		return (e);
+		return e;
 	}
 
 	/* Deal with incomplete structures */
@@ -2778,13 +2778,13 @@ convert_constr(TYPE t, LIST(EXP)args, ERROR *err, unsigned cast)
 			add_error(err, err2);
 			add_error(err, ERR_expr_type_conv_incompl());
 			e = make_null_exp(t);
-			return (e);
+			return e;
 		}
 #if LANGUAGE_C
 		if (IS_NULL_list(args)) {
 			/* C default initialisation */
 			e = make_null_exp(t);
-			return (e);
+			return e;
 		}
 		if (IS_NULL_list(TAIL_list(args))) {
 			/* C copy initialisation */
@@ -2792,7 +2792,7 @@ convert_constr(TYPE t, LIST(EXP)args, ERROR *err, unsigned cast)
 			a = convert_none(a);
 			a = convert_class(t, a, err);
 			a = remove_temporary(a, NULL_exp);
-			return (a);
+			return a;
 		}
 #endif
 	}
@@ -2804,7 +2804,7 @@ error_lab: {
 		   add_error(err, ERR_over_match_ctor_none(cid));
 		   e = make_null_exp(t);
 	   }
-	   return (e);
+	   return e;
 }
 
 
@@ -2825,7 +2825,7 @@ convert_conv_aux(TYPE t, EXP a, ERROR *err, unsigned cast)
 	TYPE s = DEREF_type(exp_type(a));
 	if (IS_type_error(s)) {
 		EXP e = make_error_exp(0);
-		return (e);
+		return e;
 	}
 
 	/* Check for template parameters */
@@ -2833,7 +2833,7 @@ convert_conv_aux(TYPE t, EXP a, ERROR *err, unsigned cast)
 	if (dependent_conv(t, args)) {
 		EXP e = cast_templ_type(t, a, cast);
 		DESTROY_list(args, SIZE_exp);
-		return (e);
+		return e;
 	}
 
 	/* Construct list of candidates */
@@ -2888,7 +2888,7 @@ convert_conv_aux(TYPE t, EXP a, ERROR *err, unsigned cast)
 				swap_candidates(p,(unsigned)0);
 			}
 			DESTROY_list(args, SIZE_exp);
-			return (NULL_exp);
+			return NULL_exp;
 		}
 
 		/* Check conversion function */
@@ -2901,7 +2901,7 @@ convert_conv_aux(TYPE t, EXP a, ERROR *err, unsigned cast)
 			CONS_exp(NULL_exp, args, args);
 			a = apply_trivial_func(qid, args);
 			DESTROY_list(args, SIZE_exp);
-			return (a);
+			return a;
 		}
 
 		/* Apply conversion function */
@@ -2921,7 +2921,7 @@ convert_conv_aux(TYPE t, EXP a, ERROR *err, unsigned cast)
 						    DEREF_hashid(id_name(qid));
 						add_error(err, ERR_class_copy_bad(nm));
 						DESTROY_list(args, SIZE_exp);
-						return (a);
+						return a;
 					}
 				}
 				init_ref_force = depth + 1;
@@ -2938,12 +2938,12 @@ convert_conv_aux(TYPE t, EXP a, ERROR *err, unsigned cast)
 				e = make_temporary(s, e, NULL_exp, 0, err);
 			}
 		}
-		return (e);
+		return e;
 	}
 
 	/* No candidates */
 	DESTROY_list(args, SIZE_exp);
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -2968,7 +2968,7 @@ convert_conv(TYPE t, EXP a, ERROR *err, unsigned cast)
 			add_error(err, check_incomplete(t));
 			if (check_int_type(t, btype_bool)) {
 				e = convert_boolean(a, exp_paren_tag, err);
-				return (e);
+				return e;
 			}
 			add_error(err, ERR_expr_cast_invalid(s, t));
 		}
@@ -2994,7 +2994,7 @@ convert_conv(TYPE t, EXP a, ERROR *err, unsigned cast)
 			e = cast_exp(t, e, err, cast);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -3047,7 +3047,7 @@ convert_gen(unsigned kind, EXP a, ERROR *err)
 			}
 		} else {
 			/* No viable candidates */
-			return (e);
+			return e;
 		}
 		use_func_id(qid, 0, suppress_usage);
 		e = apply_func_id(qid, qual_none, NULL_graph, args);
@@ -3056,5 +3056,5 @@ convert_gen(unsigned kind, EXP a, ERROR *err)
 	}
 
 	/* No candidates */
-	return (e);
+	return e;
 }

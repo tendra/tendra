@@ -131,7 +131,7 @@ basename(char *nm)
 			bn = nm + 1;
 		}
 	}
-	return (bn);
+	return bn;
 }
 
 
@@ -149,10 +149,10 @@ bit_one(bitpattern n)
 	bitpattern m;
 	for (m = n; m; m >>= 1, c++) {
 		if (m & 1) {
-			return (c);
+			return c;
 		}
 	}
-	return (-1);
+	return -1;
 }
 
 
@@ -172,7 +172,7 @@ bits_in(bitpattern n)
 		c += b[n & 0xf];
 		n >>= 4;
 	}
-	return (c);
+	return c;
 }
 
 

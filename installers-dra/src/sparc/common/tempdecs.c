@@ -141,13 +141,13 @@ trace_uses ( exp e, exp id ){
       if ( last ( l ) ) break ;
       l = bro ( l ) ;
     }
-    return ( 0 ) ;
+    return 0;
   }
   switch ( name ( e ) ) {
   case env_offset_tag :
   case name_tag : {
     nouses -= ( son ( e ) == id ? 1 : 0 ) ;
-    return ( 1 ) ;
+    return 1;
   }
   case ident_tag : {
     exp f = son ( e ) ;
@@ -159,24 +159,24 @@ trace_uses ( exp e, exp id ){
       s = t ;
     }
     a = trace_uses ( f, id ) ;
-    if ( a != 1 ) return ( a ) ;
-    return ( trace_uses ( s, id ) ) ;
+    if ( a != 1 ) return a;
+    return trace_uses ( s, id ) ;
   }
   case case_tag : {
     ( void ) trace_uses ( son ( e ), id ) ;
-    return ( 0 ) ;
+    return 0;
   }
   case current_env_tag :
   case labst_tag : {
-    return ( 0 ) ;
+    return 0;
   }
   case seq_tag : {
     exp s = son ( son ( e ) ) ;
     for ( ; ; ) {
       int el = trace_uses ( s, id ) ;
-      if ( el != 1 ) return ( el ) ;
+      if ( el != 1 ) return el;
       if ( last ( s ) ) {
-	return ( trace_uses ( bro ( son ( e ) ), id ) ) ;
+	return trace_uses ( bro ( son ( e ) ), id ) ;
       }
       s = bro ( s ) ;
     }
@@ -186,16 +186,16 @@ trace_uses ( exp e, exp id ){
     if ( isvar ( id ) && name ( son ( e ) ) == name_tag &&
 	 son ( son ( e ) ) == id ) {
       ( void ) trace_uses ( bro ( son ( e ) ), id ) ;
-      return ( 2 ) ;
+      return 2;
     } else if ( APPLYLIKE ( bro ( son ( e ) ) ) ) {
-      return ( trace_uses ( bro ( son ( e ) ), id ) ) ;
+      return trace_uses ( bro ( son ( e ) ), id ) ;
     }
     /* FALL THROUGH */
   }
   default : {
     exp s = son ( e ) ;
     int nu = nouses ;	 /* s list can be done in any order ... */
-    if ( s == nilexp ) return ( 1 ) ;
+    if ( s == nilexp ) return 1;
     for ( ; ; ) {
       int el = trace_uses ( s, id ) ;
       if ( el != 1 ) {
@@ -203,7 +203,7 @@ trace_uses ( exp e, exp id ){
 	nouses = nu ;
 	return el ;
       }
-      if ( last ( s ) ) return ( 1 ) ;
+      if ( last ( s ) ) return 1;
       s = bro ( s ) ;
     }
     /* NOT REACHED */
@@ -256,13 +256,13 @@ bool
 simple_seq ( exp e, exp id ){
   exp dad = father ( e ) ;
   for ( ; ; ) {
-    if ( dad == id ) return ( 1 ) ;
+    if ( dad == id ) return 1;
     if ( name ( dad ) == seq_tag || name ( dad ) == 0 ||
 	 name ( dad ) == ident_tag ) {
       dad = father ( dad ) ;
     } 
     else {
-      return ( 0 ) ;
+      return 0;
     }
   }
     /* NOT REACHED */
@@ -279,7 +279,7 @@ simple_seq ( exp e, exp id ){
 bool 
 tempdec ( exp e, bool enoughs ){
   exp p ;
-  if ( !tempdecopt ) return ( 0 ) ;
+  if ( !tempdecopt ) return 0;
   nouses = 0 ;
   useinpar = 0 ;
   if ( isvar ( e ) ) {
@@ -323,7 +323,7 @@ tempdec ( exp e, bool enoughs ){
   if ( nouses == 0 && ( enoughs || !useinpar ) ) {
 #if 0
     /* temporary circumvention */
-    if ( useinpar ) return ( 0 ) ;
+    if ( useinpar ) return 0;
 #else
     /* don't allocate this into a parameter register */
     if ( useinpar ){
@@ -331,9 +331,9 @@ tempdec ( exp e, bool enoughs ){
       pset ( e, notparreg ) ;
     }
 #endif
-    return ( 1 ) ;
+    return 1;
   }
-  return ( 0 ) ;
+  return 0;
 }
 
 

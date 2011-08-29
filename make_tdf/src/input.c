@@ -221,7 +221,7 @@ find_sort(string nm, int create)
 	s = DEREF_sort(HEAD_list(p));
 	n = DEREF_string(sort_name(s));
 	cmp = strcmp(n, nm);
-	if (cmp == 0) return(s);
+	if (cmp == 0) return s;
 	if (cmp > 0) break;
 	q = p;
 	p = TAIL_list(p);
@@ -239,7 +239,7 @@ find_sort(string nm, int create)
     } else {
 	COPY_list(PTR_TAIL_list(q), p);
     }
-    return(s);
+    return s;
 }
 
 
@@ -347,10 +347,10 @@ ends_in(string s, string e)
 	if (!strcmp(s + d, e)) {
 	    s = xstrcpy(s);
 	    s[d] = 0;
-	    return(s);
+	    return s;
 	}
     }
-    return(NULL);
+    return NULL;
 }
 
 
@@ -374,7 +374,7 @@ to_capitals(string s)
 	}
 	t++;
     }
-    return(s);
+    return s;
 }
 
 
@@ -426,7 +426,7 @@ make_construct(string nm, unsigned e, SORT s, LIST(PARAMETER)p)
     if (ends_in(nm, "_apply_token")) kind = KIND_token;
     if (ends_in(nm, "_cond")) kind = KIND_cond;
     MAKE_cons_basic(nm, e, s, p, kind, c);
-    return(c);
+    return c;
 }
 
 
@@ -469,11 +469,11 @@ find_construct(SORT s, string c)
 	while (!IS_NULL_list(p)) {
 	    CONSTRUCT a = DEREF_cons(HEAD_list(p));
 	    string b = DEREF_string(cons_name(a));
-	    if (!strcmp(b, c)) return(a);
+	    if (!strcmp(b, c)) return a;
 	    p = TAIL_list(p);
 	}
     }
-    return(NULL_cons);
+    return NULL_cons;
 }
 
 
@@ -513,11 +513,11 @@ get_special(SORT s, unsigned kind)
 	while (!IS_NULL_list(p)) {
 	    CONSTRUCT a = DEREF_cons(HEAD_list(p));
 	    unsigned b = DEREF_unsigned(cons_kind(a));
-	    if (b == kind) return(a);
+	    if (b == kind) return a;
 	    p = TAIL_list(p);
 	}
     }
-    return(NULL_cons);
+    return NULL_cons;
 }
 
 
@@ -575,7 +575,7 @@ check_sorts(void)
 	}
 	p = TAIL_list(p);
     }
-    return(all_sorts);
+    return all_sorts;
 }
 
 
@@ -632,7 +632,7 @@ foreign_sorts(void)
 	p = TAIL_list(p);
     }
     q = REVERSE_list(q);
-    return(q);
+    return q;
 }
 
 
@@ -650,10 +650,10 @@ find_param(CONSTRUCT c, unsigned n)
 	if (IS_NULL_list(p)) {
 	    string nm = DEREF_string(cons_name(c));
 	    error(ERROR_SERIOUS, "Bad parameter number for '%s'", nm);
-	    return(NULL_par);
+	    return NULL_par;
 	}
 	p = TAIL_list(p);
 	n--;
     }
-    return(DEREF_par(HEAD_list(p)));
+    return DEREF_par(HEAD_list(p));
 }

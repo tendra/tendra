@@ -95,10 +95,10 @@ static int  sbl
 {
   int  c = complexity(e, count,newdecs);
   if (c < 0)
-    return(c);
+    return c;
   if (last(e))
-    return(c);
-  return(sbl(bro(e), c, newdecs));
+    return c;
+  return sbl(bro(e), c, newdecs);
 }
 
 static int  complexity
@@ -106,13 +106,13 @@ static int  complexity
 {
   unsigned char  n = name(e);
   if (count < 0 || newdecs >= decs_allowed)
-    return(-1);
+    return -1;
   if (son(e) == nilexp) return count;
   switch (n) {
   	case apply_tag: {
   	   if (newdecs > decs_with_apply)
 		 return -1;
-  	   return(sbl(son(e), count-1, newdecs));
+  	   return sbl(son(e), count-1, newdecs);
   	}
   	case res_tag: return complexity(son(e), count-1, newdecs);
         case ident_tag:
@@ -121,14 +121,14 @@ static int  complexity
 	  else
 	    return sbl(son(e), count-1, newdecs+1);
         case top_tag: case clear_tag: case prof_tag: return count;
-	case case_tag: return(complexity(son(e), count - 1, newdecs));
+	case case_tag: return complexity(son(e), count - 1, newdecs);
 	case name_tag: case string_tag: case env_offset_tag:
         case general_env_offset_tag:
-               return(count - 1);
-	case labst_tag: return(complexity(bro(son(e)), count,
-                        newdecs));
+               return count - 1;
+	case labst_tag: return complexity(bro(son(e)), count,
+                        newdecs);
 	case solve_tag: case seq_tag: return sbl(son(e), count, newdecs);
-	default: return(sbl(son(e), count - 1, newdecs));
+	default: return sbl(son(e), count - 1, newdecs);
   }
 }
 

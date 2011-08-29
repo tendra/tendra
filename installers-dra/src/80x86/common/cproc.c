@@ -992,7 +992,7 @@ int cproc
   else
     set_proc_has_fp(p);
 
-  return(proc_needs_envsize(p)? tot_sp + 4 + max_extra_stack/8 : 0);
+  return proc_needs_envsize(p)? tot_sp + 4 + max_extra_stack/8 : 0;
 }
 
 

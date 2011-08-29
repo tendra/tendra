@@ -125,7 +125,7 @@ find_basename(const char *s)
 	for (; *s; s++) {
 		if (*s == '/')r = s + 1;
 	}
-	return(r);
+	return r;
 }
 
 
@@ -140,7 +140,7 @@ find_fullname(const char *s)
 {
 	static const char *pwd = NULL;
 	if (*s == '/') {
-		return (s);
+		return s;
 	}
 	if (pwd == NULL) {
 		if (getcwd(buffer, buffer_size)) {
@@ -151,7 +151,7 @@ find_fullname(const char *s)
 			pwd = "";
 		}
 	}
-	return (string_concat(pwd, s));
+	return string_concat(pwd, s);
 }
 
 
@@ -173,10 +173,10 @@ split_name(char *s)
 				/* Allow for case insensitive systems */
 				to_lower_case(s + (i + 1));
 			}
-			return (s + (i + 1));
+			return s + (i + 1);
 		}
 	}
-	return ("");
+	return "";
 }
 
 
@@ -195,7 +195,7 @@ new_filename(void)
 		no_free = 1000;
 		free_objs = alloc_nof(filename, (size_t) no_free);
 	}
-	return (free_objs + (--no_free));
+	return free_objs + (--no_free);
 }
 
 
@@ -210,16 +210,16 @@ add_filename(filename *p, filename *q)
 {
 	filename *r;
 	if (p == NULL) {
-		return (q);
+		return q;
 	}
 	if (q == NULL) {
-		return (p);
+		return p;
 	}
 	for (r = p; r->next != NULL; r = r->next) {
 		;	/* empty */
 	}
 	r->next = q;
-	return (p);
+	return p;
 }
 
 
@@ -367,10 +367,10 @@ file_suffix(int t)
 			to_lower_case(suff);
 			suff[1] = suff[0];
 		}
-		return (suff);
+		return suff;
 	}
 	error(SERIOUS, "Illegal file type");
-	return (file_suffix(DEFAULT_TYPE));
+	return file_suffix(DEFAULT_TYPE);
 }
 
 
@@ -501,7 +501,7 @@ find_filename(const char *s, enum filetype t)
 	p->final = 0;
 	p->aux = NULL;
 	p->next = NULL;
-	return (p);
+	return p;
 }
 
 
@@ -517,12 +517,12 @@ enum file_storage
 where(enum filetype t)
 {
 	if (!table_keep(t)) {
-		return (TEMP_FILE);
+		return TEMP_FILE;
 	}
 	if (!table_stop(t)) {
-		return (PRESERVED_FILE);
+		return PRESERVED_FILE;
 	}
-	return (OUTPUT_FILE);
+	return OUTPUT_FILE;
 }
 
 
@@ -652,5 +652,5 @@ default_lab:
 	q->final = f;
 	q->aux = NULL;
 	q->next = NULL;
-	return (q);
+	return q;
 }

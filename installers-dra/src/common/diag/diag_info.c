@@ -202,7 +202,7 @@ read_diag_id_scope(exp body)
 		body = f_dg_exp(body, f_name_decl_dg(dgn));
 		mark_scope(body);
 	}
-	return(body);
+	return body;
 }
 
 
@@ -251,7 +251,7 @@ read_diag_id_scope(void)
 	new->data.id_scope.access = hold_check(d_exp());
 	IGNORE hold(hold(new->data.id_scope.access));
 	new->data.id_scope.typ = d_diag_type();
-	return(new);
+	return new;
 }
 
 
@@ -263,7 +263,7 @@ read_diag_type_scope(void)
 	new->key = DIAG_INFO_TYPE;
 	new->data.type_scope.nme = d_tdfstring();
 	new->data.type_scope.typ = d_diag_type();
-	return(new);
+	return new;
 }
 
 
@@ -275,7 +275,7 @@ read_diag_tag_scope(void)
 	new->key = DIAG_INFO_TAG;
 	new->data.tag_scope.nme = d_tdfstring();
 	new->data.tag_scope.typ = d_diag_type();
-	return(new);
+	return new;
 }
 
 #endif

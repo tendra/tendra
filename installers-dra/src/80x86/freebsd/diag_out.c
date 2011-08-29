@@ -189,7 +189,7 @@ static long next_typen
 	for (i = n; i < m; i++)type_sizes[i] = 0;
 	total_type_sizes = m;
     }
-    return(typeno++);
+    return typeno++;
 }
 
 
@@ -230,9 +230,9 @@ static long find_file
 {
     long i;
     for (i = 0; i < nofds; i++) {
-	if (strcmp(f, fds[i] ->file.ints.chars) == 0) return(i);
+	if (strcmp(f, fds[i] ->file.ints.chars) == 0) return i;
     }
-    return(0);
+    return 0;
 }
 
 
@@ -466,19 +466,19 @@ static long out_sh_type
 {
     last_type_sz = shape_size(s);
     switch (name(s)) {
-	case scharhd: return(STAB_SCHAR);
-	case ucharhd: return(STAB_UCHAR);
-	case swordhd: return(STAB_SSHRT);
-	case uwordhd: return(STAB_USHRT);
-	case slonghd: return(STAB_SLONG);
-	case ulonghd: return(STAB_ULONG);
-	case s64hd: return(STAB_S64);
-	case u64hd: return(STAB_U64);
-	case shrealhd: return(STAB_FLOAT);
-	case realhd: return(STAB_DBL);
-	case doublehd: return(STAB_LDBL);
+	case scharhd: return STAB_SCHAR;
+	case ucharhd: return STAB_UCHAR;
+	case swordhd: return STAB_SSHRT;
+	case uwordhd: return STAB_USHRT;
+	case slonghd: return STAB_SLONG;
+	case ulonghd: return STAB_ULONG;
+	case s64hd: return STAB_S64;
+	case u64hd: return STAB_U64;
+	case shrealhd: return STAB_FLOAT;
+	case realhd: return STAB_DBL;
+	case doublehd: return STAB_LDBL;
     }
-    return(STAB_VOID);
+    return STAB_VOID;
 }
 
 

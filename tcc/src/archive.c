@@ -168,7 +168,7 @@ out:
 	if (g)
 		(void) fclose(g);
 
-	return (ret);
+	return ret;
 }
 
 
@@ -186,24 +186,24 @@ write_file(const char *nm, const char *rd, FILE *f)
 	void *p = buffer;
 
 	if (dry_run)
-		return (0);
+		return 0;
 
 	if ((g = fopen(nm, rd)) == NULL) {
 		error(SERIOUS, "Can't open copy source file, '%s'", nm);
-		return (1);
+		return 1;
 	}
 
 	while ((n = fread(p, sizeof(char), buffer_size, g)) != 0) {
 		if (fwrite(p, sizeof(char), n, f) != n) {
 			error(SERIOUS, "Writing error when copying '%s'", nm);
 			(void) fclose(g);
-			return (1);
+			return 1;
 		}
 	}
 
 	(void) fclose(g);
 
-	return (0);
+	return 0;
 }
 
 
@@ -216,7 +216,7 @@ write_file(const char *nm, const char *rd, FILE *f)
 int
 cat_file(const char *nm)
 {
-	return (write_file(nm, "r", stdout));
+	return write_file(nm, "r", stdout);
 }
 
 
@@ -230,9 +230,9 @@ int
 make_dir(const char *nm)
 {
 	if (dry_run)
-		return (0);
+		return 0;
 
-	return (mkdir(nm, S_IRWXU|S_IRWXG|S_IRWXO));
+	return mkdir(nm, S_IRWXU|S_IRWXG|S_IRWXO);
 }
 
 
@@ -250,36 +250,36 @@ move_file(const char *from, const char *to)
 	FILE *f;
 
 	if (dry_run)
-		return (0);
+		return 0;
 
 	if (strcmp(from, to) == 0)
-		return (0);
+		return 0;
 
 	if (rename(from, to) == 0)
-		return (0);
+		return 0;
 
 	if (errno != EXDEV) {
 		error(SERIOUS, "Can't rename '%s' to '%s'", from, to);
-		return (1);
+		return 1;
 	}
 
 	if ((f = fopen(to, "w")) == NULL) {
 		error(SERIOUS, "Can't open copy destination file, '%s'", to);
-		return (1);
+		return 1;
 	}
 
 	e = write_file(from, "r", f);
 	(void) fclose(f);
 
 	if (e)
-		return (e);
+		return e;
 
 	if (remove_file(from) != 0) {
 		error(SERIOUS, "Can't remove source file, '%s'", from);
-		return (1);
+		return 1;
 	}
 
-	return (0);
+	return 0;
 }
 
 /*
@@ -291,7 +291,7 @@ remove_file(const char *nm)
 #if 0
 	fprintf(stderr, "tcc: trying to remove file '%s'\n", nm);
 #endif
-	return (remove(nm));
+	return remove(nm);
 }
 
 
@@ -305,15 +305,15 @@ remove_recursive(const char *nm)
 	struct stat st;
 
 	if (dry_run)
-		return (0);
+		return 0;
 
 	if (stat(nm, &st) != 0) {
 		/* If the file didn't exist, don't worry */
 		if (errno == ENOENT)
-			return (0);
+			return 0;
 		else {
 			error(SERIOUS, "Can't stat '%s'", nm);
-			return (1);
+			return 1;
 		}
 	}
 
@@ -324,7 +324,7 @@ remove_recursive(const char *nm)
 
 		if ((d = opendir(nm)) == NULL) {
 			error(SERIOUS, "Can't open directory '%s'", nm);
-			return (1);
+			return 1;
 		}
 
 		while ((de = readdir(d)) != NULL) {
@@ -334,13 +334,13 @@ remove_recursive(const char *nm)
 
 			if (strlen(nm) + 1 + strlen(de->d_name) >= PATH_MAX) {
 				error(SERIOUS, "Path too long");
-				return (1);
+				return 1;
 			}
 
 			(void) sprintf(buf, "%s/%s", nm, de->d_name);
 
 			if (remove_recursive(buf))
-				return (1);
+				return 1;
 		}
 
 		(void) closedir(d);
@@ -350,21 +350,21 @@ remove_recursive(const char *nm)
 #endif
 		if (remove(nm) != 0) {
 			error(SERIOUS, "Can't remove directory '%s'", nm);
-			return (1);
+			return 1;
 		}
 	} else {
 		if (remove_file(nm) != 0) {
 			/* File disappeared between stat and remove... */
 			if (errno == ENOENT)
-				return (0);
+				return 0;
 			else {
 				error(SERIOUS, "Can't remove '%s'", nm);
-				return (1);
+				return 1;
 			}
 		}
 	}
 
-	return (0);
+	return 0;
 }
 
 
@@ -383,11 +383,11 @@ touch_file(const char *nm, const char *opt)
 	char *str;
 
 	if (dry_run)
-		return (0);
+		return 0;
 
 	if ((f = fopen(nm, "w")) == NULL) {
 		error(SERIOUS, "Can't touch file, '%s'", nm);
-		return (1);
+		return 1;
 	}
 
 	/* XXX: investigate the use of this special case */
@@ -400,10 +400,10 @@ touch_file(const char *nm, const char *opt)
 	if (fwrite(str, sizeof(unsigned char), strlen(str), f) != 1) {
 		error(SERIOUS, "Can't write to file '%s'", nm);
 		(void) fclose(f);
-		return (1);
+		return 1;
 	}
 
-	return (0);
+	return 0;
 }
 
 
@@ -419,9 +419,9 @@ file_size(const char *nm)
 	struct stat st;
 
 	if (stat(nm, &st) == -1)
-		return (0);
+		return 0;
 
-	return ((long)st.st_size);
+	return (long)st.st_size;
 }
 
 
@@ -438,14 +438,14 @@ file_time(const char *nm)
 	struct stat st;
 
 	if (dry_run)
-		return (0);
+		return 0;
 
 	if (stat(nm, &st) == -1) {
 		error(SERIOUS, "Can't access file '%s'", nm);
-		return (0);
+		return 0;
 	}
 
-	return ((long)st.st_mtime);
+	return (long)st.st_mtime;
 }
 
 
@@ -463,14 +463,14 @@ is_archive(const char *nm)
 
 	/* XXX: no distinction between not an archive and fopen error */
 	if ((f = fopen(nm, "r"))  == NULL)
-		return (archive);
+		return archive;
 
 	if (fgets(buf, (int)sizeof(buf), f) != NULL)
 		if (strcmp(buf, ARCHIVE_HEADER) == 0)
 			archive = 1;
 
 	(void) fclose(f);
-	return (archive);
+	return archive;
 }
 
 
@@ -527,12 +527,12 @@ build_archive(const char *arch, const char **input)
     const char **s;
     boolean end = 0;
     if (dry_run) {
-	    return (0);
+	    return 0;
     }
     f = fopen(arch, "wb");
     if (f == NULL) {
 	error(SERIOUS, "Can't open output archive, '%s'", arch);
-	return (1);
+	return 1;
     }
     IGNORE fputs(ARCHIVE_HEADER, f);
     for (s = input; *s; s++) {
@@ -581,7 +581,7 @@ build_archive(const char *arch, const char **input)
 	    if (g == NULL) {
 		error(SERIOUS, "Can't open '%s' for archiving", *s);
 		IGNORE fclose(f);
-		return (1);
+		return 1;
 	    } else {
 		void *p = buffer;
 		size_t m = fread(p, sizeof(char), buffer_size, g);
@@ -590,7 +590,7 @@ build_archive(const char *arch, const char **input)
 		    if (fwrite(p, sizeof(char), m, f)!= m) {
 			error(SERIOUS, "Write error in archive '%s'", arch);
 			IGNORE fclose(f);
-			return (1);
+			return 1;
 		    }
 		    m = fread(p, sizeof(char), buffer_size, g);
 		    if (m) {
@@ -605,7 +605,7 @@ build_archive(const char *arch, const char **input)
 	    IGNORE fputs(ARCHIVE_TRAILER, f);
     }
     IGNORE fclose(f);
-    return (0);
+    return 0;
 }
 
 
@@ -794,7 +794,7 @@ archive_error:
 	    opt_archive = add_list(opt_archive, opts);
     }
     if (emsg) {
-	    return (1);
+	    return 1;
     }
-    return (0);
+    return 0;
 }

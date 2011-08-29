@@ -120,7 +120,7 @@ __TDFrnd_unsgned(double f, fprnd_t rnd_mode)
     swap = fp_swap_rnd(rnd_mode);
     ret_value = uitrunc(rint(f));
    (void)fp_swap_rnd(swap);
-    return(ret_value);
+    return ret_value;
 }
 
 int
@@ -131,7 +131,7 @@ __TDFrnd_sgned(double f, fprnd_t rnd_mode)
     swap = fp_swap_rnd(rnd_mode);
     ret_value = itrunc(rint(f));
    (void)fp_swap_rnd(swap);
-    return(ret_value);
+    return ret_value;
 }
 
 void

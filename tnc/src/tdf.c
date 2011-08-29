@@ -593,7 +593,7 @@ find_sort(char c)
 	    break;
 	}
     }
-    return(s);
+    return s;
 }
 
 
@@ -635,7 +635,7 @@ de_access(void)
 #ifdef check_access
     check_access(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -672,7 +672,7 @@ de_al_tag(void)
 #ifdef check_al_tag
     check_al_tag(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -685,7 +685,7 @@ de_al_tagdef_bits(void)
     if (n < 1 || n > 1) {
 	input_error("Illegal al_tagdef value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -727,7 +727,7 @@ de_alignment(void)
 #ifdef check_alignment
     check_alignment(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -769,7 +769,7 @@ de_bitfield_variety(void)
 #ifdef check_bitfield_variety
     check_bitfield_variety(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -811,7 +811,7 @@ de_bool(void)
 #ifdef check_bool
     check_bool(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -835,7 +835,7 @@ de_callees(void)
 #ifdef check_callees
     check_callees(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -859,7 +859,7 @@ de_error_code(void)
 #ifdef check_error_code
     check_error_code(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -901,7 +901,7 @@ de_error_treatment(void)
 #ifdef check_error_treatment
     check_error_treatment(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -943,7 +943,7 @@ de_exp(void)
 #ifdef check_exp
     check_exp(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -956,7 +956,7 @@ de_external_bits(void)
     if (n < 1 || n > 3) {
 	input_error("Illegal external value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -998,7 +998,7 @@ de_floating_variety(void)
 #ifdef check_floating_variety
     check_floating_variety(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1037,7 +1037,7 @@ de_label(void)
 #ifdef check_label
     check_label(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1079,7 +1079,7 @@ de_nat(void)
 #ifdef check_nat
     check_nat(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1121,7 +1121,7 @@ de_ntest(void)
 #ifdef check_ntest
     check_ntest(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1163,7 +1163,7 @@ de_procprops(void)
 #ifdef check_procprops
     check_procprops(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1205,7 +1205,7 @@ de_rounding_mode(void)
 #ifdef check_rounding_mode
     check_rounding_mode(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1247,7 +1247,7 @@ de_shape(void)
 #ifdef check_shape
     check_shape(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1289,7 +1289,7 @@ de_signed_nat(void)
 #ifdef check_signed_nat
     check_signed_nat(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1302,7 +1302,7 @@ de_sortname_bits(void)
     if (n < 1 || n > 21) {
 	input_error("Illegal sortname value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -1344,7 +1344,7 @@ de_string(void)
 #ifdef check_string
     check_string(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1381,7 +1381,7 @@ de_tag(void)
 #ifdef check_tag
     check_tag(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1394,7 +1394,7 @@ de_tagdec_bits(void)
     if (n < 1 || n > 3) {
 	input_error("Illegal tagdec value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -1407,7 +1407,7 @@ de_tagdef_bits(void)
     if (n < 1 || n > 3) {
 	input_error("Illegal tagdef value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -1420,7 +1420,7 @@ de_tokdec_bits(void)
     if (n < 1 || n > 1) {
 	input_error("Illegal tokdec value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -1433,7 +1433,7 @@ de_tokdef_bits(void)
     if (n < 1 || n > 1) {
 	input_error("Illegal tokdef value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -1446,7 +1446,7 @@ de_token_bits(void)
     if (n < 1 || n > 3) {
 	input_error("Illegal token value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -1459,7 +1459,7 @@ de_token_defn_bits(void)
     if (n < 1 || n > 1) {
 	input_error("Illegal token_defn value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -1501,7 +1501,7 @@ de_transfer_mode(void)
 #ifdef check_transfer_mode
     check_transfer_mode(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1543,7 +1543,7 @@ de_variety(void)
 #ifdef check_variety
     check_variety(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1556,7 +1556,7 @@ de_version_bits(void)
     if (n < 1 || n > 2) {
 	input_error("Illegal version value, %ld", n);
     }
-    return(n);
+    return n;
 }
 
 
@@ -1727,7 +1727,7 @@ read_access(long n)
 #ifdef check_access
     check_access(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1763,7 +1763,7 @@ read_al_tag(long n)
 #ifdef check_al_tag
     check_al_tag(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1804,7 +1804,7 @@ read_alignment(long n)
 #ifdef check_alignment
     check_alignment(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1845,7 +1845,7 @@ read_bitfield_variety(long n)
 #ifdef check_bitfield_variety
     check_bitfield_variety(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1886,7 +1886,7 @@ read_bool(long n)
 #ifdef check_bool
     check_bool(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1909,7 +1909,7 @@ read_callees(long n)
 #ifdef check_callees
     check_callees(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1932,7 +1932,7 @@ read_error_code(long n)
 #ifdef check_error_code
     check_error_code(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -1973,7 +1973,7 @@ read_error_treatment(long n)
 #ifdef check_error_treatment
     check_error_treatment(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2018,7 +2018,7 @@ read_exp(long n)
 #ifdef check_exp
     check_exp(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2059,7 +2059,7 @@ read_floating_variety(long n)
 #ifdef check_floating_variety
     check_floating_variety(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2095,7 +2095,7 @@ read_label(long n)
 #ifdef check_label
     check_label(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2136,7 +2136,7 @@ read_nat(long n)
 #ifdef check_nat
     check_nat(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2177,7 +2177,7 @@ read_ntest(long n)
 #ifdef check_ntest
     check_ntest(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2218,7 +2218,7 @@ read_procprops(long n)
 #ifdef check_procprops
     check_procprops(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2259,7 +2259,7 @@ read_rounding_mode(long n)
 #ifdef check_rounding_mode
     check_rounding_mode(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2300,7 +2300,7 @@ read_shape(long n)
 #ifdef check_shape
     check_shape(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2345,7 +2345,7 @@ read_signed_nat(long n)
 #ifdef check_signed_nat
     check_signed_nat(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2386,7 +2386,7 @@ read_string(long n)
 #ifdef check_string
     check_string(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2422,7 +2422,7 @@ read_tag(long n)
 #ifdef check_tag
     check_tag(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2463,7 +2463,7 @@ read_transfer_mode(long n)
 #ifdef check_transfer_mode
     check_transfer_mode(p);
 #endif
-    return(p);
+    return p;
 }
 
 
@@ -2504,5 +2504,5 @@ read_variety(long n)
 #ifdef check_variety
     check_variety(p);
 #endif
-    return(p);
+    return p;
 }

@@ -177,7 +177,7 @@ new_page(void)
 	}
 	p->index = 0;
 	p->next = null;
-	return (p);
+	return p;
 }
 
 
@@ -200,7 +200,7 @@ sprint_string(page *p, char *s)
 		i++;
 	}
 	p->index = i;
-	return (p);
+	return p;
 }
 
 
@@ -213,7 +213,7 @@ sprint_number(page *p, long n)
 {
 	char buff[100];
 	(void)sprintf(buff, "%ld", n);
-	return (sprint_string(p, buff));
+	return sprint_string(p, buff);
 }
 
 
@@ -230,7 +230,7 @@ new_stab_type(diag_type dt)
 	if (dt) {
 		dt->been_outed = (OUTPUT_REC)res;
 	}
-	return (res);
+	return res;
 }
 
 
@@ -281,39 +281,39 @@ test_type(diag_type dt)
 		shape sha = f_floating(dt->data.f_var);
 		last_type_sz = shape_size(sha);
 		if (name(sha) == shrealhd) {
-			return (STAB_FLOAT);
+			return STAB_FLOAT;
 		}
 		if (name(sha) == realhd) {
-			return (STAB_DOUBLE);
+			return STAB_DOUBLE;
 		}
-		return (STAB_LDOUBLE);
+		return STAB_LDOUBLE;
 	}
 	case DIAG_TYPE_VARIETY: {
 		shape sha = f_integer(dt->data.var);
 		last_type_sz = shape_size(sha);
 		switch (name(sha)) {
 		case scharhd:
-			return (STAB_SCHAR);
+			return STAB_SCHAR;
 		case swordhd:
-			return (STAB_SWORD);
+			return STAB_SWORD;
 		case slonghd:
-			return (STAB_SLONG);
+			return STAB_SLONG;
 		case ucharhd:
-			return (STAB_UCHAR);
+			return STAB_UCHAR;
 		case uwordhd:
-			return (STAB_UWORD);
+			return STAB_UWORD;
 		case ulonghd:
-			return (STAB_ULONG);
+			return STAB_ULONG;
 		}
 		break;
 	}
 	case DIAG_TYPE_NULL:
 		last_type_sz = 0;
-		return (STAB_VOID);
+		return STAB_VOID;
 	default:
 		break;
 	}
-	return (STAB_COMPLEX);
+	return STAB_COMPLEX;
 }
 
 
@@ -488,7 +488,7 @@ build_stab_type(diag_type dt, page *ptr)
 		last_type_sz = 0;
 		break;
 	}
-	return (ptr);
+	return ptr;
 }
 
 
@@ -503,7 +503,7 @@ analyse_stab_type(diag_type dt, char *nm, char *cl)
 	page *ptr, *p;
 	char *res = (char *)dt->been_outed;
 	if (res && nm == null && cl == null) {
-		return (res);
+		return res;
 	}
 	p = ptr = new_page();
 	if (nm) {
@@ -542,7 +542,7 @@ analyse_stab_type(diag_type dt, char *nm, char *cl)
 	}
 	p->next = free_pages;
 	free_pages = ptr;
-	return (res);
+	return res;
 }
 
 

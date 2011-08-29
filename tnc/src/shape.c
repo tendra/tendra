@@ -127,9 +127,9 @@ string_length(node *s)
 	    str = str->son->bro;
 	    n = str->cons->encoding;
 	}
-	return(make_nat(n));
+	return make_nat(n);
     }
-    return(null);
+    return null;
 }
 
 
@@ -143,7 +143,7 @@ node *
 copy_node(node *p)
 {
     node *q;
-    if (p == null) return(null);
+    if (p == null) return null;
     q = new_node();
     if (p->cons->alias) {
 	q->cons = p->cons->alias;
@@ -152,7 +152,7 @@ copy_node(node *p)
     }
     q->son = p->son;
     q->shape = p->shape;
-    return(q);
+    return q;
 }
 
 
@@ -174,7 +174,7 @@ sh_integer(node *p)
 	q->son->cons = p->cons;
 	q->son->son = p->son;
     }
-    return(q);
+    return q;
 }
 
 
@@ -196,7 +196,7 @@ sh_floating(node *p)
 	q->son->cons = p->cons;
 	q->son->son = p->son;
     }
-    return(q);
+    return q;
 }
 
 
@@ -219,7 +219,7 @@ sh_pointer(node *p)
 	q->son->cons = p->cons;
 	q->son->son = p->son;
     }
-    return(q);
+    return q;
 }
 
 
@@ -251,7 +251,7 @@ sh_offset(node *p, node *q)
 	r->son->bro->cons = q->cons;
 	r->son->bro->son = q->son;
     }
-    return(r);
+    return r;
 }
 
 
@@ -281,7 +281,7 @@ sh_nof(node *n, node *p)
 	q->son->bro->cons = p->cons;
 	q->son->bro->son = p->son;
     }
-    return(q);
+    return q;
 }
 
 
@@ -303,7 +303,7 @@ sh_bitfield(node *p)
 	q->son->cons = p->cons;
 	q->son->son = p->son;
     }
-    return(q);
+    return q;
 }
 
 
@@ -325,7 +325,7 @@ sh_compound(node *p)
 	q->son->cons = p->cons;
 	q->son->son = p->son;
     }
-    return(q);
+    return q;
 }
 
 
@@ -338,25 +338,25 @@ sh_compound(node *p)
 node *
 normalize(node *p)
 {
-    if (p == null) return(null);
+    if (p == null) return null;
     if (p->cons->sortnum == SORT_shape) {
 	switch (p->cons->encoding) {
 	    case ENC_shape_apply_token: {
 		node *q = expand_tok(p);
-		if (q) return(normalize(q));
+		if (q) return normalize(q);
 		break;
 	    }
 	    case ENC_offset: {
 		node *al1 = al_shape(p->son);
 		node *al2 = al_shape(p->son->bro);
-		return(sh_offset(al1, al2));
+		return sh_offset(al1, al2);
 	    }
 	    case ENC_pointer: {
-		return(sh_pointer(al_shape(p->son)));
+		return sh_pointer(al_shape(p->son));
 	    }
 	}
     }
-    return(copy_node(p));
+    return copy_node(p);
 }
 
 
@@ -379,11 +379,11 @@ expand_tok(node *p)
 	    p = info->def;
 	    if (p->cons->sortnum == SORT_completion)p = p->son;
 	} else {
-	    return(null);
+	    return null;
 	}
-	if (++count > 100) return(null);
+	if (++count > 100) return null;
     }
-    return(p);
+    return p;
 }
 
 
@@ -412,10 +412,10 @@ check_shapes(node *p, node *q, int tg)
     boolean check_further = 0;
 
     /* If one is unknown, return the other */
-    if (p == null) return(q0);
-    if (q == null) return(p0);
-    if (p->cons->sortnum == SORT_unknown) return(q0);
-    if (q->cons->sortnum == SORT_unknown) return(p0);
+    if (p == null) return q0;
+    if (q == null) return p0;
+    if (p->cons->sortnum == SORT_unknown) return q0;
+    if (q->cons->sortnum == SORT_unknown) return p0;
 
     s = p->cons->sortnum;
     np = p->cons->encoding;
@@ -426,15 +426,15 @@ check_shapes(node *p, node *q, int tg)
 	p = expand_tok(p);
 	if (p == null) {
 	    if (np == nq && p1->son->cons == q->son->cons) {
-		if (p1->son->son == null) return(p1);
+		if (p1->son->son == null) return p1;
 	    }
-	    return(q0);
+	    return q0;
 	}
 	np = p->cons->encoding;
     }
     if (nq == sort_tokens[s]) {
 	q = expand_tok(q);
-	if (q == null) return(p0);
+	if (q == null) return p0;
 	nq = q->cons->encoding;
     }
 
@@ -443,12 +443,12 @@ check_shapes(node *p, node *q, int tg)
 	case SORT_shape: {
 	    /* Check for bottoms */
 	    if (tg == 2) {
-		if (np == ENC_bottom) return(sh_bottom);
-		if (nq == ENC_bottom) return(sh_bottom);
+		if (np == ENC_bottom) return sh_bottom;
+		if (nq == ENC_bottom) return sh_bottom;
 	    }
 	    /* Don't know about or conditionals */
-	    if (np == ENC_shape_cond) return(q0);
-	    if (nq == ENC_shape_cond) return(p0);
+	    if (np == ENC_shape_cond) return q0;
+	    if (nq == ENC_shape_cond) return p0;
 	    if (np != nq) {
 		ok = 0;
 	    } else {
@@ -470,7 +470,7 @@ check_shapes(node *p, node *q, int tg)
 		    case ENC_proc:
 		    case ENC_top: {
 			/* These are definitely compatible */
-			if (tg == 2) return(p1);
+			if (tg == 2) return p1;
 			break;
 		    }
 		}
@@ -480,8 +480,8 @@ check_shapes(node *p, node *q, int tg)
 
 	case SORT_bitfield_variety: {
 	    /* Don't know about conditionals */
-	    if (np == ENC_bfvar_cond) return(q0);
-	    if (nq == ENC_bfvar_cond) return(p0);
+	    if (np == ENC_bfvar_cond) return q0;
+	    if (nq == ENC_bfvar_cond) return p0;
 	    if (np != nq) {
 		ok = 0;
 	    } else {
@@ -493,17 +493,17 @@ check_shapes(node *p, node *q, int tg)
 
 	case SORT_bool: {
 	    /* Don't know about conditionals */
-	    if (np == ENC_bool_cond) return(q0);
-	    if (nq == ENC_bool_cond) return(p0);
+	    if (np == ENC_bool_cond) return q0;
+	    if (nq == ENC_bool_cond) return p0;
 	    if (np != nq)ok = 0;
-	    if (tg == 2) return(ok ? p1 : sh_top);
+	    if (tg == 2) return ok ? p1 : sh_top;
 	    break;
 	}
 
 	case SORT_floating_variety: {
 	    /* Don't know about conditionals */
-	    if (np == ENC_flvar_cond) return(q0);
-	    if (nq == ENC_flvar_cond) return(p0);
+	    if (np == ENC_flvar_cond) return q0;
+	    if (nq == ENC_flvar_cond) return p0;
 	    if (np != nq) {
 		ok = 0;
 	    } else {
@@ -515,15 +515,15 @@ check_shapes(node *p, node *q, int tg)
 
 	case SORT_nat: {
 	    /* Don't know about conditionals */
-	    if (np == ENC_nat_cond) return(q0);
-	    if (nq == ENC_nat_cond) return(p0);
+	    if (np == ENC_nat_cond) return q0;
+	    if (nq == ENC_nat_cond) return p0;
 	    if (np != nq) {
 		ok = 0;
 	    } else {
 		/* Simple nats are checked */
 		if (np == ENC_make_nat) {
 		    if (!eq_node(p->son, q->son))ok = 0;
-		    if (tg == 2) return(ok ? p1 : sh_top);
+		    if (tg == 2) return ok ? p1 : sh_top;
 		}
 	    }
 	    break;
@@ -531,15 +531,15 @@ check_shapes(node *p, node *q, int tg)
 
 	case SORT_signed_nat: {
 	    /* Don't know about conditionals */
-	    if (np == ENC_signed_nat_cond) return(q0);
-	    if (nq == ENC_signed_nat_cond) return(p0);
+	    if (np == ENC_signed_nat_cond) return q0;
+	    if (nq == ENC_signed_nat_cond) return p0;
 	    if (np != nq) {
 		ok = 0;
 	    } else {
 		/* Simple signed_nats are checked */
 		if (np == ENC_make_signed_nat) {
 		    if (!eq_node(p->son, q->son))ok = 0;
-		    if (tg == 2) return(ok ? p1 : sh_top);
+		    if (tg == 2) return ok ? p1 : sh_top;
 		}
 	    }
 	    break;
@@ -547,8 +547,8 @@ check_shapes(node *p, node *q, int tg)
 
 	case SORT_variety: {
 	    /* Don't know about conditionals */
-	    if (np == ENC_var_cond) return(q0);
-	    if (nq == ENC_var_cond) return(p0);
+	    if (np == ENC_var_cond) return q0;
+	    if (nq == ENC_var_cond) return p0;
 	    if (np != nq) {
 		ok = 0;
 	    } else {
@@ -572,19 +572,19 @@ check_shapes(node *p, node *q, int tg)
 	while (xp && xq) {
 	    node *c = check_shapes(xp, xq, tg);
 	    if (tg == 2) {
-		if (c == null) return(null);
-		if (c == sh_top) return(sh_top);
+		if (c == null) return null;
+		if (c == sh_top) return sh_top;
 	    }
 	    xp = xp->bro;
 	    xq = xq->bro;
 	}
     } else {
-	if (tg == 2) return(null);
+	if (tg == 2) return null;
     }
 
     if (!ok) {
 	/* Definitely not compatible */
-	if (tg == 2) return(sh_top);
+	if (tg == 2) return sh_top;
 	is_fatal = 0;
 	if (tg) {
 	    input_error("Shape of tag %s does not match declaration",
@@ -592,9 +592,9 @@ check_shapes(node *p, node *q, int tg)
 	} else {
 	    input_error("Shape incompatibility in %s", checking);
 	}
-	return(null);
+	return null;
     }
-    return(p1);
+    return p1;
 }
 
 
@@ -608,7 +608,7 @@ check_shapes(node *p, node *q, int tg)
 node *
 lub(node *p, node *q)
 {
-    return(check_shapes(p, q, 2));
+    return check_shapes(p, q, 2);
 }
 
 
@@ -627,14 +627,14 @@ check1(int t, node *p)
     char *nm = p->cons->name;
     node *s = p->shape, *s0 = s;
 
-    if (s == null) return(null);
-    if (s->cons->sortnum == SORT_unknown) return(s);
-    if (t >= ENC_shape_none) return(s);
+    if (s == null) return null;
+    if (s->cons->sortnum == SORT_unknown) return s;
+    if (t >= ENC_shape_none) return s;
 
     n = s->cons->encoding;
     if (n == ENC_shape_apply_token) {
 	s = expand_tok(s);
-	if (s == null) return(s0);
+	if (s == null) return s0;
 	n = s->cons->encoding;
     }
 
@@ -650,9 +650,9 @@ check1(int t, node *p)
 	is_fatal = 0;
 	input_error("%s argument to %s should be of %s shape",
 		      nm, checking, c->name);
-	return(null);
+	return null;
     }
-    return(normalize(s));
+    return normalize(s);
 }
 
 
@@ -699,10 +699,10 @@ check2(int t, node *p, node *q)
 		}
 	    }
 	}
-	return(sh_nof(n, s));
+	return sh_nof(n, s);
     }
 
-    return(check_shapes(sp, sq, 0));
+    return check_shapes(sp, sq, 0);
 }
 
 
@@ -725,7 +725,7 @@ checkn(int t, node *p, int nz)
 	    input_error("Repeated statement in %s cannot be empty",
 			  checking);
 	}
-	return(null);
+	return null;
     }
     q = p->son;
     r = check1(t, q);
@@ -733,7 +733,7 @@ checkn(int t, node *p, int nz)
 	node *s = check1(t, q);
 	r = check_shapes(r, s, 0);
     }
-    return(r);
+    return r;
 }
 
 
@@ -771,7 +771,7 @@ set_token_args(construct **c, node *p, int set)
 	    c++;
 	}
     }
-    return(q);
+    return q;
 }
 
 
@@ -795,11 +795,11 @@ is_intro_exp(construct *c)
 	    case ENC_make_proc:
 	    case ENC_repeat:
 	    case ENC_variable: {
-		return(1);
+		return 1;
 	    }
 	}
     }
-    return(0);
+    return 0;
 }
 
 
@@ -819,12 +819,12 @@ contains_tokens(node *p, int intro, int tok)
     long n;
     node *q;
     sortname s;
-    if (p == null) return(0);
+    if (p == null) return 0;
     s = p->cons->sortnum;
     n = p->cons->encoding;
     switch (s) {
 	case SORT_al_tag: {
-	    if (n == ENC_make_al_tag) return(0);
+	    if (n == ENC_make_al_tag) return 0;
 	    intro = 0;
 	    break;
 	}
@@ -832,10 +832,10 @@ contains_tokens(node *p, int intro, int tok)
 	    if (n == ENC_make_label) {
 		if (intro) {
 		    p->cons->alias = p->cons;
-		    return(3);
+		    return 3;
 		}
-		if (p->cons->alias) return(2);
-		return(0);
+		if (p->cons->alias) return 2;
+		return 0;
 	    }
 	    intro = 0;
 	    break;
@@ -844,16 +844,16 @@ contains_tokens(node *p, int intro, int tok)
 	    if (n == ENC_make_tag) {
 		if (intro) {
 		    p->cons->alias = p->cons;
-		    return(3);
+		    return 3;
 		}
-		if (p->cons->alias) return(2);
-		return(0);
+		if (p->cons->alias) return 2;
+		return 0;
 	    }
 	    intro = 0;
 	    break;
 	}
 	case SORT_token: {
-	    if (n == ENC_make_tok) return(0);
+	    if (n == ENC_make_tok) return 0;
 	    intro = 0;
 	    break;
 	}
@@ -870,20 +870,20 @@ contains_tokens(node *p, int intro, int tok)
 	tok_info *info = get_tok_info(p->son->cons);
 	q = info->def;
 	if (q && q->cons->sortnum == SORT_completion)q = q->son;
-	if (q && q->shape) return(4);
+	if (q && q->shape) return 4;
 	p = p->son;
     }
     if (s > 0 && n == sort_tokens[s]) {
 	tok_info *info = get_tok_info(p->son->cons);
 	q = info->def;
-	if (q) return(4);
+	if (q) return 4;
 	p = p->son;
     }
     for (q = p->son; q; q = q->bro) {
 	int c = contains_tokens(q, intro, tok);
-	if (c == 1 || c >= tok) return(1);
+	if (c == 1 || c >= tok) return 1;
     }
-    return(0);
+    return 0;
 }
 
 
@@ -972,7 +972,7 @@ expand_fully_aux(node *p, int c, int def)
 	    break;
 	}
     }
-    return(q);
+    return q;
 }
 
 
@@ -989,7 +989,7 @@ expand_fully(node *p)
 	int c = contains_tokens(p, 0, 4);
 	if (c)p = expand_fully_aux(p, c, 0);
     }
-    return(p);
+    return p;
 }
 
 

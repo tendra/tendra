@@ -101,17 +101,17 @@ file_seek(FILE *f, long n)
 	if (n == 0) {
 		/* Can always rewind a file */
 		rewind(f);
-		return (1);
+		return 1;
 	}
 	if (good_fseek) {
 		/* Use fseek if it works */
 		int s = fseek(f, n, SEEK_SET);
 		if (s == -1) {
-			return (-1);
+			return -1;
 		}
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -173,7 +173,7 @@ get_crt_time(void)
 		s2 = find_date("%s%.2d_%d");
 		sprintf_v(uniq_string, "%s_%s", s1, s2);
 	}
-	return (&crt_time_str);
+	return &crt_time_str;
 }
 
 
@@ -197,7 +197,7 @@ find_date(const char *fmt)
 	const char *month = month_name[st->tm_mon];
 	int year = 1900 + st->tm_year;
 	sprintf_v(buff, fmt, month, day, year);
-	return (buff);
+	return buff;
 }
 
 
@@ -217,7 +217,7 @@ find_time(const char *fmt)
 	int min = st->tm_min;
 	int sec = st->tm_sec;
 	sprintf_v(buff, fmt, hour, min, sec);
-	return (buff);
+	return buff;
 }
 
 
@@ -235,11 +235,11 @@ stat_func(char *nm, STAT_TYPE *fs)
 #if FS_POSIX
 	int s = stat(nm, fs);
 	if (s != -1) {
-		return (fs);
+		return fs;
 	}
 #endif
 	UNUSED(nm);
-	return (NULL);
+	return NULL;
 }
 
 
@@ -257,7 +257,7 @@ stat_date(STAT_TYPE *fs)
 	if (fs) {
 		date = time_value(fs->st_mtime);
 	}
-	return (date);
+	return date;
 }
 
 
@@ -275,10 +275,10 @@ stat_equal(STAT_TYPE *fs, STAT_TYPE *gs)
 {
 	if (fs && gs) {
 		if (fs->st_dev == gs->st_dev && fs->st_ino == gs->st_ino) {
-			return (good_stat);
+			return good_stat;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -309,7 +309,7 @@ find_cwd(void)
 		crt_directory = ".";
 #endif
 	}
-	return (crt_directory);
+	return crt_directory;
 }
 
 
@@ -331,10 +331,10 @@ find_machine(void)
 			string s = ustrlit(un.nodename);
 			s = xustrcpy(s);
 			machine_name = strlit(s);
-			return (machine_name);
+			return machine_name;
 		}
 #endif
 		machine_name = "";
 	}
-	return (machine_name);
+	return machine_name;
 }

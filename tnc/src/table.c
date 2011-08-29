@@ -172,7 +172,7 @@ hash(char *s)
 	for (; *s; s++)
 		n += *s;
 
-	return (n % hash_size);
+	return n % hash_size;
 }
 
 
@@ -234,7 +234,7 @@ static node *
 de_dummy(void)
 {
 	fatal_error("Invalid decode function");
-	return (NULL);
+	return NULL;
 }
 
 
@@ -250,7 +250,7 @@ read_dummy(long n)
 	(void) n;
 
 	fatal_error("Invalid read function");
-	return (NULL);
+	return NULL;
 }
 
 
@@ -318,12 +318,12 @@ sort_name(sortname s)
 {
 	if (is_high(s)) {
 		high_sort *h = high_sorts + high_no(s);
-		return (h->name);
+		return h->name;
 	} else if (s == SORT_unknown || s < 0) {
-		return ("....");
+		return "....";
 	} else {
 		construct *p = cons_no(SORT_sortname, s);
-		return (p->name);
+		return p->name;
 	}
 }
 
@@ -345,12 +345,12 @@ add_to_cons_hash(construct *p, sortname s)
 
 	for (q = h; q != NULL; q = q->next)
 		if (strcmp(p->name, q->name) == 0)
-			return (q);
+			return q;
 
 	p->next = h;
 	cons_hash_tables[hash_size * s + n] = p;
 
-	return (NULL);
+	return NULL;
 }
 
 
@@ -371,9 +371,9 @@ search_cons_hash(char *p, sortname s)
 
 	for (q = h; q != NULL; q = q->next)
 		if (strcmp(p, q->name) == 0)
-			return (q);
+			return q;
 
-	return (NULL);
+	return NULL;
 }
 
 
@@ -394,12 +394,12 @@ add_to_var_hash(construct *p, sortname s)
 
 	for (q = h; q != NULL; q = q->next)
 		if (strcmp(p->name, q->name) == 0)
-			return (q);
+			return q;
 
 	p->next = h;
 	var_hash_tables[hash_size * s + n] = p;
 
-	return (NULL);
+	return NULL;
 }
 
 
@@ -420,9 +420,9 @@ search_var_hash(char *p, sortname s)
 
 	for (q = h; q != NULL; q = q->next)
 		if (strcmp(p, q->name) == 0)
-			return (q);
+			return q;
 
-	return (NULL);
+	return NULL;
 }
 
 

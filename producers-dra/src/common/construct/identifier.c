@@ -369,7 +369,7 @@ chase_alias(IDENTIFIER id)
 		}
 		id = lid;
 	}
-	return (id);
+	return id;
 }
 
 
@@ -406,7 +406,7 @@ check_id_name(IDENTIFIER id, int loc)
 			/* Check for hiding of template parameters */
 			err = ERR_temp_local_hide(id);
 			if (!IS_NULL_err(err)) {
-				return (err);
+				return err;
 			}
 		}
 		if (crt_templ_qualifier) {
@@ -420,7 +420,7 @@ qualifier_lab:
 		if (loc == CONTEXT_PARAMETER || loc == CONTEXT_TEMPL_PARAM) {
 			err = ERR_dcl_meaning_id(cq, id);
 			if (!IS_NULL_err(err)) {
-				return (err);
+				return err;
 			}
 		}
 		break;
@@ -429,7 +429,7 @@ qualifier_lab:
 		/* Namespace specifier beginning with '::' */
 		err = ERR_dcl_meaning_full(cq, id);
 		if (!IS_NULL_err(err)) {
-			return (err);
+			return err;
 		}
 		goto qualifier_lab;
 	}
@@ -453,7 +453,7 @@ qualifier_lab:
 			break;
 		}
 	}
-	return (err);
+	return err;
 }
 
 
@@ -521,7 +521,7 @@ declare_func(DECL_SPEC ds, IDENTIFIER id, TYPE ret, TYPE *p, int ell,
 	crt_templ_qualifier = tq;
 	crt_id_qualifier = cq;
 	crt_access = acc;
-	return (id);
+	return id;
 }
 
 
@@ -576,7 +576,7 @@ implicit_id_exp(IDENTIFIER id, int fn)
 				report(crt_loc, err);
 			}
 			MAKE_exp_undeclared(type_templ_param, id, cq, e);
-			return (e);
+			return e;
 		}
 		if (cq == qual_none) {
 			ns = NULL_nspace;
@@ -599,7 +599,7 @@ implicit_id_exp(IDENTIFIER id, int fn)
 					report(crt_loc, err);
 				}
 				e = make_id_exp(pid);
-				return (e);
+				return e;
 			}
 		}
 		ns = cns;
@@ -612,7 +612,7 @@ implicit_id_exp(IDENTIFIER id, int fn)
 		case id_variable_tag:
 		case id_function_tag: {
 			e = make_id_exp(pid);
-			return (e);
+			return e;
 		}
 		}
 	}
@@ -683,7 +683,7 @@ implicit_id_exp(IDENTIFIER id, int fn)
 	bad_crt_loc--;
 	IGNORE pop_namespace();
 	e = make_id_exp(id);
-	return (e);
+	return e;
 }
 
 
@@ -754,7 +754,7 @@ default_lab: {
 			CONS_id(id, ambig_meanings, ambig_meanings);
 		}
 	}
-	return (n);
+	return n;
 }
 
 
@@ -800,7 +800,7 @@ report_ambiguous(IDENTIFIER id, int type, int rec, int force)
 		DESTROY_list(p, SIZE_id);
 		ambig_meanings = NULL_list(IDENTIFIER);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -824,7 +824,7 @@ find_ambig_dspec(LIST(IDENTIFIER) pids)
 		}
 		pids = TAIL_list(pids);
 	}
-	return (ds);
+	return ds;
 }
 
 
@@ -1001,7 +1001,7 @@ default_lab:
 		MAKE_exp_undeclared(type_error, id, cq, e);
 		break;
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1030,7 +1030,7 @@ this_param(IDENTIFIER fn, int use)
 		ds |= dspec_used;
 		COPY_dspec(id_storage(pid), ds);
 	}
-	return (pid);
+	return pid;
 }
 
 
@@ -1065,7 +1065,7 @@ make_this_exp(void)
 		report(crt_loc, ERR_expr_prim_this());
 		e = make_error_exp(0);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1087,9 +1087,9 @@ make_this_ref(NAMESPACE *pns)
 		TYPE t = DEREF_type(id_parameter_type(pid));
 		MAKE_exp_identifier(t, pid, qual_none, e);
 		*pns = DEREF_nspace(id_parent(fn));
-		return (e);
+		return e;
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1147,7 +1147,7 @@ make_this_decl(IDENTIFIER fn)
 		MAKE_exp_contents(t, e, e);
 	}
 	COPY_exp(id_parameter_init(pid), e);
-	return (e);
+	return e;
 }
 
 
@@ -1182,11 +1182,11 @@ is_this_exp(EXP e)
 			IDENTIFIER id = DEREF_id(exp_identifier_id(e));
 			HASHID nm = DEREF_hashid(id_name(id));
 			if (EQ_KEYWORD(nm, lex_this_Hname)) {
-				return (1);
+				return 1;
 			}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1209,9 +1209,9 @@ ellipsis_param(IDENTIFIER fn)
 		HASHID nm = KEYWORD(lex_ellipsis_Hexp);
 		NAMESPACE ns = DEREF_nspace(type_func_pars(t));
 		IDENTIFIER pid = search_id(ns, nm, 0, 0);
-		return (pid);
+		return pid;
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -1247,7 +1247,7 @@ find_ellipsis_type(int force)
 			t = type_error;
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1299,10 +1299,10 @@ make_ellipsis_exp(void)
 			TYPE t = find_ellipsis_type(1);
 			report(crt_loc, ERR_expr_call_ell_exp());
 			MAKE_exp_identifier(t, pid, qual_none, e);
-			return (e);
+			return e;
 		}
 	}
 	report(crt_loc, ERR_expr_call_ell_func());
 	e = make_error_exp(0);
-	return (e);
+	return e;
 }

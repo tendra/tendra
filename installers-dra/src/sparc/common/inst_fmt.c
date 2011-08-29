@@ -201,12 +201,12 @@ char
     if ( id < 0 ) {
 	/* Negative numbers refer to globals */
 	char *ext = main_globals [ -id - 1 ]->dec_u.dec_val.dec_id ;
-	return ( ext ) ;
+	return ext;
     } else {
 	/* Positive numbers refer to labels */
 	static char space [64] ;
 	sprintf ( space, "%sD%d", lab_prefix, id ) ;
-	return ( space ) ;
+	return space;
     }
 }
 

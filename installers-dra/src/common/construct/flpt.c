@@ -196,22 +196,22 @@ mag_cmp(flt f1, flt f2)
   int i;
   if (f1.sign == 0) {
     if (f2.sign == 0) {
-      return(0);
+      return 0;
     }
-    return(-1);
+    return -1;
   }
   if (f2.sign == 0) {
-    return(1);
+    return 1;
   }
   if (f1.exp != f2.exp) {
-    return((f1.exp < f2.exp) ? -1 : 1);
+    return (f1.exp < f2.exp) ? -1 : 1;
   }
   for (i = 0; i < MANT_SIZE; i++) {
     if ((f1.mant[i]) != (f2.mant[i])) {
-      return(((f1.mant[i]) < (f2.mant[i])) ? -1 : 1);
+      return ((f1.mant[i]) < (f2.mant[i])) ? -1 : 1;
     }
   }
-  return(0);
+  return 0;
 }
 
 
@@ -225,22 +225,22 @@ dbl_mag_cmp (dbl d1, dbl d2)
   int i;
   if (d1.sign == 0) {
     if (d2.sign == 0) {
-      return(0);
+      return 0;
     }
-    return(-1);
+    return -1;
   }
   if (d2.sign == 0) {
-    return(1);
+    return 1;
   }
   if (d1.exp != d2.exp) {
-    return((d1.exp < d2.exp) ? -1 : 1);
+    return (d1.exp < d2.exp) ? -1 : 1;
   }
   for (i = 0; i < (2 * MANT_SIZE); i++) {
     if ((d1.mant[i]) != (d2.mant[i])) {
-      return(((d1.mant[i]) < (d2.mant[i]))? -1 : 1);
+      return ((d1.mant[i]) < (d2.mant[i]))? -1 : 1;
     }
   }
-  return(0);
+  return 0;
 }
 
 
@@ -360,7 +360,7 @@ sub_mantissas(dbl d1, dbl d2, flt *res)
     for (i = 0; i < MANT_SIZE; i++) {
       (res->mant)[i] = 0;
     }
-    return(OKAY);
+    return OKAY;
   } else if (cmp == -1) {
     dp1 = &d2;
     dp2 = &d1;
@@ -382,11 +382,11 @@ sub_mantissas(dbl d1, dbl d2, flt *res)
     }
     rdbl.mant[(2 * MANT_SIZE) - 1] = 0;
     if ((--rdbl.exp) < E_MIN) {
-      return(EXP2BIG);
+      return EXP2BIG;
     }
   }
   dbl2float(rdbl, res);
-  return(OKAY);
+  return OKAY;
 }
 
 
@@ -417,13 +417,13 @@ add_mantissas(dbl d1, dbl d2, flt * res)
       }
       rdbl.mant[0] = (unsigned short)c;	/* CAST:jmf: */
       if (((++rdbl.exp) >= E_MAX) || (rdbl.exp <= E_MIN)) {
-	return(EXP2BIG);
+	return EXP2BIG;
       }
     }
     dbl2float(rdbl, res);
-    return(OKAY);
+    return OKAY;
   }
-  return(sub_mantissas(d1, d2, res));
+  return sub_mantissas(d1, d2, res);
 }
 
 
@@ -470,10 +470,10 @@ flt_add(flt f1, flt f2, flt *res)
   dbl d1, d2;
   if (f1.sign == 0) {
     flt_copy(f2, res);
-    return(OKAY);
+    return OKAY;
   } else if (f2.sign == 0) {
     flt_copy(f1, res);
-    return(OKAY);
+    return OKAY;
   }
   flt2double(f1, &d1);
   flt2double(f2, &d2);
@@ -483,7 +483,7 @@ flt_add(flt f1, flt f2, flt *res)
     shift_right(&d2, d1.exp - d2.exp);
   }
   (res->exp) = d1.exp;
-  return(add_mantissas(d1, d2, res));
+  return add_mantissas(d1, d2, res);
 }
 
 
@@ -496,7 +496,7 @@ int
 flt_sub(flt f1, flt f2, flt *res)
 {
   f2.sign = -f2.sign;
-  return(flt_add(f1, f2, res));
+  return flt_add(f1, f2, res);
 }
 
 
@@ -516,12 +516,12 @@ flt_mul(flt f1, flt f2, flt *res)
   unsigned int acc[2 * MANT_SIZE];
   if ((f1.sign == 0) || (f2.sign == 0)) {
     flt_zero(res);
-    return(OKAY);
+    return OKAY;
   }
   rdbl.sign = ((f1.sign == f2.sign)? 1 : -1);
   rdbl.exp = (f1.exp + f2.exp + 1);
   if ((rdbl.exp >= E_MAX) || (rdbl.exp <= E_MIN)) {
-    return(EXP2BIG);
+    return EXP2BIG;
   }
   for (i = 0; i < (2 * MANT_SIZE); i++) {
     acc[i] = 0;
@@ -542,11 +542,11 @@ flt_mul(flt f1, flt f2, flt *res)
     }
     rdbl.mant[(2 * MANT_SIZE) - 1] = 0;
     if ((--rdbl.exp) <= E_MIN) {
-      return(EXP2BIG);
+      return EXP2BIG;
     }
   }
   dbl2float(rdbl, res);
-  return(OKAY);
+  return OKAY;
 }
 #else
 /* "f1" and "f2" are legal single precision numbers. "res" is a pointer to a
@@ -563,12 +563,12 @@ flt_mul(flt f1, flt f2, flt *res)
   unsigned int acc[2 * MANT_SIZE];
   if ((f1.sign == 0) || (f2.sign == 0)) {
     flt_zero(res);
-    return(OKAY);
+    return OKAY;
   }
   rdbl.sign = ((f1.sign == f2.sign)? 1 : -1);
   rdbl.exp = (f1.exp + f2.exp + 1);
   if ((rdbl.exp >= E_MAX) || (rdbl.exp <= E_MIN)) {
-    return(EXP2BIG);
+    return EXP2BIG;
   }
   for (i = 0; i < (2 * MANT_SIZE); i++) {
     acc[i] = 0;
@@ -597,12 +597,12 @@ flt_mul(flt f1, flt f2, flt *res)
     }
     rdbl.mant[(2 * MANT_SIZE) - 1] = 0;
     if ((--rdbl.exp) <= E_MIN) {
-      return(EXP2BIG);
+      return EXP2BIG;
     }
   }
 
   dbl2float(rdbl, res);
-  return(OKAY);
+  return OKAY;
 }
 #endif
 
@@ -621,16 +621,16 @@ flt_div(flt f1, flt f2, flt *res)
   int i = 0;
   flt f3;
   if (f2.sign == 0) {
-    return(DIVBY0);
+    return DIVBY0;
   }
   if (f1.sign == 0) {
     flt_zero(res);
-    return(OKAY);
+    return OKAY;
   }
   rdbl.sign = ((f1.sign == f2.sign) ? 1 : -1);
   rdbl.exp = (f1.exp - f2.exp);
   if ((rdbl.exp >= E_MAX) || (rdbl.exp <= E_MIN)) {
-    return(EXP2BIG);
+    return EXP2BIG;
   }
   f1.sign = 1;
   f2.sign = 1;
@@ -641,19 +641,19 @@ flt_div(flt f1, flt f2, flt *res)
     int count = -1;
     while (f3.sign != -1) {
       if (flt_sub(f3, f2, &f3) != OKAY) {
-	return(EXP2BIG);
+	return EXP2BIG;
       }
       count++;
     }
     if (flt_add(f3, f2, &f3) != OKAY) {
-      return(EXP2BIG);
+      return EXP2BIG;
     }
     rdbl.mant[i++] = count;
     if (f3.sign == 0) {
       break;
     }
     if ((--f2.exp) <= E_MIN) {
-      return(EXP2BIG);
+      return EXP2BIG;
     }
   }
   while (i < (2 * MANT_SIZE)) {
@@ -665,11 +665,11 @@ flt_div(flt f1, flt f2, flt *res)
     }
     rdbl.mant[(2 * MANT_SIZE) - 1] = 0;
     if ((--rdbl.exp) <= E_MIN) {
-      return(EXP2BIG);
+      return EXP2BIG;
     }
   }
   dbl2float(rdbl, res);
-  return(OKAY);
+  return OKAY;
 }
 
 #else
@@ -692,12 +692,12 @@ flt_div(flt f1, flt f2, flt *res)
   unsigned int k;
 
   if (f2.sign == 0) {
-    return(DIVBY0);
+    return DIVBY0;
   }
 
   if (f1.sign == 0) {
     flt_zero(res);
-    return(OKAY);
+    return OKAY;
   }
 
   for (i = 0; i < MANT_SIZE; ++i) {
@@ -837,13 +837,13 @@ flt_cmp(flt f1, flt f2)
 {
   int ret;
   if (f1.sign < f2.sign) {
-    return(-1);
+    return -1;
   }
   if (f1.sign > f2.sign) {
-    return(1);
+    return 1;
   }
   ret = mag_cmp(f1, f2);
-  return((f1.sign == -1) ? -ret : ret);
+  return (f1.sign == -1) ? -ret : ret;
 }
 
 
@@ -976,7 +976,7 @@ str2flt(char *s, flt *f, char **r)
       rounded = 1;		/* ASCII */
     }
     if (ids >= E_MAX) {
-      return(EXP2BIG);
+      return EXP2BIG;
     }
     ids++;
     s++;
@@ -986,7 +986,7 @@ str2flt(char *s, flt *f, char **r)
     if (zero) {
       while (*s == '0') {
 	if (ids <= E_MIN) {
-	  return(EXP2BIG);
+	  return EXP2BIG;
 	}
 	ids--;
 	s++;
@@ -1019,13 +1019,13 @@ str2flt(char *s, flt *f, char **r)
     }
     while ((*s) && (*s >= '0' && *s <= '9')) {
       if (e >= (E_MAX / 10)) {
-	return(EXP2BIG);
+	return EXP2BIG;
       }
       e = e * 10 + ((*s++) - '0');
       exp_empty = 0;		/* ASCII */
     }
     if (exp_empty) {
-      return(SYNTAX);
+      return SYNTAX;
     }
     e *= e_sign;
     (f->exp) += (e + ids);
@@ -1033,19 +1033,19 @@ str2flt(char *s, flt *f, char **r)
     (f->exp) += ids;
   }
   if (((f->exp) >= E_MAX) || ((f->exp) <= E_MIN)) {
-    return(EXP2BIG);
+    return EXP2BIG;
   }
   if (zero) {
     (f->sign) = 0;
     (f->exp) = 0;
   }
   if (mant_empty) {
-    return(SYNTAX);
+    return SYNTAX;
   }
   if (r) {
     *r = s;
   }
-  return(OKAY);
+  return OKAY;
 }
 
 #endif
@@ -1119,7 +1119,7 @@ new_flpt(void)
   if (--flpt_left == 0) {
     more_flpts();
   }
-  return(r);
+  return r;
 }
 
 
@@ -1146,17 +1146,17 @@ cmpflpt(flpt a, flpt b, int testno)
 
   switch (testno) {
   case 1:
-    return(res == 1);
+    return res == 1;
   case 2:
-    return(res != -1);
+    return res != -1;
   case 3:
-    return(res == -1);
+    return res == -1;
   case 4:
-    return(res != 1);
+    return res != 1;
   case 5:
-    return(res == 0);
+    return res == 0;
   default:
-    return(res != 0);
+    return res != 0;
   }
 }
 
@@ -1172,7 +1172,7 @@ floatrep(int n)
   flt fr;
   IGNORE str2flt(pr, &fr,(char **)0);
   flptnos[res] = fr;
-  return(res);
+  return res;
 }
 
 
@@ -1213,7 +1213,7 @@ floatrep_aux(int n, int sign)
   flt_zero(&fr);
   if (n == 0) {
     flptnos[res] = fr;
-    return(res);
+    return res;
   }
 
   fr.sign = sign;
@@ -1230,7 +1230,7 @@ floatrep_aux(int n, int sign)
   }
 
   flptnos[res] = fr;
-  return(res);
+  return res;
 }
 
 

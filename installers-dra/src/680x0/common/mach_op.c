@@ -173,7 +173,7 @@ new_mach_op(void)
 	p->id = next_id++;
 #endif
 #endif
-	return (p);
+	return p;
 }
 
 
@@ -278,7 +278,7 @@ next_tmp_reg(void)
 			}
 		}
 	}
-	return (r);
+	return r;
 }
 
 
@@ -317,7 +317,7 @@ tmp_reg(int instr, mach_op *ptr)
 	make_instr_aux(instr, ptr, p, regmsk(r), 1);
 	regsinproc |= regmsk(r);
 	tmp_reg_status = t + 1;
-	return (r);
+	return r;
 }
 
 
@@ -331,24 +331,24 @@ bool
 check_op(mach_op *op, int r)
 {
 	if (op == null) {
-		return (0);
+		return 0;
 	}
 	switch (op->type) {
 	case MACH_CONT:
-		return ((op->def.num) & regmsk(r)? 1 : 0);
+		return (op->def.num) & regmsk(r) ? 1 : 0;
 	case MACH_REG:
 	case MACH_DEC:
 	case MACH_INC:
-		return (op->def.num == r ? 1 : 0);
+		return op->def.num == r ? 1 : 0;
 	case MACH_BF:
-		return (check_op(op->of, r));
+		return check_op(op->of, r);
 	case MACH_RPAIR:
 		if (op->def.num == r) {
-			return (1);
+			return 1;
 		}
-		return (op->plus->def.num == r ? 1 : 0);
+		return op->plus->def.num == r ? 1 : 0;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -367,30 +367,30 @@ equal_op(mach_op *op1, mach_op *op2)
 	mach_op *p1 = op1, *p2 = op2;
 	while (p1 && p2) {
 		if (p1->type != p2->type) {
-			return (0);
+			return 0;
 		}
 		if (p1->type == MACH_DEC || p1->type == MACH_INC) {
-			return (0);
+			return 0;
 		}
 		if (p1->def.num != p2->def.num) {
-			return (0);
+			return 0;
 		}
 		if (p1->plus) {
 			if (p2->plus == null) {
-				return (0);
+				return 0;
 			}
 			if (!equal_op(p1->plus, p2->plus)) {
-				return (0);
+				return 0;
 			}
 		} else {
 			if (p2->plus) {
-				return (0);
+				return 0;
 			}
 		}
 		p1 = p1->of;
 		p2 = p2->of;
 	}
-	return (p1 == p2 ? 1 : 0);
+	return p1 == p2 ? 1 : 0;
 }
 
 
@@ -408,7 +408,7 @@ make_value(long n)
 	mach_op *p = new_mach_op();
 	p->type = MACH_VAL;
 	p->def.num = n;
-	return (p);
+	return p;
 }
 
 
@@ -422,7 +422,7 @@ make_int_data(long n)
 	mach_op *p = new_mach_op();
 	p->type = MACH_VALQ;
 	p->def.num = n;
-	return (p);
+	return p;
 }
 
 
@@ -436,7 +436,7 @@ make_hex_value(long n)
 	mach_op *p = new_mach_op();
 	p->type = MACH_HEX;
 	p->def.num = n;
-	return (p);
+	return p;
 }
 
 
@@ -450,7 +450,7 @@ make_hex_data(long n)
 	mach_op *p = new_mach_op();
 	p->type = MACH_HEXQ;
 	p->def.num = n;
-	return (p);
+	return p;
 }
 
 
@@ -464,7 +464,7 @@ make_float_data(flt *f)
 	mach_op *p = new_mach_op();
 	p->type = MACH_FLOATQ;
 	p->def.fp = f;
-	return (p);
+	return p;
 }
 
 
@@ -484,7 +484,7 @@ make_lab(long n, long d)
 		p2->def.num = d;
 		p1->plus = p2;
 	}
-	return (p1);
+	return p1;
 }
 
 
@@ -504,7 +504,7 @@ make_lab_data(long n, long d)
 		p2->def.num = d;
 		p1->plus = p2;
 	}
-	return (p1);
+	return p1;
 }
 
 
@@ -525,7 +525,7 @@ make_lab_diff(long a, long b)
 	p2->plus = p3;
 	p3->type = MACH_LABQ;
 	p3->def.num = b;
-	return (p1);
+	return p1;
 }
 
 
@@ -545,7 +545,7 @@ make_extern(char *nm, long d)
 		p2->def.num = d;
 		p1->plus = p2;
 	}
-	return (p1);
+	return p1;
 }
 
 
@@ -565,7 +565,7 @@ make_extern_data(char *nm, long d)
 		p2->def.num = d;
 		p1->plus = p2;
 	}
-	return (p1);
+	return p1;
 }
 
 
@@ -579,7 +579,7 @@ make_special(char *nm)
 	mach_op *p = new_mach_op();
 	p->type = MACH_SPEC;
 	p->def.str = nm;
-	return (p);
+	return p;
 }
 
 
@@ -593,7 +593,7 @@ make_special_data(char *nm)
 	mach_op *p = new_mach_op();
 	p->type = MACH_SPECQ;
 	p->def.str = nm;
-	return (p);
+	return p;
 }
 
 
@@ -617,7 +617,7 @@ make_lab_ind(long n, long d)
 		p3->def.num = d;
 		p2->plus = p3;
 	}
-	return (p1);
+	return p1;
 }
 
 
@@ -641,7 +641,7 @@ make_extern_ind(char *nm, long d)
 		p3->def.num = d;
 		p2->plus = p3;
 	}
-	return (p1);
+	return p1;
 }
 
 
@@ -655,7 +655,7 @@ make_register(int r)
 	mach_op *p = new_mach_op();
 	p->type = MACH_REG;
 	p->def.num = (long)r;
-	return (p);
+	return p;
 }
 
 /*
@@ -674,7 +674,7 @@ make_ldisp(long offset)
 		p1->plus->type = MACH_VAL;
 		p1->plus->def.num = offset;
 	}
-	return (p1);
+	return p1;
 }
 
 
@@ -710,7 +710,7 @@ make_indirect(int r, long d)
 		p3->def.num = d;
 		p2->plus = p3;
 	}
-	return (p1);
+	return p1;
 }
 
 
@@ -745,7 +745,7 @@ make_rel_ap(long d)
 			p4->def.num = d - s / 8;
 			p3->plus = p4;
 			used_ldisp = 1;
-			return (p1);
+			return p1;
 		}
 		d += 4;
 	}
@@ -757,7 +757,7 @@ make_rel_ap(long d)
 		p2->plus = p3;
 	}
 	used_stack = 1;
-	return (p1);
+	return p1;
 }
 
 #ifndef tdf3
@@ -786,7 +786,7 @@ make_rel_ap2(long d)
 	p2->plus = p3;
 
 	used_stack = 1;
-	return (p1);
+	return p1;
 }
 /*
    Used to access caller parrameters in the postlude.
@@ -811,7 +811,7 @@ make_rel_sp(long d)
 	p3->type = MACH_VAL;
 	p3->def.num = d - s / 8;
 
-	return (p1);
+	return p1;
 }
 
 #endif
@@ -854,7 +854,7 @@ make_reg_index(int r1, int r2, long d, int sf)
 		p5->def.num = d;
 		p3->plus = p5;
 	}
-	return (p1);
+	return p1;
 }
 
 
@@ -886,7 +886,7 @@ _make_ind_rel_ap(long d, long e, int typ)
 
 	if (tmp_reg_status < 2) {
 		int t = tmp_reg(m_movl, p2);
-		return (make_indirect(t, e));
+		return make_indirect(t, e);
 	}
 
 	debug_warning("Complex operand");
@@ -901,7 +901,7 @@ _make_ind_rel_ap(long d, long e, int typ)
 		p3->def.num = e;
 		p2->plus = p3;
 	}
-	return (p1);
+	return p1;
 }
 
 mach_op *
@@ -934,7 +934,7 @@ make_dec_sp(void)
 	mach_op *p = new_mach_op();
 	p->type = MACH_DEC;
 	p->def.num = (long)REG_SP;
-	return (p);
+	return p;
 }
 
 
@@ -948,7 +948,7 @@ make_inc_sp(void)
 	mach_op *p = new_mach_op();
 	p->type = MACH_INC;
 	p->def.num = (long)REG_SP;
-	return (p);
+	return p;
 }
 
 #ifndef tdf3
@@ -962,7 +962,7 @@ make_predec(int r)
 	mach_op *p = new_mach_op();
 	p->type = MACH_DEC;
 	p->def.num = (long)r;
-	return (p);
+	return p;
 }
 #endif
 
@@ -976,7 +976,7 @@ make_postinc(int r)
 	mach_op *p = new_mach_op();
 	p->type = MACH_INC;
 	p->def.num = (long)r;
-	return (p);
+	return p;
 }
 
 
@@ -994,7 +994,7 @@ make_reg_pair(int r1, int r2)
 	p1->plus = p2;
 	p2->type = MACH_REG;
 	p2->def.num = (long)r2;
-	return (p1);
+	return p1;
 }
 
 
@@ -1017,7 +1017,7 @@ make_index_op(mach_op *op1, mach_op *op2, int sf)
 
 	if (op1->type != MACH_CONT) {
 		error(ERROR_SERIOUS, "Illegal indexing operand");
-		return (null);
+		return null;
 	}
 
 	p1 = op1->of;
@@ -1062,7 +1062,7 @@ make_index_op(mach_op *op1, mach_op *op2, int sf)
 	}
 	p2->of = op2;
 	op1->def.num = u;
-	return (op1);
+	return op1;
 }
 
 
@@ -1084,5 +1084,5 @@ make_bitfield_op(mach_op *op, int bf_off, int bf_bits)
 	p1->of = op;
 	p2->type = MACH_VAL;
 	p2->def.num = (long)bf_bits;
-	return (p1);
+	return p1;
 }

@@ -235,7 +235,7 @@ koenig_id(CANDIDATE_LIST *p, IDENTIFIER id, IDENTIFIER cid, int kind)
 			}
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -264,7 +264,7 @@ koenig_class(CANDIDATE_LIST *p, IDENTIFIER id, CLASS_TYPE ct, int kind)
 	} else {
 		id = koenig_candidates(p, id, form, kind);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -293,7 +293,7 @@ koenig_token(CANDIDATE_LIST *p, IDENTIFIER id, TOKEN tok, int kind)
 		}
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -371,7 +371,7 @@ koenig_candidates(CANDIDATE_LIST *p, IDENTIFIER id, TYPE t, int kind)
 		}
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -504,7 +504,7 @@ list_candidates(ERROR err, CANDIDATE_LIST *p, unsigned rank)
 			err = concat_error(err, ERR_fail_list_end(m));
 		}
 	}
-	return (err);
+	return err;
 }
 
 
@@ -545,13 +545,13 @@ plausible_candidate(CANDIDATE *r, unsigned nargs)
 		unsigned npars = LENGTH_list(mtypes);
 		if (nargs == npars) {
 			/* Equal numbers of arguments and parameters */
-			return (0);
+			return 0;
 		} else if (nargs > npars) {
 			/* More arguments than parameters */
-			return (nargs - npars);
+			return nargs - npars;
 		} else {
 			/* Less arguments than parameters */
-			return (npars - nargs);
+			return npars - nargs;
 		}
 	} else {
 		/* Function candidates */
@@ -566,23 +566,23 @@ plausible_candidate(CANDIDATE *r, unsigned nargs)
 		npars = LENGTH_list(mtypes);
 		if (nargs == npars) {
 			/* Equal numbers of arguments and parameters */
-			return (0);
+			return 0;
 		} else if (nargs > npars) {
 			/* More arguments than parameters */
 			int ell = DEREF_int(type_func_ellipsis(fn));
 			if (ell) {
 				/* Match with ellipsis */
-				return (0);
+				return 0;
 			}
-			return (nargs - npars);
+			return nargs - npars;
 		} else {
 			/* Less arguments than parameters */
 			unsigned margs = min_no_args(fn);
 			if (nargs >= margs) {
 				/* Match with default arguments */
-				return (0);
+				return 0;
 			}
-			return (margs - nargs);
+			return margs - nargs;
 		}
 	}
 	/* NOTREACHED */
@@ -652,7 +652,7 @@ viable_candidate(CANDIDATE *r, LIST(EXP) args, TYPE ret)
 				UNUSED(a);
 				if (IS_NULL_id(tid)) {
 					swap_ptypes(id);
-					return (0);
+					return 0;
 				}
 				swap_ptypes(tid);
 				id = tid;
@@ -660,12 +660,12 @@ viable_candidate(CANDIDATE *r, LIST(EXP) args, TYPE ret)
 				/* Deal with normal candidates */
 				id = deduce_args(id, args, 2, 0, 1, &err);
 				if (IS_NULL_id(id)) {
-					return (0);
+					return 0;
 				}
 			}
 			fn = DEREF_type(id_function_etc_type(id));
 			if (!IS_type_func(fn)) {
-				return (0);
+				return 0;
 			}
 			viable_templates++;
 			r->func = id;
@@ -765,7 +765,7 @@ viable_candidate(CANDIDATE *r, LIST(EXP) args, TYPE ret)
 		conv = CONV_ELLIPSIS;
 	}
 	convs->rank = conv;
-	return (match);
+	return match;
 }
 
 
@@ -806,7 +806,7 @@ compare_funcs(IDENTIFIER rid, IDENTIFIER sid)
 			}
 		}
 	}
-	return (res);
+	return res;
 }
 
 
@@ -833,13 +833,13 @@ compare_candidates(CANDIDATE *r, CANDIDATE *s, LIST(EXP) args, TYPE ret)
 		if (cmp == 1) {
 			/* r better in this argument */
 			if (res == 2) {
-				return (0);
+				return 0;
 			}
 			res = 1;
 		} else if (cmp == 2) {
 			/* s better in this argument */
 			if (res == 1) {
-				return (0);
+				return 0;
 			}
 			res = 2;
 		}
@@ -856,7 +856,7 @@ compare_candidates(CANDIDATE *r, CANDIDATE *s, LIST(EXP) args, TYPE ret)
 			res = compare_seq(cr, cs);
 		}
 	}
-	return (res);
+	return res;
 }
 
 
@@ -915,7 +915,7 @@ resolve_overload(CANDIDATE_LIST *p, LIST(EXP) args, TYPE ret, int replay)
 			/* No plausible candidates - return most nearly
 			 * plausible */
 			match_no_viable = 0;
-			return (best);
+			return best;
 		}
 
 		/* Allocate room for conversion ranks */
@@ -959,12 +959,12 @@ resolve_overload(CANDIDATE_LIST *p, LIST(EXP) args, TYPE ret, int replay)
 		match_no_viable = match + viable_templates;
 		if (match == 0) {
 			/* No viable candidates - return most nearly viable */
-			return (best);
+			return best;
 		}
 		if (match == 1) {
 			/* Exactly one viable candidate - must be the winner */
 			best->rank = RANK_BEST;
-			return (best);
+			return best;
 		}
 	} else {
 		/* Replay - pick a viable candidate */
@@ -1058,7 +1058,7 @@ resolve_overload(CANDIDATE_LIST *p, LIST(EXP) args, TYPE ret, int replay)
 			best->rank = RANK_VIABLE;
 		}
 	}
-	return (best);
+	return best;
 }
 
 
@@ -1102,7 +1102,7 @@ possible_types(TYPE t, int *prom)
 		*prom = 1;
 		break;
 	}
-	return (r);
+	return r;
 }
 
 
@@ -1270,7 +1270,7 @@ resolve_ambiguous(CANDIDATE_LIST *p, LIST(EXP) args, TYPE ret, int depth)
 	    }
 	}
     }
-    return (best);
+    return best;
 }
 
 
@@ -1345,13 +1345,13 @@ previous_ambig_func(LIST(IDENTIFIER) p, LIST(TYPE) q, QUALIFIER qual)
 					}
 				}
 				if (ok) {
-					return (f->id);
+					return f->id;
 				}
 			}
 			f = f->next;
 		}
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -1488,7 +1488,7 @@ make_ambig_func(CANDIDATE_LIST *p, IDENTIFIER id, LIST(EXP) args,
 		DESTROY_list(funcs, SIZE_id);
 		DESTROY_list(types, SIZE_type);
 		free_exp_list(conds, 1);
-		return (tid);
+		return tid;
 	}
 
 	/* Create new instance */
@@ -1599,7 +1599,7 @@ make_ambig_func(CANDIDATE_LIST *p, IDENTIFIER id, LIST(EXP) args,
 	crt_templ_qualifier = tq;
 	crt_id_qualifier = cq;
 	all->id = id;
-	return (id);
+	return id;
 }
 
 
@@ -1616,10 +1616,10 @@ is_template_func(IDENTIFIER id)
 	if (IS_id_function_etc(id)) {
 		TYPE fn = DEREF_type(id_function_etc_type(id));
 		if (IS_type_templ(fn)) {
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1714,7 +1714,7 @@ resolve_call(IDENTIFIER id, LIST(EXP) args, QUALIFIER qual, int dep)
 			report(crt_loc, ERR_over_match_viable_none(id));
 		}
 		resolved_kind = kind;
-		return (qid);
+		return qid;
 	}
 
 	/* Check template functions */
@@ -1741,7 +1741,7 @@ resolve_call(IDENTIFIER id, LIST(EXP) args, QUALIFIER qual, int dep)
 	match_no_args = 0;
 	match_no_viable = 0;
 	resolved_kind = KIND_FUNC;
-	return (fid);
+	return fid;
 }
 
 
@@ -1766,7 +1766,7 @@ resolve_ambig_func(LIST(IDENTIFIER) ids, int depth)
 		rid = DEREF_id(HEAD_list(pids));
 		pids = TAIL_list(pids);
 		if (IS_NULL_list(pids)) {
-			return (rid);
+			return rid;
 		}
 		sid = DEREF_id(HEAD_list(pids));
 		pids = TAIL_list(pids);
@@ -1796,15 +1796,15 @@ resolve_ambig_func(LIST(IDENTIFIER) ids, int depth)
 				if (!EQ_id(rid, sid)) {
 					cmp = compare_funcs(rid, sid);
 					if (cmp != 1) {
-						return (NULL_id);
+						return NULL_id;
 					}
 				}
 				pids = TAIL_list(pids);
 			}
 		}
-		return (rid);
+		return rid;
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -1969,7 +1969,7 @@ resolve_func(IDENTIFIER id, TYPE t, int templ, int res, LIST(IDENTIFIER) pids,
 		best = 0;
 	}
 	*peq = best;
-	return (rid);
+	return rid;
 }
 
 
@@ -2003,7 +2003,7 @@ make_resolved_exp(IDENTIFIER id, QUALIFIER q, EXP b, int addr, int paren)
 		}
 		e = make_ref_exp(e, 1);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -2070,14 +2070,14 @@ resolve_cast(TYPE t, EXP e, ERROR *err, int use, int rescan,
 	}
 	if (!IS_exp_identifier_etc(a)) {
 		/* Not an identifier expression */
-		return (e);
+		return e;
 	}
 
 	/* Mark identifiers as resolved */
 	id = DEREF_id(exp_identifier_etc_id(a));
 	q = DEREF_qual(exp_identifier_etc_qual(a));
 	if (q & qual_mark) {
-		return (e);
+		return e;
 	}
 	if (rescan) {
 		/* Rescan function name if necessary */
@@ -2104,7 +2104,7 @@ function_lab: {
 				       t = rvalue_type(t);
 			       }
 			       MAKE_exp_op(t, lex_function, e, NULL_exp, e);
-			       return (e);
+			       return e;
 		       }
 		       over = DEREF_id(id_function_etc_over(id));
 		       if (!IS_NULL_id(over)) {
@@ -2144,7 +2144,7 @@ overload_lab: {
 				      }
 				      MAKE_exp_op(t, lex_function, e, NULL_exp,
 						  e);
-				      return (e);
+				      return e;
 			      }
 			      if (tag == id_undef_tag) {
 				      goto default_lab;
@@ -2217,5 +2217,5 @@ default_lab:
 	      }
 	      break;
 	}
-	return (e);
+	return e;
 }

@@ -161,7 +161,7 @@ new_word(int c)
 	word_ptr->son = null;
 	word_ptr->bro = null;
     }
-    return(word_ptr);
+    return word_ptr;
 }
 
 

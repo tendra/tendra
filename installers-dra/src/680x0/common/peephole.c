@@ -130,10 +130,10 @@ find_label(long n)
 	mach_ins *p;
 	for (p = all_mach_ins; p; p = p->next) {
 		if (p->ins_no == m_label_ins && p->op1->def.num == n) {
-			return (p);
+			return p;
 		}
 	}
-	return (null);
+	return null;
 }
 
 
@@ -157,14 +157,14 @@ check_jump_alias(long a, long b)
 	long alias[alias_max];
 
 	if (a == b) {
-		return (null);
+		return null;
 	}
 
 	alias[0] = a;
 	alias[1] = b;
 	p = find_label(b);
 	if (p == null) {
-		return (null);
+		return null;
 	}
 
 	for (n = 2, q = p; n < alias_max; n++) {
@@ -173,16 +173,16 @@ check_jump_alias(long a, long b)
 			long c = q->op1->def.num;
 			for (i = 0; i < n; i++) {
 				if (c == alias[i]) {
-					return (null);
+					return null;
 				}
 			}
 			alias[n] = c;
 			q = find_label(c);
 		} else {
-			return (p);
+			return p;
 		}
 	}
-	return (null);
+	return null;
 }
 
 
@@ -638,7 +638,7 @@ post_inc_check(mach_ins *q, bitpattern r)
 	mach_ins *p = q->next;
 
 	if (p == null) {
-		return (0);
+		return 0;
 	}
 
 	/* The first instruction may be m_subql */
@@ -647,63 +647,63 @@ post_inc_check(mach_ins *q, bitpattern r)
 		r1 = p->op2->def.num;
 		p = p->next;
 		if (p == null) {
-			return (0);
+			return 0;
 		}
 		incr = 0;
 	}
 
 	/* The next instruction must be a move of two registers */
 	if (p->ins_no != m_movl) {
-		return (0);
+		return 0;
 	}
 	if (p->op1->type != MACH_REG) {
-		return (0);
+		return 0;
 	}
 	if (p->op2->type != MACH_REG) {
-		return (0);
+		return 0;
 	}
 	if (incr) {
 		r1 = p->op1->def.num;
 	} else {
 		/* The first register must be the one in the m_subql */
 		if (p->op1->def.num != r1) {
-			return (0);
+			return 0;
 		}
 	}
 
 	/* The second register must be that given by r */
 	r2 = p->op2->def.num;
 	if (regmsk(r2) != r) {
-		return (0);
+		return 0;
 	}
 
 	if (incr) {
 		/* The next instruction must be "lea sz(r2), r1" */
 		p = p->next;
 		if (p == null) {
-			return (0);
+			return 0;
 		}
 		if (p->ins_no != m_lea) {
-			return (0);
+			return 0;
 		}
 		if (p->op1->type != MACH_CONT) {
-			return (0);
+			return 0;
 		}
 		if (p->op1->of->type != MACH_REG) {
-			return (0);
+			return 0;
 		}
 		if (p->op1->of->def.num != r2) {
-			return (0);
+			return 0;
 		}
 		if (p->op1->of->plus->type != MACH_VAL) {
-			return (0);
+			return 0;
 		}
 		sz = p->op1->of->plus->def.num;
 		if (p->op2->type != MACH_REG) {
-			return (0);
+			return 0;
 		}
 		if (p->op2->def.num != r1) {
-			return (0);
+			return 0;
 		}
 	}
 
@@ -715,39 +715,39 @@ post_inc_check(mach_ins *q, bitpattern r)
 	} else if (sz == 4) {
 		move_ins = m_movl;
 	} else {
-		return (0);
+		return 0;
 	}
 
 	p = p->next;
 	if (p == null) {
-		return (0);
+		return 0;
 	}
 	if (p->next) {
 		/* The next instruction may be "move (r2), reg" */
 		if (p->next->next) {
-			return (0);
+			return 0;
 		}
 		if (p->next->ins_no != move_ins) {
-			return (0);
+			return 0;
 		}
 		op = p->next->op1;
 		if (op->type != MACH_CONT) {
-			return (0);
+			return 0;
 		}
 		if (op->of->type != MACH_REG) {
-			return (0);
+			return 0;
 		}
 		if (op->of->def.num != r2) {
-			return (0);
+			return 0;
 		}
 		if (op->of->plus != null) {
-			return (0);
+			return 0;
 		}
 	}
 
 	/* Check the size of the current operation */
 	if (!is_simple(p->ins_no) || instr_sz[p->ins_no] != sz) {
-		return (0);
+		return 0;
 	}
 
 	/* Check if the first operand is (r2) */
@@ -792,13 +792,13 @@ post_inc_check(mach_ins *q, bitpattern r)
 
 	/* Check that the operands are alright */
 	if (use_op1 + use_op2 != 1) {
-		return (0);
+		return 0;
 	}
 	if (use_op1 && check_op(p->op2, r2)) {
-		return (0);
+		return 0;
 	}
 	if (use_op2 && check_op(p->op1, r2)) {
-		return (0);
+		return 0;
 	}
 
 	/* Make the change */
@@ -821,5 +821,5 @@ post_inc_check(mach_ins *q, bitpattern r)
 	} else {
 		if (use_op2)have_cond = 0;
 	}
-	return (1);
+	return 1;
 }

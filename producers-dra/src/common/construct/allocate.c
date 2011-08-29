@@ -118,10 +118,10 @@ make_dim_exp(int op, EXP a, EXP b)
 	EXP e;
 	int et;
 	if (IS_NULL_exp(a)) {
-		return (b);
+		return b;
 	}
 	if (IS_NULL_exp(b)) {
-		return (a);
+		return a;
 	}
 	et = error_threshold;
 	error_threshold = ERROR_SERIOUS;
@@ -131,7 +131,7 @@ make_dim_exp(int op, EXP a, EXP b)
 		e = make_mult_exp(op, a, b);
 	}
 	error_threshold = et;
-	return (e);
+	return e;
 }
 
 
@@ -304,7 +304,7 @@ check_allocator(TYPE t, IDENTIFIER id, int mem, int templ)
 			set_bad_alloc(s);
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -403,10 +403,10 @@ resolve_delete(IDENTIFIER id, IDENTIFIER pid, int mem)
 			UNUSED(p);
 			UNUSED(t);
 			if (!IS_NULL_id(rid)) {
-				return (rid);
+				return rid;
 			}
 		}
-		return (NULL_id);
+		return NULL_id;
 	}
 
 	/* Try 'void ( void * )' */
@@ -418,7 +418,7 @@ resolve_delete(IDENTIFIER id, IDENTIFIER pid, int mem)
 	COPY_list(type_func_mtypes(fn), NULL_list(TYPE));
 	DESTROY_list(p, SIZE_type);
 	if (!IS_NULL_id(rid)) {
-		return (rid);
+		return rid;
 	}
 
 	/* Try 'void ( void *, size_t )' */
@@ -432,10 +432,10 @@ resolve_delete(IDENTIFIER id, IDENTIFIER pid, int mem)
 		COPY_list(type_func_mtypes(fn), NULL_list(TYPE));
 		DESTROY_list(p, SIZE_type);
 		if (!IS_NULL_id(rid)) {
-			return (rid);
+			return rid;
 		}
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -525,15 +525,15 @@ find_allocator(TYPE t, int op, int b, IDENTIFIER pid)
 	if (!IS_NULL_id(id)) {
 		if (IS_id_function_etc(id)) {
 			/* Function found */
-			return (id);
+			return id;
 		}
 		if (is_ambiguous_func(id)) {
 			if (dealloc) {
 				/* Can't do overload resolution on delete */
 				id = report_ambiguous(id, 0, 1, 1);
-				return (id);
+				return id;
 			}
-			return (id);
+			return id;
 		}
 		if (!IS_id_dummy(id)) {
 			/* Result is not a function */
@@ -544,7 +544,7 @@ find_allocator(TYPE t, int op, int b, IDENTIFIER pid)
 		/* Allocation functions not declared */
 		report(crt_loc, ERR_lib_builtin(NULL_string, nm));
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -568,7 +568,7 @@ make_templ_delete(int op, int b, EXP a)
 		}
 	}
 	MAKE_exp_op(type_void, op, a, NULL_exp, e);
-	return (e);
+	return e;
 }
 
 
@@ -621,7 +621,7 @@ placement_delete(int op, int b, EXP a, IDENTIFIER pid, LIST(EXP)place)
 		p = DEREF_type(type_ptr_sub(t));
 		if (is_templ_depend(p)) {
 			e = make_templ_delete(op, b, a);
-			return (e);
+			return e;
 		}
 		if (IS_type_top_etc(p)) {
 			/* Check for 'void *' */
@@ -675,13 +675,13 @@ placement_delete(int op, int b, EXP a, IDENTIFIER pid, LIST(EXP)place)
 		/* Operand should be a pointer */
 		if (is_templ_type(t)) {
 			e = make_templ_delete(op, b, a);
-			return (e);
+			return e;
 		}
 		if (!IS_type_error(t)) {
 			report(crt_loc, ERR_expr_delete_ptr(op, t));
 		}
 		MAKE_exp_value(type_void, e);
-		return (e);
+		return e;
 	}
 
 	/* Find destructors */
@@ -776,7 +776,7 @@ placement_delete(int op, int b, EXP a, IDENTIFIER pid, LIST(EXP)place)
 
 	/* Construct result */
 	MAKE_exp_dealloc(type_void, d, e, a, c, e);
-	return (e);
+	return e;
 }
 
 
@@ -791,7 +791,7 @@ EXP
 make_delete_exp(int op, int b, EXP a)
 {
 	EXP e = placement_delete(op, b, a, NULL_id, NULL_list(EXP));
-	return (e);
+	return e;
 }
 
 
@@ -837,7 +837,7 @@ make_new_array_dim(EXP e)
 		/* Make dummy literal */
 		MAKE_nat_calc(e, n);
 	}
-	return (n);
+	return n;
 }
 
 
@@ -859,7 +859,7 @@ make_templ_new(TYPE t, EXP d, TYPE p, int b, LIST(EXP)place, EXP init)
 	MAKE_exp_value(t, e);
 	CONS_exp(e, place, place);
 	MAKE_exp_opn(p, op, place, e);
-	return (e);
+	return e;
 }
 
 
@@ -981,7 +981,7 @@ make_new_exp(TYPE t, int n, int b, LIST(EXP)place, EXP init)
 	/* Check for template parameters */
 	if (is_templ_type(t)) {
 		e = make_templ_new(u, v, ret, b, place, init);
-		return (e);
+		return e;
 	}
 
 	/* Add 'sizeof ( t )' to the start of placement */
@@ -991,7 +991,7 @@ make_new_exp(TYPE t, int n, int b, LIST(EXP)place, EXP init)
 	id = find_allocator(t, op, b, NULL_id);
 	if (IS_NULL_id(id)) {
 		e = make_error_exp(0);
-		return (e);
+		return e;
 	}
 	if (IS_id_stat_mem_func(id)) {
 		CONS_exp(NULL_exp, place, place);
@@ -1042,7 +1042,7 @@ make_new_exp(TYPE t, int n, int b, LIST(EXP)place, EXP init)
 
 	/* Return the result */
 	MAKE_exp_alloc(ret, e, init, gc, arr, e);
-	return (e);
+	return e;
 }
 
 
@@ -1110,7 +1110,7 @@ make_new_init(TYPE t, LIST(EXP)p, int init)
 			MAKE_exp_assign(t, a, e, e);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1129,7 +1129,7 @@ begin_new_try(void)
 	EXP a = begin_try_stmt(0);
 	EXP b = begin_compound_stmt(2);
 	COPY_exp(exp_try_block_body(a), b);
-	return (a);
+	return a;
 }
 
 
@@ -1151,7 +1151,7 @@ end_new_try(EXP a, EXP b)
 		free_exp(a, 1);
 		a = NULL_exp;
 	}
-	return (a);
+	return a;
 }
 
 
@@ -1190,11 +1190,11 @@ new_try_body(EXP a)
 			break;
 		}
 		default: {
-			return (a);
+			return a;
 		}
 		}
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1231,7 +1231,7 @@ sizeof_array(TYPE *pt, TYPE s)
 		t = DEREF_type(type_array_sub(t));
 	}
 	*pt = t;
-	return (a);
+	return a;
 }
 
 
@@ -1254,7 +1254,7 @@ sizeof_type(TYPE t)
 			if (bt & btype_char) {
 				/* char has size one */
 				NAT n = small_nat[1];
-				return (n);
+				return n;
 			}
 		}
 		break;
@@ -1263,7 +1263,7 @@ sizeof_type(TYPE t)
 	case type_bottom_tag: {
 		/* void has size one */
 		NAT n = small_nat[1];
-		return (n);
+		return n;
 	}
 	case type_array_tag: {
 		/* Allow for array types */
@@ -1275,7 +1275,7 @@ sizeof_type(TYPE t)
 			a = make_dim_exp(lex_star, a, b);
 			if (IS_exp_int_lit(a)) {
 				n = DEREF_nat(exp_int_lit_nat(a));
-				return (n);
+				return n;
 			}
 		}
 		break;
@@ -1284,10 +1284,10 @@ sizeof_type(TYPE t)
 		/* An enumeration maps to its underlying type */
 		ENUM_TYPE et = DEREF_etype(type_enumerate_defn(t));
 		TYPE s = DEREF_type(etype_rep(et));
-		return (sizeof_type(s));
+		return sizeof_type(s);
 	}
 	}
-	return (NULL_nat);
+	return NULL_nat;
 }
 
 
@@ -1311,7 +1311,7 @@ sizeof_exp(TYPE t)
 		MAKE_nat_calc(e, sz);
 	}
 	MAKE_exp_int_lit(type_size_t, sz, exp_offset_size_tag, e);
-	return (e);
+	return e;
 }
 
 
@@ -1337,7 +1337,7 @@ make_sizeof_exp(TYPE t, EXP a, int n, int op)
 		MAKE_exp_op(s, op, a, NULL_exp, e);
 		MAKE_nat_calc(e, sz);
 		MAKE_exp_int_lit(s, sz, exp_op_tag, e);
-		return (e);
+		return e;
 	}
 #else
 	UNUSED(a);
@@ -1379,7 +1379,7 @@ make_sizeof_exp(TYPE t, EXP a, int n, int op)
 	}
 
 	/* Calculate result */
-	return (sizeof_exp(t));
+	return sizeof_exp(t);
 }
 
 
@@ -1409,7 +1409,7 @@ typeof_exp(EXP *pa, int n, int op)
 		a = NULL_exp;
 	}
 	*pa = a;
-	return (t);
+	return t;
 }
 
 
@@ -1468,5 +1468,5 @@ sizeof_init(EXP e, TYPE s)
 			a = make_dim_exp(lex_plus, a, c);
 		}
 	}
-	return (a);
+	return a;
 }

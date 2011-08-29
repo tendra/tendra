@@ -194,7 +194,7 @@ static exp
 make_onearg(unsigned char n, shape sha, exp a)
 {
 	exp r = getexp(sha, nilexp, 0, a, nilexp, 0, 0, n);
-	return(hc(r, a));
+	return hc(r, a);
 }
 
 
@@ -209,7 +209,7 @@ make_twoarg(unsigned char n, shape sha, exp a, exp b)
 	exp r = getexp(sha, nilexp, 0, a, nilexp, 0, 0, n);
 	bro(a) = b;
 	clearlast(a);
-	return(hc(r, b));
+	return hc(r, b);
 }
 
 
@@ -248,7 +248,7 @@ used_in(exp vardec, exp piece)
 		}
 		t = pt(t);
 	} while (t != nilexp && res != 3);
-	return(res);
+	return res;
 }
 
 
@@ -271,11 +271,11 @@ int
 simple_const(exp whole, exp e, int decl, int no_ass)
 {
 	if (name(e) == val_tag || name(e) == real_tag || name(e) == null_tag) {
-		return(1);
+		return 1;
 	}
 	if (name(e) == name_tag && !isvar(son(e)) &&
 	    (decl || !internal_to(whole, son(e)))) {
-		return(1);
+		return 1;
 	}
 	if (name(e) == reff_tag) {
 		e = son(e);
@@ -285,11 +285,11 @@ simple_const(exp whole, exp e, int decl, int no_ass)
 		exp var = son(son(e));
 		int  u = used_in(var, whole);
 		if (u != 3 && (iscaonly(var) || no_ass)) {
-			return(1);
+			return 1;
 		}
-		return(0);
+		return 0;
 	}
-	return(0);
+	return 0;
 }
 
 
@@ -476,7 +476,7 @@ rep:	if (name(p) == ass_tag || name(p) == assvol_tag) {
 	goto rep;
 
 
-ex:	return(good);
+ex:	return good;
 }
 
 
@@ -493,7 +493,7 @@ change_shape(exp e, shape sha)
 		no(e) = dochvar(no(e), sha);
 	}
 	sh(e) = sha;
-	return(e);
+	return e;
 }
 
 
@@ -535,7 +535,7 @@ change_cont(exp vardec, exp val, int force)
 	setlast(bro(son(vardec)));
 	bro(bro(son(vardec))) = vardec;
 	retcell(bh);
-	return(ch);
+	return ch;
 }
 
 
@@ -557,7 +557,7 @@ check_id(exp e, exp scope)
     if (!isvis(e) && !isenvoff(e) && !isglob(e) && !isparam(e)) {
       /* the variable is not used */
       repbyseq(e);
-      return(1);
+      return 1;
     } else {
       if (isparam(e)) {
 	setcaonly(e);
@@ -715,7 +715,7 @@ check_id(exp e, exp scope)
       setlast(bro(def));
       retcell(bh);
       IGNORE check(e, scope);
-      return(1);
+      return 1;
     }
   }
 
@@ -789,9 +789,9 @@ check_id(exp e, exp scope)
       }
       if (no(e) == 0) {
 	replace(e, bro(son(e)), scope);
-	return(1);
+	return 1;
       }
-      return(0);
+      return 0;
     }
   }
 
@@ -816,7 +816,7 @@ check_id(exp e, exp scope)
       c = getexp(sh(body), s, 1, cz, nilexp, 0, 0, cont_tag);
       setbro(r, hc(c, cz));
       replace(e, hc(s, bro(son(s))), e);
-      return(1);
+      return 1;
     }
   }
 
@@ -1018,7 +1018,7 @@ check_id(exp e, exp scope)
 	setlast(bro(def));
 	retcell(bh);
 	IGNORE check(e, scope);
-	return(1);
+	return 1;
       }
 
 #if is80x86 || ishppa
@@ -1178,7 +1178,7 @@ check_id(exp e, exp scope)
 	  repbyseq(e);
 	}
 #endif
-	return(1);
+	return 1;
       }
 
       if (!isparam(e) && name(def) == clear_tag && name(body) == seq_tag &&
@@ -1197,7 +1197,7 @@ check_id(exp e, exp scope)
 	  /* replace assignment by void */
 	  replace(son(son(body)), getexp(f_top, nilexp, 0, nilexp, nilexp, 0,
 					 0, top_tag), body);
-	  return(1);
+	  return 1;
 	}
       }
 
@@ -1227,7 +1227,7 @@ check_id(exp e, exp scope)
 	}
 
 	repbyseq(e);
-	return(1);
+	return 1;
       }
 
       }
@@ -1331,5 +1331,5 @@ check_id(exp e, exp scope)
       return changed;
       }
 
-  return(0);
+  return 0;
 }

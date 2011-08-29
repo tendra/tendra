@@ -98,7 +98,7 @@ new_object(long v)
 	implicit_sort(p) = sort_unknown;
 	arg_sorts(p) = null;
     }
-    return(p);
+    return p;
 }
 
 
@@ -123,7 +123,7 @@ new_binding_table(void)
 {
     binding *bt;
     long i, n = no_variables;
-    if (n == 0) return(null);
+    if (n == 0) return null;
     if (spare_bt) {
 	bt = spare_bt;
 	spare_bt = null;
@@ -138,7 +138,7 @@ new_binding_table(void)
 	    bt[i].table = null;
 	}
     }
-    return(bt);
+    return bt;
 }
 
 
@@ -257,15 +257,15 @@ find_binding(binding *bt, long v, long n)
     binding *b;
     if (v < 0 || v >= no_variables) {
 	input_error("Illegal binding sort");
-	return(null);
+	return null;
     }
     b = bt + v;
     if (n >= b->max_no || n < 0) {
 	out("<error>");
 	input_error("Object number %ld (%s) too big", n, var_types[v]);
     }
-    if (n >= b->sz) return(null);
-    return(b->table[n]);
+    if (n >= b->sz) return null;
+    return b->table[n];
 }
 
 
@@ -327,7 +327,7 @@ object_name(long v, long n)
     char *buff = alloc_nof(char, 1000);
     if (dumb_mode) {
 	IGNORE sprintf(buff, "%ld", n);
-	return(buff);
+	return buff;
     }
     p = find_binding(crt_binding, v, n);
     if (p->named) {
@@ -339,5 +339,5 @@ object_name(long v, long n)
     } else {
 	IGNORE sprintf(buff, "%ld", p->id);
     }
-    return(buff);
+    return buff;
 }

@@ -170,7 +170,7 @@ where mw
   where w;
   w.where_exp = e;
   w.where_off = off;
-  return(w);
+  return w;
 }
 
 /* compares wheres for equality of operand.
@@ -189,10 +189,10 @@ rept:
   nb = name(b);
 
   if (a == b)
-    return(1);
+    return 1;
   if (na == nb) {		/* same kind of operation "equal names" */
     if (na == val_tag && !isbigval(a) && !isbigval(b))
-      return(no(a) == no(b));
+      return no(a) == no(b);
     if (na == ident_tag) {
       int good = son(a)!= nilexp && son(b)!= nilexp &&
           bro(son(a))!= nilexp && bro(son(b))!= nilexp;
@@ -221,13 +221,13 @@ rept:
       };
       if (isglob(a) || isglob(b))
         return 0;
-      return(pt(a) == pt(b) &&
-	     (overlap ?(no(a) & -32) == (no(b) & -32): no(a) == no(b)));
+      return pt(a) == pt(b) &&
+	     (overlap ?(no(a) & -32) == (no(b) & -32): no(a) == no(b));
     };
     if (na == name_tag) {
       if ((overlap ?(no(a) & -32)!= (no(b) & -32): no(a)!= no(b)) ||
 	 (isvar(son(a))!= isvar(son(b))))
-	return(0);
+	return 0;
       a = son(a);
       b = son(b);
       first = 0;
@@ -241,7 +241,7 @@ rept:
     };
     if (na == field_tag || na == reff_tag) {
       if (overlap ?(no(a) & -32)!= (no(b) & -32): no(a)!= no(b))
-	return(0);
+	return 0;
       a = son(a);
       b = son(b);
       first = 0;
@@ -260,25 +260,25 @@ rept:
 	  is_zero = 0;
       };
 
-      return(i == MANT_SIZE &&
+      return i == MANT_SIZE &&
 	 (is_zero || (fa.exp == fb.exp &&
-	      fa.sign == fb.sign)));
+	      fa.sign == fb.sign));
 
     };
-    return(0);
+    return 0;
   };				/* end equal names */
 
 
   if (na == name_tag && nb == ident_tag && first) {
     if (overlap ?(no(a) & -32)!= 0 : no(a)!= 0)
-      return(0);
+      return 0;
     a = son(a);
     first = 0;
     goto rept;
   };
   if (na == ident_tag && nb == name_tag && first) {
     if (overlap ?(no(b) & -32)!= 0 : no(b)!= 0)
-      return(0);
+      return 0;
     b = son(b);
     first = 0;
     goto rept;
@@ -287,7 +287,7 @@ rept:
   if (na == cont_tag && name(son(a)) == name_tag &&
          isvar(son(son(a))) && nb == ident_tag && first) {
     if (overlap ?(no(son(a)) & -32)!= 0 : no(son(a))!= 0)
-      return(0);
+      return 0;
     a = son(son(a));
     first = 0;
     goto rept;
@@ -295,7 +295,7 @@ rept:
   if (na == ident_tag && nb == cont_tag && name(son(b)) == name_tag
             && isvar(son(son(b))) && first) {
     if (overlap ?(no(son(b)) & -32)!= 0 : no(son(b))!= 0)
-      return(0);
+      return 0;
     b = son(b);
     first = 0;
     goto rept;
@@ -305,7 +305,7 @@ rept:
       name(son(a)) == name_tag &&
       isvar(son(son(a))) && nb == name_tag && !isvar(son(b))) {
     if (overlap ?(no(son(a)) & -32)!= (no(b) & -32): no(son(a))!= no(b))
-      return(0);
+      return 0;
     a = son(son(a));
     b = son(b);
     first = 0;
@@ -315,7 +315,7 @@ rept:
       name(son(b)) == name_tag &&
       isvar(son(son(b))) && na == name_tag && !isvar(son(a))) {
     if (overlap ?(no(son(b)) & -32)!= (no(a) & -32): no(son(b))!= no(a))
-      return(0);
+      return 0;
     a = son(a);
     b = son(son(b));
     first = 0;
@@ -328,7 +328,7 @@ rept:
     first = 0;
     goto rept;
   };
-  return(0);
+  return 0;
 }
 
 /* compares wheres for equality of operand */
@@ -340,7 +340,7 @@ int eq_where
   if (a == nilexp || b == nilexp)
      return 0;
   if (wa.where_off != wb.where_off)
-    return(0);
+    return 0;
   return eq_where_exp(a, b, 1, 0);
 }
 
@@ -360,7 +360,7 @@ frr first_reg
       ++t.fr_no;
     }
   };
-  return(t);
+  return t;
 }
 
 /* output operand,  wh is a where Note

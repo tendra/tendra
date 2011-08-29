@@ -107,14 +107,14 @@ compatible_class(CLASS_TYPE ct, CLASS_TYPE cs)
 
 	/* Check for obvious equality */
 	if (eq_ctype(ct, cs)) {
-		return (1);
+		return 1;
 	}
 
 	/* Check class keys */
 	kt = find_class_key(ct);
 	ks = find_class_key(cs);
 	if (!equal_key(kt, ks)) {
-		return (0);
+		return 0;
 	}
 
 	/* Check base classes */
@@ -132,16 +132,16 @@ compatible_class(CLASS_TYPE ct, CLASS_TYPE cs)
 		at &= (dspec_access | dspec_virtual);
 		as &= (dspec_access | dspec_virtual);
 		if (at != as) {
-			return (0);
+			return 0;
 		}
 		if (!compatible_class(pt, ps)) {
-			return (0);
+			return 0;
 		}
 		bs = TAIL_list(bs);
 		bt = TAIL_list(bt);
 	}
 	if (!EQ_list(bt, bs)) {
-		return (0);
+		return 0;
 	}
 
 	/* Check class members */
@@ -161,10 +161,10 @@ compatible_class(CLASS_TYPE ct, CLASS_TYPE cs)
 		at &= dspec_access;
 		as &= dspec_access;
 		if (at != as) {
-			return (0);
+			return 0;
 		}
 		if (!eq_type(t, s)) {
-			return (0);
+			return 0;
 		}
 		ms = DEREF_member(member_next(ms));
 		ms = next_data_member(ms, 1);
@@ -172,9 +172,9 @@ compatible_class(CLASS_TYPE ct, CLASS_TYPE cs)
 		mt = next_data_member(mt, 1);
 	}
 	if (!EQ_member(mt, ms)) {
-		return (0);
+		return 0;
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -196,55 +196,55 @@ merge_type(IDENTIFIER tid, IDENTIFIER sid)
 
 		/* Check identifiers */
 		if (IS_NULL_id(tid)) {
-			return (0);
+			return 0;
 		}
 		if (IS_NULL_id(sid)) {
-			return (0);
+			return 0;
 		}
 		tt = TAG_id(tid);
 		ts = TAG_id(sid);
 		if (tt != ts) {
-			return (0);
+			return 0;
 		}
 
 		/* Check identifier names */
 		tnm = DEREF_hashid(id_name(tid));
 		snm = DEREF_hashid(id_name(sid));
 		if (!EQ_hashid(tnm, snm)) {
-			return (0);
+			return 0;
 		}
 
 		/* Check identifier namespaces */
 		nt = DEREF_nspace(id_parent(tid));
 		ns = DEREF_nspace(id_parent(sid));
 		if (EQ_nspace(nt, ns)) {
-			return (1);
+			return 1;
 		}
 		if (IS_NULL_nspace(nt)) {
-			return (0);
+			return 0;
 		}
 		if (IS_NULL_nspace(ns)) {
-			return (0);
+			return 0;
 		}
 		tt = TAG_nspace(nt);
 		ts = TAG_nspace(ns);
 		if (tt != ts) {
-			return (0);
+			return 0;
 		}
 		switch (tt) {
 		case nspace_global_tag:
-			return (1);
+			return 1;
 		case nspace_ctype_tag:
 		case nspace_named_tag:
 		case nspace_unnamed_tag:
 			break;
 		default:
-			return (0);
+			return 0;
 		}
 		tid = DEREF_id(nspace_name(nt));
 		sid = DEREF_id(nspace_name(ns));
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -305,7 +305,7 @@ consistent_redef(IDENTIFIER pid, IDENTIFIER qid)
 		ok = 0;
 		break;
 	}
-	return (ok);
+	return ok;
 }
 
 

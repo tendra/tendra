@@ -201,7 +201,7 @@ scope_stack_add_action(ScopeStackT *stack, TableT *table, NStringT *key,
 	entry = table_add_action(table, &nstring, ignored);
 	if (entry == NULL) {
 		nstring_destroy(&nstring);
-		return(NULL);
+		return NULL;
 	}
 
 	from = table_add_name(table, key);

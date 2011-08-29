@@ -191,7 +191,7 @@ istream_assign(IStreamT *to, IStreamT *from)
 BoolT
 istream_is_open(IStreamT *istream)
 {
-	return(istream->name != NULL);
+	return istream->name != NULL;
 }
 
 BoolT

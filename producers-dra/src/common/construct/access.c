@@ -120,9 +120,9 @@ join_access(DECL_SPEC a, DECL_SPEC b)
 	DECL_SPEC p = (a & dspec_access);
 	DECL_SPEC q = (b & dspec_access);
 	if (p >= q) {
-		return (p);
+		return p;
 	}
-	return (q);
+	return q;
 }
 
 
@@ -187,7 +187,7 @@ access_decl(IDENTIFIER id)
 	report(crt_loc, ERR_class_access_dcl_using(id));
 	have_access_decl = 1;
 	id = using_identifier(id);
-	return (id);
+	return id;
 }
 
 
@@ -337,7 +337,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
     /* Find the namespace corresponding to id */
     DECL_SPEC ok = (dspec_public | dspec_public2);
     if (IS_NULL_id(id)) {
-	    return (ok);
+	    return ok;
     }
     if (IS_id_class_name(id)) {
 	cns = find_namespace(id);
@@ -345,7 +345,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 	cns = DEREF_nspace(id_parent(id));
     }
     if (IS_NULL_nspace(cns)) {
-	    return (ok);
+	    return ok;
     }
 
     /* Map block identifiers to the corresponding function */
@@ -363,7 +363,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
     }
     if (EQ_nspace(cns, ns)) {
 	ok |= dspec_defn;
-	return (ok);
+	return ok;
     }
     ct = namespace_class(ns);
     ct = expand_ctype(ct, 2, &t);
@@ -376,7 +376,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 	if (eq_ctype(cs, ct)) {
 	    /* Same class */
 	    ok |= dspec_defn;
-	    return (ok);
+	    return ok;
 	}
 	fr = DEREF_list(ctype_chums(cs));
 	while (!IS_NULL_list(fr)) {
@@ -384,7 +384,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 	    if (eq_ctype(cr, ct)) {
 		/* Friend class */
 		ok |= (dspec_defn | dspec_friend);
-		return (ok);
+		return ok;
 	    }
 	    fr = TAIL_list(fr);
 	}
@@ -399,7 +399,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 	    if (eq_ctype(cr, ct)) {
 		/* Friend function */
 		ok |= (dspec_defn | dspec_friend);
-		return (ok);
+		return ok;
 	    }
 	    fr = TAIL_list(fr);
 	}
@@ -408,7 +408,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
     /* End here for private members */
     if (acc == dspec_private || base) {
 	ok = (dspec_public | dspec_public2);
-	return (ok);
+	return ok;
     }
 
     /* Check access for derived classes */
@@ -420,7 +420,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 	if (!IS_NULL_graph(gr)) {
 	    /* Derived class */
 	    ok |= dspec_inherit;
-	    return (ok);
+	    return ok;
 	}
 	fr = DEREF_list(ctype_chums(cs));
 	while (!IS_NULL_list(fr)) {
@@ -429,7 +429,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 	    if (!IS_NULL_graph(gr)) {
 		/* Friend class of derived class */
 		ok |= (dspec_inherit | dspec_friend);
-		return (ok);
+		return ok;
 	    }
 	    fr = TAIL_list(fr);
 	}
@@ -445,7 +445,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 	    if (!IS_NULL_graph(gr)) {
 		/* Friend function of derived class */
 		ok |= (dspec_inherit | dspec_friend);
-		return (ok);
+		return ok;
 	    }
 	    fr = TAIL_list(fr);
 	}
@@ -453,7 +453,7 @@ find_access(IDENTIFIER *pid, NAMESPACE ns, DECL_SPEC acc, int base)
 
     /* Default access */
     ok = (dspec_public | dspec_public2);
-    return (ok);
+    return ok;
 }
 
 
@@ -492,7 +492,7 @@ compare_access(DECL_SPEC ok, DECL_SPEC ds, unsigned tag, int mem)
 			}
 		}
 	}
-	return (ret);
+	return ret;
 }
 
 
@@ -535,7 +535,7 @@ inherit_access(IDENTIFIER id, IDENTIFIER pid, int mem)
 					/* id is a member or friend of cs */
 					if (!compare_access(ok, ds, tag, mem)) {
 						/* Can access bid */
-						return (1);
+						return 1;
 					}
 				}
 			}
@@ -543,7 +543,7 @@ inherit_access(IDENTIFIER id, IDENTIFIER pid, int mem)
 		}
 		gr = DEREF_graph(graph_equal(gr));
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -579,7 +579,7 @@ do_member_access(IDENTIFIER id, IDENTIFIER pid, int mem)
 			ret = 1;
 		}
 	}
-	return (ret);
+	return ret;
 }
 
 
@@ -614,7 +614,7 @@ do_base_access(IDENTIFIER id, GRAPH gr)
 		report(crt_loc, err);
 		ret = 1;
 	}
-	return (ret);
+	return ret;
 }
 
 
@@ -639,7 +639,7 @@ clear_id_access(IDENTIFIER id, LIST(IDENTIFIER)p, LIST(int)r)
 			ret = 1;
 		}
 	}
-	return (ret);
+	return ret;
 }
 
 
@@ -663,7 +663,7 @@ clear_base_access(IDENTIFIER id, LIST(GRAPH)p)
 			ret = 1;
 		}
 	}
-	return (ret);
+	return ret;
 }
 
 
@@ -690,7 +690,7 @@ clear_access(IDENTIFIER id, ACCESS_LIST *acc)
 			ret = 1;
 		}
 	}
-	return (ret);
+	return ret;
 }
 
 
@@ -707,7 +707,7 @@ report_access(IDENTIFIER id)
 	ACCESS_LIST *acc = &crt_access_list;
 	int ret = clear_access(id, acc);
 	free_access(acc);
-	return (ret);
+	return ret;
 }
 
 
@@ -783,7 +783,7 @@ restore_access(IDENTIFIER id, ACCESS_LIST *acc)
 	crt->info = acc->info;
 	crt->pending = acc->pending;
 	crt->inherit = acc->inherit;
-	return (ret);
+	return ret;
 }
 
 

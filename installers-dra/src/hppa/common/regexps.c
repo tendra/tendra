@@ -148,26 +148,26 @@ bool eq_sze
 (shape as, shape bs)
 {
   if (is_floating(name(as)))
-    return(name(as) == name(bs));
+    return name(as) == name(bs);
   if (is_floating(name(bs)))
     return 0;
-  return(shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs));
+  return shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs);
 }
 
 bool sim_explist
 (exp al, exp bl)
 {
   if (al == nilexp && bl == nilexp)
-    return(1);
+    return 1;
   if (al == nilexp || bl == nilexp)
-    return(0);
+    return 0;
   if (!sim_exp(al, bl))
-    return(0);
+    return 0;
   if (last(al) && last(bl))
-    return(1);
+    return 1;
   if (last(al) || last(bl))
-    return(0);
-  return(sim_explist(bro(al), bro(bl)));
+    return 0;
+  return sim_explist(bro(al), bro(bl));
 }
 
 bool sim_exp
@@ -182,18 +182,18 @@ bool sim_exp
    {
       if (name(a) == name_tag)
       {
-	 return(son(a) == son(b) && no(a) == no(b) &&
-	      eq_sze(sh(a), sh(b)));
+	 return son(a) == son(b) && no(a) == no(b) &&
+	      eq_sze(sh(a), sh(b));
       }
       if (!is_a(name(a)) || !eq_sze(sh(a), sh(b)))
-	 return(0);
+	 return 0;
       if(name(a)==float_tag)/* NEW bit */
       {
 	return eq_exp(son(a),son(b));
       }
-      return(no(a) == no(b) && sim_explist(son(a), son(b)));
+      return no(a) == no(b) && sim_explist(son(a), son(b));
   };
-  return(0);
+  return 0;
 }
 
 /* forget all register - exp associations */
@@ -464,10 +464,10 @@ bool couldbe
     }
     if (isvar(s))
     {
-      return(lhs == 0 && (isvis(s) || isglob(s)));
+      return lhs == 0 && (isvis(s) || isglob(s));
     }
     if (IS_A_PROC(s))
-      return(lhs == 0);
+      return lhs == 0;
     if (son(s) == nilexp)
       return 1;
     return couldbe(son(s), lhs);
@@ -476,7 +476,7 @@ bool couldbe
   {
     if (lhs != 0 && name(s) == name_tag && son(s)!= nilexp)
     {
-      return(son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s)));
+      return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
     }
     return 1;
   }
@@ -486,7 +486,7 @@ bool couldbe
   }
   if (ne == addptr_tag || ne == subptr_tag)
   {
-    return(couldbe(s, lhs) || couldeffect(bro(s), lhs));
+    return couldbe(s, lhs) || couldeffect(bro(s), lhs);
   }
 
   return 1;
@@ -505,7 +505,7 @@ couldeffect(exp e, exp z /* a name or zero */)
   if (ne == name_tag)
   {
     if (isvar(son(e)))
-      return(z == 0 && isvis(son(e)));
+      return z == 0 && isvis(son(e));
     if (IS_A_PROC(son(e)))
       return 0;
     if (son(son(e)) == nilexp)
@@ -567,7 +567,7 @@ bool dependson
 
   /* z is now unambiguous variable name or 0 meaning some contents */
 
-  return((isc)? couldbe(e, z): couldeffect(e, z));
+  return isc ? couldbe(e, z) : couldeffect(e, z);
 }
 
 

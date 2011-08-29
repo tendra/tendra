@@ -123,5 +123,5 @@ main(int argc, char **argv)
 	/* Process the input */
 	process_file(input);
 	output_all(output, act);
-	return (exit_status);
+	return exit_status;
 }

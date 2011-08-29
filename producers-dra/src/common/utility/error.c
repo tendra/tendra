@@ -145,7 +145,7 @@ report_version(int vers)
 #endif
 		bfprintf(bf, ")");
 	}
-	return (bf->start);
+	return bf->start;
 }
 
 
@@ -443,7 +443,7 @@ error_header(int sev)
 		break;
 	}
 	}
-	return (msg);
+	return msg;
 }
 
 
@@ -636,7 +636,7 @@ make_error(int n, ...) /* VARARGS */
 	sev = error_severity[opt];
 	if (sev == ERROR_NONE) {
 		va_end(args);
-		return (NULL_err);
+		return NULL_err;
 	}
 
 	/* Read arguments */
@@ -762,7 +762,7 @@ make_error(int n, ...) /* VARARGS */
 		}
 	}
 	va_end(args);
-	return (e);
+	return e;
 }
 
 
@@ -1087,10 +1087,10 @@ concat_error(ERROR e1, ERROR e2)
 	ERROR e;
 	int s1, s2;
 	if (IS_NULL_err(e1)) {
-		return (e2);
+		return e2;
 	}
 	if (IS_NULL_err(e2)) {
-		return (e1);
+		return e1;
 	}
 	s1 = DEREF_int(err_severity(e1));
 	s2 = DEREF_int(err_severity(e2));
@@ -1098,7 +1098,7 @@ concat_error(ERROR e1, ERROR e2)
 		s1 = s2;
 	}
 	MAKE_err_compound(s1, e1, e2, e);
-	return (e);
+	return e;
 }
 
 
@@ -1116,10 +1116,10 @@ concat_warning(ERROR e1, ERROR e2)
 	ERROR e;
 	int s1, s2;
 	if (IS_NULL_err(e1)) {
-		return (e2);
+		return e2;
 	}
 	if (IS_NULL_err(e2)) {
-		return (e1);
+		return e1;
 	}
 	s1 = DEREF_int(err_severity(e1));
 	if (s1 > ERROR_WARNING) {
@@ -1132,7 +1132,7 @@ concat_warning(ERROR e1, ERROR e2)
 		destroy_error(e2, 1);
 		e = e1;
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1190,7 +1190,7 @@ set_prefix(ERROR e)
 {
 	ERROR p = error_prefix;
 	error_prefix = e;
-	return (p);
+	return p;
 }
 
 
@@ -1278,7 +1278,7 @@ install_error(LOCATION *loc, ERROR e)
 		}
 		destroy_error(e, 1);
 	}
-	return (a);
+	return a;
 }
 
 
@@ -1352,7 +1352,7 @@ assertion(const char *s, const char *file, int line)
 int
 is_true(int c)
 {
-	return (c);
+	return c;
 }
 
 #endif

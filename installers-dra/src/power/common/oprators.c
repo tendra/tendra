@@ -280,7 +280,7 @@ int comm_op(exp e, space sp, where d, Instruction_P rrins)
       nsp = guardreg(r, sp);
       move(a, d, nsp.fixed, 1);
       /* ... and move into a */
-      return ((rok)?r:NOREG);
+      return (rok)?r:NOREG;
     }				/* notinreg */
   }				/* end switch */
 }
@@ -386,7 +386,7 @@ int fop(exp e, space sp, where dest, Instruction_P ins)
       {
 	rrf_ins(i_frsp,fr.fr,fr.fr);
       }   
-      return ((fr.dble) ? -(fr.fr + 32) : (fr.fr + 32));
+      return (fr.dble) ? -(fr.fr + 32) : (fr.fr + 32);
     }
   default:			/* destination elsewhere */
     {
@@ -410,7 +410,7 @@ int fop(exp e, space sp, where dest, Instruction_P ins)
 	rrf_ins(i_frsp,r1,r1);
       }   
       move(a, dest, sp.fixed, 1);
-      return ((fr.dble) ? -(fr.fr + 32) : (fr.fr + 32));
+      return (fr.dble) ? -(fr.fr + 32) : (fr.fr + 32);
     }
   }
 }

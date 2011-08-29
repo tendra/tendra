@@ -131,5 +131,5 @@ open_include(char * a)
 		p = p->next;
 	}
 	fail("Can't open include file %s", a);
-	return(FILE *)0;
+	return (FILE *)0;
 }

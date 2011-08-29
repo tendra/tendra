@@ -507,7 +507,7 @@ cmp_aux(long sz, where a, where b)
 			move(slongsh, a, D0);
 			move(slongsh, b, D1);
 			regsinproc |= regmsk(REG_D1);
-			return (cmp_aux(sz, D1, D0));
+			return cmp_aux(sz, D1, D0);
 		}
 		if (eq_where(b, D0)) {
 			d = D1;
@@ -516,7 +516,7 @@ cmp_aux(long sz, where a, where b)
 			d = D0;
 		}
 		move(slongsh, a, d);
-		return (cmp_aux(sz, b, d));
+		return cmp_aux(sz, b, d);
 	}
 	if (whereis(b) == Freg) {
 		if (eq_where(a, D0)) {
@@ -526,14 +526,14 @@ cmp_aux(long sz, where a, where b)
 			d = D0;
 		}
 		move(slongsh, b, d);
-		return (cmp_aux(sz, a, d));
+		return cmp_aux(sz, a, d);
 	}
 	ins2_cmp(ins(sz, ml_cmp), sz, sz, a, b, 0);
 	have_cond = 2;
 	last_cond = a;
 	last_cond2 = b;
 	last_cond_sz = sz;
-	return (1);
+	return 1;
 }
 
 
@@ -559,17 +559,17 @@ cmp_const(shape sha, long sz, where c, where a, long ntst)
 			have_cond = 0;
 		}
 		cmp_zero(sha, sz, a);
-		return (1);
+		return 1;
 	}
 
 	if (v < -128 || v > 127) {
 		sw = cmp_aux(sz, c, a);
-		return (sw);
+		return sw;
 	}
 
 	if (interfere(a, D0)) {
 		sw = cmp_aux(sz, c, a);
-		return (sw);
+		return sw;
 	}
 
 #ifdef REJECT
@@ -578,7 +578,7 @@ cmp_const(shape sha, long sz, where c, where a, long ntst)
 		if (p && p->ins_no == m_moveq && p->op1->def.num == v) {
 			sw = cmp_aux(sz, a, register(p->op2->def.num));
 			last_cond2 = c;
-			return (!sw);
+			return !sw;
 		}
 	}
 #endif
@@ -586,7 +586,7 @@ cmp_const(shape sha, long sz, where c, where a, long ntst)
 	move(slongsh, c, D0);
 	sw = cmp_aux(sz, a, D0);
 	last_cond2 = c;
-	return (!sw);
+	return !sw;
 }
 
 
@@ -654,37 +654,37 @@ cmp(shape sha, where var, where limit, long ntst)
 			move(sha, limit, rl);
 		}
 		ins2_cmp(m_fcmpx, sz, sz, rl, rv, 0);
-		return (1);
+		return 1;
 	}
 
 	/* Check existing condition codes */
 	if (have_cond == 2 && last_cond_sz == sz) {
 		if (eq_where(last_cond, var) && eq_where(last_cond2, limit)) {
-			return (0);
+			return 0;
 		}
 		if (eq_where(last_cond, limit) && eq_where(last_cond2, var)) {
-			return (1);
+			return 1;
 		}
 	}
 
 	if (whl == Value) {
 		sw = cmp_const(sha, sz, limit, var, ntst);
-		return (sw);
+		return sw;
 	}
 
 	if (whv == Value) {
 		sw = cmp_const(sha, sz, var, limit, ntst);
-		return (!sw);
+		return !sw;
 	}
 
 	if (whl == Dreg || whl == Areg) {
 		sw = cmp_aux(sz, var, limit);
-		return (!sw);
+		return !sw;
 	}
 
 	if (whv == Dreg || whv == Areg) {
 		sw = cmp_aux(sz, limit, var);
-		return (sw);
+		return sw;
 	}
 
 #if 0
@@ -701,21 +701,21 @@ cmp(shape sha, where var, where limit, long ntst)
 		move(sha, limit, D0);
 		sw = cmp_aux(sz, var, D0);
 		last_cond2 = limit;
-		return (!sw);
+		return !sw;
 	}
 
 	if (!interfere(limit, D0)) {
 		move(sha, var, D0);
 		sw = cmp_aux(sz, limit, D0);
 		last_cond2 = var;
-		return (sw);
+		return sw;
 	}
 
 	move(sha, limit, D1);
 	sw = cmp_aux(sz, var, D1);
 	regsinproc |= regmsk(REG_D1);
 	last_cond2 = limit;
-	return (!sw);
+	return !sw;
 }
 
 
@@ -879,7 +879,7 @@ tmp_mova(where wh, int r, bool try)
 		}
 	}
 	regsinproc |= regmsk(r);
-	return (r);
+	return r;
 }
 
 
@@ -1061,9 +1061,9 @@ ca_extern(exp e)
 {
 	char n = name(e);
 	if (n != cont_tag && n != ass_tag) {
-		return (0);
+		return 0;
 	}
-	return (name(son(e)) == name_tag ? 1 : 0);
+	return name(son(e)) == name_tag ? 1 : 0;
 }
 
 
@@ -1902,61 +1902,61 @@ branch_ins(long test_no, int sw, int sg, int sf)
 	switch (r) {
 	case tst_eq:
 		/* Equal */
-		return (sf ? m_fbeq : m_beq);
+		return sf ? m_fbeq : m_beq;
 	case tst_neq:
 		/* Not equal */
-		return (sf ? m_fbne : m_bne);
+		return sf ? m_fbne : m_bne;
 	case tst_le:
 		/* Less than or equals */
 		if (sf) {
-			return (m_fble);
+			return m_fble;
 		}
-		return (sg ? m_ble : m_bls);
+		return sg ? m_ble : m_bls;
 	case tst_ls:
 		/* Less than */
 		if (sf) {
-			return (m_fblt);
+			return m_fblt;
 		}
-		return (sg ? m_blt : m_bcs);
+		return sg ? m_blt : m_bcs;
 	case tst_ge:
 		/* Greater than or equals */
 		if (sf) {
-			return (m_fbge);
+			return m_fbge;
 		}
-		return (sg ? m_bge : m_bcc);
+		return sg ? m_bge : m_bcc;
 	case tst_gr:
 		/* Greater than */
 		if (sf) {
-			return (m_fbgt);
+			return m_fbgt;
 		}
-		return (sg ? m_bgt : m_bhi);
+		return sg ? m_bgt : m_bhi;
 	case tst_ngr:
 		/* Not greater than */
 		if (sf) {
-			return (m_fbngt);
+			return m_fbngt;
 		}
-		return (sg ? m_ble : m_bls);
+		return sg ? m_ble : m_bls;
 	case tst_nge:
 		/* Not greater than or equals */
 		if (sf) {
-			return (m_fbnge);
+			return m_fbnge;
 		}
-		return (sg ? m_blt : m_bcs);
+		return sg ? m_blt : m_bcs;
 	case tst_nls:
 		/* Not less than */
 		if (sf) {
-			return (m_fbnlt);
+			return m_fbnlt;
 		}
-		return (sg ? m_bge : m_bcc);
+		return sg ? m_bge : m_bcc;
 	case tst_nle:
 		/* Not less than or equals */
 		if (sf) {
-			return (m_fbnle);
+			return m_fbnle;
 		}
-		return (sg ? m_bgt : m_bhi);
+		return sg ? m_bgt : m_bhi;
 	}
 	error(ERROR_SERIOUS, "Illegal test");
-	return (m_dont_know);
+	return m_dont_know;
 }
 
 

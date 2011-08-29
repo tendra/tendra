@@ -94,7 +94,7 @@ fill_bitstream(BITSTREAM *bs)
 		}
 	}
 	bs->size = sz;
-	return (sz);
+	return sz;
 }
 
 
@@ -111,15 +111,15 @@ int
 de_eof(BITSTREAM *bs)
 {
 	if (bs->link) {
-		return (0);
+		return 0;
 	}
 	if (bs->bytes >= bs->size) {
 		IGNORE fill_bitstream(bs);
 		if (bs->link) {
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -187,7 +187,7 @@ de_bits(BITSTREAM *bs, unsigned n)
 	bs->bytes = bytes;
 	bs->bits = bits;
 	d &= bit_mask[n];
-	return ((unsigned)d);
+	return (unsigned)d;
 }
 
 
@@ -209,7 +209,7 @@ de_long_bits(BITSTREAM *bs, unsigned n)
 		a = 0;
 	}
 	b = (unsigned long)de_bits(bs, n);
-	return ((a << 16) | b);
+	return (a << 16) | b;
 }
 
 
@@ -232,7 +232,7 @@ de_int(BITSTREAM *bs)
 		n = ((n << 3) | d);
 	}
 	n = ((n << 3) | (d & 0x7));
-	return (n);
+	return n;
 }
 
 

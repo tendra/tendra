@@ -184,7 +184,7 @@ mygetc(void)
 			}
 		}
 	}
-	return(buff[bind++]);
+	return buff[bind++];
 }
 
 

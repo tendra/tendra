@@ -209,7 +209,7 @@ skip_default_arg(IDENTIFIER id)
 			/* Premature end of file */
 			report(loc, ERR_class_mfct_eof(id));
 			crt_lex_token = t;
-			return (NULL_exp);
+			return NULL_exp;
 		}
 		q = crt_token;
 		t = expand_preproc(EXPAND_AHEAD);
@@ -220,7 +220,7 @@ skip_default_arg(IDENTIFIER id)
 	/* Create the definition */
 	MAKE_exp_uncompiled(type_error, loc, p, e);
 	functions_pending++;
-	return (e);
+	return e;
 }
 
 
@@ -247,7 +247,7 @@ begin_templ_scope(TYPE t)
 		}
 		t = begin_templ_scope(s);
 	}
-	return (t);
+	return t;
 }
 
 

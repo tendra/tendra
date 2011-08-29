@@ -78,7 +78,7 @@ shape_table_create(void)
     }
     table->token_entry = NULL;
     table->tag_entry   = NULL;
-    return(table);
+    return table;
 }
 
 ShapeEntryT *
@@ -90,13 +90,13 @@ shape_table_add(ShapeTableT *table,			 NStringT *   key)
 
     while ((entry = *entryp) != NULL) {
 	if (nstring_equal(key, shape_entry_key(entry))) {
-	    return(entry);
+	    return entry;
 	}
 	entryp = shape_entry_next_ref(entry);
     }
     entry   = shape_entry_create(key);
     *entryp = entry;
-    return(entry);
+    return entry;
 }
 
 ShapeEntryT *
@@ -107,11 +107,11 @@ shape_table_get(ShapeTableT *table,			 NStringT *   key)
 
     while (entry) {
 	if (nstring_equal(key, shape_entry_key(entry))) {
-	    return(entry);
+	    return entry;
 	}
 	entry = shape_entry_next(entry);
     }
-    return(NULL);
+    return NULL;
 }
 
 ShapeEntryT *
@@ -124,7 +124,7 @@ shape_table_get_token_entry(ShapeTableT *table)
 	table->token_entry = shape_table_get(table, &nstring);
 	nstring_destroy(&nstring);
     }
-    return(table->token_entry);
+    return table->token_entry;
 }
 
 ShapeEntryT *
@@ -137,7 +137,7 @@ shape_table_get_tag_entry(ShapeTableT *table)
 	table->tag_entry = shape_table_get(table, &nstring);
 	nstring_destroy(&nstring);
     }
-    return(table->tag_entry);
+    return table->tag_entry;
 }
 
 void

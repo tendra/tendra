@@ -130,7 +130,7 @@ fetch(int n)
 		bits_in_buff -= m;
 		input_buff = (s & 0xff);
 	}
-	return ((long)r);
+	return (long)r;
 }
 
 
@@ -154,7 +154,7 @@ rewind_posn(void)
 long
 tell_posn(void)
 {
-	return (CHAR_BIT * bytes_read - (long)bits_in_buff);
+	return CHAR_BIT * bytes_read - (long)bits_in_buff;
 }
 
 

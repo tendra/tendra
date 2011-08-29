@@ -113,7 +113,7 @@ builder_read_libraries(ArgDataT * arg_data,				unsigned *num_libs_ref ,
     }
     *num_libs_ref = num_lib_files;
     *num_capsules_ref = num_capsules;
-    return(libraries);
+    return libraries;
 }
 
 static void
@@ -195,7 +195,7 @@ builder_read_capsules(ArgDataT *   arg_data,			       UnitTableT * units ,
 	UNREACHED;
     }
     *num_capsules_ref = num_capsules;
-    return(capsules);
+    return capsules;
 }
 
 static void

@@ -176,8 +176,8 @@ int dw_is_const(exp e)
       return 0;
 #if 0
     case cont_tag:
-      return (name(son(e)) == name_tag && !isdiscarded(son(e)) &&
-		!isvar(son(son(e))) && !isparam(son(son(e))) );
+      return name(son(e)) == name_tag && !isdiscarded(son(e)) &&
+		!isvar(son(son(e))) && !isparam(son(son(e)));
 #endif
     case reff_tag:
       return 1;
@@ -194,7 +194,7 @@ exp dw_has_location(exp e)
 	return nilexp;
       if ( props (son(e)) & defer_bit )
 	return dw_has_location (son(son(e)));
-      return (son(e));
+      return son(e);
     }
     case cont_tag: {
       do {
@@ -395,7 +395,7 @@ static void out_inreg(int r, int more)
 static int regoff_length(loc_s l)
 {
   assert (l.reg >= 0 && l.reg < 32);
-  return (1 + sleb128_length (l.off));
+  return 1 + sleb128_length (l.off);
 }
 
 static void out_regoff(loc_s l)
@@ -1171,7 +1171,7 @@ void trace_dw_branch_exits(exp e)
 
 int dw_loc_equivalence(exp a, exp b)
 {
-  return (int)sim_exp (a, b);
+  return (int) sim_exp(a, b);
 }
 
 typedef struct

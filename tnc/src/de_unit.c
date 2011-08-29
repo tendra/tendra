@@ -133,10 +133,10 @@ find_label(long n)
 {
 	if (n < 0 || n >= max_lab_no) {
 		input_error("Label number %ld too big", n);
-		return (NULL);
+		return NULL;
 	}
 
-	return (labels + n);
+	return labels + n;
 }
 
 
@@ -171,17 +171,17 @@ de_sortname(boolean expand)
 		hp = new_high_sort(&h);
 		hp = unique_high_sort(hp);
 
-		return (hp->id);
+		return hp->id;
 	}
 
 	if (n == SORT_foreign) {
 		warning("Foreign sorts not supported");
 		(void) de_node("X");
 
-		return (SORT_unknown);
+		return SORT_unknown;
 	}
 
-	return ((sortname)n);
+	return (sortname)n;
 }
 
 

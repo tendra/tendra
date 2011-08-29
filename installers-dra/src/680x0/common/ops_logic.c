@@ -665,7 +665,7 @@ adjust_bitf(exp e)
 {
 	long boff = no(e)% 32;
 	no(e) -= boff;
-	return (boff);
+	return boff;
 }
 
 
@@ -678,27 +678,27 @@ contents_bitf(exp e)
 {
 	char n = name(e);
 	if (n == name_tag || n == reff_tag) {
-		return (adjust_bitf(e));
+		return adjust_bitf(e);
 	}
 	if (n == ident_tag) {
 		exp s = son(e);
 		exp b = bro(s);
 		if (name(b) == reff_tag) {
-			return (adjust_bitf(b));
+			return adjust_bitf(b);
 		}
 		if (name(b) == ident_tag) {
-			return (contents_bitf(b));
+			return contents_bitf(b);
 		}
 		if (name(b) == name_tag && son(b) == e &&
 		    name(s) == name_tag) {
-			return (contents_bitf(son(s)));
+			return contents_bitf(son(s));
 		}
 		if (name(s) == name_tag) {
-			return (adjust_bitf(s));
+			return adjust_bitf(s);
 		}
 	}
 	error(ERROR_SERIOUS, "Illegal bitfield operation");
-	return (0);
+	return 0;
 }
 
 
@@ -711,16 +711,16 @@ bitf_posn(exp e)
 {
 	char n = name(e);
 	if (n == name_tag) {
-		return (adjust_bitf(e));
+		return adjust_bitf(e);
 	}
 	if (n == cont_tag || n == ass_tag) {
-		return (bitf_posn(son(e)));
+		return bitf_posn(son(e));
 	}
 	if (n == ident_tag) {
-		return (0);
+		return 0;
 	}
 	error(ERROR_SERIOUS, "Illegal bitfield operation");
-	return (0);
+	return 0;
 }
 
 

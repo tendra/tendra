@@ -585,7 +585,7 @@ end_ref_search(exp e, dg_info d, dg_tag *refans)
 		return 1;
 	}
 	if (d->key == DGA_NAME) {
-		return(matched_obj(e, d->data.i_nam.dnam, refans));
+		return matched_obj(e, d->data.i_nam.dnam, refans);
 	}
 	/* otherwise inlined call or outermost proc */
 	if (d->key == DGA_PARAMS) {
@@ -752,7 +752,7 @@ is_copied(exp e)
 	}
 	switch (name(e)) {
 	case name_tag:
-		return(copying(son(e)));
+		return copying(son(e));
 	case hold_tag:
 	case cont_tag:
 	case contvol_tag:
@@ -1360,13 +1360,13 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 				d->data.i_movd.tg = opt_ref;
 			}
 			if (reuse) {
-				return(detch_info *)0;
+				return (detch_info *)0;
 			}
 			d->data.i_movd.lost = 1;
 			if (d->more->key == DGA_INL_CALL) {
 				/* ignore internals */
 				*dx = (dg_info)0;
-				return(detch_info *)0;
+				return (detch_info *)0;
 			}
 			*dx = d->more->more;
 			return gather_detch(e, dx, reason, descend, reuse,
@@ -1420,12 +1420,12 @@ gather_detch(exp e, dg_info *dx, int reason, int descend, int reuse,
 		}
 	}
 	if (!descend) {
-		return(detch_info *)0;
+		return (detch_info *)0;
 	}
 	s = son(e);
 	if (name(e) == name_tag || name(e) == env_size_tag ||
 	    name(e) == env_offset_tag || !s) {
-		return(detch_info *)0;
+		return (detch_info *)0;
 	}
 	ans = gather_detch(s, &(dgf(s)), reason, descend, reuse, opt_ref);
 	if (name(e) != case_tag) {

@@ -133,7 +133,7 @@ promote_type(TYPE t)
 		break;
 	}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -188,7 +188,7 @@ arg_promote_type(TYPE t, ERROR *err)
 		break;
 	}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -219,7 +219,7 @@ is_arg_promote(TYPE t)
 		}
 		}
 	}
-	return (eq);
+	return eq;
 }
 
 
@@ -253,7 +253,7 @@ unpromote_type(TYPE t)
 		}
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -302,7 +302,7 @@ arith_type(TYPE t, TYPE s, EXP a, EXP b)
 			}
 		}
 	}
-	return (r);
+	return r;
 }
 
 
@@ -433,7 +433,7 @@ check_qualifier(TYPE t, TYPE s, int safe)
 					}
 				}
 				res &= ~(QUAL_EXACT | QUAL_SIMILAR);
-				return (res);
+				return res;
 			}
 			t = DEREF_type(type_ptr_mem_sub(t));
 			s = DEREF_type(type_ptr_mem_sub(s));
@@ -461,7 +461,7 @@ check_qualifier(TYPE t, TYPE s, int safe)
 				/* Linkage specifiers don't match */
 				res &= ~(QUAL_EXACT | QUAL_SIMILAR);
 			}
-			return (res);
+			return res;
 		}
 
 		case type_top_tag:
@@ -469,7 +469,7 @@ check_qualifier(TYPE t, TYPE s, int safe)
 		case type_compound_tag: {
 			/* Don't trust 'safe' in these cases */
 			if (ns == nt && eq_type_unqual(t, s)) {
-				return (res);
+				return res;
 			}
 			goto error_lab;
 		}
@@ -477,10 +477,10 @@ check_qualifier(TYPE t, TYPE s, int safe)
 		default : {
 			/* Check other types */
 			if (safe) {
-				return (res);
+				return res;
 			}
 			if (ns == nt && eq_type_unqual(t, s)) {
-				return (res);
+				return res;
 			}
 			goto error_lab;
 		}
@@ -495,7 +495,7 @@ error_lab: {
 					   res |= QUAL_FUNC;
 				   }
 			   }
-			   return (res);
+			   return res;
 		   }
 #endif
 		   if (in_template_decl) {
@@ -512,12 +512,12 @@ error_lab: {
 			   res |= QUAL_TEMPL;
 		   }
 		   res &= ~(QUAL_EXACT | QUAL_SIMILAR);
-		   return (res);
+		   return res;
 	   }
 		}
 		j++;
 	}
-	return (res);
+	return res;
 }
 
 
@@ -589,7 +589,7 @@ ptr_common_type(TYPE t, TYPE s, int base, int *suspect)
 		}
 		if (tag == type_ref_tag) {
 			/* There are no generic references */
-			return (NULL_type);
+			return NULL_type;
 		}
 		r = type_void;
 	}
@@ -601,13 +601,13 @@ ptr_common_type(TYPE t, TYPE s, int base, int *suspect)
 
 	/* Form the result type */
 	if (EQ_type(r, pt)) {
-		return (t);
+		return t;
 	}
 	if (EQ_type(r, ps)) {
-		return (s);
+		return s;
 	}
 	MAKE_type_ptr_etc(tag, cv_none, r, r);
-	return (r);
+	return r;
 }
 
 
@@ -652,13 +652,13 @@ ptr_mem_common_type(TYPE t, TYPE s, int *suspect)
 				*suspect = 1;
 			}
 			if (EQ_ctype(cr, ct) && EQ_type(pr, pt)) {
-				return (t);
+				return t;
 			}
 			if (EQ_ctype(cr, cs) && EQ_type(pr, ps)) {
-				return (s);
+				return s;
 			}
 			MAKE_type_ptr_mem(cv_none, cr, pr, pr);
-			return (pr);
+			return pr;
 		}
 	}
 
@@ -668,7 +668,7 @@ ptr_mem_common_type(TYPE t, TYPE s, int *suspect)
 	} else {
 		*suspect = 2;
 	}
-	return (type_error);
+	return type_error;
 }
 
 
@@ -690,10 +690,10 @@ common_type(TYPE t, TYPE s, int *suspect)
 	unsigned nt, ns;
 	TYPE r = NULL_type;
 	if (IS_NULL_type(t)) {
-		return (s);
+		return s;
 	}
 	if (IS_NULL_type(s)) {
-		return (t);
+		return t;
 	}
 	nt = TAG_type(t);
 	ns = TAG_type(s);
@@ -704,7 +704,7 @@ common_type(TYPE t, TYPE s, int *suspect)
 			/* Common pointer or reference type */
 			r = ptr_common_type(t, s, 1, suspect);
 			if (*suspect != 2) {
-				return (r);
+				return r;
 			}
 			r = NULL_type;
 			break;
@@ -713,7 +713,7 @@ common_type(TYPE t, TYPE s, int *suspect)
 			/* Common pointer to member type */
 			r = ptr_mem_common_type(t, s, suspect);
 			if (*suspect != 2) {
-				return (r);
+				return r;
 			}
 			r = NULL_type;
 			break;
@@ -727,7 +727,7 @@ common_type(TYPE t, TYPE s, int *suspect)
 					*suspect = 1;
 					t = qualify_type(t,(qt | qs), 0);
 				}
-				return (t);
+				return t;
 			}
 			break;
 		}
@@ -744,7 +744,7 @@ common_type(TYPE t, TYPE s, int *suspect)
 		case type_floating_tag: {
 			/* Common arithmetic type */
 			r = arith_type(t, s, NULL_exp, NULL_exp);
-			return (r);
+			return r;
 		}
 		}
 	}
@@ -753,18 +753,18 @@ common_type(TYPE t, TYPE s, int *suspect)
 	if (IS_NULL_type(r)) {
 		r = type_composite(t, s, 1, 0, KILL_err, 1);
 		if (!IS_NULL_type(r)) {
-			return (r);
+			return r;
 		}
 	}
 #endif
 	if (nt == type_error_tag) {
-		return (s);
+		return s;
 	}
 	if (ns == type_error_tag) {
-		return (t);
+		return t;
 	}
 	*suspect = 2;
-	return (r);
+	return r;
 }
 
 
@@ -786,7 +786,7 @@ convert_promote(TYPE t, EXP e)
 			e = cast_int_int(t, e, KILL_err, CAST_IMPLICIT, 0);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -825,7 +825,7 @@ convert_arith(TYPE t, EXP e, int op, int n)
 			report(crt_loc, err);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -850,7 +850,7 @@ convert_ptr_common(TYPE t, EXP e, int op, int n)
 			report(crt_loc, err);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -875,7 +875,7 @@ convert_ptr_mem_common(TYPE t, EXP e, int op, int n)
 			report(crt_loc, err);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -924,7 +924,7 @@ convert_boolean(EXP a, unsigned tag, ERROR *err)
 	case exp_int_lit_tag: {
 		/* Check for integer literals */
 		e = make_test_nat(a);
-		return (e);
+		return e;
 	}
 	case exp_float_lit_tag: {
 		/* Check for floating-point literals */
@@ -935,13 +935,13 @@ convert_boolean(EXP a, unsigned tag, ERROR *err)
 			if (v < 2) {
 				v = BOOL_VALUE(v);
 				e = make_bool_exp(v, exp_float_lit_tag);
-				return (e);
+				return e;
 			}
 		}
 		MAKE_exp_test(type_bool, ntest_not_eq, a, e);
 		MAKE_nat_calc(e, n);
 		MAKE_exp_int_lit(type_bool, n, exp_test_tag, e);
-		return (e);
+		return e;
 	}
 	case exp_contents_tag: {
 		/* Check for assignment in boolean */
@@ -970,7 +970,7 @@ convert_boolean(EXP a, unsigned tag, ERROR *err)
 	case type_integer_tag: {
 		/* Integral types are allowed */
 		if (check_int_type(t, btype_bool)) {
-			return (a);
+			return a;
 		}
 		break;
 	}
@@ -996,7 +996,7 @@ convert_boolean(EXP a, unsigned tag, ERROR *err)
 		break;
 	}
 	MAKE_exp_test(type_bool, ntest_not_eq, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -1025,13 +1025,13 @@ is_overloaded(EXP e)
 					/* Overloaded function */
 					report(crt_loc,
 					       ERR_over_over_context(id));
-					return (1);
+					return 1;
 				}
 				use_id(id, suppress_usage);
 			}
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1050,12 +1050,12 @@ convert_qual_type(TYPE t)
 	if (qual && !(qual & cv_lvalue)) {
 #if LANGUAGE_CPP
 		if (IS_type_compound(t)) {
-			return (t);
+			return t;
 		}
 #endif
 		t = qualify_type(t, cv_none, 0);
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1081,19 +1081,19 @@ convert_const(EXP a)
 			unsigned tag;
 			DECONS_exp_int_lit(t, n, tag, e);
 			MAKE_exp_int_lit(t, n, tag, e);
-			return (e);
+			return e;
 		}
 		case exp_null_tag: {
 			/* Propagate null constants */
 			TYPE t;
 			DECONS_exp_null(t, e);
 			MAKE_exp_null(t, e);
-			return (e);
+			return e;
 		}
 		}
 	}
 #endif
-	return (a);
+	return a;
 }
 
 
@@ -1135,7 +1135,7 @@ convert_array(EXP a, int str, ERROR *err)
 	}
 	MAKE_type_ptr(cv_none, s, t);
 	MAKE_exp_address(t, a, a);
-	return (a);
+	return a;
 }
 
 
@@ -1204,7 +1204,7 @@ default_lab: {
 			     if (IS_exp_identifier(a)) {
 				     e = convert_const(a);
 				     if (!EQ_exp(e, a)) {
-					     return (e);
+					     return e;
 				     }
 			     }
 		     }
@@ -1251,7 +1251,7 @@ default_lab: {
 		}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1274,18 +1274,18 @@ is_ambiguous_func(IDENTIFIER id)
 		while (!IS_NULL_list(p)) {
 			id = DEREF_id(HEAD_list(p));
 			if (!is_ambiguous_func(id)) {
-				return (0);
+				return 0;
 			}
 			p = TAIL_list(p);
 		}
-		return (1);
+		return 1;
 	}
 	case id_function_tag: {
 		/* These are functions */
-		return (1);
+		return 1;
 	}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1451,7 +1451,7 @@ call_lab:
 		/* Note that t is already an lvalue */
 		MAKE_exp_indir(t, a, a);
 	}
-	return (a);
+	return a;
 }
 
 
@@ -1472,7 +1472,7 @@ convert_bitfield(EXP a)
 		t = promote_type(t);
 		a = convert_promote(t, a);
 	}
-	return (a);
+	return a;
 }
 
 
@@ -1501,7 +1501,7 @@ convert_none(EXP a)
 			report(crt_loc, err);
 		}
 	}
-	return (a);
+	return a;
 }
 
 
@@ -1542,7 +1542,7 @@ overload_convert_seq(TYPE t, IDENTIFIER id, CONVERSION *p)
 		fn = DEREF_type(type_ptr_mem_sub(t));
 	}
 	if (!IS_type_func(fn)) {
-		return (CONV_NONE);
+		return CONV_NONE;
 	}
 	cv = DEREF_cv(type_qual(fn));
 	cv &= cv_qual;
@@ -1558,7 +1558,7 @@ overload_convert_seq(TYPE t, IDENTIFIER id, CONVERSION *p)
 		case id_mem_func_tag: {
 			/* A member function gives a pointer to member */
 			if (tag == type_ptr_mem_tag) {
-				return (conv);
+				return conv;
 			}
 			break;
 		}
@@ -1566,13 +1566,13 @@ overload_convert_seq(TYPE t, IDENTIFIER id, CONVERSION *p)
 		case id_stat_mem_func_tag: {
 			/* Other functions give pointers */
 			if (tag == type_ptr_tag) {
-				return (conv);
+				return conv;
 			}
 			break;
 		}
 		}
 	}
-	return (CONV_NONE);
+	return CONV_NONE;
 }
 
 
@@ -1610,7 +1610,7 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 				} else {
 					conv = CONV_QUAL;
 				}
-				return (conv);
+				return conv;
 			}
 			if (ns == type_compound_tag &&
 			    nt == type_compound_tag) {
@@ -1625,7 +1625,7 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 					} else {
 						conv = CONV_QUAL;
 					}
-					return (conv);
+					return conv;
 				} else {
 					/* Check for base classes */
 					GRAPH gr = find_base_class(cs, ct, 0);
@@ -1646,7 +1646,7 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 						} else {
 							conv = CONV_BASE;
 						}
-						return (conv);
+						return conv;
 					}
 				}
 			}
@@ -1656,15 +1656,15 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 		/* Default - only const references allowed */
 		CV_SPEC qt = find_cv_qual(t);
 		if (qt != (cv_lvalue | cv_const)) {
-			return (CONV_NONE);
+			return CONV_NONE;
 		}
 		qs = find_cv_qual(s);
 		if (qs & cv_volatile) {
-			return (CONV_NONE);
+			return CONV_NONE;
 		}
 	} else if (bind == 1) {
 		/* No references allowed */
-		return (CONV_NONE);
+		return CONV_NONE;
 	} else {
 		/* All references allowed */
 		std = 1;
@@ -1686,7 +1686,7 @@ ref_convert_seq(CONVERSION *p, EXP e, int bind, int std)
 			}
 		}
 	}
-	return (conv);
+	return conv;
 }
 
 
@@ -1716,13 +1716,13 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 
 	/* Conversion to the null type counts as exact */
 	if (IS_NULL_type(t)) {
-		return (CONV_EXACT);
+		return CONV_EXACT;
 	}
 
 	/* Conversion from the error type counts as ellipsis */
 	ns = TAG_type(s);
 	if (ns == type_error_tag) {
-		return (CONV_ELLIPSIS);
+		return CONV_ELLIPSIS;
 	}
 	qs = DEREF_cv(type_qual(s));
 
@@ -1732,7 +1732,7 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 		p->from = s;
 		ns = TAG_type(s);
 		if (ns == type_error_tag) {
-			return (CONV_ELLIPSIS);
+			return CONV_ELLIPSIS;
 		}
 		qs = DEREF_cv(type_qual(s));
 	}
@@ -1741,7 +1741,7 @@ std_convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 	nt = TAG_type(t);
 	if (nt == type_ref_tag) {
 		conv = ref_convert_seq(p, e, bind, 1);
-		return (conv);
+		return conv;
 	}
 
 	/* Examine expression */
@@ -2057,7 +2057,7 @@ pointer_lab:
 		break;
 	}
 	}
-	return (conv);
+	return conv;
 }
 
 
@@ -2083,14 +2083,14 @@ convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 
 	/* Conversion to the null type counts as exact */
 	if (IS_NULL_type(t)) {
-		return (CONV_EXACT);
+		return CONV_EXACT;
 	}
 	nt = TAG_type(t);
 
 	/* Conversion from the error type counts as ellipsis */
 	ns = TAG_type(s);
 	if (ns == type_error_tag) {
-		return (CONV_ELLIPSIS);
+		return CONV_ELLIPSIS;
 	}
 
 	/* Reference conversion */
@@ -2098,7 +2098,7 @@ convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 		s = DEREF_type(type_ref_sub(s));
 		ns = TAG_type(s);
 		if (ns == type_error_tag) {
-			return (CONV_ELLIPSIS);
+			return CONV_ELLIPSIS;
 		}
 	}
 
@@ -2112,7 +2112,7 @@ convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 			/* Check for base class conversion */
 			conv = std_convert_seq(p, e, bind, ref);
 			if (conv != CONV_NONE) {
-				return (conv);
+				return conv;
 			}
 			p->from = s;
 			p->to = t;
@@ -2174,7 +2174,7 @@ convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 			if (IS_type_compound(pt)) {
 				conv = ref_convert_seq(p, e, bind, 1);
 				if (conv != CONV_NONE) {
-					return (conv);
+					return conv;
 				}
 				p->from = s;
 				p->to = t;
@@ -2219,20 +2219,20 @@ convert_seq(CONVERSION *p, EXP e, int bind, int ref)
 	if (match) {
 		*p = best;
 		if (match == 1) {
-			return (CONV_USER);
+			return CONV_USER;
 		}
-		return (CONV_USER_MULTI);
+		return CONV_USER_MULTI;
 	}
 
 	/* Deal with conversions to reference types */
 	if (nt == type_ref_tag) {
 		conv = ref_convert_seq(p, e, bind, 0);
-		return (conv);
+		return conv;
 	}
 
 	/* Standard conversion sequences */
 	conv = std_convert_seq(p, e, bind, ref);
-	return (conv);
+	return conv;
 }
 
 
@@ -2265,30 +2265,30 @@ base_compare_seq(GRAPH p, GRAPH q)
 		/* Graph tops are equal, pa = qa */
 		if (eq_ctype(pb, qb)) {
 			/* Graphs are equal */
-			return (0);
+			return 0;
 		}
 		ct = compare_base_class(pb, qb, 0);
 		if (EQ_ctype(ct, pb)) {
 			/* pa = qa > qb > pb */
-			return (2);
+			return 2;
 		}
 		if (EQ_ctype(ct, qb)) {
 			/* pa = qa > pb > qb */
-			return (1);
+			return 1;
 		}
 	} else if (eq_ctype(pb, qb)) {
 		/* Graph bottoms are equal, pb = qb */
 		ct = compare_base_class(pa, qa, 0);
 		if (EQ_ctype(ct, pa)) {
 			/* qa > pa > pb = qb */
-			return (1);
+			return 1;
 		}
 		if (EQ_ctype(ct, qa)) {
 			/* pa > qa > pb = qb */
-			return (2);
+			return 2;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2323,37 +2323,37 @@ qual_compare_seq(CONVERSION *p, CONVERSION *q)
 			r.to = p->from;
 		} else {
 			/* This shouldn't happen */
-			return (0);
+			return 0;
 		}
 		cmp = std_convert_seq(&r, NULL_exp, 0, 0);
 		if (cmp == CONV_EXACT) {
-			return (3);
+			return 3;
 		}
 		if (cmp != CONV_NONE) {
-			return (1);
+			return 1;
 		}
 		t = r.from;
 		r.from = r.to;
 		r.to = t;
 		cmp = std_convert_seq(&r, NULL_exp, 0, 0);
 		if (cmp != CONV_NONE) {
-			return (2);
+			return 2;
 		}
 	} else {
 		/* Qualifiers at only one level */
 		CV_SPEC cr;
 		if (cp == cq) {
-			return (3);
+			return 3;
 		}
 		cr = (cp | cq);
 		if (cr == cq) {
-			return (1);
+			return 1;
 		}
 		if (cr == cp) {
-			return (2);
+			return 2;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -2378,26 +2378,26 @@ compare_seq(CONVERSION *p1, CONVERSION *p2)
 	unsigned b1 = CONV_RANK(a1);
 	unsigned b2 = CONV_RANK(a2);
 	if (b1 > b2) {
-		return (1);
+		return 1;
 	}
 	if (b1 < b2) {
-		return (2);
+		return 2;
 	}
 
 	/* Check user-defined conversions */
 	if (a1 == CONV_USER && a2 == CONV_USER) {
 		if (!EQ_id(p1->usr, p2->usr)) {
-			return (0);
+			return 0;
 		}
 		a1 = p1->std;
 		a2 = p2->std;
 		b1 = CONV_RANK(a1);
 		b2 = CONV_RANK(a2);
 		if (b1 > b2) {
-			return (1);
+			return 1;
 		}
 		if (b1 < b2) {
-			return (2);
+			return 2;
 		}
 	}
 
@@ -2520,5 +2520,5 @@ compare_seq(CONVERSION *p1, CONVERSION *p2)
 		break;
 	}
 	}
-	return (cmp);
+	return cmp;
 }

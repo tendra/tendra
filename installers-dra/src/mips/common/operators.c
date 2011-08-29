@@ -225,7 +225,7 @@ comm_op(exp e, space sp, where d, char *rrins)
 	nsp = guardreg (r, sp);
 	move (a, d, nsp, 1);
 	/* ... and move into a */
-	return ((rok)?r:NOREG);
+	return (rok)?r:NOREG;
       }				/* notinreg */
   }				/* end switch */
 }
@@ -301,7 +301,7 @@ monop(exp e, space sp, where dest, char *ins)
 	} else rok = shape_size(sh(e))==32;
 	nsp = guardreg (r1, sp);
 	move (a, dest, nsp, 1);
-	return ((rok)?r1:NOREG);
+	return (rok)?r1:NOREG;
       }
   }
 }
@@ -350,7 +350,7 @@ fop(exp e, space sp, where dest, char *ins)
       }
   }
   if (!optop(e)) setreorder();
-  return ((fr.dble) ? -(fr.fr + 32) : (fr.fr + 32));
+  return (fr.dble) ? -(fr.fr + 32) : (fr.fr + 32);
 }
 
 int
@@ -380,5 +380,5 @@ fmop(exp e, space sp, where dest, char *ins)
       }
   }
   if(!optop(e)) setreorder();
-  return ((fr.dble) ? -(fr.fr + 32) : (fr.fr + 32));
+  return (fr.dble) ? -(fr.fr + 32) : (fr.fr + 32);
 }

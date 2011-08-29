@@ -137,7 +137,7 @@ save_pptoks(BITSTREAM *bs, PPTOKEN *p)
 {
 	/* NOT YET IMPLEMENTED */
 	UNUSED(p);
-	return (bs);
+	return bs;
 }
 
 
@@ -207,7 +207,7 @@ save_loc(BITSTREAM *bs, PTR(LOCATION)ploc)
 	} else {
 		ENC_OFF(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -257,7 +257,7 @@ save_hashid(BITSTREAM *bs, HASHID nm, NAMESPACE ns)
 		}
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -277,7 +277,7 @@ save_hashid_list(BITSTREAM *bs, LIST(HASHID)p, NAMESPACE ns)
 		p = TAIL_list(p);
 	}
 	ENC_OFF(bs);
-	return (bs);
+	return bs;
 }
 
 
@@ -303,7 +303,7 @@ save_use(BITSTREAM *bs, IDENTIFIER id)
 		d &= ~LINK_EXTERN;
 	}
 	ENC_INT(bs, d);
-	return (bs);
+	return bs;
 }
 
 
@@ -323,7 +323,7 @@ save_use_list(BITSTREAM *bs, LIST(IDENTIFIER)p)
 		p = TAIL_list(p);
 	}
 	ENC_OFF(bs);
-	return (bs);
+	return bs;
 }
 
 
@@ -343,7 +343,7 @@ save_id_list(BITSTREAM *bs, LIST(IDENTIFIER)p, NAMESPACE ns)
 		p = TAIL_list(p);
 	}
 	ENC_OFF(bs);
-	return (bs);
+	return bs;
 }
 
 
@@ -364,7 +364,7 @@ save_tok_list(BITSTREAM *bs, LIST(TOKEN)p, int def)
 		p = TAIL_list(p);
 	}
 	ENC_OFF(bs);
-	return (bs);
+	return bs;
 }
 
 
@@ -380,7 +380,7 @@ save_nat(BITSTREAM *bs, NAT n)
 	unsigned tag;
 	if (IS_NULL_nat(n)) {
 		ENC_BITS(bs, BITS_nat, 0);
-		return (bs);
+		return bs;
 	}
 	tag = TAG_nat(n);
 	ENC_BITS(bs, BITS_nat, tag + 1);
@@ -420,7 +420,7 @@ save_nat(BITSTREAM *bs, NAT n)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -435,7 +435,7 @@ save_off(BITSTREAM *bs, OFFSET off)
 {
 	/* NOT YET IMPLEMENTED */
 	UNUSED(off);
-	return (bs);
+	return bs;
 }
 
 
@@ -451,7 +451,7 @@ save_exp(BITSTREAM *bs, EXP e, TYPE t)
 	unsigned tag;
 	if (IS_NULL_exp(e)) {
 		ENC_BITS(bs, BITS_exp, 0);
-		return (bs);
+		return bs;
 	}
 	tag = TAG_exp(e);
 	ENC_BITS(bs, BITS_exp, tag + 1);
@@ -476,7 +476,7 @@ save_exp(BITSTREAM *bs, EXP e, TYPE t)
 	}
 	}
 	UNUSED(t);
-	return (bs);
+	return bs;
 }
 
 
@@ -492,7 +492,7 @@ save_itype(BITSTREAM *bs, INT_TYPE it)
 	unsigned tag;
 	if (IS_NULL_itype(it)) {
 		ENC_BITS(bs, BITS_itype, 0);
-		return (bs);
+		return bs;
 	}
 	tag = TAG_itype(it);
 	ENC_BITS(bs, BITS_itype, tag + 1);
@@ -541,7 +541,7 @@ save_itype(BITSTREAM *bs, INT_TYPE it)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -557,7 +557,7 @@ save_ftype(BITSTREAM *bs, FLOAT_TYPE ft)
 	unsigned tag;
 	if (IS_NULL_ftype(ft)) {
 		ENC_BITS(bs, BITS_ftype, 0);
-		return (bs);
+		return bs;
 	}
 	tag = TAG_ftype(ft);
 	ENC_BITS(bs, BITS_ftype, tag + 1);
@@ -587,7 +587,7 @@ save_ftype(BITSTREAM *bs, FLOAT_TYPE ft)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -615,7 +615,7 @@ save_graph(BITSTREAM *bs, GRAPH gr, GRAPH gt)
 		br = TAIL_list(br);
 	}
 	ENC_OFF(bs);
-	return (bs);
+	return bs;
 }
 
 
@@ -648,7 +648,7 @@ save_ctype(BITSTREAM *bs, CLASS_TYPE ct, IDENTIFIER def)
 		IDENTIFIER cid = DEREF_id(ctype_name(ct));
 		bs = save_use(bs, cid);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -679,7 +679,7 @@ save_etype(BITSTREAM *bs, ENUM_TYPE et, IDENTIFIER def)
 		IDENTIFIER eid = DEREF_id(etype_name(et));
 		bs = save_use(bs, eid);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -702,13 +702,13 @@ save_type(BITSTREAM *bs, TYPE t, IDENTIFIER def)
 		cv = DEREF_cv(type_qual(t));
 		save_cv(bs, cv);
 		save_ntype(bs, nt);
-		return (bs);
+		return bs;
 	}
 	ENC_OFF(bs);
 	if (IS_NULL_type(t)) {
 		/* Null types */
 		ENC_BITS(bs, BITS_type, 0);
-		return (bs);
+		return bs;
 	}
 
 	/* Save type independent fields */
@@ -857,7 +857,7 @@ save_type(BITSTREAM *bs, TYPE t, IDENTIFIER def)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -877,7 +877,7 @@ save_type_list(BITSTREAM *bs, LIST(TYPE)p)
 		p = TAIL_list(p);
 	}
 	ENC_OFF(bs);
-	return (bs);
+	return bs;
 }
 
 
@@ -894,7 +894,7 @@ save_tok(BITSTREAM *bs, TOKEN tok, int def)
 	unsigned tag;
 	if (IS_NULL_tok(tok)) {
 		ENC_BITS(bs, BITS_tok, 0);
-		return (bs);
+		return bs;
 	}
 	tag = TAG_tok(tok);
 	ENC_BITS(bs, BITS_tok, tag + 1);
@@ -1011,7 +1011,7 @@ save_tok(BITSTREAM *bs, TOKEN tok, int def)
 		break;
 	}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1194,7 +1194,7 @@ save_id(BITSTREAM *bs, IDENTIFIER id, NAMESPACE ns)
 			}
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1209,7 +1209,7 @@ BITSTREAM *
 save_end(BITSTREAM *bs, NAMESPACE ns)
 {
 	bs = save_id(bs, NULL_id, ns);
-	return (bs);
+	return bs;
 }
 
 

@@ -146,7 +146,7 @@ check_ret_type(TYPE t, ERROR *err, int def)
 		/* Check for cv-qualified return types */
 		add_error(err, ERR_dcl_fct_cv_ret(cv));
 	}
-	return (t);
+	return t;
 }
 
 
@@ -169,7 +169,7 @@ convert_args(LIST(EXP) args)
 		}
 		p = TAIL_list(p);
 	}
-	return (args);
+	return args;
 }
 
 
@@ -213,7 +213,7 @@ min_no_args(TYPE fn)
 		n++;
 		p = TAIL_list(p);
 	}
-	return (n);
+	return n;
 }
 
 
@@ -265,7 +265,7 @@ check_func_dargs(TYPE fn, int chk, int clr)
 			pids = TAIL_list(pids);
 		}
 	}
-	return (started);
+	return started;
 }
 
 
@@ -286,7 +286,7 @@ check_weak_arg(TYPE t, EXP a, ERROR *err)
 		/* Allow for integer literals */
 		NAT n = DEREF_nat(exp_int_lit_nat(a));
 		if (check_nat_range(t, n) == 0) {
-			return (t);
+			return t;
 		}
 	}
 	t = check_compatible(t, s, 2, &err2, 1);
@@ -294,7 +294,7 @@ check_weak_arg(TYPE t, EXP a, ERROR *err)
 		err2 = set_severity(err2, OPT_whatever, 0);
 		add_error(err, err2);
 	}
-	return (t);
+	return t;
 }
 
 
@@ -495,7 +495,7 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST(EXP) args, TYPE *pr, int mem)
 	*pr = expand_type(ret, 2);
 	restore_token_args(pids, d);
 	force_template--;
-	return (args);
+	return args;
     }
 
     /* Check function return type */
@@ -825,7 +825,7 @@ cast_args(IDENTIFIER id, TYPE fn, GRAPH gr, LIST(EXP) args, TYPE *pr, int mem)
 	}
     }
     IGNORE check_value(OPT_VAL_func_args,(unsigned long)(n - 1));
-    return (args);
+    return args;
 }
 
 
@@ -852,7 +852,7 @@ apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST(EXP)args)
 	/* Check for non-functions */
 	if (!IS_id_function_etc(id)) {
 		e = make_error_exp(0);
-		return (e);
+		return e;
 	}
 
 	/* Check for inherited functions */
@@ -867,7 +867,7 @@ apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST(EXP)args)
 		e = apply_trivial_func(id, args);
 		if (!IS_NULL_exp(e)) {
 			DESTROY_list(args, SIZE_exp);
-			return (e);
+			return e;
 		}
 	}
 
@@ -961,7 +961,7 @@ apply_func_id(IDENTIFIER id, QUALIFIER qual, GRAPH gr, LIST(EXP)args)
 	if (throws) {
 		IGNORE check_func_throw(fn, fid);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1027,7 +1027,7 @@ apply_func_exp(EXP a, LIST(EXP)args)
 
 	/* Check for exception violations */
 	IGNORE check_func_throw(fn, NULL_id);
-	return (e);
+	return e;
 }
 
 
@@ -1048,7 +1048,7 @@ call_func_templ(EXP a, LIST(EXP) args, int is_paren)
 	}
 	CONS_exp(a, args, args);
 	MAKE_exp_opn(ret, lex_func_Hop, args, e);
-	return (e);
+	return e;
 }
 
 
@@ -1111,7 +1111,7 @@ make_func_exp(EXP a, LIST(EXP)args, int rescan)
 		/* Allow for overloading using 'operator ()' */
 		if (overload_depth == 0) {
 			e = function_overload(a, args);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -1129,7 +1129,7 @@ make_func_exp(EXP a, LIST(EXP)args, int rescan)
 		if (ftag == type_token_tag && is_templ_type(fn)) {
 			/* Allow for template types */
 			e = call_func_templ(a, args, is_paren);
-			return (e);
+			return e;
 		}
 		if (ftag != type_error_tag) {
 			/* Type should now be a function type */
@@ -1147,7 +1147,7 @@ make_func_exp(EXP a, LIST(EXP)args, int rescan)
 			report(crt_loc, err);
 		}
 		e = make_error_exp(0);
-		return (e);
+		return e;
 	}
 
 	/* Deal with named functions */
@@ -1173,7 +1173,7 @@ make_func_exp(EXP a, LIST(EXP)args, int rescan)
 			if (dependent_call(id, args)) {
 				/* Call depends on template argument */
 				e = call_func_templ(a, args, is_paren);
-				return (e);
+				return e;
 			}
 			ds = DEREF_dspec(id_storage(id));
 			if (ds & dspec_instance) {
@@ -1244,7 +1244,7 @@ mem_func_label:
 						e = make_func_exp(e, args, 0);
 					}
 				}
-				return (e);
+				return e;
 			}
 			use_func_id(id, 1, suppress_usage);
 			crt_access_list.inherit = acc;
@@ -1253,7 +1253,7 @@ mem_func_label:
 			} else {
 				e = apply_func_id(id, qual, NULL_graph, args);
 			}
-			return (e);
+			return e;
 		}
 
 		case exp_call_tag: {
@@ -1299,7 +1299,7 @@ mem_func_label:
 						}
 					}
 				}
-				return (e);
+				return e;
 			}
 			if (tag == exp_undeclared_tag) {
 				/* Pseudo-destructor call, 'c->C::~C' */
@@ -1309,7 +1309,7 @@ mem_func_label:
 					report(crt_loc, ERR_expr_pseudo_args(nm));
 				}
 				e = trivial_destr(c);
-				return (e);
+				return e;
 			}
 			/* Pointer to member function selector, 'a.*f' */
 			CONS_exp(c, args, args);
@@ -1320,7 +1320,7 @@ mem_func_label:
 
 	/* Form the result for function expressions */
 	e = apply_func_exp(a, args);
-	return (e);
+	return e;
 }
 
 
@@ -1337,14 +1337,14 @@ check_inline_return(EXP e, TYPE ret)
 	if (IS_NULL_exp(e)) {
 		/* No value returned */
 		MAKE_exp_value(ret, e);
-		return (e);
+		return e;
 	}
 	if (is_const_exp(e, -1)) {
 		/* Constant expression returned */
 		MAKE_exp_copy(ret, e, e);
-		return (e);
+		return e;
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1366,7 +1366,7 @@ check_inline(IDENTIFIER id, LIST(EXP)args, TYPE ret)
 		/* Check argument list */
 		EXP a = DEREF_exp(HEAD_list(args));
 		if (!IS_NULL_exp(a)) {
-			return (NULL_exp);
+			return NULL_exp;
 		}
 		args = TAIL_list(args);
 	}
@@ -1379,7 +1379,7 @@ check_inline(IDENTIFIER id, LIST(EXP)args, TYPE ret)
 			if (IS_NULL_list(p)) {
 				/* Empty function definition */
 				e = check_inline_return(NULL_exp, ret);
-				return (e);
+				return e;
 			}
 			e = DEREF_exp(HEAD_list(p));
 			p = TAIL_list(p);
@@ -1392,12 +1392,12 @@ check_inline(IDENTIFIER id, LIST(EXP)args, TYPE ret)
 					/* Single return statement */
 					e = DEREF_exp(exp_return_stmt_value(e));
 					e = check_inline_return(e, ret);
-					return (e);
+					return e;
 				}
 			}
 		}
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -1420,10 +1420,10 @@ pass_complex_type(TYPE t)
 		CLASS_INFO ci = DEREF_cinfo(ctype_info(ct));
 		CLASS_INFO cj = (ci & cinfo_trivial);
 		if (cj != cinfo_trivial) {
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1479,7 +1479,7 @@ make_param_type(TYPE t, int loc)
 		break;
 	}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -1504,9 +1504,9 @@ check_param_type(IDENTIFIER id, TYPE t)
 		case type_bottom_tag: {
 			/* Void types */
 			if (state) {
-				return (NULL_err);
+				return NULL_err;
 			}
-			return (ERR_dcl_fct_par_void(id, t));
+			return ERR_dcl_fct_par_void(id, t);
 		}
 		case type_ptr_tag:
 		case type_ref_tag: {
@@ -1520,7 +1520,7 @@ check_param_type(IDENTIFIER id, TYPE t)
 			if (state) {
 				NAT n = DEREF_nat(type_array_size(s));
 				if (IS_NULL_nat(n)) {
-					return (ERR_dcl_fct_par_array(id, t));
+					return ERR_dcl_fct_par_array(id, t);
 				}
 			}
 			s = DEREF_type(type_array_sub(s));
@@ -1529,10 +1529,10 @@ check_param_type(IDENTIFIER id, TYPE t)
 		}
 		default:
 			/* Other types */
-			return (NULL_err);
+			return NULL_err;
 		}
 	}
-	return (NULL_err);
+	return NULL_err;
 }
 
 
@@ -1555,7 +1555,7 @@ func_linkage(CV_SPEC cv)
 			cv |= cv_cpp;
 		}
 	}
-	return (cv);
+	return cv;
 }
 
 
@@ -1657,7 +1657,7 @@ make_func_type(TYPE r, int ell, CV_SPEC cv, LIST(TYPE) ex)
 
 	/* Construct the function type */
 	MAKE_type_func(cv_none, r, q, ell, cv, q, ns, p, ex, t);
-	return (t);
+	return t;
 }
 
 
@@ -2064,7 +2064,7 @@ redecl_func_dargs(TYPE s, TYPE t)
 	    pt = TAIL_list(pt);
 	}
     }
-    return (nargs);
+    return nargs;
 }
 
 
@@ -2169,7 +2169,7 @@ redecl_func_type(IDENTIFIER id, TYPE s, TYPE t, int def, int dargs)
 		}
 		s = t;
 	}
-	return (s);
+	return s;
 }
 
 
@@ -2197,10 +2197,10 @@ find_func_type(TYPE t)
 			tag = TAG_type(t);
 		}
 		if (tag == type_func_tag) {
-			return (t);
+			return t;
 		}
 	}
-	return (NULL_type);
+	return NULL_type;
 }
 
 
@@ -2307,7 +2307,7 @@ function_params(TYPE t)
 		IGNORE pop_namespace();
 		in_weak_param--;
 	}
-	return (def);
+	return def;
 }
 
 
@@ -2385,7 +2385,7 @@ check_main(TYPE t, HASHID nm)
 	ERROR err = ERR_basic_start_main_proto(t, nm);
 	report(crt_loc, err);
     }
-    return (t);
+    return t;
 }
 
 
@@ -2737,5 +2737,5 @@ end_function(IDENTIFIER id, EXP body)
 	block_namespace = NULL_nspace;
 	suppress_variable = 0;
 	unreached_last = 0;
-	return (body);
+	return body;
 }

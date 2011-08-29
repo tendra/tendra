@@ -545,20 +545,20 @@ refloc_length(exp e, exp id)
 			failer(bad_refloc);
 		}
 		if (no(e) == 0) {
-			return(0);
+			return 0;
 		}
-		return(1 + uleb128_length((unsigned long)no(e) / 8));
+		return 1 + uleb128_length((unsigned long)no(e) / 8);
 	case cont_tag:
-		return(refloc_length(son(e), id) + 1);
+		return refloc_length(son(e), id) + 1;
 	case reff_tag:
 		if (no(e) <0) {
 			failer(bad_refloc);
 		}
-		return(refloc_length(son(e), id) + 1 +
-		       uleb128_length((unsigned long)no(e) / 8));
+		return refloc_length(son(e), id) + 1 +
+		       uleb128_length((unsigned long)no(e) / 8);
 	default:
 		failer(bad_refloc);
-		return(0);
+		return 0;
 	}
 }
 

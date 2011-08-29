@@ -2343,7 +2343,7 @@ dg_list
 new_dg_list(int n)
 {
 	UNUSED(n);
-	return(dg_list)(0);
+	return (dg_list) 0;
 }
 
 
@@ -2369,7 +2369,7 @@ add_dg_list(dg_list list, dg elem, int index)
 dg_name_list
 new_dg_name_list(int n)
 {
-	return(dg_name)0;
+	return (dg_name) 0;
 }
 
 
@@ -2553,7 +2553,7 @@ add_dg_discrim_list(dg_discrim_list list, dg_discrim elem, int index)
 dg_constraint_list
 new_dg_constraint_list(int n)
 {
-	return(dg_constraint)0;
+	return (dg_constraint) 0;
 }
 
 
@@ -2626,7 +2626,7 @@ init_dg_append(void)
 dg_append_list
 new_dg_append_list(int n)
 {
-	return(dg_append_list)0;
+	return (dg_append_list) 0;
 }
 
 

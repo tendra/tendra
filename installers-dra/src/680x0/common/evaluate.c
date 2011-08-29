@@ -252,7 +252,7 @@ long  evalexp
     {
        int k = no(e);
        if (is_offset(e))k /= 8;
-       return(k);
+       return k;
     }
    case bitf_to_int_tag:
     {
@@ -271,35 +271,35 @@ long  evalexp
     }
    case not_tag:
     {
-       return(~evalexp(son(e)));
+       return ~evalexp(son(e));
     }
    case and_tag:
     {
-       return(evalexp(son(e)) & evalexp(bro(son(e))));
+       return evalexp(son(e)) & evalexp(bro(son(e)));
     }
    case or_tag:
     {
-       return(evalexp(son(e)) | evalexp(bro(son(e))));
+       return evalexp(son(e)) | evalexp(bro(son(e)));
     }
    case xor_tag:
     {
-       return(evalexp(son(e))^ evalexp(bro(son(e))));
+       return evalexp(son(e))^ evalexp(bro(son(e)));
     }
 
    case shr_tag:
     {
-       return(evalexp(son(e)) >> evalexp(bro(son(e))));
+       return evalexp(son(e)) >> evalexp(bro(son(e)));
     }
 
    case shl_tag:
     {
-       return(evalexp(son(e)) << evalexp(bro(son(e))));
+       return evalexp(son(e)) << evalexp(bro(son(e)));
     }
 
    case concatnof_tag:
     {
        long  wd = evalexp(son(e));
-       return(wd | (evalexp(bro(son(e))) << shape_size(sh(son(e)))));
+       return wd | (evalexp(bro(son(e))) << shape_size(sh(son(e))));
     }
 
    case clear_tag:
@@ -334,26 +334,26 @@ long  evalexp
     {
        dec * et = brog(son(son(e)));
        if (et -> dec_u.dec_val.processed)
-       return(et -> dec_u.dec_val.index);
+       return et -> dec_u.dec_val.index;
        break;
     }
    case offset_add_tag:
     {
-       return(evalexp(son(e)) +evalexp(bro(son(e))));
+       return evalexp(son(e)) +evalexp(bro(son(e)));
     }
    case offset_max_tag:
     {
        long a = evalexp(son(e));
        long b = evalexp(bro(son(e)));
-       return(a > b ? a : b);
+       return a > b ? a : b;
     }
    case offset_pad_tag:
     {
-       return(rounder(evalexp(son(e)), shape_align(sh(e)) / 8));
+       return rounder(evalexp(son(e)), shape_align(sh(e)) / 8);
     }
    case offset_mult_tag:
     {
-       return(evalexp(son(e))*evalexp(bro(son(e))));
+       return evalexp(son(e))*evalexp(bro(son(e)));
     }
    case offset_div_tag:
    case offset_div_by_int_tag:
@@ -363,20 +363,20 @@ long  evalexp
           n++;
           error(ERROR_SERIOUS, "evalexp: divide by zero");
        }
-       return(evalexp(son(e)) / n);
+       return evalexp(son(e)) / n;
     }
    case offset_subtract_tag:
     {
-       return(evalexp(son(e)) -evalexp(bro(son(e))));
+       return evalexp(son(e)) -evalexp(bro(son(e)));
     }
    case offset_negate_tag:
     {
-       return(- evalexp(son(e)));
+       return -evalexp(son(e));
     }
    case seq_tag:
     {
        if (name(son(son(e))) == prof_tag && last(son(son(e))))
-	   return(evalexp(bro(son(e))));
+	   return evalexp(bro(son(e)));
        break;
     }
    case cont_tag:
@@ -384,12 +384,12 @@ long  evalexp
        if (PIC_code && name(son(e)) == name_tag && isglob(son(son(e)))
            && son(son(son(e)))!= nilexp
            && !(brog(son(son(e))) -> dec_u.dec_val.dec_var))
-       return(evalexp(son(son(son(e)))));
+       return evalexp(son(son(son(e))));
        break;
     }
    }
    error(ERROR_SERIOUS, "Illegal constant expression in %s", ext_eval_name);
-   return(0);
+   return 0;
 }
 
 /*
@@ -494,7 +494,7 @@ long *realrep
 
 #if (FBASE == 10)
 
-    if (!convert_floats) return(NULL);
+    if (!convert_floats) return NULL;
 
     if (name(e) == real_tag) {
 	/* Calculate value */
@@ -503,7 +503,7 @@ long *realrep
 	char *p = fbuff;
 	if (f->exp <= DBL_MIN_10_EXP || f->exp >= DBL_MAX_10_EXP) {
 	    /* Reject anything that won't fit into a double */
-	    return(NULL);
+	    return NULL;
 	}
 	if (f->sign < 0)*(p++) = '-';
 	*(p++) = '0' + f->mant[0];
@@ -519,13 +519,13 @@ long *realrep
 	}
     } else {
 	error(ERROR_SERIOUS, "Illegal floating-point constant");
-	return(NULL);
+	return NULL;
     }
 
     /* Deal with 0 */
     if (d == 0.0) {
 	for (i = 0; i < sz / 32; i++)longs[i] = 0;
-	return(longs);
+	return longs;
     }
 
     /* Fill in sign */
@@ -562,7 +562,7 @@ long *realrep
 	/* Deal with 0 */
 	if (f->sign == 0) {
 	    for (i = 0; i < sz / 32; i++)longs[i] = 0;
-	    return(longs);
+	    return longs;
 	}
 
 	/* Fill in sign */
@@ -596,7 +596,7 @@ long *realrep
 
     } else {
 	error(ERROR_SERIOUS, "Illegal floating-point constant");
-	return(NULL);
+	return NULL;
     }
 
 #endif
@@ -615,7 +615,7 @@ long *realrep
 	    longs[0] += 0x7ff00000;
 	    longs[1] = 0;
 	}
-	return(longs);
+	return longs;
     }
     for (i = 0; i < exp_bits; i++) {
 	int j = exp_bits - i;
@@ -637,7 +637,7 @@ long *realrep
 	longs[i] = (b0 << 24) + (b1 << 16) + (b2 << 8) + b3;
 #endif
     }
-    return(longs);
+    return longs;
 }
 
 
@@ -1048,44 +1048,44 @@ static int is_comm
 {
     switch (name(e)) {
 
-	case val_tag: return(no(e)? 0 : 1);
+	case val_tag: return no(e) ? 0 : 1;
 
 	case int_to_bitf_tag:
-	case chvar_tag: return(is_comm(son(e)));
+	case chvar_tag: return is_comm(son(e));
 
 	case real_tag: {
 	    flpt f = no(e);
-	    return(flptnos[f].sign ? 0 : 1);
+	    return flptnos[f].sign ? 0 : 1;
 	}
 
 	case compound_tag: {
 	    exp t = son(e);
-	    if (t == nilexp) return(1);
+	    if (t == nilexp) return 1;
 	    while (1) {
 		t = bro(t);
 		if (name(sh(t))!= bitfhd) {
-		    if (!is_comm(t)) return(0);
+		    if (!is_comm(t)) return 0;
 		} else {
 		    if (name(t) == val_tag) {
-			if (no(t)) return(0);
+			if (no(t)) return 0;
 		    } else {
-			if (no(son(t))) return(0);
+			if (no(son(t))) return 0;
 		    }
 		}
-		if (last(t)) return(1);
+		if (last(t)) return 1;
 		t = bro(t);
 	    }
 	    /* Not reached */
 	}
 
-	case ncopies_tag: return(is_comm(son(e)));
+	case ncopies_tag: return is_comm(son(e));
 
 	case nof_tag: {
 	    exp t = son(e);
-	    if (t == nilexp) return(1);
+	    if (t == nilexp) return 1;
 	    while (1) {
-		if (!is_comm(t)) return(0);
-		if (last(t)) return(1);
+		if (!is_comm(t)) return 0;
+		if (last(t)) return 1;
 		t = bro(t);
 	    }
 	    /* Not reached */
@@ -1093,14 +1093,14 @@ static int is_comm
 
 	case concatnof_tag: {
 	    exp t = son(e);
-	    return(is_comm(t) && is_comm(bro(t)));
+	    return is_comm(t) && is_comm(bro(t));
 	}
 
 	case clear_tag:
 	case res_tag:
-	case null_tag: return(1);
+	case null_tag: return 1;
     }
-    return(0);
+    return 0;
 }
 
 #endif

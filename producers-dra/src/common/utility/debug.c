@@ -122,7 +122,7 @@ print_offset_aux(OFFSET off, BUFFER *bf, int sp)
 		}
 		}
 	}
-	return (sp);
+	return sp;
 }
 
 
@@ -137,7 +137,7 @@ print_unary(EXP a, int op, BUFFER *bf, int sp)
 {
 	IGNORE print_lex(op, bf, sp);
 	sp = print_exp(a, 1, bf, 0);
-	return (sp);
+	return sp;
 }
 
 
@@ -153,7 +153,7 @@ print_binary(EXP a, EXP b, int op, BUFFER *bf, int sp)
 	sp = print_exp(a, 1, bf, sp);
 	sp = print_lex(op, bf, sp);
 	sp = print_exp(b, 1, bf, sp);
-	return (sp);
+	return sp;
 }
 
 
@@ -172,7 +172,7 @@ print_cast(TYPE t, EXP a, int op, BUFFER *bf, int sp)
 	sp = print_type(t, bf, sp);
 	sp = print_lex(lex_greater, bf, sp);
 	sp = print_exp(a, 1, bf, sp);
-	return (sp);
+	return sp;
 }
 
 
@@ -198,7 +198,7 @@ print_exp_list(LIST(EXP)p, BUFFER *bf, int sp)
 		}
 	}
 	sp = print_lex(lex_close_Hround, bf, sp);
-	return (sp);
+	return sp;
 }
 
 
@@ -522,7 +522,7 @@ print_exp_aux(EXP e, int paren, BUFFER *bf, int sp)
 		}
 		if (paren)sp = print_lex(lex_close_Hround, bf, sp);
 	}
-	return (sp);
+	return sp;
 }
 
 

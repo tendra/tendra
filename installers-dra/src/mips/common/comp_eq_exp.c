@@ -59,7 +59,7 @@ initial call : comp_eq_exp(a,b,nilexp,nilexp)  */
 bool
 comp_eq_explist(exp a, exp b, exp laba, exp labb)
 {
-	if (a==nilexp) return (b==nilexp);
+	if (a==nilexp) return b==nilexp;
 	if (b==nilexp || !comp_eq_exp(a,b,laba,labb) ) return 0;
 	if (last(a)) return (last(b));
 	if (last(b)) return 0;

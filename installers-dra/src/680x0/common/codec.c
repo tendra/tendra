@@ -163,7 +163,7 @@ sim_exp(shape sha, where w)
 {
 	exp e = copyexp(w.wh_exp);
 	sh(e) = sha;
-	return (e);
+	return e;
 }
 
 

@@ -310,7 +310,7 @@ execute(filename *input, filename *output)
 	cmd = command[0];
 	if (cmd == NULL) {
 		error(INTERNAL, "Empty command");
-		return (NULL);
+		return NULL;
 	}
 	last_command = cmd;
 	last_return = 0;
@@ -488,8 +488,8 @@ execute_error:
 			error(INFO, "Error in '%s'", buff + 1);
 		}
 		remove_junk();
-		return (NULL);
+		return NULL;
 	}
 	junk = NULL;
-	return (output);
+	return output;
 }

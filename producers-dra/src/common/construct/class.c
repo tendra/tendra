@@ -125,7 +125,7 @@ set_class_key(CLASS_INFO ci, BASE_TYPE key)
 	} else if (key == btype_struct) {
 		ci |= cinfo_struct;
 	}
-	return (ci);
+	return ci;
 }
 
 
@@ -144,11 +144,11 @@ is_local_nspace(NAMESPACE ns)
 		switch (TAG_nspace(ns)) {
 		case nspace_block_tag:
 		case nspace_dummy_tag: {
-			return (1);
+			return 1;
 		}
 		case nspace_param_tag:
 		case nspace_templ_tag: {
-			return (2);
+			return 2;
 		}
 		}
 		id = DEREF_id(nspace_name(ns));
@@ -157,7 +157,7 @@ is_local_nspace(NAMESPACE ns)
 		}
 		ns = DEREF_nspace(id_parent(id));
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -294,7 +294,7 @@ make_class(NAMESPACE ns, HASHID nm, BASE_TYPE key, DECL_SPEC bds, TYPE q,
 		CONS_id(id, fr, fr);
 		COPY_list(ctype_nest(cr), fr);
 	}
-	return (id);
+	return id;
 }
 
 
@@ -339,7 +339,7 @@ constr_name(NAMESPACE ns, IDENTIFIER id)
 		}
 	}
 	is_constructor_next = 0;
-	return (id);
+	return id;
 }
 
 
@@ -376,23 +376,23 @@ is_defined(IDENTIFIER id, TYPE *pt, int force)
 			ENUM_TYPE et = DEREF_etype(type_enumerate_defn(t));
 			ci = DEREF_cinfo(etype_info(et));
 		} else {
-			return (1);
+			return 1;
 		}
 		if (ci & cinfo_token) {
 			/* Tokenised types */
 			IDENTIFIER tid = find_token(id);
 			DECL_SPEC ds = DEREF_dspec(id_storage(tid));
 			if (ds & dspec_pure) {
-				return (1);
+				return 1;
 			}
-			return (2);
+			return 2;
 		}
 		if (ci & (cinfo_complete | cinfo_defined)) {
 			/* Defined types */
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -407,12 +407,12 @@ find_class_key(CLASS_TYPE ct)
 {
 	CLASS_INFO ci = DEREF_cinfo(ctype_info(ct));
 	if (ci & cinfo_union) {
-		return (btype_union);
+		return btype_union;
 	}
 	if (ci & cinfo_struct) {
-		return (btype_struct);
+		return btype_struct;
 	}
-	return (btype_class);
+	return btype_class;
 }
 
 
@@ -440,25 +440,25 @@ class_name_lab: {
 			}
 			ct = DEREF_ctype(type_compound_defn(t));
 			key = find_class_key(ct);
-			return (key);
+			return key;
 		}
 	case id_enum_name_tag: {
 		/* Enumeration names */
-		return (btype_enum);
+		return btype_enum;
 	}
 	case id_class_alias_tag: {
 		/* Class aliases */
 		if (expand) {
 			goto class_name_lab;
 		}
-		return (btype_alias);
+		return btype_alias;
 	}
 	case id_enum_alias_tag: {
 		/* Enumeration aliases */
 		if (expand) {
-			return (btype_enum);
+			return btype_enum;
 		}
-		return (btype_alias);
+		return btype_alias;
 	}
 	case id_type_alias_tag: {
 		/* Type aliases */
@@ -468,10 +468,10 @@ class_name_lab: {
 			TYPE t = DEREF_type(id_type_alias_defn(id));
 			if (IS_type_token(t)) {
 				id = DEREF_id(type_token_tok(t));
-				return (find_key(id, expand, new_key));
+				return find_key(id, expand, new_key);
 			}
 		}
-		return (btype_alias);
+		return btype_alias;
 	}
 	case id_token_tag: {
 		/* Tokenised types */
@@ -486,14 +486,14 @@ class_name_lab: {
 					bt |= key;
 					COPY_btype(tok_type_kind(tok), bt);
 				}
-				return (key);
+				return key;
 			}
-			return (btype_alias);
+			return btype_alias;
 		}
 		break;
 	}
 	}
-	return (btype_none);
+	return btype_none;
 }
 
 
@@ -509,18 +509,18 @@ int
 equal_key(BASE_TYPE key1, BASE_TYPE key2)
 {
 	if (key1 == key2) {
-		return (1);
+		return 1;
 	}
 	if (key1 == btype_class && key2 == btype_struct) {
-		return (1);
+		return 1;
 	}
 	if (key1 == btype_struct && key2 == btype_class) {
-		return (1);
+		return 1;
 	}
 	if (key1 == btype_any || key2 == btype_any) {
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -547,7 +547,7 @@ check_key(IDENTIFIER id, BASE_TYPE key)
 			is_enum = 1;
 		}
 	}
-	return (is_enum);
+	return is_enum;
 }
 
 
@@ -577,7 +577,7 @@ make_dummy_class(IDENTIFIER id, LIST(TOKEN)args, BASE_TYPE key)
 	COPY_cinfo(ctype_info(ct), ci);
 	MAKE_type_token(cv_none, id, args, s);
 	COPY_type(ctype_form(ct), s);
-	return (t);
+	return t;
 }
 
 
@@ -598,7 +598,7 @@ find_class(IDENTIFIER id)
 		if (IS_type_compound(t)) {
 			/* Simple classes */
 			CLASS_TYPE ct = DEREF_ctype(type_compound_defn(t));
-			return (ct);
+			return ct;
 		} else {
 			/* Template classes */
 			while (IS_type_templ(t)) {
@@ -608,7 +608,7 @@ find_class(IDENTIFIER id)
 				CLASS_TYPE ct = DEREF_ctype(type_compound_defn(t));
 				if (defining_class(ct)) {
 					/* Only allow unqualified in definition */
-					return (ct);
+					return ct;
 				}
 			}
 		}
@@ -621,7 +621,7 @@ find_class(IDENTIFIER id)
 		}
 		if (IS_type_token(t)) {
 			id = DEREF_id(type_token_tok(t));
-			return (find_class(id));
+			return find_class(id);
 		}
 
 	} else if (tag == id_token_tag && is_templ_param(id)) {
@@ -657,11 +657,11 @@ find_class(IDENTIFIER id)
 				/* Return previous dummy class type */
 				CLASS_TYPE ct =
 				    DEREF_ctype(type_compound_defn(t));
-				return (ct);
+				return ct;
 			}
 		}
 	}
-	return (NULL_ctype);
+	return NULL_ctype;
 }
 
 
@@ -679,7 +679,7 @@ make_class_type(CLASS_TYPE ct)
 	while (IS_type_templ(t)) {
 		t = DEREF_type(type_templ_defn(t));
 	}
-	return (t);
+	return t;
 }
 
 
@@ -713,7 +713,7 @@ redecl_templ_class(TYPE q, TYPE t, IDENTIFIER *pid)
 		err = concat_error(err, err2);
 		report(crt_loc, err);
 	}
-	return (s);
+	return s;
 }
 
 
@@ -731,9 +731,9 @@ extract_templ_qual(TYPE t)
 		TYPE s = DEREF_type(type_templ_defn(t));
 		s = extract_templ_qual(s);
 		COPY_type(type_templ_defn(t), s);
-		return (t);
+		return t;
 	}
-	return (NULL_type);
+	return NULL_type;
 }
 
 
@@ -821,7 +821,7 @@ declare_type(NAMESPACE ns, HASHID nm, BASE_TYPE key, TYPE q, int def,
 					}
 					COPY_loc(id_loc(id), decl_loc);
 				}
-				return (id);
+				return id;
 			}
 			case id_class_alias_tag:
 			case id_enum_alias_tag:
@@ -871,7 +871,7 @@ declare_type(NAMESPACE ns, HASHID nm, BASE_TYPE key, TYPE q, int def,
 		}
 	}
 	found_elaborate_type = 0;
-	return (id);
+	return id;
 }
 
 
@@ -896,11 +896,11 @@ parent_class(IDENTIFIER id)
 			if (IS_type_compound(t)) {
 				CLASS_TYPE ct =
 				    DEREF_ctype(type_compound_defn(t));
-				return (ct);
+				return ct;
 			}
 		}
 	}
-	return (NULL_ctype);
+	return NULL_ctype;
 }
 
 
@@ -922,9 +922,9 @@ namespace_class(NAMESPACE ns)
 			t = DEREF_type(type_templ_defn(t));
 		}
 		ct = DEREF_ctype(type_compound_defn(t));
-		return (ct);
+		return ct;
 	}
-	return (NULL_ctype);
+	return NULL_ctype;
 }
 
 
@@ -984,13 +984,13 @@ defining_class(CLASS_TYPE ct)
 	LIST(NAMESPACE)q;
 	LIST(CLASS_TYPE)p;
 	if (EQ_ctype(ct, crt_class)) {
-		return (1);
+		return 1;
 	}
 	p = LIST_stack(class_stack);
 	while (!IS_NULL_list(p)) {
 		CLASS_TYPE cs = DEREF_ctype(HEAD_list(p));
 		if (EQ_ctype(cs, ct)) {
-			return (1);
+			return 1;
 		}
 		p = TAIL_list(p);
 	}
@@ -999,11 +999,11 @@ defining_class(CLASS_TYPE ct)
 	while (!IS_NULL_list(q)) {
 		NAMESPACE ns = DEREF_nspace(HEAD_list(q));
 		if (EQ_nspace(ns, nt)) {
-			return (1);
+			return 1;
 		}
 		q = TAIL_list(q);
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1150,7 +1150,7 @@ begin_class_defn(IDENTIFIER id, BASE_TYPE key, CLASS_INFO ci, TYPE q)
 	ds = (key == btype_class ? dspec_private : dspec_public);
 	crt_access = ds;
 	prev_access = ds;
-	return (cid);
+	return cid;
 }
 
 
@@ -1242,7 +1242,7 @@ end_class_defn(IDENTIFIER id)
 	} else {
 		have_type_declaration = TYPE_DECL_NORMAL;
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1309,7 +1309,7 @@ check_class_info(CLASS_INFO ci, CLASS_INFO cj, int base, DECL_SPEC acc)
 		ci |= cinfo_base;
 		UNUSED(acc);
 	}
-	return (ci);
+	return ci;
 }
 
 
@@ -1338,7 +1338,7 @@ check_trivial_class(CLASS_TYPE ct)
 			err = ERR_class_copy_nontriv_assign(ct);
 		}
 	}
-	return (err);
+	return err;
 }
 
 
@@ -1424,7 +1424,7 @@ check_member_type(CLASS_TYPE ct, CLASS_INFO ci, TYPE t, int ptr)
 	if (is_templ_depend(t)) {
 		ci |= cinfo_params;
 	}
-	return (ci);
+	return ci;
 }
 
 
@@ -1444,7 +1444,7 @@ class_info(CLASS_TYPE ct, CLASS_INFO cm, int n)
 	CLASS_INFO ci = DEREF_cinfo(ctype_info(ct));
 	ci &= cm;
 	if (ci == cinfo_none) {
-		return (err);
+		return err;
 	}
 
 	/* Check for tokenised types */
@@ -1452,7 +1452,7 @@ class_info(CLASS_TYPE ct, CLASS_INFO cm, int n)
 		IDENTIFIER id = DEREF_id(ctype_name(ct));
 		err = concat_error(err, ERR_token_info(id));
 		if (--n == 0) {
-			return (err);
+			return err;
 		}
 	}
 
@@ -1460,7 +1460,7 @@ class_info(CLASS_TYPE ct, CLASS_INFO cm, int n)
 	if (ci & cinfo_usr_constr) {
 		err = concat_error(err, ERR_class_ctor_user(ct));
 		if (--n == 0) {
-			return (err);
+			return err;
 		}
 	}
 
@@ -1474,7 +1474,7 @@ class_info(CLASS_TYPE ct, CLASS_INFO cm, int n)
 			ERROR err2 = ERR_class_member_lookup_ambig(cs, ct);
 			err = concat_error(err, err2);
 			if (--n == 0) {
-				return (err);
+				return err;
 			}
 		}
 	}
@@ -1488,7 +1488,7 @@ class_info(CLASS_TYPE ct, CLASS_INFO cm, int n)
 		cs = DEREF_ctype(graph_head(gr));
 		err = concat_error(err, ERR_class_derived_base(ct, cs));
 		if (--n == 0) {
-			return (err);
+			return err;
 		}
 	}
 
@@ -1496,7 +1496,7 @@ class_info(CLASS_TYPE ct, CLASS_INFO cm, int n)
 	if (ci & cinfo_private) {
 		err = concat_error(err, ERR_class_access_spec_priv(ct));
 		if (--n == 0) {
-			return (err);
+			return err;
 		}
 	}
 
@@ -1506,7 +1506,7 @@ class_info(CLASS_TYPE ct, CLASS_INFO cm, int n)
 		err = concat_error(err, ERR_class_abstract_pure(id));
 		err = concat_error(err, ERR_class_abstract_class(ct));
 		if (--n == 0) {
-			return (err);
+			return err;
 		}
 	}
 
@@ -1514,13 +1514,13 @@ class_info(CLASS_TYPE ct, CLASS_INFO cm, int n)
 	if (ci & cinfo_polymorphic) {
 		err = concat_error(err, ERR_class_virtual_poly(ct));
 		if (--n == 0) {
-			return (err);
+			return err;
 		}
 	}
 
 	/* Return the resultant error */
 	UNUSED(n);
-	return (err);
+	return err;
 }
 
 
@@ -1540,17 +1540,17 @@ is_empty_ctype(CLASS_TYPE ct)
 	MEMBER mem = DEREF_member(nspace_ctype_first(ns));
 	mem = next_data_member(mem, 2);
 	if (!IS_NULL_member(mem)) {
-		return (0);
+		return 0;
 	}
 	while (!IS_NULL_list(br)) {
 		GRAPH gs = DEREF_graph(HEAD_list(br));
 		CLASS_TYPE cs = DEREF_ctype(graph_head(gs));
 		if (!is_empty_ctype(cs)) {
-			return (0);
+			return 0;
 		}
 		br = TAIL_list(br);
 	}
-	return (1);
+	return 1;
 }
 
 
@@ -1568,7 +1568,7 @@ is_empty_class(TYPE t)
 		switch (TAG_type(t)) {
 		case type_compound_tag: {
 			CLASS_TYPE ct = DEREF_ctype(type_compound_defn(t));
-			return (is_empty_ctype(ct));
+			return is_empty_ctype(ct);
 		}
 		case type_array_tag: {
 			t = DEREF_type(type_array_sub(t));
@@ -1579,10 +1579,10 @@ is_empty_class(TYPE t)
 			break;
 		}
 		default:
-			return (0);
+			return 0;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1661,7 +1661,7 @@ begin_enum_defn(IDENTIFIER id, TYPE q)
 
 	/* Force definition information */
 	COPY_loc(id_loc(eid), decl_loc);
-	return (eid);
+	return eid;
 }
 
 
@@ -1725,7 +1725,7 @@ end_enum_defn(IDENTIFIER id)
 	} else {
 		have_type_declaration = TYPE_DECL_NORMAL;
 	}
-	return (id);
+	return id;
 }
 
 
@@ -1900,7 +1900,7 @@ make_enumerator(IDENTIFIER eid, IDENTIFIER id, EXP val)
 	CONS_id(nid, ens, ens);
 	COPY_list(etype_values(et), ens);
 	COPY_cinfo(etype_info(et), ei);
-	return (nid);
+	return nid;
 }
 
 
@@ -1920,11 +1920,11 @@ find_enumerator(ENUM_TYPE et, NAT n)
 		EXP e = DEREF_exp(id_enumerator_value(eid));
 		NAT m = DEREF_nat(exp_int_lit_nat(e));
 		if (EQ_nat(n, m) || eq_nat(n, m)) {
-			return (eid);
+			return eid;
 		}
 		p = TAIL_list(p);
 	}
-	return (NULL_id);
+	return NULL_id;
 }
 
 
@@ -1980,7 +1980,7 @@ find_elaborate_type(IDENTIFIER id, BASE_TYPE key, TYPE q, DECL_SPEC mode)
 				check_decl_nspace(tid, ns, 0, crt_namespace);
 			}
 			found_elaborate_type = 1;
-			return (tid);
+			return tid;
 		}
 	} else {
 		if (mode & dspec_alias) {
@@ -2026,7 +2026,7 @@ find_elaborate_type(IDENTIFIER id, BASE_TYPE key, TYPE q, DECL_SPEC mode)
 				report(crt_loc, err);
 			}
 			found_elaborate_type = 1;
-			return (tid);
+			return tid;
 		}
 		if (IS_id_ambig(tid)) {
 			tid = report_ambiguous(tid, 1, 1, 1);
@@ -2072,7 +2072,7 @@ find_elaborate_type(IDENTIFIER id, BASE_TYPE key, TYPE q, DECL_SPEC mode)
 		report(decl_loc, ERR_class_friend_pre(tid));
 	}
 	decl_loc = loc;
-	return (tid);
+	return tid;
 }
 
 
@@ -2142,7 +2142,7 @@ make_typedef(NAMESPACE ns, HASHID nm, TYPE t, DECL_SPEC ds)
 				cnm = DEREF_hashid(id_name(cid));
 				COPY_id(hashid_destr_tid(cnm), id);
 			}
-			return (id);
+			return id;
 		}
 	}
 
@@ -2167,13 +2167,13 @@ make_typedef(NAMESPACE ns, HASHID nm, TYPE t, DECL_SPEC ds)
 				COPY_dspec(id_storage(id), (ds | dspec_lang));
 				COPY_id(etype_name(et), id);
 			}
-			return (id);
+			return id;
 		}
 	}
 
 	/* Other type aliases */
 	MAKE_id_type_alias(nm, ds, ns, decl_loc, t, id);
-	return (id);
+	return id;
 }
 
 
@@ -2233,39 +2233,39 @@ find_copied(IDENTIFIER cid, IDENTIFIER id, int res)
 					while (!IS_NULL_id(mid)) {
 						/* Perform overload resolution */
 						if (EQ_id(mid, id)) {
-							return (mid);
+							return mid;
 						}
 						if (EQ_id(mid, fid)) {
-							return (mid);
+							return mid;
 						}
 						f = DEREF_type(id_function_etc_form(mid));
 						if (!IS_NULL_type(f) && IS_type_instance(f)) {
 							IDENTIFIER nid;
 							nid = DEREF_id(type_instance_id(f));
 							if (EQ_id(nid, id)) {
-								return (mid);
+								return mid;
 							}
 							if (EQ_id(nid, fid)) {
-								return (mid);
+								return mid;
 							}
 						}
 						mid = DEREF_id(id_function_etc_over(mid));
 					}
 					mid = id;
 				}
-				return (mid);
+				return mid;
 			}
 			if (TAG_id(mid) == TAG_id(id)) {
-				return (mid);
+				return mid;
 			}
 		}
 		mid = DEREF_id(member_alt(mem));
 		if (!IS_NULL_id(mid) && TAG_id(mid) == TAG_id(id)) {
 			/* Identifier matches type member */
-			return (mid);
+			return mid;
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -2304,7 +2304,7 @@ copy_class(TYPE t, DECL_SPEC ds)
 	bad_crt_loc--;
 	decl_loc = loc;
 	crt_loc = loc;
-	return (t);
+	return t;
 }
 
 
@@ -2448,7 +2448,7 @@ copy_nested(IDENTIFIER tid, TYPE t, TYPE q, LOCATION *ploc)
 		break;
 	}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -2508,12 +2508,12 @@ copy_member(IDENTIFIER id, HASHID nm, NAMESPACE ns, CLASS_TYPE ct,
 				}
 			}
 		}
-		return (tid);
+		return tid;
 	}
 
 	/* Nested classes and enumerations already copied */
 	if (tag == id_class_name_tag || tag == id_enum_name_tag) {
-		return (NULL_id);
+		return NULL_id;
 	}
 
 	/* Copy member */
@@ -2658,7 +2658,7 @@ copy_member(IDENTIFIER id, HASHID nm, NAMESPACE ns, CLASS_TYPE ct,
 			tid = hide_functions(tid, fid, 1);
 		}
 	}
-	return (tid);
+	return tid;
 }
 
 
@@ -2711,7 +2711,7 @@ copy_friend_class(IDENTIFIER id)
 			}
 		}
 	}
-	return (id);
+	return id;
 }
 
 
@@ -2778,7 +2778,7 @@ copy_friend_func(IDENTIFIER id)
 				}
 				args = expand_args(args, 1, 1);
 				id = instance_func(tid, args, 0, 0);
-				return (id);
+				return id;
 			}
 		}
 	}
@@ -2819,7 +2819,7 @@ copy_friend_func(IDENTIFIER id)
 			id = fid;
 		}
 	}
-	return (id);
+	return id;
 }
 
 

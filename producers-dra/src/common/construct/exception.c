@@ -141,19 +141,19 @@ int
 in_type_set(LIST(TYPE)p, TYPE t)
 {
 	if (EQ_list(p, univ_type_set)) {
-		return (1);
+		return 1;
 	}
 	expand_tokdef++;
 	while (!IS_NULL_list(p)) {
 		TYPE s = DEREF_type(HEAD_list(p));
 		if (EQ_type(t, s) || eq_type_unqual(t, s)) {
 			expand_tokdef--;
-			return (1);
+			return 1;
 		}
 		p = TAIL_list(p);
 	}
 	expand_tokdef--;
-	return (0);
+	return 0;
 }
 
 
@@ -170,7 +170,7 @@ from_type_set(LIST(TYPE)p, TYPE t)
 {
 	if (EQ_list(p, univ_type_set)) {
 		/* The universal set catches everything */
-		return (t);
+		return t;
 	}
 	expand_tokdef++;
 	if (IS_type_ref(t)) {
@@ -188,7 +188,7 @@ from_type_set(LIST(TYPE)p, TYPE t)
 			if (eq_type_unqual(t, s)) {
 				/* Exact match is allowed */
 				expand_tokdef--;
-				return (r);
+				return r;
 			}
 			conv.from = t;
 			conv.to = s;
@@ -202,13 +202,13 @@ from_type_set(LIST(TYPE)p, TYPE t)
 			case CONV_PTR_BOTTOM:
 				/* These conversions are allowed */
 				expand_tokdef--;
-				return (r);
+				return r;
 			}
 		}
 		p = TAIL_list(p);
 	}
 	expand_tokdef--;
-	return (NULL_type);
+	return NULL_type;
 }
 
 
@@ -232,23 +232,23 @@ eq_type_set(LIST(TYPE) p, LIST(TYPE) q, int eq)
 
 	/* Deal with the set of all types */
 	if (EQ_list(p, q)) {
-		return (2);
+		return 2;
 	}
 	if (EQ_list(q, univ_type_set) && !eq) {
-		return (1);
+		return 1;
 	}
 	if (EQ_list(p, univ_type_set)) {
-		return (0);
+		return 0;
 	}
 
 	/* Check whether p is larger than q */
 	n = LENGTH_list(p);
 	m = LENGTH_list(q);
 	if (n > m) {
-		return (0);
+		return 0;
 	}
 	if (n < m && eq) {
-		return (0);
+		return 0;
 	}
 
 	/* Check whether p is a subset of q */
@@ -258,7 +258,7 @@ eq_type_set(LIST(TYPE) p, LIST(TYPE) q, int eq)
 		TYPE s = DEREF_type(HEAD_list(r));
 		if (!EQ_type(t, s) && !eq_type_unqual(t, s)) {
 			if (!in_type_set(q, t)) {
-				return (0);
+				return 0;
 			}
 		}
 		r = TAIL_list(r);
@@ -267,9 +267,9 @@ eq_type_set(LIST(TYPE) p, LIST(TYPE) q, int eq)
 
 	/* Check for equality using set sizes */
 	if (n < m) {
-		return (1);
+		return 1;
 	}
-	return (2);
+	return 2;
 }
 
 
@@ -286,7 +286,7 @@ cons_type_set(LIST(TYPE) p, TYPE t)
 	if (!IS_NULL_type(t) && !in_type_set(p, t)) {
 		CONS_type(t, p, p);
 	}
-	return (p);
+	return p;
 }
 
 
@@ -315,7 +315,7 @@ union_type_set(LIST(TYPE)p, LIST(TYPE)q)
 			}
 		}
 	}
-	return (p);
+	return p;
 }
 
 
@@ -336,12 +336,12 @@ uniq_type_set(LIST(TYPE)p)
 		LIST(TYPE)q = DEREF_list(HEAD_list(s));
 		if (eq_type_set(p, q, 1) == 2) {
 			DESTROY_list(p, SIZE_type);
-			return (q);
+			return q;
 		}
 		s = TAIL_list(s);
 	}
 	CONS_list(p, sets, sets);
-	return (p);
+	return p;
 }
 
 
@@ -358,18 +358,18 @@ eq_except(TYPE s, TYPE t)
 {
 	unsigned ns, nt;
 	if (EQ_type(s, t)) {
-		return (2);
+		return 2;
 	}
 	if (IS_NULL_type(s)) {
-		return (0);
+		return 0;
 	}
 	if (IS_NULL_type(t)) {
-		return (0);
+		return 0;
 	}
 	ns = TAG_type(s);
 	nt = TAG_type(t);
 	if (ns != nt) {
-		return (2);
+		return 2;
 	}
 	ASSERT(ORDER_type == 18);
 	switch (ns) {
@@ -386,7 +386,7 @@ eq_except(TYPE s, TYPE t)
 				rs = DEREF_type(HEAD_list(ps));
 				rt = DEREF_type(HEAD_list(pt));
 				if (eq_except(rs, rt) != 2) {
-					return (0);
+					return 0;
 				}
 				pt = TAIL_list(pt);
 				ps = TAIL_list(ps);
@@ -394,29 +394,29 @@ eq_except(TYPE s, TYPE t)
 			rs = DEREF_type(type_func_ret(s));
 			rt = DEREF_type(type_func_ret(t));
 			if (eq_except(rs, rt) != 2) {
-				return (0);
+				return 0;
 			}
 		}
-		return (eq);
+		return eq;
 	}
 	case type_ptr_tag:
 	case type_ref_tag: {
 		/* Pointer and reference types */
 		TYPE ps = DEREF_type(type_ptr_etc_sub(s));
 		TYPE pt = DEREF_type(type_ptr_etc_sub(t));
-		return (eq_except(ps, pt));
+		return eq_except(ps, pt);
 	}
 	case type_ptr_mem_tag: {
 		/* Pointer to member types */
 		TYPE ps = DEREF_type(type_ptr_mem_sub(s));
 		TYPE pt = DEREF_type(type_ptr_mem_sub(t));
-		return (eq_except(ps, pt));
+		return eq_except(ps, pt);
 	}
 	case type_array_tag: {
 		/* Array types */
 		TYPE ps = DEREF_type(type_array_sub(s));
 		TYPE pt = DEREF_type(type_array_sub(t));
-		return (eq_except(ps, pt));
+		return eq_except(ps, pt);
 	}
 	case type_templ_tag: {
 		/* Template types */
@@ -431,10 +431,10 @@ eq_except(TYPE s, TYPE t)
 			eq = eq_except(ps, pt);
 		}
 		restore_templ_params(qs);
-		return (eq);
+		return eq;
 	}
 	}
-	return (2);
+	return 2;
 }
 
 
@@ -503,7 +503,7 @@ exception_type(TYPE t, int chk)
 			}
 		}
 	}
-	return (t);
+	return t;
 }
 
 
@@ -522,7 +522,7 @@ check_except_type(TYPE t, int n)
 		report(crt_loc, ERR_except_spec_typedef());
 	}
 	IGNORE exception_type(t, 3);
-	return (t);
+	return t;
 }
 
 
@@ -578,7 +578,7 @@ check_throw(TYPE t, int expl)
 				COPY_list(exp_try_block_ttypes(e), q);
 				COPY_list(exp_try_block_tlocs(e), ql);
 			}
-			return (1);
+			return 1;
 		}
 		if (IS_NULL_type(t) && expl && IS_exp_handler(e)) {
 			/* Can deduce type of 'throw' inside a handler */
@@ -601,7 +601,7 @@ check_throw(TYPE t, int expl)
 	} else {
 		report(crt_loc, ERR_except_spec_call(fn, t));
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -626,11 +626,11 @@ check_try_block(EXP e)
 		EXP a = DEREF_exp(exp_try_block_ellipsis(e));
 		if (EQ_list(p, univ_type_set)) {
 			/* Have handlers for any type */
-			return (1);
+			return 1;
 		}
 		if (!IS_NULL_exp(a) && IS_exp_handler(a)) {
 			/* Have a ... handler */
-			return (1);
+			return 1;
 		}
 		bad_crt_loc++;
 		loc = crt_loc;
@@ -663,7 +663,7 @@ check_try_block(EXP e)
 		crt_loc = loc;
 		bad_crt_loc--;
 	}
-	return (res);
+	return res;
 }
 
 
@@ -683,7 +683,7 @@ check_func_throw(TYPE fn, IDENTIFIER fid)
 	if (IS_type_func(fn)) {
 		LIST(TYPE)p = DEREF_list(type_func_except(fn));
 		if (IS_NULL_list(p)) {
-			return (1);
+			return 1;
 		}
 		if (EQ_list(p, univ_type_set)) {
 			/* Can throw any type */
@@ -704,7 +704,7 @@ check_func_throw(TYPE fn, IDENTIFIER fid)
 		res = check_throw(NULL_type, 0);
 	}
 	UNUSED(fid);
-	return (res);
+	return res;
 }
 
 
@@ -758,7 +758,7 @@ end_try_check(IDENTIFIER id, EXP a)
 		free_exp(e, 1);
 		crt_func_id = fid;
 	}
-	return (a);
+	return a;
 }
 
 
@@ -801,7 +801,7 @@ begin_try_stmt(int func)
 	MAKE_exp_try_block(type_void, NULL_exp, func, e);
 	CONS_exp(e, all_try_blocks, all_try_blocks);
 	PUSH_exp(e, crt_try_blocks);
-	return (e);
+	return e;
 }
 
 
@@ -858,7 +858,7 @@ cont_try_stmt(EXP prev, EXP body)
 	set_parent_stmt(body, prev);
 	POP_exp(e, crt_try_blocks);
 	UNUSED(e);
-	return (prev);
+	return prev;
 }
 
 
@@ -933,7 +933,7 @@ end_try_stmt(EXP prev, int empty)
 		in_func_handler = 0;
 	}
 	IGNORE check_try_block(prev);
-	return (prev);
+	return prev;
 }
 
 
@@ -1008,7 +1008,7 @@ make_except_decl(DECL_SPEC ds, TYPE t, IDENTIFIER id, int n)
 	t = lvalue_type(t);
 	MAKE_exp_thrown(t, 0, e);
 	IGNORE init_object(id, e);
-	return (id);
+	return id;
 }
 
 
@@ -1067,7 +1067,7 @@ begin_catch_stmt(EXP block, IDENTIFIER ex)
 		COPY_list(exp_try_block_handlers(block), p);
 	}
 	PUSH_exp(e, crt_try_blocks);
-	return (e);
+	return e;
 }
 
 
@@ -1101,7 +1101,7 @@ end_catch_stmt(EXP prev, EXP body)
 	set_parent_stmt(body, prev);
 	POP_exp(e, crt_try_blocks);
 	UNUSED(e);
-	return (prev);
+	return prev;
 }
 
 
@@ -1122,7 +1122,7 @@ make_throw_arg(TYPE t, int n)
 		report(crt_loc, ERR_except_throw_typedef());
 	}
 	e = make_func_cast_exp(t, NULL_list(EXP));
-	return (e);
+	return e;
 }
 
 
@@ -1174,7 +1174,7 @@ make_throw_exp(EXP a, int expl)
 		IGNORE check_throw(NULL_type, 1);
 	}
 	MAKE_exp_exception(type_bottom, a, b, d, expl, e);
-	return (e);
+	return e;
 }
 
 

@@ -146,23 +146,23 @@ bool keep_eq_size(shape as, shape bs)
   if (as_flt != bs_flt)
     return 0;			/* dissimilar float/fixed */
 
-  return(shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs));
+  return shape_size(as) == shape_size(bs) && shape_align(as) == shape_align(bs);
 }
 
 
 static bool sim_explist(exp al, exp bl)
 {
   if (al == nilexp && bl == nilexp)
-    return(1);
+    return 1;
   if (al == nilexp || bl == nilexp)
-    return(0);
+    return 0;
   if (!sim_exp(al, bl))
-    return(0);
+    return 0;
   if (last(al) && last(bl))
-    return(1);
+    return 1;
   if (last(al) || last(bl))
-    return(0);
-  return(sim_explist(bro(al), bro(bl)));
+    return 0;
+  return sim_explist(bro(al), bro(bl));
 }
 
 
@@ -179,8 +179,8 @@ static bool sim_exp(exp a, exp b)
     {
       /* See if both are name_tags for same ident
 	 with same offsets and same size and alignment */
-      return(son(a) == son(b) && no(a) == no(b) &&
-	      keep_eq_size(sh(a), sh(b)));
+      return son(a) == son(b) && no(a) == no(b) &&
+	      keep_eq_size(sh(a), sh(b));
     }
     /* If it is not is_a
        OR
@@ -189,7 +189,7 @@ static bool sim_exp(exp a, exp b)
      */
     if (!is_a(name(a)) || !keep_eq_size(sh(a), sh(b)))
     {
-      return(0);
+      return 0;
     }
     if (name(a) ==float_tag)
     {
@@ -197,9 +197,9 @@ static bool sim_exp(exp a, exp b)
       /* float_tag is special since we could have e.g float (-1 slongsh) float (-1 ulongsh) */
     }
 
-    return(no(a) == no(b) && sim_explist(son(a), son(b)));
+    return no(a) == no(b) && sim_explist(son(a), son(b));
   }
-  return(0);
+  return 0;
 }
 
 
@@ -549,10 +549,10 @@ bool couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
     }
     if (isvar(s))
     {
-      return(lhs == 0 && (isglob(s) || isvis(s)));
+      return lhs == 0 && (isglob(s) || isvis(s));
     }
     if (IS_A_PROC(s))
-      return(lhs == 0);
+      return lhs == 0;
     if (son(s) == nilexp)
       return 1;
     return couldbe(son(s), lhs);
@@ -561,7 +561,7 @@ bool couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
   {
     if (lhs != 0 && name(s) == name_tag && son(s)!= nilexp)
     {
-      return(son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s)));
+      return son(s) == son(lhs) || isvis(son(lhs)) || isvis(son(s));
     }
     return 1;
   }
@@ -571,7 +571,7 @@ bool couldbe(exp e, exp lhs)/* is var name_tag exp or 0 meaning cont */
   }
   if (ne == addptr_tag || ne == subptr_tag)
   {
-    return(couldbe(s, lhs) || couldeffect(bro(s), lhs));
+    return couldbe(s, lhs) || couldeffect(bro(s), lhs);
   }
 
   return 1;
@@ -591,7 +591,7 @@ bool couldeffect(exp e, exp z)/* a name or zero */
   if (ne == name_tag)
   {
     if (isvar(son(e)))
-      return(z == 0 && isvis(son(e)));
+      return z == 0 && isvis(son(e));
     if (IS_A_PROC(son(e)))
       return 0;
     if (son(son(e)) == nilexp)
@@ -654,7 +654,7 @@ bool dependson(exp e, bool isc, exp z)
 
   /* z is now unambiguous variable name or 0 meaning some contents */
 
-  return((isc)? couldbe(e, z): couldeffect(e, z));
+  return (isc)? couldbe(e, z): couldeffect(e, z);
 }
 
 

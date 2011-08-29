@@ -138,10 +138,10 @@ read_char(void)
     } else {
 	c = fgetc(lex_input);
 	if (c == '\n') crt_line_no++;
-	if (c == EOF) return(LEX_EOF);
+	if (c == EOF) return LEX_EOF;
 	c &= 0xff;
     }
-    return(c);
+    return c;
 }
 
 
@@ -182,9 +182,9 @@ read_identifier(int a)
     /* Deal with keywords */
     t = token_buff;
 #define MAKE_KEYWORD(A, B)\
-    if (!strcmp(t, (A))) return(B);
+    if (!strcmp(t, (A))) return B;
 #include "keyword.h"
-    return(lex_name);
+    return lex_name;
 }
 
 
@@ -209,7 +209,7 @@ read_number(int a)
     } while (is_digit(cl));
     unread_char(c);
     token_value = n;
-    return(lex_number);
+    return lex_number;
 }
 
 
@@ -234,7 +234,7 @@ read_comment(void)
 	    c = read_char();
 	    if (c == LEX_EOF) {
 		error(ERROR_SERIOUS, "End of file in comment");
-		return(lex_eof);
+		return lex_eof;
 	    }
 	    *(t++) = (char)c;
 	    if (t == token_end) t = token_buff;
@@ -244,7 +244,7 @@ read_comment(void)
     unread_char(c);
     *t = 0;
     if (first_comment == 0) first_comment = xstrcpy(token_buff);
-    return(read_token());
+    return read_token();
 }
 
 
@@ -270,7 +270,7 @@ get_command(char **ps)
 	if (c == '#' || c == '\n' || c == 0) {
 	    *s = 0;
 	    *ps = NULL;
-	    return(NULL);
+	    return NULL;
 	}
 	t = s;
 	while (c = *s, !(c == ' ' || c == '\t' || c == '\r' ||
@@ -279,7 +279,7 @@ get_command(char **ps)
 	}
 	*ps = s;
     }
-    return(t);
+    return t;
 }
 
 
@@ -413,7 +413,7 @@ read_template(COMMAND p)
     } while (go);
     q = REVERSE_list(q);
     MAKE_cmd_compound(ln1, q, p);
-    return(p);
+    return p;
 }
 
 
@@ -447,10 +447,10 @@ open_file(char *nm)
 	lex_input = fopen(nm, "r");
 	if (lex_input == NULL) {
 	    error(ERROR_SERIOUS, "Can't open input file, '%s'", nm);
-	    return(0);
+	    return 0;
 	}
     }
-    return(1);
+    return 1;
 }
 
 

@@ -447,7 +447,7 @@ f_diag_desc_typedef(tdfstring n, sourcemark whence, diag_type new_type)
 	    (new_type->key == DGT_TAGGED &&
 	     new_type->data.t_tag->key == DGK_NONE)) {
 		/* no type definition for __va_list etc */
-		return (dg_name)0;
+		return (dg_name) 0;
 	}
 	return f_dg_type_name(f_dg_sourcestring_idname(n), whence,
 			      no_dg_accessibility_option,
@@ -488,14 +488,14 @@ diag_tq f_diag_tq_null = 0;
 diag_tq
 f_add_diag_const(diag_tq qual)
 {
-	return(qual | (1 << DG_CONST_T));
+	return qual | (1 << DG_CONST_T);
 }
 
 
 diag_tq
 f_add_diag_volatile(diag_tq qual)
 {
-	return(qual | (1 << DG_VOL_T));
+	return qual | (1 << DG_VOL_T);
 }
 
 /*--------------------------diag_type -----------------------------*/
@@ -557,17 +557,17 @@ f_diag_floating_variety(floating_variety var)
 {
 	switch (var) {
 	case shrealfv:
-		return(f_dg_named_type(dg_tag_float));
+		return f_dg_named_type(dg_tag_float);
 	case realfv:
-		return(f_dg_named_type(dg_tag_double));
+		return f_dg_named_type(dg_tag_double);
 	case doublefv:
-		return(f_dg_named_type(dg_tag_long_double));
+		return f_dg_named_type(dg_tag_long_double);
 	case shcomplexfv:
-		return(f_dg_named_type(dg_tag_complex));
+		return f_dg_named_type(dg_tag_complex);
 	case complexfv:
-		return(f_dg_named_type(dg_tag_double_complex));
+		return f_dg_named_type(dg_tag_double_complex);
 	case complexdoublefv:
-		return(f_dg_named_type(dg_tag_long_double_complex));
+		return f_dg_named_type(dg_tag_long_double_complex);
 	}
 	failer("bad variety");
 	return f_dummy_diag_type;
@@ -651,21 +651,21 @@ f_diag_variety(variety var)
 {
 	switch (name(var)) {
 	case scharhd:
-		return(f_dg_named_type(dg_tag_signed_char));
+		return f_dg_named_type(dg_tag_signed_char);
 	case ucharhd:
-		return(f_dg_named_type(dg_tag_unsigned_char));
+		return f_dg_named_type(dg_tag_unsigned_char);
 	case swordhd:
-		return(f_dg_named_type(dg_tag_short));
+		return f_dg_named_type(dg_tag_short);
 	case uwordhd:
-		return(f_dg_named_type(dg_tag_unsigned_short));
+		return f_dg_named_type(dg_tag_unsigned_short);
 	case slonghd:
-		return(f_dg_named_type(dg_tag_int));
+		return f_dg_named_type(dg_tag_int);
 	case ulonghd:
-		return(f_dg_named_type(dg_tag_unsigned_int));
+		return f_dg_named_type(dg_tag_unsigned_int);
 	case s64hd:
-		return(f_dg_named_type(dg_tag_long_long));
+		return f_dg_named_type(dg_tag_long_long);
 	case u64hd:
-		return(f_dg_named_type(dg_tag_unsigned_long_long));
+		return f_dg_named_type(dg_tag_unsigned_long_long);
 	}
 	failer("bad variety");
 	return f_dummy_diag_type;

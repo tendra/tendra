@@ -167,7 +167,7 @@ nstring_hash_value(NStringT *nstring)
 		value += (unsigned) *tmp_contents++;
 	}
 
-	return(value);
+	return value;
 }
 
 unsigned

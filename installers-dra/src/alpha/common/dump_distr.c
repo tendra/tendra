@@ -178,7 +178,7 @@ suses(exp e, space *pars, int incpars)
 bool
 sameregs(space *a, space *b)
 {
-  return ((a -> fixed | b -> fixed) == b -> fixed && (a -> flt | b -> flt) == b -> flt);
+  return (a -> fixed | b -> fixed) == b -> fixed && (a -> flt | b -> flt) == b -> flt;
 }
 
 space

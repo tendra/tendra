@@ -134,7 +134,7 @@ new_node(void)
 	p->bro = NULL;
 	p->shape = NULL;
 
-	return (p);
+	return p;
 }
 
 
@@ -179,7 +179,7 @@ completion(node *p)
 	q->cons = v;
 	q->son = p;
 
-	return (q);
+	return q;
 }
 
 
@@ -198,7 +198,7 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 			sortname s = p->cons->sortnum;
 
 			if (s != q->cons->sortnum)
-				return (0);
+				return 0;
 
 			switch (s) {
 			case SORT_bytestream:
@@ -211,14 +211,14 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 			case SORT_repeat:
 				/* Check value or number of repeats */
 				if (p->cons->encoding != q->cons->encoding)
-					return (0);
+					return 0;
 
 				break;
 			case SORT_tdfint:
 			case SORT_tdfstring:
 				/* Check value */
 				if (strcmp(p->cons->name, q->cons->name) != 0)
-					return (0);
+					return 0;
 
 				break;
 			default:
@@ -238,26 +238,26 @@ eq_node_aux(node *p, node *q, construct *ap, construct *aq, int args)
 					}
 
 					if (!ok)
-						return (0);
+						return 0;
 				}
 				break;
 			}
 		}
 
 		if (!eq_node_aux(p->son, q->son, ap, aq, 1))
-			return (0);
+			return 0;
 
 		if (!args)
-			return (1);
+			return 1;
 
 		p = p->bro;
 		q = q->bro;
 	}
 
 	if (p == q)
-		return(1);
+		return 1;
 
-	return(0);
+	return 0;
 }
 
 
@@ -273,16 +273,16 @@ eq_cons_list(construct *ap, construct *aq)
 {
 	while (ap != NULL && aq != NULL) {
 		if (ap->sortnum != aq->sortnum)
-			return (0);
+			return 0;
 
 		ap = ap->next;
 		aq = aq->next;
 	}
 
 	if (ap == aq)
-		return(1);
+		return 1;
 
-	return(0);
+	return 0;
 }
 
 
@@ -300,13 +300,13 @@ eq_node(node *p, node *q)
 	construct *aq = NULL;
 
 	if (dont_check)
-		return(1);
+		return 1;
 
 	if (p == q)
-		return (1);
+		return 1;
 
 	if (p == NULL || q == NULL)
-		return (0);
+		return 0;
 
 	if (p->cons->sortnum == SORT_completion) {
 		ap = p->cons->next;
@@ -319,9 +319,9 @@ eq_node(node *p, node *q)
 	}
 
 	if (!eq_cons_list(ap, aq))
-		return (0);
+		return 0;
 
-	return (eq_node_aux(p, q, ap, aq, 0));
+	return eq_node_aux(p, q, ap, aq, 0);
 }
 
 
@@ -353,7 +353,7 @@ new_construct(void)
 	p->alias = NULL;
 	p->next = NULL;
 
-	return (p);
+	return p;
 }
 
 
@@ -413,7 +413,7 @@ make_construct(sortname s)
 		break;
 	}
 
-	return(p);
+	return p;
 }
 
 
@@ -547,7 +547,7 @@ skip_text(char *s)
 
 		if (*s == ']') {
 			if (n == 0)
-				return (s);
+				return s;
 
 			n--;
 		}
@@ -556,7 +556,7 @@ skip_text(char *s)
 	}
 
 	fatal_error("Illegal decoding string");
-	return (NULL); /* Not reached */
+	return NULL; /* Not reached */
 }
 
 
@@ -580,7 +580,7 @@ is_local_name(char *s)
 	}
 
 	if (*t == '\0')
-		return (1);
+		return 1;
 
-	return (0);
+	return 0;
 }

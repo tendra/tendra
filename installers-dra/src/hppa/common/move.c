@@ -688,7 +688,7 @@ start:
 	       stf_ins(i_fstd,(3*fr.fr)+1,b);
 	  };
 
-	  return ( fr.dble ? -(fr.fr + 32) : (fr.fr + 32) );
+	  return fr.dble ? -(fr.fr + 32) : (fr.fr + 32);
 	}			/* end notinreg dest */
       default:{}
       }				/* end switch dest */

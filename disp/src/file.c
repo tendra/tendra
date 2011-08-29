@@ -217,7 +217,7 @@ fetch(int n)
 	    here.byte++;
 	}
     }
-    return((long)a);
+    return (long)a;
 }
 
 

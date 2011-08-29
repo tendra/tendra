@@ -85,7 +85,7 @@ char *name_prefix;
 /* Is the result of a procedure delivering this shape produced in registers? */
 bool reg_result(shape sha)
 {
-  return ( is_floating(name(sha)) ||
+  return is_floating(name(sha) ||
     (shape_size(sha) <= 32 && !IS_AGGREGATE(sha)));
 }
 

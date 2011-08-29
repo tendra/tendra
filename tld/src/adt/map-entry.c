@@ -80,19 +80,19 @@ map_entry_create(NStringT * key,			  MapEntryT *next,
     entry->next  = next;
     nstring_copy(& (entry->key), key);
     entry->count = count;
-    return(entry);
+    return entry;
 }
 
 MapEntryT *
 map_entry_next(MapEntryT *entry)
 {
-    return(entry->next);
+    return entry->next;
 }
 
 NStringT *
 map_entry_key(MapEntryT *entry)
 {
-    return(& (entry->key));
+    return &entry->key;
 }
 
 void
@@ -115,13 +115,13 @@ map_entry_set_link(MapEntryT *entry,			    unsigned  link,
 unsigned
 map_entry_get_count(MapEntryT *entry)
 {
-    return(entry->count);
+    return entry->count;
 }
 
 unsigned
 map_entry_get_num_links(MapEntryT *entry)
 {
-    return(entry->num_links);
+    return entry->num_links;
 }
 
 void

@@ -318,7 +318,7 @@ good_val(exp a, exp piece)
            || (a is cont(name) where all uses of name in piece is cont))
 	*/
      if (name(a) == name_tag) {
-	return (!intnl_to(piece, son(a)));
+	return !intnl_to(piece, son(a));
      } else if (name(a) == cont_tag && name(son(a)) == name_tag &&
 		!intnl_to(piece, son(son(a))) && !isvis(son(son(a)))) {
 	exp lda = son(a);
@@ -333,7 +333,7 @@ good_val(exp a, exp piece)
 		 !intnl_to(piece, pa))continue;
 	     break;
 	}
-	return (pa == nilexp);
+	return pa == nilexp;
      }
      return false;
 }
@@ -355,7 +355,7 @@ usage_in(exp whole, exp part)
   }
 
 
-  return (q == whole)?res:0;
+  return q == whole ? res : 0;
 }
 
 int stride;
@@ -987,7 +987,7 @@ unaltered(exp e, int assign_alias)
 			return false;
 		}
 	     }
-	     return (iscaonly(son(e)) || !assign_alias);
+	     return iscaonly(son(e)) || !assign_alias;
 	}
 	return false;
 }
@@ -996,8 +996,8 @@ unaltered(exp e, int assign_alias)
 int
 invariant(exp e, int assign_alias)
 {
-	return ((name(e) == name_tag) ||
-	       (name(e) == cont_tag && unaltered(son(e), assign_alias)));
+	return (name(e) == name_tag) ||
+	       (name(e) == cont_tag && unaltered(son(e), assign_alias));
 }
 
 

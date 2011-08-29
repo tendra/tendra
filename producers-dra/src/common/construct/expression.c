@@ -109,7 +109,7 @@ make_error_exp(int lv)
 		t = lvalue_type(t);
 	}
 	MAKE_exp_value(t, a);
-	return (a);
+	return a;
 }
 
 
@@ -150,7 +150,7 @@ make_null_ptr(EXP a, TYPE t)
 			}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -188,7 +188,7 @@ make_paren_exp(EXP a)
 	} else {
 		MAKE_exp_paren(ta, a, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -229,7 +229,7 @@ make_off_mult(TYPE t, EXP a, int neg)
 				if (neg1) {
 					MAKE_off_negate(off, off);
 				}
-				return (off);
+				return off;
 			}
 		}
 	}
@@ -238,7 +238,7 @@ make_off_mult(TYPE t, EXP a, int neg)
 	if (neg) {
 		MAKE_off_negate(off, off);
 	}
-	return (off);
+	return off;
 }
 
 
@@ -261,11 +261,11 @@ make_add_ptr(TYPE t, EXP a, OFFSET off)
 			MAKE_exp_cast(p,(CONV_PTR_VOID | CONV_REVERSE), a, e);
 			e = make_add_ptr(p, e, off);
 			MAKE_exp_cast(t, CONV_PTR_VOID, e, e);
-			return (e);
+			return e;
 		}
 	}
 	MAKE_exp_add_ptr(t, a, off, 0, e);
-	return (e);
+	return e;
 }
 
 
@@ -307,7 +307,7 @@ make_index_exp(EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(lex_array_Hop, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -344,7 +344,7 @@ make_index_exp(EXP a, EXP b)
 		if (!IS_TYPE_ERROR(ca) && !IS_TYPE_ERROR(cb)) {
 			report(crt_loc, ERR_expr_sub_ptr_op(ta, tb));
 		}
-		return (make_error_exp(0));
+		return make_error_exp(0);
 	}
 
 	/* The second operand should be integral */
@@ -394,7 +394,7 @@ make_index_exp(EXP a, EXP b)
 	/* Construct the result */
 	MAKE_exp_indir(t, p, e);
 	COPY_int(exp_indir_index(e), 1);
-	return (e);
+	return e;
 }
 
 
@@ -424,7 +424,7 @@ make_indir_exp(EXP a)
 	if (IS_TYPE_OVERLOAD(ca)) {
 		if (overload_depth == 0) {
 			e = unary_overload(lex_star, a);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -453,14 +453,14 @@ make_indir_exp(EXP a)
 
 		/* Construct the result */
 		MAKE_exp_indir(t, a, e);
-		return (e);
+		return e;
 	}
 
 	/* ... and nothing else */
 	if (!IS_TYPE_ERROR(ca)) {
 		report(crt_loc, ERR_expr_unary_op_indir_op(ta));
 	}
-	return (make_error_exp(1));
+	return make_error_exp(1);
 }
 
 
@@ -481,7 +481,7 @@ make_ref_object(EXP a, ERROR *err)
 	if (IS_TYPE_ERROR(ca)) {
 		/* Error progagation */
 		e = make_error_exp(0);
-		return (e);
+		return e;
 	}
 	if (!IS_TYPE_LVALUE(ca)) {
 		/* Operand should be an lvalue */
@@ -520,7 +520,7 @@ make_ref_object(EXP a, ERROR *err)
 	ta = rvalue_type(ta);
 	MAKE_type_ptr(cv_none, ta, p);
 	MAKE_exp_address(p, a, e);
-	return (e);
+	return e;
 }
 
 
@@ -577,7 +577,7 @@ make_ref_member(EXP a, int paren, int res)
 			CONS_id(id, pending_funcs, pending_funcs);
 		}
 	}
-	return (e);
+	return e;
 }
 
 #endif
@@ -640,7 +640,7 @@ make_ref_exp(EXP a, int res)
 				}
 			}
 			e = make_ref_member(a, paren, res);
-			return (e);
+			return e;
 		}
 	}
 
@@ -651,7 +651,7 @@ make_ref_exp(EXP a, int res)
 		/* Check for overloading */
 		if (overload_depth == 0) {
 			e = unary_overload(lex_and_H1, a);
-			return (e);
+			return e;
 		}
 		if (IS_type_compound(ta)) {
 			/* Mark class types */
@@ -675,7 +675,7 @@ make_ref_exp(EXP a, int res)
 	if (!IS_NULL_err(err)) {
 		report(crt_loc, err);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -728,7 +728,7 @@ make_uminus_exp(int op, EXP a)
 	if (IS_TYPE_OVERLOAD(ca)) {
 		if (overload_depth == 0) {
 			EXP e = unary_overload(op, a);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -754,7 +754,7 @@ make_uminus_exp(int op, EXP a)
 				MAKE_exp_negate_etc(tag, pta, a, e);
 			}
 		}
-		return (e);
+		return e;
 	}
 
 	/* ... and report error otherwise */
@@ -769,7 +769,7 @@ make_uminus_exp(int op, EXP a)
 		}
 		report(crt_loc, err);
 	}
-	return (make_error_exp(0));
+	return make_error_exp(0);
 }
 
 
@@ -800,7 +800,7 @@ make_not_exp(EXP a)
 	if (IS_TYPE_OVERLOAD(ca)) {
 		if (overload_depth == 0) {
 			e = unary_overload(lex_not_H1, a);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -823,7 +823,7 @@ make_not_exp(EXP a)
 	} else {
 		MAKE_exp_not(type_bool, b, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -859,7 +859,7 @@ check_div_exp(int op, EXP a, EXP b)
 		if (is_zero_nat(n)) {
 			/* Report division by zero */
 			report(crt_loc, ERR_expr_mul_div_zero(op));
-			return (0);
+			return 0;
 		}
 		if (div_mode != 1 && div_mode != 2) {
 			if (is_negative_nat(n) && !divides_nat(a, b)) {
@@ -882,7 +882,7 @@ check_div_exp(int op, EXP a, EXP b)
 	} else {
 		eval = 0;
 	}
-	return (eval);
+	return eval;
 }
 
 
@@ -913,7 +913,7 @@ make_mult_exp(int op, EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			EXP e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -943,7 +943,7 @@ make_mult_exp(int op, EXP a, EXP b)
 			tag = exp_div_tag;
 			if (check_div_exp(op, a, b)) {
 				e = make_binary_nat(tag, a, b);
-				return (e);
+				return e;
 			}
 		} else {
 			if (op == lex_star) {
@@ -955,20 +955,20 @@ make_mult_exp(int op, EXP a, EXP b)
 			}
 			if (IS_exp_int_lit(a) && IS_exp_int_lit(b)) {
 				e = make_binary_nat(tag, a, b);
-				return (e);
+				return e;
 			}
 		}
 
 		/* Construct the result */
 		MAKE_exp_plus_etc(tag, t, a, b, e);
-		return (e);
+		return e;
 	}
 
 	/* ... and nothing else */
 	if (!IS_TYPE_ERROR(ca) && !IS_TYPE_ERROR(cb)) {
 		report(crt_loc, ERR_expr_mul_mul_op(op, ta, tb));
 	}
-	return (make_error_exp(0));
+	return make_error_exp(0);
 }
 
 
@@ -999,7 +999,7 @@ make_rem_exp(EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			EXP e = binary_overload(lex_rem, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -1026,19 +1026,19 @@ make_rem_exp(EXP a, EXP b)
 		/* Check for constant operands */
 		if (check_div_exp(lex_rem, a, b)) {
 			e = make_binary_nat(exp_rem_tag, a, b);
-			return (e);
+			return e;
 		}
 
 		/* Construct the result */
 		MAKE_exp_rem(t, a, b, e);
-		return (e);
+		return e;
 	}
 
 	/* ... and nothing else */
 	if (!IS_TYPE_ERROR(ca) && !IS_TYPE_ERROR(cb)) {
 		report(crt_loc, ERR_expr_mul_rem_op(lex_rem, ta, tb));
 	}
-	return (make_error_exp(0));
+	return make_error_exp(0);
 }
 
 
@@ -1076,7 +1076,7 @@ make_plus_exp(EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -1103,7 +1103,7 @@ make_plus_exp(EXP a, EXP b)
 		} else {
 			MAKE_exp_plus(t, a, b, e);
 		}
-		return (e);
+		return e;
 	}
 
 	/* Swap operands if the second is a pointer */
@@ -1126,7 +1126,7 @@ make_plus_exp(EXP a, EXP b)
 		if (!IS_TYPE_ERROR(ca) && !IS_TYPE_ERROR(cb)) {
 			report(crt_loc, ERR_expr_add_op(op, ta, tb));
 		}
-		return (make_error_exp(0));
+		return make_error_exp(0);
 	}
 
 	/* The second operand should be integral */
@@ -1134,7 +1134,7 @@ make_plus_exp(EXP a, EXP b)
 		if (!IS_TYPE_ERROR(cb)) {
 			report(crt_loc, ERR_expr_add_op(op, ta, tb));
 		}
-		return (make_paren_exp(a));
+		return make_paren_exp(a);
 	}
 
 	/* Do bounds checks */
@@ -1155,7 +1155,7 @@ make_plus_exp(EXP a, EXP b)
 	}
 	off = make_off_mult(t, b, 0);
 	e = make_add_ptr(ta, a, off);
-	return (e);
+	return e;
 }
 
 
@@ -1189,7 +1189,7 @@ make_minus_exp(EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -1216,7 +1216,7 @@ make_minus_exp(EXP a, EXP b)
 		} else {
 			MAKE_exp_minus(t, a, b, e);
 		}
-		return (e);
+		return e;
 	}
 
 	/* ... or a pointer and an integer ... */
@@ -1243,7 +1243,7 @@ make_minus_exp(EXP a, EXP b)
 		}
 		off = make_off_mult(t, b, 1);
 		e = make_add_ptr(ta, a, off);
-		return (e);
+		return e;
 	}
 
 	/* ... or both pointers ... */
@@ -1308,14 +1308,14 @@ make_minus_exp(EXP a, EXP b)
 			MAKE_off_ptr_diff(a, b, off);
 			MAKE_exp_offset_size(type_ptrdiff_t, off, pc, 0, e);
 		}
-		return (e);
+		return e;
 	}
 
 	/* ... and nothing else */
 	if (!IS_TYPE_ERROR(ca) && !IS_TYPE_ERROR(cb)) {
 		report(crt_loc, ERR_expr_add_op(op, ta, tb));
 	}
-	return (make_error_exp(0));
+	return make_error_exp(0);
 }
 
 
@@ -1365,7 +1365,7 @@ check_shift_exp(int op, TYPE t, EXP a, EXP b)
 	if (!IS_NULL_err(err)) {
 		report(crt_loc, err);
 	}
-	return (ret);
+	return ret;
 }
 
 
@@ -1403,7 +1403,7 @@ make_shift_exp(int op, EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -1437,19 +1437,19 @@ make_shift_exp(int op, EXP a, EXP b)
 				report(crt_loc, err);
 			}
 			e = make_binary_nat(tag, a, b);
-			return (e);
+			return e;
 		}
 
 		/* Construct the result */
 		MAKE_exp_plus_etc(tag, pta, a, b, e);
-		return (e);
+		return e;
 	}
 
 	/* ... and nothing else */
 	if (!IS_TYPE_ERROR(ca) && !IS_TYPE_ERROR(cb)) {
 		report(crt_loc, ERR_expr_shift_op(op, ta, tb));
 	}
-	return (make_error_exp(0));
+	return make_error_exp(0);
 }
 
 
@@ -1464,19 +1464,19 @@ make_ntest(int op)
 {
 	switch (op) {
 	case lex_eq:
-		return (ntest_eq);
+		return ntest_eq;
 	case lex_not_Heq_H1:
-		return (ntest_not_eq);
+		return ntest_not_eq;
 	case lex_less:
-		return (ntest_less);
+		return ntest_less;
 	case lex_less_Heq:
-		return (ntest_less_eq);
+		return ntest_less_eq;
 	case lex_greater:
-		return (ntest_greater);
+		return ntest_greater;
 	case lex_greater_Heq:
-		return (ntest_greater_eq);
+		return ntest_greater_eq;
 	}
-	return (ntest_none);
+	return ntest_none;
 }
 
 
@@ -1515,7 +1515,7 @@ make_relation_exp(int op, EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -1543,7 +1543,7 @@ make_relation_exp(int op, EXP a, EXP b)
 			if (IS_exp_int_lit(b)) {
 				tst = make_ntest(op);
 				e = make_compare_nat(tst, a, b);
-				return (e);
+				return e;
 			}
 
 			/* Check for unsigned comparisons against zero */
@@ -1572,7 +1572,7 @@ make_relation_exp(int op, EXP a, EXP b)
 		/* Construct the result */
 		tst = make_ntest(op);
 		MAKE_exp_compare(type_bool, tst, a, b, e);
-		return (e);
+		return e;
 	}
 
 	/* ... or both pointers ... */
@@ -1583,7 +1583,7 @@ make_relation_exp(int op, EXP a, EXP b)
 			if (suspect == -1) {
 				/* Allow for template types */
 				MAKE_exp_op(type_bool, op, a, b, e);
-				return (e);
+				return e;
 			}
 			if (suspect == 2) {
 				/* Can't bring to a common type */
@@ -1600,7 +1600,7 @@ make_relation_exp(int op, EXP a, EXP b)
 			b = convert_ptr_common(t, b, op, 2);
 			tst = make_ntest(op);
 			MAKE_exp_compare(type_bool, tst, a, b, e);
-			return (e);
+			return e;
 		}
 		if (IS_TYPE_INT(cb)) {
 			/* Allow zero integer as a null pointer */
@@ -1614,7 +1614,7 @@ make_relation_exp(int op, EXP a, EXP b)
 			}
 			tst = make_ntest(op);
 			MAKE_exp_compare(type_bool, tst, a, b, e);
-			return (e);
+			return e;
 		}
 	} else if (IS_TYPE_PTR(cb)) {
 		if (IS_TYPE_INT(ca)) {
@@ -1629,7 +1629,7 @@ make_relation_exp(int op, EXP a, EXP b)
 			}
 			tst = make_ntest(op);
 			MAKE_exp_compare(type_bool, tst, a, b, e);
-			return (e);
+			return e;
 		}
 	}
 
@@ -1639,7 +1639,7 @@ make_relation_exp(int op, EXP a, EXP b)
 	}
 	tst = make_ntest(op);
 	MAKE_exp_test(type_bool, tst, b, e);
-	return (e);
+	return e;
 }
 
 
@@ -1677,7 +1677,7 @@ make_equality_exp(int op, EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -1708,7 +1708,7 @@ make_equality_exp(int op, EXP a, EXP b)
 		} else {
 			MAKE_exp_compare(type_bool, tst, a, b, e);
 		}
-		return (e);
+		return e;
 	}
 
 	/* ... or both pointers ... */
@@ -1719,7 +1719,7 @@ make_equality_exp(int op, EXP a, EXP b)
 			if (suspect == -1) {
 				/* Allow for template types */
 				MAKE_exp_op(type_bool, op, a, b, e);
-				return (e);
+				return e;
 			}
 			if (suspect == 2) {
 				ERROR err = ERR_basic_link_incompat(ta, tb);
@@ -1737,7 +1737,7 @@ make_equality_exp(int op, EXP a, EXP b)
 			}
 			tst = make_ntest(op);
 			MAKE_exp_compare(type_bool, tst, a, b, e);
-			return (e);
+			return e;
 		}
 		if (IS_TYPE_INT(cb)) {
 			/* Allow zero integer as a null pointer */
@@ -1749,7 +1749,7 @@ make_equality_exp(int op, EXP a, EXP b)
 			}
 			tst = make_ntest(op);
 			MAKE_exp_compare(type_bool, tst, a, b, e);
-			return (e);
+			return e;
 		}
 	} else if (IS_TYPE_PTR(cb)) {
 		if (IS_TYPE_INT(ca)) {
@@ -1762,7 +1762,7 @@ make_equality_exp(int op, EXP a, EXP b)
 			}
 			tst = make_ntest(op);
 			MAKE_exp_compare(type_bool, tst, b, a, e);
-			return (e);
+			return e;
 		}
 	}
 
@@ -1775,7 +1775,7 @@ make_equality_exp(int op, EXP a, EXP b)
 			if (suspect == -1) {
 				/* Allow for template types */
 				MAKE_exp_op(type_bool, op, a, b, e);
-				return (e);
+				return e;
 			}
 			if (suspect == 2) {
 				ERROR err = ERR_basic_link_incompat(ta, tb);
@@ -1794,7 +1794,7 @@ make_equality_exp(int op, EXP a, EXP b)
 			}
 			tst = make_ntest(op);
 			MAKE_exp_compare(type_bool, tst, a, b, e);
-			return (e);
+			return e;
 		}
 		if (IS_TYPE_INT(cb)) {
 			/* Allow zero integer as a null pointer member */
@@ -1806,7 +1806,7 @@ make_equality_exp(int op, EXP a, EXP b)
 			}
 			tst = make_ntest(op);
 			MAKE_exp_compare(type_bool, tst, a, b, e);
-			return (e);
+			return e;
 		}
 	} else if (IS_TYPE_PTR_MEM(cb)) {
 		if (IS_TYPE_INT(ca)) {
@@ -1819,7 +1819,7 @@ make_equality_exp(int op, EXP a, EXP b)
 			}
 			tst = make_ntest(op);
 			MAKE_exp_compare(type_bool, tst, b, a, e);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -1830,7 +1830,7 @@ make_equality_exp(int op, EXP a, EXP b)
 	}
 	tst = make_ntest(op);
 	MAKE_exp_compare(type_bool, tst, a, b, e);
-	return (e);
+	return e;
 }
 
 
@@ -1862,7 +1862,7 @@ make_bit_exp(int op, unsigned tag, EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -1889,7 +1889,7 @@ make_bit_exp(int op, unsigned tag, EXP a, EXP b)
 		} else {
 			MAKE_exp_plus_etc(tag, t, a, b, e);
 		}
-		return (e);
+		return e;
 	}
 
 	/* ... and nothing else */
@@ -1909,7 +1909,7 @@ make_bit_exp(int op, unsigned tag, EXP a, EXP b)
 		}
 		}
 	}
-	return (make_error_exp(0));
+	return make_error_exp(0);
 }
 
 
@@ -1929,7 +1929,7 @@ make_and_exp(EXP a, EXP b)
 		check_paren(PAREN_EQUALITY, op, a, b);
 	}
 	e = make_bit_exp(op, exp_and_tag, a, b);
-	return (e);
+	return e;
 }
 
 
@@ -1949,7 +1949,7 @@ make_xor_exp(EXP a, EXP b)
 		check_paren(PAREN_AND, op, a, b);
 	}
 	e = make_bit_exp(op, exp_xor_tag, a, b);
-	return (e);
+	return e;
 }
 
 
@@ -1969,7 +1969,7 @@ make_or_exp(EXP a, EXP b)
 		check_paren(PAREN_XOR, op, a, b);
 	}
 	e = make_bit_exp(op, exp_or_tag, a, b);
-	return (e);
+	return e;
 }
 
 
@@ -2004,7 +2004,7 @@ make_logic_exp(int op, unsigned tag, EXP a, EXP b)
 	if (IS_TYPE_OVERLOAD(ca) || IS_TYPE_OVERLOAD(cb)) {
 		if (overload_depth == 0) {
 			e = binary_overload(op, a, b);
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -2050,7 +2050,7 @@ make_logic_exp(int op, unsigned tag, EXP a, EXP b)
 	} else {
 		MAKE_exp_plus_etc(tag, type_bool, a, b, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -2065,7 +2065,7 @@ make_log_and_exp(EXP a, EXP b)
 {
 	EXP e;
 	e = make_logic_exp(lex_logical_Hand_H1, exp_log_and_tag, a, b);
-	return (e);
+	return e;
 }
 
 
@@ -2084,7 +2084,7 @@ make_log_or_exp(EXP a, EXP b)
 		check_logic(a, b);
 	}
 	e = make_logic_exp(lex_logical_Hor_H1, exp_log_or_tag, a, b);
-	return (e);
+	return e;
 }
 
 
@@ -2107,7 +2107,7 @@ make_templ_cond(EXP a, EXP b, EXP c)
 	CONS_exp(b, p, p);
 	CONS_exp(a, p, p);
 	MAKE_exp_opn(t, lex_cond_Hop, p, e);
-	return (e);
+	return e;
 }
 
 #endif
@@ -2130,7 +2130,7 @@ make_except_value(TYPE t, EXP a)
 		MAKE_exp_value(t, b);
 		a = join_exp(a, b);
 	}
-	return (a);
+	return a;
 }
 
 
@@ -2173,7 +2173,7 @@ make_cond_exp(EXP a, EXP b, EXP c)
 #if LANGUAGE_CPP
 	if (IS_TYPE_TEMPL(cb) || IS_TYPE_TEMPL(cc)) {
 		e = make_templ_cond(a, b, c);
-		return (e);
+		return e;
 	}
 #endif
 
@@ -2206,7 +2206,7 @@ make_cond_exp(EXP a, EXP b, EXP c)
 					COPY_exp(HEAD_list(p), a);
 				}
 			}
-			return (e);
+			return e;
 		}
 	}
 #endif
@@ -2269,7 +2269,7 @@ make_cond_exp(EXP a, EXP b, EXP c)
 					    IS_exp_int_lit(a)) {
 						/* Allow for integral constants */
 						e = make_cond_nat(a, b, c);
-						return (e);
+						return e;
 					}
 				}
 				goto return_lab;
@@ -2290,7 +2290,7 @@ make_cond_exp(EXP a, EXP b, EXP c)
 			if (!IS_NULL_exp(a) && IS_exp_int_lit(a)) {
 				/* Allow for integral constants */
 				e = make_cond_nat(a, b, c);
-				return (e);
+				return e;
 			}
 		}
 		goto return_lab;
@@ -2305,7 +2305,7 @@ make_cond_exp(EXP a, EXP b, EXP c)
 			if (suspect == -1) {
 				/* Allow for template types */
 				e = make_templ_cond(a, b, c);
-				return (e);
+				return e;
 			}
 #endif
 			if (suspect == 2) {
@@ -2350,7 +2350,7 @@ make_cond_exp(EXP a, EXP b, EXP c)
 			if (suspect == -1) {
 				/* Allow for template types */
 				e = make_templ_cond(a, b, c);
-				return (e);
+				return e;
 			}
 			if (suspect == 2 || suspect == 1) {
 				ERROR err = ERR_basic_link_incompat(tb, tc);
@@ -2402,12 +2402,12 @@ make_cond_exp(EXP a, EXP b, EXP c)
 		goto return_lab;
 	}
 	e = make_error_exp(0);
-	return (e);
+	return e;
 
 	/* Construct the result */
 return_lab:
 	MAKE_exp_if_stmt(t, a, b, c, NULL_id, e);
-	return (e);
+	return e;
 }
 
 
@@ -2425,16 +2425,16 @@ join_exp(EXP a, EXP b)
 	TYPE t;
 	LIST(EXP)p;
 	if (IS_NULL_exp(a)) {
-		return (b);
+		return b;
 	}
 	if (IS_NULL_exp(b)) {
-		return (a);
+		return a;
 	}
 	CONS_exp(b, NULL_list(EXP), p);
 	CONS_exp(a, p, p);
 	t = DEREF_type(exp_type(b));
 	MAKE_exp_comma(t, p, e);
-	return (e);
+	return e;
 }
 
 
@@ -2473,7 +2473,7 @@ make_comma_simple(EXP a, EXP b, int started)
 		if (overload_depth == 0) {
 			e = binary_overload(lex_comma, a, b);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 		/* Continue if not overloaded */
@@ -2515,7 +2515,7 @@ make_comma_simple(EXP a, EXP b, int started)
 		CONS_exp(a, p, p);
 		MAKE_exp_comma(tb, p, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -2548,5 +2548,5 @@ make_comma_exp(LIST(EXP)p)
 			e = convert_reference(e, REF_NORMAL);
 		}
 	}
-	return (e);
+	return e;
 }

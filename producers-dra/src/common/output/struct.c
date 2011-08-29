@@ -155,7 +155,7 @@ enc_exp_token(BITSTREAM *bs, ulong n)
 	ENC_exp_apply_token(bs);
 	ENC_make_tok(bs, m);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -173,7 +173,7 @@ enc_shape_token(BITSTREAM *bs, ulong n)
 	ENC_shape_apply_token(bs);
 	ENC_make_tok(bs, m);
 	ENC_LEN_SMALL(bs, 0);
-	return (bs);
+	return bs;
 }
 
 
@@ -221,7 +221,7 @@ enc_buffer(BITSTREAM *bs, BUFFER *bf)
 	m = link_no(bs, m, VAR_tag);
 	ENC_obtain_tag(bs);
 	ENC_make_tag(bs, m);
-	return (bs);
+	return bs;
 }
 
 
@@ -300,7 +300,7 @@ enc_rtti_bases(BITSTREAM *bs, LIST(GRAPH)br, LIST(TYPE)pt, NAT sz)
 		ENC_make_null_ptr(bs);
 		ENC_alignment(bs);
 		bs = enc_special(bs, TOK_baseid_type);
-		return (bs);
+		return bs;
 	}
 
 	/* Declare base structure */
@@ -330,7 +330,7 @@ enc_rtti_bases(BITSTREAM *bs, LIST(GRAPH)br, LIST(TYPE)pt, NAT sz)
 	n = link_no(bs, n, VAR_tag);
 	ENC_obtain_tag(bs);
 	ENC_make_tag(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -500,7 +500,7 @@ enc_rtti_type(BITSTREAM *bs, TYPE t, int op)
 		ENC_make_null_ptr(bs);
 		ENC_alignment(bs);
 		bs = enc_special(bs, TOK_typeid_type);
-		return (bs);
+		return bs;
 	}
 	if (op == lex_typeid && !output_rtti) {
 		/* Use dummy type if RTTI suppressed */
@@ -519,7 +519,7 @@ enc_rtti_type(BITSTREAM *bs, TYPE t, int op)
 		ts = start_bitstream(NIL(FILE), bs->link);
 		ts = enc_arith(ts, t, 1);
 		bs = enc_bitstream(bs, ts);
-		return (bs);
+		return bs;
 	}
 	case type_compound_tag: {
 		/* Class types */
@@ -547,7 +547,7 @@ enc_rtti_type(BITSTREAM *bs, TYPE t, int op)
 				n = link_no(bs, n, VAR_tag);
 				ENC_obtain_tag(bs);
 				ENC_make_tag(bs, n);
-				return (bs);
+				return bs;
 			}
 		} else {
 			IGNORE compile_class(ct);
@@ -583,7 +583,7 @@ enc_rtti_type(BITSTREAM *bs, TYPE t, int op)
 	n = link_no(bs, n, VAR_tag);
 	ENC_obtain_tag(bs);
 	ENC_make_tag(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -668,12 +668,12 @@ enc_rtti_exp(BITSTREAM *bs, EXP e)
 					compile_virtual(ct, !has_linkage(cid));
 				}
 				COPY_exp(exp_dummy_value(a), a1);
-				return (bs);
+				return bs;
 			}
 		}
 	}
 	bs = enc_rtti_type(bs, t, op);
-	return (bs);
+	return bs;
 }
 
 
@@ -774,7 +774,7 @@ enc_dyn_cast(BITSTREAM *bs, EXP e)
 	/* End conversion expression */
 	bs = enc_bitstream(bs, ts);
 	COPY_exp(exp_dummy_value(a), a1);
-	return (bs);
+	return bs;
 }
 
 
@@ -827,7 +827,7 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 				GRAPH gv = DEREF_graph(virt_base(vt));
 				if (EQ_graph(gv, ret)) {
 					n = DEREF_ulong(virt_no(vt));
-					return (n);
+					return n;
 				}
 			}
 			vt = DEREF_virt(virt_next(vt));
@@ -921,7 +921,7 @@ make_thunk(TYPE f, IDENTIFIER fid, GRAPH ret)
 		COPY_virt(virt_next(vt), all_thunks);
 		all_thunks = vt;
 	}
-	return (n);
+	return n;
 }
 
 
@@ -941,7 +941,7 @@ enc_vtable_shape(BITSTREAM *bs, ulong n)
 	ENC_make_nat(ts);
 	ENC_INT(ts, n + VIRTUAL_EXTRA);
 	bs = enc_bitstream(bs, ts);
-	return (bs);
+	return bs;
 }
 
 
@@ -1154,7 +1154,7 @@ declare_vtable(CLASS_TYPE ct)
 		ulong m = DEREF_ulong(virt_table_tok(vt));
 		if (m != LINK_NONE) {
 			/* Already declared */
-			return (m);
+			return m;
 		}
 		off = DEREF_off(virt_table_off(vt));
 		if (IS_NULL_off(off)) {
@@ -1187,7 +1187,7 @@ declare_vtable(CLASS_TYPE ct)
 		COPY_ulong(virt_table_tok(vt), m);
 		vt = DEREF_virt(virt_next(vt));
 	}
-	return (n);
+	return n;
 }
 
 
@@ -1216,11 +1216,11 @@ virtual_no(IDENTIFIER id, VIRTUAL vt)
 		IDENTIFIER vid = DEREF_id(virt_func(vs));
 		if (EQ_id(vid, id)) {
 			ulong m = DEREF_ulong(virt_no(vs));
-			return (m + VIRTUAL_EXTRA);
+			return m + VIRTUAL_EXTRA;
 		}
 		pv = TAIL_list(pv);
 	}
-	return (VIRTUAL_EXTRA);
+	return VIRTUAL_EXTRA;
 }
 
 
@@ -1239,10 +1239,10 @@ is_zero_bitfield(TYPE t)
 		INT_TYPE bf = DEREF_itype(type_bitfield_defn(t));
 		DECL_SPEC ds = DEREF_dspec(itype_bitfield_info(bf));
 		if (ds & dspec_pure) {
-			return (1);
+			return 1;
 		}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -1264,12 +1264,12 @@ enc_offset_add(BITSTREAM *bs, TYPE t)
 		ulong m = DEREF_ulong(graph_core_off(gr));
 		if (m != LINK_NONE) {
 			bs = enc_exp_token(bs, m);
-			return (bs);
+			return bs;
 		}
 	}
 	ENC_shape_offset(bs);
 	bs = enc_shape(bs, t);
-	return (bs);
+	return bs;
 }
 
 
@@ -1322,7 +1322,7 @@ enc_offset_pad(BITSTREAM *bs, ulong n, TYPE t, TYPE s)
 	} else {
 		bs = ts;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1396,7 +1396,7 @@ compile_class(CLASS_TYPE ct)
 			IGNORE enc_tokdef(id, 0);
 			n = DEREF_ulong(id_no(id));
 			COPY_ulong(ctype_shape(ct), n);
-			return (n);
+			return n;
 		}
 
 		/* Assign token number */
@@ -1693,7 +1693,7 @@ compile_class(CLASS_TYPE ct)
 		}
 		COPY_ctype(type_compound_defn(dummy_class), cd);
 	}
-	return (n);
+	return n;
 }
 
 
@@ -1708,7 +1708,7 @@ enc_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 {
 	ulong n = compile_class(ct);
 	bs = enc_shape_token(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -1771,7 +1771,7 @@ enc_al_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 			/* Class already compiled */
 			ENC_alignment(bs);
 			bs = enc_shape_token(bs, n);
-			return (bs);
+			return bs;
 		}
 		if (output_all) {
 			s = mangle_typeid("~cpp.al.", ct);
@@ -1783,7 +1783,7 @@ enc_al_ctype(BITSTREAM *bs, CLASS_TYPE ct)
 	m = link_no(bs, m, VAR_alignment);
 	ENC_obtain_al_tag(bs);
 	ENC_make_al_tag(bs, m);
-	return (bs);
+	return bs;
 }
 
 
@@ -1808,12 +1808,12 @@ compile_base(GRAPH gr, int ptr)
 	if ((acc & dspec_virtual) && !ptr) {
 		/* Virtual base class */
 		n = DEREF_ulong(graph_real_off(gr));
-		return (n);
+		return n;
 	}
 	if (IS_off_base(off)) {
 		/* Direct base class */
 		n = DEREF_ulong(graph_base_off(gr));
-		return (n);
+		return n;
 	}
 
 	/* Check for recorded values */
@@ -1823,7 +1823,7 @@ compile_base(GRAPH gr, int ptr)
 		n = DEREF_ulong(graph_real_off(gr));
 	}
 	if (n != LINK_NONE) {
-		return (n);
+		return n;
 	}
 	if (output_all) {
 		const char *pre = "~cpp.base.";
@@ -1869,7 +1869,7 @@ compile_base(GRAPH gr, int ptr)
 	m = compile_base(g2, ptr);
 	bs = enc_exp_token(bs, m);
 	enc_tokdef_end(n, bs);
-	return (n);
+	return n;
 }
 
 
@@ -1896,7 +1896,7 @@ enc_base(BITSTREAM *bs, GRAPH gr, int ptr)
 		n = compile_base(gr, ptr);
 		bs = enc_exp_token(bs, n);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1933,7 +1933,7 @@ enc_add_base(BITSTREAM *bs, OFFSET off1, OFFSET off2)
 		/* Add base class offset */
 		ENC_add_to_ptr(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1971,7 +1971,7 @@ enc_end_base(BITSTREAM *bs, OFFSET off1, OFFSET off2)
 			bs = enc_end_base(bs, off2, NULL_off);
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -2017,7 +2017,7 @@ enc_member(BITSTREAM *bs, IDENTIFIER id)
 		ENC_obtain_tag(bs);
 		ENC_make_tag(bs, tok);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -2152,7 +2152,7 @@ enc_null_class_aux(BITSTREAM *bs, CLASS_TYPE ct, int virt)
 			end_bitstream(ts, 0);
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -2183,7 +2183,7 @@ enc_null_class(BITSTREAM *bs, CLASS_TYPE ct)
 		enc_tokdef_end(n, ts);
 	}
 	bs = enc_exp_token(bs, n);
-	return (bs);
+	return bs;
 }
 
 
@@ -2262,7 +2262,7 @@ enc_ctor_exp(BITSTREAM *bs, EXP a, OFFSET off, ulong m, int virt, unsigned seq)
 		ENC_make_top(bs);
 		seq--;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -2295,7 +2295,7 @@ enc_virt_init(BITSTREAM *bs, CLASS_TYPE ct, ulong m)
 		}
 		bv = TAIL_list(bv);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -2330,7 +2330,7 @@ enc_vtab_init(BITSTREAM *bs, CLASS_TYPE ct, ulong m, int virt)
 		ENC_make_tag(bs, tt);
 		vt = DEREF_virt(virt_next(vt));
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -2393,7 +2393,7 @@ enc_delete_obj(BITSTREAM *bs, CLASS_TYPE ct, ulong m)
 		}
 		ENC_OFF(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -2620,7 +2620,7 @@ enc_ctor_init(BITSTREAM *bs, EXP e)
 		}
 		last_params[DUMMY_copy] = LINK_NONE;
 	}
-	return (bs);
+	return bs;
 }
 
 

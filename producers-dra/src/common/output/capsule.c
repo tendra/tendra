@@ -301,7 +301,7 @@ capsule_no(string s, int v)
 	var->uses[n] = USAGE_USE;
 	var->names[n] = s;
 	var->present = 1;
-	return (n | LINK_EXTERN);
+	return n | LINK_EXTERN;
 }
 
 
@@ -327,7 +327,7 @@ capsule_name(ulong n, string *ps, int v)
 		*ps = var->names[m];
 		var->names[m] = s;
 	}
-	return (n);
+	return n;
 }
 
 
@@ -357,7 +357,7 @@ capsule_id(IDENTIFIER id, int v)
 		ASSERT(n & LINK_EXTERN);
 		r = 0;
 	}
-	return (r);
+	return r;
 }
 
 
@@ -382,7 +382,7 @@ link_no(BITSTREAM *bs, ulong n, int v)
 		(lnk->no_map[v]) ++;
 		vars[v].present = 1;
 	}
-	return (n);
+	return n;
 }
 
 
@@ -436,7 +436,7 @@ unit_no(BITSTREAM *bs, IDENTIFIER id, int v, int def)
 			}
 		}
 	}
-	return (n);
+	return n;
 }
 
 
@@ -499,11 +499,11 @@ get_diag_tag(IDENTIFIER id, int v)
 {
 	ulong n = DEREF_ulong(id_no(id));
 	if (n == LINK_NONE) {
-		return (LINK_NONE);
+		return LINK_NONE;
 	}
 	n &= ~LINK_EXTERN;
 	ASSERT(vars[v].diags);
-	return (vars[v].diags[n]);
+	return vars[v].diags[n];
 }
 
 
@@ -518,7 +518,7 @@ ulong
 no_labels(BITSTREAM *bs)
 {
 	LINKAGE *lnk = (LINKAGE *)bs->link;
-	return (lnk->no[VAR_label]);
+	return lnk->no[VAR_label];
 }
 
 
@@ -552,7 +552,7 @@ find_usage(ulong n, int v)
 {
 	ulong m = (n & ~LINK_EXTERN);
 	unsigned u = (unsigned)vars[v].uses[m];
-	return (u);
+	return u;
 }
 
 
@@ -663,7 +663,7 @@ make_tld_unit(void)
 {
 	BITSTREAM *bs = start_bitstream(NIL(FILE), NULL_gen_ptr);
 	ENC_INT(bs, 1);
-	return (bs);
+	return bs;
 }
 
 
@@ -690,7 +690,7 @@ make_version_unit(void)
 		bs = enc_ustring(bs, vers);
 		count_item(bs);
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -769,7 +769,7 @@ enc_name(BITSTREAM *bs, string s, int v)
 			s = t + 1;
 		}
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1012,7 +1012,7 @@ write_capsule_body(BITSTREAM *bs)
 		}
 		eqn++;
 	}
-	return (bs);
+	return bs;
 }
 
 
@@ -1151,7 +1151,7 @@ init_diag(void)
 static BITSTREAM *
 write_capsule_body(BITSTREAM *bs)
 {
-	return (bs);
+	return bs;
 }
 
 
@@ -1334,7 +1334,7 @@ enc_version(BITSTREAM *bs)
 #endif
 	ENC_INT(bs, TDF_major);
 	ENC_INT(bs, v);
-	return (bs);
+	return bs;
 }
 
 

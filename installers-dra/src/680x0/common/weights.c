@@ -197,7 +197,7 @@ static weights add_weights
     r.d_used = maximum(w1.d_used, w2.d_used);
     r.a_used = maximum(w1.a_used, w2.a_used);
     r.f_used = maximum(w1.f_used, w2.f_used);
-    return(r);
+    return r;
 }
 
 
@@ -327,7 +327,7 @@ static wp max_weights
     }
     /* Set the breakpoint */
     res.bkpt = bk;
-    return(res);
+    return res;
 }
 
 
@@ -339,7 +339,7 @@ static weights add_wlist
 (exp re, explist *el)
 {
     weights wl1, wl2;
-    if (re == nilexp) return(zeros);
+    if (re == nilexp) return zeros;
 
     wl1 = weightsv(re, el);
 
@@ -348,7 +348,7 @@ static weights add_wlist
 	wl2 = weightsv(re, el);
 	wl1 = add_weights(wl1, wl2);
     }
-    return(wl1);
+    return wl1;
 }
 
 
@@ -372,11 +372,11 @@ static weights weightsv
 	case name_tag: {
 	    if (!isglob(son(e)))fno(son(e)) += scale;
 	    /* Add value to the no field of the declaration */
-	    return(zeros);
+	    return zeros;
 	}
 
 	case make_lv_tag: {
-	    return(zeros);
+	    return zeros;
 	}
 
 	case ident_tag: {
@@ -450,7 +450,7 @@ static weights weightsv
 		    p = max_weights(sz, cant_use, wbody, sht);
 		    no(e) = p.bkpt;
 		    if (no(e) == 13)error(ERROR_SERIOUS, "Bad breakpoint");
-		    return(add_weights(wdef, p.wt));
+		    return add_weights(wdef, p.wt);
 		}
 
 		if (regable(e)) {
@@ -461,13 +461,13 @@ static weights weightsv
 		    }
 		    p = max_weights(sz, loc, wbody, sht);
 		    no(e) = p.bkpt;
-		    return(add_weights(wdef, p.wt));
+		    return add_weights(wdef, p.wt);
 		}
 
 		no(e) = 16;
-		return(add_weights(wdef, wbody));
+		return add_weights(wdef, wbody);
 	    }
-	    return(zeros);
+	    return zeros;
 	}
 
 	case labst_tag: {
@@ -481,9 +481,9 @@ static weights weightsv
 		scale = fno(e);
 		wbody = weightsv(bro(son(e)), &nel);
 		scale = old_scale;
-		return(wbody);
+		return wbody;
 	    } else {
-		return(add_wlist(bro(son(e)), &nel));
+		return add_wlist(bro(son(e)), &nel);
 	    }
 	}
 
@@ -491,24 +491,24 @@ static weights weightsv
 	    weights swl, bwl;
 	    swl = weightsv(son(e), el);
 	    bwl = weightsv(bro(son(e)), el);
-	    return(add_weights(swl, bwl));
+	    return add_weights(swl, bwl);
 	}
 
 	case compound_tag: {
-	    return(add_wlist(son(e), el));
+	    return add_wlist(son(e), el);
 	}
 
         case untidy_return_tag:
 	case case_tag:
 	case res_tag: {
-	    return(weightsv(son(e), el));
+	    return weightsv(son(e), el);
 	}
 	case apply_general_tag:
 	case apply_tag:
 	case round_tag:
 	case float_tag: {
 	    markcall(el,(bitpattern)0x80);
-	    return(add_wlist(son(e), el));
+	    return add_wlist(son(e), el);
 	}
 
 	case ass_tag:
@@ -516,33 +516,33 @@ static weights weightsv
 	    weights swl, bwl;
 	    swl = weightsv(son(e), el);
 	    bwl = weightsv(bro(son(e)), el);
-	    return(add_weights(swl, bwl));
+	    return add_weights(swl, bwl);
 	}
 
 	case general_proc_tag:
 	case proc_tag: {
 	    weightsv(son(e), null);
-	    return(zeros);
+	    return zeros;
 	}
 
 	case env_offset_tag: {
-	    return(zeros);
+	    return zeros;
 	}
 
 	case val_tag:
 	case real_tag: {
-	    return(zeros);
+	    return zeros;
 	}
 
 	case test_tag: {
 	    weights twl;
 	    twl = add_wlist(son(e), el);
 	    /* scale = scale * ( ( ( float ) 1.0 ) - fno ( e ) ) ; */
-	    return(twl);
+	    return twl;
 	}
 
 	default : {
-	    return(add_wlist(son(e), el));
+	    return add_wlist(son(e), el);
 	}
     }
 }

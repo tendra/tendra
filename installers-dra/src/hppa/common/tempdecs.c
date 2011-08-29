@@ -135,7 +135,7 @@ trace_uses(exp e, exp id)
 	    if ( last ( l ) ) break ;
 	    l = bro ( l ) ;
 	}
-	return ( 0 ) ;
+	return 0;
     }
 
     switch ( name ( e ) ) {
@@ -143,7 +143,7 @@ trace_uses(exp e, exp id)
 	case env_offset_tag:
 	case name_tag : {
 	    nouses -= ( son ( e ) == id ? 1 : 0 ) ;
-	    return ( 1 ) ;
+	    return 1;
 	}
 
 	case ident_tag : {
@@ -157,26 +157,26 @@ trace_uses(exp e, exp id)
 		s = t ;
 	    }
 	    a = trace_uses ( f, id ) ;
-	    if ( a != 1 ) return ( a ) ;
-	    return ( trace_uses ( s, id ) ) ;
+	    if ( a != 1 ) return a;
+	    return trace_uses ( s, id ) ;
 	}
 
 	case case_tag : {
 	    trace_uses ( son ( e ), id ) ;
-	    return ( 0 ) ;
+	    return 0;
 	}
 
 	case labst_tag : {
-	    return ( 0 ) ;
+	    return 0;
 	}
 
 	case seq_tag : {
 	    exp s = son ( son ( e ) ) ;
 	    for ( ; ; ) {
 		int el = trace_uses ( s, id ) ;
-		if ( el != 1 ) return ( el ) ;
+		if ( el != 1 ) return el;
 		if ( last ( s ) ) {
-		    return ( trace_uses ( bro ( son ( e ) ), id ) ) ;
+		    return trace_uses ( bro ( son ( e ) ), id ) ;
 		}
 		s = bro ( s ) ;
 	    }
@@ -197,9 +197,9 @@ trace_uses(exp e, exp id)
 	    if ( isvar ( id ) && name ( son ( e ) ) == name_tag &&
 		 son ( son ( e ) ) == id ) {
 		trace_uses ( bro ( son ( e ) ), id ) ;
-		return ( 2 ) ;
+		return 2;
 	    } else if ( APPLYLIKE ( bro ( son ( e ) ) ) ) {
-		return ( trace_uses ( bro ( son ( e ) ), id ) ) ;
+		return trace_uses ( bro ( son ( e ) ), id ) ;
 	    }
 	    /* Fall through */
 	}
@@ -208,7 +208,7 @@ trace_uses(exp e, exp id)
 	    exp s = son ( e ) ;
 	    int nu = nouses ;	 /* s list can be done in any order ... */
 
-	    if ( s == nilexp ) return ( 1 ) ;
+	    if ( s == nilexp ) return 1;
 	    for ( ; ; ) {
 		int el = trace_uses ( s, id ) ;
 
@@ -217,7 +217,7 @@ trace_uses(exp e, exp id)
 		    nouses = nu ;
 		    return el ;
 		}
-		if ( last ( s ) ) return ( 1 ) ;
+		if ( last ( s ) ) return 1;
 		s = bro ( s ) ;
 	    }
 	    /* NOT REACHED */
@@ -225,7 +225,7 @@ trace_uses(exp e, exp id)
 	}
     }
     /* NOT REACHED */
-    return ( 0 ) ;
+    return 0;
 }
 
 
@@ -272,12 +272,12 @@ simple_seq(exp e, exp id)
 {
     exp dad = father ( e ) ;
     for ( ; ; ) {
-	if ( dad == id ) return ( 1 ) ;
+	if ( dad == id ) return 1;
 	if ( name ( dad ) == seq_tag || name ( dad ) == 0 ||
 	     name ( dad ) == ident_tag ) {
 	    dad = father ( dad ) ;
 	} else {
-	    return ( 0 ) ;
+	    return 0;
 	}
     }
     /* NOT REACHED */
@@ -293,7 +293,7 @@ tempdec(exp e, bool enoughs)
  * reg
  */
     exp p ;
-    if ( !tempdecopt ) return ( 0 ) ;
+    if ( !tempdecopt ) return 0;
 
     nouses = 0 ;
     useinpar = 0 ;
@@ -336,13 +336,13 @@ tempdec(exp e, bool enoughs)
 #if 0
 	/* +++ temp circumvention, we need to calculate t-reg reqt better when
      some not allowed by props ( e ) |= notparreg */
-	if ( useinpar ) return ( 0 ) ;
+	if ( useinpar ) return 0;
 #else
 	if ( useinpar ) props ( e ) |= notparreg ;     /* don't allocate this into par reg */
 #endif
-	return ( 1 ) ;
+	return 1;
     }
-    return ( 0 ) ;
+    return 0;
 }
 
 

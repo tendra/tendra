@@ -144,7 +144,7 @@ apply_only(exp e)
 		}
 #endif
 	}
-	return(ao);
+	return ao;
 }
 
 

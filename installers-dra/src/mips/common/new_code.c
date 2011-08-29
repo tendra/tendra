@@ -316,7 +316,7 @@ bool unsafe
 				   vararg */
 /*
   if (last (e))
-    return (name (bro (e)) != cont_tag && name (bro (e)) != par_tag);
+    return name (bro (e)) != cont_tag && name (bro (e)) != par_tag;
   if (last (bro (e)) && name (bro (bro (e))) == ass_tag)
     return 0;
   if (name (father (e)) == par_tag)
@@ -641,7 +641,7 @@ exp testlast
   /* finds the last test in sequence e which is a branch to second, if
      any, otherwise nil */
   if (name(e) == test_tag && pt(e) == second) {
-    return(e);
+    return e;
   }
   if (name(e) == seq_tag) {
     if (name(bro(son(e))) == test_tag && pt(bro(son(e))) == second) {

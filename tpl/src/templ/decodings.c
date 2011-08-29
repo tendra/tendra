@@ -91,7 +91,7 @@ d_%SN(int n)
 		fail("Bad %SN value, %u", enc);
 		break;
 	}
-	return(enc);
+	return enc;
 }
 @else
 @if sort.dummy
@@ -111,7 +111,7 @@ d_%SN(int n)
 	    IGNORE d_%PSN(n + 1);
 @endif
 @end
-	    return(%CE);
+	    return %CE;
 @end
 }
 @else
@@ -127,7 +127,7 @@ d_%SN(int n)
 	if (nl) {
 		IGNORE d_%SSN(n);
 	}
-	return(nl);
+	return nl;
 }
 @else
 @if sort.slist
@@ -142,7 +142,7 @@ d_%SN(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_%SSN(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 @else
 @if sort.list
@@ -159,7 +159,7 @@ d_%SN(int n)
 	for (; nl != 0; nl--) {
 		IGNORE d_%SSN(n + 1);
 	}
-	return(nl);
+	return nl;
 }
 @endif
 @endif

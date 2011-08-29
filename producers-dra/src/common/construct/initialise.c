@@ -184,13 +184,13 @@ next_data_member(MEMBER mem, int bf)
 					}
 				}
 				if (ok) {
-					return (mem);
+					return mem;
 				}
 			}
 		}
 		mem = DEREF_member(member_next(mem));
 	}
-	return (NULL_member);
+	return NULL_member;
 }
 
 
@@ -214,7 +214,7 @@ dynamic_init(IDENTIFIER id, string off, EXP e)
 			DECL_SPEC ds = DEREF_dspec(id_storage(id));
 			if (ds & dspec_auto) {
 				if (off == NULL) {
-					return (e);
+					return e;
 				}
 			} else {
 				if (!(ds & dspec_linkage)) {
@@ -228,7 +228,7 @@ dynamic_init(IDENTIFIER id, string off, EXP e)
 			break;
 		default:
 			/* Ignore other identifiers */
-			return (e);
+			return e;
 		}
 	}
 	if (option(OPT_init_dynamic)) {
@@ -257,7 +257,7 @@ dynamic_init(IDENTIFIER id, string off, EXP e)
 			MAKE_exp_dynamic(t, e, e);
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -346,7 +346,7 @@ check_init(EXP e)
 		}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -470,7 +470,7 @@ make_temporary(TYPE t, EXP e, EXP d, int ref, ERROR *err)
 	in_function_defn = fn;
 	crt_namespace = ns;
 	decl_loc = loc;
-	return (e);
+	return e;
 }
 
 
@@ -487,9 +487,9 @@ involves_alias(EXP e, EXP d)
 	if (!IS_NULL_exp(d)) {
 		/* NOT YET IMPLEMENTED */
 		UNUSED(e);
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -514,20 +514,20 @@ remove_temporary(EXP e, EXP d)
 			LIST(EXP)p;
 			int info = DEREF_int(exp_constr_info(e));
 			if (info != DEFAULT_COPY) {
-				return (e);
+				return e;
 			}
 			a = DEREF_exp(exp_constr_call(e));
 			p = DEREF_list(exp_func_id_args(a));
 			if (IS_NULL_list(p)) {
-				return (e);
+				return e;
 			}
 			p = TAIL_list(p);
 			if (IS_NULL_list(p)) {
-				return (e);
+				return e;
 			}
 			a = DEREF_exp(HEAD_list(p));
 			if (!IS_exp_address(a)) {
-				return (e);
+				return e;
 			}
 			a = DEREF_exp(exp_address_arg(a));
 		} else if (tag == exp_contents_tag) {
@@ -547,13 +547,13 @@ remove_temporary(EXP e, EXP d)
 					if (!involves_alias(b, d)) {
 						ds |= dspec_ignore;
 						COPY_dspec(id_storage(id), ds);
-						return (b);
+						return b;
 					}
 				}
 			}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -624,7 +624,7 @@ init_ref_lvalue(TYPE t, EXP e, ERROR *err)
 			a = cast_templ_type(t, e, CAST_IMPLICIT);
 		}
 	}
-	return (a);
+	return a;
 }
 
 
@@ -648,7 +648,7 @@ init_ref_rvalue(TYPE t, EXP e, ERROR *err)
 	if (nt == type_func_tag) {
 		add_error(err, ERR_dcl_init_ref_func());
 		e = make_null_exp(t);
-		return (e);
+		return e;
 	}
 
 	/* Check for const references */
@@ -684,14 +684,14 @@ init_ref_rvalue(TYPE t, EXP e, ERROR *err)
 				    DEREF_ctype(type_compound_defn(s));
 				GRAPH gr = find_base_class(cs, ct, 1);
 				if (IS_NULL_graph(gr)) {
-					return (NULL_exp);
+					return NULL_exp;
 				}
 				r = qualify_type(s, qual, 0);
 				/* NOT YET IMPLEMENTED: copy e */
 			} else {
 				/* Otherwise check for equal types */
 				if (!eq_type_unqual(t, s)) {
-					return (NULL_exp);
+					return NULL_exp;
 				}
 			}
 			if (cv != cv_none) {
@@ -703,10 +703,10 @@ init_ref_rvalue(TYPE t, EXP e, ERROR *err)
 				/* Bind temporary to reference */
 				e = cast_class_class(t, e, err, CAST_IMPLICIT, 1);
 			}
-			return (e);
+			return e;
 		}
 	}
-	return (NULL_exp);
+	return NULL_exp;
 }
 
 
@@ -739,7 +739,7 @@ make_ref_init(TYPE t, EXP e)
 			}
 		}
 	}
-	return (e);
+	return e;
 }
 
 
@@ -777,7 +777,7 @@ make_null_exp(TYPE t)
 		MAKE_exp_null(t, e);
 		break;
 	}
-	return (e);
+	return e;
 }
 
 
@@ -814,7 +814,7 @@ make_unit_exp(TYPE t)
 		MAKE_exp_null(t, e);
 		break;
 	}
-	return (e);
+	return e;
 }
 
 
@@ -828,45 +828,45 @@ int
 is_null_exp(EXP e)
 {
 	if (IS_NULL_exp(e)) {
-		return (1);
+		return 1;
 	}
 	switch (TAG_exp(e)) {
 	case exp_int_lit_tag: {
 		NAT n = DEREF_nat(exp_int_lit_nat(e));
-		return (is_zero_nat(n));
+		return is_zero_nat(n);
 	}
 	case exp_float_lit_tag: {
 		FLOAT f = DEREF_flt(exp_float_lit_flt(e));
-		return (is_zero_float(f));
+		return is_zero_float(f);
 	}
 	case exp_null_tag:
 	case exp_zero_tag:
-		return (1);
+		return 1;
 	case exp_aggregate_tag: {
 		LIST(EXP)p = DEREF_list(exp_aggregate_args(e));
 		while (!IS_NULL_list(p)) {
 			EXP a = DEREF_exp(HEAD_list(p));
 			if (!is_null_exp(a)) {
-				return (0);
+				return 0;
 			}
 			p = TAIL_list(p);
 		}
-		return (1);
+		return 1;
 	}
 	case exp_nof_tag: {
 		EXP a = DEREF_exp(exp_nof_start(e));
 		EXP b = DEREF_exp(exp_nof_pad(e));
 		EXP c = DEREF_exp(exp_nof_end(e));
 		if (!is_null_exp(a)) {
-			return (0);
+			return 0;
 		}
 		if (!is_null_exp(b)) {
-			return (0);
+			return 0;
 		}
-		return (is_null_exp(c));
+		return is_null_exp(c);
 	}
 	}
-	return (0);
+	return 0;
 }
 
 
@@ -946,7 +946,7 @@ default_lab: {
 		     break;
 	     }
 	}
-	return (e);
+	return e;
 }
 
 
@@ -976,19 +976,19 @@ is_char_array(TYPE t)
 	if (IS_type_array(t)) {
 		TYPE s = DEREF_type(type_array_sub(t));
 		if (check_int_type(s, btype_char)) {
-			return (1);
+			return 1;
 		}
 		if (check_int_type(s, btype_wchar_t)) {
-			return (2);
+			return 2;
 		}
 		if (!basetype_info[ntype_wchar_t].key) {
 			s = type_composite(s, type_wchar_t, 1, 0, KILL_err, 0);
 			if (!IS_NULL_type(s)) {
-				return (3);
+				return 3;
 			}
 		}
 	}
-	return (0);
+	return 0;
 
 }
 
@@ -1012,28 +1012,28 @@ pad_array(EXP e, NAT m, TYPE t, NAT n, int pad, ERROR *err)
 	/* Check for equality */
 	eq = compare_nat(n, m);
 	if (eq == 0) {
-		return (e);
+		return e;
 	} else if (eq == 1) {
 		if (!pad) {
-			return (NULL_exp);
+			return NULL_exp;
 		}
 	} else if (eq == -1) {
 		/* Too many initialisers */
 		if (!pad) {
-			return (NULL_exp);
+			return NULL_exp;
 		}
 		add_error(err, ERR_dcl_init_aggr_excess(t));
-		return (e);
+		return e;
 	} else {
 		/* Allow for token definitions */
 		force_tokdef++;
 		eq = eq_nat(n, m);
 		force_tokdef--;
 		if (eq) {
-			return (e);
+			return e;
 		}
 		if (!pad) {
-			return (NULL_exp);
+			return NULL_exp;
 		}
 	}
 
@@ -1052,7 +1052,7 @@ pad_array(EXP e, NAT m, TYPE t, NAT n, int pad, ERROR *err)
 			}
 			c = get_nat_value(n);
 			if (c == 0) {
-				return (e);
+				return e;
 			}
 		}
 	}
@@ -1077,11 +1077,11 @@ pad_array(EXP e, NAT m, TYPE t, NAT n, int pad, ERROR *err)
 			p = APPEND_list(p, q);
 			COPY_list(exp_aggregate_args(e), p);
 			COPY_type(exp_type(e), t);
-			return (e);
+			return e;
 		}
 	}
 	MAKE_exp_nof(t, e, n, a, NULL_exp, e);
-	return (e);
+	return e;
 }
 
 
@@ -1113,7 +1113,7 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 		if (in_template_decl) {
 			if (is_templ_type(s) || is_templ_type(u)) {
 				e = cast_templ_type(t, e, CAST_IMPLICIT);
-				return (e);
+				return e;
 			}
 		}
 
@@ -1187,7 +1187,7 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 				/* Unknown array bounds */
 				e = pad_array(e, m, t, n, 1, err);
 			}
-			return (e);
+			return e;
 		}
 
 		/* Check array initialisers */
@@ -1205,7 +1205,7 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 			if (tag == exp_paren_tag) {
 				/* Parenthesised initialiser */
 				e = init_array(t, cv, e, arr, err);
-				return (e);
+				return e;
 			}
 			arr = 1;
 		}
@@ -1222,7 +1222,7 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 			}
 			e = pad_array(e, m, t, n, arr - 1, err);
 			if (!IS_NULL_exp(e)) {
-				return (e);
+				return e;
 			}
 		}
 		add_error(err, ERR_basic_link_incompat(t, r));
@@ -1232,7 +1232,7 @@ init_array(TYPE t, CV_SPEC cv, EXP e, int arr, ERROR *err)
 		last_array_size = NULL_nat;
 	}
 	e = init_empty(t, cv, 1, err);
-	return (e);
+	return e;
 }
 
 
@@ -1258,7 +1258,7 @@ init_error(ERROR err, int init)
 	}
 #endif
 	err = concat_warning(err, ferr);
-	return (err);
+	return err;
 }
 
 
@@ -1345,7 +1345,7 @@ init_assign(TYPE t, CV_SPEC cv, EXP e, ERROR *err)
 		e = convert_assign(t, e, err);
 		break;
     }
-    return (e);
+    return e;
 }
 
 
@@ -1434,7 +1434,7 @@ default_lab: {
 		break;
 	     }
 	}
-	return (e);
+	return e;
 }
 
 
@@ -1451,7 +1451,7 @@ init_direct(TYPE t, EXP a, ERROR *err)
 	LIST(EXP) args;
 	CONS_exp(a, NULL_list(EXP), args);
 	a = init_constr(t, args, err);
-	return (a);
+	return a;
 }
 
 
@@ -1495,7 +1495,7 @@ get_aggr_elem(LIST(EXP) p, unsigned *ptag)
 			*ptag = tag;
 		}
 	}
-	return (a);
+	return a;
 }
 
 
@@ -1627,7 +1627,7 @@ init_aggr_aux(TYPE t, CV_SPEC cv, LIST(EXP) *r, int start, IDENTIFIER id,
 			e = make_temporary(s, e, NULL_exp, 1, err);
 			e = make_ref_init(t, e);
 		}
-		return (e);
+		return e;
 	}
 	case type_compound_tag: {
 		/* Compound types */
@@ -1877,7 +1877,7 @@ token_lab: {
 			   goto non_aggregate_lab;
 		   }
 		   e = init_aggr_aux(s, cv, r, start, id, err);
-		   return (e);
+		   return e;
 	   }
 	case type_top_tag:
 	case type_bottom_tag:
@@ -1905,7 +1905,7 @@ non_aggregate_lab:
 				   q = TAIL_list(q);
 			   }
 			   e = init_constr(t, p, err);
-			   return (e);
+			   return e;
 		   }
 	   } else {
 		   if (!IS_NULL_err(cerr)) {
@@ -1950,7 +1950,7 @@ non_aggregate_lab:
 		p = NULL_list(EXP);
 	}
 	*r = p;
-	return (e);
+	return e;
 }
 
 
@@ -1976,7 +1976,7 @@ init_aggregate(TYPE t, EXP e, IDENTIFIER id, ERROR *err)
 	e = init_aggr_aux(t, cv_none, &args, 2, id, err);
 	crt_loc = loc;
 	bad_crt_loc--;
-	return (e);
+	return e;
 }
 
 
@@ -2018,7 +2018,7 @@ init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 			/* Padded aggregate initialisers */
 			e = DEREF_exp(exp_nof_start(e));
 			e = init_general(t, e, id, 0);
-			return (e);
+			return e;
 		}
 		case exp_initialiser_tag: {
 			/* Function style initialisers */
@@ -2058,7 +2058,7 @@ init_general(TYPE t, EXP e, IDENTIFIER id, int tentative)
 	if (!IS_NULL_exp(e)) {
 		e = dynamic_init(id, NULL_string, e);
 	}
-	return (e);
+	return e;
 }
 
 
@@ -2084,7 +2084,7 @@ destroy_general(TYPE t, IDENTIFIER id)
 		report(decl_loc, err);
 	}
 	do_usage = du;
-	return (d);
+	return d;
 }
 
 
@@ -2110,7 +2110,7 @@ init_object(IDENTIFIER id, EXP e)
 
 	/* Check for non-object declarations */
 	if (IS_NULL_id(id)) {
-		return (0);
+		return 0;
 	}
 	itag = TAG_id(id);
 	switch (itag) {
@@ -2124,7 +2124,7 @@ init_object(IDENTIFIER id, EXP e)
 			if (!IS_NULL_exp(e)) {
 				report(crt_loc, ERR_dcl_fct_default_weak(id));
 			}
-			return (0);
+			return 0;
 		}
 		break;
 	case id_function_tag:
@@ -2143,18 +2143,18 @@ init_object(IDENTIFIER id, EXP e)
 			ds |= dspec_defn;
 			COPY_dspec(id_storage(id), ds);
 		}
-		return (0);
+		return 0;
 	case id_member_tag:
 		/* Check for non-static members (shouldn't be reached) */
 		report(crt_loc, ERR_class_mem_init_mem(id));
-		return (0);
+		return 0;
 	default:
 		/* The declaration could have been a typedef */
 		if (!IS_NULL_exp(e)) {
 			/* Can't initialise a typedef */
 			report(crt_loc, ERR_dcl_init_typedef(id));
 		}
-		return (1);
+		return 1;
 	}
 
 	/* Get declaration data */
@@ -2340,7 +2340,7 @@ init_object(IDENTIFIER id, EXP e)
 			compile_variable(id, 0);
 		}
 	}
-	return (def);
+	return def;
 }
 
 
@@ -2404,7 +2404,7 @@ init_member(IDENTIFIER id, EXP e)
 
 	/* Check for definitions */
 	if (IS_NULL_id(id)) {
-		return (0);
+		return 0;
 	}
 	tag = TAG_id(id);
 	if (have_access_decl) {
@@ -2441,7 +2441,7 @@ init_member(IDENTIFIER id, EXP e)
 				}
 			}
 		}
-		return (def);
+		return def;
 	}
 
 	/* Check the various types of member */
@@ -2536,7 +2536,7 @@ default_lab:
 		report(crt_loc, ERR_dcl_init_typedef(id));
 		break;
 	}
-	return (def);
+	return def;
 }
 
 
