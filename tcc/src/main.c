@@ -61,6 +61,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <time.h>
 
 #include "config.h"
@@ -111,36 +112,57 @@ print_version(void)
 
 
 /*
- * SIGNAL HANDLER
- *
- * This routine is the main signal handler. It reports any interesting signals
- * and then cleans up.
- */
-
-void
-handler(int sig)
-{
-	IGNORE signal(SIGINT, SIG_IGN);
-	if (verbose)
-		comment(1, "\n");
-
-	if (sig != SIGINT) {
-		const char *cmd = (last_command ? last_command : "unknown");
-		error(SERIOUS, "Caught signal %d in '%s'", sig, cmd);
-	}
-
-	exit_status = EXIT_FAILURE;
-	main_end();
-}
-
-
-/*
  * TEMPORARY DIRECTORY FLAG
  *
  * This flag is true to indicate that the temporary directory needs removing.
  */
 
 static boolean made_tempdir = 0;
+
+
+/*
+ * MAIN CLEAN UP ROUTINE
+ *
+ * This routine always used to exit the program, except when an exec fails in
+ * the child process. It cleans up the temporary directory etc. and returns
+ * exit_status to the calling process.
+ */
+
+static void
+main_end(void)
+{
+	IGNORE signal(SIGINT, SIG_IGN);
+	remove_junk();
+	remove_startup();
+	if (made_tempdir &&
+	    !(exit_status != EXIT_SUCCESS && flag_keep_err)) {
+		made_tempdir = 0;
+		cmd_string(NULL);
+		cmd_list(exec_remove);
+		cmd_string(tempdir);
+		IGNORE execute(no_filename, no_filename);
+	}
+	kill_stray();
+}
+
+
+/*
+ * MAIN CONSOLIDATION ROUTINE
+ *
+ * This routine is called after all the command-line arguments have been
+ * processed, but before any actual compilation takes place.
+ */
+
+static void
+main_middle(void)
+{
+	tempdir = temp_mkdir(temporary_dir, progname);
+	if (tempdir == NULL) {
+		error(FATAL, "Can't create temporary directory");
+	}
+
+	made_tempdir = 1;
+}
 
 
 /*
@@ -153,6 +175,8 @@ static void
 main_start(char *prog)
 {
 	const struct optmap *t;
+
+	atexit(main_end);
 
 	buffer = alloc_nof(char, buffer_size);
 	progname = find_basename(prog);
@@ -181,49 +205,27 @@ main_start(char *prog)
 
 
 /*
- * MAIN CONSOLIDATION ROUTINE
+ * SIGNAL HANDLER
  *
- * This routine is called after all the command-line arguments have been
- * processed, but before any actual compilation takes place.
+ * This routine is the main signal handler. It reports any interesting signals
+ * and then cleans up.
  */
-
-static void
-main_middle(void)
-{
-	tempdir = temp_mkdir(temporary_dir, progname);
-	if (tempdir == NULL) {
-		error(FATAL, "Can't create temporary directory");
-	}
-
-	made_tempdir = 1;
-}
-
-
-/*
- * MAIN CLEAN UP ROUTINE
- *
- * This routine always used to exit the program, except when an exec fails in
- * the child process. It cleans up the temporary directory etc. and returns
- * exit_status to the calling process.
- */
-/* TODO we could use atexit() to register this, make it static, and simply exit() elsewhere */
 
 void
-main_end(void)
+handler(int sig)
 {
 	IGNORE signal(SIGINT, SIG_IGN);
-	remove_junk();
-	remove_startup();
-	if (made_tempdir &&
-	    !(exit_status != EXIT_SUCCESS && flag_keep_err)) {
-		made_tempdir = 0;
-		cmd_string(NULL);
-		cmd_list(exec_remove);
-		cmd_string(tempdir);
-		IGNORE execute(no_filename, no_filename);
+	if (verbose)
+		comment(1, "\n");
+
+	if (sig != SIGINT) {
+		const char *cmd = (last_command ? last_command : "unknown");
+		error(SERIOUS, "Caught signal %d in '%s'", sig, cmd);
 	}
-	kill_stray();
-	exit(exit_status);
+
+	exit_status = EXIT_FAILURE;
+	main_end();
+	_exit(exit_status);
 }
 
 
@@ -291,5 +293,6 @@ main(int argc, char **argv)
 
 	/* Exit from program */
 	main_end();
+
 	return 0;
 }

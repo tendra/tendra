@@ -146,7 +146,7 @@ error(int e, char *s, ...)
 	va_end(args);
 
 	if (e == FATAL) {
-		main_end();
+		exit(exit_status);
 	}
 }
 
