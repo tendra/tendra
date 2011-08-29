@@ -7,12 +7,13 @@
 	<!ENTITY s1.opt "<option>-s</option>">
 	<!ENTITY s2.opt "<option>-s</option>&nbsp;&shape.arg;&nbsp;&name.arg;">
 
+	<!ENTITY i.opt  "<option>-i</option>&nbsp;&file.arg;">
+	<!ENTITY i2.opt "<option>-i</option>">
+
 	<!ENTITY a.opt "<option>-a</option>">
 	<!ENTITY b.opt "<option>-b</option>">
 	<!ENTITY d.opt "<option>-d</option>&nbsp;&file.arg;">
 	<!ENTITY h.opt "<option>-h</option>&nbsp;&shape.arg;&nbsp;&name.arg;">
-	<!ENTITY i.opt "<option>-i</option>&nbsp;&file.arg;">
-	<!ENTITY i.opt "<option>-i</option>">
 	<!ENTITY k.opt "<option>-k</option>&nbsp;&shape.arg;&nbsp;&name.arg;">
 	<!ENTITY l.opt "<option>-l</option>&file.arg;">
 	<!ENTITY m.opt "<option>-m</option>">
@@ -52,15 +53,16 @@
 	<!ENTITY warnings.opt  "<option>--warnings</option>">
 	<!ENTITY basename.opt  "<option>--basename</option>">
 
-	<!ENTITY include-library.opt  "<option>--include-library</option>&nbsp;&file.arg;">
-	<!ENTITY all-hide-defined.opt "<option>--all-hide-defined</option>">
-	<!ENTITY match-basename.opt   "<option>--match-basename</option>">
-	<!ENTITY hide-defined.opt     "<option>--hide-defined</option>&nbsp;&shape.arg;">
-	<!ENTITY rename-file.opt      "<option>--rename-file</option>&nbsp;&file.arg;">
-	<!ENTITY debug-file.opt       "<option>--debug-file</option>&nbsp;&file.arg;">
-	<!ENTITY output-file.opt      "<option>--output-file</option>&nbsp;&file.arg;">
-	<!ENTITY suppress-all.opt     "<option>--suppress-all</option>&nbsp;&shape.arg;">
-	<!ENTITY suppress-mult.opt    "<option>--suppress-mult</option>">
+	<!ENTITY include-library.opt     "<option>--include-library</option>&nbsp;&file.arg;">
+	<!ENTITY all-hide-defined.opt    "<option>--all-hide-defined</option>">
+	<!ENTITY match-basename.opt      "<option>--match-basename</option>">
+	<!ENTITY hide-defined.opt        "<option>--hide-defined</option>&nbsp;&shape.arg;">
+	<!ENTITY missing-definitions.opt "<option>--missing-definitions</option>">
+	<!ENTITY rename-file.opt         "<option>--rename-file</option>&nbsp;&file.arg;">
+	<!ENTITY debug-file.opt          "<option>--debug-file</option>&nbsp;&file.arg;">
+	<!ENTITY output-file.opt         "<option>--output-file</option>&nbsp;&file.arg;">
+	<!ENTITY suppress-all.opt        "<option>--suppress-all</option>&nbsp;&shape.arg;">
+	<!ENTITY suppress-mult.opt       "<option>--suppress-mult</option>">
 ]>
 
 <!-- $Id$ -->
@@ -146,6 +148,10 @@
 			<group choice="opt">
 				<arg choice="plain">&o.opt;</arg>
 				<arg choice="plain">&output-file.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&i2.opt;</arg>
+				<arg choice="plain">&missing-definitions.opt;</arg>
 			</group>
 			<group choice="opt">
 				<arg choice="plain">&a.opt;</arg>
@@ -605,6 +611,14 @@
 			</varlistentry>
 
 			<varlistentry>
+				<term>&i2.opt;</term>
+				<term>&missing-definitions.opt;</term>
+
+				<listitem>Warn about undefined external linker names. These warnings are
+					disabled by default.</listitem>
+			</varlistentry>
+
+			<varlistentry>
 				<term>&k.opt;</term>
 				<term>&keep.opt;</term>
 
@@ -705,7 +719,8 @@
 
 				<listitem>Enable/disable the printing of warning messages.
 					Warnings are generated for things like obsolete linker
-					information units, and undefined external names.</listitem>
+					information units, and undefined external names when $i2.opt;
+					is enabled.</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

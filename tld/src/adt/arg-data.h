@@ -110,6 +110,7 @@ typedef struct ArgDataT {
     BoolT			content_index;
     BoolT			content_size;
     BoolT			content_version;
+    BoolT			missing_definitions;
     OStreamT			debug_file;
     char *			default_output_file;
     char *			output_file;
@@ -194,6 +195,10 @@ extern BoolT			arg_data_get_content_size
 extern void			arg_data_set_content_version
 (ArgDataT *, BoolT);
 extern BoolT			arg_data_get_content_version
+(ArgDataT *);
+extern void			arg_data_set_missing_definitions
+(ArgDataT *, BoolT);
+extern BoolT			arg_data_get_missing_definitions
 (ArgDataT *);
 extern void			arg_data_set_debug_file
 (ArgDataT *, char *);

@@ -176,7 +176,7 @@ extern void			name_entry_builder_suppress
 (NameEntryT *, void *);
 extern BoolT			name_entry_resolve_undefined
 	(NameEntryT *, struct NameTableT *, struct UnitTableT *,
-	       struct ShapeTableT *, NStringT *);
+	       struct ShapeTableT *, NStringT *, BoolT);
 extern void			name_entry_hide_defd
 (NameEntryT *, void *);
 extern void			name_entry_keep

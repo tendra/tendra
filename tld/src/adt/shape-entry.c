@@ -332,7 +332,7 @@ shape_entry_resolve_undefined(ShapeEntryT *entry,				       void *    gclosure)
     while ((name_entry = shape_entry_get_from_list(entry)) !=
 	   NULL) {
 	if (name_entry_resolve_undefined(name_entry, table, closure->units,
-					  closure->shapes, key)) {
+					  closure->shapes, key, closure->missing_definitions)) {
 	    closure->did_define = TRUE;
 	}
     }

@@ -214,6 +214,7 @@ arg_data_init(ArgDataT *arg_data,		       char * default_output_file)
     arg_data->content_index       = FALSE;
     arg_data->content_size        = FALSE;
     arg_data->content_version     = FALSE;
+    arg_data->missing_definitions = FALSE;
     ostream_init(& (arg_data->debug_file));
     arg_data->default_output_file = default_output_file;
     arg_data->output_file         = NULL;
@@ -428,6 +429,18 @@ BoolT
 arg_data_get_content_version(ArgDataT *arg_data)
 {
     return arg_data->content_version;
+}
+
+void
+arg_data_set_missing_definitions(ArgDataT *arg_data,				  BoolT    enable)
+{
+    arg_data->missing_definitions = enable;
+}
+
+BoolT
+arg_data_get_missing_definitions(ArgDataT *arg_data)
+{
+    return arg_data->missing_definitions;
 }
 
 void

@@ -422,7 +422,8 @@ BoolT
 name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table, 
 				      UnitTableT * units, 
 				      ShapeTableT *shapes, 
-				      NStringT *   shape_key)
+				      NStringT *   shape_key,
+				      BoolT     missing_definitions)
 {
     unsigned use = name_entry_get_use(entry);
     NameKeyT *key = name_entry_key(entry);
@@ -452,8 +453,10 @@ name_entry_resolve_undefined(NameEntryT * entry,				      NameTableT * table,
 	    }
 	}
     }
+    if (missing_definitions) {
 	error(ERROR_WARNING,"no definition found for %S '%K'",
 		(void *) shape_key,(void *) key);
+    }
     debug_info_l_not_found(key, shape_key, use);
     return FALSE;
 }

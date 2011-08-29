@@ -297,6 +297,18 @@ main_handle_match_base(char *  option,				ArgUsageT *usage,
 }
 
 static void
+main_handle_missing_definitions(char *  option,			     ArgUsageT *usage, 
+			     void *  gclosure, 
+			     BoolT     enable)
+{
+    UNUSED(option);
+    UNUSED(usage);
+    UNUSED(gclosure);
+    main_used_other = TRUE;
+    arg_data_set_missing_definitions(&main_arg_data, enable);
+}
+
+static void
 main_handle_output_file(char *  option,				 ArgUsageT *usage, 
 				 void *  gclosure, 
 				 char *  output_file)
@@ -493,6 +505,9 @@ static EStringDataT main_description_strings[] = {
 	"description of match-basename",
 	"\n\tEnable/disable matching capsules by their basename"
     } }, { {
+	"description of missing-definitions",
+	"\n\tEnable/disable warnings for undefined external linker names."
+    } }, { {
 	"description of output-file",
 	" FILE\n\tWrite output to FILE(default 'library.tl')."
     } }, { {
@@ -661,6 +676,10 @@ static ArgListT main_linker_arg_list[] = {
 	"hide-defined", 'H',			AT_FOLLOWING,
 	(ArgProcP)main_handle_hide_defined,	NULL,
 	{ "description of hide-defined" }
+    }, {
+	"missing-definitions", 'i',		AT_PROC_SWITCH,
+	(ArgProcP)main_handle_missing_definitions,NULL,
+	{ "description of missing-definitions" }
     }, {
 	"keep", 'k',				AT_FOLLOWING2,
 	(ArgProcP)main_handle_keep,		NULL,

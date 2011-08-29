@@ -100,6 +100,7 @@ typedef struct ShapeLibClosureT {
     struct ShapeTableT	       *lib_shapes;
     struct UnitTableT	       *units;
     struct ShapeTableT	       *shapes;
+    BoolT			missing_definitions;
 } ShapeLibClosureT;
 
 extern ShapeEntryT *	shape_entry_create

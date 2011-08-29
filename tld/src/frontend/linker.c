@@ -246,14 +246,16 @@ linker_suppress(ArgDataT *   arg_data,			 ShapeTableT *lib_shapes)
 }
 
 static void
-linker_resolve_undefined(UnitTableT * units,				  ShapeTableT *shapes, 
+linker_resolve_undefined(ArgDataT *   arg_data,
+				  UnitTableT * units,				  ShapeTableT *shapes, 
 				  ShapeTableT *lib_shapes)
 {
     ShapeLibClosureT closure;
 
-    closure.lib_shapes = lib_shapes;
-    closure.units      = units;
-    closure.shapes     = shapes;
+    closure.lib_shapes          = lib_shapes;
+    closure.units               = units;
+    closure.shapes              = shapes;
+    closure.missing_definitions = arg_data_get_missing_definitions(arg_data);
     do {
 	closure.did_define = FALSE;
 	shape_table_iter(shapes, shape_entry_resolve_undefined,
@@ -383,7 +385,7 @@ linker_main(ArgDataT *arg_data)
     linker_read_capsules(arg_data, units, shapes);
     linker_load_libraries(arg_data, lib_shapes);
     linker_suppress(arg_data, lib_shapes);
-    linker_resolve_undefined(units, shapes, lib_shapes);
+    linker_resolve_undefined(arg_data, units, shapes, lib_shapes);
     linker_hide_and_keep(arg_data, shapes);
     linker_write_capsule(arg_data, units, shapes);
 }
