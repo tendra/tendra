@@ -150,6 +150,10 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 		(void) fprintf(stderr, "Fatal: ");
 		exit_status = EXIT_FAILURE;
 		break;
+	case ERROR_USAGE:
+		(void) fprintf(stderr, "Usage: ");
+		exit_status = EXIT_FAILURE;
+		break;
 	case ERROR_SERIOUS:
 		(void) fprintf(stderr, "Error: ");
 		exit_status = EXIT_FAILURE;
@@ -169,7 +173,7 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 	(void) vefprintf(stderr, s, args);
 	(void) fprintf(stderr, "\n");
 
-	if (e == ERROR_FATAL)
+	if (e == ERROR_FATAL || e == ERROR_USAGE)
 		exit(exit_status);
 
 	if (number_errors >= maximum_errors && maximum_errors)
