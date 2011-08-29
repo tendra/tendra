@@ -3,6 +3,15 @@
 .include "Makefile.inc"
 
 
+CFLAGS+=	-Ishared/error
+CFLAGS+=	-Ishared/xalloc
+
+PARTS+=	src/shared/error
+PARTS+=	src/shared/xalloc
+
+.include <tendra.partial.mk>
+
+
 TCCOPTS=	-Yposix -Xs
 
 CCOPTS=                                    \

@@ -64,6 +64,8 @@
 #include <string.h>
 #include <errno.h>
 
+#include "error.h"
+
 #include "config.h"
 #include "external.h"
 #include "filename.h"
@@ -123,7 +125,7 @@ read_file(const char *nm, const char *w, size_t n, FILE *f)
 
 	if (dry_run) {
 		if (fseek(f, n, SEEK_CUR)) {
-			error(SERIOUS, "Error when stepping over '%s'", nm);
+			error(ERROR_SERIOUS, "Error when stepping over '%s'", nm);
 			ret = 1;
 		}
 
@@ -131,7 +133,7 @@ read_file(const char *nm, const char *w, size_t n, FILE *f)
 	}
 
 	if ((g = fopen(nm, w)) == NULL) {
-		error(SERIOUS, "Can't open copy destination file, '%s'", nm);
+		error(ERROR_SERIOUS, "Can't open copy destination file, '%s'", nm);
 		ret = 1;
 		goto out;
 	}
@@ -149,14 +151,14 @@ read_file(const char *nm, const char *w, size_t n, FILE *f)
 
 		s = fread(p, sizeof(char), r, f);
 		if (s != r) {
-			error(SERIOUS, "Reading error when creating '%s'", nm);
+			error(ERROR_SERIOUS, "Reading error when creating '%s'", nm);
 			ret = 1;
 			goto out;
 		}
 
 		s = fwrite(p, sizeof(char), r, g);
 		if (s != r) {
-			error(SERIOUS, "Writing error when creating '%s'", nm);
+			error(ERROR_SERIOUS, "Writing error when creating '%s'", nm);
 			ret = 1;
 			goto out;
 		}
@@ -189,13 +191,13 @@ write_file(const char *nm, const char *rd, FILE *f)
 		return 0;
 
 	if ((g = fopen(nm, rd)) == NULL) {
-		error(SERIOUS, "Can't open copy source file, '%s'", nm);
+		error(ERROR_SERIOUS, "Can't open copy source file, '%s'", nm);
 		return 1;
 	}
 
 	while ((n = fread(p, sizeof(char), buffer_size, g)) != 0) {
 		if (fwrite(p, sizeof(char), n, f) != n) {
-			error(SERIOUS, "Writing error when copying '%s'", nm);
+			error(ERROR_SERIOUS, "Writing error when copying '%s'", nm);
 			(void) fclose(g);
 			return 1;
 		}
@@ -259,12 +261,12 @@ move_file(const char *from, const char *to)
 		return 0;
 
 	if (errno != EXDEV) {
-		error(SERIOUS, "Can't rename '%s' to '%s'", from, to);
+		error(ERROR_SERIOUS, "Can't rename '%s' to '%s'", from, to);
 		return 1;
 	}
 
 	if ((f = fopen(to, "w")) == NULL) {
-		error(SERIOUS, "Can't open copy destination file, '%s'", to);
+		error(ERROR_SERIOUS, "Can't open copy destination file, '%s'", to);
 		return 1;
 	}
 
@@ -275,7 +277,7 @@ move_file(const char *from, const char *to)
 		return e;
 
 	if (remove_file(from) != 0) {
-		error(SERIOUS, "Can't remove source file, '%s'", from);
+		error(ERROR_SERIOUS, "Can't remove source file, '%s'", from);
 		return 1;
 	}
 
@@ -312,7 +314,7 @@ remove_recursive(const char *nm)
 		if (errno == ENOENT)
 			return 0;
 		else {
-			error(SERIOUS, "Can't stat '%s'", nm);
+			error(ERROR_SERIOUS, "Can't stat '%s'", nm);
 			return 1;
 		}
 	}
@@ -323,7 +325,7 @@ remove_recursive(const char *nm)
 		char buf[PATH_MAX];
 
 		if ((d = opendir(nm)) == NULL) {
-			error(SERIOUS, "Can't open directory '%s'", nm);
+			error(ERROR_SERIOUS, "Can't open directory '%s'", nm);
 			return 1;
 		}
 
@@ -333,7 +335,7 @@ remove_recursive(const char *nm)
 				continue;
 
 			if (strlen(nm) + 1 + strlen(de->d_name) >= PATH_MAX) {
-				error(SERIOUS, "Path too long");
+				error(ERROR_SERIOUS, "Path too long");
 				return 1;
 			}
 
@@ -349,7 +351,7 @@ remove_recursive(const char *nm)
 		fprintf(stderr, "tcc: trying to remove directory '%s'\n", nm);
 #endif
 		if (remove(nm) != 0) {
-			error(SERIOUS, "Can't remove directory '%s'", nm);
+			error(ERROR_SERIOUS, "Can't remove directory '%s'", nm);
 			return 1;
 		}
 	} else {
@@ -358,7 +360,7 @@ remove_recursive(const char *nm)
 			if (errno == ENOENT)
 				return 0;
 			else {
-				error(SERIOUS, "Can't remove '%s'", nm);
+				error(ERROR_SERIOUS, "Can't remove '%s'", nm);
 				return 1;
 			}
 		}
@@ -386,7 +388,7 @@ touch_file(const char *nm, const char *opt)
 		return 0;
 
 	if ((f = fopen(nm, "w")) == NULL) {
-		error(SERIOUS, "Can't touch file, '%s'", nm);
+		error(ERROR_SERIOUS, "Can't touch file, '%s'", nm);
 		return 1;
 	}
 
@@ -398,7 +400,7 @@ touch_file(const char *nm, const char *opt)
 		str = "EMPTY\n";
 
 	if (fwrite(str, sizeof(unsigned char), strlen(str), f) != 1) {
-		error(SERIOUS, "Can't write to file '%s'", nm);
+		error(ERROR_SERIOUS, "Can't write to file '%s'", nm);
 		(void) fclose(f);
 		return 1;
 	}
@@ -441,7 +443,7 @@ file_time(const char *nm)
 		return 0;
 
 	if (stat(nm, &st) == -1) {
-		error(SERIOUS, "Can't access file '%s'", nm);
+		error(ERROR_SERIOUS, "Can't access file '%s'", nm);
 		return 0;
 	}
 
@@ -504,7 +506,7 @@ process_archive_opt(void)
 		} else if (strcmp(opt, "-short") == 0 || strcmp(opt, "-s") == 0) {
 			archive_full = 0;
 		} else {
-			error(WARNING, "Unknown archiver option, '%s'", opt);
+			error(ERROR_WARNING, "Unknown archiver option, '%s'", opt);
 		}
 	}
 	opt_joiner = NULL;
@@ -531,7 +533,7 @@ build_archive(const char *arch, const char **input)
     }
     f = fopen(arch, "wb");
     if (f == NULL) {
-	error(SERIOUS, "Can't open output archive, '%s'", arch);
+	error(ERROR_SERIOUS, "Can't open output archive, '%s'", arch);
 	return 1;
     }
     IGNORE fputs(ARCHIVE_HEADER, f);
@@ -579,7 +581,7 @@ build_archive(const char *arch, const char **input)
 	    }
 	    g = fopen(*s, "rb");
 	    if (g == NULL) {
-		error(SERIOUS, "Can't open '%s' for archiving", *s);
+		error(ERROR_SERIOUS, "Can't open '%s' for archiving", *s);
 		IGNORE fclose(f);
 		return 1;
 	    } else {
@@ -588,7 +590,7 @@ build_archive(const char *arch, const char **input)
 		IGNORE fprintf(f, "+ %ld %s\n",(long)m, n);
 		while (m) {
 		    if (fwrite(p, sizeof(char), m, f)!= m) {
-			error(SERIOUS, "Write error in archive '%s'", arch);
+			error(ERROR_SERIOUS, "Write error in archive '%s'", arch);
 			IGNORE fclose(f);
 			return 1;
 		    }
@@ -735,7 +737,7 @@ split_archive(const char *arch, filename **ret)
 	    }
 	    fd = file_time(q->name);
 	    if (ad && fd && ad != fd) {
-		error(WARNING, "Date stamp on file '%s' has changed",
+		error(ERROR_WARNING, "Date stamp on file '%s' has changed",
 			q->name);
 	    }
 	} else if (streq(buffer, ARCHIVE_TRAILER)) {
@@ -768,7 +770,7 @@ split_archive(const char *arch, filename **ret)
     /* Return */
 archive_error:
     if (emsg) {
-	    error(SERIOUS, emsg, arch);
+	    error(ERROR_SERIOUS, emsg, arch);
     }
     IGNORE fclose(f);
     if (need_moves) {

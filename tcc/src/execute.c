@@ -58,11 +58,15 @@
 */
 
 
+#include <assert.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+#include "error.h"
+#include "xalloc.h"
 
 #include "config.h"
 #include "external.h"
@@ -136,7 +140,7 @@ cmd_string(const char *s)
 {
 	if (cmd_no >= command_size) {
 		command_size += 1000;
-		command = realloc_nof(command, char *, command_size);
+		command = xrealloc_nof(command, char *, command_size);
 	}
 	command[cmd_no] = s;
 	if (s == NULL) {
@@ -308,10 +312,9 @@ execute(filename *input, filename *output)
 
 	cmd_string(NULL);
 	cmd = command[0];
-	if (cmd == NULL) {
-		error(INTERNAL, "Empty command");
-		return NULL;
-	}
+
+	assert(cmd != NULL);
+
 	last_command = cmd;
 	last_return = 0;
 	junk = output;
@@ -382,9 +385,9 @@ execute(filename *input, filename *output)
 			if (streq(cmd, "undef")) {
 				int sev;
 				if (dry_run) {
-					sev = WARNING;
+					sev = ERROR_WARNING;
 				} else {
-					sev = INTERNAL;
+					sev = ERROR_SERIOUS;
 					err = 1;
 				}
 				cmd = command[1];
@@ -393,14 +396,14 @@ execute(filename *input, filename *output)
 			}
 			break;
 		}
-		error(SERIOUS, "Built-in '%s' command not implemented", cmd);
+		error(ERROR_SERIOUS, "Built-in '%s' command not implemented", cmd);
 		err = 1;
 
 	} else if (!dry_run) {
 		/* Call system commands */
 		pid_t pid = fork();
 		if (pid == (pid_t) -1) {
-			error(SERIOUS, "Can't fork process");
+			error(ERROR_SERIOUS, "Can't fork process");
 			err = 1;
 		} else {
 			if (pid) {
@@ -459,7 +462,7 @@ execute(filename *input, filename *output)
 			/* XXX The cast to void * is to const-ness. Perhaps copy first */
 			IGNORE execv(cmd, (void *) command);
 			running_pid = -1;
-			error(SERIOUS, "Can't execute '%s'", cmd);
+			error(ERROR_SERIOUS, "Can't execute '%s'", cmd);
 			exit(2);
 		}
 	}
@@ -485,7 +488,7 @@ execute_error:
 			if (!filled_buff) {
 				print_cmd(buff);
 			}
-			error(INFO, "Error in '%s'", buff + 1);
+			error(ERROR_SERIOUS, "Error in '%s'", buff + 1);
 		}
 		remove_junk();
 		return NULL;

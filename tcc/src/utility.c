@@ -64,6 +64,8 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include "xalloc.h"
+
 #include "config.h"
 #include "list.h"
 #include "environ.h"
@@ -72,83 +74,6 @@
 #include "options.h"
 #include "suffix.h"
 #include "utility.h"
-
-
-/*
- * ERROR VARIABLES
- *
- * The value exit_status gives the overall status of the program. It can be
- * EXIT_SUCCESS or EXIT_FAILURE. The variable progname gives the name of the
- * program, which is used in error reports.
- */
-int exit_status = EXIT_SUCCESS;
-const char *progname = PROGNAME_TCC;
-
-
-/*
- * PRINT AN ERROR MESSAGE
- *
- * This routine prints an error message s (a printf-style string, which may be
- * followed by any number of arguments) of severity e (see utility.h).
- */
-void
-error(int e, char *s, ...)
-{
-	va_list args;
-	char *errtype = NULL;
-
-	va_start(args, s);
-
-	switch (e) {
-	case FATAL:
-		exit_status = EXIT_FAILURE;
-		errtype = "Fatal";
-		break;
-
-	case INTERNAL:
-		exit_status = EXIT_FAILURE;
-		errtype = "Internal";
-		break;
-
-	case SERIOUS:
-		exit_status = EXIT_FAILURE;
-		errtype = "Error";
-		break;
-
-	case OPTION:
-		exit_status = EXIT_FAILURE;
-		errtype = "Option interpreter";
-		break;
-
-	case WARNING:
-		if (!warnings) {
-			va_end(args);
-			return;
-		}
-		errtype = "Warning";
-		break;
-
-	case INFO:
-		errtype = "Information";
-		break;
-	}
-
-	if (checker) {
-		progname = PROGNAME_TCHK;
-	}
-
-	IGNORE fprintf(stderr, "%s: ", progname);
-	if (errtype) {
-		IGNORE fprintf(stderr, "%s: ", errtype);
-	}
-	IGNORE vfprintf(stderr, s, args);
-	IGNORE fprintf(stderr, ".\n");
-	va_end(args);
-
-	if (e == FATAL) {
-		exit(exit_status);
-	}
-}
 
 
 /*
@@ -173,49 +98,6 @@ comment(int e, char *s, ...)
 
 
 /*
- * ALLOCATE A BLOCK OF MEMORY
- *
- * This routine allocates a block of memory of size sz and returns the result.
- */
-void *
-xalloc(size_t sz)
-{
-	void *p;
-
-	p = malloc(sz);
-	if (p == NULL) {
-		error(FATAL, "Memory allocation error");
-	}
-
-	return p;
-}
-
-
-/*
- * REALLOCATE A BLOCK OF MEMORY
- *
- * This routine reallocates the block of memory p to have size sz.
- * xrealloc(*null, sz) is equivalent to xalloc(sz).
- */
-void *
-xrealloc(void *p, size_t sz)
-{
-    void *q;
-
-    if (p == NULL) {
-	    return xalloc(sz);
-    }
-
-    q = realloc(p, sz);
-    if (q == NULL) {
-	    error(FATAL, "Memory reallocation error");
-    }
-
-    return q;
-}
-
-
-/*
  * ALLOCATE SPACE FOR A STRING
  *
  * This routine allocates n characters of memory for use in the string memory
@@ -228,7 +110,7 @@ string_alloc(int n)
 	char *r;
 	if (n >= 1000) {
 		/* Long strings are allocated space by alloc_nof */
-		r = alloc_nof(char, n);
+		r = xmalloc_nof(char, n);
 	} else {
 		/* Short strings are allocated space from a buffer */
 		static int no_free;
@@ -238,7 +120,7 @@ string_alloc(int n)
 		free_chars = NULL;
 		if (n >= no_free) {
 			no_free = 4000;
-			free_chars = alloc_nof(char, no_free);
+			free_chars = xmalloc_nof(char, no_free);
 		}
 		r = free_chars;
 		no_free -= n;

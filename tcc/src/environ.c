@@ -63,6 +63,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "error.h"
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -127,7 +129,7 @@ void
 show_envpath(void)
 {
 	find_envpath();
-	error(INFO, "Environment path is '%s'", envpath);
+	printf("Environment path is '%s'", envpath);
 }
 
 
@@ -215,7 +217,7 @@ read_env_aux(const char *nm, struct hash **h)
 	    key_length = 0;
 	    while (c = *p++, is_alphanum(c)) {
 		if (count++ == buffer_size)
-		    error(FATAL, "%s: line %d: Exceeded max line size", nm,
+		    error(ERROR_FATAL, "%s: line %d: Exceeded max line size", nm,
 			  line_num);
 		key_length++;
 	    }
@@ -227,21 +229,21 @@ read_env_aux(const char *nm, struct hash **h)
 	    while (c == ' ' || c == '\t') {
 		c = *p++;
 		if (count++ == buffer_size) {
-		    error(FATAL, "%s: line %d: Exceeded max line size", nm,
+		    error(ERROR_FATAL, "%s: line %d: Exceeded max line size", nm,
 			  line_num);
 		}
 	    }
 
 	    /* sanity check */
 	    if (c == '\0') {
-		error(WARNING, "%s: line %d: No value assigned to key %s",
+		error(ERROR_WARNING, "%s: line %d: No value assigned to key %s",
 		      nm, line_num, key_start);
 		continue;
 	    }
 
 	    /* All values assigned to a key must be in quotes */
 	    if (c != '"') {
-		error(WARNING, "%s: line %d: Value assigned to key %s"
+		error(ERROR_WARNING, "%s: line %d: Value assigned to key %s"
 		       " must be quoted", nm, line_num, key_start);
 		continue;
 	    }
@@ -254,7 +256,7 @@ read_env_aux(const char *nm, struct hash **h)
 	    /* read the value, until the matching close quote */
 	    while (c = *p++, (c != '"' && c != '\n' && c != '\0')) {
 		if (count++ == buffer_size) {
-		    error(FATAL, "%s: line %d: Exceeded max line size", nm,
+		    error(ERROR_FATAL, "%s: line %d: Exceeded max line size", nm,
 			  line_num);
 		}
 
@@ -274,17 +276,17 @@ read_env_aux(const char *nm, struct hash **h)
 		    while (c = *p++, c != '>') {
 			esc_len++;
 			if (count++ == buffer_size) {
-			    error(FATAL, "%s: line %d: Exceeded max line size",
+			    error(ERROR_FATAL, "%s: line %d: Exceeded max line size",
 				  nm, line_num);
 			}
 
 			if (c == '\n' || c == '\0') {
-			    error(FATAL, "%s: line %d: Unmatched escape"
+			    error(ERROR_FATAL, "%s: line %d: Unmatched escape"
 				   " sequence, missing >", nm, line_num);
 			}
 
 			if (c == '<') {
-			    error(FATAL, "%s: line %d: Nested < > escape "
+			    error(ERROR_FATAL, "%s: line %d: Nested < > escape "
 				  " sequences prohibited",
 				  nm, line_num);
 			    continue;
@@ -327,7 +329,7 @@ read_env_aux(const char *nm, struct hash **h)
 		    line_len += diff;
 		    count += diff;
 		    if (count == buffer_size) {
-			error(FATAL, "%s: line %d: Exceeded max line size",
+			error(ERROR_FATAL, "%s: line %d: Exceeded max line size",
 			      nm, line_num);
 		    }
 
@@ -349,7 +351,7 @@ read_env_aux(const char *nm, struct hash **h)
 
 	    /* did we end the val scan on new line or EOF? */
 	    if (c == '\n' || c == '\0') {
-		error(WARNING, "%s: line %d: Value assigned to key %s"
+		error(ERROR_WARNING, "%s: line %d: Value assigned to key %s"
 		       " not terminated with end quote",
 		       nm, line_num, key_start);
 		continue;
@@ -405,7 +407,7 @@ read_env(const char *nm)
 
 	e = read_env_aux(nm, &envvars);
 	if (e == 1) {
-		error(WARNING, "Can't find environment, '%s'", nm);
+		error(ERROR_WARNING, "Can't find environment, '%s'", nm);
 	}
 }
 

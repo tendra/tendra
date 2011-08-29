@@ -81,39 +81,10 @@ extern char *buffer;
  * TODO these ought to use shared/ instead.
  */
 
-extern void error(int, char *, ...);
 extern void comment(int, char *, ...);
-extern void *xalloc(size_t);
-extern void *xrealloc(void *, size_t);
 extern char *string_append(const char *, const char *, char);
 extern char *string_copy(const char *);
 extern char *string_concat(const char *, const char *);
-
-
-/*
- * ERROR VARIABLES
- *
- * These variables are concerned with error reporting.
- */
-
-extern int exit_status;
-extern const char *progname;
-
-
-/*
- * ERROR TYPES
- *
- * These values give the severity levels for the error reporting routine,
- * error.
- */
-/* TODO enum */
-/* TODO: use shared/error instead */
-#define FATAL		0
-#define INTERNAL	1
-#define SERIOUS		2
-#define OPTION		3
-#define WARNING		4
-#define INFO		5
 
 
 /*
@@ -122,10 +93,7 @@ extern const char *progname;
  * These macros give convenient shorthands for various constructs.
  */
 
-/* XXX shouldn't cast to int here */
 #define alloc_size(T, N)	((N) * sizeof(T))
-#define alloc_nof(T, N)		xalloc(alloc_size(T, N))
-#define realloc_nof(P, T, N)	xrealloc((P), alloc_size(T, N))
 #define array_size(A)		(sizeof(A) / sizeof(A[0]))
 
 

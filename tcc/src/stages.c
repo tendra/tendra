@@ -60,6 +60,8 @@
 
 #include <string.h>
 
+#include "error.h"
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -189,7 +191,7 @@ uniq_filename(const char *nm, enum filetype t, int s, filename *input)
 				default:
 					break;
 				}
-				error(WARNING,
+				error(ERROR_WARNING,
 				      "Renaming %s '%s' to '%s' to avoid clash with input",
 				      m, p->name, q->name);
 			}

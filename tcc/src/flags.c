@@ -57,6 +57,8 @@
         it may be put.
 */
 
+#include "error.h"
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -301,7 +303,7 @@ set_stage(enum filetype t, int k)
 	if (t == ALL_TYPES) {
 		boolean ks = table_keep(STARTUP_FILE);
 		if (k == STOP_STAGE || k == STOP_ONLY_STAGE) {
-			error(WARNING, "Illegal stop option");
+			error(ERROR_WARNING, "Illegal stop option");
 		} else if (k == KEEP_STAGE) {
 			enum filetype i;
 			/* TODO rework this */
@@ -353,7 +355,7 @@ set_stage(enum filetype t, int k)
 			default:
 default_lab:
 				if (t != last_stop) {
-					error(WARNING, "More than one stop option given");
+					error(ERROR_WARNING, "More than one stop option given");
 				}
 				break;
 			}
@@ -482,25 +484,25 @@ update_options(void)
 	}
 	if (use_system_cc) {
 		if (!checker) {
-			error(WARNING, "Using the system C compiler");
+			error(ERROR_WARNING, "Using the system C compiler");
 		}
 		mode = "system compiler";
 	}
 	/* TODO there must be a nicer way to express this */
 	if (mode) {
 		if (make_archive) {
-			error(WARNING, "Can't build TDF archive in %s mode",
+			error(ERROR_WARNING, "Can't build TDF archive in %s mode",
 			      mode);
 			filetype_table[INDEP_TDF].stop = FTK_TC;
 			make_archive = 0;
 		}
 		if (make_complex) {
-			error(WARNING, "Can't build TDF complex in %s mode",
+			error(ERROR_WARNING, "Can't build TDF complex in %s mode",
 			      mode);
 			make_complex = 0;
 		}
 		if (make_pretty) {
-			error(WARNING, "Can't pretty print TDF in %s mode",
+			error(ERROR_WARNING, "Can't pretty print TDF in %s mode",
 			      mode);
 			filetype_table[INDEP_TDF].stop = FTK_TC;
 			make_pretty = 0;
@@ -541,7 +543,7 @@ update_options(void)
 
 	/* Print API information */
 	if (show_api) {
-		error(INFO, "API is %s", api_info);
+		printf("API is %s", api_info);
 		show_api = 0;
 	}
 

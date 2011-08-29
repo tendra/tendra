@@ -63,6 +63,9 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "error.h"
+#include "xalloc.h"
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -146,7 +149,7 @@ find_fullname(const char *s)
 		if (getcwd(buffer, buffer_size)) {
 			pwd = string_concat(buffer, "/");
 		} else {
-			error(WARNING,
+			error(ERROR_WARNING,
 			      "Can't determine current working directory");
 			pwd = "";
 		}
@@ -193,7 +196,7 @@ new_filename(void)
 	static filename *free_objs = NULL;
 	if (no_free == 0) {
 		no_free = 1000;
-		free_objs = alloc_nof(filename, (size_t) no_free);
+		free_objs = xmalloc_nof(filename, (size_t) no_free);
 	}
 	return free_objs + (--no_free);
 }
@@ -238,7 +241,7 @@ find_type_suffix(char s)
 
 	t = table_findbykey(s);
 	if (t == UNKNOWN_TYPE) {
-		error(SERIOUS, "Unknown file type, '%c'", s);
+		error(ERROR_SERIOUS, "Unknown file type, '%c'", s);
 		return UNKNOWN_TYPE;
 	}
 
@@ -275,12 +278,12 @@ find_type_stage(char s)
 	t = table_findbykey(s);
 
 	if (checker && !table_checker(t)) {
-		error(SERIOUS, "File type '%c' non-applicable for the checker", s);
+		error(ERROR_SERIOUS, "File type '%c' non-applicable for the checker", s);
 		return UNKNOWN_TYPE;
 	}
 
 	if (t == UNKNOWN_TYPE) {
-		error(SERIOUS, "Unknown file type, '%c'", s);
+		error(ERROR_SERIOUS, "Unknown file type, '%c'", s);
 		return UNKNOWN_TYPE;
 	}
 
@@ -369,7 +372,7 @@ file_suffix(int t)
 		}
 		return suff;
 	}
-	error(SERIOUS, "Illegal file type");
+	error(ERROR_SERIOUS, "Illegal file type");
 	return file_suffix(DEFAULT_TYPE);
 }
 
@@ -556,7 +559,7 @@ make_filename(filename *p, enum filetype t, enum file_storage s)
 		if (final_name) {
 			static boolean used_final_name = 0;
 			if (used_final_name) {
-				error(WARNING,
+				error(ERROR_WARNING,
 				      "Can only name one file with '-o'");
 			} else {
 				nm = final_name;

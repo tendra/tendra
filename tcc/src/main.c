@@ -64,6 +64,9 @@
 #include <unistd.h>
 #include <time.h>
 
+#include "error.h"
+#include "xalloc.h"
+
 #include "config.h"
 #include "external.h"
 #include "filename.h"
@@ -105,7 +108,7 @@
 void
 print_version(void)
 {
-	error(INFO, "%s%s, Machine: %s, Release: %s", VERSION_STRING,
+	printf("%s%s, Machine: %s, Release: %s", VERSION_STRING,
 	      (checker ? " (checker)" : ""), machine_name, RELEASE);
 	flag_no_files = 1;
 }
@@ -158,7 +161,7 @@ main_middle(void)
 {
 	tempdir = temp_mkdir(temporary_dir, progname);
 	if (tempdir == NULL) {
-		error(FATAL, "Can't create temporary directory");
+		error(ERROR_FATAL, "Can't create temporary directory");
 	}
 
 	made_tempdir = 1;
@@ -178,8 +181,8 @@ main_start(char *prog)
 
 	atexit(main_end);
 
-	buffer = alloc_nof(char, buffer_size);
-	progname = find_basename(prog);
+	buffer = xmalloc_nof(char, buffer_size);
+	set_progname(find_basename(prog), RELEASE);
 	IGNORE signal(SIGINT, handler);
 	IGNORE signal(SIGTERM, handler);
 
@@ -220,7 +223,7 @@ handler(int sig)
 
 	if (sig != SIGINT) {
 		const char *cmd = (last_command ? last_command : "unknown");
-		error(SERIOUS, "Caught signal %d in '%s'", sig, cmd);
+		error(ERROR_SERIOUS, "Caught signal %d in '%s'", sig, cmd);
 	}
 
 	exit_status = EXIT_FAILURE;
@@ -276,7 +279,7 @@ main(int argc, char **argv)
 		if (flag_no_files) {
 			main_end();
 		}
-		error(FATAL, "No input files specified");
+		error(ERROR_FATAL, "No input files specified");
 	}
 
 	/* Apply compilation */
@@ -286,7 +289,7 @@ main(int argc, char **argv)
 	/* Check for unprocessed files */
 	while (output != NULL) {
 		if (output->storage == INPUT_FILE) {
-			error(WARNING, "Input file '%s' not processed", output->name);
+			error(ERROR_WARNING, "Input file '%s' not processed", output->name);
 		}
 		output = output->next;
 	}

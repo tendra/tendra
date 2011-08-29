@@ -34,6 +34,8 @@
 #include <stdio.h>
 #include <limits.h>
 
+#include "error.h"
+
 #include "temp.h"
 #include "flags.h"
 #include "utility.h"
@@ -72,12 +74,12 @@ temp_retry(int *limit, char *buf, size_t sz, const char *dir, const char *prefix
 	/* TODO: stat() on dir */
 
 	if (*limit == RETRY_LIMIT) {
-		error(FATAL, "%s: Random temporary retry limit reached", dir);
+		error(ERROR_FATAL, "%s: Random temporary retry limit reached", dir);
 		return 0;
 	}
 
 	if (*limit == 10) {
-		error(WARNING, "%s: Random temporary space overcrowded", dir);
+		error(ERROR_WARNING, "%s: Random temporary space overcrowded", dir);
 	}
 
 	{
@@ -112,7 +114,7 @@ temp_mkdir(const char *dir, const char *prefix)
 		}
 	}
 
-	error(FATAL, "Can't create temporary directory: %s", buf);
+	error(ERROR_FATAL, "Can't create temporary directory: %s", buf);
 
 	return NULL;
 }
@@ -143,7 +145,7 @@ temp_fopen(char **out, const char *dir, const char *prefix)
 		}
 	}
 
-	error(FATAL, "Can't create temporary file: %s, buf");
+	error(ERROR_FATAL, "Can't create temporary file: %s, buf");
 
 	return NULL;
 }

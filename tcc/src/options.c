@@ -62,6 +62,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "error.h"
+#include "xalloc.h"
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -457,7 +460,7 @@ special_option(void)
 		return;
 	};
 
-	error(WARNING, "Unknown special option, '%s'", s);
+	error(ERROR_USAGE, "Unknown special option, '%s'", s);
 }
 
 
@@ -531,7 +534,7 @@ lookup_bool(const char *s)
 		}
 	}
 
-	error(OPTION, "Unknown boolean identifier, '%.2s'", s);
+	error(ERROR_USAGE, "Unknown boolean identifier, '%.2s'", s);
 	return NULL;
 }
 
@@ -676,7 +679,7 @@ lookup_list(const char *s)
 	case 'E':
 	case 'Q':
 	case 'O':
-		error(OPTION, "Unknown%s compilation stage, '%c'",
+		error(ERROR_USAGE, "Unknown%s compilation stage, '%c'",
 			checker ? "/non-checker" : "", s[1]);
 		return NULL;
 
@@ -684,7 +687,7 @@ lookup_list(const char *s)
 		break;
 	}
 
-	error(OPTION, "Unknown list identifier, '%.2s'", s);
+	error(ERROR_USAGE, "Unknown list identifier, '%.2s'", s);
 	return NULL;
 }
 
@@ -728,7 +731,7 @@ lookup_string(const char *s)
 		case PRETTY_TDF:   return &name_p_file;
 
 		default:
-			error(OPTION, "Unknown output file specifier, '%c'", s[1]);
+			error(ERROR_USAGE, "Unknown output file specifier, '%c'", s[1]);
 			return NULL;
 		}
 	}
@@ -757,7 +760,7 @@ lookup_string(const char *s)
 		}
 	}
 
-	error(OPTION, "Unknown string identifier, '%.2s'", s);
+	error(ERROR_USAGE, "Unknown string identifier, '%.2s'", s);
 	return NULL;
 }
 
@@ -824,7 +827,7 @@ lookup_proc(const char *s)
 		}
 	}
 
-	error(OPTION, "Unknown procedure identifier, '%.2s'", s);
+	error(ERROR_USAGE, "Unknown procedure identifier, '%.2s'", s);
 	return NULL;
 }
 
@@ -1113,7 +1116,7 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 
 	/* Debugging */
 	if (debug_options) {
-		error(OPTION, "Interpreting '%s'", cmd);
+		error(ERROR_USAGE, "Interpreting '%s'", cmd);
 	}
 
 	/* Deal with at-hack */
@@ -1270,7 +1273,7 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 			 * Only the value is user supplied and needs bounds checking.
 			 */
 			if (++count >= MAX_LINE) {
-				error(FATAL, "Exceeded maximum buffer length in -y argument\n");
+				error(ERROR_FATAL, "Exceeded maximum buffer length in -y argument\n");
 			}
 		}
 		*r++ ='\0';
@@ -1325,7 +1328,7 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 		char *s;
 		struct optmap *t;
 
-		error(INFO, "List of recognised options");
+		fprintf(stderr, "List of recognised options");
 
 		for (t = main_optmap; s = t->in, s != NULL; t++) {
 			char d;
@@ -1414,11 +1417,11 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 
 	/* Error */
 	case 'X':
-		error(WARNING, "%s", cmd + 1);
+		error(ERROR_USAGE, "%s", cmd + 1);
 		return;
 	}
 
-	error(OPTION, "Syntax error, '%s'", cmd);
+	error(ERROR_USAGE, "Syntax error, '%s'", cmd);
 }
 
 
@@ -1461,7 +1464,7 @@ process_options(list *opt, struct optmap *tab, int fast,
 					if (no_shuffle != 0 || fast == 1) {
 						interpret_cmd(res.argv[a], precedence);
 					} else {
-						ordered_node *dn = xalloc(sizeof(ordered_node));
+						ordered_node *dn = xmalloc(sizeof(ordered_node));
 						dn->rank = t->rank;
 						dn->cmd  = res.argv[a];
 						accum = insert_inorder(dn, accum);
@@ -1479,32 +1482,32 @@ process_options(list *opt, struct optmap *tab, int fast,
 
 			case MATCH_IN_ERR:
 				/* Error in optmap input */
-				error(OPTION, "Illegal input '%s'", t->in);
+				error(ERROR_USAGE, "Illegal input '%s'", t->in);
 				status = MATCH_FAILED;
 				break;
 
 			case MATCH_OUT_ERR:
 				/* Error in optmap output */
-				error(OPTION, "Illegal option '%s'", t->out);
+				error(ERROR_USAGE, "Illegal option '%s'", t->out);
 				status = MATCH_FAILED;
 				break;
 
 			case MATCH_OPT_ERR:
 				/* Ran out of space for result */
-				error(OPTION, "Too many components, '%s'", arg);
+				error(ERROR_USAGE, "Too many components, '%s'", arg);
 				status = MATCH_FAILED;
 				break;
 			}
 		}
 
-		error(OPTION, "Can't interpret '%s'", arg);
+		error(ERROR_USAGE, "Can't interpret '%s'", arg);
 end_search:
 		;
 	}
 
 	/* Check for incomplete options */
 	if (status == MATCH_MORE) {
-		error(WARNING, "Option '%s' is incomplete", arg);
+		error(ERROR_USAGE, "Option '%s' is incomplete", arg);
 	}
 
 	/* if the no_shuffle flag is unset, we have order cmds to run */

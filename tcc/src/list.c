@@ -60,6 +60,8 @@
 
 #include <stddef.h>
 
+#include "xalloc.h"
+
 #include "list.h"
 #include "utility.h"
 
@@ -94,7 +96,7 @@ new_list(void)
 
 	if (no_free == 0) {
 		no_free = 1000;
-		free_objs = alloc_nof(list, no_free);
+		free_objs = xmalloc_nof(list, no_free);
 	}
 
 	return free_objs + (--no_free);

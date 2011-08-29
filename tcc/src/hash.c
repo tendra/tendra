@@ -67,6 +67,9 @@
 #include <stdarg.h>
 #include <errno.h>
 
+#include "error.h"
+#include "xalloc.h"
+
 #include "utility.h"
 #include "environ.h"
 #include "flags.h"
@@ -101,7 +104,7 @@ reconcile_envopts(const struct hash *h)
 	 * verbose being set.
 	 */
 	if (environ_count == 0)
-		error(WARNING, "not invoked with any -Y env arguments");
+		error(ERROR_USAGE, "not invoked with any -Y env arguments");
 
 	/*
 	 * If the global env table is NULL, no -Y args succeeded, or none were
@@ -109,7 +112,7 @@ reconcile_envopts(const struct hash *h)
 	 */
 	/* TODO: this needs reworking, now; it cannot happen
 	if (environ_hashtable == NULL)
-		error(FATAL, "failed to load any environment files");
+		error(ERROR_FATAL, "failed to load any environment files");
 	*/
 
 	if (!verbose) {
@@ -118,7 +121,7 @@ reconcile_envopts(const struct hash *h)
 
 	for (n = h; n != NULL; n = n->next) {
 		if ((h->flag & HASH_USR) && !(h->flag & HASH_READ)) {
-			error(WARNING,
+			error(ERROR_WARNING,
 			    "%s, line %d: environment option %s declared"
 			    " but never used", h->file, h->line_num, h->name);
 		}
@@ -131,12 +134,12 @@ reconcile_envopts(const struct hash *h)
 			struct stat sb;
 
 			if (stat(n->value, &sb) == -1) {
-				error(SERIOUS, "%s: %s", n->value, strerror(errno));
+				error(ERROR_SERIOUS, "%s: %s", n->value, strerror(errno));
 				return;
 			}
 
 			if (!S_ISDIR(sb.st_mode)) {
-				error(SERIOUS, "%s expected to be a directory");
+				error(ERROR_SERIOUS, "%s expected to be a directory");
 				return;
 			}
 		}
@@ -183,7 +186,7 @@ envvar_set(struct hash **h, const char *name, const char *value,
 
 	/* Case 1.  Node was not found; push */
 	if (n == NULL) {
-		n = xalloc(sizeof *n);
+		n = xmalloc(sizeof *n);
 
 		n->flag       = option_istccopt(name) ? 0 : HASH_USR;
 		n->name       = string_copy(name);
@@ -222,7 +225,7 @@ envvar_set(struct hash **h, const char *name, const char *value,
 		break;
 
 	default:
-		error(FATAL, "Attempt to update hash with invalid order %d\n",
+		error(ERROR_FATAL, "Attempt to update hash with invalid order %d\n",
 			(int) order);
 	}
 }
@@ -281,7 +284,7 @@ envvar_dereference(struct hash *h, const char *name, char *end,
 
 	if (n == NULL) {
 		/* TODO: %.*s based on *end */
-		error(FATAL, "Undefined variable <%s> in %s line %d",
+		error(ERROR_FATAL, "Undefined variable <%s> in %s line %d",
 			  name, nm, line_num);
 	}
 
