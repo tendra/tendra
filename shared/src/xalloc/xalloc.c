@@ -68,6 +68,11 @@
 /* XXX: needed for xmalloc_nof and other macros */
 #include "xalloc.h"
 
+/* SIZE_MAX is not in C90 */
+#ifndef SIZE_MAX
+# define SIZE_MAX ((size_t) -1)
+#endif
+
 extern const char* progname;
 
 /*
