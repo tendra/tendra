@@ -297,5 +297,5 @@ main(int argc, char **argv)
 	/* Exit from program */
 	main_end();
 
-	return 0;
+	return exit_status;
 }
