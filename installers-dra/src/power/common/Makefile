@@ -27,6 +27,7 @@ SRCS+=	locate.c
 SRCS+=	machine.c
 SRCS+=	machine_toks.c
 SRCS+=	macro.c
+SRCS+=	main.c
 SRCS+=	makecode.c
 SRCS+=	mask.c
 SRCS+=	mem_copy.c

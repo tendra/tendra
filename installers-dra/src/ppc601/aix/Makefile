@@ -8,6 +8,7 @@
 # note power/, not ppc601/
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared/error
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared/xalloc
+PART_CFLAGS+=	-I ${BASE_DIR}/src/common/linkinfo
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/aix
 
@@ -21,20 +22,6 @@ PARTS+=	src/common/reader
 PARTS+=	src/power/common
 
 .include <tendra.partial.mk>
-
-
-CFLAGS+=	-I ../../common/shared/error
-CFLAGS+=	-I ../../common/shared/xalloc
-CFLAGS+=	-I ../../common/construct
-CFLAGS+=	-I ../../common/diag
-CFLAGS+=	-I ../../common/linkinfo
-CFLAGS+=	-I ../../common/reader
-CFLAGS+=	-I ../../power/common
-CFLAGS+=	-I .
-
-SRCS+=  main.c
-
-.include <tendra.obj.mk>
 
 
 PROG=    	trans.${.CURDIR:H:T}.${.CURDIR:T}

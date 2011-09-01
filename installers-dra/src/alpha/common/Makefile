@@ -35,6 +35,7 @@ SRCS+=	labels.c
 SRCS+=	locate.c
 SRCS+=	machine.c
 SRCS+=	machine_toks.c
+SRCS+=	main.c
 SRCS+=	makesymtab.c
 SRCS+=	move.c
 SRCS+=	oddtest.c

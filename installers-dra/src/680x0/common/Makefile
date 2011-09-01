@@ -20,6 +20,7 @@ SRCS+=	inliner.c
 SRCS+=	instr.c
 SRCS+=	mach_ins.c
 SRCS+=	mach_op.c
+SRCS+=	main.c
 SRCS+=	ops_float.c
 SRCS+=	ops_int.c
 SRCS+=	ops_logic.c

@@ -119,14 +119,14 @@ FILE * as_file;
 FILE * ba_file;
 
 int   majorno = 3;
-int   minorno = 0;
+int   minorno = 18;
 
 long  currentfile = -1;		/* our source fileno 0.. */
 long  mainfile = 0;		/* would be best if it  actually contained
 				   main ! */
 bool BIGEND = (little_end == 0);
 
-bool do_tlrecursion = 1;
+bool do_tlrecursion = 0;
 
 bool opt
 (char c)
@@ -144,7 +144,7 @@ int   main
   bool withs = 0;
   bool no_opts = 0;
   bool override_diags = 0;
-/*  bool show_size = 0; */
+  PIC_code = 0;
 
   as_file = (FILE *)0;
   do_inlining = 1;
@@ -153,17 +153,13 @@ int   main
   do_extern_adds = 0;
 
 
-  flpt_const_overflow_fail = 1; /* HUGEVAL requires 0 for Ysystem */
+  flpt_const_overflow_fail = 0; /* HUGEVAL requires 0 for Ysystem */
 
   do_foralls = 1;
-  do_alloca = 1;
+  do_alloca = 0;
   for (i = 1; argv[i][0] == '-'; ++i) {/* read flags */
     char *s = argv[i];
     switch (s[1]) {
-/*      case '?':
-	show_size = 1;
-	break;
-*/
       case 'A':
 	do_alloca = opt(s[2]);
 	break;
@@ -174,8 +170,8 @@ int   main
 	do_loopconsts = opt(s[2]);
 	break;
       case 'D':
-	failer("No PIC code available");
-	exit(EXIT_FAILURE);
+	PIC_code = opt(s[2]);
+	break;
       case 'E':
         extra_checks = 0;
         break;
@@ -196,7 +192,7 @@ int   main
 	do_inlining = opt(s[2]);
         break;
       case 'K':
-	/* only MIPS ultrix */
+	/* only MIPS */
 	break;
       case 'M':
 	strict_fl_div = (opt(s[2]) == 0);
@@ -232,7 +228,7 @@ int   main
 
 		if (s[ind]!= '.') {
 		  fprintf(stderr,
-                "DRA TDF Mips Ultrix (as:3.x) translator %d.%d: (TDF version %d.%d)\n",
+                "DRA TDF Mips (as:3.x) translator %d.%d: (TDF version %d.%d); 30th June 1994\n",
                  mipstrans_version,mipstrans_revision, MAJOR_VERSION, MINOR_VERSION);
                  fprintf(stderr, "reader %d.%d: \n", reader_version,
 		 reader_revision);
@@ -275,17 +271,10 @@ int   main
     };
   };
 
-#ifdef V210
-	if (majorno != 2) {
-		printf("This translator is only for ULTRIX versions 2.x\n");
+	if (do_alloca && PIC_code) {
+		failer("Can't do inline alloca with PIC code at the moment");
 		exit(EXIT_FAILURE);
 	}
-#else
-	if (majorno == 2) {
-		printf("This translator is not for ULTRIX versions 2.x\n");
-		exit(EXIT_FAILURE);
-	}
-#endif
 
   if (override_diags)diagnose = 0;
   if (diagnose || no_opts) {		/* line numbering goes to hell with
@@ -338,11 +327,6 @@ int   main
 
 
   d_capsule();
-/*
-  if (show_size) {
-	printf("bytes allocated = %d\n", bytes_allocated);
-  }
-*/
 
 
 

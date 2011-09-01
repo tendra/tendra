@@ -20,8 +20,6 @@ PARTS+=	src/mips/common
 .include <tendra.partial.mk>
 
 
-CFLAGS+=	-I ../../common/shared/error
-CFLAGS+=	-I ../../common/shared/xalloc
 CFLAGS+=	-I ../../common/construct
 CFLAGS+=	-I ../../common/diag
 CFLAGS+=	-I ../../common/linkinfo
@@ -29,7 +27,6 @@ CFLAGS+=	-I ../../common/reader
 CFLAGS+=	-I ../common
 CFLAGS+=	-I .
 
-SRCS+=	main.c
 SRCS+=	out_ba.c
 
 .include <tendra.obj.mk>

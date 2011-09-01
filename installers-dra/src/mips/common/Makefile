@@ -23,6 +23,7 @@ SRCS+=	labels.c
 SRCS+=	locate.c
 SRCS+=	machine.c
 SRCS+=	machine_toks.c
+SRCS+=	main.c
 SRCS+=	makesymtab.c
 SRCS+=	mips_ins.c
 SRCS+=	mipsdiags.c
