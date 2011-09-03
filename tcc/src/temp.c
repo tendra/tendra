@@ -45,10 +45,6 @@
 
 #define RETRY_LIMIT 100
 
-#ifndef PATH_MAX
-#define PATH_MAX _POSIX_PATH_MAX
-#endif
-
 static void
 temp_generateid(char *s, size_t z)
 {
@@ -101,7 +97,7 @@ temp_retry(int *limit, char *buf, size_t sz, const char *dir, const char *prefix
 const char *
 temp_mkdir(const char *dir, const char *prefix)
 {
-	char buf[PATH_MAX];
+	char buf[FILENAME_MAX];
 	int l;
 
 	for (l = 0; temp_retry(&l, buf, sizeof buf, dir, prefix); l++) {
@@ -127,7 +123,7 @@ temp_mkdir(const char *dir, const char *prefix)
 FILE *
 temp_fopen(char **out, const char *dir, const char *prefix)
 {
-	char buf[PATH_MAX];
+	char buf[FILENAME_MAX];
 	int l;
 
 	for (l = 0; temp_retry(&l, buf, sizeof buf, dir, prefix); l++) {

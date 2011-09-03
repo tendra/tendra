@@ -63,6 +63,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <limits.h>
 
 #include "error.h"
 
@@ -74,13 +75,6 @@
 #include "flags.h"
 #include "options.h"
 #include "utility.h"
-
-
-/*
- * XXX: Define PATH_MAX for move_file() until we've figured out that annoying
- * XXX: posix api stuff
- */
-#define PATH_MAX (1024)
 
 
 /*
@@ -322,7 +316,7 @@ remove_recursive(const char *nm)
 	if (S_ISDIR((mode_t)st.st_mode)) {
 		DIR *d;
 		struct dirent *de;
-		char buf[PATH_MAX];
+		char buf[FILENAME_MAX];
 
 		if ((d = opendir(nm)) == NULL) {
 			error(ERROR_SERIOUS, "Can't open directory '%s'", nm);
@@ -334,7 +328,7 @@ remove_recursive(const char *nm)
 			    strcmp(de->d_name, "..") == 0)
 				continue;
 
-			if (strlen(nm) + 1 + strlen(de->d_name) >= PATH_MAX) {
+			if (strlen(nm) + 1 + strlen(de->d_name) >= FILENAME_MAX) {
 				error(ERROR_SERIOUS, "Path too long");
 				return 1;
 			}
