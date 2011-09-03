@@ -255,7 +255,11 @@ start_make_linkinfo_unit(int no_of_tokens, int no_of_tags, int no_of_als,
 	}
 
 	unit_no_of_als = no_of_als;
-	unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+	if (unit_no_of_als == 0) {
+		unit_ind_als = NULL;
+	} else {
+		unit_ind_als = (aldef **)xcalloc(unit_no_of_als, sizeof(aldef *));
+	}
 	for (i = 0; i < unit_no_of_als; ++i) {
 		unit_ind_als[i] = (aldef *)0;
 	}
