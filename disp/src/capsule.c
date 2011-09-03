@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "capsule.h"
@@ -337,7 +339,7 @@ de_capsule(void)
 	    out("EQUATION TYPES");
 	    blank_line();
 	}
-	eqn_types = alloc_nof(string, no_eqn);
+	eqn_types = xmalloc_nof(string, no_eqn);
 	for (i = 0; i < no_eqn; i++) {
 	    string s = de_tdfstring_align();
 	    eqn_types[i] = s;
@@ -358,9 +360,9 @@ de_capsule(void)
 	    out("VARIABLE TYPES");
 	    blank_line();
 	}
-	var_types = alloc_nof(string, no_var);
-	var_letters = alloc_nof(char, no_var + 1);
-	var_count = alloc_nof(long, no_var);
+	var_types = xmalloc_nof(string, no_var);
+	var_letters = xmalloc_nof(char, no_var + 1);
+	var_count = xmalloc_nof(long, no_var);
 	var_letters[no_var] = 0;
 
 	for (i = 0; i < no_var; i++) {

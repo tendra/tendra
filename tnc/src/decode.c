@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "check.h"
@@ -141,7 +143,7 @@ de_token(node *p, sortname s)
 	} else if (n == ENC_use_tokdef) {
 		char *nm;
 		t = make_construct(SORT_token);
-		nm = alloc_nof(char, 32);
+		nm = xmalloc_nof(char, 32);
 		(void) sprintf(nm, "~~token_%ld", t->encoding);
 		t->name = nm;
 		if (add_to_var_hash(t, SORT_token))
@@ -345,7 +347,7 @@ de_node(char *str)
 					char *s;
 
 					n = tdf_int();
-					s = alloc_nof(char, n + 1);
+					s = xmalloc_nof(char, n + 1);
 					p = new_node();
 					p->cons = new_construct();
 					p->cons->sortnum = SORT_tdfstring;
@@ -395,7 +397,7 @@ de_node(char *str)
 
 				n = tdf_int();
 				byte_align();
-				s = alloc_nof(char, n + 1);
+				s = xmalloc_nof(char, n + 1);
 				p = new_node();
 				p->cons = new_construct();
 				p->cons->sortnum = SORT_tdfstring;

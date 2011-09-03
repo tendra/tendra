@@ -59,6 +59,8 @@
 
 #include <string.h>
 
+#include "error/error.h"
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"
@@ -225,7 +227,7 @@ print_head(FILE *output, type *t, int sp, int tok)
 	}
 	default : {
 	    /* Unknown types */
-	    error(ERR_INTERNAL, "Unknown type identifier, '%d'", t->id);
+	    error(ERROR_INTERNAL, "Unknown type identifier, '%d'", t->id);
 	    break;
 	}
     }
@@ -567,7 +569,7 @@ print_token_type(FILE *output, object *p, char *tnm)
 
 	default : {
 	    /* Other types */
-	    error(ERR_INTERNAL, "Unknown type identifier, '%d'", i);
+	    error(ERROR_INTERNAL, "Unknown type identifier, '%d'", i);
 	    break;
 	}
     }
@@ -738,7 +740,7 @@ print_token(FILE *output, object *p, char *tnm)
 
 	default : {
 	    /* Unknown objects */
-	    error(ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
+	    error(ERROR_INTERNAL, "Unknown object type, '%d'", p->objtype);
 	    break;
 	}
     }
@@ -960,7 +962,7 @@ print_interface(FILE *output, object *p, ifcmd *ifs)
 
 	default : {
 	    /* Unknown objects */
-	    error(ERR_INTERNAL, "Unknown object type, '%d'", p->objtype);
+	    error(ERROR_INTERNAL, "Unknown object type, '%d'", p->objtype);
 	    nm = NULL;
 	    break;
 	}
@@ -1135,7 +1137,7 @@ print_object(FILE *output, object *input, int pass)
 	    default : {
 		/* Unknown objects */
 		char *err = "Unknown object type, '%d'";
-		error(ERR_INTERNAL, err, p->objtype);
+		error(ERROR_INTERNAL, err, p->objtype);
 		break;
 	    }
 	}
@@ -1241,7 +1243,7 @@ print_set(object *input, int pass)
 	    output = fopen(nm, "w");
 	    q->u.u_file = output;
 	    if (output == NULL) {
-		error(ERR_SERIOUS, "Can't open output file, %s", nm);
+		error(ERROR_SERIOUS, "Can't open output file, %s", nm);
 		return;
 	    }
 	}
@@ -1258,14 +1260,14 @@ print_set(object *input, int pass)
 		    FILE *f = fopen(copyright, "r");
 		    if (f == NULL) {
 			char *err = "Can't open copyright file, %s";
-			error(ERR_SERIOUS, err, copyright);
+			error(ERROR_SERIOUS, err, copyright);
 			copyright_text = "";
 		    } else {
 			int c, j = 0;
 			while (c = getc(f), c != EOF) {
 			    buffer [j] = (char)c;
 			    if (++j >= buffsize) {
-				error(ERR_SERIOUS, "Copyright too long");
+				error(ERROR_SERIOUS, "Copyright too long");
 				break;
 			    }
 			}
@@ -1334,7 +1336,7 @@ print_set(object *input, int pass)
 		if (i->block) {
 		    char *dir;
 		    dir = "\n#pragma TenDRA declaration block end\n";
-		    OUT(output, dir);
+		    OUT(output, "%s", dir);
 		}
 		if (i->nspace) {
 		    if (is_cpplus) {

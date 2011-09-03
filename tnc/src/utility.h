@@ -67,7 +67,6 @@
 */
 
 extern boolean is_fatal;
-extern int exit_status;
 extern boolean text_input, text_output;
 
 void fatal_error(char *, ...);
@@ -79,8 +78,6 @@ void warning(char *, ...);
     MEMORY ALLOCATION ROUTINES
 */
 
-void *xalloc(int);
-void *xrealloc(void *, int);
 char *string_copy(char *, int);
 char *temp_copy(char *);
 
@@ -88,13 +85,6 @@ char *temp_copy(char *);
 /*
     MACROS FOR ADDRESSING MEMORY ALLOCATION ROUTINES
 */
-
-#define alloc_nof(TYPE, NO)\
-   ((TYPE *)xalloc(((int)(NO)*(int)sizeof(TYPE))))
-
-#define realloc_nof(PTR, TYPE, NO)\
-   ((TYPE *)xrealloc((PTR),\
-     ((int)(NO)*(int)sizeof(TYPE))))
 
 #define string_copy_aux(STR)\
     string_copy((STR), (int)strlen(STR))

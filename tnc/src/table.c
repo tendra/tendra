@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "help.h"
@@ -187,7 +189,7 @@ new_sort(sortname s, int sz)
 {
 	int i;
 
-	construct *p = alloc_nof(construct, sz);
+	construct *p = xmalloc_nof(construct, sz);
 
 	for (i = 0; i < sz; i++) {
 		(p + i)->sortnum = s;
@@ -266,20 +268,20 @@ init_tables(void)
 	int i;
 
 	/* Allocate tables */
-	cons_table = alloc_nof(construct *, SORT_no);
-	cons_sizes = alloc_nof(int, SORT_no);
-	cons_hash_tables = alloc_nof(construct *, SORT_no * hash_size);
-	var_table = alloc_nof(construct *, SORT_no);
-	var_hash_tables = alloc_nof(construct *, SORT_no * hash_size);
-	sort_count = alloc_nof(long, SORT_no);
-	sort_letters = alloc_nof(char, SORT_no + 1);
-	sort_encoding = alloc_nof(int, SORT_no);
-	sort_extension = alloc_nof(int, SORT_no);
-	sort_tokens = alloc_nof(long, SORT_no);
-	sort_conds = alloc_nof(long, SORT_no);
-	sort_removed = alloc_nof(long, SORT_no);
-	sort_decode = alloc_nof(decode_func, SORT_no);
-	sort_read = alloc_nof(read_func, SORT_no);
+	cons_table = xmalloc_nof(construct *, SORT_no);
+	cons_sizes = xmalloc_nof(int, SORT_no);
+	cons_hash_tables = xmalloc_nof(construct *, SORT_no * hash_size);
+	var_table = xmalloc_nof(construct *, SORT_no);
+	var_hash_tables = xmalloc_nof(construct *, SORT_no * hash_size);
+	sort_count = xmalloc_nof(long, SORT_no);
+	sort_letters = xmalloc_nof(char, SORT_no + 1);
+	sort_encoding = xmalloc_nof(int, SORT_no);
+	sort_extension = xmalloc_nof(int, SORT_no);
+	sort_tokens = xmalloc_nof(long, SORT_no);
+	sort_conds = xmalloc_nof(long, SORT_no);
+	sort_removed = xmalloc_nof(long, SORT_no);
+	sort_decode = xmalloc_nof(decode_func, SORT_no);
+	sort_read = xmalloc_nof(read_func, SORT_no);
 
 	/* Clear out tables */
 	for (i = 0; i < SORT_no; i++) {

@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "read_types.h"
@@ -469,7 +471,7 @@ read_toksort(tok_info *info, boolean def)
 	    if (def) {
 		/* Store formal arguments */
 		int i, n = no_args;
-		info->pars = alloc_nof(construct *, n + 1);
+		info->pars = xmalloc_nof(construct *, n + 1);
 		for (i = 0; i < n; i++)info->pars[i] = cons_buff[i];
 		info->pars[n] = null;
 	    }

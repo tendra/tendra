@@ -58,6 +58,9 @@
 */
 
 
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"
@@ -82,7 +85,7 @@ make_object(char *nm, int t)
     p->objtype = t;
     p->next = NULL;
     p->filename = filename;
-    p->line_no = line_no;
+    p->line_no = crt_line_no;
     return p;
 }
 

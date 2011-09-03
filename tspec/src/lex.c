@@ -58,6 +58,9 @@
 */
 
 
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"
@@ -135,7 +138,7 @@ read_char(void)
     int c = input_pending;
     if (c == LEX_EOF) {
 	c = fgetc(input_file);
-	if (c == '\n')line_no++;
+	if (c == '\n')crt_line_no++;
 	if (c == EOF) return LEX_EOF;
 	c &= 0xff;
     } else {
@@ -206,7 +209,7 @@ read_identifier(int a, int b, int pp)
 	if (!is_alphanum(lookup_char(c)))break;
 	s [i] = (char)c;
 	if (++i >= buffsize) {
-	    error(ERR_SERIOUS, "Identifier too long");
+	    error(ERROR_SERIOUS, "Identifier too long");
 	    i = 1;
 	}
     }
@@ -226,7 +229,7 @@ read_identifier(int a, int b, int pp)
     if (a == '+') {
 	/* Commands */
 	if (!pp)token_value = string_copy(s);
-	error(ERR_SERIOUS, "Unknown command, '%s'", s);
+	error(ERROR_SERIOUS, "Unknown command, '%s'", s);
 	return lex_name;
     }
     token_value = string_concat(HIDDEN_NAME, s + 1);
@@ -253,7 +256,7 @@ read_number(int a, int pp)
 	if (!is_digit(lookup_char(c)))break;
 	s [i] = (char)c;
 	if (++i >= buffsize) {
-	    error(ERR_SERIOUS, "Number too long");
+	    error(ERROR_SERIOUS, "Number too long");
 	    i = 0;
 	}
     }
@@ -305,14 +308,14 @@ read_string(int pp)
 	} else if (c == '\n' || c == LEX_EOF) {
 	    /* Deal with new lines */
 	    new_line : {
-		error(ERR_SERIOUS, "New line in string");
+		error(ERROR_SERIOUS, "New line in string");
 		s [i] = 0;
 		return lex_string;
 	    }
 	}
 	s [i] = (char)c;
 	if (++i >= buffsize) {
-	    error(ERR_SERIOUS, "String too long");
+	    error(ERROR_SERIOUS, "String too long");
 	    i = 0;
 	}
     }
@@ -351,7 +354,7 @@ read_insert(int pp)
 	if (percents < buffsize) {
 	    for (i = 0; i < percents; i++)s [i] = '%';
 	} else {
-	    error(ERR_SERIOUS, "Insert too long");
+	    error(ERROR_SERIOUS, "Insert too long");
 	}
     }
     do {
@@ -360,14 +363,14 @@ read_insert(int pp)
 	    p++;
 	} else {
 	    if (c == LEX_EOF) {
-		error(ERR_SERIOUS, "End of file in quoted text");
+		error(ERROR_SERIOUS, "End of file in quoted text");
 		return lex_eof;
 	    }
 	    p = 0;
 	}
 	s [i] = (char)c;
 	if (++i >= buffsize) {
-	    error(ERR_SERIOUS, "Insert too long");
+	    error(ERROR_SERIOUS, "Insert too long");
 	    i = 0;
 	}
     } while (p != percents);
@@ -425,12 +428,12 @@ read_c_comment(int pp)
 	    p = 0;
 	}
 	if (c == LEX_EOF) {
-	    error(ERR_SERIOUS, "End of file in comment");
+	    error(ERROR_SERIOUS, "End of file in comment");
 	    return lex_eof;
 	}
 	s [i] = (char)c;
 	if (++i >= buffsize) {
-	    error(ERR_SERIOUS, "Comment too long");
+	    error(ERROR_SERIOUS, "Comment too long");
 	    i = 2;
 	}
     } while (p != 2);
@@ -458,7 +461,7 @@ read_comment(int pp)
     int c;
     while (c = read_char(), c != '\n') {
 	if (c == LEX_EOF) {
-	    error(ERR_SERIOUS, "End of file in comment");
+	    error(ERROR_SERIOUS, "End of file in comment");
 	    return lex_eof;
 	}
     }
@@ -555,7 +558,7 @@ read_pp_string(char **str, int *b)
 	c = read_pptoken(1);
     }
     if (c != lex_string) {
-	error(ERR_SERIOUS, "Syntax error - string expected");
+	error(ERROR_SERIOUS, "Syntax error - string expected");
 	*str = "???";
 	return c;
     }
@@ -563,7 +566,7 @@ read_pp_string(char **str, int *b)
     c = read_pptoken(1);
     if (*b) {
 	if (c != lex_close_Hround) {
-	    error(ERR_SERIOUS, "Syntax error - ')' expected");
+	    error(ERROR_SERIOUS, "Syntax error - ')' expected");
 	}
 	c = read_pptoken(1);
     }
@@ -611,7 +614,7 @@ print_posn(FILE *output)
 	IGNORE fprintf(output, "$FILE = \"%s\" ;\n", filename);
 	last_filename = filename;
     }
-    IGNORE fprintf(output, "$LINE = %d ;\n", line_no - 1);
+    IGNORE fprintf(output, "$LINE = %d ;\n", crt_line_no - 1);
     return;
 }
 
@@ -637,12 +640,12 @@ preproc_subfile(FILE *output, char *cmd)
 	int d = 0;
 	c = read_pp_string(&file, &d);
 	if (d) {
-	    error(ERR_SERIOUS, "Illegally bracketed string");
+	    error(ERROR_SERIOUS, "Illegally bracketed string");
 	    d = 0;
 	}
 	if (c == lex_comma) {
 	    c = read_pp_string(&subset, &d);
-	    if (d)error(ERR_SERIOUS, "Illegally bracketed string");
+	    if (d)error(ERROR_SERIOUS, "Illegally bracketed string");
 	}
 	if (*file == 0)file = NULL;
     }
@@ -651,7 +654,7 @@ preproc_subfile(FILE *output, char *cmd)
     } else if (c == lex_open_Hround) {
 	txt = '(';
     } else {
-	error(ERR_SERIOUS, "Syntax error - ';' or '(' expected");
+	error(ERROR_SERIOUS, "Syntax error - ';' or '(' expected");
 	txt = ';';
     }
     preproc(output, api, file, subset);
@@ -693,9 +696,9 @@ preproc(FILE *output, char *api, char *file, char *subset)
     p = search_hash(subsets, sn, no_version);
     if (p != NULL) {
 	if (p->u.u_info == NULL) {
-	    error(ERR_SERIOUS, "Recursive inclusion of '%s'", sn);
+	    error(ERROR_SERIOUS, "Recursive inclusion of '%s'", sn);
 	} else if (p->u.u_info->implemented) {
-	    error(ERR_SERIOUS, "Set '%s' not found", sn);
+	    error(ERROR_SERIOUS, "Set '%s' not found", sn);
 	}
 	return;
     }
@@ -726,7 +729,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 	input = fopen(nm, "r");
 	if (input == NULL) {
 	    char *err = "Set '%s' not found (can't find file %s)";
-	    error(ERR_SERIOUS, err, sn, nm);
+	    error(ERROR_SERIOUS, err, sn, nm);
 	    p = make_object(sn, OBJ_SUBSET);
 	    IGNORE add_hash(subsets, p, no_version);
 	    p->u.u_info = make_info(api, file, subset);
@@ -742,11 +745,11 @@ preproc(FILE *output, char *api, char *file, char *subset)
 	}
     }
     old_filename = filename;
-    old_line_no = line_no;
+    old_line_no = crt_line_no;
     old_file = input_file;
     old_pending = input_pending;
-    filename = nm;
-    line_no = 1;
+	set_filename(nm);
+    crt_line_no = 1;
     input_file = input;
     input_pending = LEX_EOF;
     p = make_object(sn, OBJ_SUBSET);
@@ -765,13 +768,13 @@ preproc(FILE *output, char *api, char *file, char *subset)
 		/* Deal with subsets */
 		int d = 0;
 		c = read_pp_string(&s, &d);
-		if (d)error(ERR_SERIOUS, "Illegally bracketed string");
+		if (d)error(ERROR_SERIOUS, "Illegally bracketed string");
 		if (c != lex_assign) {
-		    error(ERR_SERIOUS, "Syntax error - ':=' expected");
+		    error(ERROR_SERIOUS, "Syntax error - ':=' expected");
 		}
 		c = read_pptoken(1);
 		if (c != lex_open_Hbrace) {
-		    error(ERR_SERIOUS, "Syntax error - '{' expected");
+		    error(ERROR_SERIOUS, "Syntax error - '{' expected");
 		}
 		brackets++;
 		if (printing) {
@@ -788,25 +791,25 @@ preproc(FILE *output, char *api, char *file, char *subset)
 			    brackets--;
 			} else if (c == lex_eof) {
 			    char *err = "Can't find end of subset '%s'";
-			    error(ERR_SERIOUS, err, s);
+			    error(ERROR_SERIOUS, err, s);
 			    goto end_of_file;
 			}
 		    } while (brackets >= b);
 		    c = read_pptoken(1);
 		    if (c != lex_semicolon) {
-			error(ERR_SERIOUS, "Syntax error - ';' expected");
+			error(ERROR_SERIOUS, "Syntax error - ';' expected");
 		    }
 		    print_posn(output);
 		} else {
 		    if (strcmp(s, subset) == 0) {
 			if (found) {
 			    char *err = "Set '%s' already defined (line %d)";
-			    error(ERR_SERIOUS, err, sn, p->line_no);
+			    error(ERROR_SERIOUS, err, sn, p->line_no);
 			} else {
 			    found = 1;
 			    printing = 1;
 			    print_posn(output);
-			    p->line_no = line_no;
+			    p->line_no = crt_line_no;
 			    end_brackets = brackets;
 			}
 		    }
@@ -828,7 +831,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 
 	    case lex_set: {
 		/* Deal with sets */
-		error(ERR_SERIOUS, "+SET directive in preprocessor");
+		error(ERROR_SERIOUS, "+SET directive in preprocessor");
 		goto default_lab;
 	    }
 
@@ -842,10 +845,10 @@ preproc(FILE *output, char *api, char *file, char *subset)
 
 	    case lex_else: {
 		if (if_depth == 0) {
-		    error(ERR_SERIOUS, "+ELSE without +IF");
+		    error(ERROR_SERIOUS, "+ELSE without +IF");
 		} else {
 		    if (else_depth) {
-			error(ERR_SERIOUS, "Duplicate +ELSE");
+			error(ERROR_SERIOUS, "Duplicate +ELSE");
 		    }
 		    else_depth = 1;
 		}
@@ -854,7 +857,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 
 	    case lex_endif: {
 		if (if_depth == 0) {
-		    error(ERR_SERIOUS, "+ENDIF without +IF");
+		    error(ERROR_SERIOUS, "+ENDIF without +IF");
 		} else {
 		    if_depth--;
 		}
@@ -880,7 +883,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 		/* End of subset */
 		brackets--;
 		if (brackets < 0) {
-		    error(ERR_SERIOUS, "Unmatched '}'");
+		    error(ERROR_SERIOUS, "Unmatched '}'");
 		    brackets = 0;
 		}
 		if (subset && brackets < end_brackets) {
@@ -901,22 +904,22 @@ preproc(FILE *output, char *api, char *file, char *subset)
     /* End of file */
     end_of_file : {
 	if (brackets) {
-	    error(ERR_SERIOUS, "Bracket imbalance of %d", brackets);
+	    error(ERROR_SERIOUS, "Bracket imbalance of %d", brackets);
 	}
 	while (if_depth) {
-	    error(ERR_SERIOUS, "+IF without +ENDIF");
+	    error(ERROR_SERIOUS, "+IF without +ENDIF");
 	    if_depth--;
 	}
 	IGNORE fputs("} ;\n", output);
 	IGNORE fclose(input);
 	p->u.u_info = make_info(api, file, subset);
-	filename = old_filename;
-	line_no = old_line_no;
+	set_filename(old_filename);
+	crt_line_no = old_line_no;
 	input_file = old_file;
 	input_pending = old_pending;
 	if (subset && !found) {
 	    char *err = "Set '%s' not found (can't find subset '%s')";
-	    error(ERR_SERIOUS, err, sn, subset);
+	    error(ERROR_SERIOUS, err, sn, subset);
 	    p->u.u_info->implemented = 1;
 	}
 	return;

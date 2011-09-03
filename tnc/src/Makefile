@@ -3,6 +3,16 @@
 .include "Makefile.inc"
 
 
+PART_CLAGS+=	-I ${.CURDIR}/shared
+
+PARTS+=	src/shared/error
+PARTS+=	src/shared/xalloc
+
+.include <tendra.partial.mk>
+
+
+CCOPTS+=	-I shared
+
 SRCS+=	alignment.c
 SRCS+=	analyser.c
 SRCS+=	bitstream.c

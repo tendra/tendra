@@ -58,6 +58,9 @@
 */
 
 
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"
@@ -222,7 +225,7 @@ basic_type(unsigned n)
 	    } else if (n == BTYPE_VOID) {
 		t = type_void;
 	    } else {
-		error(ERR_SERIOUS, "Invalid type specifier");
+		error(ERROR_SERIOUS, "Invalid type specifier");
 		t = type_int;
 	    }
 	    break;
@@ -244,7 +247,7 @@ special_type(char *s)
     if (strcmp(s, "bottom") == 0) return type_bottom;
     if (strcmp(s, "printf") == 0) return type_printf;
     if (strcmp(s, "scanf") == 0) return type_scanf;
-    error(ERR_SERIOUS, "Unknown special type '%s'", s);
+    error(ERROR_SERIOUS, "Unknown special type '%s'", s);
     return type_int;
 }
 
@@ -286,13 +289,13 @@ find_type(char *nm, int vers, int id, int force)
     p = search_hash(h, nm, vers);
     if (p == NULL) {
 	if (force == 0) return NULL;
-	error(ERR_SERIOUS, "%s '%s' not defined", h->name, nm);
+	error(ERROR_SERIOUS, "%s '%s' not defined", h->name, nm);
 	return make_type(nm, vers, id);
     }
     t = p->u.u_type;
     if (id != TYPE_GENERIC && id != t->id) {
 	char *err = "%s '%s' used inconsistently (see %s, line %d)";
-	error(ERR_SERIOUS, err, h->name, nm, p->filename, p->line_no);
+	error(ERROR_SERIOUS, err, h->name, nm, p->filename, p->line_no);
     }
     return t;
 }
@@ -390,16 +393,16 @@ check_type_aux(type *t, int obj, int c, int ret)
     switch (t->id) {
 	case TYPE_VOID: {
 	    if ((obj || c) && !ret) {
-		error(ERR_SERIOUS, "The type 'void' is incomplete");
+		error(ERROR_SERIOUS, "The type 'void' is incomplete");
 	    }
 	    break;
 	}
 	case TYPE_ARRAY: {
 	    if (c && t->v.str [0] == 0) {
-		error(ERR_SERIOUS, "Incomplete array type");
+		error(ERROR_SERIOUS, "Incomplete array type");
 	    }
 	    if (ret) {
-		error(ERR_SERIOUS, "A function can't return an array");
+		error(ERROR_SERIOUS, "A function can't return an array");
 	    }
 	    t->u.subtype = check_type_aux(t->u.subtype, 1, 1, 0);
 	    break;
@@ -414,7 +417,7 @@ check_type_aux(type *t, int obj, int c, int ret)
 			break;
 		    }
 		    default : {
-			error(ERR_SERIOUS, "Non-integral bitfield type");
+			error(ERROR_SERIOUS, "Non-integral bitfield type");
 			break;
 		    }
 		}
@@ -439,7 +442,7 @@ check_type_aux(type *t, int obj, int c, int ret)
 	    break;
 	}
 	case TYPE_PROC: {
-	    if (obj)error(ERR_SERIOUS, "Object type expected");
+	    if (obj)error(ERROR_SERIOUS, "Object type expected");
 	    t->u.subtype = check_type_aux(t->u.subtype, 1, 1, 1);
 	    if (t->v.next && t->v.next->v.next == NULL) {
 		/* Check for '( void )' */
@@ -486,7 +489,7 @@ check_type(type *t, int id)
 	    }
 	    case OBJ_FUNC: {
 		if (t->id != TYPE_PROC) {
-		    error(ERR_SERIOUS, "Function type expected");
+		    error(ERROR_SERIOUS, "Function type expected");
 		}
 		t = check_type_aux(t, 0, 0, 0);
 		break;

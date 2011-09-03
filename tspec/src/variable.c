@@ -58,6 +58,9 @@
 */
 
 
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"
@@ -226,7 +229,7 @@ set_string(char *v, char *s)
 	    break;
 	}
     }
-    if (!known)error(ERR_SERIOUS, "Unknown string variable, '%s'", v);
+    if (!known)error(ERROR_SERIOUS, "Unknown string variable, '%s'", v);
     return;
 }
 
@@ -253,7 +256,7 @@ set_integer(char *v, int n)
 	}
 	case 'L': {
 	    if (strcmp(v, "$LINE") == 0) {
-		line_no = n;
+		crt_line_no = n;
 		known = 1;
 	    }
 	    break;
@@ -273,6 +276,6 @@ set_integer(char *v, int n)
 	    break;
 	}
     }
-    if (!known)error(ERR_SERIOUS, "Unknown integer variable, '%s'", v);
+    if (!known)error(ERROR_SERIOUS, "Unknown integer variable, '%s'", v);
     return;
 }

@@ -90,7 +90,6 @@ extern int word_type;
 extern long word_length;
 extern boolean looked_ahead;
 extern long line_no;
-extern long crt_line_no;
 extern boolean func_input;
 
 

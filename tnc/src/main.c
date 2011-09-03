@@ -58,6 +58,8 @@
 */
 
 
+#include "error/error.h"
+
 #include "config.h"
 #include "types.h"
 #include "read_types.h"
@@ -77,15 +79,6 @@
 #include "utility.h"
 #include "write.h"
 
-
-/*
-    PROGRAM VERSION
-
-    The program name and version number are given.
-*/
-
-char *progname = "tnc";
-static char *version = "Version: 1.9";
 
 
 /*
@@ -148,6 +141,8 @@ main(int argc, char **argv)
 
 	void(*input_fn)(void);
 	void(*output_fn)(void);
+
+	set_progname("tnc", "1.9");
 
 	/* Default action : read text, encode TDF capsule */
 	input_fn = read_capsule;
@@ -311,12 +306,10 @@ main(int argc, char **argv)
 			case 'v':
 				if (arg[2] == 0 ||
 				    strcmp(arg, "-version") == 0) {
-					char *vn = version;
 					int v1 = VERSION_major;
 					int v2 = VERSION_minor;
 
-					(void) fprintf(stderr, "%s: %s",
-					    progname, vn);
+					report_version();
 					(void) fprintf(stderr,
 					    " (TDF %d.%d)\n", v1, v2);
 					known = 1;

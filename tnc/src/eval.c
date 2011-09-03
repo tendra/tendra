@@ -59,6 +59,8 @@
 
 #include <limits.h>
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "eval.h"
@@ -843,7 +845,7 @@ eval_all(void)
     long i;
     unsigned long m = 0;
     var_max = CHAR_BIT * sizeof(long);
-    var_mask = alloc_nof(unsigned long, var_max + 1);
+    var_mask = xmalloc_nof(unsigned long, var_max + 1);
     var_mask[0] = 0;
     for (i = 1; i <= var_max; i++) {
 	m = 2 * m + 1;

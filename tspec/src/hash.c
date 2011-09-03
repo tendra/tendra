@@ -58,6 +58,9 @@
 */
 
 
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"
@@ -93,7 +96,7 @@ hash_table *type_fields;
 void
 init_hash(void)
 {
-    buffer = alloc_nof(char, buffsize + 100);
+    buffer = xmalloc_nof(char, buffsize + 100);
     exps = make_hash_table("Expression");
     files = make_hash_table("Output file");
     keywords = make_hash_table("Keyword");
@@ -134,7 +137,7 @@ hash_table *
 make_hash_table(char *nm)
 {
     int i;
-    hash_table *t = alloc_nof(hash_table, 1);
+    hash_table *t = xmalloc_nof(hash_table, 1);
     t->name = nm;
     for (i = 0; i < hash_size; i++)t->array [i] = NULL;
     return t;
@@ -182,9 +185,9 @@ add_hash(hash_table *t, object *p, int v)
 	char *fn = q->filename;
 	if (fn) {
 	    char *err = "%s '%s' already defined (%s, line %d)";
-	    error(ERR_SERIOUS, err, t->name, nm, fn, q->line_no);
+	    error(ERROR_SERIOUS, err, t->name, nm, fn, q->line_no);
 	} else {
-	    error(ERR_SERIOUS, "%s '%s' already defined", t->name, nm);
+	    error(ERROR_SERIOUS, "%s '%s' already defined", t->name, nm);
 	}
 	return q;
     }

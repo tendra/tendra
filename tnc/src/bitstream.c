@@ -59,6 +59,8 @@
 
 #include <limits.h>
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "enc_types.h"
@@ -112,9 +114,9 @@ new_bitstream(void)
 	bitstream *p;
 
 	if (free_bitstreams == NULL) {
-		p = alloc_nof(bitstream, 1);
+		p = xmalloc_nof(bitstream, 1);
 		p->length = BITSTREAM_SIZE;
-		p->source = alloc_nof(byte, BITSTREAM_SIZE + 10);
+		p->source = xmalloc_nof(byte, BITSTREAM_SIZE + 10);
 	} else {
 		p = free_bitstreams;
 		free_bitstreams = p->next;
@@ -151,7 +153,7 @@ close_bitstream(bitstream *p)
 	if (left < CRITICAL_SIZE)
 		return;
 
-	q = alloc_nof(bitstream, 1);
+	q = xmalloc_nof(bitstream, 1);
 	q->length = left;
 	q->source = p->end->source + used;
 	q->next = free_bitstreams;

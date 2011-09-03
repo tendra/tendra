@@ -61,6 +61,9 @@
 #include <limits.h>
 #include <stdarg.h>
 
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "read_types.h"
@@ -71,7 +74,6 @@
 #include "utility.h"
 #include "write.h"
 
-extern char *progname;
 extern char *capname;
 extern int decode_status;
 extern int have_version;
@@ -86,15 +88,6 @@ extern int have_version;
 
 boolean text_input = 1;
 boolean text_output = 0;
-
-
-/*
-    EXIT STATUS
-
-    The overall exit status of the program.
-*/
-
-int exit_status = EXIT_SUCCESS;
 
 
 /*
@@ -227,57 +220,6 @@ warning(char *s, ...)
 
 
 /*
-    ALLOCATE A SECTION OF MEMORY
-
-    This routine allocates n bytes of memory.
-*/
-
-void *
-xalloc(int n)
-{
-	void *ptr;
-
-	if (n == 0)
-		return NULL;
-
-	ptr = malloc(n);
-	if (ptr == NULL) {
-		if (!text_input && decode_status == 0)
-			fatal_error("Memory allocation error (Illegal TDF capsule?)");
-
-		fatal_error("Memory allocation error");
-	}
-
-	return ptr;
-}
-
-
-/*
-    REALLOCATE A SECTION OF MEMORY
-
-    This routine reallocates n bytes of memory for the pointer p.
-*/
-
-void *
-xrealloc(void *p, int n)
-{
-	void *ptr;
-
-	if (n == 0)
-		return NULL;
-
-	if (p == NULL)
-		return xalloc(n);
-
-	ptr = realloc(p, n);
-	if (ptr == NULL)
-		fatal_error("Memory allocation error");
-
-	return ptr;
-}
-
-
-/*
     MAKE A COPY OF A STRING
 
     This routine makes a permanent copy of the string s of length n.
@@ -288,7 +230,7 @@ string_copy(char *s, int n)
 {
 	char *p;
 
-	p = xalloc(n+1);
+	p = xmalloc(n+1);
 
 	(void) strncpy(p, s, n);
 	p[n] = '\0';

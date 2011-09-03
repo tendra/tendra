@@ -58,31 +58,15 @@
 */
 
 
-#include "config.h"
 #include <stdarg.h>
+
+#include "error/error.h"
+
+#include "config.h"
 #include "types.h"
 #include "file.h"
 #include "pretty.h"
 #include "utility.h"
-
-
-/*
-    PROGRAM NAME
-
-    The program name is output in all error reports.
-*/
-
-char *progname = "disp";
-
-
-/*
-    EXIT STATUS
-
-    This flag is set to 1 whenever an error occurs.  It is the value
-    with which the program finally exits.
-*/
-
-int exit_status = EXIT_SUCCESS;
 
 
 /*
@@ -144,34 +128,3 @@ input_error(char *s, ...) /* VARARGS */
     return;
 }
 
-
-/*
-    ALLOCATE A SECTION OF MEMORY
-
-    This routine allocates n bytes of memory.
-*/
-
-pointer
-xalloc(int n)
-{
-    pointer ptr = (pointer)malloc((size_t)n);
-    if (ptr == null)fatal_error("Memory allocation error");
-    return ptr;
-}
-
-
-/*
-    REALLOCATE A SECTION OF MEMORY
-
-    This routine reallocates n bytes of memory.
-*/
-
-pointer
-xrealloc(pointer p, int n)
-{
-    pointer ptr;
-    if (p == null) return xalloc(n);
-    ptr = (pointer)realloc(p,(size_t)n);
-    if (ptr == null)fatal_error("Memory allocation error");
-    return ptr;
-}

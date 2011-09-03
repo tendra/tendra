@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "ascii.h"
 #include "types.h"
@@ -191,7 +193,7 @@ get_string(long n, long sz)
     }
     *(p++) = 0;
     n = (int)(p - buff);
-    s = alloc_nof(char, n);
+    s = xmalloc_nof(char, n);
     IGNORE memcpy(s, buff,(size_t)n);
     return s;
 }
@@ -260,7 +262,7 @@ de_unique(void)
     long i, n;
     unique u;
     n = tdf_int();
-    u = alloc_nof(string, n + 1);
+    u = xmalloc_nof(string, n + 1);
     for (i = 0; i < n; i++)u[i] = de_tdfstring_align();
     u[n] = null;
     return u;
@@ -333,7 +335,7 @@ add_foreign_sort(char *nm, char *fnm, int c)
     long n = no_foreign_sorts++;
     if (n >= fs_size) {
 	fs_size += 20;
-	foreign_sorts = realloc_nof(foreign_sorts, sortid, fs_size);
+	foreign_sorts = xrealloc_nof(foreign_sorts, sortid, fs_size);
     }
     foreign_sorts[n].name = nm;
     foreign_sorts[n].fname = fnm;
@@ -367,7 +369,7 @@ sortid de_complex_sort(sortname sn)
 	cs.decode = 'T';
 	check_list();
 	n = tdf_int();
-	cs.args = alloc_nof(char, n + 1);
+	cs.args = xmalloc_nof(char, n + 1);
 	IGNORE strcpy(p, "TOKEN(");
 	p = p + strlen(p);
 
@@ -386,7 +388,7 @@ sortid de_complex_sort(sortname sn)
 
 	/* Copy token sort */
 	IGNORE strcpy(p, cr.name);
-	p = alloc_nof(char,(int)strlen(buff) + 1);
+	p = xmalloc_nof(char,(int)strlen(buff) + 1);
 	IGNORE strcpy(p, buff);
 	cs.name = p;
     } else {

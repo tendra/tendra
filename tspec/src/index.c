@@ -59,6 +59,9 @@
 
 #include <ctype.h>
 
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"
@@ -320,7 +323,7 @@ stack_if(object *p)
 {
     if (if_stack_index == if_stack_sz) {
 	if_stack_sz += 16;
-	if_stack = realloc_nof(if_stack, object *, if_stack_sz);
+	if_stack = xrealloc_nof(if_stack, object *, if_stack_sz);
     }
     if_stack [ if_stack_index ] = p;
     if_stack_index++;
@@ -629,7 +632,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 		}
 
 		default : {
-		    error(ERR_INTERNAL, "Unknown type identifier, '%d'", i);
+		    error(ERROR_INTERNAL, "Unknown type identifier, '%d'", i);
 		    break;
 		}
 	    }
@@ -637,7 +640,7 @@ print_item_m(object *p, char *u, char *a, type *e)
 	}
 
 	default : {
-	    error(ERR_INTERNAL, "Unknown object type, '%d'", q->objtype);
+	    error(ERROR_INTERNAL, "Unknown object type, '%d'", q->objtype);
 	    break;
 	}
     }
@@ -883,7 +886,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 
 		default : {
 		    IGNORE printf(" is a type\n\n");
-		    error(ERR_INTERNAL, "Unknown type identifier, '%d'", i);
+		    error(ERROR_INTERNAL, "Unknown type identifier, '%d'", i);
 		    break;
 		}
 	    }
@@ -891,7 +894,7 @@ print_item_h(object *p, char *u, char *a, type *e)
 	}
 
 	default : {
-	    error(ERR_INTERNAL, "Unknown object type, '%d'", q->objtype);
+	    error(ERROR_INTERNAL, "Unknown object type, '%d'", q->objtype);
 	    break;
 	}
     }

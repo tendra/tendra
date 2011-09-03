@@ -58,6 +58,8 @@
 */
 
 
+#include "error/error.h"
+
 #include "config.h"
 #include "types.h"
 #include "read_types.h"
@@ -70,11 +72,9 @@
 /*
     CURRENT AND PREVIOUS LINE NUMBERS
 
-    The current line in the file is recorded.  The previous line (where
-    any errors were likely to have been) is also saved.
+    The previous line (where any errors were likely to have been).
 */
 
-long crt_line_no = 1;
 long line_no = 1;
 
 

@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "node.h"
@@ -116,7 +118,7 @@ new_node(void)
 	if (p == NULL) {
 		int i, m = 1000;
 
-		p = alloc_nof(node, m);
+		p = xmalloc_nof(node, m);
 
 		for (i = 0; i < m - 1; i++) {
 			(p + i) ->bro = p + (i + 1);
@@ -340,7 +342,7 @@ new_construct(void)
 
 	if (p == NULL) {
 		int i, m = 100;
-		p = alloc_nof(construct, m);
+		p = xmalloc_nof(construct, m);
 
 		for (i = 0; i < m - 1; i++)
 			(p + i) ->next = p + (i + 1);

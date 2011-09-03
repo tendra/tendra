@@ -58,6 +58,9 @@
 */
 
 
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "fetch.h"
@@ -139,7 +142,7 @@ open_input(char *nm, int search)
 void
 add_directory(char *nm)
 {
-	directory *d = alloc_nof(directory, 1);
+	directory *d = xmalloc_nof(directory, 1);
 	d->dirname = nm;
 	d->next = NULL;
 

@@ -58,11 +58,15 @@
 */
 
 
-#include "config.h"
 #include <stdarg.h>
 #include <sys/types.h>
 #include <errno.h>
 #include <sys/stat.h>
+
+#include "error/error.h"
+#include "xalloc/xalloc.h"
+
+#include "config.h"
 #include "name.h"
 #include "utility.h"
 
@@ -86,117 +90,11 @@ char *buffer = NULL;
 
 /*
     ERROR VARIABLES
-
-    The value exit_status gives the overall status of the program.  It
-    can be EXIT_SUCCESS or EXIT_FAILURE.  The variable progname gives
-    the name of the program, which is used in error reports.  filename
-    and line_no give the current file position.
 */
 
-int exit_status = EXIT_SUCCESS;
-int no_errors = 0;
 int warnings = 1;
-char *progname = "tspec";
-char *progvers = "2.8";
 time_t progdate = 0;
 char *filename = NULL;
-int line_no = 1;
-
-
-/*
-    PRINT AN ERROR MESSAGE
-
-    This routine prints an error message s (a printf-style string,
-    which may be followed by any number of arguments) of severity e
-    (see utility.h).
-*/
-
-void
-error(int e, char *s, ...) /* VARARGS */
-{
-    va_list args;
-    char *errtype = NULL;
-    boolean show_line = 1;
-    va_start(args, s);
-    switch (e) {
-	case ERR_FATAL: {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Fatal";
-	    no_errors++;
-	    break;
-	}
-	case ERR_INTERNAL: {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Internal";
-	    no_errors++;
-	    break;
-	}
-	case ERR_SERIOUS: {
-	    exit_status = EXIT_FAILURE;
-	    errtype = "Error";
-	    no_errors++;
-	    break;
-	}
-	case ERR_WARNING: {
-	    if (!warnings) {
-		va_end(args);
-		return;
-	    }
-	    errtype = "Warning";
-	    break;
-	}
-	case ERR_INFO: {
-	    errtype = "Info";
-	    show_line = 0;
-	    break;
-	}
-    }
-    if (progname)IGNORE fprintf(stderr, "%s: ", progname);
-    if (errtype)IGNORE fprintf(stderr, "%s: ", errtype);
-    IGNORE vfprintf(stderr, s, args);
-    if (filename && show_line) {
-	IGNORE fprintf(stderr, ", %s, line %d", filename, line_no);
-    }
-    IGNORE fprintf(stderr, ".\n");
-    va_end(args);
-    if (e == ERR_FATAL)exit(exit_status);
-    return;
-}
-
-
-/*
-    ALLOCATE A BLOCK OF MEMORY
-
-    This routine allocates a block of memory of size sz and returns
-    the result.
-*/
-
-void *
-xalloc(size_t sz)
-{
-    void *p = malloc(sz);
-    if (p == NULL)error(ERR_FATAL, "Memory allocation error");
-    return p;
-}
-
-
-/*
-    REALLOCATE A BLOCK OF MEMORY
-
-    This routine reallocates the block of memory p to have size sz.
-    xrealloc ( NULL, sz ) is equivalent to xalloc ( sz ).
-
-*/
-
-void *
-xrealloc(void *p, size_t sz)
-{
-    void *q;
-    if (p == NULL) return xalloc(sz);
-    q = realloc(p, sz);
-    if (q == NULL)error(ERR_FATAL, "Memory reallocation error");
-    return q;
-}
 
 
 /*
@@ -210,15 +108,15 @@ string_alloc(int n)
 {
     char *r;
     if (n >= 1000) {
-	/* Long strings are allocated space by alloc_nof */
-	r = alloc_nof(char, n);
+	/* Long strings are allocated space by xmalloc_nof */
+	r = xmalloc_nof(char, n);
     } else {
 	/* Short strings are allocated space from a buffer */
 	static int no_free = 0;
 	static char *free_chars = NULL;
 	if (n >= no_free) {
 	    no_free = 1000;
-	    free_chars = alloc_nof(char, no_free);
+	    free_chars = xmalloc_nof(char, no_free);
 	}
 	r = free_chars;
 	no_free -= n;
@@ -316,14 +214,14 @@ create_dir(char *nm)
     if (stat(dir, &st) == 0) return;
 #ifdef ENOENT
     if (errno != ENOENT) {
-	error(ERR_SERIOUS, "Illegal directory, %s", dir);
+	error(ERROR_SERIOUS, "Illegal directory, %s", dir);
 	return;
     }
 #endif
     create_dir(dir);
     if (verbose) IGNORE printf("Creating directory, %s ...\n", dir);
     if (mkdir(dir,(mode_t)DIRMODE)) {
-	error(ERR_SERIOUS, "Can't create directory, %s", dir);
+	error(ERROR_SERIOUS, "Can't create directory, %s", dir);
 	return;
     }
     return;
@@ -353,7 +251,7 @@ check_name(char *nm)
     if (i > n)n = i;
     if (n > 14) {
 	char *err = "The filename %s contains a component of length %d";
-	error(ERR_WARNING, err, nm, n);
+	error(ERROR_WARNING, err, nm, n);
     }
     return;
 }
@@ -373,3 +271,21 @@ date_stamp(char *nm)
     if (nm && stat(nm, &st) == 0) return st.st_mtime;
     return (time_t)0;
 }
+
+/*
+	SET THE CURRENT FILENAME
+
+	This routine is a hack to avoid keeping the 'filename' variable
+	const-qualified, which would require sprinkling consts across the
+	program.
+
+	TODO: sprinkle consts across the entire program.
+ */
+
+void
+set_filename(char *nm)
+{
+	crt_file_name = nm;
+	filename = nm;
+}
+

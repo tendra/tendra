@@ -59,6 +59,8 @@
 
 #include <limits.h>
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "de_types.h"
@@ -184,7 +186,7 @@ new_binding(void)
 		return b;
 	}
 
-	b = alloc_nof(binding, n);
+	b = xmalloc_nof(binding, n);
 
 	for (i = 0; i < n; i++) {
 		b[i].max_no = 0;
@@ -232,7 +234,7 @@ set_binding_size(binding *bt, long v, long n)
 	b = bt + v;
 	b->max_no = n;
 	if (b->sz < m) {
-		p = realloc_nof(b->table, construct *, m);
+		p = xrealloc_nof(b->table, construct *, m);
 		b->sz = m;
 		b->table = p;
 	} else
@@ -271,7 +273,7 @@ complete_binding(binding *b)
 				} else {
 					/* Make up an internal name */
 					long n = p->encoding;
-					char *nm = alloc_nof(char, 32);
+					char *nm = xmalloc_nof(char, 32);
 
 					(void) sprintf(nm, "~~%s_%ld", vars[v].name, n);
 					p->name = nm;
@@ -364,7 +366,7 @@ de_aligned_string(void)
 
 	n = tdf_int();
 	byte_align();
-	p = alloc_nof(char, n + 1);
+	p = xmalloc_nof(char, n + 1);
 
 	for ( i = 0 ; i < n ; i++ )
 		p [i] = (char) fetch(8);
@@ -480,14 +482,14 @@ de_capsule(void)
 
 	/* Read equation names */
 	no_eqn = tdf_int();
-	eqns = alloc_nof(char *, no_eqn);
+	eqns = xmalloc_nof(char *, no_eqn);
 
 	for (i = 0; i < no_eqn; i++)
 		eqns[i] = de_aligned_string();
 
 	/* Read variable sort names */
 	no_var = tdf_int();
-	vars = alloc_nof(var_sort, no_var);
+	vars = xmalloc_nof(var_sort, no_var);
 	crt_binding = new_binding();
 
 	for (i = 0; i < no_var; i++) {
@@ -573,7 +575,7 @@ de_capsule(void)
 						}
 					} else {
 						/* Make up internal name */
-						p->name = alloc_nof(char, 32);
+						p->name = xmalloc_nof(char, 32);
 						(void) sprintf(p->name, "~~extern_%d", un++);
 
 						if (!is_local_name(nm)) {
@@ -591,7 +593,7 @@ de_capsule(void)
 					free_node(nu);
 				else {
 					/* Make up internal name */
-					p->name = alloc_nof(char, 32);
+					p->name = xmalloc_nof(char, 32);
 					(void) sprintf(p->name, "~~extern_%d", un++);
 					p->ename = new_node();
 					p->ename->cons = &true_cons;
@@ -605,7 +607,7 @@ de_capsule(void)
 					free_node(nc);
 				else {
 					/* Make up internal name */
-					p->name = alloc_nof(char, 32);
+					p->name = xmalloc_nof(char, 32);
 					(void) sprintf(p->name, "~~extern_%d", un++);
 					p->ename = new_node();
 					p->ename->cons = &true_cons;
@@ -735,7 +737,7 @@ de_library(void)
 
 		n = tdf_int();
 		byte_align();
-		capname = alloc_nof(char, n + 1);
+		capname = xmalloc_nof(char, n + 1);
 
 		for (j = 0; j < n; j++) {
 			capname[j] = (char) fetch(8);
@@ -774,7 +776,7 @@ de_library(void)
 
 		n = tdf_int();
 		byte_align();
-		capname = alloc_nof(char, n + 1);
+		capname = xmalloc_nof(char, n + 1);
 
 		for (j = 0; j < n; j++) {
 			capname[j] = (char) fetch(8);

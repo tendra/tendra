@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "binding.h"
@@ -82,7 +84,7 @@ new_object(long v)
     object *p;
     if (objs_left == 0) {
 	objs_left = 200;
-	free_objs = alloc_nof(object, objs_left);
+	free_objs = xmalloc_nof(object, objs_left);
     }
     objs_left--;
     p = free_objs + objs_left;
@@ -131,7 +133,7 @@ new_binding_table(void)
 	    bt[i].max_no = 0;
 	}
     } else {
-	bt = alloc_nof(binding, n);
+	bt = xmalloc_nof(binding, n);
 	for (i = 0; i < n; i++) {
 	    bt[i].max_no = 0;
 	    bt[i].sz = 0;
@@ -175,7 +177,7 @@ set_binding_size(binding *bt, long v, long n)
     b = bt + v;
     b->max_no = n;
     if (b->sz < m) {
-	p = realloc_nof(b->table, object *, m);
+	p = xrealloc_nof(b->table, object *, m);
 	b->sz = m;
 	b->table = p;
     } else {
@@ -208,7 +210,7 @@ set_binding(binding *bt, long v, long n, object *p)
 	    /* Table is extended (errors only) */
 	    long i, m = b->sz + 100;
 	    b->sz = m;
-	    b->table = realloc_nof(b->table, object *, m);
+	    b->table = xrealloc_nof(b->table, object *, m);
 	    for (i = 1; i <= 100; i++)b->table[m - i] = null;
 	}
     }
@@ -324,7 +326,7 @@ char *
 object_name(long v, long n)
 {
     object *p;
-    char *buff = alloc_nof(char, 1000);
+    char *buff = xmalloc_nof(char, 1000);
     if (dumb_mode) {
 	IGNORE sprintf(buff, "%ld", n);
 	return buff;

@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "check.h"
@@ -104,10 +106,16 @@ set_up_labels(long n)
 	long i;
 	static long lno = 0;
 	max_lab_no = n;
-	labels = alloc_nof(construct, n);
+
+	if (n == 0) {
+		labels = NULL;
+		return;
+	}
+
+	labels = xmalloc_nof(construct, n);
 
 	for (i = 0; i < n; i++) {
-		char *nm = alloc_nof(char, 32);
+		char *nm = xmalloc_nof(char, 32);
 
 		(void) sprintf(nm, "~~label_%ld", lno);
 		labels[i].sortnum = SORT_label;
@@ -161,8 +169,8 @@ de_sortname(boolean expand)
 		de_list_start();
 		m = tdf_int();
 		h.no_args = (int)m;
-		h.args = alloc_nof(sortname, m);
-		h.name = alloc_nof(char, 32);
+		h.args = xmalloc_nof(sortname, m);
+		h.name = xmalloc_nof(char, 32);
 		(void) sprintf(h.name, "~~sort_%d", made_up_sorts++);
 
 		for (i = 0; i < m; i++)
@@ -471,7 +479,7 @@ de_token_defn(construct *p, node *sig)
 		char abuff[100], *a = abuff;
 
 		if (!in_skip_pass)
-			info->pars = alloc_nof(construct *, m + 1);
+			info->pars = xmalloc_nof(construct *, m + 1);
 
 		for (j = 0; j < m; j++) {
 			/* Decode the token arguments */

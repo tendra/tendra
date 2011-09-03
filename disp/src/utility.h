@@ -70,18 +70,7 @@
 
 extern void fatal_error(char *, ...);
 extern void input_error(char *, ...);
-extern pointer xalloc(int);
-extern pointer xrealloc(pointer, int);
-extern int exit_status;
-extern char *progname;
 extern int recover;
-
-#define alloc_nof(TYPE, NO)\
-   ((TYPE *)xalloc(((int)(NO)*(int)sizeof(TYPE))))
-
-#define realloc_nof(PTR, TYPE, NO)\
-   ((TYPE *)xrealloc((pointer)(PTR),\
-     ((int)(NO)*(int)sizeof(TYPE))))
 
 
 #endif

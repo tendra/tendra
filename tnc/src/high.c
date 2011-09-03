@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "high.h"
@@ -98,7 +100,7 @@ new_high_sort(high_sort *q)
 	c = crt_high_sort++;
 	if (c >= total_high_sort) {
 		total_high_sort += 100;
-		high_sorts = realloc_nof(high_sorts, high_sort, total_high_sort);
+		high_sorts = xrealloc_nof(high_sorts, high_sort, total_high_sort);
 	}
 
 	p = high_sorts + c;
@@ -133,7 +135,7 @@ set_high_sort(char *nm, tok_info *info)
 		h.no_args = 0;
 		h.args = NULL;
 	} else {
-		h.args = alloc_nof(sortname, strlen(q));
+		h.args = xmalloc_nof(sortname, strlen(q));
 
 		while (*q) {
 			sortname s;

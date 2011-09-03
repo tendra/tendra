@@ -74,15 +74,13 @@
     and system calls.
 */
 
-extern void error(int, char *, ...);
-extern void *xalloc(size_t);
-extern void *xrealloc(void *, size_t);
 extern char *string_copy(char *);
 extern char *string_concat(char *, char *);
 extern char *string_printf(char *, ...);
 extern void create_dir(char *);
 extern void check_name(char *);
 extern time_t date_stamp(char *);
+extern void set_filename(char *);
 
 
 /*
@@ -101,47 +99,9 @@ extern char *buffer;
     These variables are concerned with error reporting.
 */
 
-extern int exit_status;
-extern int no_errors;
 extern int warnings;
-extern char *progname;
-extern char *progvers;
 extern time_t progdate;
 extern char *filename;
-extern int line_no;
-
-
-/*
-    ERROR TYPES
-
-    These values give the severity levels for the error reporting
-    routine, error.
-*/
-
-#define ERR_FATAL		0
-#define ERR_INTERNAL		1
-#define ERR_SERIOUS		2
-#define ERR_WARNING		3
-#define ERR_INFO		4
-
-
-/*
-    UTILITY MACROS
-
-    These macros give convenient shorthands for various constructs.
-*/
-
-#define alloc_size(T, N)\
-	((int)(N)*(int)sizeof(T))
-
-#define alloc_nof(T, N)\
-	(T *)xalloc(alloc_size(T, N))
-
-#define realloc_nof(P, T, N)\
-	(T *)xrealloc((P), alloc_size(T, N))
-
-#define array_size(A)\
-	((int)sizeof(A) / (int)sizeof(A [0]))
 
 
 /*
@@ -156,7 +116,7 @@ extern int line_no;
 	static T *free_list = NULL;\
 	if (no_free == 0) {\
 	    no_free = N ;\
-	    free_list = alloc_nof(T, N);\
+	    free_list = xmalloc_nof(T, N);\
 	}\
 	V = free_list + (--no_free);\
     }

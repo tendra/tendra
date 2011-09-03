@@ -3,6 +3,16 @@
 .include "Makefile.inc"
 
 
+PART_CFLAGS+=	-I ${.CURDIR}/shared
+
+PARTS+=	src/shared/error
+PARTS+=	src/shared/xalloc
+
+.include <tendra.partial.mk>
+
+
+CCOPTS+=	-I shared
+
 SRCS+=	hash.c
 SRCS+=	index.c
 SRCS+=	lex.c

@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "ascii.h"
@@ -302,7 +304,7 @@ init_spaces(int d)
 {
     int i, j;
     if (helpflag) {
-	spaces1 = alloc_nof(char, 5000);
+	spaces1 = xmalloc_nof(char, 5000);
 	/* every dth character should be a '.' */
 	for (i = 0, j = 0; i < 5000; i++) {
 	    if (++j == d) {

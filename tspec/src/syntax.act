@@ -69,6 +69,8 @@ VERSION -> int ;
 #include <stddef.h>
 #include <string.h>
 
+#include "error/error.h"
+
 #include "config.h"
 #include "object.h"
 #include "hash.h"
@@ -224,7 +226,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 	if ( @a == BTYPE_LONG && allow_long_long ) {
 	    @a = BTYPE_LLONG ;
 	} else {
-	    error ( ERR_SERIOUS, "Duplicate type specifier" ) ;
+	    error ( ERROR_SERIOUS, "Duplicate type specifier" ) ;
 	    break ;
 	}
     }
@@ -257,7 +259,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 <key_exp> : ( c, a ) -> ( t ) = @{
     if ( @c == OBJ_CONST ) {
 	if ( @a == TYPE_LVALUE ) {
-	    error ( ERR_SERIOUS, "Constant can't be an lvalue" ) ;
+	    error ( ERROR_SERIOUS, "Constant can't be an lvalue" ) ;
 	}
 	@t = TYPE_RVALUE ;
     } else if ( @c == OBJ_EXTERN ) {
@@ -280,12 +282,12 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 @} ;
 
 <cv_const> : ( a ) -> ( c ) = @{
-    if ( @a & 1 ) error ( ERR_SERIOUS, "Duplicate type qualifier" ) ;
+    if ( @a & 1 ) error ( ERROR_SERIOUS, "Duplicate type qualifier" ) ;
     @c = ( @a | 1 ) ;
 @} ;
 
 <cv_volatile> : ( a ) -> ( c ) = @{
-    if ( @a & 2 ) error ( ERR_SERIOUS, "Duplicate type qualifier" ) ;
+    if ( @a & 2 ) error ( ERROR_SERIOUS, "Duplicate type qualifier" ) ;
     @c = ( @a | 2 ) ;
 @} ;
 
@@ -362,7 +364,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 @} ;
 
 <type_list_empty> : () -> ( p ) = @{
-    error ( ERR_WARNING, "Empty parameter list" ) ;
+    error ( ERROR_WARNING, "Empty parameter list" ) ;
     @p = NULL ;
 @} ;
 
@@ -402,9 +404,9 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 <value_nat> : ( a ) -> ( s ) = @{
     object *p = search_hash ( exps, @a, any_version ) ;
     if ( p == NULL ) {
-	error ( ERR_SERIOUS, "Undefined NAT, '%s'", @a ) ;
+	error ( ERROR_SERIOUS, "Undefined NAT, '%s'", @a ) ;
     } else if ( p->objtype != OBJ_NAT ) {
-	error ( ERR_SERIOUS, "'%s' is not a NAT", @a ) ;
+	error ( ERROR_SERIOUS, "'%s' is not a NAT", @a ) ;
     }
     @s = @a ;
 @} ;
@@ -702,7 +704,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 	    break ;
 	}
 	default : {
-	    error ( ERR_SERIOUS, "Non-integral promotion type" ) ;
+	    error ( ERROR_SERIOUS, "Non-integral promotion type" ) ;
 	    break ;
 	}
     }
@@ -757,7 +759,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 	    break ;
 	}
 	default : {
-	    error ( ERR_SERIOUS, "Illegal field type, '%s'", @id.iname ) ;
+	    error ( ERROR_SERIOUS, "Illegal field type, '%s'", @id.iname ) ;
 	    break ;
 	}
     }
@@ -768,10 +770,10 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
     if ( @e ) {
 	if ( @t->v.obj2 ) {
 	    char *nm = crt_field_name ;
-	    error ( ERR_SERIOUS, "Redefinition of type '%s'", nm ) ;
+	    error ( ERROR_SERIOUS, "Redefinition of type '%s'", nm ) ;
 	}
 	if ( @b == NULL ) {
-	    error ( ERR_SERIOUS, "Empty struct/union definition" ) ;
+	    error ( ERROR_SERIOUS, "Empty struct/union definition" ) ;
 	} else {
 	    @t->v.obj2 = @b ;
 	}
@@ -838,7 +840,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 */
 
 <syntax_error> : () -> () = @{
-    error ( ERR_SERIOUS, "Syntax error" ) ;
+    error ( ERROR_SERIOUS, "Syntax error" ) ;
 @} ;
 
 

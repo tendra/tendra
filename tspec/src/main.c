@@ -58,8 +58,11 @@
 */
 
 
-#include "config.h"
 #include <signal.h>
+
+#include "error/error.h"
+
+#include "config.h"
 #include "object.h"
 #include "hash.h"
 #include "index.h"
@@ -111,7 +114,7 @@ handler(int sig)
 	case SIGTERM: s = "termination signal"; break;
 	default : s = "unknown signal"; break;
     }
-    error(ERR_SERIOUS, "Caught %s", s);
+    error(ERROR_SERIOUS, "Caught %s", s);
     e = sort_hash(files);
     while (e) {
 	object *p = e->obj;
@@ -144,7 +147,7 @@ separate(object *p)
     IGNORE sprintf(exec, "%s %s", i->api, i->file);
     if (verbose > 1) IGNORE printf("Executing '%s' ...\n", buffer);
     if (system(buffer)) {
-	error(ERR_SERIOUS, "Separate compilation of %s failed", p->name);
+	error(ERROR_SERIOUS, "Separate compilation of %s failed", p->name);
     }
     return;
 }
@@ -196,12 +199,13 @@ main(int argc, char **argv)
     boolean separate_files = 0;
 
     /* Initialisation */
-    line_no = 1;
-    filename = "built-in definitions";
+	set_progname("tspec", "2.8");
+    crt_line_no = 1;
+    set_filename("built-in definitions");
     init_hash();
     init_keywords();
     init_types();
-    filename = "command line";
+    set_filename("command line");
     IGNORE signal(SIGINT, handler);
     IGNORE signal(SIGSEGV, handler);
     IGNORE signal(SIGTERM, handler);
@@ -236,7 +240,7 @@ main(int argc, char **argv)
     /* Process options */
     for (a = 1; a < argc; a++) {
 	char *arg = argv [a];
-	line_no = a;
+	crt_line_no = a;
 	if (arg [0] == '-') {
 	    if (arg [1] == 'I') {
 		dir = string_printf("%s:%s", dir, arg + 2);
@@ -269,12 +273,11 @@ main(int argc, char **argv)
 			case 'v': verbose++; break;
 			case 'w': warnings = 0; break;
 			case 'V': {
-			    error(ERR_INFO, "Version: %s (tendra.org)",
-				    progvers);
+			    report_version();
 			    break;
 			}
 			default : {
-			    error(ERR_WARNING, "Unknown option, -%c", *s);
+			    error(ERROR_WARNING, "Unknown option, -%c", *s);
 			    break;
 			}
 		    }
@@ -288,27 +291,27 @@ main(int argc, char **argv)
 	    } else if (subset == NULL) {
 		subset = arg;
 	    } else {
-		error(ERR_WARNING, "Too many arguments");
+		error(ERROR_WARNING, "Too many arguments");
 	    }
 	}
     }
     if (local_input) {
-	if (subset)error(ERR_WARNING, "Too many arguments");
+	if (subset)error(ERROR_WARNING, "Too many arguments");
 	subset = file;
 	file = api;
 	api = LOCAL_API;
     }
-    if (api == NULL)error(ERR_FATAL, "Not enough arguments");
+    if (api == NULL)error(ERROR_FATAL, "Not enough arguments");
     input_dir = string_printf("%s:%s", dir, input_dir);
 
     if (preproc_input) {
 	/* Open preprocessed input */
-	if (file != NULL)error(ERR_WARNING, "Too many arguments");
+	if (file != NULL)error(ERROR_WARNING, "Too many arguments");
 	preproc_file = fopen(api, "r");
-	filename = api;
-	line_no = 1;
+	set_filename(api);
+	crt_line_no = 1;
 	if (preproc_file == NULL) {
-	    error(ERR_FATAL, "Can't open input file");
+	    error(ERROR_FATAL, "Can't open input file");
 	}
     } else {
 	/* Find the temporary file */
@@ -316,19 +319,19 @@ main(int argc, char **argv)
 	if (preproc_file == NULL) {
 	    preproc_file = tmpfile();
 	    if (preproc_file == NULL) {
-		error(ERR_FATAL, "Can't open temporary file");
+		error(ERROR_FATAL, "Can't open temporary file");
 	    }
 	}
 	/* Do the preprocessing */
 	preproc(preproc_file, api, file, subset);
-	n = no_errors;
+	n = number_errors;
 	if (n) {
-	    filename = NULL;
-	    error(ERR_FATAL, "%d error(s) in preprocessor phase", n);
+	    set_filename(NULL);
+	    error(ERROR_FATAL, "%d error(s) in preprocessor phase", n);
 	}
 	if (preproc_file == stdout)exit(exit_status);
-	filename = "temporary file";
-	line_no = 1;
+	set_filename("temporary file");
+	crt_line_no = 1;
     }
 
     /* Deal with separate compilation */
@@ -346,15 +349,15 @@ main(int argc, char **argv)
 	}
 	s = s + strlen(s);
 	IGNORE strcpy(s, "-ac ");
-	filename = NULL;
+	set_filename(NULL);
 	e = sort_hash(subsets);
 	while (e) {
 	    separate(e->obj);
 	    e = e->next;
 	}
-	n = no_errors;
+	n = number_errors;
 	if (n) {
-	    error(ERR_FATAL, "%d error(s) in separate compilation", n);
+	    error(ERROR_FATAL, "%d error(s) in separate compilation", n);
 	}
 	exit(exit_status);
     }
@@ -365,14 +368,14 @@ main(int argc, char **argv)
     rewind(input_file);
     ADVANCE_LEXER;
     read_spec(&commands);
-    if (no_errors) {
-	filename = NULL;
-	error(ERR_FATAL, "%d error(s) in analyser phase", no_errors);
+    if (number_errors) {
+	set_filename(NULL);
+	error(ERROR_FATAL, "%d error(s) in analyser phase", number_errors);
     }
 
     /* Perform the output */
     if (!check_only) {
-	filename = NULL;
+	set_filename(NULL);
 	if (commands && commands->objtype == OBJ_SET) {
 	    implement(commands->u.u_obj, 1);
 	    if (show_index == 0) {

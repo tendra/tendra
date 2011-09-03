@@ -58,6 +58,8 @@
 */
 
 
+#include "xalloc/xalloc.h"
+
 #include "config.h"
 #include "types.h"
 #include "basic.h"
@@ -197,7 +199,7 @@ de_tokdec_aux(void)
 	    args = "";
 	} else {
 	    word *wp = new_word(HORIZ_BRACKETS);
-	    args = alloc_nof(char, m + 1);
+	    args = xmalloc_nof(char, m + 1);
 	    for (i = 0; i < m; i++) {
 		sortid p;
 		p = de_sort_name(1);
@@ -268,7 +270,7 @@ de_tokdef_aux(void)
     } else {
 	long i;
 	word *wp = new_word(HORIZ_BRACKETS);
-	args = alloc_nof(char, m + 1);
+	args = xmalloc_nof(char, m + 1);
 	for (i = 0; i < m; i++) {
 	    long pn;
 	    sortid p;
@@ -283,7 +285,7 @@ de_tokdef_aux(void)
 	    res_sort(tp) = p.res;
 	    arg_sorts(tp) = null;
 	    if (p.res == sort_token) {
-		object *tpa = alloc_nof(object, 1);
+		object *tpa = xmalloc_nof(object, 1);
 		*tpa = *tp;
 		res_sort(tpa) = p.res;
 		arg_sorts(tpa) = p.args;
@@ -293,7 +295,7 @@ de_tokdef_aux(void)
 	    if (!dumb_mode && !(tp->named)) {
 		tp->named = 1;
 		tp->name.simple = 1;
-		tp->name.val.str = alloc_nof(char, 10);
+		tp->name.val.str = xmalloc_nof(char, 10);
 		IGNORE sprintf(tp->name.val.str, "~par_%ld", i);
 	    }
 	    out_string(p.name);
@@ -636,7 +638,7 @@ de_usage(long v)
     b = crt_binding + v;
     n = b->sz;
     if (n == 0) return;
-    p = alloc_nof(object *, n);
+    p = xmalloc_nof(object *, n);
     for (i = 0; i < n; i++) {
 	object *q = b->table[i];
 	long rank = (q ? q->order : -1);
