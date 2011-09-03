@@ -104,6 +104,7 @@ MD_OSVER!=                               \
         OpenBSD.3*)    echo OPENBSD3;;   \
         OpenBSD.4*)    echo OPENBSD4;;   \
         OpenBSD.5*)    echo OPENBSD5;;   \
+        SunOS.5.10*)   echo SUNOS510;;   \
         SunOS.5.11*)   echo SUNOS511;;   \
         Haiku.1*)      echo HAIKU1;;     \
         *)             echo unknown;;    \

@@ -31,7 +31,7 @@
 #define _STDARG_H
 
 
-#ifdef _SUNOS511
+#if defined(_SUNOS510) || defined(_SUNOS511)
 #ifndef __BUILDING_TDF_ANSI_STDARG_H_VA_ARGS
 
 

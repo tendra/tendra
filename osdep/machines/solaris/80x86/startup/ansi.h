@@ -23,3 +23,4 @@
 #define __svr4__	1
 #define __unix__	1
 #define _NO_LONGLONG	1
+

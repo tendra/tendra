@@ -4,3 +4,8 @@
 +CRT1	"/usr/ccs/lib/values-Xc.o"
 +CRTN	"/usr/lib/crtn.o"
 
++AS		"/usr/ccs/bin/as"
++AS1	"/usr/ccs/bin/as"
++LD		"/usr/ccs/bin/ld"
+
+
