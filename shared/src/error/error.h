@@ -73,11 +73,12 @@
 */
 
 enum error_severity {
-	ERROR_NONE,	   /* Error reporting off */
-	ERROR_WARNING, /* Warning */
-	ERROR_SERIOUS, /* Error, does exit after N errors */
-	ERROR_USAGE,   /* Error in command line usage; exits immediately */
-	ERROR_FATAL    /* Fatal exits immediately */
+	ERROR_NONE,	    /* Error reporting off */
+	ERROR_WARNING,  /* Warning */
+	ERROR_SERIOUS,  /* Error, does exit after N errors */
+	ERROR_USAGE,    /* Error in command line usage; exits immediately */
+	ERROR_INTERNAL, /* Internal error, does exit after N errors */
+	ERROR_FATAL     /* Fatal exits immediately */
 };
 
 

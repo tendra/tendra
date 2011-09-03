@@ -154,6 +154,11 @@ error_msg(enum error_severity e, const char *fn, int ln, const char *s, va_list 
 		(void) fprintf(stderr, "Usage: ");
 		exit_status = EXIT_FAILURE;
 		break;
+	case ERROR_INTERNAL:
+		(void) fprintf(stderr, "Internal Error: ");
+		exit_status = EXIT_FAILURE;
+		number_errors++;
+		break;
 	case ERROR_SERIOUS:
 		(void) fprintf(stderr, "Error: ");
 		exit_status = EXIT_FAILURE;
