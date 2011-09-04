@@ -190,7 +190,7 @@ $Log: sparcdiags.c,v $
 #include "procrec.h"
 #include "tags.h"
 #include "bitsmacs.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "locate.h"
 #include "comment.h"
 #include "myassert.h"

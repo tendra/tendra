@@ -92,7 +92,7 @@ $Log: flpt_fns.c,v $
 #include "table_fns.h"
 #include "flpttypes.h"
 #include "flpt.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "shapemacs.h"
 #include "read_fns.h"
 #include "sortmacs.h"

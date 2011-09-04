@@ -96,7 +96,7 @@ make_stack_limit, env_size etc
 #include "flags.h"
 #include "me_fns.h"
 #include "basicread.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "externs.h"
 #include "foralls.h"
 

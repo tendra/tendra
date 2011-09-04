@@ -105,7 +105,7 @@ $Log: dwarf_type.c,v $
 #include "shapemacs.h"
 #include "expmacs.h"
 #include "basicread.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 
 #include "dwarf_types.h"
 #include "dwarf_out.h"

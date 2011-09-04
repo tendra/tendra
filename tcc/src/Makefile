@@ -3,9 +3,6 @@
 .include "Makefile.inc"
 
 
-CFLAGS+=	-Ishared/error
-CFLAGS+=	-Ishared/xalloc
-
 PARTS+=	src/shared/error
 PARTS+=	src/shared/xalloc
 
@@ -14,7 +11,8 @@ PARTS+=	src/shared/xalloc
 
 TCCOPTS=	-Yposix -Xs
 
-CCOPTS=                                    \
+CCOPTS+=	-I shared
+CCOPTS+=                                   \
 	-DPREFIX='"${PREFIX}"'                 \
 	-DPREFIX_BIN='"${PREFIX_BIN}"'         \
 	-DPREFIX_LIB='"${PREFIX_LIB}"'         \

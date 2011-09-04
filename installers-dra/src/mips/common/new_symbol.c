@@ -66,7 +66,7 @@ $Log: new_symbol.c,v $
 #include "bstack.h"
 #include "type_to_aux.h"
 #include "makesymtab.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "diagtypes.h"
 #include "flags.h"
 #include "new_symbol.h"

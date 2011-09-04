@@ -81,7 +81,7 @@ $Log: out_ba.c,v $
 #include "ibinasm.h"
 #include "main.h"
 #include "out_ba.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 extern  FILE * ba_file;
 
 static  binasm ba;

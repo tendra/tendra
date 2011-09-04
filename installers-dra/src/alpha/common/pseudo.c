@@ -82,7 +82,7 @@ $Log: pseudo.c,v $
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "reg_defs.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "bool.h"
 #if DO_SCHEDULE
 #include "scheduler.h"

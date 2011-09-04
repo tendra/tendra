@@ -51,7 +51,7 @@ static char vcid[] = "$Id: symdiags.c,v 1.2 1998/02/04 10:43:33 release Exp $";
 #include "tags.h"
 #include "bitsmacs.h"
 #include "diagtypes.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "syms.h"

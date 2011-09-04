@@ -73,7 +73,7 @@ $Log: dwarf_queue.c,v $
 
 #include "config.h"
 #include "common_types.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "basicread.h"
 #include "dwarf_out.h"
 #include "dwarf_type.h"

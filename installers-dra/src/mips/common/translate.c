@@ -130,7 +130,7 @@ $Log: translate.c,v $
 #include "ibinasm.h"
 #include "syms.h"
 #include "out_ba.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "new_symbol.h"
 #include "mipsdiags.h"
 #include "extern_adds.h"

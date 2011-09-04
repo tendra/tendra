@@ -44,7 +44,7 @@ $Log: bstack.c,v $
  *
 ***********************************************************************/
 #include "config.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "bstack.h"
 
 void

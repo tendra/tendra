@@ -113,7 +113,7 @@ $Log: dg_fns.c,v $
 #include "dg_fns.h"
 #include "dg_aux.h"
 #include "dg_globs.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "toktypes.h"
 #include "flags.h"
 #include "externs.h"

@@ -63,8 +63,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "error.h"
-#include "xalloc.h"
+#include "error/error.h"
+#include "xalloc/xalloc.h"
 
 #include "config.h"
 #include "filename.h"

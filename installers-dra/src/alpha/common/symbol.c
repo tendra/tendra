@@ -106,7 +106,7 @@ $Log: symbol.c,v $
 			   to be incorporated into a .T file */
 #include "bstack.h"
 #include "makesymtab.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "common_types.h"
 #include "diagtypes.h"
 #include "expmacs.h"

@@ -115,7 +115,7 @@ $Log: parameter.c,v $
 #include "proc.h"
 #include "stack.h"
 #include "mem_copy.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "parameter.h"
 bool suspected_varargs = 0;
 int saved_varargs_register=0;

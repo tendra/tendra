@@ -94,7 +94,7 @@ extern weak_cell *weak_list;
 #include "out.h"
 #endif
 
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "readglob.h"
 #include "basicread.h"
 #include "exp.h"

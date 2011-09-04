@@ -60,7 +60,7 @@
 
 #include <stddef.h>
 
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 
 #include "list.h"
 #include "utility.h"

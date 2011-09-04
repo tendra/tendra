@@ -140,7 +140,7 @@ $Log: inst_fmt.c,v $
 #include "config.h"
 #include "common_types.h"
 #include "myassert.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "addrtypes.h"
 #include "regexps.h"
 #include "regmacs.h"

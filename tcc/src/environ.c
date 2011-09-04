@@ -63,7 +63,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "error.h"
+#include "error/error.h"
 
 #include "config.h"
 #include "filename.h"

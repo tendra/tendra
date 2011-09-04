@@ -97,7 +97,7 @@ NEW DIAG STRUCTURE
 #include "common_types.h"
 #include "expmacs.h"
 #include "tags.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "externs.h"
 #include "dg_aux.h"
 #include "mark_scope.h"

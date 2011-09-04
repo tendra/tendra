@@ -102,7 +102,7 @@ NEW DIAG STRUCTURE
 #include "table_fns.h"
 #include "basicread.h"
 #include "sortmacs.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #ifdef NEWDIAGS
 #include "exp.h"
 #include "expmacs.h"

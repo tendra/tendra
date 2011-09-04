@@ -229,7 +229,7 @@ parameter alignment in make_cmpd
 
 #include "config.h"
 #include "common_types.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "expmacs.h"
 #include "exp.h"
 #include "tags.h"

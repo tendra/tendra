@@ -148,7 +148,7 @@ $Log: translate.c,v $
 #include "eval.h"
 #include "bitsmacs.h"
 #include "scan.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "main.h"
 #include "frames.h"
 #include "reg_defs.h"

@@ -119,7 +119,7 @@ $Log: proc.c,v $
 #include "proc.h"
 #include "stack.h"
 #include "mem_copy.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "parameter.h"
 #include "error.h"
 #include "dynamic_init.h"

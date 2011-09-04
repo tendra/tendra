@@ -111,7 +111,7 @@ $Log: dwarf_out.c,v $
 
 #include "shapemacs.h"
 
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "dwarf_types.h"
 #include "dwarf_loc.h"
 #include "dwarf_mc.h"

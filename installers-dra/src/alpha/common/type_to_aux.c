@@ -93,7 +93,7 @@ $Log: type_to_aux.c,v $
 #include "expmacs.h"
 #include "diagtypes.h"
 #include "diag_fns.h"
-#include "xalloc.h"
+#include "xalloc/xalloc.h"
 #include "main.h"
 #include "symtab.h"
 #include "symbol.h"

@@ -96,7 +96,7 @@ Imported from DRA
 */
 
 
-#include "error.h"
+#include "error/error.h"
 
 #include "config.h"
 #include "common_types.h"
