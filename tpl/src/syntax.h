@@ -4,11 +4,12 @@
  * and
  *	syntax.act
  * by:
- *	obj/../../utilities/sid/sid
+ *	sid
  */
 
 /* BEGINNING OF HEADER */
 
+#line 256 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -47,6 +48,7 @@ extern int do_pp;
 extern int search_for_toks;
 extern unsigned long MAJOR_NO;
 extern unsigned long MINOR_NO;
+#line 52 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -54,24 +56,24 @@ extern void read_label(void);
 extern void read_variety(void);
 extern void read_shape(void);
 extern void read_string(void);
-extern void read_signed_nat(void);
+extern void read_signed__nat(void);
 extern void read_token(void);
-extern void read_error_code(void);
+extern void read_error__code(void);
 extern void read_bool(void);
 extern void read_ntest(void);
-extern void read_bitfield_variety(void);
+extern void read_bitfield__variety(void);
 extern void read_tag(void);
-extern void read_nat_option(void);
-extern void read_floating_variety(void);
+extern void read_nat__option(void);
+extern void read_floating__variety(void);
 extern void read_nat(void);
 extern void read_alignment(void);
-extern void read_error_code_list(void);
+extern void read_error__code__list(void);
 extern void read_exp(void);
-extern void read_error_treatment(void);
-extern void read_al_tag(void);
-extern void read_exp_list(void);
-extern void read_transfer_mode(void);
-extern void read_rounding_mode(void);
+extern void read_error__treatment(void);
+extern void read_al__tag(void);
+extern void read_exp__list(void);
+extern void read_transfer__mode(void);
+extern void read_rounding__mode(void);
 extern void read_access(void);
 extern void read_program(void);
 
@@ -210,7 +212,9 @@ extern void read_program(void);
 
 /* BEGINNING OF TRAILER */
 
+#line 2475 "syntax.act"
 
 #endif
+#line 219 "syntax.h"
 
 /* END OF FILE */
