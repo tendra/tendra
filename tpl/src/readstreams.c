@@ -66,6 +66,8 @@
 #include "decodings.h"
 #include "defs.h"
 
+#include "shared/xalloc/xalloc.h"
+
 
 Instream *curin;
 
@@ -151,7 +153,7 @@ d_tdfstring(int n)
 	unsigned int i;
 	int k = (int)get_tdfint();
 	unsigned int l = get_tdfint();
-	char *s = CALLOC(char,l);
+	char *s = xcalloc(sizeof *s, l);
 	for (i = 0; i < l; i++) {
 		s[i] = (char)get_basic_int(k, 0);
 	}
@@ -329,7 +331,7 @@ d_bitstream(char *s, int n)
 void
 read_cur(unsigned int(*f)(int))
 {
-	curin = MALLOC(Instream);
+	curin = xmalloc(sizeof *curin);
 	curin->ch = current_TDF->first;
 	curin->byte_pos = 0;
 	curin->bit_pos = 0;

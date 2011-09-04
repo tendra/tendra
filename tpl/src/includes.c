@@ -78,6 +78,7 @@ $Log: includes.c,v $
 #include "includes.h"
 #include "errors.h"
 
+#include "shared/xalloc/xalloc.h"
 
 char *file_name;
 static Path *inc_paths;
@@ -86,7 +87,7 @@ static Path *inc_paths;
 void
 init_includes(void)
 {
-	inc_paths = MALLOC(Path);
+	inc_paths = xmalloc(sizeof *inc_paths);
 	inc_paths->name = "";
 	inc_paths->next = (Path *)0;
 }
@@ -95,7 +96,7 @@ init_includes(void)
 void
 add_include(char *p)
 {
-	Path *x = MALLOC(Path);
+	Path *x = xmalloc(sizeof *x);
 	Path **n = &inc_paths->next;
 	x->name = append_string(p, "/");
 	x->next = (Path *)0;

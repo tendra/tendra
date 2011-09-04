@@ -4,6 +4,14 @@
 
 # TODO: move templ/-generated stuff into obj_c/obj_tok, as for the others
 
+CFLAGS+=	-I shared/xalloc
+
+PARTS+=	src/shared/error
+PARTS+=	src/shared/xalloc
+
+.include <tendra.partial.mk>
+
+
 SRCS+=	analyse_sort.c
 SRCS+=	consfile.c
 SRCS+=	decodings.c

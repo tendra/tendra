@@ -76,14 +76,7 @@ $Log: util.h,v $
 #ifndef UTIL_INCLUDED
 #define UTIL_INCLUDED
 
-typedef void *Pointer;
-
 extern char *copy_string(char *);
 extern char *append_string(char *, char *);
-extern Pointer xmalloc(unsigned);
-extern Pointer xcalloc(unsigned, unsigned);
-
-#define MALLOC(T)	((T *)xmalloc((unsigned)sizeof(T)))
-#define CALLOC(T, n)	((T *)xcalloc((unsigned)(n), (unsigned)sizeof(T)))
 
 #endif

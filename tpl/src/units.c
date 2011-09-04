@@ -100,6 +100,8 @@ $Log: units.c,v $
 #include "defs.h"
 #include "syntax.h"
 
+#include "shared/xalloc/xalloc.h"
+
 
 FILE *out_file;
 Unit units[NO_OF_UNITS];
@@ -166,7 +168,7 @@ capsule_name(Name *n, int ent)
 		nl_links = nl_links->next;
 	}
 	Assert(n->unit_name < (nl_unit->no_entity)[ent]);
-	nl_links = MALLOC(Link);
+	nl_links = xmalloc(sizeof *nl_links);
 	nl_links->capsule_name = next_capsule_name(ent);
 	nl_links->unit_name = n->unit_name;
 	nl_links->next = (nl_unit->links)[ent];
@@ -185,7 +187,7 @@ cname_to_lname(int c_name, int ent)
 		}
 		links = links->next;
 	}
-	links = MALLOC(Link);
+	links = xmalloc(sizeof *links);
 	links->capsule_name = c_name;
 	links->unit_name = next_unit_name(ent);
 	links->next = (units[current_Unit].links)[ent];

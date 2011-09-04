@@ -92,6 +92,7 @@ $Log: standardsh.c,v $
 #include "errors.h"
 #include "standardsh.h"
 
+#include "shared/xalloc/xalloc.h"
 
 static Name *intshtok = (Name *)0;
 static Name *longshtok = (Name *)0;
@@ -114,7 +115,7 @@ select_tokdef_unit(void)
 	if (current_Unit != tokdef_unit) {
 		SELECT_UNIT(tokdef_unit);
 	} else {
-		TDFlist *tl = MALLOC(TDFlist);
+		TDFlist *tl = xmalloc(sizeof *tl);
 		tl->next = extra_toks;
 		extra_toks = tl;
 		current_TDF = &tl->t;
@@ -215,7 +216,7 @@ tokforintsh(Bool issigned)
 	if ((*t) != (Name *)0) {
 		return *t;
 	}
-	(*t) = MALLOC(Name);
+	(*t) = xmalloc(sizeof **t);
 	select_tokdef_unit();
 	*(*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -237,7 +238,7 @@ tokforlongsh(Bool issigned)
 	if ((*t) != (Name *)0) {
 		return *t;
 	}
-	(*t) = MALLOC(Name);
+	(*t) = xmalloc(sizeof **t);
 	select_tokdef_unit();
 	*(*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -259,7 +260,7 @@ tokforshortsh(Bool issigned)
 	if ((*t) != (Name *)0) {
 		return *t;
 	}
-	(*t) = MALLOC(Name);
+	(*t) = xmalloc(sizeof **t);
 	select_tokdef_unit();
 	*(*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -281,7 +282,7 @@ tokforcharsh(Bool issigned)
 	if ((*t) != (Name *)0) {
 		return *t;
 	}
-	(*t) = MALLOC(Name);
+	(*t) = xmalloc(sizeof **t);
 	select_tokdef_unit();
 	*(*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -303,7 +304,7 @@ tokforfloatsh(void)
 	if ((*t) != (Name *)0) {
 		return *t;
 	}
-	(*t) = MALLOC(Name);
+	(*t) = xmalloc(sizeof **t);
 	select_tokdef_unit();
 	*(*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},
@@ -325,7 +326,7 @@ tokfordoublesh(void)
 	if ((*t) != (Name *)0) {
 		return *t;
 	}
-	(*t) = MALLOC(Name);
+	(*t) = xmalloc(sizeof **t);
 	select_tokdef_unit();
 	*(*t) = next_name(tok_ent);
 	o_make_tokdef(out_tdfint32(UL((*t)->unit_name)), {},

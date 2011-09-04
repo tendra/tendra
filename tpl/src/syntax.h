@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 256 "syntax.act"
+#line 258 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -212,7 +212,7 @@ extern void read_program(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 2475 "syntax.act"
+#line 2477 "syntax.act"
 
 #endif
 #line 219 "syntax.h"

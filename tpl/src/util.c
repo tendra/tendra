@@ -78,13 +78,15 @@ $Log: util.c,v $
 #include "errors.h"
 #include "util.h"
 
+#include "shared/xalloc/xalloc.h"
+
 
 char *
 copy_string(char *s)
 {
 	unsigned i;
 	unsigned ls = (unsigned)strlen(s);
-	char *res = CALLOC(char, ls + 1);
+	char *res = xcalloc(sizeof *res, ls + 1);
 	for (i = 0; i < ls; i++) {
 		res[i] = s[i];
 	}
@@ -98,7 +100,7 @@ append_string(char *a, char *b)
 	unsigned i;
 	unsigned la = (unsigned)strlen(a);
 	unsigned lb = (unsigned)strlen(b);
-	char *res = CALLOC(char, la + lb + 1);
+	char *res = xcalloc(sizeof *res, la + lb + 1);
 	for (i = 0; i < la; i++) {
 		res[i] = a[i];
 	}
@@ -109,22 +111,3 @@ append_string(char *a, char *b)
 	return res;
 }
 
-Pointer
-xmalloc(unsigned n)
-{
-	Pointer p = (Pointer)malloc((size_t)n);
-	if (p == NULL) {
-		fail("Memory allocation error");
-	}
-	return p;
-}
-
-Pointer
-xcalloc(unsigned n, unsigned m)
-{
-    Pointer p = (Pointer)calloc((size_t)n,(size_t)m);
-    if (p == NULL) {
-	    fail("Memory allocation error");
-    }
-    return p;
-}

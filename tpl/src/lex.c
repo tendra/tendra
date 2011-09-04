@@ -98,6 +98,9 @@ $Log: lex.c,v $
 #include "reserved.h"
 #include "consfile.h"
 
+#include "shared/xalloc/xalloc.h"
+
+
 typedef struct FStack_struct{
 	FILE *file;
 	char *fname;
@@ -123,7 +126,7 @@ long radix;
 static void
 push_current(void)
 {
-	FStack *x = MALLOC(FStack);
+	FStack *x = xmalloc(sizeof *x);
 	x->file = in_file;
 	x->fname = file_name;
 	x->line = cLINE;

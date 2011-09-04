@@ -65,6 +65,8 @@
 #include "enc_nos.h"
 #include "errors.h"
 
+#include "shared/xalloc/xalloc.h"
+
 
 TDF *current_TDF;
 
@@ -79,7 +81,7 @@ create_chunk(void)
 		ans = free_chunks;
 		free_chunks = free_chunks->next;
 	} else {
-		ans = MALLOC(Chunk);
+		ans = xmalloc(sizeof *ans);
 	}
 	ans->next = (Chunk *)0;
 	ans->usage = 0;

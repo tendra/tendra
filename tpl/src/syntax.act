@@ -120,6 +120,8 @@ ULONG -> unsigned_long;
 #include "syntax.h"
 #include "units.h"
 
+#include "shared/xalloc/xalloc.h"
+
 #if FS_TENDRA
 #pragma TenDRA begin
 #pragma TenDRA unreachable code allow
@@ -311,7 +313,7 @@ extern unsigned long MINOR_NO;
     char * n =lex_v.val.name;
     Al_tagdec * x = find_al_tag(n);
     if (x== (Al_tagdec*)0) {
-	x= MALLOC(Al_tagdec);
+	x= xmalloc(sizeof *x);
 	x->isdeffed =0; x->iskept=0;
 	NEW_IDNAME(x->idname, n, al_tag_ent);
 	x->next = al_tagdecs;
@@ -338,7 +340,7 @@ extern unsigned long MINOR_NO;
     @x = find_al_tag(n);
     SELECT_UNIT(al_tagdef_unit);
     if (@x== (Al_tagdec*)0) {
-	@x= MALLOC(Al_tagdec); @x->isdeffed =0; @x->iskept=0; @x->isused=0;
+	@x= xmalloc(sizeof *@x); @x->isdeffed =0; @x->iskept=0; @x->isused=0;
 	NEW_IDNAME(@x->idname, n, al_tag_ent);
 	@x->next = al_tagdecs; al_tagdecs = @x;
 	@already_used = 0;
@@ -1032,15 +1034,15 @@ extern unsigned long MINOR_NO;
     @y = find_tok(n);
     if (@x!= (Tokdec*)0 || @y!= (Tokdec*)0)
 	    fail("Field name %s must be unique", dotn);
-    @x = MALLOC(Tokdec); NEW_IDNAME(@x->idname, dotn, tok_ent);
+    @x = xmalloc(sizeof *@x); NEW_IDNAME(@x->idname, dotn, tok_ent);
     @x->isdeffed = 1; @x->isused=0; @x->iskept = 0;
     @x->sort.ressort.sort = exp_sort;
     @x->sort.pars = (Tokpar *)0;
 
-    @y = MALLOC(Tokdec); NEW_IDNAME(@y->idname, n, tok_ent);
+    @y = xmalloc(sizeof *@y); NEW_IDNAME(@y->idname, n, tok_ent);
     @y->isdeffed = 1; @y->isused=0; @y->iskept = 0;
     @y->sort.ressort.sort = exp_sort;
-    @y->sort.pars = MALLOC(Tokpar);
+    @y->sort.pars = xmalloc(sizeof *@y->sort.pars);
     @y->sort.pars->par.sort = exp_sort;
     @y->sort.pars->next = (Tokpar*)0;
     @x->next = @y;
@@ -1254,7 +1256,7 @@ extern unsigned long MINOR_NO;
     char* n = lex_v.val.name;
     @x = find_tag(n);
     if (@x != (Tagdec*)0) { fail("Tag %s declared twice", n); }
-    @x = MALLOC(Tagdec); @x->isdeffed = 1; @x->hassh=0; @x->iskept=0;
+    @x = xmalloc(sizeof *@x); @x->isdeffed = 1; @x->hassh=0; @x->iskept=0;
     NEW_IDNAME(@x->idname, n, tag_ent);
     g_has_vis = 0;
     SET_TDF(@hold, &@acc);
@@ -1278,7 +1280,7 @@ extern unsigned long MINOR_NO;
     intro_init = @init;
     @x->isvar=1;
     if (@has_vis) {
-	Tagdec * y = MALLOC(Tagdec);
+	Tagdec * y = xmalloc(sizeof *y);
 	*y = *@x;
 	y->next = tagdecs;
 	tagdecs = y;
@@ -1293,7 +1295,7 @@ extern unsigned long MINOR_NO;
     intro_init = @init;
     @x->isvar=0;
     if (@has_vis) {
-	Tagdec * y = MALLOC(Tagdec);
+	Tagdec * y = xmalloc(sizeof *y);
 	*y = *@x;
 	y->next = tagdecs;
 	tagdecs = y;
@@ -1469,7 +1471,7 @@ extern unsigned long MINOR_NO;
     char * n =lex_v.val.name;
     Labdec * x = find_lab(n);
     if (x== (Labdec*)0) {
-	x = MALLOC(Labdec);
+	x = xmalloc(sizeof *x);
 	x->idname.id = n; x->idname.name.unit_name = next_label();
 	x->declared = 0;
 	x->next = labdecs; labdecs = x;
@@ -1633,7 +1635,7 @@ extern unsigned long MINOR_NO;
     char* n = lex_v.val.name;
     Tagdec * x = find_tag(n);
     if (x != (Tagdec*)0) { fail("Tag %s declared twice", n); }
-    x = MALLOC(Tagdec); x->isdeffed = 1; x->hassh=0; x->iskept=0;
+    x = xmalloc(sizeof *x); x->isdeffed = 1; x->hassh=0; x->iskept=0;
     NEW_IDNAME(x->idname, n, tag_ent);
     x->isvar = 1;
     x->next = g_app_tags; g_app_tags = x;
@@ -1903,7 +1905,7 @@ extern unsigned long MINOR_NO;
 @};
 
 <sortname5> :(x, temp, old_tokpars) -> () = @{
-    TokSort * ts = MALLOC(TokSort);
+    TokSort * ts = xmalloc(sizeof *ts);
     ts->ressort = g_sname;
     ts->pars = @temp;
     g_tokpars = @old_tokpars;
@@ -1912,7 +1914,7 @@ extern unsigned long MINOR_NO;
 @};
 
 <snl1> :() -> () = @{
-    g_tokpars = MALLOC(Tokpar);
+    g_tokpars = xmalloc(sizeof *g_tokpars);
     g_tokpars->par = g_sname;
     g_tokpars->next = (Tokpar*)0;
 @};
@@ -1922,7 +1924,7 @@ extern unsigned long MINOR_NO;
 @};
 
 <snl3> :(tmp) -> () = @{
-    Tokpar * x = MALLOC(Tokpar);
+    Tokpar * x = xmalloc(sizeof *x);
     x->par = @tmp;
     x->next = g_tokpars;
     g_tokpars = x;
@@ -1937,7 +1939,7 @@ extern unsigned long MINOR_NO;
     @x = find_tok(n);
     SELECT_UNIT(tokdef_unit);
     if (@x!= (Tokdec*)0)fail("Struct name %s must be unique", n);
-    @x = MALLOC(Tokdec); NEW_IDNAME(@x->idname, n, tok_ent);
+    @x = xmalloc(sizeof *@x); NEW_IDNAME(@x->idname, n, tok_ent);
     @x->sort.ressort.sort = shape_sort; @x->sort.pars = (Tokpar*)0;
     @x->isdeffed = 1; @x->isused=0; @x->iskept=0;
     g_lastfield = -1;
@@ -1973,7 +1975,7 @@ extern unsigned long MINOR_NO;
     @x = find_tag(n);
     if (@x != (Tagdec*)0)fail("Tag %s declared twice", n);
     SELECT_UNIT(tagdec_unit);
-    @x = MALLOC(Tagdec); NEW_IDNAME(@x->idname, n, tag_ent);
+    @x = xmalloc(sizeof *@x); NEW_IDNAME(@x->idname, n, tag_ent);
     @x->isdeffed = 0; @x->hassh = 1; @x->iskept=0; @x->iscommon=0;
     @x->isused = 0;
     SET_TDF(@hold, &@tdaccopt);
@@ -2056,7 +2058,7 @@ extern unsigned long MINOR_NO;
 	if (!@x->isvar)fail("Tag %s declared as non-variable", @n);
 	@is_deced = 1;
     } else {
-	@x = MALLOC(Tagdec);
+	@x = xmalloc(sizeof *@x);
 	@x->hassh = 0; @x->isvar=1; @x->iskept=0; @x->iscommon = 0;
 	@x->isused=0;
 	NEW_IDNAME(@x->idname, @n, tag_ent);
@@ -2120,7 +2122,7 @@ extern unsigned long MINOR_NO;
 	if (@x->isvar)fail("Tag %s declared as variable", @n);
 	@is_deced = 1;
     } else {
-	@x = MALLOC(Tagdec);
+	@x = xmalloc(sizeof *@x);
 	@x->hassh = 0; @x->isvar=0; @x->iskept=0; @x->iscommon = 0;
 	@x->isused = 0;
 	NEW_IDNAME(@x->idname, @n, tag_ent);
@@ -2161,7 +2163,7 @@ extern unsigned long MINOR_NO;
     char * n =lex_v.val.name;
     @x = find_tag(n);
     if (@x != (Tagdec*)0)fail("Ident %s already declared", n);
-    @x = MALLOC(Tagdec);
+    @x = xmalloc(sizeof *@x);
     @x->hassh = 2; @x->isvar =1; @x->isdeffed = 1; @x->iskept=0;
     NEW_IDNAME(@x->idname, n, tag_ent);
     g_has_vis =0;
@@ -2180,7 +2182,7 @@ extern unsigned long MINOR_NO;
 	if (@accopt.no != 0) {OPTION(append_TDF(&@accopt,1));},
 	make_tag(&@x->idname.name));
     if (@has_vis) {
-	Tagdec * y = MALLOC(Tagdec);
+	Tagdec * y = xmalloc(sizeof *y);
 	*y = *@x;
 	y->next = tagdecs;
 	tagdecs = y;
@@ -2254,7 +2256,7 @@ extern unsigned long MINOR_NO;
     @x = find_tok(n);
     if (@x != (Tokdec *)0)fail("Token %s declared twice", n);
     SELECT_UNIT(tokdec_unit);
-    @x = MALLOC(Tokdec);
+    @x = xmalloc(sizeof *@x);
     NEW_IDNAME(@x->idname, n, tok_ent);
     SET_TDF(@hold, &@sigopt);
 @};
@@ -2286,7 +2288,7 @@ extern unsigned long MINOR_NO;
 	if (@x->isdeffed)fail("Token %s defined twice", n);
 	@is_deced = 1;
     } else {
-	@x = MALLOC(Tokdec);
+	@x = xmalloc(sizeof *@x);
 	NEW_IDNAME(@x->idname, n, tok_ent);
 	@is_deced = 0;
     }
@@ -2317,7 +2319,7 @@ extern unsigned long MINOR_NO;
     Sort sn;
     Tokdec * tfrev = (Tokdec*)0;
     while (g_tokformals != (Tokdec*)0) { /* the wrong way round!! */
-	Tokdec * x = MALLOC(Tokdec);
+	Tokdec * x = xmalloc(sizeof *x);
 	*x = *g_tokformals;
 	x->next = tfrev;
 	tfrev = x;
@@ -2343,7 +2345,7 @@ extern unsigned long MINOR_NO;
 	analyse_sort(sn.sort));
     g_toksort.ressort = sn;
     while (tokformals != (Tokdec*)0) {
-	Tokpar * p = MALLOC(Tokpar);
+	Tokpar * p = xmalloc(sizeof *p);
 	p->par = tokformals->sort.ressort;
 	p->next = tp;
 	tokformals = tokformals->next;
@@ -2359,7 +2361,7 @@ extern unsigned long MINOR_NO;
     char * n = lex_v.val.name;
     @x = find_tok(n);
     if (@x!= (Tokdec*)0)fail("Token parameter name %s must be unique", n);
-    @x = MALLOC(Tokdec); NEW_IDNAME(@x->idname, n, tok_ent);
+    @x = xmalloc(sizeof *@x); NEW_IDNAME(@x->idname, n, tok_ent);
     @x->isdeffed = 1; @x->isused = 0; @x->iskept=0;
     @x->next = (Tokdec*)0;
 @};
