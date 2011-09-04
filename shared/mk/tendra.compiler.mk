@@ -49,6 +49,21 @@ _TENDRA_COMPILER_MK_=1
 #
 
 
+# TODO: attempt to guess based on ${CC} for common compilers.
+# Note that "tcc" is not included here to prevent ambiguity with tinycc.
+# TODO: think more about this. we need ${CLANG} to take precidence over ${CC}
+# TODO: can this use sh's 'case x in y' construct?
+. if defined(CC)
+.  if ${CC:T:Mgcc}
+GCC?=	${CC}
+.  elif ${CC:T:Mpcc}
+PCC?=	${CC}
+.  elif ${CC:T:Mclang}
+CLANG?=	${CC}
+.  endif
+. endif
+
+
 . if defined(TCC)
 
 #TPPOPTS?=
