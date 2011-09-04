@@ -72,7 +72,7 @@
 #include "assembler.h"
 #include "instr.h"
 #include "instr386.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "install_fns.h"
 #include <string.h>
 

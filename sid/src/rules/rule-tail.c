@@ -98,7 +98,8 @@
  * are marked as needing a function implementation.
  */
 
-#include "../shared/check/check.h"
+#include <shared/check.h>
+
 #include "../adt/rule.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"

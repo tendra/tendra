@@ -36,13 +36,13 @@
 #include <exds/ostream.h>
 #include <exds/dstring.h>
 
+#include <shared/error.h>
+
 #include "adt/basic.h"
 #include "adt/entry.h"
 #include "adt/entry-list.h"
 #include "adt/key.h"
 #include "adt/rule.h"
-
-#include "shared/error/error.h"
 
 
 static void fmt_clashlist(FILE *fp, void *p) {

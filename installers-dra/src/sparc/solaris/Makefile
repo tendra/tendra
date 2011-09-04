@@ -5,12 +5,10 @@
 
 #TCCOPTS=-Xc -Y32bit -Yansi
 
-PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared
 PART_CFLAGS+=	-I ${BASE_DIR}/src/sparc/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/sparc/solaris
 
-PARTS+=	src/common/shared/error
-PARTS+=	src/common/shared/xalloc
+PARTS+=	src/common/shared
 PARTS+=	src/common/construct
 PARTS+=	src/common/diag
 PARTS+=	src/common/dwarf2
@@ -21,7 +19,6 @@ PARTS+=	src/sparc/common
 .include <tendra.partial.mk>
 
 
-CFLAGS+=	-I ../../common/shared
 CFLAGS+=	-I ../../common/construct
 CFLAGS+=	-I ../../common/diag
 CFLAGS+=	-I ../../common/linkinfo

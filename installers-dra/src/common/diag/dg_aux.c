@@ -111,7 +111,7 @@ $Log: dg_aux.c,v $
 #include "config.h"
 #include "common_types.h"
 #include "basicread.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "sortmacs.h"
 #include "expmacs.h"
 #include "tags.h"

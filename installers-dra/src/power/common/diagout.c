@@ -131,7 +131,7 @@ $Log: diagout.c,v $
 #include "machine.h"
 #include "szs_als.h"
 #include "install_fns.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 #include "maxminmacs.h"
 #include "proc.h"

@@ -46,7 +46,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "check/check.h"
+#include <shared/check.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>

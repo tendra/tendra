@@ -75,7 +75,7 @@ If the entry generated is greater than 1 AUXU in length the index corresponding 
 #include "expmacs.h"
 #include "diagtypes.h"
 #include "diag_fns.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "symtab.h"
 #include "new_symbol.h"
 #include "basicread.h"

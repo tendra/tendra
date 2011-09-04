@@ -62,8 +62,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "xalloc/xalloc.h"
-#include "error/error.h"
+#include <shared/xalloc.h>
+#include <shared/error.h>
 
 #include "char.h"
 

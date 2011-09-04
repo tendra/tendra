@@ -68,8 +68,8 @@
 #include <assert.h>
 #include <errno.h>
 
-#include "check/check.h"
-#include "error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
 
 #include "arg-parse.h"
 

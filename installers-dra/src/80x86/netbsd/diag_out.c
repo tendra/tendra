@@ -70,7 +70,7 @@
 #include "tags.h"
 #include "szs_als.h"
 #include "diagglob.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "exp.h"
 #include "mark_scope.h"
 #include "externs.h"

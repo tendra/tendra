@@ -104,7 +104,7 @@ Globals flags in copy
 #include "config.h"
 #include "common_types.h"
 #include "externs.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "installglob.h"
 #include "expmacs.h"
 #include "tags.h"

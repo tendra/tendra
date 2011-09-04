@@ -64,12 +64,13 @@
 #include <exds/dalloc.h>
 #include <exds/cstring-list.h>
 
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include "test-main.h"
 
 #include "../lang.h"
 #include "../output.h"
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
 
 static void *
 main_init_test(OutputInfoT *info, CStringListT *options)

@@ -82,7 +82,7 @@ $Log: dw2_locdata.c,v $
 #include "expmacs.h"
 #include "tags.h"
 #include "basicread.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "externs.h"
 #include "dg_aux.h"
 #include "dw2_locdata.h"

@@ -3,14 +3,11 @@
 .include "Makefile.inc"
 
 
-PARTS+=	src/shared/error
-PARTS+=	src/shared/xalloc
+PARTS+=	src/shared
 PARTS+=	src/obj_c
 
 .include <tendra.partial.mk>
 
-
-CCOPTS+=	-Ishared
 
 SRCS+=	lex.c
 SRCS+=	main.c

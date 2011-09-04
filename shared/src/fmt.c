@@ -52,6 +52,8 @@
 #include <limits.h>
 #include <assert.h>
 
+#include <shared/fmt.h>
+
 /*
 	FORMATTING CALLBACKS
 

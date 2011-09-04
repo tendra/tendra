@@ -63,7 +63,7 @@
 
 #include "output.h"
 
-#include "error/error.h"
+#include <shared/error.h>
 
 void
 output_indent(FILE *out, unsigned int depth)

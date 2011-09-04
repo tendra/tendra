@@ -79,8 +79,9 @@
  * for rules that start with a predicate.
  */
 
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include "../adt/rule.h"
 #include "../adt/basic.h"
 #include "../adt/table.h"

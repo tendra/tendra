@@ -72,8 +72,8 @@
 #include <exds/common.h>
 #include <exds/error.h>
 
-#include "check/check.h"
-#include "error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
 
 #include "adt/library.h"
 #include "adt/shape-table.h"

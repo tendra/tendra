@@ -2,10 +2,7 @@
 
 .include "Makefile.inc"
 
-CFLAGS+=	-Ishared
-
-PARTS+=	src/shared/error
-PARTS+=	src/shared/xalloc
+PARTS+=	src/shared
 PARTS+=	src/obj_c
 
 .include <tendra.partial.mk>

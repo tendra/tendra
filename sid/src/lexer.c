@@ -70,13 +70,14 @@
  * specifc lexical analyser files as well.
  */
 
-#include <exds/dalloc.h>
-
 #include <assert.h>
 #include <ctype.h>
 
-#include "shared/check/check.h"
-#include "shared/error/error.h"
+#include <exds/dalloc.h>
+
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include "lexer.h"
 
 struct lexi_state lexi_current_state ;

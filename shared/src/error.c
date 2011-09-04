@@ -62,8 +62,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "error.h"
-#include "fmt.h"
+#include <shared/error.h>
+#include <shared/fmt.h>
 
 
 /*

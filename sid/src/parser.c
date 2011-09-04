@@ -80,6 +80,9 @@
 	#include <exds/dalloc.h>
 	#include <exds/dstring.h>
 
+	#include <shared/check.h>
+	#include <shared/error.h>
+
 	#include "adt/action.h"
 	#include "adt/basic.h"
 	#include "adt/key.h"
@@ -89,8 +92,6 @@
 	#include "adt/table.h"
 	#include "adt/types.h"
 
-	#include "shared/check/check.h"
-	#include "shared/error/error.h"
 	#include "parser.h"
 	#include "grammar.h"
 	#include "lexer.h"

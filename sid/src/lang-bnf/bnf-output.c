@@ -31,11 +31,13 @@
 
 #include <stdio.h>
 #include <assert.h>
+
 #include <exds/dstring.h>
+
+#include <shared/check.h>
 
 #include "bnf-output.h"
 #include "bnf-out-info.h"
-#include "../shared/check/check.h"
 #include "../grammar.h"
 #include "../adt/entry-list.h"
 #include "../adt/rule.h"

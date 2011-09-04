@@ -122,7 +122,7 @@ $Log: dw2_iface.c,v $
 #include "dw2_lines.h"
 #include "dw2_info.h"
 #include "dw2_locdata.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "diagglob.h"
 
 

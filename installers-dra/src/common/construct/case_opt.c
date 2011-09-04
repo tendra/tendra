@@ -98,7 +98,7 @@ $Log: case_opt.c,v $
 #include "case_opt.h"
 #include "externs.h"
 #include "me_fns.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "install_fns.h"
 #include "szs_als.h"
 

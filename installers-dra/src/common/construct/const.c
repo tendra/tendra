@@ -131,7 +131,7 @@ Shift left + trap_tag
 #include "is_worth.h"
 #include "flpt.h"
 #include "flpttypes.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "messages_c.h"
 #include "basicread.h"
 #include "me_fns.h"

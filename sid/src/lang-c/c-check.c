@@ -65,8 +65,9 @@
  * extraction functions are defined.
  */
 
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include "c-check.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"

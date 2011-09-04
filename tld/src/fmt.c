@@ -29,14 +29,15 @@
  * $Id$
  */
 
+#include <stdio.h>
+
 #include <exds/dstring.h>
 
-#include <stdio.h>
+#include <shared/error.h>
 
 #include "adt/name-key.h"
 #include "adt/library.h"
 
-#include "error/error.h"
 
 static void fmt_nstring(FILE *fp, void *p) {
 	NStringT *nstring = p;

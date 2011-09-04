@@ -70,7 +70,7 @@
 #include <exds/exception.h>
 #include <exds/dalloc.h>
 
-#include "check/check.h"
+#include <shared/check.h>
 
 #include "name-key.h"
 #include "solve-cycles.h"

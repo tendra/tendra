@@ -60,8 +60,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "error/error.h"
-#include "xalloc/xalloc.h"
+#include <shared/error.h>
+#include <shared/xalloc.h>
 #include "obj_c/errors.h"
 #include "obj_c/entry_ops.h"
 #include "obj_c/map_ops.h"

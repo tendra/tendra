@@ -71,8 +71,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "error/error.h"
-#include "xalloc/xalloc.h"
+#include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include "lexer.h"
 #include "syntax.h"

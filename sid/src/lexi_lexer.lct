@@ -31,8 +31,9 @@
 
 HEADERS = @{
 
+	#include <shared/error.h>
+
 	#include "lexer.h"
-	#include "shared/error/error.h"
 
 @} , @{
 @};

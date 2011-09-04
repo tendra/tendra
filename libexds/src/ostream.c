@@ -77,6 +77,7 @@
 #include <exds/dalloc.h>
 #include <exds/ostream.h>
 #include <exds/cstring.h>
+
 #include "syntax.h"
 
 ExceptionT *XX_ostream_write_error = EXCEPTION("error writing to stream");

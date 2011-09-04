@@ -66,7 +66,7 @@ $Log: labels.c,v $
 #endif
 #include "inst_fmt.h"
 #include "labels.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 extern  FILE * as_file;
 
 int   last_label = 31;

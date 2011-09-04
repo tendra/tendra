@@ -2,7 +2,7 @@
 
 .include "Makefile.inc"
 
-CCOPTS+=	-I${.CURDIR}/../shared
+
 CCOPTS+=	-I${.CURDIR}/..
 
 SRCS+=	builder.c

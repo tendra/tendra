@@ -61,8 +61,8 @@
 #include <limits.h>
 #include <stdarg.h>
 
-#include "error/error.h"
-#include "xalloc/xalloc.h"
+#include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include "config.h"
 #include "types.h"

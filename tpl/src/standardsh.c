@@ -92,7 +92,7 @@ $Log: standardsh.c,v $
 #include "errors.h"
 #include "standardsh.h"
 
-#include "shared/xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 static Name *intshtok = (Name *)0;
 static Name *longshtok = (Name *)0;

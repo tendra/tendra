@@ -65,15 +65,13 @@
 #include <string.h>
 #include <limits.h>
 
-/* XXX: needed for xmalloc_nof and other macros */
-#include "xalloc.h"
+#include <shared/error.h>
+#include <shared/xalloc.h>
 
 /* SIZE_MAX is not in C90 */
 #ifndef SIZE_MAX
 # define SIZE_MAX ((size_t) -1)
 #endif
-
-extern const char* progname;
 
 /*
  * Custom error function for xalloc to prevent a dependency on

@@ -65,7 +65,7 @@
 #include "enc_nos.h"
 #include "errors.h"
 
-#include "shared/xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 
 TDF *current_TDF;

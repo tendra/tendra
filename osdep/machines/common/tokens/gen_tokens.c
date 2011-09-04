@@ -80,7 +80,6 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <limits.h>
-/* Defined in '../../../../utilities/shared' */
 
 
 static void

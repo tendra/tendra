@@ -67,8 +67,12 @@
 #include <string.h>
 #include <errno.h>
 
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
+
+#include <exds/dstring.h>
+#include <exds/ostream.h>
+
 #include "c-output.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"
@@ -76,8 +80,6 @@
 #include "c-out-key.h"
 #include "c-out-nl.h"
 #include "c-out-types.h"
-#include <exds/dstring.h>
-#include <exds/ostream.h>
 #include "../output.h"
 #include "../adt/name.h"
 #include "../adt/rstack.h"

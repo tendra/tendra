@@ -3,8 +3,11 @@
 .include "Makefile.inc"
 
 
-SUBDIR+=	error
-SUBDIR+=	xalloc
+SRCS+=	error.c
+SRCS+=	fmt.c
+SRCS+=	xalloc.c
 
-.include <tendra.subdir.mk>
+.include <tendra.obj.mk>
+
+.include <tendra.partial.mk>
 

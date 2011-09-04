@@ -6,14 +6,12 @@
 #TCCOPTS=-Xc -Y32bit -Yansi
 
 # note power/, not ppc601/
-PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared
 PART_CFLAGS+=	-I ${BASE_DIR}/src/common/linkinfo
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/power/aix
 
 # note power/, not ppc601/
-PARTS+=	src/common/shared/error
-PARTS+=	src/common/shared/xalloc
+PARTS+=	src/common/shared
 PARTS+=	src/common/construct
 PARTS+=	src/common/diag
 PARTS+=	src/common/linkinfo

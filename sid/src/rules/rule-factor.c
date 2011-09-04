@@ -158,11 +158,13 @@
 
 #include <assert.h>
 
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
+
+#include <exds/bitvec.h>
+
 #include "../adt/rule.h"
 #include "../adt/basic.h"
-#include <exds/bitvec.h>
 #include "../adt/entry-list.h"
 #include "../adt/types.h"
 

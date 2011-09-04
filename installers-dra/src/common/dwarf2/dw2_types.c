@@ -89,7 +89,7 @@ $Log: dw2_types.c,v $
 #include "dw2_basic.h"
 #include "dw2_info.h"
 #include "shapemacs.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "diag_fns.h"
 #include "expmacs.h"
 #include "exp.h"

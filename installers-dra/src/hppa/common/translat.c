@@ -265,7 +265,7 @@ translat.c,v
 #include "getregs.h"
 #include "regmacs.h"
 #include "labels.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "comment.h"
 #include "hppadiags.h"
 #include "installglob.h"

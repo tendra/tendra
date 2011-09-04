@@ -71,8 +71,8 @@
 #include <exds/exception.h>
 #include <exds/ostream.h>
 
-#include "error/error.h"
-#include "check/check.h"
+#include <shared/error.h>
+#include <shared/check.h>
 
 #include "name-entry.h"
 #include "capsule.h"

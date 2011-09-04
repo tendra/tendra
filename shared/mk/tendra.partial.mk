@@ -38,6 +38,7 @@ OBJS+=	${PARTS:C/^/${OBJ_SDIR}\/_partial\//:C/$/\/_partial.o/}
 # TODO: directory here is ${OBJ_SDIR}/_partial/installers/80x86/common
 ${OBJ_SDIR}/_partial/${part}/_partial.o:
 	@cd ${BASE_DIR}/${part} && ${MAKE}        \
+	    BASE_DIR=${BASE_DIR}                  \
 	    OBJ_DIR=${OBJ_SDIR}/_partial          \
 	    OBJ_SDIR=${OBJ_SDIR}/_partial/${part} \
 	    CFLAGS="${CFLAGS} ${PART_CFLAGS}"     \

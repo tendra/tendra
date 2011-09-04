@@ -40,7 +40,7 @@
 
 #include "lctlexer.h"
 #include "lctsyntax.h"
-#include "error/error.h"
+#include <shared/error.h>
 
 int crt_lct_token ;
 int saved_lct_token ;

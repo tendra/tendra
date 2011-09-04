@@ -20,6 +20,10 @@ _TENDRA_WORK_OBJ_MK_=1
 
 OBJS+=  ${SRCS:S/.cc/.o/:S/.c/.o/:C/^/${OBJ_SDIR}\//}
 
+.if exists(${BASE_DIR}/include)
+CCOPTS+=	-I ${BASE_DIR}/include
+.endif
+
 .for src in ${SRCS:M*.c}
 ${OBJ_SDIR}/${src:S/.c/.o/}: ${src}
 	@${CONDCREATE} "${OBJ_SDIR}"

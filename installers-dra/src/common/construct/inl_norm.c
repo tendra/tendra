@@ -100,7 +100,7 @@ NEW DIAG STRUCTURE
 #include "shapemacs.h"
 #include "glopt.h"
 #include "inline.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #ifdef NEWDIAGS
 #include "dg_aux.h"
 #endif

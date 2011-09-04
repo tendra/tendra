@@ -55,7 +55,7 @@
 #include "syntax.h"
 #include "units.h"
 
-#include "shared/xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 #if FS_TENDRA
 #pragma TenDRA begin

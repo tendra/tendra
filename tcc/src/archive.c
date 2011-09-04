@@ -65,7 +65,7 @@
 #include <errno.h>
 #include <limits.h>
 
-#include "error/error.h"
+#include <shared/error.h>
 
 #include "config.h"
 #include "external.h"

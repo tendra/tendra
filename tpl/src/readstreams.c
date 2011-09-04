@@ -66,7 +66,7 @@
 #include "decodings.h"
 #include "defs.h"
 
-#include "shared/xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 
 Instream *curin;

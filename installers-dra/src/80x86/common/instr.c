@@ -206,7 +206,7 @@ $Log: instr.c,v $
 #include "check.h"
 #include "label_ops.h"
 #include "externs.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 #include "instr.h"
 

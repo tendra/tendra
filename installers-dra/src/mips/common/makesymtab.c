@@ -62,7 +62,7 @@ $Log: makesymtab.c,v $
 #include "common_types.h"
 #include "flags.h"
 #include "makesymtab.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 extern bool BIGEND;
 int MAJOR_VERSION_as = 3;

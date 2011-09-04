@@ -73,8 +73,8 @@ LIST-PROP -> LIST_PROPERTY ;
 
 #include <string.h>
 
-#include "error/error.h"
-#include "xalloc/xalloc.h"
+#include <shared/error.h>
+#include <shared/xalloc.h>
 #include "obj_c/errors.h"
 #include "entry_ops.h"
 #include "map_ops.h"

@@ -87,7 +87,7 @@ $Log: dynamic_init.c,v $
 #include "proc.h"
 #include "stack.h"
 #include "parameter.h"
-#include "error/error.h"
+#include <shared/error.h>
 #include "installglob.h"
 #include "dynamic_init.h"
 

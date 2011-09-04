@@ -57,7 +57,7 @@
         it may be put.
 */
 
-#include "error/error.h"
+#include <shared/error.h>
 
 #include "config.h"
 #include "filename.h"

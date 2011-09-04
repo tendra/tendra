@@ -78,7 +78,7 @@ $Log: util.c,v $
 #include "errors.h"
 #include "util.h"
 
-#include "shared/xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 
 char *

@@ -63,12 +63,14 @@
  * See the file "grammar.h" for more information.
  */
 
-#include <exds/common.h>
 #include <limits.h>
 #include <stddef.h>
 
-#include "shared/check/check.h"
-#include "shared/error/error.h"
+#include <exds/common.h>
+
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include "grammar.h"
 #include "adt/action.h"
 #include "adt/basic.h"

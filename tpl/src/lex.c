@@ -98,7 +98,7 @@ $Log: lex.c,v $
 #include "reserved.h"
 #include "consfile.h"
 
-#include "shared/xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 
 typedef struct FStack_struct{

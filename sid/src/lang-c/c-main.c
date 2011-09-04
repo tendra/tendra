@@ -67,6 +67,9 @@
 #include <exds/error.h>
 #include <exds/cstring-list.h>
 
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include "c-main.h"
 #include "c-out-info.h"
 #include "c-output.h"
@@ -76,8 +79,6 @@
 
 #include "../lang.h"
 #include "../output.h"
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
 
 static void *
 main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)

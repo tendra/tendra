@@ -68,8 +68,8 @@
 #include <errno.h>
 #include <string.h>
 
-#include "error/error.h"
-#include "check/check.h"
+#include <shared/error.h>
+#include <shared/check.h>
 
 #include "arg-data.h"
 #include "capsule.h"

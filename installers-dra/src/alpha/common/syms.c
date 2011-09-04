@@ -64,7 +64,7 @@ $Log: syms.c,v $
 */
 
 #include "config.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "flags.h"
 #include "common_types.h"
 #include "expmacs.h"

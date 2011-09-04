@@ -3,15 +3,13 @@
 .include "Makefile.inc"
 
 
-PARTS+=	src/shared/error
-PARTS+=	src/shared/xalloc
+PARTS+=	src/shared
 
 .include <tendra.partial.mk>
 
 
 TCCOPTS=	-Yposix -Xs
 
-CCOPTS+=	-I shared
 CCOPTS+=                                   \
 	-DPREFIX='"${PREFIX}"'                 \
 	-DPREFIX_BIN='"${PREFIX_BIN}"'         \

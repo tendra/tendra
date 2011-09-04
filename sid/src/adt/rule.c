@@ -65,7 +65,8 @@
 
 #include <assert.h>
 
-#include "../shared/check/check.h"
+#include <shared/check.h>
+
 #include "rule.h"
 #include "../adt/action.h"
 #include "../adt/basic.h"

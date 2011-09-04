@@ -67,8 +67,9 @@
 
 #include <assert.h>
 
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include "c-code.h"
 #include "c-out-key.h"
 #include "c-output.h"

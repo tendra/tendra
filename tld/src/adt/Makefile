@@ -2,8 +2,8 @@
 
 .include "Makefile.inc"
 
-CCOPTS+=	-I${.CURDIR}/../shared
-CCOPTS+=	-I${.CURDIR}/..
+
+CCOPTS+=	-I ${.CURDIR}/..
 
 SRCS+=	arg-data.c
 SRCS+=	map-entry.c

@@ -31,7 +31,7 @@
 
 #include <stdlib.h>
 
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "exds/common.h"
 #include "exds/dstring.h"
 #include "localnames.h"

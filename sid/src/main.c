@@ -93,8 +93,8 @@
 #include <exds/ostream.h>
 #include <exds/cstring-list.h>
 
-#include "shared/check/check.h"
-#include "shared/error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
 
 #include "adt/rule.h"
 

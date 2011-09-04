@@ -67,11 +67,13 @@
 #include <stddef.h>
 #include <limits.h>
 
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
+
+#include <exds/dalloc.h>
+
 #include "types.h"
 #include "type.h"
-#include <exds/dalloc.h>
 #include "name.h"
 #include "rstack.h"
 #include "rule.h"

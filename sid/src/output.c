@@ -69,6 +69,7 @@
 #include <exds/exception.h>
 #include <exds/dalloc.h>
 #include <exds/istream.h>
+
 #include "output.h"
 
 void

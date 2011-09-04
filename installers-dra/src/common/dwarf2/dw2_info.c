@@ -108,7 +108,7 @@ $Log: dw2_info.c,v $
 #include "flpt.h"
 #include "flpttypes.h"
 #include "externs.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "dg_globs.h"
 #include "f64.h"
 #include "dw2_locdata.h"

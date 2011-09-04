@@ -78,7 +78,7 @@ $Log: table_fns.c,v $
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../shared/xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 #include "config.h"
 #include "common_types.h"

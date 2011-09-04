@@ -64,7 +64,8 @@
  * effects from actions that mutate their parameters.
  */
 
-#include "../shared/check/check.h"
+#include <shared/check.h>
+
 #include "../adt/rule.h"
 #include "../adt/action.h"
 #include "../adt/types.h"

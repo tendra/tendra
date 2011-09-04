@@ -199,7 +199,7 @@ $Log: cproc.c,v $
 #include "check.h"
 #include "flags.h"
 #include "codec.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "global_opt.h"
 #include "reg_record.h"
 #include "externs.h"

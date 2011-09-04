@@ -3,9 +3,7 @@
 .include "Makefile.inc"
 
 
-PART_CFLAGS+= -I${.CURDIR}/shared
-
-PARTS+=	src/shared/error
+PARTS+=	src/shared
 PARTS+=	src/exds
 PARTS+=	src/adt
 PARTS+=	src/lang-bnf
@@ -15,8 +13,6 @@ PARTS+=	src/rules
 
 .include <tendra.partial.mk>
 
-
-CFLAGS+= -I${BASE_DIR}/include
 
 SRCS+=	arg-parse.c
 SRCS+=	grammar.c

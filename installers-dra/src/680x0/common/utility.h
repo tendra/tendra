@@ -90,7 +90,7 @@ Imported from DRA
 #ifndef UTILITY_INCLUDED
 #define UTILITY_INCLUDED
 
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 extern char *basename(char *);
 

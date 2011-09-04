@@ -41,6 +41,9 @@
 */
 
 
+#include <shared/error.h>
+#include <shared/xalloc.h>
+
 #include "obj_c/tdf.h"
 #include "obj_c/cmd_ops.h"
 #include "obj_c/cons_ops.h"
@@ -49,8 +52,6 @@
 #include "obj_c/par_ops.h"
 #include "obj_c/sort_ops.h"
 #include "obj_c/spec_ops.h"
-#include "error/error.h"
-#include "xalloc/xalloc.h"
 #include "input.h"
 #include "lex.h"
 #include "syntax.h"

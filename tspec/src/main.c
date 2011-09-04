@@ -60,7 +60,7 @@
 
 #include <signal.h>
 
-#include "error/error.h"
+#include <shared/error.h>
 
 #include "config.h"
 #include "object.h"

@@ -34,7 +34,7 @@
 #include <stdio.h>
 #include <limits.h>
 
-#include "error/error.h"
+#include <shared/error.h>
 
 #include "temp.h"
 #include "flags.h"

@@ -60,7 +60,7 @@
 
 #include <stdarg.h>
 
-#include "error/error.h"
+#include <shared/error.h>
 
 #include "config.h"
 #include "types.h"

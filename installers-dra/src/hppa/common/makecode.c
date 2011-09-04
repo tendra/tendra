@@ -299,7 +299,7 @@ $Log: makecode.c,v $
 #include "f64.h"
 #include "misc_c.h"
 #include "special.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "loc_signal.h"
 
 #define outp fprintf

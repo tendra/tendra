@@ -78,7 +78,7 @@ $Log: includes.c,v $
 #include "includes.h"
 #include "errors.h"
 
-#include "shared/xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 char *file_name;
 static Path *inc_paths;

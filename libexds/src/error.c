@@ -69,7 +69,8 @@
 #include <assert.h>
 #include <ctype.h>
 
-#include "check/check.h"
+#include <shared/check.h>
+
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/dalloc.h>
@@ -77,6 +78,7 @@
 #include <exds/cstring.h>
 #include <exds/dstring.h>
 #include <exds/error.h>
+
 #include "syntax.h"
 
 /*

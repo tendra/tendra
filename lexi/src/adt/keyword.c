@@ -60,8 +60,8 @@
 #include <assert.h>
 #include <string.h>
 
-#include "xalloc/xalloc.h"
-#include "error/error.h"
+#include <shared/xalloc.h>
+#include <shared/error.h>
 
 #include "keyword.h"
 #include "zone.h"

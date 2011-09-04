@@ -64,7 +64,7 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 #include "config.h"
 #include "list.h"

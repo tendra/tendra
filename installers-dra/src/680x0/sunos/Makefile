@@ -5,12 +5,10 @@
 
 #TCCOPTS=	-Xc -Y32bit -Yposix
 
-PART_CFLAGS+=	-I ${BASE_DIR}/src/common/shared
 PART_CFLAGS+=	-I ${BASE_DIR}/src/680x0/common
 PART_CFLAGS+=	-I ${BASE_DIR}/src/680x0/sunos
 
-PARTS+= src/common/shared/error
-PARTS+= src/common/shared/xalloc
+PARTS+= src/common/shared
 PARTS+= src/common/construct
 PARTS+= src/common/diag
 PARTS+= src/common/linkinfo

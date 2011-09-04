@@ -76,8 +76,8 @@
 #include <exds/dstring.h>
 #include <exds/istream.h>
 
-#include "check/check.h"
-#include "error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
 
 #include "adt/name-key.h"
 #include "adt/arg-data.h"

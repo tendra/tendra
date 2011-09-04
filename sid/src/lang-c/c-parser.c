@@ -73,8 +73,9 @@
 
 	#include <assert.h>
 
-	#include "../shared/check/check.h"
-	#include "../shared/error/error.h"
+	#include <shared/check.h>
+	#include <shared/error.h>
+
 	#include "c-parser.h"
 	#include "../adt/action.h"
 	#include "c-code.h"

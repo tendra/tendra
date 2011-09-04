@@ -64,7 +64,8 @@
  * specified in the file "rule.h".
  */
 
-#include "../shared/check/check.h"
+#include <shared/check.h>
+
 #include "rule.h"
 #include "action.h"
 #include "basic.h"

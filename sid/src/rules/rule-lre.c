@@ -115,9 +115,11 @@
 
 #include <assert.h>
 
-#include "../adt/rule.h"
-#include "../shared/error/error.h"
+#include <shared/error.h>
+
 #include <exds/dstring.h>
+
+#include "../adt/rule.h"
 
 typedef struct MatrixEntryT {
 	AltT        *alt;

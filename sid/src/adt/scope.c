@@ -65,7 +65,8 @@
 
 #include <assert.h>
 
-#include "../shared/error/error.h"
+#include <shared/error.h>
+
 #include "scope.h"
 #include "rule.h"
 

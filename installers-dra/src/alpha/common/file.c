@@ -61,7 +61,7 @@ $Log: file.c,v $
 #include "config.h"
 #include "fail.h"
 #include "file.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 /*
    Opens the file 'fname' with mode 'mode'.

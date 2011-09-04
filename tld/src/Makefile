@@ -3,10 +3,7 @@
 .include "Makefile.inc"
 
 
-PART_CFLAGS+=	-I${.CURDIR}/shared
-
-PARTS+= src/shared/error
-PARTS+= src/shared/xalloc
+PARTS+= src/shared
 PARTS+= src/exds
 PARTS+=	src/adt
 PARTS+=	src/frontend
@@ -14,10 +11,7 @@ PARTS+=	src/frontend
 .include <tendra.partial.mk>
 
 
-CCOPTS+=	-Ishared
-CCOPTS+=	-I.
-
-CFLAGS+=	-I${BASE_DIR}/include
+CCOPTS+=	-I .
 
 SRCS+=	arg-parse.c
 SRCS+=	debug.c

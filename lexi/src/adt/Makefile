@@ -3,8 +3,6 @@
 .include "Makefile.inc"
 
 
-CCOPTS+=	-I${.CURDIR}/../shared
-
 SRCS+=	char.c
 SRCS+=	group.c
 SRCS+=	instruction.c

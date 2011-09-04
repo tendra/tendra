@@ -81,7 +81,7 @@ around the syms modules provided in the system library.
 #include "tags.h"
 #include "bitsmacs.h"
 #include "diagtypes.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "ibinasm.h"
 #include "out_ba.h"
 #include "syms.h"

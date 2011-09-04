@@ -96,7 +96,7 @@ $Log: frames.c,v $
 #include "needscan.h"
 #include "machine.h"
 #include "diagout.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "comment.h"
 #include "translat.h"
 #include "readglob.h"

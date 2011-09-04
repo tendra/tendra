@@ -104,7 +104,7 @@ $Log: inst_fmt.c,v $
 #include "cross.h"
 #include "regexps.h"
 #include "alpha_ins.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "bool.h"
 #include "ibinasm.h"
 #include "out_ba.h"

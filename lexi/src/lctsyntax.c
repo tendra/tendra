@@ -49,8 +49,8 @@
 #include "lctlexer.h"
 #include "ccode.h"
 #include "adt.h"
-#include "xalloc/xalloc.h"
-#include "error/error.h"
+#include <shared/xalloc.h>
+#include <shared/error.h>
 #include "exds/common.h"
 #include "exds/exception.h"
 #include "exds/dalloc.h"

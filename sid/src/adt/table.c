@@ -65,8 +65,9 @@
 
 #include <limits.h>
 
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include "table.h"
 #include "action.h"
 #include "basic.h"

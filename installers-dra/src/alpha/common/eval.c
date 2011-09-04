@@ -97,7 +97,7 @@ $Log: eval.c,v $
 */
 
 #include "config.h"
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 #include "addresstypes.h"
 #include "common_types.h"
 #include "tags.h"

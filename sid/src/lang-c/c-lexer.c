@@ -74,8 +74,9 @@
 #include <assert.h>
 #include <ctype.h>
 
-#include "../shared/check/check.h"
-#include "../shared/error/error.h"
+#include <shared/check.h>
+#include <shared/error.h>
+
 #include "c-lexer.h"
 #include "c-lexi_lexer.h"
 

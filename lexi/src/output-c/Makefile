@@ -3,7 +3,6 @@
 .include "Makefile.inc"
 
 
-CCOPTS+=	-I${.CURDIR}/../shared
 CCOPTS+=	-I${.CURDIR}/..
 
 SRCS+=	c-output.c

@@ -3,7 +3,12 @@
 .include "Makefile.inc"
 
 
-STARTUPSUBDIR= Bounds.32 Bounds.ansi Literal Modes Modes.cpp Promotion
+STARTUPSUBDIR+=	Bounds.32
+STARTUPSUBDIR+=	Bounds.ansi
+STARTUPSUBDIR+=	Literal
+STARTUPSUBDIR+=	Modes
+STARTUPSUBDIR+=	Modes.cpp
+STARTUPSUBDIR+=	Promotion
 
 .include <tendra.startup.mk>
 

@@ -69,9 +69,9 @@
 #include "exds/dalloc.h"
 #include "exds/dstring.h"
 
-#include "error/error.h"
-#include "xalloc/xalloc.h"
-#include "check/check.h"
+#include <shared/error.h>
+#include <shared/xalloc.h>
+#include <shared/check.h>
 
 #include "adt/char.h"
 #include "adt/instruction.h"

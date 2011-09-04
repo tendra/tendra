@@ -7,8 +7,9 @@
 
 
 
+	#include <shared/error.h>
+
 	#include "c-lexer.h"
-	#include "../shared/error/error.h"
 
 #include <assert.h>
 int c_lexi_readchar(struct c_lexi_state *state) {

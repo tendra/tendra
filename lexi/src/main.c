@@ -62,7 +62,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "error/error.h"
+#include <shared/error.h>
 
 #include "adt/tree.h"
 

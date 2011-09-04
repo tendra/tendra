@@ -3,7 +3,6 @@
 .include "Makefile.inc"
 
 
-#CCOPTS+=	-I ${BASE_DIR}/${INCLUDE}
 #CCOPTS+=	-I ../../common/construct
 #CCOPTS+=	-I ../../common/diag
 #CCOPTS+=	-I ../../common/dwarf2

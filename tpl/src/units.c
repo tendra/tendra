@@ -100,7 +100,7 @@ $Log: units.c,v $
 #include "defs.h"
 #include "syntax.h"
 
-#include "shared/xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 
 FILE *out_file;

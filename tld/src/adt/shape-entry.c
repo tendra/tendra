@@ -67,8 +67,8 @@
 
 #include <limits.h>
 
-#include "error/error.h"
-#include "check/check.h"
+#include <shared/error.h>
+#include <shared/check.h>
 
 #include "shape-entry.h"
 #include "unit-table.h"

@@ -32,9 +32,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "shared/check/check.h"
+#include <shared/check.h>
 
-#include "xalloc/xalloc.h"
+#include <shared/xalloc.h>
 
 #include "adt/instruction.h"
 
