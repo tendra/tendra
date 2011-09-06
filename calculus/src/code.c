@@ -60,7 +60,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "error.h"
+#include <shared/error.h>
 
 #include "calculus.h"
 #include "code.h"

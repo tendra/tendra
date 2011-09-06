@@ -60,8 +60,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "error.h"
-#include "xalloc.h"
+#include <shared/error.h>
+#include <shared/xalloc.h>
 
 #include "calculus.h"
 #include "cmd_ops.h"

@@ -61,7 +61,7 @@
 #include <stdarg.h>
 #include <ctype.h>
 
-#include "error.h"
+#include <shared/error.h>
 
 #include "calculus.h"
 #include "common.h"
