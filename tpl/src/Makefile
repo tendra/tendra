@@ -33,21 +33,20 @@ PROG=	tpl
 .include <tendra.prog.mk>
 
 
+SYNTAX+=	syntax.sid
+
+.include <tendra.sid.mk>
+
+
 #SPEC=${BASE_DIR}/src/lib/tdf/def_4_0.db
 
 #MAKE_TDF=make_tdf
-#SID?=		${.OBJDIR}/../../utilities/sid/sid
-#SIDOPTS=-l ossg-c -s no-lines
 #SORT=sort
 #
 #SID_OUT=${SRC}/syntax.c ${SRC}/syntax.h
 #
 #GEN_FILES=${SRC}/consfile.c ${SRC}/consfile.h ${SRC}/decodings.c\
 # ${SRC}/decodings.h ${SRC}/encodings.h ${SRC}/enc_nos.h ${SRC}/fnsfile.c
-#
-#${SRC}/syntax.c : ${SRC}/syntax.sid ${SRC}/syntax.act
-#	@${REMOVE} ${SID_OUT}
-#	${SID} ${SIDOPTS} ${SRC}/syntax.sid ${SRC}/syntax.act ${SID_OUT}
 #
 #consfile.c : ${TEMPL}/consfile.c ${SPEC}
 #	@${REMOVE} ${.TARGET}

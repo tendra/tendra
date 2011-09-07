@@ -12,7 +12,6 @@ PARTS+=	src/adt
 .include <tendra.partial.mk>
 
 
-#CCOPTS+=	-I shared
 CCOPTS+=	-I .
 
 SRCS+=	syntax.c
@@ -34,8 +33,13 @@ PROG=	lexi
 .include <tendra.prog.mk>
 
 
+SYNTAX+=	syntax.sid
+SYNTAX+=	lctsyntax.sid
+
+.include <tendra.sid.mk>
+
+
 #LEXIFLAGS+=-lC99 -a
-#SIDFLAGS+=-s no-line
 #
 #lexer.o: lexer.h
 #syntax.o: lexer.h
@@ -56,19 +60,4 @@ PROG=	lexi
 #	-${MOVE} lctlexer.h sav.lctlexer.h
 #	${LEXI} ${LEXIFLAGS} -t lct_lex_ -p lexi_lct_ lctlexer.lxi lctlexer.lct lctlexer.c lctlexer.h \
 #		|| ( ${MOVE} sav.lctlexer.c lctlexer.c ; ${MOVE} sav.lctlexer.h lctlexer.h ; exit 1 )
-#
-#
-#
-#syntax.h: syntax.c
-#
-#syntax.c: syntax.sid syntax.act
-#	@${REMOVE} syntax.h syntax.c
-#	${SID} ${SIDFLAGS} syntax.sid syntax.act tmp.syntax.c tmp.syntax.h \
-#		|| ( ${REMOVE} tmp.syntax.{c,h} ; exit 1 )
-#	${MOVE} tmp.syntax.c syntax.c
-#	${MOVE} tmp.syntax.h syntax.h
-#
-#
-#lctsyntax.c lctsyntax.h : lctsyntax.sid lctsyntax.act
-#	sid -l ansi-c lctsyntax.sid lctsyntax.act lctsyntax.c lctsyntax.h
 

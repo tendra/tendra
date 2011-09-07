@@ -10,15 +10,16 @@ CCOPTS+=	-I ../../common/parse
 CCOPTS+=	-I ../../common/utility
 CCOPTS+=	-I ../../common
 
-SRCS+=  syntax1.c
-SRCS+=  syntax2.c
-SRCS+=  syntax3.c
-SRCS+=  syntax4.c
-SRCS+=  syntax5.c
-SRCS+=  syntax6.c
-SRCS+=  syntax7.c
+SRCS!=	ls -1 syntax*.c
 
 .include <tendra.obj.mk>
 
 .include <tendra.partial.mk>
+
+
+SIDOPTS+=	-s split=5000
+
+SYNTAX+=	syntax.sid
+
+.include <tendra.sid.mk>
 

@@ -21,13 +21,15 @@ SRCS+=	persistent.c
 .include <tendra.partial.mk>
 
 
-#SIDOPTS=-l ansi-c -s numeric -s no-numeric-terminals
+SIDOPTS+=	-s numeric
+SIDOPTS+=	-s no-numeric-terminals
+
+SYNTAX+=	c-parser.sid
+
+.include <tendra.sid.mk>
+
+
 #LEXIOPTS=-lC90 -a
-#
-#c-parser.c: c-parser.sid c-parser.act
-#	${SID} ${SIDOPTS} c-parser.sid c-parser.act tmp.$@ c-junk.h \
-#		|| ( ${REMOVE} tmp.$@ ; exit 1 )
-#	${MOVE} tmp.$@ $@
 #
 #c-lexi_lexer.h c-lexi_lexer.c: c-lexi_lexer.lxi c-lexi_lexer.lct
 #	-${MOVE} c-lexi_lexer.c sav.c-lexi_lexer.c 

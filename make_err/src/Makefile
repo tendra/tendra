@@ -22,16 +22,16 @@ PROG=	make_err
 .include <tendra.prog.mk>
 
 
-#SIDOPTS=-l ansi-c -s no-lines
+SYNTAX+=	syntax.sid
+
+.include <tendra.sid.mk>
+
+
 #C_OUT=${SRC2}/errors.h
 #TOK_OUT=${SRC2A}/errors.h
 #LEXI_OUT=${SRC}/lexer.h ${SRC}/keyword.h
 #
-#auto : ${SID_OUT} ${C_OUT} ${TOK_OUT} ${LEXI_OUT}
-#
-#syntax.c : syntax.sid syntax.act
-#	@${REMOVE} syntax.c syntax.h
-#	${SID} ${SIDOPTS} syntax.sid syntax.act syntax.c syntax.h
+#auto : ${C_OUT} ${TOK_OUT} ${LEXI_OUT}
 #
 #${SRCC}/errors.h : ${SRC}/errors.alg
 #	@${REMOVE} ${SRCC}/*.h

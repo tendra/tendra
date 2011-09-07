@@ -31,13 +31,16 @@ PROG=	sid
 .include <tendra.prog.mk>
 
 
-#SIDOPTS=-l ansi-c -s numeric -s no-terminals -s no-numeric-terminals
+SIDOPTS+=	-s numeric
+SIDOPTS+=	-s no-terminals
+SIDOPTS+=	-s no-numeric-terminals
+
+SYNTAX+=	parser.sid
+
+.include <tendra.sid.mk>
+
+
 #LEXIOPTS=-lC90 -a
-#
-#parser.c: parser.sid parser.act
-#	${SID} ${SIDOPTS} parser.sid parser.act tmp.$@ junk.h \
-#		|| ( ${REMOVE} tmp.$@ ; exit 1 )
-#	${MOVE} tmp.$@ $@
 #
 #lexi_lexer.h lexi_lexer.c: lexi_lexer.lxi lexi_lexer.lct
 #	-${MOVE} lexi_lexer.c sav.lexi_lexer.c 

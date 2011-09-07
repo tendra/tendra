@@ -22,10 +22,11 @@ PROG=	make_tdf
 .include <tendra.prog.mk>
 
 
-#syntax.c : syntax.sid syntax.act
-#	@${REMOVE} syntax.c syntax.h
-#	${SID} ${SIDOPTS} syntax.sid syntax.act syntax.c syntax.h
-#
+SYNTAX+=	syntax.sid
+
+.include <tendra.sid.mk>
+
+
 #${obj_c}/tdf.h : ${SRC}/tdf.alg
 #	@${REMOVE} ${obj_c}/*.h
 #	${CALCULUS} -a -x ${SRC}/tdf.alg ${obj_c}

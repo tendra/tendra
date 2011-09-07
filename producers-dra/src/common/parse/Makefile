@@ -16,6 +16,8 @@ CCOPTS+=	-I ../../common/output
 CCOPTS+=	-I ../../common
 CCOPTS+=	-I ../utility
 
+SRCS!=	ls -1 psyntax*.c
+
 SRCS+=	char.c
 SRCS+=	constant.c
 SRCS+=	file.c
@@ -27,12 +29,16 @@ SRCS+=	parse.c
 SRCS+=	pragma.c
 SRCS+=	predict.c
 SRCS+=	preproc.c
-SRCS+=	psyntax1.c
-SRCS+=	psyntax2.c
-SRCS+=	psyntax3.c
 SRCS+=	table.c
 
 .include <tendra.obj.mk>
 
 .include <tendra.partial.mk>
+
+
+SIDOPTS+=	-s split=5000
+
+SYNTAX+=	psyntax.sid
+
+.include <tendra.sid.mk>
 

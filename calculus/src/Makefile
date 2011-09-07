@@ -2,6 +2,7 @@
 
 .include "Makefile.inc"
 
+
 PARTS+=	src/shared
 PARTS+=	src/obj_c
 
@@ -31,10 +32,11 @@ PROG=	calculus
 .include <tendra.prog.mk>
 
 
-#syntax.c: syntax.sid syntax.act
-#	@${REMOVE} ${SID_OUT}
-#	${SID} ${SIDOPTS} syntax.sid syntax.act ${SID_OUT}
-#
+SYNTAX+=	syntax.sid
+
+.include <tendra.sid.mk>
+
+
 #obj_c/calculus.h: calculus.alg
 #	@${REMOVE} obj_c/*.h
 #	${CALCULUS} -a -x calculus.alg obj_c
@@ -60,7 +62,6 @@ PROG=	calculus
 #	${LEXI} -k lexer.lxi keyword.h
 #
 #auto_clobber:
-#	${REMOVE} ${SID_OUT}
 #	${REMOVE} obj_c/*.h
 #	${REMOVE} obj_tok/*.h
 #	${REMOVE} ${DISK_OUT}
