@@ -950,22 +950,6 @@
 					errored = TRUE;
 				}
 
-				{
-					EntryT *type;
-
-					type = types_find_ignored(@&n_params);
-					if (type != NULL) {
-						err_ignored("type", key_get_string(entry_key(type)));
-						errored = TRUE;
-					}
-
-					type = types_find_ignored(@&n_results);
-					if (type != NULL) {
-						err_ignored("type", key_get_string(entry_key(type)));
-						errored = TRUE;
-					}
-				}
-
 				if (sid_redefining_entry) {
 					if (!types_fillin_names(result, @&n_results)) {
 						err_type_mismatch("result", "production", key, @&n_results, result);
@@ -974,6 +958,22 @@
 					types_destroy(@&n_results);
 				} else {
 					types_assign(result, @&n_results);
+				}
+
+				{
+					EntryT *type;
+
+					type = types_find_ignored(param);
+					if (type != NULL) {
+						err_ignored("type", key_get_string(entry_key(type)));
+						errored = TRUE;
+					}
+
+					type = types_find_ignored(result);
+					if (type != NULL) {
+						err_ignored("type", key_get_string(entry_key(type)));
+						errored = TRUE;
+					}
 				}
 
 				if (errored) {
