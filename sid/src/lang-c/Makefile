@@ -22,6 +22,7 @@ SRCS+=	persistent.c
 
 
 SIDOPTS+=	-s numeric
+SIDOPTS+=	-s no-terminals
 SIDOPTS+=	-s no-numeric-terminals
 
 SYNTAX+=	c-parser.sid
