@@ -30,7 +30,7 @@ TRANS+=	powertrans.1
 TRANS+=	sparctrans.1
 
 # XXX: hacky
-regen:
+regen::
 .for trans in ${TRANS}
 	@${ECHO} "==> Transforming ${WRKDIR}/${trans}.xml"
 	${XSLTPROC} ${XSLTOPTS} -o ${trans}.xml \
