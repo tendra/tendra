@@ -31,7 +31,6 @@
 %prefixes%
 
 terminal = lex_;
-function = read_;
 
 
 %maps%

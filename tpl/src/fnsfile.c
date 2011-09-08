@@ -297,7 +297,7 @@ c_trap(void)
 {
 	    skip_term(lex_ord);
 	o_trap(
-	      read_error__code__list();
+	      read_error_code_list();
 	      skip_term(lex_crd)
 	     )
 	    return;
@@ -322,7 +322,7 @@ c_abs(void)
 {
 	    skip_term(lex_ord);
 	o_abs(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_crd)
@@ -374,7 +374,7 @@ c_assign_with_mode(void)
 {
 	    skip_term(lex_ord);
 	o_assign_with_mode(
-	      read_transfer__mode();
+	      read_transfer_mode();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -404,7 +404,7 @@ c_bitfield_assign_with_mode(void)
 {
 	    skip_term(lex_ord);
 	o_bitfield_assign_with_mode(
-	      read_transfer__mode();
+	      read_transfer_mode();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -421,7 +421,7 @@ c_bitfield_contents(void)
 {
 	    skip_term(lex_ord);
 	o_bitfield_contents(
-	      read_bitfield__variety();
+	      read_bitfield_variety();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -436,9 +436,9 @@ c_bitfield_contents_with_mode(void)
 {
 	    skip_term(lex_ord);
 	o_bitfield_contents_with_mode(
-	      read_transfer__mode();
+	      read_transfer_mode();
 	      skip_term(lex_comma),
-	      read_bitfield__variety();
+	      read_bitfield_variety();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -466,9 +466,9 @@ c_change_floating_variety(void)
 {
 	    skip_term(lex_ord);
 	o_change_floating_variety(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_floating__variety();
+	      read_floating_variety();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_crd)
@@ -481,7 +481,7 @@ c_change_variety(void)
 {
 	    skip_term(lex_ord);
 	o_change_variety(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_variety();
 	      skip_term(lex_comma),
@@ -496,7 +496,7 @@ c_change_int_to_bitfield(void)
 {
 	    skip_term(lex_ord);
 	o_change_int_to_bitfield(
-	      read_bitfield__variety();
+	      read_bitfield_variety();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_crd)
@@ -576,7 +576,7 @@ c_contents_with_mode(void)
 {
 	    skip_term(lex_ord);
 	o_contents_with_mode(
-	      read_transfer__mode();
+	      read_transfer_mode();
 	      skip_term(lex_comma),
 	      read_shape();
 	      skip_term(lex_comma),
@@ -598,9 +598,9 @@ c_div0(void)
 {
 	    skip_term(lex_ord);
 	o_div0(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -615,9 +615,9 @@ c_div1(void)
 {
 	    skip_term(lex_ord);
 	o_div1(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -632,9 +632,9 @@ c_div2(void)
 {
 	    skip_term(lex_ord);
 	o_div2(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -686,9 +686,9 @@ c_float_int(void)
 {
 	    skip_term(lex_ord);
 	o_float_int(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_floating__variety();
+	      read_floating_variety();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_crd)
@@ -701,7 +701,7 @@ c_floating_abs(void)
 {
 	    skip_term(lex_ord);
 	o_floating_abs(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_crd)
@@ -714,7 +714,7 @@ c_floating_div(void)
 {
 	    skip_term(lex_ord);
 	o_floating_div(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -729,7 +729,7 @@ c_floating_minus(void)
 {
 	    skip_term(lex_ord);
 	o_floating_minus(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -744,7 +744,7 @@ c_floating_maximum(void)
 {
 	    skip_term(lex_ord);
 	o_floating_maximum(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -759,7 +759,7 @@ c_floating_minimum(void)
 {
 	    skip_term(lex_ord);
 	o_floating_minimum(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -774,9 +774,9 @@ c_floating_mult(void)
 {
 	    skip_term(lex_ord);
 	o_floating_mult(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_exp__list();
+	      read_exp_list();
 	      skip_term(lex_crd)
 	     )
 	    return;
@@ -787,7 +787,7 @@ c_floating_negate(void)
 {
 	    skip_term(lex_ord);
 	o_floating_negate(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_crd)
@@ -800,9 +800,9 @@ c_floating_plus(void)
 {
 	    skip_term(lex_ord);
 	o_floating_plus(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_exp__list();
+	      read_exp_list();
 	      skip_term(lex_crd)
 	     )
 	    return;
@@ -813,7 +813,7 @@ c_floating_power(void)
 {
 	    skip_term(lex_ord);
 	o_floating_power(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -828,9 +828,9 @@ c_floating_test(void)
 {
 	    skip_term(lex_ord);
 	o_floating_test(
-	      read_nat__option();
+	      read_nat_option();
 	      skip_term(lex_comma),
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_ntest();
 	      skip_term(lex_comma),
@@ -904,7 +904,7 @@ c_integer_test(void)
 {
 	    skip_term(lex_ord);
 	o_integer_test(
-	      read_nat__option();
+	      read_nat_option();
 	      skip_term(lex_comma),
 	      read_ntest();
 	      skip_term(lex_comma),
@@ -989,7 +989,7 @@ c_make_complex(void)
 {
 	    skip_term(lex_ord);
 	o_make_complex(
-	      read_floating__variety();
+	      read_floating_variety();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1006,7 +1006,7 @@ c_make_compound(void)
 	o_make_compound(
 	      read_exp();
 	      skip_term(lex_comma),
-	      read_exp__list();
+	      read_exp_list();
 	      skip_term(lex_crd)
 	     )
 	    return;
@@ -1028,7 +1028,7 @@ c_make_nof(void)
 {
 	    skip_term(lex_ord);
 	o_make_nof(
-	      read_exp__list();
+	      read_exp_list();
 	      skip_term(lex_crd)
 	     )
 	    return;
@@ -1136,7 +1136,7 @@ c_minus(void)
 {
 	    skip_term(lex_ord);
 	o_minus(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1151,7 +1151,7 @@ c_move_some(void)
 {
 	    skip_term(lex_ord);
 	o_move_some(
-	      read_transfer__mode();
+	      read_transfer_mode();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1168,7 +1168,7 @@ c_mult(void)
 {
 	    skip_term(lex_ord);
 	o_mult(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1196,7 +1196,7 @@ c_negate(void)
 {
 	    skip_term(lex_ord);
 	o_negate(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_crd)
@@ -1324,7 +1324,7 @@ c_offset_test(void)
 {
 	    skip_term(lex_ord);
 	o_offset_test(
-	      read_nat__option();
+	      read_nat_option();
 	      skip_term(lex_comma),
 	      read_ntest();
 	      skip_term(lex_comma),
@@ -1367,7 +1367,7 @@ c_plus(void)
 {
 	    skip_term(lex_ord);
 	o_plus(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1382,7 +1382,7 @@ c_pointer_test(void)
 {
 	    skip_term(lex_ord);
 	o_pointer_test(
-	      read_nat__option();
+	      read_nat_option();
 	      skip_term(lex_comma),
 	      read_ntest();
 	      skip_term(lex_comma),
@@ -1401,7 +1401,7 @@ c_power(void)
 {
 	    skip_term(lex_ord);
 	o_power(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1416,7 +1416,7 @@ c_proc_test(void)
 {
 	    skip_term(lex_ord);
 	o_proc_test(
-	      read_nat__option();
+	      read_nat_option();
 	      skip_term(lex_comma),
 	      read_ntest();
 	      skip_term(lex_comma),
@@ -1457,9 +1457,9 @@ c_rem0(void)
 {
 	    skip_term(lex_ord);
 	o_rem0(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1474,9 +1474,9 @@ c_rem1(void)
 {
 	    skip_term(lex_ord);
 	o_rem1(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1491,9 +1491,9 @@ c_rem2(void)
 {
 	    skip_term(lex_ord);
 	o_rem2(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1545,9 +1545,9 @@ c_round_with_mode(void)
 {
 	    skip_term(lex_ord);
 	o_round_with_mode(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
-	      read_rounding__mode();
+	      read_rounding_mode();
 	      skip_term(lex_comma),
 	      read_variety();
 	      skip_term(lex_comma),
@@ -1610,7 +1610,7 @@ c_shift_left(void)
 {
 	    skip_term(lex_ord);
 	o_shift_left(
-	      read_error__treatment();
+	      read_error_treatment();
 	      skip_term(lex_comma),
 	      read_exp();
 	      skip_term(lex_comma),
@@ -1742,7 +1742,7 @@ c_error_val(void)
 {
 	    skip_term(lex_ord);
 	o_error_val(
-	      read_error__code();
+	      read_error_code();
 	      skip_term(lex_crd)
 	     )
 	    return;
@@ -1886,7 +1886,7 @@ c_bitfield(void)
 {
 	    skip_term(lex_ord);
 	o_bitfield(
-	      read_bitfield__variety();
+	      read_bitfield_variety();
 	      skip_term(lex_crd)
 	     )
 	    return;
@@ -1915,7 +1915,7 @@ c_floating(void)
 {
 	    skip_term(lex_ord);
 	o_floating(
-	      read_floating__variety();
+	      read_floating_variety();
 	      skip_term(lex_crd)
 	     )
 	    return;
@@ -2025,9 +2025,9 @@ c_add_modes(void)
 {
 	    skip_term(lex_ord);
 	o_add_modes(
-	      read_transfer__mode();
+	      read_transfer_mode();
 	      skip_term(lex_comma),
-	      read_transfer__mode();
+	      read_transfer_mode();
 	      skip_term(lex_crd)
 	     )
 	    return;
@@ -2073,9 +2073,9 @@ c_var_limits(void)
 {
 	    skip_term(lex_ord);
 	o_var_limits(
-	      read_signed__nat();
+	      read_signed_nat();
 	      skip_term(lex_comma),
-	      read_signed__nat();
+	      read_signed_nat();
 	      skip_term(lex_crd)
 	     )
 	    return;

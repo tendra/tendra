@@ -199,22 +199,22 @@ analyse_sort(int sort)
 		read_alignment();
 		return;
 	case al_tag_sort:
-		read_al__tag();
+		read_al_tag();
 		return;
 	case bitfield_variety_sort:
-		read_bitfield__variety();
+		read_bitfield_variety();
 		return;
 	case bool_sort:
 		read_bool();
 		return;
 	case error_treatment_sort:
-		read_error__treatment();
+		read_error_treatment();
 		return;
 	case exp_sort:
 		read_exp();
 		return;
 	case floating_variety_sort:
-		read_floating__variety();
+		read_floating_variety();
 		return;
 	case label_sort:
 		read_label();
@@ -226,13 +226,13 @@ analyse_sort(int sort)
 		read_ntest();
 		return;
 	case rounding_mode_sort:
-		read_rounding__mode();
+		read_rounding_mode();
 		return;
 	case shape_sort:
 		read_shape();
 		return;
 	case signed_nat_sort:
-		read_signed__nat();
+		read_signed_nat();
 		return;
 	case string_sort:
 		read_string();
@@ -244,7 +244,7 @@ analyse_sort(int sort)
 		read_token();
 		return;
 	case transfer_mode_sort:
-		read_transfer__mode();
+		read_transfer_mode();
 		return;
 	case variety_sort:
 		read_variety();
