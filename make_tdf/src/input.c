@@ -61,6 +61,7 @@
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 #include "obj_c/tdf.h"
 #include "obj_c/cons_ops.h"
@@ -346,7 +347,7 @@ ends_in(string s, string e)
     if (n >= m) {
 	unsigned d = n - m;
 	if (!strcmp(s + d, e)) {
-	    s = xstrcpy(s);
+	    s = xstrdup(s);
 	    s[d] = 0;
 	    return s;
 	}
@@ -367,7 +368,7 @@ to_capitals(string s)
 {
     char c;
     string t;
-    s = xstrcpy(s);
+    s = xstrdup(s);
     t = s;
     while (c = *t, c != 0) {
 	if (c >= 'a' && c <= 'z') {

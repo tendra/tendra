@@ -4,7 +4,7 @@
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra16/obj-regen/bin/sid
+ *	/Users/kate/svn/tendra1/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */

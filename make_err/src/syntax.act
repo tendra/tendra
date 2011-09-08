@@ -75,6 +75,7 @@ LIST-PROP -> LIST_PROPERTY ;
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 #include "obj_c/errors.h"
 #include "obj_c/entry_ops.h"
@@ -216,7 +217,7 @@ static PARAM find_param
 */
 
 identifier : () -> ( i : ID ) = @{
-    @i = xstrcpy ( token_buff ) ;
+    @i = xstrdup ( token_buff ) ;
 @} ;
 
 
@@ -228,7 +229,7 @@ identifier : () -> ( i : ID ) = @{
 */
 
 string : () -> ( s : STRING ) = @{
-    @s = xstrcpy ( token_buff ) ;
+    @s = xstrdup ( token_buff ) ;
 @} ;
 
 

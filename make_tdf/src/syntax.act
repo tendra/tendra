@@ -67,6 +67,7 @@ PARAM-LIST -> SID_PARAM_LIST ;
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 #include "obj_c/tdf.h"
 #include "obj_c/cmd_ops.h"
@@ -76,6 +77,7 @@ PARAM-LIST -> SID_PARAM_LIST ;
 #include "obj_c/par_ops.h"
 #include "obj_c/sort_ops.h"
 #include "obj_c/spec_ops.h"
+
 #include "input.h"
 #include "lex.h"
 #include "syntax.h"
@@ -157,7 +159,7 @@ typedef LIST ( PARAMETER ) SID_PARAM_LIST ;
 */
 
 name : () -> ( n : NAME ) = @{
-    @n = xstrcpy ( token_buff ) ;
+    @n = xstrdup ( token_buff ) ;
 @} ;
 
 
@@ -184,7 +186,7 @@ number : () -> ( n : NUMBER ) = @{
 */
 
 <keyword_name> : () -> ( n : NAME ) = @{
-    @n = xstrcpy ( token_buff ) ;
+    @n = xstrdup ( token_buff ) ;
 @} ;
 
 

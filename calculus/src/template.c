@@ -62,6 +62,7 @@
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 #include "calculus.h"
 #include "cmd_ops.h"
@@ -131,7 +132,7 @@ read_template(FILE *f, COMMAND p)
 	    }
 	    break;
 	}
-	s = xstrcpy(s);
+	s = xstrdup(s);
 	if (s[0] == '@') {
 	    /* Complex command */
 	    char *s1, *s2, *s3;

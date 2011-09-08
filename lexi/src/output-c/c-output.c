@@ -64,10 +64,10 @@
 #include <assert.h>
 #include <libgen.h>
 
-#include "exds/common.h"
-#include "exds/exception.h"
-#include "exds/dalloc.h"
-#include "exds/dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
 
 #include <shared/error.h>
 #include <shared/xalloc.h>

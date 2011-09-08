@@ -4,12 +4,12 @@
  * and
  *	parser.act
  * by:
- *	/Users/kate/svn/tendra16/obj-regen/bin/sid
+ *	/Users/kate/svn/tendra1/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 276 "parser.act"
+#line 277 "parser.act"
 
 
 	/*
@@ -60,7 +60,7 @@
 extern void sid_parse_grammar(GrammarP);
 /* BEGINNING OF TRAILER */
 
-#line 2210 "parser.act"
+#line 2211 "parser.act"
 
 
 #line 67 "parser.h"

@@ -244,7 +244,7 @@ read_comment(void)
     } while (c == '#');
     unread_char(c);
     *t = 0;
-    if (first_comment == 0) first_comment = xstrcpy(token_buff);
+    if (first_comment == 0) first_comment = xstrdup(token_buff);
     return read_token();
 }
 
@@ -311,7 +311,7 @@ read_template(COMMAND p)
 	    }
 	    break;
 	}
-	s = xstrcpy(s);
+	s = xstrdup(s);
 	if (s[0] == '@') {
 	    /* Complex command */
 	    int complex = 1;

@@ -4,12 +4,12 @@
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra16/obj-regen/bin/sid
+ *	/Users/kate/svn/tendra1/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 146 "syntax.act"
+#line 148 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -87,7 +87,7 @@ extern void read_spec(SPECIFICATION *);
 
 /* BEGINNING OF TRAILER */
 
-#line 336 "syntax.act"
+#line 338 "syntax.act"
 
 #endif
 #line 94 "syntax.h"

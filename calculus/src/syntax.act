@@ -89,6 +89,7 @@ UNION-LIST -> UNION_P_LIST ;
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 #include "calculus.h"
 #include "common.h"
@@ -195,7 +196,7 @@ static LIST ( ECONST_P ) enum_list = NULL_list ( ECONST_P ) ;
 */
 
 identifier : () -> ( i : IDENTIFIER ) = @{
-    @i = xstrcpy ( token_buff ) ;
+    @i = xstrdup ( token_buff ) ;
 @} ;
 
 
@@ -219,7 +220,7 @@ number : () -> ( n : NUMBER ) = @{
 */
 
 string : () -> ( s : STRING ) = @{
-    @s = xstrcpy ( token_buff ) ;
+    @s = xstrdup ( token_buff ) ;
 @} ;
 
 

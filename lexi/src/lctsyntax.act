@@ -56,19 +56,21 @@ ENTRYP -> EntryP;
 
 #include <stdbool.h>
 
+#include <shared/xalloc.h>
+#include <shared/error.h>
+
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
+#include <exds/cstring.h>
+
+#include "adt/tree.h"
+
 #include "lctsyntax.h"
 #include "lctlexer.h"
 #include "ccode.h"
 #include "adt.h"
-#include <shared/xalloc.h>
-#include <shared/error.h>
-#include "exds/common.h"
-#include "exds/exception.h"
-#include "exds/dalloc.h"
-#include "exds/dstring.h"
-#include "exds/cstring.h"
-
-#include "adt/tree.h"
 
 #define ADVANCE_LEXER ADVANCE_LCT_LEXER
 #define CURRENT_TERMINAL CURRENT_LCT_TERMINAL 

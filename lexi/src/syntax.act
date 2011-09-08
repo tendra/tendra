@@ -65,14 +65,15 @@ TYPETUPLE -> TypeTupleT;
 #include <string.h>
 #include <stdio.h>
 
-#include "exds/common.h"
-#include "exds/exception.h"
-#include "exds/dalloc.h"
-#include "exds/dstring.h"
+#include <exds/common.h>
+#include <exds/exception.h>
+#include <exds/dalloc.h>
+#include <exds/dstring.h>
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
 #include <shared/check.h>
+#include <shared/string.h>
 
 #include "adt/instruction.h"
 #include "adt/keyword.h"
@@ -205,7 +206,7 @@ TYPETUPLE : (a) -> (b) = @{
 */
 
 identifier : () -> ( i : IDENTIFIER ) = @{
-    @i = xstrcpy ( token_buff ) ;
+    @i = xstrdup ( token_buff ) ;
 @} ;
 
 
@@ -238,7 +239,7 @@ sid-identifier : () -> ( i : IDENTIFIER ) = @{
 	}
     }
     buff [n] = 0 ;
-    @i = xstrcpy ( buff ) ;
+    @i = xstrdup ( buff ) ;
 @} ;
 
 
@@ -250,7 +251,7 @@ sid-identifier : () -> ( i : IDENTIFIER ) = @{
 */
 
 string : () -> ( s : STRING ) = @{
-    @s = xstrcpy ( token_buff ) ;
+    @s = xstrdup ( token_buff ) ;
 @} ;
 
 
@@ -304,7 +305,7 @@ arg-ignore : () -> (a:ARG) = @{
 */
 
 <empty-identifier> : () -> ( i : IDENTIFIER ) = @{
-    @i = xstrcpy("");
+    @i = xstrdup("");
 @} ;
 
 

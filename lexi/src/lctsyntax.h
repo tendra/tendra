@@ -4,12 +4,12 @@
  * and
  *	lctsyntax.act
  * by:
- *	/Users/kate/svn/tendra16/obj-regen/bin/sid
+ *	/Users/kate/svn/tendra1/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 158 "lctsyntax.act"
+#line 160 "lctsyntax.act"
 
 /*
  * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
@@ -106,7 +106,7 @@ extern void read_lct_unit(void);
 
 /* BEGINNING OF TRAILER */
 
-#line 488 "lctsyntax.act"
+#line 490 "lctsyntax.act"
 
 #endif
 #line 113 "lctsyntax.h"

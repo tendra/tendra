@@ -67,6 +67,7 @@
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 /* SIZE_MAX is not in C90 */
 #ifndef SIZE_MAX
@@ -184,83 +185,3 @@ xfree(void *p)
 		free(p);
 }
 
-
-char *
-xstrdup(const char *s1)
-{
-	size_t len;
-	char *s2;
-
-	len = strlen(s1) + 1;
-	s2 = xmalloc(len);
-	(void) strcpy(s2, s1);
-
-	return s2;
-}
-
-
-/*
-    ALLOCATE SPACE FOR A STRING
-
-    This routine allocates space for n characters.  The memory allocation
-    is buffered except for very long strings.
-*/
-
-char *
-xstr(size_t n)
-{
-    char *r;
-    if (n >= 1000) {
-	r = xmalloc_nof(char, n);
-    } else {
-	static size_t chars_left = 0;
-	static char *chars_free = 0;
-
-	if (n >= chars_left) {
-	    chars_left = 5000;
-	    chars_free = xmalloc_nof(char, chars_left);
-	}
-	r = chars_free;
-	chars_free += n;
-	chars_left -= n;
-    }
-    return r;
-}
-
-
-/*
-    COPY A STRING
-
-    This routine allocates space for a persistent copy of the string s.
-*/
-
-char *
-xstrcpy(const char *s)
-{
-    return xstrdup(s);
-}
-
-
-/*
-    CONCATENATE TWO STRINGS
-
-    This routine allocates space for a persistent copy of the string s
-    followed by the string t.
-*/
-
-char *
-xstrcat(const char *s, const char *t)
-{
-    char *r;
-    size_t n, m;
-
-    if (s == NULL) return xstrcpy(t);
-    if (t == NULL) return xstrcpy(s);
-
-    n = strlen(s);
-    m = n + strlen(t) + 1;
-    r = xstr(m);
-    (void) strcpy(r, s);
-    (void) strcpy(r + n, t);
-    return r;
-}

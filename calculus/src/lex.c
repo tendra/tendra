@@ -62,6 +62,7 @@
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 #include "calculus.h"
 #include "lex.h"
@@ -361,7 +362,7 @@ read_comment(void)
     }
     *t = 0;
     if (first_comment == NULL) {
-	    first_comment = xstrcpy(token_buff);
+	    first_comment = xstrdup(token_buff);
     }
     return read_token();
 }

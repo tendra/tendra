@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2005 The TenDRA Project <http://www.tendra.org/>.
+ * Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,33 +57,86 @@
         it may be put.
 */
 
+#include <assert.h>
+#include <errno.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-#ifndef XALLOC_INCLUDED
-#define XALLOC_INCLUDED
-
-#include <stddef.h>
-
-/*
-    DECLARATIONS FOR MEMORY ALLOCATION ROUTINES
-*/
-
-void *xmalloc(size_t);
-void *xcalloc(size_t, size_t);
-void *xrealloc(void *, size_t);
-void xfree(void *);
+#include <shared/string.h>
+#include <shared/xalloc.h>
 
 
 /*
-    MACROS FOR ACCESSING MEMORY ALLOCATION ROUTINES
+    COPY A STRING
 
-    These macros give a convenient method for accessing the routines above.
-    For example, xmalloc_nof ( T, N ) allocates space for N objects of
-    type T.
+    This routine allocates space for a persistent copy of the string s.
 */
 
-#define xmalloc_nof(T, N) (xmalloc((N) * sizeof(T)))
-#define xcalloc_nof(T, N) (xcalloc((N), sizeof(T)))
-#define xrealloc_nof(P, T, N) (xrealloc((P), (N) * sizeof(T)))
-#define xfree_nof(P) xfree((P))
+char *
+xstrdup(const char *s1)
+{
+	size_t len;
+	char *s2;
 
-#endif /* XALLOC_INCLUDED */
+	len = strlen(s1) + 1;
+	s2 = xmalloc(len);
+	(void) strcpy(s2, s1);
+
+	return s2;
+}
+
+
+/*
+    ALLOCATE SPACE FOR A STRING
+
+    This routine allocates space for n characters.  The memory allocation
+    is buffered except for very long strings.
+*/
+
+char *
+xstr(size_t n)
+{
+    char *r;
+    if (n >= 1000) {
+	r = xmalloc_nof(char, n);
+    } else {
+	static size_t chars_left = 0;
+	static char *chars_free = 0;
+
+	if (n >= chars_left) {
+	    chars_left = 5000;
+	    chars_free = xmalloc_nof(char, chars_left);
+	}
+	r = chars_free;
+	chars_free += n;
+	chars_left -= n;
+    }
+    return r;
+}
+
+
+/*
+    CONCATENATE TWO STRINGS
+
+    This routine allocates space for a persistent copy of the string s
+    followed by the string t.
+*/
+
+char *
+xstrcat(const char *s, const char *t)
+{
+    char *r;
+    size_t n, m;
+
+    if (s == NULL) return xstrdup(t);
+    if (t == NULL) return xstrdup(s);
+
+    n = strlen(s);
+    m = n + strlen(t) + 1;
+    r = xstr(m);
+    (void) strcpy(r, s);
+    (void) strcpy(r + n, t);
+    return r;
+}

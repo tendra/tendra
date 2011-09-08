@@ -4,12 +4,12 @@
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra16/obj-regen/bin/sid
+ *	/Users/kate/svn/tendra1/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 175 "syntax.act"
+#line 176 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -100,7 +100,7 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
-#line 973 "syntax.act"
+#line 974 "syntax.act"
 
 #endif
 #line 107 "syntax.h"

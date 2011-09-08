@@ -4,12 +4,12 @@
  * and
  *	syntax.act
  * by:
- *	/Users/kate/svn/tendra16/obj-regen/bin/sid
+ *	/Users/kate/svn/tendra1/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
 
-#line 112 "syntax.act"
+#line 114 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -43,6 +43,7 @@
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 #include "obj_c/tdf.h"
 #include "obj_c/cmd_ops.h"
@@ -52,6 +53,7 @@
 #include "obj_c/par_ops.h"
 #include "obj_c/sort_ops.h"
 #include "obj_c/spec_ops.h"
+
 #include "input.h"
 #include "lex.h"
 #include "syntax.h"
@@ -85,7 +87,7 @@ typedef LIST ( PARAMETER ) SID_PARAM_LIST ;
 #endif
 
 
-#line 89 "syntax.c"
+#line 91 "syntax.c"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -166,10 +168,10 @@ ZRlink_Hpack(SID_LINK_LIST *ZOp)
 				{
 					/* BEGINNING OF ACTION: null_link */
 					{
-#line 297 "syntax.act"
+#line 299 "syntax.act"
 
     (ZIq) = NULL_list ( LINKAGE ) ;
-#line 173 "syntax.c"
+#line 175 "syntax.c"
 					}
 					/* END OF ACTION: null_link */
 				}
@@ -224,10 +226,10 @@ ZRparam_Hlist(SID_PARAM_LIST *ZOp)
 				{
 					/* BEGINNING OF ACTION: null_param */
 					{
-#line 204 "syntax.act"
+#line 206 "syntax.act"
 
     (ZIq) = NULL_list ( PARAMETER ) ;
-#line 231 "syntax.c"
+#line 233 "syntax.c"
 					}
 					/* END OF ACTION: null_param */
 				}
@@ -240,10 +242,10 @@ ZRparam_Hlist(SID_PARAM_LIST *ZOp)
 		/* END OF INLINE: 59 */
 		/* BEGINNING OF ACTION: cons_param */
 		{
-#line 208 "syntax.act"
+#line 210 "syntax.act"
 
     CONS_par ( (ZIa), (ZIq), (ZIp) ) ;
-#line 247 "syntax.c"
+#line 249 "syntax.c"
 		}
 		/* END OF ACTION: cons_param */
 	}
@@ -271,10 +273,10 @@ ZRclist_Hitem(void)
 		}
 		/* BEGINNING OF ACTION: make_clist */
 		{
-#line 263 "syntax.act"
+#line 265 "syntax.act"
 
     compound_sort ( (ZIs), "_list", info_clist_tag, '*' ) ;
-#line 278 "syntax.c"
+#line 280 "syntax.c"
 		}
 		/* END OF ACTION: make_clist */
 	}
@@ -463,11 +465,11 @@ ZRkind_Hitem(LINKAGE *ZOa)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: make_unit_link */
 		{
-#line 292 "syntax.act"
+#line 294 "syntax.act"
 
     MAKE_link_basic ( (ZIe), (ZIs), (ZIa) ) ;
     COPY_string ( sort_unit ( (ZIs) ), (ZIe) ) ;
-#line 471 "syntax.c"
+#line 473 "syntax.c"
 		}
 		/* END OF ACTION: make_unit_link */
 	}
@@ -555,10 +557,10 @@ ZRold_Hsort_Hname(SORT *ZOs)
 		case 0:
 			/* BEGINNING OF EXTRACT: name */
 			{
-#line 160 "syntax.act"
+#line 162 "syntax.act"
 
-    ZIa = xstrcpy ( token_buff ) ;
-#line 562 "syntax.c"
+    ZIa = xstrdup ( token_buff ) ;
+#line 564 "syntax.c"
 			}
 			/* END OF EXTRACT: name */
 			break;
@@ -568,10 +570,10 @@ ZRold_Hsort_Hname(SORT *ZOs)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: find_old_sort */
 		{
-#line 255 "syntax.act"
+#line 257 "syntax.act"
 
     (ZIs) = find_sort ( (ZIa), 0 ) ;
-#line 575 "syntax.c"
+#line 577 "syntax.c"
 		}
 		/* END OF ACTION: find_old_sort */
 	}
@@ -640,10 +642,10 @@ ZR140(CONSTRUCT *ZIc)
 			case 1:
 				/* BEGINNING OF EXTRACT: number */
 				{
-#line 172 "syntax.act"
+#line 174 "syntax.act"
 
     ZIa = token_value ;
-#line 647 "syntax.c"
+#line 649 "syntax.c"
 				}
 				/* END OF EXTRACT: number */
 				break;
@@ -660,11 +662,11 @@ ZR140(CONSTRUCT *ZIc)
 			ADVANCE_LEXER;
 			/* BEGINNING OF ACTION: set_break */
 			{
-#line 212 "syntax.act"
+#line 214 "syntax.act"
 
     PARAMETER p = find_param ( (*ZIc), (ZIa) ) ;
     if ( !IS_NULL_par ( p ) ) COPY_int ( par_brk ( p ), 1 ) ;
-#line 668 "syntax.c"
+#line 670 "syntax.c"
 			}
 			/* END OF ACTION: set_break */
 			ZR141 (ZIc);
@@ -830,11 +832,11 @@ ZRlink_Hitem(LINKAGE *ZOa)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: make_edge_link */
 		{
-#line 287 "syntax.act"
+#line 289 "syntax.act"
 
     MAKE_link_basic ( (ZIe), (ZIs), (ZIa) ) ;
     COPY_string ( sort_link ( (ZIs) ), (ZIe) ) ;
-#line 838 "syntax.c"
+#line 840 "syntax.c"
 		}
 		/* END OF ACTION: make_edge_link */
 	}
@@ -862,10 +864,10 @@ ZRslist_Hitem(void)
 		}
 		/* BEGINNING OF ACTION: make_slist */
 		{
-#line 267 "syntax.act"
+#line 269 "syntax.act"
 
     compound_sort ( (ZIs), "_list", info_slist_tag, '%' ) ;
-#line 869 "syntax.c"
+#line 871 "syntax.c"
 		}
 		/* END OF ACTION: make_slist */
 	}
@@ -922,10 +924,10 @@ ZRkind_Hlist(SID_LINK_LIST *ZOp)
 				{
 					/* BEGINNING OF ACTION: null_link */
 					{
-#line 297 "syntax.act"
+#line 299 "syntax.act"
 
     (ZIq) = NULL_list ( LINKAGE ) ;
-#line 929 "syntax.c"
+#line 931 "syntax.c"
 					}
 					/* END OF ACTION: null_link */
 				}
@@ -935,10 +937,10 @@ ZRkind_Hlist(SID_LINK_LIST *ZOp)
 		/* END OF INLINE: 120 */
 		/* BEGINNING OF ACTION: cons_link */
 		{
-#line 301 "syntax.act"
+#line 303 "syntax.act"
 
     CONS_link ( (ZIa), (ZIq), (ZIp) ) ;
-#line 942 "syntax.c"
+#line 944 "syntax.c"
 		}
 		/* END OF ACTION: cons_link */
 	}
@@ -965,10 +967,10 @@ ZRnew_Hsort_Hname(SORT *ZOs)
 		case 0:
 			/* BEGINNING OF EXTRACT: name */
 			{
-#line 160 "syntax.act"
+#line 162 "syntax.act"
 
-    ZIa = xstrcpy ( token_buff ) ;
-#line 972 "syntax.c"
+    ZIa = xstrdup ( token_buff ) ;
+#line 974 "syntax.c"
 			}
 			/* END OF EXTRACT: name */
 			break;
@@ -978,10 +980,10 @@ ZRnew_Hsort_Hname(SORT *ZOs)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: find_new_sort */
 		{
-#line 251 "syntax.act"
+#line 253 "syntax.act"
 
     (ZIs) = find_sort ( (ZIa), 1 ) ;
-#line 985 "syntax.c"
+#line 987 "syntax.c"
 		}
 		/* END OF ACTION: find_new_sort */
 	}
@@ -1048,10 +1050,10 @@ ZRany_Hname(string *ZOn)
 		{
 			/* BEGINNING OF EXTRACT: name */
 			{
-#line 160 "syntax.act"
+#line 162 "syntax.act"
 
-    ZIn = xstrcpy ( token_buff ) ;
-#line 1055 "syntax.c"
+    ZIn = xstrdup ( token_buff ) ;
+#line 1057 "syntax.c"
 			}
 			/* END OF EXTRACT: name */
 			ADVANCE_LEXER;
@@ -1067,10 +1069,10 @@ ZRany_Hname(string *ZOn)
 		{
 			/* BEGINNING OF ACTION: keyword_name */
 			{
-#line 187 "syntax.act"
+#line 189 "syntax.act"
 
-    (ZIn) = xstrcpy ( token_buff ) ;
-#line 1074 "syntax.c"
+    (ZIn) = xstrdup ( token_buff ) ;
+#line 1076 "syntax.c"
 			}
 			/* END OF ACTION: keyword_name */
 			/* BEGINNING OF INLINE: 46 */
@@ -1268,10 +1270,10 @@ ZRlink_Hlist(SID_LINK_LIST *ZOp)
 				{
 					/* BEGINNING OF ACTION: null_link */
 					{
-#line 297 "syntax.act"
+#line 299 "syntax.act"
 
     (ZIq) = NULL_list ( LINKAGE ) ;
-#line 1275 "syntax.c"
+#line 1277 "syntax.c"
 					}
 					/* END OF ACTION: null_link */
 				}
@@ -1281,10 +1283,10 @@ ZRlink_Hlist(SID_LINK_LIST *ZOp)
 		/* END OF INLINE: 114 */
 		/* BEGINNING OF ACTION: cons_link */
 		{
-#line 301 "syntax.act"
+#line 303 "syntax.act"
 
     CONS_link ( (ZIa), (ZIq), (ZIp) ) ;
-#line 1288 "syntax.c"
+#line 1290 "syntax.c"
 		}
 		/* END OF ACTION: cons_link */
 	}
@@ -1407,10 +1409,10 @@ ZRsort_Hitem(void)
 		case 1:
 			/* BEGINNING OF EXTRACT: number */
 			{
-#line 172 "syntax.act"
+#line 174 "syntax.act"
 
     ZIb = token_value ;
-#line 1414 "syntax.c"
+#line 1416 "syntax.c"
 			}
 			/* END OF EXTRACT: number */
 			break;
@@ -1457,10 +1459,10 @@ ZRsort_Hitem(void)
 		case 1:
 			/* BEGINNING OF EXTRACT: number */
 			{
-#line 172 "syntax.act"
+#line 174 "syntax.act"
 
     ZIe = token_value ;
-#line 1464 "syntax.c"
+#line 1466 "syntax.c"
 			}
 			/* END OF EXTRACT: number */
 			break;
@@ -1516,10 +1518,10 @@ ZRsort_Hitem(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: make_sort */
 		{
-#line 259 "syntax.act"
+#line 261 "syntax.act"
 
     basic_sort ( (ZIs), (ZIb), (ZIe), (ZIp) ) ;
-#line 1523 "syntax.c"
+#line 1525 "syntax.c"
 		}
 		/* END OF ACTION: make_sort */
 	}
@@ -1612,10 +1614,10 @@ ZRconstruct_Hpack(SORT ZIs, SID_CONS_LIST *ZOp)
 				{
 					/* BEGINNING OF ACTION: null_cons */
 					{
-#line 236 "syntax.act"
+#line 238 "syntax.act"
 
     (ZIq) = NULL_list ( CONSTRUCT ) ;
-#line 1619 "syntax.c"
+#line 1621 "syntax.c"
 					}
 					/* END OF ACTION: null_cons */
 				}
@@ -1764,10 +1766,10 @@ ZRconstruct_Hitem(SORT ZIs, CONSTRUCT *ZOc)
 		case 0:
 			/* BEGINNING OF EXTRACT: name */
 			{
-#line 160 "syntax.act"
+#line 162 "syntax.act"
 
-    ZIn = xstrcpy ( token_buff ) ;
-#line 1771 "syntax.c"
+    ZIn = xstrdup ( token_buff ) ;
+#line 1773 "syntax.c"
 			}
 			/* END OF EXTRACT: name */
 			break;
@@ -1814,10 +1816,10 @@ ZRconstruct_Hitem(SORT ZIs, CONSTRUCT *ZOc)
 		case 1:
 			/* BEGINNING OF EXTRACT: number */
 			{
-#line 172 "syntax.act"
+#line 174 "syntax.act"
 
     ZIe = token_value ;
-#line 1821 "syntax.c"
+#line 1823 "syntax.c"
 			}
 			/* END OF EXTRACT: number */
 			break;
@@ -1912,13 +1914,13 @@ ZRconstruct_Hitem(SORT ZIs, CONSTRUCT *ZOc)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: make_cons */
 		{
-#line 229 "syntax.act"
+#line 231 "syntax.act"
 
     if ( !EQ_sort ( (ZIr), (ZIs) ) ) {
 	error ( ERROR_SERIOUS, "Wrong result sort for '%s'", (ZIn) ) ;
     }
     (ZIc) = make_construct ( (ZIn), (ZIe), (ZIs), (ZIp) ) ;
-#line 1922 "syntax.c"
+#line 1924 "syntax.c"
 		}
 		/* END OF ACTION: make_cons */
 		ZRconstruct_Hextra (ZIc);
@@ -1982,10 +1984,10 @@ ZRconstruct_Hlist(SORT ZIs, SID_CONS_LIST *ZOp)
 				{
 					/* BEGINNING OF ACTION: null_cons */
 					{
-#line 236 "syntax.act"
+#line 238 "syntax.act"
 
     (ZIq) = NULL_list ( CONSTRUCT ) ;
-#line 1989 "syntax.c"
+#line 1991 "syntax.c"
 					}
 					/* END OF ACTION: null_cons */
 				}
@@ -1995,10 +1997,10 @@ ZRconstruct_Hlist(SORT ZIs, SID_CONS_LIST *ZOp)
 		/* END OF INLINE: 79 */
 		/* BEGINNING OF ACTION: cons_cons */
 		{
-#line 240 "syntax.act"
+#line 242 "syntax.act"
 
     CONS_cons ( (ZIc), (ZIq), (ZIp) ) ;
-#line 2002 "syntax.c"
+#line 2004 "syntax.c"
 		}
 		/* END OF ACTION: cons_cons */
 	}
@@ -2044,10 +2046,10 @@ ZRparam_Hpack(SID_PARAM_LIST *ZOp)
 				{
 					/* BEGINNING OF ACTION: null_param */
 					{
-#line 204 "syntax.act"
+#line 206 "syntax.act"
 
     (ZIq) = NULL_list ( PARAMETER ) ;
-#line 2051 "syntax.c"
+#line 2053 "syntax.c"
 					}
 					/* END OF ACTION: null_param */
 				}
@@ -2436,10 +2438,10 @@ read_spec(SPECIFICATION *ZOspec)
 		case 1:
 			/* BEGINNING OF EXTRACT: number */
 			{
-#line 172 "syntax.act"
+#line 174 "syntax.act"
 
     ZIv1 = token_value ;
-#line 2443 "syntax.c"
+#line 2445 "syntax.c"
 			}
 			/* END OF EXTRACT: number */
 			break;
@@ -2486,10 +2488,10 @@ read_spec(SPECIFICATION *ZOspec)
 		case 1:
 			/* BEGINNING OF EXTRACT: number */
 			{
-#line 172 "syntax.act"
+#line 174 "syntax.act"
 
     ZIv2 = token_value ;
-#line 2493 "syntax.c"
+#line 2495 "syntax.c"
 			}
 			/* END OF EXTRACT: number */
 			break;
@@ -2520,12 +2522,12 @@ read_spec(SPECIFICATION *ZOspec)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: make_spec */
 		{
-#line 314 "syntax.act"
+#line 316 "syntax.act"
 
     LIST ( SORT ) p = check_sorts () ;
     LIST ( LINKAGE ) q = foreign_sorts () ;
     MAKE_spec_basic ( (ZIv1), (ZIv2), p, (ZIp), (ZIq), q, (ZIspec) ) ;
-#line 2529 "syntax.c"
+#line 2531 "syntax.c"
 		}
 		/* END OF ACTION: make_spec */
 	}
@@ -2534,18 +2536,18 @@ ZL1:;
 	{
 		/* BEGINNING OF ACTION: syntax_error */
 		{
-#line 330 "syntax.act"
+#line 332 "syntax.act"
 
     error ( ERROR_SERIOUS, "Syntax error" ) ;
-#line 2541 "syntax.c"
+#line 2543 "syntax.c"
 		}
 		/* END OF ACTION: syntax_error */
 		/* BEGINNING OF ACTION: null_spec */
 		{
-#line 318 "syntax.act"
+#line 320 "syntax.act"
 
     (ZIspec) = NULL_spec ;
-#line 2549 "syntax.c"
+#line 2551 "syntax.c"
 		}
 		/* END OF ACTION: null_spec */
 	}
@@ -2686,12 +2688,12 @@ ZRparam_Hitem(PARAMETER *ZOa)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: make_param */
 		{
-#line 199 "syntax.act"
+#line 201 "syntax.act"
 
     int intro = 0 ;
     if ( ends_in ( (ZIn), "_intro" ) ) intro = 1 ;
     MAKE_par_basic ( (ZIn), (ZIs), 0, 0, intro, (ZIa) ) ;
-#line 2695 "syntax.c"
+#line 2697 "syntax.c"
 		}
 		/* END OF ACTION: make_param */
 	}
@@ -2777,10 +2779,10 @@ ZRedge_Hitem(void)
 		case 0:
 			/* BEGINNING OF EXTRACT: name */
 			{
-#line 160 "syntax.act"
+#line 162 "syntax.act"
 
-    ZIc = xstrcpy ( token_buff ) ;
-#line 2784 "syntax.c"
+    ZIc = xstrdup ( token_buff ) ;
+#line 2786 "syntax.c"
 			}
 			/* END OF EXTRACT: name */
 			break;
@@ -2797,11 +2799,11 @@ ZRedge_Hitem(void)
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: set_edge */
 		{
-#line 275 "syntax.act"
+#line 277 "syntax.act"
 
     set_special ( (ZIs), (ZIc), KIND_edge ) ;
     COPY_int ( sort_edge ( (ZIs) ), 1 ) ;
-#line 2805 "syntax.c"
+#line 2807 "syntax.c"
 		}
 		/* END OF ACTION: set_edge */
 	}
@@ -2845,10 +2847,10 @@ ZRkind_Hpack(SID_LINK_LIST *ZOp)
 				{
 					/* BEGINNING OF ACTION: null_link */
 					{
-#line 297 "syntax.act"
+#line 299 "syntax.act"
 
     (ZIq) = NULL_list ( LINKAGE ) ;
-#line 2852 "syntax.c"
+#line 2854 "syntax.c"
 					}
 					/* END OF ACTION: null_link */
 				}
@@ -2887,10 +2889,10 @@ ZL2_number_Hlist:;
 		case 1:
 			/* BEGINNING OF EXTRACT: number */
 			{
-#line 172 "syntax.act"
+#line 174 "syntax.act"
 
     ZIa = token_value ;
-#line 2894 "syntax.c"
+#line 2896 "syntax.c"
 			}
 			/* END OF EXTRACT: number */
 			break;
@@ -2900,11 +2902,11 @@ ZL2_number_Hlist:;
 		ADVANCE_LEXER;
 		/* BEGINNING OF ACTION: set_boundary */
 		{
-#line 217 "syntax.act"
+#line 219 "syntax.act"
 
     PARAMETER p = find_param ( (ZIc), (ZIa) ) ;
     if ( !IS_NULL_par ( p ) ) COPY_int ( par_align ( p ), 1 ) ;
-#line 2908 "syntax.c"
+#line 2910 "syntax.c"
 		}
 		/* END OF ACTION: set_boundary */
 		/* BEGINNING OF INLINE: 69 */
@@ -2946,10 +2948,10 @@ ZRoption_Hitem(void)
 		}
 		/* BEGINNING OF ACTION: make_option */
 		{
-#line 271 "syntax.act"
+#line 273 "syntax.act"
 
     compound_sort ( (ZIs), "_option", info_option_tag, '?' ) ;
-#line 2953 "syntax.c"
+#line 2955 "syntax.c"
 		}
 		/* END OF ACTION: make_option */
 	}
@@ -2961,8 +2963,8 @@ ZL1:;
 
 /* BEGINNING OF TRAILER */
 
-#line 334 "syntax.act"
+#line 336 "syntax.act"
 
-#line 2967 "syntax.c"
+#line 2969 "syntax.c"
 
 /* END OF FILE */
