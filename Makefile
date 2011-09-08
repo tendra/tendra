@@ -14,6 +14,7 @@ OBJ_DIR?=     ${.CURDIR}/obj    # XXX: unused
 OBJ_WWW?=     ${.CURDIR}/obj-www
 OBJ_BPREFIX?= ${.CURDIR}/obj-bootstrap
 OBJ_REBUILD?= ${.CURDIR}/obj-rebuild
+OBJ_REGEN?=   ${.CURDIR}/obj-regen
 OBJ_BOOT?=    ${OBJ_BPREFIX}/obj
 
 # TODO: this should probably be the actual $PREFIX
@@ -102,5 +103,28 @@ bootstrap-rebuild:
 	    TCC=${OBJ_BPREFIX}/bin/tcc        \
 	    OBJ_DIR=${OBJ_REBUILD}/${project} \
 	    PREFIX=${OBJ_RPREFIX} install
+.endfor
+
+
+bootstrap-regen:
+	@echo "===> bootstraping into ${OBJ_REGEN} for source regeneration"
+.for project in sid
+	@echo "===> bootstrapping ${project} into ${OBJ_BPREFIX}"
+	cd ${.CURDIR}/${project} && ${MAKE}     \
+	    OBJ_DIR=${OBJ_REGEN}/obj/${project} \
+	    PREFIX=${OBJ_REGEN} install
+.endfor
+.for project in calculus lexi make_err make_tdf producers-dra sid tpl tspec
+	@echo "===> regenerating for ${project}"
+	cd ${.CURDIR}/${project} && ${MAKE}     \
+	    OBJ_DIR=${OBJ_REGEN}/obj/${project} \
+	    SID=${OBJ_REGEN}/bin/sid            \
+	    PREFIX=${OBJ_REGEN} regen-clean regen
+.endfor
+.for project in calculus lexi make_err make_tdf producers-dra sid tpl tspec
+	@echo "===> rebuilding for ${project}"
+	cd ${.CURDIR}/${project} && ${MAKE}     \
+	    OBJ_DIR=${OBJ_REGEN}/obj/${project} \
+	    PREFIX=${OBJ_REGEN}
 .endfor
 
