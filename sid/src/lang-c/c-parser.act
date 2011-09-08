@@ -40,8 +40,9 @@
 %maps%
 
 	StringT -> NStringT;
-	CCodeP -> CCodeP;
-	BoolT -> BoolT;
+	CCodeP  -> CCodeP;
+	BoolT   -> BoolT;
+
 	c-parse-grammar -> c_parse_grammar;
 
 %header% @{
@@ -216,6 +217,22 @@
 			no liability whatsoever in relation to any use to which
 			it may be put.
 	*/
+
+	/*
+	 * c-parser.h - SID C parser.
+	 *
+	 * This file specifies the interface to the SID C definition file parser that
+	 * is produced from the file "c-parser.sid".
+	 */
+
+	#include "../adt/table.h"
+
+	#include "c-lexer.h"
+	#include "c-out-info.h"
+
+	CLexerStreamT *c_current_stream;
+	COutputInfoT  *c_current_out_info;
+	TableT        *c_current_table;
 
 @};
 

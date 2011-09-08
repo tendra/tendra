@@ -53,6 +53,7 @@
 	TypeTupleT        -> TypeTupleT;
 	NonLocalEntryP    -> NonLocalEntryP;
 	StringT           -> NStringT;
+
 	sid-parse-grammar -> sid_parse_grammar;
 
 %header% @{
@@ -259,6 +260,18 @@
 			no liability whatsoever in relation to any use to which
 			it may be put.
 	*/
+
+	/*
+	 * parser.h - SID parser.
+	 *
+	 * This file specifies the interface to the SID file parser that is produced
+	 * from the file "parser.sid".
+	 */
+
+	#include "grammar.h"
+	#include "lexer.h"
+
+	LexerStreamT *  sid_current_stream;
 
 @};
 
