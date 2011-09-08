@@ -73,6 +73,7 @@
 #include <assert.h>
 #include <ctype.h>
 
+#include <exds/cstring.h>
 #include <exds/dalloc.h>
 
 #include <shared/check.h>

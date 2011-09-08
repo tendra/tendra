@@ -4,11 +4,12 @@
  * and
  *	syntax.act
  * by:
- *	sid
+ *	/Users/kate/svn/tendra16/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
 
+#line 184 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -43,6 +44,7 @@
 #ifndef SYNTAX_INCLUDED
 #define SYNTAX_INCLUDED
 
+#line 48 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -96,7 +98,9 @@ extern void read_calculus(void);
 
 /* BEGINNING OF TRAILER */
 
+#line 1153 "syntax.act"
 
 #endif
+#line 105 "syntax.h"
 
 /* END OF FILE */

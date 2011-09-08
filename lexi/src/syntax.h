@@ -4,11 +4,12 @@
  * and
  *	syntax.act
  * by:
- *	sid
+ *	/Users/kate/svn/tendra16/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
 
+#line 175 "syntax.act"
 
 /*
     		 Crown Copyright (c) 1997
@@ -48,6 +49,7 @@
 extern char *token_prefix ;
 typedef zone* zoneP;
 
+#line 53 "syntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -98,7 +100,9 @@ extern void read_lex(zoneP);
 
 /* BEGINNING OF TRAILER */
 
+#line 973 "syntax.act"
 
 #endif
+#line 107 "syntax.h"
 
 /* END OF FILE */

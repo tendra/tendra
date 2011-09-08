@@ -4,7 +4,7 @@
  * and
  *	lctsyntax.act
  * by:
- *	sid
+ *	/Users/kate/svn/tendra16/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */

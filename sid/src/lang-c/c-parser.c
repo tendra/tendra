@@ -9,7 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
-#line 121 "c-parser.act"
+#line 122 "c-parser.act"
 
 
 	/*
@@ -75,7 +75,6 @@
 
 	#include <shared/check.h>
 	#include <shared/error.h>
-
 	#include "c-parser.h"
 	#include "../adt/action.h"
 	#include "c-code.h"
@@ -153,7 +152,7 @@
 			field, (void *) key, (void *) a, (void *) b);
 	}
 
-#line 156 "tmp.c-parser.c"
+#line 156 "c-parser.c"
 
 
 #ifndef ERROR_TERMINAL
@@ -201,263 +200,263 @@ static BoolT ZI0;
 static void
 ZR137(void)
 {
-  ZL2_137:;
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_C_HIDENTIFIER):
-	{
-	    ZR139 ();
-	    /* BEGINNING OF INLINE: c-parse-grammar::persistent-list */
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    } else {
-		goto ZL2_137;
-	    }
-	    /* END OF INLINE: c-parse-grammar::persistent-list */
+ZL2_137:;
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_C_HIDENTIFIER):
+		{
+			ZR139 ();
+			/* BEGINNING OF INLINE: c-parse-grammar::persistent-list */
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			} else {
+				goto ZL2_137;
+			}
+			/* END OF INLINE: c-parse-grammar::persistent-list */
+		}
+		/*UNREACHED*/
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	/*UNREACHED*/
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR177(void)
 {
-  ZL2_177:;
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
-	{
-	    ZR179 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: skip-recover */
-	    {
-#line 1177 "c-parser.act"
+ZL2_177:;
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
+		{
+			ZR179 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			/* BEGINNING OF ACTION: skip-recover */
+			{
+#line 1194 "c-parser.act"
 
 		c_propagating_error = FALSE;
 	
-#line 248 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: skip-recover */
-	    /* BEGINNING OF INLINE: c-parse-grammar::result-assign-list */
-	    goto ZL2_177;
-	    /* END OF INLINE: c-parse-grammar::result-assign-list */
+#line 248 "c-parser.c"
+			}
+			/* END OF ACTION: skip-recover */
+			/* BEGINNING OF INLINE: c-parse-grammar::result-assign-list */
+			goto ZL2_177;
+			/* END OF INLINE: c-parse-grammar::result-assign-list */
+		}
+		/*UNREACHED*/
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	/*UNREACHED*/
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR118(CCodeP ZI111)
 {
-  ZL2_118:;
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_ACT_HAT): case (C_TOK_ACT_HEXCEPTION): case (C_TOK_ACT_HTERMINAL): case (C_TOK_ACT_HADVANCE):
-      case (C_TOK_ACT_HBASIC): case (C_TOK_ACT_HLABEL): case (C_TOK_ACT_HREFERENCE): case (C_TOK_ACT_HIDENTIFIER):
-      case (C_TOK_ACT_HMODIFIABLE): case (C_TOK_ACT_HCODESTRING): case (C_TOK_ACT_HEOF):
-	{
-	    ZR114 (ZI111);
-	    /* BEGINNING OF INLINE: c-parse-grammar::code-block::code-body */
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    } else {
-		goto ZL2_118;
-	    }
-	    /* END OF INLINE: c-parse-grammar::code-block::code-body */
+ZL2_118:;
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_ACT_HAT): case (C_TOK_ACT_HEXCEPTION): case (C_TOK_ACT_HTERMINAL): case (C_TOK_ACT_HADVANCE):
+	case (C_TOK_ACT_HBASIC): case (C_TOK_ACT_HLABEL): case (C_TOK_ACT_HREFERENCE): case (C_TOK_ACT_HIDENTIFIER):
+	case (C_TOK_ACT_HMODIFIABLE): case (C_TOK_ACT_HCODESTRING): case (C_TOK_ACT_HEOF):
+		{
+			ZR114 (ZI111);
+			/* BEGINNING OF INLINE: c-parse-grammar::code-block::code-body */
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			} else {
+				goto ZL2_118;
+			}
+			/* END OF INLINE: c-parse-grammar::code-block::code-body */
+		}
+		/*UNREACHED*/
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	/*UNREACHED*/
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR184(void)
 {
-  ZL2_184:;
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
-	{
-	    ZR186 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: skip-recover */
-	    {
-#line 1177 "c-parser.act"
+ZL2_184:;
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
+		{
+			ZR186 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			/* BEGINNING OF ACTION: skip-recover */
+			{
+#line 1194 "c-parser.act"
 
 		c_propagating_error = FALSE;
 	
-#line 316 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: skip-recover */
-	    /* BEGINNING OF INLINE: c-parse-grammar::terminal-list */
-	    goto ZL2_184;
-	    /* END OF INLINE: c-parse-grammar::terminal-list */
+#line 316 "c-parser.c"
+			}
+			/* END OF ACTION: skip-recover */
+			/* BEGINNING OF INLINE: c-parse-grammar::terminal-list */
+			goto ZL2_184;
+			/* END OF INLINE: c-parse-grammar::terminal-list */
+		}
+		/*UNREACHED*/
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	/*UNREACHED*/
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR112(CCodeP *ZO111)
 {
-    CCodeP ZI111;
+	CCodeP ZI111;
 
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	switch (CURRENT_TERMINAL) {
-	  case (C_TOK_ACT_HCODESTART):
-	    break;
-	  default:
-	    goto ZL1;
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	ADVANCE_LEXER;
-	/* BEGINNING OF ACTION: ccode-init */
 	{
-#line 807 "c-parser.act"
+		switch (CURRENT_TERMINAL) {
+		case (C_TOK_ACT_HCODESTART):
+			break;
+		default:
+			goto ZL1;
+		}
+		ADVANCE_LEXER;
+		/* BEGINNING OF ACTION: ccode-init */
+		{
+#line 824 "c-parser.act"
 
 		(ZI111) = c_code_create(istream_name(&c_lexer_stream->istream), 
 			istream_line(&c_lexer_stream->istream));
 	
-#line 358 "tmp.c-parser.c"
+#line 358 "c-parser.c"
+		}
+		/* END OF ACTION: ccode-init */
+		ZR118 (ZI111);
+		switch (CURRENT_TERMINAL) {
+		case (C_TOK_ACT_HCODEEND):
+			break;
+		case (ERROR_TERMINAL):
+			RESTORE_LEXER;
+			goto ZL1;
+		default:
+			goto ZL1;
+		}
+		ADVANCE_LEXER;
 	}
-	/* END OF ACTION: ccode-init */
-	ZR118 (ZI111);
-	switch (CURRENT_TERMINAL) {
-	  case (C_TOK_ACT_HCODEEND):
-	    break;
-	  case (ERROR_TERMINAL):
-	    RESTORE_LEXER;
-	    goto ZL1;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-    }
-    goto ZL0;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
-  ZL0:;
-    *ZO111 = ZI111;
+	goto ZL0;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
+ZL0:;
+	*ZO111 = ZI111;
 }
 
 static void
 ZR161(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	switch (CURRENT_TERMINAL) {
-	  case (C_TOK_ARROW):
-	    break;
-	  default:
-	    goto ZL1;
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	ADVANCE_LEXER;
-    }
-    return;
-  ZL1:;
-    {
-	/* BEGINNING OF ACTION: expected-arrow */
 	{
-#line 902 "c-parser.act"
+		switch (CURRENT_TERMINAL) {
+		case (C_TOK_ARROW):
+			break;
+		default:
+			goto ZL1;
+		}
+		ADVANCE_LEXER;
+	}
+	return;
+ZL1:;
+	{
+		/* BEGINNING OF ACTION: expected-arrow */
+		{
+#line 919 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'->'");
 		}
 	
-#line 407 "tmp.c-parser.c"
+#line 407 "c-parser.c"
+		}
+		/* END OF ACTION: expected-arrow */
 	}
-	/* END OF ACTION: expected-arrow */
-    }
 }
 
 static void
 ZR130(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	NStringT ZI132;
-
-	/* BEGINNING OF INLINE: c-parse-grammar::identifier */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_C_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
-
-		nstring_assign(&ZI132, c_lexer_string_value(c_current_stream));
-	
-#line 433 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      case (C_TOK_SID_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: SID-IDENTIFIER */
-		    {
-#line 247 "c-parser.act"
-
-		nstring_assign(&ZI132, c_lexer_string_value(c_current_stream));
-	
-#line 447 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: SID-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      default:
-		goto ZL1;
-	    }
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	/* END OF INLINE: c-parse-grammar::identifier */
-	/* BEGINNING OF ACTION: set-map */
 	{
-#line 345 "c-parser.act"
+		NStringT ZI132;
+
+		/* BEGINNING OF INLINE: c-parse-grammar::identifier */
+		{
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_C_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
+
+		nstring_assign(&ZI132, c_lexer_string_value(c_current_stream));
+	
+#line 433 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			case (C_TOK_SID_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
+					{
+#line 264 "c-parser.act"
+
+		nstring_assign(&ZI132, c_lexer_string_value(c_current_stream));
+	
+#line 447 "c-parser.c"
+					}
+					/* END OF EXTRACT: SID-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+		}
+		/* END OF INLINE: c-parse-grammar::identifier */
+		/* BEGINNING OF ACTION: set-map */
+		{
+#line 362 "c-parser.act"
 
 		c_current_entry = table_get_entry(c_current_table, (&ZI132));
 		if (c_current_entry == NULL) {
@@ -487,38 +486,38 @@ ZR130(void)
 		}
 		nstring_destroy(&(ZI132));
 	
-#line 490 "tmp.c-parser.c"
-	}
-	/* END OF ACTION: set-map */
-	ZR161 ();
-	/* BEGINNING OF INLINE: 134 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		NStringT ZI135;
+#line 490 "c-parser.c"
+		}
+		/* END OF ACTION: set-map */
+		ZR161 ();
+		/* BEGINNING OF INLINE: 134 */
+		{
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				NStringT ZI135;
 
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_C_HIDENTIFIER):
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_C_HIDENTIFIER):
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
 
 		nstring_assign(&ZI135, c_lexer_string_value(c_current_stream));
 	
-#line 511 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    break;
-		  default:
-		    goto ZL4;
-		}
-		ADVANCE_LEXER;
-		/* BEGINNING OF ACTION: x-set-map */
-		{
-#line 376 "c-parser.act"
+#line 511 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					break;
+				default:
+					goto ZL4;
+				}
+				ADVANCE_LEXER;
+				/* BEGINNING OF ACTION: x-set-map */
+				{
+#line 393 "c-parser.act"
 
 		if (c_current_entry) {
 			entry_set_mapping(c_current_entry, &(ZI135));
@@ -526,32 +525,32 @@ ZR130(void)
 			nstring_destroy(&(ZI135));
 		}
 	
-#line 529 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: x-set-map */
-		ZR221 ();
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
-		}
-	    }
-	    goto ZL3;
-	  ZL4:;
-	    {
-		/* BEGINNING OF ACTION: expected-c-identifier */
-		{
-#line 878 "c-parser.act"
+#line 529 "c-parser.c"
+				}
+				/* END OF ACTION: x-set-map */
+				ZR221 ();
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+			}
+			goto ZL3;
+		ZL4:;
+			{
+				/* BEGINNING OF ACTION: expected-c-identifier */
+				{
+#line 895 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("C identifier");
 		}
 	
-#line 549 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: expected-c-identifier */
-		/* BEGINNING OF ACTION: skip-to-end-of-map */
-		{
-#line 1021 "c-parser.act"
+#line 549 "c-parser.c"
+				}
+				/* END OF ACTION: expected-c-identifier */
+				/* BEGINNING OF ACTION: skip-to-end-of-map */
+				{
+#line 1038 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -579,68 +578,68 @@ ZR130(void)
 
 		c_propagating_error = TRUE;
 	
-#line 582 "tmp.c-parser.c"
+#line 582 "c-parser.c"
+				}
+				/* END OF ACTION: skip-to-end-of-map */
+			}
+		ZL3:;
 		}
-		/* END OF ACTION: skip-to-end-of-map */
-	    }
-	  ZL3:;
+		/* END OF INLINE: 134 */
 	}
-	/* END OF INLINE: 134 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR164(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	NStringT ZI108;
-
-	/* BEGINNING OF INLINE: c-parse-grammar::identifier */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_C_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 616 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      case (C_TOK_SID_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: SID-IDENTIFIER */
-		    {
-#line 247 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 630 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: SID-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      default:
-		goto ZL1;
-	    }
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	/* END OF INLINE: c-parse-grammar::identifier */
-	/* BEGINNING OF ACTION: assign */
 	{
-#line 443 "c-parser.act"
+		NStringT ZI108;
+
+		/* BEGINNING OF INLINE: c-parse-grammar::identifier */
+		{
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_C_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 616 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			case (C_TOK_SID_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
+					{
+#line 264 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 630 "c-parser.c"
+					}
+					/* END OF EXTRACT: SID-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+		}
+		/* END OF INLINE: c-parse-grammar::identifier */
+		/* BEGINNING OF ACTION: assign */
+		{
+#line 460 "c-parser.act"
 
 		c_current_entry = table_get_type(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
@@ -652,28 +651,28 @@ ZR164(void)
 		}
 		nstring_destroy(&(ZI108));
 	
-#line 655 "tmp.c-parser.c"
-	}
-	/* END OF ACTION: assign */
-	ZR145 ();
-	ZR124 ();
-	/* BEGINNING OF INLINE: 167 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		CCodeP ZI168;
-
-		ZR112 (&ZI168);
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
+#line 655 "c-parser.c"
 		}
-		/* BEGINNING OF ACTION: x-assign */
+		/* END OF ACTION: assign */
+		ZR145 ();
+		ZR124 ();
+		/* BEGINNING OF INLINE: 167 */
 		{
-#line 492 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				CCodeP ZI168;
+
+				ZR112 (&ZI168);
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+				/* BEGINNING OF ACTION: x-assign */
+				{
+#line 509 "c-parser.act"
 
 		if (c_current_entry) {
 			BoolT  errored = FALSE;
@@ -727,32 +726,32 @@ ZR164(void)
 			c_code_deallocate((ZI168));
 		}
 	
-#line 730 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: x-assign */
-		ZR221 ();
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
-		}
-	    }
-	    goto ZL3;
-	  ZL4:;
-	    {
-		/* BEGINNING OF ACTION: expected-code */
-		{
-#line 926 "c-parser.act"
+#line 730 "c-parser.c"
+				}
+				/* END OF ACTION: x-assign */
+				ZR221 ();
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+			}
+			goto ZL3;
+		ZL4:;
+			{
+				/* BEGINNING OF ACTION: expected-code */
+				{
+#line 943 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 750 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: expected-code */
-		/* BEGINNING OF ACTION: skip-to-end-of-assignment */
-		{
-#line 1049 "c-parser.act"
+#line 750 "c-parser.c"
+				}
+				/* END OF ACTION: expected-code */
+				/* BEGINNING OF ACTION: skip-to-end-of-assignment */
+				{
+#line 1066 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -779,78 +778,78 @@ ZR164(void)
 
 		c_propagating_error = TRUE;
 	
-#line 782 "tmp.c-parser.c"
+#line 782 "c-parser.c"
+				}
+				/* END OF ACTION: skip-to-end-of-assignment */
+			}
+		ZL3:;
 		}
-		/* END OF ACTION: skip-to-end-of-assignment */
-	    }
-	  ZL3:;
+		/* END OF INLINE: 167 */
 	}
-	/* END OF INLINE: 167 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR193(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	switch (CURRENT_TERMINAL) {
-	  case (C_TOK_BEGIN_HACTION):
-	    break;
-	  default:
-	    goto ZL1;
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	ADVANCE_LEXER;
-	/* BEGINNING OF INLINE: 195 */
 	{
-	    {
-		NStringT ZI108;
-
-		/* BEGINNING OF INLINE: c-parse-grammar::identifier */
-		{
-		    switch (CURRENT_TERMINAL) {
-		      case (C_TOK_C_HIDENTIFIER):
-			{
-			    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-			    {
-#line 243 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 826 "tmp.c-parser.c"
-			    }
-			    /* END OF EXTRACT: C-IDENTIFIER */
-			    ADVANCE_LEXER;
-			}
+		switch (CURRENT_TERMINAL) {
+		case (C_TOK_BEGIN_HACTION):
 			break;
-		      case (C_TOK_SID_HIDENTIFIER):
-			{
-			    /* BEGINNING OF EXTRACT: SID-IDENTIFIER */
-			    {
-#line 247 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 840 "tmp.c-parser.c"
-			    }
-			    /* END OF EXTRACT: SID-IDENTIFIER */
-			    ADVANCE_LEXER;
-			}
-			break;
-		      default:
-			goto ZL3;
-		    }
+		default:
+			goto ZL1;
 		}
-		/* END OF INLINE: c-parse-grammar::identifier */
-		/* BEGINNING OF ACTION: set-action */
+		ADVANCE_LEXER;
+		/* BEGINNING OF INLINE: 195 */
 		{
-#line 722 "c-parser.act"
+			{
+				NStringT ZI108;
+
+				/* BEGINNING OF INLINE: c-parse-grammar::identifier */
+				{
+					switch (CURRENT_TERMINAL) {
+					case (C_TOK_C_HIDENTIFIER):
+						{
+							/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+							{
+#line 260 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 826 "c-parser.c"
+							}
+							/* END OF EXTRACT: C-IDENTIFIER */
+							ADVANCE_LEXER;
+						}
+						break;
+					case (C_TOK_SID_HIDENTIFIER):
+						{
+							/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
+							{
+#line 264 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 840 "c-parser.c"
+							}
+							/* END OF EXTRACT: SID-IDENTIFIER */
+							ADVANCE_LEXER;
+						}
+						break;
+					default:
+						goto ZL3;
+					}
+				}
+				/* END OF INLINE: c-parse-grammar::identifier */
+				/* BEGINNING OF ACTION: set-action */
+				{
+#line 739 "c-parser.act"
 
 		c_current_entry = table_get_action(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
@@ -868,57 +867,57 @@ ZR193(void)
 		}
 		nstring_destroy(&(ZI108));
 	
-#line 871 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: set-action */
-		/* BEGINNING OF INLINE: 196 */
-		{
-		    {
-			switch (CURRENT_TERMINAL) {
-			  case (C_TOK_END_HACTION):
-			    break;
-			  default:
-			    goto ZL6;
-			}
-			ADVANCE_LEXER;
-		    }
-		    goto ZL5;
-		  ZL6:;
-		    {
-			/* BEGINNING OF ACTION: expected-end-action */
-			{
-#line 914 "c-parser.act"
+#line 871 "c-parser.c"
+				}
+				/* END OF ACTION: set-action */
+				/* BEGINNING OF INLINE: 196 */
+				{
+					{
+						switch (CURRENT_TERMINAL) {
+						case (C_TOK_END_HACTION):
+							break;
+						default:
+							goto ZL6;
+						}
+						ADVANCE_LEXER;
+					}
+					goto ZL5;
+				ZL6:;
+					{
+						/* BEGINNING OF ACTION: expected-end-action */
+						{
+#line 931 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'>'");
 		}
 	
-#line 896 "tmp.c-parser.c"
-			}
-			/* END OF ACTION: expected-end-action */
-		    }
-		  ZL5:;
-		}
-		/* END OF INLINE: 196 */
-		ZR145 ();
-		ZR124 ();
-		/* BEGINNING OF INLINE: 198 */
-		{
-		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			RESTORE_LEXER;
-			goto ZL3;
-		    }
-		    {
-			CCodeP ZI168;
+#line 896 "c-parser.c"
+						}
+						/* END OF ACTION: expected-end-action */
+					}
+				ZL5:;
+				}
+				/* END OF INLINE: 196 */
+				ZR145 ();
+				ZR124 ();
+				/* BEGINNING OF INLINE: 198 */
+				{
+					if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+						RESTORE_LEXER;
+						goto ZL3;
+					}
+					{
+						CCodeP ZI168;
 
-			ZR112 (&ZI168);
-			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			    RESTORE_LEXER;
-			    goto ZL8;
-			}
-			/* BEGINNING OF ACTION: x-set-action */
-			{
-#line 777 "c-parser.act"
+						ZR112 (&ZI168);
+						if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+							RESTORE_LEXER;
+							goto ZL8;
+						}
+						/* BEGINNING OF ACTION: x-set-action */
+						{
+#line 794 "c-parser.act"
 
 		if (c_current_entry) {
 			ActionT    *action  = entry_get_action(c_current_entry);
@@ -970,32 +969,32 @@ ZR193(void)
 			c_code_deallocate((ZI168));
 		}
 	
-#line 973 "tmp.c-parser.c"
-			}
-			/* END OF ACTION: x-set-action */
-			ZR221 ();
-			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			    RESTORE_LEXER;
-			    goto ZL8;
-			}
-		    }
-		    goto ZL7;
-		  ZL8:;
-		    {
-			/* BEGINNING OF ACTION: expected-code */
-			{
-#line 926 "c-parser.act"
+#line 973 "c-parser.c"
+						}
+						/* END OF ACTION: x-set-action */
+						ZR221 ();
+						if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+							RESTORE_LEXER;
+							goto ZL8;
+						}
+					}
+					goto ZL7;
+				ZL8:;
+					{
+						/* BEGINNING OF ACTION: expected-code */
+						{
+#line 943 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 993 "tmp.c-parser.c"
-			}
-			/* END OF ACTION: expected-code */
-			/* BEGINNING OF ACTION: skip-to-end-of-action */
-			{
-#line 1152 "c-parser.act"
+#line 993 "c-parser.c"
+						}
+						/* END OF ACTION: expected-code */
+						/* BEGINNING OF ACTION: skip-to-end-of-action */
+						{
+#line 1169 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -1019,31 +1018,31 @@ ZR193(void)
 
 		c_propagating_error = TRUE;
 	
-#line 1022 "tmp.c-parser.c"
+#line 1022 "c-parser.c"
+						}
+						/* END OF ACTION: skip-to-end-of-action */
+					}
+				ZL7:;
+				}
+				/* END OF INLINE: 198 */
 			}
-			/* END OF ACTION: skip-to-end-of-action */
-		    }
-		  ZL7:;
-		}
-		/* END OF INLINE: 198 */
-	    }
-	    goto ZL2;
-	  ZL3:;
-	    {
-		/* BEGINNING OF ACTION: expected-identifier */
-		{
-#line 872 "c-parser.act"
+			goto ZL2;
+		ZL3:;
+			{
+				/* BEGINNING OF ACTION: expected-identifier */
+				{
+#line 889 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("identifier");
 		}
 	
-#line 1041 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: expected-identifier */
-		/* BEGINNING OF ACTION: skip-to-end-of-action */
-		{
-#line 1152 "c-parser.act"
+#line 1041 "c-parser.c"
+				}
+				/* END OF ACTION: expected-identifier */
+				/* BEGINNING OF ACTION: skip-to-end-of-action */
+				{
+#line 1169 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -1067,179 +1066,179 @@ ZR193(void)
 
 		c_propagating_error = TRUE;
 	
-#line 1070 "tmp.c-parser.c"
+#line 1070 "c-parser.c"
+				}
+				/* END OF ACTION: skip-to-end-of-action */
+			}
+		ZL2:;
 		}
-		/* END OF ACTION: skip-to-end-of-action */
-	    }
-	  ZL2:;
+		/* END OF INLINE: 195 */
 	}
-	/* END OF INLINE: 195 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR152(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-  ZL2_152:;
-    {
-	ZR147 ();
-	/* BEGINNING OF INLINE: 154 */
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
+	}
+ZL2_152:;
 	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		/* BEGINNING OF ACTION: is-close-tuple-or-skipped-or-eof */
+		ZR147 ();
+		/* BEGINNING OF INLINE: 154 */
 		{
-#line 1180 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				/* BEGINNING OF ACTION: is-close-tuple-or-skipped-or-eof */
+				{
+#line 1197 "c-parser.act"
 
 		(ZI0) = (CURRENT_TERMINAL == (C_TOK_CLOSE_HTUPLE)
 			|| CURRENT_TERMINAL == (C_TOK_EOF)
 			|| c_propagating_error);
 	
-#line 1108 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: is-close-tuple-or-skipped-or-eof */
-		if (!ZI0)
-		    goto ZL5;
-		goto ZL3;
-	    }
-	    /*UNREACHED*/
-	  ZL5:;
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_SEPARATOR):
-		{
-		    ADVANCE_LEXER;
-		    /* BEGINNING OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
-		    goto ZL2_152;
-		    /* END OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
-		}
-		/*UNREACHED*/
-	      default:
-		goto ZL4;
-	    }
-	    /*UNREACHED*/
-	  ZL4:;
-	    {
-		/* BEGINNING OF ACTION: expected-separator */
-		{
-#line 884 "c-parser.act"
+#line 1108 "c-parser.c"
+				}
+				/* END OF ACTION: is-close-tuple-or-skipped-or-eof */
+				if (!ZI0)
+					goto ZL5;
+				goto ZL3;
+			}
+			/*UNREACHED*/
+		ZL5:;
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_SEPARATOR):
+				{
+					ADVANCE_LEXER;
+					/* BEGINNING OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
+					goto ZL2_152;
+					/* END OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
+				}
+				/*UNREACHED*/
+			default:
+				goto ZL4;
+			}
+			/*UNREACHED*/
+		ZL4:;
+			{
+				/* BEGINNING OF ACTION: expected-separator */
+				{
+#line 901 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("','");
 		}
 	
-#line 1140 "tmp.c-parser.c"
+#line 1140 "c-parser.c"
+				}
+				/* END OF ACTION: expected-separator */
+				/* BEGINNING OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
+				goto ZL2_152;
+				/* END OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
+			}
+			/*UNREACHED*/
+		ZL3:;
 		}
-		/* END OF ACTION: expected-separator */
-		/* BEGINNING OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
-		goto ZL2_152;
-		/* END OF INLINE: c-parse-grammar::function-type-defn::tuple-defn-list-1 */
-	    }
-	    /*UNREACHED*/
-	  ZL3:;
+		/* END OF INLINE: 154 */
 	}
-	/* END OF INLINE: 154 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR191(void)
 {
-  ZL2_191:;
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_BEGIN_HACTION):
-	{
-	    ZR193 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: skip-recover */
-	    {
-#line 1177 "c-parser.act"
+ZL2_191:;
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_BEGIN_HACTION):
+		{
+			ZR193 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			/* BEGINNING OF ACTION: skip-recover */
+			{
+#line 1194 "c-parser.act"
 
 		c_propagating_error = FALSE;
 	
-#line 1176 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: skip-recover */
-	    /* BEGINNING OF INLINE: c-parse-grammar::action-list */
-	    goto ZL2_191;
-	    /* END OF INLINE: c-parse-grammar::action-list */
+#line 1176 "c-parser.c"
+			}
+			/* END OF ACTION: skip-recover */
+			/* BEGINNING OF INLINE: c-parse-grammar::action-list */
+			goto ZL2_191;
+			/* END OF INLINE: c-parse-grammar::action-list */
+		}
+		/*UNREACHED*/
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	/*UNREACHED*/
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR172(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	NStringT ZI108;
-
-	/* BEGINNING OF INLINE: c-parse-grammar::identifier */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_C_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 1215 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      case (C_TOK_SID_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: SID-IDENTIFIER */
-		    {
-#line 247 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 1229 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: SID-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      default:
-		goto ZL1;
-	    }
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	/* END OF INLINE: c-parse-grammar::identifier */
-	/* BEGINNING OF ACTION: passign */
 	{
-#line 509 "c-parser.act"
+		NStringT ZI108;
+
+		/* BEGINNING OF INLINE: c-parse-grammar::identifier */
+		{
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_C_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 1215 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			case (C_TOK_SID_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
+					{
+#line 264 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 1229 "c-parser.c"
+					}
+					/* END OF EXTRACT: SID-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+		}
+		/* END OF INLINE: c-parse-grammar::identifier */
+		/* BEGINNING OF ACTION: passign */
+		{
+#line 526 "c-parser.act"
 
 		c_current_entry = table_get_type(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
@@ -1251,28 +1250,28 @@ ZR172(void)
 		}
 		nstring_destroy(&(ZI108));
 	
-#line 1254 "tmp.c-parser.c"
-	}
-	/* END OF ACTION: passign */
-	ZR145 ();
-	ZR124 ();
-	/* BEGINNING OF INLINE: 175 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		CCodeP ZI168;
-
-		ZR112 (&ZI168);
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
+#line 1254 "c-parser.c"
 		}
-		/* BEGINNING OF ACTION: x-passign */
+		/* END OF ACTION: passign */
+		ZR145 ();
+		ZR124 ();
+		/* BEGINNING OF INLINE: 175 */
 		{
-#line 557 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				CCodeP ZI168;
+
+				ZR112 (&ZI168);
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+				/* BEGINNING OF ACTION: x-passign */
+				{
+#line 574 "c-parser.act"
 
 		if (c_current_entry) {
 			BoolT  errored = FALSE;
@@ -1325,32 +1324,32 @@ ZR172(void)
 			c_code_deallocate((ZI168));
 		}
 	
-#line 1328 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: x-passign */
-		ZR221 ();
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
-		}
-	    }
-	    goto ZL3;
-	  ZL4:;
-	    {
-		/* BEGINNING OF ACTION: expected-code */
-		{
-#line 926 "c-parser.act"
+#line 1328 "c-parser.c"
+				}
+				/* END OF ACTION: x-passign */
+				ZR221 ();
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+			}
+			goto ZL3;
+		ZL4:;
+			{
+				/* BEGINNING OF ACTION: expected-code */
+				{
+#line 943 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 1348 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: expected-code */
-		/* BEGINNING OF ACTION: skip-to-end-of-param-assign */
-		{
-#line 1076 "c-parser.act"
+#line 1348 "c-parser.c"
+				}
+				/* END OF ACTION: expected-code */
+				/* BEGINNING OF ACTION: skip-to-end-of-param-assign */
+				{
+#line 1093 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -1377,344 +1376,344 @@ ZR172(void)
 
 		c_propagating_error = TRUE;
 	
-#line 1380 "tmp.c-parser.c"
+#line 1380 "c-parser.c"
+				}
+				/* END OF ACTION: skip-to-end-of-param-assign */
+			}
+		ZL3:;
 		}
-		/* END OF ACTION: skip-to-end-of-param-assign */
-	    }
-	  ZL3:;
+		/* END OF INLINE: 175 */
 	}
-	/* END OF INLINE: 175 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR120(void)
 {
-  ZL2_120:;
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
-	{
-	    ZR122 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: skip-recover */
-	    {
-#line 1177 "c-parser.act"
+ZL2_120:;
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
+		{
+			ZR122 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			/* BEGINNING OF ACTION: skip-recover */
+			{
+#line 1194 "c-parser.act"
 
 		c_propagating_error = FALSE;
 	
-#line 1412 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: skip-recover */
-	    /* BEGINNING OF INLINE: c-parse-grammar::prefix-list */
-	    goto ZL2_120;
-	    /* END OF INLINE: c-parse-grammar::prefix-list */
+#line 1412 "c-parser.c"
+			}
+			/* END OF ACTION: skip-recover */
+			/* BEGINNING OF INLINE: c-parse-grammar::prefix-list */
+			goto ZL2_120;
+			/* END OF INLINE: c-parse-grammar::prefix-list */
+		}
+		/*UNREACHED*/
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	/*UNREACHED*/
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR114(CCodeP ZI111)
 {
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_ACT_HADVANCE):
-	{
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-advance */
-	    {
-#line 826 "c-parser.act"
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_ACT_HADVANCE):
+		{
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-advance */
+			{
+#line 843 "c-parser.act"
 
 		c_code_append_advance((ZI111));
 	
-#line 1444 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-advance */
-	}
-	break;
-      case (C_TOK_ACT_HAT):
-	{
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-at */
-	    {
-#line 813 "c-parser.act"
+#line 1444 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-advance */
+		}
+		break;
+	case (C_TOK_ACT_HAT):
+		{
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-at */
+			{
+#line 830 "c-parser.act"
 
 		NStringT ns;
 		nstring_copy_cstring(&ns, "@");	/* TODO append '@' to code buffer? */
 		c_code_append_string((ZI111), &ns);	/* TODO really append_label()? */
 	
-#line 1460 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-at */
-	}
-	break;
-      case (C_TOK_ACT_HBASIC):
-	{
-	    NStringT ZI116;
+#line 1460 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-at */
+		}
+		break;
+	case (C_TOK_ACT_HBASIC):
+		{
+			NStringT ZI116;
 
-	    /* BEGINNING OF EXTRACT: ACT-BASIC */
-	    {
-#line 255 "c-parser.act"
+			/* BEGINNING OF EXTRACT: ACT-BASIC */
+			{
+#line 272 "c-parser.act"
 
 		nstring_assign(&ZI116, c_lexer_string_value(c_current_stream));
 	
-#line 1475 "tmp.c-parser.c"
-	    }
-	    /* END OF EXTRACT: ACT-BASIC */
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-basic */
-	    {
-#line 830 "c-parser.act"
+#line 1475 "c-parser.c"
+			}
+			/* END OF EXTRACT: ACT-BASIC */
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-basic */
+			{
+#line 847 "c-parser.act"
 
 		c_code_append_basic((ZI111), &(ZI116));
 	
-#line 1485 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-basic */
-	}
-	break;
-      case (C_TOK_ACT_HCODESTRING):
-	{
-	    NStringT ZI117;
+#line 1485 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-basic */
+		}
+		break;
+	case (C_TOK_ACT_HCODESTRING):
+		{
+			NStringT ZI117;
 
-	    /* BEGINNING OF EXTRACT: ACT-CODESTRING */
-	    {
-#line 275 "c-parser.act"
+			/* BEGINNING OF EXTRACT: ACT-CODESTRING */
+			{
+#line 292 "c-parser.act"
 
 		nstring_assign(&ZI117, c_lexer_string_value(c_current_stream));
 	
-#line 1500 "tmp.c-parser.c"
-	    }
-	    /* END OF EXTRACT: ACT-CODESTRING */
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-codestring */
-	    {
-#line 850 "c-parser.act"
+#line 1500 "c-parser.c"
+			}
+			/* END OF EXTRACT: ACT-CODESTRING */
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-codestring */
+			{
+#line 867 "c-parser.act"
 
 		assert(!nstring_contains(&(ZI117), '@'));	/* XXX '@'? */
 		c_code_append_string((ZI111), &(ZI117));
 	
-#line 1511 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-codestring */
-	}
-	break;
-      case (C_TOK_ACT_HEOF):
-	{
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: E-eof-in-code-block */
-	    {
-#line 857 "c-parser.act"
+#line 1511 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-codestring */
+		}
+		break;
+	case (C_TOK_ACT_HEOF):
+		{
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: E-eof-in-code-block */
+			{
+#line 874 "c-parser.act"
 
 		error_posn(ERROR_SERIOUS, istream_name(&c_lexer_stream->istream), (int) istream_line(&c_lexer_stream->istream),
 			"end of file in C code block");
 	
-#line 1526 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: E-eof-in-code-block */
-	}
-	break;
-      case (C_TOK_ACT_HEXCEPTION):
-	{
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-exception */
-	    {
-#line 818 "c-parser.act"
+#line 1526 "c-parser.c"
+			}
+			/* END OF ACTION: E-eof-in-code-block */
+		}
+		break;
+	case (C_TOK_ACT_HEXCEPTION):
+		{
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-exception */
+			{
+#line 835 "c-parser.act"
 
 		c_code_append_exception((ZI111));
 	
-#line 1540 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-exception */
-	}
-	break;
-      case (C_TOK_ACT_HIDENTIFIER):
-	{
-	    NStringT ZI116;
+#line 1540 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-exception */
+		}
+		break;
+	case (C_TOK_ACT_HIDENTIFIER):
+		{
+			NStringT ZI116;
 
-	    /* BEGINNING OF EXTRACT: ACT-IDENTIFIER */
-	    {
-#line 267 "c-parser.act"
+			/* BEGINNING OF EXTRACT: ACT-IDENTIFIER */
+			{
+#line 284 "c-parser.act"
 
 		nstring_assign(&ZI116, c_lexer_string_value(c_current_stream));
 	
-#line 1555 "tmp.c-parser.c"
-	    }
-	    /* END OF EXTRACT: ACT-IDENTIFIER */
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-identifier */
-	    {
-#line 842 "c-parser.act"
+#line 1555 "c-parser.c"
+			}
+			/* END OF EXTRACT: ACT-IDENTIFIER */
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-identifier */
+			{
+#line 859 "c-parser.act"
 
 		c_code_append_identifier((ZI111), &(ZI116));
 	
-#line 1565 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-identifier */
-	}
-	break;
-      case (C_TOK_ACT_HLABEL):
-	{
-	    NStringT ZI116;
+#line 1565 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-identifier */
+		}
+		break;
+	case (C_TOK_ACT_HLABEL):
+		{
+			NStringT ZI116;
 
-	    /* BEGINNING OF EXTRACT: ACT-LABEL */
-	    {
-#line 259 "c-parser.act"
+			/* BEGINNING OF EXTRACT: ACT-LABEL */
+			{
+#line 276 "c-parser.act"
 
 		nstring_assign(&ZI116, c_lexer_string_value(c_current_stream));
 	
-#line 1580 "tmp.c-parser.c"
-	    }
-	    /* END OF EXTRACT: ACT-LABEL */
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-label */
-	    {
-#line 834 "c-parser.act"
+#line 1580 "c-parser.c"
+			}
+			/* END OF EXTRACT: ACT-LABEL */
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-label */
+			{
+#line 851 "c-parser.act"
 
 		c_code_append_label((ZI111), &(ZI116));
 	
-#line 1590 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-label */
-	}
-	break;
-      case (C_TOK_ACT_HMODIFIABLE):
-	{
-	    NStringT ZI116;
+#line 1590 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-label */
+		}
+		break;
+	case (C_TOK_ACT_HMODIFIABLE):
+		{
+			NStringT ZI116;
 
-	    /* BEGINNING OF EXTRACT: ACT-MODIFIABLE */
-	    {
-#line 271 "c-parser.act"
+			/* BEGINNING OF EXTRACT: ACT-MODIFIABLE */
+			{
+#line 288 "c-parser.act"
 
 		nstring_assign(&ZI116, c_lexer_string_value(c_current_stream));
 	
-#line 1605 "tmp.c-parser.c"
-	    }
-	    /* END OF EXTRACT: ACT-MODIFIABLE */
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-modifiable */
-	    {
-#line 846 "c-parser.act"
+#line 1605 "c-parser.c"
+			}
+			/* END OF EXTRACT: ACT-MODIFIABLE */
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-modifiable */
+			{
+#line 863 "c-parser.act"
 
 		c_code_append_modifiable((ZI111), &(ZI116));
 	
-#line 1615 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-modifiable */
-	}
-	break;
-      case (C_TOK_ACT_HREFERENCE):
-	{
-	    NStringT ZI116;
+#line 1615 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-modifiable */
+		}
+		break;
+	case (C_TOK_ACT_HREFERENCE):
+		{
+			NStringT ZI116;
 
-	    /* BEGINNING OF EXTRACT: ACT-REFERENCE */
-	    {
-#line 263 "c-parser.act"
+			/* BEGINNING OF EXTRACT: ACT-REFERENCE */
+			{
+#line 280 "c-parser.act"
 
 		nstring_assign(&ZI116, c_lexer_string_value(c_current_stream));
 	
-#line 1630 "tmp.c-parser.c"
-	    }
-	    /* END OF EXTRACT: ACT-REFERENCE */
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-reference */
-	    {
-#line 838 "c-parser.act"
+#line 1630 "c-parser.c"
+			}
+			/* END OF EXTRACT: ACT-REFERENCE */
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-reference */
+			{
+#line 855 "c-parser.act"
 
 		c_code_append_reference((ZI111), &(ZI116));
 	
-#line 1640 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-reference */
-	}
-	break;
-      case (C_TOK_ACT_HTERMINAL):
-	{
-	    ADVANCE_LEXER;
-	    /* BEGINNING OF ACTION: append-ccode-terminal */
-	    {
-#line 822 "c-parser.act"
+#line 1640 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-reference */
+		}
+		break;
+	case (C_TOK_ACT_HTERMINAL):
+		{
+			ADVANCE_LEXER;
+			/* BEGINNING OF ACTION: append-ccode-terminal */
+			{
+#line 839 "c-parser.act"
 
 		c_code_append_terminal((ZI111));
 	
-#line 1654 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: append-ccode-terminal */
+#line 1654 "c-parser.c"
+			}
+			/* END OF ACTION: append-ccode-terminal */
+		}
+		break;
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		goto ZL1;
 	}
-	break;
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	goto ZL1;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR122(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	NStringT ZI123;
-
-	/* BEGINNING OF INLINE: c-parse-grammar::identifier */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_C_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
-
-		nstring_assign(&ZI123, c_lexer_string_value(c_current_stream));
-	
-#line 1690 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      case (C_TOK_SID_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: SID-IDENTIFIER */
-		    {
-#line 247 "c-parser.act"
-
-		nstring_assign(&ZI123, c_lexer_string_value(c_current_stream));
-	
-#line 1704 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: SID-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      default:
-		goto ZL1;
-	    }
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	/* END OF INLINE: c-parse-grammar::identifier */
-	/* BEGINNING OF ACTION: set-prefix */
 	{
-#line 299 "c-parser.act"
+		NStringT ZI123;
+
+		/* BEGINNING OF INLINE: c-parse-grammar::identifier */
+		{
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_C_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
+
+		nstring_assign(&ZI123, c_lexer_string_value(c_current_stream));
+	
+#line 1690 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			case (C_TOK_SID_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
+					{
+#line 264 "c-parser.act"
+
+		nstring_assign(&ZI123, c_lexer_string_value(c_current_stream));
+	
+#line 1704 "c-parser.c"
+					}
+					/* END OF EXTRACT: SID-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+		}
+		/* END OF INLINE: c-parse-grammar::identifier */
+		/* BEGINNING OF ACTION: set-prefix */
+		{
+#line 316 "c-parser.act"
 
 		int prefix;
 
@@ -1741,38 +1740,38 @@ ZR122(void)
 		}
 		nstring_destroy(&(ZI123));
 	
-#line 1744 "tmp.c-parser.c"
-	}
-	/* END OF ACTION: set-prefix */
-	ZR124 ();
-	/* BEGINNING OF INLINE: 125 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		NStringT ZI126;
+#line 1744 "c-parser.c"
+		}
+		/* END OF ACTION: set-prefix */
+		ZR124 ();
+		/* BEGINNING OF INLINE: 125 */
+		{
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				NStringT ZI126;
 
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_C_HIDENTIFIER):
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_C_HIDENTIFIER):
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
 
 		nstring_assign(&ZI126, c_lexer_string_value(c_current_stream));
 	
-#line 1765 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    break;
-		  default:
-		    goto ZL4;
-		}
-		ADVANCE_LEXER;
-		/* BEGINNING OF ACTION: x-set-prefix */
-		{
-#line 313 "c-parser.act"
+#line 1765 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					break;
+				default:
+					goto ZL4;
+				}
+				ADVANCE_LEXER;
+				/* BEGINNING OF ACTION: x-set-prefix */
+				{
+#line 330 "c-parser.act"
 
 		if (c_current_prefix == CPFX_NUM_PREFIXES) {
 			nstring_destroy(&(ZI126));
@@ -1783,32 +1782,32 @@ ZR122(void)
 			nstring_assign(prefix, &(ZI126));
 		}
 	
-#line 1786 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: x-set-prefix */
-		ZR221 ();
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
-		}
-	    }
-	    goto ZL3;
-	  ZL4:;
-	    {
-		/* BEGINNING OF ACTION: expected-c-identifier */
-		{
-#line 878 "c-parser.act"
+#line 1786 "c-parser.c"
+				}
+				/* END OF ACTION: x-set-prefix */
+				ZR221 ();
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+			}
+			goto ZL3;
+		ZL4:;
+			{
+				/* BEGINNING OF ACTION: expected-c-identifier */
+				{
+#line 895 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("C identifier");
 		}
 	
-#line 1806 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: expected-c-identifier */
-		/* BEGINNING OF ACTION: skip-to-end-of-prefix */
-		{
-#line 992 "c-parser.act"
+#line 1806 "c-parser.c"
+				}
+				/* END OF ACTION: expected-c-identifier */
+				/* BEGINNING OF ACTION: skip-to-end-of-prefix */
+				{
+#line 1009 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -1837,714 +1836,714 @@ ZR122(void)
 
 		c_propagating_error = TRUE;
 	
-#line 1840 "tmp.c-parser.c"
+#line 1840 "c-parser.c"
+				}
+				/* END OF ACTION: skip-to-end-of-prefix */
+			}
+		ZL3:;
 		}
-		/* END OF ACTION: skip-to-end-of-prefix */
-	    }
-	  ZL3:;
+		/* END OF INLINE: 125 */
 	}
-	/* END OF INLINE: 125 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 void
 c_parse_grammar(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	/* BEGINNING OF INLINE: 200 */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_BLT_HPREFIXES):
-		{
-		    ADVANCE_LEXER;
-		    ZR120 ();
-		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			RESTORE_LEXER;
-			goto ZL1;
-		    }
-		}
-		break;
-	      default:
-		break;
-	    }
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	/* END OF INLINE: 200 */
-	/* BEGINNING OF INLINE: 201 */
 	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_BLT_HPERSISTENTS):
+		/* BEGINNING OF INLINE: 200 */
 		{
-		    ADVANCE_LEXER;
-		    ZR137 ();
-		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			RESTORE_LEXER;
-			goto ZL1;
-		    }
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_BLT_HPREFIXES):
+				{
+					ADVANCE_LEXER;
+					ZR120 ();
+					if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+						RESTORE_LEXER;
+						goto ZL1;
+					}
+				}
+				break;
+			default:
+				break;
+			}
 		}
-		break;
-	      default:
-		break;
-	    }
-	}
-	/* END OF INLINE: 201 */
-	/* BEGINNING OF INLINE: 202 */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_BLT_HMAPS):
+		/* END OF INLINE: 200 */
+		/* BEGINNING OF INLINE: 201 */
 		{
-		    ADVANCE_LEXER;
-		    ZR128 ();
-		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			RESTORE_LEXER;
-			goto ZL1;
-		    }
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_BLT_HPERSISTENTS):
+				{
+					ADVANCE_LEXER;
+					ZR137 ();
+					if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+						RESTORE_LEXER;
+						goto ZL1;
+					}
+				}
+				break;
+			default:
+				break;
+			}
 		}
-		break;
-	      default:
-		break;
-	    }
-	}
-	/* END OF INLINE: 202 */
-	/* BEGINNING OF INLINE: 203 */
-	{
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_BLT_HHEADER):
-		    break;
-		  default:
-		    goto ZL6;
-		}
-		ADVANCE_LEXER;
-	    }
-	    goto ZL5;
-	  ZL6:;
-	    {
-		/* BEGINNING OF ACTION: expected-blt-header */
+		/* END OF INLINE: 201 */
+		/* BEGINNING OF INLINE: 202 */
 		{
-#line 932 "c-parser.act"
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_BLT_HMAPS):
+				{
+					ADVANCE_LEXER;
+					ZR128 ();
+					if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+						RESTORE_LEXER;
+						goto ZL1;
+					}
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		/* END OF INLINE: 202 */
+		/* BEGINNING OF INLINE: 203 */
+		{
+			{
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_BLT_HHEADER):
+					break;
+				default:
+					goto ZL6;
+				}
+				ADVANCE_LEXER;
+			}
+			goto ZL5;
+		ZL6:;
+			{
+				/* BEGINNING OF ACTION: expected-blt-header */
+				{
+#line 949 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'%header%'");
 		}
 	
-#line 1937 "tmp.c-parser.c"
+#line 1937 "c-parser.c"
+				}
+				/* END OF ACTION: expected-blt-header */
+			}
+		ZL5:;
 		}
-		/* END OF ACTION: expected-blt-header */
-	    }
-	  ZL5:;
-	}
-	/* END OF INLINE: 203 */
-	/* BEGINNING OF INLINE: 204 */
-	{
-	    {
-		CCodeP ZI205;
-
-		ZR112 (&ZI205);
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL8;
-		}
-		/* BEGINNING OF ACTION: set-header1 */
+		/* END OF INLINE: 203 */
+		/* BEGINNING OF INLINE: 204 */
 		{
-#line 388 "c-parser.act"
+			{
+				CCodeP ZI205;
+
+				ZR112 (&ZI205);
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL8;
+				}
+				/* BEGINNING OF ACTION: set-header1 */
+				{
+#line 405 "c-parser.act"
 
 		c_code_check((ZI205), FALSE, FALSE, NULL, NULL, c_current_table);
 		c_out_info_set_header1(c_current_out_info, (ZI205));
 	
-#line 1961 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: set-header1 */
-	    }
-	    goto ZL7;
-	  ZL8:;
-	    {
-		/* BEGINNING OF ACTION: expected-code */
-		{
-#line 926 "c-parser.act"
+#line 1961 "c-parser.c"
+				}
+				/* END OF ACTION: set-header1 */
+			}
+			goto ZL7;
+		ZL8:;
+			{
+				/* BEGINNING OF ACTION: expected-code */
+				{
+#line 943 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 1976 "tmp.c-parser.c"
+#line 1976 "c-parser.c"
+				}
+				/* END OF ACTION: expected-code */
+			}
+		ZL7:;
 		}
-		/* END OF ACTION: expected-code */
-	    }
-	  ZL7:;
-	}
-	/* END OF INLINE: 204 */
-	ZR218 ();
-	/* BEGINNING OF INLINE: 207 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		CCodeP ZI208;
-
-		ZR112 (&ZI208);
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL10;
-		}
-		/* BEGINNING OF ACTION: set-header2 */
+		/* END OF INLINE: 204 */
+		ZR218 ();
+		/* BEGINNING OF INLINE: 207 */
 		{
-#line 393 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				CCodeP ZI208;
+
+				ZR112 (&ZI208);
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL10;
+				}
+				/* BEGINNING OF ACTION: set-header2 */
+				{
+#line 410 "c-parser.act"
 
 		c_code_check((ZI208), FALSE, FALSE, NULL, NULL, c_current_table);
 		c_out_info_set_header2(c_current_out_info, (ZI208));
 	
-#line 2005 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: set-header2 */
-	    }
-	    goto ZL9;
-	  ZL10:;
-	    {
-		/* BEGINNING OF ACTION: expected-code */
-		{
-#line 926 "c-parser.act"
+#line 2005 "c-parser.c"
+				}
+				/* END OF ACTION: set-header2 */
+			}
+			goto ZL9;
+		ZL10:;
+			{
+				/* BEGINNING OF ACTION: expected-code */
+				{
+#line 943 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 2020 "tmp.c-parser.c"
+#line 2020 "c-parser.c"
+				}
+				/* END OF ACTION: expected-code */
+			}
+		ZL9:;
 		}
-		/* END OF ACTION: expected-code */
-	    }
-	  ZL9:;
-	}
-	/* END OF INLINE: 207 */
-	ZR221 ();
-	/* BEGINNING OF INLINE: 210 */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_BLT_HASSIGNMENTS):
+		/* END OF INLINE: 207 */
+		ZR221 ();
+		/* BEGINNING OF INLINE: 210 */
 		{
-		    ADVANCE_LEXER;
-		    ZR162 ();
-		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			RESTORE_LEXER;
-			goto ZL1;
-		    }
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_BLT_HASSIGNMENTS):
+				{
+					ADVANCE_LEXER;
+					ZR162 ();
+					if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+						RESTORE_LEXER;
+						goto ZL1;
+					}
+				}
+				break;
+			case (ERROR_TERMINAL):
+				RESTORE_LEXER;
+				goto ZL1;
+			default:
+				break;
+			}
 		}
-		break;
-	      case (ERROR_TERMINAL):
-		RESTORE_LEXER;
-		goto ZL1;
-	      default:
-		break;
-	    }
-	}
-	/* END OF INLINE: 210 */
-	/* BEGINNING OF INLINE: 211 */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_BLT_HPARAM_HASSIGN):
+		/* END OF INLINE: 210 */
+		/* BEGINNING OF INLINE: 211 */
 		{
-		    ADVANCE_LEXER;
-		    ZR170 ();
-		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			RESTORE_LEXER;
-			goto ZL1;
-		    }
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_BLT_HPARAM_HASSIGN):
+				{
+					ADVANCE_LEXER;
+					ZR170 ();
+					if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+						RESTORE_LEXER;
+						goto ZL1;
+					}
+				}
+				break;
+			default:
+				break;
+			}
 		}
-		break;
-	      default:
-		break;
-	    }
-	}
-	/* END OF INLINE: 211 */
-	/* BEGINNING OF INLINE: 212 */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_BLT_HRESULT_HASSIGN):
+		/* END OF INLINE: 211 */
+		/* BEGINNING OF INLINE: 212 */
 		{
-		    ADVANCE_LEXER;
-		    ZR177 ();
-		    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-			RESTORE_LEXER;
-			goto ZL1;
-		    }
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_BLT_HRESULT_HASSIGN):
+				{
+					ADVANCE_LEXER;
+					ZR177 ();
+					if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+						RESTORE_LEXER;
+						goto ZL1;
+					}
+				}
+				break;
+			default:
+				break;
+			}
 		}
-		break;
-	      default:
-		break;
-	    }
-	}
-	/* END OF INLINE: 212 */
-	/* BEGINNING OF INLINE: 213 */
-	{
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_BLT_HTERMINALS):
-		    break;
-		  default:
-		    goto ZL15;
-		}
-		ADVANCE_LEXER;
-	    }
-	    goto ZL14;
-	  ZL15:;
-	    {
-		/* BEGINNING OF ACTION: expected-blt-terminals */
+		/* END OF INLINE: 212 */
+		/* BEGINNING OF INLINE: 213 */
 		{
-#line 938 "c-parser.act"
+			{
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_BLT_HTERMINALS):
+					break;
+				default:
+					goto ZL15;
+				}
+				ADVANCE_LEXER;
+			}
+			goto ZL14;
+		ZL15:;
+			{
+				/* BEGINNING OF ACTION: expected-blt-terminals */
+				{
+#line 955 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'%terminals%'");
 		}
 	
-#line 2107 "tmp.c-parser.c"
+#line 2107 "c-parser.c"
+				}
+				/* END OF ACTION: expected-blt-terminals */
+			}
+		ZL14:;
 		}
-		/* END OF ACTION: expected-blt-terminals */
-	    }
-	  ZL14:;
-	}
-	/* END OF INLINE: 213 */
-	ZR184 ();
-	/* BEGINNING OF INLINE: 214 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_BLT_HACTIONS):
-		    break;
-		  default:
-		    goto ZL17;
-		}
-		ADVANCE_LEXER;
-	    }
-	    goto ZL16;
-	  ZL17:;
-	    {
-		/* BEGINNING OF ACTION: expected-blt-actions */
+		/* END OF INLINE: 213 */
+		ZR184 ();
+		/* BEGINNING OF INLINE: 214 */
 		{
-#line 944 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_BLT_HACTIONS):
+					break;
+				default:
+					goto ZL17;
+				}
+				ADVANCE_LEXER;
+			}
+			goto ZL16;
+		ZL17:;
+			{
+				/* BEGINNING OF ACTION: expected-blt-actions */
+				{
+#line 961 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'%actions%'");
 		}
 	
-#line 2141 "tmp.c-parser.c"
+#line 2141 "c-parser.c"
+				}
+				/* END OF ACTION: expected-blt-actions */
+			}
+		ZL16:;
 		}
-		/* END OF ACTION: expected-blt-actions */
-	    }
-	  ZL16:;
-	}
-	/* END OF INLINE: 214 */
-	ZR191 ();
-	/* BEGINNING OF INLINE: 215 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_BLT_HTRAILER):
-		    break;
-		  default:
-		    goto ZL19;
-		}
-		ADVANCE_LEXER;
-	    }
-	    goto ZL18;
-	  ZL19:;
-	    {
-		/* BEGINNING OF ACTION: expected-blt-trailer */
+		/* END OF INLINE: 214 */
+		ZR191 ();
+		/* BEGINNING OF INLINE: 215 */
 		{
-#line 950 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_BLT_HTRAILER):
+					break;
+				default:
+					goto ZL19;
+				}
+				ADVANCE_LEXER;
+			}
+			goto ZL18;
+		ZL19:;
+			{
+				/* BEGINNING OF ACTION: expected-blt-trailer */
+				{
+#line 967 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'%trailer%'");
 		}
 	
-#line 2175 "tmp.c-parser.c"
+#line 2175 "c-parser.c"
+				}
+				/* END OF ACTION: expected-blt-trailer */
+			}
+		ZL18:;
 		}
-		/* END OF ACTION: expected-blt-trailer */
-	    }
-	  ZL18:;
-	}
-	/* END OF INLINE: 215 */
-	/* BEGINNING OF INLINE: 216 */
-	{
-	    {
-		CCodeP ZI217;
-
-		ZR112 (&ZI217);
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL21;
-		}
-		/* BEGINNING OF ACTION: set-trailer1 */
+		/* END OF INLINE: 215 */
+		/* BEGINNING OF INLINE: 216 */
 		{
-#line 792 "c-parser.act"
+			{
+				CCodeP ZI217;
+
+				ZR112 (&ZI217);
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL21;
+				}
+				/* BEGINNING OF ACTION: set-trailer1 */
+				{
+#line 809 "c-parser.act"
 
 		c_code_check((ZI217), FALSE, FALSE, NULL, NULL, c_current_table);
 		c_out_info_set_trailer1 (c_current_out_info, (ZI217));
 	
-#line 2199 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: set-trailer1 */
-	    }
-	    goto ZL20;
-	  ZL21:;
-	    {
-		/* BEGINNING OF ACTION: expected-code */
-		{
-#line 926 "c-parser.act"
+#line 2199 "c-parser.c"
+				}
+				/* END OF ACTION: set-trailer1 */
+			}
+			goto ZL20;
+		ZL21:;
+			{
+				/* BEGINNING OF ACTION: expected-code */
+				{
+#line 943 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 2214 "tmp.c-parser.c"
+#line 2214 "c-parser.c"
+				}
+				/* END OF ACTION: expected-code */
+			}
+		ZL20:;
 		}
-		/* END OF ACTION: expected-code */
-	    }
-	  ZL20:;
-	}
-	/* END OF INLINE: 216 */
-	ZR218 ();
-	/* BEGINNING OF INLINE: 219 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		CCodeP ZI220;
-
-		ZR112 (&ZI220);
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL23;
-		}
-		/* BEGINNING OF ACTION: set-trailer2 */
+		/* END OF INLINE: 216 */
+		ZR218 ();
+		/* BEGINNING OF INLINE: 219 */
 		{
-#line 797 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				CCodeP ZI220;
+
+				ZR112 (&ZI220);
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL23;
+				}
+				/* BEGINNING OF ACTION: set-trailer2 */
+				{
+#line 814 "c-parser.act"
 
 		c_code_check((ZI220), FALSE, FALSE, NULL, NULL, c_current_table);
 		c_out_info_set_trailer2(c_current_out_info, (ZI220));
 	
-#line 2243 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: set-trailer2 */
-	    }
-	    goto ZL22;
-	  ZL23:;
-	    {
-		/* BEGINNING OF ACTION: expected-code */
-		{
-#line 926 "c-parser.act"
+#line 2243 "c-parser.c"
+				}
+				/* END OF ACTION: set-trailer2 */
+			}
+			goto ZL22;
+		ZL23:;
+			{
+				/* BEGINNING OF ACTION: expected-code */
+				{
+#line 943 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 2258 "tmp.c-parser.c"
+#line 2258 "c-parser.c"
+				}
+				/* END OF ACTION: expected-code */
+			}
+		ZL22:;
 		}
-		/* END OF ACTION: expected-code */
-	    }
-	  ZL22:;
-	}
-	/* END OF INLINE: 219 */
-	ZR221 ();
-	/* BEGINNING OF INLINE: 222 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_EOF):
-		    break;
-		  default:
-		    goto ZL25;
-		}
-		ADVANCE_LEXER;
-	    }
-	    goto ZL24;
-	  ZL25:;
-	    {
-		/* BEGINNING OF ACTION: expected-eof */
+		/* END OF INLINE: 219 */
+		ZR221 ();
+		/* BEGINNING OF INLINE: 222 */
 		{
-#line 956 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_EOF):
+					break;
+				default:
+					goto ZL25;
+				}
+				ADVANCE_LEXER;
+			}
+			goto ZL24;
+		ZL25:;
+			{
+				/* BEGINNING OF ACTION: expected-eof */
+				{
+#line 973 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("end of file");
 		}
 	
-#line 2292 "tmp.c-parser.c"
+#line 2292 "c-parser.c"
+				}
+				/* END OF ACTION: expected-eof */
+			}
+		ZL24:;
 		}
-		/* END OF ACTION: expected-eof */
-	    }
-	  ZL24:;
+		/* END OF INLINE: 222 */
 	}
-	/* END OF INLINE: 222 */
-    }
-    return;
-  ZL1:;
-    {
-	/* BEGINNING OF ACTION: unhandled-syntax-error */
+	return;
+ZL1:;
 	{
-#line 866 "c-parser.act"
+		/* BEGINNING OF ACTION: unhandled-syntax-error */
+		{
+#line 883 "c-parser.act"
 
 		UNREACHED;
 	
-#line 2309 "tmp.c-parser.c"
+#line 2309 "c-parser.c"
+		}
+		/* END OF ACTION: unhandled-syntax-error */
 	}
-	/* END OF ACTION: unhandled-syntax-error */
-    }
 }
 
 static void
 ZR155(void)
 {
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_C_HIDENTIFIER):
-	{
-	    ZR152 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_C_HIDENTIFIER):
+		{
+			ZR152 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+		}
+		break;
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	break;
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR157(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	/* BEGINNING OF ACTION: init-tuple */
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
+	}
 	{
-#line 413 "c-parser.act"
+		/* BEGINNING OF ACTION: init-tuple */
+		{
+#line 430 "c-parser.act"
 
 		types_init(&c_current_type);
 	
-#line 2352 "tmp.c-parser.c"
-	}
-	/* END OF ACTION: init-tuple */
-	/* BEGINNING OF INLINE: 159 */
-	{
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_OPEN_HTUPLE):
-		    break;
-		  default:
-		    goto ZL3;
+#line 2352 "c-parser.c"
 		}
-		ADVANCE_LEXER;
-	    }
-	    goto ZL2;
-	  ZL3:;
-	    {
-		/* BEGINNING OF ACTION: expected-open-tuple */
+		/* END OF ACTION: init-tuple */
+		/* BEGINNING OF INLINE: 159 */
 		{
-#line 890 "c-parser.act"
+			{
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_OPEN_HTUPLE):
+					break;
+				default:
+					goto ZL3;
+				}
+				ADVANCE_LEXER;
+			}
+			goto ZL2;
+		ZL3:;
+			{
+				/* BEGINNING OF ACTION: expected-open-tuple */
+				{
+#line 907 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'('");
 		}
 	
-#line 2377 "tmp.c-parser.c"
+#line 2377 "c-parser.c"
+				}
+				/* END OF ACTION: expected-open-tuple */
+			}
+		ZL2:;
 		}
-		/* END OF ACTION: expected-open-tuple */
-	    }
-	  ZL2:;
-	}
-	/* END OF INLINE: 159 */
-	ZR155 ();
-	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	    RESTORE_LEXER;
-	    goto ZL1;
-	}
-	/* BEGINNING OF ACTION: skip-recover */
-	{
-#line 1177 "c-parser.act"
+		/* END OF INLINE: 159 */
+		ZR155 ();
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+			RESTORE_LEXER;
+			goto ZL1;
+		}
+		/* BEGINNING OF ACTION: skip-recover */
+		{
+#line 1194 "c-parser.act"
 
 		c_propagating_error = FALSE;
 	
-#line 2395 "tmp.c-parser.c"
-	}
-	/* END OF ACTION: skip-recover */
-	/* BEGINNING OF INLINE: 160 */
-	{
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_CLOSE_HTUPLE):
-		    break;
-		  default:
-		    goto ZL5;
+#line 2395 "c-parser.c"
 		}
-		ADVANCE_LEXER;
-	    }
-	    goto ZL4;
-	  ZL5:;
-	    {
-		/* BEGINNING OF ACTION: expected-close-tuple */
+		/* END OF ACTION: skip-recover */
+		/* BEGINNING OF INLINE: 160 */
 		{
-#line 896 "c-parser.act"
+			{
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_CLOSE_HTUPLE):
+					break;
+				default:
+					goto ZL5;
+				}
+				ADVANCE_LEXER;
+			}
+			goto ZL4;
+		ZL5:;
+			{
+				/* BEGINNING OF ACTION: expected-close-tuple */
+				{
+#line 913 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("')'");
 		}
 	
-#line 2420 "tmp.c-parser.c"
+#line 2420 "c-parser.c"
+				}
+				/* END OF ACTION: expected-close-tuple */
+			}
+		ZL4:;
 		}
-		/* END OF ACTION: expected-close-tuple */
-	    }
-	  ZL4:;
+		/* END OF INLINE: 160 */
 	}
-	/* END OF INLINE: 160 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR139(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	NStringT ZI126;
-	NStringT ZI143;
-
-	/* BEGINNING OF INLINE: 141 */
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
+	}
 	{
-	    {
-		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_C_HIDENTIFIER):
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
+		NStringT ZI126;
+		NStringT ZI143;
+
+		/* BEGINNING OF INLINE: 141 */
+		{
+			{
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_C_HIDENTIFIER):
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
 
 		nstring_assign(&ZI126, c_lexer_string_value(c_current_stream));
 	
-#line 2455 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    break;
-		  default:
-		    goto ZL3;
-		}
-		ADVANCE_LEXER;
-	    }
-	    goto ZL2;
-	  ZL3:;
-	    {
-		/* BEGINNING OF ACTION: empty-string */
-		{
-#line 336 "c-parser.act"
+#line 2455 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					break;
+				default:
+					goto ZL3;
+				}
+				ADVANCE_LEXER;
+			}
+			goto ZL2;
+		ZL3:;
+			{
+				/* BEGINNING OF ACTION: empty-string */
+				{
+#line 353 "c-parser.act"
 
 		nstring_init(&(ZI126));
 	
-#line 2473 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: empty-string */
-		/* BEGINNING OF ACTION: expected-c-identifier */
-		{
-#line 878 "c-parser.act"
+#line 2473 "c-parser.c"
+				}
+				/* END OF ACTION: empty-string */
+				/* BEGINNING OF ACTION: expected-c-identifier */
+				{
+#line 895 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("C identifier");
 		}
 	
-#line 2484 "tmp.c-parser.c"
+#line 2484 "c-parser.c"
+				}
+				/* END OF ACTION: expected-c-identifier */
+			}
+		ZL2:;
 		}
-		/* END OF ACTION: expected-c-identifier */
-	    }
-	  ZL2:;
-	}
-	/* END OF INLINE: 141 */
-	switch (CURRENT_TERMINAL) {
-	  case (C_TOK_TYPEMARK):
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	/* BEGINNING OF INLINE: 142 */
-	{
-	    {
+		/* END OF INLINE: 141 */
 		switch (CURRENT_TERMINAL) {
-		  case (C_TOK_C_HIDENTIFIER):
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
+		case (C_TOK_TYPEMARK):
+			break;
+		default:
+			goto ZL1;
+		}
+		ADVANCE_LEXER;
+		/* BEGINNING OF INLINE: 142 */
+		{
+			{
+				switch (CURRENT_TERMINAL) {
+				case (C_TOK_C_HIDENTIFIER):
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
 
 		nstring_assign(&ZI143, c_lexer_string_value(c_current_stream));
 	
-#line 2509 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    break;
-		  default:
-		    goto ZL5;
-		}
-		ADVANCE_LEXER;
-	    }
-	    goto ZL4;
-	  ZL5:;
-	    {
-		/* BEGINNING OF ACTION: empty-string */
-		{
-#line 336 "c-parser.act"
+#line 2509 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					break;
+				default:
+					goto ZL5;
+				}
+				ADVANCE_LEXER;
+			}
+			goto ZL4;
+		ZL5:;
+			{
+				/* BEGINNING OF ACTION: empty-string */
+				{
+#line 353 "c-parser.act"
 
 		nstring_init(&(ZI143));
 	
-#line 2527 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: empty-string */
-		/* BEGINNING OF ACTION: expected-identifier */
-		{
-#line 872 "c-parser.act"
+#line 2527 "c-parser.c"
+				}
+				/* END OF ACTION: empty-string */
+				/* BEGINNING OF ACTION: expected-identifier */
+				{
+#line 889 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("identifier");
 		}
 	
-#line 2538 "tmp.c-parser.c"
+#line 2538 "c-parser.c"
+				}
+				/* END OF ACTION: expected-identifier */
+			}
+		ZL4:;
 		}
-		/* END OF ACTION: expected-identifier */
-	    }
-	  ZL4:;
-	}
-	/* END OF INLINE: 142 */
-	/* BEGINNING OF ACTION: set-persistent */
-	{
-#line 323 "c-parser.act"
+		/* END OF INLINE: 142 */
+		/* BEGINNING OF ACTION: set-persistent */
+		{
+#line 340 "c-parser.act"
 
 		if(persistent_list_find(c_out_info_persistents(c_current_out_info), (&ZI126)) == NULL) {
 			PersistentT *p;
@@ -2557,69 +2556,69 @@ ZR139(void)
 			/* TODO error out E_c_persistent_variable_name_conflict((&ZI126))) ;*/
 		}
 	
-#line 2560 "tmp.c-parser.c"
+#line 2560 "c-parser.c"
+		}
+		/* END OF ACTION: set-persistent */
+		ZR221 ();
+		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+			RESTORE_LEXER;
+			goto ZL1;
+		}
 	}
-	/* END OF ACTION: set-persistent */
-	ZR221 ();
-	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	    RESTORE_LEXER;
-	    goto ZL1;
-	}
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR179(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	NStringT ZI108;
-
-	/* BEGINNING OF INLINE: c-parse-grammar::identifier */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_C_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 2595 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      case (C_TOK_SID_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: SID-IDENTIFIER */
-		    {
-#line 247 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 2609 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: SID-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      default:
-		goto ZL1;
-	    }
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	/* END OF INLINE: c-parse-grammar::identifier */
-	/* BEGINNING OF ACTION: rassign */
 	{
-#line 574 "c-parser.act"
+		NStringT ZI108;
+
+		/* BEGINNING OF INLINE: c-parse-grammar::identifier */
+		{
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_C_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 2595 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			case (C_TOK_SID_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
+					{
+#line 264 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 2609 "c-parser.c"
+					}
+					/* END OF EXTRACT: SID-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+		}
+		/* END OF INLINE: c-parse-grammar::identifier */
+		/* BEGINNING OF ACTION: rassign */
+		{
+#line 591 "c-parser.act"
 
 		c_current_entry = table_get_type(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
@@ -2631,28 +2630,28 @@ ZR179(void)
 		}
 		nstring_destroy(&(ZI108));
 	
-#line 2634 "tmp.c-parser.c"
-	}
-	/* END OF ACTION: rassign */
-	ZR145 ();
-	ZR124 ();
-	/* BEGINNING OF INLINE: 182 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		CCodeP ZI168;
-
-		ZR112 (&ZI168);
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
+#line 2634 "c-parser.c"
 		}
-		/* BEGINNING OF ACTION: x-rassign */
+		/* END OF ACTION: rassign */
+		ZR145 ();
+		ZR124 ();
+		/* BEGINNING OF INLINE: 182 */
 		{
-#line 622 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				CCodeP ZI168;
+
+				ZR112 (&ZI168);
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+				/* BEGINNING OF ACTION: x-rassign */
+				{
+#line 639 "c-parser.act"
 
 		if (c_current_entry) {
 			BoolT  errored = FALSE;
@@ -2705,32 +2704,32 @@ ZR179(void)
 			c_code_deallocate((ZI168));
 		}
 	
-#line 2708 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: x-rassign */
-		ZR221 ();
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
-		}
-	    }
-	    goto ZL3;
-	  ZL4:;
-	    {
-		/* BEGINNING OF ACTION: expected-code */
-		{
-#line 926 "c-parser.act"
+#line 2708 "c-parser.c"
+				}
+				/* END OF ACTION: x-rassign */
+				ZR221 ();
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+			}
+			goto ZL3;
+		ZL4:;
+			{
+				/* BEGINNING OF ACTION: expected-code */
+				{
+#line 943 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 2728 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: expected-code */
-		/* BEGINNING OF ACTION: skip-to-end-of-result-assign */
-		{
-#line 1103 "c-parser.act"
+#line 2728 "c-parser.c"
+				}
+				/* END OF ACTION: expected-code */
+				/* BEGINNING OF ACTION: skip-to-end-of-result-assign */
+				{
+#line 1120 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -2755,133 +2754,133 @@ ZR179(void)
 
 		c_propagating_error = TRUE;
 	
-#line 2758 "tmp.c-parser.c"
+#line 2758 "c-parser.c"
+				}
+				/* END OF ACTION: skip-to-end-of-result-assign */
+			}
+		ZL3:;
 		}
-		/* END OF ACTION: skip-to-end-of-result-assign */
-	    }
-	  ZL3:;
+		/* END OF INLINE: 182 */
 	}
-	/* END OF INLINE: 182 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR218(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	switch (CURRENT_TERMINAL) {
-	  case (C_TOK_SEPARATOR):
-	    break;
-	  default:
-	    goto ZL1;
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	ADVANCE_LEXER;
-    }
-    return;
-  ZL1:;
-    {
-	/* BEGINNING OF ACTION: expected-separator */
 	{
-#line 884 "c-parser.act"
+		switch (CURRENT_TERMINAL) {
+		case (C_TOK_SEPARATOR):
+			break;
+		default:
+			goto ZL1;
+		}
+		ADVANCE_LEXER;
+	}
+	return;
+ZL1:;
+	{
+		/* BEGINNING OF ACTION: expected-separator */
+		{
+#line 901 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("','");
 		}
 	
-#line 2798 "tmp.c-parser.c"
+#line 2798 "c-parser.c"
+		}
+		/* END OF ACTION: expected-separator */
 	}
-	/* END OF ACTION: expected-separator */
-    }
 }
 
 static void
 ZR147(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	NStringT ZI126;
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
+	}
+	{
+		NStringT ZI126;
 
-	switch (CURRENT_TERMINAL) {
-	  case (C_TOK_C_HIDENTIFIER):
-	    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-	    {
-#line 243 "c-parser.act"
+		switch (CURRENT_TERMINAL) {
+		case (C_TOK_C_HIDENTIFIER):
+			/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+			{
+#line 260 "c-parser.act"
 
 		nstring_assign(&ZI126, c_lexer_string_value(c_current_stream));
 	
-#line 2821 "tmp.c-parser.c"
-	    }
-	    /* END OF EXTRACT: C-IDENTIFIER */
-	    break;
-	  default:
-	    goto ZL1;
-	}
-	ADVANCE_LEXER;
-	/* BEGINNING OF INLINE: 149 */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_TYPEMARK):
+#line 2821 "c-parser.c"
+			}
+			/* END OF EXTRACT: C-IDENTIFIER */
+			break;
+		default:
+			goto ZL1;
+		}
+		ADVANCE_LEXER;
+		/* BEGINNING OF INLINE: 149 */
 		{
-		    ADVANCE_LEXER;
-		    /* BEGINNING OF INLINE: 150 */
-		    {
-			{
-			    NStringT ZI143;
-
-			    /* BEGINNING OF INLINE: c-parse-grammar::identifier */
-			    {
-				switch (CURRENT_TERMINAL) {
-				  case (C_TOK_C_HIDENTIFIER):
-				    {
-					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
-					{
-#line 243 "c-parser.act"
-
-		nstring_assign(&ZI143, c_lexer_string_value(c_current_stream));
-	
-#line 2851 "tmp.c-parser.c"
-					}
-					/* END OF EXTRACT: C-IDENTIFIER */
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_TYPEMARK):
+				{
 					ADVANCE_LEXER;
-				    }
-				    break;
-				  case (C_TOK_SID_HIDENTIFIER):
-				    {
-					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
+					/* BEGINNING OF INLINE: 150 */
 					{
-#line 247 "c-parser.act"
+						{
+							NStringT ZI143;
+
+							/* BEGINNING OF INLINE: c-parse-grammar::identifier */
+							{
+								switch (CURRENT_TERMINAL) {
+								case (C_TOK_C_HIDENTIFIER):
+									{
+										/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+										{
+#line 260 "c-parser.act"
 
 		nstring_assign(&ZI143, c_lexer_string_value(c_current_stream));
 	
-#line 2865 "tmp.c-parser.c"
-					}
-					/* END OF EXTRACT: SID-IDENTIFIER */
-					ADVANCE_LEXER;
-				    }
-				    break;
-				  default:
-				    goto ZL4;
-				}
-			    }
-			    /* END OF INLINE: c-parse-grammar::identifier */
-			    /* BEGINNING OF INLINE: 151 */
-			    {
-				switch (CURRENT_TERMINAL) {
-				  case (C_TOK_REFERENCE):
-				    {
-					ADVANCE_LEXER;
-					/* BEGINNING OF ACTION: tuple-ref-type */
-					{
-#line 425 "c-parser.act"
+#line 2851 "c-parser.c"
+										}
+										/* END OF EXTRACT: C-IDENTIFIER */
+										ADVANCE_LEXER;
+									}
+									break;
+								case (C_TOK_SID_HIDENTIFIER):
+									{
+										/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
+										{
+#line 264 "c-parser.act"
+
+		nstring_assign(&ZI143, c_lexer_string_value(c_current_stream));
+	
+#line 2865 "c-parser.c"
+										}
+										/* END OF EXTRACT: SID-IDENTIFIER */
+										ADVANCE_LEXER;
+									}
+									break;
+								default:
+									goto ZL4;
+								}
+							}
+							/* END OF INLINE: c-parse-grammar::identifier */
+							/* BEGINNING OF INLINE: 151 */
+							{
+								switch (CURRENT_TERMINAL) {
+								case (C_TOK_REFERENCE):
+									{
+										ADVANCE_LEXER;
+										/* BEGINNING OF ACTION: tuple-ref-type */
+										{
+#line 442 "c-parser.act"
 
 		if (!types_add_typed_name(&c_current_type, c_current_table, &(ZI126),
 			(&ZI143), TRUE)) {
@@ -2890,16 +2889,16 @@ ZR147(void)
 		}
 		nstring_destroy(&(ZI143));
 	
-#line 2893 "tmp.c-parser.c"
-					}
-					/* END OF ACTION: tuple-ref-type */
-				    }
-				    break;
-				  default:
-				    {
-					/* BEGINNING OF ACTION: tuple-type */
-					{
-#line 416 "c-parser.act"
+#line 2893 "c-parser.c"
+										}
+										/* END OF ACTION: tuple-ref-type */
+									}
+									break;
+								default:
+									{
+										/* BEGINNING OF ACTION: tuple-type */
+										{
+#line 433 "c-parser.act"
 
 		if (!types_add_typed_name(&c_current_type, c_current_table, &(ZI126),
 			(&ZI143), FALSE)) {
@@ -2908,41 +2907,41 @@ ZR147(void)
 		}
 		nstring_destroy(&(ZI143));
 	
-#line 2911 "tmp.c-parser.c"
-					}
-					/* END OF ACTION: tuple-type */
-				    }
-				    break;
-				}
-			    }
-			    /* END OF INLINE: 151 */
-			}
-			goto ZL3;
-		      ZL4:;
-			{
-			    /* BEGINNING OF ACTION: expected-identifier */
-			    {
-#line 872 "c-parser.act"
+#line 2911 "c-parser.c"
+										}
+										/* END OF ACTION: tuple-type */
+									}
+									break;
+								}
+							}
+							/* END OF INLINE: 151 */
+						}
+						goto ZL3;
+					ZL4:;
+						{
+							/* BEGINNING OF ACTION: expected-identifier */
+							{
+#line 889 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("identifier");
 		}
 	
-#line 2931 "tmp.c-parser.c"
-			    }
-			    /* END OF ACTION: expected-identifier */
-			    /* BEGINNING OF ACTION: destroy-string */
-			    {
-#line 959 "c-parser.act"
+#line 2931 "c-parser.c"
+							}
+							/* END OF ACTION: expected-identifier */
+							/* BEGINNING OF ACTION: destroy-string */
+							{
+#line 976 "c-parser.act"
 
 		nstring_destroy(&(ZI126));
 	
-#line 2940 "tmp.c-parser.c"
-			    }
-			    /* END OF ACTION: destroy-string */
-			    /* BEGINNING OF ACTION: skip-to-end-of-tuple-defn */
-			    {
-#line 963 "c-parser.act"
+#line 2940 "c-parser.c"
+							}
+							/* END OF ACTION: destroy-string */
+							/* BEGINNING OF ACTION: skip-to-end-of-tuple-defn */
+							{
+#line 980 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_DEFINE)
@@ -2971,49 +2970,49 @@ ZR147(void)
 
 		c_propagating_error = TRUE;
 	
-#line 2974 "tmp.c-parser.c"
-			    }
-			    /* END OF ACTION: skip-to-end-of-tuple-defn */
-			}
-		      ZL3:;
-		    }
-		    /* END OF INLINE: 150 */
-		}
-		break;
-	      default:
-		{
-		    /* BEGINNING OF ACTION: tuple-name */
-		    {
-#line 434 "c-parser.act"
+#line 2974 "c-parser.c"
+							}
+							/* END OF ACTION: skip-to-end-of-tuple-defn */
+						}
+					ZL3:;
+					}
+					/* END OF INLINE: 150 */
+				}
+				break;
+			default:
+				{
+					/* BEGINNING OF ACTION: tuple-name */
+					{
+#line 451 "c-parser.act"
 
 		types_add_name(&c_current_type, c_current_table, &(ZI126), FALSE);
 	
-#line 2991 "tmp.c-parser.c"
-		    }
-		    /* END OF ACTION: tuple-name */
+#line 2991 "c-parser.c"
+					}
+					/* END OF ACTION: tuple-name */
+				}
+				break;
+			}
 		}
-		break;
-	    }
+		/* END OF INLINE: 149 */
 	}
-	/* END OF INLINE: 149 */
-    }
-    return;
-  ZL1:;
-    {
-	/* BEGINNING OF ACTION: expected-identifier */
+	return;
+ZL1:;
 	{
-#line 872 "c-parser.act"
+		/* BEGINNING OF ACTION: expected-identifier */
+		{
+#line 889 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("identifier");
 		}
 	
-#line 3011 "tmp.c-parser.c"
-	}
-	/* END OF ACTION: expected-identifier */
-	/* BEGINNING OF ACTION: skip-to-end-of-tuple-defn */
-	{
-#line 963 "c-parser.act"
+#line 3011 "c-parser.c"
+		}
+		/* END OF ACTION: expected-identifier */
+		/* BEGINNING OF ACTION: skip-to-end-of-tuple-defn */
+		{
+#line 980 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_DEFINE)
@@ -3042,92 +3041,92 @@ ZR147(void)
 
 		c_propagating_error = TRUE;
 	
-#line 3045 "tmp.c-parser.c"
+#line 3045 "c-parser.c"
+		}
+		/* END OF ACTION: skip-to-end-of-tuple-defn */
 	}
-	/* END OF ACTION: skip-to-end-of-tuple-defn */
-    }
 }
 
 static void
 ZR221(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	switch (CURRENT_TERMINAL) {
-	  case (C_TOK_TERMINATOR):
-	    break;
-	  default:
-	    goto ZL1;
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	ADVANCE_LEXER;
-    }
-    return;
-  ZL1:;
-    {
-	/* BEGINNING OF ACTION: expected-terminator */
 	{
-#line 908 "c-parser.act"
+		switch (CURRENT_TERMINAL) {
+		case (C_TOK_TERMINATOR):
+			break;
+		default:
+			goto ZL1;
+		}
+		ADVANCE_LEXER;
+	}
+	return;
+ZL1:;
+	{
+		/* BEGINNING OF ACTION: expected-terminator */
+		{
+#line 925 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("';'");
 		}
 	
-#line 3077 "tmp.c-parser.c"
+#line 3077 "c-parser.c"
+		}
+		/* END OF ACTION: expected-terminator */
 	}
-	/* END OF ACTION: expected-terminator */
-    }
 }
 
 static void
 ZR186(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	NStringT ZI108;
-
-	/* BEGINNING OF INLINE: c-parse-grammar::identifier */
-	{
-	    switch (CURRENT_TERMINAL) {
-	      case (C_TOK_C_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: C-IDENTIFIER */
-		    {
-#line 243 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 3103 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: C-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      case (C_TOK_SID_HIDENTIFIER):
-		{
-		    /* BEGINNING OF EXTRACT: SID-IDENTIFIER */
-		    {
-#line 247 "c-parser.act"
-
-		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
-	
-#line 3117 "tmp.c-parser.c"
-		    }
-		    /* END OF EXTRACT: SID-IDENTIFIER */
-		    ADVANCE_LEXER;
-		}
-		break;
-	      default:
-		goto ZL1;
-	    }
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	/* END OF INLINE: c-parse-grammar::identifier */
-	/* BEGINNING OF ACTION: set-terminal */
 	{
-#line 644 "c-parser.act"
+		NStringT ZI108;
+
+		/* BEGINNING OF INLINE: c-parse-grammar::identifier */
+		{
+			switch (CURRENT_TERMINAL) {
+			case (C_TOK_C_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: C-IDENTIFIER */
+					{
+#line 260 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 3103 "c-parser.c"
+					}
+					/* END OF EXTRACT: C-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			case (C_TOK_SID_HIDENTIFIER):
+				{
+					/* BEGINNING OF EXTRACT: SID-IDENTIFIER */
+					{
+#line 264 "c-parser.act"
+
+		nstring_assign(&ZI108, c_lexer_string_value(c_current_stream));
+	
+#line 3117 "c-parser.c"
+					}
+					/* END OF EXTRACT: SID-IDENTIFIER */
+					ADVANCE_LEXER;
+				}
+				break;
+			default:
+				goto ZL1;
+			}
+		}
+		/* END OF INLINE: c-parse-grammar::identifier */
+		/* BEGINNING OF ACTION: set-terminal */
+		{
+#line 661 "c-parser.act"
 
 		c_current_entry = table_get_basic(c_current_table, (&ZI108));
 		if (c_current_entry == NULL) {
@@ -3147,28 +3146,28 @@ ZR186(void)
 		}
 		nstring_destroy(&(ZI108));
 	
-#line 3150 "tmp.c-parser.c"
-	}
-	/* END OF ACTION: set-terminal */
-	ZR145 ();
-	ZR124 ();
-	/* BEGINNING OF INLINE: 189 */
-	{
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    {
-		CCodeP ZI168;
-
-		ZR112 (&ZI168);
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
+#line 3150 "c-parser.c"
 		}
-		/* BEGINNING OF ACTION: x-set-terminal */
+		/* END OF ACTION: set-terminal */
+		ZR145 ();
+		ZR124 ();
+		/* BEGINNING OF INLINE: 189 */
 		{
-#line 702 "c-parser.act"
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			{
+				CCodeP ZI168;
+
+				ZR112 (&ZI168);
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+				/* BEGINNING OF ACTION: x-set-terminal */
+				{
+#line 719 "c-parser.act"
 
 		if (c_current_entry) {
 			BasicT     *basic   = entry_get_basic(c_current_entry);
@@ -3220,32 +3219,32 @@ ZR186(void)
 			c_code_deallocate((ZI168));
 		}
 	
-#line 3223 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: x-set-terminal */
-		ZR221 ();
-		if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		    RESTORE_LEXER;
-		    goto ZL4;
-		}
-	    }
-	    goto ZL3;
-	  ZL4:;
-	    {
-		/* BEGINNING OF ACTION: expected-code */
-		{
-#line 926 "c-parser.act"
+#line 3223 "c-parser.c"
+				}
+				/* END OF ACTION: x-set-terminal */
+				ZR221 ();
+				if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+					RESTORE_LEXER;
+					goto ZL4;
+				}
+			}
+			goto ZL3;
+		ZL4:;
+			{
+				/* BEGINNING OF ACTION: expected-code */
+				{
+#line 943 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("code block");
 		}
 	
-#line 3243 "tmp.c-parser.c"
-		}
-		/* END OF ACTION: expected-code */
-		/* BEGINNING OF ACTION: skip-to-end-of-terminal */
-		{
-#line 1128 "c-parser.act"
+#line 3243 "c-parser.c"
+				}
+				/* END OF ACTION: expected-code */
+				/* BEGINNING OF ACTION: skip-to-end-of-terminal */
+				{
+#line 1145 "c-parser.act"
 
 		while (CURRENT_TERMINAL != (C_TOK_EOF)
 			&& CURRENT_TERMINAL != (C_TOK_TERMINATOR)
@@ -3269,220 +3268,220 @@ ZR186(void)
 
 		c_propagating_error = TRUE;
 	
-#line 3272 "tmp.c-parser.c"
+#line 3272 "c-parser.c"
+				}
+				/* END OF ACTION: skip-to-end-of-terminal */
+			}
+		ZL3:;
 		}
-		/* END OF ACTION: skip-to-end-of-terminal */
-	    }
-	  ZL3:;
+		/* END OF INLINE: 189 */
 	}
-	/* END OF INLINE: 189 */
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+	return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR128(void)
 {
-  ZL2_128:;
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
-	{
-	    ZR130 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: skip-recover */
-	    {
-#line 1177 "c-parser.act"
+ZL2_128:;
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
+		{
+			ZR130 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			/* BEGINNING OF ACTION: skip-recover */
+			{
+#line 1194 "c-parser.act"
 
 		c_propagating_error = FALSE;
 	
-#line 3304 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: skip-recover */
-	    /* BEGINNING OF INLINE: c-parse-grammar::map-list */
-	    goto ZL2_128;
-	    /* END OF INLINE: c-parse-grammar::map-list */
+#line 3304 "c-parser.c"
+			}
+			/* END OF ACTION: skip-recover */
+			/* BEGINNING OF INLINE: c-parse-grammar::map-list */
+			goto ZL2_128;
+			/* END OF INLINE: c-parse-grammar::map-list */
+		}
+		/*UNREACHED*/
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	/*UNREACHED*/
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR145(void)
 {
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_TYPEMARK):
-	{
-	    ADVANCE_LEXER;
-	    ZR157 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: save-tuple */
-	    {
-#line 404 "c-parser.act"
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_TYPEMARK):
+		{
+			ADVANCE_LEXER;
+			ZR157 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			/* BEGINNING OF ACTION: save-tuple */
+			{
+#line 421 "c-parser.act"
 
 		types_assign(&c_saved_type, &c_current_type);
 	
-#line 3341 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: save-tuple */
-	    ZR161 ();
-	    ZR157 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	}
-	break;
-      default:
-	{
-	    /* BEGINNING OF ACTION: null-type */
-	    {
-#line 409 "c-parser.act"
+#line 3341 "c-parser.c"
+			}
+			/* END OF ACTION: save-tuple */
+			ZR161 ();
+			ZR157 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+		}
+		break;
+	default:
+		{
+			/* BEGINNING OF ACTION: null-type */
+			{
+#line 426 "c-parser.act"
 
 		types_init(&c_saved_type);
 		types_init(&c_current_type);
 	
-#line 3361 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: null-type */
+#line 3361 "c-parser.c"
+			}
+			/* END OF ACTION: null-type */
+		}
+		break;
+	case (ERROR_TERMINAL):
+		return;
 	}
-	break;
-      case (ERROR_TERMINAL):
 	return;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR162(void)
 {
-  ZL2_162:;
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
-	{
-	    ZR164 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: skip-recover */
-	    {
-#line 1177 "c-parser.act"
+ZL2_162:;
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
+		{
+			ZR164 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			/* BEGINNING OF ACTION: skip-recover */
+			{
+#line 1194 "c-parser.act"
 
 		c_propagating_error = FALSE;
 	
-#line 3393 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: skip-recover */
-	    /* BEGINNING OF INLINE: c-parse-grammar::assignment-list */
-	    goto ZL2_162;
-	    /* END OF INLINE: c-parse-grammar::assignment-list */
+#line 3393 "c-parser.c"
+			}
+			/* END OF ACTION: skip-recover */
+			/* BEGINNING OF INLINE: c-parse-grammar::assignment-list */
+			goto ZL2_162;
+			/* END OF INLINE: c-parse-grammar::assignment-list */
+		}
+		/*UNREACHED*/
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	/*UNREACHED*/
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR170(void)
 {
-  ZL2_170:;
-    switch (CURRENT_TERMINAL) {
-      case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
-	{
-	    ZR172 ();
-	    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-		RESTORE_LEXER;
-		goto ZL1;
-	    }
-	    /* BEGINNING OF ACTION: skip-recover */
-	    {
-#line 1177 "c-parser.act"
+ZL2_170:;
+	switch (CURRENT_TERMINAL) {
+	case (C_TOK_SID_HIDENTIFIER): case (C_TOK_C_HIDENTIFIER):
+		{
+			ZR172 ();
+			if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+				RESTORE_LEXER;
+				goto ZL1;
+			}
+			/* BEGINNING OF ACTION: skip-recover */
+			{
+#line 1194 "c-parser.act"
 
 		c_propagating_error = FALSE;
 	
-#line 3430 "tmp.c-parser.c"
-	    }
-	    /* END OF ACTION: skip-recover */
-	    /* BEGINNING OF INLINE: c-parse-grammar::param-assign-list */
-	    goto ZL2_170;
-	    /* END OF INLINE: c-parse-grammar::param-assign-list */
+#line 3430 "c-parser.c"
+			}
+			/* END OF ACTION: skip-recover */
+			/* BEGINNING OF INLINE: c-parse-grammar::param-assign-list */
+			goto ZL2_170;
+			/* END OF INLINE: c-parse-grammar::param-assign-list */
+		}
+		/*UNREACHED*/
+	case (ERROR_TERMINAL):
+		return;
+	default:
+		break;
 	}
-	/*UNREACHED*/
-      case (ERROR_TERMINAL):
 	return;
-      default:
-	break;
-    }
-    return;
-  ZL1:;
-    SAVE_LEXER ((ERROR_TERMINAL));
-    return;
+ZL1:;
+	SAVE_LEXER ((ERROR_TERMINAL));
+	return;
 }
 
 static void
 ZR124(void)
 {
-    if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
-	return;
-    }
-    {
-	switch (CURRENT_TERMINAL) {
-	  case (C_TOK_DEFINE):
-	    break;
-	  default:
-	    goto ZL1;
+	if ((CURRENT_TERMINAL) == (ERROR_TERMINAL)) {
+		return;
 	}
-	ADVANCE_LEXER;
-    }
-    return;
-  ZL1:;
-    {
-	/* BEGINNING OF ACTION: expected-define */
 	{
-#line 920 "c-parser.act"
+		switch (CURRENT_TERMINAL) {
+		case (C_TOK_DEFINE):
+			break;
+		default:
+			goto ZL1;
+		}
+		ADVANCE_LEXER;
+	}
+	return;
+ZL1:;
+	{
+		/* BEGINNING OF ACTION: expected-define */
+		{
+#line 937 "c-parser.act"
 
 		if (!c_propagating_error) {
 			err_expected("'='");
 		}
 	
-#line 3475 "tmp.c-parser.c"
+#line 3475 "c-parser.c"
+		}
+		/* END OF ACTION: expected-define */
 	}
-	/* END OF ACTION: expected-define */
-    }
 }
 
 /* BEGINNING OF TRAILER */
 
-#line 1187 "c-parser.act"
+#line 1204 "c-parser.act"
 
 
-#line 3486 "tmp.c-parser.c"
+#line 3486 "c-parser.c"
 
 /* END OF FILE */

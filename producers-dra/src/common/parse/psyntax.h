@@ -9,6 +9,7 @@
 
 /* BEGINNING OF HEADER */
 
+#line 227 "psyntax.act"
 
 /*
     		 Crown Copyright (c) 1997, 1998
@@ -43,6 +44,7 @@
 #ifndef PSYNTAX_INCLUDED
 #define PSYNTAX_INCLUDED
 
+#line 48 "psyntax.h"
 
 /* BEGINNING OF FUNCTION DECLARATIONS */
 
@@ -50,18 +52,18 @@
 extern void parse_preproc(int *);
 extern void parse_tendra(int *);
 #else /* __SID_SPLIT */
-extern void XR404(SID_LIST_ID *);
-extern void XR506(unsigned *);
-extern void XR734(unsigned *);
-extern void XR550(IDENTIFIER *);
-extern void XR457(void);
+extern void XRbound_Htok_Hpars(SID_LIST_ID *);
+extern void XRerror_Hstate(unsigned *);
+extern void XRcast_Hstate(unsigned *);
+extern void XRkeyword_Hid(IDENTIFIER *);
+extern void XRtoken_Hrule(void);
 extern void XR781(IDENTIFIER, IDENTIFIER *);
 extern void XR783(int *);
 extern void XR784(void);
 extern void XR785(void);
 extern void XR786(int *);
 extern void XR787(int *);
-extern void XR718(unsigned *, unsigned *);
+extern void XRdirective_Hstate(unsigned *, unsigned *);
 extern void XR788(int *);
 extern void XR789(int *);
 extern void XR790(int *);
@@ -69,12 +71,12 @@ extern void XR791(int *);
 extern void XR792(int *);
 extern void XR793(int *);
 extern void XR794(int *);
-extern void XR409(SID_LIST_ID, SID_LIST_ID *);
+extern void XRprog_Htok_Hpars(SID_LIST_ID, SID_LIST_ID *);
 extern void XR795(int *);
 extern void XR796(int *);
-extern void XR717(int *, int *);
+extern void XRdirective_Hspec(int *, int *);
 extern void XR797(int *);
-extern void XR723(unsigned *);
+extern void XRlinkage_Hdescr(unsigned *);
 extern void XR798(int *);
 extern void XR799(void);
 extern void XR800(void);
@@ -82,7 +84,7 @@ extern void XR801(void);
 extern void XR802(void);
 extern void XR803(void);
 extern void XR804(void);
-extern void XR711(int *);
+extern void XRconversion_Hspec(int *);
 extern void XR805(void);
 extern void parse_preproc(int *);
 extern void XR806(void);
@@ -93,9 +95,9 @@ extern void XR809(void);
 extern void XR810(void);
 extern void XR811(void);
 extern void XR812(void);
-extern void XR727(unsigned *);
+extern void XRcomplete_Hstate(unsigned *);
 extern void XR813(TYPE *);
-extern void XR724(unsigned *, unsigned *);
+extern void XRlinkage_Hstate(unsigned *, unsigned *);
 extern void XR814(void);
 extern void XR815(void);
 extern void XR816(void);
@@ -103,16 +105,16 @@ extern void XR817(void);
 extern void XR818(void);
 extern void XR819(void);
 extern void XR820(void);
-extern void XR529(int *);
+extern void XRliteral_Hsuffix(int *);
 extern void XR821(void);
-extern void XR495(void);
-extern void XR712(int *);
+extern void XRconversion_Hlist(void);
+extern void XRdiscard_Hspec(int *);
 extern void XR822(void);
-extern void XR714(int *);
-extern void XR528(int *);
-extern void XR533(void);
-extern void XR733(unsigned *);
-extern void XR399(int *);
+extern void XRimplicit_Hspec(int *);
+extern void XRliteral_Hbase(int *);
+extern void XRliteral_Hitem_Hlist(void);
+extern void XRcast_Hcommand(unsigned *);
+extern void XRtag_Hopt(int *);
 extern void XR828(int *);
 extern void XR829(int *);
 extern void XR830(int *);
@@ -125,45 +127,45 @@ extern void XR836(unsigned *);
 extern void XR839(unsigned *, unsigned *);
 extern void XR840(int *);
 extern void XR841(int *);
-extern void XR412(IDENTIFIER *);
+extern void XRsimple_Htok_Hparam(IDENTIFIER *);
 extern void XR842(int *);
 extern void XR843(int *);
 extern void XR844(int *);
-extern void XR530(void);
+extern void XRliteral_Hitem(void);
 extern void XR845(int *);
 extern void XR847(int *);
 extern void XR848(int *);
 extern void XR849(int *);
 extern void XR850(int *);
 extern void XR851(int *);
-extern void XR741(int *);
+extern void XRoption_Hnumber(int *);
 extern void XR852(int *);
 extern void XR853(void);
 extern void XR854(int *);
-extern void XR400(IDENTIFIER *);
+extern void XRbound_Htok_Hparam(IDENTIFIER *);
 extern void XR855(int *);
-extern void XR510(int *);
-extern void XR497(void);
+extern void XRerror_Hseverity(int *);
+extern void XRpreserve_Hlist(void);
 extern void XR860(TYPE *);
 extern void XR479(int *);
 extern void XR861(TYPE *);
-extern void XR773(void);
-extern void XR551(int *);
-extern void XR448(DECL_SPEC *);
-extern void XR759(int *);
-extern void XR483(void);
-extern void XR496(int);
+extern void XRpragma_Hrule(void);
+extern void XRkeyword_Hspec(int *);
+extern void XRaccess_Hspecifier_Hopt(DECL_SPEC *);
+extern void XRerror_Hnumber(int *);
+extern void XRtokdef_Hrule(void);
+extern void XRpostpone_Hlist(int);
 extern void XR743(unsigned *);
-extern void XR508(unsigned *);
-extern void XR414(SID_LIST_ID *);
-extern void XR552(void);
-extern void XR498(void);
-extern void XR507(unsigned *);
-extern void XR447(int *, int *);
+extern void XRoption_Hstate(unsigned *);
+extern void XRsimple_Htok_Hpars(SID_LIST_ID *);
+extern void XRkeyword_Hrule(void);
+extern void XRsuspend_Hlist(void);
+extern void XRallow_Hstate(unsigned *);
+extern void XRexp_Hstorage(int *, int *);
 extern void XR755(EXP *);
-extern void XR408(SID_LIST_ID, IDENTIFIER *);
-extern void XR397(TOKEN *);
-extern void XR509(unsigned *);
+extern void XRprog_Htok_Hparam(SID_LIST_ID, IDENTIFIER *);
+extern void XRtoken_Hintroduction(TOKEN *);
+extern void XRwarning_Hopt(unsigned *);
 extern int XI0;
 #endif /* __SID_SPLIT */
 
@@ -527,6 +529,7 @@ extern int XI0;
 
 /* BEGINNING OF TRAILER */
 
+#line 1280 "psyntax.act"
 
 
 
@@ -543,5 +546,6 @@ extern int XI0;
 
 
 #endif
+#line 550 "psyntax.h"
 
 /* END OF FILE */

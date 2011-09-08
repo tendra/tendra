@@ -4,7 +4,7 @@
  * and
  *	lctsyntax.act
  * by:
- *	sid
+ *	/Users/kate/svn/tendra16/obj-regen/bin/sid
  */
 
 /* BEGINNING OF HEADER */
@@ -39,7 +39,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: lctsyntax.act 2246 2008-11-17 13:53:37Z flaviusaetius $
+ * $Id: lctsyntax.act 2621 2011-09-04 20:05:30Z kate $
  */
  
 
