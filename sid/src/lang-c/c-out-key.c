@@ -122,7 +122,7 @@ c_output_mapped_key(COutputInfoT * info, EntryT * entry)
 	KeyT     *key;
 	NStringT *prefix = NULL;
 
-	if (mapping && entry_type(entry) != ET_RULE) {
+	if (mapping) {
 		write_nstring(ostream, mapping);
 		return;
 	}
