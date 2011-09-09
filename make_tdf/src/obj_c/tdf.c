@@ -88,7 +88,7 @@ static tdf *free_tdf_array[free_tdf_max] = {
 */
 
 tdf *
-gen_tdf(size_t sz)
+gen_tdf(unsigned sz)
 {
     tdf *p;
     size_t n = sz;
@@ -122,7 +122,7 @@ gen_tdf(size_t sz)
 */
 
 void
-destroy_tdf(tdf *p, size_t sz)
+destroy_tdf(tdf *p, unsigned sz)
 {
     size_t n = sz;
     if (p && n < free_tdf_max) {
@@ -140,7 +140,7 @@ destroy_tdf(tdf *p, size_t sz)
 */
 
 void
-dummy_destroy_tdf(tdf *p, size_t sz)
+dummy_destroy_tdf(tdf *p, unsigned sz)
 {
     (void) p;
     (void) sz;
@@ -157,7 +157,7 @@ dummy_destroy_tdf(tdf *p, size_t sz)
 */
 
 void
-destroy_tdf_list(tdf *p, size_t sz)
+destroy_tdf_list(tdf *p, unsigned sz)
 {
     size_t n = sz + 1;
     if (p && n < free_tdf_max) {
@@ -178,7 +178,7 @@ destroy_tdf_list(tdf *p, size_t sz)
     This routine calculates the length of the list p.
 */
 
-size_t
+unsigned
 length_tdf_list(tdf *p)
 {
     tdf *q;

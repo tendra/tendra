@@ -88,7 +88,7 @@ static errors *free_errors_array[free_errors_max] = {
 */
 
 errors *
-gen_errors(size_t sz)
+gen_errors(unsigned sz)
 {
     errors *p;
     size_t n = sz;
@@ -122,7 +122,7 @@ gen_errors(size_t sz)
 */
 
 void
-destroy_errors(errors *p, size_t sz)
+destroy_errors(errors *p, unsigned sz)
 {
     size_t n = sz;
     if (p && n < free_errors_max) {
@@ -140,7 +140,7 @@ destroy_errors(errors *p, size_t sz)
 */
 
 void
-dummy_destroy_errors(errors *p, size_t sz)
+dummy_destroy_errors(errors *p, unsigned sz)
 {
 	(void) p;
 	(void) sz;
@@ -157,7 +157,7 @@ dummy_destroy_errors(errors *p, size_t sz)
 */
 
 void
-destroy_errors_list(errors *p, size_t sz)
+destroy_errors_list(errors *p, unsigned sz)
 {
     size_t n = sz + 1;
     if (p && n < free_errors_max) {
@@ -178,7 +178,7 @@ destroy_errors_list(errors *p, size_t sz)
     This routine calculates the length of the list p.
 */
 
-size_t
+unsigned
 length_errors_list(errors *p)
 {
     errors *q;
