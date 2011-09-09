@@ -67,7 +67,7 @@ ${CALC_GEN_TOK}: ${ALGEBRA_TOK} ${TEMPLATES:S,^,${CALC_IN_TEMPL}/,}
 	${CALCULUS} ${CALCFLAGS} -t ${ALGEBRA_TOK} ${CALC_OUT_TOK} \
 		|| ( ${REMOVE} ${CALC_GEN_TOK}; ${EXIT} 1 )
 . for templ in ${TEMPLATES}
-	${CALCULUS} -t ${ALGEBRA_TOK} -T${CALC_IN_TEMPL}/${templ} ${CALC_OUT_C}/${templ}
+	${CALCULUS} -t ${ALGEBRA_TOK} -T${CALC_IN_TEMPL}/${templ} ${CALC_OUT_TOK}/${templ}
 . endfor
 .endif
 
@@ -114,10 +114,10 @@ regen-clean::
 	${REMOVE} ${CALC_OUT_TOK}/*.h
 .endif
 .if defined(ALGEBRA_DISK)
-	${REMOVE} ${CALC_OUT_DISK}/*.h
+	${REMOVE} ${CALC_OUT_DISK}/read_def.h ${CALC_OUT_DISK}/write_def.h
 .endif
 .if defined(ALGEBRA_PRINT)
-	${REMOVE} ${CALC_OUT_PRINT}/*.h
+	${REMOVE} ${CALC_OUT_PRINT}/print_def.h
 .endif
 
 
