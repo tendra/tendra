@@ -52,6 +52,7 @@ WRKDIR=	${.CURDIR:C/^${BASE_DIR}\///1}
 AR?=		ar
 CAT?=		cat
 CC?=    	cc
+CALCULUS?=	calculus
 COPY?=		cp
 DIA?=		dia
 DOT?=		dot

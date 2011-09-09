@@ -27,14 +27,12 @@ SYNTAX+=	syntax.sid
 .include <tendra.sid.mk>
 
 
-#${obj_c}/tdf.h : ${SRC}/tdf.alg
-#	@${REMOVE} ${obj_c}/*.h
-#	${CALCULUS} -a -x ${SRC}/tdf.alg ${obj_c}
-#
-#${obj_tok}/tdf.h : ${SRC}/tdf.alg
-#	@${REMOVE} ${obj_tok}/*.h
-#	${CALCULUS} -a -x -t ${SRC}/tdf.alg ${obj_tok}
-#
+ALGEBRA_C+=  	tdf.alg
+ALGEBRA_TOK+=	tdf.alg
+
+.include <tendra.calculus.mk>
+
+
 #${SRC}/lexer.h : ${SRC}/lexer.lxi
 #	@${REMOVE} ${SRC}/lexer.h
 #	${LEXI} ${SRC}/lexer.lxi ${SRC}/lexer.h

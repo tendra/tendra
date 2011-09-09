@@ -27,19 +27,17 @@ SYNTAX+=	syntax.sid
 .include <tendra.sid.mk>
 
 
+ALGEBRA_C+=  	errors.alg
+ALGEBRA_TOK+=	errors.alg
+
+.include <tendra.calculus.mk>
+
+
 #C_OUT=${SRC2}/errors.h
 #TOK_OUT=${SRC2A}/errors.h
 #LEXI_OUT=${SRC}/lexer.h ${SRC}/keyword.h
 #
-#auto : ${C_OUT} ${TOK_OUT} ${LEXI_OUT}
-#
-#${SRCC}/errors.h : ${SRC}/errors.alg
-#	@${REMOVE} ${SRCC}/*.h
-#	${CALCULUS} -a -x ${SRC}/errors.alg ${SRCC}
-#
-#${SRCTOK}/errors.h : ${SRC}/errors.alg
-#	@${REMOVE} ${SRCTOK}/*.h
-#	${CALCULUS} -a -x -t ${SRC}/errors.alg ${SRCTOK}
+#auto : ${LEXI_OUT}
 #
 #${SRC}/lexer.h : ${SRC}/lexer.lxi
 #	@${REMOVE} ${SRC}/lexer.h
@@ -51,6 +49,4 @@ SYNTAX+=	syntax.sid
 #
 #auto_clobber :
 #	${REMOVE} ${SID_OUT} ${LEXI_OUT}
-#	${REMOVE} ${SRC2}/*.h
-#	${REMOVE} ${SRC2A}/*.h
 

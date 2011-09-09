@@ -15,3 +15,14 @@ SRCS+=	main.c
 
 .include <tendra.partial.mk>
 
+
+ALGEBRA_C+=  	c_class.alg
+ALGEBRA_TOK+=	c_class.alg
+
+TEMPLATES+=	bits.h
+TEMPLATES+=	err_ext.h
+TEMPLATES+=	loc_ext.h
+TEMPLATES+=	tdf1.h
+
+.include <tendra.calculus.mk>
+

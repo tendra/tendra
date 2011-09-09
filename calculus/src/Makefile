@@ -37,22 +37,14 @@ SYNTAX+=	syntax.sid
 .include <tendra.sid.mk>
 
 
-#obj_c/calculus.h: calculus.alg
-#	@${REMOVE} obj_c/*.h
-#	${CALCULUS} -a -x calculus.alg obj_c
-#
-#obj_tok/calculus.h: calculus.alg
-#	@${REMOVE} obj_tok/*.h
-#	${CALCULUS} -a -x -t calculus.alg obj_tok
-#
-#read_def.h: calculus.alg disk.alg
-#	@${REMOVE} read_def.h write_def.h
-#	${CALCULUS} -a -x -d calculus.alg disk.alg .
-#
-#print_def.h: calculus.alg
-#	@${REMOVE} print_def.h
-#	${CALCULUS} -a -x -p calculus.alg .
-#
+ALGEBRA_C+=  	calculus.alg
+ALGEBRA_TOK+=	calculus.alg
+ALGEBRA_DISK+=	calculus.alg disk.alg
+ALGEBRA_PRINT+=	calculus.alg
+
+.include <tendra.calculus.mk>
+
+
 #lexer.h: lexer.lxi
 #	@${REMOVE} lexer.h
 #	${LEXI} lexer.lxi lexer.h
@@ -62,11 +54,6 @@ SYNTAX+=	syntax.sid
 #	${LEXI} -k lexer.lxi keyword.h
 #
 #auto_clobber:
-#	${REMOVE} obj_c/*.h
-#	${REMOVE} obj_tok/*.h
 #	${REMOVE} ${DISK_OUT}
 #	${REMOVE} ${LEXI_OUT}
-#
-#obj_c/calculus.o:
-#	cd obj_c && ${MAKE} calculus.o
 
