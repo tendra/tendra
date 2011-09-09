@@ -45,6 +45,10 @@
 #endif
 
 
+/* Prototype macros */
+
+
+
 /* Primitive types */
 
 typedef character * string;

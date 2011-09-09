@@ -29,7 +29,7 @@
 
 /*
     AUTOMATICALLY GENERATED FROM ALGEBRA calculus (VERSION 1.2)
-    BY calculus (VERSION 1.2)
+    BY calculus (VERSION 1.3)
 */
 
 #ifndef CALCULUS_H_INCLUDED
@@ -41,6 +41,10 @@
 #define calculus_SPECIFICATION		0
 #define calculus_IMPLEMENTATION		1
 #endif
+
+
+/* Prototype macros */
+
 
 
 /* Primitive types */

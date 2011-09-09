@@ -54,7 +54,7 @@ check_null_c_class
 (c_class *p, char *fn, int ln)
 {
     if (p == NULL) assert_c_class("Null pointer", fn, ln);
-    return(p);
+    return p;
 }
 
 c_class *
@@ -63,7 +63,7 @@ check_tag_c_class
 {
     p = check_null_c_class(p, fn, ln);
     if (p->ag_tag != t) assert_c_class("Union tag", fn, ln);
-    return(p);
+    return p;
 }
 
 c_class *
@@ -74,7 +74,7 @@ check_tag_etc_c_class
     if (p->ag_tag < tl || p->ag_tag >= tb) {
 	assert_c_class("Union tag", fn, ln);
     }
-    return(p);
+    return p;
 }
 
 #endif

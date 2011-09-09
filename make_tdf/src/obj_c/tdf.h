@@ -35,14 +35,16 @@
 #ifndef TDF_H_INCLUDED
 #define TDF_H_INCLUDED
 
-#include <stdlib.h>
-
 #ifndef tdf_NAME
 #define tdf_NAME			"tdf"
 #define tdf_VERSION			"1.0"
 #define tdf_SPECIFICATION		0
 #define tdf_IMPLEMENTATION		1
 #endif
+
+
+/* Prototype macros */
+
 
 
 /* Primitive types */
@@ -127,13 +129,13 @@ typedef tdf *COMMAND;
 
 /* Function declarations */
 
-extern tdf *gen_tdf(size_t);
-extern void destroy_tdf(tdf *, size_t);
-extern void dummy_destroy_tdf (tdf *, size_t);
-extern void destroy_tdf_list (tdf *, size_t);
+extern tdf *gen_tdf(unsigned);
+extern void destroy_tdf(tdf *, unsigned);
+extern void dummy_destroy_tdf (tdf *, unsigned);
+extern void destroy_tdf_list (tdf *, unsigned);
 extern tdf *append_tdf_list(tdf *, tdf *);
 extern tdf *end_tdf_list(tdf *);
-extern size_t length_tdf_list(tdf *);
+extern unsigned length_tdf_list(tdf *);
 extern tdf *reverse_tdf_list(tdf *);
 #ifdef tdf_IO_ROUTINES
 extern unsigned crt_tdf_alias;

@@ -35,14 +35,16 @@
 #ifndef ERRORS_H_INCLUDED
 #define ERRORS_H_INCLUDED
 
-#include <stdlib.h>
-
 #ifndef errors_NAME
 #define errors_NAME			"errors"
 #define errors_VERSION			"1.0"
 #define errors_SPECIFICATION		0
 #define errors_IMPLEMENTATION		1
 #endif
+
+
+/* Prototype macros */
+
 
 
 /* Primitive types */
@@ -128,13 +130,13 @@ typedef NAME USAGE;
 
 /* Function declarations */
 
-extern errors *gen_errors(size_t);
-extern void destroy_errors(errors *, size_t);
-extern void dummy_destroy_errors (errors *, size_t);
-extern void destroy_errors_list (errors *, size_t);
+extern errors *gen_errors(unsigned);
+extern void destroy_errors(errors *, unsigned);
+extern void dummy_destroy_errors (errors *, unsigned);
+extern void destroy_errors_list (errors *, unsigned);
 extern errors *append_errors_list(errors *, errors *);
 extern errors *end_errors_list(errors *);
-extern size_t length_errors_list(errors *);
+extern unsigned length_errors_list(errors *);
 extern errors *reverse_errors_list(errors *);
 #ifdef errors_IO_ROUTINES
 extern unsigned crt_errors_alias;
