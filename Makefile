@@ -108,7 +108,7 @@ bootstrap-rebuild:
 
 bootstrap-regen:
 	@echo "===> bootstraping into ${OBJ_REGEN} for source regeneration"
-.for project in sid
+.for project in sid calculus
 	@echo "===> bootstrapping ${project} into ${OBJ_BPREFIX}"
 	cd ${.CURDIR}/${project} && ${MAKE}     \
 	    OBJ_DIR=${OBJ_REGEN}/obj/${project} \
@@ -119,6 +119,7 @@ bootstrap-regen:
 	cd ${.CURDIR}/${project} && ${MAKE}     \
 	    OBJ_DIR=${OBJ_REGEN}/obj/${project} \
 	    SID=${OBJ_REGEN}/bin/sid            \
+	    CALCULUS=${OBJ_REGEN}/bin/calculus  \
 	    PREFIX=${OBJ_REGEN} regen-clean regen
 .endfor
 .for project in calculus lexi make_err make_tdf producers-dra sid tpl tspec
