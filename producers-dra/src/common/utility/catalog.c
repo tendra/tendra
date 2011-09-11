@@ -63,7 +63,6 @@
 #include "exp_ops.h"
 #include "str_ops.h"
 #include "error.h"
-#include "extra.h"
 #include "catalog.h"
 #include "option.h"
 #include "hash.h"

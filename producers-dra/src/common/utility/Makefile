@@ -24,11 +24,9 @@ SRCS+=	xalloc.c
 
 
 ERRORS+= 	catalog.err
-ERRORSX+=	extra.err
 
 # TODO: these are silly filenames
 ERROR_DECL= 	errors1.h
-ERROR_DECLX=	errors2.h
 ERROR_DEFN= 	errors3.h
 ERROR_USAGE=	opts.h
 
