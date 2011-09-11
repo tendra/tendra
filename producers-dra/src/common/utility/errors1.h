@@ -34,8 +34,6 @@
 #define ERR_INCLUDED
 
 
-/* Error data structure */
-
 typedef unsigned ERR_PROPS ;
 
 typedef struct {

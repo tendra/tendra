@@ -1,22 +1,7 @@
 # $Id$
 
-#${SRC7}/errors1.h : ${SRC7}/catalog.err
-#   @${REMOVE} ${SRC7}/errors1.h
-#   ${MAKE_ERR} ${SRC7}/catalog.err ${SRC7}/errors1.h
-#
-#${SRC7}/errors2.h : ${SRC7}/catalog.err ${SRC7}/extra.err
-#   @${REMOVE} ${SRC7}/errors2.h
-#   ${CAT} ${SRC7}/catalog.err ${SRC7}/extra.err | ${MAKE_ERR} > ${SRC7}/errors2.h
-#
-#${SRC7}/errors3.h : ${SRC7}/catalog.err ${SRC7}/extra.err
-#   @${REMOVE} ${SRC7}/errors3.h
-#   ${CAT} ${SRC7}/catalog.err ${SRC7}/extra.err | ${MAKE_ERR} -d > ${SRC7}/errors3.h
-#
-#${SRC7}/opts.h : ${SRC7}/catalog.err
-#   @${REMOVE} ${SRC7}/opts.h
-#   ${MAKE_ERR} -u ${SRC7}/catalog.err ${SRC7}/opts.h
-
 .include "Makefile.inc"
+
 
 CCOPTS+=	-I ../../common/construct
 CCOPTS+=	-I ../../common/obj_c
@@ -36,4 +21,16 @@ SRCS+=	xalloc.c
 .include <tendra.obj.mk>
 
 .include <tendra.partial.mk>
+
+
+ERRORS+= 	catalog.err
+ERRORSX+=	extra.err
+
+# TODO: these are silly filenames
+ERROR_DECL= 	errors1.h
+ERROR_DECLX=	errors2.h
+ERROR_DEFN= 	errors3.h
+ERROR_USAGE=	opts.h
+
+.include <tendra.errors.mk>
 
