@@ -44,6 +44,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "object.h"
@@ -1646,7 +1647,7 @@ ZRconstant_Hvalue(SID_STRING *ZOs)
 			{
 #line 401 "syntax.act"
 
-    (ZIs) = string_concat ( "!", (ZIa) ) ;
+    (ZIs) = xstrcat ( "!", (ZIa) ) ;
 #line 1651 "syntax.c"
 			}
 			/* END OF ACTION: value_not */
@@ -1678,7 +1679,7 @@ ZRconstant_Hvalue(SID_STRING *ZOs)
 			{
 #line 397 "syntax.act"
 
-    (ZIs) = string_concat ( "-", (ZIa) ) ;
+    (ZIs) = xstrcat ( "-", (ZIa) ) ;
 #line 1683 "syntax.c"
 			}
 			/* END OF ACTION: value_negate */
@@ -2794,7 +2795,7 @@ ZR323(int *ZIcmd, SID_COMMAND *ZOc)
 			/* BEGINNING OF ACTION: subset_next */
 			{
 #line 504 "syntax.act"
- (ZIkey) = string_concat ( (ZIkey1), "G" ) ; 
+ (ZIkey) = xstrcat ( (ZIkey1), "G" ) ; 
 #line 2799 "syntax.c"
 			}
 			/* END OF ACTION: subset_next */

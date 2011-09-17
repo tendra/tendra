@@ -233,7 +233,7 @@ read_identifier(int a, int b, int pp)
 	error(ERROR_SERIOUS, "Unknown command, '%s'", s);
 	return lex_name;
     }
-    token_value = string_concat(HIDDEN_NAME, s + 1);
+    token_value = xstrcat(HIDDEN_NAME, s + 1);
     return lex_name;
 }
 

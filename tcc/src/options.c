@@ -1448,7 +1448,7 @@ process_options(list *opt, struct optmap *tab, int fast,
 	/* Scan through the options */
 	for (p = opt; p != NULL; p = p->next) {
 		if (status == MATCH_MORE) {
-			arg = string_concat(arg, p->item.s);
+			arg = xstrcat(arg, p->item.s);
 		} else {
 			arg = p->item.s;
 		}

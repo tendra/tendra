@@ -63,6 +63,8 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include <shared/string.h>
+
 #include "config.h"
 #include "filename.h"
 #include "list.h"
@@ -139,7 +141,7 @@ add_to_startup(const char *fmt, ...)
 
 	add_to_file(&startup_file, &startup_name, "ts");
 
-	startup_opt = string_concat("-f", startup_name);
+	startup_opt = xstrcat("-f", startup_name);
 
 	if (startup_file == NULL) {
 		return;
@@ -166,7 +168,7 @@ add_to_endup(const char *fmt, ...)
 
 	add_to_file(&endup_file, &endup_name, "te");
 
-	startup_opt = string_concat("-f", endup_name);
+	startup_opt = xstrcat("-f", endup_name);
 
 	if (endup_file == NULL) {
 		return;

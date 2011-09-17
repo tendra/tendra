@@ -83,7 +83,6 @@ extern char *buffer;
 
 extern void comment(int, char *, ...);
 extern char *string_append(const char *, const char *, char);
-extern char *string_concat(const char *, const char *);
 
 
 /*

@@ -58,15 +58,18 @@
 */
 
 
-#include "config.h"
 #include <ctype.h>
 #include <stdio.h>
+
+#include "config.h"
 #include "object.h"
 #include "hash.h"
 #include "name.h"
 #include "type.h"
 #include "utility.h"
 #include "variable.h"
+
+#include <shared/string.h>
 
 
 /*
@@ -233,7 +236,7 @@ char *
 token_name(char *nm)
 {
     if (strncmp(nm, HIDDEN_NAME, HIDDEN_LEN) == 0) {
-	nm = string_concat("~", nm + HIDDEN_LEN);
+	nm = xstrcat("~", nm + HIDDEN_LEN);
     }
     if (unique_names && crt_object) {
 	info *i = crt_object->u.u_info;

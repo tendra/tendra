@@ -131,30 +131,6 @@ string_alloc(int n)
 }
 
 
-/*
- * COPY TWO STRINGS
- *
- * This routine allocates space for a copy of the string s followed by a copy
- * of the string t and concatenates the strings into this space. This copy is
- * returned.
- */
-char *
-string_concat(const char *s, const char *t)
-{
-	size_t n, m;
-	char *r;
-
-	n = strlen(s);
-	m = strlen(t);
-
-	r = string_alloc(n + m + 1);
-	IGNORE strcpy(r, s);
-	IGNORE strcpy(r + n, t);
-
-	return r;
-}
-
-
 /*	
  * APPEND TWO STRINGS	
  *   

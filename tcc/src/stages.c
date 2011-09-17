@@ -61,6 +61,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "filename.h"
@@ -170,7 +171,7 @@ uniq_filename(const char *nm, enum filetype t, int s, filename *input)
 			} else {
 				char *m = NULL;
 				static char plus[] = { EXTRA_KEY, 0 };
-				q->name = string_concat(q->name, plus);
+				q->name = xstrcat(q->name, plus);
 				switch (t)EXHAUSTIVE {
 				case INDEP_TDF:
 					m = "merged TDF capsule";
@@ -288,7 +289,7 @@ do_produce(filename *input)
 	if (allow_specs == 1) {
 		spec = make_filename(input, C_SPEC, where(C_SPEC));
 		if (dump_opts) {
-			cmd_string(string_concat(dump_opts, spec->name));
+			cmd_string(xstrcat(dump_opts, spec->name));
 		} else {
 			cmd_string("-s");
 			cmd_string(spec->name);
@@ -377,7 +378,7 @@ do_cpp_produce(filename *input)
 	if (allow_specs == 1) {
 		spec = make_filename(input, CPP_SPEC, where(CPP_SPEC));
 		if (dump_opts) {
-			cmd_string(string_concat(dump_opts, spec->name));
+			cmd_string(xstrcat(dump_opts, spec->name));
 		} else {
 			cmd_string("-s");
 			cmd_string(spec->name);
@@ -564,7 +565,7 @@ do_translate(filename *input)
 	if (use_mips_assembler) {
 		static char *vflag = NULL;
 		if (vflag == NULL) {
-			vflag = string_concat("-V", version_flag);
+			vflag = xstrcat("-V", version_flag);
 		}
 		cmd_string(vflag);
 	}

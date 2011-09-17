@@ -70,6 +70,7 @@ VERSION -> int ;
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "object.h"
@@ -394,11 +395,11 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 @} ;
 
 <value_negate> : ( a ) -> ( s ) = @{
-    @s = string_concat ( "-", @a ) ;
+    @s = xstrcat ( "-", @a ) ;
 @} ;
 
 <value_not> : ( a ) -> ( s ) = @{
-    @s = string_concat ( "!", @a ) ;
+    @s = xstrcat ( "!", @a ) ;
 @} ;
 
 <value_nat> : ( a ) -> ( s ) = @{
@@ -501,7 +502,7 @@ build-insert : () -> ( s ) = @{ @s = token_value ; @} ;
 <subset_first> : () -> ( s ) = @{ @s = "10" ; @} ;
 <subset_second> : () -> ( s ) = @{ @s = "01" ; @} ;
 <subset_both> : () -> ( s ) = @{ @s = "11" ; @} ;
-<subset_next> : ( a ) -> ( s ) = @{ @s = string_concat ( @a, "G" ) ; @} ;
+<subset_next> : ( a ) -> ( s ) = @{ @s = xstrcat ( @a, "G" ) ; @} ;
 
 <api_name> : ( a ) -> ( s ) = @{
     @s = subset_name ( @a, NULL, NULL ) ;

@@ -148,14 +148,14 @@ find_fullname(const char *s)
 	}
 	if (pwd == NULL) {
 		if (getcwd(buffer, buffer_size)) {
-			pwd = string_concat(buffer, "/");
+			pwd = xstrcat(buffer, "/");
 		} else {
 			error(ERROR_WARNING,
 			      "Can't determine current working directory");
 			pwd = "";
 		}
 	}
-	return string_concat(pwd, s);
+	return xstrcat(pwd, s);
 }
 
 
@@ -566,12 +566,10 @@ make_filename(filename *p, enum filetype t, enum file_storage s)
 				nm = final_name;
 				b = find_basename(nm);
 #ifdef EXECUTABLE_SUFFIX
-				if (t == EXECUTABLE &&
-				    strchr(b, '.') == NULL) {
+				if (t == EXECUTABLE && strchr(b, '.') == NULL) {
 					/* Add '.exe' suffix if necessary */
-					nm = string_concat(nm,
-							   EXECUTABLE_SUFFIX);
-					b = string_concat(b, EXECUTABLE_SUFFIX);
+					nm = xstrcat(nm, EXECUTABLE_SUFFIX);
+					b = xstrcat(b, EXECUTABLE_SUFFIX);
 				}
 #endif
 				used_final_name = 1;
