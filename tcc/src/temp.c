@@ -35,6 +35,7 @@
 #include <limits.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "temp.h"
 #include "flags.h"
@@ -106,7 +107,7 @@ temp_mkdir(const char *dir, const char *prefix)
 
 		IGNORE execute(no_filename, no_filename);
 		if (!last_return) {
-			return string_copy(buf);
+			return xstrdup(buf);
 		}
 	}
 
@@ -136,7 +137,7 @@ temp_fopen(char **out, const char *dir, const char *prefix)
 		}
 
 		if (p != NULL) {
-			*out = string_copy(buf);
+			*out = xstrdup(buf);
 			return p;
 		}
 	}

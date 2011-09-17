@@ -68,6 +68,7 @@
 #include <errno.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "utility.h"
@@ -189,8 +190,8 @@ envvar_set(struct hash **h, const char *name, const char *value,
 		n = xmalloc(sizeof *n);
 
 		n->flag       = option_istccopt(name) ? 0 : HASH_USR;
-		n->name       = string_copy(name);
-		n->value      = string_copy(value);
+		n->name       = xstrdup(name);
+		n->value      = xstrdup(value);
 		n->file       = NULL;	/* TODO */
 		n->line_num   = -1;	/* TODO */
 		n->precedence = precedence;

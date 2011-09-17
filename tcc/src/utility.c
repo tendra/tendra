@@ -132,27 +132,6 @@ string_alloc(int n)
 
 
 /*
- * COPY A STRING
- *
- * This routine allocates space for a copy of the string s and copies the
- * string into this space. This copy is returned.
- */
-/* TODO rename to xstrdup(), move to shared/ */
-char *
-string_copy(const char *s)
-{
-	size_t n;
-	char *r;
-
-	n = strlen(s);
-	r = string_alloc(n + 1);
-	IGNORE strcpy(r, s);
-
-	return r;
-}
-
-
-/*
  * COPY TWO STRINGS
  *
  * This routine allocates space for a copy of the string s followed by a copy

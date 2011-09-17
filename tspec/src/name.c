@@ -125,7 +125,7 @@ strip_extension(char *nm)
 	return NULL;
     }
 
-    s = string_copy(nm);
+    s = xstrdup(nm);
 
     p = strstr(s, ext);
     if(!p) {
@@ -155,7 +155,7 @@ char *
 dirname(char *nm)
 {
     char *p, *end = NULL;
-    char *dir = string_copy(nm);
+    char *dir = xstrdup(nm);
     for (p = dir; *p; p++) {
 	if (*p == '/')end = p;
     }
@@ -198,7 +198,7 @@ relative(char *from, char *to, int n)
 char *
 hack_name(char *nm, char *key)
 {
-    char *p = string_copy(nm), *q;
+    char *p = xstrdup(nm), *q;
     for (q = p; *q; q++) {
 	int c = *q;
 	if (isalpha(c) && isupper(c)) {

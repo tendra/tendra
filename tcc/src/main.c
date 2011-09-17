@@ -65,6 +65,7 @@
 #include <time.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -196,7 +197,7 @@ main_start(char *prog)
 			continue;
 		}
 
-		name = string_copy(t->in + 1);
+		name = xstrdup(t->in + 1);
 		name[strcspn(name, " ")] = '\0';
 
 		envvar_set(&envvars, name, t->explain,

@@ -60,6 +60,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "object.h"
@@ -996,7 +997,7 @@ print_include(FILE *output, char *nm, int on)
     if (nm == NULL) return;
     IGNORE sprintf(buffer, "%s[%s]", crt_info->src, nm);
     if (search_hash(files, buffer, no_version)) return;
-    p = make_object(string_copy(buffer), OBJ_FILE);
+    p = make_object(xstrdup(buffer), OBJ_FILE);
     p->u.u_file = NULL;
     IGNORE add_hash(files, p, no_version);
     if (on)OUT(output, "#include <%s>\n", nm);
@@ -1272,7 +1273,7 @@ print_set(object *input, int pass)
 			    }
 			}
 			buffer [j] = 0;
-			copyright_text = string_copy(buffer);
+			copyright_text = xstrdup(buffer);
 			IGNORE fclose(f);
 		    }
 		}

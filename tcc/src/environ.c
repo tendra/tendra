@@ -64,6 +64,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "filename.h"
@@ -114,7 +115,7 @@ find_envpath(void)
 	}
 	IGNORE sprintf(p, "%s:.", environ_dir);
 	if (!streq(buffer, envpath)) {
-		envpath = string_copy(buffer);
+		envpath = xstrdup(buffer);
 	}
 }
 

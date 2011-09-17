@@ -63,6 +63,7 @@
 #include <string.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -1005,7 +1006,7 @@ match_option(char *in, char *out, const char *opt, args_out *res)
 			switch (*p) {
 			case '|':	/* Multiple output */
 				*q = 0;
-				res->argv[a] = string_copy(buff);
+				res->argv[a] = xstrdup(buff);
 				if (++a >= max_var) return MATCH_OPT_ERR;
 				q = buff;
 				continue;
@@ -1093,7 +1094,7 @@ match_option(char *in, char *out, const char *opt, args_out *res)
 		}
 
 		*q = 0;
-		res->argv[a] = string_copy(buff);
+		res->argv[a] = xstrdup(buff);
 		if (++a >= max_var) {
 			return MATCH_OPT_ERR;
 		}
@@ -1121,7 +1122,7 @@ interpret_cmd(const char *cmd, enum hash_precedence precedence)
 
 	/* Deal with at-hack */
 	if (c == '@') {
-		char *p = string_copy(cmd + 1), *q;
+		char *p = xstrdup(cmd + 1), *q;
 		for (q = p; *q; q++) {
 			if (*q == '@') {
 				*q = ' ';

@@ -60,6 +60,7 @@
 
 #include <stddef.h>
 
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "list.h"
@@ -226,7 +227,7 @@ list *
 make_list(const char *s)
 {
 	list *r = NULL;
-	char *p = string_copy(s);
+	char *p = xstrdup(s);
 
 	for (;;) {
 		while (*p == ' ' || *p == '\t')

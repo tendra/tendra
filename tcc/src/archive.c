@@ -66,6 +66,7 @@
 #include <limits.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "external.h"
@@ -675,12 +676,12 @@ split_archive(const char *arch, filename **ret)
 		    q = make_filename(no_filename, INDEP_TDF, k);
 		} else if (strneq(p, "*.", 2)) {
 		    /* New form hidden names */
-		    p = string_copy(p);
+		    p = xstrdup(p);
 		    q = find_filename(p, UNKNOWN_TYPE);
 		    q = make_filename(no_filename, q->type, where(q->type));
 		} else {
 		    /* Unhidden names */
-		    p = string_copy(p);
+		    p = xstrdup(p);
 		    q = find_filename(p, UNKNOWN_TYPE);
 		    q = make_filename(q, q->type, where(q->type));
 		}
@@ -720,7 +721,7 @@ split_archive(const char *arch, filename **ret)
 		}
 		ad = 10 * ad + (c - '0');
 	    }
-	    q = find_filename(string_copy(p), UNKNOWN_TYPE);
+	    q = find_filename(xstrdup(p), UNKNOWN_TYPE);
 	    q->storage = PRESERVED_FILE;
 	    if (archive_type != TDF_ARCHIVE && qo) {
 		    q->uniq = qo->uniq;
@@ -748,7 +749,7 @@ split_archive(const char *arch, filename **ret)
 		if (buffer [m] == '\n') {
 			buffer [m] = 0;
 		}
-		p = string_copy(buffer);
+		p = xstrdup(buffer);
 		if (verbose) {
 			comment(1, "... extract option %s\n", p);
 		}

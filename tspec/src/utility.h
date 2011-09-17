@@ -74,7 +74,6 @@
     and system calls.
 */
 
-extern char *string_copy(char *);
 extern char *string_concat(char *, char *);
 extern char *string_printf(char *, ...);
 extern void create_dir(char *);

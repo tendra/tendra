@@ -64,6 +64,7 @@
 #include <ctype.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -423,7 +424,7 @@ filename *
 find_filename(const char *s, enum filetype t)
 {
 	filename *p = new_filename();
-	char *b = string_copy(find_basename(s));
+	char *b = xstrdup(find_basename(s));
 	char *e = split_name(b);
 
 	/* Find the file type */
@@ -596,7 +597,7 @@ make_filename(filename *p, enum filetype t, enum file_storage s)
 			nm = find_basename(p->name);
 			if (d != NULL) {
 				IGNORE sprintf(buffer, "%s/%s", d, nm);
-				nm = string_copy(buffer);
+				nm = xstrdup(buffer);
 			}
 			b = p->bname;
 		} else if (s == TEMP_FILE && p != NULL && !verbose) {
@@ -621,7 +622,7 @@ default_lab:
 				e = file_suffix(t);
 				IGNORE sprintf(buffer, "%s/%s.%s", d,
 					       TEMP_NAME, e);
-				nm = string_copy(buffer);
+				nm = xstrdup(buffer);
 				break;
 			}
 		}
@@ -632,7 +633,7 @@ default_lab:
 		if (p == NULL || make_up_names) {
 			static int seq = 0;
 			IGNORE sprintf(buffer, MADE_UP_NAME, seq++);
-			b = string_copy(buffer);
+			b = xstrdup(buffer);
 		} else {
 			b = p->bname;
 		}
@@ -642,7 +643,7 @@ default_lab:
 		} else {
 			IGNORE sprintf(buffer, "%s/%s.%s", d, b, e);
 		}
-		nm = string_copy(buffer);
+		nm = xstrdup(buffer);
 	}
 
 	/* Fill in the fields of the result */

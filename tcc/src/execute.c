@@ -66,6 +66,7 @@
 #include <unistd.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -432,7 +433,7 @@ execute(filename *input, filename *output)
 						if (delay_signal_handling &&
 						    last_signal == 0) {
 							last_signaled_cmd =
-							    string_copy(cmd);
+							    xstrdup(cmd);
 							last_signal = sig;
 						} else {
 							handler(sig);

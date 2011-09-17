@@ -59,6 +59,7 @@
 
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -121,7 +122,7 @@ make_subset(char *nm)
 {
     object *p = search_hash(subsets, nm, no_version);
     if (p == NULL) {
-	char *api = string_copy(nm);
+	char *api = xstrdup(nm);
 	char *file = NULL;
 	char *subset = NULL;
 	char *s = strchr(api, ':');

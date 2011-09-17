@@ -59,6 +59,7 @@
 
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -219,16 +220,16 @@ read_identifier(int a, int b, int pp)
     if (p) return p->u.u_num;
     token_value = s;
     if (a == 0) {
-	if (!pp)token_value = string_copy(s);
+	if (!pp)token_value = xstrdup(s);
 	return lex_name;
     }
     if (a == '$') {
-	if (!pp)token_value = string_copy(s);
+	if (!pp)token_value = xstrdup(s);
 	return lex_variable;
     }
     if (a == '+') {
 	/* Commands */
-	if (!pp)token_value = string_copy(s);
+	if (!pp)token_value = xstrdup(s);
 	error(ERROR_SERIOUS, "Unknown command, '%s'", s);
 	return lex_name;
     }
@@ -265,7 +266,7 @@ read_number(int a, int pp)
     if (pp) {
 	token_value = s;
     } else {
-	token_value = string_copy(s);
+	token_value = xstrdup(s);
     }
     return lex_number;
 }
@@ -323,7 +324,7 @@ read_string(int pp)
     if (pp) {
 	token_value = s;
     } else {
-	token_value = string_copy(s);
+	token_value = xstrdup(s);
     }
     return lex_string;
 }
@@ -395,7 +396,7 @@ read_insert(int pp)
 	    if (!is_white(t))break;
 	    i++;
 	}
-	token_value = string_copy(s + i);
+	token_value = xstrdup(s + i);
     }
     return percents % 2 ? lex_build_Hinsert : lex_insert;
 }
@@ -441,7 +442,7 @@ read_c_comment(int pp)
     if (pp) {
 	token_value = s;
     } else {
-	token_value = string_copy(s);
+	token_value = xstrdup(s);
     }
     return lex_comment;
 }
@@ -562,7 +563,7 @@ read_pp_string(char **str, int *b)
 	*str = "???";
 	return c;
     }
-    *str = string_copy(buffer);
+    *str = xstrdup(buffer);
     c = read_pptoken(1);
     if (*b) {
 	if (c != lex_close_Hround) {
@@ -721,7 +722,7 @@ preproc(FILE *output, char *api, char *file, char *subset)
 	}
 	input = fopen(buffer, "r");
 	if (input) {
-	    nm = string_copy(buffer);
+	    nm = xstrdup(buffer);
 	    break;
 	}
     }

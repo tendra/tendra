@@ -61,6 +61,7 @@
 #include <signal.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 
 #include "config.h"
 #include "object.h"
@@ -213,9 +214,9 @@ main(int argc, char **argv)
     /* Read system variables */
     env = getenv(INPUT_ENV);
     if (env) {
-	input_dir = string_copy(env);
+	input_dir = xstrdup(env);
     } else {
-	input_dir = string_copy(INPUT_DEFAULT);
+	input_dir = xstrdup(INPUT_DEFAULT);
     }
     env = getenv(OUTPUT_ENV);
     if (env) {
@@ -226,16 +227,16 @@ main(int argc, char **argv)
     }
     env = getenv(INCLUDE_ENV);
     if (env) {
-	output_incl_dir = string_copy(env);
+	output_incl_dir = xstrdup(env);
 	output_incl_len = (int)strlen(output_incl_dir) + 1;
     }
     env = getenv(SRC_ENV);
     if (env) {
-	output_src_dir = string_copy(env);
+	output_src_dir = xstrdup(env);
 	output_src_len = (int)strlen(output_src_dir) + 1;
     }
     env = getenv(COPYRIGHT_ENV);
-    if (env)copyright = string_copy(env);
+    if (env)copyright = xstrdup(env);
 
     /* Process options */
     for (a = 1; a < argc; a++) {

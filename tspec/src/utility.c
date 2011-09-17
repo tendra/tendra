@@ -64,6 +64,7 @@
 #include <sys/stat.h>
 
 #include <shared/error.h>
+#include <shared/string.h>
 #include <shared/xalloc.h>
 
 #include "config.h"
@@ -127,23 +128,6 @@ string_alloc(int n)
 
 
 /*
-    COPY A STRING
-
-    This routine allocates space for a copy of the string s and copies
-    the string into this space.  This copy is returned.
-*/
-
-char *
-string_copy(char *s)
-{
-    int n = (int)strlen(s);
-    char *r = string_alloc(n + 1);
-    IGNORE strcpy(r, s);
-    return r;
-}
-
-
-/*
     CONCATENCATE TWO STRINGS
 
     This routine allocates space for the concatenation of the strings
@@ -176,7 +160,7 @@ string_printf(char *s, ...) /* VARARGS */
     va_start(args, s);
     IGNORE vsprintf(buffer, s, args);
     va_end(args);
-    return string_copy(buffer);
+    return xstrdup(buffer);
 }
 
 
