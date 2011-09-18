@@ -263,17 +263,17 @@ remove_startup(void)
 		}
 	} else {
 		if (startup_name) {
-			cmd_list(exec_remove);
+			cmd_list(exec_rmfile);
 			cmd_string(startup_name);
 			IGNORE execute(no_filename, no_filename);
 		}
 		if (endup_name) {
-			cmd_list(exec_remove);
+			cmd_list(exec_rmfile);
 			cmd_string(endup_name);
 			IGNORE execute(no_filename, no_filename);
 		}
 		if (tokdef_name) {
-			cmd_list(exec_remove);
+			cmd_list(exec_rmfile);
 			cmd_string(tokdef_name);
 			IGNORE execute(no_filename, no_filename);
 		}

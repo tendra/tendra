@@ -264,7 +264,7 @@ remove_junk(void)
 
 	for (p = junk; p != NULL; p = p->next) {
 		if (p->storage == OUTPUT_FILE) {
-			IGNORE remove_file(p->name);
+			IGNORE remove(p->name);	/* XXX: this should use $RMFILE */
 		}
 	}
 	junk = NULL;
@@ -339,66 +339,26 @@ execute(filename *input, filename *output)
 
 	if (cmd && strneq(cmd, "builtin/", 8)) {
 		/* Check built in commands */
-		/* XXX this is optimisation at the expense of readability; simplify */
 		cmd += 8;
-		switch (*cmd) {
-		case 'b':
-			if (streq(cmd, "build_archive")) {
-				err = build_archive(command[1], command + 2);
-				goto execute_error;
+
+		if (streq(cmd, "build_archive")) {
+			err = build_archive(command[1], command + 2);
+		} else if (streq(cmd, "split_archive")) {
+			err = split_archive(command[1], &output);
+		} else if (streq(cmd, "undef")) {
+			int sev;
+			if (dry_run) {
+				sev = ERROR_WARNING;
+			} else {
+				sev = ERROR_SERIOUS;
+				err = 1;
 			}
-			break;
-		case 'c':
-			if (streq(cmd, "cat")) {
-				err = cat_file(command[1]);
-				goto execute_error;
-			}
-			break;
-		case 'm':
-			if (streq(cmd, "mkdir")) {
-				err = make_dir(command[1]);
-				goto execute_error;
-			}
-			if (streq(cmd, "move")) {
-				err = move_file(command[1], command[2]);
-				goto execute_error;
-			}
-			break;
-		case 'r':
-			if (streq(cmd, "remove")) {
-				err = remove_recursive(command[1]);
-				goto execute_error;
-			}
-			break;
-		case 's':
-			if (streq(cmd, "split_archive")) {
-				err = split_archive(command[1], &output);
-				goto execute_error;
-			}
-			break;
-		case 't':
-			if (streq(cmd, "touch")) {
-				err = touch_file(command[1], command[2]);
-				goto execute_error;
-			}
-			break;
-		case 'u':
-			if (streq(cmd, "undef")) {
-				int sev;
-				if (dry_run) {
-					sev = ERROR_WARNING;
-				} else {
-					sev = ERROR_SERIOUS;
-					err = 1;
-				}
-				cmd = command[1];
-				error(sev, "The tool '%s' is not available", cmd);
-				goto execute_error;
-			}
-			break;
+			cmd = command[1];
+			error(sev, "The tool '%s' is not available", cmd);
+		} else {
+			error(ERROR_SERIOUS, "Built-in '%s' command not implemented", cmd);
+			err = 1;
 		}
-		error(ERROR_SERIOUS, "Built-in '%s' command not implemented", cmd);
-		err = 1;
 
 	} else if (!dry_run) {
 		/* Call system commands */
@@ -477,7 +437,7 @@ execute_error:
 		const filename *p;
 		for (p = input; p != NULL; p = p->next) {
 			if (p->storage == TEMP_FILE && p->type != BINARY_OBJ) {
-				IGNORE remove_file(p->name);
+				IGNORE remove(p->name);	/* XXX: this should use $RMFILE */
 			}
 		}
 	}

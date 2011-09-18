@@ -89,12 +89,7 @@ extern void	process_archive_opt(void);
  * procedures for building and splitting TDF archives.
  */
 
-extern int	cat_file(const char *);
-extern int	make_dir(const char *);
-extern int	move_file(const char *, const char *);
 int remove_recursive(const char *);
-int remove_file(const char *);
-extern int	touch_file(const char *, const char *);
 int is_archive(const char *);
 extern int	split_archive(const char *, filename **);
 extern int	build_archive(const char *, const char **);

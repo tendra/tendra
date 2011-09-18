@@ -15,12 +15,18 @@
 
 +DUMP_ANAL		"<PREFIX_BIN>/dump_lint"
 +DUMP_LINK		"<PREFIX_BIN>/dump_linker"
++DYN_LINK       "<PREFIX_SYS>/dyninit"
 
-+AS			"/usr/bin/as"
-+AS1			"/usr/bin/as"
-+LD			"/usr/bin/ld -O1"
-+CC			"/usr/bin/cc -O2"
-+DYN_LINK		"<PREFIX_SYS>/dyninit"
++AS             "/usr/bin/as"
++AS1            "/usr/bin/as"
++CAT            "/bin/cat"
++CC             "/usr/bin/cc -O2"
++LD             "/usr/bin/ld -O1"
++MKDIR          "/bin/mkdir"
++MOVE           "/bin/mv"
++RMDIR          "/bin/rm -r"
++RMFILE         "/bin/rm"
++TOUCH          "/usr/bin/touch"
 
 +INCL			"-Nansi:<PREFIX_TSPEC>/TenDRA/include/ansi.api"
 +STARTUP_DIR		"-I<PREFIX_STARTUP>/Bounds.ansi -I<PREFIX_STARTUP>/Modes"

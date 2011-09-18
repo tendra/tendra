@@ -204,7 +204,8 @@ list *exec_cat = NULL;
 list *exec_cc = NULL;
 list *exec_mkdir = NULL;
 list *exec_move = NULL;
-list *exec_remove = NULL;
+list *exec_rmdir = NULL;
+list *exec_rmfile = NULL;
 list *exec_touch = NULL;
 list *exec_dynlink = NULL;
 list *exec_dump_anal = NULL;
@@ -438,12 +439,13 @@ initialise_options(void)
 	exec_cpp_spec_link = make_list("builtin/undef C++_spec_linker");
 	exec_split_arch = make_list("builtin/split_archive");
 	exec_build_arch = make_list("builtin/build_archive");
-	exec_cat = make_list("builtin/cat");
+	exec_cat = make_list("builtin/undef cat");
 	exec_cc = make_list("builtin/undef system_compiler");
-	exec_mkdir = make_list("builtin/mkdir");
-	exec_move = make_list("builtin/move");
-	exec_remove = make_list("builtin/remove");
-	exec_touch = make_list("builtin/touch");
+	exec_mkdir = make_list("builtin/undef mkdir");
+	exec_move = make_list("builtin/undef move");
+	exec_rmdir = make_list("builtin/undef remove_directory");
+	exec_rmfile = make_list("builtin/undef remove_file");
+	exec_touch = make_list("builtin/undef touch");
 	exec_dynlink = make_list("builtin/undef dynamic_initialiser");
 
 	/* Initialise other options */

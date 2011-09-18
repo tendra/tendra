@@ -203,34 +203,18 @@ write_file(const char *nm, const char *rd, FILE *f)
 	return 0;
 }
 
-
 /*
- * CAT A FILE
- *
- * This routine copies the file named nm to the standard output. It returns a
- * nonzero value if an error occurs.
+ * Wrapper around remove(3), to ease debugging.
  */
-int
-cat_file(const char *nm)
+static int
+remove_file(const char *nm)
 {
-	return write_file(nm, "r", stdout);
+#if 0
+	fprintf(stderr, "tcc: trying to remove file '%s'\n", nm);
+#endif
+	return remove(nm);
 }
 
-
-/*
- * CREATE A DIRECTORY
- *
- * This routine creates a directory called nm, returning zero if it is
- * successful and -1 if not.
- */
-int
-make_dir(const char *nm)
-{
-	if (dry_run)
-		return 0;
-
-	return mkdir(nm, S_IRWXU|S_IRWXG|S_IRWXO);
-}
 
 
 /*
@@ -240,7 +224,7 @@ make_dir(const char *nm)
  * if it is successful. Normally the files will be on different filesystems, so
  * we can't always use rename.
  */
-int
+static int
 move_file(const char *from, const char *to)
 {
 	int e;
@@ -278,131 +262,6 @@ move_file(const char *from, const char *to)
 
 	return 0;
 }
-
-/*
- * Wrapper around remove(3), to ease debugging.
- */
-int
-remove_file(const char *nm)
-{
-#if 0
-	fprintf(stderr, "tcc: trying to remove file '%s'\n", nm);
-#endif
-	return remove(nm);
-}
-
-
-/*
- * This routine removes the file or directory named nm recusivly, returning
- * zero if it was successful.
- */
-int
-remove_recursive(const char *nm)
-{
-	struct stat st;
-
-	if (dry_run)
-		return 0;
-
-	if (stat(nm, &st) != 0) {
-		/* If the file didn't exist, don't worry */
-		if (errno == ENOENT)
-			return 0;
-		else {
-			error(ERROR_SERIOUS, "Can't stat '%s'", nm);
-			return 1;
-		}
-	}
-
-	if (S_ISDIR((mode_t)st.st_mode)) {
-		DIR *d;
-		struct dirent *de;
-		char buf[FILENAME_MAX];
-
-		if ((d = opendir(nm)) == NULL) {
-			error(ERROR_SERIOUS, "Can't open directory '%s'", nm);
-			return 1;
-		}
-
-		while ((de = readdir(d)) != NULL) {
-			if (strcmp(de->d_name, ".") == 0 ||
-			    strcmp(de->d_name, "..") == 0)
-				continue;
-
-			if (strlen(nm) + 1 + strlen(de->d_name) >= FILENAME_MAX) {
-				error(ERROR_SERIOUS, "Path too long");
-				return 1;
-			}
-
-			(void) sprintf(buf, "%s/%s", nm, de->d_name);
-
-			if (remove_recursive(buf))
-				return 1;
-		}
-
-		(void) closedir(d);
-
-#if 0
-		fprintf(stderr, "tcc: trying to remove directory '%s'\n", nm);
-#endif
-		if (remove(nm) != 0) {
-			error(ERROR_SERIOUS, "Can't remove directory '%s'", nm);
-			return 1;
-		}
-	} else {
-		if (remove_file(nm) != 0) {
-			/* File disappeared between stat and remove... */
-			if (errno == ENOENT)
-				return 0;
-			else {
-				error(ERROR_SERIOUS, "Can't remove '%s'", nm);
-				return 1;
-			}
-		}
-	}
-
-	return 0;
-}
-
-
-/*
- * TOUCH A FILE
- *
- * This routine touches the file called nm. It returns 0 if it is successful.
- *
- * XXX: Actually this function writes either "\200" or "EMPTY\n" into
- * XXX: the file nm.
- */
-int
-touch_file(const char *nm, const char *opt)
-{
-	FILE *f;
-	char *str;
-
-	if (dry_run)
-		return 0;
-
-	if ((f = fopen(nm, "w")) == NULL) {
-		error(ERROR_SERIOUS, "Can't touch file, '%s'", nm);
-		return 1;
-	}
-
-	/* XXX: investigate the use of this special case */
-	/* This is an empty C spec file */
-	if (opt && strcmp(opt, "-k") == 0)
-		str = "\200"; /* dec: 128 */
-	else
-		str = "EMPTY\n";
-
-	if (fwrite(str, sizeof(unsigned char), strlen(str), f) != 1) {
-		error(ERROR_SERIOUS, "Can't write to file '%s'", nm);
-		(void) fclose(f);
-		return 1;
-	}
-
-	return 0;
-}
-
 
 /*
  * FIND THE SIZE OF A FILE
