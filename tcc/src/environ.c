@@ -158,237 +158,258 @@ show_envpath(void)
 static int
 read_env_aux(const char *nm, struct hash **h)
 {
-    /* Find the environment */
-    FILE *f;
-    char *ep, *q;
-    int   line_num;
+	FILE *f;
+	char *ep, *q;
+	int   line_num;
 
 	assert(nm != NULL);
 	assert(h != NULL);
 
-    if (*nm == 0) {
-	return 1;
-    } else if (*nm == '/') {
-	f = fopen(nm, "r");
-    } else {
-	ep = envpath;
-	do {
-	    q = buffer;
-	    while (*ep && *ep != ':') *(q++) = *(ep++);
-	    *(q++) = '/';
-	    IGNORE strcpy(q, nm);
-	    f = fopen(buffer, "r");
-	} while (f == NULL && *(ep++));
-    }
-    if (f == NULL) {
-	    return 1;
-    }
+	/* Find the environment */
+	if (*nm == 0) {
+		return 1;
+	} else if (*nm == '/') {
+		f = fopen(nm, "r");
+	} else {
+		ep = envpath;
+		do {
+			q = buffer;
+			while (*ep && *ep != ':') {
+				*(q++) = *(ep++);
+			}
+			*(q++) = '/';
+			IGNORE strcpy(q, nm);
+			f = fopen(buffer, "r");
+		} while (f == NULL && *(ep++));
+	}
 
-    /*
-     * Parse each line of the environment file
-     */
-    line_num = 0;
+	if (f == NULL) {
+		return 1;
+	}
 
-    while (fgets(buffer, buffer_size, f) != NULL) {
-	char	 c;	     /* temporary character */
-	char	*p;          /* current pointer to scan buffer */
-	char	*key_start;  /* points to +, <, > start of key */
-	int	 key_length; /* length of key */
-	char	*val_start;  /* start of value associated with key */
-	char	*val_end;    /* end of value */
-	char	*esc_start;  /* start of substituion field, always a '<' */
-	char	*esc_end;    /* end of susbtitution field, always a '>' */
-	int	 esc_len;    /* number of chars to escape over */
-	const char	*sub;	     /* character substitution for escape sequences */
-	int	 count;      /* counter to stop scan at buffer_size */
-	int	 line_len;   /* length of this buffer */
-	char	*end = NULL; /* end of line */
-	char	*cmd;	     /* final command string being built */
-	list	 dummy;	     /* final command */
-	enum hash_order order;
+	/*
+	 * Parse each line of the environment file
+	 */
+	line_num = 0;
 
-	line_len = strlen(buffer);
-	count = 1;
-	p = buffer;
-	c = *p++;
-	line_num++;
+	while (fgets(buffer, buffer_size, f) != NULL) {
+		char  c;          /* temporary character */
+		char *p;          /* current pointer to scan buffer */
+		char *key_start;  /* points to +, <, > start of key */
+		int   key_length; /* length of key */
+		char *val_start;  /* start of value associated with key */
+		char *val_end;    /* end of value */
+		int   count;      /* counter to stop scan at buffer_size */
+		int   line_len;   /* length of this buffer */
+		char *end = NULL; /* end of line */
 
-	if (c == '<' || c == '>' || c == '+' || c == '?') {
-	    key_start = (p - 1);
-	    key_length = 0;
-	    while (c = *p++, is_alphanum(c)) {
-		if (count++ == buffer_size)
-		    error(ERROR_FATAL, "%s: line %d: Exceeded max line size", nm,
-			  line_num);
-		key_length++;
-	    }
-
-	    /* mark off key from val */
-	    *(p - 1) = '\0';
-
-	    /* skip over spacing between key and value */
-	    while (c == ' ' || c == '\t') {
+		line_len = strlen(buffer);
+		count = 1;
+		p = buffer;
 		c = *p++;
-		if (count++ == buffer_size) {
-		    error(ERROR_FATAL, "%s: line %d: Exceeded max line size", nm,
-			  line_num);
-		}
-	    }
+		line_num++;
 
-	    /* sanity check */
-	    if (c == '\0') {
-		error(ERROR_WARNING, "%s: line %d: No value assigned to key %s",
-		      nm, line_num, key_start);
-		continue;
-	    }
-
-	    /* All values assigned to a key must be in quotes */
-	    if (c != '"') {
-		error(ERROR_WARNING, "%s: line %d: Value assigned to key %s"
-		       " must be quoted", nm, line_num, key_start);
-		continue;
-	    }
-
-	    val_start = p;
-
-	    /* remove leading quotation mark from val */
-	    *(val_start - 1) = ' ';
-
-	    /* read the value, until the matching close quote */
-	    while (c = *p++, (c != '"' && c != '\n' && c != '\0')) {
-		if (count++ == buffer_size) {
-		    error(ERROR_FATAL, "%s: line %d: Exceeded max line size", nm,
-			  line_num);
+		/* Only process lines beginning with these characters */
+		/* TODO: do we really want to silently ignore other non-empty lines? */
+		if (c != '<' && c != '>' && c != '+' && c != '?') {
+			continue;
 		}
 
-		if (c == '<') {
-		    int sub_len; /* length of substitution */
-		    int diff;       /* difference between two lengths */
-		    int delta;      /* direction of growth */
-		    int cnt;        /* counter */
-		    int shift_max;  /* amount to move */
-		    char *pivot;    /* where to start shifting */
-
-		    /* mark start of <> sequence */
-		    esc_start = (p - 1);
-		    esc_len = 2; /* accounts for <, > */
-
-		    /* expand quote */
-		    while (c = *p++, c != '>') {
-			esc_len++;
+		key_start = p - 1;
+		key_length = 0;
+		while (c = *p++, is_alphanum(c)) {
 			if (count++ == buffer_size) {
-			    error(ERROR_FATAL, "%s: line %d: Exceeded max line size",
+				error(ERROR_FATAL, "%s: line %d: Exceeded max line size",
+					nm, line_num);
+			}
+			key_length++;
+		}
+
+		/* mark off key from val */
+		*(p - 1) = '\0';
+
+		/* skip over spacing between key and value */
+		/* TODO: strcspn */
+		while (c == ' ' || c == '\t') {
+			c = *p++;
+			if (count++ == buffer_size) {
+				error(ERROR_FATAL, "%s: line %d: Exceeded max line size",
+					nm, line_num);
+			}
+		}
+
+		/* sanity check */
+		if (c == '\0') {
+			error(ERROR_WARNING, "%s: line %d: No value assigned to key %s",
+			  nm, line_num, key_start);
+			continue;
+		}
+
+		/* All values assigned to a key must be in quotes */
+		if (c != '"') {
+			error(ERROR_WARNING, "%s: line %d: Value assigned to key %s must be quoted",
+				nm, line_num, key_start);
+			continue;
+		}
+
+		val_start = p;
+
+		/* remove leading quotation mark from val */
+		*(val_start - 1) = ' ';
+
+		/* read the value, until the matching close quote */
+		while (c = *p++, (c != '"' && c != '\n' && c != '\0')) {
+			int   diff;      /* difference between two lengths */
+			char *esc_start; /* start of substituion field, always a '<' */
+			char *esc_end;   /* end of susbtitution field, always a '>' */
+			int   esc_len;   /* number of chars to escape over */
+
+			if (count++ == buffer_size) {
+				error(ERROR_FATAL, "%s: line %d: Exceeded max line size",
 				  nm, line_num);
 			}
 
-			if (c == '\n' || c == '\0') {
-			    error(ERROR_FATAL, "%s: line %d: Unmatched escape"
-				   " sequence, missing >", nm, line_num);
+			if (c != '<') {
+				continue;
 			}
 
-			if (c == '<') {
-			    error(ERROR_FATAL, "%s: line %d: Nested < > escape "
-				  " sequences prohibited",
-				  nm, line_num);
-			    continue;
+			/* mark start of <> sequence */
+			esc_start = p - 1;
+			esc_len   = 2; /* accounts for <, > */
+
+			/* expand quote */
+			while (c = *p++, c != '>') {
+				esc_len++;
+
+				if (count++ == buffer_size) {
+					error(ERROR_FATAL, "%s: line %d: Exceeded max line size",
+					  nm, line_num);
+				}
+
+				if (c == '\n' || c == '\0') {
+					error(ERROR_FATAL, "%s: line %d: Unmatched escape sequence, missing >",
+					  nm, line_num);
+				}
+
+				if (c == '<') {
+					error(ERROR_FATAL, "%s: line %d: Nested < > escape sequences prohibited",
+					  nm, line_num);
+					continue;
+				}
 			}
-		    }
 
-		    /* mark end of <> sequence */
-		    esc_end = (p - 1);
+			/* mark end of <> sequence */
+			esc_end = p - 1;
 
-		    /*
-		     * find a substitution; all error handling done in function
-		     */
-		    sub = envvar_dereference(*h, esc_start + 1, esc_end, nm, line_num);
+			{
+				const char *sub; /* character substitution for escape sequences */
+				int   sub_len;   /* length of substitution */
+				int   shift_max; /* amount to move */
+				char *pivot;     /* where to start shifting */
+				int   delta;     /* direction of growth */
 
-		    /* find length of substitution */
-		    sub_len = strlen(sub);
+				/*
+				 * find a substitution; all error handling done in function
+				 */
+				sub = envvar_dereference(*h, esc_start + 1, esc_end, nm, line_num);
+	
+				/* find length of substitution */
+				sub_len = strlen(sub);
+	
+				/* do we grow or shrink */
+				diff = sub_len - esc_len;
+	
+				/* find the number of characters that must be moved */
+				shift_max = strlen(esc_end);
+	
+				if (!end) {
+					end = buffer + line_len;
+				}
+	
+				if (diff > 0) {
+					/* grow */
+					pivot = end;
+					delta = -1;
+				} else {
+					/* shrink */
+					delta = 1;
+					pivot = esc_end + 1;
+				}
+	
+				/* adjust end pointers and length counters */
+				end      += diff;
+				line_len += diff;
+				count    += diff;
+				if (count == buffer_size) {
+					error(ERROR_FATAL, "%s: line %d: Exceeded max line size",
+					  nm, line_num);
+				}
+	
+				/* TODO: memmove and memcpy instead */
+				{
+					int cnt;
 
-		    /* do we grow or shrink */
-		    diff = (sub_len - esc_len);
+					/* make room for the substitution */
+					for (cnt = 0; cnt < shift_max; cnt++){
+						pivot[cnt * delta + diff] = pivot[cnt * delta];
+					}
+	
+					/* perform subsitution on resized line */
+					for (cnt = 0; cnt < sub_len; cnt++) {
+						esc_start[cnt] = sub[cnt];
+					}
+				}
+			}
 
-		    /* find the number of characters that must be moved */
-		    shift_max = strlen(esc_end);
+			/* advance our scanning pointer */
+			p = esc_end + diff;
+		}
 
-		    if (!end) {
-			end = (buffer + line_len);
-		    }
+		/* did we end the val scan on new line or EOF? */
+		if (c == '\n' || c == '\0') {
+			error(ERROR_WARNING, "%s: line %d: Value assigned to key %s"
+			   " not terminated with end quote",
+			   nm, line_num, key_start);
+			continue;
+		}
 
-		    if (diff > 0) {
-			/* grow */
-			pivot = end;
-			delta = -1;
-		    } else {
-			/* shrink */
-			delta = 1;
-			pivot = esc_end + 1;
-		    }
+		/* mark end of the value */
+		val_end = p - 1;
 
-		    /* adjust end pointers and length counters */
-		    end += diff;
-		    line_len += diff;
-		    count += diff;
-		    if (count == buffer_size) {
-			error(ERROR_FATAL, "%s: line %d: Exceeded max line size",
-			      nm, line_num);
-		    }
+		/* set close quote to null */
+		*val_end = '\0';
 
-		    /* make room for the substitution */
-		    for (cnt = 0; cnt < shift_max; cnt++){
-			*(pivot + (cnt * delta) + diff) =
-			    *(pivot + (cnt * delta));
-		    }
+		{
+			char *cmd;
+			enum hash_order order;
 
-		    /* perform subsitution on resized line */
-		    for (cnt = 0; cnt < sub_len; cnt++) {
-			*(esc_start + cnt) = sub[cnt];
-		    }
+			/* build the command string */
+			cmd = string_append(key_start, val_start, ' ');
 
-		    /* advance our scanning pointer */
-		    p = esc_end + diff;
-		} /* if escape '<' sequence */
-	    } /* while *p != "" */
+			order = *key_start;
+			key_start++;
+			val_start = cmd + key_length + 1 + 1;
 
-	    /* did we end the val scan on new line or EOF? */
-	    if (c == '\n' || c == '\0') {
-		error(ERROR_WARNING, "%s: line %d: Value assigned to key %s"
-		       " not terminated with end quote",
-		       nm, line_num, key_start);
-		continue;
-	    }
+			/*
+			 * If the key/value pair is a tccenv variable, it's a finished
+			 * command, and should be executed.
+			 */
+			if (~envvar_flags(*h, key_start) & HASH_USR) {
+				list dummy;
 
-	    /* mark end of the value */
-	    val_end = (p - 1);
+				/* process the command */
+				dummy.item.s = cmd;
+				dummy.next = NULL;
+				process_options(&dummy, environ_optmap, 1, HASH_TCCENV);
+			}
 
-	    /* set close quote to null */
-	    *(val_end) = '\0';
+			/* update envvars with new key/value pair*/
+			envvar_set(h, key_start, val_start, order, HASH_TCCENV);
+		}
+	}
 
-	    /* build the command string */
-	    cmd = string_append(key_start, val_start, ' ');
-
-		order = *key_start;
-	    key_start++;
-	    val_start = cmd + key_length + 1 + 1;
-
-	    /*
-	     * If the key/value pair is a tccenv variable, it's a finished
-	     * command, and should be executed.
-	     */
-	    if (~envvar_flags(*h, key_start) & HASH_USR) {
-		/* process the command */
-		dummy.item.s = cmd;
-		dummy.next = NULL;
-		process_options(&dummy, environ_optmap, 1, HASH_TCCENV);
-	    }
-
-	    /* update envvars with new key/value pair*/
-	    envvar_set(h, key_start, val_start, order, HASH_TCCENV);
-	} /* if the line is a +, >, < env action command */
-    } /* for each line in the env file */
-
-    return 0;
-} /* read_env_aux() */
+	return 0;
+}
 
 
 /*
