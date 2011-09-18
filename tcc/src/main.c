@@ -254,7 +254,7 @@ main(int argc, char **argv)
 	s = getenv(TCCOPT_VAR);
 	if (s != NULL) {
 		opts = make_list(s);
-		process_options(opts, main_optmap, 0, HASH_SYSENV);
+		process_options(opts, main_optmap, HASH_SYSENV);
 		free_list(opts);
 		opts = NULL;
 	}
@@ -263,7 +263,7 @@ main(int argc, char **argv)
 	for (a = argc - 1; a >= 1; a--) {
 		opts = insert_item(argv[a], opts);
 	}
-	process_options(opts, main_optmap, 0, HASH_CLI);
+	process_options(opts, main_optmap, HASH_CLI);
 	update_options();
 	reconcile_envopts(envvars);
 	free_list(opts);

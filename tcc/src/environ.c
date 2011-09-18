@@ -398,9 +398,9 @@ read_env_aux(const char *nm, struct hash **h)
 				list dummy;
 
 				/* process the command */
-				dummy.item.s = cmd;
+				dummy.s = cmd;
 				dummy.next = NULL;
-				process_options(&dummy, environ_optmap, 1, HASH_TCCENV);
+				process_options(&dummy, environ_optmap, HASH_TCCENV);
 			}
 
 			/* update envvars with new key/value pair*/

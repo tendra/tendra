@@ -119,8 +119,6 @@ boolean tool_chain = 0;
 boolean tool_chain_environ = 0;
 boolean verbose = 0;
 boolean warnings = 1;
-/* Should the cmd line args be rank sorted, or taken as is? */
-boolean no_shuffle = 0;
 
 
 /*

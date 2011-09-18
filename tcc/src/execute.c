@@ -177,7 +177,7 @@ void
 cmd_list(const list *p)
 {
 	for (; p != NULL; p = p->next) {
-		cmd_string(p->item.s);
+		cmd_string(p->s);
 	}
 }
 

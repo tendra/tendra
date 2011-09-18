@@ -481,7 +481,7 @@ process_archive_opt(void)
 {
 	list *p;
 	for (p = opt_joiner; p != NULL; p = p->next) {
-		const char *opt = p->item.s;
+		const char *opt = p->s;
 		if (strcmp(opt, "-copy") == 0 || strcmp(opt, "-c") == 0) {
 			archive_links = 0;
 			link_specs = 0;
@@ -787,7 +787,7 @@ archive_error:
     }
     *ret = output;
     if (opts) {
-	    process_options(opts, main_optmap, 0, HASH_CLI);
+	    process_options(opts, main_optmap, HASH_CLI);
 	    opt_archive = add_list(opt_archive, opts);
     }
     if (emsg) {

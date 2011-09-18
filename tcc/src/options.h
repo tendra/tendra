@@ -79,7 +79,6 @@ struct optmap {
 	char *in;
 	char *out;
 	char *explain;
-	int   rank;
 };
 
 
@@ -101,7 +100,7 @@ extern struct optmap environ_optmap[];
  * files.
  */
 
-extern void process_options(list *, struct optmap *, int, enum hash_precedence);
+extern void process_options(list *, struct optmap *, enum hash_precedence);
 
 
 /*

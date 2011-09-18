@@ -63,31 +63,12 @@
 
 
 /*
- * A ranked instruction. These structs are used to track commands issued
- * according to command line options. Since the commands must be sorted, a
- * priority ranking field is used.
- */
-typedef struct {
-	const char *cmd;
-	int  rank;
-} ordered_node;
-
-
-/*
  * TYPE REPRESENTING A LIST OF STRINGS
  *
- * A list consists of a list of strings linked via their next field. The
- * string is either char * or encapsulated as an ordered_node.
+ * A list consists of a list of strings linked via their next field.
  */
 typedef struct list_t {
-	union {
-		/* A string */
-		const char *s;
-
-		/* An ordered node */
-		ordered_node *on;
-	} item;
-
+	const char *s;
 	struct list_t *next;
 } list;
 
@@ -95,7 +76,6 @@ typedef struct list_t {
 list *add_list(list *, list *);
 list *add_item(list *, const char *);
 list *insert_item(const char *, list *);
-list *insert_inorder(ordered_node*, list*);
 list *make_list(const char *);
 void free_list(list *);
 

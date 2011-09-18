@@ -153,7 +153,7 @@ add_item(list *p, const char *s)
 	list *q;
 
 	q = new_list();
-	q->item.s = s;
+	q->s = s;
 	q->next = NULL;
 
 	return add_list(p, q);
@@ -174,46 +174,10 @@ insert_item(const char *s, list *p)
 	list *q;
 
 	q = new_list();
-	q->item.s = s;
+	q->s = s;
 	q->next = NULL;
 
 	return add_list(q, p);
-}
-
-
-/*
- * Insert a command item in ascending order, based on their rank. Items with a
- * lower rank value are executed first.
- */
-list*
-insert_inorder(ordered_node* indata, list *inlst)
-{
-	list *head = inlst;
-	list *curr = inlst;
-	list *newlst  = new_list();
-	list *prev = newlst;
-
-	newlst->item.on = indata;
-	newlst->next = NULL;
-
-	if (inlst == NULL)
-	        return newlst;
-
-	if (indata->rank < curr->item.on->rank) {
-	        newlst->next = inlst;
-	        return newlst;
-	}
-
-	while (curr != NULL &&
-	           curr->item.on->rank <= indata->rank) {
-	        prev = curr;
-	        curr = curr->next;
-	}
-
-	prev->next = newlst;
-	newlst->next = curr;
-
-	return head;
 }
 
 
