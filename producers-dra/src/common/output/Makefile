@@ -1,7 +1,7 @@
 # $Id$
 
 #${SRC4}/tdf1.h : ${SPEC} ${SRC2B}/tdf1.h
-#   @${REMOVE} ${SRC4}/tdf1.h
+#   @${RMFILE} ${SRC4}/tdf1.h
 #   ${MAKE_TDF} ${SPEC} ${SRC2B}/tdf1.h ${SRC4}/tdf1.h
 
 .include "Makefile.inc"

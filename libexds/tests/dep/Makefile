@@ -6,10 +6,10 @@ TARGETS = bistream.o bitvec.o bostream.o common.o cstring-list.o \
 
 CFLAGS = -I ../../include
 
-REMOVE = rm -f
+RMFILE = rm -f
 
 test: $(TARGETS)
 
 clean:
-	${REMOVE} ${TARGETS}
+	${RMFILE} ${TARGETS}
 

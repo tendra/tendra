@@ -71,7 +71,7 @@ ${OBJ_SDIR}/cpp.tl: ${SYS_FILES}
 all:: ${OBJ_SDIR}/cpp.tl
 
 clean::
-	${REMOVE} ${SYS_FILES} ${OBJ_SDIR}/cpp.tl
+	${RMFILE} ${SYS_FILES} ${OBJ_SDIR}/cpp.tl
 
 install::
 

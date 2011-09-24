@@ -71,7 +71,7 @@ all:: ${OBJ_DIR}/env/${env:R}
 
 
 clean::
-	${REMOVE} ${ENVFILE:C/^/${OBJ_DIR}\/env\//}
+	${RMFILE} ${ENVFILE:C/^/${OBJ_DIR}\/env\//}
 
 .if defined(ENVCOMMON)
 . for env in ${ENVFILE}

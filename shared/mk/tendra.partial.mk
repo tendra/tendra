@@ -76,7 +76,7 @@ all::
 
 
 clean::
-	${REMOVE} ${OBJ_SDIR}/_partial.o
+	${RMFILE} ${OBJ_SDIR}/_partial.o
 
 
 install::

@@ -1,6 +1,6 @@
 # $Id$
 
-REMOVE=rm -f
+RMFILE=rm -f
 INSTALL=install
 
 PREFIX?=/usr/local
@@ -12,7 +12,7 @@ SIDOPTS= -s no-terminals -s no-numeric-terminals
 all: mcalc
 
 clean:
-	${REMOVE} lex.yy.o lex.yy.c rpn.c rpn.h rpn.o infix.c infix.h infix.o mcalc
+	${RMFILE} lex.yy.o lex.yy.c rpn.c rpn.h rpn.o infix.c infix.h infix.o mcalc
 
 install:
 	${INSTALL} -m 755 -d ${EXAMPLEDIR}/sid/mcalc

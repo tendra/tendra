@@ -45,5 +45,5 @@ EXEC_LIB=	${PREFIX_SYS}
 
 
 clean::
-	${REMOVE} ${OBJS}
+	${RMFILE} ${OBJS}
 

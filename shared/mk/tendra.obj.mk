@@ -48,7 +48,7 @@ all:: ${OBJS}
 
 
 clean::
-	${REMOVE} ${OBJS}
+	${RMFILE} ${OBJS}
 
 
 install::

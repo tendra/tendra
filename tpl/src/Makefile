@@ -49,31 +49,31 @@ SYNTAX+=	syntax.sid
 # ${SRC}/decodings.h ${SRC}/encodings.h ${SRC}/enc_nos.h ${SRC}/fnsfile.c
 #
 #consfile.c : ${TEMPL}/consfile.c ${SPEC}
-#	@${REMOVE} ${.TARGET}
+#	@${RMFILE} ${.TARGET}
 #	${MAKE_TDF} ${SPEC} ${TEMPL}/consfile.c |\
 #		${SORT} > ${.CURDIR}/${.TARGET}
 #
 #consfile.h : ${TEMPL}/consfile.h ${SPEC}
-#	@${REMOVE} ${.TARGET}
+#	@${RMFILE} ${.TARGET}
 #	${MAKE_TDF} ${SPEC} ${TEMPL}/consfile.h ${.CURDIR}/${.TARGET}
 #
 #decodings.c : ${TEMPL}/decodings.c ${SPEC}
-#	@${REMOVE} ${.TARGET}
+#	@${RMFILE} ${.TARGET}
 #	${MAKE_TDF} ${SPEC} ${TEMPL}/decodings.c ${.CURDIR}/${.TARGET}
 #
 #decodings.h : ${TEMPL}/decodings.h ${SPEC}
-#	@${REMOVE} ${.TARGET}
+#	@${RMFILE} ${.TARGET}
 #	${MAKE_TDF} ${SPEC} ${TEMPL}/decodings.h ${.CURDIR}/${.TARGET}
 #
 #encodings.h : ${TEMPL}/encodings.h ${SPEC}
-#	@${REMOVE} ${.TARGET}
+#	@${RMFILE} ${.TARGET}
 #	${MAKE_TDF} ${SPEC} ${TEMPL}/encodings.h ${.CURDIR}/${.TARGET}
 #
 #enc_nos.h : ${TEMPL}/enc_nos.h ${SPEC}
-#	@${REMOVE} ${.TARGET}
+#	@${RMFILE} ${.TARGET}
 #	${MAKE_TDF} ${SPEC} ${TEMPL}/enc_nos.h ${.CURDIR}/${.TARGET}
 #
 #fnsfile.c : ${TEMPL}/fnsfile.c ${SPEC}
-#	@${REMOVE} ${.TARGET}
+#	@${RMFILE} ${.TARGET}
 #	${MAKE_TDF} ${SPEC} ${TEMPL}/fnsfile.c ${.CURDIR}/${.TARGET}
 

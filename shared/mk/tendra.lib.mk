@@ -40,7 +40,7 @@ all:: ${OBJ_SDIR}/lib${LIB}.a
 
 
 clean::
-	${REMOVE} ${OBJ_SDIR}/lib${LIB}.a
+	${RMFILE} ${OBJ_SDIR}/lib${LIB}.a
 
 
 install:: all

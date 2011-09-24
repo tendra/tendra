@@ -88,7 +88,7 @@ all:: ${OBJ_SDIR}/apis/${api}.tl
 
 
 clean::
-	${REMOVE} ${OBJ_SDIR}/apis/${api}.tl ${APIOBJS${api}}
+	${RMFILE} ${OBJ_SDIR}/apis/${api}.tl ${APIOBJS${api}}
 
 
 install:: ${OBJ_SDIR}/apis/${api}.tl

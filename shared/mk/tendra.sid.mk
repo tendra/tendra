@@ -29,7 +29,7 @@ SIDSPLIT?=	@
 ${src:R}${SIDSPLIT}.c ${src:R}.h: ${src} ${ACTIONS:M${src:R}.act}
 	@${ECHO} "==> Translating ${WRKDIR}/${src}"
 	${SID} ${SIDOPTS} ${.ALLSRC} ${src:R}${SIDSPLIT}.c ${src:R}.h \
-		|| ( ${REMOVE} ${src:R}${SIDSPLIT:S/@/*/}.c ${src:R}.h; ${EXIT} 1 )
+		|| ( ${RMFILE} ${src:R}${SIDSPLIT:S/@/*/}.c ${src:R}.h; ${EXIT} 1 )
 .endfor
 
 
@@ -45,7 +45,7 @@ regen:: ${src:R}${SIDSPLIT}.c ${src:R}.h
 
 regen-clean::
 .for src in ${SYNTAX}
-	${REMOVE} ${src:R}${SIDSPLIT:S/@/*/}.c ${src:R}.h
+	${RMFILE} ${src:R}${SIDSPLIT:S/@/*/}.c ${src:R}.h
 .endfor
 
 

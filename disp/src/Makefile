@@ -34,13 +34,13 @@ PROG=	disp
 #auto : ${SRC}/tdf.c ${SRC}/tdf.h
 #
 #${SRC}/tdf.c : ${SPEC} ${SRC1}/tdf.c ${SRC1}/tdf.sed
-#	@${REMOVE} ${SRC}/tdf.c
+#	@${RMFILE} ${SRC}/tdf.c
 #	${MAKE_TDF} ${SPEC} ${SRC1}/tdf.c | ${SED} -f ${SRC1}/tdf.sed > ${SRC}/tdf.c
 #
 #${SRC}/tdf.h : ${SPEC} ${SRC1}/tdf.h
-#	@${REMOVE} ${SRC}/tdf.h
+#	@${RMFILE} ${SRC}/tdf.h
 #	${MAKE_TDF} ${SPEC} ${SRC1}/tdf.h ${SRC}/tdf.h
 #
 #auto_clobber :
-#	${REMOVE} ${SRC}/tdf.c ${SRC}/tdf.h
+#	${RMFILE} ${SRC}/tdf.c ${SRC}/tdf.h
 

@@ -55,7 +55,7 @@ CALC_GEN_PRINT+= ${CALC_OUT_PRINT}/print_def.h
 ${CALC_GEN_C}: ${ALGEBRA_C} ${TEMPLATES:S,^,${CALC_IN_TEMPL}/,}
 	@${ECHO} "==> Translating ${ALGEBRA_C:S,^,${WRKDIR}/,g} implementations"
 	${CALCULUS} ${CALCFLAGS} ${ALGEBRA_C} ${CALC_OUT_C} \
-		|| ( ${REMOVE} ${CALC_GEN_C}; ${EXIT} 1 )
+		|| ( ${RMFILE} ${CALC_GEN_C}; ${EXIT} 1 )
 . for templ in ${TEMPLATES}
 	${CALCULUS} ${ALGEBRA_C} -T${CALC_IN_TEMPL}/${templ} ${CALC_OUT_C}/${templ}
 . endfor
@@ -65,7 +65,7 @@ ${CALC_GEN_C}: ${ALGEBRA_C} ${TEMPLATES:S,^,${CALC_IN_TEMPL}/,}
 ${CALC_GEN_TOK}: ${ALGEBRA_TOK} ${TEMPLATES:S,^,${CALC_IN_TEMPL}/,}
 	@${ECHO} "==> Translating ${ALGEBRA_TOK:S,^,${WRKDIR}/,g} token definitions"
 	${CALCULUS} ${CALCFLAGS} -t ${ALGEBRA_TOK} ${CALC_OUT_TOK} \
-		|| ( ${REMOVE} ${CALC_GEN_TOK}; ${EXIT} 1 )
+		|| ( ${RMFILE} ${CALC_GEN_TOK}; ${EXIT} 1 )
 . for templ in ${TEMPLATES}
 	${CALCULUS} -t ${ALGEBRA_TOK} -T${CALC_IN_TEMPL}/${templ} ${CALC_OUT_TOK}/${templ}
 . endfor
@@ -75,14 +75,14 @@ ${CALC_GEN_TOK}: ${ALGEBRA_TOK} ${TEMPLATES:S,^,${CALC_IN_TEMPL}/,}
 ${CALC_GEN_DISK}: ${ALGEBRA_DISK}
 	@${ECHO} "==> Translating ${ALGEBRA_DISK:S,^,${WRKDIR}/,g} disk I/O"
 	${CALCULUS} ${CALCFLAGS} -d ${ALGEBRA_DISK} ${CALC_OUT_DISK} \
-		|| ( ${REMOVE} ${CALC_GEN_DISK}; ${EXIT} 1 )
+		|| ( ${RMFILE} ${CALC_GEN_DISK}; ${EXIT} 1 )
 .endif
 
 .if defined(ALGEBRA_PRINT)
 ${CALC_GEN_PRINT}: ${ALGEBRA_PRINT}
 	@${ECHO} "==> Translating ${ALGEBRA_PRINT:S,^,${WRKDIR}/,g} pretty printer"
 	${CALCULUS} ${CALCFLAGS} -p ${ALGEBRA_PRINT} ${CALC_OUT_PRINT} \
-		|| ( ${REMOVE} ${CALC_GEN_PRINT}; ${EXIT} 1 )
+		|| ( ${RMFILE} ${CALC_GEN_PRINT}; ${EXIT} 1 )
 .endif
 
 
@@ -108,16 +108,16 @@ regen:: ${CALC_GEN_PRINT:M*/print_def.h}
 
 regen-clean::
 .if defined(ALGEBRA_C)
-	${REMOVE} ${CALC_OUT_C}/*.h
+	${RMFILE} ${CALC_OUT_C}/*.h
 .endif
 .if defined(ALGEBRA_TOK)
-	${REMOVE} ${CALC_OUT_TOK}/*.h
+	${RMFILE} ${CALC_OUT_TOK}/*.h
 .endif
 .if defined(ALGEBRA_DISK)
-	${REMOVE} ${CALC_OUT_DISK}/read_def.h ${CALC_OUT_DISK}/write_def.h
+	${RMFILE} ${CALC_OUT_DISK}/read_def.h ${CALC_OUT_DISK}/write_def.h
 .endif
 .if defined(ALGEBRA_PRINT)
-	${REMOVE} ${CALC_OUT_PRINT}/print_def.h
+	${RMFILE} ${CALC_OUT_PRINT}/print_def.h
 .endif
 
 

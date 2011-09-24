@@ -55,9 +55,9 @@ all:: ${OBJ_SDIR}/${WRAPPER}
 
 
 clean::
-	${REMOVE} ${OBJ_SDIR}/${PROG} ${PROG}.core core
+	${RMFILE} ${OBJ_SDIR}/${PROG} ${PROG}.core core
 .if defined(WRAPPER)
-	${REMOVE} ${OBJ_SDIR}/${WRAPPER}
+	${RMFILE} ${OBJ_SDIR}/${WRAPPER}
 .endif
 
 

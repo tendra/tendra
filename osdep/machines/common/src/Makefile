@@ -6,7 +6,7 @@ BASE=/u/g/release/Source
 SRC=${BASE}/src/lib/machines/common/src
 
 TCCOPTS=-Ysystem
-REMOVE=rm -f
+RMFILE=rm -f
 MOVE=mv
 COPY=cp
 ECHO=echo
@@ -19,7 +19,7 @@ crtp_n.o : ${SRC}/crtp_n.tpl
 	${TCC_IN_SITU} -Ypl_tdf -c ${SRC}/crtp_n.tpl
 
 clean :
-	${REMOVE} core
+	${RMFILE} core
 
 clobber : clean
-	${REMOVE} crtp_n.o
+	${RMFILE} crtp_n.o

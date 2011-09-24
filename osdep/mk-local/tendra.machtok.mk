@@ -142,11 +142,11 @@ all:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl
 
 
 clean::
-	${REMOVE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
-	${REMOVE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/map_toks.j
-	${REMOVE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
-	${REMOVE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
-	${REMOVE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
+	${RMFILE} ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/target_tok.tl
+	${RMFILE} ${OBJ_SDIR}/dep_toks.j ${OBJ_SDIR}/c_toks.j ${OBJ_SDIR}/map_toks.j
+	${RMFILE} ${OBJ_SDIR}/sys.j ${OBJ_SDIR}/sys_toks.j
+	${RMFILE} ${OBJ_SDIR}/except_toks.j ${OBJ_SDIR}/except_toks.t
+	${RMFILE} ${OBJ_SDIR}/var_toks.j ${OBJ_SDIR}/var_toks.t
 
 
 install:: ${OBJ_SDIR}/c.tl ${OBJ_DIR}/src/c.tl ${OBJ_DIR}/src/target_tok.tl

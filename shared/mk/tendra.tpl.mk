@@ -36,7 +36,7 @@ all:: ${CAPSULES}
 
 
 clean::
-	${REMOVE} ${CAPSULES}
+	${RMFILE} ${CAPSULES}
 
 
 install::

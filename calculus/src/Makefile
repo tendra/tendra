@@ -46,14 +46,14 @@ ALGEBRA_PRINT+=	calculus.alg
 
 
 #lexer.h: lexer.lxi
-#	@${REMOVE} lexer.h
+#	@${RMFILE} lexer.h
 #	${LEXI} lexer.lxi lexer.h
 #
 #keyword.h: lexer.lxi
-#	@${REMOVE} keyword.h
+#	@${RMFILE} keyword.h
 #	${LEXI} -k lexer.lxi keyword.h
 #
 #auto_clobber:
-#	${REMOVE} ${DISK_OUT}
-#	${REMOVE} ${LEXI_OUT}
+#	${RMFILE} ${DISK_OUT}
+#	${RMFILE} ${LEXI_OUT}
 

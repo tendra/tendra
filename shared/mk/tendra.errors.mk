@@ -18,17 +18,17 @@ _TENDRA_WORK_ERRORS_MK_=1
 ${ERROR_DECL}: ${ERRORS}
 	@${ECHO} "==> Translating ${WRKDIR}/${ERROR_DECL}"
 	${CAT} ${.ALLSRC} | ${MAKE_ERR} > ${.TARGET} \
-		|| ( ${REMOVE} ${.TARGET}; ${EXIT} 1 )
+		|| ( ${RMFILE} ${.TARGET}; ${EXIT} 1 )
 
 ${ERROR_DEFN}: ${ERRORS}
 	@${ECHO} "==> Translating ${WRKDIR}/${ERROR_DEFN}"
 	${CAT} ${.ALLSRC} | ${MAKE_ERR} -d > ${.TARGET} \
-		|| ( ${REMOVE} ${.TARGET}; ${EXIT} 1 )
+		|| ( ${RMFILE} ${.TARGET}; ${EXIT} 1 )
 
 ${ERROR_USAGE}: ${ERRORS}
 	@${ECHO} "==> Translating ${WRKDIR}/${ERROR_USAGE}"
 	${CAT} ${.ALLSRC} | ${MAKE_ERR} -u > ${.TARGET} \
-		|| ( ${REMOVE} ${.TARGET}; ${EXIT} 1 )
+		|| ( ${RMFILE} ${.TARGET}; ${EXIT} 1 )
 
 
 
@@ -40,7 +40,7 @@ regen:: ${ERROR_DECL} ${ERROR_DEFN} ${ERROR_USAGE}
 
 
 regen-clean::
-	${REMOVE} ${ERROR_DECL} ${ERROR_DEFN} ${ERROR_USAGE}
+	${RMFILE} ${ERROR_DECL} ${ERROR_DEFN} ${ERROR_USAGE}
 
 
 install::

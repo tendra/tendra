@@ -173,7 +173,7 @@ doc:: ${DOC_IMGDEPS:C/^/${OBJ_DDIR}\/${DOC}\//}
 
 
 clean::
-	${REMOVE} -r ${OBJ_DDIR}/${DOC}
+	${RMDIR} ${OBJ_DDIR}/${DOC}
 
 
 install-doc:: doc

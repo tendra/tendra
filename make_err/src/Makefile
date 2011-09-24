@@ -40,13 +40,13 @@ ALGEBRA_TOK+=	errors.alg
 #auto : ${LEXI_OUT}
 #
 #${SRC}/lexer.h : ${SRC}/lexer.lxi
-#	@${REMOVE} ${SRC}/lexer.h
+#	@${RMFILE} ${SRC}/lexer.h
 #	${LEXI} ${SRC}/lexer.lxi ${SRC}/lexer.h
 #
 #${SRC}/keyword.h : ${SRC}/lexer.lxi
-#	@${REMOVE} ${SRC}/keyword.h
+#	@${RMFILE} ${SRC}/keyword.h
 #	${LEXI} -k ${SRC}/lexer.lxi ${SRC}/keyword.h
 #
 #auto_clobber :
-#	${REMOVE} ${SID_OUT} ${LEXI_OUT}
+#	${RMFILE} ${SID_OUT} ${LEXI_OUT}
 
