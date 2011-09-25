@@ -1,0 +1,34 @@
+/* $Id$ */
+
++TDFC			"<PREFIX_LIBEXEC>/tdfc2"
++TDFCPP			"<PREFIX_LIBEXEC>/tdfc2 -E"
++SPEC_LINK		"<PREFIX_LIBEXEC>/tdfc2 -S"
++TCPPLUS		"<PREFIX_LIBEXEC>/tcpplus"
++TCPPLUSPP		"<PREFIX_LIBEXEC>/tcpplus -E"
++CPP_SPEC_LINK		"<PREFIX_LIBEXEC>/tcpplus -S"
++TRANS			"<PREFIX_LIBEXEC>/trans.<MD_BLDARCH>.<MD_OSFAM>"
+
++TLD			"<PREFIX_BIN>/tld"
++DISP			"<PREFIX_BIN>/disp"
++PL_TDF			"<PREFIX_BIN>/tpl"
++TNC			"<PREFIX_BIN>/tnc"
+
++AS             "/usr/bin/as"
++AS1            "/usr/bin/as"
++CAT            "/bin/cat"
++CC             "/usr/bin/cc -O2"
++LD             "/usr/bin/ld -O1"
++MKDIR          "/bin/mkdir"
++MOVE           "/bin/mv"
++RMDIR          "/bin/rm -r"
++RMFILE         "/bin/rm"
++TOUCH          "/usr/bin/touch"
+
++STARTUP_DIR		"-I<PREFIX_STARTUP>/Bounds.ansi -I<PREFIX_STARTUP>/Modes"
++STARTUP		"-f<PREFIX_STARTUP>/Modes/Xc"
++STARTUP_CPP_DIR	"-I<PREFIX_STARTUP>/Bounds.ansi -I<PREFIX_STARTUP>/Modes.cpp"
++STARTUP_CPP		"-f<PREFIX_STARTUP>/Modes.cpp/Xc"
++PORTABILITY		"<PREFIX_STARTUP>/Bounds.ansi/default.pf"
+
++MACHINE		"*-*-*"
+

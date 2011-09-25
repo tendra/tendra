@@ -35,7 +35,8 @@ _TENDRA_SITU_MK_=1
 # instead, however that breaks the abstraction the wrapper script provides, and
 # that could cause inconsistencies against a user-specified ${TCC}.)
 #
-TCC_IN_SITU?= TCCENV=${OBJ_DIR}/env ${TCC}
+#TCC_IN_SITU?= TCCENV=${OBJ_DIR}/env ${TCC}
+TCC_IN_SITU?= ${TCC}
 
 
 

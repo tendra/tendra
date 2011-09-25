@@ -3,25 +3,15 @@
 .include "Makefile.inc"
 
 
-ENVFILE+=	common
 ENVFILE+=	default
 ENVFILE+=	system
 ENVFILE+=	system+
 ENVFILE+=	building
-ENVFILE+=	Versions
-ENVFILE+=	status
 
 ENVFILE+=	c
 ENVFILE+=	c++
 ENVFILE+=	iso
 ENVFILE+=	ansi
-
-ENVFILE+=	Xa
-ENVFILE+=	Xc
-ENVFILE+=	Xp
-ENVFILE+=	Xs
-ENVFILE+=	Xt
-ENVFILE+=	Xw
 
 ENVFILE+=	aes
 ENVFILE+=	cose
@@ -48,14 +38,6 @@ ENVFILE+=	motif_1_1
 ENVFILE+=	motif_1_2
 ENVFILE+=	strict_mot_1_2
 
-ENVFILE+=	pl_tdf
-ENVFILE+=	tdp
-ENVFILE+=	tnc
-ENVFILE+=	tsimp
-ENVFILE+=	makelib
-
-ENVFILE+=	16bit
-ENVFILE+=	32bit
 ENVFILE+=	Goption
 ENVFILE+=	K-PIC
 ENVFILE+=	K-ieee
@@ -63,17 +45,11 @@ ENVFILE+=	K-noieee
 ENVFILE+=	K-prom
 ENVFILE+=	alloca
 ENVFILE+=	bsd_extn
-ENVFILE+=	compact
 ENVFILE+=	gcc
-ENVFILE+=	longlong
 ENVFILE+=	motif_private
 ENVFILE+=	mse
 ENVFILE+=	target_tok
-ENVFILE+=	tcc_pp
-ENVFILE+=	tcc_prof
-ENVFILE+=	tcc_time
 ENVFILE+=	tdf_ext
-ENVFILE+=	wsl
 
 .include <tendra.env.mk>
 

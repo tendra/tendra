@@ -1,4 +1,3 @@
 /* tcc environment for TDF notation compiler */
-+TNC		"<PREFIX_BIN>/tnc"
-+DISP		"<PREFIX_BIN>/tnc -p"
++DISP		"<TNC> -p"
 +FLAG		"-special tnc"

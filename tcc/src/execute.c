@@ -350,7 +350,7 @@ execute(filename *input, filename *output)
 			if (dry_run) {
 				sev = ERROR_WARNING;
 			} else {
-				sev = ERROR_SERIOUS;
+				sev = ERROR_FATAL;
 				err = 1;
 			}
 			cmd = command[1];

@@ -1,8 +1,7 @@
 /* tcc environment for tdp */
 +TDFC		"<PREFIX_BIN>/tdp"
 +TLD		"<PREFIX_BIN>/tsimp"
-+TNC		"<PREFIX_BIN>/tnc -z"
-+DISP		"<PREFIX_BIN>/tnc -p"
++DISP		"<TNC> -p"
 +FLAG		"-no_startup_options"
 +FLAG		"-special tnc"
 +FLAG		"-special pl_tdf"
