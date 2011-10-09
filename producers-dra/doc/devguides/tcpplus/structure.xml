@@ -1,0 +1,1184 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter id="program">
+	<title>Structural Organisation</title>
+
+	<para>This section describes the basic organisation of the
+		source code for the C++ producer.
+		This includes the division of the code into separate modules
+		and the type system conventions.</para>
+
+	<section>
+		<title>Source code modules</title>
+
+		<para>For convenience, the source code is divided between a
+			number of directories:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><filename>base/</filename></term>
+
+				<listitem>
+					<para>The base directory contains only the module containing the
+						<function>main</function> function, the basic type descriptions and the
+  						<filename>Makefile</filename>.</para>
+  				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><filename>obj_c/</filename></term>
+				<term><filename>obj_tok/</filename></term>
+				<term><filename>obj_templ/</filename></term>
+
+				<listitem>
+					<para>The directories <code>obj_c</code> and <code>obj_tok</code>
+						contain respectively the C and <code>#pragma token</code> headers
+						generated from the type algebra by &calculus;.
+						The directory <code>obj_templ</code> contains certain
+						&calculus; template files.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><filename>utility/</filename></term>
+
+				<listitem>
+					<para>Routines for such
+						utility operations as memory allocation and error reporting, including
+						the <A HREF="error.html">error catalogue</A>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><filename>parse/</filename></term>
+
+				<listitem>
+					<para>Routines concerned with
+						parsing and preprocessing the input, including the &sid;
+						grammar.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><filename>construct/</filename></term>
+
+				<listitem>
+					<para>Routines for building
+						up and analysing the internal representation of the parsed code.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><filename>output/</filename></term>
+
+				<listitem>
+					<para>Routines for outputting
+						the internal representation in various formats including as a
+						<A HREF="tdf.html">TDF capsule</A>, a <A HREF="link.html">C++ spec
+						file</A>, or a <A HREF="dump.html">symbol table dump file</A>.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para>Each module consists of a C source file,
+			<filename>&file.arg;.c</filename>
+			say, containing function definitions, and a corresponding header file
+			<filename>&file.arg;.h</filename>
+			containing the declarations of these functions.
+			The header is included within its corresponding source file to check
+			these declarations; it is protected against multiple inclusions by
+			a macro of the form <filename>&file.arg;_INCLUDED</filename>.
+			The header contains a brief comment describing the purpose of the module;
+			each function in the source file contains a comment describing its purpose,
+			its inputs and its output.</para>
+
+		<para>The following table lists all the source modules in the C++ producer
+			with a brief description of the purpose of each:</para>
+
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Module</th>
+					<th>Directory</th>
+					<th>Purpose</th>
+				</tr>
+			</thead>
+		
+			<tbody>
+				<tr>
+					<td>access</td>
+					<td>construct</td>
+					<td>member access control</td>
+				</tr>
+				<tr>
+					<td>allocate</td>
+					<td>construct</td>
+					<td><code>new</code> and <code>delete</code> expressions</td>
+				</tr>
+				<tr>
+					<td>assign</td>
+					<td>construct</td>
+					<td>assignment expressions</td>
+				</tr>
+				<tr>
+					<td>basetype</td>
+					<td>construct</td>
+					<td>basic type operations</td>
+				</tr>
+				<tr>
+					<td>buffer</td>
+					<td>utility</td>
+					<td>buffer reading and writing routines</td>
+				</tr>
+				<tr>
+					<td>c_class</td>
+					<td>obj_c</td>
+					<td><code>calculus</code> support routines</td>
+				</tr>
+				<tr>
+					<td>capsule</td>
+					<td>output</td>
+					<td>top-level TDF encoding routines</td>
+				</tr>
+				<tr>
+					<td>cast</td>
+					<td>construct</td>
+					<td>cast expressions</td>
+				</tr>
+				<tr>
+					<td>catalog</td>
+					<td>utility</td>
+					<td>error catalogue definition</td>
+				</tr>
+				<tr>
+					<td>char</td>
+					<td>parse</td>
+					<td>character sets</td>
+				</tr>
+				<tr>
+					<td>check</td>
+					<td>construct</td>
+					<td>expression checking</td>
+				</tr>
+				<tr>
+					<td>chktype</td>
+					<td>construct</td>
+					<td>type checking</td>
+				</tr>
+				<tr>
+					<td>class</td>
+					<td>construct</td>
+					<td>class and enumeration definitions</td>
+				</tr>
+				<tr>
+					<td>compile</td>
+					<td>output</td>
+					<td>TDF tag definition encoding routines</td>
+				</tr>
+				<tr>
+					<td>constant</td>
+					<td>parse</td>
+					<td>integer constant evaluation</td>
+				</tr>
+				<tr>
+					<td>construct</td>
+					<td>construct</td>
+					<td>constructors and destructors</td>
+				</tr>
+				<tr>
+					<td>convert</td>
+					<td>construct</td>
+					<td>standard type conversions</td>
+				</tr>
+				<tr>
+					<td>copy</td>
+					<td>construct</td>
+					<td>expression copying</td>
+				</tr>
+				<tr>
+					<td>debug</td>
+					<td>utility</td>
+					<td>development aids</td>
+				</tr>
+				<tr>
+					<td>declare</td>
+					<td>construct</td>
+					<td>variable and function declarations</td>
+				</tr>
+				<tr>
+					<td>decode</td>
+					<td>output</td>
+					<td>bitstream reading routines</td>
+				</tr>
+				<tr>
+					<td>derive</td>
+					<td>construct</td>
+					<td>base class graphs; inherited members</td>
+				</tr>
+				<tr>
+					<td>destroy</td>
+					<td>construct</td>
+					<td>garbage collection routines</td>
+				</tr>
+				<tr>
+					<td>diag</td>
+					<td>output</td>
+					<td>TDF diagnostic output routines</td>
+				</tr>
+				<tr>
+					<td>dump</td>
+					<td>output</td>
+					<td>symbol table dump routines</td>
+				</tr>
+				<tr>
+					<td>encode</td>
+					<td>output</td>
+					<td>bitstream writing routines</td>
+				</tr>
+				<tr>
+					<td>error</td>
+					<td>utility</td>
+					<td>error output routines</td>
+				</tr>
+				<tr>
+					<td>exception</td>
+					<td>construct</td>
+					<td>exception handling</td>
+				</tr>
+				<tr>
+					<td>exp</td>
+					<td>output</td>
+					<td>TDF expression encoding routines</td>
+				</tr>
+				<tr>
+					<td>expression</td>
+					<td>construct</td>
+					<td>expression processing</td>
+				</tr>
+				<tr>
+					<td>file</td>
+					<td>parse</td>
+					<td>low-level I/O routines</td>
+				</tr>
+				<tr>
+					<td>function</td>
+					<td>construct</td>
+					<td>function definitions and calls</td>
+				</tr>
+				<tr>
+					<td>hash</td>
+					<td>parse</td>
+					<td>hash table and identifier name routines</td>
+				</tr>
+				<tr>
+					<td>identifier</td>
+					<td>construct</td>
+					<td>identifier expressions</td>
+				</tr>
+				<tr>
+					<td>init</td>
+					<td>output</td>
+					<td>TDF initialiser expression encoding routines</td>
+				</tr>
+				<tr>
+					<td>initialise</td>
+					<td>construct</td>
+					<td>variable initialisers</td>
+				</tr>
+				<tr>
+					<td>instance</td>
+					<td>construct</td>
+					<td>template instances and specialisations</td>
+				</tr>
+				<tr>
+					<td>inttype</td>
+					<td>construct</td>
+					<td>integer and floating point type routines</td>
+				</tr>
+				<tr>
+					<td>label</td>
+					<td>construct</td>
+					<td>labels and jumps</td>
+				</tr>
+				<tr>
+					<td>lex</td>
+					<td>parse</td>
+					<td>lexical analysis</td>
+				</tr>
+				<tr>
+					<td>literal</td>
+					<td>parse</td>
+					<td>integer and string literals</td>
+				</tr>
+				<tr>
+					<td>load</td>
+					<td>output</td>
+					<td>C++ spec reading routines</td>
+				</tr>
+				<tr>
+					<td>macro</td>
+					<td>parse</td>
+					<td>macro expansion</td>
+				</tr>
+				<tr>
+					<td>main</td>
+					<td role="na" align="center">&ndash;</td>
+					<td>main routine; command-line arguments</td>
+				</tr>
+				<tr>
+					<td>mangle</td>
+					<td>output</td>
+					<td>identifier name mangling</td>
+				</tr>
+				<tr>
+					<td>member</td>
+					<td>construct</td>
+					<td>member selector expressions</td>
+				</tr>
+				<tr>
+					<td>merge</td>
+					<td>construct</td>
+					<td>intermodule merge routines</td>
+				</tr>
+				<tr>
+					<td>namespace</td>
+					<td>construct</td>
+					<td>namespaces; name look-up</td>
+				</tr>
+				<tr>
+					<td>operator</td>
+					<td>construct</td>
+					<td>overloaded operators</td>
+				</tr>
+				<tr>
+					<td>option</td>
+					<td>utility</td>
+					<td>compiler options</td>
+				</tr>
+				<tr>
+					<td>overload</td>
+					<td>construct</td>
+					<td>overload resolution</td>
+				</tr>
+				<tr>
+					<td>parse</td>
+					<td>parse</td>
+					<td>low-level parser routines</td>
+				</tr>
+				<tr>
+					<td>pragma</td>
+					<td>parse</td>
+					<td><code>#pragma</code> directives</td>
+				</tr>
+				<tr>
+					<td>predict</td>
+					<td>parse</td>
+					<td>parser look-ahead routines</td>
+				</tr>
+				<tr>
+					<td>preproc</td>
+					<td>parse</td>
+					<td>preprocessing directives</td>
+				</tr>
+				<tr>
+					<td>print</td>
+					<td>utility</td>
+					<td>error argument printing routines</td>
+				</tr>
+				<tr>
+					<td>quality</td>
+					<td>construct</td>
+					<td>extra expression checks</td>
+				</tr>
+				<tr>
+					<td>redeclare</td>
+					<td>construct</td>
+					<td>variable and function redeclarations</td>
+				</tr>
+				<tr>
+					<td>rewrite</td>
+					<td>construct</td>
+					<td>inline member function definitions</td>
+				</tr>
+				<tr>
+					<td>save</td>
+					<td>output</td>
+					<td>C++ spec writing routines</td>
+				</tr>
+				<tr>
+					<td>shape</td>
+					<td>output</td>
+					<td>TDF shape encoding routines</td>
+				</tr>
+				<tr>
+					<td>statement</td>
+					<td>construct</td>
+					<td>statement processing</td>
+				</tr>
+				<tr>
+					<td>stmt</td>
+					<td>output</td>
+					<td>TDF statement encoding routines</td>
+				</tr>
+				<tr>
+					<td>struct</td>
+					<td>output</td>
+					<td>TDF structure encoding routines</td>
+				</tr>
+				<tr>
+					<td>syntax[0-9]*</td>
+					<td>parse</td>
+					<td><code>sid</code> parser output</td>
+				</tr>
+				<tr>
+					<td>system</td>
+					<td>utility</td>
+					<td>system dependent routines</td>
+				</tr>
+				<tr>
+					<td>table</td>
+					<td>parse</td>
+					<td>portability table reading</td>
+				</tr>
+				<tr>
+					<td>template</td>
+					<td>construct</td>
+					<td>template declarations and checks</td>
+				</tr>
+				<tr>
+					<td>throw</td>
+					<td>output</td>
+					<td>TDF exception handling encoding routines</td>
+				</tr>
+				<tr>
+					<td>tok</td>
+					<td>output</td>
+					<td>TDF standard tokens encoding</td>
+				</tr>
+				<tr>
+					<td>tokdef</td>
+					<td>construct</td>
+					<td>token definitions</td>
+				</tr>
+				<tr>
+					<td>token</td>
+					<td>construct</td>
+					<td>token declarations and expansion</td>
+				</tr>
+				<tr>
+					<td>typeid</td>
+					<td>construct</td>
+					<td>run-time type information</td>
+				</tr>
+				<tr>
+					<td>unmangle</td>
+					<td>output</td>
+					<td>identifier name unmangling</td>
+				</tr>
+				<tr>
+					<td>variable</td>
+					<td>construct</td>
+					<td>variable analysis</td>
+				</tr>
+				<tr>
+					<td>virtual</td>
+					<td>construct</td>
+					<td>virtual functions</td>
+				</tr>
+				<tr>
+					<td>xalloc</td>
+					<td>utility</td>
+					<td>memory allocation routines</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+
+	<section id="typesystem">
+		<title>Type system</title>
+
+		<para>This section describes the type system used in the C++ producer.
+			Unless otherwise stated the types are declared using the &calculus;
+			tool as part of the algebra, <code>c_class.alg</code>.
+			The design of this
+			type algebra was clearly largely based on the concepts underlying
+			the C++ language; however TDF provided an important influence, not
+			merely as the intended target language, but also because of its clear
+			presentation of essential language features.</para>
+
+		<section id="primitive">
+			<title>Primitive types</title>
+
+			<para>The primitive types used within the algebra <code>c_class</code>
+				are defined as follows:</para>
+
+			<programlisting language="alg">int = &quot;int&quot; ;
+unsigned = &quot;unsigned&quot; ;
+string = &quot;character *&quot; ;
+ulong_type (ulong) = &quot;unsigned long&quot; ;
+BITSTREAM_P (bits) = &quot;BITSTREAM *&quot; ;
+PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
+
+			<para>The integral types are self-explanatory.
+				All string literals used in the C++ producer are based on
+				the character type:</para>
+
+			<programlisting language="c">typedef unsigned char character ;</programlisting>
+
+			<para>hence the definition of <code>string</code>.
+				The remaining primitive
+				give links to those portions of the type system which are defined
+				outside of the algebra.
+				The types <link linkend="bits"><code>BITSTREAM</code></link>
+				and <link linkend="pptok"><code>PPTOKEN</code></link> are described below.</para>
+		</section>
+
+		<section id="cv">
+			<title><code>CV_SPEC</code></title>
+
+			<para>The enumeration type <code>CV_SPEC</code> (short name <code>cv</code>)
+				is used to represent a C++ type qualifier.  It takes the form of a
+				bitfield, the elements of which can be or-ed together to represent
+				combinations of type qualifiers.  The cv-qualifiers are represented
+				by <code>cv_const</code> and <code>cv_volatile</code> in the obvious
+				manner.  The value <code>cv_lvalue</code> is used as a qualifier to
+				indicate whether a type is an lvalue or an rvalue.  Other values are
+				used in function types to represent the function language linkage.</para>
+		</section>
+
+		<section id="ntype">
+			<title><code>BUILTIN_TYPE</code></title>
+
+			<para>The enumeration type <code>BUILTIN_TYPE</code> (<code>ntype</code>)
+				is used to represent the built-in C++ types (<code>char</code>,
+				<code>float</code>, <code>void</code> etc.).  It is used chiefly as
+				an index into tables of type information.</para>
+		</section>
+
+		<section id="btype">
+			<title><code>BASE_TYPE</code></title>
+
+			<para>The enumeration type <code>BASE_TYPE</code> (<code>btype</code>) is
+				used to represent a C++ simple type specifier such as <code>signed</code>,
+				<code>short</code> or <code>int</code>.  It takes the form of a bitfield,
+				the elements of which can be or-ed together to represent combinations
+				of type specifiers.  Its chief use is when reading a type from the
+				input file; the various simple type specifiers are combined to give
+				a value of this type, which is then mapped to an actual <link linkend="type">C++
+				type</link>.</para>
+		</section>
+
+		<section id="itype">
+			<title><code>INT_TYPE</code></title>
+
+			<para>The union type <code>INT_TYPE</code> (<code>itype</code>) is used
+				to represent an integral or bitfield C++ type.  The basic integral
+				types are given by the <code>basic</code> field.  Bitfield types are
+				represented by the <code>bitfield</code> field.  There are also fields
+				representing target dependent integral promotion, arithmetic and integer
+				literal types, plus <code>VARIETY</code> tokens.  Only one <code>INT_TYPE</code>
+				object is created for each integral type.</para>
+		</section>
+
+		<section id="ftype">
+			<title><code>FLOAT_TYPE</code></title>
+
+			<para>The union type <code>FLOAT_TYPE</code> (<code>ftype</code>) is used
+				to represent a floating point C++ type.  The basic floating point
+				types are given by the <code>basic</code> field.  There are also fields
+				representing target dependent argument promotion and arithmetic types,
+				plus <code>FLOAT</code> tokens.  Only one <code>FLOAT_TYPE</code>
+				object is created for each floating point type.</para>
+		</section>
+
+		<section id="cinfo">
+			<title><code>CLASS_INFO</code></title>
+
+			<para>The enumeration type <code>CLASS_INFO</code> (<code>cinfo</code>)
+				is used to represent information relating to a class or enumeration
+				definition.  It takes the form of a bitfield, the elements of which
+				can be or-ed together to represent various combinations of properties.</para>
+		</section>
+
+		<section id="cusage">
+			<title><code>CLASS_USAGE</code></title>
+
+			<para>The enumeration type <code>CLASS_USAGE</code> (<code>cusage</code>)
+				is used to represent information relating to the way a class is used.
+				It takes the form of a bitfield, the elements of which can be or-ed
+				together to represent various combinations of properties.</para>
+		</section>
+
+		<section id="ctype">
+			<title><code>CLASS_TYPE</code></title>
+
+			<para>The union type <code>CLASS_TYPE</code> (<code>ctype</code>) is used
+				to represent a C++ class or union.  The main components are an
+				<link linkend="id">identifier</link> giving the class name,
+				<link linkend="cinfo">class information</link> and <link linkend="cusage">class
+				usage</link> fields, a <link linkend="nspace">namespace</link> giving the class
+				members, a <link linkend="graph">graph</link> representing the base class
+				structure, and a <link linkend="virt">virtual function table</link>.  Only one
+				<code>CLASS_TYPE</code> object is created for each class or union.</para>
+
+			<para>Each class maintains a list, <code>pals</code>, of class and function
+				identifiers which are declared as friends of that class.  It also
+				maintains a list, <code>chums</code>, of those class types which declare
+				it to be a friend (this is what is actually used in the access checks).
+				Similarly each function identifier maintains a list,
+				<code>chums</code>, of those class types which declare it to be a
+				friend.</para>
+
+			<para>Each class maintains a list of its constructors, destructors and conversion
+				functions (included inherited conversion functions).  It also maintains
+				a list of its virtual base classes.  This information can be obtained
+				by other means but it is more convenient to record it within the class
+				type itself.</para>
+		</section>
+
+		<section id="graph">
+			<title><code>GRAPH</code></title>
+
+			<para>The union type <code>GRAPH</code> (<code>graph</code>) is used to
+				represent a directed acyclic graph arising from the base classes of
+				a class.  Each node of the graph has a <code>head</code> which is a
+				<link linkend="ctype">class type</link>, and several <code>tails</code> which
+				give the base class graphs for that class.  Each node has pointers,
+				<code>top</code>, to the top of the graph (i.e. the most derived class),
+				and <code>up</code>, to the node of which the current node is a direct
+				base.  Each node also has an <code>access</code> field which gives
+				information on the base access, whether it is virtual or not, and
+				so on, in the form of a <link linkend="dspec"><code>DECL_SPEC</code></link>.
+				Virtual bases are handled by the <code>equal</code> field which defines
+				an equivalence relation on the graph which identifies equivalent virtual
+				bases.</para>
+		</section>
+
+		<section id="virt">
+			<title><code>VIRTUAL</code></title>
+
+			<para>The union type <code>VIRTUAL</code> (<code>virt</code>) is used to
+				represent the virtual functions declared in a class.  The <code>table</code>
+				field is used to represent a virtual function table, and consists
+				primarily of a list of <code>VIRTUAL</code> objects giving the virtual
+				functions for the associated class.  These virtual functions are of
+				four kinds, each represented by a union field.  A virtual function
+				first declared in a class is represented by the <code>simple</code>
+				field; a virtual function in a class which overrides an inherited
+				virtual function is represented by the <code>override</code> field;
+				an inherited, non-overridden virtual function which is not overridden
+				in a base class is represented by the
+				<code>inherit</code> field; a inherited, non-overridden virtual function
+				which is overridden in some base class is represented by the
+				<code>complex</code> field.</para>
+		</section>
+
+		<section id="etype">
+			<title><code>ENUM_TYPE</code></title>
+
+			<para>The union type <code>ENUM_TYPE</code> (<code>etype</code>) is used
+				to represent a C++ enumeration type.  This consists primarily of an
+				<link linkend="id">identifier</link> giving the enumeration name, a
+				<link linkend="cinfo">class information</link> field, a <link linkend="type">type</link>
+				giving the underlying representation of the enumeration type, and
+				a list of <link linkend="id">identifiers</link> giving the enumerators comprising
+				the enumeration.</para>
+		</section>
+
+		<section id="type">
+			<title><code>TYPE</code></title>
+
+			<para>The union type <code>TYPE</code> (<code>type</code>) is used to represent
+				a C++ type.  Every type has an associated <link linkend="cv">type qualifier</link>,
+				<code>qual</code>, which determines whether the type is
+				<code>const</code>, <code>volatile</code> or an lvalue.  A type may
+				also have an associated <link linkend="id">identifier</link>, <code>name</code>,
+				giving the corresponding type name (the null identifier being used
+				for unnamed types).  The other type components are determined by the
+				union tag.  Each of the type constructs above has a corresponding
+				field in the <code>TYPE</code> union:
+				<code>integer</code> for <link linkend="itype">integral types</link>,
+				<code>floating</code> for <link linkend="ftype">floating point types</link>,
+				<code>bitfield</code> for <link linkend="itype">bitfield types</link>,
+				<code>compound</code> for <link linkend="ctype">class or union types</link>,
+				and
+				<code>enumerate</code> for <link linkend="etype">enumeration types</link>.
+				There are also fields <code>top</code> and <code>bottom</code>
+				corresponding to <code>void</code> and bottom (the type used to represent
+				values which never return).</para>
+
+			<para>Other fields of the <code>TYPE</code> union represent composite types;
+				for example, the <code>array</code> field, representing array types,
+				comprises a base type, <code>sub</code>, and an <link linkend="nat">integer
+				constant</link> giving the array bound, <code>size</code>.  These are
+				generally simple, apart from <code>func</code>, representing a function
+				type.  This has the obvious components: a return type, <code>ret</code>,
+				a list of parameter types, <code>ptypes</code>, and a flag indicating
+				ellipsis functions, <code>ellipsis</code>.  It also has an associated
+				<link linkend="nspace">namespace</link>, <code>pars</code>, in which the function
+				parameters are declared.  The parameter identifiers are extracted
+				from this as a list, <code>pids</code>.  Member function qualifiers
+				and language linkage information are represented by a
+				<link linkend="cv"><code>CV_QUAL</code></link>, <code>mqual</code>.  The implicit
+				extra parameter for member functions is recorded in the list
+				<code>mtypes</code>, which adds this extra type to the start of
+				<code>ptypes</code>.  Finally <code>except</code> gives any exception
+				specifiers; the case where the exception specifier is absent being
+				represented by the special value, <code>univ_type_set</code>.</para>
+		</section>
+
+		<section id="dspec">
+			<title><code>DECL_SPEC</code></title>
+
+			<para>The enumeration type <code>DECL_SPEC</code> (<code>dspec</code>) is
+				used to represent information on the declaration and usage of an identifier.
+				It takes the form of a bitfield, the elements of which can be or-ed
+				together to represent various combinations of properties.  The 32
+				bits in this bitfield (the maximum which can be represented portably)
+				are a significant restriction.  This means that the same member of
+				<code>DECL_SPEC</code> is often used to mean different things in different
+				contexts.  This can prove confusing on occasions.</para>
+		</section>
+
+		<section id="hashid">
+			<title><code>HASHID</code></title>
+
+			<para>The union type <code>HASHID</code> (<code>hashid</code>) is used to
+				represent a C++ identifier name.  The simplest form of identifier
+				name,
+				<code>name</code>, consists of just a string of characters, such as
+				<code>foo</code>.  Extended identifier names, <code>ename</code>,
+				are similar, but may contain Unicode characters.  There are however
+				other forms of identifier name in C++: conversion function names (<code>conv
+				</code>) such as <code>operator int</code>, overloaded operator names
+				(<code>op</code>) such as <code>operator+</code>, constructor names
+				(<code>constr</code>), and destructor names (<code>destr</code>).
+				There are also names which are used for anonymous identifiers (<code>anon</code>).</para>
+
+			<para>Note the distinction between an identifier name and an actual
+				<link linkend="id">identifier</link>.  The latter is a meaning associated
+				with a name in a particular context.  Every identifier name has an
+				associated underlying meaning, <code>id</code>.  This is used to handle
+				keywords and macros, but for most identifier names this will be a
+				dummy identifier. Nested underlying meanings (such as a macro hiding
+				a keyword) are handled by linking the <code>alias</code> fields of
+				the corresponding identifiers.  Every identifier name also has a <code>cache
+				</code> field which is used to record the look-up of this name as
+				an unqualified identifier.  This may be set to the null identifier
+				to indicate that the look-up needs to be re-evaluated.</para>
+
+			<para>Identifier names are stored in one of a small number of hash tables,
+				linked using their <code>next</code> field.  Each name has only one
+				entry in these tables, allowing equality of names to be implemented
+				as <code>EQ_hashid</code>.</para>
+		</section>
+
+		<section id="qual">
+			<title><code>QUALIFIER</code></title>
+
+			<para>The enumeration type <code>QUALIFIER</code> (<code>qual</code>) is
+				used to represent the various ways in which an identifier name can
+				be qualified.  For example, <code>::A::a</code> is represented by
+				<code>qual_full</code>.  The value <code>qual_mark</code> is used
+				in the representation of function identifier expressions to indicate
+				that overload resolution has been performed.</para>
+		</section>
+
+		<section id="identifier">
+			<title><code>IDENTIFIER</code></title>
+
+			<para>The union type <code>IDENTIFIER</code> (<code>id</code>) is used to
+				represent the various kinds of C++ identifiers.  Every identifier
+				has an associated <link linkend="hashid">identifier name</link>, a parent
+				<link linkend="nspace">namespace</link>, a <link linkend="dspec">declaration information</link>
+				field, and a <link linkend="loc">location</link> for its declaration or definition.
+				Each identifier also has an
+				<code>alias</code> field which is normally used to represent the aliasing
+				which can occur in inheritance or <code>using</code>
+				declarations.</para>
+
+			<para>The various fields of the <code>IDENTIFIER</code> union correspond
+				to the various kinds of identifier which can arise in C++ - class
+				names, functions, variables, class members, macros, keywords etc.
+				Each field has appropriate components giving its type, its definition
+				or whatever other information is required.  For example, the <code>variable
+				</code>
+				field has a <link linkend="type">type</link> and two <link linkend="exp">expressions</link>,
+				giving the constructor and destructor values for the object.</para>
+
+			<para>Most of these identifier components are self-explanatory, however
+				the treatment of overloaded functions bears discussion.  The various
+				fields representing functions have an <code>over</code> component
+				which is used to link overloaded functions together.  A set of overloaded
+				functions is treated as if it were a single <code>IDENTIFIER</code>
+				- the first in the list - for the purposes of storing in a <link linkend="member">namespace
+				member</link>; the other overloaded meanings are accessed by chasing
+				down the <code>over</code> components.  In other situations, whether
+				a function identifier represents a single function or a set of overloaded
+				functions can be worked out from the context.  For example, in identifier
+				expressions the <link linkend="qual">identifier qualifier</link> is used to
+				mark whether overload resolution has taken place.</para>
+		</section>
+
+		<section id="member">
+			<title><code>MEMBER</code></title>
+
+			<para>The union type <code>MEMBER</code> (<code>member</code>) is used to
+				represent a member of a <link linkend="nspace">namespace</link>.  Each member
+				contains two identifiers, <code>id</code> and <code>alt</code>.  The
+				<code>id</code> field gives the meaning associated with a particular
+				name in this namespace; the <code>alt</code> field is used to represent
+				a type name which may be hidden by a non-type name.</para>
+
+			<para>There are two kinds of member, <code>small</code> and <code>large</code>,
+				corresponding to whether the namespace holds its members in a simple
+				linked list or in a hash table.</para>
+		</section>
+
+		<section id="nspace">
+			<title><code>NAMESPACE</code></title>
+
+			<para>The union type <code>NAMESPACE</code> (<code>nspace</code>) is used
+				to represent the set of identifiers declared in a particular scope.
+				For example, the members declared in a C++ class or namespace, the
+				parameters declared in a function declarator and the local variables
+				declared in a block all form scopes.  The various kinds of scope are
+				distinguished as different fields of the union, but there are basically
+				two categories.  The first, such as function blocks, which have relatively
+				small numbers of elements, store their members as a simple linked
+				lists.  The second, such as classes, which have larger numbers of
+				elements, store their members in hash tables.  In both cases the elements
+				are stored using the <link linkend="member"><code>MEMBER</code></link>
+				type.</para>
+
+			<para>The key operation on a namespace is to look up a particular
+				<link linkend="hashid">identifier name</link> in its linked list or hash table
+				of members to find the meaning, if any, associated with that name
+				in the namespace.  This can be a complex operation because of the
+				need to take base classes and <code>using</code> directives (as stored
+				in the <code>use</code> component) into account.</para>
+		</section>
+
+		<section id="nat">
+			<title><code>NAT</code></title>
+
+			<para>The union type <code>NAT</code> (<code>nat</code>) is used to represent
+				an integer constant expression.  Values are represented as lists of
+				16 bit 'digits'.  Values which fit into a single digit are represented
+				by the <code>small</code> field; larger values by the <code>large</code>
+				field.  Negated values can be represented by the <code>neg</code>
+				field. Folding of integer constant expressions is performed in the
+				producer, however the result can only be represented as described
+				above if its value is target independent.  Target dependent values
+				are represented by the <code>calc</code> field which contains an
+				<link linkend="exp">expression</link> describing how to calculate the value.
+				The <code>token</code> field is used to represent <code>NAT</code>
+				tokens.</para>
+
+			<para>Objects representing small integer constants are created at the start
+				of the program and stored in a table for ease of access.  Larger constants
+				are created as and when they are required.</para>
+		</section>
+
+		<section id="flt">
+			<title><code>FLOAT</code></title>
+
+			<para>The union type <code>FLOAT</code> (<code>flt</code>) is used to represent
+				a floating point constant expression.  There is only one field, <code>simple
+				</code>, which corresponds to a floating point literal.  No folding
+				of floating point constant expressions is attempted in the producer
+				(it is virtually impossible to do so in a target independent manner).</para>
+
+			<para>Objects representing useful floating point constants (0.0, 1.0 etc.)
+				are created for each floating point type and stored as part of the
+				corresponding <link linkend="ftype"><code>FLOAT_TYPE</code></link>.  Other
+				values are created as and when they are required.</para>
+		</section>
+
+		<section id="str">
+			<title><code>STRING</code></title>
+
+			<para>The union type <code>STRING</code> (<code>str</code>) is used to represent
+				a string constant expression.  There is only one field,
+				<code>simple</code>, which corresponds to a character string literal,
+				however the <code>kind</code> field can be used to modify the interpretation
+				put on the characters appearing in the <code>text</code>
+				field.  By default, each character in <code>text</code> corresponds
+				to a single character in the literal; however an alternative representation,
+				in which <code>text</code> consists of a sequence of multibyte characters
+				- one control character plus four value characters - is used in more
+				complex cases.</para>
+
+			<para>All strings are stored in a hash table intended to ensure that the
+				same <code>STRING</code> object is used for equal string literals.
+				This not only saves space during the processing of the input file,
+				but also facilitates the output of shared string literals in the TDF
+				capsule.</para>
+
+			<para>Note that the terminal zero character does not form part of the
+				<code>STRING</code> object.  Instead information on this is stored
+				as part of the type of a <link linkend="exp">string literal expression</link>.
+				The text of the string literal is either truncated or padded with
+				zeros until its length matches the size of the array bound in the
+				type of the corresponding literal expression.</para>
+		</section>
+
+		<section id="ntest">
+			<title><code>NTEST</code></title>
+
+			<para>The enumeration type <code>NTEST</code> (<code>ntest</code>) is used
+				to represent the various C++ relational operators (<code>==</code>,
+				<code>!=</code>, <code>&gt;</code> etc.).  The values correspond to
+				the encoding of the TDF <code>NTEST</code> sort, which facilitates
+				code generation.  The values also have the property that the values
+				for complementary operators (such as <code>&lt;</code> and
+				<code>&gt;=</code>) always add up to the same value,
+				<code>ntest_negate</code>, allowing operators to be complemented in
+				a straightforward manner.</para>
+		</section>
+
+		<section id="rmode">
+			<title><code>RMODE</code></title>
+
+			<para>The enumeration type <code>RMODE</code> (<code>rmode</code>) is used
+				to represent the various C++ rounding modes (towards zero, towards
+				smaller etc.).  The values correspond to the encoding of the TDF
+				<code>RMODE</code> sort, which facilitates code generation.</para>
+		</section>
+
+		<section id="exp">
+			<title><code>EXP</code></title>
+
+			<para>The union type <code>EXP</code> (<code>exp</code>) is used to represent
+				a C++ expression or statement.  Each expression has an associated
+				<link linkend="type">type</link>, <code>type</code>, but most of the information
+				about an expression is stored in one of the large number of fields
+				of the <code>EXP</code> union.  Most of these fields are fairly simple.
+				For example, there are fields corresponding to <link linkend="nat">integer
+				literals</link>, <link linkend="flt">floating point literals</link>,
+				<link linkend="str">string literals</link> and <link linkend="id">identifiers</link>.
+				Composite expressions are formed in the normal way; for example, there
+				are various binary operators comprising two argument expressions.
+				The
+				<code>EXP</code> fields corresponding to statements are slightly more
+				complex.  They each have a <code>parent</code> field which points
+				to the enclosing statement.  A couple of cases bear additional discussion.</para>
+
+			<para>The <code>sequence</code> field represents a compound statement or
+				block.  This contains a <link linkend="nspace">namespace</link>, in which
+				any local variables are declared, and a list of expressions, giving
+				the statements comprising the block.  The null namespace is used if
+				the block does not constitute a scope.  The first statement in the
+				list is always a dummy to enable <code>first</code> and <code>last</code>
+				pointers to be maintained to the start and end of the list without
+				having to worry about null lists.</para>
+
+			<para><A id="solve">The <code>solve_stmt</code> field corresponds to the
+				TDF <code>labelled</code> construct</A> (in early versions of TDF
+				this construct was called <code>solve</code>, hence the terminology).
+				The problem is that C and C++ labels and <code>goto</code>s are totally
+				unstructured, whereas the TDF label constructs are structured.  Any
+				statement which contains unstructured labels is enclosed in a
+				<code>solve_stmt</code> construct, enclosing both the labelled statement
+				and all jumps to it (in general this cannot be done until the end
+				of the function).  Any labels or variables which are bypassed by such
+				unstructured jumps also need to be pulled out to the <code>solve_stmt</code>
+				construct.  It is not just explicit labels which can cause such problems;
+				complex <code>switch</code> statements have the same effect.</para>
+		</section>
+
+		<section id="off">
+			<title><code>OFFSET</code></title>
+
+			<para>The union type <code>OFFSET</code> (<code>off</code>) is used to represent
+				an offset expression.  This is used as an adjunct to the normal
+				<link linkend="exp">expression</link> representation.  The <code>OFFSET</code>
+				union has fields corresponding to a type offset (used in pointer arithmetic),
+				the offset of a member of a class and the offset of a base class.
+				There are also simple operations on offsets, such as multiplication
+				by an expression.</para>
+		</section>
+
+		<section id="tok">
+			<title><code>TOKEN</code></title>
+
+			<para>The union type <code>TOKEN</code> (<code>tok</code>) is used to represent
+				one of a number of different categories within the C++ language.
+				It corresponds to the sort of a token declared using the
+				<A HREF="token.html"><code>#pragma token</code> syntax</A>.  Thus
+				there are fields corresponding to expression, statement, integer constant,
+				type, function, member and procedure tokens.  The similarities between
+				<code>PROC</code> tokens and templates have been remarked above; for
+				example, the parameters of the template:</para>
+
+			<programlisting language="cpp">template &lt; class T, int n &gt; class A {
+    T a [n] ;
+    // ....
+} ;</programlisting>
+
+			<para>are essentially equivalent to those in the procedure token:
+				<programlisting language="cpp">PROC ( TYPE T, EXP const : int : n ) ....</programlisting>
+				(recall that non-type template arguments are always constant expressions).
+				Thus a field, <code>templ</code>, of the <code>TOKEN</code> union
+				is used to represent lists of template parameters.  Note that a further
+				field, <code>class</code>, is also required to represent template
+				template parameters.  A <link linkend="type">template type</link> is represented
+				by a field, <code>templ</code>, of the union <code>TYPE</code>, which
+				comprises a template sort and a sub-type expressed in terms of the
+				template parameters.</para>
+
+			<para>In addition to representing token and template sorts in this way,
+				the
+				<code>TOKEN</code> union is used to represent token and template arguments.
+				Each of the parameter sorts listed above has an appropriate
+				<code>value</code> component which can store a value of that sort.
+				Many of the union types in the algebra, including <link linkend="type">types</link>
+				and <link linkend="exp">expressions</link>, have a field of the form:</para>
+
+			<programlisting language="cpp">token -&gt; {
+    IDENTIFIER tok ;
+    LIST TOKEN args ;
+}</programlisting>
+
+			<para>representing the given token <link linkend="id">identifier</link> applied
+				to the given list of arguments.</para>
+
+			<para><A id="form">Template instances are represented slightly differently
+				from token applications</A>.  Each instance of a template class or
+				a template function gives rise to a new class or function
+				<link linkend="id">identifier</link>.  This identifier has an underlying form
+				giving the template identifier and the template arguments.  This is
+				expressed as a <code>token</code> member of the
+				<link linkend="type"><code>TYPE</code></link> union (although it is not technically
+				a type, this happens to be the most convenient representation).  Each
+				such form has an associated
+				<link linkend="inst"><code>INSTANCE</code></link> component which gives further
+				information about the template instance.  The form for a template
+				function instance is stored in the <code>form</code> component of
+				the corresponding <link linkend="id">identifier</link>.  The form for a template
+				class instance is stored in the <code>form</code> component of the
+				corresponding <link linkend="ctype">class type</link>.</para>
+
+			<para>Members of instances of template classes also have a form type, but
+				in this case the form is an <code>instance</code> type.  This gives
+				a link back to the corresponding member of the template class.</para>
+		</section>
+
+		<section id="inst">
+			<title><code>INSTANCE</code></title>
+
+			<para>The union type <code>INSTANCE</code> (<code>inst</code>) is used to
+				represent a particular instance of a template or token.  Each
+				<link linkend="tok">template sort</link> has an associated list of all the
+				instances of that template, which is used to ensure that the same
+				template applied with the same arguments always has the same value.
+				Information on partial or explicit specialisations and usage information
+				are stored as part of the corresponding
+				<code>INSTANCE</code>.  Each template instance identifier has a link
+				back to its corresponding <code>INSTANCE</code> via its
+				<link linkend="form"><code>form</code> component</link>.</para>
+		</section>
+
+		<section id="err">
+			<title><code>ERROR</code></title>
+
+			<para>The union type <code>ERROR</code> (<code>err</code>) is used to represent
+				an error arising during the compilation of a C++ program. Errors are
+				first class objects within the producer and can be passed to and from
+				procedures.  Each error has an associated <code>severity</code>
+				(serious, warning, none etc.).  Simple errors are represented by the
+				<code>simple</code> field, which consists of an index, <code>number</code>,
+				into the error catalogue, plus a variable length list of error arguments.
+				Errors can be combined into composite errors using the
+				<code>compound</code> field, which represents the join of two errors
+				-
+				<code>head</code> followed by <code>tail</code>.</para>
+
+				<para>The chief operation on an error after it has been built up is to report
+				it.  Each error report consists of an error object and a
+				<link linkend="loc">file location</link> indicating where the error occurred.</para>
+		</section>
+
+		<section id="var">
+			<title><code>VARIABLE</code></title>
+
+			<para>The structure type <code>VARIABLE</code> (<code>var</code>) is used
+				to represent a variable state and is used in the variable analysis
+				checks.</para>
+		</section>
+
+		<section id="location">
+			<title><code>LOCATION</code></title>
+
+			<para>The structure type <code>LOCATION</code> (<code>loc</code>) is used
+				to represent a location in an input file.  It comprises a pointer
+				to an
+				<link linkend="posn">input file position</link>, <code>posn</code>, modified
+				by a line number, taking <code>#line</code> directives into account,
+				<code>line</code>.  Note that character positions within the line
+				are not currently recorded.</para>
+		</section>
+
+		<section id="posn">
+			<title><code>POSITION</code></title>
+
+			<para>The structure type <code>POSITION</code> (<code>posn</code>) is used
+				to represent a position in an input file.  It consists of two file
+				names,
+				<code>file</code> taking <code>#line</code> directives into account,
+				and
+				<code>input</code> giving the actual file name, plus a line number
+				offset, <code>offset</code>, which gives the difference between the
+				line number taking <code>#line</code> directives into account and
+				the actual line number.  Other information stored includes the datestamp
+				on the input file, <code>datestamp</code>, and a pointer to a
+				<link linkend="loc">file location</link> which, for files included using
+				<code>#include</code>, gives the location the file was included from.</para>
+		</section>
+
+		<section id="bits">
+			<title><code>BITSTREAM</code></title>
+
+			<para>The structure <code>BITSTREAM</code> is not part of the
+				<code>calculus</code> type system.  It is used to represent a sequence
+				of bits such as is used, for example, in the encoding of TDF.</para>
+		</section>
+
+		<section id="buff">
+			<title><code>BUFFER</code></title>
+
+			<para>The structure <code>BUFFER</code> is not part of the <code>calculus</code>
+				type system.  It is used to represent a sequence of characters.</para>
+		</section>
+
+		<section id="opt">
+			<title><code>OPTIONS</code></title>
+
+			<para>The structure <code>OPTIONS</code> is not part of the <code>calculus</code>
+				type system.  It is used to represent the state of the
+				<A HREF="pragma.html#low">compiler options</A> at a particular point
+				in the input file.</para>
+		</section>
+
+		<section id="pptok">
+			<title><code>PPTOKEN</code></title>
+
+			<para>The structure <code>PPTOKEN</code> is not part of the <code>calculus</code>
+				type system.  It is used to represent a linked list of preprocessing
+				tokens.  Each token has an associated <code>sid</code> lexical token
+				number, <code>tok</code>, plus additional data dependent on the token
+				type.  Each token also records a pointer to the current
+				<link linkend="opt"><code>OPTIONS</code></link> value.</para>
+		</section>
+	</section>
+</chapter>
+
