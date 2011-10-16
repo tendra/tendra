@@ -481,12 +481,20 @@ void translate_capsule(void)
    * Alloc memory for procrecs array, info retained between phases
    * about procs and how parameters will be stored.
    */
-  procrecs = (procrec *) xcalloc(noprocs, sizeof (procrec));
+  if (noprocs == 0) {
+    procrecs = NULL;
+  } else {
+    procrecs = (procrec *) xcalloc(noprocs, sizeof (procrec));
+  }
 
   /*
    * Alloc memory for main_globals, used to lookup assembler names.
    */
-  main_globals = (dec**)xcalloc(noglobals, sizeof(dec*));
+  if (noglobals == 0) {
+    main_globals = NULL;
+  } else {
+    main_globals = (dec**)xcalloc(noglobals, sizeof(dec*));
+  }
 
   /*
    * Generate .toc entries.
