@@ -105,7 +105,7 @@
 
 	<refnamediv>
 		<refname>tdfc2</refname>
-		<refpurpose>&dra; C to &tdf; producer</refpurpose>
+		<refpurpose>DRA C to TDF producer</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
@@ -200,7 +200,7 @@
 		<para>It is recommended that &tdfc2; is invoked via &tcc;.
 			The <option>-Yc++</option> option is required to enable the C++
 			capabilities.
-			Files with a <markup>.c</markup> suffix are recognised as C
+			Files with a <filename>.c</filename> suffix are recognised as C
 			source files.
 			Options can be passed directly to &tdfc2;
 			using the <option>-Wc,</option>&opt.arg; option to &tcc;.</para>
@@ -222,138 +222,168 @@
 			<varlistentry>
 				<term>&A.opt;</term>
 
-				<listitem>Asserts that the given predicate is true.
-					The special case <option>-A-</option> undefines all the
-					built-in predicates (of which there are none).</listitem>
+				<listitem>
+					<para>Asserts that the given predicate is true.
+						The special case <option>-A-</option> undefines all the
+						built-in predicates (of which there are none).</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&D1.opt;</term>
 
-				<listitem>Defines the given macro to be 1.</listitem>
+				<listitem>
+					<para>Defines the given macro to be 1.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&D2.opt;</term>
 
-				<listitem>Defines the given macro to be the given sequence
-					of preprocessing tokens.</listitem>
+				<listitem>
+					<para>Defines the given macro to be the given sequence
+						of preprocessing tokens.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&E.opt;</term>
 
-				<listitem>Enables preprocessing mode in which the input C
-					source file is preprocessed into the output file.</listitem>
+				<listitem>
+					<para>Enables preprocessing mode in which the input C
+						source file is preprocessed into the output file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&F.opt;</term>
 
-				<listitem>Causes a list of options to be read from
-					&file.arg;.</listitem>
+				<listitem>
+					<para>Causes a list of options to be read from &file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&H.opt;</term>
 
-				<listitem>Enables verbose inclusion mode in which warnings
-					are printed at the start and the end of each included
-					source file.</listitem>
+				<listitem>
+					<para>Enables verbose inclusion mode in which warnings
+						are printed at the start and the end of each included
+						source file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&I.opt;</term>
 
-				<listitem>Adds the given directory to the list searched by
-					&tdfc2; for included source files.
-					No such directories are built into
-					&tdfc2;.</listitem>
+				<listitem>
+					<para>Adds the given directory to the list searched by
+						&tdfc2; for included source files.
+						No such directories are built into &tdfc2;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&N.opt;</term>
 
-				<listitem>Is identical to &I.opt; except that it also
-					associates the given identifier with the
-					directory.</listitem>
+				<listitem>
+					<para>Is identical to &I.opt; except that it also
+						associates the given identifier with the
+						directory.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&S.opt;</term>
 
-				<listitem>Enables spec linker mode in which any number of C
-					spec input files are linked into a single C spec output
-					file.</listitem>
+				<listitem>
+					<para>Enables spec linker mode in which any number of C
+						spec input files are linked into a single C spec output
+						file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&U.opt;</term>
 
-				<listitem>Undefines the given macro.
-					The special case <option>-U-</option> undefines all the
-					built-in macros.
-					These are <code>__FILE__</code>,
-					<code>__LINE__</code>,
-					<code>__TIME__</code>,
-					<code>__DATE__</code>,
-					<code>__STDC__</code> and
-					<code>__STDC_VERSION__</code>.</listitem>
+				<listitem>
+					<para>Undefines the given macro.
+						The special case <option>-U-</option> undefines all the
+						built-in macros.
+						These are <code>__FILE__</code>,
+						<code>__LINE__</code>,
+						<code>__TIME__</code>,
+						<code>__DATE__</code>,
+						<code>__STDC__</code> and
+						<code>__STDC_VERSION__</code>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&V.opt;</term>
 
-				<listitem>Causes &tdfc2; to print the name of each function to
-					the standard output as it is compiled.</listitem>
+				<listitem>
+					<para>Causes &tdfc2; to print the name of each function to
+						the standard output as it is compiled.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&W.opt;</term>
 
-				<listitem>Causes &tdfc2; to print a warning in the
-					circumstances described by &opt.arg;.
-					The special case <option>-Wall</option> enables a wide range
-					of warnings.</listitem>
+				<listitem>
+					<para>Causes &tdfc2; to print a warning in the
+						circumstances described by &opt.arg;.
+						The special case <option>-Wall</option> enables a wide range
+						of warnings.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&X.opt;</term>
 
-				<listitem>Disables exception handling.
-					The current implementation can be a large run-time overhead
-					if not required.
-					The effect of linking any module compiled with this option
-					with a module which throws an exception is undefined.
-					This is equivalent to
-					<option>-j</option><literal>-e</literal>.</listitem>
+				<listitem>
+					<para>Disables exception handling.
+						The current implementation can be a large run-time overhead
+						if not required.
+						The effect of linking any module compiled with this option
+						with a module which throws an exception is undefined.
+						This is equivalent to
+						<option>-j</option><literal>-e</literal>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&Z.opt;</term>
 
-				<listitem>Sets the maximum number of errors printed by &tdfc2;
-					before bailing out to be &num.arg;.
-					The default is 32.</listitem>
+				<listitem>
+					<para>Sets the maximum number of errors printed by &tdfc2;
+						before bailing out to be &num.arg;.
+						The default is 32.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&a.opt;</term>
 
-				<listitem>Causes &tdfc2; to apply complete program analysis to
-					its input files.
-					That is it assumes that no other translation units need to
-					be linked in order for the program to execute.</listitem>
+				<listitem>
+					<para>Causes &tdfc2; to apply complete program analysis to
+						its input files.
+						That is it assumes that no other translation units need to
+						be linked in order for the program to execute.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&c.opt;</term>
 
-				<listitem>Disables &tdf; output.
-					The output file will still be a valid &tdf; capsule,
-					only it will contain no information.
-					This is equivalent to
-					<option>-j</option><literal>-c</literal>.</listitem>
+				<listitem>
+					<para>Disables &tdf; output.
+						The output file will still be a valid &tdf; capsule,
+						only it will contain no information.
+						This is equivalent to
+						<option>-j</option><literal>-c</literal>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -421,126 +451,151 @@
 			<varlistentry>
 				<term>&e.opt;</term>
 
-				<listitem>Specifies the given file as an end-up file.
-					This is equivalent to adding a <code>#include</code>
-					directive for this file at the end of the input source
-					file.</listitem>
+				<listitem>
+					<para>Specifies the given file as an end-up file.
+						This is equivalent to adding a <code>#include</code>
+						directive for this file at the end of the input source
+						file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&f.opt;</term>
 
-				<listitem>Specifies the given file as a start-up file.
-					This is equivalent to adding a <code>#include</code>
-					directive for this file at the start of the input source
-					file.</listitem>
+				<listitem>
+					<para>Specifies the given file as a start-up file.
+						This is equivalent to adding a <code>#include</code>
+						directive for this file at the start of the input source
+						file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&g.opt;</term>
 
-				<listitem>Specifies that the output &tdf; capsule should also
-					contain information to allow for the generation of run-time
-					debugging directives.
-					This is equivalent to
-					<option>-j</option><literal>g</literal>.</listitem>
+				<listitem>
+					<para>Specifies that the output &tdf; capsule should also
+						contain information to allow for the generation of run-time
+						debugging directives.
+						This is equivalent to
+						<option>-j</option><literal>g</literal>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&h.opt;</term>
 
-				<listitem>Causes &tdfc2; to print a full list of its available
-					command-line options.
-					This includes a number not documented here which are
-					unlikely to prove useful to the normal user.</listitem>
+				<listitem>
+					<para>Causes &tdfc2; to print a full list of its available
+						command-line options.
+						This includes a number not documented here which are
+						unlikely to prove useful to the normal user.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&j.opt;</term>
 
-				<listitem>Sets the &tdf; output options given by
-					&opt.arg;.</listitem>
+				<listitem>
+					<para>Sets the &tdf; output options given by &opt.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&m.opt;</term>
 
-				<listitem>Sets the error formatting options given by
-					&opt.arg;.</listitem>
+				<listitem>
+					<para>Sets the error formatting options given by &opt.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&n.opt;</term>
 
-				<listitem>Specifies that the given portability table should be
-					used to specify the basic configuration
-					parameters.</listitem>
+				<listitem>
+					<para>Specifies that the given portability table should be
+						used to specify the basic configuration parameters.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&o.opt;</term>
 
-				<listitem>Gives an alternative method of specifying the output
-					file.</listitem>
+				<listitem>
+					<para>Gives an alternative method of specifying the output file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&q.opt;</term>
 
-				<listitem>Causes &tdfc2; to quit immediately without processing
-					its input file.
-					This is useful primarily in version and option
-					queries.</listitem>
+				<listitem>
+					<para>Causes &tdfc2; to quit immediately without processing
+						its input file.
+						This is useful primarily in version and option queries.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&s.opt;</term>
 
-				<listitem>Causes &tdfc2; to write a C spec file describing the
-					input source file to &spec-file.arg;.</listitem>
+				<listitem>
+					<para>Causes &tdfc2; to write a C spec file describing the
+						input source file to &spec-file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&t.opt;</term>
 
-				<listitem>Specifies that &tdfc2; should include token
-					declarations in its output &tdf; capsule.
-					While these are strictly unnecessary, they help when
-					pretty-printing the output.
-					This is equivalent to
-					<option>-j</option><literal>t</literal>.</listitem>
+				<listitem>
+					<para>Specifies that &tdfc2; should include token
+						declarations in its output &tdf; capsule.
+						While these are strictly unnecessary, they help when
+						pretty-printing the output.
+						This is equivalent to
+						<option>-j</option><literal>t</literal>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&u.opt;</term>
 
-				<listitem>Causes &tdfc2; to print the unmangle forms of the
-					given mangled identifier names.</listitem>
+				<listitem>
+					<para>Causes &tdfc2; to print the unmangle forms of the
+						given mangled identifier names.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&v.opt;</term>
 
-				<listitem>Causes &tdfc2; to print its version number.</listitem>
+				<listitem>
+					<para>Causes &tdfc2; to print its version number.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&w.opt;</term>
 
-				<listitem>Disables all warning messages.
-					This is equivalent to
-					<option>-m</option><literal>w</literal>.</listitem>
+				<listitem>
+					<para>Disables all warning messages.
+						This is equivalent to
+						<option>-m</option><literal>w</literal>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&z.opt;</term>
 
-				<listitem>Forces &tdfc2; to produce an output file even if
-					compilation errors occur.
-					The effect of installing a &tdf; capsule produced using
-					this option is undefined.
-					This is equivalent to
-					<option>-m</option><literal>z</literal>.</listitem>
+				<listitem>
+					<para>Forces &tdfc2; to produce an output file even if
+						compilation errors occur.
+						The effect of installing a &tdf; capsule produced using
+						this option is undefined.
+						This is equivalent to
+						<option>-m</option><literal>z</literal>.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

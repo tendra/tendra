@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -20,8 +19,7 @@
 		<para>It is possible to introduce conditional compilation into the API
 			description by means of the constructs:</para>
 
-			<programlisting language="Tspec">
-+IF %% text %%
+		<programlisting language="tspec">+IF %% text %%
 +IFDEF %% text %%
 +IFNDEF %% text %%
 +ELSE
@@ -29,8 +27,7 @@
 
 		<para>which are translated into:</para>
 
-			<programlisting language="C">
-#if text
+		<programlisting language="c">#if text
 #ifdef text
 #ifndef text
 #else /* text */
@@ -44,8 +41,7 @@
 			<code>+IFNDEF</code>) forms are available which are useful on
 			occasion. These are:</para>
 
-			<programlisting language="Tspec">
-+IFDEF ~building_libs
+		<programlisting language="tspec">+IFDEF ~building_libs
 +IFDEF ~protect ( "api", "header" )</programlisting>
 
 		<para>The macros in these constructs expand respectively to <code>
@@ -65,13 +61,11 @@
 			for example, sections of C. This can be done by enclosing the text
 			for copying into the include output file in double percents:</para>
 
-			<programlisting language="Tspec">
-%% text %%</programlisting>
+			<programlisting language="tspec">%% text %%</programlisting>
 
 			<para>and text for copying into the source output file in triple percents:</para>
 
-			<programlisting language="Tspec">
-%%% text %%%</programlisting>
+			<programlisting language="tspec">%%% text %%%</programlisting>
 
 		<para>In fact more percents may be used. An even number always
 			indicates text for the include output file, and an odd number the
@@ -86,8 +80,7 @@
 
 		<para>A special case of quoted text are C style comments:</para>
 
-			<programlisting language="Tspec">
-/* text */</programlisting>
+			<programlisting language="tspec">/* text */</programlisting>
 
 			<para>which are copied directly into the include output file.</para>
 	</section>
@@ -99,117 +92,145 @@
 			properties can be set using file properties. These take the
 			form:</para>
 
-			<programlisting>
-$property = number ;</programlisting>
+		<programlisting language="tspec">$property = number ;</programlisting>
 
 		<para>for numeric (or boolean) properties, and:</para>
 
-			<programlisting>
-$property = "string" ;</programlisting>
+		<programlisting language="tspec">$property = "string" ;</programlisting>
 
 		<para>for string properties.</para>
 
 		<para>The valid property names are as follows:</para>
 
-		<!-- TODO: DL -->
-		<itemizedlist>
-			<listitem>
-				<para><code>APINAME</code> is a string property which may be
-					used to override the API name of the current set of
-					objects.</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>FILE</code> is a string property which is used by
-					the <code>tspec</code> preprocessor to indicate the current
-					input file name.</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>FILENAME</code> is a string property which may be
-					used to override the header name of the current set of
-					objects.</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>INCLNAME</code> is a string property which may be
-					used to set the name of the include output file in place of
-					the default name given in
-					<link linkend="Output">section 2.3</link>.	Setting the
-					property to the empty string suppresses the output of this
-					file.</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>INTERFACE</code> is a numeric property which may be
-					set to force the creation of the source output file and
-					cleared to suppress it.</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>LINE</code> is a numeric property which is used by
-					the <code>tspec</code> preprocessor to indicate the current
-					input file line number.</para>
-			</listitem>
+		<table>
+			<col align="left"/>
+			<col align="center"/>
+			<col align="left"/>
 
-			<listitem>
-				<para><code>METHOD</code> is a string property which may be used
-					to specify alternative construction methods for TDF library
-					building (see
-					<link linkend="Libraries">section 6.4</link>).</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>PREFIX</code> is a string property which may be used
-					as a prefix to unique token names in place of the API and
-					header names (see
-					<link linkend="Names">section 4.1.1</link>).</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>PROTECT</code> is a string property which may be
-					used to set the macro used by <code>tspec</code> to protect
-					the include output file against multiple inclusions (see
-					<link linkend="Protect">section 6.2</link>). Setting the
-					property to the empty string suppresses this macro.</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>SOURCENAME</code> is a string property which may be
-					used to set the name of the source output file in place of the
-					default name given in
-					<link linkend="Output">section 2.3</link>.	Setting the
-					property to the empty string suppresses the output of this
-					file.</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>SUBSETNAME</code> is a string property which may be
-					used to override the subset name of the current set of
-					objects.</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>UNIQUE</code> is a numeric property which may be
-					used to switch the unique token name flag on and off (see
-					<link linkend="Names">section 4.1.1</link>). For standard APIs
-					it is recommended that this property is set to 1 in the API
-					<code>MASTER</code> file.</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>VERBOSE</code> is a numeric property which may be
-					used to set the level of the verbose option (see
-					<link linkend="Options">section 2.5</link>).</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>VERSION</code> is a string property which may be
-					used to assign a version number or other identification to a
-					<code>tspec</code> description. This information is reproduced
-					in the corresponding include output file.</para>
-			</listitem>
-		</itemizedlist>
+			<thead>
+				<tr>
+					<th>Property</th>
+					<th>Type</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>APINAME</code></td>
+					<td>string</td>
+					<td>Used to override the API name of the current set of
+						objects.</td>
+				</tr>
+			
+				<tr>
+					<td><code>FILE</code></td>
+					<td>string</td>
+					<td>Used by
+						the <code>tspec</code> preprocessor to indicate the current
+						input file name.</td>
+				</tr>
+			
+				<tr>
+					<td><code>FILENAME</code></td>
+					<td>string</td>
+					<td>Override the header name of the current set of
+						objects.</td>
+				</tr>
+			
+				<tr>
+					<td><code>INCLNAME</code></td>
+					<td>string</td>
+					<td>Set the name of the include output file in place of
+						the default name given in
+						<link linkend="Output">section 2.3</link>.	Setting the
+						property to the empty string suppresses the output of this
+						file.</td>
+				</tr>
+			
+				<tr>
+					<td><code>INTERFACE</code></td>
+					<td>numeric</td>
+					<td>Set to force the creation of the source output file and
+						cleared to suppress it.</td>
+				</tr>
+			
+				<tr>
+					<td><code>LINE</code></td>
+					<td>numeric</td>
+					<td>Used by
+						the <code>tspec</code> preprocessor to indicate the current
+						input file line number.</td>
+				</tr>
+			
+				<tr>
+					<td><code>METHOD</code></td>
+					<td>string</td>
+					<td>Specify alternative construction methods for TDF library
+						building (see
+						<link linkend="Libraries">section 6.4</link>).</td>
+				</tr>
+			
+				<tr>
+					<td><code>PREFIX</code></td>
+					<td>string</td>
+					<td>A prefix to unique token names in place of the API and
+						header names (see
+						<link linkend="Names">section 4.1.1</link>).</td>
+				</tr>
+			
+				<tr>
+					<td><code>PROTECT</code></td>
+					<td>string</td>
+					<td>Set the macro used by <code>tspec</code> to protect
+						the include output file against multiple inclusions (see
+						<link linkend="Protect">section 6.2</link>). Setting the
+						property to the empty string suppresses this macro.</td>
+				</tr>
+			
+				<tr>
+					<td><code>SOURCENAME</code></td>
+					<td>string</td>
+					<td>Set the name of the source output file in place of the
+						default name given in
+						<link linkend="Output">section 2.3</link>.	Setting the
+						property to the empty string suppresses the output of this
+						file.</td>
+
+				</tr>
+			
+				<tr>
+					<td><code>SUBSETNAME</code></td>
+					<td>string</td>
+					<td>Override the subset name of the current set of
+						objects.</td>
+				</tr>
+			
+				<tr>
+					<td><code>UNIQUE</code></td>
+					<td>numeric</td>
+					<td>Switch the unique token name flag on and off (see
+						<link linkend="Names">section 4.1.1</link>). For standard APIs
+						it is recommended that this property is set to 1 in the API
+						<code>MASTER</code> file.</td>
+				</tr>
+			
+				<tr>
+					<td><code>VERBOSE</code></td>
+					<td>numeric</td>
+					<td>Set the level of the verbose option (see
+						<link linkend="Options">section 2.5</link>).</td>
+				</tr>
+			
+				<tr>
+					<td><code>VERSION</code></td>
+					<td>string</td>
+					<td>Assign a version number or other identification to a
+						<code>tspec</code> description. This information is reproduced
+						in the corresponding include output file.</td>
+				</tr>
+			</tbody>
+		</table>
 	</section>
 </chapter>
 	

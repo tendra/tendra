@@ -1,9 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-
-	<!ENTITY sid "<application><acronym>SID</acronym></application>">
-]>
+<!DOCTYPE book SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -11,27 +7,29 @@
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
 	<bookinfo>
-		<title>The &sid; users' guide</title>
+		<title>The SID users' guide</title>
 
-		<author>
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</author>
+		<authorgroup>
+			<author>
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</author>
 
-		<othercredit class="copyeditor">
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</othercredit>
+			<othercredit class="copyeditor">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
 
-		<othercredit class="copyeditor">
-			<firstname>Jeroen</firstname>
-			<surname>Ruigrok van der Werven</surname>
-			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</othercredit>
+			<othercredit class="copyeditor">
+				<firstname>Jeroen</firstname>
+				<surname>Ruigrok van der Werven</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
 
-		<corpauthor>DERA</corpauthor>
+			<corpauthor>DERA</corpauthor>
+		</authorgroup>
 
 		<pubdate>2006</pubdate>
 
@@ -53,13 +51,17 @@
 	<xi:include href="grammars.xml"/>
 	<xi:include href="overview.xml"/>
 	<xi:include href="invocation.xml"/>
+<!-- TODO:
 	<xi:include href="languages.xml"/>
+-->
 	<xi:include href="grammarfile.xml"/>
 	<xi:include href="c-infofile.xml"/>
 	<xi:include href="features.xml"/>
 
 	<!-- Appendicies -->
+<!-- TODO:
 	<xi:include href="glossary.xml"/>
+-->
 	<xi:include href="appendix-errmsg.xml"/>
 	<xi:include href="appendix-advice.xml"/>
 

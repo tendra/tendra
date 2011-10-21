@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -14,7 +13,7 @@
 
 	<!-- TODO centralise with manpage -->
 	<cmdsynopsis>
-		<command>pl</command>	<!-- TODO wasn't this renamed? -->
+		<command>tpl</command>
 		<arg>-v</arg>
 		<arg>-I <replaceable>group</replaceable></arg>
 		<arg>-g</arg>

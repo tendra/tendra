@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
   $Id$
@@ -14,65 +13,65 @@
 
     <para>
       The following constructions introduce <code>TAG</code>s:
-      <emphasis>identify</emphasis>, <emphasis>variable</emphasis>,
-      <emphasis>make_proc</emphasis>, <emphasis>make_general_proc</emphasis>,
-      <emphasis>make_id_tagdec</emphasis>, <emphasis>make_var_tagdec</emphasis>,
-      <emphasis>common_tagdec</emphasis>.
+      <replaceable>identify</replaceable>, <replaceable>variable</replaceable>,
+      <replaceable>make_proc</replaceable>, <replaceable>make_general_proc</replaceable>,
+      <replaceable>make_id_tagdec</replaceable>, <replaceable>make_var_tagdec</replaceable>,
+      <replaceable>common_tagdec</replaceable>.
     </para>
 
     <para>
-      During the evaluation of <emphasis>identify</emphasis> and
-      <emphasis>variable</emphasis> a value, <emphasis>v</emphasis>, is produced
+      During the evaluation of <replaceable>identify</replaceable> and
+      <replaceable>variable</replaceable> a value, <replaceable>v</replaceable>, is produced
       which is bound to the <code>TAG</code> during the evaluation of an
-      <code>EXP</code> or <code>EXP</code>s. The <code>TAG</code> is <quote>in
-      scope</quote> for these <code>EXP</code>s. This means that in the
+      <code>EXP</code> or <code>EXP</code>s. The <code>TAG</code> is &ldquo;in
+      scope&rdquo; for these <code>EXP</code>s. This means that in the
       <code>EXP</code> a use of the <code>TAG</code> is permissible and will
       refer to the declaration.
     </para>
 
     <para>
-      The <emphasis>make_proc</emphasis> and
-      <emphasis>make_general_proc</emphasis> construction introduces
+      The <replaceable>make_proc</replaceable> and
+      <replaceable>make_general_proc</replaceable> construction introduces
       <code>TAG</code>s which are bound to the actual parameters on each call of
-      the procedure. These <code>TAG</code>s are <quote>in scope</quote> for the
+      the procedure. These <code>TAG</code>s are &ldquo;in scope&rdquo; for the
       body of the procedure.
     </para>
 
     <para>
-      If a <emphasis>make_proc</emphasis> or
-      <emphasis>make_general_proc</emphasis> construction occurs in the body of
-      another <emphasis>make_proc</emphasis> or
-      <emphasis>make_general_proc</emphasis>, the <code>TAG</code>s of the inner
+      If a <replaceable>make_proc</replaceable> or
+      <replaceable>make_general_proc</replaceable> construction occurs in the body of
+      another <replaceable>make_proc</replaceable> or
+      <replaceable>make_general_proc</replaceable>, the <code>TAG</code>s of the inner
       procedure are not in scope in the outer procedure, nor are the
       <code>TAG</code>s of the outer in scope in the inner.
     </para>
 
     <para>
-      The <emphasis>apply_general_proc</emphasis> construction permits the
+      The <replaceable>apply_general_proc</replaceable> construction permits the
       introduction of <code>TAG</code>s whose scope is the
-      <emphasis>postlude</emphasis> argument. These are bound to the values of
+      <replaceable>postlude</replaceable> argument. These are bound to the values of
       caller parameters after the evaluation of the body of the procedure.
     </para>
 
     <para>
-      The <emphasis>make_id_tagdec</emphasis>,
-      <emphasis>make_var_tagdec</emphasis> and
-      <emphasis>common_tagdec</emphasis> constructions introduce
-      <code>TAG</code>s which are <quote>in scope</quote> throughout all the
-      <emphasis>tagdef</emphasis> <code>UNIT</code>s. These <code>TAG</code>s
-      may have values defined for them in the <emphasis>tagdef</emphasis>
+      The <replaceable>make_id_tagdec</replaceable>,
+      <replaceable>make_var_tagdec</replaceable> and
+      <replaceable>common_tagdec</replaceable> constructions introduce
+      <code>TAG</code>s which are &ldquo;in scope&rdquo; throughout all the
+      <replaceable>tagdef</replaceable> <code>UNIT</code>s. These <code>TAG</code>s
+      may have values defined for them in the <replaceable>tagdef</replaceable>
       <code>UNIT</code>s, or values may be supplied by linking.
     </para>
 
     <para>
       The following constructions introduce <code>LABEL</code>s:
-      <emphasis>conditional</emphasis>, <emphasis>repeat</emphasis>,
-      <emphasis>labelled</emphasis>.
+      <replaceable>conditional</replaceable>, <replaceable>repeat</replaceable>,
+      <replaceable>labelled</replaceable>.
     </para>
 
     <para>
       The construction themselves define <code>EXP</code>s for which these
-      <code>LABEL</code>s are <quote>in scope</quote>. This means that in the
+      <code>LABEL</code>s are &ldquo;in scope&rdquo;. This means that in the
       <code>EXP</code>s a use of the <code>LABEL</code> is permissible and will
       refer to the introducing construction.
     </para>
@@ -158,56 +157,56 @@
 
     <para>
       Some constructions require an <code>EXP</code> argument which is
-      <quote>constant at install time</quote>.  For an <code>EXP</code> to
+      &ldquo;constant at install time&rdquo;.  For an <code>EXP</code> to
       satisfy this condition it must be constructed according to the following
       rules after substitution of token definitions and selection of
-      <emphasis>exp_cond</emphasis> branches.
+      <replaceable>exp_cond</replaceable> branches.
     </para>
 
     <para>
-      If it contains <emphasis>obtain_tag</emphasis> then the tag will be
+      If it contains <replaceable>obtain_tag</replaceable> then the tag will be
       introduced within the <code>EXP</code>, or defined with
-      <emphasis>make_id_tagdef</emphasis> within the current capsule.
+      <replaceable>make_id_tagdef</replaceable> within the current capsule.
     </para>
 
     <para>
       It may not contain any of the following constructions:
-      <emphasis>apply_proc, apply_general_proc, assign_with_mode</emphasis>,
-      <emphasis>contents_with_mode</emphasis>, <emphasis>continue</emphasis>,
-      <emphasis>current_env</emphasis>, <emphasis>error_jump</emphasis>,
-      <emphasis>goto_local_lv</emphasis>, <emphasis>make_local_lv</emphasis>,
-      <emphasis>move_some</emphasis>, <emphasis>repeat</emphasis>,
-      <emphasis>round_as_state</emphasis>.
+      <replaceable>apply_proc, apply_general_proc, assign_with_mode</replaceable>,
+      <replaceable>contents_with_mode</replaceable>, <replaceable>continue</replaceable>,
+      <replaceable>current_env</replaceable>, <replaceable>error_jump</replaceable>,
+      <replaceable>goto_local_lv</replaceable>, <replaceable>make_local_lv</replaceable>,
+      <replaceable>move_some</replaceable>, <replaceable>repeat</replaceable>,
+      <replaceable>round_as_state</replaceable>.
     </para>
 
     <para>
       Unless it is the <code>EXP</code> argument of a <code>TAGDEF</code>, a
-      <quote>constant at install time</quote> may not contain
-      <emphasis>env_offset</emphasis> or <emphasis>env_size</emphasis>.
+      &ldquo;constant at install time&rdquo; may not contain
+      <replaceable>env_offset</replaceable> or <replaceable>env_size</replaceable>.
     </para>
 
     <para>
-      Any use of <emphasis>contents</emphasis> or <emphasis>assign</emphasis>
+      Any use of <replaceable>contents</replaceable> or <replaceable>assign</replaceable>
       will be applied only to <code>POINTER</code>s derived from
-      <emphasis>variable</emphasis> constructions.
+      <replaceable>variable</replaceable> constructions.
     </para>
 
     <para>
-      If it contains <emphasis>labelled</emphasis> there will only be jumps to
-      the <code>LABEL</code>s from within <emphasis>starter</emphasis>, not from
-      within any of the <emphasis>places</emphasis>.
+      If it contains <replaceable>labelled</replaceable> there will only be jumps to
+      the <code>LABEL</code>s from within <replaceable>starter</replaceable>, not from
+      within any of the <replaceable>places</replaceable>.
     </para>
 
     <para>
-      Any use of <emphasis>obtain_tag</emphasis> defined with
-      <emphasis>make_id_tagdef</emphasis> will occur after the end of the
-      <emphasis>make_id_tagdef</emphasis>.
+      Any use of <replaceable>obtain_tag</replaceable> defined with
+      <replaceable>make_id_tagdef</replaceable> will occur after the end of the
+      <replaceable>make_id_tagdef</replaceable>.
     </para>
 
     <para>
       Note specifically that a constant <code>EXP</code> forming the defining
       value of a <code>TAGDEF</code> construct may contain
-      <emphasis>env_offset</emphasis> and/or <emphasis>env_size</emphasis>.
+      <replaceable>env_offset</replaceable> and/or <replaceable>env_size</replaceable>.
     </para>
   </section>
 
@@ -221,33 +220,33 @@
     </para>
 
     <para>
-      <emphasis role="bold">Class 1</emphasis>:
+      Class 1:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         p D1 q = n</programlisting>
 
     <para>
       where:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         p = n*q + (p M1 q)
         sign(p M1 q) = sign(q)
         0 &lt;= |p M1 q| &lt; |q|</programlisting>
 
     <para>
-      <emphasis role="bold">Class 2</emphasis>:
+      Class 2:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         p D2 q = n</programlisting>
 
     <para>
       where:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         p = n*q + (p M2 q)
         sign(p M2 q) = sign(p)
         0 &lt;= |p M2 q| &lt; |q|</programlisting>
@@ -277,8 +276,8 @@
       <listitem>
         <para>
           Two <code>SHAPE</code>s are equal if they are both
-          <emphasis>integer</emphasis> or both <emphasis>floating</emphasis>, or
-          both <emphasis>bitfield</emphasis>, and the corresponding parameters
+          <replaceable>integer</replaceable> or both <replaceable>floating</replaceable>, or
+          both <replaceable>bitfield</replaceable>, and the corresponding parameters
           are equal.
         </para>
       </listitem>
@@ -326,10 +325,10 @@
 
     <para>
       TDF allows simply for labels and jumps within a procedure, by means of the
-      <emphasis>conditional</emphasis>, <emphasis>labelled</emphasis> and
-      <emphasis>repeat</emphasis> constructions, and the
-      <emphasis>goto</emphasis>, <emphasis>case</emphasis> and various
-      <emphasis>test</emphasis> constructions.  But there are two more complex
+      <replaceable>conditional</replaceable>, <replaceable>labelled</replaceable> and
+      <replaceable>repeat</replaceable> constructions, and the
+      <replaceable>goto</replaceable>, <replaceable>case</replaceable> and various
+      <replaceable>test</replaceable> constructions.  But there are two more complex
       jumping situations.
     </para>
 
@@ -338,9 +337,9 @@
       computed destination. Many languages have discouraged this kind of
       construction, but it is still available in Cobol (implicitly), and it can
       be used to provide other facilities (see below). TDF allows it by means of
-      the <code>POINTER(</code>{<emphasis>code</emphasis><code>})</code>.  TDF
+      the <code>POINTER(</code>{<replaceable>code</replaceable><code>})</code>.  TDF
       is arranged so that this can usually be implemented as the address of the
-      label. The <emphasis>goto_local_lv</emphasis> construction just jumps to
+      label. The <replaceable>goto_local_lv</replaceable> construction just jumps to
       the label.
     </para>
 
@@ -362,7 +361,7 @@
       Fortunately the normal implementations of these concepts provide a
       suggestion as to how they can be introduced into TDF. The local label
       value provides the destination address, the environment (produced by
-      <emphasis>current_env</emphasis>) provides the stack frame for the
+      <replaceable>current_env</replaceable>) provides the stack frame for the
       destination, and the stack re-setting needed by the local label jumps
       themselves provides the necessary stack information. If more information
       is needed, such as which exception handlers are active, this can be
@@ -380,17 +379,17 @@
       <code>LABEL</code> as destination if the result of the operation is
       exceptional. This is sufficient for the kind of explicit exception
       handling found in C++ and, in principle, could also be used to implement
-      the kind of <quote>automatic</quote> exception detection and handling
+      the kind of &ldquo;automatic&rdquo; exception detection and handling
       found in Ada, for example.
     </para>
 
     <para>
       However many architectures have facilities for automatically trapping on
       exceptions without explicit testing. To take advantage of this, there is a
-      <emphasis>trap</emphasis> <code>ERROR_TREATMENT</code> with associated
+      <replaceable>trap</replaceable> <code>ERROR_TREATMENT</code> with associated
       <code>ERROR_code</code>s. The action taken on an exception with
-      <emphasis>trap</emphasis> <code>ERROR_TREATMENT</code> will be to
-      <quote>throw</quote> the <code>ERROR_code</code>.  Since each language has
+      <replaceable>trap</replaceable> <code>ERROR_TREATMENT</code> will be to
+      &ldquo;throw&rdquo; the <code>ERROR_code</code>.  Since each language has
       its own idea of how to interpret the <code>ERROR_code</code> and handle
       exceptions, the onus is on the producer writer to describe how to throw an
       <code>ERROR_code</code>.
@@ -398,8 +397,8 @@
 
     <para>
       The producer writer must give a definition of a <code>TOKEN</code>
-      <emphasis>~Throw</emphasis> : <code>NAT</code> -&gt; <code>EXP</code>
-      where the <code>NAT</code> will be the <emphasis>error_val</emphasis> of
+      <replaceable>~Throw</replaceable> : <code>NAT</code> -&gt; <code>EXP</code>
+      where the <code>NAT</code> will be the <replaceable>error_val</replaceable> of
       some <code>ERROR_code</code>. The expansion of this token will be
       consistent with the interpretation of the relevant <code>ERROR_code</code>
       and the method of handling exceptions. Usually this will consist of
@@ -409,10 +408,10 @@
 
     <para>
       The translator writer will provide a parameterless <code>EXP TOKEN</code>,
-      <emphasis>~Set_signal_handler</emphasis>. This <code>TOKEN</code> will use
-      <emphasis>~Throw</emphasis> and must be applied before any possible
+      <replaceable>~Set_signal_handler</replaceable>. This <code>TOKEN</code> will use
+      <replaceable>~Throw</replaceable> and must be applied before any possible
       exceptions. This implies that the definition of both
-      <emphasis>~Throw</emphasis> and <emphasis>~Set_signal_handler</emphasis>
+      <replaceable>~Throw</replaceable> and <replaceable>~Set_signal_handler</replaceable>
       must be bound before translation of any <code>CAPSULE</code> which uses
       them, presumeably by linking with some TDF libraries.
     </para>
@@ -427,21 +426,21 @@
     <title>Procedures</title>
 
     <para>
-      The <emphasis>var_intro</emphasis> of a <emphasis>make_proc</emphasis>, if
+      The <replaceable>var_intro</replaceable> of a <replaceable>make_proc</replaceable>, if
       present, may be used under one of two different circumstances. In one
       circumstance, the <code>POINTER TAG</code> provided by the
-      <emphasis>var_intro</emphasis> is used to access the actual
-      <emphasis>var_param</emphasis> of an <emphasis>apply_proc</emphasis>. If
-      this is the case, all uses of <emphasis>apply_proc</emphasis> which have
+      <replaceable>var_intro</replaceable> is used to access the actual
+      <replaceable>var_param</replaceable> of an <replaceable>apply_proc</replaceable>. If
+      this is the case, all uses of <replaceable>apply_proc</replaceable> which have
       the effect of calling this procedure will have the
-      <emphasis>var_param</emphasis> option present, and they will all have
-      precisely the same number of <emphasis>params</emphasis> as
-      <emphasis>params_intro</emphasis> in the <emphasis>make_proc</emphasis>.
-      The body of the <emphasis>make_proc</emphasis> can access elements of the
-      <emphasis>var_param</emphasis> by using <code>OFFSET</code> arithmetic
+      <replaceable>var_param</replaceable> option present, and they will all have
+      precisely the same number of <replaceable>params</replaceable> as
+      <replaceable>params_intro</replaceable> in the <replaceable>make_proc</replaceable>.
+      The body of the <replaceable>make_proc</replaceable> can access elements of the
+      <replaceable>var_param</replaceable> by using <code>OFFSET</code> arithmetic
       relative to the <code>POINTER TAG</code>.  This provides a method of
       supplying a variable number of parameters, by composing them into a
-      compound value which is supplied as the <emphasis>var_param</emphasis>.
+      compound value which is supplied as the <replaceable>var_param</replaceable>.
     </para>
 
     <para>
@@ -452,81 +451,81 @@
     </para>
 
     <para>
-      An alternative circumstance for using <emphasis>var_intro</emphasis> is
-      where all uses of <emphasis>apply_proc</emphasis> which have the effect of
-      calling this procedure may have more <emphasis>params</emphasis> present
-      than the number of <emphasis>params_intro</emphasis>, and none of them
-      will have their <emphasis>var_param</emphasis> option present.  The body
-      of the <emphasis>make_proc</emphasis> can access the additional params by
+      An alternative circumstance for using <replaceable>var_intro</replaceable> is
+      where all uses of <replaceable>apply_proc</replaceable> which have the effect of
+      calling this procedure may have more <replaceable>params</replaceable> present
+      than the number of <replaceable>params_intro</replaceable>, and none of them
+      will have their <replaceable>var_param</replaceable> option present.  The body
+      of the <replaceable>make_proc</replaceable> can access the additional params by
       using installer-defined <code>TOKEN</code>s specified in the companion
       document <ulink url="reference/xhtml/register/">TDF Token Register</ulink>,
       analogous to the use of variable argument lists in C. A local variable
-      <emphasis>v</emphasis> of shape <emphasis>~va_list</emphasis> must be
-      initialised to <emphasis>~__va_start</emphasis>(<emphasis>p</emphasis>),
-      where <emphasis>p</emphasis> is the <code>POINTER</code> obtained from the
-      <emphasis>var_intro</emphasis>. Successive elements of the
-      <emphasis>params</emphasis> list can then be obtained by successive
+      <replaceable>v</replaceable> of shape <replaceable>~va_list</replaceable> must be
+      initialised to <replaceable>~__va_start</replaceable>(<replaceable>p</replaceable>),
+      where <replaceable>p</replaceable> is the <code>POINTER</code> obtained from the
+      <replaceable>var_intro</replaceable>. Successive elements of the
+      <replaceable>params</replaceable> list can then be obtained by successive
       applications of
-      <emphasis>~va_arg</emphasis>(<emphasis>v</emphasis>,<emphasis>s</emphasis>)
-      where <emphasis>s</emphasis> is the <code>SHAPE</code> of element
-      obtained. Finally, <emphasis>~va_end</emphasis>(<emphasis>v</emphasis>)
-      completes the use of <emphasis>v</emphasis>.
+      <replaceable>~va_arg</replaceable>(<replaceable>v</replaceable>,<replaceable>s</replaceable>)
+      where <replaceable>s</replaceable> is the <code>SHAPE</code> of element
+      obtained. Finally, <replaceable>~va_end</replaceable>(<replaceable>v</replaceable>)
+      completes the use of <replaceable>v</replaceable>.
     </para>
 
     <para>
       The definition of caller parameters in general procedures addesses this
       difficulty in a different way, by describing the layout of caller
       parameters qualified by <code>PROCPROPS</code>
-      <emphasis>var_callers</emphasis>.  This allows both the call and the body
+      <replaceable>var_callers</replaceable>.  This allows both the call and the body
       to have closely associated views of the <code>OFFSET</code>s within a
       parameter set, regardless of whether or not the particular parameter has
       been named. The installer-defined <code>TOKEN</code>
-      <emphasis>~next_caller_offset</emphasis> provides access to successive
+      <replaceable>~next_caller_offset</replaceable> provides access to successive
       caller parameters, by using <code>OFFSET</code>s relative to the current
-      frame pointer <emphasis>current_env</emphasis>, adjusting for any
+      frame pointer <replaceable>current_env</replaceable>, adjusting for any
       differences there may be between the closely associated views.  The
-      <emphasis>caller_intro</emphasis> list of the
-      <emphasis>make_general_proc</emphasis> must not be empty, then the
+      <replaceable>caller_intro</replaceable> list of the
+      <replaceable>make_general_proc</replaceable> must not be empty, then the
       sequence of <code>OFFSET</code>s can start with an appropriate
-      <emphasis>env_offset</emphasis>. Similar consideration applies to
+      <replaceable>env_offset</replaceable>. Similar consideration applies to
       accessing within the callee parameters, using the installer-defined
-      <code>TOKEN</code> <emphasis>~next_callee_offset</emphasis>.
+      <code>TOKEN</code> <replaceable>~next_callee_offset</replaceable>.
     </para>
 
     <para>
-      All uses of <emphasis>return</emphasis>,
-      <emphasis>untidy_return</emphasis> and <emphasis>tail_call</emphasis> in a
+      All uses of <replaceable>return</replaceable>,
+      <replaceable>untidy_return</replaceable> and <replaceable>tail_call</replaceable> in a
       procedure will return values of the same <code>SHAPE</code>, and this will
-      be the <emphasis>result_shape</emphasis> specified in all uses of
-      <emphasis>apply_proc</emphasis> or <emphasis>apply_general_proc</emphasis>
+      be the <replaceable>result_shape</replaceable> specified in all uses of
+      <replaceable>apply_proc</replaceable> or <replaceable>apply_general_proc</replaceable>
       calling the procedure.
     </para>
 
     <para>
-      The use of <emphasis>untidy_return</emphasis> gives a generalisation of
-      <emphasis>local_alloc</emphasis>.  It extends the validity of pointers
-      allocated by <emphasis>local_alloc</emphasis> within the immediatly
+      The use of <replaceable>untidy_return</replaceable> gives a generalisation of
+      <replaceable>local_alloc</replaceable>.  It extends the validity of pointers
+      allocated by <replaceable>local_alloc</replaceable> within the immediatly
       enclosing procedure into the calling procedure.  The original space of
-      these pointers may be invalidated by <emphasis>local_free</emphasis> just
-      as if it had been generated by <emphasis>local_alloc</emphasis> in the
+      these pointers may be invalidated by <replaceable>local_free</replaceable> just
+      as if it had been generated by <replaceable>local_alloc</replaceable> in the
       calling procedure.
     </para>
 
     <para>
-      The <code>PROCPROPS</code> <emphasis>check_stack</emphasis> may be used to
+      The <code>PROCPROPS</code> <replaceable>check_stack</replaceable> may be used to
       check that limit set by set_stack_limit is not exceeded by the allocation
       of the static locals of a procedure body to be obeyed. If it is exceeded
-      then the producer-defined <code>TOKEN</code> <emphasis>~Throw</emphasis>:
+      then the producer-defined <code>TOKEN</code> <replaceable>~Throw</replaceable>:
       <code>NAT</code> -&gt; <code>EXP</code> will be invoked as
-      <emphasis>~Throw</emphasis>(<emphasis>error_val</emphasis>(<emphasis>stack_overflow</emphasis>)).
+      <replaceable>~Throw</replaceable>(<replaceable>error_val</replaceable>(<replaceable>stack_overflow</replaceable>)).
       Note that this will not include any space generated by
       <code>local_alloc</code>; an explicit test is required to do check these.
     </para>
 
     <para>
       Any <code>SHAPE</code> is permitted as the
-      <emphasis>result_shape</emphasis> in an <emphasis>apply_proc</emphasis> or
-      <emphasis>apply_general_proc</emphasis>.
+      <replaceable>result_shape</replaceable> in an <replaceable>apply_proc</replaceable> or
+      <replaceable>apply_general_proc</replaceable>.
     </para>
   </section>
 
@@ -536,10 +535,10 @@
     <para>
       TDF states that while a particular procedure activation is current, it is
       possible to create a <code>POINTER</code>, by using
-      <emphasis>current_env</emphasis>, which gives access to all the declared
+      <replaceable>current_env</replaceable>, which gives access to all the declared
       variables and identifications of the activation which are alive and which
-      have been marked as <emphasis>visible</emphasis>. The construction
-      <emphasis>env_offset</emphasis> gives the <code>OFFSET</code> of one of
+      have been marked as <replaceable>visible</replaceable>. The construction
+      <replaceable>env_offset</replaceable> gives the <code>OFFSET</code> of one of
       these relative to such a <code>POINTER</code>.  These constructions may
       serve for several purposes.
     </para>
@@ -547,7 +546,7 @@
     <para>
       One significant purpose is to implement such languages as Pascal which
       have procedures declared inside other procedures. One way of implementing
-      this is by means of a <quote>display</quote>, that is, a tuple of frame
+      this is by means of a &ldquo;display&rdquo;, that is, a tuple of frame
       pointers of active procedures.
     </para>
 
@@ -557,10 +556,10 @@
       collection. TDF does not force the installer to implement a frame pointer
       register, since some machines do not work best in this way.  Instead, a
       frame pointer is created only if required by
-      <emphasis>current_env</emphasis>.  The implication of this is that this
+      <replaceable>current_env</replaceable>.  The implication of this is that this
       sort of garbage collection needs the collaboration of the producer to
       create TDF which makes the correct calls on
-      <emphasis>current_env</emphasis> and <emphasis>env_offset</emphasis> and
+      <replaceable>current_env</replaceable> and <replaceable>env_offset</replaceable> and
       place suitable values in known positions.
     </para>
 
@@ -571,8 +570,8 @@
 
     <para>
       In general any program which wishes to manipulate the frames of procedures
-      other than the current one can use <emphasis>current_env</emphasis> and
-      <emphasis>env_offset</emphasis> to do so.
+      other than the current one can use <replaceable>current_env</replaceable> and
+      <replaceable>env_offset</replaceable> to do so.
     </para>
 
     <para>
@@ -580,30 +579,30 @@
       parameters and locals of the procedure involved. Since each component may
       have different internal methods of access within the frame, each has a
       different special frame alignment associated with pointers within them.
-      These are <emphasis>callers_alignment</emphasis>,
-      <emphasis>callees_alignment</emphasis> and
-      <emphasis>locals_alignment</emphasis>. The <code>POINTER</code> produced
-      by <emphasis>current_env</emphasis> will be some union of these special
+      These are <replaceable>callers_alignment</replaceable>,
+      <replaceable>callees_alignment</replaceable> and
+      <replaceable>locals_alignment</replaceable>. The <code>POINTER</code> produced
+      by <replaceable>current_env</replaceable> will be some union of these special
       alignments depending on how the procedure was defined.
     </para>
 
     <para>
       Each of these frame alignments are considered to contain any
-      <code>ALIGNMENT</code> produced by <emphasis>alignment</emphasis> from any
+      <code>ALIGNMENT</code> produced by <replaceable>alignment</replaceable> from any
       <code>SHAPE</code>. Note that this does not say that they are the set
       union of all such <code>ALIGNMENT</code>s. This is because the
       interpretation of pointer and offset operations (notably
-      <emphasis>add_to_pointer</emphasis>) may be different depending on the
+      <replaceable>add_to_pointer</replaceable>) may be different depending on the
       implementation of the frames; they may involve extra indirections.
     </para>
 
     <para>
       Accordingly, because of the constraints on
-      <emphasis>add_to_ptr</emphasis>, an <code>OFFSET</code> produced by
-      <emphasis>env_offset</emphasis> can only be added to a
-      <code>POINTER</code> produced by <emphasis>current_env</emphasis>. It is a
+      <replaceable>add_to_ptr</replaceable>, an <code>OFFSET</code> produced by
+      <replaceable>env_offset</replaceable> can only be added to a
+      <code>POINTER</code> produced by <replaceable>current_env</replaceable>. It is a
       further constraint that such an <code>OFFSET</code> will only be added to
-      a <code>POINTER</code> produced from <emphasis>current_env</emphasis> used
+      a <code>POINTER</code> produced from <replaceable>current_env</replaceable> used
       on the procedure which declared the <code>TAG</code>.
     </para>
   </section>
@@ -634,45 +633,45 @@
     <title>Alloca</title>
 
     <para>
-      The constructions involving <emphasis>alloca</emphasis>
-      (<emphasis>last_local</emphasis>, <emphasis>local_alloc</emphasis>,
-      <emphasis>local_free</emphasis>, <emphasis>local_free_all</emphasis>) as
-      well as the <emphasis>untidy_return</emphasis> construction imply a
+      The constructions involving <replaceable>alloca</replaceable>
+      (<replaceable>last_local</replaceable>, <replaceable>local_alloc</replaceable>,
+      <replaceable>local_free</replaceable>, <replaceable>local_free_all</replaceable>) as
+      well as the <replaceable>untidy_return</replaceable> construction imply a
       stack-like implementation which is related to procedure calls.  They may
       be implemented using the same stack as the procedure frames, if there is
       such a stack, or it may be more convenient to implement them separately.
-      However note that if the <emphasis>alloca</emphasis> mechanism is
+      However note that if the <replaceable>alloca</replaceable> mechanism is
       implemented as a stack, this may be an upward or a downward growing stack.
     </para>
 
     <para>
       The state of this notional stack is referred to here as the
-      <emphasis>alloca</emphasis> state. The construction
-      <emphasis>local_alloc</emphasis> creates a new space on the
-      <emphasis>alloca</emphasis> stack, the size of this space being given by
+      <replaceable>alloca</replaceable> state. The construction
+      <replaceable>local_alloc</replaceable> creates a new space on the
+      <replaceable>alloca</replaceable> stack, the size of this space being given by
       an <code>OFFSET</code>. In the special case that this <code>OFFSET</code>
-      is zero, <emphasis>local_alloc</emphasis> in effect gives the current
-      <emphasis>alloca</emphasis> state (normally a <code>POINTER</code> to the
+      is zero, <replaceable>local_alloc</replaceable> in effect gives the current
+      <replaceable>alloca</replaceable> state (normally a <code>POINTER</code> to the
       top of the stack).
     </para>
 
     <para>
-      A use of <emphasis>local_free_all</emphasis> returns the
-      <emphasis>alloca</emphasis> state to what it was on entry to the current
+      A use of <replaceable>local_free_all</replaceable> returns the
+      <replaceable>alloca</replaceable> state to what it was on entry to the current
       procedure.
     </para>
 
     <para>
-      The construction <emphasis>last_local</emphasis> gives a
+      The construction <replaceable>last_local</replaceable> gives a
       <code>POINTER</code> to the top item on the stack, but it is necessary to
       give the size of this (as an <code>OFFSET</code>) because this cannot be
       deduced if the stack is upward growing. This top item will be the whole of
-      an item previously allocated with <emphasis>local_alloc</emphasis>.
+      an item previously allocated with <replaceable>local_alloc</replaceable>.
     </para>
 
     <para>
-      The construction <emphasis>local_free</emphasis> returns the state of the
-      <emphasis>alloca</emphasis> machine to what it was when its parameter
+      The construction <replaceable>local_free</replaceable> returns the state of the
+      <replaceable>alloca</replaceable> machine to what it was when its parameter
       <code>POINTER</code> was allocated. The <code>OFFSET</code> parameter will
       be the same value as that with which the <code>POINTER</code> was
       allocated.
@@ -680,53 +679,53 @@
 
     <para>
       The <code>ALIGNMENT</code> of the <code>POINTER</code> delivered by
-      <emphasis>local_alloc</emphasis> is <emphasis>alloca_alignment</emphasis>.
+      <replaceable>local_alloc</replaceable> is <replaceable>alloca_alignment</replaceable>.
       This shall include the set union of all the <code>ALIGNMENT</code>s which
-      can be produced by <emphasis>alignment</emphasis> from any
+      can be produced by <replaceable>alignment</replaceable> from any
       <code>SHAPE</code>.
     </para>
 
     <para>
-      The use of <emphasis>alloca_alignment</emphasis> arises so that the
-      <emphasis>alloca</emphasis> stack can hold any kind of value.  The sizes
+      The use of <replaceable>alloca_alignment</replaceable> arises so that the
+      <replaceable>alloca</replaceable> stack can hold any kind of value.  The sizes
       of spaces allocated must be rounded up to the appropriate
       <code>ALIGNMENT</code>. Since this includes all value
       <code>ALIGNMENT</code>s a value of any <code>ALIGNMENT</code> can be
       assigned into this space.  Note that there is no necessary relation with
       the special frame alignments (see <link linkend="C7S10">section
       7.10</link>) though they must both contain all the <code>ALIGNMENT</code>s
-      which can be produced by <emphasis>alignment</emphasis> from any
+      which can be produced by <replaceable>alignment</replaceable> from any
       <code>SHAPE</code>.
     </para>
 
     <para>
-      Stack pushing is <emphasis>local_alloc</emphasis>. Stack popping can be
-      performed by use of <emphasis>last_local</emphasis> and
-      <emphasis>local_free</emphasis>. Remembering the state of the
-      <emphasis>alloca</emphasis> stack and returning to it can be performed by
-      using <emphasis>local_alloc</emphasis> with a zero <code>OFFSET</code> and
-      <emphasis>local_free</emphasis>.
+      Stack pushing is <replaceable>local_alloc</replaceable>. Stack popping can be
+      performed by use of <replaceable>last_local</replaceable> and
+      <replaceable>local_free</replaceable>. Remembering the state of the
+      <replaceable>alloca</replaceable> stack and returning to it can be performed by
+      using <replaceable>local_alloc</replaceable> with a zero <code>OFFSET</code> and
+      <replaceable>local_free</replaceable>.
     </para>
 
     <para>
       Note that stack pushing can also be achieved by the use of a procedure
-      call with <emphasis>untidy_return</emphasis>.
+      call with <replaceable>untidy_return</replaceable>.
     </para>
 
     <para>
       A transfer of control to a local label by means of
-      <emphasis>goto</emphasis>, <emphasis>goto_local_lv</emphasis>, any
-      <emphasis>test</emphasis> construction or any
-      <emphasis>error_jump</emphasis> will not change the
-      <emphasis>alloca</emphasis> stack.
+      <replaceable>goto</replaceable>, <replaceable>goto_local_lv</replaceable>, any
+      <replaceable>test</replaceable> construction or any
+      <replaceable>error_jump</replaceable> will not change the
+      <replaceable>alloca</replaceable> stack.
     </para>
 
     <para>
-      <emphasis>If an installer implements identify and variable by creating
+      <replaceable>If an installer implements identify and variable by creating
       space on a stack when they come into existence, rather than doing the
       allocation for identify and variable at the start of a procedure
       activation, then it may have to consider making the alloca stack into a
-      second stack.</emphasis>
+      second stack.</replaceable>
     </para>
   </section>
 
@@ -737,7 +736,7 @@
       The layout of data in memory is entirely determined by the calculation of
       <code>OFFSET</code>s relative to <code>POINTER</code>s. That is, it is
       determined by <code>OFFSET</code> arithmetic and the
-      <emphasis>add_to_ptr</emphasis> construction.
+      <replaceable>add_to_ptr</replaceable> construction.
     </para>
 
     <para>
@@ -746,12 +745,12 @@
       different kinds of basic value which can be indicated by a
       <code>POINTER</code>. That is, it is a set chosen from all
       <code>VARIETY</code>s, all <code>FLOATING_VARIETY</code>s,
-      <emphasis>all</emphasis> <code>BITFIELD_VARIETY</code>s<emphasis>,
-      proc</emphasis>, <emphasis>code</emphasis>, <emphasis>pointer</emphasis>
-      and <emphasis>offset</emphasis>. There are also three special
-      <code>ALIGNMENT</code>s, <emphasis>frame_alignment</emphasis>,
-      <emphasis>alloca_alignment</emphasis> and
-      <emphasis>var_param_alignment</emphasis>.
+      <replaceable>all</replaceable> <code>BITFIELD_VARIETY</code>s<replaceable>,
+      proc</replaceable>, <replaceable>code</replaceable>, <replaceable>pointer</replaceable>
+      and <replaceable>offset</replaceable>. There are also three special
+      <code>ALIGNMENT</code>s, <replaceable>frame_alignment</replaceable>,
+      <replaceable>alloca_alignment</replaceable> and
+      <replaceable>var_param_alignment</replaceable>.
     </para>
 
     <para>
@@ -799,37 +798,37 @@
     <itemizedlist>
       <listitem>
         <para>
-          <emphasis>offset_add</emphasis> is associative.
+          <replaceable>offset_add</replaceable> is associative.
         </para>
       </listitem>
 
       <listitem>
         <para>
-          <emphasis>offset_mult</emphasis> corresponds to repeated
+          <replaceable>offset_mult</replaceable> corresponds to repeated
           offset_addition.
         </para>
       </listitem>
 
       <listitem>
         <para>
-          <emphasis>offset_max</emphasis> is commutative, associative and
+          <replaceable>offset_max</replaceable> is commutative, associative and
           idempotent.
         </para>
       </listitem>
 
       <listitem>
         <para>
-          <emphasis>offset_add</emphasis> distributes over
-          <emphasis>offset_max</emphasis> where they form legal expressions.
+          <replaceable>offset_add</replaceable> distributes over
+          <replaceable>offset_max</replaceable> where they form legal expressions.
         </para>
       </listitem>
 
       <listitem>
         <para>
-          <emphasis>offset_test</emphasis>(<emphasis>prob</emphasis>, &gt;= ,
-          <emphasis>a</emphasis>, <emphasis>b</emphasis>) continues if
-          <emphasis>offset_max</emphasis>(<emphasis>a</emphasis>,<emphasis>b</emphasis>)
-          = <emphasis>a</emphasis>.
+          <replaceable>offset_test</replaceable>(<replaceable>prob</replaceable>, &gt;= ,
+          <replaceable>a</replaceable>, <replaceable>b</replaceable>) continues if
+          <replaceable>offset_max</replaceable>(<replaceable>a</replaceable>,<replaceable>b</replaceable>)
+          = <replaceable>a</replaceable>.
         </para>
       </listitem>
     </itemizedlist>
@@ -858,74 +857,74 @@
       <itemizedlist>
         <listitem>
           <para>
-            <emphasis>add_to_ptr</emphasis> is addition.
+            <replaceable>add_to_ptr</replaceable> is addition.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>offset_add</emphasis> is addition.
+            <replaceable>offset_add</replaceable> is addition.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>offset_div</emphasis> and
-            <emphasis>offset_div_by_int</emphasis> are exact division.
+            <replaceable>offset_div</replaceable> and
+            <replaceable>offset_div_by_int</replaceable> are exact division.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>offset_max</emphasis> is maximum.
+            <replaceable>offset_max</replaceable> is maximum.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>offset_mult</emphasis> is multiply.
+            <replaceable>offset_mult</replaceable> is multiply.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>offset_negate</emphasis> is negate.
+            <replaceable>offset_negate</replaceable> is negate.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>offset_pad</emphasis>(<emphasis>a</emphasis>,
-            <emphasis>x</emphasis>) is ((<emphasis>x</emphasis> +
-            <emphasis>a</emphasis>
-            - 1) / <emphasis>a</emphasis>) * <emphasis>a</emphasis>
+            <replaceable>offset_pad</replaceable>(<replaceable>a</replaceable>,
+            <replaceable>x</replaceable>) is ((<replaceable>x</replaceable> +
+            <replaceable>a</replaceable>
+            - 1) / <replaceable>a</replaceable>) * <replaceable>a</replaceable>
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>offset_subtract</emphasis> is subtract.
+            <replaceable>offset_subtract</replaceable> is subtract.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>offset_test</emphasis> is
-            <emphasis>integer_test</emphasis>.
+            <replaceable>offset_test</replaceable> is
+            <replaceable>integer_test</replaceable>.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>offset_zero</emphasis> is 0.
+            <replaceable>offset_zero</replaceable> is 0.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>shape_offset</emphasis>(<emphasis>s</emphasis>) is the
+            <replaceable>shape_offset</replaceable>(<replaceable>s</replaceable>) is the
             minimum number of bits needed to be moved to move a value of
-            <code>SHAPE</code> <emphasis>s</emphasis>.
+            <code>SHAPE</code> <replaceable>s</replaceable>.
           </para>
         </listitem>
       </itemizedlist>
@@ -937,11 +936,11 @@
 
       <para>
         All the computations in this representation are obvious, but there is
-        one point to make concerning <emphasis>offset_max</emphasis>, which has
+        one point to make concerning <replaceable>offset_max</replaceable>, which has
         the following arguments and result.
       </para>
 
-      <programlisting language="TDF">
+      <programlisting language="tdf">
         arg1:            EXP OFFSET(x, y)
         arg2:            EXP OFFSET(z, y)
                    -&gt; EXP OFFSET(unite_alignments(x, z), y)</programlisting>
@@ -950,25 +949,25 @@
         The <code>SHAPE</code>s could have been chosen to be:
       </para>
 
-      <programlisting language="TDF">
+      <programlisting language="tdf">
         arg1:            EXP OFFSET(x, y)
         arg2:            EXP OFFSET(z, t)
                    -&gt; EXP OFFSET(unite_alignments(x, z),
                                  intersect_alignments(y, t))</programlisting>
 
       <para>
-        where <emphasis>unite_alignments</emphasis> is set union and
-        <emphasis>intersect_alignments</emphasis> is set intersection. This
+        where <replaceable>unite_alignments</replaceable> is set union and
+        <replaceable>intersect_alignments</replaceable> is set intersection. This
         would have expressed the most general reality.  The representation of
-        <emphasis>unite_alignments</emphasis>(<emphasis>x</emphasis>,
-        <emphasis>z</emphasis>) is the maximum of the representations of
-        <emphasis>x</emphasis> and <emphasis>z</emphasis> in the simple model.
+        <replaceable>unite_alignments</replaceable>(<replaceable>x</replaceable>,
+        <replaceable>z</replaceable>) is the maximum of the representations of
+        <replaceable>x</replaceable> and <replaceable>z</replaceable> in the simple model.
         Unfortunately the representation of
-        <emphasis>intersect_alignments</emphasis>(<emphasis>y</emphasis>,
-        <emphasis>t</emphasis>) is not the minimum of the representations of
-        <emphasis>y</emphasis> and <emphasis>t</emphasis>. In other words the
+        <replaceable>intersect_alignments</replaceable>(<replaceable>y</replaceable>,
+        <replaceable>t</replaceable>) is not the minimum of the representations of
+        <replaceable>y</replaceable> and <replaceable>t</replaceable>. In other words the
         simple model representation is not a homomorphism if
-        <emphasis>intersect_alignments</emphasis> is used. Because the choice of
+        <replaceable>intersect_alignments</replaceable> is used. Because the choice of
         representation in the installer is an important consideration the actual
         definition was chosen instead. It seems unlikely that this will affect
         practical programs significantly.
@@ -980,14 +979,14 @@
 
       <para>
         Two <code>POINTER</code>s to the same <code>ALIGNMENT</code>,
-        <emphasis>a</emphasis>, are equal if and only if the result of
-        <emphasis>subtract_ptrs</emphasis> applied to them is equal to
-        <emphasis>offset_zero</emphasis>(<emphasis>a</emphasis>).
+        <replaceable>a</replaceable>, are equal if and only if the result of
+        <replaceable>subtract_ptrs</replaceable> applied to them is equal to
+        <replaceable>offset_zero</replaceable>(<replaceable>a</replaceable>).
       </para>
 
       <para>
         The comparison of <code>OFFSET</code>s is reduced to the definition of
-        <emphasis>offset_max</emphasis> and the equality of <code>OFFSET</code>s
+        <replaceable>offset_max</replaceable> and the equality of <code>OFFSET</code>s
         by the note in <link linkend="C5S16.89">offset_test</link>.
       </para>
     </section>
@@ -998,9 +997,9 @@
       <para>
         It is assumed that circular types in programming languages will always
         involve the <code>SHAPE</code>s <code>PROC</code> or
-        <code>POINTER</code>(<emphasis>x</emphasis>) on the circular path in
+        <code>POINTER</code>(<replaceable>x</replaceable>) on the circular path in
         their TDF representation. Since the <code>ALIGNMENT</code> of
-        <code>POINTER</code> is {<emphasis>pointer</emphasis>} and does not
+        <code>POINTER</code> is {<replaceable>pointer</replaceable>} and does not
         involve the <code>ALIGNMENT</code> of the thing pointed at, circular
         <code>SHAPE</code>s are not needed. The circularity is always broken in
         <code>ALIGNMENT</code> (or <code>PROC</code>).
@@ -1012,25 +1011,25 @@
 
       <para>
         There are seven special <code>ALIGNMENT</code>s. One of these is
-        <emphasis>code_alignment</emphasis>, the <code>ALIGNMENT</code> of the
-        <code>POINTER</code> delivered by <emphasis>make_local_lv</emphasis>.
+        <replaceable>code_alignment</replaceable>, the <code>ALIGNMENT</code> of the
+        <code>POINTER</code> delivered by <replaceable>make_local_lv</replaceable>.
       </para>
 
       <para>
         The <code>ALIGNMENT</code> of a parameter of <code>SHAPE</code>
-        <emphasis>s</emphasis> is given by
-        <emphasis>parameter_alignment</emphasis>(<emphasis>s</emphasis>) which
+        <replaceable>s</replaceable> is given by
+        <replaceable>parameter_alignment</replaceable>(<replaceable>s</replaceable>) which
         will always contain
-        <emphasis>alignment</emphasis>(<emphasis>s</emphasis>).
+        <replaceable>alignment</replaceable>(<replaceable>s</replaceable>).
       </para>
 
       <para>
         The other five special <code>ALIGNMENT</code>s are
-        <emphasis>alloca_alignment</emphasis>, <emphasis>callees_alignment,
-        callers_alignment, locals_alignment</emphasis> and
-        <emphasis>var_param_alignment</emphasis>. Each of these contains the set
+        <replaceable>alloca_alignment</replaceable>, <replaceable>callees_alignment,
+        callers_alignment, locals_alignment</replaceable> and
+        <replaceable>var_param_alignment</replaceable>. Each of these contains the set
         union of all the <code>ALIGNMENT</code>s which can be produced by
-        <emphasis>alignment</emphasis> from any <code>SHAPE</code>. But they
+        <replaceable>alignment</replaceable> from any <code>SHAPE</code>. But they
         need not be equal to that set union, nor need there be any relation
         between them.
       </para>
@@ -1047,19 +1046,19 @@
 
       <para>
         Notice that pointers and offsets such as
-        <code>POINTER</code>(<emphasis>callees_alignment</emphasis>(true)) and
-        <code>OFFSET</code>(<emphasis>callees_alignment</emphasis>(true),
-        <emphasis>x</emphasis>) etc. can have some special representation and
-        that <emphasis>add_to_ptr</emphasis> and <emphasis>offset_add</emphasis>
+        <code>POINTER</code>(<replaceable>callees_alignment</replaceable>(true)) and
+        <code>OFFSET</code>(<replaceable>callees_alignment</replaceable>(true),
+        <replaceable>x</replaceable>) etc. can have some special representation and
+        that <replaceable>add_to_ptr</replaceable> and <replaceable>offset_add</replaceable>
         can operate correctly on these representations.  However it is necessary
         that
       </para>
 
-      <programlisting language="TDF">
+      <programlisting language="tdf">
         alignment(POINTER(A))={pointer}</programlisting>
 
       <para>
-        for any <code>ALIGNMENT</code> <emphasis>A</emphasis>.
+        for any <code>ALIGNMENT</code> <replaceable>A</replaceable>.
       </para>
     </section>
 
@@ -1068,17 +1067,17 @@
 
       <para>
         At least one <code>VARIETY</code> shall exist such that
-        <emphasis>assign</emphasis> and <emphasis>assign_with_mode</emphasis>
+        <replaceable>assign</replaceable> and <replaceable>assign_with_mode</replaceable>
         are atomic operations. This <code>VARIETY</code> shall be specified as
         part of the installer specification. It shall be capable of representing
         the numbers 0 to 127.
       </para>
 
       <para>
-        <emphasis>Note that it is not necessary for this to be the same
+        <replaceable>Note that it is not necessary for this to be the same
         <code>VARIETY</code> on each machine. Normal practice will be to use a
         <code>TOKEN</code> for this <code>VARIETY</code> and choose the
-        definition of the <code>TOKEN</code> on the target machine.</emphasis>
+        definition of the <code>TOKEN</code> on the target machine.</replaceable>
       </para>
     </section>
   </section>
@@ -1089,22 +1088,22 @@
     <para>
       The order of evaluation is specified in certain constructions in terms of
       equivalent effect with a canonical order of evaluation. These
-      constructions are <emphasis>conditional</emphasis>,
-      <emphasis>identify</emphasis>, <emphasis>labelled</emphasis>,
-      <emphasis>repeat</emphasis>, <emphasis>sequence</emphasis> and
-      <emphasis>variable</emphasis>.  Let these be called the order-specifying
+      constructions are <replaceable>conditional</replaceable>,
+      <replaceable>identify</replaceable>, <replaceable>labelled</replaceable>,
+      <replaceable>repeat</replaceable>, <replaceable>sequence</replaceable> and
+      <replaceable>variable</replaceable>.  Let these be called the order-specifying
       constructions.
     </para>
 
     <para>
       The constructions which change control also specify a canonical order.
-      These are <emphasis>apply_proc</emphasis>,
-      <emphasis>apply_general_proc</emphasis>, <emphasis>case</emphasis>,
-      <emphasis>goto</emphasis>, <emphasis>goto_local_lv</emphasis>,
-      <emphasis>long_jump</emphasis>, <emphasis>return</emphasis>,
-      u<emphasis>ntidy_return, return_to_label, tail_call,</emphasis> the
-      <emphasis>test</emphasis> constructions and all instructions containing
-      the <emphasis>error_jump</emphasis> and <emphasis>trap</emphasis>
+      These are <replaceable>apply_proc</replaceable>,
+      <replaceable>apply_general_proc</replaceable>, <replaceable>case</replaceable>,
+      <replaceable>goto</replaceable>, <replaceable>goto_local_lv</replaceable>,
+      <replaceable>long_jump</replaceable>, <replaceable>return</replaceable>,
+      u<replaceable>ntidy_return, return_to_label, tail_call,</replaceable> the
+      <replaceable>test</replaceable> constructions and all instructions containing
+      the <replaceable>error_jump</replaceable> and <replaceable>trap</replaceable>
       <code>ERROR_TREATMENT</code>s.
     </para>
 
@@ -1120,8 +1119,8 @@
 
     <para>
       Note that the rule specifying when error_jumps or traps are to be taken
-      (<link linkend="C5S15.4"><emphasis>error_jump</emphasis></link>) relaxes
-      the strict rule that everything has to be <quote>as if</quote> completed
+      (<link linkend="C5S15.4"><replaceable>error_jump</replaceable></link>) relaxes
+      the strict rule that everything has to be &ldquo;as if&rdquo; completed
       by the end of certain constructions. Without this rule pipelines would
       have to stop at such points, in order to be sure of processing any errors.
       Since this is not normally needed, it would be an expensive requirement.
@@ -1137,7 +1136,7 @@
       Certain constructions are specified as producing original pointers. They
       allocate space to hold values and produce pointers indicating that new
       space. All other pointer values are derived pointers, which are produced
-      from original pointers by a sequence of <emphasis>add_to_ptr</emphasis>
+      from original pointers by a sequence of <replaceable>add_to_ptr</replaceable>
       operations. Counting original pointers as being derived from themselves,
       every pointer is derived from just one original pointer.
     </para>
@@ -1148,45 +1147,45 @@
 
     <para>
       If procedures are called which come from outside the TDF world (such as
-      <emphasis>calloc</emphasis>) it is part of their interface with TDF to
+      <replaceable>calloc</replaceable>) it is part of their interface with TDF to
       state if they produce original pointers, and what is the lifetime of the
       pointer.
     </para>
 
     <para>
       As a special case, original pointers can be produced by using
-      <emphasis>current_env</emphasis> and <emphasis>env_offset</emphasis> (see
-      <link linkend="C5S16.25"><emphasis>current_env</emphasis></link>).
+      <replaceable>current_env</replaceable> and <replaceable>env_offset</replaceable> (see
+      <link linkend="C5S16.25"><replaceable>current_env</replaceable></link>).
     </para>
 
     <para>
       Note that:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         add_to_ptr(p, offset_add(q, r))</programlisting>
 
     <para>
       is equivalent to:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         add_to_ptr(add_to_ptr(p, q), r)</programlisting>
 
     <para>
-      In the case that <emphasis>p</emphasis> is the result of
-      <emphasis>current_env</emphasis> and <emphasis>q</emphasis> is the result
-      of <emphasis>env_offset</emphasis>:
+      In the case that <replaceable>p</replaceable> is the result of
+      <replaceable>current_env</replaceable> and <replaceable>q</replaceable> is the result
+      of <replaceable>env_offset</replaceable>:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         add_to_ptr(p, q)</programlisting>
 
     <para>
       is defined to be an original pointer. For any such expression
-      <emphasis>q</emphasis> will be produced by <emphasis>env_offset</emphasis>
+      <replaceable>q</replaceable> will be produced by <replaceable>env_offset</replaceable>
       applied to a <code>TAG</code> introduced in the procedure in which
-      <emphasis>current_env</emphasis> was used to make <emphasis>p</emphasis>.
+      <replaceable>current_env</replaceable> was used to make <replaceable>p</replaceable>.
     </para>
   </section>
 
@@ -1194,17 +1193,17 @@
     <title>Overlapping</title>
 
     <para>
-      In the case of <emphasis>move_some</emphasis>, or
-      <emphasis>assign</emphasis> or <emphasis>assign_with_mode</emphasis> in
-      which <emphasis>arg2</emphasis> is a <emphasis>contents</emphasis> or
-      <emphasis>contents_with_mode</emphasis>, it is possible that the source
+      In the case of <replaceable>move_some</replaceable>, or
+      <replaceable>assign</replaceable> or <replaceable>assign_with_mode</replaceable> in
+      which <replaceable>arg2</replaceable> is a <replaceable>contents</replaceable> or
+      <replaceable>contents_with_mode</replaceable>, it is possible that the source
       and destination of the transfer might overlap.
     </para>
 
     <para>
-      In this case, if the operation is <emphasis>move_some</emphasis> or
-      <emphasis>assign_with_mode</emphasis> and the <code>TRANSFER_MODE</code>
-      contains <emphasis>overlap</emphasis>, then the transfer shall be
+      In this case, if the operation is <replaceable>move_some</replaceable> or
+      <replaceable>assign_with_mode</replaceable> and the <code>TRANSFER_MODE</code>
+      contains <replaceable>overlap</replaceable>, then the transfer shall be
       performed correctly, that is, as if the data were copied from the source
       to an independent place and then to the destination.
     </para>
@@ -1223,17 +1222,17 @@
     <title>Incomplete assignment</title>
 
     <para>
-      If the <emphasis>arg2</emphasis> component of an
-      <emphasis>assign</emphasis> or <emphasis>assign_with_mode</emphasis>
+      If the <replaceable>arg2</replaceable> component of an
+      <replaceable>assign</replaceable> or <replaceable>assign_with_mode</replaceable>
       operation is left by means of a jump, the question arises as to what value
       is in the destination of the transfer.
     </para>
 
     <para>
-      If the <code>TRANSFER_MODE</code> <emphasis>complete</emphasis> is used,
-      the destination shall be left unchanged if the <emphasis>arg2</emphasis>
-      component is left by means of a jump. If <emphasis>complete</emphasis> is
-      not used and <emphasis>arg2</emphasis> is left by a jump, the destination
+      If the <code>TRANSFER_MODE</code> <replaceable>complete</replaceable> is used,
+      the destination shall be left unchanged if the <replaceable>arg2</replaceable>
+      component is left by means of a jump. If <replaceable>complete</replaceable> is
+      not used and <replaceable>arg2</replaceable> is left by a jump, the destination
       may be affected in any way.
     </para>
   </section>
@@ -1250,19 +1249,19 @@
     <para>
       If the lower bound of the <code>VARIETY</code> is non-negative, the
       representing range shall be from 0 to
-      2<superscript><emphasis>8n</emphasis></superscript>-1 for some
-      <emphasis>n</emphasis>.  <emphasis>n</emphasis> is called the number of
+      2<superscript><replaceable>8n</replaceable></superscript>-1 for some
+      <replaceable>n</replaceable>.  <replaceable>n</replaceable> is called the number of
       bytes in the representation. The number of bits in the representation is
-      8<emphasis>n</emphasis>.
+      8<replaceable>n</replaceable>.
     </para>
 
     <para>
       If the lower bound of the <code>VARIETY</code> is negative the
-      representing range shall be from -2<superscript><emphasis>8n-1</emphasis></superscript> to
-      2<superscript><emphasis>8n-1</emphasis></superscript>-1 for some <emphasis>n</emphasis>.
-      <emphasis>n</emphasis> is called the number of bytes in the
+      representing range shall be from -2<superscript><replaceable>8n-1</replaceable></superscript> to
+      2<superscript><replaceable>8n-1</replaceable></superscript>-1 for some <replaceable>n</replaceable>.
+      <replaceable>n</replaceable> is called the number of bytes in the
       representation. The number of bits in the representation is
-      8<emphasis>n</emphasis>
+      8<replaceable>n</replaceable>
     </para>
 
     <para>
@@ -1273,8 +1272,8 @@
     </para>
 
     <para>
-      <emphasis>It is intended that there should be no upper limit allowed at
-      some future date.</emphasis>
+      <replaceable>It is intended that there should be no upper limit allowed at
+      some future date.</replaceable>
     </para>
 
     <para>
@@ -1288,18 +1287,18 @@
     </para>
 
     <para>
-      If the bounds of a <code>VARIETY</code>, <emphasis>v</emphasis>, include
-      those of a <code>VARIETY</code>, <emphasis>w</emphasis>, the representing
-      <code>VARIETY</code> for <emphasis>v</emphasis> shall include or be equal
-      to the representing <code>VARIETY</code> for <emphasis>w</emphasis>.
+      If the bounds of a <code>VARIETY</code>, <replaceable>v</replaceable>, include
+      those of a <code>VARIETY</code>, <replaceable>w</replaceable>, the representing
+      <code>VARIETY</code> for <replaceable>v</replaceable> shall include or be equal
+      to the representing <code>VARIETY</code> for <replaceable>w</replaceable>.
     </para>
 
     <para>
       The representations of two <code>VARIETY</code>s of the form
-      <emphasis>var_limits</emphasis>(0,
-      2<superscript><emphasis>n</emphasis></superscript>-1) and
-      <emphasis>var_limits</emphasis>(-2<superscript><emphasis>n-1</emphasis></superscript>,
-      2<superscript><emphasis>n-1</emphasis></superscript>-1) shall have the
+      <replaceable>var_limits</replaceable>(0,
+      2<superscript><replaceable>n</replaceable></superscript>-1) and
+      <replaceable>var_limits</replaceable>(-2<superscript><replaceable>n-1</replaceable></superscript>,
+      2<superscript><replaceable>n-1</replaceable></superscript>-1) shall have the
       same number of bits and the mapping of their <code>ALIGNMENT</code>s into
       the target alignment shall be the same.
     </para>
@@ -1332,27 +1331,27 @@
     </para>
 
     <para>
-      If the <code>ERROR_TREATMENT</code> is <emphasis>impossible</emphasis>
+      If the <code>ERROR_TREATMENT</code> is <replaceable>impossible</replaceable>
       overflow will not occur. If it should happen to do so the effect of the
       operation is undefined.
     </para>
 
     <para>
-      If the <code>ERROR_TREATMENT</code> is <emphasis>error_jump</emphasis> a
+      If the <code>ERROR_TREATMENT</code> is <replaceable>error_jump</replaceable> a
       <code>LABEL</code> is provided to jump to if overflow occurs.
     </para>
 
     <para>
       If the <code>ERROR_TREATMENT</code> is
-      <emphasis>trap(overflow),</emphasis> a producer-defined <code>TOKEN</code>
-      <emphasis>~Throw</emphasis>: <code>NAT</code> -&gt; <code>EXP</code> must
+      <replaceable>trap(overflow),</replaceable> a producer-defined <code>TOKEN</code>
+      <replaceable>~Throw</replaceable>: <code>NAT</code> -&gt; <code>EXP</code> must
       be provided.  On an overflow, the installer will arrange that
-      <emphasis>~Throw</emphasis>(<emphasis>error_val</emphasis>(<emphasis>overflow</emphasis>))
+      <replaceable>~Throw</replaceable>(<replaceable>error_val</replaceable>(<replaceable>overflow</replaceable>))
       is evaluated.
     </para>
 
     <para>
-      The <emphasis>wrap</emphasis> <code>ERROR_TREATMENT</code> is provided so
+      The <replaceable>wrap</replaceable> <code>ERROR_TREATMENT</code> is provided so
       that a useful defined result may be produced in certain cases where it is
       usually easily available on most machines. This result is available on the
       assumption that machines use binary arithmetic for integers.  This is
@@ -1394,19 +1393,19 @@
     <itemizedlist>
       <listitem>
         <para>
-          <emphasis>mantissa_digs</emphasis> shall not be less than 53.
+          <replaceable>mantissa_digs</replaceable> shall not be less than 53.
         </para>
       </listitem>
 
       <listitem>
         <para>
-          <emphasis>min_exponent</emphasis> shall not be less than 1023.
+          <replaceable>min_exponent</replaceable> shall not be less than 1023.
         </para>
       </listitem>
 
       <listitem>
         <para>
-          <emphasis>max_exponent</emphasis> shall not be less than 1022.
+          <replaceable>max_exponent</replaceable> shall not be less than 1022.
         </para>
       </listitem>
     </itemizedlist>
@@ -1422,8 +1421,8 @@
 
     <para>
       The only permitted <code>ERROR_TREATMENT</code>s for operations delivering
-      <code>FLOATING_VARIETY</code>s are <emphasis>impossible,
-      error_jump</emphasis> and <emphasis>trap</emphasis> (overflow).
+      <code>FLOATING_VARIETY</code>s are <replaceable>impossible,
+      error_jump</replaceable> and <replaceable>trap</replaceable> (overflow).
     </para>
 
     <para>
@@ -1439,7 +1438,7 @@
     </para>
 
     <para>
-      If an <emphasis>error_jump</emphasis> or <emphasis>trap</emphasis> is
+      If an <replaceable>error_jump</replaceable> or <replaceable>trap</replaceable> is
       taken as the result of a floating point error the operations to test what
       kind of error it was are outside the TDF definition (at present).
     </para>
@@ -1450,10 +1449,10 @@
 
     <para>
       Each machine has a rounding state which shall be one of
-      <emphasis>to_nearest</emphasis>, <emphasis>toward_larger</emphasis>,
-      <emphasis>toward_smaller</emphasis>, <emphasis>toward_zero</emphasis>. For
+      <replaceable>to_nearest</replaceable>, <replaceable>toward_larger</replaceable>,
+      <replaceable>toward_smaller</replaceable>, <replaceable>toward_zero</replaceable>. For
       each operation delivering a <code>FLOATING_VARIETY</code>, except for
-      <emphasis>make_floating</emphasis>, any rounding necessary shall be
+      <replaceable>make_floating</replaceable>, any rounding necessary shall be
       performed according to the rounding state.
     </para>
   </section>
@@ -1470,43 +1469,43 @@
 
     <para>
       For TDF to have reasonably consistent semantics across many platforms, one
-      must have some <emphasis>minimum</emphasis> requirements on the accuracies
+      must have some <replaceable>minimum</replaceable> requirements on the accuracies
       of the results of the floating point operations defined in TDF. The
       provisional requirements sketched below would certainly be satisfied by an
       IEEE implementation.
     </para>
 
     <para>
-      Let <emphasis>@</emphasis>  be some primitive dyadic arithmetic operator
-      and <emphasis>@'</emphasis> be its TDF floating-point implementation. Let
-      <emphasis>F</emphasis> be some non-complex <code>FLOATING_VARIETY</code>
-      and <emphasis>F'</emphasis> be a representational variety of
-      <emphasis>F</emphasis>.
+      Let <replaceable>@</replaceable>  be some primitive dyadic arithmetic operator
+      and <replaceable>@'</replaceable> be its TDF floating-point implementation. Let
+      <replaceable>F</replaceable> be some non-complex <code>FLOATING_VARIETY</code>
+      and <replaceable>F'</replaceable> be a representational variety of
+      <replaceable>F</replaceable>.
     </para>
 
     <para>
-      <emphasis role="bold">Condition 1</emphasis>:
+      Condition 1:
     </para>
 
     <para>
-      If <emphasis>a</emphasis>, <emphasis>b</emphasis> and <emphasis>a @
-      b</emphasis> can all be represented exactly in <emphasis>F</emphasis>,
-      then they will also be represented exactly in <emphasis>F'</emphasis>.
+      If <replaceable>a</replaceable>, <replaceable>b</replaceable> and <replaceable>a @
+      b</replaceable> can all be represented exactly in <replaceable>F</replaceable>,
+      then they will also be represented exactly in <replaceable>F'</replaceable>.
       Extending the '-notation in the obvious manner:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         (a @ b)' = (a' @' b')</programlisting>
 
     <para>
       This equality will also hold using the TDF equality test, i.e.:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         (a @ b)' =' (a' @' b')</programlisting>
 
     <para>
-      <emphasis role="bold">Condition 2</emphasis>:
+      Condition 2:
     </para>
 
     <para>
@@ -1515,14 +1514,14 @@
       above:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         (x &gt; b) =&gt; ((a' +' x') &gt;=  (a + b)')</programlisting>
 
     <para>
       and:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         (x &lt; b) =&gt;  ((a' +' x') &lt;= (a + b)')</programlisting>
 
     <para>
@@ -1540,7 +1539,7 @@
       to both conditions. The weakening of the ordering in the monotonicity
       condition, however, may lead to surprising results, arising mainly
       from the uncertainty of the result of equality between floating numbers
-      which cannot be represented exactly in <emphasis>F</emphasis>.
+      which cannot be represented exactly in <replaceable>F</replaceable>.
     </para>
 
     <para>
@@ -1548,8 +1547,8 @@
       follow directly by considering the above conditions applied to real and
       imaginary parts independently. The following proviso is added for some
       complex operations however, to allow for possible intermediate error
-      conditions. With <emphasis>floating_div</emphasis>,
-      <emphasis>floating_mult</emphasis> and <emphasis>floating_power</emphasis>
+      conditions. With <replaceable>floating_div</replaceable>,
+      <replaceable>floating_mult</replaceable> and <replaceable>floating_power</replaceable>
       for complex <code>FLOATING_VARIETY</code>s, errors are guaranteed not to
       occur only if the square of the modulus of each argument is representable
       and the square of the modulus of the result is representable. Whenever
@@ -1575,14 +1574,14 @@
     </para>
 
     <para>
-      <emphasis>It is intended that there should be no upper limit allowed at
-      some future date.</emphasis>
+      <replaceable>It is intended that there should be no upper limit allowed at
+      some future date.</replaceable>
     </para>
 
     <para>
       Some offsets of which the second parameter contains a
       <code>BITFIELD</code> alignment are subject to a constraint defined below.
-      This constraint is referred to as <emphasis>variety_enclosed.</emphasis>
+      This constraint is referred to as <replaceable>variety_enclosed.</replaceable>
     </para>
 
     <para>
@@ -1591,43 +1590,43 @@
       <code>VARIETY</code> value.  The constraint applies to:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         x: offset(p, b)</programlisting>
 
     <para>
       and to:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         sh = bitfield(bfvar_bits(s, n))</programlisting>
 
     <para>
-      where  <emphasis>alignment(sh)</emphasis> is included in
-      <emphasis>b</emphasis>. The constraint is as follows:
+      where  <replaceable>alignment(sh)</replaceable> is included in
+      <replaceable>b</replaceable>. The constraint is as follows:
     </para>
     
     <para>
-      There will exist a <code>VARIETY</code>, <emphasis>v</emphasis>, and
-      <emphasis>r</emphasis>:
-      <emphasis>offset</emphasis>(<emphasis>p</emphasis>,
-      <emphasis>q</emphasis>) where <emphasis>v</emphasis> is in
-      <emphasis>q</emphasis>.
+      There will exist a <code>VARIETY</code>, <replaceable>v</replaceable>, and
+      <replaceable>r</replaceable>:
+      <replaceable>offset</replaceable>(<replaceable>p</replaceable>,
+      <replaceable>q</replaceable>) where <replaceable>v</replaceable> is in
+      <replaceable>q</replaceable>.
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         offset_pad(b, r) &lt;= x</programlisting>
 
     <para>
       and:
     </para>
 
-    <programlisting language="TDF">
+    <programlisting language="tdf">
         offset_pad(b, r + sz(v)) &gt;= offset_pad( b, x + sz(sh))</programlisting>
 
     <para>
       where the comparisons are in the sense of
-      <emphasis>offset_test</emphasis>, + is <emphasis>offset_add</emphasis> and
-      <emphasis>sz</emphasis> is <emphasis>shape_offset</emphasis>.
+      <replaceable>offset_test</replaceable>, + is <replaceable>offset_add</replaceable> and
+      <replaceable>sz</replaceable> is <replaceable>shape_offset</replaceable>.
     </para>
   </section>
 
@@ -1649,29 +1648,29 @@
     <title>Least Upper Bound</title>
 
     <para>
-      The LUB of two <code>SHAPE</code>s, <emphasis>a</emphasis> and
-      <emphasis>b</emphasis> is defined as follows:
+      The LUB of two <code>SHAPE</code>s, <replaceable>a</replaceable> and
+      <replaceable>b</replaceable> is defined as follows:
     </para>
 
     <itemizedlist>
       <listitem>
         <para>
-          If <emphasis>a</emphasis> and <emphasis>b</emphasis> are equal shapes,
-          then <emphasis>a</emphasis>
+          If <replaceable>a</replaceable> and <replaceable>b</replaceable> are equal shapes,
+          then <replaceable>a</replaceable>
         </para>
       </listitem>
 
       <listitem>
         <para>
-          If <emphasis>a</emphasis> is <code>BOTTOM</code> then
-          <emphasis>b</emphasis>
+          If <replaceable>a</replaceable> is <code>BOTTOM</code> then
+          <replaceable>b</replaceable>
         </para>
       </listitem>
 
       <listitem>
         <para>
-          If <emphasis>b</emphasis> is <code>BOTTOM</code> then
-          <emphasis>a</emphasis>.
+          If <replaceable>b</replaceable> is <code>BOTTOM</code> then
+          <replaceable>a</replaceable>.
         </para>
       </listitem>
 
@@ -1700,7 +1699,7 @@
 
       <listitem>
         <para>
-          Normal loading. An <emphasis>ld</emphasis> program is obeyed which
+          Normal loading. An <replaceable>ld</replaceable> program is obeyed which
           produces various (possibly circular) structures which are put into an
           area which will be read-only when the program is obeyed.
         </para>
@@ -1755,8 +1754,8 @@
     </para>
 
     <para>
-      This addition is principally motivated by the various <quote>name
-      mangling</quote> schemes of C++. The <code>STRING</code> signature can be
+      This addition is principally motivated by the various &ldquo;name
+      mangling&rdquo; schemes of C++. The <code>STRING</code> signature can be
       constructed by concatenations and token expansions. Suitable usages of
       <code>TOKEN</code>s can ensure that the particular form of name-mangling
       can be deferred to installation time and hence allow, at least
@@ -1774,7 +1773,7 @@
     <para>
       Similar considerations apply to <code>TOKEN</code>s; although token names
       are totally internal to TDF, it would allow one to check that a token
-      declared in one <code>CAPSULE</code> has the same <quote>type</quote> as
+      declared in one <code>CAPSULE</code> has the same &ldquo;type&rdquo; as
       its definition in another.
     </para>
   </section>
@@ -1787,7 +1786,7 @@
       like C++. Previous to version 4.0, the only initialisations permissable
       were load-time ones; in particular no procedure calls were allowed in
       forming the initialising value. Version 4.0 introduces the constructor
-      <emphasis>initial_value</emphasis> to remedy this situation.
+      <replaceable>initial_value</replaceable> to remedy this situation.
     </para>
 
     <para>
@@ -1802,10 +1801,10 @@
     <para>
       This raises problems on how we can name this procedure so that it can be
       identified as being a special initialising procedure. Some UNIX linkers
-      reserve a name like <emphasis>__init</emphasis> specially so that all
+      reserve a name like <replaceable>__init</replaceable> specially so that all
       instances of it from different modules can be called before the main
       procedure. Other cases may require a pre-pass on the
-      <emphasis>.o</emphasis> files prior to system linking.
+      <replaceable>.o</replaceable> files prior to system linking.
     </para>
   </section>
 </chapter>

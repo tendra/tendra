@@ -79,7 +79,7 @@
 	</refmeta>
 
 	<refnamediv>
-		<refname>&calculus;</refname>
+		<refname>Calculus</refname>
 		<refpurpose>Algebraic type system tool</refpurpose>
 	</refnamediv>
 
@@ -142,108 +142,133 @@
 			<varlistentry>
 				<term>&A.opt;</term>
 
-				<listitem>Specifies that the algebra named
-					&name.arg; should be used by the output routines.
-					Unless otherwise specified the last algebra input is
-					used for output.</listitem>
+				<listitem>
+					<para>Specifies that the algebra named
+						&name.arg; should be used by the output routines.
+						Unless otherwise specified the last algebra input is
+						used for output.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&E.opt;</term>
 
-				<listitem>Specifies a file containing a list of extra types to
-					&calculus;.
-					These are used, for example, to generate extra disk reading
-					and writing routines in conjunction with the
-					&d.opt; option.</listitem>
+				<listitem>
+					<para>Specifies a file containing a list of extra types to
+						&calculus;.
+						These are used, for example, to generate extra disk reading
+						and writing routines in conjunction with the
+						&d.opt; option.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&T.opt;</term>
 
-				<listitem>Specifies a template file which is used to generate an
-					output file &out-file.arg;.</listitem>
+				<listitem>
+					<para>Specifies a template file which is used to generate an
+						output file &out-file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&a.opt;</term>
 
-				<listitem>Causes &calculus; to generate extra statements in its
-					C code which includes assertions about null pointers etc.
-					and other code to help in writing programs using the
-					tool.</listitem>
+				<listitem>
+					<para>Causes &calculus; to generate extra statements in its
+						C code which includes assertions about null pointers etc.
+						and other code to help in writing programs using the
+						tool.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&d.opt;</term>
 
-				<listitem>Causes &calculus; to generate disk reading and writing
-					routines designed to add persistence to the generated type
-					system.</listitem>
+				<listitem>
+					<para>Causes &calculus; to generate disk reading and writing
+						routines designed to add persistence to the generated type
+						system.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&i.opt;</term>
 
-				<listitem>Indicates to &calculus; that &in-file.arg; is a
-					simple input file.</listitem>
+				<listitem>
+					<para>Indicates to &calculus; that &in-file.arg; is a
+						simple input file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&o.opt;</term>
 
-				<listitem>Causes &calculus; to output a pretty-print of the input
-					algebra into &out-file.arg;, which in this instance in an
-					output file.
-					If no output file is given then the standard output is
-					used.</listitem>
+				<listitem>
+					<para>Causes &calculus; to output a pretty-print of the input
+						algebra into &out-file.arg;, which in this instance in an
+						output file.
+						If no output file is given then the standard output is
+						used.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&p.opt;</term>
 
-				<listitem>Causes &calculus; to generate printing routines designed
-					for use in the debugging of programs written using the type
-					system.</listitem>
+				<listitem>
+					<para>Causes &calculus; to generate printing routines designed
+						for use in the debugging of programs written using the type
+						system.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&r.opt;</term>
 
-				<listitem>Indicates to &calculus; that &in-file.arg; is the
-					output of a previous &w.opt; option.</listitem>
+				<listitem>
+					<para>Indicates to &calculus; that &in-file.arg; is the
+						output of a previous &w.opt; option.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&t.opt;</term>
 
-				<listitem>Causes &calculus; to generate <code>#pragma token</code>
-					commands describing the type system.
-					These are designed so that &tcc; can apply extremely rigorous
-					type checking to programs written using the type
-					system.</listitem>
+				<listitem>
+					<para>Causes &calculus; to generate <code>#pragma token</code>
+						commands describing the type system.
+						These are designed so that &tcc; can apply extremely rigorous
+						type checking to programs written using the type
+						system.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&v.opt;</term>
 
-				<listitem>Causes &calculus; to print its version
-					number.</listitem>
+				<listitem>
+					<para>Causes &calculus; to print its version number.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&w.opt;</term>
 
-				<listitem>Causes &calculus; to output a dump of the input algebra
-					into &out-file.arg;, which in this instance is an output
-					file.</listitem>
+				<listitem>
+					<para>Causes &calculus; to output a dump of the input algebra
+						into &out-file.arg;, which in this instance is an output
+						file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&x.opt;</term>
 
-				<listitem>Causes &calculus; to suppress the vector and vector
-					pointer constructs in its output.</listitem>
+				<listitem>
+					<para>Causes &calculus; to suppress the vector and vector
+						pointer constructs in its output.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

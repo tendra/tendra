@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE preface SYSTEM "minidocbook.dtd">
 
 <preface>
 	<title>Compiler configuration</title>
@@ -17,13 +16,13 @@
 		directives.
 		These directives may be placed within the program itself, however
 		it is generally more convenient to group them into a
-		<A HREF="man.html#start-up">start-up file</A> in order to create a
-		<A id="usr">user-defined compilation profile</A>.
+		start-up file in order to create a
+		user-defined compilation profile (see the <option>-X</option>
+		option for &tcc;).
 		The <code>#pragma</code> directives recognised by the C++ producer
 		have one of the equivalent forms:</para>
 
-	<programlisting language="C++">
-#pragma TenDRA ....
+	<programlisting language="cpp">#pragma TenDRA ....
 #pragma TenDRA++ ....</programlisting>
 
 	<para>Some of these are common to the C and C++ producers (although
@@ -44,24 +43,27 @@
 		<emphasis>identifier</emphasis> is any simple, unqualified identifier name,
 		and <emphasis>type-id</emphasis> is any type identifier.
 		Other syntactic items are described in the text.
-		A <A HREF="pragma1.html">complete grammar</A> for the <code>#pragma</code>
-		directives accepted by the C++ producer is given as an annex.</para>
+		A complete grammar for the <code>#pragma</code>
+		directives accepted by the C++ producer is given in &pragmatoken.doc;.</para>
 
+	<!-- TODO: these sections are probably repeated by the tdfc/tchk document; consolidate -->
 	<section id="table">
 		<title>Portability tables</title>
 
 		<para>Certain very basic configuration information is read from a file called
 			a portability table, which may be specified to the producer using
-			a <A HREF="man.html#table"><code>-n</code> option</A>.	This information
-			includes the minimum sizes of the basic integral types, the
+			a <code>-n</code> option.
+			This information includes the minimum sizes of the basic integral types, the
 			<link linkend="char">sign of plain <code>char</code></link>, and whether signed
 			types can be assumed to be symmetric (for example, [-127,127]) or
 			maximum (for example, [-128,127]).</para>
 
+		<!-- TODO: see <invent a .5 manpage> for the portability file format.
+
 		<para>The default portability table values, which are built into the producer,
 			can be expressed in the form:</para>
 
-		<!-- TODO table -->
+		TODO: take table from tdfc appendix
 		<programlisting>
 char_bits			8
 short_bits			16
@@ -76,6 +78,7 @@ multibyte			1</programlisting>
 
 		<para>This illustrates the syntax for the portability table; note that all
 			ten entries are required, even though the last four are ignored.</para>
+-->
 	</section>
 
 	<section id="low">
@@ -84,12 +87,11 @@ multibyte			1</programlisting>
 		<para>The simplest level of configuration is to reset the severity level
 			of a particular error message using:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA++ error <emphasis>string-literal on</emphasis>
+		<programlisting language="cpp">#pragma TenDRA++ error <emphasis>string-literal on</emphasis>
 #pragma TenDRA++ error <emphasis>string-literal allow</emphasis></programlisting>
 
 		<para>The given <emphasis>string-literal</emphasis> should name an error from the
-			<A HREF="error.html">error catalogue</A>.	A severity of <code>on</code>
+			&make_err; error catalogue.	A severity of <code>on</code>
 			or <code>disallow</code> indicates that the associated diagnostic
 			message should be an error, which causes the compilation to fail.
 			A severity of
@@ -104,8 +106,7 @@ multibyte			1</programlisting>
 		<para>The next level of configuration is to reset the severity level of
 			a particular compiler option using:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA++ option <emphasis>string-literal on</emphasis>
+		<programlisting language="cpp">#pragma TenDRA++ option <emphasis>string-literal on</emphasis>
 #pragma TenDRA++ option <emphasis>string-literal allow</emphasis></programlisting>
 
 		<para>The given <emphasis>string-literal</emphasis> should name an option from the option
@@ -116,11 +117,11 @@ multibyte			1</programlisting>
 		<para>It is possible to link a particular error message to a particular
 			compiler option using:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ error <emphasis>string-literal</emphasis> as option <emphasis>string-literal</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ error <emphasis>string-literal</emphasis> as option <emphasis>string-literal</emphasis></programlisting>
 
 		<para>Note that the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ use error <emphasis>string-literal</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ use error <emphasis>string-literal</emphasis></programlisting>
 
 		<para>can be used to raise a given error at any point in a translation unit
 			in a similar fashion to the <code>#error</code> directive.	The values
@@ -137,8 +138,7 @@ multibyte			1</programlisting>
 		<para>Most compiler options are scoped.	A checking scope may be defined
 			by enclosing a list of declarations within:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA begin
+		<programlisting language="cpp">#pragma TenDRA begin
 ....
 #pragma TenDRA end</programlisting>
 
@@ -154,8 +154,7 @@ multibyte			1</programlisting>
 
 		<para>A checking scope can be named using the directives:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA begin name environment <emphasis>identifier</emphasis>
+		<programlisting language="cpp">#pragma TenDRA begin name environment <emphasis>identifier</emphasis>
 ....
 #pragma TenDRA end</programlisting>
 
@@ -164,27 +163,26 @@ multibyte			1</programlisting>
 			to the current checking scope.	These modifications may be reapplied
 			within a different scope using:</para>
 
-		<programlisting language="C++">#pragma TenDRA use environment <emphasis>identifier</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA use environment <emphasis>identifier</emphasis></programlisting>
 
 		<para>The default behaviour is not to allow checks set in the named checking
 			scope to be reset in the current scope.	This can however be modified
 			using:</para>
 
-		<programlisting language="C++">#pragma TenDRA use environment <emphasis>identifier</emphasis> reset <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA use environment <emphasis>identifier</emphasis> reset <emphasis>allow</emphasis></programlisting>
 
 		<para>Another use of a named checking scope is to associate a checking scope
 			with a named include file directory.	This is done using:</para>
 
-		<programlisting language="C++">#pragma TenDRA directory <emphasis>identifier</emphasis> use environment <emphasis>identifier</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA directory <emphasis>identifier</emphasis> use environment <emphasis>identifier</emphasis></programlisting>
 
 		<para>where the directory name is one introduced via a
-			<A HREF="man.html#directory"><code>-N</code> command-line option</A>.
+			<code>-N</code> command-line option.
 			The effect of this directive, if a <code>#include</code> directive
 			is found to resolve to a file from the given directory, is as if the
 			file was enclosed in directives of the form:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA begin
+		<programlisting language="cpp">#pragma TenDRA begin
 #pragma TenDRA use environment <emphasis>identifier</emphasis> reset allow
 ....
 #pragma TenDRA end</programlisting>

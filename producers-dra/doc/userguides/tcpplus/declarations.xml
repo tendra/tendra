@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
 	<title>Configuration for declarations</title>
@@ -13,7 +12,7 @@
 			which contain no declarations.	This behaviour can be controlled using
 			the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA no external declaration <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA no external declaration <emphasis>allow</emphasis></programlisting>
 	</section>
 
 	<section id="decl_none">
@@ -22,7 +21,7 @@
 		<para>ISO C++ requires every declaration or member declaration to introduce
 			one or more names into the program.	The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA unknown struct/union <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA unknown struct/union <emphasis>allow</emphasis></programlisting>
 
 		<para>can be used to relax one particular instance of this rule, by allowing
 			anonymous class definitions (recall that anonymous unions are objects,
@@ -31,7 +30,7 @@
 			however such a declaration does not introduce a name and so contravenes
 			the rule above.	The rule can be relaxed in this case using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA extra ; <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA extra ; <emphasis>allow</emphasis></programlisting>
 
 		<para>Note that the C++ grammar explicitly allows for an extra semicolon
 			following an inline member function definition, but that semicolons
@@ -51,16 +50,16 @@
 			was supported in older dialects of C++.	This check is controlled
 			by the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ implicit int type <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ implicit int type <emphasis>allow</emphasis></programlisting>
 
 		<para>Partial relaxations of this rules are allowed.	The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ implicit int type for const/volatile <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ implicit int type for const/volatile <emphasis>allow</emphasis></programlisting>
 
 			<para>will allow for implicit <code>int</code> when the list of type specifiers
 			contains a cv-qualifier.	Similarly the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA implicit int type for function return <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA implicit int type for function return <emphasis>allow</emphasis></programlisting>
 
 			<para>will allow for implicit <code>int</code> in the return type of a function
 			definition (this excludes constructors, destructors and conversion
@@ -70,12 +69,11 @@
 			be omitted in other cases.	Support for this behaviour can be enabled
 			using:</para>
 
-		<programlisting language="C++">#pragma TenDRA implicit int type for external declaration <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA implicit int type for external declaration <emphasis>allow</emphasis></programlisting>
 
 			<para>The four cases can be demonstrated in the following example:</para>
 
-		<programlisting language="C++">
-extern a ;	// implicit int
+		<programlisting language="cpp">extern a ;	// implicit int
 const b = 1 ;	// implicit const int
 
 f ()	// implicit function return
@@ -93,9 +91,9 @@ c = 3 ;	// error: not allowed in C++</programlisting>
 			being declared implicitly.	It is possible to enable support for implicit
 			function declarations using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA implicit function declaration <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA implicit function declaration <emphasis>on</emphasis></programlisting>
 
-			<para>Such implicitly declared functions have C linkage and type
+		<para>Such implicitly declared functions have C linkage and type
 			<code>int ( ... )</code>.</para>
 	</section>
 

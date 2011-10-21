@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="wbS109">Common Errors</title>
+	<title>Common Errors</title>
 
 	<para>Tchk is capable of performing a number of checks for common
 		programming mistakes. This chapter describes these checks and
 		controlling pragmas.</para>
 
 	<section>
-		<title id="2">Enumerations controlling switch statements</title>
+		<title>Enumerations controlling switch statements</title>
 
 		<para>Enumerations are commonly used as control expressions in switch
 			statements. When case labels for some of the enumeration constant
@@ -19,7 +18,7 @@
 			possible values of the control expression. Checks to detect such
 			switch statements are controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA enum switch analysis <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA enum switch analysis <emphasis>status</emphasis></programlisting>
 
 		<para>where <emphasis>status</emphasis> is <code>on</code> (raise
 			an error), <code>warning</code> (produce a warning), or
@@ -28,19 +27,19 @@
 	</section>
 
 	<section>
-		<title id="4">Incomplete structures and unions</title>
+		<title>Incomplete structures and unions</title>
 
 		<para>ISO C allows for structures or unions to be declared but not
 			defined, provided they are not used in a context where it is
 			necessary to know the complete structure. For example:</para>
 
-		<programlisting language="C">struct tag *p;</programlisting>
+		<programlisting language="c">struct tag *p;</programlisting>
 
 		<para>is allowed, despite the fact that <code>struct tag</code> is
 			incomplete. The TenDRA C checker has an option to detect such
 			incomplete structures or unions, controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA complete struct/union analysis <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA complete struct/union analysis <emphasis>status</emphasis></programlisting>
 
 		<para>where <emphasis>status</emphasis> is <code>on</code> to give
 			an error as an incomplete structure or union is detected,
@@ -57,8 +56,7 @@
 			This is because it is possible to complete a structure after it has
 			been used. For example, in:</para>
 
-		<programlisting language="C">
-struct tag *p;
+		<programlisting language="c">struct tag *p;
 struct tag {
 	int a;
 	int b;
@@ -69,7 +67,7 @@ struct tag {
 	</section>
 
 	<section>
-		<title id="6">Variable shadowing</title>
+		<title>Variable shadowing</title>
 
 		<para>It is quite legal in C to have a variable in an inner scope, with
 			the same name as a variable in an outer scope. These variables are
@@ -81,7 +79,7 @@ struct tag {
 			variable; a local variable shadowing a local variable with a wider
 			scope and a local variable shadowing a typedef name, by using:</para>
 
-		<programlisting language="C">#pragma TenDRA variable hiding analysis <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA variable hiding analysis <emphasis>status</emphasis></programlisting>
 
 		<para>If <emphasis>status</emphasis> is <code>on</code> an error is
 			raised when a local variable that shadows another variable is
@@ -91,14 +89,14 @@ struct tag {
 	</section>
 
 	<section>
-		<title id="8">Floating point equality</title>
+		<title>Floating point equality</title>
 
 		<para>Due to the rounding errors that occur in the handling of floating
 			point values, comparison for equality between two floating point
 			values is a hazardous and unpredictable operation. Tests for
 			equality of two floating point numbers are controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA floating equality <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA floating equality <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code>,
 			<code>warning</code> or <code>disallow</code>. By default the check

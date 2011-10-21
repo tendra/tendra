@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE book SYSTEM "minidocbook.dtd">
 
 <!--
   $Id$
@@ -10,6 +9,7 @@
   <bookinfo>
     <title>TDF Diagnostic Specification, Issue 3.0</title>
 
+	<authorgroup>
     <othercredit class="copyeditor">
       <firstname>Katherine</firstname>
       <surname>Flavel</surname>
@@ -21,6 +21,7 @@
       <affiliation><orgname>The TenDRA Project</orgname></affiliation>
     </othercredit>
     <corpauthor>DERA</corpauthor>
+	</authorgroup>
 
     <pubdate>2004</pubdate>
 
@@ -110,24 +111,24 @@
     <section id="diag_descriptor">
       <title>DIAG_DESCRIPTOR</title>
 
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>DIAG_DESCRIPTOR encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Number of encoding bits:</entry>
-              <entry>2</entry>
-            </row>
+        
+          
+            <tr>
+              <td>Number of encoding bits:</td>
+              <td>2</td>
+            </tr>
   
-            <row>
-              <entry>Is coding extendable:</entry>
-              <entry>yes</entry>
-            </row>
-          </tbody>
-        </tgroup>
+            <tr>
+              <td>Is coding extendable:</td>
+              <td>yes</td>
+            </tr>
+          
+        
       </informaltable>
 
       <para><code>DIAG_DESCRIPTOR</code>s are used to associate names in the
@@ -136,22 +137,22 @@
       <section id="diag_desc_id">
         <title>diag_desc_id</title>
 
-        <informaltable frame="none">
-          <textobject>
+        <informaltable>
+          <!-- TODO:
             <phrase>diag_desc_id encoding</phrase>
-          </textobject>
+          -->
 
-          <tgroup cols="2">
-            <tbody>
-              <row>
-                <entry>Encoding number:</entry>
-                <entry>1</entry>
-              </row>
-            </tbody>
-          </tgroup>
+          
+            
+              <tr>
+                <td>Encoding number:</td>
+                <td>1</td>
+              </tr>
+            
+          
         </informaltable>
 
-        <programlisting>
+        <programlisting language="tdf">
 src_name:        TDFSTRING(k, n)
 whence:          SOURCEMARK
 found_at:        EXP POINTER(al)
@@ -170,22 +171,22 @@ type:            DIAG_TYPE
       <section id="diag_desc_struct">
         <title>diag_desc_struct</title>
 
-        <informaltable frame="none">
-          <textobject>
+        <informaltable>
+          <!-- TODO:
             <phrase>diag_desc_struct encoding</phrase>
-          </textobject>
+          -->
 
-          <tgroup cols="2">
-            <tbody>
-              <row>
-                <entry>Encoding number:</entry>
-                <entry>2</entry>
-              </row>
-            </tbody>
-          </tgroup>
+          
+            
+              <tr>
+                <td>Encoding number:</td>
+                <td>2</td>
+              </tr>
+            
+          
         </informaltable>
 
-        <programlisting>
+        <programlisting language="tdf">
 src_name:        TDFSTRING(k, n)
 whence:          SOURCEMARK
 new_type:        DIAG_TYPE
@@ -196,28 +197,28 @@ new_type:        DIAG_TYPE
           either a <code>DIAG_STRUCT</code>, <code>DIAG_UNION</code> or
           <code>DIAG_ENUM</code>.</para>
 
-        <para><note>This construct is obsolete.</note></para>
+        <para>This construct is obsolete.</para>	<!-- TODO: note -->
       </section>
 
       <section id="diag_desc_typedef">
         <title>diag_desc_typedef</title>
         
-        <informaltable frame="none">
-          <textobject>
+        <informaltable>
+          <!-- TODO:
             <phrase>diag_desc_typedef encoding</phrase>
-          </textobject>
-          <tgroup cols="2">
-            <tbody>
-              <row>
-                <entry>Encoding number:</entry>
-                <entry>3</entry>
-              </row>
-            </tbody>
-          </tgroup>
+          -->
+          
+            
+              <tr>
+                <td>Encoding number:</td>
+                <td>3</td>
+              </tr>
+            
+          
         </informaltable>
 
 		<!-- TODO perhaps these should be tables without headings? -->
-        <programlisting>
+        <programlisting language="tdf">
 src_name:        TDFSTRING(k, n)
 whence:          SOURCEMARK
 new_type:        DIAG_TYPE
@@ -235,29 +236,29 @@ new_type:        DIAG_TYPE
     <section id="diag_unit">
       <title>DIAG_UNIT</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>DIAG_UNIT encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Number of encoding bits:</entry>
-              <entry>0</entry>
-            </row>
+        
+          
+            <tr>
+              <td>Number of encoding bits:</td>
+              <td>0</td>
+            </tr>
 
-            <row>
-              <entry>Is coding extendable:</entry>
-              <entry>no</entry>
-            </row>
+            <tr>
+              <td>Is coding extendable:</td>
+              <td>no</td>
+            </tr>
 
-            <row>
-              <entry>Unit identification:</entry>
-              <entry><varname>diagdef</varname></entry>
-            </row>
-          </tbody>
-        </tgroup>
+            <tr>
+              <td>Unit identification:</td>
+              <td><varname>diagdef</varname></td>
+            </tr>
+          
+        
       </informaltable>
 
       <para>A <code>DIAG_UNIT</code> is a TDF unit containing
@@ -268,22 +269,22 @@ new_type:        DIAG_TYPE
       <section id="build_diag_unit">
         <title>build_diag_unit</title>
   
-        <informaltable frame="none">
-          <textobject>
+        <informaltable>
+          <!-- TODO:
             <phrase>build_diag_unit encoding</phrase>
-          </textobject>
+          -->
 
-          <tgroup cols="2">
-            <tbody>
-              <row>
-                <entry>Encoding number:</entry>
-                <entry>0</entry>
-              </row>
-            </tbody>
-          </tgroup>
+          
+            
+              <tr>
+                <td>Encoding number:</td>
+                <td>0</td>
+              </tr>
+            
+          
         </informaltable>
 
-        <programlisting>
+        <programlisting language="tdf">
 no_labels:       TDFINT
 descriptors:     SLIST(DIAG_DESCRIPTOR)
            -&gt; DIAG_UNIT</programlisting>
@@ -298,29 +299,29 @@ descriptors:     SLIST(DIAG_DESCRIPTOR)
     <section id="diag_tag">
       <title>DIAG_TAG</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>DIAG_TAG encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Number of encoding bits:</entry>
-              <entry>1</entry>
-            </row>
+        
+          
+            <tr>
+              <td>Number of encoding bits:</td>
+              <td>1</td>
+            </tr>
 
-            <row>
-              <entry>Is coding extendable:</entry>
-              <entry>yes</entry>
-            </row>
+            <tr>
+              <td>Is coding extendable:</td>
+              <td>yes</td>
+            </tr>
 
-            <row>
-              <entry>Linkable entity identification:</entry>
-              <entry><varname>diagtag</varname></entry>
-            </row>
-          </tbody>
-        </tgroup>
+            <tr>
+              <td>Linkable entity identification:</td>
+              <td><varname>diagtag</varname></td>
+            </tr>
+          
+        
       </informaltable>
 
       <para><code>DIAG_TAG</code>s are used inter alia to break cyclic
@@ -333,22 +334,22 @@ descriptors:     SLIST(DIAG_DESCRIPTOR)
       <section id="make_diag_tag">
         <title>make_diag_tag</title>
         
-        <informaltable frame="none">
-          <textobject>
+        <informaltable>
+          <!-- TODO:
             <phrase>make_diag_tag encoding</phrase>
-          </textobject>
+          -->
 
-          <tgroup cols="2">
-            <tbody>
-              <row>
-                <entry>Encoding number:</entry>
-                <entry>1</entry>
-              </row>
-            </tbody>
-          </tgroup>
+          
+            
+              <tr>
+                <td>Encoding number:</td>
+                <td>1</td>
+              </tr>
+            
+          
         </informaltable>
     
-        <programlisting>
+        <programlisting language="tdf">
 num:             TDFINT
                        -&gt; DIAG_TAG</programlisting>
 
@@ -360,24 +361,24 @@ num:             TDFINT
     <section id="diag_tagder">
       <title>DIAG_TAGDEF</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>DIAG_TAGDEF encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Number of encoding bits:</entry>
-              <entry>1</entry>
-            </row>
+        
+          
+            <tr>
+              <td>Number of encoding bits:</td>
+              <td>1</td>
+            </tr>
 
-            <row>
-              <entry>Is coding extendable:</entry>
-              <entry>yes</entry>
-            </row>
-          </tbody>
-        </tgroup>
+            <tr>
+              <td>Is coding extendable:</td>
+              <td>yes</td>
+            </tr>
+          
+        
       </informaltable>
 
     <para><code>DIAG_TAGDEF</code>s associate <code>DIAG_TAG</code>s with
@@ -386,22 +387,22 @@ num:             TDFINT
     <section id="make_diag_tagdef">
       <title>make_diag_tagdef</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>make_diag_tagdef encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>1</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>1</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 tno:             TDFINT
 dtype:           DIAG_TYPE
                      -&gt; DIAG_TAGDEF</programlisting>
@@ -415,29 +416,29 @@ dtype:           DIAG_TYPE
   <section id="diag_type_unit">
     <title>DIAG_TYPE_UNIT</title>
     
-    <informaltable frame="none">
-      <textobject>
+    <informaltable>
+      <!-- TODO:
         <phrase>DIAG_TYPE_UNIT encoding</phrase>
-      </textobject>
+      -->
 
-      <tgroup cols="2">
-        <tbody>
-          <row>
-            <entry>Number of encoding bits:</entry>
-            <entry>0</entry>
-          </row>
+      
+        
+          <tr>
+            <td>Number of encoding bits:</td>
+            <td>0</td>
+          </tr>
 
-          <row>
-            <entry>Is coding extendable:</entry>
-            <entry>no</entry>
-          </row>
+          <tr>
+            <td>Is coding extendable:</td>
+            <td>no</td>
+          </tr>
 
-          <row>
-            <entry>Unit identification:</entry>
-            <entry><varname>diagtype</varname></entry>
-          </row>
-        </tbody>
-      </tgroup>
+          <tr>
+            <td>Unit identification:</td>
+            <td><varname>diagtype</varname></td>
+          </tr>
+        
+      
     </informaltable>
 
     <para>A <code>DIAG_TYPE_UNIT</code> is a TDF unit containing
@@ -446,22 +447,22 @@ dtype:           DIAG_TYPE
     <section id="build_diagtype_unit">
       <title>build_diagtype_unit</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>build_diagtype_unit encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>0</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>0</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 no_labels:       TDFINT
 tagdefs: SLIST(DIAG_TAGDEF)
                      -&gt; DIAG_TYPEUNIT</programlisting>
@@ -476,29 +477,29 @@ tagdefs: SLIST(DIAG_TAGDEF)
   <section id="diag_type">
     <title>DIAG_TYPE</title>
     
-    <informaltable frame="none">
-      <textobject>
+    <informaltable>
+      <!-- TODO:
         <phrase>DIAG_TYPE encoding</phrase>
-      </textobject>
+      -->
 
-      <tgroup cols="2">
-        <tbody>
-          <row>
-            <entry>Sortname:</entry>
-            <entry><varname>foreign_sort("diag_type")</varname></entry>
-          </row>
+      
+        
+          <tr>
+            <td>Sortname:</td>
+            <td><varname>foreign_sort("diag_type")</varname></td>
+          </tr>
 
-          <row>
-            <entry>Number of encoding bits:</entry>
-            <entry>4</entry>
-          </row>
+          <tr>
+            <td>Number of encoding bits:</td>
+            <td>4</td>
+          </tr>
 
-          <row>
-            <entry>Is coding extendable:</entry>
-            <entry>yes</entry>
-          </row>
-        </tbody>
-      </tgroup>
+          <tr>
+            <td>Is coding extendable:</td>
+            <td>yes</td>
+          </tr>
+        
+      
     </informaltable>
 
     <para><code>DIAG_TYPE</code>s are used to provide diagnostic
@@ -507,22 +508,22 @@ tagdefs: SLIST(DIAG_TAGDEF)
     <section id="diag_type_apply_token">
       <title>diag_type_apply_token</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_type_apply_token encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>1</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>1</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 token_value:     TOKEN
 token_args:      BITSTREAM
                      -&gt; DIAG_TYPE</programlisting>
@@ -538,22 +539,22 @@ token_args:      BITSTREAM
     <section id="diag_array">
       <title>diag_array</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_array encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>2</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>2</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 element_type:    DIAG_TYPE
 stride:          EXP OFFSET(p,p)
 lower_bound:     EXP INTEGER(v)
@@ -574,22 +575,22 @@ index_type:      DIAG_TYPE
     <section id="diag_bitfield">
       <title>diag_bitfield</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_bitfield encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>3</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>3</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 type:            DIAG_TYPE
 number_of_bits:  NAT
                      -&gt; DIAG_TYPE</programlisting>
@@ -601,22 +602,22 @@ number_of_bits:  NAT
     <section id="diag_enum">
       <title>diag_enum</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_enum encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>4</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>4</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 base_type:       DIAG_TYPE
 enum_name:       TDFSTRING(k, n)
 values:          LIST(ENUM_VALUES) 
@@ -630,22 +631,22 @@ values:          LIST(ENUM_VALUES)
     <section id="diag_floating_variety">
       <title>diag_floating_variety</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_floating_variety encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>5</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>5</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 var:             FLOATING_VARIETY
                      -&gt; DIAG_TYPE</programlisting>
 
@@ -656,22 +657,22 @@ var:             FLOATING_VARIETY
     <section id="diag_loc">
       <title>diag_loc</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_loc encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>6</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>6</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 object:          DIAG_TYPE
 qualifier:       DIAG_TQ
                      -&gt; DIAG_TYPE</programlisting>
@@ -685,22 +686,22 @@ qualifier:       DIAG_TQ
     <section id="diag_proc">
       <title>diag_proc</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_proc encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>7</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>7</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 params:          LIST(DIAG_TYPE)
 optional_args:   BOOL
 result_type:     DIAG_TYPE
@@ -715,21 +716,21 @@ result_type:     DIAG_TYPE
     <section id="diag_ptr">
       <title>diag_ptr</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_ptr encoding</phrase>
-        </textobject>
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>8</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        -->
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>8</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 object:          DIAG_TYPE
 qualifier:       DIAG_TQ
                      -&gt; DIAG_TYPE</programlisting>
@@ -743,22 +744,22 @@ qualifier:       DIAG_TQ
     <section id="diag_struct">
       <title>diag_struct</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_struct encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>9</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>9</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 tdf_shape:       SHAPE
 src_name:        TDFSTRING(k, n)
 fields:          LIST(DIAG_FIELD) 
@@ -773,21 +774,21 @@ fields:          LIST(DIAG_FIELD)
     <section id="diag_type_null">
       <title>diag_type_null</title>
 
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_type_null encoding</phrase>
-        </textobject>
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>10</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        -->
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>10</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
                    -&gt; DIAG_TYPE</programlisting>
 
       <para>A null <code>DIAG_TYPE</code>.</para>
@@ -796,22 +797,22 @@ fields:          LIST(DIAG_FIELD)
     <section id="diag_union">
       <title>diag_union</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_union encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>11</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>11</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 tdf_shape:       SHAPE
 src_name:        TDFSTRING(k, n)
 fields:          LIST(DIAG_FIELD)
@@ -826,22 +827,22 @@ fields:          LIST(DIAG_FIELD)
     <section id="diag_variety">
       <title>diag_variety</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_variety encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>12</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>12</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 var:             VARIETY
                      -&gt; DIAG_TYPE</programlisting>
 
@@ -852,22 +853,22 @@ var:             VARIETY
     <section id="use_diag_tag">
       <title>use_diag_tag</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>use_diag_tag encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>13</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>13</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 dtag:            DIAG_TAG
                      -&gt; DIAG_TYPE</programlisting>
 
@@ -879,45 +880,45 @@ dtag:            DIAG_TAG
   <section id="enum_values">
     <title>ENUM_VALUES</title>
     
-    <informaltable frame="none">
-      <textobject>
+    <informaltable>
+      <!-- TODO:
         <phrase>ENUM_VALUES encoding</phrase>
-      </textobject>
+      -->
 
-      <tgroup cols="2">
-        <tbody>
-          <row>
-            <entry>Number of encoding bits:</entry>
-            <entry>0</entry>
-          </row>
+      
+        
+          <tr>
+            <td>Number of encoding bits:</td>
+            <td>0</td>
+          </tr>
 
-          <row>
-            <entry>Is coding extendable:</entry>
-            <entry>no</entry>
-          </row>
-        </tbody>
-      </tgroup>
+          <tr>
+            <td>Is coding extendable:</td>
+            <td>no</td>
+          </tr>
+        
+      
     </informaltable>
 
     <section id="make_enum_values_list">
       <title>make_enum_values_list</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>make_enum_values_list encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>0</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>0</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 value:           EXP <varname>sh</varname>
 src_name:        TDFSTRING(k, n)
                    -&gt; ENUM_VALUES</programlisting>
@@ -934,44 +935,44 @@ src_name:        TDFSTRING(k, n)
   <section id="diag_field">
     <title>DIAG_FIELD</title>
     
-    <informaltable frame="none">
-      <textobject>
+    <informaltable>
+      <!-- TODO:
         <phrase>DIAG_FIELD encoding</phrase>
-      </textobject>
+      -->
 
-      <tgroup cols="2">
-        <tbody>
-          <row>
-            <entry>Number of encoding bits:</entry>
-            <entry>0</entry>
-          </row>
-          <row>
-            <entry>Is coding extendable:</entry>
-            <entry>no</entry>
-          </row>
-        </tbody>
-      </tgroup>
+      
+        
+          <tr>
+            <td>Number of encoding bits:</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Is coding extendable:</td>
+            <td>no</td>
+          </tr>
+        
+      
     </informaltable>
 
     <section id="make_diag_field">
       <title>make_diag_field</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>make_diag_field encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>0</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>0</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 field_name:      TDFSTRING(k, n)
 found_at:        EXP OFFSET(ALIGNMENT whole, ALIGNMENT this_field)
 field_type:      DIAG_TYPE
@@ -989,101 +990,101 @@ field_type:      DIAG_TYPE
   <section id="diag_tq">
     <title>DIAG_TQ</title>
     
-    <informaltable frame="none">
-      <textobject>
+    <informaltable>
+      <!-- TODO:
         <phrase>DIAG_TQ encoding</phrase>
-      </textobject>
+      -->
 
-      <tgroup cols="2">
-        <tbody>
-          <row>
-            <entry>Number of encoding bits:</entry>
-            <entry>2</entry>
-          </row>
-          <row>
-            <entry>Is coding extendable:</entry>
-            <entry>yes</entry>
-          </row>
-        </tbody>
-      </tgroup>
+      
+        
+          <tr>
+            <td>Number of encoding bits:</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>Is coding extendable:</td>
+            <td>yes</td>
+          </tr>
+        
+      
     </informaltable>
 
     <para><code>DIAG_TQ</code>s are type qualifiers, used to qualify
       <code>DIAG_TYPE</code>s. A <code>DIAG_TQ</code> is constructed from
-      <type>diag_tq_null</type> and the various <type>add_diag_XXX</type>
+      <code>diag_tq_null</code> and the various <code>add_diag_XXX</code>
       operations.</para>
 
     <section id="add_diag_const">
       <title>add_diag_const</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>add_diag_const encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>1</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>1</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
           <varname>qual</varname>:            DIAG_TQ
                      -&gt; DIAG_TQ</programlisting>
 
       <para>Marks a <code>DIAG_TQ</code> type qualifier as being
-        <token>const</token> in the ANSI C sense.</para>
+        <code>const</code> in the ANSI C sense.</para>
     </section>
 
     <section id="add_diag_volatile">
       <title>add_diag_volatile</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>add_diag_volatile encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>2</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>2</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
           <varname>qual</varname>:            DIAG_TQ
                      -&gt; DIAG_TQ</programlisting>
 
       <para>Marks a <code>DIAG_TQ</code> type qualifier as being
-        <token>volatile</token> in the ANSI C sense.</para>
+        <code>volatile</code> in the ANSI C sense.</para>
     </section>
 
     <section id="diag_tq_null">
       <title>diag_tq_null</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>diag_tq_null encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>3</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>3</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
                      -&gt; DIAG_TQ</programlisting>
 
       <para>Create a null <code>DIAG_TQ</code> type qualifier.</para>
@@ -1093,29 +1094,29 @@ field_type:      DIAG_TYPE
   <section id="filename">
     <title>FILENAME</title>
     
-    <informaltable frame="none">
-      <textobject>
+    <informaltable>
+      <!-- TODO:
         <phrase>FILENAME encoding</phrase>
-      </textobject>
+      -->
 
-      <tgroup cols="2">
-        <tbody>
-          <row>
-            <entry>Sortname:</entry>
-            <entry><function>foreign_sort("~diag_file")</function></entry>
-          </row>
+      
+        
+          <tr>
+            <td>Sortname:</td>
+            <td><function>foreign_sort("~diag_file")</function></td>
+          </tr>
 
-          <row>
-            <entry>Number of encoding bits:</entry>
-            <entry>2</entry>
-          </row>
+          <tr>
+            <td>Number of encoding bits:</td>
+            <td>2</td>
+          </tr>
 
-          <row>
-            <entry>Is coding extendable:</entry>
-            <entry>yes</entry>
-          </row>
-        </tbody>
-      </tgroup>
+          <tr>
+            <td>Is coding extendable:</td>
+            <td>yes</td>
+          </tr>
+        
+      
     </informaltable>
 
     <para><code>FILENAME</code> record details of source files used in
@@ -1125,22 +1126,22 @@ field_type:      DIAG_TYPE
     <section id="filename_apply_token">
       <title>filename_apply_token</title>
 
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>filename_apply_token encoding</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>1</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>1</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
           <varname>token_value</varname>:     TOKEN
           <varname>token_args</varname>:      BITSTREAM
                      -&gt; FILENAME</programlisting>
@@ -1156,22 +1157,22 @@ field_type:      DIAG_TYPE
     <section id="make_filename">
       <title>make_filename</title>
       
-      <informaltable frame="none">
-        <textobject>
+      <informaltable>
+        <!-- TODO:
           <phrase>make_filename</phrase>
-        </textobject>
+        -->
 
-        <tgroup cols="2">
-          <tbody>
-            <row>
-              <entry>Encoding number:</entry>
-              <entry>2</entry>
-            </row>
-          </tbody>
-        </tgroup>
+        
+          
+            <tr>
+              <td>Encoding number:</td>
+              <td>2</td>
+            </tr>
+          
+        
       </informaltable>
 
-      <programlisting>
+      <programlisting language="tdf">
 <varname>date</varname>:    NAT
 <varname>machine</varname>: TDFSTRING(k1, n1)
 <varname>file</varname>:    TDFSTRING(k2, n2)
@@ -1186,24 +1187,24 @@ field_type:      DIAG_TYPE
   <section id="sourcemark">
     <title>SOURCEMARK</title>
   
-    <informaltable frame="none">
-      <textobject>
+    <informaltable>
+      <!-- TODO:
         <phrase>SOURCEMARK encoding</phrase>
-      </textobject>
+      -->
 
-      <tgroup cols="2">
-        <tbody>
-          <row>
-            <entry>Number of encoding bits:</entry>
-            <entry>1</entry>
-          </row>
+      
+        
+          <tr>
+            <td>Number of encoding bits:</td>
+            <td>1</td>
+          </tr>
 
-          <row>
-            <entry>Is coding extendable:</entry>
-            <entry>yes</entry>
-          </row>
-        </tbody>
-      </tgroup>
+          <tr>
+            <td>Is coding extendable:</td>
+            <td>yes</td>
+          </tr>
+        
+      
     </informaltable>
 
     <para>A <code>SOURCEMARK</code> records a location in the source
@@ -1214,22 +1215,22 @@ field_type:      DIAG_TYPE
       <section id="make_sourcemark">
         <title>make_sourcemark</title>
         
-        <informaltable frame="none">
-          <textobject>
+        <informaltable>
+          <!-- TODO:
             <phrase>make_sourcemark encoding</phrase>
-          </textobject>
+          -->
 
-          <tgroup cols="2">
-            <tbody>
-              <row>
-                <entry>Encoding number:</entry>
-                <entry>1</entry>
-              </row>
-            </tbody>
-          </tgroup>
+          
+            
+              <tr>
+                <td>Encoding number:</td>
+                <td>1</td>
+              </tr>
+            
+          
         </informaltable>
   
-        <programlisting>
+        <programlisting language="tdf">
 <varname>file</varname>:            FILENAME
 <varname>line_no</varname>: NAT
 <varname>char_offset</varname>:     NAT
@@ -1256,7 +1257,7 @@ field_type:      DIAG_TYPE
     <section id="exp_to_source">
       <title>~exp_to_source</title>
   
-      <programlisting>
+      <programlisting language="tdf">
 <varname>body</varname>:            EXP sh
 <varname>from</varname>:            SOURCEMARK
 <varname>to</varname>:              SOURCEMARK
@@ -1271,7 +1272,7 @@ field_type:      DIAG_TYPE
     <section id="diag_id_source">
       <title>~diag_id_source</title>
       
-      <programlisting>
+      <programlisting language="tdf">
 <varname>body</varname>:            EXP sh
 <varname>name</varname>:            TDFSTRING(k, n)
 <varname>access</varname>:          EXP POINTER(al)
@@ -1287,7 +1288,7 @@ field_type:      DIAG_TYPE
     <section id="diag_type_scope">
       <title>~diag_type_scope</title>
   
-      <programlisting>
+      <programlisting language="tdf">
 <varname>body</varname>:            EXP sh
 <varname>name</varname>:            TDFSTRING(k, n)
 <varname>type</varname>:            DIAG_TYPE
@@ -1301,13 +1302,13 @@ field_type:      DIAG_TYPE
     <section id="diag_tag_scope">
       <title>~diag_tag_scope</title>
   
-      <programlisting>
+      <programlisting language="tdf">
 <varname>body</varname>:            EXP sh
 <varname>name</varname>:            TDFSTRING(k, n)
 <varname>type</varname>:            DIAG_TYPE
            -&gt; EXP sh</programlisting>
 
-      <para><note>This <code>TOKEN</code> is obsolete.</note></para>
+      <para>This <code>TOKEN</code> is obsolete.</para>	<!-- TODO: note -->
     </section>
   </chapter>
   
@@ -1334,9 +1335,13 @@ field_type:      DIAG_TYPE
         <title>Data types</title>
   
         <itemizedlist>
-          <listitem>Complex numbers.</listitem>
+          <listitem>
+			<para>Complex numbers.</para>
+		</listitem>
   
-          <listitem>Fortran alternate <token>RETURN</token>s.</listitem>
+          <listitem>
+			<para>Fortran alternate <code>RETURN</code>s.</para>
+		</listitem>
         </itemizedlist>
       </section>
   
@@ -1345,23 +1350,25 @@ field_type:      DIAG_TYPE
   
         <itemizedlist>
           <listitem>
-            <para>The <type>reference</type> type is not yet present.</para>
+            <para>The <code>reference</code> type is not yet present.</para>
           </listitem>
       
           <listitem>
-            <para>The accessibility attributes (<token>public</token>,
-              <token>private</token> and <token>protected</token>) are not yet
+            <para>The accessibility attributes (<code>public</code>,
+              <code>private</code> and <code>protected</code>) are not yet
               present.</para>
           </listitem>
       
           <listitem>
-            <para>No <token>member</token> function information, and no
+            <para>No <code>member</code> function information, and no
               specification of how to deal with name mangling. Pointer to
-              <token>member</token> may need special recognition.</para>
+              <code>member</code> may need special recognition.</para>
           </listitem>
       
-          <listitem>No operations for describing <token>class</token>es and
-          inheritance.</listitem>
+          <listitem>
+			<para>No operations for describing <code>class</code>es and
+	          inheritance.</para>
+		  </listitem>
         </itemizedlist>
       </section>
       
@@ -1369,19 +1376,24 @@ field_type:      DIAG_TYPE
         <title>FORTRAN requirements</title>
       
         <itemizedlist>
-          <listitem>Main <token>PROGRAM</token> attribute missing.</listitem>
+          <listitem>
+			<para>Main <code>PROGRAM</code> attribute missing.</para>
+		</listitem>
       
           <listitem>
             <para>Fortran optional parameters may need special
               treatment</para>
           </listitem>
       
-          <listitem>Use of <token>COMMON</token> is not explicit in
-            TDF.</listitem>
+          <listitem>
+			<para>Use of <code>COMMON</code> is not explicit in TDF.</para>
+		  </listitem>
       
-          <listitem>Fortran77 etc. has a string type, which could be
-          implemented in several ways (other languages need this, but
-          they may differ on the same machine).</listitem>
+          <listitem>
+			<para>Fortran77 etc. has a string type, which could be
+	          implemented in several ways (other languages need this, but
+	          they may differ on the same machine).</para>
+		  </listitem>
         </itemizedlist>
       </section>
       
@@ -1389,39 +1401,59 @@ field_type:      DIAG_TYPE
         <title>Other requirements</title>
       
         <itemizedlist>
-          <listitem>No standardised method for describing static link info.
-            TDF can express such programs, but the link could be stored in
-            several ways.</listitem>
+          <listitem>
+			<para>No standardised method for describing static link info.
+	            TDF can express such programs, but the link could be stored in
+	            several ways.</para>
+		  </listitem>
       
-          <listitem>No standardised method for describing arrays with either
-            non-constant bounds, and/or where the bounds are present in the
-            running image. (The <varname>upper_bound</varname> and
-            <varname>lower_bound</varname> <code>EXP</code>s are sufficiently
-            powerful, but needs some rules)</listitem>
+          <listitem>
+			<para>No standardised method for describing arrays with either
+	            non-constant bounds, and/or where the bounds are present in the
+	            running image. (The <varname>upper_bound</varname> and
+	            <varname>lower_bound</varname> <code>EXP</code>s are sufficiently
+	            powerful, but needs some rules)</para>
+		  </listitem>
       
-          <listitem>No way to name a lexical block.</listitem>
+          <listitem>
+			<para>No way to name a lexical block.</para>
+		  </listitem>
       
-          <listitem>Formal parameters with default values cannot have the
-          default made visible.</listitem>
+          <listitem>
+			<para>Formal parameters with default values cannot have the
+	          default made visible.</para>
+		  </listitem>
       
-          <listitem>Variables which are constant, and have been inlined
-          everywhere may be a problem.</listitem>
+          <listitem>
+			<para>Variables which are constant, and have been inlined
+ 	         everywhere may be a problem.</para>
+		  </listitem>
       
-          <listitem>No standardised method of describing the discriminant part
-          of a discriminated union (in TDF probably represented by a
-          struct containing the discriminant and the union).</listitem>
+          <listitem>
+			<para>No standardised method of describing the discriminant part
+	          of a discriminated union (in TDF probably represented by a
+	          struct containing the discriminant and the union).</para>
+		  </listitem>
       
-          <listitem>The distinction between ANSI prototyped and non-prototyped
-          functions (this is a real problem for functions taking
-          <type>float</type>)</listitem>
+          <listitem>
+			<para>The distinction between ANSI prototyped and non-prototyped
+	          functions (this is a real problem for functions taking
+	          <code>float</code>)</para>
+		  </listitem>
       
-          <listitem>No standardised method for PASCAL sets.</listitem>
+          <listitem>
+			<para>No standardised method for PASCAL sets.</para>
+		  </listitem>
       
-          <listitem>No standardised method for subrange types.</listitem>
+          <listitem>
+			<para>No standardised method for subrange types.</para>
+		  </listitem>
       
-          <listitem>PASCAL and Modula have a <token>WITH</token> construct to
-            change semantics of record field lookup. No standardised method
-            for documenting this.</listitem>
+          <listitem>
+			<para>PASCAL and Modula have a <code>WITH</code> construct to
+	            change semantics of record field lookup. No standardised method
+	            for documenting this.</para>
+		  </listitem>
         </itemizedlist>
       </section>
     </section>
@@ -1445,7 +1477,7 @@ field_type:      DIAG_TYPE
         <para>At present there is no defined link between the fundamental C
           types and the <code>VARIETY</code>s etc. used for them. Present
           installers for 32 bit machines cannot distinguish between
-          <type>int</type> and <type>long</type> when generating diagnostics,
+          <code>int</code> and <code>long</code> when generating diagnostics,
           other than by means of the standard token names which form part of
           the C producer language interface.</para>
       </section>

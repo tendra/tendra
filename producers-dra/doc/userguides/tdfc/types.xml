@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="wbS16">Type Checking</title>
+	<title>Type Checking</title>
 
 	<para>Type checking is relevant to two main areas of C. It ensures
 		that all declarations referring to the same object are consistent
@@ -17,7 +16,7 @@
 		have been considered.</para>
 
 	<section>
-		<title id="2">Type conversions</title>
+		<title>Type conversions</title>
 
 		<para>The only types which may be interconverted legally are integral
 			types, floating point types and pointer types. Even if these rules
@@ -36,7 +35,7 @@
 
 		<para>Checks to detect these conversions are controlled by the pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA conversion analysis <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA conversion analysis <emphasis>status</emphasis></programlisting>
 
 		<para>Unless explicitly stated to the contrary, throughout the rest of
 			the document where status appears in a pragma statement it represents
@@ -58,11 +57,11 @@
 			pointer to pointer conversions, such conversions are flagged as
 			errors by default. These conversion checks are not controlled by
 			the global conversion analysis pragma above, but must be controlled
-			by the relevant individual pragmas given in sections <xref linkend="8"/>
-			and <xref linkend="11"/>.</para>
+			by the relevant individual pragmas given in sections
+			<xref linkend="ptrtoint"/> and <xref linkend="uoaace"/>.</para>
 
-		<section>
-			<title id="5">Integer to integer conversions</title>
+		<section id="inttoint">
+			<title>Integer to integer conversions</title>
 
 			<para>All integer to integer conversions are allowed in C, however
 				some can result in a loss of accuracy and so may be usefully
@@ -70,16 +69,16 @@
 				in a loss of accuracy, but conversions from long to int may.
 				The detection of these shortening conversions is controlled by:</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( int-int ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( int-int ) <emphasis>status</emphasis></programlisting>
 
 			<para>Checks on explicit conversions and implicit conversions may
 				be controlled independently using:</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( int-int explicit ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( int-int explicit ) <emphasis>status</emphasis></programlisting>
 
 			<para>and</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( int-int implicit ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( int-int implicit ) <emphasis>status</emphasis></programlisting>
 
 			<para>Objects of enumerated type are specified by the ISO C standard
 				to be compatible with an implementation-defined integer type.
@@ -89,7 +88,7 @@
 				check to detect the implicit integer to enum type conversions which
 				arise from such assignments is controlled using:</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( int-enum implicit ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( int-enum implicit ) <emphasis>status</emphasis></programlisting>
 
 			<para>Note that only implicit conversions are flagged; if the
 				conversion is made explicit, by using a cast, no errors are raised.</para>
@@ -103,8 +102,8 @@
 				issue which is further discussed in Chapter 4.</para>
 		</section>
 
-		<section>
-			<title id="8">Pointer to integer and integer to pointer
+		<section id="ptrtoint">
+			<title>Pointer to integer and integer to pointer
 				conversions</title>
 
 			<para>Integer to pointer and pointer to integer conversions are
@@ -115,15 +114,15 @@
 				pointer to integer and integer to pointer conversions may be
 				controlled separately using:</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( int-pointer explicit ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( int-pointer explicit ) <emphasis>status</emphasis></programlisting>
 
 			<para>and</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( int-pointer implicit ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( int-pointer implicit ) <emphasis>status</emphasis></programlisting>
 
 			<para>or both checks may be controlled together by:</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( int-pointer ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( int-pointer ) <emphasis>status</emphasis></programlisting>
 
 			<para>Where <emphasis>status</emphasis> may be <code>on</code>,
 				<code>warning</code> or <code>off</code> and <code>pointer-int</code>
@@ -131,7 +130,7 @@
 		</section>
 
 		<section>
-			<title id="11">Pointer to pointer conversions</title>
+			<title>Pointer to pointer conversions</title>
 
 			<para>According to the ISO C standard, section 6.3.4, the only legal
 				pointer to pointer conversions are explicit conversions between:</para>
@@ -157,16 +156,16 @@
 			<para>All pointer to pointer conversion may be flagged as errors
 				using:</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( pointer-pointer ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( pointer-pointer ) <emphasis>status</emphasis></programlisting>
 
 			<para>Explicit and implicit pointer to pointer conversions may
 				be controlled separately using:</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( pointer-pointer explicit ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( pointer-pointer explicit ) <emphasis>status</emphasis></programlisting>
 
 			<para>and</para>
 
-			<programlisting language="C">#pragma TenDRA conversion analysis ( pointer-pointer implicit ) <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA conversion analysis ( pointer-pointer implicit ) <emphasis>status</emphasis></programlisting>
 
 			<para>where, as before, <emphasis>status</emphasis> may be <code>on</code>,
 				<code>warning</code> or <code>off</code>.</para>
@@ -177,7 +176,7 @@
 				treat function pointers as object pointers for conversion
 				using:</para>
 
-			<programlisting language="C">#pragma TenDRA function pointer as pointer <emphasis>permit</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA function pointer as pointer <emphasis>permit</emphasis></programlisting>
 
 			<para>Unless explicitly stated to the contrary, throughout the rest
 				of the document where <emphasis>permit</emphasis> appears in a pragma
@@ -198,14 +197,14 @@
 				<code>char *</code> as a generic pointer. This dialect feature may
 				be allowed, allowed with a warning, or disallowed using the pragma:</para>
 
-			<programlisting language="C">#pragma TenDRA compatible type : char * == void * <emphasis>permit</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA compatible type : char * == void * <emphasis>permit</emphasis></programlisting>
 
 			<para>Where <emphasis>permit</emphasis> is <code>allow</code>,
 				<code>warning</code> or <code>disallow</code> as before.</para>
 		</section>
 
 		<section>
-			<title id="15">Example: 64-bit portability issues</title>
+			<title>Example: 64-bit portability issues</title>
 
 			<para>64-bit machines form the <quote>next frontier</quote>
 				of program portability. Most of the problems involved in
@@ -219,8 +218,7 @@
 
 			<para>Consider the following code:</para>
 
-			<programlisting language="C">
-#include &lt;stdio.h&gt;
+			<programlisting language="c">#include &lt;stdio.h&gt;
 void print ( string, offset, scale )
 char *string;
 unsigned int offset;
@@ -258,13 +256,13 @@ int main ()
 				arithmetic involves some argument conversion. In the case above,
 				scale is converted to an unsigned int and that is multiplied by
 				offset to give an unsigned int result. If the implicit int-&gt;int
-				conversion checks (<xref linkend="5"/> ) are enabled, this
-				conversion is detected and the problem may be avoided.</para>
+				conversion checks (see <xref linkend="inttoint"/>) are enabled,
+				this conversion is detected and the problem may be avoided.</para>
 		</section>
 	</section>
 
-	<section>
-		<title id="17">Function type checking</title>
+	<section id="functype">
+		<title>Function type checking</title>
 
 		<para>The importance of function type checking in C lies in the
 			conversions which can result from type mismatches between the
@@ -276,8 +274,7 @@ int main ()
 			Traditional C allows for absolutely no type checking of function
 			arguments, so that totally bizarre functions, such as:</para>
 
-		<programlisting language="C">
-int f ( n ) int n ; {
+		<programlisting language="c">int f ( n ) int n ; {
 	return ( f ( "hello", "there" ) ) ;
 }</programlisting>
 
@@ -290,7 +287,7 @@ int f ( n ) int n ; {
 			checker's default mode but tchk can be configured to allow, allow with
 			a warning or disallow prototypes, using:</para>
 
-		<programlisting language="C">#pragma TenDRA prototype <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA prototype <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code>,
 			<code>disallow</code> or <code>warning</code>.</para>
@@ -299,7 +296,7 @@ int f ( n ) int n ; {
 			described below, for detecting incorrectly typed functions.</para>
 
 		<section>
-			<title id="20">Type checking non-prototyped functions</title>
+			<title>Type checking non-prototyped functions</title>
 
 			<para>The checker offers a method for applying prototype-like checks
 				to traditionally defined functions, by introducing the concept of
@@ -314,20 +311,19 @@ int f ( n ) int n ; {
 				<listitem>
 					<para>A weak prototype may be declared using the syntax:</para>
 
-					<programlisting language="C">int f <emphasis>WEAK</emphasis> ( char, char * ) ;</programlisting>
+					<programlisting language="c">int f <emphasis>WEAK</emphasis> ( char, char * ) ;</programlisting>
 
 					<para>where <emphasis>WEAK</emphasis> represents any keyword which has been
 						introduced using:</para>
 
-					<programlisting language="C">#pragma TenDRA keyword <emphasis>WEAK</emphasis> for weak</programlisting>
+					<programlisting language="c">#pragma TenDRA keyword <emphasis>WEAK</emphasis> for weak</programlisting>
 
 					<para>An alternative definition of the keyword must be provided for other
 						compilers. For example, the following definition would make system
 						compilers interpret weak prototypes as normal (strong)
 						prototypes:</para>
 
-					<programlisting language="C">
-#ifdef __TenDRA__
+					<programlisting language="c">#ifdef __TenDRA__
 #pragma TenDRA keyword WEAK for weak
 #else
 #define WEAK
@@ -336,7 +332,7 @@ int f ( n ) int n ; {
 					<para>The difference between conventional prototypes and weak prototypes
 						can be illustrated by considering the normal prototype for f:</para>
 
-					<programlisting language="C">int f ( char, char * ) ;</programlisting>
+					<programlisting language="c">int f ( char, char * ) ;</programlisting>
 
 					<para>When the prototype is present, the first argument to f would be
 						passed as a char. Using the weak prototype, however, results in the
@@ -346,22 +342,22 @@ int f ( n ) int n ; {
 					<para>There is one limitation on the declaration of weak prototypes -
 						declarations of the form:</para>
 
-					<programlisting language="C">int f <emphasis>WEAK</emphasis>() ;</programlisting>
+					<programlisting language="c">int f <emphasis>WEAK</emphasis>() ;</programlisting>
 
 					<para>are not allowed. If a function has no arguments, this should be
 						stated explicitly as:</para>
 
-					<programlisting language="C">int f <emphasis>WEAK</emphasis>( void ) ;</programlisting>
+					<programlisting language="c">int f <emphasis>WEAK</emphasis>( void ) ;</programlisting>
 
 					<para>whereas if the argument list is not specified, weak prototypes
 						should be avoided and a traditional declaration used instead:</para>
 
-					<programlisting language="C">extern int f ();</programlisting>
+					<programlisting language="c">extern int f ();</programlisting>
 
 					<para>The checker may be configured to allow, allow with a warning or
 						disallow weak prototype declarations using:</para>
 
-					<programlisting language="C">#pragma TenDRA prototype ( weak ) <emphasis>permit</emphasis></programlisting>
+					<programlisting language="c">#pragma TenDRA prototype ( weak ) <emphasis>permit</emphasis></programlisting>
 
 					<para>where <emphasis>permit</emphasis> is replaced by <code>allow</code>,
 						<code>warning</code> or <code>disallow</code> as appropriate. Weak
@@ -372,27 +368,27 @@ int f ( n ) int n ; {
 					<para>Information can be deduced from a function definition. For
 						example, the function definition:</para>
 
-					<programlisting language="C">int f ( c, s )
+					<programlisting language="c">int f ( c, s )
 char c ;
 char *s ; { ... }</programlisting>
 
 					<para>is said to have weak prototype:</para>
 
-					<programlisting language="C">int f <emphasis>WEAK</emphasis>( char, char * ) ;</programlisting>
+					<programlisting language="c">int f <emphasis>WEAK</emphasis>( char, char * ) ;</programlisting>
 
 					<para>The checker automatically constructs a weak prototype for each
 						traditional function definition it encounters and if the weak
 						prototype analysis mode is enabled (see below) all subsequent calls
 						of the function are checked against this weak prototype.</para>
 
-					<para>For example, in the bizarre function in <xref linkend="17"/>,
+					<para>For example, in the bizarre function in <xref linkend="functype"/>,
 						the weak prototype:</para>
 
-					<programlisting language="C">int f <emphasis>WEAK</emphasis> ( int ) ;</programlisting>
+					<programlisting language="c">int f <emphasis>WEAK</emphasis> ( int ) ;</programlisting>
 
 					<para>is constructed for f. The subsequent call to <code>f</code>:</para>
 
-					<programlisting language="C">f ( "hello", "there" ) ;</programlisting>
+					<programlisting language="c">f ( "hello", "there" ) ;</programlisting>
 
 					<para>is then rejected by comparison with this weak prototype - not only
 						is <code>f</code> called with the wrong number of arguments, but the
@@ -404,8 +400,7 @@ char *s ; { ... }</programlisting>
 					<para>Information may be deduced from the calls of a function. For
 						example, in:</para>
 
-					<programlisting language="C">
-extern void f ();
+					<programlisting language="c">extern void f ();
 void g ()
 {
 	f ( 3 );
@@ -419,13 +414,12 @@ void g ()
 						(since this is how the argument is passed). We can therefore
 						infer a partial weak prototype for <code>f</code>:</para>
 
-					<programlisting language="C">void f <emphasis>WEAK</emphasis> ( t );</programlisting>
+					<programlisting language="c">void f <emphasis>WEAK</emphasis> ( t );</programlisting>
 
 					<para>for some integral type t which promotes to int. Similarly, from the
 						second call of f we can infer the weak prototype:</para>
 
-					<programlisting language="C">
-void f <emphasis>WEAK</emphasis> ( char * );</programlisting>
+					<programlisting language="c">void f <emphasis>WEAK</emphasis> ( char * );</programlisting>
 
 					<para>(the argument passing rules are much simpler in this case). Clearly
 						the two inferred prototypes are incompatible, so an error is
@@ -440,8 +434,7 @@ void f <emphasis>WEAK</emphasis> ( char * );</programlisting>
 					<para>Null pointers cause particular problems with weak prototypes
 						inferred from function calls. For example, in:</para>
 
-					<programlisting language="C">
-#include &lt;stdio.h&gt;
+					<programlisting language="c">#include &lt;stdio.h&gt;
 extern void f ();
 void g () {
 	f ( "hello" );
@@ -465,7 +458,7 @@ void g () {
 				deduced from function declarations or calls are used for type
 				checking if the weak prototype analysis mode is enabled using:</para>
 
-			<programlisting language="C">#pragma TenDRA weak prototype analysis <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA weak prototype analysis <emphasis>status</emphasis></programlisting>
 
 			<para>Where <emphasis>status</emphasis> is one of <code>on</code>,
 				<code>warning</code> and <code>off</code> as usual.
@@ -479,14 +472,14 @@ void g () {
 			<para>This section ends with two examples which demonstrate some of
 				the less obvious consequences of weak prototype analysis.</para>
 
-			<bridgehead>Example 1: An obscure type mismatch</bridgehead>
+			<section>
+				<title>Example 1: An obscure type mismatch</title>
 
-			<para>As stated above, the promotion and conversion rules for weak
-				prototypes are precisely those for traditionally declared and
-				defined functions. Consider the program:</para>
+				<para>As stated above, the promotion and conversion rules for weak
+					prototypes are precisely those for traditionally declared and
+					defined functions. Consider the program:</para>
 
-			<programlisting language="C">
-void f ( n )
+				<programlisting language="c">void f ( n )
 long n;
 {
 	printf ( "%ld\n", n );
@@ -495,76 +488,75 @@ void g () {
 	f ( 3 );
 }</programlisting>
 
-			<para>The literal constant <code>3</code> is an <code>int</code>
-				and hence is passed as such to <code>f</code>. <code>f</code>
-				is however expecting a <code>long</code>, which can lead to
-				problems on some machines. Introducing a strong prototype
-				declaration of <code>f</code> for those compilers which understand
-				them:</para>
+				<para>The literal constant <code>3</code> is an <code>int</code>
+					and hence is passed as such to <code>f</code>. <code>f</code>
+					is however expecting a <code>long</code>, which can lead to
+					problems on some machines. Introducing a strong prototype
+					declaration of <code>f</code> for those compilers which understand
+					them:</para>
 
-			<programlisting language="C">
-#ifdef __STDC__
+				<programlisting language="c">#ifdef __STDC__
 void f ( long );
 #endif</programlisting>
 
-			<para>will produce correct code - the arguments to a function
-				declared with a prototype are converted to the appropriate types,
-				so that the literal is actually passed as <code>3L</code>.
-				This solves the problem for compilers which understand prototypes,
-				but does not actually detect the underlying error. Weak prototypes,
-				because they use the traditional argument passing rules, do detect
-				the error. The constructed weak prototype:</para>
+				<para>will produce correct code - the arguments to a function
+					declared with a prototype are converted to the appropriate types,
+					so that the literal is actually passed as <code>3L</code>.
+					This solves the problem for compilers which understand prototypes,
+					but does not actually detect the underlying error. Weak prototypes,
+					because they use the traditional argument passing rules, do detect
+					the error. The constructed weak prototype:</para>
 
-			<programlisting language="C">void f <emphasis>WEAK</emphasis> ( long ) ;</programlisting>
+				<programlisting language="c">void f <emphasis>WEAK</emphasis> ( long ) ;</programlisting>
 
-			<para>conveys the type information that <code>f</code> is expecting
-				a <code>long</code>, but accepts the function arguments as
-				passed rather than converting them. Hence, the error of passing
-				an <code>int</code> argument to a function expecting a <code>long</code>
-				is detected.</para>
+				<para>conveys the type information that <code>f</code> is expecting
+					a <code>long</code>, but accepts the function arguments as
+					passed rather than converting them. Hence, the error of passing
+					an <code>int</code> argument to a function expecting a <code>long</code>
+					is detected.</para>
 
-			<para>Many programs, seeking to have prototype checks while preserving
-				compilability with non-prototype compilers, adopt a compromise
-				approach of traditional definitions plus prototype declarations for
-				those compilers which understand them, as in the example above.
-				While this ensures correct argument passing in the prototype case,
-				as the example shows it may obscure errors in the non-prototype
-				case.</para>
+				<para>Many programs, seeking to have prototype checks while preserving
+					compilability with non-prototype compilers, adopt a compromise
+					approach of traditional definitions plus prototype declarations for
+					those compilers which understand them, as in the example above.
+					While this ensures correct argument passing in the prototype case,
+					as the example shows it may obscure errors in the non-prototype
+					case.</para>
+			</section>
 
-			<bridgehead>Example 2: Weak prototype checks in defined
-				programs</bridgehead>
+			<section>
+				<title>Example 2: Weak prototype checks in defined
+					programs</title>
 
-			<para>In most cases a program which fails to compile with the weak
-				prototype analysis enabled is undefined. ISO standard C does
-				however contain an anomalous rule on equivalence of representation.
-				For example, in:</para>
+				<para>In most cases a program which fails to compile with the weak
+					prototype analysis enabled is undefined. ISO standard C does
+					however contain an anomalous rule on equivalence of representation.
+					For example, in:</para>
 
-			<programlisting language="C">
-extern void f () ;
+				<programlisting language="c">extern void f () ;
 void g () {
 	f ( 3 ) ;
 	f ( 4U ) ;
 }</programlisting>
 
-			<para>the TenDRA checker detects an error - in one instance
-				<code>f</code> is being passed an int, whereas in the other it
-				is being passed an <code>unsigned int</code>. However, the ISO
-				C standard states that, for values which fit into both types,
-				the representation of a number as an <code>int</code> is equal to
-				that as an <code>unsigned int</code>, and that values with the
-				same representation are interchangeable in procedure arguments.
-				Thus the program is defined. The justification for raising an
-				error or warning for this program is that the prototype analysis
-				is based on types, not some weaker notion of <quote>equivalence
-				of representation</quote>. The program may be defined, but it
-				is not type correct.</para>
+				<para>the TenDRA checker detects an error - in one instance
+					<code>f</code> is being passed an int, whereas in the other it
+					is being passed an <code>unsigned int</code>. However, the ISO
+					C standard states that, for values which fit into both types,
+					the representation of a number as an <code>int</code> is equal to
+					that as an <code>unsigned int</code>, and that values with the
+					same representation are interchangeable in procedure arguments.
+					Thus the program is defined. The justification for raising an
+					error or warning for this program is that the prototype analysis
+					is based on types, not some weaker notion of <quote>equivalence
+					of representation</quote>. The program may be defined, but it
+					is not type correct.</para>
 
-			<para>Another case in which a program is defined, but not correct, is
-				where an unnecessary extra argument is passed to a function. For
-				example, in:</para>
+				<para>Another case in which a program is defined, but not correct, is
+					where an unnecessary extra argument is passed to a function. For
+					example, in:</para>
 
-			<programlisting language="C">
-void f ( a )
+				<programlisting language="c">void f ( a )
 int a ;
 {
 	printf ( "%d\n", a ) ;
@@ -573,18 +565,19 @@ void g () {
 	f ( 3, 4 ) ;
 }</programlisting>
 
-			<para>the call of <code>f</code> is defined, but is almost
-				certainly a mistake.</para>
+				<para>the call of <code>f</code> is defined, but is almost
+					certainly a mistake.</para>
+			</section>
 		</section>
 
 		<section>
-			<title id="23">Checking printf strings</title>
+			<title>Checking printf strings</title>
 
 			<para>Normally functions which take a variable number of
 				arguments offer only limited scope for type checking.
 				For example, given the prototype:</para>
 
-			<programlisting language="C">int execl ( const char *, const char *, ... ) ;</programlisting>
+			<programlisting language="c">int execl ( const char *, const char *, ... ) ;</programlisting>
 
 			<para>the first two arguments may be checked, but we have no
 				hold on any subsequent arguments (in fact in this example
@@ -596,7 +589,7 @@ void g () {
 				is possible to use this string to deduce the types of the
 				extra arguments that it is expect ing. For example, in:</para>
 
-			<programlisting language="C">printf ( "%ld", 4 ) ;</programlisting>
+			<programlisting language="c">printf ( "%ld", 4 ) ;</programlisting>
 
 			<para>the format string indicates that <code>printf</code> is
 				expecting a single additional argument of type <code>long</code>.
@@ -604,7 +597,7 @@ void g () {
 				which this particular call to <code>printf</code> should conform
 				to, namely:</para>
 
-			<programlisting language="C">int printf ( const char *, long ) ;</programlisting>
+			<programlisting language="c">int printf ( const char *, long ) ;</programlisting>
 
 			<para>In fact this is a mixture of a strong prototype and a
 				weak prototype. The first argument comes from the actual
@@ -619,19 +612,19 @@ void g () {
 
 			<para>In order for this check to take place, the function
 				declaration needs to tell the checker that the function is
-				like <para>printf</para>. This is done by introducing a special
+				like <code>printf</code>. This is done by introducing a special
 				type, <code>PSTRING</code> say, to stand for a <code>printf</code>
 				string, using:</para>
 
-			<programlisting language="C">#pragma TenDRA type <emphasis>PSTRING</emphasis> for ... printf</programlisting>
+			<programlisting language="c">#pragma TenDRA type <emphasis>PSTRING</emphasis> for ... printf</programlisting>
 
 			<para>For most purposes this is equivalent to:</para>
 
-			<programlisting language="C">typedef const char *<emphasis>PSTRING</emphasis>;</programlisting>
+			<programlisting language="c">typedef const char *<emphasis>PSTRING</emphasis>;</programlisting>
 
 			<para>except that when a function declaration:</para>
 
-			<programlisting language="C">int f ( <emphasis>PSTRING</emphasis>, ... );</programlisting>
+			<programlisting language="c">int f ( <emphasis>PSTRING</emphasis>, ... );</programlisting>
 
 			<para>is encountered the checker knows to deduce the types of
 				the arguments corresponding to the ... from the <code>PSTRING</code>
@@ -642,8 +635,7 @@ void g () {
 				<code>PSTRING</code> for conventional compilers must be
 				provided. For example:</para>
 
-			<programlisting language="C">
-#ifdef __TenDRA__
+			<programlisting language="c">#ifdef __TenDRA__
 #pragma TenDRA type PSTRING for ... printf
 #else
 typedef const char *PSTRING;
@@ -671,7 +663,7 @@ typedef const char *PSTRING;
 		</section>
 
 		<section>
-			<title id="25">Function return checking</title>
+			<title>Function return checking</title>
 
 			<para>Function returns normally present no difficulties. The
 				return value is converted, as if by assignment, to the
@@ -681,8 +673,7 @@ typedef const char *PSTRING;
 				value, is allowed in functions returning a non-void type,
 				the value returned being undefined. For example, in:</para>
 
-			<programlisting language="C">
-int f ( int c )
+			<programlisting language="c">int f ( int c )
 {
 	if ( c ) return ( 1 ) ;
 	return ;
@@ -691,7 +682,7 @@ int f ( int c )
 			<para>the value returned when c is zero is undefined. The test
 				for detecting such void returns is controlled by:</para>
 
-			<programlisting language="C">#pragma TenDRA incompatible void return <emphasis>permit</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA incompatible void return <emphasis>permit</emphasis></programlisting>
 
 			<para>where <emphasis>permit</emphasis> may be <code>allow</code>,
 				<code>warning</code> or <code>disallow</code> as usual.</para>
@@ -706,8 +697,7 @@ int f ( int c )
 			<para>This check also detects functions which do not contain a return
 				statement, but fall out of the bottom of the function as in:</para>
 
-			<programlisting language="C">
-int f ( int c )
+			<programlisting language="c">int f ( int c )
 {
 	if ( c ) return ( 1 ) ;
 }</programlisting>
@@ -715,12 +705,12 @@ int f ( int c )
 			<para>Occasionally it may be the case that such a function is
 				legal, because the end of the function is not reached.
 				Unreachable code is discussed in section
-				<xref linkend="wb_2"/>.</para>
+				<xref linkend="unreachable"/>.</para>
 		</section>
 	</section>
 
 	<section>
-		<title id="wb">Overriding type checking</title>
+		<title>Overriding type checking</title>
 
 		<para>There are several commonly used features of C, some of which
 			are even allowed by the ISO C standard, which can circumvent
@@ -729,21 +719,20 @@ int f ( int c )
 			to support them with or without a warning, as described below.</para>
 
 		<section>
-			<title id="30">Implicit Function Declarations</title>
+			<title>Implicit Function Declarations</title>
 
 			<para>The ISO C standard states that any undeclared function
 				is implicitly assumed to return int. For example, in
 				ISO C:</para>
 
-			<programlisting language="C">
-int f ( int c ) {
+			<programlisting language="c">int f ( int c ) {
 	return ( g( c ) + 1 ) ;
 }</programlisting>
 
 			<para>the undeclared function g is inferred to have a
 				declaration:</para>
 
-			<programlisting language="C">extern int g () ;</programlisting>
+			<programlisting language="c">extern int g () ;</programlisting>
 
 			<para>This can potentially lead to program errors. The
 				definition of <code>f</code> would be valid if
@@ -758,7 +747,7 @@ int f ( int c ) {
 				replacing them by explicit declarations. By default implicit
 				function declarations are allowed, however the pragma:</para>
 
-			<programlisting language="C">#pragma TenDRA implicit function declaration <emphasis>status</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA implicit function declaration <emphasis>status</emphasis></programlisting>
 
 			<para>may be used to determine how tchk handles implicit
 				function declarations. <emphasis>Status</emphasis> is
@@ -783,7 +772,7 @@ int f ( int c ) {
 		</section>
 
 		<section>
-			<title id="32">Function Parameters</title>
+			<title>Function Parameters</title>
 
 			<para>Many systems pass function arguments of differing types
 				in the same way and programs are sometimes written to take
@@ -791,70 +780,81 @@ int f ( int c ) {
 				options to resolve type mismatches which may arise in this
 				way and would otherwise be flagged as errors:</para>
 
-			<itemizedlist>
-				<listitem><emphasis role="bold">Type-type compatibility</emphasis>
+			<variablelist>
+				<varlistentry>
+					<term>Type-type compatibility</term>
 
-					<para>When comparing function prototypes for compatibility, the
-						function parameter types must be compared. If the parameter types
-						would otherwise be incompatible, they are treated as compatible if
-						they have previously been introduced with a type-type parameter
-						compatibility pragma i.e.</para>
+					<listitem>
+						<para>When comparing function prototypes for compatibility, the
+							function parameter types must be compared. If the parameter types
+							would otherwise be incompatible, they are treated as compatible if
+							they have previously been introduced with a type-type parameter
+							compatibility pragma i.e.</para>
 
-					<programlisting language="C">#pragma TenDRA argument <emphasis>type-name</emphasis> as <emphasis>type-name</emphasis></programlisting>
+						<programlisting language="c">#pragma TenDRA argument <emphasis>type-name</emphasis> as <emphasis>type-name</emphasis></programlisting>
 
-					<para>where <emphasis>type-name</emphasis> is the name of any type. This pragma is
-						transitive and the second type in the pragma is taken to be the
-						final type of the parameter.</para>
-				</listitem>
+						<para>where <emphasis>type-name</emphasis> is the name of any type. This pragma is
+							transitive and the second type in the pragma is taken to be the
+							final type of the parameter.</para>
+					</listitem>
+				</varlistentry>
 
-				<listitem><emphasis role="bold">Type-ellipsis compatibility</emphasis>
+				<varlistentry>
+					<term>Type-ellipsis compatibility</term>
 
-					<para>Two function prototypes with different numbers of
-						arguments are compatible if:</para>
+					<listitem>
+						<para>Two function prototypes with different numbers of
+							arguments are compatible if:</para>
 
-					<itemizedlist>
-						<listitem>
-							<para>both prototypes have an ellipsis;</para>
-						</listitem>
-						<listitem>
-							<para>each parameter type common to both prototypes is
-								compatible;</para>
-						</listitem>
-						<listitem>
-							<para>each extra parameter type in the prototype with more
-								parameters, is either specified in a type-ellipsis compatibility
-								pragma or is type-type compatible (see above) to a type that is
-								specified in a type-ellipsis compatibility.</para>
-						</listitem>
-					</itemizedlist>
+						<itemizedlist>
+							<listitem>
+								<para>both prototypes have an ellipsis;</para>
+							</listitem>
+	
+							<listitem>
+								<para>each parameter type common to both prototypes is
+									compatible;</para>
+							</listitem>
+	
+							<listitem>
+								<para>each extra parameter type in the prototype with more
+									parameters, is either specified in a type-ellipsis compatibility
+									pragma or is type-type compatible (see above) to a type that is
+									specified in a type-ellipsis compatibility.</para>
+							</listitem>
+						</itemizedlist>
 
-					<para>Type-ellipsis compatibility is introduced using the
-						pragma:</para>
+						<para>Type-ellipsis compatibility is introduced using the
+							pragma:</para>
 
-					<programlisting language="C">#pragma TenDRA argument <emphasis>type-name</emphasis> as ...</programlisting>
+						<programlisting language="c">#pragma TenDRA argument <emphasis>type-name</emphasis> as ...</programlisting>
 
-					<para>where again <code>type-name</code> is the name of
-						any type.</para>
-				</listitem>
+						<para>where again <code>type-name</code> is the name of
+							any type.</para>
+					</listitem>
+				</varlistentry>
 
-				<listitem><emphasis role="bold">Ellipsis compatibility</emphasis>
+				<varlistentry>
+					<term>Ellipsis compatibility</term>
 
-					<para>If, when comparing two function prototypes for compatibility,
-						one has an ellipsis and the other does not, but otherwise the two
-						types would be compatible, then if an `extra' ellipsis is allowed,
-						the types are treated as compatible. The pragma controlling
-						ellipsis compatibility is:</para>
+					<listitem>
+						<para>If, when comparing two function prototypes for compatibility,
+							one has an ellipsis and the other does not, but otherwise the two
+							types would be compatible, then if an `extra' ellipsis is allowed,
+							the types are treated as compatible. The pragma controlling
+							ellipsis compatibility is:</para>
 
-					<programlisting language="C">#pragma TenDRA extra ... <emphasis>permit</emphasis></programlisting>
+						<programlisting language="c">#pragma TenDRA extra ... <emphasis>permit</emphasis></programlisting>
 
-					<para>where <emphasis>permit</emphasis> may be <code>allow</code>,
-						<code>disallow</code> or <code>warning</code> as usual.</para>
-				</listitem>
-			</itemizedlist>
+						<para>where <emphasis>permit</emphasis> may be <code>allow</code>,
+							<code>disallow</code> or <code>warning</code> as usual.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
 		</section>
 
 		<section>
-			<title id="37">Incompatible promoted function arguments</title>
+			<title>Incompatible promoted function arguments</title>
 
 			<para>Mixing the use of prototypes with old-fashioned function
 				definitions can result in incorrect code. For example, in
@@ -864,8 +864,7 @@ int f ( int c ) {
 				converted to the integer promotion of <code>char</code>,
 				i.e. <code>int</code>).</para>
 
-			<programlisting language="C">
-int f ( char );
+			<programlisting language="c">int f ( char );
 int f ( a )
 char a;
 {
@@ -877,7 +876,7 @@ char a;
 				from mixtures of prototyped and non-prototyped function
 				declarations and definitions is controlled using:</para>
 
-			<programlisting language="C">#pragma TenDRA incompatible promoted function argument</programlisting>
+			<programlisting language="c">#pragma TenDRA incompatible promoted function argument</programlisting>
 
 			<para><code>Permit</code> may be replaced by <code>allow</code>,
 				<code>warning</code> or <code>disallow</code> as normal. The
@@ -886,12 +885,11 @@ char a;
 		</section>
 
 		<section>
-			<title id="39">Incompatible type qualifiers</title>
+			<title>Incompatible type qualifiers</title>
 
 			<para>The declarations</para>
 
-			<programlisting language="C">
-const int a ;
+			<programlisting language="c">const int a ;
 int a ;</programlisting>
 
 			<para>are not compatible according to the ISO C standard
@@ -901,7 +899,7 @@ int a ;</programlisting>
 				declarations of the same object contain different type
 				qualifiers. The check is controlled using:</para>
 
-			<programlisting language="C">#pragma TenDRA incompatible type qualifier <emphasis>permit</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA incompatible type qualifier <emphasis>permit</emphasis></programlisting>
 
 			<para>where the options for <emphasis>permit</emphasis> are
 				<code>allow</code>, <code>disallow</code> or <code>warning</code>.</para>

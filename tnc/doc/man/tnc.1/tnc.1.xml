@@ -41,7 +41,7 @@
 ]>
 
 <!-- $Id -->
-<refentry xmlns:xi="http://www.w3.org/2001/XInclude">
+<refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -106,7 +106,7 @@
 
 	<refnamediv>
 		<refname>tnc</refname>
-		<refpurpose>&tdf; notation compiler</refpurpose>
+		<refpurpose>TDF notation compiler</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
@@ -129,42 +129,7 @@
 
 			<sbr/>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
-
-			<sbr/>
-
-			<arg choice="plain">&in-file.arg;</arg>
-			<arg choice="opt">&out-file.arg;</arg>
-		</cmdsynopsis>
-
-		<cmdsynopsis>
-			<command>tnc</command>
-
-			<group choice="req">
-				<arg choice="plain">&p.opt;</arg>
-				<arg choice="plain">&print.opt;</arg>
-			</group>
-
-			<sbr/>
-
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
-
-			<sbr/>
-
-			<arg choice="plain">&in-file.arg;</arg>
-			<arg choice="opt">&out-file.arg;</arg>
-		</cmdsynopsis>
-
-		<cmdsynopsis>
-			<command>tnc</command>
-
-			<group choice="req">
-				<arg choice="plain">&help.opt;</arg>
-				<arg choice="plain">&version.opt;</arg>
-			</group>
-		</cmdsynopsis>
-
-		<synopfragment id="options">
+			<!-- Options -->
 			<group choice="opt">
 				<arg choice="plain">&c.opt;</arg>
 				<arg choice="plain">&cv.opt;</arg>
@@ -191,7 +156,66 @@
 				<arg choice="plain">&tsimp.opt;</arg>
 			</group>
 			<arg choice="opt">&V.opt;</arg>
-		</synopfragment>
+
+
+			<sbr/>
+
+			<arg choice="plain">&in-file.arg;</arg>
+			<arg choice="opt">&out-file.arg;</arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tnc</command>
+
+			<group choice="req">
+				<arg choice="plain">&p.opt;</arg>
+				<arg choice="plain">&print.opt;</arg>
+			</group>
+
+			<sbr/>
+
+			<!-- Options -->
+			<group choice="opt">
+				<arg choice="plain">&c.opt;</arg>
+				<arg choice="plain">&cv.opt;</arg>
+				<arg choice="plain">&check.opt;</arg>
+			</group>
+			<arg choice="opt">&eval.opt;</arg>
+			<arg choice="opt">&expand.opt;</arg>
+			<group choice="opt">
+				<arg choice="plain">&f.opt;</arg>
+				<arg choice="plain">&func.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&l.opt;</arg>
+				<arg choice="plain">&lib.opt;</arg>
+			</group>
+			<arg choice="opt">&L.opt;</arg>
+			<arg choice="opt">&o.opt;</arg>
+			<arg choice="opt">&q.opt;</arg>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain">&t.opt;</arg>
+				<arg choice="plain">&tsimp.opt;</arg>
+			</group>
+			<arg choice="opt">&V.opt;</arg>
+
+			<sbr/>
+
+			<arg choice="plain">&in-file.arg;</arg>
+			<arg choice="opt">&out-file.arg;</arg>
+		</cmdsynopsis>
+
+		<cmdsynopsis>
+			<command>tnc</command>
+
+			<group choice="req">
+				<arg choice="plain">&help.opt;</arg>
+				<arg choice="plain">&version.opt;</arg>
+			</group>
+		</cmdsynopsis>
 	</refsynopsisdiv>
 
 	<refsection>
@@ -295,160 +319,196 @@
 				<term>&cv.opt;</term>
 				<term>&check.opt;</term>
 
-				<listitem>Specifies that &tnc; should apply extra checks to
-					&in-file.arg;.  For example, simple shape checking is
-					applied.  These checks are more efficient in &read.mode;
-					mode than in &decode.mode; mode.
-					If the &cv.opt; option is used in &write.mode; mode,
-					all the information gleaned from the shape checking
-					appears in &out-file.arg;.</listitem>
+				<listitem>
+					<para>Specifies that &tnc; should apply extra checks to
+						&in-file.arg;.  For example, simple shape checking is
+						applied.  These checks are more efficient in &read.mode;
+						mode than in &decode.mode; mode.
+						If the &cv.opt; option is used in &write.mode; mode,
+						all the information gleaned from the shape checking
+						appears in &out-file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&d.opt;</term>
 				<term>&decode.opt;</term>
 
-				<listitem>Specifies that &tnc; should be in &decode.mode; mode.
-					That is, that &in-file.arg; is a &tdf; capsule.</listitem>
+				<listitem>
+					<para>Specifies that &tnc; should be in &decode.mode; mode.
+						That is, that &in-file.arg; is a &tdf; capsule.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&e.opt;</term>
 				<term>&encode.opt;</term>
 
-				<listitem>Specifies that &tnc; should be in &encode.mode;
-					mode.  That is, that &out-file.arg; is a &tdf; capsule.
-					This is the default output mode.</listitem>
+				<listitem>
+					<para>Specifies that &tnc; should be in &encode.mode;
+						mode.  That is, that &out-file.arg; is a &tdf; capsule.
+						This is the default output mode.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&eval.opt;</term>
 
-				<listitem>Specifies that &tnc; should simplify its input by
-					evaluating constant expressions as far as
-					possible.</listitem>
+				<listitem>
+					<para>Specifies that &tnc; should simplify its input by
+						evaluating constant expressions as far as
+						possible.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&expand.opt;</term>
 
-				<listitem>Specifies that &tnc; should expand its input by
-					replacing all applications of defined tokens by the token
-					definition.</listitem>
+				<listitem>
+					<para>Specifies that &tnc; should expand its input by
+						replacing all applications of defined tokens by the token
+						definition.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&f.opt;</term>
 				<term>&func.opt;</term>
 
-				<listitem>Causes &tnc; to use its alternative, functional, form
-					for both input and output.
-					The options <option>-func_in</option> and
-					<option>-func_out</option> may be used to change the input
-					and the output independently.</listitem>
+				<listitem>
+					<para>Causes &tnc; to use its alternative, functional, form
+						for both input and output.
+						The options <option>-func_in</option> and
+						<option>-func_out</option> may be used to change the input
+						and the output independently.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&help.opt;</term>
 
-				<listitem>Makes &tnc; print its help message on the given
-					subject(s). If no subject is given, or the subject is
-					<literal>all</literal>, all the help messages are
-					printed.</listitem>
+				<listitem>
+					<para>Makes &tnc; print its help message on the given
+						subject(s). If no subject is given, or the subject is
+						<literal>all</literal>, all the help messages are
+						printed.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&I.opt;</term>
 
-				<listitem>Adds the directory &dir.arg; to the search path used
-					by &tnc; to find included files in &read.mode;
-					mode.</listitem>
+				<listitem>
+					<para>Adds the directory &dir.arg; to the search path used
+						by &tnc; to find included files in &read.mode;
+						mode.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&l.opt;</term>
 				<term>&lib.opt;</term>
 
-				<listitem>In &decode.mode; mode, specifies that &in-file.arg;
-					is not a &tdf; capsule, but a &tdf; library.
-					All the capsules comprising the library are decoded.</listitem>
+				<listitem>
+					<para>In &decode.mode; mode, specifies that &in-file.arg;
+						is not a &tdf; capsule, but a &tdf; library.
+						All the capsules comprising the library are decoded.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&L.opt;</term>
 
-				<listitem>Causes &tnc; to treat any external identifiers
-					starting with &prefix.arg; to be treated as if they were
-					declared <code>local</code>.</listitem>
+				<listitem>
+					<para>Causes &tnc; to treat any external identifiers
+						starting with &prefix.arg; to be treated as if they were
+						declared <code>local</code>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&o.opt;</term>
 
-				<listitem>Gives an alternative method of specifying the output
-					file.</listitem>
+				<listitem>
+					<para>Gives an alternative method of specifying the output
+						file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&p.opt;</term>
 				<term>&print.opt;</term>
 
-				<listitem>Specifies that &tnc; should be in &decode.mode; and
-					&write.mode; modes.  That is, that &in-file.arg; is a &tdf;
-					capsule and &out-file.arg; should consist of &tdf; text.
-					This option makes &tnc; into a &tdf;
-					pretty-printer.</listitem>
+				<listitem>
+					<para>Specifies that &tnc; should be in &decode.mode; and
+						&write.mode; modes.  That is, that &in-file.arg; is a &tdf;
+						capsule and &out-file.arg; should consist of &tdf; text.
+						This option makes &tnc; into a &tdf;
+						pretty-printer.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&q.opt;</term>
 
-				<listitem>Causes &tnc; not to check the consistency of multiple
-					tag or token definitions.</listitem>
+				<listitem>
+					<para>Causes &tnc; not to check the consistency of multiple
+						tag or token definitions.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&r.opt;</term>
 				<term>&read.opt;</term>
 
-				<listitem>Specifies that &tnc; should be in &read.mode; mode.
-					That is, that &in-file.arg; should consist of &tdf; text.
-					This is the default input mode.</listitem>
+				<listitem>
+					<para>Specifies that &tnc; should be in &read.mode; mode.
+						That is, that &in-file.arg; should consist of &tdf; text.
+						This is the default input mode.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&t.opt;</term>
 				<term>&tsimp.opt;</term>
 
-				<listitem>Specifies that &tnc; should expand its input by
-					replacing all applications of defined tokens by the token
-					definition and by evaluating constant expressions as far as
-					possible. This is equivalent to
-					<option>-expand -eval</option>.</listitem>
+				<listitem>
+					<para>Specifies that &tnc; should expand its input by
+						replacing all applications of defined tokens by the token
+						definition and by evaluating constant expressions as far as
+						possible. This is equivalent to
+						<option>-expand -eval</option>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&V.opt;</term>
 
-				<listitem>In &write.mode; mode, specifies that the output
-					should be in the "verbose" form, with no shorthand
-					forms.</listitem>
+				<listitem>
+					<para>In &write.mode; mode, specifies that the output
+						should be in the "verbose" form, with no shorthand
+						forms.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&version.opt;</term>
 
-				<listitem>Makes &tnc; print its version number and the version
-					of the &tdf; specification it supports.</listitem>
+				<listitem>
+					<para>Makes &tnc; print its version number and the version
+						of the &tdf; specification it supports.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&w.opt;</term>
 				<term>&write.opt;</term>
 
-				<listitem>Specifies that &tnc; should be in &write.mode; mode.
-					That is, that &out-file.arg; should consist of &tdf;
-					text.</listitem>
+				<listitem>
+					<para>Specifies that &tnc; should be in &write.mode; mode.
+						That is, that &out-file.arg; should consist of &tdf;
+						text.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

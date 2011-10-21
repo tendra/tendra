@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
 	<title>Configuration for literals</title>
@@ -11,13 +10,12 @@
 		<para>The rules for finding the type of an integer literal can be described
 			using directives of the form:</para>
 
-		<programlisting language="C++">#pragma TenDRA integer literal <emphasis>literal-spec</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA integer literal <emphasis>literal-spec</emphasis></programlisting>
 
 		<para>where:</para>
 
-		<programlisting language="BNF">
-<emphasis>literal-spec</emphasis> :
-	<emphasis>literal-base literal-suffix<subscript>opt</subscript> literal-type-list</emphasis>
+		<programlisting language="bnf"><emphasis>literal-spec</emphasis> :
+	<emphasis>literal-base literal-suffix&opt.bnf; literal-type-list</emphasis>
 
 <emphasis>literal-base</emphasis> :
 	octal
@@ -38,23 +36,22 @@
 
 <emphasis>literal-type-spec</emphasis> :
 	: <emphasis>type-id</emphasis>
-	* <emphasis>allow<subscript>opt</subscript></emphasis> : <emphasis>identifier</emphasis>
-	* * <emphasis>allow<subscript>opt</subscript></emphasis> :</programlisting>
+	* <emphasis>allow&opt.bnf;</emphasis> : <emphasis>identifier</emphasis>
+	* * <emphasis>allow&opt.bnf;</emphasis> :</programlisting>
 
 		<para>Each directive gives a literal base and suffix, describing the form
 			of an integer literal, and a list of possible types for literals of
 			this form. This list gives a mapping from the value of the literal
 			to the type to be used to represent the literal.	There are three
 			cases for the literal type; it may be a given integral type, it may
-			be calculated using a given <A HREF="lib.html#literal">literal type
-			token</A>, or it may cause an error to be raised.	There are also
+			be calculated using a given literal type token (see &tcpplus-devguide.doc;),
+			or it may cause an error to be raised.	There are also
 			three cases for describing a literal range; it may be given by values
 			less than or equal to a given integer literal, it may be given by
 			values which are guaranteed to fit into a given integral type, or
 			it may be match any value.	For example:</para>
 
-		<programlisting language="C++">
-#pragma token PROC ( VARIETY c ) VARIETY l_i # ~lit_int
+		<programlisting language="cpp">#pragma token PROC ( VARIETY c ) VARIETY l_i # ~lit_int
 #pragma TenDRA integer literal decimal 32767 : int | ** : l_i</programlisting>
 
 		<para>describes how to find the type of a decimal literal with no suffix.
@@ -72,8 +69,7 @@
 			which it fits into (it only expresses the first step).	However with
 			the C++ extensions it is possible to write:</para>
 
-		<programlisting language="C++">
-#pragma token PROC ( VARIETY c ) VARIETY l_i # ~lit_int
+		<programlisting language="cpp">#pragma token PROC ( VARIETY c ) VARIETY l_i # ~lit_int
 #pragma TenDRA integer literal decimal ? : int | ? : long |\
 		? : unsigned long | ** : l_i</programlisting>
 	</section>
@@ -85,7 +81,7 @@
 			C and type <code>char</code> in C++.	The type of such literals can
 			be controlled using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ set character literal : <emphasis>type-id</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ set character literal : <emphasis>type-id</emphasis></programlisting>
 
 		<para>The type of a wide character literal is given by the implementation
 			defined type <code>wchar_t</code>.	By default, the definition of
@@ -95,7 +91,7 @@
 			C). This definition can be overridden in the producer by means of
 			the directive:</para>
 
-		<programlisting languae="C++">#pragma TenDRA set wchar_t : <emphasis>type-id</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA set wchar_t : <emphasis>type-id</emphasis></programlisting>
 
 		<para>for an integral type <emphasis>type-id</emphasis>.	Similarly, the definitions of
 			the other implementation dependent integral types which arise naturally
@@ -104,8 +100,7 @@
 			operator, <code>size_t</code> - given in the <code>&lt;stddef.h&gt;</code>
 			header can be overridden using the directives:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA set ptrdiff_t : <emphasis>type-id</emphasis>
+		<programlisting language="cpp">#pragma TenDRA set ptrdiff_t : <emphasis>type-id</emphasis>
 #pragma TenDRA set size_t : <emphasis>type-id</emphasis></programlisting>
 
 		<para>These directives are useful when targeting a specific machine on which
@@ -116,7 +111,7 @@
 			the exception of the keyword <code>wchar_t</code> in ISO C++), however
 			the directives:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ type <emphasis>identifier</emphasis> for <emphasis>type-name</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ type <emphasis>identifier</emphasis> for <emphasis>type-name</emphasis></programlisting>
 
 		<para>can be used to make these types visible.	They are equivalent to a
 			<code>typedef</code> declaration of <emphasis>identifier</emphasis> as the given
@@ -125,11 +120,11 @@
 
 		<para>Whether plain <code>char</code> is signed or unsigned is implementation
 			dependent.	By default the implementation is determined by the definition
-			of the <A HREF="lib.html#arith"><code>~char</code> token</A>, however
+			of the <code>~char</code> token, however
 			this can be overridden in the producer either by means of the
 			<link linkend="table">portability table</link> or by the directive:</para>
 
-			<programlisting language="C++">#pragma TenDRA character <emphasis>character-sign</emphasis></programlisting>
+			<programlisting language="cpp">#pragma TenDRA character <emphasis>character-sign</emphasis></programlisting>
 
 		<para>where <emphasis>character-sign</emphasis> can be <code>signed</code>,
 			<code>unsigned</code> or <code>either</code> (the default).	Again
@@ -146,8 +141,7 @@
 			[n]</code> or <code>const wchar_t [n]</code>.	Whether string literals are
 			<code>const</code> or not can be controlled using the two directives:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA++ set string literal : const
+		<programlisting language="cpp">#pragma TenDRA++ set string literal : const
 #pragma TenDRA++ set string literal : no const</programlisting>
 
 		<para>In the case where literals are <code>const</code>, the array-to-pointer
@@ -155,7 +149,7 @@
 			for a degree of backwards compatibility.	The status of this deprecated
 			conversion can be controlled using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA writeable string literal <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA writeable string literal <emphasis>allow</emphasis></programlisting>
 
 		<para>(yes, I know that that should be <code>writable</code>).	Note that
 			this directive has a slightly different meaning in the C producer.</para>
@@ -166,7 +160,7 @@
 			a character string literal token is adjacent to a wide string literal
 			token.	By default this gives an error, but the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA unify incompatible string literal <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA unify incompatible string literal <emphasis>allow</emphasis></programlisting>
 
 		<para>can be used to enable the strings to be concatenated to give a wide
 			string literal.</para>
@@ -178,7 +172,7 @@
 			treats this as an unterminated string, but this behaviour can be controlled
 			using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA unmatched quote <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA unmatched quote <emphasis>allow</emphasis></programlisting>
 	</section>
 
 	<section id="escape">
@@ -189,21 +183,19 @@
 			then an error is given.	This behaviour, which is left unspecified
 			by the standards, can be controlled by the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA unknown escape <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA unknown escape <emphasis>allow</emphasis></programlisting>
 
 		<para>The result is that the <code>\</code> in unknown escape sequences
 			is ignored, so that <code>\z</code> is interpreted as <code>z</code>,
 			for example.	Individual escape sequences can be enabled or disabled
 			using the directives:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA++ escape <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow
+		<programlisting language="cpp">#pragma TenDRA++ escape <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow
 #pragma TenDRA++ escape <emphasis>character-literal</emphasis> disallow</programlisting>
 
 		<para>so that, for example:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA++ escape 'e' as '\033' allow
+		<programlisting language="cpp">#pragma TenDRA++ escape 'e' as '\033' allow
 #pragma TenDRA++ escape 'a' disallow</programlisting>
 
 		<para>sets <code>\e</code> to be the ASCII escape character and disables
@@ -214,7 +206,7 @@
 			error is given.	This implementation dependent behaviour can however
 			be controlled by the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA character escape overflow <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA character escape overflow <emphasis>allow</emphasis></programlisting>
 
 		<para>the value being converted to its type in the normal way.</para>
 	</section>

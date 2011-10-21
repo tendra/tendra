@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="6">Statement tokens</title>
+	<title>Statement tokens</title>
 
 	<para>The syntax for introducing a statement token is simply:</para>
 
-	<programlisting language="C">
-#pragma token STATEMENT init_globs#
+	<programlisting language="c">#pragma token STATEMENT init_globs#
 int g(int);
 int f(int x) {
 	init_globs return g(x);
@@ -19,7 +17,7 @@ int f(int x) {
 		in statement token introductions.</para>
 
 	<para>The use of statement tokens is analogous to the use of
-		expression tokens (see <xref linkend="3"/>). A
+		expression tokens (see <xref linkend="exptoks"/>). A
 		new symbol, <replaceable>stat-token-name</replaceable>, has been introduced into the
 		syntax analysis at phase 7 of translation as defined in the ISO C
 		standard. This token is passed through to the syntax analyser
@@ -30,8 +28,7 @@ int f(int x) {
 	<para>As with expression tokens, statement tokens are defined using
 		<code>#define</code> statements. An example of this is shown below:</para>
 
-	<programlisting language="C">
-#pragma token STATEMENT i_globs#
+	<programlisting language="c">#pragma token STATEMENT i_globs#
 #define i_globs {
 	int i = x;
 	x = 3;
@@ -45,6 +42,7 @@ int f(int x) {
 				statement token occurs at the outer level (i.e outside of any
 				compound statement forming a function definition);</para>
 		</listitem>
+
 		<listitem>
 			<para>the use of return within the defining statement is not
 				allowed.</para>

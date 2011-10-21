@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -40,20 +39,36 @@
 			description. The (purely arbitrary) convention is for short, lower
 			case names, for example:</para>
 	
-		<itemizedlist>
-			<listitem>
-				<para><code>ansi</code> refers to ANSI C (X3.159),</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>posix</code> refers to POSIX 1003.1,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>xpg3</code> refers to X/Open Portability Guide
-					3.</para>
-			</listitem>
-		</itemizedlist>
+		<table>
+			<title>Example API names</title>
+
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Standard</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>ansi</code></td>
+					<td>ANSI C (X3.159)</td>
+				</tr>
+		
+				<tr>
+					<td><code>posix</code></td>
+					<td>POSIX 1003.1</td>
+				</tr>
+		
+				<tr>
+					<td><code>xpg3</code></td>
+					<td>X/Open Portability Guide 3</td>
+				</tr>
+			</tbody>
+		</table>
 	
 		<para>In this document, headers are identified by the API they belong
 			to and the header name. Thus <code>ansi:stdio.h</code> refers to the
@@ -161,10 +176,11 @@
 			entire API, a single header from that API, or only a subset of that
 			header. These are given respectively as:</para>
 
-		<programlisting>
-tspec [options] api
+		<!-- TODO: just use the manpage -->
+
+		<literallayout>tspec [options] api
 tspec [options] api header
-tspec [options] api header subset</programlisting>
+tspec [options] api header subset</literallayout>
 
 		<para>The valid options include:</para>
 
@@ -262,7 +278,7 @@ tspec [options] api header subset</programlisting>
 			corresponding <code>#pragma token</code> statements.
 			The form:</para>
 
-		<programlisting>tspec [options] -l file</programlisting>
+		<literallayout>tspec [options] -l file</literallayout>
 
 		<para>processes the input file <code>file</code>, writing the include
 			output file to the standard output.</para>

@@ -61,16 +61,21 @@
 -->
 
 	<refmeta>
-		<refentrytitle>&tdfc2; dump format specification</refentrytitle>
+		<refentrytitle>tdfc2 dump format</refentrytitle>
 		<manvolnum>5</manvolnum>
 	</refmeta>
+
+	<refnamediv>
+		<refname>tdfc2 dump format</refname>
+		<refpurpose>TODO</refpurpose>
+	</refnamediv>
 
 	<!-- TODO very much to do -->
 
 	<refsection>
 		<title>Basics</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 digit : one of 0 1 2 3 4 5 6 7 8 9
 digit-sequence :
 <replaceable>        digit</replaceable><replaceable>        digit-sequence</replaceable>
@@ -83,11 +88,11 @@ location :
 	</refsection>
 
 	<refsection>
-		<title id="wbS133">Dump commands</title>
+		<title>Dump commands</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 dump-file :
-                <replaceable>command-list</replaceable><replaceable>opt</replaceable>
+                <replaceable>command-list</replaceable>&opt.bnf;
 command-list :
 <replaceable>        command</replaceable><replaceable>        command command-list</replaceable>
 command :
@@ -95,21 +100,21 @@ command :
 	</refsection>
 
 	<refsection>
-		<title id="wbS134">E.3 API information</title>
+		<title>E.3 API information</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 api-info :
 <replaceable>        identifier key identifier string</replaceable></programlisting>
 	</refsection>
 
 	<refsection>
-		<title id="wbS135">Base definitions</title>
+		<title>Base definitions</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 virtual :
 <replaceable>        V</replaceable>
 base-class :
-<replaceable>        number = virtual</replaceable><replaceable>opt</replaceable><replaceable> access</replaceable><replaceable>opt</replaceable><replaceable> type-name
+<replaceable>        number = virtual</replaceable>&opt.bnf;<replaceable> access</replaceable>&opt.bnf;<replaceable> type-name
 </replaceable><replaceable>        number :</replaceable>
 base-list :
 <replaceable>        base-graph</replaceable><replaceable>        base-graph base-list</replaceable>
@@ -122,9 +127,9 @@ base-number :
 	</refsection>
 
 	<refsection>
-		<title id="wbS136">Error commands</title>
+		<title>Error commands</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 error-command :
 <replaceable>        EA error-argument             </replaceable><replaceable>error argument</replaceable><replaceable>        EC error-info     </replaceable><replaceable>continuation error</replaceable><replaceable>        EF location error-info    </replaceable><replaceable>fatal error</replaceable><replaceable>        EI location error-info    </replaceable><replaceable>internal error</replaceable><replaceable>        ES location error-info    </replaceable><replaceable>serious error</replaceable><replaceable>        EW location error-info    </replaceable><replaceable>warning</replaceable>
 error-info :
@@ -136,9 +141,9 @@ error-argument :
 		</refsection>
 
 		<refsection>
-			<title id="wbS137">File commands</title>
+			<title>File commands</title>
 
-			<programlisting language="BNF">
+			<programlisting language="bnf">
 file-command :
 <replaceable>        FD number = string stringopt        </replaceable><replaceable>inclusion directory</replaceable><replaceable>        FE location         </replaceable><replaceable>file end</replaceable><replaceable>        FIA location string         </replaceable><replaceable>file include with &lt;&gt;</replaceable><replaceable>        FIE location string         </replaceable><replaceable>include end-up</replaceable><replaceable>        FIN location string         </replaceable><replaceable>file include with []</replaceable><replaceable>        FIQ location string</replaceable><replaceable>file include with ""</replaceable>
                 FIR location        <replaceable>resume file</replaceable>
@@ -150,9 +155,9 @@ directory :
 	</refsection>
 
 	<refsection>
-		<title id="wbS138">Identifier commands</title>
+		<title>Identifier commands</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 identifier-command :
                 C identifier-info             <replaceable>call identifier</replaceable>
                 D identifier-info type-info         <replaceable>define identifier</replaceable>
@@ -214,9 +219,9 @@ access :
 	</refsection>
 
 	<refsection>
-		<title id="wbS139">Scope commands</title>
+		<title>Scope commands</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 scope-command :
                 SE scope-key location identifier                <replaceable>end scope</replaceable>
                 SS scope-key location identifier                <replaceable>start scope</replaceable>
@@ -235,9 +240,9 @@ scope-identifier :
 	</refsection>
 
 	<refsection>
-		<title id="wbS140">String command</title>
+		<title>String command</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 string-command :
                 A location string             <replaceable>string literal</replaceable>
                 AC location string            <replaceable>character literal</replaceable>
@@ -246,9 +251,9 @@ string-command :
 	</refsection>
 
 	<refsection>
-		<title id="wbS141">Templates</title>
+		<title>Templates</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 specialisation-info :
                 token-application
                 *
@@ -257,9 +262,9 @@ template-info :
 	</refsection>
 
 	<refsection>
-		<title id="wbS142">Token sort information</title>
+		<title>Token sort information</title>
 
-		<programlisting language="BNF">
+		<programlisting language="bnf">
 sort :
                 ZEC type-info     <replaceable>constant expression</replaceable>
                 ZEL type-info     <replaceable>lvalue expression</replaceable>
@@ -306,9 +311,9 @@ token-application :
 		</refsection>
 
 		<refsection>
-			<title id="wbS143">E.12 Type information</title>
+			<title>E.12 Type information</title>
 
-			<programlisting language="BNF">
+			<programlisting language="bnf">
 type-info :
                 scope-identifier                <replaceable>for namespace alias</replaceable>
                 sort        <replaceable>for token, macro etc.</replaceable>
@@ -382,15 +387,15 @@ nat :
 	<!-- TODO this is from tcpplus; it is to be merged with the above (or superceed it; whichever) -->
 	<refsection>
     <title>C++ Symbol table dump syntax</title>
-  <para>
-  The following gives a summary of the syntax for the
-  <A HREF="dump.html">symbol table dump file</A> (version 1.1):
-  <programlisting language="BNF">
+  <para>The following gives a summary of the syntax for the
+  symbol table dump file (version 1.1):</para>
+
+  <programlisting language="bnf">
 <replaceable>dump-file</replaceable> :
-	<replaceable>command-list<subscript>opt</subscript></replaceable>
+	<replaceable>command-list&opt.bnf;</replaceable>
 
 <replaceable>command-list</replaceable> :
-	<replaceable>command command-list<subscript>opt</subscript></replaceable>
+	<replaceable>command command-list&opt.bnf;</replaceable>
 
 <replaceable>command</replaceable> :
 	<replaceable>version-command</replaceable>
@@ -421,7 +426,7 @@ nat :
 
 
 <replaceable>identifier</replaceable> :
-	<replaceable>number</replaceable> = <replaceable>identifier-name access<subscript>opt</subscript> scope-identifier</replaceable>
+	<replaceable>number</replaceable> = <replaceable>identifier-name access&opt.bnf; scope-identifier</replaceable>
 	<replaceable>number</replaceable>
 
 <replaceable>identifier-name</replaceable> :
@@ -470,12 +475,12 @@ nat :
 	VP
 	VE
 	VS
-	FE <replaceable>function-key<subscript>opt</subscript></replaceable>
-	FS <replaceable>function-key<subscript>opt</subscript></replaceable>
-	FB <replaceable>function-key<subscript>opt</subscript></replaceable>
-	CF <replaceable>function-key<subscript>opt</subscript></replaceable>
-	CS <replaceable>function-key<subscript>opt</subscript></replaceable>
-	CV <replaceable>function-key<subscript>opt</subscript></replaceable>
+	FE <replaceable>function-key&opt.bnf;</replaceable>
+	FS <replaceable>function-key&opt.bnf;</replaceable>
+	FB <replaceable>function-key&opt.bnf;</replaceable>
+	CF <replaceable>function-key&opt.bnf;</replaceable>
+	CS <replaceable>function-key&opt.bnf;</replaceable>
+	CV <replaceable>function-key&opt.bnf;</replaceable>
 	CM
 	CD
 	E
@@ -486,11 +491,11 @@ nat :
 	XT
 
 <replaceable>function-key</replaceable> :
-	C <replaceable>function-key<subscript>opt</subscript></replaceable>
-	I <replaceable>function-key<subscript>opt</subscript></replaceable>
+	C <replaceable>function-key&opt.bnf;</replaceable>
+	I <replaceable>function-key&opt.bnf;</replaceable>
 
 <replaceable>type-info</replaceable> :
-	<replaceable>type identifier<subscript>opt</subscript></replaceable>
+	<replaceable>type identifier&opt.bnf;</replaceable>
 	<replaceable>sort</replaceable>
 	<replaceable>scope-identifier</replaceable>
 	*
@@ -523,11 +528,11 @@ nat :
 	<replaceable>base-class</replaceable> ( <replaceable>base-list</replaceable> )
 
 <replaceable>base-class</replaceable> :
-	<replaceable>number</replaceable> = V<replaceable><subscript>opt</subscript> access<subscript>opt</subscript> type-name</replaceable>
+	<replaceable>number</replaceable> = V<replaceable>&opt.bnf; access&opt.bnf; type-name</replaceable>
 	<replaceable>number</replaceable> :
 
 <replaceable>base-list</replaceable> :
-	<replaceable>base-graph base-list<subscript>opt</subscript></replaceable>
+	<replaceable>base-graph base-list&opt.bnf;</replaceable>
 
 <replaceable>base-number</replaceable> :
 	<replaceable>number</replaceable> : <replaceable>type-name</replaceable>
@@ -574,12 +579,12 @@ nat :
 	R <replaceable>type</replaceable>
 	M <replaceable>type-name</replaceable> : <replaceable>type</replaceable>
 	F <replaceable>type parameter-types</replaceable>
-	A <replaceable>nat<subscript>opt</subscript></replaceable> : <replaceable>type</replaceable>
+	A <replaceable>nat&opt.bnf;</replaceable> : <replaceable>type</replaceable>
 	B <replaceable>nat</replaceable> : <replaceable>type</replaceable>
-	t <replaceable>parameter-list<subscript>opt</subscript></replaceable> : <replaceable>type</replaceable>
+	t <replaceable>parameter-list&opt.bnf;</replaceable> : <replaceable>type</replaceable>
 	p <replaceable>type</replaceable>
 	a <replaceable>type</replaceable> : <replaceable>type</replaceable>
-	n <replaceable>lit-base<subscript>opt</subscript> lit-suffix<subscript>opt</subscript></replaceable>
+	n <replaceable>lit-base&opt.bnf; lit-suffix&opt.bnf;</replaceable>
 	W <replaceable>type parameter-types</replaceable>
 	q <replaceable>type</replaceable>
 	Q <replaceable>string</replaceable>
@@ -590,17 +595,17 @@ nat :
 	<replaceable>token-application</replaceable>
 
 <replaceable>parameter-types</replaceable> :
-	: <replaceable>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></replaceable> :
-	. <replaceable>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></replaceable> :
-	. <replaceable>exception-spec<subscript>opt</subscript> func-qualifier<subscript>opt</subscript></replaceable> .
+	: <replaceable>exception-spec&opt.bnf; func-qualifier&opt.bnf;</replaceable> :
+	. <replaceable>exception-spec&opt.bnf; func-qualifier&opt.bnf;</replaceable> :
+	. <replaceable>exception-spec&opt.bnf; func-qualifier&opt.bnf;</replaceable> .
 	, <replaceable>type parameter-types</replaceable>
 
 <replaceable>func-qualifier</replaceable> :
-	C <replaceable>func-qualifier<subscript>opt</subscript></replaceable>
-	V <replaceable>func-qualifier<subscript>opt</subscript></replaceable>
+	C <replaceable>func-qualifier&opt.bnf;</replaceable>
+	V <replaceable>func-qualifier&opt.bnf;</replaceable>
 
 <replaceable>exception-spec</replaceable> :
-	( <replaceable>exception-list<subscript>opt</subscript></replaceable> )
+	( <replaceable>exception-list&opt.bnf;</replaceable> )
 
 <replaceable>exception-list</replaceable> :
 	<replaceable>type</replaceable>
@@ -670,14 +675,14 @@ nat :
 	ZM <replaceable>type</replaceable> : <replaceable>type-name</replaceable>
 
 <replaceable>proc-sort</replaceable> :
-	ZPG <replaceable>parameter-list<subscript>opt</subscript></replaceable> ; <replaceable>parameter-list<subscript>opt</subscript></replaceable> : <replaceable>sort</replaceable>
-	ZPS <replaceable>parameter-list<subscript>opt</subscript></replaceable> : <replaceable>sort</replaceable>
+	ZPG <replaceable>parameter-list&opt.bnf;</replaceable> ; <replaceable>parameter-list&opt.bnf;</replaceable> : <replaceable>sort</replaceable>
+	ZPS <replaceable>parameter-list&opt.bnf;</replaceable> : <replaceable>sort</replaceable>
 
 <replaceable>func-sort</replaceable> :
 	ZF <replaceable>type</replaceable>
 
 <replaceable>template-sort</replaceable> :
-	ZTt <replaceable>parameter-list<subscript>opt</subscript></replaceable> :
+	ZTt <replaceable>parameter-list&opt.bnf;</replaceable> :
 
 <replaceable>macro-sort</replaceable> :
 	ZUO
@@ -740,7 +745,7 @@ nat :
 
 
 <replaceable>path-command</replaceable> :
-	FD <replaceable>number</replaceable> = <replaceable>string string<subscript>opt</subscript></replaceable>
+	FD <replaceable>number</replaceable> = <replaceable>string string&opt.bnf;</replaceable>
 
 <replaceable>directory</replaceable> :
 	<replaceable>number</replaceable>
@@ -764,7 +769,6 @@ nat :
 	AC <replaceable>location string</replaceable>
 	AL <replaceable>location string</replaceable>
 	ACL <replaceable>location string</replaceable></programlisting>
-  </para>
 	</refsection>
 </refentry>
 

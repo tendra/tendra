@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE book SYSTEM "minidocbook.dtd">
 
 <!--
   $Id$
@@ -8,19 +7,21 @@
 
 <book>
   <bookinfo>
-    <title>The <application><acronym>SID</acronym></application> Developers' Guide</title>
+    <title>The &sid; Developers' Guide</title>
 
-    <author>
-      <firstname>Kevin</firstname>
-      <!-- surname elided -->
-      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
-    </author>
+	<authorgroup>
+	    <author>
+	      <firstname>Kevin</firstname>
+	      <!-- surname elided -->
+	      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+	    </author>
 
-	<editor>
-		<firstname>Katherine</firstname>
-		<surname>Flavel</surname>
-		<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-	</editor>
+		<editor>
+			<firstname>Katherine</firstname>
+			<surname>Flavel</surname>
+			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+		</editor>
+	</authorgroup>
 
     <pubdate>2007</pubdate>
 
@@ -30,24 +31,26 @@
       <holder>The TenDRA Project</holder>
     </copyright>
 
+<!-- TODO:
 	<abstract>
-		<para>In this documentation, we explain <application><acronym>SID</acronym></application>'s
+		<para>In this documentation, we explain &sid;'s
 			internal representation
 			of grammars. It was reverse engineered from the code itself and 
 			the accompanying comments. Most of the reverse engineering was done reading 
-			<application><acronym>SID</acronym></application>'s own grammar file and most notably the actions in 
+			&sid;'s own grammar file and most notably the actions in 
 			the <filename>parser.act</filename> file. This document does not explain
-			in detail how <application><acronym>SID</acronym></application>
-			parses the <filename class="extension">sid</filename>
-			and the <filename class="extension">act</filename> files.</para>
+			in detail how &sid;
+			parses the <filename>.sid</filename>
+			and the <filename>.act</filename> files.</para>
 	</abstract>
+-->
   </bookinfo>
 
   <chapter id="introduction">
 	<title>Introduction</title>
 
-	<para><application><acronym>SID</acronym></application> is an LL(1) parser. It reads a grammar specification
-		(documented in the <application><acronym>SID</acronym></application>
+	<para>&sid; is an LL(1) parser. It reads a grammar specification
+		(documented in the &sid;
 		users' guide) then outputs a parser.</para>
 
 		<para>[TODO this guide has been gutted; what remains gives a skeletal outline which
@@ -62,8 +65,8 @@
 			<title>Prerequisites</title>
 
 			<para>Before reading this guide, you should have read the
-			<application><acronym>SID</acronym></application> users' guide
-				and be able to use <application><acronym>SID</acronym></application>
+			&sid; users' guide
+				and be able to use &sid;
 				to output a simple parser.</para>
 		</section>
 
@@ -71,11 +74,11 @@
 			<title>Who Should Read This Document?</title>
 
 			<para>Anyone interested in the post-processing steps
-				<application><acronym>SID</acronym></application> does
-				to a grammar after having parsed the <filename class="extension">sid</filename>
-				and the <filename class="extension">act</filename> files.
+				&sid; does
+				to a grammar after having parsed the <filename>.sid</filename>
+				and the <filename>.act</filename> files.
 				In particular, if you want to work on the grammar transforms
-				and improve them you need to know <application><acronym>SID</acronym></application>'s
+				and improve them you need to know &sid;'s
 				internal representations 
 				of grammars or at least know the interface to the internal 
 				representation. You may not want to reverse engineer 
@@ -84,35 +87,34 @@
 	</chapter>
 
 	<chapter>
-		<title><application><acronym>SID</acronym></application>'s Organisation</title>
+		<title>&sid;'s Organisation</title>
 
-		<para>When you call <application><acronym>SID</acronym></application>, the main
-			operations it performs are
+		<para>When you call &sid;, the main
+			operations it performs are</para>
 
-			<orderedlist>
-				<listitem>
-					<para>Reads the grammar <filename class="extension">sid</filename>
-						file and stores its internal representation.</para>
-				</listitem>
+		<orderedlist>
+			<listitem>
+				<para>Reads the grammar <filename>.sid</filename>
+					file and stores its internal representation.</para>
+			</listitem>
 
-				<listitem>
-					<para>Reads the grammar output language specific .act file and complete the
-						representation of the grammars with the action code.
-						(After this step, <application><acronym>SID</acronym></application>
-						only works on the internal representation.)</para>
-				</listitem>
+			<listitem>
+				<para>Reads the grammar output language specific .act file and complete the
+					representation of the grammars with the action code.
+					(After this step, &sid;
+					only works on the internal representation.)</para>
+			</listitem>
 
-				<listitem>
-					<para>Transforms and Optimises the Grammar. Most notably, it removes left
-						recursion and tries to transform the context free grammar provided 
-						in an equivalent LL(1) grammar.</para>
-				</listitem>
+			<listitem>
+				<para>Transforms and Optimises the Grammar. Most notably, it removes left
+					recursion and tries to transform the context free grammar provided 
+					in an equivalent LL(1) grammar.</para>
+			</listitem>
 
-				<listitem>
-					<para>Outputs the parser.</para>
-				</listitem>
-			</orderedlist>
-		</para>
+			<listitem>
+				<para>Outputs the parser.</para>
+			</listitem>
+		</orderedlist>
 
 		<section>
 			<title>The <code>main</code> Function</title>
@@ -135,7 +137,7 @@
 					<term><code>sid_parse_grammar()</code></term>
 
 					<listitem>
-						<para>parses the <filename class="extension">sid</filename>
+						<para>parses the <filename>.sid</filename>
 							file and converts it into
 							an internal representation.</para>
 					</listitem>
@@ -160,6 +162,10 @@
 
 				<varlistentry>
 					<term><code>grammar_remove_left_recursion(&amp;grammar)</code></term>
+
+					<listitem>
+						<para>TODO</para>
+					</listitem>
 				</varlistentry>
 
 				<varlistentry>
@@ -172,22 +178,42 @@
 
 				<varlistentry>
 					<term><code>grammar_factor(&amp;grammar)</code></term>
+
+					<listitem>
+						<para>TODO</para>
+					</listitem>
 				</varlistentry>
 
 				<varlistentry>
 					<term><code>grammar_simplify(&amp;grammar)</code></term>
+
+					<listitem>
+						<para>TODO</para>
+					</listitem>
 				</varlistentry>
 
 				<varlistentry>
 					<term><code>grammar_compute_inlining(&amp;grammar)</code></term>
+
+					<listitem>
+						<para>TODO</para>
+					</listitem>
 				</varlistentry>
 
 				<varlistentry>
 					<term><code>grammar_check_collisions(&amp;grammar)</code></term>
+
+					<listitem>
+						<para>TODO</para>
+					</listitem>
 				</varlistentry>
 
 				<varlistentry>
 					<term><code>grammar_recompute_alt_names(&amp;grammar)</code></term>
+
+					<listitem>
+						<para>TODO</para>
+					</listitem>
 				</varlistentry>
 
 				<varlistentry>
@@ -196,10 +222,6 @@
 					<listitem>
 						<para>outputs the parser in the chosen language.</para>
 					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term><code></code></term>
 				</varlistentry>
 			</variablelist>
 
@@ -235,13 +257,13 @@
 			<title>Code Organisation and Conventions</title>
 
 			<para>If you read this guide, it is probably because
-				you want to modify <application><acronym>SID</acronym></application>.
+				you want to modify &sid;.
 				In this section, we say
-				how <application><acronym>SID</acronym></application>
+				how &sid;
 				is organised and how one should modify the
 				code to keep the code readable.</para>
 
-			<para><application><acronym>SID</acronym></application>
+			<para>&sid;
 				defines many types for the internal representation of a grammar.
 				These types are defined in the header files, begins with a
 				majuscule and ends with T, e.g. <code>RuleT</code>. If a type, 
@@ -276,7 +298,7 @@
 		<section>
 			<title>The <code>GrammarT</code> Type and Structure</title>
 
-			<para><application><acronym>SID</acronym></application>
+			<para>&sid;
 				stores grammars in a structure called <code>GrammarT</code>.</para>
 
 			<para>It contains a <code>TableT</code> hash map containing elements of type
@@ -315,9 +337,9 @@
 		<section>
 			<title>Internal Representation of Rules</title>
 
-			<para>Look at an extremely simple <application><acronym>SID</acronym></application> rule:</para>
+			<para>Look at an extremely simple &sid; rule:</para>
 
-			<programlisting language="SID Grammar">basic-arithmetic = {
+			<programlisting language="sid">basic-arithmetic = {
         number;plus;number;
     ||  number;minus;number;
 };</programlisting>
@@ -362,7 +384,7 @@
 			<title>The <code>CCodeT</code> Type</title>
 
 			<para>To represent the body of an action when the output language is
-				C, <application><acronym>SID</acronym></application> uses the type <code>CCodeT</code></para>
+				C, &sid; uses the type <code>CCodeT</code></para>
 		</section>
 	</chapter>
 
@@ -370,7 +392,7 @@
 		<title>The Scope System</title>
 
 		<para>The scope system is only used when reading the grammar definition
-			file (the <filename class="extension">sid</filename> file). The only
+			file (the <filename>.sid</filename> file). The only
 			trace of it once the scope system has 
 			been deleted are the key members of the scoped rules and
 			the always scope non-locals that begins with 
@@ -390,27 +412,37 @@
 			<title>Interface to TableT</title>
 
 			<para>As a general rule, you add entries to a TableT
-				by using the functions listed in ``adt/table.h''.</para>
+				by using the functions listed in <filename>adt/table.h</filename>.</para>
 		</section>
 
 		<section>
 			<title>Interface to EntryT</title>
+
+			<para>TODO</para>
 		</section>
 
 		<section>
 			<title>Interface to RuleT</title>
+
+			<para>TODO</para>
 		</section>
 
 		<section>
 			<title>Interface to BasicT</title>
+
+			<para>TODO</para>
 		</section>
 
 		<section>
 			<title>Interface to ActionT</title>
+
+			<para>TODO</para>
 		</section>
 
 		<section>
 			<title>Interface to NonLocalT</title>
+
+			<para>TODO</para>
 		</section>
 
 	</chapter>

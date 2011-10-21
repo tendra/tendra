@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE article SYSTEM "minidocbook.dtd">
 
 <!-- $Id$ -->
 
@@ -8,17 +7,19 @@
 	<articleinfo>
 		<title>The TDF Linker - Program Overview</title>
 
-		<othercredit class="copyeditor">
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</othercredit>
+		<authorgroup>
+			<othercredit class="copyeditor">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
 
-		<author>
-			<firstname>Steve</firstname>
-			<surname>Folkes</surname>
-			<affiliation><orgname>DRA</orgname></affiliation>
-		</author>
+			<author>
+				<firstname>Steve</firstname>
+				<surname>Folkes</surname>
+				<affiliation><orgname>DRA</orgname></affiliation>
+			</author>
+		</authorgroup>
 
 		<pubdate>1995</pubdate>
 
@@ -36,11 +37,13 @@
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
+<!-- TODO
 		<abstract>
 			<para>This document gives an overview of the linker source code.  The first
 				section describes the directory structure.  The remaining sections describe
 				how the various parts of the linker work.</para>
 		</abstract>
+-->
 	</articleinfo>
 
 	<section>
@@ -178,8 +181,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term><literallayout><code>head</code>
-						<code>tail</code></literallayout></term>
+					<term><code>head</code></term>
+					<term><code>tail</code></term>
 
 					<listitem>
 						<para>These are the start and end pointers of the list of units in the
@@ -281,8 +284,8 @@
 				</varlistentry>
 
 				<varlistentry>
-					<term><literallayout><code>head</code>
-						<code>tail</code></literallayout></term>
+					<term><code>head</code></term>
+					<term><code>tail</code></term>
 
 					<listitem>
 						<para>These store a list of name entries as they are added to the name

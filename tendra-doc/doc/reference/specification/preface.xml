@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE preface SYSTEM "minidocbook.dtd">
 
 <!--
   $Id$
@@ -28,18 +27,18 @@
       They are also used in modified tag and token definitions and declarations
       to provide extra consistency checks in the use of these tags or tokens,
       and also may be used as names external to the TDF system. For example, the
-      signature of <emphasis>make_id_tagdec</emphasis> is now:
+      signature of <replaceable>make_id_tagdec</replaceable> is now:
+	</para>
 
-      <programlisting language="TDF">
+      <programlisting language="tdf">
 t_intro:        TDFINT
 acc:            OPTION(ACCESS)
 signature:      OPTION(STRING)
 x:              SHAPE
           -> TAGDEC</programlisting>
-    </para>
 
     <para>
-      A new <code>EXP</code> constructor, <emphasis>initial_value</emphasis>, is
+      A new <code>EXP</code> constructor, <replaceable>initial_value</replaceable>, is
       introduced to allow dynamic initialisation of global tags.
     </para>
 
@@ -54,7 +53,7 @@ x:              SHAPE
     </para>
 
     <para>
-      The version 3.1 constructor <emphasis>set_stack_limit</emphasis> has had
+      The version 3.1 constructor <replaceable>set_stack_limit</replaceable> has had
       to be modified in the light of experience with platforms with ABIs which
       require upward-growing stacks or use disjoint frame stacks and alloca
       stacks.
@@ -62,10 +61,10 @@ x:              SHAPE
 
     <para>
       Various other minor changes have been made to elucidate some rather
-      pathological cases, e.g. <emphasis>make_nof</emphasis> must have at least
+      pathological cases, e.g. <replaceable>make_nof</replaceable> must have at least
       one element. Also there are some cosmetic changes to improve consistency,
-      e.g. the order of the arguments of <emphasis>token</emphasis> are now
-      consistent with <emphasis>token_definition</emphasis>.
+      e.g. the order of the arguments of <replaceable>token</replaceable> are now
+      consistent with <replaceable>token_definition</replaceable>.
     </para>
   </section>
 
@@ -76,6 +75,7 @@ x:              SHAPE
       have arisen where inconsistency or impracticability became evident when
       validating the OSF Research Institute's AVS (ANDF Validation Suite). Apart
       from minor textual corrections, the changes are:
+	</para>
 
       <itemizedlist>
         <listitem>
@@ -97,25 +97,25 @@ x:              SHAPE
         <listitem>
           <para>
             Modified constraints on the arguments of
-            <emphasis>shift_left</emphasis>, <emphasis>shift_right</emphasis>,
-            <emphasis>rotate_left</emphasis>, <emphasis>rotate_right</emphasis>,
-            <emphasis>make_dynamic_callees</emphasis>,
-            <emphasis>make_var_tagdec</emphasis>,
-            <emphasis>make_tokdec</emphasis>, <emphasis>make_tokdef</emphasis>,
-            and <emphasis>user_info</emphasis>.
+            <replaceable>shift_left</replaceable>, <replaceable>shift_right</replaceable>,
+            <replaceable>rotate_left</replaceable>, <replaceable>rotate_right</replaceable>,
+            <replaceable>make_dynamic_callees</replaceable>,
+            <replaceable>make_var_tagdec</replaceable>,
+            <replaceable>make_tokdec</replaceable>, <replaceable>make_tokdef</replaceable>,
+            and <replaceable>user_info</replaceable>.
           </para>
         </listitem>
 
         <listitem>
           <para>
             Modified constant evaluation constraints with respect to
-            <emphasis>env_size</emphasis> and <emphasis>env_offset</emphasis>.
+            <replaceable>env_size</replaceable> and <replaceable>env_offset</replaceable>.
           </para>
         </listitem>
 
         <listitem>
           <para>
-            <emphasis>chain_extern</emphasis> no longer supported.
+            <replaceable>chain_extern</replaceable> no longer supported.
           </para>
         </listitem>
       </itemizedlist>
@@ -139,6 +139,5 @@ x:              SHAPE
           </para>
         </listitem>
       </itemizedlist>
-    </para>
   </section>
 </preface>

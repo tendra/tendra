@@ -1,9 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-
-	<!ENTITY sid "<application><acronym>SID</acronym></application>">
-
+<!DOCTYPE appendix SYSTEM "minidocbook.dtd" [
 	<!ENTITY PRODUCTION   "<replaceable>PRODUCTION</replaceable>">
 	<!ENTITY PRODUCTIONS  "<replaceable>PRODUCTIONS</replaceable>">
 	<!ENTITY PREDICATE    "<replaceable>PREDICATE</replaceable>">
@@ -28,16 +24,19 @@
 	<section id="left-errors">
 		<title>Left recursion elimination errors</title>
 
-		<para><computeroutput><errortext>The parameter or result types of the left recursive
-			calls in the following productions do not match:
-			&PRODUCTIONS;</errortext></computeroutput>:
-			This means that there is a set of rules which
-			call each other left recursively (i.e. the first item in some of the
-			alternatives in each rule is a call to another rule in the set), and
-			they do not all have the same parameter and result types, e.g.:</para>
+		<variablelist>
+			<varlistentry>
+				<term><computeroutput>The parameter or result types of the left recursive
+					calls in the following productions do not match:
+					&PRODUCTIONS;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 : ( a : Type1T, b : Type1T, c : Type2T, d : Type2T ) -&gt; () = {
+				<listitem>
+					<para>This means that there is a set of rules which
+						call each other left recursively (i.e. the first item in some of the
+						alternatives in each rule is a call to another rule in the set), and
+						they do not all have the same parameter and result types, e.g.:</para>
+
+					<programlisting language="sid">rule1 : ( a : Type1T, b : Type1T, c : Type2T, d : Type2T ) -&gt; () = {
 	rule2 ( a, b ) ;
 ||
 	terminal1 ;
@@ -48,17 +47,22 @@ rule2 : ( a : Type1T, b : Type2T ) -&gt; () = {
 ||
 	terminal2 ;
 } ;</programlisting>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>The exception handlers in the left recursion involving
-			the following productions do not match:
-			&PRODUCTIONS;</errortext></computeroutput>:
-			This means that there is a set of productions which call each other left
-			recursively (i.e. the first item in an alternative is a call to
-			another production in the set), and they do not all have the same
-			exception handler, e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>The exception handlers in the left recursion involving
+					the following productions do not match:
+<!-- TODO: maybe permit <br/> inside <computeroutput>? -->
+&PRODUCTIONS;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This means that there is a set of productions which call each other left
+						recursively (i.e. the first item in an alternative is a call to
+						another production in the set), and they do not all have the same
+						exception handler, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	rule2 ;
 ||
 	terminal1 ;
@@ -74,38 +78,47 @@ rule2 = {
 	&lt;action2&gt; ;
 } ;</programlisting>
 
-		<para>It is quite likely that when using exception handlers, it may be
-			necessary to do the left recursion elimination manually to ensure that
-			the exception handlers occur at the correct place.</para>
+					<para>It is quite likely that when using exception handlers, it may be
+						necessary to do the left recursion elimination manually to ensure that
+						the exception handlers occur at the correct place.</para>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>The argument names of the left
-			recursive calls in the following productions do not match:
-			&PRODUCTIONS;</errortext></computeroutput>:
-			This means that there is a set of productions which call each other
-			left recursively (i.e. the first item in an alternative is a call to
-			another production in the set), and the arguments to one of the left
-			recursive calls are not the same as the parameters of the calling
-			rule, e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>The argument names of the left
+					recursive calls in the following productions do not match:
+<!-- TODO: br -->
+					&PRODUCTIONS;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 : ( a : Type1T, b : Type1T ) -&gt; () = {
+				<listitem>
+					<para>This means that there is a set of productions which call each other
+						left recursively (i.e. the first item in an alternative is a call to
+						another production in the set), and the arguments to one of the left
+						recursive calls are not the same as the parameters of the calling
+						rule, e.g.:</para>
+
+					<programlisting language="sid">rule1 : ( a : Type1T, b : Type1T ) -&gt; () = {
 	rule1 ( b, a ) ;
 ||
 	terminal1 ;
 } ;</programlisting>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>A non-local name in the rule '&RULE;'
-			is not in scope in the rule '&RULE;' in the left recursive cycle
-			involving the following productions:
-			&PRODUCTIONS;</errortext></computeroutput>:
-			This means that there is a set of productions which call each other
-			left recursively (i.e. the first item in an alternative is a call
-			to another production in the set), and the first named rule uses a
-			non-local name that is not in scope in the second named rule,
-			e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>A non-local name in the rule '&RULE;'
+					is not in scope in the rule '&RULE;' in the left recursive cycle
+					involving the following productions:
+					&PRODUCTIONS;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 [
+				<listitem>
+					<para>This means that there is a set of productions which call each other
+						left recursively (i.e. the first item in an alternative is a call
+						to another production in the set), and the first named rule uses a
+						non-local name that is not in scope in the second named rule,
+						e.g.:</para>
+
+					<programlisting language="sid">rule1 [
 	name1 : Type1T ;
 	rule1_1 [
 		name1_1 : Type1T ;
@@ -121,19 +134,23 @@ rule1 [
 	rule1_1 ;
 	&lt;action1&gt; ( name1 ) ;
 } ;</programlisting>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>The rule '&RULE;' declares non-local
-			names in the left recursive cycle with more than one entry point
-			involving the following productions:
-			&PRODUCTIONS;</errortext></computeroutput>:
-			This means that there is a set of productions which call each other
-			left recursively (i.e. the first item in an alternative is a call to
-			another production in the set), and the named rule defines non-local
-			variables even though it is not the only entry point to the cycle,
-			e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>The rule '&RULE;' declares non-local
+					names in the left recursive cycle with more than one entry point
+					involving the following productions:
+					&PRODUCTIONS;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 [
+				<listitem>
+					<para>This means that there is a set of productions which call each other
+						left recursively (i.e. the first item in an alternative is a call to
+						another production in the set), and the named rule defines non-local
+						variables even though it is not the only entry point to the cycle,
+						e.g.:</para>
+
+					<programlisting language="sid">rule1 [
 	name1 : Type1T ;
 	rule1_1 = {
 		&lt;action1_1&gt; ( name1 ) ;
@@ -152,17 +169,21 @@ rule2 = {
 ||
 	terminal2 ;
 } ;</programlisting>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>No cycle termination for the left
-			recursive set involving the following rules:
-			&RULES;</errortext></computeroutput>:
-			This means that there is a set of productions which call each other
-			left recursively (i.e.	the first item in an alternative is a call
-			to another production in the set), and they do not contain an
-			alternative that begins with a non-left recursive call, e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>No cycle termination for the left
+					recursive set involving the following rules:
+					&RULES;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This means that there is a set of productions which call each other
+						left recursively (i.e.	the first item in an alternative is a call
+						to another production in the set), and they do not contain an
+						alternative that begins with a non-left recursive call, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	rule2 ;
 ||
 	rule3 ;
@@ -179,50 +200,64 @@ rule3 = {
 ||
 	rule2 ;
 } ;</programlisting>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</section>
 
 	<section id="first-errors">
 		<title>First set computation errors</title>
 
-		<para><computeroutput><errortext>Cannot compute first set for
-			&PRODUCTION;</errortext></computeroutput>:
-			This means that &sid; cannot compute the set of terminals and
-			predicates that may start the production. This is normally because
-			there is a recursive call (or cycle) that contains no terminals, e.g.:</para>
+		<variablelist>
+			<varlistentry>
+				<term><computeroutput>Cannot compute first set for
+					&PRODUCTION;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This means that &sid; cannot compute the set of terminals and
+						predicates that may start the production. This is normally because
+						there is a recursive call (or cycle) that contains no terminals, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	&lt;action1&gt; ;
 	rule1 ;
 ||
 	terminal1 ;
 } ;</programlisting>
 
-		<para>This is not removed by the left recursion elimination phase, as
-			the call is not the leftmost item in the alternative.</para>
+					<para>This is not removed by the left recursion elimination phase, as
+						the call is not the leftmost item in the alternative.</para>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>Can see through to predicate
-			'&PREDICATE;' in production &PRODUCTION;</errortext></computeroutput>:
-			This means that there is a predicate that isn't the first item in
-			its alternative, but is preceded only by see-through items, e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>Can see through to predicate
+					'&PREDICATE;' in production &PRODUCTION;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This means that there is a predicate that isn't the first item in
+						its alternative, but is preceded only by see-through items, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	&lt;action1&gt; ;
 	? = &lt;predicate&gt; ;
 ||
 	terminal1 ;
 } ;</programlisting>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>Can see through to predicates in rule
-			'&RULE;' in production &PRODUCTION;</errortext></computeroutput>:
-			This means that the first rule has at least one predicate in its
-			first set, and the second rule calls it in a position where it is
-			not the first item in the alternative and is preceded only by
-			see-through items, e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>Can see through to predicates in rule
+					'&RULE;' in production &PRODUCTION;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This means that the first rule has at least one predicate in its
+						first set, and the second rule calls it in a position where it is
+						not the first item in the alternative and is preceded only by
+						see-through items, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	? = &lt;predicate&gt; ;
 ||
 	terminal1 ;
@@ -234,72 +269,104 @@ rule2 = {
 ||
 	terminal2 ;
 } ;</programlisting>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>The rule '&RULE;' has all terminals in
-			its first set and has a redundant see-through
-			alternative</errortext></computeroutput>:
-			This means that the rule's first set (the set of all terminals that
-			can start the rule) includes all possible input terminals, and the
-			rule also has a see-through alternative. The see-through alternative
-			will never be used, as one of the other alternatives will always be
-			chosen.</para>
+			<varlistentry>
+				<term><computeroutput>The rule '&RULE;' has all terminals in
+					its first set and has a redundant see-through
+					alternative</computeroutput>:</term>
+
+				<listitem>
+					<para>This means that the rule's first set (the set of all terminals that
+						can start the rule) includes all possible input terminals, and the
+						rule also has a see-through alternative. The see-through alternative
+						will never be used, as one of the other alternatives will always be
+						chosen.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</section>
 
 	<section id="factor-errors">
 		<title>Factoring errors</title>
 
-		<para><computeroutput><errortext>Too many productions (&NUMBER;)
-			created during factorisation</errortext></computeroutput>:
-			This normally means that &sid; cannot factor the grammar. You will
-			need to rewrite the offending part. Unfortunately there is no easy
-			way to do this. Start by looking at the dump file for a set of
-			rules that seem to have been expanded a lot.</para>
+		<variablelist>
+			<varlistentry>
+				<term><computeroutput>Too many productions (&NUMBER;)
+					created during factorisation</computeroutput>:</term>
 
-		<para><computeroutput><errortext>The rule '&RULE;' cannot be expanded
-			into '&RULE;' as the exception handlers don't
-			match</errortext></computeroutput>:
-			When &sid; performs factoring, it needs to expand calls to
-			certain rules into the rules that calls them (this is described in the
-			<link linkend="overview">overview section</link>). If the called rule
-			has an exception handler and it is not the same as the exception
-			handler of the calling rule, then the expansion will fail.</para>
+				<listitem>
+					<para>This normally means that &sid; cannot factor the grammar. You will
+						need to rewrite the offending part. Unfortunately there is no easy
+						way to do this. Start by looking at the dump file for a set of
+						rules that seem to have been expanded a lot.</para>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>The rule '&RULE;' cannot be expanded
-			into '&RULE;' as it contains non-local name
-			definitions</errortext></computeroutput>:
-			When &sid; performs factoring, it needs to expand calls to
-			certain rules into the rules that calls them (this is described in the
-			<link linkend="overview">overview section</link>). If the called rule
-			defines any non-local names, then the expansion will fail.</para>
+			<varlistentry>
+				<term><computeroutput>The rule '&RULE;' cannot be expanded
+					into '&RULE;' as the exception handlers don't
+					match</computeroutput>:</term>
+
+				<listitem>
+					<para>When &sid; performs factoring, it needs to expand calls to
+						certain rules into the rules that calls them (this is described in the
+						<link linkend="overview">overview section</link>). If the called rule
+						has an exception handler and it is not the same as the exception
+						handler of the calling rule, then the expansion will fail.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><computeroutput>The rule '&RULE;' cannot be expanded
+					into '&RULE;' as it contains non-local name
+					definitions</computeroutput>:</term>
+
+				<listitem>
+					<para>When &sid; performs factoring, it needs to expand calls to
+						certain rules into the rules that calls them (this is described in the
+						<link linkend="overview">overview section</link>). If the called rule
+						defines any non-local names, then the expansion will fail.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</section>
 
 	<section id="check-errors">
 		<title>Checking errors</title>
 
-		<para><computeroutput><errortext>Collision of terminal(s) &TERMINALS;
-			in rule '&RULE;'</errortext></computeroutput>:
-			This error means that more than one alternative in
-			the named rule begins with the named terminals, e.g.:</para>
+		<variablelist>
+			<varlistentry>
+				<term><computeroutput>Collision of terminal(s) &TERMINALS;
+					in rule '&RULE;'</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This error means that more than one alternative in
+						the named rule begins with the named terminals, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	&lt;action1&gt; ;
 	terminal1 ;
 ||
 	terminal1 ;
 } ;</programlisting>
 
-		<para>Normally, the factoring process will remove the problem, but when
-			something like the above happens to stop the factoring occurring, this
-			error will be produced.</para>
+					<para>Normally, the factoring process will remove the problem, but when
+						something like the above happens to stop the factoring occurring, this
+						error will be produced.</para>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>Collision of predicate '&PREDICATE;'
-			in rule '&RULE;'</errortext></computeroutput>:
-			This error occurs when more than one alternative in the named rule
-			begins with the named predicate, e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>Collision of predicate '&PREDICATE;'
+					in rule '&RULE;'</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This error occurs when more than one alternative in the named rule
+						begins with the named predicate, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	( a, ? ) = &lt;predicate&gt; ;
 	&lt;action1&gt; ( a ) ;
 ||
@@ -307,20 +374,24 @@ rule1 = {
 	&lt;action2&gt; ( b ) ;
 } ;</programlisting>
 
-		<para>Again, it is normally the case that the factoring process will
-			remove this problem, but if the same predicate uses different
-			predicate results in different alternatives, this error will be
-			produced.</para>
+					<para>Again, it is normally the case that the factoring process will
+						remove this problem, but if the same predicate uses different
+						predicate results in different alternatives, this error will be
+						produced.</para>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>The terminal(s) &TERMINALS; can start
-			rule '&RULE;' which is see-through, and the same terminal(s) may
-			appear in the following situations:
-			&ALTERNATIVES;</errortext></computeroutput>:
-			This means that there are one or more terminals that can start the
-			named rule (which is see-through), and may also follow it, e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>The terminal(s) &TERMINALS; can start
+					rule '&RULE;' which is see-through, and the same terminal(s) may
+					appear in the following situations:
+					&ALTERNATIVES;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This means that there are one or more terminals that can start the
+						named rule (which is see-through), and may also follow it, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	terminal1 ;
 ||
 	$ ;
@@ -333,19 +404,23 @@ rule2 = {
 	terminal2 ;
 } ;</programlisting>
 
-		<para>The alternatives listed are the alternatives which call the rule,
-			and contain (some of) the named terminals after the call. The call is
-			highlighted.</para>
+					<para>The alternatives listed are the alternatives which call the rule,
+						and contain (some of) the named terminals after the call. The call is
+						highlighted.</para>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>The predicate(s) &PREDICATES; can
-			start rule '&RULE;' which is see-through and the same predicate(s)
-			may appear in the following situations:
-			&ALTERNATIVES;</errortext></computeroutput>:
-			This means that there are one or more predicates that can start the
-			named rule (which is see-through), and may also follow it, e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>The predicate(s) &PREDICATES; can
+					start rule '&RULE;' which is see-through and the same predicate(s)
+					may appear in the following situations:
+					&ALTERNATIVES;</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This means that there are one or more predicates that can start the
+						named rule (which is see-through), and may also follow it, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	? = &lt;predicate&gt; ;
 ||
 	$ ;
@@ -359,21 +434,28 @@ rule2 = {
 	terminal2 ;
 } ;</programlisting>
 
-		<para>The alternatives listed are the alternatives which call the rule,
-			and contain (some of) the named predicates after the call.	The call
-			is highlighted.</para>
+					<para>The alternatives listed are the alternatives which call the rule,
+						and contain (some of) the named predicates after the call.	The call
+						is highlighted.</para>
+				</listitem>
+			</varlistentry>
 
-		<para><computeroutput><errortext>The rule '&RULE;' contains more than
-			one see-through alternative</errortext></computeroutput>:
-			This error occurs if the rule has more than one alternative that doesn't
-			need to read a terminal or a predicate, e.g.:</para>
+			<varlistentry>
+				<term><computeroutput>The rule '&RULE;' contains more than
+					one see-through alternative</computeroutput>:</term>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+				<listitem>
+					<para>This error occurs if the rule has more than one alternative that doesn't
+						need to read a terminal or a predicate, e.g.:</para>
+
+					<programlisting language="sid">rule1 = {
 	&lt;action1&gt; ;
 ||
 	&lt;action2&gt; ;
 } ;</programlisting>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</section>
 </appendix>
 

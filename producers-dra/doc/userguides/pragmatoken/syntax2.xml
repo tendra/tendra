@@ -1,45 +1,43 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="token">
 	<title>Token syntax</title>
 
-  <para>
-  The C and C++ producers allow place-holders for various categories
-  of syntactic classes to be expressed using directives of the form:
-  <programlisting language="C++">
-#pragma TenDRA token <replaceable>token-spec</replaceable></programlisting>
-  or simply:
-  <programlisting language="C++">
-#pragma token <replaceable>token-spec</replaceable></programlisting>
-  These place-holders are represented as TDF tokens and hence are called
-  tokens.  These tokens stand for a certain type, expression or whatever
-  which is to be represented by a certain named TDF token in the producer
-  output.  This mechanism is used, for example, to allow C API specifications
-  to be represented target independently.  The types, functions and
-  expressions comprising the API can be described using <code>#pragma
-  token</code> directives and the target dependent definitions of these
-  tokens, representing the implementation of the API on a particular
-  machine, can be linked in later.  This mechanism is described in detail
-  elsewhere.
-  </para>
-  <para>
-  A <A HREF="pragma1.html#token">summary of the grammar</A> for the
-  <code>#pragma token</code> directives accepted by the C++ producer
-  is given as an annex.
-  </para>
+	<para>The C and C++ producers allow place-holders for various categories
+		of syntactic classes to be expressed using directives of the form:</para>
+
+	<programlisting language="c">#pragma TenDRA token <replaceable>token-spec</replaceable></programlisting>
+
+	<para>or simply:</para>
+
+	<programlisting language="c">#pragma token <replaceable>token-spec</replaceable></programlisting>
+
+	<para>These place-holders are represented as TDF tokens and hence are called
+		tokens.  These tokens stand for a certain type, expression or whatever
+		which is to be represented by a certain named TDF token in the producer
+		output.  This mechanism is used, for example, to allow C API specifications
+		to be represented target independently.  The types, functions and
+		expressions comprising the API can be described using <code>#pragma
+		token</code> directives and the target dependent definitions of these
+		tokens, representing the implementation of the API on a particular
+		machine, can be linked in later.  This mechanism is described in detail
+		elsewhere.</para>
+
+	<para>A summary of the grammar for the
+		<code>#pragma token</code> directives accepted by the C++ producer
+		is given in &tdfcpragma.5;.</para>
 
 
-  <section id="spec">
-    <title>Token specifications</title>
-  <para>
-  A token specification is divided into two components, a
-  <replaceable>token-introduction</replaceable> giving the token sort, and a
-  <replaceable>token-identification</replaceable> giving the internal and external token
-  names:
-  <programlisting language="BNF">
-<replaceable>token-spec</replaceable> :
+		<section id="spec">
+			<title>Token specifications</title>
+
+			<para>A token specification is divided into two components, a
+				<replaceable>token-introduction</replaceable> giving the token sort, and a
+				<replaceable>token-identification</replaceable> giving the internal and external token
+				names:</para>
+
+			<programlisting language="bnf"><replaceable>token-spec</replaceable> :
 	<replaceable>token-introduction token-identification</replaceable>
 
 <replaceable>token-introduction</replaceable> :
@@ -50,7 +48,7 @@
 	<replaceable>procedure-token</replaceable>
 
 <replaceable>token-identification</replaceable> :
-	<replaceable>token-namespace<subscript>opt</subscript> identifier</replaceable> # <replaceable>external-identifier<subscript>opt</subscript></replaceable>
+	<replaceable>token-namespace&opt.bnf; identifier</replaceable> # <replaceable>external-identifier&opt.bnf;</replaceable>
 
 <replaceable>token-namespace</replaceable> :
 	TAG
@@ -58,67 +56,67 @@
 <replaceable>external-identifier</replaceable> :
 	-
 	<replaceable>preproc-token-list</replaceable></programlisting>
-  The <code>TAG</code> qualifier is used to indicate that the internal
-  name lies in the C tag namespace.  This only makes sense for structure
-  and union types.  The external token name can be given by any sequence
-  of preprocessing tokens.  These tokens are not macro expanded.  If
-  no external name is given then the internal name is used.  The special
-  external name <code>-</code> is used to indicate that the token does
-  not have an associated external name, and hence is local to the current
-  translation unit.  Such a local token must be defined.  White space
-  in the external name (other than at the start or end) is used to indicate
-  that a TDF unique name should be used.  The white space serves as
-  a separator for the unique name components.
-  </para>
 
-<section id="expression-tokens">
-	<title>Expression tokens</title>
+			<para>The <code>TAG</code> qualifier is used to indicate that the internal
+				name lies in the C tag namespace.  This only makes sense for structure
+				and union types.  The external token name can be given by any sequence
+				of preprocessing tokens.  These tokens are not macro expanded.  If
+				no external name is given then the internal name is used.  The special
+				external name <code>-</code> is used to indicate that the token does
+				not have an associated external name, and hence is local to the current
+				translation unit.  Such a local token must be defined.  White space
+				in the external name (other than at the start or end) is used to indicate
+				that a TDF unique name should be used.  The white space serves as
+				a separator for the unique name components.</para>
 
-  <para>
-  Expression tokens are specified as follows:
-  <programlisting language="BNF">
-<replaceable>exp-token</replaceable> :
-	EXP <replaceable>exp-storage<subscript>opt</subscript></replaceable> : <replaceable>type-id</replaceable> :
+			<section id="expression-tokens">
+				<title>Expression tokens</title>
+
+				<para>Expression tokens are specified as follows:</para>
+
+				<programlisting language="bnf"><replaceable>exp-token</replaceable> :
+	EXP <replaceable>exp-storage&opt.bnf;</replaceable> : <replaceable>type-id</replaceable> :
 	NAT
 	INTEGER</programlisting>
-  representing a expression of the given type, a non-negative integer
-  constant and general integer constant, respectively.  Each expression
-  has an associated storage class:
-  <programlisting language="BNF">
-<replaceable>exp-storage</replaceable> :
+
+				<para>representing a expression of the given type, a non-negative integer
+					constant and general integer constant, respectively.  Each expression
+					has an associated storage class:</para>
+
+<programlisting language="bnf"><replaceable>exp-storage</replaceable> :
 	lvalue
 	rvalue
 	const</programlisting>
-  indicating whether it is an lvalue, an rvalue or a compile-time constant
-  expression.  An absent <replaceable>exp-storage</replaceable> is equivalent to
-  <code>rvalue</code>.  All expression tokens lie in the macro namespace;
-  that is, they may potentially be defined as macros.
-  </para>
-  <para>
-  For backwards compatibility with the C producer, the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ rvalue token as const <replaceable>allow</replaceable></programlisting>
-  causes <code>rvalue</code> tokens to be treated as <code>const</code>
-  tokens.</para>
-</section>
 
-<section>
-	<title>Statement tokens</title>
-  <para>
-  Statement tokens are specified as follows:
-  <programlisting language="BNF">
-<replaceable>statement-token</replaceable> :
+				<para>indicating whether it is an lvalue, an rvalue or a compile-time constant
+					expression.  An absent <replaceable>exp-storage</replaceable> is equivalent to
+					<code>rvalue</code>.  All expression tokens lie in the macro namespace;
+					that is, they may potentially be defined as macros.</para>
+
+				<para>For backwards compatibility with the C producer, the directive:</para>
+
+				<programlisting language="cpp">#pragma TenDRA++ rvalue token as const <replaceable>allow</replaceable></programlisting>
+
+				<para>causes <code>rvalue</code> tokens to be treated as <code>const</code> tokens.</para>
+			</section>
+
+			<section>
+				<title>Statement tokens</title>
+
+				<para>Statement tokens are specified as follows:</para>
+
+				<programlisting language="bnf"><replaceable>statement-token</replaceable> :
 	STATEMENT</programlisting>
-  All statement tokens lie in the macro namespace.
-  </para>
-</section>
 
-<section>
-	<title>Type tokens</title>
-  <para>
-  Type tokens are specified as follows:
-  <programlisting language="BNF">
-<replaceable>type-token</replaceable> :
+				<para>All statement tokens lie in the macro namespace.</para>
+			</section>
+
+			<section>
+				<title>Type tokens</title>
+
+				<para>Type tokens are specified as follows:</para>
+
+				<programlisting language="bnf"><replaceable>type-token</replaceable> :
 	TYPE
 	VARIETY
 	VARIETY signed
@@ -129,69 +127,72 @@
 	CLASS
 	STRUCT
 	UNION</programlisting>
-  representing a generic type, an integral type, a signed integral type,
-  an unsigned integral type, a floating point type, an arithmetic (integral
-  or floating point) type, a scalar (arithmetic or pointer) type, a
-  class type, a structure type and a union type respectively.
-  </para>
-	<warning>
-  <para>Floating-point, arithmetic and scalar token types have not yet been
-  implemented correctly in either the C or C++ producers.</para>
-	</warning>
-</section>
 
-<section id="member-tokens">
-	<title>Member tokens</title>
-  <para>
-  Member tokens are specified as follows:
-  <programlisting language="BNF">
-<replaceable>member-token</replaceable> :
-	MEMBER <replaceable>access-specifier<subscript>opt</subscript> member-type-id</replaceable> : <replaceable>type-id</replaceable> :</programlisting>
-  where an <replaceable>access-specifier</replaceable> of <code>public</code> is assumed
-  if none is given.  The member type is given by:
-  <programlisting language="BNF">
-<replaceable>member-type-id</replaceable> :
+				<para>representing a generic type, an integral type, a signed integral type,
+					an unsigned integral type, a floating point type, an arithmetic (integral
+					or floating point) type, a scalar (arithmetic or pointer) type, a
+					class type, a structure type and a union type respectively.</para>
+
+				<warning>
+					<para>Floating-point, arithmetic and scalar token types have not yet been
+						implemented correctly in either the C or C++ producers.</para>
+				</warning>
+			</section>
+
+			<section id="member-tokens">
+				<title>Member tokens</title>
+
+				<para>Member tokens are specified as follows:</para>
+
+				<programlisting language="bnf"><replaceable>member-token</replaceable> :
+	MEMBER <replaceable>access-specifier&opt.bnf; member-type-id</replaceable> : <replaceable>type-id</replaceable> :</programlisting>
+
+				<para>where an <replaceable>access-specifier</replaceable> of <code>public</code> is assumed
+					if none is given.  The member type is given by:</para>
+
+				<programlisting language="bnf"><replaceable>member-type-id</replaceable> :
 	<replaceable>type-id</replaceable>
 	<replaceable>type-id</replaceable> % <replaceable>constant-expression</replaceable></programlisting>
-  where <code>%</code> is used to denote bitfield members (since
-  <code>:</code> is used as a separator).  The second type denotes the
-  structure or union the given member belongs to.  Different types can
-  have members with the same internal name, but the external token name
-  must be unique.  Note that only non-static data members can be represented
-  in this form.
-  </para>
-  <para>
-  Two declarations for the same <code>MEMBER</code> token (including token
-  definitions) should have the same type, however the directive:
-  <programlisting language="C++">
-#pragma TenDRA++ incompatible member declaration <replaceable>allow</replaceable></programlisting>
-  allows declarations with different types, provided these types have the
-  same size and alignment requirements.
-  </para>
-</section>
 
-<section>
-	<title>Procedure tokens</title>
-  <para>
-  Procedure, or high-level, tokens are specified in one of three ways:
-  <programlisting language="BNF">
-<replaceable>procedure-token</replaceable> :
+				<para>where <code>%</code> is used to denote bitfield members (since
+					<code>:</code> is used as a separator).  The second type denotes the
+					structure or union the given member belongs to.  Different types can
+					have members with the same internal name, but the external token name
+					must be unique.  Note that only non-static data members can be represented
+					in this form.</para>
+
+				<para>Two declarations for the same <code>MEMBER</code> token (including token
+					definitions) should have the same type, however the directive:</para>
+
+				<programlisting language="cpp">#pragma TenDRA++ incompatible member declaration <replaceable>allow</replaceable></programlisting>
+
+				<para>allows declarations with different types, provided these types have the
+					same size and alignment requirements.</para>
+			</section>
+
+			<section>
+				<title>Procedure tokens</title>
+
+				<para>Procedure, or high-level, tokens are specified in one of three ways:</para>
+
+				<programlisting language="bnf"><replaceable>procedure-token</replaceable> :
 	<replaceable>general-procedure</replaceable>
 	<replaceable>simple-procedure</replaceable>
 	<replaceable>function-procedure</replaceable></programlisting>
-  All procedure tokens (except ellipsis functions - see below) lie in
-  the macro namespace.  The most general form of procedure token specifies
-  two sets of parameters.  The bound parameters are those which are
-  used in encoding the actual TDF output, and the program parameters
-  are those which are <link linkend="args">specified in the program</link>.
-  The program parameters are expressed in terms of the bound parameters.
-  A program parameter can be an expression token parameter, a statement
-  token parameter, a member token parameter, a procedure token parameter
-  or any type.  The bound parameters are deduced from the program parameters
-  by a similar process to that used in template argument deduction.
-  <programlisting language="BNF">
-<replaceable>general-procedure</replaceable> :
-	PROC { <replaceable>bound-toks<subscript>opt</subscript></replaceable> | <replaceable>prog-pars<subscript>opt</subscript></replaceable> } <replaceable>token-introduction
+
+				<para>All procedure tokens (except ellipsis functions - see below) lie in
+					the macro namespace.  The most general form of procedure token specifies
+					two sets of parameters.  The bound parameters are those which are
+					used in encoding the actual TDF output, and the program parameters
+					are those which are specified in the program.
+					The program parameters are expressed in terms of the bound parameters.
+					A program parameter can be an expression token parameter, a statement
+					token parameter, a member token parameter, a procedure token parameter
+					or any type.  The bound parameters are deduced from the program parameters
+					by a similar process to that used in template argument deduction.</para>
+
+				<programlisting language="bnf"><replaceable>general-procedure</replaceable> :
+	PROC { <replaceable>bound-toks&opt.bnf;</replaceable> | <replaceable>prog-pars&opt.bnf;</replaceable> } <replaceable>token-introduction
   </replaceable>
 
 <replaceable>bound-toks</replaceable> :
@@ -199,7 +200,7 @@
 	<replaceable>bound-token</replaceable> , <replaceable>bound-toks</replaceable>
 
 <replaceable>bound-token</replaceable> :
-	<replaceable>token-introduction token-namespace<subscript>opt</subscript> identifier</replaceable>
+	<replaceable>token-introduction token-namespace&opt.bnf; identifier</replaceable>
 
 <replaceable>prog-pars</replaceable> :
 	<replaceable>program-parameter</replaceable>
@@ -211,238 +212,244 @@
 	TYPE <replaceable>type-id</replaceable>
 	MEMBER <replaceable>type-id</replaceable> : <replaceable>identifier</replaceable>
 	PROC <replaceable>identifier</replaceable></programlisting>
-  </para>
-  <para>
-  The simplest form of a <replaceable>general-procedure</replaceable> is one in which the
-  <replaceable>prog-pars</replaceable> correspond precisely to the <replaceable>bound-toks</replaceable>.  In
-  this case the syntax:
-  <programlisting language="BNF">
-<replaceable>simple-procedure</replaceable> :
-	PROC ( <replaceable>simple-toks<subscript>opt</subscript></replaceable> ) <replaceable>token-introduction</replaceable>
+
+				<para>The simplest form of a <replaceable>general-procedure</replaceable>
+					is one in which the <replaceable>prog-pars</replaceable>
+					correspond precisely to the <replaceable>bound-toks</replaceable>.  In
+					this case the syntax:</para>
+
+				<programlisting language="bnf"><replaceable>simple-procedure</replaceable> :
+	PROC ( <replaceable>simple-toks&opt.bnf;</replaceable> ) <replaceable>token-introduction</replaceable>
 
 <replaceable>simple-toks</replaceable> :
 	<replaceable>simple-token</replaceable>
 	<replaceable>simple-token</replaceable> , <replaceable>simple-toks</replaceable>
 
 <replaceable>simple-token</replaceable> :
-	<replaceable>token-introduction token-namespace<subscript>opt</subscript> identifier<subscript>opt</subscript></replaceable></programlisting>
-  may be used.  Note that the parameter names are optional.
-  </para>
-  <para>
-  A function token is specified as follows:
-  <programlisting language="TDF">
-<replaceable>function-procedure</replaceable> :
+	<replaceable>token-introduction token-namespace&opt.bnf; identifier&opt.bnf;</replaceable></programlisting>
+
+				<para>may be used.  Note that the parameter names are optional.</para>
+
+				<para>A function token is specified as follows:</para>
+
+				<programlisting language="tdf"><replaceable>function-procedure</replaceable> :
 	FUNC <replaceable>type-id</replaceable> :</programlisting>
-  where the given type is a function type.  This has two effects: firstly
-  a function with the given type is declared; secondly, if the function
-  type has the form:
-  <programlisting language="C++">
-r ( p1, ...., pn )</programlisting>
-  a procedure token with sort:
-  <programlisting language="TDF">
-PROC ( EXP rvalue : p1 :, ...., EXP rvalue : pn : ) EXP rvalue : r :</programlisting>
-  is declared.  For ellipsis function types only the function, not the
-  token, is declared.  Note that the token behaves like a macro definition
-  of the corresponding function.  Unless explicitly enclosed in a linkage
-  specification, a function declared using a <code>FUNC</code>
-  token has C linkage.  Note that it is possible for two <code>FUNC</code>
-  tokens to have the same internal name, because of function overloading,
-  however external names must be unique.
-  </para>
-  <para>
-  The directive:
-  <programlisting language="C++">
-#pragma TenDRA incompatible interface declaration <replaceable>allow</replaceable></programlisting>
-  can be used to allow incompatible redeclarations of functions declared
-  using <code>FUNC</code> tokens.  The token declaration takes precedence.
-  </para>
-	<warning>
-  <para>Certain of the more complex examples of <code>PROC</code> tokens such
-  as, for example, tokens with <code>PROC</code> parameters, have not
-  been implemented in either the C or C++ producers.</para>
-	</warning>
-</section>
-  </section>
 
-  <section id="token-arguments">
-    <title>Token arguments</title>
-  <para>
-  As mentioned above, the program parameters for a <code>PROC</code>
-  token are those specified in the program itself.  These arguments
-  are expressed as a comma-separated list enclosed in brackets, the
-  form of each argument being determined by the corresponding program
-  parameter.
-  </para>
-  <para>
-  An <code>EXP</code> argument is an assignment expression.  This must
-  be an lvalue for <code>lvalue</code> tokens and a constant expression
-  for
-  <code>const</code> tokens.  The argument is converted to the token
-  type (for <code>lvalue</code> tokens this is essentially a conversion
-  between the corresponding reference types).  A <code>NAT</code> or
-  <code>INTEGER</code> argument is an integer constant expression.
-  In the former case this must be non-negative.
-  </para>
-  <para>
-  A <code>STATEMENT</code> argument is a statement.  This statement
-  should not contain any labels or any <code>goto</code> or <code>return</code>
-  statements.
-  </para>
-  <para>
-  A type argument is a type identifier.  This must name a type of the
-  correct category for the corresponding token.  For example, a
-  <code>VARIETY</code> token requires an integral type.
-  </para>
-  <para>
-  <A id="offset">A member argument must describe the offset of a member
-  or nested member of the given structure or union type</A>.  The type
-  of the member should agree with that of the <code>MEMBER</code> token.
-  The general form of a member offset can be described in terms of member
-  selectors and array indexes as follows:
-  <programlisting language="BNF">
+				<para>where the given type is a function type.  This has two effects: firstly
+					a function with the given type is declared; secondly, if the function
+					type has the form:</para>
+
+				<programlisting language="c">r ( p1, ...., pn )</programlisting>
+	
+				<para>a procedure token with sort:</para>
+
+				<programlisting language="tdf">PROC ( EXP rvalue : p1 :, ...., EXP rvalue : pn : ) EXP rvalue : r :</programlisting>
+
+				<para>is declared.  For ellipsis function types only the function, not the
+					token, is declared.  Note that the token behaves like a macro definition
+					of the corresponding function.  Unless explicitly enclosed in a linkage
+					specification, a function declared using a <code>FUNC</code>
+					token has C linkage.  Note that it is possible for two <code>FUNC</code>
+					tokens to have the same internal name, because of function overloading,
+					however external names must be unique.</para>
+
+				<para>The directive:</para>
+
+				<programlisting language="c">#pragma TenDRA incompatible interface declaration <replaceable>allow</replaceable></programlisting>
+
+				<para>can be used to allow incompatible redeclarations of functions declared
+					using <code>FUNC</code> tokens.  The token declaration takes precedence.</para>
+
+
+				<warning>
+					<para>Certain of the more complex examples of <code>PROC</code> tokens such
+						as, for example, tokens with <code>PROC</code> parameters, have not
+						been implemented in either the C or C++ producers.</para>
+				</warning>
+			</section>
+		</section>
+
+		<section id="token-arguments">
+			<title>Token arguments</title>
+
+			<para>As mentioned above, the program parameters for a <code>PROC</code>
+				token are those specified in the program itself.  These arguments
+				are expressed as a comma-separated list enclosed in brackets, the
+				form of each argument being determined by the corresponding program
+				parameter.</para>
+
+			<para>An <code>EXP</code> argument is an assignment expression.  This must
+				be an lvalue for <code>lvalue</code> tokens and a constant expression
+				for <code>const</code> tokens.  The argument is converted to the token
+				type (for <code>lvalue</code> tokens this is essentially a conversion
+				between the corresponding reference types).  A <code>NAT</code> or
+				<code>INTEGER</code> argument is an integer constant expression.
+				In the former case this must be non-negative.</para>
+
+			<para>A <code>STATEMENT</code> argument is a statement.  This statement
+				should not contain any labels or any <code>goto</code> or <code>return</code>
+				statements.</para>
+
+			<para>A type argument is a type identifier.  This must name a type of the
+				correct category for the corresponding token.  For example, a
+				<code>VARIETY</code> token requires an integral type.</para>
+
+			<para>A member argument must describe the offset of a member
+				or nested member of the given structure or union type.  The type
+				of the member should agree with that of the <code>MEMBER</code> token.
+				The general form of a member offset can be described in terms of member
+				selectors and array indexes as follows:</para>
+
+			<programlisting language="bnf">
 <replaceable>member-offset</replaceable> :
-	::<replaceable><subscript>opt</subscript> id-expression</replaceable>
-	<replaceable>member-offset</replaceable> . ::<replaceable><subscript>opt</subscript> id-expression</replaceable>
+	::<replaceable>&opt.bnf; id-expression</replaceable>
+	<replaceable>member-offset</replaceable> . ::<replaceable>&opt.bnf; id-expression</replaceable>
 	<replaceable>member-offset</replaceable> [ <replaceable>constant-expression</replaceable> ]</programlisting>
-  </para>
-  <para>
-  A <code>PROC</code> argument is an identifier.  This identifier must
-  name a <code>PROC</code> token of the appropriate sort.
-  </para>
-  </section>
 
-  <section id="tokdef">
-    <title>Defining tokens</title>
-  <para>
-  Given a token specification of a syntactic object and a normal language
-  definition of the same object (including macro definitions if the
-  token lies in the macro namespace), the producers attempt to unify
-  the two by defining the TDF token in terms of the given definition.
-  Whether the token specification occurs before or after the language
-  definition is immaterial.  Unification also takes place in situations
-  where, for example, two types are known to be compatible.  Multiple
-  consistent explicit token definitions are allowed by default when
-  allowed by the language; this is controlled by the directive:
-  <programlisting language="C++">
-#pragma TenDRA compatible token <replaceable>allow</replaceable></programlisting>
-  The default unification behaviour may be modified using the directives:
-  <programlisting language="C++">
-#pragma TenDRA no_def <replaceable>token-list</replaceable>
+			<para>A <code>PROC</code> argument is an identifier.  This identifier must
+				name a <code>PROC</code> token of the appropriate sort.</para>
+		</section>
+
+		<section id="tokdef">
+			<title>Defining tokens</title>
+
+			<para>Given a token specification of a syntactic object and a normal language
+				definition of the same object (including macro definitions if the
+				token lies in the macro namespace), the producers attempt to unify
+				the two by defining the TDF token in terms of the given definition.
+				Whether the token specification occurs before or after the language
+				definition is immaterial.  Unification also takes place in situations
+				where, for example, two types are known to be compatible.  Multiple
+				consistent explicit token definitions are allowed by default when
+				allowed by the language; this is controlled by the directive:</para>
+
+			<programlisting language="c">#pragma TenDRA compatible token <replaceable>allow</replaceable></programlisting>
+
+			<para>The default unification behaviour may be modified using the directives:</para>
+
+			<programlisting language="c">#pragma TenDRA no_def <replaceable>token-list</replaceable>
 #pragma TenDRA define <replaceable>token-list</replaceable>
 #pragma TenDRA reject <replaceable>token-list</replaceable></programlisting>
-  or equivalently:
-  <programlisting language="C++">
-#pragma no_def <replaceable>token-list</replaceable>
+
+			<para>or equivalently:</para>
+
+			<programlisting language="c">#pragma no_def <replaceable>token-list</replaceable>
 #pragma define <replaceable>token-list</replaceable>
 #pragma ignore <replaceable>token-list</replaceable></programlisting>
-  which set the state of the tokens given in <replaceable>token-list</replaceable>.  A state
-  of <code>no_def</code> means that no unification is attempted and
-  that any attempt to explicitly define the token results in an error.
-  A state of <code>define</code> means that unification takes place
-  and that the token must be defined somewhere in the translation unit.
-  A state of <code>reject</code> means that unification takes place as
-  normal, but any resulting token definition is discarded and not output
-  to the TDF capsule.
-  </para>
-  <para>
-  If a token with the state <code>define</code> is not defined, then the
-  behaviour depends on the sort of the token.  A <code>FUNC</code> token
-  is implicitly defined in terms of its underlying function, such as:
-  <programlisting language="C++">
-#define f( a1, ...., an )	( f ) ( a1, ...., an )</programlisting>
-  Other undefined tokens cause an error.  This behaviour can be modified
-  using the directives:
-  <programlisting language="C++">
-#pragma TenDRA++ implicit token definition <replaceable>allow</replaceable>
+
+			<para>which set the state of the tokens given in <replaceable>token-list</replaceable>.
+				A state of <code>no_def</code> means that no unification is attempted and
+				that any attempt to explicitly define the token results in an error.
+				A state of <code>define</code> means that unification takes place
+				and that the token must be defined somewhere in the translation unit.
+				A state of <code>reject</code> means that unification takes place as
+				normal, but any resulting token definition is discarded and not output
+				to the TDF capsule.</para>
+
+			<para>If a token with the state <code>define</code> is not defined, then the
+				behaviour depends on the sort of the token.  A <code>FUNC</code> token
+				is implicitly defined in terms of its underlying function, such as:</para>
+
+			<programlisting language="c">#define f( a1, ...., an )	( f ) ( a1, ...., an )</programlisting>
+
+			<para>Other undefined tokens cause an error.  This behaviour can be modified
+				using the directives:</para>
+
+			<programlisting language="c">#pragma TenDRA++ implicit token definition <replaceable>allow</replaceable>
 #pragma TenDRA++ no token definition <replaceable>allow</replaceable></programlisting>
-  respectively.</para>
-  <para>
-  The primitive operations, <code>no_def</code>, <code>define</code> and
-  <code>reject</code>, can also be expressed using the context sensitive
-  directive:
-  <programlisting language="C++">
-#pragma TenDRA interface <replaceable>token-list</replaceable></programlisting>
-  or equivalently:
-  <programlisting language="C++">
-#pragma interface <replaceable>token-list</replaceable></programlisting>
-  By default this is equivalent to <code>no_def</code>, but may be modified
-  by inclusion using one of the directives:
-  <programlisting language="C++">
-#pragma TenDRA extend <replaceable>header-name</replaceable>
+
+			<para>respectively.</para>
+
+			<para>The primitive operations, <code>no_def</code>, <code>define</code> and
+				<code>reject</code>, can also be expressed using the context sensitive
+				directive:</para>
+
+			<programlisting language="c">#pragma TenDRA interface <replaceable>token-list</replaceable></programlisting>
+
+			<para>or equivalently:</para>
+
+			<programlisting language="c">#pragma interface <replaceable>token-list</replaceable></programlisting>
+
+			<para>By default this is equivalent to <code>no_def</code>, but may be modified
+				by inclusion using one of the directives:</para>
+
+			<programlisting language="c">#pragma TenDRA extend <replaceable>header-name</replaceable>
 #pragma TenDRA implement <replaceable>header-name</replaceable></programlisting>
-  or equivalently:
-  <programlisting language="C++">
-#pragma extend interface <replaceable>header-name</replaceable>
+
+			<para>or equivalently:</para>
+
+			<programlisting language="c">#pragma extend interface <replaceable>header-name</replaceable>
 #pragma implement interface <replaceable>header-name</replaceable></programlisting>
-  These are equivalent to:
-  <programlisting language="C++">
-#include <replaceable>header-name</replaceable></programlisting>
-  except that the form <code>[....]</code> is allowed as a header name.
-  This is equivalent to <code>&lt;....&gt;</code> except that it starts
-  the directory search after the point at which the including file was
-  found, rather than at the start of the path (i.e. it is equivalent
-  to the
-  <code>#include_next</code> directive found in some preprocessors).
-  The effect of the <code>extend</code> directive on the state of the
-  <code>interface</code> directive is as follows:
-  <programlisting>
-no_def -&gt; no_def
+
+			<para>These are equivalent to:</para>
+
+			<programlisting language="c">#include <replaceable>header-name</replaceable></programlisting>
+
+			<para>except that the form <code>[....]</code> is allowed as a header name.
+				This is equivalent to <code>&lt;....&gt;</code> except that it starts
+				the directory search after the point at which the including file was
+				found, rather than at the start of the path (i.e. it is equivalent
+				to the <code>#include_next</code> directive found in some preprocessors).
+				The effect of the <code>extend</code> directive on the state of the
+				<code>interface</code> directive is as follows:</para>
+
+			<!-- TODO: informaltable? -->
+			<screen>no_def -&gt; no_def
 define -&gt; reject
-reject -&gt; reject</programlisting>
-  The effect of the <code>implement</code> directive is as follows:
-  <programlisting>
-no_def -&gt; define
+reject -&gt; reject</screen>
+
+			<para>The effect of the <code>implement</code> directive is as follows:</para>
+
+<screen>no_def -&gt; define
 define -&gt; define
-reject -&gt; reject</programlisting>
-  That is to say, a <code>implement</code> directive will cause all
-  the tokens in the given header to be defined and their definitions
-  output. Any tokens included in this header by <code>extend</code>
-  may be defined, but their definitions will not be output.  This is
-  precisely the behaviour which is required to ensure that each token
-  is defined exactly once in an API library build.
-  </para>
-  <para>
-  The lists of tokens in the directives above are expressed in the form:
-  <programlisting language="BNF">
-<replaceable>token-list</replaceable> :
-	<replaceable>token-id token-list<subscript>opt</subscript></replaceable>
-	# <replaceable>preproc-token-list</replaceable></programlisting>
-  where a <replaceable>token-id</replaceable> represents an internal token name:
-  <programlisting language="BNF">
-<replaceable>token-id</replaceable> :
-	<replaceable>token-namespace<subscript>opt</subscript> identifier</replaceable>
-	<replaceable>type-id</replaceable> . <replaceable>identifier</replaceable></programlisting>
-  Note that member tokens are specified by means of both the member
-  name and its parent type.  In this type specifier, <code>TAG</code>,
-  rather than
-  <code>class</code>, <code>struct</code> or <code>union</code>, may
-  be used in elaborated type specifiers for structure and union tokens.
-  If the
-  <replaceable>token-id</replaceable> names an overloaded function then the directive is
-  applied to all <code>FUNC</code> tokens of that name.  It is possible
-  to  be more selective using the <code>#</code> form which allows the
-  external token name to be specified.  Such an entry must be the last
-  in a <replaceable>token-list</replaceable>.
-  </para>
-  <para>
-  A related directive has the form:
-  <programlisting language="C++">
-#pragma TenDRA++ undef token <replaceable>token-list</replaceable></programlisting>
-  which undefines all the given tokens so that they are no longer visible.
-  </para>
-  <para>
-  As noted above, a macro is only considered as a token definition if
-  the token lies in the macro namespace.  Tokens which are not in the
-  macro namespace, such as types and members, cannot be defined using
-  macros. Occasionally API implementations do define member selector
-  as macros in terms of other member selectors.  Such a token needs
-  to be explicitly defined using a directive of the form:
-  <programlisting language="C++">
-#pragma TenDRA member definition <replaceable>type-id</replaceable> : <replaceable>identifier member-offset
-  </replaceable></programlisting>
-  where <replaceable>member-offset</replaceable> is <link linkend="offset">as above</link>.
-  </para>
-  </section>
+reject -&gt; reject</screen>
+
+			<para>That is to say, a <code>implement</code> directive will cause all
+				the tokens in the given header to be defined and their definitions
+				output. Any tokens included in this header by <code>extend</code>
+				may be defined, but their definitions will not be output.  This is
+				precisely the behaviour which is required to ensure that each token
+				is defined exactly once in an API library build.</para>
+
+			<para>The lists of tokens in the directives above are expressed in the form:</para>
+
+			<programlisting language="bnf"><replaceable>token-list</replaceable> :
+<replaceable>token-id token-list&opt.bnf;</replaceable>
+# <replaceable>preproc-token-list</replaceable></programlisting>
+
+			<para>where a <replaceable>token-id</replaceable> represents an internal token name:</para>
+
+			<programlisting language="bnf"><replaceable>token-id</replaceable> :
+<replaceable>token-namespace&opt.bnf; identifier</replaceable>
+<replaceable>type-id</replaceable> . <replaceable>identifier</replaceable></programlisting>
+
+			<para>Note that member tokens are specified by means of both the member
+				name and its parent type.  In this type specifier, <code>TAG</code>,
+				rather than <code>class</code>, <code>struct</code> or <code>union</code>, may
+				be used in elaborated type specifiers for structure and union tokens.
+				If the <replaceable>token-id</replaceable> names an overloaded function then the directive is
+				applied to all <code>FUNC</code> tokens of that name.  It is possible
+				to  be more selective using the <code>#</code> form which allows the
+				external token name to be specified.  Such an entry must be the last
+				in a <replaceable>token-list</replaceable>.</para>
+
+			<para>A related directive has the form:</para>
+
+			<programlisting language="c">#pragma TenDRA++ undef token <replaceable>token-list</replaceable></programlisting>
+
+			<para>which undefines all the given tokens so that they are no longer visible.</para>
+
+			<para>As noted above, a macro is only considered as a token definition if
+				the token lies in the macro namespace.  Tokens which are not in the
+				macro namespace, such as types and members, cannot be defined using
+				macros. Occasionally API implementations do define member selector
+				as macros in terms of other member selectors.  Such a token needs
+				to be explicitly defined using a directive of the form:</para>
+
+		<programlisting language="c">#pragma TenDRA member definition <replaceable>type-id</replaceable> : <replaceable>identifier member-offset</replaceable></programlisting>
+
+		<para>where <replaceable>member-offset</replaceable> is <link linkend="token-arguments">as above</link>.</para>
+	</section>
 
 </chapter>
 

@@ -1,12 +1,18 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE article SYSTEM "minidocbook.dtd">
 
 <article>
-<!-- TODO
-make_tdf is a tool for generating TDF decoders and encoders. It takes a compact
-description of the TDF specification and a template file, and generates code to
-read, write or transform a TDF capsule.
--->
+	<articleinfo>
+		<title>make_tdf Users' Guide</title>
+
+		<authorgroup>
+		</authorgroup>
+	</articleinfo>
+
+	<!-- TODO:
+		make_tdf is a tool for generating TDF decoders and encoders. It takes a compact
+		description of the TDF specification and a template file, and generates code to
+		read, write or transform a TDF capsule.
+	-->
 </article>
 

@@ -1,46 +1,38 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE preface SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
 -->
 
 <preface>
-    <title>Introduction</title>
+	<title>Introduction</title>
 
-	<!-- TODO -->
-    <para>
-    The warning sign:
+	<para>This document describes various of the implementation details of the
+		C++ producer TDF output.  In particular it describes the standard
+		TDF tokens used to represent the target dependent aspects of the language
+		and to provide links into the run-time system.  Many of these tokens
+		are common to the C and C++ producers.  Those which are unique to
+		the C++ producer have names of the form <code>~cpp.*</code>.  Note
+		that the description is in terms of TDF tokens, not the internal tokens
+		introduced by the &pragmatoken.doc;.</para>
 
-    <warning/>
+	<para>There are two levels of implementation in the run-time system.
+		The actual interface between the producer and the run-time system is given
+		by the standard tokens.  The provided implementation defines these
+		tokens in a way appropriate to itself.  An alternative implementation
+		would have to define the tokens differently.  It is intended that
+		the standard tokens are sufficiently generic to allow a variety of
+		implementations to hook into the producer output in the manner they
+		require.</para>
 
-    is used within the document to indicate areas where the implementation
-    is currently incomplete or incorrect.
-    </para>
+	<para>The warning sign:</para>
 
+	<warning>
+		<para>May contain nuts.</para>
+	</warning>
 
-  <para>
-  This document describes various of the implementation details of the
-  C++ producer TDF output.  In particular it describes the standard
-  TDF tokens used to represent the target dependent aspects of the language
-  and to provide links into the run-time system.  Many of these tokens
-  are common to the C and C++ producers.  Those which are unique to
-  the C++ producer have names of the form <code>~cpp.*</code>.  Note
-  that the description is in terms of TDF tokens, not the internal tokens
-  introduced by the
-  <A HREF="token.html"><code>#pragma token</code> syntax</A>.
-  </para>
-  <para>
-  There are two levels of implementation in the run-time system.  The
-  actual interface between the producer and the run-time system is given
-  by the standard tokens.  The provided implementation defines these
-  tokens in a way appropriate to itself.  An alternative implementation
-  would have to define the tokens differently.  It is intended that
-  the standard tokens are sufficiently generic to allow a variety of
-  implementations to hook into the producer output in the manner they
-  require.
-  </para>
-
+	<para>is used within the document to indicate areas where the implementation
+ 		 is currently incomplete or incorrect.</para>
 </preface>
 

@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="wbS32">Integral Types</title>
+	<title>Integral Types</title>
 
 	<para>The checks described in the previous chapter involved the detection
 		of conversions which could result in undefined values. Certain
@@ -25,13 +24,15 @@
 		chapter.</para>
 
 	<section>
-		<title id="wbS32">Integer promotion rules</title>
+		<title>Integer promotion rules</title>
 
-		<code><emphasis>The ISO C standard rules</emphasis> may be summarised
+		<para><emphasis>The ISO C standard rules</emphasis> may be summarised
 			as follows: <code>long</code> integral types promote to themselves;
 			other integral types promote to whichever of <code>int</code> or
-			<code>unsigned int</code> they fit into. In full the promotions are:</code>
+			<code>unsigned int</code> they fit into. In full the promotions are:</para>
 
+		<!-- TODO: use mathml for this, and center-align on the arrows -->
+		<!-- TODO: probably for all informalfigures, actually -->
 		<informalfigure>
 			<literallayout><code>char</code> &#x2192; <code>int</code>
 <code>signed char</code> &#x2192; <code>int</code>
@@ -86,7 +87,7 @@
 	</section>
 
 	<section>
-		<title id="wbS32">Arithmetic operations on integer types</title>
+		<title>Arithmetic operations on integer types</title>
 
 		<para><emphasis>The ISO C standard rules</emphasis> for calculating the
 			type of an arithmetic operation involving two integer types is as
@@ -98,6 +99,7 @@
 				<para>If either promoted type is <code>unsigned long</code>,
 					the result type is <code>unsigned long</code>;</para>
 			</listitem>
+
 			<listitem>
 				<para>Otherwise, if one promoted type is <code>long</code> and
 					the other is <code>unsigned int</code>, then if a
@@ -105,14 +107,17 @@
 					<code>unsigned int</code>, the result type is <code>long</code>;
 					otherwise the result type is <code>unsigned long</code>;</para>
 			</listitem>
+
 			<listitem>
 				<para>Otherwise, if either promoted type is <code>long</code>,
 					the result type is <code>long</code>;</para>
 			</listitem>
+
 			<listitem>
 				<para>Otherwise, if either promoted type is <code>unsigned int</code>,
 					the result type is <code>unsigned int</code>;</para>
 			</listitem>
+
 			<listitem>
 				<para>Otherwise the result type is <code>int</code>.</para>
 			</listitem>
@@ -123,15 +128,14 @@
 	</section>
 
 	<section>
-		<title id="4">Interaction with the integer conversion
+		<title>Interaction with the integer conversion
 			checks</title>
 
 		<para>A simple-minded implementation of the integer conversion checks
 			described in 3.2 would interact badly with these rules. Consider,
 			for example, adding two values of type char:</para>
 
-		<programlisting language="C">
-char f ( char a, char b )
+		<programlisting language="c">char f ( char a, char b )
 {
 	char c = a + b ;
 	return ( c ) ;
@@ -181,7 +185,7 @@ char f ( char a, char b )
 			extensions to C in which the split between concept and
 			representation is made explicit. The pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA keyword TYPE for type representation</programlisting>
+		<programlisting language="c">#pragma TenDRA keyword TYPE for type representation</programlisting>
 
 		<para>may be used to introduce a keyword <emphasis>TYPE</emphasis> for
 			this purpose (as with all such pragmas, the precise keyword to be
@@ -191,7 +195,7 @@ char f ( char a, char b )
 			type <code>r</code>. Both <code>t</code> and <code>r</code> must be
 			integral types. For example:</para>
 
-		<programlisting language="C">TYPE ( int, char ) a ;</programlisting>
+		<programlisting language="c">TYPE ( int, char ) a ;</programlisting>
 
 		<para>declares a variable a which is represented as an int, but is
 			conceptually a char.</para>
@@ -201,8 +205,7 @@ char f ( char a, char b )
 			but conversion checking purposes, <code>TYPE ( r, t )</code> is identical to
 			<code>r</code>, so a suitable definition is:</para>
 
-		<programlisting language="C">
-#ifdef __TenDRA__
+		<programlisting language="c">#ifdef __TenDRA__
 #pragma TenDRA keyword TYPE for type representation
 #else
 #define TYPE( r, t ) r
@@ -210,7 +213,7 @@ char f ( char a, char b )
 	</section>
 
 	<section>
-		<title id="S37">Target dependent integral types</title>
+		<title>Target dependent integral types</title>
 
 		<para>Since the checker uses only information about the minimum
 			guaranteed ranges of integral types, integer values for which the
@@ -220,7 +223,7 @@ char f ( char a, char b )
 			specified.</para>
 
 		<section>
-			<title id="S37">Integer literals</title>
+			<title>Integer literals</title>
 
 			<para><emphasis>The ISO C rules</emphasis> on the type of integer
 				literals are set out as follows. For each class of integer
@@ -254,7 +257,7 @@ any + UL &#x2192; <code>unsigned long</code></literallayout>
 				treats target dependent types as abstract integral types which may
 				lead to integer conversion problems. For example, in:</para>
 
-			<programlisting language="C">int f ( int n ) {
+			<programlisting language="c">int f ( int n ) {
 	return ( n &amp; 0xff00 ) ;
 }</programlisting>
 
@@ -272,7 +275,7 @@ any + UL &#x2192; <code>unsigned long</code></literallayout>
 		</section>
 
 		<section>
-			<title id="10">Abstract API types</title>
+			<title>Abstract API types</title>
 
 			<para>Target dependent integral types also occur in API
 				specifications and may be encountered when checking against one
@@ -293,8 +296,7 @@ any + UL &#x2192; <code>unsigned long</code></literallayout>
 				concerning the implicit conversion of an <code>unsigned int</code>
 				to type <code>size_t</code>:</para>
 
-			<programlisting language="C">
-#include &lt;stdlib.h&gt;
+			<programlisting language="c">#include &lt;stdlib.h&gt;
 int main() {
 	size_t size ;
 	size = sizeof( int ) ;
@@ -307,7 +309,7 @@ int main() {
 				version of <code>size_t</code> which is an abstract unsigned
 				integral type. By using the pragma:</para>
 
-			<programlisting language="C">#pragma TenDRA set size_t:signed int</programlisting>
+			<programlisting language="c">#pragma TenDRA set size_t:signed int</programlisting>
 
 			<para>the checker can be instructed to use a different internal
 				definition of <code>size_t</code> when evaluating the
@@ -318,7 +320,7 @@ int main() {
 	</section>
 
 	<section>
-		<title id="14">Integer overflow checks</title>
+		<title>Integer overflow checks</title>
 
 		<para>Given the complexity of the rules governing the types of integers
 			and results of integer operations, as well as the variation of
@@ -331,7 +333,7 @@ int main() {
 			minimum size of an integer it is able to detect many potential
 			problems involving integer constants. The pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA integer overflow analysis <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA integer overflow analysis <emphasis>status</emphasis></programlisting>
 
 		<para>where <emphasis>status</emphasis> is <code>on</code>,
 			<code>warning</code> or <code>off</code>, controls a set of checks
@@ -351,7 +353,7 @@ int main() {
 					is flagged as an error in the default mode. The check on
 					bitfield sizes is controlled by:</para>
 
-				<programlisting language="C">#pragma TenDRA bitfield overflow <emphasis>permit</emphasis></programlisting>
+				<programlisting language="c">#pragma TenDRA bitfield overflow <emphasis>permit</emphasis></programlisting>
 
 				<para>where <emphasis>permit</emphasis> is one of
 					<code>allow</code>, <code>disallow</code> or
@@ -366,7 +368,7 @@ int main() {
 					corresponding to <code>wchar_t</code> for a wide character
 					constant. The check on escape sequence sizes is controlled by:</para>
 
-				<programlisting language="C">#pragma TenDRA character escape overflow <emphasis>permit</emphasis></programlisting>
+				<programlisting language="c">#pragma TenDRA character escape overflow <emphasis>permit</emphasis></programlisting>
 
 				<para>where the options for <emphasis>permit</emphasis> are
 					<code>allow</code>, <code>warning</code> and
@@ -377,7 +379,7 @@ int main() {
 	</section>
 
 	<section>
-		<title id="18">Integer operator checks</title>
+		<title>Integer operator checks</title>
 
 		<para>The results of some integer operations are undefined by the
 			ISO C standard for certain argument types. Others are
@@ -386,7 +388,7 @@ int main() {
 			however a set of checks on operations involving integer constants
 			may be controlled using:</para>
 
-		<programlisting language="C">#pragma TenDRA integer operator analysis <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA integer operator analysis <emphasis>status</emphasis></programlisting>
 
 		<para>where <emphasis>status</emphasis> is replaced by <code>on</code>,
 			<code>warning</code> or <code>off</code>. This pragma enabled checks on:</para>
@@ -420,7 +422,7 @@ int main() {
 	</section>
 
 	<section>
-		<title id="24">Support for 64 bit integer types (<code>long long</code>)</title>
+		<title>Support for 64 bit integer types (<code>long long</code>)</title>
 
 		<para>Although the use of <code>long long</code> to specify a 64 bit
 			integer type is not supported by the ISO C90 standard it is becoming
@@ -429,7 +431,7 @@ int main() {
 			be configured to support the <code>long long</code> type to different
 			degrees using the following pragmas:</para>
 
-		<programlisting language="C">#pragma TenDRA longlong type <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA longlong type <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is one of <code>allow</code>
 			(<code>long long</code> type accepted), <code>disallow</code>
@@ -437,7 +439,7 @@ int main() {
 			or <code>warning</code> (<code>long long</code> types are accepted
 			but a warning is raised).</para>
 
-		<programlisting language="C">#pragma TenDRA set longlong type : type_name</programlisting>
+		<programlisting language="c">#pragma TenDRA set longlong type : type_name</programlisting>
 
 		<para>where <emphasis>type_name</emphasis> is <code>long</code> or
 			<code>long long</code>.</para>

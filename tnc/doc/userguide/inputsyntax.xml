@@ -1,8 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-	<!ENTITY tdf "<acronym>TDF</acronym>">
-]>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="S3">
 	<title>Input syntax</title>
@@ -16,7 +13,7 @@
 			a string, a blank, a bar, or another construct. There are further
 			restrictions on this basic syntax, described below.</para>
 
-<programlisting language="BNF">construct	: ( identifier arglist )
+<programlisting language="bnf">construct	: ( identifier arglist )
 
 argument	: construct
 		| identifier
@@ -53,7 +50,7 @@ arglist		: (empty)
 			</code> takes a <code>shape</code> and an <code>exp</code> and delivers
 			an <code>exp</code>. Thus:</para>
 
-		<programlisting>( contents arg1 arg2 )</programlisting>
+		<programlisting language="tnc">( contents arg1 arg2 )</programlisting>
 
 		<para>where <code>arg1</code> is an argument of sort <code>shape</code>
 			and <code>arg2</code> is an argument of sort <code>exp</code>, is
@@ -63,18 +60,18 @@ arglist		: (empty)
 		<para>As another example, because of the rule concerning constructs with
 			no arguments, both</para>
 
-		<programlisting>( true )</programlisting>
+		<programlisting language="tnc">( true )</programlisting>
 
 		<para>and</para>
 
-		<programlisting>false</programlisting>
+		<programlisting language="tnc">false</programlisting>
 
 		<para>are valid constructs of sort <code>bool</code>.</para>
 
 		<para>&tdf; constructs which take lists of arguments are easily dealt with.
 			For example:</para>
 
-		<programlisting>( make_nof arg1 ... argn )</programlisting>
+		<programlisting language="tnc">( make_nof arg1 ... argn )</programlisting>
 
 		<para>where <code>arg1</code>, ..., <code>argn</code> are all arguments
 			of sort <code>exp</code>, is valid. A vertical bar may be used to
@@ -92,12 +89,12 @@ arglist		: (empty)
 			&tdf; constructs and their argument sorts. Alternatively the <code>tnc</code>
 			help facility may be used. The command:</para>
 
-		<programlisting>tnc -help cmd1 ... cmdn</programlisting>
+		<screen>% tnc -help cmd1 ... cmdn</screen>
 
 		<para>prints sort information on the constructs or sorts <code>cmd1</code>,
 			..., <code>cmdn</code>. Alternatively:</para>
 
-		<programlisting>tnc -help</programlisting>
+		<screen>% tnc -help</screen>
 
 		<para>prints this information for all constructs. (To obtain help on the
 			sort <code>alignment</code> as opposed to the construct <code>alignment</code>
@@ -112,9 +109,8 @@ arglist		: (empty)
 			case the number must be positive. The following shorthands are understood
 			by <code>tnc</code>:</para>
 
-<programlisting>number <emphasis>for</emphasis> ( make_nat number )
-number <emphasis>for</emphasis> ( make_signed_nat number )
-</programlisting>
+		<programlisting language="tnc">number <emphasis>for</emphasis> ( make_nat number )
+number <emphasis>for</emphasis> ( make_signed_nat number )</programlisting>
 
 		<para>depending on whether a construct of sort <code>nat</code> or
 			<code>signed_nat</code> is expected.</para>
@@ -124,7 +120,7 @@ number <emphasis>for</emphasis> ( make_signed_nat number )
 			with other than 8 bits per character) may be represented by means
 			of the <code>multi_string</code> construct. This takes the form:</para>
 
-		<programlisting>( multi_string b c1 ... cn )</programlisting>
+		<programlisting language="tnc">( multi_string b c1 ... cn )</programlisting>
 
 		<para>where <code>b</code> is the number of bits per character and <code>c1</code>,
 			...,<code>cn</code> are the codes of the characters comprising the
@@ -133,7 +129,7 @@ number <emphasis>for</emphasis> ( make_signed_nat number )
 		<para>In addition, a simple (8 bit) string can be used as a shorthand for
 			a &tdf; construct of sort <code>string</code>, as follows:</para>
 
-		<programlisting>string <emphasis>for</emphasis> ( make_string string )</programlisting>
+		<programlisting language="tnc">string <emphasis>for</emphasis> ( make_string string )</programlisting>
 	</section>
 
 	<section id="S34">
@@ -155,13 +151,13 @@ number <emphasis>for</emphasis> ( make_signed_nat number )
 		<para>The following shorthands are understood by <code>tnc</code>, according
 			to the argument sort expected:</para>
 
-<programlisting>tag_id <emphasis>for</emphasis> ( make_tag tag_id )
+<programlisting language="tnc">tag_id <emphasis>for</emphasis> ( make_tag tag_id )
 al_tag_id <emphasis>for</emphasis> ( make_al_tag al_tag_id )
 label_id <emphasis>for</emphasis> ( make_label label_id )</programlisting>
 
 		<para>The syntax for token applications is as follows:</para>
 
-<programlisting>( apply_construct ( token_id arg1 ... argn ) )</programlisting>
+<programlisting language="tnc">( apply_construct ( token_id arg1 ... argn ) )</programlisting>
 
 		<para>where <code>apply_construct</code> is the appropriate &tdf; token application
 			construct, for example, <code>exp_apply_token</code> for tokens declared
@@ -170,18 +166,18 @@ label_id <emphasis>for</emphasis> ( make_label label_id )</programlisting>
 			declaration or definition. For tokens without any arguments the alternative
 			form:</para>
 
-		<programlisting>( apply_construct token_id )</programlisting>
+		<programlisting language="tnc">( apply_construct token_id )</programlisting>
 
 		<para>is allowed.</para>
 
 		<para>The token application above may be abbreviated to:</para>
 
-		<programlisting>( token_id arg1 ... argn )</programlisting>
+		<programlisting language="tnc">( token_id arg1 ... argn )</programlisting>
 
 		<para>the result sort being known from the token declaration. This in turn
 			may be abbreviated to:</para>
 
-		<programlisting>token_id</programlisting>
+		<programlisting language="tnc">token_id</programlisting>
 
 		<para>when there are no token arguments.</para>
 

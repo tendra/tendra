@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
 	<title>Static analysis</title>
@@ -10,32 +9,32 @@
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA unreachable code <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA unreachable code <emphasis>allow</emphasis></programlisting>
 
-			<para>enables a flow analysis check to detect unreachable code.	It is possible
+		<para>enables a flow analysis check to detect unreachable code.	It is possible
 			to assert that a statement is reached or not reached by preceding
 			it by a keyword introduced by one of the directives:</para>
 
-		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for set reachable
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for set reachable
 #pragma TenDRA keyword <emphasis>identifier</emphasis> for set unreachable</programlisting>
 
 		<para>The fact that certain functions, such as <code>exit</code>, do not
 			return a value can be exploited in the flow analysis routines.	The
 			equivalent directives:</para>
 
-		<programlisting language="C++">#pragma TenDRA bottom <emphasis>identifier</emphasis>
+		<programlisting language="cpp">#pragma TenDRA bottom <emphasis>identifier</emphasis>
 #pragma TenDRA++ type <emphasis>identifier</emphasis> for bottom</programlisting>
 
-			<para>can be used to introduce a <code>typedef</code> declaration for the
+		<para>can be used to introduce a <code>typedef</code> declaration for the
 			type, bottom, returned by such functions.	The TenDRA API headers
 			declare
 			<code>exit</code> and similar functions in this way, for example:</para>
 
-		<programlisting language="C++">#pragma TenDRA bottom __bottom
+		<programlisting language="cpp">#pragma TenDRA bottom __bottom
 __bottom exit ( int ) ;
 __bottom abort ( void ) ;</programlisting>
 
-			<para>The bottom type is compatible with <code>void</code> in function declarations
+		<para>The bottom type is compatible with <code>void</code> in function declarations
 			to allow such functions to be redeclared in their conventional form.</para>
 	</section>
 
@@ -44,32 +43,43 @@ __bottom abort ( void ) ;</programlisting>
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA variable analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA variable analysis <emphasis>on</emphasis></programlisting>
 
 		<para>enables checks on the uses of automatic variables and function parameters.
 			These checks detect:</para>
 
 		<itemizedlist>
-			<listitem>If a variable is not used in its scope.</listitem>
-			<listitem>If the value of a variable is used before it has been assigned to.</listitem>
-			<listitem>If a variable is assigned to twice without an intervening use.</listitem>
-			<listitem>If a variable is assigned to twice without an intervening sequence point.</listitem>
+			<listitem>
+				<para>If a variable is not used in its scope.</para>
+			</listitem>
+
+			<listitem>
+				<para>If the value of a variable is used before it has been assigned to.</para>
+			</listitem>
+
+			<listitem>
+				<para>If a variable is assigned to twice without an intervening use.</para>
+			</listitem>
+
+			<listitem>
+				<para>If a variable is assigned to twice without an intervening sequence point.</para>
+			</listitem>
 		</itemizedlist>
 
 		<para>as illustrated by the variables <code>a</code>, <code>b</code>,
 			<code>c</code> and <code>d</code> respectively in:</para>
 
-		<programlisting language="C++">void f ()
+		<programlisting language="cpp">void f ()
 {
-	int a ;			// a never used
+	int a ;        // a never used
 	int b ;
-	int c = b ;			// b not initialised
-	c = 0 ;			// c assigned to twice
+	int c = b ;    // b not initialised
+	c = 0 ;        // c assigned to twice
 	int d = 0 ;
-	d = ++d ;			// d assigned to twice
+	d = ++d ;      // d assigned to twice
 }</programlisting>
 
-			<para>The second, and more particularly the third, of these checks requires
+		<para>The second, and more particularly the third, of these checks requires
 			some fairly sophisticated flow analysis, so any hints which can be
 			picked up from <link linkend="switch">exhaustive <code>switch</code>
 			statements</link> etc. is likely to increase the accuracy of the errors
@@ -88,20 +98,19 @@ __bottom abort ( void ) ;</programlisting>
 		<para>It is possible to change the state of a variable during the variable
 			analysis using the directives:</para>
 
-		<programlisting language="C++">#pragma TenDRA set <emphasis>expression</emphasis>
+		<programlisting language="cpp">#pragma TenDRA set <emphasis>expression</emphasis>
 #pragma TenDRA discard <emphasis>expression</emphasis></programlisting>
 
 		<para>The first asserts that the variable given by the <emphasis>expression</emphasis>
 			has been assigned to; the second asserts that the variable is not
 			used.	An alternative way of expressing this is by means of keywords:</para>
 
-		<programlisting language="C++">SET ( <emphasis>expression</emphasis> )
+		<programlisting language="cpp">SET ( <emphasis>expression</emphasis> )
 DISCARD ( <emphasis>expression</emphasis> )</programlisting>
 
 		<para>introduced using the directives.</para>
 
-		<programlisting language="C++">
-#pragma TenDRA keyword <emphasis>identifier</emphasis> for set
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for set
 #pragma TenDRA keyword <emphasis>identifier</emphasis> for discard variable</programlisting>
 
 		<para>respectively.	These expressions can appear in expression statements
@@ -119,7 +128,7 @@ DISCARD ( <emphasis>expression</emphasis> )</programlisting>
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA variable hiding analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA variable hiding analysis <emphasis>on</emphasis></programlisting>
 
 		<para>can be used to enable a check for hiding of other variables and, in
 			member functions, data members, by local variable declarations.</para>
@@ -134,15 +143,15 @@ DISCARD ( <emphasis>expression</emphasis> )</programlisting>
 			throughout the system.	However it is often useful to apply such checks,
 			which can be enabled using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ throw analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ throw analysis <emphasis>on</emphasis></programlisting>
+
 		<para>This detects any potentially uncaught exceptions and other exception
 			problems.	In the error messages arising from this check, an uncaught
 			exception of type <code>...</code> means that an uncaught exception
 			of an unknown type (arising, for example, from a function without
 			an exception specification) may be thrown.	For example:</para>
 
-		<programlisting language="C++">
-void f ( int ) throw ( int ) ;
+		<programlisting language="cpp">void f ( int ) throw ( int ) ;
 void g ( int ) throw ( long ) ;
 void h ( int ) ;
 

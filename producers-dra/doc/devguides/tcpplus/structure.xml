@@ -5,7 +5,7 @@
 	$Id$
 -->
 
-<chapter id="program">
+<chapter id="structure">
 	<title>Structural Organisation</title>
 
 	<para>This section describes the basic organisation of the
@@ -50,7 +50,7 @@
 				<listitem>
 					<para>Routines for such
 						utility operations as memory allocation and error reporting, including
-						the <A HREF="error.html">error catalogue</A>.</para>
+						the <link linkend="errors">error catalogue</link>.</para>
 				</listitem>
 			</varlistentry>
 
@@ -79,8 +79,9 @@
 				<listitem>
 					<para>Routines for outputting
 						the internal representation in various formats including as a
-						<A HREF="tdf.html">TDF capsule</A>, a <A HREF="link.html">C++ spec
-						file</A>, or a <A HREF="dump.html">symbol table dump file</A>.</para>
+						&tdf; capsule (see &tdf-spec.doc;),
+						a C++ spec file (see &tcpplus-devguide.doc;),
+						or a &tdfcdump.5; symbol table dump file.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
@@ -147,7 +148,7 @@
 				<tr>
 					<td>capsule</td>
 					<td>output</td>
-					<td>top-level TDF encoding routines</td>
+					<td>top-level &tdf; encoding routines</td>
 				</tr>
 				<tr>
 					<td>cast</td>
@@ -182,7 +183,7 @@
 				<tr>
 					<td>compile</td>
 					<td>output</td>
-					<td>TDF tag definition encoding routines</td>
+					<td>&tdf; tag definition encoding routines</td>
 				</tr>
 				<tr>
 					<td>constant</td>
@@ -232,7 +233,7 @@
 				<tr>
 					<td>diag</td>
 					<td>output</td>
-					<td>TDF diagnostic output routines</td>
+					<td>&tdf; diagnostic output routines</td>
 				</tr>
 				<tr>
 					<td>dump</td>
@@ -257,7 +258,7 @@
 				<tr>
 					<td>exp</td>
 					<td>output</td>
-					<td>TDF expression encoding routines</td>
+					<td>&tdf; expression encoding routines</td>
 				</tr>
 				<tr>
 					<td>expression</td>
@@ -287,7 +288,7 @@
 				<tr>
 					<td>init</td>
 					<td>output</td>
-					<td>TDF initialiser expression encoding routines</td>
+					<td>&tdf; initialiser expression encoding routines</td>
 				</tr>
 				<tr>
 					<td>initialise</td>
@@ -417,7 +418,7 @@
 				<tr>
 					<td>shape</td>
 					<td>output</td>
-					<td>TDF shape encoding routines</td>
+					<td>&tdf; shape encoding routines</td>
 				</tr>
 				<tr>
 					<td>statement</td>
@@ -427,12 +428,12 @@
 				<tr>
 					<td>stmt</td>
 					<td>output</td>
-					<td>TDF statement encoding routines</td>
+					<td>&tdf; statement encoding routines</td>
 				</tr>
 				<tr>
 					<td>struct</td>
 					<td>output</td>
-					<td>TDF structure encoding routines</td>
+					<td>&tdf; structure encoding routines</td>
 				</tr>
 				<tr>
 					<td>syntax[0-9]*</td>
@@ -457,12 +458,12 @@
 				<tr>
 					<td>throw</td>
 					<td>output</td>
-					<td>TDF exception handling encoding routines</td>
+					<td>&tdf; exception handling encoding routines</td>
 				</tr>
 				<tr>
 					<td>tok</td>
 					<td>output</td>
-					<td>TDF standard tokens encoding</td>
+					<td>&tdf; standard tokens encoding</td>
 				</tr>
 				<tr>
 					<td>tokdef</td>
@@ -511,7 +512,7 @@
 			tool as part of the algebra, <code>c_class.alg</code>.
 			The design of this
 			type algebra was clearly largely based on the concepts underlying
-			the C++ language; however TDF provided an important influence, not
+			the C++ language; however &tdf; provided an important influence, not
 			merely as the intended target language, but also because of its clear
 			presentation of essential language features.</para>
 
@@ -793,14 +794,14 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 				that overload resolution has been performed.</para>
 		</section>
 
-		<section id="identifier">
+		<section id="id">
 			<title><code>IDENTIFIER</code></title>
 
 			<para>The union type <code>IDENTIFIER</code> (<code>id</code>) is used to
 				represent the various kinds of C++ identifiers.  Every identifier
 				has an associated <link linkend="hashid">identifier name</link>, a parent
 				<link linkend="nspace">namespace</link>, a <link linkend="dspec">declaration information</link>
-				field, and a <link linkend="loc">location</link> for its declaration or definition.
+				field, and a <link linkend="location">location</link> for its declaration or definition.
 				Each identifier also has an
 				<code>alias</code> field which is normally used to represent the aliasing
 				which can occur in inheritance or <code>using</code>
@@ -938,7 +939,7 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 			<para>The enumeration type <code>NTEST</code> (<code>ntest</code>) is used
 				to represent the various C++ relational operators (<code>==</code>,
 				<code>!=</code>, <code>&gt;</code> etc.).  The values correspond to
-				the encoding of the TDF <code>NTEST</code> sort, which facilitates
+				the encoding of the &tdf; <code>NTEST</code> sort, which facilitates
 				code generation.  The values also have the property that the values
 				for complementary operators (such as <code>&lt;</code> and
 				<code>&gt;=</code>) always add up to the same value,
@@ -982,11 +983,11 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 				pointers to be maintained to the start and end of the list without
 				having to worry about null lists.</para>
 
-			<para><A id="solve">The <code>solve_stmt</code> field corresponds to the
-				TDF <code>labelled</code> construct</A> (in early versions of TDF
+			<para>The <code>solve_stmt</code> field corresponds to the
+				&tdf; <code>labelled</code> construct (in early versions of TDF
 				this construct was called <code>solve</code>, hence the terminology).
 				The problem is that C and C++ labels and <code>goto</code>s are totally
-				unstructured, whereas the TDF label constructs are structured.  Any
+				unstructured, whereas the &tdf; label constructs are structured.  Any
 				statement which contains unstructured labels is enclosed in a
 				<code>solve_stmt</code> construct, enclosing both the labelled statement
 				and all jumps to it (in general this cannot be done until the end
@@ -1014,7 +1015,7 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 			<para>The union type <code>TOKEN</code> (<code>tok</code>) is used to represent
 				one of a number of different categories within the C++ language.
 				It corresponds to the sort of a token declared using the
-				<A HREF="token.html"><code>#pragma token</code> syntax</A>.  Thus
+				&tdfcpragma.5; <code>#pragma token</code> syntax.  Thus
 				there are fields corresponding to expression, statement, integer constant,
 				type, function, member and procedure tokens.  The similarities between
 				<code>PROC</code> tokens and templates have been remarked above; for
@@ -1025,9 +1026,11 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
     // ....
 } ;</programlisting>
 
-			<para>are essentially equivalent to those in the procedure token:
-				<programlisting language="cpp">PROC ( TYPE T, EXP const : int : n ) ....</programlisting>
-				(recall that non-type template arguments are always constant expressions).
+			<para>are essentially equivalent to those in the procedure token:</para>
+
+			<programlisting language="cpp">PROC ( TYPE T, EXP const : int : n ) ....</programlisting>
+
+			<para>(recall that non-type template arguments are always constant expressions).
 				Thus a field, <code>templ</code>, of the <code>TOKEN</code> union
 				is used to represent lists of template parameters.  Note that a further
 				field, <code>class</code>, is also required to represent template
@@ -1052,8 +1055,8 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 			<para>representing the given token <link linkend="id">identifier</link> applied
 				to the given list of arguments.</para>
 
-			<para><A id="form">Template instances are represented slightly differently
-				from token applications</A>.  Each instance of a template class or
+			<para>Template instances are represented slightly differently
+				from token applications.  Each instance of a template class or
 				a template function gives rise to a new class or function
 				<link linkend="id">identifier</link>.  This identifier has an underlying form
 				giving the template identifier and the template arguments.  This is
@@ -1085,7 +1088,7 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 				are stored as part of the corresponding
 				<code>INSTANCE</code>.  Each template instance identifier has a link
 				back to its corresponding <code>INSTANCE</code> via its
-				<link linkend="form"><code>form</code> component</link>.</para>
+				<code>form</code> component.</para>
 		</section>
 
 		<section id="err">
@@ -1105,7 +1108,7 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 
 				<para>The chief operation on an error after it has been built up is to report
 				it.  Each error report consists of an error object and a
-				<link linkend="loc">file location</link> indicating where the error occurred.</para>
+				<link linkend="location">file location</link> indicating where the error occurred.</para>
 		</section>
 
 		<section id="var">
@@ -1141,7 +1144,7 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 				line number taking <code>#line</code> directives into account and
 				the actual line number.  Other information stored includes the datestamp
 				on the input file, <code>datestamp</code>, and a pointer to a
-				<link linkend="loc">file location</link> which, for files included using
+				<link linkend="location">file location</link> which, for files included using
 				<code>#include</code>, gives the location the file was included from.</para>
 		</section>
 
@@ -1165,7 +1168,7 @@ PPTOKEN_P (pptok) = &quot;PPTOKEN *&quot; ;</programlisting>
 
 			<para>The structure <code>OPTIONS</code> is not part of the <code>calculus</code>
 				type system.  It is used to represent the state of the
-				<A HREF="pragma.html#low">compiler options</A> at a particular point
+				&tdfcpragma.5; compiler options at a particular point
 				in the input file.</para>
 		</section>
 

@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="wbS82">Dialect Features</title>
+	<title>Dialect Features</title>
 
 	<para>This chapter describes the capabilities of the TenDRA C checker for
 		enforcing the ISO C standard as well as features for detecting areas
@@ -13,13 +12,12 @@
 		may contain non-standard constructs.</para>
 
 	<section>
-		<title id="1">Resolving linkage problems</title>
+		<title>Resolving linkage problems</title>
 
 		<para>Often the way that identifier names are resolved can alter the
 			semantics of a program. For example, in:</para>
 
-		<programlisting language="C">
-void f () {
+		<programlisting language="c">void f () {
 	{
 		extern void g ();
 		g ( 3 );
@@ -32,13 +30,13 @@ void f () {
 			<code>g</code>, it is not in scope, and so is inferred to have
 			declaration:</para>
 
-		<programlisting language="C">extern int g ();</programlisting>
+		<programlisting language="c">extern int g ();</programlisting>
 
 		<para>(see 3.4). This conflicts with the previous declaration of
 			<code>g</code> which, although not in scope, has been registered
 			in the external namespace. The pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA unify external linkage on</programlisting>
+		<programlisting language="c">#pragma TenDRA unify external linkage on</programlisting>
 
 		<para>modifies the algorithm for resolving external linkage by
 			searching the external namespace before inferring a declaration. In
@@ -51,8 +49,7 @@ void f () {
 		<para>Another linkage problem, which is left undefined in the ISO C
 			standard, is illustrated by the following program:</para>
 
-		<programlisting language="C">
-int f ()
+		<programlisting language="c">int f ()
 {
 	extern int g ();
 	return ( g () );
@@ -73,7 +70,7 @@ static int g ()
 			the two uses of <code>g</code> are identified. The resolution
 			algorithm can be set using:</para>
 
-		<programlisting language="C">#pragma TenDRA linkage resolution : <emphasis>action</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA linkage resolution : <emphasis>action</emphasis></programlisting>
 
 		<para>where <emphasis>action</emphasis> can be one of:</para>
 
@@ -114,7 +111,7 @@ static int g ()
 	</section>
 
 	<section>
-		<title id="5">Identifier linkage</title>
+		<title>Identifier linkage</title>
 
 		<para>The ISO C standard, section 6.1.2.2, states that <quote>if,
 			within a translation unit, an identifier appears with both internal
@@ -123,7 +120,7 @@ static int g ()
 			linkage. The check to detect variables which are redeclared with
 			incompatible linkage is controlled using:</para>
 
-		<programlisting language="C">#pragma TenDRA incompatible linkage <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA incompatible linkage <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> may be <code>allow</code>
 			(default mode), <code>warning</code> (warn about incompatible
@@ -132,22 +129,22 @@ static int g ()
 	</section>
 
 	<section>
-		<title id="7">7.4 Implicit integer types</title>
+		<title>7.4 Implicit integer types</title>
 
 		<para>Older C dialects allow external variables to be specified without
 			a type, the type <code>int</code> being inferred. Thus, for
 			example:</para>
 
-		<programlisting language="C">a, b;</programlisting>
+		<programlisting language="c">a, b;</programlisting>
 
 		<para>is equivalent to:</para>
 
-		<programlisting language="C">int a, b;</programlisting>
+		<programlisting language="c">int a, b;</programlisting>
 
 		<para>By default these inferred declarations are not permitted, though
 			tchk's behaviour can be modified using:</para>
 
-		<programlisting language="C">#pragma TenDRA implicit int type for external declaration <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA implicit int type for external declaration <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code>,
 			<code>warning</code> or <code>disallow</code>.</para>
@@ -156,8 +153,7 @@ static int g ()
 			considered bad style by some, is the inference of an int return
 			type for functions defined in the form:</para>
 
-		<programlisting language="C">
-f ( int n )
+		<programlisting language="c">f ( int n )
 {
 	....
 }</programlisting>
@@ -165,14 +161,14 @@ f ( int n )
 		<para>the checker's treatment of such functions can be determined
 			using:</para>
 
-		<programlisting language="C">#pragma TenDRA implicit int type for function return <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA implicit int type for function return <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> can be <code>allow</code>,
 			<code>warning</code> or <code>disallow</code>.</para>
 	</section>
 
 	<section>
-		<title id="9">Bitfield types</title>
+		<title>Bitfield types</title>
 
 		<para>The ISO C standard only allows <code>signed int</code>,
 			<code>unsigned int</code> and their equivalent types as type
@@ -181,7 +177,7 @@ f ( int n )
 			specifiers in bitfields. This behaviour may be modified using
 			the pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA extra int bitfield type <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA extra int bitfield type <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is one of <code>allow</code>
 			(no errors raised), <code>warning</code> (allow non-int bitfields
@@ -195,7 +191,7 @@ f ( int n )
 			plain <code>char</code> is treated as <code>signed</code> or
 			<code>unsigned</code> is implementation-dependent. The pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA character<emphasis> set-sign</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA character<emphasis> set-sign</emphasis></programlisting>
 
 		<para>where <emphasis>set-sign</emphasis> is <code>signed</code>,
 			<code>unsigned</code> or <code>either</code>, can be used to specify
@@ -210,13 +206,13 @@ f ( int n )
 	</section>
 
 	<section>
-		<title id="13">Extra type definitions</title>
+		<title>Extra type definitions</title>
 
 		<para>In accordence with the ISO C standard, in default mode tchk does
 			not allow a type to be defined more than once using a
 			<code>typedef</code>. The pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA extra type definition <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA extra type definition <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code>
 			(silently accepts redefinitions, provided they are consistent),
@@ -224,7 +220,7 @@ f ( int n )
 	</section>
 
 	<section>
-		<title id="15">Static block level functions</title>
+		<title>Static block level functions</title>
 
 		<para>The ISO C standard (Section 6.5.1) states that the declaration of
 			an identifier for a function that has block scope shall have no
@@ -232,7 +228,7 @@ f ( int n )
 			tchk raises an error for declarations which do not conform to this
 			rule. The behaviour can be modified using:</para>
 
-		<programlisting language="C">#pragma TenDRA block function static <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA block function static <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code>
 			(accept block scope function declarations with other storage-class
@@ -240,7 +236,7 @@ f ( int n )
 	</section>
 
 	<section>
-		<title id="17">Incomplete array element types</title>
+		<title>Incomplete array element types</title>
 
 		<para>The ISO C standard (Section 6.1.2.5) states that an incomplete
 			type e.g an undefined structure or union type, is not an object
@@ -248,7 +244,7 @@ f ( int n )
 			behaviour of the checker causes errors when incomplete types are
 			used to specify array element types. The pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA incomplete type as object type <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA incomplete type as object type <emphasis>permit</emphasis></programlisting>
 
 		<para>can be used to alter the treatment of array declarations with
 			incomplete element types. <emphasis>permit</emphasis> is one of
@@ -257,14 +253,14 @@ f ( int n )
 	</section>
 
 	<section>
-		<title id="19">Forward enumeration declarations</title>
+		<title>Forward enumeration declarations</title>
 
 		<para>The ISO C Standard (Section 6.5.2.3) states that the first
 			introduction of an enumeration tag shall declare the constants
 			associated with that tag. This rule is enforced by the checker in
 			default mode, however it can be relaxed using the pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA forward enum declaration <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA forward enum declaration <emphasis>permit</emphasis></programlisting>
 
 		<para>where replacing <emphasis>permit</emphasis> by <code>allow</code>
 			permits the declaration and use of an enumeration tag before the
@@ -274,20 +270,19 @@ f ( int n )
 	</section>
 
 	<section>
-		<title id="21">Untagged compound types</title>
+		<title>Untagged compound types</title>
 
 		<para>The ISO C standard states that a declaration must declare at
 			least a declarator, a tag or the members of an enumeration. The
 			checker detects such declarations and, by default, raises an error.
 			The severity of the errors can be altered by:</para>
 
-		<programlisting language="C">#pragma TenDRA unknown struct/union <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA unknown struct/union <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> may be <code>allow</code> to
 			allow code such as:</para>
 
-		<programlisting language="C">
-struct {
+		<programlisting language="c">struct {
 	int i;
 	int j;
 };</programlisting>
@@ -298,11 +293,11 @@ struct {
 	</section>
 
 	<section>
-		<title id="23">External volatility</title>
+		<title>External volatility</title>
 
 		<para>The inclusion of the pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA external volatile_t</programlisting>
+		<programlisting language="c">#pragma TenDRA external volatile_t</programlisting>
 
 		<para>instructs the checker thereafter to treat any object declared
 			with external linkage (ISO C standard Section 6.1.2.2) as if it
@@ -313,7 +308,7 @@ struct {
 	</section>
 
 	<section>
-		<title id="25">Identifier name length</title>
+		<title>Identifier name length</title>
 
 		<para>Under the ISO C standard rules on identifier name length, an
 			implementation is only required to treat the first 31 characters
@@ -323,7 +318,7 @@ struct {
 			name, to prevent unexpected results when the application is moved to
 			a new implementation. The limit is set using:</para>
 
-		<programlisting language="C">#pragma TenDRA set name limit <emphasis>integer_constant</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA set name limit <emphasis>integer_constant</emphasis></programlisting>
 
 		<para>There is currently no distinction made between external and
 			internal names for length checking. Identifier name lengths are not
@@ -331,14 +326,13 @@ struct {
 	</section>
 
 	<section>
-		<title id="27">Ellipsis in function calls</title>
+		<title>Ellipsis in function calls</title>
 
 		<para>An ellipsis is not an identifier and should not be used in a
 			function call, even if, as in the program below, the function
 			prototype contains an ellipsis:</para>
 
-		<programlisting language="C">
-int f (int a, ...)
+		<programlisting language="c">int f (int a, ...)
 {
 	return 1;
 }
@@ -354,7 +348,7 @@ int main()
 			used as a parameter in a function call. The severity of this
 			error can be modified by using:</para>
 
-		<programlisting language="C">#pragma TenDRA ident ... <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA ident ... <emphasis>permit</emphasis></programlisting>
 
 		<para>If <emphasis>permit</emphasis> is replaced by <code>allow</code>
 			the ellipsis is ignored, if <code>warning</code> is used tchk
@@ -363,13 +357,12 @@ int main()
 	</section>
 
 	<section>
-		<title id="29">Conditional lvalues</title>
+		<title>Conditional lvalues</title>
 
 		<para>The <code>?</code> operator cannot normally be used to define an
 			lvalue, so that for example, the program:</para>
 
-		<programlisting language="C">
-struct s {
+		<programlisting language="c">struct s {
 	int a, b;
 };
 
@@ -380,7 +373,7 @@ void f ( int n, struct s *s1, struct s *s2 )
 
 		<para>is not allowed in ISO C. The pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA conditional lvalue allow</programlisting>
+		<programlisting language="c">#pragma TenDRA conditional lvalue allow</programlisting>
 
 		<para>allows conditional lvalues if:</para>
 
@@ -399,7 +392,7 @@ void f ( int n, struct s *s1, struct s *s2 )
 	</section>
 
 	<section>
-		<title id="31">Unifying the tag name space</title>
+		<title>Unifying the tag name space</title>
 
 		<para>Each object in the tag name space is associated with a
 			classification (<code>struct</code>, <code>union</code> or
@@ -408,7 +401,7 @@ void f ( int n, struct s *s1, struct s *s2 )
 			the checker produces an error by default. However, the
 			pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA ignore struct/union/enum tag <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA ignore struct/union/enum tag <emphasis>status</emphasis></programlisting>
 
 		<para>may be used to change the severity of the error. The options for
 			<emphasis>status</emphasis> are: <code>on</code> (allows a tag to
@@ -418,13 +411,12 @@ void f ( int n, struct s *s1, struct s *s2 )
 	</section>
 
 	<section>
-		<title id="33">Initialisation of compound types</title>
+		<title>Initialisation of compound types</title>
 
 		<para>Many older C dialects do not allow the initialisation of automatic
 			variables of compound type. Thus, for example:</para>
 
-		<programlisting language="C">
-void f ()
+		<programlisting language="c">void f ()
 {
 	struct {
 		int a;
@@ -437,7 +429,7 @@ void f ()
 			the ISO C standard. The checker's behaviour may be changed
 			using:</para>
 
-		<programlisting language="C">#pragma TenDRA initialization of struct/union (auto) <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA initialization of struct/union (auto) <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code>,
 			<code>warning</code> or <code>disallow</code>. This feature is
@@ -447,14 +439,14 @@ void f ()
 	</section>
 
 	<section>
-		<title id="35">Variable initialisation</title>
+		<title>Variable initialisation</title>
 
 		<para>The ISO C standard (Section 6.5.7) states that all expressions in
 			an initialiser for an object that has static storage duration or in
 			an initialiser-list for an object that has aggregate or union type
 			shall be constant expressions. The pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA variable initialization <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA variable initialization <emphasis>permit</emphasis></programlisting>
 
 		<para>may be used to allow non-constant initialisers if
 			<emphasis>permit</emphasis> is replaced by <code>allow</code>. The
@@ -464,14 +456,14 @@ void f ()
 	</section>
 
 	<section>
-		<title id="36">Escape sequences</title>
+		<title>Escape sequences</title>
 
 		<para>The ISO C standard specifies a small set of escape sequences in
 			strings, for example <code>\n</code> as newline. Unknown escape
 			sequences lead to an error in the default mode , however the
 			severity of the error may be altered using:</para>
 
-		<programlisting language="C">#pragma TenDRA unknown escape <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA unknown escape <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code> (silently
 			replaces the unknown escape sequence, <emphasis>\z</emphasis> say,
@@ -480,12 +472,12 @@ void f ()
 	</section>
 
 	<section>
-		<title id="39"><code>$</code> in identifier names</title>
+		<title><code>$</code> in identifier names</title>
 
 		<para>The ISO C standard (Section 6.1) states that the use of the character
 			<code>$</code> in identifier names is illegal. The pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA dollar as ident allow</programlisting>
+		<programlisting language="c">#pragma TenDRA dollar as ident allow</programlisting>
 
 		<para>can be used to allow such identifiers, which by default are flagged
 			as errors. There is also a <code>disallow</code> variant which restores
@@ -493,31 +485,31 @@ void f ()
 	</section>
 
 	<section>
-		<title id="41">Writeable string literals</title>
+		<title>Writeable string literals</title>
 
 		<para>The ISO C standard, section 6.1.4, states that <quote>if the
 			program attempts to modify a string literal of either form, the
 			behaviour is undefined</quote>. Assignments to string literals of
 			the form:</para>
 
-		<programlisting language="C">"abc" = '3';</programlisting>
+		<programlisting language="c">"abc" = '3';</programlisting>
 
 		<para>always result in errors. Other attempts to modify members of
 			string literals, e.g.</para>
 
-		<programlisting language="C">"abc"[1] = '3';</programlisting>
+		<programlisting language="c">"abc"[1] = '3';</programlisting>
 
 		<para>are permitted in the default checking mode. This behaviour can be
 			changed using:</para>
 
-		<programlisting language="C">#pragma TenDRA writeable string literal <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA writeable string literal <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> may be <code>allow</code>,
 			<code>warning</code> or <code>disallow</code>.</para>
 	</section>
 
 	<section>
-		<title id="43">Concatenation of character string literals
+		<title>Concatenation of character string literals
 			and wide character string literals</title>
 
 		<para>The ISO C standard, section 6.1.4, states that if a character
@@ -525,7 +517,7 @@ void f ()
 			behaviour is undefined. By default, this is flagged as an error by
 			the checker. If the pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA unify incompatible string literal <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA unify incompatible string literal <emphasis>permit</emphasis></programlisting>
 
 		<para>is used, with <emphasis>permit</emphasis> set to
 			<code>allow</code> or <code>warning</code> the character string
@@ -536,7 +528,7 @@ void f ()
 	</section>
 
 	<section>
-		<title id="45">Nested comments</title>
+		<title>Nested comments</title>
 
 		<para>The occurence of the <code>/*</code> characters inside a C
 			comment, i.e. text surrounded by the <code>/*</code> and
@@ -545,7 +537,7 @@ void f ()
 			comments are processed silently, however an error or warning can be
 			produced by setting:</para>
 
-		<programlisting language="C">#pragma TenDRA nested comment analysis <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA nested comment analysis <emphasis>status</emphasis></programlisting>
 
 		<para>with <emphasis>status</emphasis> as <code>on</code> or
 			<code>warning</code>. If <emphasis>status</emphasis> is
@@ -553,7 +545,7 @@ void f ()
 	</section>
 
 	<section>
-		<title id="50">Empty source files</title>
+		<title>Empty source files</title>
 
 		<para>The ISO standard states that each source file should contain at
 			least one declaration or definition. Source files which contain no
@@ -561,7 +553,7 @@ void f ()
 			checker in default mode. The severity of the error may be altered
 			using:</para>
 
-		<programlisting language="C">#pragma TenDRA no external declaration <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA no external declaration <emphasis>permit</emphasis></programlisting>
 
 		<para>where the options for <emphasis>permit</emphasis> are
 			<code>allow</code> (no errors raised), <code>warning</code>
@@ -569,17 +561,17 @@ void f ()
 	</section>
 
 	<section>
-		<title id="52">Extra commas</title>
+		<title>Extra commas</title>
 
 		<para>The ISO C standard does not allow extra commas in enumeration
 			type declarations e.g.</para>
 
-		<programlisting language="C">enum e = { red , orange , yellow , };</programlisting>
+		<programlisting language="c">enum e = { red , orange , yellow , };</programlisting>
 
 		<para>The extra comma at the end of the declaration is flagged as an
 			error by default, but this behaviour may be changed by using:</para>
 
-		<programlisting language="C">#pragma TenDRA extra , <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA extra , <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> has the usual
 			<code>allow</code>, <code>disallow</code> and <code>warning</code>
@@ -587,14 +579,13 @@ void f ()
 	</section>
 
 	<section>
-		<title id="54">Extra semicolons</title>
+		<title>Extra semicolons</title>
 
 		<para>Some dialects of C allow extra semicolons at the external
 			declaration and definition level in contravention of the ISO C
 			standard. For example, the program:</para>
 
-		<programlisting language="C">
-int f ()
+		<programlisting language="c">int f ()
 {
 	return ( 0 );
 };</programlisting>
@@ -603,7 +594,7 @@ int f ()
 			default, but the errors raised may be reduced to warning or
 			suppressed entirely using:</para>
 
-		<programlisting language="C">#pragma TenDRA extra ; <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA extra ; <emphasis>permit</emphasis></programlisting>
 
 		<para>with <emphasis>permit</emphasis> as <code>warning</code> or
 			<code>allow</code>. The <code>disallow</code> options restores
@@ -611,12 +602,12 @@ int f ()
 	</section>
 
 	<section>
-		<title id="56">Compatibility with C++ to TDF producer</title>
+		<title>Compatibility with C++ to TDF producer</title>
 
 		<para>In the interests of compatibility between the C checker and the
 			new C++ checker, all pragmas beginning:</para>
 
-		<programlisting language="C">#pragma TenDRA ++</programlisting>
+		<programlisting language="c">#pragma TenDRA ++</programlisting>
 
 		<para>are silently ignored by tchk.</para>
 	</section>

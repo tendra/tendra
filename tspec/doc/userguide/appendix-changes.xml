@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -9,6 +8,7 @@
 <appendix id="S7">
 	<title>Changes in tspec 2.0</title>
 	
+	<!-- TODO: proper changelog (perhaps as revhistory?) -->
 	<para>This document describes <code>tspec</code> version 2.0.
 		<code>tspec</code> 2.0 contains significant changes from previous
 		releases. For convenience the main changes which are visible to the

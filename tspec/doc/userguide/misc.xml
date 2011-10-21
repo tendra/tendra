@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -25,8 +24,7 @@
 			corresponding to <code>+IMPLEMENT</code> and <code>+USE</code>
 			commands. This takes the forms:</para>
 
-		<programlisting language="Tspec">
-+IMPLEMENT "api" (key) ;
+		<programlisting language="tspec">+IMPLEMENT "api" (key) ;
 +IMPLEMENT "api", "header" (key) ;
 +IMPLEMENT "api", "header", "subset" (key) ;</programlisting>
 
@@ -34,26 +32,39 @@
 			specifies which output files the inclusion commands should appear
 			in. It can be:</para>
 
-		<itemizedlist>
-			<listitem>
-				<para><code>??</code>, indicating neither output file,</para>
-			</listitem>
-			
-			<listitem>
-				<para><code>!?</code>, indicating the include output file
-					only,</para>
-			</listitem>
-			
-			<listitem>
-				<para><code>?!</code>, indicating the source output file
-					only,</para>
-			</listitem>
-			
-			<listitem>
-				<para><code>!!</code>, indicating both output files (this is the
-					same as the normal form).</para>
-			</listitem>
-		</itemizedlist>
+		<table>
+			<col align="center"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Key</th>
+					<th>Ouput files</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>??</code></td>
+					<td>Neither output file</td>
+				</tr>
+				
+				<tr>
+					<td><code>!?</code></td>
+					<td>Include output file only</td>
+				</tr>
+				
+				<tr>
+					<td><code>?!</code></td>
+					<td>Source output file only</td>
+				</tr>
+				
+				<tr>
+					<td><code>!!</code></td>
+					<td>Both output files (default)</td>
+				</tr>
+			</tbody>
+		</table>
 
 		<para>The second refinement comes from the fact that APIs fall into
 			two categories - the base APIs, such as <code>ansi</code>,
@@ -64,8 +75,7 @@
 			and so on. Base APIs may be distinguished in <code>tspec</code>
 			by including the command:</para>
 
-		<programlisting language="Tspec">
-+BASE_API ;</programlisting>
+		<programlisting language="tspec">+BASE_API ;</programlisting>
 
 		<!-- TODO: update MASTER when the filename changes -->
 		<para>in their <code>MASTER</code> file. Occasionally, in an extension
@@ -73,8 +83,7 @@
 			but, because this base API is not fixed, not be able to use a simple
 			<code>+USE</code> command. Instead the special form:</para>
 
-		<programlisting language="Tspec">
-+USE ( "api" ), "header" ;</programlisting>
+		<programlisting language="tspec">+USE ( "api" ), "header" ;</programlisting>
 
 		<para>is provided for this purpose (this is the only permitted form). It
 			indicates that <code>tspec</code> should use the <code>api</code>
@@ -88,8 +97,7 @@
 		<para>Each include output file is surrounded by a construct of the
 			form:</para>
 
-		<programlisting language="C">
-#ifndef MACRO
+		<programlisting language="c">#ifndef MACRO
 #define MACRO
 ....
 #endif /* MACRO */</programlisting>
@@ -143,8 +151,7 @@
 			implemented header <code>api:header</code> containing something
 			like:</para>
 
-				<programlisting language="C">
-#pragma implement interface &lt;../api/header&gt;
+				<programlisting language="c">#pragma implement interface &lt;../api/header&gt;
 #include &lt;header&gt;</programlisting>
 
 		<para>There are other methods whereby the source output file may be
@@ -155,8 +162,7 @@
 			to produce the definitions for the basic C tokens for the system. As
 			another example consider:</para>
 
-		<programlisting language="Tspec">
-$METHOD = "TNC" ;
+		<programlisting language="tspec">$METHOD = "TNC" ;
 +MACRO double fl_abs ( double ) ;
 %%%
 	( make_tokdef fl_abs ( exp x ) exp
@@ -168,8 +174,7 @@ $METHOD = "TNC" ;
 			The <code>TNC</code> method tells <code>MAKE_LIBS</code> that the
 			source output file, which will just contain the quoted text:</para>
 
-		<programlisting language="TNC">
-( make_tokdef fl_abs ( exp x ) exp
+		<programlisting language="tnc">( make_tokdef fl_abs ( exp x ) exp
 	( floating_abs impossible x ) )</programlisting>
 
 		<para>is an input file for the TDF notation compiler, <code>tnc</code>

@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
 	<title>Configuration for expressions</title>
@@ -15,13 +14,12 @@
 			any combination of the conversions performed by these three constructs.
 			To aid migration to the new style casts the directives:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ explicit cast as <emphasis>cast-state allow</emphasis>
+		<programlisting language="cpp">#pragma TenDRA++ explicit cast as <emphasis>cast-state allow</emphasis>
 #pragma TenDRA++ explicit cast <emphasis>allow</emphasis></programlisting>
 
-			<para>where <emphasis>cast-state</emphasis> is defined as follows:</para>
+		<para>where <emphasis>cast-state</emphasis> is defined as follows:</para>
 
-		<programlisting language="BNF">
-		<emphasis>cast-state</emphasis> :
+		<programlisting language="bnf"><emphasis>cast-state</emphasis> :
 			static_cast
 			const_cast
 			reinterpret_cast
@@ -29,14 +27,14 @@
 			const_cast | <emphasis>cast-state</emphasis>
 			reinterpret_cast | <emphasis>cast-state</emphasis></programlisting>
 
-			<para>can be used to restrict the conversions which can be performed using
+		<para>can be used to restrict the conversions which can be performed using
 			explicit casts.	The first form sets the interpretation of explicit
 			cast to be combinations of the given constructs; the second resets
 			the interpretation to the default.	For example:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ explicit cast as static_cast | const_cast allow</programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ explicit cast as static_cast | const_cast allow</programlisting>
 
-			<para>means that conversions requiring <code>reinterpret_cast</code> (the
+		<para>means that conversions requiring <code>reinterpret_cast</code> (the
 			most unportable conversions) will not be allowed to be performed using
 			explicit casts, but will have to be given as a <code>reinterpret_cast</code>
 			construct.	Changing <code>allow</code> to <code>warning</code> will
@@ -48,7 +46,7 @@
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA operator precedence analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA operator precedence analysis <emphasis>on</emphasis></programlisting>
 
 		<para>can be used to enable a check for expressions where the operator precedence
 			is not necessarily what might be expected.	The intended precedence
@@ -57,27 +55,31 @@
 
 		<itemizedlist>
 			<listitem>
-				<code>&amp;&amp;</code> versus <code>||</code>.
+				<para><code>&amp;&amp;</code> versus <code>||</code>.</para>
 			</listitem>
+
 			<listitem>
-				<code>&lt;&lt;</code> and <code>&gt;&gt;</code> versus binary
-				<code>+</code> and <code>-</code>.
+				<para><code>&lt;&lt;</code> and <code>&gt;&gt;</code> versus binary
+					<code>+</code> and <code>-</code>.</para>
 			</listitem>
+
 			<listitem>
-				Binary <code>&amp;</code> versus binary <code>+</code>,		 <code>-</code>,
-				<code>==</code>, <code>!=</code>, <code>&gt;</code>,		 <code>&gt;=</code>,
-				<code>&lt;</code> and <code>&lt;=</code>.
+				<para>Binary <code>&amp;</code> versus binary <code>+</code>,		 <code>-</code>,
+					<code>==</code>, <code>!=</code>, <code>&gt;</code>,		 <code>&gt;=</code>,
+					<code>&lt;</code> and <code>&lt;=</code>.</para>
 			</listitem>
+
 			<listitem>
-				<code>^</code> versus binary <code>&amp;</code>, <code>+</code>,
-				<code>-</code>, <code>==</code>, <code>!=</code>, <code>&gt;</code>,
-				<code>&gt;=</code>, <code>&lt;</code> and <code>&lt;=</code>.
+				<para><code>^</code> versus binary <code>&amp;</code>, <code>+</code>,
+					<code>-</code>, <code>==</code>, <code>!=</code>, <code>&gt;</code>,
+					<code>&gt;=</code>, <code>&lt;</code> and <code>&lt;=</code>.</para>
 			</listitem>
+
 			<listitem>
-				<code>|</code> versus binary <code>^</code>, <code>&amp;</code>,
-				<code>+</code>, <code>-</code>, <code>==</code>, <code>!=</code>,
-				<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code> and		 <code>&lt;=
-				</code>.
+				<para><code>|</code> versus binary <code>^</code>, <code>&amp;</code>,
+					<code>+</code>, <code>-</code>, <code>==</code>, <code>!=</code>,
+					<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code> and
+					<code>&lt;=</code>.</para>
 			</listitem>
 		</itemizedlist>
 
@@ -85,36 +87,36 @@
 			which do not have their normal mathematical meaning.	For example,
 			in:</para>
 
-		<programlisting language="C++">d = a &lt;&lt; b + c ;	// precedence is a &lt;&lt; ( b + c )</programlisting>
+		<programlisting language="cpp">d = a &lt;&lt; b + c ;	// precedence is a &lt;&lt; ( b + c )</programlisting>
 
-			<para>the precedence is counter-intuitive, although strangely enough, it
+		<para>the precedence is counter-intuitive, although strangely enough, it
 			isn't in:</para>
 
-		<programlisting language="C++">cout &lt;&lt; b + c ;		// precedence is cout &lt;&lt; ( b + c )</programlisting>
+		<programlisting language="cpp">cout &lt;&lt; b + c ;		// precedence is cout &lt;&lt; ( b + c )</programlisting>
 
 		<para>Other dubious arithmetic operations can be checked for using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA integer operator analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA integer operator analysis <emphasis>on</emphasis></programlisting>
 
-			<para>This includes checks for operations, such as division by a negative
+		<para>This includes checks for operations, such as division by a negative
 			value, which are implementation dependent, and those such as testing
 			whether an unsigned value is less than zero, which serve no purpose.
 			Similarly the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ pointer operator analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ pointer operator analysis <emphasis>on</emphasis></programlisting>
 
-			<para>checks for dubious pointer operations.	This includes very simple
+		<para>checks for dubious pointer operations.	This includes very simple
 			bounds checking for arrays and checking that only the simple literal
 			<code>0</code>
 			is used in null pointer constants:</para>
 
-		<programlisting language="C++">char *p = 1 - 1 ;	// valid, but weird</programlisting>
+		<programlisting language="cpp">char *p = 1 - 1 ;	// valid, but weird</programlisting>
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA integer overflow analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA integer overflow analysis <emphasis>on</emphasis></programlisting>
 
-			<para>is used to control the treatment of overflows in the evaluation of
+		<para>is used to control the treatment of overflows in the evaluation of
 			integer constant expressions.	This includes the detection of division
 			by zero.</para>
 	</section>
@@ -125,22 +127,22 @@
 		<para>C, but not C++, only allows constant expressions in static initialisers.
 			The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA variable initialization <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA variable initialization <emphasis>allow</emphasis></programlisting>
 
-			<para>can be enable support for C++-style dynamic initialisers.	Conversely,
+		<para>can be enable support for C++-style dynamic initialisers.	Conversely,
 			it can be used in C++ to detect such dynamic initialisers.</para>
 
 		<para>In older dialects of C it was not possible to initialise an automatic
 			variable of structure or union type.	This can be checked for using
 			the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA initialization of struct/union (auto) <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA initialization of struct/union (auto) <emphasis>allow</emphasis></programlisting>
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ complete initialization analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ complete initialization analysis <emphasis>on</emphasis></programlisting>
 
-			<para>can be used to check aggregate initialisers.	The initialiser should
+		<para>can be used to check aggregate initialisers.	The initialiser should
 			be fully bracketed (i.e. with no elision of braces), and should have
 			an entry for each member of the structure or array.</para>
 	</section>
@@ -151,18 +153,18 @@
 		<para>C++ defines the results of several operations to be lvalues, whereas
 			they are rvalues in C.	The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA conditional lvalue <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA conditional lvalue <emphasis>allow</emphasis></programlisting>
 
-			<para>is used to apply the C++ rules for lvalues in conditional (<code>?:</code>)
+		<para>is used to apply the C++ rules for lvalues in conditional (<code>?:</code>)
 			expressions.</para>
 
 		<para>Older dialects of C++ allowed <code>this</code> to be treated as an
 			lvalue. It is possible to enable support for this dialect feature
 			using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ this lvalue <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ this lvalue <emphasis>allow</emphasis></programlisting>
 
-			<para>however it is recommended that programs using this feature should
+		<para>however it is recommended that programs using this feature should
 			be modified.</para>
 	</section>
 
@@ -171,39 +173,39 @@
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA discard analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA discard analysis <emphasis>on</emphasis></programlisting>
 
-			<para>can be used to enable a check for values which are calculated but
+		<para>can be used to enable a check for values which are calculated but
 			not used.	There are three checks controlled by this directive, each
 			of which can be controlled independently.	The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA discard analysis (function return) <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA discard analysis (function return) <emphasis>on</emphasis></programlisting>
 
-			<para>checks for functions which return a value which is not used.	The
+		<para>checks for functions which return a value which is not used.	The
 			check needs to be enabled for both the declaration and the call of
 			the function in order for a discarded function return to be reported.
 			Discarded returns for overloaded operator functions are never reported.
 			The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA discard analysis (value) <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA discard analysis (value) <emphasis>on</emphasis></programlisting>
 
-			<para>checks for other expressions which are not used.	Finally, the directive:</para>
+		<para>checks for other expressions which are not used.	Finally, the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA discard analysis (static) <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA discard analysis (static) <emphasis>on</emphasis></programlisting>
 
-			<para>checks for variables with internal linkage which are defined but not
+		<para>checks for variables with internal linkage which are defined but not
 			used.</para>
 
 		<para>An unused function return or other expression can be asserted to be
 			deliberately discarded by explicitly casting it to <code>void</code>
 			or, equivalently, preceding it by a keyword introduced using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for discard value</programlisting>
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for discard value</programlisting>
 
-			<para>A static variable can be asserted to be deliberately unused by including
+		<para>A static variable can be asserted to be deliberately unused by including
 			it in list of identifiers in a directive of the form:</para>
 
-		<programlisting language="C++">#pragma TenDRA suspend static <emphasis>identifier-list</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA suspend static <emphasis>identifier-list</emphasis></programlisting>
 	</section>
 
 </chapter>

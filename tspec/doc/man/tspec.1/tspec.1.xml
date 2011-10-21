@@ -26,7 +26,7 @@
 ]>
 
 <!-- $Id$ -->
-<refentry xmlns:xi="http://www.w3.org/2001/XInclude">
+<refentry>
 <!--
 	Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
 	All rights reserved.
@@ -90,64 +90,154 @@
 
 	<refnamediv>
 		<refname>tspec</refname>
-		<refpurpose>An &api; specification tool</refpurpose>
+		<refpurpose>An API specification tool</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>tspec</command>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options-out']/*)"/>
+			<!-- Options out -->
+			<group choice="opt">
+				<arg choice="plain">&O.opt;</arg>
+				<arg choice="plain">&S.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&f.opt;</arg>
+				<arg choice="plain">&n.opt;</arg>
+			</group>
 
 			<sbr/>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+			<!-- Common options -->
+			<arg choice="opt">&C.opt;</arg>
+			<arg choice="opt">&p.opt;</arg>
+			<arg choice="opt">&r.opt;</arg>
+			<arg choice="opt">&t.opt;</arg>
+			<arg choice="opt">&u.opt;</arg>
+			<arg choice="opt">&v.opt;</arg>
 
 			<sbr/>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'input-api']/*)"/>
+			<!-- Input API -->
+			<arg choice="opt">&I.opt;</arg>
+			<group choice="opt">
+				<arg choice="plain">&a.opt;</arg>
+				<arg choice="plain">&s.opt;</arg>
+			</group>
+			<group choice="req">
+				<arg choice="plain">&api.arg;</arg>
+			</group>
+			<group choice="req">
+				<arg choice="plain">&api.arg;</arg>
+				<arg choice="plain">&header.arg;</arg>
+			</group>
+			<group choice="req">
+				<arg choice="plain">&api.arg;</arg>
+				<arg choice="plain">&header.arg;</arg>
+				<arg choice="plain">&subset.arg;</arg>
+			</group>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tspec</command>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options-noout']/*)"/>
+			<!-- Options noout -->
+			<group choice="req">
+				<arg choice="plain">&c.opt;</arg>
+				<arg choice="plain">&e.opt;</arg>
+				<arg choice="plain">&i.opt;</arg>
+				<arg choice="plain">&m.opt;</arg>
+			</group>
 
 			<sbr/>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+			<!-- Common options -->
+			<arg choice="opt">&C.opt;</arg>
+			<arg choice="opt">&p.opt;</arg>
+			<arg choice="opt">&r.opt;</arg>
+			<arg choice="opt">&t.opt;</arg>
+			<arg choice="opt">&u.opt;</arg>
+			<arg choice="opt">&v.opt;</arg>
 
 			<sbr/>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'input-api']/*)"/>
+			<!-- Input API -->
+			<arg choice="opt">&I.opt;</arg>
+			<group choice="opt">
+				<arg choice="plain">&a.opt;</arg>
+				<arg choice="plain">&s.opt;</arg>
+			</group>
+			<group choice="req">
+				<arg choice="plain">&api.arg;</arg>
+			</group>
+			<group choice="req">
+				<arg choice="plain">&api.arg;</arg>
+				<arg choice="plain">&header.arg;</arg>
+			</group>
+			<group choice="req">
+				<arg choice="plain">&api.arg;</arg>
+				<arg choice="plain">&header.arg;</arg>
+				<arg choice="plain">&subset.arg;</arg>
+			</group>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tspec</command>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options-out']/*)"/>
+			<!-- Options out -->
+			<group choice="opt">
+				<arg choice="plain">&O.opt;</arg>
+				<arg choice="plain">&S.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&f.opt;</arg>
+				<arg choice="plain">&n.opt;</arg>
+			</group>
 
 			<sbr/>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+			<!-- Common options -->
+			<arg choice="opt">&C.opt;</arg>
+			<arg choice="opt">&p.opt;</arg>
+			<arg choice="opt">&r.opt;</arg>
+			<arg choice="opt">&t.opt;</arg>
+			<arg choice="opt">&u.opt;</arg>
+			<arg choice="opt">&v.opt;</arg>
 
 			<sbr/>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'input-local']/*)"/>
+			<!-- Input local file -->
+			<arg choice="plain">&l.opt;</arg>
+			<arg choice="plain">&file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
 			<command>tspec</command>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options-noout']/*)"/>
+			<!-- Options noout -->
+			<group choice="req">
+				<arg choice="plain">&c.opt;</arg>
+				<arg choice="plain">&e.opt;</arg>
+				<arg choice="plain">&i.opt;</arg>
+				<arg choice="plain">&m.opt;</arg>
+			</group>
 
 			<sbr/>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'options']/*)"/>
+			<!-- Common options -->
+			<arg choice="opt">&C.opt;</arg>
+			<arg choice="opt">&p.opt;</arg>
+			<arg choice="opt">&r.opt;</arg>
+			<arg choice="opt">&t.opt;</arg>
+			<arg choice="opt">&u.opt;</arg>
+			<arg choice="opt">&v.opt;</arg>
 
 			<sbr/>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'input-local']/*)"/>
+			<!-- Input local file -->
+			<arg choice="plain">&l.opt;</arg>
+			<arg choice="plain">&file.arg;</arg>
 		</cmdsynopsis>
 
 		<cmdsynopsis>
@@ -157,63 +247,6 @@
 				<arg choice="plain">&V.opt;</arg>
 			</group>
 		</cmdsynopsis>
-
-
-		<synopfragment id="options">
-			<arg choice="opt">&C.opt;</arg>
-			<arg choice="opt">&p.opt;</arg>
-			<arg choice="opt">&r.opt;</arg>
-			<arg choice="opt">&t.opt;</arg>
-			<arg choice="opt">&u.opt;</arg>
-			<arg choice="opt">&v.opt;</arg>
-		</synopfragment>
-
-		<synopfragment id="options-out">
-			<group choice="opt">
-				<arg choice="plain">&O.opt;</arg>
-				<arg choice="plain">&S.opt;</arg>
-				<group choice="opt">
-					<arg choice="plain">&f.opt;</arg>
-					<arg choice="plain">&n.opt;</arg>
-				</group>
-			</group>
-		</synopfragment>
-
-		<synopfragment id="options-noout">
-			<group choice="req">
-				<arg choice="plain">&c.opt;</arg>
-				<arg choice="plain">&e.opt;</arg>
-				<arg choice="plain">&i.opt;</arg>
-				<arg choice="plain">&m.opt;</arg>
-			</group>
-		</synopfragment>
-
-		<synopfragment id="input-api">
-			<arg choice="opt">&I.opt;</arg>
-			<group choice="opt">
-				<arg choice="plain">&a.opt;</arg>
-				<arg choice="plain">&s.opt;</arg>
-			</group>
-			<group choice="plain">
-				<group choice="req">
-					<arg choice="plain">&api.arg;</arg>
-				</group>
-				<group choice="req">
-					<arg choice="plain">&api.arg;</arg>
-					<arg choice="plain">&header.arg;</arg>
-				</group>
-				<group choice="req">
-					<arg choice="plain">&api.arg;</arg>
-					<arg choice="plain">&header.arg;</arg>
-					<arg choice="plain">&subset.arg;</arg>
-				</group>
-			</group>
-		</synopfragment>
-
-		<synopfragment id="input-local">
-			<arg choice="plain">&l.opt;</arg>
-			<arg choice="plain">&file.arg;</arg>
-		</synopfragment>
 	</refsynopsisdiv>
 
 	<refsection>
@@ -240,160 +273,198 @@
 			<varlistentry>
 				<term>&C.opt;</term>
 
-				<listitem>Causes &tspec; to insert the contents of &file.arg;
-					as a copyright message at the start of each output file.
-					This can also be specified using the
-					<varname>TSPEC_COPYRIGHT</varname>
-					environmental variable. The order of precedence for this
-					and other similar options is, built-in values lowest,
-					environmental variables next, and command-line options
-					highest.</listitem>
+				<listitem>
+					<para>Causes &tspec; to insert the contents of &file.arg;
+						as a copyright message at the start of each output file.
+						This can also be specified using the
+						<varname>TSPEC_COPYRIGHT</varname>
+						environmental variable. The order of precedence for this
+						and other similar options is, built-in values lowest,
+						environmental variables next, and command-line options
+						highest.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&I.opt;</term>
 
-				<listitem>Add the colon-separated list of directories &dir.arg;
-					to the list of directories searched for input files.
-					Input directories can also be specified using the
-					<varname>TSPEC_INPUT</varname> environmental variable.</listitem>
+				<listitem>
+					<para>Add the colon-separated list of directories &dir.arg;
+						to the list of directories searched for input files.
+						Input directories can also be specified using the
+						<varname>TSPEC_INPUT</varname> environmental variable.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&O.opt;</term>
 
-				<listitem>Specifies that the directory &dir.arg; should be used
-					as a base for the include output files.  This can also be
-					specified using the <varname>TSPEC_INCL_OUTPUT</varname> or the
-					<varname>TSPEC_OUTPUT</varname> environmental variable.
-					In the latter case it is given by
-					<filename><replaceable>${TSPEC_OUTPUT}</replaceable>/include</filename>.</listitem>
+				<listitem>
+					<para>Specifies that the directory &dir.arg; should be used
+						as a base for the include output files.  This can also be
+						specified using the <varname>TSPEC_INCL_OUTPUT</varname> or the
+						<varname>TSPEC_OUTPUT</varname> environmental variable.
+						In the latter case it is given by
+						<filename><replaceable>${TSPEC_OUTPUT}</replaceable>/include</filename>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&S.opt;</term>
 
-				<listitem>Specifies that the directory &dir.arg; should be used
-					as a base for the source output files.  This can also be
-					specified using the <varname>TSPEC_SRC_OUTPUT</varname> or
-					the <varname>TSPEC_OUTPUT</varname> environmental variable.
-					In the latter case it is given by
-					<filename><replaceable>${TSPEC_OUTPUT}</replaceable>/src</filename>.</listitem>
+				<listitem>
+					<para>Specifies that the directory &dir.arg; should be used
+						as a base for the source output files.  This can also be
+						specified using the <varname>TSPEC_SRC_OUTPUT</varname> or
+						the <varname>TSPEC_OUTPUT</varname> environmental variable.
+						In the latter case it is given by
+						<filename><replaceable>${TSPEC_OUTPUT}</replaceable>/src</filename>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&V.opt;</term>
 
-				<listitem>Causes &tspec; to print the program's version, as well
-					as the TenDRA release.</listitem>
+				<listitem>
+					<para>Causes &tspec; to print the program's version, as well
+						as the TenDRA release.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&a.opt;</term>
 
-				<listitem>Causes &tspec; to check all headers in an &api; at
-					once, as opposed to separately (as with the &s.opt; option).</listitem>
+				<listitem>
+					<para>Causes &tspec; to check all headers in an &api; at
+						once, as opposed to separately (as with the &s.opt; option).</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&c.opt;</term>
 
-				<listitem>Causes &tspec; to only check the input files, not to
-					generate any output files.</listitem>
+				<listitem>
+					<para>Causes &tspec; to only check the input files, not to
+						generate any output files.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&e.opt;</term>
 
-				<listitem>Causes &tspec; to only run its preprocessor phase,
-					writing the output to the standard output.</listitem>
+				<listitem>
+					<para>Causes &tspec; to only run its preprocessor phase,
+						writing the output to the standard output.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&f.opt;</term>
 
-				<listitem>Causes &tspec; to ignore date stamps when deciding
-					whether it is necessary to update an output file, and to
-					force it to be updated.</listitem>
+				<listitem>
+					<para>Causes &tspec; to ignore date stamps when deciding
+						whether it is necessary to update an output file, and to
+						force it to be updated.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&i.opt;</term>
 
-				<listitem>Causes &tspec; to print an index of all the objects
-					specified in the input files to the standard output.
-					This index is designed to be used as a quick guide to the
-					contents of an &api;.</listitem>
+				<listitem>
+					<para>Causes &tspec; to print an index of all the objects
+						specified in the input files to the standard output.
+						This index is designed to be used as a quick guide to the
+						contents of an &api;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&l.opt;</term>
 
-				<listitem>Specifies local input mode (see above).</listitem>
+				<listitem>
+					<para>Specifies local input mode (see above).</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&m.opt;</term>
 
-				<listitem>Causes &tspec; to print an index intended for machine
-					processing of all the objects specified in the input files
-					to the standard output.
-					This index is suitable for processing with text processing
-					tools such as &awk;.</listitem>
+				<listitem>
+					<para>Causes &tspec; to print an index intended for machine
+						processing of all the objects specified in the input files
+						to the standard output.
+						This index is suitable for processing with text processing
+						tools such as &awk;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&n.opt;</term>
 
-				<listitem>Causes &tspec; to update any output files which are
-					younger than the &tspec; executable.  This is useful
-					primarily in development work on &tspec; itself.</listitem>
+				<listitem>
+					<para>Causes &tspec; to update any output files which are
+						younger than the &tspec; executable.  This is useful
+						primarily in development work on &tspec; itself.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&p.opt;</term>
 
-				<listitem>Indicates to &tspec; that its input has already been
-					preprocessed (i.e. that it is the output of a previous
-					&e.opt; option).</listitem>
+				<listitem>
+					<para>Indicates to &tspec; that its input has already been
+						preprocessed (i.e. that it is the output of a previous
+						&e.opt; option).</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&r.opt;</term>
 
-				<listitem>Causes &tspec; to only produce output for implemented,
-					as opposed to used, objects.</listitem>
+				<listitem>
+					<para>Causes &tspec; to only produce output for implemented,
+						as opposed to used, objects.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&s.opt;</term>
 
-				<listitem>Causes &tspec; to check each header in an &api;
-					separately, as opposed to all at once
-					(as with the &a.opt; option).</listitem>
+				<listitem>
+					<para>Causes &tspec; to check each header in an &api;
+						separately, as opposed to all at once
+						(as with the &a.opt; option).</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&t.opt;</term>
 
-				<listitem>Causes &tspec; to allow <code>long long</code> type
-					specifiers.</listitem>
+				<listitem>
+					<para>Causes &tspec; to allow <code>long long</code> type
+						specifiers.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&u.opt;</term>
 
-				<listitem>Causes &tspec; to generate unique token names for the
-					objects in its input files.</listitem>
+				<listitem>
+					<para>Causes &tspec; to generate unique token names for the
+						objects in its input files.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&v.opt;</term>
 
-				<listitem>Causes &tspec; to enter verbose mode, in which it
-					reports on the output files it creates. If two &v.opt;
-					options are given then &tspec; enters very verbose mode,
-					in which it gives more information on its activities.</listitem>
+				<listitem>
+					<para>Causes &tspec; to enter verbose mode, in which it
+						reports on the output files it creates. If two &v.opt;
+						options are given then &tspec; enters very verbose mode,
+						in which it gives more information on its activities.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

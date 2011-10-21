@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
 <appendix>
-	<title id="wbS124">Compilation Modes</title>
+	<title>Compilation Modes</title>
 
 	<section>
-		<title id="S124">Base modes</title>
+		<title>Base modes</title>
 
 		<para>The <code>Xs</code>, <code>Xp</code>, <code>Xw</code>,
 			<code>Xc</code>, <code>Xa</code> and <code>Xt</code> modes are
@@ -23,940 +22,954 @@
 		<table>
 			<title>Error levels per mode</title>
 
-			<tr>
-				<th>Check</th>
-				<th><code>Xs</code></th>
-				<th><code>Xp</code></th>
-				<th><code>Xw</code></th>
-				<th><code>Xc</code></th>
-				<th><code>Xa</code></th>
-				<th><code>Xt</code></th>
-			</tr>
-
-			<tr>
-				<td>Value of <code>__STDC__</code></td>
-				<td><code>1</code></td>
-				<td><code>1</code></td>
-				<td><code>1</code></td>
-				<td><code>1</code></td>
-				<td><code>1</code></td>
-				<td><code>0</code></td>
-			</tr>
-
-			<tr>
-				<td>ISO C rules for integer literals</td>
-				<td>&check;</td>
-				<td>&check;</td>
-				<td>&check;</td>
-				<td>&check;</td>
-				<td>&check;</td>
-				<td>&cross;</td>
-			</tr>
-
-			<tr>
-				<td>ISO C rules for integer promotions</td>
-				<td>&check;</td>
-				<td>&check;</td>
-				<td>&check;</td>
-				<td>&check;</td>
-				<td>&check;</td>
-				<td>&cross;</td>
-			</tr>
-
-			<tr>
-				<td>assignments as conditional statements</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>bitfield overflow</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>block level static function</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>character escape overflow</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>sign of <code>char</code></td>
-				<td>&mnplus;<footnote>
-						<para>a plain <code>char</code> is of unspecified sign</para>
-					</footnote></td>
-				<td>&mnplus;</td>
-				<td>&mnplus;</td>
-				<td>&mnplus;</td>
-				<td>&mnplus;</td>
-				<td>&mnplus;</td>
-			</tr>
-
-			<tr>
-				<td><code>char *</code> as generic pointer</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>complete struct/union analysis</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>conditional lvalues</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>constant conditional control statements</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>conversion analysis:</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(<code>int</code> &rarr; <code>enum</code> implicit)</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(<code>int</code> &rarr; <code>enum</code> explicit)</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(<code>int</code> &rarr; <code>enum</code> implicit)</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(<code>int</code> &harr; pointer explicit)</td>
-				<td>W</td>
-				<td>W</td>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(<code>int</code> &harr; pointer implicit)</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(pointer &rarr; pointer explicit)</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(pointer &rarr; pointer implicit)</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>directive used as macro argument</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>directive assert</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>directive file</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>directive ident</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>directive unassert</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>directive weak</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>discard analysis:</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(function return)</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(static)</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>(value)</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td><code>$</code> used as character</td>
-				<td>E</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td><code>enum</code> <code>switch</code> analysis</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>extra <code>,</code> at end of <code>enum</code> lists</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>extra <code>...</code> in function prototypes</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>extra <code>;</code> after external declarations</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>extra <code>;</code> after conditional statements</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>extra <code>int</code> types for bitfields</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>extra macro definitions</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>extra type name definitions</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>fall into <code>case</code></td>
-				<td>W</td>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>forward <code>enum</code> declarations</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>function pointer &harr; pointer conversions</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-			</tr>
-
-			<tr>
-				<td><code>...</code> as argument in function call</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-			</tr>
-
-			<tr>
-				<td>unify the tag namespace</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td>W</td>
-				<td>W</td>
-			</tr>
-
-			<tr>
-				<td>implicit function declaration</td>
-				<td>E</td>
-				<td>W</td>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>implicit <code>int</code> type for external declaration</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-				<td>W</td>
-			</tr>
-
-			<tr>
-				<td>implicit <code>int</code> type for function return</td>
-				<td>E</td>
-				<td>W</td>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>incompatible interface definition</td>
-				<td>E</td>
-				<td>W</td>
-				<td>W</td>
-				<td>W</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>incompatible linkage</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>incompatible promoted function argument</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-			</tr>
-
-			<tr>
-				<td>incompatible type qualifier</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>incompatible <code>void</code> return</td>
-				<td>W</td>
-				<td>W</td>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>incomplete type used as object type</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>indented <code>#</code> directive</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>indented directive after <code>#</code></td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>initialization of automatic <code>struct</code>/<code>union</code></td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td>W</td>
-			</tr>
-
-			<tr>
-				<td>integer operator analysis</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>integer overflow analysis</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO unsure about this -->
-			<tr>
-				<td>linkage resolution:</td>
-				<td>W</td>
-				<td>W</td>
-				<td>W</td>
-				<td>W</td>
-				<td>W</td>
-				<td>W</td>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>external</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>internal</td>
-				<td>Y</td>
-				<td>Y</td>
-				<td>Y</td>
-				<td>Y</td>
-				<td>Y</td>
-				<td>Y</td>
-			</tr>
-
-			<tr>
-				<td><code>long long</code> type:</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>implemented as <code>long</code></td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>implemented as <code>long long</code></td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>nested comment analysis</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>no directive/new line after identifier</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>no external declarations present</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>no identifier after <code>#</code></td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>no new line at end of file</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>operator precedence analysis</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>prototype use:</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td>W</td>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>prototype analysis</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-				<td>E</td>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>weak prototype use:</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<!-- TODO no border-top -->
-			<tr>
-				<td>weak prototype analysis</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>name length limit on identifiers</td>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>text after directive</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td><code>printf</code>/<code>scanf</code> string checking</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>unify external linkage</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>unify incompatible string literal</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>unknown directive</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>unknown escape</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td>W</td>
-				<td>W</td>
-			</tr>
-
-			<tr>
-				<td>unknown pragma</td>
-				<td>W</td>
-				<td>W</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td>W</td>
-			</tr>
-
-			<tr>
-				<td>unnamed <code>struct</code>/<code>union</code> type</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>unmatched quotes</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>unreachable code</td>
-				<td>W</td>
-				<td>W</td>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>variable analysis</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>variable hiding analysis</td>
-				<td/>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>variable initialization</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>weak macro equality</td>
-				<td>E</td>
-				<td>E</td>
-				<td>W</td>
-				<td>E</td>
-				<td/>
-				<td/>
-			</tr>
-
-			<tr>
-				<td>writeable string literal</td>
-				<td>W</td>
-				<td/>
-				<td>W</td>
-				<td/>
-				<td/>
-				<td/>
-			</tr>
+			<col align="left"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+
+			<thead>
+				<tr>
+					<th>Check</th>
+					<th><code>Xs</code></th>
+					<th><code>Xp</code></th>
+					<th><code>Xw</code></th>
+					<th><code>Xc</code></th>
+					<th><code>Xa</code></th>
+					<th><code>Xt</code></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>Value of <code>__STDC__</code></td>
+					<td><code>1</code></td>
+					<td><code>1</code></td>
+					<td><code>1</code></td>
+					<td><code>1</code></td>
+					<td><code>1</code></td>
+					<td><code>0</code></td>
+				</tr>
+	
+				<tr>
+					<td>ISO C rules for integer literals</td>
+					<td>&check;</td>
+					<td>&check;</td>
+					<td>&check;</td>
+					<td>&check;</td>
+					<td>&check;</td>
+					<td>&cross;</td>
+				</tr>
+	
+				<tr>
+					<td>ISO C rules for integer promotions</td>
+					<td>&check;</td>
+					<td>&check;</td>
+					<td>&check;</td>
+					<td>&check;</td>
+					<td>&check;</td>
+					<td>&cross;</td>
+				</tr>
+	
+				<tr>
+					<td>assignments as conditional statements</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>bitfield overflow</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>block level static function</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>character escape overflow</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>sign of <code>char</code>
+						<footnote>
+							<para>a plain <code>char</code> is of unspecified sign</para>
+						</footnote>
+					</td>
+					<td>&mnplus;</td>
+					<td>&mnplus;</td>
+					<td>&mnplus;</td>
+					<td>&mnplus;</td>
+					<td>&mnplus;</td>
+					<td>&mnplus;</td>
+				</tr>
+	
+				<tr>
+					<td><code>char *</code> as generic pointer</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>complete struct/union analysis</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>conditional lvalues</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>constant conditional control statements</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>conversion analysis:</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(<code>int</code> &rarr; <code>enum</code> implicit)</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(<code>int</code> &rarr; <code>enum</code> explicit)</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(<code>int</code> &rarr; <code>enum</code> implicit)</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(<code>int</code> &harr; pointer explicit)</td>
+					<td>W</td>
+					<td>W</td>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(<code>int</code> &harr; pointer implicit)</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(pointer &rarr; pointer explicit)</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(pointer &rarr; pointer implicit)</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>directive used as macro argument</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>directive assert</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>directive file</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>directive ident</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>directive unassert</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>directive weak</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>discard analysis:</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(function return)</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(static)</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>(value)</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td><code>$</code> used as character</td>
+					<td>E</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td><code>enum</code> <code>switch</code> analysis</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>extra <code>,</code> at end of <code>enum</code> lists</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>extra <code>...</code> in function prototypes</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>extra <code>;</code> after external declarations</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>extra <code>;</code> after conditional statements</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>extra <code>int</code> types for bitfields</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>extra macro definitions</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>extra type name definitions</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>fall into <code>case</code></td>
+					<td>W</td>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>forward <code>enum</code> declarations</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>function pointer &harr; pointer conversions</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+				</tr>
+	
+				<tr>
+					<td><code>...</code> as argument in function call</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+				</tr>
+	
+				<tr>
+					<td>unify the tag namespace</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td>W</td>
+					<td>W</td>
+				</tr>
+	
+				<tr>
+					<td>implicit function declaration</td>
+					<td>E</td>
+					<td>W</td>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>implicit <code>int</code> type for external declaration</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+					<td>W</td>
+				</tr>
+	
+				<tr>
+					<td>implicit <code>int</code> type for function return</td>
+					<td>E</td>
+					<td>W</td>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>incompatible interface definition</td>
+					<td>E</td>
+					<td>W</td>
+					<td>W</td>
+					<td>W</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>incompatible linkage</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>incompatible promoted function argument</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+				</tr>
+	
+				<tr>
+					<td>incompatible type qualifier</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>incompatible <code>void</code> return</td>
+					<td>W</td>
+					<td>W</td>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>incomplete type used as object type</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>indented <code>#</code> directive</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>indented directive after <code>#</code></td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>initialization of automatic <code>struct</code>/<code>union</code></td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td>W</td>
+				</tr>
+	
+				<tr>
+					<td>integer operator analysis</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>integer overflow analysis</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO unsure about this -->
+				<tr>
+					<td>linkage resolution:</td>
+					<td>W</td>
+					<td>W</td>
+					<td>W</td>
+					<td>W</td>
+					<td>W</td>
+					<td>W</td>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>external</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>internal</td>
+					<td>Y</td>
+					<td>Y</td>
+					<td>Y</td>
+					<td>Y</td>
+					<td>Y</td>
+					<td>Y</td>
+				</tr>
+	
+				<tr>
+					<td><code>long long</code> type:</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>implemented as <code>long</code></td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>implemented as <code>long long</code></td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>nested comment analysis</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>no directive/new line after identifier</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>no external declarations present</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>no identifier after <code>#</code></td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>no new line at end of file</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>operator precedence analysis</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>prototype use:</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td>W</td>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>prototype analysis</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+					<td>E</td>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>weak prototype use:</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<!-- TODO no border-top -->
+				<tr>
+					<td>weak prototype analysis</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>name length limit on identifiers</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>text after directive</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td><code>printf</code>/<code>scanf</code> string checking</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>unify external linkage</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>unify incompatible string literal</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>unknown directive</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>unknown escape</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td>W</td>
+					<td>W</td>
+				</tr>
+	
+				<tr>
+					<td>unknown pragma</td>
+					<td>W</td>
+					<td>W</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td>W</td>
+				</tr>
+	
+				<tr>
+					<td>unnamed <code>struct</code>/<code>union</code> type</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>unmatched quotes</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>unreachable code</td>
+					<td>W</td>
+					<td>W</td>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>variable analysis</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>variable hiding analysis</td>
+					<td/>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>variable initialization</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>weak macro equality</td>
+					<td>E</td>
+					<td>E</td>
+					<td>W</td>
+					<td>E</td>
+					<td/>
+					<td/>
+				</tr>
+	
+				<tr>
+					<td>writeable string literal</td>
+					<td>W</td>
+					<td/>
+					<td>W</td>
+					<td/>
+					<td/>
+					<td/>
+				</tr>
+			</tbody>
 		</table>
 	</section>
 
 	<section>
-		<title id="wbS124"><code>nepc</code> and <code>not_ansi</code> modes</title>
+		<title><code>nepc</code> and <code>not_ansi</code> modes</title>
 
 		<para>These modes modify the base environment.</para>
 
@@ -968,8 +981,7 @@
 
 		<para>Pragma Profile:</para>
 
-		<programlisting language="C">
-#pragma TenDRA conversion analysis off
+		<programlisting language="c">#pragma TenDRA conversion analysis off
 #pragma TenDRA weak prototype analysis off
 #pragma TenDRA compatible type : char * == void * : allow
 #pragma TenDRA function pointer as pointer allow
@@ -983,8 +995,7 @@
 
 		<para>Pragma Profile:</para>
 
-		<programlisting language="C">
-#pragma TenDRA linkage resolution : (internal) on
+		<programlisting language="c">#pragma TenDRA linkage resolution : (internal) on
 #pragma TenDRA unify external linkage on
 #pragma TenDRA directive assert allow
 #pragma TenDRA directive file allow

@@ -66,7 +66,7 @@
 ]>
 
 <!-- $Id$ -->
-<refentry xmlns:xi="http://www.w3.org/2001/XInclude">
+<refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -131,7 +131,7 @@
 
 	<refnamediv id='name'>
 		<refname>tld</refname>
-		<refpurpose>&tdf; linking and library manipulation utility</refpurpose>
+		<refpurpose>TDF linking and library manipulation utility</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
@@ -140,9 +140,32 @@
 
 			<arg choice="opt">&ml.opt;</arg>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'tdf-options'   ]/*)"/>
+			<!-- Common options -->
+			<group choice="opt">
+				<arg choice="plain">&d.opt;</arg>
+				<arg choice="plain">&debug-file.opt;</arg>
+			</group>
 
+			<!-- TDF options -->
+			<group choice="opt">
+				<arg choice="plain">&M.opt;</arg>
+				<arg choice="plain">&suppress-mult.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&u.opt;</arg>
+				<arg choice="plain">&unit-file.opt;</arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain">&s2.opt;</arg>
+				<arg choice="plain">&suppress.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&S.opt;</arg>
+				<arg choice="plain">&suppress-all.opt;</arg>
+			</group>
 			<sbr/>
 
 			<group choice="opt">
@@ -216,9 +239,32 @@
 
 			<arg choice="plain">&mc.opt;</arg>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'tdf-options'   ]/*)"/>
+			<!-- Common options -->
+			<group choice="opt">
+				<arg choice="plain">&d.opt;</arg>
+				<arg choice="plain">&debug-file.opt;</arg>
+			</group>
 
+			<!-- TDF options -->
+			<group choice="opt">
+				<arg choice="plain">&M.opt;</arg>
+				<arg choice="plain">&suppress-mult.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&u.opt;</arg>
+				<arg choice="plain">&unit-file.opt;</arg>
+			</group>
+
+			<sbr/>
+
+			<group choice="opt">
+				<arg choice="plain">&s2.opt;</arg>
+				<arg choice="plain">&suppress.opt;</arg>
+			</group>
+			<group choice="opt">
+				<arg choice="plain">&S.opt;</arg>
+				<arg choice="plain">&suppress-all.opt;</arg>
+			</group>
 			<sbr/>
 
 			<group choice="opt">
@@ -240,7 +286,11 @@
 
 			<arg choice="plain">&mt.opt;</arg>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
+			<!-- Common options -->
+			<group choice="opt">
+				<arg choice="plain">&d.opt;</arg>
+				<arg choice="plain">&debug-file.opt;</arg>
+			</group>
 
 			<sbr/>
 
@@ -263,7 +313,11 @@
 
 			<arg choice="plain">&mx.opt;</arg>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'common-options']/*)"/>
+			<!-- Common options -->
+			<group choice="opt">
+				<arg choice="plain">&d.opt;</arg>
+				<arg choice="plain">&debug-file.opt;</arg>
+			</group>
 
 			<sbr/>
 
@@ -302,45 +356,12 @@
 				<arg choice="plain">&mx.opt;</arg>
 			</group>
 			<group choice="req">
-				<group choice="plain">
 					<arg choice="plain">&qmark.opt;</arg>
 					<arg choice="plain">&help.opt;</arg>
-				</group>
-				<group choice="plain">
 					<arg choice="plain">&v.opt;</arg>
 					<arg choice="plain">&version.opt;</arg>
-				</group>
 			</group>
 		</cmdsynopsis>
-
-		<synopfragment id="common-options">
-			<group choice="opt">
-				<arg choice="plain">&d.opt;</arg>
-				<arg choice="plain">&debug-file.opt;</arg>
-			</group>
-		</synopfragment>
-
-		<synopfragment id="tdf-options">
-			<group choice="opt">
-				<arg choice="plain">&M.opt;</arg>
-				<arg choice="plain">&suppress-mult.opt;</arg>
-			</group>
-			<group choice="opt">
-				<arg choice="plain">&u.opt;</arg>
-				<arg choice="plain">&unit-file.opt;</arg>
-			</group>
-
-			<sbr/>
-
-			<group choice="opt">
-				<arg choice="plain">&s2.opt;</arg>
-				<arg choice="plain">&suppress.opt;</arg>
-			</group>
-			<group choice="opt">
-				<arg choice="plain">&S.opt;</arg>
-				<arg choice="plain">&suppress-all.opt;</arg>
-			</group>
-		</synopfragment>
 	</refsynopsisdiv>
 
 	<refsection>
@@ -448,17 +469,21 @@
 				<term>&qmark.opt;</term>
 				<term>&help.opt;</term>
 
-				<listitem>Write an option summary to the standard error.
-					The exact options written out are specific to the
-					particular mode under which &tld; is running.</listitem>
+				<listitem>
+					<para>Write an option summary to the standard error.
+						The exact options written out are specific to the
+						particular mode under which &tld; is running.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&v.opt;</term>
 				<term>&version.opt;</term>
 
-				<listitem>Write the version number of the program to the
-					standard error stream.</listitem>
+				<listitem>
+					<para>Write the version number of the program to the
+						standard error stream.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
@@ -534,17 +559,21 @@
 			This consists of the following stages:</para>
 
 		<orderedlist>
-			<listitem>All of the external names specified for renaming on the
-				command line are added to the name tables as indirections to
-				their new names.</listitem>
+			<listitem>
+				<para>All of the external names specified for renaming on the
+					command line are added to the name tables as indirections to
+					their new names.</para>
+			</listitem>
 
-			<listitem>All of the capsules specified on the command line are
-				loaded, and their identifiers are mapped into a per shape
-				namespace. In these namespaces, all external names of the
-				same shape and with the same name will be mapped to the
-				same identifier. &tld; will report errors about any attempt
-				to link together more than one capsule providing a unique
-				definition for any external name.</listitem>
+			<listitem>
+				<para>All of the capsules specified on the command line are
+					loaded, and their identifiers are mapped into a per shape
+					namespace. In these namespaces, all external names of the
+					same shape and with the same name will be mapped to the
+					same identifier. &tld; will report errors about any attempt
+					to link together more than one capsule providing a unique
+					definition for any external name.</para>
+			</listitem>
 
 			<listitem>
 				<para>If any libraries were specified on the command line, then the libraries are
@@ -562,17 +591,21 @@
 					unique definition exists, then the non-unique definitions are ignored).</para>
 			</listitem>
 
-			<listitem>If any external names require hiding or keeping (specified by command line
-				switches), then they are hidden at this point.  Hiding means removing the
-				external name from the external name list.  It is illegal to hide undefined
-				external names.  Keeping means keeping an external name in the external name
-				tables.  Keeping a name overrides any attempt to hide that name.</listitem>
+			<listitem>
+				<para>If any external names require hiding or keeping (specified by command line
+					switches), then they are hidden at this point.  Hiding means removing the
+					external name from the external name list.  It is illegal to hide undefined
+					external names.  Keeping means keeping an external name in the external name
+					tables.  Keeping a name overrides any attempt to hide that name.</para>
+			</listitem>
 
-			<listitem>A new &tdf; capsule is created, consisting of all of the
-				input capsules and the necessary library capsules.
-				Unless specified with the <option>--output-file</option>
-				switch, the output file will be called
-				<filename>capsule.j</filename>.</listitem>
+			<listitem>
+				<para>A new &tdf; capsule is created, consisting of all of the
+					input capsules and the necessary library capsules.
+					Unless specified with the <option>--output-file</option>
+					switch, the output file will be called
+					<filename>capsule.j</filename>.</para>
+			</listitem>
 		</orderedlist>
 
 		<para>&tld; accepts the following switches in link mode:</para>
@@ -582,145 +615,179 @@
 				<term>&a.opt;</term>
 				<term>&all-hide-defined.opt;</term>
 
-				<listitem>Hide all external names (of any shape) that are defined.</listitem>
+				<listitem>
+					<para>Hide all external names (of any shape) that are defined.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&d.opt;</term>
 				<term>&debug-file.opt;</term>
 
-				<listitem>Produce a diagnostic trace of the linking process in
-					&file.arg;.</listitem>
+				<listitem>
+					<para>Produce a diagnostic trace of the linking process in
+						&file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&h.opt;</term>
 				<term>&hide.opt;</term>
 
-				<listitem>Cause the external &shape.arg; name &name.arg; to be
-					hidden.
-					An error is reported if the name is not defined.</listitem>
+				<listitem>
+					<para>Cause the external &shape.arg; name &name.arg; to be
+						hidden.
+						An error is reported if the name is not defined.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&H.opt;</term>
 				<term>&hide-defined.opt;</term>
 
-				<listitem>Cause the all external &shape.arg; names that are
-					defined to be hidden.</listitem>
+				<listitem>
+					<para>Cause the all external &shape.arg; names that are
+						defined to be hidden.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&i2.opt;</term>
 				<term>&missing-definitions.opt;</term>
 
-				<listitem>Warn about undefined external linker names. These warnings are
-					disabled by default.</listitem>
+				<listitem>
+					<para>Warn about undefined external linker names. These warnings are
+						disabled by default.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&k.opt;</term>
 				<term>&keep.opt;</term>
 
-				<listitem>Cause the external &shape.arg; name &name.arg; to be
-					kept.</listitem>
+				<listitem>
+					<para>Cause the external &shape.arg; name &name.arg; to be
+						kept.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&K.opt;</term>
 				<term>&keep-all.opt;</term>
 
-				<listitem>Cause the all external &shape.arg;
-					names to be kept.</listitem>
+				<listitem>
+					<para>Cause the all external &shape.arg;
+						names to be kept.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&l.opt;</term>
 				<term>&library.opt;</term>
 
-				<listitem>Use the file &file.arg; as a &tdf; library.
-					If the file name contains a '/', then it is used as specified;
-					if not, the library search path is searched for a file named
-					'&file.arg;.tl'.
-					Duplicate entries for the same library are ignored.</listitem>
+				<listitem>
+					<para>Use the file &file.arg; as a &tdf; library.
+						If the file name contains a '/', then it is used as specified;
+						if not, the library search path is searched for a file named
+						'&file.arg;.tl'.
+						Duplicate entries for the same library are ignored.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&o.opt;</term>
 				<term>&output-file.opt;</term>
 
-				<listitem>Write the output capsule to the file &file.arg;.
-					If this switch is not specified, then the output is written
-					to the file 'capsule.j' instead.</listitem>
+				<listitem>
+					<para>Write the output capsule to the file &file.arg;.
+						If this switch is not specified, then the output is written
+						to the file 'capsule.j' instead.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&L.opt;</term>
 				<term>&path.opt;</term>
 
-				<listitem>Append the directory &dir.arg; to the library search
-					path.</listitem>
+				<listitem>
+					<para>Append the directory &dir.arg; to the library search
+						path.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&r.opt;</term>
 				<term>&rename.opt;</term>
 
-				<listitem>Rename the external &shape.arg; name &from.arg;
-					to &to.arg;.</listitem>
+				<listitem>
+					<para>Rename the external &shape.arg; name &from.arg;
+						to &to.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&R.opt;</term>
 				<term>&rename-file.opt;</term>
 
-				<listitem>Read the contents of the file &file.arg; as a series
-					of renaming specifications.
-					The format of the file is described above.</listitem>
+				<listitem>
+					<para>Read the contents of the file &file.arg; as a series
+						of renaming specifications.
+						The format of the file is described above.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&s2.opt;</term>
 				<term>&suppress.opt;</term>
 
-				<listitem>Do not try to find a definition for the external
-					&shape.arg; name &name.arg;.</listitem>
+				<listitem>
+					<para>Do not try to find a definition for the external
+						&shape.arg; name &name.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&S.opt;</term>
 				<term>&suppress-all.opt;</term>
 
-				<listitem>Do not try to find a definition for any external
-					&shape.arg; name.</listitem>
+				<listitem>
+					<para>Do not try to find a definition for any external
+						&shape.arg; name.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&M.opt;</term>
 				<term>&suppress-mult.opt;</term>
 
-				<listitem>Do not use non-unique definitions in libraries as
-					definitions for external names.</listitem>
+				<listitem>
+					<para>Do not use non-unique definitions in libraries as
+						definitions for external names.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&u.opt;</term>
 				<term>&unit-file.opt;</term>
 
-				<listitem>Parse &file.arg; to get a new unit set name list.
-					By default, all of the standard (as specified in the
-					version 4.0 &tdf-spec.doc;) unit set names are
-					known.</listitem>
+				<listitem>
+					<para>Parse &file.arg; to get a new unit set name list.
+						By default, all of the standard (as specified in the
+						version 4.0 &tdf-spec.doc;) unit set names are
+						known.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&w.opt;</term>
 				<term>&warnings.opt;</term>
 
-				<listitem>Enable/disable the printing of warning messages.
+				<listitem>
+					<para>Enable/disable the printing of warning messages.
 					Warnings are generated for things like obsolete linker
 					information units, and undefined external names when $i2.opt;
-					is enabled.</listitem>
+					is enabled.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
@@ -743,62 +810,76 @@
 				<term>&d.opt;</term>
 				<term>&debug-file.opt;</term>
 
-				<listitem>Produce a diagnostic trace of the library construction
-					process in &file.arg;.</listitem>
+				<listitem>
+					<para>Produce a diagnostic trace of the library construction
+						process in &file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&i.opt;</term>
 				<term>&include-library.opt;</term>
 
-				<listitem>Include all of the capsules in the &tdf; library
-					&file.arg; in the library being constructed.
-					The library name should be a proper file name, not a library
-					abbreviation like the <option>--library</option> switch used
-					by the linking mode.</listitem>
+				<listitem>
+					<para>Include all of the capsules in the &tdf; library
+						&file.arg; in the library being constructed.
+						The library name should be a proper file name, not a library
+						abbreviation like the <option>--library</option> switch used
+						by the linking mode.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&o.opt;</term>
 				<term>&output-file.opt;</term>
 
-				<listitem>Write the output library to the file &file.arg;.
-					If this switch is not specified, then the output is written
-					to the file <filename>library.tl</filename> instead.</listitem>
+				<listitem>
+					<para>Write the output library to the file &file.arg;.
+						If this switch is not specified, then the output is written
+						to the file <filename>library.tl</filename> instead.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&s2.opt;</term>
 				<term>&suppress.opt;</term>
 
-				<listitem>Do not try to find a definition for the external
-					&shape.arg; name &name.arg;.</listitem>
+				<listitem>
+					<para>Do not try to find a definition for the external
+						&shape.arg; name &name.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&S.opt;</term>
 				<term>&suppress-all.opt;</term>
 
-				<listitem>Do not try to find a definition for any external
-					&shape.arg; name.</listitem>
+				<listitem>
+					<para>Do not try to find a definition for any external
+						&shape.arg; name.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&M.opt;</term>
 				<term>&suppress-mult.opt;</term>
 
-				<listitem>Do not use non-unique definitions in libraries as
-					definitions for external names.</listitem>
+				<listitem>
+					<para>Do not use non-unique definitions in libraries as
+						definitions for external names.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&u.opt;</term>
 				<term>&unit-file.opt;</term>
 
-				<listitem>Parse &file.arg; to get a new unit set name list.
-					By default, all of the standard (as specified in the
-					version 4.0 &tdf-spec.doc;) unit set names are
-					known.</listitem>
+				<listitem>
+					<para>Parse &file.arg; to get a new unit set name list.
+						By default, all of the standard (as specified in the
+						version 4.0 &tdf-spec.doc;) unit set names are
+						known.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
@@ -817,32 +898,38 @@
 				<term>&d.opt;</term>
 				<term>&debug-file.opt;</term>
 
-				<listitem>Produce a diagnostic trace of the library contents
-					process in &file.arg;.</listitem>
+				<listitem>
+					<para>Produce a diagnostic trace of the library contents
+						process in &file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&i.opt;</term>
 				<term>&index.opt;</term>
 
-				<listitem>Enable/disable the printing of the index of the library.
-					If printing of the index is enabled, the index of the library
-					will be printed.  The order of the shapes and external names
-					in the printed index is not necessarily the same as the order
-					of the index in the library itself.
-					If the order is important, use the
-					<option>--debug-file</option> option and
-					look at the output that is produced.</listitem>
+				<listitem>
+					<para>Enable/disable the printing of the index of the library.
+						If printing of the index is enabled, the index of the library
+						will be printed.  The order of the shapes and external names
+						in the printed index is not necessarily the same as the order
+						of the index in the library itself.
+						If the order is important, use the
+						<option>--debug-file</option> option and
+						look at the output that is produced.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&s1.opt;</term>
 				<term>&size.opt;</term>
 
-				<listitem>Enable/disable the printing of the size of each
-					capsule in the library.
-					If enabled, the size of each capsule in bytes is printed
-					after its name.</listitem>
+				<listitem>
+					<para>Enable/disable the printing of the size of each
+						capsule in the library.
+						If enabled, the size of each capsule in bytes is printed
+						after its name.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
@@ -874,47 +961,57 @@
 				<term>&a.opt;</term>
 				<term>&all.opt;</term>
 
-				<listitem>Enable/disable the extraction of all capsules.
-					If all capsules are to be extracted, no capsule names
-					should be specified on the command line.</listitem>
+				<listitem>
+					<para>Enable/disable the extraction of all capsules.
+						If all capsules are to be extracted, no capsule names
+						should be specified on the command line.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&b.opt;</term>
 				<term>&basename.opt;</term>
 
-				<listitem>Enable/disable the use of the basename of each capsule
-					when extracting.  If this is enabled, then extracted capsules
-					are extracted into the current directory, using just their
-					basename.  This may cause some of the capsules to be written
-					on top of each other.</listitem>
+				<listitem>
+					<para>Enable/disable the use of the basename of each capsule
+						when extracting.  If this is enabled, then extracted capsules
+						are extracted into the current directory, using just their
+						basename.  This may cause some of the capsules to be written
+						on top of each other.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&d.opt;</term>
 				<term>&debug-file.opt;</term>
 
-				<listitem>Produce a diagnostic trace of the library extraction
-					process in &file.arg;.</listitem>
+				<listitem>
+					<para>Produce a diagnostic trace of the library extraction
+						process in &file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&i.opt;</term>
 				<term>&info.opt;</term>
 
-				<listitem>Enable/disable informational messages.
-					These say which capsules are being extracted.</listitem>
+				<listitem>
+					<para>Enable/disable informational messages.
+						These say which capsules are being extracted.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&m.opt;</term>
 				<term>&match-basename.opt;</term>
 
-				<listitem>Enable/disable matching of capsule names by basename.
-					If enabled, then the basename of each library capsule is
-					also matched against the file names specified.
-					This may result in more than one capsule being extracted
-					for one file name.</listitem>
+				<listitem>
+					<para>Enable/disable matching of capsule names by basename.
+						If enabled, then the basename of each library capsule is
+						also matched against the file names specified.
+						This may result in more than one capsule being extracted
+						for one file name.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

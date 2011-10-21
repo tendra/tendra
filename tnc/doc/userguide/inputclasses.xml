@@ -1,8 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-	<!ENTITY tdf "<acronym>TDF</acronym>">
-]>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="S2">
 	<title>Input classes</title>
@@ -10,106 +7,122 @@
 	<para>The rest of this paper is concerned with the form required of the
 		input text file. The input can be divided into eight classes.</para>
 
-	<varlistentry>
-		<term>Delimiters</term>
+	<variablelist>
+		<varlistentry>
+			<term>Delimiters</term>
 
-		<listitem>The characters <code>(</code> and <code>)</code> are used as delimiters
-			to impose a syntactic structure on the input.</listitem>
-	</varlistentry>
+			<listitem>
+				<para>The characters <code>(</code> and <code>)</code> are used as delimiters
+					to impose a syntactic structure on the input.</para>
+			</listitem>
+		</varlistentry>
 
-	<varlistentry>
-		<term>White space</term>
+		<varlistentry>
+			<term>White space</term>
 
-		<listitem>White space comprises sequences of space, tab and newline characters,
-			together with comments (see below). It is not significant to the output
-			(&tdf; notation is completely free-form), and serves only to separate
-			syntactic units. Every identifier, number etc. must be terminated
-			by a white space or a delimiter.</listitem>
-	</varlistentry>
+			<listitem>
+				<para>White space comprises sequences of space, tab and newline characters,
+					together with comments (see below). It is not significant to the output
+					(&tdf; notation is completely free-form), and serves only to separate
+					syntactic units. Every identifier, number etc. must be terminated
+					by a white space or a delimiter.</para>
+			</listitem>
+		</varlistentry>
 
-	<varlistentry>
-		<term>Comments</term>
+		<varlistentry>
+			<term>Comments</term>
 
-		<listitem>Comments may be inserted in the input at any point. They begin with
-			a <code>#</code> character and run to the end of the line.</listitem>
-	</varlistentry>
+			<listitem>
+				<para>Comments may be inserted in the input at any point. They begin with
+					a <code>#</code> character and run to the end of the line.</para>
+			</listitem>
+		</varlistentry>
 
-	<varlistentry>
-		<term>Identifiers</term>
+		<varlistentry>
+			<term>Identifiers</term>
 
-		<listitem>An identifier consists of any sequence of characters drawn from the
-			following set: upper case letters, lower case letters, decimal digits,
-			underscore (<code>_</code>), dot (<code>.</code>), and tilde (<code>~</code>),
-			which does not begin with a decimal digit. <code>tnc</code> generates
-			names beginning with double tilde (<code>~~</code>) for unnamed objects
-			when in <emphasis>decode</emphasis> mode, so the use of such identifiers is not
-			recommended.</listitem>
-	</varlistentry>
+			<listitem>
+				<para>An identifier consists of any sequence of characters drawn from the
+					following set: upper case letters, lower case letters, decimal digits,
+					underscore (<code>_</code>), dot (<code>.</code>), and tilde (<code>~</code>),
+					which does not begin with a decimal digit. <code>tnc</code> generates
+					names beginning with double tilde (<code>~~</code>) for unnamed objects
+					when in <emphasis>decode</emphasis> mode, so the use of such identifiers is not
+					recommended.</para>
+			</listitem>
+		</varlistentry>
 
-	<varlistentry>
-		<term>Numbers</term>
+		<varlistentry>
+			<term>Numbers</term>
 
-		<listitem>Numbers can be given in octal (prefixed by <code>0</code>), decimal,
-			or hexadecimal (prefixed by <code>0x</code> or <code>0X</code>). Both
-			upper and lower case letters can be used for hex digits. A number
-			can be preceded by any number of <code>+</code> or <code>-</code>
-			signs.</listitem>
-	</varlistentry>
+			<listitem>
+				<para>Numbers can be given in octal (prefixed by <code>0</code>), decimal,
+					or hexadecimal (prefixed by <code>0x</code> or <code>0X</code>). Both
+					upper and lower case letters can be used for hex digits. A number
+					can be preceded by any number of <code>+</code> or <code>-</code>
+					signs.</para>
+			</listitem>
+		</varlistentry>
 
-	<varlistentry>
-		<term>Strings</term>
+		<varlistentry>
+			<term>Strings</term>
 
-		<listitem>
-			<para>A string consists of a sequence of characters enclosed in double quotes
-				(<code>&quot;</code>). The following escape sequences are recognised:</para>
+			<listitem>
+				<para>A string consists of a sequence of characters enclosed in double quotes
+					(<code>&quot;</code>). The following escape sequences are recognised:</para>
 
-			<table>
-				<col align="left"/>
-				<col align="left"/>
+				<table>
+					<col align="center"/>
+					<col align="left"/>
 
-				<thead>
-					<tr>
-						<th>Escape</th>
-						<th>Value</th>
-					</tr>
-				</thead>
+					<thead>
+						<tr>
+							<th>Escape</th>
+							<th>Value</th>
+						</tr>
+					</thead>
 
-				<tbody>
-					<tr>
-						<td><code>\n</code></td>
-						<td>Newline</td>
-					</tr>
-					<tr>
-						<td><code>\t</code></td>
-						<td>Tab</td>
-					</tr>
-					<tr>
-						<td><code>\<replaceable>xxx</replaceable></code></td>
-						<td>The character with ASCII code
-							<replaceable>xxx</replaceable> in octal.</td>
-					</tr>
-				</tbody>
-			</table>
+					<tbody>
+						<tr>
+							<td><code>\n</code></td>
+							<td>Newline</td>
+						</tr>
+						<tr>
+							<td><code>\t</code></td>
+							<td>Tab</td>
+						</tr>
+						<tr>
+							<td><code>\<replaceable>xxx</replaceable></code></td>
+							<td>The character with ASCII code
+								<replaceable>xxx</replaceable> in octal.</td>
+						</tr>
+					</tbody>
+				</table>
 
-			<para>Newlines are not allowed in strings unless they are escaped. For all
-				other escaped characters, <code>\<replaceable>x</replaceable></code>
-				represents <code><replaceable>x</replaceable></code>.</para>
-		</listitem>
-	</varlistentry>
+				<para>Newlines are not allowed in strings unless they are escaped. For all
+					other escaped characters, <code>\<replaceable>x</replaceable></code>
+					represents <code><replaceable>x</replaceable></code>.</para>
+			</listitem>
+		</varlistentry>
 
-	<varlistentry>
-		<term>Blanks</term>
+		<varlistentry>
+			<term>Blanks</term>
 
-		<listitem>A single minus character (<code>-</code>) has a special meaning. It
-			may be used to indicate the absence of an optional argument or optional
-			group of arguments.</listitem>
-	</varlistentry>
+			<listitem>
+				<para>A single minus character (<code>-</code>) has a special meaning. It
+					may be used to indicate the absence of an optional argument or optional
+					group of arguments.</para>
+			</listitem>
+		</varlistentry>
 
-	<varlistentry>
-		<term>Bars</term>
+		<varlistentry>
+			<term>Bars</term>
 
-		<listitem>A single vertical bar (<code>|</code>) has a special meaning. It may
-			be used to indicate the end of a sequence of repeated arguments.</listitem>
-	</varlistentry>
+			<listitem>
+				<para>A single vertical bar (<code>|</code>) has a special meaning. It may
+					be used to indicate the end of a sequence of repeated arguments.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
 </chapter>
 

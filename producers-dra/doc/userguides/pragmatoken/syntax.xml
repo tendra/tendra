@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-<title id="wbS147">The token syntax</title>
+	<title>The token syntax</title>
 
-	<para>The token syntax is an extension to the ISO C standard language
+	<para>The token syntax is an extension to the &iso; C standard language
 		to allow the use of tokens to represent program constructs. Tokens
 		can be used either in place of, or as well as, the definitions
 		required by a program. In the latter case, the tokens exist merely
 		to enforce correct definitions and usage of the objects they
 		reference. However it should be noted that the presence of a token
 		introduction can alter the semantics of a program (examples are
-		given in F.5 Expression tokens). The semantics have been altered to
+		given in <xref linkend="exptoks"/> Expression tokens).
+		The semantics have been altered to
 		force programs to respect token interfaces where they would
 		otherwise fail to do so.</para>
 
 	<para>The token syntax takes the following basic form:</para>
 
-	<programlisting language="BNF">#pragma token <replaceable>token-introduction</replaceable> <replaceable>token-identification</replaceable></programlisting>
+	<programlisting language="bnf">#pragma token <replaceable>token-introduction</replaceable> <replaceable>token-identification</replaceable></programlisting>
 
 	<para>It is introduced as a pragma to allow other compilers to ignore
 		it, though if tokens are being used to replace the definitions
@@ -34,6 +34,6 @@
 
 	<para>The <replaceable>token-identification</replaceable> provides the means of
 		referring to the token, both internally within the program and
-		externally for TDF linking purposes.</para>
+		externally for &tdf; linking purposes.</para>
 </chapter>
 

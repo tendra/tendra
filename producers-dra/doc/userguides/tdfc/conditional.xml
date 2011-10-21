@@ -1,15 +1,13 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="wbS121">Conditional Compilation</title>
+	<title>Conditional Compilation</title>
 
 	<para>Tchk generally treats conditional compilation in the same way as
 		other compilers and checkers. For example, consider:</para>
 
-	<programlisting language="C">
-#if expr
+	<programlisting language="c">#if expr
 .... /* First branch */
 #else
 .... /* Second branch */
@@ -26,8 +24,7 @@
 		types in section 4.5). For example, consider the following ISO
 		compliant program:</para>
 
-	<programlisting language="C">
-#include &lt;stdio.h&gt;
+	<programlisting language="c">#include &lt;stdio.h&gt;
 #include &lt;limits.h&gt;
 int main ()
 {

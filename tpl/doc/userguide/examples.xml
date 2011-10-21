@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -12,9 +11,7 @@
 	<section id="S42">
 		<title>Sieve of Erastothenes</title>
 
-		<para>
-          <programlisting>
-/* Print out the primes less than 10000 */
+          <programlisting language="tpl">/* Print out the primes less than 10000 */
 String s1 = "%d\t";	/* good strings for printf */
 String s2 = "\n";
 
@@ -70,15 +67,12 @@ Proc main = top ()
 
 /* main will be an external name; so will printf since it is not defined */
 Keep (main)</programlisting>
-        </para>
       </section>
 
       <section id="S43">
         <title>Example with structures</title>
 
-        <para>
-          <programlisting>
-Struct C (re:Double, im:Double);
+          <programlisting language="tpl">Struct C (re:Double, im:Double);
 	/* define TOKENs : C as a SHAPE for complex, with field offsets .re and .im
 		and selectors re and im */
 
@@ -101,15 +95,12 @@ Proc main = top()
         };
 
 Keep(main)</programlisting>
-        </para>
       </section>
 
       <section id="S44">
         <title>Test for case</title>
 
-        <para>
-          <programlisting>
-Iddec printf:proc;
+          <programlisting language="tpl">Iddec printf:proc;
 
 String s1 = "%d is not in [%d,%d]\n";
 String s2 = "%d OK\n";
@@ -140,15 +131,12 @@ Var i:Int = 0(Int)
  };
 
 Keep (main, test)</programlisting>
-        </para>
       </section>
 
       <section id="S45">
         <title>Example of use of high-order TOKENs</title>
 
-        <para>
-          <programlisting>
-Tokdef IF = [ boolexp:TOKEN[LABEL]EXP, thenpt:EXP, elsept:EXP] EXP
+          <programlisting language="tpl">Tokdef IF = [ boolexp:TOKEN[LABEL]EXP, thenpt:EXP, elsept:EXP] EXP
 	?{ boolexp[lab]; thenpt | :lab: elsept };
 	/* IF is a TOKEN which can be used to mirror a standard if ... then ... else
 		construction; the boolexp is a formal TOKEN with a LABEL parameter
@@ -171,15 +159,12 @@ Proc main = top()
      };
 
 Keep (main)</programlisting>
-        </para>
       </section>
 
       <section id="S46">
         <title>A test for long jumps</title>
 
-        <para>
-          <programlisting>
-Iddec printf:proc;
+          <programlisting language="tpl">Iddec printf:proc;
 
 Proc f = bottom(env:pointer(frame_alignment), lab:pointer(code_alignment) )
 {
@@ -201,7 +186,6 @@ Labelled{
 };
 
 Keep (main)</programlisting>
-        </para>
       </section>
 
 </appendix>

@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="wbS8">Configuring the Checker</title>
+	<title>Configuring the Checker</title>
 
 	<para>There are several methods available for configuring the checker
 		most of which are selected by using the relevant command line
@@ -15,7 +14,7 @@
 		they may be combined in any way.</para>
 
 	<section>
-		<title id="S9">Built-in checking profiles</title>
+		<title>Built-in checking profiles</title>
 
 		<para>Six standard checking profiles are provided with the tool and are
 			held as a set of startup files which are automatically included in
@@ -27,24 +26,29 @@
 				<para><code>-Xs</code> (strict checks) denotes strict ISO standard
 					C with most extra checks enabled as warnings;</para>
 			</listitem>
+
 			<listitem>
 				<para><code>-Xp</code> (partial checks) denotes strict ISO standard
 					C with some extra checks enabled;</para>
 			</listitem>
+
 			<listitem>
 				<para><code>-Xc</code> (conformance) denotes strict ISO standard C
 					with no extra checks enabled;</para>
 			</listitem>
+
 			<listitem>
 				<para><code>-Xw</code> (warning mode) represents a <quote>warning</quote>
 					oriented compilation mode. Many non-ISO standard C features are
 					permitted with a warning. Extra checks are performed to produce
 					warnings.</para>
 			</listitem>
+
 			<listitem>
 				<para><code>-Xa</code> (<quote>standard-ish</quote> C) denotes ISO
 					standard C with syntatic relaxation and no extra checks;</para>
 			</listitem>
+
 			<listitem>
 				<para><code>-Xt</code> (traditional C) denotes traditional (Kernighan and
 					Ritchie) C with no extra checks.</para>
@@ -76,7 +80,7 @@
 	</section>
 
 	<section>
-		<title id="S10">2.1.2 Minimum integer ranges</title>
+		<title>2.1.2 Minimum integer ranges</title>
 
 		<para>By default the checker assumes that all integer ranges conform to
 			the minimum ranges prescribed by the ISO C standard, i.e. char
@@ -90,7 +94,7 @@
 	</section>
 
 	<section>
-		<title id="S11">API selection</title>
+		<title>API selection</title>
 
 		<para>By default, programs are checked against the standard ISO C API
 			as specified in the ISO C standard Chapter 7. Other APIs are
@@ -106,7 +110,7 @@
 	</section>
 
 	<section>
-		<title id="S12">Individual command line checking options</title>
+		<title>Individual command line checking options</title>
 
 		<para>Some of the checks available can be controlled using a command
 			line option of the form <code>-Xopt,opt,...</code>, where the various
@@ -121,7 +125,7 @@
 	</section>
 
 	<section>
-		<title id="S13">2.1.5 Construct a customised checking environment</title>
+		<title>2.1.5 Construct a customised checking environment</title>
 
 		<para>The individual checks performed by the C static checker are
 			generally controlled by <code>#pragma</code> directives. The reason
@@ -132,7 +136,7 @@
 
 		<para>Most of these directives begin:</para>
 
-		<programlisting language="C">#pragma TenDRA ...</programlisting>
+		<programlisting language="c">#pragma TenDRA ...</programlisting>
 
 		<para>and are always checked for syntactical correctness. The individual
 			directives, together with the checks they control are described in
@@ -141,17 +145,17 @@
 	</section>
 
 	<section>
-		<title id="13">Scoping checking profiles</title>
+		<title>Scoping checking profiles</title>
 
 		<para>Almost all the available checks are scoped (exceptions will be
 			mentioned in the description of the check). A new checking scope
 			may be started by inserting the pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA begin</programlisting>
+		<programlisting language="c">#pragma TenDRA begin</programlisting>
 
 		<para>at the outermost level. The scope runs until the matching:</para>
 
-		<programlisting language="C">#pragma TenDRA end</programlisting>
+		<programlisting language="c">#pragma TenDRA end</programlisting>
 
 		<para>directive, or to the end of the translation unit (the ISO C
 			standard definition of a translation unit as being a source file,
@@ -169,8 +173,7 @@
 			scope and any scope it contains. The set of checks applied reverts
 			to its previous state at the end of a scope. Thus, for example:</para>
 
-		<programlisting language="C">
-#pragma TenDRA variable analysis on
+		<programlisting language="c">#pragma TenDRA variable analysis on
 /* Variable analysis is on here */
 
 #pragma TenDRA begin
@@ -191,8 +194,7 @@
 			properties of C which can circumvent such scoping. Consider for
 			example:</para>
 
-		<programlisting language="C">
-#pragma TenDRA begin
+		<programlisting language="c">#pragma TenDRA begin
 #pragma TenDRA unknown escape allow
 #define STRING "hello\!"
 #pragma TenDRA end
@@ -225,12 +227,12 @@ char * f () {
 		<para>Names may be associated with checking scopes by using an
 			alternative form of the begin directive:</para>
 
-		<programlisting language="C">#pragma TenDRA begin name environment identifier</programlisting>
+		<programlisting language="c">#pragma TenDRA begin name environment identifier</programlisting>
 
 		<para>where identifier is any valid C identifier. Thereafter a
 			statement of the form:</para>
 
-		<programlisting language="C">#pragma TenDRA use environment identifier</programlisting>
+		<programlisting language="c">#pragma TenDRA use environment identifier</programlisting>
 
 		<para>changes the current checking environment to the environment
 			associated with identifier.</para>
@@ -242,7 +244,7 @@ char * f () {
 			<emphasis>env_name</emphasis>, to any files included from a
 			directory which has been named <emphasis>dir_name</emphasis>, using:</para>
 
-		<programlisting language="C">#pragma TenDRA directory <emphasis>dir_name</emphasis> use environment <emphasis>env_name</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA directory <emphasis>dir_name</emphasis> use environment <emphasis>env_name</emphasis></programlisting>
 
 		<para>The directory name must be passed to the checker using the
 			<code>-N</code> <emphasis>dir_name</emphasis> <code>:</code>

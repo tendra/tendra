@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
   $Id$
@@ -36,7 +35,7 @@
     programmers work with generalised declarations of the APIs they are using.
     The declarations express the requirements of the APIs without giving their
     implementation. The declarations are specified in terms of TDF's
-    <quote>tokens</quote>, and the TDF which is produced contains uses of these
+    &ldquo;tokens&rdquo;, and the TDF which is produced contains uses of these
     tokens. On each target machine the tokens are used as the basis for suitable
     substitutions and alterations.
   </para>

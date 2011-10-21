@@ -1,11 +1,7 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE glossary PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!DOCTYPE glossary SYSTEM "minidocbook.dtd">
 
-	<!ENTITY sid "<application><acronym>SID</acronym></application>">
-]>
-
-<glossary id="sid-glossary">
+<glossary>
 	<para>This section describes some of the terms used in the
 		&sid; documentation.</para>
 

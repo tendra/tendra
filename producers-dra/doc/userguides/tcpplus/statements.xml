@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
 	<title>Configuration for statements</title>
@@ -10,44 +9,44 @@
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA const conditional <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA const conditional <emphasis>allow</emphasis></programlisting>
 
-			<para>can be used to enable a check for constant expressions used in conditional
+		<para>can be used to enable a check for constant expressions used in conditional
 			contexts.	A literal constant is allowed in the condition of a <code>while
 			</code>, <code>for</code> or <code>do</code> statement to allow for
 			such common constructs as:</para>
 
-		<programlisting language="C++">while ( true ) {
+		<programlisting language="cpp">while ( true ) {
 	// while statement body
 }</programlisting>
 
-			<para>and target dependent constant expressions are allowed in the condition
+		<para>and target dependent constant expressions are allowed in the condition
 			of an <code>if</code> statement, but otherwise constant conditions
 			are reported according to the status of this check.</para>
 
 		<para>The common error of writing <code>=</code> rather than <code>==</code>
 			in conditions can be detected using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA assignment as bool <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA assignment as bool <emphasis>allow</emphasis></programlisting>
 
-			<para>which can be used to disallow such assignment expressions in contexts
+		<para>which can be used to disallow such assignment expressions in contexts
 			where a boolean is expected.	The error message can be suppressed
 			by enclosing the assignment within parentheses.</para>
 
 		<para>Another common error associated with iteration statements, particularly
-			with certain <A HREF="style.html">heretical</A> brace styles, is the
+			with certain brace styles, is the
 			accidental insertion of an extra semicolon as in:</para>
 
-		<programlisting language="C++">for ( init ; cond ; step ) ;
+		<programlisting language="cpp">for ( init ; cond ; step ) ;
 {
 	// for statement body
 }</programlisting>
 
-			<para>The directive:</para>
+		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA extra ; after conditional <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA extra ; after conditional <emphasis>allow</emphasis></programlisting>
 
-			<para>can be used to enable a check for such suspicious empty iteration
+		<para>can be used to enable a check for such suspicious empty iteration
 			statement bodies (it actually checks for <code>;{</code>).</para>
 	</section>
 
@@ -60,17 +59,17 @@
 			The TenDRA C and C++ producers allow a <code>switch</code> statement
 			to be asserted to be exhaustive using the syntax:</para>
 
-		<programlisting language="C++">switch ( cond ) EXHAUSTIVE {
+		<programlisting language="cpp">switch ( cond ) EXHAUSTIVE {
 	// switch statement body
 }</programlisting>
 
 		<para>where <code>EXHAUSTIVE</code> is either the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA exhaustive</programlisting>
+		<programlisting language="cpp">#pragma TenDRA exhaustive</programlisting>
 
 		<para>or a keyword introduced using:</para>
 
-		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for exhaustive</programlisting>
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for exhaustive</programlisting>
 
 		<para>Knowing whether a <code>switch</code> statement is exhaustive or not
 			means that checks relying on flow analysis (including variable usage
@@ -80,7 +79,7 @@
 			<code>switch</code> statement is exhaustive or not.	For example,
 			the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA enum switch analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA enum switch analysis <emphasis>on</emphasis></programlisting>
 
 		<para>enables a check on <code>switch</code> statements on values of enumeration
 			type.	Such statements should be exhaustive, either explicitly by
@@ -91,19 +90,20 @@
 			this check, boolean values are treated as if they were declared using
 			an enumeration type of the form:</para>
 
-		<programlisting language="C++">enum bool { false = 0, true = 1 } ;</programlisting>
+		<programlisting language="cpp">enum bool { false = 0, true = 1 } ;</programlisting>
 
 		<para>A common source of errors in <code>switch</code> statements is the
 			fall-through from one <code>case</code> or <code>default</code>
 			statement to the next.	A check for this can be enabled using:</para>
 
-		<programlisting language="C++">#pragma TenDRA fall into case <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA fall into case <emphasis>allow</emphasis></programlisting>
+
 		<para><code>case</code> or <code>default</code> labels where fall-through
 			from the previous statement is intentional can be marked by preceding
 			them by a keyword, <code>FALL_THRU</code> say, introduced using the
 			directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for fall into case</programlisting>
+		<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for fall into case</programlisting>
 	</section>
 
 	<section id="for">
@@ -113,16 +113,16 @@
 			is the body of the <code>for</code> statement; in older dialects it
 			extended to the end of the enclosing block.	So:</para>
 
-		<programlisting language="C++">for ( int i = 0 ; i &lt; 10 ; i++ ) {
+		<programlisting language="cpp">for ( int i = 0 ; i &lt; 10 ; i++ ) {
 	// for statement body
 }
 return i ;	// OK in older dialects, error in ISO C++</programlisting>
 
-			<para>This behaviour is controlled by the directive:</para>
+		<para>This behaviour is controlled by the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ for initialization block <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ for initialization block <emphasis>on</emphasis></programlisting>
 
-			<para>a state of <code>on</code> corresponding to the ISO rules and
+		<para>a state of <code>on</code> corresponding to the ISO rules and
 			<code>off</code> to the older rules.	Perhaps most useful is the
 			<code>warning</code> state which implements the old rules but gives
 			a warning if a variable declared in a for-init-statement is used outside
@@ -139,9 +139,9 @@ return i ;	// OK in older dialects, error in ISO C++</programlisting>
 			<code>void</code>.	It is possible to enable this behaviour using
 			the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA incompatible void return <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA incompatible void return <emphasis>allow</emphasis></programlisting>
 
-			<para>Note that this check includes the implicit <code>return</code> caused
+		<para>Note that this check includes the implicit <code>return</code> caused
 			by falling off the end of a function.	The effect of such a
 			<code>return</code> statement is undefined.	The C++ rule that falling
 			off the end of <code>main</code> is equivalent to returning a value

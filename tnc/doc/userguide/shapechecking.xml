@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="S4">
 	<title>Shape checking</title>
@@ -14,7 +13,7 @@
 		viewed by passing the <emphasis>-cv</emphasis> flag to <code>tnc</code>. Each expression
 		is associated with its shape by means of the:</para>
 
-	<programlisting>( exp_with_shape exp shape ) -&gt; exp</programlisting>
+	<programlisting language="tnc">( exp_with_shape exp shape ) -&gt; exp</programlisting>
 
 	<para>pseudo-construct. Unknown shapes are indicated by <code>....</code></para>
 </chapter>

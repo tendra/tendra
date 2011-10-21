@@ -1,46 +1,56 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE book SYSTEM "minidocbook.dtd">
 
 <!--
   $Id$
 -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
-  <bookinfo>
-    <title>TDF Specification, Issue 4.0</title>
+	<bookinfo>
+		<title>TDF Specification, Issue 4.0</title>
 
-    <othercredit class="copyeditor">
-      <firstname>Matthew</firstname>
-      <surname>Haub</surname>
-      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
-    </othercredit>
+		<authorgroup>
+			<othercredit class="copyeditor">
+				<firstname>Matthew</firstname>
+				<surname>Haub</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
 
-    <corpauthor>DERA</corpauthor>
-    <pubdate>2005</pubdate>
+			<othercredit class="copyeditor">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
+	
+			<corpauthor>DERA</corpauthor>
+		</authorgroup>
 
-    <copyright>
-      <year>2004</year>
-      <year>2005</year>
-      <year>2007</year>
+		<pubdate>2005</pubdate>
 
-      <holder>The TenDRA Project</holder>
-    </copyright>
+		<copyright>
+			<year>2004</year>
+			<year>2005</year>
+			<year>2007</year>
 
-    <copyright>
-      <year>1998</year>
+			<holder>The TenDRA Project</holder>
+		</copyright>
 
-      <holder>DERA</holder>
-    </copyright>
-  </bookinfo>
+		<copyright>
+			<year>1998</year>
 
-  <xi:include href="preface.xml"/>
-  <xi:include href="chapter1.xml"/>
-  <xi:include href="chapter2.xml"/>
-  <xi:include href="chapter3.xml"/>
-  <xi:include href="chapter4.xml"/>
-  <xi:include href="chapter5.xml"/>
-  <xi:include href="chapter6.xml"/>
-  <xi:include href="chapter7.xml"/>
-  <xi:include href="chapter8.xml"/>
+			<holder>DERA</holder>
+		</copyright>
+	</bookinfo>
+
+	<xi:include href="preface.xml"/>
+
+	<xi:include href="chapter1.xml"/>
+	<xi:include href="chapter2.xml"/>
+	<xi:include href="chapter3.xml"/>
+	<xi:include href="chapter4.xml"/>
+	<xi:include href="chapter5.xml"/>
+	<xi:include href="chapter6.xml"/>
+	<xi:include href="chapter7.xml"/>
+	<xi:include href="chapter8.xml"/>
+
 </book>

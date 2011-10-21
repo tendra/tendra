@@ -1,9 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-
-	<!ENTITY sid "<application><acronym>SID</acronym></application>">
-]>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="info-file">
 	<title>The C information file</title>
@@ -90,75 +86,69 @@
 
 			<para>By default, the following prefixes are used:</para>
 
-			<table id="identifier-prefixes">
+			<table>
 				<title>Identifier prefixes</title>
 
-				<tgroup cols="2">
-					<thead>
-						<row>
-							<entry>Prefix</entry>
+				<col align="center"/>
+				<col align="left"/>
 
-							<entry>Meaning</entry>
-						</row>
-					</thead>
+				<thead>
+					<tr>
+						<th>Prefix</th>
+						<th>Meaning</th>
+					</tr>
+				</thead>
 
-					<tbody>
-						<row>
-							<entry><code>ZT</code></entry>
+				<tbody>
+					<tr>
+						<td><code>ZT</code></td>
+						<td>This prefix is used before type identifiers, for
+							the type name itself.</td>
+					</tr>
 
-							<entry>This prefix is used before type identifiers, for
-								the type name itself.</entry>
-						</row>
+					<tr>
+						<td><code>ZR</code></td>
+						<td>This prefix is used before rule identifiers, for
+							the rule's implementation function.</td>
+					</tr>
 
-						<row>
-							<entry><code>ZR</code></entry>
+					<tr>
+						<td><code>ZL</code></td>
+						<td>This prefix is used before rule identifiers, for
+							the rule's label when tail recursion is being
+							eliminated. In this case, a number is added to the
+							suffix before the identifier name, to prevent clashes
+							when a rule is inlined twice in the same function.	It
+							is also used before other labels that are automatically
+							generated and are just numbered.</td>
+					</tr>
 
-							<entry>This prefix is used before rule identifiers, for
-								the rule's implementation function.</entry>
-						</row>
+					<tr>
+						<td><code>ZI</code></td>
+						<td>This prefix is used before name identifiers used as
+							parameters to functions, or in normal usage. It is also
+							used by non-local names (which doesn't cause a problem
+							as they always occur scoped, and local names never
+							do).</td>
+					</tr>
 
-						<row>
-							<entry><code>ZL</code></entry>
+					<tr>
+						<td><code>ZO</code></td>
+						<td>This prefix is used before name identifiers used as
+							results of functions. Results are passed as reference
+							parameters, and this suffix is used then. Another
+							identifier with the <code>ZI</code> prefix is also used
+							within the function, and the type reference assignment
+							operator is used at the end of the function to assign
+							the results to the reference parameters.</td>
+					</tr>
 
-							<entry>This prefix is used before rule identifiers, for
-								the rule's label when tail recursion is being
-								eliminated. In this case, a number is added to the
-								suffix before the identifier name, to prevent clashes
-								when a rule is inlined twice in the same function.	It
-								is also used before other labels that are automatically
-								generated and are just numbered.</entry>
-						</row>
-
-						<row>
-							<entry><code>ZI</code></entry>
-
-							<entry>This prefix is used before name identifiers used as
-								parameters to functions, or in normal usage. It is also
-								used by non-local names (which doesn't cause a problem
-								as they always occur scoped, and local names never
-								do).</entry>
-						</row>
-
-						<row>
-							<entry><code>ZO</code></entry>
-
-							<entry>This prefix is used before name identifiers used as
-								results of functions. Results are passed as reference
-								parameters, and this suffix is used then. Another
-								identifier with the <code>ZI</code> prefix is also used
-								within the function, and the type reference assignment
-								operator is used at the end of the function to assign
-								the results to the reference parameters.</entry>
-						</row>
-
-						<row>
-							<entry><code>ZB</code></entry>
-
-							<entry>This prefix is used before the terminal symbol
-								names in the generated header file.</entry>
-						</row>
-					</tbody>
-				</tgroup>
+					<tr>
+						<td><code>ZB</code></td>
+						<td>This prefix is used before the terminal symbol
+							names in the generated header file.</td>
+					</tr>
+				</tbody>
 			</table>
 		</listitem>
 
@@ -243,13 +233,15 @@
 		<variablelist>
 			<varlistentry>
 				<term><code>@@</code></term>
+
 				<listitem>
 					<para>This substitutes the <code>@</code> character itself.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@:<token>label</token></code></term>
+				<term><code>@:<replaceable>label</replaceable></code></term>
+
 				<listitem>
 					<para>This form marks a label, which will be substituted for in
 						the output code. This is necessary, because an action may be
@@ -264,7 +256,8 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@<token>identifier</token></code></term>
+				<term><code>@<replaceable>identifier</replaceable></code></term>
+
 				<listitem>
 					<para>This form marks a parameter or result identifier
 						substitution. If parameter and result identifiers are not
@@ -280,13 +273,14 @@
 						(nor may their address be taken - they are immutable). To try
 						to prevent this, parameters that are substituted may be cast
 						to their own type, which makes them unmodifiable in ISO C (see
-						the notes on the <link linkend="casts"><code>casts</code>
-						language specific option</link>).</para>
+						the notes on the <code>casts</code>
+						language specific option).</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@&amp;<token>identifier</token></code></term>
+				<term><code>@&amp;<replaceable>identifier</replaceable></code></term>
+
 				<listitem>
 					<para>This form marks a parameter identifier whose address is to
 						be substituted, but whose contents will not be modified. The
@@ -297,7 +291,8 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@=<token>identifier</token></code></term>
+				<term><code>@=<replaceable>identifier</replaceable></code></term>
+
 				<listitem>
 					<para>This form marks a parameter identifier that will be
 						modified. For this to be useful, the parameter should be a call
@@ -310,6 +305,7 @@
 
 			<varlistentry>
 				<term><code>@!</code></term>
+
 				<listitem>
 					<para>This form marks an exception raise. In the generated code, a
 						jump to the current exception handler will be substituted. This
@@ -319,6 +315,7 @@
 
 			<varlistentry>
 				<term><code>@.</code></term>
+
 				<listitem>
 					<para>This form marks an attempt to access the current terminal.
 						This substitution is only valid in actions.</para>
@@ -327,6 +324,7 @@
 
 			<varlistentry>
 				<term><code>@&gt;</code></term>
+
 				<listitem>
 					<para>This form marks an attempt to advance the lexical analyser.
 						This substitution is only valid in actions.</para>
@@ -334,7 +332,8 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><code>@$<token>terminal</token></code></term>
+				<term><code>@$<replaceable>terminal</replaceable></code></term>
+
 				<listitem>
 					<para>This form introduces a terminal, as would be referenced by
 						the parser itself. This serves two purposes; firstly it acts
@@ -353,8 +352,7 @@
 			<code>@</code>, <code>@&amp;</code> or <code>@=</code> and the
 			identifier name. An example of a code block is:</para>
 
-		<programlisting language="SID C Actions">
-@{
+		<programlisting language="act">@{
 	/* A code block */
 	{
 		int i ;
@@ -388,8 +386,7 @@
 			terminated by a semicolon. The following example shows all of the
 			prefix names, and their default values:</para>
 
-		<programlisting language="SID C Actions">
-%prefixes%
+		<programlisting language="act">%prefixes%
 type      = ZT ;
 function  = ZR ;
 label     = ZL ;
@@ -411,7 +408,7 @@ terminal  = ZB ;</programlisting>
 			to all actions is certainly possible, but a little
 			inconvenient:</para>
 
-		<programlisting language="SID Grammar">rule: ( l1 : ParsetreeT, ... ) -> ( ... ) = {
+		<programlisting language="sid">rule: ( l1 : ParsetreeT, ... ) -> ( ... ) = {
 	...
 }</programlisting>
 
@@ -434,8 +431,7 @@ terminal  = ZB ;</programlisting>
 		<para>Persistent variables are declared in their own section. This
 			section is optional.</para>
 
-		<programlisting language="SID C Actions">
-%persistents%
+		<programlisting language="act">%persistents%
 
 	pv1 : Type1T ;
 	pv2 : Type2T ;
@@ -444,8 +440,7 @@ terminal  = ZB ;</programlisting>
 		<para>The persistent variables declared may be used in actions in the
 			same manner as actions' parameters:</para>
 
-		<programlisting language="SID C Actions">
-&lt;append-node&gt; : ( l1 : Type3 ) -&gt; ( ) = @{
+		<programlisting language="act">&lt;append-node&gt; : ( l1 : Type3 ) -&gt; ( ) = @{
 	f ( @pv1, @pv1, @l1 ) ;
 @} ;
 </programlisting>
@@ -474,8 +469,7 @@ terminal  = ZB ;</programlisting>
 			C identifier it is to be mapped to, and terminated by a semicolon. An
 			example follows:</para>
 
-		<programlisting language="SID C Actions">
-%maps%
+		<programlisting language="act">%maps%
 NumberT    -&gt; unsigned ;
 calculator -&gt; calculator ;</programlisting>
 
@@ -499,8 +493,7 @@ calculator -&gt; calculator ;</programlisting>
 			parser file; the second code block will be inserted at the start of
 			the generated header file. An example is:</para>
 
-	<programlisting language="SID C Actions">
-%header% @{
+		<programlisting language="act">%header% @{
 	#include "lexer.h"
 
 	LexerT token ;
@@ -527,8 +520,7 @@ calculator -&gt; calculator ;</programlisting>
 			definition should have one parameter, and one result. The action's
 			name should be the name of the type. An example follows:</para>
 
-		<programlisting language="SID C Actions">
-%assignments%
+		<programlisting language="act">%assignments%
 
 ListT : ( l1 ) -&gt; ( l2 ) = @{
 	if ( @l2.head = @l1.head ) {
@@ -569,8 +561,7 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
 			rather than the object itself. An example reference assignment section
 			is:</para>
 
-		<programlisting language="SID C Actions">
-%parameter-assignments%
+		<programlisting language="act">%parameter-assignments%
 
 ListT : ( l1 ) -&gt; ( l2 ) = @{
 	if ( @l2.head = @l1-&gt;head ) {
@@ -594,8 +585,7 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
 			are assigned back through the reference parameters passed into the
 			function. An example result assignment section is:</para>
 
-		<programlisting language="SID C Actions">
-%result-assignments%
+		<programlisting language="act">%result-assignments%
 
 ListT : ( l1 ) -&gt; ( l2 ) = @{
 	if ( @l2-&gt;head = @l1.head ) {
@@ -620,8 +610,7 @@ ListT : ( l1 ) -&gt; ( l2 ) = @{
 			should be the same as the result of the terminal. An example of the
 			terminal result extraction section follows:</para>
 
-		<programlisting language="SID C Actions">
-%terminals%
+		<programlisting language="act">%terminals%
 
 number : () -&gt; ( n ) = @{
 	@n = token.u.number ;
@@ -644,7 +633,7 @@ string : () -&gt; ( s ) = @{
 			sections: the section header followed by definitions for all of the
 			actions. An action definition has the following form:</para>
 
-		<programlisting>&lt;action-name&gt; : ( parameters ) -&gt; ( results ) = code-block ;</programlisting>
+		<programlisting language="act">&lt;action-name&gt; : ( parameters ) -&gt; ( results ) = code-block ;</programlisting>
 
 		<para>This is similar to the form of all previous definitions, except
 			that the name is surrounded in angle brackets. What follows is also
@@ -665,12 +654,11 @@ string : () -&gt; ( s ) = @{
 			the language independent file, if the type of an action is zero-tuple
 			to zero-tuple, then the type can be omitted, e.g.:</para>
 
-		<programlisting language="SID C Actions">&lt;action&gt; = @{ /* .... */ @} ;</programlisting>
+		<programlisting language="act">&lt;action&gt; = @{ /* .... */ @} ;</programlisting>
 
 		<para>An example action definition section is:</para>
 
-		<programlisting language="SID C Actions">
-%actions%
+		<programlisting language="act">%actions%
 
 &lt;add&gt; : ( v1, v2 ) -&gt; ( v3 ) = @{
 	@v3 = @v1 + @v2 ;
@@ -708,8 +696,7 @@ string : () -&gt; ( s ) = @{
 		<para>After the action definition section comes the trailer section.
 			This has the same form as the header section. An example is:</para>
 
-		<programlisting language="SID C Actions">
-%trailer% @{
+		<programlisting language="act">%trailer% @{
 	int main ()
 	{
 		next_token () ;

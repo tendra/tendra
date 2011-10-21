@@ -1,9 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-
-	<!ENTITY sid "<application><acronym>SID</acronym></application>">
-]>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="features">
 	<title>Features</title>
@@ -21,8 +17,7 @@
 			are expanded if necessary to ensure that predicates that may be used to
 			select which alternative to go down always begin the alternative, e.g.:</para>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+		<programlisting language="sid">rule1 = {
 	rule2 ;
 	/* .... */
 ||
@@ -38,8 +33,7 @@ rule2 = {
 
 		<para>would be expanded into:</para>
 
-		<programlisting language="SID Grammar">
-rule1 = {
+		<programlisting language="sid">rule1 = {
 	? = predicate ;
 	/* .... */
 	/* .... */
@@ -54,8 +48,7 @@ rule1 = {
 			must be the first thing in the alternative, so the following would not
 			be allowed:</para>
 
-		<programlisting language="SID Grammar">
-rule = {
+		<programlisting language="sid">rule = {
 	&lt;action&gt; ;
 	? = &lt;predicate&gt; ;
 	/* .... */
@@ -130,14 +123,13 @@ rule = {
 
 		<para>For example, given the following rule:</para>
 
-		<programlisting language="SID Grammar">rule1 : ( :Type1T, :Type2T, :Type3T &amp; ) -&gt; ( :Type4T ) ;</programlisting>
+		<programlisting language="sid">rule1 : ( :Type1T, :Type2T, :Type3T &amp; ) -&gt; ( :Type4T ) ;</programlisting>
 
 		<para>where <code>Type2T</code> has a parameter assignment operator defined,
 			and <code>rule1</code> is mapped to <code>rule1</code> (and the type
 			names are mapped to themselves), the call would be something like:</para>
 
-		<programlisting language="C">
-Type1T a = make_type1 () ;
+		<programlisting language="c">Type1T a = make_type1 () ;
 Type2T b = make_type2 () ;
 Type3T c = make_type3 () ;
 Type4T d ;

@@ -67,7 +67,7 @@
 
 	<refnamediv>
 		<refname>tld</refname>
-		<refpurpose>The &tdf; Linker - File Formats</refpurpose>
+		<refpurpose>The TDF Linker - File Formats</refpurpose>
 	</refnamediv>
 
 	<refsection id="introduction">
@@ -95,60 +95,72 @@
 			<varlistentry>
 				<term>ALIGN</term>
 
-				<listitem>This is a byte alignment.  It forces the next object to
-					begin on an eight bit boundary.</listitem>
+				<listitem>
+					<para>This is a byte alignment.  It forces the next object to
+						begin on an eight bit boundary.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>TDFINT</term>
 
-				<listitem>This is an unsigned number of unbounded size.
-					Its representation is described properly in the &tdf;
-					specification.  It is a series of nibbles (four bits), with
-					the high bit used as a terminator and the low three bits
-					used as an octal digit.  The terminator bit is set on the
-					final octal digit.  As an example, the number ten would be
-					represented (in binary) as: <code>0001 1010</code>.</listitem>
+				<listitem>
+					<para>This is an unsigned number of unbounded size.
+						Its representation is described properly in the &tdf;
+						specification.  It is a series of nibbles (four bits), with
+						the high bit used as a terminator and the low three bits
+						used as an octal digit.  The terminator bit is set on the
+						final octal digit.  As an example, the number ten would be
+						represented (in binary) as: <code>0001 1010</code>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>BYTE</term>
 
-				<listitem>This is an eight bit quantity.
-					BYTEs are always aligned on an eight bit boundary.</listitem>
+				<listitem>
+					<para>This is an eight bit quantity.
+						BYTEs are always aligned on an eight bit boundary.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>TDFIDENT</term>
 
-				<listitem>A TDFIDENT is a sequence of characters.  It is possible to
-					change the size of the characters, although the current
-					implementation will produce an error for TDFIDENTs with
-					character sizes other than eight bits.  A TDFIDENT is
-					represented by two TDFINTs (the size of the characters in
-					bits and the number of characters in the TDFIDENT), and a
-					sequence of BYTEs.</listitem>
+				<listitem>
+					<para>A TDFIDENT is a sequence of characters.  It is possible to
+						change the size of the characters, although the current
+						implementation will produce an error for TDFIDENTs with
+						character sizes other than eight bits.  A TDFIDENT is
+						represented by two TDFINTs (the size of the characters in
+						bits and the number of characters in the TDFIDENT), and a
+						sequence of BYTEs.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>UNIQUE</term>
 
-				<listitem>A UNIQUE is a list of TDFIDENTs.  It is represented as a
-					TDFINT specifying the number of TDFIDENTs in the UNIQUE,
-					followed by that many TDFIDENTs.</listitem>
+				<listitem>
+					<para>A UNIQUE is a list of TDFIDENTs.  It is represented as a
+						TDFINT specifying the number of TDFIDENTs in the UNIQUE,
+						followed by that many TDFIDENTs.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>EXTERNAL</term>
 
-				<listitem>An EXTERNAL is a mechanism for identifying external
-					identifiers.  It is represented as a discriminating tag,
-					followed by a byte ALIGNment, followed by either a TDFIDENT
-					or a UNIQUE.  The tag is a two bit number, where one
-					represents a TDFIDENT, two represents a UNIQUE, and zero and
-					three are currently illegal.  UNIQUEs are only used as part
-					of an EXTERNAL; TDFIDENTs are used as entities in their own
-					right, as well as in EXTERNALs.</listitem>
+				<listitem>
+					<para>An EXTERNAL is a mechanism for identifying external
+						identifiers.  It is represented as a discriminating tag,
+						followed by a byte ALIGNment, followed by either a TDFIDENT
+						or a UNIQUE.  The tag is a two bit number, where one
+						represents a TDFIDENT, two represents a UNIQUE, and zero and
+						three are currently illegal.  UNIQUEs are only used as part
+						of an EXTERNAL; TDFIDENTs are used as entities in their own
+						right, as well as in EXTERNALs.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 
@@ -161,34 +173,42 @@
 			<varlistentry>
 				<term>&lt;basic_type&gt;</term>
 
-				<listitem>This represents one of the basic types listed
-					above.</listitem>
+				<listitem>
+					<para>This represents one of the basic types listed
+						above.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&lt;type&gt; * &lt;integer&gt;</term>
 
-				<listitem>This represents a sequence of objects of the specified type.
-					The &lt;integer&gt; may be either an integer literal, or a
-					name that has been previously mentioned and is a TDFINT
-					object.</listitem>
+				<listitem>
+					<para>This represents a sequence of objects of the specified type.
+						The &lt;integer&gt; may be either an integer literal, or a
+						name that has been previously mentioned and is a TDFINT
+						object.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>{ &lt;name1&gt;: &lt;type1&gt; ... &lt;nameN&gt;: &lt;typeN&gt; }</term>
 
-				<listitem>This represents a structure composed of the elements
-					"&lt;name1&gt;: &lt;type1&gt;" to "&lt;nameN&gt;: &lt;typeN&gt;".
-					It is used for sequences of objects where the objects are not of basic
-					types.</listitem>
+				<listitem>
+					<para>This represents a structure composed of the elements
+						"&lt;name1&gt;: &lt;type1&gt;" to "&lt;nameN&gt;: &lt;typeN&gt;".
+						It is used for sequences of objects where the objects are not of basic
+						types.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&lt;type&gt; = ( &lt;value1&gt; | ... | &lt;valueN&gt; )</term>
 
-				<listitem>This represents a type with a constraint imposed upon it.
-					The object value must be one of &lt;value1&gt;
-					to &lt;valueN&gt;.</listitem>
+				<listitem>
+					<para>This represents a type with a constraint imposed upon it.
+						The object value must be one of &lt;value1&gt;
+						to &lt;valueN&gt;.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
@@ -198,7 +218,7 @@
 
 		<para>A &tdf; capsule has the following structure:</para>
 
-		<programlisting language="BNF">magic				BYTE * 4 = "TDFC"
+		<programlisting language="bnf">magic				BYTE * 4 = "TDFC"
 major_version			TDFINT
 minor_version			TDFINT
 				ALIGN
@@ -324,36 +344,43 @@ units:				{
 			sequence of bits, with the following meanings:</para>
 
 		<table>
-			<tr>
-				<th>Bit</th>
-				<th>Meaning if set</th>
-			</tr>
+			<col align="center"/>
+			<col align="left"/>
 
-			<tr>
-				<td><code>0</code></td>
-				<td><para>The name is used within this capsule.</para></td>
-			</tr>
+			<thead>
+				<tr>
+					<th>Bit</th>
+					<th>Meaning if set</th>
+				</tr>
+			</thead>
 
-			<tr>
-				<td><code>1</code></td>
-				<td><para>The name is declared within this capsule.</para></td>
-			</tr>
+			<tbody>
+				<tr>
+					<td><code>0</code></td>
+					<td>The name is used within this capsule.</td>
+				</tr>
 
-			<tr>
-				<td><code>2</code></td>
-				<td><para>The name is uniquely defined within this capsule.
-					If this bit is set for a tag, then the declared bit
-					must also be set (i.e. a declaration must exist).</para></td>
-			</tr>
+				<tr>
+					<td><code>1</code></td>
+					<td>The name is declared within this capsule.</td>
+				</tr>
 
-			<tr>
-				<td><code>3</code></td>
-				<td><para>The name is defined in this capsule, but may have
-					other definitions provided by other capsules.  This
-					bit may not be set for tokens.  If a tag has this
-					bit set, then the declared bit must also be set
-					(i.e. a declaration must exist).</para></td>
-			</tr>
+				<tr>
+					<td><code>2</code></td>
+					<td>The name is uniquely defined within this capsule.
+						If this bit is set for a tag, then the declared bit
+						must also be set (i.e. a declaration must exist).</td>
+				</tr>
+
+				<tr>
+					<td><code>3</code></td>
+					<td>The name is defined in this capsule, but may have
+						other definitions provided by other capsules.  This
+						bit may not be set for tokens.  If a tag has this
+						bit set, then the declared bit must also be set
+						(i.e. a declaration must exist).</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<para>All of the other bits in the TDFINT are reserved.  The linker uses the
@@ -378,7 +405,7 @@ units:				{
 			of the library.  At present only type zero libraries are supported.
 			The format of a type zero library is as follows:</para>
 
-		<programlisting language="BNF">magic:				BYTE * 4 = "TDFL"
+		<programlisting language="bnf">magic:				BYTE * 4 = "TDFL"
 major_version:			TDFINT
 minor_version:			TDFINT
 				ALIGN

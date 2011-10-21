@@ -1,15 +1,14 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="wbS71">Preprocessing checks</title>
+	<title>Preprocessing checks</title>
 
 	<para>This chapter describes tchk's capabilities for checking the
 		preprocessing constructs that arise in C.</para>
 
 	<section>
-		<title id="1">Preprocessor directives</title>
+		<title>Preprocessor directives</title>
 
 		<para>By default, the TenDRA C checker understands those preprocessor
 			directives specified by the ISO C standard, section 6.8, i.e.
@@ -22,7 +21,7 @@
 			statements are ignored by default. The check to detect unknown
 			pragma statements is controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA unknown pragma <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA unknown pragma <emphasis>permit</emphasis></programlisting>
 
 		<para>The options for <emphasis>permit</emphasis> are
 			<code>disallow</code> (raise an error if an unknown pragma is
@@ -35,7 +34,7 @@
 			<code>#unassert</code> and <code>#weak</code> may be permitted
 			using:</para>
 
-		<programlisting language="C">#pragma TenDRA directive <emphasis>dir</emphasis> allow</programlisting>
+		<programlisting language="c">#pragma TenDRA directive <emphasis>dir</emphasis> allow</programlisting>
 
 		<para>where <emphasis>dir</emphasis> is one of <code>file</code>,
 			<code>ident</code>, <code>assert</code>, <code>unassert</code> or
@@ -45,19 +44,19 @@
 			be added to indicate that, although the directive is allowed, its
 			effect is ignored. Thus for example:</para>
 
-		<programlisting language="C">#pragma TenDRA directive ident (ignore) allow</programlisting>
+		<programlisting language="c">#pragma TenDRA directive ident (ignore) allow</programlisting>
 
 		<para>causes the checker to ignore any #ident directives without
 			raising any errors.</para>
 
 		<para>Finally, the directive dir can be disallowed using:</para>
 
-		<programlisting language="C">#pragma TenDRA directive <emphasis>dir</emphasis> disallow</programlisting>
+		<programlisting language="c">#pragma TenDRA directive <emphasis>dir</emphasis> disallow</programlisting>
 
 		<para>Finally, the directive <emphasis>dir</emphasis> can be disallowed
 			using:</para>
 
-		<programlisting language="C">#pragma TenDRA unknown directive allow</programlisting>
+		<programlisting language="c">#pragma TenDRA unknown directive allow</programlisting>
 
 		<para>Any other unknown preprocessing directives cause the checker to
 			raise an error in the default mode. The pragma may be used to force
@@ -68,7 +67,7 @@
 	</section>
 
 	<section>
-		<title id="7">Indented Preprocessing Directives</title>
+		<title>Indented Preprocessing Directives</title>
 
 		<para>The ISO C standard allows white space to occur before the
 			<code>#</code> in a preprocessing directive, and between the
@@ -76,11 +75,11 @@
 			have problems with such directives. The checker's treatment of such
 			directives can be set using:</para>
 
-		<programlisting language="C">#pragma TenDRA indented # directive <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA indented # directive <emphasis>permit</emphasis></programlisting>
 
 		<para>which detects white space before the <code>#</code> and:</para>
 
-		<programlisting language="C">#pragma TenDRA indented directive after # <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA indented directive after # <emphasis>permit</emphasis></programlisting>
 
 		<para>which detects white space before the <code>#</code> and the
 			directive name. The options for <emphasis>permit</emphasis> are
@@ -90,15 +89,14 @@
 	</section>
 
 	<section>
-		<title id="9">Multiple macro definitions</title>
+		<title>Multiple macro definitions</title>
 
 		<para>The ISO C standard states that, for two definitions of a
 			function-like macro to be equal, both the spelling of the
 			parameters and the macro definition must be equal. Thus, for
 			example, in:</para>
 
-	<programlisting language="C">
-#define f( x ) ( x )
+	<programlisting language="c">#define f( x ) ( x )
 #define f( y ) ( y )</programlisting>
 
 		<para>the two definitions of <code>f</code> are not equal, despite
@@ -107,7 +105,7 @@
 			substitution of parameter names. The type of macro equality used is
 			controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA weak macro equality allow</programlisting>
+		<programlisting language="c">#pragma TenDRA weak macro equality allow</programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code>
 			(use alternative definition of macro equality), <code>warning</code>
@@ -117,7 +115,7 @@
 
 		<para>More generally, the pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA extra macro definition allow</programlisting>
+		<programlisting language="c">#pragma TenDRA extra macro definition allow</programlisting>
 
 		<para>allows macros to be redefined, both consistently and
 			inconsistently. If the definitions are incompatible, the first
@@ -126,7 +124,7 @@
 	</section>
 
 	<section>
-		<title id="11">Macro arguments</title>
+		<title>Macro arguments</title>
 
 		<para>According to the ISO C standard, section 6.8.3, if a macro
 			argument contains a sequence of preprocessing tokens that would
@@ -135,7 +133,7 @@
 			by default. The check to detect such macro arguments is controlled
 			by:</para>
 
-		<programlisting language="C">#pragma TenDRA directive as macro argument <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA directive as macro argument <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code>,
 			<code>warning</code> or <code>disallow</code>.</para>
@@ -149,7 +147,7 @@
 			is raised. The checker's behaviour in this situation is
 			controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA no ident after # <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA no ident after # <emphasis>permit</emphasis></programlisting>
 
 		<para>where the options for <emphasis>permit</emphasis> are
 			<code>allow</code> (do not raise errors), <code>disallow</code>
@@ -158,7 +156,7 @@
 	</section>
 
 	<section>
-		<title id="15">Unmatched quotes</title>
+		<title>Unmatched quotes</title>
 
 		<para>The ISO C standard, section 6.1, states that if a <code>'</code>
 			or <code>"</code> character matches the category of preprocessing
@@ -166,20 +164,20 @@
 			not lexically match the other preprocessing token categories</quote>,
 			then the behaviour is undefined. For example:</para>
 
-		<programlisting language="C">#define a 'b</programlisting>
+		<programlisting language="c">#define a 'b</programlisting>
 
 		<para>would result in undefined behaviour. By default the
 			<code>'</code> character is ignored by tchk. A check to detect such
 			statements may be controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA unmatched quote <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA unmatched quote <emphasis>permit</emphasis></programlisting>
 
 		<para>The usual <code>allow</code>, <code>warning</code> and
 			<code>disallow</code> options are available.</para>
 	</section>
 
 	<section>
-		<title id="17">Include depth</title>
+		<title>Include depth</title>
 
 		<para>Most preprocessors set a maximum depth for <code>#include</code>
 			directives (which may be limited by the maximum number of files
@@ -187,14 +185,14 @@
 			supports a depth equal to this maximum number. However, a smaller
 			maximum depth can be set using:</para>
 
-		<programlisting language="C">#pragma TenDRA includes depth n</programlisting>
+		<programlisting language="c">#pragma TenDRA includes depth n</programlisting>
 
 		<para>where <emphasis>n</emphasis> can be any positive integral
 			constant.</para>
 	</section>
 
 	<section>
-		<title id="19">Text after <code>#endif</code></title>
+		<title>Text after <code>#endif</code></title>
 
 		<para>The ISO C standard, section 6.8, specifies that
 			<code>#endif</code> and <code>#else</code> preprocessor directives
@@ -204,7 +202,7 @@
 			directly followed by a new line. This behaviour may be modified
 			using:</para>
 
-		<programlisting language="C">#pragma TenDRA text after directive <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA text after directive <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code>
 			(no errors are raised and any text on the same line as the
@@ -213,28 +211,28 @@
 	</section>
 
 	<section>
-		<title id="21">Text after <code>#</code></title>
+		<title>Text after <code>#</code></title>
 
 		<para>The ISO C standard specifies that a <code>#</code> occuring
 			outside of a macro replacement list must be followed by a new line
 			or by a preprocessing directive and this is enforced by the checker
 			in default mode. The check is controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA no directive/nline after ident <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA no directive/nline after ident <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> may be <code>allow</code>,
 			<code>disallow</code> or <code>warning</code>.</para>
 	</section>
 
 	<section>
-		<title id="23">New line at end of file</title>
+		<title>New line at end of file</title>
 
 		<para>The ISO C standard, section 5.1.1.2, states that source files
 			must end with new lines. Files which do not end in new lines are
 			flagged as errors by the checker in default mode. The behaviour
 			can be modified using:</para>
 
-		<programlisting language="C">#pragma TenDRA no nline after file end <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA no nline after file end <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> has the usual <code>allow</code>,
 			<code>disallow</code> and <code>warning</code> options.</para>

@@ -5,15 +5,13 @@
 	$Id$
 -->
 
-<chapter id="program">
+<chapter>
     <title>Program overview</title>
 
 	<para>The C++ producer is a large program (over 200000 lines, including
 		automatically generated code) written in C.	A description of the
-		<A HREF="style.html#language">coding conventions</A> used, the
-		<A HREF="style.html#api">API</A> observed and the basic organisation
-		of the <link linkend="styleguide">source code</link> are described in the
-		first section.</para>
+		<link linkend="structure">program structure</link> and the basic organisation
+		of the source code are described in the first section.</para>
 
 	<para>One of the design methods used in the C++ producer is the extensive
 		use of automatic code generation tools.	The type system is based
@@ -22,21 +20,22 @@
 		allows for rigorous static type checking, generic type constructors
 		for lists, stacks etc., encapsulation of the operations on the types
 		within the system, and optional run-time checking for null pointers
-		and discriminated union tags. An overview is given of the <A HREF="alg.html">type
-		system</A> used as the basis of the C++ producer design.
+		and discriminated union tags. An overview is given of the
+		<link linkend="typesystem">type system</link>
+		used as the basis of the C++ producer design.
 		Also see the &calculus-userguide.doc;.</para>
 
 	<para>The other general purpose code generation tool used in the C++ producer
 		is the parser generator, &sid;.
 		A brief description of
-		the problems in writing a <A HREF="parse.html">C++ parser</A> is given.
+		the problems in writing a <link linkend="parsing">C++ parser</link> is given.
 		Also see the &sid-userguide.doc;.</para>
 
 	<para>The other code generation tools used were written specifically for
 		the C++ producer.	The error reporting routines within the producer
-		are based on an <A HREF="error.html">error catalogue</A>, from which
-		code for constructing and printing errors is generated.	The
-		<A HREF="tdf.html">TDF output routines</A> are based on primitives
+		are based on an <link linkend="errors">error catalogue</link>, from which
+		code for constructing and printing errors is generated.
+		The TDF output routines are based on primitives
 		automatically generated from a standard database describing the TDF
 		specification.</para>
 

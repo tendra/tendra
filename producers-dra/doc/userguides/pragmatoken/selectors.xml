@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<chapter>
-	<title id="19">Selector tokens</title>
+<chapter id="selectortoks">
+	<title>Selector tokens</title>
 
 	<para>The use of selector tokens is the primary method of adding member
 		selectors to compound type tokens. (The only other method is to
@@ -15,8 +14,7 @@
 	<para>The syntax for introducing member selector tokens as
 		follows:</para>
 
-	<programlisting language="BNF">
-selector-token:
+	<programlisting language="bnf">selector-token:
 	MEMBER <replaceable>selector-type-name</replaceable> : <replaceable>type-name</replaceable> :
 
 selector-type-name:
@@ -35,8 +33,7 @@ selector-type-name:
 		<replaceable>type-name</replaceable> gives the compound type to which the
 		member selector belongs. For example:</para>
 
-	<programlisting language="C">
-#pragma token STRUCT TAG s_t#
+	<programlisting language="c">#pragma token STRUCT TAG s_t#
 #pragma token MEMBER char*: struct s_t:s_t_mem#</programlisting>
 
 	<para>introduces a compound token type, <code>s_t</code>, which has a
@@ -59,6 +56,7 @@ selector-type-name:
 				were declared. The first identified member of a union is
 				initialised;</para>
 		</listitem>
+
 		<listitem>
 			<para>the addresses of structure members will increase in the order
 				in which they were declared.</para>
@@ -108,8 +106,7 @@ selector-type-name:
 		<code>s_tag</code>. The consequential type resolution leads to the
 		token type <code>t_t</code> being defined to be int.</para>
 
-	<programlisting language="C">
-#pragma token TYPE t_t#
+	<programlisting language="c">#pragma token TYPE t_t#
 #pragma token STRUCT s_t#
 #pragma token MEMBER t_t : s_t : mem_x#
 #pragma token MEMBER t_t : s_t : mem_y#
@@ -118,7 +115,7 @@ typedef struct s_tag s_t;</programlisting>
 
 	<para>Explicit selector token definition takes place using the pragma:</para>
 
-	<programlisting language="BNF">#pragma DEFINE MEMBER<replaceable> type-name</replaceable><replaceable>identifier</replaceable> : <replaceable>member-designator</replaceable>
+	<programlisting language="bnf">#pragma DEFINE MEMBER<replaceable> type-name</replaceable><replaceable>identifier</replaceable> : <replaceable>member-designator</replaceable>
 
 member-designator:
 	<replaceable>identifier</replaceable>
@@ -144,10 +141,12 @@ member-designator:
 			<para>the identifier id must be a member identifying a selector of
 				the compound type specified by <replaceable>type-name</replaceable>;</para>
 		</listitem>
+
 		<listitem>
 			<para>the type of the selector identified by id must have compound
 				type, C say;</para>
 		</listitem>
+
 		<listitem>
 			<para>the <code>member-designator</code> M must identify a member
 				selector of the compound type C.</para>
@@ -162,8 +161,7 @@ member-designator:
 		be the second member of struct <replaceable>s</replaceable> which in turn is the
 		second member of struct <replaceable>s_t</replaceable>.</para>
 
-	<programlisting language="C">
-#pragma token STRUCT s_t#
+	<programlisting language="c">#pragma token STRUCT s_t#
 #pragma token MEMBER int : s_t : mem#
 typedef struct {int x; struct {char y; int z;} s; } s_t;
 #pragma DEFINE MEMBER s_t : mem s.z</programlisting>

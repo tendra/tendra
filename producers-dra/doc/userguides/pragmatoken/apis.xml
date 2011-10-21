@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="wbS163">Tokens and APIs</title>
+	<title>Tokens and APIs</title>
 
 	<para>In Chapter 1 we mentioned that one of the main problems in
 		writing portable software is the lack of separation between
@@ -43,31 +42,44 @@
 	<para>There are three more token definition states which may be set by
 		the programmer. These are as follows:</para>
 
-	<itemizedlist>
-		<listitem>
-			<para>Indefinable - the token is not defined and must not be defined.
-				Any attempt to define the token will cause an error. When compiling
-				applications, interface tokens should be in the indefinable state.
-				It is not possible for a token to move from the state of defined to
-				indefinable;</para>
-		</listitem>
-		<listitem>
-			<para>Committed - the token must be defined during the compilation.
-				If no definition is found the compiler will raise an error.
-				Interface tokens should be in the committed state when being
-				compiled with the system headers and libraries to provide
-				definitions;</para>
-		</listitem>
-		<listitem>
-			<para>Ignored - any definition of the token that is assigned during
-				the compilation of the program will not be output as TDF;</para>
-		</listitem>
-	</itemizedlist>
+	<variablelist>
+		<varlistentry>
+			<term>Indefinable</term>
+
+			<listitem>
+				<para>The token is not defined and must not be defined.
+					Any attempt to define the token will cause an error. When compiling
+					applications, interface tokens should be in the indefinable state.
+					It is not possible for a token to move from the state of defined to
+					indefinable;</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>Committed</term>
+
+			<listitem>
+				<para>The token must be defined during the compilation.
+					If no definition is found the compiler will raise an error.
+					Interface tokens should be in the committed state when being
+					compiled with the system headers and libraries to provide
+					definitions;</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>Ignored</term>
+
+			<listitem>
+				<para>any definition of the token that is assigned during
+					the compilation of the program will not be output as TDF;</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
 
 	<para>These token definition states are set using the pragmas:</para>
 
-	<programlisting language="BNF">
-#pragma <replaceable>token-op token-id-list</replaceable><subscript><replaceable>opt</replaceable></subscript>
+	<programlisting language="bnf">#pragma <replaceable>token-op token-id-list</replaceable>&opt.bnf;
 
 token-op:
 	define
@@ -76,7 +88,7 @@ token-op:
 	interface
 
 token-id-list:	
-	TAG<subscript><replaceable>opt</replaceable></subscript><replaceable>identifier</replaceable><replaceable>dot-list</replaceable><subscript><replaceable>opt</replaceable></subscript><replaceable>token-id-list</replaceable><subscript><replaceable>opt</replaceable></subscript>
+	TAG&opt.bnf;<replaceable>identifier</replaceable><replaceable>dot-list</replaceable>&opt.bnf;<replaceable>token-id-list</replaceable>&opt.bnf;
 
 dot-list:
 	. <replaceable>member-designator</replaceable></programlisting>
@@ -143,26 +155,27 @@ dot-list:
 
 	<para>Files included using:</para>
 
-	<programlisting language="BNF">#include <replaceable>header</replaceable></programlisting>
+	<programlisting language="bnf">#include <replaceable>header</replaceable></programlisting>
 
 	<para>have the same compilation state as the file from which they were included.</para>
 
 	<para>The implementation compilation state is associated with files
 		included using:</para>
 
-	<programlisting language="C">#pragma implement interface <replaceable>header</replaceable></programlisting>
+	<programlisting language="c">#pragma implement interface <replaceable>header</replaceable></programlisting>
 
 	<para>In this context the <code>interface</code> operator is interpreted
 		as the <code>define</code> operator.</para>
 
 	<para>Including a file using:</para>
 
-	<programlisting language="C">#pragma extend interface <replaceable>header</replaceable></programlisting>
+	<programlisting language="c">#pragma extend interface <replaceable>header</replaceable></programlisting>
 
 	<para>causes the compilation state to be extension unless the file
 		from which it was included was in the standard state, in which
 		case the compilation state is the standard state. In the extension
 		state the <code>interface</code> operator is interpreted as the
 		<code>ignore</code> operator.</para>
+
 </chapter>
 

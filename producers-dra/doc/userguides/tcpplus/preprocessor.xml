@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
 	<title>Configuration for the preprocessor</title>
@@ -11,8 +10,7 @@
 		<para>Non-standard preprocessing directives can be controlled using the
 			directives:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA directive <emphasis>ppdir allow</emphasis>
+		<programlisting language="cpp">#pragma TenDRA directive <emphasis>ppdir allow</emphasis>
 #pragma TenDRA directive <emphasis>ppdir</emphasis> (ignore) <emphasis>allow</emphasis></programlisting>
 
 		<para>where <emphasis>ppdir</emphasis> can be <code>assert</code>, <code>file</code>,
@@ -23,19 +21,19 @@
 			<code>(ignore) disallow</code> form).	The treatment of other unknown
 			preprocessing directives can be controlled using:</para>
 
-		<programlisting language="C++">#pragma TenDRA unknown directive <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA unknown directive <emphasis>allow</emphasis></programlisting>
 
 		<para>Cases where the token following the <code>#</code> in a preprocessing
 			directive is not an identifier can be controlled using:</para>
 
-		<programlisting language="C++">#pragma TenDRA no directive/nline after ident <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA no directive/nline after ident <emphasis>allow</emphasis></programlisting>
 
 		<para>When permitted, unknown preprocessing directives are ignored.</para>
 
 		<para>By default, unknown <code>#pragma</code> directives are ignored without
 			comment, however this behaviour can be modified using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA unknown pragma <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA unknown pragma <emphasis>allow</emphasis></programlisting>
 
 		<para>Note that any unknown <code>#pragma TenDRA</code> directives always
 			give an error.</para>
@@ -44,7 +42,7 @@
 			<code>#endif</code> directives.	The following directive can be used
 			to enable such behaviour:</para>
 
-		<programlisting language="C++">#pragma TenDRA text after directive <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA text after directive <emphasis>allow</emphasis></programlisting>
 
 		<para>Such text after a directive is ignored.</para>
 
@@ -53,8 +51,7 @@
 			<code>#</code>, or between the <code>#</code> and the directive identifier.
 			Such white space can be detected using the directives:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA indented # directive <emphasis>allow</emphasis>
+		<programlisting language="cpp">#pragma TenDRA indented # directive <emphasis>allow</emphasis>
 #pragma TenDRA indented directive after # <emphasis>allow</emphasis></programlisting>
 
 		<para>respectively.</para>
@@ -73,8 +70,7 @@
 			is treated as if it were a <code>if</code> statement with braces including
 			its branches; that is:</para>
 
-		<programlisting language="C++">
-#if cond
+		<programlisting language="c">#if cond
 	true_statements
 #else
 	false_statements
@@ -82,8 +78,7 @@
 
 		<para>maps to:</para>
 
-		<programlisting>
-if ( cond ) {
+		<programlisting language="c">if ( cond ) {
 	true_statements
 } else {
 	false_statements
@@ -93,7 +88,7 @@ if ( cond ) {
 			declarations, normally gives an error.	The can however be overridden
 			by the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ conditional declaration <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ conditional declaration <emphasis>allow</emphasis></programlisting>
 
 		<para>which causes both branches of the <code>#if</code> to be analysed.</para>
 	</section>
@@ -108,12 +103,12 @@ if ( cond ) {
 			in order to detect recursive inclusions.	The maximum depth can be
 			set using:</para>
 
-		<programlisting language="C++">#pragma TenDRA includes depth <emphasis>integer-literal</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA includes depth <emphasis>integer-literal</emphasis></programlisting>
 
 		<para>A further check, for full pathnames in <code>#include</code> directives
 			(which may not be portable), can be enabled using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ complete file includes <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ complete file includes <emphasis>allow</emphasis></programlisting>
 	</section>
 
 	<section id="macro">
@@ -122,20 +117,20 @@ if ( cond ) {
 		<para>By default, multiple consistent definitions of a macro are allowed.
 			This behaviour can be controlled using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA extra macro definition <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA extra macro definition <emphasis>allow</emphasis></programlisting>
 
 		<para>The ISO C/C++ rules for determining whether two macro definitions
 			are consistent are fairly restrictive.	A more relaxed rule allowing
 			for consistent renaming of macro parameters can be enabled using:</para>
 
-		<programlisting language="C++">#pragma TenDRA weak macro equality <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA weak macro equality <emphasis>allow</emphasis></programlisting>
 
 		<para>In the definition of macros with parameters, a <code>#</code> in the
 			replacement list must be followed by a parameter name, indicating
 			the stringising operation.	This behaviour can be controlled by the
 			directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA no ident after # <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA no ident after # <emphasis>allow</emphasis></programlisting>
 
 		<para>which allows a <code>#</code> which is not followed by a parameter
 			name to be treated as a normal preprocessing token.</para>
@@ -145,7 +140,7 @@ if ( cond ) {
 			The C++ producer treats such directives as normal sequences of preprocessing
 			tokens, but can be made to report such behaviour using:</para>
 
-		<programlisting language="C++">#pragma TenDRA directive as macro argument <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA directive as macro argument <emphasis>allow</emphasis></programlisting>
 	</section>
 
 </chapter>

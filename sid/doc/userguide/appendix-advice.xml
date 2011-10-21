@@ -1,10 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-
-	<!ENTITY sid "<application><acronym>SID</acronym></application>">
-	<!ENTITY eof "<acronym>EOF</acronym>">
-]>
+<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
 <appendix id="advice">
 	<title>Advice on writing parsers with &sid;</title>
@@ -31,18 +26,16 @@
 
 		<para>Given the action:</para>
 
-		<programlisting language="SID C Actions"><![CDATA[
-<is-eof>: () -> (eof:Boolean) = @{
+		<programlisting language="act"><![CDATA[<is-eof>: () -> (eof:Boolean) = @{
 	@eof = (@. == @$EOF);
 @};]]></programlisting>
 
 		<para>used in a grammar as a predicate, we can have an empty
 			alternative which is only reached during &eof;. This can be used as
-			a <quote>get-out</quote> clause to end recursion; for example,
+			a &ldquo;get-out&rdquo; clause to end recursion; for example,
 			in a shell-like language, the entry point may be expressed as:</para>
 
-		<programlisting language="SID Grammar"><![CDATA[
-script = {
+		<programlisting language="sid"><![CDATA[script = {
 	? = <is-eof>;
 ||
 	list-of-statements;
@@ -63,7 +56,7 @@ script = {
 			&sid; itself is a good example for this typical requirement; the
 			last rule for its entry point reads simply:</para>
 
-		<programlisting language="SID Grammar"><![CDATA[{
+		<programlisting language="sid"><![CDATA[{
 	eof;
 ##
 	<expected-eof>;
@@ -83,11 +76,10 @@ script = {
 			course go on to call actions that raise an error).</para>
 
 		<para>This technique is particularly appropriate for errors which are not
-			simply <quote>missing</quote> items. Instead, those are best handled
+			simply &ldquo;missing&rdquo; items. Instead, those are best handled
 			with empty alternatives, such as:</para>
 
-		<programlisting language="SID Grammar">
-<![CDATA[{
+		<programlisting language="sid"><![CDATA[{
 	semicolon;
 ##
 	<err-expected-semicolon>;
@@ -120,8 +112,7 @@ script = {
 			This is helpful for having the parser perform semantic checks for
 			non-syntax errors such as overflows or type mismatches:</para>
 
-		<programlisting language="SID Grammar"><![CDATA[
-variable-declaration = {
+		<programlisting language="sid"><![CDATA[variable-declaration = {
 	v = variable; equals; l = literal;
 	<instantiate-variable>(v, l);
 };
@@ -183,7 +174,7 @@ list-of-statements = {
 			order, but it is a syntax error to define either <code>A</code> or
 			<code>B</code> twice:</para>
 
-		<programlisting language="SID Grammar"><![CDATA[rule = {
+		<programlisting language="sid"><![CDATA[rule = {
 	? = <a-not-defined>;
 	A;
 ||
@@ -202,7 +193,7 @@ list-of-statements = {
 	</section>
 
 	<section id="advice-panic">
-		<title>Implementing <quote>panic mode</quote></title>
+		<title>Implementing &ldquo;panic mode&rdquo;</title>
 
 		<para>When implementing parsers for compilers, it is often more useful
 			to the user to try to continue a little way rather than exit on the
@@ -210,11 +201,11 @@ list-of-statements = {
 			the user may address those whilst debugging and not resort to tediously
 			dealing with a single error for each compilation attempt.</para>
 
-		<para>The traditional scheme for providing this is to implement a <quote>panic
-			mode</quote> for parsing which returns to a high-level parsing rule
+		<para>The traditional scheme for providing this is to implement a &ldquo;panic
+			mode&rdquo; for parsing which returns to a high-level parsing rule
 			when a syntax or lexical error is detected. Commonly it is sensible to
 			skip the erroneous region and re-synchronise the input stream at a
-			<quote>statement</quote> rule (or whatever suits the grammar).</para>
+			statement rule (or whatever suits the grammar).</para>
 
 		<para>After a syntax error has been encountered, panic mode is provided for
 			by skipping over tokens until a statement separator (commonly a semicolon)
@@ -230,8 +221,7 @@ list-of-statements = {
 			<code>longjmp</code> for C); this exception handle may be entered from
 			any of the children of the given rule:</para>
 
-		<programlisting language="SID Grammar"><![CDATA[
-rule = {
+		<programlisting language="sid"><![CDATA[rule = {
 	...
 ##
 	<panic>;
@@ -241,8 +231,7 @@ rule = {
 		<para>In &sid;, panic mode is quite naturally implemented by providing an
 			action which performs this token-skipping:</para>
 
-		<programlisting language="SID C Actions"><![CDATA[
-<panic>: () -> () = @{
+		<programlisting language="act"><![CDATA[<panic>: () -> () = @{
 	while (@. != @$SEMI && @. != @$EOF) {
 		/* Advance to the next token */
 		@>;
@@ -264,8 +253,7 @@ rule = {
 			token - to obtain the spelling for identifiers, for example.
 			Consider the following fragment:</para>
 
-		<programlisting language="SID Grammar"><![CDATA[
-rule = {
+		<programlisting language="sid"><![CDATA[rule = {
 	w = word;
 	command = <duplicate>(w);
 	empty-list = <empty-list>;
@@ -277,7 +265,7 @@ rule = {
 			for a word, as stored by the lexer), which is passed to the
 			<code>&lt;duplicate&gt;</code> action:</para>
 
-		<programlisting language="SID C Actions"><![CDATA[<duplicate>: (in :STRING) -> (out :STRING) = @{
+		<programlisting language="act"><![CDATA[<duplicate>: (in :STRING) -> (out :STRING) = @{
 	@out = strdup(@in);
 	if (@out == NULL) {
 		perror("strdup");
@@ -294,13 +282,13 @@ rule = {
 			advance one token before executing the <code>&lt;duplicate&gt;</code>
 			action. So when <code>&lt;duplicate&gt;</code> <emphasis>is</emphasis>
 			called, a new token has already been read into the buffer.
-			This gives the effect of these tokens appearing to be <quote>along
-			one</quote>, as each value is one ahead of where it ought to be.</para>
+			This gives the effect of these tokens appearing to be &ldquo;along
+			one&rdquo;, as each value is one ahead of where it ought to be.</para>
 
 		<para>To avoid this, we can have the <code>word</code> terminal
 			perform this duplication itself, and instead simply call:</para>
 
-		<programlisting language="SID C Actions"><![CDATA[w = word;
+		<programlisting language="act"><![CDATA[w = word;
 empty-list = <empty-list>;
 argument-list = list-of-words(empty-list);
 <do-execute>(execute, w, argument-list);

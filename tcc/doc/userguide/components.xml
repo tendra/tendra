@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd" [
 
 	<!ENTITY tcc    "<application><acronym>TCC</acronym></application>">
 	<!ENTITY cc     "<application><acronym>CC</acronym></application>">
@@ -375,15 +374,23 @@
 				decide that we need to do the following:</para>
 
 			<itemizedlist>
-				<listitem>allow the <code>#ident</code> directive,</listitem>
+				<listitem>
+					<para>allow the <code>#ident</code> directive,</para>
+				</listitem>
 
-				<listitem>allow through unknown escape sequences
-					with a warning,</listitem>
+				<listitem>
+					<para>allow through unknown escape sequences
+						with a warning,</para>
+				</listitem>
 
-				<listitem>warn of uses of undeclared procedures,</listitem>
+				<listitem>
+					<para>warn of uses of undeclared procedures,</para>
+				</listitem>
 
-				<listitem>warn of incorrect uses of simple
-					<code>return</code> statements.</listitem>
+				<listitem>
+					<para>warn of incorrect uses of simple
+						<code>return</code> statements.</para>
+				</listitem>
 			</itemizedlist>
 
 			<para>The first two of these are syntactic in nature.
@@ -595,44 +602,52 @@
 
 		<!-- TODO: is this all outdated? just link to the trans' documents? -->
 		<itemizedlist>
-			<listitem>The &tdf; &rarr; i386/i486 translator is called
-				&trans386;.
-				This exists in two versions, one running on SVR4.2 and
-				one on SCO.
-				The two versions differ primarily in the symbolic
-				debugger they support.
-				&trans386; has also been ported to several other
-				i386-based machines, including MS-DOS.</listitem>
+			<listitem>
+				<para>The &tdf; &rarr; i386/i486 translator is called
+					&trans386;.
+					This exists in two versions, one running on SVR4.2 and
+					one on SCO.
+					The two versions differ primarily in the symbolic
+					debugger they support.
+					&trans386; has also been ported to several other
+					i386-based machines, including MS-DOS.</para>
+			</listitem>
 
-			<listitem>The &tdf; &rarr; Sparc (Version 7) translator is
-				called &sparctrans;.
-				This again exists in two versions, one running on SVR4.2
-				and one on SunOS and Solaris 1.
-				These versions again differ primarily in the symbolic debugger supported.</listitem>
+			<listitem>
+				<para>The &tdf; &rarr; Sparc (Version 7) translator is
+					called &sparctrans;.
+					This again exists in two versions, one running on SVR4.2
+					and one on SunOS and Solaris 1.
+					These versions again differ primarily in the symbolic debugger supported.</para>
+			</listitem>
 
-			<listitem>The &tdf; &rarr; Mips (R2000/R3000, little-endian)
-				translator is called &mipstrans;.
-				This differs from the other translators in that instead
-				of outputting a single <filename>.s</filename> file, it
-				outputs two files, a binasm file (with a
-				<filename>.G</filename> suffix) and a symbol table file
-				(with a <filename>.T</filename> suffix).
-				This is discussed in more detail below.
-				&mipstrans; runs on Ultrix, but again has two versions.
-				One runs on Ultrix 4.1 and earlier, the other on 4.2 and
-				later.
-				This necessary because of a change in the format of the
-				binasm file between these two releases.</listitem>
+			<listitem>
+				<para>The &tdf; &rarr; Mips (R2000/R3000, little-endian)
+					translator is called &mipstrans;.
+					This differs from the other translators in that instead
+					of outputting a single <filename>.s</filename> file, it
+					outputs two files, a binasm file (with a
+					<filename>.G</filename> suffix) and a symbol table file
+					(with a <filename>.T</filename> suffix).
+					This is discussed in more detail below.
+					&mipstrans; runs on Ultrix, but again has two versions.
+					One runs on Ultrix 4.1 and earlier, the other on 4.2 and
+					later.
+					This necessary because of a change in the format of the
+					binasm file between these two releases.</para>
+			</listitem>
 
-			<listitem>The &tdf; &rarr; 68030/68040 translator also exists
-				in two versions.
-				One runs on HP-UX and is called &hptrans;; the other runs
-				on NeXTStep and is called &nexttrans; (however the NeXT
-				is not a supported platform because of its lack of
-				standard &api; coverage).
-				These differ, not only in the symbolic debugger supported,
-				but also in the format of the assembly source
-				output.</listitem>
+			<listitem>
+				<para>The &tdf; &rarr; 68030/68040 translator also exists
+					in two versions.
+					One runs on HP-UX and is called &hptrans;; the other runs
+					on NeXTStep and is called &nexttrans; (however the NeXT
+					is not a supported platform because of its lack of
+					standard &api; coverage).
+					These differ, not only in the symbolic debugger supported,
+					but also in the format of the assembly source
+					output.</para>
+			</listitem>
 		</itemizedlist>
 
 		<para>This list is not intended to be definitive.

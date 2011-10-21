@@ -1,252 +1,366 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
 -->
 
 <chapter>
-    <title>Mangled identifier names</title>
+	<title>Mangled identifier names</title>
 
-  <para>
-  In a similar fashion to other C++ compilers, the C++ producer needs
-  a method of mapping C++ identifiers to a form suitable for further
-  processing, namely TDF tag names.  This mangled name contains an encoding
-  of the identifier name, its parent namespace or class and its type.
-  Identifiers with C linkage are not mangled.  The producer contains
-  a built-in <A HREF="man.html#unmangle">name unmangler</A>
-  which performs the reverse operation of transforming the mangled form
-  of an identifier name back to the underlying identifier.  This can
-  be useful when analysing system linker errors.
-  </para>
-  <para>
-  Note that the type of an identifier forms part of its mangled name
-  not only for functions, but also for variables.  Many other compilers
-  do not mangle variable names, however the ISO C++ rules on namespaces
-  and variables with C linkage make it necessary (this can be suppressed
-  using the <code>-j-n</code> command-line option).  Declaring the language
-  linkage of a variable inconsistently can therefore lead to linking
-  errors with the C++ producer which are not detected by other compilers.
-  A common example is:
-  <programlisting language="C++">
-extern int errno ;</programlisting>
-  which, leaving aside whether <code>errno</code> is actually an external
-  variable, should be:
-  <programlisting>
-extern &quot;C&quot; int errno ;</programlisting>
-  </para>
-  <para>
-  As described above, the mangled form of an identifier has three components;
-  the identifier name, the identifier namespace and the identifier type.
-  Two underscores (<code>__</code>) are used to separate the name component
-  from the namespace and type components.  The mangling scheme used
-  is based on that described in the ARM.  The description below is not
-  complete; the mangling and unmangling routines themselves should be
-  consulted for a complete description.
-  </para>
+	<para>In a similar fashion to other C++ compilers, the C++ producer needs
+		a method of mapping C++ identifiers to a form suitable for further
+		processing, namely TDF tag names.  This mangled name contains an encoding
+		of the identifier name, its parent namespace or class and its type.
+		Identifiers with C linkage are not mangled.
+		The producer contains a built-in name unmangler
+		which performs the reverse operation of transforming the mangled form
+		of an identifier name back to the underlying identifier.  This can
+		be useful when analysing system linker errors.</para>
 
-<section>
-	<title>Mangling identifier names</title>
-  <para>
-  Simple identifier names are mapped to themselves.  Unicode characters
-  of the forms <code>\u</code><emphasis>xxxx</emphasis> and <code>\U</code><emphasis>xxxxxxxx</emphasis>
-  are mapped to <code>__k</code><emphasis>xxxx</emphasis> and <code>__K</code><emphasis>xxxxxxxx</emphasis>
-  respectively, where the hex digits are output in their canonical lower-case
-  form.  Constructors are mapped to <code>__ct</code> and destructors
-  to <code>__dt</code>.  Conversions functions are mapped to
-  <code>__op</code><emphasis>type</emphasis> where <emphasis>type</emphasis> is the mangled form
-  of the conversion type.  Overloaded operator functions,
-  <code>operator@</code>, are mapped as follows:
-  </para>
+	<para>Note that the type of an identifier forms part of its mangled name
+		not only for functions, but also for variables.  Many other compilers
+		do not mangle variable names, however the ISO C++ rules on namespaces
+		and variables with C linkage make it necessary (this can be suppressed
+		using the <code>-j-n</code> command-line option).  Declaring the language
+		linkage of a variable inconsistently can therefore lead to linking
+		errors with the C++ producer which are not detected by other compilers.
+		A common example is:</para>
 
-  <table>
-  <tr><th>Operator</th>   <th>Mapping</th>
-  <th>Operator</th>   <th>Mapping</th>
-  <th>Operator</th>   <th>Mapping</th>
-  </tr>
-  <tr><td>&amp;</td>  <td>__ad</td>
-  <td>&amp;=</td> <td>__aad</td>
-  <td>[]</td>  <td>__vc</td>
-  </tr>
-  <tr><td>-&gt;</td>  <td>__rf</td>
-  <td>-&gt;*</td> <td>__rm</td>
-  <td>=</td>  <td>__as</td>
-  </tr>
-  <tr><td>,</td>  <td>__cm</td>
-  <td>~</td>  <td>__co</td>
-  <td>/</td>  <td>__dv</td>
-  </tr>
-  <tr><td>/=</td>  <td>__adv</td>
-  <td>==</td>  <td>__eq</td>
-  <td>()</td>  <td>__cl</td>
-  </tr>
-  <tr><td>&gt;</td>  <td>__gt</td>
-  <td>&gt;=</td>  <td>__ge</td>
-  <td>&lt;</td>  <td>__lt</td>
-  </tr>
-  <tr><td>&lt;=</td>  <td>__le</td>
-  <td>&amp;&amp;</td> <td>__aa</td>
-  <td>||</td>  <td>__oo</td>
-  </tr>
-  <tr><td>&lt;&lt;</td> <td>__ls</td>
-  <td>&lt;&lt;=</td> <td>__als</td>
-  <td>-</td>  <td>__mi</td>
-  </tr>
-  <tr><td>-=</td>  <td>__ami</td>
-  <td>--</td>  <td>__mm</td>
-  <td>!</td>  <td>__nt</td>
-  </tr>
-  <tr><td>!=</td>  <td>__ne</td>
-  <td>|</td>  <td>__or</td>
-  <td>|=</td>  <td>__aor</td>
-  </tr>
-  <tr><td>+</td>  <td>__pl</td>
-  <td>+=</td>  <td>__apl</td>
-  <td>++</td>  <td>__pp</td>
-  </tr>
-  <tr><td>%</td>  <td>__md</td>
-  <td>%=</td>  <td>__amd</td>
-  <td>&gt;&gt;</td> <td>__rs</td>
-  </tr>
-  <tr><td>&gt;&gt;=</td> <td>__ars</td>
-  <td>*</td>  <td>__ml</td>
-  <td>*=</td>  <td>__aml</td>
-  </tr>
-  <tr><td>^</td>  <td>__er</td>
-  <td>^=</td>  <td>__aer</td>
-  <td>delete</td> <td>__dl</td>
-  </tr>
-  <tr><td>delete []</td> <td>__vd</td>
-  <td>new</td>  <td>__nw</td>
-  <td>new []</td> <td>__vn</td>
-  </tr>
-  <tr><td>?:</td>  <td>__cn</td>
-  <td>:</td>  <td>__cs</td>
-  <td>::</td>  <td>__cc</td>
-  </tr>
-  <tr><td>.</td>  <td>__df</td>
-  <td>.*</td>  <td>__dm</td>
-  <td>abs</td>  <td>__ab</td>
-  </tr>
-  <tr><td>max</td>  <td>__mx</td>
-  <td>min</td>  <td>__mn</td>
-  <td>sizeof</td> <td>__sz</td>
-  </tr>
-  <tr><td>typeid</td> <td>__td</td>
-  <td>vtable</td> <td>__tb</td>
-  <td>-</td>  <td>-</td>
-  </tr>
-  </table>
+	<programlisting language="cpp">extern int errno ;</programlisting>
 
-  <para>
-  Note that this table contains a number of operators which are not
-  part of C++ or cannot be overloaded in C++.  These are used in the
-  representation of target dependent integer constants.
-  </para>
-</section>
+	<para>which, leaving aside whether <code>errno</code> is actually an external
+		variable, should be:</para>
 
-<section>
-  <title>Mangling namespace names</title>
-  <para>
-  The global namespace is mapped to an empty string.  Simple namespace
-  and class names are mapped as above, but are preceded by a series
-  of decimal digits giving the length of the mangled name.  Nested namespaces
-  and classes are represented by a sequence of such namespace names,
-  preceded by the number of elements in the sequence.  This takes the
-  form <code>Q</code><emphasis>digit</emphasis> if there are less than 10 elements,
-  or
-  <code>Q_</code><emphasis>digits</emphasis><code>_</code> if there are more than
-  10. Note that members of anonymous classes or namespaces are local
-  to their translation unit, and so do not have external tag names.
-  </para>
-</section>
+	<programlisting language="cpp">extern &quot;C&quot; int errno ;</programlisting>
 
-<section>
-  <title>Mangling types</title>
-  <para>
-  The mangling of types is essentially similar to that used in the
-  <A HREF="dump.html">symbol table dump</A> format.  The type used in
-  the mangled name for an identifier ignores the return type for a function
-  and ignores the most significant bound for an array.
-  </para>
-  <para>
-  The built-in types are mapped in precisely the same way as in the
-  <A HREF="dump.html#built-in">symbol table dump</A>.  Class and enumeration
-  types are mapped to their type names mangled in the same way as the
-  namespace names above.  The exception to this is that in a class member,
-  the parent class is mapped to <code>X</code>.
-  </para>
-  <para>
-  The composite types are again mapped in a similar fashion to that
-  in the <A HREF="dump.html#composite">dump file</A>.  For example,
-  <code>PCc</code> represents <code>const char *</code>.  The only difficult
-  case concerns function parameter types where the ARM
-  <code>T</code> and <code>N</code> encodings are used for duplicate
-  parameter types.  The function return type is included in the mangled
-  form except for function identifier types.  In the cases where the
-  identifier is known always to represent a function (constructors,
-  destructors etc.) the initial <code>F</code>
-  indicating a function type is also omitted.
-  </para>
-  <para>
-  The types of template functions and classes are represented by the
-  underlying template and the template arguments giving rise to the
-  instance.  Template classes are preceded by <code>t</code>; template
-  functions are preceded by <code>G</code> rather than <code>F</code>.
-  Type arguments are represented by <code>Z</code> followed by the type
-  value; non-type arguments are represented by the argument type followed
-  by the argument value.  In the underlying type the template parameters
-  are represented by <code>m0</code>, <code>m1</code> etc. An alternative
-  scheme, in which the mangled form of a template function includes
-  the type of that instance, rather than the underlying template, can
-  be enabled using the <code>-j-f</code>
-  command-line option.
-  </para>
-</section>
+	<para>As described above, the mangled form of an identifier has three components;
+		the identifier name, the identifier namespace and the identifier type.
+		Two underscores (<code>__</code>) are used to separate the name component
+		from the namespace and type components.  The mangling scheme used
+		is based on that described in the ARM.  The description below is not
+		complete; the mangling and unmangling routines themselves should be
+		consulted for a complete description.</para>
 
-<section id="other">
-  <title>Other mangled names</title>
-  <para>
-  The <link linkend="vtable">virtual function table</link> for a class, when
-  this is a variable with external linkage, is named <code>__vt__</code><emphasis>type
-  </emphasis>, where <emphasis>type</emphasis> is the mangled form of the class name.  The
-  virtual function table for a base class is named <code>__vt__</code><emphasis>base</emphasis>
-  where <emphasis>base</emphasis> is a sequence of mangled class names specifying
-  the base class.  The <link linkend="rtti">run-time type information structure</link>
-  for a type, when this is a variable with external linkage, is named
-  <code>__ti__</code><emphasis>type</emphasis>, where <emphasis>type</emphasis> is the mangled form
-  of the type name.
-  </para>
-</section>
+	<section>
+		<title>Mangling identifier names</title>
 
-<section>
-	<title>Mangled name examples</title>
-  <para>
-  The following gives some examples of the name mangling scheme:
-  <programlisting language="C++">
-class A {
-    static int a ;			// a__1Ai
+		<para>Simple identifier names are mapped to themselves.  Unicode characters
+			of the forms <code>\u</code><replaceable>xxxx</replaceable> and <code>\U</code><replaceable>xxxxxxxx</replaceable>
+			are mapped to <code>__k</code><replaceable>xxxx</replaceable> and <code>__K</code><replaceable>xxxxxxxx</replaceable>
+			respectively, where the hex digits are output in their canonical lower-case
+			form.  Constructors are mapped to <code>__ct</code> and destructors
+			to <code>__dt</code>.  Conversions functions are mapped to
+			<code>__op</code><replaceable>type</replaceable> where <replaceable>type</replaceable> is the mangled form
+			of the conversion type.  Overloaded operator functions,
+			<code>operator@</code>, are mapped as follows:</para>
+
+		<table>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+
+			<thead>
+				<tr>
+					<th>Operator</th>
+					<th>Mapping</th>
+					<th role="gap"/>
+					<th>Operator</th>
+					<th>Mapping</th>
+					<th role="gap"/>
+					<th>Operator</th>
+					<th>Mapping</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>&amp;</code></td>
+					<td><code>__ad</code></td>
+					<td role="gap"/>
+					<td><code>&amp;=</code></td>
+					<td><code>__aad</code></td>
+					<td role="gap"/>
+					<td><code>[]</code></td>
+					<td><code>__vc</code></td>
+				</tr>
+				<tr>
+					<td><code>-&gt;</code></td>
+					<td><code>__rf</code></td>
+					<td role="gap"/>
+					<td><code>-&gt;*</code></td>
+					<td><code>__rm</code></td>
+					<td role="gap"/>
+					<td><code>=</code></td>
+					<td><code>__as</code></td>
+				</tr>
+				<tr>
+					<td><code>,</code></td>
+					<td><code>__cm</code></td>
+					<td role="gap"/>
+					<td><code>~</code></td>
+					<td><code>__co</code></td>
+					<td role="gap"/>
+					<td><code>/</code></td>
+					<td><code>__dv</code></td>
+				</tr>
+				<tr>
+					<td><code>/=</code></td>
+					<td><code>__adv</code></td>
+					<td role="gap"/>
+					<td><code>==</code></td>
+					<td><code>__eq</code></td>
+					<td role="gap"/>
+					<td><code>()</code></td>
+					<td><code>__cl</code></td>
+				</tr>
+				<tr>
+					<td><code>&gt;</code></td>
+					<td><code>__gt</code></td>
+					<td role="gap"/>
+					<td><code>&gt;=</code></td>
+					<td><code>__ge</code></td>
+					<td role="gap"/>
+					<td><code>&lt;</code></td>
+					<td><code>__lt</code></td>
+				</tr>
+				<tr>
+					<td><code>&lt;=</code></td>
+					<td><code>__le</code></td>
+					<td role="gap"/>
+					<td><code>&amp;&amp;</code></td>
+					<td><code>__aa</code></td>
+					<td role="gap"/>
+					<td><code>||</code></td>
+					<td><code>__oo</code></td>
+				</tr>
+				<tr>
+					<td><code>&lt;&lt;</code></td>
+					<td><code>__ls</code></td>
+					<td role="gap"/>
+					<td><code>&lt;&lt;=</code></td>
+					<td><code>__als</code></td>
+					<td role="gap"/>
+					<td><code>-</code></td>
+					<td><code>__mi</code></td>
+				</tr>
+				<tr>
+					<td><code>-=</code></td>
+					<td><code>__ami</code></td>
+					<td role="gap"/>
+					<td><code>--</code></td>
+					<td><code>__mm</code></td>
+					<td role="gap"/>
+					<td><code>!</code></td>
+					<td><code>__nt</code></td>
+				</tr>
+				<tr>
+					<td><code>!=</code></td>
+					<td><code>__ne</code></td>
+					<td role="gap"/>
+					<td><code>|</code></td>
+					<td><code>__or</code></td>
+					<td role="gap"/>
+					<td><code>|=</code></td>
+					<td><code>__aor</code></td>
+				</tr>
+				<tr>
+					<td><code>+</code></td>
+					<td><code>__pl</code></td>
+					<td role="gap"/>
+					<td><code>+=</code></td>
+					<td><code>__apl</code></td>
+					<td role="gap"/>
+					<td><code>++</code></td>
+					<td><code>__pp</code></td>
+				</tr>
+				<tr>
+					<td><code>%</code></td>
+					<td><code>__md</code></td>
+					<td role="gap"/>
+					<td><code>%=</code></td>
+					<td><code>__amd</code></td>
+					<td role="gap"/>
+					<td><code>&gt;&gt;</code></td>
+					<td><code>__rs</code></td>
+				</tr>
+				<tr>
+					<td><code>&gt;&gt;=</code></td>
+					<td><code>__ars</code></td>
+					<td role="gap"/>
+					<td><code>*</code></td>
+					<td><code>__ml</code></td>
+					<td role="gap"/>
+					<td><code>*=</code></td>
+					<td><code>__aml</code></td>
+				</tr>
+				<tr>
+					<td><code>^</code></td>
+					<td><code>__er</code></td>
+					<td role="gap"/>
+					<td><code>^=</code></td>
+					<td><code>__aer</code></td>
+					<td role="gap"/>
+					<td><code>delete</code></td>
+					<td><code>__dl</code></td>
+				</tr>
+				<tr>
+					<td><code>delete []</code></td>
+					<td><code>__vd</code></td>
+					<td role="gap"/>
+					<td><code>new</code></td>
+					<td><code>__nw</code></td>
+					<td role="gap"/>
+					<td><code>new []</code></td>
+					<td><code>__vn</code></td>
+				</tr>
+				<tr>
+					<td><code>?:</code></td>
+					<td><code>__cn</code></td>
+					<td role="gap"/>
+					<td><code>:</code></td>
+					<td><code>__cs</code></td>
+					<td role="gap"/>
+					<td><code>::</code></td>
+					<td><code>__cc</code></td>
+				</tr>
+				<tr>
+					<td><code>.</code></td>
+					<td><code>__df</code></td>
+					<td role="gap"/>
+					<td><code>.*</code></td>
+					<td><code>__dm</code></td>
+					<td role="gap"/>
+					<td><code>abs</code></td>
+					<td><code>__ab</code></td>
+				</tr>
+				<tr>
+					<td><code>max</code></td>
+					<td><code>__mx</code></td>
+					<td role="gap"/>
+					<td><code>min</code></td>
+					<td><code>__mn</code></td>
+					<td role="gap"/>
+					<td><code>sizeof</code></td>
+					<td><code>__sz</code></td>
+				</tr>
+				<tr>
+					<td><code>typeid</code></td>
+					<td><code>__td</code></td>
+					<td role="gap"/>
+					<td><code>vtable</code></td>
+					<td><code>__tb</code></td>
+					<td role="gap"/>
+					<td role="na" align="center">&ndash;</td>
+					<td role="na" align="center">&ndash;</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>Note that this table contains a number of operators which are not
+			part of C++ or cannot be overloaded in C++.  These are used in the
+			representation of target dependent integer constants.</para>
+	</section>
+
+	<section>
+		<title>Mangling namespace names</title>
+
+		<para>The global namespace is mapped to an empty string.  Simple namespace
+			and class names are mapped as above, but are preceded by a series
+			of decimal digits giving the length of the mangled name.  Nested namespaces
+			and classes are represented by a sequence of such namespace names,
+			preceded by the number of elements in the sequence.  This takes the
+			form <code>Q</code><replaceable>digit</replaceable> if there are less than 10 elements,
+			or <code>Q_</code><replaceable>digits</replaceable><code>_</code> if there are more than
+			10. Note that members of anonymous classes or namespaces are local
+			to their translation unit, and so do not have external tag names.</para>
+	</section>
+
+	<section>
+		<title>Mangling types</title>
+
+		<para>The mangling of types is essentially similar to that used in the
+			&tdfcdump.5; symbol table dump format.  The type used in
+			the mangled name for an identifier ignores the return type for a function
+			and ignores the most significant bound for an array.</para>
+
+		<para>The built-in types are mapped in precisely the same way as in the
+			symbol table dump.  Class and enumeration
+			types are mapped to their type names mangled in the same way as the
+			namespace names above.  The exception to this is that in a class member,
+			the parent class is mapped to <code>X</code>.</para>
+
+		<para>The composite types are again mapped in a similar fashion to that
+			in the dump file.  For example,
+			<code>PCc</code> represents <code>const char *</code>.  The only difficult
+			case concerns function parameter types where the ARM
+			<code>T</code> and <code>N</code> encodings are used for duplicate
+			parameter types.  The function return type is included in the mangled
+			form except for function identifier types.  In the cases where the
+			identifier is known always to represent a function (constructors,
+			destructors etc.) the initial <code>F</code>
+			indicating a function type is also omitted.</para>
+
+		<para>The types of template functions and classes are represented by the
+			underlying template and the template arguments giving rise to the
+			instance.  Template classes are preceded by <code>t</code>; template
+			functions are preceded by <code>G</code> rather than <code>F</code>.
+			Type arguments are represented by <code>Z</code> followed by the type
+			value; non-type arguments are represented by the argument type followed
+			by the argument value.  In the underlying type the template parameters
+			are represented by <code>m0</code>, <code>m1</code> etc. An alternative
+			scheme, in which the mangled form of a template function includes
+			the type of that instance, rather than the underlying template, can
+			be enabled using the <code>-j-f</code>
+			command-line option.</para>
+	</section>
+
+	<section id="other">
+		<title>Other mangled names</title>
+
+		<para>The <link linkend="vtable">virtual function table</link> for a class, when
+			this is a variable with external linkage, is named <code>__vt__</code><replaceable>type
+			</replaceable>, where <replaceable>type</replaceable> is the mangled form of the class name.  The
+			virtual function table for a base class is named <code>__vt__</code><replaceable>base</replaceable>
+			where <replaceable>base</replaceable> is a sequence of mangled class names specifying
+			the base class.  The <link linkend="rtti">run-time type information structure</link>
+			for a type, when this is a variable with external linkage, is named
+			<code>__ti__</code><replaceable>type</replaceable>, where <replaceable>type</replaceable> is the mangled form
+			of the type name.</para>
+	</section>
+
+	<section>
+		<title>Mangled name examples</title>
+
+		<para>The following gives some examples of the name mangling scheme:</para>
+
+<programlisting language="cpp">class A {
+    static int a ;               // a__1Ai
 public :
-    A () ;				// __ct__1A
-    A ( int ) ;				// __ct__1Ai
-    A ( const A &amp; ) ;			// __ct__1ARCX
-    virtual ~A () ;			// __dt__1A
-    operator bool () ;			// __opb__1A
-    bool operator! () ;			// __nt__1A
+    A () ;                       // __ct__1A
+    A ( int ) ;                  // __ct__1Ai
+    A ( const A &amp; ) ;            // __ct__1ARCX
+    virtual ~A () ;              // __dt__1A
+    operator bool () ;           // __opb__1A
+    bool operator! () ;          // __nt__1A
 } ;
 
-// virtual function table	__vt__1A
-// run-time type information	__ti__1A
+// virtual function table        __vt__1A
+// run-time type information     __ti__1A
 
-int f ( A *, int, A * ) ;		// f__FP1AiT1
-int b = 2 ;				// b__i
-int c [3] ;				// c__A_i
+int f ( A *, int, A * ) ;        // f__FP1AiT1
+int b = 2 ;                      // b__i
+int c [3] ;                      // c__A_i
 
 namespace N {
-    int *p = 0 ;			// p__1NPi
+    int *p = 0 ;                 // p__1NPi
 }</programlisting>
-  </para>
-  </section>
+
+	</section>
 </chapter>
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
 	<title>Configuration for lexical analysis</title>
@@ -12,7 +11,7 @@
 			in a newline character.	It is possible to relax this constraint using
 			the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA no nline after file end <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA no nline after file end <emphasis>allow</emphasis></programlisting>
 	</section>
 
 	<section id="keyword">
@@ -23,23 +22,23 @@
 			keywords are defined.	There are also low-level directives for defining
 			and undefining keywords.	The directive:</para>
 
-			<programlisting language="C++">#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for keyword <emphasis>identifier</emphasis></programlisting>
+			<programlisting language="cpp">#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for keyword <emphasis>identifier</emphasis></programlisting>
 
 		<para>can be used to introduce a keyword (the first identifier) standing
 			for the standard C++ keyword given by the second identifier.	The
 			directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for operator <emphasis>operator</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ keyword <emphasis>identifier</emphasis> for operator <emphasis>operator</emphasis></programlisting>
 
 		<para>can similarly be used to introduce a keyword giving an alternative
 			representation for the given operator or punctuator, as, for example,
 			in:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ keyword and for operator &amp;&amp;</programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ keyword and for operator &amp;&amp;</programlisting>
 
 		<para>Finally the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ undef keyword <emphasis>identifier</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ undef keyword <emphasis>identifier</emphasis></programlisting>
 
 		<para>can be used to undefine a keyword.</para>
 	</section>
@@ -49,7 +48,7 @@
 
 		<para>C-style comments do not nest.	The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA nested comment analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA nested comment analysis <emphasis>on</emphasis></programlisting>
 
 		<para>enables a check for the characters <code>/*</code> within C-style
 			comments.</para>
@@ -64,38 +63,35 @@
 			These values are stored in a simple look-up table.	It is possible
 			to set the look-up value using:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ character <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow</programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ character <emphasis>character-literal</emphasis> as <emphasis>character-literal</emphasis> allow</programlisting>
 
 		<para>which sets the look-up for the first character to be the default look-up
 			for the second character.	The form:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ character <emphasis>character-literal</emphasis> disallow</programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ character <emphasis>character-literal</emphasis> disallow</programlisting>
 
 		<para>sets the look-up of the character to be that of an invalid character.
 			The forms:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA++ character <emphasis>string-literal</emphasis> as <emphasis>character-literal</emphasis> allow
+		<programlisting language="cpp">#pragma TenDRA++ character <emphasis>string-literal</emphasis> as <emphasis>character-literal</emphasis> allow
 #pragma TenDRA++ character <emphasis>string-literal</emphasis> disallow</programlisting>
 
 		<para>can be used to modify the look-up values for the set of characters
 			given by the string literal.	For example:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA character '$' as 'a' allow
+		<programlisting language="cpp">#pragma TenDRA character '$' as 'a' allow
 #pragma TenDRA character '\r' as ' ' allow</programlisting>
 
 		<para>allows <code>$</code> to be used in identifier names (like <code>a</code>)
 			and carriage return to be a white space character.	The former is
 			a common dialect feature and can also be controlled by the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA dollar as ident <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA dollar as ident <emphasis>allow</emphasis></programlisting>
 
 		<para>The maximum number of characters allowed in an identifier name can
 			be set using the directives:</para>
 
-		<programlisting language="C++">
-#pragma TenDRA set name limit <emphasis>integer-literal</emphasis>
+		<programlisting language="cpp">#pragma TenDRA set name limit <emphasis>integer-literal</emphasis>
 #pragma TenDRA++ set name limit <emphasis>integer-literal</emphasis> warning</programlisting>
 
 		<para>This length is given by the <code>name_limit</code> implementation

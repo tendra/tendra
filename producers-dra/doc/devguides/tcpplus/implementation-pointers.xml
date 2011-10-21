@@ -1,224 +1,229 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
 -->
 
 <chapter>
-    <title>Pointers</title>
+	<title>Pointers</title>
 
-  <section id="pointer">
-    <title>Generic pointers</title>
-  <para>
-  TDF has no concept of a generic pointer type, so tokens are used to
-  defer the representation of <code>void *</code> and the basic operations
-  on it to the target machine.  The fundamental token is:
-  <programlisting language="TDF">
-~ptr_void : () -&gt; SHAPE</programlisting>
-  which gives the representation of <code>void *</code>.  This shape
-  will be denoted by <code>pv</code> in the description of the following
-  tokens.  It is not guaranteed that <code>pv</code> is a TDF <code>pointer</code>
-  shape, although normally it will be implemented as a pointer to a
-  suitable alignment.
-  </para>
-  <para>
-  The token:
-  <programlisting language="TDF">
-~null_pv : () -&gt; EXP pv</programlisting>
-  gives the value of a null pointer of type <code>void *</code>.  Generic
-  pointers can also be converted to and from other pointers.  These
-  conversions are represented by the tokens:
-  <programlisting language="TDF">
-~to_ptr_void : ( ALIGNMENT a, EXP POINTER a ) -&gt; EXP pv
+	<section id="pointer">
+		<title>Generic pointers</title>
+
+		<para>&tdf; has no concept of a generic pointer type, so tokens are used to
+			defer the representation of <code>void *</code> and the basic operations
+			on it to the target machine.  The fundamental token is:</para>
+
+		<programlisting language="tdf">~ptr_void : () -&gt; SHAPE</programlisting>
+
+		<para>which gives the representation of <code>void *</code>.  This shape
+			will be denoted by <code>pv</code> in the description of the following
+			tokens.  It is not guaranteed that <code>pv</code> is a &tdf; <code>pointer</code>
+			shape, although normally it will be implemented as a pointer to a
+			suitable alignment.</para>
+
+		<para>The token:</para>
+
+		<programlisting language="tdf">~null_pv : () -&gt; EXP pv</programlisting>
+
+		<para>gives the value of a null pointer of type <code>void *</code>.  Generic
+			pointers can also be converted to and from other pointers.  These
+			conversions are represented by the tokens:</para>
+
+		<programlisting language="tdf">~to_ptr_void : ( ALIGNMENT a, EXP POINTER a ) -&gt; EXP pv
 ~from_ptr_void : ( ALIGNMENT a, EXP pv ) -&gt; EXP POINTER a</programlisting>
-  where the given alignment describes the destination or source pointer
-  type.  Finally a generic pointer may be tested against the null pointer
-  or two generic pointers may be compared.  These operations are represented
-  by the tokens:
-  <programlisting language="TDF">
-~cpp.pv_compare : ( EXP pv, EXP pv, LABEL, NTEST ) -&gt; EXP TOP</programlisting>
-  where the given <code>NTEST</code> gives the comparison to be applied
-  and the given label gives the destination to jump to if the test fails.
-  (Note that <code>~cpp.pv_compare</code> should have been a standard
-  C token but was omitted.)
-  </para>
-  </section>
 
-  <section id="ptr_mem">
-    <title>Pointers to data members</title>
-  <para>
-  The representation of, and operations on, pointers to data members
-  are represented by tokens to allow for a variety of implementations.
-  It is assumed that all pointers to data members (as opposed to pointers
-  to function members) are represented by the same shape:
-  <programlisting language="TDF">
-~cpp.pm.type : () -&gt; SHAPE</programlisting>
-  This shape will be denoted by <code>pm</code> in the description of
-  the following tokens.
-  </para>
-  <para>
-  There are two basic methods of constructing a pointer to a data member.
-  The first is to take the address of a data member of a class.  A data
-  member is represented in TDF by an expression which gives the offset
-  of the member from the start of its enclosing <code>compound</code>
-  shape (note that it is not possible to take the address of a member
-  of a virtual base). The mapping from this offset to a pointer to a
-  data member is given by:
-  <programlisting language="TDF">
-~cpp.pm.make : ( EXP OFFSET ) -&gt; EXP pm</programlisting>
-  The second way of constructing a pointer to a data member is to use
-  a null pointer to member:
-  <programlisting language="TDF">
-~cpp.pm.null : () -&gt; EXP pm</programlisting>
-  The other fundamental operation on a pointer to data member is to
-  turn it back into an offset expression which can be added to a pointer
-  to a class to access a member of that class in a <code>.*</code> or
-  <code>-&gt;*</code>
-  operation.  This is done by the token:
-  <programlisting language="TDF">
-~cpp.pm.offset : ( EXP pm, ALIGNMENT a ) -&gt; EXP OFFSET ( a, a )</programlisting>
-  Note that it is necessary to specify an alignment in order to describe
-  the shape of the result.  The value of this token is undefined if
-  the given expression is a null pointer to data member.
-  </para>
-  <para>
-  A pointer to a data member of a non-virtual base class can be converted
-  to a pointer to a data member of a derived class.  The reverse conversion
-  is also possible using <code>static_cast</code>.  If the base is a
-  <link linkend="primary">primary base class</link> then these conversions are
-  trivial and have no effect.  Otherwise null pointers to data members
-  are converted to null pointers to data members, and the non-null cases
-  are handled by the tokens:
-  <programlisting language="TDF">
-~cpp.pm.cast : ( EXP pm, EXP OFFSET ) -&gt; EXP pm
+		<para>where the given alignment describes the destination or source pointer
+			type.  Finally a generic pointer may be tested against the null pointer
+			or two generic pointers may be compared.  These operations are represented
+			by the tokens:</para>
+
+		<programlisting language="tdf">~cpp.pv_compare : ( EXP pv, EXP pv, LABEL, NTEST ) -&gt; EXP TOP</programlisting>
+
+		<para>where the given <code>NTEST</code> gives the comparison to be applied
+			and the given label gives the destination to jump to if the test fails.
+			(Note that <code>~cpp.pv_compare</code> should have been a standard
+			C token but was omitted.)</para>
+	</section>
+
+	<section id="ptr_mem">
+		<title>Pointers to data members</title>
+
+		<para>The representation of, and operations on, pointers to data members
+			are represented by tokens to allow for a variety of implementations.
+			It is assumed that all pointers to data members (as opposed to pointers
+			to function members) are represented by the same shape:</para>
+
+		<programlisting language="tdf">~cpp.pm.type : () -&gt; SHAPE</programlisting>
+
+		<para>This shape will be denoted by <code>pm</code> in the description of
+			the following tokens.</para>
+
+		<para>There are two basic methods of constructing a pointer to a data member.
+			The first is to take the address of a data member of a class.  A data
+			member is represented in &tdf; by an expression which gives the offset
+			of the member from the start of its enclosing <code>compound</code>
+			shape (note that it is not possible to take the address of a member
+			of a virtual base). The mapping from this offset to a pointer to a
+			data member is given by:</para>
+
+		<programlisting language="tdf">~cpp.pm.make : ( EXP OFFSET ) -&gt; EXP pm</programlisting>
+
+		<para>The second way of constructing a pointer to a data member is to use
+			a null pointer to member:</para>
+
+		<programlisting language="tdf">~cpp.pm.null : () -&gt; EXP pm</programlisting>
+
+		<para>The other fundamental operation on a pointer to data member is to
+			turn it back into an offset expression which can be added to a pointer
+			to a class to access a member of that class in a <code>.*</code> or
+			<code>-&gt;*</code>
+			operation.  This is done by the token:</para>
+
+		<programlisting language="tdf">~cpp.pm.offset : ( EXP pm, ALIGNMENT a ) -&gt; EXP OFFSET ( a, a )</programlisting>
+
+		<para>Note that it is necessary to specify an alignment in order to describe
+			the shape of the result.  The value of this token is undefined if
+			the given expression is a null pointer to data member.</para>
+
+		<para>A pointer to a data member of a non-virtual base class can be converted
+			to a pointer to a data member of a derived class.  The reverse conversion
+			is also possible using <code>static_cast</code>.  If the base is a
+			<link linkend="primary">primary base class</link> then these conversions are
+			trivial and have no effect.  Otherwise null pointers to data members
+			are converted to null pointers to data members, and the non-null cases
+			are handled by the tokens:</para>
+
+		<programlisting language="tdf">~cpp.pm.cast : ( EXP pm, EXP OFFSET ) -&gt; EXP pm
 ~cpp.pm.uncast : ( EXP pm, EXP OFFSET ) -&gt; EXP pm</programlisting>
-  where the given offset is the offset of the base class within the
-  derived class.  It is also possible to convert between any two pointers
-  to data members using <code>reinterpret_cast</code>.  This conversion
-  is implied by the equality of representation between any two pointers
-  to data members and has no effect.
-  </para>
-  <para>
-  The only remaining operations on pointer to data members are to test
-  one against the null pointer to data member and to compare two pointer
-  to data members.  These are represented by the tokens:
-  <programlisting language="TDF">
-~cpp.pm.test : ( EXP pm, LABEL, NTEST ) -&gt; EXP TOP
-~cpp.pm.compare : ( EXP pm, EXP pm, LABEL, NTEST ) -&gt; EXP TOP</programlisting>
-  where the given <code>NTEST</code> gives the comparison to be applied
-  and the given label gives the destination to jump to if the test fails.
-  </para>
-  <para>
-  In the default implementation, pointers to data members are implemented
-  as <code>int</code>.  The null pointer to member is represented by
-  0 and the address of a class member is represented by 1 plus the offset
-  of the member (in bytes).  Casting to and from a derived class then
-  correspond to adding or subtracting the base class offset (in bytes),
-  and pointer to member comparisons correspond to integer comparisons.
-  </para>
-  </section>
 
-  <section id="ptr_mem_func">
-    <title>Pointers to function members</title>
-  <para>
-  As with pointers to data members, pointers to function members and
-  the operations on them are represented by tokens to allow for a range
-  of implementations.  All pointers to function members are represented
-  by the same shape:
-  <programlisting language="TDF">
-~cpp.pmf.type : () -&gt; SHAPE</programlisting>
-  This shape will be denoted by <code>pmf</code> in the description
-  of the following tokens.  Many of the tokens take an expression which
-  has a shape which is a pointer to the alignment of <code>pmf</code>.
-  This will be denoted by <code>ppmf</code>.
-  </para>
-  <para>
-  There are two basic methods for constructing a pointer to a function
-  member.  The first is to take the address of a non-static member function
-  of a class.  There are two cases, depending on whether or not the
-  member function is virtual.  The non-virtual case is given by the
-  token:
-  <programlisting language="TDF">
-~cpp.pmf.make : ( EXP PROC, EXP OFFSET, EXP OFFSET ) -&gt; EXP pmf</programlisting>
-  where the first argument is the address of the corresponding function,
-  the second argument gives any base class offset which is to be added
-  when calling this function (to deal with inherited member functions),
-  and the third argument is a zero offset.
-  </para>
-  <para>
-  For virtual functions, a pointer to function member of the form above
-  is entered in the <link linkend="vtable">virtual function table</link> for
-  the corresponding class.  The actual pointer to the virtual function
-  member then gives a reference into the virtual function table as follows:
-  <programlisting language="TDF">
-~cpp.pmf.vmake : ( SIGNED_NAT, EXP OFFSET, EXP, EXP ) -&gt; EXP pmf</programlisting>
-  where the first argument gives the index of the function within the
-  virtual function table, the second argument gives the offset of the
-  <emphasis>vptr</emphasis> field within the class, and the third and fourth arguments
-  are zero offsets.
-  </para>
-  <para>
-  The second way of constructing a pointer to a function member is to
-  use a null pointer to function member:
-  <programlisting language="TDF">
-~cpp.pmf.null : () -&gt; EXP pmf
+		<para>where the given offset is the offset of the base class within the
+			derived class.  It is also possible to convert between any two pointers
+			to data members using <code>reinterpret_cast</code>.  This conversion
+			is implied by the equality of representation between any two pointers
+			to data members and has no effect.</para>
+
+		<para>The only remaining operations on pointer to data members are to test
+			one against the null pointer to data member and to compare two pointer
+			to data members.  These are represented by the tokens:</para>
+
+		<programlisting language="tdf">~cpp.pm.test : ( EXP pm, LABEL, NTEST ) -&gt; EXP TOP
+~cpp.pm.compare : ( EXP pm, EXP pm, LABEL, NTEST ) -&gt; EXP TOP</programlisting>
+
+		<para>where the given <code>NTEST</code> gives the comparison to be applied
+			and the given label gives the destination to jump to if the test fails.</para>
+
+		<para>In the default implementation, pointers to data members are implemented
+			as <code>int</code>.  The null pointer to member is represented by
+			0 and the address of a class member is represented by 1 plus the offset
+			of the member (in bytes).  Casting to and from a derived class then
+			correspond to adding or subtracting the base class offset (in bytes),
+			and pointer to member comparisons correspond to integer comparisons.</para>
+	</section>
+
+	<section id="ptr_mem_func">
+		<title>Pointers to function members</title>
+
+		<para>As with pointers to data members, pointers to function members and
+			the operations on them are represented by tokens to allow for a range
+			of implementations.  All pointers to function members are represented
+			by the same shape:</para>
+
+		<programlisting language="tdf">~cpp.pmf.type : () -&gt; SHAPE</programlisting>
+
+		<para>This shape will be denoted by <code>pmf</code> in the description
+			of the following tokens.  Many of the tokens take an expression which
+			has a shape which is a pointer to the alignment of <code>pmf</code>.
+			This will be denoted by <code>ppmf</code>.</para>
+
+		<para>There are two basic methods for constructing a pointer to a function
+			member.  The first is to take the address of a non-static member function
+			of a class.  There are two cases, depending on whether or not the
+			member function is virtual.  The non-virtual case is given by the
+			token:</para>
+
+		<programlisting language="tdf">~cpp.pmf.make : ( EXP PROC, EXP OFFSET, EXP OFFSET ) -&gt; EXP pmf</programlisting>
+
+		<para>where the first argument is the address of the corresponding function,
+			the second argument gives any base class offset which is to be added
+			when calling this function (to deal with inherited member functions),
+			and the third argument is a zero offset.</para>
+
+		<para>For virtual functions, a pointer to function member of the form above
+			is entered in the <link linkend="vtable">virtual function table</link> for
+			the corresponding class.  The actual pointer to the virtual function
+			member then gives a reference into the virtual function table as follows:</para>
+
+		<programlisting language="tdf">~cpp.pmf.vmake : ( SIGNED_NAT, EXP OFFSET, EXP, EXP ) -&gt; EXP pmf</programlisting>
+
+		<para>where the first argument gives the index of the function within the
+			virtual function table, the second argument gives the offset of the
+			<emphasis>vptr</emphasis> field within the class, and the third and fourth arguments
+			are zero offsets.</para>
+
+		<para>The second way of constructing a pointer to a function member is to
+			use a null pointer to function member:</para>
+
+		<programlisting language="tdf">~cpp.pmf.null : () -&gt; EXP pmf
 ~cpp.pmf.null2 : () -&gt; EXP pmf</programlisting>
-  For technical reasons there are two versions of this token, although
-  they have the same value.  The first token is used in static initialisers;
-  the second token is used in other expressions. </para>
-  <para>
-  The cast operations on pointers to function members are more complex
-  than those on pointers to data members.  The value to be cast is copied
-  into a temporary and one of the tokens:
-  <programlisting language="TDF">
-~cpp.pmf.cast : ( EXP ppmf, EXP OFFSET, EXP, EXP OFFSET ) -&gt; EXP TOP
+
+		<para>For technical reasons there are two versions of this token, although
+			they have the same value.  The first token is used in static initialisers;
+			the second token is used in other expressions.</para>
+
+		<para>The cast operations on pointers to function members are more complex
+			than those on pointers to data members.  The value to be cast is copied
+			into a temporary and one of the tokens:</para>
+
+		<programlisting language="tdf">~cpp.pmf.cast : ( EXP ppmf, EXP OFFSET, EXP, EXP OFFSET ) -&gt; EXP TOP
 ~cpp.pmf.uncast : ( EXP ppmf, EXP OFFSET, EXP, EXP OFFSET ) -&gt; EXP TOP</programlisting>
-  is applied to modify the value of the temporary according to the given
-  cast.  The first argument gives the address of the temporary, the
-  second gives the base class offset to be added or subtracted, the
-  third gives the number to be added or subtracted to convert virtual
-  function indexes for the base class into virtual function indexes
-  for the derived class, and the fourth gives the offset of the <emphasis>vptr</emphasis>
-  field within the class.  Again, the ability to use <code>reinterpret_cast</code>
-  to convert between any two pointer to function member types arises
-  because of the uniform representation of these types.
-  </para>
-  <para>
-  As with pointers to data members, there are tokens implementing comparisons
-  on pointers to function members:
-  <programlisting language="TDF">
-~cpp.pmf.test : ( EXP ppmf, LABEL, NTEST ) -&gt; EXP TOP
+
+		<para>is applied to modify the value of the temporary according to the given
+			cast.  The first argument gives the address of the temporary, the
+			second gives the base class offset to be added or subtracted, the
+			third gives the number to be added or subtracted to convert virtual
+			function indexes for the base class into virtual function indexes
+			for the derived class, and the fourth gives the offset of the <emphasis>vptr</emphasis>
+			field within the class.  Again, the ability to use <code>reinterpret_cast</code>
+			to convert between any two pointer to function member types arises
+			because of the uniform representation of these types.</para>
+
+		<para>As with pointers to data members, there are tokens implementing comparisons
+			on pointers to function members:</para>
+
+		<programlisting language="tdf">~cpp.pmf.test : ( EXP ppmf, LABEL, NTEST ) -&gt; EXP TOP
 ~cpp.pmf.compare : ( EXP ppmf, EXP ppmf, LABEL, NTEST ) -&gt; EXP TOP</programlisting>
-  Note however that the arguments are passed by reference.
-  </para>
-  <para>
-  The most important, and most complex, operation is calling a function
-  through a pointer to function member.  The first step is to copy the
-  pointer to function member into a temporary.  The token:
-  <programlisting language="TDF">
-~cpp.pmf.virt : ( EXP ppmf, EXP, ALIGNMENT ) -&gt; EXP TOP</programlisting>
-  is then applied to the temporary to convert a pointer to a virtual
-  function member to a normal pointer to function member by looking
-  it up in the corresponding virtual function table.  The first argument
-  gives the address of the temporary, the second gives the object to
-  which the function is to be applied, and the third gives the alignment
-  of the corresponding class.  Now the base class conversion to be applied
-  to the object can be determined by applying the token:
-  <programlisting language="TDF">
-~cpp.pmf.delta : ( ALIGNMENT a, EXP ppmf ) -&gt; EXP OFFSET ( a, a )</programlisting>
-  to the temporary to find the offset to be added.  Finally the function
-  to be called can be extracted from the temporary using the token:
-  <programlisting language="TDF">
-~cpp.pmf.func : ( EXP ppmf ) -&gt; EXP PROC</programlisting>
-  The function call then procedes as normal.
-  </para>
-  <para>
-  The default implementation is that described in the ARM, where each
-  pointer to function member is represented in the form:
-  <programlisting language="C++">
-struct PTR_MEM_FUNC {
+
+		<para>Note however that the arguments are passed by reference.</para>
+
+		<para>The most important, and most complex, operation is calling a function
+			through a pointer to function member.  The first step is to copy the
+			pointer to function member into a temporary.  The token:</para>
+
+		<programlisting language="tdf">~cpp.pmf.virt : ( EXP ppmf, EXP, ALIGNMENT ) -&gt; EXP TOP</programlisting>
+
+		<para>is then applied to the temporary to convert a pointer to a virtual
+			function member to a normal pointer to function member by looking
+			it up in the corresponding virtual function table.  The first argument
+			gives the address of the temporary, the second gives the object to
+			which the function is to be applied, and the third gives the alignment
+			of the corresponding class.  Now the base class conversion to be applied
+			to the object can be determined by applying the token:</para>
+
+		<programlisting language="tdf">~cpp.pmf.delta : ( ALIGNMENT a, EXP ppmf ) -&gt; EXP OFFSET ( a, a )</programlisting>
+
+		<para>to the temporary to find the offset to be added.  Finally the function
+			to be called can be extracted from the temporary using the token:</para>
+
+		<programlisting language="tdf">~cpp.pmf.func : ( EXP ppmf ) -&gt; EXP PROC</programlisting>
+
+		<para>The function call then procedes as normal.</para>
+
+		<para>The default implementation is that described in the ARM, where each
+			pointer to function member is represented in the form:</para>
+
+		<programlisting language="cpp">struct PTR_MEM_FUNC {
     short delta ;
     short index ;
     union {
@@ -226,16 +231,16 @@ struct PTR_MEM_FUNC {
 	short off ;
     } u ;
 } ;</programlisting>
-  The <code>delta</code> field gives the base class offset (in bytes)
-  to be added before applying the function.  The <code>index</code>
-  field is 0 for null pointers, -1 for non-virtual function pointers
-  and the index into the virtual function table for virtual function
-  pointers (as described below these indexes start from 1).  For non-virtual
-  function pointers the function itself is given by the <code>u.func</code>
-  field. For virtual function pointers the offset of the <emphasis>vptr</emphasis>
-  field within the class is given by the <code>u.off</code> field.
-  </para>
-  </section>
+
+		<para>The <code>delta</code> field gives the base class offset (in bytes)
+			to be added before applying the function.  The <code>index</code>
+			field is 0 for null pointers, -1 for non-virtual function pointers
+			and the index into the virtual function table for virtual function
+			pointers (as described below these indexes start from 1).  For non-virtual
+			function pointers the function itself is given by the <code>u.func</code>
+			field. For virtual function pointers the offset of the <emphasis>vptr</emphasis>
+			field within the class is given by the <code>u.off</code> field.</para>
+	</section>
 
 </chapter>
 

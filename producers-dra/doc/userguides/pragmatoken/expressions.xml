@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
-<chapter>
-	<title id="3">Expression tokens</title>
+<chapter id="exptoks">
+	<title>Expression tokens</title>
 
 	<para>There are various properties associated with expression tokens
 		which are used to determine the operations that may be performed
@@ -13,35 +12,50 @@
 		<listitem>
 			<para>Designation is the classification of the value delivered by
 				evaluating the expression. The three possible designations, implied
-				by the ISO C standard, section 6.3, are:</para>
+				by the &iso; C standard, section 6.3, are:</para>
 
-			<itemizedlist>
-				<listitem>
-					<para>value - expression describes the computation of a value;</para>
-				</listitem>
-				<listitem>
-					<para>object - expression designates a variable which may have an
-						associated type qualifier giving the access conditions;</para>
-				</listitem>
-				<listitem>
-					<para>function designation - expression designates a function.</para>
-				</listitem>
-			</itemizedlist>
+			<variablelist>
+				<varlistentry>
+					<term>value</term>
+
+					<listitem>
+						<para>expression describes the computation of a value;</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>object</term>
+
+					<listitem>
+						<para>expression designates a variable which may have an
+							associated type qualifier giving the access conditions;</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term>function designation</term>
+
+					<listitem>
+						<para>expression designates a function.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
 		</listitem>
+
 		<listitem>
 			<para>Type specifies the type of the expression ignoring any type
 				qualification;</para>
 		</listitem>
+
 		<listitem>
 			<para>Constancy is the property of being a constant expression as
-				specified in the ISO C Standard section 6.4.</para>
+				specified in the &iso; C Standard section 6.4.</para>
 		</listitem>
 	</itemizedlist>
 
 	<para>The syntax for introducing expression tokens is:</para>
 
-	<programlisting language="BNF">
-exp-token:
+	<programlisting language="bnf">exp-token:
 	EXP <replaceable>exp-storage</replaceable> : <replaceable>type-name</replaceable> :
 	NAT
 
@@ -66,6 +80,7 @@ exp-storage:
 				a function designation depending on whether or not its type is a
 				function type.</para>
 		</listitem>
+
 		<listitem>
 			<para>The <replaceable>type-name</replaceable> is the type of the expression to which
 				the token refers.</para>
@@ -86,9 +101,11 @@ exp-storage:
 			<para>expression tokens cannot be hidden by using an inner
 				scope;</para>
 		</listitem>
+
 		<listitem>
-			<para>with respect to #ifdef, expression tokens are defined;</para>
+			<para>with respect to <code>#ifdef</code>, expression tokens are defined;</para>
 		</listitem>
+
 		<listitem>
 			<para>the scope of expression tokens can be terminated by
 				<code>#undef</code>.</para>
@@ -97,20 +114,20 @@ exp-storage:
 
 	<para>In order to make use of tokenised expressions, a new symbol,
 		exp-token-name , has been introduced at translation phase seven
-		of the syntax analysis as defined in the ISO C standard. When an
+		of the syntax analysis as defined in the &iso; C standard. When an
 		expression token identifier is encountered by the preprocessor,
 		an <code>exp-token-name</code> symbol is passed through to the
 		syntax analyser. An <code>exp-token-name</code> provides
 		information about an expression token in the same way that a
 		<code>typedef-name</code> provides information about a type
 		introduced using a <code>typedef</code>. This symbol can only
-		occur as part of a primary-expression (ISO C standard section
+		occur as part of a primary-expression (&iso; C standard section
 		6.3.1) and the expression resulting from the use of
 		<code>exp-token-name</code> will have the type, designation
 		and constancy specified in the token introduction. As an
 		example, consider the pragma:</para>
 
-	<programlisting language="C">#pragma token EXP rvalue : int : x#</programlisting>
+	<programlisting language="c">#pragma token EXP rvalue : int : x#</programlisting>
 
 	<para>This introduces a token for an expression which is a value
 		designation of type <code>int</code> with internal and external
@@ -119,7 +136,7 @@ exp-storage:
 	<para>Expression tokens can either be defined using <code>#define</code> statements
 		or by using externals. They can also be resolved as a result of
 		applying the type-resolution or assignment-resolution operators
-		(see <xref linkend="17"/>). Expression token definitions are subject to the
+		(see <xref linkend="typecompat"/>). Expression token definitions are subject to the
 		following constraints:</para>
 
 	<itemizedlist>
@@ -127,8 +144,9 @@ exp-storage:
 			<para>if the <code>exp-token-name</code> refers to a constant
 				expression (i.e. it was introduced using the NAT token
 				introduction), then the defining expression must also be a constant
-				expression as expressed in the ISO C standard, section 6.4;</para>
+				expression as expressed in the &iso; C standard, section 6.4;</para>
 		</listitem>
+
 		<listitem>
 			<para>if the <code>exp-token-name</code> refers to an lvalue
 				expression, then the defining expression must also designate an
@@ -137,6 +155,7 @@ exp-storage:
 				defining expression must appear in the object designation of the
 				token introduction;</para>
 		</listitem>
+
 		<listitem>
 			<para>if the <code>exp-token-name</code> refers to an expression that
 				has function designation, then the type of the expression token
@@ -147,8 +166,7 @@ exp-storage:
 	<para>The program below provides two examples of the violation of the
 		second constraint.</para>
 
-	<programlisting language="C">
-#pragma token EXP lvalue : int : i#
+	<programlisting language="c">#pragma token EXP lvalue : int : i#
 extern short k;
 #define i 6
 #define i k</programlisting>
@@ -163,14 +181,14 @@ extern short k;
 	<para>If the <replaceable>exp-token-name</replaceable> refers to an expression that
 		designates a value, then the defining expression is converted, as
 		if by assignment, to the type of the expression token using the
-		<replaceable>assignment-resolution</replaceable> operator (see <xref linkend="17"/>). With all other
+		<replaceable>assignment-resolution</replaceable> operator
+		(see <xref linkend="typecompat"/>). With all other
 		designations the defining expression is left unchanged. In both
 		cases the resulting expression is used as the definition of the
 		expression token. This can subtly alter the semantics of a program.
 		Consider the program:</para>
 
-	<programlisting language="C">
-#pragma token EXP rvalue:long:li#
+	<programlisting language="c">#pragma token EXP rvalue:long:li#
 #define li 6
 int f() {
 	return sizeof(li);
@@ -186,13 +204,12 @@ int f() {
 	<para>Although they look similar, expression token definitions using
 		<code>#defines</code> are not quite the same as macro definitions. A macro can
 		be defined by any preprocessing tokens which are then computed in
-		phase 3 of translation as defined in the ISO C standard, whereas
+		phase 3 of translation as defined in the &iso; C standard, whereas
 		tokens are defined by assignment-expressions which are computed in
 		phase 7. One of the consequences of this is illustrated by the
 		program below:</para>
 
-	<programlisting language="C">
-#pragma token EXP rvalue:int :X#
+	<programlisting language="c">#pragma token EXP rvalue:int :X#
 #define X M + 3
 #define M sizeof(int)
 int f(int x)
@@ -211,12 +228,11 @@ int f(int x)
 		the order of the definitions of <code>X</code> and <code>M</code>
 		or by bracketing the definition of <code>X</code>. i.e.</para>
 
-	<programlisting language="C">#define X (M+3)</programlisting>
+	<programlisting language="c">#define X (M+3)</programlisting>
 
 	<para>Conversely consider:</para>
 
-	<programlisting language="C">
-#pragma token EXP rvalue:int:X#
+	<programlisting language="c">#pragma token EXP rvalue:int:X#
 #define M sizeof(int)
 #define X M + 3
 #undef M
@@ -236,14 +252,15 @@ int M(int x) {
 		<replaceable>exp-token-name</replaceable> that references the token to be
 		an object with external linkage e.g.</para>
 
-	<programlisting language="C">#pragma token EXP lvalue:int:x#
+	<programlisting language="c">#pragma token EXP lvalue:int:x#
 extern int x;</programlisting>
 
 	<para>The semantics of this program are effectively the same as the
 		semantics of:</para>
 
-	<programlisting language="C">#pragma token EXP lvalue:int:x#
+	<programlisting language="c">#pragma token EXP lvalue:int:x#
 extern int _x;
 #define x _x</programlisting>
+
 </chapter>
 

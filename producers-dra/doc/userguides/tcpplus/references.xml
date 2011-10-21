@@ -1,9 +1,13 @@
 <?xml version="1.0"?>
-<!DOCTYPE bibliography PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
-<bibliography
-	xmlns:dt="http://xml.water-powered.com/docs">
+<appendix id="refs">
+	<title>References</title>
+
+	<para>TODO</para>
+
+<!-- TODO:
+<bibliography>
 
 	<title>References</title>
 
@@ -26,4 +30,6 @@
 		<para><dt:doc name="user/guides/tdfc"/>: attached.</para>
 	</biblioentry>
 </bibliography>
+-->
+</appendix>
 

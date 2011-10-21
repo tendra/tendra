@@ -71,7 +71,7 @@
 
 	<refnamediv>
 		<refname>tpl</refname>
-		<refpurpose>&pl_tdf; compiler producing &tdf;</refpurpose>
+		<refpurpose>PL_TDF compiler producing TDF;</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
@@ -112,24 +112,30 @@
 			<varlistentry>
 				<term>&V.opt;</term>
 
-				<listitem>This option produces a <quote>pretty print</quote>
-					of the &tdf; capsule on the standard output.</listitem>
+				<listitem>
+					<para>This option produces a <quote>pretty print</quote>
+						of the &tdf; capsule on the standard output.</para>
+				</listitem>
   			</varlistentry>
 
 			<varlistentry>
 				<term>&I.opt;</term>
 
-				<listitem>Gives the search path for any
-					<literal>#include</literal> files in the &pl_tdf;
-					text.</listitem>
+				<listitem>
+					<para>Gives the search path for any
+						<literal>#include</literal> files in the &pl_tdf;
+						text.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&v.opt;</term>
 
-				<listitem>This option causes &tpl; to print its version number
-					and the version of the &tdf; specification it
-					supports.</listitem>
+				<listitem>
+					<para>This option causes &tpl; to print its version number
+						and the version of the &tdf; specification it
+						supports.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

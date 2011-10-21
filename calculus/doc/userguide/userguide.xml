@@ -1,40 +1,39 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-  $Id$
--->
+<!-- $Id$ -->
 
 <book>
-  <bookinfo>
-    <title>Calculus Users' Guide</title>
+	<bookinfo>
+		<title>Calculus Users' Guide</title>
 
-    <othercredit class="copyeditor">
-      <firstname>Katherine</firstname>
-      <surname>Flavel</surname>
-      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
-    </othercredit>
-    <othercredit class="copyeditor">
-      <firstname>Jeroen</firstname>
-      <surname>Ruigrok van der Werven</surname>
-      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
-    </othercredit>
-    <corpauthor>DERA</corpauthor>
+		<authorgroup>
+			<othercredit class="copyeditor">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
 
-    <copyright>
-      <year>2004</year>
-      <year>2005</year>
+			<othercredit class="copyeditor">
+				<firstname>Jeroen</firstname>
+				<surname>Ruigrok van der Werven</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
 
-      <holder>The TenDRA Project</holder>
-    </copyright>
+			<corpauthor>DERA</corpauthor>
+		</authorgroup>
 
-    <copyright>
-      <year>1998</year>
+		<copyright>
+			<year>2004</year>
+			<year>2005</year>
+			<holder>The TenDRA Project</holder>
+		</copyright>
 
-      <holder>DERA</holder>
-    </copyright>
-  </bookinfo>
+		<copyright>
+			<year>1998</year>
+			<holder>DERA</holder>
+		</copyright>
+	</bookinfo>
 
   <preface id="introduction">
     <title>Introduction</title>
@@ -77,19 +76,26 @@
     <section id="options">
       <title>Using calculus</title>
 
+<!-- TODO: leave this to the manpage
       <para>The general form for invoking <command>calculus</command> is as
-        follows:
-        <command>calculus<optional><option>options</option></optional>
-        <option>input</option> ....
-        <optional><option>output</option></optional></command>
-        where <option>input</option> is a file containing the input type
-        system description and <option>output</option> is the directory where
+        follows:</para>
+
+      <cmdsynopsis>
+        <command>calculus</command>
+        <arg rep="repeat">&options.arg;</arg>
+        <arg choice="plain" rep="repeat">&in-file.arg;</arg>
+        <arg choice="opt">&out-file.arg;</arg>
+      </cmdsynopsis>
+
+      <para>where &in-file.arg; is a file containing the input type
+        system description and &out-file.arg; is the directory where
         the files implementing this system are to be output. This directory
-        must already exist. If no <option>output</option> argument is given
+        must already exist. If no &options.arg; argument is given
         then the current working directory is assumed. Note that several
-        <option>input</option> files can be given.  Unless
+        &in-file.arg; files can be given.  Unless
         <link linkend="module">otherwise specified</link> it is the last file
         which is used to generate the output.</para>
+-->
 
       <para>The form in which the
         <link linkend="textinput">input type systems</link>
@@ -130,9 +136,8 @@
 
     <para>The overall input file format is as follows:</para>
 
-      <programlisting>
-algebra:
-        ALGEBRA identifier version<subscript>opt</subscript>: item-list<subscript>opt</subscript>
+      <programlisting language="bnf">algebra:
+        ALGEBRA identifier version&opt.bnf;: item-list&opt.bnf;
 
 version:
         (integer.integer)
@@ -170,22 +175,19 @@ item:
       <para>Primitives form the basic components from which the other types in
         the algebra are built up. They are described as follows:</para>
 
-        <programlisting>
-primitive:
+        <programlisting language="bnf">primitive:
         object-identifier = quoted-type;</programlisting>
 
-        where the primitive identifier is given by:
+      <para>where the primitive identifier is given by:</para>
 
-        <programlisting>
-object-identifier:
-        #<subscript>opt</subscript>:<subscript>opt</subscript> identifier
-        #<subscript>opt</subscript>:<subscript>opt</subscript> identifier(identifier)</programlisting>
+        <programlisting language="bnf">object-identifier:
+        #&opt.bnf;:&opt.bnf; identifier
+        #&opt.bnf;:&opt.bnf; identifier(identifier)</programlisting>
 
-        and the primitive definition is a string which gives the C type
-        corresponding to this primitive:
+      <para>and the primitive definition is a string which gives the C type
+        corresponding to this primitive:</para>
 
-        <programlisting>
-quoted-type:
+      <programlisting language="bnf">quoted-type:
         string</programlisting>
 
       <para>Note that each primitive (and also each identity, each
@@ -208,8 +210,7 @@ quoted-type:
         the algebra. In this they correspond to <code>typedef</code>s in C.
         They are described as follows:</para>
 
-        <programlisting>
-identity:
+        <programlisting language="bnf">identity:
         object-identifier = type;</programlisting>
 
         <para>where the definition type, <literal>type</literal>, is as described
@@ -222,15 +223,13 @@ identity:
       <para>Enumerations are used to define types which can only take values
         from some finite set. They are described as follows:</para>
 
-      <programlisting>
-enumeration:
-        enum !<subscript>opt</subscript> object-identifier = { enumerator-list };
-        enum !<subscript>opt</subscript> object-identifier = base-enumeration + { enumerator-list };</programlisting>
+      <programlisting language="bnf">enumeration:
+        enum !&opt.bnf; object-identifier = { enumerator-list };
+        enum !&opt.bnf; object-identifier = base-enumeration + { enumerator-list };</programlisting>
 
       <para>where:</para>
 
-      <programlisting>
-base-enumeration:
+      <programlisting language="bnf">base-enumeration:
         identifier</programlisting>
 
       <para>is the name of a previously defined enumeration type.  The latter form
@@ -241,8 +240,7 @@ base-enumeration:
       <para>The enumeration constants themselves are defined as
         follows:</para>
 
-        <programlisting>
-enumerator:
+      <programlisting language="bnf">enumerator:
         identifier
         identifier = enumerator-value
 
@@ -272,15 +270,13 @@ enumerator-list:
         in the algebra. They correspond to structures in C. They are described
         as follows:</para>
 
-        <programlisting>
-structure:
+      <programlisting language="bnf">structure:
         struct object-identifier = component-group;
         struct object-identifier = base-structure + component-group;</programlisting>
 
         <para>where:</para>
 
-        <programlisting>
-base-structure:
+      <programlisting language="bnf">base-structure:
         identifier</programlisting>
 
         <para>is the name of a previously defined structure type.  The latter form
@@ -290,9 +286,8 @@ base-structure:
 
       <para>The structure components themselves are defined as follows:</para>
 
-        <programlisting>
-component-group:
-        { component-list<subscript>opt</subscript> }
+      <programlisting language="bnf">component-group:
+        { component-list&opt.bnf; }
 
 component-list:
         component-declarations;
@@ -306,7 +301,7 @@ component-declarators:
         component-declarators, component-declarator
 
 component-declarator:
-        identifier component-initialiser<subscript>opt</subscript>
+        identifier component-initialiser&opt.bnf;
 
 component-initialiser:
         = string</programlisting>
@@ -327,15 +322,13 @@ component-initialiser:
         information. They differ from C unions in that they are discriminated.
         They are described as follows:</para>
 
-        <programlisting>
-union:
-        union object-identifier = component-group + field-group map-group<subscript>opt</subscript>;
-        union object-identifier = base-union + field-group map-group<subscript>opt</subscript>;</programlisting>
+      <programlisting language="bnf">union:
+        union object-identifier = component-group + field-group map-group&opt.bnf;;
+        union object-identifier = base-union + field-group map-group&opt.bnf;;</programlisting>
 
         <para>where:</para>
 
-        <programlisting>
-base-union:
+      <programlisting language="bnf">base-union:
         identifier</programlisting>
 
         <para>is the name of a previously defined union type. The latter form is
@@ -348,13 +341,12 @@ base-union:
         which are common to all the different union cases. The cases
         themselves are described as follows:</para>
 
-        <programlisting>
-field-group:
+      <programlisting language="bnf">field-group:
         { field-list }
 
 field:
-        #<subscript>opt</subscript> #<subscript>opt</subscript> field-identifier-list-&gt;component-group
-        #<subscript>opt</subscript> #<subscript>opt</subscript> field-identifier-list-&gt;base-field + component-group
+        #&opt.bnf; #&opt.bnf; field-identifier-list-&gt;component-group
+        #&opt.bnf; #&opt.bnf; field-identifier-list-&gt;base-field + component-group
 
 base-field:
         identifier
@@ -387,12 +379,11 @@ field-identifier-list:
         of other map parameter types, and return the map return type. They are
         described as follows:</para>
 
-        <programlisting>
-map-group:
-        :[map-list<subscript>opt</subscript>]
+      <programlisting language="bnf">map-group:
+        :[map-list&opt.bnf;]
 
 map:
-        extended-type #<subscript>opt</subscript> identifier(parameter-list<subscript>opt</subscript>)
+        extended-type #&opt.bnf; identifier(parameter-list&opt.bnf;)
 
 map-list:
         map
@@ -400,8 +391,7 @@ map-list:
 
         <para>where:</para>
 
-        <programlisting>
-parameter-list:
+      <programlisting language="bnf">parameter-list:
         parameter-declarations
         parameter-list; parameter-declarations
 
@@ -415,8 +405,7 @@ parameter-declarators:
       <para>Note that the map parameter and return types are given by:</para>
 
 <!-- TODO exdent? -->
-        <programlisting>
-          extended-type:
+      <programlisting language="bnf">extended-type:
                   type
                   quoted-type</programlisting>
 
@@ -435,8 +424,7 @@ parameter-declarators:
 
       <para>The types derived from the algebra may be described as follows:</para>
 
-        <programlisting>
-type:
+      <programlisting language="bnf">type:
         identifier
         PTR type
         LIST type
@@ -467,8 +455,7 @@ type:
       <para>Types may be imported from one algebra to another by means of
         commands of the form:</para>
 
-        <programlisting>
-import:
+        <programlisting language="bnf">import:
         IMPORT identifier;
         IMPORT identifier::identifier;</programlisting>
 
@@ -534,8 +521,7 @@ import:
       <para>Six abstract type operators, each taking a type as argument and
         returning a type, are specified as follows:</para>
 
-        <programlisting language="alg">
-TYPE PTR(TYPE t);
+        <programlisting language="alg">TYPE PTR(TYPE t);
 TYPE LIST(TYPE t);
 TYPE STACK(TYPE t);
 TYPE VEC(TYPE t);
@@ -557,29 +543,25 @@ TYPE SIZE(TYPE t);</programlisting>
         practice they are only applied to the types specified in the algebra
         and those derived from them. For example, we may form the type:</para>
 
-        <programlisting language="alg">
-LIST(PTR(int))</programlisting>
+        <programlisting language="alg">LIST(PTR(int))</programlisting>
 
         <para>representing a list of pointers to <code>int</code>.</para>
 
       <para>An integral type:</para>
 
-        <programlisting language="c">
-INT_TYPE name_dim;</programlisting>
+        <programlisting language="c">INT_TYPE name_dim;</programlisting>
 
         <para>is specified, where <literal>name</literal> is the overall algebra
         name.  This type is used to represent the sizes of vectors.</para>
 
       <para>A function pointer type:</para>
 
-        <programlisting language="c">
-typedef void (*DESTROYER)();</programlisting>
+        <programlisting language="c">typedef void (*DESTROYER)();</programlisting>
 
         <para>is specified, which represents a destructor function.  Two destructor
         functions are specified:</para>
 
-        <programlisting language="c">
-void destroy_name();
+        <programlisting language="c">void destroy_name();
 void dummy_destroy_name();</programlisting>
 
         <para>where <literal>name</literal> is as above.
@@ -604,8 +586,7 @@ void dummy_destroy_name();</programlisting>
       <para>For each basic type in the algebra (a primitive, a structure or a
         union), there is a constant expression:</para>
 
-        <programlisting language="alg">
-SIZE ( t ) SIZE_type;</programlisting>
+        <programlisting language="alg">SIZE ( t ) SIZE_type;</programlisting>
 
         <para>where <literal>t</literal> denotes the type itself, and
         <literal>type</literal> is the associated type name.</para>
@@ -614,8 +595,7 @@ SIZE ( t ) SIZE_type;</programlisting>
         <link linkend="outputbasic">described above</link> there are constant
         expressions:</para>
 
-        <programlisting language="alg">
-SIZE(PTR(t))      SIZE_ptr(TYPE t);
+        <programlisting language="alg">SIZE(PTR(t))      SIZE_ptr(TYPE t);
 SIZE(LIST(t))     SIZE_list(TYPE t);
 SIZE(STACK(t))    SIZE_stack(TYPE t);
 SIZE(VEC(t))      SIZE_vec(TYPE t);
@@ -628,8 +608,7 @@ SIZE(VEC_PTR(t))  SIZE_vec_ptr(TYPE t);</programlisting>
         multiplying the size of a type by a constant. This takes the
         form:</para>
 
-        <programlisting language="alg">
-SIZE(t) SCALE(SIZE(t), INT_TYPE itype);</programlisting>
+        <programlisting language="alg">SIZE(t) SCALE(SIZE(t), INT_TYPE itype);</programlisting>
 
         <para>for any type <literal>t</literal> and any integral type
         <literal>itype</literal>.</para>
@@ -649,8 +628,7 @@ SIZE(t) SCALE(SIZE(t), INT_TYPE itype);</programlisting>
         <para>There are several simple operations on pointers, given as
           follows:</para>
 
-          <programlisting language="c">
-PTR(t) NULL_ptr(TYPE t);
+          <programlisting language="c">PTR(t) NULL_ptr(TYPE t);
 int IS_NULL_ptr(PTR (t));
 int EQ_ptr(PTR(t), PTR(t));
 PTR(t) STEP_ptr(PTR(t), SIZE(t));</programlisting>
@@ -1260,7 +1238,7 @@ typedef union name_tag {
 
       <figure>
 		<title>Packing of types in calculus</title>
-        <imagedata fileref="images/calculus.png"/>
+        <graphic align="center" fileref="images/calculus.png"/>
       </figure>
 
       <para>Primitive types are implemented by a <code>typedef</code> defining
@@ -1379,9 +1357,11 @@ name *end_name_list(name *);</programlisting>
         <code>REVERSE_list</code>, <code>APPEND_list</code> and
         <code>END_list</code> respectively.</para>
 
-      <para>Finally a dummy empty vector:
-        <programlisting language="c">
-name_VEC empty_name_vec;</programlisting>needs to be defined.</para>
+      <para>Finally a dummy empty vector:</para>
+
+      <programlisting language="c">name_VEC empty_name_vec;</programlisting>
+
+      <para>needs to be defined.</para>
 
       <para>Examples of these support routines can be found in the
         <link linkend="example"><command>calculus</command> program</link>
@@ -1461,12 +1441,12 @@ static void WRITE_type(t);</programlisting>
         <literal>t</literal> by using the short type name. For composite types
         it is defined recursively as follows:</para>
 
-        <programlisting>
+        <literallayout>
 LIST(t)-&gt;list_type
 PTR(t)-&gt;ptr_type
 STACK(t)-&gt;stack_type
 VEC(t)-&gt;vec_type
-VEC_PTR(t)-&gt;vptr_type</programlisting>
+VEC_PTR(t)-&gt;vptr_type</literallayout>
 
       <para>Such functions are defined for identity types and composite types
         involving identity types by means of macros which define them in terms
@@ -1485,9 +1465,8 @@ VEC_PTR(t)-&gt;vptr_type</programlisting>
         <link linkend="textinput">used above</link> the syntax for
         <literal>input</literal> is given by:</para>
 
-        <programlisting>
-extra:
-        type-list<subscript>opt</subscript>
+        <programlisting language="bnf">extra:
+        type-list&opt.bnf;
 
 type-list:
         type;
@@ -1498,8 +1477,7 @@ type-list:
         the writing routines for the primitives already mentioned, plus
         support routines (or macros):</para>
 
-        <programlisting language="c">
-void WRITE_BITS(int, unsigned int);
+        <programlisting language="c">void WRITE_BITS(int, unsigned int);
 void WRITE_DIM(name_dim);
 void WRITE_ALIAS(unsigned int);</programlisting>
 
@@ -1524,15 +1502,13 @@ void WRITE_ALIAS(unsigned int);</programlisting>
         writing routines. For each type <literal>t</literal> (except
         primitives) there is a function or macro:</para>
 
-        <programlisting language="c">
-static t READ_type(void);</programlisting>
+        <programlisting language="c">static t READ_type(void);</programlisting>
 
         <para>which reads an object of that type from disk. The user must provide
         the <code>READ_</code><literal>type</literal> functions for the
         primitive types, plus support routines:</para>
 
-        <programlisting language="c">
-unsigned int READ_BITS(int);
+        <programlisting language="c">unsigned int READ_BITS(int);
 name_dim READ_DIM(void);
 unsigned int READ_ALIAS(void);</programlisting>
 
@@ -1548,16 +1524,14 @@ unsigned int READ_ALIAS(void);</programlisting>
       <para>The object printing routines output in
         <filename>print_def.h</filename> consist of a function or macro:</para>
 
-        <programlisting language="c">
-static void PRINT_type(FILE *, t, char *, int);</programlisting>
+        <programlisting language="c">static void PRINT_type(FILE *, t, char *, int);</programlisting>
 
         <para>for each type <literal>t</literal>, which prints an object of type
         <literal>t</literal> to the given file, using the given object name
         and indentation value. The user needs to provide basic output
         routines:</para>
 
-        <programlisting language="c">
-void OUTPUT_type(FILE *, t);</programlisting>
+        <programlisting language="c">void OUTPUT_type(FILE *, t);</programlisting>
 
         <para>for each primitive type. The
         <code>PRINT_</code><literal>type</literal> functions may be overridden
@@ -1566,8 +1540,7 @@ void OUTPUT_type(FILE *, t);</programlisting>
       <para>The printing routines are under the control of three variables
         defined as follows:</para>
 
-        <programlisting language="c">
-static int print_indent_step = 4;
+        <programlisting language="c">static int print_indent_step = 4;
 static int print_ptr_depth = 1;
 static int print_list_expand = 0;</programlisting>
 
@@ -1585,8 +1558,7 @@ static int print_list_expand = 0;</programlisting>
         <code>-a</code> command-line options are given then
         <command>calculus</command> will generate functions:</para>
 
-        <programlisting language="c">
-void DEBUG_type(t);</programlisting>
+        <programlisting language="c">void DEBUG_type(t);</programlisting>
 
         <para>defined in terms of <code>PRINT_</code><literal>type</literal>, for
         printing an object of the given type to the standard output. Many
@@ -1594,8 +1566,7 @@ void DEBUG_type(t);</programlisting>
         vector and vector pointer types
         <code>DEBUG_</code><literal>type</literal> takes the form:</para>
 
-        <programlisting language="c">
-void DEBUG_type(t *);</programlisting>
+        <programlisting language="c">void DEBUG_type(t *);</programlisting>
 
         <para>These debugging routines are only defined conditionally, if the macro
         <code>DEBUG</code> is defined.</para>
@@ -1633,8 +1604,7 @@ void DEBUG_type(t *);</programlisting>
         <code>DECONS_</code><literal>union_field</literal> construct. Then the
         user-defined routine, or macro:</para>
 
-        <programlisting language="c">
-ALIAS_union_field(comp, ...., x);</programlisting>
+        <programlisting language="c">ALIAS_union_field(comp, ...., x);</programlisting>
 
         <para>(where <literal>comp</literal> ranges over all the union components)
         is called prior to writing the object components to disk.</para>
@@ -1643,15 +1613,13 @@ ALIAS_union_field(comp, ...., x);</programlisting>
         <literal>x</literal>, is initialised by calling the user-defined
         routine:</para>
 
-        <programlisting language="c">
-UNALIAS_union_field(x);</programlisting>
+        <programlisting language="c">UNALIAS_union_field(x);</programlisting>
 
         <para>prior to reading the object components from disk. Each object
         component is then read into a local variable, <literal>comp</literal>.
         Finally the user-defined routine:</para>
 
-        <programlisting language="c">
-UNIFY_union_field(comp, ...., x);</programlisting>
+        <programlisting language="c">UNIFY_union_field(comp, ...., x);</programlisting>
 
         <para>(where <literal>comp</literal> ranges over all the union components)
         is called to assign these values to <literal>x</literal> before
@@ -1665,8 +1633,7 @@ UNIFY_union_field(comp, ...., x);</programlisting>
         writing routines, but also in the object printing functions.  After
         calling any such function the user should call the routine:</para>
 
-        <programlisting language="c">
-void clear_name_alias(void);</programlisting>
+        <programlisting language="c">void clear_name_alias(void);</programlisting>
 
         <para>to clear all aliases.</para>
 
@@ -1677,8 +1644,7 @@ void clear_name_alias(void);</programlisting>
         <code>clear_</code><literal>name</literal>_alias mentioned above, the
         user should provide support functions and variables:</para>
 
-        <programlisting language="c">
-unsigned int crt_name_alias;
+        <programlisting language="c">unsigned int crt_name_alias;
 void set_name_alias(name *, unsigned int);
 name *find_name_alias(unsigned int);</programlisting>
 
@@ -1720,8 +1686,13 @@ name *find_name_alias(unsigned int);</programlisting>
       output file from a template input file, <literal>template</literal>,
       using the syntax:</para>
 
-      <programlisting>
-calculus [ options ] input .... -Ttemplate output</programlisting>
+      <cmdsynopsis>
+        <command>calculus</command>
+        <arg rep="repeat">&options.arg;</arg>
+        <arg choice="plain" rep="repeat">&in-file.arg;</arg>
+        <arg>-T<replaceable>template</replaceable></arg>
+        <arg choice="opt">&out-file.arg;</arg>
+      </cmdsynopsis>
 
     <para>The template file consists of a list of either template directives
       or source lines containing escape sequences which are expanded by
@@ -1731,15 +1702,13 @@ calculus [ options ] input .... -Ttemplate output</programlisting>
 
     <para>There are two template directives; loops take the form:</para>
 
-      <programlisting language="tmpl">
-@loop control
+      <programlisting language="tmpl">@loop control
 <replaceable>....</replaceable>
 @end</programlisting>
 
       <para>and conditionals take the form:</para>
 
-      <programlisting language="tmpl">
-@if condition
+      <programlisting language="tmpl">@if condition
 <replaceable>....</replaceable>
 @else
 <replaceable>....</replaceable>
@@ -1747,8 +1716,7 @@ calculus [ options ] input .... -Ttemplate output</programlisting>
 
       <para>or:</para>
 
-      <programlisting language="tmpl">
-@if condition
+      <programlisting language="tmpl">@if condition
 <replaceable>....</replaceable>
 @endif</programlisting>
 
@@ -1827,8 +1795,7 @@ calculus [ options ] input .... -Ttemplate output</programlisting>
     <para>As an example, the following template file gives a simple algebra
       pretty printer:</para>
 
-    <programlisting language="tmpl">
-ALGEBRA %X (%V):
+    <programlisting language="tmpl">ALGEBRA %X (%V):
 
 /* PRIMITIVE TYPES */
 @loop primitive

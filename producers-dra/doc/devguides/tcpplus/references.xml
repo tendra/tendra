@@ -1,28 +1,19 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
 -->
 
 <!-- TODO: bibliography -->
-<chapter id="reference"
-	xmlns:dt="http://xml.water-powered.com/docs">
-
+<chapter id="reference">
 	<title>References</title>
 
-	<itemizedlist>
-		<listitem><dt:doc name="reference/specification"/>:
-			<A HREF="../tdf/spec1.html">attached</A>.
-		</listitem>
-		<listitem><A id="tdfc"><code>C Checker Reference Manual</code></A>:
-			<A HREF="../tdfc/tdfc1.html">attached</A>.
-		</listitem>
-		<listitem><dt:doc name="papers/porting"/>:
-			<A HREF="../port/port1.html">attached</A>.
-		</listitem>
-	</itemizedlist>
+	<para>&tdf-spec.doc;</para>
+
+	<para>&tchk.doc;</para>
+
+	<para>&tdf-portability.doc;</para>
 
 </chapter>
 

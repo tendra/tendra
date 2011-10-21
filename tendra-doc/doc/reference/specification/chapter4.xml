@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
   $Id$
@@ -12,13 +11,15 @@
   <section id="C4S1">
     <title>Definition of terms</title>
 
+	<para>
     In this document the behaviour of TDF installers is described in a precise
     manner. Certain words are used with very specific meanings. These are:
+	</para>
 
     <itemizedlist>
       <listitem>
         <para>
-          <quote>undefined</quote>: means that installers can perform any
+          &ldquo;undefined&rdquo;: means that installers can perform any
           action, including refusing to translate the program. It can produce
           code with any effect, meaningful or meaningless.
         </para>
@@ -26,19 +27,19 @@
 
       <listitem>
         <para>
-          <quote>shall</quote>: when the phrase <quote><emphasis>P</emphasis>
-          shall be done</quote> (or similar phrases involving
-          <quote>shall</quote>) is used, every installer must perform
-          <emphasis>P</emphasis>.
+          &ldquo;shall&rdquo;: when the phrase &ldquo;<replaceable>P</replaceable>
+          shall be done&rdquo; (or similar phrases involving
+          &ldquo;shall&rdquo;) is used, every installer must perform
+          <replaceable>P</replaceable>.
         </para>
       </listitem>
 
       <listitem>
         <para>
-          <quote>should</quote>: when the phrase <quote><emphasis>P</emphasis>
-          should be done</quote> (or similar phrase involving
-          <quote>should</quote>) is used, installers are advised to perform
-          <emphasis>P</emphasis>, and producer writers may assume it will be
+          &ldquo;should&rdquo;: when the phrase &ldquo;<replaceable>P</replaceable>
+          should be done&rdquo; (or similar phrase involving
+          &ldquo;should&rdquo;) is used, installers are advised to perform
+          <replaceable>P</replaceable>, and producer writers may assume it will be
           done if possible. This usage generally relates to optimisations which
           are recommended.
         </para>
@@ -46,22 +47,22 @@
 
       <listitem>
         <para>
-          <quote>will</quote>: when the phrase <quote><emphasis>P</emphasis>
-          will be true</quote> (or similar phrases involving
-          <quote>will</quote>) is used to describe the composition of a TDF
-          construct, the installer may assume that <emphasis>P</emphasis> holds
+          &ldquo;will&rdquo;: when the phrase &ldquo;<replaceable>P</replaceable>
+          will be true&rdquo; (or similar phrases involving
+          &ldquo;will&rdquo;) is used to describe the composition of a TDF
+          construct, the installer may assume that <replaceable>P</replaceable> holds
           without having to check it. If, in fact, a producer has produced TDF
-          for which <emphasis>P</emphasis> does not hold, the effect is
+          for which <replaceable>P</replaceable> does not hold, the effect is
           undefined.
         </para>
       </listitem>
 
       <listitem>
         <para>
-          <quote>target-defined</quote>: means that behaviour will be defined,
+          &ldquo;target-defined&rdquo;: means that behaviour will be defined,
           but that it varies from one target machine to another. Each target
           installer shall define everything which is said to be
-          <quote>target-defined</quote>.
+          &ldquo;target-defined&rdquo;.
         </para>
       </listitem>
     </itemizedlist>
@@ -88,16 +89,16 @@
       circumstances. This correctness can only be shown by demonstrating the
       equivalence of the transformed program, from equivalences deducible from
       this specification or from the ordinary laws of arithmetic. No statements
-      are made in this specification of the form <quote>such and such an
-      optimisation is permitted</quote>.
+      are made in this specification of the form &ldquo;such and such an
+      optimisation is permitted&rdquo;.
     </para>
 
     <para>
-      <emphasis>Fortran90 has a notion of mathematical equivalence which is not
+      <replaceable>Fortran90 has a notion of mathematical equivalence which is not
       the same as TDF equivalence. It can be applied to transform programs
       provided parentheses in the text are not crossed. TDF does not acknowledge
       this concept. Such transformations would have to be applied in a context
-      where the permitted changes are known.</emphasis>
+      where the permitted changes are known.</replaceable>
     </para>
   </section>
 </chapter>

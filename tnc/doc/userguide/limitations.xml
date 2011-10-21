@@ -1,8 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-	<!ENTITY tdf "<acronym>TDF</acronym>">
-]>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="S6">
 	<title>Limitations</title>
@@ -11,9 +8,17 @@
 		as follows:</para>
 
 	<itemizedlist>
-		<listitem>There is no error recovery,</listitem>
-		<listitem>There is no support for foreign sorts,</listitem>
-		<listitem>The support for tokenised tokens is limited and undocumented.</listitem>
+		<listitem>
+			<para>There is no error recovery,</para>
+		</listitem>
+
+		<listitem>
+			<para>There is no support for foreign sorts,</para>
+		</listitem>
+
+		<listitem>
+			<para>The support for tokenised tokens is limited and undocumented.</para>
+		</listitem>
 	</itemizedlist>
 
 	<para>In addition, far more of the checks (scopes, shape checking, checking

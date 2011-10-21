@@ -1,32 +1,65 @@
 <?xml version="1.0"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE article SYSTEM "minidocbook.dtd">
 
 <article>
-	<title>API checking</title>
+	<articleinfo>
+		<title>API checking</title>
+
+		<!-- TODO: lots of things here... -->
+
+		<authorgroup>
+			<othercredit class="copyeditor">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
+
+			<corpauthor>DERA</corpauthor>
+		</authorgroup>
+
+		<copyright>
+				<year>2011</year>
+
+				<holder>The TenDRA Project</holder>
+		</copyright>
+
+		<copyright>
+				<year>1998</year>
+
+				<holder>DERA</holder>
+		</copyright>
+
+		<!-- TODO: revhistory -->
+	</articleinfo>
 
 	<!-- TODO this document can become a guide to using the API checking mechanisms
 		in general, drawing from various other documents -->
 
-	<para>The token syntax described in the previous annex provides the means
-		of describing an API specification independently of any particular
-		implementation of the API. Every object in the API specification is
-		described using the appropriate <code>#pragma</code> token statement. These
-		statements are arranged in TenDRA header files corresponding to the
-		headers comprising the API. Each API consists of a separate set of
-		header files. For example, if the ANSI API is used, the statement:</para>
+	<section>
+		<title>Including headers</title>
 
-	<programlisting language="C">#include &lt;sys/types.h&gt;</programlisting>
+		<!-- TODO: find a home for this -->
 
-	<para>will lead to a <quote>header not found</quote> error, whereas the
-		header will be found in the POSIX API.</para>
+		<para>The token syntax described in the previous annex provides the means
+			of describing an API specification independently of any particular
+			implementation of the API. Every object in the API specification is
+			described using the appropriate <code>#pragma</code> token statement. These
+			statements are arranged in TenDRA header files corresponding to the
+			headers comprising the API. Each API consists of a separate set of
+			header files. For example, if the ANSI API is used, the statement:</para>
 
-	<para>Where relationships exist between APIs these have been made
-		explicit in the headers. For example, the POSIX version of stdio.h
-		consists of the ANSI version plus some extra objects. This is
-		implemented by making the TenDRA header describing the POSIX
-		version of <code>stdio.h</code> include the ANSI version of
-		<code>stdio.h</code>.</para>
+		<programlisting language="c">#include &lt;sys/types.h&gt;</programlisting>
+
+		<para>will lead to a <quote>header not found</quote> error, whereas the
+			header will be found in the POSIX API.</para>
+
+		<para>Where relationships exist between APIs these have been made
+			explicit in the headers. For example, the POSIX version of stdio.h
+			consists of the ANSI version plus some extra objects. This is
+			implemented by making the TenDRA header describing the POSIX
+			version of <code>stdio.h</code> include the ANSI version of
+			<code>stdio.h</code>.</para>
+	</section>
 
 	<section>
 		<title>Specifying APIs to tcc</title>
@@ -49,11 +82,11 @@
 			command-line option <code>-info</code> causes tcc to print the
 			API currently in use. For example:</para>
 
-		<programlisting language="sh">% tcc -Yposix -Yx5_lib -info file.c</programlisting>
+		<screen>% tcc -Yposix -Yx5_lib -info file.c</screen>
 
 		<para>will result in the message:</para>
 
-		<programlisting>tcc: Information: API is X11 Release 5 Xlib plus POSIX (1003.1).</programlisting>
+		<screen>tcc: Information: API is X11 Release 5 Xlib plus POSIX (1003.1).</screen>
 	</section>
 
 	<section>
@@ -63,10 +96,10 @@
 			consider the following program which prints the names and inode
 			numbers of all the files in the current directory:</para>
 
-		<programlisting language="C">
-#include &lt;stdio.h&gt;
+		<programlisting language="c">#include &lt;stdio.h&gt;
 #include &lt;sys/types.h&gt;
 #include &lt;dirent.h&gt;
+
 int main ()
 {
 	DIR *d = opendir ( "." );
@@ -82,7 +115,7 @@ int main ()
 
 		<para>A first attempted compilation using strict checking:</para>
 
-		<programlisting language="sh">% tcc -Xs a.c</programlisting>
+		<screen>% tcc -Xs a.c</screen>
 
 		<para>results in messages to the effect that the headers
 			<code>&lt;sys/types.h&gt;</code> and <code>&lt;dirent.h&gt;</code>
@@ -92,7 +125,7 @@ int main ()
 			compliant. It does look as if it might be POSIX compliant however,
 			so a second attempted compilation might be:</para>
 
-		<programlisting language="sh">% tcc -Xs -Yposix a.c</programlisting>
+		<screen>% tcc -Xs -Yposix a.c</screen>
 
 		<para>This results in one error and three warnings. Dealing with the
 			warnings first, the returns of the calls of <code>printf</code>
@@ -105,13 +138,12 @@ int main ()
 			The error is more interesting. In full the error message reads:</para>
 
 		<!-- TODO update this -->
-		<programlisting>
-"a.c":11
+		<screen>"a.c":11
 	printf ( "%s %lu\n", e-&gt;d_name, e-&gt;d_ino!!!! );
 Error:ISO[6.5.2.1]{ANSI[3.5.2.1]}: The identifier 'd_ino' is not a member of 
 	'struct/union posix.dirent.dirent'.
 ISO[6.3.2.3]{ANSI[3.3.2.3]}: The second operand of '-&gt;' must be a member of 
-	the struct/union pointed to by the first. </programlisting>
+	the struct/union pointed to by the first.</screen>
 
 		<para>That is, <code>struct dirent</code> does not have a field called
 			<code>d_ino</code>. In fact this is true; while the <code>d_name</code>
@@ -121,7 +153,7 @@ ISO[6.3.2.3]{ANSI[3.3.2.3]}: The second operand of '-&gt;' must be a member of
 			between APIs at a very fine level). Therefore a third attempted
 			compilation might be:</para>
 
-		<programlisting language="sh">% tcc -Xs -Yxpg3 a.c</programlisting>
+		<screen>% tcc -Xs -Yxpg3 a.c</screen>
 
 		<para>This leads to another error message concerning the
 			<code>printf</code> statement, that the types <code>unsigned long</code>
@@ -139,10 +171,10 @@ ISO[6.3.2.3]{ANSI[3.3.2.3]}: The second operand of '-&gt;' must be a member of
 
 		<para>Hence the corrected, XPG3 conformant program reads:</para>
 
-		<programlisting language="C">
-#include &lt;stdio.h&gt;
+		<programlisting language="c">#include &lt;stdio.h&gt;
 #include &lt;sys/types.h&gt;
 #include &lt;dirent.h&gt;
+
 int main ()
 {
 	DIR *d = opendir ( "." );
@@ -158,7 +190,7 @@ int main ()
 	</section>
 
 	<section>
-		<title id="1">Redeclaring Objects in APIs</title>
+		<title>Redeclaring Objects in APIs</title>
 
 		<para>Of course, it is possible to redeclare the functions declared in
 			the TenDRA API descriptions within the program, provided they are
@@ -167,12 +199,12 @@ int main ()
 			might seem; an interesting example is malloc in the ANSI API. This
 			is defined by the prototype:</para>
 
-		<programlisting language="C">void *malloc ( size_t );</programlisting>
+		<programlisting language="c">void *malloc ( size_t );</programlisting>
 
 		<para>where <code>size_t</code> is a target dependent unsigned integral
 			type. The redeclaration:</para>
 
-		<programlisting language="C">void *malloc ();</programlisting>
+		<programlisting language="c">void *malloc ();</programlisting>
 
 		<para>is only correct if <code>size_t</code> is its own integral
 			promotion, and therefore is not correct in general.</para>
@@ -183,7 +215,7 @@ int main ()
 			compiler has a facility to accept inconsistent redeclarations of
 			API functions which can be enabled by using the pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA incompatible interface declaration allow</programlisting>
+		<programlisting language="c">#pragma TenDRA incompatible interface declaration allow</programlisting>
 
 		<para>This pragma supresses the consistency checking of re-declarations
 			of API functions. Replacing allow by warning causes a warning to be
@@ -192,8 +224,8 @@ int main ()
 			redeclarations as errors can be restored by replacing <code>allow</code>
 			by <code>disallow</code> in the pragma above. (There are also
 			equivalent command-line options to tcc of the form
-			<code>-X:interface_decl=<emphasis>status</emphasis></code>, where
-			<emphasis>status</emphasis> can be <code>check</code>,
+			<code>-X:interface_decl=<replaceable>status</replaceable></code>, where
+			<replaceable>status</replaceable> can be <code>check</code>,
 			<code>warn</code> or <code>dont</code>.)</para>
 	</section>
 
@@ -206,8 +238,7 @@ int main ()
 			to define an object from the API in the program itself. A subtle
 			example of this is given by compiling the program:</para>
 
-		<programlisting language="C">
-#include &lt;errno.h&gt;
+		<programlisting language="c">#include &lt;errno.h&gt;
 extern int errno;</programlisting>
 
 		<para>with the ANSI API. ANSI states that <code>errno</code> is an
@@ -231,8 +262,7 @@ extern int errno;</programlisting>
 			<code>errno</code> is anything other than an <code>extern int</code>
 			it must be defined by a macro. Therefore:</para>
 
-		<programlisting language="C">
-#include &lt;errno.h&gt;
+		<programlisting language="c">#include &lt;errno.h&gt;
 #ifndef errno
 extern int errno;
 #endif</programlisting>
@@ -243,8 +273,8 @@ extern int errno;
 			example, a programmer might provide a memory allocator containing
 			versions of <code>malloc</code>, <code>free</code> etc.:</para>
 
-		<programlisting language="C">
-#include &lt;stdlib.h&gt;
+		<programlisting language="c">#include &lt;stdlib.h&gt;
+
 void *malloc ( size_t sz )
 {
 	....
@@ -260,7 +290,7 @@ void free ( void *ptr )
 			provided instead. This is done by listing the objects to be
 			ignored using the pragma:</para>
 
-		<programlisting language="C">#pragma ignore malloc free ....</programlisting>
+		<programlisting language="c">#pragma ignore malloc free ....</programlisting>
 
 		<para>(also see section G.10). This should be placed between the API
 			specification and the object definitions. The provided definitions
@@ -272,8 +302,7 @@ void free ( void *ptr )
 			itself and its two field selectors - <code>quot</code> and
 			<code>rem</code>. The definition would therefore take the form:</para>
 
-		<programlisting language="C">
-#include &lt;stdlib.h&gt;
+		<programlisting language="c">#include &lt;stdlib.h&gt;
 #pragma ignore div_t div_t.quot div_t.rem
 typedef struct {
 	int quot;
@@ -283,8 +312,7 @@ typedef struct {
 		<para>Similarly if we wish to define struct <code>lconv</code> from
 			<code>locale.h</code> the definition would take the form:</para>
 
-		<programlisting>
-#include &lt;locale.h&gt;
+		<programlisting language="c">#include &lt;locale.h&gt;
 #pragma ignore TAG lconv TAG lconv.decimal_point 
 ....
 struct lconv {
@@ -333,8 +361,7 @@ struct lconv {
 			checking purposes it is sufficient to merely give the types. This
 			can be done by pretending that <code>S_ISLNK</code> is a function:</para>
 
-		<programlisting language="C">
-#ifdef __TenDRA__
+		<programlisting language="c">#ifdef __TenDRA__
 /* For TenDRA checking purposes only */
 extern int S_ISLNK ( mode_t ); 
 /* actually a macro */
@@ -348,8 +375,7 @@ extern int S_ISLNK ( mode_t );
 			file number), rather than a generic type. This might be expressed
 			by:</para>
 
-<programlisting language="C">
-#ifdef __TenDRA__
+<programlisting language="c">#ifdef __TenDRA__
 /* For TenDRA checking purposes only */
 #pragma ignore FILE
 typedef struct {
@@ -399,7 +425,7 @@ typedef struct {
 			with the directory dir. Once a directory has been named in this
 			way, the name can be used in a directive:</para>
 
-		<programlisting language="C">#pragma TenDRA directory <emphasis>name</emphasis> use environment <emphasis>mode</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA directory <replaceable>name</replaceable> use environment <replaceable>mode</replaceable></programlisting>
 
 		<para>which tells tcc to apply the named compilation mode, mode, to
 			any files included from the directory, name. This is the mechanism
@@ -456,26 +482,24 @@ typedef struct {
 	</section>
 
 	<section>
-		<title id="6">Abstract API headers and API usage analysis</title>
+		<title>Abstract API headers and API usage analysis</title>
 
 		<para>The abstract standard headers provided with the tool are the
 			basis for the API usage analysis checking on dump files described
 			in Chapter 9. The declarations in each abstract header file are
 			enclosed by the following pragmas:</para>
 
-		<programlisting language="C">
-#pragma TenDRA declaration block <emphasis>API_name</emphasis> begin
+		<programlisting language="c">#pragma TenDRA declaration block <replaceable>API_name</replaceable> begin
 #pragma TenDRA declaration block end</programlisting>
 
-		<para><emphasis>API_name</emphasis> has a standard form e.g.
+		<para><replaceable>API_name</replaceable> has a standard form e.g.
 			<code>api__ansi__stdio</code> for <code>stdio.h</code>
 			in the ANSI API.</para>
 
 		<para>This information is output in the dump format as the start and
 			end of a header scope, i.e.</para>
 
-		<programlisting>
-SSH		 position				ref_no = &lt;API_name&gt;
+		<programlisting language="dump">SSH		 position				ref_no = &lt;API_name&gt;
 SEH		 position				ref_no</programlisting>
 
 		<para>The first occurence of each identifier in the dump output

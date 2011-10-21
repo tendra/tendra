@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -16,33 +15,38 @@
 			symbols. Other symbols and words stand for themselves as terminal
 			symbols. An expansion of a non-terminal is indicated using ::= with
 			its expansion given as a sequence (possibly empty) of terminals and
-			non-terminals. For example:
-			<programlisting>
-&lt;Exp&gt; ::= * &lt;ident&gt;</programlisting>
-			is a possible expansion of an EXP SORT. If the word for the
+			non-terminals. For example:</para>
+
+		<programlisting language="bnf">&lt;Exp&gt; ::= * &lt;ident&gt;</programlisting>
+
+		<para>is a possible expansion of an EXP SORT. If the word for the
 			non-terminal starts with a capital letter then it will be totally
 			described by a set of such expansions; otherwise the expansion of
 			the non-terminal will be given by other methods in the text.</para>
 
 		<para>The post-fix -Opt on a non terminal is an abreviation allowing
-			an empty expansion. For example:
-			<programlisting>
-&lt;Access&gt;-Opt</programlisting>
-			is equivalent to the use of another non-terminal
-			&lt;AccessOption&gt; whose expansions are:
-			<programlisting>
-&lt;AccessOption&gt; ::=
+			an empty expansion. For example:</para>
+
+		<programlisting language="bnf">&lt;Access&gt;-Opt</programlisting>
+
+		<para>is equivalent to the use of another non-terminal
+			&lt;AccessOption&gt; whose expansions are:</para>
+
+		<programlisting language="bnf">&lt;AccessOption&gt; ::=
 &lt;AccessOption&gt; ::= &lt;Access&gt;</programlisting>
-			The post-fix -List on a non terminal is an abreviation for lists of
-			objects seperated by the ,-symbol. For example:
-			<programlisting>
-&lt;Exp&gt;-List</programlisting>
-			is equivalent to the use of another non-terminal &lt;ExpList&gt;
-			whose expansions are:
-			<programlisting>
-&lt;ExpList&gt; ::= &lt;Exp&gt;
+
+		<para>The post-fix -List on a non terminal is an abreviation for lists of
+			objects seperated by the ,-symbol. For example:</para>
+
+		<programlisting language="bnf">&lt;Exp&gt;-List</programlisting>
+
+		<para>is equivalent to the use of another non-terminal &lt;ExpList&gt;
+			whose expansions are:</para>
+
+		<programlisting language="bnf">&lt;ExpList&gt; ::= &lt;Exp&gt;
 &lt;ExpList&gt; ::= &lt;ExpList&gt; , &lt;Exp&gt;</programlisting>
-			Both of these post-fix notations are also used with sequences of
+
+		<para>Both of these post-fix notations are also used with sequences of
 			terminals and non-terminals within the angle brackets with the same
 			kind of expansion. In these cases, the expansion within the angle
 			brackets form an anonymous non-terminal.</para>
@@ -73,14 +77,15 @@
 			results.</para>
 
 		<para>An &lt;integer_denotatation&gt; allows one to express an integer
-			in any base less than 16, with the default being 10.
-			<programlisting>
-&lt;integer_denotation&gt; ::= &lt;digit&gt;
+			in any base less than 16, with the default being 10.</para>
+
+		<programlisting language="bnf">&lt;integer_denotation&gt; ::= &lt;digit&gt;
 &lt;integer_denotation&gt; ::= &lt;integer_denotation&gt; &lt;digit&gt;
 &lt;integer_denotation&gt; ::= &lt;base&gt; &lt;integer_denotation&gt;
 
 &lt;base&gt; ::= &lt;integer_denotation&gt; r</programlisting>
-			Examples are 31, 16r1f, 8r37, 2r11111 - all giving the same
+
+		<para>Examples are 31, 16r1f, 8r37, 2r11111 - all giving the same
 			value.</para>
 
 		<para>A &lt;floating_denotation&gt; is an &lt;integer_denotation&gt;

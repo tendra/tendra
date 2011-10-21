@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd" [
 
 	<!ENTITY tcc   "<application><acronym>TCC</acronym></application>">
 	<!ENTITY tdf   "<acronym>TDF</acronym>">

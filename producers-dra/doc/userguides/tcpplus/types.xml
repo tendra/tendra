@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
 	<title>Configuration for types</title>
@@ -12,34 +11,33 @@
 			C++ by default, however support for them can be enabled using the
 			directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA longlong type <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA longlong type <emphasis>allow</emphasis></programlisting>
 
-			<para>This support includes allowing <code>long long</code> in type specifiers
+		<para>This support includes allowing <code>long long</code> in type specifiers
 			and allowing <code>LL</code> and <code>ll</code> as integer literal
 			suffixes.</para>
 
 		<para>There is a further directive given by the two cases:</para>
 
-		<programlisting language="C++">#pragma TenDRA set longlong type : long long
+		<programlisting language="cpp">#pragma TenDRA set longlong type : long long
 #pragma TenDRA set longlong type : long</programlisting>
 
-			<para>which can be used to control the implementation of the <code>long
+		<para>which can be used to control the implementation of the <code>long
 			long</code> types.	Either they can be mapped to the
-			<A HREF="lib.html#arith">default representation</A>, which is guaranteed
+			default representation, which is guaranteed
 			to contain at least 64 bits, or they can be mapped to the corresponding
 			<code>long</code> types.</para>
 
 		<para>Because these <code>long long</code> types are not an intrinsic part
 			of C++ the implementation does not integrate them into the language
 			as fully as is possible.	This is to prevent the presence or otherwise
-			of
-			<code>long long</code> types affecting the semantics of code which
+			of <code>long long</code> types affecting the semantics of code which
 			does not use them.	For example, it would be possible to extend the
 			rules for the types of integer literals, integer promotion types and
 			arithmetic types to say that if the given value does not fit into
 			the standard integral types then the extended types are tried.	This
 			has not been done, although these rules could be implemented by changing
-			the definitions of the <A HREF="lib.html#arith">standard tokens</A>
+			the definitions of the standard tokens
 			used to determine these types.	By default, only the rules for arithmetic
 			types involving a <code>long long</code> operand and for <code>LL</code>
 			integer literals mention <code>long long</code> types.</para>
@@ -54,7 +52,7 @@
 			(the extra bits being treated as padding).	These properties can be
 			controlled using the directives:</para>
 
-		<programlisting language="C++">#pragma TenDRA extra bitfield int type <emphasis>allow</emphasis>
+		<programlisting language="cpp">#pragma TenDRA extra bitfield int type <emphasis>allow</emphasis>
 #pragma TenDRA bitfield overflow <emphasis>allow</emphasis></programlisting>
 
 			<para>respectively.</para>
@@ -69,26 +67,26 @@
 			and <code>struct</code> are interchangeable).	This requirement can
 			be relaxed using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA ignore struct/union/enum tag <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA ignore struct/union/enum tag <emphasis>on</emphasis></programlisting>
 
 		<para>In ISO C and C++ it is not possible to give a forward declaration
 			of an enumeration type.	This constraint can be relaxed using the
 			directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA forward enum declaration <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA forward enum declaration <emphasis>allow</emphasis></programlisting>
 
-			<para>Until the end of its definition, an enumeration type is treated as
+		<para>Until the end of its definition, an enumeration type is treated as
 			an incomplete type (as with class types).	In enumeration definitions,
 			and a couple of other contexts where comma-separated lists are required,
 			the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA extra , <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA extra , <emphasis>allow</emphasis></programlisting>
 
 			<para>can be used to allow a trailing comma at the end of the list.</para>
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA complete struct/union analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA complete struct/union analysis <emphasis>on</emphasis></programlisting>
 
 			<para>can be used to enable a check that every class or union has been completed
 			within each translation unit in which it is declared.</para>
@@ -101,7 +99,7 @@
 			whereas C++ allows multiple consistent definitions.	This behaviour
 			can be controlled using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA extra type definition <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA extra type definition <emphasis>allow</emphasis></programlisting>
 	</section>
 
 	<section id="compatible">
@@ -109,17 +107,17 @@
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA incompatible type qualifier <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA incompatible type qualifier <emphasis>allow</emphasis></programlisting>
 
-			<para>allows objects to be redeclared with different cv-qualifiers (normally
+		<para>allows objects to be redeclared with different cv-qualifiers (normally
 			such redeclarations would be incompatible).	The composite type is
 			qualified using the join of the cv-qualifiers in the various redeclarations.</para>
 
 		<para>The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA compatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA compatible type : <emphasis>type-id</emphasis> == <emphasis>type-id</emphasis> : <emphasis>allow</emphasis></programlisting>
 
-			<para>asserts that the given two types are compatible.	Currently the only
+		<para>asserts that the given two types are compatible.	Currently the only
 			implemented version is <code>char * == void *</code> which enables
 			<code>char *</code> to be used as a generic pointer as it was in older
 			dialects of C.</para>
@@ -133,7 +131,7 @@
 			allow for the allocation of an arbitrarily sized array.	Support for
 			this feature can be enabled using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA incomplete type as object type <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA incomplete type as object type <emphasis>allow</emphasis></programlisting>
 	</section>
 
 	<section id="type-conversions">
@@ -142,44 +140,44 @@
 		<para>There are a number of directives which allow various classes of type
 			conversion to be checked.	The directives:</para>
 
-		<programlisting language="C++">#pragma TenDRA conversion analysis (int-int explicit) <emphasis>on</emphasis>
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-int explicit) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (int-int implicit) <emphasis>on</emphasis></programlisting>
 
-			<para>will check for unsafe explicit or implicit conversions between arithmetic
+		<para>will check for unsafe explicit or implicit conversions between arithmetic
 			types.	Similarly conversions between pointers and arithmetic types
 			can be checked using:</para>
 
-		<programlisting language="C++">#pragma TenDRA conversion analysis (int-pointer explicit) <emphasis>on</emphasis>
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-pointer explicit) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (int-pointer implicit) <emphasis>on</emphasis></programlisting>
 
-			<para>or equivalently:</para>
+		<para>or equivalently:</para>
 
-		<programlisting language="C++">#pragma TenDRA conversion analysis (pointer-int explicit) <emphasis>on</emphasis>
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (pointer-int explicit) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (pointer-int implicit) <emphasis>on</emphasis></programlisting>
 
-			<para>Conversions between pointer types can be checked using:</para>
+		<para>Conversions between pointer types can be checked using:</para>
 
-		<programlisting language="C++">#pragma TenDRA conversion analysis (pointer-pointer explicit) <emphasis>on</emphasis>
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (pointer-pointer explicit) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (pointer-pointer implicit) <emphasis>on</emphasis></programlisting>
 
 		<para>There are some further variants which can be used to enable useful
 			sets of conversion checks.	For example:</para>
 
-		<programlisting language="C++">#pragma TenDRA conversion analysis (int-int) <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-int) <emphasis>on</emphasis></programlisting>
 
-			<para>enables both implicit and explicit arithmetic conversion checks.
+		<para>enables both implicit and explicit arithmetic conversion checks.
 			The directives:</para>
 
-		<programlisting language="C++">#pragma TenDRA conversion analysis (int-pointer) <emphasis>on</emphasis>
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-pointer) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (pointer-int) <emphasis>on</emphasis>
 #pragma TenDRA conversion analysis (pointer-pointer) <emphasis>on</emphasis></programlisting>
 
-			<para>are equivalent to their corresponding explicit forms (because the
+		<para>are equivalent to their corresponding explicit forms (because the
 			implicit forms are illegal by default).	The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA conversion analysis <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA conversion analysis <emphasis>on</emphasis></programlisting>
 
-			<para>is equivalent to the four directives just given.	It enables checks
+		<para>is equivalent to the four directives just given.	It enables checks
 			on implicit and explicit arithmetic conversions, explicit arithmetic
 			to pointer conversions and explicit pointer conversions.</para>
 
@@ -189,9 +187,9 @@
 			type can be converted implicitly to an enumeration type in C, but
 			not in C++.	The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA conversion analysis (int-enum implicit) <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA conversion analysis (int-enum implicit) <emphasis>on</emphasis></programlisting>
 
-			<para>can be used to control the status of this conversion.	The level of
+		<para>can be used to control the status of this conversion.	The level of
 			severity for an error message arising from such a conversion is the
 			maximum of the severity set by this directive and that set by the
 			<code>int-int implicit</code> directive above.</para>
@@ -202,19 +200,19 @@
 			can be converted implicitly to another pointer type in C but not in
 			C++; this is controlled by the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ conversion analysis (void*-pointer implicit) <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ conversion analysis (void*-pointer implicit) <emphasis>on</emphasis></programlisting>
 
-			<para>The reverse conversion, from a pointer type to <code>void *</code>
+		<para>The reverse conversion, from a pointer type to <code>void *</code>
 			is allowed in both C and C++, and has a controlling directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA++ conversion analysis (pointer-void* implicit) <emphasis>on</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA++ conversion analysis (pointer-void* implicit) <emphasis>on</emphasis></programlisting>
 
 		<para>In ISO C and C++, a function pointer can only be cast to other function
 			pointers, not to object pointers or <code>void *</code>.	Many dialects
 			however allow function pointers to be cast to and from other pointers.
 			This behaviour can be controlled using the directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA function pointer as pointer <emphasis>allow</emphasis></programlisting>
+		<programlisting language="cpp">#pragma TenDRA function pointer as pointer <emphasis>allow</emphasis></programlisting>
 
 			<para>which causes function pointers to be treated in the same way as all
 			other pointers.</para>
@@ -223,54 +221,56 @@
 			conversions.	A simple-minded check for shortening conversions is
 			not adequate, as is shown by the following example:</para>
 
-		<programlisting language="C++">char a = 1, b = 2 ;
+		<programlisting language="cpp">char a = 1, b = 2 ;
 		char c = a + b ;</programlisting>
 
-			<para>the sum <code>a + b</code> is evaluated as an <code>int</code> which
+		<para>the sum <code>a + b</code> is evaluated as an <code>int</code> which
 			is then shortened to a <code>char</code>.	Any check which does not
 			distinguish this sort of &quot;safe&quot; shortening conversion from
 			unsafe shortening conversions such as:</para>
 
-		<programlisting language="C++">int a = 1, b = 2 ;
+		<programlisting language="cpp">int a = 1, b = 2 ;
 		char c = a + b ;</programlisting>
 
-			<para>is not likely to be very useful.	The producer therefore associates
+		<para>is not likely to be very useful.	The producer therefore associates
 			two types with each integral expression; the first is the normal,
 			representation type and the second is the underlying, semantic type.
 			Thus in the first example, the representation type of <code>a + b</code>
 			is <code>int</code>, but semantically it is still a <code>char</code>.
 			The conversion analysis is based on the semantic types.</para>
-			<warning>
-		<para>The C producer supports a directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA keyword <emphasis>identifier</emphasis> for type representation</programlisting>
+		<warning>
+			<para>The C producer supports a directive:</para>
+
+			<programlisting language="cpp">#pragma TenDRA keyword <emphasis>identifier</emphasis> for type representation</programlisting>
 
 			<para>whereby a keyword can be introduced which can be used to explicitly
-			declare a type with given representation and semantic components.
-			Unfortunately this makes the <A HREF="parse.html">C++ grammar</A>
-			ambiguous, so it has not yet been implemented in the C++ producer.</para>
-			</warning>
+				declare a type with given representation and semantic components.
+				Unfortunately this makes the C++ grammar
+				ambiguous, so it has not yet been implemented in the C++ producer.</para>
+		</warning>
+
 		<para>It is possible to allow individual conversions by means of conversion
-			tokens.	A <A HREF="token.html">procedure token</A> which takes one
+			tokens.	A procedure token which takes one
 			rvalue expression program parameter and returns an rvalue expression,
 			such as:</para>
 
-		<programlisting language="C++">#pragma token PROC ( EXP : t : ) EXP : s : conv #</programlisting>
+		<programlisting language="cpp">#pragma token PROC ( EXP : t : ) EXP : s : conv #</programlisting>
 
 			<para>can be regarded as mapping expressions of type <code>t</code> to expressions
 			of type <code>s</code>.	The directive:</para>
 
-		<programlisting language="C++">#pragma TenDRA conversion <emphasis>identifier-list</emphasis> allow</programlisting>
+		<programlisting language="cpp">#pragma TenDRA conversion <emphasis>identifier-list</emphasis> allow</programlisting>
 
-			<para>can be used to nominate such a token as a conversion token.	That
+		<para>can be used to nominate such a token as a conversion token.	That
 			is to say, if the conversion, whether explicit or implicit, from <code>t</code>
 			to <code>s</code> cannot be done by other means, it is done by applying
 			the token <code>conv</code>, so:</para>
 
-		<programlisting language="C++">t a ;
+		<programlisting language="cpp">t a ;
 		s b = a ;		// maps to conv ( a )</programlisting>
 
-			<para>Note that, unlike conversion functions, conversion tokens can be applied
+		<para>Note that, unlike conversion functions, conversion tokens can be applied
 			to any types.</para>
 	</section>
 

@@ -81,8 +81,8 @@
 	</refmeta>
 
 	<refnamediv>
-		<refname>&disp;</refname>
-		<refpurpose>&tdf; pretty printer</refpurpose>
+		<refname>disp</refname>
+		<refpurpose>TDF pretty printer</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
@@ -149,63 +149,79 @@
 			<varlistentry>
 				<term>&g.opt;</term>
 
-				<listitem>Makes &disp; print any diagnostic information units
-					within the &tdf; capsule.</listitem>
+				<listitem>
+					<para>Makes &disp; print any diagnostic information units
+						within the &tdf; capsule.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&n.opt;</term>
 
-				<listitem>Makes &disp; try to format its output to fit into a
-					page width of &cols.arg;.
-					The default page width is <literal>80</literal>.</listitem>
+				<listitem>
+					<para>Makes &disp; try to format its output to fit into a
+						page width of &cols.arg;.
+						The default page width is <literal>80</literal>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&q.opt;</term>
 
-				<listitem>Makes &disp; ignore the specified page width and
-					print its output with the minimum possible indentation.
-					This makes it run faster, but does not make the best use
-					of the available page width.</listitem>
+				<listitem>
+					<para>Makes &disp; ignore the specified page width and
+						print its output with the minimum possible indentation.
+						This makes it run faster, but does not make the best use
+						of the available page width.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&r.opt;</term>
 
-				<listitem>Makes &disp; continue after any errors.
-					The use of this flag is not recommended since anything read
-					after an error is likely to be of very little
-					value.</listitem>
+				<listitem>
+					<para>Makes &disp; continue after any errors.
+						The use of this flag is not recommended since anything read
+						after an error is likely to be of very little
+						value.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&v.opt;</term>
 
-				<listitem>Makes &disp; print its version number and the version
-					of the &tdf; specification it supports.</listitem>
+				<listitem>
+					<para>Makes &disp; print its version number and the version
+						of the &tdf; specification it supports.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&A.opt;</term>
 
-				<listitem>Makes &disp; decode all the units it recognises
-					(including diagnostic and linking units) within the &tdf;
-					capsule.</listitem>
+				<listitem>
+					<para>Makes &disp; decode all the units it recognises
+						(including diagnostic and linking units) within the &tdf;
+						capsule.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&D.opt;</term>
 
-				<listitem>Makes &disp; print a simple binary dump of the input
-					file. This is intended for debugging purposes.</listitem>
+				<listitem>
+					<para>Makes &disp; print a simple binary dump of the input
+						file. This is intended for debugging purposes.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&E.opt;</term>
 
-				<listitem>Makes &disp; report such information as the number of
-					external tags and tokens which it usually omits.</listitem>
+				<listitem>
+					<para>Makes &disp; report such information as the number of
+						external tags and tokens which it usually omits.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -229,18 +245,22 @@
 			<varlistentry>
 				<term>&T.opt;</term>
 
-				<listitem>The skip pass described under the &S.opt; option is
-					usually done silently, without printing any information.
-					This is changed by the &T.opt; option, which causes output
-					to be printed.</listitem>
+				<listitem>
+					<para>The skip pass described under the &S.opt; option is
+						usually done silently, without printing any information.
+						This is changed by the &T.opt; option, which causes output
+						to be printed.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&U.opt;</term>
 
-				<listitem>Makes &disp; print the usage information associated
-					with the external tokens and tags and also any linkage
-					information units within the capsule.</listitem>
+				<listitem>
+					<para>Makes &disp; print the usage information associated
+						with the external tokens and tags and also any linkage
+						information units within the capsule.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -263,8 +283,10 @@
 			<varlistentry>
 				<term>&W.opt;</term>
 
-				<listitem>Makes &disp; issue a warning about every token which
-					is used before it is declared.</listitem>
+				<listitem>
+					<para>Makes &disp; issue a warning about every token which
+						is used before it is declared.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

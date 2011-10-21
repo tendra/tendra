@@ -1,9 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-
-	<!ENTITY sid "<application><acronym>SID</acronym></application>">
-]>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="grammar-file">
 	<title>The &sid; grammar file</title>
@@ -35,8 +31,7 @@
 			insensitive. The following section headers are currently
 			recognised:</para>
 
-		<programlisting>
-%types%
+		<programlisting language="sid">%types%
 %terminals%
 %productions%
 %entry%</programlisting>
@@ -46,7 +41,7 @@
 			hyphens. Identifiers are case sensitive. The following are all legal
 			identifiers:</para>
 
-		<programlisting>expression   mult-expr    plus_expr    expr-1</programlisting>
+		<literallayout>expression   mult-expr    plus_expr    expr-1</literallayout>
 
 		<para>Identifiers are split into two namespaces: local names have one
 			space; types, actions, rules, non-local names and terminals share the
@@ -56,10 +51,9 @@
 		<para>The following symbols are also used:</para>
 
 		<!-- TODO this shouldn't be a <programlisting> -->
-		<programlisting>
-&amp;  ;    =    [    :    ]    !    ,
+		<literallayout>&amp;  ;    =    [    :    ]    !    ,
 ||   $    ?    {    }    (    )    &lt;
-&gt;  -&gt;  ::   ##</programlisting>
+&gt;  -&gt;  ::   ##</literallayout>
 
 		<para>All other characters are illegal.</para>
 	</section>
@@ -72,8 +66,7 @@
 			types used by the grammar. Each type name should be terminated by a
 			semicolon. An example of the type declaration section follows:</para>
 
-		<programlisting language="SID Grammar">
-%types%
+		<programlisting language="sid">%types%
 NumberT ;
 StringT ;</programlisting>
 
@@ -119,21 +112,20 @@ StringT ;</programlisting>
 
 		<para>The simplest type of terminal declaration is as follows:</para>
 
-		<programlisting language="SID Grammar">terminal1 ;</programlisting>
+		<programlisting language="sid">terminal1 ;</programlisting>
 
 		<para>This means the same as:</para>
 
-		<programlisting language="SID Grammar">terminal1 : () -&gt; () ;</programlisting>
+		<programlisting language="sid">terminal1 : () -&gt; () ;</programlisting>
 
 		<para>An example of a more complex terminal declaration is:</para>
 
-		<programlisting language="SID Grammar">terminal2 : () -&gt; ( :StringT ) ;</programlisting>
+		<programlisting language="sid">terminal2 : () -&gt; ( :StringT ) ;</programlisting>
 
 		<para>If these terminals were not to be used in the grammar, they should
 			be declared as:</para>
 
-		<programlisting language="SID Grammar">
-!terminal1 ;
+		<programlisting language="sid">!terminal1 ;
 !terminal2 : () -&gt; ( :StringT ) ;</programlisting>
 
 		<para>Terminals may optionally be quoted; this permits the use of
@@ -141,8 +133,7 @@ StringT ;</programlisting>
 			convenient names. It can also help make the grammar a little clearer
 			to read, if the associated lexer is not to hand. For example:</para>
 
-		<programlisting language="SID Grammar">
-!"-&gt;" ;
+		<programlisting language="sid">!"-&gt;" ;
 "*" ;
 "{" : () -&gt; ( :BraceT ) ;</programlisting>
 
@@ -161,15 +152,13 @@ StringT ;</programlisting>
 
 		<para>Rule declarations look identical to terminal declarations, e.g.:</para>
 
-		<programlisting language="SID Grammar">
-rule1 : ( :NumberT ) -&gt; ( :NumberListT ) ;
+		<programlisting language="sid">rule1 : ( :NumberT ) -&gt; ( :NumberListT ) ;
 rule2 ;</programlisting>
 
 		<para>Action declarations are similar, although the names are surrounded
 			by angle brackets, e.g.:</para>
 
-		<programlisting language="SID Grammar">
-&lt;action1&gt; : ( :StringT &amp; ) -&gt; () ;
+		<programlisting language="sid">&lt;action1&gt; : ( :StringT &amp; ) -&gt; () ;
 &lt;action2&gt; ;</programlisting>
 
 		<para>Action declarations may be prefixed with <code>!</code> if they are
@@ -184,8 +173,7 @@ rule2 ;</programlisting>
 		<para>A rule definition (called a production) looks something like the
 			following:</para>
 
-		<programlisting language="SID Grammar">
-add-expr : () -&gt; ( v : NumberT ) = {
+		<programlisting language="sid">add-expr : () -&gt; ( v : NumberT ) = {
 	v1 = mul-expr ;
 	plus ;
 	v2 = expr ;
@@ -217,7 +205,7 @@ add-expr : () -&gt; ( v : NumberT ) = {
 		<para>An alternative may match the empty string, using the symbol
 			<code>$</code> and the terminator symbol <code>;</code>, i.e.:</para>
 
-		<programlisting language="SID Grammar">$ ;</programlisting>
+		<programlisting language="sid">$ ;</programlisting>
 
 		<para>unless it is an exception handler alternative (in which case it must
 			do something), or a sequence of items. The empty string is only valid
@@ -229,12 +217,12 @@ add-expr : () -&gt; ( v : NumberT ) = {
 			a terminal, an action or a predicate. An identity looks like an
 			assignment in conventional programming languages:</para>
 
-		<programlisting language="SID Grammar">( a, b, c ) = ( d, e, f ) ;</programlisting>
+		<programlisting language="sid">( a, b, c ) = ( d, e, f ) ;</programlisting>
 
 		<para>Each tuple must contain the same number of names. In the case of a
 			one-tuple, the parentheses may be dropped, e.g.:</para>
 
-		<programlisting language="SID Grammar">a = d ;</programlisting>
+		<programlisting language="sid">a = d ;</programlisting>
 
 		<para>Note that this is a binding operation, not an assignment.	Each
 			name on the left hand side must be a new name. It is illegal to
@@ -242,7 +230,7 @@ add-expr : () -&gt; ( v : NumberT ) = {
 			a name which is already in scope by prefixing that name with the
 			<code>&amp;</code> symbol, e.g.:</para>
 
-		<programlisting language="SID Grammar">( a, &amp;b, c ) = ( d, e, f ) ;</programlisting>
+		<programlisting language="sid">( a, &amp;b, c ) = ( d, e, f ) ;</programlisting>
 
 		<para>would assign to the name <code>b</code>, which must have been
 			previously defined (it may be a parameter; if it is a call by
@@ -252,21 +240,20 @@ add-expr : () -&gt; ( v : NumberT ) = {
 		<para>It is also possible to use the <code>!</code> symbol in the result
 			tuple to ignore results, e.g.:</para>
 
-		<programlisting language="SID Grammar">( a, !, b, ! ) = ( c, d, e, f ) ;</programlisting>
+		<programlisting language="sid">( a, !, b, ! ) = ( c, d, e, f ) ;</programlisting>
 
 		<para>This is not particularly useful in an identity, but may be more
 			useful in a call to a rule, terminal or action. A call to a terminal
 			or rule looks like a call to a function in a conventional programming
 			language, e.g.:</para>
 
-		<programlisting language="SID Grammar">
-( a, b ) = rule1 ( c, d ) ;
+		<programlisting language="sid">( a, b ) = rule1 ( c, d ) ;
 ( e, f ) = terminal1 () ;</programlisting>
 
 		<para>Calls to actions have the same form, except that action names are
 			surrounded by angle brackets, e.g.:</para>
 
-		<programlisting language="SID Grammar">( g, h, i ) = &lt;action1&gt; ( a, e ) ;</programlisting>
+		<programlisting language="sid">( g, h, i ) = &lt;action1&gt; ( a, e ) ;</programlisting>
 
 		<para>In addition, one of the names in the result tuple of the call to
 			the action may be the predicate result symbol <code>?</code>, in which
@@ -281,28 +268,26 @@ add-expr : () -&gt; ( v : NumberT ) = {
 			call by reference parameters, then the corresponding arguments should
 			be prefixed by the <code>&amp;</code> symbol, e.g.:</para>
 
-			<programlisting language="SID Grammar">length = &lt;string-length&gt; ( &amp;string ) ;</programlisting>
+			<programlisting language="sid">length = &lt;string-length&gt; ( &amp;string ) ;</programlisting>
 
 		<para>If the rule, terminal or action has the zero-tuple as a result,
 			then only the right hand side of the definition is required, e.g.:</para>
 
-		<programlisting language="SID Grammar">
-rule2 ( a, b ) ;
+		<programlisting language="sid">rule2 ( a, b ) ;
 terminal2 () ;
 &lt;action2&gt; ( c, d ) ;</programlisting>
 
 		<para>If the rule, terminal or action has the zero-tuple as a parameter,
 			then the parameter tuple may be omitted, e.g.:</para>
 
-		<programlisting language="SID Grammar">
-( a, b ) = rule3 ;
+		<programlisting language="sid">( a, b ) = rule3 ;
 terminal3 ;
 c = &lt;action3&gt; ;</programlisting>
 
 		<para>In older versions of &sid;, it used to be possible to
 			have ambiguous items, e.g.:</para>
 
-		<programlisting language="SID Grammar">a = b ;</programlisting>
+		<programlisting language="sid">a = b ;</programlisting>
 
 		<para>where <code>b</code> was both a rule and a name. As local names may
 			not shadow non-local and global names, then this is no longer a
@@ -330,8 +315,7 @@ c = &lt;action3&gt; ;</programlisting>
 		<para>An anonymous rule is written in the same way as the body of a
 			normal rule, e.g.:</para>
 
-		<programlisting language="SID Grammar">
-list : () -&gt; ( l : ListT ) = {
+		<programlisting language="sid">list : () -&gt; ( l : ListT ) = {
 	n = number ;
 
 	/* START ANONYMOUS RULE */ {
@@ -353,8 +337,7 @@ list : () -&gt; ( l : ListT ) = {
 			symbols (which are followed by the rest of the rule). In this case,
 			the definitions are local to the rule, e.g.:</para>
 
-		<programlisting language="SID Grammar">
-x-list [
+		<programlisting language="sid">x-list [
 	x = {
 		terminal1 ;
 		terminal2 ;
@@ -395,8 +378,7 @@ x-list [
 			respects non-local names are the same as local names. An example
 			follows:</para>
 
-		<programlisting language="SID Grammar">
-rule1 [
+		<programlisting language="sid">rule1 [
 	name1 : Type1T ;
 	rule1_1 = {
 		&lt;action1&gt; ( name1 ) ;
@@ -411,8 +393,7 @@ rule1 [
 			by following the type name with a <code>=</code> symbol and the action
 			name in angle brackets, e.g.:</para>
 
-		<programlisting language="SID Grammar">
-rule1 [
+		<programlisting language="sid">rule1 [
 	name1 : Type1T = &lt;action1&gt; ;
 ] = {
 	// ....
@@ -434,7 +415,7 @@ rule1 [
 			with the section header, followed by a comma separated list of rule
 			names, terminated by a semicolon, e.g.:</para>
 
-		<programlisting language="SID Grammar">%entry% expr ;</programlisting>
+		<programlisting language="sid">%entry% expr ;</programlisting>
 
 		<para>If you are going to use a rule as an entry point into the grammar
 			(i.e. you wish to call the associated function), you must list it in

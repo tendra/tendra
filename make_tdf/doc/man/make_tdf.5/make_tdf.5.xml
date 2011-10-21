@@ -37,12 +37,17 @@
 		<manvolnum>5</manvolnum>
 	</refmeta>
 
+	<refnamediv>
+		<refname>make_tdf</refname>
+		<refpurpose>TDF I/O generator syntax</refpurpose>
+	</refnamediv>
+
 	<!-- very much TODO -->
 
 	<refsection>
 		<title>Syntax</title>
 
-		<programlisting language="BNF"><![CDATA[
+		<programlisting language="bnf"><![CDATA[
 <sort_cond> :
 	builtin				# built-in sorts
 	simple				# simple sort

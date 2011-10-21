@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="wbS43">Data Flow and Variable Analysis</title>
+	<title>Data Flow and Variable Analysis</title>
 
 	<para>The checker has a number of features which can be used to help track
 		down potential programming errors relating to the use of variables
@@ -12,13 +11,12 @@
 		expressions that depend upon the order of evaluation where the order is
 		not defined, checking for unused static variables, etc.</para>
 
-	<section>
-		<title id="2">Unreachable code analysis</title>
+	<section id="unreachable">
+		<title>Unreachable code analysis</title>
 
 		<para>Consider the following function definition:</para>
 
-		<programlisting language="C">
-int f ( int n )
+		<programlisting language="c">int f ( int n )
 {
 	if ( n ) {
 		return ( 1 );
@@ -31,7 +29,7 @@ int f ( int n )
 
 		<para>The final return statement is redundant since it can never be reached. The test for unreachable code is controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA unreachable code <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA unreachable code <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is replaced by <code>disallow</code>
 			to give an error if unreached code is detected, <code>warning</code>
@@ -47,8 +45,7 @@ int f ( int n )
 			be used to indicate that a certain statement is genuinely reached
 			or unreached. These keywords are introduced using:</para>
 
-		<programlisting language="C">
-#pragma TenDRA keyword REACHED for set reachable
+		<programlisting language="c">#pragma TenDRA keyword REACHED for set reachable
 #pragma TenDRA keyword UNREACHED for set unreachable</programlisting>
 
 		<para>The statement <code>REACHED</code> then indicates that this
@@ -58,8 +55,7 @@ int f ( int n )
 			might be to say that the final return is reachable (this is a
 			blatant lie, but never mind). This would be done as follows:</para>
 
-		<programlisting language="C">
-int f ( int n ) {
+		<programlisting language="c">int f ( int n ) {
 	if ( n ) {
 		return ( 1 );
 	} else {
@@ -76,8 +72,7 @@ int f ( int n ) {
 			called with c equal to zero, the end of the function is never
 			reached. This could be indicated as follows:</para>
 
-		<programlisting language="C">
-int f ( int c ) {
+		<programlisting language="c">int f ( int c ) {
 	if ( c ) return ( 1 );
 	UNREACHED
 }</programlisting>
@@ -86,8 +81,7 @@ int f ( int c ) {
 			definitions need to be provided for conventional compilers. In this
 			case, this can be done as follows:</para>
 
-		<programlisting language="C">
-#ifdef __TenDRA__
+		<programlisting language="c">#ifdef __TenDRA__
 #pragma TenDRA keyword REACHED for set reachable
 #pragma TenDRA keyword UNREACHED for set unreachable
 #else
@@ -97,13 +91,12 @@ int f ( int c ) {
 	</section>
 
 	<section>
-		<title id="6">Case fall through</title>
+		<title>Case fall through</title>
 
 		<para>Another flow analysis check concerns fall through in case
 			statements. For example, in:</para>
 
-		<programlisting language="C">
-void f ( int n )
+		<programlisting language="c">void f ( int n )
 {
 	switch ( n ) {
 		case 1 : puts ( "one" );
@@ -123,7 +116,7 @@ void f ( int n )
 			throughs. A check to detect fall through in case statements is
 			controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA fall into case <emphasis>permit</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA fall into case <emphasis>permit</emphasis></programlisting>
 
 		<para>where <emphasis>permit</emphasis> is <code>allow</code> (no
 			errors), <code>warning</code> (warn about case fall through)
@@ -137,12 +130,11 @@ void f ( int n )
 		<para>Deliberate case fall throughs can be indicated by means of a
 			keyword, which has been introduced using:</para>
 
-		<programlisting language="C">#pragma TenDRA keyword FALL_THROUGH for fall into case</programlisting>
+		<programlisting language="c">#pragma TenDRA keyword FALL_THROUGH for fall into case</programlisting>
 
 		<para>Then, if the example above were deliberate, this could be indicated by:</para>
 
-		<programlisting language="C">
-void f ( int n ) {
+		<programlisting language="c">void f ( int n ) {
 	switch ( n ) {
 		case 1 : puts ( "one" );
 		FALL_THROUGH
@@ -158,8 +150,7 @@ void f ( int n ) {
 			definition needs to be introduced for conventional compilers. This
 			might be done as follows:</para>
 
-	<programlisting language="C">
-#ifdef __TenDRA__
+	<programlisting language="c">#ifdef __TenDRA__
 #pragma TenDRA keyword FALL_THROUGH for fall into case
 #else
 #define FALL_THROUGH
@@ -167,18 +158,17 @@ void f ( int n ) {
 	</section>
 
 	<section>
-		<title id="wbS46">Unusual flow in conditional statements</title>
+		<title>Unusual flow in conditional statements</title>
 
 		<para>The following three checks are designed to detect possible errors
 			in conditional statements.</para>
 
 		<section>
-			<title id="9">Empty if statements</title>
+			<title>Empty if statements</title>
 
 			<para>Consider the following C statements:</para>
 
-			<programlisting language="C">
-if ( var1 == 1 ) ;
+			<programlisting language="c">if ( var1 == 1 ) ;
 	var2 = 0 ;</programlisting>
 
 			<para>The conditional statement serves no purpose here and the
@@ -187,27 +177,27 @@ if ( var1 == 1 ) ;
 				intended to write. A test for if statements with no body is
 				controlled by:</para>
 
-			<programlisting language="C">#pragma TenDRA extra ; after conditional <emphasis>permit</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA extra ; after conditional <emphasis>permit</emphasis></programlisting>
 
 			<para>with the usual <code>allow</code> (this is the default setting),
 				<code>warning</code> and <code>disallow</code> options for
 				<emphasis>permit</emphasis>.</para>
 		</section>
 
-		<section>
-			<title id="11">Use of assignments as control expressions</title>
+		<section id="uoaace">
+			<title>Use of assignments as control expressions</title>
 
 			<para>Using the C assignment operator, <code>=</code>, when the
 				equality operator <code>==</code> was intended is an extremely
 				common problem. The pragma:</para>
 
-			<programlisting language="C">#pragma TenDRA assignment as bool <emphasis>permit</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA assignment as bool <emphasis>permit</emphasis></programlisting>
 
 			<para>is used to control the treatment of assignments used as the
 				controlling expression of a conditional statement or a loop,
 				e.g.</para>
 
-			<programlisting language="C">if( var = 1 ) { ...</programlisting>
+			<programlisting language="c">if( var = 1 ) { ...</programlisting>
 
 			<para>The options for <emphasis>permit</emphasis> are <code>allow</code>,
 				<code>warning</code> and <code>disallow</code>. The default
@@ -216,7 +206,7 @@ if ( var1 == 1 ) ;
 		</section>
 
 		<section>
-			<title id="13">Constant control expressions</title>
+			<title>Constant control expressions</title>
 
 			<para>Statements with constant control expressions are not really
 				conditional at all since the value of the control statement can
@@ -226,7 +216,7 @@ if ( var1 == 1 ) ;
 				expressions to check that they are deliberate. The check for
 				statically constant control expressions is controlled using:</para>
 
-			<programlisting language="C">#pragma TenDRA const conditional <emphasis>permit</emphasis></programlisting>
+			<programlisting language="c">#pragma TenDRA const conditional <emphasis>permit</emphasis></programlisting>
 
 			<para>where <emphasis>permit</emphasis> may be replaced by
 				<code>disallow</code> to give an error when constant control
@@ -237,7 +227,7 @@ if ( var1 == 1 ) ;
 	</section>
 
 	<section>
-		<title id="15">Operator precedence</title>
+		<title>Operator precedence</title>
 
 		<para>The ISO C standard section 6.3, provides a set of rules governing
 			the order in which operators within expressions should be applied.
@@ -253,98 +243,134 @@ if ( var1 == 1 ) ;
 			leads to unexpected results when expressions are evaluated. A
 			particularly common example is to write:</para>
 
-		<programlisting language="C">
-if ( var &amp; TEST == 1) { ...
+		<programlisting language="c">if ( var &amp; TEST == 1) { ...
 }
 else { ...
 </programlisting>
 
 		<para>assuming that the control expression will be evaluated as:</para>
 
-		<programlisting language="C">( ( var &amp; TEST ) == 1 )</programlisting>
+		<programlisting language="c">( ( var &amp; TEST ) == 1 )</programlisting>
 
 		<para>However, the <code>==</code> operator has a higher precedence
 			than the bitwise <code>&amp;</code> operator and the control
 			expression is evaluated as:</para>
 
-		<programlisting language="C">( var &amp; ( TEST == 1 ) )</programlisting>
+		<programlisting language="c">( var &amp; ( TEST == 1 ) )</programlisting>
 
 		<para>which in general will give a different result.</para>
 
 		<table>
 			<title>ISO C Rules for Operator Precedence</title>
-			<tr>
-				<th>Operators</th>
-				<th>Precedence</th>
-			</tr>
-			<tr>
-				<td><code><emphasis>function call</emphasis>()</code> <code>[]</code>
-					<code>-&gt;</code> <code>.</code>
-					<code>++<emphasis>(postfix)</emphasis></code>
-					<code>--<emphasis>(postfix)</emphasis></code></td>
-				<td>highest</td>
-			</tr>
-			<tr>
-				<td><code>!</code> <code>~</code> <code>++</code> <code>--</code>
-					<code>+</code> <code>-</code> <code>*</code> <code>&amp;</code>
-					<code>(<emphasis>type</emphasis>)</code> <code>sizeof</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>*</code> <code>/</code> <code>%</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>+</code><emphasis>(binary)</emphasis>
-					<code>-</code><emphasis>(binary)</emphasis></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>&lt;&lt;</code> <code>&gt;&gt;</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>&lt;</code> <code>lt;=</code> <code>&gt;</code> <code>&gt;=</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>==</code> <code>!=</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>&amp;</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>^</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>|</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>&amp;&amp;</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>||</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>?:</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td><code>=</code> <code>+=</code> <code>-=</code> <code>*=</code>
-					<code>/=</code> <code>%=</code> <code>&amp;=</code> <code>^=</code>
-					<code>|=</code> <code>&lt;&lt;=</code> <code>&gt;&gt;=</code></td>
-				<td/>
-			</tr>
-			<tr>
-				<td>,</td>
-				<td>lowest</td>
-			</tr>
+
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Operators</th>
+					<th>Precedence</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>
+						<code><emphasis>function call</emphasis>()</code> <code>[]</code>
+						<code>-&gt;</code> <code>.</code>
+						<code>++<emphasis>(postfix)</emphasis></code>
+						<code>--<emphasis>(postfix)</emphasis></code></td>
+					<td>highest</td>
+				</tr>
+
+				<tr>
+					<td>
+						<code>!</code> <code>~</code> <code>++</code> <code>--</code>
+						<code>+</code> <code>-</code> <code>*</code> <code>&amp;</code>
+						<code>(<emphasis>type</emphasis>)</code> <code>sizeof</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>*</code> <code>/</code> <code>%</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>+</code><emphasis>(binary)</emphasis>
+						<code>-</code><emphasis>(binary)</emphasis></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>&lt;&lt;</code> <code>&gt;&gt;</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>==</code> <code>!=</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>&amp;</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>^</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>|</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>&amp;&amp;</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>||</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>?:</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>
+						<code>=</code> <code>+=</code> <code>-=</code> <code>*=</code>
+						<code>/=</code> <code>%=</code> <code>&amp;=</code> <code>^=</code>
+						<code>|=</code> <code>&lt;&lt;=</code> <code>&gt;&gt;=</code></td>
+					<td/>
+				</tr>
+
+				<tr>
+					<td>,</td>
+					<td>lowest</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<para>The TenDRA C checker can be configured to flag expressions
@@ -356,23 +382,27 @@ else { ...
 				<para><code>&amp;&amp;</code> <emphasis>versus</emphasis>
 					<code>||</code></para>
 			</listitem>
+
 			<listitem>
 				<para><code>&lt;&lt;</code> <emphasis>and</emphasis>
 					<code>&gt;&gt;</code> <emphasis>versus</emphasis>
 					<code>+</code> <emphasis>and</emphasis> <code>-</code></para>
 			</listitem>
+
 			<listitem>
 				<para><code>&amp;</code> <emphasis>versus</emphasis> <code>==</code>
 					<code>!=</code> <code>&lt;</code> <code>&gt;</code>
 					<code>&lt;=</code> <code>&gt;=</code> <code>+</code>
 					<emphasis>and</emphasis> <code>-</code></para>
 			</listitem>
+
 			<listitem>
 				<para><code>^</code> <emphasis>versus</emphasis> <code>&amp;</code>
 					<code>==</code> <code>|=</code> <code>&lt;</code> <code>&gt;</code>
 					<code>&lt;=</code> <code>&gt;=</code> <code>+</code>
 					<emphasis>and</emphasis> <code>-</code></para>
 			</listitem>
+
 			<listitem>
 				<para><code>|</code> <emphasis>versus</emphasis> <code>^</code>
 					<code>&amp;</code> <code>==</code> <code>|=</code>
@@ -384,18 +414,18 @@ else { ...
 
 		<para>The check is switched off by default and is controlled using:</para>
 
-		<programlisting language="C">#pragma TenDRA operator precedence <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA operator precedence <emphasis>status</emphasis></programlisting>
 
 		<para>where <emphasis>status</emphasis> is <code>on</code>, <code>warning</code>
 			or <code>off</code>.</para>
 	</section>
 
 	<section>
-		<title id="wbS46">Variable analysis</title>
+		<title>Variable analysis</title>
 
 		<para>The variable analysis checks are controlled by:</para>
 
-		<programlisting language="C">#pragma TenDRA variable analysis status</programlisting>
+		<programlisting language="c">#pragma TenDRA variable analysis status</programlisting>
 
 		<para>Where <emphasis>status</emphasis> is <code>on</code>,
 			<code>warning</code> or <code>off</code> as usual. The checks are
@@ -417,7 +447,7 @@ else { ...
 			used to fine-tune the variable analysis.</para>
 
 		<section>
-			<title id="S52">Order of evaluation</title>
+			<title>Order of evaluation</title>
 
 			<para>The ISO C standard specifies certain points in the expression
 				syntax at which all prior expressions encountered are
@@ -429,16 +459,20 @@ else { ...
 					<para>after the arguments and function expression of a function call
 						have been evaluated but before the call itself;</para>
 				</listitem>
+
 				<listitem>
 					<para>after the first operand of a logical &amp;&amp;, or ||
 						operator;</para>
 				</listitem>
+
 				<listitem>
 					<para>after the first operand of the conditional operator, ?:;</para>
 				</listitem>
+
 				<listitem>
 					<para>after the first operand of the comma operator;</para>
 				</listitem>
+
 				<listitem>
 					<para>at the end of any full expression (a full expression may take
 						one of the following forms: an initialiser; the expression in an
@@ -457,7 +491,7 @@ else { ...
 				For example:</para>
 			<!-- TODO not true, is it? this is UB, not unspecified -->
 
-			<programlisting language="C">var = i + arr[ i++ ] ;</programlisting>
+			<programlisting language="c">var = i + arr[ i++ ] ;</programlisting>
 
 			<para>may evaluate to different values on different machines,
 				depending on which argument of the <code>+</code> operator is
@@ -468,14 +502,14 @@ else { ...
 		</section>
 
 		<section>
-			<title id="S53">5.6.2 Modification between sequence points</title>
+			<title>5.6.2 Modification between sequence points</title>
 
 			<para>The ISO C standard states that if an object is modified more
 				than once, or is modified and accessed other than to determine
 				the new value, between two sequence points, then the behaviour
 				is undefined. Thus the result of:</para>
 
-			<programlisting language="C">var = arr[i++] + i++ ;</programlisting>
+			<programlisting language="c">var = arr[i++] + i++ ;</programlisting>
 
 			<para>is undefined, since the value of i is being incremented twice
 				between sequence points. This behaviour is detected by the
@@ -483,7 +517,7 @@ else { ...
 		</section>
 
 		<section>
-			<title id="S54">Operand of <code>sizeof</code></title>
+			<title>Operand of <code>sizeof</code></title>
 
 			<para>According to the ISO C standard, section 6.3.3.4, the operand
 				of the <code>sizeof</code> operator is not itself evaluated. If
@@ -494,15 +528,14 @@ else { ...
 		</section>
 
 		<section>
-			<title id="S55">Unused variables</title>
+			<title>Unused variables</title>
 
 			<para>As part of the variable analysis, a simple test applied to
 				each local variable at the end of its scope to determine
 				whether it has been used in that scope. For example,
 				in:</para>
 
-			<programlisting language="C">
-int f ( int n )
+			<programlisting language="c">int f ( int n )
 {
 	int r;
 	return ( 0 );
@@ -513,13 +546,12 @@ int f ( int n )
 		</section>
 
 		<section>
-			<title id="S56">Values set and not used</title>
+			<title>Values set and not used</title>
 
 			<para>This is a more complex test since it is applied to every
 				instance of setting the variable. For example, in:</para>
 
-			<programlisting language="C">
-int f ( int n )
+			<programlisting language="c">int f ( int n )
 {
 	int r = 1;
 	r = 5;
@@ -531,8 +563,7 @@ int f ( int n )
 				second value is used however). This test requires some flow
 				analysis. For example, if the program is modified to:</para>
 
-			<programlisting language="C">
-int f ( int n )
+			<programlisting language="c">int f ( int n )
 {
 	int r = 1;
 	if ( n == 3 ) {
@@ -544,8 +575,7 @@ int f ( int n )
 			<para>the initial value of <code>r</code> is used when
 				<code>n != 3</code>, so no error is detected. However in:</para>
 
-			<programlisting language="C">
-int f ( int n )
+			<programlisting language="c">int f ( int n )
 {
 	int r = 1;
 	if ( n == 3 ) {
@@ -562,13 +592,12 @@ int f ( int n )
 		</section>
 
 		<section>
-			<title id="S57">Variable which has not been set is used</title>
+			<title>Variable which has not been set is used</title>
 
 			<para>This test also requires some flow analysis, for example
 				in:</para>
 
-			<programlisting language="C">
-int f ( int n )
+			<programlisting language="c">int f ( int n )
 {
 	int r;
 	if ( n == 3 ) {
@@ -582,8 +611,7 @@ int f ( int n )
 				which <code>r</code> is not set (i.e. when <code>n != 3</code>).
 				However, in:</para>
 
-			<programlisting language="C">
-int f ( int n )
+			<programlisting language="c">int f ( int n )
 {
 	int r;
 	if ( n == 3 ) {
@@ -600,7 +628,7 @@ int f ( int n )
 	</section>
 
 	<section>
-		<title id="wbS46">Overriding the variable analysis</title>
+		<title>Overriding the variable analysis</title>
 
 		<para>Although many of the problems discovered by the variable analysis
 			are genuine mistakes, some may be as the result of deliberate
@@ -611,7 +639,7 @@ int f ( int n )
 			non-returning function.</para>
 
 		<section>
-			<title id="26">5.7.1 Discarding variables</title>
+			<title>5.7.1 Discarding variables</title>
 
 			<para>Actively discarding a variable counts as a use of that
 				variable in the variable analysis, and so can be used to
@@ -620,15 +648,14 @@ int f ( int n )
 				indicate that the variable x is to be discarded. The first
 				uses a pragma:</para>
 
-			<programlisting language="C">#pragma TenDRA discard x;</programlisting>
+			<programlisting language="c">#pragma TenDRA discard x;</programlisting>
 
 			<para>which the checker treats as if it were a C statement, ending
 				in a semicolon. Having a statement which is noticed by one
 				compiler but ignored by another can lead to problems. For
 				example, in:</para>
 
-			<programlisting language="C">
-if ( n == 3 )
+			<programlisting language="c">if ( n == 3 )
 #pragma TenDRA discard x;
 	puts ( "n is three" );</programlisting>
 
@@ -641,20 +668,19 @@ if ( n == 3 )
 				variables. For example, to introduce the keyword
 				<code>DISCARD</code> for this purpose, the pragma:</para>
 
-			<programlisting language="C">#pragma TenDRA keyword DISCARD for discard variable</programlisting>
+			<programlisting language="c">#pragma TenDRA keyword DISCARD for discard variable</programlisting>
 
 			<para>should be used. The variable <code>x</code> can then be
 				discarded by means of the statement:</para>
 
-			<programlisting language="C">DISCARD ( x );</programlisting>
+			<programlisting language="c">DISCARD ( x );</programlisting>
 
 			<para>A dummy definition for <code>DISCARD</code> to use with
 				normal compilers needs to be given in order to maintain
 				compilability with those compilers. For example, a complete
 				definition of <code>DISCARD</code> might be:</para>
 
-			<programlisting language="C">
-#ifdef __TenDRA__
+			<programlisting language="c">#ifdef __TenDRA__
 #pragma TenDRA keyword DISCARD for discard variable
 #else
 #define DISCARD(x) (( void ) 0 )
@@ -667,8 +693,7 @@ if ( n == 3 )
 				intervening assignment to it, lead to a <quote>variable used
 				before being set</quote> error. This feature can be exploited if the same variable is used for distinct purposes in different parts of its scope, by causing the variable analysis to treat the different uses separately. For example, in:</para>
 
-			<programlisting language="C">
-void f ( void )
+			<programlisting language="c">void f ( void )
 {
 	int i = 0;
 	while ( i++ &lt; 10 ) {
@@ -688,7 +713,7 @@ void f ( void )
 		</section>
 
 		<section>
-			<title id="29">Setting variables</title>
+			<title>Setting variables</title>
 
 			<para>In addition to discarding variables, it is also possible to
 				set them. In deliberately setting a variable, the programmer is
@@ -699,8 +724,7 @@ void f ( void )
 				with complex flow control, to help out the variable analysis.
 				For example, in:</para>
 
-			<programlisting language="C">
-void f ( int n )
+			<programlisting language="c">void f ( int n )
 {
 	int r;
 	if ( n != 0 ) r = n;
@@ -722,29 +746,28 @@ void f ( int n )
 			<para>Programmers may assert that the variable, <code>r</code>, is
 				set either by means of a pragma:</para>
 
-			<programlisting language="C">#pragma TenDRA set r;</programlisting>
+			<programlisting language="c">#pragma TenDRA set r;</programlisting>
 
 			<para>or by using, for example:</para>
 
-			<programlisting language="C">SET ( r );</programlisting>
+			<programlisting language="c">SET ( r );</programlisting>
 
 			<para>where SET is a keyword which has previously been introduced
 				to stand for the variable setting construct using:</para>
 
-			<programlisting language="C">#pragma TenDRA keyword SET for set</programlisting>
+			<programlisting language="c">#pragma TenDRA keyword SET for set</programlisting>
 
 			<para>(cf. <code>DISCARD</code> above).</para>
 		</section>
 
 		<section>
-			<title id="32">Exhaustive switch statements</title>
+			<title>Exhaustive switch statements</title>
 
 			<para>A special case of a flow control construct which may be used
 				to set the value of a variable is a switch statement. Consider
 				the program:</para>
 
-			<programlisting language="C">
-char *f ( int n )
+			<programlisting language="c">char *f ( int n )
 {
 	char *r;
 	switch ( n ) {
@@ -772,8 +795,7 @@ char *f ( int n )
 				by means of a pragma immediately following it. For example, in
 				the above case it would take the form:</para>
 
-			<programlisting language="C">
-....
+			<programlisting language="c">....
 switch ( n )
 #pragma TenDRA exhaustive
 {
@@ -784,12 +806,11 @@ switch ( n )
 				<code>EXHAUSTIVE</code> say, for exhaustive switch statements
 				using:</para>
 
-			<programlisting language="C">#pragma TenDRA keyword EXHAUSTIVE for exhaustive</programlisting>
+			<programlisting language="c">#pragma TenDRA keyword EXHAUSTIVE for exhaustive</programlisting>
 
 			<para>Using this form, the example program becomes:</para>
 
-			<programlisting language="C">
-switch ( n ) EXHAUSTIVE {
+			<programlisting language="c">switch ( n ) EXHAUSTIVE {
 	case 1 : r = "one"; break;</programlisting>
 
 			<para>In order to maintain compatibility with existing compilers,
@@ -797,8 +818,7 @@ switch ( n ) EXHAUSTIVE {
 				introduced for them to use. For example, a complete definition
 				of <code>EXHAUSTIVE</code> might be:</para>
 
-			<programlisting language="C">
-#ifdef __TenDRA__
+			<programlisting language="c">#ifdef __TenDRA__
 #pragma TenDRA keyword EXHAUSTIVE for exhaustive
 #else
 #define EXHAUSTIVE
@@ -806,15 +826,14 @@ switch ( n ) EXHAUSTIVE {
 		</section>
 
 		<section>
-			<title id="34">Non-returning functions</title>
+			<title>Non-returning functions</title>
 
 			<para>Consider a modified version of the program above, in which
 				calls to <code>f</code> with an argument other than
 				<code>1</code>, <code>2</code> or <code>3</code> cause an error
 				message to be printed:</para>
 
-			<programlisting language="C">
-extern void error ( const char * );
+			<programlisting language="c">extern void error ( const char * );
 char *f ( int n )
 {
 	char *r;
@@ -857,20 +876,19 @@ char *f ( int n )
 				This is done by means of the pragma:</para>
 
 			<!-- TODO make this BOTTOM instead of VOID -->
-			<programlisting language="C">#pragma TenDRA type VOID for bottom</programlisting>
+			<programlisting language="c">#pragma TenDRA type VOID for bottom</programlisting>
 
 			<para>to introduce a type <code>VOID</code> (although any
 				identifier may be used) with this meaning. The declaration of
 				error can then be expressed as:</para>
 
-			<programlisting language="C">extern VOID error ( const char * );</programlisting>
+			<programlisting language="c">extern VOID error ( const char * );</programlisting>
 
 			<para>In order to maintain compatibility with existing compilers a
 				definition of <code>VOID</code> needs to be supplied. For
 				example:</para>
 
-			<programlisting language="C">
-#ifdef __TenDRA__
+			<programlisting language="c">#ifdef __TenDRA__
 #pragma TenDRA type VOID for bottom
 #else
 typedef void VOID;
@@ -883,8 +901,7 @@ typedef void VOID;
 				not return is taken into account in all flow analysis contexts.
 				For example, in:</para>
 
-			<programlisting language="C">
-#include &lt;stdlib.h&gt;
+			<programlisting language="c">#include &lt;stdlib.h&gt;
 
 int f ( int n )
 {
@@ -899,7 +916,7 @@ int f ( int n )
 	</section>
 
 	<section>
-		<title id="36">Discard Analysis</title>
+		<title>Discard Analysis</title>
 
 		<para>A couple of examples of what might be termed <quote>discard
 			analysis</quote> have already been described - discarded (unused)
@@ -909,7 +926,7 @@ int f ( int n )
 			discarded computations and unused static variables and procedures.
 			These three tests may be controlled as a group using:</para>
 
-		<programlisting language="C">#pragma TenDRA discard analysis <emphasis>status</emphasis></programlisting>
+		<programlisting language="c">#pragma TenDRA discard analysis <emphasis>status</emphasis></programlisting>
 
 		<para>where <emphasis>status</emphasis> is <code>on</code>,
 			<code>warning</code> or <code>off</code>.</para>
@@ -917,8 +934,7 @@ int f ( int n )
 		<para>In addition, each of the component tests may be switched on and
 			off independently using pragmas of the form:</para>
 
-		<programlisting language="C">
-#pragma TenDRA discard analysis (function return) <emphasis>status</emphasis>
+		<programlisting language="c">#pragma TenDRA discard analysis (function return) <emphasis>status</emphasis>
 #pragma TenDRA discard analysis (value) <emphasis>status</emphasis>
 #pragma TenDRA discard analysis (static) <emphasis>status</emphasis></programlisting>
 
@@ -935,13 +951,12 @@ int f ( int n )
 			fine-tuning the discard analysis.</para>
 
 		<section>
-			<title id="38">Discarded function returns</title>
+			<title>Discarded function returns</title>
 
 			<para>Functions which return a value which is not used form the
 				commonest instances of discarded values. For example, in:</para>
 
-			<programlisting language="C">
-#include &lt;stdio.h&gt;
+			<programlisting language="c">#include &lt;stdio.h&gt;
 int main ()
 {
 	puts ( "hello" );
@@ -954,14 +969,13 @@ int main ()
 		</section>
 
 		<section>
-			<title id="40">Discarded computed values</title>
+			<title>Discarded computed values</title>
 
 			<para>A rarer instance of a discarded object, and one which is
 				almost always an error, is where a value is computed but not
 				used. For example, in:</para>
 
-			<programlisting language="C">
-int f ( int n )
+			<programlisting language="c">int f ( int n )
 {
 	int r = 4;
 	if ( n == 3 )
@@ -977,7 +991,7 @@ int f ( int n )
 		</section>
 
 		<section>
-			<title id="42">Unused static variables and procedures</title>
+			<title>Unused static variables and procedures</title>
 
 			<para>The final example of discarded values, which perhaps more
 				properly belongs with the variable analysis tests mentioned
@@ -989,14 +1003,14 @@ int f ( int n )
 	</section>
 
 	<section>
-		<title id="wbS46">Overriding the discard analysis</title>
+		<title>Overriding the discard analysis</title>
 
 		<para>As with the variable analysis, certain constructs may be used to
 			provide the checker with extra information about a program, to
 			convey the programmer's intentions more clearly.</para>
 
 		<section>
-			<title id="44">Discarding function returns and computed values</title>
+			<title>Discarding function returns and computed values</title>
 
 			<para>Unwanted function returns and, more rarely, discarded
 				computed values, may be actively ignored to indicate to the
@@ -1004,24 +1018,23 @@ int f ( int n )
 				deliberately. This can be done using the traditional method of
 				casting the value to <code>void</code>:</para>
 
-			<programlisting language="C">( void ) puts ( "hello" );</programlisting>
+			<programlisting language="c">( void ) puts ( "hello" );</programlisting>
 
 			<para>or by introducing a keyword, <code>IGNORE</code> say, for
 				discarding a value. This is done using a pragma of the
 				form:</para>
 
-			<programlisting language="C">#pragma TenDRA keyword IGNORE for discard value</programlisting>
+			<programlisting language="c">#pragma TenDRA keyword IGNORE for discard value</programlisting>
 
 			<para>The example discarded value then becomes:</para>
 
-			<programlisting language="C">IGNORE puts ( "hello" );</programlisting>
+			<programlisting language="c">IGNORE puts ( "hello" );</programlisting>
 
 			<para>Of course it is necessary to introduce a definition of
 				<code>IGNORE</code> for conventional compilers in order to
 				maintain compilability. A suitable definition might be:</para>
 
-			<programlisting language="C">
-#ifdef __TenDRA__
+			<programlisting language="c">#ifdef __TenDRA__
 #pragma TenDRA keyword IGNORE for discard value
 #else
 #define IGNORE ( void )
@@ -1029,7 +1042,7 @@ int f ( int n )
 		</section>
 
 		<section>
-			<title id="46">Preserving unused statics</title>
+			<title>Preserving unused statics</title>
 
 			<para>Occasionally unused static values are introduced deliberately
 				into programs. The fact that the static variables or procedures
@@ -1037,7 +1050,7 @@ int f ( int n )
 				deliberately unused may be indicated by introducing the
 				pragma:</para>
 
-			<programlisting language="C">#pragma TenDRA suspend static x y z</programlisting>
+			<programlisting language="c">#pragma TenDRA suspend static x y z</programlisting>
 
 			<para>at the outer level after the definition of all three
 				objects.</para>

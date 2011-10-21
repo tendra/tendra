@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE preface PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE preface SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -9,7 +8,7 @@
 <preface id="Intro">
 	<title>Introduction</title>
 
-	<para>As explained in reference 1, TDF may be regarded as an abstract
+	<para>As explained in &tdf-portability.doc;, TDF may be regarded as an abstract
 		target machine which can be used to facilitate the separation of
 		target independent and target dependent code which characterises
 		portable programs. An important aspect of this separation is the

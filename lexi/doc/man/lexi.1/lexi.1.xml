@@ -136,32 +136,40 @@
 			<varlistentry>
 				<term>&a.opt;</term>
 
-				<listitem>Disables assertions in the output code.
-					These are enabled by default.</listitem>
+				<listitem>
+					<para>Disables assertions in the output code.
+						These are enabled by default.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&t.opt;</term>
 
-				<listitem>Causes &lexi; to use &t-prefix.arg; as a prefix for
-					its generated lexical tokens.
-					The default is <literal>lex_</literal>.</listitem>
+				<listitem>
+					<para>Causes &lexi; to use &t-prefix.arg; as a prefix for
+						its generated lexical tokens.
+						The default is <literal>lex_</literal>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&p.opt;</term>
 
-				<listitem>Causes &lexi; to use &p-prefix.arg; as a prefix
-					for its generated internal symbols.
-					The default is <literal>lexi_</literal>.</listitem>
+				<listitem>
+					<para>Causes &lexi; to use &p-prefix.arg; as a prefix
+						for its generated internal symbols.
+						The default is <literal>lexi_</literal>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&i.opt;</term>
 
-				<listitem>Causes &lexi; to use &i-prefix.arg; as a prefix
-					for its generated interface.
-					The default is <literal>lexi_</literal>.</listitem>
+				<listitem>
+					<para>Causes &lexi; to use &i-prefix.arg; as a prefix
+						for its generated interface.
+						The default is <literal>lexi_</literal>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -239,8 +247,7 @@
 		</variablelist>
 
 		<para>For further details of the options available and a reference
-			to the format for files see the <citetitle pubwork="article">The
-			Lexi users' Guide</citetitle>.</para>
+			to the format for files see the &lexi-userguide.doc;.</para>
 		<!-- TODO eventually manpages as a reference for the formats -->
 		<!-- TODO the guide can also go under lexi(7) -->
 	</refsection>

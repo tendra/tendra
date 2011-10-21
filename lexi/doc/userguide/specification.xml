@@ -1,6 +1,7 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE specification PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd" [
+	<!ENTITY lexi.app "<application>Lexi</application>">
+]>
 
 <!--
   $Id$
@@ -15,46 +16,43 @@
 	<section id="lexicalconventions">
 		<title>Lexical Conventions</title>
 
-		<para><!-- TODO explain our BNF here. Standardise across
+		<!-- <para>TODO: explain our BNF here. Standardise across
 			all documents. we can centralise this to some shared
 			document. Is there and RFC perhaps which defines a
-			BNF dialect we can use? RFC 2234 looks to be it --></para>
+			BNF dialect we can use? RFC 2234 looks to be it</para> -->
 
 		<para>The following productions are used throughout this
-			document:
+			document:</para>
 
-			<programlisting language="BNF">either-identifier   := sid-identifier | function-identifier | literal-identifier;
+		<programlisting language="bnf">either-identifier   := sid-identifier | function-identifier | literal-identifier;
 sid-identifier      := "$" + identifier ;
 literal-identifier  := identifier ;
 function-identifier := identifier + "(" + ")" ;</programlisting>
 		<!-- TODO rename either-identifier! -->
-			</para>
 
-		<para>And for brevity , the following groups are defined:
+		<para>And for brevity , the following groups are defined:</para>
 
-			<programlisting language="Lexi">GROUP alpha    = {A-Z} + {a-z} + "_" ;
+		<programlisting language="lxi">GROUP alpha    = {A-Z} + {a-z} + "_" ;
 GROUP digit    = {0-9} ;</programlisting>
-			</para>
 	</section>
 
 	<section id="comments">
 		<title>Comments</title>
 
-		<para><application>Lexi</application> permits comments in lexical analyser
+		<para>&lexi.app; permits comments in lexical analyser
 			specifications. These are C style comments, opening
 			<code>/*</code> and closing <code>*/</code>. They may not
 			nest, and they must close. 
-			Since version 2.0, <application>Lexi</application> supports
+			Since version 2.0, &lexi.app; supports
 		        <code>//</code> style comments.specifications. These are C++ style comments, opening
 			<code>//</code> and extending to the end of the line. For example:</para>
 
 		<!-- TODO did i add the // patch already? I don't think so -->
-		<programlisting language="Lexi">/* This is a comment */
+		<programlisting language="lxi">/* This is a comment */
 /*
  * And so is this.
  */
-  // And this is a C++ style comment too
-</programlisting>
+// And this is a C++ style comment too</programlisting>
 
 	<!-- OBSOLETE	<para>The first comment, intended for a copyright notice, is
 			written out at the beginning of the generated code.</para> -->
@@ -67,14 +65,12 @@ GROUP digit    = {0-9} ;</programlisting>
 
 		<para>An identifier is a sequence of alphanumeric characters
 			including the underscore beginning by an underscore or
-			an alphabetic character. A <application>Sid</application>
-			identifier may also contain (but not begin by) a hyphen.</para>
+			an alphabetic character. A $sid; identifier may also contain
+			(but not begin with) a hyphen.</para>
 
 		<para><!-- TODO somewhere we need a section to explain
 			identifiers and namespaces (i.e. where one may
 			conflict). List namespaces here.--></para>
-
-		<bridgehead>Literal identifiers</bridgehead>	<!-- TODO term -->
 
 		<para>Literal identifiers have no prefix symbol; their
 			names are used verbatim. They may be used for defining
@@ -82,17 +78,17 @@ GROUP digit    = {0-9} ;</programlisting>
 			used for conditional statements and for the names
 			of functions to be called.</para>
 
+<!-- TODO: i think literal identifiers are gone, now
 		<note>
 			<para>It is likely that literal identifiers
 				used for keywords and tokens will be
 				disallowed in future versions of
-				<application>Lexi</application>; they appear to serve
+				&lexi.app;; they appear to serve
 				no purpose over Sid identifiers in those cases.</para>
-				<!-- TODO wherein we mention that -l '' is valid -->
-				<!-- However, we keep literal identifiers for other uses -->
+				TODO wherein we mention that -l '' is valid
+				However, we keep literal identifiers for other uses
 		</note>
-
-		<bridgehead>Sid identifiers</bridgehead>	<!-- TODO term -->
+-->
 
 		<para>Sid identifiers are prefixed <literal>$</literal>.
 			They may contain a hyphen. Since hyphens are not
@@ -129,7 +125,7 @@ GROUP digit    = {0-9} ;</programlisting>
 			so that the characters are available. This is a convenience
 			so that two similar tokens may share  the same function:</para>
 
-		<programlisting language="Lexi">
+		<programlisting language="lxi">
 TOKEN "/*" -> get_comment () ;
 TOKEN "//"  -> get_comment () ;</programlisting>
 
@@ -145,7 +141,7 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 			So for the above example, <code>get_comment()</code> would be
 			declared as:</para>
 
-		<programlisting language="C">void get_comment(int c0, int c1);</programlisting>
+		<programlisting language="c">void get_comment(int c0, int c1);</programlisting>
 
 		<para>Calling a function from two tokens of different lengths
 			is undefined behaviour.</para>
@@ -156,10 +152,10 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 	</section>
 
 	<section id="charactersetssequences">
-		<title id="charactersetssequences.title">Character Sets and Sequences</title>
+		<title>Character Sets and Sequences</title>
 
 		<para>Sets and sequences of characters are used by
-			<!-- TODO right? --> all <application>Lexi</application> commands. <!--
+			<!-- TODO right? --> all &lexi.app; commands. <!--
 			TODO and possibly also pre-pass replacements? --> They share
 			the same syntax, but have different meanings: a set is an
 			unordered intersection of all characters specified, whereas
@@ -167,7 +163,7 @@ TOKEN "//"  -> get_comment () ;</programlisting>
 			the order given, as per a string comparison. The syntax
 			is:</para>
 
-		<programlisting language="BNF">chars       := item + { "+" item } * ;
+		<programlisting language="bnf">chars       := item + { "+" item } * ;
 item        := string | range ;
 range       := "{0-9}" | "{a-z}" | "{A-Z}" ;
 string      := &lt;"&gt; + { CHAR | escapedchar | group } * + &lt;"&gt; ;
@@ -175,7 +171,9 @@ escapedchar := "\" + ( "n" | "t" <!-- | "TODO etc" --> ) ;
 group       := "[" + GROUPNAME + "]" ;</programlisting>
 <!-- TODO standardised BNF -->
 
+<!--
 		<bridgehead>Ranges</bridgehead>
+-->
 
 		<para>There are three available pre-defined ranges.
 			Note that these ranges are fixed, and that start points
@@ -185,35 +183,36 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 		<table>
 			<title>Predefined Character Ranges</title>
 
-			<tgroup cols="2">
-				<thead>
-					<row>
-						<entry>Range</entry>
-						<entry>Contents</entry>
-					</row>
-				</thead>
+			<col align="left"/>
+			<col align="left"/>
 
-				<tbody>
-					<row>
-						<entry><code>{0-9}</code></entry>
-						<entry>The digits 0 to 9.</entry>
-					</row>
-					<row>
-						<entry><code>{a-z}</code></entry>
-						<entry>The lower case characters a to z.</entry>
-					</row>
-					<row>
-						<entry><code>{A-Z}</code></entry>
-						<entry>The upper case characters a to z.</entry>
-					</row>
-				</tbody>
-			</tgroup>
+			<thead>
+				<tr>
+					<th>Range</th>
+					<th>Contents</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>{0-9}</code></td>
+					<td>The digits 0 to 9.</td>
+				</tr>
+				<tr>
+					<td><code>{a-z}</code></td>
+					<td>The lower case characters a to z.</td>
+				</tr>
+				<tr>
+					<td><code>{A-Z}</code></td>
+					<td>The upper case characters a to z.</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<para>Ranges are inclusive. The numeric values of the
 			characters includes in ranges are of the
 			character set of the C implementation used to compile
-			<application>Lexi</application> (it is reasonable to assume this is <acronym>ASCII</acronym>).
+			&lexi.app; (it is reasonable to assume this is <acronym>ASCII</acronym>).
 			Note that the <code>range</code> production always
 			represents a set (as opposed to a sequence), even when used as
 			part of a <code>TOKEN</code>
@@ -222,7 +221,9 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 		<para>Strings are sequences of <acronym>ASCII</acronym> <!-- TODO right? -->
 			characters delimited by double-quotes (<code>"</code>).</para>
 
+<!--
 		<bridgehead>Escaping special characters in strings</bridgehead>
+-->
 		<!-- TODO strings or sequences and sets? -->
 
 		<para>The following special characters may be written by
@@ -232,71 +233,73 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<title>Escaped Characters</title>
 			<!-- TODO really ASCII, or is it the execution character set? -->
 
-			<tgroup cols="3">
-				<thead>
-					<row>
-						<entry>Escape</entry>
-						<entry><acronym>ASCII</acronym> Value</entry>
-						<entry>Name</entry>
-					</row>
-				</thead>
+			<col align="left"/>
+			<col align="left"/>
+			<col align="left"/>
 
-				<tbody>
-					<row>
-						<entry><code>\t</code></entry>
-						<entry>0x09</entry>
-						<entry>Horizontal tab</entry>
-					</row>
+			<thead>
+				<tr>
+					<th>Escape</th>
+					<th><acronym>ASCII</acronym> Value</th>
+					<th>Name</th>
+				</tr>
+			</thead>
 
-					<row>
-						<entry><code>\n</code></entry>
-						<entry>0x0A</entry>
-						<entry>New line</entry>
-					</row>
+			<tbody>
+				<tr>
+					<td><code>\t</code></td>
+					<td>0x09</td>
+					<td>Horizontal tab</td>
+				</tr>
 
-					<row>
-						<entry><code>\v</code></entry>
-						<entry>0x0B</entry>
-						<entry>Vertical tab</entry>
-					</row>
+				<tr>
+					<td><code>\n</code></td>
+					<td>0x0A</td>
+					<td>New line</td>
+				</tr>
 
-					<row>
-						<entry><code>\f</code></entry>
-						<entry>0x0C</entry>
-						<entry>New page (form feed)</entry>
-					</row>
+				<tr>
+					<td><code>\v</code></td>
+					<td>0x0B</td>
+					<td>Vertical tab</td>
+				</tr>
 
-					<row>
-						<entry><code>\r</code></entry>
-						<entry>0x0D</entry>
-						<entry>Carriage return</entry>
-					</row>
+				<tr>
+					<td><code>\f</code></td>
+					<td>0x0C</td>
+					<td>New page (form feed)</td>
+				</tr>
 
-					<row>
-						<entry><code>\"</code></entry>
-						<entry>0x22</entry>
-						<entry>Double quote</entry>
-					</row>
+				<tr>
+					<td><code>\r</code></td>
+					<td>0x0D</td>
+					<td>Carriage return</td>
+				</tr>
 
-					<row>
-						<entry><code>\[</code></entry>
-						<entry>0x5B</entry>
-						<entry>Left bracket<!-- TODO right? --></entry>
-					</row>
+				<tr>
+					<td><code>\"</code></td>
+					<td>0x22</td>
+					<td>Double quote</td>
+				</tr>
 
-					<row>
-						<entry><code>\\</code></entry>
-						<entry>0x5C</entry>
-						<entry>Backslash</entry>
-					</row>
+				<tr>
+					<td><code>\[</code></td>
+					<td>0x5B</td>
+					<td>Left bracket<!-- TODO right? --></td>
+				</tr>
 
-					<row>
-						<entry><code>\e</code></entry>
-						<entry><!-- TODO >TODO --><!-- TODO applicable here? --></entry>
-						<entry>End of file (EOF)</entry>
-					</row>
-				</tbody>
-			</tgroup>
+				<tr>
+					<td><code>\\</code></td>
+					<td>0x5C</td>
+					<td>Backslash</td>
+				</tr>
+
+				<tr>
+					<td><code>\e</code></td>
+					<td><!-- TODO >TODO --><!-- TODO applicable here? --></td>
+					<td>End of file (EOF)</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<para>For example, a string specifying the character
@@ -304,7 +307,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<quote>b</quote>, a backslash, a horizontal
 			tab, and the character <quote>c</quote> is:</para>
 
-		<programlisting language="Lexi">"a\nb\\\tc"</programlisting>
+		<programlisting language="lxi">"a\nb\\\tc"</programlisting>
 
 		<para>Strings must contain at least one character, or
 			one character coded for by an escape sequence.
@@ -316,8 +319,10 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			Note that "[" requires escaping to distinguish from
 			the delimiter for a group name (see below).</para>
 
+<!--
 		<bridgehead id="groupinclusion">Group inclusions in
 			strings</bridgehead>
+-->
 		<!-- TODO strings or sequences and sets? -->
 
 		<para>A set of characters defined by a <literal>GROUP</literal>
@@ -325,7 +330,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			by specifying the group name between <code>[</code>
 			and <code>]</code> within a string.  For example:</para>
 
-		<programlisting language="Lexi">"[xyz]"
+		<programlisting language="lxi">"[xyz]"
 "abc[def]hij[klm]nmo"</programlisting>
 
 		<para>These include the characters defined by the
@@ -345,23 +350,25 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			further examples of character sets and
 			sequences<!-- TODO terminology: sets and sequences? --></para>
 
+<!--
 		<bridgehead id="concatenation">String concatenation</bridgehead>
+-->
 		<!-- TODO we can't call it concatenation really. why would you need concatenation
 			for sequences? perhaps disallow it there and call it "set union" instead. -->
 
 		<para>Strings and ranges may be concatenated by the
 			plus operator.  For example:</para>
 
-		<programlisting language="Lexi">"abc" + "d" + "efg" + {0-9}</programlisting>
+		<programlisting language="lxi">"abc" + "d" + "efg" + {0-9}</programlisting>
 
 		<para>is equivalent to the sequence:</para>
 
-		<programlisting language="Lexi">"abcdefg[digit]"</programlisting>
+		<programlisting language="lxi">"abcdefg[digit]"</programlisting>
 
 		<para>(where the group <quote>digit</quote> is suitably
 			defined), and to the set:</para>
 
-		<programlisting language="Lexi">"abcdefg0123456789"</programlisting>
+		<programlisting language="lxi">"abcdefg0123456789"</programlisting>
 	</section>
 </chapter>
 

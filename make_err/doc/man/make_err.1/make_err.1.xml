@@ -85,28 +85,36 @@
 			<varlistentry>
 				<term>&d.opt;</term>
 
-				<listitem>Causes &make_err; to output all error definitions to
-					the &out-file.arg;.</listitem>
+				<listitem>
+					<para>Causes &make_err; to output all error definitions to
+						the &out-file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&n.opt;</term>
 
-				<listitem>Causes &make_err; to output all error declarations to
-					the &out-file.arg;.</listitem>
+				<listitem>
+					<para>Causes &make_err; to output all error declarations to
+						the &out-file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&u.opt;</term>
 
-				<listitem>Causes &make_err; to output all usages to the
-					&out-file.arg;.</listitem>
+				<listitem>
+					<para>Causes &make_err; to output all usages to the
+						&out-file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><option>-v</option></term>
 
-				<listitem>Causes &make_err; print its version number.</listitem>
+				<listitem>
+					<para>Causes &make_err; print its version number.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

@@ -1,21 +1,19 @@
 <?xml version="1.0"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
 <appendix>
-	<title id="wbS174">Specifying conversions using the token syntax</title>
+	<title>Specifying conversions using the token syntax</title>
 
 	<para>The token syntax described in Annex F can be used to fine-tune the
 		conversion analysis and integer range checks described in section
 		3.2.2 and chapter 4 respectively.</para>
 
 	<section>
-		<title id="2">User-defined conversions</title>
+		<title>User-defined conversions</title>
 
 		<para>In the example:</para>
 
-		<programlisting language="C">
-#pragma token TYPE IP#
+		<programlisting language="c">#pragma token TYPE IP#
 #pragma no_def IP
 #pragma token PROC{ TYPE t ,EXP rvalue : t* : e | EXP e}EXP rvalue:IP:p_to_ip#
 #pragma TenDRA conversion p_to_ip allow
@@ -28,7 +26,7 @@ void f(void)
 		<para>the conversion from type pointer to IP to IP would normally
 			result in an error. However the pragma:</para>
 
-		<programlisting language="C">#pragma TenDRA conversion <emphasis>conv_list</emphasis> allow</programlisting>
+		<programlisting language="c">#pragma TenDRA conversion <emphasis>conv_list</emphasis> allow</programlisting>
 
 		<para>allows users to define their own conversions between types that
 			would otherwise be incompatible. Each identifier in the
@@ -53,7 +51,7 @@ void f(void)
 	</section>
 
 	<section>
-		<title id="4">Specifying integer promotions</title>
+		<title>Specifying integer promotions</title>
 
 		<para>Whenever an integral type is used, e.g. in a call to a
 			traditionally defined function, its promotion must be computed.
@@ -70,7 +68,7 @@ void f(void)
 				<listitem>
 					<para>The promoted type is supplied directly using the pragma:</para>
 
-					<programlisting language="C">#pragma promote <emphasis>type-name</emphasis> : <emphasis>type-name</emphasis></programlisting>
+					<programlisting language="c">#pragma promote <emphasis>type-name</emphasis> : <emphasis>type-name</emphasis></programlisting>
 
 					<para>The second <emphasis>type-name</emphasis> specifies
 						the promoted type of the first <emphasis>type-name</emphasis>.
@@ -83,7 +81,7 @@ void f(void)
 				<listitem>
 					<para>The pragma:</para>
 
-					<programlisting language="C">#pragma compute promote <emphasis>proc-token</emphasis></programlisting>
+					<programlisting language="c">#pragma compute promote <emphasis>proc-token</emphasis></programlisting>
 
 					<para>allows the programmer to provide the identification
 						of a procedure token (see F.9 Procedure tokens) for
@@ -93,7 +91,7 @@ void f(void)
 						procedure token <emphasis>proc-token</emphasis> must
 						be declared as:</para>
 
-					<programlisting language="C">#pragma token PROC ( VARIETY ) VARIETY proc-token #</programlisting>
+					<programlisting language="c">#pragma token PROC ( VARIETY ) VARIETY proc-token #</programlisting>
 
 					<para>The TenDRA technology provides two pre-defined
 						procedure tokens, identified by <code>~promote</code>

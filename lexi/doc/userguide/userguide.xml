@@ -1,6 +1,7 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE book SYSTEM "minidocbook.dtd" [
+	<!ENTITY lexi.app "<application>Lexi</application>">
+]>
 
 <!--
   $Id$
@@ -8,18 +9,20 @@
 
 <book>
   <bookinfo>
-    <title>The <application>Lexi</application> Users' Guide</title>
+    <title>The &lexi.app; Users' Guide</title>
 
-	<author>
-		<firstname>Katherine</firstname>
-		<surname>Flavel</surname>
-		<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-	</author>
+	<authorgroup>
+		<author>
+			<firstname>Katherine</firstname>
+			<surname>Flavel</surname>
+			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+		</author>
+	</authorgroup>
+
 	<pubdate>2007</pubdate>
 
 	<copyright>
 		<year>2007</year>
-
 		<holder>The TenDRA Project</holder>
 	</copyright>
   </bookinfo>
@@ -43,34 +46,34 @@
 	<preface id="introduction">
 		<title>Introduction</title>
 
-		<para><application>Lexi</application> translates a description of a lexical
+		<para>&lexi.app; translates a description of a lexical
 			analyser into C code implementing that analyser. It aims to
 			provide simple, straightforward features for lexical analysis,
 			and to leave more complex behaviour to its calling program.</para>
 
-		<para>This document describes how to use the <application>Lexi</application>
-			lexer generator. It was written for <application>Lexi</application> version
+		<para>This document describes how to use the &lexi.app;
+			lexer generator. It was written for &lexi.app; version
 			2.0.</para>
 
-		<para>This version of <application>Lexi</application> (trunk pre 2.0) is the current
-		       working. Once all new features have been added, we will tag a 2.0-proto-1
-		       release. The 2.0 release will happen once we have frozen the syntax.
-		       Backward compatibility is not preserved with regards to 1.3. However,
-		       we are currently working on an option switch that would emulate old behavior.</para>
+		<para>This version of &lexi.app; (trunk pre 2.0) is the current
+			working version.
+			Once all new features have been added, we will tag a 2.0-proto-1
+			release. The 2.0 release will happen once we have frozen the syntax.
+			Backward compatibility is not preserved with regards to 1.3. However,
+			we are currently working on an option switch that would emulate old behavior.</para>
 
-		<para>This document is a modification of the userguide for <application>Lexi 
-		        </application> 1.3. <application>Lexi</application> 1.3
-		        was an interim release to
-			mark a stable release before forthcoming <acronym>API</acronym>
+		<para>This document is a modification of the userguide for
+			&lexi.app; 1.3.
+			&lexi.app; 1.3 was an interim release to
+			mark a stable release before forthcoming &api;
 			changes scheduled for the next release. This provides no features
 			over 1.2 save for some minor points (listed under the change
 			history below); it serves mostly to collate the restructuring
 			of the codebase during development; 1.3 is the first release of
-			<application>Lexi</application> as a stand-alone product, separate to the
+			&lexi.app; as a stand-alone product, separate to the
 			TenDRA distribution.</para>
 
-		<para>
-		       Any original documentation <application>Lexi</application> once had
+		<para>Any original documentation &lexi.app; once had
 			previous to version 1.3 is lost. Since there is no surviving
 			documentation, this guide has been written from scratch, based
 			from observations of the source code. It is
@@ -78,7 +81,7 @@
 			behaviour; we are taking the opportunity here to explicitly
 			state which features are undefined behaviour and which are
 			intentional. We try to maintain backwards compatibility with
-			these features, based on the <application>Lexi</application> files
+			these features, based on the &lexi.app; files
 			present in the TenDRA repository.</para>
 
 		<!-- TODO remove obsoleted parts as each feature is changed -->
@@ -90,81 +93,75 @@
 			<title>Change History</title>
 
 			<para>The main feature changes of each version of
-				<application>Lexi</application> are listed below:
+				&lexi.app; are listed below:</para>
 
-				<!-- TODO merge this with an external changelog, as for sid -->
-				<variablelist>
-					<title>Versions of <application>Lexi</application></title>
+			<!-- TODO merge this with an external changelog, as for sid -->
+			<variablelist>
+				<varlistentry>
+					<term>Post 2.0</term>
+					<listitem>
+						<para>Buffers</para>
+						<para>Counters</para>
+						<para>Syntactic sugar for identifiers and comments</para>
+					</listitem>
+				</varlistentry>
 
-					<varlistentry>
-						<term>Post 2.0</term>
-						<listitem>
-							<para>Buffers</para>
-							<para>Counters</para>
-							<para>Syntactic sugar for identifiers and comments</para>
-						</listitem>
+				<varlistentry>
+					<term>2.0</term>
+					<listitem>
+						<para>The // comment syntax is now recognized</para>
+						<para>Zones have been added to lexi</para>
+						<para>Default token syntax</para>
+						<para>Keyword generation cleaned up from the previous hackish &api;</para>
+						<para>A new input file: the lct file which let you specify headers, trailers and copyright statement for the generated files.</para>
+						<para>Multiple function call upon encountering a token</para>
+						<para>Argument control</para>
+						<para>Outputs both a header and a C file</para>
+						<para>Namespace control with prefixes for API and terminals</para>
+						<para>actions that will closely look like their &sid; counterparts. Advantages over direct function calls include (subject to change) type checking, inlining (better performance). </para>
+					</listitem>
+				</varlistentry>
 
-					</varlistentry>
+				<varlistentry>
+					<term>1.3</term>
+					<listitem>
+						<para>Interim convenience release.</para>
+	<!-- TODO mostly similar to the lexi in TenDRA 4.2.1,
+		save for the addition of // comments (?), and what else?
+		- TODO no, it looks like i didn't add Kevin's patch for that. -->
 
-					<varlistentry>
-						<term>2.0</term>
-						<listitem>
-							<para>The // comment syntax is now recognized </para>
-							<para> Zones have been added to lexi </para>
-							<para> Default token syntax </para>
-							<para> Keyword generation cleaned up from the previous hackish API </para>
-							<para>A new input file: the lct file which let you specify headers, trailers and copyright statement for the generated files.</para>
-							<para> Multiple function call upon encountering a token</para>
-							<para> Argument control</para>
-							<para> Outputs both a header and a C file</para>
-							<para> Namespace control with prefixes for API and terminals</para>
-							<para> SOON: actions that will closely look like their <application>sid</application> counterparts. Advantages over direct function calls include (subject to change) type checking, inlining (better performance). </para>
-						</listitem>
-					</varlistentry>
+						<itemizedlist>
+							<listitem>
+								<para>Separated from the TenDRA
+									distribution to form a stand-alone
+									project.</para>
+							</listitem>
+							<listitem>
+								<para>Various behaviours undefined<!-- TODO --></para>
+							</listitem>
+						</itemizedlist>
+					</listitem>
+				</varlistentry>
 
-					<varlistentry>
-						<term>1.3</term>
-						<listitem>
-							<para>Interim convenience release.
-		<!-- TODO mostly similar to the lexi in TenDRA 4.2.1,
-			save for the addition of // comments (?), and what else?
-			- TODO no, it looks like i didn't add Kevin's patch for that. -->
+				<varlistentry>
+					<term>1.2</term>
+					<listitem>
+						<para><code>PROTO</code> removed. This corresponds
+							to Rob Andrew's patches, which will be applied
+							in a future version instead. This version is
+							skipped to avoid confusion and is tagged for
+							internal use only.</para>
+					</listitem>
+				</varlistentry>
 
-								<itemizedlist>
-									<listitem>
-										<para>Separated from the TenDRA
-											distribution to form a stand-alone
-											project.</para>
-									</listitem>
-									<listitem>
-										<para>Various behaviours undefined<!-- TODO --></para>
-									</listitem>
-								</itemizedlist>
-							</para>
-						</listitem>
-					</varlistentry>
-
-					<varlistentry>
-						<term>1.2</term>
-						<listitem>
-							<para><code>PROTO</code> removed. This corresponds
-								to Rob Andrew's patches, which will be applied
-								in a future version instead. This version is
-								skipped to avoid confusion and is tagged for
-								internal use only.</para>
-						</listitem>
-					</varlistentry>
-
-					<varlistentry>
-						<term>1.1</term>
-						<listitem>
-							<para>This was the last version provided by the
-								TenDRA 4.1.2 release.</para>
-						</listitem>
-					</varlistentry>
-				</variablelist>
-
-			</para>
+				<varlistentry>
+					<term>1.1</term>
+					<listitem>
+						<para>This was the last version provided by the
+							TenDRA 4.1.2 release.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
 		</section>
 	</preface>
 
@@ -191,7 +188,6 @@ firstly define lexemes
        consisting entirely of digits is a number"
 -->
 
-
 			<para>Categories of tokens are arranged such that spellings the
 				possible sets of spellings forming each category are
 				unambiguous. For example, commonly floating point literals are
@@ -211,7 +207,7 @@ firstly define lexemes
 
 			<figure id="tokenstream">
 				<title>Forming a Token Stream</title>
-				<graphic align="center" format="PNG"
+				<graphic align="center"
 					fileref="images/tokens.png"/>
 			</figure>
 
@@ -240,7 +236,7 @@ firstly define lexemes
 				tokens is a side-effect of the parse, resulting in a
 				symbol table or equivalent (this depends on the purpose
 				of the parser). Parsing is beyond the scope of this document,
-				and will not be discussed here - see the Sid users' guide
+				and will not be discussed here - see the &sid-userguide.doc;
 				for details.</para>
 
 			<para>For simple uses, a parser may not be required at
@@ -253,7 +249,7 @@ firstly define lexemes
 			<!-- TODO -->
 			<variablelist>
 				<varlistentry>
-					<term><xref linkend="keyworddefinitions"/></term>
+					<term><link linkend="keyworddefinitions">Keyword Definitions</link></term>
 
 					<listitem>
 						<para>Keywords are sequences of inseparable characters
@@ -262,7 +258,7 @@ firstly define lexemes
 							most tokens in that their spellings are fixed, rather
 							than a set of possible spellings.</para>
 
-						<para><application>Lexi</application> itself does not perform
+						<para>&lexi.app; itself does not perform
 							processing of keywords; instead it outputs their
 							definitions separately (see the <option>-k</option>)
 							and these definitions are intended to be checked
@@ -271,7 +267,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><xref linkend="prepassmappings"/></term>
+					<term><link linkend="prepassmappings">Pre-pass Mappings</link></term>
 
 					<listitem>
 						<para>For mappings of sequences of characters to a
@@ -282,7 +278,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><xref linkend="whitespacedefinitions"/></term>
+					<term><link linkend="whitespacedefinitions">Whitespace Definitions</link></term>
 
 					<listitem>
 						<para>Whitespace serves both to separate tokens who's
@@ -296,7 +292,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><xref linkend="groupdefinitions"/></term>
+					<term><link linkend="groupdefinitions">Group definitions</link></term>
 
 					<listitem>
 						<para>Group definitions define sets of characters which
@@ -309,7 +305,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><xref linkend="tokendefinitions"/></term>
+					<term><link linkend="tokendefinitions">Token definitions</link></term>
 
 					<listitem>
 						<para>Token definitions specify the set of spellings
@@ -319,7 +315,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><xref linkend="defaultdefinition"/></term>
+					<term><link linkend="defaultdefinition">Default definitions</link></term>
 
 					<listitem>
 						<para>Default definitions specify which action
@@ -329,7 +325,7 @@ firstly define lexemes
 				</varlistentry>
 
 				<varlistentry>
-					<term><xref linkend="zonedefinitions"/></term>
+					<term><link linkend="zonedefinitions">Zone definitions</link></term>
 
 					<listitem>
 						<para>Zone definitions specify zones in which 
@@ -342,16 +338,16 @@ firstly define lexemes
 			</variablelist>
 
 			<para>Prior to 2.0, zones and default did not exist and 
-			        any other facilities was provided by matching the start of
+		        any other facilities was provided by matching the start of
 				a token and passing control to an externally defined function,
 				This separation provided a general mechanism to allow the user
 				to handle situations unforeseen by the authors, without making
-				<application>Lexi</application> itself over complex by attempting to provide
+				&lexi.app; itself over complex by attempting to provide
 				built-in mechanisms to express every corner-case (for example,
 				switching to a "comment-parsing" mode). See the <!-- TODO -->
 				function calls section for details. In 2.0, zones, at least once buffers are
-			        implemented, should allow to express most of these possibililities even
-			        ones not foreseen by the authors.</para>
+		        implemented, should allow to express most of these possibililities even
+		        ones not foreseen by the authors.</para>
 		</section>
 
 
@@ -380,67 +376,73 @@ firstly define lexemes
 
 	<chapter id="lexiactionfile">
 		<title>The lexi action file</title>
+
 		<section>
-		<title>Introduction</title>
+			<title>Introduction</title>
+
 			<para>The lexi action file (.lct) is the second input file for lexi. In it you
 				can specify header and trailer for both of the ouput files. Before the release of 2.0,
 				it will also contains the definitions of the inline actions. Syntax is not frozen yet
-				but will be prior to the 2.0 tag.
-			</para>
+				but will be prior to the 2.0 tag.</para>
 		</section>
 
 		<section>
-		<title>The header statement</title>
+			<title>The header statement</title>
+
 			<para>This is an optional statement. It is used to specify headers for 
 			  	both output files.
 				It is mostly used to add <code>#include</code> directives in the 
-				output files.
-			</para>
-		<programlisting language="Lexi">HEADERS = @{ /*header for the C file*/
+				output files.</para>
+
+			<programlisting language="lxi">HEADERS = @{ /*header for the C file*/
 @}, @{/*Header for the h file*/
 @};</programlisting>
 		</section>
 
 		<section>
-		<title>The trailer statement</title>
+			<title>The trailer statement</title>
+
 			<para>This is an optional statement. It is used to specify headers for 
 			  	both output files.</para>
-		<programlisting language="Lexi">TRAILERS = @{ /*Trailer for the C file*/
+
+		<programlisting language="lxi">TRAILERS = @{ /*Trailer for the C file*/
 @}, @{/*Trailer for the h file*/
 @};</programlisting>
 		</section>
 
 		<section>
-		<title>Action definition statement</title>
+			<title>Action definition statement</title>
+
 			<para>This is not yet operational. This should be operational prior to 2.0. 
 				The syntax is accepted but the semantics are not fully coded yet.
 				An action definition defines the inline code that will be inserted
 				upon encountering a token whose instruction list contains this action 
-				call. Here is an example of the intended syntax
-			</para>
-		<programlisting language="Lexi">ACTION actionname : (inputvar1:TYPE1,inputvar2:TYPE2) -> (outputvar1:TYPE3) = @{ 
+				call. Here is an example of the intended syntax</para>
+
+			<programlisting language="lxi">ACTION actionname : (inputvar1:TYPE1,inputvar2:TYPE2) -> (outputvar1:TYPE3) = @{ 
 	/*code block*/
 @},
 </programlisting>
-		There is not yet an intended syntax for the code block but it should 
-closely resemble the sid act file syntax.
+
+			<para>There is not yet an intended syntax for the code block but it should 
+				closely resemble the sid act file syntax.</para>
 		</section>
 
 		<section>
-		<title>Type mappings</title>
-			<para>This is not yet operational. It should be for 2.0. It is used for action arguments 
-			  	type checking. They map an internal lexi type to a C type identifier.
-			</para>
-		<programlisting language="Lexi">MAPPING lexitype -> ctype ;
-</programlisting>
-		</section>
+			<title>Type mappings</title>
 
+			<para>This is not yet operational. It should be for 2.0. It is used for action arguments 
+			  	type checking. They map an internal lexi type to a C type identifier.</para>
+
+			<programlisting language="lxi">MAPPING lexitype -> ctype ;</programlisting>
+		</section>
 	</chapter>
+
 	<chapter id="interface">
 		<!-- TODO in the future this should be separate chapters, one per language supported -->
 		<title>Interface</title>
 
-		<para><application>Lexi</application> generates and outputs C89 code
+		<para>&lexi.app; generates and outputs C89 code
 			implementing the specified lexical analyser. This code
 			is intended to be linked as part of a larger C program
 			by the user.</para>
@@ -454,13 +456,13 @@ closely resemble the sid act file syntax.
 				a single function (or macro, if desired) that the user is
 				expected to provide to read a character:</para>
 
-			<programlisting language="C">int read_char(void);</programlisting>
+			<programlisting language="c">int read_char(void);</programlisting>
 
 			<para>Output from the lexical analyser is by way of a function
-				provided by <application>Lexi</application> that returns the next
+				provided by &lexi.app; that returns the next
 				token to the user's program:</para>
 
-			<programlisting language="C">int read_token(void);</programlisting>
+			<programlisting language="c">int read_token(void);</programlisting>
 
 			<para>This is the user's primary interface to the lexical
 				analyser. Note that the type of characters is <code>int</code>,
@@ -480,13 +482,13 @@ closely resemble the sid act file syntax.
 		<section id="interface_terminals">
 			<title>Terminals</title>
 
-			<para><application>Lexi</application> does not define the values of
+			<para>&lexi.app; does not define the values of
 				terminals in the generated code; these are expected to
 				be specified by the user (most usually from a
 				parser-generator such as <application>Sid</application>).
 				For example, a token defined by:</para>
 
-			<programlisting language="Lexi">TOKEN "--" -> $dash ;</programlisting>
+			<programlisting language="lxi">TOKEN "--" -> $dash ;</programlisting>
 
 			<para>Would return the value of <literal>lex_dash</literal>
 				from <code>read_token()</code> when matched. The prefix of
@@ -508,7 +510,7 @@ closely resemble the sid act file syntax.
 			<!-- TODO we could express system-defined functions as $x() perhaps -->
 
 			<para>Within the C implementation of functions, the usual
-				<application>Lexi</application> <acronym>API</acronym>
+				&lexi.app; <acronym>API</acronym>
 				functions may be called. For example, to call
 				<code>read_char()</code>.
 				This is especially useful for calling the functions
@@ -516,19 +518,19 @@ closely resemble the sid act file syntax.
 				case is to read tokens of a variable length.
 				This is especially suitable for reading identifiers.
 				For example (where <code>unread_char()</code> is a
-				user-defined function with the obvious effect):
+				user-defined function with the obvious effect):</para>
 
-				<programlisting language="Lexi">GROUP identstart = {a-z} + {A-Z} + "_";
+			<programlisting language="lxi">GROUP identstart = {a-z} + {A-Z} + "_";
 GROUP identbody = "[identstart]" + {0-9} + "-";
 TOKEN "[identstart]" -> read_identifier();</programlisting>
 
-			<programlisting language="C">int read_identifier(int c) {
-	for(;;) {
-		if(c == EOF) {
+			<programlisting language="c">int read_identifier(int c) {
+	for (;;) {
+		if (c == EOF) {
 			return lex_eof;
 		}
 
-		if(!is_identbody(lookup_char(c))) {
+		if (!is_identbody(lookup_char(c))) {
 			unread_char(c);
 			return lex_identifier;
 		}
@@ -538,25 +540,25 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 		c = read_char();
 	}
 }</programlisting>
-				</para>
 
 			<!-- TODO in the future when we remove the lookup_char function, you
 				will be able to TOKEN "x" -> is_digit(). I don't know if that
 				would be useful (since it returns an int), but mention it anyway -->
 
 			<para>Functions called by tokens are passed each character forming the
-				token. The example above would result in the call to:
+				token. The example above would result in the call to:</para>
 
-				<programlisting language="C">get_identifier(c);</programlisting>
+			<programlisting language="c">get_identifier(c);</programlisting>
 
-				where <code>c</code> is the content of the token (that is, the
+			<para>where <code>c</code> is the content of the token (that is, the
 				character matched by <code>"[identstart]"</code>. For multiple
-				characters each character is passed:
+				characters each character is passed:</para>
 
-				<programlisting language="Lexi">TOKEN "abc" -> f();</programlisting>
-				<programlisting language="C">get_identifier('a', 'b', 'c');</programlisting>
+			<programlisting language="lxi">TOKEN "abc" -> f();</programlisting>
 
-				See <xref linkend="interface"/> for further details of the
+			<programlisting language="c">get_identifier('a', 'b', 'c');</programlisting>
+
+			<para>See <xref linkend="interface"/> for further details of the
 				C interface the generated lexer will call.</para>
 
 			<para>Note that it is undefined behaviour to have tokens of
@@ -572,12 +574,11 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 				the form <code>is_groupname()</code>. These are
 				intended to be used as:</para>
 
-			<programlisting language="C">is_digit(lookup_char(c))</programlisting>
+			<programlisting language="c">is_digit(lookup_char(c))</programlisting>
 
 			<para>assuming a group named <quote>digit</quote> is defined. See the
-				<xref linkend="groupdefinitions" endterm="groupdefinitions.title"/>
-				and <xref linkend="whitespacedefinitions"
-				endterm="whitespacedefinitions.title"/> white sections for
+				<xref linkend="groupdefinitions"/>
+				and <xref linkend="whitespacedefinitions"/> white sections for
 				further details on group names.</para>
 		</section>
 
@@ -603,7 +604,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 -->
 
 	<appendix id="appendix">
-		<title id="appendix.title">Appendix</title>
+		<title>Appendix</title>
 
 		<!-- TODO maybe not in the guide: in an examples/ directory
 			perhaps?
@@ -635,6 +636,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 		<!--
 		<section>
 			<title>Description grammar</title>
+
 			Grammar (for reference) and sequence of keywords, reserved words, etc
 				This probably makes more sense for the next version, really
 		</section>
@@ -647,10 +649,10 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 				be invalid, nonsensical, undesired or simply legal but obscure.</para>
 
 			<para>The following constructs are syntactically legal input to
-				<application>Lexi</application>, but produce
+				&lexi.app;, but produce
 				effects which are undefined behaviour. They may be disallowed
 				entirely in future versions and should be avoided. This particular
-				release of <application>Lexi</application> permits these as
+				release of &lexi.app; permits these as
 				undefined to offer a transition period only.</para>
 
 			<!-- TODO list undefined behaviours -->
@@ -665,7 +667,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 							<!-- TODO to identify this, we add a stage after the table is
 								constructed which checks each mapping. -->
 
-							<programlisting language="Lexi">MAPPING "???" -> "?" ;</programlisting>
+						<programlisting language="lxi">MAPPING "???" -> "?" ;</programlisting>
 					</listitem>
 				</varlistentry>
 
@@ -673,13 +675,13 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 					<term>Calling one function from multiple different-length tokens</term>
 
 					<listitem>
-						<para>For example:
+						<para>For example:</para>
 
-							<programlisting language="Lexi">
+						<programlisting language="lxi">
 TOKEN "//" -> get_comment () ;
 TOKEN "#"  -> get_comment () ;</programlisting>
 
-						<!-- Would make calls to <code>get_comment('/','/');</code> and
+						<para><!-- Would make calls to <code>get_comment('/','/');</code> and
 							<code>get_comment('#');</code> respectively.
 							The difference in the number of arguments
 							may cause a problem. -->One workaround is to call
@@ -709,28 +711,26 @@ TOKEN "#"  -> get_comment () ;</programlisting>
 			<section>
 				<title>Ranges Within Tokens</title>
 
-				<para>The grammar for <application>Lexi</application> permits
+				<para>The grammar for &lexi.app; permits
 					strings formed of pre-defined character ranges to be used
-					for token definitions:
+					for token definitions:</para>
 
-					<programlisting language="Lexi">TOKEN {A-Z} + "something" -> $x ;</programlisting>
+				<programlisting language="lxi">TOKEN {A-Z} + "something" -> $x ;</programlisting>
 
-					Character ranges are intended
+				<para>Character ranges are intended
 					to be used for sets (that is, in <code>GROUP</code>), not
 					sequences. Since tokens are defined using sequences, this
-					really means:
+					really means:</para>
 
-					<programlisting language="Lexi">TOKEN "ABCDEFGHIJKLMNOPQRSTUVWXYZsomething" -> $x ;</programlisting>
-				</para>
+				<programlisting language="lxi">TOKEN "ABCDEFGHIJKLMNOPQRSTUVWXYZsomething" -> $x ;</programlisting>
 
 				<para>This is probably not the intended effect.<!-- TODO disallow
 					ranges for tokens, then! eventually we can remove from
 					grammar. disallow after first release. --> Using a group
-					is suggested instead:
+					is suggested instead:</para>
 
-					<programlisting language="Lexi">GROUP alpha = {A-Z} ;
+				<programlisting language="lxi">GROUP alpha = {A-Z} ;
 TOKEN "[alpha]something" -> $x ;</programlisting>
-				</para>
 			</section>
 
 			<section>
@@ -739,7 +739,7 @@ TOKEN "[alpha]something" -> $x ;</programlisting>
 				<para>The <quote>white</quote> group may be used in
 					tokens and keywords as any other group would:</para>
 
-				<programlisting language="Lexi">
+				<programlisting language="lxi">
 TOKEN "a[white]" -> $something ;
 TOKEN "[white]ab" -> $neverscanned ;</programlisting>
 

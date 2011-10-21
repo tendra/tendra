@@ -1,33 +1,30 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-	<!ENTITY tdf "<acronym>TDF</acronym>">
-	<!ENTITY cpu "<acronym>CPU</acronym>">
-	<!ENTITY api "<acronym>API</acronym>">
-]>
+<!DOCTYPE book SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
 -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
-  <bookinfo>
-	<title>Porting TenDRA to Different Operating Systems</title>
+	<bookinfo>
+		<title>Porting TenDRA to Different Operating Systems</title>
 
-	<author>
-		<firstname>Katherine</firstname>
-		<surname>Flavel</surname>
-		<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-	</author>
+		<authorgroup>
+			<author>
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</author>
+		</authorgroup>
 
-	<pubdate>2009</pubdate>
+		<pubdate>2009</pubdate>
 
-	<copyright>
-	  <year>2009</year>
+		<copyright>
+			<year>2009</year>
 
-	  <holder>The TenDRA Project</holder>
-	</copyright>
-  </bookinfo>
+			<holder>The TenDRA Project</holder>
+		</copyright>
+	</bookinfo>
 
 	<preface>
 		<title>Introduction</title>
@@ -99,6 +96,8 @@ EXECFORMAT=  elf</programlisting>
 		<para>add installers/$arch/$os - this provides trans(1). i know nothing
 			about this (probably) not required if you're just adding a new
 			version of an OS and that OS is backwards-compatible to older binaries</para>
+
+		<para>TODO: talk about different assembler dialects</para>
 	</chapter>
 
 	<appendix>

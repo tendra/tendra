@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
-	<title id="7">Type tokens</title>
+	<title>Type tokens</title>
 
 	<para>Type tokens are used to introduce references to types. The ISO C
 		standard, section 6.1.2.5, identifies the following classification
@@ -15,33 +14,43 @@
 		<listitem>
 			<para>the type <code>char</code>;</para>
 		</listitem>
+
 		<listitem>
 			<para>signed integral types;</para>
 		</listitem>
+
 		<listitem>
 			<para>unsigned integral types;</para>
 		</listitem>
+
 		<listitem>
 			<para>floating types;</para>
 		</listitem>
+
 		<listitem>
 			<para>character types;</para>
 		</listitem>
+
 		<listitem>
 			<para>enumeration types;</para>
 		</listitem>
+
 		<listitem>
 			<para>array types;</para>
 		</listitem>
+
 		<listitem>
 			<para>structure types;</para>
 		</listitem>
+
 		<listitem>
 			<para>union types;</para>
 		</listitem>
+
 		<listitem>
 			<para>function types;</para>
 		</listitem>
+
 		<listitem>
 			<para>pointer types;</para>
 		</listitem>
@@ -55,22 +64,27 @@
 			<para>integral types - consisting of the signed integral types, the
 				unsigned integral types and the type <code>char</code>;</para>
 		</listitem>
+
 		<listitem>
 			<para>arithmetic types - consisting of the integral types and the
 				floating types;</para>
 		</listitem>
+
 		<listitem>
 			<para>scalar types - consisting of the arithmetic types and the
 				pointer types;</para>
 		</listitem>
+
 		<listitem>
 			<para>aggregate types - consisting of the structure and array
 				types;</para>
 		</listitem>
+
 		<listitem>
 			<para>derived types - consisting of array, structure, union, function
 				and pointer types;</para>
 		</listitem>
+
 		<listitem>
 			<para>derived declarator types - consisting of array, function and
 				pointer types.</para>
@@ -85,8 +99,7 @@
 		compiler can perform semantic checking on the application of
 		operators. The possible type token introductions are:</para>
 
-	<programlisting language="BNF">
-type-token:
+	<programlisting language="bnf">type-token:
 	TYPE
 	VARIETY
 	ARITHMETIC
@@ -94,7 +107,7 @@ type-token:
 	UNION</programlisting>
 
 	<section>
-		<title id="9">General type tokens</title>
+		<title>General type tokens</title>
 
 		<para>The most general type token introduction is <code>TYPE</code>.
 			This introduces a type of unknown classification which can be
@@ -115,7 +128,7 @@ type-token:
 			conventional type declarators. For example:</para>
 
 		<!-- TODO aren't these #pragma TenDRA token? -->
-		<programlisting language="C">#pragma token TYPE t_t#
+		<programlisting language="c">#pragma token TYPE t_t#
 #pragma token TYPE t_p#
 #pragma token NAT n#
 typedef t_t *ptr_type; /* introduces pointer type */
@@ -153,7 +166,7 @@ typedef t_t arr_type[n]; /*introduces array type */</programlisting>
 	</section>
 
 	<section>
-		<title id="11">Integral type tokens</title>
+		<title>Integral type tokens</title>
 
 		<para>The token introduction <code>VARIETY</code> is used to introduce
 			a token representing an integral type. A token introduced in this
@@ -161,13 +174,13 @@ typedef t_t arr_type[n]; /*introduces array type */</programlisting>
 			wherever an integral type is valid.</para>
 
 		<para>Values which have integral tokenised types can be converted to
-			any scalar type (see <xref linkend="7"/>). Similarly
+			any scalar type. Similarly
 			values with any scalar type can be converted to a value with a
 			tokenised integral type. The semantics of these conversions are
 			exactly the same as if the type defining the token were used
 			directly. Consider:</para>
 
-		<programlisting language="C">
+		<programlisting language="c">
 #pragma token VARIETY <code>i_t</code>#
 short f(void)
 {
@@ -204,7 +217,7 @@ short f(void)
 	</section>
 
 	<section>
-		<title id="13">Arithmetic type tokens</title>
+		<title>Arithmetic type tokens</title>
 
 		<para>The token introduction <code>ARITHMETIC</code> introduces an
 			arithmetic type token. In theory, such tokens can be defined by any
@@ -214,8 +227,8 @@ short f(void)
 			introduced using the token introduction <code>VARIETY</code>.</para>
 	</section>
 
-	<section>
-		<title id="16">Compound type tokens</title>
+	<section id="compoundtoks">
+		<title>Compound type tokens</title>
 
 		<para>For the purposes of this document, a compound type is a type
 			describing objects which have components that are accessible via
@@ -233,7 +246,7 @@ short f(void)
 			types with non-overlapping member selectors and <code>UNION</code> for compound
 			types with overlapping member selectors. The compound type token
 			introduction does not specify the member selectors of the compound
-			type - these are added later (see <xref linkend="19"/>).</para>
+			type - these are added later (see <xref linkend="selectortoks"/>).</para>
 
 		<para>Values and objects with tokenised compound types can be used
 			anywhere that a structure and union type can be used.</para>
@@ -247,7 +260,7 @@ short f(void)
 			id. Examples of the introduction and use of compound type tokens
 			are shown below:</para>
 
-		<programlisting language="C">
+		<programlisting language="c">
 #pragma token STRUCT n_t#
 #pragma token STRUCT TAG s_t#
 #pragma token UNION TAG u_t#
@@ -262,8 +275,8 @@ void f()
 }</programlisting>
 	</section>
 
-	<section>
-		<title id="17">Type token compatibility, definitions etc.</title>
+	<section id="typecompat">
+		<title>Type token compatibility, definitions etc.</title>
 
 		<para>A type represented by an undefined type token is incompatible
 			(ISO C standard section 6.1.3.6) with all other types except for
@@ -293,6 +306,7 @@ void f()
 			<listitem>
 				<para>there is a resolution of the two types;</para>
 			</listitem>
+
 			<listitem>
 				<para>as a result of the resolution, at least one token is
 					defined.</para>
@@ -301,7 +315,7 @@ void f()
 
 		<para>As an example, consider the program below:</para>
 
-		<programlisting language="C">
+		<programlisting language="c">
 #pragma token TYPE t_t#
 typedef t_t *ptr_t_t;
 typedef int **ptr_t_t;</programlisting>
@@ -316,7 +330,7 @@ typedef int **ptr_t_t;</programlisting>
 			of other tokens. The program below results in the expression token
 			<code>N</code> being defined as <code>(4 * sizeof(int))</code>.</para>
 
-		<programlisting language="C">
+		<programlisting language="c">
 #pragma token EXP rvalue:int:N#
 typedef int arr[N];
 typedef int arr[4 * sizeof(int)];</programlisting>

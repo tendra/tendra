@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE article SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -10,16 +9,18 @@
 	<articleinfo>
 		<title>TenDRA Suite Purpose Overview</title>
 
-		<author>
-			<firstname>Rob</firstname>
-			<surname>Andrews</surname>
-		</author>
+		<authorgroup>
+			<author>
+				<firstname>Rob</firstname>
+				<surname>Andrews</surname>
+			</author>
 
-		<othercredit class="copyeditor">
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</othercredit>
+			<othercredit class="copyeditor">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
+		</authorgroup>
 
 		<pubdate>2006</pubdate>
 
@@ -30,7 +31,7 @@
 
 		<copyright>
 			<!--
-				I'm assuming this is copyright to Rob himself, as he
+				I'm assuming this is copyright to Rob personally, as he
 				says his TenDRA homepage (from which this text is
 				taken) is unofficial.
 			-->
@@ -40,7 +41,7 @@
 		</copyright>
 	</articleinfo>
 
-	<chapter id="what-is-tdf">
+	<section id="what-is-tdf">
 		<title>What is TDF?</title>
 
 		<para>TDF (standing for TenDRA Distribution Format) is the compiler
@@ -74,9 +75,9 @@
 			standard. Thus the terms TDF, ANDF and XANDF are largely synonymous; TDF
 			is used in documentation since it is the term closest to our
 			hearts.</para>
-	</chapter>
+	</section>
 
-	<chapter id="what-is-tendra">
+	<section id="what-is-tendra">
 		<title>What is TenDRA?</title>
 
 		<para>TenDRA is the name of the compiler technology built around the TDF
@@ -93,24 +94,24 @@
 			clean compiler technology. It has pulled many of the questions about
 			program portability into sharp focus in a way that a more conventional
 			compiler could not.</para>
-	</chapter>
+	</section>
 
-	<chapter id="using-the-tendra-compiler">
+	<section id="using-the-tendra-compiler">
 		<title>Using the TenDRA Compiler</title>
 
 		<para>The main user interface to the TenDRA compiler,
-			<emphasis>tcc</emphasis>, can be used as a direct replacement for the
-			system compiler, <emphasis>cc</emphasis>. This is described in the
-			<ulink url="tcc.html"><emphasis>tcc</emphasis> Users'
+			<application>tcc</application>, can be used as a direct replacement for the
+			system compiler, <application>cc</application>. This is described in the
+			<ulink url="tcc.html"><application>tcc</application> Users'
 			Guide</ulink>.</para>
 
-		<para>There is an alternative user interface, <emphasis>tchk</emphasis>,
+		<para>There is an alternative user interface, <application>tchk</application>,
 			which just applies the static program checks and disables code
-			generation. Thus <emphasis>tchk</emphasis> corresponds to
-			<emphasis>lint</emphasis> in the same way that <emphasis>tcc</emphasis>
-			corresponds to <emphasis>cc</emphasis>.</para>
+			generation. Thus <application>tchk</application> corresponds to
+			<application>lint</application> in the same way that <application>tcc</application>
+			corresponds to <application>cc</application>.</para>
 
-		<para>The chief difference between <emphasis>tcc</emphasis> and other
+		<para>The chief difference between <application>tcc</application> and other
 			compilers is it the degree of preciseness it requires in specifying the
 			compilation environment. This environment consists of two, largely
 			orthogonal, components: the language checks to be applied, and the API
@@ -120,7 +121,7 @@
 			<code>-Xs</code> specifies ISO C with no extensions and lots of extra
 			checks. Similarly <code>-Yansi</code> specifies the ISO C API (excluding
 			Amendment 1), <code>-Yposix</code> specifies the POSIX 1003.1 API etc.
-			It is also possible to make <emphasis>tcc</emphasis> use the system
+			It is also possible to make <application>tcc</application> use the system
 			headers on the host machine by the use of the <code>-Ysystem</code>
 			option. The <code>-Yc++</code> option is required to enable the C++
 			facilities. The default mode is equivalent to <code>-Xc
@@ -130,17 +131,17 @@
 			in the <ulink url="tdfc.html">C Checker Reference Manual</ulink>. The
 			extra checks available in C++ are described in the
 			<ulink url="tcpplus.html">C++ producer guide</ulink>.</para>
-	</chapter>
+	</section>
 
-	<chapter id="tdf-producers">
+	<section id="tdf-producers">
 		<title>TDF Producers</title>
 
 		<para>A tool which compiles a high-level language to TDF, is called a
-			<emphasis>producer</emphasis>. The TenDRA software contains producers
+			<application>producer</application>. The TenDRA software contains producers
 			for the C and C++ languages. The original TenDRA C producer
-			(<emphasis>tdfc</emphasis>) has now been superseded by a new C producer
-			(<emphasis>tdfc2</emphasis>) based on the C++ producer
-			(<emphasis>tcpplus</emphasis>).</para>
+			(<application>tdfc</application>) has now been superseded by a new C producer
+			(<application>tdfc2</application>) based on the C++ producer
+			(<application>tcpplus</application>).</para>
 
 		<para>The design of both producers has been guided by the goal of trying
 			to ensure program portability by means of static program analysis. Some
@@ -181,25 +182,25 @@
 			</listitem>
 
 			<listitem>
-				<para>The visibility of <emphasis>friend</emphasis> functions is not
+				<para>The visibility of <application>friend</application> functions is not
 					right.</para>
 			</listitem>
 		</itemizedlist>
 
-		<para>(<emphasis>&lt;new&gt;</emphasis>,
-			<emphasis>&lt;typeinfo&gt;</emphasis> and
-			<emphasis>&lt;exception&gt;</emphasis>) have been implemented. If a
+		<para>(<application>&lt;new&gt;</application>,
+			<application>&lt;typeinfo&gt;</application> and
+			<application>&lt;exception&gt;</application>) have been implemented. If a
 			complete implementation of the standard C++ library is required, it must
 			be obtained from elsewhere. See the
 			<ulink url="tcpplus.html">C++ producer guide</ulink> for more
 			details.</para>
-	</chapter>
+	</section>
 
-	<chapter id="tdf-installers">
+	<section id="tdf-installers">
 		<title>TDF Installers</title>
 
 		<para>A tool which compiles TDF to a machine language, is called an
-			<emphasis>installer</emphasis>. TDF installers for a number of Unix
+			<application>installer</application>. TDF installers for a number of Unix
 			systems and processors are included within the release (see the list of
 			<ulink url="install.html#platforms">supported platforms</ulink>). Each
 			installer consists of code from three levels:</para>
@@ -236,126 +237,122 @@
 
 		<para>All the installers fully support the C subset of TDF (i.e. code
 			generated by the C producer). The Mips/Ultrix installer does not support
-			the <emphasis>initial_value</emphasis> construct (used in dynamic
+			the <application>initial_value</application> construct (used in dynamic
 			initialisation), but otherwise all the installers fully support the C++
 			subset. The Intel and SPARC installers fully support the entire TDF
 			specification, as checked by the OSF AVS (ANDF Validation Suite).</para>
-	</chapter>
+	</section>
 
-	<chapter id="tdf-tools">
+	<section id="tdf-tools">
 		<title>TDF Tools</title>
 
 		<para>There are various tools included within the software for viewing,
-			generating and transforming TDF. <emphasis>tspec</emphasis> excepted,
+			generating and transforming TDF. <application>tspec</application> excepted,
 			the use of these components is integrated into the user interface,
-			<emphasis>tcc</emphasis>, but they may also be called directly.</para>
+			<application>tcc</application>, but they may also be called directly.</para>
 
-		<glosslist>
-			<glossentry>
-				<glossterm>tspec</glossterm>
+		<variablelist>
+			<varlistentry>
+				<term>&tspec;</term>
 
-				<glossdef>
+				<listitem>
 					<para>The API checking facilities of the TenDRA compiler are
 						implemented by means of abstract interface specifications
-						generated using the <emphasis>tspec</emphasis> tool.</para>
+						generated using the <application>tspec</application> tool.</para>
 
 					<para>This tool and specifications for a number of common APIs are
 						included with the release. Part of the installation process
 						consists of pre-compiling the implementations of those APIs
 						implemented on the target machine into TDF libraries. This
-						is performed automatically using <emphasis>tcc</emphasis> to
-						combine the <emphasis>tspec</emphasis> specification with
-						the implementation given in the system headers.</para>
+						is performed automatically using <application>tcc</application> to
+						combine the <application>tspec</application> specification with
+						the implementation given in the system headers.
 
-					<!-- TODO see also: user/guides/tspec -->
-				</glossdef>
-			</glossentry>
-		</glosslist>
+					<!-- TODO see also: user/guides/tspec --></para>
+				</listitem>
+			</varlistentry>
 
-		<para>The more generic utilities are provided collectiveley grouped
-			together as a package named ANDFUtils:</para>
+			<varlistentry>
+				<term>&tld;</term>
 
-		<glosslist>
-			<glossentry>
-				<glossterm>tld</glossterm>
-
-				<glossdef>
-					<para><emphasis>tld</emphasis> is the TDF linker. It combines a
+				<listitem>
+					<para><application>tld</application> is the TDF linker. It combines a
 						number of TDF capsules into a single capsule. It also can
 						be used to create and manipulate libraries of TDF capsules.</para>
 
-					<para>This functionality is provided by <emphasis>tcc</emphasis>,
-						but <emphasis>tld</emphasis> may be called directly.</para>
+					<para>This functionality is provided by <application>tcc</application>,
+						but <application>tld</application> may be called directly.
 
-					<!-- TODO see also: user/guides/tld -->
-				</glossdef>
-			</glossentry>
+					<!-- TODO see also: user/guides/tld --></para>
+				</listitem>
+			</varlistentry>
 
-			<glossentry>
-				<glossterm>disp</glossterm>
+			<varlistentry>
+				<term>&disp;</term>
 
-				<glossdef>
-					<para><emphasis>disp</emphasis> is the TDF pretty printer.
+				<listitem>
+					<para><application>disp</application> is the TDF pretty printer.
 						It translates the bitstream comprising a TDF capsule
 						into a human readable form.</para>
 
-					<para>This functionality is provided by <emphasis>tcc</emphasis>,
-						but <emphasis>disp</emphasis> may be called directly.</para>
-				</glossdef>
-			</glossentry>
+					<para>This functionality is provided by <application>tcc</application>,
+						but <application>disp</application> may be called directly.</para>
+				</listitem>
+			</varlistentry>
 
-			<glossentry>
-				<glossterm>TDF Notation Compiler</glossterm>
-				<acronym>tnc</acronym>
+			<varlistentry>
+				<term>&tnc;</term>
 
-				<glossdef>
-					<para><emphasis>tnc</emphasis> is the TDF notation
-						compiler. It acts as a sort of TDF 'unstructured assembler',
+				<listitem>
+					<para><application>tnc</application> is the TDF notation
+						compiler. It acts as a sort of TDF &ldquo;unstructured assembler&rdquo;,
 						and can translate TDF capsules to and from a human readable
 						form.</para>
 
-					<para>This functionality is provided by <emphasis>tcc</emphasis>,
-						but <emphasis>tnc</emphasis> may be called directly.</para>
+					<para>This functionality is provided by <application>tcc</application>,
+						but <application>tnc</application> may be called directly.</para>
 
 					<!-- TODO see also: user/guides/tnc -->
-				</glossdef>
-			</glossentry>
+				</listitem>
+			</varlistentry>
 
-			<glossentry>
-				<glossterm>tpl</glossterm>
+			<varlistentry>
+				<term>&tpl;</term>
 
-				<glossdef>
-					<para><emphasis>tpl</emphasis> is the PL_TDF compiler. It is
+				<listitem>
+					<para><application>tpl</application> is the PL_TDF compiler. It is
 						a TDF 'structured assembler' in the lineage of PL360.
-						<emphasis>tpl</emphasis> provides a more user-friendly way
+						<application>tpl</application> provides a more user-friendly way
 						of generating TDF capsules from scratch than that offered
-						by <emphasis>tnc</emphasis>.</para>
+						by <application>tnc</application>.</para>
 
-					<para>This functionality is provided by <emphasis>tcc</emphasis>,
-						but <emphasis>tpl</emphasis> may be called directly.</para>
+					<para>This functionality is provided by <application>tcc</application>,
+						but <application>tpl</application> may be called directly.</para>
 
 					<!-- TODO see also: user/guides/tnc -->
-				</glossdef>
-			</glossentry>
-		</glosslist>
-	</chapter>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</section>
 
-	<chapter id="compiler-writing-tools">
+	<section id="compiler-writing-tools">
 		<title>Compiler Writing Tools</title>
 
 		<para>A number of compiler writing tools, which were used in the
 			development of the TenDRA compiler technology are also bundled with the
 			TenDRA software release. These include the following:</para>
 
-		<glosslist>
+		<!-- TODO: glossary or bibliography
+		<variablelist>
 			<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
 				href="../../glossary/entries/sid.xml"/>
 			<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
 				href="../../glossary/entries/calculus.xml"/>
 			<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
 				href="../../glossary/entries/make_tdf.xml"/>
-			<!-- TODO make_err, lexi -->
-		</glosslist>
-	</chapter>
+			TODO: and make_err, lexi
+		</variablelist>
+		-->
+	</section>
 </article>
 

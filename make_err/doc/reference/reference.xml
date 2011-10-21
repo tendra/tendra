@@ -1,182 +1,177 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE article SYSTEM "minidocbook.dtd">
 
 <article>
-  <articleinfo>
-    <title>Error catalogue language reference</title>
+	<articleinfo>
+		<title>Error catalogue language reference</title>
 
-    <othercredit class="copyeditor">
-      <firstname>Katherine</firstname>
-      <surname>Flavel</surname>
-      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
-    </othercredit>
-    <corpauthor>DERA</corpauthor>
+		<authorgroup>
+			<othercredit class="copyeditor">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
 
-    <pubdate>2007</pubdate>
+			<corpauthor>DERA</corpauthor>
+		</authorgroup>
 
-    <copyright>
-      <year>2007</year>
+		<pubdate>2007</pubdate>
 
-      <holder>The TenDRA Project</holder>
-    </copyright>
+		<copyright>
+			<year>2007</year>
 
-    <copyright>
-      <year>1998</year>
+			<holder>The TenDRA Project</holder>
+		</copyright>
 
-      <holder>DERA</holder>
-    </copyright>
+		<copyright>
+			<year>1998</year>
 
-	<revhistory>
-		<revision>
-			<date>01 10 2007</date>
-			<revremark>Split off from the C++ Producer User Guide</revremark>
-			<author><firstname>kate</firstname></author>
-		</revision>
-	</revhistory>
-  </articleinfo>
+			<holder>DERA</holder>
+		</copyright>
 
-  <section>
-    <title>Error catalogue language reference</title>
+<!-- TODO: history of the document, or of the software it describes?
+		<revhistory>
+			<revision>
+				<date>01 10 2007</date>
+				<revremark>Split off from the &tcpplus-userguide.doc;</revremark>
+				<author><firstname>kate</firstname></author>
+			</revision>
+		</revhistory>
+-->
+	</articleinfo>
 
-  <para>
-  The following gives a summary of the syntax for the
-  <A HREF="error.html">error catalogue</A> accepted by the
-  <code>make_err</code> tool.  Identifiers are normal C-style identifiers,
-  strings consist of any sequence of characters enclosed inside
-  <code>&quot;....&quot;</code>.  The escape sequences <code>\&quot;</code>
-  and
-  <code>\\</code> are allowed in strings; other characters (including
-  newline characters) map to themselves.  C-style comments are allowed.
-  <programlisting language="BNF">
-<emphasis>error-database</emphasis> :
-	<emphasis>header types<subscript>opt</subscript> properties<subscript>opt</subscript> keys<subscript>opt</subscript> usages<subscript>opt</subscript> entries<subscript>opt</subscript></emphasis>
+	<section>
+		<title>Error catalogue language reference</title>
 
-<emphasis>header</emphasis> :
-	<emphasis>database-name<subscript>opt</subscript> rig-name<subscript>opt</subscript> prefixes<subscript>opt</subscript></emphasis>
+		<para>The following gives a summary of the syntax for the
+			error catalogue accepted by the <code>make_err</code> tool.
+			Identifiers are normal C-style identifiers,
+			strings consist of any sequence of characters enclosed inside
+			<code>&quot;....&quot;</code>.	The escape sequences <code>\&quot;</code>
+			and <code>\\</code> are allowed in strings; other characters (including
+			newline characters) map to themselves.	C-style comments are allowed.</para>
 
+		<programlisting language="bnf"><function>error-database</function> :
+	<function>header types&opt.bnf; properties&opt.bnf; keys&opt.bnf; usages&opt.bnf; entries&opt.bnf;</function>
 
-<emphasis>database-name</emphasis> :
-	DATABASE_NAME : <emphasis>identifier</emphasis>
-
-<emphasis>rig-name</emphasis> :
-	RIG : <emphasis>identifier</emphasis>
+<function>header</function> :
+	<function>database-name&opt.bnf; rig-name&opt.bnf; prefixes&opt.bnf;</function>
 
 
-<emphasis>prefixes</emphasis> :
-	PREFIX : <emphasis>output-prefix<subscript>opt</subscript> compiler-prefix<subscript>opt</subscript> error-prefix<subscript>opt</subscript></emphasis>
+<function>database-name</function> :
+	DATABASE_NAME : <function>identifier</function>
 
-<emphasis>output-prefix</emphasis> :
-	compiler_output -&gt; <emphasis>identifier</emphasis>
-
-<emphasis>compiler-prefix</emphasis> :
-	from_compiler -&gt; <emphasis>identifier</emphasis>
-
-<emphasis>error-prefix</emphasis> :
-	from_database -&gt; <emphasis>identifier</emphasis>
+<function>rig-name</function> :
+	RIG : <function>identifier</function>
 
 
-<emphasis>types</emphasis> :
-	TYPES : <emphasis>name-list<subscript>opt</subscript></emphasis>
+<function>prefixes</function> :
+	PREFIX : <function>output-prefix&opt.bnf; compiler-prefix&opt.bnf; error-prefix&opt.bnf;</function>
 
-<emphasis>properties</emphasis> :
-	PROPERTIES : <emphasis>name-list<subscript>opt</subscript></emphasis>
+<function>output-prefix</function> :
+	compiler_output -&gt; <function>identifier</function>
 
-<emphasis>keys</emphasis> :
-	KEYS : <emphasis>name-list<subscript>opt</subscript></emphasis>
+<function>compiler-prefix</function> :
+	from_compiler -&gt; <function>identifier</function>
 
-<emphasis>usages</emphasis> :
-	USAGE : <emphasis>name-list<subscript>opt</subscript></emphasis>
-
-<emphasis>name</emphasis> :
-	<emphasis>identifier</emphasis>
-	<emphasis>identifier</emphasis> = <emphasis>identifier</emphasis>
-	<emphasis>identifier</emphasis> = <emphasis>identifier</emphasis> | <emphasis>identifier</emphasis>
-
-<emphasis>name-list</emphasis> :
-	<emphasis>name</emphasis>
-	<emphasis>name</emphasis> , <emphasis>name-list</emphasis>
+<function>error-prefix</function> :
+	from_database -&gt; <function>identifier</function>
 
 
-<emphasis>type-name</emphasis> :
-	<emphasis>identifier</emphasis>
+<function>types</function> :
+	TYPES : <function>name-list&opt.bnf;</function>
 
-<emphasis>property-name</emphasis> :
-	<emphasis>identifier</emphasis>
+<function>properties</function> :
+	PROPERTIES : <function>name-list&opt.bnf;</function>
 
-<emphasis>key-name</emphasis> :
-	<emphasis>identifier</emphasis>
+<function>keys</function> :
+	KEYS : <function>name-list&opt.bnf;</function>
 
-<emphasis>usage-name</emphasis> :
-	<emphasis>identifier</emphasis>
+<function>usages</function> :
+	USAGE : <function>name-list&opt.bnf;</function>
 
+<function>name</function> :
+	<function>identifier</function>
+	<function>identifier</function> = <function>identifier</function>
+	<function>identifier</function> = <function>identifier</function> | <function>identifier</function>
 
-<emphasis>entries</emphasis> :
-	ENTRIES : <emphasis>entries-list<subscript>opt</subscript></emphasis>
-
-<emphasis>entry-list</emphasis> :
-	<emphasis>entry entry-list<subscript>opt</subscript></emphasis>
-
-<emphasis>entry</emphasis> :
-	<emphasis>identifier</emphasis> ( <emphasis>param-list<subscript>opt</subscript></emphasis> ) { <emphasis>entry-body</emphasis> }
-
-<emphasis>entry-body</emphasis> :
-	<emphasis>alt-name<subscript>opt</subscript> entry-usage<subscript>opt</subscript> entry-properties<subscript>opt</subscript> map-list<subscript>opt</subscript></emphasis>
+<function>name-list</function> :
+	<function>name</function>
+	<function>name</function> , <function>name-list</function>
 
 
-<emphasis>parameter</emphasis> :
-	<emphasis>type-name</emphasis> : <emphasis>identifier</emphasis>
+<function>type-name</function> :
+	<function>identifier</function>
 
-<emphasis>param-list</emphasis> :
-	<emphasis>parameter</emphasis>
-	<emphasis>parameter</emphasis> , <emphasis>param-list</emphasis>
+<function>property-name</function> :
+	<function>identifier</function>
 
-<emphasis>param-name</emphasis> :
-	<emphasis>identifier</emphasis>
+<function>key-name</function> :
+	<function>identifier</function>
 
-
-<emphasis>alt-name</emphasis> :
-	ALT_NAME : <emphasis>identifier</emphasis>
-
-<emphasis>entry-usage</emphasis> :
-	USAGE : <emphasis>usage-name</emphasis>
-	USAGE : <emphasis>usage-name</emphasis> | <emphasis>usage-name</emphasis>
-
-<emphasis>entry-properties</emphasis> :
-	PROPERTIES : <emphasis>property-list<subscript>opt</subscript></emphasis>
-
-<emphasis>property-list</emphasis> :
-	<emphasis>property-name</emphasis>
-	<emphasis>property-name</emphasis> , <emphasis>property-list</emphasis>
+<function>usage-name</function> :
+	<function>identifier</function>
 
 
-<emphasis>map</emphasis> :
-	KEY ( <emphasis>key-name</emphasis> ) <emphasis>message-list<subscript>opt</subscript></emphasis>
-	KEY ( <emphasis>key-name</emphasis> ) <emphasis>message-list<subscript>opt</subscript></emphasis> | <emphasis>message-list<subscript>opt</subscript></emphasis>
+<function>entries</function> :
+	ENTRIES : <function>entries-list&opt.bnf;</function>
 
-<emphasis>map-list</emphasis> :
-	<emphasis>map map-list<subscript>opt</subscript></emphasis>
+<function>entry-list</function> :
+	<function>entry entry-list&opt.bnf;</function>
 
-<emphasis>message-list</emphasis> :
-	<emphasis>string message-list<subscript>opt</subscript></emphasis>
-	<emphasis>param-name message-list<subscript>opt</subscript></emphasis></programlisting>
-      </para>
+<function>entry</function> :
+	<function>identifier</function> ( <function>param-list&opt.bnf;</function> ) { <function>entry-body</function> }
+
+<function>entry-body</function> :
+	<function>alt-name&opt.bnf; entry-usage&opt.bnf; entry-properties&opt.bnf; map-list&opt.bnf;</function>
+
+
+<function>parameter</function> :
+	<function>type-name</function> : <function>identifier</function>
+
+<function>param-list</function> :
+	<function>parameter</function>
+	<function>parameter</function> , <function>param-list</function>
+
+<function>param-name</function> :
+	<function>identifier</function>
+
+
+<function>alt-name</function> :
+	ALT_NAME : <function>identifier</function>
+
+<function>entry-usage</function> :
+	USAGE : <function>usage-name</function>
+	USAGE : <function>usage-name</function> | <function>usage-name</function>
+
+<function>entry-properties</function> :
+	PROPERTIES : <function>property-list&opt.bnf;</function>
+
+<function>property-list</function> :
+	<function>property-name</function>
+	<function>property-name</function> , <function>property-list</function>
+
+
+<function>map</function> :
+	KEY ( <function>key-name</function> ) <function>message-list&opt.bnf;</function>
+	KEY ( <function>key-name</function> ) <function>message-list&opt.bnf;</function> | <function>message-list&opt.bnf;</function>
+
+<function>map-list</function> :
+	<function>map map-list&opt.bnf;</function>
+
+<function>message-list</function> :
+	<function>string message-list&opt.bnf;</function>
+	<function>param-name message-list&opt.bnf;</function></programlisting>
   </section>
 
 <!-- TODO bibliography -->
-  <section id="reference">
-    <title>References</title>
-    <itemizedlist>
-      <listitem><A id="tdf"><code>TDF Specification, Issue 4.0</code></A>:
-      <A HREF="../tdf/spec1.html">attached</A>.
-      </listitem>
-      <listitem><A id="tdfc"><code>C Checker Reference Manual</code></A>:
-      <A HREF="../tdfc/tdfc1.html">attached</A>.
-      </listitem>
-      <listitem><A id="port"><code>TDF and Portability</code></A>:
-      <A HREF="../port/port1.html">attached</A>.
-      </listitem>
-    </itemizedlist>
-  </section>
+
+	<section>
+		<title>References</title>
+
+		<para>&make_err;.</para>
+
+		<para>&tdf-spec.doc;, &tchk.doc;, &tdf-portability.doc;.</para>
+	</section>
 </article>
 

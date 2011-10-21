@@ -1,8 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-	<!ENTITY tdf "<acronym>TDF</acronym>">
-]>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="S35">
 	<title>Outer level syntax</title>
@@ -11,13 +8,33 @@
 		of the following forms:</para>
 
 	<itemizedlist>
-		<listitem>an included file,</listitem>
-		<listitem>a token declaration,</listitem>
-		<listitem>a token definition,</listitem>
-		<listitem>an alignment tag declaration,</listitem>
-		<listitem>an alignment tag definition,</listitem>
-		<listitem>a tag declaration,</listitem>
-		<listitem>a tag definition.</listitem>
+		<listitem>
+			<para>an included file,</para>
+		</listitem>
+
+		<listitem>
+			<para>a token declaration,</para>
+		</listitem>
+
+		<listitem>
+			<para>a token definition,</para>
+		</listitem>
+
+		<listitem>
+			<para>an alignment tag declaration,</para>
+		</listitem>
+
+		<listitem>
+			<para>an alignment tag definition,</para>
+		</listitem>
+
+		<listitem>
+			<para>a tag declaration,</para>
+		</listitem>
+
+		<listitem>
+			<para>a tag definition.</para>
+		</listitem>
 	</itemizedlist>
 
 	<section id="S36">
@@ -31,7 +48,7 @@
 
 		<para>The syntax for an included text file is:</para>
 
-		<programlisting>( include string )</programlisting>
+		<programlisting language="tnc">( include string )</programlisting>
 
 		<para>where <code>string</code> is a string giving the pathname of the file
 			to be included. <code>tnc</code> applies <emphasis>read</emphasis> to this sub-file
@@ -39,8 +56,7 @@
 
 		<para>Similarly, the syntaxes for included &tdf; capsules and libraries are:</para>
 
-<programlisting>
-( code string )
+<programlisting language="tnc">( code string )
 ( lib string )</programlisting>
 
 		<para>respectively. <code>tnc</code> applies <emphasis>decode</emphasis> to this capsule
@@ -50,8 +66,7 @@
 		<para>The syntaxes for extracting the token declaration information from
 			a &tdf; capsule or library are:</para>
 
-<programlisting>
-( use_code string )
+<programlisting language="tnc">( use_code string )
 ( use_lib string )</programlisting>
 
 		<para>Again, these rely on the <emphasis>decode</emphasis> mode being available.</para>
@@ -75,25 +90,25 @@
 			alignment tag definitions etc.). The basic form of the token declaration
 			is:</para>
 
-		<programlisting>( make_tokdec token_id ... )</programlisting>
+		<programlisting language="tnc">( make_tokdec token_id ... )</programlisting>
 
 		<para>This creates a token with both internal and external names equal to
 			<code>token_id</code>. Alternatively:</para>
 
-		<programlisting>( local make_tokdec token_id ... )</programlisting>
+		<programlisting language="tnc">( local make_tokdec token_id ... )</programlisting>
 
 		<para>creates a token with internal name <code>token_id</code> but no external
 			name. This allows the creation of tokens local to the current file.
 			Again:</para>
 
-		<programlisting>( make_tokdec ( string_extern string ) token_id ... )</programlisting>
+		<programlisting language="tnc">( make_tokdec ( string_extern string ) token_id ... )</programlisting>
 
 		<para>creates a token with internal name <code>token_id</code> and external
 			name given by the string <code>string</code>. For example, to create
 			a token whose external name is not a valid identifier, it would be
 			necessary to use this construct. Finally:</para>
 
-		<programlisting>( make_tokdec ( unique_extern string1 ... stringn ) token_id ... )</programlisting>
+		<programlisting language="tnc">( make_tokdec ( unique_extern string1 ... stringn ) token_id ... )</programlisting>
 
 		<para>creates a token with internal name <code>token_id</code> and external
 			name given by the unique name consisting of the strings <code>string1</code>,
@@ -110,7 +125,7 @@
 
 		<para>The basic form of a token declaration is:</para>
 
-		<programlisting>( make_tokdec token_id ( arg1 ... argn ) res )</programlisting>
+		<programlisting language="tnc">( make_tokdec token_id ( arg1 ... argn ) res )</programlisting>
 
 		<para>where the token <code>token_id</code> is declared to take argument
 			sorts <code>arg1</code>, ..., <code>argn</code> and deliver the result
@@ -119,7 +134,7 @@
 			etc. For a token with no arguments the declaration may be given in
 			the form:</para>
 
-<programlisting>( make_tokdec token_id res )</programlisting>
+<programlisting language="tnc">( make_tokdec token_id res )</programlisting>
 
 		<para>A token may be declared any number of times, provided the declarations
 			are consistent.</para>
@@ -133,7 +148,7 @@
 
 		<para>The basic form of a token definition is:</para>
 
-		<programlisting>( make_tokdef token_id ( arg1 id1 ... argn idn ) res def )</programlisting>
+		<programlisting language="tnc">( make_tokdef token_id ( arg1 id1 ... argn idn ) res def )</programlisting>
 
 		<para>where the token <code>token_id</code> is defined to take formal arguments
 			<code>id1</code>, ..., <code>idn</code> of sorts <code>arg1</code>,
@@ -143,7 +158,7 @@
 
 		<para>For a token with no arguments the definition may be given in the form:</para>
 
-		<programlisting>( make_tokdef token_id res def )</programlisting>
+		<programlisting language="tnc">( make_tokdef token_id res def )</programlisting>
 
 		<para>A token may be defined more than once. All definitions must be consistent
 			with any previous declarations and definitions (the renaming of formal
@@ -158,7 +173,7 @@
 
 		<para>The basic form of an alignment tag declaration is:</para>
 
-		<programlisting>( make_al_tagdec al_tag_id )</programlisting>
+		<programlisting language="tnc">( make_al_tagdec al_tag_id )</programlisting>
 
 		<para>where the alignment tag <code>al_tag_id</code> is declared to exist.</para>
 
@@ -171,7 +186,7 @@
 
 		<para>The basic form of an alignment tag definition is:</para>
 
-		<programlisting>( make_al_tagdef al_tag_id def )</programlisting>
+		<programlisting language="tnc">( make_al_tagdef al_tag_id def )</programlisting>
 
 		<para>where the alignment tag <code>al_tag_id</code> is defined to be <code>def</code>,
 			which is a construct of sort <code>alignment</code>. An alignment
@@ -187,7 +202,7 @@
 
 		<para>The basic forms of a tag declaration are:</para>
 
-<programlisting>( make_id_tagdec tag_id info dec )
+<programlisting language="tnc">( make_id_tagdec tag_id info dec )
 ( make_var_tagdec tag_id info dec )
 ( common_tagdec tag_id info dec )</programlisting>
 
@@ -208,7 +223,7 @@
 
 		<para>The basic forms of a tag definition are:</para>
 
-<programlisting>( make_id_tagdef tag_id def )
+<programlisting language="tnc">( make_id_tagdef tag_id def )
 ( make_var_tagdef tag_id info def )
 ( common_tagdef tag_id info def )</programlisting>
 

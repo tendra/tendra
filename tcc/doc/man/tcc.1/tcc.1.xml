@@ -102,7 +102,7 @@
 ]>
 
 <!-- $Id$ -->
-<refentry xmlns:xi="http://www.w3.org/2001/XInclude">
+<refentry>
 <!--
         Copyright (c) 2002-2007 The TenDRA Project <http://www.tendra.org/>.
         All rights reserved.
@@ -167,7 +167,7 @@
 
 	<refnamediv>
 		<refname>tcc</refname>
-		<refpurpose>User interface to the &tdf; system</refpurpose>
+		<refpurpose>User interface to the TDF system</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>
@@ -227,14 +227,8 @@
 		<cmdsynopsis>
 			<command>&nbsp;&nbsp;&nbsp;</command>
 
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'code-options' ]/*)"/>
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'print-options']/*)"/>
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'dir-options'  ]/*)"/>
-			<xi:include xpointer="xpointer(//synopfragment[@id = 'misc-options' ]/*)"/>
-		</cmdsynopsis>
 
-
-		<synopfragment id="code-options">
+			<!-- Code options -->
 			<arg choice="opt">&A.opt;</arg>
 			<arg choice="opt">&C.opt;</arg>
 			<group choice="opt">
@@ -249,9 +243,9 @@
 			<sbr/>
 
 			<arg choice="opt">&startup.opt;</arg>
-		</synopfragment>
 
-		<synopfragment id="print-options">
+
+			<!-- Print options -->
 			<arg choice="opt">&H.opt;</arg>
 			<arg choice="opt">&w.opt;</arg>
 			<arg choice="opt">&dump.opt;</arg>
@@ -275,9 +269,9 @@
 			<arg choice="opt">&vd.opt;</arg>
 			<arg choice="opt">&ve.opt;</arg>
 			<arg choice="opt">&vt.opt;</arg>
-		</synopfragment>
 
-		<synopfragment id="dir-options">
+
+			<!-- Dir options -->
 			<arg choice="opt">&I.opt;</arg>
 			<arg choice="opt">&J.opt;</arg>
 			<arg choice="opt">&L.opt;</arg>
@@ -287,9 +281,9 @@
 
 			<arg choice="opt">&temp.opt;</arg>
 			<arg choice="opt">&work.opt;</arg>
-		</synopfragment>
 
-		<synopfragment id="misc-options">
+
+			<!-- Misc options -->
 			<arg choice="opt">&B.opt;</arg>
 			<arg choice="opt">&E2.opt;</arg>
 			<arg choice="opt">&G.opt;</arg>
@@ -352,7 +346,7 @@
 			<arg choice="opt">&tidy.opt;</arg>
 			<arg choice="opt">&u.opt;</arg>
 			<arg choice="opt">&z.opt;</arg>
-		</synopfragment>
+		</cmdsynopsis>
 	</refsynopsisdiv>
 
 	<refsection>
@@ -384,62 +378,74 @@
 					<td role="na" align="center">&ndash;</td>
 					<td>C source files</td>
 				</tr>
+
 				<tr>
 					<td>&i.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>Preprocessed C source files</td>
 				</tr>
+
 				<tr>
 					<td>&C.ext;</td>
 					<td><option>-Y</option><literal>c++</literal> only</td>
 					<td>C++ source files</td>
 				</tr>
+
 				<tr>
 					<td>&I.ext;</td>
 					<td><option>-Y</option><literal>c++</literal> only</td>
 					<td>Preprocessed C++ source files</td>
 				</tr>
+
 				<tr>
 					<td>&j.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>Target-independent &tdf; capsules</td>
 				</tr>
+
 				<tr>
 					<td>&ta.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>Archives of target-independent &tdf; capsules</td>
 				</tr>
+
 				<tr>
 					<td>&t.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>Target-dependent &tdf; capsules</td>
 				</tr>
+
 				<tr>
 					<td>&s.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>Assembly source files</td>
 				</tr>
+
 				<tr>
 					<td>&d.ext;</td>
 					<td role="na" align="center">&ndash;</td>
 					<td>TenDRA dump files</td>
 				</tr>
+
 				<tr>
 					<td>&K.ext;</td>
 					<td><option>-Y</option><literal>c++</literal> only</td>
 					<td>C++ spec files</td>
 				</tr>
+
 				<tr>
 					<td>&p.ext;</td>
 					<td><option>-Y</option><literal>tnc</literal> only</td>
 					<td>&tdf; notation source files (<acronym>AKA</acronym>
 						<quote>&tdf; text</quote>)</td>
 				</tr>
+
 				<tr>
 					<td>&tpl.ext;</td>
 					<td><option>-Y</option><literal>pl_tdf</literal> only</td>
 					<td>&pl_tdf; source files</td>
 				</tr>
+
 				<tr>
 					<td>other</td>
 					<td role="na" align="center">&ndash;</td>
@@ -469,28 +475,40 @@
 		<para>The compilation process is as follows.</para>
 
 		<orderedlist>
-			<listitem>&tdf; archives are split into their constituent target
-				independent capsules.</listitem>
+			<listitem>
+				<para>&tdf; archives are split into their constituent target
+					independent capsules.</para>
+			</listitem>
 
-			<listitem>C source files (including preprocessed C) are compiled
-				into target independent &tdf; capsules using &tdfc2;.
-				(&tcpplus; does the same for C++ source files when
-				<option>-Y</option><literal>c++</literal> is specified.)</listitem>
+			<listitem>
+				<para>C source files (including preprocessed C) are compiled
+					into target independent &tdf; capsules using &tdfc2;.
+					(&tcpplus; does the same for C++ source files when
+					<option>-Y</option><literal>c++</literal> is specified.)</para>
+			</listitem>
 
-			<listitem>Target independent &tdf; capsules are linked, using &tld;,
-				with the &tdf; libraries to produce target dependent &tdf;
-				capsules.</listitem>
+			<listitem>
+				<para>Target independent &tdf; capsules are linked, using &tld;,
+					with the &tdf; libraries to produce target dependent &tdf;
+					capsules.</para>
+			</listitem>
 
-			<listitem>Target dependent &tdf; capsules are translated into
-				assembly source files using one of &mipstrans;
-				(q.v.&mdash;things are not quite so simple in this case), &trans386;
-				etc.</listitem>
+			<listitem>
+				<para>Target dependent &tdf; capsules are translated into
+					assembly source files using one of &mipstrans;
+					(q.v.&mdash;things are not quite so simple in this case), &trans386;
+					etc.</para>
+			</listitem>
 
-			<listitem>Assembly source files are compiled into binary
-				object files using &as;.</listitem>
+			<listitem>
+				<para>Assembly source files are compiled into binary
+					object files using &as;.</para>
+			</listitem>
 
-			<listitem>Binary object files are linked with the precompiled
-				libraries, using &ld;, to produce a final executable.</listitem>
+			<listitem>
+				<para>Binary object files are linked with the precompiled
+					libraries, using &ld;, to produce a final executable.</para>
+			</listitem>
 		</orderedlist>
 
 		<para>With the exception of binary object files, intermediate files are not
@@ -588,100 +606,122 @@
 			<varlistentry>
 				<term>&E1.opt;</term>
 
-				<listitem>Invokes the C preprocessor only, putting the result
-					into a file with a &i.ext; suffix if other
-					options indicate that preprocessed C files are to be
-					preserved, or onto the standard output otherwise.
-					Similarly, C++ source files are preprocessed and put into
-					files with &I.ext; suffixes.</listitem>
+				<listitem>
+					<para>Invokes the C preprocessor only, putting the result
+						into a file with a &i.ext; suffix if other
+						options indicate that preprocessed C files are to be
+						preserved, or onto the standard output otherwise.
+						Similarly, C++ source files are preprocessed and put into
+						files with &I.ext; suffixes.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&F.opt;</term>
 
-				<listitem>Tells &tcc; to stop after producing the files
-					indicated by &letter.arg;, and to preserve these files.
-					&letter.arg; is a single character corresponding to the
-					suffix of the files to be preserved.</listitem>
+				<listitem>
+					<para>Tells &tcc; to stop after producing the files
+						indicated by &letter.arg;, and to preserve these files.
+						&letter.arg; is a single character corresponding to the
+						suffix of the files to be preserved.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&P.opt;</term>
 
-				<listitem>Invokes the C preprocessor only, putting the result
-					into a file with a &i.ext; suffix.
-					The C++ preprocessor is similarly invoked for C++ source
-					files, putting the result into a file with a
-					&I.ext; suffix.</listitem>
+				<listitem>
+					<para>Invokes the C preprocessor only, putting the result
+						into a file with a &i.ext; suffix.
+						The C++ preprocessor is similarly invoked for C++ source
+						files, putting the result into a file with a
+						&I.ext; suffix.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&S1.opt;</term>
 
-				<listitem>Tells &tcc; to stop after producing an assembly source
-					file.
-					This is equivalent to <option>-Fs</option>.</listitem>
+				<listitem>
+					<para>Tells &tcc; to stop after producing an assembly source
+						file.
+						This is equivalent to <option>-Fs</option>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&c.opt;</term>
 
-				<listitem>Tells &tcc; to stop after producing
-					the binary object files.
-					This is equivalent to <option>-Fo</option>.</listitem>
+				<listitem>
+					<para>Tells &tcc; to stop after producing
+						the binary object files.
+						This is equivalent to <option>-Fo</option>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&d.opt;</term>
 
-				<listitem>Halts the compilation after the creation of the
-					dump files.	This is equivalent to
-					<option>-Fd</option>.</listitem>
+				<listitem>
+					<para>Halts the compilation after the creation of the
+						dump files.	This is equivalent to
+						<option>-Fd</option>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&disp.opt;</term>
 
-				<listitem>Runs the &tdf; pretty-printer on all files at
-					stage 2 or 3 and then terminates.
-					The results are put into files with &p.ext;
-					suffixes.</listitem>
+				<listitem>
+					<para>Runs the &tdf; pretty-printer on all files at
+						stage 2 or 3 and then terminates.
+						The results are put into files with &p.ext;
+						suffixes.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&disp_t.opt;</term>
 
-				<listitem>Runs the pretty-printer on all files at stage 3 and
-					then terminates.
-					This differs from the <option>-disp</option> option in that
-					it displays the &tdf; after linking with the target-dependent
-					&tdf; libraries rather than before.
-					The output is put into a file with a &p.ext; suffix.</listitem>
+				<listitem>
+					<para>Runs the pretty-printer on all files at stage 3 and
+						then terminates.
+						This differs from the <option>-disp</option> option in that
+						it displays the &tdf; after linking with the target-dependent
+						&tdf; libraries rather than before.
+						The output is put into a file with a &p.ext; suffix.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&i.opt;</term>
 
-				<listitem>Tells &tcc; to stop after producing the target
-					independent &tdf; capsules.
-				 	This is equivalent to <option>-Fj</option>.</listitem>
+				<listitem>
+					<para>Tells &tcc; to stop after producing the target
+						independent &tdf; capsules.
+					 	This is equivalent to <option>-Fj</option>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&k.opt;</term>
 
-				<listitem>In intermodular checking mode, halts the
-					compilation after the creation of the C++ spec files.
-					This is equivalent to <option>-FK</option>.</listitem>
+				<listitem>
+					<para>In intermodular checking mode, halts the
+						compilation after the creation of the C++ spec files.
+						This is equivalent to <option>-FK</option>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&prod.opt;</term>
 
-				<listitem>Specifies that &tcc; should stop after producing the
-					target independent &tdf; capsules and combine them into a
-					&tdf; archive.
-					The default archive name is <filename>a.ta</filename>.</listitem>
+				<listitem>
+					<para>Specifies that &tcc; should stop after producing the
+						target independent &tdf; capsules and combine them into a
+						&tdf; archive.
+						The default archive name is <filename>a.ta</filename>.</para>
+				</listitem>
 				<!-- TODO: emphasise why this is useful. it's the main TDF distribution mechanism -->
 			</varlistentry>
 		</variablelist>
@@ -700,21 +740,27 @@
 			<varlistentry>
 				<term>&A.opt;</term>
 
-				<listitem>Asserts the predicate &str.arg;.</listitem>
+				<listitem>
+					<para>Asserts the predicate &str.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&B.opt;</term>
 
-				<listitem>Passed to the system linker.	The valid values of
-					&str.arg; are target dependent.</listitem>
+				<listitem>
+					<para>Passed to the system linker.	The valid values of
+						&str.arg; are target dependent.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&C.opt;</term>
 
-				<listitem>Not implemented and provided for &cc; compatibility only.
-					It is meant to preserve comments when preprocessing.</listitem>
+				<listitem>
+					<para>Not implemented and provided for &cc; compatibility only.
+						It is meant to preserve comments when preprocessing.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -722,68 +768,84 @@
 				<term>&D2.opt;</term>
 
 				<!-- TODO: centralise shared options with tcppplus manpage somehow? -->
-				<listitem>Where &str.arg; is of the form &macro.arg; or
-					&macro.arg;&equal.lit;<replaceable>defn</replaceable>,
-					is equivalent to inserting the preprocessor directives
-					<code>#define &macro.arg; 1</code> or
-					<code>#define &macro.arg; <replaceable>defn</replaceable></code> at the
-					start of each C source file.
-					This is implemented by &tcc; writing this
-					directive into a start-up file.</listitem>
+				<listitem>
+					<para>Where &str.arg; is of the form &macro.arg; or
+						&macro.arg;&equal.lit;<replaceable>defn</replaceable>,
+						is equivalent to inserting the preprocessor directives
+						<code>#define &macro.arg; 1</code> or
+						<code>#define &macro.arg; <replaceable>defn</replaceable></code> at the
+						start of each C source file.
+						This is implemented by &tcc; writing this
+						directive into a start-up file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&E2.opt;</term>
 
-				<listitem>Causes &file.arg; to be invoked as the executable for
-					the compilation stage given by &letter.arg;.</listitem>
+				<listitem>
+					<para>Causes &file.arg; to be invoked as the executable for
+						the compilation stage given by &letter.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&G.opt;</term>
 
-				<listitem>Provided for &cc; compatibility.</listitem>
+				<listitem>
+					<para>Provided for &cc; compatibility.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&H.opt;</term>
 
-				<listitem>Causes the names of files included by a
-					<code>#include</code> directive to be printed.</listitem>
+				<listitem>
+					<para>Causes the names of files included by a
+						<code>#include</code> directive to be printed.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&I.opt;</term>
 
-				<listitem>Tells the producers and preprocessors to search
-					the directory &dir.arg; for included files.
-					The directories are searched in the order given,
-					followed by the system default directories.</listitem>
+				<listitem>
+					<para>Tells the producers and preprocessors to search
+						the directory &dir.arg; for included files.
+						The directories are searched in the order given,
+						followed by the system default directories.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&J.opt;</term>
 
-				<listitem>Tells the &tdf; linker to search the directory
-					&dir.arg; for &tdf; libraries.
-					The linker searches the directories in the order given,
-					followed by the system default directories.</listitem>
+				<listitem>
+					<para>Tells the &tdf; linker to search the directory
+						&dir.arg; for &tdf; libraries.
+						The linker searches the directories in the order given,
+						followed by the system default directories.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&K.opt;</term>
 
-				<listitem>Provided for &cc; compatibility.
-					Specifies various installer options.</listitem>
+				<listitem>
+					<para>Provided for &cc; compatibility.
+						Specifies various installer options.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&L.opt;</term>
 
-				<listitem>Tells the system linker to search the directory
-					&dir.arg; for libraries.
-					It searches the directories in the order given, followed
-					by the system default directories.</listitem>
+				<listitem>
+					<para>Tells the system linker to search the directory
+						&dir.arg; for libraries.
+						It searches the directories in the order given, followed
+						by the system default directories.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -808,35 +870,41 @@
 			<varlistentry>
 				<term>&N.opt;</term>
 
-				<listitem>As &I.opt; except that the identifier &ident.arg; is
-					associated with the directory &dir.arg; in the producer.</listitem>
+				<listitem>
+					<para>As &I.opt; except that the identifier &ident.arg; is
+						associated with the directory &dir.arg; in the producer.</para>
+				</listitem>
 				<!-- TODO: explain what this means... -->
 			</varlistentry>
 
 			<varlistentry>
 				<term>&O.opt;</term>
 
-				<listitem>This flag has no effect other than to cancel any
-					previous diagnostics flag and is included only for
-					compatibility with other compilers.
-					All &tdf; optimisations are on by default.
-					<!-- TODO: "diagnostics flag"? really? -->
-					All optimisations are believed to be correct; any bug which
-					occurs in the fully-optimised state
-					is a genuine bug.</listitem>
+				<listitem>
+					<para>This flag has no effect other than to cancel any
+						previous diagnostics flag and is included only for
+						compatibility with other compilers.
+						All &tdf; optimisations are on by default.
+						<!-- TODO: "diagnostics flag"? really? -->
+						All optimisations are believed to be correct; any bug which
+						occurs in the fully-optimised state
+						is a genuine bug.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&P.opt;</term>
 
-				<listitem>Tells &tcc; to preserve those files indicated by
-					&letter.arg;.
-					Each &letter.arg; is a single character corresponding to the
-					suffix of the files to be preserved.
-					The &tcc; startup-file can be preserved as
-					<filename>tcc_startup.h</filename> using <option>-Ph</option>.
-					All intermediate files can be preserved using
-					<option>-Pa</option>.</listitem>
+				<listitem>
+					<para>Tells &tcc; to preserve those files indicated by
+						&letter.arg;.
+						Each &letter.arg; is a single character corresponding to the
+						suffix of the files to be preserved.
+						The &tcc; startup-file can be preserved as
+						<filename>tcc_startup.h</filename> using <option>-Ph</option>.
+						All intermediate files can be preserved using
+						<option>-Pa</option>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -860,23 +928,27 @@
 			<varlistentry>
 				<term>&U.opt;</term>
 
-				<listitem>Is equivalent to inserting the preprocessor directive
-					<code>#undef &str.arg;</code> at the start of each C source
-					file.
-					This is implemented by &tcc; writing this directive into a
-					start-up file.
-					The only macros built into the C to &tdf; producer are
-					<code>__LINE__</code>, <code>__FILE__</code>,
-					<code>__DATE__</code>, <code>__TIME__</code>,
-					<code>__STDC__</code>, <code>__ANDF__</code> and
-					<code>__TenDRA__</code>.</listitem>
+				<listitem>
+					<para>Is equivalent to inserting the preprocessor directive
+						<code>#undef &str.arg;</code> at the start of each C source
+						file.
+						This is implemented by &tcc; writing this directive into a
+						start-up file.
+						The only macros built into the C to &tdf; producer are
+						<code>__LINE__</code>, <code>__FILE__</code>,
+						<code>__DATE__</code>, <code>__TIME__</code>,
+						<code>__STDC__</code>, <code>__ANDF__</code> and
+						<code>__TenDRA__</code>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&V.opt;</term>
 
-				<listitem>Causes all tools invoked by &tcc;
-					to print their version numbers.</listitem>
+				<listitem>
+					<para>Causes all tools invoked by &tcc;
+					to print their version numbers.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -940,8 +1012,10 @@
 			<varlistentry>
 				<term>&X2.opt;</term>
 
-				<listitem>Specifies an individual compilation option.
-					See the &tcc-userguide.doc; for details.</listitem>
+				<listitem>
+					<para>Specifies an individual compilation option.
+						See the &tcc-userguide.doc; for details.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -973,274 +1047,346 @@
 			<varlistentry>
 				<term>&Z.opt;</term>
 
-				<listitem>Provided for &cc; compatibility.
-					Specifies various installer options.</listitem>
+				<listitem>
+					<para>Provided for &cc; compatibility.
+						Specifies various installer options.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&api_check.opt;</term>
 
-				<listitem>Causes &tchk; to create an &api; usage analysis file,
-					with default name <filename>a.api</filename>.</listitem>
+				<listitem>
+					<para>Causes &tchk; to create an &api; usage analysis file,
+						with default name <filename>a.api</filename>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&api_check_out.opt;</term>
 
-				<listitem>If an &api; usage analysis file is produced, call it
-					&file.arg;.</listitem>
+				<listitem>
+					<para>If an &api; usage analysis file is produced, call it
+						&file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&b.opt;</term>
 
-				<listitem>Stops the library <filename>libc.a</filename> being
-					used by the linker by default.</listitem>
+				<listitem>
+					<para>Stops the library <filename>libc.a</filename> being
+						used by the linker by default.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&cc.opt;</term>
 
-				<listitem>Causes &tcc; to invoke &cc; for its code production,
-					using the C to &tdf; producer as a checking front-end to &cc;.
-					This allows the checking capabilities of the front-end
-					of the &tdf; compiler to be exploited on machines where no
-					&tdf; back-end is available.</listitem>
+				<listitem>
+					<para>Causes &tcc; to invoke &cc; for its code production,
+						using the C to &tdf; producer as a checking front-end to &cc;.
+						This allows the checking capabilities of the front-end
+						of the &tdf; compiler to be exploited on machines where no
+						&tdf; back-end is available.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&cc_only.opt;</term>
 
-				<listitem>Causes &tcc; to invoke &cc; only.</listitem>
+				<listitem>
+					<para>Causes &tcc; to invoke &cc; only.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&ch.opt;</term>
 
-				<listitem>Causes &tcc; to emulate the stand-alone static
-					checker, &tchk;.
-					Intermodular checks are enabled in this mode.</listitem>
+				<listitem>
+					<para>Causes &tcc; to emulate the stand-alone static
+						checker, &tchk;.
+						Intermodular checks are enabled in this mode.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&dn.opt;</term>
 				<term>&dy.opt;</term>
 
-				<listitem>Passed to the system linker.</listitem>
+				<listitem>
+					<para>Passed to the system linker.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&do.opt;</term>
 
-				<listitem>Sets the name of the default output file of type
-					&letter.arg; to &file.arg;.
-					For example, <option>-doh</option> can be used to set
-					the name of the preserved start-up file.</listitem>
+				<listitem>
+					<para>Sets the name of the default output file of type
+						&letter.arg; to &file.arg;.
+						For example, <option>-doh</option> can be used to set
+						the name of the preserved start-up file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&dry.opt;</term>
 
-				<listitem>Makes &tcc; print information on what system commands
-					it would execute with the given files and options (as in
-					verbose mode) but not actually perform them.</listitem>
+				<listitem>
+					<para>Makes &tcc; print information on what system commands
+						it would execute with the given files and options (as in
+						verbose mode) but not actually perform them.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&dump.opt;</term>
 
-				<listitem>Causes &tcc; to dump its current status.
-					This option is only used during the actual compilation of
-					&tcc;.</listitem>
+				<listitem>
+					<para>Causes &tcc; to dump its current status.
+						This option is only used during the actual compilation of
+						&tcc;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&e.opt;</term>
 
-				<listitem>Is equivalent to inserting the preprocessor directive
-					<code>#include "&file.arg;"</code> at the end of each C
-					source file.</listitem>
+				<listitem>
+					<para>Is equivalent to inserting the preprocessor directive
+						<code>#include "&file.arg;"</code> at the end of each C
+						source file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&f.opt;</term>
 
-				<listitem>Is equivalent to inserting the preprocessor directive
-					<code>#include "&file.arg;"</code> at the start of each C
-					source file.</listitem>
+				<listitem>
+					<para>Is equivalent to inserting the preprocessor directive
+						<code>#include "&file.arg;"</code> at the start of each C
+						source file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&g.opt;</term>
 
-				<listitem>Tells &tcc; to produce diagnostic information
-					compatible with the system debugger.</listitem>
+				<listitem>
+					<para>Tells &tcc; to produce diagnostic information
+						compatible with the system debugger.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&h.opt;</term>
 
-				<listitem>Passed to the system linker.</listitem>
+				<listitem>
+					<para>Passed to the system linker.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&im.opt;</term>
 
-				<listitem>Enables intermodular checks.</listitem>
+				<listitem>
+					<para>Enables intermodular checks.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&im0.opt;</term>
 
-				<listitem>Disables intermodular checks.</listitem>
+				<listitem>
+					<para>Disables intermodular checks.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&info.opt;</term>
 
-				<listitem>Causes &tcc; to print information
-					on the current &api;.</listitem>
+				<listitem>
+					<para>Causes &tcc; to print information
+						on the current &api;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&j.opt;</term>
 
-				<listitem>Tells the &tdf; linker to use the &tdf; library
-					&str.arg;&tl.ext;.</listitem>
+				<listitem>
+					<para>Tells the &tdf; linker to use the &tdf; library
+						&str.arg;&tl.ext;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&keep_errors.opt;</term>
 
-				<listitem>By default, if an error occurs during the production
-					of a file, &tcc; will remove it.
-					This option will preserve such files.</listitem>
+				<listitem>
+					<para>By default, if an error occurs during the production
+						of a file, &tcc; will remove it.
+						This option will preserve such files.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&l.opt;</term>
 
-				<listitem>Tells the system linker to use the library
-					<filename><literal>lib</literal>&str.arg;<literal>.a</literal></filename>.</listitem>
+				<listitem>
+					<para>Tells the system linker to use the library
+						<filename><literal>lib</literal>&str.arg;<literal>.a</literal></filename>.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&make_up_names.opt;</term>
 
-				<listitem>Causes &tcc; to make up names for all intermediate
-					files rather than forming them from the basenames of the
-					input files.</listitem>
+				<listitem>
+					<para>Causes &tcc; to make up names for all intermediate
+						files rather than forming them from the basenames of the
+						input files.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&message.opt;</term>
 
-				<listitem>Causes &tcc; to print the message &str.arg;.</listitem>
+				<listitem>
+					<para>Causes &tcc; to print the message &str.arg;.</para>
+				</listitem>
 				<!-- TODO: explain rationalle (in distributable TDF archives as per -prod) -->
 			</varlistentry>
 
 			<varlistentry>
 				<term>&nepc.opt;</term>
 
-				<listitem>Tells the C to &tdf; producer to allow certain
-					non-portable constructs through.</listitem>
+				<listitem>
+					<para>Tells the C to &tdf; producer to allow certain
+						non-portable constructs through.</para>
+				</listitem>
 				<!-- TODO: such as...? -->
 			</varlistentry>
 
 			<varlistentry>
 				<term>&not_ansi.opt;</term>
 
-				<listitem>Tells the C to &tdf; producer to allow certain
-					non-&ansi; features through.</listitem>
+				<listitem>
+					<para>Tells the C to &tdf; producer to allow certain
+						non-&ansi; features through.</para>
+				</listitem>
 				<!-- TODO: such as ...? -->
 			</varlistentry>
 
 			<varlistentry>
 				<term>&no_startup_options.opt;</term>
 
-				<listitem>Ensures that no start-up or end-up options are passed
-					to the C to &tdf; producer (unlikely to be useful).</listitem>
+				<listitem>
+					<para>Ensures that no start-up or end-up options are passed
+						to the C to &tdf; producer (unlikely to be useful).</para>
+				</listitem>
 				<!-- TODO: remove this? -->
 			</varlistentry>
 
 			<varlistentry>
 				<term>&o.opt;</term>
 
-				<listitem>If a final executable is produced, call it
-					&file.arg; (the default is <filename>a.out</filename>).
-					Otherwise, if only one file is preserved, call it
-					&file.arg;.</listitem>
+				<listitem>
+					<para>If a final executable is produced, call it
+						&file.arg; (the default is <filename>a.out</filename>).
+						Otherwise, if only one file is preserved, call it
+						&file.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&p.opt;</term>
 
-				<listitem>Produces profiling data for use with &prof; on those
-					machines for which this command is available.</listitem>
+				<listitem>
+					<para>Produces profiling data for use with &prof; on those
+						machines for which this command is available.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&q.opt;</term>
 				<term>&quiet.opt;</term>
 
-				<listitem>Specifies that &tcc; should work silently.
-					This is the default.</listitem>
+				<listitem>
+					<para>Specifies that &tcc; should work silently.
+						This is the default.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&query.opt;</term>
 
-				<listitem>Causes &tcc; to print a list of all the options it
-					recognises, together with a brief description of each.
-					Since this list is automatically generated it is likely to
-					be more accurate than this manual page.</listitem>
+				<listitem>
+					<para>Causes &tcc; to print a list of all the options it
+						recognises, together with a brief description of each.
+						Since this list is automatically generated it is likely to
+						be more accurate than this manual page.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&s1.opt;</term>
 
-				<listitem>Passed to the system linker.</listitem>
+				<listitem>
+					<para>Passed to the system linker.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&s2.opt;</term>
 
-				<listitem>Specifies that files with suffix &suffix.arg; are
-					interpreted as having type indicated by
-					&letter.arg;.</listitem>
+				<listitem>
+					<para>Specifies that files with suffix &suffix.arg; are
+						interpreted as having type indicated by
+						&letter.arg;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&show_env.opt;</term>
 
-				<listitem>Prints the &tcc; environments path.
-					This is a list of directories separated by colons.
-					The first element of the list is always the system default
-					environments directory and the last element is always the
-					current working directory.
-					The other elements may be specified by the user by means of
-					the <varname>TCCENV</varname> system variable.</listitem>
+				<listitem>
+					<para>Prints the &tcc; environments path.
+						This is a list of directories separated by colons.
+						The first element of the list is always the system default
+						environments directory and the last element is always the
+						current working directory.
+						The other elements may be specified by the user by means of
+						the <varname>TCCENV</varname> system variable.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&show_errors.opt;</term>
 
-				<listitem>Makes &tcc; report on the command it was executing
-					when an error occurred.</listitem>
+				<listitem>
+					<para>Makes &tcc; report on the command it was executing
+						when an error occurred.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&special.opt;</term>
 
-				<listitem>Allows various internal options to be
-					specified.</listitem>
+				<listitem>
+					<para>Allows various internal options to be
+						specified.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&startup.opt;</term>
 
-				<listitem>Causes &str.arg; to be printed to the &tcc; built-in
-					start-up file.</listitem>
+				<listitem>
+					<para>Causes &str.arg; to be printed to the &tcc; built-in
+						start-up file.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -1257,108 +1403,138 @@
 			<varlistentry>
 				<term>&target.opt;</term>
 
-				<listitem>No effect (allowed for compatibility with &cc;
-					on some systems).</listitem>
+				<listitem>
+					<para>No effect (allowed for compatibility with &cc;
+						on some systems).</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&temp.opt;</term>
 
-				<listitem>Specifies that &tcc; should use &dir.arg; as its
-					temporary directory.</listitem>
+				<listitem>
+					<para>Specifies that &tcc; should use &dir.arg; as its
+						temporary directory.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&tidy.opt;</term>
 
-				<listitem>Causes &tcc; to remove its intermediate files when
-					they are no longer required rather than waiting to the end
-					of the compilation.</listitem>
+				<listitem>
+					<para>Causes &tcc; to remove its intermediate files when
+						they are no longer required rather than waiting to the end
+						of the compilation.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&time.opt;</term>
 
-				<listitem>Makes &tcc; print information on what system commands
-					it is executing (as with verbose mode) followed by the time
-					taken for each.</listitem>
+				<listitem>
+					<para>Makes &tcc; print information on what system commands
+						it is executing (as with verbose mode) followed by the time
+						taken for each.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&u.opt;</term>
 
-				<listitem>Passed to the system linker.</listitem>
+				<listitem>
+					<para>Passed to the system linker.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&v.opt;</term>
 				<term>&verbose.opt;</term>
 
-				<listitem>Specifies that &tcc; should work in verbose mode,
-					sending information on what system commands it is executing
-					to the standard output.</listitem>
+				<listitem>
+					<para>Specifies that &tcc; should work in verbose mode,
+						sending information on what system commands it is executing
+						to the standard output.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&vb.opt;</term>
 
-				<listitem>Causes the name of each input file to be printed
-					as it is processed.</listitem>
+				<listitem>
+					<para>Causes the name of each input file to be printed
+						as it is processed.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&vd.opt;</term>
 
-				<listitem>Causes a dump of the environment information tcc
-					got hold of.</listitem>
+				<listitem>
+					<para>Causes a dump of the environment information tcc
+						got hold of.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&ve.opt;</term>
 
-				<listitem>Causes verbose information about tool chain
-					environment to be printed.</listitem>
+				<listitem>
+					<para>Causes verbose information about tool chain
+						environment to be printed.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&vt.opt;</term>
 
-				<listitem>Causes verbose information about tool chain
-					invocation to be printed.</listitem>
+				<listitem>
+					<para>Causes verbose information about tool chain
+						invocation to be printed.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&version.opt;</term>
 
-				<listitem>Makes &tcc; report its version number.</listitem>
+				<listitem>
+					<para>Makes &tcc; report its version number.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&w.opt;</term>
 
-				<listitem>Suppresses all &tcc; warning messages.</listitem>
+				<listitem>
+					<para>Suppresses all &tcc; warning messages.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&work.opt;</term>
 
-				<listitem>Specifies that all preserved intermediate files
-					are placed in the directory &dir.arg;
-					rather than where they are placed by default,
-					in the current working directory.</listitem>
+				<listitem>
+					<para>Specifies that all preserved intermediate files
+						are placed in the directory &dir.arg;
+						rather than where they are placed by default,
+						in the current working directory.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&wsl.opt;</term>
 
-				<listitem>Tells the &tdf; translator to make all string
-					literals writable.</listitem>
+				<listitem>
+					<para>Tells the &tdf; translator to make all string
+						literals writable.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>&z.opt;</term>
 
-				<listitem>Passed to the system linker.</listitem>
+				<listitem>
+					<para>Passed to the system linker.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>
@@ -1370,146 +1546,188 @@
 			<varlistentry>
 				<term><filename>file.c</filename></term>
 
-				<listitem>C source file</listitem>
+				<listitem>
+					<para>C source file</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.i</filename></term>
 
-				<listitem>Preprocessed C source file</listitem>
+				<listitem>
+					<para>Preprocessed C source file</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.C</filename></term>
 
-				<listitem>C++ source file
-					(only if <option>-Y</option><literal>c++</literal>
-					is specified)</listitem>
+				<listitem>
+					<para>C++ source file
+						(only if <option>-Y</option><literal>c++</literal>
+						is specified)</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.I</filename></term>
 
-				<listitem>Preprocessed C++ source file
-					(only if <option>-Y</option><literal>c++</literal>
-					is specified)</listitem>
+				<listitem>
+					<para>Preprocessed C++ source file
+						(only if <option>-Y</option><literal>c++</literal>
+						is specified)</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.j</filename></term>
 
-				<listitem>Target independent &tdf; capsule</listitem>
+				<listitem>
+					<para>Target independent &tdf; capsule</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.t</filename></term>
 
-				<listitem>Target dependent &tdf; capsule</listitem>
+				<listitem>
+					<para>Target dependent &tdf; capsule</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.s</filename></term>
 
-				<listitem>Assembly source file</listitem>
+				<listitem>
+					<para>Assembly source file</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.o</filename></term>
 
-				<listitem>Binary object file</listitem>
+				<listitem>
+					<para>Binary object file</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.d</filename></term>
 
-				<listitem>TenDRA dump file</listitem>
+				<listitem>
+					<para>TenDRA dump file</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.K</filename></term>
 
-				<listitem>C++ spec file
-					(only if <option>-Y</option><literal>c++</literal>
-					is specified)</listitem>
+				<listitem>
+					<para>C++ spec file
+						(only if <option>-Y</option><literal>c++</literal>
+						is specified)</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.p</filename></term>
 
-				<listitem>Pretty-printed &tdf; capsule</listitem>
+				<listitem>
+					<para>Pretty-printed &tdf; capsule</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.tpl</filename></term>
 
-				<listitem>&pl_tdf; source file
-					(only if <option>-Y</option><literal>pl_tdf</literal>
-					is specified)</listitem>
+				<listitem>
+					<para>&pl_tdf; source file
+						(only if <option>-Y</option><literal>pl_tdf</literal>
+						is specified)</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.ta</filename></term>
 
-				<listitem>&tdf; archive</listitem>
+				<listitem>
+					<para>&tdf; archive</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.G</filename></term>
 
-				<listitem>Binasm source file
-					(Mips and Alpha only)</listitem>
+				<listitem>
+					<para>Binasm source file (Mips and Alpha only)</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>file.T</filename></term>
 
-				<listitem>Assembler symbol table
-					(Mips and Alpha only)</listitem>
+				<listitem>
+					<para>Assembler symbol table (Mips and Alpha only)</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>a.out</filename></term>
 
-				<listitem>Default executable name</listitem>
+				<listitem>
+					<para>Default executable name</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>a.ta</filename></term>
 
-				<listitem>Default &tdf; archive name</listitem>
+				<listitem>
+					<para>Default &tdf; archive name</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>a.d</filename></term>
 
-				<listitem>Default dump file name</listitem>
+				<listitem>
+					<para>Default dump file name</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>a.api</filename></term>
 
-				<listitem>Default &api; usage analysis file name</listitem>
+				<listitem>
+					<para>Default &api; usage analysis file name</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>a.j</filename></term>
 
-				<listitem>Default output file for merge-&tdf;-capsules
-					option</listitem>
+				<listitem>
+					<para>Default output file for merge-&tdf;-capsules
+						option</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>tcc_startup.h</filename></term>
 
-				<listitem>Name of preserved &tcc; start-up file</listitem>
+				<listitem>
+					<para>Name of preserved &tcc; start-up file</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term><filename>/tmp/tcc*</filename></term>
 
-				<listitem>Temporary directory (this may be changed using
-					the <varname>TMPDIR</varname> system variable, see
-					&tempnam.3;).</listitem>
+				<listitem>
+					<para>Temporary directory (this may be changed using
+						the <varname>TMPDIR</varname> system variable, see
+						&tempnam.3;).</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

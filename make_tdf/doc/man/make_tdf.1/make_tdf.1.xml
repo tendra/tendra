@@ -69,7 +69,7 @@
 
 	<refnamediv>
 		<refname>make_tdf</refname>
-		<refpurpose>&tdf; I/O generator</refpurpose>
+		<refpurpose>TDF I/O generator</refpurpose>
 	</refnamediv>
 
 	<refsynopsisdiv>

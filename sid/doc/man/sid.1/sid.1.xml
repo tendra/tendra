@@ -93,7 +93,7 @@
 	</refmeta>
 
 	<refnamediv id="name">
-		<refname>&sid;</refname>
+		<refname>SID</refname>
 		<refpurpose>Syntax Improving Device; parser generator</refpurpose>
 	</refnamediv>
 
@@ -143,16 +143,12 @@
 			<command>sid</command>
 
 			<group choice="req">
-				<group choice="plain">
-					<arg choice="plain">&h.opt;</arg>
-					<arg choice="plain">&q.opt;</arg>
-					<arg choice="plain">&help.opt;</arg>
-				</group>
+				<arg choice="plain">&h.opt;</arg>
+				<arg choice="plain">&q.opt;</arg>
+				<arg choice="plain">&help.opt;</arg>
 
-				<group choice="plain">
-					<arg choice="plain">&v.opt;</arg>
-					<arg choice="plain">&version.opt;</arg>
-				</group>
+				<arg choice="plain">&v.opt;</arg>
+				<arg choice="plain">&version.opt;</arg>
 			</group>
 		</cmdsynopsis>
 	</refsynopsisdiv>
@@ -222,126 +218,147 @@
 	<refsection>
 		<title>Options</title>
 
-		<para>&sid; accepts the following command line options:
+		<para>&sid; accepts the following command line options:</para>
 
-			<variablelist>
-				<varlistentry>
-					<term>&dump-file.opt;</term>
-					<term>&d.opt;</term>
+		<variablelist>
+			<varlistentry>
+				<term>&dump-file.opt;</term>
+				<term>&d.opt;</term>
 
-					<listitem>
-						<para>This option causes intermediate dumps of the
-							grammar to be written to the file &file.arg;.
-							The format of the dump files is similar to the
-							format of the grammar specification, with the
-							following exceptions:</para>
+				<listitem>
+					<para>This option causes intermediate dumps of the
+						grammar to be written to the file &file.arg;.
+						The format of the dump files is similar to the
+						format of the grammar specification, with the
+						following exceptions:</para>
 
-						<itemizedlist>
-							<listitem>
-								<para>Predicates are written with the predicate
-									result replaced by the predicate identifier
-									(this will always be zero), and the result
-									is followed by a <code>?</code> to indicate
-									that it was a predicate.
-									As an example, the predicate:</para>
+					<itemizedlist>
+						<listitem>
+							<para>Predicates are written with the predicate
+								result replaced by the predicate identifier
+								(this will always be zero), and the result
+								is followed by a <code>?</code> to indicate
+								that it was a predicate.
+								As an example, the predicate:</para>
 
-								<programlisting language="SID Grammar">( b, ? ) = &lt;pred&gt; ( a )</programlisting>
+							<programlisting language="sid">( b, ? ) = &lt;pred&gt; ( a )</programlisting>
 
-								<para>would be printed out as:</para>
+							<para>would be printed out as:</para>
 
-								<programlisting language="SID Grammar">( b : Type1T, 0 : Type2T ) ? = &lt;pred&gt; ( a : Type3T )</programlisting>
-							</listitem>
+							<programlisting language="sid">( b : Type1T, 0 : Type2T ) ? = &lt;pred&gt; ( a : Type3T )</programlisting>
+						</listitem>
 
-							<listitem>Items that are considered to be inlinable
+						<listitem>
+							<para>Items that are considered to be inlinable
 								are prefixed by a <code>+</code>.
 								Items that are tail calls which will be
-								eliminated are prefixed by a <code>*</code>.</listitem>
+								eliminated are prefixed by a <code>*</code>.</para>
+						</listitem>
 
-							<listitem>Nested rules are written at the outer
+						<listitem>
+							<para>Nested rules are written at the outer
 								level, with names of the form
-								<code><replaceable>outer-rule</replaceable>::<replaceable>....</replaceable>::<replaceable>inner-rule</replaceable></code>.</listitem>
+								<code><replaceable>outer-rule</replaceable>::<replaceable>....</replaceable>::<replaceable>inner-rule</replaceable></code>.</para>
+						</listitem>
 
-							<listitem>Types are provided on call parameter and
-								result tuples.</listitem>
+						<listitem>
+							<para>Types are provided on call parameter and
+								result tuples.</para>
+						</listitem>
 
-							<listitem>Inline rules are given a generated name,
+						<listitem>
+							<para>Inline rules are given a generated name,
 								and are written out as a call to the generated
-								rule (and a definition elsewhere).</listitem>
-						</itemizedlist>
-					</listitem>
-				</varlistentry>
+								rule (and a definition elsewhere).</para>
+						</listitem>
+					</itemizedlist>
+				</listitem>
+			</varlistentry>
 
-				<varlistentry>
-					<term>&factor-limit.opt;</term>
-					<term>&f.opt;</term>
+			<varlistentry>
+				<term>&factor-limit.opt;</term>
+				<term>&f.opt;</term>
 
-					<listitem>This option limits the number of rules that can be
+				<listitem>
+					<para>This option limits the number of rules that can be
 						created during the factorisation process.
-						It is probably best not to change this.</listitem>
-				</varlistentry>
+						It is probably best not to change this.</para>
+				</listitem>
+			</varlistentry>
 
-				<varlistentry>
-					<term>&q.opt;</term>
-					<term>&h.opt;</term>
-					<term>&help.opt;</term>
+			<varlistentry>
+				<term>&q.opt;</term>
+				<term>&h.opt;</term>
+				<term>&help.opt;</term>
 
-					<listitem>This option writes a summary of the command line
-						options to the standard error stream.</listitem>
-				</varlistentry>
+				<listitem>
+					<para>This option writes a summary of the command line
+						options to the standard error stream.</para>
+				</listitem>
+			</varlistentry>
 
-				<varlistentry>
-					<term>&inline.opt;</term>
-					<term>&i.opt;</term>
+			<varlistentry>
+				<term>&inline.opt;</term>
+				<term>&i.opt;</term>
 
-					<listitem>
-						<para>This option controls what inlining will be done
-							in the output parser.  The inlines argument should
-							be a comma seperated list of the following words:</para>
+				<listitem>
+					<para>This option controls what inlining will be done
+						in the output parser.  The inlines argument should
+						be a comma seperated list of the following words:</para>
 
-						<variablelist>
-							<varlistentry>
-								<term><literal>SINGLES</literal></term>
+					<variablelist>
+						<varlistentry>
+							<term><literal>SINGLES</literal></term>
 
-								<listitem>This causes single alternative rules
+							<listitem>
+								<para>This causes single alternative rules
 									to be inlined.
 									This inlining is no longer performed as a
 									modification to the grammar
-									(it was in version 1.0).</listitem>
-							</varlistentry>
+									(it was in version 1.0).</para>
+							</listitem>
+						</varlistentry>
 
-							<varlistentry>
-								<term><literal>BASICS</literal></term>
+						<varlistentry>
+							<term><literal>BASICS</literal></term>
 
-								<listitem>This causes rules that contain only
+							<listitem>
+								<para>This causes rules that contain only
 									basics (and no exception handlers or
 									empty alternatives) to be inlined.
 									The restriction on exception handlers
 									and empty alternatives is rather
-									arbitrary, and may be changed later.</listitem>
-							</varlistentry>
+									arbitrary, and may be changed later.</para>
+							</listitem>
+						</varlistentry>
 
-							<varlistentry>
-								<term><literal>TAIL</literal></term>
+						<varlistentry>
+							<term><literal>TAIL</literal></term>
 
-								<listitem>This causes tail recursive calls to
+							<listitem>
+								<para>This causes tail recursive calls to
 									be inlined.	Without this, tail recursion
-									elimination will not be performed.</listitem>
-							</varlistentry>
+									elimination will not be performed.</para>
+							</listitem>
+						</varlistentry>
 
-							<varlistentry>
-								<term><literal>OTHER</literal></term>
+						<varlistentry>
+							<term><literal>OTHER</literal></term>
 
-								<listitem>This causes other calls to be inlined
+							<listitem>
+								<para>This causes other calls to be inlined
 									wherever possible.	Unless the
 									<literal>MULTI</literal> inlining is
 									also specified, this will be done only for
-									productions that are called once.</listitem>
-							</varlistentry>
+									productions that are called once.</para>
+							</listitem>
+						</varlistentry>
 
-							<varlistentry>
-								<term><literal>MULTI</literal></term>
+						<varlistentry>
+							<term><literal>MULTI</literal></term>
 
-								<listitem>This causes calls to be inlined,
+							<listitem>
+								<para>This causes calls to be inlined,
 									even if the rule being called is called
 									more than once.	Turning this inlining on
 									implies <literal>OTHER</literal>.	Similarly
@@ -350,144 +367,152 @@
 									For grammars of any size, this is probably
 									best avoided; if used the generated parser may
 									be huge (e.g. a C grammar has produced a file that
-									was several hundred MB in size).</listitem>
-							</varlistentry>
+									was several hundred MB in size).</para>
+							</listitem>
+						</varlistentry>
 
-							<varlistentry>
-								<term><literal>ALL</literal></term>
+						<varlistentry>
+							<term><literal>ALL</literal></term>
 
-								<listitem>This turns on all inlining.</listitem>
-							</varlistentry>
-						</variablelist>
+							<listitem>
+								<para>This turns on all inlining.</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
 
-						<para>In addition, prefixing a word with <quote>no</quote>
-							turns off that inlining phase.	The words may be
-							given in any case.
-							They are evaluated in the order given, so:</para>
+					<para>In addition, prefixing a word with <quote>no</quote>
+						turns off that inlining phase.	The words may be
+						given in any case.
+						They are evaluated in the order given, so:</para>
 
-						<para><literal>-inline noall,singles</literal></para>
+					<para><literal>-inline noall,singles</literal></para>
 
-						<para>would turn on single alternative rule inlining
-							only, whilst:</para>
+					<para>would turn on single alternative rule inlining
+						only, whilst:</para>
 
-						<para><literal>-inline singles,noall</literal></para>
+					<para><literal>-inline singles,noall</literal></para>
 
-						<para>would turn off all inlining.
-							The default is as if &sid; were invoked with the
-							option:</para>
+					<para>would turn off all inlining.
+						The default is as if &sid; were invoked with the
+						option:</para>
 
-						<screen>-inline noall,basics,tail</screen>
-					</listitem>
-				</varlistentry>
+					<screen>-inline noall,basics,tail</screen>
+				</listitem>
+			</varlistentry>
 
-				<varlistentry>
-					<term>&language.opt;</term>
-					<term>&l.opt;</term>
+			<varlistentry>
+				<term>&language.opt;</term>
+				<term>&l.opt;</term>
 
-					<listitem>
-						<para>This option specifies the output language.
-							Currently this should be one of the following:</para>
+				<listitem>
+					<para>This option specifies the output language.
+						Currently this should be one of the following:</para>
 
-						<table>
-							<col align="left"/>
-							<col align="left"/>
-							<col align="left"/>
-							<col align="left"/>
+					<table>
+						<col align="left"/>
+						<col align="left"/>
+						<col align="left"/>
+						<col align="left"/>
 
-							<thead>
-								<tr>
-									<th>Language</th>
-									<th>Input&nbsp;files</th>
-									<th>Output&nbsp;files</th>
-									<th>Description</th>
-								</tr>
-							</thead>
+						<thead>
+							<tr>
+								<th>Language</th>
+								<th>Input&nbsp;files</th>
+								<th>Output&nbsp;files</th>
+								<th>Description</th>
+							</tr>
+						</thead>
 
-							<tbody>
-								<tr>
-									<td>&ansi-c.lit;</td>
-									<td>&sid.ext;, &act.ext;</td>
-									<td>&c.ext;, &h.ext;</td>
-									<td>Generated parser in &ansi; standard C.</td>
-								</tr>
-								<tr>
-									<td>&pre-ansi-c.lit;</td>
-									<td>&sid.ext;, &act.ext;</td>
-									<td>&c.ext;, &h.ext;</td>
-									<td>Same as &ansi-c.lit;, sans prototypes.</td>
-								</tr>
-								<tr>
-									<td>&test.lit;</td>
-									<td>&sid.ext;</td>
-									<td role="na" align="center">&ndash;</td>
-									<td>For testing grammars.</td>
-								</tr>
-								<tr>
-									<td>&bnf.lit;</td>
-									<td>&sid.ext;</td>
-									<td>&bnf.ext;</td>
-									<td>&bnf; grammar output.</td>
-								</tr>
-							</tbody>
-						</table>
+						<tbody>
+							<tr>
+								<td>&ansi-c.lit;</td>
+								<td>&sid.ext;, &act.ext;</td>
+								<td>&c.ext;, &h.ext;</td>
+								<td>Generated parser in &ansi; standard C.</td>
+							</tr>
+							<tr>
+								<td>&pre-ansi-c.lit;</td>
+								<td>&sid.ext;, &act.ext;</td>
+								<td>&c.ext;, &h.ext;</td>
+								<td>Same as &ansi-c.lit;, sans prototypes.</td>
+							</tr>
+							<tr>
+								<td>&test.lit;</td>
+								<td>&sid.ext;</td>
+								<td role="na" align="center">&ndash;</td>
+								<td>For testing grammars.</td>
+							</tr>
+							<tr>
+								<td>&bnf.lit;</td>
+								<td>&sid.ext;</td>
+								<td>&bnf.ext;</td>
+								<td>&bnf; grammar output.</td>
+							</tr>
+						</tbody>
+					</table>
 
-						<para>The default is &ansi-c.lit;.</para>
+					<para>The default is &ansi-c.lit;.</para>
 
-						<para>The &ansi-c.lit; and &pre-ansi-c.lit;
-							languages are basically the same.	The only
-							difference is that &ansi-c.lit; initially
-							uses function prototypes, and &pre-ansi-c.lit;
-							doesn't.	Each language takes two input files, a
-							grammar file and an actions file, and produces two
-							output files, a C source file containing the
-							generated parser and a C header file containing
-							the external declarations for the parser.</para>
+					<para>The &ansi-c.lit; and &pre-ansi-c.lit;
+						languages are basically the same.	The only
+						difference is that &ansi-c.lit; initially
+						uses function prototypes, and &pre-ansi-c.lit;
+						doesn't.	Each language takes two input files, a
+						grammar file and an actions file, and produces two
+						output files, a C source file containing the
+						generated parser and a C header file containing
+						the external declarations for the parser.</para>
 
-						<para>The &test.lit; language only takes one
-							input file, and produces no output file.
-							It may be used to check that a grammar is valid.
-							In conjunction with the dump file, it may be used
-							to check the transformations that would be applied
-							to the grammar.	There are no language specific options
-							for the &test.lit; language.</para>
+					<para>The &test.lit; language only takes one
+						input file, and produces no output file.
+						It may be used to check that a grammar is valid.
+						In conjunction with the dump file, it may be used
+						to check the transformations that would be applied
+						to the grammar.	There are no language specific options
+						for the &test.lit; language.</para>
 
-						<para>The &bnf.lit; language takes one input
-							file (the grammar) and produces one output file.
-							It is intended to provide a convenient means to
-							convert &sid; grammars into other formats, or to
-							inspect their contents in a simpler form.</para>
-					</listitem>
-				</varlistentry>
+					<para>The &bnf.lit; language takes one input
+						file (the grammar) and produces one output file.
+						It is intended to provide a convenient means to
+						convert &sid; grammars into other formats, or to
+						inspect their contents in a simpler form.</para>
+				</listitem>
+			</varlistentry>
 
-				<varlistentry>
-					<term>&switch.opt;</term>
-					<term>&s.opt;</term>
+			<varlistentry>
+				<term>&switch.opt;</term>
+				<term>&s.opt;</term>
 
-					<listitem>Pass through &opt.arg; as a language-specific
+				<listitem>
+					<para>Pass through &opt.arg; as a language-specific
 						option. The valid options are described
-						below.<!-- TODO: link --></listitem>
-				</varlistentry>
+						below.<!-- TODO: link --></para>
+				</listitem>
+			</varlistentry>
 
-				<varlistentry>
-					<term>&tab-width.opt;</term>
-					<term>&t.opt;</term>
+			<varlistentry>
+				<term>&tab-width.opt;</term>
+				<term>&t.opt;</term>
 
-					<listitem>This option specifies the number of spaces that a
+				<listitem>
+					<para>This option specifies the number of spaces that a
 						tab occupies.
 						It defaults to 8.
-						It is only used when indenting output.</listitem>
-				</varlistentry>
+						It is only used when indenting output.</para>
+				</listitem>
+			</varlistentry>
 
-				<varlistentry>
-					<term>&version.opt;</term>
-					<term>&v.opt;</term>
+			<varlistentry>
+				<term>&version.opt;</term>
+				<term>&v.opt;</term>
 
-					<listitem>This option causes the version number
+				<listitem>
+					<para>This option causes the version number
 						and supported languages to be written to the
-						standard error stream.</listitem>
-				</varlistentry>
-			</variablelist>
-		</para>
+						standard error stream.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsection>
 
 	<refsection>
@@ -504,9 +529,11 @@
 				<term><option>no-prototypes</option></term>
 				<term><option>no-proto</option></term>
 
-				<listitem>These enable or disable the use of function
-					prototypes. By default this is enabled for
-					&ansi-c.lit; and disabled for &pre-ansi-c.lit;.</listitem>
+				<listitem>
+					<para>These enable or disable the use of function
+						prototypes. By default this is enabled for
+						&ansi-c.lit; and disabled for &pre-ansi-c.lit;.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -514,14 +541,16 @@
 				<term><option>split</option>&equal.lit;&num.arg;</term>
 				<term><option>no-split</option></term>
 
-				<listitem>These enable or disable the output file split option.
-					The generated files can be very large even without inlining.
-					This option splits the main output file into a number of
-					components containing about &num.arg; lines each
-					(the default being 50000).
-					These components are distinguished by successively
-					substituting 1, 2, 3, ... for the character
-					<literal>@</literal> in the output file name.</listitem>
+				<listitem>
+					<para>These enable or disable the output file split option.
+						The generated files can be very large even without inlining.
+						This option splits the main output file into a number of
+						components containing about &num.arg; lines each
+						(the default being 50000).
+						These components are distinguished by successively
+						substituting 1, 2, 3, ... for the character
+						<literal>@</literal> in the output file name.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -530,14 +559,16 @@
 				<term><option>no-numeric-ids</option></term>
 				<term><option>no-numeric</option></term>
 
-				<listitem>These enable or disable the use of numeric identifiers.
-					Numeric identifiers replace the identifier name with a
-					number, which is mainly of use in stopping identifier names
-					getting too long.
-					The disadvantage is that the code becomes less readable, and
-					more difficult to debug.
-					Numeric identifiers are not used by default and are never
-					used for terminal numbers.</listitem>
+				<listitem>
+					<para>These enable or disable the use of numeric identifiers.
+						Numeric identifiers replace the identifier name with a
+						number, which is mainly of use in stopping identifier names
+						getting too long.
+						The disadvantage is that the code becomes less readable, and
+						more difficult to debug.
+						Numeric identifiers are not used by default and are never
+						used for terminal numbers.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -546,19 +577,21 @@
 				<term><option>no-casts</option></term>
 				<term><option>no-cast</option></term>
 
-				<listitem>These enable or disable casting of action
-					and assignment operator immutable parameters.
-					If enabled, a parameter is cast to its own type
-					when it is substituted into the action.	This
-					will cause some compilers to complain about
-					attempts to modify the parameter (which can help pick
-					out attempts at mutating parameters that should
-					not be mutated).	The disadvantage is that not
-					all compilers will reject attempts at mutation,
-					and that &ansi; doesn't allow casting to
-					structure and union types, which
-					means that some code may be illegal.
-					Parameter casting is disabled by default.</listitem>
+				<listitem>
+					<para>These enable or disable casting of action
+						and assignment operator immutable parameters.
+						If enabled, a parameter is cast to its own type
+						when it is substituted into the action.	This
+						will cause some compilers to complain about
+						attempts to modify the parameter (which can help pick
+						out attempts at mutating parameters that should
+						not be mutated).	The disadvantage is that not
+						all compilers will reject attempts at mutation,
+						and that &ansi; doesn't allow casting to
+						structure and union types, which
+						means that some code may be illegal.
+						Parameter casting is disabled by default.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -567,11 +600,13 @@
 				<term><option>unreachable-comments</option></term>
 				<term><option>unreachable-comment</option></term>
 
-				<listitem>These choose whether unreachable code is marked by
-					a macro or a comment.  The default is to mark
-					unreachable code with a comment, <code>/*UNREACHED*/</code>,
-					however a macro <code>UNREACHED;</code> may be used
-					instead, if desired.</listitem>
+				<listitem>
+					<para>These choose whether unreachable code is marked by
+						a macro or a comment.  The default is to mark
+						unreachable code with a comment, <code>/*UNREACHED*/</code>,
+						however a macro <code>UNREACHED;</code> may be used
+						instead, if desired.</para>
+				</listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -580,10 +615,12 @@
 				<term><option>no-lines</option></term>
 				<term><option>no-line</option></term>
 
-				<listitem>These determine whether <code>#line</code>
-					directives should be output to relate the
-					output file to the actions file.
-					These are generated by default.</listitem>
+				<listitem>
+					<para>These determine whether <code>#line</code>
+						directives should be output to relate the
+						output file to the actions file.
+						These are generated by default.</para>
+				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsection>

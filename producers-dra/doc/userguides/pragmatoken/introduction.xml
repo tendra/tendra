@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter>
 	<title>Introduction</title>
@@ -27,12 +26,13 @@
 	<para>As an example of the power of the token syntax consider the
 		program below:</para>
 
-	<programlisting language="C">
-#pragma token TYPE FILE#
+	<programlisting language="c">#pragma token TYPE FILE#
 #pragma token EXP rvalue:FILE *:stderr#
+
 int fprintf(FILE *, const char *, ...);
+
 void f(void) {
-	fprintf(stderr,"hello world\n");
+	fprintf(stderr, "hello world\n");
 }</programlisting>
 
 	<para>The first line of the program introduces a token, <code>FILE</code>,
@@ -57,8 +57,8 @@ void f(void) {
 		information about an undefined token. In this way many errors
 		resulting from inadvertent use of a definition present on the
 		developer's system can be detected. For example, developers often
-		assume that the type FILE will be implemented by a structure type
-		when in fact the ISO C standard permits the implementation of FILE
+		assume that the type <code>FILE</code> will be implemented by a structure type
+		when in fact the &iso; C standard permits the implementation of <code>FILE</code>
 		by any type. In the program above, any attempt to access members of
 		stderr would cause the compiler to raise an error.</para>
 </chapter>

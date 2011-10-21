@@ -1,8 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-	<!ENTITY tdf "<acronym>TDF</acronym>">
-]>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="S1">
 	<title>Introduction</title>
@@ -17,7 +14,7 @@
 		These are as follows:</para>
 
 	<table>
-		<col align="left"/>
+		<col align="center"/>
 		<col align="left"/>
 
 		<thead>
@@ -29,19 +26,19 @@
 
 		<tbody>
 			<tr>
-				<td><emphasis>decode</emphasis></td>
+				<td><code>decode</code></td>
 				<td>Translate an input &tdf; capsule into the <code>tnc</code> internal representation.</td>
 			</tr>
 			<tr>
-				<td><emphasis>read</emphasis></td>
+				<td><code>read</code></td>
 				<td>Translate an input text file into the internal representation.</td>
 			</tr>
 			<tr>
-				<td><emphasis>encode</emphasis></td>
+				<td><code>encode</code></td>
 				<td>Translate the internal representation into an output &tdf; capsule.</td>
 			</tr>
 			<tr>
-				<td><emphasis>write</emphasis></td>
+				<td><code>write</code></td>
 				<td>Translate the internal representation into an output text file.</td>
 			</tr>
 		</tbody>
@@ -49,39 +46,40 @@
 
 	<para>Due to the modular nature of the program it is possible to form versions
 		of <code>tnc</code> in which not all the modes are available. Passing
-		the <emphasis>-version</emphasis> flag to <code>tnc</code> causes it to report which
+		the <code>-version</code> flag to <code>tnc</code> causes it to report which
 		modes it has implemented.</para>
 
 	<para>Any application of <code>tnc</code> consists of the composite of an
-		input mode and an output mode. The default action is <emphasis>read</emphasis>-<emphasis>encode</emphasis>,
+		input mode and an output mode. The default action is <code>read</code>-<code>encode</code>,
 		i.e. translate an input test file into an output &tdf; capsule. Other
 		modes may be specified by passing the following command line options
 		to <code>tnc</code>:</para>
 
-	<literallayout><emphasis>-decode</emphasis> or <emphasis>-d</emphasis>
-		<emphasis>-read</emphasis> or <emphasis>-r</emphasis>
-		<emphasis>-encode</emphasis> or <emphasis>-e</emphasis>
-		<emphasis>-write</emphasis> or <emphasis>-w</emphasis></literallayout>
+	<literallayout><code>-decode</code> or <code>-d</code>
+		<code>-read</code> or <code>-r</code>
+		<code>-encode</code> or <code>-e</code>
+		<code>-write</code> or <code>-w</code></literallayout>
 
-	<para>The only other really useful action is <emphasis>decode</emphasis>-<emphasis>write</emphasis>,
+	<para>The only other really useful action is <code>decode</code>-<code>write</code>,
 		i.e. translate an input &tdf; capsule into an output text file. This
-		may also be specified by the <emphasis>-print</emphasis> or <emphasis>-p</emphasis> option. The
-		actions <emphasis>decode</emphasis>-<emphasis>encode</emphasis> and <emphasis>read</emphasis>-<emphasis>write</emphasis> are
+		may also be specified by the <code>-print</code> or <code>-p</code> option. The
+		actions <code>decode</code>-<code>encode</code> and <code>read</code>-<code>write</code> are
 		not precise identities, they do however give equivalent input and
 		output files.</para>
 
-	<para>In addition, the <emphasis>decode</emphasis> mode may be modified to accept a &tdf;
+	<para>In addition, the <code>decode</code> mode may be modified to accept a &tdf;
 		library as input rather than a &tdf; capsule by passing the additional
 		flag:</para>
 
-	<literallayout><emphasis>-lib</emphasis> or <emphasis>-l</emphasis></literallayout>
+	<literallayout><code>-lib</code> or <code>-l</code></literallayout>
 
 	<para>to <code>tnc</code>.</para>
 
-	<para>The overall syntax for <code>tnc</code> is as follows:
+	<para>The overall syntax for <code>tnc</code> is as follows:</para>
 
-<programlisting>tnc [ options ... ] input_file [ output_file ]</programlisting>
+	<!-- TODO: just link to the manpage instead -->
+	<screen>% tnc [ options ... ] input_file [ output_file ]</screen>
 
-		If the output file is not specified, the standard output is used.</para>
+	<para>If the output file is not specified, the standard output is used.</para>
 </chapter>
 

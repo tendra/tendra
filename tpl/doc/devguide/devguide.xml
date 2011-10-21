@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE article SYSTEM "minidocbook.dtd">
 
 <!-- $Id$ -->
 
@@ -8,11 +7,15 @@
 	<articleinfo>
 		<title>TPL - A Tool for producing TDF</title>
 
-		<othercredit class="copyeditor">
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</othercredit>
+		<authorgroup>
+			<othercredit class="copyeditor">
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</othercredit>
+
+			<!-- TODO: ... -->
+		</authorgroup>
 
 		<copyright>
 			<year>1998</year>
@@ -51,13 +54,13 @@
 		<para>To give a flavour of the intended use of the tool, in order to produce
 			the TDF for an assignment, one does:</para>
 
-		<programlisting language="C">o_assign(LHS, RHS)</programlisting>
+		<programlisting language="c">o_assign(LHS, RHS)</programlisting>
 
 		<para>where LHS and RHS are pieces of code which will output the EXPs for the
 			source and destination of the assignment. For example, LHS for a simple
 			variable as destination could be:</para>
 
-		<programlisting language="C">o_obtain_tag(o_make_tag(out_tdfint32(A)))</programlisting>
+		<programlisting language="c">o_obtain_tag(o_make_tag(out_tdfint32(A)))</programlisting>
 
 		<para>where A is the number chosen by the compiler for the variable. Of course,
 			it is unlikely that a compiler would do this directly. LHS will usually be
@@ -68,7 +71,7 @@
 
 		<para>The expansion of o_assign (see encodings.h) is:</para>
 
-		<programlisting language="C">#define o_assign(p_arg1,p_arg2)\
+		<programlisting language="c">#define o_assign(p_arg1,p_arg2)\
 {  out_basic_int(e_assign, 7);\
  p_arg1; ASSERT_SORT(s_exp); \
  p_arg2; ASSERT_SORT(s_exp); \
@@ -94,7 +97,7 @@ SET_RSORT(s_exp);\
 
 		<para>We have:</para>
 
-		<programlisting language="C">typedef struct { Chunk * first; Chunk * last;
+		<programlisting language="c">typedef struct { Chunk * first; Chunk * last;
 	 unsigned int no; unsigned int sort;} TDF;</programlisting>
 
 		<para>The no and sort fields are used to provide the SORT checking mechanism. The
@@ -104,7 +107,7 @@ SET_RSORT(s_exp);\
 
 		<para>A Chunk is given by:</para>
 
-		<programlisting language="C">typedef struct chunk_struct
+		<programlisting language="c">typedef struct chunk_struct
 
 { struct chunk_struct *next;
   short int usage;
@@ -147,7 +150,7 @@ SET_RSORT(s_exp);\
 		<para>To create a new stream of output in a variable of type TDF , use the macro
 			NEW_STREAM given in streams.h:</para>
 
-		<programlisting language="C">#define NEW_STREAM(ptrtoTDF, make_stream)\
+		<programlisting language="c">#define NEW_STREAM(ptrtoTDF, make_stream)\
 { TDF * hold_;\
   hold_ = current_TDF;\
   current_TDF = ptrtoTDF;\
@@ -161,23 +164,23 @@ SET_RSORT(s_exp);\
 			the current stream while the new stream is being produced, re-instating it
 			after it is finished. For example:</para>
 
-		<programlisting language="C">TDF new_stream;
+		<programlisting language="c">TDF new_stream;
 NEW_STREAM( &amp; new_stream, o_make_top)</programlisting>
 
 		<para>will produce a stream containing make_top in new_stream, leaving the
 			current stream unchanged. To add more to new_stream later, one would do:</para>
 
-		<programlisting language="C">CONT_STREAM( &amp; new_stream, more_bits)</programlisting>
+		<programlisting language="c">CONT_STREAM( &amp; new_stream, more_bits)</programlisting>
 
 		<para>Notice that NEW_STREAM(x,y) is just the same as:</para>
 
-		<programlisting language="C">CONT_STREAM(x,
+		<programlisting language="c">CONT_STREAM(x,
 	current_TDF->first = current_TDF->last = create_chunk(); y)</programlisting>
 
 		<para>Having constructed a new stream, it can be appended onto the current stream
 			using the procedure:</para>
 
-		<programlisting language="C">void append_TDF(TDF * tdf, Bool free_it)</programlisting>
+		<programlisting language="c">void append_TDF(TDF * tdf, Bool free_it)</programlisting>
 
 		<para>Here, free_it says whether the Chunks of tdf can be freed and reused. For
 			example, append_tdf( &amp; new_stream, 1) will append new_stream onto
@@ -189,7 +192,7 @@ NEW_STREAM( &amp; new_stream, o_make_top)</programlisting>
 
 		<para>A similar, more specialised, method of appending is given by:</para>
 
-		<programlisting language="C">void append_bytestream(TDF * tdf, Bool free_it)</programlisting>
+		<programlisting language="c">void append_bytestream(TDF * tdf, Bool free_it)</programlisting>
 
 		<para>which makes tdf into a BYTESTREAM and appends it onto current_TDF. This
 			would only be used for encoding a UNIT.</para>
@@ -201,7 +204,9 @@ NEW_STREAM( &amp; new_stream, o_make_top)</programlisting>
 		<para>The encoding macros of those construction which have encoding numbers
 			output the encoding number for the construction in the number of bits
 			appropriate to its SORT using:</para>
-			<programlisting language="C">void out_basic_int(long num, int bts)</programlisting>
+
+			<programlisting language="c">void out_basic_int(long num, int bts)</programlisting>
+
 			<para>num is output to current_TDF in bts bits. This is the most primitive output
 			routine and all the others use it, eg out_tdfint32 does the appropriate
 			number of out_basic_int(oct_digit, 4).</para>
@@ -217,18 +222,22 @@ NEW_STREAM( &amp; new_stream, o_make_top)</programlisting>
 		 <para>There are five procedures provided to give primitive encodings in
 			PD_streams.c:</para>
 
-		<programlisting language="C">void out_tdfint32(unsigned long n);
-	<comment>- outputs n as a TDFINT - assumes long is 32 bits.</comment>
+		<programlisting language="c">void out_tdfint32(unsigned long n);
+	/* outputs n as a TDFINT - assumes long is 32 bits. */
+
 void out_extendable_int(unsigned long num, unsigned int bts);
-	<comment>- outputs num as extentable encoding in bts bits (see spec 7.3.3)</comment>
+	/* outputs num as extentable encoding in bts bits (see spec 7.3.3) */
+
 void out_tdfbool(Bool b);
-	<comment>- outputs b as a TDFBOOL</comment>
+	/* outputs b as a TDFBOOL */
+
 void out_tdfstring_bytes (unsigned char * s, unsigned int k,
  					unsigned int n);
-	<comment>- outputs s as a TDFSTRING with k elements of size k bits.</comment>
+	/* outputs s as a TDFSTRING with k elements of size k bits. */
+
 void out_tdfident_bytes (unsigned char * s)
-	<comment>- outputs s as a TDFIDENT, putting in the appropriate alignments
- 	necessary.</comment></programlisting>
+	/* outputs s as a TDFIDENT, putting in the appropriate alignments
+ 	 * necessary. */</programlisting>
 
 		<para>Other will be required for total generality; for example, it will become
 			necessary to create TDFINTs of size greater than 32 bits.</para>
@@ -236,7 +245,7 @@ void out_tdfident_bytes (unsigned char * s)
 		<para>A procedure which can output a TDF stream (usually it would be a complete
 			CAPSULE - a .j file) is given by:</para>
 
-		<programlisting language="C">void make_tdf_file(TDF * s, FILE * out_file)</programlisting>
+		<programlisting language="c">void make_tdf_file(TDF * s, FILE * out_file)</programlisting>
 
 		<para>This is in mke_tdf_file.c</para>
 	</section>
@@ -251,7 +260,7 @@ void out_tdfident_bytes (unsigned char * s)
 			the prefix of the encoding of the LIST. For example, a sequence S1; S2; S3
 			would be encoded:</para>
 
-		<programlisting language="C">o_sequence( {LIST_ELEM(S1); LIST_ELEM(S2)}, S3)</programlisting>
+		<programlisting language="c">o_sequence( {LIST_ELEM(S1); LIST_ELEM(S2)}, S3)</programlisting>
 
 		<para>The SORT checking is not foolproof here; in a LIST there must be no output
 			other than that in the parameter of a LIST_ELEM. In the above example, the
@@ -271,11 +280,11 @@ void out_tdfident_bytes (unsigned char * s)
 			For example, a procedure application has an optional var_param parameter;
 			with a empty option we have:</para>
 
-		<programlisting language="C">o_apply_proc(Shape, Proc, Pars, {})</programlisting>
+		<programlisting language="c">o_apply_proc(Shape, Proc, Pars, {})</programlisting>
 
 		<para>while with a real var_param V:</para>
 
-		<programlisting language="C">o_apply_proc(Shape, Proc, Pars, OPTION(V))</programlisting>
+		<programlisting language="c">o_apply_proc(Shape, Proc, Pars, OPTION(V))</programlisting>
 	</section>
 
 	<section>
@@ -284,13 +293,13 @@ void out_tdfident_bytes (unsigned char * s)
 		<para>Most of the constructors which use BITSTREAMs are handled transparently by
 			their o_ macros. For example, a shape_cond would be encoded:</para>
 
-		<programlisting language="C">o_shape_cond(C, S1, S2)</programlisting>
+		<programlisting language="c">o_shape_cond(C, S1, S2)</programlisting>
 
 		<para>where S1 and S2 simply output SHAPEs normally. The _cond constructors all
 			invoke the macro TDF_COND which provides new streams for both E1 and E2.
 			The number of bits in each is computed using:</para>
 
-		<programlisting language="C">long bits_in_TDF(TDF *tdf);</programlisting>
+		<programlisting language="c">long bits_in_TDF(TDF *tdf);</programlisting>
 
 		<para>and give the prefix TDFINT for the bitstreams required by the _cond
 			construction.</para>
@@ -370,11 +379,11 @@ void out_tdfident_bytes (unsigned char * s)
 
 		<para>All output will be directed at:</para>
 
-		<programlisting language="C">TDF * current_TDF;</programlisting>
+		<programlisting language="c">TDF * current_TDF;</programlisting>
 
 		<para>Primitive encoding procedures:</para>
 
-		<programlisting language="C">void out_basic_int(unsigned long num, unsigned int bts);
+		<programlisting language="c">void out_basic_int(unsigned long num, unsigned int bts);
 void out_extendable_int(unsigned long num, unsigned int bts);
 void out_tdfint32(unsigned long n);
 void out_tdfstring_bytes(unsigned char * s, unsigned int k,
@@ -383,32 +392,30 @@ void out_tdfbool(Bool b);</programlisting>
 
 		<para>Stream handling procedures:</para>
 
-		<programlisting language="C">void append_TDF(TDF * tdf, Bool free_it);
+		<programlisting language="c">void append_TDF(TDF * tdf, Bool free_it);
 void append_bytestream(TDF *tdf, Bool free_it);
 long bits_in_TDF(TDF *tdf);</programlisting>
 
 		<para>Chunk handling procedures:</para>
 
-		<programlisting language="C">Chunk * create_chunk();
+		<programlisting language="c">Chunk * create_chunk();
 void free_chunk(Chunk * x);</programlisting>
 
 		<para>Stream macros:</para>
 
-		<programlisting language="C">NEW_STREAM(ptrtoTDF, make_stream)
+		<programlisting language="c">NEW_STREAM(ptrtoTDF, make_stream)
 CONT_STREAM(ptrtoTDF, make_stream)</programlisting>
 
 		<para>These are used by the o_ macros:</para>
 
-		<programlisting language="C">TDF_COND(code_, sort_, exp_, arg1, arg2)
+		<programlisting language="c">TDF_COND(code_, sort_, exp_, arg1, arg2)
 TDF_LIST(x, sort_)
-	<comment>an actual x parameter will contain only LIST_ELEM(...)s</comment>
-TDF_OPTION(x, sort_)
-	<comment>an actual x parameter will have no output or one OPTION(...)</comment>
-TOK_APP(num_, sort_, tok_, pars_)</programlisting>
-	</section>
+	/* an actual x parameter will contain only LIST_ELEM(...)s */
 
-	<appendix>
-		<title>Appendix</title>
+TDF_OPTION(x, sort_)
+	/* an actual x parameter will have no output or one OPTION(...) */
+
+TOK_APP(num_, sort_, tok_, pars_)</programlisting>
 
 		<para>There are four other files included which may be useful. They are:</para>
 
@@ -446,7 +453,7 @@ TOK_APP(num_, sort_, tok_, pars_)</programlisting>
 				</listitem>
 			</varlistentry>
 		</variablelist>
-	</appendix>
+	</section>
 
 </article>
 

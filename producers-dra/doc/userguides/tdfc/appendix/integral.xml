@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
 
 <appendix>
-	<title id="wbS128">Integral Type Specification</title>
+	<title>Integral Type Specification</title>
 
 	<section>
 		<title>Specifying integer literal types</title>
@@ -16,7 +15,7 @@
 			appropriate for that mode. If these built-in modes are inappropriate,
 			then the user must describe the semantics using the pragma below:</para>
 
-		<programlisting language="C">#pragma integer literal <emphasis>literal_class lit_class_type_list</emphasis></programlisting>
+		<programlisting language="c">#pragma integer literal <emphasis>literal_class lit_class_type_list</emphasis></programlisting>
 
 		<para>The <emphasis>literal_class</emphasis> identifies the type of literal
 			integer involved. The possibilities are:</para>
@@ -25,9 +24,11 @@
 			<listitem>
 				<para><code>decimal</code></para>
 			</listitem>
+
 			<listitem>
 				<para><code>octal</code></para>
 			</listitem>
+
 			<listitem>
 				<para><code>hexadecimal</code></para>
 			</listitem>
@@ -41,11 +42,11 @@
 			divided into contiguous sub-ranges specified by the
 			<code>lit_class_type_list</code> which takes the form below:</para>
 
-		<programlisting language="BNF"><emphasis>lit_class_type_list</emphasis>
+		<programlisting language="bnf"><emphasis>lit_class_type_list</emphasis>
 	*<emphasis>int_type_spec</emphasis>
 		<emphasis>integer_constant int_type_spec</emphasis> | <emphasis>lit_class_type_list</emphasis><emphasis>int_type_spec</emphasis> :
 		: <emphasis>type_name</emphasis>
-		* warning<subscript><emphasis>opt</emphasis></subscript> : <emphasis>identifier</emphasis>
+		* warning&opt.bnf; : <emphasis>identifier</emphasis>
 		** :</programlisting>
 
 		<para>The first integer constant, <code>i1</code> say, identifies the
@@ -71,7 +72,7 @@
 					takes the integer value as a parameter and delivers its type. The
 					procedure token must have been declared previously as</para>
 
-				<programlisting language="C">#pragma token PROC ( VARIETY ) VARIETY</programlisting>
+				<programlisting language="c">#pragma token PROC ( VARIETY ) VARIETY</programlisting>
 
 				<para>Since the type of the integer is computed by a procedure token
 					which may be implemented differently on different targets, there is
@@ -88,7 +89,7 @@
 
 		<para>For example:</para>
 
-		<programlisting language="C">#pragma integer literal decimal 0x7fff : int | 0x7fffffff : long | * : unsigned long</programlisting>
+		<programlisting language="c">#pragma integer literal decimal 0x7fff : int | 0x7fffffff : long | * : unsigned long</programlisting>
 
 		<para>divides unsuffixed decimal literals into three ranges: literals
 			in the range <code>[0, 0x7fff]</code> are of type <code>int</code>,
@@ -125,7 +126,7 @@
 	</section>
 
 	<section>
-		<title id="S129">The Portability Table</title>
+		<title>The Portability Table</title>
 
 		<para>The portability table is used by the checker to describe the
 			minimum assumptions about the representation of the integral
@@ -139,115 +140,113 @@
 			option to tchk) reflects the implementation on most modern 32 bit
 			machines. These tables are shown below.</para>
 
+		<!-- XXX: check these... -->
 		<table>
-			<title>ISO/ANSI Minimum Requirements Portability Table
-				(default)</title>
+			<title>&iso;/&ansi; Minimum Requirements Portability Table</title>
 
-			<tr>
-				<td><emphasis>char_bits</emphasis></td>
-				<td><code>8</code></td>
-			</tr>
+			<col align="left"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="left"/>
+			<col align="center"/>
 
-			<tr>
-				<td><emphasis>short_bits</emphasis></td>
-				<td><code>16</code></td>
-			</tr>
+			<thead>
+				<tr>
+					<th colspan="2" align="center">&iso;/&ansi; (default)</th>
+					<th role="gap"/>
+					<th colspan="2" align="center"><code>-Y32bit</code></th>
+				</tr>
+			</thead>
 
-			<tr>
-				<td><emphasis>int_bits</emphasis></td>
-				<td><code>16</code></td>
-			</tr>
+			<tbody>
+				<tr>
+					<td><replaceable>char_bits</replaceable></td>
+					<td><code>8</code></td>
+					<td role="gap"/>
+					<td><replaceable>char_bits</replaceable></td>
+					<td><code>8</code></td>
+				</tr>
 
-			<tr>
-				<td><emphasis>long_bits</emphasis></td>
-				<td><code>32</code></td>
-			</tr>
-
-			<tr>
-				<td><code>signed_range</code></td>
-				<td>symmetric</td>
-			</tr>
-
-			<tr>
-				<td><code>char_type</code></td>
-				<td>either</td>
-			</tr>
-
-			<tr>
-				<td><code>ptr_int</code></td>
-				<td>none</td>
-			</tr>
-
-			<tr>
-				<td><code>ptr_fn</code></td>
-				<td>yes</td>
-			</tr>
-
-			<tr>
-				<td><code>non_prototype_checks</code></td>
-				<td>yes</td>
-			</tr>
-
-			<tr>
-				<td><code>multitbyte</code></td>
-				<td><code>0</code></td>	<!-- TODO bool? -->
-			</tr>
-		</table>
-
-		<!-- XXX: this table is identical to the previous! -->
-		<table>
-			<title>32 bit Portability table (specified by
-				<code>-Y32bit</code> option)</title>
-
-			<tr>
-				<td><emphasis>char_bits</emphasis></td>
-				<td><code>8</code></td>
-			</tr>
-
-			<tr>
-				<td><emphasis>short_bits</emphasis></td>
-				<td><code>16</code></td>
-			</tr>
-
-			<tr>
-				<td><emphasis>int_bits</emphasis></td>
-				<td><code>16</code></td>
-			</tr>
-
-			<tr>
-				<td><emphasis>long_bits</emphasis></td>
-				<td><code>32</code></td>
-			</tr>
-
-			<tr>
-				<td><code>signed_range</code></td>
-				<td>symmetric</td>
-			</tr>
-
-			<tr>
-				<td><code>char_type</code></td>
-				<td>either</td>
-			</tr>
-
-			<tr>
-				<td><code>ptr_int</code></td>
-				<td>none</td>
-			</tr>
-
-			<tr>
-				<td><code>ptr_fn</code></td>
-				<td>yes</td>
-			</tr>
-
-			<tr>
-				<td><code>non_prototype_checks</code></td>
-				<td>yes</td>
-			</tr>
-
-			<tr>
-				<td><code>multitbyte</code></td>
-				<td><code>0</code></td>	<!-- TODO bool? -->
-			</tr>
+				<tr>
+					<td><replaceable>short_bits</replaceable></td>
+					<td><code>16</code></td>
+					<td role="gap"/>
+					<td><replaceable>short_bits</replaceable></td>
+					<td><code>16</code></td>
+				</tr>
+	
+				<tr>
+					<td><replaceable>int_bits</replaceable></td>
+					<td><code>16</code></td>
+					<td role="gap"/>
+					<td><replaceable>int_bits</replaceable></td>
+					<td><code>32</code></td>
+				</tr>
+	
+				<tr>
+					<td><replaceable>long_bits</replaceable></td>
+					<td><code>32</code></td>
+					<td role="gap"/>
+					<td><replaceable>long_bits</replaceable></td>
+					<td><code>32</code></td>
+				</tr>
+	
+				<tr>
+					<td><replaceable>longlong_bits</replaceable></td>
+					<td><code>64</code></td>
+					<td role="gap"/>
+					<td><replaceable>longlong_bits</replaceable></td>
+					<td><code>64</code></td>
+				</tr>
+	
+				<tr>
+					<td><code>signed_range</code></td>
+					<td>symmetric</td>
+					<td role="gap"/>
+					<td><code>signed_range</code></td>
+					<td>maximum</td>
+				</tr>
+	
+				<tr>
+					<td><code>char_type</code></td>
+					<td>either</td>
+					<td role="gap"/>
+					<td><code>char_type</code></td>
+					<td>either</td>
+				</tr>
+	
+				<tr>
+					<td><code>ptr_int</code></td>
+					<td>none</td>
+					<td role="gap"/>
+					<td><code>ptr_int</code></td>
+					<td>int</td>
+				</tr>
+	
+				<tr>
+					<td><code>ptr_fn</code></td>
+					<td>no</td>
+					<td role="gap"/>
+					<td><code>ptr_fn</code></td>
+					<td>yes</td>
+				</tr>
+	
+				<tr>
+					<td><code>non_prototype_checks</code></td>
+					<td>yes</td>
+					<td role="gap"/>
+					<td><code>non_prototype_checks</code></td>
+					<td>yes</td>
+				</tr>
+	
+				<tr>
+					<td><code>multitbyte</code></td>
+					<td><code>1</code></td>	<!-- TODO bool? -->
+					<td role="gap"/>
+					<td><code>multitbyte</code></td>
+					<td><code>1</code></td>	<!-- TODO bool? -->
+				</tr>
+			</tbody>
 		</table>
 
 		<para>The decimal integer associated with each of
@@ -268,9 +267,11 @@
 
 		<itemizedlist>
 			<listitem>
+				<!-- TODO: mathml -->
 				<para>For unsigned integer types the minimum range is [0,
 					2<superscript>b</superscript>-1];</para>
 			</listitem>
+
 			<listitem>
 				<para>For signed integer types if <code>signed_range</code> is
 					maximum the minimum range is <code>[-2<superscript>b-1</superscript>,
@@ -279,6 +280,7 @@
 					is <code>[-(2<superscript>b-1</superscript>-1),
 					2<superscript>b-1</superscript>-1]</code>;</para>
 			</listitem>
+
 			<listitem>
 				<para>For the type char which is not specified as signed or unsigned,
 					if <emphasis>char_type</emphasis> is <code>signed</code> then

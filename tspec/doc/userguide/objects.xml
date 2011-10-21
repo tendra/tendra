@@ -1,6 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <!--
 	$Id$
@@ -57,7 +56,7 @@
 				difficulties, <code>tspec</code> allows an alternative external
 				form to be specified. When the object is specified the form:</para>
 
-			<programlisting>iname | ename</programlisting>
+			<programlisting language="bnf">iname | ename</programlisting>
 
 			<para>may be used to specify the internal name <code>iname</code> and
 				the external name <code>ename</code>.</para>
@@ -65,8 +64,7 @@
 			<para>For example, in the <code>stat</code> case above we could
 				distinguish between the two uses as follows:</para>
 
-			<programlisting language="Tspec">
-+TYPE struct stat | struct_stat ;
+			<programlisting language="tspec">+TYPE struct stat | struct_stat ;
 +FUNC int stat ( const char *, struct stat * ) ;</programlisting>
 
 			<para>With simple token names the token corresponding to the
@@ -79,7 +77,7 @@
 			<para>Very occasionally it may be necessary to precisely specify an
 				external token name. This can be done using the form:</para>
 
-			<programlisting>iname | "ename"</programlisting>
+			<programlisting language="bnf">iname | "ename"</programlisting>
 
 			<para>which makes the object <code>iname</code> have external name
 				<code>ename</code> regardless of the naming strategy used.</para>
@@ -100,8 +98,7 @@
 				is a pointer type, we could say that there is a locally named type
 				to which <code>t</code> is a pointer:</para>
 
-				<programlisting language="Tspec">
-+TYPE ~t ;
+				<programlisting language="tspec">+TYPE ~t ;
 +TYPEDEF ~t *t ;</programlisting>
 
 			<para>Finally it is possible to cheat the <code>tspec</code>
@@ -126,15 +123,13 @@
 		<para>The simplest form of object to specify is a procedure. This is
 			done by means of:</para>
 
-			<programlisting language="Tspec">
-+FUNC prototype ;</programlisting>
+		<programlisting language="tspec">+FUNC prototype ;</programlisting>
 
 		<para>where <code>prototype</code> is the full C prototype of the
 			procedure being declared. For example, <code>ansi:string.h</code>
 			contains:</para>
 
-		<programlisting language="Tspec">
-+FUNC char *strcpy ( char *, const char * ) ;
+		<programlisting language="tspec">+FUNC char *strcpy ( char *, const char * ) ;
 +FUNC int strcmp ( const char *, const char * ) ;
 +FUNC size_t strlen ( const char * ) ;</programlisting>
 
@@ -143,20 +138,17 @@
 			library function with the same effect. The exception is for
 			procedures which take a variable number of arguments, such as:</para>
 
-		<programlisting language="Tspec">
-+FUNC int fprintf ( FILE *, const char *, ... ) ;</programlisting>
+		<programlisting language="tspec">+FUNC int fprintf ( FILE *, const char *, ... ) ;</programlisting>
 
 		<para>which cannot be implemented by macros. Occasionally it may be
 			necessary to specify that a procedure is only a library function,
 			and cannot be implemented by a macro. In this case the form:</para>
 
-		<programlisting language="Tspec">
-+FUNC (extern) prototype ;</programlisting>
+		<programlisting language="tspec">+FUNC (extern) prototype ;</programlisting>
 
 		<para>should be used. Thus:</para>
 
-		<programlisting language="Tspec">
-+FUNC (extern) char *strcpy ( char *, const char * ) ;</programlisting>
+		<programlisting language="tspec">+FUNC (extern) char *strcpy ( char *, const char * ) ;</programlisting>
 
 		<para>would mean that <code>strcpy</code> was only a library function and
 			not a macro.</para>
@@ -169,14 +161,12 @@
 			<code>xpg3:stdlib.h</code> declares <code>malloc</code> by the old
 			style declaration:</para>
 
-		<programlisting language="C">
-void *malloc ( sz )
+		<programlisting language="c">void *malloc ( sz )
 size_t sz ;</programlisting>
 
 		<para>which is in general different from the prototype:</para>
 
-		<programlisting language="C">
-void *malloc ( size_t ) ;</programlisting>
+		<programlisting language="c">void *malloc ( size_t ) ;</programlisting>
 
 		<para>In the first case the argument is passed as the integral
 			promotion of <code>size_t</code>, whereas in the second it is passed
@@ -186,8 +176,7 @@ void *malloc ( size_t ) ;</programlisting>
 			would be to use the C to TDF producer's weak prototypes (see
 			reference 3). The form:</para>
 
-		<programlisting language="Tspec">
-+FUNC (weak) void *malloc ( size_t ) ;</programlisting>
+		<programlisting language="tspec">+FUNC (weak) void *malloc ( size_t ) ;</programlisting>
 
 		<para>means that <code>malloc</code> is a library function returning
 			<code>void *</code> which is declared using an old style declaration
@@ -202,15 +191,13 @@ void *malloc ( size_t ) ;</programlisting>
 		<para>Expressions correspond to constants, identities and variables.
 			They are specified by:</para>
 
-		<programlisting language="Tspec">
-+EXP type exp1, ..., expn ;</programlisting>
+		<programlisting language="tspec">+EXP type exp1, ..., expn ;</programlisting>
 
 		<para>where <code>type</code> is the base type of the expressions
 			<code>expi</code> as in a normal C declaration list. For example, in
 			<code>ansi:stdio.h</code>:</para>
 
-		<programlisting language="Tspec">
-+EXP FILE *stdin, *stdout, *stderr ;</programlisting>
+		<programlisting language="tspec">+EXP FILE *stdin, *stdout, *stderr ;</programlisting>
 
 		<para>specifies three expressions of type <code>FILE *</code>.</para>
 
@@ -223,16 +210,14 @@ void *malloc ( size_t ) ;</programlisting>
 			assignable lvalue of type <code>int</code>. This is expressed as
 			follows:</para>
 
-		<programlisting language="Tspec">
-+EXP lvalue int errno ;</programlisting>
+		<programlisting language="tspec">+EXP lvalue int errno ;</programlisting>
 
 		<para>On the other hand, <code>posix:errno.h</code> states that
 			<code>errno</code> is an external value of type <code>int</code>.
 			As with procedures the <code>(extern)</code> qualifier may be used
 			to express this as:</para>
 
-		<programlisting language="Tspec">
-+EXP (extern) int errno ;</programlisting>
+		<programlisting language="tspec">+EXP (extern) int errno ;</programlisting>
 
 		<para>Note that this automatically means that <code>errno</code> is an
 			lvalue, so the <code>lvalue</code> qualifier is optional in this
@@ -241,14 +226,12 @@ void *malloc ( size_t ) ;</programlisting>
 		<para>If all the expressions are guaranteed to be literal constants
 			then one of the equivalent forms:</para>
 
-		<programlisting language="Tspec">
-+EXP (const) type exp1, ..., expn ;
+		<programlisting language="tspec">+EXP (const) type exp1, ..., expn ;
 +CONST type exp1, ..., expn ;</programlisting>
 
 		<para>should be used. For example, in <code>ansi:errno.h</code> we have:</para>
 
-		<programlisting language="Tspec">
-+CONST int EDOM, ERANGE ;</programlisting>
+		<programlisting language="tspec">+CONST int EDOM, ERANGE ;</programlisting>
 	</section>
 
 	<section id="Macro">
@@ -259,8 +242,7 @@ void *malloc ( size_t ) ;</programlisting>
 			exists, and no underlying library function. For example, in
 			<code>xpg3:ctype.h</code> we have:</para>
 
-		<programlisting language="Tspec">
-+MACRO int _toupper ( int ) ;
+		<programlisting language="tspec">+MACRO int _toupper ( int ) ;
 +MACRO int _tolower ( int ) ;</programlisting>
 
 		<para>since these are explicitly stated to be macros and not functions. Of
@@ -277,8 +259,7 @@ void *malloc ( size_t ) ;</programlisting>
 			variables and assigns the cursor position of the window to those
 			variables. This may be expressed by:</para>
 
-		<programlisting language="Tspec">
-+MACRO void getyx ( WINDOW *win, lvalue int y, lvalue int x ) ;</programlisting>
+		<programlisting language="tspec">+MACRO void getyx ( WINDOW *win, lvalue int y, lvalue int x ) ;</programlisting>
 	</section>
 
 	<section id="Statement">
@@ -290,8 +271,7 @@ void *malloc ( size_t ) ;</programlisting>
 			semicolon). As such it does not have a return type and so takes one
 			of the forms:</para>
 
-		<programlisting language="Tspec">
-+STATEMENT stmt ;
+		<programlisting language="tspec">+STATEMENT stmt ;
 +STATEMENT stmt ( arg1, ..., argn ) ;</programlisting>
 
 		<para>depending on whether or not it takes any arguments. (A <code>
@@ -308,23 +288,20 @@ void *malloc ( size_t ) ;</programlisting>
 			<code>tspec</code> using the <code>+DEFINE</code> construct. This
 			has two forms depending on whether the macro has arguments:</para>
 
-		<programlisting language="Tspec">
-+DEFINE name %% text %% ;
+		<programlisting language="tspec">+DEFINE name %% text %% ;
 +DEFINE name ( arg1, ..., argn ) %% text %% ;</programlisting>
 
 		<para>These translate directly into:</para>
 
-		<programlisting language="C">
-#define name text
+		<programlisting language="c">#define name text
 #define name( arg1, ..., argn ) text</programlisting>
 
 		<para>The macro definition, <code>text</code>, consists of any string
 			of characters delimited by double percents. If <code>text</code> is
 			a simple number or a single identifier then the double percents may
-			be omitted. Thus in <code>ansi:stddef.h</code> we have:</para>
+			be omitted. Thus in <code>ansi:stddef.h.tspec</code> we have:</para>
 
-		<programlisting language="Tspec">
-+DEFINE NULL 0 ;</programlisting>
+		<programlisting language="tspec">+DEFINE NULL 0 ;</programlisting>
 	</section>
 
 	<section id="Type">
@@ -333,76 +310,91 @@ void *malloc ( size_t ) ;</programlisting>
 		<para>New types may be specified using the <code>+TYPE</code>
 			construct. This has the form:</para>
 
-		<programlisting language="Tspec">
-+TYPE type1, ..., typen ;</programlisting>
+		<programlisting language="tspec">+TYPE type1, ..., typen ;</programlisting>
 
 		<para>where each <code>typei</code> has one of the forms:</para>
 
-		<!-- TODO: DL or table -->
-		<itemizedlist>
-			<listitem>
-				<para><code>name</code> for a general type (about which we know
-					nothing more),</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>(struct) name</code> for a structure type,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>(union) name</code> for a union type,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>struct name</code> for a structure tag,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>union name</code> for a union tag,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>(int) name</code> for an integral type,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>(signed) name</code> for a signed integral
-					type,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>(unsigned) name</code> for an unsigned integral
-					type,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>(float) name</code> for a floating type,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>(arith) name</code> for an arithmetic (integral or
-					floating) type,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>(scalar) name</code> for a scalar (arithmetic or
-					pointer) type.</para>
-			</listitem>
-		</itemizedlist>
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>name</code></td>
+					<td>A general type (about which we know
+						nothing more)</td>
+				</tr>
+		
+				<tr>
+					<td><code>(struct) <replaceable>name</replaceable></code></td>
+					<td>A structure type</td>
+				</tr>
+		
+				<tr>
+					<td><code>(union) <replaceable>name</replaceable></code></td>
+					<td>A union type</td>
+				</tr>
+		
+				<tr>
+					<td><code>struct <replaceable>name</replaceable></code></td>
+					<td>A structure tag</td>
+				</tr>
+		
+				<tr>
+					<td><code>union <replaceable>name</replaceable></code></td>
+					<td>A union tag</td>
+				</tr>
+		
+				<tr>
+					<td><code>(int) <replaceable>name</replaceable></code></td>
+					<td>An integral type</td>
+				</tr>
+		
+				<tr>
+					<td><code>(signed) <replaceable>name</replaceable></code></td>
+					<td>A signed integral type</td>
+				</tr>
+		
+				<tr>
+					<td><code>(unsigned) <replaceable>name</replaceable></code></td>
+					<td>An unsigned integral type</td>
+				</tr>
+		
+				<tr>
+					<td><code>(float) <replaceable>name</replaceable></code></td>
+					<td>A floating type</td>
+				</tr>
+		
+				<tr>
+					<td><code>(arith)<replaceable>name</replaceable></code></td>
+					<td>An arithmetic (integral or floating) type</td>
+				</tr>
+		
+				<tr>
+					<td><code>(scalar)<replaceable>name</replaceable></code></td>
+					<td>A scalar (arithmetic or pointer) type</td>
+				</tr>
+			</tbody>
+		</table>
 
 		<para>To make clear the distinction between structure types and
 			structure tags, if we have in C:</para>
 
-		<programlisting language="C">
-typedef struct tag { int x, y ; } type ;</programlisting>
+		<programlisting language="c">typedef struct tag { int x, y ; } type ;</programlisting>
 
 		<para>then <code>type</code> is a structure type and <code>tag</code> is a
 			structure tag.</para>
 
 		<para>For example, in <code>ansi</code> we have:</para>
 
-		<programlisting language="Tspec">
-+TYPE FILE ;
+		<programlisting language="tspec">+TYPE FILE ;
 +TYPE struct lconv ;
 +TYPE (struct) div_t ;
 +TYPE (signed) ptrdiff_t ;
@@ -423,8 +415,7 @@ typedef struct tag { int x, y ; } type ;</programlisting>
 
 		<para>For example, in <code>xpg3:search.h</code> we have:</para>
 
-		<programlisting language="Tspec">
-+TYPE struct entry ;
+		<programlisting language="tspec">+TYPE struct entry ;
 +TYPEDEF struct entry ENTRY ;</programlisting>
 
 		<para>There are a couple of special forms. To understand the first,
@@ -437,8 +428,7 @@ typedef struct tag { int x, y ; } type ;</programlisting>
 			allows types to be introduced which have the second meaning. For
 			example, we could have:</para>
 
-		<programlisting language="Tspec">
-+TYPEDEF ~special ( "bottom" ) ~bottom ;
+		<programlisting language="tspec">+TYPEDEF ~special ( "bottom" ) ~bottom ;
 +FUNC ~bottom exit ( int ) ;</programlisting>
 
 		<para>meaning that the local type <code>~bottom</code> is the
@@ -449,8 +439,7 @@ typedef struct tag { int x, y ; } type ;</programlisting>
 
 		<para>The second special form:</para>
 
-		<programlisting language="Tspec">
-+TYPEDEF ~promote ( x ) y ;</programlisting>
+		<programlisting language="tspec">+TYPEDEF ~promote ( x ) y ;</programlisting>
 
 		<para>means that <code>y</code> is an integral type which is the integral
 			promotion of <code>x</code>. <code>x</code> must have previously
@@ -458,16 +447,14 @@ typedef struct tag { int x, y ; } type ;</programlisting>
 			approach to the old style procedure declaration problem described in
 			<link linkend="Func">section 4.2</link>. Recall that:</para>
 
-		<programlisting language="C">
-void *malloc ( sz )
+		<programlisting language="c">void *malloc ( sz )
 size_t sz ;</programlisting>
 
 		<para>means that <code>malloc</code> has one argument which is passed as
 			the integral promotion of <code>size_t</code>. This could be
 			expressed as follows:</para>
 
-		<programlisting language="Tspec">
-+TYPEDEF ~promote ( size_t ) ~size_t ;
+		<programlisting language="tspec">+TYPEDEF ~promote ( size_t ) ~size_t ;
 +FUNC void *malloc ( ~size_t ) ;</programlisting>
 
 		<para>introducing a local type to stand for the integral promotion of
@@ -482,8 +469,7 @@ size_t sz ;</programlisting>
 			or union. This is done using the <code>+FIELD</code> construct. This
 			takes the form:</para>
 
-<programlisting language="Tspec">
-+FIELD type {
+		<programlisting language="tspec">+FIELD type {
 ftype field1, ..., fieldn ;
 ....
 } ;</programlisting>
@@ -493,29 +479,45 @@ ftype field1, ..., fieldn ;
 			derived from the base type <code>ftype</code> as in a normal C
 			structure definition. <code>type</code> may have one of the forms:</para>
 
-		<!-- TODO: DL or table -->
-		<itemizedlist>
-			<listitem>
-				<para><code>(struct) name</code> for a structure type,</para>
-			</listitem>
-	
-			<listitem>
-				<para><code>(union) name</code> for a union type,</para>
-			</listitem>
-			
-			<listitem>
-				<para><code>struct name</code> for a structure tag,</para>
-			</listitem>
-			
-			<listitem>
-				<para><code>union name</code> for a union tag,</para>
-			</listitem>
-			
-			<listitem>
-				<para><code>name</code> for a previously declared structure or
-					union type.</para>
-			</listitem>
-		</itemizedlist>
+		<table>
+			<col align="left"/>
+			<col align="left"/>
+
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><code>(struct) <replaceable>name</replaceable></code></td>
+					<td>A structure type</td>
+				</tr>
+		
+				<tr>
+					<td><code>(union) <replaceable>name</replaceable></code></td>
+					<td>A union type</td>
+				</tr>
+				
+				<tr>
+					<td><code>struct <replaceable>name</replaceable></code></td>
+					<td>A structure tag</td>
+				</tr>
+				
+				<tr>
+					<td><code>union <replaceable>name</replaceable></code></td>
+					<td>A union tag</td>
+				</tr>
+				
+				<tr>
+					<td><code><replaceable>name</replaceable></code></td>
+					<td>A previously declared structure or
+						union type</td>
+				</tr>
+			</tbody>
+		</table>
 
 		<para>Except in the final case (where it is not clear if
 			<code>type</code> is a structure or a union), it is not necessary to
@@ -525,8 +527,7 @@ ftype field1, ..., fieldn ;
 
 		<para>For example, in <code>ansi:time.h</code> we have:</para>
 
-		<programlisting language="Tspec">
-+FIELD struct tm {
+		<programlisting language="tspec">+FIELD struct tm {
 int tm_sec ;
 int tm_min ;
 int tm_hour ;
@@ -561,8 +562,7 @@ int tm_isdst ;
 			which has more in common with the <code>+TYPEDEF</code> construct.
 			The form:</para>
 
-		<programlisting language="Tspec">
-+FIELD type := {
+		<programlisting language="tspec">+FIELD type := {
 ftype field1, ..., fieldn ;
 ....
 } ;</programlisting>
@@ -584,14 +584,12 @@ ftype field1, ..., fieldn ;
 			size of this array using the <code>+NAT</code> construct. This has
 			the form:</para>
 
-		<programlisting language="Tspec">
-+NAT nat1, ..., natn ;</programlisting>
+		<programlisting language="tspec">+NAT nat1, ..., natn ;</programlisting>
 
 		<para>where <code>nat1</code>, ..., <code>natn</code> are the array sizes
 			to be declared. The example thus becomes:</para>
 
-		<programlisting language="Tspec">
-+NAT ~dirent_d_name_size ;
+		<programlisting language="tspec">+NAT ~dirent_d_name_size ;
 +FIELD struct dirent {
 char d_name [ ~dirent_d_name_size ] ;
 } ;</programlisting>
@@ -606,8 +604,7 @@ char d_name [ ~dirent_d_name_size ] ;
 			size of the array, and define <code>jmp_buf</code> by a
 			<code>+TYPEDEF</code> command:</para>
 
-		<programlisting language="Tspec">
-+NAT ~jmp_buf_size ;
+		<programlisting language="tspec">+NAT ~jmp_buf_size ;
 +TYPE ~jmp_buf_elt ;
 +TYPEDEF ~jmp_buf_elt jmp_buf [ ~jmp_buf_size ] ;</programlisting>
 
@@ -623,8 +620,7 @@ char d_name [ ~dirent_d_name_size ] ;
 			directly into a C definition of an enumeration type. The
 			<code>+ENUM</code> construct has the form:</para>
 
-		<programlisting language="Tspec">
-+ENUM etype := {
+		<programlisting language="tspec">+ENUM etype := {
 entry,
 ....
 } ;</programlisting>
@@ -634,15 +630,13 @@ entry,
 			tag <code>etag</code> - and each <code>entry</code> has one of the
 			forms:</para>
 
-		<programlisting>
-name
+		<programlisting language="bnf">name
 name = number</programlisting>
 
 		<para>as in a C enumeration type. For example, in
 			<code>xpg3:search.h</code> we have:</para>
 
-		<programlisting language="Tspec">
-+ENUM ACTION := { FIND, ENTER } ;</programlisting>
+		<programlisting language="tspec">+ENUM ACTION := { FIND, ENTER } ;</programlisting>
 	</section>
 
 	<section id="Token">
@@ -655,15 +649,13 @@ name = number</programlisting>
 			<code>#pragma token</code> syntax from <code>tspec</code> using the
 			construct:</para>
 
-			<programlisting language="Tspec">
-+TOKEN name %% text %% ;</programlisting>
+			<programlisting language="tspec">+TOKEN name %% text %% ;</programlisting>
 
 		<para>where the token <code>name</code> is defined by the sequence of
 			characters <code>text</code>, which is delimited by double percents.
 			This is turned into the token description:</para>
 
-		<programlisting language="C">
-#pragma token text name #</programlisting>
+		<programlisting language="c">#pragma token text name #</programlisting>
 
 		<para>No checks are applied to <code>text</code>. A more sophisticated
 			mechanism for defining complex tokens may be introduced in a later
@@ -674,8 +666,7 @@ name = number</programlisting>
 			<code>va_list</code> and a type <code>t</code> and returns a value
 			of type <code>t</code>. This is given by:</para>
 
-			<programlisting language="Tspec">
-+TOKEN va_arg %% PROC ( EXP lvalue : va_list : e, TYPE t ) EXP rvalue : t : %% ;</programlisting>
+			<programlisting language="tspec">+TOKEN va_arg %% PROC ( EXP lvalue : va_list : e, TYPE t ) EXP rvalue : t : %% ;</programlisting>
 
 		<para>See reference 3 for more details on the token syntax.</para>
 	</section>

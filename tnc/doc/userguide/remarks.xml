@@ -1,8 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-	<!ENTITY tdf "<acronym>TDF</acronym>">
-]>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
 
 <chapter id="S5">
 	<title>Remarks</title>
@@ -14,7 +11,7 @@
 		may be made available to <code>tnc</code> by using the <emphasis>use_lib</emphasis>
 		construct. The commands:</para>
 
-<programlisting>( use_lib library )
+<programlisting language="tnc">( use_lib library )
 ( code capsule )
 </programlisting>
 
