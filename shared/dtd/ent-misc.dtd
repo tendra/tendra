@@ -1,11 +1,20 @@
 <!-- $Id$ -->
 
+<!-- TODO: all in hex -->
 <!ENTITY nbsp   "&#160;">
 <!ENTITY hellip "&#133;">
 <!ENTITY ndash  "&#8211;">
 <!ENTITY mdash  "&#8212;">
 <!ENTITY larr   "&#8592;">
 <!ENTITY rarr   "&#8594;">
+<!ENTITY harr   "&#x2194;">
 <!ENTITY cross  "&#x2717;">
 <!ENTITY check  "&#x2713;">
+<!ENTITY mnplus "&#x2213;">
+<!ENTITY ldquo  "&#x201C;">
+<!ENTITY rdquo  "&#x201D;">
+<!ENTITY times  "&#215;">
+
+<!ENTITY ccedil "&#231;">
+<!ENTITY egrave "&#232;">
 

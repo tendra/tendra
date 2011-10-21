@@ -20,13 +20,13 @@
 <!ENTITY port-table.arg "<replaceable>port-table</replaceable>">
 
 <!ENTITY predicate.arg  "<replaceable>predicate</replaceable>">
+<!ENTITY options.arg    "<replaceable>options</replaceable>">
 <!ENTITY tokens.arg     "<replaceable>tokens</replaceable>">
 <!ENTITY letter.arg     "<replaceable>letter</replaceable>">
 <!ENTITY suffix.arg     "<replaceable>suffix</replaceable>">
 <!ENTITY switch.arg     "<replaceable>switch</replaceable>">
 <!ENTITY macro.arg      "<replaceable>macro</replaceable>">
 <!ENTITY ident.arg      "<replaceable>ident</replaceable>">
-<!ENTITY macro.arg      "<replaceable>macro</replaceable>">
 <!ENTITY name.arg       "<replaceable>name</replaceable>">
 <!ENTITY file.arg       "<replaceable>file</replaceable>">
 <!ENTITY text.arg       "<replaceable>text</replaceable>">
@@ -36,4 +36,7 @@
 <!ENTITY env.arg        "<replaceable>env</replaceable>">
 <!ENTITY dir.arg        "<replaceable>dir</replaceable>">
 <!ENTITY opt.arg        "<replaceable>opt</replaceable>">
+
+<!-- TODO: I'm unsure about how best to present this. I think it means a term is optional in a grammar -->
+<!ENTITY opt.bnf "?">
 
