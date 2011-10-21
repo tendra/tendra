@@ -28,13 +28,23 @@
 		</div>
 	</xsl:template>
 
+	<xsl:template match="graphic">
+		<img src="{@fileref}"/>
+	</xsl:template>
+
 	<xsl:template match="figure">
 		<div class="figure">
 			<xsl:apply-templates select="title" mode="link"/>
 
-			<img src="{graphic/@fileref}"/>
+			<xsl:apply-templates select="graphic|literallayout"/>
 
 			<xsl:apply-templates select="title"/>
+		</div>
+	</xsl:template>
+
+	<xsl:template match="informalfigure">
+		<div class="figure">
+			<xsl:apply-templates select="graphic|literallayout"/>
 		</div>
 	</xsl:template>
 
@@ -45,7 +55,7 @@
 	</xsl:template>
 
 	<xsl:template match="programlisting">
-		<pre>
+		<pre class="programlisting {@language}">
 			<xsl:apply-templates/>
 		</pre>
 	</xsl:template>
@@ -66,6 +76,13 @@
 		<blockquote class="literallayout">
 			<xsl:apply-templates/>
 		</blockquote>
+	</xsl:template>
+
+	<!-- TODO: i don't like these much. they look tacky, and are too easy to overuse -->
+	<xsl:template match="warning">
+		<div class="{name()}">
+			<xsl:apply-templates/>
+		</div>
 	</xsl:template>
 
 </xsl:stylesheet>

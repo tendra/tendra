@@ -125,7 +125,7 @@
 		</xsl:choose>
 	</xsl:template>
 
-	<xsl:template match="replaceable|citetitle">
+	<xsl:template match="replaceable|citetitle|firstterm">
 		<i class="{name()}">
 			<xsl:apply-templates/>
 		</i>

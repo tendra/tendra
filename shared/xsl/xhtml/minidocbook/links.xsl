@@ -9,12 +9,6 @@
 
 	<!--
 		Links
-TODO: types of links:
-
-within a document, to section number: id="abc"   &sect;3.7, or to figure: id="F1" "Figure 1", or to table: id="T1" "Table 1"
-to another document: @project @path
-to a URL: @href
-
 	-->
 
 	<xsl:template match="xref">

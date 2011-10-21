@@ -108,6 +108,7 @@
 	<xsl:template match="arg">
 		<xsl:call-template name="cmd-opt">
 			<xsl:with-param name="content">
+				<!-- TODO: only link if the ancestor axis contains refsynopsisdiv -->
 				<!-- TODO: this is a bit hacky; make it more unique somehow -->
 				<a href="#arg{option}">
 					<xsl:apply-templates/>
