@@ -33,7 +33,7 @@ TRANS+=	sparctrans.1
 regen::
 .for trans in ${TRANS}
 	@${ECHO} "==> Transforming ${WRKDIR}/${trans}.xml"
-	${XSLTPROC} ${XSLTOPTS} -o ${trans}.xml \
+	${XSLTPROC} ${XMLOPTS} ${XSLTOPTS} -o ${trans}.xml \
 		--stringparam trans ${trans:R:C/^trans-all$/all/} trans-xsl.1.xsl trans-xsl.1.xsl
 .endfor
 

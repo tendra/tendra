@@ -10,7 +10,7 @@ _TENDRA_BASE_MK_=1
 .MAIN: all
 
 # Ensure existence of basic targets.
-.for target in all doc clean install install-doc regen regen-clean
+.for target in all clean install regen regen-clean test
 ${target}:: .PHONY
 .endfor
 

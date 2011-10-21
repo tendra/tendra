@@ -11,11 +11,12 @@ _TENDRA_WORK_DOC_MK_=1
 
 # TenDRA document processing.
 #
-# There are two user-specified parameters intended to be passed from the
+# There are three user-specified parameters intended to be passed from the
 # command line:
 #
 #   ${HTML}    - Output to HTML, instead of XHTML
 #   ${WEBSITE} - Output for website use (central CSS & javascript)
+#   ${NODOCS}  - Omit documentation building
 #
 # Makfile-facing source parameters are:
 #
@@ -63,10 +64,11 @@ DOC_BASE=	http://www.tendra.org/
 DOC_BASE=	.
 . endif	# defined(WEBSITE)
 
-XSLTOPTS+=	--xinclude --nomkdir --nonet
-XSLTOPTS+=	--path '${BASE_DIR}/doc/dtd'
+XMLOPTS+=	--nonet --xinclude
+XMLOPTS+=	--path '${DTD_DIR}'
 
-XMLLINTOPTS+=	--xinclude
+XSLTOPTS+=    --nomkdir
+XMLLINTOPTS+= --loaddtd --valid
 
 XSLTPARAMS+=	--stringparam tendra.base   '${DOC_BASE}'
 XSLTPARAMS+=	--stringparam tendra.ext    '${DOC_EXT}'
@@ -75,8 +77,6 @@ XSLT_DIR=	${BASE_DIR}/doc/xsl
 CSS_DIR=	${BASE_DIR}/doc/css
 JS_DIR= 	${BASE_DIR}/doc/js
 DTD_DIR= 	${BASE_DIR}/doc/dtd
-
-XMLLINT_DTD=	${DTD_DIR}/minidocbook.dtd
 
 XSLT_ROFF=	${XSLT_DIR}/roff/docbook.xsl
 XSLT_HTML=	${XSLT_DIR}/${DOC_EXT}/minidocbook/minidocbook.xsl
@@ -91,7 +91,7 @@ DOC_JS= 	js
 DOC_IMAGES= 	images
 
 .if (${.TARGETS:Mdoc} != "" || ${.TARGETS:Minstall-doc} != "")
-DOC_IMGDEPS!=	${XSLTPROC} ${XSLTOPTS} ${XSLT_IMGS}  ${DOC_SRC}
+DOC_IMGDEPS!=	${XSLTPROC} ${XMLOPTS} ${XSLTOPTS} ${XSLT_IMGS} ${DOC_SRC}
 .endif
 
 
@@ -101,13 +101,13 @@ DOC_IMGDEPS!=	${XSLTPROC} ${XSLTOPTS} ${XSLT_IMGS}  ${DOC_SRC}
 ${OBJ_DDIR}/${DOC}/${DOC_INDEX}: ${DOC_SRC}
 	@${CONDCREATE} "${OBJ_DDIR}/${DOC}"
 	@${ECHO} "==> Transforming ${WRKDIR}/${DOC}"
-	${XSLTPROC} ${XSLTOPTS} ${XSLTPARAMS} -o ${.TARGET:H}/ ${XSLT_HTML} ${.ALLSRC}
+	${XSLTPROC} ${XMLOPTS} ${XSLTOPTS} ${XSLTPARAMS} -o ${.TARGET:H}/ ${XSLT_HTML} ${.ALLSRC}
 
 .if defined(MAN)
 ${OBJ_DDIR}/${DOC}/${DOC_MAN}: ${DOC_SRC}
 	@${CONDCREATE} "${OBJ_DDIR}"
 	@${ECHO} "==> Transforming ${WRKDIR}/${MAN}"
-	${XSLTPROC} ${XSLTOPTS} -o ${.TARGET} ${XSLT_ROFF} ${.ALLSRC}
+	${XSLTPROC} ${XMLOPTS} ${XSLTOPTS} -o ${.TARGET} ${XSLT_ROFF} ${.ALLSRC}
 .endif
 
 
@@ -160,41 +160,51 @@ ${OBJ_DDIR}/${DOC}/${DOC_JS}: ${JS_DIR}
 # User-facing targets
 #
 
-doc:: ${OBJ_DDIR}/${DOC}/${DOC_INDEX}
-.if !defined(WEBSITE)
-doc:: ${OBJ_DDIR}/${DOC}/${DOC_CSS} ${OBJ_DDIR}/${DOC}/${DOC_JS}
-.endif
-.if defined(MAN)
-doc:: ${OBJ_DDIR}/${DOC}/${DOC_MAN}
-.endif
-.if defined(DOC_IMGDEPS)
-doc:: ${DOC_IMGDEPS:C/^/${OBJ_DDIR}\/${DOC}\//}
+.if !defined(NODOCS)
+all:: ${OBJ_DDIR}/${DOC}/${DOC_INDEX}
+. if !defined(WEBSITE)
+all:: ${OBJ_DDIR}/${DOC}/${DOC_CSS} ${OBJ_DDIR}/${DOC}/${DOC_JS}
+. endif
+. if defined(MAN)
+all:: ${OBJ_DDIR}/${DOC}/${DOC_MAN}
+. endif
+. if defined(DOC_IMGDEPS)
+all:: ${DOC_IMGDEPS:C/^/${OBJ_DDIR}\/${DOC}\//}
+. endif
 .endif
 
 
+.if !defined(NODOCS)
 clean::
 	${RMDIR} ${OBJ_DDIR}/${DOC}
+.endif
 
 
-install-doc:: doc
+.if !defined(NODOCS)
+install:: doc
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}"
-.if !defined(WEBSITE)
+. if !defined(WEBSITE)
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_JS}"
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_CSS}"
 	cp ${OBJ_DDIR}/${DOC}/${DOC_JS}/*.js   "${_PREFIX_HTML}/${DOC_OUT}/${DOC_JS}/"
 	cp ${OBJ_DDIR}/${DOC}/${DOC_CSS}/*.css "${_PREFIX_HTML}/${DOC_OUT}/${DOC_CSS}/"
-.endif
-.if "${DOC_IMGDEPS}" != ""
+. endif
+. if "${DOC_IMGDEPS}" != ""
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_IMAGES}"
-.endif
-.for img in ${DOC_IMGDEPS}
+. endif
+. for img in ${DOC_IMGDEPS}
 	cp ${OBJ_DDIR}/${DOC}/${DOC_IMAGES}/${img:T} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_IMAGES}/"
-.endfor
+. endfor
 	cp ${OBJ_DDIR}/${DOC}/*.${DOC_EXT} "${_PREFIX_HTML}/${DOC_OUT}/"
+.endif
 
 
+.if !defined(NODOCS)
 test:: ${DOC_SRC}
-	${XMLLINT} ${XMLLINTOPTS} --noout --dtdvalid ${XMLLINT_DTD} ${.ALLSRC}
+	@${ECHO} "==> Validating ${.ALLSRC}"
+	${XMLLINT} ${XMLOPTS} --dtdattr ${.ALLSRC} \
+	| ${XMLLINT} ${XMLOPTS} ${XMLLINTOPTS} --noout -
+.endif
 
 
 .endif	# !defined(_TENDRA_WORK_DOC_MK_)

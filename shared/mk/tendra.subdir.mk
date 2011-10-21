@@ -36,7 +36,7 @@ _TENDRA_SUBDIR_MK_=1
 .PHONY: ${SUBDIR}
 
 # Proceed to subdirs.
-. for target in all doc clean install install-doc regen regen-clean
+. for target in all clean install regen regen-clean test
 ${target}::
 .  for entry in ${SUBDIR}
 	@cd ${.CURDIR}/${entry}; ${MAKE} ${.TARGET}
