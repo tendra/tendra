@@ -1,0 +1,200 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+  
+<chapter id="proposed-changes">
+	<title>Proposed changes</title>
+
+	<para>It is thought likely that the new TDF entities described above
+		will eventually be incorporated into the main TDF
+		specification.</para>
+
+	<para>In several places below the absence of "standardised methods" is
+		noted. These are cases where TDF can express some operation in several
+		ways, and the installer cannot be expected to spot all of them and
+		generate new diagnostic info.</para>
+
+	<section id="missing-features">
+		<title>Language features currently missing</title>
+
+		<para>The following sections list some of the language features known
+			not to be supported by the current specification.  It is not intended
+			to be exhaustive.</para>
+
+		<section id="data-types">
+			<title>Data types</title>
+
+			<itemizedlist>
+				<listitem>
+					<para>Complex numbers.</para>
+				</listitem>
+
+				<listitem>
+					<para>Fortran alternate <code>RETURN</code>s.</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+
+		<section id="cplusplus-requirements">
+			<title>C++ requirements</title>
+
+			<itemizedlist>
+				<listitem>
+					<para>The <code>reference</code> type is not yet present.</para>
+				</listitem>
+
+				<listitem>
+					<para>The accessibility attributes (<code>public</code>,
+						<code>private</code> and <code>protected</code>) are not yet
+						present.</para>
+				</listitem>
+
+				<listitem>
+					<para>No <code>member</code> function information, and no
+						specification of how to deal with name mangling. Pointer to
+						<code>member</code> may need special recognition.</para>
+				</listitem>
+
+				<listitem>
+					<para>No operations for describing <code>class</code>es and
+						inheritance.</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+
+		<section id="fortran-requirements">
+			<title>FORTRAN requirements</title>
+
+			<itemizedlist>
+				<listitem>
+					<para>Main <code>PROGRAM</code> attribute missing.</para>
+				</listitem>
+
+				<listitem>
+					<para>Fortran optional parameters may need special
+						treatment</para>
+				</listitem>
+
+				<listitem>
+					<para>Use of <code>COMMON</code> is not explicit in TDF.</para>
+				</listitem>
+
+				<listitem>
+					<para>Fortran77 etc. has a string type, which could be
+						implemented in several ways (other languages need this, but
+						they may differ on the same machine).</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+
+		<section id="other-requirements">
+			<title>Other requirements</title>
+
+			<itemizedlist>
+				<listitem>
+					<para>No standardised method for describing static link info.
+						TDF can express such programs, but the link could be stored in
+						several ways.</para>
+				</listitem>
+
+				<listitem>
+					<para>No standardised method for describing arrays with either
+						non-constant bounds, and/or where the bounds are present in the
+						running image. (The <varname>upper_bound</varname> and
+						<varname>lower_bound</varname> <code>EXP</code>s are sufficiently
+						powerful, but needs some rules)</para>
+				</listitem>
+
+				<listitem>
+					<para>No way to name a lexical block.</para>
+				</listitem>
+
+				<listitem>
+					<para>Formal parameters with default values cannot have the
+						default made visible.</para>
+				</listitem>
+
+				<listitem>
+					<para>Variables which are constant, and have been inlined
+						everywhere may be a problem.</para>
+				</listitem>
+
+				<listitem>
+					<para>No standardised method of describing the discriminant part
+						of a discriminated union (in TDF probably represented by a
+						struct containing the discriminant and the union).</para>
+				</listitem>
+
+				<listitem>
+					<para>The distinction between ANSI prototyped and non-prototyped
+						functions (this is a real problem for functions taking
+						<code>float</code>)</para>
+				</listitem>
+
+				<listitem>
+					<para>No standardised method for PASCAL sets.</para>
+				</listitem>
+
+				<listitem>
+					<para>No standardised method for subrange types.</para>
+				</listitem>
+
+				<listitem>
+					<para>PASCAL and Modula have a <code>WITH</code> construct to
+						change semantics of record field lookup. No standardised method
+						for documenting this.</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+	</section>
+
+	<section id="further-abstraction">
+		<title>Areas for further abstraction</title>
+
+		<section id="compilation-related">
+			<title>Compilation related</title>
+
+			<para>How a running program has been created from several components
+				is of interest when debugging. The present system cannot record
+				all details of how a program has been created. In particular there
+				is no indication of the source language of any piece of TDF, nor
+				of the full name of any of the source files.</para>
+		</section>
+
+		<section id="c-related">
+			<title>C related</title>
+
+			<para>At present there is no defined link between the fundamental C
+				types and the <code>VARIETY</code>s etc. used for them. Present
+				installers for 32 bit machines cannot distinguish between
+				<code>int</code> and <code>long</code> when generating diagnostics,
+				other than by means of the standard token names which form part of
+				the C producer language interface.</para>
+		</section>
+
+		<section id="naming-types">
+			<title>Naming of types</title>
+
+			<para>At present various <code>DIAG_TYPE</code>s have names, some
+				don't. I suspect we should make a separate
+				<function>is_named</function> operation and remove the other
+				names.</para>
+		</section>
+	</section>
+
+	<section id="andf-de">
+		<title>Postscript - ANDF-DE</title>
+
+		<para>As this section makes clear, the TDF Diagnostic Specification
+			was only ever really intended to deal with C. As of 1997, a more
+			extensive diagnostic extension to TDF, ANDF-DE, is under development
+			by DDC-I. This has been designed with the requirements of C, C++ and
+			Ada in mind. It is intended that eventually ANDF-DE will be
+			incorporated into the TDF specification, and the diagnostic format
+			described here will be denegrated.</para>
+	</section>
+</chapter>
+

@@ -1,0 +1,269 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Control Flow within procedures</title>
+
+	<section>
+		<title>Unconditional flow</title>
+
+		<section id="sequence">
+			<title>sequence</title>
+
+			<para>To perform a sequential set of operations in TDF, one uses the
+				constructor sequence:</para>
+
+			<programlisting language="tdf">statements: LIST(EXP)
+result:     EXP x
+            -&gt; EXP x</programlisting>
+
+			<para>Each of the <code>statements</code> are evaluated in order,
+				throwing away their results. Then, <code>result</code> is
+				evaluated and its result is the result of the sequence.</para>
+
+			<para>A translator is free to rearrange the order of evaluation if
+				there is no observable difference other than in time or space.
+				This applies anywhere I say &ldquo;something is evaluated and then ...&rdquo;.
+				We find this kind of statement in definitions of local variables
+				in <link linkend="defining-and-using-locals">section 5.3</link>,
+				and in the controlling parts of the conditional constructions
+				below.</para>
+
+			<para>For a more precise discussion of allowable reorderings see
+				(<!-- <fix>S7.14</fix> -->) .</para>
+		</section>
+	</section>
+
+	<section id="conditional-flow">
+		<title>Conditional flow</title>
+
+		<section id="labelled">
+			<title>labelled, make_label</title>
+
+			<para>All simple changes of flow of control within a TDF procedure
+				are done by jumps or branches to LABELs, mirroring what actually
+				happens in most computers. There are three constructors which
+				introduce LABELs; the most general is labelled which allows
+				arbitrary jumping between its component EXPs:</para>
+
+			<programlisting language="tdf">placelabs_intro: LIST(LABEL)
+starter:         EXP x
+places:          LIST(EXP)
+                 -&gt; EXP w</programlisting>
+
+			<para>Each of the EXPs in <code>places</code> is labelled by the
+				corresponding LABEL in <code>placelabs_intro</code>; these LABELs
+				are constructed by make_label applied to a TDFINT uniquely drawn
+				from the LABEL name-space introduced by the enclosing PROPS. The
+				evaluation starts by evaluating <code>starter</code>; if this runs
+				to completion the result of the labelled is the result of
+				<code>starter.</code> If there is some jump to a LABEL in
+				<code>placelabs_intro</code> then control passes to the
+				corresponding EXP in <code>places</code> and so on.  If any of
+				these EXPS runs to completion then its result is the result of the
+				labelled; hence the SHAPE of the result, w, is the LUB of the
+				SHAPEs of the component EXPs.</para>
+
+			<para>Note that control does not automatically pass from one EXP to
+				the next; if this is required the appropriate EXP must end with an
+				explicit goto.</para>
+		</section>
+
+		<section id="goto">
+			<title>goto, make_local_lv, goto_local_lv, long_jump,
+				return_to_label</title>
+
+			<para>The unconditional goto is the simplest method of jumping. In
+				common with all the methods of jumping using LABELs, its LABEL
+				parameter must have been introduced in an enclosing construction,
+				like labelled, which scopes it.</para>
+
+			<para>One can also pick up a label value of SHAPE POINTER {code}
+				(usually implemented as a program address) using make_local_lv for
+				later use by an "indirect jump" such as goto_local_lv . Here the
+				same prohibition holds - the construction which introduced the
+				LABEL must still be active.</para>
+
+			<para>The construction goto_local_lv only permits one to jump within
+				the current procedure; if one wished to do a jump out of a
+				procedure into a calling one, one uses long_jump which requires a
+				pointer to the destination frame (produced by current_env in the
+				destination procedure) as well as the label value. If a long_jump
+				is made to a label, only those local TAGs which have been defined
+				with a visible ACCESS are guaranteed to have preserved their
+				values; the translator could allocate the other TAGs in scope as
+				registers whose values are not necessarily preserved.</para>
+
+			<para>A slightly "shorter" long jump is given by return_to_label.
+				Here the destination of the jump must a label value in the calling
+				procedure. Usually this value would be passed as parameter of the
+				call to provide an alternative exit to the procedure.</para>
+		</section>
+
+		<section id="integer_test">
+			<title>integer_test, NTEST</title>
+
+			<para>Conditional branching is provided by the various _test
+				constructors, one for each primitive SHAPE except BITFIELD.  I
+				shall use integer_test as the paradigm for them all:</para>
+
+			<programlisting language="tdf">nt:   NTEST
+dest: LABEL
+arg1: EXP INTEGER(v)
+arg2: EXP INTEGER(v)
+      -&gt; EXP TOP</programlisting>
+
+			<para>The NTEST <code>nt</code> chooses a dyadic test (e.g. =, &gt;=,
+				&lt;, etc.) that is to be applied to the results of evaluating
+				<code>arg1</code> and <code>arg2</code>. If <code>arg1</code>
+				<code>nt</code> <code>arg2</code> then the result is TOP;
+				otherwise control passes to the LABEL <code>dest</code>.  In other
+				words, integer_test acts like an assertion where if the assertion
+				is false, control passes to the LABEL instead of continuing in the
+				normal fashion.</para>
+
+			<para>Some of the constructors for NTESTs are disallowed for some
+				_tests (e.g. proc_test) while others are redundant for some
+				_tests; for example, not_greater_than is the same as
+				less_than_or_equal for all except possibly floating_test. where
+				the use of NaNs (in the IEEE sense) as operands may give different
+				results.</para>
+		</section>
+
+		<section id="case">
+			<title>case</title>
+
+			<para>There are only two other ways of changing flow of control
+				using LABELs. One arises in ERROR_TREATMENTs which will be dealt
+				with in the arithmetic operations. The other is case:</para>
+
+			<programlisting language="tdf">exhaustive: BOOL
+control:    EXP INTEGER(v)
+branches:   LIST(CASELIM)
+            -&gt; EXP (exhaustive ? BOTTOM : TOP)</programlisting>
+
+			<para>Each CASELIM is constructed using make_caselim:</para>
+
+			<programlisting language="tdf">branch: LABEL
+lower:  SIGNED_NAT
+upper:  SIGNED_NAT
+        -&gt; CASELIM</programlisting>
+
+			<para>In the case construction, the <code>control</code> EXP is
+				evaluated and tested to see whether its value lies inclusively
+				between some <code>lower</code> and <code>upper</code> in the list
+				of CASELIMs. If so, control passes to the corresponding
+				<code>branch</code>. The order in which these tests are performed
+				is undefined, so it is probably best if the tests are exclusive.
+				The exhaustive flag being true asserts that one of the branches
+				will be taken and so the SHAPE of the result is BOTTOM.
+				Otherwise, if none of the branches are taken, its SHAPE is TOP and
+				execution carries on normally.</para>
+		</section>
+
+		<section id="conditional">
+			<title>conditional, repeat</title>
+
+			<para>Besides labelled, two other constructors, conditional and
+				repeat, introduce LABELs which can be used with the various jump
+				instructions.  Both can be expressed as labelled, but have extra
+				constraints which make assertions about the use of the LABELs
+				introduced and could usually be translated more efficiently; hence
+				producers are advised to use them where possible. A conditional
+				expression or statement would usually be done using conditional:</para>
+
+			<programlisting language="tdf">alt_label_intro: LABEL
+first:           EXP x
+alt:             EXP y
+                 -&gt; EXP(LUB(x, y))</programlisting>
+
+			<para>Here <code>first</code> is evaluated; if it terminates normally,
+				its result is the result of the conditional. If a jump to
+				<code>alt_label_intro</code> occurs then <code>alt</code> is
+				evaluated and its result is the result of the conditional.
+				Clearly, this, so far, is just the same as
+				labelled((<code>alt_label_intro</code>), <code>first</code>,
+				(<code>alt</code>)). However, conditional imposes the constraint
+				that <code>alt</code> cannot use <code>alt_label_intro</code>. All
+				jumps to <code>alt_label_intro</code> are "forward jumps" - a
+				useful property to know in a translator.</para>
+
+			<para>Obviously, this kind of conditional is rather different to
+				those found in traditional high-level languages which usually have
+				three components, a boolean expression, a then-part and an
+				else-part. Here, the <code>first</code> component includes both
+				the boolean expression and the then-part; usually we find that it
+				is a sequence of the tests (branching to
+				<code>alt_label_intro</code>) forming the boolean expression
+				followed by the else-part. This formulation means that HLL
+				constructions like "andif" and "orelse" do not require special
+				constructions in TDF.</para>
+
+			<para>A simple loop can be expressed using repeat:</para>
+
+			<programlisting language="tdf">repeat_label_intro: LABEL
+start:              EXP TOP
+body:               EXP y
+                    -&gt; EXP y</programlisting>
+
+			<para>The EXP <code>start</code> is evaluated, followed by
+				<code>body</code> which is labelled by
+				<code>repeat_label_intro</code>. If a jump to
+				<code>repeat_label_intro</code> occurs in <code>body</code>, then
+				<code>body</code> is re-evaluated. If <code>body</code> terminates
+				normally then its result is the result of the repeat. This is just
+				the same as:</para>
+
+			<programlisting language="tdf">labelled((repeat_label_intro), sequence((start), goto(repeat_label_intro)), (body))</programlisting>
+
+			<para>except that no jumps to <code>repeat_label_intro</code> are
+				allowed in <code>start</code> - a useful place to do
+				initialisations for the loop.</para>
+
+			<para>Just as with conditionals, the tests for the continuing or
+				breaking the loop are included in <code>body</code> and require no
+				special constructions.</para>
+		</section>
+	</section>
+
+	<section id="exceptional-flow">
+		<title>Exceptional flow</title>
+
+		<para>A further way of changing the flow of control in a TDF program
+			is by means of exceptions. TDF exceptions currently arise from three
+			sources - overflow in arithmetic operations with trap
+			ERROR_TREATMENT(see
+			<link linkend="error_treatment">section 8.1.1</link>), an attempt to
+			access a value via a nil pointer using assign_with_mode,
+			contents_with_mode or move_some(see
+			<link linkend="transfer_mode-operations">section 7.3</link>) or a
+			stack overflow on procedure entry with PROCPROPS check_stack(see
+			<link linkend="procprops">section 5.2.2</link>) or a
+			local_alloc_check.</para>
+
+		<para>Each of these exceptions have an ERROR_CODE ascribed to them,
+			namely overflow, nil_access and stack_overflow. Each ERROR_CODE can
+			be made into a distinct NAT by means of the constructor error_val;
+			these NATs could be used, for example, to discriminate the different
+			kinds of errors using a case construction.</para>
+
+		<para>When one of these exceptions is raised, the translator will
+			arrange that a TOKEN, ~Throw, is called with the appropriate
+			ERROR_CODE as its (sole) parameter. Given that every language has a
+			different way of both characterising and handling exceptions, the
+			exact expansion of ~Throw must be given by the producer for that
+			language - usually it will involve doing a long_jump to some label
+			specifying a signal handler and translating the ERROR_CODE into its
+			language-specific representation.</para>
+
+		<para>The expansion of ~Throw forms part of the language specific
+			environment required for the translation of TDF derived from the
+			language, just as the exact shape of FILE must be given for the
+			translation of C.</para>
+	</section>
+</chapter>
+

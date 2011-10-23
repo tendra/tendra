@@ -1,0 +1,114 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Project environment</title>
+
+	<section>
+		<title>LINUX operating system</title>
+
+		<para>Linux is a free Unix-like operating system, first developed by
+			Linus Torvalds on an Intel platform; &ldquo;official&rdquo; releases exist since
+			October 1991.</para>
+
+		<para>It has now been ported to Digital/Alpha and ports to other
+			machines, including PowerPC andPowerMAC, are under way.</para>
+
+		<section>
+			<title>Linux on Intel/i386</title>
+
+			<para>There are many distributions of Linux for the Intel
+				platform; we installed the Slackware distribution, based on the Linux 1.1
+				version.</para>
+
+			<para>We downloaded it from the ftp site:
+				<ulink url="ftp://sunsite.unc.edu/pub/Linux/distributions/slackware">sunsite.unc.edu:/pub/Linux/distributions/slackware</ulink></para>
+
+			<para>The version we installed was Linux 1.1.59, available since
+				October 1994. Since then, newer versions have been released, but we stuck to
+				this version throughout the project since it worked well, and because all the
+				packages it included were easily available in source form (see below).</para>
+		</section>
+
+		<section>
+			<title>Source code for Linux commands used by the project</title>
+
+			<para>We downloaded the source code of the Linux commands from
+				the ftp site: <ulink url="ftp://sunsite.unc.edu/pub/Linux/distributions/slackware/source">sunsite.unc.edu:/pub/Linux/distributions/slackware/source</ulink>.</para>
+
+			<para>This means that the versions of commands available on our
+				development machine for Linux/i386 were matching the source code we used as base
+				for the project, except in a few cases for which the source code had been
+				revised.</para>
+		</section>
+
+		<section>
+			<title>Linux on Digital/Alpha</title>
+
+			<para>For the Alpha platform, Linux is available from the BLADE
+				distribution, and more recently from the Red Hat distribution.</para>
+
+			<para>A 32-bit version of Linux/Alpha was first released in
+				January 1995; then a 64-bit version was available in November 1995, which
+				included most of the capabilities provided by the Linux/Intel system. We
+				downloaded the BLADE_0.3 release, consisting of more than thirty floppy images,
+				from the ftp site: <ulink url="ftp://ftp.digital.com/pub/DEC/Linux-Alpha">ftp.digital.com:/pub/DEC/Linux-Alpha</ulink></para>
+
+			<para>Since December 1995, another Linux/Alpha distribution has
+				become available from the RedHat company; it is built from the same components,
+				but newer versions, as the BLADE release.</para>
+
+			<para>An interesting feature of the current Linux/Alpha ports, is
+				that they provide rather extensive binary compatibility with Digital Unix. This
+				compatibility has been used to cross-build on Digital Unix for Linux/Alpha, and
+				also for a few features which were not available in the Linux/Alpha BLADE
+				release.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Hardware platforms and environment</title>
+
+		<para>The Intel platform was an Intel/i486 PC machine, with
+			most disk space available through NFS.</para>
+
+		<para>The Digital/Alpha platform was built specifically for
+			this project, around a Digital AXPpci 33 motherboard. In fact, at the
+			time we set-up the machine, the Linux/Alpha ports were only running on a few
+			Alpha-based machines.</para>
+
+		<para>A Linux kernel had to be rebuilt for this machine in order
+			to add support for the 3COM Ethernet board we used, and for the NFS-client
+			capability. Most disk space was thus available through an NFS file system,
+			shared with the Intel platform.</para>
+	</section>
+
+	<section>
+		<title>TenDRA technology</title>
+
+		<para>We started the project on an Intel platform with a snapshot of the
+			TenDRA technology from April 1995, which included support for the
+			Linux/Intel platform. This snapshot was based on the ANDF 3.1
+			specification.</para>
+
+		<para>We switched to the November 1995 TenDRA snapshot, based on ANDF 4.0,
+			when we setup the second platform, in order to use the tools for the
+			Digital Unix/Alpha platform. Because of the high degree of compatibility
+			between Digital Unix and Linux on Alpha, we could use the TenDRA
+			technology on a DigitalUnix/Alpha platform to cross-build executables for
+			the Linux/Alpha platform.</para>
+
+		<para>The ANDF 4.0 intermediate file format is not upward compatible with
+			the ANDF 3.1 one, which required that we rebuild the intermediate ANDF
+			files for the Linux commands we had already built.</para>
+
+		<para>ANDF 4.0 contains increased capability, though not required by this
+			project, and forms the basis for the X/Open preliminary
+			specification XANDF.</para>
+	</section>
+</chapter>
+

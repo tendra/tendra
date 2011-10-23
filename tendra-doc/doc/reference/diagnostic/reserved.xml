@@ -1,0 +1,73 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+  
+  <chapter id="reserved-diagnostic-tokens">
+    <title>Reserved diagnostic TOKENs</title>
+  
+    <para>Reserved <code>TOKEN</code>s were used for diagnostic extensions
+      to <code>EXP</code>s, to avoid adding new constructs the contents of
+      an existing <code>UNIT</code>. All other parts of the diagnostic
+      system occur in other <code>UNIT</code>s.</para>
+  
+    <section id="exp_to_source">
+      <title>~exp_to_source</title>
+  
+      <programlisting language="tdf">
+<varname>body</varname>:            EXP sh
+<varname>from</varname>:            SOURCEMARK
+<varname>to</varname>:              SOURCEMARK
+           -&gt; EXP sh</programlisting>
+
+      <para>Records that the <code>EXP</code> <varname>body</varname> arose
+        from translating program between <code>SOURCEMARK</code>
+        <varname>from</varname> and <code>SOURCEMARK</code>
+        <varname>to</varname> (inclusive).  </para>
+    </section>
+  
+    <section id="diag_id_source">
+      <title>~diag_id_source</title>
+      
+      <programlisting language="tdf">
+<varname>body</varname>:            EXP sh
+<varname>name</varname>:            TDFSTRING(k, n)
+<varname>access</varname>:          EXP POINTER(al)
+<varname>type</varname>:            DIAG_TYPE
+           -&gt; EXP sh</programlisting>
+
+      <para>Within the <code>EXP</code> <varname>body</varname> a variable
+        named <varname> name</varname> of <code>DIAG_TYPE</code>
+        <varname>type</varname> can be accessed via the <code>EXP</code>
+        <varname>access</varname>.</para>
+    </section>
+  
+    <section id="diag_type_scope">
+      <title>~diag_type_scope</title>
+  
+      <programlisting language="tdf">
+<varname>body</varname>:            EXP sh
+<varname>name</varname>:            TDFSTRING(k, n)
+<varname>type</varname>:            DIAG_TYPE
+           -&gt; EXP sh</programlisting>
+  
+      <para>Within the <code>EXP</code> <varname>body</varname> a source
+        language type named <varname>name</varname> of <code>DIAG_TYPE</code>
+        <varname>type</varname> is valid.</para>
+    </section>
+  
+    <section id="diag_tag_scope">
+      <title>~diag_tag_scope</title>
+  
+      <programlisting language="tdf">
+<varname>body</varname>:            EXP sh
+<varname>name</varname>:            TDFSTRING(k, n)
+<varname>type</varname>:            DIAG_TYPE
+           -&gt; EXP sh</programlisting>
+
+      <para>This <code>TOKEN</code> is obsolete.</para>	<!-- TODO: note -->
+    </section>
+  </chapter>
+  

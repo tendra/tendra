@@ -1,0 +1,111 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Objectives and Description</title>
+
+	<section>
+		<title>Objectives</title>
+
+		<para>A first objective of this project was to perform validation,
+			performance and robustness testing of the TenDRA technology to ensure
+			its capability to implement and fully bootstrap a UNIX-like operating
+			system on a variety of target processor architectures.</para>
+
+		<para>Another objective was to provide an assessment of TenDRA
+			technology to express a fully portable operating system
+			implementation.</para>
+
+		<para>This report summarizes the work done with respect to these two
+			objectives.</para>
+	</section>
+
+	<section>
+		<title>General description</title>
+
+		<para>A Unix system can be divided into three parts, which characterize
+			the portability level of the code:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>The Kernel, which has some parts in assembler, e.g.  for
+					context switching, interruptions, locks, or parts of device
+					drivers.  Assembly code is used either in separate files or is
+					embedded in C programs or header files.</para>
+			</listitem>
+
+			<listitem>
+				<para>The Libraries, some of which may contain assembly code.  The
+					crt0 library and code for system calls are examples.</para>
+			</listitem>
+
+			<listitem>
+				<para>The Commands, in which use of assembly code is very unusual.
+					They share a non-explicit API with the libraries against which
+					they are built.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>As for other software OSF already ported to ANDF, the port of the
+			Unix system has been done in three successive steps:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>The NAT-NAT step, which consists in rebuilding the system with
+					the native compilation chain, to ensure that the system can be
+					regenerated from the set of sources.</para>
+			</listitem>
+
+			<listitem>
+				<para>The DRA-NAT step, for which the TenDRA technology is employed
+					as a replacement of the native compilation chain to build the
+					system, using the native system header files, as for a classical
+					compilation chain. This part involves dealing with assembler
+					issues as well as discrepancies between the native and the TenDRA
+					code generators. Note that Unix systems are known to be compiler
+					dependent.</para>
+			</listitem>
+
+			<listitem>
+				<para>The DRA-DRA step, which consists in using the TenDRA
+					technology as a portability tool. The API shared by the commands
+					and libraries has to be defined, and used to produce architecture
+					independent ANDF code for these parts. This code is then installed
+					and validated on the selected machines. Note that the kernel part
+					of the Unix system has not been included in this task since it is
+					essentially not portable.</para>
+				</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title>Choice of a UNIX system and update of the objectives</title>
+
+		<para>We have used the source for the UnixWare system as the base for
+			performing the port of a Unix source code. We originally planned to
+			conduct the experiment on two different platforms: an Intel/386
+			platform and a Sun/Sparc one. The NAT-NAT, DRA-NAT and part of the
+			DRA-DRA steps have been achieved on the Intel/386 platform. Then, in
+			the light of the experience we gained from this work, we decided to
+			re-focus the project on a more complete DRA-DRA experiment, with a
+			different Unix system.  This report only covers that part of the work
+			done up to this change.</para>
+	</section>
+
+	<section>
+		<title>Choice of the validation tools</title>
+
+		<para>Throughout this experiment we had to validate the various parts of
+			the system we built.</para>
+
+		<para>A first level of validation was achieved by using the kernel and
+			commands built in the DRA-NAT step for our daily work. In addition, we
+			used the VSX4 and AIMIII validation suites to test more thoroughly the
+			robustness and performance of the system built in DRA-NAT mode.</para>
+	</section>
+</chapter>
+

@@ -1,0 +1,364 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Review of problems and other interesting points</title>
+
+	<section>
+		<title>Installation of the UnixWare binary delivery</title>
+
+		<para>When installing the UnixWare system from the binary delivery, we
+			faced one problem when installing optional packages such as nfs. This
+			was due to corrupted entries in a file containing information about
+			every file which is installed on the system through the packaging
+			system, /var/sadm/intall/contents. Deleting the corrupted entries,
+			removing the badly installed package and reinstalling it cured the
+			problem.</para>
+	</section>
+
+	<section>
+		<title>NAT-NAT build phase</title>
+
+		<para> Very few problems were encountered during this phase. We had some
+			troubles when building X11 &amp; Motif, first because we had forgotten
+			to customize a definition in a Makefile stating that we were using
+			binaries for Motif and not building it from sources; secondly because
+			two Makefiles were buggy.  This had no impact on other project phases
+			since the graphic system was not covered by DRA-NAT and DRA-DRA
+			experiments.</para>
+	</section>
+
+	<section>
+		<title>DRA-NAT build phase</title>
+
+		<para>This phase was the longest and richest. We describe below the
+			problems we had successively.</para>
+
+		<para><emphasis>Use of the TenDRA compiler throughout the build
+			process</emphasis></para>
+
+		<para>In the first steps of the build procedure, just modifying the PATH
+			environment variable was enough to use the TenDRA compiler as a pseudo
+			cc compiler. These steps include the building of libraries and
+			cross-environment tools, among which a new C compiler which was used
+			as soon as it was built. From this stage, we had to modify the build
+			procedure in order to substitute the freshly built compiler by a shell
+			script which emulates a call to the new compiler by a call to the
+			TenDRA tcc compiler.</para>
+
+		<para>In order to mimic the behavior of the compiler we want to replace,
+			we had to pass an option to tcc to modify the search path for the
+			system libraries.  With this option tcc calls the UnixWare linker with
+			information on the location of the libraries. Assuming that the
+			TOOLS_REF variable contains the correct path for the current build
+			tools, the option line we used was:</para>
+
+		<para>-Wl:-YP,$TOOLS_REF/usr/ccs/lib:$TOOLS_REF/usr/lib</para>
+
+		<para><emphasis>C-programming issues</emphasis></para>
+
+		<para>Most issues related to poor ANSI conformance have been by-passed
+			by using the tcc options -Xa -not_ansi -nepc.</para>
+
+		<para>However, in a few cases, we had to make minor changes in source
+			files:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>to avoid type promotion conflicts when a function was declared
+					with the prototype notation, and defined using the K&amp;R syntax.
+					We changed the definition to use the prototype notation
+					also.</para>
+			</listitem>
+
+			<listitem>
+				<para>to fix a mismatch in the number of arguments of a function,
+					e.g. when such function was declared without argument and defined
+					empty, but called with one argument.</para>
+			</listitem>
+
+			<listitem>
+				<para>to force the setting of __USLC__ preprocessor variable, which
+					is set by default by UnixWare C compilers. We discovered this
+					during the link-edit of a library, as some symbols were referenced
+					but undefined.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para><emphasis>Mapping special features of UnixWare compiler to
+			TenDRA</emphasis></para>
+
+		<para>Such features appeared through command line options which were
+			local to some Makefiles, or through #pragma directives in
+			sources.</para>
+
+		<para>Consider first a simple example: the normal option for producing
+			position-independent code is -KPIC, for both UnixWare cc and TenDRA.
+			However, a Makefile, responsible for building a shared library, was
+			using -Kpic instead. This option was supported by UnixWare but ignored
+			by TenDRA.  This resulted in a fatal error at library link-edit time.
+			A quick way to make TenDRA understand the -Kpic option is to create
+			inside the TenDRA svr4_i386/env directory a file named K-pic by
+			linking it to the existing file K-PIC.</para>
+
+		<para>The following two options of the UnixWare compiler can be ignored
+			(e.g.  filtered out): -Kno_host and -W0,-1c. The first one disables
+			the inlining of some C standard functions, and the second tells the
+			compiler to treat literal strings as constants. These two options
+			correspond to the default behavior for TenDRA.</para>
+
+		<para>The UnixWare compiler supports a pragma directive, to disable some
+			floating point optimization, termed fenv_access on. This directive was
+			used in a module to raise a floating point exception at run-time
+			rather than at compilation time. There is no equivalent option for
+			TenDRA, and furthermore tcc would abort when such a source file was
+			compiled. A fix was later supplied by DRA.</para>
+
+		<para>The #pragma weak directive of the native compiler supports nested
+			references to symbols such as:</para>
+
+		<para>#pragma weak sym1 = sym2</para>
+
+		<para>#pragma weak sym2 = sym3</para>
+
+		<para>This rarely used feature was not correctly supported by TenDRA.
+			This has been easily changed in the source code, and DRA will fix the
+			problem.</para>
+
+		<para>UnixWare provides developers with a utility termed fur to reorder
+			the functions in a relocatable object. This utility was used in
+			Makefiles when building the shared version of libraries, and used to
+			fail, complaining of missing function names. These functions appeared
+			to be declared as static in sources, and in such case the TenDRA
+			default behavior is to discard the related symbols. TenDRA supports a
+			pragma directive to change this default behavior. For example #pragma
+			preserve * will keep all symbols. As all library modules compiled with
+			-KPIC option were concerned, we have modified the svr4_i386/K-PIC file
+			already mentioned in this document, adding the line:</para>
+
+		<para>&gt;STARTUP -f/andf/svr4_i386/env/static_pic</para>
+
+		<para>This static_pic file was then created, containing:</para>
+
+		<para>#pragma preserve *</para>
+
+		<para>Finally, we mention a difference between the native compiler and
+			the TenDRA one which had no incidence but a warning message at
+			link-edit time. tcc generates an alignment of 8 for global structures
+			whose size is greater than 63, while the native compiler always use an
+			alignment of 4; when linking an object file compiled by the native
+			compiler and an object file compiled by TenDRA which both declare the
+			same structure, the linker issued a warning.</para>
+	</section>
+
+	<section id="dra-nat-validation">
+		<title>DRA-NAT validation, manually exercising commands and
+			libraries</title>
+
+		<para> The first level of validation we performed on the commands built
+			in DRA-NAT mode was to use these commands to replace the native ones.
+			We simply did this by modifying the PATH environment variable. Two
+			errors, inside the vi command, were detected, and then fixed, during
+			these tests.</para>
+
+		<para> We exercised in the same way the DRA-NAT version of the shared
+			libc library.  This validation revealed problems with grep, sed, and
+			the search subcommand of vi, cpio and find. When investigating the
+			grep command, it appeared that using the DRA-NAT static version of the
+			libc library solved the problem.  Thus we focused on the generation of
+			position-independent code (-KPIC option) by the TenDRA compiler. We
+			reported a bug to DRA, which was fixed in the subsequent release of
+			the TenDRA software. Rebuilding the shared libc library with the new
+			version of the TenDRA compiler fixed the problems for the grep, vi and
+			find commands. The sed command still did not behave correctly and
+			needs further investigation. The problem with cpio was due to a
+			mistake in our procedure for switching from the native version of the
+			shared libc library to the DRA-NAT version: we forgot to take into
+			account the file /usr/lib/libdl.so.1 together with the file
+			/usr/lib/libc.so.1, while these two files are linked. This point was
+			discovered after looking at the Makefile of the cpio command (local
+			libraries used here include libld).</para>
+	</section>
+
+	<section>
+		<title>DRA-NAT validation phase, booting the kernel</title>
+
+		<para>Despite the fact that the kernel is a complex and sensitive part
+			of the system, we found only two problems while exercising kernels
+			with more and more DRA-NAT built components.</para>
+
+		<para>The first problem we had was a PANIC message when running a kernel
+			with some DRA-NAT code. Using the crash command on the dumpfile file
+			created at system crash time, we located the problem in a call to a
+			function coded in assembly language. The comments embedded in the
+			source file told us that the code was making special assumptions on
+			the arguments and return value, which appeared to be
+			compiler-dependant. Instead of rewriting the code, we recompiled with
+			the native compiler the few C modules which were calling this
+			function.</para>
+
+		<para>The second problem we had did more damage to the system disk (some
+			configuration files became corrupted). We managed to repair these
+			files using the Emergency Recovery floppies and making comparisons
+			with our second platform (which had been carefully kept away from
+			risky experiments). The problem was due to a small difference between
+			code generated by the native compiler and the TenDRA compiler, which
+			would have usually no incidence.  When a global variable is defined
+			and initialized to zero, the native compiler puts it in a DATA section
+			while the TenDRA compiler puts it (by default) in a COMMON section.
+			During the build of the kernel, a utility was used to patch the value
+			of such a variable inside an object file, and this operation failed
+			(silently) when the object file had been created by TenDRA.  The
+			TenDRA installer comes with an install-time option -h which makes it
+			behave like the native compiler in respect to this point.</para>
+	</section>
+
+	<section>
+		<title>DRA-NAT validation phase, VSX4</title>
+
+		<para>We used the VSX4 test suite to exercise the TenDRA technology in
+			three successive steps.</para>
+
+		<para>Firstly, we built the VSX4 tests with the TenDRA compiler and the
+			static DRA-NAT system libraries. Then we ran the tests on a system
+			with a native kernel.</para>
+
+		<para>Secondly, we ran the tests built in the previous step on a system
+			with a DRA-NAT kernel.</para>
+
+		<para>Finally, we rebuilt the VSX4 tests, with the TenDRA compiler, on
+			a system with shared DRA-NAT system libraries (when available) and a
+			DRA-NAT kernel, and ran the suite on the same system.</para>
+
+		<para>During these three steps, the PATH environment variable was
+			giving access exclusively to DRA-NAT built commands. Only a few
+			commands are actually exercised by the VSX4 test suite: ar, awk, grep,
+			ld, lorder, make, sed, sh, tsort (...) at build time, cpio, gencat and
+			tar at execution time.</para>
+
+		<para>Five libraries are required, thus exercised, to build the VSX4
+			tests for UnixWare: libc, libm, libmalloc, libgen and libcrypt. A
+			dynamically-linked variant exists for libc and libcrypt only.</para>
+
+		<para>Surprisingly enough, none of the problems we had were located in
+			the DRA-NAT build being validated. All the VSX4 tests (approximately
+			6,000) successful when using native system were also successful on the
+			DRA-NAT system.  However, we faced three other types of
+			problems:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>Tests failing because of wrong permission on a work directory;
+					this simply came from the way we created a new target tree for
+					VSX4 test binaries.</para>
+			</listitem>
+
+			<listitem>
+				<para>Unclean code in test source. For example, the volatile
+					qualifier of a variable was missing, though the varaible was
+					modified by a signal handler and tested inside a while loop. Since
+					optimizations are enabled by default in TenDRA, this test failed
+					when compiled by tcc. There were two other tests which failed
+					because of undesirable optimizations made by the TenDRA
+					optimizer.</para>
+			</listitem>
+
+			<listitem>
+				<para>The static and shared variant of the libc library does not
+					behave the same in some cases. 14 tests failed when using the
+					static version of the libc library (native or DRA-NAT), which
+					passed when using the shared libc library.</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title>DRA-NAT validation phase, AIMIII</title>
+
+		<para>Due to a yet unexplained problem occurring when exercising either
+			native or DRA-NAT systems, AIMIII benchmark results have only been
+			obtained up to a load of 63 users.</para>
+
+		<para>When running the benchmark, we tried to use an environment as
+			stable as possible. We installed the benchmark on a local file system,
+			used only for this purpose, and disabled the cron daemon. However, we
+			had noticeable differences (peak difference up to 15%) between the
+			results of two equivalent runs at a small user load (1-10 users),
+			while such differences drop to 1% at a load of 60 users.</para>
+
+		<para>To avoid side effects when measuring performance, we have always
+			used the native compiler to compile the benchmark. The latter has to
+			be linked only with the libc library, and we have used the shared
+			variant.  Exercising the DRA-NAT build requires booting the DRA-NAT
+			kernel and setting up the DRA-NAT version of the dynamically-loaded
+			libc.</para>
+
+		<para>Given these assumptions, native and DRA-NAT systems have similar
+			performance: within a load range of 20-60 users, differences are below
+			3%.</para>
+	</section>
+
+	<section>
+		<title>DRA-DRA phase</title>
+
+		<para>A first experiment on very simple commands (echo, touch), showed
+			that the base API on which the commands were built was a mix of the
+			svid3 and xpg4 APIs. In fact, 57 commands, out of more than 600, were
+			based on this base API. When we tried to extend this API to cover more
+			commands, it quickly became apparent that most of the commands need
+			their own extension to the base API. Thus, each additional command
+			requires a lot of work in order to compile in DRA-DRA mode. During the
+			time of the experiment, we could only extend the API to cover about
+			100 commands.</para>
+
+		<para>We list below miscellaneous problems we encountered, which
+			required some modification in source files:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>Implicit function declarations</para>
+
+				<para>We wanted to suppress all the warnings due to missing function
+					prototypes for the commands we worked on. This was important in
+					order to make sure that every function used by a command was in
+					the interface we defined. However, in most of the commands we
+					worked on, internal functions returning an int were not declared.
+					So, we had to add their declaration in the source files in order
+					to suppress warnings on these functions. When this was done,
+					remaining warnings were due to use of functions without inclusion
+					of the include files where they were defined, or to incomplete
+					include files, in which case we added the prototype to the
+					interface.</para>
+			</listitem>
+
+			<listitem>
+				<para>Redeclaration of errno</para>
+
+				<para>In a few source files, errno was defined as a token by the
+					inclusion of the &lt;errno.h&gt; include file, but was also
+					defined in the file with the instruction:</para>
+
+				<programlisting language="c">extern int errno;</programlisting>
+
+				<para>Since errno can be implemented in different ways on different
+					architectures, it must not be declared as an int variable. This
+					problem has been corrected by removing this declaration from the
+					source file.</para>
+			</listitem>
+
+			<listitem>
+				<para>Redefinition of API functions</para>
+
+				<para>In a few cases, a function was declared in an include file as
+					being part of the API, e.g rewind, but was later defined in the
+					file. We corrected the problem by renaming the internal function
+					so that the conflict does not exist any longer.</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+</chapter>
+

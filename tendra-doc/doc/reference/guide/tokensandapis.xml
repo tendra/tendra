@@ -1,0 +1,200 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="tokens-and-apis">
+	<title>Tokens and APIs</title>
+
+	<para>All of the examples of the use of TOKENs so far given have really
+		been as abbreviations for commonly used constructs, e.g. the EXP
+		OFFSETS for fields of structures. However, the real justification for
+		TOKENs are their use as abstractions for things defined in libraries
+		or application program interfaces (APIs).</para>
+
+	<section id="S79">
+		<title>Application programming interfaces</title>
+
+		<para>APIs usually do not give complete language definitions of the
+			operations and values that they contain; generally, they are defined
+			informally in English giving relationships between the entities
+			within them.  An API designer should allow implementors the
+			opportunity of choosing actual definitions which fit their hardware
+			and the possibility of changing them as better algorithms or
+			representations become available.</para>
+
+		<para>The most commonly quoted example is the representation of the
+			type FILE and its related operations in C. The ANSI C definition
+			gives no common representation for FILE; its implementation is
+			defined to be platform-dependent. A TDF producer can assume nothing
+			about FILE; not even that it is a structure. The only things that
+			can alter or create FILEs are also entities in the Ansi-C API and
+			they will always refer to FILEs via a C pointer.  Thus TDF abstracts
+			FILE as a SHAPE TOKEN with no parameters, make_tok(T_FILE) say. Any
+			program that uses FILE would have to include a TOKDEC introducing
+			T_FILE:</para>
+
+		<programlisting language="tdf">make_tokdec(T_FILE, empty, shape())</programlisting>
+
+		<para>and anywhere that it wished to refer to the SHAPE of FILE it would
+			do:</para>
+
+		<programlisting language="tdf">shape_apply_token(make_tok(T_FILE), ())</programlisting>
+
+		<para>Before this program is translated on a given platform, the actual
+			SHAPE of FILE must be supplied. This would be done by linking a TDF
+			CAPSULE which supplies the TOKDEF for the SHAPE of FILE which is
+			particular to the target platform.</para>
+
+		<para>Many of the C operations which use FILEs are explicitly allowed
+			to be expanded as either procedure calls or as macros.  For example,
+			putc(c,f) may be implemented either as a procedure call or as the
+			expansion of macro which uses the fields of f directly. Thus, it is
+			quite natural for putc(c, f) to be represented in TDF as an EXP
+			TOKEN with two EXP parameters which allows it to be expanded in
+			either way. Of course, this would be quite distinct from the use of
+			putc as a value (as a proc parameter of a procedure for example)
+			which would require some other representation. One such
+			representation that comes to mind might be to simply to make a
+			TAGDEC for the putc value, supplying its TAGDEF in the Ansi API
+			CAPSULE for the platform. This might prove to be rather
+			short-sighted, since it denies us the possibility that the putc
+			value itself might be expanded from other values and hence it would
+			be better as another parameterless TOKEN. I have not come across an
+			actual API expansion for the putc value as other than a simple TAG;
+			however the FILE* value stdin is sometimes expressed as:</para>
+
+		<programlisting language="c">#define stdin &amp;_iob[0]</programlisting>
+
+		<para>which illustrates the point. It is better to have all of the
+			interface of an API expressed as TOKENs to give both generality and
+			flexibility across different platforms.</para>
+	</section>
+
+	<section id="S80">
+		<title>Linking to APIs</title>
+
+		<para>In general, each API requires platform-dependent definitions to
+			be supplied by a combination of TDF linking and system linking for
+			that platform. This is illustrated in the following diagram giving
+			the various phases involved in producing a runnable program.</para>
+
+		<figure>
+			<title>TDF Production, Linking and Translating</title>
+			<graphic fileref="images/guide3.png"/>
+		</figure>
+
+		<para>There will be CAPSULEs for each API on each platform giving the
+			expansions for the TOKENs involved, usually as uses of identifiers
+			which will be supplied by system linking from some libraries. These
+			CAPSULEs would be derived from the header files on the platform for
+			the API in question, usually using some automatic tools. For
+			example, there will be a TDF CAPSULE (derived from &lt;stdio.h&gt;)
+			which defines the TOKEN T_FILE as the SHAPE for FILE, together with
+			definitions for the TOKENs for putc, stdin, etc., in terms of
+			identifiers which will be found in the library libc.a.</para>
+
+		<section id="S81">
+			<title>Target independent headers, unique_extern</title>
+
+			<para>Any producer which uses an API will use system independent
+				information to give the common interface TOKENs for this API. In
+				the C producer, this is provided by header files using pragmas,
+				which tell the producer which TOKENs to use for the particular
+				constructs of the API . In any target-independent CAPSULE which
+				uses the API, these TOKENs would be introduced as TOKDECs and made
+				globally accessible by using make_linkextern. For a world-wide
+				standard API, the EXTERNAL "name" for a TOKEN used by
+				make_linkextern should be provided by an application of
+				unique_extern on a UNIQUE drawn from a central repository of names
+				for entities in standard APIs; this repository would form a kind
+				of super-standard for naming conventions in all possible APIs. The
+				mechanism for controlling this super-standard has yet to be set
+				up, so at the moment all EXTERN names are created by
+				string_extern.</para>
+
+			<para>An interesting example in the use of TOKENs comes in
+				abstracting field names. Often, an API will say something like
+				"the type Widget is a structure with fields alpha, beta ..."
+				without specifying the order of the fields or whether the list of
+				fields is complete. The field selection operations for Widget
+				should then be expressed using EXP OFFSET TOKENs; each field would
+				have its own TOKEN giving its offset which will be filled in when
+				the target is known. This gives implementors on a particular
+				platform the opportunity to reorder fields or add to them as they
+				like; it also allows for extension of the standard in the same
+				way.</para>
+
+			<para>The most common SORTs of TOKENs used for APIs are SHAPEs to
+				represent types, and EXPs to represent values, including
+				procedures and constants. NATs and VARIETYs are also sometimes
+				used where the API does not specify the types of integers
+				involved. The other SORTs are rarely used in APIs; indeed it is
+				difficult to imagine <emphasis>any</emphasis> realistic use of
+				TOKENs of SORT BOOL. However, the criterion for choosing which
+				SORTs are available for TOKENisation is not their immediate
+				utility, but that the structural integrity and simplicity of TDF
+				is maintained. It is fairly obvious that having BOOL TOKENs will
+				cause no problems, so we may as well allow them.</para>
+		</section>
+	</section>
+
+	<section id="S82">
+		<title>Language programming interfaces</title>
+
+		<para>So far, I have been speaking as though a TOKENised API could
+			only be some library interface, built on top of some language,
+			like xpg3, posix, X etc. on top of C. However, it is possible to
+			consider the constructions of the language itself as ideal
+			candidates for TOKENisation. For example, the C for-statement
+			could be expressed as TOKEN with four parameters. This TOKEN could
+			be expanded in TDF in several different ways, all giving the
+			correct semantics of a for-statement. A translator (or other
+			tools) could choose the expansion it wants depending on context
+			and the properties of the parameters. The C producer could give a
+			default expansion which a lazy translator writer could use, but
+			others might use expansions which might be more advantageous. This
+			idea could be extended to virtually all the constructions of the
+			language, giving what is in effect a C-language API; perhaps this
+			might be called more properly a language programming interface
+			(LPI). Thus, we would have TOKENs for C for-statements, C
+			conditionals, C procedure calls, C procedure definitions etc.
+			<footnote>
+				<para>Exercise for the reader: what are the SORTs of these
+					parameters?</para>
+	
+				<para>The current C producer does this for some of the
+					constructs, but not in any systematic manner; perhaps it will
+					change.</para>
+			</footnote></para>
+
+		<para>The notion of a producer for any language working to an LPI
+			specific to the constructs of the language is very attractive. It
+			could use different TOKENs to reflect the subtle differences
+			between uses of similar constructs in different languages which
+			might be difficult or impossible to detect from their expansions,
+			but which could allow better optimisations in the object code.
+			For example, Fortran procedures are slightly different from C
+			procedures in that they do not allow aliasing between parameters
+			and globals. While application of the standard TDF procedure calls
+			would be semantically correct, knowledge of that the non-aliasing
+			rule applies would allow some procedures to be translated to more
+			efficient code. A translator without knowledge of the semantics
+			implicit in the TOKENs involved would still produce correct code,
+			but one which knew about them could take advantage of that
+			knowledge.</para>
+
+		<para>I also think that LPIs would be a very useful tool for
+			crystalising ideas on how languages should be translated, allowing
+			one to experiment with expansions not thought of by the producer
+			writer. This decoupling is also an escape clause allowing the
+			producer writer to defer the implementation of a construct
+			completely to translate-time or link-time, as is done at the
+			moment in C for off-stack allocation. As such it also serves as a
+			useful test-bed for TOKEN constructions which may in future become
+			new constructors of core TDF.</para>
+	</section>
+</chapter>
+

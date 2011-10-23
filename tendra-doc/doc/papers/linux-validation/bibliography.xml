@@ -1,0 +1,50 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE bibliography SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<bibliography>
+	<title>Bibliography</title>
+
+	<biblioentry xreflabel="Ferri&egrave;re95-1">
+		<authorgroup>
+			<author>
+				<firstname>Fran&ccedil;ois</firstname>
+				<surname>de Ferri&egrave;re</surname>
+			</author>
+			<author>
+				<firstname>Jacques</firstname>
+				<surname>Febvre</surname>
+			</author>
+		</authorgroup>
+		<copyright>
+			<year>1995</year>
+			<holder>Open Systems Research Institute</holder>
+		</copyright>
+		<title>Revised Plan for Validation of TenDRA Capability to Implement a
+		Unix-like Operating System</title> June 1995
+	</biblioentry>
+
+	<biblioentry xreflabel="Ferri&egrave;re95-2">
+		<authorgroup>
+			<author>
+				<firstname>Fran&ccedil;ois</firstname>
+				<surname>de Ferri&egrave;re</surname>
+			</author>
+
+			<author>
+				<firstname>Fred</firstname>
+				<surname>Roy</surname>
+			</author>
+		</authorgroup>
+		<copyright>
+			<year>1995</year>
+			<holder>Open Systems Research Institute</holder>
+		</copyright>
+		<para><title>Validation of TenDRA Capability to Implement a UNIX-like
+			Operating System</title>June 1995</para>
+	</biblioentry>
+</bibliography>
+

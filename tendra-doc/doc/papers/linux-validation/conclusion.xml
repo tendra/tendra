@@ -1,0 +1,102 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Conclusion</title>
+
+	<para>During this second part of the project, we greatly benefited from
+		the experience acquired during the first part &unix-validation.doc;.
+		The build environment we used and
+		the way we integrated the TenDRA technology were directly derived from
+		the work on the Unixware platform. Also, the initial set of Linux
+		commands we could reasonably port was derived from the commands we had
+		already ANDFized for Unixware.</para>
+
+	<para>We finally ported and validated about 230 commands
+		on the Linux/i386 platform, but we could port only about 150 of them to
+		the Linux/Alpha platform. The main reason for not porting the 80
+		remaining commands on Linux/Alpha was that we were short of time.
+		Although we are below the target of 300 commands to be ported to both
+		platforms, we believe that the experiment was a success. A significant
+		amount of sometimes complex code was ANDFized, and the portability of
+		this code was demonstrated. The main reasons that the initial objective
+		was not attained were:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>The switch to the second platform was delayed.  Initially, we
+				had planned to use the microkernel based version of Linux on PowerPC,
+				but this was not available in time.</para>
+		</listitem>
+
+		<listitem>
+			<para>Setting up the Alpha/Linux system took a considerable amount of
+				time. This was mainly due to the fact that Linux has not been ported to
+				&ldquo;off-the-shelf&rdquo; hardware, and the system had to be assembled from
+				components (mother board, power supply, disks, etc.).</para>
+		</listitem>
+
+		<listitem>
+			<para>In the Linux/Alpha distribution we installed, a number of
+				commands were missing, and others were still not fully validated. This
+				meant that, porting commands from Intel to Alpha, we found several
+				portability bugs which were not fixed, and sometimes not even known, in
+				the Alpha command sources. Finding fixes or asking for help on the
+				Linux/Alpha mailing list slowed down our work.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>In the course of the project, Linux has evolved from Linux 1.1 to 1.3,
+		and Linux commands were distributed on Alpha. However, we stuck to the
+		Linux 1.1 commands, and we only used the Linux/Alpha distribution to
+		install the system and to find fixes when we had problems with some
+		commands.</para>
+
+	<para>Actually, many of the portability problems we found are now fixed on
+		Linux/Alpha, and it would be much easier to port these commands now than
+		it was a few months ago. However, the first source delivery of commands
+		for Linux/Alpha was only available in December 95, and using this new set
+		of commands would have required to re-do on the Intel platform the work
+		(ANDFization, installation and validation) which was already done.
+		Moreover, this first delivery was still not extensively validated and
+		contained a number of bugs.</para>
+
+	<para>This project demonstrated that it is possible to build an API for a
+		-rather large- set of commands. Moreover, this API is mostly based on
+		standard APIs, xpg3, svid3, with a relatively small number of additions
+		(e.g. a more complete bsd API than the TenDRA bsd_extn). However,
+		installation of the standard APIs (Posix, Xpg3,...) with TenDRA has shown
+		that Linux does not fully conform to these standards. In fact, the best
+		support is for the bsd API, since a large number of commands come from bsd
+		sources.</para>
+
+	<para>We used a 3-step approach in porting to ANDF, first compiling with the
+		native compiler, second, using the TenDRA compiler with the native header
+		files, and finally using TenDRA with abstract headers files and token
+		libraries. Although we used the second step to find portability errors
+		detected by the TenDRA compiler, this could be done in the third step.
+		However, the third step which consists in making the source code compatible
+		with the abstract API, is not so easy, and thus we found it easier to
+		resolve portability checks in a separate step.</para>
+
+	<para>Most of the modifications we made to the source code for
+		the commands came from missing function declarations and other trivial
+		unportable coding, e.g. wrong assumptions on int and pointer sizes.</para>
+
+	<para>The TenDRA technology has proven capable of handling the differences
+		between the two platforms. Although the same operating system runs on both
+		platforms, these hardware platforms are sufficiently different to create
+		difficulties. Standard APIs were successfully installed on both platforms,
+		and the specific API developed for the commands could be designed to support
+		the two different implementations. However, defining and installing an API
+		is not an easy process and requires some
+		<emphasis>sometimes extended</emphasis> knowledge of
+		the TenDRA technology. We also detected a very small number of bugs in the
+		TenDRA technology, in particular for the Dec/Alpha installer which has only
+		been recently distributed by DRA.</para>
+</chapter>
+

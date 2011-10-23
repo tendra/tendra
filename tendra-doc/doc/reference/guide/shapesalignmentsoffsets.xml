@@ -1,0 +1,521 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>SHAPEs, ALIGNMENTs and OFFSETs.</title>
+
+	<para>In most languages there is some notion of the type of a value.
+		This is often an uncomfortable mix of a definition of a representation
+		for the value and a means of choosing which operators are applicable
+		to the value. The TDF analogue of the type of value is its SHAPE
+		(S3.20). A SHAPE is only concerned with the representation of a value,
+		being an abstraction of its size and alignment properties.  Clearly an
+		architecture-independent representation of a program cannot say, for
+		example, that a pointer is 32 bits long; the size of pointers has to
+		be abstracted so that translations to particular architectures can
+		choose the size that is apposite for the platform.</para>
+
+	<section id="S19">
+		<title>Shapes</title>
+
+		<para>There are ten different basic constructors for the SORT SHAPE
+			from bitfield to top as shown in table 3.  SHAPEs arising from those
+			constructors are used as qualifiers (just using an upper case
+			version of the constructor name) to various SORTs in the definition;
+			for example, EXP TOP is an expression with top SHAPE. This is just
+			used for definitional purposes only; there is no SORT SHAPENAME as
+			one has SORTNAME.</para>
+
+		<para>In the TDF specification of EXPs, you will observe that all EXPs
+			in constructor signatures are all qualified by the SHAPE name; for
+			example, a parameter might be EXP INTEGER(v). This merely means that
+			for the construct to be meaningful the parameter must be derived
+			from a constructor defined to be an EXP INTEGER(v). You might be
+			forgiven for assuming that TDF is hence strongly-typed by its
+			SHAPEs. This is not true; the producer must get it right. There are
+			some checks in translators, but these are not exhaustive and are
+			more for the benefit of translator writers than for the user. A tool
+			for testing the SHAPE correctness of a TDF program would be useful
+			but has yet to be written.</para>
+
+		<section id="S20">
+			<title>TOP, BOTTOM, LUB</title>
+
+			<para>Two of the SHAPE constructions are rather specialised; these
+				are TOP and BOTTOM. The result of any expression with a TOP shape
+				will always be discarded; examples are those produced by assign
+				and integer_test . A BOTTOM SHAPE is produced by an expression
+				which will leave the current flow of control e.g. goto . The
+				significance of these SHAPEs only really impinges on the
+				computation of the shapes of constructs which have alternative
+				expressions as results. For example, the result of conditional is
+				the result of one of its component expressions. In this case, the
+				SHAPE of the result is described as the LUB of the SHAPEs of the
+				components. This simply means that if one of the component SHAPEs
+				is TOP then the resulting SHAPE is TOP; if one is BOTTOM then the
+				resulting SHAPE is the SHAPE of the other; otherwise both
+				component SHAPEs must be equal and is the resulting SHAPE. Since
+				this operation is associative, commutative and idempotent, we can
+				speak quite unambiguously of the LUB of several SHAPEs.</para>
+		</section>
+
+		<section id="S21">
+			<title>INTEGER</title>
+
+			<para>Integer values in TDF have shape INTEGER(v) where v is of SORT
+				VARIETY. The constructor for this SHAPE is integer with a VARIETY
+				parameter.  The basic constructor for VARIETY is var_limits which
+				has a pair of signed natural numbers as parameters giving the
+				limits of possible values that the integer can attain. The SHAPE
+				required for a 32 bit signed integer would be:</para>
+
+			<programlisting language="tdf">integer(var_limits(-2<superscript>31</superscript>, 2<superscript>31</superscript> - 1))</programlisting>
+
+			<para>while an unsigned char is:</para>
+
+			<programlisting language="tdf">integer(var_limits(0, 255))</programlisting>
+
+			<para>A translator should represent each integer variety by an object
+				big enough (or bigger) to contain all the possible values with
+				limits of the VARIETY. That being said, I must confess that most
+				current translators do not handle integers of more than the
+				maximum given naturally by the target architecture, but this will
+				be rectified in due course.</para>
+
+			<para>The other way of constructing a VARIETY is to specify the
+				number of bits required for its 2s-complemennt representation
+				using var_width:</para>
+
+			<programlisting language="tdf">signed_width: BOOL
+width:        NAT
+-&gt; VARIETY</programlisting>
+		</section>
+
+		<section id="S22">
+			<title>FLOATING and complex</title>
+
+			<para>Similarly, floating point and complex numbers have shape
+				FLOATING qualified by a FLOATING_VARIETY.</para>
+
+			<para>A FLOATING_VARIETY for a real number is constructed using
+				fvar_parms:</para>
+
+			<programlisting language="tdf">
+base:              NAT
+mantissa_digits:   NAT
+minimum_exponent:  NAT
+maximum_exponent:: NAT
+   -&gt; FLOATING_VARIETY</programlisting>
+
+			<para>A FLOATING_VARIETY specifies the base, number of mantissa
+				digits, and maximum and minimum exponent. Once again, it is
+				intended that the translator will choose a representation which
+				will contain all possible values, but in practice only those which
+				are included in IEEE float, double and extended are actually
+				implemented.</para>
+
+			<para>Complex numbers have a floating variety constructed by
+				complex_parms which has the the same signature as fvar_parms. The
+				representation of these numbers is likely to be a pair of real
+				numbers each defined as if by fvar_parms with the same arguments.
+				The real and imaginary parts of of a complex number can be
+				extracted using real_part and imaginary_part; these could have
+				been injected ito the complex number using make_complex or any of
+				the complex operations. Many translators will simply transform
+				complex numbers into COMPOUNDs consisting of two floating point
+				numbers, transforming the complex operations into floating point
+				operations on the fields.</para>
+		</section>
+
+		<section id="S23">
+			<title>BITFIELD</title>
+
+			<para>A number of contiguous bits have shape BITFIELD, qualified by
+				a BITFIELD_VARIETY (S3.4) which gives the number of bits involved
+				and whether these bits are to be treated as signed or unsigned
+				integers. Current translators put a maximum of 32 or 64 on the
+				number of bits.</para>
+		</section>
+
+		<section id="S24">
+			<title>PROC</title>
+
+			<para>The representational SHAPEs of procedure values is given by
+				PROC with constructor proc . I shall return to this in the
+				description of the operations which use it.</para>
+		</section>
+
+		<section id="S25">
+			<title>Non-primitive SHAPEs</title>
+
+			<para>The construction of the other four SHAPEs involves either
+				existing SHAPEs or the alignments of existing SHAPEs.  These are
+				constructed by compound, nof, offset and pointer.  Before
+				describing these, we require a digression into what is meant by
+				alignments and offsets.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Alignments</title>
+
+		<para>In most processor architectures there are limitations on how one
+			can address particular kinds of objects in convenient ways. These
+			limitations are usually defined as part of the ABI for the
+			processor. For example, in the MIPs processor the fastest way to
+			access a 32-bit integer is to ensure that the address of the integer
+			is aligned on a 4-byte boundary in the address space; obviously one
+			can extract a mis-aligned integer but not in one machine
+			instruction. Similarly, 16-bit integers should be aligned on a
+			2-byte boundary. In principle, each primitive object could have
+			similar restrictions for efficient access and these restrictions
+			could vary from platform to platform. Hence, the notion of alignment
+			has to be abstracted to form part of the architecture independent
+			TDF - we cannot assume that any particular alignment regime will
+			hold universally.</para>
+
+		<para>The abstraction of alignments clearly has to cover compound
+			objects as well as primitive ones like integers. For example, if a
+			field of structure in C is to be accessed efficiently, then the
+			alignment of the field will influence the alignment of the structure
+			as whole; the structure itself could be a component of a larger
+			object whose alignment must then depend on the alignment of the
+			structure and so on. In general, we find that a compound alignment
+			is given by the maximum alignment of its components, regardless of
+			the form of the compound object e.g. whether it is a structure,
+			union, array or whatever.</para>
+
+		<para>This gives an immediate handle on the abstraction of the
+			alignment of a compound object - it is just the set of abstractions
+			of the alignments of its components. Since "maximum" is associative,
+			commutative and idempotent, the component sets can be combined using
+			normal set-union rules. In other words, a compound alignment is
+			abstracted as the set of alignments of the primitive objects which
+			make up the compound object. Thus the alignment abstraction of a C
+			structure with only float fields is the singleton set containing the
+			alignment of a float while that of a C union of an int and this
+			structure is a pair of the alignments of an int and a float.</para>
+
+		<section id="alignement-constructors">
+			<title>ALIGNMENT constructors</title>
+
+			<para>The TDF abstraction of an alignment has SORT ALIGNMENT. The
+				constructor, unite_alignments, gives the set-union of its
+				ALIGNMENT parameters; this would correspond to taking a maximum of
+				two real alignments in the translator.</para>
+
+			<para>The constructor, alignment, gives the ALIGNMENT of a given
+				SHAPE according to the rules given in the definition. These rules
+				effectively <code>define</code> the primitive ALIGNMENTs as in the
+				ALIGNMENT column of table 3. Those for PROC, all OFFSETs and all
+				POINTERs are constants regardless of any SHAPE qualifiers. Each of
+				the INTERGER VARIETYs, each of the FLOATING VARIETYs and each of
+				the BITFIELD VARIETYs have their own ALIGNMENTs. These ALIGNMENTs
+				will be bound to values apposite to the particular platform at
+				translate-time. The ALIGNMENT of TOP is conventionally taken to be
+				the empty set of ALIGNMENTs (corresponding to the minimum
+				alignment on the platform).</para>
+
+			<para>The alignment of a procedure parameter clearly has to include
+				the alignment of its SHAPE; however, most ABIs will mandate a
+				greater alignment for some SHAPEs e.g. the alignment of a byte
+				parameter is usually defined to be on a 32-bit rather than an
+				8-bit boundary. The constructor, parameter_alignment, gives the
+				ALIGNMENT of a parameter of given SHAPE.</para>
+		</section>
+
+		<section id="S28">
+			<title>Special alignments</title>
+
+			<para>There are several other special ALIGNMENTs.</para>
+
+			<para>The alignment of a code address is {<code>code</code>} given
+				by code_alignment; this will be the alignment of a pointer given
+				by make_local_lv giving the value of a label.</para>
+
+			<para>The other special ALIGNMENTs are considered to include all of
+				the others, but remain distinct. They are all concerned with
+				offsets and pointers relevant to procedure frames, procedure
+				parameters and local allocations and are collectively known as
+				frame alignments. These frame alignments differ from the normal
+				alignments in that their mapping to a given architecture is rather
+				more than just saying that it describes some n-bit boundary. For
+				example, alloca_alignment describes the alignment of dynamic space
+				produced by local_alloc (roughly the C alloca).  Now, an ABI could
+				specify that the alloca space is a stack disjoint from the normal
+				procedure stack; thus manipulations of space at alloca_alignment
+				may involve different code to space generated in other
+				ways.</para>
+
+			<para>Similar considerations apply to the other special alignments,
+				callees_alignment(b), callers_alignment(b) and locals_alignment.
+				The first two give the alignments of the bases of the two
+				different parameter spaces in procedures (q.v.) and
+				locals_alignment gives the alignment of the base of locally
+				declared tags within a procedure. The exact interpretation of
+				these depends on how the frame stack is defined in the target ABI,
+				e.g. does the stack grow downwards or upwards?</para>
+
+			<para>The final special alignment is var_param_alignment. This
+				describes the alignment of a special kind of parameter to a
+				procedure which can be of arbitrary length (see
+				<link linkend="vartag-varparam">section 5.1.1</link>).</para>
+		</section>
+
+		<section id="al_tag-make_al_tagdef">
+			<title>AL_TAG, make_al_tagdef</title>
+
+			<para>Alignments can also be named as AL_TAGs using make_al_tagdef.
+				There is no corresponding make_al_tagdec since AL_TAGs are
+				implicitly declared by their constructor, make_al_tag. The main
+				reason for having names for alignments is to allow one to resolve
+				the ALIGNMENTs of recursive data structures. If, for example, we
+				have mutually recursive structures, their ALIGNMENTs are best
+				named and given as a set of equations formed by AL_TAGDEFs. A
+				translator can then solve these equations trivially by
+				substitution; this is easy because the only significant operation
+				is set-union.</para>
+		</section>
+	</section>
+
+	<section id="pointer-and-offset-shapes">
+		<title>Pointer and offset SHAPEs</title>
+
+		<para>A pointer value must have a form which reflects the alignment of
+			the object that it points to; for example, in the MIPs processor,
+			the bottom two bits of a pointer to an integer must be zero. The TDF
+			SHAPE for a pointer is POINTER qualified by the ALIGNMENT of the
+			object pointed to.  The constructor pointer uses this alignment to
+			make a POINTER SHAPE.</para>
+
+		<section id="offset">
+			<title>OFFSET</title>
+
+			<para>Expressions which give sizes or offsets in TDF have an OFFSET
+				SHAPE. These are always described as the difference between two
+				pointers.  Since the alignments of the objects pointed to could be
+				different, an OFFSET is qualified by these two ALIGNMENTs. Thus an
+				EXP OFFSET(X,Y) is the difference between an EXP POINTER(X) and an
+				EXP POINTER(Y). In order for the alignment rules to apply, the set
+				X of alignments must include Y. The constructor offset uses two
+				such alignments to make an OFFSET SHAPE. However, many instances
+				of offsets will be produced implicitly by the offset arithmetic,
+				e.g., offset_pad:</para>
+
+			<programlisting language="tdf">a:    ALIGNMENT
+arg1: EXP OFFSET(z, t)
+-&gt; EXP OFFSET(z xc8 a, a)</programlisting>
+
+			<para>This gives the next OFFSET greater or equal to <code>arg1</code>
+				at which an object of ALIGNMENT <code>a</code> can be
+				placed. It should be noted that the calculation of shapes and
+				alignments are all translate-time activities; only EXPs should
+				produce runnable code.  This code, of course, may depend on the
+				shapes and alignments involved; for example, offset_pad might
+				round up <code>arg1</code> to be a multiple of four bytes if
+				<code>a</code> was an integer ALIGNMENT and
+				<code>z</code> was a character ALIGNMENT. Translators
+				also do extensive constant analysis, so if <code>arg1</code> was a
+				constant offset, then the round-off would be done at
+				translate-time to produce another constant.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Compound SHAPEs</title>
+
+		<para>The alignments of compound SHAPEs (i.e. those arising from the
+			constructors compound and nof) are derived from the constructions
+			which produced the SHAPE. To take the easy one first, the
+			constructor nof has signature:</para>
+
+		<programlisting language="tdf">n: NAT
+s: SHAPE
+-&gt; SHAPE</programlisting>
+
+		<para>This SHAPE describes an array of <code>n</code> values all of SHAPE
+			<code>s</code>; note that <code>n</code> is a natural number and
+			hence is a constant known to the producer. Throughout the definition
+			this is referred to as the SHAPE NOF(n, s). The ALIGNMENT of such a
+			value is alignment(s); i.e. the alignment of an array is just the
+			alignment of its elements.</para>
+
+		<para>The other compound SHAPEs are produced using compound:</para>
+
+		<programlisting language="tdf">sz: EXP OFFSET(x, y)
+-&gt; SHAPE</programlisting>
+
+		<para>The <code>sz</code> parameter gives the minimum size which can
+			accommodate the SHAPE.</para>
+
+		<section id="offset-arithmetic">
+			<title>Offset arithmetic with compound shapes</title>
+
+			<para>The constructors offset_add, offset_zero and shape_offset are
+				used together with offset_pad to implement (<emphasis>inter
+				alia</emphasis>) selection from structures represented by
+				COMPOUND SHAPEs. Starting from the zero OFFSET given by
+				offset_zero, one can construct an EXP which is the offset of a
+				field by padding and adding offsets until the required field is
+				reached. The value of the field required could then be extracted
+				using component or add_to_ptr. Most producers would define a TOKEN
+				for the EXP OFFSET of each field of a structure or union used in
+				the program simply to reduce the size of the TDF.</para>
+
+			<para>The SHAPE of a C structure consisting of an char followed by
+				an int would require <varname>x</varname> to be the set consisting
+				of two INTEGER VARIETYs, one for int and one for char, and
+				<code>sz</code> would probably have been constructed like:</para>
+
+			<programlisting language="tdf">sz = offset_add(offset_pad(int_al, shape_offset(char)), shape_offset(int))</programlisting>
+
+			<para>The various rules for the ALIGNMENT qualifiers of the OFFSETs
+				give the required SHAPE; these rules also ensure that offset
+				arithmetic can be implemented simply using integer arithmetic for
+				standard architectures (see
+				<link linkend="model-for-32bit-architecture">section 13.1</link>).
+				Note that the OFFSET computed here is the minimum size for the
+				SHAPE. This would not in general be the same as the difference
+				between successive elements of an array of these structures which
+				would have SHAPE OFFSET(<code>x</code>,
+				<code>x</code>) as produced by
+				offset_pad(<code>x</code>, <code>sz</code>).
+				For examples of the use of OFFSETs to access and create
+				structures, see
+				<link linkend="tdf-expansions-of-offsets">section 12</link>.</para>
+		</section>
+
+		<section id="S34">
+			<title>offset_mult</title>
+
+			<para>In C, all structures have size known at translate-time. This
+				means that OFFSETs for all field selections of structures and
+				unions are translate-time constants; there is never any need to
+				produce code to compute these sizes and offsets. Other languages
+				(notably Ada) do have variable size structures and so sizes and
+				offsets within these structures may have to be computed
+				dynamically. Indexing in C will require the computation of dynamic
+				OFFSETs; this would usually be done by using offset_mult to
+				multiply an offset expression representing the stride by an
+				integer expression giving the index:</para>
+
+			<programlisting language="tdf">arg1: EXP OFFSET(x, x)
+arg2: EXP INTEGER(v)
+-&gt; EXP OFFSET(x, x)</programlisting>
+
+			<para>and using add_to_ptr with a pointer expression giving the base of
+				the array with the resulting OFFSET.</para>
+		</section>
+
+		<section id="S35">
+			<title>OFFSET ordering and representation</title>
+
+			<para>There is an ordering defined on OFFSETs with the same
+				alignment qualifiers, as given by offset_test and offset_max
+				having properties like:</para>
+
+			<programlisting language="tdf">shape_offset(S) xb3  offset_zero(alignment(S))
+A xb3  B        iff offset_max(A,B) = A
+offset_add(A, B) xb3  A         where B xb3  offset_zero(some compatible alignment)</programlisting>
+
+			<para>In most machines, OFFSETs would be represented as single integer
+				values with the OFFSET ordering corresponding to simple integer
+				ordering. The offset_add constructor just translates to simple
+				addition with offset_zero as 0 with similar correspondences for
+				the other offset constructors. You might well ask why TDF does not
+				simply use integers for offsets, instead of introducing the rather
+				complex OFFSET SHAPE. The reasons are two-fold. First, following
+				the OFFSET arithmetic rules concerned with the ALIGNMENT
+				qualifiers will ensure that one never extracts a value from a
+				pointer with the wrong alignment by, for example, applying
+				contents to an add_to_pointer. This frees TDF from having to
+				define the effect of strange operations like forming a float by
+				taking the contents of a pointer to a character which may be
+				mis-aligned with respect to floats - a heavy operation on most
+				processors. The second reason is quite simple; there are machines
+				which cannot represent OFFSETs by a single integer value.</para>
+
+			<para>The iAPX-432 is a fairly extreme example of such a machine; it
+				is a "capability" machine which must segregate pointer values and
+				non-pointer values into different spaces. On this machine a value
+				of SHAPE POINTER({<code>pointer</code>, int}) (e.g. a pointer to a
+				structure containing both integers and pointers) could have two
+				components; one referring to the pointers and another to the
+				integers. In general, offsets from this pointer would also have
+				two components, one to pick out any pointer values and the other
+				the integer values. This would obviously be the case if the
+				original POINTER referred to an array of structures containing
+				both pointers and integers; an offset to an element of the array
+				would have SHAPE OFFSET({<code>pointer</code>, int},
+				{<code>pointer</code>, int}); both elements of the offset would
+				have to be used as displacements to the corresponding elements of
+				the pointer to extract the structure element. The OFFSET ordering
+				is now given by the comparison of both displacements. Using this
+				method, one finds that pointers in store to non-pointer alignments
+				are two words in different blocks and pointers to
+				pointer-alignments are four words, two in one block and two in
+				another. This sounds a very unwieldy machine compared to normal
+				machines with linear addressing. However, who knows what similar
+				strange machines will appear in future; the basic conflicts
+				between security, integrity and flexibility that the iAPX-432
+				sought to resolve are still with us. For more on the modelling of
+				pointers and offsets see
+				<link linkend="models-of-the-tdf-algebra">section 13</link>.</para>
+		</section>
+	</section>
+
+	<section id="bitfield-alignments">
+		<title>BITFIELD alignments</title>
+
+		<para>Even in standard machines, one finds that the size of a pointer
+			may depend on the alignment of the data pointed at. Most machines do
+			not allow one to construct pointers to bits with the same facility
+			as other alignments. This usually means that pointers in memory to
+			BITFIELD VARIETYs must be implemented as two words with an address
+			and bit displacement.  One might imagine that a translator could
+			implement BITFIELD alignments so that they are the same as the
+			smallest natural alignment of the machine and avoid the bit
+			displacement, but this is not the intention of the definition. On
+			any machine for which it is meaningful, the alignment of a BITFIELD
+			must be one bit; in other words successive BITFIELDs are butted
+			together with no padding bits. <footnote>
+				<para>Note that is not generally true for C bitfields; most C ABIs
+					have (different) rules for putting in padding bits depending on
+					the size of the bitfield and its relation with the natural
+					alignments. This is a fruitful source of errors in data exchange
+					between different C ABIs For more on similar limitations of
+					bitfields in TDF (see
+					<link linkend="assigning-and-extracting-bitfields">Assigning and
+					extracting bitfields</link>).</para>
+			</footnote>
+			Within the limits of what one can extract from BITFIELDs, namely
+			INTEGER VARIETYs, this is how one should implement non-standard
+			alignments, perhaps in constructing data, such as protocols, for
+			exchange between machines. One could implement some Ada
+			representational statements in this way; certainly the most commonly
+			used ones.</para>
+
+		<para>TDF Version 3.0 does not allow one to construct a pointer of
+			SHAPE POINTER(b) where b consists entirely of bitfield alignments;
+			this relieves the translators of the burden of doing general
+			bit-addressing. Of course, this simply shifts the burden to the
+			producer. If the high level language requires to construct a pointer
+			to an arbitrary bit position, then the producer is required to
+			represent such a pointer as a pair consisting of pointer to some
+			alignment including the required bitfield and an offset from this
+			alignment to the bitfield. For example, Ada may require the
+			construction of a pointer to a boolean for use as the parameter to a
+			procedure; the SHAPE of the rep resentation of this Ada pointer
+			could be a COMPOUND formed from a POINTER({x,b}) and an OFFSET({x,
+			b}, b) where b is the alignment given by a 1 bit alignment. To
+			access the boolean, the producer would use the elements of this pair
+			as arguements to bitfield_assign and bitfield_contents
+			(<link linkend="assigning-and-extracting-bitfields">Assigning and
+			extracting bitfields</link>.).</para>
+	</section>
+</chapter>
+

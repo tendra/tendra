@@ -1,0 +1,335 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="models-of-the-tdf-algebra">
+	<title>Models of the TDF algebra</title>
+
+	<para>TDF is a multi-sorted abstract algebra. Any implementation of TDF
+		is a model of this algebra, formed by a mapping of the algebra into a
+		concrete machine. An algebraic mapping gives a concrete representation
+		to each of the SORTs in such a way that the representation of any
+		construction of TDF is independent of context; it is a homomorphism.
+		In other words if we define the mapping of a TDF constructor, C, as
+		MAP[C] and the representation of a SORT, S, as REPR[S] then:</para>
+
+	<programlisting language="tdf">REPR[C(P1, ..., Pn)] = MAP[C](REPR(P1), ..., REPR(Pn))</programlisting>
+
+	<para>Any mapping has to preserve the equivalences of the abstract algebra,
+		such as those exemplified by the transformations {A} - {Z} in
+		<link linkend="transformations-as-definitions">section 11.1</link>.
+		Similarly, the mappings of any predicates on the constructions, such
+		as those giving "well-formed" conditions, must be satisfied in terms
+		of the mapped representations.</para>
+
+	<para>In common with most homomorphisms, the mappings of constructions
+		can exhibit more equivalences than are given by the abstract algebra.
+		The use of these extra equivalences is the basis of most of the
+		target-dependent optimisations in a TDF translator; it can make use of
+		"idioms" of the target architecture to produce equivalent
+		constructions which may work faster than the "obvious" translation. In
+		addition, we may find that may find that more predicates are satisfied
+		in a mapping than would be in the abstract algebra. a particular
+		concrete mapping might allow more constructions to be well-formed than
+		are permitted in the abstract; a producer can use this fact to target
+		its output to a particular class of architectures. in this case, the
+		producer should produce tdf so that any translator not targeted to
+		this class can fail gracefully.</para>
+
+	<para>giving a complete mapping for a particular architecture here is
+		tantamount to writing a complete translator. however, the mappings for
+		the small but important sub-algebra concerned with offsets and
+		alignments illustrates many of the main principles.  what follows is
+		two sets of mappings for disparate architectures; the first gives a
+		more or less standard meaning to alignments but the second may be less
+		familiar.</para>
+
+	<section id="model-for-32bit-architecture">
+		<title>Model for a 32-bit standard architecture</title>
+
+		<para>Almost all current architectures use a "flat-store" model of
+			memory. There is no enforced segregation of one kind of data from
+			another - in general, one can access one unit of memory as a linear
+			offset from any other. Here, TDF ALIGNMENTs are a reflection of
+			constraints for the efficient access of different kinds of data
+			objects - usually one finds that 32-bit integers are most
+			efficiently accessed if they start at 32 bit boundaries and so
+			on.</para>
+
+		<section id="S91">
+			<title>Alignment model</title>
+
+			<para>The representation of ALIGNMENT in a typical standard
+				architecture is a single integer where:</para>
+
+			<programlisting language="tdf">REPR[{ }] = 1
+REPR[{bitfield}] = 1
+REPR[{char_variety}] = 8
+REPR[{short_variety}] = 16</programlisting>
+            
+			<para>Otherwise, for all other primitive ALIGNMENTS a:</para>
+            
+			<programlisting language="tdf">REPR[{a}] = 32</programlisting>
+            
+			<para>The representation of a compound ALIGNMENT is given by:</para>
+            
+			<programlisting language="tdf">REPR[A xc8 B] = Max(REPR[A], REPR[B])
+i.e. MAP[unite_alignment] = Max</programlisting>
+            
+			<para>while the ALIGNMENT inclusion predicate is given by:</para>
+
+			<programlisting language="tdf">REPR[A ... B]= REPR[A] xb3 REPR[B]</programlisting>
+
+			<para>All the constructions which make ALIGNMENTs are represented here
+				and they will always reduce to an integer known at translate-time.
+				Note that the mappings for xc8 and ... must preserve the basic
+				algebraic properties derived from sets; for example the mapping of
+				xc8 must be idempotent, commutative and associative, which is true
+				for Max.</para>
+		</section>
+
+		<section id="offset-and-pointer-model">
+			<title>Offset and pointer model</title>
+
+			<para>Most standard architectures use byte addressing; to address
+				bits requires more complication. Hence, a value with SHAPE
+				POINTER(A) where REPR[A)]xb9 1 is represented by a 32-bit byte
+				address.</para>
+
+			<para>We are not allowed to construct pointers where REPR[A] = 1,
+				but we still have offsets whose second alignment is a bitfield.
+				Thus a offsets to bitfield are represented differently to offsets
+				to other alignments:</para>
+
+			<para>A value with SHAPE OFFSET(A, B) where REPR(B) xb9 1 is
+				represented by a 32-bit byte-offset.</para>
+
+			<para>A value with SHAPE OFFSET(A, B) where REPR(B) = 1 is
+				represented by a 32-bit bit-offset.</para>
+		</section>
+
+		<section id="size-model">
+			<title>Size model</title>
+
+			<para>In principle, the representation of a SHAPE is a pair of an
+				ALIGNMENT and a size, given by shape_offset applied to the SHAPE.
+				This pair is constant which can be evaluated at translate time.
+				The construction, shape_offset(S), has SHAPE OFFSET(alignment(s),
+				{ }) and hence is represented by a bit-offset:</para>
+
+			<programlisting language="tdf">REPR[shape_offset(top())] = 0
+REPR[shape_offset(integer(char_variety))] = 8
+REPR[shape_offset(integer(short_variety))] = 16
+.... etc. for other numeric varieties
+REPR[shape_offset(pointer(A))]= 32
+REPR[shape_offset(compound(E))] = REPR[E]
+REPR[shape_offset(bitfield(bfvar_bits(b, N)))] = N
+REPR[shape_offset(nof(N, S))] = N * REPR[offset_pad(alignment(S), shape_offset(S))]
+        where S is not a bitfield shape</programlisting>
+            
+			<para>Similar considerations apply to the other offset-arithmetic
+				constructors. In general, we have:</para>
+
+			<programlisting language="tdf">
+REPR[offset_zero(A)] = 0             for all A
+
+REPR[offset_pad(A, X:OFFSET(C, D)) =
+    ((REPR[X] + REPR[A] - 1) / (REPR[A])) * REPR[A] / 8
+        if REPR[A] xb9 1 xd9 REPR[D] =1</programlisting>
+
+			<para>Otherwise:</para>
+
+			<programlisting language="tdf">
+REPR[offset_pad(A, X:OFFSET(C, D)) =
+    ((REPR[X] + REPR[A] - 1) / (REPR[A])) * REPR[A]
+
+REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X] * 8 + REPR[Y]
+        if REPR[B] xb9 1 xd9 REPR[D] = 1</programlisting>
+
+            <para>Otherwise:</para>
+
+            <programlisting language="tdf">
+REPR[offset_add(X, Y)] = REPR[X] + REPR[Y]
+
+REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] = Max(REPR[X], 8 * REPR[Y]
+        if REPR[B] = 1 xd9 REPR[D] xb9 1
+REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] = Max(8 * REPR[X], REPR[Y]
+        if REPR[D] = 1 xd9 REPR[B] xb9 1</programlisting>
+
+			<para>Otherwise:</para>
+
+			<programlisting language="tdf">
+REPR[offset_max(X, Y)] = Max(REPR[X], REPR[Y])
+
+REPR[offset_mult(X, E)] = REPR[X] * REPR[E]</programlisting>
+
+			<para>A translator working to this model maps ALIGNMENTs into the
+				integers and their inclusion constraints into numerical
+				comparisons.  As a result, it will correctly allow many OFFSETs
+				which are disallowed in general; for example, OFFSET({pointer},
+				{char_variety}) is allowed since REPR[{pointer}] xb3
+				REPR[{char_variety}]. Rather fewer of these extra relationships
+				are allowed in the next model considered.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Model for machines like the iAPX-432</title>
+
+		<para>The iAPX-432 does not have a linear model of store. The address
+			of a word in store is a pair consisting of a block-address and a
+			displacement within that block. In order to take full advantage of
+			the protection facilities of the machine, block-addresses are
+			strictly segregated from scalar data like integers, floats,
+			displacements etc. There are at least two different kind of blocks,
+			one which can only contain block-addresses and the other which
+			contains only scalar data. There are clearly difficulties here in
+			describing data-structures which contain both pointers and scalar
+			data.</para>
+
+		<para>Let us assume that the machine has bit-addressing to avoid the
+			bit complications already covered in the first model. Also assume
+			that instruction blocks are just scalar blocks and that block
+			addresses are aligned on 32-bit boundaries.</para>
+
+		<section id="S95">
+			<title>Alignment model</title>
+
+			<para>An ALIGNMENT is represented by a pair consisting of an
+				integer, giving the natural alignments for scalar data, and
+				boolean to indicate the presence of a block-address. Denote this
+				by:</para>
+
+			<programlisting language="tdf">(s:alignment_of_scalars, b:has_blocks)</programlisting>
+            
+			<para>We then have:</para>
+
+			<programlisting language="tdf">
+REPR[alignment({ })] = (s:1, b:FALSE)
+REPR[alignment({char_variety}) = (s:8, b:FALSE)
+... etc. for other numerical and bitfield varieties.
+REPR[alignment({pointer})] = (s:32, b:TRUE)
+REPR[alignment({proc})] = (s:32, b:TRUE)
+REPR[alignment({local_label_value})] = (s:32, b:TRUE)</programlisting>
+
+			<para>The representation of a compound ALIGNMENT is given by:</para>
+
+			<programlisting language="tdf">REPR[A xc8 B] = (s:Max(REPR[A].s, REPR[B].s), b:REPR[A].b xda REPR[B].b)</programlisting>
+		  
+			<para>and their inclusion relationship is given by:</para>
+
+			<programlisting language="tdf">REPR[A ... B] = (REPR[A].s xb3 REPR[B].s) xd9 (REPR[A].b xda REPR[B].b)</programlisting>
+		</section>
+
+		<section id="S96">
+			<title>Offset and pointer model</title>
+
+			<para>A value with SHAPE POINTER A where REPR[A].b is represented
+				by a pair consisting of a block-address of a scalar block and an
+				integer bit-displacement within that block.  Denote this by:</para>
+
+			<programlisting language="tdf">(sb:scalar_block_address, sd:bit_displacement)</programlisting>
+
+			<para>A value with SHAPE POINTER A where REPR[A].b is represented by a
+				quad word consisting of two block-addresses and two
+				bit-displacements within these blocks. One of these block
+				addresses will contain the scalar information pointed at by one of
+				the bit-displacements; similarly, the other pair will point at the
+				block addresses in the data are held. Denote this by:</para>
+
+			<programlisting language="tdf">(sb:scalar_block_address, ab:address_block_address,
+ sd:scalar_displacement, ad:address_displacement)</programlisting>
+
+			<para>A value with SHAPE OFFSET(A, B) where REPR[A].b is represented
+				by an integer bit-displacement.</para>
+
+			<para>A value with SHAPE OFFSET(A, B) where REPR[A].b is represented
+				by a pair of bit-displacements, one relative to a scalar-block and
+				the other to an address-block. Denote this by:</para>
+
+			<programlisting language="tdf">(sd:scalar_displacement, ad:address_displacement)</programlisting>
+		</section>
+
+		<section id="S97">
+			<title>Size model</title>
+
+			<para>The sizes given by shape_offset are now:</para>
+
+			<programlisting language="tdf">REPR[shape_offset(integer(char_variety))] = 8
+... etc. for other numerical and bitfield varieties.
+REPR[shape_offset(pointer(A))] = (REPR[A].b) ? (sd:64, ad:64) : (sd:32, ad:32)
+REPR[shape_offset(offset(A, B))] = (REPR[A].b) ? 64 : 32)
+REPR[shape_offset(proc)] = (sd:32, ad:32)
+REPR[shape_offset(compound(E))] = REPR[E]
+REPR[shape_offset(nof(N, S))] = N * REPR[offset_pad(alignment(S)), shape_offset(S))]
+REPR[shape_offset(top)] = 0</programlisting>
+		</section>
+
+		<section id="S98">
+			<title>Offset arithmetic</title>
+
+			<para>The other OFFSET constructors are given by:</para>
+
+			<programlisting language="tdf">REPR[offset_zero(A)] = 0              if REPR[A].b
+REPR[offset_zero(A)] = (sd: 0, ad: 0) if REPR[A].b
+
+REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X] + REPR[Y]
+        if REPR[A].b xd9 REPR[C].b
+REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] =
+    (sd:REPR[X].sd + REPR[Y].sd, ad: REPR[X].ad + REPR[Y].ad)
+        if REPR[A].b xd9 REPR[C].b
+REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] =
+    (sd:REPR[X].sd + REPR[Y], ad:REPR[X].ad)
+        if REPR[A].b xd9 REPR[C].b
+
+REPR[offset_pad(A, Y:OFFSET(C, D))] = (REPR[Y] + REPR[A].s - 1) / REPR[A].s
+        if REPR[A].b xd9 REPR[C].b
+REPR[offset_pad(A, Y:OFFSET(C, D))] =
+    (sd:(REPR[Y] + REPR[A].s - 1) / REPR[A].s, ad:REPR[Y].ad)
+        if REPR[C].b
+REPR[offset_pad(A, Y: OFFSET(C, D))] =
+    (sd:(REPR[Y] + REPR[A].s - 1) / REPR[A].s, ad:0)
+        if REPR[A].b xd9 REPR[C].b
+REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] = Max(REPR[X], REPR[Y])
+        if REPR[A].b xd9 REPR[C].b
+REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] =
+    (sd:Max(REPR[X].sd, REPR[Y].sd), ad:Max(REPR[X].a, REPR[Y].ad))
+        if REPR[A].b xd9 REPR[C].b
+REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] =
+    (sd:Max(REPR[X].sd, REPR[Y]), ad:REPR[X].ad)
+        if REPR[A].b xd9 REPR[C].b
+REPR[offset_max(X:OFFSET(A, B), Y:OFFSET(C, D))] =
+    (sd:Max(REPR[Y].sd, REPR[X]), ad: REPR[Y].ad)
+        if REPR[C].b xd9 REPR[A].b
+
+REPR[offset_subtract(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X] - REPR[Y]
+        if REPR[A].b xd9 REPR[C].b
+REPR[offset_subtract(X:OFFSET(A,B), Y:OFFSET(C, D))] =
+    (sd:REPR[X].sd - REPR[Y].sd, ad:REPR[X].ad - REPR[Y].ad)
+        if REPR[A].b xd9 REPR[C].b
+REPR[offset_add(X:OFFSET(A, B), Y:OFFSET(C, D))] = REPR[X].sd - REPR[Y]
+        if REPR[A].b xd9 REPR[C].b
+.... and so on.</programlisting>
+            
+		<para>Unlike the previous one, this model of ALIGNMENTs would reject
+			OFFSETs such as OFFSET({long_variety}, {pointer}) but not
+			OFFSET({pointer}, {long_variety}) since:</para>
+
+		<programlisting language="tdf">REPR[{long_variety} ... {pointer}] = FALSE</programlisting>
+
+		<para>but:</para>
+
+		<programlisting language="tdf">REPR[{pointer} ... {long_variety}] = TRUE</programlisting>
+
+		<para>This just reflects the fact that there is no way that one can
+			extract a block-address necessary for a pointer from a
+			scalar-block, but since the representation of a pointer includes a
+			scalar displacement, one can always retrieve a scalar from a
+			pointer to a pointer.</para>
+		</section>
+	</section>
+</chapter>
+

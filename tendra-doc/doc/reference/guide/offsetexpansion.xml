@@ -1,0 +1,226 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="tdf-expansions-of-offsets">
+	<title>TDF expansions of offsets</title>
+
+	<para>Consider the C structure defined by:</para>
+
+	<programlisting language="tdf">typedef struct{ int i; double d; char c;} mystruct;</programlisting>
+
+	<para>Given that sh_int, sh_char and sh_double are the SHAPEs for int, char
+		and double, the SHAPE of <code>mystruct</code> is constructed by:</para>
+
+	<programlisting language="tdf">SH_mystruct = compound(S_c)</programlisting>
+
+	<para>where:</para>
+
+	<programlisting language="tdf">S_c = offset_add(O_c, shape_offset(sh_char))</programlisting>
+
+	<para>where:</para>
+
+	<programlisting language="tdf">O_c = offset_pad(alignment(sh_char), S_d)</programlisting>
+
+	<para>where:</para>
+
+	<programlisting language="tdf">S_d = offset_add(O_d, shape_offset(sh_double))</programlisting>
+
+	<para>where:</para>
+
+	<programlisting language="tdf">O_d = offset_pad(alignment(sh_double), S_i)</programlisting>
+
+	<para>where: <footnote>
+		<para>I could equally have given simply shape_offset(sh_int) for
+			S_i, but the above formulation is more uniform with respect to
+			selection OFFSETs.</para>
+		</footnote></para>
+
+	<programlisting language="tdf">S_i = offset_add(O_i, shape_offset(sh_int))</programlisting>
+
+	<para>and:</para>
+
+	<programlisting language="tdf">O_i = offset_zero(alignment(sh_int))</programlisting>
+
+	<para>Each of S_c, S_d and S_i gives the minimum "size" of the space
+		required to upto and including the field c, d and i respectively. Each
+		of O_c, O_d and O_i gives the OFFSET "displacement" from a pointer to
+		a <code>mystruct</code> required to select the fields c, d and i
+		respectively. The C program fragment:</para>
+
+		<programlisting language="c">mystruct s;
+.... s.d = 1.0; ...</programlisting>
+        
+	<para>would translate to something like:</para>
+
+	<programlisting language="tdf">variable(empty, tag_s, make_value(compound(S_c)),
+         sequence(...,
+         assign(add_to_ptr(obtain_tag(tag_s), O_d), 1.0),
+         ...
+         )
+        )</programlisting>
+        
+	<para>Each of the OFFSET expressions above are ideal candidates for
+		tokenisation; a producer would probably define tokens for each of them
+		and use exp_apply_token to expand them at each of their uses.</para>
+
+	<para>From the definition, we find that:</para>
+
+	<programlisting language="tdf">S_c = shape_offset(SH_mystruct)
+		i.e. an OFFSET(alignment(sh_int) xc8  alignment(sh_char) xc8  alignment(sh_double), {})</programlisting>
+
+	<para>This would not be the OFFSET required to describe
+		<code>sizeof(mystruct)</code> in C, since this is defined to be the
+		difference between successive elements an array of
+		<code>mystruct</code>s. The <code>sizeof</code> OFFSET would have to
+		pad S_c to the alignment of SH_mystruct:</para>
+
+	<programlisting language="tdf">offset_pad(alignment(SH_mystruct), S_c)</programlisting>
+
+	<para>This is the OFFSET that one would use to compute the displacement of
+		an element of an array of <code>mystruct</code>s using offset_mult
+		with the index.</para>
+
+	<para>The most common use of OFFSETs is in add_to_ptr to compute the
+		address of a structure or array element. Looking again at its
+		signature in a slightly different form:</para>
+
+	<programlisting language="tdf">arg1: EXP POINTER(y xc8 A)
+arg2: EXP OFFSET(y, z)
+      -&gt; EXP POINTER(z)
+      ... for any ALIGNMENT A</programlisting>
+
+	<para>one sees that <code>arg2</code> can measure an OFFSET from a value of
+		a "smaller" alignment than the value pointed at by <code>arg1</code>.
+		If <code>arg2</code> were O_d, for example, then <code>arg1</code>
+		could be a pointer to any structure of the form struct {int i, double
+		d,...} not just <code>mystruct</code>. The general principle is that
+		an OFFSET to a field constructed in this manner is independent of any
+		fields after it, corresponding to normal usage in both languages and
+		machines. A producer for a language which conflicts with this would
+		have to produce less obvious TDF, perhaps by re-ordering the fields,
+		padding the offsets by later alignments or taking maxima of the sizes
+		of the fields.</para>
+
+	<section id="bitfield-offsets">
+		<title>Bitfield offsets</title>
+
+		<para>Bitfield offsets are governed by rather stricter rules. In order
+			to extract or assign a bitfield, we have to find an integer variety
+			which entirely contains the bitfield. Suppose that we wished to
+			extract a bitfield by:</para>
+
+		<programlisting language="tdf">bitfield_contents(v, p:POINTER(X), b:OFFSET(Y, B))</programlisting>
+
+		<para>Y must be an alignment(I) where I is some integer SHAPE, contained
+			in X. Further, this has to be equivalent to:</para>
+
+		<programlisting language="tdf">bitfield_contents(v, add_ptr(p, d:OFFSET(Y,Y)), b':OFFSET(Y, B))</programlisting>
+
+		<para>for some d and b' such that:</para>
+
+		<programlisting language="tdf">offset_pad(v, shape_offset(I)) &gt;= b'</programlisting>
+				  
+		<para>and</para>
+
+		<programlisting language="tdf">offset_add(offset_pad(v, offset_mult(d, sizeof(I)), b') = b</programlisting>
+
+		<para>Clearly, we have a limitation on the length of bitfields to the
+			maximum integer variety available; in addition, we cannot have a
+			bitfield which overlaps two such varieties.</para>
+
+		<para>The difficulties inherent in this may be illustrated by
+			attempting to construct an array of bitfields using the nof
+			constructor. Assuming a standard architecture, we find that we
+			cannot usefully define an object of SHAPE nof(N,
+			bitfield(bfvar_bits(b, M))) without padding this shape out to some
+			integer variety which can contain M bits. In addition, they can only
+			be usefully indexed (using bitfield_contents)either if M is some
+			power of 2 or M*N is less than the length of the maximum integer
+			variety. Thus a producer must be sure that these conditions hold if
+			he is to generate and index this object simply. Even here he is in
+			some dificulty, since he does not know the representational
+			varieties of the integers available to him; also it is difficult for
+			him to ensure that the alignment of the entire array is in some
+			sense minimal. Similar difficulties occur with bitfields in
+			structures - they are not restricted to arrays.</para>
+
+		<para>The solution to this conundrum in its full generality requires
+			knowledge of the available representational varieties. Particular
+			languages have restrictions which means that sub-optimal solutions
+			will satisfy its specification on the use of bitfields.  For
+			example, C is satisfied with bitfields of maximum length 32 and
+			simple alignment constraints. However, for the general optimal
+			solution, I can see no reasonable alternative to the installer
+			defining some tokens to produce bitfield offsets which are
+			guaranteed to obey the alignment rules and also give optimal packing
+			of fields and alignments of the total object for the platform in
+			question. I believe that three tokens are sufficient to do this;
+			these are analogous to the constructors offset_zero, offset_pad and
+			offset_mult with ordinary alignments and their signatures could be:</para>
+
+		<programlisting language="tdf">~Bitfield_offset_zero:
+n:        NAT
+issigned: BOOL
+          -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))</programlisting>
+          
+		<para>Here the result is a zero offset to the bitfield with &ldquo;minimum&rdquo;
+			integer variety alignment A.</para>
+  
+		<programlisting language="tdf">~Bitfield_offset_pad:
+n:        NAT
+issigned: BOOL
+sh:       SHAPE
+          -&gt; EXP OFFSET(alignment(sh) xc8  A, bfvar_bits(issigned, n))</programlisting>
+          
+		<para>Here the result is the shape_offset of <code>sh</code> padded with
+			the `minimum' alignment A so that it can accomodate the bitfield.
+			Note that this may involve padding <code>sh</code> with the
+			alignment of the maximum integer variety if there are not enough
+			bits left at the end of <code>sh.</code></para>
+
+		<programlisting language="tdf">~Bitfield_offset_mult:
+n:        NAT
+issigned: BOOL
+ind:      EXP INTEGER(v)
+          -&gt; EXP OFFSET(A, bfvar_bits(issigned, n))</programlisting>
+          
+		<para>Here the result is an offset which gives the displacement of
+			<code>ind</code>th element of an array of <code>n</code>-bit
+			bitfields with `minimum' alignment A. Note that this will correspond
+			to a normal multiplication only if <code>n</code> is a power of 2 or
+			<code>ind</code> * <code>n</code> &lt;= length of the maximum
+			integer variety.</para>
+
+		<para>These tokens can be expressed in TDF if the lengths of the
+			available varieties are known, i.e., they are installer defined.<footnote>
+				<para>For most architectures, these definition are dependent only
+					on a few constants such as the maximum length of bitfield.,
+					expessed as tokens for the target. The precise specification of
+					such target dependent tokens is of current interest outside the
+					scope of this document.</para>
+			</footnote>
+			They ought to be used in place of offset_zero, offset_pad and
+			offset_mult whereever the alignment or shape (required to construct
+			a SHAPE or an argument to the bitfield constructs) is a pure
+			bitfield.  The constructor nof should never be used on a pure
+			bitfield; instead it should be replaced by:</para>
+
+		<programlisting language="tdf">S = compound(~Bitfield_offset_mult(M, b, N))</programlisting>
+		  
+		<para>to give a shape, S, representing an array of N M-bit bitfields. This
+			may not be just N*M bits; for example ~Bitfield_offset_mult may be
+			implemented to pack an array of 3-bit bitfields as 10 fields to a
+			32-bit word. In any case, one would expect that normal rules for
+			offset arithmetic are preserved, e.g.</para>
+
+		<programlisting language="tdf">offset_add(~Bitfield_offset_pad(M, b, S), size(bitfield(bfvar_bits(b, N)))) =
+    ~Bitfield_offset_mult(M, b, N + 1)
+
+where size(X) = offset_pad(alignment(X), shape_offset(X))</programlisting>
+	</section>
+</chapter>
+

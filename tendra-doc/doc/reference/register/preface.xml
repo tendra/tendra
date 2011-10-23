@@ -1,0 +1,99 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE preface SYSTEM "minidocbook.dtd">
+
+<!--
+	$Id$
+-->
+
+<preface>
+	<title>Introduction</title>
+
+	<section>
+		<title>Background</title>
+
+		<para>&tdf; is an interface used for architecture neutral and programming
+			language neutral representation of program. It is used both within
+			portable language specific compilation systems, and for architecture
+			neutral distribution of compiled programs. For full details see
+			&tdf-spec.doc;.</para>
+
+		<para>&tdf; tokens offer a general encapsulation and expansion mechanism which
+			allows any implementation detail to be delayed to the most appropriate
+			stage of program translation. This provides a means for encapsulating
+			any target dependencies in a neutral form, with specific implementations
+			defined through standard &tdf; features. This raises a natural opportunity
+			for well understood sets of &tdf; tokens to be included along with &tdf;
+			itself as interface between &tdf; tools.</para>
+
+		<para>This first revision includes additional tokens for accessing variable
+			parameter lists (see <xref linkend="accessingvalist"/>), and a C mapping
+			token to support the optional type <code>long long int</code>.</para>
+	</section>
+
+	<section>
+		<title>Token Register Objectives</title>
+
+		<para>As &tdf; tokens may be used to represent any piece of &tdf;, they may
+			be used to supplement any &tdf; interface between software tools. However,
+			that raises the issue of control authority for such an interface.
+			In many cases, the interfaces may be considered to &ldquo;belong&rdquo; to a particular
+			tool. In other cases, the names and specifications of tokens need
+			to be recorded for common use.</para>
+
+		<para>This token register is used to record the names and specifications
+			of tokens which may need to be assumed by more than one software tool.
+			It also defines a naming scheme which should be used consistently
+			to avoid ambiguity between tokens.</para>
+
+		<para>Five classes of tokens are identified:</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><link linkend="targetdep">Target dependency tokens</link></term>
+
+				<listitem>
+					<para>concerned with describing
+						target architecture or translator detail;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><link linkend="basicmappingtoks">Basic mapping tokens</link></term>
+
+				<listitem>
+					<para>relating general language features to
+						architecture detail;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><link linkend="tdfinterfacetoks">TDF interface tokens</link></term>
+
+				<listitem>
+					<para>These may be required
+						to complete the specification of some &tdf; constructs;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><link linkend="lpis">Language Programming Interfaces</link> (&lpi;)</term>
+
+				<listitem>
+					<para>These may be specific to a particular producer;</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><link linkend="apis">Application Programming Interfaces</link> (&api;)</term>
+
+				<listitem>
+					<para>corresponding to libraries' interfaces.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+
+		<para>These classes are discussed separately, in <xref linkend="targetdep"/>
+			to <xref linkend="apis"/> below.</para>
+	</section>
+</preface>
+

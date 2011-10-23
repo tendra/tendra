@@ -1,0 +1,705 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!-- $Id$ -->
+
+<chapter id="tokenoutput">
+	<title>Output type system specification</title>
+
+	<para>In this section we document the basic output of
+		<command>calculus</command>. Two forms of the output can be generated -
+		a description of the output specification in terms of the TenDRA
+		<code>#pragma token</code> constructs, and the actual C code which
+		implements these tokens.</para>
+
+	<para>In this section the description given will be at the level of the
+		output specification. The more important details of the
+		<link linkend="coutput">C implementation</link> are given in the
+		following section.</para>
+
+	<para>The output is split among several header files in the specified
+		output directory. The main output is printed into
+		<filename>name.h</filename>, where <literal>name</literal> is the
+		overall algebra name. Unless otherwise stated, all the objects specified
+		below are to be found in <literal>name</literal><code>.h</code>. However
+		for each union, <literal>union</literal>, in the algebra certain
+		information associated with the union is printed into
+		<literal>union</literal><code>_ops.h</code>. If the union has any maps
+		associated with it then further output is printed to
+		<filename>union_map.h</filename> and <filename>union_hdr.h</filename>.
+		</para>
+
+	<section id="outputinfo">
+		<title>Version information</title>
+
+		<para>Certain basic information about the input algebra is included in
+			<literal>name</literal><code>.h</code>. <literal>name</literal>
+			<code>_NAME</code> is a string literal giving the overall algebra
+			name.	<literal>name</literal><code>_VERSION</code> is a string
+			literal giving the algebra version number.
+			<literal>name</literal><code>_SPECIFICATION</code> and
+			<literal>name</literal><code>_IMPLEMENTATION</code> are flags which
+			take the values 0 or 1 depending on whether the specification of the
+			type system in terms of <code>#pragma token</code> statements or the C
+			implementation is included.</para>
+	</section>
+
+	<section id="outputbasic">
+		<title>Basic types</title>
+
+		<para>Six abstract type operators, each taking a type as argument and
+			returning a type, are specified as follows:</para>
+
+		<programlisting language="alg">TYPE PTR(TYPE t);
+TYPE LIST(TYPE t);
+TYPE STACK(TYPE t);
+TYPE VEC(TYPE t);
+TYPE VEC_PTR(TYPE t);
+TYPE SIZE(TYPE t);</programlisting>
+
+		<para>These represent a pointer to an object of type
+			<literal>t</literal>, a list of objects of type <literal>t</literal>,
+			a stack of objects of type <literal>t</literal>, a vector of objects
+			of type <literal>t</literal>, a pointer into a vector of objects of
+			type <literal>t</literal>, and an allocation block size for type
+			<literal>t</literal> respectively. (It is possible to suppress all
+			constructs involving <code>VEC</code> or <code>VEC_PTR</code> by
+			passing the <code>-x</code> command-line option to
+			<command>calculus</command>. Similarly <code>STACK</code> constructs
+			may be suppressed using <code>-z</code>.)</para>
+
+		<para>These constructors can be applied to any type, although in
+			practice they are only applied to the types specified in the algebra
+			and those derived from them. For example, we may form the type:</para>
+
+		<programlisting language="alg">LIST(PTR(int))</programlisting>
+
+		<para>representing a list of pointers to <code>int</code>.</para>
+
+		<para>An integral type:</para>
+
+		<programlisting language="c">INT_TYPE name_dim;</programlisting>
+
+		<para>is specified, where <literal>name</literal> is the overall algebra
+			name.	This type is used to represent the sizes of vectors.</para>
+
+		<para>A function pointer type:</para>
+
+		<programlisting language="c">typedef void (*DESTROYER)();</programlisting>
+
+		<para>is specified, which represents a destructor function.	Two destructor
+			functions are specified:</para>
+
+		<programlisting language="c">void destroy_name();
+void dummy_destroy_name();</programlisting>
+
+		<para>where <literal>name</literal> is as above.
+			<code>destroy_</code><literal>name</literal> is the default
+			destructor, whereas <code>dummy_destroy_</code><literal>name</literal>
+			is a dummy destructor which has no effect. The details of the
+			arguments passed to the destructors and so on are implementation
+			dependent.</para>
+	</section>
+
+	<section id="outputsize">
+		<title>Operations on sizes</title>
+
+		<para>The <code>SIZE</code> type constructor is used to represent a
+			multiple of the size of a type. It is used, for example, in the
+			<link linkend="outputptr">pointer stepping construct</link>
+			<code>STEP_ptr</code> to specify the number of units the pointer is to
+			be increased by.	Having a separate abstract type for the size of each
+			type greatly increases the scope for type checking of memory
+			allocation, and other, functions.</para>
+
+		<para>For each basic type in the algebra (a primitive, a structure or a
+			union), there is a constant expression:</para>
+
+		<programlisting language="alg">SIZE ( t ) SIZE_type;</programlisting>
+
+		<para>where <literal>t</literal> denotes the type itself, and
+			<literal>type</literal> is the associated type name.</para>
+
+		<para>For the five other type constructors
+			<link linkend="outputbasic">described above</link> there are constant
+			expressions:</para>
+
+		<programlisting language="alg">SIZE(PTR(t))			SIZE_ptr(TYPE t);
+SIZE(LIST(t))		 SIZE_list(TYPE t);
+SIZE(STACK(t))		SIZE_stack(TYPE t);
+SIZE(VEC(t))			SIZE_vec(TYPE t);
+SIZE(VEC_PTR(t))	SIZE_vec_ptr(TYPE t);</programlisting>
+
+		<para>for any type <literal>t</literal>.</para>
+
+		<para>These constructs allow the size of any type derived from the
+			algebra to be built up. There is also a construct which corresponds to
+			multiplying the size of a type by a constant. This takes the
+			form:</para>
+
+		<programlisting language="alg">SIZE(t) SCALE(SIZE(t), INT_TYPE itype);</programlisting>
+
+		<para>for any type <literal>t</literal> and any integral type
+			<literal>itype</literal>.</para>
+	</section>
+
+	<section id="outputptr">
+		<title>Operations on pointers</title>
+
+		<para>The <code>PTR</code> type constructor is used to represent a
+			pointer to an object of type <literal>t</literal>. It should be
+			emphasised that this construct is not in general implemented by means
+			of the C pointer construct.</para>
+
+		<section id="simple-pointer-constructs">
+			<title>Simple pointer constructs</title>
+
+			<para>There are several simple operations on pointers, given as
+				follows:</para>
+
+				<programlisting language="c">PTR(t) NULL_ptr(TYPE t);
+int IS_NULL_ptr(PTR (t));
+int EQ_ptr(PTR(t), PTR(t));
+PTR(t) STEP_ptr(PTR(t), SIZE(t));</programlisting>
+
+			<para>The construct <code>NULL_ptr</code> is used to form the null
+				pointer to <literal>t</literal> for a type <literal>t</literal>.
+				This is a constant expression.	<code>IS_NULL_ptr</code> can be used
+				to test whether a given pointer expression is a null pointer.
+				Similarly <code>EQ_ptr</code> checks whether two pointers are equal
+				(note that we can only compare pointers to the same type). Finally
+				<code>STEP_ptr</code> can be used to add a scalar value to a
+				pointer.</para>
+		</section>
+
+		<section id="unique-pointers">
+			<title>Unique pointers</title>
+
+			<para>There are also constructs for generating and destroying unique
+				pointers:</para>
+
+			<programlisting language="c">PTR(t) UNIQ_ptr(TYPE t);
+void DESTROY_UNIQ_ptr(PTR(t));</programlisting>
+
+			<para>A unique pointer is guaranteed to be different from all other
+				undestroyed pointers. Dereferencing a unique pointer is
+				undefined.</para>
+		</section>
+
+		<section id="pointer-construction-destruction">
+			<title>Pointer construction and destruction</title>
+
+			<para>The constructs:</para>
+
+			<programlisting language="c">PTR(t) MAKE_ptr(SIZE(t));
+void DESTROY_ptr(PTR(t), SIZE(t));</programlisting>
+
+			<para>are used to respectively create and destroy a pointer to a given
+				type.</para>
+		</section>
+
+		<section id="construct-assignment-dereference">
+			<title>Assignment and dereference constructs</title>
+
+			<para>The constructs for assigning and dereferencing pointers have one
+				of two forms depending on the complexity of the type pointed to. For
+				simple types, including primitive, enumeration and union types, they
+				have the form:</para>
+
+			<programlisting language="c">void COPY_type(PTR(t), t);
+t DEREF_type(PTR(t));</programlisting>
+
+			<para>where <literal>t</literal> is the type involved and
+				<literal>type</literal> is the associated short name.</para>
+
+			<para>For more complex types, including structures, the assignment or
+				dereference cannot be done in a single expression, so the constructs
+				are specified to be statements as follows:</para>
+
+			<programlisting language="c">STATEMENT COPY_type(PTR(t), t);
+STATEMENT DEREF_type(PTR(t), lvalue t);</programlisting>
+
+			<para>Here the <code>lvalue</code> type qualifier is used to indicate
+				that the statement argument is an assignable <code>lvalue</code>. In
+				this case it should give the location of an object of type
+				<literal>t</literal> into which the pointer will be
+				dereferenced.</para>
+
+			<para>The appropriate assignment and dereference constructs are
+				generated for each of the basic algebra types (primitives,
+				enumerations, structures and unions). In addition there are generic
+				assignment and dereference constructs for pointer types, list types,
+				stack types, vector types and vector pointer types.	The first three
+				are of the first form above, whereas the second two have the second
+				form, as follows:</para>
+
+				<programlisting language="c">void COPY_ptr(PTR(PTR(t)), PTR(t));
+PTR(t) DEREF_ptr(PTR (PTR (t)));
+void COPY_list(PTR(LIST(t)), LIST(t));
+LIST(t) DEREF_list(PTR(LIST(t)));
+void COPY_stack(PTR(STACK(t)), STACK(t));
+STACK(t) DEREF_stack(PTR(STACK(t)));
+STATEMENT COPY_vec(PTR(VEC(t)), VEC(t));
+STATEMENT DEREF_vec(PTR(VEC(t)), lvalue VEC(t));
+STATEMENT COPY_vec_ptr(PTR(VEC_PTR(t)), VEC_PTR(t));
+STATEMENT DEREF_vec_ptr(PTR(VEC_PTR(t)), lvalue VEC_PTR(t));</programlisting>
+		</section>
+	</section>
+
+	<section id="outputlist">
+		<title>Operations on lists</title>
+
+		<para>The <code>LIST</code> type constructor is used to represent a list
+			of objects of type <literal>t</literal>.</para>
+
+		<section id="simple-list-constructs">
+			<title>Simple list constructs</title>
+
+			<para>There are several simple list constructs:</para>
+
+			<programlisting language="c">LIST(t) NULL_list(TYPE t);
+int IS_NULL_list(LIST(t));
+int EQ_list(LIST(t), LIST(t));
+unsigned LENGTH_list(LIST(t));
+PTR(t) HEAD_list(LIST(t));
+LIST(t) TAIL_list(LIST(t));
+PTR(LIST(t)) PTR_TAIL_list(LIST(t));
+LIST(t) END_list(LIST(t));
+LIST(t) REVERSE_list(LIST(t));
+LIST(t) APPEND_list(LST(t), LIST(t));</programlisting>
+
+			<para>Empty lists may be constructed or tested for.
+				<code>NULL_list</code> is a constant expression. Two lists may be
+				checked for equality (note that this is equality of lists, rather
+				than element-wise equality).	The number of elements in a list can
+				be found. The head or tail (or <code>car</code> and
+				<code>cdr</code>) of a list may be formed. The end element of a list
+				may be selected. The order of the elements in a list can be
+				reversed. One list can be appended to another.</para>
+		</section>
+
+		<section id="unique-lists">
+			<title>Unique lists</title>
+
+			<para>There are also constructs for generating and destroying unique
+				lists:</para>
+
+				<programlisting language="c">LIST(t) UNIQ_list(TYPE t);
+void DESTROY_UNIQ_list(LIST(t));</programlisting>
+
+			<para>A unique lists is guaranteed to be different from all other
+				undestroyed lists. Taking the head or tail of a unique list is
+				undefined.</para>
+		</section>
+
+		<section id="list-construction-destruction">
+			<title>List construction and destruction</title>
+
+			<para>For each type <literal>t</literal> there are operations for
+				constructing and deconstructing lists. For the basic types
+				comprising the algebra these take the form:</para>
+
+			<programlisting language="c">STATEMENT CONS_type(t, LIST(t), lvalue LIST(t));
+STATEMENT UN_CONS_type(lvalue t, lvalue LIST(t), LIST(t)) ;
+STATEMENT DESTROY_CONS_type(DESTROYER, lvalue t, lvalue LIST(t), LIST(t));</programlisting>
+
+			<para>where <literal>type</literal> is the short type name.</para>
+
+			<para>The operation <code>CONS_</code><literal>type</literal> is used
+				to build a list whose head is the first argument and whose tail is
+				the second argument. This is assigned to the third argument.
+				<code>UN_CONS_</code><literal>type</literal> reverses this process,
+				decomposing a list into its head and its tail.
+				<code>DESTROY_CONS_</code><literal>type</literal> is similar, but it
+				also applies the given destructor function to the decomposed list
+				component.</para>
+
+			<para>There are also generic list construction and deconstruction
+				operations which apply to lists of pointers (with a <code>ptr</code>
+				suffix), lists of lists (with a <code>list</code> suffix), lists of
+				stacks (with a <code>stack</code> suffix), lists of vectors (with a
+				<code>vec</code> suffix) and lists of pointers to vectors (with a
+				<code>vec_ptr</code> suffix). For example, for lists of pointers
+				these have the form:</para>
+
+			<programlisting language="c">STATEMENT CONS_ptr(PTR(t), LIST(PTR(t)), lvalue LIST(PTR(t))) ;
+STATEMENT UN_CONS_ptr(lvalue PTR(t), lvalue LIST(PTR(t)), LIST(PTR(t)));
+STATEMENT DESTROY_CONS_ptr(DESTROYER, lvalue PTR(t), lvalue LIST(PTR(t)), LIST(PTR(t)));</programlisting>
+
+			<para>There is also a generic list destruction construct:</para>
+
+			<programlisting language="c">STATEMENT DESTROY_list(LIST(t), SIZE(t));</programlisting>
+
+				<para>which may be used to destroy all the elements in a list.</para>
+		</section>
+	</section>
+
+	<section id="outputstack">
+		<title>Operations on stacks</title>
+
+		<para>The <code>STACK</code> type constructor is used to represent
+			stacks of objects of type <literal>t</literal>. Empty stacks can be
+			created and tested for:</para>
+
+		<programlisting language="c">STACK(t) NULL_stack(TYPE t);
+int IS_NULL_stack(STACK(t));</programlisting>
+
+		<para>For each type <literal>t</literal> there are operations for
+			pushing objects onto a stack and for popping elements off. For the
+			basic types comprising the algebra these take the form:</para>
+
+		<programlisting language="c">STATEMENT PUSH_type(t, lvalue STACK(t));
+STATEMENT POP_type(lvalue t, lvalue STACK(t));</programlisting>
+
+		<para>where <literal>type</literal> is the short type name. There are also
+			generic constructs, such as <code>PUSH_ptr</code> for pushing any
+			pointer type, similar to the
+			<link linkend="outputlist">generic list constructors</link>
+			above.</para>
+
+		<para>Stacks are in fact just modified lists with pushing corresponding
+			adding an element to the start of a list, and popping to removing the
+			first element. There are constructs:</para>
+
+		<programlisting language="c">LIST(t) LIST_stack(STACK(t));
+STACK(t) STACK_list(LIST(t));</programlisting>
+
+		<para>for explicitly converting between lists and stacks.</para>
+	</section>
+
+	<section id="outputvec">
+		<title>Operations on vectors</title>
+
+		<para>The <code>VEC</code> type constructor is used to represent vectors
+			of objects of type <literal>t</literal>. There are a number of simple
+			operations on vectors:</para>
+
+		<programlisting language="c">VEC(t) NULL_vec(TYPE t);
+name_dim DIM_vec(VEC(t));
+name_dim DIM_ptr_vec(PTR(VEC(t)));
+PTR(t) PTR_ptr_vec(PTR(VEC(t)));</programlisting>
+
+		<para>An empty vector can be constructed (note that, unlike null
+			pointers and null lists, this is not a constant expression). The
+			number of elements in a vector (or in a vector given by a pointer) can
+			be determined (note how the type
+			<literal>name</literal><code>_dim</code> is used to represent vector
+			sizes). A pointer to a vector can be transformed into a pointer to the
+			elements of the vector.</para>
+
+		<para>In general a vector may be created or destroyed using the
+			operators:</para>
+
+		<programlisting language="c">STATEMENT MAKE_vec(SIZE(t), name_dim, lvalue VEC(t));
+STATEMENT DESTROY_vec(VEC(t), SIZE(t));</programlisting>
+
+		<para>Finally a vector can be trimmed using:</para>
+
+		<programlisting language="c">STATEMENT TRIM_vec(VEC(t), SIZE(t), int, int, lvalue VEC(t));</programlisting>
+
+		<para>the two integral arguments giving the lower and upper bounds for the
+			trimming operation.</para>
+	</section>
+
+	<section id="outputvecptr">
+		<title>Operations on vector pointers</title>
+
+		<para>The <code>VEC_PTR</code> type constructor is used to represent a
+			pointer to an element of a vector of objects of type
+			<literal>t</literal>.	Apart from the basic constructors already
+			mentioned, there are only two operations on vector pointers:</para>
+
+		<programlisting language="c">VEC_PTR(t) VEC_PTR_vec(VEC(t));
+PTR(t) PTR_vec_ptr(VEC_PTR(t));</programlisting>
+
+		<para>The first transforms a vector into a vector pointer (pointing to
+			its first argument). The second transforms a vector pointer into a
+			normal pointer.</para>
+	</section>
+
+	<section id="outputprim">
+		<title>Operations on primitives</title>
+
+		<para>Each primitive specified within the algebra maps onto a
+			<code>typedef</code> defining the type in terms of its given
+			definition.	The only operations on primitives are those listed above
+			- the size constructs, the pointer assignment and dereference
+			operations, the list construction and deconstruction operations and
+			the stack push and pop operations.</para>
+	</section>
+
+	<section id="outputident">
+		<title>Operations on identities</title>
+
+		<para>Each identity specified within the algebra maps onto a
+			<code>typedef</code> in the output file. There are no operations on
+			identities.</para>
+	</section>
+
+	<section id="outputenum">
+		<title>Operations on enumerations</title>
+
+		<para>Each enumeration specified within the algebra maps onto an
+			unsigned integral type in the output file. The
+			<link linkend="outputprim">basic operations</link>
+			listed above are always generated unless it has been indicated that
+			<link linkend="inputenum">no lists of this type will be formed</link>,
+			when <code>CONS_</code><literal>type</literal> and the other list and
+			stack operators are suppressed. In addition each enumerator which is a
+			member of this enumeration maps onto a constant expression:</para>
+
+		<programlisting language="c">t enum_member;</programlisting>
+
+		<para>where <literal>t</literal> is the enumeration type,
+			<literal>enum</literal> is the short type name, and
+			<literal>member</literal> is the enumerator name. It is guaranteed
+			that the first enumerator will have value 0, the second 1, and so on,
+			unless the value of the enumerator is explicitly given (as in C).
+			There is also a constant expression:</para>
+
+		<programlisting language="c">unsigned long ORDER_enum;</programlisting>
+
+		<para>giving one more than the maximum enumerator in the enumeration.</para>
+	</section>
+
+	<section id="outputstruct">
+		<title>Operations on structures</title>
+
+		<para>Each structure specified within the algebra maps onto a
+			<code>typedef</code> defining the type to be the C structure with the
+			given components. In addition to the
+			<link linkend="outputprim">basic operations</link>
+			listed above there are also field selectors defined.</para>
+
+		<para>Suppose that <literal>t</literal> is a structure type with short
+			name <literal>struct</literal>, and that <literal>comp</literal> is a
+			component of <literal>t</literal> of type <literal>ctype</literal>.
+			Then there is an operation:</para>
+
+		<programlisting language="c">PTR(ctype) struct_comp(PTR(t));</programlisting>
+
+		<para>which transforms a pointer to the structure into a pointer to the
+			component. There is also an operation:</para>
+
+		<programlisting language="c">STATEMENT MAKE_struct(ctype, ...., PTR(t));</programlisting>
+
+		<para>where <literal>ctype</literal> ranges over all the component types
+			which do not have a component initialiser string in the structure
+			definition. This is used to assign values to all the components of a
+			structure. If a component has an initialiser string then this is used
+			as an expression giving the initial value, otherwise the given
+			operation argument is used. The initialiser strings are evaluated in
+			the context of the <code>MAKE_</code><literal>struct</literal>
+			statement.	The parameters to the operation may be referred to by the
+			corresponding component name followed by <code>_</code>. The partially
+			initialised object may be referred to by the special character
+			sequence <code>%0</code>. Any remainder operations should be written
+			as <code>%%</code> rather than <code>%</code>.</para>
+
+		<para>Inheritance in structures is handled as follows: if
+			<literal>t</literal> is a derived structure with base structure
+			<literal>btype</literal> then there is an operation:</para>
+
+		<programlisting language="c">PTR(btype) CONVERT_struct_base(PTR(t));</programlisting>
+
+		<para>where <literal>struct</literal> and <literal>base</literal> are the
+			short names of <literal>t</literal> and <literal>btype</literal>
+			respectively.</para>
+	</section>
+
+	<section id="outputunion">
+		<title>Operations on unions</title>
+
+		<para>Each union specified within the algebra maps onto an opaque type
+			in the output file. In addition to the
+			<link linkend="outputprim">basic operations</link> listed above there
+			are a number of other constructs output into
+			<literal>name</literal><code>.h</code>, namely:</para>
+
+		<programlisting language="c">unsigned int ORDER_union;
+t NULL_union;
+int IS_NULL_union(t);
+int EQ_union(t, t);</programlisting>
+
+		<para>where <literal>t</literal> denotes the union type, and
+			<literal>union</literal> is the short type name.
+			<code>ORDER_</code><literal>union</literal> is a constant value giving
+			the number of union fields.
+			<code>NULL_</code><literal>union</literal> is a distinguished constant
+			value of type <literal>t</literal>. Values of type
+			<literal>t</literal> may be compared against this distinguished value,
+			or against each other.</para>
+
+		<section id="union-construction-operations">
+			<title>Union construction operations</title>
+
+			<para>Most of the output for the union type <literal>t</literal> is
+				output into the file <filename>union_ops.h</filename>. This contains
+				a construct:</para>
+
+			<programlisting language="c">unsigned int TAG_union(t);</programlisting>
+
+			<para>for extracting the discriminant tag from a union.</para>
+
+			<para>For each shared component, <literal>comp</literal>, of
+				<literal>t</literal> of type <literal>ctype</literal>, say, there is
+				an operator:</para>
+
+			<programlisting language="c">PTR(ctype) union_comp(t);</programlisting>
+
+			<para>which extracts this component from the union.</para>
+
+			<para>For each field, <literal>field</literal>, of the union there are
+				constructs:</para>
+
+			<programlisting language="c">unsigned int union_field_tag;
+int IS_union_field(t);</programlisting>
+
+			<para>giving the (constant) discriminant tag associated with this field,
+				and a test for whether an object of type <literal>t</literal> has
+				this discriminant.</para>
+
+			<para>In addition, for each unshared component,
+				<literal>comp</literal>, of <literal>field</literal> of type
+				<literal>ctype</literal>, say, there is an operator:</para>
+
+			<programlisting language="c">PTR(ctype) union_field_comp(t);</programlisting>
+
+			<para>which extracts this component from the union.</para>
+
+			<para>There are also operations for constructing and deconstructing
+				objects of type <literal>t</literal> for field
+				<literal>field</literal> given as follows:</para>
+
+			<programlisting language="c">STATEMENT MAKE_union_field(ctype, ...., lvalue t);
+STATEMENT DECONS_union_field(lvalue ctype, ...., t);
+STATEMENT DESTROY_union_field(DESTROYER, lvalue ctype, ...., t);</programlisting>
+
+			<para>The operation <code>MAKE_</code><literal>union_field</literal>
+				constructs a value of type <literal>t</literal> from the various
+				components and assigns it into the last argument. The
+				<literal>ctype</literal> arguments range over all the components of
+				<literal>field</literal>, both the shared components and the
+				unshared components, which do not have a component initialiser
+				string in the definition. The union component are initialised either
+				using the <link linkend="outputstruct">initialiser string</link> or
+				the given operation argument.</para>
+
+			<para><code>DECONS_</code><literal>union_field</literal> performs the
+				opposite operation, deconstructing an object of type
+				<literal>t</literal> into its components for this field.
+				<code>DESTROY_</code><literal>union_field</literal> is similar,
+				except that it also applies the given destructor function to the
+				original value. For these two operations <literal>ctype</literal>
+				ranges over all the components, including those with
+				initialiser strings.</para>
+		</section>
+
+		<section id="union-field-sets">
+			<title>Union field sets</title>
+
+			<para>Recall that
+				<link linkend="inputunion">a number of union field identifiers</link>
+				may be associated with the same set of components.	In this case
+				these fields form a union field set named after the first element of
+				the set. There are operations:</para>
+
+			<programlisting language="c">int IS_union_field_etc(t);
+PTR(ctype) union_field_etc_comp(t);
+STATEMENT MAKE_union_field_etc(unsigned int, ctype, ...., lvalue t);
+STATEMENT MODIFY_union_field_etc(unsigned int, t);
+STATEMENT DECONS_union_field_etc(lvalue ctype, ...., t);
+STATEMENT DESTROY_union_field_etc(DESTROYER, lvalue ctype, ...., t);</programlisting>
+
+			<para>defined on these sets. These are exactly analogous to the single
+				field operations except that they work for any field in the set.
+				Note that
+				<code>MAKE_</code><literal>union_field</literal><code>_etc</code>
+				takes an extra argument, giving the tag associated with the
+				particular element of the set being constructed. Also the construct
+				<code>MODIFY_</code><literal>union_field</literal><code>_etc</code>
+				is introduced to allow the tag of an existing object to be modified
+				to another value within the same set.</para>
+
+			<para>The valid range of union tags for this set can be given by the
+				two constants:</para>
+
+			<programlisting language="c">unsigned int union_field_tag;
+unsigned int union_field_etc_tag;</programlisting>
+
+			<para>A union is a member of this set if its tag is greater than or
+				equal to <literal>union_field</literal><code>_tag</code> and
+				strictly less than
+				<literal>union_field</literal><code>_etc_tag</code>.</para>
+		</section>
+
+		<section id="inheritance-in-unions">
+			<title>Inheritance in unions</title>
+
+			<para>Inheritance in unions is handled as follows: if
+				<literal>t</literal> is a derived union with base union
+				<literal>btype</literal> then there is an operation:</para>
+
+			<programlisting language="c">btype CONVERT_union_base(t);</programlisting>
+
+			<para>where <literal>union</literal> and <literal>base</literal> are the
+				short names of <literal>t</literal> and <literal>btype</literal>
+				respectively.</para>
+		</section>
+
+		<section id="outputunionmaps">
+			<title>Union maps</title>
+
+			<para>For each map, <literal>map</literal>, on the union
+				<literal>t</literal>, we have declared in
+				<literal>union</literal><code>_ops.h</code> an operator:</para>
+
+			<programlisting language="c">map_ret map_union(t, map_par, ....);</programlisting>
+
+			<para>where <literal>map_ret</literal> is the map return type and
+				<literal>map_par</literal> ranges over the map parameter types. This
+				is except for maps with destructors (i.e. those qualified by a
+				<link linkend="inputunion">hash symbol</link>) which have the form:</para>
+
+			<programlisting language="c">map_ret map_union(t, DESTROYER, map_par, ....);</programlisting>
+
+			<para>These maps are implemented by having one function per field for
+				each map. The output file
+				<literal>union</literal><code>_map.h</code> contains tables of these
+				functions. These have the form:</para>
+
+			<programlisting language="c">map_ret(*map_union_table[ORDER_union])(t, map_par, ....) = {
+	....
+	map_union_field,
+	....
+} ;</programlisting>
+
+			<para>where there is one entry per union field.</para>
+
+			<para>In order to aid the construction of these functions a set of
+				function headers is provided in
+				<literal>union</literal><code>_hdr.h</code>.	These take the form:</para>
+
+			<programlisting language="c">#define HDR_map_union_field                               \
+map_ret map_union_field(name_union, destroyer, par, ....) \
+    t name_union;                                         \
+    DESTROYER destroyer; /* if required */                \
+    map_par par;                                          \
+    ....                                                  \
+    {                                                     \
+        ctype comp;                                       \
+        ....                                              \
+        DECONS_union_field(comp, ...., name_union);</programlisting>
+			<!-- TODO: missing } ? -->
+
+			<para>There is also an alternative function header,
+				<code>HDR_</code><literal>map</literal>_d_<literal>union_field</literal>,
+				which calls <code>DESTROY_</code><literal>union_field</literal>
+				rather than <code>DECONS_</code><literal>union_field</literal>. The
+				destructor function used is <literal>destroyer</literal>, if this
+				parameter is present, or the default destructor,
+				<code>destroy_</code><literal>name</literal>, otherwise.</para>
+		</section>
+	</section>
+</chapter>
+

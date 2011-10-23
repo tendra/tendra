@@ -1,0 +1,111 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Objectives and Description</title>
+
+	<section>
+		<title>Objectives</title>
+		
+		<para>In previous work, we performed validation, performance and
+			robustness testing of the TenDRA technology to ensure its capability
+			to implement and fully bootstrap a UNIX-like operating system. We also
+			provided an assessment of the capability of TenDRA technology to
+			express a fully portable operating system implementation. This work
+			was very successful, and the results are reported in a
+			summary report.
+			<!-- TODO: <biblioref linkend="Ferri&egrave;re95-2">summary report</biblioref> -->
+		</para>
+
+		<para>However, though we originally planned to conduct this first
+			experiment on two different architectures, an Intel/486 and a
+			Sun/Sparc platforms running UnixWare, it was completed only for the
+			Intel/486 platform.	After discussions with DRA, it was then decided
+			to focus the second part of the project on the Unix commands, and to
+			switch from the UnixWare to the Linux operating system. The
+			motivations for a revised plan were:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>OSF is developing a Linux server for the Intel/486 and
+					PowerPC platforms, and we would like to deliver the set of
+					associated commands in ANDF format. In the event, native Linux
+					commands for PowerPC became available in the meantime.</para>
+			</listitem>
+			
+			<listitem>
+				<para>Repeating on the Sparc platform the work already done on the
+					i486 platform would bring little added-value, while requiring a
+					significant amount of work.	The major benefit of the work on a
+					second platform would be to demonstrate that a set of commands along
+					with its API can be defined in ANDF format and then installed on two
+					different platforms.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>Thus, the objective of the second part of the project is the
+			production in ANDF format of Linux commands, and their installation on
+			two platforms. This will demonstrate the ability of the TenDRA
+			technology to produce a set of architecture neutral commands and, at
+			completion of the project, will provide a set of freely distributable
+			commands in ANDF format.</para>
+
+		<para>The project, which lasted 9 months, started on July 1995, and was
+			finished at the end of March 1996.</para>
+
+		<para>This report summarizes all the work done under the contract for
+			this second part of the project.</para>
+	</section>
+
+	<section>
+		<title>General description</title>
+		
+		<para>The commands, one part of a Unix system, are based on some
+			standard APIs, XPG3 for example, plus some extensions, which together
+			form the interface shared with the libraries against which they are
+			built. The commands should not have any assembly code, unlike the
+			other parts of a Unix system.</para>
+		
+		<para>As for other software OSF already ported to ANDF, the port of the
+			Linux commands is done in three steps:</para>
+		
+		<itemizedlist>
+			<listitem>
+				<para>The NAT-NAT step, which consists in rebuilding the commands
+			 		 with the native compilation chain, to ensure that they can be
+					regenerated from their source files.</para>
+			</listitem>
+			
+			<listitem>
+				<para>The DRA-NAT step, for which the TenDRA technology is used as
+					a replacement of the native compilation chain to build the commands,
+					using the native system header files, as for a classical compilation
+					chain. This part involves dealing with discrepancies between the
+					native and the TenDRA code generators.</para>
+			</listitem>
+
+			<listitem>
+				<para>The DRA-DRA step, which will consist in using the TenDRA
+					technology as a portability tool. The API shared by the commands and
+					libraries is defined, and used to produce the commands in
+					architecture independent ANDF code. This code will be installed and
+					validated on the selected machines.</para>
+			</listitem>
+		</itemizedlist>
+		
+		<para>We initially planned to conduct the experiment on the Intel/i386
+			and IBM/PowerPc platforms, both running the Linux operating system.
+			However, the Linux system for the IBM/PowerPC platform was still under
+			development at the time we needed it, in December 1995. So we decided
+			to replace it by a Digital/Alpha platform, the only other platform for
+			which a Linux port was sufficiently advanced at that time.	However,
+			it is a 64-bit platform, so this switch was more of a challenge,
+			because of the fundamental change in data sizes. It provided
+			additional tests of the TenDRA portability attributes.</para>
+	</section>
+</chapter>
+

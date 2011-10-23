@@ -1,0 +1,289 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!-- $Id$ -->
+
+<chapter id="diskoutput">
+	<title>Disk reading and writing</title>
+
+	<para>One of the facilities which the
+		<link linkend="coutputtypes">homogeneous implementation</link> of the
+		type system described above allows for is the addition of persistence.
+		Persistence in this context means allowing objects to be written to, and
+		read from, disk. Also discussed in this section is the related topic of
+		the object printing routines, which allow a human readable
+		representation of objects of the type system to be output for debugging
+		or other purposes.</para>
+
+	<para>The disk reading and writing routines are output into the files
+		<filename>read_def.h</filename> and <filename>write_def.h</filename>
+		respectively if the <option>-d</option> command-line option is passed to
+		<command>calculus</command>. The object printing routines are output if
+		the <option>-p</option> option is given, with additional code designed
+		for use with run-time debuggers being added if the <option>-a</option>
+		option is also given.</para>
+
+	<para>All of these routines use extra constructs output in the main output
+		files (<filename>name.h</filename> and
+		<filename>union_ops.h</filename>), but not normally accessible.	The
+		macro <literal>name</literal><code>_IO_ROUTINES</code> should be defined
+		in order to make these available for the disk reading and writing
+		routines to use.</para>
+
+	<section id="diskwrite">
+		<title>Disk writing routines</title>
+
+		<!-- TODO rephrase: file, not disk -->
+		<para>The disk writing routines output in
+			<filename>write_def.h</filename> consist of a function:</para>
+
+		<programlisting language="c">static void WRITE_type(t);</programlisting>
+
+		<para>for each type <literal>t</literal> mentioned within the algebra
+			description, which writes an object of that type to disk.</para>
+
+		<para>Note that such routines are output not only for the basic types,
+			such as unions and structures, but also for any composite types, such
+			as pointers and lists, which are used in their definition. The
+			<literal>type</literal> component of the name
+			<code>WRITE_</code><literal>type</literal> is derived from basic types
+			<literal>t</literal> by using the short type name. For composite types
+			it is defined recursively as follows:</para>
+
+		<literallayout>LIST(t)-&gt;list_type
+PTR(t)-&gt;ptr_type
+STACK(t)-&gt;stack_type
+VEC(t)-&gt;vec_type
+VEC_PTR(t)-&gt;vptr_type</literallayout>
+
+		<para>Such functions are defined for identity types and composite types
+			involving identity types by means of macros which define them in terms
+			of the identity definitions.
+			<code>WRITE_</code><literal>type</literal> functions for the primitive
+			types should be provided by the user to form a foundation on which all
+			the other functions may be built.</para>
+
+		<para>The user may wish to generate
+			<code>WRITE_</code><literal>type</literal> (or other disk reading and
+			writing) functions for types other than those mentioned in the algebra
+			definition. This can be done by means of a command-line option of the
+			form <code>-E</code><literal>input</literal> where
+			<literal>input</literal> is a file containing a list of the extra
+			types required.	In the notation
+			<link linkend="textinput">used above</link> the syntax for
+			<literal>input</literal> is given by:</para>
+
+		<programlisting language="bnf">extra:
+			type-list&opt.bnf;
+
+type-list:
+			type;
+			type-list type;</programlisting>
+
+		<para>The <code>WRITE_</code><literal>type</literal> functions are
+			defined recursively in an obvious fashion. The user needs to provide
+			the writing routines for the primitives already mentioned, plus
+			support routines (or macros):</para>
+
+		<programlisting language="c">void WRITE_BITS(int, unsigned int);
+void WRITE_DIM(name_dim);
+void WRITE_ALIAS(unsigned int);</programlisting>
+
+		<para>for writing a number of bits to disk, writing a vector dimension and
+			writing an <link linkend="diskalias">object alias</link>.</para>
+
+		<para>Any of the <code>WRITE_</code><literal>type</literal> functions
+			may be overridden by the user by defining a macro
+			<code>WRITE_</code><literal>type</literal> with the desired effect.
+			Note that the <code>WRITE_</code><literal>type</literal> function for
+			an identity can be overridden independently of the function for the
+			identity definition.	This provides a method for introducing types
+			which are representationally the same, but which are treated
+			differently by the disk reading and writing routines.</para>
+	</section>
+
+	<section id="diskread">
+		<title>Disk reading routines</title>
+
+		<para>The disk reading routines output in
+			<filename>read_def.h</filename> are exactly analogous to the disk
+			writing routines. For each type <literal>t</literal> (except
+			primitives) there is a function or macro:</para>
+
+		<programlisting language="c">static t READ_type(void);</programlisting>
+
+		<para>which reads an object of that type from disk. The user must provide
+			the <code>READ_</code><literal>type</literal> functions for the
+			primitive types, plus support routines:</para>
+
+		<programlisting language="c">unsigned int READ_BITS(int);
+name_dim READ_DIM(void);
+unsigned int READ_ALIAS(void);</programlisting>
+
+		<para>for reading a number of bits from disk, reading a vector dimension and
+			reading an <link linkend="diskalias">object alias</link>. The
+			<code>READ_</code><literal>type</literal> functions may be overridden
+			by means of macros as before.</para>
+	</section>
+
+	<section id="diskprint">
+		<title>Object printing routines</title>
+
+		<para>The object printing routines output in
+			<filename>print_def.h</filename> consist of a function or macro:</para>
+
+		<programlisting language="c">static void PRINT_type(FILE *, t, char *, int);</programlisting>
+
+		<para>for each type <literal>t</literal>, which prints an object of type
+			<literal>t</literal> to the given file, using the given object name
+			and indentation value. The user needs to provide basic output
+			routines:</para>
+
+		<programlisting language="c">void OUTPUT_type(FILE *, t);</programlisting>
+
+		<para>for each primitive type. The
+			<code>PRINT_</code><literal>type</literal> functions may be overridden
+			by means of macros as before.</para>
+
+		<para>The printing routines are under the control of three variables
+			defined as follows:</para>
+
+		<programlisting language="c">static int print_indent_step = 4;
+static int print_ptr_depth = 1;
+static int print_list_expand = 0;</programlisting>
+
+		<para>These determine the indentation to be used in the output, to what
+			depth pointers are to be dereferenced when printing, and whether lists
+			and stacks are to be fully expanded into a sequence of elements or
+			just split into a head and a tail.</para>
+
+		<para>One application of these object printing routines is to aid
+			debugging programs written using the <command>calculus</command> tool.
+			The form of the type system implementation means that it is not easy
+			to extract information using run-time debuggers without a detailed
+			knowledge of the structure of this implementation. As a more
+			convenient alternative, if both the <code>-p</code> and
+			<code>-a</code> command-line options are given then
+			<command>calculus</command> will generate functions:</para>
+
+		<programlisting language="c">void DEBUG_type(t);</programlisting>
+
+		<para>defined in terms of <code>PRINT_</code><literal>type</literal>, for
+			printing an object of the given type to the standard output. Many
+			debuggers have problems passing structure arguments, so for structure,
+			vector and vector pointer types
+			<code>DEBUG_</code><literal>type</literal> takes the form:</para>
+
+		<programlisting language="c">void DEBUG_type(t *);</programlisting>
+
+		<para>These debugging routines are only defined conditionally, if the macro
+			<code>DEBUG</code> is defined.</para>
+	</section>
+
+	<section id="diskalias">
+		<title>Aliasing</title>
+
+		<para>An important feature of the disk reading and writing routines,
+			namely aliasing, has been mentioned but not yet described. The problem
+			to be faced is that many of the objects built up using type systems
+			defined using <command>calculus</command> will be cyclic - they will
+			include references to themselves in their own definitions.	Aliasing
+			is a mechanism for breaking such cycles by ensuring that only one copy
+			of an object is ever written to disk, or that only one copy is created
+			when reading from disk. This is done by associating a unique number as
+			an alias for the object.</para>
+
+		<para>For example, when writing to disk, the first time the object is
+			written the alias definition is set up. Consequently the alias number
+			is written instead of the object it represents. Similarly when reading
+			from disk, an alias may be associated with an object when it is read.
+			When this alias is encountered subsequently it will always refer to
+			this same object.</para>
+
+		<para>The objects on which aliasing can be specified are the
+			<link linkend="inputunion">union fields</link>. A union field may be
+			qualified by one or two hash symbols to signify that objects of that
+			type should be aliased.</para>
+
+		<para>The two hash case is used to indicate that the user wishes to gain
+			access to the objects during the aliasing mechanism. In the disk
+			writing case, the object to be written, <literal>x</literal> say, is
+			split into its components using the appropriate
+			<code>DECONS_</code><literal>union_field</literal> construct. Then the
+			user-defined routine, or macro:</para>
+
+			<programlisting language="c">ALIAS_union_field(comp, ...., x);</programlisting>
+
+			<para>(where <literal>comp</literal> ranges over all the union components)
+			is called prior to writing the object components to disk.</para>
+
+		<para>Similarly in the disk reading case, the object being read,
+			<literal>x</literal>, is initialised by calling the user-defined
+			routine:</para>
+
+		<programlisting language="c">UNALIAS_union_field(x);</programlisting>
+
+		<para>prior to reading the object components from disk. Each object
+			component is then read into a local variable, <literal>comp</literal>.
+			Finally the user-defined routine:</para>
+
+		<programlisting language="c">UNIFY_union_field(comp, ...., x);</programlisting>
+
+		<para>(where <literal>comp</literal> ranges over all the union components)
+			is called to assign these values to <literal>x</literal> before
+			returning.</para>
+
+		<para>In the single hash case the object is not processed in this way.
+			It is just written straight to disk, or has its components immediately
+			assigned to it when reading from disk.</para>
+
+		<para>Note that aliasing is used, not just in the disk reading and
+			writing routines, but also in the object printing functions.	After
+			calling any such function the user should call the routine:</para>
+
+		<programlisting language="c">void clear_name_alias(void);</programlisting>
+
+		<para>to clear all aliases.</para>
+
+		<para>Aliases are implemented by adding an extra field to the objects to
+			be aliased, which contains the alias number, if this has been
+			assigned, or zero, otherwise. A list of all these extra fields is
+			maintained. In addition to the routine
+			<code>clear_</code><literal>name</literal>_alias mentioned above, the
+			user should provide support functions and variables:</para>
+
+		<programlisting language="c">unsigned int crt_name_alias;
+void set_name_alias(name *, unsigned int);
+name *find_name_alias(unsigned int);</programlisting>
+
+		<para>giving the next alias number to be assigned, and routines for adding
+			an alias to the list of all aliases, and looking up an alias in this
+			list. Example implementations of these routines are given in the
+			<link linkend="example"><command>calculus</command> program</link>
+			itself.</para>
+	</section>
+
+	<section id="application">
+		<title>Application to calculus</title>
+
+		<para>As <link linkend="example">mentioned above</link>, the
+			<command>calculus</command> program itself is an example of its own
+			application. It therefore contains routines for reading and writing a
+			representation of an algebra to and from disk, and for pretty-printing
+			the contents of an algebra. These may be accessed using the
+			<link linkend="options">command-line options</link> mentioned
+			above.</para>
+
+		<para>If the <option>-w</option> command-line option is specified to
+			<command>calculus</command> then it reads its input file,
+			<literal>input</literal>, as normal, but writes a disk representation
+			of the input algebra to <literal>output</literal>, which in this
+			instance is an output file, rather than an output directory. An output
+			file produced in this way can then be specified as an input file to
+			<command>calculus</command> if the <option>-r</option> option is
+			given.	Finally the input algebra may be pretty-printed to an output
+			file (or the standard output if no <literal>output</literal> argument
+			is given) by specifying the <option>-o</option> option.</para>
+	</section>
+</chapter>
+

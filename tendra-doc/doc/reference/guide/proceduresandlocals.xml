@@ -1,0 +1,609 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Procedures and Locals</title>
+
+	<para>All procedures in TDF are essentially global; the only values
+		which are accessible from the body of a procedure are those which are
+		derived from global TAGs (introduced by TAGDEFs or TAGDECs), local
+		TAGs defined within the procedure and parameter TAGs of the
+		procedure.</para>
+
+	<para>All executable code in TDF will arise from an EXP PROC made by
+		either make_proc or make_general_proc. They differ in their treatment
+		of how space for the actual parameters of a call is managed; in
+		particular, is it the caller or the callee which deallocates the
+		parameter space?</para>
+
+	<para>With make_proc, this management is conceptually done by the caller
+		at an apply_proc; i.e. the normal C situation. This suffers from the
+		limitation that tail-calls of procedures are then only possible in
+		restricted circumstances (e.g. the space for the parameters of the
+		tail-call must be capable of being included in caller's parameters)
+		and could only be implemented as an optimisation within a translator.
+		A producer could not predict these circumstances in a machine
+		independent manner, whether or not it knew that a tail-call was
+		valid.</para>
+
+	<para>An alternative would be to make the management of parameter space
+		the responsibility of the called procedure. Rather than do this,
+		make_general_proc (and apply_general_proc) splits the parameters into
+		two sets, one whose allocation is the responsibility of the caller and
+		the other whose allocation is dealt with by the callee. This allows an
+		explicit tail_call to be made to a procedure with new callee
+		parameters; the caller parameters for the tail_call will be the same
+		as (or some initial subset of) the caller parameters of the procedure
+		containing the tail_call .</para>
+
+	<para>A further refinement of make_general_proc is to allow access to
+		the caller parameter space in a postlude at the call of the procedure
+		using an apply_general_proc. This allows simple implementations of Ada
+		out_parameters, or more generally, multiple results of
+		procedures.</para>
+
+	<section id="S38">
+		<title>make_proc and apply_proc</title>
+
+		<para>The make_proc constructor has signature:</para>
+
+		<programlisting language="tdf">result_shape: SHAPE
+params_intro: LIST(TAGSHACC)
+var_intro:    OPTION(TAGACC)
+body:         EXP BOTTOM
+              -&gt; EXP PROC</programlisting>
+  
+		<para>The <code>params_intro</code> and <code>var_intro</code> parameters
+			introduce the formal parameters of the procedure which may be used
+			in <code>body</code>. The procedure result will have SHAPE
+			<code>result_shape</code> and will be usually given by some return
+			construction within <code>body</code>. The basic model is that space
+			will be provided to copy actual parameters (into space supplied by
+			some apply_proc) by value into these formals and the body will treat
+			this space effectively as local variables.</para>
+
+		<para>Each straightforward formal parameter is introduced by an
+			auxiliary SORT TAGSHACC using make_tagshacc:</para>
+
+		<programlisting language="tdf">sha:        SHAPE
+opt_access: OPTION(LIST(ACCESS))
+tg_intro:   TAG POINTER(alignment(sha))
+            -&gt; TAGSHACC</programlisting>
+
+		<para>Within <code>body</code>, the formal will be accessed using
+			<code>tg_intro</code>; it is always considered to be a pointer to
+			the space of SHAPE <code>sha</code> allocated by apply_proc, hence
+			the pointer SHAPE.</para>
+
+		<para>For example, if we had a simple procedure with one integer
+			parameter, <code>var_intro</code> would be empty and
+			<varname>params_intro</varname> might be:</para>
+
+		<programlisting language="tdf">params_intro = make_tagshacc(integer(v), empty, make_tag(13))</programlisting>
+
+		<para>Then, TAG 13 from the enclosing UNIT's name-space is identified with
+			the formal parameter with SHAPE POINTER(INTEGER(v)). Any use of
+			obtain_tag(make_tag(13)) in <code>body</code> will deliver a pointer
+			to the integer parameter. I shall return to the meaning of
+			<code>opt_access</code> and the ramifications of the scope and extent
+			of TAGs involved in conjunction with local declarations in
+			<link linkend="identify-variable">section 5.3.1</link>.</para>
+
+		<para>Procedures, whether defined by make_proc or make_general_proc,
+			will usually terminate and deliver its result with a return:</para>
+
+		<programlisting language="tdf">arg1: EXP x
+		-&gt; EXP BOTTOM</programlisting>
+
+		<para>Here <varname>x</varname> must be identical to the
+			<code>result_shape</code> of the call of the procedure There may be
+			several returns in body; and the SHAPE <varname>x</varname> in each
+			will be the same. Some languages allow different types to be returned
+			depending on the particular call.  The producer must resolve this
+			issue. For example, C allows one to deliver void if the resulting
+			value is not used.  In TDF a dummy value must be provided at the
+			return; for example make_value(<code>result_shape</code>).</para>
+
+		<para>Note that the <code>body</code> has SHAPE bottom since all
+			possible terminations to a procedure have SHAPE BOTTOM..</para>
+
+		<para>Procedures defined by make_proc are called using
+			apply_proc:</para>
+
+		<programlisting language="tdf">result_shape: SHAPE
+arg1:         EXP PROC
+arg2:         LIST(EXP)
+varparam:     OPTION(EXP)
+              -&gt; EXP result_shape</programlisting>
+
+		<para>Here <code>arg1</code> is the procedure to be called and
+			<code>arg2</code> gives the actual parameters. There must be at least
+			as many actual parameters as given (with the same SHAPE) in the
+			<code>params_intro</code> of the corresponding make_proc for arg1.
+			<footnote>
+				<para>The vararg construction in C are implemented by giving more
+					actuals than formals; the extra parameters are accessed by offset
+					arithmetic with a pointer to a formal, using parameter_alignment
+					to pad the offsets.</para>
+			</footnote>
+			The values of <code>arg2</code> will be copied into space managed by
+			caller.</para>
+
+		<para>The SHAPE of the result of the call is given by
+			<code>result_shape</code> which must be identical to the
+			<code>result_shape</code> of the make_proc.</para>
+
+		<section id="vartag-varparam">
+			<title>vartag, varparam</title>
+
+			<para>Use of the <code>var_intro</code> OPTION in make_proc and the
+				corresponding <code>varparam</code> in apply_proc allows one to
+				have a parameter of any SHAPE, possibly differing from call to
+				call where the actual SHAPE can be deduced in some way by the
+				<code>body</code> of the make_proc . One supplies an extra actual
+				parameter, <code>varparam</code>, which usually would be a
+				structure grouping some set of values. The body of the procedure
+				can then access these values using the pointer given by the TAG
+				<code>var_intro</code>, using add_to_ptr with some computed
+				offsets to pick out the individual fields.</para>
+
+			<para>This is a slightly different method of giving a variable
+				number of parameters to a procedure, rather than simply giving
+				more actuals than formals. The principle difference is in the
+				alignment of the components of <code>varparam</code>; these will
+				be laid out according to the default padding defined by the
+				component shapes. In most ABIs, this padding is usually different
+				to the way parameters are laid out; for example, character
+				parameters are generally padded out to a full word.  Thus a
+				sequence of parameters of given shape has a different layout in
+				store to the same sequence of shapes in a structure. If one wished
+				to pass an arbitrary structure to a procedure, one would use the
+				<code>varparam</code> option rather passing the fields
+				individually as extra actual parameters.</para>
+		</section>
+	</section>
+
+	<section id="S40">
+		<title>make_general_proc and apply_general_proc</title>
+
+		<para>A make_general_proc has signature:</para>
+
+		<programlisting language="tdf">result_shape: SHAPE
+prcprops:     OPTION(PROCPROPS)
+caller_intro: LIST(TAGSHACC)
+callee_intro: LIST(TAGSHACC)
+body:         EXP BOTTOM
+              -&gt; EXP PROC</programlisting>
+      
+		<para>Here the formal parameters are split into two sets,
+			<code>caller_intro</code> and <code>callee_intro</code>, each given
+			by a list of TAGSHACCs just as in make_proc. The distinction between
+			the two sets is that the make_general_proc is responsible for
+			de_allocating any space required for the callee parameter set; this
+			really only becomes obvious at uses of tail_call within
+			<code>body</code>.</para>
+
+		<para>The <code>result_shape</code> and <code>body</code> have the
+			same general properties as in make_proc. In addition
+			<code>prcprops</code> gives other information both about
+			<code>body</code> and the way that that the procedure is called.
+			PROCPROPS are a set drawn from check_stack, inline,
+			no_long_jump_dest, untidy, var_callees and var_callers. The set is
+			composed using add_procprops. The PROCPROPS no_long_jump_dest is a
+			property of <code>body</code> only; it indicates that none of the
+			labels within <code>body</code> will be the target of a long_jump
+			construct. The other properties should also be given consistently at
+			all calls of the procedure; theu are discussed in
+			<link linkend="procprops">section 5.2.2</link>.</para>
+
+		<para>A procedure, <code>p</code>, constructed by make_general_proc is
+			called using apply_general_proc:</para>
+
+		<programlisting language="tdf">result_shape:  SHAPE
+prcprops:      OPTION(PROCPROPS)
+p:             EXP PROC
+caller_params: LIST(OTAGEXP)
+callee_params: CALLEES
+postlude:      EXP TOP
+               -&gt; EXP result_shape</programlisting>
+
+		<para>The actual caller parameters are given by
+			<code>caller_params</code> as a list of OTAGEXPs constructed using
+			make_otagexp:</para>
+
+		<programlisting language="tdf">tgopt: OPTION(TAG x / i>)
+e:     EXP x / i>
+       -&gt; OTAGEXP</programlisting>
+  
+		<para>Here, <code>e</code> is the value of the parameter and
+			<code>tgopt</code>, if present, is a TAG which will bound to the
+			final value of the parameter (after <code>body</code> is evaluated)
+			in the <code>postlude</code> expression of the apply_general_proc.
+			<footnote>
+				<para>If a formal parameter is to be used in this way, it should
+					be marked as having out_par ACCESS in its corresponding TAGSHACC
+					in <code>callers_intro</code>.</para>
+			</footnote>
+			Clearly, this allows one to use a caller parameter as an extra
+			result of the procedure; for example, as in Ada
+			out-parameters.</para>
+
+		<para>The actual <code>callee_params</code> may be constructed in
+			three different ways. The usual method is to use make_callee_list,
+			giving a list of actual EXP parameters, corresponding to the
+			<code>caller_intro</code> list in the obvious way.The constructor,
+			same_callees allows one to use the callees of the current procedure
+			as the callees of the call; this, of course, assumes that the
+			formals of the current procedure are compatible with the formals
+			required for the call The final method allows one to construct a
+			dynamically sized set of CALLEES; make_dynamic_callees takes a
+			pointer and a size (expressed as an OFFSET) to make the CALLEES;
+			this will be used in conjunction with a var_callees PROCPROPS (see
+			<link linkend="procprops">section 5.2.2</link>).</para>
+
+		<para>Some procedures can be expressed using either make_proc or
+			make_general_proc. For example:</para>
+
+		<para>make_proc(S, L, empty, B) = make_general_proc(S, var_callers, L,
+			empty, B)</para>
+
+		<section id="tail_call">
+			<title>tail_call</title>
+
+			<para>Often the result of a procedure, <function>f</function>, is
+				simply given by the call of another (or the same) procedure,
+				<function>g</function>. In appropriate circumstances, the same
+				stack space can be used for the call of <function>g</function> as
+				the call of <function>f</function>. This can be particularly
+				important where heavily recursive routines are involved; some
+				languages even use tail recursion as the preferred method of
+				looping.</para>
+
+			<para>One condition for such a tail call to be applicable is knowing
+				that <function>g</function> does not require any pointers to
+				locals of <function>f</function>; this is often implicit in the
+				language involved.  Equally important is that the action on the
+				return from <function>f</function> is indistiguishable from the
+				return from <function>g</function>. For example, if it were the
+				callers responsibility to pop the the space for the parameters on
+				return from a call, then the tail call of <function>g</function>
+				would only work if <function>g</function> had the same parameter
+				space as <function>f</function>.</para>
+
+			<para>This is the justification for splitting the parameter set of a
+				general proc; it is (at least conceptually) the caller's
+				responsibility for popping the caller-parameters only - the
+				callee-parameters are dealt with by the procedure itself. Hence we
+				can define tail_call which uses the same caller-parameters, but a
+				different set of callee-parameters:</para>
+
+			<programlisting language="tdf">prcprops:      OPTION(PROCPROPS)
+p:             EXP PROC
+callee_params: CALLEES
+               -&gt; EXP BOTTOM</programlisting>
+
+			<para>The procedure p will be called with the same caller parameters as
+				the current procedure and the new <code>callee_params</code> and
+				return to the call site of the current procedure. Semantically, if
+				S is the return SHAPE of the current procedure, and L is its
+				caller-parameters:</para>
+
+			<para>tail_call(P, p, C) = return(apply_general_proc(S, P, p, L, C,
+				make_top()))</para>
+
+			<para>However an implementation is expected to conserve stack by
+				using the same space for the call of p as the current
+				procedure.</para>
+		</section>
+
+		<section id="procprops">
+			<title>PROCPROPS</title>
+
+			<para>The presence of var_callees (or var_callers) means that the
+				procedure can be called with more actual callee (or caller)
+				parameters than are indicated in <code>callee_intro</code> (or
+				<code>caller_intro</code>). These extra parameters would be
+				accessed within body using offset calculations with respect to the
+				named parameters. The offsets should be calculated using
+				parameter_alignment to give the packing of the parameter
+				packs.</para>
+
+			<para>The presence of untidy means that <code>body</code> may be
+				terminated by an untidy_return. This returns the result of the
+				procedure as in return, but the lifetime of the local space of the
+				procedure is extended (in practice this is performed by not
+				returning the stack to its original value at the call). A
+				procedure containing an untidy_return is a generalisation of a
+				local_alloc(see <link linkend="local_alloc">section 5.3.4</link>).
+				For example the procedure could do some complicated local
+				allocation (a triangular array, say) and untidily return a pointer
+				to it so that the space is still valid in the calling procedure.
+				The space will remain valid for the lifetime of the calling
+				procedure unless some local_free is called within it, just as if
+				the space had been generated by a local_alloc in the calling
+				procedure.</para>
+
+			<para>The presence of inline is just a hint to the translator that
+				the procedure body is a good candidate for inlining at the
+				call.</para>
+
+			<para>The presence of check_stack means that the static stack
+				requirements of the procedure will be checked on entry to see that
+				they do not exceed the limits imposed by set_stack_limit; if they
+				are exceeded a TDF exception with ERROR_CODE stack_overflow (see
+				<link linkend="exceptional-flow">section 6.3</link>) will be
+				raised.</para>
+		</section>
+	</section>
+
+	<section id="defining-and-using-locals">
+		<title>Defining and using locals</title>
+
+		<section id="identify-variable">
+			<title>identify, variable</title>
+
+			<para>Local definitions within the <code>body</code> of a procedure
+				are given by two EXP constructors which permit one to give names
+				to values over a scope given by the definition. Note that this is
+				somewhat different to declarations in standard languages where the
+				declaration is usually embedded in a larger construct which
+				defines the scope of the name; here the scope is explicit in the
+				definition. The reason for this will become more obvious in the
+				discussion of TDF transformations. The simpler constructor is
+				identify:</para>
+
+			<programlisting language="tdf">opt_access: OPTION(ACCESS)
+name_intro: TAG x
+definition: EXP x
+body:       EXP y
+            -&gt; EXP y</programlisting>
+            
+			<para>The <code>definition</code> is evaluated and its result is
+				identified with the TAG given by <code>name_intro</code> within
+				its scope <code>body</code>.  Hence the use of any
+				obtain_tag(<code>name_intro</code>) within <code>body</code> is
+				equivalent to using this result. Anywhere else,
+				obtain_tag(<code>name_intro</code>) is meaningless, including in
+				other procedures.</para>
+
+			<para>The other kind of local definition is variable:</para>
+
+			<programlisting language="tdf">opt_access: OPTION(ACCESS)
+name_intro: TAG x
+init:       EXP x
+body:       EXP y
+            -&gt; EXP y</programlisting>
+            
+			<para>Here the <code>init</code> EXP is evaluated and its result serves
+				as an initialisation of space of SHAPE <varname>x</varname> local
+				to the procedure.  The TAG name_intro is then identified with a
+				pointer to that SPACE within body. A use of
+				obtain_tag(<code>name_intro</code>) within <code>body</code> is
+				equivalent to using this pointer and is meaningless outside
+				<code>body</code> or in other procedures. Many variable
+				declarations in programs are uninitialised; in this case, the
+				<code>init</code> argument could be provided by make_value which
+				will produce some value with SHAPE given by its parameter.</para>
+		</section>
+
+		<section id="sort-access">
+			<title>ACCESS</title>
+
+			<para>The ACCESS SORT given in tag declarations is a way of
+				describing a list of properties to be associated with the tag.
+				They are basically divided into two classes, one which describes
+				global properties of the tag with respect to the model for locals
+				and the other which gives "hints" on how the value will be used.
+				Any of these can be combined using add_access.</para>
+
+			<section id="locals-model">
+				<title>Locals model</title>
+
+				<para>At the moment there are just three possibilities in the
+					first class of ACCESS constructors. They are standard_access
+					(the default), visible, out_par and long_jump_access.</para>
+
+				<para>The basic model used for the locals and parameters of a
+					procedure is a frame within a stack of nested procedure calls.
+					One could implement a procedure by allocating space according to
+					SHAPEs of all of the parameter and local TAGs so that the
+					corresponding values are at fixed offsets either from the start
+					of the frame or some pointer within it.</para>
+
+				<para>Indeed, if the ACCESS <code>opt_access</code> parameter in a
+					TAG definition is produced by visible, then a translator is
+					almost bound to do just that for that TAG. This is because it
+					allows for the possibility of the value to be accessed in some
+					way other than by using obtain_tag which is the standard way of
+					recovering the value bound to the TAG. The principal way that
+					this could happen within TDF is by the combined use of
+					env_offset to give the offset and current_env to give a pointer
+					to the current frame (see
+					<link linkend="current_env">section 5.3.3</link>).</para>
+
+				<para>The out_par ACCESS is only applicable to caller parameters
+					of procedures; it indicates that the value of the TAG concerned
+					will accessed by the postlude part of an apply_general_proc.
+					Hence, the value of the parameter must be accessible after the
+					call; usually this will be on the stack in the callers
+					frame.</para>
+
+				<para>The long_jump_access flag is used to indicate that the tag
+					must be available after a long_jump. In practice, if either
+					visible or long_jump_access is set, most translators would
+					allocate the space for the declaration on the main-store stack
+					rather than in an available register. If it is not set, then a
+					translator is free to use its own criteria for whether space
+					which can fit into a register is allocated on the stack or in a
+					register, provided there is no observable difference (other than
+					time or program size) between the two possibilities.</para>
+
+				<para>Some of these criteria are rather obvious; for example, if a
+					pointer to local variable is passed outside the procedure in an
+					opaque manner, then it is highly unlikely that one can allocate
+					the variable in a register. Some might be less obvious. If the
+					only uses of a TAG t was in obtain_tag(t)s which are operands of
+					contents or the left-hand operands of assigns, most ABIs would
+					allow the tag to be placed in a register. We do not necessarily
+					have to generate a pointer value if it can be subsumed by the
+					operations available.</para>
+			</section>
+
+			<section id="access-hints">
+				<title>Access "hints"</title>
+
+				<para>A variable tag with ACCESS constant is a write-once value;
+					once it is initialised the variable will always contain the
+					initialisation. In other words the tag is a pointer to a
+					constant value; translators can use this information to apply
+					various optimisations.</para>
+
+				<para>A POINTER tag with ACCESS no_other_read or no_other_write is
+					asserting that there are no "aliassed" accesses to the contents
+					of the pointer. For example, when applied to a parameter of a
+					procedure, it is saying that the original pointer of the tag is
+					distinct from any other tags used (reading/writing) in the
+					lifetime of the tag. These other tags could either be further
+					parameters of the procedure or globals. Clearly, this is useful
+					for describing the limitations imposed by Fortran parameters,
+					for example.</para>
+			</section>
+		</section>
+
+		<section id="current_env">
+			<title>current_env, env_offset</title>
+
+			<para>The constructor current_env gives a pointer to the current
+				procedure frame of SHAPE POINTER(<code>fa</code>) where
+				<code>fa</code> is depends on how the procedure was defined and
+				will be some set of the special frame ALIGNMENTs. This set will
+				always include locals_alignment - the alignment of any locals
+				defined within the procedure. If the procedure has any caller-
+				parameters, the set will also include callers_alignment(b) where b
+				indicates whether there can be a variable number of them;
+				similarly for callee-parameters.</para>
+
+			<para>Offsets from the current_env of a procedure to a tag declared
+				in the procedure are constructed by env_offset:</para>
+
+			<programlisting language="tdf">
+fa: ALIGNMENT
+y:  ALIGNMENT
+t:  TAG x
+    -&gt; EXP OFFSET(fa, y)</programlisting>
+            
+			<para>The frame ALIGNMENT <code>fa</code> will be the appropriate one
+				for the TAG <code>t</code>; i.e. if <code>t</code> is a local then
+				the <code>fa</code> will be locals_alignment; if <code>t</code> is
+				a caller parameter, <code>fa</code> will be callers_alignment(b);
+				if <code>t</code> is a callee_parameter, <code>fa</code> will be
+				callees_alignment(b). The alignment <code>y</code> will be the
+				alignment of the initialisation of <code>t</code>.</para>
+
+			<para>The offset arithmetic operations allow one to access the
+				values of tags non-locally using values derived from current_env
+				and env_offset. They are effectively defined by the following
+				identities:</para>
+
+		<!-- TODO this is not one <programlisting language="tdf"> -->
+          <programlisting language="tdf">If TAG t is derived from a variable definition
+            add_to_ptr(current_env(), env_offset(locals_alignment, A, t)) = obtain_tag(t)
+    if TAG t is derived from an identify definition:
+            contents(S, add_to_ptr(current_env(), env_offset(locals_alignment, A, t))) = obtain_tag(t)
+    if TAG t is derived from a caller parameter:
+            add_to_ptr(current_env(), env_offset(callers_alignment(b), A, t)) = obtain_tag(t)
+    if TAG t is derived from a callee parameter:
+            add_to_ptr(current_env(), env_offset(callees_alignment(b), A, t)) = obtain_tag(t)</programlisting>
+            
+			<para>These identities are valid throughout the extent of t, including
+				in inner procedure calls. In other words, one can dynamically
+				create a pointer to the value by composing current_env and
+				env_offset.</para>
+
+			<para>The importance of this is that env_offset(t) is a constant
+				OFFSET and can be used anywhere within the enclosing UNIT, in
+				other procedures or as part of constant TAGDEF; remember that the
+				TDFINT underlying t is unique within the UNIT. The result of a
+				current_env could be passed to another procedure (as a parameter,
+				say) and this new procedure could then access a local of the
+				original by using its env_offset. This would be the method one
+				would use to access non-local, non-global identifiers in a
+				language which allowed one to define procedures within procedures
+				such as Pascal or Algol. Of course, given the stack-based model,
+				the value given by current_env becomes meaningless once the
+				procedure in which it is invoked is exited.</para>
+		</section>
+
+		<section id="local_alloc">
+			<title>local_alloc, local_free_all, last_local</title>
+
+			<para>The size of stack frame produced by variable and identify
+				definitions is a translate-time constant since the frame is
+				composed of values whose SHAPEs are known. TDF also allows one to
+				produce dynamically sized local objects which are conceptually
+				part of the frame. These are produced by local_alloc:</para>
+
+			<programlisting language="tdf">arg1: EXP OFFSET(x, y)
+      -&gt; EXP POINTER(alloca_alignment)</programlisting>
+
+			<para>The operand <code>arg1</code> gives the size of the new object
+				required and the result is a pointer to the space for this object
+				"on top of the stack" as part of the frame. The quotation marks
+				indicate that a translator writer might prefer to maintain a
+				dynamic stack as well as static one. There are some disadvantages
+				in putting everything into one stack which may well out-weigh the
+				trouble of maintaining another stack which is relatively
+				infrequently used. If a frame has a known size, then all
+				addressing of locals can be done using a stack-front register; if
+				it is dynamically sized, then another frame-pointer register must
+				be used - some ABIs make this easy but not all. The majority of
+				procedures contain no local_allocs, so their addressing of locals
+				can always be done relative to a stack-front; only the others have
+				to use another register for a frame pointer.</para>
+
+			<para>The alignment of pointer result is alloca_alignment which must
+				include all SHAPE alignments.</para>
+
+			<para>There are two constructors for releasing space generated by
+				local_alloc. To release all such space generated in the current
+				procedure one does local_free_all(); this reduces the size of the
+				current frame to its static size.</para>
+
+			<para>The other constructor is local_free whch is effectively a
+				"pop" to local_alloc's "push":</para>
+
+			<programlisting language="tdf">a: EXP OFFSET(x, y)
+p: EXP POINTER(alloca_alignment)
+   -&gt; EXP TOP</programlisting>
+
+			<para>Here <code>p</code> must evaluate to a pointer generated either by
+				local_alloc or last_local . The effect is to free all of the space
+				locally allocated after p. The usual implementation (with a
+				downward growing stack) of this is that p becomes the "top of
+				stack" pointer.</para>
+
+			<para>The use of a procedure with an untidy_return is just a
+				generalisation of the idea of local_alloc and the space made
+				available by its use can be freed in the same way as normal local
+				allocations. Of course, given that it could be the result of the
+				procedure it can be structured in an arbitrarily complicated
+				way.</para>
+		</section>
+	</section>
+
+	<section id="heap-storage">
+		<title>Heap storage</title>
+
+		<para>At the moment, there are no explicit constructors of creating
+			dynamic off-stack storage in TDF. Any off-stack storage requirements
+			must be met by the API in which the system is embedded, using the
+			standard procedural interface.  For example, the ANSI C API allows
+			the creation of heap space using standard library procedures like
+			malloc.</para>
+	</section>
+</chapter>
+

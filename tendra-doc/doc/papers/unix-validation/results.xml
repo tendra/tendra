@@ -1,0 +1,175 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Results of Project phases</title>
+
+	<para>The NAT-NAT and DRA-NAT project phases, described in
+		<link linkend="project-phase">Description of Project phases</link>,
+		have been completed with a good level of success. The DRA-DRA phase has
+		been limited to cover a hundred or so commands. In the next paragraphs
+		we detail the results of each of the phases of the project.</para>
+
+	<section>
+		<title>Installation phase</title>
+
+		<para>This phase was not concerned with the TenDRA technology, so it did
+			not produce any noteworthy results.</para>
+	</section>
+
+	<section>
+		<title>NAT-NAT phase</title>
+
+		<para>The objective of this phase was to check that the system can be
+			completely built with the native system compiler from the source
+			delivery.  Indeed, this phase was very helpful to set-up the build
+			environment, and to evaluate the resources we would need for the next
+			phases.</para>
+	</section>
+
+	<section>
+		<title>DRA-NAT phase</title>
+
+		<para><emphasis>DRA-NAT build</emphasis></para>
+
+		<para>During this phase we compiled the whole system, as for the NAT-NAT
+			build, using the TenDRA technology as a standard compiler. Therefore,
+			we used the system header files instead of the architecture neutral
+			headers.  At completion of this task, we obtained the following
+			results:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>65% of the library source files could be successfully compiled
+					with the TenDRA technology.</para>
+			</listitem>
+
+			<listitem>
+				<para>About 65% of the kernel C code could be successfully compiled
+					with the TenDRA technology.</para>
+			</listitem>
+
+			<listitem>
+				<para>Nearly all the commands and tools could be compiled with the
+					TenDRA technology.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>These figures need some explanation to see why the TenDRA
+			technology failed to compile some of the files. There were essentially
+			three cases where the technology could not compile the files:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>support of assembly language instructions inlined in C
+					programs.</para>
+
+				<para>Such code is not per-se architecture neutral and it is
+					therefore clearly beyond the TenDRA technology goals.</para>
+
+				<para>Assembly code was present in only 2% of the library source
+					files, but was used in 22% of the files for the kernel
+					components.</para>
+			</listitem>
+
+			<listitem>
+				<para>support of special alignments for fields in structures
+					(#pragma pack(n) directive)</para>
+
+				<para>This feature was only relevant for Intel386 architecture. It
+					was present in about 33% of the library C source files (Mostly for
+					the Netware related libraries) and in 12% of the kernel C source
+					files.</para>
+			</listitem>
+
+			<listitem>
+				<para>Code written in C++ language.</para>
+
+				<para>There were also some parts of the system which used the C++
+					language. Since a C++ producer is not yet available for the TenDRA
+					technology, we could not compile these files.</para>
+
+				<para>Files with C++ code represented about 9% of the source code
+					for the libraries and about 5% of the source code for the
+					commands.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>In summary, excluding the C++ files, about 85% of the C source
+			files could be successfully compiled with the TenDRA technology.</para>
+
+		<para>Apart from these issues, we found very few problems in the TenDRA
+			compiler, 8 problems in fact, which were usually fixed or bypassed
+			very quickly. These are included in the Appendix.</para>
+
+		<para><emphasis>DRA-NAT validation</emphasis></para>
+
+		<para>The DRA-NAT built kernel was customized for actual hardware and
+			successfully booted.</para>
+
+		<para>The VSX4 tests have been built and exercised first on the native
+			UNIX version. On this beta release, approximately 6,000 tests are
+			successful while a hundred of them are not. Three libraries are
+			involved (libc being the most important one), and best results are got
+			using the shared version of them.</para>
+
+		<para>The following system software configuration was then used for
+			recompiling and rerunning the VSX4 tests:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>TenDRA compiler in DRA-NAT mode</para>
+			</listitem>
+
+			<listitem>
+				<para>DRA-NAT commands</para>
+			</listitem>
+
+			<listitem>
+				<para>DRA-NAT libraries for compile-time link-edits</para>
+			</listitem>
+
+			<listitem>
+				<para>DRA-NAT version of dynamically-linked libc at
+					runtime.</para>
+			</listitem>
+
+			<listitem>
+				<para>DRA-NAT kernel</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>With this configuration, the VSX4 tests level of success is the
+			same as for the native system. Two modules of the dynamically linked
+			libc library were temporarily replaced by their native version in
+			order to cure problems with the sed command.</para>
+
+		<para>The AIMIII benchmark was used to exercise the native and DRA-NAT
+			systems. At a medium user load level (simulated by the benchmark),
+			i.e. 30-60 users, the performance of the two systems is similar:
+			variations are below 3%.</para>
+
+		<para>During the DRA-NAT validation phase, only 7 problems in TenDRA
+			technology were encountered. These are included in the
+			Appendix.</para>
+	</section>
+
+	<section>
+		<title>DRA-DRA phase</title>
+
+		<para>A base API has been created from a merge between the svid3 and
+			xpg4 APIs, which are included in the TenDRA technology delivery. This
+			allowed us to compile 57 commands (out of approximately 600). This
+			demonstrated the need for a custom extension API for compiling most
+			UnixWare commands. With the present extension API, 46 additional
+			commands have been compiled.</para>
+
+		<para>During this phase, two minor problems in the TenDRA technology
+			were identified (these are included in the Appendix).</para>
+	</section>
+</chapter>
+

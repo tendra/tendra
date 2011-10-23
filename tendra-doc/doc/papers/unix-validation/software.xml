@@ -1,0 +1,133 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Software Information</title>
+
+	<para><emphasis>Software Category</emphasis></para>
+
+	<para>UnixWare is a desktop Operating System derived from System V release
+		4.2.</para>
+
+	<para>It includes support for TCP/IP and Netware networking, X/Window,
+		Motif and a Desktop Manager.</para>
+
+	<para><emphasis>UnixWare Version and Release Level</emphasis></para>
+
+	<para>A beta release of UnixWare version 2.0 for the Intel386 family
+		(Load q7.1) source code was used.</para>
+
+	<para><emphasis>Authors</emphasis></para>
+
+	<para>The authors of the UnixWare system are the Novell, Inc., with
+		portions of code developed by other contributors such as the University
+		of Berkeley and MIT.</para>
+
+	<para><emphasis>Source code</emphasis></para>
+
+	<para>The source code delivery for UnixWare 2.0 beta release represents
+		approximately 240 Mbytes of code. Most of the system has been recompiled
+		during the NAT-NAT phase of this project.</para>
+
+	<para>Included in this code is a graphical interface, based on X11 and
+		Motif. However, since this interface contains some code delivered in
+		binary format and since this interface is an optional part of a Unix
+		system, we did not use this code.</para>
+
+	<table>
+		<title>Rough source code distribution</title>
+
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+
+		<thead>
+			<tr>
+				<th>Libraries</th>
+				<th>Kernel</th>
+				<th>Commands &amp; tools</th>
+				<th>Graphics</th>
+				<th>Misc.</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>15MB</td>
+				<td>30MB</td>
+				<td>101MB</td>
+				<td>85MB</td>
+				<td>11MB</td>
+				<td>242MB</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<para>In addition, various data files are delivered, for configuration and
+		messaging, especially under Command &amp; tools directories. In
+		addition, some parts of the system, for example the kernel code for the
+		vxfs file system and some device drivers, appear to be delivered in
+		binary format only. So, a more accurate view of the volume of source
+		code submitted to the TenDRA technology is provided by sizing the C
+		language source files only:</para>
+
+	<table>
+		<title>C language files</title>
+
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+
+		<thead>
+			<tr>
+				<th>Headers</th>
+				<th>Libraries</th>
+				<th>Kernel</th>
+				<th>Commands &amp; tools</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>19.7MB</td>
+				<td>11.2MB</td>
+				<td>19.8MB</td>
+				<td>39.6MB</td>
+				<td>90.3MB</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<para><emphasis>TenDRA (ANDF) Technology Version Release</emphasis></para>
+
+	<para>The TDF snapshot dated December 94 (svr4_i386 target) has been used;
+		it is based on the TDF Specification Issue 3.0.</para>
+
+	<para><emphasis>Validation tools</emphasis></para>
+
+	<itemizedlist>
+		<listitem>
+			<para>X/OPEN Verification Suite release 4.2.4</para>
+		</listitem>
+
+		<listitem>
+			<para>AIM Suite III v3.1 (AIM Technology Inc.)</para>
+		</listitem>
+	</itemizedlist>
+
+	<para><emphasis>OS Platform Environment</emphasis></para>
+
+	<para>Two identical Intel486 PCs running UnixWare 2.0 and more than 1 GB
+		of disk space, mostly through NFS servers.</para>
+</chapter>
+

@@ -1,0 +1,400 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="phases">
+	<title>Description of Project phases</title>
+
+	<para>In this section we specify the tasks which have been performed under
+		this project.</para>
+
+	<para>The set of commands which were ported to ANDF was split into two
+		subsets:</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>The <emphasis>level 1</emphasis> subset corresponds to the level achieved
+				with UnixWare at the end of the first project (about 100 commands out
+				of 600).	These commands conform to a standard interface (Posix or
+				XPG) with some simple extensions. They do not use extensions which are
+				difficult to port from one system to another.	This set includes about
+				150 Linux commands.</para>
+		</listitem>
+		
+		<listitem>
+			<para>The <emphasis>level 2</emphasis> subset corresponds to the maximum which can
+				be reasonably achieved for a given system. While we could expect about
+				twice as many commands as for level 1, we only compiled about 75 more
+				commands.</para>
+		</listitem>
+	</itemizedlist>
+
+	<section>
+		<title>Phase 1: level 1 commands on Intel/i386</title>
+		
+		<para>The objective is to produce a &ldquo;level 1&rdquo; set of Linux commands in
+			ANDF format for the Intel platform. This requires the production of
+			the associated API, also in ANDF format (token library).</para>
+
+		<para>The major tasks for this phase are:</para>
+
+		<section>
+			<title>T1. Linux installation.</title>
+			
+			<orderedlist>
+				<listitem>
+					<para>Install the Linux system.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Install a compilation environment.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Install the Linux source code.</para>
+				</listitem>
+			</orderedlist>
+			
+			<para>Prerequisite: Linux system for Intel.</para>
+
+			<para>Delivery: System running.</para>
+		</section>
+			
+		<section>
+			<title>T2. TenDRA installation.</title>
+				
+			<orderedlist>
+				<listitem>
+					<para>Install the TenDRA technology for Linux.</para>
+				</listitem>
+			</orderedlist>
+			
+			<para>Prerequisite: TenDRA technology &amp; T1.</para>
+			
+			<para>Delivery: TenDRA installed.</para>
+		</section>
+				
+		<section>
+			<title>T3. Level 1 commands port.</title>
+			
+			<orderedlist>
+				<listitem>
+					<para>Define the level 1 set of Linux commands.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Compile the level 1 commands in NAT-NAT mode.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Compile the level 1 commands in DRA-NAT mode.</para>
+				</listitem>
+			</orderedlist>
+			
+			<para>Prerequisite: Linux source code, T1 &amp;
+				T2.</para>
+
+			<para>Delivery: Level 1 commands compiled with
+				TenDRA in native mode.</para>
+		</section>
+
+		<section>
+			<title>T4. Level 1 commands API definition.</title>
+			
+			<orderedlist>
+				<listitem>
+					<para>Define the non-explicit API used by this set of commands.
+						Machine dependent code issues will be addressed
+						specifically.</para>
+				</listitem>
+			</orderedlist>
+			
+			<para>Prerequisite: Linux source code.</para>
+
+			<para>Delivery: Set of ANDF header files for this
+				level 1 API.</para>
+		</section>
+			
+		<section>
+			<title>T5. ANDFization of Level 1 commands.</title>
+			
+			<orderedlist>
+				<listitem>
+					<para>Produce the level 1 commands with the TenDRA technology,
+						using the ANDF definition of the API defined in the previous
+						task.</para>
+				</listitem>
+			</orderedlist>
+			
+			<para>Prerequisite: Linux source code, T2 &amp;
+				T4.</para>
+
+			<para>Delivery: Level 1 commands in ANDF
+				format.</para>
+		</section>
+
+		<section>
+			<title>T6. Level 1 commands API installation.</title>
+			
+			<orderedlist>
+				<listitem>
+					<para>Build the token library for the level 1 commands
+						API.</para>
+				</listitem>
+			</orderedlist>
+
+			<para>Prerequisite: T2 &amp; T4.</para>
+
+			<para>Delivery: Token library for this level 1
+				API.</para>
+		</section>
+
+		<section>
+			<title>T7. Level 1 commands installation and validation.</title>
+			
+			<orderedlist>
+				<listitem>
+					<para>Install the commands in ANDF format produced in task T5.
+				</para>
+				</listitem>
+
+				<listitem>
+					<para>Validate the commands using adhoc tests.</para>
+				</listitem>
+
+				<listitem>
+					<para>Write a report that describes the results obtained and
+						the problems encountered.</para>
+				</listitem>
+			</orderedlist>
+
+			<para>Prerequisite: T2, T5 &amp; T6.</para>
+
+			<para>Delivery: Report on level 1 commands on
+				Intel.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Phase 2: level 1 commands on Digital/Alpha</title>
+		
+		<para>The objective is to validate that the commands produced during the
+			first phase can be easily ported to the Alpha platform.</para>
+		
+		<para>The major tasks, during this phase, are:</para>
+
+		<section>
+			<title>T8. Linux installation.</title>
+
+			<orderedlist>
+				<listitem>
+					<para>Install the Linux system.</para>
+				</listitem>
+
+				<listitem>
+					<para>Install a compilation environment, including header files
+						and libraries.</para>
+				</listitem>
+			</orderedlist>
+			
+			<para>Prerequisite: Linux system for Alpha.</para>
+			
+			<para>Delivery: System running.</para>
+		</section>
+
+		<section>
+			<title>T9. TenDRA installation.</title>
+			
+			<orderedlist>
+				<listitem>
+					<para>Adapt the TenDRA technology for Linux on the
+						Alpha.</para>
+				</listitem>
+
+				<listitem>
+					<para>Install the TenDRA technology.</para>
+				</listitem>
+			</orderedlist>
+			
+			<para>Prerequisite: TenDRA technology &amp;
+				T8.</para>
+			
+			<para>Delivery: TenDRA installed.</para>
+		</section>
+
+		<section>
+			<title> T10. Level 1 commands API installation.</title>
+			
+			<orderedlist>
+				<listitem>
+					<para>Build the token library for the level 1 commands
+						API.</para>
+				</listitem>
+			</orderedlist>
+			
+			<para>Prerequisite: T4 &amp; T9.</para>
+
+			<para>Delivery: Token library for this level 1 API.</para>
+		</section>
+
+		<section>
+			<title> T11. Level 1 commands installation and validation.</title>
+			
+			<orderedlist>
+				<listitem>
+					<para>NAT-NAT and DRA-NAT check.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Install the commands in ANDF format produced in task
+						T5.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Validate the commands using adhoc tests.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Write a report that describes the results obtained and
+						the problems encountered.</para>
+				</listitem>
+			</orderedlist>
+			
+			<para>Prerequisite: T5, T9 &amp; T10.</para>
+
+			<para>Delivery: Report on level 1 commands on Alpha.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Phase 3: level 2 commands on Intel/i386 and Digital/Alpha</title>
+
+		<para>The objective during this phase is to validate further the ANDF
+			tools by trying to extend the ANDF commands to a broader set that will
+			include some &ldquo;difficult&rdquo; cases.</para>
+		
+		<para>The major tasks are:</para>
+
+		<section>
+			<title>T12. Level 2 commands port.</title>
+	
+			<orderedlist>
+				<listitem>
+					<para>Define the level 2 set of Linux commands, by extension of
+						the level 1 set.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Compile the level 2 commands in NAT-NAT mode on
+						Intel.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Compile the level 2 commands in NAT-NAT mode on
+						Alpha.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Compile the level 2 commands in DRA-NAT mode on
+						Intel.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Compile the level 2 commands in DRA-NAT mode on
+						Alpha.</para>
+				</listitem>
+			</orderedlist>
+	
+			<para>Prerequisite: Linux source code, T1, T2, T8
+				&amp; T9.</para>
+	
+			<para>Delivery: Level 2 commands compiled with
+				TenDRA in native mode.</para>
+		</section>
+	
+		<section>
+			<title>T13. Level 2 commands API definition.</title>
+	
+			<orderedlist>
+				<listitem>
+					<para>Extend the level 1 API to include the interfaces used by
+						the level 2 commands.</para>
+				</listitem>
+			</orderedlist>
+	
+			<para>Prerequisite: Linux source code &amp; T4.</para>
+	
+			<para>Delivery: Set of ANDF header files for this level 2 API.</para>
+		</section>
+	
+		<section>
+			<title>T14. Level 2 commands ANDFization.</title>
+	
+			<orderedlist>
+				<listitem>
+					<para>Produce the level 2 commands with the TenDRA technology,
+						using the ANDF definition of the API defined in the previous
+						task.</para>
+				</listitem>
+			</orderedlist>
+	
+			<para>Prerequisite: Linux source code, T2, T9 &amp; T13.</para>
+			
+			<para>Delivery: Level 2 commands in ANDF format.</para>
+		</section>
+
+		<section>
+			<title>T15. Level 2 commands API installation.</title>
+
+			<orderedlist>
+				<listitem>
+					<para>Build the token library for the level 2 commands API on
+						Intel.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Build the token library for the level 2 commands API on
+					Alpha.</para>
+				</listitem>
+			</orderedlist>
+
+			<para>Prerequisite: T2, T9 &amp; T13.</para>
+
+			<para>Delivery: Token library for this level 2 API.</para>
+		</section>
+
+		<section>
+			<title>T16. Level 2 commands installation and validation.</title>
+
+			<orderedlist>
+				<listitem>
+					<para>Install the commands in ANDF format produced in task T14
+						on Intel.</para>
+				</listitem>
+
+				<listitem>
+					<para>Install the commands in ANDF format produced in task T14
+						on Alpha.</para>
+				</listitem>
+				
+				<listitem>
+					<para>Validate the commands using adhoc tests.</para>
+				</listitem>
+
+				<listitem>
+					<para>Write an intermediate report and a final
+						report.</para>
+				</listitem>
+			</orderedlist>
+				
+			<para>Prerequisite: T2, T9, T14 &amp; T15.</para>
+
+			<para>Delivery: Intermediate report on level 2 commands, and
+				final report.</para>
+		</section>
+	</section>
+</chapter>
+

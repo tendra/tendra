@@ -1,0 +1,143 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="project-environment">
+	<title>Project environment</title>
+
+	<section>
+		<title>Hardware environment</title>
+
+		<para>Two identical Intel/486 PCs running UnixWare 2.0 beta release have
+			been used as the development platforms for the various build phases.
+			Each of them was equipped with 16MB of RAM, a local 300 MB disk and an
+			Ethernet controller.  Another 300MB disk was added to one of the
+			machine dedicated to validation.  We also used additional disk space
+			through NFS servers to store the UnixWare source delivery, the TenDRA
+			compilation system as well as the object files created during the
+			three builds. This layout permitted us to run concurrently two
+			different builds from any of the two platforms while keeping the
+			consistency of project files.</para>
+
+		<para>During the validation process of the DRA-NAT build, one machine
+			was dedicated to the validation tests while the other one was
+			preserved for development purposes. This was necessary for three
+			reasons:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>The test machine was more likely to crash or have files
+					corrupted.</para>
+			</listitem>
+
+			<listitem>
+				<para>Some tests from the VSX4 test suite require execution from a
+					local disk.</para>
+			</listitem>
+
+			<listitem>
+				<para>The environment for running the AIMIII benchmark has to be
+					kept stable.</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title>UnixWare source delivery</title>
+
+		<para>The source code delivery for UnixWare on Intel/386 is organized in
+			several subdirectories which reflect the dependency of sources upon
+			CPU and hardware architectures.</para>
+
+		<para>When building a new system, one of the first steps is to construct
+			a WORK tree. This tree is created from a merge between different parts
+			of the original source tree, with symbolic links to the source files,
+			depending on CPU/architecture configuration. Along with this WORK
+			tree, a TOOLS and a MACH trees are also created, which together
+			constitute the private environment for a build. The TOOLS tree is used
+			for the tools and libraries used for internal build purpose. The MACH
+			tree will contain at the end of a build all the components which
+			constitute the actual system we built.</para>
+
+		<para>A set of environment variables defines the current paths for the
+			WORK, TOOLS and MACH trees. This has been used to create different
+			build environments for each of the NAT-NAT, DRA-NAT and DRA-DRA
+			phases.</para>
+
+		<para>The disk space required for building a system is as
+			follows:</para>
+
+		<para>Original source tree: 240 MB</para>
+
+		<para>For each of the NAT-NAT, DRA-NAT and DRA-DRA phases:</para>
+
+		<informaltable>
+			<tr>
+				<td>WORK tree:</td>
+				<td>350 MB</td>
+			</tr>
+
+			<tr>
+				<td>TOOLS tree:</td>
+				<td>35 MB</td>
+			</tr>
+
+			<tr>
+				<td>MACH tree:</td>
+				<td>220 MB</td>
+			</tr>
+		</informaltable>
+
+		<para>In order to keep on-line the NAT-NAT and DRA-NAT builds,
+			approximately 1.5 GB of disk space has been taken on NFS servers. We
+			did not need to perform the last steps at the end of a build, which
+			consist in making packages and images of binary deliveries, because we
+			were not producing a system for distribution. This would have required
+			an additional disk space of about 800 MB per build.</para>
+
+		<para> For the VSX4 validation suite, we needed more than 300 MB of disk
+			space to keep two environments for the validation of the native and
+			DRA-NAT systems.</para>
+	</section>
+
+	<section>
+		<title>TenDRA technology</title>
+
+		<para>Replacement of one compiler by another, and moreover,
+			compatibility between object files produced by two different
+			compilers, are often difficult issues. But in the case of the TenDRA
+			compiler this has been straightforward.</para>
+
+		<para>TenDRA compilers are designed to be compatible with the native
+			compiler of the platform they are targeted to, generating the same
+			internal format for data, using the same calling conventions, ....
+			This allowed us to link together binary files from one or the other
+			compiler, without any problems.</para>
+
+		<para>Also, the command line options for the TenDRA compilers reflect as
+			much as possible the options for the corresponding native compiler.
+			So, we had very few modifications to make to the option line in order
+			to replace the native cc compiler by the TenDRA tcc one. These changes
+			have been implemented by a front-end shell script which emulates a
+			call to the native compiler by a call to tcc. </para>
+
+		<para>It appeared early on that some source files from the UnixWare
+			distribution were not strictly ANSI compliant. For example, a function
+			declared in a header file using ANSI syntax was actually defined using
+			K&amp;R syntax.  Therefore we had to use the relaxing options:</para>
+
+		<para>-not_ansi -nepc</para>
+
+		<para>Using the TenDRA compiler with the native system header files, the
+			DRA-NAT mode, required the additional option:</para>
+
+		<para>-Ysystem</para>
+
+		<para>Adaptation to special compilation options local to some makefiles
+			are discussed in section 7.</para>
+	</section>
+</chapter>
+

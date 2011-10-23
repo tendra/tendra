@@ -44,13 +44,13 @@
 
 	<xi:include href="preface.xml"/>
 
-	<xi:include href="chapter1.xml"/>
-	<xi:include href="chapter2.xml"/>
-	<xi:include href="chapter3.xml"/>
-	<xi:include href="chapter4.xml"/>
-	<xi:include href="chapter5.xml"/>
-	<xi:include href="chapter6.xml"/>
-	<xi:include href="chapter7.xml"/>
-	<xi:include href="chapter8.xml"/>
+	<xi:include href="introduction.xml"/>
+	<xi:include href="structure.xml"/>
+	<xi:include href="describing.xml"/>
+	<xi:include href="installerbehaviour.xml"/>
+	<xi:include href="constructs.xml"/>
+	<xi:include href="supplementary.xml"/>
+	<xi:include href="notes.xml"/>
+	<xi:include href="bitencoding.xml"/>
 
 </book>

@@ -1,0 +1,1108 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+
+<chapter id="portability">
+	<title>Portability</title>
+
+	<para>We start by examining some of the problems
+		involved in the writing of portable programs. Although the
+		discussion is very general, and makes no mention of &tdf;, many of
+		the ideas introduced are of importance in the second half of the
+		paper, which deals with &tdf;.</para>
+
+	<section id="S3">
+		<title>Portable Programs</title>
+
+		<section id="S4">
+			<title>Definitions and Preliminary Discussion</title>
+
+			<para>Let us firstly say what we mean by a portable program. A
+				program is portable to a number of machines if it can be compiled
+				to give the same functionality on all those machines.  Note that
+				this does not mean that exactly the same source code is used on
+				all the machines. One could envisage a program written in, say,
+				68020 assembly code for a certain machine which has been
+				translated into 80386 assembly code for some other machine to give
+				a program with exactly equivalent functionality. This would, under
+				our definition, be a program which is portable to these two
+				machines. At the other end of the scale, the C program:</para>
+
+			<programlisting language="c">#include &lt;stdio.h&gt;
+
+int
+main()
+{
+	fputs("Hello world\n", stdout);
+	return(0);
+}</programlisting>
+
+			<para>which prints the message, "Hello world", onto the standard output
+				stream, will be portable to a vast range of machines without any
+				need for rewriting. Most of the portable programs we shall be
+				considering fall closer to the latter end of the spectrum - they
+				will largely consist of target independent source with small
+				sections of target dependent source for those constructs for which
+				target independent expression is either impossible or of
+				inadequate efficiency.</para>
+
+			<para>Note that we are defining portability in terms of a set of
+				target machines and not as some universal property. The act of
+				modifying an existing program to make it portable to a new target
+				machine is called porting. Clearly in the examples above, porting
+				the first program would be a highly complex task involving almost
+				an entire rewrite, whereas in the second case it should be
+				trivial.</para>
+		</section>
+
+		<section id="S5">
+			<title>Separation and Combination of Code</title>
+
+			<para>So why is the second example above more portable (in the sense
+				of more easily ported to a new machine) than the first?  The
+				first, obvious, point to be made is that it is written in a
+				high-level language, C, rather than the low-level languages, 68020
+				and 80386 assembly codes, used in the first example. By using a
+				high-level language we have abstracted out the details of the
+				processor to be used and expressed the program in an architecture
+				neutral form. It is one of the jobs of the compiler on the target
+				machine to transform this high-level representation into the
+				appropriate machine dependent low-level representation.</para>
+
+			<para>The second point is that the second example program is not in
+				itself complete. The objects <code>fputs</code> and
+				<code>stdout</code>, representing the procedure to output a string
+				and the standard output stream respectively, are left undefined.
+				Instead the header <code>stdio.h</code> is included on the
+				understanding that it contains the specification of these
+				objects.</para>
+
+			<para>A version of this file is to be found on each target machine.
+				On a particular machine it might contain something like:</para>
+
+			<programlisting language="c">typedef struct {
+	int __cnt ;
+	unsigned char *__ptr ;
+	unsigned char *__base ;
+	short __flag ;
+	char __file ;
+} FILE ;
+
+extern FILE __iob[60];
+#define stdout (&amp;__iob[1])
+
+extern int fputs(const char *, FILE *);</programlisting>
+
+			<para>meaning that the type <code>FILE</code> is defined by the given
+				structure, <code>__iob</code> is an external array of 60
+				<code>FILE</code>'s, <code>stdout</code> is a pointer to the
+				second element of this array, and that <code>fputs</code> is an
+				external procedure which takes a <code>const char *</code> and a
+				<code>FILE *</code> and returns an <code>int</code>. On a
+				different machine, the details may be different (exactly what we
+				can, or cannot, assume is the same on all target machines is
+				discussed below).</para>
+
+			<para>These details are fed into the program by the pre-processing
+				phase of the compiler. (The various compilation phases are
+				discussed in more detail later - see <xref linkend="trad_scheme"/>.)
+				This is a simple,
+				preliminary textual substitution. It provides the definitions of
+				the type <code>FILE</code> and the value <code>stdout</code> (in
+				terms of <code>__iob</code>), but still leaves the precise
+				definitions of <code>__iob</code> and <code>fputs</code> still
+				unresolved (although we do know their types). The definitions of
+				these values are not provided until the final phase of the
+				compilation - linking - where they are linked in from the
+				precompiled system libraries.</para>
+
+			<para>Note that, even after the pre-processing phase, our portable
+				program has been transformed into a target dependent form, because
+				of the substitution of the target dependent values from
+				<code>stdio.h</code>. If we had also included the definitions of
+				<code>__iob</code> and, more particularly, <code>fputs</code>,
+				things would have been even worse - the procedure for outputting a
+				string to the screen is likely to be highly target
+				dependent.</para>
+
+			<para>To conclude, we have, by including <code>stdio.h</code>, been
+				able to effectively separate the target independent part of our
+				program (the main program) from the target dependent part (the
+				details of <code>stdout</code> and <code>fputs</code>). It is one
+				of the jobs of the compiler to recombine these parts to produce a
+				complete program.</para>
+		</section>
+
+		<section id="S6">
+			<title>Application Programming Interfaces</title>
+
+			<para>As we have seen, the separation of the target dependent
+				sections of a program into the system headers and system libraries
+				greatly facilitates the construction of portable programs. What
+				has been done is to define an interface between the main program
+				and the existing operating system on the target machine in
+				abstract terms. The program should then be portable to any machine
+				which implements this interface correctly.</para>
+
+			<para>The interface for the "Hello world" program above might be
+				described as follows : defined in the header <code>stdio.h</code>
+				are a type <code>FILE</code> representing a file, an object
+				<code>stdout</code> of type <code>FILE *</code> representing the
+				standard output file, and a procedure <code>fputs</code> with
+				prototype:</para>
+
+			<programlisting language="c">int fputs(const char *s, FILE *f);</programlisting>
+
+			<para>which prints the string <code>s</code> to the file <code>f</code>.
+				This is an example of an Application Programming Interface (&api;).
+				Note that it can be split into two aspects, the syntactic (what
+				they are) and the semantic (what they mean). On any machine which
+				implements this &api; our program is both syntactically correct and
+				does what we expect it to.</para>
+
+			<para>The benefit of describing the &api; at this fairly high level is
+				that it leaves scope for a range of implementation (and thus more
+				machines which implement it) while still encapsulating the main
+				program's requirements.</para>
+
+			<para>In the example implementation of <code>stdio.h</code> above we
+				see that this machine implements this &api; correctly syntactically,
+				but not necessarily semantically. One would have to read the
+				documentation provided on the system to be sure of the
+				semantics.</para>
+
+			<para>Another way of defining an &api; for this program would be to
+				note that the given &api; is a subset of the &ansi; C standard. Thus
+				we could take &ansi; C as an "off the shelf" &api;. It is then clear
+				that our program should be portable to any &ansi;-compliant
+				machine.</para>
+
+			<para>It is worth emphasising that all programs have an &api;, even if
+				it is implicit rather than explicit. However it is probably fair
+				to say that programs without an explicit &api; are only portable by
+				accident. We shall have more to say on this subject later.</para>
+		</section>
+
+		<section id="S7">
+			<title>Compilation Phases</title>
+
+			<para>The general plan for how to write the extreme example of a
+				portable program, namely one which contains no target dependent
+				code, is now clear. It is shown in the compilation diagram in
+				<xref linkend="trad_scheme"/> which represents the traditional
+				compilation process. This
+				diagram is divided into four sections. The left half of the
+				diagram represents the actual program and the right half the
+				associated &api;. The top half of the diagram represents target
+				independent material - things which only need to be done once -
+				and the bottom half target dependent material - things which need
+				to be done on every target machine.</para>
+
+			<figure id="trad_scheme">
+				<title>Traditional Compilation Phases</title>
+				<graphic fileref="images/trad_scheme.png"/>
+			</figure>
+
+			<para>So, we write our target independent program (top left),
+				conforming to the target independent &api; specification (top
+				right).  All the compilation actually takes place on the target
+				machine. This machine must have the &api; correctly implemented
+				(bottom right). This implementation will in general be in two
+				parts - the system headers, providing type definitions, macros,
+				procedure prototypes and so on, and the system libraries,
+				providing the actual procedure definitions. Another way of
+				characterising this division is between syntax (the system
+				headers) and semantics (the system libraries).</para>
+
+			<para>The compilation is divided into three main phases. Firstly the
+				system headers are inserted into the program by the pre-processor.
+				This produces, in effect, a target dependent version of the
+				original program. This is then compiled into a binary object file.
+				During the compilation process the compiler inserts all the
+				information it has about the machine - including the Application
+				Binary Interface (ABI) - the sizes of the basic C types, how they
+				are combined into compound types, the system procedure calling
+				conventions and so on. This ensures that in the final linking
+				phase the binary object file and the system libraries are obeying
+				the same ABI, thereby producing a valid executable. (On a
+				dynamically linked system this final linking phase takes place
+				partially at run time rather than at compile time, but this does
+				not really affect the general scheme.)</para>
+
+			<para>The compilation scheme just described consists of a series of
+				phases of two types ; code combination (the pre-processing and
+				system linking phases) and code transformation (the actual
+				compilation phases). The existence of the combination phases
+				allows for the effective separation of the target independent code
+				(in this case, the whole program) from the target dependent code
+				(in this case, the &api; implementation), thereby aiding the
+				construction of portable programs. These ideas on the separation,
+				combination and transformation of code underlie the &tdf; approach
+				to portability.</para>
+		</section>
+	</section>
+
+	<section id="S8">
+		<title>Portability Problems</title>
+
+		<para>We have set out a scheme whereby it should be possible to write
+			portable programs with a minimum of difficulties. So why, in
+			reality, does it cause so many problems? Recall that we are still
+			primarily concerned with programs which contain no target dependent
+			code, although most of the points raised apply by extension to all
+			programs.</para>
+
+		<section id="S9">
+			<title>Programming Problems</title>
+
+			<para>A first, obvious class of problems concern the program itself.
+				It is to be assumed that as many bugs as possible have been
+				eliminated by testing and debugging on at least one platform
+				before a program is considered as a candidate for being a portable
+				program. But for even the most self-contained program, working on
+				one platform is no guarantee of working on another.  The program
+				may use undefined behaviour - using uninitialised values or
+				dereferencing null pointers, for example - or have built-in
+				assumptions about the target machine - whether it is big-endian or
+				little-endian, or what the sizes of the basic integer types are,
+				for example. This latter point is going to become increasingly
+				important over the next couple of years as 64-bit architectures
+				begin to be introduced. How many existing programs implicitly
+				assume a 32-bit architecture?</para>
+
+			<para>Many of these built-in assumptions may arise because of the
+				conventional porting process. A program is written on one machine,
+				modified slightly to make it work on a second machine, and so on.
+				This means that the program is "biased" towards the existing set
+				of target machines, and most particularly to the original machine
+				it was written on. This applies not only to assumptions about
+				endianness, say, but also to the questions of &api; conformance
+				which we will be discussing below.</para>
+
+			<para>Most compilers will pick up some of the grosser programming
+				errors, particularly by type checking (including procedure
+				arguments if prototypes are used). Some of the subtler errors can
+				be detected using the <option>-Wall</option> option to the Free Software
+				Foundation's GNU C Compiler (<code>gcc</code>) or separate program
+				checking tools such as <code>lint</code>, for example, but this
+				remains a very difficult area.</para>
+		</section>
+
+		<section id="S10">
+			<title>Code Transformation Problems</title>
+
+			<para>We now move on from programming problems to compilation
+				problems. As we mentioned above, compilation may be regarded as a
+				series of phases of two types : combination and transformation.
+				Transformation of code - translating a program in one form into an
+				equivalent program in another form - may lead to a variety of
+				problems. The code may be transformed wrongly, so that the
+				equivalence is broken (a compiler bug), or in an unexpected manner
+				(differing compiler interpretations), or not at all, because it is
+				not recognised as legitimate code (a compiler limitation). The
+				latter two problems are most likely when the input is a high level
+				language, with complex syntax and semantics.</para>
+
+			<para>Note that in <xref linkend="trad_scheme"/> all the actual
+				compilation takes place on
+				the target machine. So, to port the program to
+				<varname>n</varname> machines, we need to deal with the bugs and
+				limitations of <varname>n</varname>, potentially different,
+				compilers. For example, if you have written your program using
+				prototypes, it is going to be a large and rather tedious job
+				porting it to a compiler which does not have prototypes (this
+				particular example can be automated; not all such jobs can). Other
+				compiler limitations can be surprising
+				- not understanding the <code>L</code> suffix for long numeric
+				literals and not allowing members of enumeration types as array
+				indexes are among the problems drawn from my personal
+				experience.</para>
+
+			<para>The differing compiler interpretations may be more subtle. For
+				example, there are differences between &ansi; and "traditional" C
+				which may trap the unwary. Examples are the promotion of integral
+				types and the resolution of the linkage of static objects.</para>
+
+			<para>Many of these problems may be reduced by using the "same"
+				compiler on all the target machines. For example, <code>gcc</code>
+				has a single front end (C -&gt; RTL) which may be combined with an
+				appropriate back end (RTL -&gt; target) to form a suitable
+				compiler for a wide range of target machines. The existence of a
+				single front end virtually eliminates the problems of differing
+				interpretation of code and compiler quirks. It also reduces the
+				exposure to bugs. Instead of being exposed to the bugs in
+				<varname>n</varname> separate compilers, we are now only exposed
+				to bugs in one half-compiler (the front end) plus
+				<varname>n</varname> half-compilers (the back ends) - a total of
+				<varname>(n + 1) / 2</varname>.  (This calculation is not meant
+				totally seriously, but it is true in principle.) Front end bugs,
+				when tracked down, also only require a single workaround.</para>
+		</section>
+
+		<section>
+			<title>Code Combination Problems</title>
+
+			<para>If code transformation problems may be regarded as a time
+				consuming irritation, involving the rewriting of sections of code
+				or using a different compiler, the second class of problems, those
+				concerned with the combination of code, are far more
+				serious.</para>
+
+			<para>The first code combination phase is the pre-processor pulling
+				in the system headers. These can contain some nasty surprises.
+				For example, consider a simple &ansi; compliant program which
+				contains a linked list of strings arranged in alphabetical order.
+				This might also contain a routine:</para>
+
+			<programlisting language="c">void index(char *);</programlisting>
+
+			<para>which adds a string to this list in the appropriate position,
+				using <code>strcmp</code> from <code>string.h</code> to find it.
+				This works fine on most machines, but on some it gives the
+				error:</para>
+
+			<screen>Only 1 argument to macro 'index'</screen>
+
+			<para>The reason for this is that the system version of
+				<code>string.h</code> contains the line:</para>
+
+			<programlisting language="c">#define index(s, c) strchr(s, c)</programlisting>
+
+			<para>But this is nothing to do with &ansi;, this macro is defined for
+				compatibility with &bsd;.</para>
+
+			<para>In reality the system headers on any given machine are a hodge
+				podge of implementations of different &api;s, and it is often
+				virtually impossible to separate them (feature test macros such as
+				<code>_POSIX_SOURCE</code> are of some use, but are not always
+				implemented and do not always produce a complete separation; they
+				are only provided for "standard" &api;s anyway). The problem above
+				arose because there is no transitivity rule of the form : if
+				program <varname>P</varname> conforms to &api; <varname>A</varname>,
+				and &api; <varname>B</varname> extends <varname>A</varname>, then
+				<varname>P</varname> conforms to <varname>B</varname>. The only
+				reason this is not true is these namespace problems.</para>
+
+			<para>A second example demonstrates a slightly different point. The
+				&posix; standard states that <code>sys/stat.h</code> contains the
+				definition of the structure <code>struct stat</code>, which
+				includes several members, amongst them:</para>
+
+			<programlisting language="c">time_t st_atime;</programlisting>
+
+			<para>representing the access time for the corresponding file. So
+				the program:</para>
+
+			<programlisting language="c">#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+
+time_t
+st_atime(struct stat *p)
+{
+	return(p-&gt;st_atime);
+}</programlisting>
+
+			<para>should be perfectly valid - the procedure name
+				<code>st_atime</code> and the field selector <code>st_atime</code>
+				occupy different namespaces (see however the appendix on
+				namespaces and &api;s below). However at least one popular operating
+				system has the implementation:</para>
+
+			<programlisting language="c">struct stat {
+	....
+	union {
+		time_t st__sec;
+		timestruc_t st__tim;
+	} st_atim;
+	....
+};
+#define st_atime st_atim.st__sec</programlisting>
+
+			<para>This seems like a perfectly legitimate implementation. In the
+				program above the field selector <code>st_atime</code> is replaced
+				by <code>st_atim.st__sec</code> by the pre-processor, as intended,
+				but unfortunately so is the procedure name <code>st_atime</code>,
+				leading to a syntax error.</para>
+
+			<para>The problem here is not with the program or the
+				implementation, but in the way they were combined. C does not
+				allow individual field selectors to be defined. Instead the
+				indiscriminate sledgehammer of macro substitution was used,
+				leading to the problem described.</para>
+
+			<para>Problems can also occur in the other combination phase of the
+				traditional compilation scheme, the system linking. Consider the
+				&ansi; compliant routine:</para>
+
+			<programlisting language="c">#include &lt;stdio.h&gt;
+
+int open ( char *nm )
+{
+	int c, n = 0 ;
+
+	FILE *f = fopen ( nm, "r" ) ;
+	if ( f == NULL ) return ( -1 ) ;
+	while ( c = getc ( f ), c != EOF )
+		n++ ;
+	( void ) fclose ( f ) ;
+	return ( n ) ;
+}</programlisting>
+
+			<para>which opens the file <code>nm</code>, returning its size in
+				bytes if it exists and -1 otherwise. As a quick porting exercise,
+				I compiled it under six different operating systems. On three it
+				worked correctly; on one it returned -1 even when the file
+				existed; and on two it crashed with a segmentation error.</para>
+
+			<para>The reason for this lies in the system linking. On those
+				machines which failed the library routine <code>fopen</code>
+				calls (either directly or indirectly) the library routine
+				<code>open</code> (which is in &posix;, but not &ansi;). The system
+				linker, however, linked my routine <code>open</code> instead of
+				the system version, so the call to <code>fopen</code> did not
+				work correctly.</para>
+
+			<para>So code combination problems are primarily namespace problems.
+				The task of combining the program with the &api; implementation on
+				a given platform is complicated by the fact that, because the
+				system headers and system libraries contain things other than the
+				&api; implementation, or even because of the particular
+				implementation chosen, the various namespaces in which the
+				program is expected to operate become "polluted".</para>
+		</section>
+
+		<section>
+			<title>&api; Problems</title>
+
+			<para>We have
+				said that the &api; defines the interface between the program and
+				the standard library provided with the operating system on the
+				target machine. There are three main problems concerned with
+				&api;s. The first, how to choose the &api; in the first place, is
+				discussed separately. Here we deal with the compilation aspects :
+				how to check that the program conforms to its &api;, and what to do
+				about incorrect &api; implementations on the target machine(s).</para>
+
+			<section>
+				<title>&api; Checking</title>
+
+				<para>The
+					problem of whether or not a program conforms to its &api; - not
+					using any objects from the operating system other than those
+					specified in the &api;, and not making any unwarranted assumptions
+					about these objects - is one which does not always receive
+					sufficient attention, mostly because the necessary checking tools
+					do not exist (or at least are not widely available). Compiling
+					the program on a number of &api; compliant machines merely checks
+					the program against the system headers for these machines. For a
+					genuine portability check we need to check against the abstract
+					&api; description, thereby in effect checking against all possible
+					implementations.</para>
+
+				<para>Recall from above that the system headers on a given machine
+					are an amalgam of all the &api;s it implements. This can cause
+					programs which should compile not to, because of namespace
+					clashes; but it may also cause programs to compile which should
+					not, because they have used objects which are not in their &api;,
+					but which are in the system headers. For example, the supposedly
+					&ansi; compliant program:</para>
+
+				<programlisting language="c">#include &lt;signal.h&gt;
+int sig = SIGKILL ;</programlisting>
+
+				<para>will compile on most systems, despite the fact that
+					<code>SIGKILL</code> is not an &ansi; signal, because
+					<code>SIGKILL</code> is in &posix;, which is also implemented in the
+					system <code>signal.h</code>. Again, feature test macros are of
+					some use in trying to isolate the implementation of a single &api;
+					from the rest of the system headers. However they are highly
+					unlikely to detect the error in the following supposedly &posix;
+					compliant program which prints the entries of the directory <code>
+					nm</code>, together with their inode numbers:</para>
+
+				<programlisting language="c">#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;dirent.h&gt;
+
+void listdir ( char *nm )
+{
+	struct dirent *entry ;
+
+	DIR *dir = opendir ( nm ) ;
+	if ( dir == NULL )
+		return ;
+	while ( entry = readdir ( dir ), entry != NULL ) {
+		printf ( "%s : %d\n", entry-&gt;d_name, ( int ) entry-&gt;d_ino ) ;
+	}
+	( void ) closedir ( dir ) ;
+	return ;
+}</programlisting>
+
+				<para>This is not &posix; compliant because, whereas the
+					<code>d_name</code> field of <code>struct dirent</code> is in
+					&posix;, the <code>d_ino</code> field is not. It is however in XPG3,
+					so it is likely to be in many system implementations.</para>
+
+				<para>The previous examples have been concerned with simply telling
+					whether or not a particular object is in an &api;. A more
+					difficult, and in a way more important, problem is that of
+					assuming too much about the objects which are in the &api;. For
+					example, in the program:</para>
+
+				<programlisting language="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+div_t d = { 3, 4 } ;
+
+int main ()
+{
+	printf ( "%d,%d\n", d.quot, d.rem ) ;
+	return ( 0 ) ;
+}</programlisting>
+
+				<para>the &ansi; standard specifies that the type <code>div_t</code>
+					is a structure containing two fields, <code>quot</code> and <code>
+					rem</code>, of type <code>int</code>, but it does not specify
+					which order these fields appear in, or indeed if there are other
+					fields. Therefore the initialisation of <code>d</code> is not
+					portable. Again, the type <code>time_t</code> is used to
+					represent times in seconds since a certain fixed date. On most
+					systems this is implemented as <code>long</code>, so it is
+					tempting to use <code>( t &amp; 1 )</code> to determine for a
+					<code>time_t</code> <code>t</code> whether this number of seconds
+					is odd or even. But &ansi; actually says that <code>time_t</code>
+					is an arithmetic, not an integer, type, so it would be possible
+					for it to be implemented as <code>double</code>. But in this case
+					<code>( t &amp; 1 )</code> is not even type correct, so it is not
+					a portable way of finding out whether <code>t</code> is odd or
+					even.</para>
+			</section>
+
+			<section>
+				<title>&api; Implementation Errors</title>
+
+				<para>Undoubtedly the problem which causes the writer of
+					portable programs the greatest headache (and heartache) is that
+					of incorrect &api; implementations. However carefully you have
+					chosen your &api; and checked that your program conforms to it, you
+					are still reliant on someone (usually the system vendor) having
+					implemented this &api; correctly on the target machine. Machines
+					which do not implement the &api; at all do not enter the equation
+					(they are not suitable target machines), what causes problems is
+					incorrect implementations. As the implementation may be divided
+					into two parts - system headers and system libraries - we shall
+					similarly divide our discussion. Inevitably the choice of
+					examples is personal; anyone who has ever attempted to port a
+					program to a new machine is likely to have their own favourite
+					examples.</para>
+			</section>
+
+			<section>
+				<title>System Header Problems</title>
+
+				<para>Some header problems are immediately apparent
+					because they are syntactic and cause the program to fail to
+					compile. For example, values may not be defined or be defined in
+					the wrong place (not in the header prescribed by the &api;).</para>
+
+				<para>A common example (one which I have to include a workaround for
+					in virtually every program I write) is that
+					<code>EXIT_SUCCESS</code> and <code>EXIT_FAILURE</code> are not
+					always defined (&ansi; specifies that they should be in
+					<code>stdlib.h</code>). It is tempting to change <code>exit
+					(EXIT_FAILURE)</code> to <code>exit (1)</code> because <quote>everyone
+					knows</quote> that <code>EXIT_FAILURE</code> is 1. But this is to
+					decrease the portability of the program because it ties it to a
+					particular class of implementations. A better workaround would
+					be:</para>
+
+				<programlisting language="c">#include &lt;stdlib.h&gt;
+#ifndef EXIT_FAILURE
+#define EXIT_FAILURE 1
+#endif</programlisting>
+
+				<para>which assumes that anyone choosing a non-standard value for
+					<code>EXIT_FAILURE</code> is more likely to put it in
+					<code>stdlib.h</code>. Of course, if one subsequently came across a
+					machine on which not only is <code>EXIT_FAILURE</code> not defined,
+					but also the value it should have is not 1, then it would be
+					necessary to resort to <code>#ifdef machine_name</code> statements.
+					The same is true of all the &api; implementation problems we shall be
+					discussing : non-conformant machines require workarounds involving
+					conditional compilation. As more machines are considered, so these
+					conditional compilations multiply.</para>
+
+				<para>As an example of things being defined in the wrong place, &ansi;
+					specifies that <code>SEEK_SET</code>, <code>SEEK_CUR</code> and
+					<code>SEEK_END</code> should be defined in <code>stdio.h</code>,
+					whereas &posix; specifies that they should also be defined in
+					<code>unistd.h</code>. It is not uncommon to find machines on
+					which they are defined in the latter but not in the former. A
+					possible workaround in this case would be:</para>
+
+				<programlisting language="c">#include &lt;stdio.h&gt;
+#ifndef SEEK_SET
+#include &lt;unistd.h&gt;
+#endif</programlisting>
+
+				<para>Of course, by including "unnecessary" headers like
+					<code>unistd.h</code> the risk of namespace clashes such as those
+					discussed above is increased.</para>
+
+				<para>A final syntactic problem, which perhaps should belong with
+					the system header problems above, concerns dependencies between
+					the headers themselves. For example, the &posix; header
+					<code>unistd.h</code> declares functions involving some of the
+					types <code>pid_t</code>, <code>uid_t</code> etc, defined in
+					<code>sys/types.h</code>. Is it necessary to include
+					<code>sys/types.h</code> before including <code>unistd.h</code>,
+					or does <code>unistd.h</code> automatically include
+					<code>sys/types.h</code>? The approach of playing safe and
+					including everything will normally work, but this can lead to
+					multiple inclusions of a header. This will normally cause no
+					problems because the system headers are protected against
+					multiple inclusions by means of macros, but it is not unknown for
+					certain headers to be left unprotected. Also not all header
+					dependencies are as clear cut as the one given, so that what
+					headers need to be included, and in what order, is in fact target
+					dependent.</para>
+
+				<para>There can also be semantic errors in the system headers :
+					namely wrongly defined values. The following two examples are
+					taken from real operating systems. Firstly the definition:</para>
+
+				<programlisting language="c">#define DBL_MAX 1.797693134862316E+308</programlisting>
+
+				<para>in <code>float.h</code> on an IEEE-compliant machine is
+					subtly wrong - the given value does not fit into a
+					<code>double</code> - the correct value is:</para>
+
+				<programlisting language="c">#define DBL_MAX 1.7976931348623157E+308</programlisting>
+
+				<para>Again, the type definition:</para>
+
+				<programlisting language="c">typedef int size_t ; /* ??? */</programlisting>
+
+				<para>(sic) is not compliant with &ansi;, which says that
+					<code>size_t</code> is an unsigned integer type. (I'm not sure if
+					this is better or worse than another system which defines
+					<code>ptrdiff_t</code> to be <code>unsigned int</code> when it is
+					meant to be signed. This would mean that the difference between any
+					two pointers is always positive.) These particular examples are
+					irritating because it would have cost nothing to get things right,
+					correcting the value of <code>DBL_MAX</code> and changing the
+					definition of <code>size_t</code> to <code>unsigned int</code>.
+					These corrections are so minor that the modified system headers
+					would still be a valid interface for the existing system libraries
+					(we shall have more to say about this later). However it is not
+					possible to change the system headers, so it is necessary to build
+					workarounds into the program. Whereas in the first case it is
+					possible to devise such a workaround:</para>
+
+				<programlisting language="c">#include &lt;float.h&gt;
+#ifdef machine_name
+#undef DBL_MAX
+#define DBL_MAX 1.7976931348623157E+308
+#endif</programlisting>
+
+				<para>for example, in the second, because <code>size_t</code> is
+					defined by a <code>typedef</code> it is virtually impossible to
+					correct in a simple fashion. Thus any program which relies on the
+					fact that <code>size_t</code> is unsigned will require considerable
+					rewriting before it can be ported to this machine.</para>
+			</section>
+
+			<section>
+				<title>System Library Problems</title>
+
+				<para>The system header problems just discussed are
+					primarily syntactic problems. By contrast, system library
+					problems are primarily semantic - the provided library routines
+					do not behave in the way specified by the &api;. This makes them
+					harder to detect. For example, consider the routine:</para>
+
+				<programlisting language="c">void *realloc ( void *p, size_t s ) ;</programlisting>
+
+				<para>which reallocates the block of memory <code>p</code> to have
+					size <code>s</code> bytes, returning the new block of memory. The
+					&ansi; standard says that if <code>p</code> is the null pointer, then
+					the effect of <code>realloc ( p, s )</code> is the same as
+					<code>malloc ( s )</code>, that is, to allocate a new block of
+					memory of size <code>s</code>. This behaviour is exploited in the
+					following program, in which the routine <code>add_char</code> adds
+					a character to the expanding array, <code>buffer</code>:</para>
+
+				<programlisting language="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+char *buffer = NULL ;
+int buff_sz = 0, buff_posn = 0 ;
+
+void add_char ( char c )
+{
+	if ( buff_posn &gt;= buff_sz ) {
+		buff_sz += 100 ;
+		buffer = ( char * ) realloc ( ( void * ) buffer, buff_sz * sizeof ( char ) ) ;
+		if ( buffer == NULL ) {
+			fprintf ( stderr, "Memory allocation error\n" ) ;
+			exit ( EXIT_FAILURE ) ;
+		}
+	}
+	buffer [ buff_posn++ ] = c ;
+	return ;
+}</programlisting>
+
+				<para>On the first call of <code>add_char</code>,
+					<code>buffer</code> is set to a real block of memory (as opposed to
+					<code>NULL</code>) by a call of the form <code>realloc ( NULL, s
+					)</code>. This is extremely convenient and efficient - if it was
+					not for this behaviour we would have to have an explicit
+					initialisation of <code>buffer</code>, either as a special case in
+					<code>add_char</code> or in a separate initialisation routine.</para>
+
+				<para>Of course this all depends on the behaviour of <code>realloc (
+					NULL, s )</code> having been implemented precisely as described
+					in the &ansi; standard. The first indication that this is not so on
+					a particular target machine might be when the program is compiled
+					and run on that machine for the first time and does not perform
+					as expected. To track the problem down will demand time debugging
+					the program.</para>
+
+				<para>Once the problem has been identified as being with
+					<code>realloc</code> a number of possible workarounds are
+					possible. Perhaps the most interesting is to replace the
+					inclusion of <code>stdlib.h</code> by the following:</para>
+
+				<programlisting language="c">#include &lt;stdlib.h&gt;
+#ifdef machine_name
+#define realloc ( p, s )\
+	( ( p ) ? ( realloc ) ( p, s ) : malloc ( s ) )
+#endif</programlisting>
+
+				<para>where <code>realloc ( p, s )</code> is redefined as a macro
+					which is the result of the procedure <code>realloc</code> if <code>
+					p</code> is not null, and <code>malloc ( s )</code> otherwise.
+					(In fact this macro will not always have the desired effect,
+					although it does in this case. Why (exercise)?)</para>
+
+				<para>The only alternative to this trial and error approach to
+					finding &api; implementation problems is the application of
+					personal experience, either of the particular target machine or
+					of things that are implemented wrongly by many machines and as
+					such should be avoided. This sort of detailed knowledge is not
+					easily acquired. Nor can it ever be complete: new operating
+					system releases are becoming increasingly regular and are on
+					occasions quite as likely to introduce new implementation errors
+					as to solve existing ones. It is in short a "black art".</para>
+			</section>
+		</section>
+	</section>
+
+	<section>
+		<title>&api;s and Portability</title>
+
+		<para>We now return to our discussion
+			of the general issues involved in portability to more closely
+			examine the role of the &api;.</para>
+
+		<section>
+			<title>Target Dependent Code</title>
+
+			<para>So far we have been considering programs which
+				contain no conditional compilation, in which the &api; forms the
+				basis of the separation of the target independent code (the whole
+				program) and the target dependent code (the &api; implementation).
+				But a glance at most large C programs will reveal that they do
+				contain conditional compilation. The code is scattered with
+				<code>#if</code>'s and <code>#ifdef</code>'s which, in effect,
+				cause the pre-processor to construct slightly different programs
+				on different target machines. So here we do not have a clean
+				division between the target independent and the target dependent
+				code - there are small sections of target dependent code spread
+				throughout the program.</para>
+
+			<para>Let us briefly consider some of the reasons why it is
+				necessary to introduce this conditional compilation. Some have
+				already been mentioned - workarounds for compiler bugs, compiler
+				limitations, and &api; implementation errors; others will be
+				considered later. However the most interesting and important
+				cases concern things which need to be done genuinely differently
+				on different machines. This can be because they really cannot be
+				expressed in a target independent manner, or because the target
+				independent way of doing them is unacceptably inefficient.</para>
+
+			<para>Efficiency (either in terms of time or space) is a key issue
+				in many programs. The argument is often advanced that writing a
+				program portably means using the, often inefficient, lowest
+				common denominator approach. But under our definition of
+				portability it is the functionality that matters, not the actual
+				source code. There is nothing to stop different code being used
+				on different machines for reasons of efficiency.</para>
+
+			<para>To examine the relationship between target dependent code and
+				&api;s, consider the simple program:</para>
+
+			<programlisting language="c">#include &lt;stdio.h&gt;
+
+int main ()
+{
+#ifdef mips
+	fputs ( "This machine is a mips\n", stdout ) ;
+#endif
+	return ( 0 ) ;
+}</programlisting>
+
+			<para>which prints a message if the target machine is a mips. What
+				is the &api; of this program? Basically it is the same as in the
+				<quote>Hello world</quote> example discussed in sections 2.1.1 and 2.1.2, but if
+				we wish the &api; to fully describe the interface between the program
+				and the target machine, we must also say that whether or not the
+				macro <code>mips</code> is defined is part of the &api;. Like the
+				rest of the &api;, this has a semantic aspect as well as a syntactic
+				- in this case that <code>mips</code> is only defined on mips
+				machines. Where it differs is in its implementation. Whereas the
+				main part of the &api; is implemented in the system headers and the
+				system libraries, the implementation of either defining, or not
+				defining, <code>mips</code> ultimately rests with the person
+				performing the compilation. (In this particular example, the macro
+				<code>mips</code> is normally built into the compiler on mips
+				machines, but this is only a convention.)</para>
+
+			<para>So the &api; in this case has two components : a system-defined
+				part which is implemented in the system headers and system
+				libraries, and a user-defined part which ultimately relies on the
+				person performing the compilation to provide an implementation.
+				The main point to be made in this section is that introducing
+				target dependent code is equivalent to introducing a user-defined
+				component to the &api;. The actual compilation process in the case
+				of programs containing target dependent code is basically the
+				same as that shown in <xref linkend="trad_scheme"/>.
+				But whereas previously the vertical
+				division of the diagram also reflects a division of
+				responsibility - the left hand side is the responsibility of the
+				programmer (the person writing the program), and the right hand
+				side of the &api; specifier (for example, a standards defining
+				body) and the &api; implementor (the system vendor) - now the right
+				hand side is partially the responsibility of the programmer and
+				the person performing the compilation. The programmer specifies
+				the user-defined component of the &api;, and the person compiling
+				the program either implements this &api; (as in the mips example
+				above) or chooses between a number of alternative implementations
+				provided by the programmer (as in the example below).</para>
+
+			<para>Let us consider a more complex example. Consider the following
+				program which assumes, for simplicity, that an <code>unsigned
+				int</code> contains 32 bits:</para>
+
+			<programlisting language="c">#include &lt;stdio.h&gt;
+#include "config.h"
+
+#ifndef SLOW_SHIFT
+#define MSB ( a ) ( ( unsigned char ) ( a &gt;&gt; 24 ) )
+#else
+#ifdef BIG_ENDIAN
+#define MSB ( a ) *( ( unsigned char * ) &amp;( a ) )
+#else
+#define MSB ( a ) *( ( unsigned char * ) &amp;( a ) + 3 )
+#endif
+#endif
+
+unsigned int x = 100000000 ;
+
+int main ()
+{
+	printf ( "%u\n", MSB ( x ) ) ;
+	return ( 0 ) ;
+}</programlisting>
+
+			<para>The intention is to print the most significant byte of
+				<code>x</code>. Three alternative definitions of the macro
+				<code>MSB</code> used to extract this value are provided. The
+				first, if <code>SLOW_SHIFT</code> is not defined, is simply to
+				shift the value right by 24 bits. This will work on all 32-bit
+				machines, but may be inefficient (depending on the nature of the
+				machine's shift instruction). So two alternatives are provided.
+				An <code>unsigned int</code> is assumed to consist of four
+				<code>unsigned char</code>'s. On a big-endian machine, the most
+				significant byte is the first of these <code>unsigned
+				char</code>'s; on a little-endian machine it is the fourth. The
+				second definition of <code>MSB</code> is intended to reflect the
+				former case, and the third the latter.</para>
+
+			<para>The person compiling the program has to choose between the
+				three possible implementations of <code>MSB</code> provided by
+				the programmer. This is done by either defining, or not defining,
+				the macros <code>SLOW_SHIFT</code> and <code>BIG_ENDIAN</code>.
+				This could be done as command line options, but we have chosen to
+				reflect another commonly used device, the configuration file. For
+				each target machine, the programmer provides a version of the
+				file <code>config.h</code> which defines the appropriate
+				combination of the macros <code>SLOW_SHIFT</code> and
+				<code>BIG_ENDIAN</code>. The person performing the compilation
+				simply chooses the appropriate <code>config.h</code> for the
+				target machine.</para>
+
+			<para>There are two possible ways of looking at what the
+				user-defined &api; of this program is. Possibly it is most natural
+				to say that it is <code>MSB</code>, but it could also be argued
+				that it is the macros <code>SLOW_SHIFT</code> and
+				<code>BIG_ENDIAN</code>. The former more accurately describes the
+				target dependent code, but is only implemented indirectly, via
+				the latter.</para>
+		</section>
+
+		<section>
+			<title>Making &api;s Explicit</title>
+
+			<para>As
+				we have said, every program has an &api; even if it is implicit
+				rather than explicit. Every system header included, every type or
+				value used from it, and every library routine used, adds to the
+				system-defined component of the &api;, and every conditional
+				compilation adds to the user-defined component. What making the
+				&api; explicit does is to encapsulate the set of requirements that
+				the program has of the target machine (including requirements
+				like, I need to know whether or not the target machine is
+				big-endian, as well as, I need <code>fputs</code> to be
+				implemented as in the &ansi; standard). By making these
+				requirements explicit it is made absolutely clear what is needed
+				on a target machine if a program is to be ported to it. If the
+				requirements are not explicit this can only be found by trial and
+				error. This is what we meant earlier by saying that a program
+				without an explicit &api; is only portable by accident.</para>
+
+			<para>Another advantage of specifying the requirements of a program
+				is that it may increase their chances of being implemented. We
+				have spoken as if porting is a one-way process; program writers
+				porting their programs to new machines. But there is also traffic
+				the other way. Machine vendors may wish certain programs to be
+				ported to their machines. If these programs come with a list of
+				requirements then the vendor knows precisely what to implement in
+				order to make such a port possible.</para>
+		</section>
+
+		<section>
+			<title>Choosing an &api;</title>
+
+			<para>So how
+				does one go about choosing an &api;? In a sense the user-defined
+				component is easier to specify than the system-defined component
+				because it is less tied to particular implementation models. What
+				is required is to abstract out what exactly needs to be done in a
+				target dependent manner and to decide how best to separate it
+				out. The most difficult problem is how to make the implementation
+				of this &api; as simple as possible for the person performing the
+				compilation, if necessary providing a number of alternative
+				implementations to choose between and a simple method of making
+				this choice (for example, the <code>config.h</code> file above).
+				With the system-defined component the question is more likely to
+				be, how do the various target machines I have in mind implement
+				what I want to do? The abstraction of this is usually to choose a
+				standard and widely implemented &api;, such as &posix;, which
+				provides all the necessary functionality.</para>
+
+			<para>The choice of "standard" &api; is of course influenced by the
+				type of target machines one has in mind. Within the Unix world,
+				the increasing adoption of Open Standards, such as &posix;, means
+				that choosing a standard &api; which is implemented on a wide
+				variety Unix boxes is becoming easier. Similarly, choosing an &api;
+				which will work on most MSDOS machines should cause few problems.
+				The difficulty is that these are disjoint worlds; it is very
+				difficult to find a standard &api; which is implemented on both
+				Unix and MSDOS machines. At present not much can be done about
+				this, it reflects the disjoint nature of the computer market.</para>
+
+			<para>To develop a similar point : the drawback of choosing &posix;
+				(for example) as an &api; is that it restricts the range of
+				possible target machines to machines which implement &posix;. Other
+				machines, for example, &bsd; compliant machines, might offer the
+				same functionality (albeit using different methods), so they
+				should be potential target machines, but they have been excluded
+				by the choice of &api;. One approach to the problem is the
+				"alternative &api;" approach. Both the &posix; and the &bsd; variants
+				are built into the program, but only one is selected on any given
+				target machine by means of conditional compilation. Under our
+				"equivalent functionality" definition of portability, this is a
+				program which is portable to both &posix; and &bsd; compliant
+				machines. But viewed in the light of the discussion above, if we
+				regard a program as a program-&api; pair, it could be regarded as
+				two separate programs combined on a single source code tree. A
+				more interesting approach would be to try to abstract out what
+				exactly the functionality which both &posix; and &bsd; offer is and
+				use that as the &api;. Then instead of two separate &api;s we would
+				have a single &api; with two broad classes of implementations. The
+				advantage of this latter approach becomes clear if wished to port
+				the program to a machine which implements neither &posix; nor &bsd;,
+				but provides the equivalent functionality in a third way.</para>
+
+			<para>As a simple example, both &posix; and &bsd; provide very similar
+				methods for scanning the entries of a directory. The main
+				difference is that the &posix; version is defined in
+				<code>dirent.h</code> and uses a structure called <code>struct
+				dirent</code>, whereas the &bsd; version is defined in
+				<code>sys/dir.h</code> and calls the corresponding structure
+				<code>struct direct</code>. The actual routines for manipulating
+				directories are the same in both cases. So the only abstraction
+				required to unify these two &api;s is to introduce an abstract
+				type, <code>dir_entry</code> say, which can be defined by:</para>
+
+			<programlisting language="c">typedef struct dirent dir_entry ;</programlisting>
+
+			<para>on &posix; machines, and:</para>
+
+			<programlisting language="c">typedef struct direct dir_entry ;</programlisting>
+
+			<para>on &bsd; machines. Note how this portion of the &api; crosses the
+				system-user boundary. The object <code>dir_entry</code> is defined
+				in terms of the objects in the system headers, but the precise
+				definition depends on a user-defined value (whether the target
+				machine implements &posix; or &bsd;).</para>
+		</section>
+
+		<section>
+			<title>Alternative Program Versions</title>
+
+			<para>Another reason for introducing conditional
+				compilation which relates to &api;s is the desire to combine
+				several programs, or versions of programs, on a single source
+				tree. There are several cases to be distinguished between. The
+				reuse of code between genuinely different programs does not
+				really enter the argument : any given program will only use one
+				route through the source tree, so there is no real conditional
+				compilation per se in the program. What is more interesting is
+				the use of conditional compilation to combine several versions of
+				the same program on the same source tree to provide additional or
+				alternative features.</para>
+
+			<para>It could be argued that the macros (or whatever) used to
+				select between the various versions of the program are just part
+				of the user-defined &api; as before. But consider a simple program
+				which reads in some numerical input, say, processes it, and
+				prints the results. This might, for example, have &posix; as its
+				&api;. We may wish to optionally enhance this by displaying the
+				results graphically rather than textually on machines which have
+				X Windows, the compilation being conditional on some boolean
+				value, <code>HAVE_X_WINDOWS</code>, say. What is the &api; of the
+				resultant program? The answer from the point of view of the
+				program is the union of &posix;, X Windows and the user-defined
+				value <code>HAVE_X_WINDOWS</code>. But from the implementation
+				point of view we can either implement &posix; and set
+				<code>HAVE_X_WINDOWS</code> to false, or implement both &posix; and
+				X Windows and set <code>HAVE_X_WINDOWS</code> to true. So what
+				introducing <code>HAVE_X_WINDOWS</code> does is to allow
+				flexibility in the &api; implementation.</para>
+
+			<para>This is very similar to the alternative &api;s discussed above.
+				However the approach outlined will really only work for optional
+				&api; extensions. To work in the alternative &api; case, we would
+				need to have the union of &posix;, &bsd; and a boolean value, say, as
+				the &api;. Although this is possible in theory, it is likely to
+				lead to namespace clashes between &posix; and &bsd;.</para>
+		</section>
+	</section>
+</chapter>
+

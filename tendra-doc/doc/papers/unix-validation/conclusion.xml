@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Conclusion</title>
+
+	<para>The experiment to compile a whole Unix system with the TenDRA
+		compiler used as a replacement of the native compiler was very
+		successful.  Although Unix sources are known to be compiler dependent,
+		most of the code could be compiled with no, or minor, modifications.
+		Also, we found very few bugs in the technology, and the performance of
+		the system did not change noticeably.</para>
+
+	<para>The DRA-DRA part of the experiment showed that defining an API for
+		the commands was not as simple as one might think. A more complete
+		experiment is required to complement this task.</para>
+</chapter>
+

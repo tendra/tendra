@@ -1,0 +1,337 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter id="targetdep">
+	<title>Target dependency tokens</title>
+
+	<para>Target dependency tokens provide a common interface to simple constructs
+		where the required detail for any specific architecture can be expressed
+		within &tdf;, but the detail will be architecture specific. Every installer
+		should have associated with it, a capsule containing the installer
+		specific definitions of all the tokens specificed within
+		<xref linkend="targetdep"/>.</para>
+
+	<para>Some of these tokens provide information about the integer and floating
+		point variety representations supported by an installer, in a form
+		that may be used by &tdf; analysis tools for architecture specific analysis,
+		or by library generation tools when generating an architecture specific
+		version of a library. Other target dependency tokens provide commonly
+		required conversion routines.</para>
+
+	<para>It is recommended that these tokens should not be used directly within
+		application programs. They are designed for use within &lpi; definitions,
+		which can provide a more appropriate interface for applications.</para>
+
+	<section>
+		<title>Integer variety representations</title>
+
+		<para>Since &tdf; specifies integer representations to be twos-complement,
+			the number of bits required to store an integer variety representation
+			fully specifies that representation. The minimum or maximum signed
+			or unsigned integer that can be represented within any variety representation
+			can easily be determined from the number of bits.</para>
+
+		<section>
+			<title><code>.~rep_var_width</code></title>
+
+			<programlisting language="tdf"><code>w</code>:	NAT
+	-&gt; NAT</programlisting>
+
+			<para>If <code>w </code>lies within the range of <code>VARIETY</code> sizes supported
+				by the associated installer, <code>rep_var_width</code>(<code>w</code>) will be
+				the number of bits required to store values of <code>VARIETY</code>
+				<code>var_width</code>(<code>b</code>,<code>w</code>), for any <code>BOOL</code> <code>b</code>.</para>
+
+			<para>If <code>w </code>is outside the range of <code>VARIETY</code> sizes supported
+				by the associated installer, <code>rep_var_width</code>(<code>w</code>) will be
+				0.</para>
+
+		</section>
+
+		<section>
+			<title><code>.~rep_atomic_width</code></title>
+
+			<programlisting language="tdf">-&gt; NAT</programlisting>
+
+			<para><code>.~rep_atomic_width</code> will be the number of bits required to store
+				values of some <code>VARIETY</code> <code>v </code>such that <code>assign</code>
+				and <code>assign_with_mode</code> are atomic operations if the value assigned
+				has <code>SHAPE</code> <code>integer</code>(<code>v</code>). The &tdf; specification
+				guarantees existence of such a number.</para>
+		</section>
+
+		<section id="floatreps">
+			<title>Floating variety representations</title>
+
+			<para>Floating point representations are much more diverse than integers,
+				but we may assume that each installer will support a finite set of
+				distinct representations. For convenience in distinguishing between
+				these representations within architecture specific &tdf;, the set of
+				distinct representations supported by any specific installer are stated
+				to be ordered into a sequence of non-decreasing memory size. An analysis
+				tool can easily count through this sequence to determine the properties
+				of all supported representations, starting at 1 and using <code>.~rep_fv_width
+				</code> to test for the sequence end.</para>
+
+		<section>
+			<title><code>.~rep_fv</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; FLOATING_VARIETY</programlisting>
+
+			<para><code>.~rep_fv</code>(<code>n</code>) will be the <code>FLOATING_VARIETY</code>
+				whose representation is the <code>n</code>th of the sequence of supported
+				floating point representations.
+				<code>n</code> will lie within this range.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_width</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; NAT</programlisting>
+
+			<para>If <code>n</code> lies within the sequence range of supported floating point
+				representations, <code>.~rep_fv_width</code>(<code>n</code>) will be the number
+				of bits required to store values of <code>FLOATING_VARIETY</code>
+				<code>.~rep_fv</code>(<code>n</code>).</para>
+
+			<para>If <code>n</code> is outside the sequence range of supported floating point
+				representations, <code>.~rep_fv_width</code>(<code>n</code>) will be 0.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_radix</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; NAT</programlisting>
+
+			<para><code>.~rep_fv_radix</code>(<code>n</code>) will be the radix used in the representation
+				of values of <code>FLOATING_VARIETY</code> <code>.~rep_fv</code>(<code>n</code>).</para>
+
+			<para><code>n</code> will lie within the sequence range of supported floating
+				point representations.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_mantissa</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; NAT</programlisting>
+
+			<para><code>.~rep_fv_mantissa</code>(<code>n</code>) will be the number of base
+				<code>.~rep_fv_radix</code>(<code>n</code>) digits in the mantissa representation
+				of values of <code>FLOATING_VARIETY</code> <code>.~rep_fv</code>(<code>n</code>).</para>
+
+			<para><code>n</code> will lie within the sequence range of supported floating
+				point representations.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_min_exp</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; NAT</programlisting>
+
+			<para><code>.~rep_fv_min_exp</code>(<code>n</code>) will be the maximum integer
+				<code>m</code> such that (<code>.~rep_fv_radix</code>(<code>n</code>))<code>-m</code>
+				is exactly representable (though not necessarily normalised) by the
+				<code>FLOATING_VARIETY</code> <code>.~rep_fv</code>(<code>n</code>).</para>
+
+			<para><code>n</code> will lie within the sequence range of supported floating
+				point representations.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_max_exp</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; NAT</programlisting>
+
+			<para><code>.~rep_fv_max_exp</code>(<code>n</code>) will be the maximum integer
+				<code>m</code> such that (<code>.~rep_fv_radix</code>(<code>n</code>))<code>m</code>
+				is exactly representable by the <code>FLOATING_VARIETY</code> <code>.~rep_fv</code>(
+				<code>n</code>).</para>
+
+			<para><code>n</code> will lie within the sequence range of supported floating
+				point representations.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_epsilon</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; EXP FLOATING .~rep_fv(<code>n</code>)</programlisting>
+
+			<para><code>.~rep_fv_epsilon</code>(<code>n</code>) will be the smallest strictly positive
+				real <code>x </code>such that (1.0 + <code>x</code>) is exactly representable
+				by the <code>FLOATING_VARIETY</code> <code>.~rep_fv(n)</code>.</para>
+
+			<para><code>n</code> will lie within the sequence range of supported floating
+				point representations.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_min_val</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; EXP FLOATING .~rep_fv(<code>n</code>)</programlisting>
+
+			<para><code>.~rep_fv_min_val</code>(<code>n</code>) will be the smallest strictly positive
+				real number that is exactly representable (though not necessarily
+				normalised)) by the <code>FLOATING_VARIETY</code> <code>.~rep_fv(n)</code>.</para>
+
+			<para><code>n</code> will lie within the sequence range of supported floating
+				point representations.</para>
+		</section>
+
+		<section>
+			<title><code>.~rep_fv_max_val</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; EXP FLOATING .~rep_fv(<code>n</code>)</programlisting>
+
+			<para><code>.~rep_fv_max_val</code>(<code>n</code>) will be the largest real number
+				that is exactly representable by the <code>FLOATING_VARIETY</code>
+				<code>.~rep_fv(n)</code>.</para>
+
+			<para><code>n</code> will lie within the sequence range of supported floating
+				point representations.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Non-numeric representations</title>
+
+		<section>
+			<title><code>.~ptr_width</code></title>
+
+			<programlisting language="tdf">-&gt; NAT</programlisting>
+
+			<para><code>.~ptr_width</code> will be the minimum <code>.~rep_var_width</code>(<code>w</code>)
+				for any <code>w </code>such that any pointer to any alignment may be converted
+				to an integer of <code>VARIETY</code> <code>var_width</code>(<code>b</code>,<code>w</code>),
+				for some <code>BOOL</code> <code>b</code>, and back again without loss of
+				information, using the conversions <code>.~ptr_to_int</code> and <code>.~int_to_ptr</code>
+				(q.v.).</para>
+		</section>
+
+		<section>
+			<title><code>.~best_div</code></title>
+
+			<programlisting language="tdf">-&gt; NAT</programlisting>
+
+			<para><code>.~best_div</code> is 1 or 2 to indicate preference for class 1 or
+				class 2 division and modulus (as defined in the &tdf; Specification).
+				This token would be used in situations where either class is valid
+				but must be used consistently.</para>
+		</section>
+
+		<section>
+			<title><code>.~little_endian</code></title>
+
+			<programlisting language="tdf">-&gt; BOOL</programlisting>
+
+			<para><code>.~little_endian</code> is a property of the relationship between different
+				variety representations and arrays. If an array of a smaller variety
+				can be mapped onto a larger variety, and <code>.~little_endian</code>
+				is true, then smaller indices of the smaller variety array map onto
+				smaller ranges of the larger variety. If <code>.~little_endian</code>
+				is false, no such assertion can be made.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Common conversion routines</title>
+
+		<para>This subsection contains a set of conversion routines between values
+			of different shapes, that are not required to have any specific meaning
+			apart from reversability. If the storage space requirements for the
+			two shapes are identical, the conversion can usually be achieved without
+			change of representation. When that is the case, and if the two shapes
+			can be stored at a common alignment, the conversion can simply be
+			achieved by assignment via a common union, which will ensure the required
+			alignment consistency.</para>
+		</section>
+
+		<section>
+			<title><code>.~ptr_to_ptr</code></title>
+
+			<programlisting language="tdf"><code>a1</code>:	ALIGNMENT
+<code>a2</code>:	ALIGNMENT
+<code>p</code>:	EXP POINTER(<code>a1</code>)
+	-&gt; EXP POINTER(<code>a2</code>)</programlisting>
+
+			<para><code>.~ptr_to_ptr</code> converts pointers from one pointer shape to another.</para>
+
+			<para>If <code>p</code> is any pointer with alignment <code>a1</code>, then <code>.~ptr_to_ptr
+				</code>(<code>a2</code>, <code>a1</code>, <code>.~ptr_to_ptr</code>(<code>a1</code>,
+				<code>a2</code>, <code>p</code>)) shall result in the same pointer <code>p</code>, provided
+				that the number of bits required to store a pointer with alignment
+				<code>a2</code> is not less than that required to store a pointer with alignment
+				<code>a1</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~ptr_to_int</code></title>
+
+			<programlisting language="tdf"><code>a</code>:	ALIGNMENT
+<code>v</code>:	VARIETY
+<code>p</code>:	EXP POINTER(<code>a</code>)
+	-&gt; EXP INTEGER(<code>v</code>)</programlisting>
+
+			<para><code>.~ptr_to_int</code> converts a pointer to an integer. The result is
+				undefined if the <code>VARIETY</code> v is insufficient to distinguish
+				between all possible distinct pointers <code>p</code> of alignment <code>a</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~int_to_ptr</code></title>
+
+			<programlisting language="tdf"><code>v</code>:	VARIETY
+<code>a</code>:	ALIGNMENT
+<code>i</code>:	EXP INTEGER(<code>v</code>)
+	-&gt; EXP POINTER(<code>a</code>)</programlisting>
+
+			<para><code>.~int_to_ptr</code> converts an integer to a pointer. The result is
+				undefined unless the integer i was obtained without modification from
+				some pointer using <code>.~ptr_to_int</code> with the same variety and alignment
+				arguments.</para>
+
+			<para>If <code>p</code> is any pointer with alignment <code>a</code>, and <code>v</code>
+				is <code>var_width</code>(<code>b</code>, <code>.~ptr_width</code>) for some <code>BOOL</code>
+				<code>b</code>, then <code>.~int_to_ptr</code>(<code>v</code>, <code>a</code>, <code>.~ptr_to_int
+				</code>(<code>a</code>, <code>v</code>, <code>p</code>)) shall result in the same pointer
+				<code>p</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~f_to_ptr</code></title>
+
+			<programlisting language="tdf"><code>a</code>:	ALIGNMENT
+<code>fn</code>:	EXP PROC
+	-&gt; EXP POINTER(<code>a</code>)</programlisting>
+
+			<para><code>.~f_to_ptr</code> converts a procedure to a pointer. The result is
+				undefined except as required for consistency with <code>.~ptr_to_f</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~ptr_to_f</code></title>
+
+			<programlisting language="tdf"><code>a</code>:	ALIGNMENT
+<code>p</code>:	EXP POINTER(<code>a</code>)
+	-&gt; EXP PROC</programlisting>
+
+			<para><code>.~ptr_to_f</code> converts a pointer to a procedure. The result is
+				undefined unless the pointer p was obtained without modification from
+				some procedure <code>f</code> using <code>.~f_to_ptr</code>(<code>a</code>,
+				<code>f</code>). The same procedure <code>f</code> is delivered.</para>
+		</section>
+	</section>
+</chapter>
+

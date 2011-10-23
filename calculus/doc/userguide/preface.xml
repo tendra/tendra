@@ -1,0 +1,101 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE preface SYSTEM "minidocbook.dtd">
+
+<!-- $Id$ -->
+
+<preface id="introduction">
+	<title>Introduction</title>
+
+	<para>This document describes a tool, <command>calculus</command>, which
+		allows complex type systems to be described in a simple algebraic
+		format, and transforms this into a system of C types which implements
+		this algebra.</para>
+
+	<para><command>calculus</command> was initially written as a design tool
+		for use with the TenDRA C and C++ producers. The producers' internal
+		datatypes reflect the highly complex interdependencies between the C and
+		C++ language concepts (types, expressions and so on) which they were
+		designed to represent. A tool for managing this complexity and allowing
+		changes to the internal datatypes to be made with confidence was
+		therefore seen to be an absolute necessity. The tool can also be applied
+		in similar situations where a complex type system needs to be
+		described.</para>
+
+	<para>The tool also provides for a separation between the specification of
+		the type system and its implementation in terms of actual C types. This
+		separation has a number of advantages.	The advantages of maintaining a
+		level of abstraction in the specification are obvious. It is possible to
+		apply extremely rigorous type checking to any program written using the
+		tool, thereby allowing many potential errors to be detected at compile
+		time. It is also possible to restrict access to the types to certain
+		well-specified constructs, thereby increasing the maintainability of
+		code written using the tool.</para>
+
+	<para>This separation also has beneficial effects on the implementation of
+		the type system. By leaving all the type checking aspects at the
+		specification level, it is possible to impose an extremely homogeneous
+		underlying implementation. This means, for example, that a single memory
+		management system can be applied to all the types within the system. It
+		also opens the possibility of writing operations which apply to all
+		types within the system in a straightforward manner. The
+		<link linkend="diskoutput">disk reading and writing routines</link>
+		described below are an example of this.</para>
+
+	<section id="options">
+		<title>Using calculus</title>
+
+<!-- TODO: leave this to the manpage
+		<para>The general form for invoking <command>calculus</command> is as
+			follows:</para>
+
+		<cmdsynopsis>
+			<command>calculus</command>
+			<arg rep="repeat">&options.arg;</arg>
+			<arg choice="plain" rep="repeat">&in-file.arg;</arg>
+			<arg choice="opt">&out-file.arg;</arg>
+		</cmdsynopsis>
+
+		<para>where &in-file.arg; is a file containing the input type
+			system description and &out-file.arg; is the directory where
+			the files implementing this system are to be output. This directory
+			must already exist. If no &options.arg; argument is given
+			then the current working directory is assumed. Note that several
+			&in-file.arg; files can be given.	Unless
+			<link linkend="module">otherwise specified</link> it is the last file
+			which is used to generate the output.</para>
+-->
+
+		<para>The form in which the
+			<link linkend="textinput">input type systems</link>
+			are expressed is described below. The form of the output depends on
+			<option>options</option>. By default, the C implementation of the type
+			system is output. If the <option>-t</option> option is passed to
+			<command>calculus</command> then
+			<ulink url="tcpplus.html#token"><code>#pragma token</code></ulink>
+			statements describing the type system specification are output.	This
+			<link linkend="tokenoutput">specification</link> is given below, with
+			some of the more important
+			<link linkend="coutput">implementation details</link> being described
+			in the following section.</para>
+
+		<para>Note that it is necessary to check any program written using
+			<command>calculus</command> against the <code>#pragma token</code>
+			version of the specification in order to get the full benefits of the
+			rigorous type checking provided by the tool. Some sections of the
+			program (if only the
+			<link linkend="coutputsupport">basic functions</link>) may be
+			dependent upon the implementation, and so not be suitable for this
+			form of checking.</para>
+	</section>
+
+	<section id="example">
+		<title>Example program</title>
+
+		<para>The program <command>calculus</command> itself was written using a
+			type system specified using the <command>calculus</command> tool. It
+			is designed to provide an example of its own application, with some
+			features not strictly necessary for the functionality of the program
+			being added for illustrative purposes.</para>
+	</section>
+</preface>
+

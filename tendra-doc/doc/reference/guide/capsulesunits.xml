@@ -1,0 +1,411 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>CAPSULEs and UNITs</title>
+
+	<para>A CAPSULE is typically the result of a single compilation - one
+		could regard it as being the TDF analogue of a Unix .o file. Just as
+		with .o files, a set of CAPSULEs can be linked together to form
+		another. Similarly, a CAPSULE may be translated to make program for
+		some platform, provided certain conditions are met. One of these
+		conditions is obviously that a translator exists for the platform, but
+		there are others. They basically state that any names that are
+		undefined in the CAPSULE can be supplied by the system in which it is
+		to be run. For example, the translator could produce assembly code
+		with external identifiers which will be supplied by some system
+		library.</para>
+
+	<section id="make_capsule-and-name-spaces">
+		<title>make_capsule and name-spaces</title>
+
+		<para>The only constructor for a CAPSULE is make_capsule. Its basic
+			function is to compose together UNITs which contain the declarations
+			and definitions of the program. The signature of make_capsule looks
+			rather daunting and is probable best represented graphically.</para>
+
+		<figure>
+			<title><code>make_capsule</code></title>
+
+			<graphic fileref="images/guide2.png"/>
+		</figure>
+
+		<para>The diagram gives an example of a CAPSULE using the same
+			components as in the following text.</para>
+
+		<para>Each CAPSULE has its own name-space, distinct from all other
+			CAPSULEs' name-spaces and also from the name-spaces of its component
+			UNITs (see <!-- TODO: <link linkened="#11">section 3.1.2</link> -->).  There are
+			several different kinds of names in TDF and each name-space is
+			further subdivided into one for each kind of name.  The number of
+			different kinds of names is potentially unlimited but only three are
+			used in core-TDF, namely "tag", "token" and "al_tag". Those names in
+			a "tag" name-space generally correspond to identifiers in normal
+			programs and I shall use these as the paradigm for the properties of
+			them all.</para>
+
+		<para>The actual representations of a "tag" name in a given name-space
+			is an integer, described as SORT TDFINT. These integers are drawn
+			from a contiguous set starting from 0 up to some limit given by the
+			constructor which introduces the name-space. For CAPSULE
+			name-spaces, this is given by the <code>capsule_linking</code>
+			parameter of make_capsule:</para>
+
+		<programlisting language="tdf">capsule_linking: SLIST(CAPSULE_LINK)</programlisting>
+
+		<para>In the most general case in core-TDF, there would be three
+			entries in the list introducing limits using make_capsule_link for
+			each of the "tag", "token" and "al_tag" name-spaces for the CAPSULE.
+			Thus if:</para>
+
+		<programlisting language="tdf">capsule_linking = (make_capsule_link("tag", 5),
+                   make_capsule_link("token", 6),
+                   make_capsule_link("al_tag", 7))</programlisting>
+
+		<para>there are 5 CAPSULE "tag" names used within the CAPSULE, namely
+			0, 1, 2, 3 and 4; similarly there are 6 "token" names and 7 "al_tag"
+			names.</para>
+
+		<section id="external-linkages">
+			<title>External linkages</title>
+
+			<para>The context of usage will always determine when and how an
+				integer is to be interpreted as a name in a particular name-space.
+				For example, a TAG in a UNIT is constructed by make_tag applied to
+				a TDFINT which will be interpreted as a name from that UNIT's
+				"tag" name-space. An integer representing a name in the CAPSULE
+				name-space would be found in a LINKEXTERN of the
+				<code>external_linkage</code> parameter of make_capsule.</para>
+
+			<programlisting language="tdf">external_linkage: SLIST(EXTERN_LINK)</programlisting>
+
+			<para>Each EXTERN_LINK is itself formed from an SLIST of LINKEXTERNs
+				given by make_extern_link . The order of the EXTERN_LINKs
+				determines which name-space one is dealing with; they are in the
+				same order as given by the <code>extern_linkage</code> parameter.
+				Thus, with the <code>extern_linkage</code> given above, the first
+				EXTERN_LINK would deal with the "tag" name-space; Each of its
+				component LINKEXTERNs constructed by make_linkextern would be
+				identifying a tag number with some name external to the CAPSULE;
+				for example one might be:</para>
+
+			<programlisting language="tdf">make_linkextern(4, string_extern("printf"))</programlisting>
+
+			<para>This would mean: identify the CAPSULE's "tag" 4 with an name
+				called "printf", external to the module. The name "printf" would
+				be used to linkage external to the CAPSULE; any name required
+				outside the CAPSULE would have to be linked like
+				this.</para>
+		</section>
+
+		<section id="units">
+			<title>UNITs</title>
+
+			<para>This name "printf", of course, does not necessarily mean the C
+				procedure in the system library. This depends both on the system
+				context in which the CAPSULE is translated and also the meaning of
+				the CAPSULE "tag" name 4 given by the component UNITs of the
+				CAPSULE in the <code>groups</code> parameter of
+				make_capsule:</para>
+
+			<programlisting language="tdf">groups: SLIST(GROUP)</programlisting>
+
+			<para>Each GROUP in the <code>groups</code> SLIST will be formed by
+				sets of UNITs of the same kind. Once again, there are a
+				potentially unlimited number of kinds of UNITs but core-TDF only
+				uses those named "tld","al_tagdefs", "tagdecs", "tagdefs",
+				"tokdecs" and "tokdefs".<footnote>
+					<para>The "tld" UNITs gives usage information for names
+						to aid the linker, tld, to discover which namess have
+						definitions and some usage information. The C producer also
+						optionally constructs "diagnostics" UNITs (to give run-time
+						diagnostic information).</para>
+				</footnote>
+				These names will appear (in the same order as in
+				<code>groups</code>) in the <code>prop_names</code> parameter of
+				make_capsule, one for each kind of UNIT appearing in the
+				CAPSULE:</para>
+
+			<programlisting language="tdf">prop_names: SLIST(TDFIDENT)</programlisting>
+
+			<para>Thus if:</para>
+
+			<programlisting language="tdf">prop_names = ("tagdecs", "tagdefs")</programlisting>
+
+			<para>then, the first element of <code>groups</code> would contain
+				only "tagdecs" UNITs and and the second would contain only
+				"tagdefs" UNITs. A "tagdecs" UNIT contains things rather like a
+				set of global identifier declarations in C, while a "tagdefs" UNIT
+				is like a set of global definitions of identifiers.</para>
+		</section>
+
+		<section id="make_unit">
+			<title>make_unit</title>
+
+			<para>Now we come to the construction of UNITs using make_unit, as
+				in the diagram below:</para>
+
+			<figure>
+				<title><code>make_unit</code></title>
+				<graphic fileref="images/guide1.png"/>
+			</figure>
+
+			<para>First we give the limits of the various name-spaces local to
+				the UNIT in the <code>local_vars</code> parameter:</para>
+
+			<programlisting language="tdf">local_vars: SLIST(TDFINT)</programlisting>
+
+			<para>Just in the same way as with <code>external_linkage</code>,
+				the numbers in local_vars correspond (in the same order) to the
+				spaces indicated in <code>capsule_linking</code> in
+				<link linkend="make_capsule-and-name-spaces">section 3.1</link>.
+				With our example,the first element of <code>local_vars</code>
+				gives the number of "tag" names local to the UNIT, the second
+				gives the number of "token" names local to the UNIT etc. These
+				will include all the names used in the body of the UNIT. Each
+				declaration of a TAG, for example, will use a new number from the
+				"tag" name-space; there is no hiding or reuse of names within a
+				UNIT.</para>
+		</section>
+
+		<section id="link">
+			<title>LINK</title>
+
+			<para>Connections between the CAPSULE name-spaces and the UNIT
+				name-spaces are made by LINKs in the <code>lks</code>
+				parameter of make_unit:</para>
+
+			<programlisting language="tdf">lks: SLIST(LINKS)</programlisting>
+
+			<para>Once again, <code>lks</code> is effectively indexed by the
+				kind of name-space a. Each LINKS is an SLIST of LINKs each of
+				which which establish an identity between names in the CAPSULE
+				name-space and names in the UNIT name-space. Thus if the first
+				element of <code>lks</code> contains:</para>
+
+			<programlisting language="tdf">make_link(42, 4)</programlisting>
+
+			<para>then, the UNIT "tag" 42 is identical to the CAPSULE "tag"
+				4.</para>
+
+			<para>Note that names from the CAPSULE name-space only arise in two
+				places, LINKs and LINK_EXTERNs. Every other use of names are
+				derived from some UNIT name-space.</para>
+		</section>
+	</section>
+
+	<section id="definitions-and-declarations">
+		<title>Definitions and declarations</title>
+
+		<para>The encoding in the <code>properties</code>:BYTESTREAM parameter
+			of a UNIT is a PROPS, for which there are five constructors
+			corresponding to the kinds of UNITs in core-TDF, make_al_tagdefs,
+			make_tagdecs, make_tagdefs, make_tokdefs and make_tokdecs. Each of
+			these will declare or define names in the appropriate UNIT
+			name-space which can be used by make_link in the UNIT's
+			<code>lks</code> parameter as well as elsewhere in the
+			<code>properties</code> parameter. The distinction between
+			"declarations" and "definitions" is rather similar to C usage; a
+			declaration provides the "type" of a name, while a definition gives
+			its meaning. For tags, the "type" is the SORT SHAPE (see below). For
+			tokens, the "type" is a SORTNAME constructed from the SORTNAMEs of
+			the parameters and result of the TOKEN using token:</para>
+
+		<programlisting language="tdf">params: LIST(SORTNAME)
+		result: SORTNAME
+		-&gt; SORTNAME</programlisting>
+
+		<para>Taking make_tagdefs as a paradigm for PROPS, we have:</para>
+
+		<programlisting language="tdf">
+no_labels: TDFINT
+tds:       SLIST(TAGDEF)
+           -&gt; TAGDEF_PROPS</programlisting>
+
+		<para>The <code>no_labels</code> parameter introduces the size of yet
+			another name-space local to the PROPS, this time for the LABELs used
+			in the TAGDEFs. Each TAGDEF in <code>tds</code> will define a "tag"
+			name in the UNIT's name-space. The order of these TAGDEFs is
+			immaterial since the initialisations of the tags are values which
+			can be solved at translate time, load time or as unordered dynamic
+			initialisations.</para>
+
+		<para>There are three constructors for TAGDEFs, each with slightly
+			different properties. The simplest is make_id_tagdef:</para>
+
+		<programlisting language="tdf">
+t:         TDFINT
+signature: OPTION(STRING)
+e:         EXP x
+           -&gt; TAGDEF</programlisting>
+
+		<para>Here, <code>t</code> is the tag name and the evaluation of
+			<code>e</code> will be the value of SHAPE <code>x</code> of an
+			obtain_tag(<code>t</code>) in an EXP. Note that t is not a variable;
+			the value of obtain_tag(<code>t</code>) will be invariant. The
+			<code>signature</code> parameter gives a STRING (see
+			<link linkend="sort-string">section 3.2.3</link>) which may be used
+			as an name for the tag, external to TDF and also as a check
+			introduced by the producer that a tagdef and its corresponding
+			tagdec have the same notion of the language-specific type of the
+			tag.</para>
+
+		<para>The two other constructors for TAGDEF, make_var_tagdef and
+			common_tagdef both define variable tags and have the same
+			signature:</para>
+
+		<programlisting language="tdf">
+t:          TDFINT
+opt_access: OPTION(ACCESS)
+signature:  OPTION(STRING)
+e:          EXP x
+            -&gt; TAGDEF</programlisting>
+
+		<para>Once again <code>t</code> is tag name but now <code>e</code> is
+			initialisation of the variable <code>t</code>. A use of
+			obtain_tag(<code>t</code>) will give a pointer to the variable (of
+			SHAPE POINTER x), rather than its contents.<footnote>
+				<para>There is a similar distinction between tags
+					introduced to be locals of a procedure using identify and variable
+					(see <link linkend="identify-variable">section 5.3.1</link>).</para>
+			</footnote>
+			There can only be one make_var_tagdef of a given tag in a program,
+			but there may be more than one common_tagdef, possibly with
+			different initialisations; however these initialisations must
+			overlap consistently just as in common blocks in FORTRAN.</para>
+
+		<para>The ACCESS parameter gives various properties required for the
+			tag being defined and is discussed in
+			<link linkend="sort-access">section 5.3.2</link>.</para>
+
+		<para>The initialisation EXPs of TAGDEFs will be evaluated before the
+			"main" program is started. An initialiation EXP must either be a
+			constant (in the sense of
+			<link linkend="constants">section 9</link>) or reduce to (either
+			directly or by token or _cond expansions) to an initial_value:</para>
+
+		<programlisting language="tdf">
+init: EXP s
+      -&gt; EXP s</programlisting>
+
+		<para>The translator will arrange that <code>init</code> will be evaluated
+			once only before any procedure application, other than those
+			themselves involved in initial_values, but after any constant
+			initialisations. The order of evaluation of different initial_values
+			is arbitrary.</para>
+
+		<section id="scopes-and-linking">
+			<title>Scopes and linking</title>
+
+			<para>Only names introduced by AL_TAGDEFS, TAGDEFS, TAGDECs, TOKDECs
+				and TOKDEFs can be used in other UNITs (and then, only via the
+				<code>lks</code> parameters of the UNITs involved). You can regard
+				them as being similar to C global declarations. Token definitions
+				include their declarations implicitly; however this is not true of
+				tags. This means that any CAPSULE which uses or defines a tag
+				across UNITs must include a TAGDEC for that tag in its "tagdecs"
+				UNITs. A TAGDEC is constructed using either make_id_tagdec,
+				make_var_tagdec or common_tagdec, all with the same form:</para>
+
+			<programlisting language="tdf">
+t_intro:   TDFINT
+acc:       OPTION(ACCESS)
+signature: OPTION(STRING)
+x:         SHAPE
+           -&gt; TAGDEC</programlisting>
+
+			<para>Here the tagname is given by <code>t_intro</code>; the SHAPE
+				<code>x</code> will defined the space and alignment required for the
+				tag (this is analogous to the type in a C declaration). The
+				<code>acc</code> field will define certain properties of the tag not
+				implicit in its SHAPE; I shall return to the kinds of properties
+				envisaged in discussing local declarations in
+				<link linkend="defining-and-using-locals">section 5.3</link>.</para>
+
+			<para>Most program will appear in the "tagdefs" UNITs - they will
+				include the definitions of the procedures of the program which in
+				turn will include local definitions of tags for the locals of the
+				procedures.</para>
+
+			<para>The standard TDF linker allows one to link CAPSULEs together
+				using the name identifications given in the LINKEXTERNs, perhaps
+				hiding some of them in the final CAPSULE. It does this just by
+				generating a new CAPSULE name-space, grouping together component
+				UNITs of the same kind and replacing their
+				<code>lks</code> parameters with values derived from the
+				new CAPSULE name-space without changing the UNITs' name-spaces or
+				their <code>props</code> parameters.  The operation of
+				grouping together UNITs is effectively assumed to be associative,
+				commutative and idempotent e.g. if the same tag is declared in two
+				capsules it is assumed to be the same thing . It also means that
+				there is no implied order of evaluation of UNITs or of their
+				component TAGDEFs</para>
+
+			<para>Different languages have different conventions for deciding how
+				programs are actually run. For example, C requires the presence of a
+				suitably defined "main" procedure; this is usually enforced by
+				requiring the system ld utility to bind the name "main" along with
+				the definitions of any library values required.  Otherwise, the C
+				conventions are met by standard TDF linking.  Other languages have
+				more stringent requirements. For example, C++ requires dynamic
+				initialisation of globals, using initial_value. As the only runnable
+				code in TDF is in procedures, C++ would probably require an
+				additional linking phase to construct a "main" procedure which calls
+				the initialisation procedures of each CAPSULE involved if the system
+				linker did not provide suitable C++ linking.</para>
+		</section>
+
+		<section id="declaration-and-definition-signatures">
+			<title>Declaration and definition signatures</title>
+
+			<para>The <code>signature</code> arguments of TAGDEFs and TAGDECs
+				are designed to allow a measure of cross-UNIT checking when
+				linking independently compiled CAPSULEs. Suppose that we have a
+				tag, <code>t</code>, used in one CAPSULE and defined in another;
+				the first CAPSULE would have to have a TAGDEC for <code>t</code>
+				whose TAGDEF is in the second. The <code>signature</code> STRING
+				of both could be arranged to represent the language-specific type
+				of <code>t</code> as understood at compilation-time. Clearly, when
+				the CAPSULEs are linked the types must be identical and hence
+				their STRING representation must be the same - a translator will
+				reject any attempt to link definitions and declarations of the
+				same object with different signatures.</para>
+
+			<para>Similar considerations apply to TOKDEFs and TOKDECs; the
+				"type" of a TOKEN may not have any familiar analogue in most HLLs,
+				but the principle remains the same.</para>
+		</section>
+
+		<section id="sort-string">
+			<title>STRING</title>
+
+			<para>The SORT STRING is used in various constructs other than
+				declarations and definitions. It is a first-class SORT with
+				string_apply_token and string_cond. A primitive STRING is
+				constructed from a TDFSTRING(k,n) which is an encoding of n
+				integers,each of k bits, using make_string:</para>
+
+			<programlisting language="tdf">arg: TDFSTRING(k, n)
+     -&gt; STRING(k, n)</programlisting>
+
+			<para>STRINGs may be concatenated using concat_string:</para>
+
+			<programlisting language="tdf">arg1: STRING(k, n)
+arg2: STRING(k,m)
+      -&gt; STRING(k, n + m)</programlisting>
+  
+			<para>Being able to compose strings, including token applications etc,
+				means that late-binding is possible in <code>signature</code>
+				checking in definitions and declarations. This late-binding means
+				that the representation of platform-dependent HLL types need only
+				be fully expanded at install-time and hence the types could be
+				expressed in their representational form on the specific
+				platform.</para>
+		</section>
+	</section>
+</chapter>
+

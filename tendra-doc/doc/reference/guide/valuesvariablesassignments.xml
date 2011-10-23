@@ -1,0 +1,207 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Values, variables and assignments.</title>
+
+	<para>TAGs in TDF fulfil the role played by identifiers in most
+		programming languages. One can apply obtain_tag to find the value
+		bound to the TAG. This value is always a constant over the scope of a
+		particular definition of the TAG. This may sound rather strange to
+		those used to the concepts of left-hand and right-hand values in C,
+		for example, but is quite easily explained as follows.</para>
+
+	<para>If a TAG, id, is introduced by an identify, then the value bound
+		is fixed by its <code>definition</code> argument. If, on the other
+		hand, v was a TAG introduced by a variable definition, then the value
+		bound to v is a pointer to fixed space in the procedure frame (i.e.
+		the left-hand value in C).</para>
+
+	<section id="S62">
+		<title>contents</title>
+
+		<para>In order to get the contents of this space (the right-hand value
+			in C), one must apply the contents operator to the pointer:</para>
+
+		<programlisting language="tdf">contents(shape(v), obtain_tag(v))</programlisting>
+
+		<para>In general, the contents constructor takes a SHAPE and an
+			expression delivering pointer:</para>
+
+		<programlisting language="tdf">s:    SHAPE
+arg1: EXP POINTER(x)
+      -&gt; EXP s</programlisting>
+
+		<para>It delivers the value of SHAPE <code>s</code>, pointed at by the
+			evaluation of <code>arg1</code>. The alignment of <code>s</code>
+			need not be identical to <varname>x</varname>. It only needs to be
+			included in it; this would allow one, for example, to pick out the
+			first field of a structure from a pointer to it.</para>
+	</section>
+
+	<section id="S63">
+		<title>assign</title>
+
+		<para>A simple assignment in TDF is done using assign:</para>
+
+		<programlisting language="tdf">arg1: EXP POINTER(x)
+arg2: EXP y
+      -&gt; EXP TOP</programlisting>
+
+		<para>The EXPs <code>arg1</code> and <code>arg2</code> are evaluated (no
+			ordering implied) and the value of SHAPE <varname>y</varname> given by
+			<code>arg2</code> is put into the space pointed at by
+			<code>arg1</code>. Once again, the alignment of <varname>y</varname>
+			need only be included in <varname>x</varname>, allowing the assignment
+			to the first field of a structure using a pointer to the structure. An
+			assignment has no obvious result so its SHAPE is TOP.</para>
+
+		<para>Some languages give results to assignments. For example, C defines
+			the result of an assignment to be its right-hand expression, so that
+			if the result of (v = exp) was required, it would probably be
+			expressed as:</para>
+
+		<programlisting language="tdf">identify(empty, newtag, exp, sequence((assign(obtain_tag(v), obtain_tag(newtag))), obtain_tag(newtag)))</programlisting>
+
+		<para>From the definition of assign, the destination argument,
+			<code>arg1</code>, must have a POINTER shape. This means that given
+			the TAG id above, assign(obtain_tag(id), lhs) is only legal if the
+			<code>definition</code> of its identify had a POINTER SHAPE. A trivial
+			example would be if id was defined:</para>
+
+		<programlisting language="tdf">identify(empty, id, obtain_tag(v), assign(obtain_tag(id), lhs))</programlisting>
+
+		<para>This identifies id with the variable v which has a POINTER SHAPE, and
+			assigns lhs to this pointer. Given that id does not occur in lhs, this
+			is identical to:</para>
+
+		<programlisting language="tdf">assign(obtain_tag(v), lhs).</programlisting>
+
+		<para>Equivalences like this are widely used for transforming TDF in
+			translators and other tools (see
+			<link linkend= "tdf-transformations">section 11</link>).</para>
+	</section>
+
+	<section id="transfer_mode-operations">
+		<title>TRANSFER_MODE operations</title>
+
+		<para>The TRANSFER_MODE operations allow one to do assignment and
+			contents operations with various qualifiers to control how the
+			access is done in a more detailed manner than the standard contents
+			and assign operations.</para>
+
+		<para>For example, the value assigned in assign has some fixed SHAPE;
+			its size is known at translate-time. Variable sized objects can be
+			moved by move_some:</para>
+
+		<programlisting language="tdf">md:   TRANSFER_MODE
+arg1: EXP POINTER x
+arg2: EXP POINTER y
+arg3: EXP OFFSET(z, t)
+      -&gt; EXP TOP</programlisting>
+
+		<para>The EXP <code>arg1</code> is the destination pointer, and
+			<code>arg2</code> is a source pointer. The amount moved is given by
+			the OFFSET <code>arg3</code>.</para>
+
+		<para>The TRANSFER_MODE <code>md</code> parameter controls the way
+			that the move will be performed. If overlap is present, then the
+			translator will ensure that the move is equivalent to moving the
+			source into new space and then copying it to the destination; it
+			would probably do this by choosing a good direction in which to step
+			through the value.  The alternative, standard_transfer_mode,
+			indicates that it does not matter.</para>
+
+		<para>If the TRANSFER_MODE trap_on_nil is present and
+			<code>arg1</code> is a nil pointer, a TDF exception with ERROR_CODE
+			nil_access is raised.</para>
+
+		<para>There are variants of both the contents and assign constructors.
+			The signature of contents_with_mode is:</para>
+
+		<programlisting language="tdf">md:   TRANSFER_MODE
+s:    SHAPE
+arg1: EXP POINTER(x)
+      -&gt; EXP s</programlisting>
+
+		<para>Here, the only significant TRANSFER_MODE constructors
+			<code>md</code> are trap_on_nil and volatile. The latter is
+			principally intended to implement the C volatile construction; it
+			certainly means that the contents_with_mode operation will never be
+			&ldquo;optimised&rdquo; away.</para>
+
+		<para>Similar considerations apply to assign_with_mode; here the
+			overlap TRANSFER_MODE is also possible with the same meaning as in
+			move_some.</para>
+	</section>
+
+	<section id="assigning-and-extracting-bitfields">
+		<title>Assigning and extracting bitfields</title>
+
+		<para>Since pointers to bits are forbidden, two special operations are
+			provided to extract and assign bitfields.  These require the use of
+			a pointer value and a bitfield offset from the pointer. The
+			signature of bitfield_contents which extracts a bitfield in this
+			manner is:</para>
+
+		<programlisting language="tdf">v:    BITFIELD_VARIETY
+arg1: EXP POINTER(x)
+arg2: EXP OFFSET(y,z)
+      -&gt; EXP bitfield(v)</programlisting>
+
+		<para>Here <code>arg1</code> is a pointer to an alignment
+			<code>x</code> which includes <code>v</code>, the required
+			bitfield alignment. In practice, <code>x</code> must
+			include an INTEGER VARIETY whose representation can contain the
+			entire bitfield. Thus on a standard architecture, if v is a 15 bit
+			bitfield, x must include at least a 16 bit integer variety; a 27
+			bitfield would require a 32 bit integer variety and so on. Indeed
+			the constraint is stronger than this since there must be an integer
+			variety, accessible from arg1, which entirely contains the
+			bitfield.</para>
+
+		<para>This constraint means that producers cannot expect that
+			arbitrary bitfield lengths can be accomodated without extra padding;
+			clearly it also means that the maximum bitfield length possible is
+			the maximum size of integer variety that can be implemented on the
+			translator concerned (this is defined to be at least 32). On
+			standard architectures, the producer can expect that an array of
+			bitfields of lenth 2<emphasis>n</emphasis> will be packed without
+			padding; this, of course, includes arrays of booleans.  For
+			structures of several different bitfields, he can be sure of no
+			extra padding bits if the total number of bits involved is less than
+			or equal to 32; similarly if he can subdivide the bitfields so that
+			each of the subdivisions (except the last) is exactly equal to 32
+			and the last is less than or equal to 32.  This could be relaxed to
+			64 bits if the translator deals with 64 bit integer varieties, but
+			would require that conditional TDF is produced to maintain
+			portability to 32 bit platforms - and on these platforms the
+			assurance of close packing would be lost.</para>
+
+		<para>Since a producer is ignorant of the exact representational
+			varieties used by a translator, the onus is on the translator writer
+			to provide standard tokens which can be used by a producer to
+			achieve both optimum packing of bitfields and minimum alignments for
+			COMPOUNDs containing them(see
+			<link linkend="bitfield-offsets">Bitfield offsets</link>). These
+			tokens would allow one to construct an offset of the form OFFSET(x,
+			b) (where b is some bitfield alignment and x is the `minimum'
+			alignment which could contain it) in a manner analogous to the
+			normal padding operations for offsets. This offset could then used
+			both in the construction of a compound shape and in the extraction
+			and assignment constructors.</para>
+
+		<para>The assignment of bitfields follows the same pattern with the
+			same constraints using bitfield_assign:</para>
+
+		<programlisting language="tdf">arg1: EXP POINTER(x)
+arg2: EXP OFFSET(y,z)
+arg3: EXP BITFIELD_VARIETY(v)
+-&gt; EXP TOP</programlisting>
+	</section>
+</chapter>
+

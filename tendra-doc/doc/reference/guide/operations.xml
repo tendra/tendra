@@ -1,0 +1,222 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Operations</title>
+
+	<para>Most of the arithmetic operations of TDF have familiar analogues
+		in standard languages and processors.  They differ principally in how
+		error conditions (e.g. numeric overflow) are handled. There is a wide
+		diversity in error handling in both languages and processors, so TDF
+		tries to reduce it to the simplest primitive level compatible with
+		their desired operation in languages and their implementation on
+		processors.  Before delving into the details of error handling, it is
+		worthwhile revisiting the SHAPEs and ranges in arithmetic
+		VARIETYs.</para>
+
+		<section id="S67">
+			<title>VARIETY and overflow</title>
+
+			<para>An INTEGER VARIETY, for example, is defined by some range of
+				signed natural numbers. A translator will fit this range into some
+				possibly larger range which is convenient for the processor in
+				question. For example, the integers with variety(1,10) would
+				probably be represented as unsigned characters with range (0..255),
+				a convenient representation for both storage and arithmetic.</para>
+
+			<para>The question then arises of what is meant by overflow in an
+				operation which is meant to deliver an integer of this VARIETY - is
+				it when the integer result is outside the range (1..10) or outside
+				the range (0..255)? For purely pragmatic reasons, TDF chooses the
+				latter - the result is overflowed when it is outside its
+				representational range (0..255). If the program insists that it must
+				be within (1..10), then it can always test for it. If the program
+				uses the error handling mechanism and the result is outside (1..10)
+				but still within the representational limits, then, in order for the
+				program to be portable, then the error handling actions must in some
+				sense be "continuous" with the normal action. This would not be the
+				case if, for example, the value was used to index an array with
+				bounds (1..10), but will usually be the case where the value is used
+				in further arithmetic operations which have similar error handling.
+				The arithmetic will continue to give the mathematically correct
+				result provided the representational bounds are not exceeded.</para>
+
+			<para>The limits in a VARIETY are there to provide a guide to its
+				representation, and not to give hard limits to its possible values.
+				This choice is consistent with the general TDF philosophy of how
+				exceptions are to be treated. If, for example, one wishes to do
+				array-bound checking, then it must be done by explicit tests on the
+				indices and jumping to some exception action if they fail.
+				Similarly, explicit tests can be made on an integer value, provided
+				its representational limits are not exceeded. It is unlikely that a
+				translator could produce any more efficient code, in general, if the
+				tests were implicit. The representational limits can be exceeded in
+				arithmetic operations, so facilities are provided to either to
+				ignore it, to allow one to jump to a label, or to obey a TDF
+				exception handler if it happens.</para>
+
+			<section id="error_treatment">
+				<title>ERROR_TREATMENT</title>
+
+				<para>Taking integer addition as an example, plus has signature:</para>
+
+				<programlisting language="tdf">ov_err: ERROR_TREATMENT
+arg1:   EXP INTEGER(v)
+arg2:   EXP INTEGER(v)
+        -&gt; EXP INTEGER(v)</programlisting>
+
+			<para>The result of the addition has the same integer VARIETY as its
+				parameters.  If the representational bounds of
+				<code>v</code> are exceeded, then the action taken
+				depends on the ERROR_TREATMENT <code>ov_err</code>.</para>
+
+			<para>The ERROR_TREATMENT, impossible, is an assertion by the
+				producer that overflow will not occur; on its head be it if it
+				does.</para>
+
+			<para>The ERROR_TREATMENTS continue and wrap give "fixup" values for
+				the result. For continue the fixup value is undefined. For wrap,
+				the the answer will be modulo 2 to the power of the number of bits
+				in the representational variety.Thus, integer arithmetic with byte
+				representational variety is done modulo 256. This just corresponds
+				to what happens in most processors and, incidentally, the
+				definition of C.</para>
+
+			<para>The ERROR_TREATMENT that one would use if one wished to jump
+				to a label is error_jump:</para>
+
+			<programlisting language="tdf">lab: LABEL
+     -&gt; ERROR_TREATMENT</programlisting>
+
+			<para>A branch to <code>lab</code> will occur if the result
+				overflows.</para>
+
+			<para>The ERROR_TREATMENT, trap(overflow) will raise a TDF
+				exception(see <link linkend="exceptional-flow">section 6.3</link>)
+				with ERROR_CODE overflow if overflow occurs.</para>
+		</section>
+	</section>
+
+	<section id="S69">
+		<title>Division and remainder</title>
+
+		<para>The various constructors in involving integer division (e.g.
+			div1, rem1) have two ERROR_TREATMENT parameters, one for overflow
+			and one for divide-by-zero e.g. div1 is:</para>
+
+		<programlisting language="tdf">div_by_zero_error: ERROR_TREATMENT
+ov_err:            ERROR_TREATMENT
+arg1:              EXP INTEGER(v)
+arg2:              EXP INTEGER(v)
+                   -&gt; EXP INTEGER(v)</programlisting>
+
+		<para>There are two different kinds of division operators (with
+			corresponding remainder operators) defined. The operators div2 and
+			rem2 are those generally implemented directly by processor
+			instructions giving the sign of the remainder the same as the sign
+			of the quotient. The other pair, div1 and rem1, is less commonly
+			implemented in hardware, but have rather more consistent
+			mathematical properties; here the sign of remainder is the same as
+			the sign of divisor. Thus, div1(x, 2) is the same as shift_right(x,
+			1) which is only true for div2 if x is positive. The two pairs of
+			operations give the same results if both operands have the same
+			sign. The constructors div0 and rem0 allow the translator to choose
+			whichever of the two forms of division is convenient - the producer
+			is saying that he does not care which is used, as long as they are
+			pairwise consistent. The precise definition of the divide operations
+			is given in (<!-- <fix>S7.4</fix> -->).</para>
+	</section>
+
+	<section id="change_variety">
+		<title>change_variety</title>
+
+		<para>Conversions between the various INTEGER varieties are provided
+			for by change_variety:</para>
+
+		<programlisting language="tdf">ov_err: ERROR_TREATMENT
+r:      VARIETY
+arg1:   EXP INTEGER(v)
+        -&gt; EXP INTEGER(r)</programlisting>
+
+		<para>If the value <code>arg1</code> is outside the limits of the
+			representational variety of <code>r</code>, then the ERROR_TREATMENT
+			<code>ov_err</code> will be invoked.</para>
+	</section>
+
+	<section id="S71">
+		<title>and, or, not, xor</title>
+
+		<para>The standard logical operations, and, not, or and xor are
+			provided for all integer varieties.  Since integer varieties are
+			defined to be represented in twos-complement the result of these
+			operations are well defined.</para>
+	</section>
+
+	<section id="S72">
+		<title>Floating-point operations, ROUNDING_MODE</title>
+
+		<para>All of the floating-point (including complex) operations include
+			ERROR-TREATMENTs. If the result of a floating-point operation cannot
+			be represented in the desired FLOATING_VARIETY, the error treatment
+			is invoked. If the ERROR_TREATMENT is wrap or impossible, the result
+			is undefined; otherwise the jump operates in the same way as for
+			integer operations. Both floating_plus and floating_mult are defined
+			as n-ary operations. In general, floating addition and
+			multiplication are not associative, but a producer may not care
+			about the order in which they are to be performed. Making them
+			appear as though they were associative allows the translator to
+			choose an order which is convenient to the hardware.</para>
+
+		<para>Conversions from integer to floating are done by float_int and
+			from floating to integers by round_with_mode . This latter
+			constructor has a parameter of SORT ROUNDING_MODE which effectively
+			gives the IEEE rounding mode to be applied to the float to produce
+			its integer result.</para>
+
+		<para>One can extract the real and imaginary parts of a complex
+			FLOATING using real_part and imaginary_part. A complex FLOATING can
+			be constructed using make_complex. Normal complex arithmetic applies
+			to all the other FLOATING constructors except for those explicitly
+			excluded (eg floating_abs, floating_max etc.)</para>
+	</section>
+
+	<section id="change_bitfield_to_int">
+		<title>change_bitfield_to_int, change_int_to_bitfield</title>
+
+		<para>There are two bit-field operation, change_bitfield_to_int and
+			change_int_to_bitfield to transform between bit-fields and integers.
+			If the varieties do not fit the result is undefined; the producer
+			can always get it right.</para>
+	</section>
+
+	<section id="make_compound">
+		<title>make_compound, make_nof, n_copies</title>
+
+		<para>There is one operation to make values of COMPOUND SHAPE,
+			make_compound:</para>
+
+		<programlisting language="tdf">arg1: EXP OFFSET(base, y)
+arg2: LIST(EXP)
+      -&gt; EXP COMPOUND(sz)</programlisting>
+
+		<para>The OFFSET <code>arg1</code> is evaluated as a translate-time
+			constant to give <code>sz</code>, the size of the compound
+			object.  The EXPs of arg2 are alternately OFFSETs (also
+			translate-time constants) and values which will be placed at those
+			offsets. This constructor is used to construct values given by
+			structure displays; in C, these only occur with constant
+			<constant>val[i]</constant> in global definitions. It is also used
+			to provide union injectors; here <code>sz</code> would be
+			the size of the union and the list would probably two elements with
+			the first being an offset_zero.</para>
+
+		<para>Constant sized array values may be constructed using make_nof,
+			make_nof_int, and n_copies. Again, they only occur in C as constants
+			in global definitions.</para>
+	</section>
+</chapter>
+

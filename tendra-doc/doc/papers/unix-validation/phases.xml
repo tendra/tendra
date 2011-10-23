@@ -1,0 +1,255 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="project-phase">
+	<title>Description of Project phases</title>
+
+	<para>In this section we describe the tasks which have been performed
+		under this project on the Intel/386 platform. As already mentioned in
+		this report, the work has been split into three main stages, named the
+		NAT-NAT, DRA-NAT and DRA-DRA steps. Preliminary to these steps, an
+		installation phase was needed to set up the environment and tools for
+		this project.</para>
+
+	<para><emphasis>Installation phase:</emphasis></para>
+
+	<para><emphasis>T1.</emphasis> UnixWare installation.</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Install the complete binary code of UnixWare.</para>
+
+			<para>This task consisted in running the UnixWare installation
+				procedure, from the tape we received, on an Intel/386 machine. When
+				this was completed, we installed a second identical machine with the
+				same configuration. Because we used a beta version of the system, we
+				found a few problems, which were solved with assistance from Novell,
+				Inc.</para>
+		</listitem>
+
+		<listitem>
+			<para>Perform some checks to verify that the installation is
+				correct.</para>
+
+			<para>We used these two machines as our normal development
+				machines.</para>
+		</listitem>
+
+		<listitem>
+			<para>Install UnixWare source code and setup various build
+				environments.</para>
+
+			<para>A build environment was provided with the source code delivery
+				of the system. We made a few modifications to it in order to create
+				one build environment for each of the NAT-NAT, DRA-NAT and DRA-DRA
+				phases.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>Delivery: System running.</para>
+
+	<para><emphasis>T2. </emphasis>TenDRA installation.</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Install the TenDRA technology for UnixWare.</para>
+
+			<para>We obtained from DRA a complete TenDRA technology delivery for
+				the UnixWare system. We just needed to recompile some executables
+				since we were not running the same version of the system as
+				them.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>Delivery: TenDRA installed.</para>
+
+	<para><emphasis>T3.</emphasis>Validation suites installation.</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Install the VSX4 suite which is used to check the kernel,
+				the main libraries and some commands of the system built in DRA-NAT
+				phase.</para>
+
+			<para>The VSX4 suite was installed for the NAT-NAT version of the
+				system. Next, a new image of the suite for the validation of the
+				DRA-NAT system was created.</para>
+		</listitem>
+
+		<listitem>
+			<para>Install the AIMIII suite which is used to check the robustness
+				and performance of the system.</para>
+
+			<para>The AIMIII suite was installed to check the native system and
+				then the DRA-NAT one.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>Delivery: Validation suites installed.</para>
+
+	<para>NAT-NAT phase:</para>
+
+	<para><emphasis>T4.</emphasis> NAT-NAT build.</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Compile the UnixWare build tools and libraries.</para>
+
+			<para>Tools such as make, cc, ld, ..., were built during this step and
+				then used to proceed with the compilation of the libraries.</para>
+		</listitem>
+
+		<listitem>
+			<para>Compile the UnixWare kernel.</para>
+
+			<para>A kernel, along with dynamically loadable modules, has been
+				produced.</para>
+		</listitem>
+
+		<listitem>
+			<para>Compile the UnixWare commands.</para>
+
+			<para>All the UnixWare commands have been built in this step.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>Delivery: Reference system to which the DRA-NAT
+		built system will be compared.</para>
+
+	<para>DRA-NAT phase:</para>
+
+	<para><emphasis>T5. </emphasis>DRA-NAT build.</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Compile the UnixWare build tools &amp; libraries, kernel and
+				commands using the TenDRA technology. This may show up some bugs in
+				the TenDRA technology, as well as assembly language issues in the
+				UnixWare source code.</para>
+
+			<para>The native cc compiler was replaced by a shell script which
+				modified some options and called the tcc TenDRA compiler in DRA-NAT
+				mode.</para>
+		</listitem>
+
+		<listitem>
+			<para>Report the build problems to DRA.</para>
+
+			<para>When we found problems with the tcc compiler, we isolated the
+				problem in a few lines of C code which were provided to DRA.</para>
+		</listitem>
+
+		<listitem>
+			<para>Use temporary workarounds to complete the task as much as
+				possible.</para>
+
+			<para>When it was possible, we made temporary modifications to the
+				source code in order to bypass the problem.</para>
+		</listitem>
+
+		<listitem>
+			<para>Update the TenDRA technology with the fixes for the build
+				problems.</para>
+
+			<para>When fixes were received from DRA, the tenDRA technology was
+				updated. Then, the sources where the problem showed up were
+				recompiled.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>Delivery: Details of build problems</para>
+
+	<para>System to be validated.</para>
+
+	<para><emphasis>T6. </emphasis>DRA-NAT validation.</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Replace native commands and libraries by those built in DRA-NAT
+				mode, and boot the system with a DRA-NAT kernel.</para>
+
+			<para>We progressively replaced native commands and libraries by the
+				ones produced with the TenDRA technology in DRA-NAT mode. Similarly,
+				we booted the system with a kernel in which we gradually added more
+				and more components built in DRA-NAT mode.</para>
+		</listitem>
+
+		<listitem>
+			<para>Validate the system against the VSX4 validation suite. This will
+				exercise some commands, usual libraries and related system calls
+				implementation inside the kernel.</para>
+
+			<para>First, we ran the VSX4 validation suite on the native system.
+				Then, we ran it on a system built in DRA-NAT mode and compared the
+				results against those obtained with the native system.</para>
+		</listitem>
+
+		<listitem>
+			<para>Validate the system against the AIMIII validation suite.  This
+				will check the performances and robustness of the system with
+				respect to time-sharing.</para>
+
+			<para>We compared the results obtained when running the suite on a
+				native system and a DRA-NAT one.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>Delivery: Validation report.</para>
+
+	<para>DRA-DRA phase:</para>
+
+	<para><emphasis>T7. </emphasis>API definition.</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Define the non-explicit API used by the commands. Machine
+				dependent code issues will be addressed
+				specifically.</para>
+
+			<para>We determined the basic standard interfaces upon which the
+				interface was built. Then we extended it in order to cover a minimum
+				set of commands.</para>
+		</listitem>
+
+		<listitem>
+			<para>Build the token libraries for the API used by the commands and
+				libraries.</para>
+
+			<para>We used the TenDRA technology tools to describe and build the
+				interface.</para>
+		</listitem>
+	</itemizedlist>
+
+	<para><emphasis>T8. </emphasis>DRA-DRA assessment.</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Build a selected set of commands.</para>
+
+			<para>We built the commands which were covered by the extended
+				interface we implemented.</para>
+		</listitem>
+
+		<listitem>
+			<para>Report problems to DRA.</para>
+		</listitem>
+
+		<listitem>
+			<para>Update the TenDRA technology with the fixes.</para>
+		</listitem>
+
+		<listitem>
+			<para>Complete the compilation of the selected set of
+				commands.</para>
+		</listitem>
+
+		<listitem>
+			<para>Delivery: Assessment report.</para>
+		</listitem>
+	</itemizedlist>
+</chapter>
+

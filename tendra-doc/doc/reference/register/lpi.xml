@@ -1,0 +1,260 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter id="lpis">
+	<title>Language Programming Interfaces</title>
+
+	<para>A Language Programming Interface (&lpi;) is here defined to mean a set
+		of tokens, usually specific to a particular producer, which will encapsulate
+		language features at a higher level than basic &tdf; constructs, more
+		convenient for the producer to produce.</para>
+
+	<para>Responsibility for the specification of individual &lpi;s lies with
+		the appropriate producer itself. Before an application can be installed
+		on some target platform, the appropriate &lpi; token definitions must
+		have been built for that platform. In this sense, the &lpi; can be considered
+		as a primitive &api;, which is discussed in <xref linkend="apis"/>.</para>
+
+	<para>The process by which the &lpi; token definition library or capsule is
+		generated for any specific platform will vary according to the &lpi;,
+		and responsibility for defining that process will also lie with the
+		appropriate producer. Some &lpi;s, such as that associated with <acronym>DRA</acronym>'s
+		C producer, can be fully defined by architecture neutral &tdf;, using
+		the tokens specified in <xref linkend="targetdep"/> and <xref linkend="basicmappingtoks"/>
+		to encapsulate any target dependencies. When that is the case, the
+		generation process can be fully automated. For other &lpi;s the process
+		may be much less automated. In some cases where the source language
+		implies a complex run-time system, this might even require a small
+		amount of new code to be written for each platform.</para>
+
+	<para>Generally, the individual &lpi; tokens do not need to be specified in
+		the token registry, provided they follow a registered naming scheme
+		to ensure uniqueness (see <xref linkend="namingscheme"/>). In exceptional
+		circumstances it may be necessary for some &tdf; tool to recognise individual
+		&lpi; tokens explicitly by name. This will be the case when experimenting
+		with potential extensions to &tdf;, in the field of parallelism for
+		example. In other cases a &tdf; installer or other tool may recognise
+		an &lpi; token by name rather than its definition by choice, for some
+		unspecified advantage. We make a pragmatic choice in such cases whether
+		to include such token specifications in the token registry. For widely
+		used producers, we can assume availability of the &lpi; token specifcations,
+		or standard definitions, separately from the token register, but we
+		should expect any such tokens to be specified within the register
+		for all cases where significant advantage could be taken by an installer
+		only if it recognises the token by name.</para>
+
+	<section id="S19">
+		<title>The <acronym>DRA</acronym> C &lpi;</title>
+
+		<para><acronym>DRA</acronym>'s C producer &lpi; is defined by an architecture neutral token definition
+			capsule provided with the producer. Target specific detail is included
+			only by use of the target dependency tokens and C mapping tokens specified
+			in <xref linkend="targetdep"/> and <xref linkend="cmappingtoks"/> respectively.
+			Target specific versions of this capsule are obtained by transformation,
+			using the preprocessing action of the &tdf; tool <code>tnc</code>, with
+			definitions of the target dependency and C mapping tokens that are
+			provided with the target installer. No special treatment is required
+			for any of the C &lpi; tokens, though translation time can be slightly
+			improved in a few cases if the names are recognised and standard token
+			definition exercised explicitly within some installers.</para>
+
+		<para>The <acronym>DRA</acronym> C &lpi; does not include standard library features, for which
+			the C language requires header files. The standard C library is one
+			example of an &api;, discussed in <xref linkend="apis"/>.</para>
+	</section>
+
+	<section id="S191">
+		<title>The <acronym>DRA</acronym> C++ &lpi;</title>
+
+		<para>The <acronym>DRA</acronym> C++ &lpi; extends the <acronym>DRA</acronym> C &lpi; adding tokens for target specific
+			C++ features not found in C.  Again, standard library features are
+			treated as an &api;.</para>
+	</section>
+
+	<section id="S20">
+		<title>The Etnoteam Fortran &lpi;</title>
+
+		<para>The details in this subsection are provisional, subject to confirmation
+			of argument and result <code>SORT</code>s, and development of model
+			token definitions.</para>
+
+		<para>The following tokens are named here in case any installers may be
+			able to produce better code than could be achieved by normal token
+			expansion. In particular, some installers may be able to inline standard
+			function calls.</para>
+
+		<variablelist>
+			<varlistentry>
+				<term><code>.Et~SQRT</code></term>
+
+				<listitem>
+					<para>square root of any floating variety, including
+						complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~EXP</code></term>
+
+				<listitem>
+					<para>exponential (<code>e ** x</code>) of any
+						floating variety, including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~LOG</code></term>
+
+				<listitem>
+					<para>(natural) logarithm of any floating variety, including
+						complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~LOG_10</code></term>
+
+				<listitem>
+					<para>base 10 logarithm of any floating variety,
+						including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~LOG_2</code></term>
+
+				<listitem>
+					<para>base 2 logarithm of any floating variety, including
+						complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~SIN</code></term>
+
+				<listitem>
+					<para>sine of any floating variety, including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~COS</code></term>
+
+				<listitem>
+					<para>cosine of any floating variety, including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~TAN</code></term>
+
+				<listitem>
+					<para>tangent of any floating variety, including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~ASIN</code></term>
+
+				<listitem>
+					<para>inverse sine of any floating variety, including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~ACOS</code></term>
+
+				<listitem>
+					<para>inverse cosine of any floating variety, including
+						complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~ATAN</code></term>
+
+				<listitem>
+					<para>inverse (one argument) tangent of any floating
+						variety, including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~ATAN2</code></term>
+
+				<listitem>
+					<para>inverse (two arguments) tangent of any floating
+						variety, excluding complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~SINH</code></term>
+
+				<listitem>
+					<para>hyperbolic sine of any floating variety, including
+						complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~COSH</code></term>
+
+				<listitem>
+					<para>hyperbolic cosine of any floating variety, including
+						complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~TANH</code></term>
+
+				<listitem>
+					<para>hyperbolic tangent of any floating variety, including
+						complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~ASINH</code></term>
+
+				<listitem>
+					<para>inverse hyperbolic sine of any floating variety,
+						including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~ACOSH</code></term>
+
+				<listitem>
+					<para>inverse hyperbolic cosine of any floating variety,
+						including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~ATANH</code></term>
+
+				<listitem>
+					<para>inverse hyperbolic tangent of any floating variety,
+						including complex.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><code>.Et~MOD</code></term>
+
+				<listitem>
+					<para>floating point remainder of any floating variety,
+						excluding complex.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</section>
+</chapter>
+

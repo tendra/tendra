@@ -1,0 +1,266 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Summary of numerical characteristics</title>
+
+	<para>The table below gives the number of files in the UnixWare source
+		delivery in respect to the programming language being used. Header files
+		are not counted.</para>
+
+	<table>
+		<title>Source files / language</title>
+
+		<col align="left"/>
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+
+		<thead>
+			<tr>
+				<th/>
+				<th>C</th>
+				<th>Kernel</th>
+				<th>asm</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>libraries</td>
+				<td>2555 (83%)</td>
+				<td>278 (9%)</td>
+				<td>254 (8%)</td>
+			</tr>
+
+			<tr>
+				<td>Kernel</td>
+				<td>997 (94%)</td>
+				<td>/</td>
+				<td>67 (6%)</td>
+			</tr>
+
+			<tr>
+				<td>Commands</td>
+				<td>4464 (94%)</td>
+				<td>216 (5%)</td>
+				<td>38 (1%)</td>
+			</tr>
+		</tbody>
+
+		<tbody>
+			<tr>
+				<td>Total</td>
+				<td>8016 (90%)</td>
+				<td>494 (6%)</td>
+				<td>359 (4%)</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<para>The following table applies to the DRA-NAT build; it gives the
+		number of C source files and ratios of code compiled by TenDRA versus
+		code compiled by the native compiler. We distinguish the two reasons for
+		using the native C compiler: because of assembly language inclusions, or
+		because of use of pragma pack directive.</para>
+
+	<table>
+		<title>DRA-NAT build: C source files / compiler</title>
+
+		<col align="left"/>
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+
+		<thead>
+			<tr>
+				<th/>
+				<th>TenDRA</th>
+				<th>cc (asm)</th>
+				<th>cc (pack)</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>libraries</td>
+				<td>1678 (65%)</td>
+				<td>62 (2%)</td>
+				<td>851 (33%)</td>
+			</tr>
+
+			<tr>
+				<td>Kernel</td>
+				<td>664 (66%)</td>
+				<td>216 (22%)</td>
+				<td>117 (12%)</td>
+			</tr>
+
+			<tr>
+				<td>Commands</td>
+				<td>4439 (99%)</td>
+				<td>16</td>
+				<td>9</td>
+			</tr>
+		</tbody>
+
+		<tbody>
+			<tr>
+				<td>Total</td>
+				<td>6781 (84%)</td>
+				<td>294 (4%)</td>
+				<td>977 (12%)</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<para>Note that for libraries, the Netware protocols are responsible for
+		the high number of C sources dependent on the pragma pack
+		feature.</para>
+
+	<para>The following numbers characterize the maturity of the TenDRA C
+		compilation chain and the level of UnixWare source code portability, as
+		shown by the DRA-NAT phases of our project:</para>
+
+	<table>
+		<title>Maturity of TenDRA &amp; UnixWare sources portability</title>
+
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+
+		<thead>
+			<tr>
+				<th>KB of C source code</th>
+				<th># of changes in sources</th>
+				<th># of problems, build</th>
+				<th># of problems, validation</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>59,000</td>
+				<td>69</td>
+				<td>8</td>
+				<td>7</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<para>The table below shows the performance of the native system versus
+		that of DRA-NAT kernel and libc library as measured by the AIMIII
+		benchmark; the shared variant of libc is used.</para>
+
+	<table>
+		<title>Native vs. DRA-NAT performance, AIMIII</title>
+
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+
+		<thead>
+			<tr>
+				<th># of users</th>
+				<th>jobs/min, native</th>
+				<th>jobs/min, DRA-NAT</th>
+				<th>delta</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>33</td>
+				<td>109.6</td>
+				<td>108.2</td>
+				<td>- 0.7%</td>
+			</tr>
+
+			<tr>
+				<td>43</td>
+				<td>106.7</td>
+				<td>105.1</td>
+				<td>- 1.5%</td>
+			</tr>
+
+			<tr>
+				<td>53</td>
+				<td>102.6</td>
+				<td>101.3</td>
+				<td>- 1.3%</td>
+			</tr>
+
+			<tr>
+				<td>63</td>
+				<td>100.6</td>
+				<td>100.2</td>
+				<td>- 0.4%</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<para>While the DRA-DRA phase was only partially realized, it is
+		interesting to note that 62 additional source files were so far modified
+		to enforce the portability of code, e.g.to avoid implicit function
+		declarations. The following tables give an idea of the volume of items
+		which must be added to the base API to compile a limited set of commands
+		in DRA-DRA mode.</para>
+
+	<table>
+		<title>DRA-DRA: commands built with base API</title>
+
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+
+		<thead>
+			<tr>
+				<th>API</th>
+				<th># of commands to build</th>
+				<th># of commands built</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>svid3 + xpg4</td>
+				<td>600</td>
+				<td>57 (9.5%)</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table>
+		<title>DRA-DRA: extending the base API</title>
+
+		<col align="center"/>
+		<col align="center"/>
+		<col align="center"/>
+
+		<thead>
+			<tr>
+				<th># of extensions</th>
+				<th># of commands to build</th>
+				<th># of commands built</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>177</td>
+				<td>543</td>
+				<td>46 (10%)</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<para>By extension we mean the adding of a specification such as defining
+		a function, a constant, a field inside a structure, etc.</para>
+</chapter>
+

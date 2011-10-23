@@ -1,0 +1,430 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter>
+	<title>Statistics</title>
+
+	<section>
+		<title>Statistics for Linux APIs</title>
+
+		<para>All the files required to create an API are located inside
+			a special sub-tree of the TenDRA [4.x] distribution named <code>src/apis/</code>.
+			First, the new API must be specified, in a dedicated language (the TenDRA <code>tspec</code>
+			tool is provided to translate such API specification into a target-independent
+			intermediate format). An API specification is split into files, each of which
+			usually corresponding to a system header file available on the target
+			platform(s); e.g.: <code>stdio.h, sys/types.h</code>, etc.</para>
+
+		<para>Secondly, there is often the need for slight changes within
+			some of the system header files of a given target, in order to build (to
+			install) the new API on it; such changes are either hard-coded inside a
+			replacement version for the relevant headers, or automatically performed using
+			scripts of text processing commands; the <code>sed</code> tool, along with <code>sed</code>
+			scripts, are used to deal with common APIs (for UNIX-like systems) included in
+			current TenDRA distributions. We think that the second method is more flexible;
+			for example, the text processing commands to apply on the system header files in
+			order to build successfully our custom APIs for Linux were in most cases the
+			same among Linux/i386 and Linux/Alpha targets, so we have written a single set
+			of sed scripts suitable for both of these platforms.</para>
+
+		<para><!-- TODO: <xref linkend="apisforlinux"/> -->The following table gives an
+			idea of the amount of work required to specify and to build the APIs used by the
+			~230 Linux commands which were ported to ANDF. Two types of data are reported:
+			&ldquo;number of files&rdquo; and &ldquo;number of lines&rdquo;. The files are modules holding lines of
+			either API specification or of sed commands. We excluded from our statistics the
+			comment lines for both, because the ratio of comments versus actual <code>tspec/sed</code>
+			constructs was unusually high.</para>
+
+		<para>We recall that our Base API for Linux was derived from
+			existing &ldquo;standard&rdquo; APIs, i.e. mainly from XPG3 and SVID3, which themselves
+			use parts of POSIX. Consequently, the number of tspec <code>lines</code> for this API
+			which is shown below does not reflect the actual amount of lines of
+			specification having been used: most of the specifications we wrote are similar
+			to C language <code>#include</code> statements (&tspec; <code>+IMPLEMENT</code> or <code>+USE</code>
+			constructs).</para>
+
+		<para>In our &ldquo;Extension API 1&rdquo;, we have not uncommonly rewritten
+			specifications which had an equivalent (either identical or similar) within the
+			reference SVID3 API or SPEC1070 API.</para>
+
+		<para>We recall also that we did not start from scratch when
+			making the changes in Linux system headers in order to build our APIs, either
+			for Linux/i386 or Linux/Alpha targets: the TenDRA Snapshot we started from
+			(April 95) provided 11 <code>sed</code> scripts for this purpose, that were
+			sufficient to build most of the XPG3 API for the Linux/i386 target.</para>
+
+		<para>The number of <code>files</code> given for &ldquo;Changes in system
+			headers&rdquo; is the one for the 1st target, Linux/i386 (1.0): as already mentioned,
+			the build of APIs for the 2nd target, Linux/Alpha (1.3), uses the same set of
+			sed scripts. This means that the number of <code>lines</code> corresponds to the <code>sed</code>
+			commands which apply either to a Linux/Intel system header, to a Linux/Alpha
+			header or to both.</para>
+
+		<table>
+			<title>APIs for Linux / ~230 commands</title>
+
+			<col align="left"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+
+			<thead>
+				<tr>
+					<th/>
+					<th>Base API, specs</th>
+					<th>Extension API1, specs</th>
+					<th>Extension API2 (X11), specs</th>
+					<th>Changes in system headers (build)</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>files</td>
+					<td>65 (.h)</td>
+					<td>66 (.h)</td>
+					<td>3 (.h)</td>
+					<td>48 (sed scripts)</td>
+				</tr>
+
+				<tr>
+					<td>lines (excl. comments)</td>
+					<td>1381</td>
+					<td>684</td>
+					<td>18</td>
+					<td>254</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+
+	<section>
+		<title>Statistics concerning changes in the original source code</title>
+
+		<para><!-- TODO: <xref linkend="i386andalphaports"/> -->The following table lists the
+			packages we installed and validated on both platforms. The first column
+			gives the (Slackware Linux) name of the package, and the second gives the
+			number of source files we dealt with during the ANDFization. The following
+			column gives the number of files - actual source or Makefile - patched
+			during either the initial ANDFization (keeping the i386 as target), or the
+			port to the 2nd target (Alpha). The two last columns show the number of
+			files specifically (re)patched during the port to Alpha, and finally the
+			number of patched Makefiles (that for the overall project).</para>
+
+		<table>
+			<title>Packages ported to Linux/i386 and Linux/Alpha</title>
+
+			<col align="left"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+
+			<thead>
+				<tr>
+					<th>Packages</th>
+					<th>Source files</th>
+					<th>Patches <code>Total</code></th>
+					<th>Patches <code>Alpha port</code></th>
+					<th>Patches <code>Makefiles</code></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>bin</td>
+					<td>455 <footnote>
+							<para>Contents of the bin package were partially ANDFized: 48 commands out of
+								56. Also, a subset only of these ANDFized commands was actually ported to
+								Linux/Alpha: 37 (out of 48). So, the &ldquo;number of source files&rdquo; shown excludes
+								source code for non-ANDFized commands. Conversely, the &ldquo;number of patches,
+								Alpha&rdquo; would be greater if all the ANDFized commands had been ported to the
+								second target.</para>
+						</footnote> </td>
+					<td>86</td>
+					<td>19</td>
+					<td>6</td>
+				</tr>
+
+				<tr>
+					<td>sh_util</td>
+					<td>72</td>
+					<td>14</td>
+					<td>3</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>txtutils</td>
+					<td>50</td>
+					<td>8</td>
+					<td>2</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>util</td>
+					<td>71 <footnote>
+							<para>Contents of the Slackware Linux util package were partially ANDFized: 35
+								commands out of 57. Among these, only 30 were actually ported to Linux/Alpha.</para>
+						</footnote></td>
+					<td>51</td>
+					<td>22</td>
+					<td>3</td>
+				</tr>
+
+				<tr>
+					<td>diff</td>
+					<td>32</td>
+					<td>10</td>
+					<td>3</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>gzip</td>
+					<td>36</td>
+					<td>4</td>
+					<td>1</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>grep</td>
+					<td>16</td>
+					<td>7</td>
+					<td>4</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>find</td>
+					<td>57</td>
+					<td>12</td>
+					<td>2</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>bc</td>
+					<td>20</td>
+					<td>2</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>tar</td>
+					<td>37</td>
+					<td>10</td>
+					<td>2</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>rcs</td>
+					<td>28</td>
+					<td>6</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>byacc</td>
+					<td>20</td>
+					<td>8</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>m4</td>
+					<td>34</td>
+					<td>1</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>less</td>
+					<td>44</td>
+					<td>2</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>flex</td>
+					<td>46</td>
+					<td>3</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>ispell</td>
+					<td>40</td>
+					<td>21</td>
+					<td>15</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>elm</td>
+					<td>170</td>
+					<td>27</td>
+					<td>4</td>
+					<td>0</td>
+				</tr>
+			</tbody>
+
+			<tbody>
+				<tr>
+					<td>Total</td>
+					<td>1233</td>
+					<td>272 (22%)</td>
+					<td>77</td>
+					<td>14</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para><!-- TODO: <xref linkend="i386ports"/>-->The following table lists the
+			packages we installed and validated on the Linux/i386 platform only. Similar
+			information, except for the number of patches for the Linux/Alpha platform, is
+			given.</para>
+
+		<table>
+			<col align="left"/>
+			<col align="center"/>
+			<col align="center"/>
+			<col align="center"/>
+
+			<thead>
+				<tr>
+					<th>Packages</th>
+					<th>Source files</th>
+					<th>Patches <code>(i386 only)</code></th>
+					<th>Patches <code>Makefiles</code></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>aaa_base</td>
+					<td>122</td>
+					<td>22</td>
+					<td>2</td>
+				</tr>
+
+				<tr>
+					<td>ash</td>
+					<td>49</td>
+					<td>15</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>bsdgames</td>
+					<td>47 <footnote>
+							<para>The bsdgames package was partially ported to ANDF</para>
+						</footnote></td>
+					<td>35</td>
+					<td>11</td>
+				</tr>
+
+				<tr>
+					<td>cpio</td>
+					<td>44</td>
+					<td>22</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>getty</td>
+					<td>18</td>
+					<td>6</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>joe</td>
+					<td>87</td>
+					<td>26</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>perl</td>
+					<td>86</td>
+					<td>10</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>ps</td>
+					<td>35</td>
+					<td>6</td>
+					<td>1</td>
+				</tr>
+
+				<tr>
+					<td>sudo</td>
+					<td>9</td>
+					<td>6</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>tcpip/net-tools</td>
+					<td>26 <footnote>
+							<para>In the tcpip package, only the Net-tools subset was ported.</para>
+						</footnote></td>
+					<td>12</td>
+					<td>0</td>
+				</tr>
+
+				<tr>
+					<td>xgames</td>
+					<td>105</td>
+					<td>28</td>
+					<td>3</td>
+				</tr>
+
+				<tr>
+					<td>xlock</td>
+					<td>37</td>
+					<td>4</td>
+					<td>1</td>
+				</tr>
+
+					</tbody>
+					<tbody>
+				<tr>
+					<td>Total</td>
+					<td>665</td>
+					<td>175</td>
+					<td>22</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<para>From the data shown in the table above <!-- TODO: <xref linkend="i386andalphaports"/> -->,
+			we can say that about 80% of the original source files did not require
+			any change when ported to ANDF. We find also that we encountered, during the
+			initial ANDFization and the validation on the 1st platform, more than 70% of the
+			files requiring changes. In other words, we had missed approximately 30% of
+			required changes. Note that in our project both of the platforms were running
+			the same UNIX-like variant (Linux), so the last ratio could be greater in a less
+			favorable case. Finally, since the Intel/i386 and Digital/Alpha feature
+			different sizes for pointer type (and <code>long</code> type), while the byte ordering is
+			the same, there is probably still incorrect code lying inside our ANDF files for
+			Linux commands.</para>
+		</section>
+</chapter>
+

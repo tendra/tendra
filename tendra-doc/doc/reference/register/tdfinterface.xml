@@ -1,0 +1,206 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter id="tdfinterfacetoks">
+	<title>&tdf; Interface tokens</title>
+
+	<para>A very few specifically named tokens are referred to within the &tdf;
+		specification, which are required to complete the ability to use certain
+		&tdf; constructs. Responsibility for providing appropriate definitions
+		for these tokens is indicated with the specifications below.</para>
+
+	<para>Similarly, a few tokens are specified within the &tdf; Diagnostic Specification.</para>
+
+	<section>
+		<title>Exception handling</title>
+
+		<section>
+			<title><code>~Throw</code></title>
+
+			<programlisting language="tdf"><code>n</code>:	NAT
+	-&gt; EXP BOTTOM</programlisting>
+
+			<para>The <code>EXP</code> <code>e</code> defined as the body of this token will
+				be evaluated on occurrence of any error whose <code>ERROR_TREATMENT</code>
+				is <code>trap</code>. The type of error can be determined within <code>e</code>
+				from the NAT <code>n</code>, which will be <code>error_val(ec)</code> for some <code>ERROR_CODE</code>
+				<code>ec</code>. The token definition body <code>e</code> will typically consist
+				of a <code>long_jump</code> to some previously set exception handler.</para>
+
+			<para>Exception handling using <code>trap</code> and ~<code>Throw</code> will usually
+				be determined by producers for languages that specify their own exception
+				handling semantics. Responsibility for the <code>~Throw</code> token definition
+				will therefore normally rest with producers, by including this token
+				within the producer specific &lpi;.</para>
+		</section>
+
+		<section>
+			<title><code>~Set_signal_handler</code></title>
+
+			<programlisting language="tdf"> -&gt; EXP OFFSET (locals_alignment, locals_alignment)</programlisting>
+
+			<para><code>~Set_signal_handler</code> must be applied before any use of the
+				<code>ERROR_TREATMENT</code> <code>trap</code>, to indicate the need for
+				exception trapping. Responsibility for the <code>~Set_signal_handler</code>
+				token definition will rest with installers. Responsibility for applying
+				it will normally rest with producers.</para>
+
+			<para>The resulting offset value will contain the amount of space beyond
+				any stack limit, which must be reserved for use when handling a
+				<code>stack_overflow</code> trap raised by exceeding that limit.</para>
+		</section>
+
+		<section>
+			<title><code>~Sync_handler</code></title>
+
+			<programlisting language="tdf"> -&gt; EXP TOP</programlisting>
+
+			<para><code>~Sync_handler</code> delays subsequent processing until any pending
+				exceptions have been raised, as necessary to synchronise exception
+				handler modification. It must be applied immediately prior to any
+				action that modifies the effect of <code>~Throw</code>, such as assignment
+				to a variable holding an exception handler as <code>long_jump</code> destination
+				Responsibility for the <code>~Sync_handler</code> token definition will
+				rest with installers. Responsibility for applying it will normally
+				rest with producers.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>&tdf; Diagnostic Specification</title>
+
+		<para>The <ulink url="#"><!-- TODO -->&tdf; Diagnostic Specification</ulink>
+			is a separate document which describes an extension to &tdf;, optionally
+			used to provide program diagnostic information that can be transformed
+			by installers to the form required by popular platform-specific debuggers.
+			This extension cannot be considered fully developed and is therefore
+			not included as part of standard &tdf;. Its use for other than <acronym>DRA</acronym>'s
+			C producer has not been considered.</para>
+
+		<section>
+			<title><code>~exp_to_source</code>, <code>~diag_id_scope</code>,
+				<code>~diag_type_scope</code>, <code>~diag_tag_scope</code></title>
+
+			<programlisting language="tdf"><code>bdy</code>:	EXP
+... :	 ...
+	-&gt; EXP</programlisting>
+
+			<para>Each of these four tokens has several arguments of which the first,
+				<code>bdy</code>, is an <code>EXP</code>. In each case the default definition
+				body, when no diagnostic information is required, is simply <code>bdy</code>.
+				Note that this description is quite sufficient to enable installers
+				to ignore any diagnostic information that may be included in produced
+				&tdf;, without needing any further knowledge of the &tdf;
+				Diagnostic Specification.</para>
+		</section>
+	</section>
+
+	<section id="accessingvalist">
+		<title>Accessing variable parameter lists</title>
+
+		<para>Installers should provide token definitions for the tokens listed
+			in this section.</para>
+
+		<section>
+			<title><code>~va_list</code></title>
+
+			<programlisting language="tdf"> -&gt; SHAPE</programlisting>
+
+			<para>This is the <code>SHAPE</code> of a variable capable of holding state
+				information used for stepping through the anonymous parameters of
+				a procedure created by <code>make_proc</code>.</para>
+		</section>
+
+		<section>
+			<title><code>~__va_start</code></title>
+
+			<programlisting language="tdf"><code>p</code>:	EXP POINTER var_param_alignment
+	-&gt; EXP ~va_list</programlisting>
+
+			<para>If <code>t</code> is the <code>TAG</code> introduced by <code>var_intro</code>
+				<code>OPTION(TAGACC)</code> in <code>make_proc</code>, then the token application
+				<code>~__va_start(obtain_tag(t))</code> will provide the initial value for
+				a local variable to be used for stepping through the anonymous parameters
+				of the procedure, starting with the first actual parameter (if any)
+				that does not have a corresponding entry in the make_proc params_intro
+				list.</para>
+		</section>
+
+		<section>
+			<title><code>~va_arg</code></title>
+
+			<programlisting language="tdf"><code>v</code>:	EXP POINTER (alignment(~va_list))
+<code>s</code>:	SHAPE
+	-&gt; EXP <code>s</code></programlisting>
+
+			<para>If <code>v</code> is the variable initialised by <code>~__va_start </code>(see
+				above), then successive token applications  <code>~va_arg(v,s)</code>
+				will deliver the anonymous parameter values in turn. The successive
+				<code>SHAPE</code>s <code>s</code> must be the appropriate <code>SHAPE</code>s
+				for the successive parameters.</para>
+		</section>
+
+		<section>
+			<title><code>~va_end</code></title>
+
+			<programlisting language="tdf"><code>v</code>:	EXP POINTER (alignment(~va_list))
+	-&gt; EXP TOP</programlisting>
+
+			<para>If <code>v</code> is a variable initialised by <code>~__va_start</code>, the token
+				application <code>~va_end(v)</code> indicates that no further use will be
+				made of <code>v</code>.</para>
+		</section>
+
+		<section>
+			<title><code>~next_caller_offset</code></title>
+
+			<programlisting language="tdf"><code>o1</code>:	EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s1</code>))
+<code>s1</code>:	SHAPE
+<code>s2</code>:	SHAPE
+	-&gt; EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s2</code>))</programlisting>
+
+			<para><code>~next_caller_offset</code> is used to provide access to successive
+				elements of the <code>caller_params</code> of an <code>apply_general_proc</code>,
+				by delivering successive <code>OFFSET</code>s of their positions relative
+				to the environment pointer created by that procedure application.
+				Both the <code>apply_general_proc</code> and associated <code>make_general_proc</code>
+				will include <code>PROCPROPS</code> <code>var_callers</code>.</para>
+
+			<para><code>o1</code> will be the <code>OFFSET</code> for a <code>caller_params</code>
+				element of <code>SHAPE</code> <code>s1</code>, and will be derived either
+				from <code>env_offset</code> for a <code>TAG</code> introduced by <code>caller_intro</code>
+				of the <code>make_general_proc </code>, or from a previous application of <code>~next_caller_offset</code>.
+				<code>s2</code> will be the <code>SHAPE</code> of the subsequent <code>caller_params</code>
+				element, whose <code>OFFSET</code> is delivered. <code>fa</code> will include
+				the set union of <code>ALIGNMENT</code>s appropriate to the <code>make_general_proc</code>
+				(as specified by <code>current_env</code>).</para>
+		</section>
+
+		<section>
+			<title><code>~next_callee_offset</code></title>
+
+			<programlisting language="tdf"><code>o1</code>:	EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s1</code>))
+<code>s1</code>:	SHAPE
+<code>s2</code>:	SHAPE
+	-&gt; EXP OFFSET (<code>fa</code>,parameter_alignment(<code>s2</code>))</programlisting>
+
+			<para><code>~next_callee_offset</code> is used to provide access to successive
+				elements of the <code>CALLEES</code> of an <code>apply_general_proc</code>
+				or <code>tail_call</code>, by delivering successive <code>OFFSET</code>s
+				of their positions relative to the environment pointer created by
+				that procedure application. Both the procedure application and associated
+				<code>make_general_proc</code> will include <code>PROCPROPS</code> <code>var_callees</code>.</para>
+
+			<para><code>o1</code> will be the <code>OFFSET</code> for a <code>CALLEES</code>
+				element of <code>SHAPE</code> <code>s1</code>, and will be derived either
+				from <code>env_offset</code> for a <code>TAG</code> introduced by <code>callee_intro</code>
+				of the <code>make_general_proc</code>, or from a previous application of
+				<code>~next_callee_offset</code>. <code>s2</code>
+				will be the <code>SHAPE</code> of the subsequent <code>CALLEES</code>
+				element, whose <code>OFFSET</code>
+				is delivered. <code>fa</code> will include the set union of <code>ALIGNMENT</code>s
+				appropriate to the <code>make_general_proc</code> (as specified by <code>current_env </code>).</para>
+		</section>
+	</section>
+</chapter>
+

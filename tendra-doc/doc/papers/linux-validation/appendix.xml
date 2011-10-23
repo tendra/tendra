@@ -1,0 +1,92 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE appendix SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<appendix>
+	<title>Errors in the TenDRA compiler</title>
+
+	<para>The problems are classified according to their status
+		at the end of March 1996. They were encountered on the April 95 or
+		November 95 releases of TenDRA, and have all been fixed now.</para>
+  
+	<itemizedlist>
+		<listitem>
+			<para>CR95_359.FB::shift_to_sign</para>
+			<para>Error on an arithmetic shift left.</para>
+			<para>Fixed in November 95.</para>
+		</listitem>
+
+		<listitem>
+			<para>261 - array_sizeof</para>
+			<para>Error when declaring twice an array with sizeof(int)
+				as dimension.</para>
+			<para>Fixed in tdfc:4.58</para>
+		</listitem>
+
+		<listitem>
+			<para>262 - func_var</para>
+			<para>Name conflict between a function and its arguments.</para>
+			<para>Fixed in TenDRA February 96.</para>
+		</listitem>
+
+		<listitem>
+			<para>276 - loop_tdfc_alarm</para>
+			<para>Tdfc loops when attempting to redefine as macro a
+				tokenized function.</para>
+			<para>Fixed in tdfc 4:58</para>
+		</listitem>
+
+		<listitem>
+			<para>220 - fstp_esi</para>
+			<para>invalid assembler instruction <code>fstp %esi</code></para>
+			<para>Fixed in TenDRA November 95.</para>
+		</listitem>
+
+		<listitem>
+			<para>225 - func_return_struct</para>
+			<para>Intercallability with a gcc-compiled library
+				function which returns an 8-bytes structure. Bypassed with thw tcc option
+				-Wt,-G1.</para>
+			<para>Fixed in TenDRA November 95.</para>
+		</listitem>
+
+		<listitem>
+			<para>335 - alpha_long_too_big</para>
+			<para>Use of a literal integer constant larger than
+				232.</para>
+			<para>Bypassed. Added a <code>L</code> suffix to such a value.</para>
+		</listitem>
+
+		<listitem>
+			<para>337 - Error in Alpha installer</para>
+			<para>Error message &ldquo;internal error:
+				Change_variety out of range&rdquo;.</para>
+			<para>Fixed in TenDRA February 96.</para>
+		</listitem>
+
+		<listitem>
+			<para>338 - Error in SVID3 API (RLIM_INFINITY)</para>
+			<para>Illegal type for the API
+				definition <code>+CONST int RLIM_INFINITY ;</code></para>
+			<para>Fixed in the next major TenDRA release.</para>
+		</listitem>
+
+		<listitem>
+			<para>343 - Error in Linux installer (/tmp full)</para>
+			<para>The translation on
+				Linux/Alpha of a file required more than 80MB in /tmp</para>
+			<para>Fixed in the TenDRA February 96.</para>
+		</listitem>
+
+		<listitem>
+			<para>344 - SVID3 API (daddr_t)</para>
+			<para>Casting an integer value to an unspecified
+				type was not rejected.</para>
+			<para>Fixed in tdfc:4.98</para>
+		</listitem>
+	</itemizedlist>
+</appendix>
+

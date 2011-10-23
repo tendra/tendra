@@ -1,0 +1,44 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+  
+  <preface id="introduction">
+    <title>Introduction</title>
+
+    <para>The <acronym>TDF</acronym> diagnostic information is intended to
+      convey all that information, used by current source level debuggers,
+      which would conventionally be part of an object file.  Any particular
+      installer will only use those parts of this information which its native
+      object format can represent.</para>
+
+    <para>The version of the diagnostics described here is the first version.
+      It has only been tested with TDF produced from C programs.  There are
+      known to be certain deficiencies relative to other languages (in
+      particular to FORTRAN).  A later version will correct these
+      deficiencies.  The changes already envisaged are detailed in
+      <xref linkend="proposed-changes"/>, and would have minimal (if any)
+      impact on C producers.</para>
+
+    <para>The diagnostic system introduces one new type of TDF linkable
+      entities, and currently adds two new units to the bitstream
+      representation of TDF.</para>
+  
+    <para>Much of the actual annotation of procedure bodies is currently done
+      by reserved <code>TOKEN</code>s, which installers recognize specially.
+      These <code>TOKEN</code>s are described in
+      <xref linkend="reserved-diagnostic-tokens"/>.</para>
+  
+    <para>There is a resemblance between the TDF diagnostic information and
+      Unix International's <acronym>DWARF</acronym> format.
+      <acronym>DWARF</acronym> has similar aims to the TDF diagnostics, and
+      ensuring that complete <acronym>DWARF</acronym> information could be
+      generated provided a useful check during the development of the TDF
+      diagnostics.  However the TDF diagnostics are intended to be
+      architecture (and format) neutral.  No inference should be made about
+      any link (present or future) between <acronym>DWARF</acronym> and TDF
+      diagnostics.</para>
+  </preface>
+  

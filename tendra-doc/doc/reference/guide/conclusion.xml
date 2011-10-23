@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE preface SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<preface>
+	<title>Conclusion</title>
+
+	<para>This commentary is not complete. I have tended to go into
+		considerable detail into aspects which I consider might be unfamiliar
+		and skip over others which occur in most compiling systems. I also
+		have a tendency to say things more than once, albeit in different
+		words; however if something is worth saying, it is worth saying
+		twice.</para>
+
+	<para>I shall continue tracking further revisions of the TDF
+		specification in later releases or appendices to this document.</para>
+</preface>
+

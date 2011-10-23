@@ -1,0 +1,117 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter id="apis">
+	<title>Application Programming Interfaces</title>
+
+	<para>Application Programming Interfaces are typically specified with a
+		C mapping, which define the required contents for C header files which
+		a portable C program must include by name to gain access to target
+		specific implementations of an &api; library. The &tdf; approach to &api;
+		specification includes using a #pragma token syntax within architecture
+		neutral C header files, such that all implementation dependencies
+		are encapsulated by &api; specific tokens. These &api; tokens are the
+		&tdf; representation of the &api;. Both the &api; library and &api; token
+		definitions are required before a &tdf; program using the &api; can be
+		installed on any particular platform.</para>
+
+	<para>Platform specific definitions for &api; tokens are produced automatically,
+		with few exceptions, for any platform with a conformant implementation
+		of the &api;. This is achieved by a token library building process which
+		analyses the architecture neutral header files for the &api; concerned,
+		together with the platform specific header files that provide normal
+		(non-&tdf;) C access to the &api;. The few exceptions occur where the
+		platform specific header files have been written to make use of specific
+		C compiler built-in features, typically recognised by identifiers
+		with a prefix such as <code>__builtin_</code>. Such cases are very likely
+		to require explicit recognition of the corresponding token name in
+		&tdf; installers.</para>
+
+	<para>Generally, &api; token names and specifications are not detailed in
+		this token register. The token specifications are clearly dependent
+		on the associated &api; specifications. Authority for controlling the
+		actual &api; token names, and the relationship between &api; tokens and
+		the various &api; standardisation authorities, remain separate subjects
+		of discussion.</para>
+
+	<para>Names and specifications are given or implied below for those &api;
+		tokens which frequently require built-in support from installers,
+		and for other cases where an installer may be able to produce better
+		code than could be achieved by normal token expansion, for example
+		by inlining standard function calls.</para>
+
+	<section id="S22">
+		<title>ANSI C standard functions</title>
+
+		<para>The set of tokens implied below all have the form:</para>
+
+		<section>
+			<title><code>ansi.<code>header</code>.<code>function</code></code></title>
+
+		<programlisting language="tdf">... :	 ...
+	-&gt; EXP</programlisting>
+
+			<para>Tokens are defined for all cases where <code>header</code> is ctype or string
+				or math or stdlib, and <code>function</code> is the name of a non-ellipsis
+				function specified in the ANSI C standard library, declared within
+				the corresponding header &lt;<code>header</code>.h&gt;.   (Note that ellipsis
+				functions, such as <code>printf</code>, cannot be represented as tokens
+				since they may take a variable number of arguments.)</para>
+
+			<para>These tokens have arguments all of <code>SORT</code> <code>EXP</code>,
+				whose number and shape, and token result shape, all correspond to
+				the implementation shape of the named ANSI C standard library function
+				parameters and result. For the few cases where the function is specified
+				not to return (e.g. <code>ansi.stdlib.abort</code>), the result shape may
+				be either <code>TOP</code> or <code>BOTTOM</code>.</para>
+		</section>
+	</section>
+
+	<section id="S23">
+		<title>Common exceptional cases</title>
+
+		<section>
+			<title><code>ansi.setjmp.setjmp</code></title>
+
+			<programlisting language="tdf"><code>jb</code>:	EXP
+	-&gt; EXP</programlisting>
+
+			<para><code>ansi.setjmp.setjmp</code> is a token which has the semantics and argument
+				and result implementation shapes corresponding to the ANSI C macro
+				<code>setjmp</code> declared within &lt;setjmp.h&gt;.</para>
+		</section>
+
+		<section>
+			<title><code>ansi.setjmp.longjmp</code></title>
+
+			<programlisting language="tdf"><code>jb</code>:	EXP
+<code>v</code>:	EXP
+	-&gt; EXP</programlisting>
+
+			<para><code>ansi.setjmp.longjmp</code> is a token which has the semantics and
+				argument implementation shapes corresponding to the ANSI C macro <code>longjmp
+				</code> declared within &lt;setjmp.h&gt;. The result shape may be either
+				TOP or BOTTOM.</para>
+		</section>
+
+		<section>
+			<title><code>~alloca</code></title>
+
+			<programlisting language="tdf"><code>i</code>:	EXP
+	-&gt; EXP</programlisting>
+
+			<para><code>~alloca</code> is a token which has the semantics and argument and
+				result implementation shapes corresponding to the BSD specified function
+				<code>alloca</code>.</para>
+		</section>
+	</section>
+
+	<section>
+		<title><code>ansi.stdarg.va_list, ansi.stdarg.__va_start,
+			ansi.stdarg.va_arg, ansi.stdarg.va_end</code></title>
+
+		<para>These four tokens are identical to the Interface Tokens <code>~va_list</code>,
+			<code>~__va_start</code>, <code>~va_arg</code> and <code>~va_end</code> respectively.</para>
+	</section>
+</chapter>
+

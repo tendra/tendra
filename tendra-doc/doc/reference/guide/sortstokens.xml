@@ -1,0 +1,249 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<chapter id="sorts-and-tokens">
+	<title>SORTs and TOKENs</title>
+
+	<para>In the syntax of language like C or Pascal, we find various
+		syntactic units like &lt;Expression&gt;, &lt;Identifier&gt; etc. A
+		SORT bears the same relation to TDF as these syntactic units bear to
+		the language; roughly speaking, the syntactic unit &lt;Expression&gt;
+		corresponds to the SORT EXP and &lt;Identifier&gt; to TAG . However,
+		instead of using BNF to compose syntactic units from others, TDF uses
+		explicit constructors to compose its SORTs; each constructor uses
+		other pieces of TDF of specified SORTs to make a piece of its result
+		SORT. For example, the constructor plus uses an ERROR_TREATMENT and
+		two EXPs to make another EXP.</para>
+
+	<para>At the moment, there are 58 different SORTS, from ACCESS to
+		VARIETY given in tables 1 and 2. Some of these have familiar analogues
+		in standard language construction as with EXP and TAG above. Others
+		will be less familiar since TDF must concern itself with issues not
+		normally addressed in language definitions. For example, the process
+		of linking together TDF programs is at the root of the architecture
+		neutrality of TDF and so must form an integral part of its definition.
+		On the other hand, TDF is not meant to be a language readily
+		accessible to the human reader or writer; computers handle it much
+		more easily. Thus a great many choices have been made in the
+		definition which would be intolerable in a standard language
+		definition for the human programmer but which, paradoxically enough,
+		make it much simpler for a computer to produce and analyse TDF</para>
+
+	<para>The SORTs and constructors in effect form a multi-sorted algebra.
+		There were two principal reasons for choosing this algebraic form of
+		definition. First, it is easy to extend - a new operation on existing
+		constructs simply requires a new constructor.  Secondly, the algebraic
+		form is highly amenable to the automatic construction of programs.
+		Large parts of both TDF producers and TDF translators have been
+		created by automatic transformation of the text of the specification
+		document itself, by extracting the algebraic signature and
+		constructing C program which can read or produce TDF. To this extent,
+		one can regard the specification document as a formal description of
+		the free algebra of TDF SORTs and constructors. Of course, most of the
+		interesting parts of the definition of TDF lies in the equivalences of
+		parts of TDF, so this formality only covers the easy bit.</para>
+
+	<para>Another distinction between the TDF definition and language
+		syntactic description is that TDF is to some extent conscious of its
+		own SORTs so that it can specify a new construction of a given SORT.
+		The analogy in normal languages would be that one could define a new
+		construction with new syntax and say this is an example of an
+		&lt;Expression&gt;, for example; I don't know of any standard language
+		which permits this, although those of you with a historical bent might
+		remember Algol-N which made a valiant attempt at it. Of course, the
+		algebraic method of description makes it much easier to specify,
+		rather than having to give syntax to provide the syntax for the new
+		construction in a language.</para>
+
+	<section>
+		<title>Token applications and first-class SORTs</title>
+
+		<para>A new construction is introduced by the SORT TOKEN; the
+			constructors involving TOKENs allow one to give an expansion for the
+			TOKEN in terms of other pieces of TDF, possibly including
+			parameters. We can encapsulate a (possibly parameterised) fragment
+			of TDF of a suitable SORT by giving it a TOKEN as identification.
+			Not all of the SORTs are available for this kind of encapsulation
+			- only those which have a SORTNAME constructor (from access to
+			variety).  These are the "first-class" SORTs given in table 1.  Each
+			of these have an appropriate _apply_token constructor (e.g.
+			exp_apply_token) give the expansion. Most of these also have _cond
+			constructors (e.g.see exp_cond in
+			<link linkend="cond-constructors">section 9.1</link>)
+			which allows translate time conditional expansion of the
+			SORT.</para>
+
+		<figure>
+			<title>First class <code>SORT</code>s</title>
+
+			<!-- TODO: convert to <table> -->
+			<graphic fileref="images/guidetable3.png"/>
+		</figure>
+
+		<para>Every TOKEN has a result SORT, i.e. the SORT of its resulting
+			expansion and before it can be expanded, one must have its parameter
+			SORTs. Thus, you can regard a TOKEN as having a type defined by its
+			result and parameter SORTs and the _apply_token as the operator
+			which expands the encapsulation and substitutes the
+			parameters.</para>
+
+		<para>However, if we look at the signature of exp_apply_token:</para>
+
+		<programlisting language="tdf">token_value: TOKEN
+token_args:  BITSTREAM param_sorts(token_value)
+             -&gt; EXP x</programlisting>
+
+		<para>we are confronted by the mysterious BITSTREAM where one might
+			expect to find the actual parameters of the TOKEN.</para>
+
+		<para>To explain BITSTREAMs requires a diversion into the bit-encoding
+			of TDF. Constructors for a particular SORT are represented in a
+			number of bits depending on the number of constructors for that
+			SORT; the context will determine the SORT required, so no more bits
+			are required. Thus since there is only one constructor for UNITs, no
+			bits are required to represent make_unit; there are about 120
+			different constructors for EXPs so 7 bits are required to cover all
+			the EXPs. The parameters of each constructor have known SORTs and so
+			their representations are just concatenated after the representation
+			of the constructor. <footnote>
+				<para>There are facilities to allow extensions to the
+					number of constructors, so it is not quite as simple as
+					this.</para>
+			</footnote>
+			While this is a very compact representation, it suffers from the
+			defect that one must decode it even just to skip over it. This is
+			very irksome is some applications, notably the TDF linker which is
+			not interested detailed expansions.  Similarly, in translators there
+			are places where one wishes to skip over a token application without
+			knowledge of the SORTs of its parameters. Thus a BITSTREAM is just
+			an encoding of some TDF, preceded by the number of bits it occupies.
+			Applications can then skip over BITSTREAMs trivially.  Similar
+			considerations apply to BYTESTREAMs used elsewhere; here the
+			encoding is preceded by the number of bytes in the encoding and is
+			aligned to a byte boundary to allow fast copying.</para>
+	</section>
+
+	<section>
+		<title>Token definitions and declarations</title>
+
+		<para>Thus the <code>token_args</code> parameter of
+			exp_apply_token is just the BITSTREAM formed from the actual
+			parameters in the sequence described by the definition of the
+			<code>token_value</code> parameter. This will be given in
+			a TOKEN_DEFN somewhere with constructor token_definition:</para>
+
+		<programlisting language="tdf">result_sort: SORTNAME
+tok_params:  LIST(TOKFORMALS)
+body:        result_sort
+             -&gt; TOKEN_DEFN</programlisting>
+
+			<para>The <code>result_sort</code> is the SORT of the construction of
+				<code> body</code>; e.g. if <code>result_sort</code> is formed from
+				exp then <code>body</code> would be constructed using the EXP
+				constructors and one would use exp_apply_token to give the
+				expansion. The list <code>tok_params</code> gives the formal
+				parameters of the definition in terms of TOKFORMALS constructed
+				using make_tok_formals:</para>
+
+			<programlisting language="tdf">sn: SORTNAME
+tk: TDFINT
+    -&gt; TOKFORMALS</programlisting>
+
+		<para>The TDFINT <code>tk</code> will be the integer representation of
+			the formal parameter expressed as a TOKEN whose result sort is
+			<code>sn</code> (see more about name representation in
+			<link linkend="make_capsule-and-name-spaces">section 3.1</link>). To
+			use the parameter in the body of the TOKEN_DEFN, one simply uses the
+			_apply_token appropriate to <code>sn</code>.Note that sn may be a
+			TOKEN but the <code>result_sort</code> may not.</para>
+
+		<para>Hence the BITSTREAM
+			<code>param_sorts</code>(<code>token_value</code>) in the
+			actual parameter of exp_apply_token above is simply formed by the
+			catenation of constructions of the SORTs given by the SORTNAMEs in
+			the <code>tok_params</code> of the TOKEN being expanded.</para>
+
+		<para>Usually one gives a name to a TOKEN_DEFN to form a TOKDEF
+			using make_tokdef:</para>
+
+		<programlisting language="tdf">tok:       TDFINT
+signature: OPTION(STRING)
+def:       BITSTREAM TOKEN_DEFN
+           -&gt; TOKDEF</programlisting>
+
+		<para>Here, <code>tok</code> gives the name that will be used to
+			identify the TOKEN whose expansion is given by <code>def</code>. Any
+			use of this TOKEN (e.g. in exp_apply_token) will be given by
+			make_token(<code>tok</code>). Once again, a BITSTREAM is used to
+			encapsulate the TOKEN_DEFN.</para>
+
+		<para>The significance of the signature parameter is discussed in
+			<link linkend="declaration-and-definition-signatures">section
+			3.2.2</link>.</para>
+
+		<para>Often, one wishes a token without giving its definition - the
+			definition could, for example, be platform-dependent. A TOKDEC
+			introduces such a token using make_tokdec:</para>
+
+		<programlisting language="tdf">tok:       TDFINT
+signature: OPTION(STRING)
+s:         SORTNAME
+           -&gt; TOKDEC</programlisting>
+
+		<para>Here the SORTNAME, <code>s</code>, is given by token:</para>
+
+		<programlisting language="tdf">result: SORTNAME
+				params: LIST(SORTNAME)
+						-&gt; SORTNAME</programlisting>
+
+		<para>which gives the result and parameter SORTs of
+			<code>tok</code>.</para>
+
+		<para>One can also use a TOKEN_DEFN in an anonymous fashion by giving
+			it as an actual parameter of a TOKEN which itself demands a TOKEN
+			parameter. To do this one simply uses use_tokdef:</para>
+
+		<programlisting language="tdf">tdef: BITSTREAM TOKEN_DEFN
+      -&gt; TOKEN</programlisting>
+	</section>
+
+	<section>
+		<title>A simple use of a TOKEN</title>
+
+		<para>The crucial use of TOKENs in TDF is to provide abstractions of
+			APIs (see <link linkend="tokens-and-apis">section 10</link>) but
+			they are also used as shorthand for commonly occurring
+			constructions. For example, given the TDF constructor plus,
+			mentioned above, we could define a plus with only two EXP parameters
+			more suitable to C by using the wrap constructor as the
+			ERROR_TREATMENT:</para>
+
+		<programlisting language="tdf">make_tokdef(C_plus, empty, token_definition(exp(), (make_tokformals(exp(), l),
+                                                    make_tokformals(exp(), r)),
+            plus(wrap(), exp_apply_token(l, ()), exp_apply_token(r, ())))</programlisting>
+	</section>
+
+	<section>
+		<title>Second class SORTs</title>
+
+		<para>Second class SORTs (given in table 2) cannot be
+			TOKENised. These are the "syntactic units" of TDF which the user
+			cannot extend; he can only produce them using the constructors
+			defined in core-TDF.</para>
+
+		<para>Some of these constructors are implicit. For example, there are
+			no explicit constructors for LIST or SLIST which are both used to
+			form lists of SORTs; their construction is simply part of the
+			encoding of TDF. However, it is forseen that LIST constructors would
+			be highly desireable and there will probably extensions to TDF to
+			promote LIST from a second-class SORT to a first-class one. This
+			will not apply to SLIST or to the other SORTs which have implicit
+			constructions. These include BITSTREAM, BYTESTREAM, TDFINT, TDFIDENT
+			and TDFSTRING.</para>
+	</section>
+</chapter>
+

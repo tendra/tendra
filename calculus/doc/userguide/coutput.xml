@@ -1,0 +1,187 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!-- $Id$ -->
+
+<chapter id="coutput">
+	<title>Implementation details</title>
+
+	<section id="coutputtypes">
+		<title>Implementation of types</title>
+
+		<para>The C implementation of the type system
+			<link linkend="tokenoutput">specified above</link> is based on a
+			single type, <literal>name</literal>, with the same name as the input
+			algebra. This is defined as follows:</para>
+
+		<programlisting language="c">typedef union name_tag {
+    unsigned int ag_tag;
+    union name_tag *ag_ptr;
+    unsigned ag_enum;
+    unsigned long ag_long_enum;
+    name_dim ag_dim;
+    t ag_prim_type;
+    ....
+} name;</programlisting>
+
+		<para>where <literal>t</literal> runs over all the primitive types.	All
+			of the types in the algebra can be packed into a block of cells of
+			type <literal>name</literal>.	The following paragraphs describe the
+			implementation of each type, together with how they are packed as
+			blocks of cells.	This is illustrated by the following diagram:</para>
+
+		<figure>
+			<title>Packing of types in calculus</title>
+			<graphic align="center" fileref="images/calculus.png"/>
+		</figure>
+
+		<para>Primitive types are implemented by a <code>typedef</code> defining
+			the type in terms of its
+			<link linkend="outputprim">given definition</link>. A primitive type
+			can be packed into a single cell using the appropriate
+			<code>ag_prim_</code><literal>type</literal> field of the
+			union.</para>
+
+		<para>Identity types are implemented by a <code>typedef</code> defining
+			the type as being equal to another
+			<link linkend="outputident">type from the algebra</link>.</para>
+
+		<para>Enumeration types are all implemented as <code>unsigned int</code>
+			if all its values fit into 16 bits, or <code>unsigned long</code>
+			otherwise. An enumeration type can be packed into a single cell using
+			the <code>ag_enum</code> or <code>ag_long_enum</code> field of the
+			union.</para>
+
+		<para>Structure types are implemented by a <code>typedef</code> defining
+			the type to be the C structure with the
+			<link linkend="outputstruct">given components</link>. A structure type
+			may be packed into a block of cells by packing each of the components
+			in turn.</para>
+
+		<para>Union types are all implemented by a pointer to
+			<literal>name</literal>.	This pointer references a block of cells.
+			The null pointer represents
+			<code>NULL_</code><literal>union</literal>, otherwise the first cell
+			contains the union discriminant tag (in the <code>ag_tag</code>
+			field), with the subsequent cells containing the packed field
+			components (shared components first, then unshared components). If the
+			union has only one field then the discriminant can be omitted. The
+			union itself can be packed into a single cell using the
+			<code>ag_ptr</code> field of the union.</para>
+
+		<para>Pointer types are all implemented by a pointer to
+			<literal>name</literal>.	Null pointers represent
+			<code>NULL_ptr</code>, otherwise the pointer references a single cell.
+			This cell contains a pointer to the packed version of the object being
+			pointed to in its <code>ag_ptr</code> field. A pointer type itself can
+			be packed into a single cell using the <code>ag_ptr</code> field of
+			the union.</para>
+
+		<para>List types are all implemented by a pointer to
+			<literal>name</literal>.	Null pointers represent
+			<code>NULL_list</code>, otherwise the pointer references a block of
+			two cells. The first cell gives the tail of the list in its
+			<code>ag_ptr</code> field; the second cell contains a pointer to the
+			packed version of the head of the list in its <code>ag_ptr</code>
+			field. A list type itself can be packed into a single cell using the
+			<code>ag_ptr</code> field of the union.</para>
+
+		<para>Stack types are identical to list types, with the head of the list
+			corresponding to the top of the stack.</para>
+
+		<para>Vector pointer and vector types are all implemented by structures
+			defined as follows:</para>
+
+			<programlisting language="c">
+typedef unsigned int name_dim;
+
+typedef struct {
+    name *vec;
+    name *ptr;
+} name_VEC_PTR;
+
+typedef struct {
+    name_dim dim;
+    name_VEC_PTR elems;
+} name_VEC;</programlisting>
+
+		<para>The <code>vec</code> field of a vector pointer contains a pointer
+			to a block of cells containing the packed versions of the elements of
+			the vector. The <code>ptr</code> field is a pointer to the current
+			element of this block. A vector type also has a field giving the
+			vector size.	A vector pointer type can be packed into a block of two
+			cells, using the <code>ag_ptr</code> field of each to hold its two
+			components. A vector type can similarly be packed into a block of
+			three cells, the first holding the vector size in its
+			<code>ag_dim</code> field.</para>
+
+		<para>All size types are implemented as <code>int</code>.</para>
+	</section>
+
+	<section id="coutputsupport">
+		<title>Support routines</title>
+
+		<para>The implementation requires the user to provide certain support
+			functions. Most fundamental are the routines for allocating and
+			deallocating the blocks of cells which are used to store the types.
+			These are specified as follows:</para>
+
+			<programlisting language="c">name *gen_name(unsigned int);
+void destroy_name(name *, unsigned int);
+void dummy_destroy_name(name *, unsigned int);</programlisting>
+
+		<para>where <code>gen_</code><literal>name</literal> allocates a block of
+			cells of the given size, <code>destroy_</code><literal>name</literal>
+			deallocates the given block, and
+			<code>dummy_destroy_</code><literal>name</literal> has
+			<link linkend="outputbasic">no effect</link>. The precise details of
+			how the memory management is to be handled are left to the
+			user.</para>
+
+		<para>Certain generic list functions must also be provided, namely:</para>
+
+		<programlisting language="c">void destroy_name_list(name *, unsigned int);
+name *reverse_name_list(name *);
+name *append_name_list(name *, name *);
+name *end_name_list(name *);</programlisting>
+
+		<para>which implement the constructs <code>DESTROY_list</code>,
+			<code>REVERSE_list</code>, <code>APPEND_list</code> and
+			<code>END_list</code> respectively.</para>
+
+		<para>Finally a dummy empty vector:</para>
+
+		<programlisting language="c">name_VEC empty_name_vec;</programlisting>
+
+		<para>needs to be defined.</para>
+
+		<para>Examples of these support routines can be found in the
+			<link linkend="example"><command>calculus</command> program</link>
+			itself.</para>
+	</section>
+
+	<section id="coutputassert">
+		<title>Run-time checking</title>
+
+		<para>The type checking facilities supported by
+			<command>calculus</command> allow for compile-time detection of many
+			potential programming errors, however there are many problems, such as
+			dereferencing null pointers, deconstructing empty lists and union tag
+			errors which can only be detected at run-time. For this reason
+			<command>calculus</command> can be made to add extra assertions to
+			check for such errors into its output. This is done by specifying the
+			<code>-a</code> command-line option.</para>
+
+		<para>These assertions are implemented by means of macros. If the macro
+			<code>ASSERTS</code> is defined then these macros expand to give the
+			run-time checks. If not the output is exactly equivalent to that which
+			would have been output if the <code>-a</code> option had not been
+			given.</para>
+
+		<para>The assertions require certain support functions which are output
+			into a separate file, <code>assert_def.h</code>. These functions need
+			to be compiled into the program when <code>ASSERTS</code> is defined.
+			Note that the functions are implementation specific.</para>
+	</section>
+</chapter>
+

@@ -1,0 +1,215 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<chapter id="basicmappingtoks">
+	<title>Basic mapping tokens</title>
+
+	<para>Basic mapping tokens provide target specific detail for specific language
+		features that are defined to be target dependent. This detail need
+		not be fixed for a particular target architecture, but needs to provide
+		compatibility with any external library with which an application
+		program is to be linked.</para>
+
+	<para>Tokens specific to the C and Fortran language families are included.
+		Like the target dependency tokens, it is again recommended that these
+		tokens should not be used directly within application programs. They
+		are designed for use within &lpi; definitions, which can provide a more
+		appropriate interface for applications.</para>
+
+	<para>Every operating system variant of an installer should have associated
+		with it, a capsule containing the definitions of all the tokens specificed
+		within <xref linkend="basicmappingtoks"/>.</para>
+
+	<section id="cmappingtoks">
+		<title>C mapping tokens</title>
+
+		<section>
+			<title><code>.~char_width</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~char_width</code> is the number of bits required to store values
+				of the representation <code>VARIETY</code> that corresponds to the
+				C type <code>char</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~short_width</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~short_width</code> is the number of bits required to store values
+				of the representation <code>VARIETY</code> that corresponds to the
+				C type <code>short int</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~int_width</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~int_width</code> is the number of bits required to store values
+				of the representation <code>VARIETY</code> that corresponds to the
+				C type <code>int</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~long_width</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~long_width</code> is the number of bits required to store values
+				of the representation <code>VARIETY</code> that corresponds to the
+				C type <code>long int</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~longlong_width</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~longlong_width</code> is the number of bits required to store values
+				of the representation <code>VARIETY</code> that corresponds to the
+				C type <code>long long int</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~size_t_width</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~size_t_width</code> is the number of bits required to store values
+				of the representation <code>VARIETY</code> that corresponds to the
+				C type <code>size_t</code>. It will be the same as one of <code>.~short_width</code>,
+				<code>.~int_width</code>, or <code>.~long_width</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~fl_rep</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~fl_rep</code> is the sequence number (see <xref linkend="floatreps"/>)
+				of the floating point representation to be used for values of C type
+				<code>float</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~dbl_rep</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~dbl_rep</code> is the sequence number (see subsection 3.2) of the
+				floating point representation to be used for values of C type
+				<code>double</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~ldbl_rep</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~ldbl_rep</code> is the sequence number (see subsection 3.2) of the
+				floating point representation to be used for values of C type
+				<code>long double</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~pv_align</code></title>
+
+			<programlisting language="tdf"> -&gt; ALIGNMENT</programlisting>
+
+			<para><code>.~pv_align</code> is the common alignment for all pointers that can
+				be represented by the C generic pointer type <code>void*</code>. For architecture
+				independence, this would have to be a union of several alignments,
+				but for many installers it can be simplified to
+				<code>alignment</code>(<code>integer</code>(<code>var_width</code>(<code>false</code>,
+				<code>.~char_width</code>))).</para>
+		</section>
+
+		<section>
+			<title><code>.~min_struct_rep</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~min_struct_rep</code> is the number of bits required to store values
+				of the smallest C integral type which share the same alignment properties
+				as a structured value whose members are all of that same integral
+				type. It will be the same as one of <code>.~char_width</code>,
+				<code>.~short_width</code>, <code>.~int_width</code>, or <code>.~long_width</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~char_is_signed</code></title>
+
+			<programlisting language="tdf"> -&gt; BOOL</programlisting>
+
+			<para><code>.~char_is_signed</code> is <code>true</code> if the C type <code>char</code>
+				is treated as signed, or <code>false</code> if it is unsigned.</para>
+		</section>
+
+		<section>
+			<title><code>.~bitfield_is_signed</code></title>
+
+			<programlisting language="tdf"> -&gt; BOOL</programlisting>
+
+			<para><code>.~bitfield_is_signed</code> is <code>true</code> if bitfield members of
+				structures in C are treated as signed, or <code>false</code> if unsigned.</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Fortran mapping tokens</title>
+
+		<section>
+			<title><code>.~F_char_width</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~F_char_width</code> is the number of bits required to store values
+				of the representation <code>VARIETY</code> that corresponds to the
+				Fortran77 type <code>CHARACTER</code>.</para>
+
+			<para>In most cases, <code>.~F_char_width</code> is the same as <code>.~char_width</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~F_int_width</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~F_int_width</code> is the number of bits required to store values
+				of the representation <code>VARIETY</code> that corresponds to the
+				Fortran77 type <code>INTEGER</code>.</para>
+
+			<para>In most cases, <code>.~F_int_width</code> is the same as <code>.~int_width</code>.</para>
+		</section>
+
+		<section>
+			<title><code>.~F_fl_rep</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~F_fl_rep</code> is the sequence number (see <xref linkend="floatreps"/>)
+				of the floating point representation to be used for values of Fortran77
+				type <code>REAL</code>, with the constraint that <code>.~rep_fv_width</code>(<code>.~F_fl_rep
+				</code>) = <code>.~F_int_width</code>.</para>
+
+			<para>If this constraint cannot be met, <code>.~F_fl_rep</code> will be 0.</para>
+		</section>
+
+		<section>
+			<title><code>.~F_dbl_rep</code></title>
+
+			<programlisting language="tdf"> -&gt; NAT</programlisting>
+
+			<para><code>.~F_dbl_rep</code> is the sequence number (see subsection 3.2) of
+				the floating point representation to be used for values of Fortran77
+				type <code>DOUBLE PRECISION</code>, with the constraint that <code>.~rep_fv_width</code>(
+				<code>.~F_dbl_rep</code>) = 2 * <code>.~F_int_width</code>.</para>
+
+			<para>If this constraint cannot be met, <code>.~F_dbl_rep</code> will be 0.</para>
+		</section>
+	</section>
+</chapter>
+

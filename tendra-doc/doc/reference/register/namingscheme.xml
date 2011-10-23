@@ -1,0 +1,76 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!--
+	$Id$
+-->
+
+<chapter id="namingscheme">
+	<title>Naming scheme</title>
+
+	<para>A flat name space will suffice for &tdf; token names if producer writers
+		adopt the simple constraints described here. &tdf; has separate provision
+		for a hierarchic unique naming scheme, but that was intended for a
+		specific purpose that has not yet been realised.</para>
+
+	<para>External names for program or application specific tokens should be
+		confined to &ldquo;simple names&rdquo;, which we define to mean that they consist
+		only of letters, digits and underscore, the characters allowed in
+		C identifiers. Normally there will be very few such external names,
+		as tokens internal to a single capsule do not require to be named.
+		All other token names will consist of some controlled prefix followed
+		by a simple name, with the prefix identifying the control authority.</para>
+
+	<para>For &api; tokens, the prefix will consist of a sequence of simple names,
+		each followed by a dot, where the first simple name is the name of
+		the &api; as listed or referred to in <xref linkend="apis"/>.</para>
+
+	<para>The prefix for producer specific and target dependency tokens will
+		begin and end with characters that distinguish them from the above
+		cases. However, common tools such as <!-- TODO application tags -->DISP, TNC and PL-&tdf; assume that
+		token names contain only letters, digits, underscore, dot, and/or
+		twiddle<!-- TODO tilde? -->.</para>
+
+	<para>The following prefixes are currently reserved:</para>
+
+	<table>
+		<col align="center"/>
+		<col align="left"/>
+
+		<thead>
+			<tr>
+				<th>Prefix</th>
+				<th>Reservation</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td><code>~</code></td>
+				<td>&tdf; interface tokens as specified in
+					<xref linkend="tdfinterfacetoks"/> below, and also &lpi; tokens
+					specific to <acronym>DRA</acronym>'s C producer.</td>
+				<!-- TODO split into ~ and ~c. respectively? - kate -->
+			</tr>
+
+			<tr>
+				<td><code>.~</code></td>
+				<td>Registered target dependency tokens as specified
+					in <xref linkend="targetdep"/> below, and basic mapping tokens specified
+					in section <xref linkend="basicmappingtoks"/>.</td>
+			</tr>
+
+			<tr>
+				<td><code>~c.</code></td>
+				<td>&lpi; tokens specific to <acronym>DRA</acronym>'s C++ producer,
+					other than those it shares with the C producer.</td>
+			</tr>
+
+			<tr>
+				<td><code>.Et~</code></td>
+				<td>&lpi; tokens specific to Etnoteam's Fortran77 producer.</td>
+			</tr>
+		</tbody>
+	</table>
+</chapter>
+

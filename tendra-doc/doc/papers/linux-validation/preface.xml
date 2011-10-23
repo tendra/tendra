@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE preface SYSTEM "minidocbook.dtd">
+
+<!--
+  $Id$
+-->
+
+<preface>
+	<title>Executive Summary</title>
+
+	<para>During a first phase of the project the main goal was to examine
+		the extent to which the TenDRA technology could be used to compile a
+		complete operating sytem. This experiment was carried out on the
+		Unixware operating system on an Intel 486 platform. Although Unix
+		sources are known to be compiler dependent, it was found that most of
+		the code could be compiled with no, or minor, modifications.	Details
+		of the results can be found in a report.</para>
+		<!-- TODO: <biblioref linkend="Ferri&egrave;re95-2">report</biblioref> -->
+
+	<para>The goal of this second phase of the project was
+		to study the feasibility of producing Unix commands in architecture
+		neutral (ANDF) format which could be readily ported to different
+		hardware platforms running the same operating system.	The target
+		system chosen for this second phase was Linux, which was available on
+		both the Intel and DEC Alpha platforms (although the latter was
+		incomplete at the beginning of the project).</para>
+		
+	<para>The experiment carried out during this second phase was very
+		successful.	A significant amount of complex code was converted to the
+		architecture neutral ANDF format, and the portability of this code was
+		demonstrated. However, due to time constraints, the number of commands
+		ported to both platforms was more limited than had been hoped.	The
+		project also provided some interesting lessons about the strengths and
+		limitations of the ANDF/TenDRA technology and about API issues. This is
+		the final report on work undertaken on the Linux operating system on
+		the Intel/i386 and Digital/Alpha platforms.</para>
+</preface>
+

@@ -1,0 +1,172 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter SYSTEM "minidocbook.dtd">
+
+<!-- $Id$ -->
+
+<chapter id="template-files">
+	<title>Template files</title>
+
+	<para>It is possible to use <command>calculus</command> to generate an
+		output file from a template input file, <literal>template</literal>,
+		using the syntax:</para>
+
+	<cmdsynopsis>
+		<command>calculus</command>
+		<arg rep="repeat">&options.arg;</arg>
+		<arg choice="plain" rep="repeat">&in-file.arg;</arg>
+		<arg>-T<replaceable>template</replaceable></arg>
+		<arg choice="opt">&out-file.arg;</arg>
+	</cmdsynopsis>
+
+	<para>The template file consists of a list of either template directives
+		or source lines containing escape sequences which are expanded by
+		<command>calculus</command>. Template directive lines are distinguished
+		by having <code>@</code> as their first character.	Escape sequences
+		consist of <code>%</code> following by one or more characters.</para>
+
+	<para>There are two template directives; loops take the form:</para>
+
+	<programlisting language="tmpl">@loop control
+<replaceable>....</replaceable>
+@end</programlisting>
+
+	<para>and conditionals take the form:</para>
+
+	<programlisting language="tmpl">@if condition
+<replaceable>....</replaceable>
+@else
+<replaceable>....</replaceable>
+@endif</programlisting>
+
+	<para>or:</para>
+
+	<programlisting language="tmpl">@if condition
+<replaceable>....</replaceable>
+@endif</programlisting>
+
+	<para>where <replaceable>....</replaceable> stands for any sequence of template directives
+		or source lines.</para>
+
+	<para>The <literal>control</literal> statements in a loop can be
+		<code>primitive</code>, <code>identity</code>, <code>enum</code>,
+		<code>struct</code> or <code>union</code> to loop over all the
+		primitive, identity, enumeration structure or union types within the
+		input algebra. Within an <code>enum</code> loop it is possible to use
+		<code>enum.const</code> to loop over all the enumeration constants of
+		the current enumeration type. Within a <code>struct</code> loop it is
+		possible to use <code>struct.comp</code> to loop over all the components
+		of the current structure. Within a <code>union</code> loop it is
+		possible to use <code>union.comp</code> to loop over all the shared
+		components of the current union, <code>union.field</code> to loop over
+		all the fields of the current union, and <code>union.map</code> to loop
+		over all the maps of the current union. Within a
+		<code>union.field</code> loop it is possible to use
+		<code>union.field.comp</code> to loop over all the components of the
+		current union field. Within a <code>union.map</code> loop it is possible
+		to use <code>union.map.arg</code> to loop over all the arguments of the
+		current union map.</para>
+
+	<para>The valid <literal>condition</literal> statements in a conditional
+		are <code>true</code> and <code>false</code>, plus
+		<code>comp.complex</code>, which is true if the current structure or
+		union field component has a complex type (i.e. those for which
+		<code>COPY_</code><literal>type</literal> and
+		<code>DEREF_</code><literal>type</literal> require two arguments), and
+		<code>comp.default</code>, which is true if the current structure or
+		union field component has a default initialiser value.</para>
+
+	<para>A number of escape sequences can be used anywhere.	<code>%ZX</code>
+		and <code>%ZV</code> give the name and version number of the version of
+		<command>calculus</command> used.	<code>%Z</code> and <code>%V</code>
+		give the name and version number of the input algebra.	<code>%%</code>
+		and <code>%@</code> give <code>%</code> and <code>@</code> respectively,
+		and <code>%</code> as the last character in a line suppresses the
+		following newline character.</para>
+
+	<para>Within a <code>primitive</code> loop, <code>%PN</code> gives the
+		primitive name, <code>%PM</code> gives the short primitive name and
+		<code>%PD</code> gives the primitive definition.</para>
+
+	<para>Within an <code>identity</code> loop, <code>%IN</code> gives the
+		identity name, <code>%IM</code> gives the short identity name and
+		<code>%IT</code> gives the identity definition.</para>
+
+	<para>Within an <code>enum</code> loop, <code>%EN</code> gives the
+		enumeration name, <code>%EM</code> gives the short enumeration name and
+		<code>%EO</code> gives the enumeration order,
+		<code>ORDER_</code><literal>enum</literal>. Within an
+		<code>enum.const</code> loop, <code>%ES</code> gives the enumeration
+		constant name and <code>%EV</code> gives its value.</para>
+
+	<para>Within a <code>struct</code> loop, <code>%SN</code> gives the
+		structure name and <code>%SM</code> gives the short structure
+		name.</para>
+
+	<para>Within a <code>union</code> loop, <code>%UN</code> gives the union
+		name, <code>%UM</code> gives the short union name and <code>%UO</code>
+		gives the union order, <code>ORDER_</code><literal>union</literal>.
+		Within a <code>union.field</code> loop, <code>%FN</code> gives the field
+		name.	Within a <code>struct.comp</code>, <code>union.comp</code> or
+		<code>union.field.comp</code> loop, <code>%CN</code> gives the component
+		name, <code>%CT</code> gives the component type, <code>%CU</code> gives
+		the short form of the component type and <code>%CV</code> gives the
+		default component initialiser value (if <code>comp.default</code> is
+		true). Within a <code>union.map</code> loop, <code>%MN</code> gives the
+		map name and <code>%MR</code> gives the map return type. Within a
+		<code>union.map.arg</code> loop, <code>%AN</code> gives the argument
+		name and <code>%AT</code> gives the argument type.</para>
+
+	<para>As an example, the following template file gives a simple algebra
+		pretty printer:</para>
+
+	<programlisting language="tmpl">ALGEBRA %X (%V):
+
+/* PRIMITIVE TYPES */
+@loop primitive
+%PN (%PM) = "%PD";
+@end
+
+/* IDENTITY TYPES */
+@loop identity
+%IN (%IM) = %IT;
+@end
+
+/* ENUMERATION TYPES */
+@loop enum
+
+enum %EN (%EM) = {
+@loop enum.const
+        %ES = %EV,
+@end
+};
+@end
+
+/* STRUCTURE TYPES */
+@loop struct
+
+struct %SN (%SM) = {
+@loop struct.comp
+        %CT %CN;
+@end
+};
+@end
+
+/* UNION TYPES */
+@loop union
+
+union %UN (%UM) = {
+@loop union.comp
+        %CT %CN;
+@end
+} + {
+@loop union.field
+        %FN-&gt;{
+@loop union.field.comp
+                %CT %CN;
+@end
+        };
+@end
+};
+@end</programlisting>
+  </chapter>
+
