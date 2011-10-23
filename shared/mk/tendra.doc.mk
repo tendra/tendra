@@ -90,7 +90,7 @@ DOC_CSS=	css
 DOC_JS= 	js
 DOC_IMAGES= 	images
 
-.if (${.TARGETS:Mdoc} != "" || ${.TARGETS:Minstall-doc} != "")
+.if !defined(NODOCS)
 DOC_IMGDEPS!=	${XSLTPROC} ${XMLOPTS} ${XSLTOPTS} ${XSLT_IMGS} ${DOC_SRC}
 .endif
 
@@ -181,7 +181,7 @@ clean::
 
 
 .if !defined(NODOCS)
-install:: doc
+install:: all
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}"
 . if !defined(WEBSITE)
 	@${CONDCREATE} "${_PREFIX_HTML}/${DOC_OUT}/${DOC_JS}"
