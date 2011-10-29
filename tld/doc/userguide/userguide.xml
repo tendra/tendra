@@ -4,6 +4,7 @@
 <!-- $Id$ -->
 
 <article>
+
 	<articleinfo>
 		<title>The TDF Linker - Linker Requirements</title>
 
@@ -204,63 +205,11 @@
 				after reading the unit), and then the body is read.  If the unit is a "tld"
 				unit, then the type is read, and the body is read depending upon the type;
 				if the unit is a "tld2" unit, then the body is read as if it where a type
-				zero "tld" unit.</para>
+				zero "tld" unit. See the &tdf-spec.doc; for details of the encoding of
+				the "tld" and "tld2" unit groups.</para>
 
-			<para>A type zero "tld" unit consists of a number of integers: one for each
-				external token name, followed by one for each external tag name (in the same
-				order as the external name tables, but tokens always precede tags).  A type
-				one "tld" unit consists of a number of integers: one for each external name
-				(of all linkable entities), in the same order as the external name tables.</para>
-
-			<para>Each of the integers is interpreted as a series of bits, with the bits
-				having the following meanings:</para>
-
-			<table>
-				<col align="center"/>
-				<col align="left"/>
-
-				<thead>
-					<tr>
-						<th>Bit</th>
-						<th>Meaning if set</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					<tr>
-						<td>0</td>
-						<td>The name is used within this capsule.</td>
-					</tr>
-
-					<tr>
-						<td>1</td>
-						<td>The name is declared within this capsule.</td>
-					</tr>
-
-					<tr>
-						<td>2</td>
-						<td>The name is uniquely defined within this capsule.  If
-							this bit is set for a tag, then the declared bit
-							must also be set.  It is illegal to have a name
-							uniquely defined in more than one capsule.  If this
-							occurs, the linker will report an error.</td>
-					</tr>
-
-					<tr>
-						<td>3</td>
-						<td>The name is defined in this capsule, but may have
-							other definitions provided by other capsules.  This
-							bit may not be set for tokens.  If a tag has this
-							bit set, the declared bit must also be set.  It is
-							possible for a name to provide a unique definition,
-							but still allow other non-unique definitions to be
-							linked in from other capsules.</td>
-					</tr>
-				</tbody>
-			</table>
-
-		<para>All of the other bits in the integer are reserved.  The linker uses the
-			information provided by this unit to check that names do not have multiple
+		<para>The linker uses the information provided by this unit to check that names
+			do not have multiple
 			unique definitions, and to decide whether libraries should be consulted to
 			provide a definition for a name.  If a capsule contains no linker
 			information unit group, then the names in that capsule will have no
