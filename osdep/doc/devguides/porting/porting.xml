@@ -1,11 +1,10 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-	$Id$
--->
+<!-- $Id$ -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
+
 	<bookinfo>
 		<title>Porting TenDRA to Different Operating Systems</title>
 
@@ -17,13 +16,35 @@
 			</author>
 		</authorgroup>
 
-		<pubdate>2009</pubdate>
+		<pubdate>2007</pubdate>
 
 		<copyright>
-			<year>2009</year>
-
+			<year>2011</year>
+			<year>2010</year>
+			<year>2007</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="docs">
+				<date>2010-06-20</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Expanded on indicating API conformance.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>2007-09-30</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>This is a start on a guide to porting to different OSes.
+						For the moment, it only mentions APIs; more will follow later.
+						Most of this text is new, though a few specifics
+						(e.g. talking about file locations) come from the DERA FAQ..</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
 	<preface>

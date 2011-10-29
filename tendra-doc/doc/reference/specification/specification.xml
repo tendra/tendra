@@ -1,13 +1,13 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-  $Id$
--->
+<!-- $Id$ -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
+
 	<bookinfo>
-		<title>TDF Specification, Issue 4.0</title>
+		<title>TDF Specification</title>
+		<edition>Issue 4.1</edition>
 
 		<authorgroup>
 			<othercredit class="copyeditor">
@@ -28,18 +28,83 @@
 		<pubdate>2005</pubdate>
 
 		<copyright>
-			<year>2004</year>
-			<year>2005</year>
+			<year>2011</year>
+			<year>2010</year>
+			<year>2009</year>
+			<year>2008</year>
 			<year>2007</year>
-
+			<year>2006</year>
+			<year>2005</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out as a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>02-12-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out to join ANDFutils.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>03-10-2007</date>
+				<authorinitials>matt</authorinitials>
+				<revdescription>
+					<para>Conversion to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>TDF 4.1</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<revnumber>TDF 4.0</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>This is Issue 4.0 of the TDF Specification. TDF version 4.0 is not bitwise
+						compatible with earlier versions. Major changes from issue 3.1 are:</para>
+
+					<para>A new <code>SORT</code> for <code>STRING</code> is introduced.</para>
+
+					<para>A new <code>EXP</code> constructor, <replaceable>initial_value</replaceable>, is
+						introduced to allow dynamic initialisation of global tags.</para>
+
+					<para>Magic numbers are introduced at the start of files containing TDF
+						bitstream information.</para>
+
+					<para>The version 3.1 constructor <replaceable>set_stack_limit</replaceable> has had
+						to be modified in the light of experience with platforms with ABIs which
+						require upward-growing stacks or use disjoint frame stacks and alloca
+						stacks.</para>
+
+					<para>Various other minor changes have been made to elucidate some rather
+						pathological cases, e.g. <replaceable>make_nof</replaceable> must have at least
+						one element. Also there are some cosmetic changes to improve consistency,
+						e.g. the order of the arguments of <replaceable>token</replaceable> are now
+						consistent with <replaceable>token_definition</replaceable>.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
 	<xi:include href="preface.xml"/>

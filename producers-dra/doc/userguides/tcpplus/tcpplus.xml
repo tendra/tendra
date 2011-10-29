@@ -1,9 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-  $Id$
--->
+<!-- $Id$ -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
 
@@ -26,40 +24,259 @@
 			<corpauthor>DERA</corpauthor>
 		</authorgroup>
 
-		<pubdate>2004</pubdate>
+		<pubdate>1998</pubdate>
 
 		<copyright>
-			<year>2004</year>
-			<year>2005</year>
+			<year>2011</year>
+			<year>2010</year>
+			<year>2008</year>
 			<year>2007</year>
-
+			<year>2006</year>
+			<year>2005</year>
+			<year>2004</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
 
-<!-- TODO:
 		<revhistory>
-			<revision>
-				<date>01 10 2007</date>
-				<revremark>Split off various non-user documentation to
-					<dt:doc name="developer/components/tcpplus"/>,
-					<dt:doc name="papers/cppporting"/> and
-					<dt:doc name="developer/guides/style"/>.</revremark>
-				<author><firstname>kate</firstname></author>
+			<revision role="dev">
+				<date>11-09-2011</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Remove <code>extra.err</code>.
+						This was provided as a convenience to permit temporary errors added during develop
+						ment, without needing to regenerate the error catalogue proper.</para>
+
+					<para>I'm removing it just to simplify things - and having added
+						<code>make regen</code>, I don't see that rebuilding is much trouble anyway.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>10-01-2011</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Restructured &tcpplus-userguide.doc;.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="buildsystem">
+				<date>01-08-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Some normalisation for makefile variables, now I'm done moving things around;
+						this marks the start of
+						clearing up the post-restructuring aftermath.</para>
+
+					<para>The various <code>*_DIR</code> variables have been replaced
+						with <code>PREFIX_*</code> instead, and used more consistently.
+						Since the layout under <code>$PREFIX</code> is now per-project,
+						the <code>machines</code> directory is gone,
+						and so this change removes variables associated with that.</para>
+
+					<para>Hopefully this should be a bit simpler for package maintainers to configure,
+						by overriding whatever they wish.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>01-08-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Move out the C++ LPI token implementations and the C++ (minimal) standard library
+						to the producer project.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out the DRA producers as a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>25-03-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out the &ldquo;invocation&rdquo; chapter and
+						related content to the &tcpplus; manpage.</para>
+
+					<para>Moved out the &tdfcdump.5; symbol table dump syntax
+						into a seperate manpage, &tdfcdump.5;.
+						Moved out a description of the symbol table semantics into a
+						seperate document, &symboltable.doc;.</para>
+
+					<para>Moved out the &pragmatoken.doc; into a
+						seperate document.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>01-10-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out the &tcpplus-devguide.doc; into a
+						seperate document.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>01-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Conversion of images to a vector format.
+						Contributed by Alastair Hogge.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>29-09-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Remaining conversion to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>17-07-2007</date>
+				<authorinitials>truedfx</authorinitials>
+				<revdescription>
+					<para>Suppose three files are being used.</para>
+
+					<para>a.c:</para>
+
+					<programlisting language="c">#include "a.h"
+int main(void) {}</programlisting>
+
+					<para>a.h:</para>
+
+					<programlisting language="c">#include "b.h"</programlisting>
+
+					<para>b.h:</para>
+
+					<programlisting language="c">extern int unused;</programlisting>
+
+					<para>tendra outputs line directives based on the tokens that are present
+						after preprocessing. Since no such tokens are found in <filename>a.h</filename>, there is
+						no mention of <filename>a.h</filename> in the preprocessed output. This causes some
+						configure scripts to fail. By printing the full <code>#include</code> stack every
+						time the file changes, the problem is avoided. The printing is moved
+						into a separate function because it needs to call itself recursively.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>17-07-2007</date>
+				<authorinitials>truedfx</authorinitials>
+				<revdescription>
+					<para>Even when preprocessing, pragmas should be evaluated, because they
+						affect how <code>#if</code> expressions are evaluated. Unfortunately, since
+						typedefs are not read, and some pragmas refer to typedefs, this can
+						cause syntax errors to be raised. This patch parses #pragmas during
+						preprocessing, but temporarily disables error messages. Since the
+						pragmas are kept in the pp output, the errors will still be raised
+						when compiling the pp output anyway.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>17-07-2007</date>
+				<authorinitials>truedfx</authorinitials>
+				<revdescription>
+					<para>When a function contains declarations, these are generated in the
+						expression objects by <code>add_compound_stmt</code>. Since implicit constructors
+						don't exist in the syntax, add_compound_stmt is never called for them.
+						When generating the constructor's definition, wrap it in a compound
+						statement manually so that all declarations are properly generated.</para>
+
+					<para>Implicit constructors can contain declarations if they call an
+						inherited constructor with default arguments.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>17-07-2007</date>
+				<authorinitials>truedfx</authorinitials>
+				<revdescription>
+					<para>Calculate some more types of expressions during parsing.
+					<code>~0</code> is equal to the type's maximum value for unsigned types, or <code>-1</code> for
+					signed two's complement types. Once <code>~0</code> is known, <code>~x</code> can be calculated
+					as <code>~0 - x</code>.</para>
+
+				<para>Additionally, allow casts and negations where the result is unsigned
+					and the exact size is known. Conceptually, the maximum value plus one
+					is repeatedly added to or subtracted from the result until it is in
+					range. If unsigned int is known to be exactly 32 bits, then a positive
+					n is replaced by <code>(n &amp; 0xFFFFFFFF)</code>, and a negative n is replaced by
+					<code>0x100000000 - (-n &amp; 0xFFFFFFFF)</code>. This form is used because it is
+					something tendra already knows how to simplify.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>17-07-2007</date>
+				<authorinitials>truedfx</authorinitials>
+				<revdescription>
+					<para>Allow <code>literal</code> to prefix an expression to indicate that the expression
+						is to be interpreted as a constant expression. This is useful for
+						offsetof, which needs to returns a target-dependent constant expression.
+						Without a way to force an expression as a constant, offsetof cannot be
+						used in (for example) the definitions of enumeration constants.</para>
+
+					<para><code>literal</code> does not become a keyword by default. It must be defined using</para>
+
+					<programlisting language="c"># pragma TenDRA keyword __literal for keyword literal</programlisting>
+
+					<para>where <code>__literal</code> can be any valid identifier.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>17-07-2007</date>
+				<authorinitials>truedfx</authorinitials>
+				<revdescription>
+					<para>Support anonymous unions as an extension in C. The code to handle these
+						already exists in tendra, but is hidden in <code>#if LANGUAGE_CPP</code> blocks.
+						Remove these #if blocks, add a new error so that use of this feature is
+						still diagnosed in C by default. Add a pragma</para>
+
+					<programlisting language="c"># pragma TenDRA anonymous union ...</programlisting>
+
+					<para>to allow this feature to be enabled or disabled during compilation, and
+						default to an error for C, and no error for C++, to preserve the
+						existing behaviour.</para>
+				</revdescription>
+			</revision>
+
+
+			<revision role="dev">
+				<date>03-05-2005</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Initial conversion to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>tcpplus 1.8.2</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
 			</revision>
 		</revhistory>
--->
 	</bookinfo>
 
 	<xi:include href="introduction.xml"/>
 	<xi:include href="configuration.xml"/>
 
-	<!-- Chapters -->
 	<xi:include href="limits.xml"/>
 	<xi:include href="lexing.xml"/>
 	<xi:include href="preprocessor.xml"/>
@@ -72,9 +289,7 @@
 	<xi:include href="analysis.xml"/>
 	<xi:include href="miscellaneous.xml"/>
 
-	<!-- Appendicies -->
 	<xi:include href="stdlib.xml"/>
-
 	<xi:include href="references.xml"/>
 
 </book>

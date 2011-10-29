@@ -4,6 +4,7 @@
 <!-- $Id$ -->
 
 <article>
+
 	<articleinfo>
 		<title>TPL - A Tool for producing TDF</title>
 
@@ -17,17 +18,74 @@
 			<!-- TODO: ... -->
 		</authorgroup>
 
+		<pubdate>1998</pubdate>
+
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
 
 		<copyright>
+			<year>2011</year>
+			<year>2010</year>
 			<year>2007</year>
-
+			<year>2006</year>
+			<year>2004</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
+
+        <revhistory>
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out tpl as a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>29-05-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out tpl to form the start of the ANDFutils
+						collection of programs.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>04-12-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>09-07-2006</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Converted from OSSG to ANSI C.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>24-07-2004</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Rename pl to tpl, to keep from clashing with some other
+						programs out there.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>pl 5.0</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</articleinfo>
 
 	<section>

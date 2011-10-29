@@ -1,13 +1,13 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-  $Id$
--->
+<!-- $Id$ -->
 
 <book>
+
 	<bookinfo>
-		<title>A Guide to the TDF Specification, Issue 4.0</title>
+		<title>A Guide to the TDF Specification</title>
+		<edition>Issue 4.0</edition>
 
 		<authorgroup>
 			<othercredit class="copyeditor">
@@ -27,17 +27,68 @@
 		<pubdate>2005</pubdate>
 
 		<copyright>
-			<year>2004</year>
+			<year>2011</year>
+			<year>2010</year>
+			<year>2007</year>
 			<year>2005</year>
-
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="dev">
+				<date>21-10-2011</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Remaining conversion to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out andfutils to standalone tools.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>02-12-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out andfutils as a standalone package.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>01-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Conversion of images to a vector format.
+						Contributed by Alastair Hogge.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>16-09-2005</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Initial conversion to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
 	<xi:include href="preface.xml"/>

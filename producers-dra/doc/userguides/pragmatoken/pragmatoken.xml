@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
+<!-- $Id$ -->
+
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
 
 	<bookinfo>
@@ -20,22 +22,45 @@
 
 		<copyright>
 			<year>2011</year>
-
+			<year>2010</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
 
-<!--
-<revhistory>
-TODO: constructed from a few sources
-TODO: then (will be) merged together
-</revhistory>
--->
+		<revhistory>
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out the DRA producers as a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>25-03-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>A start on a new document;
+						the initial <code>#pragma</code>
+						token syntax content here was moved
+						out from the &tcpplus-userguide.doc;
+						and the &tchk.doc; user guides.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>tdfc2/tcpplus 1.8.2</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
 	<xi:include href="introduction.xml"/>
@@ -50,7 +75,7 @@ TODO: then (will be) merged together
 	<xi:include href="apis.xml"/>
 
 	<!-- TODO: what follows is taken from tcpplus; this is to be merged with
-	the above and restructured as appropiate -->
+		the above and restructured as appropiate -->
 	<xi:include href="syntax2.xml"/>
 
 </book>

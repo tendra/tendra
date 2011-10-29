@@ -12,11 +12,14 @@
 
 		<corpauthor>The TenDRA Project</corpauthor>
 
-		<author>
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-      		<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</author>
+		<authorgroup>
+			<author>
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+    	  		<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</author>
+		</authorgroup>
+
 		<pubdate>2006</pubdate>
 
 		<copyright>
@@ -27,19 +30,17 @@
 	</bookinfo>
 
 	<preface>
-		<abstract>
-			<para>
-				<!-- TODO who this document is for -->
-			</para>
+		<para>
+			<!-- TODO who this document is for -->
+		</para>
 
-			<para>
-				<!-- TODO
-				This is not a generic tspec guide; it's specific to
-				how we use tspec within TenDRA.
-				For the general usage guide, see user/guides/tspec.
-				-->
-			</para>
-		</abstract>
+		<para>
+			<!-- TODO
+			This is not a generic tspec guide; it's specific to
+			how we use tspec within TenDRA.
+			For the general usage guide, see user/guides/tspec.
+			-->
+		</para>
 	</preface>
 
 	<!--
@@ -50,6 +51,7 @@
 	<chapter id="introduction">
 		<!-- TODO apparently this should be a <preface> -->
 		<title>Introduction</title>
+
 		<section>
 			<title><!-- TODO what an API is --></title>
 		</section>

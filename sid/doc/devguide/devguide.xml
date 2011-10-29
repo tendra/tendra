@@ -1,19 +1,18 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-  $Id$
--->
+<!-- $Id$ -->
 
 <book>
+
   <bookinfo>
-    <title>The &sid; Developers' Guide</title>
+    <title>The SID Developers' Guide</title>
 
 	<authorgroup>
 	    <author>
-	      <firstname>Kevin</firstname>
-	      <!-- surname elided -->
-	      <affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			<firstname>Kevin</firstname>
+			<!-- surname elided -->
+			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
 	    </author>
 
 		<editor>
@@ -26,13 +25,46 @@
     <pubdate>2007</pubdate>
 
     <copyright>
-      <year>2007</year>
-
-      <holder>The TenDRA Project</holder>
+		<year>2008</year>
+		<year>2007</year>
+		<holder>The TenDRA Project</holder>
     </copyright>
 
-<!-- TODO:
-	<abstract>
+	<revhistory>
+		<revision role="docs">
+			<date>04-02-2008</date>
+			<authorinitials>kate</authorinitials>
+			<revdescription>
+				<para>Moved out much of the datastructure
+					comments to the code itself.</para>
+
+				<para>This reverse engineering better serves its purpose kept
+					with the code, so that it may evolve as the code changes.
+					The developer guide (now slightly spartan) can grow anew
+					giving structual and organisational information
+					rather than a field-by-field analysis.</para>
+			</revdescription>
+		</revision>
+
+		<revision role="docs">
+			<date>09-07-2007</date>
+			<authorinitials>kate</authorinitials>
+			<revdescription>
+				<para>Initial import (and conversion from LaTeX)
+					of the SID Developer Guide,
+					researched and written by Kevin.</para>
+			</revdescription>
+		</revision>
+	</revhistory>
+  </bookinfo>
+
+  <preface id="introduction">
+	<title>Introduction</title>
+
+	<para>&sid; is an LL(1) parser. It reads a grammar specification
+		(documented in the &sid;
+		users' guide) then outputs a parser.</para>
+
 		<para>In this documentation, we explain &sid;'s
 			internal representation
 			of grammars. It was reverse engineered from the code itself and 
@@ -42,16 +74,6 @@
 			in detail how &sid;
 			parses the <filename>.sid</filename>
 			and the <filename>.act</filename> files.</para>
-	</abstract>
--->
-  </bookinfo>
-
-  <chapter id="introduction">
-	<title>Introduction</title>
-
-	<para>&sid; is an LL(1) parser. It reads a grammar specification
-		(documented in the &sid;
-		users' guide) then outputs a parser.</para>
 
 		<para>[TODO this guide has been gutted; what remains gives a skeletal outline which
 			will serve as a tour of the use and contents of the internal structures,
@@ -84,7 +106,7 @@
 				representation. You may not want to reverse engineer 
 				this representation yourself.</para>
 		</section>
-	</chapter>
+	</preface>
 
 	<chapter>
 		<title>&sid;'s Organisation</title>

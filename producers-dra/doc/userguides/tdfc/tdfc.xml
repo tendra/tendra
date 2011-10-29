@@ -1,6 +1,8 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
+<!-- $Id$ -->
+
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
 
 	<bookinfo>
@@ -16,35 +18,94 @@
 			<corpauthor>DERA</corpauthor>
 		</authorgroup>
 
-		<pubdate>2008</pubdate>
+		<pubdate>1998</pubdate>
 
 		<copyright>
+			<year>2011</year>
+			<year>2010</year>
 			<year>2008</year>
-
+			<year>2007</year>
+			<year>2006</year>
+			<year>2005</year>
+			<year>2004</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
 
-<!-- TODO:
 		<revhistory>
-			<revision>
-				<date>24 03 2008</date>
-				<revremark>Split off various sections to stand-alone
-					documents.</revremark>
-				<author><firstname>kate</firstname></author>
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out the DRA producers as a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>25-03-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out a description of the symbol table semantics
+						from into a seperate document, &symboltable.doc;.</para>
+
+					<para>Moved out <code>#pragma</code> syntax reference to
+						&tdfcpragma.5;.</para>
+
+					<para>Removed API listing.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>24-03-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Split off various sections to the
+						&tcpplus-devguide.doc;, &cppporting.doc;
+						and &style.doc; documents.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>24-03-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>01-09-2006</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+						<para>Converted from OSSG to ANSI C.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="buildsystem">
+				<date>06-06-2004</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+						<para>Converted to a new build system.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>tdfc2 1.8.2</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
 			</revision>
 		</revhistory>
--->
 	</bookinfo>
 
 	<xi:include href="introduction.xml"/>
 
-	<!-- Chapters -->
 	<xi:include href="configuring.xml"/>
 	<xi:include href="types.xml"/>
 	<xi:include href="integers.xml"/>
@@ -54,7 +115,6 @@
 	<xi:include href="errors.xml"/>
 	<xi:include href="conditional.xml"/>
 
-	<!-- Appendicies -->
 	<xi:include href="appendix/modes.xml"/>
 	<xi:include href="appendix/options.xml"/>
 	<xi:include href="appendix/integral.xml"/>

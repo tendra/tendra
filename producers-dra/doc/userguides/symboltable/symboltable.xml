@@ -1,24 +1,29 @@
 <?xml version="1.0"?>
 <!DOCTYPE article SYSTEM "minidocbook.dtd">
 
+<!-- $Id$ -->
+
 <article>
+
 	<articleinfo>
 		<title>The C/C++ Symbol Table Dump</title>
 
 		<authorgroup>
-				<editor>
-					<firstname>Katherine</firstname>
-					<surname>Flavel</surname>
-					<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-				</editor>
+			<editor>
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</editor>
 
-				<corpauthor>DERA</corpauthor>
+			<corpauthor>DERA</corpauthor>
 		</authorgroup>
 
-		<pubdate>2011</pubdate>
+		<pubdate>1998</pubdate>
 
 		<copyright>
 			<year>2011</year>
+			<year>2010</year>
+			<year>2008</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
@@ -27,12 +32,35 @@
 			<holder>DERA</holder>
 		</copyright>
 
-		<!--
-			TODO: revision history: pieced together from various places
-			TODO: revision history: then (will be) merged
-		-->
-	</articleinfo>
+		<revhistory>
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out the DRA producers as a standalone tool.</para>
+				</revdescription>
+			</revision>
 
+			<revision role="docs">
+				<date>25-03-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out a description of the symbol table semantics
+						from &tcpplus-userguide.doc; into a
+						seperate document.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>tcpplus 1.8.2</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
+	</articleinfo>
 
 	<!-- TODO: very much work in progress. This contains the details for
 		the symbol table from the tcpplus and tdfc user guides. These

@@ -3,12 +3,10 @@
 	<!ENTITY tcc "<application><acronym>TCC</acronym></application>">
 ]>
 
-
-<!--
-	$Id$
--->
+<!-- $Id$ -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
+
 	<bookinfo>
 		<title>The &tcc; Users' Guide</title>
 
@@ -39,19 +37,37 @@
 			<year>1998</year>
 			<holder>DERA</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="docs">
+				<date>13-08-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>tcc 4.0</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+
+					<para>Version 4.0 is a complete rewrite from version 3.x.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
-	<!-- Frontmatter -->
 	<xi:include href="preface-function.xml"/>
 
-	<!-- Chapters -->
 	<xi:include href="strategy.xml"/>
 	<xi:include href="design.xml"/>
 	<xi:include href="environments.xml"/>
 	<xi:include href="components.xml"/>
 	<xi:include href="miscellaneous.xml"/>
 
-	<!-- Appendicies -->
 	<xi:include href="appendix-reference.xml"/>
 
 </book>

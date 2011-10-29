@@ -84,6 +84,8 @@
 	<section>
 		<title>About this document</title>
 
+		<!-- TODO: remove this section -->
+
 		<warning>
 			<para>Much of the specifics of this document have been extended by
 				<code>tcpplus</code>. Whilst everything discussed here is still

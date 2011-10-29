@@ -1,12 +1,9 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-	$Id$
--->
+<!-- $Id$ -->
 
-<book
-	xmlns:xi="http://www.w3.org/2001/XInclude">
+<book xmlns:xi="http://www.w3.org/2001/XInclude">
 
 	<bookinfo>
 		<title>C/C++ Producer Implementation</title>
@@ -27,38 +24,86 @@
 			<corpauthor>DERA</corpauthor>
 		</authorgroup>
 
-		<pubdate>2004</pubdate>
+		<pubdate>1998</pubdate>
 
 		<copyright>
-			<year>2004</year>
-			<year>2005</year>
+			<year>2011</year>
+			<year>2010</year>
 			<year>2007</year>
-
+			<year>2005</year>
+			<year>2004</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
 
-<!--
 		<revhistory>
-			<revision>
-				<date>01 10 2007</date>
-				<revremark>Split off developer documentation from the
-					&tcpplus-userguide.doc;</revremark>
-				<author><firstname>kate</firstname></author>
+			<revision role="docs">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Restructuring, in order to get rid of the style guide.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>26-08-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Split up implementation details
+						(which form the bulk of this document) into separate chapters.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out the DRA producers as a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>01-10-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out the &tcpplus-devguide.doc; into a
+						seperate document.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>29-09-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Remaining conversion to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>03-05-2005</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Initial conversion to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>tcpplus 1.8.2</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
 			</revision>
 		</revhistory>
--->
 	</bookinfo>
 
-	<!-- Frontmatter -->
 	<xi:include href="preface-introduction.xml"/>
 
-	<!-- Chapters -->
 	<xi:include href="overview.xml"/>
 	<xi:include href="structure.xml"/>
 	<xi:include href="implementation-scalar.xml"/>

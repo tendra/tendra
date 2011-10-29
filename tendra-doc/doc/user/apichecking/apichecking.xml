@@ -2,6 +2,7 @@
 <!DOCTYPE article SYSTEM "minidocbook.dtd">
 
 <article>
+
 	<articleinfo>
 		<title>API checking</title>
 
@@ -18,18 +19,42 @@
 		</authorgroup>
 
 		<copyright>
-				<year>2011</year>
-
-				<holder>The TenDRA Project</holder>
+			<year>2011</year>
+			<year>2008</year>
+			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
-				<year>1998</year>
-
-				<holder>DERA</holder>
+			<year>1998</year>
+			<holder>DERA</holder>
 		</copyright>
 
-		<!-- TODO: revhistory -->
+		<revhistory>
+			<revision role="docs">
+				<date>24-03-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out content from &tchk.doc;.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>24-03-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>tdfc2 1.8.2</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</articleinfo>
 
 	<!-- TODO this document can become a guide to using the API checking mechanisms

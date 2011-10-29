@@ -1,11 +1,10 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-  $Id$
--->
+<!-- $Id$ -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
+
 	<bookinfo>
 		<title>&tdf; and Portability</title>
 
@@ -27,15 +26,23 @@
 		<copyright>
 			<year>2004</year>
 			<year>2005</year>
-
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="version">
+				<date>30-07-1998</date>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
 	<xi:include href="preface.xml"/>

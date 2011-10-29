@@ -1,25 +1,28 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!DOCTYPE article SYSTEM "minidocbook.dtd" [
 
 	<!ENTITY theproject "<orgname>The Ten<acronym>DRA</acronym> Project</orgname>">
 ]>
 
+<!-- $Id$ -->
+
 <article>
+
 	<articleinfo>
 		<title>Reorganising for Shared Code and Branching</title>
 
-		<author>
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-			<affiliation>&theproject;</affiliation>
-		</author>
+		<authorgroup>
+			<author>
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation>&theproject;</affiliation>
+			</author>
+		</authorgroup>
 
 		<pubdate>2008</pubdate>
 
 		<copyright>
 			<year>2008</year>
-
 			<holder>&theproject;</holder>
 		</copyright>
 
@@ -29,8 +32,8 @@
 				repository.</para>
 		</abstract>
 
-		<revhistory>
-			<revision>
+		<revhistory role="version">
+			<revision role="initialrevision">
 				<date>1 Jan 2008</date>
 				<revremark>Initial proposal.</revremark>
 			</revision>

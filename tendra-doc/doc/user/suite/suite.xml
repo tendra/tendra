@@ -39,6 +39,26 @@
 			<year>1998</year>
 			<holder>Rob Andrews</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="docs">
+				<date>12-09-2006</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added suite purpose overview verbatim from Rob
+						Andrews's unofficial TenDRA homepage.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<!-- TODO: date? -->
+				<date>1998</date>
+				<authorinitials>ra</authorinitials>
+				<revdescription>
+					<para>Initial revision.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</articleinfo>
 
 	<section id="what-is-tdf">

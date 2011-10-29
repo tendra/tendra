@@ -1,9 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-	$Id$
--->
+<!-- $Id$ -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
 	<bookinfo>
@@ -28,26 +26,536 @@
 				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
 			</othercredit>
 
-			<corpauthor>DERA</corpauthor>
+			<author>
+				<firstname>Steve</firstname>
+				<surname>Folkes</surname>
+				<affiliation><orgname>DERA</orgname></affiliation>
+				<contrib>Original author, documentation</contrib>
+			</author>
 		</authorgroup>
 
-		<pubdate>2006</pubdate>
+		<pubdate>1993</pubdate>
 
 		<copyright>
+			<year>2011</year>
+			<year>2008</year>
+			<year>2007</year>
 			<year>2006</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
+			<year>1996</year>
 			<year>1998</year>
 			<holder>DERA</holder>
 		</copyright>
+
+		<copyright>
+			<year>1993</year>
+			<year>1994</year>
+			<holder>DRA</holder>
+		</copyright>
+
+		<revhistory>
+			<revision role="buildsystem">
+				<date>22-05-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Include libexds as a partial archive,
+						for convenience of building.</para>
+
+					<para>My rationalle here is that SID and TLD are likely
+						to be the only consumers for libexds, and so requiring
+						its installation as a library seems excessive.
+						However, it may still be installed separately,
+						should anybody want that.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="buildsystem">
+				<date>18-08-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Removed error file support, and hence the build-time
+						dependency on Perl.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>16-07-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Terminals (and only terminals) may now be optionally quoted.
+						This acts as a convenience for terminals with mundane names,
+						such as punctation symbols. For example, one might write
+						<code>"("</code> instead of <code>OPEN-BRACE</code>.
+						These are output as per the usual language-specific rules for
+						transformations into legal identifiers.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>06-07-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Types may now be ignored in a similar way to actions
+						and terminals, by prefixing a <code>!</code>.
+						This particularly helps for grammars sharing the same actions,
+						where an action is used only by one grammar,
+						and that action is the only use of a given type.</para>
+
+					<para>Ignored types may be present in ignored terminals and ignored
+						actions, but are dissallowed elsewhere.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>30-06-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added BNF output as <code>-l bnf</code>.</para>
+
+					<para>The output simply dumps the grammar contents,
+						disregarding all the entries which do not pertain to
+						grammatical constructs. The empty set is represented as
+						<code>""</code>, but otherwise literals are not used.</para>
+
+					<para>This is our first non-C language.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>29-06-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Introduced a new expansion within C actions,
+						<code>@$terminal</code>. This is provided to maintain consistency
+						between actions and the grammar's references to terminals
+						(rather than actions writing the underlying C symbols).</para>
+
+					<para>Since it is output using the same mechanism as references
+						to terminals elsewhere in the generated parser, it is subject
+						to the same expansion rules. More notably, this includes
+						<code>-s numeric-terminals</code> causing <code>@$terminal</code>
+						to be output numerically.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>28-06-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Introduced a new language-specific option,
+						<code>-s [no-]numeric-terminals</code>. This causes references
+						to terminal values to be generated symbolically, rather than
+						by their integer values. This is intended to permit
+						centralisation of token values between several parsers,
+						alleviating the need to keep the lists of terminals in the
+						same order in each grammar.</para>
+
+					<para>This is unrelated to <code>-s [no-]numeric-ids</code>,
+						which pertains to generated symbol names.</para>
+
+					<para>This defaults to <code>-s no-numeric-terminals</code>
+						to maintain compatibility only because
+						<code>ERROR_TERMINAL</code> is introduced.
+						Should the need for <code>ERROR_TERMINAL</code> be removed,
+						this may default to <code>-s numeric-terminals</code>.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>27-06-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Action declarations may now be optionally ignored in
+						much the same way as terminals may be, by prefixing a
+						<code>!</code>:</para>
+
+					<programlisting language="sid">%productions%
+	!&lt;an-ignored-action&gt;;</programlisting>
+
+					<para>This is particularly useful for several grammars which
+						share the same actions, where not all of the grammars make
+						use of the actions provided.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>26-06-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added a new language-specific option:
+						<code>-s [no-]terminals</code>.
+						This controls whether terminals are output in the
+						generated header (the default), or are omitted.</para>
+
+					<para>Omitting these is desirable if the user wishes to
+						define her own values for terminals, rather than using
+						the SID-supplied macros. This is especially useful for
+						sharing several grammars with the same actions, where
+						the terminal values are to be centralised between the
+						various parsers.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>19-01-2008</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added persistant variable support for C actions.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>02-06-2007</date>
+				<revnumber>SID 1.11</revnumber>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Internal changes include a rewrite of the lexers in terms
+						of &lexi;, and moving out various
+						internals to <application>libexds</application>.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>02-06-2007</date>
+				<revnumber>SID 1.10</revnumber>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Tagged version 1.10.</para>
+
+					<para>The first stand-alone release
+						of &sid; seperately to the TenDRA compiler. It is
+						a code clean-up release; features are unchanged from 1.9.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>01-06-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Restructured for initial stand-alone release.
+						The only user-visible change here is that -? is replaced
+						with -h. An example of using sid with lex has been added.
+						This is the first release of sid stand-alone under
+						tendra.org.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>31-05-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted from OSSG to ANSI C.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>04-07-2004</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Moved out SID to a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="buildsystem">
+				<date>01-04-2004</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Converted to a new build system.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>SID 1.9</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>29-02-1996</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added support for an unreachable code macro
+					(instead of a comment) in the C output languages.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>22-07-1994</date>
+				<revnumber>SID 1.8</revnumber>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Froze version 1.8.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>19-07-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added assignment as an alternative to identity
+						binding.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>14-07-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added initialisers for non local variables.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>01-07-1994</date>
+				<revnumber>SID 1.7</revnumber>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added support for non local variables within
+						rules. Froze version 1.7.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>22-06-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added support for language specific options.
+						Added options to control prototyping, use of numeric
+						identifiers and casting of substituted parameters for
+						C output language.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>16-06-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added support for explicit call by reference and action
+						parameter mutation information
+						(rather than the inconsistent function call semantics of earlier
+						versions).</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>27-05-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Changed the format of the C definition file to
+						provide a parameter assignment operation (this should
+						have been in from the start for consistent semantics).
+						Also, the prefix section, maps section and all three
+						assignment operation sections are now optional.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>26-05-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Improved error messages.  Made dump file be updated
+						with information from the phase that failed in the case
+						of an error (this is not always useful though - the
+						grammar may be in a useless state after a failed transform;
+						left recursion elimination is particularly bad for this).</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>17-05-1994</date>
+				<revnumber>SID 1.6</revnumber>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added a stricter ANSI C language that uses numeric
+						identifiers to keep the identifier length below 32
+						characters. Froze version 1.6.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>16-05-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Changed the syntax of the input files so that the
+						grammar looks more like a conventional programming language.
+						Removed basics (replacing them with terminal symbols).
+						Added a header file to the C language output.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>27-01-1994</date>
+				<revnumber>SID 1.5</revnumber>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added "--show-errors" option to show the error
+						table status, and a "--help" option to show the command
+						line syntax. Froze version 1.5.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>26-01-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Changed command line syntax to be compatible with
+						the TDF linker.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>25-01-1994</date>
+				<revnumber>SID 1.4</revnumber>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Froze version 1.4.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>28-01-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added <code>#line</code> directives to header and trailer.
+						Ensured that there is always a newline at the end of a
+						code block.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>11-01-1994</date>
+				<revnumber>SID 1.3</revnumber>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added support for anonymous rules and in alternative
+						exception handlers.  Fixed cycle detection routine used
+						in needed function computation. Froze version 1.3.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>08-01-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Changed syntax of code blocks in action file.
+						SID now inlines all actions, basics, assignments etc.
+						and performs the substitutions. Substitutions allow for
+						identifier and label substitution, as well as exception
+						raising.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>04-01-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Put name identifiers in a separate namespace.
+						Stopped it being an error if the "-version" switch
+						is used with no files specified.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>02-01-1994</date>
+				<revnumber>SID 1.2</revnumber>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added a test mode language.
+						Froze version 1.2.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>01-01-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added exception handling instead of old error
+						reporting mechanism.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>18-01-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added option of inlining rules that only contain
+						basics.  Changed output routines, so that parameters
+						and results of inlined functions are substituted, rather
+						than created and assigned to.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>17-01-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Changed identifier prefixes.  Made grammar printing
+						mark inlinable rules with a '+'.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>16-01-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Added predicate support.  Improved factoring
+						to allow alternatives with the same dataflow, but
+						different names to be factored.  Allowed types to be
+						defined that were only the result types of terminals.
+						Stopped rules being declared as entry points to the
+						grammar multiple times.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>04-01-1994</date>
+				<revnumber>SID 1.1</revnumber>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Fixed the cycle detection routines used in tail
+						recursion detection. Froze version 1.1.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>02-01-1994</date>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Fixed the cycle detection routines used in left
+						recursion detection.  Fixed bug in outputting code
+						for see through alternatives.  Sorted error lists to
+						make comparisons easier.  Modified grammar printing
+						to mark tail calls.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>22-12-1993</date>
+				<revnumber>SID 1.0</revnumber>
+				<authorinitials>smf</authorinitials>
+				<revdescription>
+					<para>Initial version of the new sid.  Adds dataflow
+						and marginally improved error handling to the original
+						version of sid.  Also fixes some bugs in the algorithms
+						used in the earlier version of sid. Froze version
+						1.0.</para>
+
+					<para>This was the first version of
+						&sid; to support attribute grammars. The output
+						language was C.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
-	<!-- Frontmatter -->
 	<xi:include href="preface-intro.xml"/>
 
-	<!-- Chapters -->
 	<xi:include href="grammars.xml"/>
 	<xi:include href="overview.xml"/>
 	<xi:include href="invocation.xml"/>
@@ -58,7 +566,6 @@
 	<xi:include href="c-infofile.xml"/>
 	<xi:include href="features.xml"/>
 
-	<!-- Appendicies -->
 <!-- TODO:
 	<xi:include href="glossary.xml"/>
 -->

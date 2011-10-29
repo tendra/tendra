@@ -1,9 +1,14 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE article SYSTEM "minidocbook.dtd">
 
+<!-- $Id$ -->
+
 <article>
+
 	<articleinfo>
 		<title>Error catalogue language reference</title>
+
+		<!-- TODO: this ought to become make_err.5 -->
 
 		<authorgroup>
 			<othercredit class="copyeditor">
@@ -18,26 +23,34 @@
 		<pubdate>2007</pubdate>
 
 		<copyright>
+			<year>2011</year>
 			<year>2007</year>
-
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
 
-<!-- TODO: history of the document, or of the software it describes?
 		<revhistory>
-			<revision>
-				<date>01 10 2007</date>
-				<revremark>Split off from the &tcpplus-userguide.doc;</revremark>
-				<author><firstname>kate</firstname></author>
+			<revision role="version">
+				<date>01-10-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Split off from the &tcpplus-userguide.doc;.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>make_err 1.1</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
 			</revision>
 		</revhistory>
--->
 	</articleinfo>
 
 	<section>

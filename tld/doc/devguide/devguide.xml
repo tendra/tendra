@@ -4,6 +4,7 @@
 <!-- $Id$ -->
 
 <article>
+
 	<articleinfo>
 		<title>The TDF Linker - Program Overview</title>
 
@@ -37,14 +38,57 @@
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
-<!-- TODO
-		<abstract>
-			<para>This document gives an overview of the linker source code.  The first
-				section describes the directory structure.  The remaining sections describe
-				how the various parts of the linker work.</para>
-		</abstract>
--->
+		<revhistory>
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out TLD as a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>02-12-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>02-12-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>02-10-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out TLD to join ANDFutils.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>TLD 4.0#7</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</articleinfo>
+
+	<section>
+		<title>Introduction</title>
+
+		<para>This document gives an overview of the linker source code.  The first
+			section describes the directory structure.  The remaining sections describe
+			how the various parts of the linker work.</para>
+	</section>
 
 	<section>
 		<title>Directory Structure</title>

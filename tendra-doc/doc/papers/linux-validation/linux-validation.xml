@@ -1,11 +1,10 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-  $Id$
--->
+<!-- $Id$ -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
+
 	<bookinfo>
 		<title>Validation of TenDRA Capability to Implement a Set of Commands for
 			the Linux Operating System</title>
@@ -26,9 +25,7 @@
 					<orgname>Open Software Foundation Research Institute</orgname>
 				</affiliation>
 			</author>
-		</authorgroup>
 
-		<authorgroup>
 			<othercredit class="copyeditor">
 				<firstname>Katherine</firstname>
 				<surname>Flavel</surname>
@@ -49,18 +46,30 @@
 			<holder>DERA</holder>
 		</copyright>
 
-<!-- TODO:
-		<para>Last Modified: 04:46pm , July 30, 1996</para>
--->
-
-<!-- TODO:
 		<abstract>
 			<para>This report describes work done under contract to the Defence
 				Research Agency (DRA) of the U.K.	It is an extension of an earlier
 				contract to assess the capability of the DRA TenDRA technology to
 				express a fully portable operating system implementation.</para>
 		</abstract>
--->
+
+		<revhistory>
+			<revision role="version">
+				<date>30-07-1998</date>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1996</date>
+				<authorinitials>OSFRI</authorinitials>
+				<revdescription>
+					<para>Initial revision.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
 	<xi:include href="preface.xml"/>

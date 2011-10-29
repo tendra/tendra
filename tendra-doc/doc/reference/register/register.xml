@@ -1,11 +1,10 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-	$Id$
--->
+<!-- $Id$ -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
+
 	<bookinfo>
 		<title>The &tdf; Token Register</title>
 
@@ -19,18 +18,51 @@
 		</authorgroup>
 
 		<pubdate>January 1998</pubdate>
-		<!-- TODO: <pubdate>2007</pubdate> -->
 
 		<copyright>
+			<year>2010</year>
 			<year>2007</year>
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
-			<!-- Crown Copyright (c) 1998 -->
 			<year>1998</year>
 			<holder>DERA</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out andfutils to standalone tools.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>02-12-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out andfutils as a standalone package.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>01-08-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
 	<xi:include href="preface.xml"/>

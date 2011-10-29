@@ -38,18 +38,58 @@
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
-<!-- TODO: abstract
-		<abstract>
-			<para>This document describes the required behaviour of the TDF linker (although
-				sometimes it refers to what the linker actually does).  It assumes that the
-				reader understands the format of TDF capsules and libraries, as described in
-				the tld.5 "File Formats" man page.</para>
-		</abstract>
--->
+		<revhistory>
+			<revision role="docs">
+				<date>29-10-2011</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Removed the &ldquo;tld&rdquo; unit encoding; this is
+						given canonically by the &tdf-spec.doc; instead..</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>21-02-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out TLD as a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>02-12-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>02-10-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out TLD to join ANDFutils.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>TLD 4.0#7</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</articleinfo>
 
 	<section>
 		<title>Purpose</title>
+
+		<para>This document describes the required behaviour of the TDF linker (although
+			sometimes it refers to what the linker actually does).  It assumes that the
+			reader understands the format of TDF capsules and libraries, as described in
+			the tld.5 "File Formats" man page.</para>
 
 		<para>The TDF linker has four uses:</para>
 

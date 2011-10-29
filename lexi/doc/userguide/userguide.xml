@@ -3,29 +3,504 @@
 	<!ENTITY lexi.app "<application>Lexi</application>">
 ]>
 
-<!--
-  $Id$
--->
+<!-- $Id$ -->
 
 <book>
-  <bookinfo>
-    <title>The &lexi.app; Users' Guide</title>
 
-	<authorgroup>
-		<author>
-			<firstname>Katherine</firstname>
-			<surname>Flavel</surname>
-			<affiliation><orgname>The TenDRA Project</orgname></affiliation>
-		</author>
-	</authorgroup>
+	<bookinfo>
+		<title>The &lexi.app; Users' Guide</title>
 
-	<pubdate>2007</pubdate>
+		<authorgroup>
+			<author>
+				<firstname>Katherine</firstname>
+				<surname>Flavel</surname>
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</author>
 
-	<copyright>
-		<year>2007</year>
-		<holder>The TenDRA Project</holder>
-	</copyright>
-  </bookinfo>
+			<author>
+				<firstname>Kevin</firstname>
+				<!-- surname elided -->
+				<affiliation><orgname>The TenDRA Project</orgname></affiliation>
+			</author>
+
+			<author>
+				<firstname>Rob</firstname>
+				<surname>Andrews</surname>
+				<affiliation><orgname>DERA</orgname></affiliation>
+				<contrib>Original author of Lexi</contrib>
+			</author>
+		</authorgroup>
+
+		<pubdate>2007</pubdate>
+
+		<copyright>
+			<year>2011</year>
+			<year>2010</year>
+			<year>2009</year>
+			<year>2008</year>
+			<year>2007</year>
+			<holder>The TenDRA Project</holder>
+		</copyright>
+
+		<!-- TODO remove obsoleted parts as each feature is changed -->
+
+		<revhistory>
+			<revision role="buildsystem">
+				<date>29-07-2010</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>The dependency on libexds is now resolved internally
+						for convenience of building.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>24-04-2009</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Removed <code>##</code>.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>01-12-2008</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Implemented group merge.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>17-11-2008</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added <code>ARGUMENT name:ctype;</code></para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>02-11-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>EOF is no longer permitted in groups.</para>
+
+					<para>Empty groups are not present in the lookup table.</para>
+
+					<para>Groups may now contain character <code>\0</code>.</para>
+
+					<para>Group inversion is supported for including subsets:
+						<code>GROUP a = "[^b]";</code></para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>26-09-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Removed legacy support for tokens mapping to functions (and in particular,
+						literally-embedded fragments of source code specified as string literals for
+						function arguments). These were written in the form:</para>
+
+					<programlisting language="lxi">TOKEN "abc" -&gt; f(...);</programlisting>
+
+					<para>with various arguments permitted inside the parenthesies.
+						These have been superseded by SID-like actions defined in the
+						<filename>.lct</filename> file, which look like:</para>
+
+					<programlisting language="lxi">TOKEN "abc" -&gt; &lt;f&gt;(...);</programlisting>
+
+					<para>These provide a language-agnostic manner to achieve the same effect,
+						keeping all language-specific portions in the <filename>.lct</filename>. file.</para>
+
+					<para>Any existing <filename>.lxi</filename> files ought to be updated to
+						use these with an accompanying <filename>.lct</filename> file, instead.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>10-07-2008</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added the &ldquo;test&rdquo; language.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>24-06-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>The <filename>.lct</filename> headers are now output after
+						the generated lexer's header is included.
+						This is a convenience to permit the <filename>.lct</filename>
+						headers to make use of symbols from the generated header
+						(notablly <code>LEXI_EOF</code> in static support functions,
+						for example).</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>24-06-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added a new command line option, <code>-i</code>, for
+						specifying a prefix for user-supplied interface functions
+						separately from the <code>-p</code> prefix.
+						Currently the only such user-supplied interfaces are
+						<code>*getchar()</code> and <code>*unknown_token</code>.</para>
+
+					<para>The rationalle for introducing this option is to permit
+						these interfaces to be shared from a common source whilst keeping
+						the <code>-p</code> prefixes separate, as would be the case for
+						a <filename>.lct</filename> file shared between many lexers each
+						with their own <filename>.lxi</filename> specification.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>25-05-2008</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added <filename>.lct</filename> actions files.
+						These are an analogue to &sid;'s <filename>.act</filename>
+						files.</para>
+
+					<para>Four predefined types have been added: <code>TERMINAL</code>,
+						<code>INTEGER</code>, <code>STRING</code> and <code>CHARACTER</code>.
+						Scopes (instructions_list) can now retain local names with their
+						types.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>22-01-2008</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added <code>[...)</code> range markers for zones.
+						This is mostly useful for identifiers.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>09-01-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added Graphivz &ldquo;Dot&rdquo; output.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>08-01-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para><code>lexi_group()</code> now returns a <code>bool</code>
+						for C99.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>08-01-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added <code>-a</code>; assertions are now disabled by default.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>08-01-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added C99 as an output language.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>08-01-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added support for multiple output files,
+						specific to each output language available.
+						The meaning of these files is language-specific.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>05-01-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Unknown tokens are now provided by
+						<code>lexi_unknown_token</code>, which forms part of the generated API.
+						The character passed is removed, as it serves little purpose.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>05-01-2008</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para><code>LEX_EOF</code> is now known as
+						<code>LEXI_EOF</code>.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>25-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved the token buffer into lexi_state.
+						This introduces state to the buffer-manipulation API,
+						which breaks backwards compatibility.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>24-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>The state for zones is now maintained as part of a slightly
+						more formal interface; unfortunately the contents of this struct
+						(though intended to be private) are visible for the convenience
+						of allocation, but defining an instance of this struct on the
+						user's side of the generated API allows for multiple instances
+						of Lexi to run concurrently.</para>
+
+					<para>The API is now consistent for both with and without zones.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>24-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added -l for the output language.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>24-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>The group-querying functions are now behind a single interface,
+						to which an enumeration of group identifiers is passed.
+						This breaks compatibility for <code>is_*()</code>, which no longer exist.
+						This helps provide a static set of functions should somebody wish to
+						wrap calls to lexi-generated code; the contents of the enumeration
+						scale with groups, rather than the size of the API.</para>
+
+					<para>This change brings the lookup table behind the API, making it static.
+						The type of the lookup table is also removed from the public interface.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>22-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Reworked prefix generation.
+						All generated symbols should now be
+						prefixed, which breaks compatibility.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>22-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Removed single-file output; the generated header is now
+						mandatory.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>21-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Implemented an alternate keywords mechanism.
+						This introduces a new function, <code>lexi_keyword()</code>,
+						which returns an int representing the keyword found.
+						The intention is that this would share a token ID along
+						with Lexi's main interface.</para>
+
+					<para>Removed the -k option.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>19-11-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Removed <code>lookup_char()</code> in favour of passing the
+						character directly to the <code>is_*()</code> macros.
+						This is an API change.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>15-10-2007</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added the -p prefix option.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>14-10-2007</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added <code>COPYRIGHT</code> and the <code>-C</code>
+						option for specifying copyright files on the command
+						line. The origional &ldquo;first comment&rdquo; behaviour
+						is kept, if neither of these are specified.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>11-10-2007</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added <code>[^...]</code> for complements of groups.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>10-10-2007</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added <code>#n</code> and a literal string for function
+						arguments.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>10-10-2007</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added optional support for a generated C header file.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>05-10-2007</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added support for groups in zones.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>24-09-2007</date>
+				<authorinitials>kevin</authorinitials>
+				<revdescription>
+					<para>Added zones.</para>
+
+<!-- TODO: explain what zones are-->
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>15-09-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Merged in support for up to (and including) 31 groups.
+						This is a rework of a patch origionally submitted by
+						Rob Andrews, but not included in our tag for Lexi 1.2.
+						Notably it has been adapted to use stdint.h
+						instead of assuming the size of various C types.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>10-08-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Lexi now maintains its own internal fixed-length buffer
+						when reading tokens.
+						This obsoletes the <code>unread_char()</code> function,
+						which is now no longer called by lexi.</para>
+
+					<para>This change aims to be backwards-compatible; it should
+						not affect existing programs, though their
+						<code>unread_char()</code> functions may now be redundant
+						and can be removed if not used by their own routines.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>29-07-2007</date>
+				<revnumber>Lexi 1.3</revnumber>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Tagged Lexi 1.3.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="docs">
+				<date>07-07-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Wrote the Lexi Users' Guide.</para>
+
+					<para>This was mostly reverse-engineered from the source, and by
+						experimenting with Lexi.</para>
+					<!-- If you're interested, I wrote it on a vt220 -->
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>03-06-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added examples.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>07-05-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Converted from OSSG to ANSI C.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="featurechange">
+				<date>26-04-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Added <code>-h</code>.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>25-04-2007</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out Lexi to a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>21-09-2004</date>
+				<revnumber>Lexi 1.2</revnumber>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Tagged Lexi 1.2.</para>
+
+					<para>This corresponds to Lexi 1.2, which was developed
+						privately by Rob after the 4.1.2 TenDRA release.
+						We are skipping version 1.2 to avoid confusion with his
+						version.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<revnumber>Lexi 1.1</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
+	</bookinfo>
 
 <!-- TODO when writing manpage, we can take the opportunity to declare as BUGS
 (or indeed as undefined) features which no .lxi file uses.
@@ -83,86 +558,6 @@
 			intentional. We try to maintain backwards compatibility with
 			these features, based on the &lexi.app; files
 			present in the TenDRA repository.</para>
-
-		<!-- TODO remove obsoleted parts as each feature is changed -->
-
-		<!-- TODO state why we're changing our api: see the
-			"this is for version X" heading -->
-
-		<section id="history">
-			<title>Change History</title>
-
-			<para>The main feature changes of each version of
-				&lexi.app; are listed below:</para>
-
-			<!-- TODO merge this with an external changelog, as for sid -->
-			<variablelist>
-				<varlistentry>
-					<term>Post 2.0</term>
-					<listitem>
-						<para>Buffers</para>
-						<para>Counters</para>
-						<para>Syntactic sugar for identifiers and comments</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term>2.0</term>
-					<listitem>
-						<para>The // comment syntax is now recognized</para>
-						<para>Zones have been added to lexi</para>
-						<para>Default token syntax</para>
-						<para>Keyword generation cleaned up from the previous hackish &api;</para>
-						<para>A new input file: the lct file which let you specify headers, trailers and copyright statement for the generated files.</para>
-						<para>Multiple function call upon encountering a token</para>
-						<para>Argument control</para>
-						<para>Outputs both a header and a C file</para>
-						<para>Namespace control with prefixes for API and terminals</para>
-						<para>actions that will closely look like their &sid; counterparts. Advantages over direct function calls include (subject to change) type checking, inlining (better performance). </para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term>1.3</term>
-					<listitem>
-						<para>Interim convenience release.</para>
-	<!-- TODO mostly similar to the lexi in TenDRA 4.2.1,
-		save for the addition of // comments (?), and what else?
-		- TODO no, it looks like i didn't add Kevin's patch for that. -->
-
-						<itemizedlist>
-							<listitem>
-								<para>Separated from the TenDRA
-									distribution to form a stand-alone
-									project.</para>
-							</listitem>
-							<listitem>
-								<para>Various behaviours undefined<!-- TODO --></para>
-							</listitem>
-						</itemizedlist>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term>1.2</term>
-					<listitem>
-						<para><code>PROTO</code> removed. This corresponds
-							to Rob Andrew's patches, which will be applied
-							in a future version instead. This version is
-							skipped to avoid confusion and is tagged for
-							internal use only.</para>
-					</listitem>
-				</varlistentry>
-
-				<varlistentry>
-					<term>1.1</term>
-					<listitem>
-						<para>This was the last version provided by the
-							TenDRA 4.1.2 release.</para>
-					</listitem>
-				</varlistentry>
-			</variablelist>
-		</section>
 	</preface>
 
 	<chapter id="lexing">
@@ -677,8 +1072,7 @@ TOKEN "[identstart]" -> read_identifier();</programlisting>
 					<listitem>
 						<para>For example:</para>
 
-						<programlisting language="lxi">
-TOKEN "//" -> get_comment () ;
+						<programlisting language="lxi">TOKEN "//" -> get_comment () ;
 TOKEN "#"  -> get_comment () ;</programlisting>
 
 						<para><!-- Would make calls to <code>get_comment('/','/');</code> and
@@ -739,8 +1133,7 @@ TOKEN "[alpha]something" -> $x ;</programlisting>
 				<para>The <quote>white</quote> group may be used in
 					tokens and keywords as any other group would:</para>
 
-				<programlisting language="lxi">
-TOKEN "a[white]" -> $something ;
+				<programlisting language="lxi">TOKEN "a[white]" -> $something ;
 TOKEN "[white]ab" -> $neverscanned ;</programlisting>
 
 				<para>The above are both legal tokens definitions.

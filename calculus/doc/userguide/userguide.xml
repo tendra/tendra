@@ -4,6 +4,7 @@
 <!-- $Id$ -->
 
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
+
 	<bookinfo>
 		<title>Calculus Users' Guide</title>
 
@@ -24,6 +25,7 @@
 		</authorgroup>
 
 		<copyright>
+			<year>2011</year>
 			<year>2004</year>
 			<year>2005</year>
 			<holder>The TenDRA Project</holder>
@@ -33,6 +35,41 @@
 			<year>1998</year>
 			<holder>DERA</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="version">
+				<date>2004-05-05</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Moved out Calculus to a standalone tool.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>2004-10-25</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Converted from OSSG to ANSI C.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="buildsystem">
+				<date>2004-04-29</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Converted to a new build system.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>1998</date>
+				<revnumber>Calculus 1.2</revnumber>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
 
 	<xi:include href="preface.xml"/>

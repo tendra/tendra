@@ -1,13 +1,13 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE book SYSTEM "minidocbook.dtd">
 
-<!--
-  $Id$
--->
+<!-- $Id$ -->
   
 <book xmlns:xi="http://www.w3.org/2001/XInclude">
+
 	<bookinfo>
-		<title>TDF Diagnostic Specification, Issue 3.0</title>
+		<title>TDF Diagnostic Specification</title>
+		<edition>Issue 3.0</edition>
 
 		<authorgroup>
 			<othercredit class="copyeditor">
@@ -24,20 +24,45 @@
 			<corpauthor>DERA</corpauthor>
 		</authorgroup>
 
-		<pubdate>2004</pubdate>
+		<pubdate>1998</pubdate>
 
 		<copyright>
+			<year>2011</year>
 			<year>2004</year>
 			<year>2005</year>
-
 			<holder>The TenDRA Project</holder>
 		</copyright>
 
 		<copyright>
 			<year>1998</year>
-
 			<holder>DERA</holder>
 		</copyright>
+
+		<revhistory>
+			<revision role="dev">
+				<date>21-10-2011</date>
+				<authorinitials>kate</authorinitials>
+				<revdescription>
+					<para>Remaining conversion to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="dev">
+				<date>15-04-2005</date>
+				<authorinitials>asmodai</authorinitials>
+				<revdescription>
+					<para>Initial conversion to DocBook.</para>
+				</revdescription>
+			</revision>
+
+			<revision role="version">
+				<date>30-07-1998</date>
+				<authorinitials>DERA</authorinitials>
+				<revdescription>
+					<para>TenDRA 4.1.2 release.</para>
+				</revdescription>
+			</revision>
+		</revhistory>
 	</bookinfo>
   
 	<xi:include href="preface.xml"/>
