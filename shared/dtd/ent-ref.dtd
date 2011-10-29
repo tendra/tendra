@@ -1,5 +1,7 @@
 <!-- $Id$ -->
 
+<!ENTITY % docs "http://docs.tendra.org">
+
 <!ENTITY % vol.1 "<manvolnum>1</manvolnum>">
 <!ENTITY % vol.5 "<manvolnum>5</manvolnum>">
 
@@ -18,6 +20,7 @@
 <!ENTITY cc     "<command>cc</command>(1)">
 <!ENTITY gdb    "<command>gdb</command>(1)">
 <!ENTITY xdb    "<command>xdb</command>(1)">
+<!ENTITY lint   "<command>lint</command>(1)">
 <!ENTITY rpm    "<command>rpm</command>(1)">
 <!ENTITY prof   "<command>prof/gprof</command>(1)">
 <!ENTITY dbxtra "<command>dbxtra</command>(1)">
@@ -66,20 +69,26 @@
 <!-- Documents -->
 <!-- TODO: shorter names.
 TODO: maybe -dg and -ug for dev/user guides? maybe just -dev -->
-<!ENTITY pragmatoken.doc       "<ulink url='http://docs.tendra.org/pragmatoken/'><citetitle>The Pragma Token Syntax</citetitle></ulink>">
-<!ENTITY tdf-portability.doc   "<ulink url='http://docs.tendra.org/tdf-portability/'><citetitle>TDF and Portability</citetitle></ulink>">
-<!ENTITY cppporting.doc   "<ulink url='http://docs.tendra.org/tdf-portability/'><citetitle>C++ and Portability</citetitle></ulink>">
-<!ENTITY tcpplus-userguide.doc "<ulink url='http://docs.tendra.org/tcpplus-userguide/'><citetitle>C/C++ Producer Configuration Guide</citetitle></ulink>">
-<!ENTITY tcpplus-devguide.doc "<ulink url='http://docs.tendra.org/tcpplus-devguide/'><citetitle>C/C++ Producer Implementation</citetitle></ulink>">
-<!ENTITY tcc-userguide.doc  "<ulink url='http://docs.tendra.org/tcc-userguide/'><citetitle><acronym>TCC</acronym> Users' Guide</citetitle></ulink>">
-<!ENTITY sid-userguide.doc  "<ulink url='http://docs.tendra.org/sid-userguide/'><citetitle><acronym>SID</acronym> Users' Guide</citetitle></ulink>">
-<!ENTITY tnc-userguide.doc  "<ulink url='http://docs.tendra.org/tnc-userguide/'><citetitle>The &tdf; Notation Compiler</citetitle></ulink>">
-<!ENTITY lexi-userguide.doc "<ulink url='http://docs.tendra.org/lexi-userguide/'><citetitle>Lexi Users' Guide</citetitle></ulink>">
-<!ENTITY calculus-userguide.doc "<ulink url='http://docs.tendra.org/calculus-userguide/'><citetitle>Calculus Users' Guide</citetitle></ulink>">
-<!ENTITY tchk.doc           "<ulink url='http://docs.tendra.org/tchk/'><citetitle>TCheck - The TenDRA Static Checker</citetitle></ulink>">
-<!ENTITY tdf-spec.doc       "<ulink url='http://docs.tendra.org/tdf-spec/'><citetitle>&tdf; Specification</citetitle></ulink>">
-<!ENTITY pl_tdf.doc         "<ulink url='http://docs.tendra.org/pl_tdf/'><citetitle>&pl_tdf; Definition</citetitle></ulink>">
-<!ENTITY tspec.doc          "<ulink url='http://docs.tendra.org/pl_tdf/'><citetitle>tspec - An &api; Specification Tool</citetitle></ulink>">
-<!ENTITY newapis.doc        "<ulink url='http://docs.tendra.org/newapis/'><citetitle>Adding new &api;s with tspec</citetitle></ulink>">
-<!ENTITY unix-validation.doc "<ulink url='http://docs.tendra.org/unix-validation/'><citetitle>Validation of TenDRA Capability to Implement a UNIX-like Operating System</citetitle></ulink>">
+<!ENTITY pragmatoken.doc       "<ulink url='%docs;/pragmatoken/'><citetitle>The Pragma Token Syntax</citetitle></ulink>">
+<!ENTITY symboltable.doc       "<ulink url='%docs;/symboltable/'><citetitle>The C/C++ Symbol Table Dump</citetitle></ulink>">
+<!ENTITY cppporting.doc   "<ulink url='%docs;/cppporting/'><citetitle>C++ and Portability</citetitle></ulink>">
+<!ENTITY tcpplus-userguide.doc "<ulink url='%docs;/tcpplus-userguide/'><citetitle>C/C++ Producer Configuration Guide</citetitle></ulink>">
+<!ENTITY tcpplus-devguide.doc "<ulink url='%docs;/tcpplus-devguide/'><citetitle>C/C++ Producer Implementation</citetitle></ulink>">
+<!ENTITY tcc-userguide.doc  "<ulink url='%docs;/tcc-userguide/'><citetitle><acronym>TCC</acronym> Users' Guide</citetitle></ulink>">
+<!ENTITY sid-userguide.doc  "<ulink url='%docs;/sid-userguide/'><citetitle><acronym>SID</acronym> Users' Guide</citetitle></ulink>">
+<!ENTITY tnc-userguide.doc  "<ulink url='%docs;/tnc-userguide/'><citetitle>The &tdf; Notation Compiler</citetitle></ulink>">
+<!ENTITY lexi-userguide.doc "<ulink url='%docs;/lexi-userguide/'><citetitle>Lexi Users' Guide</citetitle></ulink>">
+<!ENTITY calculus-userguide.doc "<ulink url='%docs;/calculus-userguide/'><citetitle>Calculus Users' Guide</citetitle></ulink>">
+<!ENTITY tchk.doc           "<ulink url='%docs;/tchk/'><citetitle>TCheck - The TenDRA Static Checker</citetitle></ulink>">
+<!ENTITY pl_tdf.doc         "<ulink url='%docs;/pl_tdf/'><citetitle>&pl_tdf; Definition</citetitle></ulink>">
+<!ENTITY tspec.doc          "<ulink url='%docs;/pl_tdf/'><citetitle>tspec - An &api; Specification Tool</citetitle></ulink>">
+<!ENTITY newapis.doc        "<ulink url='%docs;/newapis/'><citetitle>Adding new &api;s with tspec</citetitle></ulink>">
+<!ENTITY unix-validation.doc "<ulink url='%docs;/unix-validation/'><citetitle>Validation of TenDRA Capability to Implement a UNIX-like Operating System</citetitle></ulink>">
+<!ENTITY style.doc           "<ulink url='%docs;/style//'><citetitle>Style Guide</citetitle></ulink>">
+
+<!ENTITY tdf-portability.doc   "<ulink url='%docs;/tdf-portability/'><citetitle>TDF and Portability</citetitle></ulink>">
+<!ENTITY tdf-spec.doc          "<ulink url='%docs;/tdf-spec/'><citetitle>&tdf; Specification</citetitle></ulink>">
+<!ENTITY tdf-diag.doc          "<ulink url='%docs;/tdf-diag/'><citetitle>&tdf; Diagnostic Specification</citetitle></ulink>">
+<!ENTITY tdf-guide.doc         "<ulink url='%docs;/tdf-guide/'><citetitle>&tdf; Diagnostic Specification</citetitle></ulink>">
+<!ENTITY tdf-register.doc      "<ulink url='%docs;/tdf-register/'><citetitle>The &tdf; Token Register</citetitle></ulink>">
 
