@@ -166,17 +166,34 @@
 	rep    (repeat|norepeat) "norepeat"
 >
 
+<!ELEMENT abstract       (para+)>
+<!ELEMENT revdescription ((para|programlisting)*)>
+
+<!ELEMENT revhistory (revision+)>
+
+<!ELEMENT date           (#PCDATA)>	<!-- YYYY(-MM(-DD)) -->
+<!ELEMENT revnumber      (#PCDATA)>	<!-- "TLD 1.2.3" -->
+<!ELEMENT authorinitials (#PCDATA)>	<!-- username -->
+<!ELEMENT contrib        (#PCDATA)>
+<!ELEMENT edition        (#PCDATA)> <!-- "Issue 3.0" -->
+
+<!ELEMENT revision (date?, revnumber?, authorinitials?, revdescription?)>
+<!-- "version" means either a release, or creation/destruction of a new project -->
+<!ATTLIST revision
+	role (version | dev | buildsystem | featurechange | docs) #REQUIRED
+>
+
 <!-- TODO: also refentryinfo -->
-<!ELEMENT bookinfo    (title, authorgroup+, pubdate?, copyright+)>
-<!ELEMENT articleinfo (title, authorgroup+, pubdate?, copyright+)>
+<!ELEMENT bookinfo    (title, edition?, authorgroup, pubdate?, copyright+, abstract?, revhistory)>
+<!ELEMENT articleinfo (title, edition?, authorgroup, pubdate?, copyright+, abstract?, revhistory)>
 
 <!ELEMENT authorgroup ((editor | othercredit | corpauthor | author)+)>
 
 <!ELEMENT copyright (year+, holder)>
 
 <!ELEMENT editor      (firstname, surname, affiliation?)>
-<!ELEMENT author      (firstname, surname, affiliation?)>
-<!ELEMENT othercredit (firstname, surname, affiliation?)>
+<!ELEMENT author      (firstname, surname, affiliation?, contrib?)>
+<!ELEMENT othercredit (firstname, surname, affiliation?, contrib?)>
 <!ATTLIST othercredit
 	class (copyeditor) #REQUIRED
 >
