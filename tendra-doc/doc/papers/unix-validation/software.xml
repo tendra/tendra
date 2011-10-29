@@ -41,30 +41,46 @@
 	<table>
 		<title>Rough source code distribution</title>
 
-		<col align="center"/>
-		<col align="center"/>
-		<col align="center"/>
-		<col align="center"/>
+		<col align="left"/>
 		<col align="center"/>
 
 		<thead>
 			<tr>
-				<th>Libraries</th>
-				<th>Kernel</th>
-				<th>Commands &amp; tools</th>
-				<th>Graphics</th>
-				<th>Misc.</th>
-				<th>Total</th>
+				<th>Component</th>
+				<th>Size</th>
 			</tr>
 		</thead>
 
 		<tbody>
 			<tr>
+				<td>Libraries</td>
 				<td>15MB</td>
+			</tr>
+
+			<tr>
+				<td>Kernel</td>
 				<td>30MB</td>
+			</tr>
+
+			<tr>
+				<td>Commands &amp; tools</td>
 				<td>101MB</td>
+			</tr>
+
+			<tr>
+				<td>Graphics</td>
 				<td>85MB</td>
+			</tr>
+
+			<tr>
+				<td>Misc.</td>
 				<td>11MB</td>
+			</tr>
+		</tbody>
+
+		<tbody>
+			<tr>
+				<td>Total</td>
 				<td>242MB</td>
 			</tr>
 		</tbody>
@@ -81,28 +97,41 @@
 	<table>
 		<title>C language files</title>
 
-		<col align="center"/>
-		<col align="center"/>
-		<col align="center"/>
-		<col align="center"/>
+		<col align="left"/>
 		<col align="center"/>
 
 		<thead>
 			<tr>
-				<th>Headers</th>
-				<th>Libraries</th>
-				<th>Kernel</th>
-				<th>Commands &amp; tools</th>
-				<th>Total</th>
+				<th>Component</th>
+				<th>Size</th>
 			</tr>
 		</thead>
 
 		<tbody>
 			<tr>
+				<td>Headers</td>
 				<td>19.7MB</td>
+			</tr>
+
+			<tr>
+				<td>Libraries</td>
 				<td>11.2MB</td>
+			</tr>
+
+			<tr>
+				<td>Kernel</td>
 				<td>19.8MB</td>
+			</tr>
+
+			<tr>
+				<td>Commands &amp; tools</td>
 				<td>39.6MB</td>
+			</tr>
+		</tbody>
+
+		<tbody>
+			<tr>
+				<td>Total</td>
 				<td>90.3MB</td>
 			</tr>
 		</tbody>
