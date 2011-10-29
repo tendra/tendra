@@ -24,6 +24,7 @@
 	<xsl:import href="lists.xsl"/>
 	<xsl:import href="title.xsl"/>
 	<xsl:import href="toc.xsl"/>
+	<xsl:import href="frontmatter.xsl"/>
 	<xsl:import href="table.xsl"/>
 	<xsl:import href="footnotes.xsl"/>
 	<xsl:import href="refentry.xsl"/>
@@ -72,6 +73,10 @@
 		</xsl:call-template>
 
 		<xsl:call-template name="page-toc">
+			<xsl:with-param name="title" select="$title"/>
+		</xsl:call-template>
+
+		<xsl:call-template name="page-frontmatter">
 			<xsl:with-param name="title" select="$title"/>
 		</xsl:call-template>
 

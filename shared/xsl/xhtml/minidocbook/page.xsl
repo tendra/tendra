@@ -34,12 +34,24 @@
 		</xsl:choose>
 	</xsl:template>
 
+	<xsl:template match="edition">
+		<span class="edition">
+			<xsl:text> &#8211; </xsl:text>
+			<xsl:value-of select="."/>
+		</span>
+	</xsl:template>
+
 	<xsl:template name="navigation">
+		<xsl:param name="parent"/>
+
 		<!-- TODO: i don't like that this requires chunking and filename knowledge.
 			it should be done in the root xsl file -->
 		<xsl:variable name="prev">
 			<xsl:choose>
-				<xsl:when test="name() = 'book'"/>
+				<xsl:when test="$parent = 'toc'"/>
+				<xsl:when test="$parent = 'frontmatter'">
+					<xsl:text>index</xsl:text>
+				</xsl:when>
 				<xsl:when test="preceding-sibling::preface
 					|preceding-sibling::chapter
 					|preceding-sibling::appendix">
@@ -48,14 +60,17 @@
 						|preceding-sibling::appendix)[position() = last()]" mode="page-filename"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:text>index</xsl:text>
+					<xsl:text>frontmatter</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 
 		<xsl:variable name="next">
 			<xsl:choose>
-				<xsl:when test="name() = 'book'">
+				<xsl:when test="$parent = 'toc'">
+					<xsl:text>frontmatter</xsl:text>
+				</xsl:when>
+				<xsl:when test="$parent = 'frontmatter'">
 					<xsl:apply-templates select="(preface|chapter|appendix)
 						[position() = 1]" mode="page-filename"/>
 				</xsl:when>
@@ -81,7 +96,7 @@
 			<xsl:call-template name="navlink">
 				<xsl:with-param name="filename"  select="'index'"/>
 				<xsl:with-param name="name"      select="'Home'"/>
-				<xsl:with-param name="predicate" select="name() != 'book'"/>
+				<xsl:with-param name="predicate" select="$parent != 'toc'"/>
 			</xsl:call-template>
 
 			<xsl:text>&#160;|&#160;</xsl:text>
@@ -117,11 +132,14 @@
 				<xsl:if test="name() != 'refentry'">
 					<h1>
 						<xsl:copy-of select="$title"/>
+						<xsl:apply-templates select="bookinfo/edition|articleinfo/edition"/>
 					</h1>
 
 					<xsl:call-template name="toc">
 						<xsl:with-param name="depth"  select="1"/>
 					</xsl:call-template>
+
+					<xsl:call-template name="frontmatter"/>
 				</xsl:if>
 
 				<xsl:choose>
@@ -155,11 +173,14 @@
 						<xsl:text>Single page</xsl:text>
 					</a>
 
-					<xsl:call-template name="navigation"/>
+					<xsl:call-template name="navigation">
+						<xsl:with-param name="parent" select="'toc'"/>
+					</xsl:call-template>
 				</div>
 
 				<h1>
 					<xsl:copy-of select="$title"/>
+					<xsl:apply-templates select="bookinfo/edition|articleinfo/edition"/>
 				</h1>
 
 				<xsl:call-template name="toc">
@@ -168,7 +189,38 @@
 				</xsl:call-template>
 
 				<div class="navigation bottom">
-					<xsl:call-template name="navigation"/>
+					<xsl:call-template name="navigation">
+						<xsl:with-param name="parent" select="'toc'"/>
+					</xsl:call-template>
+				</div>
+			</xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>
+
+	<xsl:template name="page-frontmatter">
+		<xsl:param name="title"/>
+
+		<xsl:call-template name="output">
+			<xsl:with-param name="filename" select="'frontmatter'"/>
+			<xsl:with-param name="title"    select="$title"/>
+
+			<xsl:with-param name="content">
+				<div class="navigation">
+					<a href="single.{$tendra.ext}">
+						<xsl:text>Single page</xsl:text>
+					</a>
+
+					<xsl:call-template name="navigation">
+						<xsl:with-param name="parent" select="'frontmatter'"/>
+					</xsl:call-template>
+				</div>
+
+				<xsl:call-template name="frontmatter"/>
+
+				<div class="navigation bottom">
+					<xsl:call-template name="navigation">
+						<xsl:with-param name="parent" select="'frontmatter'"/>
+					</xsl:call-template>
 				</div>
 			</xsl:with-param>
 		</xsl:call-template>
@@ -190,13 +242,17 @@
 						<xsl:text>Single page</xsl:text>
 					</a>
 
-					<xsl:call-template name="navigation"/>
+					<xsl:call-template name="navigation">
+						<xsl:with-param name="parent" select="'chunk'"/>
+					</xsl:call-template>
 				</div>
 
 				<xsl:apply-templates select="."/>
 
 				<div class="navigation bottom">
-					<xsl:call-template name="navigation"/>
+					<xsl:call-template name="navigation">
+						<xsl:with-param name="parent" select="'chunk'"/>
+					</xsl:call-template>
 				</div>
 			</xsl:with-param>
 		</xsl:call-template>

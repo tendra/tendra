@@ -36,7 +36,8 @@
 			</xsl:if>
 
 			<!-- TODO: add generation date and document date -->
-			<span class="copyright">&#169; 2010 The TenDRA Project.</span>
+			<!-- TODO: leave copyrights to the frontmatter, instead -->
+			<span class="copyright">&#169; 2011 The TenDRA Project.</span>
 		</div>
 	</xsl:template>
 
