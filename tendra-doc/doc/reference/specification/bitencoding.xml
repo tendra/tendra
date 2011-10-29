@@ -280,10 +280,11 @@
 					<replaceable>tld</replaceable> <code>UNIT</code> is a <code>TDFINT</code>
 					giving the format of the remainder of the <code>UNIT</code>.
 					Currently, the linker supports formats 0 and 1, but others may be
-					added to give greater functionality while retaining compatibility.
-					With format 0, the remainder of <code>UNIT</code> is identical to a
-					now obsolete <replaceable>tld2</replaceable> <code>UNIT</code>. With format
-					1, the remainder of the <code>UNIT</code> is as follows: If
+					added to give greater functionality while retaining compatibility.</para>
+
+				<para>With format 0, the remainder of <code>UNIT</code> is identical to a
+					now obsolete <replaceable>tld2</replaceable> <code>UNIT</code>.
+					With format 1, the remainder of the <code>UNIT</code> is as follows: If
 					<replaceable>n</replaceable> is the number of <code>EXTERN_LINK </code>s in
 					the <replaceable>external_linkage</replaceable> argument of
 					<replaceable>make_capsule</replaceable>, the remainder consists of
@@ -310,7 +311,7 @@
 
 					<tbody>
 						<tr>
-							<td rowspan="2">Bit 0</td>
+							<td rowspan="2" valign="middle">Bit 0</td>
 							<td>1 means &ldquo;used in this capsule&rdquo;</td>
 						</tr>
 
@@ -319,7 +320,7 @@
 						</tr>
 
 						<tr>
-							<td rowspan="2">Bit 1</td>
+							<td rowspan="2" valign="middle">Bit 1</td>
 							<td>1 means &ldquo;declared in this capsule&rdquo;</td>
 						</tr>
 
@@ -328,7 +329,7 @@
 						</tr>
 
 						<tr>
-							<td rowspan="2">Bit 2</td>
+							<td rowspan="2" valign="middle">Bit 2</td>
 							<td>1 means &ldquo;defined in this capsule&rdquo;</td>
 						</tr>
 
@@ -337,7 +338,7 @@
 						</tr>
 
 						<tr>
-							<td rowspan="2">Bit 3</td>
+							<td rowspan="2" valign="middle">Bit 3</td>
 							<td>1 means &ldquo;may be multiply defined&rdquo;</td>
 						</tr>
 
