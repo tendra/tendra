@@ -125,8 +125,7 @@ GROUP digit    = {0-9} ;</programlisting>
 			so that the characters are available. This is a convenience
 			so that two similar tokens may share  the same function:</para>
 
-		<programlisting language="lxi">
-TOKEN "/*" -> get_comment () ;
+		<programlisting language="lxi">TOKEN "/*" -> get_comment () ;
 TOKEN "//"  -> get_comment () ;</programlisting>
 
 		<para>In the above example the function is called as
@@ -183,7 +182,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 		<table>
 			<title>Predefined Character Ranges</title>
 
-			<col align="left"/>
+			<col align="center"/>
 			<col align="left"/>
 
 			<thead>
@@ -233,8 +232,8 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 			<title>Escaped Characters</title>
 			<!-- TODO really ASCII, or is it the execution character set? -->
 
-			<col align="left"/>
-			<col align="left"/>
+			<col align="center"/>
+			<col align="center"/>
 			<col align="left"/>
 
 			<thead>
@@ -296,7 +295,7 @@ group       := "[" + GROUPNAME + "]" ;</programlisting>
 
 				<tr>
 					<td><code>\e</code></td>
-					<td><!-- TODO >TODO --><!-- TODO applicable here? --></td>
+					<td role="na" align="center">&ndash;<!-- TODO applicable here? --></td>
 					<td>End of file (EOF)</td>
 				</tr>
 			</tbody>
