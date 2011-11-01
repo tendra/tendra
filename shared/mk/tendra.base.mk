@@ -62,6 +62,8 @@ EXIT?=		exit
 FIND?=		find
 .if ${SYSTEM} == "SunOS"
 INSTALL?=	ginstall
+.elif ${SYSTEM} == "HP-UX"
+INSTALL?=	/usr/local/coreutils/bin/install
 .else
 INSTALL?=	install
 .endif

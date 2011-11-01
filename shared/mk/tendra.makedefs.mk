@@ -53,6 +53,7 @@ MD_EXECFMT!=                             \
         NetBSD)    echo elf;;            \
         OpenBSD)   echo elf;;            \
         SunOS)     echo elf;;            \
+        HP-UX)     echo parisc;;         \
         *)         echo unknown;;        \
     esac;
 
@@ -63,6 +64,7 @@ MD_BLDARCH!=                             \
         BePC)          echo 80x86;;      \
         i?86|i86pc)    echo 80x86;;      \
         sparc|sparc64) echo sparc;;      \
+        9000/7*)       echo hppa;;       \
         *)             echo unknown;;    \
     esac;
 
@@ -74,6 +76,7 @@ MD_BLDARCHBITS!=                         \
         i?86|i86pc)   echo 32;;          \
         sparc)        echo 32;;          \
         sparc64)      echo 64;;          \
+        9000/7*)      echo 64;;          \
         *)            echo unknown;;     \
     esac;
 
@@ -87,6 +90,7 @@ MD_OSFAM!=                               \
         OpenBSD)   echo openbsd;;        \
         SunOS)     echo solaris;;        \
         Haiku)     echo haiku;;          \
+        HP-UX)     echo hpux;;           \
         *)         echo unknown;;        \
     esac;
 
@@ -107,6 +111,7 @@ MD_OSVER!=                               \
         SunOS.5.10*)   echo SUNOS510;;   \
         SunOS.5.11*)   echo SUNOS511;;   \
         Haiku.1*)      echo HAIKU1;;     \
+        HP-UX.B.11.11) echo HPUX11i;;    \
         *)             echo unknown;;    \
     esac;
 
