@@ -69,6 +69,9 @@
  * various components are controlled by the FS_* macros defined in config.h.
  */
 
+#define _POSIX_SOURCE
+
+#include <sys/types.h>
 #include <sys/wait.h>
 
 typedef int wait_type;

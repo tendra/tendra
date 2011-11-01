@@ -58,6 +58,8 @@
 */
 
 
+#define _POSIX_SOURCE
+
 #include <assert.h>
 #include <signal.h>
 #include <stdio.h>

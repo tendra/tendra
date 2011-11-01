@@ -58,6 +58,8 @@
 */
 
 
+#define _POSIX_SOURCE
+
 #include <sys/stat.h>
 
 #include <assert.h>

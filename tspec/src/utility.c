@@ -58,6 +58,8 @@
 */
 
 
+#define _POSIX_SOURCE
+
 #include <stdarg.h>
 #include <sys/types.h>
 #include <errno.h>

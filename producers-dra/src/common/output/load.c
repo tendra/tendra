@@ -58,6 +58,11 @@
 */
 
 
+#define _POSIX_SOURCE
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include "config.h"
 #include "version.h"
 #include "system.h"
