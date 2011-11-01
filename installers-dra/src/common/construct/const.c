@@ -204,9 +204,7 @@ find_glob(exp e)
 /************************************************************************
  *  ret_constlist returns the elements of a constants-list
  ************************************************************************/
-static void ret_constlist(exp head);
-
-void
+static void
 ret_constlist(exp head)
 {
   if (head != nilexp) {
