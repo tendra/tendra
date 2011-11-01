@@ -181,8 +181,6 @@ $Log: translat.c,v $
 #include "target_v.h"
 
 
-#define ALIGNNEXT(bitposn, bitalign)	(((bitposn)+(bitalign)-1) & ~((bitalign)-1))
-
 int optim_level;		/* optimisation level from -O# option */
 int maxfix_tregs;		/* The number of t regs allocatable */
 FILE *as_file;			/* Assembler output file */

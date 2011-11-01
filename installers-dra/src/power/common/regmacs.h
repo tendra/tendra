@@ -285,7 +285,6 @@ $Log: regmacs.h,v $
 
 #define R_TEMP_FP    R_11
 #define R_TEMP_TP    R_12
-#define ALIGNNEXT(bitposn, bitalign)	(((bitposn)+(bitalign)-1) & ~((bitalign)-1))
 #endif /* regmacs.h */
 
 
