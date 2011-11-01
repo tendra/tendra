@@ -178,7 +178,6 @@ $Log: oprators.c,v $
 #include "shapemacs.h"
 #include "bitsmacs.h"
 #include "common_types.h"
-#include "myassert.h"
 #include "labels.h"
 #include "frames.h"
 #include "oprators.h"

@@ -107,7 +107,6 @@ $Log: special.c,v $
 #include "comment.h"
 #include "machine.h"
 #include "proc.h"
-#include "myassert.h"
 #include "out.h"
 #include "frames.h"
 #include "regexps.h"

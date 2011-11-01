@@ -108,8 +108,10 @@ assembler for data. The parameters are an evaluated exp and an index
 into the table of externals (or 0 meaning anonymous).
 *****************************************************************/
 
-#include "config.h"
+#include <assert.h>
 #include <ctype.h>
+
+#include "config.h"
 #include "addrtypes.h"
 #include "common_types.h"
 #include "tags.h"
@@ -123,7 +125,6 @@ into the table of externals (or 0 meaning anonymous).
 #include "fbase.h"
 #include "translat.h"
 #include "comment.h"
-#include "myassert.h"
 #include "inst_fmt.h"
 #include "szs_als.h"		/* for MAX_BF_SIZE */
 #include "out.h"
@@ -1011,9 +1012,13 @@ evalone(exp e, int bitposn)
 	 int gap = no(off) - left.bitposn;
 
  	 /* check that component's alignment matches offset in struct */
+/* XXX: what declares ta?
 	 assert((no(off)/ta)*ta <= no(off));
+*/
 	 /* and is no greater than struct's alignment */
+/* XXX: what declares maxalign?
 	 assert(tupa.ashalign <= maxalign);
+*/
 
 	 if ( shape_size(sh(tup)) == 0 )
 	 {

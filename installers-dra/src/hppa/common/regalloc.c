@@ -86,6 +86,8 @@ number of ident = (word displacement in locals)*64 + GR17
 
 
 
+#include <assert.h>
+
 #include "config.h"
 #include "expmacs.h"
 #include "tags.h"
@@ -96,7 +98,6 @@ number of ident = (word displacement in locals)*64 + GR17
 #include "regable.h"
 #include "regmacs.h"
 #include "comment.h"
-#include "myassert.h"
 #include "frames.h"
 #include "regalloc.h"
 

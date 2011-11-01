@@ -189,8 +189,9 @@ the proc independent (common to other  translators)
 ******************************************************************/
 
 
+#include <assert.h>
+
 #include "config.h"
-#include "myassert.h"
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"

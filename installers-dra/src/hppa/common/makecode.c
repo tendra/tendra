@@ -255,9 +255,12 @@ $Log: makecode.c,v $
 */
 
 
+#include <assert.h>
+
+#include <shared/xalloc.h>
+
 #define HPPATRANS_CODE
 #include "config.h"
-#include "myassert.h"
 #include "addrtypes.h"
 #include "tags.h"
 #include "new_tags.h"
@@ -299,7 +302,6 @@ $Log: makecode.c,v $
 #include "f64.h"
 #include "misc_c.h"
 #include "special.h"
-#include <shared/xalloc.h>
 #include "loc_signal.h"
 
 #define outp fprintf

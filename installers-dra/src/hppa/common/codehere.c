@@ -99,8 +99,9 @@ in a register.
 ******************************************************************/
 
 
+#include <assert.h>
+
 #include "config.h"
-#include "myassert.h"
 #include "common_types.h"
 #include "addrtypes.h"
 #include "proctypes.h"

@@ -239,13 +239,16 @@ translat.c,v
  */
 
 
+#include <assert.h>
+
+#include <shared/xalloc.h>
+
 #include "config.h"
-#include "myassert.h"
+#include "exptypes.h"
 #include "flpt.h"
 #include "frames.h"
 #include "expmacs.h"
 #include "tags.h"
-#include "exptypes.h"
 #include "exp.h"
 #include "shapemacs.h"
 #include "tempdecs.h"
@@ -265,7 +268,6 @@ translat.c,v
 #include "getregs.h"
 #include "regmacs.h"
 #include "labels.h"
-#include <shared/xalloc.h>
 #include "comment.h"
 #include "hppadiags.h"
 #include "installglob.h"

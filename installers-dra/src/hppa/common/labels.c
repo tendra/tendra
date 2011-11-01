@@ -70,7 +70,6 @@ $Log: labels.c,v $
 
 #define HPPATRANS_CODE
 #include "config.h"
-#include "myassert.h"
 #include "addrtypes.h"
 #include "regexps.h"
 #include "labels.h"
@@ -97,7 +96,6 @@ void
 seed_label(void)
 {
     firstlab = ( ( firstlab + labno + 100 ) / 100 ) * 100 ;
-    assert ( firstlab >= old_labno ) ;
     labno=0;
     return ;
 }

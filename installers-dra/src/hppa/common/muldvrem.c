@@ -121,9 +121,10 @@ $Log: muldvrem.c,v $
 */
 
 
+#include <assert.h>
+
 #define HPPATRANS_CODE
 #include "config.h"
-#include "myassert.h"
 #include "needscan.h"
 #include "addrtypes.h"
 #include "tags.h"

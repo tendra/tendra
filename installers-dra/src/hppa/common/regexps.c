@@ -118,6 +118,8 @@ For trivial 'peephole' optimisations
 
 
 
+#include <assert.h>
+
 #include "config.h"
 #include "expmacs.h"
 #include "addrtypes.h"
@@ -128,7 +130,6 @@ For trivial 'peephole' optimisations
 #include "shapemacs.h"
 #include "common_types.h"
 #include "regmacs.h"
-#include "myassert.h"
 #include "comment.h"
 #include "check.h"
 #include "regexps.h"

@@ -79,8 +79,9 @@ that the corresponding register is free for use.
 
 ******************************************************************/
 
+#include <assert.h>
+
 #include "config.h"
-#include "myassert.h"
 #include "regmacs.h"
 #include "proctypes.h"
 #include "exptypes.h"
@@ -93,6 +94,7 @@ that the corresponding register is free for use.
 #include "expmacs.h"
 #include "bitsmacs.h"
 #include "getregs.h"
+#include "comment.h"
 
 
 /* next fixed reg to be allocated */

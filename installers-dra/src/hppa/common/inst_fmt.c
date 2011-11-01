@@ -119,9 +119,11 @@ of HPPA RISC operations, the actual member is passed as the string
 understood by the assembler.
 ******************************************************************/
 
-#include "config.h"
-#include "myassert.h"
+#include <assert.h>
+
 #include <shared/xalloc.h>
+
+#include "config.h"
 #include "addrtypes.h"
 #include "regexps.h"
 #include "regmacs.h"

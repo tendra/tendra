@@ -110,8 +110,9 @@ $Log: locate.c,v $
       evaluating an exp is in a register or directly or literally in store,
 */
 
+#include <assert.h>
+
 #include "config.h"
-#include "myassert.h"
 #include "addrtypes.h"
 #include "expmacs.h"
 #include "tags.h"

@@ -194,9 +194,14 @@ d (section number). -ve values used to control
 */
 
 
+#include <assert.h>
+#include <stdarg.h>
+
+#include <shared/xalloc.h>
+#include <shared/xalloc.h>
+
 #define HPPATRANS_CODE
 #include "config.h"
-#include <stdarg.h>
 #include "addrtypes.h"
 #include "frames.h"
 #include "exptypes.h"
@@ -212,14 +217,11 @@ d (section number). -ve values used to control
 #include "tags.h"
 #include "bitsmacs.h"
 #include "diagtypes.h"
-#include <shared/xalloc.h>
 #include "diag_fns.h"
 #include "locate.h"
 #include "diagglob.h"
 #include "mark_scope.h"
-#include <shared/xalloc.h>
 #include "comment.h"
-#include "myassert.h"
 #include "translat.h"
 #include "machine.h"
 #include "szs_als.h"
