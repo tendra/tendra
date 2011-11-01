@@ -539,12 +539,18 @@ void translate_capsule
   outnl();
 
   /* alloc memory */
-  procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
+  if (noprocs == 0) {
+    procrecs = NULL;
 
-  proc_def_trans_order = (dec**)xcalloc(noprocs, sizeof(dec*));
-  if (xdb)
-  {
-     src_line = (int*)xcalloc(noprocs,sizeof(int));
+    proc_def_trans_order = NULL;
+  } else {
+    procrecs = (procrec *)xcalloc(noprocs, sizeof(procrec));
+
+    proc_def_trans_order = (dec**)xcalloc(noprocs, sizeof(dec*));
+    if (xdb)
+    {
+       src_line = (int*)xcalloc(noprocs,sizeof(int));
+    }
   }
 
   /* number proc defs */
@@ -726,7 +732,11 @@ void translate_capsule
      i++;
   }
   main_globals_index = i;
-  main_globals = (dec**)xcalloc(main_globals_index,sizeof(dec*));
+  if (main_globals_index == 0) {
+    main_globals = (dec**)xcalloc(main_globals_index,sizeof(dec*));
+  } else {
+    main_globals = NULL;
+  }
   i = 0;
   for (crt_def = top_def; crt_def != (dec *)0; crt_def = crt_def->def_next)
   {
