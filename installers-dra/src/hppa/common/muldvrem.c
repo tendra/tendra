@@ -165,8 +165,6 @@ $Log: muldvrem.c,v $
 #define NOT_MUL_CONST_SIMPLE	(MAX_MUL_POW2_OFFSET+1)
  /* any constant larger than permissable X offset in 2**n +- X */
 
-#define IS_POW2(c)		((c)!= 0 && ((c) & ((c) -1)) == 0)
-
 extern long trap_label(exp);
 extern comib_ins(ins_p,int,int,int);
 /*
