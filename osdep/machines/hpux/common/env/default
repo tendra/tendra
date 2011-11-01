@@ -3,5 +3,9 @@
 +FLAG	"--1HL"
 +LD		"/bin/ld"
 
-+FLAG_LD		"-x -u main"
++FLAG_LD		"-u main +k"
+
+# XXX: GNU's as
++AS             "/usr/local/bin/as"
++FLAG_TRANS     "-G"
 
