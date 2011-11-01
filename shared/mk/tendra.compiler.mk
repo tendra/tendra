@@ -20,6 +20,7 @@ _TENDRA_COMPILER_MK_=1
 #  ${GCC}   - The GNU Compiler Collection
 #  ${PCC}   - The Portable C Compiler
 #  ${CLANG} - The Clang C compiler
+#  ${HPCC}  - HP's ANSI C Compiler
 #
 # If none of the above are set, no compiler-specific default options are used
 # (either globally, or per directory).
@@ -117,6 +118,17 @@ CXX:=	${PCC}
 CFLAGS+=	${PCCOPTS}
 CXXFLAGS+=	${PXXOPTS}
 CCOPTS+=	-O
+
+. elif defined(HPCC)
+
+HPCCOPTS?= -fast -DD${BLDARCHBITS} +w2
+
+CC:=	${HPCC}
+CXX:=	${HPCC}
+
+CFLAGS+=	${HPCCOPTS}
+CXXFLAGS+=	${HPXXOPTS}
+CCOPTS+=
 
 . else
 
