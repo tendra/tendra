@@ -107,7 +107,5 @@ extern int reg_result(shape);
 extern bool varsize(shape);
 
 #define  result_in_reg(X)	reg_result(X)
-#define  setmarked(X)		props(X) |= 0x100
-#define  ismarked(X)		(props(X) & 0x100)
 
 #endif

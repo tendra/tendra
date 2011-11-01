@@ -377,7 +377,7 @@ check_anyway(exp e)
 	return 0;
 #else
 	if (do_sub_params) {
-		setmarked(e);
+		setismarked(e);
 		if (no(e) > 2) {
 			return 1;
 		}
