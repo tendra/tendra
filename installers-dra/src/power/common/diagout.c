@@ -105,9 +105,12 @@ $Log: diagout.c,v $
 **********************************************************************/
 
 
+#include <time.h>
+
+#include <shared/error.h>
+
 #include "config.h"
 #include "cross_config.h"
-#include <time.h>
 
 #if defined(CROSS_INCLUDE)
 #include CROSS_INCLUDE/dbxstclass.h>
@@ -137,7 +140,6 @@ $Log: diagout.c,v $
 #include "proc.h"
 
 #include "comment.h"
-#include "myassert.h"
 #include "stack.h"
 #include "diagout.h"
 

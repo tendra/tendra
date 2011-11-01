@@ -112,11 +112,12 @@ understood by the assembler.
 
 ******************************************************************/
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "geninst.h"
 
 #include "proc.h"
-#include "myassert.h"
 #include "flags.h"
 #include "comment.h"
 #include "translat.h"

@@ -111,12 +111,13 @@ $Log: makecode.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 
-#include "myassert.h"
 #include "maxminmacs.h"
 #include "comment.h"
 #include "muldvrem.h"

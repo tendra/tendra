@@ -113,13 +113,15 @@ assembler for data. The parameters are an evaluated exp and an index
 into the table of externals (or 0 meaning anonymous).
 *****************************************************************/
 
-#include "config.h"
 #include <ctype.h>
+
+#include <shared/error.h>
+
+#include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 
-#include "myassert.h"
 #include "maxminmacs.h"
 #include "flpttypes.h"
 #include "flpt.h"

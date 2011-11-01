@@ -104,6 +104,8 @@ $Log: oprators.c,v $
 */
 
 
+#include <assert.h>
+
 #define SPARCTRANS_CODE
 #include "config.h"
 #include "common_types.h"
@@ -118,7 +120,6 @@ $Log: oprators.c,v $
 #include "tags.h"
 #include "shapemacs.h"
 #include "bitsmacs.h"
-#include "myassert.h"
 #include "externs.h"
 #include "install_fns.h"
 #include "regmacs.h"

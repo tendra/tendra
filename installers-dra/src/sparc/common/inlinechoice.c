@@ -78,6 +78,8 @@ $Log: inlinechoice.c,v $
 
 
 
+#include <assert.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "installglob.h"
@@ -86,7 +88,6 @@ $Log: inlinechoice.c,v $
 #include "tags.h"
 #include "flags.h"
 #include "shapemacs.h"
-#include "myassert.h"
 #include "sparcins.h"
 #include "inl_norm.h"
 

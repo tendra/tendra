@@ -73,6 +73,8 @@ $Log: exp.h,v $
 #ifndef expdecs_key
 #define expdecs_key 1
 
+#include "codetypes.h"
+#include "installtypes.h"
 
 
 extern exp getexp (shape s, exp b, int l, exp sn, exp p, prop pr, int n,

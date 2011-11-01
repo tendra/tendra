@@ -250,9 +250,12 @@ $Log: translat.c,v $
  * unsigned variants.
  */
 
+#include <assert.h>
+
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "common_types.h"
-#include "myassert.h"
 #include "flpt.h"
 #include "expmacs.h"
 #include "tags.h"
@@ -276,7 +279,6 @@ $Log: translat.c,v $
 #include "getregs.h"
 #include "regmacs.h"
 #include "labels.h"
-#include <shared/xalloc.h>
 #include "comment.h"
 #include "sparcdiags.h"
 #include "installglob.h"

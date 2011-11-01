@@ -88,11 +88,13 @@ or floatpnt s reg (divided by 2)
 number of ident = (word displacement in locals)*64 + R_SP
 
 *****************************************************************/
+
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 
-#include "myassert.h"
 #include "maxminmacs.h"
 #include "comment.h"
 

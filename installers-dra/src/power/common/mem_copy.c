@@ -72,11 +72,12 @@ $Log: mem_copy.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"
-#include "myassert.h"
 #include "mem_copy.h"
 
 

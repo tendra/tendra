@@ -108,12 +108,13 @@ $Log: regexps.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "maxminmacs.h"		/* for absval() */
 
-#include "myassert.h"
 #include "comment.h"
 
 #include "regexps.h"

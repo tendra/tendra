@@ -72,8 +72,9 @@ $Log: labels.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+
 #include "config.h"
-#include "myassert.h"
 #include "translat.h"
 #include "labels.h"
 

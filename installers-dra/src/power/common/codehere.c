@@ -72,12 +72,13 @@ $Log: codehere.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 #include "makecode.h"
-#include "myassert.h"
 #include "comment.h"
 #include "tempdecs.h"
 #include "regable.h"

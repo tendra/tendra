@@ -102,6 +102,8 @@ $Log: tempdecs.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "tags.h"
 #include "common_types.h"
@@ -112,7 +114,6 @@ $Log: tempdecs.c,v $
 #include "regable.h"
 #include "tempdecs.h"
 #include "regmacs.h"
-#include "myassert.h"
 
 /* to go in a switch as in case CASE_APPLYLIKE: */
 #define	CASE_APPLYLIKE	apply_tag: case round_tag:case apply_general_tag

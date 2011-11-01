@@ -105,8 +105,12 @@ $Log: proc.c,v $
 **********************************************************************/
 
 
-#include "config.h"
 #include <signal.h>
+
+#include <shared/error.h>
+#include <shared/xalloc.h>
+
+#include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
@@ -114,15 +118,14 @@ $Log: proc.c,v $
 #include "makecode.h"
 #include "machine.h"
 #include "flags.h"
-#include "myassert.h"
 #include "comment.h"
 #include "proc.h"
 #include "stack.h"
 #include "mem_copy.h"
-#include <shared/xalloc.h>
 #include "parameter.h"
 #include "error.h"
 #include "dynamic_init.h"
+
 space do_callers(int,exp,space);
 void do_function_call(exp,space);
 void do_general_function_call(exp,space);

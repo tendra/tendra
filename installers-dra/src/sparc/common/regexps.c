@@ -82,6 +82,8 @@ $Log: regexps.c,v $
 */
 
 
+#include <assert.h>
+
 #define SPARCTRANS_CODE
 #include "config.h"
 #include "expmacs.h"
@@ -94,7 +96,6 @@ $Log: regexps.c,v $
 #include "common_types.h"
 #include "regmacs.h"
 #include "regexps.h"
-#include "myassert.h"
 #include "comment.h"
 #include "flags.h"
 #ifdef NEWDWARF

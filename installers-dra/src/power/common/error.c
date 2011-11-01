@@ -102,8 +102,11 @@ $Log: error.c,v $
 **********************************************************************/
 
 
-#include "config.h"
 #include <limits.h>
+
+#include <shared/error.h>
+
+#include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "comment.h"
@@ -113,7 +116,6 @@ $Log: error.c,v $
 #include "instruct.h"
 #include "externs.h"
 #include "error.h"
-#include "myassert.h"
 #include "flpttypes.h"
 #include "me_fns.h"
 

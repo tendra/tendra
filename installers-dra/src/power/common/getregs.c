@@ -84,11 +84,12 @@ that the corresponding register is free for use.
 
 ******************************************************************/
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 
-#include "myassert.h"
 #include "comment.h"
 
 #include "getregs.h"

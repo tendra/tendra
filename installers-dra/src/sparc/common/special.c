@@ -110,6 +110,8 @@ $Log: special.c,v $
 */
 
 
+#include <assert.h>
+
 #define SPARCTRANS_CODE
 #include "config.h"
 #include "common_types.h"
@@ -136,7 +138,6 @@ $Log: special.c,v $
 #include "comment.h"
 #include "machine.h"
 #include "proc.h"
-#include "myassert.h"
 #include "out.h"
 #include "regexps.h"
 #include "special.h"

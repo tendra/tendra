@@ -132,6 +132,8 @@ stack, (this is obviously always available for parameters).
 
 ******************************************************************/
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 
@@ -146,7 +148,6 @@ stack, (this is obviously always available for parameters).
 #include "maxminmacs.h"
 #include "regable.h"
 #include "shapemacs.h"
-#include "myassert.h"
 #include "weights.h"
 
 

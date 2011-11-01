@@ -175,6 +175,8 @@ $Log: sparcdiags.c,v $
 */
 
 
+#include <assert.h>
+
 #define SPARCTRANS_CODE
 #include "config.h"
 #include "addrtypes.h"
@@ -193,7 +195,6 @@ $Log: sparcdiags.c,v $
 #include <shared/xalloc.h>
 #include "locate.h"
 #include "comment.h"
-#include "myassert.h"
 #include "translat.h"
 #include "machine.h"
 #include "szs_als.h"

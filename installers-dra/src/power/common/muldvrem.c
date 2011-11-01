@@ -102,12 +102,13 @@ $Log: muldvrem.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 
-#include "myassert.h"
 #include "needscan.h"
 #include "comment.h"
 

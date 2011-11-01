@@ -107,13 +107,15 @@ $Log: locate.c,v $
      The where coding of an address tells one whether the result of
       evaluating an exp is in a register or directly or literally in store,
 */
+
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 
 #include "proc.h"
-#include "myassert.h"
 #include "comment.h"
 #include "stack.h"
 #include "locate.h"

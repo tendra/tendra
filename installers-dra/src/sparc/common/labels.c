@@ -72,10 +72,11 @@ $Log: labels.c,v $
 */
 
 
+#include <assert.h>
+
 #define SPARCTRANS_CODE
 #include "config.h"
 #include "common_types.h"
-#include "myassert.h"
 #include "addrtypes.h"
 #include "regexps.h"
 #include "labels.h"

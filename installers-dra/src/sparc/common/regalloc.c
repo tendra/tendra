@@ -122,6 +122,8 @@ $Log: regalloc.c,v $
      number of ident = ( word displacement in locals ) * 64 + R_FP.
 */
 
+#include <assert.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "expmacs.h"
@@ -133,7 +135,6 @@ $Log: regalloc.c,v $
 #include "regable.h"
 #include "regmacs.h"
 #include "comment.h"
-#include "myassert.h"
 #include "flags.h"
 #include "proc.h"
 #include "translat.h"

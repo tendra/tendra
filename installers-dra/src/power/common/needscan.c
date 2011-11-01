@@ -119,11 +119,13 @@ from the decoding process and the various exp -> exp transformations  in
 the proc independent (common to other  translators)
 
 ******************************************************************/
+
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 
-#include "myassert.h"
 #include "comment.h"
 
 

@@ -84,12 +84,13 @@ $Log: dw2_extra.c,v $
 --------------------------------------------------------------------------
 */
 
+#include <assert.h>
+
 #include "config.h"
 #include "common_types.h"
 
 #ifdef NEWDWARF
 
-#include "myassert.h"
 #include "dg_aux.h"
 #include "dw2_config.h"
 #include "dw2_codes.h"

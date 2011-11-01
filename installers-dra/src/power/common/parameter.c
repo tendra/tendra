@@ -102,6 +102,9 @@ $Log: parameter.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
@@ -110,13 +113,12 @@ $Log: parameter.c,v $
 #include "makecode.h"
 #include "machine.h"
 #include "flags.h"
-#include "myassert.h"
 #include "comment.h"
 #include "proc.h"
 #include "stack.h"
 #include "mem_copy.h"
-#include <shared/xalloc.h>
 #include "parameter.h"
+
 bool suspected_varargs = 0;
 int saved_varargs_register=0;
 int saved_varargs_offset = 0;

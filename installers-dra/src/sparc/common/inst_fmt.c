@@ -137,10 +137,12 @@ $Log: inst_fmt.c,v $
     instruction being passed as the string understood by the assembler.
 */
 
+#include <assert.h>
+
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "common_types.h"
-#include "myassert.h"
-#include <shared/xalloc.h>
 #include "addrtypes.h"
 #include "regexps.h"
 #include "regmacs.h"

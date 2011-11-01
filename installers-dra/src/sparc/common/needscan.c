@@ -247,6 +247,8 @@ $Log: needscan.c,v $
 */
 
 
+#include <assert.h>
+
 #define SPARCTRANS_CODE
 /*
   The functions in this file define the scan through a program which
@@ -258,7 +260,6 @@ $Log: needscan.c,v $
 */
 #include "config.h"
 #include "common_types.h"
-#include "myassert.h"
 #include "exptypes.h"
 #include "exp.h"
 #include "expmacs.h"

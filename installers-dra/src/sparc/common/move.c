@@ -120,9 +120,10 @@ $Log: move.c,v $
   NOREG otherwise.
 */
 
+#include <assert.h>
+
 #include "config.h"
 #include "common_types.h"
-#include "myassert.h"
 #include "sparcins.h"
 #include "inst_fmt.h"
 #include "addrtypes.h"

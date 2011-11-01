@@ -85,12 +85,14 @@ alignment are taken from the ash field of the destination.
 Delivers register used if 1-word destination is instore; otherwise NOREG.
 
 **********************************************************************/
+
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
 #include "geninst.h"
 
-#include "myassert.h"
 #include "comment.h"
 #include "proc.h"			/* for mem_temp() */
 #include "maxminmacs.h"

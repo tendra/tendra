@@ -91,6 +91,8 @@ $Log: spec_tok.c,v $
 */
 
 
+#include <assert.h>
+
 #include "config.h"
 #include "common_types.h"
 #include "basicread.h"
@@ -112,7 +114,6 @@ $Log: spec_tok.c,v $
 #include "translat.h"
 #include "spec_tok.h"
 #include "new_tags.h"
-#include "myassert.h"
 #include "dg_fns.h"
 
 /* intercepts specially defined tokens */

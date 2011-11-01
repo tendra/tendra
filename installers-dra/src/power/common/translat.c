@@ -147,6 +147,9 @@ $Log: translat.c,v $
  */
 
 
+#include <shared/error.h>
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
@@ -157,7 +160,6 @@ $Log: translat.c,v $
 #include "exp.h"
 #include "flpt.h"		/* for init_flpt() */
 #include "externs.h"		/* for "inits.h" init_XXX() procs */
-#include "myassert.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrecs.h"
@@ -168,7 +170,6 @@ $Log: translat.c,v $
 #include "needscan.h"
 #include "machine.h"
 #include "diagout.h"
-#include <shared/xalloc.h>
 #include "comment.h"
 
 #include "translat.h"

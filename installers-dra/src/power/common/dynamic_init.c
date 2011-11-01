@@ -82,7 +82,6 @@ $Log: dynamic_init.c,v $
 #include "makecode.h"
 #include "machine.h"
 #include "flags.h"
-#include "myassert.h"
 #include "comment.h"
 #include "proc.h"
 #include "stack.h"

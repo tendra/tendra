@@ -75,6 +75,9 @@ $Log: frames.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+#include <shared/xalloc.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
@@ -85,7 +88,6 @@ $Log: frames.c,v $
 #include "exp.h"
 #include "flpt.h"	
 #include "externs.h"	    
-#include "myassert.h"
 #include "tempdecs.h"
 #include "weights.h"
 #include "procrecs.h"
@@ -96,7 +98,6 @@ $Log: frames.c,v $
 #include "needscan.h"
 #include "machine.h"
 #include "diagout.h"
-#include <shared/xalloc.h>
 #include "comment.h"
 #include "translat.h"
 #include "readglob.h"

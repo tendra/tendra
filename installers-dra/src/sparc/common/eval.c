@@ -142,6 +142,8 @@ $Log: eval.c,v $
     This file contains routines for outputting constant initialisations.
 */
 
+#include <assert.h>
+
 #include "config.h"
 #include <ctype.h>
 #include "addrtypes.h"
@@ -157,7 +159,6 @@ $Log: eval.c,v $
 #include "fbase.h"
 #include "translat.h"
 #include "comment.h"
-#include "myassert.h"
 #include "inst_fmt.h"
 #include "szs_als.h"
 #include "out.h"

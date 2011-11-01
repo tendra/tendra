@@ -72,6 +72,8 @@ $Log: stack.c,v $
 **********************************************************************/
 
 
+#include <shared/error.h>
+
 #include "config.h"
 #include "memtdf.h"
 #include "codegen.h"
@@ -80,7 +82,6 @@ $Log: stack.c,v $
 #include "makecode.h"
 #include "machine.h"
 #include "flags.h"
-#include "myassert.h"
 #include "comment.h"
 #include "proc.h"
 #include "stack.h"

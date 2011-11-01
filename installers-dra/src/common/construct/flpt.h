@@ -73,6 +73,8 @@ $Log: flpt.h,v $
 #ifndef flpt_key
 #define flpt_key 1
 
+#include "codetypes.h"
+#include "installtypes.h"
 #include "flpttypes.h"
 
 extern void init_flpt(void);

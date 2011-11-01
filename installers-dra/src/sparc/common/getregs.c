@@ -76,12 +76,15 @@ $Log: getregs.c,v $
 
 
 #define SPARCTRANS_CODE
+
 /*
     Routines for choosing temporary registers.
 */
+
+#include <assert.h>
+
 #include "config.h"
 #include "common_types.h"
-#include "myassert.h"
 #include "regmacs.h"
 #include "proctypes.h"
 #include "exptypes.h"
