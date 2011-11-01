@@ -66,6 +66,8 @@
 #include <unistd.h>
 #endif
 
+extern int optind;
+
 #include <shared/error.h>
 #include "obj_c/errors.h"
 #include "lex.h"
