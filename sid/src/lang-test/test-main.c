@@ -80,7 +80,7 @@ main_init_test(OutputInfoT *info, CStringListT *options)
 	UNUSED(info);
 	for (entry = cstring_list_head(options); entry;
 		entry = cstring_list_entry_deallocate(entry)) {
-		char *option;
+		const char *option;
 
 		option = cstring_list_entry_string(entry);
 		error(ERROR_FATAL, "language '%s' doesn't understand option '%s'",

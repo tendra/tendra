@@ -93,7 +93,7 @@ main_init_c(OutputInfoT *out_info, CStringListT *options, BoolT ansi)
 
 	for (entry = cstring_list_head(options); entry;
 		entry = cstring_list_entry_deallocate(entry)) {
-		char *option;
+		const char *option;
 
 		option = cstring_list_entry_string(entry);
 		if (!strcmp(option, "prototypes") || !strcmp(option, "proto")) {
