@@ -62,6 +62,7 @@
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 #include "obj_c/errors.h"
 

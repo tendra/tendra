@@ -62,6 +62,7 @@
 
 #include <shared/error.h>
 #include <shared/xalloc.h>
+#include <shared/string.h>
 
 #define calculus_IO_ROUTINES
 #include "read.h"
