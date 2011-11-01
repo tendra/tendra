@@ -67,8 +67,6 @@
 #ifndef H_TDF_WRITE
 #define H_TDF_WRITE
 
-#include <stdint.h>
-
 #include <exds/common.h>
 #include <exds/exception.h>
 #include <exds/bostream.h>
@@ -77,7 +75,7 @@
 
 typedef struct TDFWriterT {
     BOStreamT			bostream;
-    uint8_t			byte;
+    ByteT			byte;
     BoolT			new_byte;
 } TDFWriterT;
 

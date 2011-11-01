@@ -65,7 +65,6 @@
  */
 
 #include <limits.h>
-#include <stdint.h>
 
 #include <exds/common.h>
 #include <exds/exception.h>
@@ -96,7 +95,7 @@ tdf_read_nibble(TDFReaderT *reader)
 	    UNREACHED;
 	  case RT_STRING:
 	    if (reader->u.string.current < reader->u.string.limit) {
-		reader->byte     = (uint8_t)(*(reader->u.string.current++));
+		reader->byte     = (ByteT)(*(reader->u.string.current++));
 		reader->new_byte = FALSE;
 		reader->u.string.byte++;
 		return ((unsigned) reader->byte >> 4) & 0xF;
@@ -274,7 +273,7 @@ tdf_read_name(TDFReaderT *reader,		       NameKeyT *  name)
 void
 tdf_read_eof(TDFReaderT *reader)
 {
-    uint8_t byte;
+    ByteT byte;
 
     switch (reader->type) {
       case RT_STREAM:
