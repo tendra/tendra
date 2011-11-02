@@ -103,9 +103,10 @@ CLANGXXOPTS?=	-std=c89
 CC:=	${CLANG}
 CXX:=	${CLANG}
 
+# Note that -O4 appears to be unreliable on some systems.
 CFLAGS+=	${CLANGOPTS}
 CXXFLAGS+=	${CLANGXXOPTS}
-CCOPTS+=	-pedantic -O4
+CCOPTS+=	-pedantic -O3
 
 . elif defined(PCC)
 
