@@ -107,7 +107,7 @@ struct exp_t {
     struct exp_t *shf ;
     prop propsf ;
     unsigned char namef ;
-    int lastf : 1 ;
+    unsigned int lastf : 1 ;
     unsigned int park : 1 ;
 #ifdef NEWDIAGS
     diag_info * diagf; 

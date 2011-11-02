@@ -130,9 +130,9 @@ typedef struct rsl_s {
 } *regshare_list;
 
 typedef struct ll_s {
-	int		key:8;
-	int		open:1;
-	int		has_inner:1;
+	unsigned int	key:8;
+	unsigned int	open:1;
+	unsigned int	has_inner:1;
 	union {
 		dg_info		d;
 		retrec		*r;
